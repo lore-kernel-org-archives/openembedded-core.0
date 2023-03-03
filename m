@@ -2,171 +2,863 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 422C0C64EC4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 430D3C7EE32
 	for <webhook@archiver.kernel.org>; Fri,  3 Mar 2023 16:17:37 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web11.27598.1677860256132335378
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web11.27597.1677860255012991679
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Mar 2023 08:17:36 -0800
+ Fri, 03 Mar 2023 08:17:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=K1DdfSOn;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id n6so3189649plf.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 08:17:36 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=BC5ZhA7H;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id a2so3195815plm.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 08:17:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1677860255;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1677860254;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JrXOFZ3UyPMxvUsPtGIlWJTpLK0dN0uMg9pacr3V9GE=;
-        b=K1DdfSOnMtMIiC6qtts4lghx7Z6/QApHUISjPraKzMhBczkk6rrkcjiWHs7vHIILZA
-         EzV/pz+YvXHMw8g8ny1UdEZk3Ye8t6UCDchGiwZ70fRQLBmemV4XJGSFmnXO8TBe3oCm
-         iFN1N+KsOvsvlItFzlfqusoZH6qhLEPgtHc0UqbdYP5cHviT5zR1U5sJdTKlFgHCtJq3
-         6i+xWCVyHkxz+Np8a1mO1D+BF/lTHpis0x9pshGsIZH5fFlRvY+T8Qidl6kZPEhPDxrj
-         HcnRK6cEywIk/fCAi4jm61+UYiRAM7mwnhDrcpG3cVS+8FEk4/DCxNzUAWw1VKPInoHQ
-         BkQg==
+        bh=o9AL6B8+N8kw0h1Kg5uiT+Qm7MzkwmwsJLisTedxB2U=;
+        b=BC5ZhA7HMlvo8U11V5YShY42Zkb2KuzR3sYtVY8iIf1+N9ka8pkzu/u9nzHHlABBIa
+         LPfnxN11kxyxvFCZ7DNVC06ER785MOkgECcdUn1CMjU8yi8ZL3+dJr6G1eq5yFgeTtCC
+         jcUMKlgmAIsZ2OGQVL1RbvXj+QLhQuszB7NvFkHXCXOB8aThN4ufbxCT7zyfVHvfA/kR
+         ROFSBnDQuAnSWF1wSYVi9FR3sUkpGTM0CYnFS66VjXGeQZOQJXaLAcIYILiWxmIqa4G6
+         l5JSPC4h0cv53+p20hB1rbHQASNtQRe+RoMes0P3ToJyY/7DX+jl71e9j7rUF+Ye9yyA
+         nMjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677860255;
+        d=1e100.net; s=20210112; t=1677860254;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JrXOFZ3UyPMxvUsPtGIlWJTpLK0dN0uMg9pacr3V9GE=;
-        b=3VeXk3B6gzhhKFKfKTnJMhtwpuoLHa0BqC8svN6CcY/bzDMFxb8pQ3507bCcMWS5WH
-         My9mG1fa6mB2qi78L88Pyy3mXR3wcuxf+hyqz8iK/77i6DhKYdz85g+YQHVprp+ho3Ki
-         lGj3+A3VvPWRjqAEGDBmn6jUCYvT0Ebwl7XerHSsKNA2YOvnpGswUX73+cCk47khHvXd
-         J8cXIOXYNthw2lRvICV02OqgTUte0EzkSvDotIJwb9WoN37H7An3ucCsLZJcV2L7mZda
-         cEwGWKHz7h0T2p0+sblIHPEim6DAvzQHGRbcSizGW4mcR/V0qa+LcgiVw3zwYJayZoeG
-         RxaA==
-X-Gm-Message-State: AO0yUKV5gagtwsbvjNlkysf1NTgvWmbIaVh3hW61tKS78NCWYG4UT/xg
-	n/byBXPn1aBetJPp68keVuX5kd2apIDzg3JhngQ=
-X-Google-Smtp-Source: AK7set/is8PF0QtqJtPYOx9KoPKXTheYUv1f3wE0mAPzl/r/d9Nd3nnlUjT0a01Hzk9cyBd+dCUUwA==
-X-Received: by 2002:a17:902:e801:b0:19a:b4a9:9df7 with SMTP id u1-20020a170902e80100b0019ab4a99df7mr2604627plg.53.1677860255005;
-        Fri, 03 Mar 2023 08:17:35 -0800 (PST)
+        bh=o9AL6B8+N8kw0h1Kg5uiT+Qm7MzkwmwsJLisTedxB2U=;
+        b=YGcVC9Hh84Ew7Uh7xt+Sb4lIEO5T1VQzkJezYGAcZNFvhNuJpX+5Wpkume3oA7ZUAX
+         ZjkXrZCk8in44na1ERdfzPs4u1AUKhpDILNThZX8YcQreUHIoW5XD+WgzZzu+4xv5cBL
+         nCviU+tyoLmZ1HxMR3UavXCtfXxPMtbz8iSVbKkKBQlplt4MXSOpatj0JlBrvyjZ47SE
+         AYTrbq985sEfIkQar4k/Vt9EXiU7khkV54H9eNwZA3F9yyYlHm2fCrOYOpzcMFL0i3A8
+         9dkINNJUyCWD52txG+ChcLBoh3o2mwKjsMYw4RVjXGqGo7EPy2UDCe9bgAWFqaddBTDT
+         bXZg==
+X-Gm-Message-State: AO0yUKUm34WfIsw+fKchfy0jvNmXw873koHViAlJ/VRR98uJlpqRigJf
+	q0dxn2w8Ex3910E7LHIwbzzR4IJo39ZiszOcBJQ=
+X-Google-Smtp-Source: AK7set9oNh7K7UD++B5Yembwmls8Q4/a7yyk7GJy9q0CjgGKeS3JEPdPfsKaNeXNvQn6uHxnkoYJIQ==
+X-Received: by 2002:a17:903:2310:b0:19a:9833:704 with SMTP id d16-20020a170903231000b0019a98330704mr2787226plh.61.1677860253308;
+        Fri, 03 Mar 2023 08:17:33 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id ko4-20020a17090307c400b00186b7443082sm1702474plb.195.2023.03.03.08.17.34
+        by smtp.gmail.com with ESMTPSA id ko4-20020a17090307c400b00186b7443082sm1702474plb.195.2023.03.03.08.17.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Mar 2023 08:17:34 -0800 (PST)
+        Fri, 03 Mar 2023 08:17:32 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 02/29] harfbuzz: fix CVE-2023-25193 allows attackers to trigger O(n^2) growth via consecutive marks
-Date: Fri,  3 Mar 2023 06:17:00 -1000
-Message-Id: <9bc6342a9e02e14806903fdb589bf5a854093639.1677859897.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 01/29] binutils : Fix CVE-2023-22608
+Date: Fri,  3 Mar 2023 06:16:59 -1000
+Message-Id: <3dd27bbe8c19aa358916de940453de81d3831510.1677859897.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1677859897.git.steve@sakoman.com>
 References: <cover.1677859897.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 16:17:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177991
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177990
 
-From: Vivek Kumbhar <vkumbhar@mvista.com>
+From: Yash Shinde <yashinde145@gmail.com>
 
-[layout] Limit how far we skip when looking back
+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=8af23b30edbaedf009bc9b243cd4dfa10ae1ac09]
 
-Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../harfbuzz/harfbuzz/CVE-2023-25193.patch    | 71 +++++++++++++++++++
- .../harfbuzz/harfbuzz_4.0.1.bb                |  4 +-
- 2 files changed, 74 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2023-25193.patch
+ .../binutils/binutils-2.38.inc                |   3 +
+ .../binutils/0020-CVE-2023-22608-1.patch      | 506 ++++++++++++++++++
+ .../binutils/0020-CVE-2023-22608-2.patch      | 210 ++++++++
+ .../binutils/0020-CVE-2023-22608-3.patch      |  32 ++
+ 4 files changed, 751 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0020-CVE-2023-22608-1.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0020-CVE-2023-22608-2.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0020-CVE-2023-22608-3.patch
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2023-25193.patch b/meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2023-25193.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
+index 0a4a0d7bc1..30a34d7ba4 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.38.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
+@@ -43,5 +43,8 @@ SRC_URI = "\
+      file://0018-CVE-2022-38128-2.patch \
+      file://0018-CVE-2022-38128-3.patch \
+      file://0019-CVE-2022-4285.patch \
++     file://0020-CVE-2023-22608-1.patch \
++     file://0020-CVE-2023-22608-2.patch \
++     file://0020-CVE-2023-22608-3.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0020-CVE-2023-22608-1.patch b/meta/recipes-devtools/binutils/binutils/0020-CVE-2023-22608-1.patch
 new file mode 100644
-index 0000000000..54ceebcf93
+index 0000000000..18d4ac5f9d
 --- /dev/null
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2023-25193.patch
-@@ -0,0 +1,71 @@
-+From 85be877925ddbf34f74a1229f3ca1716bb6170dc Mon Sep 17 00:00:00 2001
-+From: Behdad Esfahbod <behdad@behdad.org>
-+Date: Wed, 1 Feb 2023 20:00:43 -0700
-+Subject: [PATCH] [layout] Limit how far we skip when looking back
++++ b/meta/recipes-devtools/binutils/binutils/0020-CVE-2023-22608-1.patch
+@@ -0,0 +1,506 @@
++From 116aac1447ee92df25599859293752648e3c6ea0 Mon Sep 17 00:00:00 2001
++From: "Steinar H. Gunderson" <sesse@google.com>
++Date: Fri, 20 May 2022 16:10:34 +0200
++Subject: [PATCH] add a trie to map quickly from address range to compilation
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+Upstream-Status: Backport [https://github.com/harfbuzz/harfbuzz/commit/85be877925ddbf34f74a1229f3ca1716bb6170dc]
-+CVE: CVE-2023-25193
-+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
++ unit
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++When using perf to profile large binaries, _bfd_dwarf2_find_nearest_line()
++becomes a hotspot, as perf wants to get line number information
++(for inline-detection purposes) for each and every sample. In Chromium
++in particular (the content_shell binary), this entails going through
++475k address ranges, which takes a long time when done repeatedly.
++
++Add a radix-256 trie over the address space to quickly map address to
++compilation unit spaces; for content_shell, which is 1.6 GB when some
++(but not full) debug information turned is on, we go from 6 ms to
++0.006 ms (6 µs) for each lookup from address to compilation unit, a 1000x
++speedup.
++
++There is a modest RAM increase of 180 MB in this binary (the existing
++linked list over ranges uses about 10 MB, and the entire perf job uses
++between 2-3 GB for a medium-size profile); for smaller binaries with few
++ranges, there should be hardly any extra RAM usage at all.
++
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=b43771b045fb5616da3964f2994eefbe8ae70d32]
++
++CVE: CVE-2023-22608
++
++Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
++
 +---
-+ src/hb-ot-layout-common.hh   |  7 +++++++
-+ src/hb-ot-layout-gsubgpos.hh | 19 ++++++++++++++++---
-+ 2 files changed, 23 insertions(+), 3 deletions(-)
++ bfd/dwarf2.c | 326 ++++++++++++++++++++++++++++++++++++++++++++++++---
++ 1 file changed, 312 insertions(+), 14 deletions(-)
 +
-+diff --git a/src/hb-ot-layout-common.hh b/src/hb-ot-layout-common.hh
-+index 60a1906..f7f8d5f 100644
-+--- a/src/hb-ot-layout-common.hh
-++++ b/src/hb-ot-layout-common.hh
-+@@ -72,6 +72,13 @@
-+ #define HB_MAX_LOOKUP_VISIT_COUNT	35000
-+ #endif
++diff --git a/bfd/dwarf2.c b/bfd/dwarf2.c
++index fdf071c3..0ae50a37 100644
++--- a/bfd/dwarf2.c
+++++ b/bfd/dwarf2.c
++@@ -82,6 +82,77 @@ struct adjusted_section
++   bfd_vma adj_vma;
++ };
 + 
-++#ifndef HB_MAX_NESTING_LEVEL
-++#define HB_MAX_NESTING_LEVEL	6
-++#endif
-++#ifndef HB_MAX_CONTEXT_LENGTH
-++#define HB_MAX_CONTEXT_LENGTH	64
-++#endif
+++/* A trie to map quickly from address range to compilation unit.
 ++
+++   This is a fairly standard radix-256 trie, used to quickly locate which
+++   compilation unit any given address belongs to.  Given that each compilation
+++   unit may register hundreds of very small and unaligned ranges (which may
+++   potentially overlap, due to inlining and other concerns), and a large
+++   program may end up containing hundreds of thousands of such ranges, we cannot
+++   scan through them linearly without undue slowdown.
+++
+++   We use a hybrid trie to avoid memory explosion: There are two types of trie
+++   nodes, leaves and interior nodes.  (Almost all nodes are leaves, so they
+++   take up the bulk of the memory usage.) Leaves contain a simple array of
+++   ranges (high/low address) and which compilation unit contains those ranges,
+++   and when we get to a leaf, we scan through it linearly.  Interior nodes
+++   contain pointers to 256 other nodes, keyed by the next byte of the address.
+++   So for a 64-bit address like 0x1234567abcd, we would start at the root and go
+++   down child[0x00]->child[0x00]->child[0x01]->child[0x23]->child[0x45] etc.,
+++   until we hit a leaf.  (Nodes are, in general, leaves until they exceed the
+++   default allocation of 16 elements, at which point they are converted to
+++   interior node if possible.) This gives us near-constant lookup times;
+++   the only thing that can be costly is if there are lots of overlapping ranges
+++   within a single 256-byte segment of the binary, in which case we have to
+++   scan through them all to find the best match.
+++
+++   For a binary with few ranges, we will in practice only have a single leaf
+++   node at the root, containing a simple array.  Thus, the scheme is efficient
+++   for both small and large binaries.
+++ */
+++
+++/* Experiments have shown 16 to be a memory-efficient default leaf size.
+++   The only case where a leaf will hold more memory than this, is at the
+++   bottomost level (covering 256 bytes in the binary), where we'll expand
+++   the leaf to be able to hold more ranges if needed.
+++ */
+++#define TRIE_LEAF_SIZE 16
+++
+++/* All trie_node pointers will really be trie_leaf or trie_interior,
+++   but they have this common head.  */
+++struct trie_node
+++{
+++  /* If zero, we are an interior node.
+++     Otherwise, how many ranges we have room for in this leaf.  */
+++  unsigned int num_room_in_leaf;
+++};
+++
+++struct trie_leaf
+++{
+++  struct trie_node head;
+++  unsigned int num_stored_in_leaf;
+++  struct {
+++    struct comp_unit *unit;
+++    bfd_vma low_pc, high_pc;
+++  } ranges[TRIE_LEAF_SIZE];
+++};
+++
+++struct trie_interior
+++{
+++  struct trie_node head;
+++  struct trie_node *children[256];
+++};
+++
+++static struct trie_node *alloc_trie_leaf (bfd *abfd)
+++{
+++  struct trie_leaf *leaf =
+++    bfd_zalloc (abfd, sizeof (struct trie_leaf));
+++  if (leaf == NULL)
+++    return NULL;
+++  leaf->head.num_room_in_leaf = TRIE_LEAF_SIZE;
+++  return &leaf->head;
+++}
+++
++ struct dwarf2_debug_file
++ {
++   /* The actual bfd from which debug info was loaded.  Might be
++@@ -139,6 +210,9 @@ struct dwarf2_debug_file
++   /* A list of all previously read comp_units.  */
++   struct comp_unit *all_comp_units;
 + 
-+ namespace OT {
+++  /* A list of all previously read comp_units with no ranges (yet).  */
+++  struct comp_unit *all_comp_units_without_ranges;
+++
++   /* Last comp unit in list above.  */
++   struct comp_unit *last_comp_unit;
 + 
-+diff --git a/src/hb-ot-layout-gsubgpos.hh b/src/hb-ot-layout-gsubgpos.hh
-+index 65de131..891d96a 100644
-+--- a/src/hb-ot-layout-gsubgpos.hh
-++++ b/src/hb-ot-layout-gsubgpos.hh
-+@@ -525,7 +525,10 @@ struct hb_ot_apply_context_t :
-+     bool next (unsigned *unsafe_to = nullptr)
++@@ -147,6 +221,9 @@ struct dwarf2_debug_file
++ 
++   /* Hash table to map offsets to decoded abbrevs.  */
++   htab_t abbrev_offsets;
+++
+++  /* Root of a trie to map addresses to compilation units.  */
+++  struct trie_node *trie_root;
++ };
++ 
++ struct dwarf2_debug
++@@ -220,6 +297,11 @@ struct comp_unit
++   /* Chain the previously read compilation units.  */
++   struct comp_unit *next_unit;
++ 
+++  /* Chain the previously read compilation units that have no ranges yet.
+++     We scan these separately when we have a trie over the ranges.
+++     Unused if arange.high != 0. */
+++  struct comp_unit *next_unit_without_ranges;
+++
++   /* Likewise, chain the compilation unit read after this one.
++      The comp units are stored in reversed reading order.  */
++   struct comp_unit *prev_unit;
++@@ -296,6 +378,10 @@ struct comp_unit
++ 
++   /* TRUE if symbols are cached in hash table for faster lookup by name.  */
++   bool cached;
+++
+++  /* Used when iterating over trie leaves to know which units we have
+++     already seen in this iteration.  */
+++  bool mark;
++ };
++ 
++ /* This data structure holds the information of an abbrev.  */
++@@ -1766,9 +1852,189 @@ concat_filename (struct line_info_table *table, unsigned int file)
++   return strdup (filename);
++ }
++ 
+++/* Number of bits in a bfd_vma.  */
+++#define VMA_BITS (8 * sizeof (bfd_vma))
+++
+++/* Check whether [low1, high1) can be combined with [low2, high2),
+++   i.e., they touch or overlap.  */
+++static bool ranges_overlap (bfd_vma low1,
+++			    bfd_vma high1,
+++			    bfd_vma low2,
+++			    bfd_vma high2)
+++{
+++  if (low1 == low2 || high1 == high2)
+++    return true;
+++
+++  /* Sort so that low1 is below low2. */
+++  if (low1 > low2)
+++    {
+++      bfd_vma tmp;
+++
+++      tmp = low1;
+++      low1 = low2;
+++      low2 = tmp;
+++
+++      tmp = high1;
+++      high1 = high2;
+++      high2 = tmp;
+++    }
+++
+++  /* We touch iff low2 == high1.
+++     We overlap iff low2 is within [low1, high1). */
+++  return (low2 <= high1);
+++}
+++
+++/* Insert an address range in the trie mapping addresses to compilation units.
+++   Will return the new trie node (usually the same as is being sent in, but
+++   in case of a leaf-to-interior conversion, or expansion of a leaf, it may be
+++   different), or NULL on failure.
+++ */
+++static struct trie_node *insert_arange_in_trie(bfd *abfd,
+++					       struct trie_node *trie,
+++					       bfd_vma trie_pc,
+++					       unsigned int trie_pc_bits,
+++					       struct comp_unit *unit,
+++					       bfd_vma low_pc,
+++					       bfd_vma high_pc)
+++{
+++  bfd_vma clamped_low_pc, clamped_high_pc;
+++  int ch, from_ch, to_ch;
+++  bool is_full_leaf = false;
+++
+++  /* See if we can extend any of the existing ranges.  This merging
+++     isn't perfect (if merging opens up the possibility of merging two existing
+++     ranges, we won't find them), but it takes the majority of the cases.  */
+++  if (trie->num_room_in_leaf > 0)
+++    {
+++      struct trie_leaf *leaf = (struct trie_leaf *) trie;
+++      unsigned int i;
+++
+++      for (i = 0; i < leaf->num_stored_in_leaf; ++i)
+++	{
+++	  if (leaf->ranges[i].unit == unit &&
+++	      ranges_overlap(low_pc, high_pc,
+++			     leaf->ranges[i].low_pc, leaf->ranges[i].high_pc))
+++	    {
+++	      if (low_pc < leaf->ranges[i].low_pc)
+++		leaf->ranges[i].low_pc = low_pc;
+++	      if (high_pc > leaf->ranges[i].high_pc)
+++		leaf->ranges[i].high_pc = high_pc;
+++	      return trie;
+++	    }
+++	}
+++
+++      is_full_leaf = leaf->num_stored_in_leaf == trie->num_room_in_leaf;
+++    }
+++
+++  /* If we're a leaf with no more room and we're _not_ at the bottom,
+++     convert to an interior node.  */
+++  if (is_full_leaf && trie_pc_bits < VMA_BITS)
+++    {
+++      const struct trie_leaf *leaf = (struct trie_leaf *) trie;
+++      unsigned int i;
+++
+++      trie = bfd_zalloc (abfd, sizeof (struct trie_interior));
+++      if (!trie)
+++	return NULL;
+++      is_full_leaf = false;
+++
+++      /* TODO: If we wanted to save a little more memory at the cost of
+++	 complexity, we could have reused the old leaf node as one of the
+++	 children of the new interior node, instead of throwing it away.  */
+++      for (i = 0; i < leaf->num_stored_in_leaf; ++i)
+++        {
+++	  if (!insert_arange_in_trie (abfd, trie, trie_pc, trie_pc_bits,
+++				      leaf->ranges[i].unit, leaf->ranges[i].low_pc,
+++				      leaf->ranges[i].high_pc))
+++	    return NULL;
+++	}
+++    }
+++
+++  /* If we're a leaf with no more room and we _are_ at the bottom,
+++     we have no choice but to just make it larger. */
+++  if (is_full_leaf)
+++    {
+++      const struct trie_leaf *leaf = (struct trie_leaf *) trie;
+++      unsigned int new_room_in_leaf = trie->num_room_in_leaf * 2;
+++      struct trie_leaf *new_leaf;
+++
+++      new_leaf = bfd_zalloc (abfd,
+++	sizeof (struct trie_leaf) +
+++	  (new_room_in_leaf - TRIE_LEAF_SIZE) * sizeof (leaf->ranges[0]));
+++      new_leaf->head.num_room_in_leaf = new_room_in_leaf;
+++      new_leaf->num_stored_in_leaf = leaf->num_stored_in_leaf;
+++
+++      memcpy (new_leaf->ranges,
+++	      leaf->ranges,
+++	      leaf->num_stored_in_leaf * sizeof (leaf->ranges[0]));
+++      trie = &new_leaf->head;
+++      is_full_leaf = false;
+++
+++      /* Now the insert below will go through.  */
+++    }
+++
+++  /* If we're a leaf (now with room), we can just insert at the end.  */
+++  if (trie->num_room_in_leaf > 0)
+++    {
+++      struct trie_leaf *leaf = (struct trie_leaf *) trie;
+++
+++      unsigned int i = leaf->num_stored_in_leaf++;
+++      leaf->ranges[i].unit = unit;
+++      leaf->ranges[i].low_pc = low_pc;
+++      leaf->ranges[i].high_pc = high_pc;
+++      return trie;
+++    }
+++
+++  /* Now we are definitely an interior node, so recurse into all
+++     the relevant buckets.  */
+++
+++  /* Clamp the range to the current trie bucket.  */
+++  clamped_low_pc = low_pc;
+++  clamped_high_pc = high_pc;
+++  if (trie_pc_bits > 0)
+++    {
+++      bfd_vma bucket_high_pc =
+++	trie_pc + ((bfd_vma)-1 >> trie_pc_bits);  /* Inclusive.  */
+++      if (clamped_low_pc < trie_pc)
+++	clamped_low_pc = trie_pc;
+++      if (clamped_high_pc > bucket_high_pc)
+++	clamped_high_pc = bucket_high_pc;
+++    }
+++
+++  /* Insert the ranges in all buckets that it spans.  */
+++  from_ch = (clamped_low_pc >> (VMA_BITS - trie_pc_bits - 8)) & 0xff;
+++  to_ch = ((clamped_high_pc - 1) >> (VMA_BITS - trie_pc_bits - 8)) & 0xff;
+++  for (ch = from_ch; ch <= to_ch; ++ch)
+++    {
+++      struct trie_interior *interior = (struct trie_interior *) trie;
+++      struct trie_node *child = interior->children[ch];
+++
+++      if (child == NULL)
+++        {
+++	  child = alloc_trie_leaf (abfd);
+++	  if (!child)
+++	    return NULL;
+++	}
+++      child = insert_arange_in_trie (abfd,
+++				     child,
+++				     trie_pc + ((bfd_vma)ch << (VMA_BITS - trie_pc_bits - 8)),
+++				     trie_pc_bits + 8,
+++				     unit,
+++				     low_pc,
+++				     high_pc);
+++      if (!child)
+++	return NULL;
+++
+++      interior->children[ch] = child;
+++    }
+++
+++    return trie;
+++}
+++
+++
++ static bool
++-arange_add (const struct comp_unit *unit, struct arange *first_arange,
++-	    bfd_vma low_pc, bfd_vma high_pc)
+++arange_add (struct comp_unit *unit, struct arange *first_arange,
+++	    struct trie_node **trie_root, bfd_vma low_pc, bfd_vma high_pc)
++ {
++   struct arange *arange;
++ 
++@@ -1776,6 +2042,19 @@ arange_add (const struct comp_unit *unit, struct arange *first_arange,
++   if (low_pc == high_pc)
++     return true;
++ 
+++  if (trie_root != NULL)
+++    {
+++      *trie_root = insert_arange_in_trie (unit->file->bfd_ptr,
+++					  *trie_root,
+++					  0,
+++					  0,
+++					  unit,
+++					  low_pc,
+++					  high_pc);
+++      if (*trie_root == NULL)
+++	return false;
+++    }
+++
++   /* If the first arange is empty, use it.  */
++   if (first_arange->high == 0)
 +     {
-+       assert (num_items > 0);
-+-      while (idx + num_items < end)
-++      unsigned stop = end - num_items;
-++      if (c->buffer->flags & HB_BUFFER_FLAG_PRODUCE_UNSAFE_TO_CONCAT)
-++      	stop = end - 1;
-++      while (idx < stop)
-+       {
-+ 	idx++;
-+ 	const hb_glyph_info_t &info = c->buffer->info[idx];
-+@@ -557,8 +560,18 @@ struct hb_ot_apply_context_t :
++@@ -2410,7 +2689,8 @@ decode_line_info (struct comp_unit *unit)
++ 		    low_pc = address;
++ 		  if (address > high_pc)
++ 		    high_pc = address;
++-		  if (!arange_add (unit, &unit->arange, low_pc, high_pc))
+++		  if (!arange_add (unit, &unit->arange, &unit->file->trie_root,
+++				   low_pc, high_pc))
++ 		    goto line_fail;
++ 		  break;
++ 		case DW_LNE_set_address:
++@@ -3134,7 +3414,7 @@ find_abstract_instance (struct comp_unit *unit,
++ 
++ static bool
++ read_ranges (struct comp_unit *unit, struct arange *arange,
++-	     bfd_uint64_t offset)
+++	     struct trie_node **trie_root, bfd_uint64_t offset)
++ {
++   bfd_byte *ranges_ptr;
++   bfd_byte *ranges_end;
++@@ -3169,7 +3449,7 @@ read_ranges (struct comp_unit *unit, struct arange *arange,
++ 	base_address = high_pc;
++       else
++ 	{
++-	  if (!arange_add (unit, arange,
+++	  if (!arange_add (unit, arange, trie_root,
++ 			   base_address + low_pc, base_address + high_pc))
++ 	    return false;
++ 	}
++@@ -3179,7 +3459,7 @@ read_ranges (struct comp_unit *unit, struct arange *arange,
++ 
++ static bool
++ read_rnglists (struct comp_unit *unit, struct arange *arange,
++-	       bfd_uint64_t offset)
+++	       struct trie_node **trie_root, bfd_uint64_t offset)
++ {
++   bfd_byte *rngs_ptr;
++   bfd_byte *rngs_end;
++@@ -3253,19 +3533,19 @@ read_rnglists (struct comp_unit *unit, struct arange *arange,
++ 	  return false;
++ 	}
++ 
++-      if (!arange_add (unit, arange, low_pc, high_pc))
+++      if (!arange_add (unit, arange, trie_root, low_pc, high_pc))
++ 	return false;
 +     }
-+     bool prev (unsigned *unsafe_from = nullptr)
++ }
++ 
++ static bool
++ read_rangelist (struct comp_unit *unit, struct arange *arange,
++-		bfd_uint64_t offset)
+++		struct trie_node **trie_root, bfd_uint64_t offset)
++ {
++   if (unit->version <= 4)
++-    return read_ranges (unit, arange, offset);
+++    return read_ranges (unit, arange, trie_root, offset);
++   else
++-    return read_rnglists (unit, arange, offset);
+++    return read_rnglists (unit, arange, trie_root, offset);
++ }
++ 
++ static struct funcinfo *
++@@ -3563,7 +3843,8 @@ scan_unit_for_symbols (struct comp_unit *unit)
++ 
++ 		case DW_AT_ranges:
++ 		  if (is_int_form (&attr)
++-		      && !read_rangelist (unit, &func->arange, attr.u.val))
+++		      && !read_rangelist (unit, &func->arange,
+++					  &unit->file->trie_root, attr.u.val))
++ 		    goto fail;
++ 		  break;
++ 
++@@ -3679,7 +3960,8 @@ scan_unit_for_symbols (struct comp_unit *unit)
++ 
++       if (func && high_pc != 0)
++ 	{
++-	  if (!arange_add (unit, &func->arange, low_pc, high_pc))
+++	  if (!arange_add (unit, &func->arange, &unit->file->trie_root,
+++			   low_pc, high_pc))
++ 	    goto fail;
++ 	}
++     }
++@@ -3874,7 +4156,8 @@ parse_comp_unit (struct dwarf2_debug *stash,
++ 
++ 	case DW_AT_ranges:
++ 	  if (is_int_form (&attr)
++-	      && !read_rangelist (unit, &unit->arange, attr.u.val))
+++	      && !read_rangelist (unit, &unit->arange,
+++				  &unit->file->trie_root, attr.u.val))
++ 	    return NULL;
++ 	  break;
++ 
++@@ -3916,7 +4199,8 @@ parse_comp_unit (struct dwarf2_debug *stash,
++     high_pc += low_pc;
++   if (high_pc != 0)
 +     {
-+-      assert (num_items > 0);
-+-      while (idx > num_items - 1)
-++      assert (num_items > 0);      
-++      unsigned stop = 1 - num_items;
-++      if (c->buffer->flags & HB_BUFFER_FLAG_PRODUCE_UNSAFE_TO_CONCAT)        
-++      	stop = 1 - 1;
-++      	
-++      /* When looking back, limit how far we search; this function is mostly
-++       * used for looking back for base glyphs when attaching marks. If we
-++       * don't limit, we can get O(n^2) behavior where n is the number of
-++       * consecutive marks. */
-++      stop = (unsigned) hb_max ((int) stop, (int) idx - HB_MAX_CONTEXT_LENGTH);
++-      if (!arange_add (unit, &unit->arange, low_pc, high_pc))
+++      if (!arange_add (unit, &unit->arange, &unit->file->trie_root,
+++		       low_pc, high_pc))
++ 	return NULL;
++     }
++ 
++@@ -4747,6 +5031,14 @@ _bfd_dwarf2_slurp_debug_info (bfd *abfd, bfd *debug_bfd,
++   if (!stash->alt.abbrev_offsets)
++     return false;
++ 
+++  stash->f.trie_root = alloc_trie_leaf (abfd);
+++  if (!stash->f.trie_root)
+++    return false;
 ++
-++      while (idx > stop)
-+       {
-+ 	idx--;
-+ 	const hb_glyph_info_t &info = c->buffer->out_info[idx];
-+-- 
-+2.25.1
+++  stash->alt.trie_root = alloc_trie_leaf (abfd);
+++  if (!stash->alt.trie_root)
+++    return false;
+++
++   *pinfo = stash;
++ 
++   if (debug_bfd == NULL)
++@@ -4918,6 +5210,12 @@ stash_comp_unit (struct dwarf2_debug *stash, struct dwarf2_debug_file *file)
++ 	  each->next_unit = file->all_comp_units;
++ 	  file->all_comp_units = each;
++ 
+++	  if (each->arange.high == 0)
+++	    {
+++	      each->next_unit_without_ranges = file->all_comp_units_without_ranges;
+++	      file->all_comp_units_without_ranges = each->next_unit_without_ranges;
+++	    }
+++
++ 	  file->info_ptr += length;
++ 	  return each;
++ 	}
+diff --git a/meta/recipes-devtools/binutils/binutils/0020-CVE-2023-22608-2.patch b/meta/recipes-devtools/binutils/binutils/0020-CVE-2023-22608-2.patch
+new file mode 100644
+index 0000000000..a58b8dccdc
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0020-CVE-2023-22608-2.patch
+@@ -0,0 +1,210 @@
++From 1e716c1b160d56c2ab8711e199cad5b4db47cedf Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Tue, 30 Aug 2022 16:01:20 +0100
++Subject: [PATCH] BFD library: Use entry 0 in directory and filename tables of
 +
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_4.0.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_4.0.1.bb
-index bdbb322e42..2a2ec714d0 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_4.0.1.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_4.0.1.bb
-@@ -13,7 +13,9 @@ UPSTREAM_CHECK_REGEX = "harfbuzz-(?P<pver>\d+(\.\d+)+).tar"
- 
- SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.xz \
-            file://CVE-2022-33068.patch \
--           file://0001-Fix-conditional.patch"
-+           file://0001-Fix-conditional.patch \
-+           file://CVE-2023-25193.patch \
-+           "
- SRC_URI[sha256sum] = "98f68777272db6cd7a3d5152bac75083cd52a26176d87bc04c8b3929d33bce49"
- 
- inherit meson pkgconfig lib_package gtk-doc gobject-introspection
++ DWARF-5 debug info.
++
++	PR 29529
++	* dwarf2.c (struct line_info_table): Add new field:
++	use_dir_and_file_0.
++	(concat_filename): Use new field to help select the correct table
++	slot.
++	(read_formatted_entries): Do not skip entry 0.
++	(decode_line_info): Set new field depending upon the version of
++	DWARF being parsed.  Initialise filename based upon the setting of
++	the new field.
++
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=37833b966576c5d25e797ea3b6c33d0459a71892]
++CVE: CVE-2023-22608
++
++Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
++
++---
++ bfd/dwarf2.c                       | 86 ++++++++++++++++++++----------
++ ld/testsuite/ld-x86-64/pr27587.err |  2 +-
++ 2 files changed, 59 insertions(+), 29 deletions(-)
++
++diff --git a/bfd/dwarf2.c b/bfd/dwarf2.c
++index 0ae50a37..b7839ad6 100644
++--- a/bfd/dwarf2.c
+++++ b/bfd/dwarf2.c
++@@ -1571,6 +1571,7 @@ struct line_info_table
++   unsigned int		num_files;
++   unsigned int		num_dirs;
++   unsigned int		num_sequences;
+++  bool                  use_dir_and_file_0;
++   char *		comp_dir;
++   char **		dirs;
++   struct fileinfo*	files;
++@@ -1791,16 +1792,30 @@ concat_filename (struct line_info_table *table, unsigned int file)
++ {
++   char *filename;
++ 
++-  if (table == NULL || file - 1 >= table->num_files)
+++  /* Pre DWARF-5 entry 0 in the directory and filename tables was not used.
+++     So in order to save space in the tables used here the info for, eg
+++     directory 1 is stored in slot 0 of the directory table, directory 2
+++     in slot 1 and so on.
+++
+++     Starting with DWARF-5 the 0'th entry is used so there is a one to one
+++     mapping between DWARF slots and internal table entries.  */
+++  if (! table->use_dir_and_file_0)
++     {
++-      /* FILE == 0 means unknown.  */
++-      if (file)
++-	_bfd_error_handler
++-	  (_("DWARF error: mangled line number section (bad file number)"));
+++      /* Pre DWARF-5, FILE == 0 means unknown.  */
+++      if (file == 0)
+++	return strdup ("<unknown>");
+++      -- file;
+++    }
+++
+++  if (table == NULL || file >= table->num_files)
+++    {
+++      _bfd_error_handler
+++	(_("DWARF error: mangled line number section (bad file number)"));
++       return strdup ("<unknown>");
++     }
++ 
++-  filename = table->files[file - 1].name;
+++  filename = table->files[file].name;
+++
++   if (filename == NULL)
++     return strdup ("<unknown>");
++ 
++@@ -1811,12 +1826,17 @@ concat_filename (struct line_info_table *table, unsigned int file)
++       char *name;
++       size_t len;
++ 
++-      if (table->files[file - 1].dir
+++      if (table->files[file].dir
++ 	  /* PR 17512: file: 0317e960.  */
++-	  && table->files[file - 1].dir <= table->num_dirs
+++	  && table->files[file].dir <= table->num_dirs
++ 	  /* PR 17512: file: 7f3d2e4b.  */
++ 	  && table->dirs != NULL)
++-	subdir_name = table->dirs[table->files[file - 1].dir - 1];
+++	{
+++	  if (table->use_dir_and_file_0)
+++	    subdir_name = table->dirs[table->files[file].dir];
+++	  else
+++	    subdir_name = table->dirs[table->files[file].dir - 1];
+++	}
++ 
++       if (!subdir_name || !IS_ABSOLUTE_PATH (subdir_name))
++ 	dir_name = table->comp_dir;
++@@ -1857,10 +1877,12 @@ concat_filename (struct line_info_table *table, unsigned int file)
++ 
++ /* Check whether [low1, high1) can be combined with [low2, high2),
++    i.e., they touch or overlap.  */
++-static bool ranges_overlap (bfd_vma low1,
++-			    bfd_vma high1,
++-			    bfd_vma low2,
++-			    bfd_vma high2)
+++
+++static bool
+++ranges_overlap (bfd_vma low1,
+++		bfd_vma high1,
+++		bfd_vma low2,
+++		bfd_vma high2)
++ {
++   if (low1 == low2 || high1 == high2)
++     return true;
++@@ -1887,15 +1909,16 @@ static bool ranges_overlap (bfd_vma low1,
++ /* Insert an address range in the trie mapping addresses to compilation units.
++    Will return the new trie node (usually the same as is being sent in, but
++    in case of a leaf-to-interior conversion, or expansion of a leaf, it may be
++-   different), or NULL on failure.
++- */
++-static struct trie_node *insert_arange_in_trie(bfd *abfd,
++-					       struct trie_node *trie,
++-					       bfd_vma trie_pc,
++-					       unsigned int trie_pc_bits,
++-					       struct comp_unit *unit,
++-					       bfd_vma low_pc,
++-					       bfd_vma high_pc)
+++   different), or NULL on failure.  */
+++
+++static struct trie_node *
+++insert_arange_in_trie (bfd *abfd,
+++		       struct trie_node *trie,
+++		       bfd_vma trie_pc,
+++		       unsigned int trie_pc_bits,
+++		       struct comp_unit *unit,
+++		       bfd_vma low_pc,
+++		       bfd_vma high_pc)
++ {
++   bfd_vma clamped_low_pc, clamped_high_pc;
++   int ch, from_ch, to_ch;
++@@ -2031,7 +2054,6 @@ static struct trie_node *insert_arange_in_trie(bfd *abfd,
++     return trie;
++ }
++ 
++-
++ static bool
++ arange_add (struct comp_unit *unit, struct arange *first_arange,
++ 	    struct trie_node **trie_root, bfd_vma low_pc, bfd_vma high_pc)
++@@ -2412,10 +2434,8 @@ read_formatted_entries (struct comp_unit *unit, bfd_byte **bufp,
++ 	    }
++ 	}
++ 
++-      /* Skip the first "zero entry", which is the compilation dir/file.  */
++-      if (datai != 0)
++-	if (!callback (table, fe.name, fe.dir, fe.time, fe.size))
++-	  return false;
+++      if (!callback (table, fe.name, fe.dir, fe.time, fe.size))
+++	return false;
++     }
++ 
++   *bufp = buf;
++@@ -2592,6 +2612,7 @@ decode_line_info (struct comp_unit *unit)
++       if (!read_formatted_entries (unit, &line_ptr, line_end, table,
++ 				   line_info_add_file_name))
++ 	goto fail;
+++      table->use_dir_and_file_0 = true;
++     }
++   else
++     {
++@@ -2614,6 +2635,7 @@ decode_line_info (struct comp_unit *unit)
++ 	  if (!line_info_add_file_name (table, cur_file, dir, xtime, size))
++ 	    goto fail;
++ 	}
+++      table->use_dir_and_file_0 = false;
++     }
++ 
++   /* Read the statement sequences until there's nothing left.  */
++@@ -2622,7 +2644,7 @@ decode_line_info (struct comp_unit *unit)
++       /* State machine registers.  */
++       bfd_vma address = 0;
++       unsigned char op_index = 0;
++-      char * filename = table->num_files ? concat_filename (table, 1) : NULL;
+++      char * filename = NULL;
++       unsigned int line = 1;
++       unsigned int column = 0;
++       unsigned int discriminator = 0;
++@@ -2637,6 +2659,14 @@ decode_line_info (struct comp_unit *unit)
++       bfd_vma low_pc  = (bfd_vma) -1;
++       bfd_vma high_pc = 0;
++ 
+++      if (table->num_files)
+++	{
+++	  if (table->use_dir_and_file_0)
+++	    filename = concat_filename (table, 0);
+++	  else
+++	    filename = concat_filename (table, 1);
+++	}
+++
++       /* Decode the table.  */
++       while (!end_sequence && line_ptr < line_end)
++ 	{
++diff --git a/ld/testsuite/ld-x86-64/pr27587.err b/ld/testsuite/ld-x86-64/pr27587.err
++index fa870790..807750ca 100644
++--- a/ld/testsuite/ld-x86-64/pr27587.err
+++++ b/ld/testsuite/ld-x86-64/pr27587.err
++@@ -1,3 +1,3 @@
++ #...
++-.*pr27587.i:4: undefined reference to `stack_size'
+++.*pr27587/<artificial>:4: undefined reference to `stack_size'
++ #...
+diff --git a/meta/recipes-devtools/binutils/binutils/0020-CVE-2023-22608-3.patch b/meta/recipes-devtools/binutils/binutils/0020-CVE-2023-22608-3.patch
+new file mode 100644
+index 0000000000..a1b74248ce
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0020-CVE-2023-22608-3.patch
+@@ -0,0 +1,32 @@
++From 4b8386a90802ed8e43eac2266f6e03c92b4462ed Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Fri, 23 Dec 2022 13:02:04 +0000
++Subject: [PATCH] Fix illegal memory access parsing corrupt DWARF information.
++
++	PR 29936
++	* dwarf2.c (concat_filename): Fix check for a directory index off
++	the end of the directory table.
++
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=8af23b30edbaedf009bc9b243cd4dfa10ae1ac09]
++CVE: CVE-2023-22608
++
++Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
++
++---
++ bfd/dwarf2.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/bfd/dwarf2.c b/bfd/dwarf2.c
++index b7839ad6..8b07a24c 100644
++--- a/bfd/dwarf2.c
+++++ b/bfd/dwarf2.c
++@@ -1828,7 +1828,8 @@ concat_filename (struct line_info_table *table, unsigned int file)
++ 
++       if (table->files[file].dir
++ 	  /* PR 17512: file: 0317e960.  */
++-	  && table->files[file].dir <= table->num_dirs
+++	  && table->files[file].dir
+++	  <= (table->use_dir_and_file_0 ? table->num_dirs - 1 : table->num_dirs)
++ 	  /* PR 17512: file: 7f3d2e4b.  */
++ 	  && table->dirs != NULL)
++ 	{
 -- 
 2.34.1
 
