@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25A8CC7EE32
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F519C64EC4
 	for <webhook@archiver.kernel.org>; Fri,  3 Mar 2023 16:18:17 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web11.27598.1677860256132335378
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web11.27625.1677860291226399531
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Mar 2023 08:18:07 -0800
+ Fri, 03 Mar 2023 08:18:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=apT6gj0r;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id n6so3191269plf.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 08:18:07 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=5brhR5ti;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.42, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f42.google.com with SMTP id l1so3048913pjt.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 08:18:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1677860287;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1677860290;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GgaU1jloGCLapcq54PC8SDiLyxVBf+hCZlPJmyRowkQ=;
-        b=apT6gj0rnT3lKVD7JEAeUAf7zKoe/5XZzs7j3el1a99jzVudscOPm45pZRhgYY5qiw
-         I6tL7ZhpBgrRn9TXFfezF30LreIzdIK6D9p5DEhtPsZ0AsYGzAWNYPwR03rPJs7ebfH7
-         AErdflrarsNMOvku6Z+JatvYxcddpRLaWPDLN4Q8kQ89yZNSxaVgvD2wS5KQPgOpbWgy
-         ouaQo6lSSEDdNQjcBQFQk1AdaxMtXp7nZoBdUBdWcMxKdEeA7g80/ZCCaT8J/vinDfH2
-         C/hO2DsNUneGiIKK/fYmHT5Fny+3+Gv3vq8KA9QzVNJd9TUbIkw2aMwnlpkGnJBHZf3w
-         tJPw==
+        bh=BzZDvQhb20sSm0dLc6YC8XOiEpUO2kkao8AplX4LZLo=;
+        b=5brhR5tiDmnGFFSt8wQOknZmh9VdtpE3XDO8FzzbGwvpVt+oK+MJ85vHnzECdFyigo
+         Y1mZrGh2w3iT/1+S8XbBDo2kT3QPb8Gyqlg6+2kdicUK6lmd7Qct+40B7cp15K9Uto0b
+         eyWxGzH2tbPdLAxdKUaszDH7seelUh/KSVFHVMdX+6cYDI7b/dovXTShHnjs+uhBZ1bL
+         ZhJAUP51SX6WeVRhyOT1A9WRI2ebalBMiZColLT6Jylc9A/xS4UbG0uSSrnp1ke1Dv9d
+         X9TpLIC/KEPh2apjKEqIQ/J/Mk/ou9Qe/7oQX1Ox9UvK7nzh8h8aNmgaOGZ3kBHXbouc
+         PLWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677860287;
+        d=1e100.net; s=20210112; t=1677860290;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GgaU1jloGCLapcq54PC8SDiLyxVBf+hCZlPJmyRowkQ=;
-        b=Hyo3j/1NSM2kPlqK4qAkWIr2a1ybRqxTmxUg5USbWwy6CgZ3sI6iJpE1WGn23d1OTR
-         u+mL9GJ/53yIDVgUT1jH8R45QcuSLcu6f14kA0xIf7PZCW/SmFL1mMMSJekTrcLqYki9
-         q3GCAxJfYMPEbkqlH2aCFVED+PkN7ge8aih919Xq9u1iKlpn+yqJLZFhtZLqUU2pghRs
-         GgJAcAnn2H1XsdRLBOmP8BFjDriarqrpGJz2SnFp90pO4wrmSLs3lcZXwcmw+Ks6r8SN
-         Tbs1vHH4umxbfsrFjlbhMOcbEkdh3hqbF/zJnMUP9boMBy/tuR535Z6lfa3/Dn1RbLsD
-         D8uA==
-X-Gm-Message-State: AO0yUKVKW4Z9sX6XJple6GqSyP/WgRvJeq10rhtVnun54Zjxt8DLOWzW
-	25sfIxDAu32QA+36ekkwF4J3VhfewT1YOKzL82M=
-X-Google-Smtp-Source: AK7set8aZayIz+2DAxZuagK4XljrydlhyGegudNspGedUAhHKg1o6kwv+6qvL+BJM289y/4LCZ5lew==
-X-Received: by 2002:a17:902:c94b:b0:19c:f84b:58be with SMTP id i11-20020a170902c94b00b0019cf84b58bemr2823201pla.3.1677860286993;
-        Fri, 03 Mar 2023 08:18:06 -0800 (PST)
+        bh=BzZDvQhb20sSm0dLc6YC8XOiEpUO2kkao8AplX4LZLo=;
+        b=Li35WVu0RnuWCFNO7CLM3JSnfQNKGZ0ktLhj68QIT38qh7CajLmlnjO5DQ4pBGBo92
+         IQ4bMisWfia81/3V3qFVXIc+/O1QgHT8sdLfalE7hu0d1YxneSJygSshmXs5MeDqi0lF
+         KkEj4cyiqk8h94ia7TZkoyqGr2Tr/BQwmb7CFXH+M+TuJtjLHwZLwMiHvB5dhqB/pdBn
+         S7xsa8po4OnUAp7Vg63/HzLTLRbDt2GawgYyjqs1Fupqqf0kUkAjyI6weJxR6cTYvD3u
+         EJrdI28zsE8SlIX9Qw7GT5QPaRe0FcVL9FEWfYi0zvA4HtScE9oF2jUtr4pDKpCtJJdM
+         vj2Q==
+X-Gm-Message-State: AO0yUKWO7/+9k15ICBF63NuMK+cdmhbh/M5Hk4630zWH2ECxB7WQ9n9x
+	CRYnDi2kY8cd7tx08mMdpAm9YN3K7uAY1PHvIc8=
+X-Google-Smtp-Source: AK7set9A66iEuHWIS39w231TXRLY9EKkjwxtP9Jj+7JVgjT202777MxltwdGNu3hLD32sOkagDQArw==
+X-Received: by 2002:a17:903:1cf:b0:196:2ade:6e21 with SMTP id e15-20020a17090301cf00b001962ade6e21mr2291184plh.14.1677860290226;
+        Fri, 03 Mar 2023 08:18:10 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id ko4-20020a17090307c400b00186b7443082sm1702474plb.195.2023.03.03.08.18.06
+        by smtp.gmail.com with ESMTPSA id ko4-20020a17090307c400b00186b7443082sm1702474plb.195.2023.03.03.08.18.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Mar 2023 08:18:06 -0800 (PST)
+        Fri, 03 Mar 2023 08:18:09 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 20/29] dhcpcd: fix dhcpcd start failure on qemuppc64
-Date: Fri,  3 Mar 2023 06:17:18 -1000
-Message-Id: <dc988f94c47275da0ede0fea4b2118eac6ee6fef.1677859897.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 22/29] libssh2: Clean up ptest patch/coverage
+Date: Fri,  3 Mar 2023 06:17:20 -1000
+Message-Id: <69b660e76c30e4bcc355be19cbe560db275e90b1.1677859897.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1677859897.git.steve@sakoman.com>
 References: <cover.1677859897.git.steve@sakoman.com>
@@ -61,75 +61,145 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 16:18:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178009
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178011
 
-From: Xiangyu Chen <xiangyu.chen@windriver.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Backport patch to fix dhcpcd start failed on qemuppc64.
+Martin Jansa spotted patchreview.py reports Malformed Upstream-Status in a
+patch in this recipe. The patch is not being applied since there is no ptest
+override.
 
-Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+The test in question was also disabled due to an issue with new versions of
+openssh.
+
+Add a workaround for the broken test, enable it, drop the broken patch.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a31d658198566de12cdd1aad18776b8da8065787)
+(cherry picked from commit e9f2cc084638ce9cb5339df611e473c30f0e40b1)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../dhcpcd/dhcpcd_9.4.1.bb                    |  1 +
- ...x-SECCOMP_AUDIT_ARCH-missing-ppc64le.patch | 34 +++++++++++++++++++
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-connectivity/dhcpcd/files/0001-privsep-linux-fix-SECCOMP_AUDIT_ARCH-missing-ppc64le.patch
+ ...nviroment-to-decide-if-a-test-is-bui.patch | 44 -------------------
+ .../libssh2/libssh2/fix-ssh2-test.patch       | 23 ++++++++++
+ .../libssh2/{files => libssh2}/run-ptest      |  3 +-
+ .../recipes-support/libssh2/libssh2_1.10.0.bb |  3 +-
+ 4 files changed, 25 insertions(+), 48 deletions(-)
+ delete mode 100644 meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
+ create mode 100644 meta/recipes-support/libssh2/libssh2/fix-ssh2-test.patch
+ rename meta/recipes-support/libssh2/{files => libssh2}/run-ptest (67%)
 
-diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb
-index 5cf77fa0f6..39e689d2f6 100644
---- a/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb
-+++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb
-@@ -16,6 +16,7 @@ SRC_URI = "https://roy.marples.name/downloads/${BPN}/${BPN}-${PV}.tar.xz \
-            file://0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch \
-            file://0001-privsep-Allow-getrandom-sysctl-for-newer-glibc.patch \
-            file://0002-privsep-Allow-newfstatat-syscall-as-well.patch \
-+           file://0001-privsep-linux-fix-SECCOMP_AUDIT_ARCH-missing-ppc64le.patch \
-            file://dhcpcd.service \
-            file://dhcpcd@.service \
-            "
-diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-privsep-linux-fix-SECCOMP_AUDIT_ARCH-missing-ppc64le.patch b/meta/recipes-connectivity/dhcpcd/files/0001-privsep-linux-fix-SECCOMP_AUDIT_ARCH-missing-ppc64le.patch
+diff --git a/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch b/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
+deleted file mode 100644
+index b1204e49eb..0000000000
+--- a/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
++++ /dev/null
+@@ -1,44 +0,0 @@
+-From f6abce5ba41a412a247250dcd80e387e53474466 Mon Sep 17 00:00:00 2001
+-From: Your Name <you@example.com>
+-Date: Mon, 28 Dec 2020 02:08:03 +0000
+-Subject: [PATCH] Don't let host enviroment to decide if a test is build
+-
+-test ssh2.sh need sshd, for cross compile, we need it on target, so
+-don't use SSHD on host to decide weither to build a test
+-
+-Upstream-Status: Inappropriate[oe specific]
+-
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+-
+----
+- tests/Makefile.am | 6 +-----
+- 1 file changed, 1 insertion(+), 5 deletions(-)
+-
+-diff --git a/tests/Makefile.am b/tests/Makefile.am
+-index dc0922f..6cbc35d 100644
+---- a/tests/Makefile.am
+-+++ b/tests/Makefile.am
+-@@ -1,16 +1,12 @@
+- AM_CPPFLAGS = -I$(top_srcdir)/src -I$(top_srcdir)/include -I$(top_builddir)/src
+- LDADD = ../src/libssh2.la
+- 
+--if SSHD
+- noinst_PROGRAMS = ssh2
+- ssh2_SOURCES = ssh2.c
+--endif
+- 
+- ctests = simple$(EXEEXT)
+- TESTS = $(ctests) mansyntax.sh
+--if SSHD
+- TESTS += ssh2.sh
+--endif
+- check_PROGRAMS = $(ctests)
+- 
+- TESTS_ENVIRONMENT = SSHD=$(SSHD) EXEEXT=$(EXEEXT)
+-@@ -38,4 +34,4 @@ if OPENSSL
+- # EXTRA_DIST += test_public_key_auth_succeeds_with_correct_encrypted_ed25519_key.c
+- # EXTRA_DIST += test_public_key_auth_succeeds_with_correct_ed25519_key_from_mem.c
+- EXTRA_DIST += test_public_key_auth_succeeds_with_correct_rsa_openssh_key.c
+--endif
+-\ No newline at end of file
+-+endif
+diff --git a/meta/recipes-support/libssh2/libssh2/fix-ssh2-test.patch b/meta/recipes-support/libssh2/libssh2/fix-ssh2-test.patch
 new file mode 100644
-index 0000000000..1c514f9b8c
+index 0000000000..ee916c42d4
 --- /dev/null
-+++ b/meta/recipes-connectivity/dhcpcd/files/0001-privsep-linux-fix-SECCOMP_AUDIT_ARCH-missing-ppc64le.patch
-@@ -0,0 +1,34 @@
-+From 7a2d9767585ed2c407d4985bd2d81552034fb90a Mon Sep 17 00:00:00 2001
-+From: CHEN Xiangyu <xiangyu.chen@aol.com>
-+Date: Thu, 9 Feb 2023 18:41:52 +0800
-+Subject: [PATCH] privsep-linux: fix SECCOMP_AUDIT_ARCH missing ppc64le (#181)
++++ b/meta/recipes-support/libssh2/libssh2/fix-ssh2-test.patch
+@@ -0,0 +1,23 @@
++In 8.8 OpenSSH disabled sha1 rsa-sha keys out of the box,
++so we need to re-enable them as a workaround for the test
++suite until upstream updates the tests.
 +
-+when dhcpcd running on ppc64le platform, it would be killed by SIGSYS.
++See: https://github.com/libssh2/libssh2/issues/630
 +
-+Upstream-Status: Backport [7a2d9767585ed2c407d4985bd2d81552034fb90a]
++Upstream-Status: Backport [alternative fixes merged upstream]
 +
-+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-+---
-+ src/privsep-linux.c | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
++Patch taken from https://github.com/mirror-rpm/libssh2/commit/47f7114f7d0780f3075bad51a71881f45cc933c5
 +
-+diff --git a/src/privsep-linux.c b/src/privsep-linux.c
-+index 7372d26b..6a301950 100644
-+--- a/src/privsep-linux.c
-++++ b/src/privsep-linux.c
-+@@ -232,7 +232,11 @@ ps_root_sendnetlink(struct dhcpcd_ctx *ctx, int protocol, struct msghdr *msg)
-+ #elif defined(__or1k__)
-+ #  define SECCOMP_AUDIT_ARCH AUDIT_ARCH_OPENRISC
-+ #elif defined(__powerpc64__)
-+-#  define SECCOMP_AUDIT_ARCH AUDIT_ARCH_PPC64
-++#  if (BYTE_ORDER == LITTLE_ENDIAN)
-++#    define SECCOMP_AUDIT_ARCH AUDIT_ARCH_PPC64LE
-++#  else
-++#    define SECCOMP_AUDIT_ARCH AUDIT_ARCH_PPC64
-++#  endif
-+ #elif defined(__powerpc__)
-+ #  define SECCOMP_AUDIT_ARCH AUDIT_ARCH_PPC
-+ #elif defined(__riscv)
-+-- 
-+2.34.1
++--- a/tests/ssh2.sh
+++++ b/tests/ssh2.sh
++@@ -25,7 +25,8 @@ $SSHD -f /dev/null -h "$srcdir"/etc/host
++     -o 'Port 4711' \
++     -o 'Protocol 2' \
++     -o "AuthorizedKeysFile $srcdir/etc/user.pub" \
++-    -o 'UsePrivilegeSeparation no' \
+++    -o 'HostKeyAlgorithms +ssh-rsa' \
+++    -o 'PubkeyAcceptedAlgorithms +ssh-rsa' \
++     -o 'StrictModes no' \
++     -D \
++     $libssh2_sshd_params &
 +
+diff --git a/meta/recipes-support/libssh2/files/run-ptest b/meta/recipes-support/libssh2/libssh2/run-ptest
+similarity index 67%
+rename from meta/recipes-support/libssh2/files/run-ptest
+rename to meta/recipes-support/libssh2/libssh2/run-ptest
+index 9e2fce2d24..5e7426f79d 100644
+--- a/meta/recipes-support/libssh2/files/run-ptest
++++ b/meta/recipes-support/libssh2/libssh2/run-ptest
+@@ -2,8 +2,7 @@
+ 
+ ptestdir=$(dirname "$(readlink -f "$0")")
+ cd tests
+-# omit ssh2.sh until https://github.com/libssh2/libssh2/issues/630 is fixed
+-for test in simple mansyntax.sh
++for test in simple mansyntax.sh ssh2.sh
+ do
+ 	./../test-driver --test-name $test --log-file ../$test.log --trs-file ../$test.trs --color-tests no --enable-hard-errors yes --expect-failure no -- ./$test
+ done
+diff --git a/meta/recipes-support/libssh2/libssh2_1.10.0.bb b/meta/recipes-support/libssh2/libssh2_1.10.0.bb
+index 072d6819c0..d5513373b0 100644
+--- a/meta/recipes-support/libssh2/libssh2_1.10.0.bb
++++ b/meta/recipes-support/libssh2/libssh2_1.10.0.bb
+@@ -8,11 +8,10 @@ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=3e089ad0cf27edf1e7f261dfcd06acc7"
+ 
+ SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
++           file://fix-ssh2-test.patch \
+            file://run-ptest \
+            "
+ 
+-SRC_URI:append:ptest = " file://0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch"
+-
+ SRC_URI[sha256sum] = "2d64e90f3ded394b91d3a2e774ca203a4179f69aebee03003e5a6fa621e41d51"
+ 
+ inherit autotools pkgconfig ptest
 -- 
 2.34.1
 
