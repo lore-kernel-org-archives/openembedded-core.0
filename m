@@ -2,146 +2,168 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2650BC64EC4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 301A3C7EE32
 	for <webhook@archiver.kernel.org>; Fri,  3 Mar 2023 16:17:57 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web10.27558.1677860270170731301
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web10.27567.1677860276935366832
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Mar 2023 08:17:50 -0800
+ Fri, 03 Mar 2023 08:17:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=fObyWKu2;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f48.google.com with SMTP id 6-20020a17090a190600b00237c5b6ecd7so6623247pjg.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 08:17:50 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=cWhYXs8i;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id u5so3173496plq.7
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 08:17:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1677860269;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1677860276;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kjWmTW+ZrvJ0bjyT3AY+pGSOO38N3bJuo8/0dXAXyUE=;
-        b=fObyWKu2HDp2XZMFqozPtt3W9OUd/Y1v3r1wPH2EGgZEGSZtweR8ZqcjGIHpH9FFv4
-         dduqXjc3S8/H1Q05Ldr8qYYNqiGUpNZod696Fx/FhPJN9E3Tge9brOVwviMxgog+JRTK
-         eDQXrC3Vu2YLLEzYKpv1xV7MJw5ZLuyr1lReZSjO3qwqwithfRl0dLs/66Mgblehntsk
-         xAhO5S1oHJRaP5mGMu0LoiUA2aBQMpuI/bKHyiNaYCyTEXu42jeZRXxWqwoOWX0HGI6W
-         AAPicyEn7trEDM8pg1T9JpsIPE0A6oBl+trcCbpdbj1ZU5FwY86X1jiS+wIV1m75TZfg
-         cuWQ==
+        bh=bQkJbmgZGUiVVRYsg4ceaD2pbFN4yU5Gqyfu4DroiYo=;
+        b=cWhYXs8i/n791FezvfRNpPHkouSdwyqckskKXsC64qfOc/k2gWpknXQtl1M0IMKJbq
+         ZKwMf6Hz3DlMCeYJPGYdaT2VrF9WYAykXUCvOCD2a1WqIpirm417C+0IBc8OzxgaNVnc
+         rMVKgfCN59f4ghVAmJaM9uTaeQkazreISqum0DVVaAYoS4EdhWTdsxUXBkLVSd2yuUPg
+         5kSt8jhYT8A68UhBmuxJ/BIM6WqQbO2jAguh9Bqkh0katieoutQvIELIAXE2XtNtvRfM
+         o4UoeegAoxj06P0Z4VifX01eGbXC3nIcur2Y/f2yrzEGaSJmhz9AeCMCBxX4vApC4eVj
+         wWVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677860269;
+        d=1e100.net; s=20210112; t=1677860276;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kjWmTW+ZrvJ0bjyT3AY+pGSOO38N3bJuo8/0dXAXyUE=;
-        b=Wu7tJGd8Xz5hK4Xs9dj86J8Ul7360eEfMRe72HqJ2Co1JNoF0nejniAIwhvY7rMIP7
-         nwbaFUTA1kyktzKFjd7xY7q9TmXbjOcWeLbFUVsDxdO0pZSmpRIm/QCnSspZNOltifp3
-         xOiTF5AdzkksjHGOFZ28t+6jLWD6bQxrkyc/PB5U3+dXXHLFKSti2CKy1KKV1y03+BuJ
-         631CY94j+mG9sBpahRD9ycG27IsN1tvzvIaYvRmoWX3YmBmX3cdR5JLATXGiecmt1MKs
-         /O3XBEeC9wx6uqEy9XaEVGxBsA5i+B+qc0Ulcr9ERCwiMV83xm3bosfYMYKyrWgkGoiM
-         D7kw==
-X-Gm-Message-State: AO0yUKVyLPfHBwk4ZuVybAiywwKki1X9YoSAuCNzpQhdzj9tL51nAkeG
-	dlp2hu3DSocQ0aN41FaOB5HJFgicsot+2T9ggVY=
-X-Google-Smtp-Source: AK7set+x0cCqMu8PG0g8dsVjzZ+gQAjLxSpF0FfBmWmHYlAg5cNrqCZl65kcP3cIgqR+Nz/SUbetOw==
-X-Received: by 2002:a17:902:7007:b0:19d:47b:67c8 with SMTP id y7-20020a170902700700b0019d047b67c8mr1969750plk.48.1677860269174;
-        Fri, 03 Mar 2023 08:17:49 -0800 (PST)
+        bh=bQkJbmgZGUiVVRYsg4ceaD2pbFN4yU5Gqyfu4DroiYo=;
+        b=txdq4sif/ktkea8xy97494dQmqfUATzEltf2vEvX54IzYihwQSgOoqdogI1QYjcBpJ
+         PH3tLEkXcpzvQeKtvOYz9rmhL+X7VtZmgSrmBlug4ZwZN7uJHRBMxJfUTVxuXXj7JV5X
+         iytQ6qquQ2Obbosw78QX7cldNf+fwGFXzvL+woCoLSQ9SSpw0spLLScC8ZBiYZ2DBsro
+         EJgwADvGt7/3ug6f9ZNLbfC5ZpxV6RD/3xRiOY09R8pLadHLJ2BQNC2a2ei2R+LriQU9
+         EtCmWwMEKELSSCMvND+ItqdcIjXMoy/1DiOJZq8Z/PQf6choWp5LX9RxREhTgAtv4RjJ
+         0W5g==
+X-Gm-Message-State: AO0yUKW3Lga5Pz/JKUjnNgfgvReWog1Q3WD+9FOvBsr1F2WrJIWVWRX1
+	tvK7XQ9UsYruplvkmHRUubXzMbj4l8BqSi4hA8c=
+X-Google-Smtp-Source: AK7set87aLcXaDUpkZBkmFiK/8gJuq125TF1QLUS9thmdThke7mkry7qU8tNjhVpOJAOhQEP+yB22Q==
+X-Received: by 2002:a17:902:da86:b0:19e:31a3:1a87 with SMTP id j6-20020a170902da8600b0019e31a31a87mr2662269plx.39.1677860275893;
+        Fri, 03 Mar 2023 08:17:55 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id ko4-20020a17090307c400b00186b7443082sm1702474plb.195.2023.03.03.08.17.48
+        by smtp.gmail.com with ESMTPSA id ko4-20020a17090307c400b00186b7443082sm1702474plb.195.2023.03.03.08.17.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Mar 2023 08:17:48 -0800 (PST)
+        Fri, 03 Mar 2023 08:17:55 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 10/29] dbus: upgrade 1.14.4 -> 1.14.6
-Date: Fri,  3 Mar 2023 06:17:08 -1000
-Message-Id: <0623230fcdc02492c0a67506530b25438cf75c79.1677859897.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 13/29] linux-firmware: add yamato fw files to qcom-adreno-a2xx package
+Date: Fri,  3 Mar 2023 06:17:11 -1000
+Message-Id: <f4ed38c59de9a7c593f9925fc4ce2e084929e036.1677859897.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1677859897.git.steve@sakoman.com>
 References: <cover.1677859897.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 16:17:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177999
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178002
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Dmitry Baryshkov <dbaryshkov@gmail.com>
 
-Denial of service fixes:
+Newest linux-firmware release got firmware for Adreno A200. Add these
+two files to the ${PN}-qcom-adreno-a2xx package. As these files are
+licensed under a separate BSD-3-Clause license, add separate license
+package too.
 
-• Fix an incorrect assertion that could be used to crash dbus-daemon or
-  other users of DBusServer prior to authentication, if libdbus was compiled
-  with assertions enabled.
-  We recommend that production builds of dbus, for example in OS distributions,
-  should be compiled with checks but without assertions.
-  (dbus#421, Ralf Habacker; thanks to Evgeny Vereshchagin)
-
-Other fixes:
-
-• When connected to a dbus-broker, stop dbus-monitor from incorrectly
-  replying to Peer method calls that were sent to the dbus-broker with
-  a NULL destination (dbus#301, Kai A. Hiller)
-
-• Fix out-of-bounds varargs read in the dbus-daemon's config-parser.
-  This is not attacker-triggerable and appears to be harmless in practice,
-  but is technically undefined behaviour and is detected as such by
-  AddressSanitizer. (dbus!357, Evgeny Vereshchagin)
-
-• Avoid a data race in multi-threaded use of DBusCounter
-  (dbus#426, Ralf Habacker)
-
-• Fix a crash with some glibc versions when non-auditable SELinux events
-  are logged (dbus!386, Jeremi Piotrowski)
-
-• If dbus_message_demarshal() runs out of memory while validating a message,
-  report it as NoMemory rather than InvalidArgs (dbus#420, Simon McVittie)
-
-• Use C11 _Alignof if available, for better standards-compliance
-  (dbus!389, Khem Raj)
-
-• Stop including an outdated copy of pkg.m4 in the git tree
-  (dbus!365, Simon McVittie)
-
-• Documentation:
-  · Consistently use Gitlab bug reporting URL (dbus!372, Marco Trevisan)
-
-• Tests fixes:
-  · Fix the test-apparmor-activation test after dbus#416
-    (dbus!380, Dave Jones)
-
-Internal changes:
-
-• Fix CI builds with recent git versions (dbus#447, Simon McVittie)
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 31245df3061c1a913bffe5e11ad6ac7fa9c83915)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
-(cherry picked from commit 83e9bd1507fd5f79c680dde30b0f66df84cde6b0)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 56e1b2b06ef7f22d4ac5899046f650ae8ec0d547)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/dbus/{dbus_1.14.4.bb => dbus_1.14.6.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/dbus/{dbus_1.14.4.bb => dbus_1.14.6.bb} (98%)
+ .../linux-firmware/linux-firmware_20230117.bb      | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/dbus/dbus_1.14.4.bb b/meta/recipes-core/dbus/dbus_1.14.6.bb
-similarity index 98%
-rename from meta/recipes-core/dbus/dbus_1.14.4.bb
-rename to meta/recipes-core/dbus/dbus_1.14.6.bb
-index 85db58e214..cc81047cef 100644
---- a/meta/recipes-core/dbus/dbus_1.14.4.bb
-+++ b/meta/recipes-core/dbus/dbus_1.14.6.bb
-@@ -14,9 +14,9 @@ SRC_URI = "https://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.xz \
-            file://run-ptest \
-            file://tmpdir.patch \
-            file://dbus-1.init \
--"
-+           "
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20230117.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20230117.bb
+index 9ae0b2be13..fa9e6f604b 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20230117.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20230117.bb
+@@ -45,6 +45,7 @@ LICENSE = "\
+     & Firmware-phanfw \
+     & Firmware-qat \
+     & Firmware-qcom \
++    & Firmware-qcom-yamato \
+     & Firmware-qla1280 \
+     & Firmware-qla2xxx \
+     & Firmware-qualcommAthos_ar3k \
+@@ -109,6 +110,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.phanfw;md5=954dcec0e051f9409812b561ea743bfa \
+                     file://LICENCE.qat_firmware;md5=9e7d8bea77612d7cc7d9e9b54b623062 \
+                     file://LICENSE.qcom;md5=164e3362a538eb11d3ac51e8e134294b \
++                    file://LICENSE.qcom_yamato;md5=d0de0eeccaf1843a850bf7a6777eec5c \
+                     file://LICENCE.qla1280;md5=d6895732e622d950609093223a2c4f5d \
+                     file://LICENCE.qla2xxx;md5=505855e921b75f1be4a437ad9b79dff0 \
+                     file://LICENSE.QualcommAtheros_ar3k;md5=b5fe244fb2b532311de1472a3bc06da5 \
+@@ -177,6 +179,7 @@ NO_GENERIC_LICENSE[Firmware-ath9k-htc] = "LICENCE.open-ath9k-htc-firmware"
+ NO_GENERIC_LICENSE[Firmware-phanfw] = "LICENCE.phanfw"
+ NO_GENERIC_LICENSE[Firmware-qat] = "LICENCE.qat_firmware"
+ NO_GENERIC_LICENSE[Firmware-qcom] = "LICENSE.qcom"
++NO_GENERIC_LICENSE[Firmware-qcom-yamato] = "LICENSE.qcom_yamato"
+ NO_GENERIC_LICENSE[Firmware-qla1280] = "LICENCE.qla1280"
+ NO_GENERIC_LICENSE[Firmware-qla2xxx] = "LICENCE.qla2xxx"
+ NO_GENERIC_LICENSE[Firmware-qualcommAthos_ar3k] = "LICENSE.QualcommAtheros_ar3k"
+@@ -307,7 +310,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-nvidia-gpu \
+              ${PN}-netronome-license ${PN}-netronome \
+              ${PN}-qat ${PN}-qat-license \
+-             ${PN}-qcom-license \
++             ${PN}-qcom-license ${PN}-qcom-yamato-license \
+              ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 ${PN}-qcom-venus-5.2 ${PN}-qcom-venus-5.4 \
+              ${PN}-qcom-vpu-1.0 ${PN}-qcom-vpu-2.0 \
+              ${PN}-qcom-adreno-a2xx ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a4xx ${PN}-qcom-adreno-a530 \
+@@ -983,13 +986,14 @@ RDEPENDS:${PN}-qat        = "${PN}-qat-license"
  
--SRC_URI[sha256sum] = "7c0f9b8e5ec0ff2479383e62c0084a3a29af99edf1514e9f659b81b30d4e353e"
-+SRC_URI[sha256sum] = "fd2bdf1bb89dc365a46531bff631536f22b0d1c6d5ce2c5c5e59b55265b3d66b"
+ # For QCOM VPU/GPU and SDM845
+ LICENSE:${PN}-qcom-license = "Firmware-qcom"
++LICENSE:${PN}-qcom-yamato-license = "Firmware-qcom-yamato"
+ LICENSE:${PN}-qcom-venus-1.8 = "Firmware-qcom"
+ LICENSE:${PN}-qcom-venus-4.2 = "Firmware-qcom"
+ LICENSE:${PN}-qcom-venus-5.2 = "Firmware-qcom"
+ LICENSE:${PN}-qcom-venus-5.4 = "Firmware-qcom"
+ LICENSE:${PN}-qcom-vpu-1.0 = "Firmware-qcom"
+ LICENSE:${PN}-qcom-vpu-2.0 = "Firmware-qcom"
+-LICENSE:${PN}-qcom-adreno-a2xx = "Firmware-qcom"
++LICENSE:${PN}-qcom-adreno-a2xx = "Firmware-qcom Firmware-qcom-yamato"
+ LICENSE:${PN}-qcom-adreno-a3xx = "Firmware-qcom"
+ LICENSE:${PN}-qcom-adreno-a4xx = "Firmware-qcom"
+ LICENSE:${PN}-qcom-adreno-a530 = "Firmware-qcom"
+@@ -1009,13 +1013,14 @@ LICENSE:${PN}-qcom-sm8250-audio = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sm8250-compute = "Firmware-qcom"
  
- EXTRA_OECONF = "--disable-xml-docs \
-                 --disable-doxygen-docs \
+ FILES:${PN}-qcom-license   = "${nonarch_base_libdir}/firmware/LICENSE.qcom ${nonarch_base_libdir}/firmware/qcom/NOTICE.txt"
++FILES:${PN}-qcom-yamato-license = "${nonarch_base_libdir}/firmware/LICENSE.qcom_yamato"
+ FILES:${PN}-qcom-venus-1.8 = "${nonarch_base_libdir}/firmware/qcom/venus-1.8/*"
+ FILES:${PN}-qcom-venus-4.2 = "${nonarch_base_libdir}/firmware/qcom/venus-4.2/*"
+ FILES:${PN}-qcom-venus-5.2 = "${nonarch_base_libdir}/firmware/qcom/venus-5.2/*"
+ FILES:${PN}-qcom-venus-5.4 = "${nonarch_base_libdir}/firmware/qcom/venus-5.4/*"
+ FILES:${PN}-qcom-vpu-1.0 = "${nonarch_base_libdir}/firmware/qcom/vpu-1.0/*"
+ FILES:${PN}-qcom-vpu-2.0 = "${nonarch_base_libdir}/firmware/qcom/vpu-2.0/*"
+-FILES:${PN}-qcom-adreno-a2xx = "${nonarch_base_libdir}/firmware/qcom/leia_*.fw"
++FILES:${PN}-qcom-adreno-a2xx = "${nonarch_base_libdir}/firmware/qcom/leia_*.fw ${nonarch_base_libdir}/firmware/qcom/yamato_*.fw"
+ FILES:${PN}-qcom-adreno-a3xx = "${nonarch_base_libdir}/firmware/qcom/a3*_*.fw ${nonarch_base_libdir}/firmware/a300_*.fw"
+ FILES:${PN}-qcom-adreno-a4xx = "${nonarch_base_libdir}/firmware/qcom/a4*_*.fw"
+ FILES:${PN}-qcom-adreno-a530 = "${nonarch_base_libdir}/firmware/qcom/a530*.* ${nonarch_base_libdir}/firmware/qcom/apq8096/a530*.*"
+@@ -1034,13 +1039,14 @@ FILES:${PN}-qcom-sdm845-compute = "${nonarch_base_libdir}/firmware/qcom/sdm845/c
+ FILES:${PN}-qcom-sdm845-modem = "${nonarch_base_libdir}/firmware/qcom/sdm845/mba.mbn ${nonarch_base_libdir}/firmware/qcom/sdm845/modem*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/wlanmdsp.mbn"
+ FILES:${PN}-qcom-sm8250-audio = "${nonarch_base_libdir}/firmware/qcom/sm8250/adsp*.*"
+ FILES:${PN}-qcom-sm8250-compute = "${nonarch_base_libdir}/firmware/qcom/sm8250/cdsp*.*"
++
+ RDEPENDS:${PN}-qcom-venus-1.8 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-venus-4.2 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-venus-5.2 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-venus-5.4 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-vpu-1.0 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-vpu-2.0 = "${PN}-qcom-license"
+-RDEPENDS:${PN}-qcom-adreno-a2xx = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-adreno-a2xx = "${PN}-qcom-license ${PN}-qcom-yamato-license"
+ RDEPENDS:${PN}-qcom-adreno-a3xx = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-adreno-a4xx = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-adreno-a530 = "${PN}-qcom-license"
 -- 
 2.34.1
 
