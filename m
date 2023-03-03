@@ -1,99 +1,157 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A8D2C7EE2D
-	for <webhook@archiver.kernel.org>; Fri,  3 Mar 2023 16:18:27 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web11.27636.1677860298348936804
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64195C64EC4
+	for <webhook@archiver.kernel.org>; Fri,  3 Mar 2023 16:47:27 +0000 (UTC)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web11.28586.1677862042692547448
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Mar 2023 08:18:18 -0800
+ Fri, 03 Mar 2023 08:47:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=qvl74+/y;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.46, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f46.google.com with SMTP id kb15so3053178pjb.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 08:18:18 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=oUf1B8nW;
+ spf=pass (domain: gmail.com, ip: 209.85.210.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f182.google.com with SMTP id ay18so1967390pfb.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 08:47:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1677860297;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/OBXEO7V1nmKdV5zTFuJDeUaLqwk57LZzu4mfq8YEqM=;
-        b=qvl74+/ypdV2Wu8dHQ+wrzVXyB47T0VkxFy9x/n9NVJrAEf2LFbPi/hR9y2l5PWJ1a
-         jUlLa8OrGcEzkGomgD/cpJfGX9E6rXgmx7HKeRMaU4lxIFnyz/UsuYjFTj6NnczLRK0p
-         PExtHffKGOPd8urj58ZLv7hSj1LOoSCeMthfzsHCCAMXQdb3jOXQ95rx0bFxb+UHLdbX
-         i1kDWXxHLBazSIE7beRsStjfeSKd26bDna05Me9VXy/iXMYwIyQKB8w79LwLsNDIgqnG
-         Vg5jc2k0zgwGyvd3uVYMZferloZp4jH/D4nX/qMsZoY94uB/fsg03had799s9rADSD2n
-         PKXA==
+        d=gmail.com; s=20210112; t=1677862042;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uc3FTONkaF0H4UzLBGIDcJf5tttdSGq0c6SZV2Taxew=;
+        b=oUf1B8nWUU7oqZqZcVRa/xp1hhmY8AYKldWtjj40laNpkHdOUBHgZqZcrNeBS8A93y
+         CzVho3DkJagO/rMA/UmDBBM2mSK4JYqrQMFoGrG+l3YMvo7fcKovWPyQwKefXFQ2mXVh
+         4OuiRUOyGQYSusHz7pa3Ev6HQHLteC61OSPNMpx+ti9wH92PGEZDlPsy3YigtsJJRIjA
+         zY649w9znPRWuNsXiS7w8h9pN9hDhD2t7UvoQSppsFpxaiurF4cIINMPma/ItMJfFc0g
+         WOCLsRZn1JPbDi4eJ0bIzWV267GN9yqVl1yjJGM6WHduf8FOlNaZjW7TJmq/krnl3W7u
+         S35A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677860297;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/OBXEO7V1nmKdV5zTFuJDeUaLqwk57LZzu4mfq8YEqM=;
-        b=jX/6lRsj+pckNIORATD2nafcVMRXoKC6ckULDm/njWNoTZuC1OLxkHzQiE+kDjncWY
-         kilfYA8Ba8bVD49pUIx5ZuGz+8+rEmfGipYmE/UGpqwsMUVuMuqi7IL7wq2EIr8CUsVb
-         qoNPnc3wM1923HvVgnOXh0oVljZh4nyMIYRyoI5v+Bk3tOCnA0lZpIj2Es7zT2mfsSfG
-         jFDkpyeigMEBMR8GXAYBO3wDcI302fYeQKel6xJDnS5ia14BNN9VJ4+kX/8ZCPauBXC2
-         5o0WN6zCsGTlY5ZtPpDKX0KTArOSH625iqE7IXNXgPln5W2K0QOKqHUanTSi91sI3XDu
-         jarQ==
-X-Gm-Message-State: AO0yUKWTBX7jFxnaSMD7bK73wDVJWRsziJbtSiA/VSxuGOi9aWxcBOe1
-	c4YsgRtCemZxHvYRRpBpUHG2YHFM2+z/YtMi14Y=
-X-Google-Smtp-Source: AK7set8aO8As4iOlBzvw3z3F5koVwkyBt7ujxn0vAXGxc0Hvh+yFR0p7zul3cUR0sPlfwnhC7NoXEw==
-X-Received: by 2002:a17:903:2288:b0:19a:9dab:3438 with SMTP id b8-20020a170903228800b0019a9dab3438mr2327700plh.2.1677860297312;
-        Fri, 03 Mar 2023 08:18:17 -0800 (PST)
-Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id ko4-20020a17090307c400b00186b7443082sm1702474plb.195.2023.03.03.08.18.16
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20210112; t=1677862042;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uc3FTONkaF0H4UzLBGIDcJf5tttdSGq0c6SZV2Taxew=;
+        b=pgPL2BSuANpPDmDdOFo1IjVSqtmn5V7vBplBXvb9CH75yAV2GYCqKypcLvFDcHA6CI
+         MBfrQerZwDDXgTlhFh17jKI4pSmfoeXTm3WkjvIn+/J7eVJyYvcW4eTSDl6Rg0kWytwI
+         V3Sxs8J8Ql+X6WSqWPIU6LgfLjkpTdpbbWXl/HVM9dbdiBp7SpTTZZ8cBt9yaPPiITUo
+         n1JSsh6P+KW3vsv42RuxBoN9j/WBp2zLEDmsbCdMNpemzTvk05irFTZnDgDScbq6m909
+         oZ8msw7yTVn5sI/oX7xN5/LAhMvKGvoz53ob/JwMxEnYJwVITsa3+p1PDdwc2Ts3/E3d
+         kQBw==
+X-Gm-Message-State: AO0yUKXOt8EdBt4JdAavUma542d2yoU9xI9XjN04ueVfWqaX6cFdPuVU
+	ympFhRDTGN1vH2J2BPCZXIa3jPty0JE=
+X-Google-Smtp-Source: AK7set+TyuA2CmgzdTz27usmh6rW7KaVc9w4MHvUeNMc7LXWH2X0p0AA5HYN2liS1ljjT1eIipZJqQ==
+X-Received: by 2002:aa7:948e:0:b0:5a8:b911:a264 with SMTP id z14-20020aa7948e000000b005a8b911a264mr2478822pfk.28.1677862041571;
+        Fri, 03 Mar 2023 08:47:21 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::1ac4])
+        by smtp.gmail.com with ESMTPSA id q25-20020a62ae19000000b005d3730383a7sm1833770pff.220.2023.03.03.08.47.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Mar 2023 08:18:17 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
+        Fri, 03 Mar 2023 08:47:21 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 26/29] libseccomp: fix for the ptest result format
-Date: Fri,  3 Mar 2023 06:17:24 -1000
-Message-Id: <b9fe48f6705c31b29e4b9940c96026dad34f38ab.1677859897.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1677859897.git.steve@sakoman.com>
-References: <cover.1677859897.git.steve@sakoman.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] libcomps: Fix callback function prototype for PyCOMPS_hash
+Date: Fri,  3 Mar 2023 08:47:19 -0800
+Message-Id: <20230303164719.3050315-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 16:18:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178015
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 16:47:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178019
 
-From: Narpat Mali <narpat.mali@windriver.com>
-
-The output of libseccomp ptest should follow a unified format as
-per this https://wiki.yoctoproject.org/wiki/Ptest
-
-Replaced the test results SUCCESS, FAILURE & SKIPPPED with PASS,
-FAIL & SKIP and printing the ptest result with the below format
-result: testname
-
-Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 30d025a8641cfcce5412b5f021478777620b55f1)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-support/libseccomp/files/run-ptest | 3 +++
- 1 file changed, 3 insertions(+)
+ ...hash_t-instead-of-long-in-PyCOMPS_ha.patch | 66 +++++++++++++++++++
+ .../libcomps/libcomps_0.1.19.bb               |  1 +
+ 2 files changed, 67 insertions(+)
+ create mode 100644 meta/recipes-devtools/libcomps/libcomps/0001-libcomps-Use-Py_hash_t-instead-of-long-in-PyCOMPS_ha.patch
 
-diff --git a/meta/recipes-support/libseccomp/files/run-ptest b/meta/recipes-support/libseccomp/files/run-ptest
-index 54b4a63cd2..63c79f09c4 100644
---- a/meta/recipes-support/libseccomp/files/run-ptest
-+++ b/meta/recipes-support/libseccomp/files/run-ptest
-@@ -1,4 +1,7 @@
- #!/bin/sh
+diff --git a/meta/recipes-devtools/libcomps/libcomps/0001-libcomps-Use-Py_hash_t-instead-of-long-in-PyCOMPS_ha.patch b/meta/recipes-devtools/libcomps/libcomps/0001-libcomps-Use-Py_hash_t-instead-of-long-in-PyCOMPS_ha.patch
+new file mode 100644
+index 0000000000..dd9ebc8af4
+--- /dev/null
++++ b/meta/recipes-devtools/libcomps/libcomps/0001-libcomps-Use-Py_hash_t-instead-of-long-in-PyCOMPS_ha.patch
+@@ -0,0 +1,66 @@
++From 26a9647c832de15248ee649e5b77075521f3d4f0 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Fri, 3 Mar 2023 08:37:35 -0800
++Subject: [PATCH] libcomps: Use Py_hash_t instead of long in PyCOMPS_hash()
++
++This function is used as a hashfunc callback in
++_typeobject defined python3.11/cpython/object.h
++compilers detect the protype mismatch for function pointers
++with clang16+
++
++Fixes
++libcomps/src/python/src/pycomps_sequence.c:667:5: error: incompatible function pointer types initializing 'hashfunc' (aka 'int (*)(struct _object *)') with an expression of type 'long (*)(PyObject *)' (aka 'long (*)(struct _object *)') [-Wincompatible-function-pointer-types]
++    &PyCOMPS_hash,             /*tp_hash */
++
++Upstream-Status: Submitted [https://github.com/rpm-software-management/libcomps/pull/101]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ libcomps/src/python/src/pycomps_hash.c  | 4 ++--
++ libcomps/src/python/src/pycomps_hash.h  | 2 +-
++ libcomps/src/python/src/pycomps_utils.h | 2 +-
++ 3 files changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/libcomps/src/python/src/pycomps_hash.c b/libcomps/src/python/src/pycomps_hash.c
++index 474afd5..4577769 100644
++--- a/libcomps/src/python/src/pycomps_hash.c
+++++ b/libcomps/src/python/src/pycomps_hash.c
++@@ -20,9 +20,9 @@
++ #include "pycomps_hash.h"
++ #include "pycomps_utils.h"
++ 
++-long PyCOMPS_hash(PyObject *self) {
+++Py_hash_t PyCOMPS_hash(PyObject *self) {
++     char *cstr = NULL;
++-    long crc;
+++    Py_hash_t crc;
++ 
++     cstr = comps_object_tostr(((PyCompsObject*)self)->c_obj);
++     crc = crc32(0, cstr, strlen(cstr));
++diff --git a/libcomps/src/python/src/pycomps_hash.h b/libcomps/src/python/src/pycomps_hash.h
++index b664cae..54e08d9 100644
++--- a/libcomps/src/python/src/pycomps_hash.h
+++++ b/libcomps/src/python/src/pycomps_hash.h
++@@ -26,6 +26,6 @@
++ #include "pycomps_utils.h"
++ 
++ 
++-long PyCOMPS_hash(PyObject *self);
+++Py_hash_t PyCOMPS_hash(PyObject *self);
++ 
++ #endif
++diff --git a/libcomps/src/python/src/pycomps_utils.h b/libcomps/src/python/src/pycomps_utils.h
++index ba9bc2f..b34e4dc 100644
++--- a/libcomps/src/python/src/pycomps_utils.h
+++++ b/libcomps/src/python/src/pycomps_utils.h
++@@ -137,7 +137,7 @@ COMPS_Object* __pycomps_bytes_in(PyObject *pobj);
++ PyObject* __pycomps_str_out(COMPS_Object *obj);
++ PyObject *str_to_unicode(void* str);
++ 
++-long PyCOMPS_hash(PyObject *self);
+++Py_hash_t PyCOMPS_hash(PyObject *self);
++ 
++ PyObject* PyCOMPSSeq_extra_get(PyObject *self, PyObject *key);
++ 
++-- 
++2.39.2
++
+diff --git a/meta/recipes-devtools/libcomps/libcomps_0.1.19.bb b/meta/recipes-devtools/libcomps/libcomps_0.1.19.bb
+index fa1fbc8f0d..f8063d9400 100644
+--- a/meta/recipes-devtools/libcomps/libcomps_0.1.19.bb
++++ b/meta/recipes-devtools/libcomps/libcomps_0.1.19.bb
+@@ -5,6 +5,7 @@ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
  
- cd tests
-+sed -i 's/SUCCESS/PASS/g; s/FAILURE/FAIL/g; s/SKIPPED/SKIP/g' regression
-+sed -i 's/"Test %s result:   %s\\n" "$1" "$2"/"%s: %s\\n" "$2" "$1"/g' regression
-+sed -i 's/"Test %s result:   %s %s\\n" "$1" "$2" "$3"/"%s: %s %s\\n" "$2" "$1" "$3"/g' regression
- ./regression -a
+ SRC_URI = "git://github.com/rpm-software-management/libcomps.git;branch=master;protocol=https \
++           file://0001-libcomps-Use-Py_hash_t-instead-of-long-in-PyCOMPS_ha.patch \
+            file://0002-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
+            "
+ 
 -- 
-2.34.1
+2.39.2
 
 
