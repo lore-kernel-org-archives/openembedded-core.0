@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F0C8C7EE3A
-	for <webhook@archiver.kernel.org>; Fri,  3 Mar 2023 16:18:07 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web10.27558.1677860270170731301
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25A8CC7EE32
+	for <webhook@archiver.kernel.org>; Fri,  3 Mar 2023 16:18:17 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web11.27598.1677860256132335378
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Mar 2023 08:18:06 -0800
+ Fri, 03 Mar 2023 08:18:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=ti0ZLz7D;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f48.google.com with SMTP id 6-20020a17090a190600b00237c5b6ecd7so6624073pjg.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 08:18:06 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=apT6gj0r;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f171.google.com with SMTP id n6so3191269plf.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 08:18:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1677860285;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1677860287;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TxxanPs1WVfZKo4qep5G5+ElH9neRAKtIzQm1g6Ws5E=;
-        b=ti0ZLz7DU5yTVF0Fkw2bR0iGZhfSerFQJQKh20cii6/GyP/xhu9vcg/vTz00gtvFH/
-         hiBLGxwURMfuJAGMasdvv4uSMhoJZ3jkbDaexJeTsTklcZbvbMryK6LsTMqIMB4QL/nL
-         B46s3nTG69zdO1eqVSD0bYwmcWllqZv+QvA0EC3qnjk0pUqyVN0j0n62dLVFATU6DVYJ
-         Pt8rjk88m3Oj2vyg3N8xWj4E9Ej/8nsW5vMEaDGe1SM59uttgpOLGfgE5LLYprfhttKo
-         lO4lizc0EaZ4dp19Eui0ex9hYPkW3jiFWNUT8/L1S0HV5IezJ5OTjYlNdpHFEk5BT4Y8
-         N1NA==
+        bh=GgaU1jloGCLapcq54PC8SDiLyxVBf+hCZlPJmyRowkQ=;
+        b=apT6gj0rnT3lKVD7JEAeUAf7zKoe/5XZzs7j3el1a99jzVudscOPm45pZRhgYY5qiw
+         I6tL7ZhpBgrRn9TXFfezF30LreIzdIK6D9p5DEhtPsZ0AsYGzAWNYPwR03rPJs7ebfH7
+         AErdflrarsNMOvku6Z+JatvYxcddpRLaWPDLN4Q8kQ89yZNSxaVgvD2wS5KQPgOpbWgy
+         ouaQo6lSSEDdNQjcBQFQk1AdaxMtXp7nZoBdUBdWcMxKdEeA7g80/ZCCaT8J/vinDfH2
+         C/hO2DsNUneGiIKK/fYmHT5Fny+3+Gv3vq8KA9QzVNJd9TUbIkw2aMwnlpkGnJBHZf3w
+         tJPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677860285;
+        d=1e100.net; s=20210112; t=1677860287;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TxxanPs1WVfZKo4qep5G5+ElH9neRAKtIzQm1g6Ws5E=;
-        b=gjNOOwZ3c7kYeg3ZGMGOMG5MACq57mm2Fp4Dz3l2vIlCj9UZGExtcS5ARPYLMhA+Ix
-         oiBQyb9xSzXzWLo2XI2IHiRT503c3CTEWoQIPmiPJ/9FbIruK8cP4od5gR5bHu2rUIUi
-         DyMyuPAghL7r3sOoByhTZ5fteCdP41vZZSGCJB+TOxdYOlAXKJrR8P7yagO3n+n5fIqW
-         Ej2+jJ48CmbNJF03Ly4rZLfaoeOSKNIxh9FS4D+gHOGgo+TdJA/YeciQrZbn+VE45Ctw
-         ez0Hq38YpGxP7MGa6YoKvxU+bZudufDimOzmypgtIg+VRE9NUvhwBN3CF4++1rp1eDvs
-         IUYg==
-X-Gm-Message-State: AO0yUKVwCharci+1PJxEHzG9380jQSHabCvkxaT0nCQJuVYEcvZj6Z86
-	1ZG5WUMNFyL2nqdJrlWhb558vBJ7Bl3xYYN4FrU=
-X-Google-Smtp-Source: AK7set+W79p+qYh9mI8hNl6IETmgO50XRpynnTZQR61nvoP8eKMHeP/70JKCsUHw6jLgnAc/EkTWHA==
-X-Received: by 2002:a17:903:32d0:b0:19a:a810:542 with SMTP id i16-20020a17090332d000b0019aa8100542mr2649548plr.61.1677860285240;
-        Fri, 03 Mar 2023 08:18:05 -0800 (PST)
+        bh=GgaU1jloGCLapcq54PC8SDiLyxVBf+hCZlPJmyRowkQ=;
+        b=Hyo3j/1NSM2kPlqK4qAkWIr2a1ybRqxTmxUg5USbWwy6CgZ3sI6iJpE1WGn23d1OTR
+         u+mL9GJ/53yIDVgUT1jH8R45QcuSLcu6f14kA0xIf7PZCW/SmFL1mMMSJekTrcLqYki9
+         q3GCAxJfYMPEbkqlH2aCFVED+PkN7ge8aih919Xq9u1iKlpn+yqJLZFhtZLqUU2pghRs
+         GgJAcAnn2H1XsdRLBOmP8BFjDriarqrpGJz2SnFp90pO4wrmSLs3lcZXwcmw+Ks6r8SN
+         Tbs1vHH4umxbfsrFjlbhMOcbEkdh3hqbF/zJnMUP9boMBy/tuR535Z6lfa3/Dn1RbLsD
+         D8uA==
+X-Gm-Message-State: AO0yUKVKW4Z9sX6XJple6GqSyP/WgRvJeq10rhtVnun54Zjxt8DLOWzW
+	25sfIxDAu32QA+36ekkwF4J3VhfewT1YOKzL82M=
+X-Google-Smtp-Source: AK7set8aZayIz+2DAxZuagK4XljrydlhyGegudNspGedUAhHKg1o6kwv+6qvL+BJM289y/4LCZ5lew==
+X-Received: by 2002:a17:902:c94b:b0:19c:f84b:58be with SMTP id i11-20020a170902c94b00b0019cf84b58bemr2823201pla.3.1677860286993;
+        Fri, 03 Mar 2023 08:18:06 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id ko4-20020a17090307c400b00186b7443082sm1702474plb.195.2023.03.03.08.18.04
+        by smtp.gmail.com with ESMTPSA id ko4-20020a17090307c400b00186b7443082sm1702474plb.195.2023.03.03.08.18.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Mar 2023 08:18:04 -0800 (PST)
+        Fri, 03 Mar 2023 08:18:06 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 19/29] sstatesig: Improve output hash calculation
-Date: Fri,  3 Mar 2023 06:17:17 -1000
-Message-Id: <7b1f82d53901fc9d485756ff4acf34fce4154a91.1677859897.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 20/29] dhcpcd: fix dhcpcd start failure on qemuppc64
+Date: Fri,  3 Mar 2023 06:17:18 -1000
+Message-Id: <dc988f94c47275da0ede0fea4b2118eac6ee6fef.1677859897.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1677859897.git.steve@sakoman.com>
 References: <cover.1677859897.git.steve@sakoman.com>
@@ -60,51 +60,76 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 16:18:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178008
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 16:18:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178009
 
-From: Mateusz Marciniec <mateuszmar2@gmail.com>
+From: Xiangyu Chen <xiangyu.chen@windriver.com>
 
-Symbolic links to the files are included during the output hash
-calculation but symlinks to the directories are missed.
-So if the new symlink to a directory was the only change made,
-then the output hash won't change,
-and the Hash Equivalence server may change unihash.
-In the next run bitbake may use an older package from sstate-cache.
+Backport patch to fix dhcpcd start failed on qemuppc64.
 
-To fix this followlinks=True flag could be set for os.walk
-but it can lead to infinite recursion if link points
-to a parent directory of itself.
-Also, all files from a directory to which symlink points
-would be included in depsig file.
-Therefore another solution was applied, I added code that will loop
-through directories and process those that are symlinks.
-
-Signed-off-by: Mateusz Marciniec <mateuszmar2@gmail.com>
-Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ee729163f31f26b1462a47e1e53f7a0f9de9b464)
+(cherry picked from commit a31d658198566de12cdd1aad18776b8da8065787)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oe/sstatesig.py | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../dhcpcd/dhcpcd_9.4.1.bb                    |  1 +
+ ...x-SECCOMP_AUDIT_ARCH-missing-ppc64le.patch | 34 +++++++++++++++++++
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-connectivity/dhcpcd/files/0001-privsep-linux-fix-SECCOMP_AUDIT_ARCH-missing-ppc64le.patch
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index bbe28efa81..30f27b0f4f 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -660,6 +660,10 @@ def OEOuthashBasic(path, sigfile, task, d):
-                 if f == 'fixmepath':
-                     continue
-                 process(os.path.join(root, f))
+diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb
+index 5cf77fa0f6..39e689d2f6 100644
+--- a/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb
++++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb
+@@ -16,6 +16,7 @@ SRC_URI = "https://roy.marples.name/downloads/${BPN}/${BPN}-${PV}.tar.xz \
+            file://0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch \
+            file://0001-privsep-Allow-getrandom-sysctl-for-newer-glibc.patch \
+            file://0002-privsep-Allow-newfstatat-syscall-as-well.patch \
++           file://0001-privsep-linux-fix-SECCOMP_AUDIT_ARCH-missing-ppc64le.patch \
+            file://dhcpcd.service \
+            file://dhcpcd@.service \
+            "
+diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-privsep-linux-fix-SECCOMP_AUDIT_ARCH-missing-ppc64le.patch b/meta/recipes-connectivity/dhcpcd/files/0001-privsep-linux-fix-SECCOMP_AUDIT_ARCH-missing-ppc64le.patch
+new file mode 100644
+index 0000000000..1c514f9b8c
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcpcd/files/0001-privsep-linux-fix-SECCOMP_AUDIT_ARCH-missing-ppc64le.patch
+@@ -0,0 +1,34 @@
++From 7a2d9767585ed2c407d4985bd2d81552034fb90a Mon Sep 17 00:00:00 2001
++From: CHEN Xiangyu <xiangyu.chen@aol.com>
++Date: Thu, 9 Feb 2023 18:41:52 +0800
++Subject: [PATCH] privsep-linux: fix SECCOMP_AUDIT_ARCH missing ppc64le (#181)
 +
-+            for dir in dirs:
-+                if os.path.islink(os.path.join(root, dir)):
-+                    process(os.path.join(root, dir))
-     finally:
-         os.chdir(prev_dir)
- 
++when dhcpcd running on ppc64le platform, it would be killed by SIGSYS.
++
++Upstream-Status: Backport [7a2d9767585ed2c407d4985bd2d81552034fb90a]
++
++Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
++---
++ src/privsep-linux.c | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
++
++diff --git a/src/privsep-linux.c b/src/privsep-linux.c
++index 7372d26b..6a301950 100644
++--- a/src/privsep-linux.c
+++++ b/src/privsep-linux.c
++@@ -232,7 +232,11 @@ ps_root_sendnetlink(struct dhcpcd_ctx *ctx, int protocol, struct msghdr *msg)
++ #elif defined(__or1k__)
++ #  define SECCOMP_AUDIT_ARCH AUDIT_ARCH_OPENRISC
++ #elif defined(__powerpc64__)
++-#  define SECCOMP_AUDIT_ARCH AUDIT_ARCH_PPC64
+++#  if (BYTE_ORDER == LITTLE_ENDIAN)
+++#    define SECCOMP_AUDIT_ARCH AUDIT_ARCH_PPC64LE
+++#  else
+++#    define SECCOMP_AUDIT_ARCH AUDIT_ARCH_PPC64
+++#  endif
++ #elif defined(__powerpc__)
++ #  define SECCOMP_AUDIT_ARCH AUDIT_ARCH_PPC
++ #elif defined(__riscv)
++-- 
++2.34.1
++
 -- 
 2.34.1
 
