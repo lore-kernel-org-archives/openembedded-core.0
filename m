@@ -1,148 +1,181 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
+Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86C2EC61DA4
-	for <webhook@archiver.kernel.org>; Mon,  6 Mar 2023 15:59:45 +0000 (UTC)
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
- by mx.groups.io with SMTP id smtpd.web11.37574.1678118384825097174
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D39AC6FD19
+	for <webhook@archiver.kernel.org>; Mon,  6 Mar 2023 17:36:38 +0000 (UTC)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web10.1172.1678124193205527151
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Mar 2023 07:59:44 -0800
+ Mon, 06 Mar 2023 09:36:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20210112.gappssmtp.com header.s=20210112 header.b=e1APFCPP;
- spf=pass (domain: ossystems.com.br, ip: 209.85.167.174, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-oi1-f174.google.com with SMTP id q15so7378663oiw.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Mar 2023 07:59:44 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=VEbogi7X;
+ spf=pass (domain: mvista.com, ip: 209.85.214.172, mailfrom: sdoshi@mvista.com)
+Received: by mail-pl1-f172.google.com with SMTP id u5so11240596plq.7
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Mar 2023 09:36:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20210112.gappssmtp.com; s=20210112; t=1678118383;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:in-reply-to
-         :references:mime-version:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dxZ9akIGiNm7X/c3MqeoZEvMeYeuHUb0CcL+zOi73+8=;
-        b=e1APFCPPMs9SI+m2zZT3mXuka6tlW+c7FpMNO4lJXIezh+EMpq7x6SlsZT8KI2FCaj
-         xBA2j1xRb7qW9d4VfxyLuAE6oLEMm2zkBUZdehwbgQZmaM3LnB0W/6ufiRW3QXUFju7c
-         T77qDZw2E1EjMIeUkVc8r+kcUNobxOu33NSQe9I9JAilatQsXw1IChKeNCS0hZdbnC+0
-         43xjCvIsgflbrbMVWiZGLTRuslwD6Q4fYxRO0fxpD55QtjckMenZWkJ4knJt8UJU4U5h
-         WDxPQ/Fv3fiPxQL/BpFBlsIVss7gmozHCPYuZ5Ppl62TnUPF+1KYooEmk5zIh6aTnYcW
-         9sZQ==
+        d=mvista.com; s=google; t=1678124192;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9UjBzpOYNIPUzOByZP28FUaE3ziCsLt9/T74dC02Eo4=;
+        b=VEbogi7XF5fRt/wHV75VnK0gskSQ0dXzeBde9vRrymSJbiNYlOakVZl+zhEg+9gNca
+         26FQPvBzY+SDqGQyH6lcUYltX7pd9SRf/4pkZsE9knWPhbCNDJWrw/l6vHg9JzDVcPgz
+         ATCkaRYVgI0iHwRwq7vBDxPTlpUcPHSnBilNg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678118383;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:in-reply-to
-         :references:mime-version:from:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=dxZ9akIGiNm7X/c3MqeoZEvMeYeuHUb0CcL+zOi73+8=;
-        b=TVblG1vRu9D4YU9rVYnxy6AAaUhLN+NdK/IR/DoPqQ3JCxTtbStrprwqx17q6DJDAp
-         iA4STUau4LiYvwczzgDxBK+7rROKWw5Hmm6JiQwEe1LTFFm2YeMergYiPHNKxr6KVExA
-         csaUlnSO1J3yh0j0f63j+NJPedHWeEEczVFl1YmR36o6Q0musVbdM3+1iq085+sG78Vc
-         udiMa5KYDvmsDZEGmM2W7ZvLpnKzrfeAVive9zQ2F+y269rTLn0NR/fUrz6Jy5Sf+FCG
-         M3Hi4IUB4scWcZTa3cbxMThLyAwaXClQ8A5tPG1PANx8Z464t2XcYGI7NihKqE7uVCZX
-         SRcQ==
-X-Gm-Message-State: AO0yUKUzfwVFCo6s/sTRWZdSFMqR00hitopTeaUKqGyklbE/TXxPOoaw
-	JxNZeFn/QhQDQ/cgBJnrWghyvkx5neG6r6C3SLl5+A==
-X-Google-Smtp-Source: AK7set+uXHUjudVnNrQVTu9xdqSheAL2LdePqAJ5lwuzr9SBahvO7Bo+ndHB0AEfFq8HCYs8JEF5xA==
-X-Received: by 2002:a54:4613:0:b0:383:ee1d:f489 with SMTP id p19-20020a544613000000b00383ee1df489mr4490974oip.0.1678118383472;
-        Mon, 06 Mar 2023 07:59:43 -0800 (PST)
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com. [209.85.160.53])
-        by smtp.gmail.com with ESMTPSA id r36-20020a056808212400b00383d9700294sm3995742oiw.40.2023.03.06.07.59.43
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Mar 2023 07:59:43 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-176b48a9a05so4417185fac.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Mar 2023 07:59:43 -0800 (PST)
-X-Received: by 2002:a05:6870:d899:b0:176:2299:dce3 with SMTP id
- dv25-20020a056870d89900b001762299dce3mr3823711oab.10.1678118382745; Mon, 06
- Mar 2023 07:59:42 -0800 (PST)
+        d=1e100.net; s=20210112; t=1678124192;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9UjBzpOYNIPUzOByZP28FUaE3ziCsLt9/T74dC02Eo4=;
+        b=24rWZDSUZAiudAgODSuWIUkrLQj9GvV8CL8rYDP7pmdQbj9QmOyMwRy7baS6CALz4d
+         TqhbA+ApOW8MmXa8pZR0VnJdy4xu/mSZ5MnOGTpqdrqbZ63H36FksjBWlvNs4ySUfKX/
+         Fa2SYDSdbIvs5VXQFmrMvPn36lsBsznORKrZ6TJ5BrKGJlvoBUUmQIwL7Hzgv577bmgG
+         XU9V3IgFhq1vo/GPYC4F7AcGmUGbqSeuVhRnvp9p9z9jNCKzuWlSmgwIE6QC78AL63O4
+         y6mW9zfyrnJc4cvB/30oyRkLDbCBf+0tlKx62XOa4fz3RZ12Atgc+DvDpdoHCXz7qV+Q
+         Fslw==
+X-Gm-Message-State: AO0yUKU4Yl+zApr9+ZC8w/cvfct26S2xeYSlIe5NCjMLtnSeu0SVu20+
+	BNuRqHHUHqIg02sjcaLZQWpRmei9IqZoXiWVCHM=
+X-Google-Smtp-Source: AK7set9Q2xN2H4gYzVC5UJAycdZuPeXW8RJXR50xjIFBNDKl4Or12a/3847q+WP++H2nnHy4zLKijg==
+X-Received: by 2002:a17:902:e84f:b0:19a:839f:435 with SMTP id t15-20020a170902e84f00b0019a839f0435mr16187363plg.3.1678124192020;
+        Mon, 06 Mar 2023 09:36:32 -0800 (PST)
+Received: from localhost.localdomain ([2409:4041:2d0b:3dae:40dd:a6e:aed1:22e8])
+        by smtp.gmail.com with ESMTPSA id z15-20020a170902d54f00b0019a928a8982sm6985907plf.118.2023.03.06.09.36.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Mar 2023 09:36:31 -0800 (PST)
+From: Siddharth <sdoshi@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Siddharth Doshi <sdoshi@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] epiphany: Security fix for CVE-2023-26081
+Date: Mon,  6 Mar 2023 23:06:01 +0530
+Message-Id: <20230306173601.8793-1-sdoshi@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <17474798FA156F5A.18951@lists.openembedded.org>
- <20230306091108.3347363-1-zboszor@gmail.com> <20230306091108.3347363-4-zboszor@gmail.com>
-In-Reply-To: <20230306091108.3347363-4-zboszor@gmail.com>
-Date: Mon, 6 Mar 2023 12:59:31 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKpcJOkVvrT2K9xPgEcsRq70f-NjNBtGtD3y-B5VS83GBQ@mail.gmail.com>
-Message-ID: <CAP9ODKpcJOkVvrT2K9xPgEcsRq70f-NjNBtGtD3y-B5VS83GBQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3 3/3] mesa: Add PACKAGECONFIG "rusticl"
-To: Zoltan Boszormenyi <zboszor@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex.kanavin@gmail.com>, Ross Burton <Ross.Burton@arm.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Alex Kiernan <alex.kiernan@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Mar 2023 15:59:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178079
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Mar 2023 17:36:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178080
 
-Em seg., 6 de mar. de 2023 =C3=A0s 06:11, Zoltan Boszormenyi
-<zboszor@gmail.com> escreveu:
->
-> In the anonymous python function that creates packages based
-> on PACKAGECONFIG, use a single synthetic "opencl" setting
-> that is added when either "clover" or "rusticl" are present.
->
-> Without this, creating variables for two "libopencl-mesa" will
-> confuse the packaging code, resulting in subsequent packages
-> (like mesa-megadriver and others) being renamed incorrectly.
->
-> This also makes sense from a packaging standpoint: currently
-> both clover and rusticl can be enabled, in which case both CL
-> frontends should go into the same libopencl-mesa subpackage.
->
-> Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-Please name the PACKAGECONFIG as opencl-rusticl
+Upstream-Status: Backport from [https://gitlab.gnome.org/GNOME/epiphany/-/commit/53363c3c8178bf9193dad9fa3516f4e10cff0ffd]
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+---
+ meta/recipes-gnome/epiphany/epiphany_42.4.bb  |  1 +
+ .../epiphany/files/CVE-2023-26081.patch       | 90 +++++++++++++++++++
+ 2 files changed, 91 insertions(+)
+ create mode 100644 meta/recipes-gnome/epiphany/files/CVE-2023-26081.patch
 
->  inherit meson pkgconfig python3native gettext features_check
-> +inherit ${@bb.utils.contains('PACKAGECONFIG', 'rusticl', 'rust', '', d)}
+diff --git a/meta/recipes-gnome/epiphany/epiphany_42.4.bb b/meta/recipes-gnome/epiphany/epiphany_42.4.bb
+index 9efd2800da..98923a3bdc 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_42.4.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_42.4.bb
+@@ -27,6 +27,7 @@ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@oe.utils.trim_version("${PV}", 1)}/${GN
+            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
+            file://migrator.patch \
+            file://distributor.patch \
++           file://CVE-2023-26081.patch \
+            "
+ SRC_URI[archive.sha256sum] = "370938ad2920eeb28bc2435944776b7ba55a0e2ede65836f79818cfb7e8f0860"
+ 
+diff --git a/meta/recipes-gnome/epiphany/files/CVE-2023-26081.patch b/meta/recipes-gnome/epiphany/files/CVE-2023-26081.patch
+new file mode 100644
+index 0000000000..af1e20bd8f
+--- /dev/null
++++ b/meta/recipes-gnome/epiphany/files/CVE-2023-26081.patch
+@@ -0,0 +1,90 @@
++From 53363c3c8178bf9193dad9fa3516f4e10cff0ffd Mon Sep 17 00:00:00 2001
++From: Michael Catanzaro <mcatanzaro@redhat.com>
++Date: Fri, 3 Feb 2023 13:07:15 -0600
++Subject: [PATCH] Don't autofill passwords in sandboxed contexts
++
++If using the sandbox CSP or iframe tag, the web content is supposed to
++be not trusted by the main resource origin. Therefore, we'd better
++disable the password manager entirely so the untrusted web content
++cannot exfiltrate passwords.
++
++https://github.com/google/security-research/security/advisories/GHSA-mhhf-w9xw-pp9x
++
++Part-of: <https://gitlab.gnome.org/GNOME/epiphany/-/merge_requests/1275>
++
++Upstream-Status: Backport
++[https://gitlab.gnome.org/GNOME/epiphany/-/commit/53363c3c8178bf9193dad9fa3516f4e10cff0ffd]
++CVE: CVE-2023-26081
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++---
++ .../resources/js/ephy.js                      | 26 +++++++++++++++++++
++ 1 file changed, 26 insertions(+)
++
++diff --git a/embed/web-process-extension/resources/js/ephy.js b/embed/web-process-extension/resources/js/ephy.js
++index 38b806f..44d1792 100644
++--- a/embed/web-process-extension/resources/js/ephy.js
+++++ b/embed/web-process-extension/resources/js/ephy.js
++@@ -352,6 +352,12 @@ Ephy.hasModifiedForms = function()
++     }
++ };
++ 
+++Ephy.isSandboxedWebContent = function()
+++{
+++    // https://github.com/google/security-research/security/advisories/GHSA-mhhf-w9xw-pp9x
+++    return self.origin === null || self.origin === 'null';
+++};
+++
++ Ephy.PasswordManager = class PasswordManager
++ {
++     constructor(pageID, frameID)
++@@ -385,6 +391,11 @@ Ephy.PasswordManager = class PasswordManager
++ 
++     query(origin, targetOrigin, username, usernameField, passwordField)
++     {
+++        if (Ephy.isSandboxedWebContent()) {
+++            Ephy.log(`Not querying passwords for origin=${origin} because web content is sandboxed`);
+++            return Promise.resolve(null);
+++        }
+++
++         Ephy.log(`Querying passwords for origin=${origin}, targetOrigin=${targetOrigin}, username=${username}, usernameField=${usernameField}, passwordField=${passwordField}`);
++ 
++         return new Promise((resolver, reject) => {
++@@ -396,6 +407,11 @@ Ephy.PasswordManager = class PasswordManager
++ 
++     save(origin, targetOrigin, username, password, usernameField, passwordField, isNew)
++     {
+++        if (Ephy.isSandboxedWebContent()) {
+++            Ephy.log(`Not saving password for origin=${origin} because web content is sandboxed`);
+++            return;
+++        }
+++
++         Ephy.log(`Saving password for origin=${origin}, targetOrigin=${targetOrigin}, username=${username}, usernameField=${usernameField}, passwordField=${passwordField}, isNew=${isNew}`);
++ 
++         window.webkit.messageHandlers.passwordManagerSave.postMessage({
++@@ -407,6 +423,11 @@ Ephy.PasswordManager = class PasswordManager
++     // FIXME: Why is pageID a parameter here?
++     requestSave(origin, targetOrigin, username, password, usernameField, passwordField, isNew, pageID)
++     {
+++        if (Ephy.isSandboxedWebContent()) {
+++            Ephy.log(`Not requesting to save password for origin=${origin} because web content is sandboxed`);
+++            return;
+++        }
+++
++         Ephy.log(`Requesting to save password for origin=${origin}, targetOrigin=${targetOrigin}, username=${username}, usernameField=${usernameField}, passwordField=${passwordField}, isNew=${isNew}`);
++ 
++         window.webkit.messageHandlers.passwordManagerRequestSave.postMessage({
++@@ -426,6 +447,11 @@ Ephy.PasswordManager = class PasswordManager
++ 
++     queryUsernames(origin)
++     {
+++        if (Ephy.isSandboxedWebContent()) {
+++            Ephy.log(`Not querying usernames for origin=${origin} because web content is sandboxed`);
+++            return Promise.resolve(null);
+++        }
+++
++         Ephy.log(`Requesting usernames for origin=${origin}`);
++ 
++         return new Promise((resolver, reject) => {
++-- 
++2.35.5
++
+-- 
+2.25.1
 
-Here.
-
->  BBCLASSEXTEND =3D "native nativesdk"
->
-> @@ -136,6 +137,9 @@ PACKAGECONFIG[egl] =3D "-Degl=3Denabled, -Degl=3Ddisa=
-bled"
->  OPENCL_NATIVE =3D "${@bb.utils.contains('PACKAGECONFIG', 'freedreno', '-=
-Dopencl-native=3Dtrue', '', d)}"
->  PACKAGECONFIG[clover] =3D "-Dgallium-opencl=3Dicd -Dopencl-spirv=3Dtrue =
-${OPENCL_NATIVE},-Dgallium-opencl=3Ddisabled -Dopencl-spirv=3Dfalse,libclc =
-spirv-tools"
->
-> +# "rusticl" requires libclc, spirv-llvm-translator and bindgen-cli-nativ=
-e from meta-clang and spirv-tools from OE-Core
-> +PACKAGECONFIG[rusticl] =3D "-Dgallium-rusticl=3Dtrue -Drust_std=3D2021,-=
-Dgallium-rusticl=3Dfalse,bindgen-cli-native libclc spirv-tools spirv-llvm-t=
-ranslator,libclc spirv-tools spirv-llvm-translator"
-
-Here.
-
->  RDEPENDS:libopencl-mesa +=3D "${@bb.utils.contains('PACKAGECONFIG', 'clo=
-ver', 'libclc spirv-tools', '', d)}"
-> +RDEPENDS:libopencl-mesa +=3D "${@bb.utils.contains('PACKAGECONFIG', 'rus=
-ticl', 'libclc spirv-tools spirv-llvm-translator', '', d)}"
-
-Here.
-
->
->  PACKAGES =3D+ "libegl-mesa libegl-mesa-dev \
->               libosmesa libosmesa-dev \
-> @@ -250,6 +255,11 @@ do_install:append () {
->  # RPROVIDEs/RCONFLICTs on the generic libgl name.
->  python __anonymous() {
->      pkgconfig =3D (d.getVar('PACKAGECONFIG') or "").split()
-> +    # Add the synthetic "opencl" string to pkgconfig because
-> +    # both "clover" and "rusticl" would create libopencl-mesa.
-> +    # Both CL frontends should go into the same package.
-> +    if "clover" in pkgconfig or "rusticl" in pkgconfig:
-> +        pkgconfig.append("opencl")
-
-Here.
-
-Also, we need to add RREPLACES, RRECOMMENDS and RCONFLICTS to old
-clover package so we support package feed upgrades.
-
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
