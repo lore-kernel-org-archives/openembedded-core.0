@@ -1,160 +1,158 @@
-Return-Path: <kai.kang@eng.windriver.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 193D4C61DA4
-	for <webhook@archiver.kernel.org>; Mon,  6 Mar 2023 06:00:22 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.27446.1678082417172159865
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40BD4C61DA4
+	for <webhook@archiver.kernel.org>; Mon,  6 Mar 2023 06:30:22 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web11.27789.1678084218325404020
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Mar 2023 22:00:17 -0800
+ Sun, 05 Mar 2023 22:30:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=NJrkqhby;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=242910b39b=kai.kang@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3265undQ027339
-	for <openembedded-core@lists.openembedded.org>; Sun, 5 Mar 2023 22:00:16 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : mime-version : content-type; s=PPS06212021;
- bh=OGwpJrxuk/42Z8uVXs2tX0I85UtIvvNUHh3c+SkWHR4=;
- b=NJrkqhby6nYzV09ShCOij113Nu00lUki2ld+qURFLtKKFEGpOaANXwl0wDVqIAZYzlyU
- 9eUBKozU1uwvwRPN1yarHKP3H+a0hR8b/UEscRELETlJ3bE0STLphxTJ3XyqIvegYJYm
- kYzXV7/eIHkhVJyzJl3rywKnIdGqdw8PadpIm+JWZ3D/CVwRZLP8rZidEAZbR0J7LxQv
- b5pr5+YegLo1zoh+3llzq4L2fk8LPxb9fzCtvVfoHFb/NcebemDtZjZxEUvAVw3/Q50J
- 3ffh0gjVTO15q0W2qcHZg/L2SZaGevQIHeWZkKV5CGIyFQCPCr8PD2/8krLIXtIyZ0lb xg== 
-Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3p46crh8yp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sun, 05 Mar 2023 22:00:16 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.18; Sun, 5 Mar 2023 22:00:15 -0800
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.17 via Frontend Transport; Sun, 5 Mar 2023 22:00:14 -0800
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] grub2: support metadata_csum_seed feature
-Date: Mon, 6 Mar 2023 14:00:11 +0800
-Message-ID: <20230306060011.11815-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=e7T9qFUS;
+ spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f53.google.com with SMTP id i28so11363869lfv.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Mar 2023 22:30:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678084216;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Mq2iocVbYtfb9xmyUt2rb8hU2nAc9hWmuJ7W0/41g58=;
+        b=e7T9qFUSVGmb3ccsrUQL69+cVRtarUYfGBslXsf7SW3H7UGam3QwE6rr2fGMaH8x9c
+         Fhifk6AAoR2Fwbo6HqsRn+8fg/8YkeovWZ9MoVzZ+SZa7b+k84hpXLM8O3z59JwPDhb1
+         MOTgd3OAEUNBqjreLTRycjT1ZufTtrf4460oh+lTstC/TVsht/VFTTjxMVW5m5CZbu8g
+         peBtj8GVdaVE3JSICs/ES0F84osSnf21a41PJg5tmViZPopigCwmKKRMcfna2zm7zsRc
+         VpkZxF6ik72erqIx+Xv4w+kHzcok/T2ALTHSg1AL3NOZ2Eo6sMvFTyjbJvo8d8Sdrf/s
+         belA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678084216;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Mq2iocVbYtfb9xmyUt2rb8hU2nAc9hWmuJ7W0/41g58=;
+        b=ns+Q6mV2TnPiG3qUqD55CwBYLJjJc/FZ6c8j9zuomG0Txq66fcsK9pBWjTCDsuSAtn
+         W24x6Z3gonqUl9EeP3p5ULqmMVCb3mseN9YMq+fp6EntaDMI0n2EEMrW8OkeCaYXyvLk
+         KGnMwPNGPECJjBpuTNF0epLHjfgtweA5zzW0HezUNQS5PurDSVmqS+35wKsNu1rZi9Vm
+         Yj//+7YUFYn6VsLLgC6OnXaeVnu97IoQ9GlzAuLZFO4JmTrd6jTBCvOoB7TvUAKLNUoz
+         3KNxNkvwSoVXD/Qym0ScFzjxdW+URRIy+4AxBxe6gC7QcTK/1xxTrSW7IWw7Wssc3/qI
+         gcIg==
+X-Gm-Message-State: AO0yUKWy5qafnaBRn8TU7zh9FWmvL8D5EOVGhptAPBLMANAlmTqZN6bL
+	B7HwmFB+lAINvmyQu6lGDfLOB3STXfr9105e8Jo=
+X-Google-Smtp-Source: AK7set+I7rK41C4gOLCfbB0FqzzzWqDur6jdH2nhlGN2KPNLme5HEQB7PLjDt+gAG7eR2zDDBo+as06YZWXxB18eN8I=
+X-Received: by 2002:ac2:5fa7:0:b0:4db:f4b:a552 with SMTP id
+ s7-20020ac25fa7000000b004db0f4ba552mr2840956lfe.13.1678084216311; Sun, 05 Mar
+ 2023 22:30:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-GUID: Uvqr8Hqn8cHS0R3yJ78C3iWaZQZ27hck
-X-Proofpoint-ORIG-GUID: Uvqr8Hqn8cHS0R3yJ78C3iWaZQZ27hck
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-05_12,2023-03-03_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
- impostorscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0
- phishscore=0 priorityscore=1501 bulkscore=0 malwarescore=0 spamscore=0
- mlxscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303060049
+References: <20230224153157.20305-1-peron.clem@gmail.com> <20230224153157.20305-2-peron.clem@gmail.com>
+In-Reply-To: <20230224153157.20305-2-peron.clem@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 6 Mar 2023 07:30:04 +0100
+Message-ID: <CANNYZj8eEmDuz-PcRDNC4+4=E6DdqT85=+X3Kw9_2z17Z8Mxeg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 2/2] runqemu: add an option to enable
+ guest-agent virtio device
+To: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Brenda Streiff <brenda.streiff@ni.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Mar 2023 06:00:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178058
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Mar 2023 06:30:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178059
 
-From: Kai Kang <kai.kang@windriver.com>
+Can you please explain the use case? Who would want to enable the
+option, and what could they do when there's a running qemu?
 
-It enable the metadata_csum_seed feature by default in e2fsprogs 1.47.0
-and causes grub doesn't work. Backport patch to make grub support this
-feature.
+This kind of information needs to go to the commit message, so we can
+document those things for the users.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- ...gnore-checksum-seed-incompat-feature.patch | 66 +++++++++++++++++++
- meta/recipes-bsp/grub/grub2.inc               |  1 +
- 2 files changed, 67 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/0001-fs-ext2-Ignore-checksum-seed-incompat-feature.patch
+Alex
 
-diff --git a/meta/recipes-bsp/grub/files/0001-fs-ext2-Ignore-checksum-seed-incompat-feature.patch b/meta/recipes-bsp/grub/files/0001-fs-ext2-Ignore-checksum-seed-incompat-feature.patch
-new file mode 100644
-index 0000000000..a44d139375
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/0001-fs-ext2-Ignore-checksum-seed-incompat-feature.patch
-@@ -0,0 +1,66 @@
-+It enable the metadata_csum_seed feature by default in e2fsprogs 1.47.0 and
-+causes grub doesn't work. Backport patch to make grub support this feature.
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=7fd5fef]
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+From 7fd5feff97c4b1f446f8fcf6d37aca0c64e7c763 Mon Sep 17 00:00:00 2001
-+From: Javier Martinez Canillas <javierm@redhat.com>
-+Date: Fri, 11 Jun 2021 21:36:16 +0200
-+Subject: [PATCH] fs/ext2: Ignore checksum seed incompat feature
-+
-+This incompat feature is used to denote that the filesystem stored its
-+metadata checksum seed in the superblock. This is used to allow tune2fs
-+changing the UUID on a mounted metdata_csum filesystem without having
-+to rewrite all the disk metadata. However, the GRUB doesn't use the
-+metadata checksum at all. So, it can just ignore this feature if it
-+is enabled. This is consistent with the GRUB filesystem code in general
-+which just does a best effort to access the filesystem's data.
-+
-+The checksum seed incompat feature has to be removed from the ignore
-+list if the support for metadata checksum verification is added to the
-+GRUB ext2 driver later.
-+
-+Suggested-by: Eric Sandeen <esandeen@redhat.com>
-+Suggested-by: Lukas Czerner <lczerner@redhat.com>
-+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-+Reviewed-by: Lukas Czerner <lczerner@redhat.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+---
-+ grub-core/fs/ext2.c | 10 ++++++++--
-+ 1 file changed, 8 insertions(+), 2 deletions(-)
-+
-+diff --git a/grub-core/fs/ext2.c b/grub-core/fs/ext2.c
-+index e7dd78e66..4953a1591 100644
-+--- a/grub-core/fs/ext2.c
-++++ b/grub-core/fs/ext2.c
-+@@ -103,6 +103,7 @@ GRUB_MOD_LICENSE ("GPLv3+");
-+ #define EXT4_FEATURE_INCOMPAT_64BIT		0x0080
-+ #define EXT4_FEATURE_INCOMPAT_MMP		0x0100
-+ #define EXT4_FEATURE_INCOMPAT_FLEX_BG		0x0200
-++#define EXT4_FEATURE_INCOMPAT_CSUM_SEED		0x2000
-+ #define EXT4_FEATURE_INCOMPAT_ENCRYPT          0x10000
-+ 
-+ /* The set of back-incompatible features this driver DOES support. Add (OR)
-+@@ -123,10 +124,15 @@ GRUB_MOD_LICENSE ("GPLv3+");
-+  * mmp:            Not really back-incompatible - was added as such to
-+  *                 avoid multiple read-write mounts. Safe to ignore for this
-+  *                 RO driver.
-++ * checksum seed:  Not really back-incompatible - was added to allow tools
-++ *                 such as tune2fs to change the UUID on a mounted metadata
-++ *                 checksummed filesystem. Safe to ignore for now since the
-++ *                 driver doesn't support checksum verification. However, it
-++ *                 has to be removed from this list if the support is added later.
-+  */
-+ #define EXT2_DRIVER_IGNORED_INCOMPAT ( EXT3_FEATURE_INCOMPAT_RECOVER \
-+-				     | EXT4_FEATURE_INCOMPAT_MMP)
-+-
-++				     | EXT4_FEATURE_INCOMPAT_MMP \
-++				     | EXT4_FEATURE_INCOMPAT_CSUM_SEED)
-+ 
-+ #define EXT3_JOURNAL_MAGIC_NUMBER	0xc03b3998U
-+ 
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index b92cbc2654..58b215d79c 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -41,6 +41,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://CVE-2022-2601.patch \
-            file://CVE-2022-3775.patch \
-            file://0001-risc-v-Handle-R_RISCV_CALL_PLT-reloc.patch \
-+           file://0001-fs-ext2-Ignore-checksum-seed-incompat-feature.patch \
- "
- 
- SRC_URI[sha256sum] = "23b64b4c741569f9426ed2e3d0e6780796fca081bee4c99f62aa3f53ae803f5f"
--- 
-2.17.1
-
+On Sun, 5 Mar 2023 at 21:10, Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.com>=
+ wrote:
+>
+> Add support to the runqemu script for a new option, 'guestagent', that
+> enables the virtio serial port for host-to-guest communication.
+>
+> Signed-off-by: Brenda Streiff <brenda.streiff@ni.com>
+> Signed-off-by: Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.com>
+> ---
+>  scripts/runqemu | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+>
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index def11ea911..e71a1e8828 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -82,6 +82,7 @@ of the following environment variables (in any order):
+>      kvm-vhost - enable KVM with vhost when running x86/x86_64 (VT-capabl=
+e CPU required)
+>      publicvnc - enable a VNC server open to all hosts
+>      audio - enable audio
+> +    guestagent - enable guest agent communication
+>      [*/]ovmf* - OVMF firmware file or base name for booting with UEFI
+>    tcpserial=3D<port> - specify tcp serial port number
+>    qemuparams=3D<xyz> - specify custom parameters to QEMU
+> @@ -216,6 +217,8 @@ class BaseConfig(object):
+>          self.cleaned =3D False
+>          # Files to cleanup after run
+>          self.cleanup_files =3D []
+> +        self.guest_agent =3D False
+> +        self.guest_agent_sockpath =3D '/tmp/qga.sock'
+>
+>      def acquire_taplock(self, error=3DTrue):
+>          logger.debug("Acquiring lockfile %s..." % self.taplock)
+> @@ -526,6 +529,10 @@ class BaseConfig(object):
+>              elif arg =3D=3D 'publicvnc':
+>                  self.publicvnc =3D True
+>                  self.qemu_opt_script +=3D ' -vnc :0'
+> +            elif arg =3D=3D 'guestagent':
+> +                self.guest_agent =3D True
+> +            elif arg.startswith('guestagent-sockpath=3D'):
+> +                self.guest_agent_sockpath =3D '%s' % arg[len('guestagent=
+-sockpath=3D'):]
+>              elif arg.startswith('tcpserial=3D'):
+>                  self.tcpserial_portnum =3D '%s' % arg[len('tcpserial=3D'=
+):]
+>              elif arg.startswith('qemuparams=3D'):
+> @@ -1366,6 +1373,12 @@ class BaseConfig(object):
+>              raise RunQemuError("Failed to boot, QB_SYSTEM_NAME is NULL!"=
+)
+>          self.qemu_system =3D qemu_system
+>
+> +    def setup_guest_agent(self):
+> +        if self.guest_agent =3D=3D True:
+> +            self.qemu_opt +=3D ' -chardev socket,path=3D' + self.guest_a=
+gent_sockpath + ',server,nowait,id=3Dqga0 '
+> +            self.qemu_opt +=3D ' -device virtio-serial '
+> +            self.qemu_opt +=3D ' -device virtserialport,chardev=3Dqga0,n=
+ame=3Dorg.qemu.guest_agent.0 '
+> +
+>      def setup_vga(self):
+>          if self.nographic =3D=3D True:
+>              if self.sdl =3D=3D True:
+> @@ -1496,6 +1509,7 @@ class BaseConfig(object):
+>          if self.snapshot:
+>              self.qemu_opt +=3D " -snapshot"
+>
+> +        self.setup_guest_agent()
+>          self.setup_serial()
+>          self.setup_vga()
+>
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#178051): https://lists.openembedded.org/g/openembedde=
+d-core/message/178051
+> Mute This Topic: https://lists.openembedded.org/mt/97410707/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
