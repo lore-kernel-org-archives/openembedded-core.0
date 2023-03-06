@@ -1,179 +1,137 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ernstp@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F7F1C64EC4
-	for <webhook@archiver.kernel.org>; Mon,  6 Mar 2023 17:59:18 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.2320.1678125552912538726
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1506C61DA4
+	for <webhook@archiver.kernel.org>; Mon,  6 Mar 2023 20:22:09 +0000 (UTC)
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+ by mx.groups.io with SMTP id smtpd.web10.172.1678134119656330059
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Mar 2023 09:59:13 -0800
+ Mon, 06 Mar 2023 12:21:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DSaiDdOv;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id o11-20020a05600c4fcb00b003eb33ea29a8so5722180wmq.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Mar 2023 09:59:12 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=BkpEYRt6;
+ spf=pass (domain: gmail.com, ip: 209.85.210.52, mailfrom: ernstp@gmail.com)
+Received: by mail-ot1-f52.google.com with SMTP id r23-20020a05683001d700b00690eb18529fso6050083ota.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Mar 2023 12:21:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1678125551;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=r7tJ/VCaXTjPHNaSw24avkQNeV4yhpxKztzH98eC+q4=;
-        b=DSaiDdOvnfED4OU6lVgNfLQTE9l+nSho1wVNxe21prV6S8DALnbor1ZFOtkiawZdYM
-         TLrVJNoPrd0tF4dHkhOmYD1GbJrT4labaT5dU1qnKAWBLXt/SA2C/nBVOpd66/k/f8O4
-         iHBCaUec/QJ80BnZ2xQ4FQu6wb4NJ1hd0Szf8=
+        d=gmail.com; s=20210112; t=1678134119;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=sJ3Mx5oVRiJJijcdbusT8gDOVM8EBqgkBsbjpf/xooM=;
+        b=BkpEYRt61IOcQTOiRYdYUR7ElKlLFMH0ZG+bacd8Zqpp4HmOKwiJR4+WpSLMy8Z9X9
+         MduE+F3N7qXVGzFcF3lakJkyGSH9C2+CUEWVkiKhpPkN7JOjA+g6RG8D9i/F2RO6cdY/
+         ZqRBkWXQSbzH4Q0yUQM/JM856dJcW+nKm54peRHBvxiD4Uh1Fq+s3HE7ypfNPfNN2LbG
+         PvimsdLHqg3sqEaM+xzOvhFEA02g5rwLBca8us1EIcI+qyafaMrG/l5/XSo5DolqIPh2
+         dhOkxWF01sIge9x0QYYsHeRv8HAZHkmG2bqptyg9WPSiXG4muMrhId5ZfR1bgR1ZumUe
+         g1bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678125551;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=r7tJ/VCaXTjPHNaSw24avkQNeV4yhpxKztzH98eC+q4=;
-        b=DnCoc4U0UnV/WObRqIlKMLNlBqz6cJR6Wucevsnr/bLE6sW4q3Ht53kh+Wldg5lnqa
-         HoevpLsx3cJgWFvLL0gWDZUvqQJYxQIFo+rKn3sOMf9GK6SX1GWcl54oTn11TVH0xZ4G
-         B47/9/UEte0Eo2azTPjtCkKi06yvLw2/E/PknyAMOue0DFYFwMa8viKwMFVSmaaUjzJs
-         0HZIuKGNcN/+X4TpJNz12qKoE3eETWIPXajyRyXPD46PCWlQQR5u2hJsGJ/cEFy8ZfRj
-         Pap3vlKYzUNRdqmunF2NYfFyIyMWixE1j3PMxvshGLAEPZzXeP58Oy3m5mn7qMegZQLy
-         e8ZA==
-X-Gm-Message-State: AO0yUKWOO9ttdXGHOX/ejEuIq/tzDfJNGmDzJRZulhQUoIPHLDqQic98
-	q9C3CzK/nER1Yo12aLlAFG2yB+774VP/SJJmZBw=
-X-Google-Smtp-Source: AK7set92wXWNGSfNJC5A+ASu3/La0tXVGu4dc+v6E1oGCA0va+DzaYVdV+vJa/7DPIu595Mc7VVVhw==
-X-Received: by 2002:a05:600c:450d:b0:3d9:f769:2115 with SMTP id t13-20020a05600c450d00b003d9f7692115mr10624245wmo.26.1678125551272;
-        Mon, 06 Mar 2023 09:59:11 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:fd2e:ab1c:fd8:608e? ([2001:8b0:aba:5f3c:fd2e:ab1c:fd8:608e])
-        by smtp.gmail.com with ESMTPSA id r22-20020a05600c435600b003eae73ee4a1sm10748699wme.17.2023.03.06.09.59.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Mar 2023 09:59:10 -0800 (PST)
-Message-ID: <1bb2511c3505e7d215e74fe3aaffe8d7bbf51976.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/2] sstate.bbclass: fix cleanup when sysroot
- in manifest != RECIPE_SYSROOT
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ovidiu Panait <ovidiu.panait@eng.windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 06 Mar 2023 17:59:10 +0000
-In-Reply-To: <20230227154230.3566400-2-ovidiu.panait@eng.windriver.com>
-References: <20230227154230.3566400-1-ovidiu.panait@eng.windriver.com>
-	 <20230227154230.3566400-2-ovidiu.panait@eng.windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3-1 
+        d=1e100.net; s=20210112; t=1678134119;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sJ3Mx5oVRiJJijcdbusT8gDOVM8EBqgkBsbjpf/xooM=;
+        b=GcVHOdNIxkcZG3GI5fQiXmsOgR8ySh0iYS1zElr8gTgOPT8ueBFN3rL+Op7shIQ9zB
+         8KHDPOkXfipW3PmrH1GMmTZAvf8WAvJekBSwuaBKDbJBwUwQkzRi+2Ncz8LT8bNjFfmK
+         rDvCbQm74y2nF5JZn6hx2nR/CL6fzK24/YdQC1ACrHcNqSY5fCCKwPAbQhVF93wfygXj
+         PZYqVFOqXl3aiyLCfs2hFxHOtchUZRyVXCKsOSex94xSUsS7RMEkXiClBQNPxiY6+ORd
+         SeTTkVVjO9ovhpNudfjBWM+QizPzU+RYiU6+w51uZhy9Tmdfv71o+7UEqk0DYrdDDRJu
+         unlg==
+X-Gm-Message-State: AO0yUKUqPdB9Zvc+y2kAxktrRZMWeVD/LBA9hb6NonhCEZMROvssh3Tt
+	rnf2MwH78YiOLHfV4esRW3pYch3jI1qFmPZPJaA=
+X-Google-Smtp-Source: AK7set/6tPG1ZLyes1CWL/tksY2q3UgByFQLVoY3H6mrLCPUndpbXayHtX0da/lUkTlogjDW1unKkfCsTmWlarls4Fc=
+X-Received: by 2002:a9d:7156:0:b0:693:d403:4967 with SMTP id
+ y22-20020a9d7156000000b00693d4034967mr4072530otj.4.1678134118794; Mon, 06 Mar
+ 2023 12:21:58 -0800 (PST)
 MIME-Version: 1.0
+References: <CAD=4a=Xi3cEf9KM-iB3nsLPEEJGupxVJZrMQ7qP9c7aSb3bJQQ@mail.gmail.com>
+ <DDD6EA4D-08CA-473B-B291-ECBB71686B92@arm.com>
+In-Reply-To: <DDD6EA4D-08CA-473B-B291-ECBB71686B92@arm.com>
+From: =?UTF-8?Q?Ernst_Sj=C3=B6strand?= <ernstp@gmail.com>
+Date: Mon, 6 Mar 2023 21:21:47 +0100
+Message-ID: <CAD=4a=WecpyaoA_9xmKMTzzXGZQcdUrNsRiPHoyjukJfTw-E+Q@mail.gmail.com>
+Subject: Re: [OE-core] PEP 517 and PEP 621 support on Dunfell?
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000000949ce05f6410c04"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Mar 2023 17:59:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178083
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Mar 2023 20:22:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178084
 
-On Mon, 2023-02-27 at 17:42 +0200, Ovidiu Panait wrote:
-> The following scenario currently fails:
-> git clone git://git.yoctoproject.org/poky
-> cd poky; . oe-init-build-env
->=20
-> add to local.conf:
-> require conf/multilib.conf
-> MACHINE =3D "qemuarm64"
-> MULTILIBS =3D "multilib:lib32"
-> DEFAULTTUNE:virtclass-multilib-lib32 =3D "armv7athf-neon"
->=20
-> bitbake gcc-cross-canadian-arm
->=20
-> update local.conf to force a rebuild:
-> GCCPIE =3D "--disable-default-pie"
->=20
-> bitbake gcc-cross-canadian-arm
->=20
-> Failure log:
-> The stack trace of python calls that resulted in this exception/failure w=
-as:
-> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
->      0001:
->  *** 0002:extend_recipe_sysroot(d)
->      0003:
-> File: 'poky/meta/classes-global/staging.bbclass', lineno: 164, function: =
-staging_copyfile
->      0160:        os.symlink(linkto, dest)
->      0161:        #bb.warn(c)
->      0162:    else:
->      0163:        try:
->  *** 0164:            os.link(c, dest)
->      0165:        except OSError as err:
->      0166:            if err.errno =3D=3D errno.EXDEV:
->      0167:                bb.utils.copyfile(c, dest)
->      0168:            else:
-> Exception: FileExistsError: [Errno 17] File exists: 'poky/build/tmp/sysro=
-ots-components/armv7at2hf-neon/lib32-linux-libc-headers/usr/include/asm/byt=
-eorder-32.h' -> 'poky/build/tmp/work/x86_64-nativesdk-pokysdk-linux/gcc-cro=
-ss-canadian-arm/12.2.0-r0/recipe-sysroot/usr/include/asm/byteorder-32.h'
->=20
-> In this particular case, the paths in lib32-linux-libc-headers manifest f=
-ile
-> are prefixed with lib32-recipe-sysroot:
-> $ cat build/tmp/sysroots-components/manifests/lib32-linux-libc-headers.xx=
-x
-> lib32-recipe-sysroot/usr/include/asm/byteorder-32.h
-> lib32-recipe-sysroot/usr/include/asm/sigcontext-32.h
-> ...
->=20
-> When gcc-cross-canadian-arm is built, the actual files get copied to
-> recipe-sysroot directory during do_prepare_recipe_sysroot().
->=20
-> Because of this mismatch, on rebuild, sstate_clean_manifest() will not cl=
-ean
-> the files in recipe-sysroot, but will instead try to delete the non-exist=
-ent
-> files in lib32-recipe-sysroot. This will trigger the FileExists errors la=
-ter.
->=20
-> Add checks in sstate_clean_manifest() for this corner case, so that
-> RECIPE_SYSROOT gets cleaned up properly.
->=20
-> This fixes BZ#15045.
->=20
-> Signed-off-by: Ovidiu Panait <ovidiu.panait@eng.windriver.com>
-> ---
->  meta/classes-global/sstate.bbclass | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->=20
-> diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sst=
-ate.bbclass
-> index af93546b04..edf5c7fb65 100644
-> --- a/meta/classes-global/sstate.bbclass
-> +++ b/meta/classes-global/sstate.bbclass
-> @@ -529,9 +529,20 @@ def sstate_clean_manifest(manifest, d, canrace=3DFal=
-se, prefix=3DNone):
->      entries =3D mfile.readlines()
->      mfile.close()
-> =20
-> +    recipe_sysroot =3D d.getVar("RECIPE_SYSROOT").rstrip("/").rsplit('/'=
-, 1)[-1]
-> +
->      for entry in entries:
->          sstate_clean_entry(entry, canrace, prefix)
-> =20
-> +        # The sysroot directory stored in the manifest file might not be=
- the
-> +        # same as RECIPE_SYSROOT, so the real sysroot will not be proper=
-ly
-> +        # cleaned up on rebuild. Handle the cleanup here in order to avo=
-id
-> +        # "File exists" errors during do_prepare_recipe_sysroot().
-> +        manifest_sysroot =3D entry.split("/", 1)[0] or None
-> +        if manifest_sysroot and manifest_sysroot !=3D recipe_sysroot and=
- not manifest_sysroot.endswith("-native"):
-> +            sysroot_entry =3D recipe_sysroot + "/" + entry.split("/", 1)=
-[1]
-> +            sstate_clean_entry(sysroot_entry, canrace, prefix)
-> +
->      postrm =3D manifest + ".postrm"
->      if os.path.exists(manifest + ".postrm"):
->          import subprocess
+--0000000000000949ce05f6410c04
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I looked into this and as I suspected, the bug is elsewhere. I've sent
-a different patch to the staging.bbclass code which should fix this
-problem.
+Oh I didn't see your reply, Gmail threw it in the spam folder.
 
-Cheers,
+I made a prototype here if anyone's interested:
+https://github.com/ernstp/meta-setuptools-backport
 
-Richard
+//E
 
+Den tis 28 feb. 2023 kl 17:14 skrev Ross Burton <Ross.Burton@arm.com>:
 
+> On 28 Feb 2023, at 15:00, Ernst Sj=C3=B6strand via lists.openembedded.org
+> <ernstp=3Dgmail.com@lists.openembedded.org> wrote:
+> > more and more Python projects are removing their setup.py and setup.cfg
+> and switching to pyproject.toml. That unfortunately means you can't insta=
+ll
+> those packages on Yocto Dunfell.
+> >
+> > Would it be reasonable to backport support for this to Dunfell? I see
+> that the changes done for this support was actually kindof big, and as
+> usual updating setuptools will probably cause some old package version to
+> fail to install instead.
+>
+> The changes were kind of big, and I do worry that they=E2=80=99d break st=
+uff that
+> is expected to work.
+>
+> A =E2=80=9Cmixin=E2=80=9D layer which just contains the new classes and r=
+ecipes would be a
+> much better approach for Dunfell.
+>
+> Ross
+
+--0000000000000949ce05f6410c04
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:arial,he=
+lvetica,sans-serif">Oh I didn&#39;t see your reply, Gmail threw it in the s=
+pam folder.</div><div class=3D"gmail_default" style=3D"font-family:arial,he=
+lvetica,sans-serif"><br></div><div class=3D"gmail_default" style=3D"font-fa=
+mily:arial,helvetica,sans-serif">I made a prototype here if anyone&#39;s in=
+terested: <a href=3D"https://github.com/ernstp/meta-setuptools-backport">ht=
+tps://github.com/ernstp/meta-setuptools-backport</a></div><div class=3D"gma=
+il_default" style=3D"font-family:arial,helvetica,sans-serif"><br></div><div=
+ class=3D"gmail_default" style=3D"font-family:arial,helvetica,sans-serif">/=
+/E<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
+gmail_attr">Den tis 28 feb. 2023 kl 17:14 skrev Ross Burton &lt;<a href=3D"=
+mailto:Ross.Burton@arm.com">Ross.Burton@arm.com</a>&gt;:<br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">On 28 Feb 2023, at 15:00, Ernst Sj=
+=C3=B6strand via <a href=3D"http://lists.openembedded.org" rel=3D"noreferre=
+r" target=3D"_blank">lists.openembedded.org</a> &lt;ernstp=3D<a href=3D"mai=
+lto:gmail.com@lists.openembedded.org" target=3D"_blank">gmail.com@lists.ope=
+nembedded.org</a>&gt; wrote:<br>
+&gt; more and more Python projects are removing their setup.py and setup.cf=
+g and switching to pyproject.toml. That unfortunately means you can&#39;t i=
+nstall those packages on Yocto Dunfell.<br>
+&gt; <br>
+&gt; Would it be reasonable to backport support for this to Dunfell? I see =
+that the changes done for this support was actually kindof big, and as usua=
+l updating setuptools will probably cause some old package version to fail =
+to install instead.<br>
+<br>
+The changes were kind of big, and I do worry that they=E2=80=99d break stuf=
+f that is expected to work.<br>
+<br>
+A =E2=80=9Cmixin=E2=80=9D layer which just contains the new classes and rec=
+ipes would be a much better approach for Dunfell.<br>
+<br>
+Ross</blockquote></div>
+
+--0000000000000949ce05f6410c04--
 
