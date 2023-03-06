@@ -2,96 +2,178 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44F98C6FA99
-	for <webhook@archiver.kernel.org>; Mon,  6 Mar 2023 17:57:28 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web11.2237.1678125437929329666
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F7F1C64EC4
+	for <webhook@archiver.kernel.org>; Mon,  6 Mar 2023 17:59:18 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web11.2320.1678125552912538726
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Mar 2023 09:57:18 -0800
+ Mon, 06 Mar 2023 09:59:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GyoLACEQ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id bx12so9704358wrb.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Mar 2023 09:57:17 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DSaiDdOv;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id o11-20020a05600c4fcb00b003eb33ea29a8so5722180wmq.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Mar 2023 09:59:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1678125436;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wx36Opb8fwowerJy/s2oRNdCQTOUou3kAd2WTYJ+r18=;
-        b=GyoLACEQIE2LYSvXJxDn+wp47/+BxGav4XZHp3MiCvuyLVzpaRduIBRZRybPbTwxzv
-         29RoGhA8o+FhR4wZfCO8CiVMEkul1r401h4Dx2lemrwqL7yG9hOzWkWcftJCl649krZM
-         idjAdPbs7IBZ6e0o5fswwwIxgC285AAzYxhG4=
+        d=linuxfoundation.org; s=google; t=1678125551;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r7tJ/VCaXTjPHNaSw24avkQNeV4yhpxKztzH98eC+q4=;
+        b=DSaiDdOvnfED4OU6lVgNfLQTE9l+nSho1wVNxe21prV6S8DALnbor1ZFOtkiawZdYM
+         TLrVJNoPrd0tF4dHkhOmYD1GbJrT4labaT5dU1qnKAWBLXt/SA2C/nBVOpd66/k/f8O4
+         iHBCaUec/QJ80BnZ2xQ4FQu6wb4NJ1hd0Szf8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678125436;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wx36Opb8fwowerJy/s2oRNdCQTOUou3kAd2WTYJ+r18=;
-        b=D3iDj6ntOpU3+cjtDfP4EmnJdd5h2w55PSFZr4t1Lzs1PJYsR+vFmvIQYJz41EE2PI
-         xh6B9bkUe6wicyQl6FduArnZ4+iqEZuJQE3yc4wvAvLfJEDamDkfDNGIoASmMZXL0bId
-         ZXr0FeAgCri2ELaM92x+11LpS9djeNBpQXUBj3NTp/1vzNK2N/VUflppSUvrliSQnBt0
-         mLJIyOmg1YO7M2lU0yf8M2PUQW79ti1NG7327rvK0VprjYCwmwlA439tIXN01e/om2B1
-         ux0I+tbI+848sB9xlI2MdY3dc2aNIcwSOhJNQR/OgAa0+EUPPSETlzV9vd2InKc0zpET
-         H7xw==
-X-Gm-Message-State: AO0yUKVoDBO+vdgGr1Bm2twXgbKywReQXrU4CGHdGZCfmpLfIGay58gE
-	opdcnjHWlfcNxybw2mR61rCwZkIWDypPvUa5Dpw=
-X-Google-Smtp-Source: AK7set8vrjJjBzZ+1MwbGwj+mtK4PSX55We8VUwXtRyVC5QLHQZXErAbKXS/7istnnkDjTTWFALtLg==
-X-Received: by 2002:adf:f612:0:b0:2bf:96ae:7cc8 with SMTP id t18-20020adff612000000b002bf96ae7cc8mr7660903wrp.4.1678125436056;
-        Mon, 06 Mar 2023 09:57:16 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:fd2e:ab1c:fd8:608e])
-        by smtp.gmail.com with ESMTPSA id f12-20020a5d58ec000000b002c71b4d476asm10439485wrd.106.2023.03.06.09.57.15
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20210112; t=1678125551;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=r7tJ/VCaXTjPHNaSw24avkQNeV4yhpxKztzH98eC+q4=;
+        b=DnCoc4U0UnV/WObRqIlKMLNlBqz6cJR6Wucevsnr/bLE6sW4q3Ht53kh+Wldg5lnqa
+         HoevpLsx3cJgWFvLL0gWDZUvqQJYxQIFo+rKn3sOMf9GK6SX1GWcl54oTn11TVH0xZ4G
+         B47/9/UEte0Eo2azTPjtCkKi06yvLw2/E/PknyAMOue0DFYFwMa8viKwMFVSmaaUjzJs
+         0HZIuKGNcN/+X4TpJNz12qKoE3eETWIPXajyRyXPD46PCWlQQR5u2hJsGJ/cEFy8ZfRj
+         Pap3vlKYzUNRdqmunF2NYfFyIyMWixE1j3PMxvshGLAEPZzXeP58Oy3m5mn7qMegZQLy
+         e8ZA==
+X-Gm-Message-State: AO0yUKWOO9ttdXGHOX/ejEuIq/tzDfJNGmDzJRZulhQUoIPHLDqQic98
+	q9C3CzK/nER1Yo12aLlAFG2yB+774VP/SJJmZBw=
+X-Google-Smtp-Source: AK7set92wXWNGSfNJC5A+ASu3/La0tXVGu4dc+v6E1oGCA0va+DzaYVdV+vJa/7DPIu595Mc7VVVhw==
+X-Received: by 2002:a05:600c:450d:b0:3d9:f769:2115 with SMTP id t13-20020a05600c450d00b003d9f7692115mr10624245wmo.26.1678125551272;
+        Mon, 06 Mar 2023 09:59:11 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:fd2e:ab1c:fd8:608e? ([2001:8b0:aba:5f3c:fd2e:ab1c:fd8:608e])
+        by smtp.gmail.com with ESMTPSA id r22-20020a05600c435600b003eae73ee4a1sm10748699wme.17.2023.03.06.09.59.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Mar 2023 09:57:15 -0800 (PST)
+        Mon, 06 Mar 2023 09:59:10 -0800 (PST)
+Message-ID: <1bb2511c3505e7d215e74fe3aaffe8d7bbf51976.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] sstate.bbclass: fix cleanup when sysroot
+ in manifest != RECIPE_SYSROOT
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] staging: Separate out different multiconfig manifests
-Date: Mon,  6 Mar 2023 17:57:15 +0000
-Message-Id: <20230306175715.2367039-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.38.1
+To: Ovidiu Panait <ovidiu.panait@eng.windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 06 Mar 2023 17:59:10 +0000
+In-Reply-To: <20230227154230.3566400-2-ovidiu.panait@eng.windriver.com>
+References: <20230227154230.3566400-1-ovidiu.panait@eng.windriver.com>
+	 <20230227154230.3566400-2-ovidiu.panait@eng.windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Mar 2023 17:57:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178082
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Mar 2023 17:59:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178083
 
-"""
-require conf/multilib.conf
-MACHINE = "qemuarm64"
-MULTILIBS = "multilib:lib32"
-DEFAULTTUNE:virtclass-multilib-lib32 = "armv7athf-neon"
+On Mon, 2023-02-27 at 17:42 +0200, Ovidiu Panait wrote:
+> The following scenario currently fails:
+> git clone git://git.yoctoproject.org/poky
+> cd poky; . oe-init-build-env
+>=20
+> add to local.conf:
+> require conf/multilib.conf
+> MACHINE =3D "qemuarm64"
+> MULTILIBS =3D "multilib:lib32"
+> DEFAULTTUNE:virtclass-multilib-lib32 =3D "armv7athf-neon"
+>=20
+> bitbake gcc-cross-canadian-arm
+>=20
+> update local.conf to force a rebuild:
+> GCCPIE =3D "--disable-default-pie"
+>=20
+> bitbake gcc-cross-canadian-arm
+>=20
+> Failure log:
+> The stack trace of python calls that resulted in this exception/failure w=
+as:
+> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+>      0001:
+>  *** 0002:extend_recipe_sysroot(d)
+>      0003:
+> File: 'poky/meta/classes-global/staging.bbclass', lineno: 164, function: =
+staging_copyfile
+>      0160:        os.symlink(linkto, dest)
+>      0161:        #bb.warn(c)
+>      0162:    else:
+>      0163:        try:
+>  *** 0164:            os.link(c, dest)
+>      0165:        except OSError as err:
+>      0166:            if err.errno =3D=3D errno.EXDEV:
+>      0167:                bb.utils.copyfile(c, dest)
+>      0168:            else:
+> Exception: FileExistsError: [Errno 17] File exists: 'poky/build/tmp/sysro=
+ots-components/armv7at2hf-neon/lib32-linux-libc-headers/usr/include/asm/byt=
+eorder-32.h' -> 'poky/build/tmp/work/x86_64-nativesdk-pokysdk-linux/gcc-cro=
+ss-canadian-arm/12.2.0-r0/recipe-sysroot/usr/include/asm/byteorder-32.h'
+>=20
+> In this particular case, the paths in lib32-linux-libc-headers manifest f=
+ile
+> are prefixed with lib32-recipe-sysroot:
+> $ cat build/tmp/sysroots-components/manifests/lib32-linux-libc-headers.xx=
+x
+> lib32-recipe-sysroot/usr/include/asm/byteorder-32.h
+> lib32-recipe-sysroot/usr/include/asm/sigcontext-32.h
+> ...
+>=20
+> When gcc-cross-canadian-arm is built, the actual files get copied to
+> recipe-sysroot directory during do_prepare_recipe_sysroot().
+>=20
+> Because of this mismatch, on rebuild, sstate_clean_manifest() will not cl=
+ean
+> the files in recipe-sysroot, but will instead try to delete the non-exist=
+ent
+> files in lib32-recipe-sysroot. This will trigger the FileExists errors la=
+ter.
+>=20
+> Add checks in sstate_clean_manifest() for this corner case, so that
+> RECIPE_SYSROOT gets cleaned up properly.
+>=20
+> This fixes BZ#15045.
+>=20
+> Signed-off-by: Ovidiu Panait <ovidiu.panait@eng.windriver.com>
+> ---
+>  meta/classes-global/sstate.bbclass | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>=20
+> diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sst=
+ate.bbclass
+> index af93546b04..edf5c7fb65 100644
+> --- a/meta/classes-global/sstate.bbclass
+> +++ b/meta/classes-global/sstate.bbclass
+> @@ -529,9 +529,20 @@ def sstate_clean_manifest(manifest, d, canrace=3DFal=
+se, prefix=3DNone):
+>      entries =3D mfile.readlines()
+>      mfile.close()
+> =20
+> +    recipe_sysroot =3D d.getVar("RECIPE_SYSROOT").rstrip("/").rsplit('/'=
+, 1)[-1]
+> +
+>      for entry in entries:
+>          sstate_clean_entry(entry, canrace, prefix)
+> =20
+> +        # The sysroot directory stored in the manifest file might not be=
+ the
+> +        # same as RECIPE_SYSROOT, so the real sysroot will not be proper=
+ly
+> +        # cleaned up on rebuild. Handle the cleanup here in order to avo=
+id
+> +        # "File exists" errors during do_prepare_recipe_sysroot().
+> +        manifest_sysroot =3D entry.split("/", 1)[0] or None
+> +        if manifest_sysroot and manifest_sysroot !=3D recipe_sysroot and=
+ not manifest_sysroot.endswith("-native"):
+> +            sysroot_entry =3D recipe_sysroot + "/" + entry.split("/", 1)=
+[1]
+> +            sstate_clean_entry(sysroot_entry, canrace, prefix)
+> +
+>      postrm =3D manifest + ".postrm"
+>      if os.path.exists(manifest + ".postrm"):
+>          import subprocess
 
-bitbake gcc-cross-canadian-arm
-"""
+I looked into this and as I suspected, the bug is elsewhere. I've sent
+a different patch to the staging.bbclass code which should fix this
+problem.
 
-and then inspecting the lib32* manifest files under recipe-sysroot-native shows
-them referencing lib32-recipe-sysroot instead of recipe-sysroot as used by
-gcc-cross-canadian recipes.
+Cheers,
 
-To fix this separate out the manifest by multilib. It is caching mechanism to
-optimise disk usage so this doesn't break anything, just separated out some files.
+Richard
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes-global/staging.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/staging.bbclass
-index 5a1f43de780..e6d0d1d55cf 100644
---- a/meta/classes-global/staging.bbclass
-+++ b/meta/classes-global/staging.bbclass
-@@ -275,6 +275,9 @@ python extend_recipe_sysroot() {
-     pn = d.getVar("PN")
-     stagingdir = d.getVar("STAGING_DIR")
-     sharedmanifests = d.getVar("COMPONENTS_DIR") + "/manifests"
-+    mlprefix = d.getVar("MLPREFIX")
-+    if mlprefix:
-+        sharedmanifests = sharedmanifests + "/" + mlprefix
-     recipesysroot = d.getVar("RECIPE_SYSROOT")
-     recipesysrootnative = d.getVar("RECIPE_SYSROOT_NATIVE")
- 
--- 
-2.38.1
 
 
