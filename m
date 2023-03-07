@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04EB1C74A4B
-	for <webhook@archiver.kernel.org>; Tue,  7 Mar 2023 22:48:56 +0000 (UTC)
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
- by mx.groups.io with SMTP id smtpd.web11.8700.1678229316859405297
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E136EC678D5
+	for <webhook@archiver.kernel.org>; Tue,  7 Mar 2023 22:48:55 +0000 (UTC)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web10.8617.1678229299776983764
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Mar 2023 14:48:52 -0800
+ Tue, 07 Mar 2023 14:48:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=NIz7joKU;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f181.google.com with SMTP id y19so8566903pgk.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Mar 2023 14:48:52 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=vpkCSKLd;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f182.google.com with SMTP id y10so9089782pfi.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Mar 2023 14:48:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678229332;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678229334;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LTj8zWma5mXrgfVow+CDMRxnPTfqmfBWH7rdKjdL2LI=;
-        b=NIz7joKUhIx4OEKAm2Y+uDsy6oR6PM3VmpVmLxsSp85e2PbDSlRASqEFhuin/1ujQJ
-         3wD3G0UJYf262gP0s0/L2D5eJGpCZTId+VXfYWLWnnjVsZkipKPTGdqS9Gq1Hv8mRN8Z
-         taSqW94dPzZxksywfT/XRisQ/Cl3Y+u68yERkukW1L21h1woLxcT3LOqEGpV/cSd8RgU
-         JaaewCrFuWu0e5zfxTEDTk665je31+GMh0czNwk8yXlePSnxAAsqB8ZWm34bdVdkzkRQ
-         k+GD+BQ+IQfvVGIVEFj4yetOfQ37gP+QWu/J6tRhBMESPv9r1XUeqvdLromVfo9NaZpt
-         LPGg==
+        bh=pfBPE8YuWr4rqVgNiMq6+BVek+6vBM0UelkUp5HypZU=;
+        b=vpkCSKLdJbxj35XfWwkEsJU20MIegt7Xm7tIAonbz6xBCjuoTNWbVojSQpdjx8t8qx
+         pihJi8UHAb8MWgr/XCxMq1Fahqxfp0yel9X5QNk9izOMOU86U+mnOf4AhikWnR7mfeq6
+         oCwDpARP8Fdax9uueEYf1ajy7KTsN31DlZVU3MXz0+r4r9zlAPDjyUQTDzfEVT2J9l95
+         XM3Z/Y02EIg1MrGm1cGmLJZMStJAtrMIQU0Xd0MwRhlRkm88mSL8JKIGk8rz0vcU0As3
+         AAo5M08FkHapWnFQh08Urkm3cgKECe5wVRMFfHH2x6sBOjuo4N80NWOuhLdUyoVxhpy0
+         4T+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678229332;
+        d=1e100.net; s=20210112; t=1678229334;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LTj8zWma5mXrgfVow+CDMRxnPTfqmfBWH7rdKjdL2LI=;
-        b=0ziSN+n1I2J09Bkq2CT1G0bFZNMu5cv5YbI0jkKEqiEHdF9tEG9mqGNMOt5kRcu2SM
-         ubFYaljcpm2HClo2ksTFTdaP7gkEDGnX0sCzM+cxr5AZMAIv5OrMdG+3DuC2ngsN7oPl
-         7KmCspb8UfyhxeP/J+fT3OPU9Pu9y/Ffe77ngXFE/XXpU5tnLc8rrJoKEjQT2/Am/rq1
-         AHX568x3Nv9PWWGgq5tXVOwDsNz9Eeo44hmqNQdqO5vHJP1M3CFfxzrZSuJBjww6uyVt
-         ny0gEeb9F5EYe2iLKgnKrvOipSELHRKFSt1b4BF+PAxfqQBLozOYF7vji033AIJiH3Sm
-         OyFw==
-X-Gm-Message-State: AO0yUKWWmCrHqLKs9aoa/9aYpcDn/AcWs6sKxK+CWrWo2kv5kbKpprro
-	hDDa3cADVNrHc3soIf2v1CCUXOcMpv8Gcq9dql0=
-X-Google-Smtp-Source: AK7set+dk9K9wFWPC8QpHl2og2kgz0facfqyYrEKVwr75Ryu/prlQjQDDV5ivKZDF39I7j+OtNml1g==
-X-Received: by 2002:aa7:9e44:0:b0:5d9:27a5:60bf with SMTP id z4-20020aa79e44000000b005d927a560bfmr13602078pfq.28.1678229332118;
-        Tue, 07 Mar 2023 14:48:52 -0800 (PST)
+        bh=pfBPE8YuWr4rqVgNiMq6+BVek+6vBM0UelkUp5HypZU=;
+        b=PYs11pB9sdNLe3ltQyy9ECH0oKrVq1NQH5aWfpKfMqBVEhc7uaW8LPClBGOhMTPYiw
+         ovL+xHwOApXVrKvASG8KIJtCGE/Wu5WNiXumJ3WuGIx3ECMUk8aYpGOqYufYc7EWi28u
+         Q5zyfgfD/f5Ba5LVbxozLOxwEJkeAUYcUdJJlMWvefbIbnjXSpbUCDp+aKZERYPu8z88
+         jS8oq7AR086e5m0iYZPvmHivHScHlhcJlz8bfhcs5kW+gUB+VqLNR0fb0XsMl/VgVt27
+         xjmahfYRCaKGla/BafJ2vblJK1eZVguzzXnwJb/FoIklqPLR+CbrTwcp4iX5WfiwXn5y
+         Q6Gg==
+X-Gm-Message-State: AO0yUKUFLwKftte3KwIcufa+5r92Mw3uVTNIvE0ELoJ6l55yryuiCY9N
+	jzIWDyFeuweam4z2eeD+XYacbM/QbKB5XaYXL6E=
+X-Google-Smtp-Source: AK7set9DJVxt9tu83Q6wQevwTs9yXgtpcmX+o/C/TpCAVxhxF/Y3Mq+E3Hjbj9OqUUyV08Ueuw/CGQ==
+X-Received: by 2002:a62:1dd4:0:b0:5aa:6125:dbf4 with SMTP id d203-20020a621dd4000000b005aa6125dbf4mr17150534pfd.11.1678229333828;
+        Tue, 07 Mar 2023 14:48:53 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id k1-20020aa78201000000b005cdbd9c8825sm8388958pfi.195.2023.03.07.14.48.51
+        by smtp.gmail.com with ESMTPSA id k1-20020aa78201000000b005cdbd9c8825sm8388958pfi.195.2023.03.07.14.48.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Mar 2023 14:48:51 -0800 (PST)
+        Tue, 07 Mar 2023 14:48:53 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 19/23] openssl: upgrade 1.1.1s to 1.1.1t
-Date: Tue,  7 Mar 2023 12:47:53 -1000
-Message-Id: <22de5ecae3ebb04a4bab05010c04b205c52ee888.1678228988.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 20/23] gcc: Fix inconsistent noexcept specifier for valarray in libstdc++
+Date: Tue,  7 Mar 2023 12:47:54 -1000
+Message-Id: <9779b66162a014f26594bdde43afdc4332617240.1678228988.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1678228988.git.steve@sakoman.com>
 References: <cover.1678228988.git.steve@sakoman.com>
@@ -60,40 +60,86 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Mar 2023 22:48:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178141
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Mar 2023 22:48:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178142
 
-From: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
+From: Virendra Thakur <virendrak@kpit.com>
 
-Major changes between OpenSSL 1.1.1s and OpenSSL 1.1.1t [7 Feb 2023]
-* Fixed X.400 address type confusion in X.509 GeneralName (CVE-2023-0286)
-* Fixed Use-after-free following BIO_new_NDEF (CVE-2023-0215)
-* Fixed Double free after calling PEM_read_bio_ex (CVE-2022-4450)
-* Fixed Timing Oracle in RSA Decryption (CVE-2022-4304)
+Backport of gcc upstream commit 2b2d97fc545635a0f6aa9c9ee3b017394bc494bf
+to gcc release 9.5.0. This fix is available to all release-branches
+except releases/gcc-9 because upstream do not support gcc-9 now.
 
-Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
+Signed-off-by: Virendra Thakur <virendrak@kpit.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../openssl/{openssl_1.1.1s.bb => openssl_1.1.1t.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/openssl/{openssl_1.1.1s.bb => openssl_1.1.1t.bb} (98%)
+ meta/recipes-devtools/gcc/gcc-9.5.inc         |  1 +
+ ...nsistent-noexcept-specific-for-valar.patch | 44 +++++++++++++++++++
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-9.5/0002-libstdc-Fix-inconsistent-noexcept-specific-for-valar.patch
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1s.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1t.bb
-similarity index 98%
-rename from meta/recipes-connectivity/openssl/openssl_1.1.1s.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.1.1t.bb
-index 6c8f285996..a1956ad8c2 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1s.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1t.bb
-@@ -24,7 +24,7 @@ SRC_URI_append_class-nativesdk = " \
-            file://environment.d-openssl.sh \
-            "
- 
--SRC_URI[sha256sum] = "c5ac01e760ee6ff0dab61d6b2bbd30146724d063eb322180c6f18a6f74e4b6aa"
-+SRC_URI[sha256sum] = "8dee9b24bdb1dcbf0c3d1e9b02fb8f6bf22165e807f45adeb7c9677536859d3b"
- 
- inherit lib_package multilib_header multilib_script ptest
- MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+diff --git a/meta/recipes-devtools/gcc/gcc-9.5.inc b/meta/recipes-devtools/gcc/gcc-9.5.inc
+index 6a0a892b10..ec28246bf3 100644
+--- a/meta/recipes-devtools/gcc/gcc-9.5.inc
++++ b/meta/recipes-devtools/gcc/gcc-9.5.inc
+@@ -69,6 +69,7 @@ SRC_URI = "\
+            file://0037-CVE-2019-14250-Check-zero-value-in-simple_object_elf.patch \
+            file://0038-gentypes-genmodes-Do-not-use-__LINE__-for-maintainin.patch \
+            file://0039-process_alt_operands-Don-t-match-user-defined-regs-o.patch \
++           file://0002-libstdc-Fix-inconsistent-noexcept-specific-for-valar.patch \
+ "
+ S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
+ SRC_URI[sha256sum] = "27769f64ef1d4cd5e2be8682c0c93f9887983e6cfd1a927ce5a0a2915a95cf8f"
+diff --git a/meta/recipes-devtools/gcc/gcc-9.5/0002-libstdc-Fix-inconsistent-noexcept-specific-for-valar.patch b/meta/recipes-devtools/gcc/gcc-9.5/0002-libstdc-Fix-inconsistent-noexcept-specific-for-valar.patch
+new file mode 100644
+index 0000000000..506064bfc2
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-9.5/0002-libstdc-Fix-inconsistent-noexcept-specific-for-valar.patch
+@@ -0,0 +1,44 @@
++From 60d966708d7cf105dccf128d2b7a38b0b2580a1a Mon Sep 17 00:00:00 2001
++From: Jonathan Wakely <jwakely@redhat.com>
++Date: Fri, 5 Nov 2021 21:42:20 +0000
++Subject: [PATCH] libstdc++: Fix inconsistent noexcept-specific for valarray
++ begin/end
++
++These declarations should be noexcept after I added it to the
++definitions in <valarray>.
++
++libstdc++-v3/ChangeLog:
++
++	* include/bits/range_access.h (begin(valarray), end(valarray)):
++	Add noexcept.
++
++(cherry picked from commit 2b2d97fc545635a0f6aa9c9ee3b017394bc494bf)
++
++Upstream-Status: Backport [https://github.com/hkaelber/gcc/commit/2b2d97fc545635a0f6aa9c9ee3b017394bc494bf]
++Signed-off-by: Virendra Thakur <virendrak@kpit.com>
++
++---
++ libstdc++-v3/include/bits/range_access.h | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/libstdc++-v3/include/bits/range_access.h b/libstdc++-v3/include/bits/range_access.h
++index 3d99ea92027..4736e75fda1 100644
++--- a/libstdc++-v3/include/bits/range_access.h
+++++ b/libstdc++-v3/include/bits/range_access.h
++@@ -101,10 +101,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
++ 
++   template<typename _Tp> class valarray;
++   // These overloads must be declared for cbegin and cend to use them.
++-  template<typename _Tp> _Tp* begin(valarray<_Tp>&);
++-  template<typename _Tp> const _Tp* begin(const valarray<_Tp>&);
++-  template<typename _Tp> _Tp* end(valarray<_Tp>&);
++-  template<typename _Tp> const _Tp* end(const valarray<_Tp>&);
+++  template<typename _Tp> _Tp* begin(valarray<_Tp>&) noexcept;
+++  template<typename _Tp> const _Tp* begin(const valarray<_Tp>&) noexcept;
+++  template<typename _Tp> _Tp* end(valarray<_Tp>&) noexcept;
+++  template<typename _Tp> const _Tp* end(const valarray<_Tp>&) noexcept;
++ 
++   /**
++    *  @brief  Return an iterator pointing to the first element of
++-- 
++2.25.1
+\ No newline at end of file
 -- 
 2.34.1
 
