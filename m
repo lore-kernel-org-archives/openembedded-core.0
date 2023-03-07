@@ -2,93 +2,109 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3FCFC6FD1E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F411FC742A7
 	for <webhook@archiver.kernel.org>; Tue,  7 Mar 2023 22:49:05 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web10.8648.1678229336431046166
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web10.8649.1678229338482556140
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Mar 2023 14:48:56 -0800
+ Tue, 07 Mar 2023 14:48:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=FAJJn1UC;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.42, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f42.google.com with SMTP id y2so14784376pjg.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Mar 2023 14:48:56 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=FCV+9lLD;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f47.google.com with SMTP id x34so14833735pjj.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Mar 2023 14:48:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678229335;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678229337;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=diMIx4q9yIWjmOVdIJU4BmXcUxLF0fzLFgvNjCl+Pak=;
-        b=FAJJn1UCHDvkyr61UQUfLTO+FH93kzaiYS6xTD+Q1hxgZ4pgRIHjaUbV4KxQRJTbV9
-         NtHIde+RxbyIImbx5slIPxrPrTWpvp5PcqcqhvCS6nlWtYj/kSHLsjC34g7EAX4Pwt3B
-         9Bm4LGtHX21/OoDj5yMf4C6ypqpC0Gut7Fh7x+JAEm7U7MZNeofT0VN5PGG6g/C2Fv7X
-         aWPb06yi3ptHc4fH/USTQmXoQmoLrgBJ2PHMobtXdwCntMeoEYRWxIeDzwRxTx53foof
-         Yg1yBvLc4SQVq0JGw2K8DQC0tfHRfZ7aOBnb0CvLU6Bx3PozEKSMn0MDF2Qgrfm2Ztfk
-         OKqA==
+        bh=J9JbCtqZmwTjDmmV3CXF3p0QEBMyeH8WTNR79vhT+bY=;
+        b=FCV+9lLDIw0yukNAvARQ+9GD2efGdqr0oMaQuAd8/wSWn6hgPab+w7m94mksiztqE8
+         pCxa+dmT+Fav8Ask1wNjt9t8hZYkCFXQe0DgXjg0A3knNlxG+BFa2rzRM8+8CiZeunKX
+         KBeEnbPcfr32+yIXVxHUEHHqyptPAIDEESn/gurF7m8xhMJK57MJV26v3hYTdIV6dA5Z
+         OptS/nOQ9eqzQ0w89OrLDYUGjUE6onwWKDR0I8CaH5lCNyFUg/Fe63K8a7wsojz8Clm7
+         Ebm8hLgVZc5glbOXYtlqF5bCRcNUcBYBcSVIo70J2i0T3vmvZhgwRDuaCRFxWA8oc3bN
+         11ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678229335;
+        d=1e100.net; s=20210112; t=1678229337;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=diMIx4q9yIWjmOVdIJU4BmXcUxLF0fzLFgvNjCl+Pak=;
-        b=owIjfBS1Fa1eJZDuspFlg0oivnwg/RUQxNVVbMrYArI26n4VwhcuFeAlO8vS4quDH3
-         gC+oo4Sw2Y1Rg6dvgods2rGHZsQgMqrVTOiNR+HzwFhsAMKoyt/Bh+EdmUFwNdyQC87G
-         07x3u6ZUEqHX1atpuzh1FLiWlgTErjMOG0YwpQu7Tm7e+iTWurGcAgD7/HvTXpecR96v
-         /9QAzEulxx26PkY5WDwr+vLrQAbupg8b+lMqSsA6kraENRPVNu42DMlkYgMvBBF2MTXz
-         HMcWgMaKRdwSOkb+GI54dasqFypXD6ixFyHq77OIgrmXZy34MPgpF9+r7KQi+qL9sJBi
-         bCpQ==
-X-Gm-Message-State: AO0yUKX43+U0gUCyepAh1i6xB8HD/QDqLjam6pjLUt4QqGH/AI52ZFdK
-	Y2FnqtrUyrpiD7eExbzUVBsL/kwRtr7AS2KNA7Q=
-X-Google-Smtp-Source: AK7set/yWTo35LCDZlv8vSHhnF7emRhSpvdnHvrl09neYefpgHqR6BJPnd9H6ujHaDwqll4uAT7Oug==
-X-Received: by 2002:a05:6a20:144b:b0:bc:c663:41bd with SMTP id a11-20020a056a20144b00b000bcc66341bdmr18649571pzi.4.1678229335514;
-        Tue, 07 Mar 2023 14:48:55 -0800 (PST)
+        bh=J9JbCtqZmwTjDmmV3CXF3p0QEBMyeH8WTNR79vhT+bY=;
+        b=DUrs2s8TIdcw1ZkM6veGlehr4S8TrNynE/ELY9UCt0AkVkA1Z7IBP4e7mjtjPcKkJK
+         vy/HEIESDzFHO9AmL2eeNneQJIIZ7j06GdrDoePcyB39mogbOT/e0740D4zcgGdu5m+w
+         Y18vxSne/YwbnNFCkbj5/GNRCUvYCx21DnLC5EUHGy7Yc2h+0QxeQYovNsbMFxdT7t8b
+         23HZG6jV0t+4bbsNw/3P3QDMLkP0T9O7hjXnsLLgwp1DgjO2OSOpZ4MB7L4ge19z4RxB
+         19xX4QSdM1qWyLzKFdNovO8T6Y4TiIpZXMGHoj+Wt9JDFZa0D1Y71WWw205blEkinqRG
+         7ivQ==
+X-Gm-Message-State: AO0yUKVpFB4uzR0cEKY/umZaKHvxl14NeCsy3VcYmlobSNGgtxnDrwrB
+	QSIQxgq/AsacFa0PaTxhrfb7TTzC1DWDs2LxoC8=
+X-Google-Smtp-Source: AK7set/0d7qxrgJEyNS8FDclwjWPvWqWt8QIRe95Rhg+cCa0XGF9p4v6OIV/hu3UGiGJpzLdVZORdA==
+X-Received: by 2002:a05:6a20:bc98:b0:d0:76e3:16e5 with SMTP id fx24-20020a056a20bc9800b000d076e316e5mr1366330pzb.2.1678229337487;
+        Tue, 07 Mar 2023 14:48:57 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id k1-20020aa78201000000b005cdbd9c8825sm8388958pfi.195.2023.03.07.14.48.54
+        by smtp.gmail.com with ESMTPSA id k1-20020aa78201000000b005cdbd9c8825sm8388958pfi.195.2023.03.07.14.48.56
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Mar 2023 14:48:55 -0800 (PST)
+        Tue, 07 Mar 2023 14:48:57 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 21/23] kernel-yocto: fix kernel-meta data detection
-Date: Tue,  7 Mar 2023 12:47:55 -1000
-Message-Id: <4533e8363549f87a0484d7c0a43a162c918f33bc.1678228988.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 22/23] image.bbclass: print all QA functions exceptions
+Date: Tue,  7 Mar 2023 12:47:56 -1000
+Message-Id: <c4e3b86f2bcb2b445efc72bd8e06b1b89d88daa2.1678228988.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1678228988.git.steve@sakoman.com>
 References: <cover.1678228988.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 07 Mar 2023 22:49:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178143
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178144
 
-From: Ulrich Ölmann <u.oelmann@pengutronix.de>
+From: Mauro Queiros <maurofrqueiros@gmail.com>
 
-Fixes: 7ef7af5c03ba ("kernel-yocto: restore kernel-meta data detection for SRC_URI elements")
-Signed-off-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+For the QA checks in `image.bbclass`, all exceptions
+other than `oe.utils.ImageQAFailed` always print the
+following generic message:
+"Image QA function func_name failed"
+
+This can be very misleading, as it may hide
+python syntax errors and other kind of issues that are
+hard to detect without more explicit error messages.
+
+This change makes sure that the error message of all
+exceptions are displayed.
+
+Before this change:
+ "Image QA function func_name failed"
+
+After this change:
+ "Image QA function func_name failed: f-string: empty expression not allowed (<string>, line 13)"
+
+Signed-off-by: Mauro Queiros <maurofrqueiros@gmail.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c77754f23e3fb49a62602a6c6a04d5525d1cf457)
+(cherry picked from commit 3d85b30d8704d38b86f5b006748cebc74bd2a4fa)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/kernel-yocto.bbclass | 2 +-
+ meta/classes/image.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 2a6231803b..2abbc2ff66 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -194,7 +194,7 @@ do_kernel_metadata() {
- 	# SRC_URI. If they were supplied, we convert them into include directives
- 	# for the update part of the process
- 	for f in ${feat_dirs}; do
--		if [ -d "${WORKDIR}/$f/meta" ]; then
-+		if [ -d "${WORKDIR}/$f/kernel-meta" ]; then
- 			includes="$includes -I${WORKDIR}/$f/kernel-meta"
- 		elif [ -d "${WORKDIR}/../oe-local-files/$f" ]; then
- 			includes="$includes -I${WORKDIR}/../oe-local-files/$f"
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index a241543ff2..fbf7206d04 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -311,7 +311,7 @@ fakeroot python do_image_qa () {
+         except oe.utils.ImageQAFailed as e:
+             qamsg = qamsg + '\tImage QA function %s failed: %s\n' % (e.name, e.description)
+         except Exception as e:
+-            qamsg = qamsg + '\tImage QA function %s failed\n' % cmd
++            qamsg = qamsg + '\tImage QA function %s failed: %s\n' % (cmd, e)
+ 
+     if qamsg:
+         imgname = d.getVar('IMAGE_NAME')
 -- 
 2.34.1
 
