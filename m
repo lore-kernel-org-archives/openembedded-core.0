@@ -1,115 +1,175 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <skulkarni@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10276C678DB
-	for <webhook@archiver.kernel.org>; Tue,  7 Mar 2023 06:54:53 +0000 (UTC)
-Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com [85.158.142.2])
- by mx.groups.io with SMTP id smtpd.web10.8957.1678172090340761148
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49658C678D5
+	for <webhook@archiver.kernel.org>; Tue,  7 Mar 2023 07:33:43 +0000 (UTC)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web10.9328.1678174418290231714
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Mar 2023 22:54:51 -0800
+ Mon, 06 Mar 2023 23:33:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=VcQvvIBI;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.2, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1678172088; i=@fujitsu.com;
-	bh=fIbRd1/p7YRbnBeh0G2Pt9OLUAHhQxKt046DU9G/dKY=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=VcQvvIBI/m0jCMhZp7WjFUY7V7OI4uVOdbJp0k2ygIePbWfpsn01huw2+/N2lCnpX
-	 uciKg+jesZBkcoSexLyCpz5PKS3qyZu24ZPNvSkPnJq9JnNSkPCmCsH01yr33URBcC
-	 qaKzvtkql/E9rERreOveaw/bPHn0LpocQjLIuqwXPqQWeSwOfLSSrjCgzw3NnQ73xw
-	 JzyHJnWPmnjR9LhlzHw+GnuLOokKzGEiHMt1TtF6BGiS0TuVAJ5lHneVLGEfSDSiGC
-	 oBQUyxIBLpsmIFl6OaqPshzeSWhXGsf7t6FX45XNp+pMHHUJA8e153kRLutEuN4IM5
-	 lwnrzmwUAffHA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrHIsWRWlGSWpSXmKPExsViZ8ORqLv9Plu
-  KwaJZEhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aivl+sBS+5Ku5tOsrawHiOs4uRi0NI4DGj
-  xK4D89kgnOtMEruPXmeFcPYwSjQ9+gLkcHKwCUhJ3Lj/H6iKg0NEQE/i6j9RkDCzgIrEi9897
-  CC2sIC/xK6vt1hAbBag+NpHHYwgNq+Ak8TFq4fYQGwJAQWJKQ/fM0PEBSVOznzCAjFHQuLgix
-  fMEDWKErMvN7NA2JUSrR9+QdlqElfPbWKewMg/C0n7LCTtCxiZVjGaFacWlaUW6ZroJRVlpme
-  U5CZm5uglVukm6qWW6ublF5Vk6BrqJZYX66UWF+sVV+Ym56To5aWWbGIEBmNKcULaDsbWvr96
-  hxglOZiURHmv57OlCPEl5adUZiQWZ8QXleakFh9ilOHgUJLg1bwHlBMsSk1PrUjLzAFGBkxag
-  oNHSYSXAxgdQrzFBYm5xZnpEKlTjIpS4ryfQPoEQBIZpXlwbbBovMQoKyXMy8jAwCDEU5BalJ
-  tZgir/ilGcg1FJmPcwyBSezLwSuOmvgBYzAS2+sJ8FZHFJIkJKqoFp2iWz656/L719GT7nqPs
-  KtkAXl7miuyRq755z1pApZrluzbTngpGA0y/NzUKvQhqtJ3A4LLmxS5OH9UzTtelTXxQsjtrq
-  9zNvdePfZ16B7fxfw8wFRZmPPhPh+DUzlLOz1S+u5837/9+tdyRw3CiZt2L27/SYCuMep2Nzd
-  Kx+f1rzy8l55+QjLQ/4WFQYHAN8Q5h35G88/D7yzekf11ZMufshIfPdS5fEgig1P/80k1les5
-  dk7OG/HDd19QVR5vKrbsnPJIvllNQ2tzrrRcye2f3YvD3NXVDmnLujHccX/7NWO6NZY3vj+Mw
-  nd4W0/jXjPqFS8Vitd273m4qsxKNCC3tDf7VsVy9o32x8KUCJpTgj0VCLuag4EQC2yS2EQQMA
-  AA==
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-11.tower-728.messagelabs.com!1678172086!836095!1
-X-Originating-IP: [62.60.8.97]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.103.1; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 28586 invoked from network); 7 Mar 2023 06:54:47 -0000
-Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-11.tower-728.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 7 Mar 2023 06:54:47 -0000
-Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id BFD2F10018D
-	for <openembedded-core@lists.openembedded.org>; Tue,  7 Mar 2023 06:54:46 +0000 (GMT)
-Received: from R01UKEXCASM223.r01.fujitsu.local (R01UKEXCASM223 [10.182.185.121])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id B379D100182
-	for <openembedded-core@lists.openembedded.org>; Tue,  7 Mar 2023 06:54:46 +0000 (GMT)
-Received: from localhost.localdomain (10.167.225.33) by
- R01UKEXCASM223.r01.fujitsu.local (10.182.185.121) with Microsoft SMTP Server
- (TLS) id 15.0.1497.42; Tue, 7 Mar 2023 06:54:45 +0000
-From: <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH v3] vala: Fix install conflict when enable  multilib.
-Date: Tue, 7 Mar 2023 14:54:35 +0800
-Message-ID: <1678172075-14569-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@mvista.com header.s=google header.b=VLm9Z9VU;
+ spf=pass (domain: mvista.com, ip: 209.85.216.45, mailfrom: skulkarni@mvista.com)
+Received: by mail-pj1-f45.google.com with SMTP id h17-20020a17090aea9100b0023739b10792so11093720pjz.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Mar 2023 23:33:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1678174417;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Qun7YFbPTchOZg/66mxipMDwPQUH27Oxh2hHEKNisnE=;
+        b=VLm9Z9VUVNzX/WUL5fPk8tDWR0w/SwYbGWWJPevbAyEeEA8/LprALMnA6j6VHyrzcM
+         hBk7HmBKqiJc8FRGZPhKydbI1Oj49zzsiU6skpQTgkR+IurU0NcGfxeoYv6jvHK6B0q3
+         6Drq4BuBAsEvLU+R5J9zJcXoH/RilOjrxvEyo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678174417;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Qun7YFbPTchOZg/66mxipMDwPQUH27Oxh2hHEKNisnE=;
+        b=MIv2oc8ES+JNKlR/ttbhB+vC1lX0+HhSAv+L4D4udp9s9Gvx2bXZEi9YCvsBKV2+Iw
+         vEHylmiYmrEsMH6XNVkaAkCGObdMAY+vfr8TprsdTihYhs/sXhUbF7sbwuendeqKooua
+         YOAoOfioSe7yEweqF+0vQQtP2e34oX9rObwlKaFtOHUoF0PVq7FmYm8N0v5UnVt6lbJR
+         nxTLitBhe9JPMIL/RphBtVAdSeUp+t7baaYDlBTkHRvZt7MTrTr7Dto7qj216XPSgz+B
+         fPdgpkVvyNyvAtwTqEGBiEpXotq0XJ1lppIrENVJSu42gujVzwiLAVgFbvPLUzO7gK7/
+         rtiw==
+X-Gm-Message-State: AO0yUKUoqDQE2gHLirwv57rTQ0dXOMOQCpGZ/AN25KyaBeO2E9I8HJbK
+	HD7g/RTNS7LqLMJOTrFz9efMq2Hg/4E2CI+z4G4=
+X-Google-Smtp-Source: AK7set+qC6/j88XfMIKVRmi04ohcZw2gjCLR71vFibrm/UFPBM/HbE85D1irlWPCEurM5NY/iUvoaQ==
+X-Received: by 2002:a17:90b:2742:b0:237:47b0:3235 with SMTP id qi2-20020a17090b274200b0023747b03235mr14296499pjb.32.1678174417191;
+        Mon, 06 Mar 2023 23:33:37 -0800 (PST)
+Received: from localhost.localdomain ([182.74.28.237])
+        by smtp.gmail.com with ESMTPSA id ga7-20020a17090b038700b00233db0db3dfsm8875405pjb.7.2023.03.06.23.33.35
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 06 Mar 2023 23:33:36 -0800 (PST)
+From: skulkarni@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Shubham Kulkarni <skulkarni@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] glibc: Security fix for CVE-2023-0687
+Date: Tue,  7 Mar 2023 13:03:29 +0530
+Message-Id: <1678174409-19199-1-git-send-email-skulkarni@mvista.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM223.r01.fujitsu.local (10.182.185.121)
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Mar 2023 06:54:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178092
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Mar 2023 07:33:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178093
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Shubham Kulkarni <skulkarni@mvista.com>
 
-Error: Transaction test error:
-   file /usr/bin/vala-gen-introspect-0.56 conflicts between attempted installs of lib32-vala-0.56.3-r0.armv7ahf_neon and vala-0.56.3-r0.aarch64
-   file /usr/bin/vapigen-wrapper conflicts between attempted installs
-   of lib32-vala-0.56.3-r0.armv7ahf_neon and vala-0.56.3-r0.aarch64
+Backport from https://sourceware.org/git/?p=glibc.git;a=patch;h=801af9fafd4689337ebf27260aa115335a0cb2bc
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
 ---
- meta/recipes-devtools/vala/vala.inc | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/recipes-core/glibc/glibc/CVE-2023-0687.patch | 82 +++++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.35.bb             |  1 +
+ 2 files changed, 83 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2023-0687.patch
 
-diff --git a/meta/recipes-devtools/vala/vala.inc b/meta/recipes-devtools/vala/vala.inc
-index d3daee37dc..162e99bb03 100644
---- a/meta/recipes-devtools/vala/vala.inc
-+++ b/meta/recipes-devtools/vala/vala.inc
-@@ -50,6 +50,9 @@ do_install:append:class-target() {
- # vapi files.
- SYSROOT_DIRS += "${bindir_crossscripts}"
- 
-+inherit multilib_script
-+MULTILIB_SCRIPTS = "${PN}:${bindir}/vala-gen-introspect-0.56"
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2023-0687.patch b/meta/recipes-core/glibc/glibc/CVE-2023-0687.patch
+new file mode 100644
+index 0000000..10c7e56
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/CVE-2023-0687.patch
+@@ -0,0 +1,82 @@
++From 952aff5c00ad7c6b83c3f310f2643939538827f8 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?=D0=9B=D0=B5=D0=BE=D0=BD=D0=B8=D0=B4=20=D0=AE=D1=80=D1=8C?=
++ =?UTF-8?q?=D0=B5=D0=B2=20=28Leonid=20Yuriev=29?= <leo@yuriev.ru>
++Date: Sat, 4 Feb 2023 14:41:38 +0300
++Subject: [PATCH] gmon: Fix allocated buffer overflow (bug 29444)
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
- SYSROOT_PREPROCESS_FUNCS:append:class-target = " vapigen_sysroot_preprocess"
- vapigen_sysroot_preprocess() {
-         # Tweak the vapigen name in the vapigen pkgconfig file, so that it picks
-@@ -64,5 +67,5 @@ SSTATE_SCAN_FILES += "vapigen-wrapper"
- PACKAGE_PREPROCESS_FUNCS += "vala_package_preprocess"
- 
- vala_package_preprocess () {
--	sed -i -e 's:${RECIPE_SYSROOT}::g;' ${PKGD}${bindir_crossscripts}/vapigen-wrapper
-+	rm -rf ${PKGD}${bindir_crossscripts}
- }
++The `__monstartup()` allocates a buffer used to store all the data
++accumulated by the monitor.
++
++The size of this buffer depends on the size of the internal structures
++used and the address range for which the monitor is activated, as well
++as on the maximum density of call instructions and/or callable functions
++that could be potentially on a segment of executable code.
++
++In particular a hash table of arcs is placed at the end of this buffer.
++The size of this hash table is calculated in bytes as
++   p->fromssize = p->textsize / HASHFRACTION;
++
++but actually should be
++   p->fromssize = ROUNDUP(p->textsize / HASHFRACTION, sizeof(*p->froms));
++
++This results in writing beyond the end of the allocated buffer when an
++added arc corresponds to a call near from the end of the monitored
++address range, since `_mcount()` check the incoming caller address for
++monitored range but not the intermediate result hash-like index that
++uses to write into the table.
++
++It should be noted that when the results are output to `gmon.out`, the
++table is read to the last element calculated from the allocated size in
++bytes, so the arcs stored outside the buffer boundary did not fall into
++`gprof` for analysis. Thus this "feature" help me to found this bug
++during working with https://sourceware.org/bugzilla/show_bug.cgi?id=29438
++
++Just in case, I will explicitly note that the problem breaks the
++`make test t=gmon/tst-gmon-dso` added for Bug 29438.
++There, the arc of the `f3()` call disappears from the output, since in
++the DSO case, the call to `f3` is located close to the end of the
++monitored range.
++
++Signed-off-by: Леонид Юрьев (Leonid Yuriev) <leo@yuriev.ru>
++
++Another minor error seems a related typo in the calculation of
++`kcountsize`, but since kcounts are smaller than froms, this is
++actually to align the p->froms data.
++
++Co-authored-by: DJ Delorie <dj@redhat.com>
++Reviewed-by: Carlos O'Donell <carlos@redhat.com>
++
++Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=801af9fafd4689337ebf27260aa115335a0cb2bc]
++CVE: CVE-2023-0687
++Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
++---
++ gmon/gmon.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/gmon/gmon.c b/gmon/gmon.c
++index dee6480..bf76358 100644
++--- a/gmon/gmon.c
+++++ b/gmon/gmon.c
++@@ -132,6 +132,8 @@ __monstartup (u_long lowpc, u_long highpc)
++   p->lowpc = ROUNDDOWN(lowpc, HISTFRACTION * sizeof(HISTCOUNTER));
++   p->highpc = ROUNDUP(highpc, HISTFRACTION * sizeof(HISTCOUNTER));
++   p->textsize = p->highpc - p->lowpc;
+++  /* This looks like a typo, but it's here to align the p->froms
+++     section.  */
++   p->kcountsize = ROUNDUP(p->textsize / HISTFRACTION, sizeof(*p->froms));
++   p->hashfraction = HASHFRACTION;
++   p->log_hashfraction = -1;
++@@ -142,7 +144,7 @@ __monstartup (u_long lowpc, u_long highpc)
++	 instead of integer division.  Precompute shift amount. */
++       p->log_hashfraction = ffs(p->hashfraction * sizeof(*p->froms)) - 1;
++   }
++-  p->fromssize = p->textsize / HASHFRACTION;
+++  p->fromssize = ROUNDUP(p->textsize / HASHFRACTION, sizeof(*p->froms));
++   p->tolimit = p->textsize * ARCDENSITY / 100;
++   if (p->tolimit < MINARCS)
++     p->tolimit = MINARCS;
++--
++2.7.4
+diff --git a/meta/recipes-core/glibc/glibc_2.35.bb b/meta/recipes-core/glibc/glibc_2.35.bb
+index df847e7..29fcb1d 100644
+--- a/meta/recipes-core/glibc/glibc_2.35.bb
++++ b/meta/recipes-core/glibc/glibc_2.35.bb
+@@ -50,6 +50,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0024-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
+            \
+            file://0001-Revert-Linux-Implement-a-useful-version-of-_startup_.patch \
++           file://CVE-2023-0687.patch \
+            "
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
 -- 
-2.34.1
+2.7.4
 
 
