@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5CC7C742A7
-	for <webhook@archiver.kernel.org>; Tue,  7 Mar 2023 22:48:45 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web10.8617.1678229299776983764
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1DC5C742A7
+	for <webhook@archiver.kernel.org>; Tue,  7 Mar 2023 22:48:55 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web11.8705.1678229325886900780
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Mar 2023 14:48:38 -0800
+ Tue, 07 Mar 2023 14:48:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=lVpYIuIp;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f182.google.com with SMTP id y10so9089366pfi.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Mar 2023 14:48:38 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=yobUnBz7;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f179.google.com with SMTP id c10so9070038pfv.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Mar 2023 14:48:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678229318;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678229325;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=wytZlLu0Ig0rEbfKLnp2o0A1PVjrSZhINot1fOt8nmc=;
-        b=lVpYIuIp7BC1JbHi0SGrzHyjAlZy7uayZ/BkINFwSH4ZSB/Yua0N/yYMi1dbuhc2bo
-         7+ORqk0H/p0S10IYaRqFfK8hT5kZ7j+rfyHMRUwzCqN92E6feF17kGTwtZNBB5cNMaRY
-         YSPdO0C/Xx1tV0SISRbUQkQBhHHPOCtgtV2kTvsPurD9vneU3nhHvr0VN60OzyPNe6jd
-         EbkzscHWo1T8d4XGxZwVGXOrCC/VqJ/rnyU+/u8knvs3Tb/ndSOJrQVqPom0pGVaJZfN
-         GgzKwUGXvA4jlf7g01NGiPe0oY7uWnfi2cywp/FlCO8d+kPbavdxZdztZ+mwziLqMRPh
-         zD4g==
+        bh=dwzmvn2NE2qgwNRDVJ4cE4Zh1wuTeoYx6gAI6uz5wB4=;
+        b=yobUnBz77Cn40YT4D6jBUQ1EtBfikpkA17RMVNG+cauo4DWXSKbjmgwOffY0PmhOmQ
+         SSi/M/o0vD2UA6LK9LwJxKVkENBYY4644WXQzVADON2dc58Uq538kDCTuYB9ZPrhqjVm
+         edPZAZBohB01ICjVRZWNjWM2dkobc4zXJUFrpqqER0z9Pj7HsMSJClQuK9mqDyrf5UcF
+         Hrc73r6XYJKaQRj51q4yBSmAy4xX0ecJmmgU6wQgFnkDimxOvdrxKcNGpz4O2V4PmT59
+         voMvMc2fm47ejuAIK452snUX6uEBTFLd5BrExUH9fv0U6h0mV9AfaE31Ywg21xLeotXS
+         cMuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678229318;
+        d=1e100.net; s=20210112; t=1678229325;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wytZlLu0Ig0rEbfKLnp2o0A1PVjrSZhINot1fOt8nmc=;
-        b=LwSWR0GBtA3xxcOAUjWJgmLbfdll6kPp0BqCzJ2jaL+x8fkUmyzkWcEID+e0GZR5it
-         N2uMANVNLoZKMk4Kiuu5gjy3JeKWazib2KK0PSneNhLefbCpDEMVKfMotB0hZTQS1uT3
-         mjiN32lwgvdPNEUgE9unVSOGdTmxoC5IJRx+YuNvNDE3Treba80H3MF4qcbqQKaS4l5d
-         x8ZloGF1OsJeaQlk75T3Ycr1C0NaDGURSHa/vM8TO7rFi+ylWSkw+nCC+LJqWNa/KyRF
-         4/dnguoL7ZwbtaQW7K+Fm+TUdeM65WgPlpwZHQWGOXcmEn2+MnuOYfbxOoqxQXeEgoML
-         kmnw==
-X-Gm-Message-State: AO0yUKUUtZjpdVEeVajC2WKs8gYRNCCpqcrTxrEfhPlJRkjKObvYJsJK
-	ycg/TKrz43oKvFd/DpQ5rJZ6of0oybus6rvt8I8=
-X-Google-Smtp-Source: AK7set8HThcLDCyI2sAa5AdrjaM8cXZzym9d7L+pojI0y3DP3SMuhmdhnc9We3uE+PjqO8YsLJK1lA==
-X-Received: by 2002:aa7:96f9:0:b0:593:2289:f01c with SMTP id i25-20020aa796f9000000b005932289f01cmr12122017pfq.25.1678229317897;
-        Tue, 07 Mar 2023 14:48:37 -0800 (PST)
+        bh=dwzmvn2NE2qgwNRDVJ4cE4Zh1wuTeoYx6gAI6uz5wB4=;
+        b=Od7EDpvTiOCO8JQQT1KWBsZ2lKfK3zvClTiZKcMpKi8sybHWXAgYDTme3LSlpcxsg0
+         jTFDVOwINIJkbg79MxeZkiGQSMlGCkUPZz8DqaH4H1ihlX28tjnnzSUA61bc6BRna0Dv
+         UiU7ovwwxE3r4UunaXsyAarK8GYDaT3rXYVKYclzfKZjp7jGaLg39hBLnZ7Q0y8Fd4P+
+         tGMX9F2P2qFSyMrccfldTIuehyzKoExDjDldHapjHsfFROSNQbGIRvKgs32d4MNmy8VT
+         iMO4cRnAmS3xZZMv67Zd+oPEBwmYMN6I4Wk1cOZYbufy+G9338X4kVtr7tZ68wgPdJeu
+         ayzA==
+X-Gm-Message-State: AO0yUKX5Ek7CC0zK3+pFj9UUd9mGl4oFQFjVyLgiMQprN6CTnf6kQXfL
+	tT36ggyV3iCgfXCTpWtwuRdhgND0bfHPHPhT0Dc=
+X-Google-Smtp-Source: AK7set+oPwbcTo0nDgbZj2Ot49DGl3L2e4Ic2NNXAXSVqG6lGYfqQtQS2QuDiU6DvHk8f2HkTmQAKQ==
+X-Received: by 2002:a62:19c9:0:b0:60e:950c:7a5d with SMTP id 192-20020a6219c9000000b0060e950c7a5dmr15009747pfz.1.1678229324864;
+        Tue, 07 Mar 2023 14:48:44 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id k1-20020aa78201000000b005cdbd9c8825sm8388958pfi.195.2023.03.07.14.48.36
+        by smtp.gmail.com with ESMTPSA id k1-20020aa78201000000b005cdbd9c8825sm8388958pfi.195.2023.03.07.14.48.43
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Mar 2023 14:48:37 -0800 (PST)
+        Tue, 07 Mar 2023 14:48:44 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 11/23] linux-firmware: upgrade 20230117 -> 20230210
-Date: Tue,  7 Mar 2023 12:47:45 -1000
-Message-Id: <f19ceec135e6afd2a31367a28744eb413b3d2e42.1678228988.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 15/23] apr: Cache configure tests which use AC_TRY_RUN
+Date: Tue,  7 Mar 2023 12:47:49 -1000
+Message-Id: <104c9ddf7a5323e5193c611b98b3e7465157aecd.1678228988.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1678228988.git.steve@sakoman.com>
 References: <cover.1678228988.git.steve@sakoman.com>
@@ -60,47 +60,133 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Mar 2023 22:48:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178133
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Mar 2023 22:48:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178137
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-License-Update: additional firmwares
+AC_TRY_RUN macro means the test needs to run to find the result and we
+are cross compiling so this will always get wrong results, this results
+in miscompiling apache2 on musl because it disables rlimit
+(ac_cv_struct_rlimit) wrongly.
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 8e6134d39b840d96e1c37d3df21a522afea8bc76)
+All these variables are determined with AC_TRY_RUN checks
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+(cherry picked from commit 504eb0ff1cae200ee85ec18ebae564cae9bf9c8c)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...{linux-firmware_20230117.bb => linux-firmware_20230210.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20230117.bb => linux-firmware_20230210.bb} (99%)
+ ...-runtime-test-for-mmap-that-can-map-.patch | 62 +++++++++++++++++++
+ meta/recipes-support/apr/apr_1.7.0.bb         | 15 ++++-
+ 2 files changed, 75 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-support/apr/apr/0001-configure-Remove-runtime-test-for-mmap-that-can-map-.patch
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20230117.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20230210.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20230117.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20230210.bb
-index ce0c90d4c5..fb1ea61906 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20230117.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20230210.bb
-@@ -134,7 +134,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "05f1d941972cedadbf667c05f6010378"
-+WHENCE_CHKSUM  = "aadb3cccbde1e53fc244a409e9bd5a22"
+diff --git a/meta/recipes-support/apr/apr/0001-configure-Remove-runtime-test-for-mmap-that-can-map-.patch b/meta/recipes-support/apr/apr/0001-configure-Remove-runtime-test-for-mmap-that-can-map-.patch
+new file mode 100644
+index 0000000000..fa6202da79
+--- /dev/null
++++ b/meta/recipes-support/apr/apr/0001-configure-Remove-runtime-test-for-mmap-that-can-map-.patch
+@@ -0,0 +1,62 @@
++From ee728971fd9d2da39356f1574d58d5daa3b24520 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Fri, 26 Aug 2022 00:28:08 -0700
++Subject: [PATCH] configure: Remove runtime test for mmap that can map
++ /dev/zero
++
++This never works for cross-compile moreover it ends up disabling
++ac_cv_file__dev_zero which then results in compiler errors in shared
++mutexes
++
++Upstream-Status: Inappropriate [Cross-compile specific]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ configure.in | 32 --------------------------------
++ 1 file changed, 32 deletions(-)
++
++diff --git a/configure.in b/configure.in
++index a99049d..f1f55c7 100644
++--- a/configure.in
+++++ b/configure.in
++@@ -1182,38 +1182,6 @@ AC_CHECK_FUNCS([mmap munmap shm_open shm_unlink shmget shmat shmdt shmctl \
++ APR_CHECK_DEFINE(MAP_ANON, sys/mman.h)
++ AC_CHECK_FILE(/dev/zero)
++ 
++-# Not all systems can mmap /dev/zero (such as HP-UX).  Check for that.
++-if test "$ac_cv_func_mmap" = "yes" &&
++-   test "$ac_cv_file__dev_zero" = "yes"; then
++-    AC_MSG_CHECKING(for mmap that can map /dev/zero)
++-    AC_TRY_RUN([
++-#include <sys/types.h>
++-#include <sys/stat.h>
++-#include <fcntl.h>
++-#ifdef HAVE_SYS_MMAN_H
++-#include <sys/mman.h>
++-#endif
++-    int main()
++-    {
++-        int fd;
++-        void *m;
++-        fd = open("/dev/zero", O_RDWR);
++-        if (fd < 0) {
++-            return 1;
++-        }
++-        m = mmap(0, sizeof(void*), PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
++-        if (m == (void *)-1) {  /* aka MAP_FAILED */
++-            return 2;
++-        }
++-        if (munmap(m, sizeof(void*)) < 0) {
++-            return 3;
++-        }
++-        return 0;
++-    }], [], [ac_cv_file__dev_zero=no], [ac_cv_file__dev_zero=no])
++-
++-    AC_MSG_RESULT($ac_cv_file__dev_zero)
++-fi
++-
++ # Now we determine which one is our anonymous shmem preference.
++ haveshmgetanon="0"
++ havemmapzero="0"
++-- 
++2.37.2
++
+diff --git a/meta/recipes-support/apr/apr_1.7.0.bb b/meta/recipes-support/apr/apr_1.7.0.bb
+index b9d3e356da..5e62e5683f 100644
+--- a/meta/recipes-support/apr/apr_1.7.0.bb
++++ b/meta/recipes-support/apr/apr_1.7.0.bb
+@@ -25,6 +25,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
+            file://0001-Add-option-to-disable-timed-dependant-tests.patch \
+            file://autoconf270.patch \
+            file://0001-add-AC_CACHE_CHECK-for-strerror_r-return-type.patch \
++           file://0001-configure-Remove-runtime-test-for-mmap-that-can-map-.patch \
+            file://CVE-2021-35940.patch \
+            "
  
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
-@@ -212,7 +212,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
- # Pin this to the 20220509 release, override this in local.conf
- SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
+@@ -37,12 +38,22 @@ OE_BINCONFIG_EXTRA_MANGLE = " -e 's:location=source:location=installed:'"
  
--SRC_URI[sha256sum] = "df11e25ba2fb4d5343473757e17a3b4cef599250a26b1f7e0f038850f0cb3d64"
-+SRC_URI[sha256sum] = "6e3d9e8d52cffc4ec0dbe8533a8445328e0524a20f159a5b61c2706f983ce38a"
+ # Added to fix some issues with cmake. Refer to https://github.com/bmwcarit/meta-ros/issues/68#issuecomment-19896928
+ CACHED_CONFIGUREVARS += "apr_cv_mutex_recursive=yes"
+-
++# Enable largefile
++CACHED_CONFIGUREVARS += "apr_cv_use_lfs64=yes"
++# Additional AC_TRY_RUN tests which will need to be cached for cross compile
++CACHED_CONFIGUREVARS += "apr_cv_epoll=yes epoll_create1=yes apr_cv_sock_cloexec=yes \
++    ac_cv_struct_rlimit=yes \
++    ac_cv_func_sem_open=yes \
++    apr_cv_process_shared_works=yes \
++    apr_cv_mutex_robust_shared=yes \
++    "
+ # Also suppress trying to use sctp.
+ #
+ CACHED_CONFIGUREVARS += "ac_cv_header_netinet_sctp_h=no ac_cv_header_netinet_sctp_uio_h=no"
  
- inherit allarch
+-CACHED_CONFIGUREVARS += "ac_cv_sizeof_struct_iovec=yes"
++# ac_cv_sizeof_struct_iovec is deduced using runtime check which will fail during cross-compile
++CACHED_CONFIGUREVARS += "${@['ac_cv_sizeof_struct_iovec=16','ac_cv_sizeof_struct_iovec=8'][d.getVar('SITEINFO_BITS') != '32']}"
++
+ CACHED_CONFIGUREVARS += "ac_cv_file__dev_zero=yes"
  
+ CACHED_CONFIGUREVARS:append:libc-musl = " ac_cv_strerror_r_rc_int=yes"
 -- 
 2.34.1
 
