@@ -1,202 +1,111 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 303D0C6FA99
-	for <webhook@archiver.kernel.org>; Wed,  8 Mar 2023 02:27:07 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web10.13454.1678242421127168592
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1F36C678D5
+	for <webhook@archiver.kernel.org>; Wed,  8 Mar 2023 05:28:18 +0000 (UTC)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web11.695.1678253295336892655
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Mar 2023 18:27:01 -0800
+ Tue, 07 Mar 2023 21:28:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=DQKUibd2;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.44, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f44.google.com with SMTP id nn12so519310pjb.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Mar 2023 18:27:00 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eDZTCyEP;
+ spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: zboszor@gmail.com)
+Received: by mail-ed1-f51.google.com with SMTP id g3so61324433eda.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Mar 2023 21:28:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678242420;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HcgEH34QiMY6u37RWcxOOvaYYiTCgtpGagwHOx79cJA=;
-        b=DQKUibd2zBOqy1X7ARVJ2omakn6uEBd+m262mUytKfUGiXTbmBlLCvz08Oh46xcbeR
-         NhtPecBED227/EFCGErJHuJOLhN+Zt/Vi41+jFbHYA5tZQauhvr8hu211BNuR+vsWL49
-         Gew06gEm9VGzrdDxp1ljifd8Nd9ot2yznUGub885A9+EkNFeHBnDVJI7RYyqqqiON2UP
-         Ear/lhMlHdBCbBSdLlwjJ8ApFcxt7UbLeoZofnjLgXG92LhhGdQRHbRNyFobcs7F5gw4
-         HWsM7BbpIL3vDYzRwNDSGO1OK6gf7RV6fglk/FJsPglGUaCg3HrOTGUamT+2/s1T84FY
-         ucuA==
+        d=gmail.com; s=20210112; t=1678253294;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KFET1jzAwM6EpWUsM4R2icvJNgQrFLQwTKqXXnFqJiQ=;
+        b=eDZTCyEPGeEmJAWv+9N2rIp8IIYfYCDZakwKEkuK3D8VJTC7Ob+0U6a41mktClzI5R
+         Rw0pepIf1itdj4SCIpf40Xb303eU+YMg0AGNpzhjqbSvxBMZpDyb8HMRrqr3Vewqcgvr
+         q3I5nA/RYvARWwnDqiEkXwP4FfFt9dbMFn48LcvIh3Zdn5JbxVbBYX2AK9u+jAYQcmdB
+         Oi7KQJIAngYW37oSjmCuBA68LBLWxqdL66H4B6WUwLdExGxBryo9Wpu+EQPZFmOk/y1G
+         sZT6VhtJtfi4DyRm9fCwqMzEnXI35w5LZy3DnsVBl4h+NID7LCOBaPfTTazV+iRYye/s
+         1oZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678242420;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HcgEH34QiMY6u37RWcxOOvaYYiTCgtpGagwHOx79cJA=;
-        b=pPiFNERB6PDeKQZM+CIqueiH962kQdqSre/f9mkzKa3vFvX9mzK5phCx8MLqfTgifx
-         rdUZSNgtzwUp9jsZ5aJsx0zGGLWPbGlRIOno4kX0O7bbS7cvX/X2eGUZpByKzV+tbqoW
-         m1a8LYaoai5H00zHBVTPCNYc+69Qk9xrnQIjGp73KHntNZsvh8pBS0e5NoPyPRgbmRhU
-         ciFHUYzgMmzRGnr4GkbMpyRz23fUJpJEIQgpFW/1sysapGka4fLlPR9fq/OG5eaS0Foo
-         deosR0UX2sKLKCG+HaeZQDMgj4+YgYNpB2I0px/V/7g0Vg0QJ6ifdMvMcXl4QoiZ1MCz
-         GLsg==
-X-Gm-Message-State: AO0yUKW0Wl47fGNLrAoMebKjAhyNa6MzGzVzMKC8kRFuzaibfdoWDNOU
-	D561lNGtZr51zKs3v+JbZJi+C44Hj7r8zYupJZs=
-X-Google-Smtp-Source: AK7set9G2YedNgm4xyRSFKpNnMS5hJKSGbWDd97CCQJE1BvKyiUl4Zhl9NEgM2QZKKEG77e0dIrSnQ==
-X-Received: by 2002:a05:6a20:9150:b0:b9:7de5:239 with SMTP id x16-20020a056a20915000b000b97de50239mr17567111pzc.27.1678242419732;
-        Tue, 07 Mar 2023 18:26:59 -0800 (PST)
-Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id g5-20020aa78745000000b0058a3d8eab6asm8497264pfo.134.2023.03.07.18.26.58
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Mar 2023 18:26:59 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/28] Pull request (cover letter only)
-Date: Tue,  7 Mar 2023 16:26:53 -1000
-Message-Id: <cover.1678242326.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20210112; t=1678253294;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KFET1jzAwM6EpWUsM4R2icvJNgQrFLQwTKqXXnFqJiQ=;
+        b=wIcg0fBbrBkalLJ9iQ/Jlvz3oeynAS0O8CN+uxEiomBW1aRXEbkP4TCsL9f9Y52jBg
+         qZ5tEdXDlGxHuQv4Ce1ydma7PxFc4btXoqXwHSDwfhItnpfOVygEZyLggUucrvgSVh8E
+         GsKYncY3LK0SXD6adRYEripldhd90roxcj3oK10xNIRPiYY3vtVK9hgtPRnlv7BV9e9q
+         fPKvNwxY6FjlQO416of/l93csFEZwyQKRW7Tikg0SrqsO7vTZdIZ1nxwZsXSnO/fkFp0
+         1MWluiqVeLNmCzFaKaGHK/d0tBv/lFLRG/yYSNm22L43Abyl7Y2wi/805pw5Ef78uQyp
+         /jSQ==
+X-Gm-Message-State: AO0yUKVBmmCy8zNWX493i+kfOePhxuR1fDQBYEk6DSQsWTMTAlJLTXO8
+	TbQI8VXFNisMN7sFKmVGII4=
+X-Google-Smtp-Source: AK7set/SdTtbAuMZTaI/myaIOmWvUq3ZxJPo3mQQ9prjgef0V2+O1OdxURWYb1khwu7MjgZpWP6XnQ==
+X-Received: by 2002:a17:906:2303:b0:87f:89f2:c012 with SMTP id l3-20020a170906230300b0087f89f2c012mr15955145eja.24.1678253293719;
+        Tue, 07 Mar 2023 21:28:13 -0800 (PST)
+Received: from [192.168.1.143] (BC244571.dsl.pool.telekom.hu. [188.36.69.113])
+        by smtp.gmail.com with ESMTPSA id ot18-20020a170906ccd200b008e40853a712sm6998947ejb.97.2023.03.07.21.28.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Mar 2023 21:28:13 -0800 (PST)
+Message-ID: <1575601e-27f5-59ea-12cf-df9986f8401b@gmail.com>
+Date: Wed, 8 Mar 2023 06:28:10 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [OE-core] [PATCH v3 1/3] mesa, mesa-gl: 23.0.0
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
+ openembedded-core@lists.openembedded.org, Ross Burton <Ross.Burton@arm.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Alex Kiernan <alex.kiernan@gmail.com>
+References: <17474798FA156F5A.18951@lists.openembedded.org>
+ <20230306091108.3347363-1-zboszor@gmail.com>
+ <20230306091108.3347363-2-zboszor@gmail.com>
+ <CAP9ODKqgw7+wv9VWTHF6KrNmcVZzgdujKNTthWiM2zCxJZXKgw@mail.gmail.com>
+ <CANNYZj9qaL310h66gXiP2ZR2f7ywhWHDzrgvFnyMQH7cFwArqA@mail.gmail.com>
+ <6524a686-7e21-7c69-4fee-e17d4d757108@gmail.com>
+ <CANNYZj_B1kxRB4bPWwCyU-90fR=ez0y=WGzdTjo16W05k5=Gww@mail.gmail.com>
+ <c986ecfa-458d-b7a2-a69b-9f5cc4a3af0a@gmail.com>
+ <CANNYZj9p+zBOA=Ng_zWafM8aaw=dEMNMcD450XmbVcQJq9R++A@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+In-Reply-To: <CANNYZj9p+zBOA=Ng_zWafM8aaw=dEMNMcD450XmbVcQJq9R++A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Mar 2023 02:27:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178152
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Mar 2023 05:28:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178153
 
-The following changes since commit b20e2134daec33fbb8ce358d984751d887752bd5:
+2023. 03. 07. 17:50 keltezéssel, Alexander Kanavin írta:
+> On Tue, 7 Mar 2023 at 17:43, Böszörményi Zoltán <zboszor@gmail.com> wrote:
+>
+>> This looks like it's coming from a mesa-native build
+>> which should match the target build version.
+>> The problem may be that despite of this, it tries to open
+>> the host drivers from /usr instead of .../recipe-sysroot-native/usr.
+> Yes, that's exactly what runqemu does, on purpose, by redirecting
+> native mesa to use the host drivers via LIBGL_DRIVERS_PATH environment
+> variable. We could easily make it use its own drivers from
+> recipe-sysroot-native, but that means we have to actually build them,
+> which is very heavy (e.g. llvm is required for llvmpipe, and some amd
+> drivers). Unfortunately mesa 23.0.0 more or less forces that with its
+> version matching.
 
-  build-appliance-image: Update to kirkstone head revision (2023-02-27 23:39:05 +0000)
+I think that was already brewing with 22.3.x, since that version
+cut off the "classic" drivers, keeping only the gallium ones.
+Like the kernel, Mesa's drivers were implicitly expected to work
+with everything built from the same main version because
+they were using internal structures that may be reworked
+from one major version to another.
 
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
-
-Alexander Kanavin (4):
-  vim: update 9.0.1211 -> 9.0.1293 to resolve open CVEs
-  dbus: upgrade 1.14.4 -> 1.14.6
-  linux-firmware: upgrade 20230117 -> 20230210
-  wireless-regdb: upgrade 2022.08.12 -> 2023.02.13
-
-Alexis Lothoré (1):
-  oeqa/selftest/resulttooltests: fix minor typo
-
-Bruce Ashfield (1):
-  lttng-modules: fix for kernel 6.2+
-
-Changqing Li (1):
-  libsdl2: fix CVE-2022-4743
-
-Dmitry Baryshkov (2):
-  linux-firmware: properly set license for all Qualcomm firmware
-  linux-firmware: add yamato fw files to qcom-adreno-a2xx package
-
-Federico Pellegrin (1):
-  curl: fix dependencies when building with ldap/ldaps
-
-Hitendra Prajapati (1):
-  less: backport the fix for CVE-2022-46663
-
-Joe Slater (1):
-  nghttp2: never build python bindings
-
-Kai Kang (1):
-  xserver-xorg: 21.1.6 -> 21.1.7
-
-Mateusz Marciniec (1):
-  sstatesig: Improve output hash calculation
-
-Mikko Rapeli (2):
-  oeqa ssh.py: fix hangs in run()
-  runqemu: kill qemu if it hangs
-
-Narpat Mali (1):
-  libseccomp: fix for the ptest result format
-
-Pavel Zhukov (1):
-  wic: Fix usage of fstype=none in wic
-
-Richard Purdie (1):
-  libssh2: Clean up ptest patch/coverage
-
-Ross Burton (1):
-  lib/buildstats: handle tasks that never finished
-
-Saul Wold (2):
-  package.bbclase: Add check for /build in copydebugsources()
-  busybox: Fix depmod patch
-
-Siddharth Doshi (1):
-  openssl: Upgrade 3.0.7 -> 3.0.8
-
-Ulrich Ölmann (1):
-  kernel-yocto: fix kernel-meta data detection
-
-Wang Mingyu (2):
-  libjpeg-turbo: upgrade 2.1.5 -> 2.1.5.1
-  xwayland: upgrade 22.1.7 -> 22.1.8
-
-Xiangyu Chen (1):
-  dhcpcd: fix dhcpcd start failure on qemuppc64
-
-Yash Shinde (1):
-  binutils : Fix CVE-2023-22608
-
- meta/classes/kernel-yocto.bbclass             |   2 +-
- meta/classes/package.bbclass                  |   7 +
- meta/lib/oe/sstatesig.py                      |   4 +
- meta/lib/oeqa/core/target/ssh.py              |  39 +-
- .../oeqa/selftest/cases/resulttooltests.py    |   2 +-
- .../dhcpcd/dhcpcd_9.4.1.bb                    |   1 +
- ...x-SECCOMP_AUDIT_ARCH-missing-ppc64le.patch |  34 ++
- .../openssl/openssl/CVE-2022-3996.patch       |  43 --
- .../{openssl_3.0.7.bb => openssl_3.0.8.bb}    |   3 +-
- ...001-depmod-Ignore-.debug-directories.patch |   2 +-
- .../dbus/{dbus_1.14.4.bb => dbus_1.14.6.bb}   |   4 +-
- .../binutils/binutils-2.38.inc                |   3 +
- .../binutils/0020-CVE-2023-22608-1.patch      | 506 ++++++++++++++++++
- .../binutils/0020-CVE-2023-22608-2.patch      | 210 ++++++++
- .../binutils/0020-CVE-2023-22608-3.patch      |  32 ++
- .../less/less/CVE-2022-46663.patch            |  31 ++
- meta/recipes-extended/less/less_600.bb        |   1 +
- ...urbo_2.1.5.bb => libjpeg-turbo_2.1.5.1.bb} |   2 +-
- ...ial-memory-leak-in-GLES_CreateTextur.patch |  40 ++
- .../libsdl2/libsdl2_2.0.20.bb                 |   1 +
- ...-xorg_21.1.6.bb => xserver-xorg_21.1.7.bb} |   2 +-
- ...{xwayland_22.1.7.bb => xwayland_22.1.8.bb} |   2 +-
- ...20230117.bb => linux-firmware_20230210.bb} |  41 +-
- ...ccessor-helpers-into-accessors.h-v6..patch |  45 ++
- .../lttng/lttng-modules_2.13.8.bb             |   1 +
- ....08.12.bb => wireless-regdb_2023.02.13.bb} |   2 +-
- meta/recipes-support/curl/curl_7.82.0.bb      |   4 +-
- .../libseccomp/files/run-ptest                |   3 +
- ...nviroment-to-decide-if-a-test-is-bui.patch |  44 --
- .../libssh2/libssh2/fix-ssh2-test.patch       |  23 +
- .../libssh2/{files => libssh2}/run-ptest      |   3 +-
- .../recipes-support/libssh2/libssh2_1.10.0.bb |   3 +-
- .../recipes-support/nghttp2/nghttp2_1.47.0.bb |   4 +
- meta/recipes-support/vim/vim.inc              |   4 +-
- scripts/lib/buildstats.py                     |  33 +-
- scripts/lib/wic/partition.py                  |   5 +
- scripts/runqemu                               |  24 +-
- 37 files changed, 1075 insertions(+), 135 deletions(-)
- create mode 100644 meta/recipes-connectivity/dhcpcd/files/0001-privsep-linux-fix-SECCOMP_AUDIT_ARCH-missing-ppc64le.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2022-3996.patch
- rename meta/recipes-connectivity/openssl/{openssl_3.0.7.bb => openssl_3.0.8.bb} (98%)
- rename meta/recipes-core/dbus/{dbus_1.14.4.bb => dbus_1.14.6.bb} (98%)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0020-CVE-2023-22608-1.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0020-CVE-2023-22608-2.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0020-CVE-2023-22608-3.patch
- create mode 100644 meta/recipes-extended/less/less/CVE-2022-46663.patch
- rename meta/recipes-graphics/jpeg/{libjpeg-turbo_2.1.5.bb => libjpeg-turbo_2.1.5.1.bb} (97%)
- create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-Fix-potential-memory-leak-in-GLES_CreateTextur.patch
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.6.bb => xserver-xorg_21.1.7.bb} (92%)
- rename meta/recipes-graphics/xwayland/{xwayland_22.1.7.bb => xwayland_22.1.8.bb} (95%)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20230117.bb => linux-firmware_20230210.bb} (96%)
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-btrfs-move-accessor-helpers-into-accessors.h-v6..patch
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2022.08.12.bb => wireless-regdb_2023.02.13.bb} (94%)
- delete mode 100644 meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
- create mode 100644 meta/recipes-support/libssh2/libssh2/fix-ssh2-test.patch
- rename meta/recipes-support/libssh2/{files => libssh2}/run-ptest (67%)
-
--- 
-2.34.1
+That's why glvnd exists. NVIDIA's libGL.so.1 only loaded its own
+hardware driver (kernel or userspace), and Mesa too.
+The situation that started with 22.3.x explicitly stated that
+glvnd has to be used if someone wanted to use the
+classic drivers from Mesa 22.2.x a.k.a. the "amber" branch.
+Though it's true that the version enforcing was only added
+to 23.0.0, but it only added emphasis to the already existing
+state of affairs.
 
 
