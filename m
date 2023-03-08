@@ -2,124 +2,104 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C1CEC678D5
-	for <webhook@archiver.kernel.org>; Wed,  8 Mar 2023 09:34:00 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web11.3100.1678268033790705004
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F96FC678D5
+	for <webhook@archiver.kernel.org>; Wed,  8 Mar 2023 10:15:30 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web10.3553.1678270523761310688
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Mar 2023 01:33:54 -0800
+ Wed, 08 Mar 2023 02:15:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eMW2hWxL;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id l25so14715040wrb.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Mar 2023 01:33:53 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ftgi4qc1;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id j2so14790533wrh.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Mar 2023 02:15:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1678268032;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nWXuYm6SFYsirqeK383qyzUAMXOW05THkyDx/0h0q7g=;
-        b=eMW2hWxLEhAD4n3s9UXszk4Wa1RIr6rwZ23NFStydaUbnZVTXHHsELa5uQLaxbU7+y
-         gmWCMgouSe3ZZyk0NQhr1hrzaXcTu1CANRkS80ECINxU7kVekR9fl0uzIfLCI0UHPbb5
-         dJEtN6Q9pSelW7rFenPuaeHdJNMgjl+sR6hxE=
+        d=linuxfoundation.org; s=google; t=1678270522;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LXx0VRXhTjC6hnJKJnv5HlRlJ9sSgV8FpyYlrKWh3sM=;
+        b=ftgi4qc195eWUoK56xFJ2C3GyFvimZPLduesZO05ExkcaJB3forvy4vtB4chPC2x6a
+         lWkP3pqcJEyjDdPMlXtEbWzMTx7ZX9MVoSBp0lnFNnbeRwuppm/7GIW9lJSGcwmTtLmf
+         bdGhJ2u+UcoWnbcdTtd9UT9gourXbBNjcV6+w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678268032;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=nWXuYm6SFYsirqeK383qyzUAMXOW05THkyDx/0h0q7g=;
-        b=tvdUQNi2SfGjKhqNxe8Dq9uAiUMQjk0/kFtLLh6UmC2dbcyXzJfnS6i/qcxPQoOtwO
-         SIpIAG5gh2aJ+OjhpMYHhRK063C1AtFhO9G5Og3jktdXFbu+/TvovqPj8bV6TEZQiGkw
-         KVopubSP8wtWml4tuKiQdo1CXQ3nLu3/jxInDLSxI5VNw3L4JnHuY78/x4oDsjNUeIw3
-         dcLWWjUxhuuBEDF2haizml31g1GSRAuTdSgz1RB7jUUktamvcM3jZWQqGdkJfcZvK0Yv
-         qeVlE7T1P9Buo/aMRMdEYUmLdFp4rCoaQ/1+LyEvCeFdbbEXncPw9MjB174TlJgVuuGI
-         3D1g==
-X-Gm-Message-State: AO0yUKUYNS32P+D7Q95SHK/do0v3DfeFrGl2kvTyeQGur3iJWml2lDnL
-	rH23LThQbigMBBCEKl/GIro6bA==
-X-Google-Smtp-Source: AK7set8CxM618G4K/OyJGzsXs8laKBjNhc39DhZEu5J3a4oj2ddDvqv/HlfTN8jX0KUMP+ph1QbJ3w==
-X-Received: by 2002:a5d:4ec2:0:b0:2c5:483f:1580 with SMTP id s2-20020a5d4ec2000000b002c5483f1580mr16676751wrv.12.1678268031953;
-        Wed, 08 Mar 2023 01:33:51 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:1eb8:fdef:c144:ef0b? ([2001:8b0:aba:5f3c:1eb8:fdef:c144:ef0b])
-        by smtp.gmail.com with ESMTPSA id l36-20020a05600c08a400b003eb39e60ec9sm14677789wmp.36.2023.03.08.01.33.51
+        d=1e100.net; s=20210112; t=1678270522;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LXx0VRXhTjC6hnJKJnv5HlRlJ9sSgV8FpyYlrKWh3sM=;
+        b=yFoA+xCXRTnv7HOAXmodCnsMD8qjO9b7WURIEaFmcpZvOpan2w9/wDbgg50hKKlj3q
+         16BVLJZeRlYgpwM10i5H4lFs34uCCDggpRjblwPJgouHMNZG1akLUhNqLPlGravpSG0T
+         h7fW2n5TWksDe0NAwQmpj7kStWoz8OnqMOU28EQbMFD48UtRZhMcLgYKIIQpm1yKbY1Z
+         hSoApwwBng89Bqvjtcnu+ZbfgVjfPOIYwn1PnKlbdTMNcVtibo9pPr5FKTvfS0h5/Ln1
+         T6dUoVRg8TIPXjWKtPF9mDm/6o44OVzbzQ7RiNvN20kkXjNOziEdGWpn3HN5StVsoGKA
+         o/jA==
+X-Gm-Message-State: AO0yUKVppouKntAyduqYXfSdbICwlb0pZHm6kCBde2ilK+fq/80Ymifa
+	sxnio5Glhj5WhU+rRYMEFj++14sVn//POvBwT24=
+X-Google-Smtp-Source: AK7set9jhPw+09sMxTZ687owAak6dtJh/fIO2rIQn4UEtUZXI/8mHISig/Cc/ScIYRzSAWoJaDECvQ==
+X-Received: by 2002:a5d:4c4c:0:b0:2c5:4f06:5fe with SMTP id n12-20020a5d4c4c000000b002c54f0605femr11946984wrt.57.1678270521711;
+        Wed, 08 Mar 2023 02:15:21 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:1eb8:fdef:c144:ef0b])
+        by smtp.gmail.com with ESMTPSA id a17-20020a056000101100b002c553e061fdsm14924249wrx.112.2023.03.08.02.15.21
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Mar 2023 01:33:51 -0800 (PST)
-Message-ID: <1bb970e2a519aca668d4cb5338347916d3628d34.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] binutils: Enable --enable-new-dtags
+        Wed, 08 Mar 2023 02:15:21 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Wed, 08 Mar 2023 09:33:51 +0000
-In-Reply-To: <20230223065816.3151823-1-raj.khem@gmail.com>
-References: <20230223065816.3151823-1-raj.khem@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3-1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] staging/multilib: Fix manifest corruption
+Date: Wed,  8 Mar 2023 10:15:20 +0000
+Message-Id: <20230308101520.2722365-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Mar 2023 09:34:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178161
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Mar 2023 10:15:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178162
 
-On Wed, 2023-02-22 at 22:58 -0800, Khem Raj wrote:
-> Use DT_RUNPATH over DT_RPATH. If DT_RUNPATH is present, LD_LIBRARY_PATH i=
-s searched before
-> DT_RUNPATH, Search order is DT_RPATH then LD_LIBRARY_PATH then
-> DT_RUNPATH, this order ensures that injecting
-> malicious shared objects is way harder with DT_RUNPATH.
->=20
-> This is now default on major linux distributions already
->=20
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-devtools/binutils/binutils.inc | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-d=
-evtools/binutils/binutils.inc
-> index b2dbf241df..c69d29448f 100644
-> --- a/meta/recipes-devtools/binutils/binutils.inc
-> +++ b/meta/recipes-devtools/binutils/binutils.inc
-> @@ -96,6 +96,7 @@ EXTRA_OECONF =3D "--program-prefix=3D${TARGET_PREFIX} \
->                  --disable-werror \
->                  --enable-deterministic-archives \
->                  --enable-plugins \
-> +                --enable-new-dtags \
->                  --disable-gdb \
->                  --disable-gdbserver \
->                  --disable-libdecnumber \
+The previous fix wasn't enough to address all the possible ways the
+manifests might be ordered. Rework the previous fix so it is tied
+to the multilib cross-canadian code which is causing the problem.
 
-FWIW I 100% agree we should look to enable this.=C2=A0
+RECIPE_SYSROOT_MANIFEST_SUBDIR is not documented as I'd hope nobody
+ever needs to use this outside the core multilib code.
 
-Sadly, doing so exposes a bug where things that should rebuild don't.
-That manifests as a failure in the reproducible test builds on the
-autobuilder. I suspect a taskhash problem somewhere, maybe hash
-equivalence, maybe somewhere else, hard to say without debugging it.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes-global/staging.bbclass | 7 ++++---
+ meta/classes/multilib.bbclass       | 1 +
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-I've been trying to get to this to help. The first issue was to sort
-the other gdb issue this appeared to trigger but was in fact unrelated
-and an issue from the recent binutils/gdb version upgrade. I've
-debugged the initial buildtools tarball bug and re-deployed buildtools
-on the infrastructure. That fixed some of the manifestations but not
-all, I then debugged the remaining ones, worked out the regression in
-upstream gdb and sent a patch yesterday which was merged upstream to
-fix it.
-
-I am trying to get to helping with the problem this patch causes but
-these things take a ton of time. Whilst I may get paid to work on the
-project, I am one person and I'm getting pulled in a ridiculous number
-of directions at once.
-
-People should worry this triggers a reproducibility issue, it means
-there is a bug somewhere.
-
-I am hoping to get to this and to help try and debug it but the patch
-cannot merge until we get to the bottom of the issue it triggers.
-
-Cheers,
-
-Richard
-
-
-
+diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/staging.bbclass
+index e6d0d1d55cf..a058d344fde 100644
+--- a/meta/classes-global/staging.bbclass
++++ b/meta/classes-global/staging.bbclass
+@@ -275,9 +275,10 @@ python extend_recipe_sysroot() {
+     pn = d.getVar("PN")
+     stagingdir = d.getVar("STAGING_DIR")
+     sharedmanifests = d.getVar("COMPONENTS_DIR") + "/manifests"
+-    mlprefix = d.getVar("MLPREFIX")
+-    if mlprefix:
+-        sharedmanifests = sharedmanifests + "/" + mlprefix
++    # only needed by multilib cross-canadian since it redefines RECIPE_SYSROOT
++    manifestprefix = d.getVar("RECIPE_SYSROOT_MANIFEST_SUBDIR")
++    if manifestprefix:
++        sharedmanifests = sharedmanifests + "/" + manifestprefix
+     recipesysroot = d.getVar("RECIPE_SYSROOT")
+     recipesysrootnative = d.getVar("RECIPE_SYSROOT_NATIVE")
+ 
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index 10a4ef9c37a..8a1a51aabad 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -51,6 +51,7 @@ python multilib_virtclass_handler () {
+         e.data.setVar("RECIPE_SYSROOT", "${WORKDIR}/recipe-sysroot")
+         e.data.setVar("STAGING_DIR_TARGET", "${WORKDIR}/recipe-sysroot")
+         e.data.setVar("STAGING_DIR_HOST", "${WORKDIR}/recipe-sysroot")
++        e.data.setVar("RECIPE_SYSROOT_MANIFEST_SUBDIR", "nativesdk-" + variant)
+         e.data.setVar("MLPREFIX", variant + "-")
+         override = ":virtclass-multilib-" + variant
+         e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + override)
+-- 
+2.38.1
 
 
