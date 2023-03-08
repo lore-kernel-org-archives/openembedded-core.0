@@ -2,257 +2,131 @@ Return-Path: <peron.clem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53ADDC6FD1E
-	for <webhook@archiver.kernel.org>; Wed,  8 Mar 2023 17:14:42 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.14000.1678295681615900538
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35CFEC64EC4
+	for <webhook@archiver.kernel.org>; Wed,  8 Mar 2023 17:14:52 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.13933.1678295682166301305
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Mar 2023 09:14:41 -0800
+ Wed, 08 Mar 2023 09:14:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=IoUwJ9Eb;
- spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: peron.clem@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id ay29-20020a05600c1e1d00b003e9f4c2b623so1816721wmb.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=AuXlEIgu;
+ spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: peron.clem@gmail.com)
+Received: by mail-wm1-f41.google.com with SMTP id fm20-20020a05600c0c1400b003ead37e6588so1806963wmb.5
         for <openembedded-core@lists.openembedded.org>; Wed, 08 Mar 2023 09:14:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112; t=1678295680;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zPUgM2WxAx4AtvYG1qxdpyJEjL92LTcRSZob0R8lWPM=;
-        b=IoUwJ9EbdZryqhP0J3wsvuXWrEsx6Oj7H8HLHmO0sgnUjBCA90tIQD7HY7SR9tRdfM
-         bbpJq2ZsX2K9GiEqCMOy1kKxAJsgbUmAeuREWEkzphTGQqX8SWt5tpiLG4RsdUtxqQ14
-         S1ZsO8h4m57pJF2fKVNqzZynGMNbPgHk2WpKv7R0dg+ArTJMQxXjtkhJFSYoWzvmAves
-         JDMaDZ9vVO7f23eEb5nwN0q0REzTRutkidgKS1YCqo1jvPkg8/C76wrRxiCaLIRWnf9y
-         uig1y8FXS9kgMPrV6zsGUv1B649JZKAcLQE9x+AVh5yjEq9k7n342x/l3ktUytyU2ak9
-         /zLQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=28zyv0ihsOv101ecNIwYzST4i93yTIy0P79jyXITz+w=;
+        b=AuXlEIguFtBSTe9UJ+P+bJBjRsgvMIpk4DQGDNXsL1R8ysUI3gkCjb2hVcQBHENC5Q
+         8euH8lDYS/V0iR+soF56bthFo4yQJxjm0z8YwO6Yxnh3m8KzpAtgf3jJiOPRC228Tsuh
+         Zwb37hZEQGHhwCZErfmZPgCdTy4BmEl+Fl3AxzoSkUHwLvXh6t7ZxjmyfPAnuqjBok8d
+         zmbyvdnUEmWKX1Zz0UOHZPnD62eiJWpmhPI2EfRsLdlW3IFh3RCfhURaruT0/S3dzGhN
+         TOaKKvyrfmdqni83WFC0EoJzxVa+H0GBEruUB+YY3PRZpfzOX9y2u1n/tlI32AaZSI8b
+         T6QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112; t=1678295680;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zPUgM2WxAx4AtvYG1qxdpyJEjL92LTcRSZob0R8lWPM=;
-        b=DmVdYRG41X8FNAvIh2+RURrUznxef0L0jXXh2v/pUXmoyEOG0TxHMjKl+1CtDSqvAk
-         fP+VpWqatmkFu/XEko8DHMtEJC4LPNMvlWOVceClTRlttZFp9nKg/+JXWJs9TxX+uGkn
-         5cHpczB3uWyMjEUmbN4z2EvxWSS7OH6KTO0rWb2ZqcgI4Se6f93RdKsHw/FASpHp8pfZ
-         CV60uXzleSCk6IFCiRKAaSCJKATeXqpNRdE5wKcsdyAEpUa8IitUgQrQyHwYp9Ca6m5V
-         vePrVgzBG492A6P0tci5g25Pw2/cYxIcnzfySSbfKWz3QwcFRsHSr9LsatDRyWGuV+vW
-         TqOw==
-X-Gm-Message-State: AO0yUKXKYR9iKGmoCKr/eTQTuaraIC/a860msDz1R8oI8Qy+494EuNnY
-	UPC3w3W+3RxC/382HUIZJZ+Kca0nG84=
-X-Google-Smtp-Source: AK7set9+2emTvm7he2emTEXbe22GTFTRgPvJFaAfHE5Dz4V4HZhO2SxKU2qUWUWEPtDJoqXNL6RFXw==
-X-Received: by 2002:a05:600c:5123:b0:3ea:ecc2:daab with SMTP id o35-20020a05600c512300b003eaecc2daabmr18214781wms.3.1678295679583;
-        Wed, 08 Mar 2023 09:14:39 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=28zyv0ihsOv101ecNIwYzST4i93yTIy0P79jyXITz+w=;
+        b=qJpj66h+5k52Vv5Abz4GcAhk+pYNNKENI369bqzbimdJE3AWuBYLQK5+/fiW3JeNa4
+         SZXXOMZbFsUO3q+7k2CJy7/GYhWWHwof7FknLzOnVS3Y24bQvdhS9coxCRtdwY2wx890
+         xkTICN3CbnQTT8H/5Exr4qw+RFAxK+hFOqR8mkqIU/hOfANSgftCo5G8i/T1GY5rAO2F
+         9HhXBn0/+1DX3rAHYspg0sAW5J+Zi5m9qrBpU/Se7USKuHAjCkJLWnwekVY1ouJfh+bL
+         7VAfqJnBFPnCD55aIr35dgWndvr0RoXAXjP8Fc7khiYEult9sIzQR0rVmpM7J81fgQMf
+         oCgA==
+X-Gm-Message-State: AO0yUKVUTNLXR/BqE5NZBE69gjW8WZuYg3OKAtq8Bt6UWes6d10cFnx4
+	D7MPPrfW/h6dElGrktr9NyZSm7jEVUs=
+X-Google-Smtp-Source: AK7set/JCdVzCEzaDhywl3MkmrKV3qKecWH8N39pEQGi6TSTEq15Z5YD8dqM3XP6NPXzA4EZh1RTAQ==
+X-Received: by 2002:a05:600c:548d:b0:3eb:2da4:efe7 with SMTP id iv13-20020a05600c548d00b003eb2da4efe7mr16395538wmb.11.1678295680308;
+        Wed, 08 Mar 2023 09:14:40 -0800 (PST)
 Received: from localhost.localdomain (2a01cb000c0d3d0045a625b6f3ed646c.ipv6.abo.wanadoo.fr. [2a01:cb00:c0d:3d00:45a6:25b6:f3ed:646c])
-        by smtp.gmail.com with ESMTPSA id h15-20020a05600c314f00b003d9aa76dc6asm113141wmo.0.2023.03.08.09.14.38
+        by smtp.gmail.com with ESMTPSA id h15-20020a05600c314f00b003d9aa76dc6asm113141wmo.0.2023.03.08.09.14.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 08 Mar 2023 09:14:39 -0800 (PST)
 From: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
 	Brenda Streiff <brenda.streiff@ni.com>
-Subject: [PATCH v4 1/2] qemu: split out qemu-guest-agent, add startup scripts
-Date: Wed,  8 Mar 2023 18:14:36 +0100
-Message-Id: <20230308171437.35160-1-peron.clem@gmail.com>
+Subject: [PATCH v4 2/2] runqemu: add an option to enable guest-agent virtio device
+Date: Wed,  8 Mar 2023 18:14:37 +0100
+Message-Id: <20230308171437.35160-2-peron.clem@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230308171437.35160-1-peron.clem@gmail.com>
+References: <20230308171437.35160-1-peron.clem@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Mar 2023 17:14:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178181
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Mar 2023 17:14:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178182
 
-Split out the QEMU guest agent into a separate package. The agent is
-intended to be installed within a QEMU VM guest where a user is likely
-to not want to have the rest of the QEMU installation within it.
-
-Additionally, an initscript, udev rules file, and systemd unit file are
-added to the package so that the guest agent can start automatically;
-the former two come from Debian's packaging for qemu-guest-agent.
+Add support to the runqemu script for a new option, 'guestagent', that
+enables the virtio serial port for host-to-guest communication.
 
 Signed-off-by: Brenda Streiff <brenda.streiff@ni.com>
 Signed-off-by: Clément Péron <peron.clem@gmail.com>
 ---
+ scripts/runqemu | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Changes since v3:
- - fix missing comma in udev rule
-
-Changes since v2:
- - Add missing files
- - rebase on top of master
-
-Changes since v1:
- - Fix systemd-service using PN where it should not
-
- meta/recipes-devtools/qemu/qemu.inc           | 35 +++++++-
- .../qemu/qemu/qemu-guest-agent.init           | 84 +++++++++++++++++++
- .../qemu/qemu/qemu-guest-agent.udev           |  2 +
- 3 files changed, 120 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/qemu/qemu/qemu-guest-agent.init
- create mode 100644 meta/recipes-devtools/qemu/qemu/qemu-guest-agent.udev
-
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 1e768b560d..b41055fe5d 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -9,7 +9,7 @@ LICENSE = "GPL-2.0-only & LGPL-2.1-only"
- RDEPENDS:${PN}-ptest = "bash"
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 58b0c191e1..38aa35fdd4 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -82,6 +82,7 @@ of the following environment variables (in any order):
+     kvm-vhost - enable KVM with vhost when running x86/x86_64 (VT-capable CPU required)
+     publicvnc - enable a VNC server open to all hosts
+     audio - enable audio
++    guestagent - enable guest agent communication
+     [*/]ovmf* - OVMF firmware file or base name for booting with UEFI
+   tcpserial=<port> - specify tcp serial port number
+   qemuparams=<xyz> - specify custom parameters to QEMU
+@@ -216,6 +217,8 @@ class BaseConfig(object):
+         self.cleaned = False
+         # Files to cleanup after run
+         self.cleanup_files = []
++        self.guest_agent = False
++        self.guest_agent_sockpath = '/tmp/qga.sock'
  
- require qemu-targets.inc
--inherit pkgconfig ptest
-+inherit pkgconfig ptest update-rc.d systemd
+     def acquire_taplock(self, error=True):
+         logger.debug("Acquiring lockfile %s..." % self.taplock)
+@@ -526,6 +529,10 @@ class BaseConfig(object):
+             elif arg == 'publicvnc':
+                 self.publicvnc = True
+                 self.qemu_opt_script += ' -vnc :0'
++            elif arg == 'guestagent':
++                self.guest_agent = True
++            elif arg.startswith('guestagent-sockpath='):
++                self.guest_agent_sockpath = '%s' % arg[len('guestagent-sockpath='):]
+             elif arg.startswith('tcpserial='):
+                 self.tcpserial_portnum = '%s' % arg[len('tcpserial='):]
+             elif arg.startswith('qemuparams='):
+@@ -1375,6 +1382,12 @@ class BaseConfig(object):
+         except FileNotFoundError:
+             raise RunQemuError("/dev/dri directory does not exist; no render nodes available on this machine. %s" %(render_hint))
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
-                     file://COPYING.LIB;endline=24;md5=8c5efda6cf1e1b03dcfd0e6c0d271c7f"
-@@ -32,6 +32,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://0001-configure-Fix-check-tcg-not-executing-any-tests.patch \
-            file://0001-Revert-linux-user-add-more-compat-ioctl-definitions.patch \
-            file://0002-Revert-linux-user-fix-compat-with-glibc-2.36-sys-mou.patch \
-+           file://qemu-guest-agent.init \
-+           file://qemu-guest-agent.udev \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
++    def setup_guest_agent(self):
++        if self.guest_agent == True:
++            self.qemu_opt += ' -chardev socket,path=' + self.guest_agent_sockpath + ',server,nowait,id=qga0 '
++            self.qemu_opt += ' -device virtio-serial '
++            self.qemu_opt += ' -device virtserialport,chardev=qga0,name=org.qemu.guest_agent.0 '
++
+     def setup_vga(self):
+         if self.nographic == True:
+             if self.sdl == True:
+@@ -1506,6 +1519,7 @@ class BaseConfig(object):
+         if self.snapshot:
+             self.qemu_opt += " -snapshot"
  
-@@ -132,6 +134,20 @@ do_configure[cleandirs] += "${B}"
- do_install () {
- 	export STRIP=""
- 	oe_runmake 'DESTDIR=${D}' install
-+
-+	# If we built the guest agent, also install startup/udev rules
-+	if [ -e "${D}${bindir}/qemu-ga" ]; then
-+		install -d ${D}${sysconfdir}/init.d/
-+		install -m 0755 ${WORKDIR}/qemu-guest-agent.init ${D}${sysconfdir}/init.d/qemu-guest-agent
-+		sed -i 's:@bindir@:${bindir}:' ${D}${sysconfdir}/init.d/qemu-guest-agent
-+
-+		install -d ${D}${sysconfdir}/udev/rules.d/
-+		install -m 0644 ${WORKDIR}/qemu-guest-agent.udev ${D}${sysconfdir}/udev/rules.d/60-qemu-guest-agent.rules
-+
-+		install -d ${D}${systemd_unitdir}/system/
-+		install -m 0644 ${S}/contrib/systemd/qemu-guest-agent.service ${D}${systemd_unitdir}/system
-+		sed -i -e 's,-/usr/bin/,-${bindir}/,g' ${D}${systemd_unitdir}/system/qemu-guest-agent.service
-+	fi
- }
++        self.setup_guest_agent()
+         self.setup_serial()
+         self.setup_vga()
  
- # The following fragment will create a wrapper for qemu-mips user emulation
-@@ -210,3 +226,20 @@ PACKAGECONFIG[jack] = "--enable-jack,--disable-jack,jack,"
- INSANE_SKIP:${PN} = "arch"
- 
- FILES:${PN} += "${datadir}/icons"
-+
-+# Put the guest agent in a separate package
-+PACKAGES =+ "${PN}-guest-agent"
-+SUMMARY:${PN}-guest-agent = "QEMU guest agent"
-+FILES:${PN}-guest-agent += " \
-+    ${bindir}/qemu-ga \
-+    ${sysconfdir}/udev/rules.d/60-qemu-guest-agent.rules \
-+    ${sysconfdir}/init.d/qemu-guest-agent \
-+    ${systemd_unitdir}/system/qemu-guest-agent.service \
-+"
-+
-+INITSCRIPT_PACKAGES = "${PN}-guest-agent"
-+INITSCRIPT_NAME:${PN}-guest-agent = "qemu-guest-agent"
-+INITSCRIPT_PARAMS:${PN}-guest-agent = "defaults"
-+
-+SYSTEMD_PACKAGES = "${PN}-guest-agent"
-+SYSTEMD_SERVICE:${PN}-guest-agent = "qemu-guest-agent.service"
-diff --git a/meta/recipes-devtools/qemu/qemu/qemu-guest-agent.init b/meta/recipes-devtools/qemu/qemu/qemu-guest-agent.init
-new file mode 100644
-index 0000000000..493da0ef1a
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/qemu-guest-agent.init
-@@ -0,0 +1,84 @@
-+#!/bin/sh
-+### BEGIN INIT INFO
-+# Provides:		qemu-guest-agent
-+# Required-Start:	$remote_fs $syslog
-+# Required-Stop:	$remote_fs $syslog
-+# Default-Start:	2 3 4 5
-+# Default-Stop:		0 1 6
-+# Short-Description:	QEMU Guest Agent
-+### END INIT INFO
-+#
-+# Do not configure this file. Edit /etc/default/qemu-guest-agent
-+#
-+
-+set -e
-+
-+. /etc/init.d/functions
-+
-+PATH=/sbin:/usr/sbin:/bin:/usr/bin
-+DESC="QEMU Guest Agent"
-+NAME=qemu-ga
-+DAEMON=@bindir@/$NAME
-+PIDFILE=/var/run/$NAME.pid
-+
-+# config
-+DAEMON_ARGS=""
-+# default transport
-+TRANSPORT=virtio-serial:/dev/virtio-ports/org.qemu.guest_agent.0
-+NO_START=0
-+
-+test ! -r /etc/default/qemu-guest-agent || . /etc/default/qemu-guest-agent
-+test "$NO_START" = "0" || exit 0
-+test -x "$DAEMON" || exit 0
-+
-+#
-+# Function that checks whenever system has necessary environment
-+# It also splits $TRANSPORT into $method and $path
-+#
-+do_check_transport() {
-+	method=${TRANSPORT%%:*};
-+	path=${TRANSPORT#*:}
-+	case "$method" in
-+	    virtio-serial | isa-serial)
-+		if [ ! -e "$path" ]; then
-+		    echo "$NAME: transport endpoint not found, not starting"
-+		    return 1
-+		fi
-+		;;
-+	esac
-+}
-+
-+case "$1" in
-+  start)
-+	do_check_transport || exit 0
-+	echo -n "Starting $DESC: "
-+	start-stop-daemon -S -p $PIDFILE -x "$DAEMON" -- \
-+		$DAEMON_ARGS -d -m "$method" -p "$path"
-+	echo "$NAME."
-+	;;
-+  stop)
-+	echo -n "Stopping $DESC: "
-+	start-stop-daemon -K -x "$DAEMON" -p $PIDFILE
-+	echo "$NAME."
-+	;;
-+  status)
-+	status "$DAEMON"
-+	exit $?
-+	;;
-+  restart|force-reload)
-+	do_check_transport || exit 0
-+	echo -n "Restarting $DESC: "
-+	start-stop-daemon -K -x "$DAEMON" -p $PIDFILE
-+	sleep 1
-+	start-stop-daemon -S -p $PIDFILE -x "$DAEMON" -- \
-+		$DAEMON_ARGS -d -m "$method" -p "$path"
-+	echo "$NAME."
-+	;;
-+  *)
-+	N=/etc/init.d/$NAME
-+	echo "Usage: $N {start|stop|status|restart|force-reload}" >&2
-+	exit 1
-+	;;
-+esac
-+
-+exit 0
-diff --git a/meta/recipes-devtools/qemu/qemu/qemu-guest-agent.udev b/meta/recipes-devtools/qemu/qemu/qemu-guest-agent.udev
-new file mode 100644
-index 0000000000..47097057e3
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/qemu-guest-agent.udev
-@@ -0,0 +1,2 @@
-+SUBSYSTEM=="virtio-ports", ATTR{name}=="org.qemu.guest_agent.0", \
-+  TAG+="systemd", ENV{SYSTEMD_WANTS}="qemu-guest-agent.service"
 -- 
 2.34.1
 
