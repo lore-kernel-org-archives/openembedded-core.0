@@ -1,121 +1,74 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 999F5C64EC4
-	for <webhook@archiver.kernel.org>; Wed,  8 Mar 2023 18:27:38 +0000 (UTC)
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
- by mx.groups.io with SMTP id smtpd.web10.737.1678300050144896337
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9B03C678D5
+	for <webhook@archiver.kernel.org>; Wed,  8 Mar 2023 18:31:28 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web10.825.1678300283247133350
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Mar 2023 10:27:30 -0800
+ Wed, 08 Mar 2023 10:31:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ZnaHWU0l;
- spf=pass (domain: gmail.com, ip: 209.85.166.52, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-io1-f52.google.com with SMTP id m22so7135414ioy.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Mar 2023 10:27:30 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=IZAC+iCC;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id s22so22500009lfi.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Mar 2023 10:31:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678300049;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vdyiSLWGpyS5MhwrSpnVXZh7y2kP1OrGF0q/v4gXuGU=;
-        b=ZnaHWU0l520nt5FwODbPkG3Jmo00K5Vyn0QJqSfc/DbEjVNAWqbLOcABnMWO/EQMAj
-         uFp34TTaXXV78QiYOtq4fvoIRUVjyTFX8/g1KBSlD/Xi4Nnxc088+71pdGbEPkcIR+M6
-         P+3S6nxb46Q/xRZuVb7kgQ4lAll81GgPtrDUuB2RRnSuniUieoijhxBUmdvMi8wpwsWU
-         w/0oE1RIFzccblofkU2Ij4o6GF4ezDBv5QccHnVFUCOzktIcVQHugbK+iwd3IiYPs61i
-         YeChtdnYeXKvK+HYdKKYhCROYcw/AErxS0QyqVKGkd3LicbQVGRJltkT2g8GAoyFBJzX
-         QIHQ==
+        d=gmail.com; s=20210112; t=1678300281;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=yz4C9sgnZf5FAo/VE4rjGgGHpRUNajsYYFpGdHQculE=;
+        b=IZAC+iCC3muacK61o/ZBLY2+GXgGdveINe6R7t09FuqAHh/0q0FmVG9/g0O3Zs8Nfn
+         O2lDo3KaEJ2MSVC3RDqrFI6SCnIh+mZs717ogB0o5Db9+VSRiT9iHlR9/ic745JqywQU
+         62fwsF/BXA95ld6BH6Ial6E2jVUAWugUeXBIEaVOIFLMTTxckCpDODuGzxSXK2UZ45Mr
+         lGnFEdc+EIkJyjXZkBv2pAfC4Kqze1ojTkJ2dDoLimvpfe1n68HYn2zPEGuHBsvJF+qe
+         byVr+faHCR88twYFohSxTAMRGaEVlh+BYNiYc4Ceq+A+BbG/8GQjUsetU6k8Mf7c/+VB
+         c4sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678300049;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vdyiSLWGpyS5MhwrSpnVXZh7y2kP1OrGF0q/v4gXuGU=;
-        b=uCjaMGkZtmIhj1YplBjdvegIe2V+uyjmFKB00HX2+mYlTOMqn4PZg0kePPIbGGDal2
-         O9QZyFtu73lp2fOgFS4kqSPPdcIZX0xJIv/cp3TkQ47ddT8PhIgKy7sGSARuQSLQZmdF
-         jgGjFYFEbNICimU8aadfdrWDfx/c3CWpZuNc3rk3iqxOlD1HLlCtOERE+2nrMNg5upR9
-         2tODOaoiEopITyao3CDpOe7aaLZkUyqw/Yc04GXXUQWafRpjrMnou0IUp8K8g8TdVCph
-         5/cd6lG4iN1i6gkHwYkHMFpU1uSM6yJjHsyLP1nf40htQAF/cSIwgRFn1eM12QYn8s/A
-         sY3g==
-X-Gm-Message-State: AO0yUKUUa7U8guABXGkHU8E/zWXgXKhptfokXfCuSF88j6Fc1tYHzsJl
-	H3+eqsBwH4z3Gx8uVJl4KhyGLIgOF3iwEKH61RU=
-X-Google-Smtp-Source: AK7set8MU6ef2AhRIjhO+b+0CJPQ22+HbdXMUDNKLlaZoRzm1U7jMJ3vfKfjc6lSLtxPFX5174qmiUlMxlr4T0YNXm0=
-X-Received: by 2002:a02:952e:0:b0:3c4:e84b:2a3a with SMTP id
- y43-20020a02952e000000b003c4e84b2a3amr9259593jah.4.1678300049229; Wed, 08 Mar
- 2023 10:27:29 -0800 (PST)
+        d=1e100.net; s=20210112; t=1678300281;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yz4C9sgnZf5FAo/VE4rjGgGHpRUNajsYYFpGdHQculE=;
+        b=WgGSM2ZUxHETnMoZlWFxumrFqJlMZPJlvRi+J+y/ntSOraPlbJLcCj4XAWCG4ABDkg
+         o9LtGVDTwKgH8qxUqMmG9ftfnnvny72mwg6wX5AUk5xe4ADeiquNS1bEkbSEKG/OZCVt
+         yNaTw6F1AL68KQpUchEqGGjfXQHMKLom0FPoI7B/6dZQaMbVK/DKmCxDsxvAleHFjCSb
+         5RJ1fXm45iCiED6rxhOXzFrsByo/bP2hgO0X8nds1SAz9hmqOVB/cg4BTfPVID99+b8h
+         pw/LTWkwOiBRSzK0OnmYG6QBw52nxEcCEL/yvaVE8d1VNx8LMIDzf3lyzGWSx19YW/rg
+         hHlA==
+X-Gm-Message-State: AO0yUKV3k4Uw5LFEehNyKoBkI8udugBP0K3VBUj3nHztlZ0kJfB1YebN
+	yR7vmE6RTxzAVhE18daYp46dwP6IqpGUbaJwNyA=
+X-Google-Smtp-Source: AK7set8PLg0JjoxS8iG35MHs6Lq5yz0qccrb+0uwxe4MlxNOq7Uu5b/OZppaHjewSAFtokp3B1qPTsn4h1El61E5p98=
+X-Received: by 2002:ac2:4884:0:b0:4db:4604:6328 with SMTP id
+ x4-20020ac24884000000b004db46046328mr5775314lfc.11.1678300281313; Wed, 08 Mar
+ 2023 10:31:21 -0800 (PST)
 MIME-Version: 1.0
 References: <20230308172909.2052236-1-sundeep.kokkonda@gmail.com>
 In-Reply-To: <20230308172909.2052236-1-sundeep.kokkonda@gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Wed, 8 Mar 2023 18:27:16 +0000
-Message-ID: <CAO5Uq5Q4WoOr_o5k=mVJ+gNn=7JO+WLmfjp2V4HxEj7sShXjxQ@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 8 Mar 2023 19:31:09 +0100
+Message-ID: <CANNYZj83YFEQ6ZnzfL1Wh4EeM2BtGA+kooTcmsjUp7vDRuA9Qw@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] rust: added missing runtime dependencies to run
  rust on target
 To: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
 Cc: openembedded-core@lists.openembedded.org, rwmacleod@gmail.com, 
 	umesh.kalappa0@gmail.com, pgowda.cve@gmail.com, shivams@gmail.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Mar 2023 18:27:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178188
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Mar 2023 18:31:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178189
 
-On Wed, Mar 8, 2023 at 5:30=E2=80=AFPM Sundeep KOKKONDA
+On Wed, 8 Mar 2023 at 18:30, Sundeep KOKKONDA
 <sundeep.kokkonda@gmail.com> wrote:
->
-> [YOCTO #14975]
-> rust files are not linking on target due to missing dependencies and obse=
-rved below error.
+> rust files are not linking on target due to missing dependencies and observed below error.
 > error: linker `x86_64-poky-linux-gcc` not found
 >
 > Added the required dependencies to run rust on target machine.
->
-> Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
-> ---
->  meta/recipes-devtools/rust/rust_1.67.1.bb | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-devtools/rust/rust_1.67.1.bb b/meta/recipes-dev=
-tools/rust/rust_1.67.1.bb
-> index 2118faec8f..f4c6d9511d 100644
-> --- a/meta/recipes-devtools/rust/rust_1.67.1.bb
-> +++ b/meta/recipes-devtools/rust/rust_1.67.1.bb
-> @@ -13,6 +13,8 @@ DEPENDS:append:class-nativesdk =3D " nativesdk-rust-llv=
-m"
->
->  DEPENDS +=3D "rust-llvm (=3D${PV})"
->
-> +RDEPENDS:${PN}:append:class-target =3D " gcc g++ binutils"
-> +
+> +RDEPENDS:${PN}:append:class-target = " gcc g++ binutils"
 
-I did some digging a while ago (so it may have drifted) - I got to
-this list, which avoided g++
+Are all three required? Particularly, why g++?
 
-gcc gcc-symlinks binutils ${LIBC_DEPENDENCIES} libgcc-dev
-
-What I don't understand is why doesn't gcc have a dependency on binutils?
-
->  # Otherwise we'll depend on what we provide
->  INHIBIT_DEFAULT_RUST_DEPS:class-native =3D "1"
->  # We don't need to depend on gcc-native because yocto assumes it exists
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#178186): https://lists.openembedded.org/g/openembedde=
-d-core/message/178186
-> Mute This Topic: https://lists.openembedded.org/mt/97477865/3618097
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kiernan@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
-
-
---=20
-Alex Kiernan
+Alex
 
