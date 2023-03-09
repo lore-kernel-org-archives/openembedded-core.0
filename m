@@ -2,270 +2,193 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84A1BC61DA4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A79EC64EC4
 	for <webhook@archiver.kernel.org>; Thu,  9 Mar 2023 22:58:15 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web10.5682.1678402693659253834
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web11.5715.1678402691370325069
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Mar 2023 14:58:13 -0800
+ Thu, 09 Mar 2023 14:58:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=FZG2dQR7;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id x34so3612483pjj.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 14:58:13 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=5CYHhGJX;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f43.google.com with SMTP id y2so3561531pjg.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 14:58:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678402693;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=825HOlHamC+GclyXSBVZAJEnj4aD33c1sqbOM0am60E=;
-        b=FZG2dQR7ESLNqFNf5cSK+28z4ek+BEHNKJMw6bD/07m/kqS8XuIHjYja2SokWLqxM7
-         OVc+bMuIE/eNCQdd7/2I04ayaoxR8tzsu2Jg/9AQpIHSLPWn32hskyk4B8JybinO5YVX
-         VE3ozTG5ylncgxbUreErJfUn0Yyz/UuS0BgOZn+X8SevCFviMPUsH83Izmh6jgwknlDd
-         JGiOE6uBQlsUhZYz9HUmS2VEDcFnZIhI7a5lAMrjjtVb9q/7uaNmFwrW0SLh+5vm1SEF
-         S/sAAzkoVpW8b3NmUaezXDnTu/4pt/qvQ6mrDamErOR/NGfgZkn2hMLIqadAP0+X9TPF
-         gVBA==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678402690;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ntA92lO3JMOoX6rWc8+Qw+poZ59Os4wlcDhnyYl588U=;
+        b=5CYHhGJXKG7elvv3yJP3EtODucNFkoOf2ClKOWKl8rLjf5epC9Jr98is/Z1cdQTyQF
+         vgLcN3HHPcWuoTjbrPXknYXAcEOhN+Tq+FTGkAw+lKpu17byG/gMBLpdD24BbP9Bmdgf
+         iuWo1x1slCkCOwNb8j2qvi/vjHrjD6JSPIWbbaM9viIh6t0jg8fX8Reyy7ELVjPvmsNg
+         J22T+kSh6jMXGskLLhJkSLchWNi5kBm41vhvlhOiChX8mRiM48tAIh1dVnw+vgjGUCDC
+         TgWKS+m/d8TO4C32iAXW2cJCBIGQfWTwb6YjS3oApMkOvkIeMgl+M7TlT/ipZ4Ca4a/+
+         FSCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678402693;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=825HOlHamC+GclyXSBVZAJEnj4aD33c1sqbOM0am60E=;
-        b=mp7dGSHt4G4XDPbZCcEfqbiXPo5piE/CeGS+8t35WtXlmefPkmRkaLKcrwm2i0GBss
-         XVp95QxCS6E5EC1XqljqoPK4mrMP2DXdCdxNjHHEh1RfEoV12g6orTAbRMfHif0zN/rC
-         F4b7hM7gnAdUuU0toaRPLuSATJskMcL/kL9HYE2M6p+YNG93fTeWY0Imzp1yutPYzPq0
-         wKQKmuBcFQYaNVvcW1b5h48pi4dg2f8Oy75CdynJwbSD2j/Le4V00KLhFkYmB7Y47jRK
-         AXoXzHGdkWHR+azpiLwOc45mqSW7gb12ln3FD07vkkbSyCUmJF5BaBafSLsm8UHl08/p
-         eIkg==
-X-Gm-Message-State: AO0yUKUpTsuZEHoH79+x+JsTmp9Ap2nvFmPkSKd01ZlYuTwYJnhPyjph
-	1HpjHynkMr6uHP8ZFzkbTeriBdKoPomgB8XFoEM=
-X-Google-Smtp-Source: AK7set/jSlcZ1WIKmD+91ak+DFATCVulDlXXsSUbGHU3ZEvDr0ObGMOr1pyLJeBywp3/EbZsPYgJGg==
-X-Received: by 2002:a05:6a20:6a03:b0:c7:1bac:6ef9 with SMTP id p3-20020a056a206a0300b000c71bac6ef9mr25183924pzk.46.1678402692642;
-        Thu, 09 Mar 2023 14:58:12 -0800 (PST)
+        d=1e100.net; s=20210112; t=1678402690;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ntA92lO3JMOoX6rWc8+Qw+poZ59Os4wlcDhnyYl588U=;
+        b=etNd02M9NzxmlAeU294GovLKqUIHMZkVvjszTe8Mu2OMmPwn5LaEx8UVvGH1Em+ZrF
+         LPB/tbPmNrQ0wWFoKbRkooxwadKsikog0CIj3kYSJz0pxKGfujxdw5pgzNzINx5Atj4s
+         4a3OEjcT/gyWuCqnHeXUii5H2sRt7KlOhnUBxH4qSKFCgcbFvxJox+2HfOMBk1lgn+tp
+         3RQGj32l63VbK9MpB+etq6hrN5Sa1t9BI1H+wV+ORjW7M/p+hwxe+Ccl0DrCdhKyKOhA
+         0S5HgRTWgBoB1gnW5/RwZSwpoYwlSERRVZKgLNf5+mK6KwIpEJw/jWCivXz8advM9aIi
+         Ar6A==
+X-Gm-Message-State: AO0yUKVtdmslDgzZEQuJu5mY4ovRDSZfvDjTkfnVaiXCnBpiWHRs6SJQ
+	BD1E+ltu0SGLNawoD8n2CyB06ZN9DLLF6XDXV0c=
+X-Google-Smtp-Source: AK7set8VVqFTLsoPTnCaUFyTSCgQXMnoJNWtjiR4DERN4JXUl3YXCQJXEaSkRoJAqucylfOSZl6nyA==
+X-Received: by 2002:a05:6a20:144d:b0:cd:c79:50e8 with SMTP id a13-20020a056a20144d00b000cd0c7950e8mr30940694pzi.62.1678402689955;
+        Thu, 09 Mar 2023 14:58:09 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id j9-20020aa79289000000b0058db8f8bce8sm89717pfa.166.2023.03.09.14.58.11
+        by smtp.gmail.com with ESMTPSA id j9-20020aa79289000000b0058db8f8bce8sm89717pfa.166.2023.03.09.14.58.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Mar 2023 14:58:12 -0800 (PST)
+        Thu, 09 Mar 2023 14:58:09 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 01/27] tiff: fix multiple CVEs
-Date: Thu,  9 Mar 2023 12:57:36 -1000
-Message-Id: <d9ce9b37236f5c16ffba4572ad720aeb50edeee9.1678401759.git.steve@sakoman.com>
+Subject: [OE-core][langdale 00/27] Patch review
+Date: Thu,  9 Mar 2023 12:57:35 -1000
+Message-Id: <cover.1678401759.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1678401759.git.steve@sakoman.com>
-References: <cover.1678401759.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 22:58:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178274
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178273
 
-From: Chee Yang Lee <chee.yang.lee@intel.com>
+Please review this set of patches for langdale and have comments back by
+end of day Monday.
 
-import patch from debian to fix
-CVE-2022-48281
-http://security.debian.org/debian-security/pool/updates/main/t/tiff/tiff_4.2.0-1+deb11u4.debian.tar.xz
+Passed a-full on autobuilder:
 
-import patch from fedora to fix
-CVE-2023-0800
-CVE-2023-0801
-CVE-2023-0802
-CVE-2023-0803
-CVE-2023-0804
-https://src.fedoraproject.org/rpms/libtiff/c/91856895aadf3cce6353f40c2feef9bf0b486440
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5023
 
-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../libtiff/files/CVE-2022-48281.patch        |  26 ++++
- .../CVE-2023-0800_0801_0802_0803_0804.patch   | 128 ++++++++++++++++++
+The following changes since commit b995ea45773211bd7bdd60eabcc9bbffda6beb5c:
+
+  build-appliance-image: Update to langdale head revision (2023-03-06 15:17:13 +0000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/langdale-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/langdale-nut
+
+Alexander Kanavin (1):
+  devtool: ignore patch-fuzz errors when extracting source
+
+Bhabu Bindu (1):
+  qemu: Fix CVE-2022-4144
+
+Bruce Ashfield (3):
+  linux-yocto/5.15: update to v5.15.94
+  linux-yocto/5.15: update to v5.15.96
+  linux-yocto-rt/5.15: update to -rt59
+
+Carlos Alberto Lopez Perez (1):
+  mesa-demos: packageconfig weston should have a dependency on
+    wayland-protocols
+
+Chee Yang Lee (1):
+  tiff: fix multiple CVEs
+
+Dmitry Baryshkov (1):
+  ffmpeg: fix build failure when vulkan is enabled
+
+Geoffrey GIRY (1):
+  cve-extra-exclusions: ignore inapplicable linux-yocto CVEs
+
+Hitendra Prajapati (1):
+  libxml2: Fix CVE-2022-40303 && CVE-2022-40304
+
+Khem Raj (2):
+  libcomps: Fix callback function prototype for PyCOMPS_hash
+  rpm: Fix hdr_hash function prototype
+
+Ming Liu (1):
+  linux: inherit pkgconfig in kernel.bbclass
+
+Pavel Zhukov (1):
+  u-boot: Map arm64 into map for u-boot dts installation
+
+Peter Marko (1):
+  systemd: add group sgx to udev package
+
+Richard Purdie (3):
+  binutils: Fix nativesdk ld.so search
+  oeqa/selftest/prservice: Improve debug output for failure
+  staging: Separate out different multiconfig manifests
+
+Ross Burton (2):
+  shadow: ignore CVE-2016-15024
+  vim: add missing pkgconfig inherit
+
+Siddharth Doshi (1):
+  epiphany: Security fix for CVE-2023-26081
+
+Tom Hochstein (2):
+  meson: Fix wrapper handling of implicit setup command
+  oeqa/sdk: Improve Meson test
+
+Wang Mingyu (4):
+  iso-codes: upgrade 4.12.0 -> 4.13.0
+  libmicrohttpd: upgrade 0.9.75 -> 0.9.76
+  lua: Fix install conflict when enable multilib.
+  vala: Fix install conflict when enable multilib.
+
+ meta-selftest/files/static-group              |   1 +
+ meta/classes-global/staging.bbclass           |   3 +
+ meta/classes-recipe/kernel.bbclass            |   2 +-
+ .../distro/include/cve-extra-exclusions.inc   | 296 +++++++++
+ meta/lib/oeqa/sdk/cases/buildepoxy.py         |   2 +-
+ meta/lib/oeqa/selftest/cases/prservice.py     |   2 +-
+ meta/recipes-bsp/u-boot/u-boot.inc            |   4 +-
+ .../libxml/libxml2/CVE-2022-40303.patch       | 624 ++++++++++++++++++
+ .../libxml/libxml2/CVE-2022-40304.patch       | 106 +++
+ meta/recipes-core/libxml/libxml2_2.9.14.bb    |   2 +
+ meta/recipes-core/systemd/systemd_251.8.bb    |   2 +-
+ ...dk-Search-for-alternative-ld.so.conf.patch |   2 +-
+ ...hash_t-instead-of-long-in-PyCOMPS_ha.patch |  66 ++
+ .../libcomps/libcomps_0.1.19.bb               |   1 +
+ meta/recipes-devtools/lua/lua_5.4.4.bb        |   3 +
+ .../meson/meson/meson-wrapper                 |  17 +-
+ meta/recipes-devtools/qemu/qemu.inc           |   1 +
+ .../qemu/qemu/CVE-2022-4144.patch             |  99 +++
+ ...y_hash_t-instead-of-long-in-hdr_hash.patch |  35 +
+ meta/recipes-devtools/rpm/rpm_4.18.0.bb       |   1 +
+ meta/recipes-devtools/vala/vala.inc           |   5 +-
+ meta/recipes-extended/shadow/shadow_4.12.3.bb |   3 +
+ meta/recipes-gnome/epiphany/epiphany_42.4.bb  |   1 +
+ .../epiphany/files/CVE-2023-26081.patch       |  90 +++
+ .../recipes-graphics/mesa/mesa-demos_8.5.0.bb |   2 +-
+ meta/recipes-kernel/linux/linux-yocto-dev.bb  |   2 -
+ .../linux/linux-yocto-rt_5.15.bb              |   6 +-
+ .../linux/linux-yocto-tiny_5.15.bb            |   6 +-
+ meta/recipes-kernel/linux/linux-yocto.inc     |   1 -
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb |  26 +-
+ .../ffmpeg/ffmpeg/ffmpeg-fix-vulkan.patch     |  34 +
+ .../recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb |   1 +
+ .../libtiff/files/CVE-2022-48281.patch        |  26 +
+ .../CVE-2023-0800_0801_0802_0803_0804.patch   | 128 ++++
  meta/recipes-multimedia/libtiff/tiff_4.4.0.bb |   2 +
- 3 files changed, 156 insertions(+)
+ ...so-codes_4.12.0.bb => iso-codes_4.13.0.bb} |   2 +-
+ ...ttpd_0.9.75.bb => libmicrohttpd_0.9.76.bb} |   2 +-
+ meta/recipes-support/vim/vim.inc              |   2 +-
+ scripts/lib/devtool/standard.py               |   1 +
+ 39 files changed, 1566 insertions(+), 43 deletions(-)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2022-40303.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2022-40304.patch
+ create mode 100644 meta/recipes-devtools/libcomps/libcomps/0001-libcomps-Use-Py_hash_t-instead-of-long-in-PyCOMPS_ha.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-4144.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/0001-python-Use-Py_hash_t-instead-of-long-in-hdr_hash.patch
+ create mode 100644 meta/recipes-gnome/epiphany/files/CVE-2023-26081.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/ffmpeg-fix-vulkan.patch
  create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-48281.patch
  create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-0800_0801_0802_0803_0804.patch
+ rename meta/recipes-support/iso-codes/{iso-codes_4.12.0.bb => iso-codes_4.13.0.bb} (94%)
+ rename meta/recipes-support/libmicrohttpd/{libmicrohttpd_0.9.75.bb => libmicrohttpd_0.9.76.bb} (90%)
 
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2022-48281.patch b/meta/recipes-multimedia/libtiff/files/CVE-2022-48281.patch
-new file mode 100644
-index 0000000000..4f8dc35251
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2022-48281.patch
-@@ -0,0 +1,26 @@
-+From 97d65859bc29ee334012e9c73022d8a8e55ed586 Mon Sep 17 00:00:00 2001
-+From: Su Laus <sulau@freenet.de>
-+Date: Sat, 21 Jan 2023 15:58:10 +0000
-+Subject: [PATCH] tiffcrop: Correct simple copy paste error. Fix #488.
-+
-+
-+Upstream-Status: Backport [import from debian http://security.debian.org/debian-security/pool/updates/main/t/tiff/tiff_4.2.0-1+deb11u4.debian.tar.xz]
-+CVE: CVE-2022-48281
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ tools/tiffcrop.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+Index: tiff-4.2.0/tools/tiffcrop.c
-+===================================================================
-+--- tiff-4.2.0.orig/tools/tiffcrop.c
-++++ tiff-4.2.0/tools/tiffcrop.c
-+@@ -7516,7 +7516,7 @@ processCropSelections(struct image_data
-+       crop_buff = (unsigned char *)limitMalloc(cropsize + NUM_BUFF_OVERSIZE_BYTES);
-+     else
-+       {
-+-      prev_cropsize = seg_buffs[0].size;
-++      prev_cropsize = seg_buffs[1].size;
-+       if (prev_cropsize < cropsize)
-+         {
-+         next_buff = _TIFFrealloc(crop_buff, cropsize + NUM_BUFF_OVERSIZE_BYTES);
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-0800_0801_0802_0803_0804.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-0800_0801_0802_0803_0804.patch
-new file mode 100644
-index 0000000000..8372bc35f2
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2023-0800_0801_0802_0803_0804.patch
-@@ -0,0 +1,128 @@
-+From 82a7fbb1fa7228499ffeb3a57a1d106a9626d57c Mon Sep 17 00:00:00 2001
-+From: Su Laus <sulau@freenet.de>
-+Date: Sun, 5 Feb 2023 15:53:15 +0000
-+Subject: [PATCH] tiffcrop: added check for assumption on composite images
-+ (fixes #496)
-+
-+tiffcrop: For composite images with more than one region, the combined_length or combined_width always needs to be equal, respectively. Otherwise, even the first section/region copy action might cause buffer overrun. This is now checked before the first copy action.
-+
-+Closes #496, #497, #498, #500, #501.
-+
-+Upstream-Status: Backport [import from fedora https://src.fedoraproject.org/rpms/libtiff/c/91856895aadf3cce6353f40c2feef9bf0b486440 ]
-+CVE: CVE-2023-0800 CVE-2023-0801 CVE-2023-0802 CVE-2023-0803 CVE-2023-0804 
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ tools/tiffcrop.c | 68 ++++++++++++++++++++++++++++++++++++++++++++++--
-+ 1 file changed, 66 insertions(+), 2 deletions(-)
-+
-+diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
-+index 84e26ac6..480b927c 100644
-+--- a/tools/tiffcrop.c
-++++ b/tools/tiffcrop.c
-+@@ -5329,18 +5329,39 @@
-+ 
-+       crop->regionlist[i].buffsize = buffsize;
-+       crop->bufftotal += buffsize;
-++            /* For composite images with more than one region, the
-++             * combined_length or combined_width always needs to be equal,
-++             * respectively.
-++             * Otherwise, even the first section/region copy
-++             * action might cause buffer overrun. */
-+       if (crop->img_mode == COMPOSITE_IMAGES)
-+         {
-+         switch (crop->edge_ref)
-+           {
-+           case EDGE_LEFT:
-+           case EDGE_RIGHT:
-++                        if (i > 0 && zlength != crop->combined_length)
-++                        {
-++                            TIFFError(
-++                                "computeInputPixelOffsets",
-++                                "Only equal length regions can be combined for "
-++                                "-E left or right");
-++                            return (-1);
-++                        }
-+                crop->combined_length = zlength;
-+                crop->combined_width += zwidth;
-+                break;
-+           case EDGE_BOTTOM:
-+           case EDGE_TOP:  /* width from left, length from top */
-+           default:
-++                        if (i > 0 && zwidth != crop->combined_width)
-++                        {
-++                            TIFFError("computeInputPixelOffsets",
-++                                      "Only equal width regions can be "
-++                                      "combined for -E "
-++                                      "top or bottom");
-++                            return (-1);
-++                        }
-+                crop->combined_width = zwidth;
-+                crop->combined_length += zlength;
-+ 	       break;
-+@@ -6546,6 +6567,46 @@
-+   crop->combined_width = 0;
-+   crop->combined_length = 0;
-+ 
-++    /* If there is more than one region, check beforehand whether all the width
-++     * and length values of the regions are the same, respectively. */
-++    switch (crop->edge_ref)
-++    {
-++        default:
-++        case EDGE_TOP:
-++        case EDGE_BOTTOM:
-++            for (i = 1; i < crop->selections; i++)
-++            {
-++                uint32_t crop_width0 =
-++                    crop->regionlist[i - 1].x2 - crop->regionlist[i - 1].x1 + 1;
-++                uint32_t crop_width1 =
-++                    crop->regionlist[i].x2 - crop->regionlist[i].x1 + 1;
-++                if (crop_width0 != crop_width1)
-++                {
-++                    TIFFError("extractCompositeRegions",
-++                              "Only equal width regions can be combined for -E "
-++                              "top or bottom");
-++                    return (1);
-++                }
-++            }
-++            break;
-++        case EDGE_LEFT:
-++        case EDGE_RIGHT:
-++            for (i = 1; i < crop->selections; i++)
-++            {
-++                uint32_t crop_length0 =
-++                    crop->regionlist[i - 1].y2 - crop->regionlist[i - 1].y1 + 1;
-++                uint32_t crop_length1 =
-++                    crop->regionlist[i].y2 - crop->regionlist[i].y1 + 1;
-++                if (crop_length0 != crop_length1)
-++                {
-++                    TIFFError("extractCompositeRegions",
-++                              "Only equal length regions can be combined for "
-++                              "-E left or right");
-++                    return (1);
-++                }
-++            }
-++    }
-++
-+   for (i = 0; i < crop->selections; i++)
-+     {
-+     /* rows, columns, width, length are expressed in pixels */
-+@@ -6570,7 +6631,8 @@
-+       default:
-+       case EDGE_TOP:
-+       case EDGE_BOTTOM:
-+-	   if ((i > 0) && (crop_width != crop->regionlist[i - 1].width))
-++                if ((crop->selections > i + 1) &&
-++                    (crop_width != crop->regionlist[i + 1].width))
-+              {
-+ 	     TIFFError ("extractCompositeRegions", 
-+                           "Only equal width regions can be combined for -E top or bottom");
-+@@ -6651,7 +6713,8 @@
-+ 	   break;
-+       case EDGE_LEFT:  /* splice the pieces of each row together, side by side */
-+       case EDGE_RIGHT:
-+-	   if ((i > 0) && (crop_length != crop->regionlist[i - 1].length))
-++                if ((crop->selections > i + 1) &&
-++                    (crop_length != crop->regionlist[i + 1].length))
-+              {
-+ 	     TIFFError ("extractCompositeRegions", 
-+                           "Only equal length regions can be combined for -E left or right");
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
-index 831014bff1..3b42dbe4a5 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
-@@ -17,6 +17,8 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://0001-tiffcrop-S-option-Make-decision-simpler.patch \
-            file://0001-tiffcrop-disable-incompatibility-of-Z-X-Y-z-options-.patch \
-            file://0001-tiffcrop-subroutines-require-a-larger-buffer-fixes-2.patch \
-+           file://CVE-2022-48281.patch \
-+           file://CVE-2023-0800_0801_0802_0803_0804.patch \
-            "
- 
- SRC_URI[sha256sum] = "917223b37538959aca3b790d2d73aa6e626b688e02dcda272aec24c2f498abed"
 -- 
 2.34.1
 
