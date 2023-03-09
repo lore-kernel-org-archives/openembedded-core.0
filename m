@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30933C76188
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3116FC7618A
 	for <webhook@archiver.kernel.org>; Thu,  9 Mar 2023 15:20:22 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web10.16123.1678375210112749934
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web11.16024.1678375216647153480
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Mar 2023 07:20:13 -0800
+ Thu, 09 Mar 2023 07:20:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=nL4ax6sx;
- spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id g3so2242573wri.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 07:20:13 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=QnpXTsJY;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f43.google.com with SMTP id q16so2253548wrw.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 07:20:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678375212;
+        d=gmail.com; s=20210112; t=1678375215;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=v+9NSuRI6dvwImEm2enNmBMQxXichP7OU7jbBMaS/VI=;
-        b=nL4ax6sxdDrJFGypMSM8TIyd9yhrb2uFKnMh+D1PvgRYxr7QtSvJTS28/Hy785abnm
-         ukGRL9HsG/fjSFE3/DRsXni8/PXsJQPpEYSoH0VCC5ZFuwsuNGYcYB4vFd24+Dti5onB
-         8JksMmfqLc82AhyU0zjVsI7gnJU8IYHRAUbyJSyO6r6trYgCXbYmViumoc3CTxBNeIXz
-         aJkFTm8SntIOBVnQttcH0XF+NKtP2O4CAQ6FvvDx3TfQCdXNvWnWD4vQRYShW64gvDZw
-         1Yk5fWVH+qPF/fALKadLarGEyl+GrSW4dGVw7zS4d1fqQForrXxEHGGOIaXZvH9dccMa
-         wjNg==
+        bh=y+lsqhM6MtrK4ogtLuS+nxQmYWR9zaifZUmwQEtv1Zg=;
+        b=QnpXTsJYUFI2ZBQ5wOd9mytsFvnPlox9slIuT19qt9Dl5gori5RsIZvbyY7+NuLOA4
+         rRh7eUxMLTJTtelC+r+I7gjkE7RwNC1OrfE4SQ/KmSV+4XhR4eZBi2huXRAQiDwpNl9P
+         wuPS7Rxd+WattzJR+CcRZlzsCFy1hfiKRR89NpflGn+Ih7z6sy9/iYf4gqqSFfg05+Zd
+         xIpOsUg65V9N9ommqFa/DCJCSr09Oh7vMVi87WF8iNZJ6atTHiU0h51xAYzhQT09C74p
+         Rxl8BY6NCnuMAQyJm09hYbl+clgG95hxgNoaf3dO+iFArcaW3FrBvFfjm2SV2csbRyRK
+         7Shw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678375212;
+        d=1e100.net; s=20210112; t=1678375215;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=v+9NSuRI6dvwImEm2enNmBMQxXichP7OU7jbBMaS/VI=;
-        b=20yYtvfNmTGxGHTtdmf2/MUR6gPOUraSaFKku6GBUziRAqqLxfGCV5pqqtdOIqcYfy
-         Zu1USiypFSt9EBUnVzhzR/h8B/cBCngupYwz5638AKek9d8htGD4W18kj2wlRpzXKuUw
-         TFknn6CLLFAt2xHIb2bD689wQfI0zt/9AASbThVdcrbOLvId3xo2ffzF014Z/zMKIfCd
-         ew5zO3ENk3/fIkR2k3GsiVrdxmMq3B+GlOnotsHzTmNx40yFk9GtKSHNHD39mKeSX80y
-         rPfc97Rg/mHyhv20ufp6Qx1kHQ8sKFnamuoixBi32meqtwckNzKoLXrVuurIisv3WzXj
-         33uQ==
-X-Gm-Message-State: AO0yUKXabeH/PfLqmyuXdzQbQDn+H/NUgx/EDI5htjRQ6uJZ5A7GVgrH
-	X9/ZJ4pemV5jqpoVuPr8TkWsr6IO3Y8=
-X-Google-Smtp-Source: AK7set+mG+m2+BLyDC12ZeXEX0hBPrSzRlk55K5Wlxb9rqPu2naV40QJH72D+CnjOChNFlp0X8XMZQ==
-X-Received: by 2002:adf:f751:0:b0:2cd:ceab:970d with SMTP id z17-20020adff751000000b002cdceab970dmr17761747wrp.24.1678375212813;
-        Thu, 09 Mar 2023 07:20:12 -0800 (PST)
+        bh=y+lsqhM6MtrK4ogtLuS+nxQmYWR9zaifZUmwQEtv1Zg=;
+        b=D6gH4buAZz/frCS8DFlH8OXsAQwZkTZYmphoNfzmkCIAN+DmGFP449a00xAep9hwiJ
+         +hcTh9eEZpyhu1jcmgckakQ8aKefptNZHVoU1qbEfGZ8nFFhyCpGRDwfEiFKTG+8eOpF
+         8vxf45Zt3wHBS+ygftLjqLjnfueTawoEeHBbnUKpIFoZ51rlfbRtowTTP/s6/8hYVE38
+         o/ngSFuAAZiCtF2k9qFLunptYhyTSEdMBrAh0CzPKMmpjzVrAWxHSMxcpkSfAFFksEvy
+         JmXYZBbeo/TPts4SE5lWbK1Iy1b6n3KtW1/iyeOjCfPMOqgZb80WZg6+PkUst6lmR+0T
+         YisA==
+X-Gm-Message-State: AO0yUKVVRUurr6hSTGhGgjNjqkxXwxGbwjv8ndCDXZZa2RN9aCtWRMfC
+	macMQo0nm9G8uvBGUSgwCtdGIk4ZY7c=
+X-Google-Smtp-Source: AK7set/Vr7unoHLntUlAvMVDV8+L9RD+gvlnl3ijFmlzXp8uZ4QhHZH+9Ywhm4XtnSzLa0+4xaxPQg==
+X-Received: by 2002:adf:ee86:0:b0:2c8:1247:a858 with SMTP id b6-20020adfee86000000b002c81247a858mr15363809wro.4.1678375215257;
+        Thu, 09 Mar 2023 07:20:15 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id s10-20020adfea8a000000b002c7e1a39adcsm18314521wrm.23.2023.03.09.07.20.12
+        by smtp.gmail.com with ESMTPSA id s10-20020adfea8a000000b002c7e1a39adcsm18314521wrm.23.2023.03.09.07.20.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Mar 2023 07:20:12 -0800 (PST)
+        Thu, 09 Mar 2023 07:20:15 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 16/26] enchant2: upgrade 2.3.3 -> 2.3.4
-Date: Thu,  9 Mar 2023 16:19:48 +0100
-Message-Id: <20230309151958.3619193-16-alex@linutronix.de>
+Subject: [PATCH 21/26] puzzles: upgrade to latest revision
+Date: Thu,  9 Mar 2023 16:19:53 +0100
+Message-Id: <20230309151958.3619193-21-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230309151958.3619193-1-alex@linutronix.de>
 References: <20230309151958.3619193-1-alex@linutronix.de>
@@ -62,35 +62,25 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 15:20:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178241
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178246
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../enchant/{enchant2_2.3.3.bb => enchant2_2.3.4.bb}          | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/enchant/{enchant2_2.3.3.bb => enchant2_2.3.4.bb} (89%)
+ meta/recipes-sato/puzzles/puzzles_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/enchant/enchant2_2.3.3.bb b/meta/recipes-support/enchant/enchant2_2.3.4.bb
-similarity index 89%
-rename from meta/recipes-support/enchant/enchant2_2.3.3.bb
-rename to meta/recipes-support/enchant/enchant2_2.3.4.bb
-index c892f570c4..5a6a3157a6 100644
---- a/meta/recipes-support/enchant/enchant2_2.3.3.bb
-+++ b/meta/recipes-support/enchant/enchant2_2.3.4.bb
-@@ -7,12 +7,12 @@ BUGTRACKER = "https://github.com/AbiWord/enchant/issues/"
- LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
+index 5998c23dcd..87b6fac024 100644
+--- a/meta/recipes-sato/puzzles/puzzles_git.bb
++++ b/meta/recipes-sato/puzzles/puzzles_git.bb
+@@ -10,7 +10,7 @@ REQUIRED_DISTRO_FEATURES = "x11"
+ SRC_URI = "git://git.tartarus.org/simon/puzzles.git;branch=main"
  
--DEPENDS = "glib-2.0"
-+DEPENDS = "glib-2.0 groff-native"
- 
- inherit autotools pkgconfig github-releases
- 
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/enchant-${PV}.tar.gz"
--SRC_URI[sha256sum] = "3da12103f11cf49c3cf2fd2ce3017575c5321a489e5b9bfa81dd91ec413f3891"
-+SRC_URI[sha256sum] = "1f7e26744db1c9a0fea61d2169f4e5c1ce435cf8c2731c37e3e4054119e994a0"
- 
- GITHUB_BASE_URI = "https://github.com/AbiWord/enchant/releases"
+ UPSTREAM_CHECK_COMMITS = "1"
+-SRCREV = "7364ce8e266d947be146d635958a7b282752aac6"
++SRCREV = "5a491c5ad333ef34c1e7713f920f51cbb205af60"
+ PE = "2"
+ PV = "0.0+git${SRCPV}"
  
 -- 
 2.30.2
