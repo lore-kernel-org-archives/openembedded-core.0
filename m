@@ -1,214 +1,77 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 965D6C61DA4
-	for <webhook@archiver.kernel.org>; Thu,  9 Mar 2023 15:45:02 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web11.16810.1678376700688714962
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0F9EC64EC4
+	for <webhook@archiver.kernel.org>; Thu,  9 Mar 2023 15:47:52 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web11.16898.1678376862374529930
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Mar 2023 07:45:01 -0800
+ Thu, 09 Mar 2023 07:47:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Umc64wRK;
- spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f46.google.com with SMTP id h11so2326989wrm.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 07:45:00 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=hNZy8QBW;
+ spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f49.google.com with SMTP id d36so2850309lfv.8
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 07:47:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678376699;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7/vcHspet32MJrMk+xrwcKCUNGnl/xOjR4Z4iR5uhbA=;
-        b=Umc64wRKXUwgDHFLkpXO9FoNqw1CC2x8GAGsBAKT2R70pJ5eW23tKqrmM6N4JxCmVJ
-         WukonCLMomFVQHjEBFaeA459VMWIqRQXTp4zRdxnAJ1A2ewvRJvsLgCUp8lnX037jbkd
-         KpSaNPIlP0h9YeuX+anVw0mI23sgh38LLk3ZQrUUO4yPDt1jIiufEz44Urm/F0gdYJyk
-         AJkrhJfB8WhhAfP+mOf3QWegCZzp/13kTXd5CXZeseTZMvA2ZqUAWe29iOnlRR6kKukc
-         NJMP4+nNe+XFr6NxWsKFdSqha5YQrSX3XyJb6tsEJgkNLEH2PCsVqDb6pd/toFFMWDby
-         zl/A==
+        d=gmail.com; s=20210112; t=1678376860;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Xlv1XZR3TpgPe/mp2DztgfZQsCxlxYmR0KPboxDoTNk=;
+        b=hNZy8QBWvVhjm3/Nyv5YB5+R2gnMHv1vC85T4Y51cfjadHiEbJ8AbRsro8oJjg8fLa
+         dcicKPERrtpcAESzQ0x7NflOrOoinX96J1pT0+HhQIIhRq1PZhNbXV7a3g7eLy1e+Hvk
+         SYyX+VwG9w8OwNE4NDALf2z0OJ4V1bqQ/dC9NWSvyT0c579pVYR6QIvNGFacxO9CbAU4
+         rzgcBfX0Ut8nCYaXfAKzuHdYuspGISlVu2a7OgBiDc10nFwtBoSfZY4ujiyhcU6h0Kt6
+         a9HM+ut+wDyP9SiunbvVxiD/16wpT0qXEksRHqfPTvWRitRabE9LBgRvzd5Yt7wnHFsQ
+         EfrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678376699;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7/vcHspet32MJrMk+xrwcKCUNGnl/xOjR4Z4iR5uhbA=;
-        b=rB1p5BLJbZfzCQ1CM8cecs7oXD8QENQ6gQLPWjGoFL2XMwMJF15OoV3jKXQi9H21oa
-         9rkAZZegwGvbo/486+JQOksELNNN9oGLWjeMwh7Bjk661zmGqK9kO3CGIf6Z4DucTAg6
-         R93YbwpZpNMjVXKwEnPFgOVhJmaINRTnaA1rbeRkokbF4XwyXAXat503st/phqz9+4/f
-         XwhIRSyOK2J8Kag7wudgaaz5xr3XFG0r4BnucsoSLvSuxtTG+beeoo0BvUfozEKLzA8N
-         4ckFsfNYN+qFcdkS6oVpWbPrltBP/QhyIKzXqRNNRKpJBDYVOv4f26AhvVQpYQihxPKx
-         KZ/A==
-X-Gm-Message-State: AO0yUKUuyX8I8fmJ3dgw+45o3MmeMpPh2H4U6Cjw9HhXTXfoPK6jlA+F
-	w3VceqRkgD1az+VbLCYCckkVJ8PwFXscdJcnIXg=
-X-Google-Smtp-Source: AK7set/Y29JVrHkohsNBF4UNmpig/Bp0+2tUsz+hG91stH5uxKUJImUxB+jGahLtqZaW0sx1Ip93wVEopDWPTMWjWVs=
-X-Received: by 2002:adf:ce0c:0:b0:2c7:1d73:d59a with SMTP id
- p12-20020adfce0c000000b002c71d73d59amr2547235wrn.1.1678376699038; Thu, 09 Mar
- 2023 07:44:59 -0800 (PST)
+        d=1e100.net; s=20210112; t=1678376860;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Xlv1XZR3TpgPe/mp2DztgfZQsCxlxYmR0KPboxDoTNk=;
+        b=AKRFRqzPFJDBwTvBjPD3X7aEUXVph9oNXu9S9yBjbC62EQJOJy1xg3lTluiKV+y8v8
+         bsgGClKmYi54WrQNJAcLedjLpumb9EABs+7EbS1v1+dUAISym3w3adLraIkCa/OnnliV
+         uXW7dvFpcy2c7iJChzLfW5nYl/X3C374CMwxcr4O5nhV+edyV+ma8WX8cZEuxqwP0fQD
+         DMAlibYaQQNs0ZGsBCW1q+V+eaTZ7WBA1Kqiop9TFvqTXoUkNBusCIHWi/qxhJ6gOmjg
+         k4sV3KKS+8GbG/BwLKT4LHIm1+PeSchIeBXXjhx5+kuwk4lxx2o/H1aZG3uTFRAcH+aS
+         R4Zg==
+X-Gm-Message-State: AO0yUKVP5IA3ky27j9u0i25LC8tbY3rXi0IXZN8dXZnOEf2g8AkUB6ZC
+	LPuJ6Gu/SjsDg0IKDLjWZoXHYVSAPHiFtiy3KrE=
+X-Google-Smtp-Source: AK7set8vRar9s9gRtQWjY+lFFHMuRi+XRXEVjzNeotzn8OT5GKecvyjwAGA+nn4xFh6qW2vq3yMnMeCZMYdC1USWNvs=
+X-Received: by 2002:a19:740e:0:b0:4db:345d:4f8a with SMTP id
+ v14-20020a19740e000000b004db345d4f8amr7015890lfe.11.1678376860530; Thu, 09
+ Mar 2023 07:47:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20230309151958.3619193-1-alex@linutronix.de> <CANNYZj-qNvbg+ZA4OpW--VQibXOdySfmPEY3vg1A58s2H2CJMw@mail.gmail.com>
-In-Reply-To: <CANNYZj-qNvbg+ZA4OpW--VQibXOdySfmPEY3vg1A58s2H2CJMw@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 9 Mar 2023 16:44:43 +0100
-Message-ID: <CA+chaQcxrsODWQnDXbYo=CsWxzCX0ED9H_FAExyEBXXkkLofmw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 01/26] devtool/upgrade: do not delete the
- workspace/recipes directory
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000f20f5305f67986b0"
+References: <20230309151958.3619193-1-alex@linutronix.de> <20230309151958.3619193-13-alex@linutronix.de>
+ <6967bdef-9c3f-eb4b-2e14-a29ed4367c18@gmail.com>
+In-Reply-To: <6967bdef-9c3f-eb4b-2e14-a29ed4367c18@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 9 Mar 2023 16:47:29 +0100
+Message-ID: <CANNYZj-UMkSf1H2B0Sw4K=Ok1mrw3JBxemXWcjJKOOgd09k2cg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 13/26] ffmpeg: update 5.1.2 -> 6.0
+To: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 15:45:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178256
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 15:47:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178257
 
---000000000000f20f5305f67986b0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Major ffmpeg upgrade might not be risky for components in oe-core (as
-you've already patched gst-libav).
-
-But considering how many other projects are still using ffmpeg-4, because
-upgrade to ffmpeg-5 api is far from simple, I don't think it's good fit to
-merge ffmpeg during feature-freeze - already said the same to Randy.
-
-e.g. gentoo tracker for ffmpeg-5 update:
-https://bugs.gentoo.org/showdependencytree.cgi?id=3D831437&hide_resolved=3D=
-1
-
-Cheers,
-
-On Thu, Mar 9, 2023 at 4:32=E2=80=AFPM Alexander Kanavin <alex.kanavin@gmai=
-l.com>
-wrote:
-
-> Just to make sure: this set (like all of my big patchsets) did get an
-> all-clear from a-full test matrix, so I believe it's not particularly
-> risky to take in, despite the feature freeze.
+On Thu, 9 Mar 2023 at 16:42, B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=A1n <zboszo=
+r@gmail.com> wrote:
 >
-> Alex
+> 2023. 03. 09. 16:19 keltez=C3=A9ssel, Alexander Kanavin =C3=ADrta:
+> > Add a patch to gstreamer1.0-libav to address an API compatibility fail.
 >
-> On Thu, 9 Mar 2023 at 16:20, Alexander Kanavin <alex.kanavin@gmail.com>
-> wrote:
-> >
-> > If it exists, there is no need to delete it, and if it does not,
-> > devtool prints an ugly traceback.
-> >
-> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> > ---
-> >  scripts/lib/devtool/upgrade.py | 3 ---
-> >  1 file changed, 3 deletions(-)
-> >
-> > diff --git a/scripts/lib/devtool/upgrade.py
-> b/scripts/lib/devtool/upgrade.py
-> > index 967d157077..6c4a62b558 100644
-> > --- a/scripts/lib/devtool/upgrade.py
-> > +++ b/scripts/lib/devtool/upgrade.py
-> > @@ -125,11 +125,8 @@ def _write_append(rc, srctreebase, srctree,
-> same_dir, no_same_dir, rev, copied,
-> >      return af
-> >
-> >  def _cleanup_on_error(rd, srctree):
-> > -    rdp =3D os.path.split(rd)[0] # recipes folder
-> >      if os.path.exists(rd):
-> >          shutil.rmtree(rd)
-> > -    if not len(os.listdir(rdp)):
-> > -        os.rmdir(rdp)
-> >      srctree =3D os.path.abspath(srctree)
-> >      if os.path.exists(srctree):
-> >          shutil.rmtree(srctree)
-> > --
-> > 2.30.2
-> >
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#178254):
-> https://lists.openembedded.org/g/openembedded-core/message/178254
-> Mute This Topic: https://lists.openembedded.org/mt/97497957/3617156
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> Martin.Jansa@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+> Please make sure this doesn't break opencv in meta-oe.
 
---000000000000f20f5305f67986b0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Right, this one can probably be dropped. I can run meta-oe build
+against my branch to see the fallout. (a-full does not include that)
 
-<div dir=3D"ltr">Major ffmpeg upgrade might not be risky for components in =
-oe-core (as you&#39;ve already patched gst-libav).<div><br></div><div>But c=
-onsidering how many other projects are still using ffmpeg-4, because upgrad=
-e to ffmpeg-5 api is far from simple, I don&#39;t think it&#39;s good fit t=
-o merge ffmpeg during feature-freeze - already said the same to Randy.</div=
-><div><br></div><div>e.g. gentoo tracker for ffmpeg-5 update:</div><div><a =
-href=3D"https://bugs.gentoo.org/showdependencytree.cgi?id=3D831437&amp;hide=
-_resolved=3D1">https://bugs.gentoo.org/showdependencytree.cgi?id=3D831437&a=
-mp;hide_resolved=3D1</a><br></div><div><br></div><div>Cheers,</div></div><b=
-r><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, =
-Mar 9, 2023 at 4:32=E2=80=AFPM Alexander Kanavin &lt;<a href=3D"mailto:alex=
-.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex">Just to make sure: this set (like=
- all of my big patchsets) did get an<br>
-all-clear from a-full test matrix, so I believe it&#39;s not particularly<b=
-r>
-risky to take in, despite the feature freeze.<br>
-<br>
-Alex<br>
-<br>
-On Thu, 9 Mar 2023 at 16:20, Alexander Kanavin &lt;<a href=3D"mailto:alex.k=
-anavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt; wrote:<b=
-r>
-&gt;<br>
-&gt; If it exists, there is no need to delete it, and if it does not,<br>
-&gt; devtool prints an ugly traceback.<br>
-&gt;<br>
-&gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix=
-.de" target=3D"_blank">alex@linutronix.de</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 scripts/lib/devtool/upgrade.py | 3 ---<br>
-&gt;=C2=A0 1 file changed, 3 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgr=
-ade.py<br>
-&gt; index 967d157077..6c4a62b558 100644<br>
-&gt; --- a/scripts/lib/devtool/upgrade.py<br>
-&gt; +++ b/scripts/lib/devtool/upgrade.py<br>
-&gt; @@ -125,11 +125,8 @@ def _write_append(rc, srctreebase, srctree, same_=
-dir, no_same_dir, rev, copied,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 return af<br>
-&gt;<br>
-&gt;=C2=A0 def _cleanup_on_error(rd, srctree):<br>
-&gt; -=C2=A0 =C2=A0 rdp =3D os.path.split(rd)[0] # recipes folder<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 if os.path.exists(rd):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 shutil.rmtree(rd)<br>
-&gt; -=C2=A0 =C2=A0 if not len(os.listdir(rdp)):<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 os.rmdir(rdp)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 srctree =3D os.path.abspath(srctree)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 if os.path.exists(srctree):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 shutil.rmtree(srctree)<br>
-&gt; --<br>
-&gt; 2.30.2<br>
-&gt;<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#178254): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/178254" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/178254</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/97497957/3617=
-156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/97497957/3617156</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" ta=
-rget=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---000000000000f20f5305f67986b0--
+Alex
 
