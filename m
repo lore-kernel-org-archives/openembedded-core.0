@@ -1,84 +1,77 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85F8FC64EC4
-	for <webhook@archiver.kernel.org>; Thu,  9 Mar 2023 15:22:32 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web10.16216.1678375351269066145
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80FAAC6FD1F
+	for <webhook@archiver.kernel.org>; Thu,  9 Mar 2023 15:25:12 +0000 (UTC)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web10.16317.1678375505783945038
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Mar 2023 07:22:31 -0800
+ Thu, 09 Mar 2023 07:25:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=X7MTRXxB;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id j2so2232991wrh.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 07:22:31 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=Czp+OYuj;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.47, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f47.google.com with SMTP id ec29so8495904edb.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 07:25:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1678375350;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678375504;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ak+VSuaPRq1JoTpyqbjSqQztAauY2KSuKYglu5ymPrw=;
-        b=X7MTRXxBNdyqxlSVxrJODQcMy5j3Q7Y5kEUkKhTYDk1H4k17LOZQqynZs7Rv9DR15Z
-         p911c9SqqyRPcFtZeFHcAudqiMBWv97aCFMQApMH0QyylSLfJiyZfMiy65p8JXXUL4yi
-         p1UtaL20u7BvgRsqAsLJzf4ZMk38Sg45O1RMQ=
+        bh=HDjGfZnTjdQzf9FjNRsZR7zC5SQm5Qv5mmZUF8qzxmY=;
+        b=Czp+OYujhSTqwB1ywYuiuuBWX26kTopgGoHdh5IfqRAV+zZCbnDbdSq/RhKox4d2mO
+         72pD9a51DGRXBJaod5CMp31/qG+ou91FytOzRW9f2TwcLECighe5fmPTnoGUNlq2Vfc1
+         xPDdaOGFEMqZ9izev0LLjRzr/HAMiJ1DSawcMgogcrS4Ty/uaHQcEJgGRIC+Km7Ri5dC
+         kRwmu2vxPsFJw1CI8q7F5DY8tL/epRIr/AQNHC9Ew1PpEwmGVShwf4ljxg3vInyF0hjt
+         ydjWKtaUqgcZRjL3qHupdpMO+dzmAXhVprx3/JgeAq0z7BHsTIxQF+NAWmRXJimK1Gf9
+         eR9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678375350;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ak+VSuaPRq1JoTpyqbjSqQztAauY2KSuKYglu5ymPrw=;
-        b=PMr/FW64C0EUu8TbvU11FpA0s/u2Ft6xTN23i1L8q/JbjbfHVRavk1Ap5Qv1quUgW8
-         1SZ0QeMAWxFUhUAqniQ3Q9fAUAxVx/Y6cRD8jTFGwVXXjr1r7XoCTJbTpLMhvnH9m8Cl
-         ElQC/VF7xeuaMNklJgDxN2aQFYqaVKtOo35IfqMObftEpMmV5jO1X0H5sLPuFYSerxCL
-         vs/z+J4+AIrNe7Q6whNfaADTv6FTzVbrU7n6uOUM5G1oy1SPPbIlueDEHy06U9mYYk+G
-         4v2jp100EpYCFInl8pe4rfjXzFS/+kIOmKVB6zV8jal6zPvIC73O7UpCmGqgSEvYWanJ
-         rymQ==
-X-Gm-Message-State: AO0yUKVIKtzk0Rsw2QRjdoqIRJzmaiVDr/C87evGg1jhhWS/giz3a3Dc
-	TetWyvoYB5vyDjXAhP1UM2eO+6MCflVvOk8/nN8=
-X-Google-Smtp-Source: AK7set9+/rOiGMHyf9xQ7kT+sMnz4+PhhJH//G+20xXPPq21YaYq5T/SCC2HRmBpiAbLBzIV1L8AmA==
-X-Received: by 2002:a05:6000:1a43:b0:2c9:6b87:962d with SMTP id t3-20020a0560001a4300b002c96b87962dmr12348971wry.15.1678375349820;
-        Thu, 09 Mar 2023 07:22:29 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:7e05:8348:1f1a:b973? ([2001:8b0:aba:5f3c:7e05:8348:1f1a:b973])
-        by smtp.gmail.com with ESMTPSA id e23-20020a05600c219700b003dec22de1b1sm190138wme.10.2023.03.09.07.22.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Mar 2023 07:22:29 -0800 (PST)
-Message-ID: <e549bd404d248611ef51394d90abc8a8ed8a8d88.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH V2 5/5] bash: Fix install conflict when enable
- multilib.
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "wangmy@fujitsu.com" <wangmy@fujitsu.com>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 09 Mar 2023 15:22:28 +0000
-In-Reply-To: <OSBPR01MB184550B5D7326199A5C3FF34DCB59@OSBPR01MB1845.jpnprd01.prod.outlook.com>
-References: <1678239619-21210-1-git-send-email-wangmy@fujitsu.com>
-	 <1678239619-21210-5-git-send-email-wangmy@fujitsu.com>
-	 <6e1d1ccb86355e4bd4cdf669e06069706b702afd.camel@linuxfoundation.org>
-	 <OSBPR01MB184550B5D7326199A5C3FF34DCB59@OSBPR01MB1845.jpnprd01.prod.outlook.com>
+        d=1e100.net; s=20210112; t=1678375504;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HDjGfZnTjdQzf9FjNRsZR7zC5SQm5Qv5mmZUF8qzxmY=;
+        b=DOVOrP4XI4gkrnxE2hZEJKhFCRdHusF91s9aWFR4PdFgRIY9drt2/Dye0qKrfr+qN4
+         ofD3AMzTZmEErXXAecAHNA35xIhHrTzU0UJtEbRwLNq7Yjo+39SwVVSUc5HyKvJ4pAl1
+         jqFMEjtyjFXi210+ZEp94yix9/7TNJ+adt93UlYJg3tNPKKW+895ooh3w+GDiYlrr5t8
+         XzGz+IHjHR75rd+OvSVMwRtQqjuSVGIWLLQBPGlRk3JNc/nO1ROYPVfzM9YmrqhaETSr
+         yZ4FvOG/OY5xjuSzw3Tp7pLFo2Krpf6RLCktJJ5oeCKQxpIJQRZwmIEQ4Q4GekgY9QsC
+         g1JA==
+X-Gm-Message-State: AO0yUKXjxyM3aQBEIt6cWknUF3WZ51IDVt4xnxqax/+KkfUVBbodGiRl
+	mjt0C6toDbcRc7APHdQ+7FKz7sVWV941AucXExHAHA==
+X-Google-Smtp-Source: AK7set86MOxSGyx+jFJUUG3skS3Mpc5n7JClO3vtJWytPpmB8+6ZErvq9221IzF3NVKQ8JbtKfCzPo6HcH4bIKW4btA=
+X-Received: by 2002:a17:906:fcb9:b0:883:ba3b:eb94 with SMTP id
+ qw25-20020a170906fcb900b00883ba3beb94mr11347407ejb.3.1678375504141; Thu, 09
+ Mar 2023 07:25:04 -0800 (PST)
+MIME-Version: 1.0
+References: <3cb18f22193455d52f5f30c837a2694719d6ae70.camel@siemens.com>
+In-Reply-To: <3cb18f22193455d52f5f30c837a2694719d6ae70.camel@siemens.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Thu, 9 Mar 2023 05:24:53 -1000
+Message-ID: <CAOSpxdZm91QVn9tEjKeoXC79rxNNwkeDz2qWzgPTakJ4k6Jo2w@mail.gmail.com>
+Subject: Re: curl
+To: "Valek, Andrej" <andrej.valek@siemens.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3-1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 15:22:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178252
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 15:25:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178253
 
-On Thu, 2023-03-09 at 01:51 +0000, wangmy@fujitsu.com wrote:
-> > I think we should just change the MACHINE, OS, CC and MACHTYPE
-> > lines to
-> > something like "<redacted for multilib compatibility>".
-> So for the correction of this problem, do we need to continue to vote
-> for patch?=20
-> Or accept this patch temporarily, and then roll it back after the
-> bash update?
+On Thu, Mar 9, 2023 at 5:15=E2=80=AFAM Valek, Andrej <andrej.valek@siemens.=
+com> wrote:
 
-I'd like to see a patch which fixes the issue properly. If I take this
-one temporarily, it is unlikely anyone will then send the correct fix.
+> I have a question about curl. Would it be possible to backport some
+> fixes for CVEs from kirkstone to dunfell?
 
-Cheers,
+The curl versions in kirkstone and dunfell are different, so a direct
+cherry-pick of those patches may or may not work.
 
-Richard
+If you could test cherry-picking them and then submit the patches to
+the list (with your Signed-off-by added) I would be happy to take them
+:-)
+
+Steve
 
