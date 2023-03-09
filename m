@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8578BC74A4B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92D25C74A5B
 	for <webhook@archiver.kernel.org>; Thu,  9 Mar 2023 22:58:25 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web10.5687.1678402701264023177
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web11.5719.1678402699543199324
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Mar 2023 14:58:21 -0800
+ Thu, 09 Mar 2023 14:58:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=Lu5yD5uf;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f175.google.com with SMTP id b20so2535520pfo.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 14:58:21 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=WdGb9Mf1;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f51.google.com with SMTP id q31-20020a17090a17a200b0023750b69614so3406566pja.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 14:58:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678402700;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678402698;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=wM1x/RQTUb7zA6P2Jc+gZAz6UIf9V8f/0rpROaAVB80=;
-        b=Lu5yD5ufa2kz31efUBTidsibhHtYd0lzkry0vwlY3GOv9CQ46dC/K3bVp4k4EcWu0f
-         luOwxZ6fDUUWjiz4lSThYDX4aROwnUo3viTPmDh98bTBaehoJmE0tLah+3H5QoTG1pTU
-         FdnNyN78RwNOY2DGmx+HhCYsYU2hxy1+gHFbM0AIXfbdNRXgN9Xsgs4cdOCuJKMygdXn
-         M/M0GWbyyr8qFySXHUNJsllrM3++oqUM2aUaWpLpSeclLrGm4xx6xJoxQyW5vbDtAbDi
-         jVmlT7CH4A6G2b8SZGGA6UPYn6WGmNg7IN9olJN6zMIkNZXIFuFS0XJacdWPQ17ZSvaA
-         b5dQ==
+        bh=bQ6LyQ7RcJXFKRzLuyRuko3G7jcp0lwKWdRwKcRGeTE=;
+        b=WdGb9Mf17Tai5+NzTkJCOxKhye5FJYV9BKEE9qLHR20FA8IRJNtYWEC3mrD/3E/sJp
+         tKHPpgEe/GFD/Rj/FoDyF1Gb1Q84twca0grfdFs3ockalgUHG1fmc/7LMFJ5r/jtiVQL
+         MLZZhT/6fcfNatMRLr/QtEdS8gWGK/hRmNW87IVZbvftp8+ZV13ftON3D9U5l8FEgl1X
+         /mhIh0DzNm4QAuYqoyfqnng1+qfp/NEFLA7pMvvloMDTX4EJgS+e+ybjG6vuIO0sATuo
+         2fTeOFBG9mGYNn/YQFnU65LN6IhdfjLbRlkLdWQ4IQyLoXM238kbDOMBKmXbAAIUOgbX
+         1y8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678402700;
+        d=1e100.net; s=20210112; t=1678402698;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wM1x/RQTUb7zA6P2Jc+gZAz6UIf9V8f/0rpROaAVB80=;
-        b=TCBtEwjMcUyBsr7zeWFIKnt0t9lyJU7HK+IEb9YOWqAp0uGtagxCN2fzv/FtGpt8xM
-         l+kJs8xBpbeGx3tAmTPBeNJ7L3Vshq8ZzhdwjILA5D7/t+E7c7BudXJKNPAaq4ffLJPO
-         r+WzuFhZ8+7m2IY+QQ7qeP1yTFjdv7JGzdW9ONDh6UZOM5UNSIRYTupB7gOtMi3F14qn
-         mgu/Z8PSrIPSF5kajOuIHs/zU09uFPO6cExszzrIEZ1jlRCTWlgTIXT1iUz15c1OloDS
-         JmF2ffPsC1iTDo7Zg0Pdg+EF/3FR1Gr9g5F6ooUDFjdlhS/yd42sdaDHTIHRiC8pzANR
-         GDJA==
-X-Gm-Message-State: AO0yUKXEJVG+JCLZ1mH3Y6vhmZmlvLaHazn/rz10SlUQur2ZGKZk+1mo
-	4LUYvO0LAyV7gPInxSdvJSFa2Gr2Zk+Ct/sYD0c=
-X-Google-Smtp-Source: AK7set8gUra/DBeJa2ygQTcxEenomjkoCAEHRjeCj72GX+c2qRmiJOx2eXhxMPvYPp5Xh7zCExpG0Q==
-X-Received: by 2002:a62:1748:0:b0:5dc:6dec:e9b9 with SMTP id 69-20020a621748000000b005dc6dece9b9mr21964143pfx.21.1678402700377;
-        Thu, 09 Mar 2023 14:58:20 -0800 (PST)
+        bh=bQ6LyQ7RcJXFKRzLuyRuko3G7jcp0lwKWdRwKcRGeTE=;
+        b=efa4Au8kb67tY5h7uZZQK8h0EpDcLCw5sdvMyE57YWsOUMCmk4D9FAa7RDNhlBJWS2
+         j0KuG2A9kLejXo7uAqaDiIbiipAQuWC9GJazVD478TERNYFQMz+rxC8Os7Ck2u+UDfve
+         ypBsMw+Bwgij5TmvG9JjWkNLGTc4jA/59+N4Dwde+NLTCKY4O6XE8qQF3MXtEuWNzEyM
+         PH7DR2NUxExM8q2IHiWM+WBercZDxXGBRMOPRsFyHo3ykaXO+do+lMmmsvyg1ZEf7ddL
+         0KufyOWE5Tw1PgWmFNgCfV8xr2JqqWn9ds40Q2F+t4S9xVx9S3mHOP6gFkD8oFWb0UPg
+         qj+Q==
+X-Gm-Message-State: AO0yUKWi/2lrpKvdZtKbk1ZF3oPbNo+zrIDkXPjApgT9x4+pfoDLiuWn
+	60xkt1y5s8uazeBI0vxBRTA8phy3mkHrnYvUEd0=
+X-Google-Smtp-Source: AK7set96ZuPmeZBvgaZ0yBu/RA9sCetqgMG2Fl0H1+PEbSf6LjZmCD7eBis86LPMEiQeZWFZ1IsIkg==
+X-Received: by 2002:a05:6a20:734f:b0:cd:26b2:ee17 with SMTP id v15-20020a056a20734f00b000cd26b2ee17mr26872469pzc.36.1678402698562;
+        Thu, 09 Mar 2023 14:58:18 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id j9-20020aa79289000000b0058db8f8bce8sm89717pfa.166.2023.03.09.14.58.19
+        by smtp.gmail.com with ESMTPSA id j9-20020aa79289000000b0058db8f8bce8sm89717pfa.166.2023.03.09.14.58.17
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Mar 2023 14:58:20 -0800 (PST)
+        Thu, 09 Mar 2023 14:58:18 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 05/27] shadow: ignore CVE-2016-15024
-Date: Thu,  9 Mar 2023 12:57:40 -1000
-Message-Id: <8dce0c01d9a0f6855e6a70a65412a43208b034a8.1678401759.git.steve@sakoman.com>
+Subject: [OE-core][langdale 04/27] epiphany: Security fix for CVE-2023-26081
+Date: Thu,  9 Mar 2023 12:57:39 -1000
+Message-Id: <412f9b5732f0ff659fc7ed81fe936755fa9d2773.1678401759.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1678401759.git.steve@sakoman.com>
 References: <cover.1678401759.git.steve@sakoman.com>
@@ -61,32 +61,127 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 22:58:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178278
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178277
 
-From: Ross Burton <ross.burton@arm.com>
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-This recently got an updated CPE which matches this recipe, but the issue
-is related to an entirely different shadow project so ignore it.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 2331e98abb09cbcd56625d65c4e5d258dc29dd04)
+Upstream-Status: Backport from [https://gitlab.gnome.org/GNOME/epiphany/-/commit/53363c3c8178bf9193dad9fa3516f4e10cff0ffd]
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/shadow/shadow_4.12.3.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-gnome/epiphany/epiphany_42.4.bb  |  1 +
+ .../epiphany/files/CVE-2023-26081.patch       | 90 +++++++++++++++++++
+ 2 files changed, 91 insertions(+)
+ create mode 100644 meta/recipes-gnome/epiphany/files/CVE-2023-26081.patch
 
-diff --git a/meta/recipes-extended/shadow/shadow_4.12.3.bb b/meta/recipes-extended/shadow/shadow_4.12.3.bb
-index 40b11345c9..d1a3fd5593 100644
---- a/meta/recipes-extended/shadow/shadow_4.12.3.bb
-+++ b/meta/recipes-extended/shadow/shadow_4.12.3.bb
-@@ -9,3 +9,6 @@ BBCLASSEXTEND = "native nativesdk"
- # Severity is low and marked as closed and won't fix.
- # https://bugzilla.redhat.com/show_bug.cgi?id=884658
- CVE_CHECK_IGNORE += "CVE-2013-4235"
+diff --git a/meta/recipes-gnome/epiphany/epiphany_42.4.bb b/meta/recipes-gnome/epiphany/epiphany_42.4.bb
+index 9efd2800da..98923a3bdc 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_42.4.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_42.4.bb
+@@ -27,6 +27,7 @@ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@oe.utils.trim_version("${PV}", 1)}/${GN
+            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
+            file://migrator.patch \
+            file://distributor.patch \
++           file://CVE-2023-26081.patch \
+            "
+ SRC_URI[archive.sha256sum] = "370938ad2920eeb28bc2435944776b7ba55a0e2ede65836f79818cfb7e8f0860"
+ 
+diff --git a/meta/recipes-gnome/epiphany/files/CVE-2023-26081.patch b/meta/recipes-gnome/epiphany/files/CVE-2023-26081.patch
+new file mode 100644
+index 0000000000..af1e20bd8f
+--- /dev/null
++++ b/meta/recipes-gnome/epiphany/files/CVE-2023-26081.patch
+@@ -0,0 +1,90 @@
++From 53363c3c8178bf9193dad9fa3516f4e10cff0ffd Mon Sep 17 00:00:00 2001
++From: Michael Catanzaro <mcatanzaro@redhat.com>
++Date: Fri, 3 Feb 2023 13:07:15 -0600
++Subject: [PATCH] Don't autofill passwords in sandboxed contexts
 +
-+# This is an issue for a different shadow
-+CVE_CHECK_IGNORE += "CVE-2016-15024"
++If using the sandbox CSP or iframe tag, the web content is supposed to
++be not trusted by the main resource origin. Therefore, we'd better
++disable the password manager entirely so the untrusted web content
++cannot exfiltrate passwords.
++
++https://github.com/google/security-research/security/advisories/GHSA-mhhf-w9xw-pp9x
++
++Part-of: <https://gitlab.gnome.org/GNOME/epiphany/-/merge_requests/1275>
++
++Upstream-Status: Backport
++[https://gitlab.gnome.org/GNOME/epiphany/-/commit/53363c3c8178bf9193dad9fa3516f4e10cff0ffd]
++CVE: CVE-2023-26081
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++---
++ .../resources/js/ephy.js                      | 26 +++++++++++++++++++
++ 1 file changed, 26 insertions(+)
++
++diff --git a/embed/web-process-extension/resources/js/ephy.js b/embed/web-process-extension/resources/js/ephy.js
++index 38b806f..44d1792 100644
++--- a/embed/web-process-extension/resources/js/ephy.js
+++++ b/embed/web-process-extension/resources/js/ephy.js
++@@ -352,6 +352,12 @@ Ephy.hasModifiedForms = function()
++     }
++ };
++ 
+++Ephy.isSandboxedWebContent = function()
+++{
+++    // https://github.com/google/security-research/security/advisories/GHSA-mhhf-w9xw-pp9x
+++    return self.origin === null || self.origin === 'null';
+++};
+++
++ Ephy.PasswordManager = class PasswordManager
++ {
++     constructor(pageID, frameID)
++@@ -385,6 +391,11 @@ Ephy.PasswordManager = class PasswordManager
++ 
++     query(origin, targetOrigin, username, usernameField, passwordField)
++     {
+++        if (Ephy.isSandboxedWebContent()) {
+++            Ephy.log(`Not querying passwords for origin=${origin} because web content is sandboxed`);
+++            return Promise.resolve(null);
+++        }
+++
++         Ephy.log(`Querying passwords for origin=${origin}, targetOrigin=${targetOrigin}, username=${username}, usernameField=${usernameField}, passwordField=${passwordField}`);
++ 
++         return new Promise((resolver, reject) => {
++@@ -396,6 +407,11 @@ Ephy.PasswordManager = class PasswordManager
++ 
++     save(origin, targetOrigin, username, password, usernameField, passwordField, isNew)
++     {
+++        if (Ephy.isSandboxedWebContent()) {
+++            Ephy.log(`Not saving password for origin=${origin} because web content is sandboxed`);
+++            return;
+++        }
+++
++         Ephy.log(`Saving password for origin=${origin}, targetOrigin=${targetOrigin}, username=${username}, usernameField=${usernameField}, passwordField=${passwordField}, isNew=${isNew}`);
++ 
++         window.webkit.messageHandlers.passwordManagerSave.postMessage({
++@@ -407,6 +423,11 @@ Ephy.PasswordManager = class PasswordManager
++     // FIXME: Why is pageID a parameter here?
++     requestSave(origin, targetOrigin, username, password, usernameField, passwordField, isNew, pageID)
++     {
+++        if (Ephy.isSandboxedWebContent()) {
+++            Ephy.log(`Not requesting to save password for origin=${origin} because web content is sandboxed`);
+++            return;
+++        }
+++
++         Ephy.log(`Requesting to save password for origin=${origin}, targetOrigin=${targetOrigin}, username=${username}, usernameField=${usernameField}, passwordField=${passwordField}, isNew=${isNew}`);
++ 
++         window.webkit.messageHandlers.passwordManagerRequestSave.postMessage({
++@@ -426,6 +447,11 @@ Ephy.PasswordManager = class PasswordManager
++ 
++     queryUsernames(origin)
++     {
+++        if (Ephy.isSandboxedWebContent()) {
+++            Ephy.log(`Not querying usernames for origin=${origin} because web content is sandboxed`);
+++            return Promise.resolve(null);
+++        }
+++
++         Ephy.log(`Requesting usernames for origin=${origin}`);
++ 
++         return new Promise((resolver, reject) => {
++-- 
++2.35.5
++
 -- 
 2.34.1
 
