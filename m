@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DEC1C6FD1F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 802BBC74A44
 	for <webhook@archiver.kernel.org>; Thu,  9 Mar 2023 22:58:55 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web11.5733.1678402734361671343
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web11.5721.1678402703283987520
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Mar 2023 14:58:54 -0800
+ Thu, 09 Mar 2023 14:58:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=WIXwy7Tx;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id h11-20020a17090a2ecb00b00237c740335cso3414975pjs.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 14:58:54 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=oxvel8t3;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f177.google.com with SMTP id v11so3662258plz.8
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 14:58:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678402733;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678402732;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PxAjdsogfD9E5yKennxRQDCw6HN7uFKMfSRL7n7fLSo=;
-        b=WIXwy7TxjuHarCsnqjoogts2iYAffKyMeE9LYHX6mX88J4M3B2A5P2+6eo1MJV3YRP
-         gorujuQVEyYxTwFhP4l4rA+3cljapIFcnWfyNsZKT7nYYvhwsgccv5xPnNy1iyQsGeNz
-         ZS4z4mJ9WYCbfnmf/2PdBuQYXqr1eMUH8NMsteQvJnQ53IILub1de0/0EFF80M0XTe1/
-         qSJIzT6+M6FfwMvfOF9o84VP1v1ih74Cr0SQKyuXsKC59Wm44pK8eISo09eM16VUmx2R
-         V2JK1YOEAWmRIkicwPbIUVE7XUV15xzc8eMyYplU+Jq8b/Dt7+OQKVNAnFkPakfSQcq5
-         srSw==
+        bh=W9JAsufL/Af3e/a0gVcz+v+1aY74Y3szmp38T6xXnRw=;
+        b=oxvel8t3JHDthzIfvMrhv1pVe/9fVTBQJeOFG+le1A2BVnsQLx9pAvJX+c4YuR4kYQ
+         8V+Nl58gzhjiK2oZo88hLdc27e6yTZjtkWOGxUVDXe9RZvZWAdsIZaLIL9BUge8sTFk0
+         +HqbnQ3wtX54V/8da5BwO3jJiw9SZddIOcxjaFCQgZ0ney45b6MKUxcJvn8GBRfQiZPv
+         clRlyBq3OIzzAH7oQZYaW6bGnQIRt99jAvv9l5xjgO48J1G++21Cvd89//LVtLpRdtt3
+         RfumbqinZcC/+PMoenZDrl9RGvIvkMRnuNsC/9LkJaNbQyz7wDLoITucLhZJNuYPtyHC
+         hp8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678402733;
+        d=1e100.net; s=20210112; t=1678402732;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PxAjdsogfD9E5yKennxRQDCw6HN7uFKMfSRL7n7fLSo=;
-        b=A3z68vtcgdr4UpxTAfkJ0biz55XfHXpSy22wx2sTM0NYqQfMjor03p+OKfRG9PUsaX
-         Qo1+wm5PkZcQZebtAQPe0VQyENNAWHYnoDWEx10BIDrtF+f1HTaper4fHVo9MODrd9JP
-         tPW/0HwyC7FcNLMlvJH35u9EDFqra5u3LXqCE4m4E15p0Twy9GKUkB3Xcq/OewB0GeoT
-         cFz7HSfPU/T7VHdOiSQcvyuYDhMm81UBe6+gl74wbdU9cYdEtYoaqY1yGE7IDA0T7vTG
-         DvNMplrECzOvRn5rjuCvq6UM0dcSwfHSy9rZWCXt6i0we4HXWQb0QfE6qSEOWZbDS4np
-         52Dg==
-X-Gm-Message-State: AO0yUKWqLaTpBhtLxTBU38h2RKSLb9GIpUE5yhPO93T1846dQ3mFIVPk
-	JHgYdtz1qM+4zc8U/5+dMY5TJPy9mXbzUqpnKG8=
-X-Google-Smtp-Source: AK7set8e8yVtJ8jvkaYwhUiaxYbgk0vQBf6NiJLDZYzKGwMkqyGEFCe99aL5kU5KYqCLug4SWvOUcw==
-X-Received: by 2002:a05:6a20:7d95:b0:ce:ca9:ab30 with SMTP id v21-20020a056a207d9500b000ce0ca9ab30mr24098105pzj.36.1678402733457;
-        Thu, 09 Mar 2023 14:58:53 -0800 (PST)
+        bh=W9JAsufL/Af3e/a0gVcz+v+1aY74Y3szmp38T6xXnRw=;
+        b=uMzerU8TMscluEc4CqJZU+3kk/R8vAAf8JKih7pOLVxbpUYpoGUUhOWsbkDb7IDCJ6
+         q67r4oIsrW33j7LJOsA+cMSyXn8nAWtXHLaFVZI4SFRcbRjicVEGMDMAcDpHf24BZhor
+         AJrNiQrPfMYHpiIXKDhCg4H9g6wmPj+I6DUB+NUMyluTnc92sW68m+uLW93mXaD7kP4V
+         vwSX2vVCuxa48zpR2QYzVLThCSkquo+mDDFjQ12fnB2uLzh0P1fD9Vg7PMa+P3ujhDHu
+         5i3cWvAjN1xgyEi7gUy3C0jxsyhjp7zQzb3+BadYTy9sMLZG7DdR1k5t2UEWohLDF2YK
+         Csfg==
+X-Gm-Message-State: AO0yUKVaTs5207Kw2o6tY70tKrE4RB/82ZmJTn9Hvj9QN01OgGk+gkun
+	qXdF/iVQbgo5b4bndQNRGUyRzgyraSaEKCTRQJ4=
+X-Google-Smtp-Source: AK7set/1ht8uFkzLTGNi1frKhrf06vKg97b6Lt0jyFA8EML4E0dtIbC9CEdF3keOftUAPNYQyfXYdw==
+X-Received: by 2002:a05:6a21:33a2:b0:cc:606a:4349 with SMTP id yy34-20020a056a2133a200b000cc606a4349mr28069183pzb.8.1678402731668;
+        Thu, 09 Mar 2023 14:58:51 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id j9-20020aa79289000000b0058db8f8bce8sm89717pfa.166.2023.03.09.14.58.52
+        by smtp.gmail.com with ESMTPSA id j9-20020aa79289000000b0058db8f8bce8sm89717pfa.166.2023.03.09.14.58.50
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Mar 2023 14:58:53 -0800 (PST)
+        Thu, 09 Mar 2023 14:58:51 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 23/27] oeqa/sdk: Improve Meson test
-Date: Thu,  9 Mar 2023 12:57:58 -1000
-Message-Id: <e7838652d8c33ce11ece4fc088925394df3bc8de.1678401759.git.steve@sakoman.com>
+Subject: [OE-core][langdale 22/27] meson: Fix wrapper handling of implicit setup command
+Date: Thu,  9 Mar 2023 12:57:57 -1000
+Message-Id: <23b7baa02e765998baf9de6254f376e07221b984.1678401759.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1678401759.git.steve@sakoman.com>
 References: <cover.1678401759.git.steve@sakoman.com>
@@ -61,38 +61,79 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 22:58:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178296
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178295
 
 From: Tom Hochstein <tom.hochstein@nxp.com>
 
-The meson wrapper setup command detection is broken in the case of an
-implicit setup command with an option with a space-separated argument,
-but the test was not detecting it since the case was not covered.
+From an SDK, running a meson setup build without an explicit setup
+command can result in a native build when a cross build is expected.
 
-Add the option `--warnlevel 1` to the meson command line to cover this
-case.
+The problem is in meson-wrapper where it tries to detect whether a
+setup command is being used. The logic looks through all arguments for
+a command, and the first argument it finds that doesn't start with a -
+is treated as the command. This doesn't work for an implicit setup
+command if any option with a space-separated argument exists. In this
+case, the argument is incorrectly selected as the command, causing the
+setup command options for the cross build to be excluded from the
+command line, and thus a native build.
+
+Improve the logic by just looking at the first argument. If it is
+a known comand, then record it. Otherwise just assume it is the
+implicit setup command.
+
+Note that this fix does not address the possibility of a new meson
+command. Two new echo statements are included to help the user in case
+of trouble:
+
+```
+~/git/weston-imx$ meson --warnlevel 3 --prefix=/usr -Ddoc=false -Dbackend-drm-screencast-vaapi=false -Dcolor-management-lcms=false -Dpipewire=false -Dbackend-x11=false -Dxwayland=true -Dsimple-clients=all -Dbackend-wayland=false  -Dbackend-default=drm -Dbackend-rdp=false -Dtest-junit-xml=false -Dlauncher-libseat=false -Dimage-jpeg=false -Dimage-webp=false -Drenderer-g2d=true build
+meson-wrapper: Implicit setup command assumed
+meson-wrapper: Running meson with setup options: " --cross-file=/opt/fsl-imx-internal-xwayland/6.1-langdale/sysroots/x86_64-pokysdk-linux/usr/share/meson/aarch64-poky-linux-meson.cross --native-file=/opt/fsl-imx-internal-xwayland/6.1-langdale/sysroots/x86_64-pokysdk-linux/usr/share/meson/meson.native "
+The Meson build system
+Version: 0.63.3
+```
 
 Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 54e9ee8a0c6c9fc89cbb743f0e4fc18607d503cf)
+(cherry picked from commit 9338bd66a3c9ab5cb781f2ee588306c5b31a3cb5)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/sdk/cases/buildepoxy.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/meson/meson/meson-wrapper | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/meta/lib/oeqa/sdk/cases/buildepoxy.py b/meta/lib/oeqa/sdk/cases/buildepoxy.py
-index ee515be188..147ee3e0ee 100644
---- a/meta/lib/oeqa/sdk/cases/buildepoxy.py
-+++ b/meta/lib/oeqa/sdk/cases/buildepoxy.py
-@@ -35,7 +35,7 @@ class EpoxyTest(OESDKTestCase):
-             self.assertTrue(os.path.isdir(dirs["source"]))
-             os.makedirs(dirs["build"])
+diff --git a/meta/recipes-devtools/meson/meson/meson-wrapper b/meta/recipes-devtools/meson/meson/meson-wrapper
+index fca64a5692..7455985297 100755
+--- a/meta/recipes-devtools/meson/meson/meson-wrapper
++++ b/meta/recipes-devtools/meson/meson/meson-wrapper
+@@ -13,20 +13,19 @@ fi
+ # config is already in meson.cross.
+ unset CC CXX CPP LD AR NM STRIP
  
--            log = self._run("meson -Degl=no -Dglx=no -Dx11=false {build} {source}".format(**dirs))
-+            log = self._run("meson --warnlevel 1 -Degl=no -Dglx=no -Dx11=false {build} {source}".format(**dirs))
-             # Check that Meson thinks we're doing a cross build and not a native
-             self.assertIn("Build type: cross build", log)
-             self._run("ninja -C {build} -v".format(**dirs))
+-for arg in "$@"; do
+-    case "$arg" in
+-    -*) continue ;;
+-    *) SUBCMD="$arg"; break ;;
+-    esac
+-done
++case "$1" in
++setup|configure|dist|install|introspect|init|test|wrap|subprojects|rewrite|compile|devenv|env2mfile|help) MESON_CMD="$1" ;;
++*) echo meson-wrapper: Implicit setup command assumed; MESON_CMD=setup ;;
++esac
+ 
+-if [ "$SUBCMD" = "setup" ] || [ -d "$SUBCMD" ]; then
+-    MESON_SUB_OPTS=" \
++if [ "$MESON_CMD" = "setup" ]; then
++    MESON_SETUP_OPTS=" \
+         --cross-file="$OECORE_NATIVE_SYSROOT/usr/share/meson/${TARGET_PREFIX}meson.cross" \
+         --native-file="$OECORE_NATIVE_SYSROOT/usr/share/meson/meson.native" \
+         "
++    echo meson-wrapper: Running meson with setup options: \"$MESON_SETUP_OPTS\"
+ fi
+ 
+ exec "$OECORE_NATIVE_SYSROOT/usr/bin/meson.real" \
+     "$@" \
+-    $MESON_SUB_OPTS
++    $MESON_SETUP_OPTS
 -- 
 2.34.1
 
