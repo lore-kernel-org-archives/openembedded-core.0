@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 027F3C74A5B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10553C76186
 	for <webhook@archiver.kernel.org>; Thu,  9 Mar 2023 15:20:12 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.16016.1678375209133202861
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web10.16125.1678375211185558952
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Mar 2023 07:20:09 -0800
+ Thu, 09 Mar 2023 07:20:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=BaKixGm5;
- spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id d41-20020a05600c4c2900b003e9e066550fso1458318wmp.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 07:20:08 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=HM6t0w2e;
+ spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f46.google.com with SMTP id e13so2225753wro.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 07:20:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678375207;
+        d=gmail.com; s=20210112; t=1678375209;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ri0FjTyR3BjGdPHmS4T1IkjM5cf2TL3MxjdVBu3uslc=;
-        b=BaKixGm5joqxOXT2swPndzvhi05VxNGAd1rT4GYW8G+R7OR4WYN1JSUnxkETOGRsN1
-         30mWwuDCvflpNA2Kq6FjMZS7BVe65DPH3t98sH8kgIlvgUdGowzgveJ3iVpFi3GeyE+F
-         sDRUEcgu5Mqvap4oVeTfX9Mb+ErRtTT/G1iqk/Bwbn9Ip01Q+eHCuGok6J4lOQAJGPLk
-         w1XDcjErSGuoZ/eAL9rqVTR5qbe6g3qWrKP3NGvJjC9kCTgP4wE6klJFcbI+lqrD6r5A
-         66VyJDbhvnBRz9e0ECvpv7ILcQ3s48x/MMoSoPhvIqxmLXMifQ323vwKtW3XXvoCq48n
-         gHLg==
+        bh=Ae9+b77lw4soxnlSrsQ5z/FruT7M4ct4LldTnINKFhA=;
+        b=HM6t0w2eoMwO5bZ//3H4TukGw/zjgtb3gwqmTzzmTvkcACqyiahf+wlMT+M5tiFSlQ
+         pd5qT096RSETQUAj2IrKUa5XF3+95+Eif0Z/vqdWcnShBwjMyfRb1e8qf2cYwrpBP6zE
+         aabaZ97gCVMRPHf4fvzo+cwA14m/uNoaUBpZ08zh6FN4wVARJfWNuhW5aUeZ0AHBzqRI
+         +k8PvZmfVR2rsrxOxo8/fo/40NcG76pYLW2ztn24w02Y3Lr8EfaLJxbg4jlPie1VtLyA
+         JxYp5zi5J2lrVX9l/LoSZy6cVE30OZNsM6lI6mWqq7cmzlZ5X1Fa/zXUyOkf80Apx1/G
+         McNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678375207;
+        d=1e100.net; s=20210112; t=1678375209;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ri0FjTyR3BjGdPHmS4T1IkjM5cf2TL3MxjdVBu3uslc=;
-        b=Pl/aJWaDbaHpNE3onBZGOXfBeQXYc7iNELIwuKjY+pt4QSzIyvQvnr39o0gNFJUvf9
-         W1peAfjkgN/RxWzA/xIfKQ9+Pznv8ztY5MzNRo/lBWFOnZjCbf+FoD0AYCA4Pf471eMe
-         UIsgxsmmq7FrNdrDz2QPjrYHnlUu9g0GphZmlFE9qE7K9sR2SrIOvScK8SpB3NEQC8NA
-         9q9jeOF/Vhxb5gEciNsdeNEsnqUyb6tsOPzMCj+dsjKSULwBS5y5UbvaGKKmBtmYN20V
-         UOOqcVNtM1UWEb9C58X3XWStvlXjFPU7ndrHyJm/lWRmum3REEUhXxhI4vLzm66HYRsl
-         OfmQ==
-X-Gm-Message-State: AO0yUKVw/xFspoCi0wrgIQ4Odij1Opjb7mmq25pwisOCqzOXC2gkPGhM
-	GiuycbQE4rGjMuMNvF8rDtT3a2cWhYc=
-X-Google-Smtp-Source: AK7set/L2JCi0bdR4GzfFg1ajOKpjy+riIACrP9r2A6JMARRcXa+/QU9LEqSj9ek9tOtF2caigt+fg==
-X-Received: by 2002:a05:600c:4fc8:b0:3eb:cf1:f2b6 with SMTP id o8-20020a05600c4fc800b003eb0cf1f2b6mr20883390wmq.14.1678375207692;
-        Thu, 09 Mar 2023 07:20:07 -0800 (PST)
+        bh=Ae9+b77lw4soxnlSrsQ5z/FruT7M4ct4LldTnINKFhA=;
+        b=MBRG4gf7UD6iCpyfRSPkoS2k/Ug5lS8vJMByMKOhX6EO+tV0EWFMJPAd0daE7GYG0I
+         sMrTJo2nuk+y2oWsjs9Snp/5KozSPWzUOSH1eHUQozUZ41AAceajTa6AvtvQDg9IAGZU
+         mrkhCzAKpUy2VtD1amaWBkqKVShJ5MVuGDey9gxYDJ7nNk8XeWub9TNOxgi6Q/GqFXrV
+         sxwLjnEJMieKWsRJPg0251LmH12JwVfy7Z4N3VqIi7C8WbEFivgSbRxhpmMWcYIvAasu
+         LFHp+DLVFPos9LgWiNnUgtrLxB3oSGL3EkuuhXIpHKeMtEjCzTzPF2747fZZRAlsKHRU
+         XjSw==
+X-Gm-Message-State: AO0yUKX4YQH3Rr943JhUv0QF46P7QKJ1Ll24cs2xkSskZ3uA3885OjR/
+	+0nTZRdxO84a15GWe5KWClq/aMaCLG8=
+X-Google-Smtp-Source: AK7set8+Q/DT+mVwuUsMF89fk7w6KK8O7LAiQmhzC9Ygve+fVVwvhHz/U/wxIDqYcVmrXdJpueY2+A==
+X-Received: by 2002:adf:f048:0:b0:2c7:1757:3a8e with SMTP id t8-20020adff048000000b002c717573a8emr15051236wro.34.1678375209688;
+        Thu, 09 Mar 2023 07:20:09 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id s10-20020adfea8a000000b002c7e1a39adcsm18314521wrm.23.2023.03.09.07.20.07
+        by smtp.gmail.com with ESMTPSA id s10-20020adfea8a000000b002c7e1a39adcsm18314521wrm.23.2023.03.09.07.20.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Mar 2023 07:20:07 -0800 (PST)
+        Thu, 09 Mar 2023 07:20:09 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 06/26] dpkg: update 1.21.20 -> 1.21.21
-Date: Thu,  9 Mar 2023 16:19:38 +0100
-Message-Id: <20230309151958.3619193-6-alex@linutronix.de>
+Subject: [PATCH 10/26] util-macros: do not probe into host triplet when checking manpage section names
+Date: Thu,  9 Mar 2023 16:19:42 +0100
+Message-Id: <20230309151958.3619193-10-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230309151958.3619193-1-alex@linutronix.de>
 References: <20230309151958.3619193-1-alex@linutronix.de>
@@ -61,39 +61,66 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 15:20:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178231
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 15:20:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178235
+
+This does not work for allarch recipes in particular
+(config.sub rejects allarch-poky-linux).
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../dpkg/{dpkg_1.21.20.bb => dpkg_1.21.21.bb}                 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/dpkg/{dpkg_1.21.20.bb => dpkg_1.21.21.bb} (93%)
+ ...n-do-not-run-AC_CANONICAL_HOST-in-ma.patch | 28 +++++++++++++++++++
+ .../xorg-util/util-macros_1.20.0.bb           |  2 ++
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-util/util-macros/0001-xorg-macros.m4.in-do-not-run-AC_CANONICAL_HOST-in-ma.patch
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.21.20.bb b/meta/recipes-devtools/dpkg/dpkg_1.21.21.bb
-similarity index 93%
-rename from meta/recipes-devtools/dpkg/dpkg_1.21.20.bb
-rename to meta/recipes-devtools/dpkg/dpkg_1.21.21.bb
-index a6ed4fd429..a19a96ef06 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.21.20.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.21.21.bb
-@@ -1,7 +1,7 @@
- require dpkg.inc
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+diff --git a/meta/recipes-graphics/xorg-util/util-macros/0001-xorg-macros.m4.in-do-not-run-AC_CANONICAL_HOST-in-ma.patch b/meta/recipes-graphics/xorg-util/util-macros/0001-xorg-macros.m4.in-do-not-run-AC_CANONICAL_HOST-in-ma.patch
+new file mode 100644
+index 0000000000..e08b586bf0
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-util/util-macros/0001-xorg-macros.m4.in-do-not-run-AC_CANONICAL_HOST-in-ma.patch
+@@ -0,0 +1,28 @@
++From 6afaaf164ab9370204856961a92ad8ee523a8293 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Fri, 3 Mar 2023 13:24:58 +0100
++Subject: [PATCH] xorg-macros.m4.in: do not run AC_CANONICAL_HOST in manpage
++ section macro
++
++This doesn't work when building allarch items, as it calls into
++config.sub with the host triplet, and config.sub can't match
++it against any architeture it knows.
++
++Upstream-Status: Inappropriate [oe specific]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ xorg-macros.m4.in | 1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/xorg-macros.m4.in b/xorg-macros.m4.in
++index 3b8b8e9..6541236 100644
++--- a/xorg-macros.m4.in
+++++ b/xorg-macros.m4.in
++@@ -111,7 +111,6 @@ AC_SUBST(TRADITIONALCPPFLAGS)
++ # Added AC_PROG_SED in version 1.8
++ 
++ AC_DEFUN([XORG_MANPAGE_SECTIONS],[
++-AC_REQUIRE([AC_CANONICAL_HOST])
++ AC_REQUIRE([AC_PROG_SED])
++ 
++ case $host_os in
+diff --git a/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb b/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb
+index 60495ad0c8..cd4bc387a2 100644
+--- a/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb
++++ b/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb
+@@ -9,6 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=42ba50748cb7ccf8739424e5e2072b02"
  
--SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https;branch=main \
-+SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https;branch=1.21.x \
-            file://noman.patch \
-            file://remove-tar-no-timestamp.patch \
-            file://arch_pm.patch \
-@@ -18,6 +18,6 @@ SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https;branch=main
+ PE = "1"
  
- SRC_URI:append:class-native = " file://0001-build.c-ignore-return-of-1-from-tar-cf.patch"
++SRC_URI += "file://0001-xorg-macros.m4.in-do-not-run-AC_CANONICAL_HOST-in-ma.patch"
++
+ SRC_URI[sha256sum] = "8daf36913d551a90fd1013cb078401375dabae021cb4713b9b256a70f00eeb74"
  
--SRCREV = "6c5140f124925ad4eb12fb2c8e83a050028bbc1f"
-+SRCREV = "9ef736b7b3a5fa0d6e991e8475eb2e3151fec345"
- 
- S = "${WORKDIR}/git"
+ # ${PN} is empty so we need to tweak -dev and -dbg package dependencies
 -- 
 2.30.2
 
