@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F11CC74A44
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CF74C64EC4
 	for <webhook@archiver.kernel.org>; Thu,  9 Mar 2023 22:58:45 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web10.5696.1678402719697777411
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web11.5722.1678402705090102212
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Mar 2023 14:58:39 -0800
+ Thu, 09 Mar 2023 14:58:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=Q2vVvkbo;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f179.google.com with SMTP id cp12so2535496pfb.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 14:58:39 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=NR+wy2Yk;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id a2so3681936plm.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 14:58:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678402719;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678402717;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=W9lPnrFHzKRPiMsSD4ApjEOsJQSrlRgh6VuIulu2TME=;
-        b=Q2vVvkboJc1WQbmJB7kF0UmZWoTO+c1S4s1YRz4MyElZ89CbpSN0o/WOWHKCkBE7hh
-         T/27pdwq/7oekFIavdnTbk0J/2ApcGiv6qX/KvfmDK1NogglxdiIjbOZIjVy3Za5kZvy
-         uSTIqj4wQCdNXKvjO1RMgOCxGTNYlvoEbR+RK2dQUfhc2h9sf3TTYliJHF9r/sSCTsUJ
-         HrkdZQrX3v5u4BxtPHCQZmb3l2a5okYikv2otXbuxUY53VMityyVzXVzr/g0MrrEk8Rc
-         MzSGzSs7j4rZ2xgyh0z0dO00JPjo2/FtyQg6JUQ1vriaPcBzXbH5sxh06f7HXe1KOieS
-         Ekgg==
+        bh=koHyEXx07SVx6tY0/jrJwtQ2hWsZ0Dznz0l2267IXQE=;
+        b=NR+wy2YkeDf4fd7RW57ZpmMBi/TAs4+YDusCGbp7fUEqrU1v94ZnN4jWD3u297+3cJ
+         sf6p6ZzZ1tAesR6dnlxXOigy6P8HcjIJmZf7y92wOouA4tEUwSsTaTuUD79wn8y5a8Uy
+         sCInW0g1faacJDNlptcSTtXpx7+al7yp0r1qp7VU57x+4QvrQqXjdkCHZlmKfwR/bn1u
+         cCoOX9LpxUgiHJpQSIgKeroNwCcYDQkiDbc6p6AqV7vhv1a2fPOCXr8YFTYXqpdXdpsf
+         g4VrPpwSo8Nux6dq0VcVFVjZE6oVBYmmOmXnLS12rNwT54nXgjKVwvZq9g7cihStYnmC
+         reeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678402719;
+        d=1e100.net; s=20210112; t=1678402717;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=W9lPnrFHzKRPiMsSD4ApjEOsJQSrlRgh6VuIulu2TME=;
-        b=z16aC4JGG/r+eZ2H0ckjWrvCKG3SIaKl5V15xet4yK1ASp78Y4A41MU5f8ZrIOECsN
-         nlnqOF0iIwtnFQYuXgfZULloVwdwt+gEJKypRy3qGr0pSQQAidOOlsfVQIP2ENP7UZZ7
-         CDtKk2fbNXLw6xwuN5yzHRAR1j5YO8t+Ahd4EGnLcKtpTXBnLHxyZbnd3ztU0TKPl1Os
-         94QLeWkPUK5pfioKqupGYOv2TQln+YFvtzLtF8/T8c9KCIkA4c0lcE1SJDvr5Ymp5P2M
-         texkR+f//tTXVaRRWU+1Cs3rbrXaybO8gr2s7j43BiQIk+X6vncvQiePvUJLyUcy+3Pw
-         Le4Q==
-X-Gm-Message-State: AO0yUKWqH8g/6kAd0ORx5XyPB0RSIeCZ8V/PIlJ2xrmvYG8Jot7bYYPe
-	FRRUolHf3sdOkzn8fdsHjMfD6zKf/svm+syUWYc=
-X-Google-Smtp-Source: AK7set+7bulRBcQq+rvwQpi7Ix4Oiy15DJllsaRVnjV5Vj+9SQVPf6tYKK36yJCI7mbzIQ01gPCtlA==
-X-Received: by 2002:aa7:8f04:0:b0:5a9:d58e:796f with SMTP id x4-20020aa78f04000000b005a9d58e796fmr21131367pfr.29.1678402718787;
-        Thu, 09 Mar 2023 14:58:38 -0800 (PST)
+        bh=koHyEXx07SVx6tY0/jrJwtQ2hWsZ0Dznz0l2267IXQE=;
+        b=5EQ0N+gCfd9ebr1a99qyYHKwyQVv7dhjlI+cgYj3hssno6wImZj0PVTl80fvo46Wya
+         zdys4SGbNqA4b6ktvg3YOhsGqU/6vXOLFxIHwxZEql/TrIeHchnjypOtiLpdIYaRYlLg
+         4Cc4hiZdF6B4uR+AWWFBsFtHcsrvfjjTJeIbYImRVX36Q5juC7KqLyRXPRAfMvKbQesY
+         bpRCffoUJ7BpuGmfyzix3i70pS1jrP0UwdLk7DrkAzny1zt9jq3olRyAaqiySMuDrx7T
+         oJSKs9mLUuqdpYCQrPMp+QsfvDNVQxmYHN0o4Aljvn0rW2hCxFzDLuH3yP8Hb7oS1Dyq
+         Nj4g==
+X-Gm-Message-State: AO0yUKXC7M7023VtF0zrxsNKQePxcDA3i2F49ozJoRtAGWKcZrtIvdsr
+	M9VNgtCVKwvOjiBVHyVYyJ3/6OtI3AoW2KmHaiQ=
+X-Google-Smtp-Source: AK7set/jH/coTwXXZt49lvJaBUysoqwISWEJf6Dv+ww5mD1wKCgWe8H0qx9R6fVW0OPQVlfYcAJIbA==
+X-Received: by 2002:a05:6a20:12c7:b0:cc:e0fb:a83f with SMTP id v7-20020a056a2012c700b000cce0fba83fmr30133590pzg.36.1678402716876;
+        Thu, 09 Mar 2023 14:58:36 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id j9-20020aa79289000000b0058db8f8bce8sm89717pfa.166.2023.03.09.14.58.37
+        by smtp.gmail.com with ESMTPSA id j9-20020aa79289000000b0058db8f8bce8sm89717pfa.166.2023.03.09.14.58.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Mar 2023 14:58:38 -0800 (PST)
+        Thu, 09 Mar 2023 14:58:36 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 15/27] oeqa/selftest/prservice: Improve debug output for failure
-Date: Thu,  9 Mar 2023 12:57:50 -1000
-Message-Id: <66f1adb38c1752e0bbb0bd66a2df9aea0e3e0282.1678401759.git.steve@sakoman.com>
+Subject: [OE-core][langdale 14/27] u-boot: Map arm64 into map for u-boot dts installation
+Date: Thu,  9 Mar 2023 12:57:49 -1000
+Message-Id: <c01ec95aa19e9377554c544ed166a03ba4cd46a3.1678401759.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1678401759.git.steve@sakoman.com>
 References: <cover.1678401759.git.steve@sakoman.com>
@@ -61,34 +61,50 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 22:58:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178288
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178287
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Pavel Zhukov <pavel@zhukoff.net>
 
-We keep seeing this failure on the autobuilder but the output amounts
-to "False is not True". Improve the debug message on the chance it may
-make the issue clearer.
+While arm64 is a valid UBOOT_ARCH (according to mkimage -A) u-boot
+keeps arm64 specific dts under 'arch/arm' directory.
+As the result the recipe tries to install arch/arm64 (if UBOOT_DTB
+was specified) and fails with [1]. Remapping "arm64" to "arm" to fix this
+issue.
 
+[1]
+| install: cannot stat '.../u-boot/1_2023.01-r0/build/arch/arm64/dts/u-boot.dtb': No such file or directory
+
+Signed-off-by: Pavel Zhukov <pavel@zhukoff.net>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d03f4cf19c2cc96e9d942252a451521dfec42ebc)
+(cherry picked from commit 3ca99403d5f320c6d7ae59b107f3b3bf183b4089)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/cases/prservice.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-bsp/u-boot/u-boot.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/prservice.py b/meta/lib/oeqa/selftest/cases/prservice.py
-index cb95503c2c..9fe3b80a31 100644
---- a/meta/lib/oeqa/selftest/cases/prservice.py
-+++ b/meta/lib/oeqa/selftest/cases/prservice.py
-@@ -77,7 +77,7 @@ class BitbakePrTests(OESelftestTestCase):
-         exported_db_path = os.path.join(self.builddir, 'export.inc')
-         export_result = runCmd("bitbake-prserv-tool export %s" % exported_db_path, ignore_status=True)
-         self.assertEqual(export_result.status, 0, msg="PR Service database export failed: %s" % export_result.output)
--        self.assertTrue(os.path.exists(exported_db_path))
-+        self.assertTrue(os.path.exists(exported_db_path), msg="%s didn't exist, tool output %s" % (exported_db_path, export_result.output))
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 5705e5835b..4a8d93f70a 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -32,7 +32,7 @@ do_savedefconfig() {
+ }
+ do_savedefconfig[nostamp] = "1"
+ addtask savedefconfig after do_configure
+-
++UBOOT_ARCH_DIR = "${@'arm' if d.getVar('UBOOT_ARCH').startswith('arm') else d.getVar('UBOOT_ARCH')}"
+ do_compile () {
+     if [ "${@bb.utils.filter('DISTRO_FEATURES', 'ld-is-gold', d)}" ]; then
+         sed -i 's/$(CROSS_COMPILE)ld$/$(CROSS_COMPILE)ld.bfd/g' ${S}/config.mk
+@@ -336,7 +336,7 @@ do_deploy () {
  
-         if replace_current_db:
-             current_db_path = os.path.join(get_bb_var('PERSISTENT_DIR'), 'prserv.sqlite3')
+     if [ -n "${UBOOT_DTB}" ]
+     then
+-        install -m 644 ${B}/arch/${UBOOT_ARCH}/dts/${UBOOT_DTB_BINARY} ${DEPLOYDIR}/
++        install -m 644 ${B}/arch/${UBOOT_ARCH_DIR}/dts/${UBOOT_DTB_BINARY} ${DEPLOYDIR}/
+     fi
+ }
+ 
 -- 
 2.34.1
 
