@@ -1,92 +1,69 @@
-Return-Path: <mickael.laventure+yocto@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FE7AC61DA4
-	for <webhook@archiver.kernel.org>; Thu,  9 Mar 2023 19:49:54 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web10.715.1678391386407078152
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 094DAC64EC4
+	for <webhook@archiver.kernel.org>; Thu,  9 Mar 2023 20:40:05 +0000 (UTC)
+Received: from mailout09.t-online.de (mailout09.t-online.de [194.25.134.84])
+ by mx.groups.io with SMTP id smtpd.web10.2371.1678394401999358929
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Mar 2023 11:49:46 -0800
+ Thu, 09 Mar 2023 12:40:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=KEbbgznJ;
- spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: mickael.laventure+yocto@gmail.com)
-Received: by mail-pj1-f51.google.com with SMTP id h11-20020a17090a2ecb00b00237c740335cso2956648pjs.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 11:49:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678391386;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=ORfiKhpfDOMHgDw3vwPFVSXfz84keEam6GevZlpmyi4=;
-        b=KEbbgznJ5NoR492KwGIHpvUOvepW64jdLVyDrPCqKC/SSTd7lNAPvhqOe0pN+J7j+o
-         55k5QU04HEJS7GOZxRmXp9zCik8GDR7tWz6QVUZ65erYDjPdSeJzMbPj/33k9a/bUc38
-         DlapvXWzRl6F9Am6IjKrGSkPVmb8bnJPMt4Ji+x2lu1m3k8jmymdYjYf+OV1k2x+erZ3
-         AOdhUflV4ILCJJZSaLQBciwDRKdi+R0oyY9W8UV2dpFqFmj6GIakfhi2jl39MQXKsWa0
-         +qJ235Oqm1k//MYD98KjiMfoI1KgOpibqirzeXDMTuC4BM7kMs4S8KYfT0gQB+CfDzoh
-         80tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678391386;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ORfiKhpfDOMHgDw3vwPFVSXfz84keEam6GevZlpmyi4=;
-        b=zrihgOTtnpsvgURddjvU6VNOgOYBZJ/w6xnBDKaEyaRbyNBL/JgFbpA4mC5jV7stv6
-         VCeHkAF/TNfjmZjLiIlPds3cszKS/6L+wTRdwIrTQ9vOiDDyO+QkHB80asgt4PAGzqQt
-         5SfX45ZAT8h6vABi3OGiAF8YOOsFXGn78u1WhPGsoe6NSoxRiTbsnwJ3ysuwiq1+ZfeS
-         E2gDj8EMEidIo+ZdnrdmuxEI/Hq4T0Id7xdLODKB5bLKgWvM3oa97ec6lludfK1wGzJ9
-         lY2PJTLllfk4KhF2CtoFln2gHN52pvlSzqtOSzcJc6F4W2n0Esc/wfB2Fz2WlJuzXaQs
-         iVdQ==
-X-Gm-Message-State: AO0yUKXZt7tP0Lbd1vYIyDobPUgu5Ng+5M2Qsvx6w2fab8DIXXtib7+l
-	0efMP+K5Rb2ktcWouIl3LARgbQr4nStQnw==
-X-Google-Smtp-Source: AK7set8+I4bSxpZx7KxOqWnk+5zEo2EwcNsoLz8T+oFpj1ut69UXBAbiquuyjzr28qbAsOiqQrVZxg==
-X-Received: by 2002:a62:4e06:0:b0:5a8:aca5:817d with SMTP id c6-20020a624e06000000b005a8aca5817dmr18717711pfb.5.1678391365735;
-        Thu, 09 Mar 2023 11:49:25 -0800 (PST)
-Received: from localhost.localdomain ([2a09:bac5:658b:28::4:269])
-        by smtp.gmail.com with ESMTPSA id g24-20020a631118000000b00476d1385265sm873pgl.25.2023.03.09.11.49.25
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Mar 2023 11:49:25 -0800 (PST)
-Sender: =?UTF-8?Q?Kenfe=2DMicka=C3=ABl_LAVENTURE?= <mickael.laventure@gmail.com>
-From: mickael.laventure+yocto@gmail.com
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.84, mailfrom: f_l_k@t-online.de)
+Received: from fwd80.dcpf.telekom.de (fwd80.aul.t-online.de [10.223.144.106])
+	by mailout09.t-online.de (Postfix) with SMTP id BA40395F5
+	for <openembedded-core@lists.openembedded.org>; Thu,  9 Mar 2023 21:39:59 +0100 (CET)
+Received: from flk-MS-7C91.fritz.box ([79.219.229.247]) by fwd80.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1paN3M-0VX7jO0; Thu, 9 Mar 2023 21:39:56 +0100
+From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/3] buildtools-tarball: Handle spaces within user $PATH
-Date: Thu,  9 Mar 2023 11:49:20 -0800
-Message-Id: <20230309194922.2834559-1-mickael.laventure+yocto@gmail.com>
-X-Mailer: git-send-email 2.39.2
+Cc: Markus Volk <f_l_k@t-online.de>
+Subject: [oe-core][RFC][PATCH 2/6] glib-networking: update 2.74.0 -> 2.76.beta
+Date: Thu,  9 Mar 2023 21:39:29 +0100
+Message-Id: <20230309203933.834098-2-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230309203933.834098-1-f_l_k@t-online.de>
+References: <20230309203933.834098-1-f_l_k@t-online.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1678394396-B9016A74-2A29EC14/0/0 CLEAN NORMAL
+X-TOI-MSGID: 42696399-ce1b-4121-aca3-a9fcdfe53798
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 19:49:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178263
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 20:40:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178264
 
-From: Kenfe-Mickael Laventure <mickael.laventure@gmail.com>
-
-The environment-setup script generated by the recipe was not quoting the
-user existing PATH when updating it causing the export command to fail.
-
-Add necessary double quotes around $PATH.
-
-Signed-off-by: Kenfe-Mickael Laventure <mickael.laventure@gmail.com>
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- meta/recipes-core/meta/buildtools-tarball.bb | 2 +-
+ .../{glib-networking_2.74.0.bb =3D> glib-networking_2.76.beta.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/glib-networking/{glib-networking_2.74.0.bb =3D>=
+ glib-networking_2.76.beta.bb} (93%)
 
-diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-index faf7108a86..24f5f28589 100644
---- a/meta/recipes-core/meta/buildtools-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -66,7 +66,7 @@ create_sdk_files_append () {
- 	# Generate new (mini) sdk-environment-setup file
- 	script=${1:-${SDK_OUTPUT}/${SDKPATH}/environment-setup-${SDK_SYS}}
- 	touch $script
--	echo 'export PATH=${SDKPATHNATIVE}${bindir_nativesdk}:${SDKPATHNATIVE}${sbindir_nativesdk}:${SDKPATHNATIVE}${base_bindir_nativesdk}:${SDKPATHNATIVE}${base_sbindir_nativesdk}:$PATH' >> $script
-+	echo 'export PATH="${SDKPATHNATIVE}${bindir_nativesdk}:${SDKPATHNATIVE}${sbindir_nativesdk}:${SDKPATHNATIVE}${base_bindir_nativesdk}:${SDKPATHNATIVE}${base_sbindir_nativesdk}:$PATH"' >> $script
- 	echo 'export OECORE_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
- 	echo 'export GIT_SSL_CAINFO="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
- 	echo 'export SSL_CERT_FILE="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
--- 
-2.39.0
+diff --git a/meta/recipes-core/glib-networking/glib-networking_2.74.0.bb =
+b/meta/recipes-core/glib-networking/glib-networking_2.76.beta.bb
+similarity index 93%
+rename from meta/recipes-core/glib-networking/glib-networking_2.74.0.bb
+rename to meta/recipes-core/glib-networking/glib-networking_2.76.beta.bb
+index dc0be23357..a49ab51425 100644
+--- a/meta/recipes-core/glib-networking/glib-networking_2.74.0.bb
++++ b/meta/recipes-core/glib-networking/glib-networking_2.76.beta.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd25=
+5951079008b364516c"
+ SECTION =3D "libs"
+ DEPENDS =3D "glib-2.0-native glib-2.0"
+=20
+-SRC_URI[archive.sha256sum] =3D "1f185aaef094123f8e25d8fa55661b3fd7102016=
+3a0174adb35a37685cda613b"
++SRC_URI[archive.sha256sum] =3D "c0ab5b0f358332521058eb07f3c9a3fdac0e7a52=
+01c4130a567bd9d6cd3f1da1"
+=20
+ PACKAGECONFIG ??=3D "openssl ${@bb.utils.contains('PTEST_ENABLED', '1', =
+'tests', '', d)}"
+=20
+--=20
+2.34.1
 
 
