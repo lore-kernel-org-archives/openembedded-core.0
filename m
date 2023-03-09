@@ -1,77 +1,95 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80FAAC6FD1F
-	for <webhook@archiver.kernel.org>; Thu,  9 Mar 2023 15:25:12 +0000 (UTC)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web10.16317.1678375505783945038
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CBEBC64EC4
+	for <webhook@archiver.kernel.org>; Thu,  9 Mar 2023 15:32:52 +0000 (UTC)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web11.16421.1678375962869151129
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Mar 2023 07:25:06 -0800
+ Thu, 09 Mar 2023 07:32:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=Czp+OYuj;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.47, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f47.google.com with SMTP id ec29so8495904edb.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 07:25:05 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=BmjsdO9S;
+ spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f41.google.com with SMTP id n2so2766154lfb.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 07:32:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678375504;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HDjGfZnTjdQzf9FjNRsZR7zC5SQm5Qv5mmZUF8qzxmY=;
-        b=Czp+OYujhSTqwB1ywYuiuuBWX26kTopgGoHdh5IfqRAV+zZCbnDbdSq/RhKox4d2mO
-         72pD9a51DGRXBJaod5CMp31/qG+ou91FytOzRW9f2TwcLECighe5fmPTnoGUNlq2Vfc1
-         xPDdaOGFEMqZ9izev0LLjRzr/HAMiJ1DSawcMgogcrS4Ty/uaHQcEJgGRIC+Km7Ri5dC
-         kRwmu2vxPsFJw1CI8q7F5DY8tL/epRIr/AQNHC9Ew1PpEwmGVShwf4ljxg3vInyF0hjt
-         ydjWKtaUqgcZRjL3qHupdpMO+dzmAXhVprx3/JgeAq0z7BHsTIxQF+NAWmRXJimK1Gf9
-         eR9g==
+        d=gmail.com; s=20210112; t=1678375961;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fudfvsA5eeiTTA5iRCcbEqys1EsMnydotycFpguunFw=;
+        b=BmjsdO9SUSG6Mns6D70O0Jfu4xzeUwreoo8q6qmtLhF12k4Gd8QKd31fqKevbzD+xH
+         q3kqRHD3KChOnKMna5ATd4IynLUFVGla8KY8wu3UuvRhHb0tsyaSE7xstMkjXmxVYk7D
+         D2iaYnyNnyYwbtdbemnGn/C6E2/MthW1JYnImbM3sFAbCdtJLAMQEldXnFppf+/g+Xew
+         4xdQ3KuY3e10H7FnvgLezzdXf4EbHW4XqQyZ0Z6Zhs68a0d8HNWxppoqkjF21LNPZhAd
+         4yEsU0zUsJWs2k1lWX0F8GV7Zr+T7UFsva53E+Tc1tbPWJamu4E4mSCQQfhF02ulMN1R
+         jRbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678375504;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HDjGfZnTjdQzf9FjNRsZR7zC5SQm5Qv5mmZUF8qzxmY=;
-        b=DOVOrP4XI4gkrnxE2hZEJKhFCRdHusF91s9aWFR4PdFgRIY9drt2/Dye0qKrfr+qN4
-         ofD3AMzTZmEErXXAecAHNA35xIhHrTzU0UJtEbRwLNq7Yjo+39SwVVSUc5HyKvJ4pAl1
-         jqFMEjtyjFXi210+ZEp94yix9/7TNJ+adt93UlYJg3tNPKKW+895ooh3w+GDiYlrr5t8
-         XzGz+IHjHR75rd+OvSVMwRtQqjuSVGIWLLQBPGlRk3JNc/nO1ROYPVfzM9YmrqhaETSr
-         yZ4FvOG/OY5xjuSzw3Tp7pLFo2Krpf6RLCktJJ5oeCKQxpIJQRZwmIEQ4Q4GekgY9QsC
-         g1JA==
-X-Gm-Message-State: AO0yUKXjxyM3aQBEIt6cWknUF3WZ51IDVt4xnxqax/+KkfUVBbodGiRl
-	mjt0C6toDbcRc7APHdQ+7FKz7sVWV941AucXExHAHA==
-X-Google-Smtp-Source: AK7set86MOxSGyx+jFJUUG3skS3Mpc5n7JClO3vtJWytPpmB8+6ZErvq9221IzF3NVKQ8JbtKfCzPo6HcH4bIKW4btA=
-X-Received: by 2002:a17:906:fcb9:b0:883:ba3b:eb94 with SMTP id
- qw25-20020a170906fcb900b00883ba3beb94mr11347407ejb.3.1678375504141; Thu, 09
- Mar 2023 07:25:04 -0800 (PST)
+        d=1e100.net; s=20210112; t=1678375961;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fudfvsA5eeiTTA5iRCcbEqys1EsMnydotycFpguunFw=;
+        b=TNcikhkT09aVgkiLDfrpavfsxSL83ps+vs41PZ56j6Bgr6qRDF8d5xOrpZ1cJ3l3Ja
+         ECjwZ56crJD0afRbdaHnVpJiH7PODy+XpjntDbu4sb+N3Bx2OL/L9NHmYxEpDCwLuuli
+         dBGNqLZDBRUoR7Nv0azoS9cCU8XZnO+ynUZgeO8xRW6/p2ev6XgfNNWxLiRzlDjHXDOE
+         rBWqZybCOalhfmWRmy1VpF0XCRbiNCo37bUq3F4Tk7Dqonl50DmkV5pmDYhmFUFTIXf4
+         Z+oiL+FonbKXklbjCloUaAVASTJFWC1wfIY4//K+vd5aj4N/2uFlafQBemOnjlji2MI/
+         aNIQ==
+X-Gm-Message-State: AO0yUKWwRIJynutL0IhzEFKyu13B6gG/JFIyaVO0m0gtS2cmiOjV403o
+	3HvChspKpMZ24oiLKF3ATnrzi5mPvs9een6KCovQwjUf
+X-Google-Smtp-Source: AK7set9PomFbjRdrgHg5exq0YvS94y4K0vXpF0oW3y/yRnIbVm1pvWZIzUJr6zJE8aguLXP5qkXjYSlU8PpKDSiBCOI=
+X-Received: by 2002:a19:740e:0:b0:4db:345d:4f8a with SMTP id
+ v14-20020a19740e000000b004db345d4f8amr6999213lfe.11.1678375960721; Thu, 09
+ Mar 2023 07:32:40 -0800 (PST)
 MIME-Version: 1.0
-References: <3cb18f22193455d52f5f30c837a2694719d6ae70.camel@siemens.com>
-In-Reply-To: <3cb18f22193455d52f5f30c837a2694719d6ae70.camel@siemens.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Thu, 9 Mar 2023 05:24:53 -1000
-Message-ID: <CAOSpxdZm91QVn9tEjKeoXC79rxNNwkeDz2qWzgPTakJ4k6Jo2w@mail.gmail.com>
-Subject: Re: curl
-To: "Valek, Andrej" <andrej.valek@siemens.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+References: <20230309151958.3619193-1-alex@linutronix.de>
+In-Reply-To: <20230309151958.3619193-1-alex@linutronix.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 9 Mar 2023 16:32:29 +0100
+Message-ID: <CANNYZj-qNvbg+ZA4OpW--VQibXOdySfmPEY3vg1A58s2H2CJMw@mail.gmail.com>
+Subject: Re: [PATCH 01/26] devtool/upgrade: do not delete the
+ workspace/recipes directory
+To: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 15:25:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178253
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 15:32:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178254
 
-On Thu, Mar 9, 2023 at 5:15=E2=80=AFAM Valek, Andrej <andrej.valek@siemens.=
-com> wrote:
+Just to make sure: this set (like all of my big patchsets) did get an
+all-clear from a-full test matrix, so I believe it's not particularly
+risky to take in, despite the feature freeze.
 
-> I have a question about curl. Would it be possible to backport some
-> fixes for CVEs from kirkstone to dunfell?
+Alex
 
-The curl versions in kirkstone and dunfell are different, so a direct
-cherry-pick of those patches may or may not work.
-
-If you could test cherry-picking them and then submit the patches to
-the list (with your Signed-off-by added) I would be happy to take them
-:-)
-
-Steve
+On Thu, 9 Mar 2023 at 16:20, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+>
+> If it exists, there is no need to delete it, and if it does not,
+> devtool prints an ugly traceback.
+>
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  scripts/lib/devtool/upgrade.py | 3 ---
+>  1 file changed, 3 deletions(-)
+>
+> diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
+> index 967d157077..6c4a62b558 100644
+> --- a/scripts/lib/devtool/upgrade.py
+> +++ b/scripts/lib/devtool/upgrade.py
+> @@ -125,11 +125,8 @@ def _write_append(rc, srctreebase, srctree, same_dir, no_same_dir, rev, copied,
+>      return af
+>
+>  def _cleanup_on_error(rd, srctree):
+> -    rdp = os.path.split(rd)[0] # recipes folder
+>      if os.path.exists(rd):
+>          shutil.rmtree(rd)
+> -    if not len(os.listdir(rdp)):
+> -        os.rmdir(rdp)
+>      srctree = os.path.abspath(srctree)
+>      if os.path.exists(srctree):
+>          shutil.rmtree(srctree)
+> --
+> 2.30.2
+>
 
