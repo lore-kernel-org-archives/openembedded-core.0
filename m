@@ -1,129 +1,168 @@
-Return-Path: <andrej.valek@siemens.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E09F1C61DA4
-	for <webhook@archiver.kernel.org>; Thu,  9 Mar 2023 15:15:51 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.84])
- by mx.groups.io with SMTP id smtpd.web11.15878.1678374946301503056
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4FC0C742A7
+	for <webhook@archiver.kernel.org>; Thu,  9 Mar 2023 15:20:11 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web11.16013.1678375206818307064
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Mar 2023 07:15:47 -0800
+ Thu, 09 Mar 2023 07:20:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=NI3siGsb;
- spf=pass (domain: siemens.com, ip: 40.107.22.84, mailfrom: andrej.valek@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MjW3cU0f8xRmc2rUYVZQ94/JxAKQ4MzWLvTj4ncC1jjm6Ae4x/kw+seJh+jYhbeMtPUkxT4/+usgU5kYguzaxhW2URzrAn9KdNeAaXFAK/HwKEGW+UVX9TbgfC5OAYwDLSqjvpr/95LHSihIoO1iw9yX9oSo/xRdRSibSKFRaNDLU0bZGZICxjwiqTthFYIny2xcaVurCyGZoroeoZTlrzVrZ6qsvLk0dMvbLFGo62qpXPXQbFXOgXMSHSv4KYBRxnBlAbKBYHLMqXGtyAoi2E1CJMDyj2C6z0NOnJktJnYJIU9xxrbQet7bIlQE793ZKeVl9pCr8PmShq3OR6j60g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=37ZJ9pM/j9oNN//k+3tuRtwrHCOg2u0X3GQBjBZ4GYs=;
- b=E/NNpu//Itb0dVT+Uuc/X400KObxk6vrpIFvvtC44NuLoQjCmxqqrRwhDy5q98gqQC02Oy2BqQtzvQ1Lx5gkMrL4dN5Qil4uGGif782Fus5e0nEz2hS0ThKNLOqJzKhm2v+Ui7HgBOf+YcCyJCwtGsQ+l8+v7unr+nZ1AVZUUa99Vpjjiw5mrgcyiQ3oj+qIwGT09kQcHV0SLzSZdqaDl6629iTWIso8z129yp2xJmeEpsbmOKbKY8nvRoMjeCKJQ1KZmykN4QacyBMlpu1pHcWftTmAruCaAtB+Eq+11YpwRrCmF8DD08wNlzO1MDY3GpQvz5Uo8xwXyj37/CRsmQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=37ZJ9pM/j9oNN//k+3tuRtwrHCOg2u0X3GQBjBZ4GYs=;
- b=NI3siGsb1U2pAmu2ADxWZToGdLaTYFF6Z2BGzUQSFQeOunTW0ZW7BtStVPxTKPwRbKUpmeH4PkorHbRkZtARTvqXc7Cj5sBS2PHrcrONL/lPwSPguCBEqSJUUYvKPrFQRiamdqPjXNHk4cE/IehI1kOr3Q5UpaR+esb5FGm9OT7h+LPiV27V3cs85RW6muRO6QUPjq4fnX7thecR/nAQl3Yv1xf0RO1fwXfiB/byf++iykz/GrJPw3+yrslBUOaRP33D8AivY/J2JTD4mtUNEsEIHKkmyRmx81Bn7vGqSfmSQiLo3F2MajMB8GYLRJvh7zGFjisn1LyCBfZ/iEYDZg==
-Received: from DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:138::9)
- by VI1PR10MB8087.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:1d8::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.19; Thu, 9 Mar
- 2023 15:15:42 +0000
-Received: from DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::8287:69fd:1c5d:c2fa]) by DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::8287:69fd:1c5d:c2fa%7]) with mapi id 15.20.6178.017; Thu, 9 Mar 2023
- 15:15:42 +0000
-From: "Valek, Andrej" <andrej.valek@siemens.com>
-To: "steve@sakoman.com" <steve@sakoman.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: curl
-Thread-Topic: curl
-Thread-Index: AQHZUpoDxthLdCJVYEG3WzwJCMpgTA==
-Date: Thu, 9 Mar 2023 15:15:42 +0000
-Message-ID: <3cb18f22193455d52f5f30c837a2694719d6ae70.camel@siemens.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.46.4 (3.46.4-1.fc37) 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB8PR10MB3977:EE_|VI1PR10MB8087:EE_
-x-ms-office365-filtering-correlation-id: 3f66789a-2d7b-4470-3a0e-08db20b125f7
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- USpzt0cZogKH8eMa4/KqZ88kGxamY/fv762RCL1dL7CcwYils2t1bbw0mBu+gjAAlyglr0lZluIVd6QNaK0vwptyDvsjl1c08H5jZVUyMl2QrHdqN5uS0L0KI6vhaulbcxGrat66jx7jdhGzXXuRdgGyqxSmD0MvjCK52pi2cEqOd3l3oCRQXqg6q9bMMQZQB9/Ie0ilj1WHKnk2wYp4s1TVK2VfBEmoho0//Qs1+6/LosAUHphFMb2DxxyLREqD3BGsi+tyKit1G8gPQDQ/9Vhi1+XhWcBoCVf1aLLTiUUUM8i3F1vB3l0K7saqyPOKSLOJWpPL9Ns7l29gH0zuFOOWd/O40KDeH7TIFOvzYrXNhlWiUWXP8OxtARVQf2KSco7Da1w32Kcxyp0DAyQa9Ry08fbrB5//DFqsEeUGZiCzD8leGFFE+pnksoq0mcciXmMM5b40nL4vPl0s+/LEYDIB7GEMcI+Jw6dLqNYMs94As1BVgly7thOj7AUQVRhf2h5XmmtIbEwa9XW1qzhSJMCdAlkZvJQfyJ0wupEruYtLs/p4DM1JPg+qMnc6HHge1gjBKsH3TgLzDOV8gQsp6TP8AZ+xHuXh214aHunjTYHRrA6n4Ds2GsE3+u2PGzAFiyJLeidVWxMTbGtmSzL7/FA8k0dXZ2blqtZt0/I4iE3BEht8Pn/4vt64h95wjuWVtTnQqUSQycNglN+puHtA7YS17++ImT4szxy9/g13Qn0=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(396003)(346002)(366004)(136003)(376002)(451199018)(36756003)(558084003)(478600001)(6486002)(316002)(71200400001)(5660300002)(2906002)(76116006)(8936002)(66556008)(8676002)(91956017)(66476007)(66946007)(64756008)(66446008)(4326008)(6916009)(7116003)(41300700001)(122000001)(3480700007)(82960400001)(38070700005)(86362001)(38100700002)(186003)(2616005)(26005)(6512007)(6506007)(220243001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?ckxOTGxCU09sN2dUdW5mcXNIeU1sRTRRTEV2Tnpoa21TbWVBSDhSY2lzTmU1?=
- =?utf-8?B?YmZwQ1MzSlB6R3RObE1Na1E1S1pYRFgwUGNtUnQvS1FjRmovY2twU01sdmly?=
- =?utf-8?B?S1dnRkdwdTVZREJiT0lGdHpQV2d6dmNlRnE2Y2MyU3RUdkdDZE1sWDBKanpx?=
- =?utf-8?B?K1h2WlA0cTY1N3B5N0NnMUlNWk5NYnM4WEF6YWRtZ2syOFJyajluVmdoU3hT?=
- =?utf-8?B?Ry9GV2pBS1E0WU1UUDFRTkdURWttVXl0S1lDZTlrRTdOaEJaK09uUHQwZUVD?=
- =?utf-8?B?NkdPWHI0V21Uam5PWFVxSWdoVEg0ZndaY2ZiaXFNVUIydjRKUTVRUXlJVXFl?=
- =?utf-8?B?Z2VXY1l6bHRLb0JxNGJ4elRPam9uV1lDZWVPZXVEWDUvKzJxMEdtWkpDMWM2?=
- =?utf-8?B?NS8wTDhwTFU0Sy9zeWZoWmJVaFBIREd5U2VPSEdyUncrN2lpTjI2dGJqaERl?=
- =?utf-8?B?RHFaOEZFTG05UTBMMHVGUTkzMVN3eENJM3k0ZHYvN2ZKdTAvdkxVQzlFVG1q?=
- =?utf-8?B?T0EyUXYxa08vZVhZZm4xb3N6OVAraU1keXNFbHc0MmU5RXJFUXJuT2ZLRnYv?=
- =?utf-8?B?NDZ1RGpURlYyUXJTQkNWUHYvU01HU1ZBMVpTenNFZitPdTVTVUhMQ2hiYU42?=
- =?utf-8?B?OUpwQTR4RWRmUXVpMEJDZVBxOEJzc2VrREN4VGo0MVpTMlQzNFE5bmN0dTZr?=
- =?utf-8?B?TkdBMmlaeWsyVU0zWjkvQWx0QUc4QURXSXRSSHMwTCtTVy9pRnB3NmJKK1ZB?=
- =?utf-8?B?MlVBcUUycjB5ajRqWC9VSnFKaTRhaHRKUldoNndLZTJLamVvaXlQajErZ0tV?=
- =?utf-8?B?eEgrVlNsOGpjU2ZXV2lWbytLejIxcnNobnl3ckN5S1daV09nK0U0VFZyNTJ0?=
- =?utf-8?B?WWE1ZDVKOHMyY2UvLzlPRzM0M3VjUXRqdWxQOFRMaWI0Q0dpUVZkdjdNZXpP?=
- =?utf-8?B?VTdBTmU0SCtMa28rSHJxdHRMNXJkVnlMZnRHdzlETWxIcXRSRVlmUDhtelZX?=
- =?utf-8?B?NDJkZ1phS3QwbWd2bU1ROG5hZVY5dzM4V0VDc3ZZTnkxa1NITU9kVU5FQ1Fx?=
- =?utf-8?B?Z1JWS0hrSkEyWGZYVHRPZStNMUI4YXpIVlhUM2hiUDZ0bDJoTDczazIweUNG?=
- =?utf-8?B?d1ZSV1d4OEZzWHZFL1JvaVNkeTI0TjFMNTZoTExSM0dWdjZRQWhKQ2tOTXl1?=
- =?utf-8?B?ZVBnMGZFeExyWTIwVHFCR2l5aDJCcVJ2ZUQxcFFVU0dSUHRKYWs0K2htencw?=
- =?utf-8?B?eENEZk9Eb0dQTE9PbGt3QUJRN096ZURWSnNMZXFjZ2crSDVadWI5ZjBpa1Fq?=
- =?utf-8?B?V2FLY1JYTnVFeElXKzNpdmNaTi9RWXZ1cGRHRWNXcGQvaDgxdGhDNm1lZjhp?=
- =?utf-8?B?MnlYZDA1S0QxcmJBWm4xM2lsOVFreXQ1WmpuOEtMZEp1eXJ4Zm5Na0hNclZG?=
- =?utf-8?B?S2NFaGxDWTF2dTJYRVR0QmpQNGl3NlRUNEtIRjJxblUwZGhKYXFrRzJralhq?=
- =?utf-8?B?d240Sk9QaThkZm16WitZL2pzWUdxQlpLQ093VXJkV0J6U09mVE1yQ3lhb3BD?=
- =?utf-8?B?TklNT1ZWaCtPQkVCSi9iQjNVYW9VV0F4L3FBcnJ3aGdydHBRUkpHcjArcUZJ?=
- =?utf-8?B?cVAyNVlBNDhQdm5TNTFJRzB4djdjTXZWZEhGR0JPNzNqQjJoSFJlc3J3RWlX?=
- =?utf-8?B?QmNGektLRitkUEo4WWxuL0JhL0M1bHRTS2t1dmxQUmFwbHVXVm5KT0xGeWRZ?=
- =?utf-8?B?R25hZXNSQ1ljOUxoc1NTdFZIeWllSC9wOFVZcitMUHI5YmdOU1ArNjcyVmFN?=
- =?utf-8?B?MnRiazR4WGR3V1lmcE1Kd01aaUVVaGpOZzBYY3FaUWkrSkZQbUhnSGliekVT?=
- =?utf-8?B?Y1dQNGhHMHY5N3c0ZVNPSGgrRTBmUGRlRmdVSUtIMGdsUndQaUhMaGNpTGEr?=
- =?utf-8?B?MFRGV3U5WmIvQTRrL2NhUmc3Zjdid015c3VJU2JpUzBPMzRFVHlyL3lnWlpw?=
- =?utf-8?B?VHNzeE5WK2VrZWhkSlozOHVTZGIxam0xUXZONVB4THpHb0RaejZ5U0dsNkJH?=
- =?utf-8?B?Ty9mL1luMWhVSHRHMUliKzIyMVNsOGlYUTFnUTFldENHZ1hoN1dLZFJhUHVO?=
- =?utf-8?B?TlMySEUxb3pETUIrUlMxc0ZXTFNuQ1hjcFlKNFhzaEFVNnlyMjgwNFYzZldU?=
- =?utf-8?B?YXc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9301A645835A454EB66ACE8E15D5A3DB@EURPRD10.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=MIoq4ph+;
+ spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f49.google.com with SMTP id h11so2241863wrm.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 07:20:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678375205;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dbiQp8DADaujDCUZ+uyuK0iGL5MIgzZIIlK+HokPlKY=;
+        b=MIoq4ph+f3IeJl6fTZmzbjbPzKP9E9k16p/VONk30Inijt1+71qHMghpMI2R2q7gyg
+         oFnGR08yJkdslk3BiU7odliV0nk2RZUIniRcNhRY7Bn9EPrN7ARXYkj6rT67wEVZPpJC
+         7N79Di0FENBzSGtH0i6hW1tUp9CIZOiB0x5hiaeAO0I0Lhq7dp2AfEoGpDIW9eR7fdcy
+         b/YJZyvNkbVMNkIdS8IeRymSwclJB3D1fJozDqBK1vd9TOdVkAdL85BbAVtRLGzEdp0y
+         0GFBl9ZOcqsurGyK47QcQu4rN5hu8pbE0B0hlTM+iOhBoD9B5YhRmf+M8ree/NOa7yUg
+         aXJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678375205;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dbiQp8DADaujDCUZ+uyuK0iGL5MIgzZIIlK+HokPlKY=;
+        b=U1hX6vI9HdsCAHlDr8g3UL/5u3qJcvw0yQ/UOzPX5bPhzrbkvQ6ycskIRtLc4lUQH5
+         Yf3bEV7uVzZkLq6nhzD8qmFM2sVsqeWgs24c+w1dMqhgODAXRE+FBA9I7DweCa17+2Hs
+         L3r2+sxez+yGmRZJBI4+OXqUtJUnwaEEIJLNtv+DL6VB2Rary9z/JKTF09gMJKNUAiNv
+         vMbIuNFESZmImKx71xstE3raUA9UfxnCNTcy6myCnDnasXxB7WveL6JAzG2u8Y3KHOvp
+         TXwUx0E4+Im980/DNnDcREOgF2hVeCxDc3tXYaXW8Tx7TJEvyzj92i/BYATHPolawi82
+         h1hQ==
+X-Gm-Message-State: AO0yUKXKs2A4MMqSoFP9siExgcKvqj3uD79VnU4S9CmTz/I8X1MYgviY
+	ZJKrQmywuWsT7D+HL1fuSiB65urQrwM=
+X-Google-Smtp-Source: AK7set8NvpTGr1Ss3nRl4jTFL1AuUcKyzm4kA3LpKjjK4oDyjj6MYHRy5SWOP07XzSugsKGtH+4hlw==
+X-Received: by 2002:adf:ec47:0:b0:2c7:e48:8ca3 with SMTP id w7-20020adfec47000000b002c70e488ca3mr14925271wrn.0.1678375205154;
+        Thu, 09 Mar 2023 07:20:05 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id s10-20020adfea8a000000b002c7e1a39adcsm18314521wrm.23.2023.03.09.07.20.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Mar 2023 07:20:04 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 02/26] sudo: update 1.9.12p2 -> 1.9.13p2
+Date: Thu,  9 Mar 2023 16:19:34 +0100
+Message-Id: <20230309151958.3619193-2-alex@linutronix.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230309151958.3619193-1-alex@linutronix.de>
+References: <20230309151958.3619193-1-alex@linutronix.de>
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f66789a-2d7b-4470-3a0e-08db20b125f7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Mar 2023 15:15:42.1003
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 8giF1NIFTEJi/aBCzLuEPHC1kjKGHTDfiLhAoL4YOl6O9yl6hzrmnQp9RAqFtb4I1cXJS0iBnGLIZeM9u57u3bs7SVrnW2WR72NWXcJovrQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB8087
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 15:15:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178225
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 15:20:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178227
 
-SGVsbG8gU3RldmUsDQoNCkkgaGF2ZSBhIHF1ZXN0aW9uIGFib3V0IGN1cmwuIFdvdWxkIGl0IGJl
-IHBvc3NpYmxlIHRvIGJhY2twb3J0IHNvbWUNCmZpeGVzIGZvciBDVkVzIGZyb20ga2lya3N0b25l
-IHRvIGR1bmZlbGw/IA0KDQpDVkUtMjAyMi0zMjIyMQ0KQ1ZFLTIwMjItNDI5MTUNCkNWRS0yMDIy
-LTQyOTE2DQpDVkUtMjAyMi00MzU1MiANCkNWRS0yMDIyLTQzNTUxDQoNClRoYW5rIHlvdSwNCkFu
-ZHJlag0K
+License-update: copyright years, formatting.
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ ...o.conf.in-fix-conflict-with-multilib.patch | 21 ++++++++++---------
+ meta/recipes-extended/sudo/sudo.inc           |  2 +-
+ .../{sudo_1.9.12p2.bb => sudo_1.9.13p2.bb}    |  2 +-
+ 3 files changed, 13 insertions(+), 12 deletions(-)
+ rename meta/recipes-extended/sudo/{sudo_1.9.12p2.bb => sudo_1.9.13p2.bb} (96%)
+
+diff --git a/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch b/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
+index f4fc376bb8..041c717e00 100644
+--- a/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
++++ b/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
+@@ -1,4 +1,7 @@
+-sudo.conf.in: fix conflict with multilib
++From 6e835350b7413210c410d3578cfab804186b7a4f Mon Sep 17 00:00:00 2001
++From: Kai Kang <kai.kang@windriver.com>
++Date: Tue, 17 Nov 2020 11:13:40 +0800
++Subject: [PATCH] sudo.conf.in: fix conflict with multilib
+ 
+ When pass ${libdir} to --libexecdir of sudo, it fails to install sudo
+ and lib32-sudo at same time:
+@@ -12,12 +15,13 @@ Update the comments in sudo.conf.in to avoid the conflict.
+ Signed-off-by: Kai Kang <kai.kang@windriver.com>
+ 
+ Upstream-Status: Inappropriate [OE configuration specific]
++
+ ---
+  examples/sudo.conf.in | 8 ++++----
+  1 file changed, 4 insertions(+), 4 deletions(-)
+ 
+ diff --git a/examples/sudo.conf.in b/examples/sudo.conf.in
+-index 6535d3a..50afc8f 100644
++index 2187457..0908d24 100644
+ --- a/examples/sudo.conf.in
+ +++ b/examples/sudo.conf.in
+ @@ -4,7 +4,7 @@
+@@ -33,8 +37,8 @@ index 6535d3a..50afc8f 100644
+  # The compiled-in value is usually sufficient and should only be changed
+  # if you rename or move the sudo_intercept.so file.
+  #
+--#Path intercept @plugindir@/sudo_intercept.so
+-+#Path intercept $plugindir/sudo_intercept.so
++-#Path intercept @intercept_file@
+++#Path intercept $intercept_file
+  
+  #
+  # Sudo noexec:
+@@ -42,8 +46,8 @@ index 6535d3a..50afc8f 100644
+  # The compiled-in value is usually sufficient and should only be changed
+  # if you rename or move the sudo_noexec.so file.
+  #
+--#Path noexec @plugindir@/sudo_noexec.so
+-+#Path noexec $plugindir/sudo_noexec.so
++-#Path noexec @noexec_file@
+++#Path noexec $noexec_file
+  
+  #
+  # Sudo plugin directory:
+@@ -55,7 +59,4 @@ index 6535d3a..50afc8f 100644
+ +#Path plugin_dir $plugindir
+  
+  #
+- # Sudo developer mode:
+---
+-2.17.1
+-
++ # Core dumps:
+diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
+index 498d60d534..bedf713d2c 100644
+--- a/meta/recipes-extended/sudo/sudo.inc
++++ b/meta/recipes-extended/sudo/sudo.inc
+@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.sudo.ws"
+ BUGTRACKER = "http://www.sudo.ws/bugs/"
+ SECTION = "admin"
+ LICENSE = "ISC & BSD-3-Clause & BSD-2-Clause & Zlib"
+-LIC_FILES_CHKSUM = "file://LICENSE.md;md5=7aacba499777b719416b293d16f29c8c \
++LIC_FILES_CHKSUM = "file://LICENSE.md;md5=5100e20d35f9015f9eef6bdb27ba194f \
+                     file://plugins/sudoers/redblack.c;beginline=1;endline=46;md5=03e35317699ba00b496251e0dfe9f109 \
+                     file://lib/util/reallocarray.c;beginline=3;endline=15;md5=397dd45c7683e90b9f8bf24638cf03bf \
+                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=004d7d2866ba1f5b41174906849d2e0f \
+diff --git a/meta/recipes-extended/sudo/sudo_1.9.12p2.bb b/meta/recipes-extended/sudo/sudo_1.9.13p2.bb
+similarity index 96%
+rename from meta/recipes-extended/sudo/sudo_1.9.12p2.bb
+rename to meta/recipes-extended/sudo/sudo_1.9.13p2.bb
+index ae7207c081..a028bcc216 100644
+--- a/meta/recipes-extended/sudo/sudo_1.9.12p2.bb
++++ b/meta/recipes-extended/sudo/sudo_1.9.13p2.bb
+@@ -8,7 +8,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
+ 
+ PAM_SRC_URI = "file://sudo.pam"
+ 
+-SRC_URI[sha256sum] = "b9a0b1ae0f1ddd9be7f3eafe70be05ee81f572f6f536632c44cd4101bb2a8539"
++SRC_URI[sha256sum] = "df2004fde4c1033b1fdca339958e0ec633d393d604fcff9d1513abef1f94574d"
+ 
+ DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS:${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+-- 
+2.30.2
+
 
