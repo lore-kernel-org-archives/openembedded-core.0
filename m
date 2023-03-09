@@ -2,89 +2,140 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1548C64EC4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3FD4C61DA4
 	for <webhook@archiver.kernel.org>; Thu,  9 Mar 2023 15:20:11 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web11.16012.1678375206331469382
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web11.16017.1678375209608285310
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Mar 2023 07:20:06 -0800
+ Thu, 09 Mar 2023 07:20:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=U3yzEZh8;
- spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f42.google.com with SMTP id j2so2224792wrh.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 07:20:06 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=X1mmITD1;
+ spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f48.google.com with SMTP id l7-20020a05600c4f0700b003e79fa98ce1so1484415wmq.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 07:20:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678375205;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2PunAzaCufJCJQi9WZNoCgJwGhqV7JsAMOHEc3pVHTA=;
-        b=U3yzEZh840R8LKbCZWhAuvVZkNfF14fqdCm8J4+yIUTSkLADvraDeDlMZiZBXdD6od
-         Tv3F5dJLr47GIhgSzeEmyCIm3ypjV3w39IS/xeVFsi2Hytz8ztCObUzbYWBvmV1f9N8L
-         TNud33hhF1l1Dy860w+CvUCb2rU05z4rq47S3pGG9CjSp8vyJ/5A7d4tZ9k8pXigzUjB
-         53ah+sOBO/ZolXtsw19wJg0cVLwcuCNl79qF9bobcoAsiJ0C5bG78CX4hYx9qdocaykF
-         NsxcAdY7xD2tt8aNOARXfII2ZJct5/WF7aYqgEvSFo7LhLdklw3aXrSGq1nWlAmZ4gwv
-         prWQ==
+        d=gmail.com; s=20210112; t=1678375208;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zxmAriV4ECYUIhdOlAC8FFs3D511n6K7rmTE4Y1ZOFU=;
+        b=X1mmITD1VMYPKZlB3GTfQsel9m/KD+f+xA/xbFla8Ln3JWO82h8BmIic9hH7dD1uzR
+         9V4vi+dUKGd5fI/q9yvYykXeTuiHhcTzgIimahKyGgc5kAB0Ux4qv8obwx/nkUDTge6v
+         CzysoOT7hEESiIoMPMHUGf0/UnVYh4i46PQbJCs1N0nNwpZtZ4Iq7IwNOSt49nMtv8n7
+         Yk1YFK7oLle+uXReQhrTyVYnEjVzMJd+4nBtnaNC6AJWfcBL5qoszgyYuY4JgMB4QisE
+         z5Ft3K/zd6rL1lfzmPHcB/YJxGIbjYGlfZ/oVryU/ChPUpR7SyPuKamofPZw/lrAl/ow
+         NCLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678375205;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2PunAzaCufJCJQi9WZNoCgJwGhqV7JsAMOHEc3pVHTA=;
-        b=sY77Ld7NAUvwyDcYLDlUHbduGbj/eW110Qv3yXoXteFsRsXQjnA/FjPFKKqHXRjN70
-         3HOmzIUXm9xcEoVil7uOYkWiq4ZzaB0jwrqu+ElxZQApM9bZ7RciQ0aHe6xqLMG/SuPY
-         2OWeJ63WwhoCWNS82993DRAjXGv6TONkc2Va+nYWhUX2e0QCZ4YENS+n2PEzL+DTthTi
-         OJuX5phr5i25LMf/Aeb8f0GRCDm5ndgDdgFeK3Wwm/8suY+sL0eBDKdqSyK84rx98kE2
-         UQCFiP9uaAePTZkeDj04lH7Pg9k5oCeI+pSOI2p70XeUy7fZpXY1IUdIbCOBBXXX+EOk
-         9SUQ==
-X-Gm-Message-State: AO0yUKXDJmmA4Q80Xfutx8Dw01ASPjwnotJY+W56Tq0MGW5UO7fPZE2Q
-	Ru4RC0ywwHtB2VbH9R3bftIE8sZs6t4=
-X-Google-Smtp-Source: AK7set8VLSAxcQp6qyyHcd9qKS26mgzD/XuG4N0Q7J9mcqVGmVCtSJddr5CR6U8TLokUOGGMlk8DnA==
-X-Received: by 2002:a5d:6543:0:b0:2ce:46b5:8c42 with SMTP id z3-20020a5d6543000000b002ce46b58c42mr13560532wrv.29.1678375204670;
-        Thu, 09 Mar 2023 07:20:04 -0800 (PST)
+        d=1e100.net; s=20210112; t=1678375208;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zxmAriV4ECYUIhdOlAC8FFs3D511n6K7rmTE4Y1ZOFU=;
+        b=WBc0ol3AqZBfnG5tCkY1Gq25/aHxfC50PkdxsvKL33o83idOGWYWL7CHNNAGIqQc6q
+         oIlkVL2CQvIwKX9tIhJmueASVkuKD1CqWQjeccs0DeVQHVNJ43yvx0l9t9FiAxIXpEAy
+         eeCpZDEoOqIcaW+2i+2F7q+jIbJJ+xACFIdFeiWteL5pftGLdDsUiz6yFrpxXfKInQ68
+         w199R8xEYhXgIdynhvELrcUjuBTPloGvaS1V+GPm3AsLkkwYtb+jv5FuhZlbmrJLEtaK
+         gIxmi3bIoIA5rVsZhtsHKZ048L2bBjq9QJy7/ZOEdb0ytVazxJeNgIQXSrbItN/+6ep7
+         W4rQ==
+X-Gm-Message-State: AO0yUKXzWRMFKU9ZdLTVjebqQwGOfhaEnh7fyX6f576b5HizXc683LEg
+	smL1qVnjx26HyENTJymkAA84PG/yL9M=
+X-Google-Smtp-Source: AK7set84c5GX2nNzu/HGO8UP3p2Nab9nYAU1qAHTgzxntA1aCMGvWLxoDZgjqfoN5tP9YUr+sAnORA==
+X-Received: by 2002:a05:600c:46c6:b0:3eb:3cc9:9f85 with SMTP id q6-20020a05600c46c600b003eb3cc99f85mr21555035wmo.26.1678375208173;
+        Thu, 09 Mar 2023 07:20:08 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id s10-20020adfea8a000000b002c7e1a39adcsm18314521wrm.23.2023.03.09.07.20.04
+        by smtp.gmail.com with ESMTPSA id s10-20020adfea8a000000b002c7e1a39adcsm18314521wrm.23.2023.03.09.07.20.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Mar 2023 07:20:04 -0800 (PST)
+        Thu, 09 Mar 2023 07:20:08 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 01/26] devtool/upgrade: do not delete the workspace/recipes directory
-Date: Thu,  9 Mar 2023 16:19:33 +0100
-Message-Id: <20230309151958.3619193-1-alex@linutronix.de>
+Subject: [PATCH 07/26] libdnf: update 0.69.0 -> 0.70.0
+Date: Thu,  9 Mar 2023 16:19:39 +0100
+Message-Id: <20230309151958.3619193-7-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230309151958.3619193-1-alex@linutronix.de>
+References: <20230309151958.3619193-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 15:20:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178226
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178232
 
-If it exists, there is no need to delete it, and if it does not,
-devtool prints an ugly traceback.
+Drop the patch as issue addressed upstream.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- scripts/lib/devtool/upgrade.py | 3 ---
- 1 file changed, 3 deletions(-)
+ ...xt.cpp-do-not-try-to-access-BDB-data.patch | 37 -------------------
+ .../{libdnf_0.69.0.bb => libdnf_0.70.0.bb}    |  3 +-
+ 2 files changed, 1 insertion(+), 39 deletions(-)
+ delete mode 100644 meta/recipes-devtools/libdnf/libdnf/0001-libdnf-dnf-context.cpp-do-not-try-to-access-BDB-data.patch
+ rename meta/recipes-devtools/libdnf/{libdnf_0.69.0.bb => libdnf_0.70.0.bb} (93%)
 
-diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-index 967d157077..6c4a62b558 100644
---- a/scripts/lib/devtool/upgrade.py
-+++ b/scripts/lib/devtool/upgrade.py
-@@ -125,11 +125,8 @@ def _write_append(rc, srctreebase, srctree, same_dir, no_same_dir, rev, copied,
-     return af
+diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-dnf-context.cpp-do-not-try-to-access-BDB-data.patch b/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-dnf-context.cpp-do-not-try-to-access-BDB-data.patch
+deleted file mode 100644
+index 6f8a3dcb50..0000000000
+--- a/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-dnf-context.cpp-do-not-try-to-access-BDB-data.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-From 2f7382b35d59fe08034603497e82ffb943fedef1 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Wed, 30 Jun 2021 15:31:16 +0200
+-Subject: [PATCH] libdnf/dnf-context.cpp: do not try to access BDB database
+-
+-Upstream-Status: Inappropriate [upstream needs to rework this to support
+-sqlite]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- libdnf/dnf-context.cpp | 14 --------------
+- 1 file changed, 14 deletions(-)
+-
+-diff --git a/libdnf/dnf-context.cpp b/libdnf/dnf-context.cpp
+-index 86f71a79..9cdcf769 100644
+---- a/libdnf/dnf-context.cpp
+-+++ b/libdnf/dnf-context.cpp
+-@@ -2264,20 +2264,6 @@ dnf_context_setup(DnfContext *context,
+-         !dnf_context_set_os_release(context, error))
+-         return FALSE;
+- 
+--    /* setup a file monitor on the rpmdb, if we're operating on the native / */
+--    if (g_strcmp0(priv->install_root, "/") == 0) {
+--        rpmdb_path = g_build_filename(priv->install_root, "var/lib/rpm/Packages", NULL);
+--        file_rpmdb = g_file_new_for_path(rpmdb_path);
+--        priv->monitor_rpmdb = g_file_monitor_file(file_rpmdb,
+--                               G_FILE_MONITOR_NONE,
+--                               NULL,
+--                               error);
+--        if (priv->monitor_rpmdb == NULL)
+--            return FALSE;
+--        g_signal_connect(priv->monitor_rpmdb, "changed",
+--                         G_CALLBACK(dnf_context_rpmdb_changed_cb), context);
+--    }
+--
+-     /* copy any vendor distributed cached metadata */
+-     if (!dnf_context_copy_vendor_cache(context, error))
+-         return FALSE;
+diff --git a/meta/recipes-devtools/libdnf/libdnf_0.69.0.bb b/meta/recipes-devtools/libdnf/libdnf_0.70.0.bb
+similarity index 93%
+rename from meta/recipes-devtools/libdnf/libdnf_0.69.0.bb
+rename to meta/recipes-devtools/libdnf/libdnf_0.70.0.bb
+index da2550d323..14d6a37de1 100644
+--- a/meta/recipes-devtools/libdnf/libdnf_0.69.0.bb
++++ b/meta/recipes-devtools/libdnf/libdnf_0.70.0.bb
+@@ -10,10 +10,9 @@ SRC_URI = "git://github.com/rpm-software-management/libdnf;branch=dnf-4-master;p
+            file://0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch \
+            file://enable_test_data_dir_set.patch \
+            file://0001-drop-FindPythonInstDir.cmake.patch \
+-           file://0001-libdnf-dnf-context.cpp-do-not-try-to-access-BDB-data.patch \
+            "
  
- def _cleanup_on_error(rd, srctree):
--    rdp = os.path.split(rd)[0] # recipes folder
-     if os.path.exists(rd):
-         shutil.rmtree(rd)
--    if not len(os.listdir(rdp)):
--        os.rmdir(rdp)
-     srctree = os.path.abspath(srctree)
-     if os.path.exists(srctree):
-         shutil.rmtree(srctree)
+-SRCREV = "5c6d9cd6e5955e7038722f091396607c60fcbdd1"
++SRCREV = "93759bc5cac262906e52b6a173d7b157914ec29e"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(?!4\.90)\d+(\.\d+)+)"
+ 
+ S = "${WORKDIR}/git"
 -- 
 2.30.2
 
