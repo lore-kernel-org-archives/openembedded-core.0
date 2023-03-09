@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71583C74A44
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65445C61DA4
 	for <webhook@archiver.kernel.org>; Thu,  9 Mar 2023 22:58:35 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web11.5725.1678402714224112498
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web11.5715.1678402691370325069
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Mar 2023 14:58:34 -0800
+ Thu, 09 Mar 2023 14:58:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=OfKvX9P0;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.44, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f44.google.com with SMTP id bo22so3557937pjb.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 14:58:34 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=yqqB5Da1;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f43.google.com with SMTP id y2so3562296pjg.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 14:58:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678402713;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678402711;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=FGN6eAlg8mmLHs/bjDT+antBibI3/U3B+dhZgUREaOg=;
-        b=OfKvX9P09qdMG3s10wGJ7YsDRzmWiqGDJz77FcjjsVAQIVbyxiGPwWdUjOEG0sx6fV
-         XGeu6U6Vj8In9P82Q3eVPysvDiv0lopnF6h3twyGqf+zIefYQYziqZ+QbyTlfJlMivEK
-         hTUKSn2cxKGQmTOA2Lj/NpA5OUOsV8jz1Me0+a9/sFXa7SOCZlKeWbWlUxakA3w3u5Of
-         qFeBqpKPXC2AgbrgNyvbBJR3xL3Cl3sl6R6w2sIuaTaJhvZxknT82lfS4dtFGm1IfZuX
-         7ctI47pmdk/jRzQSGmcZoxV/BTeApSK92ojKIMsldUgbfNBQOXiwSvw3DG4rM/gJUeAx
-         iMLA==
+        bh=FWWjkz/95VQinhGNQBVkcHftsphVu0WmOYpkFreKgGI=;
+        b=yqqB5Da1Tcz/LHRNmK1yO+kWpY9CFPTX7UhtEbnBUccH40qG9YPTuhjGzelsieaw48
+         nh35/5OYSI+jZoP5Y/MwaJzaLdo1HbHGHoR7Lc/AO4VLKmsqPZb15N1DJ8rHcpvTUKuK
+         4noqvXdGPiX+rmFjICac+JNpUBDvaXKDgP1A1X3IyLNO3/03j/PP7nBxGNQFcDZ9IoJz
+         Yam7xONnkBVljppaRl8tcJLK5N/9andz8mKFkcwTnp3RNsCiy63fCxuLeZRMl0Z59pzB
+         wEgWPruGluw2R2ii0TrKQrsDuDOlgbAu+u02Rjl3MAamsplOzbOlygpJgFXkVqLfwHP6
+         r70g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678402713;
+        d=1e100.net; s=20210112; t=1678402711;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FGN6eAlg8mmLHs/bjDT+antBibI3/U3B+dhZgUREaOg=;
-        b=8MIIMHcoVi5EqzTla2saMs6fgRXPVSuHfyHAQtSDJqtQeFotkLJKBc5ZoSgowq9ZQo
-         FRo1kIPx4wxIduW9rVRHP9syP+vJHweCIXAiaD+DESjOiPHiaY+a6A2eoPnKQyiED4pm
-         C052SArrtU+pw9ou75Hkf1G6VBqXp5xBq21G0ekFXKYsKAI0Uu2Y0MmbNR543+axI/bV
-         oJNDbDIRnixWTivuVP9cmokJCfob9zANUa69crkSTtzAX0paknHTGbFtzNA3nEi0eAqh
-         /l0PA6bHPHIEqfIWzGGlFg8F54lM2UuN1+FdZZxJ3JLmFdhjip3ibNM17GsDmSsah1gC
-         Vk0Q==
-X-Gm-Message-State: AO0yUKUg+ADfkNdclw/B+0zVeEI0ApIWjGHjdb+LbUJB/M+m/Vg/ZFMR
-	HtHL8J8Sb86PfkeowFCa+5CyUon9CJHHBauzUBQ=
-X-Google-Smtp-Source: AK7set+ILtMK4TJS/M4dFh49Usjon/QT044wshEBl3MKoy4idYLXjBO3LlD106C85XyJbzU/LAXyFg==
-X-Received: by 2002:a05:6a20:1448:b0:c7:770a:557f with SMTP id a8-20020a056a20144800b000c7770a557fmr30285309pzi.50.1678402713216;
-        Thu, 09 Mar 2023 14:58:33 -0800 (PST)
+        bh=FWWjkz/95VQinhGNQBVkcHftsphVu0WmOYpkFreKgGI=;
+        b=aJIbsu7mymN2HHv+YzDhvmIke2GCE6B78eqopLAsJdcT+hFZjxj0HDtBjjLvVteusw
+         lBRba4nm7pmReHON2EOdMPp4+moxyd+V7rDfjluZkufG9kEn4RzdEJCdVJUeCuJQ2917
+         7FjDIUmlDAOyltpNaTQY20BlDRGsz7fRaRo7iy5bCxPRddbCYWmpw3GXQrCAd5xePpMo
+         ARx+IW6EgT3n8Zaf0qmOnf/R45A5d5wkZduJuMZ93j5QqHQCJ0IADRcgtnvwOZhsydpN
+         99f/ckDNCjXc+VfhfAmcNes+TyYxISZ1hfoEIcpPJdBnZoU9EH4UQvHY0NIB5G/eQ0NL
+         L//Q==
+X-Gm-Message-State: AO0yUKWHbJhc333cqpU5iXjYEAoH4O+t3eNchmsoETDwTBJkz+I4R+pe
+	oz1ZVqSJlp0dkxy1HqIot/lTB61jGMj2e2ZTQsQ=
+X-Google-Smtp-Source: AK7set+By2r6O9BMIj78UvHH8a/pRKlAl9jeslYIlfus31YcJopNc6xiSuXDVKvpi2in0cBoTEAiiw==
+X-Received: by 2002:a05:6a20:1585:b0:cc:a93:2b81 with SMTP id h5-20020a056a20158500b000cc0a932b81mr24898904pzj.41.1678402711485;
+        Thu, 09 Mar 2023 14:58:31 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id j9-20020aa79289000000b0058db8f8bce8sm89717pfa.166.2023.03.09.14.58.32
+        by smtp.gmail.com with ESMTPSA id j9-20020aa79289000000b0058db8f8bce8sm89717pfa.166.2023.03.09.14.58.30
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Mar 2023 14:58:32 -0800 (PST)
+        Thu, 09 Mar 2023 14:58:31 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 12/27] binutils: Fix nativesdk ld.so search
-Date: Thu,  9 Mar 2023 12:57:47 -1000
-Message-Id: <12f9527b698f98de66ef53d107626b45ce7194c5.1678401759.git.steve@sakoman.com>
+Subject: [OE-core][langdale 11/27] libmicrohttpd: upgrade 0.9.75 -> 0.9.76
+Date: Thu,  9 Mar 2023 12:57:46 -1000
+Message-Id: <35e9efdd6aac2092e3c1327a01e7fd1165876917.1678401759.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1678401759.git.steve@sakoman.com>
 References: <cover.1678401759.git.steve@sakoman.com>
@@ -61,34 +61,40 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 22:58:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178285
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178284
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Currently binutils in buildtools is searching for /etc/etc/ld.so.conf
-which makes no sense. ld_sysconfdir already contains /etc so we need to
-drop the /etc from the fixed string.
+Changelog:
+============
+Fix potential DoS vector in MHD_PostProcessor.
+Releasing GNU libmicrohttpd 0.9.76 hotfix.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ccd28c418ab8390118d738fbe914395b5c2a1f75)
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit f5b5c77d797ce09e2322ad744f0e4fa3ffd50f19)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...3-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch | 2 +-
+ .../{libmicrohttpd_0.9.75.bb => libmicrohttpd_0.9.76.bb}        | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libmicrohttpd/{libmicrohttpd_0.9.75.bb => libmicrohttpd_0.9.76.bb} (90%)
 
-diff --git a/meta/recipes-devtools/binutils/binutils/0003-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch b/meta/recipes-devtools/binutils/binutils/0003-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch
-index 4fe5520010..9c825df5ab 100644
---- a/meta/recipes-devtools/binutils/binutils/0003-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch
-+++ b/meta/recipes-devtools/binutils/binutils/0003-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch
-@@ -65,7 +65,7 @@ index bfa0d54753a..0d61a3209ec 100644
-        info.path = NULL;
-        info.len = info.alloc = 0;
- -      tmppath = concat (ld_sysroot, prefix, "/etc/ld.so.conf",
--+      tmppath = concat (ld_sysconfdir, "/etc/ld.so.conf",
-++      tmppath = concat (ld_sysconfdir, "/ld.so.conf",
-  			(const char *) NULL);
-        if (!ldelf_parse_ld_so_conf (&info, tmppath))
-  	{
+diff --git a/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb b/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb
+similarity index 90%
+rename from meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb
+rename to meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb
+index 043fed367c..7bd66f63cf 100644
+--- a/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.75.bb
++++ b/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb
+@@ -7,7 +7,7 @@ SECTION = "net"
+ DEPENDS = "file"
+ 
+ SRC_URI = "${GNU_MIRROR}/libmicrohttpd/${BPN}-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "9278907a6f571b391aab9644fd646a5108ed97311ec66f6359cebbedb0a4e3bb"
++SRC_URI[sha256sum] = "f0b1547b5a42a6c0f724e8e1c1cb5ce9c4c35fb495e7d780b9930d35011ceb4c"
+ 
+ inherit autotools lib_package pkgconfig gettext
+ 
 -- 
 2.34.1
 
