@@ -1,91 +1,103 @@
-Return-Path: <romuald.jeanne@st.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B203EC6FA99
-	for <webhook@archiver.kernel.org>; Fri, 10 Mar 2023 10:36:38 +0000 (UTC)
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
- by mx.groups.io with SMTP id smtpd.web11.16118.1678444589304478586
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B67EC64EC4
+	for <webhook@archiver.kernel.org>; Fri, 10 Mar 2023 12:33:09 +0000 (UTC)
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+ by mx.groups.io with SMTP id smtpd.web10.17859.1678451579636276168
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Mar 2023 02:36:29 -0800
+ Fri, 10 Mar 2023 04:32:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@st.com header.s=stmicroelectronics header.b=bBQEfBdj;
- spf=pass (domain: st.com, ip: 185.132.182.106, mailfrom: prvs=1433ed1667=romuald.jeanne@st.com)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32A71gkp007160
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Mar 2023 11:36:27 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-type; s=STMicroelectronics;
- bh=uBGll9eD1ALr/jsRLUDPxyGj0uHl1yH82a/NNEKr66M=;
- b=bBQEfBdjYsNXlXticAZvYM2VN6W03FQuP+eV6FQOt46zMYQfo+4b8ZqEJ6Tu92AVlyMx
- eue3CKY5aZNAWdm/rz1tukx9d6b8Swvf8HBCB1z+ohewOJ+ve90GW7AirVMUl1JQI7eh
- TysGpX+MQKrXfAr2wgo9lYZxrhKw3iVYjDkkmf0MPUoxPl9ba2LwZEsp3J7mtQK8wzv6
- OISwLuRxp06vcmZtRVQFnc4E+L5JFFAqES4kw/5ngaY3isiTsKu9feOMu/18nZ6ehZ3j
- X0IPne+rsJOIgMUMv6GNckvOJthPGltrHM/sZw1hx7pxG3yoKjwHVKfB6EvPhqqy0vHd KQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3p6ffcthe7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Mar 2023 11:36:27 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 4A38410002A
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Mar 2023 11:36:24 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id A2FFE211F0D
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Mar 2023 11:36:24 +0100 (CET)
-Received: from localhost (10.201.23.79) by SHFDAG1NODE1.st.com (10.75.129.69)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Fri, 10 Mar
- 2023 11:36:24 +0100
-From: <romuald.jeanne@st.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Romuald Jeanne <romuald.jeanne@st.com>
-Subject: [PATCH] image_types: fix multiubi var init
-Date: Fri, 10 Mar 2023 11:36:21 +0100
-Message-ID: <20230310103621.2933-1-romuald.jeanne@st.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=cO+lOEJB;
+ spf=pass (domain: gmail.com, ip: 209.85.208.45, mailfrom: zboszor@gmail.com)
+Received: by mail-ed1-f45.google.com with SMTP id ec29so19779973edb.6
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Mar 2023 04:32:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678451578;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZJUK24ZGJhhk19ZZDmJd/MGNT/fvbrpLVFNsXwp5AII=;
+        b=cO+lOEJBuH6MA57XldVkm7r/EzkRxu/GFfnv8roDNslc8Z0R3FzkquAoNqRr0gDu33
+         PCdAlR0WVrqwbYTov5G6zlpj/H33+N/yeAUj5B4fvMh4SpA37OTHIytRDYEP2vT/wqeJ
+         vQ42bxSv2CsjUfdhTnvT/B/AOMRKVr4JDx/YEgODBR8h3/OKaDf4HPALZWry6r1Sbr59
+         vg8VMuGwwcwNFsp5eWGWij2hThbAgu2IPAP1gZv4PqVyilDBhIxPbW38dSnNrrJyL2zI
+         Xb4K5xpAfNAwJC+JF3LR7aC7L6M6gPu12p1iFy7IkV0zRtTuPko3dq3x7sW6gTC53/nX
+         rHWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678451578;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZJUK24ZGJhhk19ZZDmJd/MGNT/fvbrpLVFNsXwp5AII=;
+        b=QlL9lInhvN7Tii9fM1Hy0uWyjdbTR6bdYoMWrmeoHJ22Ae45WlvyNNqOj/BuOvtOzx
+         oMabV4hMd6FkJLueEH2WUGKGoru4E9yDXhFkt3a1jfEjfikFslpDABd1V76q0Wqmtae5
+         IERGkYAhgu/jX7t04pQDges2oTlWhkwifijDpe9kbJGTZ6CwmSa3CIQAxz1e/x7ezsCr
+         IHeG8S8FZDlqDCRkNeyccCuyfmf4QjuXdtZarzv2+CsAuC3oJbhAnKKtRdKrlil7KaM3
+         sD1dstZxdNAfphvwulOlzjCet6agCrQkPDErzXw3BCjscERohRE17/wxmuYEHOOCTzc5
+         WhXA==
+X-Gm-Message-State: AO0yUKXJwxXUyjNkzc37n4s7d6iTIgLGssDsoNsWhIQS/u37zEnc0ftS
+	NPx7CiRk1x2OKyNg87H0h/RQtdU6hec=
+X-Google-Smtp-Source: AK7set+Fst1iSBw/DRyM7Dru06oZtJrxYRbq+UL+ZGbKNillcKLARg4uLp4uhU4w2WjNo92wLzxJ5w==
+X-Received: by 2002:a17:907:6e0f:b0:907:672b:736a with SMTP id sd15-20020a1709076e0f00b00907672b736amr31042000ejc.31.1678451577730;
+        Fri, 10 Mar 2023 04:32:57 -0800 (PST)
+Received: from localhost.lan (BC244571.dsl.pool.telekom.hu. [188.36.69.113])
+        by smtp.gmail.com with ESMTPSA id s27-20020a50ab1b000000b004c13fe8fabfsm768310edc.84.2023.03.10.04.32.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Mar 2023 04:32:57 -0800 (PST)
+From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
+	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+Subject: [PATCH] pypi.bbclass: Set SRC_URI downloadfilename with an optional prefix
+Date: Fri, 10 Mar 2023 13:32:54 +0100
+Message-Id: <20230310123254.2744497-1-zboszor@gmail.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <CANNYZj9qRTsH5mJK-h+aXJofM+eEoL3Q=nRxFB9LUzrLWNxvGw@mail.gmail.com>
+References: <CANNYZj9qRTsH5mJK-h+aXJofM+eEoL3Q=nRxFB9LUzrLWNxvGw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.201.23.79]
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-10_03,2023-03-09_01,2023-02-09_01
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Mar 2023 10:36:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178328
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Mar 2023 12:33:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178329
 
-From: Romuald Jeanne <romuald.jeanne@st.com>
+This allows avoiding clashes between source archives of a main
+project and a pypi project using the same name and version.
 
-Make sure to expand all MKUBIFS_ARGS_<label> and UBINIZE_ARGS_<label> vars
-in 'do_image_multiubi' task to use them to init the local 'mkubifs_args'
-and 'ubinize_args' vars.
+The new optional setting is PYPI_ARCHIVE_NAME_PREFIX which is empty
+by default so previous downloads can be used. Example usage:
 
-See [YOCTO #15065]
+PYPI_ARCHIVE_NAME_PREFIX = "pypi-"
 
-Signed-off-by: Romuald JEANNE <romuald.jeanne@st.com>
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
 ---
- meta/classes-recipe/image_types.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/classes-recipe/pypi.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recipe/image_types.bbclass
-index 764e6a5574..24948e05e3 100644
---- a/meta/classes-recipe/image_types.bbclass
-+++ b/meta/classes-recipe/image_types.bbclass
-@@ -208,7 +208,10 @@ multiubi_mkfs() {
- 	fi
- }
+diff --git a/meta/classes-recipe/pypi.bbclass b/meta/classes-recipe/pypi.bbclass
+index aab04c638f..f510bfed06 100644
+--- a/meta/classes-recipe/pypi.bbclass
++++ b/meta/classes-recipe/pypi.bbclass
+@@ -15,11 +15,13 @@ def pypi_package(d):
+ PYPI_PACKAGE ?= "${@pypi_package(d)}"
+ PYPI_PACKAGE_EXT ?= "tar.gz"
+ PYPI_ARCHIVE_NAME ?= "${PYPI_PACKAGE}-${PV}.${PYPI_PACKAGE_EXT}"
++PYPI_ARCHIVE_NAME_PREFIX ?= ""
  
-+MULTIUBI_ARGS = "MKUBIFS_ARGS UBINIZE_ARGS"
-+
- IMAGE_CMD:multiubi () {
-+	${@' '.join(['%s_%s="%s";' % (arg, name, d.getVar('%s_%s' % (arg, name))) for arg in d.getVar('MULTIUBI_ARGS').split() for name in d.getVar('MULTIUBI_BUILD').split()])}
- 	# Split MKUBIFS_ARGS_<name> and UBINIZE_ARGS_<name>
- 	for name in ${MULTIUBI_BUILD}; do
- 		eval local mkubifs_args=\"\$MKUBIFS_ARGS_${name}\"
+ def pypi_src_uri(d):
+     package = d.getVar('PYPI_PACKAGE')
+     archive_name = d.getVar('PYPI_ARCHIVE_NAME')
+-    return 'https://files.pythonhosted.org/packages/source/%s/%s/%s' % (package[0], package, archive_name)
++    archive_downloadname = d.getVar('PYPI_ARCHIVE_NAME_PREFIX') + archive_name
++    return 'https://files.pythonhosted.org/packages/source/%s/%s/%s;downloadfilename=%s' % (package[0], package, archive_name, archive_downloadname)
+ 
+ PYPI_SRC_URI ?= "${@pypi_src_uri(d)}"
+ 
 -- 
-2.17.1
+2.39.2
 
 
