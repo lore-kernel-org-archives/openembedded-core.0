@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83C3BC64EC4
-	for <webhook@archiver.kernel.org>; Fri, 10 Mar 2023 02:37:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95866C64EC4
+	for <webhook@archiver.kernel.org>; Fri, 10 Mar 2023 02:41:16 +0000 (UTC)
 Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web10.10136.1678415836603819110
+ by mx.groups.io with SMTP id smtpd.web10.10221.1678416072152760050
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Mar 2023 18:37:17 -0800
+ Thu, 09 Mar 2023 18:41:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=CUqgPJ5E;
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=dXBRbM9i;
  spf=softfail (domain: sakoman.com, ip: 209.85.208.47, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f47.google.com with SMTP id o12so14911539edb.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 18:37:16 -0800 (PST)
+Received: by mail-ed1-f47.google.com with SMTP id j11so14990103edq.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 18:41:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678415835;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678416070;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pivYRE606Ojd3eD8L7InsSfKfUj8ry3K89FDEdIkIOo=;
-        b=CUqgPJ5E2lRAK2n+JBkpv/vHEsRZg1hFI3oDlLcg0d9dN+UKitrUkb8CmBG1VuwOpI
-         8uZQbJq61S424W1WTD3aRgzrdSY3Zk1vIbBAoPFDSWNQw2fucM9b40yUXQ77jkZESsBg
-         iQF8BcRFH1Ox9bHjOtyKzrZEGAko3sHftwstR7XSX9mEX2iEIg5EWWlAdjrcuFkoVI2a
-         t4cMR3H2l+r6gaQQ77xjh5uDOTfe93lKQ0Fsxp/umqDpGkCds1vNWoM4guzx72VBqwVC
-         6uJfvTO48Vd/4FMZ+URKUNJskCxNqML57pt01BFTKLQQUjwxorBONbvXgVeK6gHrA84w
-         K+Pg==
+        bh=+hJ9dwqf0Tsplp9lmfWeCK1ZVGcE6lmrFwBY9QZZnJA=;
+        b=dXBRbM9iHKOXVImIC3u9nE3aDiRhyhimxrMqcRLD+nvaIHlrrmwCkxMfd4HGOhXeNz
+         4lGJ1tusqnap3whaKtulJtOuO44bdstQdRNFwrm2cWcKVrMP/pnQ7jERFGOvXtCk7ldP
+         YRfAgK0zltqcNpcOGs0ObbQwSnhenIcXfoReIQVqdEa42WAw14f7h8STqSoAF4AFZAds
+         UbgY1+gnxSKofZAAaQnLL8TkKa2nhpYwWXHiQa56TFWqijYdKSnKJqWaOm59lZzN8lDc
+         jt8b60WTa1IHniQyRh3UrGL1oVELFfTyhbTSeELQf2SeCiRgFs7YxMehS9iiJ9alnf0Z
+         TymA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678415835;
+        d=1e100.net; s=20210112; t=1678416070;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pivYRE606Ojd3eD8L7InsSfKfUj8ry3K89FDEdIkIOo=;
-        b=gTsBrHDtlCodDae4QxgLIEw8BpNFnY17dlD9vEXZbVcvVIdgjgxRTFQgX1nl8ujeIa
-         lDqQwme+8YG8eXSvKLpK8aDDTEEu2f9KhGNV/9/S/V2OuoHWfoP3p85UlzDze9atcEpm
-         h9aBJTpiKXw4y5CVJj9NKFXjvBghzny4PcpjdOdavDhGYNuIcfUfL4evWYdbYDToyM7n
-         QjS57FTAZYgCZ18OaXWft83Y15dxJ6llwWDJbhbgN64NBlWltO4uwx0Kc8b4sf+0IHsN
-         VGUXWN5pfYkTnRzeRGlrmYXOmpHiXyYSgE3ehV35qzzp6GlggjPiqq2jtE0gBB0AdC9I
-         54Zw==
-X-Gm-Message-State: AO0yUKXgVaPb4+/sKmGRwPoFF5baNmoIefC+tEy048tcR6AKRlcQC/Jp
-	uLYUVg/i1bUyat7rat8yqrbsMsPuhRmQC/Y8ikueEw==
-X-Google-Smtp-Source: AK7set8UUkBSSeQ+ZWNnXWG7f2AoLsp4l/oYKuIIOLPo84GY6dig/yO9VbQQmI8eR3+L4q5nbYL8wQLFhVNu0GGpvfU=
-X-Received: by 2002:a50:d08d:0:b0:4bf:5fd5:da3f with SMTP id
- v13-20020a50d08d000000b004bf5fd5da3fmr13348333edd.3.1678415834845; Thu, 09
- Mar 2023 18:37:14 -0800 (PST)
+        bh=+hJ9dwqf0Tsplp9lmfWeCK1ZVGcE6lmrFwBY9QZZnJA=;
+        b=SqHv7t+eBrFUvSScjoxqJHzqyKCsHpsMoR0q85a+KnvjNhN+RzPDSzzOZKljE8d9F6
+         XPyO9WOnziIalljiLaCkJ6tekpQReHsYJD1O91iRPdRGt+Q4szTqmdmuHECjjN1M1fzT
+         QSXOMX5HlyHi9cs6SYBC00ecAAWYgMZ8WvXMCvk3UzmCrv5jStCTi2pePpZeaiQnmfSA
+         pTf5LrG/nSilMoO7J3Us24b3yv/cxQ9UgN40lmmHHJX7EQUj7ZpY9hfSUkaFkpkCauJH
+         LMdXJxCCOlUdpI03dKB6hF+FtrrRtPulukkN6naJkYccLi/Y3nZ+Y5c0HSpPBEMHkO9D
+         WsDA==
+X-Gm-Message-State: AO0yUKVOpjVi0BHwqbP4JmUHqhjKMXDNouz9OizmjXC/D9TTC2t5+3t8
+	Kjpip79oXy4v7HJgrLAhbMs+VXQPipdpBNRP0JPoZA==
+X-Google-Smtp-Source: AK7set8iDVkEyaN02sa1PhsXd5F19U5jMeKEoSW8N/T4nS3tXrMFAbTBsFNzkpkSzL54hPuV+wiWA5is2/vsf9WlaOo=
+X-Received: by 2002:a17:907:7b92:b0:8b1:3540:7632 with SMTP id
+ ne18-20020a1709077b9200b008b135407632mr333365ejc.2.1678416070512; Thu, 09 Mar
+ 2023 18:41:10 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1678401759.git.steve@sakoman.com> <08cf44a8c2f524edf1ed353bbf38ef31d9e810e1.1678401759.git.steve@sakoman.com>
- <95c08f0a973b9adee2983ebfa51192f7b40a7806.camel@linuxfoundation.org>
-In-Reply-To: <95c08f0a973b9adee2983ebfa51192f7b40a7806.camel@linuxfoundation.org>
+References: <cover.1678401759.git.steve@sakoman.com> <aa256e62df4f31de1c2c1ce7d0a6ab8bdba4a032.1678401759.git.steve@sakoman.com>
+ <00f4dde74caeef7ecd1b26bf5f9a76c4f21dece7.camel@linuxfoundation.org>
+In-Reply-To: <00f4dde74caeef7ecd1b26bf5f9a76c4f21dece7.camel@linuxfoundation.org>
 From: Steve Sakoman <steve@sakoman.com>
-Date: Thu, 9 Mar 2023 16:37:03 -1000
-Message-ID: <CAOSpxdZePZNnkXzkF-1_PwEXBL01NXo-L8Q2w5FnzsszBEzgnA@mail.gmail.com>
-Subject: Re: [OE-core][langdale 25/27] staging: Separate out different
- multiconfig manifests
+Date: Thu, 9 Mar 2023 16:40:59 -1000
+Message-ID: <CAOSpxdaxiWH6kLwYPzo8B7+zSdEdAq19zHo=MGvQt8aWccB4ag@mail.gmail.com>
+Subject: Re: [OE-core][langdale 13/27] devtool: ignore patch-fuzz errors when
+ extracting source
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
@@ -59,63 +59,53 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Mar 2023 02:37:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178303
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Mar 2023 02:41:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178304
 
 On Thu, Mar 9, 2023 at 1:15=E2=80=AFPM Richard Purdie
 <richard.purdie@linuxfoundation.org> wrote:
 >
-> On Thu, 2023-03-09 at 12:58 -1000, Steve Sakoman wrote:
-> > From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> On Thu, 2023-03-09 at 12:57 -1000, Steve Sakoman wrote:
+> > From: Alexander Kanavin <alex.kanavin@gmail.com>
 > >
-> > """
-> > require conf/multilib.conf
-> > MACHINE =3D "qemuarm64"
-> > MULTILIBS =3D "multilib:lib32"
-> > DEFAULTTUNE:virtclass-multilib-lib32 =3D "armv7athf-neon"
+> > So that patch fuzz issues can actually be fixed,
+> > as extracting source with 'devtool modify' is the first step
+> > for that.
 > >
-> > bitbake gcc-cross-canadian-arm
-> > """
-> >
-> > and then inspecting the lib32* manifest files under recipe-sysroot-nati=
-ve shows
-> > them referencing lib32-recipe-sysroot instead of recipe-sysroot as used=
- by
-> > gcc-cross-canadian recipes.
-> >
-> > To fix this separate out the manifest by multilib. It is caching mechan=
-ism to
-> > optimise disk usage so this doesn't break anything, just separated out =
-some files.
-> >
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 > > Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> > (cherry picked from commit 891d3faa3ed3d1cc231da58e5fa1325f05d5ade5)
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > (cherry picked from commit 7067abd31d9dd4b98ec70c1c7effbe2904797cd1)
 > > Signed-off-by: Steve Sakoman <steve@sakoman.com>
 > > ---
-> >  meta/classes-global/staging.bbclass | 3 +++
-> >  1 file changed, 3 insertions(+)
+> >  scripts/lib/devtool/standard.py | 1 +
+> >  1 file changed, 1 insertion(+)
 > >
-> > diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/=
-staging.bbclass
-> > index 5a1f43de78..e6d0d1d55c 100644
-> > --- a/meta/classes-global/staging.bbclass
-> > +++ b/meta/classes-global/staging.bbclass
-> > @@ -275,6 +275,9 @@ python extend_recipe_sysroot() {
-> >      pn =3D d.getVar("PN")
-> >      stagingdir =3D d.getVar("STAGING_DIR")
-> >      sharedmanifests =3D d.getVar("COMPONENTS_DIR") + "/manifests"
-> > +    mlprefix =3D d.getVar("MLPREFIX")
-> > +    if mlprefix:
-> > +        sharedmanifests =3D sharedmanifests + "/" + mlprefix
-> >      recipesysroot =3D d.getVar("RECIPE_SYSROOT")
-> >      recipesysrootnative =3D d.getVar("RECIPE_SYSROOT_NATIVE")
-> >
+> > diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/stan=
+dard.py
+> > index d64e18e179..0339d12763 100644
+> > --- a/scripts/lib/devtool/standard.py
+> > +++ b/scripts/lib/devtool/standard.py
+> > @@ -567,6 +567,7 @@ def _extract_source(srctree, keep_temp, devbranch, =
+sync, config, basepath, works
+> >          logger.debug('writing append file %s' % appendfile)
+> >          with open(appendfile, 'a') as f:
+> >              f.write('###--- _extract_source\n')
+> > +            f.write('ERROR_QA:remove =3D "patch-fuzz"\n')
+> >              f.write('DEVTOOL_TEMPDIR =3D "%s"\n' % tempdir)
+> >              f.write('DEVTOOL_DEVBRANCH =3D "%s"\n' % devbranch)
+> >              if not is_kernel_yocto:
 >
-> The "real" fix merged today so this should probably wait to go with
-> that.
+> Whilst this is harmless, I'm not sure langdale has the patch-fuzz QA
+> test enabled as an error?
 
-Thanks for reviewing, I'll hold this back for the next patch set.
+Sigh, yes I meant to check this and forgot :-(
+
+I didn't take https://git.openembedded.org/openembedded-core/commit/?id=3D7=
+6a685bfcf927593eac67157762a53259089ea8a,
+so no need for this patch.
+
+Thanks for reviewing!
 
 Steve
 
