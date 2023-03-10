@@ -2,56 +2,56 @@ Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73AF4C6FD1E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63A70C6FD1C
 	for <webhook@archiver.kernel.org>; Fri, 10 Mar 2023 09:54:38 +0000 (UTC)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web10.15612.1678442072044393068
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web10.15613.1678442072399232988
  for <openembedded-core@lists.openembedded.org>;
  Fri, 10 Mar 2023 01:54:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=iUB8W3xX;
- spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: zboszor@gmail.com)
-Received: by mail-ed1-f46.google.com with SMTP id da10so18244678edb.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Mar 2023 01:54:31 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=kwMpXuI2;
+ spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: zboszor@gmail.com)
+Received: by mail-ed1-f48.google.com with SMTP id k10so18075450edk.13
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Mar 2023 01:54:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112; t=1678442070;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oEUmDiiSY2vXc4Ezu14bEkCe2rERqKhXafQPtxYddtU=;
-        b=iUB8W3xXlnbjE4xyN1g4y/ib/MZRUmgVMk4ku1HRqAvvZ56bqnKzzIpdgNbe+1D8yo
-         JfDxZJTzcJiukiu95+nuHmfAJGIASn8i5hdFO2Cy9k7gXwrCwMP4+GqsT/MEmINDev4L
-         l8CmgMw4udNQmu6BeoM2amenPsn5QHXrsXyVaddYZY1/WccXTbWJgoWUF62VFwa5UN9A
-         zpXQJxc5mA0dDt7mUboCmEfwic0lT+qW4jgzI5Vii4u/XGobGJB+whKS1yx7gE5L+7NZ
-         3nT2+gQFUyDaZY+2D4UMqIUAqt16jpe9hbXcvkZKahjmTchqQ75voaBDWt3be8/lbZ9Y
-         4kcQ==
+        bh=Q+asOmW+fp9UlSBQESjY0SCc1U2hSn9YUW587rYwxOM=;
+        b=kwMpXuI2giwudBcOfhFRKgouTO8gNOQoi40LOCk9YV4mgS/gdyH0W6+V2XOO2ZLGx/
+         XgQK0l0DGD7uie6UZH4HhTPzjO1T71swsonB/pom1jfplNvTjtxvjFypgQq0NzOOygbE
+         w5LnsR9lw6rJHXRAtYYU67ArU8oOS4OmJRKLnhGoW96ugLDbZhvGkG9f0d8q1cuxZxJm
+         7LLH3+8W+2j3ce/6cqoNMDhFpv8iVz4xDyfw9A8bQ3m90lDg1GF/kMb9ssAokX3r0DRE
+         iv2gSeZ8ph+BNCTHqQzlZ0MTYljqgn/uzfuZZeV3VYCrblWYsiHzOz5vsdNuDK6wPJaA
+         5L6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112; t=1678442070;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oEUmDiiSY2vXc4Ezu14bEkCe2rERqKhXafQPtxYddtU=;
-        b=jP36eNovop6ly2emMRJfNbti6/qLd3xc1R2z7duM1lZHuxpr/1lPm6PmA+7Q9v8Hlb
-         crwlQj0j7tN2D71+5VemHGgyDbUs2CjgPQqSAmhpZVX9eDVdwkukZhl9CbJpbO23mhdU
-         Iaw/Ooh/KhfA6EXAw5XAshXGWewbHnMK+fWhKvfpPgydcVF/V8CHpKgawqLWGlz8bs2m
-         g8JOBpMLSmNoNi/0SG6oweewBCqWAVikQCZRi390yUrcZOsgcSallFi/8HJbD4U2C7y3
-         BqF+h/0kE9SUbJIULOpwTU9iYgdW0e8LTBjstI8oh7KBlKZVL7H/wg1V9lowWeKJDt5/
-         Rirw==
-X-Gm-Message-State: AO0yUKUQkGAB7xbwsE0va7ypC9mcaTttBkFDKOv0ugPX5m+wQwFrFL4+
-	q7QPNPZvu7Tuo8WUVxeHGASdgnETwG8=
-X-Google-Smtp-Source: AK7set/WTsWhWL6JyUhh55x/rsYarAijbTyZ6u+qyv8cN9Z//BNqIdmgRMaJF1wIP1vFyLEqT7ECFA==
-X-Received: by 2002:a17:907:7b0a:b0:88c:6345:d0e7 with SMTP id mn10-20020a1709077b0a00b0088c6345d0e7mr25297980ejc.36.1678442070103;
+        bh=Q+asOmW+fp9UlSBQESjY0SCc1U2hSn9YUW587rYwxOM=;
+        b=x4oGMKhO3ZCz2XyE0fOkcJcZut3Px5FdNasDxVdUYyMwbc5cjHLlYEzKb4d4fujspc
+         PJGlrdI+2/3/Tk6t+6ns8bsRRr06G+GFOM9xGhBzTMp5TqvtCYzZQb/PLE8bgd26Fo8Q
+         bQWxCC8dT0JLdQr3grPlwNz8wdCdEzc1hkdb/Hq5jwhawwud+H03CU+nt/xa0W57nqH8
+         uhNbGvrnwyuDr0fgk/ZarL1lW8R8Ly53pkINaW2SOM3+92tAOsYYgtKGBjOZj3HXVoA6
+         xoeUurgZ6D1rlJD9eVbJxDQl3YbZQyXei/tmKcD18IE0wQ3L0NY4X7ISR4+i2idnxPmy
+         8ZRQ==
+X-Gm-Message-State: AO0yUKWr4JqN+A7fTtn5PAy4nf8EwEWO6MYoUW8cMR04dDRRKIoTQckl
+	YfHVIo/iu7fxRGy40gZCbozMDtD2etg=
+X-Google-Smtp-Source: AK7set9cUOdGkCzYb4h+M8e/S2FpaisGB070bG9O35qvvlpYTrHiEJoH8yZKyYCY/b1qE4ChcOWw9g==
+X-Received: by 2002:a17:906:ce46:b0:8b1:ce91:a40c with SMTP id se6-20020a170906ce4600b008b1ce91a40cmr21913399ejb.53.1678442070669;
         Fri, 10 Mar 2023 01:54:30 -0800 (PST)
 Received: from localhost.lan (BC244571.dsl.pool.telekom.hu. [188.36.69.113])
-        by smtp.gmail.com with ESMTPSA id kq10-20020a170906abca00b008c405ebc32esm759549ejb.28.2023.03.10.01.54.29
+        by smtp.gmail.com with ESMTPSA id kq10-20020a170906abca00b008c405ebc32esm759549ejb.28.2023.03.10.01.54.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 01:54:29 -0800 (PST)
+        Fri, 10 Mar 2023 01:54:30 -0800 (PST)
 From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-Subject: [PATCH 2/4] python3-scikit-build: New recipe
-Date: Fri, 10 Mar 2023 10:54:17 +0100
-Message-Id: <20230310095419.3487056-3-zboszor@gmail.com>
+Subject: [PATCH 3/4] python3-cmake: New recipe
+Date: Fri, 10 Mar 2023 10:54:18 +0100
+Message-Id: <20230310095419.3487056-4-zboszor@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230310095419.3487056-1-zboszor@gmail.com>
 References: <174B040A85AB843D.27660@lists.openembedded.org>
@@ -63,41 +63,100 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 10 Mar 2023 09:54:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178317
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178318
 
-Used by python3-cmake and python3-ninja.
+Some python modules rely on "import cmake".
+
+Only build and ship the python parts, and don't download and
+build cmake from sources. Use the already built cmake instead.
+
+The CMakeLists.txt file is a crippled copy from this cmake
+python module's sources, removing almost everything, and
+adding a dummy install target, so do_install() doesn't fail.
+
+The python code is patched so cmake is used from PATH.
 
 Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
 ---
- .../python/python3-scikit-build_0.16.7.bb     | 21 +++++++++++++++++++
- 1 file changed, 21 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-scikit-build_0.16.7.bb
+ .../python/python3-cmake/CMakeLists.txt       | 11 +++++++
+ .../python3-cmake/run-cmake-from-path.patch   | 11 +++++++
+ .../python/python3-cmake_3.25.2.bb            | 33 +++++++++++++++++++
+ 3 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-cmake/CMakeLists.txt
+ create mode 100644 meta/recipes-devtools/python/python3-cmake/run-cmake-from-path.patch
+ create mode 100644 meta/recipes-devtools/python/python3-cmake_3.25.2.bb
 
-diff --git a/meta/recipes-devtools/python/python3-scikit-build_0.16.7.bb b/meta/recipes-devtools/python/python3-scikit-build_0.16.7.bb
+diff --git a/meta/recipes-devtools/python/python3-cmake/CMakeLists.txt b/meta/recipes-devtools/python/python3-cmake/CMakeLists.txt
 new file mode 100644
-index 0000000000..c033c56bad
+index 0000000000..8ba81970ff
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-scikit-build_0.16.7.bb
-@@ -0,0 +1,21 @@
-+SUMMARY = "Improved build system generator for Python C/C++/Fortran/Cython extensions"
-+LICENSE = "MIT & BSD-2-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=7c96d2b08b3cec6d3c67fb864d1fd8cc"
++++ b/meta/recipes-devtools/python/python3-cmake/CMakeLists.txt
+@@ -0,0 +1,11 @@
++cmake_minimum_required(VERSION 3.6)
 +
-+DEPENDS = "python3-setuptools-scm-native"
++#
++# For more details, see docs/building.rst
++#
 +
-+PYPI_PACKAGE = "scikit-build"
++project(CMakePythonDistributions NONE)
++
++install(CODE "
++  message(STATUS \"Install CMake project\")
++")
+diff --git a/meta/recipes-devtools/python/python3-cmake/run-cmake-from-path.patch b/meta/recipes-devtools/python/python3-cmake/run-cmake-from-path.patch
+new file mode 100644
+index 0000000000..5c38fadce0
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-cmake/run-cmake-from-path.patch
+@@ -0,0 +1,11 @@
++--- cmake-3.25.2/src/cmake/__init__.py.old	2023-03-10 09:40:43.582315753 +0100
+++++ cmake-3.25.2/src/cmake/__init__.py	2023-03-10 09:41:38.030874047 +0100
++@@ -36,7 +36,7 @@
++ 
++ 
++ def _program(name, args):
++-    return subprocess.call([os.path.join(CMAKE_BIN_DIR, name)] + args, close_fds=False)
+++    return subprocess.call([name] + args, close_fds=False)
++ 
++ 
++ def cmake():
+diff --git a/meta/recipes-devtools/python/python3-cmake_3.25.2.bb b/meta/recipes-devtools/python/python3-cmake_3.25.2.bb
+new file mode 100644
+index 0000000000..e843293d68
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-cmake_3.25.2.bb
+@@ -0,0 +1,33 @@
++SUMMARY = "CMake is an open-source, cross-platform family of tools designed to build, test and package software"
++LICENSE = "BSD-3-Clause & Apache-2.0"
++LIC_FILES_CHKSUM = " \
++	file://LICENSE_BSD_3;md5=9134cb61aebbdd79dd826ccb9ae6afcd \
++	file://LICENSE_Apache_20;md5=19cbd64715b51267a47bf3750cc6a8a5 \
++"
++
++DEPENDS = "ninja-native cmake-native python3-scikit-build-native"
++
++PYPI_PACKAGE = "cmake"
 +
 +inherit pypi python_setuptools_build_meta
-+SRC_URI[sha256sum] = "a9b9cc7479b71e6c8d434596dfade025253aae23adb22a9a2d85850fd51cecfd"
++SRC_URI[sha256sum] = "bcf9f0369743278ec26961542b31ed1610e6f4cfc20c00a3f1c61985abb3b0d2"
 +
-+RDEPENDS:${PN} = " \
-+	python3-distro \
-+	python3-packaging \
-+	python3-setuptools \
-+	python3-typing-extensions \
-+	python3-wheel \
-+	cmake \
++SRC_URI += " \
++	file://CMakeLists.txt \
++	file://run-cmake-from-path.patch \
 +"
++
++addtask do_patchbuild after do_patch before do_configure
++
++do_patchbuild () {
++	rm -f ${S}/CMakeLists.txt
++	cp ${WORKDIR}/CMakeLists.txt ${S}/
++}
++
++do_install:append () {
++	rm -rf ${D}${bindir}
++}
++
++RDEPENDS:${PN} = "cmake"
 +
 +BBCLASSEXTEND = "native nativesdk"
 -- 
