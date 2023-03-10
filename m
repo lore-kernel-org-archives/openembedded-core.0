@@ -1,119 +1,121 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A593AC61DA4
-	for <webhook@archiver.kernel.org>; Thu,  9 Mar 2023 23:15:55 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.6157.1678403747599195986
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83C3BC64EC4
+	for <webhook@archiver.kernel.org>; Fri, 10 Mar 2023 02:37:26 +0000 (UTC)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web10.10136.1678415836603819110
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Mar 2023 15:15:47 -0800
+ Thu, 09 Mar 2023 18:37:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JHlHDhii;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id p16so2291285wmq.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 15:15:47 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=CUqgPJ5E;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.47, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f47.google.com with SMTP id o12so14911539edb.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 18:37:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1678403746;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678415835;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5sDCAO1lJhl0wyDnM6P4vpt1+rFjoru6vAKhe60jBDM=;
-        b=JHlHDhiiDXPea8VH5UzDVTRIw2XOKiKUL9Sbyd2YW5CnZM1oFEB6EG6QqSxjb3J6jK
-         mXSFvnTmsBIZhixpM2Sf37U5ud8xXiR5pachbBRvl/Zgct1YY7syHwL1+6/K4toIdCzU
-         oDWeQaFn1JGIN+TcH2gjoNtXAOkWm6zlu/Kzc=
+        bh=pivYRE606Ojd3eD8L7InsSfKfUj8ry3K89FDEdIkIOo=;
+        b=CUqgPJ5E2lRAK2n+JBkpv/vHEsRZg1hFI3oDlLcg0d9dN+UKitrUkb8CmBG1VuwOpI
+         8uZQbJq61S424W1WTD3aRgzrdSY3Zk1vIbBAoPFDSWNQw2fucM9b40yUXQ77jkZESsBg
+         iQF8BcRFH1Ox9bHjOtyKzrZEGAko3sHftwstR7XSX9mEX2iEIg5EWWlAdjrcuFkoVI2a
+         t4cMR3H2l+r6gaQQ77xjh5uDOTfe93lKQ0Fsxp/umqDpGkCds1vNWoM4guzx72VBqwVC
+         6uJfvTO48Vd/4FMZ+URKUNJskCxNqML57pt01BFTKLQQUjwxorBONbvXgVeK6gHrA84w
+         K+Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678403746;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5sDCAO1lJhl0wyDnM6P4vpt1+rFjoru6vAKhe60jBDM=;
-        b=bG2b2xbZH0y96MvEJ0r0XVD6GzrSD/KLDSPYDq34yhWFdYaySPfMoE2X4vwWslyHgR
-         X4uTFNb4GKBL9yPdiBzw9nJ+h3o7QMWOYG8WYqMvsZpoq7z+qDSAoTQ/aJ0g62S9SSLG
-         HPXcKRU+PGEd/Mu4qFrpF1eq17eGtyv3qcYtXPlOJtk7OgGRXM5IcnsZJrRI1QbQ7jHD
-         Dam00BFS70zRgAHEuF94ODavz2FK/2bXsR7xZ41alHtTLBlT2NoAGA7NKSoI1+uFhioc
-         /b8ChGZxQuFOaWWGaHXlSYJlm7/lURzrNkVNOFhvgKZzUVnYiLdpAFPsaYpy1MIc7fIK
-         nm9w==
-X-Gm-Message-State: AO0yUKUpehRa6P2VNqJEvV2GKQ4HA+C9NrO1f4276pNxolP5WuOWdmUH
-	ZpGjVO8kUXdgTT7mO7alL7wDmA==
-X-Google-Smtp-Source: AK7set8pX6tEgWskjYEC5d2R8cdmbDJ/AmNhBLixhjCqKMUGwmugKCvFe13elveWNWRoyxek+GbVRg==
-X-Received: by 2002:a05:600c:19d3:b0:3eb:3945:d3f9 with SMTP id u19-20020a05600c19d300b003eb3945d3f9mr888722wmq.4.1678403746065;
-        Thu, 09 Mar 2023 15:15:46 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a9dd:6583:8973:50aa? ([2001:8b0:aba:5f3c:a9dd:6583:8973:50aa])
-        by smtp.gmail.com with ESMTPSA id e23-20020a05600c219700b003dd1bd0b915sm1146059wme.22.2023.03.09.15.15.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Mar 2023 15:15:45 -0800 (PST)
-Message-ID: <95c08f0a973b9adee2983ebfa51192f7b40a7806.camel@linuxfoundation.org>
+        d=1e100.net; s=20210112; t=1678415835;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pivYRE606Ojd3eD8L7InsSfKfUj8ry3K89FDEdIkIOo=;
+        b=gTsBrHDtlCodDae4QxgLIEw8BpNFnY17dlD9vEXZbVcvVIdgjgxRTFQgX1nl8ujeIa
+         lDqQwme+8YG8eXSvKLpK8aDDTEEu2f9KhGNV/9/S/V2OuoHWfoP3p85UlzDze9atcEpm
+         h9aBJTpiKXw4y5CVJj9NKFXjvBghzny4PcpjdOdavDhGYNuIcfUfL4evWYdbYDToyM7n
+         QjS57FTAZYgCZ18OaXWft83Y15dxJ6llwWDJbhbgN64NBlWltO4uwx0Kc8b4sf+0IHsN
+         VGUXWN5pfYkTnRzeRGlrmYXOmpHiXyYSgE3ehV35qzzp6GlggjPiqq2jtE0gBB0AdC9I
+         54Zw==
+X-Gm-Message-State: AO0yUKXgVaPb4+/sKmGRwPoFF5baNmoIefC+tEy048tcR6AKRlcQC/Jp
+	uLYUVg/i1bUyat7rat8yqrbsMsPuhRmQC/Y8ikueEw==
+X-Google-Smtp-Source: AK7set8UUkBSSeQ+ZWNnXWG7f2AoLsp4l/oYKuIIOLPo84GY6dig/yO9VbQQmI8eR3+L4q5nbYL8wQLFhVNu0GGpvfU=
+X-Received: by 2002:a50:d08d:0:b0:4bf:5fd5:da3f with SMTP id
+ v13-20020a50d08d000000b004bf5fd5da3fmr13348333edd.3.1678415834845; Thu, 09
+ Mar 2023 18:37:14 -0800 (PST)
+MIME-Version: 1.0
+References: <cover.1678401759.git.steve@sakoman.com> <08cf44a8c2f524edf1ed353bbf38ef31d9e810e1.1678401759.git.steve@sakoman.com>
+ <95c08f0a973b9adee2983ebfa51192f7b40a7806.camel@linuxfoundation.org>
+In-Reply-To: <95c08f0a973b9adee2983ebfa51192f7b40a7806.camel@linuxfoundation.org>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Thu, 9 Mar 2023 16:37:03 -1000
+Message-ID: <CAOSpxdZePZNnkXzkF-1_PwEXBL01NXo-L8Q2w5FnzsszBEzgnA@mail.gmail.com>
 Subject: Re: [OE-core][langdale 25/27] staging: Separate out different
  multiconfig manifests
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Steve Sakoman <steve@sakoman.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 09 Mar 2023 23:15:45 +0000
-In-Reply-To: <08cf44a8c2f524edf1ed353bbf38ef31d9e810e1.1678401759.git.steve@sakoman.com>
-References: <cover.1678401759.git.steve@sakoman.com>
-	 <08cf44a8c2f524edf1ed353bbf38ef31d9e810e1.1678401759.git.steve@sakoman.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3-1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 23:15:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178302
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Mar 2023 02:37:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178303
 
-On Thu, 2023-03-09 at 12:58 -1000, Steve Sakoman wrote:
-> From: Richard Purdie <richard.purdie@linuxfoundation.org>
->=20
-> """
-> require conf/multilib.conf
-> MACHINE =3D "qemuarm64"
-> MULTILIBS =3D "multilib:lib32"
-> DEFAULTTUNE:virtclass-multilib-lib32 =3D "armv7athf-neon"
->=20
-> bitbake gcc-cross-canadian-arm
-> """
->=20
-> and then inspecting the lib32* manifest files under recipe-sysroot-native=
- shows
-> them referencing lib32-recipe-sysroot instead of recipe-sysroot as used b=
-y
-> gcc-cross-canadian recipes.
->=20
-> To fix this separate out the manifest by multilib. It is caching mechanis=
-m to
-> optimise disk usage so this doesn't break anything, just separated out so=
-me files.
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> (cherry picked from commit 891d3faa3ed3d1cc231da58e5fa1325f05d5ade5)
-> Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> ---
->  meta/classes-global/staging.bbclass | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/st=
-aging.bbclass
-> index 5a1f43de78..e6d0d1d55c 100644
-> --- a/meta/classes-global/staging.bbclass
-> +++ b/meta/classes-global/staging.bbclass
-> @@ -275,6 +275,9 @@ python extend_recipe_sysroot() {
->      pn =3D d.getVar("PN")
->      stagingdir =3D d.getVar("STAGING_DIR")
->      sharedmanifests =3D d.getVar("COMPONENTS_DIR") + "/manifests"
-> +    mlprefix =3D d.getVar("MLPREFIX")
-> +    if mlprefix:
-> +        sharedmanifests =3D sharedmanifests + "/" + mlprefix
->      recipesysroot =3D d.getVar("RECIPE_SYSROOT")
->      recipesysrootnative =3D d.getVar("RECIPE_SYSROOT_NATIVE")
-> =20
+On Thu, Mar 9, 2023 at 1:15=E2=80=AFPM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Thu, 2023-03-09 at 12:58 -1000, Steve Sakoman wrote:
+> > From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> >
+> > """
+> > require conf/multilib.conf
+> > MACHINE =3D "qemuarm64"
+> > MULTILIBS =3D "multilib:lib32"
+> > DEFAULTTUNE:virtclass-multilib-lib32 =3D "armv7athf-neon"
+> >
+> > bitbake gcc-cross-canadian-arm
+> > """
+> >
+> > and then inspecting the lib32* manifest files under recipe-sysroot-nati=
+ve shows
+> > them referencing lib32-recipe-sysroot instead of recipe-sysroot as used=
+ by
+> > gcc-cross-canadian recipes.
+> >
+> > To fix this separate out the manifest by multilib. It is caching mechan=
+ism to
+> > optimise disk usage so this doesn't break anything, just separated out =
+some files.
+> >
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> > (cherry picked from commit 891d3faa3ed3d1cc231da58e5fa1325f05d5ade5)
+> > Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> > ---
+> >  meta/classes-global/staging.bbclass | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/=
+staging.bbclass
+> > index 5a1f43de78..e6d0d1d55c 100644
+> > --- a/meta/classes-global/staging.bbclass
+> > +++ b/meta/classes-global/staging.bbclass
+> > @@ -275,6 +275,9 @@ python extend_recipe_sysroot() {
+> >      pn =3D d.getVar("PN")
+> >      stagingdir =3D d.getVar("STAGING_DIR")
+> >      sharedmanifests =3D d.getVar("COMPONENTS_DIR") + "/manifests"
+> > +    mlprefix =3D d.getVar("MLPREFIX")
+> > +    if mlprefix:
+> > +        sharedmanifests =3D sharedmanifests + "/" + mlprefix
+> >      recipesysroot =3D d.getVar("RECIPE_SYSROOT")
+> >      recipesysrootnative =3D d.getVar("RECIPE_SYSROOT_NATIVE")
+> >
+>
+> The "real" fix merged today so this should probably wait to go with
+> that.
 
-The "real" fix merged today so this should probably wait to go with
-that.
+Thanks for reviewing, I'll hold this back for the next patch set.
 
-Cheers,
-
-Richard
+Steve
 
