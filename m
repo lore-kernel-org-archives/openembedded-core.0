@@ -2,110 +2,209 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95866C64EC4
-	for <webhook@archiver.kernel.org>; Fri, 10 Mar 2023 02:41:16 +0000 (UTC)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web10.10221.1678416072152760050
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C8A6C64EC4
+	for <webhook@archiver.kernel.org>; Fri, 10 Mar 2023 02:49:06 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.10357.1678416543864620654
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Mar 2023 18:41:12 -0800
+ Thu, 09 Mar 2023 18:49:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=dXBRbM9i;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.47, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f47.google.com with SMTP id j11so14990103edq.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 18:41:11 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=zcXmEqoX;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id h8so4154754plf.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Mar 2023 18:49:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678416070;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+hJ9dwqf0Tsplp9lmfWeCK1ZVGcE6lmrFwBY9QZZnJA=;
-        b=dXBRbM9iHKOXVImIC3u9nE3aDiRhyhimxrMqcRLD+nvaIHlrrmwCkxMfd4HGOhXeNz
-         4lGJ1tusqnap3whaKtulJtOuO44bdstQdRNFwrm2cWcKVrMP/pnQ7jERFGOvXtCk7ldP
-         YRfAgK0zltqcNpcOGs0ObbQwSnhenIcXfoReIQVqdEa42WAw14f7h8STqSoAF4AFZAds
-         UbgY1+gnxSKofZAAaQnLL8TkKa2nhpYwWXHiQa56TFWqijYdKSnKJqWaOm59lZzN8lDc
-         jt8b60WTa1IHniQyRh3UrGL1oVELFfTyhbTSeELQf2SeCiRgFs7YxMehS9iiJ9alnf0Z
-         TymA==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678416543;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tLM9pfL8907XgFENcIfEozdfD5kMNT2/Jt4ezHtInGM=;
+        b=zcXmEqoXGIFvzRpnN57HlYuZtdOBNEPcLmIQlweOCGtmMMfJOxSv0t3vO7byYU5sGl
+         f3tWTrd8ECB7lwN4UNXJG3btYWZbpIEJl/escboEYeOMo24GUzu+E9pnoz4rKzzQwn3j
+         yxbmOiGNbOUECAHVhwyJ1ipFHZXFg4LzTD62YRl8VvjJrRBMZltJxe9eBEwoN8+S1hyL
+         0+Cb04HcY5C2XiAZ4pAbzO0QxspWpW8ofm3cxfC9H16z/px+WCLTtboBOvszIsA6gdje
+         ie4qNpMMbfIBTYzVLAmJPQGNH1TFguEvpk5dIKKLOruIKDjr2TpX8Wjy0WE8tV2MDOw5
+         C7dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678416070;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+hJ9dwqf0Tsplp9lmfWeCK1ZVGcE6lmrFwBY9QZZnJA=;
-        b=SqHv7t+eBrFUvSScjoxqJHzqyKCsHpsMoR0q85a+KnvjNhN+RzPDSzzOZKljE8d9F6
-         XPyO9WOnziIalljiLaCkJ6tekpQReHsYJD1O91iRPdRGt+Q4szTqmdmuHECjjN1M1fzT
-         QSXOMX5HlyHi9cs6SYBC00ecAAWYgMZ8WvXMCvk3UzmCrv5jStCTi2pePpZeaiQnmfSA
-         pTf5LrG/nSilMoO7J3Us24b3yv/cxQ9UgN40lmmHHJX7EQUj7ZpY9hfSUkaFkpkCauJH
-         LMdXJxCCOlUdpI03dKB6hF+FtrrRtPulukkN6naJkYccLi/Y3nZ+Y5c0HSpPBEMHkO9D
-         WsDA==
-X-Gm-Message-State: AO0yUKVOpjVi0BHwqbP4JmUHqhjKMXDNouz9OizmjXC/D9TTC2t5+3t8
-	Kjpip79oXy4v7HJgrLAhbMs+VXQPipdpBNRP0JPoZA==
-X-Google-Smtp-Source: AK7set8iDVkEyaN02sa1PhsXd5F19U5jMeKEoSW8N/T4nS3tXrMFAbTBsFNzkpkSzL54hPuV+wiWA5is2/vsf9WlaOo=
-X-Received: by 2002:a17:907:7b92:b0:8b1:3540:7632 with SMTP id
- ne18-20020a1709077b9200b008b135407632mr333365ejc.2.1678416070512; Thu, 09 Mar
- 2023 18:41:10 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1678401759.git.steve@sakoman.com> <aa256e62df4f31de1c2c1ce7d0a6ab8bdba4a032.1678401759.git.steve@sakoman.com>
- <00f4dde74caeef7ecd1b26bf5f9a76c4f21dece7.camel@linuxfoundation.org>
-In-Reply-To: <00f4dde74caeef7ecd1b26bf5f9a76c4f21dece7.camel@linuxfoundation.org>
+        d=1e100.net; s=20210112; t=1678416543;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tLM9pfL8907XgFENcIfEozdfD5kMNT2/Jt4ezHtInGM=;
+        b=OywRch8xsmEv92ZahG2ocP5FVNI91r8WaaxWpUftvftdcskYgDZqYTh31zDIJu4yiq
+         tsQwNzuCs5kaeDuJn2Po1MgGeJb403Dmf/TZGmapV2kHR3pA2QsBSXRq6I3K655nDbgP
+         dQfaKKXCDobj2KrDgXJ4mhycauGEO+Qu2WquiI2JX9hwpwAh9jO168vPK8QB2gT09qmz
+         7w2mZjHqgf7mCPcJdfXOUmMhrDOyAHURiFCIip574eA5FpQGLK5N0yIuaBVmCUcEiquK
+         pYiCsmfis13CKuoc5hsgsvZBt5/0RpbN3kqYHFk5r1FSsPbvBnpdWn1MC6miPLI2EzQE
+         OFRw==
+X-Gm-Message-State: AO0yUKXfqXOM2nznr5o9PV4yXqHZC6VrklVR5mZzEXQzSTcAICcF406Y
+	bLet9fib5L1bjECqkhzMll4fXVHFlOyQ6QkldkE=
+X-Google-Smtp-Source: AK7set96dcdJuVW14j5W3JFmroXQ8+mmCKameMk1+q/ug2kI0DDDPbf7i2JG0nYjRyWtkLryv4mJUw==
+X-Received: by 2002:a05:6a20:431e:b0:cc:9b29:f617 with SMTP id h30-20020a056a20431e00b000cc9b29f617mr25105738pzk.0.1678416542663;
+        Thu, 09 Mar 2023 18:49:02 -0800 (PST)
+Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
+        by smtp.gmail.com with ESMTPSA id n20-20020aa79054000000b0058b927b9653sm268936pfo.92.2023.03.09.18.49.01
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Mar 2023 18:49:02 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
-Date: Thu, 9 Mar 2023 16:40:59 -1000
-Message-ID: <CAOSpxdaxiWH6kLwYPzo8B7+zSdEdAq19zHo=MGvQt8aWccB4ag@mail.gmail.com>
-Subject: Re: [OE-core][langdale 13/27] devtool: ignore patch-fuzz errors when
- extracting source
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/23] Pull request (cover letter only)
+Date: Thu,  9 Mar 2023 16:48:55 -1000
+Message-Id: <cover.1678416279.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Mar 2023 02:41:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178304
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Mar 2023 02:49:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178305
 
-On Thu, Mar 9, 2023 at 1:15=E2=80=AFPM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Thu, 2023-03-09 at 12:57 -1000, Steve Sakoman wrote:
-> > From: Alexander Kanavin <alex.kanavin@gmail.com>
-> >
-> > So that patch fuzz issues can actually be fixed,
-> > as extracting source with 'devtool modify' is the first step
-> > for that.
-> >
-> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> > Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > (cherry picked from commit 7067abd31d9dd4b98ec70c1c7effbe2904797cd1)
-> > Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> > ---
-> >  scripts/lib/devtool/standard.py | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/stan=
-dard.py
-> > index d64e18e179..0339d12763 100644
-> > --- a/scripts/lib/devtool/standard.py
-> > +++ b/scripts/lib/devtool/standard.py
-> > @@ -567,6 +567,7 @@ def _extract_source(srctree, keep_temp, devbranch, =
-sync, config, basepath, works
-> >          logger.debug('writing append file %s' % appendfile)
-> >          with open(appendfile, 'a') as f:
-> >              f.write('###--- _extract_source\n')
-> > +            f.write('ERROR_QA:remove =3D "patch-fuzz"\n')
-> >              f.write('DEVTOOL_TEMPDIR =3D "%s"\n' % tempdir)
-> >              f.write('DEVTOOL_DEVBRANCH =3D "%s"\n' % devbranch)
-> >              if not is_kernel_yocto:
->
-> Whilst this is harmless, I'm not sure langdale has the patch-fuzz QA
-> test enabled as an error?
+The following changes since commit a3f31997c633e8476bad68c81fac0dcd0750c7d4:
 
-Sigh, yes I meant to check this and forgot :-(
+  busybox: rm temporary files if do_compile was interrupted (2023-02-20 05:51:44 -1000)
 
-I didn't take https://git.openembedded.org/openembedded-core/commit/?id=3D7=
-6a685bfcf927593eac67157762a53259089ea8a,
-so no need for this patch.
+are available in the Git repository at:
 
-Thanks for reviewing!
+  https://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
 
-Steve
+Alexander Kanavin (6):
+  vim: update 9.0.1211 -> 9.0.1293 to resolve open CVEs
+  linux-firmware: upgrade 20221214 -> 20230117
+  linux-firmware: upgrade 20230117 -> 20230210
+  wireless-regdb: upgrade 2022.08.12 -> 2023.02.13
+  apr: update 1.7.0 -> 1.7.2
+  apr-util: update 1.6.1 -> 1.6.3
+
+Chee Yang Lee (1):
+  tiff: fix multiple CVEs
+
+Dmitry Baryshkov (2):
+  linux-firmware: properly set license for all Qualcomm firmware
+  linux-firmware: add yamato fw files to qcom-adreno-a2xx package
+
+Hitendra Prajapati (1):
+  curl: fix CVE-2022-43552 Use-after-free triggered by an HTTP proxy
+    deny response
+
+Hugo SIMELIERE (2):
+  bluez5: Exclude CVE-2022-39177 from cve-check
+  openssl: upgrade 1.1.1s to 1.1.1t
+
+Khem Raj (2):
+  apr: Use correct strerror_r implementation based on libc type
+  apr: Cache configure tests which use AC_TRY_RUN
+
+Mauro Queiros (1):
+  image.bbclass: print all QA functions exceptions
+
+Peter Kjellerstedt (1):
+  devshell: Do not add scripts/git-intercept to PATH
+
+Richard Purdie (2):
+  apr: Fix to work with autoconf 2.70
+  apr-util: Fix CFLAGS used in build
+
+Rodolfo Quesada Zumbado (1):
+  tar: CVE-2022-48303
+
+Shubham Kulkarni (1):
+  glibc: Security fix for CVE-2023-0687
+
+Ulrich Ölmann (1):
+  kernel-yocto: fix kernel-meta data detection
+
+Vijay Anusuri (1):
+  git: Security fix for CVE-2022-41903
+
+Virendra Thakur (1):
+  gcc: Fix inconsistent noexcept specifier for valarray in libstdc++
+
+ meta/classes/devshell.bbclass                 |   2 -
+ meta/classes/image.bbclass                    |   2 +-
+ meta/classes/kernel-yocto.bbclass             |   2 +-
+ meta/lib/oeqa/selftest/cases/reproducible.py  |   1 -
+ .../bluez5/bluez5_5.55.bb                     |   7 +
+ .../{openssl_1.1.1s.bb => openssl_1.1.1t.bb}  |   2 +-
+ .../glibc/glibc/CVE-2023-0687.patch           |  82 +++
+ meta/recipes-core/glibc/glibc_2.31.bb         |   1 +
+ meta/recipes-devtools/gcc/gcc-9.5.inc         |   1 +
+ ...nsistent-noexcept-specific-for-valar.patch |  44 ++
+ .../git/files/CVE-2022-41903-01.patch         |  39 ++
+ .../git/files/CVE-2022-41903-02.patch         | 187 +++++
+ .../git/files/CVE-2022-41903-03.patch         | 146 ++++
+ .../git/files/CVE-2022-41903-04.patch         | 150 ++++
+ .../git/files/CVE-2022-41903-05.patch         |  98 +++
+ .../git/files/CVE-2022-41903-06.patch         |  90 +++
+ .../git/files/CVE-2022-41903-07.patch         | 123 ++++
+ .../git/files/CVE-2022-41903-08.patch         |  67 ++
+ .../git/files/CVE-2022-41903-09.patch         | 162 +++++
+ .../git/files/CVE-2022-41903-10.patch         |  99 +++
+ .../git/files/CVE-2022-41903-11.patch         |  90 +++
+ .../git/files/CVE-2022-41903-12.patch         | 124 ++++
+ meta/recipes-devtools/git/git.inc             |  12 +
+ .../tar/tar/CVE-2022-48303.patch              |  43 ++
+ meta/recipes-extended/tar/tar_1.32.bb         |   1 +
+ ...20221214.bb => linux-firmware_20230210.bb} |  42 +-
+ ....08.12.bb => wireless-regdb_2023.02.13.bb} |   2 +-
+ .../libtiff/files/CVE-2022-3570_3598.patch    | 659 ++++++++++++++++++
+ .../files/CVE-2022-3597_3626_3627.patch       | 123 ++++
+ .../libtiff/files/CVE-2022-3599.patch         | 277 ++++++++
+ .../libtiff/files/CVE-2022-3970.patch         |  45 ++
+ .../libtiff/files/CVE-2022-48281.patch        |  26 +
+ .../CVE-2023-0795_0796_0797_0798_0799.patch   | 157 +++++
+ .../CVE-2023-0800_0801_0802_0803_0804.patch   | 135 ++++
+ meta/recipes-multimedia/libtiff/tiff_4.1.0.bb |   7 +
+ .../0001-Fix-error-handling-in-gdbm.patch     | 135 ----
+ .../{apr-util_1.6.1.bb => apr-util_1.6.3.bb}  |   8 +-
+ ...ion-to-disable-timed-dependant-tests.patch |  20 +-
+ ...-runtime-test-for-mmap-that-can-map-.patch |  58 ++
+ ...ir-path-references-from-installed-ap.patch |  25 +-
+ ...configure.in-support-cross-compiling.patch |  63 --
+ ...ze-doesn-t-match-in-glibc-when-cross.patch |  76 --
+ .../apr/apr/CVE-2021-35940.patch              |  58 --
+ .../apr/apr/libtoolize_check.patch            |  21 +-
+ .../apr/{apr_1.7.0.bb => apr_1.7.2.bb}        |  24 +-
+ .../curl/curl/CVE-2022-43552.patch            |  82 +++
+ meta/recipes-support/curl/curl_7.69.1.bb      |   1 +
+ meta/recipes-support/vim/vim.inc              |   4 +-
+ 48 files changed, 3238 insertions(+), 385 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl_1.1.1s.bb => openssl_1.1.1t.bb} (98%)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2023-0687.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-9.5/0002-libstdc-Fix-inconsistent-noexcept-specific-for-valar.patch
+ create mode 100644 meta/recipes-devtools/git/files/CVE-2022-41903-01.patch
+ create mode 100644 meta/recipes-devtools/git/files/CVE-2022-41903-02.patch
+ create mode 100644 meta/recipes-devtools/git/files/CVE-2022-41903-03.patch
+ create mode 100644 meta/recipes-devtools/git/files/CVE-2022-41903-04.patch
+ create mode 100644 meta/recipes-devtools/git/files/CVE-2022-41903-05.patch
+ create mode 100644 meta/recipes-devtools/git/files/CVE-2022-41903-06.patch
+ create mode 100644 meta/recipes-devtools/git/files/CVE-2022-41903-07.patch
+ create mode 100644 meta/recipes-devtools/git/files/CVE-2022-41903-08.patch
+ create mode 100644 meta/recipes-devtools/git/files/CVE-2022-41903-09.patch
+ create mode 100644 meta/recipes-devtools/git/files/CVE-2022-41903-10.patch
+ create mode 100644 meta/recipes-devtools/git/files/CVE-2022-41903-11.patch
+ create mode 100644 meta/recipes-devtools/git/files/CVE-2022-41903-12.patch
+ create mode 100644 meta/recipes-extended/tar/tar/CVE-2022-48303.patch
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20221214.bb => linux-firmware_20230210.bb} (96%)
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2022.08.12.bb => wireless-regdb_2023.02.13.bb} (94%)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-3570_3598.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-3597_3626_3627.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-3599.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-3970.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-48281.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-0795_0796_0797_0798_0799.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-0800_0801_0802_0803_0804.patch
+ delete mode 100644 meta/recipes-support/apr/apr-util/0001-Fix-error-handling-in-gdbm.patch
+ rename meta/recipes-support/apr/{apr-util_1.6.1.bb => apr-util_1.6.3.bb} (92%)
+ create mode 100644 meta/recipes-support/apr/apr/0001-configure-Remove-runtime-test-for-mmap-that-can-map-.patch
+ delete mode 100644 meta/recipes-support/apr/apr/0003-Makefile.in-configure.in-support-cross-compiling.patch
+ delete mode 100644 meta/recipes-support/apr/apr/0006-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch
+ delete mode 100644 meta/recipes-support/apr/apr/CVE-2021-35940.patch
+ rename meta/recipes-support/apr/{apr_1.7.0.bb => apr_1.7.2.bb} (80%)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-43552.patch
+
+-- 
+2.34.1
+
 
