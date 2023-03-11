@@ -1,130 +1,106 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EADCC6FD1F
-	for <webhook@archiver.kernel.org>; Sat, 11 Mar 2023 00:27:42 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web11.35738.1678494454290777969
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 272F5C6FD19
+	for <webhook@archiver.kernel.org>; Sat, 11 Mar 2023 01:40:53 +0000 (UTC)
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+ by mx.groups.io with SMTP id smtpd.web11.37048.1678498850232722704
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Mar 2023 16:27:34 -0800
+ Fri, 10 Mar 2023 17:40:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Dla6kWMG;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id h14so6569122wru.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Mar 2023 16:27:34 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=UpcF0Lej;
+ spf=pass (domain: gmail.com, ip: 209.85.160.49, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-17683b570b8so7847854fac.13
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Mar 2023 17:40:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1678494452;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xGIzl3DcMalCsHueiCIylw9PwsDLBPltXrN91ITHheg=;
-        b=Dla6kWMGek522OOGraQTwEdxgP+dAVWrE/eUDmgvnkiAthHJ5lJFQ3UD5YXoyqK5YL
-         jzlVdglPEXm99P0LYaV00YoK7lGDROFcO022FcMhBm2Hj/e5GdoZN0Kr9fWxS8vDlizY
-         7QDm2ysSI7LF2Yg2E1PMpDtVCCDhOpYo/NiOw=
+        d=gmail.com; s=20210112; t=1678498849;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yfnPNNfTHCqR0wsa96D3iv2JwCgXRwP0owTxJ59+Snc=;
+        b=UpcF0Lej/bR6Tzzn5HvuYMQe7Eican0GXWwEyVQ+FscEh1wcwoT/OjUqy/LQJe253W
+         IkQ96mk2JeUSv68xItAnAuVE5hiWASILti/vZwxZr6vt8bVSf7h9ibn0w6Ye9cxz7K2L
+         BIqceSke7W+aDcik2Li93Rcew6Hy3NdSoa++aRrTFyKgn9gmoRgxN4adi6+vOENvZzYF
+         IHwGwNbuROiA2D3ZrlV/9MQKLYB7UrOPhoQIxe9lX/r9TkhoJsxC5hrICyLAqidfkB8F
+         kOiZE9e64DtXyxgEkye7y+vTc+/PDOV9yVIDoDWEtiSC21s3Wg5JgKXGO2bC7oeKfRzX
+         kReg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678494452;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20210112; t=1678498849;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xGIzl3DcMalCsHueiCIylw9PwsDLBPltXrN91ITHheg=;
-        b=nr6mTjyl7yCIScFcCDEjd7zCf2nswHSUZLWZBk5ISUv2gg1aAX0SEJ4LYA9C7tSnem
-         BfJ6Q914AzG/PfPy19f8SUPYo7s6+rcvRRBcvExbSLIgsLJXsWdYUK3aHwRw1bt5URm8
-         1RHGYAMRvpxGPdqzBA8YYvZasuJ/dmmfkt5t216lDgj3mKB0vupYf1R9QuGDGuQy1oeQ
-         TREMM7TuEK/2jCxviaEW923ijqenJow0E69+5stVKAAed/oSCgJ0LyZhbG68NsBfyhmj
-         i9BWEFEDZj7HAZdkDJf6akGJKVDzx755ujR8AwRi5spn0JsnKE872N80fr0gKzMLjdG1
-         6s1g==
-X-Gm-Message-State: AO0yUKVdhIKqFIteQg61L3Z+0jumCdfyfCni70u8L+/jhMFp5QeNIXbU
-	kFgrFlzSPGFGyfPQxdkjjJG3K3WTUsfqQZ9HEUs=
-X-Google-Smtp-Source: AK7set8BpaZdYtIuUGVCP7FVtGKvqsBbLXtqEz9/s5sgZvJmTT/eWnRpb2Y2aKoWldt6CIHrEVT7TA==
-X-Received: by 2002:adf:fd89:0:b0:2c7:ce2:6479 with SMTP id d9-20020adffd89000000b002c70ce26479mr18008346wrr.40.1678494452605;
-        Fri, 10 Mar 2023 16:27:32 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:9dd5:bdbf:ef9d:c118])
-        by smtp.gmail.com with ESMTPSA id n15-20020a5d400f000000b002cea299a575sm291736wrp.101.2023.03.10.16.27.32
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 16:27:32 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 15/16] lttng-tools: Improve ptest debugging and fix dependencies
-Date: Sat, 11 Mar 2023 00:27:21 +0000
-Message-Id: <20230311002722.3211118-15-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230311002722.3211118-1-richard.purdie@linuxfoundation.org>
-References: <20230311002722.3211118-1-richard.purdie@linuxfoundation.org>
+        bh=yfnPNNfTHCqR0wsa96D3iv2JwCgXRwP0owTxJ59+Snc=;
+        b=urXLYj0Igl8ChkZcQQpZ5zA3E1cuxeoQyrKs5pw7ECZAXiCke9+WP5JPQUggWyKKX3
+         SfAuiWr25ihPMPLW8G99agRMMMPNVp9PyV9QwAVUcNQcmZdyoHIroJoFrPdSvsAJWXLE
+         yGHFjpr0Xf3iruI5P+m1nF++k9zWkrj/zyf0UWuERkeYU9c7cviuaZm5cN+7DpYN/mgW
+         4NMQ9EdxJFKe1cz84w6cblDMFo2Kxl++1Z1jer3aOlUZ+W3WmJ6lK3ZjMZYnv3uzEjLj
+         /SH/e8Mnh8aheKfhB+khYKBmTQnyisK3H0ttPcNrqhRMrfPxil1qoG2CKViikb765P3f
+         Rk4w==
+X-Gm-Message-State: AO0yUKWtsQ/IQVphI30qKmmMqz/+RCYheVdI0cp+B8AB1MoIdpKikxji
+	Fjsq/SMDRIjY7ULtvOYM0VB7seycwl0+zU2isks=
+X-Google-Smtp-Source: AK7set847Ha92ujtoTanTU1qTju9gcDTqwe24DFhi8yl3ffvlyM+59lVjfEgLd7GvXzYYxLHDsTTyepK+avr3xIgpjQ=
+X-Received: by 2002:a05:6870:7735:b0:16e:8dc0:3861 with SMTP id
+ dw53-20020a056870773500b0016e8dc03861mr9212399oab.2.1678498849416; Fri, 10
+ Mar 2023 17:40:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230311002722.3211118-1-richard.purdie@linuxfoundation.org> <20230311002722.3211118-10-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20230311002722.3211118-10-richard.purdie@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 10 Mar 2023 17:40:23 -0800
+Message-ID: <CAMKF1spi4ZPAS2uqmvRezKPm9mi6TQfeRefoWn4MFH0==EKdqA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 10/16] gawk: Fix ptest dependency
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 11 Mar 2023 00:27:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178359
+ <openembedded-core@lists.openembedded.org>; Sat, 11 Mar 2023 01:40:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178361
 
-Improve the ptest runner script:
+On Fri, Mar 10, 2023 at 4:27=E2=80=AFPM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> The gawk ptests need some locale information, add the missing dependency
+> so tests work in minimal images.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/recipes-extended/gawk/gawk_5.2.1.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-extended/gawk/gawk_5.2.1.bb b/meta/recipes-exte=
+nded/gawk/gawk_5.2.1.bb
+> index fbe6e7040b0..d13110ddbec 100644
+> --- a/meta/recipes-extended/gawk/gawk_5.2.1.bb
+> +++ b/meta/recipes-extended/gawk/gawk_5.2.1.bb
+> @@ -62,7 +62,7 @@ do_install_ptest() {
+>         rm -f ${D}${PTEST_PATH}/test/timeout.*
+>  }
+>
+> -RDEPENDS:${PN}-ptest +=3D "make"
+> +RDEPENDS:${PN}-ptest +=3D "make locale-base-en-us"
+>
 
-* log output is available should any test fail to aid debugging
-* document how to limit the runner to a single test
-* stop hiding errors to stderr
-* allow easier single test execution by avoiding path issues with PWD
+I think it should be added below so it does not break musl builds.
 
-Also depend upon binutils since one of the tests uses addr2line.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../lttng/lttng-tools/run-ptest               | 19 ++++++++++++++++---
- .../lttng/lttng-tools_2.13.9.bb               |  4 ++--
- 2 files changed, 18 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/run-ptest b/meta/recipes-kernel/lttng/lttng-tools/run-ptest
-index c4dbe50f21b..bf99322ef21 100755
---- a/meta/recipes-kernel/lttng/lttng-tools/run-ptest
-+++ b/meta/recipes-kernel/lttng/lttng-tools/run-ptest
-@@ -2,6 +2,19 @@
- # Without --ignore-exit, the tap harness causes any FAILs within a
- # test plan to raise ERRORs; this is just noise.
- export LD_LIBRARY_PATH=FIXMEPTESTPATH/tests/utils/testapp/userspace-probe-elf-binary/.libs
--makeargs="LOG_DRIVER_FLAGS=--ignore-exit top_srcdir=$PWD top_builddir=$PWD"
--make -k -t all >/dev/null 2>&1
--exec make -k -s $makeargs check 2>/dev/null | sed -e 's#/tmp/tmp\...........#/tmp/tmp.XXXXXXXXXX#g'
-+makeargs="LOG_DRIVER_FLAGS=--ignore-exit top_srcdir=FIXMEPTESTPATH top_builddir=FIXMEPTESTPATH"
-+make -k -t all >error.log 2>&1
-+# Can specify a test e.g.:
-+# -C tests/regression/ check TESTS='kernel/test_callstack'
-+make -k -s $makeargs check 2>error.log | sed -e 's#/tmp/tmp\...........#/tmp/tmp.XXXXXXXXXX#g'
-+exitcode=$?
-+if [ -e error.log ]; then
-+    cat error.log
-+fi
-+if [ -e tests/unit/test-suite.log ]; then
-+    cat tests/unit/test-suite.log
-+fi
-+if [ -e tests/regression/test-suite.log ]; then
-+    cat tests/regression/test-suite.log
-+fi
-+exit $exitcode
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.13.9.bb b/meta/recipes-kernel/lttng/lttng-tools_2.13.9.bb
-index 340b254b46a..58c0378d66f 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.13.9.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.13.9.bb
-@@ -15,7 +15,7 @@ include lttng-platforms.inc
- DEPENDS = "liburcu popt libxml2 util-linux bison-native"
- RDEPENDS:${PN} = "libgcc"
- RRECOMMENDS:${PN} += "${LTTNGMODULES}"
--RDEPENDS:${PN}-ptest += "make perl bash gawk babeltrace procps perl-module-overloading coreutils util-linux kmod ${LTTNGMODULES} sed python3-core grep"
-+RDEPENDS:${PN}-ptest += "make perl bash gawk babeltrace procps perl-module-overloading coreutils util-linux kmod ${LTTNGMODULES} sed python3-core grep binutils"
- RDEPENDS:${PN}-ptest:append:libc-glibc = " glibc-utils"
- RDEPENDS:${PN}-ptest:append:libc-musl = " musl-utils"
- # babelstats.pl wants getopt-long
-@@ -84,7 +84,7 @@ do_install_ptest () {
-     done
- 
-     # Patch in the correct path for the custom libraries a helper executable needs
--    sed -i -e 's!FIXMEPTESTPATH!${PTEST_PATH}!' "${D}${PTEST_PATH}/run-ptest"
-+    sed -i -e 's!FIXMEPTESTPATH!${PTEST_PATH}!g' "${D}${PTEST_PATH}/run-ptest"
- 
-     # Prevent 'make check' from recursing into non-test subdirectories.
-     sed -i -e 's!^SUBDIRS = .*!SUBDIRS = tests!' "${D}${PTEST_PATH}/Makefile"
--- 
-2.38.1
-
+>  RDEPENDS:${PN}-ptest:append:libc-glibc =3D " locale-base-en-us.iso-8859-=
+1"
+>
+> --
+> 2.38.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#178353): https://lists.openembedded.org/g/openembedde=
+d-core/message/178353
+> Mute This Topic: https://lists.openembedded.org/mt/97533194/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
