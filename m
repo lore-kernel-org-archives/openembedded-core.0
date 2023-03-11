@@ -1,114 +1,99 @@
-Return-Path: <sudipm.mukherjee@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45340C61DA4
-	for <webhook@archiver.kernel.org>; Sat, 11 Mar 2023 13:04:36 +0000 (UTC)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.web11.44109.1678539872359946420
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E94C5C6FD1F
+	for <webhook@archiver.kernel.org>; Sat, 11 Mar 2023 22:42:08 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.55880.1678574518845948704
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Mar 2023 05:04:32 -0800
+ Sat, 11 Mar 2023 14:41:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=EUgwJXqH;
- spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: sudipm.mukherjee@gmail.com)
-Received: by mail-ed1-f48.google.com with SMTP id i34so31308459eda.7
-        for <openembedded-core@lists.openembedded.org>; Sat, 11 Mar 2023 05:04:32 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XM6orsQy;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id k37so5647961wms.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 11 Mar 2023 14:41:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678539871;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VwhN9FyghheBnuoGN/PQM5bSJWGSKvFrfdcg8sE07jI=;
-        b=EUgwJXqH4M1UycYOCP+lXfS4nsuHwQgxdK/XWEs2MJ1ogWOr9b1YVw7cDUjy9i4ISQ
-         Kbk1Cpvi2dRhMtOp37nVOmpwXEXHgDj5qU4bZsgUjdIZbHUAf0IHHuWMIBY2RbJkHGF0
-         /8FoSXG7PfCFCUJti0IZ6HjeSre936wmYukBvqR+Dp+L06S+CbYJQIom7qPlCUkohRBQ
-         XxArJUJP0Un9IEB/ExxDdZCLylKR4G7e6E8p6pQunjs1nncukeNu5UfWMjVg+PcebzI1
-         3xRr+p/ZYl7VxkTLbvS8s0g0aXjd+3jLAKRRkec7ef803Prc+nskpvLhulX74A7CvdLZ
-         aNeQ==
+        d=linuxfoundation.org; s=google; t=1678574517;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2369VZMDrvBnBL6t9IGaDf+P9eG6i34JBpMP1RcGehw=;
+        b=XM6orsQy3FcQ4O+gETb9wSxvuay4oEN3+ZB/zmNdKpi4meY3wEP5RST1O3mB+j2nuz
+         QXVWYTKgw9Ok5cCkgtso/5BWWzFWWCGiSwmzEmMSbzZaQ2iQg1HwzPMpSFCYjzn926o/
+         dEMmpIT6E6qOYiZoZJbykFxm6jilAx/VKfpxU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678539871;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20210112; t=1678574517;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VwhN9FyghheBnuoGN/PQM5bSJWGSKvFrfdcg8sE07jI=;
-        b=CztYbxEPNZXPF2QckhHjs97lRsafCgtm1wWxYKhprr0GlgjdsfPTKTXrXrJ5FJO8/K
-         rt3UwVtnIxjqkOZi4qrgGiVW0XcRisPdh+OtMIQvqF/Qjsvc+UmXma/c31Y9+eFv0iqk
-         6wS6IZLRYKKtUr/qCWIuzphTs9nLXy1Ms1T1ARAv5/gQgNKmrpFsSH8t4FPPZST6C1Kk
-         kTrYXepKkxEFPbQ01Lr7Ti+YI311K2yFS1ithon926UjQ+Y8OOXn0XhxcvbLUiPfP8E/
-         3zjaLi+maMZ0FxBEvpkWDq8a3+6UOO43QdmRlxTy4Qo5tNHvIAugXo9HZH93lHmrhfVO
-         4kFQ==
-X-Gm-Message-State: AO0yUKX56mnnStFajvTvke1J414lo5TiLEpi8e0VR5vOhCND6jd810Up
-	/5Jp+qqlpVRxRR4tlDLpfsXicRbfLgaY3a4MzTA=
-X-Google-Smtp-Source: AK7set9FbW6eemRmlBD6KMlXX72EeUy41v9XLLZNXFr4SzTy1aQijKTPrO111AV4YMkX2JyfyF5b4V6CnZILHVdZ0NA=
-X-Received: by 2002:a17:906:1850:b0:8b1:780d:e43d with SMTP id
- w16-20020a170906185000b008b1780de43dmr15043473eje.13.1678539870633; Sat, 11
- Mar 2023 05:04:30 -0800 (PST)
+        bh=2369VZMDrvBnBL6t9IGaDf+P9eG6i34JBpMP1RcGehw=;
+        b=IGxmiGqxNmKAEbjjxC03UFxiraU3T70jpRlI6cYWBNzLFZqC2ylvC964jnbSOpTYxM
+         zNcnhRrZrxoZYu69BySpQ/1gNGQkJH/AXCusIjD3SoGs/exNyG2ZGUs2zXgQzGauTo5t
+         KEE7kFf5RNwOBG1r2XjiMNUtNOThqEdPE4TCtW4VJ6k5wpxZm9c+csr0QonEIqnim4JZ
+         uPcaZ6B1iZv/f2BSkGt26pFgC/pFg+qqaFqZWUOvV6e2U6PHAZFIbRr2RDq/HegaBu7X
+         0xPQon5qpI78AfKlPs1wFYu2lukgxf1xB7XP1MgXPFB6oxjnublg3cXgtM/3VK6ICpIs
+         325w==
+X-Gm-Message-State: AO0yUKU4hwmghF7jyZJKeG26HFVBJmUMiJKxXdWWuqAOSySGXqbF9LL2
+	8C3QVcF6+4+SNea8pLqCOXWsdkuj/yL0BpdLFgg=
+X-Google-Smtp-Source: AK7set9P0fP+a7ZqxxNppUCBG1IszjQENoYR9WSQeoOjft34B+hrY0uAg9CGf0n52E744RXS1Udq0Q==
+X-Received: by 2002:a05:600c:1d84:b0:3eb:2de8:b72a with SMTP id p4-20020a05600c1d8400b003eb2de8b72amr6674407wms.7.1678574517148;
+        Sat, 11 Mar 2023 14:41:57 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:9dd5:bdbf:ef9d:c118])
+        by smtp.gmail.com with ESMTPSA id z9-20020a05600c114900b003dc5b59ed7asm3933164wmz.11.2023.03.11.14.41.56
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Mar 2023 14:41:56 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/8] glibc-tests: Add missing bash ptest dependency
+Date: Sat, 11 Mar 2023 22:41:49 +0000
+Message-Id: <20230311224155.3442306-2-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230311224155.3442306-1-richard.purdie@linuxfoundation.org>
+References: <20230311224155.3442306-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-References: <20230302214744.1041422-1-sudipm.mukherjee@gmail.com> <A0A3131E-FCC9-4C84-A077-715368907A25@arm.com>
-In-Reply-To: <A0A3131E-FCC9-4C84-A077-715368907A25@arm.com>
-From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Date: Sat, 11 Mar 2023 13:03:54 +0000
-Message-ID: <CADVatmP+cSP4UzrdiqD67VGZoJ5FT3dqhzf-iJj5Px7hY=nazA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] libgit2: update license information
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 11 Mar 2023 13:04:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178366
+ <openembedded-core@lists.openembedded.org>; Sat, 11 Mar 2023 22:42:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178368
 
-Hi Ross,
+The script has a bashism and needs bash to execute correctly. Mark it
+as such and add the missing bash dependency so it executes in minimal
+images.
 
-On Wed, 8 Mar 2023 at 13:35, Ross Burton <Ross.Burton@arm.com> wrote:
->
-> On 2 Mar 2023, at 21:47, Sudip Mukherjee via lists.openembedded.org <sudi=
-pm.mukherjee=3Dgmail.com@lists.openembedded.org> wrote:
-> >
-> > The LICENSE did not have complete information.
-> > Some examples of missing license:
-> >
-> > Zlib: deps/zlib/
-> > ISC: tests/clar/clar.c
-> > LGPL-2.1-or-later: src/libgit2/xdiff/xdiffi.c
-> > CC0-1.0: src/util/rand.c
-> >
-> > Signed-off-by: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-> > ---
-> > meta/recipes-support/libgit2/libgit2_1.5.1.bb | 2 +-
-> > 1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-support/libgit2/libgit2_1.5.1.bb b/meta/recip=
-es-support/libgit2/libgit2_1.5.1.bb
-> > index 59866ce385..eb7b538ece 100644
-> > --- a/meta/recipes-support/libgit2/libgit2_1.5.1.bb
-> > +++ b/meta/recipes-support/libgit2/libgit2_1.5.1.bb
-> > @@ -1,6 +1,6 @@
-> > SUMMARY =3D "the Git linkable library"
-> > HOMEPAGE =3D "http://libgit2.github.com/"
-> > -LICENSE =3D "GPL-2.0-with-GCC-exception & MIT & OpenSSL & BSD-3-Clause=
-"
-> > +LICENSE =3D "GPL-2.0-with-GCC-exception & MIT & OpenSSL & BSD-3-Clause=
- & Zlib & ISC & LGPL-2.1-or-later & CC0-1.0"
-> > LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D112e6bb421dea73cd41de09e777f=
-2d2c=E2=80=9D
->
-> Can you also expand LIC_FILES_CHKSUM to cover these?
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-core/glibc/glibc-tests_2.37.bb | 2 +-
+ meta/recipes-core/glibc/glibc/run-ptest     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-They are already mentioned in the COPYING file which is in the
-"LIC_FILES_CHKSUM",
-I guess they were overlooked when libgit2 was last updated.
+diff --git a/meta/recipes-core/glibc/glibc-tests_2.37.bb b/meta/recipes-core/glibc/glibc-tests_2.37.bb
+index bb6ef061623..9352a058fbe 100644
+--- a/meta/recipes-core/glibc/glibc-tests_2.37.bb
++++ b/meta/recipes-core/glibc/glibc-tests_2.37.bb
+@@ -27,7 +27,7 @@ python __anonymous() {
+ # Remove any leftovers from original glibc recipe
+ RPROVIDES:${PN} = "${PN}"
+ RRECOMMENDS:${PN} = ""
+-RDEPENDS:${PN} = " glibc sed"
++RDEPENDS:${PN} = " glibc sed bash"
+ RDEPENDS:${PN}-ptest = "${PN}"
+ DEPENDS += "sed"
+ 
+diff --git a/meta/recipes-core/glibc/glibc/run-ptest b/meta/recipes-core/glibc/glibc/run-ptest
+index f637986105e..c394b498660 100755
+--- a/meta/recipes-core/glibc/glibc/run-ptest
++++ b/meta/recipes-core/glibc/glibc/run-ptest
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ # ptest script for glibc - to run time related tests to
+ # facilitate Y2038 validation
+ # Run with 'ptest-runner glibc-tests'
+-- 
+2.38.1
 
-Zlib: https://github.com/libgit2/libgit2/blob/maint/v1.5/COPYING#L366
-ISC: https://github.com/libgit2/libgit2/blob/maint/v1.5/COPYING#L391
-LGPL-2.1-or-later:
-https://github.com/libgit2/libgit2/blob/maint/v1.5/COPYING#L441
-CC0-1.0: https://github.com/libgit2/libgit2/blob/maint/v1.5/COPYING#L1137
-
-
---=20
-Regards
-Sudip
 
