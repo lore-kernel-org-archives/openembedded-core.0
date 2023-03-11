@@ -2,53 +2,53 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FB6AC6FA99
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73618C74A4B
 	for <webhook@archiver.kernel.org>; Sat, 11 Mar 2023 00:27:32 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web10.35791.1678494446174289350
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web10.35796.1678494451815420228
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Mar 2023 16:27:26 -0800
+ Fri, 10 Mar 2023 16:27:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aamsOH6Z;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id o5-20020a05600c510500b003ec0e4ec6deso1191930wms.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Mar 2023 16:27:25 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UW79qxE1;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id g3so6565626wri.6
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Mar 2023 16:27:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1678494444;
+        d=linuxfoundation.org; s=google; t=1678494450;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=24+IPTw4375H2jt3ot21n9JlHtKsYFihE4yRmc5YIMA=;
-        b=aamsOH6ZRh0guBr+WLYpMxy/30VzL6rQQtH1nC4KfKcrVJSsVnTcmI2ASfZZAqCXk6
-         iQLvy35HPjCeffrgHKxPl+ng9t7RASG6x5zGSmFNqjpilGkdxsA17vKuDOOglLfU9Aah
-         K/vIaUyRPtQrXYYxvUadsP8PtPHD+iYLNYbmI=
+        bh=VrlkGsIRlJLnX+P9zTbbtDXpXVBUefLheLyPvMzG0h4=;
+        b=UW79qxE1jufyA8M2YQOhyxd3DIFEEJjgXUJr/JNJPTdBG1O8OZslPtouYE3g05Jjjy
+         hzzvHUsuYcbBt1Uk7t85+9mJJGMrapnEgDXmwU9rTZt8O0NkZ5X3kIrqPyjXV5B0xNjS
+         xrDT5RCHqDG23EBlgB4mBXYP+dGgSutBWHvzM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678494444;
+        d=1e100.net; s=20210112; t=1678494450;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=24+IPTw4375H2jt3ot21n9JlHtKsYFihE4yRmc5YIMA=;
-        b=wAPc7DHszQMb8BwDcmzXY0PQpe+mFRex+jH2Exlz1dbFBljjtb44Dfnd+2/u9+78fE
-         QCF7Wfka7qd8e9pObgenDpc1Jl7RGdDOrZb3Vi7+4lLUn0BGxuyJpdfjq7TzqtrKA12M
-         r1KNExMRQFLmXgfD6WyYHnmUZ7PFnIn5CZmo4asllvnZpml8ZahV2NVOOEJ+e7zfv4n8
-         3SBuQjUUno94mbyu4K9+J8LEI1CjoGlDMl0gb8wCWKOl3YDNrXBHefFZMt+gS6WYu/4B
-         hiT6Vk/oe/qRyTMWoWB2Pw4b7of4CNtYvHo56yCHkDvgGv1+MZhKVWSuR6Kplznq9JNL
-         qhMA==
-X-Gm-Message-State: AO0yUKVaunRr4T4Gjy/H+dZFv2bAJ6noWH62DNVUd8GGrGl+la7YJJ+x
-	e7UmXzdQ59dAQDNo5nh7zOoxkRJKOFCtqUGUuo0=
-X-Google-Smtp-Source: AK7set+SMM9BrsSX/5JpI+dKxwmq0DI3FaeKV/zdUmgZnIRVubO4Kd3X2ep+2r/Sc7U5CbxNhROYXw==
-X-Received: by 2002:a05:600c:ccf:b0:3eb:36fa:b78d with SMTP id fk15-20020a05600c0ccf00b003eb36fab78dmr4353539wmb.23.1678494444366;
-        Fri, 10 Mar 2023 16:27:24 -0800 (PST)
+        bh=VrlkGsIRlJLnX+P9zTbbtDXpXVBUefLheLyPvMzG0h4=;
+        b=vV17NYCFcAYBQx1mTt+NmG5xLobpQidICuG9RjemJufz2vnEe/Qh5Q/flDviLHOrKx
+         Jyjcfwuf+pn6iTUCvblTPwrtf1OH9etkFSd+Q0QpEuNtNqLXW044/P1zmgU9eiDI1ZI8
+         qL7MeOMeJBXXTX7ndE1Dq79tkdLpIjxlWOtjlxzwdzJTOdpts8KTrWpwRHoQ0UzOD7Dr
+         aXoXVbxty34P26D7XCJT0ZaUrWUSfhXx3wiEsGKCY7+TAZ/wEz1YhHGJi4ZmIPKJ4jzv
+         GXvwaGV0KovZRl6kw6ENKxiHQKKOh2QkgA6ek0CBgYMBdC5sQPVCNEC9JnxYJj7PRLL5
+         VamA==
+X-Gm-Message-State: AO0yUKXgg5UWBWZxfqyatLaJa0K7L4i2/kAOg6l/oK7o1UwyBJZRfm2t
+	xLxjn6Q3MlcF/+IDxv0Y5tvfkQzR/ODm8P1swxA=
+X-Google-Smtp-Source: AK7set9WmaDKotX1PGIpF3ZFuWa1FoumL5R0JJZDrv2UdPgRR45x9EgFpecyBYBU4PrkM8hZ4qVVUA==
+X-Received: by 2002:a5d:52cc:0:b0:2ca:2794:87e8 with SMTP id r12-20020a5d52cc000000b002ca279487e8mr17065858wrv.21.1678494450081;
+        Fri, 10 Mar 2023 16:27:30 -0800 (PST)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:9dd5:bdbf:ef9d:c118])
-        by smtp.gmail.com with ESMTPSA id n15-20020a5d400f000000b002cea299a575sm291736wrp.101.2023.03.10.16.27.23
+        by smtp.gmail.com with ESMTPSA id n15-20020a5d400f000000b002cea299a575sm291736wrp.101.2023.03.10.16.27.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 16:27:24 -0800 (PST)
+        Fri, 10 Mar 2023 16:27:29 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 02/16] openssl: Add missing ptest dependency on openssl-bin
-Date: Sat, 11 Mar 2023 00:27:08 +0000
-Message-Id: <20230311002722.3211118-2-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 11/16] libconvert-asn1-perl: Fix ptest dependencies
+Date: Sat, 11 Mar 2023 00:27:17 +0000
+Message-Id: <20230311002722.3211118-11-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230311002722.3211118-1-richard.purdie@linuxfoundation.org>
 References: <20230311002722.3211118-1-richard.purdie@linuxfoundation.org>
@@ -58,29 +58,30 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 11 Mar 2023 00:27:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178346
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178355
 
-One of the openssl ptests needs the openssl binary so fails
-on a minimal image without this. Add the missing dependency.
+Add dependencies for missing perl modules to fix execution in
+minimal images.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-connectivity/openssh/openssh_9.2p1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-extended/perl/libconvert-asn1-perl_0.33.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_9.2p1.bb b/meta/recipes-connectivity/openssh/openssh_9.2p1.bb
-index e6cf2ff2d6b..4666237d686 100644
---- a/meta/recipes-connectivity/openssh/openssh_9.2p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_9.2p1.bb
-@@ -158,7 +158,7 @@ FILES:${PN}-keygen = "${bindir}/ssh-keygen"
- RDEPENDS:${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen ${PN}-sftp-server"
- RDEPENDS:${PN}-sshd += "${PN}-keygen ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-keyinit pam-plugin-loginuid', '', d)}"
- # gdb would make attach-ptrace test pass rather than skip but not worth the build dependencies
--RDEPENDS:${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make sed sudo coreutils"
-+RDEPENDS:${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make sed sudo coreutils openssl-bin"
+diff --git a/meta/recipes-extended/perl/libconvert-asn1-perl_0.33.bb b/meta/recipes-extended/perl/libconvert-asn1-perl_0.33.bb
+index 2714582957c..d82692c0333 100644
+--- a/meta/recipes-extended/perl/libconvert-asn1-perl_0.33.bb
++++ b/meta/recipes-extended/perl/libconvert-asn1-perl_0.33.bb
+@@ -15,7 +15,8 @@ inherit cpan ptest-perl
  
- RPROVIDES:${PN}-ssh = "ssh"
- RPROVIDES:${PN}-sshd = "sshd"
+ EXTRA_PERLFLAGS = "-I ${PERLHOSTLIB}"
+ 
+-RDEPENDS:${PN} += "perl-module-exporter perl-module-constant perl-module-encode perl-module-encode-encoding perl-module-utf8 perl-module-socket perl-module-time-local perl-module-posix"
++RDEPENDS:${PN} += "perl-module-exporter perl-module-constant perl-module-encode perl-module-encode-encoding perl-module-utf8 \
++                   perl-module-socket perl-module-time-local perl-module-posix perl-module-scalar-util perl-module-test-more"
+ RDEPENDS:${PN}-ptest += "perl-module-math-bigint perl-module-io-socket perl-module-data-dumper perl-module-math-bigint-calc"
+ 
+ BBCLASSEXTEND = "native"
 -- 
 2.38.1
 
