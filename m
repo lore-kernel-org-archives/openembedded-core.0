@@ -1,142 +1,85 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6923C6FD1C
-	for <webhook@archiver.kernel.org>; Sun, 12 Mar 2023 07:36:11 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web11.62494.1678606563264758986
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3678C6FA99
+	for <webhook@archiver.kernel.org>; Sun, 12 Mar 2023 08:46:31 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.web11.63046.1678610788508753407
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Mar 2023 23:36:03 -0800
+ Sun, 12 Mar 2023 00:46:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=OJbzRj9F;
- spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id bi9so11914850lfb.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 11 Mar 2023 23:36:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678606561;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2B1zKOuAM5hbs/JFy9szBarzunDOtKz9H9o7ON+dsJs=;
-        b=OJbzRj9FjtGRdsKJtcdzfz5uuLfWuY2Uee8vybTe+3jnoMkahmwzyHsscwm/CH/Plv
-         zX8SFnD42jxrEBLH2zrWQ1sv694T/E93NrYpIrIYyZIlgeC6TfPIdeQS9BTvFwu2+PVr
-         sc+3v3jgt9igtphgNTAVlDLZFzUj65eKyGmv5pQtXv45C6wBabmp3h08/qCATF3L5GZ0
-         A/fyLQPENXufrgTY7LtKVpEqagB7+xyj9wMk70vCY1PXYAX5lpy6+aT3SfMJUZUPZvDQ
-         th+0rqZEGGlna8qHpS1adnNpjQgGOB24ybjUXV//OthsAaB2NpZVU6BaegpaOBUSHUzz
-         MMzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678606561;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2B1zKOuAM5hbs/JFy9szBarzunDOtKz9H9o7ON+dsJs=;
-        b=wf2xqq3F7Jams9dcYGnvZjQtcD5PRvA8hc+nbxUYs6a0WwMhrrD7HrwRQv0yuNhWBE
-         FfCzxLRlCH+xuEZnexu3qQOjHVwuzwXQnbV3FfJ1bU73GkvSV5e56KWTJIUkuaUlrlfN
-         TDGS05CMyOmZ320W3/VzPzsjp3VVOOmqk7aIWx4aSCmXx7HCOLM/6ph68pdDFcfqAX+F
-         J2+2kbuq6Qg1JjYIQYMPlG1a/8hgS6n6PYecJRXWtTG+6X54tTQU2kd+8txxLC3x3obF
-         ZcC8YFB0ARjxBM9LNpGLoc1QEDAd2dG/D+k/OzPF5tKqopO7WpoHf+khNm8/r4AZ9Alt
-         KhTQ==
-X-Gm-Message-State: AO0yUKXf1X7dTu8MmS8w3rnlIaKtGdN/HFq+RdLkr4rWme/SwnISSxwg
-	AuGdqjzm0Vt2VaFh9Q/6oUVvg5UEU6JdDynn5b8=
-X-Google-Smtp-Source: AK7set91iVAnY//TRM0fMLmREu5mSR5uFwLmHlNk7XOIzUNTAu2Ng6lkCLCVfKEp7e452nrZ4ZHyGX6dpOBzC8BjllE=
-X-Received: by 2002:a19:750f:0:b0:4d5:ca43:704a with SMTP id
- y15-20020a19750f000000b004d5ca43704amr9354010lfe.13.1678606561151; Sat, 11
- Mar 2023 23:36:01 -0800 (PST)
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=SKR0vWtl;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-202303120846241b3be235e047a221a2-8byyw8@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202303120846241b3be235e047a221a2
+        for <openembedded-core@lists.openembedded.org>;
+        Sun, 12 Mar 2023 09:46:25 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=mixitP0onxj7ldmqvIWkFT3WexKmt15A+bliMFnr6hc=;
+ b=SKR0vWtlVD5SLX1x17CgC5OGpGxokFpdQka23ibvLzxdrcMOpnHNzg5JmXJ/zEcyZPnAUU
+ ao5SKl18cRAwTdbtzQuOcxLJAfuz2rsQI/pSqGssxL0oYhDLfMw1UzI1BFpINtqe6eqjffav
+ 1EY3uiYdIV5b9AcyKvo0+O8Vn7yZo=;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH] go: use go as CVE product for all golang recipe veriants
+Date: Sun, 12 Mar 2023 09:45:43 +0100
+Message-Id: <20230312084543.6279-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-References: <20230312065517.61051-1-frederic.martinsons@gmail.com>
-In-Reply-To: <20230312065517.61051-1-frederic.martinsons@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 12 Mar 2023 08:35:50 +0100
-Message-ID: <CANNYZj9ah1rO9FH3a_m2ftgrDik_NtcLa_15r6+sqD5iwBXsiw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] cargo_common.bbclass: do not use buit-in git to
- fetch crates
-To: Frederic Martinsons <frederic.martinsons@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 07:36:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178378
+ <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 08:46:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178379
 
-Not sure if I understand this fully, but network access in do_compile
-is not allowed. You need to place all crates into SRC_URI.
+All golang vulnerabilities are reported under product 'go'.
 
-Alex
+By default there is no vulnerability reported for images with
+golang components because none of used golang packages
+have correct CVE product set:
+* go-binary-native
+* go-runtime
+* go-cross-*
 
-On Sun, 12 Mar 2023 at 07:55, Frederic Martinsons
-<frederic.martinsons@gmail.com> wrote:
->
-> From: Frederic Martinsons <frederic.martinsons@gmail.com>
->
-> When a project has a dependencies from a git repository and ssh
-> access, this kind of thing in Cargo.toml for example:
->
-> [dependencies]
-> my-crate = { git = "ssh://git@smyserver:7999/myrepo.git, branch="main" }
->
-> do_compile step failed with authentication error:
->
-> |     Updating git repository `ssh://git@myserver:7999/myrepo.git`
-> | error: failed to get `my-crate` as a dependency of package `bscli v0.0.1 (/home/fmartinsons/bscli)`
-> |
-> | Caused by:
-> |   failed to load source for dependency `my-crate`
-> |
-> | Caused by:
-> |   Unable to update ssh://git@myserver:7999/myrepo.git?branch=main
-> |
-> | Caused by:
-> |   failed to fetch into: /home/fmartinsons/TAPOS_build/build-tapos/tmp/work/corei7-64-tapos-linux/bscli/v1.0.0+gitAUTOINC+5b5ba2aa3e-r0/cargo_home/git/db/cra-d8e163876777fda6
-> |
-> | Caused by:
-> |   failed to authenticate when downloading repository
-> |
-> |   * attempted ssh-agent authentication, but no usernames succeeded: `git`
-> |
-> |   if the git CLI succeeds then `net.git-fetch-with-cli` may help here
-> |   https://doc.rust-lang.org/cargo/reference/config.html#netgit-fetch-with-cli
-> |
-> | Caused by:
-> |   error authenticating: no auth sock variable; class=Ssh (23)
->
-> No problem if I run "cargo build" manually.
->
-> As the compiler suggested, it is corrected by adding git-fetch-with-cli in
-> cargo config file.
->
-> Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
-> ---
->  meta/classes-recipe/cargo_common.bbclass | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-recipe/cargo_common.bbclass
-> index f503a001dd..c16aa4934b 100644
-> --- a/meta/classes-recipe/cargo_common.bbclass
-> +++ b/meta/classes-recipe/cargo_common.bbclass
-> @@ -114,6 +114,12 @@ cargo_common_do_configure () {
->         progress.when = 'always'
->         progress.width = 80
->         EOF
-> +
-> +       cat <<- EOF >> ${CARGO_HOME}/config
-> +
-> +       [net]
-> +       git-fetch-with-cli = true
-> +       EOF
->  }
->
->  oe_cargo_fix_env () {
-> --
-> 2.34.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#178375): https://lists.openembedded.org/g/openembedded-core/message/178375
-> Mute This Topic: https://lists.openembedded.org/mt/97555635/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ meta/recipes-devtools/go/go-binary-native_1.20.1.bb | 2 ++
+ meta/recipes-devtools/go/go-common.inc              | 3 +++
+ 2 files changed, 5 insertions(+)
+
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.20.1.bb b/meta/recipes-devtools/go/go-binary-native_1.20.1.bb
+index 3eb80fdcce..239334552a 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.20.1.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.20.1.bb
+@@ -16,6 +16,8 @@ SRC_URI[go_linux_ppc64le.sha256sum] = "85cfd4b89b48c94030783b6e9e619e35557862358
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+ 
++CVE_PRODUCT = "go"
++
+ S = "${WORKDIR}/go"
+ 
+ inherit goarch native
+diff --git a/meta/recipes-devtools/go/go-common.inc b/meta/recipes-devtools/go/go-common.inc
+index 83f8db7b39..96e32eeb97 100644
+--- a/meta/recipes-devtools/go/go-common.inc
++++ b/meta/recipes-devtools/go/go-common.inc
+@@ -19,6 +19,9 @@ S = "${WORKDIR}/go"
+ B = "${S}"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.src\.tar"
+ 
++# all recipe variants are created from the same product
++CVE_PRODUCT = "go"
++
+ INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
+ SSTATE_SCAN_CMD = "true"
+ 
+-- 
+2.30.2
+
 
