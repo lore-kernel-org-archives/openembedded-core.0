@@ -1,162 +1,136 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13B26C6FA99
-	for <webhook@archiver.kernel.org>; Sun, 12 Mar 2023 20:19:30 +0000 (UTC)
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
- by mx.groups.io with SMTP id smtpd.web10.3893.1678652365432103141
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3673AC6FA99
+	for <webhook@archiver.kernel.org>; Sun, 12 Mar 2023 20:54:20 +0000 (UTC)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+ by mx.groups.io with SMTP id smtpd.web11.4767.1678654452782747133
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Mar 2023 13:19:25 -0700
+ Sun, 12 Mar 2023 13:54:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=peRpsw3I;
- spf=pass (domain: gmail.com, ip: 209.85.167.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f171.google.com with SMTP id e21so8115522oie.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 13:19:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=fqmNUfMB;
+ spf=pass (domain: gmail.com, ip: 209.85.208.175, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f175.google.com with SMTP id b13so10647642ljf.6
+        for <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 13:54:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678652364;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6DxYBv1CB9RNFElvoYuU5cibF8cns5pB3x0LNY3YC08=;
-        b=peRpsw3IqzHeZT19T83NVq4vpcsoew+CfKiO22m2KfBqW7Eb4NhsBwaWyXd7+CBKNs
-         zZZPgwGYDBfxMEtDziTmn65pxxDs0rEVh+6mz4mraBMmfkD8oL9rnv8yuF7BlEE5jlBM
-         y4sbe0H2hCVplXUkFvULT1FMAeds9H7XUvaUfPWiEoEgKW1mMql/COfTEuOWkYAm8OKa
-         gy50d0S/w/zushFax+nbf+5x/i8gIpgjfc3XX6+SI8hePdp81aK/+6PWw4H+CEEVQxQX
-         68YkS7WmAVEnHs8AGBSJZHqx8fpIjeWG9IqQWsXMG03sJBo9QKk6q19kO7Ol9SHsz+Gb
-         MxHw==
+        d=gmail.com; s=20210112; t=1678654451;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=7i+NDk9A+yTFY0vFHMPd3dNY7C2kNBx6FlQTdqDBp9Y=;
+        b=fqmNUfMB/X7/xnVi3UXl2oILzNBSLYsYh3x1AMgX+Irbc0eYiL/XdUtzcf3z2XdQLc
+         fGPfdbOWtk/0i/UZ5vDkLUJWLLL78GVD9fN1FZk8wxSI4i6a5pn8gwkeR8yYoXr03YK3
+         l7MuCM3x/BTI6QYzSdnToFHgdl9kMfyfIK6y93c2uxVRg1AR8lA6lT85LBrmmOd82nNa
+         gaEqOuWUuGzSGPLbCqX5B1hq+r/9uQqtS8rWw1miIB7tyExhpWfFfu4iiashN0wiRI/h
+         jPcAUra4wE/4B11VTT5/D167GhBP10gAr33U0r2EyQr+3FWCqe8I8ztlrRz7XaEtQd3e
+         HdAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678652364;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6DxYBv1CB9RNFElvoYuU5cibF8cns5pB3x0LNY3YC08=;
-        b=XKSl8d7WdHCxxAHDMhMBPLi+SEjgQ+rlgHv3rY9/VzX6PffL9VmCSBmNJ6pFPLtEBR
-         HVkLBJ4uXDtk4xnJ4WFLFVPEGnKWUSFIh7kliTyoEG7IKq9wc1nxqoNoAuBychUK9BA+
-         +PQz6bjV3rWAIVNrbOVg8xje1Z9XMsTOj8hvHlS+l7ntXp2+pyt2Yz08jUkNgA5/+SNE
-         8KLL+rb/zjy1WsLhTPUA7dMUno3DayIgXMHZOUeXorqE/uLIKfq0ENAyz8qc732XOJEL
-         831xd5DvsOdhncJkBB8BRk0bb2VXKJzYZ0fcTkwY92nLsaNdDnWOleyqxBdPsTTEPbaU
-         MaUg==
-X-Gm-Message-State: AO0yUKUQxfx3DeNsec29zmAqBhg0b7vnozUX1zVfF2t4uAOhorxSYhJu
-	x1UBi6LYcDydSs9IB2jscqcabhQZOkLPedpnM6U=
-X-Google-Smtp-Source: AK7set/0DFSPD0urCkF8qi3VsGrUaRPk0EGZPu0kvQl8UVCB57iDt6u/Ha3mAnGO6Z05hDV0exLJYtC72gF9I2oV5RI=
-X-Received: by 2002:a05:6808:2348:b0:383:bae2:3ac9 with SMTP id
- ef8-20020a056808234800b00383bae23ac9mr9420091oib.2.1678652364556; Sun, 12 Mar
- 2023 13:19:24 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1678654451;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7i+NDk9A+yTFY0vFHMPd3dNY7C2kNBx6FlQTdqDBp9Y=;
+        b=4sAST7DjSezGIL+jak4xYwDwUUMPJ4TpeUB0bnB1u6IUYxsvt9Px4224QkJA6Z0dGN
+         EO9P3CHbjBhGzgd49vqAUKAPrZnZFHC20DZTBjjDK9NUKrBMT166KPVtvrV0UhT0sDn4
+         cCeXidAdEeyrC+wFchDqwXCcci3tq8OFTqccSNCE2Kyk3NhXiDKmTvKf9XpCAjKQPxWl
+         8VU5zAG01K+10dmDgiHd/F+HjdpVAy731APpgHTXIiGMV0GippKxbhy8/PaQ9xsjET+p
+         BYypiG5l4ljg9HDF3Aj73UVqT11lZSnZut6JSMCUrvlwVRFIng+LPLW7Y9sLRugnr3Dk
+         Qrzw==
+X-Gm-Message-State: AO0yUKU/hkGTAQLn8Taxzfbx98q2rozCXAGOg4r1WmnnLlpHh+wbdrsy
+	UQrJDUflDNxenOzofe2nFNipZOAoZtk4qTN7P2w=
+X-Google-Smtp-Source: AK7set+X60uaH/gF35TqiAL8iPzDW4lpUQSRz6IUUD4RMFpQFEncXRQfagWagJSNwV4rJhqju+B2z+3ffvbz79ixtD0=
+X-Received: by 2002:a05:651c:124e:b0:295:c458:da98 with SMTP id
+ h14-20020a05651c124e00b00295c458da98mr9919247ljh.5.1678654450723; Sun, 12 Mar
+ 2023 13:54:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230312072422.2626859-1-raj.khem@gmail.com> <CANNYZj8fy7m1_fzZKyVCoKTd2-c8dnas-0NYkif89JXf7fPOnw@mail.gmail.com>
- <CAMKF1srA2ks+mvbBM3tWk=6zfcHFHYXnix2SNpCYnXp0rSDwVQ@mail.gmail.com> <CANNYZj-5h=u8yF0zzpSbwoJWSzVFEo5AHMeER1qeEin3kVtUUg@mail.gmail.com>
-In-Reply-To: <CANNYZj-5h=u8yF0zzpSbwoJWSzVFEo5AHMeER1qeEin3kVtUUg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 12 Mar 2023 13:18:58 -0700
-Message-ID: <CAMKF1sqjE0xeYtzw9az+ysmrzEs6rsH0E_uLkZcrn65X195+Wg@mail.gmail.com>
+ <CAMKF1srA2ks+mvbBM3tWk=6zfcHFHYXnix2SNpCYnXp0rSDwVQ@mail.gmail.com>
+ <CANNYZj-5h=u8yF0zzpSbwoJWSzVFEo5AHMeER1qeEin3kVtUUg@mail.gmail.com> <CAMKF1sqjE0xeYtzw9az+ysmrzEs6rsH0E_uLkZcrn65X195+Wg@mail.gmail.com>
+In-Reply-To: <CAMKF1sqjE0xeYtzw9az+ysmrzEs6rsH0E_uLkZcrn65X195+Wg@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sun, 12 Mar 2023 21:53:59 +0100
+Message-ID: <CANNYZj_dSxCUczz0ca+Py3RroXVjhzLxgY-bA56sRRa-ZJ98-g@mail.gmail.com>
 Subject: Re: [PATCH] systemd: Fix musl fix patch
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 20:19:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178402
+ <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 20:54:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178403
 
-On Sun, Mar 12, 2023 at 10:50=E2=80=AFAM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
+On Sun, 12 Mar 2023 at 21:19, Khem Raj <raj.khem@gmail.com> wrote:
+> alltypes.h is generated by musl during its build which is used by all
+> system headers on musl systems it contains
 >
-> Right, but what is the specific trigger for the error you are seeing that=
- requires this additional definition, compared to passing musl tests with g=
-cc?
+> #if defined(__NEED_wchar_t) && !defined(__DEFINED_wchar_t)
+> typedef unsigned wchar_t;
+> #define __DEFINED_wchar_t
+> #endif
 >
->  I=E2=80=99d like to understand that because your change should not be ne=
-cessary and I=E2=80=99ve had a long argument with upstream even for the exi=
-sting patch.
+> stddef.h defines __NEED_wchar_t which is included from efi-string.h
+> and stddef.h immediately includes alltypes.h. so unless somewhere
+> __DEFINED_wchar_t
+> is pre-defined above will be included and that's what the problem is.
 >
+> The patch you created makes efi-string.c to type define wchar_t before
+> including efi-string.h without blocking all possible ways for it to be
+> defined by system headers.
+> Hope that makes it clear.
 
-alltypes.h is generated by musl during its build which is used by all
-system headers on musl systems it contains
+I understand this. The question was about why this happens with clang,
+but does not happen with gcc.
 
-#if defined(__NEED_wchar_t) && !defined(__DEFINED_wchar_t)
-typedef unsigned wchar_t;
-#define __DEFINED_wchar_t
-#endif
+I looked into this meanwhile. This seems to be a difference in how
+compilers look for headers.
 
-stddef.h defines __NEED_wchar_t which is included from efi-string.h
-and stddef.h immediately includes alltypes.h. so unless somewhere
-__DEFINED_wchar_t
-is pre-defined above will be included and that's what the problem is.
+There are actually two versions of stddef.h, one provided by the
+compiler itself (which would be the correct, expected one), and the
+other coming from musl.
 
-The patch you created makes efi-string.c to type define wchar_t before
-including efi-string.h without blocking all possible ways for it to be
-defined by system headers.
-Hope that makes it clear.
+gcc:
+alex@Zen2:/srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-musl/systemd-boot/253.1-r0$
+find . -name stddef.h
+./recipe-sysroot-native/usr/lib/aarch64-poky-linux-musl/gcc/aarch64-poky-linux-musl/12.2.0/include/stddef.h
+./recipe-sysroot/usr/include/linux/stddef.h
+./recipe-sysroot/usr/include/stddef.h
+./git/src/basic/linux/stddef.h
 
-> Alex
->
-> On Sun 12. Mar 2023 at 17.59, Khem Raj <raj.khem@gmail.com> wrote:
->>
->>
->>
->> On Sat, Mar 11, 2023 at 11:30 PM Alexander Kanavin <alex.kanavin@gmail.c=
-om> wrote:
->>>
->>> How can the issue be triggered? I did test this on musl, and so did
->>> the autobuilder.
->>
->>
->> My setup is clang/musl on imx8
->> Which is similar to qemuarm64
->> And build works for systemd but
->> Fails for systemd-boot recipe
->>
->>>
->>>
->>> Alex
->>>
->>> On Sun, 12 Mar 2023 at 08:24, Khem Raj <raj.khem@gmail.com> wrote:
->>> >
->>> > Current patch with fail when stdint.h is in include path before this
->>> > typedef which can also happen with re-includes. Therefore shunt that
->>> > by defining __DEFINED_wchar_t which helps musl builds of systemd-boot
->>> > recipe
->>> >
->>> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>> > Cc: Alexander Kanavin <alex.kanavin@gmail.com>
->>> > ---
->>> >  ...rc-boot-efi-efi-string.c-define-wchar_t-from-__WCHA.patch | 5 ++-=
---
->>> >  1 file changed, 2 insertions(+), 3 deletions(-)
->>> >
->>> > diff --git a/meta/recipes-core/systemd/systemd/0004-src-boot-efi-efi-=
-string.c-define-wchar_t-from-__WCHA.patch b/meta/recipes-core/systemd/syste=
-md/0004-src-boot-efi-efi-string.c-define-wchar_t-from-__WCHA.patch
->>> > index 927f914848..43173ac32d 100644
->>> > --- a/meta/recipes-core/systemd/systemd/0004-src-boot-efi-efi-string.=
-c-define-wchar_t-from-__WCHA.patch
->>> > +++ b/meta/recipes-core/systemd/systemd/0004-src-boot-efi-efi-string.=
-c-define-wchar_t-from-__WCHA.patch
->>> > @@ -21,17 +21,16 @@ Signed-off-by: Alexander Kanavin <alex@linutronix=
-.de>
->>> >   src/boot/efi/efi-string.c | 5 +++++
->>> >   1 file changed, 5 insertions(+)
->>> >
->>> > -diff --git a/src/boot/efi/efi-string.c b/src/boot/efi/efi-string.c
->>> > -index 22923d60f6..22a8d1ef71 100644
->>> >  --- a/src/boot/efi/efi-string.c
->>> >  +++ b/src/boot/efi/efi-string.c
->>> > -@@ -2,7 +2,12 @@
->>> > +@@ -2,7 +2,13 @@
->>> >
->>> >   #include <stdbool.h>
->>> >   #include <stdint.h>
->>> >  +
->>> >  +#if SD_BOOT
->>> >  +typedef __WCHAR_TYPE__ wchar_t;
->>> > ++#define __DEFINED_wchar_t
->>> >  +#else
->>> >   #include <wchar.h>
->>> >  +#endif
->>> > --
->>> > 2.39.2
->>> >
+clang:
+alex@Zen2:/srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-musl/systemd-boot/253.1-r0$
+find . -name stddef.h
+./recipe-sysroot-native/usr/lib/clang/15.0.7/include/stddef.h
+./recipe-sysroot/usr/include/linux/stddef.h
+./recipe-sysroot/usr/include/stddef.h
+./git/src/basic/linux/stddef.h
+
+
+
+gcc includes the correct header because its order of searching headers is:
+#include <...> search starts here:
+ /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-musl/systemd-boot/253.1-r0/git/src/fundamental
+ /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-musl/systemd-boot/253.1-r0/git/src/boot/efi
+ /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-musl/systemd-boot/253.1-r0/recipe-sysroot/usr/include/efi/aarch64
+ /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-musl/systemd-boot/253.1-r0/recipe-sysroot/usr/include/efi
+ /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-musl/systemd-boot/253.1-r0/recipe-sysroot-native/usr/bin/aarch64-poky-linux-musl/../../lib/aarch64-poky-linux-musl/gcc/aarch64-poky-linux-musl/12.2.0/include
+ /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-musl/systemd-boot/253.1-r0/recipe-sysroot/usr/lib/aarch64-poky-linux-musl/12.2.0/include
+ /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-musl/systemd-boot/253.1-r0/recipe-sysroot/usr/include
+End of search list.
+
+clang includes the incorrect one:
+
+#include <...> search starts here:
+ /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-musl/systemd-boot/253.1-r0/git/src/fundamental
+ /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-musl/systemd-boot/253.1-r0/git/src/boot/efi
+ /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-musl/systemd-boot/253.1-r0/recipe-sysroot/usr/include/efi/aarch64
+ /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-musl/systemd-boot/253.1-r0/recipe-sysroot/usr/include/efi
+ /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-musl/systemd-boot/253.1-r0/recipe-sysroot/usr/include
+ /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-musl/systemd-boot/253.1-r0/recipe-sysroot-native/usr/lib/clang/15.0.7/include
+End of search list.
+
+So I'd say the search order needs to be aligned with gcc, rather than
+having to patch around the issue.
+
+Alex
 
