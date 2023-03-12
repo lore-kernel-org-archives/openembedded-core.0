@@ -1,126 +1,102 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84EEEC6FA99
-	for <webhook@archiver.kernel.org>; Sun, 12 Mar 2023 06:55:41 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web10.62336.1678604132716530422
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66380C6FA99
+	for <webhook@archiver.kernel.org>; Sun, 12 Mar 2023 07:24:31 +0000 (UTC)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web10.62556.1678605866077270622
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Mar 2023 22:55:33 -0800
+ Sat, 11 Mar 2023 23:24:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=TAEiSBgN;
- spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-wr1-f43.google.com with SMTP id v16so8645945wrn.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 11 Mar 2023 22:55:32 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=TAe47PC8;
+ spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f51.google.com with SMTP id kb15so9149729pjb.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 11 Mar 2023 23:24:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678604131;
+        d=gmail.com; s=20210112; t=1678605865;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+x5rVJYqx9eDOo8X0EKKf/COdzWXT2iPKBe4TyhPEYA=;
-        b=TAEiSBgNVIle43w3TANb8NRR7S8JQkWS0wTeNeSjOIF/tV7rLWZfsrr3Xba22hoIkV
-         ofKjMOjUYVrSWujO48UI81234OH2Pix0ZBLYG0xqCJ/ZED/Hx1dnFYThYRMWCBMJF1sF
-         KUYKPiWwa3HT1Frh27cF7i+DL1OPbnGKDvHn94xvC+5LEddgLXPcgVQX4B5FqmSgrjd4
-         psO+DR++zjsY1KPcGkYtodiRYv/u+4RPd0YPo/ZaBhfzHbrhzFl4BN7TN8eNlfpUXbRH
-         gjKs8gTzT9vIXbkah34uN+9qy9tb8k6j4lOMHhPcLeYqYP1xypiF1LKRw4/I1kLdhdvG
-         4jLQ==
+        bh=WwUS6CvAnSFZZzMErvh+tPxkPdt+kSrmxbJwvoAqtHE=;
+        b=TAe47PC86nwaEZb9FTO51CaZDJPPfR9mF6fjfbUpPoAFePH84Mxe1N/HqmXuWO0NOL
+         6ycU8R4nLJ9p6/WDuLNnACdR57CAL736xd+KMsgcoi0J3XJfI0GvEDmRUxwDMjl7pvLH
+         xikGYJGsVmwh2AlBH/ht5LVY2uNG3/Hn3bZRSC7O2zuNg4gKr6hao+k6i+I50CUsr85U
+         maeRy6k/+wEho8A9WLv7v6tgsNGu385GdN963UwlZoVbZZfuyN3l5kpQHqetwpzBIC3V
+         tNq40H9exLeUCNj/BFb4E2ZyzMGpceabMp06W2jk/F77dfbeygLQBZkNyeM7eiVdTCXW
+         aeVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678604131;
+        d=1e100.net; s=20210112; t=1678605865;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+x5rVJYqx9eDOo8X0EKKf/COdzWXT2iPKBe4TyhPEYA=;
-        b=YRV4ex5jDJ4rL38/Yi/MroNxSVp+EmAJZmVj2qKcmwfThB4NfU5OK7dyTnC36BYMVY
-         DaavLPowYpmnAIIWlxqOqc3+kJRRlSltJADJvOzx+T4jT3y10uDhaO2dTarz8KYgMHq0
-         l+7S2a926s+eJatFZYs6GT1Pz+U1dVJpqtqgPXSMKwjFUqC07e3dDYk/OA4pyYIHz0Kh
-         OnL3j7wrnbESqPMy/rN3ci1IyVIvSIdXKljeTvG5MfwiYo1uuFy49WHxELtNGkiNVGhn
-         3C09shRtY1Jn+ksEXsp4GadVaQ7B0nUJ/JGWMuijJGH5PVSxFiGml5/jWRLkPMWmjviD
-         3Yxg==
-X-Gm-Message-State: AO0yUKVNbrm2K14AEeq0Yidn9j9Xj44uxTuDB5DmhnBKOKt5AEuFcsTk
-	KwBgyH0VAGSAFmmfQnHGEANLCaZ4pVQ=
-X-Google-Smtp-Source: AK7set9xDKeH2wx7SeoTGEGaO8AQmGJ++azsAFZioeTOxHog92uwS+XW5shJ+JTJ8/XXYIx2DvsF5g==
-X-Received: by 2002:a5d:644b:0:b0:2ce:ae50:9d7f with SMTP id d11-20020a5d644b000000b002ceae509d7fmr174506wrw.36.1678604130780;
-        Sat, 11 Mar 2023 22:55:30 -0800 (PST)
-Received: from work-pc.core.sigfox.net ([2a01:e0a:8d5:c6c0:13a5:314e:b651:2ea0])
-        by smtp.gmail.com with ESMTPSA id n9-20020adfe349000000b002c55de1c72bsm4159464wrj.62.2023.03.11.22.55.30
+        bh=WwUS6CvAnSFZZzMErvh+tPxkPdt+kSrmxbJwvoAqtHE=;
+        b=4mQybZvRjJEvcFniDL89i6ws31ATdk1dUNcwAIfYYsZ7dS/BdDSzSlu3yzcyc4K5x6
+         Q8Gk2UGqiOSn3TSjsbqWSwQhE7lTEhStbadCIwl433CrirysqCLMhUUqqvE8YHEQYeI2
+         I4BRaRtwwn+kcjd0uP9DhHifvtwrJLqSlj211VAuEP5+WfrC3ra8Qauqk+O8f2X3VMrg
+         fBhlbcCo2QerZsFO0XS2m4uWj6rTKsfSr8TlCwIV3Z6woIRM+75z1tyzL3ri3WmFJJ7R
+         dm8Z5KK9/8EEgiUK7r+pP8iSLakwQBMMF1m3UCHqFFxbHnlUBNkEZogwPRVyYA83YdPP
+         jG3g==
+X-Gm-Message-State: AO0yUKV+VFsWBs870zm5Vqc0fVPpPqtofrIhLHfls2WPa/b0tC+PCTkA
+	mmX0pLXHRI1igu51uuqxBfzYPiJzq9Y=
+X-Google-Smtp-Source: AK7set8qN7R4i7fDdXGhZtoZjfrnb5w7DwNaRfNzQjd2unNiCFDj9klGRM8a8Wc439BKhxOiuK3dEA==
+X-Received: by 2002:a17:902:d504:b0:19c:e842:a9e0 with SMTP id b4-20020a170902d50400b0019ce842a9e0mr11963665plg.16.1678605865092;
+        Sat, 11 Mar 2023 23:24:25 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:d380::522c])
+        by smtp.gmail.com with ESMTPSA id g1-20020a1709026b4100b0019a97f180fcsm2456955plt.37.2023.03.11.23.24.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Mar 2023 22:55:30 -0800 (PST)
-From: frederic.martinsons@gmail.com
+        Sat, 11 Mar 2023 23:24:24 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Frederic Martinsons <frederic.martinsons@gmail.com>
-Subject: [PATCH] cargo_common.bbclass: do not use buit-in git to fetch crates
-Date: Sun, 12 Mar 2023 07:55:17 +0100
-Message-Id: <20230312065517.61051-1-frederic.martinsons@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH] systemd: Fix musl fix patch
+Date: Sat, 11 Mar 2023 23:24:22 -0800
+Message-Id: <20230312072422.2626859-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 06:55:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178375
+ <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 07:24:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178376
 
-From: Frederic Martinsons <frederic.martinsons@gmail.com>
+Current patch with fail when stdint.h is in include path before this
+typedef which can also happen with re-includes. Therefore shunt that
+by defining __DEFINED_wchar_t which helps musl builds of systemd-boot
+recipe
 
-When a project has a dependencies from a git repository and ssh
-access, this kind of thing in Cargo.toml for example:
-
-[dependencies]
-my-crate = { git = "ssh://git@smyserver:7999/myrepo.git, branch="main" }
-
-do_compile step failed with authentication error:
-
-|     Updating git repository `ssh://git@myserver:7999/myrepo.git`
-| error: failed to get `my-crate` as a dependency of package `bscli v0.0.1 (/home/fmartinsons/bscli)`
-|
-| Caused by:
-|   failed to load source for dependency `my-crate`
-|
-| Caused by:
-|   Unable to update ssh://git@myserver:7999/myrepo.git?branch=main
-|
-| Caused by:
-|   failed to fetch into: /home/fmartinsons/TAPOS_build/build-tapos/tmp/work/corei7-64-tapos-linux/bscli/v1.0.0+gitAUTOINC+5b5ba2aa3e-r0/cargo_home/git/db/cra-d8e163876777fda6
-|
-| Caused by:
-|   failed to authenticate when downloading repository
-|
-|   * attempted ssh-agent authentication, but no usernames succeeded: `git`
-|
-|   if the git CLI succeeds then `net.git-fetch-with-cli` may help here
-|   https://doc.rust-lang.org/cargo/reference/config.html#netgit-fetch-with-cli
-|
-| Caused by:
-|   error authenticating: no auth sock variable; class=Ssh (23)
-
-No problem if I run "cargo build" manually.
-
-As the compiler suggested, it is corrected by adding git-fetch-with-cli in
-cargo config file.
-
-Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/classes-recipe/cargo_common.bbclass | 6 ++++++
- 1 file changed, 6 insertions(+)
+ ...rc-boot-efi-efi-string.c-define-wchar_t-from-__WCHA.patch | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-recipe/cargo_common.bbclass
-index f503a001dd..c16aa4934b 100644
---- a/meta/classes-recipe/cargo_common.bbclass
-+++ b/meta/classes-recipe/cargo_common.bbclass
-@@ -114,6 +114,12 @@ cargo_common_do_configure () {
- 	progress.when = 'always'
- 	progress.width = 80
- 	EOF
-+
-+	cat <<- EOF >> ${CARGO_HOME}/config
-+
-+	[net]
-+	git-fetch-with-cli = true
-+	EOF
- }
+diff --git a/meta/recipes-core/systemd/systemd/0004-src-boot-efi-efi-string.c-define-wchar_t-from-__WCHA.patch b/meta/recipes-core/systemd/systemd/0004-src-boot-efi-efi-string.c-define-wchar_t-from-__WCHA.patch
+index 927f914848..43173ac32d 100644
+--- a/meta/recipes-core/systemd/systemd/0004-src-boot-efi-efi-string.c-define-wchar_t-from-__WCHA.patch
++++ b/meta/recipes-core/systemd/systemd/0004-src-boot-efi-efi-string.c-define-wchar_t-from-__WCHA.patch
+@@ -21,17 +21,16 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  src/boot/efi/efi-string.c | 5 +++++
+  1 file changed, 5 insertions(+)
  
- oe_cargo_fix_env () {
+-diff --git a/src/boot/efi/efi-string.c b/src/boot/efi/efi-string.c
+-index 22923d60f6..22a8d1ef71 100644
+ --- a/src/boot/efi/efi-string.c
+ +++ b/src/boot/efi/efi-string.c
+-@@ -2,7 +2,12 @@
++@@ -2,7 +2,13 @@
+  
+  #include <stdbool.h>
+  #include <stdint.h>
+ +
+ +#if SD_BOOT
+ +typedef __WCHAR_TYPE__ wchar_t;
+++#define __DEFINED_wchar_t
+ +#else
+  #include <wchar.h>
+ +#endif
 -- 
-2.34.1
+2.39.2
 
 
