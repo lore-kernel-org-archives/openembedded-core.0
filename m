@@ -1,136 +1,107 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A495C6FA99
-	for <webhook@archiver.kernel.org>; Sun, 12 Mar 2023 13:33:23 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web11.66311.1678628001741653076
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F7E7C6FD19
+	for <webhook@archiver.kernel.org>; Sun, 12 Mar 2023 13:36:13 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web10.66573.1678628172648073233
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Mar 2023 06:33:21 -0700
+ Sun, 12 Mar 2023 06:36:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=dJ6Mdnh9;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id nn12so9493676pjb.5
-        for <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 06:33:21 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XXqTAt+x;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id j3so6265639wms.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 06:36:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678628001;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GbJ1CE3pUdAcXhYP6XACR8fBTyMeVXKNI2MVefICm/0=;
-        b=dJ6Mdnh9ELlF7fJs0GeFizPeGsTd+/Xx/yjvC9VgNnmvTmWl3BynATdkJpUjGhtuHs
-         JskkSd0gYvUUh9fjZxOySFlQTf95xl/XFW1rF0ASVHOma2QqnFJj+u0p5UOcLTIuM+jH
-         vE66g7iACzQr/HBvW8LTBXyEOKY/2u6pRGQxH8+BWYOfEj2ZBHleK71/Gs7XwgEvUds8
-         uV3Eu0EGxJZeZtMpvu5MeCgivqLP9aQvmuYkM6xYG29jMjWot01tSsYvqMePgzNse9+L
-         iONqHqmX8LhzmslBxUgEnN0fTo0CN6BNIIi+MUCUb2OfFb/0xQhZCYJYl18V+VO8SPK3
-         +gQw==
+        d=linuxfoundation.org; s=google; t=1678628171;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=qwffIZarDWjaWv6+O6qxEPH1Gip9LyCEXQ8MjydKLpA=;
+        b=XXqTAt+xL1p/BqySEl+799dI1NUnO/lCb3j21alfchvs9Pd/lAQdsqFtE8VBcwjT/x
+         yaGsQ6poEzoob4Qyjrjte9s0+JyMAIK+x9zywIx5CFWCGa94r5SXDrC6fU+mfFkFaKrY
+         Yuuib7Ggeqx5lotqVI6PLP/hzD25x2wsr0Vcc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678628001;
-        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=GbJ1CE3pUdAcXhYP6XACR8fBTyMeVXKNI2MVefICm/0=;
-        b=Pt2A4aTlk1xrUhulC0wl/3m19i5wasgOD3dD2Qy6LhL899S9IC+gBZoJzWKlv1OfBE
-         Nf4mIfGgsqgKvn8aIUCHafAIYUGs9faOR+DoRR8c9hiGfLSdo2MoNP8ymhE/BQu+KX0p
-         iBkjCSlHu4+lZmackh7UQYKzX4wlmWtk9Oo2V16LORULwv8OknMwcdogUf/SD5z5zkWi
-         6fozMfSfHhZ0tB32Masa+pM5z4Dz5DJ5QnoYrSCM4bSu6WaO+fg1qNOLkEJ8/16JLt9t
-         OhHmnjbyD4+pngDds5xz9faM8VX5VeHNwqQi6Kf33ZwQPu40MC+i/C6Mrt5W/XtxC6dL
-         Q+MQ==
-X-Gm-Message-State: AO0yUKW6g3vQuZPatac4cq+GxyQz/eUhamfNMyekaz4hkRhUyz+OvQxQ
-	LMkbGViHU/O3OUyIfRfoyLXD9d982oyxuLNJorw=
-X-Google-Smtp-Source: AK7set/4z+Ta/RTLHTRsomgx+IrxUR2MjCqPbfvq8mP0CllAXSvrvFp7+MYvsEfjZNIfHyggqqGy4g==
-X-Received: by 2002:a05:6a20:431f:b0:cc:9245:796f with SMTP id h31-20020a056a20431f00b000cc9245796fmr7648674pzk.14.1678628000574;
-        Sun, 12 Mar 2023 06:33:20 -0700 (PDT)
-Received: from nuc.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id x14-20020a63484e000000b00502ea97cbc0sm2824523pgk.40.2023.03.12.06.33.20
+        d=1e100.net; s=20210112; t=1678628171;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qwffIZarDWjaWv6+O6qxEPH1Gip9LyCEXQ8MjydKLpA=;
+        b=7kmQ8A5mWOtXks7oIzZD4bmEvayvxS8/Y7HI2mEfK4Ad229BE81DK2R4/7M5W+Kkx3
+         86evdXTyy2YPvvnrQYYNQa8bvOzhy1oc3o2gkINy2+n9rgzxlruMS1xa0P31GvhcAgzr
+         xoW4bHGv09CWuK2HepA26hS++Eo9jjoOHWrj+iP5EO2TC7Adf16Cy7+rjELQ32noWvnV
+         QME6HrpKeBcA8N+iBl9qJPx9ovEiXH79WcYpfeXQFdx0R4uV+hktRdJ/gBNQigq2Kew6
+         qQ7GYHLZxBKoBalbuht/J/3I/k527ChBoIqcNFMVydnHDSgVOV0dHxlABAqk7YJNpp6X
+         GoLw==
+X-Gm-Message-State: AO0yUKW0aFEzQb9MtymmV3iOglk4NFNf76QMhbeoUugNDmIYfEuwLWVq
+	nnEtyCdNK/1Tkn5z7MFM4QMtUw==
+X-Google-Smtp-Source: AK7set9vf81bs87Y4kq3yvAHffJjIixoN3b82OcpQG2uCEeW/P72QyRPQezXyNph52AebFy41YAm7A==
+X-Received: by 2002:a05:600c:34c4:b0:3eb:3998:8bca with SMTP id d4-20020a05600c34c400b003eb39988bcamr5361029wmq.17.1678628171073;
+        Sun, 12 Mar 2023 06:36:11 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:ee:6264:1be3:a6af? ([2001:8b0:aba:5f3c:ee:6264:1be3:a6af])
+        by smtp.gmail.com with ESMTPSA id q11-20020a05600c46cb00b003ebf73acf9asm7610021wmo.3.2023.03.12.06.36.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Mar 2023 06:33:20 -0700 (PDT)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 94DC39603CF; Sun, 12 Mar 2023 03:33:18 -1000 (HST)
-Subject: OE-core CVE metrics for langdale on Sun 12 Mar 2023 03:30:01 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun, 12 Mar 2023 03:33:18 -1000
-Message-Id: <20230312133318.94DC39603CF@nuc.router0800d9.com>
+        Sun, 12 Mar 2023 06:36:10 -0700 (PDT)
+Message-ID: <9a9b7f6a7c20720803b574c0b39957eed1e7019e.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 7/8] core-image-ptest: Switch to BBCLASSEXTEND
+ parallel execution
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Sun, 12 Mar 2023 13:36:09 +0000
+In-Reply-To: <CANNYZj9iktYo1a=+0zZTwnW1PqucFE9FJMrZaLj4ktEz88VCzQ@mail.gmail.com>
+References: <20230311224155.3442306-1-richard.purdie@linuxfoundation.org>
+	 <20230311224155.3442306-7-richard.purdie@linuxfoundation.org>
+	 <CANNYZj9iktYo1a=+0zZTwnW1PqucFE9FJMrZaLj4ktEz88VCzQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 13:33:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178386
+ <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 13:36:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178387
 
-Branch: langdale
+On Sun, 2023-03-12 at 14:17 +0100, Alexander Kanavin wrote:
+> Nice! Is there some other low(ish) hanging fruit for making a-full faster=
+?
+>=20
+> (one thing that springs to mind is more arm hardware; the one
+> available seems overloaded)
 
-New this week: 9 CVEs
-CVE-2022-41722 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41722 *
-CVE-2022-41723 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41723 *
-CVE-2022-41724 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41724 *
-CVE-2022-41725 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41725 *
-CVE-2022-4645 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4645 *
-CVE-2023-1127 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1127 *
-CVE-2023-1170 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1170 *
-CVE-2023-1175 (CVSS3: 7.3 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1175 *
-CVE-2023-27371 (CVSS3: 7.5 HIGH): libmicrohttpd:libmicrohttpd-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-27371 *
+I suspect it isn't arm hardware that is the bottleneck. I have some
+patches locally to split up the oe-selftest sstate tests which is one
+easy improvement.
 
-Removed this week: 11 CVEs
-CVE-2016-15024 (CVSS3: 5.5 MEDIUM): shadow:shadow-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-15024 *
-CVE-2022-4304 (CVSS3: 5.9 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4304 *
-CVE-2022-4450 (CVSS3: 7.5 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4450 *
-CVE-2022-46663 (CVSS3: 7.5 HIGH): less https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46663 *
-CVE-2023-0215 (CVSS3: 7.5 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0215 *
-CVE-2023-0216 (CVSS3: 7.5 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0216 *
-CVE-2023-0217 (CVSS3: 7.5 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0217 *
-CVE-2023-0286 (CVSS3: 7.4 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0286 *
-CVE-2023-0401 (CVSS3: 7.5 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0401 *
-CVE-2023-0433 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0433 *
-CVE-2023-0512 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0512 *
+The next would be to have reproducible builds reuse rust-native from
+sstate. We don't test reproducibility of native recipes anyway.
 
-Full list:  Found 46 unpatched CVEs
-CVE-2005-1796 (CVSS3: N/A): ncurses:ncurses-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2005-1796 *
-CVE-2020-10735 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-10735 *
-CVE-2022-3219 (CVSS3: 5.5 MEDIUM): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
-CVE-2022-3515 (CVSS3: 9.8 CRITICAL): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3515 *
-CVE-2022-37454 (CVSS3: 9.8 CRITICAL): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-37454 *
-CVE-2022-3872 (CVSS3: 8.6 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3872 *
-CVE-2022-40303 (CVSS3: 7.5 HIGH): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40303 *
-CVE-2022-40304 (CVSS3: 7.8 HIGH): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40304 *
-CVE-2022-4055 (CVSS3: 7.4 HIGH): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4055 *
-CVE-2022-40897 (CVSS3: 5.9 MEDIUM): python3-setuptools:python3-setuptools-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40897 *
-CVE-2022-4144 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4144 *
-CVE-2022-41722 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41722 *
-CVE-2022-41723 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41723 *
-CVE-2022-41724 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41724 *
-CVE-2022-41725 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41725 *
-CVE-2022-42919 (CVSS3: 7.8 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42919 *
-CVE-2022-44617 (CVSS3: 7.5 HIGH): libxpm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-44617 *
-CVE-2022-45061 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-45061 *
-CVE-2022-46285 (CVSS3: 7.5 HIGH): libxpm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46285 *
-CVE-2022-4645 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4645 *
-CVE-2022-46908 (CVSS3: 7.3 HIGH): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46908 *
-CVE-2022-4743 (CVSS3: 7.5 HIGH): libsdl2:libsdl2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4743 *
-CVE-2022-48281 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48281 *
-CVE-2022-4883 (CVSS3: 8.8 HIGH): libxpm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4883 *
-CVE-2023-0795 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0795 *
-CVE-2023-0796 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0796 *
-CVE-2023-0797 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0797 *
-CVE-2023-0798 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0798 *
-CVE-2023-0799 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0799 *
-CVE-2023-0800 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0800 *
-CVE-2023-0801 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0801 *
-CVE-2023-0802 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0802 *
-CVE-2023-0803 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0803 *
-CVE-2023-0804 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0804 *
-CVE-2023-1127 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1127 *
-CVE-2023-1170 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1170 *
-CVE-2023-1175 (CVSS3: 7.3 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1175 *
-CVE-2023-22743 (CVSS3: 7.3 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-22743 *
-CVE-2023-22795 (CVSS3: 7.5 HIGH): ruby:ruby-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-22795 *
-CVE-2023-23914 (CVSS3: 9.1 CRITICAL): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-23914 *
-CVE-2023-23915 (CVSS3: 6.5 MEDIUM): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-23915 *
-CVE-2023-23916 (CVSS3: 7.5 HIGH): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-23916 *
-CVE-2023-24329 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24329 *
-CVE-2023-25193 (CVSS3: 7.5 HIGH): harfbuzz:harfbuzz-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25193 *
-CVE-2023-26081 (CVSS3: 7.5 HIGH): epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-26081 *
-CVE-2023-27371 (CVSS3: 7.5 HIGH): libmicrohttpd:libmicrohttpd-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-27371 *
+After that, it would be looking at the toolchain tests, i.e. this step
+in qemu machine builds:
 
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
+https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/6780/step=
+s/19/logs/stdio
+
+from the command:
+
+oe-selftest -a -t machine -t toolchain-user -j 15
+
+That step takes a couple of hours which is 2/3rds of the time of that
+target. I was thinking it could be parallelised but I notice we already
+did that! Maybe we should move it to a separate target so it is in
+parallel with everything else?
+
+Cheers,
+
+Richard
+
+
+
+
+
+
+
+
 
