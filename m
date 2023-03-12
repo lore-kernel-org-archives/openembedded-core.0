@@ -2,110 +2,126 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91F9DC6FA99
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98136C74A5B
 	for <webhook@archiver.kernel.org>; Sun, 12 Mar 2023 14:51:03 +0000 (UTC)
 Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web10.67839.1678632660069006938
+ by mx.groups.io with SMTP id smtpd.web10.67841.1678632661628457247
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Mar 2023 07:51:00 -0700
+ Sun, 12 Mar 2023 07:51:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ctF6Ldp6;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=dngV73wG;
  spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f52.google.com with SMTP id x3so38951512edb.10
-        for <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 07:50:59 -0700 (PDT)
+Received: by mail-ed1-f52.google.com with SMTP id g10so10147392eda.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 07:51:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678632658;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8yghyqyGu/tx6039smy4Qk23+TdY491zJTNDBpEla5w=;
-        b=ctF6Ldp6EVd49VOL74VyqGIbw880Q4BQUQDqVrFeDIasYujtbMgNXJ4EgxH2Bacibt
-         pibnCVgXqDm8ACew9WX+zsZCyljlXY1jkNvFngv4oP6TZEqPi9CYtKjqAjkGcBjGkqzp
-         DxUiJg9g/P+S4bzKM8+GrI6VkWGM7dPIBzuyJh2Mk6VkCX6fIWS1H+6YcAMT9m85mzXN
-         TjDIfZfa/1/++6lN5OwZqGFVTtL427QSJ1XiEtPZ3V29Lxc3u99Jfalckc4lSId1qt2E
-         kUPCSIE4nqvUiboe+nNuRog0BkcMj8zm84NYKbInWnrQp/Kd2qpffD3YYEUWRvCHZEjn
-         y83A==
+        d=gmail.com; s=20210112; t=1678632660;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ool8CY/rV+TxRAGpPCbgJhqayGlaxflLhFKQOjS5WYw=;
+        b=dngV73wGP1RzbpZxH5J0E4oAmqGMaP09wZIAl7q2V+D6/UwLZ+6CchgyJZZoyzb8Yq
+         3O1aWd7KUT88gSmTT5X0DHvIS3iA4E+bdE9SMZUM5V+eYzbPwlcuiBslbhDrqPP13gWB
+         bFGhH7kyZZRcI0CNH9WssXETPsOclgu8oLzbi1GvwoXggq/T2zBCKv9aKajlUAG6cXte
+         2hA3YGLHGlTn6f7Drd14V6VvxwGjKvpkm7SHC+djc4fpp+lBD57Aus3yoJMQcLAa/jRP
+         50z8DwzGiBurfag8+q4HYGrSssJrDuMswY04X8dDzO/+39+pQUlHzI2h+SEUOUpVjSFr
+         /L/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678632658;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8yghyqyGu/tx6039smy4Qk23+TdY491zJTNDBpEla5w=;
-        b=MdrpNse6W6gsHKIZORecRUBq8lPYWKIWX89bK1v8ppUBFXMN3MxQ68baPI/VdUrpKn
-         KNnX5ucooRPlih3VKpS4J/FvxqFr1gpJRIe0gI7ni5nNQuxC6z53cyYE1UQjGSlCVYIQ
-         I+WHFEZxDSpLhpoBSao5wSji3dGK64eTtZ0Zkws+ZNxHXhoUwCwHuUEmeu1/gJ7zDM0O
-         nUn5RQtYrRGPITd9p/AUGBR5aXjq3D/FX1NMUH63YCGNvQIz8sAt0lKTpZvHyuJ84TFW
-         4gpM39NvVxe6+3Amyn8aF/GgRBzsso1yqCRyUr5ltHXDJ6MaMfwY38qygdXDcwBoWTXW
-         pGaQ==
-X-Gm-Message-State: AO0yUKWQ9TJjyT9tM3zwmNw1Y0YSA+b1yRPP7FpTfkxxOfFH/V0S52gt
-	BLyjp8oCG7PIcdpYqAtyoD8zfzkNlBU=
-X-Google-Smtp-Source: AK7set/SgT1TwkHUBYv6dNbtmDyDCodYsH+RtOgt4rbuV+JKIoDGDrItZ0+DdH9m3G0sU7G8uQbbiA==
-X-Received: by 2002:a17:907:2ce1:b0:8b1:32dd:3af with SMTP id hz1-20020a1709072ce100b008b132dd03afmr42579964ejc.28.1678632658052;
-        Sun, 12 Mar 2023 07:50:58 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1678632660;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ool8CY/rV+TxRAGpPCbgJhqayGlaxflLhFKQOjS5WYw=;
+        b=OetE8fqcmrazOu+ikih/26equXDzAPD+YZmnus9nhOendQ3cjD8GyJLM6ivWKLwbZ0
+         UsrvvUUcnk1jO2ozgJztvMtWP1TPZjQM2DDUu0EbCcVUyxqxCPDVSsVFbKIP58d4BHqF
+         gJoV8U5w8f+tKCNCbRoc3KLfjDK8LXV/swt1uQG9G1zH7BO3ulcpNpNu8NKGr1/Z1e/M
+         aFFYxd0rGAc16yVFR77vu2TMfNT49JIRuDp9Mc8DjM1wiuG917zw5gPVuP9oEAjfNzwS
+         BDGY0CzN4hovQ8l1m63PSni3GUeCWeR+1c4QR6hLRf5vPxseNz9dnu7UORTxfuIpZlqk
+         NPUg==
+X-Gm-Message-State: AO0yUKXuyDnJbnsYFCZye6HM5K6HpHK8Aqd2gD/22RFbQ4GcuwoKvvJ/
+	zgKejqrgheYdjyF08DCLIJSU2OJBssQ=
+X-Google-Smtp-Source: AK7set9u7jo9hpxXlVaEYuY78dhUtHqlUHXC/fHHDYz8/h/RsTj6wiY1cq79X0eF77Zucb066xh10A==
+X-Received: by 2002:a17:906:5a6e:b0:926:e917:133c with SMTP id my46-20020a1709065a6e00b00926e917133cmr1707354ejc.47.1678632660101;
+        Sun, 12 Mar 2023 07:51:00 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id l22-20020a50d6d6000000b004fa19f5ba99sm2012255edj.79.2023.03.12.07.50.57
+        by smtp.gmail.com with ESMTPSA id l22-20020a50d6d6000000b004fa19f5ba99sm2012255edj.79.2023.03.12.07.50.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Mar 2023 07:50:57 -0700 (PDT)
+        Sun, 12 Mar 2023 07:50:59 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 1/7] runqemu: direct mesa to use its own drivers, rather than ones provided by host distro
-Date: Sun, 12 Mar 2023 15:50:47 +0100
-Message-Id: <20230312145053.1427377-1-alex@linutronix.de>
+Subject: [PATCH 5/7] llvm: allow building libllvm in native builds, subject to PACKAGECONFIG
+Date: Sun, 12 Mar 2023 15:50:51 +0100
+Message-Id: <20230312145053.1427377-5-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230312145053.1427377-1-alex@linutronix.de>
+References: <20230312145053.1427377-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 14:51:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178392
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178397
 
-With mesa 23.0, it is not longer possible to use the host drivers, as
-mesa upstream has added strict checks for matching builds between
-drivers and libraries that load them.
+Also, enable that, if opengl is in native DISTRO_FEATURES: this allows
+mesa-native to build drivers that rely on libllvm, particularly llvmpipe,
+which is a (sort of) accelerated software renderer that is the only
+option on build hosts without dedicated or supported GPUs.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- scripts/runqemu | 25 +------------------------
- 1 file changed, 1 insertion(+), 24 deletions(-)
+ meta/recipes-devtools/llvm/llvm_git.bb | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 58b0c191e1..8e915f3d4c 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -447,30 +447,7 @@ class BaseConfig(object):
-             self.set("MACHINE", arg)
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+index b4e983d2d0..f133653903 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_git.bb
+@@ -57,9 +57,11 @@ def get_llvm_arch(bb, d, arch_var):
+ def get_llvm_host_arch(bb, d):
+     return get_llvm_arch(bb, d, 'HOST_ARCH')
  
-     def set_dri_path(self):
--        # As runqemu can be run within bitbake (when using testimage, for example),
--        # we need to ensure that we run host pkg-config, and that it does not
--        # get mis-directed to native build paths set by bitbake.
--        env = os.environ.copy()
--        try:
--            del env['PKG_CONFIG_PATH']
--            del env['PKG_CONFIG_DIR']
--            del env['PKG_CONFIG_LIBDIR']
--            del env['PKG_CONFIG_SYSROOT_DIR']
--        except KeyError:
--            pass
--        try:
--            dripath = subprocess.check_output("PATH=/bin:/usr/bin:$PATH pkg-config --variable=dridriverdir dri", shell=True, env=env)
--        except subprocess.CalledProcessError as e:
--            raise RunQemuError("Could not determine the path to dri drivers on the host via pkg-config.\nPlease install Mesa development files (particularly, dri.pc) on the host machine.")
--        self.qemu_environ['LIBGL_DRIVERS_PATH'] = dripath.decode('utf-8').strip()
+-PACKAGECONFIG ??= ""
++PACKAGECONFIG ??= "libllvm"
++PACKAGECONFIG:class-native = "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'libllvm', '', d)}"
+ # if optviewer OFF, force the modules to be not found or the ones on the host would be found
+ PACKAGECONFIG[optviewer] = ",-DPY_PYGMENTS_FOUND=OFF -DPY_PYGMENTS_LEXERS_C_CPP_FOUND=OFF -DPY_YAML_FOUND=OFF,python3-pygments python3-pyyaml,python3-pygments python3-pyyaml"
++PACKAGECONFIG[libllvm] = ""
+ 
+ #
+ # Default to build all OE-Core supported target arches (user overridable).
+@@ -102,14 +104,15 @@ do_compile:prepend:class-target() {
+ }
+ 
+ do_compile() {
++    if ${@bb.utils.contains('PACKAGECONFIG', 'libllvm', 'true', 'false', d)}; then
+ 	ninja -v ${PARALLEL_MAKE}
+-}
 -
--        # This preloads uninative libc pieces and therefore ensures that RPATH/RUNPATH
--        # in host mesa drivers doesn't trick uninative into loading host libc.
--        preload_items = ['libdl.so.2', 'librt.so.1', 'libpthread.so.0']
--        uninative_path = os.path.dirname(self.get("UNINATIVE_LOADER"))
--        if os.path.exists(uninative_path):
--            preload_paths = [os.path.join(uninative_path, i) for i in preload_items]
--            self.qemu_environ['LD_PRELOAD'] = " ".join(preload_paths)
-+        self.qemu_environ['LIBGL_DRIVERS_PATH'] = os.path.join(self.bindir_native, '../lib/dri')
+-do_compile:class-native() {
++    else
+ 	ninja -v ${PARALLEL_MAKE} llvm-config llvm-tblgen
++    fi
+ }
  
-     def check_args(self):
-         for debug in ("-d", "--debug"):
+ do_install() {
++    if ${@bb.utils.contains('PACKAGECONFIG', 'libllvm', 'true', 'false', d)}; then
+ 	DESTDIR=${D} ninja -v install
+ 
+         # llvm harcodes usr/lib as install path, so this corrects it to actual libdir
+@@ -121,9 +124,10 @@ do_install() {
+ 
+         # reproducibility
+         sed -i -e 's,${WORKDIR},,g' ${D}/${libdir}/cmake/llvm/LLVMConfig.cmake
++    fi
+ }
+ 
+-do_install:class-native() {
++do_install:append:class-native() {
+ 	install -D -m 0755 ${B}/bin/llvm-tblgen ${D}${bindir}/llvm-tblgen${PV}
+ 	install -D -m 0755 ${B}/bin/llvm-config ${D}${bindir}/llvm-config${PV}
+ 	ln -sf llvm-config${PV} ${D}${bindir}/llvm-config
 -- 
 2.30.2
 
