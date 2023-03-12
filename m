@@ -1,85 +1,82 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20921C6FD1C
-	for <webhook@archiver.kernel.org>; Sun, 12 Mar 2023 09:44:32 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.web10.63706.1678614267980041861
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E52E1C6FD1F
+	for <webhook@archiver.kernel.org>; Sun, 12 Mar 2023 12:03:42 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web11.65050.1678622617079351421
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Mar 2023 01:44:29 -0800
+ Sun, 12 Mar 2023 05:03:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=WgIi+pYz;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20230312094424a1074a646cedbab929-32otcj@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20230312094424a1074a646cedbab929
-        for <openembedded-core@lists.openembedded.org>;
-        Sun, 12 Mar 2023 10:44:25 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=mixitP0onxj7ldmqvIWkFT3WexKmt15A+bliMFnr6hc=;
- b=WgIi+pYz9TqPA/fbc1+lMWVyZxk5wEeiOHf/49clMupE5J8WQLz8NhmSNN46r+hsiSVlqX
- SigubgB8SZ1taqHkK2NtjvxWy6jCrnyAvXIZ2yb969whFPuSwKIhT4WQugE/9/rMu5KmDu+a
- JgzdcugodkdF7aW9U+BYnNhVgo14g=;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH] go: use go as CVE product for all golang recipe veriants
-Date: Sun, 12 Mar 2023 00:25:17 +0100
-Message-Id: <20230311232517.38062-1-peter.marko@siemens.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=ZQXDDaW3;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id a2so10112419plm.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 05:03:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678622616;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rrGbYV863wGWQLFs2Wh2UmpsIqnbEx8UGJKhWBJ+4cM=;
+        b=ZQXDDaW3gPemeKM40Mi/eNJnTx6CIS/eFoZRIDafB0lbwtbHUf2hg2O8VfncfnPJVq
+         UVgi4dVILePqaObb7wQGT/sqVseTYqqFSpka2fZKVc/QuLcFeNtzdEpr9/Hq5xLnDJo0
+         egOtD6XTL1WW5jmrMEjKmirbkbb4Q/WVTLgG0WCB8Vrx5bVpR7aGvLdveMBqRNVlpxaq
+         q++414az6PnuI+WbQYXw06C79sjAol7n1798YJcahqogGtdBj2BhUVeoY0z7l96+uxgg
+         RF4ZLolV1qDon5U5K9yGV3Ruc+aARDkJYpTY+Sn/JMw1AEr0RXOahVMkHcR+u31XOgyF
+         CAGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678622616;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rrGbYV863wGWQLFs2Wh2UmpsIqnbEx8UGJKhWBJ+4cM=;
+        b=njr6+LbAsloUVMkzd3bDUTKTXT11Xo+4cuxiFttWbbKpgAy8cToZDsU/MkktYK9p2m
+         xHB4xKUGhEj1fEDPKNEHS6ESbgjfYiHJmrQ4UIXU8AJLTC2j5kZeme6JLS8+aqQeEXxp
+         GVaR7bl2VxD98uy0WVnkDUbuwtrB3CWQEnQwZRwNV5gSDKpCoRDUomQqmau9ExvHHzZm
+         oCvcrwRF+qhtvuaN62olDzfz0Hi+6CIo5FsLe/tENbE4qVLhTny+JlHn8JCCejxkPeDD
+         m7vEiC2ittTMBSZrr7WegwwlAqrl3eE9rz7wwGI9lY0zhYEgfAyLKEGn1FWhRPhbSYN/
+         b5Rw==
+X-Gm-Message-State: AO0yUKU26+W57LzbJ/51OMBqxtNLxVOtOVHryfXXMeLZmRHVH82dEHdw
+	18Y3Va6lr32/6qMXdS4XgCnepj+6Oyt51FzA+do=
+X-Google-Smtp-Source: AK7set+GXiHNAVol1xtprVA9uj6Gi4pJIWyEP3Xmdy0BROFinWfcZksghQF0DR++NZdFjYyq+0N5Dg==
+X-Received: by 2002:a17:902:da8f:b0:19e:9807:de4a with SMTP id j15-20020a170902da8f00b0019e9807de4amr31662776plx.57.1678622615930;
+        Sun, 12 Mar 2023 05:03:35 -0700 (PDT)
+Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id kf3-20020a17090305c300b0019c91989a1csm2719730plb.300.2023.03.12.05.03.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Mar 2023 05:03:35 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id C8B419603CF; Sun, 12 Mar 2023 02:03:33 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 12 Mar 2023 02:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 12 Mar 2023 02:03:33 -1000
+Message-Id: <20230312120333.C8B419603CF@nuc.router0800d9.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 09:44:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178381
+ <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 12:03:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178382
 
-All golang vulnerabilities are reported under product 'go'.
+Branch: master
 
-By default there is no vulnerability reported for images with
-golang components because none of used golang packages
-have correct CVE product set:
-* go-binary-native
-* go-runtime
-* go-cross-*
+New this week: 3 CVEs
+CVE-2023-1127 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1127 *
+CVE-2023-1170 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1170 *
+CVE-2023-1175 (CVSS3: 7.3 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1175 *
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- meta/recipes-devtools/go/go-binary-native_1.20.1.bb | 2 ++
- meta/recipes-devtools/go/go-common.inc              | 3 +++
- 2 files changed, 5 insertions(+)
+Removed this week: 2 CVEs
+CVE-2016-15024 (CVSS3: 5.5 MEDIUM): shadow:shadow-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-15024 *
+CVE-2023-26081 (CVSS3: 7.5 HIGH): epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-26081 *
 
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.20.1.bb b/meta/recipes-devtools/go/go-binary-native_1.20.1.bb
-index 3eb80fdcce..239334552a 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.20.1.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.20.1.bb
-@@ -16,6 +16,8 @@ SRC_URI[go_linux_ppc64le.sha256sum] = "85cfd4b89b48c94030783b6e9e619e35557862358
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
- 
-+CVE_PRODUCT = "go"
-+
- S = "${WORKDIR}/go"
- 
- inherit goarch native
-diff --git a/meta/recipes-devtools/go/go-common.inc b/meta/recipes-devtools/go/go-common.inc
-index 83f8db7b39..96e32eeb97 100644
---- a/meta/recipes-devtools/go/go-common.inc
-+++ b/meta/recipes-devtools/go/go-common.inc
-@@ -19,6 +19,9 @@ S = "${WORKDIR}/go"
- B = "${S}"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.src\.tar"
- 
-+# all recipe variants are created from the same product
-+CVE_PRODUCT = "go"
-+
- INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
- SSTATE_SCAN_CMD = "true"
- 
--- 
-2.30.2
+Full list:  Found 7 unpatched CVEs
+CVE-2005-1796 (CVSS3: N/A): ncurses:ncurses-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2005-1796 *
+CVE-2022-3219 (CVSS3: 5.5 MEDIUM): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
+CVE-2022-4055 (CVSS3: 7.4 HIGH): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4055 *
+CVE-2022-46456 (CVSS3: 6.1 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
+CVE-2023-1127 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1127 *
+CVE-2023-1170 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1170 *
+CVE-2023-1175 (CVSS3: 7.3 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1175 *
 
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
