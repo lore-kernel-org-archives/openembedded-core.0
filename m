@@ -1,202 +1,126 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E10AC76195
-	for <webhook@archiver.kernel.org>; Sat, 11 Mar 2023 22:42:09 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web10.55951.1678574522030343246
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84EEEC6FA99
+	for <webhook@archiver.kernel.org>; Sun, 12 Mar 2023 06:55:41 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web10.62336.1678604132716530422
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Mar 2023 14:42:02 -0800
+ Sat, 11 Mar 2023 22:55:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fbQIi71Q;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id l7-20020a05600c1d0700b003eb5e6d906bso5580875wms.5
-        for <openembedded-core@lists.openembedded.org>; Sat, 11 Mar 2023 14:42:01 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=TAEiSBgN;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-wr1-f43.google.com with SMTP id v16so8645945wrn.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 11 Mar 2023 22:55:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1678574520;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=70cldgrl/0BrrQunPOXVGXkQVvOsQ8bUiXNfs3gIk2A=;
-        b=fbQIi71QXtCtBmE+nClV5xl+THHymxMHKKjlIT55WyZqIJuJsVOIxkCsH0JOwcE0fV
-         n8RxT5a2wS/iJSZK+5HNdOFyzv6IIgBVSmWwa+F3bvIXgjCq60nStjvgwnz4EUqzSAeg
-         q1Vbnxu/fMUtoRaZYuYHiIyOvMqFDcx+oWIw0=
+        d=gmail.com; s=20210112; t=1678604131;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+x5rVJYqx9eDOo8X0EKKf/COdzWXT2iPKBe4TyhPEYA=;
+        b=TAEiSBgNVIle43w3TANb8NRR7S8JQkWS0wTeNeSjOIF/tV7rLWZfsrr3Xba22hoIkV
+         ofKjMOjUYVrSWujO48UI81234OH2Pix0ZBLYG0xqCJ/ZED/Hx1dnFYThYRMWCBMJF1sF
+         KUYKPiWwa3HT1Frh27cF7i+DL1OPbnGKDvHn94xvC+5LEddgLXPcgVQX4B5FqmSgrjd4
+         psO+DR++zjsY1KPcGkYtodiRYv/u+4RPd0YPo/ZaBhfzHbrhzFl4BN7TN8eNlfpUXbRH
+         gjKs8gTzT9vIXbkah34uN+9qy9tb8k6j4lOMHhPcLeYqYP1xypiF1LKRw4/I1kLdhdvG
+         4jLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678574520;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=70cldgrl/0BrrQunPOXVGXkQVvOsQ8bUiXNfs3gIk2A=;
-        b=hu9R1k3NtGFx0fkG+ehVIZVxdZrpGvnK1c4nELgCfRuaz/2PMyzGQNSaJCbIJgRhQA
-         iOOIL2pgPJFWlT/qF3q2yA8U1cLUVkM+hMBI0DIkLEgqRNOiXCCvjSSUWdd9bq64nWC+
-         AkNo6ovMqo1uVWaEO6ThghX8punt0DjKuujbUtyK7VNAB2DTXWyBF5xw7vgFM+Ki9BqJ
-         55m8rkYFAzzs/1PzWtSiQToFT1uO8uD4LwVYle/CtgeJMmk+772VhRkcmiQjzBJec/ij
-         b042PZRZK4Gd1QZqqMOmLczsOKyVsjmMg4PspGetjjbA/STBf31UGJ+P3iDPQ4YStZFw
-         XHsQ==
-X-Gm-Message-State: AO0yUKWIbGBqyOeRqL7UtggvjQjpmfJNzgwgjbOkXcgfdjyWOcu/T694
-	VC7iWtbkQA7hNSweQkC3kjy7Gm7OwQW5LW3eqTA=
-X-Google-Smtp-Source: AK7set9uxnkEfh7x2lXvlU0fksb4WCWW+yJyxX9sHHpINEiC02wfxLajOb3qosjytVWr+CdTghl0BA==
-X-Received: by 2002:a05:600c:458e:b0:3eb:37ce:4c3d with SMTP id r14-20020a05600c458e00b003eb37ce4c3dmr6540377wmo.38.1678574520342;
-        Sat, 11 Mar 2023 14:42:00 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:9dd5:bdbf:ef9d:c118])
-        by smtp.gmail.com with ESMTPSA id z9-20020a05600c114900b003dc5b59ed7asm3933164wmz.11.2023.03.11.14.41.59
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20210112; t=1678604131;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+x5rVJYqx9eDOo8X0EKKf/COdzWXT2iPKBe4TyhPEYA=;
+        b=YRV4ex5jDJ4rL38/Yi/MroNxSVp+EmAJZmVj2qKcmwfThB4NfU5OK7dyTnC36BYMVY
+         DaavLPowYpmnAIIWlxqOqc3+kJRRlSltJADJvOzx+T4jT3y10uDhaO2dTarz8KYgMHq0
+         l+7S2a926s+eJatFZYs6GT1Pz+U1dVJpqtqgPXSMKwjFUqC07e3dDYk/OA4pyYIHz0Kh
+         OnL3j7wrnbESqPMy/rN3ci1IyVIvSIdXKljeTvG5MfwiYo1uuFy49WHxELtNGkiNVGhn
+         3C09shRtY1Jn+ksEXsp4GadVaQ7B0nUJ/JGWMuijJGH5PVSxFiGml5/jWRLkPMWmjviD
+         3Yxg==
+X-Gm-Message-State: AO0yUKVNbrm2K14AEeq0Yidn9j9Xj44uxTuDB5DmhnBKOKt5AEuFcsTk
+	KwBgyH0VAGSAFmmfQnHGEANLCaZ4pVQ=
+X-Google-Smtp-Source: AK7set9xDKeH2wx7SeoTGEGaO8AQmGJ++azsAFZioeTOxHog92uwS+XW5shJ+JTJ8/XXYIx2DvsF5g==
+X-Received: by 2002:a5d:644b:0:b0:2ce:ae50:9d7f with SMTP id d11-20020a5d644b000000b002ceae509d7fmr174506wrw.36.1678604130780;
+        Sat, 11 Mar 2023 22:55:30 -0800 (PST)
+Received: from work-pc.core.sigfox.net ([2a01:e0a:8d5:c6c0:13a5:314e:b651:2ea0])
+        by smtp.gmail.com with ESMTPSA id n9-20020adfe349000000b002c55de1c72bsm4159464wrj.62.2023.03.11.22.55.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Mar 2023 14:42:00 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Sat, 11 Mar 2023 22:55:30 -0800 (PST)
+From: frederic.martinsons@gmail.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 7/8] core-image-ptest: Switch to BBCLASSEXTEND parallel execution
-Date: Sat, 11 Mar 2023 22:41:54 +0000
-Message-Id: <20230311224155.3442306-7-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230311224155.3442306-1-richard.purdie@linuxfoundation.org>
-References: <20230311224155.3442306-1-richard.purdie@linuxfoundation.org>
+Cc: Frederic Martinsons <frederic.martinsons@gmail.com>
+Subject: [PATCH] cargo_common.bbclass: do not use buit-in git to fetch crates
+Date: Sun, 12 Mar 2023 07:55:17 +0100
+Message-Id: <20230312065517.61051-1-frederic.martinsons@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 11 Mar 2023 22:42:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178373
+ <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 06:55:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178375
 
-Replace the two images where tests are run serially with an image
-per ptest in the form core-image-ptest-XXX using class extensions.
+From: Frederic Martinsons <frederic.martinsons@gmail.com>
 
-The original two images are then replaced with dependencies on these
-images. This allows parallel execution of the tests.
+When a project has a dependencies from a git repository and ssh
+access, this kind of thing in Cargo.toml for example:
 
-The downside to this approach is the parsing time of an image generating
-this number of class extensions is slow but making it easier to execute
-and collect test data should outweigh that.
+[dependencies]
+my-crate = { git = "ssh://git@smyserver:7999/myrepo.git, branch="main" }
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+do_compile step failed with authentication error:
+
+|     Updating git repository `ssh://git@myserver:7999/myrepo.git`
+| error: failed to get `my-crate` as a dependency of package `bscli v0.0.1 (/home/fmartinsons/bscli)`
+|
+| Caused by:
+|   failed to load source for dependency `my-crate`
+|
+| Caused by:
+|   Unable to update ssh://git@myserver:7999/myrepo.git?branch=main
+|
+| Caused by:
+|   failed to fetch into: /home/fmartinsons/TAPOS_build/build-tapos/tmp/work/corei7-64-tapos-linux/bscli/v1.0.0+gitAUTOINC+5b5ba2aa3e-r0/cargo_home/git/db/cra-d8e163876777fda6
+|
+| Caused by:
+|   failed to authenticate when downloading repository
+|
+|   * attempted ssh-agent authentication, but no usernames succeeded: `git`
+|
+|   if the git CLI succeeds then `net.git-fetch-with-cli` may help here
+|   https://doc.rust-lang.org/cargo/reference/config.html#netgit-fetch-with-cli
+|
+| Caused by:
+|   error authenticating: no auth sock variable; class=Ssh (23)
+
+No problem if I run "cargo build" manually.
+
+As the compiler suggested, it is corrected by adding git-fetch-with-cli in
+cargo config file.
+
+Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
 ---
- .../images/core-image-ptest-all.bb            | 29 ++++++--------
- .../images/core-image-ptest-fast.bb           | 24 ++----------
- meta/recipes-core/images/core-image-ptest.bb  | 39 +++++++++++++++++++
- 3 files changed, 53 insertions(+), 39 deletions(-)
- create mode 100644 meta/recipes-core/images/core-image-ptest.bb
+ meta/classes-recipe/cargo_common.bbclass | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/recipes-core/images/core-image-ptest-all.bb b/meta/recipes-core/images/core-image-ptest-all.bb
-index 1472451675e..1a3e979d7e3 100644
---- a/meta/recipes-core/images/core-image-ptest-all.bb
-+++ b/meta/recipes-core/images/core-image-ptest-all.bb
-@@ -1,25 +1,18 @@
--inherit features_check
-+DESCRIPTION = "Recipe to trigger execution of all ptest images."
-+HOMEPAGE = "https://www.yoctoproject.org/"
+diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-recipe/cargo_common.bbclass
+index f503a001dd..c16aa4934b 100644
+--- a/meta/classes-recipe/cargo_common.bbclass
++++ b/meta/classes-recipe/cargo_common.bbclass
+@@ -114,6 +114,12 @@ cargo_common_do_configure () {
+ 	progress.when = 'always'
+ 	progress.width = 80
+ 	EOF
 +
-+LICENSE = "MIT"
++	cat <<- EOF >> ${CARGO_HOME}/config
 +
-+inherit features_check nopackages
- REQUIRED_DISTRO_FEATURES = "ptest"
++	[net]
++	git-fetch-with-cli = true
++	EOF
+ }
  
--require core-image-minimal.bb
- require conf/distro/include/ptest-packagelists.inc
- 
--DESCRIPTION += "Also includes ptest packages."
--HOMEPAGE = "https://www.yoctoproject.org/"
--
- # Include the full set of ptests
--IMAGE_INSTALL += "${PTESTS_FAST} ${PTESTS_SLOW}"
--
--# This image is sufficiently large (~1.8GB) that we need to be careful that it fits in a live
--# image (which has a 4GB limit), so nullify the overhead factor (1.3x out of the
--# box) and explicitly add just 1100MB.
--# strace-ptest in particular needs more than 500MB
--IMAGE_OVERHEAD_FACTOR = "1.0"
--IMAGE_ROOTFS_EXTRA_SPACE = "1124288"
-+PTESTS = "${PTESTS_FAST} ${PTESTS_SLOW}"
- 
--# ptests need more memory than standard to avoid the OOM killer
--# also lttng-tools needs /tmp that has at least 2G
--QB_MEM = "-m 4096"
-+addtask do_testimage
-+do_testimage[noexec] = "1"
-+do_testimage[depends] = "${@' '.join(['core-image-ptest-'+x.replace('-ptest', '')+':do_testimage' for x in d.getVar('PTESTS').split()])}"
- 
--# Sadly at the moment the full set of ptests is not robust enough and sporadically fails in random places
--PTEST_EXPECT_FAILURE = "1"
-+do_build[depends] = "${@' '.join(['core-image-ptest-'+x.replace('-ptest', '')+':do_build' for x in d.getVar('PTESTS').split()])}"
-diff --git a/meta/recipes-core/images/core-image-ptest-fast.bb b/meta/recipes-core/images/core-image-ptest-fast.bb
-index 40df274c4c1..e768afb302b 100644
---- a/meta/recipes-core/images/core-image-ptest-fast.bb
-+++ b/meta/recipes-core/images/core-image-ptest-fast.bb
-@@ -1,24 +1,6 @@
--inherit features_check
--REQUIRED_DISTRO_FEATURES = "ptest"
-+require core-image-ptest-all.bb
- 
--require core-image-minimal.bb
--require conf/distro/include/ptest-packagelists.inc
-+DESCRIPTION = "Recipe to trigger execution of all fast ptest images."
- 
--# Include only fast (< 30 sec) ptests
--IMAGE_INSTALL += "${PTESTS_FAST}"
-+PTESTS = "${PTESTS_FAST}"
- 
--DESCRIPTION += "Also includes ptest packages with fast execution times to allow for more automated QA."
--HOMEPAGE = "https://www.yoctoproject.org/"
--
--# This image is sufficiently large (~1.8GB) that it can't actually fit in a live
--# image (which has a 4GB limit), so nullify the overhead factor (1.3x out of the
--# box) and explicitly add just 1500MB.
--# strace-ptest in particular needs more than 500MB
--IMAGE_OVERHEAD_FACTOR = "1.0"
--IMAGE_ROOTFS_EXTRA_SPACE = "1524288"
--
--# ptests need more memory than standard to avoid the OOM killer
--QB_MEM = "-m 1024"
--
--# Sadly at the moment the fast set of ptests is not robust enough and sporadically fails in a couple of places
--PTEST_EXPECT_FAILURE = "1"
-diff --git a/meta/recipes-core/images/core-image-ptest.bb b/meta/recipes-core/images/core-image-ptest.bb
-new file mode 100644
-index 00000000000..0c67943b057
---- /dev/null
-+++ b/meta/recipes-core/images/core-image-ptest.bb
-@@ -0,0 +1,39 @@
-+inherit features_check
-+REQUIRED_DISTRO_FEATURES = "ptest"
-+
-+require core-image-minimal.bb
-+require conf/distro/include/ptest-packagelists.inc
-+
-+DESCRIPTION += "Also including the ${MCNAME} ptest package."
-+HOMEPAGE = "https://www.yoctoproject.org/"
-+
-+PTESTS = "${PTESTS_SLOW} ${PTESTS_FAST}"
-+
-+IMAGE_INSTALL:append = " ${MCNAME}-ptest openssh"
-+
-+BBCLASSEXTEND = "${@' '.join(['mcextend:'+x.replace('-ptest', '') for x in d.getVar('PTESTS').split()])}"
-+
-+# The image can sufficiently large (~1.8GB) that we need to be careful that it fits in a live
-+# image (which has a 4GB limit), so nullify the overhead factor (1.3x out of the
-+# box) and explicitly add up to 1500MB.
-+# strace-ptest in particular needs more than 500MB
-+IMAGE_OVERHEAD_FACTOR = "1.0"
-+IMAGE_ROOTFS_EXTRA_SPACE = "324288"
-+IMAGE_ROOTFS_EXTRA_SPACE:virtclass-mcextend-strace = "1024288"
-+IMAGE_ROOTFS_EXTRA_SPACE:virtclass-mcextend-lttng-tools = "1524288"
-+
-+# ptests need more memory than standard to avoid the OOM killer
-+QB_MEM = "-m 1024"
-+QB_MEM:virtclass-mcextend-lttng-tools = "-m 4096"
-+QB_MEM:virtclass-mcextend-python3-cryptography = "-m 4096"
-+
-+TEST_SUITES = "ping ssh parselogs ptest"
-+
-+# Sadly at the moment the full set of ptests is not robust enough and sporadically fails in random places
-+PTEST_EXPECT_FAILURE = "1"
-+
-+python () {
-+    if not d.getVar("MCNAME"):
-+        raise bb.parse.SkipRecipe("No class extension set")
-+}
-+
+ oe_cargo_fix_env () {
 -- 
-2.38.1
+2.34.1
 
 
