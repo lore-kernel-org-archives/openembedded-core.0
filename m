@@ -1,104 +1,126 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76966C6FD19
-	for <webhook@archiver.kernel.org>; Mon, 13 Mar 2023 09:20:43 +0000 (UTC)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
- by mx.groups.io with SMTP id smtpd.web11.15663.1678699239327365414
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F70BC6FD19
+	for <webhook@archiver.kernel.org>; Mon, 13 Mar 2023 09:23:33 +0000 (UTC)
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
+ by mx.groups.io with SMTP id smtpd.web11.15697.1678699412533903249
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Mar 2023 02:20:39 -0700
+ Mon, 13 Mar 2023 02:23:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=esHgdnL9;
- spf=pass (domain: gmail.com, ip: 209.85.208.175, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f175.google.com with SMTP id h3so11851768lja.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 02:20:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=q4FT8w4B;
+ spf=pass (domain: gmail.com, ip: 209.85.166.53, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-io1-f53.google.com with SMTP id v10so4731105iox.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 02:23:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678699237;
+        d=gmail.com; s=20210112; t=1678699411;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FBzQuNJ+Wm3OqZ4t1w6ugjwEfJMvG12YWqP4kqih3I4=;
-        b=esHgdnL9UVQhSe2FTVbZNSv51fGTFDACZzRM5TLXGeTj/yqtvRAmAyHT3gaL2Aq6Vr
-         To0EO/fwshYHScxbN/ZlqSRKGL9SsKCToG7OFhhhYrH6wgFJdBDW/UuIY6k2N2p0+WZt
-         Af0Y74zNvgD3Es4wtfPWB2A+lO5Xd1e8NAKsa2ksM/2zkadu1vFXnixWfWReGdV+UVtE
-         sXVed8Pt3yvFD2YrvgXeeyeQSz5kMhuuhgDRk93cqf0cTSIJXO7R/TRCHoAiENl4cv5z
-         UpdX+eAmMKRK9SnHGggOi3E6qRmyH9NUSBzozA9YQjegEjzdSPNuVBgihB21D0Eks+8p
-         pROw==
+        bh=p5FQ0SjONP5GIB8UvfObpE87dPKiZXeOdVvcMgZJJBU=;
+        b=q4FT8w4B1/EAX3FPuxy5qhYzDeKarYLs+bw2VNqGXzlhOQCyDdl0nboMv8KQK0ae8v
+         MMMOLRX7SHCw3fxuXf7yg6Y9tInMDDVlmFaF/VuE+B4bhCv4j+aO2E5kWITD5LSOOXMJ
+         M8/BNL0HglbgKeoBK6A+G1+J3Zf3JTl1tvdZBDqBgszUTiIkyolBJ7wD7SH6SJ4O2BFI
+         yMqhoAPDJ9yQyu+zo6RWjZksAdK2iKU1htPPfZ9FQqp73gtiCE7Udu9ocmDoLwjpvLrx
+         sYHJ0MzVwXg6TqHMLnJ2jqIJMowt0wpzSPQxxOqe8qtRBwxzlac7aY69WDiZBHIKFz/p
+         SH/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678699237;
+        d=1e100.net; s=20210112; t=1678699411;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FBzQuNJ+Wm3OqZ4t1w6ugjwEfJMvG12YWqP4kqih3I4=;
-        b=1os4vCKXy48sMIWgYkvZMmX57XMwm/X8cFrgSX+xYpqJVsyoaOZtxWIFBlqI3gX0VT
-         szldz7IZ34Wq9U9vAYYx5YfdLsPSkxKVHaQdaffLZSwLur0lC0SEqOCAuaNE+1DmlTgF
-         ae8JV7nH7mmv28+dxRHDEyh4ixnnN3AmSTowJ2QXd3eoPWpD7T2apqHYvfj0wwxmvtnu
-         J0j+eE2X37uCDtM6FpGS/QoDSck+QOXm69jQ/LlgnV79sHF+cUUsGbYoWNB6Esp5akwd
-         UGaVASXZPDuT95UJqmdaI6zO8szBWrvAtphc4xWEOzHjBrGThEVUpotSVpdtTn5AVlGV
-         W5vw==
-X-Gm-Message-State: AO0yUKVow1SUXrqAOqIQ2VwZo0rz9Lj7yb1UHK6vg4Hud9GNP/Y9NEp6
-	Pj7AM1qvtfpbClOMUpTIWMO3cSkVu+CKbA5hITs=
-X-Google-Smtp-Source: AK7set+CfWFJbcB9uO+GSn9zxwuYKCDcTpWfjYxpWJdUx8mocghlA/dlyQNGZL4PsU9aZryKIumKg7Q/wShI4SccKQw=
-X-Received: by 2002:a05:651c:1722:b0:298:6d79:c6d7 with SMTP id
- be34-20020a05651c172200b002986d79c6d7mr5620465ljb.7.1678699237414; Mon, 13
- Mar 2023 02:20:37 -0700 (PDT)
+        bh=p5FQ0SjONP5GIB8UvfObpE87dPKiZXeOdVvcMgZJJBU=;
+        b=YxgER9z3iM9bz4Mp+pf0TuSyboHvmzfpGlnD4QQVIHqIUtqWdScxAFalOGI88elZ9U
+         +sq3+03BC1CKlUP9CjTf95D5QskOIX85W0fJwwDlymWXGqQnHEzZyJ/1Q7NP42feik9Q
+         IHVS8wWbEf2IixlCYjghpJel94Iy/xviLp+bsTeocxQRMK5WWzo4kF8R8vvss6H23Kp2
+         6a5rwb66GuYZbSuRMTLxO6b5adebA1agIemkRjwmGUSF/A0I80oeK596aXnL15Z2Z2Xl
+         xYkEiB7VbEmuEsJKaHV9Gw1eG3q7KZRphf4/WQgchep/EQxKdbEyRaofktWwQcc58K46
+         eI7A==
+X-Gm-Message-State: AO0yUKX1bo3AtX1/uHeVVotqxC86t4QhJ8agCt4RsrDBcCIhkdZ/EsXB
+	gUnel9/qBWhjV8leze/1u40R7GG6dTEylovAzTw=
+X-Google-Smtp-Source: AK7set/5kx8x97YiLKSxExIJuVIiHvW3g4iQJ+0j6QRU/1pHCXFyOl+WpMNTe0jo6VS4vyAqOSyiEoVzidbgGwivDuQ=
+X-Received: by 2002:a02:a98f:0:b0:3c5:1490:5775 with SMTP id
+ q15-20020a02a98f000000b003c514905775mr16911111jam.1.1678699411748; Mon, 13
+ Mar 2023 02:23:31 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230312065517.61051-1-frederic.martinsons@gmail.com>
  <CANNYZj9ah1rO9FH3a_m2ftgrDik_NtcLa_15r6+sqD5iwBXsiw@mail.gmail.com>
  <CA+cAkeqZjC=L=_v-3K4VDtdWKxc3crDaqfwp_30B9KFAVrfJuw@mail.gmail.com>
- <CANNYZj9vyfkez+iL-EeeV0Yb3o1Fz9FDrbz+ZRjg5EjUHiAisA@mail.gmail.com> <CA+cAkepYqf_hJWe5HBpKcJrF37P7V81AWCZJJ_tUYtBH=BqHqg@mail.gmail.com>
-In-Reply-To: <CA+cAkepYqf_hJWe5HBpKcJrF37P7V81AWCZJJ_tUYtBH=BqHqg@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 13 Mar 2023 10:20:25 +0100
-Message-ID: <CANNYZj-srm78_c6abE2WX8L6gGqW=GM0uqUyHiMkVmO+t0ZWwA@mail.gmail.com>
+ <CANNYZj9vyfkez+iL-EeeV0Yb3o1Fz9FDrbz+ZRjg5EjUHiAisA@mail.gmail.com>
+ <CA+cAkepYqf_hJWe5HBpKcJrF37P7V81AWCZJJ_tUYtBH=BqHqg@mail.gmail.com> <CANNYZj-srm78_c6abE2WX8L6gGqW=GM0uqUyHiMkVmO+t0ZWwA@mail.gmail.com>
+In-Reply-To: <CANNYZj-srm78_c6abE2WX8L6gGqW=GM0uqUyHiMkVmO+t0ZWwA@mail.gmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Mon, 13 Mar 2023 09:22:53 +0000
+Message-ID: <CAO5Uq5SaqUHzS93eyki1-3OGK2w_tGizJZmHMrJKGx5LdRZryA@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] cargo_common.bbclass: do not use buit-in git to
  fetch crates
-To: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>, 
+	openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 09:20:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178420
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 09:23:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178421
 
-Note that we're all rust neophytes, and rust support in yocto is still
-evolving towards maturity. If you can see better ways to do things,
-patches would be most welcome - but 'no network access except in
-bitbake fetchers' is a core rule.
+ISTR I tried this and ran into a different set of different problems.
 
-Alex
-
-On Mon, 13 Mar 2023 at 10:14, Fr=C3=A9d=C3=A9ric Martinsons
-<frederic.martinsons@gmail.com> wrote:
+On Mon, Mar 13, 2023 at 9:20=E2=80=AFAM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
 >
-> I understand there should not be a fetch during build step , I'll try
-> to find why .
-> In the mean time, if this is a strong rule, shouldn't we invoke "cargo
-> build" with  --offline option ?
+> Note that we're all rust neophytes, and rust support in yocto is still
+> evolving towards maturity. If you can see better ways to do things,
+> patches would be most welcome - but 'no network access except in
+> bitbake fetchers' is a core rule.
 >
-> On Mon, 13 Mar 2023 at 09:38, Alexander Kanavin <alex.kanavin@gmail.com> =
-wrote:
+> Alex
+>
+> On Mon, 13 Mar 2023 at 10:14, Fr=C3=A9d=C3=A9ric Martinsons
+> <frederic.martinsons@gmail.com> wrote:
 > >
-> > On Mon, 13 Mar 2023 at 09:29, Fr=C3=A9d=C3=A9ric Martinsons
-> > <frederic.martinsons@gmail.com> wrote:
-> > > But the compile step tried to git clone anyway and so it failed like =
-I
-> > > showed in my first email.
+> > I understand there should not be a fetch during build step , I'll try
+> > to find why .
+> > In the mean time, if this is a strong rule, shouldn't we invoke "cargo
+> > build" with  --offline option ?
 > >
-> > You need to figure out why this happens, because it should not. We
-> > have plenty of recipes that list crates in SRC_URI in oe-core, so you
-> > could start by studying how they work.
-> >
-> > Accessing network anywhere except do_fetch is not allowed for
-> > reproducibility and license compliance reasons (both break if that
-> > happens).
-> >
-> > 'cargo bitbake' is a 3rd party project with questionable maintenance
-> > status that we do not support. The official way is to use
-> > cargo-update-recipe-crates class.
-> >
-> > Alex
+> > On Mon, 13 Mar 2023 at 09:38, Alexander Kanavin <alex.kanavin@gmail.com=
+> wrote:
+> > >
+> > > On Mon, 13 Mar 2023 at 09:29, Fr=C3=A9d=C3=A9ric Martinsons
+> > > <frederic.martinsons@gmail.com> wrote:
+> > > > But the compile step tried to git clone anyway and so it failed lik=
+e I
+> > > > showed in my first email.
+> > >
+> > > You need to figure out why this happens, because it should not. We
+> > > have plenty of recipes that list crates in SRC_URI in oe-core, so you
+> > > could start by studying how they work.
+> > >
+> > > Accessing network anywhere except do_fetch is not allowed for
+> > > reproducibility and license compliance reasons (both break if that
+> > > happens).
+> > >
+> > > 'cargo bitbake' is a 3rd party project with questionable maintenance
+> > > status that we do not support. The official way is to use
+> > > cargo-update-recipe-crates class.
+> > >
+> > > Alex
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#178420): https://lists.openembedded.org/g/openembedde=
+d-core/message/178420
+> Mute This Topic: https://lists.openembedded.org/mt/97555635/3618097
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kiernan@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+
+
+--=20
+Alex Kiernan
 
