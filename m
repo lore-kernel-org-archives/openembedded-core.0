@@ -1,96 +1,92 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73750C74A4B
-	for <webhook@archiver.kernel.org>; Mon, 13 Mar 2023 08:54:33 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.15346.1678697669925008164
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94FF2C6FD19
+	for <webhook@archiver.kernel.org>; Mon, 13 Mar 2023 09:14:53 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web10.15183.1678698883284747737
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Mar 2023 01:54:30 -0700
+ Mon, 13 Mar 2023 02:14:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ahnFkWZ2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id l12so2217744wrm.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 01:54:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=cfgWie62;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-lf1-f50.google.com with SMTP id m4so1761525lfj.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 02:14:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1678697668;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=m02RajaxZJz0jULZdycd6uDkg5ZYWYOeH9jS6t2e4UE=;
-        b=ahnFkWZ2zE1DPkvG3L4gZkE2kkKxK99GPLT8AHraOkBtDO4xmtKH8TPlod6EINhJDK
-         LIlCeG6PJPmCnsZP/jL7Hi+EHBTw/QzfE1dZm/sORgopOE1hrQ1rXiIgEFpX3H3+G4ZE
-         BgA+7i6hogBlxyo/6RYl1aBjQxditjZH5PB58=
+        d=gmail.com; s=20210112; t=1678698881;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TNPXtpG/FNLjr6r6KAEpFW527DLVLBWV/rn6pvo371w=;
+        b=cfgWie62oVAmWFhGobJvQWQWQjE6GaahRbNeeaMk0sJbtLmxFf+/2H7Ax/w6Y4bCZT
+         Bkn/0pqUZsnJlcqNM7t44xaNaJrVA9TV6FbzfKQ9KL1sq0mIReQ8554X4LnLTTA2Cnoi
+         aDsOVXF9/ThE8sd6ZW0z6WeyQwD4TIslt3p2PJeeP50G1tzEKSRy1RwKsriq4Es8GUqe
+         7o9J4yovkfbSeRF1rOhU+tTLr6boz7eHNXOvTZZo4fXqRwWgglcPjtXCGLcFY+z9vtTP
+         GzkXGrGQJ2lYNBe5FLQYrR6nzxJB+kwHG7RA46h+nfCHgWEoX9g4pBFFm9j8rBiLqxmT
+         pKdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678697668;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=m02RajaxZJz0jULZdycd6uDkg5ZYWYOeH9jS6t2e4UE=;
-        b=HiVbUB7p2vnpwcIGVopdB1y7s1K3vnbXZxl54wUkUhZmsVS1B4xtxY5cHt0VxaFK1y
-         RCLy2lDbjpowS5mQ+nt8tG9QMcfPvk0ZFNLA9u1x6JOpd2tTKIFsyMXjdLssWQeum0CX
-         ZAOsDkVt/jJ+BhIcsuv/35AacWJdVhHaftKbM80KpSDPEuZLOyyuKqc/2coecOfKvEKc
-         vKWAuGjiM+YeK3kaQE3DLjYk6Di3bB3WX5a6xiHOPidh013QPZqe0GBv0WyzzeXy3xVN
-         NxwMzkyq9PaALZHYvkyYd3bj9t/QIWJ8OJFq0IKk0/Rrvu774ihGTxLsaUYnq04c4YSF
-         S3sw==
-X-Gm-Message-State: AO0yUKXuQSBpGXBLm4enDfh/chH0adVaUo6y4JkcLaCzGq5ptIZD9W7m
-	sjzGJ6St4vE7I96b5Yr8+VJb+89ZteC4JgtDo/g=
-X-Google-Smtp-Source: AK7set/MvVoZeQLo60u0xf61njOslAG68upopUtw1uDj6Mk1wCNF47GC+dmNumovgfMoYdayssvUbA==
-X-Received: by 2002:a05:6000:181:b0:2ce:aa2e:b864 with SMTP id p1-20020a056000018100b002ceaa2eb864mr3272348wrx.27.1678697668170;
-        Mon, 13 Mar 2023 01:54:28 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:62e:a5f3:301e:14e1? ([2001:8b0:aba:5f3c:62e:a5f3:301e:14e1])
-        by smtp.gmail.com with ESMTPSA id a10-20020adfe5ca000000b002cde25fba30sm7531369wrn.1.2023.03.13.01.54.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Mar 2023 01:54:27 -0700 (PDT)
-Message-ID: <ca4cbe531fc89db118bb6e3b9d0e2be122ec3168.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/3] oeqa/selftest/sstate: Merge sstate test
- class with tests themselves
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 13 Mar 2023 08:54:27 +0000
-In-Reply-To: <174BB12595FFBC4A.32367@lists.openembedded.org>
-References: <174BB0E170CBB178.32367@lists.openembedded.org>
-	 <174BB12595FFBC4A.32367@lists.openembedded.org>
+        d=1e100.net; s=20210112; t=1678698881;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TNPXtpG/FNLjr6r6KAEpFW527DLVLBWV/rn6pvo371w=;
+        b=yFHsU6sNUb0sfg1ulHY25RU22F9KUY2JKbbTniLunrp7N4pf9P/8AYYP/AXSWyoYN1
+         1lcdEJ0L3//s8EPl60GZ+7nvzp2pk7s+SpWpvLhKCRAFkPUhxBop0TFLVCHn5nmxUhoC
+         4NCUEB4px1sXBdtxKpJCB0Xc/+anRKlr4XqrT2yBDg3mJBWNOU36o3hOwZiPtlZ/ZCKn
+         yjk7uCO9cOIGqOZ1QqTfrDn6jqwpkqUPaWSmxhz6q2m2QlGxQeO4i0Vry0/tPEcB/sgg
+         sE+mh87wObu7HD/qr/rndK3CefzLTq66BUm4Zd1ZA2PspiaQ/3RhSI7Iz1SKVKMcqjXJ
+         BY7w==
+X-Gm-Message-State: AO0yUKWqvTGzAAkAKaufb1vbdYcT+0Odss03CA9IJ5N/qn3yODl6jn5D
+	SQeGboUaX0Jj8Jo083pz7ooGODiLhVtsIsXRp3U=
+X-Google-Smtp-Source: AK7set8TRtyp1q4ECpfqt87SOKjs5lPaQmI4Z7vPgy0n9CTsn2dV+/Cu05TNxqoY3U2xfE+pPb6uHE7cUkS82jLyYcs=
+X-Received: by 2002:ac2:4117:0:b0:4d5:ca32:7bc5 with SMTP id
+ b23-20020ac24117000000b004d5ca327bc5mr10444404lfi.12.1678698881460; Mon, 13
+ Mar 2023 02:14:41 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230312065517.61051-1-frederic.martinsons@gmail.com>
+ <CANNYZj9ah1rO9FH3a_m2ftgrDik_NtcLa_15r6+sqD5iwBXsiw@mail.gmail.com>
+ <CA+cAkeqZjC=L=_v-3K4VDtdWKxc3crDaqfwp_30B9KFAVrfJuw@mail.gmail.com> <CANNYZj9vyfkez+iL-EeeV0Yb3o1Fz9FDrbz+ZRjg5EjUHiAisA@mail.gmail.com>
+In-Reply-To: <CANNYZj9vyfkez+iL-EeeV0Yb3o1Fz9FDrbz+ZRjg5EjUHiAisA@mail.gmail.com>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
+Date: Mon, 13 Mar 2023 10:14:30 +0100
+Message-ID: <CA+cAkepYqf_hJWe5HBpKcJrF37P7V81AWCZJJ_tUYtBH=BqHqg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] cargo_common.bbclass: do not use buit-in git to
+ fetch crates
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3-1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 08:54:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178416
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 09:14:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178417
 
-On Sun, 2023-03-12 at 14:07 +0000, Richard Purdie via
-lists.openembedded.org wrote:
-> On Sun, 2023-03-12 at 14:02 +0000, Richard Purdie via
-> lists.openembedded.org wrote:
-> > Having this base class as a separate file is just confusing. Merge with
-> > the rest of the test code.
-> >=20
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->=20
-> Whilst I stand by this series as a set of patches and think it is a
-> good idea, it seems to cause failures in the wic tests:
->=20
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/4948
->=20
-> That is somewhat worrying. We'll need to work out what is going on
-> before it can merge :(
+I understand there should not be a fetch during build step , I'll try
+to find why .
+In the mean time, if this is a strong rule, shouldn't we invoke "cargo
+build" with  --offline option ?
 
-It reproduces with:
-
-oe-selftest -r recipetool.RecipetoolTests.test_recipetool_handle_license_va=
-rs wic.Wic2.test_biosplusefi_plugin_qemu -j 1
-
-looks like something tinfoil related. These patches trigger it due to
-changing the test order.
-
-Cheers,
-
-Richard
-
-
+On Mon, 13 Mar 2023 at 09:38, Alexander Kanavin <alex.kanavin@gmail.com> wr=
+ote:
+>
+> On Mon, 13 Mar 2023 at 09:29, Fr=C3=A9d=C3=A9ric Martinsons
+> <frederic.martinsons@gmail.com> wrote:
+> > But the compile step tried to git clone anyway and so it failed like I
+> > showed in my first email.
+>
+> You need to figure out why this happens, because it should not. We
+> have plenty of recipes that list crates in SRC_URI in oe-core, so you
+> could start by studying how they work.
+>
+> Accessing network anywhere except do_fetch is not allowed for
+> reproducibility and license compliance reasons (both break if that
+> happens).
+>
+> 'cargo bitbake' is a 3rd party project with questionable maintenance
+> status that we do not support. The official way is to use
+> cargo-update-recipe-crates class.
+>
+> Alex
 
