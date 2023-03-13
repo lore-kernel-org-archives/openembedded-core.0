@@ -1,97 +1,166 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F285C6FA99
-	for <webhook@archiver.kernel.org>; Sun, 12 Mar 2023 21:10:50 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web10.5067.1678655447661558409
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17320C6FD1F
+	for <webhook@archiver.kernel.org>; Mon, 13 Mar 2023 00:12:51 +0000 (UTC)
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+ by mx.groups.io with SMTP id smtpd.web10.8557.1678666363803063438
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Mar 2023 14:10:48 -0700
+ Sun, 12 Mar 2023 17:12:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=SSp4HpE+;
- spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f46.google.com with SMTP id n2so13263571lfb.12
-        for <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 14:10:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=cR5eqZM3;
+ spf=pass (domain: gmail.com, ip: 209.85.167.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f178.google.com with SMTP id bm20so8303685oib.7
+        for <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 17:12:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678655446;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=m/pbZM6cBjJ5rCagJyxELGoIlG1tyhmcb1zpE7FxyM8=;
-        b=SSp4HpE+ab3ii6hjMcNvDZltf/GrqqNBYzvqXkqAPE7MuEBk18UmRunMl0PiRPayYN
-         8fqpuyMSSmuNaHvgM5n7t+UL/JcKXE8LFyFcoBOKcsn7o+GobuN0d84y+YXZLYXbiYcA
-         Cy6TWR1kEtoX0Ud9+vP8GYwl01t0dDqkB4ZaaP4SDnOcNy2Wmu5nke1LR516yJCAQBdX
-         m4l0d8KhlDbJ6eLacpLLbbwu1YE4pfBBCPdL1Uwez+rFPOKQFbXaB+oqaxYhqrLukQxY
-         PQhNnTxI2+HaKTyrSAzmG3xwYzqnq//BgpqD7M8k8ghRnfpeDuz2OL/myl0CtN+EBuJc
-         0+xg==
+        d=gmail.com; s=20210112; t=1678666363;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dMGc78ISciaZ5Ie5YS3BodJuorJ3/THPZIfnXONhyFk=;
+        b=cR5eqZM366obB6pSYgBB2W4JC8wNYdvs/YMrehmrBcfXXpqaRe8pdK5rp2OTmnMzB9
+         FY9h6ZBqN3wphtW53bcGgpPmBAG9dp1JlqNjT75ZUnT9vpuDnIYgghP70/kutLujsOMD
+         SeqOzHLKCwHVbRlpRDgpz1zClhvEV2t4t4Tjq1QGL6tca/jG3Kl2zbBFX/2CppXTnmNA
+         ryH/pIFaINyqzNLF7Tv96MUZSqvd+cFDg+FLGF1yCqeOk/+c8O1+82HobMGUXtkddKEN
+         W9oz8s1FaNiusfZLW0ht9LLDdgx9yOiVvFLRZhHEfoRAbfWQYBENonkGZWBhcBrwMwQE
+         fECA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678655446;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=m/pbZM6cBjJ5rCagJyxELGoIlG1tyhmcb1zpE7FxyM8=;
-        b=g3pjO0JeW+cpnZ6OdG1HQpnI3ucODruaGIR3rz6DdPAJv7kiApH9mOj+Ls9X83wFMH
-         DjGEESRVcF3A1Usiuuf1NvOBmfjQyT3PV50KCVJGaYZ4hs6TrCU2wRaz2jwRLIBI+Z79
-         509uAALgNF3dZ/8GMjKlKSaiAFxdteSyMuefMQUwZr8s/cdAetrsT9v8s4T5o/W4/A8p
-         CnQlI+TLx6AvflfAX3h+foKDBvSQE/T5bwPIYJEtnTzSz1zybICPcxMFnl4SZLjr2nuu
-         v0ZtdzMZUIZt84L78jknurm12doP0+N634e/nxQx3pITlDdCwKOgBwRhVI6nLCNfdmdS
-         dTpw==
-X-Gm-Message-State: AO0yUKWJzWxTgCILRd5zCXW6EBj9v/+CtMWihHdF6EJ1ni/IZJxnCwTT
-	LjnYm7IQcy1RWLAgP0kfibu1lnlraRD7fmjhias=
-X-Google-Smtp-Source: AK7set8rrgnBnqwqNMEnSwdn76FHETXnolaiSRwyFfIJ5xtnyi25yjdrGemURNIc253eVTYgrNb0djd6Jh6FQZpjU8Y=
-X-Received: by 2002:ac2:50d7:0:b0:4e8:446f:f600 with SMTP id
- h23-20020ac250d7000000b004e8446ff600mr526370lfm.13.1678655445656; Sun, 12 Mar
- 2023 14:10:45 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1678666363;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dMGc78ISciaZ5Ie5YS3BodJuorJ3/THPZIfnXONhyFk=;
+        b=4Ffh09s9yWJwY2kzQI9hWPoJW7gKZvsl39SmjWfZ3n0GaD4zFH56zbJO7OUMyWrqXR
+         31l2CU+mJYnXvKCZSYn/9t/qZIfWQrM2KMuu1uySN8DWGU851zTyAjeVwHkpxMfz1YPi
+         QToY/TnDy7sLz6Fp8R1S35yYZKPby+juuGSHTDu7rfuThOOWjW54u1ec3czqW5tigj3m
+         UFmStaQxPVDoBEf2JQ/oLeKGpiykhgT/+7j4Zb/jnioDhmEcIyE6027hhIJ8/aBfDt2P
+         TGxkKl6fWeTieejXxbdo9UhpI061Jhr1JwRXHKpQu1Xilu+E/YkXQyqrFF7VZwIUNWAh
+         99nQ==
+X-Gm-Message-State: AO0yUKXRvO6Uw3B//tRwru5OqGdKNlzE9O567zpE6gCidJymKmVodrK6
+	x/9DxA3MdzPHLE6u1rp9kHP1B7a8UNRvqUYu3q8=
+X-Google-Smtp-Source: AK7set/i0RH13W9D4ZxoAhXM/YKO/A3gIwUxT/qVAMQR5maYan86/0Y5Pq6qQer1Q2lhpV/lKLt0hWhQ1MBUWuwYYBw=
+X-Received: by 2002:a05:6808:aa1:b0:384:2022:f9b1 with SMTP id
+ r1-20020a0568080aa100b003842022f9b1mr10951244oij.2.1678666361658; Sun, 12 Mar
+ 2023 17:12:41 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230312072422.2626859-1-raj.khem@gmail.com> <CANNYZj8fy7m1_fzZKyVCoKTd2-c8dnas-0NYkif89JXf7fPOnw@mail.gmail.com>
  <CAMKF1srA2ks+mvbBM3tWk=6zfcHFHYXnix2SNpCYnXp0rSDwVQ@mail.gmail.com>
  <CANNYZj-5h=u8yF0zzpSbwoJWSzVFEo5AHMeER1qeEin3kVtUUg@mail.gmail.com>
- <CAMKF1sqjE0xeYtzw9az+ysmrzEs6rsH0E_uLkZcrn65X195+Wg@mail.gmail.com> <174BC754CF63B9EF.25836@lists.openembedded.org>
-In-Reply-To: <174BC754CF63B9EF.25836@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 12 Mar 2023 22:10:34 +0100
-Message-ID: <CANNYZj8LGa_Bfy-0mpBK0Dzvw=DRenPH4yuJiTMGnLLBGm02mw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] systemd: Fix musl fix patch
-To: alex.kanavin@gmail.com
-Cc: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+ <CAMKF1sqjE0xeYtzw9az+ysmrzEs6rsH0E_uLkZcrn65X195+Wg@mail.gmail.com> <CANNYZj_dSxCUczz0ca+Py3RroXVjhzLxgY-bA56sRRa-ZJ98-g@mail.gmail.com>
+In-Reply-To: <CANNYZj_dSxCUczz0ca+Py3RroXVjhzLxgY-bA56sRRa-ZJ98-g@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 12 Mar 2023 17:12:15 -0700
+Message-ID: <CAMKF1srRD3_87wCE6isn0HTzWRSpOqVoj4JhVfcZh4ruC4-bMw@mail.gmail.com>
+Subject: Re: [PATCH] systemd: Fix musl fix patch
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 21:10:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178404
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 00:12:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178405
 
-On Sun, 12 Mar 2023 at 21:54, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-wrote:
-
+On Sun, Mar 12, 2023 at 1:54=E2=80=AFPM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> On Sun, 12 Mar 2023 at 21:19, Khem Raj <raj.khem@gmail.com> wrote:
+> > alltypes.h is generated by musl during its build which is used by all
+> > system headers on musl systems it contains
+> >
+> > #if defined(__NEED_wchar_t) && !defined(__DEFINED_wchar_t)
+> > typedef unsigned wchar_t;
+> > #define __DEFINED_wchar_t
+> > #endif
+> >
+> > stddef.h defines __NEED_wchar_t which is included from efi-string.h
+> > and stddef.h immediately includes alltypes.h. so unless somewhere
+> > __DEFINED_wchar_t
+> > is pre-defined above will be included and that's what the problem is.
+> >
+> > The patch you created makes efi-string.c to type define wchar_t before
+> > including efi-string.h without blocking all possible ways for it to be
+> > defined by system headers.
+> > Hope that makes it clear.
+>
+> I understand this. The question was about why this happens with clang,
+> but does not happen with gcc.
+>
+> I looked into this meanwhile. This seems to be a difference in how
+> compilers look for headers.
+>
+> There are actually two versions of stddef.h, one provided by the
+> compiler itself (which would be the correct, expected one), and the
+> other coming from musl.
+>
+> gcc:
+> alex@Zen2:/srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-po=
+ky-linux-musl/systemd-boot/253.1-r0$
+> find . -name stddef.h
+> ./recipe-sysroot-native/usr/lib/aarch64-poky-linux-musl/gcc/aarch64-poky-=
+linux-musl/12.2.0/include/stddef.h
+> ./recipe-sysroot/usr/include/linux/stddef.h
+> ./recipe-sysroot/usr/include/stddef.h
+> ./git/src/basic/linux/stddef.h
+>
+> clang:
+> alex@Zen2:/srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-po=
+ky-linux-musl/systemd-boot/253.1-r0$
+> find . -name stddef.h
+> ./recipe-sysroot-native/usr/lib/clang/15.0.7/include/stddef.h
+> ./recipe-sysroot/usr/include/linux/stddef.h
+> ./recipe-sysroot/usr/include/stddef.h
+> ./git/src/basic/linux/stddef.h
+>
+>
+>
+> gcc includes the correct header because its order of searching headers is=
+:
+> #include <...> search starts here:
+>  /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-=
+musl/systemd-boot/253.1-r0/git/src/fundamental
+>  /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-=
+musl/systemd-boot/253.1-r0/git/src/boot/efi
+>  /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-=
+musl/systemd-boot/253.1-r0/recipe-sysroot/usr/include/efi/aarch64
+>  /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-=
+musl/systemd-boot/253.1-r0/recipe-sysroot/usr/include/efi
+>  /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-=
+musl/systemd-boot/253.1-r0/recipe-sysroot-native/usr/bin/aarch64-poky-linux=
+-musl/../../lib/aarch64-poky-linux-musl/gcc/aarch64-poky-linux-musl/12.2.0/=
+include
+>  /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-=
+musl/systemd-boot/253.1-r0/recipe-sysroot/usr/lib/aarch64-poky-linux-musl/1=
+2.2.0/include
+>  /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-=
+musl/systemd-boot/253.1-r0/recipe-sysroot/usr/include
+> End of search list.
+>
 > clang includes the incorrect one:
 >
 > #include <...> search starts here:
->  /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-musl/systemd-boot/253.1-r0/git/src/fundamental
->  /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-musl/systemd-boot/253.1-r0/git/src/boot/efi
->  /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-musl/systemd-boot/253.1-r0/recipe-sysroot/usr/include/efi/aarch64
->  /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-musl/systemd-boot/253.1-r0/recipe-sysroot/usr/include/efi
->  /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-musl/systemd-boot/253.1-r0/recipe-sysroot/usr/include
->  /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-musl/systemd-boot/253.1-r0/recipe-sysroot-native/usr/lib/clang/15.0.7/include
+>  /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-=
+musl/systemd-boot/253.1-r0/git/src/fundamental
+>  /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-=
+musl/systemd-boot/253.1-r0/git/src/boot/efi
+>  /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-=
+musl/systemd-boot/253.1-r0/recipe-sysroot/usr/include/efi/aarch64
+>  /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-=
+musl/systemd-boot/253.1-r0/recipe-sysroot/usr/include/efi
+>  /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-=
+musl/systemd-boot/253.1-r0/recipe-sysroot/usr/include
+>  /srv/storage/alex/yocto/build-musl-arm-64/tmp/work/cortexa57-poky-linux-=
+musl/systemd-boot/253.1-r0/recipe-sysroot-native/usr/lib/clang/15.0.7/inclu=
+de
 > End of search list.
 >
+
+This is working as intended, unlike glibc, musl provides stddef.h and
+it wants musl based platforms to use that,
+OE clang won't do that when the selected libc is glibc.
+
 > So I'd say the search order needs to be aligned with gcc, rather than
 > having to patch around the issue.
-
-For reference, clang on my host gets it right and matches gcc:
-
-alex@alex-lx-laptop:~$ echo | clang-14 -E -Wp,-v -
-clang -cc1 version 14.0.6 based upon LLVM 14.0.6 default target
-x86_64-pc-linux-gnu
-...
-#include <...> search starts here:
- /usr/lib/llvm-14/lib/clang/14.0.6/include
- /usr/local/include
- /usr/include/x86_64-linux-gnu
- /usr/include
-End of search list.
-
-
-Alex
 
