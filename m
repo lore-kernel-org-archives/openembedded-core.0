@@ -2,111 +2,86 @@ Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B46CC61DA4
-	for <webhook@archiver.kernel.org>; Mon, 13 Mar 2023 19:38:12 +0000 (UTC)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web10.3808.1678736288713904507
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD61EC61DA4
+	for <webhook@archiver.kernel.org>; Mon, 13 Mar 2023 20:50:52 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web11.5735.1678740649116893599
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Mar 2023 12:38:09 -0700
+ Mon, 13 Mar 2023 13:50:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=awsaajSC;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id y4so23732636edo.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 12:38:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=I9ACO27g;
+ spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f46.google.com with SMTP id h14so12540641wru.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 13:50:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678736287;
+        d=gmail.com; s=20210112; t=1678740647;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LQexagwarVNOir6NGA/wb1SWUA6xRp0I+058FPFmG84=;
-        b=awsaajSCGO6YPQdDxjRj+/DJ9HKyU2Pq2P2dFLSFzcQ7ng2cyB9PUVOuv1cEZEAWRo
-         h/u0b4yU6hpyUFxDriuWRRvMvQEm4GePCPU7AFX2rKr5MzTuw1BpBx27iSwwoVBbuQAi
-         1S+vHBSjQGjwNLWSl+CvvabKVfm/GkDUfI705RltapU7gTyp5XCuBHNg7btPIS683YcA
-         6y05bCEDKJiZ20S7GTe79G5YcKPa+3NetkVAMJtLer1OOA3bWyvtJwpD4NZDfxWm3wNn
-         x+263wj5qwrJNcLbfA+Tn8JBMExBOTSfXj/p4FBnAXWLaJzDMCoNYa10ZX1c/um3OyH8
-         QNOQ==
+        bh=Yhj8loIDBKxQqcnnxLBZoGEX0kwkzJmQdPKPG/eZHuA=;
+        b=I9ACO27gLh8cvVp5VKhYNrU4eXh+SddzPKG/gGgyO+CZzjB6pVhON+eFSjvLRfRySF
+         4C0lb7mGHiv1Urn93H5p3baKy6TjkxRoap9r2qcc2hICFKhKZM4n7F1VFkHrXyM6U2Uz
+         K5S61p9/32GsAbOZKoK2px+Il9n/QEvmtI51pHKKh5CZU1WYCTIoVOx6bADkh8P1DX2f
+         61v4hBndqb5FL10+dCpz3rDkoUEmyBciM56oASaYZ1pFgxt8mx+7OT0olrucJwtmPIU0
+         Fw1DQX7++f8AOLynu0GTQSoPaNWxYy7U6F0FeNbxOSmnvcju456CZQetkaBGu2w0MdA6
+         Vv3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678736287;
+        d=1e100.net; s=20210112; t=1678740647;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LQexagwarVNOir6NGA/wb1SWUA6xRp0I+058FPFmG84=;
-        b=utMhmFGSs4uJQzwSvxgRvKGYX92ftkf3wqr5ReW2swd74qVCt60TrNZQWTiZalRbTy
-         XOoOBOkpOzS0FfVkQVbBEAsBPUjJoMziTWUjcu753XaA1UfDqPoEkmwmWGcw47U3fdys
-         e7bGpZ+MlHuHblpe0SouNH1cKeu+ngC2e1kTfPfwPaH/hdo3A6TfLno3RnPlQ1XxaeFY
-         7gJIGSu9aGhftolGQFf2fTS/TFrA6pz1dClr3DqvyJJ7zXFwPagMcf/+p5xe339TyTGz
-         tWLaOOPWlo4wmSwP1+y9ys3ow5ySweOVSz8L7n01VbMMDmgMJvkCyxmXymd1jQOyBfxY
-         BVRQ==
-X-Gm-Message-State: AO0yUKVkWUlzoAlH7gZyXlinDzZC8Ox9h9TpkXvPvUz+av3iB6viQKyG
-	Y/OkKDI/sQ91c/5PZl/wx0jG4MP6/zY=
-X-Google-Smtp-Source: AK7set80iodqWlMPbHJyr0AUD0kNh/JtgOUaiRqrbnfys63N+Y7GoK8YmESnO5YdOVCaOmDXrT/Ccg==
-X-Received: by 2002:a17:907:8a1c:b0:91e:212e:6338 with SMTP id sc28-20020a1709078a1c00b0091e212e6338mr12809166ejc.73.1678736287089;
-        Mon, 13 Mar 2023 12:38:07 -0700 (PDT)
+        bh=Yhj8loIDBKxQqcnnxLBZoGEX0kwkzJmQdPKPG/eZHuA=;
+        b=EzMd6ge3zW6ANd+sZ3cH5kbEQrfviu6k57bpvyWCb4F5SHASt/Nom0PCQH36cUc+h/
+         n6j6GRZrqtpWCkpmz+RKCSP3DDIg9f6IXH8+G9OWTQeoyPNc6x3FNx+wq8az3fCe8gnY
+         xT1418a1ZgyT89L9qJNx6M+/BVHmE4OfC/XAqhiYkHyDyVVwaCJP1RBNZ2ko3viwxSA8
+         aWSAq32td0npFxzQ2zizk9feyQgYwYXFWep/vi0P7P89EpDoQdZnP8V8GVhOclonUrzj
+         fG6KnQ54+kmV3fdsTASpJKXmZS/lYeqru4Hwszd7SyGrubSAC7ubIvCXmefTUp2w8EyO
+         cevQ==
+X-Gm-Message-State: AO0yUKV02/ZjrP8fKMmi9/Mn9tcvdCx+gz4wnfuFMcjeepqFONRPdMvo
+	ngKs5rlzYxpsYMBokTwphIxTF5nzMgo=
+X-Google-Smtp-Source: AK7set/V1/2UmmEYd2WXGVWml5NJ1NJak8qG5WPXK/LnHwbJntrkGqaYmEC+ggQDp+EzzCnxHjc/TQ==
+X-Received: by 2002:a5d:634f:0:b0:2bf:f4f7:be9c with SMTP id b15-20020a5d634f000000b002bff4f7be9cmr22031412wrw.14.1678740647399;
+        Mon, 13 Mar 2023 13:50:47 -0700 (PDT)
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id v20-20020a17090690d400b008c5075f5331sm153249ejw.165.2023.03.13.12.38.06
+        by smtp.gmail.com with ESMTPSA id x8-20020a5d60c8000000b002cea8664304sm364425wrt.91.2023.03.13.13.50.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Mar 2023 12:38:06 -0700 (PDT)
+        Mon, 13 Mar 2023 13:50:47 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH] file: add few more PACKAGECONFIGs to avoid autodetected deps from host
-Date: Mon, 13 Mar 2023 20:37:59 +0100
-Message-Id: <20230313193759.915629-1-Martin.Jansa@gmail.com>
+Subject: [PATCH] npm.bbclass: avoid DeprecationWarning with new python
+Date: Mon, 13 Mar 2023 21:50:37 +0100
+Message-Id: <20230313205037.1928389-1-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 19:38:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178464
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 20:50:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178465
 
-* there are few more autodetected compression libs
-  --disable-zlib          disable zlib compression support [default=auto]
-  --disable-bzlib         disable bz2lib compression support [default=auto]
-  --disable-xzlib         disable liblzma/xz compression support
-  --disable-zstdlib       disable zstdlib compression support [default=auto]
-  --disable-lzlib         disable liblz (lzip) compression support
-
-  and lzlib was detected on my gentoo (even when it doesn't say that default
-  is auto detection)
-
-  I've noticed this, because I've reused sstate-cache from my gentoo build
-  in docker container with ubuntu-23.04 and esdk.oeSDKExtSelfTest.test_install_libraries_headers
-  test was now failing with:
-
-  Exception: subprocess.CalledProcessError: Command '/OE/build/poky/build/build-st-2023-03-12-esdk-patch1/esdk.oeSDKExtSelfTest.test_install_libraries_headers/build-st/tmp/work/x86_64-nativesdk-pokysdk-linux/buildtools-tarball/1.0-r0/recipe-sysroot-native/usr/bin/createrepo_c --update -q /OE/build/poky/build/build-st-2023-03-12-esdk-patch1/esdk.oeSDKExtSelfTest.test_install_libraries_headers/build-st/tmp/work/x86_64-nativesdk-pokysdk-linux/buildtools-tarball/1.0-r0/oe-sdk-repo' returned non-zero exit status 127.
-
-  Subprocess output:
-  /OE/build/poky/build/build-st-2023-03-12-esdk-patch1/esdk.oeSDKExtSelfTest.test_install_libraries_headers/build-st/tmp/work/x86_64-nativesdk-pokysdk-linux/buildtools-tarball/1.0-r0/recipe-sysroot-native/usr/bin/createrepo_c: error while loading shared libraries: liblz.so.1: cannot open shared object file: No such file or directory
-
-  and liblz.so.1 ended in createrepo_c.real because of libmagic.so from file-native-replacement.
-
-* use PACKAGECONFIG for seccomp as well and keep it disabled as it was
-  explicitly disabled before (${@bb.utils.filter('DISTRO_FEATURES', 'seccomp', d)}
-  can be added to default PACKAGECONFIG later if someone finds it useful)
+meta/classes-recipe/npm.bbclass:85: DeprecationWarning: invalid escape sequence '\.'
+  '--transform', 's,^\./,package/,',
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-devtools/file/file_5.44.bb | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/classes-recipe/npm.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/file/file_5.44.bb b/meta/recipes-devtools/file/file_5.44.bb
-index d4b49341b7..3090d346ed 100644
---- a/meta/recipes-devtools/file/file_5.44.bb
-+++ b/meta/recipes-devtools/file/file_5.44.bb
-@@ -22,8 +22,9 @@ PACKAGECONFIG ??= "bz2 lzma zlib"
- PACKAGECONFIG[bz2] = "--enable-bzlib, --disable-bzlib, bzip2"
- PACKAGECONFIG[lzma] = "--enable-xzlib, --disable-xzlib, xz"
- PACKAGECONFIG[zlib] = "--enable-zlib, --disable-zlib, zlib"
--
--EXTRA_OECONF += "--disable-libseccomp"
-+PACKAGECONFIG[zstdlib] = "--enable-zstdlib, --disable-zstdlib, zstd"
-+PACKAGECONFIG[lzlib] = "--enable-lzlib, --disable-lzlib, lzip"
-+PACKAGECONFIG[seccomp] = "--enable-libseccomp, --disable-libseccomp, libseccomp"
- 
- ALTERNATIVE:${PN} = "file"
- ALTERNATIVE_LINK_NAME[file] = "${bindir}/file"
+diff --git a/meta/classes-recipe/npm.bbclass b/meta/classes-recipe/npm.bbclass
+index 20350cea25..639f461a3a 100644
+--- a/meta/classes-recipe/npm.bbclass
++++ b/meta/classes-recipe/npm.bbclass
+@@ -82,7 +82,7 @@ def npm_pack(env, srcdir, workdir):
+     subprocess.run(['tar', 'czf', tarball,
+                     '--exclude', './node-modules',
+                     '--exclude-vcs',
+-                    '--transform', 's,^\./,package/,',
++                    '--transform', r's,^\./,package/,',
+                     '--mtime', '1985-10-26T08:15:00.000Z',
+                     '.'],
+                    check = True, cwd = srcdir)
 -- 
 2.39.2
 
