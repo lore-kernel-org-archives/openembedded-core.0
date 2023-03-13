@@ -1,221 +1,310 @@
-Return-Path: <xiangyu.chen@eng.windriver.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE09DC6FD1C
-	for <webhook@archiver.kernel.org>; Mon, 13 Mar 2023 02:46:51 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.11436.1678675609218228813
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0089C61DA4
+	for <webhook@archiver.kernel.org>; Mon, 13 Mar 2023 06:15:42 +0000 (UTC)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web11.13846.1678688141152986855
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Mar 2023 19:46:49 -0700
+ Sun, 12 Mar 2023 23:15:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2436e46f61=xiangyu.chen@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32D2SNqZ007462
-	for <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 19:46:48 -0700
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2172.outbound.protection.outlook.com [104.47.55.172])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3p8t1r12dk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 19:46:48 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iCQ5BU0iD1DH3KjNR7ahsGLXcctQUZ7+k2pRhT/WQu6oIy0MQn7k7VtvAyqiQYFYC6p9v5gmdusXFtYNN/UzE+9QOU4j0S5r3ZzyRbiITgKgCORpVn0o6QEMXS2XJ3/AOCl3hmq7TBCLOzCF3NObdzSVUSSGHg8PqD38GYBJFTPW3i17e9rx+8QXcWGreceQ7EcY2BoALzvDaSF58U0cOHM5qiyTQP8qpcmwmeaLxxHXO1z/DcT4j9TSsmtdFbGktWJIK4SOGbg26+dV4oA4kVabWjvRDQxFdsgz1Dcu9JpT2Ps2ku5QlIKQ2/ZjpuC4zsRCSOT+6j5+R514LIYm6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z76g43zEF4MAMEMLxOvpkcpk/nTOAacmHb6Hiv64sdE=;
- b=nJapFBm0JHP4zx0fFPOXvGU6FlQ0lhCpM7fgL8j+EOboRJMrh+FdiXZuKsbeXGdzGbQ5zgIwTLAga5L1sRTiLe4oQFzDwCZCH8ynvJzumio/V3jt9cHB1AZhZwlaUW7QPXlqFxdIjBWuvZ62f/l3DOFespKwlgmBP6+FTIQG3vQAeizUT39i73JSHyEtJo8Xt/8wmX1jKFG/KuMfiyoaBFUeIu+evFhuyXBFq+c5xQTn+QV9pySFd3BRZKSA8cdbO4sfwqNdN8/mIV++zelBBEZLo5By9kQcz7LNVt7aS0urK3Hj8zcAc71RCKvrq0KEpm9IzLdRCb1BtD1B7tD9fQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
-Received: from MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
- by MW3PR11MB4763.namprd11.prod.outlook.com (2603:10b6:303:2c::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.24; Mon, 13 Mar
- 2023 02:46:46 +0000
-Received: from MW4PR11MB5824.namprd11.prod.outlook.com
- ([fe80::f952:3d02:d71:cc68]) by MW4PR11MB5824.namprd11.prod.outlook.com
- ([fe80::f952:3d02:d71:cc68%4]) with mapi id 15.20.6178.019; Mon, 13 Mar 2023
- 02:46:46 +0000
-From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone][PATCH] sudo: update 1.9.12p2 -> 1.9.13p3
-Date: Mon, 13 Mar 2023 10:46:18 +0800
-Message-Id: <20230313024618.2537725-1-xiangyu.chen@eng.windriver.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI1PR02CA0013.apcprd02.prod.outlook.com
- (2603:1096:4:1f7::7) To MW4PR11MB5824.namprd11.prod.outlook.com
- (2603:10b6:303:187::19)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ZHoIK9hp;
+ spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: zboszor@gmail.com)
+Received: by mail-ed1-f50.google.com with SMTP id k10so44042024edk.13
+        for <openembedded-core@lists.openembedded.org>; Sun, 12 Mar 2023 23:15:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678688139;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OVT/GQfDtTU3hLZdwhwGAZew4HYLGq88ZhM7PhcRulw=;
+        b=ZHoIK9hpJT7rWo4ZiOZDnoR0eJ7xiyjsSpdrjcqn1CyWupeBZL0CtJLYl6/Qn9tEk3
+         gkNv1nmLJNQT/MC4/cjtt6iKpBWVNB/biRaylF0OP7SGs1Z5yzfQ7P/7I7Hiuf3qBkbq
+         /KjLVxYaMzJOJWRUwpNTWkmrcojTRonXO/S3z0xwVH0X9KESfJZtCHBEaAN2Ee2MRAMG
+         95ORZwtyozJVFgSEq94klJr3kJUSRJowjCMDOaP7+VbowkKeXI6A4dxCJI87m7hwHpb2
+         oRDR92HK/TFtYz4tWvwtxjGlrlghTE3j11ZFVmuVOu9HOhAoxKZnThGCjFmuOOc8d5I4
+         OeZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678688139;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OVT/GQfDtTU3hLZdwhwGAZew4HYLGq88ZhM7PhcRulw=;
+        b=JapErvH6CpEtSY3zDg2NAgFRKQnh3QqT0dOJPiGZJOIi/K6ODUmDu7/PAdFQrAjgKV
+         W2B7bjEjtBly1oF8dEuBJ2s5xiwbQ10aBjcrHFfihjhDkObGf+dNLu80PDS+PubjgoRV
+         PRDALdD1GFaJ7gk3eiUA/OZPumR6Kv5KH8/PBJb5scPT/rq6++Z4Catvn/LEtZCTVLDW
+         ZBf1+NmDwI+nEu7Svve0AtQKlI5z6zQIzJm386b9pc6E7RbEvEFMN+/41bM9Lmn6aLdu
+         4kJ+Bidp3NLFXSjijJ+d2ixWNmtnRZtPye8HLOGu50Aqk7RvTbTeHPjNr2weSsmNiLuv
+         mhoQ==
+X-Gm-Message-State: AO0yUKWKk8i5raAGaCridLcIB/++mCVaVPxUDET9Z2NnVeUDQvPgcrSI
+	ry3dZf2NwvwJT1wg9hg2w8I=
+X-Google-Smtp-Source: AK7set9KoVSjBM7zTtX2nAZy/hDurv7j67UKCAdN82Kvf0MVQbckep3ahAA4zq5vG6fSPTTjItB1XQ==
+X-Received: by 2002:a17:906:40a:b0:926:8f9:735c with SMTP id d10-20020a170906040a00b0092608f9735cmr3590302eja.32.1678688139311;
+        Sun, 12 Mar 2023 23:15:39 -0700 (PDT)
+Received: from [192.168.1.143] (BC2440CC.dsl.pool.telekom.hu. [188.36.64.204])
+        by smtp.gmail.com with ESMTPSA id gb17-20020a170907961100b00882f9130eafsm3025752ejc.26.2023.03.12.23.15.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 Mar 2023 23:15:39 -0700 (PDT)
+Message-ID: <dd1d39aa-1f3c-c986-9d2d-cb4707365c0d@gmail.com>
+Date: Mon, 13 Mar 2023 07:15:38 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR11MB5824:EE_|MW3PR11MB4763:EE_
-X-MS-Office365-Filtering-Correlation-Id: a031145e-58d9-4401-3821-08db236d2fae
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	aCMtpjZta5jHDo3iuqdZAxWdwon0QNC8aGAmZxvqnQ5lS+g5teLNuHuPF8wz3QQbvGragLgZMZqdTkb8euesf2gfbEFzwftf1DQlOBgpa9ZhBj+m7PwLHHBe3ImrNAvRTfpTAfVM7iGOHBDF63IiPiuUNu6EoKgZ5C59AOUJHzcEzIL63AcqCo543Ab3Y/cg3kwYkfJu1mKjdB0O6ktkXekUZtEQIBGpXCk2Alk0scmt511IJLxUFi/dydlTT9HARPwopbDDQri0FWd2xdrTEDHP+7jfMON4V2zD/qAgEz+O27v8lzYqQEZblgksiR1VHsJklTe+LurN4nNWqLCu9oNu7d5RwQPgH9lEfr/AZVfPwhgaxw481J7Gu+vXjb5fOL74eF1cJ50yTaG9vzFl/Bz3eWgr+jSePW1cXuHVlPn4Kh1iK/1LJcL7u/TtT8HsBKf/JsRhLo650VAvj+DhXiUKXpGnLv98om+3tt3bWzPeyaljlivbXI9jIhoqtV5iDf6VHIA0DCd2dlNc/5mXUao1mOiu5HCUD7KuqKxiXqAjL7ApLZy3khuCmeWDWBNfcAC4xjf4HY7l+q/3khOOk9jzSIQqtCD6TL8oiux8Zsq04Qcii1XNVV1fX0dMufT27s//S2ai6TQmLGI8Q+R8VCK/O22pEsDvsjKdHxiLiGi3mmXG6LhP9sD+D+9vzm1h
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5824.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(346002)(366004)(39850400004)(376002)(136003)(396003)(451199018)(8936002)(41300700001)(478600001)(66556008)(66476007)(8676002)(66946007)(6916009)(83170400001)(38350700002)(38100700002)(26005)(1076003)(6512007)(52116002)(6486002)(6666004)(186003)(5660300002)(44832011)(2906002)(15650500001)(316002)(6506007)(83380400001)(2616005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?YJfgJfMzKhhJrCEDsuwD2b/xUN6NixFrkHpmNE+i0jWutYP7uGMguU7SInhf?=
- =?us-ascii?Q?ydPxYAf8yKbUcoaHLPuPPtnpu0Pt8HPZcA1xiGi+u9HSUVQm/gfnzl6X5yE7?=
- =?us-ascii?Q?pBD4eFRItPsCSm0NTK8EkIUkuYlIPG2A6wMPU2NFAKvk0phHEoTo256rp0Qx?=
- =?us-ascii?Q?pgRgU8rC5jInFzNhQjZewn+aeihAWUx0K/r3xCK/lJradgfZGE0b175nrkwC?=
- =?us-ascii?Q?aKIaOs5C2tdBoo++q4sLj4SLxL4072FWubgTZoTloifWfEm/p+LgfgLxFokp?=
- =?us-ascii?Q?obVol6sZZlKNd8rh9DwTkNKkyxsQQgys3GLVMTXgys25UZHiNRQ8F0vG5avI?=
- =?us-ascii?Q?W2ZRCXhm7nT9Vl7g/FuP0MpjGeYEYXfK2dLVa9Kps/Ku4mJr825b40gAyYTM?=
- =?us-ascii?Q?L56SCSgDvVwWqI5BZfd3igvTx5dQJ+ExXTq0UD4fQoaXHDpFX5lCNZcE10IG?=
- =?us-ascii?Q?8mARqhKf+mrQA9o6Bxz+/Urn2Hi2J1U75spTXW1iq+8mYphBAcJwHDqy8knI?=
- =?us-ascii?Q?KfPApDPvmYVJT+g4/F19VV0xxf55cDFJeUWyxDkE08/2fzpAAEFl0IXzrqs3?=
- =?us-ascii?Q?AT2artAYR1E1haGLNcoSqp1vUd5QN8TSJSnvKHLIceQZ8lJplnghfHfJ/NDF?=
- =?us-ascii?Q?Eyj7hk0VM7VZXgx6Y/5Pfohd3FRz+puJwykdLKr8IDJJs3BmULpITtVP4cD1?=
- =?us-ascii?Q?AuAVu5DathlT4hfF0TnASteq+yb5asVzHz5xDZosYAcX542vHwYYjXU3JZ3L?=
- =?us-ascii?Q?ITGezhZ5+CJnkBGOjkOx85NTZDiY96FVeXeuKzukstT0PwRLCtFFLRCaFY+g?=
- =?us-ascii?Q?kNripJQFWPiPiPRgg+NDXvl05MTOhE7gBfo1ntiuqM8+IJt2yQqC3QbLfC3X?=
- =?us-ascii?Q?BPlbkbQBqkKtzJeH18Fqwxie2yz08NA81bUyyI0dDP5CsGfDVUCHQRJ3bolZ?=
- =?us-ascii?Q?GGyfd0b+hOkKhPNWLT7VgETwhLh4m6Io6GA1GPDVG2srF4pJ4n3YxtQDP7o7?=
- =?us-ascii?Q?roT9xNIWg0JFiZhcZ9r30nM1uvh97X40L6pgfmDeuutG9ITmXSMZ2c8hce4g?=
- =?us-ascii?Q?ac1vu55J8AMubUOnWl2U6TwPpetsBy/xvlkBcDG31xFt47AtNlCNAsMSs90t?=
- =?us-ascii?Q?UCQyZZjLuD8oQW0jm6TmC6rrT4Bc8FJc+1AUBLJ74efGlNlbMlKUfGSFIrrv?=
- =?us-ascii?Q?W3vWYO2vzmfBaIixLj0tvnkTzg8rEL/8BSO/pdC7LHH+8EpNBsnwqQY5L7gp?=
- =?us-ascii?Q?Pni+mcizxfV/A67hoNAP7tHFXfdwAuxr+i8RfOVBOi+ggzH/OVfHo/AU9n6h?=
- =?us-ascii?Q?RrWwRJXpVpEmoFeVxstzoXVarGR+6R04jIDPDzJcEEhDPhOer7D5sPS7+jdV?=
- =?us-ascii?Q?fEzVvVY2bY6aP7Wtmbq5Xk7OBS5CdGlmafOqg7cEpUQnn+xmzgoKxPrqSiWL?=
- =?us-ascii?Q?cFs582t8YIwdoemFWpArRLvGNducn61/4UDGtnt7C7GvQtiTzawZV03NeZ8U?=
- =?us-ascii?Q?lXs29tiIitnd3MeEUtSPl3W8W45bZOs5Z7AHH/qHVqEdRz3v8L8r17IK5EMP?=
- =?us-ascii?Q?6MX0Ypow/MW0sSjOgZCBAHNAyefkHr83DO/k0KNe8O5TRYYPeDZt5kP4waea?=
- =?us-ascii?Q?/Q=3D=3D?=
-X-OriginatorOrg: eng.windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a031145e-58d9-4401-3821-08db236d2fae
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB5824.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2023 02:46:46.5160
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9JNdMZ4ePUjWYzIiPLVrxUnZCUMl77+98ZE7DMQ5+bPgovRij8muYtRO11ZhlhT+iOTxLhW0J7DWmciCM0WA5lKeXWv78DoTilCm5f+vgp4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4763
-X-Proofpoint-ORIG-GUID: aoDfm5u4E8q6yrbE_jOR8yf3XiRfCO6Y
-X-Proofpoint-GUID: aoDfm5u4E8q6yrbE_jOR8yf3XiRfCO6Y
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-12_10,2023-03-10_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
- lowpriorityscore=1 impostorscore=0 bulkscore=1 mlxlogscore=999
- suspectscore=0 malwarescore=0 priorityscore=1501 clxscore=1015
- phishscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303130022
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [OE-core] [PATCH 7/7] mesa: update 22.3.5 -> 23.0.0
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+ openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+References: <20230312145053.1427377-1-alex@linutronix.de>
+ <20230312145053.1427377-7-alex@linutronix.de>
+Content-Language: en-US
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+In-Reply-To: <20230312145053.1427377-7-alex@linutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 02:46:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178407
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 06:15:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178408
 
-From: Xiangyu Chen <xiangyu.chen@windriver.com>
+Thanks for taking care of this series.
 
-License-update: copyright years, formatting.
+Will this be in Mickledore?
 
-Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
----
- ...o.conf.in-fix-conflict-with-multilib.patch | 21 ++++++++++---------
- meta/recipes-extended/sudo/sudo.inc           |  2 +-
- .../{sudo_1.9.12p2.bb => sudo_1.9.13p3.bb}    |  2 +-
- 3 files changed, 13 insertions(+), 12 deletions(-)
- rename meta/recipes-extended/sudo/{sudo_1.9.12p2.bb => sudo_1.9.13p3.bb} (96%)
-
-diff --git a/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch b/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
-index f4fc376bb8..041c717e00 100644
---- a/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
-+++ b/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
-@@ -1,4 +1,7 @@
--sudo.conf.in: fix conflict with multilib
-+From 6e835350b7413210c410d3578cfab804186b7a4f Mon Sep 17 00:00:00 2001
-+From: Kai Kang <kai.kang@windriver.com>
-+Date: Tue, 17 Nov 2020 11:13:40 +0800
-+Subject: [PATCH] sudo.conf.in: fix conflict with multilib
- 
- When pass ${libdir} to --libexecdir of sudo, it fails to install sudo
- and lib32-sudo at same time:
-@@ -12,12 +15,13 @@ Update the comments in sudo.conf.in to avoid the conflict.
- Signed-off-by: Kai Kang <kai.kang@windriver.com>
- 
- Upstream-Status: Inappropriate [OE configuration specific]
-+
- ---
-  examples/sudo.conf.in | 8 ++++----
-  1 file changed, 4 insertions(+), 4 deletions(-)
- 
- diff --git a/examples/sudo.conf.in b/examples/sudo.conf.in
--index 6535d3a..50afc8f 100644
-+index 2187457..0908d24 100644
- --- a/examples/sudo.conf.in
- +++ b/examples/sudo.conf.in
- @@ -4,7 +4,7 @@
-@@ -33,8 +37,8 @@ index 6535d3a..50afc8f 100644
-  # The compiled-in value is usually sufficient and should only be changed
-  # if you rename or move the sudo_intercept.so file.
-  #
---#Path intercept @plugindir@/sudo_intercept.so
--+#Path intercept $plugindir/sudo_intercept.so
-+-#Path intercept @intercept_file@
-++#Path intercept $intercept_file
-  
-  #
-  # Sudo noexec:
-@@ -42,8 +46,8 @@ index 6535d3a..50afc8f 100644
-  # The compiled-in value is usually sufficient and should only be changed
-  # if you rename or move the sudo_noexec.so file.
-  #
---#Path noexec @plugindir@/sudo_noexec.so
--+#Path noexec $plugindir/sudo_noexec.so
-+-#Path noexec @noexec_file@
-++#Path noexec $noexec_file
-  
-  #
-  # Sudo plugin directory:
-@@ -55,7 +59,4 @@ index 6535d3a..50afc8f 100644
- +#Path plugin_dir $plugindir
-  
-  #
-- # Sudo developer mode:
----
--2.17.1
--
-+ # Core dumps:
-diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
-index fd5bbf103d..f22b3eab99 100644
---- a/meta/recipes-extended/sudo/sudo.inc
-+++ b/meta/recipes-extended/sudo/sudo.inc
-@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.sudo.ws"
- BUGTRACKER = "http://www.sudo.ws/bugs/"
- SECTION = "admin"
- LICENSE = "ISC & BSD-3-Clause & BSD-2-Clause & Zlib"
--LIC_FILES_CHKSUM = "file://LICENSE.md;md5=7aacba499777b719416b293d16f29c8c \
-+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=5100e20d35f9015f9eef6bdb27ba194f \
-                     file://plugins/sudoers/redblack.c;beginline=1;endline=46;md5=03e35317699ba00b496251e0dfe9f109 \
-                     file://lib/util/reallocarray.c;beginline=3;endline=15;md5=397dd45c7683e90b9f8bf24638cf03bf \
-                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=004d7d2866ba1f5b41174906849d2e0f \
-diff --git a/meta/recipes-extended/sudo/sudo_1.9.12p2.bb b/meta/recipes-extended/sudo/sudo_1.9.13p3.bb
-similarity index 96%
-rename from meta/recipes-extended/sudo/sudo_1.9.12p2.bb
-rename to meta/recipes-extended/sudo/sudo_1.9.13p3.bb
-index ae7207c081..2e11739470 100644
---- a/meta/recipes-extended/sudo/sudo_1.9.12p2.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.9.13p3.bb
-@@ -8,7 +8,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
- 
- PAM_SRC_URI = "file://sudo.pam"
- 
--SRC_URI[sha256sum] = "b9a0b1ae0f1ddd9be7f3eafe70be05ee81f572f6f536632c44cd4101bb2a8539"
-+SRC_URI[sha256sum] = "92334a12bb93e0c056b09f53e255ccb7d6f67c6350e2813cd9593ceeca78560b"
- 
- DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS:${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
--- 
-2.34.1
+2023. 03. 12. 15:50 keltezéssel, Alexander Kanavin írta:
+> Drop patches:
+> 0001-gbm-backend-fix-gbm-compile-without-dri.patch
+> 0001-freedreno-pm4-Use-unsigned-instead-of-uint-to-fix-mu.patch
+> (backports)
+>
+> 0001-util-format-Check-for-NEON-before-using-it.patch
+> (upstream submission has stalled with unanswered concerns from upstream;
+> patch no longer applies; issue does not reproduce with 'raspberrypi0-wifi' MACHINE)
+>
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>   ...e-unsigned-instead-of-uint-to-fix-mu.patch | 44 -------------
+>   ...-backend-fix-gbm-compile-without-dri.patch | 65 -------------------
+>   ...ormat-Check-for-NEON-before-using-it.patch | 47 --------------
+>   .../{mesa-gl_22.3.5.bb => mesa-gl_23.0.0.bb}  |  0
+>   meta/recipes-graphics/mesa/mesa.inc           |  5 +-
+>   .../mesa/{mesa_22.3.5.bb => mesa_23.0.0.bb}   |  0
+>   6 files changed, 1 insertion(+), 160 deletions(-)
+>   delete mode 100644 meta/recipes-graphics/mesa/files/0001-freedreno-pm4-Use-unsigned-instead-of-uint-to-fix-mu.patch
+>   delete mode 100644 meta/recipes-graphics/mesa/files/0001-gbm-backend-fix-gbm-compile-without-dri.patch
+>   delete mode 100644 meta/recipes-graphics/mesa/files/0001-util-format-Check-for-NEON-before-using-it.patch
+>   rename meta/recipes-graphics/mesa/{mesa-gl_22.3.5.bb => mesa-gl_23.0.0.bb} (100%)
+>   rename meta/recipes-graphics/mesa/{mesa_22.3.5.bb => mesa_23.0.0.bb} (100%)
+>
+> diff --git a/meta/recipes-graphics/mesa/files/0001-freedreno-pm4-Use-unsigned-instead-of-uint-to-fix-mu.patch b/meta/recipes-graphics/mesa/files/0001-freedreno-pm4-Use-unsigned-instead-of-uint-to-fix-mu.patch
+> deleted file mode 100644
+> index 3ab22889bf..0000000000
+> --- a/meta/recipes-graphics/mesa/files/0001-freedreno-pm4-Use-unsigned-instead-of-uint-to-fix-mu.patch
+> +++ /dev/null
+> @@ -1,44 +0,0 @@
+> -From 8a5de0b6cf1090d7f29f3974ec79c32776cf2745 Mon Sep 17 00:00:00 2001
+> -From: Jami Kettunen <jami.kettunen@protonmail.com>
+> -Date: Tue, 31 Aug 2021 00:15:58 +0300
+> -Subject: [PATCH] freedreno/pm4: Use unsigned instead of uint to fix musl build
+> -
+> -Upstream-Status: Backport
+> -
+> -Fixes the following error I noticed when building against aarch64 with
+> -musl libc:
+> -
+> -  In file included from ../src/freedreno/decode/crashdec.h:38,
+> -                   from ../src/freedreno/decode/crashdec.c:40:
+> -  ../src/freedreno/common/freedreno_pm4.h:104:15: error: unknown type name 'uint'
+> -    104 | static inline uint
+> -        |               ^~~~
+> -  ../src/freedreno/common/freedreno_pm4.h:105:25: error: unknown type name 'uint'; did you mean 'int'?
+> -    105 | pm4_calc_odd_parity_bit(uint val)
+> -        |                         ^~~~
+> -        |                         int
+> -
+> -Signed-off-by: Jami Kettunen <jami.kettunen@protonmail.com>
+> -Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/19665>
+> ----
+> - src/freedreno/common/freedreno_pm4.h | 4 ++--
+> - 1 file changed, 2 insertions(+), 2 deletions(-)
+> -
+> -diff --git a/src/freedreno/common/freedreno_pm4.h b/src/freedreno/common/freedreno_pm4.h
+> -index 8f958953d693..091247e709a0 100644
+> ---- a/src/freedreno/common/freedreno_pm4.h
+> -+++ b/src/freedreno/common/freedreno_pm4.h
+> -@@ -105,8 +105,8 @@ pm4_pkt7_hdr(uint8_t opcode, uint16_t cnt)
+> - #define cp_type3_opcode(pkt) (((pkt) >> 8) & 0xFF)
+> - #define type3_pkt_size(pkt)  ((((pkt) >> 16) & 0x3FFF) + 1)
+> -
+> --static inline uint
+> --pm4_calc_odd_parity_bit(uint val)
+> -+static inline unsigned
+> -+pm4_calc_odd_parity_bit(unsigned val)
+> - {
+> -    return (0x9669 >> (0xf & ((val) ^ ((val) >> 4) ^ ((val) >> 8) ^
+> -                              ((val) >> 12) ^ ((val) >> 16) ^ ((val) >> 20) ^
+> ---
+> -2.39.2
+> -
+> diff --git a/meta/recipes-graphics/mesa/files/0001-gbm-backend-fix-gbm-compile-without-dri.patch b/meta/recipes-graphics/mesa/files/0001-gbm-backend-fix-gbm-compile-without-dri.patch
+> deleted file mode 100644
+> index 6541671b7a..0000000000
+> --- a/meta/recipes-graphics/mesa/files/0001-gbm-backend-fix-gbm-compile-without-dri.patch
+> +++ /dev/null
+> @@ -1,65 +0,0 @@
+> -From 25946100e21cf2095bea334e8d7096798561d0b7 Mon Sep 17 00:00:00 2001
+> -From: Vincent Davis Jr <vince@underview.tech>
+> -Date: Wed, 28 Dec 2022 16:28:01 -0600
+> -Subject: [PATCH] gbm/backend: fix gbm compile without dri
+> -
+> -Upstream-Status: Backport
+> -
+> -https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/20447
+> -https://gitlab.freedesktop.org/mesa/mesa/-/commit/842ca284650f066e58706741a7d22d67b5088e60
+> -
+> -At mesa version 22.2.3 patch wasn't introduced until after.
+> -
+> -Commit introduces a fix that allows for gbm to be built with an empty
+> -backend. There are situation especially in a Yocto/OE cross compilation
+> -environment where you want to build with an empty backend. The particular
+> -situation is as such:
+> -
+> -The mesa-gl recipe is the preferred provider for virtual/libgbm, virtual/libgl,
+> -virtual/mesa, etc... But the x11 DISTRO_FEATURE in't included this leads to build
+> -errors such as:
+> -
+> -| /../../../ld: src/gbm/libgbm.so.1.0.0.p/main_backend.c.o: in function `find_backend':
+> -| backend.c:(.text.find_backend+0xa4): undefined reference to `gbm_dri_backend'
+> -| /../../../ld: src/gbm/libgbm.so.1.0.0.p/main_backend.c.o:(.data.rel.ro.builtin_backends+0x4):
+> -                undefined reference to `gbm_dri_backend'
+> -| collect2: error: ld returned 1 exit status
+> -
+> -Issue should be replicable by setting -Ddri3=disabled and -Dgbm=enabled
+> -
+> -Add fix to bypasses compilation issue by excluding gbm dri backend. If
+> -HAVE_DRI || HAVE_DRIX not specified.
+> -
+> -Acked-by: David Heidelberg <david.heidelberg@collabora.com>
+> -Signed-off-by: Vincent Davis Jr <vince@underview.tech>
+> ----
+> - src/gbm/main/backend.c | 4 ++++
+> - 1 file changed, 4 insertions(+)
+> -
+> -diff --git a/src/gbm/main/backend.c b/src/gbm/main/backend.c
+> -index 974d0a76a4e..feee0703495 100644
+> ---- a/src/gbm/main/backend.c
+> -+++ b/src/gbm/main/backend.c
+> -@@ -42,7 +42,9 @@
+> - #define ARRAY_SIZE(a) (sizeof(a)/sizeof((a)[0]))
+> - #define VER_MIN(a, b) ((a) < (b) ? (a) : (b))
+> -
+> -+#if defined(HAVE_DRI) || defined(HAVE_DRI2) || defined(HAVE_DRI3)
+> - extern const struct gbm_backend gbm_dri_backend;
+> -+#endif
+> -
+> - struct gbm_backend_desc {
+> -    const char *name;
+> -@@ -51,7 +53,9 @@ struct gbm_backend_desc {
+> - };
+> -
+> - static const struct gbm_backend_desc builtin_backends[] = {
+> -+#if defined(HAVE_DRI) || defined(HAVE_DRI2) || defined(HAVE_DRI3)
+> -    { "dri", &gbm_dri_backend },
+> -+#endif
+> - };
+> -
+> - #define BACKEND_LIB_SUFFIX "_gbm"
+> ---
+> -2.34.1
+> -
+> diff --git a/meta/recipes-graphics/mesa/files/0001-util-format-Check-for-NEON-before-using-it.patch b/meta/recipes-graphics/mesa/files/0001-util-format-Check-for-NEON-before-using-it.patch
+> deleted file mode 100644
+> index d22ff3c8a8..0000000000
+> --- a/meta/recipes-graphics/mesa/files/0001-util-format-Check-for-NEON-before-using-it.patch
+> +++ /dev/null
+> @@ -1,47 +0,0 @@
+> -From f17e836ef9b1bbc6056790596420b699e48128c2 Mon Sep 17 00:00:00 2001
+> -From: Khem Raj <raj.khem@gmail.com>
+> -Date: Thu, 2 Dec 2021 19:57:42 -0800
+> -Subject: [PATCH] util/format: Check for NEON before using it
+> -
+> -This fixes build on rpi0-w and any other machine which does not have
+> -neon unit and is not used as FPU unit
+> -
+> -Fixes errors e.g.
+> -
+> -In file included from ../mesa-21.3.0/src/util/format/u_format_unpack_neon.c:35:
+> -/mnt/b/yoe/master/build/tmp/work/arm1176jzfshf-vfp-yoe-linux-gnueabi/mesa/2_21.3.0-r0/recipe-sysroot-native/usr/lib/clang/13.0.1/include/arm_neon.h:32:2: error: "NEON support not enabled"
+> -
+> -Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/14032]
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -
+> ----
+> - src/util/format/u_format.c             | 2 +-
+> - src/util/format/u_format_unpack_neon.c | 2 +-
+> - 2 files changed, 2 insertions(+), 2 deletions(-)
+> -
+> -diff --git a/src/util/format/u_format.c b/src/util/format/u_format.c
+> -index c071250..0880984 100644
+> ---- a/src/util/format/u_format.c
+> -+++ b/src/util/format/u_format.c
+> -@@ -1184,7 +1184,7 @@ static void
+> - util_format_unpack_table_init(void)
+> - {
+> -    for (enum pipe_format format = PIPE_FORMAT_NONE; format < PIPE_FORMAT_COUNT; format++) {
+> --#if (defined(PIPE_ARCH_AARCH64) || defined(PIPE_ARCH_ARM)) && !defined(NO_FORMAT_ASM) && !defined(__SOFTFP__)
+> -+#if (defined(PIPE_ARCH_AARCH64) || (defined(__ARM_NEON) && defined(PIPE_ARCH_ARM))) && !defined(NO_FORMAT_ASM)
+> -       const struct util_format_unpack_description *unpack = util_format_unpack_description_neon(format);
+> -       if (unpack) {
+> -          util_format_unpack_table[format] = unpack;
+> -diff --git a/src/util/format/u_format_unpack_neon.c b/src/util/format/u_format_unpack_neon.c
+> -index a4a5cb1..1e4f794 100644
+> ---- a/src/util/format/u_format_unpack_neon.c
+> -+++ b/src/util/format/u_format_unpack_neon.c
+> -@@ -23,7 +23,7 @@
+> -
+> - #include <u_format.h>
+> -
+> --#if (defined(PIPE_ARCH_AARCH64) || defined(PIPE_ARCH_ARM)) && !defined(NO_FORMAT_ASM) && !defined(__SOFTFP__)
+> -+#if (defined(PIPE_ARCH_AARCH64) || (defined(__ARM_NEON) && defined(PIPE_ARCH_ARM))) && !defined(NO_FORMAT_ASM)
+> -
+> - /* armhf builds default to vfp, not neon, and refuses to compile neon intrinsics
+> -  * unless you tell it "no really".
+> diff --git a/meta/recipes-graphics/mesa/mesa-gl_22.3.5.bb b/meta/recipes-graphics/mesa/mesa-gl_23.0.0.bb
+> similarity index 100%
+> rename from meta/recipes-graphics/mesa/mesa-gl_22.3.5.bb
+> rename to meta/recipes-graphics/mesa/mesa-gl_23.0.0.bb
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+> index 370b54ca6b..09a35ef33e 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -17,12 +17,9 @@ PE = "2"
+>   SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+>              file://0001-meson.build-check-for-all-linux-host_os-combinations.patch \
+>              file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
+> -           file://0001-util-format-Check-for-NEON-before-using-it.patch \
+> -           file://0001-gbm-backend-fix-gbm-compile-without-dri.patch \
+> -           file://0001-freedreno-pm4-Use-unsigned-instead-of-uint-to-fix-mu.patch \
+>              "
+>   
+> -SRC_URI[sha256sum] = "3eed2ecae2bc674494566faab9fcc9beb21cd804c7ba2b59a1694f3d7236e6a9"
+> +SRC_URI[sha256sum] = "01f3cff3763f09e0adabcb8011e4aebc6ad48f6a4dd4bae904fe918707d253e4"
+>   
+>   UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+>   
+> diff --git a/meta/recipes-graphics/mesa/mesa_22.3.5.bb b/meta/recipes-graphics/mesa/mesa_23.0.0.bb
+> similarity index 100%
+> rename from meta/recipes-graphics/mesa/mesa_22.3.5.bb
+> rename to meta/recipes-graphics/mesa/mesa_23.0.0.bb
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#178398): https://lists.openembedded.org/g/openembedded-core/message/178398
+> Mute This Topic: https://lists.openembedded.org/mt/97560257/3617728
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [zboszor@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
 
