@@ -2,57 +2,57 @@ Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86EC2C7619A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F37BC761A6
 	for <webhook@archiver.kernel.org>; Mon, 13 Mar 2023 12:16:04 +0000 (UTC)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web11.18080.1678709759521615330
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+ by mx.groups.io with SMTP id smtpd.web11.18077.1678709754344914061
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Mar 2023 05:15:59 -0700
+ Mon, 13 Mar 2023 05:15:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=LvN7S8nO;
- spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id j11so47845967edq.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 05:15:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=VfdrSJKZ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f44.google.com with SMTP id ek18so16709199edb.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 05:15:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678709758;
+        d=gmail.com; s=20210112; t=1678709756;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6ycQ2HUyoiiLKSMarD7UHyDMX5t5B9d2d15K+0m7BJA=;
-        b=LvN7S8nOwgalL0Q74VOEDjY0Zb1DF3jeB97n/byvfcG0Ngq7R3SZVeM9YB4acgrtMa
-         DGNoiAB7dhz5b4/7Ux2lsqnxRMZCx7Su4dlTnhXfQXzQO/zZkPB5SYvehXxwREInL7rO
-         4j8ymyP6YVPb67ftpnA8af7bExcs0y+qxX7LQ3UYLbbCSady0idp5G38T2tubE5/4H3g
-         uTkzj3oAvjU+VkF821f+B7wJsK+DL1wo4Roz8xNjg/EBKvRpcKok5iaYGHMucAgvniDy
-         H0NTBJ7Snj8trxWe0ETYtjPt3o9XRxoYsKDTlamfFlddlRHOc+cX17GP5uOmef6Voa67
-         L58A==
+        bh=8lJ9GTn+ROGH2KBTGtr7eqmRluYH0fC3ZnPmyMTcw0A=;
+        b=VfdrSJKZf4jCbw6hx1LNt73HCvvrWpNNJMN7DtYxI4CJBBXfqFwiX/2bpHGn8mfmAq
+         6uQoJLRDT0eLjyer5cfSaLx/fg5B6OkGDx5CKS4PiicSgIs40zuYHaWcyrqgtALtu9Bq
+         1hulTb+9Yz53JhUzowz6eBQ341t3L7c9sn8ZcEcjwP89Hmm9SnTDKOR47EvWK0sfWNEL
+         rwz/0bmBmAGvMJAfNDEfHMbgpnGNdn5Bh1Bqkxidw+FBkcmquaeEx0KPiXvdwe2uXoof
+         cY8RZi7mcmHjtZF8jgi2H4k2cG1M87NCUM1KDymyU0M5UaIL1YRcn6hvG3enkP9OgYbe
+         9jwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678709758;
+        d=1e100.net; s=20210112; t=1678709756;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6ycQ2HUyoiiLKSMarD7UHyDMX5t5B9d2d15K+0m7BJA=;
-        b=br6TQY9QMpNhS+GXQ9g/uwRQLf2i4BMlEMJcPupHKjh69bgEOr1Y8531D6kYa1aGPB
-         VEiz+uhoXQqTFKR0SdrJRf7XSuHY3lvsuw69YAEMecczSmoIjWXAVtHfO5fchCvBHdbr
-         irPnDk/tPnP2rfME5lW7AG9SoQ5E3snkBoKHeMGa5WExlY9w6fbnfCDPMZGhuj9Zs9s1
-         RfAiAddSRHajiJtttpL4uqFhFHPlJeCFKvR90btzpY44zBTGF081EO7Tm8n04F4kn0ph
-         jxlGZIgEmX4ZzL+asyYoKQRZjtw+N8Z8pF+tpGdR6zru3KbtlY4xIjceyFy09tjPGgc/
-         AVUA==
-X-Gm-Message-State: AO0yUKVj3xlV4qFxJZPgGQX+pRAHJk4wR/aA8ynkJZLilqhxctH6Sbxy
-	fBvm+EeONE1PADGXTzK801qaW5s5q1E=
-X-Google-Smtp-Source: AK7set+7onMxJztN9llUaK+I0EleU5098rnkZg3xaDUGmkE24UZXoaD+++MlsabB6q6yYWwgeG7x3w==
-X-Received: by 2002:a17:906:1643:b0:871:dd2:4af0 with SMTP id n3-20020a170906164300b008710dd24af0mr35785004ejd.26.1678709758082;
-        Mon, 13 Mar 2023 05:15:58 -0700 (PDT)
+        bh=8lJ9GTn+ROGH2KBTGtr7eqmRluYH0fC3ZnPmyMTcw0A=;
+        b=Yg/8MjHnx1Js8s+/hBFqdNXoyrv48Y4sMhcu4qF2H5DO6nRCKacxa+nDZ2GIvhP5IF
+         6wF8Y5xUVlj8gzhUQaANbrmimJ89qL7a62dHcty5hlqjE+09NdYfJzCOSQ9XZv7AWVmw
+         5gkMpkDxHxAEyenHSGMBjh86Be3ICqywm78hecdNilHpLwU+4RHqwPZtr2Yun6dvAYwX
+         yH8KNTiiSdZTzowUnTNj13IyHV7J0GpWfzlcC+oh77/2G5VFHiTGMf6b8EZ9kBeh4haX
+         xtlwdZxdtE4fkP7R6KTIz4JRve+O+5kVIjRRLjkhXxwroq46Ow3i8aLFBpBYM1EiIojT
+         NsIQ==
+X-Gm-Message-State: AO0yUKXJRsm7E0Eu8W08fO6H+WKxMv8FE5CIkbCbxUSSivFVpt3mdBZY
+	XOa3n9OVv7VdZ9pfi1gWS+e/tymz0O4=
+X-Google-Smtp-Source: AK7set+MW/1wl62vNhqr1w4LlYV+KlvJrGDk+8kylYzIyXjkY3jou9tqzTPZota6yweHai0JTeZkHQ==
+X-Received: by 2002:a17:907:7b83:b0:925:9900:2df with SMTP id ne3-20020a1709077b8300b00925990002dfmr6212218ejc.35.1678709756071;
+        Mon, 13 Mar 2023 05:15:56 -0700 (PDT)
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id vo11-20020a170907a80b00b008b17de9d1f2sm3399253ejc.15.2023.03.13.05.15.57
+        by smtp.gmail.com with ESMTPSA id h25-20020a170906399900b008cda6560404sm3333837eje.193.2023.03.13.05.15.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Mar 2023 05:15:57 -0700 (PDT)
+        Mon, 13 Mar 2023 05:15:55 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 08/14] selftest: fitimage.py: respect INITRAMFS_IMAGE_NAME and KERNEL_FIT_LINK_NAME
-Date: Mon, 13 Mar 2023 13:15:35 +0100
-Message-Id: <6a87e08d2b541553ef7bb93b2afbd0a28e4177ea.1678709427.git.Martin.Jansa@gmail.com>
+Subject: [PATCH 05/14] selftest: runqemu: respect IMAGE_LINK_NAME
+Date: Mon, 13 Mar 2023 13:15:32 +0100
+Message-Id: <3272c0f7bb3829eee4ff5a69546071ee08237eff.1678709427.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1678709427.git.Martin.Jansa@gmail.com>
 References: <cover.1678709427.git.Martin.Jansa@gmail.com>
@@ -62,88 +62,69 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 12:16:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178440
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178436
 
-* use these variables instead of assuming:
-  "fitImage-its-%s-%s-%s" % (image_type, machine, machine)
-  notice that these files have no extension and the -machine suffix
-  is duplicated (once from core-image-minimal and once from
-  kernel-fitimage.bbclass:kernel_do_deploy:append
-  through KERNEL_FIT_LINK_NAME which is MACHINE by default:
+* don't assume that every built image is named:
 
-  KERNEL_FIT_NAME ?= "${KERNEL_ARTIFACT_NAME}"
-  KERNEL_FIT_LINK_NAME ?= "${KERNEL_ARTIFACT_LINK_NAME}"
-
-  KERNEL_ARTIFACT_NAME ?= "${PKGE}-${PKGV}-${PKGR}-${MACHINE}${IMAGE_VERSION_SUFFIX}"
-  KERNEL_ARTIFACT_LINK_NAME ?= "${MACHINE}"
+  <recipe>-<machine>.<suffix>
 
 [YOCTO #12937]
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/fitimage.py | 34 +++++++++++-------------
- 1 file changed, 16 insertions(+), 18 deletions(-)
+ meta/lib/oeqa/selftest/cases/runqemu.py | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
-index 1570d54dfb..7bc171e02d 100644
---- a/meta/lib/oeqa/selftest/cases/fitimage.py
-+++ b/meta/lib/oeqa/selftest/cases/fitimage.py
-@@ -5,7 +5,7 @@
- #
+diff --git a/meta/lib/oeqa/selftest/cases/runqemu.py b/meta/lib/oeqa/selftest/cases/runqemu.py
+index c2c3fbc924..e72ff529c4 100644
+--- a/meta/lib/oeqa/selftest/cases/runqemu.py
++++ b/meta/lib/oeqa/selftest/cases/runqemu.py
+@@ -24,6 +24,7 @@ class RunqemuTests(OESelftestTestCase):
+         super(RunqemuTests, self).setUpLocal()
+         self.recipe = 'core-image-minimal'
+         self.machine =  self.td['MACHINE']
++        self.image_link_name =  get_bb_var('IMAGE_LINK_NAME', self.recipe)
  
- from oeqa.selftest.case import OESelftestTestCase
--from oeqa.utils.commands import runCmd, bitbake, get_bb_var
-+from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_bb_vars
- import os
- import re
+         self.fstypes = "ext4"
+         if self.td["HOST_ARCH"] in ('i586', 'i686', 'x86_64'):
+@@ -127,7 +128,7 @@ SYSLINUX_TIMEOUT = "10"
  
-@@ -42,15 +42,14 @@ FIT_DESC = "A model description"
-         self.write_config(config)
+     def test_boot_qemu_boot(self):
+         """Test runqemu /path/to/image.qemuboot.conf"""
+-        qemuboot_conf = "%s-%s.qemuboot.conf" % (self.recipe, self.machine)
++        qemuboot_conf = "%s.qemuboot.conf" % (self.image_link_name)
+         qemuboot_conf = os.path.join(self.deploy_dir_image, qemuboot_conf)
+         if not os.path.exists(qemuboot_conf):
+             self.skipTest("%s not found" % qemuboot_conf)
+@@ -138,7 +139,7 @@ SYSLINUX_TIMEOUT = "10"
  
-         # fitImage is created as part of linux recipe
--        bitbake("virtual/kernel")
-+        image = "virtual/kernel"
-+        bitbake(image)
-+        bb_vars = get_bb_vars(['DEPLOY_DIR_IMAGE', 'INITRAMFS_IMAGE_NAME', 'KERNEL_FIT_LINK_NAME'], image)
+     def test_boot_rootfs(self):
+         """Test runqemu /path/to/rootfs.ext4"""
+-        rootfs = "%s-%s.ext4" % (self.recipe, self.machine)
++        rootfs = "%s.ext4" % (self.image_link_name)
+         rootfs = os.path.join(self.deploy_dir_image, rootfs)
+         if not os.path.exists(rootfs):
+             self.skipTest("%s not found" % rootfs)
+@@ -167,8 +168,9 @@ class QemuTest(OESelftestTestCase):
+         cls.recipe = 'core-image-minimal'
+         cls.machine =  get_bb_var('MACHINE')
+         cls.deploy_dir_image =  get_bb_var('DEPLOY_DIR_IMAGE')
++        cls.image_link_name =  get_bb_var('IMAGE_LINK_NAME', cls.recipe)
+         cls.cmd_common = "runqemu nographic"
+-        cls.qemuboot_conf = "%s-%s.qemuboot.conf" % (cls.recipe, cls.machine)
++        cls.qemuboot_conf = "%s.qemuboot.conf" % (cls.image_link_name)
+         cls.qemuboot_conf = os.path.join(cls.deploy_dir_image, cls.qemuboot_conf)
+         bitbake(cls.recipe)
  
--        image_type = "core-image-minimal"
--        deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE')
--        machine = get_bb_var('MACHINE')
--        fitimage_its_path = os.path.join(deploy_dir_image,
--            "fitImage-its-%s-%s-%s" % (image_type, machine, machine))
--        fitimage_path = os.path.join(deploy_dir_image,
--            "fitImage-%s-%s-%s" % (image_type, machine, machine))
-+        fitimage_its_path = os.path.join(bb_vars['DEPLOY_DIR_IMAGE'],
-+            "fitImage-its-%s-%s" % (bb_vars['INITRAMFS_IMAGE_NAME'], bb_vars['KERNEL_FIT_LINK_NAME']))
-+        fitimage_path = os.path.join(bb_vars['DEPLOY_DIR_IMAGE'],
-+            "fitImage-%s-%s" % (bb_vars['INITRAMFS_IMAGE_NAME'], bb_vars['KERNEL_FIT_LINK_NAME']))
+@@ -200,7 +202,7 @@ class QemuTest(OESelftestTestCase):
+             self.assertTrue(qemu_shutdown_succeeded, 'Failed: %s does not shutdown within timeout(%s)' % (self.machine, shutdown_timeout))
  
-         self.assertTrue(os.path.exists(fitimage_its_path),
-             "%s image tree source doesn't exist" % (fitimage_its_path))
-@@ -123,15 +122,14 @@ UBOOT_MKIMAGE_SIGN_ARGS = "-c 'a smart comment'"
-         self.write_config(config)
- 
-         # fitImage is created as part of linux recipe
--        bitbake("virtual/kernel")
--
--        image_type = "core-image-minimal"
--        deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE')
--        machine = get_bb_var('MACHINE')
--        fitimage_its_path = os.path.join(deploy_dir_image,
--            "fitImage-its-%s" % (machine,))
--        fitimage_path = os.path.join(deploy_dir_image,
--            "fitImage-%s.bin" % (machine,))
-+        image = "virtual/kernel"
-+        bitbake(image)
-+        bb_vars = get_bb_vars(['DEPLOY_DIR_IMAGE', 'KERNEL_FIT_LINK_NAME'], image)
-+
-+        fitimage_its_path = os.path.join(bb_vars['DEPLOY_DIR_IMAGE'],
-+            "fitImage-its-%s" % (bb_vars['KERNEL_FIT_LINK_NAME']))
-+        fitimage_path = os.path.join(bb_vars['DEPLOY_DIR_IMAGE'],
-+            "fitImage-%s.bin" % (bb_vars['KERNEL_FIT_LINK_NAME']))
- 
-         self.assertTrue(os.path.exists(fitimage_its_path),
-             "%s image tree source doesn't exist" % (fitimage_its_path))
+     def test_qemu_can_boot_nfs_and_shutdown(self):
+-        rootfs_tar = "%s-%s.tar.bz2" % (self.recipe, self.machine)
++        rootfs_tar = "%s.tar.bz2" % (self.image_link_name)
+         rootfs_tar = os.path.join(self.deploy_dir_image, rootfs_tar)
+         self.assertExists(rootfs_tar)
+         cmd = "%s %s" % (self.cmd_common, rootfs_tar)
 -- 
 2.39.2
 
