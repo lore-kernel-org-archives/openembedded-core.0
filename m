@@ -1,99 +1,156 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42D77C61DA4
-	for <webhook@archiver.kernel.org>; Mon, 13 Mar 2023 11:46:14 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.17219.1678707969608293093
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62775C6FD19
+	for <webhook@archiver.kernel.org>; Mon, 13 Mar 2023 12:16:04 +0000 (UTC)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.web10.17703.1678709762979691063
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Mar 2023 04:46:09 -0700
+ Mon, 13 Mar 2023 05:16:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NILCEMmR;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id fm20-20020a05600c0c1400b003ead37e6588so10702707wmb.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 04:46:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=c+8MTVOe;
+ spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f46.google.com with SMTP id x13so550786edd.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 05:16:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1678707968;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nuGhC1RlaFkdioyPEBeH3k6bOOBxB86aOShi+CTO7Og=;
-        b=NILCEMmRXkAzjsxto3lC42XYhcIPcutOWXWuCnisTYbA1U8fyoz86ntK9oQzg4HUoe
-         xugnbTSziTA9TBu/2uZtOO/K8xXI9qrGNyMsaK/6awN+d+QDRsTKRajJ2cHS4ZBnn4cP
-         bKLzvd37WVz4qYPLCgaPJtsoY1w09MgQt77Mk=
+        d=gmail.com; s=20210112; t=1678709761;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=O6ifxvTjVmLO6WCdj2emtiWk54cTg+OJhSureo9A9Zs=;
+        b=c+8MTVOezHg3OBfzNLh5bxi4SwoRW+lnCKFN9eXkRutNtV8iJA8CQVyNAZnQQbypIW
+         TgwxmMJlK+QESApXKJX1MxuZpEP8CY/9ccH2YWWDKrspAT86MLnpyGIqCSO5Uqr9EKcB
+         hqIg0hHV+SLRe56wUmrrxjsKMM5gb5C6DdSFtbIeKJqyKh8XXyYPePWz5sNruLlv2OX3
+         q7Px6cTldeb3U7QuXXbEr5dH+LD+Qk3SBBNWditVgKGdzwYIM+BDKkmTciZwNXx5/Y7W
+         ic9MVNko2R1Kruu7foBHQNTvRce6vFQ3yrMDxq34oagS3+JNtDwfXd2fhK4dRiEJTvMY
+         f31Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678707968;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nuGhC1RlaFkdioyPEBeH3k6bOOBxB86aOShi+CTO7Og=;
-        b=pTf60Rc9UAHdnpnnnfONpkxTLMOask7Qyla2I8BPFsF3D/uhZ3UEbxWj7dxIoaPuZ8
-         r8HQeMy7PsESIQfE9FI9hAUfUPkz1xiKIIKMsJm50DwXQJNuPR2+owSvsU/BCzPSQ/xm
-         AaWrIAimHJo+BfdEAhhC/5fl4cHVK5TlxFQUmzeoiygO0zG/bYUD4xjWxqNCEV+bAV4w
-         +b8lOGdXAEmqP/L1APZ4wB3UrhkwE8e5AFyXgUoxPYsA7O8MriL+Q/QcijE3RXu9xwvH
-         jXUV8cXjEKG8pLjWvYW1400imaEGqlGdv/mVnYSoWz3zBFFI3FU73n7O9am0hKRvWK72
-         qh4g==
-X-Gm-Message-State: AO0yUKVvNnPh8zjQ7e2gGEO0lNIxTotZchc08TGaB7TZojTQ6gMY0W7i
-	S29kOwysL+gT5fRaZMBSdLXeS1yKPPw13U1RW6M=
-X-Google-Smtp-Source: AK7set/dMZdhobIW1/C8oAV0UHYjThjLGV97+8LfyggP4r0wmzyeT/z1z9ewO7urYKwVqq5mwVAWlA==
-X-Received: by 2002:a05:600c:3d87:b0:3eb:9822:2907 with SMTP id bi7-20020a05600c3d8700b003eb98222907mr10408151wmb.4.1678707967531;
-        Mon, 13 Mar 2023 04:46:07 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:5538:39df:2049:3326])
-        by smtp.gmail.com with ESMTPSA id k12-20020a7bc30c000000b003dc522dd25esm8825388wmj.30.2023.03.13.04.46.07
+        d=1e100.net; s=20210112; t=1678709761;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=O6ifxvTjVmLO6WCdj2emtiWk54cTg+OJhSureo9A9Zs=;
+        b=DBilaJBekiJJgRZ3aEBxdwoZOeYYg9Il0opmdbUKYOUbMUN+1LSQQnfMUUm+PcFztG
+         GYSSNTbqy0+hd8cnRXZQCUOFYC3d95PjpnMgRgGQxffvboHzD9wE9HiwZyQVpLiAxOeH
+         6o6Qrtgaxk4HFUZMDFkrMOYVWolM/ocDtanWZgrWW63A5YggUs7eqZrnc8HskTNMZtxD
+         G3D8verloHiXW3MQCleO70OAPiO9Ni10tksU7p5v63qEhvgeF10Tz3N/jQli/+r/2NMR
+         rupqkXvo+kXvZ6D+xInVUhmW8n5R03wxasBRy2YUkMqPNbM+qcR6CYUvHPB+nquuQlxF
+         Ak/g==
+X-Gm-Message-State: AO0yUKWVv1P9cwLW30RtOTWtUNFy08m6ffRF7hFBvuaqgFnozF3XsJYW
+	A3qBuhOUhuQ/ZuiGOpSr4DONa4NjXto=
+X-Google-Smtp-Source: AK7set/B/oXoEljzBAAwoASQoiUYqr7o1xXeqcFwaj/xJCHHr0nC4WteIf1D1qGKXxFKXXlF8z0tRQ==
+X-Received: by 2002:a17:906:30d3:b0:878:7291:d558 with SMTP id b19-20020a17090630d300b008787291d558mr31057589ejb.34.1678709761465;
+        Mon, 13 Mar 2023 05:16:01 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id d2-20020a50f682000000b004fb1a83cb00sm2175588edn.75.2023.03.13.05.16.01
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Mar 2023 04:46:07 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Mon, 13 Mar 2023 05:16:01 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] selftest/recipetool: Stop test corrupting tinfoil class
-Date: Mon, 13 Mar 2023 11:46:06 +0000
-Message-Id: <20230313114606.3733038-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.38.1
+Subject: [PATCH 13/14] runqemu: get_first_file() rename cmd* to glob*
+Date: Mon, 13 Mar 2023 13:15:40 +0100
+Message-Id: <8f10918980e1e7ab6634b687f9c4325b71f1f319.1678709427.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <cover.1678709427.git.Martin.Jansa@gmail.com>
+References: <cover.1678709427.git.Martin.Jansa@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 11:46:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178431
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 12:16:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178445
 
-Running recipetool.RecipetoolTests.test_recipetool_handle_license_vars
-followed by wic.Wic2.test_biosplusefi_plugin_qemu would show a failure of:
+* to better indicate how it's used in get_first_file
 
-  File "/media/build/poky/meta/lib/oeqa/utils/commands.py", line 351, in runqemu
-    qemu = oeqa.targetcontrol.QemuTarget(recipedata, targetlogger, image_fstype)
-  File "/media/build/poky/meta/lib/oeqa/targetcontrol.py", line 116, in __init__
-    use_kvm = oe.types.qemu_use_kvm(d.getVar('QEMU_USE_KVM'), d.getVar('TARGET_ARCH'))
-  File "/media/build/poky/meta/lib/oe/types.py", line 182, in qemu_use_kvm
-    if kvm and boolean(kvm):
-  File "/media/build/poky/meta/lib/oe/types.py", line 128, in boolean
-    raise ValueError("Invalid boolean value '%s'" % value)
-ValueError: Invalid boolean value '/media/build/poky/meta/files/common-licenses'
+* cmd* is used in other places for actual shell commands
+  to execute
 
-which made no sense until you realise the recipetool test is corrupting
-the tinfoil class. Work on a copy instead to avoid this.
+* RunQemuError('KERNEL not found: %s, %s or %s' % cmds)
+  also looked weird to me, but that works (to my python-noob surprise)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+[YOCTO #12937]
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/recipetool.py | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ scripts/runqemu | 36 ++++++++++++++++++------------------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
-index 25b06cdcf02..b193f0f5c83 100644
---- a/meta/lib/oeqa/selftest/cases/recipetool.py
-+++ b/meta/lib/oeqa/selftest/cases/recipetool.py
-@@ -581,7 +581,10 @@ class RecipetoolTests(RecipetoolBase):
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 58b0c191e1..32b0c5699c 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -116,10 +116,10 @@ def check_tun():
+     if not os.access(dev_tun, os.W_OK):
+         raise RunQemuError("TUN control device %s is not writable, please fix (e.g. sudo chmod 666 %s)" % (dev_tun, dev_tun))
  
-         commonlicdir = get_bb_var('COMMON_LICENSE_DIR')
+-def get_first_file(cmds):
+-    """Return first file found in wildcard cmds"""
+-    for cmd in cmds:
+-        all_files = glob.glob(cmd)
++def get_first_file(globs):
++    """Return first file found in wildcard globs"""
++    for g in globs:
++        all_files = glob.glob(g)
+         if all_files:
+             for f in all_files:
+                 if not os.path.isdir(f):
+@@ -676,12 +676,12 @@ class BaseConfig(object):
+                     self.rootfs, self.get('MACHINE'),
+                     self.fstype)
+         elif not self.rootfs:
+-            cmd_name = '%s/%s*.%s' % (self.get('DEPLOY_DIR_IMAGE'), self.get('IMAGE_NAME'), self.fstype)
+-            cmd_link = '%s/%s*.%s' % (self.get('DEPLOY_DIR_IMAGE'), self.get('IMAGE_LINK_NAME'), self.fstype)
+-            cmds = (cmd_name, cmd_link)
+-            self.rootfs = get_first_file(cmds)
++            glob_name = '%s/%s*.%s' % (self.get('DEPLOY_DIR_IMAGE'), self.get('IMAGE_NAME'), self.fstype)
++            glob_link = '%s/%s*.%s' % (self.get('DEPLOY_DIR_IMAGE'), self.get('IMAGE_LINK_NAME'), self.fstype)
++            globs = (glob_name, glob_link)
++            self.rootfs = get_first_file(globs)
+             if not self.rootfs:
+-                raise RunQemuError("Failed to find rootfs: %s or %s" % cmds)
++                raise RunQemuError("Failed to find rootfs: %s or %s" % globs)
  
--        d = bb.tinfoil.TinfoilDataStoreConnector
-+        class DataConnectorCopy(bb.tinfoil.TinfoilDataStoreConnector):
-+            pass
-+
-+        d = DataConnectorCopy
-         d.getVar = Mock(return_value=commonlicdir)
+         if not os.path.exists(self.rootfs):
+             raise RunQemuError("Can't find rootfs: %s" % self.rootfs)
+@@ -741,10 +741,10 @@ class BaseConfig(object):
+             kernel_match_name = "%s/%s" % (deploy_dir_image, kernel_name)
+             kernel_match_link = "%s/%s" % (deploy_dir_image, self.get('KERNEL_IMAGETYPE'))
+             kernel_startswith = "%s/%s*" % (deploy_dir_image, self.get('KERNEL_IMAGETYPE'))
+-            cmds = (kernel_match_name, kernel_match_link, kernel_startswith)
+-            self.kernel = get_first_file(cmds)
++            globs = (kernel_match_name, kernel_match_link, kernel_startswith)
++            self.kernel = get_first_file(globs)
+             if not self.kernel:
+-                raise RunQemuError('KERNEL not found: %s, %s or %s' % cmds)
++                raise RunQemuError('KERNEL not found: %s, %s or %s' % globs)
  
-         srctree = tempfile.mkdtemp(prefix='recipetoolqa')
+         if not os.path.exists(self.kernel):
+             raise RunQemuError("KERNEL %s not found" % self.kernel)
+@@ -761,13 +761,13 @@ class BaseConfig(object):
+         dtb = self.get('QB_DTB')
+         if dtb:
+             deploy_dir_image = self.get('DEPLOY_DIR_IMAGE')
+-            cmd_match = "%s/%s" % (deploy_dir_image, dtb)
+-            cmd_startswith = "%s/%s*" % (deploy_dir_image, dtb)
+-            cmd_wild = "%s/*.dtb" % deploy_dir_image
+-            cmds = (cmd_match, cmd_startswith, cmd_wild)
+-            self.dtb = get_first_file(cmds)
++            glob_match = "%s/%s" % (deploy_dir_image, dtb)
++            glob_startswith = "%s/%s*" % (deploy_dir_image, dtb)
++            glob_wild = "%s/*.dtb" % deploy_dir_image
++            globs = (glob_match, glob_startswith, glob_wild)
++            self.dtb = get_first_file(globs)
+             if not os.path.exists(self.dtb):
+-                raise RunQemuError('DTB not found: %s, %s or %s' % cmds)
++                raise RunQemuError('DTB not found: %s, %s or %s' % globs)
+ 
+     def check_bios(self):
+         """Check and set bios"""
 -- 
-2.38.1
+2.39.2
 
 
