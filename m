@@ -1,48 +1,48 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2C30C6FD19
-	for <webhook@archiver.kernel.org>; Mon, 13 Mar 2023 09:49:53 +0000 (UTC)
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
- by mx.groups.io with SMTP id smtpd.web10.15591.1678700992775427139
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9093C6FD19
+	for <webhook@archiver.kernel.org>; Mon, 13 Mar 2023 10:06:43 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web11.16211.1678701994478738304
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Mar 2023 02:49:52 -0700
+ Mon, 13 Mar 2023 03:06:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=nEEh5Ql5;
- spf=pass (domain: gmail.com, ip: 209.85.166.171, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-il1-f171.google.com with SMTP id h5so2623493ile.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 02:49:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=FMG3FqNd;
+ spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-lf1-f49.google.com with SMTP id s22so14942018lfi.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 03:06:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678700992;
+        d=gmail.com; s=20210112; t=1678701993;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Hk0/YOAG57Xk3D+MhYUiNFEkcvab1+Vel+MI7KTJDkE=;
-        b=nEEh5Ql5YG2K1zktBaY1CzkxJQfgB8EInP9tofZwfNVqOS/6CJG5Myf9k8EqxOl5Oo
-         +zKxsJG3LWUBxTx41Lzy4OgQVHrZJJU6qXFYq6cupaFR5jxByxBlFPabR70JR6EQff4k
-         R3S6p2VGN6xKepnLr7KVJoXConMgmtORqWjIgyTTGC5C92ZgDsNgin99IoN/7Avl7Rh/
-         evVquEj15H0FqBkohbl/6PIVQP3zpFhVr5qh0zstPEtCnjqybynBz1QiEKNELelJl3VA
-         znUnLUbZcFM2ffELvlJc0ws5rYTVZumMTqFcf9r/E6xvOCnuU+xrDuD/Isc2H6Z6Xkxc
-         0HpA==
+        bh=9PGmLAwn9o/gWm/n9NzYGBzUbt6VswTn9/KV54f4hns=;
+        b=FMG3FqNdai55wBAggOFmFKcTPzNi1zmH31OyLRvUfG48lsdbs5buv7rVOZ/cARJShI
+         togSVQobiBfFppsVHn6CjdpjT+NJRhzo9z2MF7BM+3jZ1+/cyMfmmn+LhUrRgx/hKXQn
+         mscyFdfRD/VaYSX357+jglGzJsPD6sYci8L/KVxAvcUc8bNJApsuauQT63Qppn5VP4RH
+         VUJPfjiZD0Vl5KQy+JOb247tjAkrntDKVCBTsmgReZ07N8nBsv2BNDQpe2wZwFM4SvUk
+         Ah2TPNMESzk60KFGGhevfxLAI1kAGhqGj2u3CwRbGKhA9BdUMF96Cau0ycRobtZEm7A8
+         Gjbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678700992;
+        d=1e100.net; s=20210112; t=1678701993;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Hk0/YOAG57Xk3D+MhYUiNFEkcvab1+Vel+MI7KTJDkE=;
-        b=5lPK6qyjpxGA6gZzxHc1f3PdTesfLX0Fp6ipQF/a9+/tpFDmhas8ONx8VE+cu6FPku
-         VKQ1rbSOTVitIFpVJ1EfK8gc3NJDsvCc1+WY0XoJaQBG1POG2ysBy/3bkTwurA5xtS6N
-         qz1e6BkxF3zHzt61fCMHIRhjdPOdh9ZN3S+4XHTPsDuPZlthxaGxhQE4F0Vcww3nQEtR
-         L52w5tbv81oiqfEH/gK0UuOMmY64DKwDrL7vlEvG11bIoZUyLXjEgP47wolSvwpeMSJa
-         IEijmi5r9FD9Io4uDrkTnJLPmdrH41eJsTO2aGHUNx5ylR1SaBKZz9LXY84syjWAinIF
-         4FGQ==
-X-Gm-Message-State: AO0yUKW8xeFi6EasSLkAfHGXdWZUN7XrsVQ2Wj2bx1O+TxeiJl3Q8vLo
-	MgMVJhoOzfc5cpGAaitbTSFQaVNe2vDsnPYdp4tH+OS8iMk=
-X-Google-Smtp-Source: AK7set9+Ol2sJkqhybAsOY68n2on7FxgxwpphUXEUqRqoabKH+SSTQSy9MI5Z+buVkcO1ikNEDYt3lNd9MZhfXvRiXs=
-X-Received: by 2002:a05:6e02:1289:b0:315:8e92:39ad with SMTP id
- y9-20020a056e02128900b003158e9239admr15657910ilq.1.1678700992025; Mon, 13 Mar
- 2023 02:49:52 -0700 (PDT)
+        bh=9PGmLAwn9o/gWm/n9NzYGBzUbt6VswTn9/KV54f4hns=;
+        b=6LHKE9vmmhWu4GI/euIL5xzVYq9aRGOokHRtKiWm3m8/ZuoWgMsAuCuHS2rdp85zrv
+         zIQhgz4WSthxXO7YfBtfb8tk8E+k0ptpRSPox+oU0kNatMQnqAPnW2Bqws3Zl+Wz8aVl
+         QnFrlfnlxNNkYXaTbPRH+/GOkmkN86ZmvO4ZW3jzasS6K8g5/8YB5QCJO07IMw7Aoeg6
+         tqTA+S45e1RWS1nV4mUt21yX0x4x1/oGTE+w6P+KvmqfP4YW/KRUrd9FaPeffVWvtt6c
+         Z3OmV68DOBPw52R3KUmg/Hq2fJjD9TFp0T2sL4jTSMDcis1xKiwekUuSPj4pIPmqrC+o
+         pZ/A==
+X-Gm-Message-State: AO0yUKXld28hRHPXSiw3qu8OcJi9FE9laRWBWEOj4qmfIkBRkGdftbSR
+	tH7JUkpxcd5m5dgQ+VWqJRera2fwbTJc0jIRLvs=
+X-Google-Smtp-Source: AK7set85XCMqWnSwhzVTlb/b/n72ai4ES0URGkuf02jjeeF603mErRi86l6RWFLtIsacnkqynl3mkbBB3nOrfpyjBBw=
+X-Received: by 2002:ac2:4117:0:b0:4d5:ca32:7bc5 with SMTP id
+ b23-20020ac24117000000b004d5ca327bc5mr10494272lfi.12.1678701992643; Mon, 13
+ Mar 2023 03:06:32 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230312065517.61051-1-frederic.martinsons@gmail.com>
  <CANNYZj9ah1rO9FH3a_m2ftgrDik_NtcLa_15r6+sqD5iwBXsiw@mail.gmail.com>
@@ -51,34 +51,37 @@ References: <20230312065517.61051-1-frederic.martinsons@gmail.com>
  <CA+cAkepYqf_hJWe5HBpKcJrF37P7V81AWCZJJ_tUYtBH=BqHqg@mail.gmail.com>
  <CANNYZj-srm78_c6abE2WX8L6gGqW=GM0uqUyHiMkVmO+t0ZWwA@mail.gmail.com>
  <CAO5Uq5SaqUHzS93eyki1-3OGK2w_tGizJZmHMrJKGx5LdRZryA@mail.gmail.com>
- <CA+cAkeqLOVAT7bz+HXKyC7=vwyrRAfE76buQ7C9cog6WQ6k1gw@mail.gmail.com> <174BF173C650BF69.25836@lists.openembedded.org>
-In-Reply-To: <174BF173C650BF69.25836@lists.openembedded.org>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Mon, 13 Mar 2023 09:48:47 +0000
-Message-ID: <CAO5Uq5S41-fM8=A2xC3jxbB908ZSwHmUMLgXEjDqWw=KqTxzsA@mail.gmail.com>
+ <CA+cAkeqLOVAT7bz+HXKyC7=vwyrRAfE76buQ7C9cog6WQ6k1gw@mail.gmail.com> <CAO5Uq5QnyWqi5_CaX7sHTrewVRhvT_SKdXTY7PvKe4dPryCQ6w@mail.gmail.com>
+In-Reply-To: <CAO5Uq5QnyWqi5_CaX7sHTrewVRhvT_SKdXTY7PvKe4dPryCQ6w@mail.gmail.com>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
+Date: Mon, 13 Mar 2023 11:06:21 +0100
+Message-ID: <CA+cAkeowE7BUYie9rdFPpJ972DHK+d3WGXLKFPAKcYcVYy_AXA@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] cargo_common.bbclass: do not use buit-in git to
  fetch crates
-To: alex.kiernan@gmail.com
-Cc: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>, 
-	Alexander Kanavin <alex.kanavin@gmail.com>, openembedded-core@lists.openembedded.org
+To: Alex Kiernan <alex.kiernan@gmail.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 09:49:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178425
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 10:06:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178426
 
-For reference this was my test case:
+hmm, how is the network disabled ?
 
-https://github.com/akiernan/uuid-test
+Because with the patch I provided , the git clone in do_compile is successf=
+ul.
 
-I was wondering if this was an ssh vs. https problem, but just
-checking we've a mix of ssh and https access to local git repos.
+One major thing I forget to mention is that I use dunfell branch where
+I backport all the cargo/rust relatives from master.
+The backport was functional and straightforward, I just have to keep
+the custom crate fetcher in openembedded-core (meta/lib/crate.py)
+because I'm stuck with bitbake 1.46.
 
-On Mon, Mar 13, 2023 at 9:46=E2=80=AFAM Alex Kiernan via
-lists.openembedded.org <alex.kiernan=3Dgmail.com@lists.openembedded.org>
-wrote:
+   -
+
+On Mon, 13 Mar 2023 at 10:46, Alex Kiernan <alex.kiernan@gmail.com> wrote:
 >
 > Are you listing your ssh repos in your SRC_URI? We run with network
 > disabled everywhere other than fetch and with that patch we don't see
@@ -145,7 +148,15 @@ nance
 > > > > > >
 > > > > > > Alex
 > > > >
-> > > >
+> > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > > Links: You receive all messages sent to this group.
+> > > > View/Reply Online (#178420): https://lists.openembedded.org/g/opene=
+mbedded-core/message/178420
+> > > > Mute This Topic: https://lists.openembedded.org/mt/97555635/3618097
+> > > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/uns=
+ub [alex.kiernan@gmail.com]
+> > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > > > >
 > > >
 > > >
@@ -156,19 +167,4 @@ nance
 >
 > --
 > Alex Kiernan
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#178424): https://lists.openembedded.org/g/openembedde=
-d-core/message/178424
-> Mute This Topic: https://lists.openembedded.org/mt/97555635/3618097
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kiernan@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
-
-
---=20
-Alex Kiernan
 
