@@ -2,57 +2,57 @@ Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84414C76196
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86EC2C7619A
 	for <webhook@archiver.kernel.org>; Mon, 13 Mar 2023 12:16:04 +0000 (UTC)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web10.17699.1678709758962351284
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web11.18080.1678709759521615330
  for <openembedded-core@lists.openembedded.org>;
  Mon, 13 Mar 2023 05:15:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Mqo5BA4O;
- spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id r15so20638881edq.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 05:15:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=LvN7S8nO;
+ spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f49.google.com with SMTP id j11so47845967edq.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 05:15:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678709757;
+        d=gmail.com; s=20210112; t=1678709758;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=W1CS1YCv7Dnz2AOpLFWitdlyME3wgbwbhMu97MvtRbg=;
-        b=Mqo5BA4OwXgJ6MMrN7Oc93cRFn3yQsR+Qoh+v9yWJniEqATaAN7u/oy9EjM1AGM6hs
-         yCVtAriYadvm1VZgny41aVgho8NT4drIwENvMvbJQRe2NOe5R/h9ChLFl6Qdrwvhjvbw
-         nQyiHfmAONUp/r2LRX7/BvUnWSvhALh1+MhRW6605W544z6UwPideB3YeoIUrVIHqsC9
-         lly8XfArUm4VqnVgJWxNpRmSlzO8u2mu4Zx/wltMGyFFAUfHNfGEkQ0EZCg190rME1k0
-         e0SvHex2oWnp6dbN8VdxBFhaaSTbfUb0mIZBvyqb27upTEREZAthUmesu/JF8xI26JZo
-         VVuA==
+        bh=6ycQ2HUyoiiLKSMarD7UHyDMX5t5B9d2d15K+0m7BJA=;
+        b=LvN7S8nOwgalL0Q74VOEDjY0Zb1DF3jeB97n/byvfcG0Ngq7R3SZVeM9YB4acgrtMa
+         DGNoiAB7dhz5b4/7Ux2lsqnxRMZCx7Su4dlTnhXfQXzQO/zZkPB5SYvehXxwREInL7rO
+         4j8ymyP6YVPb67ftpnA8af7bExcs0y+qxX7LQ3UYLbbCSady0idp5G38T2tubE5/4H3g
+         uTkzj3oAvjU+VkF821f+B7wJsK+DL1wo4Roz8xNjg/EBKvRpcKok5iaYGHMucAgvniDy
+         H0NTBJ7Snj8trxWe0ETYtjPt3o9XRxoYsKDTlamfFlddlRHOc+cX17GP5uOmef6Voa67
+         L58A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678709757;
+        d=1e100.net; s=20210112; t=1678709758;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=W1CS1YCv7Dnz2AOpLFWitdlyME3wgbwbhMu97MvtRbg=;
-        b=EQ6vfsqnUZiorFqYTLQN7PqkIB+h3lgTTt1eMGRZL8LHyXOE8W8/29D5RNiU+NRCc0
-         PMdabghQIuPy9oqqBVsmR/S9Kwt2QO7OZnyHDzH4kL680VL4q/egIyXdaBFExkympOmK
-         RhUqvKCkgG536j+IYES8xXVgztRv9XGOvWdgvnCd7L0/1YDPWTZe3ZSAuc2xwEEQeUA6
-         BMPZXdM54Mg1l1IkT4YPhG+1vTkwvGpmsu2j5M/iADEk92L7iuDhCp5wqzxeBeXWPLAi
-         wNb2zOtVH9g+vmqJDfYjh4n99aaCw9RpJgmefQF9SJkXQHm+OpoCJqR8C+iFv7laWaMM
-         o9CQ==
-X-Gm-Message-State: AO0yUKU6etWiCkcXw4aiy3sg1UwIUnUk+XB5MQa43hsAyxbmeZNgbiGj
-	zzDxs/tzoOMSz4UF2yXECuQxUkOC7HI=
-X-Google-Smtp-Source: AK7set8arBO1/rZqM8ZIkWkZ/LNjzdJxwmH+E7+StaJaPm3mePjDmFlBD55bh+Dl2Wx4nKOOPpfanw==
-X-Received: by 2002:a17:906:1604:b0:879:bff:55c with SMTP id m4-20020a170906160400b008790bff055cmr7107773ejd.1.1678709757393;
-        Mon, 13 Mar 2023 05:15:57 -0700 (PDT)
+        bh=6ycQ2HUyoiiLKSMarD7UHyDMX5t5B9d2d15K+0m7BJA=;
+        b=br6TQY9QMpNhS+GXQ9g/uwRQLf2i4BMlEMJcPupHKjh69bgEOr1Y8531D6kYa1aGPB
+         VEiz+uhoXQqTFKR0SdrJRf7XSuHY3lvsuw69YAEMecczSmoIjWXAVtHfO5fchCvBHdbr
+         irPnDk/tPnP2rfME5lW7AG9SoQ5E3snkBoKHeMGa5WExlY9w6fbnfCDPMZGhuj9Zs9s1
+         RfAiAddSRHajiJtttpL4uqFhFHPlJeCFKvR90btzpY44zBTGF081EO7Tm8n04F4kn0ph
+         jxlGZIgEmX4ZzL+asyYoKQRZjtw+N8Z8pF+tpGdR6zru3KbtlY4xIjceyFy09tjPGgc/
+         AVUA==
+X-Gm-Message-State: AO0yUKVj3xlV4qFxJZPgGQX+pRAHJk4wR/aA8ynkJZLilqhxctH6Sbxy
+	fBvm+EeONE1PADGXTzK801qaW5s5q1E=
+X-Google-Smtp-Source: AK7set+7onMxJztN9llUaK+I0EleU5098rnkZg3xaDUGmkE24UZXoaD+++MlsabB6q6yYWwgeG7x3w==
+X-Received: by 2002:a17:906:1643:b0:871:dd2:4af0 with SMTP id n3-20020a170906164300b008710dd24af0mr35785004ejd.26.1678709758082;
+        Mon, 13 Mar 2023 05:15:58 -0700 (PDT)
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id u13-20020a50950d000000b004af70c546dasm3138695eda.87.2023.03.13.05.15.57
+        by smtp.gmail.com with ESMTPSA id vo11-20020a170907a80b00b008b17de9d1f2sm3399253ejc.15.2023.03.13.05.15.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 13 Mar 2023 05:15:57 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 07/14] image-artifact-names.bbclass: add INITRAMFS_IMAGE_NAME from kernel.bbclass
-Date: Mon, 13 Mar 2023 13:15:34 +0100
-Message-Id: <94b43880d87f405dec680b0a6f666af7b0c774a0.1678709427.git.Martin.Jansa@gmail.com>
+Subject: [PATCH 08/14] selftest: fitimage.py: respect INITRAMFS_IMAGE_NAME and KERNEL_FIT_LINK_NAME
+Date: Mon, 13 Mar 2023 13:15:35 +0100
+Message-Id: <6a87e08d2b541553ef7bb93b2afbd0a28e4177ea.1678709427.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1678709427.git.Martin.Jansa@gmail.com>
 References: <cover.1678709427.git.Martin.Jansa@gmail.com>
@@ -62,50 +62,88 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 13 Mar 2023 12:16:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178439
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178440
 
-* move it from kernel.bbclass, because it needs to stay in sync with
-  IMAGE_LINK_NAME structure
+* use these variables instead of assuming:
+  "fitImage-its-%s-%s-%s" % (image_type, machine, machine)
+  notice that these files have no extension and the -machine suffix
+  is duplicated (once from core-image-minimal and once from
+  kernel-fitimage.bbclass:kernel_do_deploy:append
+  through KERNEL_FIT_LINK_NAME which is MACHINE by default:
 
-* image-artifact-names.bbclass is also inheritted from kernel-artifact-names.bbclass
-  so every recipe which needs this variable probably already inherits one of these
+  KERNEL_FIT_NAME ?= "${KERNEL_ARTIFACT_NAME}"
+  KERNEL_FIT_LINK_NAME ?= "${KERNEL_ARTIFACT_LINK_NAME}"
 
-* fixes kernel-fitimage.bbclass with modified IMAGE_LINK_NAME
+  KERNEL_ARTIFACT_NAME ?= "${PKGE}-${PKGV}-${PKGR}-${MACHINE}${IMAGE_VERSION_SUFFIX}"
+  KERNEL_ARTIFACT_LINK_NAME ?= "${MACHINE}"
 
 [YOCTO #12937]
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes-recipe/image-artifact-names.bbclass | 3 +++
- meta/classes-recipe/kernel.bbclass               | 1 -
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/fitimage.py | 34 +++++++++++-------------
+ 1 file changed, 16 insertions(+), 18 deletions(-)
 
-diff --git a/meta/classes-recipe/image-artifact-names.bbclass b/meta/classes-recipe/image-artifact-names.bbclass
-index 5c4e746b90..9dc25b6dde 100644
---- a/meta/classes-recipe/image-artifact-names.bbclass
-+++ b/meta/classes-recipe/image-artifact-names.bbclass
-@@ -14,6 +14,9 @@ IMAGE_VERSION_SUFFIX[vardepsexclude] += "DATETIME SOURCE_DATE_EPOCH"
- IMAGE_NAME ?= "${IMAGE_BASENAME}-${MACHINE}${IMAGE_VERSION_SUFFIX}"
- IMAGE_LINK_NAME ?= "${IMAGE_BASENAME}-${MACHINE}"
+diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
+index 1570d54dfb..7bc171e02d 100644
+--- a/meta/lib/oeqa/selftest/cases/fitimage.py
++++ b/meta/lib/oeqa/selftest/cases/fitimage.py
+@@ -5,7 +5,7 @@
+ #
  
-+# This needs to stay in sync with IMAGE_LINK_NAME, but with INITRAMFS_IMAGE instead of IMAGE_BASENAME
-+INITRAMFS_IMAGE_NAME ?= "${@['${INITRAMFS_IMAGE}-${MACHINE}', ''][d.getVar('INITRAMFS_IMAGE') == '']}"
+ from oeqa.selftest.case import OESelftestTestCase
+-from oeqa.utils.commands import runCmd, bitbake, get_bb_var
++from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_bb_vars
+ import os
+ import re
+ 
+@@ -42,15 +42,14 @@ FIT_DESC = "A model description"
+         self.write_config(config)
+ 
+         # fitImage is created as part of linux recipe
+-        bitbake("virtual/kernel")
++        image = "virtual/kernel"
++        bitbake(image)
++        bb_vars = get_bb_vars(['DEPLOY_DIR_IMAGE', 'INITRAMFS_IMAGE_NAME', 'KERNEL_FIT_LINK_NAME'], image)
+ 
+-        image_type = "core-image-minimal"
+-        deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE')
+-        machine = get_bb_var('MACHINE')
+-        fitimage_its_path = os.path.join(deploy_dir_image,
+-            "fitImage-its-%s-%s-%s" % (image_type, machine, machine))
+-        fitimage_path = os.path.join(deploy_dir_image,
+-            "fitImage-%s-%s-%s" % (image_type, machine, machine))
++        fitimage_its_path = os.path.join(bb_vars['DEPLOY_DIR_IMAGE'],
++            "fitImage-its-%s-%s" % (bb_vars['INITRAMFS_IMAGE_NAME'], bb_vars['KERNEL_FIT_LINK_NAME']))
++        fitimage_path = os.path.join(bb_vars['DEPLOY_DIR_IMAGE'],
++            "fitImage-%s-%s" % (bb_vars['INITRAMFS_IMAGE_NAME'], bb_vars['KERNEL_FIT_LINK_NAME']))
+ 
+         self.assertTrue(os.path.exists(fitimage_its_path),
+             "%s image tree source doesn't exist" % (fitimage_its_path))
+@@ -123,15 +122,14 @@ UBOOT_MKIMAGE_SIGN_ARGS = "-c 'a smart comment'"
+         self.write_config(config)
+ 
+         # fitImage is created as part of linux recipe
+-        bitbake("virtual/kernel")
+-
+-        image_type = "core-image-minimal"
+-        deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE')
+-        machine = get_bb_var('MACHINE')
+-        fitimage_its_path = os.path.join(deploy_dir_image,
+-            "fitImage-its-%s" % (machine,))
+-        fitimage_path = os.path.join(deploy_dir_image,
+-            "fitImage-%s.bin" % (machine,))
++        image = "virtual/kernel"
++        bitbake(image)
++        bb_vars = get_bb_vars(['DEPLOY_DIR_IMAGE', 'KERNEL_FIT_LINK_NAME'], image)
 +
- # IMAGE_NAME is the base name for everything produced when building images.
- # The actual image that contains the rootfs has an additional suffix (.rootfs
- # by default) followed by additional suffices which describe the format (.ext4,
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index 92090ac14e..aefa0d21bc 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -33,7 +33,6 @@ INHIBIT_DEFAULT_DEPS = "1"
++        fitimage_its_path = os.path.join(bb_vars['DEPLOY_DIR_IMAGE'],
++            "fitImage-its-%s" % (bb_vars['KERNEL_FIT_LINK_NAME']))
++        fitimage_path = os.path.join(bb_vars['DEPLOY_DIR_IMAGE'],
++            "fitImage-%s.bin" % (bb_vars['KERNEL_FIT_LINK_NAME']))
  
- KERNEL_IMAGETYPE ?= "zImage"
- INITRAMFS_IMAGE ?= ""
--INITRAMFS_IMAGE_NAME ?= "${@['${INITRAMFS_IMAGE}-${MACHINE}', ''][d.getVar('INITRAMFS_IMAGE') == '']}"
- INITRAMFS_TASK ?= ""
- INITRAMFS_IMAGE_BUNDLE ?= ""
- INITRAMFS_DEPLOY_DIR_IMAGE ?= "${DEPLOY_DIR_IMAGE}"
+         self.assertTrue(os.path.exists(fitimage_its_path),
+             "%s image tree source doesn't exist" % (fitimage_its_path))
 -- 
 2.39.2
 
