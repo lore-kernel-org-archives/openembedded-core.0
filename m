@@ -2,46 +2,46 @@ Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6984C6FD1D
-	for <webhook@archiver.kernel.org>; Tue, 14 Mar 2023 12:53:11 +0000 (UTC)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
- by mx.groups.io with SMTP id smtpd.web11.7760.1678798388301827962
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2D87C6FD1C
+	for <webhook@archiver.kernel.org>; Tue, 14 Mar 2023 12:58:31 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web11.7865.1678798704437751692
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Mar 2023 05:53:08 -0700
+ Tue, 14 Mar 2023 05:58:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=U2jIme/a;
- spf=pass (domain: gmail.com, ip: 209.85.208.179, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-lj1-f179.google.com with SMTP id f16so15888103ljq.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 05:53:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=E+ivFUBo;
+ spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-lf1-f53.google.com with SMTP id g17so19911613lfv.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 05:58:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678798386;
+        d=gmail.com; s=20210112; t=1678798702;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qNghP14//YPNcqBSbenJhsgIVHjUm6blFDA4W+WlD4w=;
-        b=U2jIme/apxf0INhF3V0OiEmqWkqoBBne2r14KK0iq/Mcxd/QnFUxfPNRbYVgiyRAde
-         xgQ3fk4J+82GehcYmkAzDnoYbEIHh4dyGNNbpT+b4neu4XsJzos+yFF1CUKK4WoKa/BM
-         DQg9wPrpuJThXwJExlbFbbqOOfKHegDCW258OasEJuoiW1M29Vl0RCmwv2607Ye83sQw
-         EG/l8uO/ZU67oxxT4dYWUbTzBHcIZhABzmIsFlhVimJgFQy7k/GCPTmvgptZsH1qzwIs
-         +Erk+kWcwp5fmkby/a+KkS//TLmvq/IYCcL0iE+asxMx5z5N3yXr/Ok3Gp+NxuwGJH29
-         y2Ww==
+        bh=+FC+ILHZNZ/r5rr0tAVuDaPu3NRaMyBnsTxMnAYTh14=;
+        b=E+ivFUBoVa1Om4Z991isVBlpME75suXnCXxXKFs4lh5yW7i1wnbTtzy/RDBUBJUdad
+         3SZd1fCxsmbMRX+7L89BApwapBdA0terALii+R4Pbf73iBiNthF52MDnKRg4cDbdqLly
+         km0zryo0DUQp68NKIzKdZopYNsN+xFS2AH5uxgkWeAx/dlJJlPPZV91QQ0RnQKRG+de4
+         5gxxcPpudY4zp741zPcyYU0z86ZGLcSP+PP2EVj/akNfzkL5XrCfHicOpJq2oV1gQlz2
+         /03JbcRWMTSexDixg6l6SQX2F7iNEk4Lhq79KcrD+GbZm66s66KGI+IzM3G84/md8T0l
+         2S5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678798386;
+        d=1e100.net; s=20210112; t=1678798702;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qNghP14//YPNcqBSbenJhsgIVHjUm6blFDA4W+WlD4w=;
-        b=rpFzY8rG9ACwtys8p3C7ifg/64upEMSuUVijoz/U+72GeucZarJ5Yxve2L0YELzwC9
-         6KxBQUpywXZ64N+l/O3OJK/+R2ZGCZNe3Wc9cM03jnjKNGUb4KdwfjvQ5NdQD7LV3rgO
-         kOU0WUM0eeDf84NRGZFkIWs7NWJG/4gA1oBS8hpmyLsumdK9pktibGTGubWXWzT6Og39
-         gBVGMqw89nZzkgKHm3uWLuoy2QDTnqWZ3Ka9W5fw9Y1X03+M8RxdF/LE+mB+GczP6KZY
-         RN7n0b/KSNvkhhoncGqve/QBsKLWb9PP3UTE0i+32q4qxShyIEvXEpu38weKFHpA1qJv
-         QstQ==
-X-Gm-Message-State: AO0yUKWyGZK9I4aaGMNMzCqNPj3LhM+erPpgUp4kQ7ru2jgXGgbTgw4Y
-	Kojm9lrYtMUFf9DCAB35/GaaYh6yPUVBtqxPnUA=
-X-Google-Smtp-Source: AK7set/l9Vmdg2LLQe0CmzvHg1zktSv22VGoMtzDOAhODDmE1leJhh615RE6G0uEtV9/IadwYqphNZ8lIPzW7tSAJy8=
-X-Received: by 2002:a05:651c:ba3:b0:295:a8d1:8a28 with SMTP id
- bg35-20020a05651c0ba300b00295a8d18a28mr11797270ljb.3.1678798386186; Tue, 14
- Mar 2023 05:53:06 -0700 (PDT)
+        bh=+FC+ILHZNZ/r5rr0tAVuDaPu3NRaMyBnsTxMnAYTh14=;
+        b=oU9sc5H3fnmT8dcHtCna6rXqj++/kHTUFdNH4RE8/9TVXgP6J9YI74HCoyA2LEwXGr
+         5DI92PZLGO4Ix+SeqC8Aa7lLrngsB13RMosRwK+chUuF6a4uncsCFK4hvcvZp9Cj1hQE
+         ZkWtoQvPQhNpe0pPlE8G/mW45JSt+P9Vfn+uic2DnS1uhlmJaMaIywvY54zPD6ich2pA
+         QLJmy8fcRfxUUCvQfR7XNqwk8RUohIdWSZUk6ekHZH2hOJ/4M0fwCPJz/qQi725YVC+F
+         DXtGosyAqKBHWtYB4tUrYpHJyY5IWBvVsTsVCtjJtntn1NCiqDS5aYi9Zhoa4VGkntGT
+         eQ5g==
+X-Gm-Message-State: AO0yUKVGJzSkyH+Hm8m7VAcygZbXUG/mModx9q1L7sw/LxV9+2JDJofX
+	49/VQdpSQWFodQgcezpqCveTuUFeOKGwdBBBWK+jMMnMTgE=
+X-Google-Smtp-Source: AK7set8d79ZFG5fuiG/E2WJ3N6iH31Ej7MS8NVBqUBVQXl4iSUQIwDq2x5P9yL1SfFMNlsgeEcIxZNr1Ba2Qx2My3Kk=
+X-Received: by 2002:ac2:5dfa:0:b0:4d5:ca42:aeec with SMTP id
+ z26-20020ac25dfa000000b004d5ca42aeecmr702628lfq.12.1678798702705; Tue, 14 Mar
+ 2023 05:58:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230312065517.61051-1-frederic.martinsons@gmail.com>
  <CANNYZj9ah1rO9FH3a_m2ftgrDik_NtcLa_15r6+sqD5iwBXsiw@mail.gmail.com>
@@ -55,57 +55,38 @@ References: <20230312065517.61051-1-frederic.martinsons@gmail.com>
  <CA+cAkeowE7BUYie9rdFPpJ972DHK+d3WGXLKFPAKcYcVYy_AXA@mail.gmail.com>
  <CANNYZj_xAGD8x9=axLxDuEpaJF2K2yLUVH6VO1j0i5tKSvPi=g@mail.gmail.com>
  <CA+cAkeoP7ScYgbRG3eV1RR5R9bqEXm1b3cw7_gASG4uhJw=WfQ@mail.gmail.com>
- <CA+cAkerKf8yyHraJxWOyAQp91tVkgs08LSX4f3Navu1qJ+tV6w@mail.gmail.com> <CAO5Uq5RSduyH-4Rhxzn=L3yS+V1ogM5GNoakbP-sHB9w0Www2w@mail.gmail.com>
-In-Reply-To: <CAO5Uq5RSduyH-4Rhxzn=L3yS+V1ogM5GNoakbP-sHB9w0Www2w@mail.gmail.com>
+ <CA+cAkerKf8yyHraJxWOyAQp91tVkgs08LSX4f3Navu1qJ+tV6w@mail.gmail.com> <CANNYZj9nxUwbJ6yQbnDZMtraM+Fv05LFkUQ8gKEkSbk1_70w+Q@mail.gmail.com>
+In-Reply-To: <CANNYZj9nxUwbJ6yQbnDZMtraM+Fv05LFkUQ8gKEkSbk1_70w+Q@mail.gmail.com>
 From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Date: Tue, 14 Mar 2023 13:52:53 +0100
-Message-ID: <CA+cAkepTe3cDC_-UBRJmPUMaVa7KzRrtY6+yC3vyedjb6UjYoQ@mail.gmail.com>
+Date: Tue, 14 Mar 2023 13:58:09 +0100
+Message-ID: <CA+cAkerXmysSTdZyXzkQvURo9vpdtSxz1M5rBCcZBg5k7TV65g@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] cargo_common.bbclass: do not use buit-in git to
  fetch crates
-To: Alex Kiernan <alex.kiernan@gmail.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, openembedded-core@lists.openembedded.org
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Alex Kiernan <alex.kiernan@gmail.com>, openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 12:53:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178484
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 12:58:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178485
 
-> Cool, will pick that up... the code needs some tests which is where it
-> stalled last time.
-
-Any help I can provide to you for having this patch merge ? Are you
-talking about unit testing ?
-
-> >  https://doc.rust-lang.org/cargo/faq.html#why-do-binaries-have-cargolock-in-version-control-but-not-libraries
-> > It is not for "library" project.
-> >
+On Tue, 14 Mar 2023 at 11:35, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
 >
-> So I'm clear, you're building a library project here?
+> --offline seems like the right thing to add, if it produces better errors.
 >
-> Could you consume your library into a wrapper project which brings
-> Cargo.lock along with it? Other than running tests on it, I'm not sure
-> what the value in building a library project is.
+> Generating Cargo.lock on the other hand is not right. We rely on rust
+> checking the source tree against the checksums in Cargo.lock (to
+> prevent supply chain attacks), and this would completely subvert that.
+> There could be better diagnostics around missing Cargo.lock, and steps
+> to address the issue, but such steps must be manually taken (even
+> though they could be codified in a special task, similar to how
+> generating list of crates in SRC_URI is a task).
+>
+> Alex
 >
 
-No, I build a binary but was not aware of the recommendation to add Cargo.lock
-in version control (and was not aware that was the missing of this
-file which make
-cargo execute network operation during build),
-I just started using rust  several weeks ago so every day I learn new
-things ;)
-
-> > Maybe we can add a "cargo generate-lockfile"
-> > (https://doc.rust-lang.org/cargo/commands/cargo-generate-lockfile.html)
-> > at the end of do_fetch ?
-> > Moreover, I think we should add the `--offline` option to cargo build
-> > because the error generated will be more clear:
-> >
->
-> Let me chuck that across our code base, I was fairly sure I'd seen
-> different problems with it, but it may have been whilst I was
-> debugging this first time around and am mis-remembering.
->
-
-Alright.
+Ok I see what you mean, generating the Cargo.lock in a dedicated task
+inside  meta/classes-recipe/cargo-update-recipe-crates.bbclass
+or maybe a dedicated meta/classes-recipe/cargo-generate-lockfile.bbclass ?
 
