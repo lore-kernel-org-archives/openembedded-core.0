@@ -1,235 +1,332 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E55E8C6FD1F
-	for <webhook@archiver.kernel.org>; Tue, 14 Mar 2023 09:30:30 +0000 (UTC)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
- by mx.groups.io with SMTP id smtpd.web11.4573.1678786227668981283
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 297EFC6FD1C
+	for <webhook@archiver.kernel.org>; Tue, 14 Mar 2023 10:25:41 +0000 (UTC)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+ by mx.groups.io with SMTP id smtpd.web11.5296.1678789532487402479
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Mar 2023 02:30:28 -0700
+ Tue, 14 Mar 2023 03:25:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=c40C2QTe;
- spf=pass (domain: gmail.com, ip: 209.85.208.179, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f179.google.com with SMTP id g18so15339158ljl.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 02:30:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Zf8vAwCN;
+ spf=pass (domain: gmail.com, ip: 209.85.208.182, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-lj1-f182.google.com with SMTP id i20so15443243lja.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 03:25:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678786225;
+        d=gmail.com; s=20210112; t=1678789531;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=w6fYssV85HEFwrpbCAn2jig6FsrvPN0YEGFvr4xs+g8=;
-        b=c40C2QTeid7jEDE9mX+7xVQk0aWUJXcmDDK6MS8lkLOPzJMmGtDMRtUkTLR3qL1GY7
-         O0DcI89VryLMWXS63GZo/pJHjqY/OZrXGw8wBAF1h0GtlC76UmLKjCpN7LoWGGAkL8hx
-         wvXLeS+ja+BmK+c7t8+ivzCInwTBScqsf2/HNHV5EOC+SNwfMqmVtCgDVomcobkNYWFc
-         BQBBpn1dLk/MA9ad1G60fU++asA6mp+UF7Geq75Y1KrHLEctHxU9RMX8cDNGfZh8sLAE
-         VyJdL7uXadGMNQuqCUVkuwAUvFi4evqcmlsejf1ggB8d8JjfnYdbtiPNuAnCdV1yqSyf
-         +sZQ==
+        bh=9OkTmm4wgR4t7T1I8AUbBjMrcjqf8inQjT2FzelG+tY=;
+        b=Zf8vAwCNYdadarhk4/xzZDED83xcMx7AsMw69fmxyu9CCY1xIsHsXhTwizlo4eGMpR
+         lAHi4vshlm/X4VanZeepxOsnTbhoIkCzOKHNndlZDftpaSGMNN1UsrvY4GEXvHLxMszm
+         z1mNHgJ33Wl5fYPlDbLHVofIJC74RXOSdx7Tjk9v2oW49JW+s4NwmWmEo3ooKDSst09G
+         yZ8jS2ECFTOs0F/3cOHKc4c/sxBtJanpa5fQSVjtqbf22VuyIM84FZUN7D7eKquN+wTJ
+         fpL6XbktvpXXJBJ7f93hmwdwFlvkyFA20+B1tsxj7EIE61g5e4sNVFDXN8bPKj+mg85m
+         epog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678786225;
+        d=1e100.net; s=20210112; t=1678789531;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=w6fYssV85HEFwrpbCAn2jig6FsrvPN0YEGFvr4xs+g8=;
-        b=lsqrqC0JbluKRmYfGZhALPR2oeo9WkhVtZGsEpjL+9UBxXZHknN5zjQTAMmRAHSaYP
-         mpg6nolnOolK+z+8sraVcqC1s0/48PkMB/MlYDF8HEF+W4/xA1tNl5NsqfX+97Psf6Kw
-         Ir3aQuhj0IcDko5CSoJcuhwOKhOpyauVD2VuH17xOH9mCZihKbUdykypyqiQ5jqKeODl
-         lOqcl3kZM3qULIFTGCR21GPLCUDj1LuPiQ3ip8MM6ubWA8ZIURJ1dTssf024UD4/fiFO
-         a5hQ7PC2YD+2fBK+IhMv2x0H8cA44Sg1E+SzaF7Iur/fEhdjs4WA3Aax1lJjkUetsI3t
-         1Mkg==
-X-Gm-Message-State: AO0yUKWD8k4WojTLhTl8BLuVCN7WUaVuUVBCD7O1zGolIiaCFitaCIUJ
-	1oN46l3wris+yws3gfy18oX3SE+LYRxSOE7DtOY=
-X-Google-Smtp-Source: AK7set+aNP0M4Mpat1dB1unFlIf4gHmJdDgY4CRuXs1HeIlQE7TWr++6aURMTpeCWYte+rtmZevRUqHqavVcJq3SENo=
-X-Received: by 2002:a05:651c:1722:b0:298:6d79:c6d7 with SMTP id
- be34-20020a05651c172200b002986d79c6d7mr6818300ljb.7.1678786225502; Tue, 14
- Mar 2023 02:30:25 -0700 (PDT)
+        bh=9OkTmm4wgR4t7T1I8AUbBjMrcjqf8inQjT2FzelG+tY=;
+        b=13tp6RDOz2SKbyT7TLX6JrXi1xORwfkCTk/fihzldqzVO4ZoffpAYCv9Iwlbacgigj
+         4NS2NNVImkjS7kmMkz71WKpRL9EN85svSqhlhPjXAm+mrAs1vUua7+i3jyXgWqr/KTyr
+         sH5C4JkBk//O8WGJri1QACu6NGSycEkbGSq9GiMBn0po8LZzBGVqNaQJeXb1jsA716Dq
+         bXPoZNZYZ4Tr4ayh/HpYoy31UnjIJdJlun0TauT4SavG9oqYiunlC0NLzUZOcxZ9yKPq
+         NCvL+cz2nx9+Oi4mK9dZVV7hHsGl5XCOaUVMeX7sFaF9oaOkk2ke97kEOF4SJkRVGPOG
+         ePtw==
+X-Gm-Message-State: AO0yUKXf94V4S5TgppNDUbqYtx2rOcF+8MNYDkkW1uJKGOXW5M5K/lPO
+	oMmDOSEt4Jgwu2DbSJDVbVpDTAI+4TXIFYhdq0g=
+X-Google-Smtp-Source: AK7set9OFRDxXXVQUodd/GzPsV6aqWyPl9V61obKV10kOnyy8xIXHDTmDDOOrpB/JO3dPIwI0uzkWsjDsNEri6+S480=
+X-Received: by 2002:a2e:a48e:0:b0:298:7006:c2c9 with SMTP id
+ h14-20020a2ea48e000000b002987006c2c9mr6724704lji.3.1678789530550; Tue, 14 Mar
+ 2023 03:25:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230312145053.1427377-1-alex@linutronix.de> <20230312145053.1427377-2-alex@linutronix.de>
- <CAMKF1socC8aUuiZ1T9N88B7MXw_v-koQLAvO_pKE_VZfMC7Bdg@mail.gmail.com>
- <CAMKF1sqWK65Fo4MQG09MDr27t1CLCBg3dqXUEt-CrEXbjtv4Xg@mail.gmail.com> <174C3C4C8B75F870.18998@lists.openembedded.org>
-In-Reply-To: <174C3C4C8B75F870.18998@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 14 Mar 2023 10:30:14 +0100
-Message-ID: <CANNYZj8gBatFPzLP+c4CAtWXD1=qLh8RGrSH6t1bxS4pJ+Wk1g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/7] bitbake.conf: do not set native opengl
- distro feature from target
-To: alex.kanavin@gmail.com
-Cc: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>, Markus Volk <f_l_k@t-online.de>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20230312065517.61051-1-frederic.martinsons@gmail.com>
+ <CANNYZj9ah1rO9FH3a_m2ftgrDik_NtcLa_15r6+sqD5iwBXsiw@mail.gmail.com>
+ <CA+cAkeqZjC=L=_v-3K4VDtdWKxc3crDaqfwp_30B9KFAVrfJuw@mail.gmail.com>
+ <CANNYZj9vyfkez+iL-EeeV0Yb3o1Fz9FDrbz+ZRjg5EjUHiAisA@mail.gmail.com>
+ <CA+cAkepYqf_hJWe5HBpKcJrF37P7V81AWCZJJ_tUYtBH=BqHqg@mail.gmail.com>
+ <CANNYZj-srm78_c6abE2WX8L6gGqW=GM0uqUyHiMkVmO+t0ZWwA@mail.gmail.com>
+ <CAO5Uq5SaqUHzS93eyki1-3OGK2w_tGizJZmHMrJKGx5LdRZryA@mail.gmail.com>
+ <CA+cAkeqLOVAT7bz+HXKyC7=vwyrRAfE76buQ7C9cog6WQ6k1gw@mail.gmail.com>
+ <CAO5Uq5QnyWqi5_CaX7sHTrewVRhvT_SKdXTY7PvKe4dPryCQ6w@mail.gmail.com>
+ <CA+cAkeowE7BUYie9rdFPpJ972DHK+d3WGXLKFPAKcYcVYy_AXA@mail.gmail.com>
+ <CANNYZj_xAGD8x9=axLxDuEpaJF2K2yLUVH6VO1j0i5tKSvPi=g@mail.gmail.com> <CA+cAkeoP7ScYgbRG3eV1RR5R9bqEXm1b3cw7_gASG4uhJw=WfQ@mail.gmail.com>
+In-Reply-To: <CA+cAkeoP7ScYgbRG3eV1RR5R9bqEXm1b3cw7_gASG4uhJw=WfQ@mail.gmail.com>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
+Date: Tue, 14 Mar 2023 11:25:19 +0100
+Message-ID: <CA+cAkerKf8yyHraJxWOyAQp91tVkgs08LSX4f3Navu1qJ+tV6w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] cargo_common.bbclass: do not use buit-in git to
+ fetch crates
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Alex Kiernan <alex.kiernan@gmail.com>, openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 09:30:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178478
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 10:25:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178479
 
-On second thought I'm not sure anymore. The issue comes from items
-requiring -native versions of themselves, and REQUIRED_DISTRO_FEATURES
-(which skips unbuildable recipes) doesn't cross that boundary. If
-opengl is in target features, but not in native features, then it
-won't figure out that skipping is required.
+Hello, I finally found why my setup didn't work. That was not related
+to https versus ssh.
+For the patch provided in
+https://patchwork.yoctoproject.org/project/oe-core/patch/20221030173815.102=
+12-2-alex.kiernan@gmail.com/
+to work, the repository should have a Cargo.lock file.
+WIthout the Cargo.lock file, the cargo build will try to generate it
+(and so needs network access).
 
-Should we just keep opengl in native distro features by default?
-Sooner or later there will be an item in core that needs gtk4-native
-(and thus mesa-native and llvm-native). Llvm is not *that* heavy, rust
-for example is four times heavier.
+Note that I made a little change to the patch to support user in url
+(the patch process in cargo only work if url is exact match):
 
-Alex
+@@ -135,7 +135,10 @@ python cargo_common_do_patch_paths() {
+             name =3D ud.parm.get('name')
+             destsuffix =3D ud.parm.get('destsuffix')
+             if name is not None and destsuffix is not None:
+-                repo =3D '%s://%s%s' % (ud.proto, ud.host, ud.path)
++                if ud.user:
++                    repo =3D '%s://%s@%s%s' % (ud.proto, ud.user,
+ud.host, ud.path)
++                else:
++                    repo =3D '%s://%s%s' % (ud.proto, ud.host, ud.path)
+                 path =3D '%s =3D { path =3D "%s" }' % (name,
+os.path.join(workdir, destsuffix))
+                 patches.setdefault(repo, []).append(path)
 
-On Tue, 14 Mar 2023 at 09:37, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
+Anyway, I would like to know how to you feel with this need for
+Cargo.lock problem ?
+Because for it to be generated, the project needs to be built once and
+if this is expected for binary type to have Cargo.lock under version
+control:
+ https://doc.rust-lang.org/cargo/faq.html#why-do-binaries-have-cargolock-in=
+-version-control-but-not-libraries
+It is not for "library" project.
+
+Maybe we can add a "cargo generate-lockfile"
+(https://doc.rust-lang.org/cargo/commands/cargo-generate-lockfile.html)
+at the end of do_fetch ?
+Moreover, I think we should add the `--offline` option to cargo build
+because the error generated will be more clear:
+
+| DEBUG: Executing shell function do_compile
+| NOTE: Using rust targets from
+/var/lib/jenkins/YOCTO_POKY_MASTER_TEST/poky/build/tmp/work/core2-64-poky-l=
+inux/zbus-test/0.1.0.AUTOINC+507d3327e2-r0/rust-targets/
+| NOTE: cargo =3D
+/var/lib/jenkins/YOCTO_POKY_MASTER_TEST/poky/build/tmp/work/core2-64-poky-l=
+inux/zbus-test/0.1.0.AUTOINC+507d3327e2-r0/recipe-sysroot-native/usr/bin/ca=
+rgo
+| NOTE: cargo build -v --offline --target x86_64-poky-linux-gnu
+--release --manifest-path=3D/var/lib/jenkins/YOCTO_POKY_MASTER_TEST/poky/bu=
+ild/tmp/work/core2-64-poky-linux/zbus-test/0.1.0.AUTOINC+507d3327e2-r0/git/=
+/Cargo.toml
+| error: failed to get `zbus-git-dep-test` as a dependency of package
+`zbus-test v0.0.1
+(/var/lib/jenkins/YOCTO_POKY_MASTER_TEST/poky/build/tmp/work/core2-64-poky-=
+linux/zbus-test/0.1.0.AUTOINC+507d3327e2-r0/git)`
+|
+| Caused by:
+|  failed to load source for dependency `zbus-git-dep-test`
+|
+| Caused by:
+|  Unable to update
+ssh://git@gitlab.com/fmartinsons/zbus-git-dep-test.git?branch=3Dmain
+|
+| Caused by:
+|  can't checkout from
+'ssh://git@gitlab.com/fmartinsons/zbus-git-dep-test.git': you are in
+the offline mode (--offline)
+| WARNING: exit code 101 from a shell command.
+
+Instead of
+
+| DEBUG: Executing shell function do_compile
+| NOTE: Using rust targets from
+/var/lib/jenkins/YOCTO_POKY_MASTER_TEST/poky/build/tmp/work/core2-64-poky-l=
+inux/zbus-test/0.1.0.AUTOINC+507d3327e2-r0/rust-targets/
+| NOTE: cargo =3D
+/var/lib/jenkins/YOCTO_POKY_MASTER_TEST/poky/build/tmp/work/core2-64-poky-l=
+inux/zbus-test/0.1.0.AUTOINC+507d3327e2-r0/recipe-sysroot-native/usr/bin/ca=
+rgo
+| NOTE: cargo build -v --target x86_64-poky-linux-gnu --release
+--manifest-path=3D/var/lib/jenkins/YOCTO_POKY_MASTER_TEST/poky/build/tmp/wo=
+rk/core2-64-poky-linux/zbus-test/0.1.0.AUTOINC+507d3327e2-r0/git//Cargo.tom=
+l
+|   Updating git repository
+`ssh://git@gitlab.com/fmartinsons/zbus-git-dep-test.git`
+| warning: spurious network error (2 tries remaining): failed to
+resolve address for gitlab.com: Temporary failure in name resolution;
+class=3DNet (12)
+| warning: spurious network error (1 tries remaining): failed to
+resolve address for gitlab.com: Temporary failure in name resolution;
+class=3DNet (12)
+| error: failed to get `zbus-git-dep-test` as a dependency of package
+`zbus-test v0.0.1
+(/var/lib/jenkins/YOCTO_POKY_MASTER_TEST/poky/build/tmp/work/core2-64-poky-=
+linux/zbus-test/0.1.0.AUTOINC+507d3327e2-r0/git)`
+|
+| Caused by:
+|  failed to load source for dependency `zbus-git-dep-test`
+|
+| Caused by:
+|  Unable to update
+ssh://git@gitlab.com/fmartinsons/zbus-git-dep-test.git?branch=3Dmain
+|
+| Caused by:
+|  failed to clone into:
+/var/lib/jenkins/YOCTO_POKY_MASTER_TEST/poky/build/tmp/work/core2-64-poky-l=
+inux/zbus-test/0.1.0.AUTOINC+507d3327e2-r0/cargo_home/git/db/zbus-git-dep-t=
+est-7f2b6322e3bb0cd5
+|
+| Caused by:
+|  network failure seems to have happened
+|  if a proxy or similar is necessary `net.git-fetch-with-cli` may help her=
+e
+|  https://doc.rust-lang.org/cargo/reference/config.html#netgit-fetch-with-=
+cli
+|
+| Caused by:
+|  failed to resolve address for gitlab.com: Temporary failure in name
+resolution; class=3DNet (12)|
+|  WARNING: exit code 101 from a shell command.
+
+
+In any case, I'll be glad to work on this patch if you tell me what
+strategy to adopt.
+
+On Mon, 13 Mar 2023 at 17:08, Fr=C3=A9d=C3=A9ric Martinsons
+<frederic.martinsons@gmail.com> wrote:
+>
+> I understand, I'll pursue all my tests with the current poky master. Than=
+ks
+>
+> On Mon, 13 Mar 2023 at 11:42, Alexander Kanavin <alex.kanavin@gmail.com> =
 wrote:
->
-> This means opengl has to be added to DISTRO_FEATURES_NATIVE for this
-> build. I'll send a patch.
->
-> Alex
->
-> On Tue, 14 Mar 2023 at 00:10, Khem Raj <raj.khem@gmail.com> wrote:
 > >
-> > also seeing below errors which are related too
+> > You need to use kirkstone or newer to see the bitbake-driven network
+> > disabling in action. Can you try on current poky master? You don't
+> > need to port the whole build to that, just one sample recipe.
 > >
-> > ERROR: Nothing PROVIDES 'gtk4-native' (but
-> > /mnt/b/yoe/master/sources/meta-openembedded/meta-gnome/recipes-gnome/gn=
-ome-bluetooth/gnome-bluetooth_42.5.bb,
-> > /mnt/b/yoe/master/
-> > sources/meta-openembedded/meta-gnome/recipes-gnome/gnome-text-editor/gn=
-ome-text-editor_43.1.bb,
-> > /mnt/b/yoe/master/sources/meta-openembedded/meta-gnome/recipes-gnome/gn=
-ome-
-> > chess/gnome-chess_43.1.bb,
-> > /mnt/b/yoe/master/sources/meta-openembedded/meta-gnome/recipes-gnome/gn=
-ome-calculator/gnome-calculator_43.0.1.bb
-> > DEPENDS on or otherwise require
-> > s it)
-> > gtk4-native was skipped: missing required distro feature 'opengl' (not
-> > in DISTRO_FEATURES)
+> > It is also expected that if you submit patches for master, they were
+> > tested on master.
 > >
-> > On Mon, Mar 13, 2023 at 3:45=E2=80=AFPM Khem Raj <raj.khem@gmail.com> w=
+> > Alex
+> >
+> > On Mon, 13 Mar 2023 at 11:06, Fr=C3=A9d=C3=A9ric Martinsons
+> > <frederic.martinsons@gmail.com> wrote:
+> > >
+> > > hmm, how is the network disabled ?
+> > >
+> > > Because with the patch I provided , the git clone in do_compile is su=
+ccessful.
+> > >
+> > > One major thing I forget to mention is that I use dunfell branch wher=
+e
+> > > I backport all the cargo/rust relatives from master.
+> > > The backport was functional and straightforward, I just have to keep
+> > > the custom crate fetcher in openembedded-core (meta/lib/crate.py)
+> > > because I'm stuck with bitbake 1.46.
+> > >
+> > >    -
+> > >
+> > > On Mon, 13 Mar 2023 at 10:46, Alex Kiernan <alex.kiernan@gmail.com> w=
 rote:
-> > >
-> > > I am seeing waylandpp failing to build and YP layer compatibility tes=
-ts failing.
-> > >
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/255=
-7/steps/11/logs/stdio
-> > >
-> > > On Sun, Mar 12, 2023 at 7:51=E2=80=AFAM Alexander Kanavin
-> > > <alex.kanavin@gmail.com> wrote:
 > > > >
-> > > > This makes native opengl (and thus accelerated graphics in qemu) op=
-t-in;
-> > > > the reason is that latest mesa tightly couples hardware drivers wit=
-h its libraries,
-> > > > so we have to build both in mesa-native. Doing so significantly len=
-gthens
-> > > > the builds, and so cannot be imposed by default.
+> > > > Are you listing your ssh repos in your SRC_URI? We run with network
+> > > > disabled everywhere other than fetch and with that patch we don't s=
+ee
+> > > > fetches from local ssh repos in compile.
 > > > >
-> > > > Add a check and a hint to runqemu so that there is a helpful error =
-when
-> > > > there is no native/nativesdk opengl/virgl support.
+> > > > On Mon, Mar 13, 2023 at 9:32=E2=80=AFAM Fr=C3=A9d=C3=A9ric Martinso=
+ns
+> > > > <frederic.martinsons@gmail.com> wrote:
+> > > > >
+> > > > > Thanks for the patch alex, I did try it and the same happened (gi=
+t
+> > > > > clone failure during do_compile), I'll
+> > > > > dig more on that and possibly submit patches if I found a way of
+> > > > > supporting git dependencies in Cargo.toml
+> > > > >
+> > > > > On Mon, 13 Mar 2023 at 10:23, Alex Kiernan <alex.kiernan@gmail.co=
+m> wrote:
+> > > > > >
+> > > > > > ISTR I tried this and ran into a different set of different pro=
+blems.
+> > > > > >
+> > > > > > On Mon, Mar 13, 2023 at 9:20=E2=80=AFAM Alexander Kanavin
+> > > > > > <alex.kanavin@gmail.com> wrote:
+> > > > > > >
+> > > > > > > Note that we're all rust neophytes, and rust support in yocto=
+ is still
+> > > > > > > evolving towards maturity. If you can see better ways to do t=
+hings,
+> > > > > > > patches would be most welcome - but 'no network access except=
+ in
+> > > > > > > bitbake fetchers' is a core rule.
+> > > > > > >
+> > > > > > > Alex
+> > > > > > >
+> > > > > > > On Mon, 13 Mar 2023 at 10:14, Fr=C3=A9d=C3=A9ric Martinsons
+> > > > > > > <frederic.martinsons@gmail.com> wrote:
+> > > > > > > >
+> > > > > > > > I understand there should not be a fetch during build step =
+, I'll try
+> > > > > > > > to find why .
+> > > > > > > > In the mean time, if this is a strong rule, shouldn't we in=
+voke "cargo
+> > > > > > > > build" with  --offline option ?
+> > > > > > > >
+> > > > > > > > On Mon, 13 Mar 2023 at 09:38, Alexander Kanavin <alex.kanav=
+in@gmail.com> wrote:
+> > > > > > > > >
+> > > > > > > > > On Mon, 13 Mar 2023 at 09:29, Fr=C3=A9d=C3=A9ric Martinso=
+ns
+> > > > > > > > > <frederic.martinsons@gmail.com> wrote:
+> > > > > > > > > > But the compile step tried to git clone anyway and so i=
+t failed like I
+> > > > > > > > > > showed in my first email.
+> > > > > > > > >
+> > > > > > > > > You need to figure out why this happens, because it shoul=
+d not. We
+> > > > > > > > > have plenty of recipes that list crates in SRC_URI in oe-=
+core, so you
+> > > > > > > > > could start by studying how they work.
+> > > > > > > > >
+> > > > > > > > > Accessing network anywhere except do_fetch is not allowed=
+ for
+> > > > > > > > > reproducibility and license compliance reasons (both brea=
+k if that
+> > > > > > > > > happens).
+> > > > > > > > >
+> > > > > > > > > 'cargo bitbake' is a 3rd party project with questionable =
+maintenance
+> > > > > > > > > status that we do not support. The official way is to use
+> > > > > > > > > cargo-update-recipe-crates class.
+> > > > > > > > >
+> > > > > > > > > Alex
+> > > > > > >
+> > > > > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > > > > > Links: You receive all messages sent to this group.
+> > > > > > > View/Reply Online (#178420): https://lists.openembedded.org/g=
+/openembedded-core/message/178420
+> > > > > > > Mute This Topic: https://lists.openembedded.org/mt/97555635/3=
+618097
+> > > > > > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > > > > > Unsubscribe: https://lists.openembedded.org/g/openembedded-co=
+re/unsub [alex.kiernan@gmail.com]
+> > > > > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > > > > >
+> > > > > >
+> > > > > >
+> > > > > > --
+> > > > > > Alex Kiernan
 > > > >
-> > > > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> > > > ---
-> > > >  meta/conf/bitbake.conf                       |  4 ++--
-> > > >  meta/lib/oeqa/selftest/cases/runtime_test.py |  4 ++--
-> > > >  scripts/runqemu                              | 11 ++++++++++-
-> > > >  3 files changed, 14 insertions(+), 5 deletions(-)
 > > > >
-> > > > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > > > index afd9e2f552..d1dc428583 100644
-> > > > --- a/meta/conf/bitbake.conf
-> > > > +++ b/meta/conf/bitbake.conf
-> > > > @@ -912,8 +912,8 @@ DISTRO_FEATURES_NATIVESDK ?=3D "x11"
 > > > >
-> > > >  # Normally target distro features will not be applied to native bu=
-ilds:
-> > > >  # Native distro features on this list will use the target feature =
-value
-> > > > -DISTRO_FEATURES_FILTER_NATIVE ?=3D "api-documentation debuginfod o=
-pengl wayland"
-> > > > -DISTRO_FEATURES_FILTER_NATIVESDK ?=3D "api-documentation debuginfo=
-d opengl wayland"
-> > > > +DISTRO_FEATURES_FILTER_NATIVE ?=3D "api-documentation debuginfod w=
-ayland"
-> > > > +DISTRO_FEATURES_FILTER_NATIVESDK ?=3D "api-documentation debuginfo=
-d wayland"
-> > > >
-> > > >  DISTRO_FEATURES_BACKFILL =3D "pulseaudio sysvinit gobject-introspe=
-ction-data ldconfig"
-> > > >  MACHINE_FEATURES_BACKFILL =3D "rtc qemu-usermode"
-> > > > diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/li=
-b/oeqa/selftest/cases/runtime_test.py
-> > > > index 81b8d056cc..661c09c109 100644
-> > > > --- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-> > > > +++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-> > > > @@ -232,7 +232,7 @@ class TestImage(OESelftestTestCase):
-> > > >          if 'sdl' not in qemu_packageconfig:
-> > > >              features +=3D 'PACKAGECONFIG:append:pn-qemu-system-nat=
-ive =3D " sdl"\n'
-> > > >          if 'opengl' not in qemu_distrofeatures:
-> > > > -            features +=3D 'DISTRO_FEATURES:append =3D " opengl"\n'
-> > > > +            features +=3D 'DISTRO_FEATURES_NATIVE:append =3D " ope=
-ngl"\n'
-> > > >          features +=3D 'TEST_SUITES =3D "ping ssh virgl"\n'
-> > > >          features +=3D 'IMAGE_FEATURES:append =3D " ssh-server-drop=
-bear"\n'
-> > > >          features +=3D 'IMAGE_INSTALL:append =3D " kmscube"\n'
-> > > > @@ -264,7 +264,7 @@ class TestImage(OESelftestTestCase):
-> > > >          qemu_distrofeatures =3D get_bb_var('DISTRO_FEATURES', 'qem=
-u-system-native')
-> > > >          features =3D 'IMAGE_CLASSES +=3D "testimage"\n'
-> > > >          if 'opengl' not in qemu_distrofeatures:
-> > > > -            features +=3D 'DISTRO_FEATURES:append =3D " opengl"\n'
-> > > > +            features +=3D 'DISTRO_FEATURES_NATIVE:append =3D " ope=
-ngl"\n'
-> > > >          features +=3D 'TEST_SUITES =3D "ping ssh virgl"\n'
-> > > >          features +=3D 'IMAGE_FEATURES:append =3D " ssh-server-drop=
-bear"\n'
-> > > >          features +=3D 'IMAGE_INSTALL:append =3D " kmscube"\n'
-> > > > diff --git a/scripts/runqemu b/scripts/runqemu
-> > > > index 8e915f3d4c..9f82aa12f1 100755
-> > > > --- a/scripts/runqemu
-> > > > +++ b/scripts/runqemu
-> > > > @@ -447,7 +447,16 @@ class BaseConfig(object):
-> > > >              self.set("MACHINE", arg)
-> > > >
-> > > >      def set_dri_path(self):
-> > > > -        self.qemu_environ['LIBGL_DRIVERS_PATH'] =3D os.path.join(s=
-elf.bindir_native, '../lib/dri')
-> > > > +        drivers_path =3D os.path.join(self.bindir_native, '../lib/=
-dri')
-> > > > +        if not os.path.exists(drivers_path) or not os.listdir(driv=
-ers_path):
-> > > > +            raise RunQemuError("""
-> > > > +qemu has been built without opengl support and accelerated graphic=
-s support is not available.
-> > > > +To enable it, add:
-> > > > +DISTRO_FEATURES_NATIVE:append =3D " opengl"
-> > > > +DISTRO_FEATURES_NATIVESDK:append =3D " opengl"
-> > > > +to your build configuration.
-> > > > +""")
-> > > > +        self.qemu_environ['LIBGL_DRIVERS_PATH'] =3D drivers_path
-> > > >
-> > > >      def check_args(self):
-> > > >          for debug in ("-d", "--debug"):
 > > > > --
-> > > > 2.30.2
-> > > >
-> > > >
-> > > >
-> > > >
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#178476): https://lists.openembedded.org/g/openembedde=
-d-core/message/178476
-> Mute This Topic: https://lists.openembedded.org/mt/97560251/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> > > > Alex Kiernan
 
