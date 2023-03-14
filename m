@@ -1,166 +1,235 @@
-Return-Path: <andrej.valek@siemens.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8D86C6FD1C
-	for <webhook@archiver.kernel.org>; Tue, 14 Mar 2023 08:49:00 +0000 (UTC)
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.56])
- by mx.groups.io with SMTP id smtpd.web10.4103.1678783731733052130
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E55E8C6FD1F
+	for <webhook@archiver.kernel.org>; Tue, 14 Mar 2023 09:30:30 +0000 (UTC)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+ by mx.groups.io with SMTP id smtpd.web11.4573.1678786227668981283
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Mar 2023 01:48:52 -0700
+ Tue, 14 Mar 2023 02:30:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@siemens.com header.s=selector2 header.b=ufzZ509J;
- spf=pass (domain: siemens.com, ip: 40.107.104.56, mailfrom: andrej.valek@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nWnJOuOgCyiTYCRbnb3Pi0uns2IgefSlFFmbmzrPzicilweheIFreGZDuSlItjKQddNNKo+2g0aIyOyZ1d0mayf3sRSx0sn4ZbD8cMJfs5aD9aOvSGJMNAUHJVRh0akcUrhgSf90TEld2Fg9uljzT42c/k55jtKZldHnZxaSNWWjrSuollddMekSHdG21j8s1IGizujEex4QPZMb3go3cArTaaBE5advkGn4VUfbfyteckgvaOFiYJ6vUSEkEe+WeQjAofpRpsG+C3xnasW0gP/yYAKS9z8LCAE+c8gpTJMpp1BeSDXB2+wSLxW/Y1VmbShnkss/okOE0vsj8o7axw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/60G1PXOcGmvlvLIxuv2fl7GFzHQ/OaWoHS9b2/6xb4=;
- b=SehqoVU46FDosVYc0RlMFWbYH4QU/Hi65clynTi2woZh+f4U5ii2oRH0bM7XFOvOtAZH8ZKl8FzPRBWhdinV0g0t2KxPlTMvT16609Ru2M6TgGvi7L+d7RgDDzLW8EVdQoU4HI5vkoVfKyGxslzpI7l3G4FmZWYn3IGitDlTZryqFekxP7Blte/WC7TsfMOPWrEF82FqqOSvPxT+mqGj1ogEYVvMKBprmLVgurNulJxFJ2qURN+cndbTaQWUGcdzeie8PuTz2tZWx0dG0ig2HuAQ4fXfoZH1xVz9ZhAXudu9koLNf6csSCGaXfCL4Kxh6jU14XzSveXgbcRaj98erA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 194.138.21.74) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=siemens.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=siemens.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/60G1PXOcGmvlvLIxuv2fl7GFzHQ/OaWoHS9b2/6xb4=;
- b=ufzZ509JEi52yvkuaTiv5bOIfVqkFQr7XF8K4HzNvl/1Qf4YfYcckq72kQI0lxyV4o6jH07lWO5R3Twc3x6cWpo4TMR84ekSD/sJui9ZSZdtf3N6g3Sm6/S6nAUVUFPrw0J5dft3rzOEiWA+JWJxlgIsikngcdVep4/aX6UBVbHx5bw6Dcalv2RpnRun4/R5XNBRrgqiznHMruZjBCZOh+4ZGtobKyvP6l6ZEiWOTR0HpgGVVsWFzeU5lD1yoS+BuKxVq4sXoE2JJmyhtAq1j+rMEu064YVn1+q+5gQScvePgOxMWjC5tXsIOgjWvfIeKr5ZWFmcoz52yrj8j1bhLQ==
-Received: from DB8PR06CA0019.eurprd06.prod.outlook.com (2603:10a6:10:100::32)
- by DU0PR10MB5411.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:32a::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.24; Tue, 14 Mar
- 2023 08:48:49 +0000
-Received: from DB5EUR01FT018.eop-EUR01.prod.protection.outlook.com
- (2603:10a6:10:100:cafe::b0) by DB8PR06CA0019.outlook.office365.com
- (2603:10a6:10:100::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.26 via Frontend
- Transport; Tue, 14 Mar 2023 08:48:49 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 194.138.21.74)
- smtp.mailfrom=siemens.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=siemens.com;
-Received-SPF: Pass (protection.outlook.com: domain of siemens.com designates
- 194.138.21.74 as permitted sender) receiver=protection.outlook.com;
- client-ip=194.138.21.74; helo=hybrid.siemens.com; pr=C
-Received: from hybrid.siemens.com (194.138.21.74) by
- DB5EUR01FT018.mail.protection.outlook.com (10.152.4.251) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6199.11 via Frontend Transport; Tue, 14 Mar 2023 08:48:48 +0000
-Received: from DEMCHDC8WAA.ad011.siemens.net (139.25.226.104) by
- DEMCHDC8VQA.ad011.siemens.net (194.138.21.74) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Tue, 14 Mar 2023 09:48:48 +0100
-Received: from md3hr6tc.ad001.siemens.net (139.22.33.117) by
- DEMCHDC8WAA.ad011.siemens.net (139.25.226.104) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Tue, 14 Mar 2023 09:48:48 +0100
-From: Andrej Valek <andrej.valek@siemens.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Andrej Valek <andrej.valek@siemens.com>
-Subject: [OE-core][dunfell][PATCH] libarchive: fix CVE-2022-26280
-Date: Tue, 14 Mar 2023 09:48:16 +0100
-Message-ID: <20230314084816.58652-1-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.39.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=c40C2QTe;
+ spf=pass (domain: gmail.com, ip: 209.85.208.179, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f179.google.com with SMTP id g18so15339158ljl.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 02:30:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678786225;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=w6fYssV85HEFwrpbCAn2jig6FsrvPN0YEGFvr4xs+g8=;
+        b=c40C2QTeid7jEDE9mX+7xVQk0aWUJXcmDDK6MS8lkLOPzJMmGtDMRtUkTLR3qL1GY7
+         O0DcI89VryLMWXS63GZo/pJHjqY/OZrXGw8wBAF1h0GtlC76UmLKjCpN7LoWGGAkL8hx
+         wvXLeS+ja+BmK+c7t8+ivzCInwTBScqsf2/HNHV5EOC+SNwfMqmVtCgDVomcobkNYWFc
+         BQBBpn1dLk/MA9ad1G60fU++asA6mp+UF7Geq75Y1KrHLEctHxU9RMX8cDNGfZh8sLAE
+         VyJdL7uXadGMNQuqCUVkuwAUvFi4evqcmlsejf1ggB8d8JjfnYdbtiPNuAnCdV1yqSyf
+         +sZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678786225;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=w6fYssV85HEFwrpbCAn2jig6FsrvPN0YEGFvr4xs+g8=;
+        b=lsqrqC0JbluKRmYfGZhALPR2oeo9WkhVtZGsEpjL+9UBxXZHknN5zjQTAMmRAHSaYP
+         mpg6nolnOolK+z+8sraVcqC1s0/48PkMB/MlYDF8HEF+W4/xA1tNl5NsqfX+97Psf6Kw
+         Ir3aQuhj0IcDko5CSoJcuhwOKhOpyauVD2VuH17xOH9mCZihKbUdykypyqiQ5jqKeODl
+         lOqcl3kZM3qULIFTGCR21GPLCUDj1LuPiQ3ip8MM6ubWA8ZIURJ1dTssf024UD4/fiFO
+         a5hQ7PC2YD+2fBK+IhMv2x0H8cA44Sg1E+SzaF7Iur/fEhdjs4WA3Aax1lJjkUetsI3t
+         1Mkg==
+X-Gm-Message-State: AO0yUKWD8k4WojTLhTl8BLuVCN7WUaVuUVBCD7O1zGolIiaCFitaCIUJ
+	1oN46l3wris+yws3gfy18oX3SE+LYRxSOE7DtOY=
+X-Google-Smtp-Source: AK7set+aNP0M4Mpat1dB1unFlIf4gHmJdDgY4CRuXs1HeIlQE7TWr++6aURMTpeCWYte+rtmZevRUqHqavVcJq3SENo=
+X-Received: by 2002:a05:651c:1722:b0:298:6d79:c6d7 with SMTP id
+ be34-20020a05651c172200b002986d79c6d7mr6818300ljb.7.1678786225502; Tue, 14
+ Mar 2023 02:30:25 -0700 (PDT)
 MIME-Version: 1.0
+References: <20230312145053.1427377-1-alex@linutronix.de> <20230312145053.1427377-2-alex@linutronix.de>
+ <CAMKF1socC8aUuiZ1T9N88B7MXw_v-koQLAvO_pKE_VZfMC7Bdg@mail.gmail.com>
+ <CAMKF1sqWK65Fo4MQG09MDr27t1CLCBg3dqXUEt-CrEXbjtv4Xg@mail.gmail.com> <174C3C4C8B75F870.18998@lists.openembedded.org>
+In-Reply-To: <174C3C4C8B75F870.18998@lists.openembedded.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 14 Mar 2023 10:30:14 +0100
+Message-ID: <CANNYZj8gBatFPzLP+c4CAtWXD1=qLh8RGrSH6t1bxS4pJ+Wk1g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/7] bitbake.conf: do not set native opengl
+ distro feature from target
+To: alex.kanavin@gmail.com
+Cc: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>, Markus Volk <f_l_k@t-online.de>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-Originating-IP: [139.22.33.117]
-X-ClientProxiedBy: DEMCHDC8WAA.ad011.siemens.net (139.25.226.104) To
- DEMCHDC8WAA.ad011.siemens.net (139.25.226.104)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB5EUR01FT018:EE_|DU0PR10MB5411:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9a8aa1b2-110c-488f-ad38-08db2468edf5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	wGWebsEA7X47EV0qH5oYgSK+ugK0fn7CA1sAt+QdRCdA6k4EuxGAo2Vvp+xVHytKlHphdveghbgXDoWhIYIAN4/tnXIl4MSEl95ZPi9AJAg5mkqBS1ZEU8wQ5PsltvPJrZ8CVHC8zJ5KtMGZO1rOC9OTuCgWVLnkqQfRKjb7tOQDSX9XHxWxwd5wHkVRL+765j6PmWEsL0AgDs1fCZMfaUiKdoftjsh7qPR2EZFGPkDjDhoDs7F1+H+VaFjC4SDJwchNYXOSz+lYUqukTUc/i/+tG14G0CwDfJHik5QzWnYb15Eti5v8ZoXP3D0x5wA9k8pkxvKxjRhgl3PLCByIDqpOfMM584xaWdXXpR35k3Zxa0huoy0vbWK+KtT9Lsu5U6cHcntY9MR3LjfovzPzBFC+X4cCq7LkZy/F25WGnxxYz34Yvi7dkRcl5Ew/lvmpsKr4KYEk/gXDKpO2K09p7gDicQqwIVr+BzdiCHX0h/Esr6uu91ULdpFCfOXv+ViDi6vdp5GdgihelNRlMPBbnaEDsVcJyM2UqMKZxhsUYlFxjd3ZLSnvMq0n8GdW1hrtKN+thl62Fd3cIlPv4hBSCSQUSyKh2fhOj31zJfqeku0cx7/NNsUh0KscK1Al0G8pNpYRxxNXt1UFbyeimYDqlpUGlV2+Jy0LIZnag5EDeJ0d01J/91aDTICBRLEDqTkPvWItBd/N4TgP18xNB9o/IUGRVVuW8YuIuEgiFE4m2qkHHMsDklwW3fIMRLEdS0nT
-X-Forefront-Antispam-Report: 
-	CIP:194.138.21.74;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hybrid.siemens.com;PTR:hybrid.siemens.com;CAT:NONE;SFS:(13230025)(4636009)(136003)(346002)(376002)(396003)(39860400002)(451199018)(46966006)(36840700001)(40470700004)(40460700003)(5660300002)(44832011)(36756003)(83380400001)(47076005)(478600001)(82310400005)(6666004)(26005)(966005)(1076003)(107886003)(2616005)(956004)(336012)(16526019)(8676002)(356005)(40480700001)(186003)(70586007)(6916009)(4326008)(34020700004)(70206006)(8936002)(41300700001)(316002)(86362001)(36860700001)(82740400003)(7636003)(82960400001)(2906002)(7596003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2023 08:48:48.9775
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a8aa1b2-110c-488f-ad38-08db2468edf5
-X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;Ip=[194.138.21.74];Helo=[hybrid.siemens.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB5EUR01FT018.eop-EUR01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB5411
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 08:49:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178477
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 09:30:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178478
 
-Backport fix from https://github.com/libarchive/libarchive/issues/1672
+On second thought I'm not sure anymore. The issue comes from items
+requiring -native versions of themselves, and REQUIRED_DISTRO_FEATURES
+(which skips unbuildable recipes) doesn't cross that boundary. If
+opengl is in target features, but not in native features, then it
+won't figure out that skipping is required.
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
----
- .../libarchive/CVE-2022-26280.patch           | 29 +++++++++++++++++++
- .../libarchive/libarchive_3.4.2.bb            |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2022-26=
-280.patch
+Should we just keep opengl in native distro features by default?
+Sooner or later there will be an item in core that needs gtk4-native
+(and thus mesa-native and llvm-native). Llvm is not *that* heavy, rust
+for example is four times heavier.
 
-diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2022-26280.pat=
-ch b/meta/recipes-extended/libarchive/libarchive/CVE-2022-26280.patch
-new file mode 100644
-index 0000000000..501fcc5848
---- /dev/null
-+++ b/meta/recipes-extended/libarchive/libarchive/CVE-2022-26280.patch
-@@ -0,0 +1,29 @@
-+From cfaa28168a07ea4a53276b63068f94fce37d6aff Mon Sep 17 00:00:00 2001
-+From: Tim Kientzle <kientzle@acm.org>
-+Date: Thu, 24 Mar 2022 10:35:00 +0100
-+Subject: [PATCH] ZIP reader: fix possible out-of-bounds read in
-+ zipx_lzma_alone_init()
-+
-+Fixes #1672
-+
-+CVE: CVE-2022-26280
-+Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit=
-/cfaa28168a07ea4a53276b63068f94fce37d6aff]
-+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-+
-+---
-+ libarchive/archive_read_support_format_zip.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/libarchive/archive_read_support_format_zip.c b/libarchive/arc=
-hive_read_support_format_zip.c
-+index 38ada70b5..9d6c900b2 100644
-+--- a/libarchive/archive_read_support_format_zip.c
-++++ b/libarchive/archive_read_support_format_zip.c
-+@@ -1667,7 +1667,7 @@ zipx_lzma_alone_init(struct archive_read *a, struct =
-zip *zip)
-+ 	 */
-+=20
-+ 	/* Read magic1,magic2,lzma_params from the ZIPX stream. */
-+-	if((p =3D __archive_read_ahead(a, 9, NULL)) =3D=3D NULL) {
-++	if(zip->entry_bytes_remaining < 9 || (p =3D __archive_read_ahead(a, 9, N=
-ULL)) =3D=3D NULL) {
-+ 		archive_set_error(&a->archive, ARCHIVE_ERRNO_FILE_FORMAT,
-+ 		    "Truncated lzma data");
-+ 		return (ARCHIVE_FATAL);
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.4.2.bb b/meta/re=
-cipes-extended/libarchive/libarchive_3.4.2.bb
-index e0a6174d8b..582787d3f3 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.4.2.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.4.2.bb
-@@ -39,6 +39,7 @@ SRC_URI =3D "http://libarchive.org/downloads/libarchive-$=
-{PV}.tar.gz \
-            file://CVE-2021-23177.patch \
-            file://CVE-2021-31566-01.patch \
-            file://CVE-2021-31566-02.patch \
-+           file://CVE-2022-26280.patch \
-            file://CVE-2022-36227.patch \
- "
-=20
---=20
-2.39.2
+Alex
 
+On Tue, 14 Mar 2023 at 09:37, Alexander Kanavin via
+lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
+wrote:
+>
+> This means opengl has to be added to DISTRO_FEATURES_NATIVE for this
+> build. I'll send a patch.
+>
+> Alex
+>
+> On Tue, 14 Mar 2023 at 00:10, Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> > also seeing below errors which are related too
+> >
+> > ERROR: Nothing PROVIDES 'gtk4-native' (but
+> > /mnt/b/yoe/master/sources/meta-openembedded/meta-gnome/recipes-gnome/gn=
+ome-bluetooth/gnome-bluetooth_42.5.bb,
+> > /mnt/b/yoe/master/
+> > sources/meta-openembedded/meta-gnome/recipes-gnome/gnome-text-editor/gn=
+ome-text-editor_43.1.bb,
+> > /mnt/b/yoe/master/sources/meta-openembedded/meta-gnome/recipes-gnome/gn=
+ome-
+> > chess/gnome-chess_43.1.bb,
+> > /mnt/b/yoe/master/sources/meta-openembedded/meta-gnome/recipes-gnome/gn=
+ome-calculator/gnome-calculator_43.0.1.bb
+> > DEPENDS on or otherwise require
+> > s it)
+> > gtk4-native was skipped: missing required distro feature 'opengl' (not
+> > in DISTRO_FEATURES)
+> >
+> > On Mon, Mar 13, 2023 at 3:45=E2=80=AFPM Khem Raj <raj.khem@gmail.com> w=
+rote:
+> > >
+> > > I am seeing waylandpp failing to build and YP layer compatibility tes=
+ts failing.
+> > >
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/255=
+7/steps/11/logs/stdio
+> > >
+> > > On Sun, Mar 12, 2023 at 7:51=E2=80=AFAM Alexander Kanavin
+> > > <alex.kanavin@gmail.com> wrote:
+> > > >
+> > > > This makes native opengl (and thus accelerated graphics in qemu) op=
+t-in;
+> > > > the reason is that latest mesa tightly couples hardware drivers wit=
+h its libraries,
+> > > > so we have to build both in mesa-native. Doing so significantly len=
+gthens
+> > > > the builds, and so cannot be imposed by default.
+> > > >
+> > > > Add a check and a hint to runqemu so that there is a helpful error =
+when
+> > > > there is no native/nativesdk opengl/virgl support.
+> > > >
+> > > > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> > > > ---
+> > > >  meta/conf/bitbake.conf                       |  4 ++--
+> > > >  meta/lib/oeqa/selftest/cases/runtime_test.py |  4 ++--
+> > > >  scripts/runqemu                              | 11 ++++++++++-
+> > > >  3 files changed, 14 insertions(+), 5 deletions(-)
+> > > >
+> > > > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> > > > index afd9e2f552..d1dc428583 100644
+> > > > --- a/meta/conf/bitbake.conf
+> > > > +++ b/meta/conf/bitbake.conf
+> > > > @@ -912,8 +912,8 @@ DISTRO_FEATURES_NATIVESDK ?=3D "x11"
+> > > >
+> > > >  # Normally target distro features will not be applied to native bu=
+ilds:
+> > > >  # Native distro features on this list will use the target feature =
+value
+> > > > -DISTRO_FEATURES_FILTER_NATIVE ?=3D "api-documentation debuginfod o=
+pengl wayland"
+> > > > -DISTRO_FEATURES_FILTER_NATIVESDK ?=3D "api-documentation debuginfo=
+d opengl wayland"
+> > > > +DISTRO_FEATURES_FILTER_NATIVE ?=3D "api-documentation debuginfod w=
+ayland"
+> > > > +DISTRO_FEATURES_FILTER_NATIVESDK ?=3D "api-documentation debuginfo=
+d wayland"
+> > > >
+> > > >  DISTRO_FEATURES_BACKFILL =3D "pulseaudio sysvinit gobject-introspe=
+ction-data ldconfig"
+> > > >  MACHINE_FEATURES_BACKFILL =3D "rtc qemu-usermode"
+> > > > diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/li=
+b/oeqa/selftest/cases/runtime_test.py
+> > > > index 81b8d056cc..661c09c109 100644
+> > > > --- a/meta/lib/oeqa/selftest/cases/runtime_test.py
+> > > > +++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+> > > > @@ -232,7 +232,7 @@ class TestImage(OESelftestTestCase):
+> > > >          if 'sdl' not in qemu_packageconfig:
+> > > >              features +=3D 'PACKAGECONFIG:append:pn-qemu-system-nat=
+ive =3D " sdl"\n'
+> > > >          if 'opengl' not in qemu_distrofeatures:
+> > > > -            features +=3D 'DISTRO_FEATURES:append =3D " opengl"\n'
+> > > > +            features +=3D 'DISTRO_FEATURES_NATIVE:append =3D " ope=
+ngl"\n'
+> > > >          features +=3D 'TEST_SUITES =3D "ping ssh virgl"\n'
+> > > >          features +=3D 'IMAGE_FEATURES:append =3D " ssh-server-drop=
+bear"\n'
+> > > >          features +=3D 'IMAGE_INSTALL:append =3D " kmscube"\n'
+> > > > @@ -264,7 +264,7 @@ class TestImage(OESelftestTestCase):
+> > > >          qemu_distrofeatures =3D get_bb_var('DISTRO_FEATURES', 'qem=
+u-system-native')
+> > > >          features =3D 'IMAGE_CLASSES +=3D "testimage"\n'
+> > > >          if 'opengl' not in qemu_distrofeatures:
+> > > > -            features +=3D 'DISTRO_FEATURES:append =3D " opengl"\n'
+> > > > +            features +=3D 'DISTRO_FEATURES_NATIVE:append =3D " ope=
+ngl"\n'
+> > > >          features +=3D 'TEST_SUITES =3D "ping ssh virgl"\n'
+> > > >          features +=3D 'IMAGE_FEATURES:append =3D " ssh-server-drop=
+bear"\n'
+> > > >          features +=3D 'IMAGE_INSTALL:append =3D " kmscube"\n'
+> > > > diff --git a/scripts/runqemu b/scripts/runqemu
+> > > > index 8e915f3d4c..9f82aa12f1 100755
+> > > > --- a/scripts/runqemu
+> > > > +++ b/scripts/runqemu
+> > > > @@ -447,7 +447,16 @@ class BaseConfig(object):
+> > > >              self.set("MACHINE", arg)
+> > > >
+> > > >      def set_dri_path(self):
+> > > > -        self.qemu_environ['LIBGL_DRIVERS_PATH'] =3D os.path.join(s=
+elf.bindir_native, '../lib/dri')
+> > > > +        drivers_path =3D os.path.join(self.bindir_native, '../lib/=
+dri')
+> > > > +        if not os.path.exists(drivers_path) or not os.listdir(driv=
+ers_path):
+> > > > +            raise RunQemuError("""
+> > > > +qemu has been built without opengl support and accelerated graphic=
+s support is not available.
+> > > > +To enable it, add:
+> > > > +DISTRO_FEATURES_NATIVE:append =3D " opengl"
+> > > > +DISTRO_FEATURES_NATIVESDK:append =3D " opengl"
+> > > > +to your build configuration.
+> > > > +""")
+> > > > +        self.qemu_environ['LIBGL_DRIVERS_PATH'] =3D drivers_path
+> > > >
+> > > >      def check_args(self):
+> > > >          for debug in ("-d", "--debug"):
+> > > > --
+> > > > 2.30.2
+> > > >
+> > > >
+> > > >
+> > > >
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#178476): https://lists.openembedded.org/g/openembedde=
+d-core/message/178476
+> Mute This Topic: https://lists.openembedded.org/mt/97560251/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
