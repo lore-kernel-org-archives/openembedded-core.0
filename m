@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 948D4C7618E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F5FBC7618B
 	for <webhook@archiver.kernel.org>; Tue, 14 Mar 2023 15:22:42 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web11.11665.1678807354700699602
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web10.11817.1678807356952793475
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Mar 2023 08:22:34 -0700
+ Tue, 14 Mar 2023 08:22:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=Acv8NiUz;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f53.google.com with SMTP id fy10-20020a17090b020a00b0023b4bcf0727so8034944pjb.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 08:22:34 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=ikYOmZLB;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f52.google.com with SMTP id y2so15739438pjg.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 08:22:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678807354;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678807356;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=z45Xc4r+Cnn6p4s9cUysbE4LW8gxP9Z/6ppTXFpyPio=;
-        b=Acv8NiUzcRtgk0cI3siGe43SsW1AjGmyu4ueynzRC0O30VQNDfheTfPRze9pk9Vn6e
-         cc70XO2OdKOvZRRKF+B3FQVctcl+Mxrmd7mexsyDsHm6vNdTQJgXSdBnqfQ7alZstjIv
-         QMgouhkYLzeMD3Y7k3Y5FjXqEa8TlGtQUsCf0brphrKCCFHR8KxCM4WpNGslgbdHFovG
-         ON6XlkG4kK9hnMSYw/rVD6bd7AwKmg7CtOy6Ck6hWtg0WfCwlkdHYMa+VmS1AIaIkHgo
-         hgkSoBRAPy+WvxLYdNNhxKOaWL1gxCnkitHbvJvN1auA84XO8WIMhmq4r3Wpvo8YJMaq
-         MDig==
+        bh=GuuxcaxIkMLheWi3IBg2vdcjSFccrWGaCgQv2elxyvc=;
+        b=ikYOmZLBqNfZFbnKkTFw2+/HpxR0b+Yl6GyJyk0I+RaezhUCEOijOpy0H4x0roBbNr
+         tpKKZ2NiLYlOUIMkVRWLcmO3zQcsTU4ytrhV3brQRxxXQQnPAnvkAFbzQMMQqXHSwMRA
+         9yFZuMhuzYBN3/UCFuEaI1hq2DoS9w1UvHyro0IDLLrXP0lhae3V4Db69yLl082SYW5w
+         ZVub8dJoW0DxcGrtOYMV/Yw7/NK33mdc+ZYkz8XvsgqE9NUbPbUxhK1Scg+LbR7HNYH2
+         oJLQr7NpNSjhFrubyOaSuLnplvp5StfemxyefpwQzAHswPo4R1SUZCjBRAcC2M/5mIP7
+         5h7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678807354;
+        d=1e100.net; s=20210112; t=1678807356;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=z45Xc4r+Cnn6p4s9cUysbE4LW8gxP9Z/6ppTXFpyPio=;
-        b=Nabw82uRcpdTwexxpT+9YSr1uQ4kxAvR0dxcNV+hao9WMZvZ+QMSJ4ND3tvmHRbDgv
-         qyMdSPn/jmgB343CavJf1aaRtvMhTaiy9x5zrW8WgQhgwPqnn7qKbX0ff/OXYGAV8Ac5
-         rPW6TPxHgN5adcm20/Ctyls+izkpu0fAJx863Jbbw8feRP4eDO4pDIWjjT7P+4ccs0oB
-         xYpLQZQzuMbjCtPSW8bYCDL/txFmXny2dohXKOhOno/08sod6koZ2TiNWRswDtvl5RMP
-         pgpMkpPnMX1D+8CBfqeKrKZq4h0CWHO8HF/bQ1FTqnLEUBgI1HEe0AiHyFc4Am+YoDKp
-         XE6Q==
-X-Gm-Message-State: AO0yUKVBrX0qQHTxMkGtNfQngq1e/5u1hSp5gkQzI6TEbEoUEr+YWVXm
-	8qHNwCqeboNnBuA9SkHD0bMzBeelTO4dpdAaG6Q=
-X-Google-Smtp-Source: AK7set/zLATL0hRu1pxE6N4Mc4gvIpjJ6a+SqZkzn1lwlfpuEsA3U9Bk2tA26DXzq0WmUSPnFpm/Nw==
-X-Received: by 2002:a17:902:b487:b0:19c:fa22:e984 with SMTP id y7-20020a170902b48700b0019cfa22e984mr34432151plr.48.1678807353595;
-        Tue, 14 Mar 2023 08:22:33 -0700 (PDT)
+        bh=GuuxcaxIkMLheWi3IBg2vdcjSFccrWGaCgQv2elxyvc=;
+        b=Y4nDRKsmHf6RNRKeErTKyHFnZNEGRqafZ46J3lE5Mhlt6jpRu2RhGxJwWt/gFCFWj/
+         W3E1tuw13Ze6sz8GpJMx9VhQLTzGyTyqql0RZW3aGQdlYITNBt83UzqTlmE1dT91Psns
+         2QUOGu/Wlyjq/N/MjzVUGDV+D/2gxaSAi6mv8y+arQjq1S7ajj+/kQ7/OjHqJ4hg4m2w
+         8oXu4kn3ctkgGeufa+pGdhTGK9Und/zw+PTG61wd/Hhn0sx+wq52TYTT3w2EEAPspFhy
+         TQy0xlImQfNSfjtPMVTGgOU5erJGTuiVp0YZGkfzWxdQghY7aLsH5QwzwkPqG0x+v6Yg
+         cmgg==
+X-Gm-Message-State: AO0yUKUX55Cbb8LSQExTl83uX593md66cvFFAZr7NS+Uk+r82s71x5ug
+	eDkASqN/k8pASwtdWTPVWUXoOw7jRpvMU2Hg3XI=
+X-Google-Smtp-Source: AK7set9TrH6nD2QrDGVZ82mckrFQsrIY0H3Ns2OZnH5Dt/5lPSciC2s2b4qvGeBNj5OPwpcJ/C0L7Q==
+X-Received: by 2002:a17:90a:7e8e:b0:234:b964:5708 with SMTP id j14-20020a17090a7e8e00b00234b9645708mr38717553pjl.5.1678807355595;
+        Tue, 14 Mar 2023 08:22:35 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id p13-20020a17090a284d00b0023d0e743ff6sm1871977pjf.3.2023.03.14.08.22.32
+        by smtp.gmail.com with ESMTPSA id p13-20020a17090a284d00b0023d0e743ff6sm1871977pjf.3.2023.03.14.08.22.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 08:22:33 -0700 (PDT)
+        Tue, 14 Mar 2023 08:22:35 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 1/6] gnutls: fix CVE-2023-0361 timing side-channel in the TLS RSA key exchange code
-Date: Tue, 14 Mar 2023 05:21:50 -1000
-Message-Id: <5b8a3601ebff7a0cdfaa50d7a0b5e384a7e2514c.1678807105.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 2/6] harfbuzz: Security fix for CVE-2023-25193
+Date: Tue, 14 Mar 2023 05:21:51 -1000
+Message-Id: <c22bbe9b45e38601b89138999dd157fad8513262.1678807105.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1678807105.git.steve@sakoman.com>
 References: <cover.1678807105.git.steve@sakoman.com>
@@ -61,126 +61,706 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 15:22:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178502
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178503
 
-From: Vivek Kumbhar <vkumbhar@mvista.com>
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-Remove branching that depends on secret data.
-
-since the `ok` variable isn't used any more, we can remove all code
-used to calculate it
-
-Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+Upstream-Status: Backport from [https://github.com/harfbuzz/harfbuzz/commit/8708b9e081192786c027bb7f5f23d76dbe5c19e8]
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../gnutls/gnutls/CVE-2023-0361.patch         | 85 +++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.6.14.bb  |  1 +
- 2 files changed, 86 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2023-0361.patch
+ .../harfbuzz/CVE-2023-25193-pre0.patch        | 335 ++++++++++++++++++
+ .../harfbuzz/CVE-2023-25193-pre1.patch        | 135 +++++++
+ .../harfbuzz/harfbuzz/CVE-2023-25193.patch    | 179 ++++++++++
+ .../harfbuzz/harfbuzz_2.6.4.bb                |   5 +-
+ 4 files changed, 653 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2023-25193-pre0.patch
+ create mode 100644 meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2023-25193-pre1.patch
+ create mode 100644 meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2023-25193.patch
 
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2023-0361.patch b/meta/recipes-support/gnutls/gnutls/CVE-2023-0361.patch
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2023-25193-pre0.patch b/meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2023-25193-pre0.patch
 new file mode 100644
-index 0000000000..943f4ca704
+index 0000000000..90d4cfefb4
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2023-0361.patch
-@@ -0,0 +1,85 @@
-+From 80a6ce8ddb02477cd724cd5b2944791aaddb702a Mon Sep 17 00:00:00 2001
-+From: Alexander Sosedkin <asosedkin@redhat.com>
-+Date: Tue, 9 Aug 2022 16:05:53 +0200
-+Subject: [PATCH] auth/rsa: side-step potential side-channel
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2023-25193-pre0.patch
+@@ -0,0 +1,335 @@
++From 3122c2cdc45a964efedad8953a2df67205c3e3a8 Mon Sep 17 00:00:00 2001
++From: Behdad Esfahbod <behdad@behdad.org>
++Date: Sat, 4 Dec 2021 19:50:33 -0800
++Subject: [PATCH] [buffer] Add HB_GLYPH_FLAG_UNSAFE_TO_CONCAT
 +
-+Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
-+Signed-off-by: Hubert Kario <hkario@redhat.com>
-+Tested-by: Hubert Kario <hkario@redhat.com>
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/80a6ce8ddb02477cd724cd5b2944791aaddb702a
-+                           https://gitlab.com/gnutls/gnutls/-/commit/4b7ff428291c7ed77c6d2635577c83a43bbae558]
-+CVE: CVE-2023-0361
-+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
++Fixes https://github.com/harfbuzz/harfbuzz/issues/1463
++Upstream-Status: Backport from [https://github.com/harfbuzz/harfbuzz/commit/3122c2cdc45a964efedad8953a2df67205c3e3a8]
++Comment1: To backport the fix for CVE-2023-25193, add defination for HB_GLYPH_FLAG_UNSAFE_TO_CONCAT. This patch is needed along with CVE-2023-25193-pre1.patch for sucessfull porting.
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 +---
-+ lib/auth/rsa.c | 30 +++---------------------------
-+ 1 file changed, 3 insertions(+), 27 deletions(-)
++ src/hb-buffer.cc             | 10 ++---
++ src/hb-buffer.h              | 76 ++++++++++++++++++++++++++++++------
++ src/hb-buffer.hh             | 33 ++++++++++------
++ src/hb-ot-layout-gsubgpos.hh | 39 +++++++++++++++---
++ src/hb-ot-shape.cc           |  8 +---
++ 5 files changed, 124 insertions(+), 42 deletions(-)
 +
-+diff --git a/lib/auth/rsa.c b/lib/auth/rsa.c
-+index 8108ee8..858701f 100644
-+--- a/lib/auth/rsa.c
-++++ b/lib/auth/rsa.c
-+@@ -155,13 +155,10 @@ static int
-+ proc_rsa_client_kx(gnutls_session_t session, uint8_t * data,
-+		   size_t _data_size)
++diff --git a/src/hb-buffer.cc b/src/hb-buffer.cc
++index 6131c86..bba5eae 100644
++--- a/src/hb-buffer.cc
+++++ b/src/hb-buffer.cc
++@@ -610,14 +610,14 @@ done:
++ }
++ 
++ void
++-hb_buffer_t::unsafe_to_break_impl (unsigned int start, unsigned int end)
+++hb_buffer_t::unsafe_to_break_impl (unsigned int start, unsigned int end, hb_mask_t mask)
 + {
-+-	const char attack_error[] = "auth_rsa: Possible PKCS #1 attack\n";
-+	gnutls_datum_t ciphertext;
-+	int ret, dsize;
-+	ssize_t data_size = _data_size;
-+	volatile uint8_t ver_maj, ver_min;
-+-	volatile uint8_t check_ver_min;
-+-	volatile uint32_t ok;
-+
-+ #ifdef ENABLE_SSL3
-+	if (get_num_version(session) == GNUTLS_SSL3) {
-+@@ -187,7 +184,6 @@ proc_rsa_client_kx(gnutls_session_t session, uint8_t * data,
-+
-+	ver_maj = _gnutls_get_adv_version_major(session);
-+	ver_min = _gnutls_get_adv_version_minor(session);
-+-	check_ver_min = (session->internals.allow_wrong_pms == 0);
-+
-+	session->key.key.data = gnutls_malloc(GNUTLS_MASTER_SIZE);
-+	if (session->key.key.data == NULL) {
-+@@ -206,10 +202,9 @@ proc_rsa_client_kx(gnutls_session_t session, uint8_t * data,
-+		return ret;
-+	}
-+
-+-	ret =
-+-	    gnutls_privkey_decrypt_data2(session->internals.selected_key,
-+-					 0, &ciphertext, session->key.key.data,
-+-					 session->key.key.size);
-++	gnutls_privkey_decrypt_data2(session->internals.selected_key,
-++				     0, &ciphertext, session->key.key.data,
-++				     session->key.key.size);
-+	/* After this point, any conditional on failure that cause differences
-+	 * in execution may create a timing or cache access pattern side
-+	 * channel that can be used as an oracle, so treat very carefully */
-+@@ -225,25 +220,6 @@ proc_rsa_client_kx(gnutls_session_t session, uint8_t * data,
-+	 * Vlastimil Klima, Ondej Pokorny and Tomas Rosa.
-+	 */
-+
-+-	/* ok is 0 in case of error and 1 in case of success. */
-+-
-+-	/* if ret < 0 */
-+-	ok = CONSTCHECK_EQUAL(ret, 0);
-+-	/* session->key.key.data[0] must equal ver_maj */
-+-	ok &= CONSTCHECK_EQUAL(session->key.key.data[0], ver_maj);
-+-	/* if check_ver_min then session->key.key.data[1] must equal ver_min */
-+-	ok &= CONSTCHECK_NOT_EQUAL(check_ver_min, 0) &
-+-	        CONSTCHECK_EQUAL(session->key.key.data[1], ver_min);
-+-
-+-	if (ok) {
-+-		/* call logging function unconditionally so all branches are
-+-		 * indistinguishable for timing and cache access when debug
-+-		 * logging is disabled */
-+-		_gnutls_no_log("%s", attack_error);
-+-	} else {
-+-		_gnutls_debug_log("%s", attack_error);
-+-	}
-+-
-+	/* This is here to avoid the version check attack
-+	 * discussed above.
-+	 */
-+--
++   unsigned int cluster = (unsigned int) -1;
++   cluster = _unsafe_to_break_find_min_cluster (info, start, end, cluster);
++-  _unsafe_to_break_set_mask (info, start, end, cluster);
+++  _unsafe_to_break_set_mask (info, start, end, cluster, mask);
++ }
++ void
++-hb_buffer_t::unsafe_to_break_from_outbuffer (unsigned int start, unsigned int end)
+++hb_buffer_t::unsafe_to_break_from_outbuffer (unsigned int start, unsigned int end, hb_mask_t mask)
++ {
++   if (!have_output)
++   {
++@@ -631,8 +631,8 @@ hb_buffer_t::unsafe_to_break_from_outbuffer (unsigned int start, unsigned int en
++   unsigned int cluster = (unsigned int) -1;
++   cluster = _unsafe_to_break_find_min_cluster (out_info, start, out_len, cluster);
++   cluster = _unsafe_to_break_find_min_cluster (info, idx, end, cluster);
++-  _unsafe_to_break_set_mask (out_info, start, out_len, cluster);
++-  _unsafe_to_break_set_mask (info, idx, end, cluster);
+++  _unsafe_to_break_set_mask (out_info, start, out_len, cluster, mask);
+++  _unsafe_to_break_set_mask (info, idx, end, cluster, mask);
++ }
++ 
++ void
++diff --git a/src/hb-buffer.h b/src/hb-buffer.h
++index d5cb746..42dc92a 100644
++--- a/src/hb-buffer.h
+++++ b/src/hb-buffer.h
++@@ -77,26 +77,76 @@ typedef struct hb_glyph_info_t
++  * @HB_GLYPH_FLAG_UNSAFE_TO_BREAK: Indicates that if input text is broken at the
++  * 				   beginning of the cluster this glyph is part of,
++  * 				   then both sides need to be re-shaped, as the
++- * 				   result might be different.  On the flip side,
++- * 				   it means that when this flag is not present,
++- * 				   then it's safe to break the glyph-run at the
++- * 				   beginning of this cluster, and the two sides
++- * 				   represent the exact same result one would get
++- * 				   if breaking input text at the beginning of
++- * 				   this cluster and shaping the two sides
++- * 				   separately.  This can be used to optimize
++- * 				   paragraph layout, by avoiding re-shaping
++- * 				   of each line after line-breaking, or limiting
++- * 				   the reshaping to a small piece around the
++- * 				   breaking point only.
+++ * 				   result might be different.
+++ *
+++ * 				   On the flip side, it means that when this
+++ * 				   flag is not present, then it is safe to break
+++ * 				   the glyph-run at the beginning of this
+++ * 				   cluster, and the two sides will represent the
+++ * 				   exact same result one would get if breaking
+++ * 				   input text at the beginning of this cluster
+++ * 				   and shaping the two sides separately.
+++ *
+++ * 				   This can be used to optimize paragraph
+++ * 				   layout, by avoiding re-shaping of each line
+++ * 				   after line-breaking.
+++ *
+++ * @HB_GLYPH_FLAG_UNSAFE_TO_CONCAT: Indicates that if input text is changed on one
+++ * 				   side of the beginning of the cluster this glyph
+++ * 				   is part of, then the shaping results for the
+++ * 				   other side might change.
+++ *
+++ * 				   Note that the absence of this flag will NOT by
+++ * 				   itself mean that it IS safe to concat text.
+++ * 				   Only two pieces of text both of which clear of
+++ * 				   this flag can be concatenated safely.
+++ *
+++ * 				   This can be used to optimize paragraph
+++ * 				   layout, by avoiding re-shaping of each line
+++ * 				   after line-breaking, by limiting the
+++ * 				   reshaping to a small piece around the
+++ * 				   breaking positin only, even if the breaking
+++ * 				   position carries the
+++ * 				   #HB_GLYPH_FLAG_UNSAFE_TO_BREAK or when
+++ * 				   hyphenation or other text transformation
+++ * 				   happens at line-break position, in the following
+++ * 				   way:
+++ *
+++ * 				   1. Iterate back from the line-break position till
+++ * 				   the the first cluster start position that is
+++ * 				   NOT unsafe-to-concat, 2. shape the segment from
+++ * 				   there till the end of line, 3. check whether the
+++ * 				   resulting glyph-run also is clear of the
+++ * 				   unsafe-to-concat at its start-of-text position;
+++ * 				   if it is, just splice it into place and the line
+++ * 				   is shaped; If not, move on to a position further
+++ * 				   back that is clear of unsafe-to-concat and retry
+++ * 				   from there, and repeat.
+++ *
+++ * 				   At the start of next line a similar algorithm can
+++ * 				   be implemented. A slight complication will arise,
+++ * 				   because while our buffer API has a way to
+++ * 				   return flags for position corresponding to
+++ * 				   start-of-text, there is currently no position
+++ * 				   corresponding to end-of-text.  This limitation
+++ * 				   can be alleviated by shaping more text than needed
+++ * 				   and looking for unsafe-to-concat flag within text
+++ * 				   clusters.
+++ *
+++ * 				   The #HB_GLYPH_FLAG_UNSAFE_TO_BREAK flag will
+++ * 				   always imply this flag.
+++ *
+++ * 				   Since: REPLACEME
+++ *
++  * @HB_GLYPH_FLAG_DEFINED: All the currently defined flags.
++  *
++  * Since: 1.5.0
++  */
++ typedef enum { /*< flags >*/
++   HB_GLYPH_FLAG_UNSAFE_TO_BREAK		= 0x00000001,
+++  HB_GLYPH_FLAG_UNSAFE_TO_CONCAT	= 0x00000002,
++ 
++-  HB_GLYPH_FLAG_DEFINED			= 0x00000001 /* OR of all defined flags */
+++  HB_GLYPH_FLAG_DEFINED			= 0x00000003 /* OR of all defined flags */
++ } hb_glyph_flags_t;
++ 
++ HB_EXTERN hb_glyph_flags_t
++diff --git a/src/hb-buffer.hh b/src/hb-buffer.hh
++index b5596d9..beac7b6 100644
++--- a/src/hb-buffer.hh
+++++ b/src/hb-buffer.hh
++@@ -67,8 +67,8 @@ enum hb_buffer_scratch_flags_t {
++   HB_BUFFER_SCRATCH_FLAG_HAS_DEFAULT_IGNORABLES		= 0x00000002u,
++   HB_BUFFER_SCRATCH_FLAG_HAS_SPACE_FALLBACK		= 0x00000004u,
++   HB_BUFFER_SCRATCH_FLAG_HAS_GPOS_ATTACHMENT		= 0x00000008u,
++-  HB_BUFFER_SCRATCH_FLAG_HAS_UNSAFE_TO_BREAK		= 0x00000010u,
++-  HB_BUFFER_SCRATCH_FLAG_HAS_CGJ			= 0x00000020u,
+++  HB_BUFFER_SCRATCH_FLAG_HAS_CGJ			= 0x00000010u,
+++  HB_BUFFER_SCRATCH_FLAG_HAS_GLYPH_FLAGS		= 0x00000020u,
++ 
++   /* Reserved for complex shapers' internal use. */
++   HB_BUFFER_SCRATCH_FLAG_COMPLEX0			= 0x01000000u,
++@@ -324,8 +324,19 @@ struct hb_buffer_t
++       return;
++     unsafe_to_break_impl (start, end);
++   }
++-  HB_INTERNAL void unsafe_to_break_impl (unsigned int start, unsigned int end);
++-  HB_INTERNAL void unsafe_to_break_from_outbuffer (unsigned int start, unsigned int end);
+++  void unsafe_to_concat (unsigned int start,
+++			 unsigned int end)
+++  {
+++    if (end - start < 2)
+++      return;
+++    unsafe_to_break_impl (start, end, HB_GLYPH_FLAG_UNSAFE_TO_CONCAT);
+++  }
+++  HB_INTERNAL void unsafe_to_break_impl (unsigned int start, unsigned int end,
+++					 hb_mask_t mask = HB_GLYPH_FLAG_UNSAFE_TO_BREAK | HB_GLYPH_FLAG_UNSAFE_TO_CONCAT);
+++  HB_INTERNAL void unsafe_to_break_from_outbuffer (unsigned int start, unsigned int end,
+++						   hb_mask_t mask = HB_GLYPH_FLAG_UNSAFE_TO_BREAK | HB_GLYPH_FLAG_UNSAFE_TO_CONCAT);
+++  void unsafe_to_concat_from_outbuffer (unsigned int start, unsigned int end)
+++  { unsafe_to_break_from_outbuffer (start, end, HB_GLYPH_FLAG_UNSAFE_TO_CONCAT); }
++ 
++ 
++   /* Internal methods */
++@@ -377,12 +388,7 @@ struct hb_buffer_t
++   set_cluster (hb_glyph_info_t &inf, unsigned int cluster, unsigned int mask = 0)
++   {
++     if (inf.cluster != cluster)
++-    {
++-      if (mask & HB_GLYPH_FLAG_UNSAFE_TO_BREAK)
++-	inf.mask |= HB_GLYPH_FLAG_UNSAFE_TO_BREAK;
++-      else
++-	inf.mask &= ~HB_GLYPH_FLAG_UNSAFE_TO_BREAK;
++-    }
+++      inf.mask = (inf.mask & ~HB_GLYPH_FLAG_DEFINED) | (mask & HB_GLYPH_FLAG_DEFINED);
++     inf.cluster = cluster;
++   }
++ 
++@@ -398,13 +404,14 @@ struct hb_buffer_t
++   void
++   _unsafe_to_break_set_mask (hb_glyph_info_t *infos,
++ 			     unsigned int start, unsigned int end,
++-			     unsigned int cluster)
+++			     unsigned int cluster,
+++			     hb_mask_t mask)
++   {
++     for (unsigned int i = start; i < end; i++)
++       if (cluster != infos[i].cluster)
++       {
++-	scratch_flags |= HB_BUFFER_SCRATCH_FLAG_HAS_UNSAFE_TO_BREAK;
++-	infos[i].mask |= HB_GLYPH_FLAG_UNSAFE_TO_BREAK;
+++	scratch_flags |= HB_BUFFER_SCRATCH_FLAG_HAS_GLYPH_FLAGS;
+++	infos[i].mask |= mask;
++       }
++   }
++ 
++diff --git a/src/hb-ot-layout-gsubgpos.hh b/src/hb-ot-layout-gsubgpos.hh
++index 579d178..a6ca456 100644
++--- a/src/hb-ot-layout-gsubgpos.hh
+++++ b/src/hb-ot-layout-gsubgpos.hh
++@@ -369,7 +369,7 @@ struct hb_ot_apply_context_t :
++     may_skip (const hb_glyph_info_t &info) const
++     { return matcher.may_skip (c, info); }
++ 
++-    bool next ()
+++    bool next (unsigned *unsafe_to = nullptr)
++     {
++       assert (num_items > 0);
++       while (idx + num_items < end)
++@@ -392,11 +392,17 @@ struct hb_ot_apply_context_t :
++ 	}
++ 
++ 	if (skip == matcher_t::SKIP_NO)
+++	{
+++	  if (unsafe_to)
+++	    *unsafe_to = idx + 1;
++ 	  return false;
+++	}
++       }
+++      if (unsafe_to)
+++        *unsafe_to = end;
++       return false;
++     }
++-    bool prev ()
+++    bool prev (unsigned *unsafe_from = nullptr)
++     {
++       assert (num_items > 0);
++       while (idx > num_items - 1)
++@@ -419,8 +425,14 @@ struct hb_ot_apply_context_t :
++ 	}
++ 
++ 	if (skip == matcher_t::SKIP_NO)
+++	{
+++	  if (unsafe_from)
+++	    *unsafe_from = hb_max (1u, idx) - 1u;
++ 	  return false;
+++	}
++       }
+++      if (unsafe_from)
+++        *unsafe_from = 0;
++       return false;
++     }
++ 
++@@ -834,7 +846,12 @@ static inline bool match_input (hb_ot_apply_context_t *c,
++   match_positions[0] = buffer->idx;
++   for (unsigned int i = 1; i < count; i++)
++   {
++-    if (!skippy_iter.next ()) return_trace (false);
+++    unsigned unsafe_to;
+++    if (!skippy_iter.next (&unsafe_to))
+++    {
+++      c->buffer->unsafe_to_concat (c->buffer->idx, unsafe_to);
+++      return_trace (false);
+++    }
++ 
++     match_positions[i] = skippy_iter.idx;
++ 
++@@ -1022,8 +1039,14 @@ static inline bool match_backtrack (hb_ot_apply_context_t *c,
++   skippy_iter.set_match_func (match_func, match_data, backtrack);
++ 
++   for (unsigned int i = 0; i < count; i++)
++-    if (!skippy_iter.prev ())
+++  {
+++    unsigned unsafe_from;
+++    if (!skippy_iter.prev (&unsafe_from))
+++    {
+++      c->buffer->unsafe_to_concat_from_outbuffer (unsafe_from, c->buffer->idx);
++       return_trace (false);
+++    }
+++  }
++ 
++   *match_start = skippy_iter.idx;
++ 
++@@ -1045,8 +1068,14 @@ static inline bool match_lookahead (hb_ot_apply_context_t *c,
++   skippy_iter.set_match_func (match_func, match_data, lookahead);
++ 
++   for (unsigned int i = 0; i < count; i++)
++-    if (!skippy_iter.next ())
+++  {
+++    unsigned unsafe_to;
+++    if (!skippy_iter.next (&unsafe_to))
+++    {
+++      c->buffer->unsafe_to_concat (c->buffer->idx + offset, unsafe_to);
++       return_trace (false);
+++    }
+++  }
++ 
++   *end_index = skippy_iter.idx + 1;
++ 
++diff --git a/src/hb-ot-shape.cc b/src/hb-ot-shape.cc
++index 5d9a70c..5d10b30 100644
++--- a/src/hb-ot-shape.cc
+++++ b/src/hb-ot-shape.cc
++@@ -1008,7 +1008,7 @@ hb_propagate_flags (hb_buffer_t *buffer)
++   /* Propagate cluster-level glyph flags to be the same on all cluster glyphs.
++    * Simplifies using them. */
++ 
++-  if (!(buffer->scratch_flags & HB_BUFFER_SCRATCH_FLAG_HAS_UNSAFE_TO_BREAK))
+++  if (!(buffer->scratch_flags & HB_BUFFER_SCRATCH_FLAG_HAS_GLYPH_FLAGS))
++     return;
++ 
++   hb_glyph_info_t *info = buffer->info;
++@@ -1017,11 +1017,7 @@ hb_propagate_flags (hb_buffer_t *buffer)
++   {
++     unsigned int mask = 0;
++     for (unsigned int i = start; i < end; i++)
++-      if (info[i].mask & HB_GLYPH_FLAG_UNSAFE_TO_BREAK)
++-      {
++-	 mask = HB_GLYPH_FLAG_UNSAFE_TO_BREAK;
++-	 break;
++-      }
+++      mask |= info[i].mask & HB_GLYPH_FLAG_DEFINED;
++     if (mask)
++       for (unsigned int i = start; i < end; i++)
++ 	info[i].mask |= mask;
++-- 
 +2.25.1
 +
-diff --git a/meta/recipes-support/gnutls/gnutls_3.6.14.bb b/meta/recipes-support/gnutls/gnutls_3.6.14.bb
-index f1757871ce..0c3392d521 100644
---- a/meta/recipes-support/gnutls/gnutls_3.6.14.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.6.14.bb
-@@ -27,6 +27,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://CVE-2021-20232.patch \
-            file://CVE-2022-2509.patch \
-            file://CVE-2021-4209.patch \
-+           file://CVE-2023-0361.patch \
- "
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2023-25193-pre1.patch b/meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2023-25193-pre1.patch
+new file mode 100644
+index 0000000000..4994e0ef68
+--- /dev/null
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2023-25193-pre1.patch
+@@ -0,0 +1,135 @@
++From b29fbd16fa82b82bdf0dcb2f13a63f7dc23cf324 Mon Sep 17 00:00:00 2001
++From: Behdad Esfahbod <behdad@behdad.org>
++Date: Mon, 6 Feb 2023 13:08:52 -0700
++Subject: [PATCH] [gsubgpos] Refactor skippy_iter.match()
++
++Upstream-Status: Backport from [https://github.com/harfbuzz/harfbuzz/commit/b29fbd16fa82b82bdf0dcb2f13a63f7dc23cf324]
++Comment1: To backport the fix for CVE-2023-25193, add defination for MATCH, NOT_MATCH and SKIP.
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++---
++ src/hb-ot-layout-gsubgpos.hh | 94 +++++++++++++++++++++---------------
++ 1 file changed, 54 insertions(+), 40 deletions(-)
++
++diff --git a/src/hb-ot-layout-gsubgpos.hh b/src/hb-ot-layout-gsubgpos.hh
++index a6ca456..5a7e564 100644
++--- a/src/hb-ot-layout-gsubgpos.hh
+++++ b/src/hb-ot-layout-gsubgpos.hh
++@@ -369,33 +369,52 @@ struct hb_ot_apply_context_t :
++     may_skip (const hb_glyph_info_t &info) const
++     { return matcher.may_skip (c, info); }
++ 
+++    enum match_t {
+++      MATCH,
+++      NOT_MATCH,
+++      SKIP
+++    };
+++
+++    match_t match (hb_glyph_info_t &info)
+++    {
+++      matcher_t::may_skip_t skip = matcher.may_skip (c, info);
+++      if (unlikely (skip == matcher_t::SKIP_YES))
+++	return SKIP;
+++
+++      matcher_t::may_match_t match = matcher.may_match (info, match_glyph_data);
+++      if (match == matcher_t::MATCH_YES ||
+++	  (match == matcher_t::MATCH_MAYBE &&
+++	   skip == matcher_t::SKIP_NO))
+++	return MATCH;
+++
+++      if (skip == matcher_t::SKIP_NO)
+++        return NOT_MATCH;
+++
+++      return SKIP;
+++  }
+++
++     bool next (unsigned *unsafe_to = nullptr)
++     {
++       assert (num_items > 0);
++       while (idx + num_items < end)
++       {
++ 	idx++;
++-	const hb_glyph_info_t &info = c->buffer->info[idx];
++-
++-	matcher_t::may_skip_t skip = matcher.may_skip (c, info);
++-	if (unlikely (skip == matcher_t::SKIP_YES))
++-	  continue;
++-
++-	matcher_t::may_match_t match = matcher.may_match (info, match_glyph_data);
++-	if (match == matcher_t::MATCH_YES ||
++-	    (match == matcher_t::MATCH_MAYBE &&
++-	     skip == matcher_t::SKIP_NO))
++-	{
++-	  num_items--;
++-	  if (match_glyph_data) match_glyph_data++;
++-	  return true;
++-	}
++-
++-	if (skip == matcher_t::SKIP_NO)
+++	switch (match (c->buffer->info[idx]))
++ 	{
++-	  if (unsafe_to)
++-	    *unsafe_to = idx + 1;
++-	  return false;
+++	  case MATCH:
+++	  {
+++	    num_items--;
+++	    if (match_glyph_data) match_glyph_data++;
+++	    return true;
+++	  }
+++	  case NOT_MATCH:
+++	  {
+++	    if (unsafe_to)
+++	      *unsafe_to = idx + 1;
+++	    return false;
+++	  }
+++	  case SKIP:
+++	    continue;
++ 	}
++       }
++       if (unsafe_to)
++@@ -408,27 +427,22 @@ struct hb_ot_apply_context_t :
++       while (idx > num_items - 1)
++       {
++ 	idx--;
++-	const hb_glyph_info_t &info = c->buffer->out_info[idx];
++-
++-	matcher_t::may_skip_t skip = matcher.may_skip (c, info);
++-	if (unlikely (skip == matcher_t::SKIP_YES))
++-	  continue;
++-
++-	matcher_t::may_match_t match = matcher.may_match (info, match_glyph_data);
++-	if (match == matcher_t::MATCH_YES ||
++-	    (match == matcher_t::MATCH_MAYBE &&
++-	     skip == matcher_t::SKIP_NO))
+++	switch (match (c->buffer->out_info[idx]))
++ 	{
++-	  num_items--;
++-	  if (match_glyph_data) match_glyph_data++;
++-	  return true;
++-	}
++-
++-	if (skip == matcher_t::SKIP_NO)
++-	{
++-	  if (unsafe_from)
++-	    *unsafe_from = hb_max (1u, idx) - 1u;
++-	  return false;
+++	  case MATCH:
+++	  {
+++	    num_items--;
+++	    if (match_glyph_data) match_glyph_data++;
+++	    return true;
+++	  }
+++	  case NOT_MATCH:
+++	  {
+++	    if (unsafe_from)
+++	      *unsafe_from = hb_max (1u, idx) - 1u;
+++	    return false;
+++	  }
+++	  case SKIP:
+++	    continue;
++ 	}
++       }
++       if (unsafe_from)
++-- 
++2.25.1
++
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2023-25193.patch b/meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2023-25193.patch
+new file mode 100644
+index 0000000000..8243117551
+--- /dev/null
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2023-25193.patch
+@@ -0,0 +1,179 @@
++From 8708b9e081192786c027bb7f5f23d76dbe5c19e8 Mon Sep 17 00:00:00 2001
++From: Behdad Esfahbod <behdad@behdad.org>
++Date: Mon, 6 Feb 2023 14:51:25 -0700
++Subject: [PATCH] [GPOS] Avoid O(n^2) behavior in mark-attachment
++
++Upstream-Status: Backport from [https://github.com/harfbuzz/harfbuzz/commit/8708b9e081192786c027bb7f5f23d76dbe5c19e8]
++Comment1: The Original Patch [https://github.com/harfbuzz/harfbuzz/commit/85be877925ddbf34f74a1229f3ca1716bb6170dc] causes regression and was reverted. This Patch completes the fix.
++Comment2: The Patch contained files MarkBasePosFormat1.hh and MarkLigPosFormat1.hh which were moved from hb-ot-layout-gpos-table.hh as per https://github.com/harfbuzz/harfbuzz/commit/197d9a5c994eb41c8c89b7b958b26b1eacfeeb00
++CVE: CVE-2023-25193
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++---
++ src/hb-ot-layout-gpos-table.hh | 101 ++++++++++++++++++++++++---------
++ src/hb-ot-layout-gsubgpos.hh   |   5 +-
++ 2 files changed, 77 insertions(+), 29 deletions(-)
++
++diff --git a/src/hb-ot-layout-gpos-table.hh b/src/hb-ot-layout-gpos-table.hh
++index 024312d..88df13d 100644
++--- a/src/hb-ot-layout-gpos-table.hh
+++++ b/src/hb-ot-layout-gpos-table.hh
++@@ -1458,6 +1458,25 @@ struct MarkBasePosFormat1
++ 
++   const Coverage &get_coverage () const { return this+markCoverage; }
++ 
+++  static inline bool accept (hb_buffer_t *buffer, unsigned idx)
+++  {
+++    /* We only want to attach to the first of a MultipleSubst sequence.
+++     * https://github.com/harfbuzz/harfbuzz/issues/740
+++     * Reject others...
+++     * ...but stop if we find a mark in the MultipleSubst sequence:
+++     * https://github.com/harfbuzz/harfbuzz/issues/1020 */
+++    return !_hb_glyph_info_multiplied (&buffer->info[idx]) ||
+++          0 == _hb_glyph_info_get_lig_comp (&buffer->info[idx]) ||
+++          (idx == 0 ||
+++           _hb_glyph_info_is_mark (&buffer->info[idx - 1]) ||
+++           !_hb_glyph_info_multiplied (&buffer->info[idx - 1]) ||
+++           _hb_glyph_info_get_lig_id (&buffer->info[idx]) !=
+++           _hb_glyph_info_get_lig_id (&buffer->info[idx - 1]) ||
+++           _hb_glyph_info_get_lig_comp (&buffer->info[idx]) !=
+++           _hb_glyph_info_get_lig_comp (&buffer->info[idx - 1]) + 1
+++           );
+++  }
+++
++   bool apply (hb_ot_apply_context_t *c) const
++   {
++     TRACE_APPLY (this);
++@@ -1465,37 +1484,46 @@ struct MarkBasePosFormat1
++     unsigned int mark_index = (this+markCoverage).get_coverage  (buffer->cur().codepoint);
++     if (likely (mark_index == NOT_COVERED)) return_trace (false);
++ 
++-    /* Now we search backwards for a non-mark glyph */
+++    /* Now we search backwards for a non-mark glyph.
+++     * We don't use skippy_iter.prev() to avoid O(n^2) behavior. */
+++
++     hb_ot_apply_context_t::skipping_iterator_t &skippy_iter = c->iter_input;
++-    skippy_iter.reset (buffer->idx, 1);
++     skippy_iter.set_lookup_props (LookupFlag::IgnoreMarks);
++-    do {
++-      if (!skippy_iter.prev ()) return_trace (false);
++-      /* We only want to attach to the first of a MultipleSubst sequence.
++-       * https://github.com/harfbuzz/harfbuzz/issues/740
++-       * Reject others...
++-       * ...but stop if we find a mark in the MultipleSubst sequence:
++-       * https://github.com/harfbuzz/harfbuzz/issues/1020 */
++-      if (!_hb_glyph_info_multiplied (&buffer->info[skippy_iter.idx]) ||
++-	  0 == _hb_glyph_info_get_lig_comp (&buffer->info[skippy_iter.idx]) ||
++-	  (skippy_iter.idx == 0 ||
++-	   _hb_glyph_info_is_mark (&buffer->info[skippy_iter.idx - 1]) ||
++-	   _hb_glyph_info_get_lig_id (&buffer->info[skippy_iter.idx]) !=
++-	   _hb_glyph_info_get_lig_id (&buffer->info[skippy_iter.idx - 1]) ||
++-	   _hb_glyph_info_get_lig_comp (&buffer->info[skippy_iter.idx]) !=
++-	   _hb_glyph_info_get_lig_comp (&buffer->info[skippy_iter.idx - 1]) + 1
++-	   ))
++-	break;
++-      skippy_iter.reject ();
++-    } while (true);
+++    unsigned j;
+++    for (j = buffer->idx; j > c->last_base_until; j--)
+++    {
+++      auto match = skippy_iter.match (buffer->info[j - 1]);
+++      if (match == skippy_iter.MATCH)
+++      {
+++       if (!accept (buffer, j - 1))
+++         match = skippy_iter.SKIP;
+++      }
+++      if (match == skippy_iter.MATCH)
+++      {
+++       c->last_base = (signed) j - 1;
+++       break;
+++      }
+++    }
+++    c->last_base_until = buffer->idx;
+++    if (c->last_base == -1)
+++    {
+++      buffer->unsafe_to_concat_from_outbuffer (0, buffer->idx + 1);
+++      return_trace (false);
+++    }
+++
+++    unsigned idx = (unsigned) c->last_base;
++ 
++     /* Checking that matched glyph is actually a base glyph by GDEF is too strong; disabled */
++-    //if (!_hb_glyph_info_is_base_glyph (&buffer->info[skippy_iter.idx])) { return_trace (false); }
+++    //if (!_hb_glyph_info_is_base_glyph (&buffer->info[idx])) { return_trace (false); }
++ 
++-    unsigned int base_index = (this+baseCoverage).get_coverage  (buffer->info[skippy_iter.idx].codepoint);
+++    unsigned int base_index = (this+baseCoverage).get_coverage  (buffer->info[idx].codepoint);
++     if (base_index == NOT_COVERED) return_trace (false);
+++    {
+++      buffer->unsafe_to_concat_from_outbuffer (idx, buffer->idx + 1);
+++      return_trace (false);
+++    }
++ 
++-    return_trace ((this+markArray).apply (c, mark_index, base_index, this+baseArray, classCount, skippy_iter.idx));
+++    return_trace ((this+markArray).apply (c, mark_index, base_index, this+baseArray, classCount, idx));
++   }
++ 
++   bool subset (hb_subset_context_t *c) const
++@@ -1587,15 +1615,32 @@ struct MarkLigPosFormat1
++     if (likely (mark_index == NOT_COVERED)) return_trace (false);
++ 
++     /* Now we search backwards for a non-mark glyph */
+++
++     hb_ot_apply_context_t::skipping_iterator_t &skippy_iter = c->iter_input;
++-    skippy_iter.reset (buffer->idx, 1);
++     skippy_iter.set_lookup_props (LookupFlag::IgnoreMarks);
++-    if (!skippy_iter.prev ()) return_trace (false);
+++
+++    unsigned j;
+++    for (j = buffer->idx; j > c->last_base_until; j--)
+++    {
+++      auto match = skippy_iter.match (buffer->info[j - 1]);
+++      if (match == skippy_iter.MATCH)
+++      {
+++       c->last_base = (signed) j - 1;
+++       break;
+++      }
+++    }
+++    c->last_base_until = buffer->idx;
+++    if (c->last_base == -1)
+++    {
+++      buffer->unsafe_to_concat_from_outbuffer (0, buffer->idx + 1);
+++      return_trace (false);
+++    }
+++
+++    j = (unsigned) c->last_base;
++ 
++     /* Checking that matched glyph is actually a ligature by GDEF is too strong; disabled */
++-    //if (!_hb_glyph_info_is_ligature (&buffer->info[skippy_iter.idx])) { return_trace (false); }
+++    //if (!_hb_glyph_info_is_ligature (&buffer->info[idx])) { return_trace (false); }
++ 
++-    unsigned int j = skippy_iter.idx;
++     unsigned int lig_index = (this+ligatureCoverage).get_coverage  (buffer->info[j].codepoint);
++     if (lig_index == NOT_COVERED) return_trace (false);
++ 
++diff --git a/src/hb-ot-layout-gsubgpos.hh b/src/hb-ot-layout-gsubgpos.hh
++index 5a7e564..437123c 100644
++--- a/src/hb-ot-layout-gsubgpos.hh
+++++ b/src/hb-ot-layout-gsubgpos.hh
++@@ -503,6 +503,9 @@ struct hb_ot_apply_context_t :
++   uint32_t random_state;
++ 
++ 
+++  signed last_base = -1; // GPOS uses
+++  unsigned last_base_until = 0; // GPOS uses
+++
++   hb_ot_apply_context_t (unsigned int table_index_,
++ 		      hb_font_t *font_,
++ 		      hb_buffer_t *buffer_) :
++@@ -536,7 +539,7 @@ struct hb_ot_apply_context_t :
++     iter_context.init (this, true);
++   }
++ 
++-  void set_lookup_mask (hb_mask_t mask) { lookup_mask = mask; init_iters (); }
+++  void set_lookup_mask (hb_mask_t mask) { lookup_mask = mask; last_base = -1; last_base_until = 0; init_iters (); }
++   void set_auto_zwj (bool auto_zwj_) { auto_zwj = auto_zwj_; init_iters (); }
++   void set_auto_zwnj (bool auto_zwnj_) { auto_zwnj = auto_zwnj_; init_iters (); }
++   void set_random (bool random_) { random = random_; }
++-- 
++2.25.1
++
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.4.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.4.bb
+index ee08c12bee..0cfe01f1e5 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.4.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.4.bb
+@@ -7,7 +7,10 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e11f5c3149cdec4bb309babb020b32b9 \
+                     file://src/hb-ucd.cc;beginline=1;endline=15;md5=29d4dcb6410429195df67efe3382d8bc"
  
- SRC_URI[sha256sum] = "5630751adec7025b8ef955af4d141d00d252a985769f51b4059e5affa3d39d63"
+-SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.xz"
++SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.xz \
++           file://CVE-2023-25193-pre0.patch \
++           file://CVE-2023-25193-pre1.patch \
++           file://CVE-2023-25193.patch"
+ SRC_URI[md5sum] = "2b3a4dfdb3e5e50055f941978944da9f"
+ SRC_URI[sha256sum] = "9413b8d96132d699687ef914ebb8c50440efc87b3f775d25856d7ec347c03c12"
+ 
 -- 
 2.34.1
 
