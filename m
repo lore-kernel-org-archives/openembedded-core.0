@@ -2,177 +2,733 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82F22C6FD1C
-	for <webhook@archiver.kernel.org>; Tue, 14 Mar 2023 15:29:22 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web11.11884.1678807758197436771
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81686C6FD1F
+	for <webhook@archiver.kernel.org>; Tue, 14 Mar 2023 15:38:02 +0000 (UTC)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web11.12124.1678808277337982739
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Mar 2023 08:29:18 -0700
+ Tue, 14 Mar 2023 08:37:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=ltxLoMdT;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f180.google.com with SMTP id p6so17034423plf.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 08:29:18 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=36fdJRTh;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.51, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f51.google.com with SMTP id ek18so32557068edb.6
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 08:37:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678807757;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BC1I6G1I5Ynz5shAG2AgAxELSWblPqoql2N5cB6Fb5Y=;
-        b=ltxLoMdTWBO7KUxmlw1pkYbpglRaCwF/Zm3r97igxlmAHLLfYIDxJynWKiyQJzVaZ2
-         IMDwjEngBXyU1WgwwQlqgv4clJUAbOMPWyBLWBeChai/aO8kZgEhf97QWhypeeYozkce
-         taozIZXT3DhBycffecw6ZRZmKwvp/kmOm5oaS0wzJyGxLWLqZNspxqfZyKs05+qUPyMd
-         PqZo8g488dmAcxry2o4qdMAB025Ctndfb8gjUJUOvMEVELt017bVJwMuB1PBiaD5seXm
-         SDsvECQG8gq68UCTAlAjWbmzEDVZ/QQS3DbsXtkBurxiEgjq5lrWckFUpXghV+ChrEWI
-         v3YA==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678808275;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=esMgpHc+qCAoj46jYHnj1e9XA/zGaPCrXl/4Ciy+rQk=;
+        b=36fdJRThZbjXjpUtEZWEi/dIaY/3Q933S01+jAOE8JWav+vQuZsWLGiWX0vDGZxlvW
+         pr8sNHbtT6U379uHfuA58g6fo8wRPvbYugjquA0fwz/vyDiQvCtzLjcKMiwOl3cQwPrI
+         zPkCZ7qwAX+j6Yflmn/CUn1w65tD+mIH9wo9XoMK1/sM2gDZ502tn34rP1WgCobDmCgf
+         4rUHqASnreU/i9vy0r4Tl4CvQzOqtEsENZyiSPaxWJ/CbvOWQ5zZw6m9Z6oRZ+PJNeNE
+         O6al479/W7bSynKeeGdp3X170hb5gwT6nenbqpSenwFhVmP3jWbIWQkfVQ22Xt+YXUHV
+         91Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678807757;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BC1I6G1I5Ynz5shAG2AgAxELSWblPqoql2N5cB6Fb5Y=;
-        b=uPhjUh0lf4L5RAtUTUvvCuq6InY7x/yxMruZ+jJWfIOTji3Rm8DuPr1mO1Mj5lApsT
-         5MP5F/sb+54hWf/faF4YTuhD0IggNoDPWNYwMJzosFzXRuAFmqaJ9vge46fFLlKlyaYn
-         bSqeJsHlBLejpk3k1ktMsTC8nLi0Rn+QZ486xljr2DJC0LGrg4bgVFBZfHnJgZmdcNiI
-         nEFSZBQWShDCcPgCEoqYFPmcC+gu28M6PwERb7hFaBdLJbHDnl590Q8c7iONXaYH+JYH
-         cZLdv+5QNTZaAsxl+C4FYDNpjCxpwPh895OSGEVduYYN32Z+S7G+r1mRhEjs09vEJCy2
-         YgVw==
-X-Gm-Message-State: AO0yUKVoR+XvglVfxqE7VdcTl8Gr8zHlY6Y33dwVbNAUlu/1yyeh5AFR
-	bst3gyS5gtT1h87A9XHTU9hLiDFCwnsgstTyfOo=
-X-Google-Smtp-Source: AK7set+TrR+DKYhR5wystJnbVHLyKT8RvaMKBxtK+AUB64HFYxQMt65PVjugXOQvQBdGGilV+qtnsA==
-X-Received: by 2002:a05:6a20:1455:b0:d0:45c1:831 with SMTP id a21-20020a056a20145500b000d045c10831mr27804497pzi.60.1678807757192;
-        Tue, 14 Mar 2023 08:29:17 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id z19-20020a634c13000000b00502f017657dsm1709736pga.83.2023.03.14.08.29.16
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 08:29:16 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 00/24] Pull request (cover letter only)
-Date: Tue, 14 Mar 2023 05:29:10 -1000
-Message-Id: <cover.1678807671.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20210112; t=1678808275;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=esMgpHc+qCAoj46jYHnj1e9XA/zGaPCrXl/4Ciy+rQk=;
+        b=Q4AJmQy5jjGSVOfzh6owpkUWq6tO6rSb+d0GxSmuD8vEzJqymDnE+Hq7Se4JXTNI88
+         5WJMCOttEUU4NeT5wW6NiAqC607WFBMIpf/Y/bSoBVN03y+Ueb4Wh+0uIywiG358UFun
+         UqIJDzEs0t4qYpSSEu1Obr4Wzxq5d90N3VWQUogqkkKY3Ez4n7AFgu0kdlLDb2XZMFxC
+         yHMcipmQYxVBt+dZKewDb3zkVcTlXn6k8RwPYfb9Q/HJWxtf7QiSyYy4zW6INglcZ7Tj
+         kXAgpiorVeSVNBYkrmesCJokRrxnV5sIJuC62WAbOYoHHedTb1b90D3XQk3fHb5Rz7Jw
+         fzBg==
+X-Gm-Message-State: AO0yUKV1FPO4yNeAK4FR7+YbCCsF9lgTOf2UXUO+3e3nJAzvtN6WI/JM
+	CJ1VIdt9EtL/z4clLrMeTjlqShVkeJdLAekmAe57eg==
+X-Google-Smtp-Source: AK7set+FPFdRLhG6PS6JWG9tTonvF+V0SZQwcDJGcaYnzAPSE21lQCTdBuTQBADX+reYvJNHOWkanW6RNy7zqJjW6tk=
+X-Received: by 2002:a50:cd58:0:b0:4fb:482b:f93d with SMTP id
+ d24-20020a50cd58000000b004fb482bf93dmr5013236edj.2.1678808275381; Tue, 14 Mar
+ 2023 08:37:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230303075027.28236-1-badganchipv@gmail.com>
+In-Reply-To: <20230303075027.28236-1-badganchipv@gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Tue, 14 Mar 2023 05:37:44 -1000
+Message-ID: <CAOSpxdZFb_ZnaDoRnt1qH5akhPusg6u2GuYJN9SZ6QA-Dysbaw@mail.gmail.com>
+Subject: Re: [OE-core] [meta][kirkstone][PATCH 1/2] curl: Add fix for
+ CVE-2023-23914, CVE-2023-23915
+To: Pawan Badganchi <badganchipv@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, ranjitsinh.rathod@kpit.com, 
+	Pawan Badganchi <Pawan.Badganchi@kpit.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 15:29:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178509
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 15:38:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178510
 
-The following changes since commit b995ea45773211bd7bdd60eabcc9bbffda6beb5c:
+On Thu, Mar 2, 2023 at 9:52=E2=80=AFPM Pawan Badganchi <badganchipv@gmail.c=
+om> wrote:
+>
+> From: Pawan Badganchi <Pawan.Badganchi@kpit.com>
+>
+> Add below patches to fix CVE-2023-23914, CVE-2023-23915
+>
+> CVE-2023-23914_5-1.patch
+> CVE-2023-23914_5-2.patch
+> CVE-2023-23914_5-3.patch
+> CVE-2023-23914_5-4.patch
+> CVE-2023-23914_5-5.patch
+>
+> Link: https://launchpad.net/ubuntu/+source/curl/7.87.0-2ubuntu2/
+>
+> Signed-off-by: Pawan Badganchi <Pawan.Badganchi@kpit.com>
+> Signed-off-by: pawan <badganchipv@gmail.com>
+> ---
+>  .../curl/curl/CVE-2023-23914_5-1.patch        | 304 ++++++++++++++++++
+>  .../curl/curl/CVE-2023-23914_5-2.patch        |  22 ++
+>  .../curl/curl/CVE-2023-23914_5-3.patch        |  44 +++
+>  .../curl/curl/CVE-2023-23914_5-4.patch        |  47 +++
+>  .../curl/curl/CVE-2023-23914_5-5.patch        | 117 +++++++
+>  meta/recipes-support/curl/curl_7.82.0.bb      |   5 +
+>  6 files changed, 539 insertions(+)
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2023-23914_5-1.pat=
+ch
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2023-23914_5-2.pat=
+ch
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2023-23914_5-3.pat=
+ch
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2023-23914_5-4.pat=
+ch
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2023-23914_5-5.pat=
+ch
+>
+> diff --git a/meta/recipes-support/curl/curl/CVE-2023-23914_5-1.patch b/me=
+ta/recipes-support/curl/curl/CVE-2023-23914_5-1.patch
+> new file mode 100644
+> index 0000000000..a75406c92e
+> --- /dev/null
+> +++ b/meta/recipes-support/curl/curl/CVE-2023-23914_5-1.patch
+> @@ -0,0 +1,304 @@
+> +From 076a2f629119222aeeb50f5a03bf9f9052fabb9a Mon Sep 17 00:00:00 2001
+> +From: Daniel Stenberg <daniel@haxx.se>
+> +Date: Tue, 27 Dec 2022 11:50:20 +0100
+> +Subject: [PATCH] share: add sharing of HSTS cache among handles
+> +
+> +Closes #10138
+> +
+> +CVE: CVE-2023-23914 CVE-2023-23915
+> +Upstream-Status: Backport [http://launchpadlibrarian.net/652022114/curl_=
+7.87.0-2ubuntu1_7.87.0-2ubuntu2.diff.gz]
 
-  build-appliance-image: Update to langdale head revision (2023-03-06 15:17:13 +0000)
+Launchpad is not a valid upstream for curl, please reference patches
+from the actual upstream: https://github.com/curl/curl
 
-are available in the Git repository at:
+Thanks!
 
-  https://git.openembedded.org/openembedded-core-contrib stable/langdale-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/langdale-next
+Steve
 
-Bhabu Bindu (1):
-  qemu: Fix CVE-2022-4144
-
-Bruce Ashfield (3):
-  linux-yocto/5.15: update to v5.15.94
-  linux-yocto/5.15: update to v5.15.96
-  linux-yocto-rt/5.15: update to -rt59
-
-Carlos Alberto Lopez Perez (1):
-  mesa-demos: packageconfig weston should have a dependency on
-    wayland-protocols
-
-Chee Yang Lee (1):
-  tiff: fix multiple CVEs
-
-Dmitry Baryshkov (1):
-  ffmpeg: fix build failure when vulkan is enabled
-
-Hitendra Prajapati (1):
-  libxml2: Fix CVE-2022-40303 && CVE-2022-40304
-
-Khem Raj (2):
-  libcomps: Fix callback function prototype for PyCOMPS_hash
-  rpm: Fix hdr_hash function prototype
-
-Ming Liu (1):
-  linux: inherit pkgconfig in kernel.bbclass
-
-Pavel Zhukov (1):
-  u-boot: Map arm64 into map for u-boot dts installation
-
-Peter Marko (1):
-  systemd: add group sgx to udev package
-
-Richard Purdie (2):
-  binutils: Fix nativesdk ld.so search
-  oeqa/selftest/prservice: Improve debug output for failure
-
-Ross Burton (2):
-  shadow: ignore CVE-2016-15024
-  vim: add missing pkgconfig inherit
-
-Siddharth Doshi (1):
-  epiphany: Security fix for CVE-2023-26081
-
-Tom Hochstein (2):
-  meson: Fix wrapper handling of implicit setup command
-  oeqa/sdk: Improve Meson test
-
-Wang Mingyu (4):
-  iso-codes: upgrade 4.12.0 -> 4.13.0
-  libmicrohttpd: upgrade 0.9.75 -> 0.9.76
-  lua: Fix install conflict when enable multilib.
-  vala: Fix install conflict when enable multilib.
-
- meta-selftest/files/static-group              |   1 +
- meta/classes-recipe/kernel.bbclass            |   2 +-
- meta/lib/oeqa/sdk/cases/buildepoxy.py         |   2 +-
- meta/lib/oeqa/selftest/cases/prservice.py     |   2 +-
- meta/recipes-bsp/u-boot/u-boot.inc            |   4 +-
- .../libxml/libxml2/CVE-2022-40303.patch       | 624 ++++++++++++++++++
- .../libxml/libxml2/CVE-2022-40304.patch       | 106 +++
- meta/recipes-core/libxml/libxml2_2.9.14.bb    |   2 +
- meta/recipes-core/systemd/systemd_251.8.bb    |   2 +-
- ...dk-Search-for-alternative-ld.so.conf.patch |   2 +-
- ...hash_t-instead-of-long-in-PyCOMPS_ha.patch |  66 ++
- .../libcomps/libcomps_0.1.19.bb               |   1 +
- meta/recipes-devtools/lua/lua_5.4.4.bb        |   3 +
- .../meson/meson/meson-wrapper                 |  17 +-
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- .../qemu/qemu/CVE-2022-4144.patch             |  99 +++
- ...y_hash_t-instead-of-long-in-hdr_hash.patch |  35 +
- meta/recipes-devtools/rpm/rpm_4.18.0.bb       |   1 +
- meta/recipes-devtools/vala/vala.inc           |   5 +-
- meta/recipes-extended/shadow/shadow_4.12.3.bb |   3 +
- meta/recipes-gnome/epiphany/epiphany_42.4.bb  |   1 +
- .../epiphany/files/CVE-2023-26081.patch       |  90 +++
- .../recipes-graphics/mesa/mesa-demos_8.5.0.bb |   2 +-
- meta/recipes-kernel/linux/linux-yocto-dev.bb  |   2 -
- .../linux/linux-yocto-rt_5.15.bb              |   6 +-
- .../linux/linux-yocto-tiny_5.15.bb            |   6 +-
- meta/recipes-kernel/linux/linux-yocto.inc     |   1 -
- meta/recipes-kernel/linux/linux-yocto_5.15.bb |  26 +-
- .../ffmpeg/ffmpeg/ffmpeg-fix-vulkan.patch     |  34 +
- .../recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb |   1 +
- .../libtiff/files/CVE-2022-48281.patch        |  26 +
- .../CVE-2023-0800_0801_0802_0803_0804.patch   | 128 ++++
- meta/recipes-multimedia/libtiff/tiff_4.4.0.bb |   2 +
- ...so-codes_4.12.0.bb => iso-codes_4.13.0.bb} |   2 +-
- ...ttpd_0.9.75.bb => libmicrohttpd_0.9.76.bb} |   2 +-
- meta/recipes-support/vim/vim.inc              |   2 +-
- 36 files changed, 1266 insertions(+), 43 deletions(-)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2022-40303.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2022-40304.patch
- create mode 100644 meta/recipes-devtools/libcomps/libcomps/0001-libcomps-Use-Py_hash_t-instead-of-long-in-PyCOMPS_ha.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-4144.patch
- create mode 100644 meta/recipes-devtools/rpm/files/0001-python-Use-Py_hash_t-instead-of-long-in-hdr_hash.patch
- create mode 100644 meta/recipes-gnome/epiphany/files/CVE-2023-26081.patch
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/ffmpeg-fix-vulkan.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-48281.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-0800_0801_0802_0803_0804.patch
- rename meta/recipes-support/iso-codes/{iso-codes_4.12.0.bb => iso-codes_4.13.0.bb} (94%)
- rename meta/recipes-support/libmicrohttpd/{libmicrohttpd_0.9.75.bb => libmicrohttpd_0.9.76.bb} (90%)
-
--- 
-2.34.1
-
+> +Comment: Refreshed hunk from hsts.c and urldata.h
+> +Signed-off-by: Pawan Badganchi <Pawan.Badganchi@kpit.com>
+> +---
+> + docs/libcurl/opts/CURLSHOPT_SHARE.3 |  4 +++
+> + docs/libcurl/symbols-in-versions    |  1 +
+> + include/curl/curl.h                 |  1 +
+> + lib/hsts.c                          | 15 +++++++++
+> + lib/hsts.h                          |  2 ++
+> + lib/setopt.c                        | 48 ++++++++++++++++++++++++-----
+> + lib/share.c                         | 32 +++++++++++++++++--
+> + lib/share.h                         |  6 +++-
+> + lib/transfer.c                      |  3 ++
+> + lib/url.c                           |  6 +++-
+> + lib/urldata.h                       |  2 ++
+> + 11 files changed, 109 insertions(+), 11 deletions(-)
+> +
+> +--- a/docs/libcurl/opts/CURLSHOPT_SHARE.3
+> ++++ b/docs/libcurl/opts/CURLSHOPT_SHARE.3
+> +@@ -79,6 +79,10 @@ Added in 7.61.0.
+> +
+> + Note that when you use the multi interface, all easy handles added to t=
+he same
+> + multi handle will share PSL cache by default without using this option.
+> ++.IP CURL_LOCK_DATA_HSTS
+> ++The in-memory HSTS cache.
+> ++
+> ++Added in 7.88.0
+> + .SH PROTOCOLS
+> + All
+> + .SH EXAMPLE
+> +--- a/docs/libcurl/symbols-in-versions
+> ++++ b/docs/libcurl/symbols-in-versions
+> +@@ -73,6 +73,7 @@ CURL_LOCK_ACCESS_SINGLE         7.10.3
+> + CURL_LOCK_DATA_CONNECT          7.10.3
+> + CURL_LOCK_DATA_COOKIE           7.10.3
+> + CURL_LOCK_DATA_DNS              7.10.3
+> ++CURL_LOCK_DATA_HSTS             7.88.0
+> + CURL_LOCK_DATA_NONE             7.10.3
+> + CURL_LOCK_DATA_PSL              7.61.0
+> + CURL_LOCK_DATA_SHARE            7.10.4
+> +--- a/include/curl/curl.h
+> ++++ b/include/curl/curl.h
+> +@@ -2953,6 +2953,7 @@ typedef enum {
+> +   CURL_LOCK_DATA_SSL_SESSION,
+> +   CURL_LOCK_DATA_CONNECT,
+> +   CURL_LOCK_DATA_PSL,
+> ++  CURL_LOCK_DATA_HSTS,
+> +   CURL_LOCK_DATA_LAST
+> + } curl_lock_data;
+> +
+> +--- a/lib/hsts.c
+> ++++ b/lib/hsts.c
+> +@@ -37,6 +37,7 @@
+> + #include "parsedate.h"
+> + #include "rand.h"
+> + #include "rename.h"
+> ++#include "share.h"
+> + #include "strtoofft.h"
+> +
+> + /* The last 3 #include files should be in this order */
+> +@@ -561,4 +562,18 @@
+> +   return CURLE_OK;
+> + }
+> +
+> ++void Curl_hsts_loadfiles(struct Curl_easy *data)
+> ++{
+> ++  struct curl_slist *l =3D data->set.hstslist;
+> ++  if(l) {
+> ++    Curl_share_lock(data, CURL_LOCK_DATA_HSTS, CURL_LOCK_ACCESS_SINGLE)=
+;
+> ++
+> ++    while(l) {
+> ++      (void)Curl_hsts_loadfile(data, data->hsts, l->data);
+> ++      l =3D l->next;
+> ++    }
+> ++    Curl_share_unlock(data, CURL_LOCK_DATA_HSTS);
+> ++  }
+> ++}
+> ++
+> + #endif /* CURL_DISABLE_HTTP || CURL_DISABLE_HSTS */
+> +--- a/lib/hsts.h
+> ++++ b/lib/hsts.h
+> +@@ -59,9 +59,11 @@ CURLcode Curl_hsts_loadfile(struct Curl_
+> +                             struct hsts *h, const char *file);
+> + CURLcode Curl_hsts_loadcb(struct Curl_easy *data,
+> +                           struct hsts *h);
+> ++void Curl_hsts_loadfiles(struct Curl_easy *data);
+> + #else
+> + #define Curl_hsts_cleanup(x)
+> + #define Curl_hsts_loadcb(x,y) CURLE_OK
+> + #define Curl_hsts_save(x,y,z)
+> ++#define Curl_hsts_loadfiles(x)
+> + #endif /* CURL_DISABLE_HTTP || CURL_DISABLE_HSTS */
+> + #endif /* HEADER_CURL_HSTS_H */
+> +--- a/lib/setopt.c
+> ++++ b/lib/setopt.c
+> +@@ -2260,9 +2260,14 @@ CURLcode Curl_vsetopt(struct Curl_easy *
+> +         data->cookies =3D NULL;
+> + #endif
+> +
+> ++#ifndef CURL_DISABLE_HSTS
+> ++      if(data->share->hsts =3D=3D data->hsts)
+> ++        data->hsts =3D NULL;
+> ++#endif
+> ++#ifdef USE_SSL
+> +       if(data->share->sslsession =3D=3D data->state.session)
+> +         data->state.session =3D NULL;
+> +-
+> ++#endif
+> + #ifdef USE_LIBPSL
+> +       if(data->psl =3D=3D &data->share->psl)
+> +         data->psl =3D data->multi? &data->multi->psl: NULL;
+> +@@ -2296,10 +2301,19 @@ CURLcode Curl_vsetopt(struct Curl_easy *
+> +         data->cookies =3D data->share->cookies;
+> +       }
+> + #endif   /* CURL_DISABLE_HTTP */
+> ++#ifndef CURL_DISABLE_HSTS
+> ++      if(data->share->hsts) {
+> ++        /* first free the private one if any */
+> ++        Curl_hsts_cleanup(&data->hsts);
+> ++        data->hsts =3D data->share->hsts;
+> ++      }
+> ++#endif   /* CURL_DISABLE_HTTP */
+> ++#ifdef USE_SSL
+> +       if(data->share->sslsession) {
+> +         data->set.general_ssl.max_ssl_sessions =3D data->share->max_ssl=
+_sessions;
+> +         data->state.session =3D data->share->sslsession;
+> +       }
+> ++#endif
+> + #ifdef USE_LIBPSL
+> +       if(data->share->specifier & (1 << CURL_LOCK_DATA_PSL))
+> +         data->psl =3D &data->share->psl;
+> +@@ -3049,19 +3063,39 @@ CURLcode Curl_vsetopt(struct Curl_easy *
+> +   case CURLOPT_HSTSWRITEDATA:
+> +     data->set.hsts_write_userp =3D va_arg(param, void *);
+> +     break;
+> +-  case CURLOPT_HSTS:
+> ++  case CURLOPT_HSTS: {
+> ++    struct curl_slist *h;
+> +     if(!data->hsts) {
+> +       data->hsts =3D Curl_hsts_init();
+> +       if(!data->hsts)
+> +         return CURLE_OUT_OF_MEMORY;
+> +     }
+> +     argptr =3D va_arg(param, char *);
+> +-    result =3D Curl_setstropt(&data->set.str[STRING_HSTS], argptr);
+> +-    if(result)
+> +-      return result;
+> +-    if(argptr)
+> +-      (void)Curl_hsts_loadfile(data, data->hsts, argptr);
+> ++    if(argptr) {
+> ++      result =3D Curl_setstropt(&data->set.str[STRING_HSTS], argptr);
+> ++      if(result)
+> ++        return result;
+> ++      /* this needs to build a list of file names to read from, so that=
+ it can
+> ++         read them later, as we might get a shared HSTS handle to load =
+them
+> ++         into */
+> ++      h =3D curl_slist_append(data->set.hstslist, argptr);
+> ++      if(!h) {
+> ++        curl_slist_free_all(data->set.hstslist);
+> ++        data->set.hstslist =3D NULL;
+> ++        return CURLE_OUT_OF_MEMORY;
+> ++      }
+> ++      data->set.hstslist =3D h; /* store the list for later use */
+> ++    }
+> ++    else {
+> ++      /* clear the list of HSTS files */
+> ++      curl_slist_free_all(data->set.hstslist);
+> ++      data->set.hstslist =3D NULL;
+> ++      if(!data->share || !data->share->hsts)
+> ++        /* throw away the HSTS cache unless shared */
+> ++        Curl_hsts_cleanup(&data->hsts);
+> ++    }
+> +     break;
+> ++  }
+> +   case CURLOPT_HSTS_CTRL:
+> +     arg =3D va_arg(param, long);
+> +     if(arg & CURLHSTS_ENABLE) {
+> +--- a/lib/share.c
+> ++++ b/lib/share.c
+> +@@ -29,9 +29,11 @@
+> + #include "share.h"
+> + #include "psl.h"
+> + #include "vtls/vtls.h"
+> +-#include "curl_memory.h"
+> ++#include "hsts.h"
+> +
+> +-/* The last #include file should be: */
+> ++/* The last 3 #include files should be in this order */
+> ++#include "curl_printf.h"
+> ++#include "curl_memory.h"
+> + #include "memdebug.h"
+> +
+> + struct Curl_share *
+> +@@ -89,6 +91,18 @@ curl_share_setopt(struct Curl_share *sha
+> + #endif
+> +       break;
+> +
+> ++    case CURL_LOCK_DATA_HSTS:
+> ++#ifndef CURL_DISABLE_HSTS
+> ++      if(!share->hsts) {
+> ++        share->hsts =3D Curl_hsts_init();
+> ++        if(!share->hsts)
+> ++          res =3D CURLSHE_NOMEM;
+> ++      }
+> ++#else   /* CURL_DISABLE_HSTS */
+> ++      res =3D CURLSHE_NOT_BUILT_IN;
+> ++#endif
+> ++      break;
+> ++
+> +     case CURL_LOCK_DATA_SSL_SESSION:
+> + #ifdef USE_SSL
+> +       if(!share->sslsession) {
+> +@@ -141,6 +155,16 @@ curl_share_setopt(struct Curl_share *sha
+> + #endif
+> +       break;
+> +
+> ++    case CURL_LOCK_DATA_HSTS:
+> ++#ifndef CURL_DISABLE_HSTS
+> ++      if(share->hsts) {
+> ++        Curl_hsts_cleanup(&share->hsts);
+> ++      }
+> ++#else   /* CURL_DISABLE_HSTS */
+> ++      res =3D CURLSHE_NOT_BUILT_IN;
+> ++#endif
+> ++      break;
+> ++
+> +     case CURL_LOCK_DATA_SSL_SESSION:
+> + #ifdef USE_SSL
+> +       Curl_safefree(share->sslsession);
+> +@@ -207,6 +231,10 @@ curl_share_cleanup(struct Curl_share *sh
+> +   Curl_cookie_cleanup(share->cookies);
+> + #endif
+> +
+> ++#ifndef CURL_DISABLE_HSTS
+> ++  Curl_hsts_cleanup(&share->hsts);
+> ++#endif
+> ++
+> + #ifdef USE_SSL
+> +   if(share->sslsession) {
+> +     size_t i;
+> +--- a/lib/share.h
+> ++++ b/lib/share.h
+> +@@ -59,10 +59,14 @@ struct Curl_share {
+> + #ifdef USE_LIBPSL
+> +   struct PslCache psl;
+> + #endif
+> +-
+> ++#ifndef CURL_DISABLE_HSTS
+> ++  struct hsts *hsts;
+> ++#endif
+> ++#ifdef USE_SSL
+> +   struct Curl_ssl_session *sslsession;
+> +   size_t max_ssl_sessions;
+> +   long sessionage;
+> ++#endif
+> + };
+> +
+> + CURLSHcode Curl_share_lock(struct Curl_easy *, curl_lock_data,
+> +--- a/lib/transfer.c
+> ++++ b/lib/transfer.c
+> +@@ -1398,6 +1398,9 @@ CURLcode Curl_pretransfer(struct Curl_ea
+> +   if(data->state.resolve)
+> +     result =3D Curl_loadhostpairs(data);
+> +
+> ++  /* If there is a list of hsts files to read */
+> ++  Curl_hsts_loadfiles(data);
+> ++
+> +   if(!result) {
+> +     /* Allow data->set.use_port to set which port to use. This needs to=
+ be
+> +      * disabled for example when we follow Location: headers to URLs us=
+ing
+> +--- a/lib/url.c
+> ++++ b/lib/url.c
+> +@@ -434,7 +434,11 @@ CURLcode Curl_close(struct Curl_easy **d
+> +   Curl_altsvc_save(data, data->asi, data->set.str[STRING_ALTSVC]);
+> +   Curl_altsvc_cleanup(&data->asi);
+> +   Curl_hsts_save(data, data->hsts, data->set.str[STRING_HSTS]);
+> +-  Curl_hsts_cleanup(&data->hsts);
+> ++#ifndef CURL_DISABLE_HSTS
+> ++  if(!data->share || !data->share->hsts)
+> ++    Curl_hsts_cleanup(&data->hsts);
+> ++  curl_slist_free_all(data->set.hstslist); /* clean up list */
+> ++#endif
+> + #if !defined(CURL_DISABLE_HTTP) && !defined(CURL_DISABLE_CRYPTO_AUTH)
+> +   Curl_http_auth_cleanup_digest(data);
+> + #endif
+> +--- a/lib/urldata.h
+> ++++ b/lib/urldata.h
+> +@@ -1670,6 +1670,8 @@
+> +
+> +   void *seek_client;    /* pointer to pass to the seek callback */
+> + #ifndef CURL_DISABLE_HSTS
+> ++  struct curl_slist *hstslist; /* list of HSTS files set by
+> ++                                  curl_easy_setopt(HSTS) calls */
+> +   curl_hstsread_callback hsts_read;
+> +   void *hsts_read_userp;
+> +   curl_hstswrite_callback hsts_write;
+> diff --git a/meta/recipes-support/curl/curl/CVE-2023-23914_5-2.patch b/me=
+ta/recipes-support/curl/curl/CVE-2023-23914_5-2.patch
+> new file mode 100644
+> index 0000000000..03714fa6c4
+> --- /dev/null
+> +++ b/meta/recipes-support/curl/curl/CVE-2023-23914_5-2.patch
+> @@ -0,0 +1,22 @@
+> +From 0bf8b796a0ea98395b390c7807187982215f5c11 Mon Sep 17 00:00:00 2001
+> +From: Daniel Stenberg <daniel@haxx.se>
+> +Date: Tue, 27 Dec 2022 11:50:23 +0100
+> +Subject: [PATCH] tool_operate: share HSTS between handles
+> +
+> +CVE: CVE-2023-23914 CVE-2023-23915
+> +Upstream-Status: Backport [http://launchpadlibrarian.net/652022114/curl_=
+7.87.0-2ubuntu1_7.87.0-2ubuntu2.diff.gz]
+> +Signed-off-by: Pawan Badganchi <Pawan.Badganchi@kpit.com>
+> +---
+> + src/tool_operate.c | 1 +
+> + 1 file changed, 1 insertion(+)
+> +
+> +--- a/src/tool_operate.c
+> ++++ b/src/tool_operate.c
+> +@@ -2722,6 +2722,7 @@ CURLcode operate(struct GlobalConfig *gl
+> +         curl_share_setopt(share, CURLSHOPT_SHARE, CURL_LOCK_DATA_SSL_SE=
+SSION);
+> +         curl_share_setopt(share, CURLSHOPT_SHARE, CURL_LOCK_DATA_CONNEC=
+T);
+> +         curl_share_setopt(share, CURLSHOPT_SHARE, CURL_LOCK_DATA_PSL);
+> ++        curl_share_setopt(share, CURLSHOPT_SHARE, CURL_LOCK_DATA_HSTS);
+> +
+> +         /* Get the required arguments for each operation */
+> +         do {
+> diff --git a/meta/recipes-support/curl/curl/CVE-2023-23914_5-3.patch b/me=
+ta/recipes-support/curl/curl/CVE-2023-23914_5-3.patch
+> new file mode 100644
+> index 0000000000..f24e37b6f8
+> --- /dev/null
+> +++ b/meta/recipes-support/curl/curl/CVE-2023-23914_5-3.patch
+> @@ -0,0 +1,44 @@
+> +From ca02a77f05bd5cef20618c8f741aa48b7be0a648 Mon Sep 17 00:00:00 2001
+> +From: Daniel Stenberg <daniel@haxx.se>
+> +Date: Tue, 27 Dec 2022 11:50:23 +0100
+> +Subject: [PATCH] hsts: handle adding the same host name again
+> +
+> +It will then use the largest expire time of the two entries.
+> +
+> +CVE: CVE-2023-23914 CVE-2023-23915
+> +Upstream-Status: Backport [http://launchpadlibrarian.net/652022114/curl_=
+7.87.0-2ubuntu1_7.87.0-2ubuntu2.diff.gz]
+> +Signed-off-by: Pawan Badganchi <Pawan.Badganchi@kpit.com>
+> +---
+> + lib/hsts.c | 13 +++++++++++--
+> + 1 file changed, 11 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/lib/hsts.c b/lib/hsts.c
+> +index 339237be1c621..8d6723ee587d2 100644
+> +--- a/lib/hsts.c
+> ++++ b/lib/hsts.c
+> +@@ -426,14 +426,23 @@ static CURLcode hsts_add(struct hsts *h, char *lin=
+e)
+> +   if(2 =3D=3D rc) {
+> +     time_t expires =3D strcmp(date, UNLIMITED) ? Curl_getdate_capped(da=
+te) :
+> +       TIME_T_MAX;
+> +-    CURLcode result;
+> ++    CURLcode result =3D CURLE_OK;
+> +     char *p =3D host;
+> +     bool subdomain =3D FALSE;
+> ++    struct stsentry *e;
+> +     if(p[0] =3D=3D '.') {
+> +       p++;
+> +       subdomain =3D TRUE;
+> +     }
+> +-    result =3D hsts_create(h, p, subdomain, expires);
+> ++    /* only add it if not already present */
+> ++    e =3D Curl_hsts(h, p, subdomain);
+> ++    if(!e)
+> ++      result =3D hsts_create(h, p, subdomain, expires);
+> ++    else {
+> ++      /* the same host name, use the largest expire time */
+> ++      if(expires > e->expires)
+> ++        e->expires =3D expires;
+> ++    }
+> +     if(result)
+> +       return result;
+> +   }
+> diff --git a/meta/recipes-support/curl/curl/CVE-2023-23914_5-4.patch b/me=
+ta/recipes-support/curl/curl/CVE-2023-23914_5-4.patch
+> new file mode 100644
+> index 0000000000..27d824f39c
+> --- /dev/null
+> +++ b/meta/recipes-support/curl/curl/CVE-2023-23914_5-4.patch
+> @@ -0,0 +1,47 @@
+> +From dc0725244a3163f1e2d5f51165db3a1a430f3ba0 Mon Sep 17 00:00:00 2001
+> +From: Daniel Stenberg <daniel@haxx.se>
+> +Date: Tue, 27 Dec 2022 11:50:23 +0100
+> +Subject: [PATCH] runtests: support crlf=3D"yes" for verify/proxy
+> +
+> +CVE: CVE-2023-23914 CVE-2023-23915
+> +Upstream-Status: Backport [http://launchpadlibrarian.net/652022114/curl_=
+7.87.0-2ubuntu1_7.87.0-2ubuntu2.diff.gz]
+> +Comment: Refreshed hunk from FILEFORMAT.md
+> +Signed-off-by: Pawan Badganchi <Pawan.Badganchi@kpit.com>
+> +---
+> + tests/FILEFORMAT.md | 4 ++--
+> + tests/runtests.pl   | 5 +++++
+> + 2 files changed, 7 insertions(+), 2 deletions(-)
+> +
+> +--- a/tests/FILEFORMAT.md
+> ++++ b/tests/FILEFORMAT.md
+> +@@ -540,14 +540,14 @@
+> + One perl op per line that operates on the protocol dump. This is pretty
+> + advanced. Example: `s/^EPRT .*/EPRT stripped/`.
+> +
+> +-### `<protocol [nonewline=3D"yes"]>`
+> ++### `<protocol [nonewline=3D"yes"][crlf=3D"yes"]>`
+> +
+> + the protocol dump curl should transmit, if 'nonewline' is set, we will =
+cut off
+> + the trailing newline of this given data before comparing with the one a=
+ctually
+> + sent by the client The `<strip>` and `<strippart>` rules are applied be=
+fore
+> + comparisons are made.
+> +
+> +-### `<proxy [nonewline=3D"yes"]>`
+> ++### `<proxy [nonewline=3D"yes"][crlf=3D"yes"]>`
+> +
+> + The protocol dump curl should transmit to a HTTP proxy (when the http-p=
+roxy
+> + server is used), if 'nonewline' is set, we will cut off the trailing ne=
+wline
+> +--- a/tests/runtests.pl
+> ++++ b/tests/runtests.pl
+> +@@ -4744,6 +4744,11 @@ sub singletest {
+> +             }
+> +         }
+> +
+> ++        if($hash{'crlf'} ||
+> ++           ($has_hyper && ($keywords{"HTTP"} || $keywords{"HTTPS"}))) {
+> ++            map subNewlines(0, \$_), @protstrip;
+> ++        }
+> ++
+> +         $res =3D compare($testnum, $testname, "proxy", \@out, \@protstr=
+ip);
+> +         if($res) {
+> +             return $errorreturncode;
+> diff --git a/meta/recipes-support/curl/curl/CVE-2023-23914_5-5.patch b/me=
+ta/recipes-support/curl/curl/CVE-2023-23914_5-5.patch
+> new file mode 100644
+> index 0000000000..bcbf543fc6
+> --- /dev/null
+> +++ b/meta/recipes-support/curl/curl/CVE-2023-23914_5-5.patch
+> @@ -0,0 +1,117 @@
+> +From ea5aaaa5ede53819f8bc7ae767fc2d13d3704d37 Mon Sep 17 00:00:00 2001
+> +From: Daniel Stenberg <daniel@haxx.se>
+> +Date: Tue, 27 Dec 2022 11:50:23 +0100
+> +Subject: [PATCH] test446: verify hsts with two URLs
+> +
+> +CVE: CVE-2023-23914 CVE-2023-23915
+> +Upstream-Status: Backport [http://launchpadlibrarian.net/652022114/curl_=
+7.87.0-2ubuntu1_7.87.0-2ubuntu2.diff.gz]
+> +Comment: Refreshed hunk from Makefile.inc
+> +Signed-off-by: Pawan Badganchi <Pawan.Badganchi@kpit.com>
+> +---
+> + tests/data/Makefile.inc |  2 +-
+> + tests/data/test446      | 84 +++++++++++++++++++++++++++++++++++++++++
+> + 2 files changed, 85 insertions(+), 1 deletion(-)
+> + create mode 100644 tests/data/test446
+> +
+> +diff --git a/tests/data/Makefile.inc b/tests/data/Makefile.inc
+> +index 3a6356bd122bc..fe1bb1c74c2ab 100644
+> +--- a/tests/data/Makefile.inc
+> ++++ b/tests/data/Makefile.inc
+> +@@ -72,6 +72,7 @@
+> + \
+> + test430 test431 test432 test433 test434 test435 test436 \
+> + \
+> ++test446 \
+> + test490 test491 test492 test493 test494 \
+> + \
+> + test500 test501 test502 test503 test504 test505 test506 test507 test508=
+ \
+> +diff --git a/tests/data/test446 b/tests/data/test446
+> +new file mode 100644
+> +index 0000000000000..0e2dfdcfe33b6
+> +--- /dev/null
+> ++++ b/tests/data/test446
+> +@@ -0,0 +1,84 @@
+> ++<?xml version=3D"1.0" encoding=3D"ISO-8859-1"?>
+> ++<testcase>
+> ++<info>
+> ++<keywords>
+> ++HTTP
+> ++HTTP proxy
+> ++HSTS
+> ++trailing-dot
+> ++</keywords>
+> ++</info>
+> ++
+> ++<reply>
+> ++
+> ++# we use this as response to a CONNECT
+> ++<connect nocheck=3D"yes">
+> ++HTTP/1.1 200 OK
+> ++
+> ++</connect>
+> ++<data crlf=3D"yes">
+> ++HTTP/1.1 200 OK
+> ++Content-Length: 6
+> ++Strict-Transport-Security: max-age=3D604800
+> ++
+> ++-foo-
+> ++</data>
+> ++<data2 crlf=3D"yes">
+> ++HTTP/1.1 200 OK
+> ++Content-Length: 6
+> ++Strict-Transport-Security: max-age=3D6048000
+> ++
+> ++-baa-
+> ++</data2>
+> ++</reply>
+> ++
+> ++<client>
+> ++<server>
+> ++https
+> ++http-proxy
+> ++</server>
+> ++<features>
+> ++HSTS
+> ++proxy
+> ++https
+> ++debug
+> ++</features>
+> ++<setenv>
+> ++CURL_HSTS_HTTP=3Dyes
+> ++CURL_TIME=3D2000000000
+> ++</setenv>
+> ++
+> ++<name>
+> ++HSTS with two URLs
+> ++</name>
+> ++<command>
+> ++-x http://%HOSTIP:%PROXYPORT --hsts log/hsts%TESTNUMBER http://this.hst=
+s.example./%TESTNUMBER http://another.example.com/%TESTNUMBER0002
+> ++</command>
+> ++</client>
+> ++
+> ++<verify>
+> ++# we let it CONNECT to the server to confirm HSTS but deny from there
+> ++<proxy crlf=3D"yes">
+> ++GET http://this.hsts.example./%TESTNUMBER HTTP/1.1
+> ++Host: this.hsts.example.
+> ++User-Agent: curl/%VERSION
+> ++Accept: */*
+> ++Proxy-Connection: Keep-Alive
+> ++
+> ++GET http://another.example.com/%TESTNUMBER0002 HTTP/1.1
+> ++Host: another.example.com
+> ++User-Agent: curl/%VERSION
+> ++Accept: */*
+> ++Proxy-Connection: Keep-Alive
+> ++
+> ++</proxy>
+> ++
+> ++<file name=3D"log/hsts%TESTNUMBER" mode=3D"text">
+> ++# Your HSTS cache. https://curl.se/docs/hsts.html
+> ++# This file was generated by libcurl! Edit at your own risk.
+> ++this.hsts.example "20330525 03:33:20"
+> ++another.example.com "20330727 03:33:20"
+> ++</file>
+> ++
+> ++</verify>
+> ++</testcase>
+> diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-supp=
+ort/curl/curl_7.82.0.bb
+> index 13f157ead8..af3c4a6ce4 100644
+> --- a/meta/recipes-support/curl/curl_7.82.0.bb
+> +++ b/meta/recipes-support/curl/curl_7.82.0.bb
+> @@ -34,6 +34,11 @@ SRC_URI =3D "https://curl.se/download/${BP}.tar.xz \
+>             file://CVE-2022-42915.patch \
+>             file://CVE-2022-43551.patch \
+>             file://CVE-2022-43552.patch \
+> +           file://CVE-2023-23914_5-1.patch \
+> +           file://CVE-2023-23914_5-2.patch \
+> +           file://CVE-2023-23914_5-3.patch \
+> +           file://CVE-2023-23914_5-4.patch \
+> +           file://CVE-2023-23914_5-5.patch \
+>             "
+>  SRC_URI[sha256sum] =3D "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d=
+3d690cdce58a583c"
+>
+> --
+> 2.38.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#177977): https://lists.openembedded.org/g/openembedde=
+d-core/message/177977
+> Mute This Topic: https://lists.openembedded.org/mt/97357907/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
