@@ -1,138 +1,142 @@
-Return-Path: <p.lobacz@welotec.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27355C6FD1D
-	for <webhook@archiver.kernel.org>; Tue, 14 Mar 2023 14:18:12 +0000 (UTC)
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.47])
- by mx.groups.io with SMTP id smtpd.web11.9831.1678803482268054688
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10DD9C6FD1D
+	for <webhook@archiver.kernel.org>; Tue, 14 Mar 2023 14:24:52 +0000 (UTC)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.web10.10183.1678803890967088241
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Mar 2023 07:18:02 -0700
+ Tue, 14 Mar 2023 07:24:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="no key for verify" header.i=@welotec.com header.s=selector2 header.b=LKzWMhfG;
- spf=pass (domain: welotec.com, ip: 40.107.6.47, mailfrom: p.lobacz@welotec.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lOWvQzq8QWUP1GW7nqxQvDjoEJ4nG/oPbRuiAe03dsIHsfWfTOJcZCV73fK5JIpkio9uVe/V40YgitqGRmegQoyTnxKWCJIM+PBTJvTrue+Pw0p3sox5smPTP2+Mza0payJBPxqnK8T1w7kEzOsyL5v9VCQchP1SDMi1iUY+xO746Mm1CPr9UmhrMY4J3vybiq3tjeMrhVZ30TUAkYmpkmSP6qORa3pc7kpGITfi8T+Guc2eRbXD9DIPYY3cJbXuj82gve4QpYiB8d4F4SGNYtAelVpLMUhUtpXD7c/hPvV51LfRNCH6pxD7UNjrVdAiBLWaaqKt1fJhdnPIuaoP8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7+e0DOAUtkLtUhhKYIV15mHYe82nIxqkdWsPfJEA+w8=;
- b=JpmBGYXCYP5XIvsC/rZAXiePgZeAqScNeEkX14ULZAPQbRW6cmlqgD1vOPJ8yWsYJSZ6Z7H+hrZ17gXC/0L+Sl34rHerDeXfN9pD+GKfHYy6rs3OH/38adsc36F4GRuvX6E2Cibmwjva33jT820VNdre6HbVWG/CU7OdxoI8Xc34EJkVhDNx2JP+XUZdyGBvXsbc7Y445HnmXDGTYprRz8vGESTYece6Kd3yzTofq3fXKIfLw+7ECsgoZoyWj/7CjdG8w3CVJrAU+IfbLjVnhWF0eRa+Kq3IoQMO+jFIfZPYZ5u20bfM35ygGw1xQkLRe7mHbTz9sw/b0Bviweicvg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=welotec.com; dmarc=pass action=none header.from=welotec.com;
- dkim=pass header.d=welotec.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=welotec.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7+e0DOAUtkLtUhhKYIV15mHYe82nIxqkdWsPfJEA+w8=;
- b=LKzWMhfGTkdDx36EpSveBndm7ED/JTy2TSPNen/dZHB3XZeTWYabQkyjgxmPYupmOH6JSLnX6W/37DqrbxzCxSzSlZIapLSAIUZg5sSdzoEXMZtXv247szCcjS124M1vLq7wVJDYZpszR8ORcI8oVry96CRJAc8s/rGgP8ETmgA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=welotec.com;
-Received: from AM5PR04MB3203.eurprd04.prod.outlook.com (2603:10a6:206:7::12)
- by AS8PR04MB8963.eurprd04.prod.outlook.com (2603:10a6:20b:42e::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.27; Tue, 14 Mar
- 2023 14:18:00 +0000
-Received: from AM5PR04MB3203.eurprd04.prod.outlook.com
- ([fe80::daaf:ccb7:8f6c:dbca]) by AM5PR04MB3203.eurprd04.prod.outlook.com
- ([fe80::daaf:ccb7:8f6c:dbca%5]) with mapi id 15.20.6178.024; Tue, 14 Mar 2023
- 14:17:59 +0000
-From: =?UTF-8?q?Piotr=20=C5=81obacz?= <p.lobacz@welotec.com>
-To: openembedded-core@lists.openembedded.org
-CC: =?UTF-8?q?Piotr=20=C5=81obacz?= <p.lobacz@welotec.com>
-Subject: [PATCH] systemd: fix wrong nobody-group assignment
-Date: Tue, 14 Mar 2023 15:17:50 +0100
-Message-ID: <20230314141750.3652939-1-p.lobacz@welotec.com>
-X-Mailer: git-send-email 2.34.1
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: BE0P281CA0009.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:a::19) To AM5PR04MB3203.eurprd04.prod.outlook.com
- (2603:10a6:206:7::12)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=b6TF3G/b;
+ spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: rybczynska@gmail.com)
+Received: by mail-lf1-f48.google.com with SMTP id bp27so9972845lfb.6
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 07:24:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678803889;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q6oT/bpck9trSjRXaSO8pEeBcc2LZt1uIjvDqJLIVBg=;
+        b=b6TF3G/bH8pu+Oq6HYIfbj6YyIzew5y0KU2nRSDtlOgGgXT4Yh8e1XqAAhWsTUiypx
+         4C5tB6757b3AhMPW2/3AYnQsVgWdZx10VGTvoB94j9ro/hczECwBWH3kvJs+clmPVKxV
+         l0MS1SDFbdrb8r/G1JCsmWthaNq4wRsiisqDKM45gHwY1rJSRaP0Vfa6NHWdpYLRM3uk
+         8SXJYPFrcR9bwwF4kFX+5YoSZP5daJ1Ix7dLHgWIn7fXg2klSJb0wQUc0LBaaCiz2l4M
+         HquIy3EiQcrsvQ7OswN7kEX7z3CdIW0mOpZ+TXX23+OcHXV/GjSNeeSLoYn3DTG7UGI3
+         uBUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678803889;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Q6oT/bpck9trSjRXaSO8pEeBcc2LZt1uIjvDqJLIVBg=;
+        b=wO6upCyXXxCbNqPBQB6wbkdd0ET3gZJs/qMsq+D9KpIAN2uWGGSztCmXA9KCV8Ry8T
+         315jmNXKsn4a2ixCXc2Zpehs/lxMbTnIK1tKeX/tXXqcYVgGRQz3rBF/SCIOp/jlwn0K
+         k151FfnETWHgPmxHS4gGoT1Jo0vUxuPwSWjuz5SYcAA+p1yJAox7+H6rqlTv3s5sP6nI
+         9Lvieda9Q8RUx8te4emPNKvCkzql6SeqqjXraPsd02o56rZDuS7jqiZ1vfIhWHFhWK3q
+         t2FXyvDKKVjD7nId9+9zg05mqY+PDT/lKplh2xHw3WCnFShdeVh1AasFNoOAP5g8cUqr
+         T2lg==
+X-Gm-Message-State: AO0yUKXcK6rNUsUDhQ9AyB/Dsb29nTkZhFZZ+h0G1Ttbyi5g/lREPaXn
+	fpxhT13ydB0VLTA7Li8DNYyL2bihRoAm9Qg3Njo=
+X-Google-Smtp-Source: AK7set/GlrPg84F8GiD/T7O8rpa3d0v56wJCvJlRSprj1EmQSeMEivFvibqSY4KZ5MYDB4A9Mqkbm5hWloGLfX1TR2g=
+X-Received: by 2002:ac2:5deb:0:b0:4db:3ab2:896e with SMTP id
+ z11-20020ac25deb000000b004db3ab2896emr817142lfq.6.1678803889004; Tue, 14 Mar
+ 2023 07:24:49 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM5PR04MB3203:EE_|AS8PR04MB8963:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0747a3e1-a1d1-43aa-1b19-08db2496ea48
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	g5etieDVmlIYInj3H+KrWzb7gywv5U4FmfG3OvyW77uqfhZas7JsULA0iiXRkWfvoMRNhR1arvO5zPK2ZF1bbgn+g6wV3mmlu8ZywmhyRmTmOtGsmNaG1AmCInTW97ssBoTS28HpddSVNEJi95TlGqBeex4FCUovWhsIojYDLobY8IhkuBpFFk9fBnsIK6Ay3yaStDv8n+JSp2Cp8Tw2kwc1Uzvw31vKBvnI4rICYuKba0F82wlserixlQhI/xBpHBSsABgbGOpgyMQmEZni66P0QHCch6CPf2+vkkmy4Igw+GVfJDI+aYscpnVyhb8p9h+69LduIagBhl15uNg5fi0kViOet8l5neyevG95xmSal6g0jsvNTHBNLUWQ63Tro1jKU9zKXKlJYpFhtgvvVlln5U5dmK4cM7LA2rl+789xZEr73YYL+kBpV26LuELua7Ib7Vhb13plZhMiKb1GCzaNsr1XlgeD27ELFwcy47YsPdiA9uYjfWGgzcaydHqdsemzFzAfgmaAVUBiG6LKcK/RJPSPeB/JZQygTQeFlQ5LACy9HYs8Vn19jzQ5tOk7AGgZA/MqDm9RZZneuQ4I8OwhfqLvDMpI5wNz1Ek20lEkFY7k9aKJFmDBeoeNqv9bYyaU22984kuOp5PWkf5LRs8PezcDkhrO5ONNYxbA1+rwel/ZqvS1cnYN9POqEzbI
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM5PR04MB3203.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(39840400004)(346002)(396003)(376002)(136003)(366004)(451199018)(41300700001)(5660300002)(4744005)(8936002)(2906002)(38350700002)(38100700002)(86362001)(36756003)(478600001)(66476007)(66556008)(6916009)(66946007)(8676002)(966005)(6486002)(6666004)(107886003)(52116002)(4326008)(66574015)(83380400001)(316002)(186003)(26005)(1076003)(2616005)(6506007)(6512007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?vpYu/HddO5UF0bxO2f3JlVZX15kxYCge/4w/9j69z3WILqNW+J6na5VcLtLA?=
- =?us-ascii?Q?6IU9UGfQ1PZ2WNgvb6Emr3ULF9+mbLDAuQow3DiJre8YmORpXjO54jSKKDVU?=
- =?us-ascii?Q?uzL3s88nXkQCf2IZCdRnkgw02vhD89fF+rack5odGo2UfK4nI3L3dIpY1JVB?=
- =?us-ascii?Q?SnUvNSRbSrjj+GvlExsYdBjBewsuLPg1MtoPcQaTDb3I0R2LglZxZUgOb0Ug?=
- =?us-ascii?Q?hJ11ljYS7om97kKLgb0aylRU42iRpNcF3g8WKgV0sM8dlfzszYpFrGsrrOWQ?=
- =?us-ascii?Q?Kfo63zNNwAY5EO6+R+jrYvv/C/iCsx2TkNg9Z8I5wMOhQmKt5Ls8rfMqyCU/?=
- =?us-ascii?Q?uteWBATrNC4KeTuUZwnutUTrFf49w9zRMUghIgFuvRjjSslnl0AdvgDO5CY5?=
- =?us-ascii?Q?b5vLjPqCBChVNrExnXsoIlhCZo+LeeIg0xWn5V9SusSyUNbQmYp2gwbetf8y?=
- =?us-ascii?Q?3+/H0cSs8fyR61duUY9MuuyNy8L6NQ9BqVGfEvmz8BFHZD3CKZm6dmROqQCr?=
- =?us-ascii?Q?R7bX4lKjitnG/xhhLds1DQUSWh0+tAHvcww3BNBQ39h6rh9RnJWaMKuriLPA?=
- =?us-ascii?Q?+928ECjuPJapAuPrggi/zmOYqCx4Ks41RfTHLxfzhVIqAeIPVGPhA3u4LM5c?=
- =?us-ascii?Q?hj5UYk41kBD7MEbPp9m9X2UyNL6J2xpzXop/sf0SewJ0/x+nwU6jC5s3+IXo?=
- =?us-ascii?Q?aO4mJyH5Up4iva9GTWsq/TVj6vbs/3yDdhnekCW9O6krqVCf6MOlhpJajsPw?=
- =?us-ascii?Q?DtLy1B8e9NEXgcsXMTKmwWVPZ4yLi0ptzecEyE811tRp+LxXFExupyMzXP1T?=
- =?us-ascii?Q?Nd906T9YPikcxr2gV+dCnZoJbXd8YhgVpiqM5e/qYdJjDFpfitzAavOrjiv0?=
- =?us-ascii?Q?EzNcNA/W7tgY+JKPcKNZUQn3KnLPCBSB9vaisuDeHz1rdnukU1FiTFegWXyv?=
- =?us-ascii?Q?xUJBnuJuLWHZ188HZXN9D23lhxuuKPuBbU1WdksTXDMbL+wxT6tu4GrJ7ZrG?=
- =?us-ascii?Q?LPEESWIGZheq8U7Y9xWNSr6ZSKw3kdFVxkW2ZXzRiuII5uZzJCwiN4/UBn6H?=
- =?us-ascii?Q?1uO3+IywrigejTdreT0jX0wqme9CGQnr2pJBFco/AgIwL0irzTOQDt4mqQ6d?=
- =?us-ascii?Q?WeYqq+N1EjX12JxNwWUkpWAbRk6Hbiqc3z3S9Zi3a81nww2jnQXrKusNE9LR?=
- =?us-ascii?Q?vn/4kbTTb9VWN9DsnnbW4RLcrTdksWLdTURuRlTR1Lhzy1+XqakQRz0CzNBt?=
- =?us-ascii?Q?g1Zm9dGYgh7ua7ROPeTYvo9NFuLSYzs5fwjZjWfjpJWc3aUaXSit7hL54k9X?=
- =?us-ascii?Q?Qk3uwcNmNXftBwCSp2yk1lQeurAsb18XkpgKtsnab5A6epIFEj5mjqqW8AOz?=
- =?us-ascii?Q?Mnq5lu7mZjI+vUylJ2OE3zQSZk4rgjVYqVaAmzqBc/6+48ieG9cd4R3+8OdS?=
- =?us-ascii?Q?4BZobd48y5b/ZPPEEMgErQ42tP6795vi73ujWE4FQ6whwUumZAYfRH4/I7U2?=
- =?us-ascii?Q?Itk9Q/oDuoqBTWgPTKxWthmzfZc1sr552v6f8MuXAtO07VFU6kFCUOkFKa7x?=
- =?us-ascii?Q?cB0K/Bc/ppTDx3urwZqVA4sUSWOL2YHUkVssewQ1?=
-X-OriginatorOrg: welotec.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0747a3e1-a1d1-43aa-1b19-08db2496ea48
-X-MS-Exchange-CrossTenant-AuthSource: AM5PR04MB3203.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2023 14:17:59.8751
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 25111a7f-1d5a-4c51-a4ca-7f8e44011b39
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nBK/2hKqvRj4uEGfrgkm2Ayrfnm+zfcHYlUnEdPJVMGcfUxFsz4zrmGn3EHg7VWJ3HB02Yhzd9epehvP9/udng==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8963
+References: <20230224161643.1596895-1-rybczynska@gmail.com> <1746CF3A756BF744.29542@lists.openembedded.org>
+In-Reply-To: <1746CF3A756BF744.29542@lists.openembedded.org>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Tue, 14 Mar 2023 15:24:37 +0100
+Message-ID: <CAApg2=Rky1AVv98bUZoG5axPV3j7Z5-nFjDXcjY_b_0GqqSBiQ@mail.gmail.com>
+Subject: Re: [OE-core] [RFC]] cve-update-nvd2-native: new CVE database fetcher
+To: rybczynska@gmail.com
+Cc: openembedded-core@lists.openembedded.org, ross.burton@arm.com, 
+	Marta Rybczynska <marta.rybczynska@syslinbit.com>
+Content-Type: multipart/alternative; boundary="00000000000073a37305f6dcfd4b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 14:18:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178491
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 14:24:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178492
 
-The generated /etc/group file had a wrong group name for nobody-group
-which was nobody with same id as nogroup groupd. This was leading to
-duplcate groups, with same ids and different names.
+--00000000000073a37305f6dcfd4b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-More can be read on this link:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D11766
+On Fri, Feb 24, 2023 at 5:22=E2=80=AFPM Marta Rybczynska via lists.openembe=
+dded.org
+<rybczynska=3Dgmail.com@lists.openembedded.org> wrote:
 
-Signed-off-by: Piotr =C5=81obacz <p.lobacz@welotec.com>
----
- meta/recipes-core/systemd/systemd_250.5.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>
+> On Fri, Feb 24, 2023 at 5:16 PM Marta Rybczynska <rybczynska@gmail.com>
+> wrote:
+>
+>> Add new fetcher for the NVD database using the 2.0 API [1].
+>> The implementation changes as little as possible, keeping the current
+>> database format (but using a different database file for the transition
+>> period), with a notable exception of not using the META table.
+>>
+>> Minor changes that could be visible:
+>> - the database starts in 1999 instead of 2002
+>> - the complete fetch is longer (30 minutes typically)
+>>
+>>
+> Tests VERY MUCH welcome, I have found some bugs today still.
+>
+> Docs (with a mandatory note according to the terms of use) will come with
+> v2.
+>
+> For the swap between v1 and v2 I'm not sure what will be the best solutio=
+n:
+> - a configuration option allows to migrate when the user decides to do so
+> - ... but does not protect the day they disconnect the feed
+>
+> What do you think?
+>
+>
+Still interested in your opinions on this. Currently I'm investigating some
+differences between
+both fetchers.
 
-diff --git a/meta/recipes-core/systemd/systemd_250.5.bb b/meta/recipes-core=
-/systemd/systemd_250.5.bb
-index 7df7bca4cc..9bb42b971f 100644
---- a/meta/recipes-core/systemd/systemd_250.5.bb
-+++ b/meta/recipes-core/systemd/systemd_250.5.bb
-@@ -221,7 +221,7 @@ rootlibdir ?=3D "${base_libdir}"
- rootlibexecdir =3D "${rootprefix}/lib"
-=20
- EXTRA_OEMESON +=3D "-Dnobody-user=3Dnobody \
--                  -Dnobody-group=3Dnobody \
-+                  -Dnobody-group=3Dnogroup \
-                   -Drootlibdir=3D${rootlibdir} \
-                   -Drootprefix=3D${rootprefix} \
-                   -Ddefault-locale=3DC \
---=20
-2.34.1
+Kind regards,
+Marta
 
+--00000000000073a37305f6dcfd4b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Feb 24, 2023 at 5:22=E2=80=AF=
+PM Marta Rybczynska via <a href=3D"http://lists.openembedded.org">lists.ope=
+nembedded.org</a> &lt;rybczynska=3D<a href=3D"mailto:gmail.com@lists.openem=
+bedded.org">gmail.com@lists.openembedded.org</a>&gt; wrote:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"lt=
+r"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Fri, Feb 24, 2023 at 5:16 PM Marta Rybczynska &lt;<a href=3D"mail=
+to:rybczynska@gmail.com" target=3D"_blank">rybczynska@gmail.com</a>&gt; wro=
+te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Add new fetc=
+her for the NVD database using the 2.0 API [1].<br>
+The implementation changes as little as possible, keeping the current<br>
+database format (but using a different database file for the transition<br>
+period), with a notable exception of not using the META table.<br>
+<br>
+Minor changes that could be visible:<br>
+- the database starts in 1999 instead of 2002<br>
+- the complete fetch is longer (30 minutes typically)<br>
+<br></blockquote><div><br></div><div>Tests VERY MUCH welcome, I have found =
+some bugs today still.</div><div><br></div><div>Docs (with a mandatory note=
+ according to the terms of use) will come with v2.<br></div><div><br></div>=
+<div>For the swap between v1 and v2 I&#39;m not sure what will be the best =
+solution:</div><div>- a configuration option allows to migrate when the use=
+r decides to do so</div><div>- ... but does not protect the day they discon=
+nect the feed</div><div></div><div></div><div><br></div><div>What do you th=
+ink?</div><br></div></div></blockquote><div><br></div><div>Still interested=
+ in your opinions on this. Currently I&#39;m investigating some differences=
+ between</div><div>both fetchers.</div><div><br></div><div>Kind regards,</d=
+iv><div>Marta <br></div></div></div>
+
+--00000000000073a37305f6dcfd4b--
 
