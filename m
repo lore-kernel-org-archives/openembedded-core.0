@@ -1,110 +1,92 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48828C6FD1C
-	for <webhook@archiver.kernel.org>; Tue, 14 Mar 2023 15:22:52 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web10.11826.1678807363873940269
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76120C6FD1C
+	for <webhook@archiver.kernel.org>; Tue, 14 Mar 2023 15:27:22 +0000 (UTC)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web11.11808.1678807636076047490
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Mar 2023 08:22:43 -0700
+ Tue, 14 Mar 2023 08:27:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=q3c5LaYn;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f52.google.com with SMTP id cn6so3150737pjb.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 08:22:43 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=nqanWONf;
+ spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f42.google.com with SMTP id m4so7513561lfj.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 08:27:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678807363;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OYPvd7+UjBFUrkyiif4kk33Q5SM1uxL9AWTJm6JE8qg=;
-        b=q3c5LaYne1uebofI1QAQ6pqPOgXH95RyJqYlEkW3uRoq0imicowDDOO+QjzU2CIqLE
-         xXi0rv3ZHcf5isOQQ8/4vqmUV4BQamPbpSLza8Jya6MqhY7aP4j7dP4bhZCtscmZQjeo
-         VzwE+U49rdJ8uSBATwgw4fGWvL+eR15/vbkjlQPqf92uPZB5kod7GxLJZva+CB3NWagU
-         EpPzLuPFBk5w1DVPgPNZ40gC8YYTitBRSAoESSgu1gYHMnggkb5mhVyJLoI9X9r9Qe4H
-         sBe/z8ZlTUKkim6xaJnDhlmT04HbqkQWIRVZZnkkKnrTGa/7unduIJLniguiJhLqw680
-         ZMtw==
+        d=gmail.com; s=20210112; t=1678807634;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=49SoIS/z8T21U/MsGNJ5JEopYxx+aPQjpgj8W8Axv0g=;
+        b=nqanWONffcphS7T7VGkic1UvplDI8Iuie/OmFW7K6LX6PlTIwXWXuTU5u2FBJPwRT6
+         YbFQqvpO/41gizL9kYDOIIs0rvZobJMJlancSKxY5U/85S9KGu4l5dc+ZuqgLPTAh3Wp
+         Tw5CMzngsLNfoHNM/fvdgH2yexY8KDygoClGuKgtjQqmH7n9J6QMoB1yZ8eQ5zHLYdXm
+         dxZleqJSHLWz8wWreF9We/rOtHSyUvuTLObsgFm4Q9OCFGIyUfcXO6MpKlqIQpPfI2Po
+         W6brUQk5oUxanEBQgG57QEAOWpWd+WQ1SmVVdc9sWvLb/SciFf1ZV5L9KKjnk7K4sdeO
+         iq+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678807363;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20210112; t=1678807634;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OYPvd7+UjBFUrkyiif4kk33Q5SM1uxL9AWTJm6JE8qg=;
-        b=3OF3EPwCm8fnL2mqCoqwjWfmoGha/bUTT4xEd5C4/VKkp8RLI684djFDgIBUaEl1hw
-         xtyADOMswt4Y+BI9IyteGarh7S/+kzsixojY86d0VeJk/brnXpPKbHu9ok5a1hWgzvtN
-         wnwWiqwjCtPXKRHlPGuqgJe/v21yHaKRR0yr//h2Rg39prWb2m/rtY5Xz1W9Gqa18Qqm
-         BlbLjP3S4Zx1zYh47cEqVduZu/EtEDYQjBP3dGkDR0xQVE1Ykx5Cxmq/zF9hUacO9OeO
-         zom8f4N+IQzSs2YycE7QE9QwQ9ZgTAhN5DQUJeJ6Dtm4iNd/xlcUaI15gGy7geWsGFjk
-         qc1w==
-X-Gm-Message-State: AO0yUKUv+w2m1mZhp7MZDxhVw71MM8Od6N8NLngQlbfYI47zNIYNFHJk
-	/VX+MGN3l2ZtkHF3Le9lsJX86hH+iA9NZymuFnw=
-X-Google-Smtp-Source: AK7set/G/gmKsim8AEPSOnomwti9nClZP+LTVerjdSbjaM5q4A4tCxNYlnKsExilUAcgNosyduIUHA==
-X-Received: by 2002:a17:90b:4d83:b0:23d:3264:16bf with SMTP id oj3-20020a17090b4d8300b0023d326416bfmr3447031pjb.0.1678807362906;
-        Tue, 14 Mar 2023 08:22:42 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id p13-20020a17090a284d00b0023d0e743ff6sm1871977pjf.3.2023.03.14.08.22.42
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 08:22:42 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 6/6] linux: inherit pkgconfig in kernel.bbclass
-Date: Tue, 14 Mar 2023 05:21:55 -1000
-Message-Id: <a5e62888768be641d5da00fd847e0cac96820c75.1678807105.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1678807105.git.steve@sakoman.com>
-References: <cover.1678807105.git.steve@sakoman.com>
+        bh=49SoIS/z8T21U/MsGNJ5JEopYxx+aPQjpgj8W8Axv0g=;
+        b=O/UvC2ChOZ8x3EKQgxbqcivPVWQq65tRiFk5wnYnV66+7CYHSnK5R88S2/uk3P8+Az
+         h6K2Emy3eQK5XOAHaIOi94+7CX9n+/kt7TQ8JtoAkAJr02+iInX6SGDOTP+mbr6btyK8
+         r3co/OYnl/PeKq+9qsjwULVO4QDaKPziMRjAatshCcqCcgbG0SFp68vQJUJVSPXBUzH7
+         8bdWViahEh+xKukhvdGfSZ/11XFHLTaq9umdHHbtt6zpcij8eDTjP9xzrY8CvBFgdH8Y
+         VLsic64Muu9ySn1KHrWeFW6jDiNk0hzvE0kC+7n8mxANkvOzSIgWsTLgml+rhUTxsjeB
+         sYSQ==
+X-Gm-Message-State: AO0yUKVpRdVQcHX/a5U6ksKPCzsrhj+KH0jhCksPyH7yZt0BMnwJCwMk
+	AwzeM+F/6Y+ZCxYMiJLxqFGPpB462dU3LVMedc0=
+X-Google-Smtp-Source: AK7set+VqGPb/q03Bx4t5N0iJWctFGhR7jQfhIpPo1x8qWctZLpXs95C87awAsVWkmQBu89m0EPfsfb0glXDVecg6Ag=
+X-Received: by 2002:ac2:562b:0:b0:4e8:426d:123f with SMTP id
+ b11-20020ac2562b000000b004e8426d123fmr880430lff.11.1678807634136; Tue, 14 Mar
+ 2023 08:27:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230312065517.61051-1-frederic.martinsons@gmail.com>
+ <CANNYZj9ah1rO9FH3a_m2ftgrDik_NtcLa_15r6+sqD5iwBXsiw@mail.gmail.com>
+ <CA+cAkeqZjC=L=_v-3K4VDtdWKxc3crDaqfwp_30B9KFAVrfJuw@mail.gmail.com>
+ <CANNYZj9vyfkez+iL-EeeV0Yb3o1Fz9FDrbz+ZRjg5EjUHiAisA@mail.gmail.com>
+ <CA+cAkepYqf_hJWe5HBpKcJrF37P7V81AWCZJJ_tUYtBH=BqHqg@mail.gmail.com>
+ <CANNYZj-srm78_c6abE2WX8L6gGqW=GM0uqUyHiMkVmO+t0ZWwA@mail.gmail.com>
+ <CAO5Uq5SaqUHzS93eyki1-3OGK2w_tGizJZmHMrJKGx5LdRZryA@mail.gmail.com>
+ <CA+cAkeqLOVAT7bz+HXKyC7=vwyrRAfE76buQ7C9cog6WQ6k1gw@mail.gmail.com>
+ <CAO5Uq5QnyWqi5_CaX7sHTrewVRhvT_SKdXTY7PvKe4dPryCQ6w@mail.gmail.com>
+ <CA+cAkeowE7BUYie9rdFPpJ972DHK+d3WGXLKFPAKcYcVYy_AXA@mail.gmail.com>
+ <CANNYZj_xAGD8x9=axLxDuEpaJF2K2yLUVH6VO1j0i5tKSvPi=g@mail.gmail.com>
+ <CA+cAkeoP7ScYgbRG3eV1RR5R9bqEXm1b3cw7_gASG4uhJw=WfQ@mail.gmail.com>
+ <CA+cAkerKf8yyHraJxWOyAQp91tVkgs08LSX4f3Navu1qJ+tV6w@mail.gmail.com>
+ <CANNYZj9nxUwbJ6yQbnDZMtraM+Fv05LFkUQ8gKEkSbk1_70w+Q@mail.gmail.com>
+ <CA+cAkerXmysSTdZyXzkQvURo9vpdtSxz1M5rBCcZBg5k7TV65g@mail.gmail.com>
+ <CAO5Uq5SY6DQV7yMgaXraP3TR6=1f-2KbcDNSXdTYZJ6B359Tww@mail.gmail.com> <CA+cAkerdO8P=2DTL+qGj=ZF71LO-aWxn+qN+EMkT2TemokAhxg@mail.gmail.com>
+In-Reply-To: <CA+cAkerdO8P=2DTL+qGj=ZF71LO-aWxn+qN+EMkT2TemokAhxg@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 14 Mar 2023 16:27:02 +0100
+Message-ID: <CANNYZj8AJ=BzxVobr0xq5pQrYA70=SFft0PKdnSJ=YL+NHAVdQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] cargo_common.bbclass: do not use buit-in git to
+ fetch crates
+To: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
+Cc: Alex Kiernan <alex.kiernan@gmail.com>, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 15:22:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178507
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 15:27:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178508
 
-From: Ming Liu <liu.ming50@gmail.com>
+On Tue, 14 Mar 2023 at 16:10, Fr=C3=A9d=C3=A9ric Martinsons
+<frederic.martinsons@gmail.com> wrote:
 
-pkgconfig is being required to find dependencies for building kernel
-native tools, move "inherit pkgconfig" to kernel.bbclass so BSP kernel
-recipes can also benefit from it.
+> Understood, I searched how to add checksum support in crate fetcher but I=
+ don't know enough of bitbake to be effective.
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 8a84bd98e3fbc16c782f83064801e469d086911e)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/classes/kernel.bbclass                  | 2 +-
- meta/recipes-kernel/linux/linux-yocto-dev.bb | 2 --
- 2 files changed, 1 insertion(+), 3 deletions(-)
+You can check how for example http:// fetcher does it by utilizing
+verify_checksum() from lib/bb/fetch2/__init__.py in
+lib/bb/fetch2/wget.py.
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 8b89360991..c6310d8de7 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -595,7 +595,7 @@ do_savedefconfig() {
- do_savedefconfig[nostamp] = "1"
- addtask savedefconfig after do_configure
- 
--inherit cml1
-+inherit cml1 pkgconfig
- 
- KCONFIG_CONFIG_COMMAND_append = " LD='${KERNEL_LD}' HOSTLDFLAGS='${BUILD_LDFLAGS}'"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-index 06a9108fab..a1c0de9981 100644
---- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-@@ -10,8 +10,6 @@
- 
- inherit kernel
- require recipes-kernel/linux/linux-yocto.inc
--# for ncurses tests
--inherit pkgconfig
- 
- # provide this .inc to set specific revisions
- include recipes-kernel/linux/linux-yocto-dev-revisions.inc
--- 
-2.34.1
+Something like that should happen in crate.py as well.
 
+Alex
 
