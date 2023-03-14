@@ -1,103 +1,137 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D904C6FD1C
-	for <webhook@archiver.kernel.org>; Tue, 14 Mar 2023 07:27:40 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web11.3388.1678778850711231642
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81F80C6FD1C
+	for <webhook@archiver.kernel.org>; Tue, 14 Mar 2023 08:29:50 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web10.3937.1678782584744615628
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Mar 2023 00:27:31 -0700
+ Tue, 14 Mar 2023 01:29:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NhiFxk0k;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id m2so581324wrh.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 00:27:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=G+Jkv2hP;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id j11so18883126lfg.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 01:29:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1678778849;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q4NdjAZE5aZ+PCzl9NIa8kB/1mThhMPTt7IOKAiao8w=;
-        b=NhiFxk0kZKi2mG3YV7W0pnT4ZGbUyiaPWyIpHcMz28/iCXG8e3EAPaO2HOh2VxJs1o
-         dCyAFtrGM+M5eJE3WTokT0mxuBt9EyPYJ4PSTB+uV4CRgl+GL1Ux0YVF64Y7UAbpk6sj
-         3nA3f6yPLYMmn8AaOD5GVC3JNzZdMqBDWEbuE=
+        d=gmail.com; s=20210112; t=1678782583;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h1ZBYCQn9/CvgcWC2x6cQEORjlMEQRN1IKGM4xsyR6Y=;
+        b=G+Jkv2hPT0swPN588qy4ZLjPEFHwmbW0/DlVITb0S8f+fc8HbvmHfbGGr28Hsn9zzX
+         mlbSdXUksCTbl/ysvcMJ+Bk02EDNq0N/+CGWSIN07eQjL4T7yJ6D15+tdHrg2rVCGxiU
+         qQmhGAYVrGCllwPv5uACZXB3Le2kY6PAriTBLioOtY9CNzZsqlsUf3qOhMtb7mrj5V8G
+         I89PlZOh7LfrWhZgloJ8WCcg9FeKYMzHMOaEs2cdrpgLYIUjdgvmENsvByI9vS5d3t71
+         MhDY40VxPMTQJIderodsM9OwAcdETiL5ekZDas/ehaCnHxfDBd1QgLPGIcbm9ywK0SV/
+         RdcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678778849;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q4NdjAZE5aZ+PCzl9NIa8kB/1mThhMPTt7IOKAiao8w=;
-        b=zUDZznBCSH7jDF5zU+9QxTc3qsKubkxn96eR81P0864iZocAVI4elLsXUXx7SzK1mn
-         nvo0GNMAELtU97Wus4pN9Jg075VyfIG58hbawBq3HnAVPN++L8FrNTjtZXNeKg15Ggqy
-         tl0Irw2usoFgzdQ7OT/ePijpUGUQvk+w0ynsNYABYnKYF/qNzkfhr4xjbtFaR5VdGsyI
-         fhzPohjOb5jzv8luP6U229uv8pfuwktpCnVwgUn6dRjvR9MzcoKfCnK86QhnaQh6LehJ
-         eoMe/WjAaqvanvrXV7NXKg4iHo9Z6pgfs+sa/KEuWifrDWZn+89qv1TKf4dBfV5knA9g
-         wzJg==
-X-Gm-Message-State: AO0yUKXDTW75ra2QideMehn9q/pMf1ZQ3YWphHK9z81HEX2Y/2gAPKvh
-	a8lnJnh1dxEFQGmow5mkZlmSIVPMjsG1YC0Z8gI=
-X-Google-Smtp-Source: AK7set+MMDGAYg0dEIIyTZz3MEF/KxfCvlTxBSWqLjt6A8dv0H9QviVi7dkhrtTxEFfXODx40/Ii+A==
-X-Received: by 2002:a5d:604c:0:b0:2ce:aed5:7dc with SMTP id j12-20020a5d604c000000b002ceaed507dcmr4294254wrt.68.1678778848577;
-        Tue, 14 Mar 2023 00:27:28 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:eb9f:715b:2c4f:17ba])
-        by smtp.gmail.com with ESMTPSA id a9-20020adfeec9000000b002cde626cd96sm1291340wrp.65.2023.03.14.00.27.27
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 00:27:27 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] scripts/combo-layer: Fix python deprecation warning
-Date: Tue, 14 Mar 2023 07:27:27 +0000
-Message-Id: <20230314072727.3884144-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.38.1
+        d=1e100.net; s=20210112; t=1678782583;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h1ZBYCQn9/CvgcWC2x6cQEORjlMEQRN1IKGM4xsyR6Y=;
+        b=S3F/BrPwDXl1WxABi5AhhS1mEQG0WZpljnbtvmpHH6yuYkkBDeps+fnpxK6yTu6AYE
+         0pgHfg+VfSKXMvUcy9rqOyfn0Y4euFCCvX7lQSDgVaLHNOok7we9/FYknfQP5ZC0LXYi
+         X3a5MldRcUNLl7stVgPW9Xy3/dKrnZWlD6sr2umGTkKD9nIXaXz3rgLhHGMQMTL0KQTW
+         QjAtq5bbCIHZRSY0mxCtwOtexkKTqKhXZlILgxYXTi/pzU+aUeY9lCjsURuWopNJRd/F
+         e3yKeNQBLH5Moo+GgNm5nTJpO/wSyp8fH/B4+G+YNxXair6R6lb2HP+sy2pZZu5GCXnG
+         kLeA==
+X-Gm-Message-State: AO0yUKV/Qqo0PEiMwwRtxRQ2leMJjww79KiwFrrla1moKSGXAuxxkyMd
+	/cR90O12baDqw68jQDUDiC0dg604U9cF53h4HHk=
+X-Google-Smtp-Source: AK7set8g3MHC9RxJF7/kF0XlrIFzEpLxDKAcm8VcncFaegK7uGhH0s3rbbT/07KO3OlU8lu00zmkgx3fBxgGDw2HAHc=
+X-Received: by 2002:ac2:5385:0:b0:4d5:ca42:aeeb with SMTP id
+ g5-20020ac25385000000b004d5ca42aeebmr448230lfh.11.1678782582716; Tue, 14 Mar
+ 2023 01:29:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1678239619-21210-1-git-send-email-wangmy@fujitsu.com>
+ <1678239619-21210-4-git-send-email-wangmy@fujitsu.com> <a217c248c8fc840689997f43e61ae076e5420b0a.camel@linuxfoundation.org>
+ <OSBPR01MB18456733D9BEA9717A0DFE45DCB99@OSBPR01MB1845.jpnprd01.prod.outlook.com>
+ <CANNYZj8LM7xWvqVJeZBqcOO=YTjx6008mTpoEp-gHxZnNm28Kg@mail.gmail.com> <OSBPR01MB18457B80A5B04BB8024B8F08DCBE9@OSBPR01MB1845.jpnprd01.prod.outlook.com>
+In-Reply-To: <OSBPR01MB18457B80A5B04BB8024B8F08DCBE9@OSBPR01MB1845.jpnprd01.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 14 Mar 2023 09:29:31 +0100
+Message-ID: <CANNYZj-qFOyFstHux-+BpoXnKDKdZ2Pj3r14HR262nVq9a5afg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH V2 4/5] xcb-proto: Fix install conflict when
+ enable multilib.
+To: "wangmy@fujitsu.com" <wangmy@fujitsu.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 07:27:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178474
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 08:29:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178475
 
-Address:
-DeprecationWarning: 'pipes' is deprecated and slated for removal in Python 3.13
+Thanks, in this case the correct fix would be to install xcb-proto.pc
+into $libdir, as it is indeed library specific. You need to patch
+Makefile.am in xcb-proto's source tree, and offer the patch to
+upstream.
 
-pipes.quote is an alias for shlex.quote so switch to that.
+Alex
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- scripts/combo-layer | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/scripts/combo-layer b/scripts/combo-layer
-index 7f2020fca71..2312cef9ac1 100755
---- a/scripts/combo-layer
-+++ b/scripts/combo-layer
-@@ -19,7 +19,7 @@ import tempfile
- import configparser
- import re
- import copy
--import pipes
-+import shlex
- import shutil
- from string import Template
- from functools import reduce
-@@ -1275,7 +1275,7 @@ def apply_commit(parent, rev, largs, wargs, dest_dir, file_filter=None):
-         target = os.path.join(wargs["destdir"], dest_dir)
-         if not os.path.isdir(target):
-             os.makedirs(target)
--        quoted_target = pipes.quote(target)
-+        quoted_target = shlex.quote(target)
-         # os.sysconf('SC_ARG_MAX') is lying: running a command with
-         # string length 629343 already failed with "Argument list too
-         # long" although SC_ARG_MAX = 2097152. "man execve" explains
-@@ -1287,7 +1287,7 @@ def apply_commit(parent, rev, largs, wargs, dest_dir, file_filter=None):
-             unquoted_args = []
-             cmdsize = 100 + len(quoted_target)
-             while update:
--                quoted_next = pipes.quote(update[0])
-+                quoted_next = shlex.quote(update[0])
-                 size_next = len(quoted_next) + len(dest_dir) + 1
-                 logger.debug('cmdline length %d + %d < %d?' % (cmdsize, size_next, os.sysconf('SC_ARG_MAX')))
-                 if cmdsize + size_next < max_cmdsize:
--- 
-2.38.1
-
+On Tue, 14 Mar 2023 at 01:49, wangmy@fujitsu.com <wangmy@fujitsu.com> wrote=
+:
+>
+> libxcb needs to find the python package in the path specified by pythondi=
+r recorded in xcb-proto.pc. If the libdir line is deleted, libxcb will repo=
+rt an error when compiling:
+> | Failed to load the xcbgen Python package!
+> | Make sure that xcb/proto installed it on your Python path.
+> | If not, you will need to create a .pth file or define $PYTHONPATH
+> | to extend the path.
+> | Refer to the README file in xcb/proto for more info.
+>
+> The file contents after deleting libdir are compared as follows:
+> @@ -2,10 +2,8 @@
+>  exec_prefix=3D/usr
+>  datarootdir=3D${prefix}/share
+>  datadir=3D/usr/share
+> -libdir=3D/usr/lib
+>  xcbincludedir=3D${pc_sysrootdir}${datadir}/xcb
+>  PYTHON_PREFIX=3D${prefix}
+> -pythondir=3D${pc_sysrootdir}${libdir}/python3.11/site-packages
+>
+>  Name: XCB Proto
+>  Description: X protocol descriptions for XCB
+>
+>   --
+> Best Regards
+> ---------------------------------------------------
+> Wang Mingyu
+> Development Dept.I
+> Nanjing Fujitsu Nanda Software Tech. Co., Ltd.(FNST) No. 6 Wenzhu Road, N=
+anjing, 210012, China
+> TEL: +86+25-86630566-8568
+> COINS: 79988548
+> FAX: +86+25-83317685
+> MAIL: wangmy@fujitsu.com
+> http://www.fujitsu.com/cn/fnst/
+>
+> > -----Original Message-----
+> > From: Alexander Kanavin <alex.kanavin@gmail.com>
+> > Sent: Monday, March 13, 2023 3:50 PM
+> > To: Wang, Mingyu/=E7=8E=8B =E9=B8=A3=E7=91=9C <wangmy@fujitsu.com>
+> > Cc: Richard Purdie <richard.purdie@linuxfoundation.org>;
+> > openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH V2 4/5] xcb-proto: Fix install conflict w=
+hen enable
+> > multilib.
+> >
+> > On Mon, 13 Mar 2023 at 08:29, wangmy <wangmy@fujitsu.com> wrote:
+> > > When libxcb is compiled, it will read libdir from xcb-proto.pc to fin=
+d the library.
+> > > If delete this line, libxcb will report an error because it cannot fi=
+nd the
+> > directory of the library.
+> >
+> > Which library in particular? Can you show the error, and the point in l=
+ibxcb's
+> > code where it happens?
+> > xcb-proto does not install any libraries, and so there is no reason for
+> > xcb-proto.pc to tell where the libraries are.
+> >
+> > Alex
 
