@@ -2,136 +2,212 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81F80C6FD1C
-	for <webhook@archiver.kernel.org>; Tue, 14 Mar 2023 08:29:50 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web10.3937.1678782584744615628
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BBFFC6FD1F
+	for <webhook@archiver.kernel.org>; Tue, 14 Mar 2023 08:37:50 +0000 (UTC)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+ by mx.groups.io with SMTP id smtpd.web11.4006.1678783060103608282
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Mar 2023 01:29:45 -0700
+ Tue, 14 Mar 2023 01:37:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=G+Jkv2hP;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id j11so18883126lfg.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 01:29:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=RtjqD35d;
+ spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f180.google.com with SMTP id a32so15170825ljq.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 01:37:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678782583;
+        d=gmail.com; s=20210112; t=1678783058;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=h1ZBYCQn9/CvgcWC2x6cQEORjlMEQRN1IKGM4xsyR6Y=;
-        b=G+Jkv2hPT0swPN588qy4ZLjPEFHwmbW0/DlVITb0S8f+fc8HbvmHfbGGr28Hsn9zzX
-         mlbSdXUksCTbl/ysvcMJ+Bk02EDNq0N/+CGWSIN07eQjL4T7yJ6D15+tdHrg2rVCGxiU
-         qQmhGAYVrGCllwPv5uACZXB3Le2kY6PAriTBLioOtY9CNzZsqlsUf3qOhMtb7mrj5V8G
-         I89PlZOh7LfrWhZgloJ8WCcg9FeKYMzHMOaEs2cdrpgLYIUjdgvmENsvByI9vS5d3t71
-         MhDY40VxPMTQJIderodsM9OwAcdETiL5ekZDas/ehaCnHxfDBd1QgLPGIcbm9ywK0SV/
-         RdcQ==
+        bh=o+CiTbbdKxWJM9sZ7M8kCYsCYZAZ0vYQtmE72qJQKF8=;
+        b=RtjqD35d41f44SnK/PjgIeqncOG7UVEHrJsqGNWJcyinAsf3QZoAATwCYlEi4gu3u7
+         I3IRPOHXE/CuLyUK1gOx8U/P84JUeuQKKYFdNBq3Wrk9UJQdq6SMCq6XWHaQ/YUSb4b4
+         mhE7xW6TShEkUeidJpkmBhBJoBcFSntLwBv4Poxz5Hpg9bnwiSJQiFTMhV5JfEys/lnY
+         aubFx54i3Pis1iztznBIV8eQoITrcxrk0rlgw1jidM7iDBfvNGHew8kg99NMwfdRaLJz
+         X1sPIiKVbU1gAx+f4nxPMkzXZ3H9kegpHJFlXv4P0pLT2rCp/w8U5h09hAfv+teoV9XG
+         CBLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678782583;
+        d=1e100.net; s=20210112; t=1678783058;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=h1ZBYCQn9/CvgcWC2x6cQEORjlMEQRN1IKGM4xsyR6Y=;
-        b=S3F/BrPwDXl1WxABi5AhhS1mEQG0WZpljnbtvmpHH6yuYkkBDeps+fnpxK6yTu6AYE
-         0pgHfg+VfSKXMvUcy9rqOyfn0Y4euFCCvX7lQSDgVaLHNOok7we9/FYknfQP5ZC0LXYi
-         X3a5MldRcUNLl7stVgPW9Xy3/dKrnZWlD6sr2umGTkKD9nIXaXz3rgLhHGMQMTL0KQTW
-         QjAtq5bbCIHZRSY0mxCtwOtexkKTqKhXZlILgxYXTi/pzU+aUeY9lCjsURuWopNJRd/F
-         e3yKeNQBLH5Moo+GgNm5nTJpO/wSyp8fH/B4+G+YNxXair6R6lb2HP+sy2pZZu5GCXnG
-         kLeA==
-X-Gm-Message-State: AO0yUKV/Qqo0PEiMwwRtxRQ2leMJjww79KiwFrrla1moKSGXAuxxkyMd
-	/cR90O12baDqw68jQDUDiC0dg604U9cF53h4HHk=
-X-Google-Smtp-Source: AK7set8g3MHC9RxJF7/kF0XlrIFzEpLxDKAcm8VcncFaegK7uGhH0s3rbbT/07KO3OlU8lu00zmkgx3fBxgGDw2HAHc=
-X-Received: by 2002:ac2:5385:0:b0:4d5:ca42:aeeb with SMTP id
- g5-20020ac25385000000b004d5ca42aeebmr448230lfh.11.1678782582716; Tue, 14 Mar
- 2023 01:29:42 -0700 (PDT)
+        bh=o+CiTbbdKxWJM9sZ7M8kCYsCYZAZ0vYQtmE72qJQKF8=;
+        b=Rd5jUjVHDIGXVmhYgihzGFTrBkRBPCfCmu8+QwXKnf8vWHJ/dsstF0oaXR27Kunsov
+         0Ls38KtdWKstNHJtQhP57rHZe/sxw+QV6FPdwO/cuDOjPU3JkQY6va+1uglUo4lbUQBI
+         1UOfNeOs1iixrm7NSA6t3GSjh3CyDGlKSs2UJz5qyifW0eDcvUKMn/25Wv50uwNYBntG
+         Kp92+cYgbmAT5O0rP1xHG6c8QOdKFyxUzjYtTfQLYL8kA5YPi2HgCh+w6xh+lfM3/wpi
+         0qs9Y9ROx21AXNXVsAp35/Iu6ncG7kVANl5dkDM7wUraKSDqiKKzHa3u7GU9hA2iLV1U
+         s9cg==
+X-Gm-Message-State: AO0yUKWV0bmJ7UHG/HmLSIJUtqj9JTa8zBdydCPRKDwV/j9ur6+8smqy
+	cyoKvZmvzdWmzkWayKRgMrpzEH6gTK8gjKSeFZk=
+X-Google-Smtp-Source: AK7set9UoL3CLRF1iq4sCsesSqd6c4599uPhFxjncvDKYdPERgP/i6E+U23nHh2rXTSZXRRxJu9MCaOxwi5FeHw+n3E=
+X-Received: by 2002:a05:651c:1722:b0:298:6d79:c6d7 with SMTP id
+ be34-20020a05651c172200b002986d79c6d7mr6769526ljb.7.1678783058053; Tue, 14
+ Mar 2023 01:37:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <1678239619-21210-1-git-send-email-wangmy@fujitsu.com>
- <1678239619-21210-4-git-send-email-wangmy@fujitsu.com> <a217c248c8fc840689997f43e61ae076e5420b0a.camel@linuxfoundation.org>
- <OSBPR01MB18456733D9BEA9717A0DFE45DCB99@OSBPR01MB1845.jpnprd01.prod.outlook.com>
- <CANNYZj8LM7xWvqVJeZBqcOO=YTjx6008mTpoEp-gHxZnNm28Kg@mail.gmail.com> <OSBPR01MB18457B80A5B04BB8024B8F08DCBE9@OSBPR01MB1845.jpnprd01.prod.outlook.com>
-In-Reply-To: <OSBPR01MB18457B80A5B04BB8024B8F08DCBE9@OSBPR01MB1845.jpnprd01.prod.outlook.com>
+References: <20230312145053.1427377-1-alex@linutronix.de> <20230312145053.1427377-2-alex@linutronix.de>
+ <CAMKF1socC8aUuiZ1T9N88B7MXw_v-koQLAvO_pKE_VZfMC7Bdg@mail.gmail.com> <CAMKF1sqWK65Fo4MQG09MDr27t1CLCBg3dqXUEt-CrEXbjtv4Xg@mail.gmail.com>
+In-Reply-To: <CAMKF1sqWK65Fo4MQG09MDr27t1CLCBg3dqXUEt-CrEXbjtv4Xg@mail.gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 14 Mar 2023 09:29:31 +0100
-Message-ID: <CANNYZj-qFOyFstHux-+BpoXnKDKdZ2Pj3r14HR262nVq9a5afg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH V2 4/5] xcb-proto: Fix install conflict when
- enable multilib.
-To: "wangmy@fujitsu.com" <wangmy@fujitsu.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Date: Tue, 14 Mar 2023 09:37:26 +0100
+Message-ID: <CANNYZj91A=R5LbSjTwA+K+WTpgeQVnAZWq1dkG0yr2XsK6oLcw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/7] bitbake.conf: do not set native opengl
+ distro feature from target
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 08:29:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178475
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Mar 2023 08:37:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178476
 
-Thanks, in this case the correct fix would be to install xcb-proto.pc
-into $libdir, as it is indeed library specific. You need to patch
-Makefile.am in xcb-proto's source tree, and offer the patch to
-upstream.
+This means opengl has to be added to DISTRO_FEATURES_NATIVE for this
+build. I'll send a patch.
 
 Alex
 
-On Tue, 14 Mar 2023 at 01:49, wangmy@fujitsu.com <wangmy@fujitsu.com> wrote=
-:
+On Tue, 14 Mar 2023 at 00:10, Khem Raj <raj.khem@gmail.com> wrote:
 >
-> libxcb needs to find the python package in the path specified by pythondi=
-r recorded in xcb-proto.pc. If the libdir line is deleted, libxcb will repo=
-rt an error when compiling:
-> | Failed to load the xcbgen Python package!
-> | Make sure that xcb/proto installed it on your Python path.
-> | If not, you will need to create a .pth file or define $PYTHONPATH
-> | to extend the path.
-> | Refer to the README file in xcb/proto for more info.
+> also seeing below errors which are related too
 >
-> The file contents after deleting libdir are compared as follows:
-> @@ -2,10 +2,8 @@
->  exec_prefix=3D/usr
->  datarootdir=3D${prefix}/share
->  datadir=3D/usr/share
-> -libdir=3D/usr/lib
->  xcbincludedir=3D${pc_sysrootdir}${datadir}/xcb
->  PYTHON_PREFIX=3D${prefix}
-> -pythondir=3D${pc_sysrootdir}${libdir}/python3.11/site-packages
+> ERROR: Nothing PROVIDES 'gtk4-native' (but
+> /mnt/b/yoe/master/sources/meta-openembedded/meta-gnome/recipes-gnome/gnom=
+e-bluetooth/gnome-bluetooth_42.5.bb,
+> /mnt/b/yoe/master/
+> sources/meta-openembedded/meta-gnome/recipes-gnome/gnome-text-editor/gnom=
+e-text-editor_43.1.bb,
+> /mnt/b/yoe/master/sources/meta-openembedded/meta-gnome/recipes-gnome/gnom=
+e-
+> chess/gnome-chess_43.1.bb,
+> /mnt/b/yoe/master/sources/meta-openembedded/meta-gnome/recipes-gnome/gnom=
+e-calculator/gnome-calculator_43.0.1.bb
+> DEPENDS on or otherwise require
+> s it)
+> gtk4-native was skipped: missing required distro feature 'opengl' (not
+> in DISTRO_FEATURES)
 >
->  Name: XCB Proto
->  Description: X protocol descriptions for XCB
->
->   --
-> Best Regards
-> ---------------------------------------------------
-> Wang Mingyu
-> Development Dept.I
-> Nanjing Fujitsu Nanda Software Tech. Co., Ltd.(FNST) No. 6 Wenzhu Road, N=
-anjing, 210012, China
-> TEL: +86+25-86630566-8568
-> COINS: 79988548
-> FAX: +86+25-83317685
-> MAIL: wangmy@fujitsu.com
-> http://www.fujitsu.com/cn/fnst/
->
-> > -----Original Message-----
-> > From: Alexander Kanavin <alex.kanavin@gmail.com>
-> > Sent: Monday, March 13, 2023 3:50 PM
-> > To: Wang, Mingyu/=E7=8E=8B =E9=B8=A3=E7=91=9C <wangmy@fujitsu.com>
-> > Cc: Richard Purdie <richard.purdie@linuxfoundation.org>;
-> > openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCH V2 4/5] xcb-proto: Fix install conflict w=
-hen enable
-> > multilib.
+> On Mon, Mar 13, 2023 at 3:45=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wro=
+te:
 > >
-> > On Mon, 13 Mar 2023 at 08:29, wangmy <wangmy@fujitsu.com> wrote:
-> > > When libxcb is compiled, it will read libdir from xcb-proto.pc to fin=
-d the library.
-> > > If delete this line, libxcb will report an error because it cannot fi=
-nd the
-> > directory of the library.
+> > I am seeing waylandpp failing to build and YP layer compatibility tests=
+ failing.
 > >
-> > Which library in particular? Can you show the error, and the point in l=
-ibxcb's
-> > code where it happens?
-> > xcb-proto does not install any libraries, and so there is no reason for
-> > xcb-proto.pc to tell where the libraries are.
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/2557/=
+steps/11/logs/stdio
 > >
-> > Alex
+> > On Sun, Mar 12, 2023 at 7:51=E2=80=AFAM Alexander Kanavin
+> > <alex.kanavin@gmail.com> wrote:
+> > >
+> > > This makes native opengl (and thus accelerated graphics in qemu) opt-=
+in;
+> > > the reason is that latest mesa tightly couples hardware drivers with =
+its libraries,
+> > > so we have to build both in mesa-native. Doing so significantly lengt=
+hens
+> > > the builds, and so cannot be imposed by default.
+> > >
+> > > Add a check and a hint to runqemu so that there is a helpful error wh=
+en
+> > > there is no native/nativesdk opengl/virgl support.
+> > >
+> > > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> > > ---
+> > >  meta/conf/bitbake.conf                       |  4 ++--
+> > >  meta/lib/oeqa/selftest/cases/runtime_test.py |  4 ++--
+> > >  scripts/runqemu                              | 11 ++++++++++-
+> > >  3 files changed, 14 insertions(+), 5 deletions(-)
+> > >
+> > > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> > > index afd9e2f552..d1dc428583 100644
+> > > --- a/meta/conf/bitbake.conf
+> > > +++ b/meta/conf/bitbake.conf
+> > > @@ -912,8 +912,8 @@ DISTRO_FEATURES_NATIVESDK ?=3D "x11"
+> > >
+> > >  # Normally target distro features will not be applied to native buil=
+ds:
+> > >  # Native distro features on this list will use the target feature va=
+lue
+> > > -DISTRO_FEATURES_FILTER_NATIVE ?=3D "api-documentation debuginfod ope=
+ngl wayland"
+> > > -DISTRO_FEATURES_FILTER_NATIVESDK ?=3D "api-documentation debuginfod =
+opengl wayland"
+> > > +DISTRO_FEATURES_FILTER_NATIVE ?=3D "api-documentation debuginfod way=
+land"
+> > > +DISTRO_FEATURES_FILTER_NATIVESDK ?=3D "api-documentation debuginfod =
+wayland"
+> > >
+> > >  DISTRO_FEATURES_BACKFILL =3D "pulseaudio sysvinit gobject-introspect=
+ion-data ldconfig"
+> > >  MACHINE_FEATURES_BACKFILL =3D "rtc qemu-usermode"
+> > > diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/=
+oeqa/selftest/cases/runtime_test.py
+> > > index 81b8d056cc..661c09c109 100644
+> > > --- a/meta/lib/oeqa/selftest/cases/runtime_test.py
+> > > +++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+> > > @@ -232,7 +232,7 @@ class TestImage(OESelftestTestCase):
+> > >          if 'sdl' not in qemu_packageconfig:
+> > >              features +=3D 'PACKAGECONFIG:append:pn-qemu-system-nativ=
+e =3D " sdl"\n'
+> > >          if 'opengl' not in qemu_distrofeatures:
+> > > -            features +=3D 'DISTRO_FEATURES:append =3D " opengl"\n'
+> > > +            features +=3D 'DISTRO_FEATURES_NATIVE:append =3D " openg=
+l"\n'
+> > >          features +=3D 'TEST_SUITES =3D "ping ssh virgl"\n'
+> > >          features +=3D 'IMAGE_FEATURES:append =3D " ssh-server-dropbe=
+ar"\n'
+> > >          features +=3D 'IMAGE_INSTALL:append =3D " kmscube"\n'
+> > > @@ -264,7 +264,7 @@ class TestImage(OESelftestTestCase):
+> > >          qemu_distrofeatures =3D get_bb_var('DISTRO_FEATURES', 'qemu-=
+system-native')
+> > >          features =3D 'IMAGE_CLASSES +=3D "testimage"\n'
+> > >          if 'opengl' not in qemu_distrofeatures:
+> > > -            features +=3D 'DISTRO_FEATURES:append =3D " opengl"\n'
+> > > +            features +=3D 'DISTRO_FEATURES_NATIVE:append =3D " openg=
+l"\n'
+> > >          features +=3D 'TEST_SUITES =3D "ping ssh virgl"\n'
+> > >          features +=3D 'IMAGE_FEATURES:append =3D " ssh-server-dropbe=
+ar"\n'
+> > >          features +=3D 'IMAGE_INSTALL:append =3D " kmscube"\n'
+> > > diff --git a/scripts/runqemu b/scripts/runqemu
+> > > index 8e915f3d4c..9f82aa12f1 100755
+> > > --- a/scripts/runqemu
+> > > +++ b/scripts/runqemu
+> > > @@ -447,7 +447,16 @@ class BaseConfig(object):
+> > >              self.set("MACHINE", arg)
+> > >
+> > >      def set_dri_path(self):
+> > > -        self.qemu_environ['LIBGL_DRIVERS_PATH'] =3D os.path.join(sel=
+f.bindir_native, '../lib/dri')
+> > > +        drivers_path =3D os.path.join(self.bindir_native, '../lib/dr=
+i')
+> > > +        if not os.path.exists(drivers_path) or not os.listdir(driver=
+s_path):
+> > > +            raise RunQemuError("""
+> > > +qemu has been built without opengl support and accelerated graphics =
+support is not available.
+> > > +To enable it, add:
+> > > +DISTRO_FEATURES_NATIVE:append =3D " opengl"
+> > > +DISTRO_FEATURES_NATIVESDK:append =3D " opengl"
+> > > +to your build configuration.
+> > > +""")
+> > > +        self.qemu_environ['LIBGL_DRIVERS_PATH'] =3D drivers_path
+> > >
+> > >      def check_args(self):
+> > >          for debug in ("-d", "--debug"):
+> > > --
+> > > 2.30.2
+> > >
+> > >
+> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > Links: You receive all messages sent to this group.
+> > > View/Reply Online (#178393): https://lists.openembedded.org/g/openemb=
+edded-core/message/178393
+> > > Mute This Topic: https://lists.openembedded.org/mt/97560251/1997914
+> > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=
+ [raj.khem@gmail.com]
+> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > >
 
