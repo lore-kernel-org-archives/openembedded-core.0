@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C3A7C6FD1D
-	for <webhook@archiver.kernel.org>; Wed, 15 Mar 2023 14:01:40 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web10.8788.1678888898914724162
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8589FC61DA4
+	for <webhook@archiver.kernel.org>; Wed, 15 Mar 2023 14:01:50 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web10.8779.1678888891891890454
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Mar 2023 07:01:38 -0700
+ Wed, 15 Mar 2023 07:01:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=Qj+vYijX;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.46, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f46.google.com with SMTP id nn12so18912165pjb.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 07:01:38 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=yItnwOwu;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f169.google.com with SMTP id i5so20136930pla.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 07:01:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678888898;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678888907;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MqA07mksHH2CWyX/ga6qa4nHjydLrM5Wfjo9sKoW8e4=;
-        b=Qj+vYijXzCRtcl8m1t834S4hAWsV1z5d8T0BOkveLyUrRSXBen36FQKbNoP9ulHGHd
-         pvFf074IP1wOo3MjvGlGTrLL8wmOG+T7Ij1KLkefLeXnj8HJwVlPj46FlGtBYgGpKRvq
-         mrgoGd55nc3UAqftFcFCk09AWb816gUlNhQxyqmYYPKWXXc5OgQCbm7pWpxfveYBSj2L
-         b5RgTpYblNjCpSDari7qhFFsliFTxJEyAfsapkrUmvLQYQS0hr9xkqFng385dpPAhg2D
-         vupIn64dtGVkR+uqctZe5XXYTL21RrdXxv6EnKiL6SpkduMY+4HEjjutNZN4Myiiyq0U
-         Tw/g==
+        bh=jcCjWE2ldIr5GEEkF3cqohZo/hg28zonkzuIwT5zwSk=;
+        b=yItnwOwu4VllB9VBtCKf1uqF2FXZgGdSZVCC6eei+v5IC5QHfRTj8ca81fpb2Fu8J3
+         Xs4mMASjCfbbqULBwhWnlZj326GmxlKC1XaXEYL8tO5P7/tkKvDUOScwnOFP5ETk6/vc
+         2lQwP1mCI8qvAVoSq96rP465jVsIjZT6UnBsdLfBbKr5Dz76csn4pAIG9TJ9WuP1r3Ju
+         Cwdz+4FD70kC95od0NRNQLehlHpQFqCl8AyRmsXzTSNcgUIKb2B5gg0LfOD63Bz5+IsS
+         HGLdMlbu3mUjEJeb+8GGC88bdFZFTELnZfFLPkyFJzRHU5Yr1+9JbzfjiqhUu9l3zcD5
+         vkFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678888898;
+        d=1e100.net; s=20210112; t=1678888907;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MqA07mksHH2CWyX/ga6qa4nHjydLrM5Wfjo9sKoW8e4=;
-        b=gAEqJ8idndFU+gjMaNA7ZOvQ/NYeTFXOrWLlzJoqx36o20it4Bqi+3wNWhZ5x1dvsI
-         WeV03399rqhYz9wzQ6grHLu3hpaKqdTTAcToUCl4SD2SbIyi946h0GXMV0g3B+Bc+rrc
-         5U5wgE4+47HZmNf8NRh98bjD1bG5axXoizNtJ1yfb4INcyQzi0bN+Inyv72DkHEt/yM0
-         gJOKgSMFetUL75AtOUPcPpA+PzlIp6y9FRtRvYS8pznAoVcxaqs4yU51nmMFuIVWsXyO
-         ORLv5s7v2eVawvH8mW+PGogYDSo0wqQtFHSX7QdyspYLU+uXV5b+lg+GGG1T8U4RPDLr
-         D2nQ==
-X-Gm-Message-State: AO0yUKVN2JcS94P4esQILaDU1Q0K0Py1Xp3q2VKBwHK7JXLxJ4jFs1je
-	qcf8+F0Q+Cy1eAoRP7xTceMpkqIjReASJS+Lt4k=
-X-Google-Smtp-Source: AK7set9hLUynJ1zgCMkB/zr8ZN2XxwRYmcivaUoqQM6kBeZ5RKtExoxZeMZuu+urNNCidH3rqADjsg==
-X-Received: by 2002:a17:90b:390f:b0:23d:44c6:745a with SMTP id ob15-20020a17090b390f00b0023d44c6745amr10890pjb.2.1678888897870;
-        Wed, 15 Mar 2023 07:01:37 -0700 (PDT)
+        bh=jcCjWE2ldIr5GEEkF3cqohZo/hg28zonkzuIwT5zwSk=;
+        b=pyk+EhXiHH0I9cZNBTpNYSUoJk3rLzldd3XNCnUKe5BwtvXy6DEXjTr9hjhPPg+caU
+         cKzvH6p1H8E2K7chQq0L3a88DfB4uRrXz9LYJL6clharzulwtZKmmo+/XClDqY5saHm4
+         dxzacNhAe30/rAvrTfBi5dYUfMYXG+5ELCIxTWcHxy4P5w55DxFLfXwvk/LYLRbsfXre
+         MEfRdcIfUd//cXuxJYOoMNwoNxYah33KrEIK+Vo9JqN2GYFfWSD5kSsUqV+J/XGSEsL8
+         LMB0+CuUW/UHIj/5JqpiukAmjyp81nJwuvj0LPkPAMgEZ51KZ8cUlKo52V6JtxnY6FKA
+         Kn6A==
+X-Gm-Message-State: AO0yUKVfeYJUrN72m3mqz1jFdDmxZYhU5HYmnSU37pkYpjTyCMInwy70
+	Dfr3iq+AuyjxMbvH1dizBNNeXMFcOMQzOa3pHOU=
+X-Google-Smtp-Source: AK7set82O+PIhKnN5AgSGci8shmFilunSl8saxt43eqIlRc9N0HIl01HaSbKMn4NTGo/+RsS+vXMmQ==
+X-Received: by 2002:a17:902:ea03:b0:19a:945d:e31 with SMTP id s3-20020a170902ea0300b0019a945d0e31mr3279278plg.13.1678888906827;
+        Wed, 15 Mar 2023 07:01:46 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id h6-20020a170902f54600b001a0432ca99csm3663755plf.269.2023.03.15.07.01.36
+        by smtp.gmail.com with ESMTPSA id h6-20020a170902f54600b001a0432ca99csm3663755plf.269.2023.03.15.07.01.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Mar 2023 07:01:37 -0700 (PDT)
+        Wed, 15 Mar 2023 07:01:46 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 08/22] sudo: update 1.9.12p2 -> 1.9.13p3
-Date: Wed, 15 Mar 2023 04:00:59 -1000
-Message-Id: <b307a79caff34c0b23c72a5349f6800c48527635.1678888649.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 13/22] binutils: Fix nativesdk ld.so search
+Date: Wed, 15 Mar 2023 04:01:04 -1000
+Message-Id: <47528fa2aa590b3e04e4cc2b66704143419a92d1.1678888649.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1678888649.git.steve@sakoman.com>
 References: <cover.1678888649.git.steve@sakoman.com>
@@ -60,110 +60,35 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 14:01:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178559
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 14:01:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178564
 
-From: Xiangyu Chen <xiangyu.chen@windriver.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-License-update: copyright years, formatting.
+Currently binutils in buildtools is searching for /etc/etc/ld.so.conf
+which makes no sense. ld_sysconfdir already contains /etc so we need to
+drop the /etc from the fixed string.
 
-Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit ccd28c418ab8390118d738fbe914395b5c2a1f75)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...o.conf.in-fix-conflict-with-multilib.patch | 21 ++++++++++---------
- meta/recipes-extended/sudo/sudo.inc           |  2 +-
- .../{sudo_1.9.12p2.bb => sudo_1.9.13p3.bb}    |  2 +-
- 3 files changed, 13 insertions(+), 12 deletions(-)
- rename meta/recipes-extended/sudo/{sudo_1.9.12p2.bb => sudo_1.9.13p3.bb} (96%)
+ ...3-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch b/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
-index f4fc376bb8..041c717e00 100644
---- a/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
-+++ b/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
-@@ -1,4 +1,7 @@
--sudo.conf.in: fix conflict with multilib
-+From 6e835350b7413210c410d3578cfab804186b7a4f Mon Sep 17 00:00:00 2001
-+From: Kai Kang <kai.kang@windriver.com>
-+Date: Tue, 17 Nov 2020 11:13:40 +0800
-+Subject: [PATCH] sudo.conf.in: fix conflict with multilib
- 
- When pass ${libdir} to --libexecdir of sudo, it fails to install sudo
- and lib32-sudo at same time:
-@@ -12,12 +15,13 @@ Update the comments in sudo.conf.in to avoid the conflict.
- Signed-off-by: Kai Kang <kai.kang@windriver.com>
- 
- Upstream-Status: Inappropriate [OE configuration specific]
-+
- ---
-  examples/sudo.conf.in | 8 ++++----
-  1 file changed, 4 insertions(+), 4 deletions(-)
- 
- diff --git a/examples/sudo.conf.in b/examples/sudo.conf.in
--index 6535d3a..50afc8f 100644
-+index 2187457..0908d24 100644
- --- a/examples/sudo.conf.in
- +++ b/examples/sudo.conf.in
- @@ -4,7 +4,7 @@
-@@ -33,8 +37,8 @@ index 6535d3a..50afc8f 100644
-  # The compiled-in value is usually sufficient and should only be changed
-  # if you rename or move the sudo_intercept.so file.
-  #
---#Path intercept @plugindir@/sudo_intercept.so
--+#Path intercept $plugindir/sudo_intercept.so
-+-#Path intercept @intercept_file@
-++#Path intercept $intercept_file
-  
-  #
-  # Sudo noexec:
-@@ -42,8 +46,8 @@ index 6535d3a..50afc8f 100644
-  # The compiled-in value is usually sufficient and should only be changed
-  # if you rename or move the sudo_noexec.so file.
-  #
---#Path noexec @plugindir@/sudo_noexec.so
--+#Path noexec $plugindir/sudo_noexec.so
-+-#Path noexec @noexec_file@
-++#Path noexec $noexec_file
-  
-  #
-  # Sudo plugin directory:
-@@ -55,7 +59,4 @@ index 6535d3a..50afc8f 100644
- +#Path plugin_dir $plugindir
-  
-  #
-- # Sudo developer mode:
----
--2.17.1
--
-+ # Core dumps:
-diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
-index fd5bbf103d..f22b3eab99 100644
---- a/meta/recipes-extended/sudo/sudo.inc
-+++ b/meta/recipes-extended/sudo/sudo.inc
-@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.sudo.ws"
- BUGTRACKER = "http://www.sudo.ws/bugs/"
- SECTION = "admin"
- LICENSE = "ISC & BSD-3-Clause & BSD-2-Clause & Zlib"
--LIC_FILES_CHKSUM = "file://LICENSE.md;md5=7aacba499777b719416b293d16f29c8c \
-+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=5100e20d35f9015f9eef6bdb27ba194f \
-                     file://plugins/sudoers/redblack.c;beginline=1;endline=46;md5=03e35317699ba00b496251e0dfe9f109 \
-                     file://lib/util/reallocarray.c;beginline=3;endline=15;md5=397dd45c7683e90b9f8bf24638cf03bf \
-                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=004d7d2866ba1f5b41174906849d2e0f \
-diff --git a/meta/recipes-extended/sudo/sudo_1.9.12p2.bb b/meta/recipes-extended/sudo/sudo_1.9.13p3.bb
-similarity index 96%
-rename from meta/recipes-extended/sudo/sudo_1.9.12p2.bb
-rename to meta/recipes-extended/sudo/sudo_1.9.13p3.bb
-index ae7207c081..2e11739470 100644
---- a/meta/recipes-extended/sudo/sudo_1.9.12p2.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.9.13p3.bb
-@@ -8,7 +8,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
- 
- PAM_SRC_URI = "file://sudo.pam"
- 
--SRC_URI[sha256sum] = "b9a0b1ae0f1ddd9be7f3eafe70be05ee81f572f6f536632c44cd4101bb2a8539"
-+SRC_URI[sha256sum] = "92334a12bb93e0c056b09f53e255ccb7d6f67c6350e2813cd9593ceeca78560b"
- 
- DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS:${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+diff --git a/meta/recipes-devtools/binutils/binutils/0003-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch b/meta/recipes-devtools/binutils/binutils/0003-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch
+index 59a97c13c7..8a5f4a8d79 100644
+--- a/meta/recipes-devtools/binutils/binutils/0003-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch
++++ b/meta/recipes-devtools/binutils/binutils/0003-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch
+@@ -65,7 +65,7 @@ index 121c25d948f..34cbc60e5e9 100644
+        info.path = NULL;
+        info.len = info.alloc = 0;
+ -      tmppath = concat (ld_sysroot, prefix, "/etc/ld.so.conf",
+-+      tmppath = concat (ld_sysconfdir, "/etc/ld.so.conf",
+++      tmppath = concat (ld_sysconfdir, "/ld.so.conf",
+  			(const char *) NULL);
+        if (!ldelf_parse_ld_so_conf (&info, tmppath))
+  	{
 -- 
 2.34.1
 
