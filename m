@@ -1,186 +1,157 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 222F3C6FD1D
-	for <webhook@archiver.kernel.org>; Wed, 15 Mar 2023 08:27:59 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web11.2945.1678868878010434644
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4596DC6FD1D
+	for <webhook@archiver.kernel.org>; Wed, 15 Mar 2023 08:34:49 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.3009.1678869285769525332
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Mar 2023 01:27:58 -0700
+ Wed, 15 Mar 2023 01:34:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=i9VsZAXU;
- spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id d36so23261950lfv.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 01:27:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678868876;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=6Pe3plY7xnLVogHEZYGCFY+TufY77GdFqF/ySu/hIvs=;
-        b=i9VsZAXUvx0hC0TRNOVi5mHd+bru/JgPSMMEKsSnTZ3IxzZEXt/jAyAWHuAfKDcdFE
-         xoyS79ENrgMndF7fq7SR13aZXqcNfUOTFWNJVpRmYouYupgH82NwMfHMaIo03KXyvXzD
-         y9UfV3XU2Yo9EFx2T6v8a03lM+frnez4OT4dg1UfLXm3EenvFT6jAwKA7Dc75W7qloa3
-         +Jh7uIKP8HSaLGPSEYeIWspPokNZrjw4eLfnPNFCZoaxfTEZxj9z2cuvA3bHjaTQX3Tm
-         5JKQuiIuhnLkRnqub+keDSCzvUsXfFFgWuiQlfShwSrY4eQr1uXahbf1OWRx3gEMWSey
-         AW4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678868876;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6Pe3plY7xnLVogHEZYGCFY+TufY77GdFqF/ySu/hIvs=;
-        b=LmXupaMOv/pBJFt48SWHx/ryCmzFIqCj63+lfG+YwADz4bnJV65rRyxCQDuh2M+kMi
-         ns+2wZk078o30l0PKddWGyI6OmqTnsPZQ3HRop3LVzGmaptBf9cK8vL6FGPErmd2ih/9
-         pj9aIzblHVM8zlNSRGmgrkZi/bGZEspP8cUrku3+8DkcM5SqEWz5u30LMo/n9vOtfEJR
-         foWGvDzcQVSFKNCGuDeeGhN8wFazCxNAwyw7l7CpGToLX8kvDlZHNhj8bbQaVS1xtOm9
-         jSziNnt45VplX+tOgmzPxT8EoqvANskeHEJXYBK1g60AVU7Lcnel+LRPXwo+3JzQc0a7
-         OuJw==
-X-Gm-Message-State: AO0yUKWfqL4Z1p8rf0s7sk2AotU15Ctkl3VHeV+BTxOIdzNDsn98hI6Y
-	cbRtPlzfT82fnMa9VxwAEYcHNtznzihKztcliV4=
-X-Google-Smtp-Source: AK7set/W1wvmZAz1sD46WralVsvyvZEkFw4xb4oprh6AmtjX28Ye0I4ict7ik7xtuW726FneS91FrT1Zlt4kkrVxhZg=
-X-Received: by 2002:ac2:5f0e:0:b0:4dd:a9e5:aa09 with SMTP id
- 14-20020ac25f0e000000b004dda9e5aa09mr1637538lfq.11.1678868875738; Wed, 15 Mar
- 2023 01:27:55 -0700 (PDT)
+ dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2438f77fcc=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32F8HAWW006238
+	for <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 01:34:45 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3pb2avgavb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 01:34:45 -0700
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.17; Wed, 15 Mar 2023 01:34:44 -0700
+Received: from pek-lpggp1.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.18 via Frontend Transport; Wed, 15 Mar 2023 01:34:44 -0700
+From: Hongxu Jia <hongxu.jia@eng.windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [kirkstone][PATCH] pkgconf: fix CVE-2023-24056
+Date: Wed, 15 Mar 2023 16:34:43 +0800
+Message-ID: <20230315083443.1329841-1-hongxu.jia@eng.windriver.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20230315014728.86644-1-xiangyu.chen@eng.windriver.com>
-In-Reply-To: <20230315014728.86644-1-xiangyu.chen@eng.windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 15 Mar 2023 09:27:44 +0100
-Message-ID: <CANNYZj_9ivjNaArbDgci4B8mM+C65NJDa3xbdPap5LBjBY=g-A@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] rng-tools: disable rngd daemon start by default
-To: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: G2biemXFNhSCYstah7O4x-VU_s3GvEdL
+X-Proofpoint-GUID: G2biemXFNhSCYstah7O4x-VU_s3GvEdL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-15_04,2023-03-14_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
+ lowpriorityscore=0 spamscore=0 impostorscore=0 malwarescore=0
+ priorityscore=1501 mlxlogscore=999 suspectscore=0 phishscore=0
+ clxscore=1011 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2302240000 definitions=main-2303150071 domainage_hfrom=7
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 08:27:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178527
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 08:34:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178528
 
-I don't think adding a custom variable is the correct approach.
+Backport from https://gitea.treehouse.systems/ariadne/pkgconf/commit/628b2b2bafa5d3a2017193ddf375093e70666059
 
-If you want rngtest or other supplementary tools in the image, but
-don't want to install and start rngd, then rngtest should be packaged
-and installed separately via appropriate FILES/PACKAGES assignments in
-the recipe. Can you make it work that way please?
+Signed-off-by: Hongxu Jia <hongxu.jia@eng.windriver.com>
+---
+ ...nd-stop-string-processing-on-truncat.patch | 75 +++++++++++++++++++
+ .../recipes-devtools/pkgconf/pkgconf_1.8.0.bb |  1 +
+ 2 files changed, 76 insertions(+)
+ create mode 100644 meta/recipes-devtools/pkgconf/pkgconf/0001-tuple-test-for-and-stop-string-processing-on-truncat.patch
 
-Alex
+diff --git a/meta/recipes-devtools/pkgconf/pkgconf/0001-tuple-test-for-and-stop-string-processing-on-truncat.patch b/meta/recipes-devtools/pkgconf/pkgconf/0001-tuple-test-for-and-stop-string-processing-on-truncat.patch
+new file mode 100644
+index 0000000000..c6ec7c94e1
+--- /dev/null
++++ b/meta/recipes-devtools/pkgconf/pkgconf/0001-tuple-test-for-and-stop-string-processing-on-truncat.patch
+@@ -0,0 +1,75 @@
++From 9368831d360c0e47df55d1bb25c3517269320c5f Mon Sep 17 00:00:00 2001
++From: Ariadne Conill <ariadne@dereferenced.org>
++Date: Wed, 15 Mar 2023 16:12:43 +0800
++Subject: [PATCH] tuple: test for, and stop string processing, on truncation
++
++otherwise a buffer overflow occurs.
++this has been a bug in pkgconf since the beginning, it seems.
++instead of disclosing the bug correctly, a "hotshot" developer
++decided to blog about it instead.  sigh.
++
++https://nullprogram.com/blog/2023/01/18/
++
++Upstream-Status: Backport [https://gitea.treehouse.systems/ariadne/pkgconf/commit/628b2b2bafa5d3a2017193ddf375093e70666059]
++CVE: CVE-2023-24056
++Signed-off-by: Hongxu Jia <hongxu.jia@eng.windriver.com>
++---
++ libpkgconf/tuple.c | 28 +++++++++++++++++++++++-----
++ 1 file changed, 23 insertions(+), 5 deletions(-)
++
++diff --git a/libpkgconf/tuple.c b/libpkgconf/tuple.c
++index 2d550d8..b831070 100644
++--- a/libpkgconf/tuple.c
+++++ b/libpkgconf/tuple.c
++@@ -293,12 +293,21 @@ pkgconf_tuple_parse(const pkgconf_client_t *client, pkgconf_list_t *vars, const
++ 				}
++ 			}
++ 
+++			size_t remain = PKGCONF_BUFSIZE - (bptr - buf);
++ 			ptr += (pptr - ptr);
++ 			kv = pkgconf_tuple_find_global(client, varname);
++ 			if (kv != NULL)
++ 			{
++-				strncpy(bptr, kv, PKGCONF_BUFSIZE - (bptr - buf));
++-				bptr += strlen(kv);
+++				size_t nlen = pkgconf_strlcpy(bptr, kv, remain);
+++				if (nlen > remain)
+++				{
+++					pkgconf_warn(client, "warning: truncating very long variable to 64KB\n");
+++
+++					bptr = buf + (PKGCONF_BUFSIZE - 1);
+++					break;
+++				}
+++
+++				bptr += nlen;
++ 			}
++ 			else
++ 			{
++@@ -306,12 +315,21 @@ pkgconf_tuple_parse(const pkgconf_client_t *client, pkgconf_list_t *vars, const
++ 
++ 				if (kv != NULL)
++ 				{
+++					size_t nlen;
+++
++ 					parsekv = pkgconf_tuple_parse(client, vars, kv);
+++					nlen = pkgconf_strlcpy(bptr, parsekv, remain);
+++					free(parsekv);
++ 
++-					strncpy(bptr, parsekv, PKGCONF_BUFSIZE - (bptr - buf));
++-					bptr += strlen(parsekv);
+++					if (nlen > remain)
+++					{
+++						pkgconf_warn(client, "warning: truncating very long variable to 64KB\n");
++ 
++-					free(parsekv);
+++						bptr = buf + (PKGCONF_BUFSIZE - 1);
+++						break;
+++					}
+++
+++					bptr += nlen;
++ 				}
++ 			}
++ 		}
++-- 
++2.27.0
++
+diff --git a/meta/recipes-devtools/pkgconf/pkgconf_1.8.0.bb b/meta/recipes-devtools/pkgconf/pkgconf_1.8.0.bb
+index 887e15e28c..cad0a0fa4f 100644
+--- a/meta/recipes-devtools/pkgconf/pkgconf_1.8.0.bb
++++ b/meta/recipes-devtools/pkgconf/pkgconf_1.8.0.bb
+@@ -16,6 +16,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2214222ec1a820bd6cc75167a56925e0"
+ 
+ SRC_URI = "\
+     https://distfiles.dereferenced.org/pkgconf/pkgconf-${PV}.tar.xz \
++    file://0001-tuple-test-for-and-stop-string-processing-on-truncat.patch \
+     file://pkg-config-wrapper \
+     file://pkg-config-native.in \
+     file://pkg-config-esdk.in \
+-- 
+2.27.0
 
-On Wed, 15 Mar 2023 at 02:47, Xiangyu Chen
-<xiangyu.chen@eng.windriver.com> wrote:
->
-> From: Xiangyu Chen <xiangyu.chen@windriver.com>
->
-> Since we removed the openssh dependency[1] on rng-tools, there are no package requiring
-> rng-tools in oe-core, meta-oe, meta-virt, one of the reasons for keeping rng-tools
-> build into the image is that it can be used to test[2], so adding an option to disable
-> rngd daemon by default since the linux-5.6 and later /dev/random won't block anymore[3].
->
-> By default, this option set to 0 to disable the rngd start, when this option set to 1, the
-> rngd daemon would start normally (if someone really need it).
->
-> Reference:
-> [1] https://git.openembedded.org/openembedded-core/commit/?id=868dfb46d96a27ec9041cb902fb769330277257d
-> [2] https://linux.die.net/man/1/rngtest
-> [3] https://github.com/torvalds/linux/commit/30c08efec8884fb106b8e57094baa51bb4c44e32
->
-> Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-> ---
->  .../rng-tools/rng-tools/default               |  1 +
->  meta/recipes-support/rng-tools/rng-tools/init | 42 ++++++++++++-------
->  .../rng-tools/rng-tools/rng-tools.service     |  2 +-
->  3 files changed, 29 insertions(+), 16 deletions(-)
->
-> diff --git a/meta/recipes-support/rng-tools/rng-tools/default b/meta/recipes-support/rng-tools/rng-tools/default
-> index b9f8e03635..02659742fd 100644
-> --- a/meta/recipes-support/rng-tools/rng-tools/default
-> +++ b/meta/recipes-support/rng-tools/rng-tools/default
-> @@ -1 +1,2 @@
->  EXTRA_ARGS="-r /dev/hwrng"
-> +RUN_RNGD=0
-> diff --git a/meta/recipes-support/rng-tools/rng-tools/init b/meta/recipes-support/rng-tools/rng-tools/init
-> index 13f0ecd37c..6c8ce00104 100644
-> --- a/meta/recipes-support/rng-tools/rng-tools/init
-> +++ b/meta/recipes-support/rng-tools/rng-tools/init
-> @@ -12,27 +12,39 @@ test -x "$rngd" || exit 1
->
->  case "$1" in
->    start)
-> -    echo -n "Starting random number generator daemon"
-> -    start-stop-daemon -S -q -x $rngd -- $EXTRA_ARGS
-> -    echo "."
-> +    if [ $RUN_RNGD = 1 ]
-> +    then
-> +        echo -n "Starting random number generator daemon"
-> +        start-stop-daemon -S -q -x $rngd -- $EXTRA_ARGS
-> +        echo "."
-> +    fi
->      ;;
->    stop)
-> -    echo -n "Stopping random number generator daemon"
-> -    start-stop-daemon -K -q -n rngd
-> -    echo "."
-> +    if [ $RUN_RNGD = 1 ]
-> +    then
-> +        echo -n "Stopping random number generator daemon"
-> +        start-stop-daemon -K -q -n rngd
-> +        echo "."
-> +    fi
->      ;;
->    reload|force-reload)
-> -    echo -n "Signalling rng daemon restart"
-> -    start-stop-daemon -K -q -s 1 -x $rngd
-> -    start-stop-daemon -K -q -s 1 -x $rngd
-> +    if [ $RUN_RNGD = 1 ]
-> +    then
-> +        echo -n "Signalling rng daemon restart"
-> +        start-stop-daemon -K -q -s 1 -x $rngd
-> +        start-stop-daemon -K -q -s 1 -x $rngd
-> +    fi
->      ;;
->    restart)
-> -    echo -n "Stopping random number generator daemon"
-> -    start-stop-daemon -K -q -n rngd
-> -    echo "."
-> -    echo -n "Starting random number generator daemon"
-> -    start-stop-daemon -S -q -x $rngd -- $EXTRA_ARGS
-> -    echo "."
-> +    if [ $RUN_RNGD = 1 ]
-> +    then
-> +        echo -n "Stopping random number generator daemon"
-> +        start-stop-daemon -K -q -n rngd
-> +        echo "."
-> +        echo -n "Starting random number generator daemon"
-> +        start-stop-daemon -S -q -x $rngd -- $EXTRA_ARGS
-> +        echo "."
-> +    fi
->      ;;
->    *)
->      echo "Usage: @SYSCONFDIR@/init.d/rng-tools {start|stop|reload|restart|force-reload}"
-> diff --git a/meta/recipes-support/rng-tools/rng-tools/rng-tools.service b/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
-> index 5ae2fba215..be88ab125a 100644
-> --- a/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
-> +++ b/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
-> @@ -7,7 +7,7 @@ ConditionVirtualization=!container
->
->  [Service]
->  EnvironmentFile=-@SYSCONFDIR@/default/rng-tools
-> -ExecStart=@SBINDIR@/rngd -f $EXTRA_ARGS
-> +ExecStart=/bin/sh -c '[ x$RUN_RNGD != x1 ] || exec @SBINDIR@/rngd -f $EXTRA_ARGS '
->  CapabilityBoundingSet=CAP_SYS_ADMIN
->  IPAddressDeny=any
->  LockPersonality=yes
-> --
-> 2.34.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#178518): https://lists.openembedded.org/g/openembedded-core/message/178518
-> Mute This Topic: https://lists.openembedded.org/mt/97619573/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
 
