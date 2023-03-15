@@ -1,185 +1,88 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82307C61DA4
-	for <webhook@archiver.kernel.org>; Wed, 15 Mar 2023 17:22:04 +0000 (UTC)
-Received: from mailout07.t-online.de (mailout07.t-online.de [194.25.134.83])
- by mx.groups.io with SMTP id smtpd.web11.2377.1678900919840660921
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C8A3C6FD1D
+	for <webhook@archiver.kernel.org>; Wed, 15 Mar 2023 17:34:54 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web11.2737.1678901690028743377
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Mar 2023 10:22:00 -0700
+ Wed, 15 Mar 2023 10:34:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.83, mailfrom: f_l_k@t-online.de)
-Received: from fwd82.dcpf.telekom.de (fwd82.aul.t-online.de [10.223.144.108])
-	by mailout07.t-online.de (Postfix) with SMTP id 1D97118F1;
-	Wed, 15 Mar 2023 18:21:58 +0100 (CET)
-Received: from [192.168.178.83] ([79.219.227.85]) by fwd82.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1pcUp2-14JGDI0; Wed, 15 Mar 2023 18:21:57 +0100
-Date: Wed, 15 Mar 2023 18:21:50 +0100
-From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [oe-core][PATCHv2] glib: update 2.74.6 -> 2.76.0
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Message-Id: <E8OKRR.MV94C2TWISKQ@t-online.de>
-In-Reply-To: 
-	<CANNYZj_tKEA=CgQJ8QL2660VbvkXizX7+yrZ4EgaPdPnc33Siw@mail.gmail.com>
-References: <20230315070909.422721-1-f_l_k@t-online.de>
-	<CANNYZj-k2EG4giH=zhXQywFhnVnpuaFtc4ngHgn8SV3w2kQhrw@mail.gmail.com>
-	<LZHKRR.FOHLRDXQDV053@t-online.de>
-	<CANNYZj_tKEA=CgQJ8QL2660VbvkXizX7+yrZ4EgaPdPnc33Siw@mail.gmail.com>
-X-Mailer: geary/40.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=KtyRqPtr;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: zboszor@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id fd5so44662794edb.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 10:34:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678901688;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=H4BgcHmKNkeo1nPwbETapOO5fvATRE6+Z0abo84q+UU=;
+        b=KtyRqPtrHgCqHbSqTGgjklO4g07g4uGzSAL52fCbBZHdV66zP991AJL22VQHerZwyv
+         LFRhsh0DuqEx8hgVDb/eIUYPw5ExvsBHh20LZYEpCHQzOyG7s+qk+92V6uqQo7fek4m7
+         kddlmDIwOwyPH68BaG9W/RjBzXL74WFZlOvStMMTowJn3g6Y9Fjwm9vuIrkCkfPByeOi
+         oesWsPqWKCPaCpep9mY7s1UwqhPgP7esUG/8RdpVzl5gTdjbze+xL4yfcTTWavDlqd8M
+         nghO6xzUu6vPlnMzetxA2vsMO9ldP9Igz8G6YFp0R0tJv6OUKS0PSIySBZK8n6Yl7yLY
+         LFvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678901688;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=H4BgcHmKNkeo1nPwbETapOO5fvATRE6+Z0abo84q+UU=;
+        b=YcrpErcZ/fW+4qKNfcabjJi/V8IHbgct+563Y7Ok6rtQkA3ttffvQmEWLJb8Wk9kYu
+         pvhsJ4ebxatgP9kacxjpkU+BOlOGLF4SAVGNnqqb0X6SK81PjRFii6YsvF96GUqE+FTg
+         gqO4OHceCT1laaAwy+ZTDB7P+hfpp4JW3tj/KGxwq8J0nUH9yhTDgZmjKMIop9P3u7v7
+         v+7yA31Bz2hb0HzGMBzAV1eXRg5fIBtsPfyMXvJ1GYlcdezaF7MExkLPDJS08VuViAGL
+         3YUJNUBfNVi8ILjiN/ZA7xLiHViYzrYsvzJXD5m2QQ1Lq4Y5N7xsUombug1PBYvQIipx
+         RT9g==
+X-Gm-Message-State: AO0yUKUPjVXp2ekottXoLIoLu8jYEVNlNnDonVneXJ4p6PA7jMn4JSmK
+	Ne/F64A2ddygRbbsILKpxiQ=
+X-Google-Smtp-Source: AK7set+kyEVWjnaWa045Qhrvg6QAHBaa+B2nkK9dQGY0q2363uVY7GMVyp+x3saLN89nnETwzVA0JA==
+X-Received: by 2002:a17:907:76b5:b0:8f8:eded:4254 with SMTP id jw21-20020a17090776b500b008f8eded4254mr7925175ejc.65.1678901688247;
+        Wed, 15 Mar 2023 10:34:48 -0700 (PDT)
+Received: from [192.168.1.143] (BC2440CC.dsl.pool.telekom.hu. [188.36.64.204])
+        by smtp.gmail.com with ESMTPSA id q22-20020a1709060f9600b008eabe71429bsm2803567ejj.63.2023.03.15.10.34.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Mar 2023 10:34:48 -0700 (PDT)
+Message-ID: <ebd528da-79bd-22f6-6700-b876d6891035@gmail.com>
+Date: Wed, 15 Mar 2023 18:34:47 +0100
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-TIcvFL5KHZGrKjtuVIuX"
-X-TOI-EXPURGATEID: 150726::1678900917-FB7F9992-A12D5361/0/0 CLEAN NORMAL
-X-TOI-MSGID: 673b2e32-3a2c-449e-9d85-f4ccc20d64f7
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [OE-core] [PATCH] meson.bbclass: Split into meson-common and
+ meson classes
+Content-Language: en-US
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20230315080020.2648416-1-zboszor@gmail.com>
+ <0FA14024-12BF-4952-8E22-3D8A64B472FB@arm.com>
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+In-Reply-To: <0FA14024-12BF-4952-8E22-3D8A64B472FB@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 17:22:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178653
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 17:34:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178654
 
---=-TIcvFL5KHZGrKjtuVIuX
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+2023. 03. 15. 17:52 keltezéssel, Ross Burton írta:
+> ... apart from the CONFIGURE_FILES line which would still be needed in the python-meson case anyway.
 
-That linking is done in initscripts. Removing this line will fix the=20
-issue
-<https://git.yoctoproject.org/poky/tree/meta/recipes-core/initscripts/inits=
-cripts-1.0/volatiles?h=3Dmaster-next#n32>
+Actually, it doesn't seem so.
 
-But that would affect not only ptest images. It would additionally be=20
-needed to adjust that recently added commit:
-<https://git.yoctoproject.org/poky/commit/meta?h=3Dmaster-next&id=3Dd5d4047=
-9d706cbb382850b9479c5dd9bfb801c99>
+It is purely a Yocto setting that doesn't influence running meson.
 
-So this would be quite invasive. Overall the logic here is just the=20
-other way around as described in the systemd documentation, where /tmp=20
-should be volatile and /var/tmp should be covered by physical memory
+For pep517 projects this would be the correct setting but it's not
+present in currently existing bbclasses:
 
-Am Mi, 15. M=E4r 2023 um 16:51:34 +0100 schrieb Alexander Kanavin=20
-<alex.kanavin@gmail.com>:
-> You probably need to find out what links /var/tmp to /tmp in ptest
-> images, and see if it can be reconfigured to do the same thing as the
-> image where the tests passed.
->=20
-> Alex
->=20
-> On Wed, 15 Mar 2023 at 16:07, Markus Volk <f_l_k@t-online.de=20
-> <mailto:f_l_k@t-online.de>> wrote:
->>=20
->>  Am Mi, 15. M=E4r 2023 um 08:27:33 +0100 schrieb Alexander Kanavin=20
->> <alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>>:
->>=20
->>  Guesswork is a fast track to frustration.
->>=20
->>=20
->>  True :D But thats what always happens to me if I dont know enough=20
->> and can't find a way to reproduce.
->>  Thanks to your hint on  core-image-ptest-glib-2.0 I was able to=20
->> reproduce the issue. Running the test from /var/volatile/tmp didn't=20
->> solve the issue. But compared to core-image-ptest-glib-2.0 where=20
->> /tmp links to /var/tmp the tmpdir is handled by systemd tmp.mount in=20
->> my image and thus is not a symbolic link.
->>=20
->>  According to systemd ducumentation /var/tmp and /tmp are not the=20
->> same and are handled differently
->>  <https://systemd.io/TEMPORARY_DIRECTORIES/>
->>=20
->>  Still I have no idea how this should be fixed or if the failed test=20
->> could maybe ignored but I was able to pass the tests in =20
->> core-image-ptest-glib-2.0 by removing the /tmp symlink and adding=20
->> this line to fstab:
->>  tmpfs /tmp tmpfs defaults 0 0
->>=20
->>  After a reboot the tests completed successful
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#178581):=20
-> <https://lists.openembedded.org/g/openembedded-core/message/178581>
-> Mute This Topic: <https://lists.openembedded.org/mt/97622689/3618223>
-> Group Owner: openembedded-core+owner@lists.openembedded.org=20
-> <mailto:openembedded-core+owner@lists.openembedded.org>
-> Unsubscribe:=20
-> <https://lists.openembedded.org/g/openembedded-core/unsub>=20
-> [f_l_k@t-online.de <mailto:f_l_k@t-online.de>]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+CONFIGURE_FILES = "pyproject.toml"
 
+Patching the meson settings from meson-common through with this line is enough:
 
---=-TIcvFL5KHZGrKjtuVIuX
-Content-Type: text/html; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div id=3D"geary-body" dir=3D"auto"><div>That linking is done in initscript=
-s. Removing this line will fix the issue</div><div><a href=3D"https://git.y=
-octoproject.org/poky/tree/meta/recipes-core/initscripts/initscripts-1.0/vol=
-atiles?h=3Dmaster-next#n32">https://git.yoctoproject.org/poky/tree/meta/rec=
-ipes-core/initscripts/initscripts-1.0/volatiles?h=3Dmaster-next#n32</a></di=
-v><div><br></div><div>But that would affect not only ptest images. It would=
- additionally be needed to adjust that recently added commit:</div><div><a =
-href=3D"https://git.yoctoproject.org/poky/commit/meta?h=3Dmaster-next&amp;i=
-d=3Dd5d40479d706cbb382850b9479c5dd9bfb801c99">https://git.yoctoproject.org/=
-poky/commit/meta?h=3Dmaster-next&amp;id=3Dd5d40479d706cbb382850b9479c5dd9bf=
-b801c99</a></div><div><br></div><div>So this would be quite invasive. Overa=
-ll the logic here is just the other way around as described in the systemd =
-documentation, where /tmp should be volatile and /var/tmp should be covered=
- by physical memory</div></div><div id=3D"geary-quote" dir=3D"auto"><br>Am =
-Mi, 15. M=E4r 2023 um 16:51:34 +0100 schrieb Alexander Kanavin &lt;alex.kan=
-avin@gmail.com&gt;:<br><blockquote type=3D"cite"><div class=3D"plaintext" s=
-tyle=3D"white-space: break-spaces;">You probably need to find out what link=
-s /var/tmp to /tmp in ptest
-images, and see if it can be reconfigured to do the same thing as the
-image where the tests passed.
-
-Alex
-
-On Wed, 15 Mar 2023 at 16:07, Markus Volk &lt;<a href=3D"mailto:f_l_k@t-onl=
-ine.de">f_l_k@t-online.de</a>&gt; wrote:
-<blockquote>
- Am Mi, 15. M=E4r 2023 um 08:27:33 +0100 schrieb Alexander Kanavin &lt;<a h=
-ref=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt;:
-
- Guesswork is a fast track to frustration.
-
-
- True :D But thats what always happens to me if I dont know enough and can'=
-t find a way to reproduce.
- Thanks to your hint on  core-image-ptest-glib-2.0 I was able to reproduce =
-the issue. Running the test from /var/volatile/tmp didn't solve the issue. =
-But compared to core-image-ptest-glib-2.0 where /tmp links to /var/tmp the =
-tmpdir is handled by systemd tmp.mount in my image and thus is not a symbol=
-ic link.
-
- According to systemd ducumentation /var/tmp and /tmp are not the same and =
-are handled differently
- <a href=3D"https://systemd.io/TEMPORARY_DIRECTORIES/">https://systemd.io/T=
-EMPORARY_DIRECTORIES/</a>
-
- Still I have no idea how this should be fixed or if the failed test could =
-maybe ignored but I was able to pass the tests in  core-image-ptest-glib-2.=
-0 by removing the /tmp symlink and adding this line to fstab:
- tmpfs /tmp tmpfs defaults 0 0
-
- After a reboot the tests completed successful
-</blockquote></div><div class=3D"plaintext" style=3D"white-space: break-spa=
-ces;">
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-Links: You receive all messages sent to this group.
-View/Reply Online (#178581): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/178581">https://lists.openembedded.org/g/openembedd=
-ed-core/message/178581</a>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/97622689/3618=
-223">https://lists.openembedded.org/mt/97622689/3618223</a>
-Group Owner: <a href=3D"mailto:openembedded-core+owner@lists.openembedded.o=
-rg">openembedded-core+owner@lists.openembedded.org</a>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a hre=
-f=3D"mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>]
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-
-</div></blockquote></div>
---=-TIcvFL5KHZGrKjtuVIuX--
+PEP517_BUILD_OPTS = ' --config-settings=setup-args="${MESONOPTS} ... " '
 
 
