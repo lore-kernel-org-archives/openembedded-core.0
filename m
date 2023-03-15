@@ -1,128 +1,96 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D74B2C6FD1D
-	for <webhook@archiver.kernel.org>; Wed, 15 Mar 2023 15:08:10 +0000 (UTC)
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
- by mx.groups.io with SMTP id smtpd.web10.10771.1678892886226786852
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F54FC61DA4
+	for <webhook@archiver.kernel.org>; Wed, 15 Mar 2023 15:51:51 +0000 (UTC)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+ by mx.groups.io with SMTP id smtpd.web10.12172.1678895508096809648
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Mar 2023 08:08:06 -0700
+ Wed, 15 Mar 2023 08:51:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=paQLpeSm;
- spf=pass (domain: gmail.com, ip: 209.85.166.43, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-io1-f43.google.com with SMTP id m22so7946629ioy.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 08:08:06 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Qfw3EtEg;
+ spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f169.google.com with SMTP id b10so19963633ljr.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 08:51:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678892885;
+        d=gmail.com; s=20210112; t=1678895506;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qFaJz/svNgzfsi3ZqtDTeovdPfmm7rWdi7EjA6f9lGc=;
-        b=paQLpeSmMGdm+8kEE0BcsBY+Lk30Dp1dFOL6ov2DuaRB3v1Z/kFlgMieEkNcytTush
-         Tdip318DIF3nrWI/M2F7TxOBz3+OOaJO86i606kaM1F/n0sv1Dr/JNoNbyJ18l1gjNrZ
-         LxBAP9Y5BI1MBHcJM5LxkE8/7OnZu8+YmlhNGAa9B6jsMvLLJeoQ0R/2SC/2XWKsGyiS
-         GRG3mjrJMzUTU/MbyX5oDbH1mOISlYHr9ad0VrtESXyQIAId7oQZ/8fn5/ATh15S/C/g
-         c7hkfEXgjce+ND8G1gR5COCXjU76KW+/j2SPZ7ruZ16JvRLJez5xmtnW+/q/c5rNcNYk
-         KhRw==
+        bh=P1G3uDnqF0nBTQIQfW9hZRdtc8AXJ6GoK5Ij8G4NCaw=;
+        b=Qfw3EtEg1w5PirtwKHZvypDfpYTRK1xdjQpvmkZNUPxUx0abfnngiVBkh+MW1UqK4Y
+         UGYKyER6FSDGrWzz56w373jwlD7GS82Biy5cM14P/oRCXweipgPT4NUrAsPJLNRemb9L
+         dHT6uxEldgSYMatW8h1tWVQ6lKZbCtwLZA8d20xbBMqrNNXwduU9GrX+r6Y5etuW7l11
+         m4SGwXDrPn5IaVAet0PLPr9xHz1XOpMkmotGlrj4ifnLT8ion7usd8Wddcs43Hu2qP6S
+         Ruy9OTR0ZgS1fZRS/jFGtpzvwJQifvX/0Qu/5GXu94H8xT2D0VSjttPamtXbzGVXv3Rj
+         hzbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678892885;
+        d=1e100.net; s=20210112; t=1678895506;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qFaJz/svNgzfsi3ZqtDTeovdPfmm7rWdi7EjA6f9lGc=;
-        b=zfKJfS/QPAd+B14jy2Ux03zNUofw29wUyg6V1Am4D1t5lXkjxwpL466WfhQaSj92Nn
-         QG+p9CqYQovo8COnJNDCxCRYi7d3GJfetvh6WGOU8l6v+WzLCpSGut3MU/sj4xebK5XD
-         sQt+ymKlHvcAyj2UQcuQWdIg1d3ppHWjdZo/yadgsqy5hxPiGPMBRpJm/Aj6kAUFek12
-         WxxSIg7hbq+/+4BtFVLZm9V0DLemQLhSZD3DiOSwRI7Z7cOOyQTi+6kX77UrMHalIaWI
-         n8ID3WdPuJ4TCc0kIdD9e+kmI6qkuoCgh0zDji4nmEGle7G7Bohxoo2YbTPJOJkSDyXk
-         mSLg==
-X-Gm-Message-State: AO0yUKUtZR/4o+yz5rw1MzxGn2bzr5yugJ1mn20D5ZY7y1e39IBLCju6
-	Witk+VhlYhL8MnMNUpz8+gXph7h8ARV+lMGr+iQ=
-X-Google-Smtp-Source: AK7set+yfK1mEZsphphoJA/FxUCKkiDx8Zuj0nYNamHoXPHr3fPdu9nK7nO8fBmf2ykNb646sckTclVMvMHEt4Rmuvg=
-X-Received: by 2002:a02:a106:0:b0:406:122f:76ad with SMTP id
- f6-20020a02a106000000b00406122f76admr1807015jag.1.1678892885531; Wed, 15 Mar
- 2023 08:08:05 -0700 (PDT)
+        bh=P1G3uDnqF0nBTQIQfW9hZRdtc8AXJ6GoK5Ij8G4NCaw=;
+        b=KKieZe6szieNCX43fB9WCNmKvhyuGDVQuXGfh34TbzXHqLzw8dzeJoa8+jCRvl7kkb
+         W8EPiSVSbftue4rjpb+gkyDYEUNYGNSgqP88v5Wbt960ACH57GxwMsRKTOXQa67u7lC+
+         4ywbQGhZrITAh1qImerm5YEWgHjOUs8rOvGfxGLZPX1/flVNNa0V4gRLU7Ares/mOiuP
+         Ofz2NMqjb44IZcHwlIdSulJ6ZDymbRN7/Pov02DnK8C4CEOZmXvOoubDwVFxkErqBpWu
+         OAOvFz1y6Kk1yfatOVGjZmQy+YPpP/6QNWp8jl3OIEf51cdBvWakBhrt+NB8119UeomI
+         vJ3g==
+X-Gm-Message-State: AO0yUKWtyLZHzewsRFjOIly1fus9pmvRXf74L6CLqfhGN5TU7YaBfRW/
+	65g6Vljak7lqnkzVTpn8eDyqMO8TAqxluGrya28=
+X-Google-Smtp-Source: AK7set9Ve9aQCRsMuKAvXfj3mDvTozhqeERgcK6hXgh6SQ/5snx1rzUkIqx12qan6E/NMbBuJ7X+FpEZkQcNFZDM4fg=
+X-Received: by 2002:a2e:5045:0:b0:293:4ba5:f626 with SMTP id
+ v5-20020a2e5045000000b002934ba5f626mr1356816ljd.2.1678895506123; Wed, 15 Mar
+ 2023 08:51:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230315074851.26633-1-frederic.martinsons@gmail.com>
-In-Reply-To: <20230315074851.26633-1-frederic.martinsons@gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Wed, 15 Mar 2023 15:07:53 +0000
-Message-ID: <CAO5Uq5SFyQ5vNXn9eizwYehXQWytCR3YP2fTgs6+dVGuASA92A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] cargo.bbclass: use offline mode for building
-To: Frederic Martinsons <frederic.martinsons@gmail.com>
+References: <20230315070909.422721-1-f_l_k@t-online.de> <CANNYZj-k2EG4giH=zhXQywFhnVnpuaFtc4ngHgn8SV3w2kQhrw@mail.gmail.com>
+ <LZHKRR.FOHLRDXQDV053@t-online.de>
+In-Reply-To: <LZHKRR.FOHLRDXQDV053@t-online.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 15 Mar 2023 16:51:34 +0100
+Message-ID: <CANNYZj_tKEA=CgQJ8QL2660VbvkXizX7+yrZ4EgaPdPnc33Siw@mail.gmail.com>
+Subject: Re: [oe-core][PATCHv2] glib: update 2.74.6 -> 2.76.0
+To: Markus Volk <f_l_k@t-online.de>
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 15:08:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178580
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 15:51:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178581
 
-On Wed, Mar 15, 2023 at 7:49=E2=80=AFAM Frederic Martinsons
-<frederic.martinsons@gmail.com> wrote:
->
-> From: Frederic Martinsons <frederic.martinsons@gmail.com>
->
-> There should not be any network access during the build step so
-> specify this explicitely to cargo.
-> This will allow better error message, e.g:
->
-> | Caused by:
-> |  can't checkout from 'ssh://git@.../fmartinsons/zbus-git-dep-test.git':=
- you are in  the offline mode (--offline)
->
-> Instead of
->
-> |   Updating git repository `ssh://git@.../fmartinsons/zbus-git-dep-test.=
-git`
-> | warning: spurious network error (2 tries remaining): failed to resolve =
-address for gitlab.com: Temporary failure in name resolution;class=3DNet (1=
-2)
->
-> Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
+You probably need to find out what links /var/tmp to /tmp in ptest
+images, and see if it can be reconfigured to do the same thing as the
+image where the tests passed.
 
-Tested-by: Alex Kiernan <alex.kiernan@gmail.com>
+Alex
 
-> ---
->  meta/classes-recipe/cargo.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, 15 Mar 2023 at 16:07, Markus Volk <f_l_k@t-online.de> wrote:
 >
-> diff --git a/meta/classes-recipe/cargo.bbclass b/meta/classes-recipe/carg=
-o.bbclass
-> index 93e185f2c9..7a8cc1e751 100644
-> --- a/meta/classes-recipe/cargo.bbclass
-> +++ b/meta/classes-recipe/cargo.bbclass
-> @@ -39,7 +39,7 @@ MANIFEST_PATH ??=3D "${S}/${CARGO_SRC_DIR}/Cargo.toml"
+> Am Mi, 15. M=C3=A4r 2023 um 08:27:33 +0100 schrieb Alexander Kanavin <ale=
+x.kanavin@gmail.com>:
 >
->  RUSTFLAGS ??=3D ""
->  BUILD_MODE =3D "${@['--release', ''][d.getVar('DEBUG_BUILD') =3D=3D '1']=
-}"
-> -CARGO_BUILD_FLAGS =3D "-v --target ${RUST_HOST_SYS} ${BUILD_MODE} --mani=
-fest-path=3D${MANIFEST_PATH}"
-> +CARGO_BUILD_FLAGS =3D "-v --offline --target ${RUST_HOST_SYS} ${BUILD_MO=
-DE} --manifest-path=3D${MANIFEST_PATH}"
->
->  # This is based on the content of CARGO_BUILD_FLAGS and generally will n=
-eed to
->  # change if CARGO_BUILD_FLAGS changes.
-> --
-> 2.34.1
+> Guesswork is a fast track to frustration.
 >
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#178525): https://lists.openembedded.org/g/openembedde=
-d-core/message/178525
-> Mute This Topic: https://lists.openembedded.org/mt/97622913/3618097
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kiernan@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> True :D But thats what always happens to me if I dont know enough and can=
+'t find a way to reproduce.
+> Thanks to your hint on  core-image-ptest-glib-2.0 I was able to reproduce=
+ the issue. Running the test from /var/volatile/tmp didn't solve the issue.=
+ But compared to core-image-ptest-glib-2.0 where /tmp links to /var/tmp the=
+ tmpdir is handled by systemd tmp.mount in my image and thus is not a symbo=
+lic link.
 >
-
-
---=20
-Alex Kiernan
+> According to systemd ducumentation /var/tmp and /tmp are not the same and=
+ are handled differently
+> https://systemd.io/TEMPORARY_DIRECTORIES/
+>
+> Still I have no idea how this should be fixed or if the failed test could=
+ maybe ignored but I was able to pass the tests in  core-image-ptest-glib-2=
+.0 by removing the /tmp symlink and adding this line to fstab:
+> tmpfs /tmp tmpfs defaults 0 0
+>
+> After a reboot the tests completed successful
 
