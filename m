@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C092C7EE20
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E97CC77B77
 	for <webhook@archiver.kernel.org>; Wed, 15 Mar 2023 15:55:32 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.12151.1678895727113250387
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.12305.1678895727935930887
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Mar 2023 08:55:27 -0700
+ Wed, 15 Mar 2023 08:55:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=XXoVpIG9;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010186e5fbbe92-a7dcdf33-9033-4142-9a1a-a23b5f0cfe21-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=mS9Sg6GV;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010186e5fbc26b-fb07ee45-c2e4-4bb9-bc6e-b9609ee0ed7d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1678895726;
+	t=1678895727;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=PirUxZVVh0k8zeirvRFFyNdhSqpoNk+SCE11qvMLQ9E=;
-	b=XXoVpIG9eQOb+AHcNh4Wo4fHO/Z+ngVeJu5MXSgLhqjjPAE6Lf3X8o4fBM6LnqCq
-	EVVyDpda1fTVj6lTHp8/tEa5xgS/m9lU247yVR8IlZlngWrDRwD1rk+44WzlOXi0fSb
-	YmZxSEkSHc8lN2zxq747jG+D+RYYk0eFKF4FrlJ0=
+	bh=leW7DpJudjJQmscktj9vS5MUEMFbUmjgDuyjtPlgsFY=;
+	b=mS9Sg6GVbA6EExysvnVt7gNMa2u5msTss9c6r8K6kjFSxARfPrGdkcKhsieyn5RW
+	UL663oKEsXYxgtyO7cqZEf4wzGRUyw55xTaCk/ZZWtS+QN/5Jw9GYwkYqb7HZVJpVb6
+	r8blvd5JLWzTczzMEGMyPP3U2cxIbCrdQX6PY4O4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1678895726;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1678895727;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=PirUxZVVh0k8zeirvRFFyNdhSqpoNk+SCE11qvMLQ9E=;
-	b=N9YBfc53IOzkszH2B9ISEiK30o4Yp8DBH8IhmQ/Csjutm2FycRnZ/dQx8jd6LCH/
-	xea2ITEpAn1xDcGPbB1skfBZ8weUMYLKTnzN2U9J8O3Y15O3ccCZGFx5INXI/YbjXiL
-	luZDP89gH7ey5YG7rKPfqOr7tWN+o69R7762fXoI=
-Content-Type: multipart/mixed; boundary="===============7338364699130623646=="
+	bh=leW7DpJudjJQmscktj9vS5MUEMFbUmjgDuyjtPlgsFY=;
+	b=VphIFIPQLZ28zgeuKfMhAFseaJUif24yIBqXWMQJf0aQCTIl6dwuqZIYFPz6V5T2
+	b6fHMpxM9KtvPmOkcrjKgcbccj4GzyJ4JH3Ao4L1n1uu23+VQ/HOWJfrDFims6IDtXb
+	eYq82SyE6o0UhzRMc/SdGT38jIFJHkhRdvr3eAyo=
+Content-Type: multipart/mixed; boundary="===============2443287666171458366=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gobject-introspection: upgrading to 1.76.0 FAILED
-Message-ID: <01010186e5fbbe92-a7dcdf33-9033-4142-9a1a-a23b5f0cfe21-000000@us-west-2.amazonses.com>
-Date: Wed, 15 Mar 2023 15:55:26 +0000
+Subject: [AUH] waffle: upgrading to 1.7.2 FAILED
+Message-ID: <01010186e5fbc26b-fb07ee45-c2e4-4bb9-bc6e-b9609ee0ed7d-000000@us-west-2.amazonses.com>
+Date: Wed, 15 Mar 2023 15:55:27 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.03.15-54.240.27.23
+X-SES-Outgoing: 2023.03.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 15:55:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178614
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178624
 
---===============7338364699130623646==
+--===============2443287666171458366==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,7 +50,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gobject-introspection* to *1.76.0* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *waffle* to *1.7.2* has Failed(do_compile).
 
 Detailed error information:
 
@@ -59,7 +59,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-gobject-introspection-upgrade-1.74.0-1.76.0.patch
+    - apply the patch: git am 0001-waffle-upgrade-1.7.0-1.7.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,58 +75,7 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7338364699130623646==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-gobject-introspection-upgrade-1.74.0-1.76.0.patch"
-
-RnJvbSAyYmUxODVmOWYyOTQ1ZjVlODk0YzU5YjhkNDAzZWFmZGMyNDM2NTZkIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgTWFyIDIwMjMgMTA6MTU6MjUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-b2JqZWN0LWludHJvc3BlY3Rpb246IHVwZ3JhZGUgMS43NC4wIC0+IDEuNzYuMAoKLS0tCiAuLi4w
-MS1SZWxvY2F0ZS10aGUtcmVwb3NpdG9yeS1kaXJlY3RvcnktZm9yLW5hdGl2ZS1idWlsZHMucGF0
-Y2ggfCAyICstCiAuLi4taW50cm9zcGVjdGlvbl8xLjc0LjAuYmIgPT4gZ29iamVjdC1pbnRyb3Nw
-ZWN0aW9uXzEuNzYuMC5iYn0gfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygr
-KSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRy
-b3NwZWN0aW9uL3tnb2JqZWN0LWludHJvc3BlY3Rpb25fMS43NC4wLmJiID0+IGdvYmplY3QtaW50
-cm9zcGVjdGlvbl8xLjc2LjAuYmJ9ICg5OSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdu
-b21lL2dvYmplY3QtaW50cm9zcGVjdGlvbi9nb2JqZWN0LWludHJvc3BlY3Rpb24vMDAwMS1SZWxv
-Y2F0ZS10aGUtcmVwb3NpdG9yeS1kaXJlY3RvcnktZm9yLW5hdGl2ZS1idWlsZHMucGF0Y2ggYi9t
-ZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50cm9zcGVj
-dGlvbi8wMDAxLVJlbG9jYXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1
-aWxkcy5wYXRjaAppbmRleCAwMzBmZjE3NjAxLi5jMTdhNjQ4Y2Y2IDEwMDY0NAotLS0gYS9tZXRh
-L3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50cm9zcGVjdGlv
-bi8wMDAxLVJlbG9jYXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1aWxk
-cy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dv
-YmplY3QtaW50cm9zcGVjdGlvbi8wMDAxLVJlbG9jYXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9y
-eS1mb3ItbmF0aXZlLWJ1aWxkcy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZDM5NmU1MTI2
-NDYxNjMxZTJjNzNjZTk4YmEwMzRmMWU0NDU5OGY2YSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
-K0Zyb20gNWZjM2ZkYjc0YjYwZWFiY2Q5ZjFhYTBjMWQzYzljYjhjOTVkNzdkMyBNb24gU2VwIDE3
-IDAwOjAwOjAwIDIwMDEKIEZyb206IFNhc2NoYSBTaWxiZSA8eC15bzE3QHNlLXNpbGJlLmRlPgog
-RGF0ZTogRnJpLCA4IEp1biAyMDE4IDEzOjU1OjEwICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIFJl
-bG9jYXRlIHRoZSByZXBvc2l0b3J5IGRpcmVjdG9yeSBmb3IgbmF0aXZlIGJ1aWxkcwpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWdub21lL2dvYmplY3QtaW50cm9zcGVjdGlvbi9nb2JqZWN0LWlu
-dHJvc3BlY3Rpb25fMS43NC4wLmJiIGIvbWV0YS9yZWNpcGVzLWdub21lL2dvYmplY3QtaW50cm9z
-cGVjdGlvbi9nb2JqZWN0LWludHJvc3BlY3Rpb25fMS43Ni4wLmJiCnNpbWlsYXJpdHkgaW5kZXgg
-OTklCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24v
-Z29iamVjdC1pbnRyb3NwZWN0aW9uXzEuNzQuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdu
-b21lL2dvYmplY3QtaW50cm9zcGVjdGlvbi9nb2JqZWN0LWludHJvc3BlY3Rpb25fMS43Ni4wLmJi
-CmluZGV4IGFiOWQyZDM1ZDkuLmVjNWVhY2Q3YjggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1n
-bm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24vZ29iamVjdC1pbnRyb3NwZWN0aW9uXzEuNzQuMC5i
-YgorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3Qt
-aW50cm9zcGVjdGlvbl8xLjc2LjAuYmIKQEAgLTE3LDcgKzE3LDcgQEAgU1JDX1VSSSA9ICIke0dO
-T01FX01JUlJPUn0vJHtCUE59LyR7QG9lLnV0aWxzLnRyaW1fdmVyc2lvbigiJHtQVn0iLCAyKX0v
-JHtCUE59LSQKICAgICAgICAgICAgZmlsZTovLzAwMDEtZy1pci10b29sLXRlbXBsYXRlLmluLWZp
-eC1naXJkaXItcGF0aC5wYXRjaCBcCiAgICAgICAgICAgICIKIAotU1JDX1VSSVtzaGEyNTZzdW1d
-ID0gIjM0N2IzYTcxOWU2OGJhNGM2OWZmMmQ1N2VlMjY4OTIzM2VhOGMwN2ZjNDkyMjA1ZTU3MzM4
-Njc3OWU0MmQ2NTMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiODU1MmZmM2E1Njc1OGI4ZGJhMjFk
-NDIxNzk1YTUyYjlhOWZiZjk4NDU2NTkwN2I4M2YxYzY0ZjRkZWI4MzgwYyIKIAogU1JDX1VSSTph
-cHBlbmQ6Y2xhc3MtbmF0aXZlID0gIiBmaWxlOi8vMDAwMS1SZWxvY2F0ZS10aGUtcmVwb3NpdG9y
-eS1kaXJlY3RvcnktZm9yLW5hdGl2ZS1idWlsZHMucGF0Y2giCiAKLS0gCjIuMzkuMgoK
-
---===============7338364699130623646==
+--===============2443287666171458366==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -147,141 +96,254 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "i686-poky-linux"
 MACHINE              = "qemux86"
 DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-0123fc18109aff13d090f400ed6b076e4b06ec5e"
+DISTRO_VERSION       = "4.1+snapshot-823a0b7823c53d3363b5cb4f874fe7059a9c186d"
 TUNE_FEATURES        = "m32 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:0123fc18109aff13d090f400ed6b076e4b06ec5e"
+meta-yocto-bsp       = "tmp-auh-upgrades:823a0b7823c53d3363b5cb4f874fe7059a9c186d"
 workspace            = "master:37b5d544d34c9caaf70def0a29dfb0cf896dc1b7"
 
 Initialising tasks...done.
-Sstate summary: Wanted 108 Local 98 Mirrors 0 Missed 10 Current 237 (90% match, 97% complete)
+Sstate summary: Wanted 150 Local 143 Mirrors 0 Missed 7 Current 322 (95% match, 98% complete)
 NOTE: Executing Tasks
+NOTE: Running setscene task 460 of 472 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 1080 of 1695 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.2.bb:do_fetch)
+NOTE: Running task 1180 of 1695 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.2.bb:do_write_config)
+NOTE: recipe waffle-1.7.2-r0: task do_fetch: Started
+NOTE: recipe waffle-1.7.2-r0: task do_write_config: Started
+NOTE: recipe waffle-1.7.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1184 of 1695 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.2.bb:do_unpack)
+NOTE: recipe waffle-1.7.2-r0: task do_write_config: Succeeded
+NOTE: recipe waffle-1.7.2-r0: task do_unpack: Started
+NOTE: recipe waffle-1.7.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1185 of 1695 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.2.bb:do_patch)
+NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 1047 of 1296 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.0.bb:do_fetch)
-NOTE: Running task 1049 of 1296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.0.bb:do_fetch)
-NOTE: Running task 1111 of 1296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.0.bb:do_write_config)
-NOTE: Running task 1128 of 1296 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.0.bb:do_write_config)
-NOTE: recipe gobject-introspection-1.76.0-r0: task do_fetch: Started
-NOTE: recipe gobject-introspection-1.76.0-r0: task do_write_config: Started
-NOTE: recipe gobject-introspection-1.76.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1275 of 1296 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.0.bb:do_unpack)
-NOTE: recipe gobject-introspection-native-1.76.0-r0: task do_fetch: Started
-NOTE: recipe gobject-introspection-native-1.76.0-r0: task do_write_config: Started
-NOTE: recipe gobject-introspection-native-1.76.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1276 of 1296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.0.bb:do_unpack)
-NOTE: Running task 1277 of 1296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gobject-introspection-1.76.0-r0: task do_write_config: Succeeded
-NOTE: recipe gobject-introspection-native-1.76.0-r0: task do_write_config: Succeeded
-NOTE: recipe gobject-introspection-1.76.0-r0: task do_unpack: Started
-NOTE: recipe gobject-introspection-native-1.76.0-r0: task do_unpack: Started
-NOTE: recipe gobject-introspection-native-1.76.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gobject-introspection-1.76.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1278 of 1296 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.0.bb:do_patch)
-NOTE: recipe gobject-introspection-1.76.0-r0: task do_patch: Started
-NOTE: recipe gobject-introspection-native-1.76.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gobject-introspection-native-1.76.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1279 of 1296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.0.bb:do_patch)
-NOTE: recipe gobject-introspection-1.76.0-r0: task do_patch: Succeeded
-NOTE: Running task 1280 of 1296 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1281 of 1296 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.0.bb:do_populate_lic)
-NOTE: recipe gobject-introspection-native-1.76.0-r0: task do_patch: Started
-NOTE: recipe gobject-introspection-1.76.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gobject-introspection-1.76.0-r0: task do_populate_lic: Started
-NOTE: recipe gobject-introspection-native-1.76.0-r0: task do_patch: Succeeded
-NOTE: Running task 1282 of 1296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe gobject-introspection-1.76.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe gobject-introspection-1.76.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gobject-introspection-native-1.76.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gobject-introspection-native-1.76.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1283 of 1296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.0.bb:do_configure)
-NOTE: recipe gobject-introspection-native-1.76.0-r0: task do_configure: Started
+NOTE: recipe waffle-1.7.2-r0: task do_patch: Started
+NOTE: Running task 1657 of 1695 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe waffle-1.7.2-r0: task do_patch: Succeeded
+NOTE: Running task 1685 of 1695 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1686 of 1695 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.2.bb:do_populate_lic)
+NOTE: recipe waffle-1.7.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe waffle-1.7.2-r0: task do_populate_lic: Started
+NOTE: recipe waffle-1.7.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe waffle-1.7.2-r0: task do_populate_lic: Succeeded
+NOTE: recipe waffle-1.7.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe waffle-1.7.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1687 of 1695 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.2.bb:do_configure)
+NOTE: recipe waffle-1.7.2-r0: task do_configure: Started
+NOTE: recipe waffle-1.7.2-r0: task do_configure: Succeeded
+NOTE: Running task 1688 of 1695 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.2.bb:do_compile)
+NOTE: recipe waffle-1.7.2-r0: task do_compile: Started
+NOTE: recipe waffle-1.7.2-r0: task do_compile: Succeeded
+NOTE: Running task 1689 of 1695 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.2.bb:do_install)
+NOTE: recipe waffle-1.7.2-r0: task do_install: Started
 Log data follows:
 | DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/autoconf-archive/autoconf-archive_2023.02.20.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/bison/bison_3.8.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/meson/meson_1.0.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yo
- cto-worker/auh/build/build/poky/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot']
+| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.37.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake-native_3.25.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu-native_7.2.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuil
+ d/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.3.5.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland-protocols_1.31.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/meson/meson_1.0.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_populate_sysroot', 'virtual:na
+ tive:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_populate_sysroot']
 | NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['quilt-native', 'glib-2.0-native', 'zlib-native', 'autoconf-archive-native', 'bison-native', 'flex-native', 'meson-native', 'ninja-native', 'pkgconfig-native', 'python3-native', 'xz-native', 'gtk-doc-native', 'libffi-native', 'texinfo-dummy-native', 'gettext-minimal-native', 'libtool-native', 'm4-native', 're2c-native', 'util-linux-native', 'gettext-native', 'libpcre2-native', 'ncurses-native', 'openssl-native', 'readline-native', 'libnsl2-native', 'libtirpc-native', 'bzip2-native', 'sqlite3-native', 'util-linux-libuuid-native', 'gdbm-native', 'python3-setuptools-native', 'python3-installer-native', 'python3-build-native', 'python3-wheel-native', 'gnu-config-native', 'libcap-ng-native', 'perl-native', 'python3-flit-core-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'make-native', 'unzip-native']
+| NOTE: Skipping as already exists in sysroot: ['glibc', 'systemd', 'cmake-native', 'gcc-cross-i686', 'gcc-runtime', 'python3', 'qemu-native', 'quilt-native', 'mesa', 'wayland-protocols', 'wayland', 'libx11', 'libxcb', 'bash-completion', 'meson-native', 'ninja-native', 'patch-native', 'pkgconfig-native', 'pseudo-native', 'python3-native', 'wayland-native', 'expat-native', 'libffi-native', 'xz-native', 'libxml2-native', 'readline-native', 'bzip2-native', 'libtirpc-native', 'openssl-native', 'util-linux-libuuid-native', 'sqlite3-native', 'zlib-native', 'gdbm-native', 'ncurses-native', 'libnsl2-native', 'libtool-native', 'glib-2.0-native', 'flex-native', 'libmpc-native', 'gnu-config-native', 'texinfo-dummy-native', 'binutils-cross-i686', 'linux-libc-headers', 'zstd-native', 'mpfr-native', 'gmp-native', 're2c-native', 'xorgproto', 'libxdmcp', 'libxau', 'xcb-proto', 'libpthread-stubs', 'libgcc', 'python3-wheel-native', 'python3-setuptools-native', 'python3-installer-native', 'python3-buil
+ d-native', 'autoconf-archive', 'xtrans', 'util-macros', 'shadow', 'update-rc.d', 'shadow-sysroot', 'initscripts', 'libcap', 'util-linux', 'libpam', 'zstd', 'kmod', 'base-passwd', 'libseccomp', 'base-files', 'shadow-native', 'libxkbcommon', 'acl', 'opkg-utils', 'attr-native', 'libffi', 'libxml2', 'expat', 'libxfixes', 'vulkan-headers', 'xrandr', 'libdrm', 'libxext', 'vulkan-loader', 'libxshmfence', 'zlib', 'libxxf86vm', 'libxdamage', 'libtirpc', 'util-linux-libuuid', 'xz', 'bzip2', 'libxcrypt', 'ncurses', 'openssl', 'libnsl2', 'readline', 'sqlite3', 'gdbm', 'gettext-minimal-native', 'perl-native', 'gettext-native', 'util-linux-native', 'libpcre2-native', 'm4-native', 'python3-flit-core-native', 'python3-pyproject-hooks-native', 'python3-packaging-native', 'attr', 'libcap-ng', 'cracklib', 'xkeyboard-config', 'libxrandr', 'libxrender', 'libpciaccess', 'make-native', 'libcap-ng-native', 'unzip-native']
 | DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| gtkdocize: neither configure.ac nor configure.in exist
-| NOTE: Executing meson -Dgtk_doc=false -Ddoctool=disabled...
-| The Meson build system
-| Version: 1.0.1
-| Source dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.0-r0/gobject-introspection-1.76.0
-| Build dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.0-r0/build
-| Build type: native build
-| Project name: gobject-introspection
-| Project version: 1.76.0
-| C compiler for the host machine: gcc (gcc 12.2.0 "gcc (GCC) 12.2.0")
-| C linker for the host machine: gcc ld.bfd 2.40.20230119
-| Host machine cpu family: x86_64
-| Host machine cpu: x86_64
-| Program python3 found: YES (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.0-r0/recipe-sysroot-native/usr/bin/python3-native/python3)
-| Compiler for C supports arguments -Warray-bounds: YES
-| Compiler for C supports arguments -Wcast-align: YES
-| Compiler for C supports arguments -Wduplicated-branches: YES
-| Compiler for C supports arguments -Wformat=2: YES
-| Compiler for C supports arguments -Wformat-nonliteral: YES
-| Compiler for C supports arguments -Wformat-security: YES
-| Compiler for C supports arguments -Wimplicit-function-declaration: YES
-| Compiler for C supports arguments -Winit-self: YES
-| Compiler for C supports arguments -Wjump-misses-init: YES
-| Compiler for C supports arguments -Wlogical-op: YES
-| Compiler for C supports arguments -Wmissing-declarations: YES
-| Compiler for C supports arguments -Wmissing-format-attribute: YES
-| Compiler for C supports arguments -Wmissing-include-dirs: YES
-| Compiler for C supports arguments -Wmissing-noreturn: YES
-| Compiler for C supports arguments -Wmissing-prototypes: YES
-| Compiler for C supports arguments -Wnested-externs: YES
-| Compiler for C supports arguments -Wnull-dereference: YES
-| Compiler for C supports arguments -Wold-style-definition: YES
-| Compiler for C supports arguments -Wpacked: YES
-| Compiler for C supports arguments -Wpointer-arith: YES
-| Compiler for C supports arguments -Wrestrict: YES
-| Compiler for C supports arguments -Wreturn-type: YES
-| Compiler for C supports arguments -Wshadow: YES
-| Compiler for C supports arguments -Wsign-compare: YES
-| Compiler for C supports arguments -Wstrict-aliasing: YES
-| Compiler for C supports arguments -Wstrict-prototypes: YES
-| Compiler for C supports arguments -Wundef: YES
-| Compiler for C supports arguments -Wunused-but-set-variable: YES
-| Compiler for C supports arguments -Wwrite-strings: YES
-| Compiler for C supports arguments -fno-strict-aliasing: YES
-| Checking for size of "char" : 1
-| Checking for size of "short" : 2
-| Checking for size of "int" : 4
-| Checking for size of "long" : 8
-| Found pkg-config: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.0-r0/recipe-sysroot-native/usr/bin/pkg-config-native (0.29.2)
-| Dependency glib-2.0 found: NO found 2.74.6 but need: '>=2.76.0'
-| Did not find CMake 'cmake'
-| Found CMake: NO
-| Run-time dependency glib-2.0 found: NO (tried pkgconfig and cmake)
-| Looking for a fallback subproject for the dependency glib-2.0
-| 
-| ../gobject-introspection-1.76.0/meson.build:130:0: ERROR: Automatic wrap-based subproject downloading is disabled
-| 
-| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.0-r0/build/meson-logs/meson-log.txt
-| ERROR: meson failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.0-r0/temp/run.do_configure.488128:183 exit 1 from 'exit 1'
+| DEBUG: Executing shell function do_install
+| Installing subdir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.2.1.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.6.1.md to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.6.0.md to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-0.1.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.4.1.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.7.2.md to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.5.0.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.4.3.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.5.2.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.4.0.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-0.2.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.4.4.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.2.0.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-0.3.1.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.0.0.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.1.1.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.1.0.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.6.3.md to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.7.1.md to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.7.0.md to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.2.2.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.4.2.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.1.2.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-0.3.0.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.0.1.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.6.2.md to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.3.0.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.5.1.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing subdir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.2.1.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.6.1.md to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.6.0.md to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-0.1.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.4.1.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.7.2.md to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.5.0.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.4.3.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.5.2.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.4.0.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-0.2.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.4.4.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.2.0.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-0.3.1.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.0.0.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.1.1.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.1.0.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.6.3.md to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.7.1.md to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.7.0.md to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.2.2.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.4.2.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.1.2.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-0.3.0.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.0.1.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.6.2.md to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.3.0.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/doc/release-notes/waffle-1.5.1.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/release-notes
+| Installing src/waffle/libwaffle-1.so.0.7.2 to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/lib
+| Installing src/utils/wflinfo to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/bin
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/include/waffle-1/waffle.h to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/include/waffle-1/
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/include/waffle-1/waffle_gbm.h to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/include/waffle-1/
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/include/waffle-1/waffle_glx.h to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/include/waffle-1/
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/include/waffle-1/waffle_wayland.h to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/include/waffle-1/
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/include/waffle-1/waffle_x11_egl.h to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/include/waffle-1/
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/build/include/waffle_version.h to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/include/waffle-1/
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/shell-completion/bash/wflinfo to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/bash-completion/completions
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/shell-completion/zsh/_wflinfo to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/zsh/site-functions
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/README.md to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/LICENSE.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/HACKING.txt to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/third_party/threads/LICENSE to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/build/meson-private/waffle-1.pc to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/lib/pkgconfig
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/examples/Makefile.example to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/examples
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/examples/gl_basic.c to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/examples
+| Installing /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/git/examples/simple-x11-egl.c to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/share/doc/waffle1/examples
+| Installing symlink pointing to libwaffle-1.so.0.7.2 to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/lib/libwaffle-1.so.0
+| Installing symlink pointing to libwaffle-1.so.0 to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image/usr/lib/libwaffle-1.so
+| sed: can't read /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image//usr/lib/cmake/Waffle/WaffleConfig.cmake: No such file or directory
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/temp/run.do_install.2116460:153 exit 2 from 'sed -i -e "s,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0,,g" /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/image//usr/lib/cmake/Waffle/WaffleConfig.cmake'
 | WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.0-r0/temp/run.do_configure.488128, line 183
-| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.0-r0/temp/run.do_configure.488128, line 172
-| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.0-r0/temp/run.do_configure.488128, line 158
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.0-r0/temp/run.do_configure.488128, line 196
-NOTE: recipe gobject-introspection-native-1.76.0-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 1283 tasks of which 1270 didn't need to be rerun and 1 failed.
+| 	#1: do_install, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/temp/run.do_install.2116460, line 153
+| 	#2: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/temp/run.do_install.2116460, line 162
+NOTE: recipe waffle-1.7.2-r0: task do_install: Failed
+NOTE: Tasks Summary: Attempted 1689 tasks of which 1679 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
+NOTE: Writing buildhistory took: 2 seconds
 
 Summary: 1 task failed:
-  virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.0.bb:do_configure
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: gobject-introspection-native-1.76.0-r0 do_configure: meson failed
-ERROR: gobject-introspection-native-1.76.0-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.0-r0/temp/run.do_configure.488128', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.0-r0/temp/log.do_configure.488128
-ERROR: Task (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.0.bb:do_configure) failed with exit code '1'
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.2.bb:do_install
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: waffle-1.7.2-r0 do_install: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/temp/run.do_install.2116460', 2, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/waffle/1.7.2-r0/temp/log.do_install.2116460
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.2.bb:do_install) failed with exit code '1'
 
---===============7338364699130623646==--
+--===============2443287666171458366==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-waffle-upgrade-1.7.0-1.7.2.patch"
+
+RnJvbSA1YTQ4YzczM2Y3NmJlNjhhNmY5NjVmZDFlZWYzZThlM2JhOTIzZTBhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMTUgTWFyIDIwMjMgMTI6NTU6MzQgKzAwMDAKU3ViamVjdDogW1BBVENIXSB3
+YWZmbGU6IHVwZ3JhZGUgMS43LjAgLT4gMS43LjIKCi0tLQogLi4uYnVpbGQtcmVxdWVzdC1uYXRp
+dmUtd2F5bGFuZC1zY2FubmVyLnBhdGNoIHwgIDkgKysrKy0tLS0KIC4uLi1tYWtlLWNvcmUtcHJv
+dG9jb2wtaW50by10aGUtbGlicmFyeS5wYXRjaCB8IDIzICsrKystLS0tLS0tLS0tLS0tLS0KIC4u
+Li97d2FmZmxlXzEuNy4wLmJiID0+IHdhZmZsZV8xLjcuMi5iYn0gICAgICB8ICA0ICsrLS0KIDMg
+ZmlsZXMgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwgMjUgZGVsZXRpb25zKC0pCiByZW5hbWUg
+bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dhZmZsZS97d2FmZmxlXzEuNy4wLmJiID0+IHdhZmZsZV8x
+LjcuMi5iYn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2FmZmxl
+L3dhZmZsZS8wMDAxLW1lc29uLmJ1aWxkLXJlcXVlc3QtbmF0aXZlLXdheWxhbmQtc2Nhbm5lci5w
+YXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YWZmbGUvd2FmZmxlLzAwMDEtbWVzb24uYnVp
+bGQtcmVxdWVzdC1uYXRpdmUtd2F5bGFuZC1zY2FubmVyLnBhdGNoCmluZGV4IDFiNjJkYjkyZTku
+LmM3NTc0Y2M2YjMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YWZmbGUvd2Fm
+ZmxlLzAwMDEtbWVzb24uYnVpbGQtcmVxdWVzdC1uYXRpdmUtd2F5bGFuZC1zY2FubmVyLnBhdGNo
+CisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YWZmbGUvd2FmZmxlLzAwMDEtbWVzb24uYnVp
+bGQtcmVxdWVzdC1uYXRpdmUtd2F5bGFuZC1zY2FubmVyLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAot
+RnJvbSAyMTk1Y2VjMWU1YmM2NjEyOGQ3MjA0OWMxMWZmMzgxY2E0NTE2YTRiIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQorRnJvbSA2NWFkODY5ZWU5YTAyYzY0MGI3NWRlODc0MjJmZGE2YjcwMmZj
+YWQ3IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFs
+ZXhAbGludXRyb25peC5kZT4KIERhdGU6IFR1ZSwgNSBKdWwgMjAyMiAxMTo1MTozOSArMDIwMAog
+U3ViamVjdDogW1BBVENIXSBtZXNvbi5idWlsZDogcmVxdWVzdCBuYXRpdmUgd2F5bGFuZC1zY2Fu
+bmVyCkBAIC04LDE1ICs4LDE2IEBAIHRyeSB0byB1c2UgYSBjcm9zcy1iaW5hcnksIGFuZCBmYWls
+LgogCiBVcHN0cmVhbS1TdGF0dXM6IFN1Ym1pdHRlZCBbaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0
+b3Aub3JnL21lc2Evd2FmZmxlLy0vbWVyZ2VfcmVxdWVzdHMvMTEwXQogU2lnbmVkLW9mZi1ieTog
+QWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KKwogLS0tCiAgbWVzb24uYnVp
+bGQgfCAyICstCiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
+CiAKIGRpZmYgLS1naXQgYS9tZXNvbi5idWlsZCBiL21lc29uLmJ1aWxkCi1pbmRleCAwYmI2MTI4
+Li4wYjZkYTFmIDEwMDY0NAoraW5kZXggY2E2YTIxMi4uMzE3N2JkZSAxMDA2NDQKIC0tLSBhL21l
+c29uLmJ1aWxkCiArKysgYi9tZXNvbi5idWlsZAotQEAgLTEwOCw3ICsxMDgsNyBAQCBlbHNlCitA
+QCAtMTEwLDcgKzExMCw3IEBAIGVsc2UKICAgICAgJ3dheWxhbmQtZWdsJywgdmVyc2lvbiA6ICc+
+PSA5LjEnLCByZXF1aXJlZCA6IGdldF9vcHRpb24oJ3dheWxhbmQnKSwKICAgICkKICAgIGRlcF93
+YXlsYW5kX3NjYW5uZXIgPSBkZXBlbmRlbmN5KApAQCAtMjQsNCArMjUsNCBAQCBpbmRleCAwYmI2
+MTI4Li4wYjZkYTFmIDEwMDY0NAogKyAgICAnd2F5bGFuZC1zY2FubmVyJywgdmVyc2lvbiA6ICc+
+PSAxLjE1JywgcmVxdWlyZWQgOiBnZXRfb3B0aW9uKCd3YXlsYW5kJyksIG5hdGl2ZTogdHJ1ZSwK
+ICAgICkKICAgIGlmIGRlcF93YXlsYW5kX3NjYW5uZXIuZm91bmQoKQotICAgICBwcm9nX3dheWxh
+bmRfc2Nhbm5lciA9IGZpbmRfcHJvZ3JhbShkZXBfd2F5bGFuZF9zY2FubmVyLmdldF9wa2djb25m
+aWdfdmFyaWFibGUoJ3dheWxhbmRfc2Nhbm5lcicpKQorICAgICBwcm9nX3dheWxhbmRfc2Nhbm5l
+ciA9IGZpbmRfcHJvZ3JhbShkZXBfd2F5bGFuZF9zY2FubmVyLmdldF92YXJpYWJsZShwa2djb25m
+aWc6ICd3YXlsYW5kX3NjYW5uZXInKSkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGlj
+cy93YWZmbGUvd2FmZmxlLzAwMDEtd2FmZmxlLWRvLW5vdC1tYWtlLWNvcmUtcHJvdG9jb2wtaW50
+by10aGUtbGlicmFyeS5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YWZmbGUvd2FmZmxl
+LzAwMDEtd2FmZmxlLWRvLW5vdC1tYWtlLWNvcmUtcHJvdG9jb2wtaW50by10aGUtbGlicmFyeS5w
+YXRjaAppbmRleCAyNGIyZGU1ZDljLi4wY2FmNzZiZTYzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtZ3JhcGhpY3Mvd2FmZmxlL3dhZmZsZS8wMDAxLXdhZmZsZS1kby1ub3QtbWFrZS1jb3JlLXBy
+b3RvY29sLWludG8tdGhlLWxpYnJhcnkucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
+L3dhZmZsZS93YWZmbGUvMDAwMS13YWZmbGUtZG8tbm90LW1ha2UtY29yZS1wcm90b2NvbC1pbnRv
+LXRoZS1saWJyYXJ5LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA3NjEwZWM0YjU3MmQzYTU0
+ZDMwZmNhNjc5OGYwYzQwNmYzZmQ4YTQ2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA3
+NzQwZmFlOGU0YTZjYWY1ZGMxYzE5ZmRhOGRjMTJjN2M4MWQ3ZGEyIE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KIERh
+dGU6IFR1ZSwgMjYgT2N0IDIwMjEgMDg6NTI6MTcgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gd2Fm
+ZmxlOiBkbyBub3QgbWFrZSBjb3JlIHByb3RvY29sIGludG8gdGhlIGxpYnJhcnkKQEAgLTksMjgg
+KzksMTMgQEAgd2F5bGFuZC54bWwgZnJvbSB0aGUgaG9zdC4KIAogVXBzdHJlYW0tU3RhdHVzOiBJ
+bmFwcHJvcHJpYXRlIFtvZS1jb3JlIHNwZWNpZmljXQogU2lnbmVkLW9mZi1ieTogQWxleGFuZGVy
+IEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KKwogLS0tCi0gbWVzb24uYnVpbGQgICAgICAg
+ICAgICB8IDQgLS0tLQogIHNyYy93YWZmbGUvbWVzb24uYnVpbGQgfCA3IC0tLS0tLS0KLSAyIGZp
+bGVzIGNoYW5nZWQsIDExIGRlbGV0aW9ucygtKQorIDEgZmlsZSBjaGFuZ2VkLCA3IGRlbGV0aW9u
+cygtKQogCi1kaWZmIC0tZ2l0IGEvbWVzb24uYnVpbGQgYi9tZXNvbi5idWlsZAotaW5kZXggZmZj
+MDJmZi4uMGJiNjEyOCAxMDA2NDQKLS0tLSBhL21lc29uLmJ1aWxkCi0rKysgYi9tZXNvbi5idWls
+ZAotQEAgLTEwNCwxMCArMTA0LDYgQEAgZWxzZQotICAgZGVwX3dheWxhbmRfY2xpZW50ID0gZGVw
+ZW5kZW5jeSgKLSAgICAgJ3dheWxhbmQtY2xpZW50JywgdmVyc2lvbiA6ICc+PSAxLjEwJywgcmVx
+dWlyZWQgOiBnZXRfb3B0aW9uKCd3YXlsYW5kJyksCi0gICApCi0tICBpZiBkZXBfd2F5bGFuZF9j
+bGllbnQuZm91bmQoKQotLSAgICB3YXlsYW5kX2NvcmVfeG1sID0gam9pbl9wYXRocyhkZXBfd2F5
+bGFuZF9jbGllbnQuZ2V0X3BrZ2NvbmZpZ192YXJpYWJsZSgncGtnZGF0YWRpcicpLAotLSAgICAn
+d2F5bGFuZC54bWwnKQotLSAgZW5kaWYKLSAgIGRlcF93YXlsYW5kX2VnbCA9IGRlcGVuZGVuY3ko
+Ci0gICAgICd3YXlsYW5kLWVnbCcsIHZlcnNpb24gOiAnPj0gOS4xJywgcmVxdWlyZWQgOiBnZXRf
+b3B0aW9uKCd3YXlsYW5kJyksCi0gICApCiBkaWZmIC0tZ2l0IGEvc3JjL3dhZmZsZS9tZXNvbi5i
+dWlsZCBiL3NyYy93YWZmbGUvbWVzb24uYnVpbGQKLWluZGV4IDAxODk4YzguLjYyNDU4NjggMTAw
+NjQ0CitpbmRleCBlMjYzNmM3Li4zZmY1NzYyIDEwMDY0NAogLS0tIGEvc3JjL3dhZmZsZS9tZXNv
+bi5idWlsZAogKysrIGIvc3JjL3dhZmZsZS9tZXNvbi5idWlsZAogQEAgLTg4LDEyICs4OCw2IEBA
+IGlmIGJ1aWxkX3N1cmZhY2VsZXNzCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
+d2FmZmxlL3dhZmZsZV8xLjcuMC5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YWZmbGUvd2Fm
+ZmxlXzEuNy4yLmJiCnNpbWlsYXJpdHkgaW5kZXggOTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
+cy1ncmFwaGljcy93YWZmbGUvd2FmZmxlXzEuNy4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
+Z3JhcGhpY3Mvd2FmZmxlL3dhZmZsZV8xLjcuMi5iYgppbmRleCBkYzQ3NTkwOGQwLi5mYjg4NTUy
+OWQ1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2FmZmxlL3dhZmZsZV8xLjcu
+MC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2FmZmxlL3dhZmZsZV8xLjcuMi5iYgpA
+QCAtOSwxMSArOSwxMSBAQCBMSUNFTlNFID0gIkJTRC0yLUNsYXVzZSIKIExJQ19GSUxFU19DSEtT
+VU0gPSAiZmlsZTovL0xJQ0VOU0UudHh0O21kNT00YzUxNTQ0MDdjMjQ5MDc1MGRkNDYxYzUwYWQ5
+NDc5NyBcCiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9pbmNsdWRlL3dhZmZsZS0xL3dhZmZs
+ZS5oO2VuZGxpbmU9MjQ7bWQ1PTYxZGJmODY5N2Y2MWM3ODY0NWU3NWE5M2M1ODViMWJmIgogCi1T
+UkNfVVJJID0gImdpdDovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvbWVzYS93YWZmbGUuZ2l0O3By
+b3RvY29sPWh0dHBzO2JyYW5jaD1tYXN0ZXIgXAorU1JDX1VSSSA9ICJnaXQ6Ly9naXRsYWIuZnJl
+ZWRlc2t0b3Aub3JnL21lc2Evd2FmZmxlLmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFpbnQt
+MS43IFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtd2FmZmxlLWRvLW5vdC1tYWtlLWNvcmUtcHJv
+dG9jb2wtaW50by10aGUtbGlicmFyeS5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLW1l
+c29uLmJ1aWxkLXJlcXVlc3QtbmF0aXZlLXdheWxhbmQtc2Nhbm5lci5wYXRjaCBcCiAgICAgICAg
+ICAgICIKLVNSQ1JFViA9ICI5MDVjNmMxMGYyNDgzYWRmMGNiZmEwMjRlMmQzYzJlZDU0MWZiMzAw
+IgorU1JDUkVWID0gImYzYjQyYTcyMTYxMDU0OTg4NDJiYzZiYTc3ZDg0ODFiOTBkNmY1ZjkiCiBT
+ID0gIiR7V09SS0RJUn0vZ2l0IgogCiBpbmhlcml0IG1lc29uIGZlYXR1cmVzX2NoZWNrIGxpYl9w
+YWNrYWdlIGJhc2gtY29tcGxldGlvbiBwa2djb25maWcKLS0gCjIuMzkuMgoK
+
+--===============2443287666171458366==--
 
