@@ -1,371 +1,186 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15752C61DA4
-	for <webhook@archiver.kernel.org>; Wed, 15 Mar 2023 08:00:29 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.2576.1678867227595893104
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 222F3C6FD1D
+	for <webhook@archiver.kernel.org>; Wed, 15 Mar 2023 08:27:59 +0000 (UTC)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.web11.2945.1678868878010434644
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Mar 2023 01:00:27 -0700
+ Wed, 15 Mar 2023 01:27:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ePBDdh9R;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: zboszor@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id p13-20020a05600c358d00b003ed346d4522so302505wmq.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 01:00:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=i9VsZAXU;
+ spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f48.google.com with SMTP id d36so23261950lfv.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 01:27:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678867226;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cigYckuyjDL1P+SNtH77uOQ44jfz8cU44vcfGCHE9Co=;
-        b=ePBDdh9Rnp3bqK/b6Tn43vbi2nkXmvk0Yl2gWpInSqTAmhtYC4RZjC9OtcyIzsKX4b
-         NCmSwRfK1fG4OBV+WdDab49kWk2r/xLFT2JNoIK8AMpq/6Vjl7gODwtEXBqm+IAJVNPk
-         rXtbgI7DS57Ba3zO1FBN387YO48lYBZ7cfm91oJXEAh8aO7NxLWhEkuTBnHacYr+Xf0R
-         aiCZh7ocH9am2+L9QGBL7tbuxcJqhieE3VR5Qh/xubcu4/lboxrM/MIjU3fcsTdFh1Lg
-         +lIrE0QxQziQqUnY+JMbEYvxpGULlagxeDvDXtkCAbwsqox9ZzmpFaf1Q+U2Hh845l2Z
-         aSVg==
+        d=gmail.com; s=20210112; t=1678868876;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=6Pe3plY7xnLVogHEZYGCFY+TufY77GdFqF/ySu/hIvs=;
+        b=i9VsZAXUvx0hC0TRNOVi5mHd+bru/JgPSMMEKsSnTZ3IxzZEXt/jAyAWHuAfKDcdFE
+         xoyS79ENrgMndF7fq7SR13aZXqcNfUOTFWNJVpRmYouYupgH82NwMfHMaIo03KXyvXzD
+         y9UfV3XU2Yo9EFx2T6v8a03lM+frnez4OT4dg1UfLXm3EenvFT6jAwKA7Dc75W7qloa3
+         +Jh7uIKP8HSaLGPSEYeIWspPokNZrjw4eLfnPNFCZoaxfTEZxj9z2cuvA3bHjaTQX3Tm
+         5JKQuiIuhnLkRnqub+keDSCzvUsXfFFgWuiQlfShwSrY4eQr1uXahbf1OWRx3gEMWSey
+         AW4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678867226;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20210112; t=1678868876;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cigYckuyjDL1P+SNtH77uOQ44jfz8cU44vcfGCHE9Co=;
-        b=6Y/wMF8LiN2v/xgrgpVgBfmCf1kMbnFHt06KyR6lX2p12pSSwzaE+9CjzK6sRyTOHD
-         XeNumGvp4X6WaHgfA6RGmMztBAVtmW2cJgu7/4leWbE+imoYAK8OGUVnncPO6sHTBObE
-         TiObgJauKlmtS80rVyGI3z2/ReZxt0BNkRyHoppKbD3Fse5kTLQJweqaAq8t5hheBF8R
-         WH7BSK+L5KoVcPLJgwEUommWSVR6XOH2bOskL2oLo3mFxRh43hngWeKp5b/A2SDAA5xd
-         f/QFNDWLf9qEyIF+bbxPyKca1RRQRMe1tU03UNCCypjC/aSkoYbxN1JdfzUu8bgRLwxs
-         W7PA==
-X-Gm-Message-State: AO0yUKXvEVG1QD+Ri7MOUcP9DlhdQmoXJWfEfrxfqwWAiPalawCmFWg1
-	LO0E5NM8rip7ap/CvznlvyCcPVJugdU=
-X-Google-Smtp-Source: AK7set+3krn6ScDjnpY0SuiqkW1ONs3xmjJZwHDsfw8XHhonICfnNmncFlAohsrQ6aGpUYTRH+uWbA==
-X-Received: by 2002:a05:600c:3b12:b0:3ed:2a3e:2574 with SMTP id m18-20020a05600c3b1200b003ed2a3e2574mr6227358wms.7.1678867225577;
-        Wed, 15 Mar 2023 01:00:25 -0700 (PDT)
-Received: from localhost.lan ([188.36.64.204])
-        by smtp.gmail.com with ESMTPSA id s20-20020a7bc394000000b003ed2433aa4asm956956wmj.41.2023.03.15.01.00.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Mar 2023 01:00:25 -0700 (PDT)
-From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-Subject: [PATCH] meson.bbclass: Split into meson-common and meson classes
-Date: Wed, 15 Mar 2023 09:00:20 +0100
-Message-Id: <20230315080020.2648416-1-zboszor@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        bh=6Pe3plY7xnLVogHEZYGCFY+TufY77GdFqF/ySu/hIvs=;
+        b=LmXupaMOv/pBJFt48SWHx/ryCmzFIqCj63+lfG+YwADz4bnJV65rRyxCQDuh2M+kMi
+         ns+2wZk078o30l0PKddWGyI6OmqTnsPZQ3HRop3LVzGmaptBf9cK8vL6FGPErmd2ih/9
+         pj9aIzblHVM8zlNSRGmgrkZi/bGZEspP8cUrku3+8DkcM5SqEWz5u30LMo/n9vOtfEJR
+         foWGvDzcQVSFKNCGuDeeGhN8wFazCxNAwyw7l7CpGToLX8kvDlZHNhj8bbQaVS1xtOm9
+         jSziNnt45VplX+tOgmzPxT8EoqvANskeHEJXYBK1g60AVU7Lcnel+LRPXwo+3JzQc0a7
+         OuJw==
+X-Gm-Message-State: AO0yUKWfqL4Z1p8rf0s7sk2AotU15Ctkl3VHeV+BTxOIdzNDsn98hI6Y
+	cbRtPlzfT82fnMa9VxwAEYcHNtznzihKztcliV4=
+X-Google-Smtp-Source: AK7set/W1wvmZAz1sD46WralVsvyvZEkFw4xb4oprh6AmtjX28Ye0I4ict7ik7xtuW726FneS91FrT1Zlt4kkrVxhZg=
+X-Received: by 2002:ac2:5f0e:0:b0:4dd:a9e5:aa09 with SMTP id
+ 14-20020ac25f0e000000b004dda9e5aa09mr1637538lfq.11.1678868875738; Wed, 15 Mar
+ 2023 01:27:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230315014728.86644-1-xiangyu.chen@eng.windriver.com>
+In-Reply-To: <20230315014728.86644-1-xiangyu.chen@eng.windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 15 Mar 2023 09:27:44 +0100
+Message-ID: <CANNYZj_9ivjNaArbDgci4B8mM+C65NJDa3xbdPap5LBjBY=g-A@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] rng-tools: disable rngd daemon start by default
+To: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 08:00:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178526
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 08:27:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178527
 
-The new meson-common class will be used by a new PEP517 python
-build class using meson-python a.k.a. mesonpy.
+I don't think adding a custom variable is the correct approach.
 
-Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
----
- meta/classes-recipe/meson-common.bbclass | 141 +++++++++++++++++++++++
- meta/classes-recipe/meson.bbclass        | 136 +---------------------
- 2 files changed, 142 insertions(+), 135 deletions(-)
- create mode 100644 meta/classes-recipe/meson-common.bbclass
+If you want rngtest or other supplementary tools in the image, but
+don't want to install and start rngd, then rngtest should be packaged
+and installed separately via appropriate FILES/PACKAGES assignments in
+the recipe. Can you make it work that way please?
 
-diff --git a/meta/classes-recipe/meson-common.bbclass b/meta/classes-recipe/meson-common.bbclass
-new file mode 100644
-index 0000000000..e02b3e5ab6
---- /dev/null
-+++ b/meta/classes-recipe/meson-common.bbclass
-@@ -0,0 +1,141 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+inherit python3native meson-routines qemu
-+
-+DEPENDS:append = " meson-native ninja-native"
-+
-+EXEWRAPPER_ENABLED:class-native = "False"
-+EXEWRAPPER_ENABLED:class-nativesdk = "False"
-+EXEWRAPPER_ENABLED ?= "${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'True', 'False', d)}"
-+DEPENDS:append = "${@' qemu-native' if d.getVar('EXEWRAPPER_ENABLED') == 'True' else ''}"
-+
-+# As Meson enforces out-of-tree builds we can just use cleandirs
-+B = "${WORKDIR}/build"
-+do_configure[cleandirs] = "${B}"
-+
-+# Where the meson.build build configuration is
-+MESON_SOURCEPATH = "${S}"
-+
-+def noprefix(var, d):
-+    return d.getVar(var).replace(d.getVar('prefix') + '/', '', 1)
-+
-+MESON_BUILDTYPE ?= "${@oe.utils.vartrue('DEBUG_BUILD', 'debug', 'plain', d)}"
-+MESON_BUILDTYPE[vardeps] += "DEBUG_BUILD"
-+MESONOPTS = " --prefix ${prefix} \
-+              --buildtype ${MESON_BUILDTYPE} \
-+              --bindir ${@noprefix('bindir', d)} \
-+              --sbindir ${@noprefix('sbindir', d)} \
-+              --datadir ${@noprefix('datadir', d)} \
-+              --libdir ${@noprefix('libdir', d)} \
-+              --libexecdir ${@noprefix('libexecdir', d)} \
-+              --includedir ${@noprefix('includedir', d)} \
-+              --mandir ${@noprefix('mandir', d)} \
-+              --infodir ${@noprefix('infodir', d)} \
-+              --sysconfdir ${sysconfdir} \
-+              --localstatedir ${localstatedir} \
-+              --sharedstatedir ${sharedstatedir} \
-+              --wrap-mode nodownload \
-+              --native-file ${WORKDIR}/meson.native"
-+
-+EXTRA_OEMESON:append = " ${PACKAGECONFIG_CONFARGS}"
-+
-+MESON_CROSS_FILE = ""
-+MESON_CROSS_FILE:class-target = "--cross-file ${WORKDIR}/meson.cross"
-+MESON_CROSS_FILE:class-nativesdk = "--cross-file ${WORKDIR}/meson.cross"
-+
-+# Needed to set up qemu wrapper below
-+export STAGING_DIR_HOST
-+
-+def rust_tool(d, target_var):
-+    rustc = d.getVar('RUSTC')
-+    if not rustc:
-+        return ""
-+    cmd = [rustc, "--target", d.getVar(target_var)] + d.getVar("RUSTFLAGS").split()
-+    return "rust = %s" % repr(cmd)
-+
-+addtask write_config before do_configure
-+do_write_config[vardeps] += "CC CXX LD AR NM STRIP READELF CFLAGS CXXFLAGS LDFLAGS RUSTC RUSTFLAGS"
-+do_write_config() {
-+    # This needs to be Py to split the args into single-element lists
-+    cat >${WORKDIR}/meson.cross <<EOF
-+[binaries]
-+c = ${@meson_array('CC', d)}
-+cpp = ${@meson_array('CXX', d)}
-+cython = 'cython3'
-+ar = ${@meson_array('AR', d)}
-+nm = ${@meson_array('NM', d)}
-+strip = ${@meson_array('STRIP', d)}
-+readelf = ${@meson_array('READELF', d)}
-+objcopy = ${@meson_array('OBJCOPY', d)}
-+pkgconfig = 'pkg-config'
-+llvm-config = 'llvm-config'
-+cups-config = 'cups-config'
-+g-ir-scanner = '${STAGING_BINDIR}/g-ir-scanner-wrapper'
-+g-ir-compiler = '${STAGING_BINDIR}/g-ir-compiler-wrapper'
-+${@rust_tool(d, "HOST_SYS")}
-+${@"exe_wrapper = '${WORKDIR}/meson-qemuwrapper'" if d.getVar('EXEWRAPPER_ENABLED') == 'True' else ""}
-+
-+[built-in options]
-+c_args = ${@meson_array('CFLAGS', d)}
-+c_link_args = ${@meson_array('LDFLAGS', d)}
-+cpp_args = ${@meson_array('CXXFLAGS', d)}
-+cpp_link_args = ${@meson_array('LDFLAGS', d)}
-+
-+[properties]
-+needs_exe_wrapper = true
-+
-+[host_machine]
-+system = '${@meson_operating_system('HOST_OS', d)}'
-+cpu_family = '${@meson_cpu_family('HOST_ARCH', d)}'
-+cpu = '${HOST_ARCH}'
-+endian = '${@meson_endian('HOST', d)}'
-+
-+[target_machine]
-+system = '${@meson_operating_system('TARGET_OS', d)}'
-+cpu_family = '${@meson_cpu_family('TARGET_ARCH', d)}'
-+cpu = '${TARGET_ARCH}'
-+endian = '${@meson_endian('TARGET', d)}'
-+EOF
-+
-+    cat >${WORKDIR}/meson.native <<EOF
-+[binaries]
-+c = ${@meson_array('BUILD_CC', d)}
-+cpp = ${@meson_array('BUILD_CXX', d)}
-+cython = 'cython3'
-+ar = ${@meson_array('BUILD_AR', d)}
-+nm = ${@meson_array('BUILD_NM', d)}
-+strip = ${@meson_array('BUILD_STRIP', d)}
-+readelf = ${@meson_array('BUILD_READELF', d)}
-+objcopy = ${@meson_array('BUILD_OBJCOPY', d)}
-+pkgconfig = 'pkg-config-native'
-+${@rust_tool(d, "BUILD_SYS")}
-+
-+[built-in options]
-+c_args = ${@meson_array('BUILD_CFLAGS', d)}
-+c_link_args = ${@meson_array('BUILD_LDFLAGS', d)}
-+cpp_args = ${@meson_array('BUILD_CXXFLAGS', d)}
-+cpp_link_args = ${@meson_array('BUILD_LDFLAGS', d)}
-+EOF
-+}
-+
-+do_write_config:append:class-target() {
-+    # Write out a qemu wrapper that will be used as exe_wrapper so that meson
-+    # can run target helper binaries through that.
-+    qemu_binary="${@qemu_wrapper_cmdline(d, '$STAGING_DIR_HOST', ['$STAGING_DIR_HOST/${libdir}','$STAGING_DIR_HOST/${base_libdir}'])}"
-+    cat > ${WORKDIR}/meson-qemuwrapper << EOF
-+#!/bin/sh
-+# Use a modules directory which doesn't exist so we don't load random things
-+# which may then get deleted (or their dependencies) and potentially segfault
-+export GIO_MODULE_DIR=${STAGING_LIBDIR}/gio/modules-dummy
-+
-+# meson sets this wrongly (only to libs in build-dir), qemu_wrapper_cmdline() and GIR_EXTRA_LIBS_PATH take care of it properly
-+unset LD_LIBRARY_PATH
-+
-+$qemu_binary "\$@"
-+EOF
-+    chmod +x ${WORKDIR}/meson-qemuwrapper
-+}
-diff --git a/meta/classes-recipe/meson.bbclass b/meta/classes-recipe/meson.bbclass
-index 48688bed75..f1273aa1c0 100644
---- a/meta/classes-recipe/meson.bbclass
-+++ b/meta/classes-recipe/meson.bbclass
-@@ -4,141 +4,7 @@
- # SPDX-License-Identifier: MIT
- #
- 
--inherit python3native meson-routines qemu
--
--DEPENDS:append = " meson-native ninja-native"
--
--EXEWRAPPER_ENABLED:class-native = "False"
--EXEWRAPPER_ENABLED:class-nativesdk = "False"
--EXEWRAPPER_ENABLED ?= "${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'True', 'False', d)}"
--DEPENDS:append = "${@' qemu-native' if d.getVar('EXEWRAPPER_ENABLED') == 'True' else ''}"
--
--# As Meson enforces out-of-tree builds we can just use cleandirs
--B = "${WORKDIR}/build"
--do_configure[cleandirs] = "${B}"
--
--# Where the meson.build build configuration is
--MESON_SOURCEPATH = "${S}"
--
--def noprefix(var, d):
--    return d.getVar(var).replace(d.getVar('prefix') + '/', '', 1)
--
--MESON_BUILDTYPE ?= "${@oe.utils.vartrue('DEBUG_BUILD', 'debug', 'plain', d)}"
--MESON_BUILDTYPE[vardeps] += "DEBUG_BUILD"
--MESONOPTS = " --prefix ${prefix} \
--              --buildtype ${MESON_BUILDTYPE} \
--              --bindir ${@noprefix('bindir', d)} \
--              --sbindir ${@noprefix('sbindir', d)} \
--              --datadir ${@noprefix('datadir', d)} \
--              --libdir ${@noprefix('libdir', d)} \
--              --libexecdir ${@noprefix('libexecdir', d)} \
--              --includedir ${@noprefix('includedir', d)} \
--              --mandir ${@noprefix('mandir', d)} \
--              --infodir ${@noprefix('infodir', d)} \
--              --sysconfdir ${sysconfdir} \
--              --localstatedir ${localstatedir} \
--              --sharedstatedir ${sharedstatedir} \
--              --wrap-mode nodownload \
--              --native-file ${WORKDIR}/meson.native"
--
--EXTRA_OEMESON:append = " ${PACKAGECONFIG_CONFARGS}"
--
--MESON_CROSS_FILE = ""
--MESON_CROSS_FILE:class-target = "--cross-file ${WORKDIR}/meson.cross"
--MESON_CROSS_FILE:class-nativesdk = "--cross-file ${WORKDIR}/meson.cross"
--
--# Needed to set up qemu wrapper below
--export STAGING_DIR_HOST
--
--def rust_tool(d, target_var):
--    rustc = d.getVar('RUSTC')
--    if not rustc:
--        return ""
--    cmd = [rustc, "--target", d.getVar(target_var)] + d.getVar("RUSTFLAGS").split()
--    return "rust = %s" % repr(cmd)
--
--addtask write_config before do_configure
--do_write_config[vardeps] += "CC CXX LD AR NM STRIP READELF CFLAGS CXXFLAGS LDFLAGS RUSTC RUSTFLAGS"
--do_write_config() {
--    # This needs to be Py to split the args into single-element lists
--    cat >${WORKDIR}/meson.cross <<EOF
--[binaries]
--c = ${@meson_array('CC', d)}
--cpp = ${@meson_array('CXX', d)}
--cython = 'cython3'
--ar = ${@meson_array('AR', d)}
--nm = ${@meson_array('NM', d)}
--strip = ${@meson_array('STRIP', d)}
--readelf = ${@meson_array('READELF', d)}
--objcopy = ${@meson_array('OBJCOPY', d)}
--pkgconfig = 'pkg-config'
--llvm-config = 'llvm-config'
--cups-config = 'cups-config'
--g-ir-scanner = '${STAGING_BINDIR}/g-ir-scanner-wrapper'
--g-ir-compiler = '${STAGING_BINDIR}/g-ir-compiler-wrapper'
--${@rust_tool(d, "HOST_SYS")}
--${@"exe_wrapper = '${WORKDIR}/meson-qemuwrapper'" if d.getVar('EXEWRAPPER_ENABLED') == 'True' else ""}
--
--[built-in options]
--c_args = ${@meson_array('CFLAGS', d)}
--c_link_args = ${@meson_array('LDFLAGS', d)}
--cpp_args = ${@meson_array('CXXFLAGS', d)}
--cpp_link_args = ${@meson_array('LDFLAGS', d)}
--
--[properties]
--needs_exe_wrapper = true
--
--[host_machine]
--system = '${@meson_operating_system('HOST_OS', d)}'
--cpu_family = '${@meson_cpu_family('HOST_ARCH', d)}'
--cpu = '${HOST_ARCH}'
--endian = '${@meson_endian('HOST', d)}'
--
--[target_machine]
--system = '${@meson_operating_system('TARGET_OS', d)}'
--cpu_family = '${@meson_cpu_family('TARGET_ARCH', d)}'
--cpu = '${TARGET_ARCH}'
--endian = '${@meson_endian('TARGET', d)}'
--EOF
--
--    cat >${WORKDIR}/meson.native <<EOF
--[binaries]
--c = ${@meson_array('BUILD_CC', d)}
--cpp = ${@meson_array('BUILD_CXX', d)}
--cython = 'cython3'
--ar = ${@meson_array('BUILD_AR', d)}
--nm = ${@meson_array('BUILD_NM', d)}
--strip = ${@meson_array('BUILD_STRIP', d)}
--readelf = ${@meson_array('BUILD_READELF', d)}
--objcopy = ${@meson_array('BUILD_OBJCOPY', d)}
--pkgconfig = 'pkg-config-native'
--${@rust_tool(d, "BUILD_SYS")}
--
--[built-in options]
--c_args = ${@meson_array('BUILD_CFLAGS', d)}
--c_link_args = ${@meson_array('BUILD_LDFLAGS', d)}
--cpp_args = ${@meson_array('BUILD_CXXFLAGS', d)}
--cpp_link_args = ${@meson_array('BUILD_LDFLAGS', d)}
--EOF
--}
--
--do_write_config:append:class-target() {
--    # Write out a qemu wrapper that will be used as exe_wrapper so that meson
--    # can run target helper binaries through that.
--    qemu_binary="${@qemu_wrapper_cmdline(d, '$STAGING_DIR_HOST', ['$STAGING_DIR_HOST/${libdir}','$STAGING_DIR_HOST/${base_libdir}'])}"
--    cat > ${WORKDIR}/meson-qemuwrapper << EOF
--#!/bin/sh
--# Use a modules directory which doesn't exist so we don't load random things
--# which may then get deleted (or their dependencies) and potentially segfault
--export GIO_MODULE_DIR=${STAGING_LIBDIR}/gio/modules-dummy
--
--# meson sets this wrongly (only to libs in build-dir), qemu_wrapper_cmdline() and GIR_EXTRA_LIBS_PATH take care of it properly
--unset LD_LIBRARY_PATH
--
--$qemu_binary "\$@"
--EOF
--    chmod +x ${WORKDIR}/meson-qemuwrapper
--}
-+inherit meson-common
- 
- # Tell externalsrc that changes to this file require a reconfigure
- CONFIGURE_FILES = "meson.build"
--- 
-2.39.2
+Alex
 
+On Wed, 15 Mar 2023 at 02:47, Xiangyu Chen
+<xiangyu.chen@eng.windriver.com> wrote:
+>
+> From: Xiangyu Chen <xiangyu.chen@windriver.com>
+>
+> Since we removed the openssh dependency[1] on rng-tools, there are no package requiring
+> rng-tools in oe-core, meta-oe, meta-virt, one of the reasons for keeping rng-tools
+> build into the image is that it can be used to test[2], so adding an option to disable
+> rngd daemon by default since the linux-5.6 and later /dev/random won't block anymore[3].
+>
+> By default, this option set to 0 to disable the rngd start, when this option set to 1, the
+> rngd daemon would start normally (if someone really need it).
+>
+> Reference:
+> [1] https://git.openembedded.org/openembedded-core/commit/?id=868dfb46d96a27ec9041cb902fb769330277257d
+> [2] https://linux.die.net/man/1/rngtest
+> [3] https://github.com/torvalds/linux/commit/30c08efec8884fb106b8e57094baa51bb4c44e32
+>
+> Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+> ---
+>  .../rng-tools/rng-tools/default               |  1 +
+>  meta/recipes-support/rng-tools/rng-tools/init | 42 ++++++++++++-------
+>  .../rng-tools/rng-tools/rng-tools.service     |  2 +-
+>  3 files changed, 29 insertions(+), 16 deletions(-)
+>
+> diff --git a/meta/recipes-support/rng-tools/rng-tools/default b/meta/recipes-support/rng-tools/rng-tools/default
+> index b9f8e03635..02659742fd 100644
+> --- a/meta/recipes-support/rng-tools/rng-tools/default
+> +++ b/meta/recipes-support/rng-tools/rng-tools/default
+> @@ -1 +1,2 @@
+>  EXTRA_ARGS="-r /dev/hwrng"
+> +RUN_RNGD=0
+> diff --git a/meta/recipes-support/rng-tools/rng-tools/init b/meta/recipes-support/rng-tools/rng-tools/init
+> index 13f0ecd37c..6c8ce00104 100644
+> --- a/meta/recipes-support/rng-tools/rng-tools/init
+> +++ b/meta/recipes-support/rng-tools/rng-tools/init
+> @@ -12,27 +12,39 @@ test -x "$rngd" || exit 1
+>
+>  case "$1" in
+>    start)
+> -    echo -n "Starting random number generator daemon"
+> -    start-stop-daemon -S -q -x $rngd -- $EXTRA_ARGS
+> -    echo "."
+> +    if [ $RUN_RNGD = 1 ]
+> +    then
+> +        echo -n "Starting random number generator daemon"
+> +        start-stop-daemon -S -q -x $rngd -- $EXTRA_ARGS
+> +        echo "."
+> +    fi
+>      ;;
+>    stop)
+> -    echo -n "Stopping random number generator daemon"
+> -    start-stop-daemon -K -q -n rngd
+> -    echo "."
+> +    if [ $RUN_RNGD = 1 ]
+> +    then
+> +        echo -n "Stopping random number generator daemon"
+> +        start-stop-daemon -K -q -n rngd
+> +        echo "."
+> +    fi
+>      ;;
+>    reload|force-reload)
+> -    echo -n "Signalling rng daemon restart"
+> -    start-stop-daemon -K -q -s 1 -x $rngd
+> -    start-stop-daemon -K -q -s 1 -x $rngd
+> +    if [ $RUN_RNGD = 1 ]
+> +    then
+> +        echo -n "Signalling rng daemon restart"
+> +        start-stop-daemon -K -q -s 1 -x $rngd
+> +        start-stop-daemon -K -q -s 1 -x $rngd
+> +    fi
+>      ;;
+>    restart)
+> -    echo -n "Stopping random number generator daemon"
+> -    start-stop-daemon -K -q -n rngd
+> -    echo "."
+> -    echo -n "Starting random number generator daemon"
+> -    start-stop-daemon -S -q -x $rngd -- $EXTRA_ARGS
+> -    echo "."
+> +    if [ $RUN_RNGD = 1 ]
+> +    then
+> +        echo -n "Stopping random number generator daemon"
+> +        start-stop-daemon -K -q -n rngd
+> +        echo "."
+> +        echo -n "Starting random number generator daemon"
+> +        start-stop-daemon -S -q -x $rngd -- $EXTRA_ARGS
+> +        echo "."
+> +    fi
+>      ;;
+>    *)
+>      echo "Usage: @SYSCONFDIR@/init.d/rng-tools {start|stop|reload|restart|force-reload}"
+> diff --git a/meta/recipes-support/rng-tools/rng-tools/rng-tools.service b/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
+> index 5ae2fba215..be88ab125a 100644
+> --- a/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
+> +++ b/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
+> @@ -7,7 +7,7 @@ ConditionVirtualization=!container
+>
+>  [Service]
+>  EnvironmentFile=-@SYSCONFDIR@/default/rng-tools
+> -ExecStart=@SBINDIR@/rngd -f $EXTRA_ARGS
+> +ExecStart=/bin/sh -c '[ x$RUN_RNGD != x1 ] || exec @SBINDIR@/rngd -f $EXTRA_ARGS '
+>  CapabilityBoundingSet=CAP_SYS_ADMIN
+>  IPAddressDeny=any
+>  LockPersonality=yes
+> --
+> 2.34.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#178518): https://lists.openembedded.org/g/openembedded-core/message/178518
+> Mute This Topic: https://lists.openembedded.org/mt/97619573/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
