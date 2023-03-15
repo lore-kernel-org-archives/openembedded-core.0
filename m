@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D143C76196
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86547C7618B
 	for <webhook@archiver.kernel.org>; Wed, 15 Mar 2023 14:02:00 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web10.8797.1678888911264008541
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web10.8805.1678888918724755584
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Mar 2023 07:01:51 -0700
+ Wed, 15 Mar 2023 07:01:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=mjqkftPI;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f50.google.com with SMTP id gp15-20020a17090adf0f00b0023d1bbd9f9eso1953634pjb.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 07:01:51 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=JO2pPei3;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f45.google.com with SMTP id y15-20020a17090aa40f00b00237ad8ee3a0so2094600pjp.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 07:01:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678888910;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678888918;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WUqFVeMVWMKzKo5IyzDSMaEpyvUNLHrQTM+i8TdB4yI=;
-        b=mjqkftPItURk64n7hHCuA5u8Cd7sUMFVO7HHJt8h6+T31VLHkPJnoEIQCncniOdtgy
-         /4yOBrXx8WP421VT8r8y6LFvabfjm2X2lavRORexyiSvbfDa1+256HY+ObMdNP9bs7H1
-         CblTllLuWT5+eVS3rj+AiZBZ0X4QROkd9GoVHd4z6mTvpIqfXizC3dD1ECuQDvhYH2Si
-         tNC7AeCBz9ZLgaC4d/5Pn+IAGiuFftLRHs4z76pG3h6PCH5p8mfUCbL1cbQGd+sKr4NR
-         uahhdbMu9Y2QKrJRkpZ9DQxgzR+WCC8Sx1FizS/2qtauyt41IoWUYlSosQh+559n0wDh
-         M7Vw==
+        bh=LP0vG6GqjhnlxKl4Tt1OWWzIHs+aRh3GJmbWuw8Uhqk=;
+        b=JO2pPei3jFMWkosfn/XK0GPkXC/0zhARk6BfbAbZTTmHQcXAaQkApN2sQuAGr8aek1
+         pZSRjEy6ad+/D886xiC3oxkJMUAoYUhVvkrjBfZfbIoDOtHDr1e3bKaU1dy+Q4OPMqh+
+         DAM7A96fawU14OX2Dwspvio/JoFLkzFJs+EbC1Kpq0wlmEp+X8LkBRGR+AgtirwlExbA
+         jyR7LHSHrjkob1PsU8Z9IXhimPv8oF1LiH9dvqlt3ZpTI3krn08U2XBm1pi0NP0yWfwv
+         ICBAgPYa14cZEurI4rywWE++TbcPPh+XjrUXVT6JqQNkmQru3pdNrhePuwxTiTzU/egx
+         Kx0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678888910;
+        d=1e100.net; s=20210112; t=1678888918;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WUqFVeMVWMKzKo5IyzDSMaEpyvUNLHrQTM+i8TdB4yI=;
-        b=Xnxv8hpf7iMf64R6Sg7LGIEwWj0RuXphl7n/q4jfXJ1Tclo23akuEs9BUMrKlpTKXb
-         666AM08MCTy3/OMq1khZge3zdy1MtsUhUyIF6jyisXeNq1xA8nZKuwVxiDjD9ew1dHrH
-         GAhLVhtTiuSAvAa3lyTgVHc7DyE5lKS08jk0sWewACb24zMVyAmm9Ed50ERomRlm7EG4
-         l/BPzPQ1LhEkCf1x+CnlQw3DTgnLcnmpubK1BqsqrFd4ck57AvGwnzRtH6z43xB/IkLh
-         ynlDTJjFqax2K0TVqo7QyD1jYSQL/xbAYD3eTx57PKsBFpV0IbfZd83hJN1ReMcbmzht
-         rb9w==
-X-Gm-Message-State: AO0yUKWui4eCDRAhH63a2d/HXgNe+x4fyQap7poB1IhKH6BmWVKXcNlj
-	H1W5uboMWE0KYOOfOzNJL1jo1NXyoN6fKcmYDlY=
-X-Google-Smtp-Source: AK7set/7nxer+oUH/QuhYEPfURhK0sLpeM8flM21S7wPcuZ0N2v7UaAT7flJrbXG3Brn7SNcdK02tg==
-X-Received: by 2002:a17:903:41c7:b0:19d:297:f30b with SMTP id u7-20020a17090341c700b0019d0297f30bmr3157084ple.19.1678888910347;
-        Wed, 15 Mar 2023 07:01:50 -0700 (PDT)
+        bh=LP0vG6GqjhnlxKl4Tt1OWWzIHs+aRh3GJmbWuw8Uhqk=;
+        b=PHIXxS9EAmybhzz3cX+l4elXMG2Qv4zrBRD7juQdYO2uqjScITq3YfL6QK/rT7sZkm
+         ia7vOtS1dfn7xO4J0h5ol0eVmTAlh9XaezK8io8XNUFQLCtdLXfht7gh9TNAgUJldoyk
+         3Wa0ASlVWBbY3W47cmQ16BgqyBF5jBYX1lY8C76Z96QXofwmsX/Zehsr3Zs55P4PbsAh
+         uXII7I/fN0KRBJ8EBAa9s/gPeyK+rF4B0/WPSWvYs5qO6PZpOZn6Jw5ww4+ca+it0ARK
+         2YwpFldU2ApwgGdpoegCQObOjIZ92a+VVtWNllgZnpIzBFEaQwEpQE2epQbF1p5SG0S+
+         tkrA==
+X-Gm-Message-State: AO0yUKVwblJ1HcYOzuINQqRLpZT4KyoSzk8OEGXviEVvG5ZN8PuR6+ba
+	9Y5lp7WuLVLCmifK+U6EIZujb73ZfCPS1BGv2dI=
+X-Google-Smtp-Source: AK7set+wb6pmTJGoQfl+HU7/uqef7PJtyQePbJYjztbtWKWUKafo+1slJrJDbVymxOnHFbOnU95QeA==
+X-Received: by 2002:a17:902:ce92:b0:1a0:4410:e6 with SMTP id f18-20020a170902ce9200b001a0441000e6mr2894500plg.63.1678888917670;
+        Wed, 15 Mar 2023 07:01:57 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id h6-20020a170902f54600b001a0432ca99csm3663755plf.269.2023.03.15.07.01.49
+        by smtp.gmail.com with ESMTPSA id h6-20020a170902f54600b001a0432ca99csm3663755plf.269.2023.03.15.07.01.56
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Mar 2023 07:01:50 -0700 (PDT)
+        Wed, 15 Mar 2023 07:01:57 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 15/22] oeqa/selftest/prservice: Improve debug output for failure
-Date: Wed, 15 Mar 2023 04:01:06 -1000
-Message-Id: <9afb0e2f781720715fc6fd8595d6996465589892.1678888649.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 19/22] oeqa/sdk: Improve Meson test
+Date: Wed, 15 Mar 2023 04:01:10 -1000
+Message-Id: <3fbcaaa01304bbc645ddf01ef91805811e3c7f54.1678888649.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1678888649.git.steve@sakoman.com>
 References: <cover.1678888649.git.steve@sakoman.com>
@@ -61,34 +61,38 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 14:02:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178566
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178570
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Tom Hochstein <tom.hochstein@nxp.com>
 
-We keep seeing this failure on the autobuilder but the output amounts
-to "False is not True". Improve the debug message on the chance it may
-make the issue clearer.
+The meson wrapper setup command detection is broken in the case of an
+implicit setup command with an option with a space-separated argument,
+but the test was not detecting it since the case was not covered.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d03f4cf19c2cc96e9d942252a451521dfec42ebc)
+Add the option `--warnlevel 1` to the meson command line to cover this
+case.
+
+Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit 54e9ee8a0c6c9fc89cbb743f0e4fc18607d503cf)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/cases/prservice.py | 2 +-
+ meta/lib/oeqa/sdk/cases/buildepoxy.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/prservice.py b/meta/lib/oeqa/selftest/cases/prservice.py
-index 10158ca7c2..a41812148a 100644
---- a/meta/lib/oeqa/selftest/cases/prservice.py
-+++ b/meta/lib/oeqa/selftest/cases/prservice.py
-@@ -75,7 +75,7 @@ class BitbakePrTests(OESelftestTestCase):
-         exported_db_path = os.path.join(self.builddir, 'export.inc')
-         export_result = runCmd("bitbake-prserv-tool export %s" % exported_db_path, ignore_status=True)
-         self.assertEqual(export_result.status, 0, msg="PR Service database export failed: %s" % export_result.output)
--        self.assertTrue(os.path.exists(exported_db_path))
-+        self.assertTrue(os.path.exists(exported_db_path), msg="%s didn't exist, tool output %s" % (exported_db_path, export_result.output))
+diff --git a/meta/lib/oeqa/sdk/cases/buildepoxy.py b/meta/lib/oeqa/sdk/cases/buildepoxy.py
+index f69f720cd6..1c41b04169 100644
+--- a/meta/lib/oeqa/sdk/cases/buildepoxy.py
++++ b/meta/lib/oeqa/sdk/cases/buildepoxy.py
+@@ -32,7 +32,7 @@ class EpoxyTest(OESDKTestCase):
+             self.assertTrue(os.path.isdir(dirs["source"]))
+             os.makedirs(dirs["build"])
  
-         if replace_current_db:
-             current_db_path = os.path.join(get_bb_var('PERSISTENT_DIR'), 'prserv.sqlite3')
+-            log = self._run("meson -Degl=no -Dglx=no -Dx11=false {build} {source}".format(**dirs))
++            log = self._run("meson --warnlevel 1 -Degl=no -Dglx=no -Dx11=false {build} {source}".format(**dirs))
+             # Check that Meson thinks we're doing a cross build and not a native
+             self.assertIn("Build type: cross build", log)
+             self._run("ninja -C {build} -v".format(**dirs))
 -- 
 2.34.1
 
