@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BE71C77B79
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A67FC77B7C
 	for <webhook@archiver.kernel.org>; Wed, 15 Mar 2023 15:55:32 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.12304.1678895727691885703
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.12153.1678895727403735309
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 Mar 2023 08:55:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=cJfAzqum;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010186e5fbc0a2-db231ca4-a78b-420f-84ef-32e8c94f9c6b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=eqzSY7eh;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010186e5fbc000-39cadae9-adc4-4f7f-a3a1-55d72701266e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1678895726;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ZiaAUnD+HXpJ63sbPhx8VaAjhNctVbEWbNJocn+A1bE=;
-	b=cJfAzqumtTY5qsuTMCdEK3ZKpj7dzfP8xGx1bAp2r6WveO4KnBYoX+DFRxk9fHGi
-	bWC3d6WbYs1YWgyE5+FLVsxPjohKwtaeNMXhKY9+jGVE/rMrqXurF5eylpwaLyO8eJu
-	FmSo1a7awctBgKAM+r0PcYNdgDIfxnkETWV0SqzA=
+	bh=JWSQ1QUv99qUwbaGw5q3MVwpaOxkjqYFtfNOonmf7RI=;
+	b=eqzSY7ehgO6lVSkKnb+Ev/t859f4goZ5kO6lOD7fq2uceUlbhuQsf1JqEfCvytCz
+	esJ/f9hdD5opWa4sdAi96BXPrfSkgNshtuHs8LdhqU6WC30PLLY0QOUP4ydriJYYP4a
+	LzUuJDPT0EmXxQt49sjDFMxuPOehSGt/aeyBhNg4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1678895726;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ZiaAUnD+HXpJ63sbPhx8VaAjhNctVbEWbNJocn+A1bE=;
-	b=Ld0DgebD31Rup79EQ7W/X2ajRNFNlTAAKRDa62qpC8DNHd0Jnvuv55pVdg1fcTvV
-	JRKVzAQ5FMexLlAcwUpht2ptclrbe6KbRQTO9mjPSf+bBwq6h7Q78A5D5leu9EHpOv7
-	WkDM8ZzrHK+D42j6EMYHAq03GqV09Ubx5jOBaaCw=
-Content-Type: multipart/mixed; boundary="===============0823857293793996232=="
+	bh=JWSQ1QUv99qUwbaGw5q3MVwpaOxkjqYFtfNOonmf7RI=;
+	b=bTkAxHFnmCtwieEhV8bl6C+u8XztaYgW8wncFTrt8iExuJ2XLlIGdJpFlAvL9mTr
+	8LXNJ2S69DW0SOyRD9AlOC0UZhPpg9rRzpTDr/Y2XDfefDt5C6YEEBd+1JYUxR21S8f
+	r1MS7DFg5Em5e94VtFSVn4ZEvYsSWI/1m5dTBp34=
+Content-Type: multipart/mixed; boundary="===============4540996320639657554=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] pango: upgrading to 1.50.14 SUCCEEDED
-Message-ID: <01010186e5fbc0a2-db231ca4-a78b-420f-84ef-32e8c94f9c6b-000000@us-west-2.amazonses.com>
+Subject: [AUH] libva-initial: upgrading to 2.17.0 FAILED
+Message-ID: <01010186e5fbc000-39cadae9-adc4-4f7f-a3a1-55d72701266e-000000@us-west-2.amazonses.com>
 Date: Wed, 15 Mar 2023 15:55:26 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.03.15-54.240.27.191
+X-SES-Outgoing: 2023.03.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 15:55:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178621
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178618
 
---===============0823857293793996232==
+--===============4540996320639657554==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,32 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *pango* to *1.50.14* has Succeeded.
+that the automatic attempt to upgrade the recipe *libva-initial* to *2.17.0* has Failed (devtool error).
+
+Detailed error information:
+
+The following devtool command failed:  finish -f libva-initial /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libva
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)... (11:45:51.733669)
+Loading cache...done.
+Loaded 1791 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 897 .bb files complete (896 cached, 1 parsed). 1794 targets, 38 skipped, 0 masked, 0 errors.
+
+INFO: No patches or local source files needed updating
+INFO: Cleaning sysroot for recipe libva-initial...
+ERROR: Command 'bitbake -c clean libva-initial' failed, output:
+Loading cache...done.
+Loaded 1794 entries from dependency cache.
+Parsing recipes...
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+
+If you wish, you may specify -n/--no-clean to skip running this command when resetting
+
 
 Next steps:
-    - apply the patch: git am 0001-pango-upgrade-1.50.13-1.50.14.patch
+    - apply the patch: git am 0001-libva-initial-upgrade-2.16.0-2.17.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,91 +91,59 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============0823857293793996232==
+--===============4540996320639657554==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-pango-upgrade-1.50.13-1.50.14.patch"
+ filename="0001-libva-initial-upgrade-2.16.0-2.17.0.patch"
 
-RnJvbSBmNWQwN2JkNTc0YzE4ZjI5ZGZkNjk0Mzc2MDIwOTMwMjI0OGNiMTNiIE1vbiBTZXAgMTcg
+RnJvbSBjNWViMjBhYjljMDhkMWFlYzEyZjA2MWI0ODNhZmYwYzNkZjY1ZGQxIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgTWFyIDIwMjMgMTE6NTQ6MDAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-YW5nbzogdXBncmFkZSAxLjUwLjEzIC0+IDEuNTAuMTQKCi0tLQogLi4uL3BhbmdvL3twYW5nb18x
-LjUwLjEzLmJiID0+IHBhbmdvXzEuNTAuMTQuYmJ9ICAgICAgICAgICAgICAgIHwgMiArLQogMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLWdyYXBoaWNzL3BhbmdvL3twYW5nb18xLjUwLjEzLmJiID0+IHBhbmdvXzEuNTAuMTQu
-YmJ9ICg5NCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BhbmdvL3Bhbmdv
-XzEuNTAuMTMuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGFuZ28vcGFuZ29fMS41MC4xNC5i
-YgpzaW1pbGFyaXR5IGluZGV4IDk0JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
-cGFuZ28vcGFuZ29fMS41MC4xMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Bh
-bmdvL3BhbmdvXzEuNTAuMTQuYmIKaW5kZXggZTY3MzM2NmRjNy4uZWM3YTkxMzAwOSAxMDA2NDQK
-LS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BhbmdvL3BhbmdvXzEuNTAuMTMuYmIKKysrIGIv
-bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BhbmdvL3BhbmdvXzEuNTAuMTQuYmIKQEAgLTI0LDcgKzI0
-LDcgQEAgU1JDX1VSSSArPSAiZmlsZTovL3J1bi1wdGVzdCBcCiAgICAgICAgICAgIGZpbGU6Ly8w
-MDAxLVNraXAtcnVubmluZy10ZXN0LWxheW91dC10ZXN0LnBhdGNoIFwKICAgICAgICAgICAgIgog
-Ci1TUkNfVVJJW2FyY2hpdmUuc2hhMjU2c3VtXSA9ICI1Y2RjZjZkNzYxZDI2YTNlYjk0MTJiNmNi
-MDY5YjMyYmQxZDliMDdhYmYxMTYzMjExNjdkOTRjMjE4OTI5OWZkIgorU1JDX1VSSVthcmNoaXZl
-LnNoYTI1NnN1bV0gPSAiMWQ2N2YyMDViZmMzMThjMjdhMjljZmRmYjY4Mjg1NjhkZjU2Njc5NWRm
-MGNiNTFkMjE4OWNkZTdmMmQ1ODFlOCIKIAogREVQRU5EUyA9ICJnbGliLTIuMCBnbGliLTIuMC1u
-YXRpdmUgZm9udGNvbmZpZyBmcmVldHlwZSB2aXJ0dWFsL2xpYmljb252IGNhaXJvIGhhcmZidXp6
-IGZyaWJpZGkiCiAKLS0gCjIuMzkuMgoK
+CkRhdGU6IFdlZCwgMTUgTWFyIDIwMjMgMTE6NDU6NTggKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJ2YS1pbml0aWFsOiB1cGdyYWRlIDIuMTYuMCAtPiAyLjE3LjAKCi0tLQogLi4uL2xpYnZhL2xp
+YnZhLWluaXRpYWxfMi4xNi4wLmJiICAgICAgICAgICAgIHwgIDggLS0tLQogbWV0YS9yZWNpcGVz
+LWdyYXBoaWNzL2xpYnZhL2xpYnZhLmluYyAgICAgICAgIHwgMzcgLS0tLS0tLS0tLS0tLS0tLS0t
+LQogMiBmaWxlcyBjaGFuZ2VkLCA0NSBkZWxldGlvbnMoLSkKIGRlbGV0ZSBtb2RlIDEwMDY0NCBt
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmEtaW5pdGlhbF8yLjE2LjAuYmIKIGRlbGV0
+ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmEuaW5jCgpkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnZhL2xpYnZhLWluaXRpYWxfMi4xNi4w
+LmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnZhL2xpYnZhLWluaXRpYWxfMi4xNi4wLmJi
+CmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCA0NTMwOTY4MjJmLi4wMDAwMDAwMDAwCi0t
+LSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJ2YS9saWJ2YS1pbml0aWFsXzIuMTYuMC5iYgor
+KysgL2Rldi9udWxsCkBAIC0xLDggKzAsMCBAQAotcmVxdWlyZSBsaWJ2YS5pbmMKLQotUEFDS0FH
+RUNPTkZJRyA/PSAiIgotCi1kb19pbnN0YWxsOmFwcGVuZCAoKSB7Ci0Jcm0gLWYgJHtEfSR7bGli
+ZGlyfS8qLnNvKgotfQotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEv
+bGlidmEuaW5jIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnZhL2xpYnZhLmluYwpkZWxldGVk
+IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMGYxNmRhY2M5OC4uMDAwMDAwMDAwMAotLS0gYS9tZXRh
+L3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmEuaW5jCisrKyAvZGV2L251bGwKQEAgLTEsMzcg
+KzAsMCBAQAotU1VNTUFSWSA9ICJWaWRlbyBBY2NlbGVyYXRpb24gKFZBKSBBUEkgZm9yIExpbnV4
+IgotREVTQ1JJUFRJT04gPSAiVmlkZW8gQWNjZWxlcmF0aW9uIEFQSSAoVkEgQVBJKSBpcyBhIGxp
+YnJhcnkgKGxpYlZBKSBcCi1hbmQgQVBJIHNwZWNpZmljYXRpb24gd2hpY2ggZW5hYmxlcyBhbmQg
+cHJvdmlkZXMgYWNjZXNzIHRvIGdyYXBoaWNzIFwKLWhhcmR3YXJlIChHUFUpIGFjY2VsZXJhdGlv
+biBmb3IgdmlkZW8gcHJvY2Vzc2luZyBvbiBMaW51eCBhbmQgVU5JWCBcCi1iYXNlZCBvcGVyYXRp
+bmcgc3lzdGVtcy4gQWNjZWxlcmF0ZWQgcHJvY2Vzc2luZyBpbmNsdWRlcyB2aWRlbyBcCi1kZWNv
+ZGluZywgdmlkZW8gZW5jb2RpbmcsIHN1YnBpY3R1cmUgYmxlbmRpbmcgYW5kIHJlbmRlcmluZy4g
+VGhlIFwKLXNwZWNpZmljYXRpb24gd2FzIG9yaWdpbmFsbHkgZGVzaWduZWQgYnkgSW50ZWwgZm9y
+IGl0cyBHTUEgKEdyYXBoaWNzIFwKLU1lZGlhIEFjY2VsZXJhdG9yKSBzZXJpZXMgb2YgR1BVIGhh
+cmR3YXJlLCB0aGUgQVBJIGlzIGhvd2V2ZXIgbm90IFwKLWxpbWl0ZWQgdG8gR1BVcyBvciBJbnRl
+bCBzcGVjaWZpYyBoYXJkd2FyZSwgYXMgb3RoZXIgaGFyZHdhcmUgYW5kIFwKLW1hbnVmYWN0dXJl
+cnMgY2FuIGFsc28gZnJlZWx5IHVzZSB0aGlzIEFQSSBmb3IgaGFyZHdhcmUgYWNjZWxlcmF0ZWQg
+XAotdmlkZW8gZGVjb2RpbmcuIgotCi1IT01FUEFHRSA9ICJodHRwczovLzAxLm9yZy9saW51eG1l
+ZGlhL3ZhYXBpIgotQlVHVFJBQ0tFUiA9ICJodHRwczovL2dpdGh1Yi5jb20vaW50ZWwvbGlidmEv
+aXNzdWVzIgotCi1TRUNUSU9OID0gIngxMSIKLUxJQ0VOU0UgPSAiTUlUIgotCi1TUkNfVVJJID0g
+IiR7R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC8ke1BWfS9saWJ2YS0ke1BWfS50YXIuYnoyIgot
+TElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9MmU0ODk0MGY5NGFjYjBhZjU4
+MmU1ZWYwMzUzNzgwMGYiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMTE1ZmFjYTBkYjJjNDE3YTM3
+ZGE0OTgzMDg3MGUyNjA0NTBmYTEzMDY2ZjVlMjRlMjUyYTIwYzM2ZDkyMGExYyIKLQotUyA9ICIk
+e1dPUktESVJ9L2xpYnZhLSR7UFZ9IgotCi1HSVRIVUJfQkFTRV9VUkkgPSAiaHR0cHM6Ly9naXRo
+dWIuY29tL2ludGVsL2xpYnZhL3JlbGVhc2VzIgotCi1ERVBFTkRTID0gImxpYmRybSIKLQotaW5o
+ZXJpdCBtZXNvbiBwa2djb25maWcgZ2l0aHViLXJlbGVhc2VzCi0KLVBBQ0tBR0VDT05GSUdbeDEx
+XSA9ICItRHdpdGhfeDExPXllcywtRHdpdGhfeDExPW5vLHZpcnR1YWwvbGlieDExIGxpYnhleHQg
+bGlieGZpeGVzIgotUEFDS0FHRUNPTkZJR1tnbHhdID0gIi1Ed2l0aF9nbHg9eWVzLC1Ed2l0aF9n
+bHg9bm8sdmlydHVhbC9tZXNhIgotCi1QQUNLQUdFQ09ORklHW3dheWxhbmRdID0gIi1Ed2l0aF93
+YXlsYW5kPXllcywtRHdpdGhfd2F5bGFuZD1ubyx3YXlsYW5kLW5hdGl2ZSB3YXlsYW5kIgotCi1C
+QkNMQVNTRVhURU5EID0gIm5hdGl2ZSBuYXRpdmVzZGsiCi0KLS0gCjIuMzkuMgoK
 
---===============0823857293793996232==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/pango/pango: FILELIST: removed "/usr/lib/libpangoxft-1.0.so.0.5000.13 /usr/lib/libpangocairo-1.0.so.0.5000.13 /usr/lib/libpangoft2-1.0.so.0.5000.13 /usr/lib/libpango-1.0.so.0.5000.13", added "/usr/lib/libpango-1.0.so.0.5000.14 /usr/lib/libpangoft2-1.0.so.0.5000.14 /usr/lib/libpangocairo-1.0.so.0.5000.14 /usr/lib/libpangoxft-1.0.so.0.5000.14"
-Changes to packages/core2-32-poky-linux/pango (sysroot):
-  /usr/lib/libpango-1.0.so.0 changed symlink target from libpango-1.0.so.0.5000.13 to libpango-1.0.so.0.5000.14
-  /usr/lib/libpangocairo-1.0.so.0 changed symlink target from libpangocairo-1.0.so.0.5000.13 to libpangocairo-1.0.so.0.5000.14
-  /usr/lib/libpangoft2-1.0.so.0 changed symlink target from libpangoft2-1.0.so.0.5000.13 to libpangoft2-1.0.so.0.5000.14
-  /usr/lib/libpangoxft-1.0.so.0 changed symlink target from libpangoxft-1.0.so.0.5000.13 to libpangoxft-1.0.so.0.5000.14
-  /usr/lib/libpango-1.0.so.0.5000.13 moved to /usr/lib/libpango-1.0.so.0.5000.14
-  /usr/lib/libpangocairo-1.0.so.0.5000.13 moved to /usr/lib/libpangocairo-1.0.so.0.5000.14
-  /usr/lib/libpangoft2-1.0.so.0.5000.13 moved to /usr/lib/libpangoft2-1.0.so.0.5000.14
-  /usr/lib/libpangoxft-1.0.so.0.5000.13 moved to /usr/lib/libpangoxft-1.0.so.0.5000.14
-
---===============0823857293793996232==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/pango: PKGV changed from 1.50.13 [default] to 1.50.14 [default]
-packages/core2-32-poky-linux/pango: PV changed from "1.50.13" to "1.50.14"
-packages/core2-32-poky-linux/pango: SRC_URI changed from "https://download.gnome.org/sources//pango/1.50/pango-1.50.13.tar.xz;name=archive file://run-ptest file://0001-Skip-running-test-layout-test.patch" to "https://download.gnome.org/sources//pango/1.50/pango-1.50.14.tar.xz;name=archive file://run-ptest file://0001-Skip-running-test-layout-test.patch"
-packages/core2-32-poky-linux/pango/pango-dbg: PKGV changed from 1.50.13 [default] to 1.50.14 [default]
-packages/core2-32-poky-linux/pango/pango-dbg: PV changed from "1.50.13" to "1.50.14"
-packages/core2-32-poky-linux/pango/pango-dbg: PKGSIZE changed from 2390436 to 2390040 (-0%)
-packages/core2-32-poky-linux/pango/pango-dbg: FILELIST: removed "/usr/lib/.debug/libpangoft2-1.0.so.0.5000.13 /usr/lib/.debug/libpangocairo-1.0.so.0.5000.13 /usr/lib/.debug/libpango-1.0.so.0.5000.13 /usr/lib/.debug/libpangoxft-1.0.so.0.5000.13", added "/usr/lib/.debug/libpangoxft-1.0.so.0.5000.14 /usr/lib/.debug/libpango-1.0.so.0.5000.14 /usr/lib/.debug/libpangocairo-1.0.so.0.5000.14 /usr/lib/.debug/libpangoft2-1.0.so.0.5000.14"
-packages/core2-32-poky-linux/pango/pango-dev: PKGV changed from 1.50.13 [default] to 1.50.14 [default]
-packages/core2-32-poky-linux/pango/pango-dev: PV changed from "1.50.13" to "1.50.14"
-packages/core2-32-poky-linux/pango/pango-doc: PKGV changed from 1.50.13 [default] to 1.50.14 [default]
-packages/core2-32-poky-linux/pango/pango-doc: PV changed from "1.50.13" to "1.50.14"
-packages/core2-32-poky-linux/pango/pango-locale: PKGV changed from 1.50.13 [default] to 1.50.14 [default]
-packages/core2-32-poky-linux/pango/pango-locale: PV changed from "1.50.13" to "1.50.14"
-packages/core2-32-poky-linux/pango/pango-ptest: PKGV changed from 1.50.13 [default] to 1.50.14 [default]
-packages/core2-32-poky-linux/pango/pango-ptest: PV changed from "1.50.13" to "1.50.14"
-packages/core2-32-poky-linux/pango/pango-src: PKGV changed from 1.50.13 [default] to 1.50.14 [default]
-packages/core2-32-poky-linux/pango/pango-src: PV changed from "1.50.13" to "1.50.14"
-packages/core2-32-poky-linux/pango/pango-src: PKGSIZE changed from 2328087 to 2326959 (-0%)
-packages/core2-32-poky-linux/pango/pango-staticdev: PKGV changed from 1.50.13 [default] to 1.50.14 [default]
-packages/core2-32-poky-linux/pango/pango-staticdev: PV changed from "1.50.13" to "1.50.14"
-packages/core2-32-poky-linux/pango/pango: PKGV changed from 1.50.13 [default] to 1.50.14 [default]
-packages/core2-32-poky-linux/pango/pango: PV changed from "1.50.13" to "1.50.14"
-packages/core2-32-poky-linux/pango/pango: FILELIST: removed "/usr/lib/libpangoxft-1.0.so.0.5000.13 /usr/lib/libpango-1.0.so.0.5000.13 /usr/lib/libpangoft2-1.0.so.0.5000.13 /usr/lib/libpangocairo-1.0.so.0.5000.13", added "/usr/lib/libpango-1.0.so.0.5000.14 /usr/lib/libpangocairo-1.0.so.0.5000.14 /usr/lib/libpangoft2-1.0.so.0.5000.14 /usr/lib/libpangoxft-1.0.so.0.5000.14"
-Changes to packages/core2-32-poky-linux/pango (sysroot):
-  /usr/lib/libpango-1.0.so.0 changed symlink target from libpango-1.0.so.0.5000.13 to libpango-1.0.so.0.5000.14
-  /usr/lib/libpangocairo-1.0.so.0 changed symlink target from libpangocairo-1.0.so.0.5000.13 to libpangocairo-1.0.so.0.5000.14
-  /usr/lib/libpangoft2-1.0.so.0 changed symlink target from libpangoft2-1.0.so.0.5000.13 to libpangoft2-1.0.so.0.5000.14
-  /usr/lib/libpangoxft-1.0.so.0 changed symlink target from libpangoxft-1.0.so.0.5000.13 to libpangoxft-1.0.so.0.5000.14
-  /usr/lib/libpango-1.0.so.0.5000.13 moved to /usr/lib/libpango-1.0.so.0.5000.14
-  /usr/lib/libpangocairo-1.0.so.0.5000.13 moved to /usr/lib/libpangocairo-1.0.so.0.5000.14
-  /usr/lib/libpangoft2-1.0.so.0.5000.13 moved to /usr/lib/libpangoft2-1.0.so.0.5000.14
-  /usr/lib/libpangoxft-1.0.so.0.5000.13 moved to /usr/lib/libpangoxft-1.0.so.0.5000.14
-
---===============0823857293793996232==--
+--===============4540996320639657554==--
 
