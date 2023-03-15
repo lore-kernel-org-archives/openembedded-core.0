@@ -1,96 +1,103 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F54FC61DA4
-	for <webhook@archiver.kernel.org>; Wed, 15 Mar 2023 15:51:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 311DEC61DA4
+	for <webhook@archiver.kernel.org>; Wed, 15 Mar 2023 15:53:31 +0000 (UTC)
 Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web10.12172.1678895508096809648
+ by mx.groups.io with SMTP id smtpd.web10.12235.1678895609635808023
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Mar 2023 08:51:48 -0700
+ Wed, 15 Mar 2023 08:53:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Qfw3EtEg;
- spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f169.google.com with SMTP id b10so19963633ljr.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 08:51:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=nCXT5DUn;
+ spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-lj1-f169.google.com with SMTP id y14so19941359ljq.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 08:53:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678895506;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P1G3uDnqF0nBTQIQfW9hZRdtc8AXJ6GoK5Ij8G4NCaw=;
-        b=Qfw3EtEg1w5PirtwKHZvypDfpYTRK1xdjQpvmkZNUPxUx0abfnngiVBkh+MW1UqK4Y
-         UGYKyER6FSDGrWzz56w373jwlD7GS82Biy5cM14P/oRCXweipgPT4NUrAsPJLNRemb9L
-         dHT6uxEldgSYMatW8h1tWVQ6lKZbCtwLZA8d20xbBMqrNNXwduU9GrX+r6Y5etuW7l11
-         m4SGwXDrPn5IaVAet0PLPr9xHz1XOpMkmotGlrj4ifnLT8ion7usd8Wddcs43Hu2qP6S
-         Ruy9OTR0ZgS1fZRS/jFGtpzvwJQifvX/0Qu/5GXu94H8xT2D0VSjttPamtXbzGVXv3Rj
-         hzbQ==
+        d=gmail.com; s=20210112; t=1678895607;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ym4KmKY1Gt2IzLt2/sevBw8rckUtmBCVm6tmCPKCBck=;
+        b=nCXT5DUnefIzmFfhjRCsWXRgh8lvGe6jhSJJxXFi/YvPf/Uj+DAQEfKv96nGpQHLye
+         oR9OFYrPNqeBjS2YItozdTUYh6SSi4wJ8d7+xKUwsbNSN6DWrK05A15ZKeKBU3oqV2sV
+         /SPjLonWfVM5QnuLK96fitccg3Yqzco2tqvSgitiGP5ZzA7AtKeQzTfLW/MXSKoCGkjs
+         DKdq8GWKB31F5UPmRW1RJzRVU2WV4yB96qngO1YdKPk3TjLBNIyv1ieYRq56hvVIkZnC
+         nNBu5KiyRyb9vAzhDqfZev0NxxLo0bHE8o8hIgAUHJPKCGDqjWtwQi1tEgoXnPvI7/cZ
+         F/oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678895506;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=P1G3uDnqF0nBTQIQfW9hZRdtc8AXJ6GoK5Ij8G4NCaw=;
-        b=KKieZe6szieNCX43fB9WCNmKvhyuGDVQuXGfh34TbzXHqLzw8dzeJoa8+jCRvl7kkb
-         W8EPiSVSbftue4rjpb+gkyDYEUNYGNSgqP88v5Wbt960ACH57GxwMsRKTOXQa67u7lC+
-         4ywbQGhZrITAh1qImerm5YEWgHjOUs8rOvGfxGLZPX1/flVNNa0V4gRLU7Ares/mOiuP
-         Ofz2NMqjb44IZcHwlIdSulJ6ZDymbRN7/Pov02DnK8C4CEOZmXvOoubDwVFxkErqBpWu
-         OAOvFz1y6Kk1yfatOVGjZmQy+YPpP/6QNWp8jl3OIEf51cdBvWakBhrt+NB8119UeomI
-         vJ3g==
-X-Gm-Message-State: AO0yUKWtyLZHzewsRFjOIly1fus9pmvRXf74L6CLqfhGN5TU7YaBfRW/
-	65g6Vljak7lqnkzVTpn8eDyqMO8TAqxluGrya28=
-X-Google-Smtp-Source: AK7set9Ve9aQCRsMuKAvXfj3mDvTozhqeERgcK6hXgh6SQ/5snx1rzUkIqx12qan6E/NMbBuJ7X+FpEZkQcNFZDM4fg=
-X-Received: by 2002:a2e:5045:0:b0:293:4ba5:f626 with SMTP id
- v5-20020a2e5045000000b002934ba5f626mr1356816ljd.2.1678895506123; Wed, 15 Mar
- 2023 08:51:46 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1678895607;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ym4KmKY1Gt2IzLt2/sevBw8rckUtmBCVm6tmCPKCBck=;
+        b=lQJZFPxsB5dbzPqmaTSVpV3zEo7ZRwRREY+ln6SGHfHW8lqdaJLtIBkuW3XfS+BXFQ
+         8inqM0UNp+MzOYAq/tn7jA1bIuJ0tw3cLKFqRdR8iWSYGm9B0a1KbtcjYacU3Xv33SFb
+         cSRbjaW4ofW3krQM5bgUNTRLM5nV05lVp0rUfDfccGaegnZ810dG9UQQMv0jmGzZF8tS
+         npeL7nKIp7ag6wY96cpBGvjxjjNJ+Ga0OIdYJvYXOwynN64C7sLdMIYblyNgYAuaC6uE
+         TWK1Uoz9IJ9VXcuKDq9sdJjHDC1cA58cKLdexRoP7JuD8OlC5HyG50DmukgCKfKsJaCU
+         2Vew==
+X-Gm-Message-State: AO0yUKX87H6kRLsm1taCxyxhAsxC2oVZGNJDpm8cjdrul9sQomrAR71Q
+	51Ci1JH3XfQr7Rv8w/CYFAGwqz2vRZhMnfLZy04PCKjRPkI=
+X-Google-Smtp-Source: AK7set/RFht+FdbUTGv/1mKlSoyOVdZGr6HcSgHdS3zAcER1WWq1L5ua8YRRVTARtd8971uALWwwuBptBFKrWUNW8z0=
+X-Received: by 2002:a2e:909a:0:b0:298:b32c:e4f9 with SMTP id
+ l26-20020a2e909a000000b00298b32ce4f9mr539095ljg.3.1678895607366; Wed, 15 Mar
+ 2023 08:53:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230315070909.422721-1-f_l_k@t-online.de> <CANNYZj-k2EG4giH=zhXQywFhnVnpuaFtc4ngHgn8SV3w2kQhrw@mail.gmail.com>
- <LZHKRR.FOHLRDXQDV053@t-online.de>
-In-Reply-To: <LZHKRR.FOHLRDXQDV053@t-online.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 15 Mar 2023 16:51:34 +0100
-Message-ID: <CANNYZj_tKEA=CgQJ8QL2660VbvkXizX7+yrZ4EgaPdPnc33Siw@mail.gmail.com>
-Subject: Re: [oe-core][PATCHv2] glib: update 2.74.6 -> 2.76.0
-To: Markus Volk <f_l_k@t-online.de>
-Cc: openembedded-core@lists.openembedded.org
+From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
+Date: Wed, 15 Mar 2023 16:53:15 +0100
+Message-ID: <CA+cAkeoOSGvNNQOq78-Nh4hqqX-C1nYWjM7uMH_S+ofbHhxEDw@mail.gmail.com>
+Subject: cargo, git dependencies and devtool
+To: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 15:51:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178581
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 15:53:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178582
 
-You probably need to find out what links /var/tmp to /tmp in ptest
-images, and see if it can be reconfigured to do the same thing as the
-image where the tests passed.
+Hello again list,
 
-Alex
+I continue my investigation on developing a rust project within
+openembedded environment. After discussion with some of you, I have a
+project (binary) which will use some custom library crates (and so
+these rely on other git repositories).
 
-On Wed, 15 Mar 2023 at 16:07, Markus Volk <f_l_k@t-online.de> wrote:
->
-> Am Mi, 15. M=C3=A4r 2023 um 08:27:33 +0100 schrieb Alexander Kanavin <ale=
-x.kanavin@gmail.com>:
->
-> Guesswork is a fast track to frustration.
->
->
-> True :D But thats what always happens to me if I dont know enough and can=
-'t find a way to reproduce.
-> Thanks to your hint on  core-image-ptest-glib-2.0 I was able to reproduce=
- the issue. Running the test from /var/volatile/tmp didn't solve the issue.=
- But compared to core-image-ptest-glib-2.0 where /tmp links to /var/tmp the=
- tmpdir is handled by systemd tmp.mount in my image and thus is not a symbo=
-lic link.
->
-> According to systemd ducumentation /var/tmp and /tmp are not the same and=
- are handled differently
-> https://systemd.io/TEMPORARY_DIRECTORIES/
->
-> Still I have no idea how this should be fixed or if the failed test could=
- maybe ignored but I was able to pass the tests in  core-image-ptest-glib-2=
-.0 by removing the /tmp symlink and adding this line to fstab:
-> tmpfs /tmp tmpfs defaults 0 0
->
-> After a reboot the tests completed successful
+In order to simply build the project I need to add this patch
+https://patchwork.yoctoproject.org/project/oe-core/patch/20221030173815.10212-2-alex.kiernan@gmail.com/
+(with little modification to support uri like
+"git://git@my_repo:7999/myproject.git")
+
+After that ports, the project was built successfully. Now I want to
+develop in it ;) and so I use devtool (like I do for python or C
+project) and I have another set issue.
+I get back to having cargo trying to clone these git repos during the
+build (which is forbidden since no network access is allowed except
+during the fetch).
+
+I search a little and it seems it is the externalsrc.bbclass which
+remove the git url in this line:
+https://github.com/openembedded/openembedded-core/blob/master/meta/classes/externalsrc.bbclass#L76
+
+I confirm that by issuing bitbake -e on my recipe and looking for
+SRC_URI modifications.
+
+In my recipe I have something like:
+
+| SRC_URI += " \
+|    crate://crates.io/aho-corasick/0.7.20 \
+|    crate://crates.io/async-broadcast/0.5.1 \
+|    git://git@myserver:7999/myrepo.git;protocol=ssh;nobranch=1;name=my-crate;destsuffix=my-crate
+| "
+|  SRCREV_FORMAT .= "_my-crate"
+| SRCREV_my-crate = "main"
+
+And after a "devtool modify" , the git dependency disappears ...
+looking at the externalsrc class, it seems pretty straightforward to
+know why the url_data.type with "git" doesn't end in local_srcuri.
+
+I would like to have advice on this if possible, if someone has
+already encountered this use case in the past ?
+
+To my opinion, devtool should treat these SRC_URI alike but how can it
+make the difference with the primary git repository (the one which
+contains the top project) and the other git repositories ?
 
