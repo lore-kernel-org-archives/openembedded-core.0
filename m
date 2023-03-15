@@ -1,130 +1,282 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <Emmanuel.VAUTRIN@cpexterne.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E21D7C7618B
-	for <webhook@archiver.kernel.org>; Wed, 15 Mar 2023 11:13:59 +0000 (UTC)
-Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com [195.245.230.65])
- by mx.groups.io with SMTP id smtpd.web11.5133.1678878830764617797
- for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Mar 2023 04:13:51 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=n+6uELb5;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.65, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1678878828; i=@fujitsu.com;
-	bh=J4ucpcTY0LvwqSILPl74E5QvsLUyPO1uy1650fol7FA=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=n+6uELb5j+VfIpt42JyY+g5zXrsqF3wslKIxk1nksc1OnuQA9s/UgVMYHVgV/2M0x
-	 kABVvPRDAX9EqKVXQTg80QDK6AbWKkMHXeztophR5lPVUsdV6cNWIptng18BzGATHh
-	 xCHH+GkD12oaIAN0vFQfPU+9h9lqEJcp780XKjLVa+1S1T8MZln+BuaCkOSDAZBD7w
-	 O/6y6dmwiePp+YFk5QGuVsSdh6gigofObIMsZx4b7+BdxMG03as5wBS9eNWz5t09xY
-	 iPpg/AzbinCThLUeOo0SCezRZs5DPGJlsCFbQztS/vVSeJ9nFbdP69w8ZojULtNaF8
-	 6hqBRUbjIgktQ==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrOIsWRWlGSWpSXmKPExsViZ8OxWTdnhWC
-  KwYMGTos7P9+xW9ybv4DNgcnj3MYVjB4dv68zBjBFsWbmJeVXJLBmzFi3l7XgN3/FwRvrmBoY
-  l/B1MXJxCAlsZJTYe/8fE4SzmEli7pOv7BDOHkaJj0f/sXYxcnKwCUhJ3Lj/n62LkYNDREBP4
-  uo/UZAws4CjRPP8+2BhYQEXiXfXs0DCLAKqEpv+zWQDsXkFnCQ2LV3NAmJLCChITHn4nhkiLi
-  hxcuYTFogxEhIHX7xghqhRlJh9uRmqvkKicfohJghbTeLquU3MExj5ZyFpn4WkfQEj0ypGs+L
-  UorLUIl1DA72kosz0jJLcxMwcvcQq3US91FLd8tTiEl1DvcTyYr3U4mK94src5JwUvbzUkk2M
-  wPBMKWZM3sF4te+v3iFGSQ4mJVHeP2sEUoT4kvJTKjMSizPii0pzUosPMcpwcChJ8PItEUwRE
-  ixKTU+tSMvMAcYKTFqCg0dJhDeiHijNW1yQmFucmQ6ROsWoKCXOa7ocKCEAksgozYNrg8XnJU
-  ZZKWFeRgYGBiGegtSi3MwSVPlXjOIcjErCvJeWAU3hycwrgZv+CmgxE9Bi3nkCIItLEhFSUg1
-  MmRfVFjyY59afUJosXbl/eXr8FwXuC34Rn8weXuYy56lW2prxtfzNQtnNdVvWvtbh/dDX+mCK
-  swtb6KSQ2CLpw9svzvnmvMj427xJdlmcsfUtnwJ42P7/Wn6/63jdpaTQp6bfjnsq7dO9cal9j
-  +v3K2uZNZ7X9phfXsYgquPw4eXM45vLT7RM+LzCKtRrVn5fmFJ9VDGHks1W0aoTZcd39fTz6d
-  xuEflfk/MsTLP0fuq5OUxp03IshUI+r332KSDzoVe/eIBc2Sxp87UTGrMqD35eUzejxSYsMC7
-  9XO+C2d/frU+7oGx883GjMctrhbBAjwXWSycVZl2xVli8yHTC9LwDHzIdQ/5MjFad/tpFiaU4
-  I9FQi7moOBEAThd3ZEoDAAA=
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-7.tower-587.messagelabs.com!1678878827!125667!1
-X-Originating-IP: [62.60.8.179]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.104.1; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 28912 invoked from network); 15 Mar 2023 11:13:48 -0000
-Received: from unknown (HELO n03ukasimr04.n03.fujitsu.local) (62.60.8.179)
-  by server-7.tower-587.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 15 Mar 2023 11:13:48 -0000
-Received: from n03ukasimr04.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id B832B155;
-	Wed, 15 Mar 2023 11:13:47 +0000 (GMT)
-Received: from R01UKEXCASM121.r01.fujitsu.local (R01UKEXCASM121 [10.183.43.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id ABEBC73;
-	Wed, 15 Mar 2023 11:13:47 +0000 (GMT)
-Received: from localhost.localdomain (10.167.225.33) by
- R01UKEXCASM121.r01.fujitsu.local (10.183.43.173) with Microsoft SMTP Server
- (TLS) id 15.0.1497.42; Wed, 15 Mar 2023 11:13:45 +0000
-From: <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Upgrade Helper <uh@not.set>, Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-testtools: upgrade 2.5.0 -> 2.6.0
-Date: Wed, 15 Mar 2023 19:13:33 +0800
-Message-ID: <1678878814-19528-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BFB8C6FD1D
+	for <webhook@archiver.kernel.org>; Wed, 15 Mar 2023 13:31:40 +0000 (UTC)
+Subject: [PATCH] connman: Backports for security fixes (2) #poky 
+To: openembedded-core@lists.openembedded.org
+From: "VAUTRIN Emmanuel (Canal Plus Prestataire)" <Emmanuel.VAUTRIN@cpexterne.org>
+X-Originating-Location: Pantin, Île-de-France, FR (194.4.243.22)
+X-Originating-Platform: Linux Chrome 111
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM121.r01.fujitsu.local (10.183.43.173)
-X-Virus-Scanned: ClamAV using ClamSMTP
+Date: Wed, 15 Mar 2023 06:31:36 -0700
+Message-ID: <wpQl.1678887096623820376.VRAn@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="DeRLOfDsDGFzyCBBetxS"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 11:13:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178545
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 13:31:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178547
 
-From: Upgrade Helper <uh@not.set>
+--DeRLOfDsDGFzyCBBetxS
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Improvements
-------------
-* Add support for Python 3.10 and 3.11.
-* Drop support for Python 3.5 (EOL).
-* Distutils integration is deprecated and will be removed in the next major
-  version.
-* Use "CompoundFixture" from "fixtures>=2.0" rather than rolling our
-  own.
-* Provide a "testtools[twisted]" extra documenting dependencies needed for
-  "testtools.twistedsupport".
-* Make "TestCase" hashable.
-* Prevent "AttributeError" in "TestCase.__eq__" for objects lacking a
-  "__dict__" attribute.
-* Replace deprecated "cgi" module usage with "email".
+Fixes
+CVE: CVE-2022-32293
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Commit b33cf2d113d0 ("connman: Backports for security fixes")
 ---
- meta/recipes-devtools/python/python-testtools.inc               | 2 +-
- .../{python3-testtools_2.5.0.bb => python3-testtools_2.6.0.bb}  | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-testtools_2.5.0.bb => python3-testtools_2.6.0.bb} (98%)
+.../connman/connman/CVE-2022-32293_p3.patch=C2=A0 =C2=A0| 67 ++++++++++++++=
++++++
+.../connman/connman_1.41.bb=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +
+2 files changed, 68 insertions(+)
+create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2022-32293=
+_p3.patch
 
-diff --git a/meta/recipes-devtools/python/python-testtools.inc b/meta/recipes-devtools/python/python-testtools.inc
-index ef5e15cc3a..e004d0eb0b 100644
---- a/meta/recipes-devtools/python/python-testtools.inc
-+++ b/meta/recipes-devtools/python/python-testtools.inc
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=e2c9d3e8ba7141c83bfef190e0b9379a"
- 
- inherit pypi
- 
--SRC_URI[sha256sum] = "57c13433d94f9ffde3be6534177d10fb0c1507cc499319128958ca91a65cb23f"
-+SRC_URI[sha256sum] = "28b65e14c0f2d3ecbbfb5f55c9dcde5e4faa80ac16a37a823909a1fe3cbcb30a"
- 
- DEPENDS += " \
-     ${PYTHON_PN}-pbr \
-diff --git a/meta/recipes-devtools/python/python3-testtools_2.5.0.bb b/meta/recipes-devtools/python/python3-testtools_2.6.0.bb
-similarity index 98%
-rename from meta/recipes-devtools/python/python3-testtools_2.5.0.bb
-rename to meta/recipes-devtools/python/python3-testtools_2.6.0.bb
-index 896ecee65c..79e46a02de 100644
---- a/meta/recipes-devtools/python/python3-testtools_2.5.0.bb
-+++ b/meta/recipes-devtools/python/python3-testtools_2.6.0.bb
-@@ -1,2 +1,3 @@
- inherit setuptools3
- require python-testtools.inc
+diff --git a/meta/recipes-connectivity/connman/connman/CVE-2022-32293_p3.pa=
+tch b/meta/recipes-connectivity/connman/connman/CVE-2022-32293_p3.patch
+new file mode 100644
+index 000000000000..0fefe3e45408
+--- /dev/null
++++ b/meta/recipes-connectivity/connman/connman/CVE-2022-32293_p3.patch
+@@ -0,0 +1,67 @@
++From e6523511d736667e45877d588a64988e818a06fe Mon Sep 17 00:00:00 2001
++From: Daniel Wagner <wagi@monom.org>
++Date: Wed, 7 Sep 2022 20:52:20 +0200
++Subject: [PATCH] wispr: Fix context refcounting in
++ wispr_portal_request_portal()
 +
--- 
-2.34.1
++The wispr_portal_request_portal() function is expected to read until
++there is no data. Hence, the wp_context refcount is supposed to be
++hold on while reading.
++
++Furthermore, we should not return early when we read the
++X-ConnMan-Status header. Instead we are supposed to go through the
++normal return path so that we cleanup any added routing entries. Thus,
++we also don't need to update the refcount in this code path as we
++handle it at the main return path.
++
++Fixes: 416bfaff9888 ("wispr: Update portal context references")
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/connman/=
+connman.git/commit/?id=3De6523511d736667e45877d588a64988e818a06fe]
++---
++ src/wispr.c | 10 +++++-----
++ 1 file changed, 5 insertions(+), 5 deletions(-)
++
++diff --git a/src/wispr.c b/src/wispr.c
++index 9b27af5fff55..a7562e8462f3 100644
++--- a/src/wispr.c
+++++ b/src/wispr.c
++@@ -537,7 +537,8 @@ static bool wispr_route_request(const char *address, i=
+nt ai_family,
++ static void wispr_portal_request_portal(
++ struct connman_wispr_portal_context *wp_context)
++ {
++- DBG("");
+++ DBG("wp_context %p %s", wp_context,
+++ __connman_ipconfig_type2string(wp_context->type));
++
++ wispr_portal_context_ref(wp_context);
++ wp_context->request_id =3D g_web_request_get(wp_context->web,
++@@ -753,7 +754,7 @@ static bool wispr_portal_web_result(GWebResult *result=
+, gpointer user_data)
++ if (length > 0) {
++ g_web_parser_feed_data(wp_context->wispr_parser,
++ chunk, length);
++- wispr_portal_context_unref(wp_context);
+++ /* read more data */
++ return true;
++ }
++
++@@ -783,8 +784,6 @@ static bool wispr_portal_web_result(GWebResult *result=
+, gpointer user_data)
++ if (g_web_result_get_header(result, "X-ConnMan-Status",
++ &str)) {
++ portal_manage_status(result, wp_context);
++- wispr_portal_context_unref(wp_context);
++- return false;
++ } else {
++ wispr_portal_context_ref(wp_context);
++ __connman_agent_request_browser(wp_context->service,
++@@ -996,7 +995,8 @@ int __connman_wispr_start(struct connman_service *serv=
+ice,
++ struct connman_wispr_portal *wispr_portal =3D NULL;
++ int index, err;
++
++- DBG("service %p", service);
+++ DBG("service %p %s", service,
+++ __connman_ipconfig_type2string(type));
++
++ if (!wispr_portal_hash)
++ return -EINVAL;
++--
++2.25.1
++
+diff --git a/meta/recipes-connectivity/connman/connman_1.41.bb b/meta/recip=
+es-connectivity/connman/connman_1.41.bb
+index 79542b2175dc..73ba673fd0a4 100644
+--- a/meta/recipes-connectivity/connman/connman_1.41.bb
++++ b/meta/recipes-connectivity/connman/connman_1.41.bb
+@@ -7,6 +7,7 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}=
+.tar.xz \
+file://no-version-scripts.patch \
+file://CVE-2022-32293_p1.patch \
+file://CVE-2022-32293_p2.patch \
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2022-32293_p3.patch \
+file://CVE-2022-32292.patch \
+"
 
+--
+2.25.1
+
+--DeRLOfDsDGFzyCBBetxS
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>Fixes</div>
+<div>CVE: CVE-2022-32293</div>
+<div>&nbsp;</div>
+<div>Commit b33cf2d113d0 ("connman: Backports for security fixes")</div>
+<div>---</div>
+<div>&nbsp;.../connman/connman/CVE-2022-32293_p3.patch&nbsp; &nbsp;| 67 +++=
+++++++++++++++++</div>
+<div>&nbsp;.../connman/connman_1.41.bb&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
+bsp; &nbsp; &nbsp; &nbsp; &nbsp;|&nbsp; 1 +</div>
+<div>&nbsp;2 files changed, 68 insertions(+)</div>
+<div>&nbsp;create mode 100644 meta/recipes-connectivity/connman/connman/CVE=
+-2022-32293_p3.patch</div>
+<div>&nbsp;</div>
+<div>diff --git a/meta/recipes-connectivity/connman/connman/CVE-2022-32293_=
+p3.patch b/meta/recipes-connectivity/connman/connman/CVE-2022-32293_p3.patc=
+h</div>
+<div>new file mode 100644</div>
+<div>index 000000000000..0fefe3e45408</div>
+<div>--- /dev/null</div>
+<div>+++ b/meta/recipes-connectivity/connman/connman/CVE-2022-32293_p3.patc=
+h</div>
+<div>@@ -0,0 +1,67 @@</div>
+<div>+From e6523511d736667e45877d588a64988e818a06fe Mon Sep 17 00:00:00 200=
+1</div>
+<div>+From: Daniel Wagner &lt;wagi@monom.org&gt;</div>
+<div>+Date: Wed, 7 Sep 2022 20:52:20 +0200</div>
+<div>+Subject: [PATCH] wispr: Fix context refcounting in</div>
+<div>+ wispr_portal_request_portal()</div>
+<div>+</div>
+<div>+The wispr_portal_request_portal() function is expected to read until<=
+/div>
+<div>+there is no data. Hence, the wp_context refcount is supposed to be</d=
+iv>
+<div>+hold on while reading.</div>
+<div>+</div>
+<div>+Furthermore, we should not return early when we read the</div>
+<div>+X-ConnMan-Status header. Instead we are supposed to go through the</d=
+iv>
+<div>+normal return path so that we cleanup any added routing entries. Thus=
+,</div>
+<div>+we also don't need to update the refcount in this code path as we</di=
+v>
+<div>+handle it at the main return path.</div>
+<div>+</div>
+<div>+Fixes: 416bfaff9888 ("wispr: Update portal context references")</div>
+<div>+Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/con=
+nman/connman.git/commit/?id=3De6523511d736667e45877d588a64988e818a06fe]</di=
+v>
+<div>+---</div>
+<div>+ src/wispr.c | 10 +++++-----</div>
+<div>+ 1 file changed, 5 insertions(+), 5 deletions(-)</div>
+<div>+</div>
+<div>+diff --git a/src/wispr.c b/src/wispr.c</div>
+<div>+index 9b27af5fff55..a7562e8462f3 100644</div>
+<div>+--- a/src/wispr.c</div>
+<div>++++ b/src/wispr.c</div>
+<div>+@@ -537,7 +537,8 @@ static bool wispr_route_request(const char *addre=
+ss, int ai_family,</div>
+<div>+ static void wispr_portal_request_portal(</div>
+<div>+ <span style=3D"white-space: pre;"> </span>struct connman_wispr_porta=
+l_context *wp_context)</div>
+<div>+ {</div>
+<div>+-<span style=3D"white-space: pre;"> </span>DBG("");</div>
+<div>++<span style=3D"white-space: pre;"> </span>DBG("wp_context %p %s", wp=
+_context,</div>
+<div>++<span style=3D"white-space: pre;"> </span>__connman_ipconfig_type2st=
+ring(wp_context-&gt;type));</div>
+<div>+&nbsp;</div>
+<div>+ <span style=3D"white-space: pre;"> </span>wispr_portal_context_ref(w=
+p_context);</div>
+<div>+ <span style=3D"white-space: pre;"> </span>wp_context-&gt;request_id =
+=3D g_web_request_get(wp_context-&gt;web,</div>
+<div>+@@ -753,7 +754,7 @@ static bool wispr_portal_web_result(GWebResult *r=
+esult, gpointer user_data)</div>
+<div>+ <span style=3D"white-space: pre;"> </span>if (length &gt; 0) {</div>
+<div>+ <span style=3D"white-space: pre;"> </span>g_web_parser_feed_data(wp_=
+context-&gt;wispr_parser,</div>
+<div>+ <span style=3D"white-space: pre;"> </span>chunk, length);</div>
+<div>+-<span style=3D"white-space: pre;"> </span>wispr_portal_context_unref=
+(wp_context);</div>
+<div>++<span style=3D"white-space: pre;"> </span>/* read more data */</div>
+<div>+ <span style=3D"white-space: pre;"> </span>return true;</div>
+<div>+ <span style=3D"white-space: pre;"> </span>}</div>
+<div>+&nbsp;</div>
+<div>+@@ -783,8 +784,6 @@ static bool wispr_portal_web_result(GWebResult *r=
+esult, gpointer user_data)</div>
+<div>+ <span style=3D"white-space: pre;"> </span>if (g_web_result_get_heade=
+r(result, "X-ConnMan-Status",</div>
+<div>+ <span style=3D"white-space: pre;"> </span>&amp;str)) {</div>
+<div>+ <span style=3D"white-space: pre;"> </span>portal_manage_status(resul=
+t, wp_context);</div>
+<div>+-<span style=3D"white-space: pre;"> </span>wispr_portal_context_unref=
+(wp_context);</div>
+<div>+-<span style=3D"white-space: pre;"> </span>return false;</div>
+<div>+ <span style=3D"white-space: pre;"> </span>} else {</div>
+<div>+ <span style=3D"white-space: pre;"> </span>wispr_portal_context_ref(w=
+p_context);</div>
+<div>+ <span style=3D"white-space: pre;"> </span>__connman_agent_request_br=
+owser(wp_context-&gt;service,</div>
+<div>+@@ -996,7 +995,8 @@ int __connman_wispr_start(struct connman_service =
+*service,</div>
+<div>+ <span style=3D"white-space: pre;"> </span>struct connman_wispr_porta=
+l *wispr_portal =3D NULL;</div>
+<div>+ <span style=3D"white-space: pre;"> </span>int index, err;</div>
+<div>+&nbsp;</div>
+<div>+-<span style=3D"white-space: pre;"> </span>DBG("service %p", service)=
+;</div>
+<div>++<span style=3D"white-space: pre;"> </span>DBG("service %p %s", servi=
+ce,</div>
+<div>++<span style=3D"white-space: pre;"> </span>__connman_ipconfig_type2st=
+ring(type));</div>
+<div>+&nbsp;</div>
+<div>+ <span style=3D"white-space: pre;"> </span>if (!wispr_portal_hash)</d=
+iv>
+<div>+ <span style=3D"white-space: pre;"> </span>return -EINVAL;</div>
+<div>+--&nbsp;</div>
+<div>+2.25.1</div>
+<div>+</div>
+<div>diff --git a/meta/recipes-connectivity/connman/connman_1.41.bb b/meta/=
+recipes-connectivity/connman/connman_1.41.bb</div>
+<div>index 79542b2175dc..73ba673fd0a4 100644</div>
+<div>--- a/meta/recipes-connectivity/connman/connman_1.41.bb</div>
+<div>+++ b/meta/recipes-connectivity/connman/connman_1.41.bb</div>
+<div>@@ -7,6 +7,7 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/network/${BPN}/=
+${BP}.tar.xz \</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; file://no-version-scripts.pa=
+tch \</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; file://CVE-2022-32293_p1.pat=
+ch \</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; file://CVE-2022-32293_p2.pat=
+ch \</div>
+<div>+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;file://CVE-2022-32293_p3.pat=
+ch \</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; file://CVE-2022-32292.patch =
+\</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "</div>
+<div>&nbsp;</div>
+<div>--&nbsp;</div>
+<div>2.25.1</div>
+<div>&nbsp;</div>
+
+--DeRLOfDsDGFzyCBBetxS--
 
