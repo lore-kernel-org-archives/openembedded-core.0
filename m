@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21BD4C77B7B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55B10C7EE24
 	for <webhook@archiver.kernel.org>; Wed, 15 Mar 2023 15:55:32 +0000 (UTC)
 Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.12154.1678895727435057282
+ by mx.groups.io with SMTP id smtpd.web10.12302.1678895726767966571
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Mar 2023 08:55:27 -0700
+ Wed, 15 Mar 2023 08:55:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=j8S3Ed/R;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010186e5fbc033-88636106-27e0-4313-962a-972a04e095e9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=MnWT/kD5;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010186e5fbbbac-b19224bd-3739-41f2-a993-aff23c6a8fea-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1678895726;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=1ThjxOD0aTc2T1btwVplXZAP5Y5Bdagocz6m7Zkuj/4=;
-	b=j8S3Ed/R2UxJhQnffBqGyaxaQD/Ec6ojy5R5XNlA3fz3Di8S6tcgQkhGdiAdTYMJ
-	Zh0doUXQ0RxMp0907YN8XrmQAJcw1+7DVT29KN6n1XDvjua8jDKm2mE/t40A6GlxDzG
-	k45KbyFBy9Pz/cEVCcjNKHJ1JGw6JPQAy1dC1xTc=
+	bh=VeMPzDJXgDv7fmMnUqFOyfrG8JsFSzvvElHqcI3HXkc=;
+	b=MnWT/kD5qTpby3odt9UOzZrQ42Ywr7mGEn/0DEc939g+eSjwUb9MqTwKKPQkmm91
+	XenSelxPSvl30InrTDr6+rCo1OySy7+5LWKb+bh5aqwwBWOCciB7oBRg64XhfFwYzO5
+	R0tHzTvEJ0ibNUrbI+zQqURQaRsb7gH2KVN9S+yM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1678895726;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=1ThjxOD0aTc2T1btwVplXZAP5Y5Bdagocz6m7Zkuj/4=;
-	b=ODRpw93RQ8bVnVUrcr2vIvtduZeu+20HBN3D82cHDScwkxn3K5VRS24QB001lSkj
-	GkYVaPR0ZXekt35bXaSMIdA122x8hznpr8NCcl97E0pwYlRGeA1vOQSmD7hZaAqQBkl
-	Y5B/QB5T9dlW8nNVpu/ms6IYYBD+V2620p7A9deQ=
-Content-Type: multipart/mixed; boundary="===============0486907775264785921=="
+	bh=VeMPzDJXgDv7fmMnUqFOyfrG8JsFSzvvElHqcI3HXkc=;
+	b=SwVTvnGg8QWvl/i4bBbyAUcuOnD0anU/evus/InvSBoSbRlXnR7tyhi4C8csTvoq
+	IFiK77ciag8P8NrW0vf6oRfFCKppDihJjDWZUmy0O554gCsL8D7kZj7d7z/9UOBSW7V
+	79Zv9j+a32XGzAR25yIaWEU5jzYhVIMz4s76AJCY=
+Content-Type: multipart/mixed; boundary="===============7127139216613563297=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libsdl2: upgrading to 2.26.4 SUCCEEDED
-Message-ID: <01010186e5fbc033-88636106-27e0-4313-962a-972a04e095e9-000000@us-west-2.amazonses.com>
-Date: Wed, 15 Mar 2023 15:55:26 +0000
+Subject: [AUH] python3-setuptools: upgrading to 67.6.0 SUCCEEDED
+Message-ID: <01010186e5fbbbac-b19224bd-3739-41f2-a993-aff23c6a8fea-000000@us-west-2.amazonses.com>
+Date: Wed, 15 Mar 2023 15:55:25 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2023.03.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 15:55:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178619
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178608
 
---===============0486907775264785921==
+--===============7127139216613563297==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libsdl2* to *2.26.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-setuptools* to *67.6.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libsdl2-upgrade-2.26.3-2.26.4.patch
+    - apply the patch: git am 0001-python3-setuptools-upgrade-67.4.0-67.6.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,79 +69,95 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============0486907775264785921==
+--===============7127139216613563297==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/libsdl2/libsdl2: FILELIST: removed "/usr/lib/libSDL2-2.0.so.0.2600.3", added "/usr/lib/libSDL2-2.0.so.0.2600.4"
-Changes to packages/core2-32-poky-linux/libsdl2 (sysroot):
-  /usr/lib/libSDL2-2.0.so.0 changed symlink target from libSDL2-2.0.so.0.2600.3 to libSDL2-2.0.so.0.2600.4
-  /usr/lib/libSDL2-2.0.so.0.2600.3 moved to /usr/lib/libSDL2-2.0.so.0.2600.4
+Changes to packages/core2-32-poky-linux/python3-setuptools (sysroot):
+  /usr/lib/python3.11/site-packages/setuptools-67.4.0.dist-info moved to /usr/lib/python3.11/site-packages/setuptools-67.6.0.dist-info
+Changes to packages/x86_64-linux/python3-setuptools-native (sysroot):
+  /usr/lib/python3.11/site-packages/setuptools-67.4.0.dist-info moved to /usr/lib/python3.11/site-packages/setuptools-67.6.0.dist-info
 
---===============0486907775264785921==
+--===============7127139216613563297==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libsdl2-upgrade-2.26.3-2.26.4.patch"
+ filename="0001-python3-setuptools-upgrade-67.4.0-67.6.0.patch"
 
-RnJvbSBkYTA4ODU1ZTgyMDYxZjllZTA5ZjExNzM1OGExZTM3MzU4ODNlY2Y5IE1vbiBTZXAgMTcg
+RnJvbSA0YWNjNThmNDBlZjIxMWE2MmIzZjdmYmI4MjlmOTM0YTFmZmEwNTlmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgTWFyIDIwMjMgMTE6NDQ6NDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJzZGwyOiB1cGdyYWRlIDIuMjYuMyAtPiAyLjI2LjQKCi0tLQogLi4uL2xpYnNkbDIve2xpYnNk
-bDJfMi4yNi4zLmJiID0+IGxpYnNkbDJfMi4yNi40LmJifSAgICAgICAgICAgIHwgMiArLQogMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLWdyYXBoaWNzL2xpYnNkbDIve2xpYnNkbDJfMi4yNi4zLmJiID0+IGxpYnNkbDJfMi4y
-Ni40LmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJzZGwy
-L2xpYnNkbDJfMi4yNi4zLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnNkbDIvbGlic2Rs
-Ml8yLjI2LjQuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
-LWdyYXBoaWNzL2xpYnNkbDIvbGlic2RsMl8yLjI2LjMuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
-cy1ncmFwaGljcy9saWJzZGwyL2xpYnNkbDJfMi4yNi40LmJiCmluZGV4IDE1MDU0ZTFlYTkuLjc3
-NWE2OTkyMjUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJzZGwyL2xpYnNk
-bDJfMi4yNi4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJzZGwyL2xpYnNkbDJf
-Mi4yNi40LmJiCkBAIC0yNSw3ICsyNSw3IEBAIFNSQ19VUkkgPSAiaHR0cDovL3d3dy5saWJzZGwu
-b3JnL3JlbGVhc2UvU0RMMi0ke1BWfS50YXIuZ3oiCiAKIFMgPSAiJHtXT1JLRElSfS9TREwyLSR7
-UFZ9IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYzY2MTIwNWE1NTNiN2QyNTI0MjVmNGI3NTFm
-ZjEzMjA5ZTVlMDIwYjg3NmJiZmExNTk4NDk0YWY2MTc5MDA1NyIKK1NSQ19VUklbc2hhMjU2c3Vt
-XSA9ICIxYTBmNjg2NDk4ZmI3NjhhZDlmM2Y4MGIzOTAzN2E3ZDAwNmVhYzA5M2FhZDM5Y2I0ZWJj
-YzgzMmE4ODg3MjMxIgogCiBpbmhlcml0IGNtYWtlIGxpYl9wYWNrYWdlIGJpbmNvbmZpZy1kaXNh
-YmxlZCBwa2djb25maWcgdXBzdHJlYW0tdmVyc2lvbi1pcy1ldmVuCiAKLS0gCjIuMzkuMgoK
+CkRhdGU6IFdlZCwgMTUgTWFyIDIwMjMgMDg6MTU6MzMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXNldHVwdG9vbHM6IHVwZ3JhZGUgNjcuNC4wIC0+IDY3LjYuMAoKLS0tCiAuLi4vMDAw
+MS1jb25kaXRpb25hbGx5LWRvLW5vdC1mZXRjaC1jb2RlLWJ5LWVhc3lfaW5zdGFsbC5wYXRjaCAg
+fCAyICstCiAuLi55dGhvbjMtc2V0dXB0b29sc182Ny40LjAuYmIgPT4gcHl0aG9uMy1zZXR1cHRv
+b2xzXzY3LjYuMC5iYn0gfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwg
+MiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRo
+b24zLXNldHVwdG9vbHNfNjcuNC4wLmJiID0+IHB5dGhvbjMtc2V0dXB0b29sc182Ny42LjAuYmJ9
+ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
+LXNldHVwdG9vbHMvMDAwMS1jb25kaXRpb25hbGx5LWRvLW5vdC1mZXRjaC1jb2RlLWJ5LWVhc3lf
+aW5zdGFsbC5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1
+cHRvb2xzLzAwMDEtY29uZGl0aW9uYWxseS1kby1ub3QtZmV0Y2gtY29kZS1ieS1lYXN5X2luc3Rh
+bGwucGF0Y2gKaW5kZXggYjEyZTRmNWQwNS4uOTA4NmI1Mjc3OSAxMDA2NDQKLS0tIGEvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHMvMDAwMS1jb25kaXRpb25h
+bGx5LWRvLW5vdC1mZXRjaC1jb2RlLWJ5LWVhc3lfaW5zdGFsbC5wYXRjaAorKysgYi9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29scy8wMDAxLWNvbmRpdGlvbmFs
+bHktZG8tbm90LWZldGNoLWNvZGUtYnktZWFzeV9pbnN0YWxsLnBhdGNoCkBAIC0xLDQgKzEsNCBA
+QAotRnJvbSA4YTY3NzEwMTMxZmMxYjgyNDZlZGM0ZGJjZDgwNzdlZWQ5NmUxM2Y3IE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQorRnJvbSBlN2RjYmM4NjI5YzMyYjk0N2I4ODJkMDE0NmVkYjU0Njk4
+N2ZlZjUzIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogSG9uZ3h1IEppYSA8aG9uZ3h1
+LmppYUB3aW5kcml2ZXIuY29tPgogRGF0ZTogVHVlLCAxNyBKdWwgMjAxOCAxMDoxMzozOCArMDgw
+MAogU3ViamVjdDogW1BBVENIXSBjb25kaXRpb25hbGx5IGRvIG5vdCBmZXRjaCBjb2RlIGJ5IGVh
+c3lfaW5zdGFsbApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
+b24zLXNldHVwdG9vbHNfNjcuNC4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
+eXRob24zLXNldHVwdG9vbHNfNjcuNi4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBm
+cm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzXzY3LjQu
+MC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVw
+dG9vbHNfNjcuNi4wLmJiCmluZGV4IDFhMjlkMzdhMDIuLmFhMWQ1MjVjMDIgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzXzY3LjQuMC5i
+YgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29sc182
+Ny42LjAuYmIKQEAgLTExLDcgKzExLDcgQEAgU1JDX1VSSTphcHBlbmQ6Y2xhc3MtbmF0aXZlID0g
+IiBmaWxlOi8vMDAwMS1jb25kaXRpb25hbGx5LWRvLW5vdC1mZXRjaC1jb2RlLWJ5LWUKIFNSQ19V
+UkkgKz0gIiBcCiAgICAgICAgICAgICBmaWxlOi8vMDAwMS1fZGlzdHV0aWxzLXN5c2NvbmZpZy5w
+eS1tYWtlLWl0LXBvc3NpYmxlLXRvLXN1YnN0aXRlLnBhdGNoIgogCi1TUkNfVVJJW3NoYTI1NnN1
+bV0gPSAiZTVmZDBhNzEzMTQxYTRhMTA1NDEyMjMzYzYzZGM0ZTE3YmEwMDkwYzhlODMzNDU5NGFj
+NzkwZWM5Nzc5MjMzMCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIyZWU4OTJjZDVmMjlmMzM3MzA5
+N2Y1YTgxNDY5N2UzOTdjZjNjZTMxMzYxNmRmMGFmMTEyMzFlMmFkMTE4MDc3IgogCiBERVBFTkRT
+ICs9ICIke1BZVEhPTl9QTn0iCiAKLS0gCjIuMzkuMgoK
 
---===============0486907775264785921==
+--===============7127139216613563297==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libsdl2: PKGV changed from 2.26.3 [default] to 2.26.4 [default]
-packages/core2-32-poky-linux/libsdl2: SRC_URI changed from "http://www.libsdl.org/release/SDL2-2.26.3.tar.gz" to "http://www.libsdl.org/release/SDL2-2.26.4.tar.gz"
-packages/core2-32-poky-linux/libsdl2: PV changed from "2.26.3" to "2.26.4"
-packages/core2-32-poky-linux/libsdl2/libsdl2-bin: PKGV changed from 2.26.3 [default] to 2.26.4 [default]
-packages/core2-32-poky-linux/libsdl2/libsdl2-bin: PV changed from "2.26.3" to "2.26.4"
-packages/core2-32-poky-linux/libsdl2/libsdl2-dbg: PKGV changed from 2.26.3 [default] to 2.26.4 [default]
-packages/core2-32-poky-linux/libsdl2/libsdl2-dbg: FILELIST: removed "/usr/lib/.debug/libSDL2-2.0.so.0.2600.3", added "/usr/lib/.debug/libSDL2-2.0.so.0.2600.4"
-packages/core2-32-poky-linux/libsdl2/libsdl2-dbg: PV changed from "2.26.3" to "2.26.4"
-packages/core2-32-poky-linux/libsdl2/libsdl2-dbg: PKGSIZE changed from 6183536 to 6183524 (-0%)
-packages/core2-32-poky-linux/libsdl2/libsdl2-dev: PKGV changed from 2.26.3 [default] to 2.26.4 [default]
-packages/core2-32-poky-linux/libsdl2/libsdl2-dev: PV changed from "2.26.3" to "2.26.4"
-packages/core2-32-poky-linux/libsdl2/libsdl2-doc: PKGV changed from 2.26.3 [default] to 2.26.4 [default]
-packages/core2-32-poky-linux/libsdl2/libsdl2-doc: PV changed from "2.26.3" to "2.26.4"
-packages/core2-32-poky-linux/libsdl2/libsdl2-locale: PKGV changed from 2.26.3 [default] to 2.26.4 [default]
-packages/core2-32-poky-linux/libsdl2/libsdl2-locale: PV changed from "2.26.3" to "2.26.4"
-packages/core2-32-poky-linux/libsdl2/libsdl2-src: PKGV changed from 2.26.3 [default] to 2.26.4 [default]
-packages/core2-32-poky-linux/libsdl2/libsdl2-src: PV changed from "2.26.3" to "2.26.4"
-packages/core2-32-poky-linux/libsdl2/libsdl2-src: PKGSIZE changed from 10022397 to 10022441 (+0%)
-packages/core2-32-poky-linux/libsdl2/libsdl2-staticdev: PKGV changed from 2.26.3 [default] to 2.26.4 [default]
-packages/core2-32-poky-linux/libsdl2/libsdl2-staticdev: PV changed from "2.26.3" to "2.26.4"
-packages/core2-32-poky-linux/libsdl2/libsdl2-staticdev: PKGSIZE changed from 9130874 to 9130710 (-0%)
-packages/core2-32-poky-linux/libsdl2/libsdl2: PKGV changed from 2.26.3 [default] to 2.26.4 [default]
-packages/core2-32-poky-linux/libsdl2/libsdl2: FILELIST: removed "/usr/lib/libSDL2-2.0.so.0.2600.3", added "/usr/lib/libSDL2-2.0.so.0.2600.4"
-packages/core2-32-poky-linux/libsdl2/libsdl2: PV changed from "2.26.3" to "2.26.4"
-Changes to packages/core2-32-poky-linux/libsdl2 (sysroot):
-  /usr/lib/libSDL2-2.0.so.0 changed symlink target from libSDL2-2.0.so.0.2600.3 to libSDL2-2.0.so.0.2600.4
-  /usr/lib/libSDL2-2.0.so.0.2600.3 moved to /usr/lib/libSDL2-2.0.so.0.2600.4
+packages/core2-32-poky-linux/python3-setuptools: PV changed from "67.4.0" to "67.6.0"
+packages/core2-32-poky-linux/python3-setuptools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-67.4.0.tar.gz;downloadfilename=setuptools-67.4.0.tar.gz file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch" to "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-67.6.0.tar.gz;downloadfilename=setuptools-67.6.0.tar.gz file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
+packages/core2-32-poky-linux/python3-setuptools: PKGV changed from 67.4.0 [default] to 67.6.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-pkg-resources: PV changed from "67.4.0" to "67.6.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-pkg-resources: PKGV changed from 67.4.0 [default] to 67.6.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-pkg-resources: PKGSIZE changed from 1387533 to 1393781 (+0%)
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dbg: PV changed from "67.4.0" to "67.6.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dbg: PKGV changed from 67.4.0 [default] to 67.6.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dev: PV changed from "67.4.0" to "67.6.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dev: PKGV changed from 67.4.0 [default] to 67.6.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-doc: PV changed from "67.4.0" to "67.6.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-doc: PKGV changed from 67.4.0 [default] to 67.6.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-locale: PV changed from "67.4.0" to "67.6.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-locale: PKGV changed from 67.4.0 [default] to 67.6.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-src: PV changed from "67.4.0" to "67.6.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-src: PKGV changed from 67.4.0 [default] to 67.6.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-staticdev: PV changed from "67.4.0" to "67.6.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-staticdev: PKGV changed from 67.4.0 [default] to 67.6.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools: PV changed from "67.4.0" to "67.6.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools: PKGV changed from 67.4.0 [default] to 67.6.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools: PKGSIZE changed from 5294020 to 5296118 (+0%)
+Changes to packages/core2-32-poky-linux/python3-setuptools (sysroot):
+  /usr/lib/python3.11/site-packages/setuptools-67.4.0.dist-info moved to /usr/lib/python3.11/site-packages/setuptools-67.6.0.dist-info
+Changes to packages/x86_64-linux/python3-setuptools-native (sysroot):
+  /usr/lib/python3.11/site-packages/setuptools-67.4.0.dist-info moved to /usr/lib/python3.11/site-packages/setuptools-67.6.0.dist-info
 
---===============0486907775264785921==--
+--===============7127139216613563297==--
 
