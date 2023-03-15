@@ -1,98 +1,371 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 099F5C6FD1D
-	for <webhook@archiver.kernel.org>; Wed, 15 Mar 2023 07:49:19 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.2484.1678866548758858094
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15752C61DA4
+	for <webhook@archiver.kernel.org>; Wed, 15 Mar 2023 08:00:29 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web10.2576.1678867227595893104
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Mar 2023 00:49:09 -0700
+ Wed, 15 Mar 2023 01:00:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=PYU3lOmz;
- spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id bh21-20020a05600c3d1500b003ed1ff06fb0so511453wmb.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 00:49:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ePBDdh9R;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: zboszor@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id p13-20020a05600c358d00b003ed346d4522so302505wmq.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 01:00:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678866547;
+        d=gmail.com; s=20210112; t=1678867226;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UGmcaMfjW8tNCuobYnyXl+zAAVKmADN0zPYPvEBVECg=;
-        b=PYU3lOmzEaIguvR5NOskopiWyqByUJ+MYoYvXMhrCKCOqAdiUV6by+AoizVoyqQcha
-         hP7BF840c5/gSDTQ7mj1Sb4iKLeJAntb7Wx+utg5zmNdTWd1tjYFAWrx/X5MvgXDyMYn
-         bGrzI6gWq5NR2OnU6ZjHIaULW4xEzeztX+7rDTX2UCm+VPUB+syDJ5ZWXXKODIO04oGF
-         En62dBoKkF5Ww9nsE0MzUaG/yvtj722WOLPL420Lk8+fulCs0suupM2unSmRhQK4KV4A
-         jiJyPdgTwXI0vvSrRZRxhLs0xUrwJfmTWhU8btMBtKWnnTijVGv2EkXG9L/vEbS2ZA3F
-         /VfA==
+        bh=cigYckuyjDL1P+SNtH77uOQ44jfz8cU44vcfGCHE9Co=;
+        b=ePBDdh9Rnp3bqK/b6Tn43vbi2nkXmvk0Yl2gWpInSqTAmhtYC4RZjC9OtcyIzsKX4b
+         NCmSwRfK1fG4OBV+WdDab49kWk2r/xLFT2JNoIK8AMpq/6Vjl7gODwtEXBqm+IAJVNPk
+         rXtbgI7DS57Ba3zO1FBN387YO48lYBZ7cfm91oJXEAh8aO7NxLWhEkuTBnHacYr+Xf0R
+         aiCZh7ocH9am2+L9QGBL7tbuxcJqhieE3VR5Qh/xubcu4/lboxrM/MIjU3fcsTdFh1Lg
+         +lIrE0QxQziQqUnY+JMbEYvxpGULlagxeDvDXtkCAbwsqox9ZzmpFaf1Q+U2Hh845l2Z
+         aSVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678866547;
+        d=1e100.net; s=20210112; t=1678867226;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UGmcaMfjW8tNCuobYnyXl+zAAVKmADN0zPYPvEBVECg=;
-        b=w+8/KfBvoLZiAXQrAUFjHMAWM+eCXusS4eCaTGYLr5C4k6q5pp9wib6j0X4iI5mk3E
-         SQ+O/aCc4wn9X5CGuNZ2Vvz4qHoPK1ANYQ359tvhgI4qiuv8NOxCqk8Ht2ZlAz7s/dwH
-         9uE5l1/ypyQ8EtcRkaPy65bE9VkZ2TpORc5jPZ3YBq6VbYIXczHMyPiR8Pw91XT/zgAG
-         LA5DHyRWya1OmUcHeFUhEKIAT09xhyEpv8x7IiIUQOlv4aawt2PMokdLLeBtPUhtQLq9
-         4nBimnmvPkPoEK7z1UTSS3JcxnackyofMXgo7bVVyDtQK1ktL5WpVfqv7pYDUJ3dq6ds
-         3aYQ==
-X-Gm-Message-State: AO0yUKV2sCcor1eWex2lfYtnIWxeY9srHM8OegHH0uryY/tLUFQ/jsNF
-	UZYxP+Lu947Gsrzv+8Z/U9G0BMMqB40=
-X-Google-Smtp-Source: AK7set8aAcHAvTdvOvt3hLclb6dwhkZ+5H6jV/c+nfkEJLUIoFO8eLr3uXY2s8+Oo01f16pkkdEdDg==
-X-Received: by 2002:a05:600c:c10:b0:3eb:248f:a13e with SMTP id fm16-20020a05600c0c1000b003eb248fa13emr17611165wmb.22.1678866546727;
-        Wed, 15 Mar 2023 00:49:06 -0700 (PDT)
-Received: from work-pc.core.sigfox.net ([2a01:e0a:8d5:c6c0:de0b:a9f8:3449:816c])
-        by smtp.gmail.com with ESMTPSA id n22-20020a7bcbd6000000b003eb395a8280sm965068wmi.37.2023.03.15.00.49.05
+        bh=cigYckuyjDL1P+SNtH77uOQ44jfz8cU44vcfGCHE9Co=;
+        b=6Y/wMF8LiN2v/xgrgpVgBfmCf1kMbnFHt06KyR6lX2p12pSSwzaE+9CjzK6sRyTOHD
+         XeNumGvp4X6WaHgfA6RGmMztBAVtmW2cJgu7/4leWbE+imoYAK8OGUVnncPO6sHTBObE
+         TiObgJauKlmtS80rVyGI3z2/ReZxt0BNkRyHoppKbD3Fse5kTLQJweqaAq8t5hheBF8R
+         WH7BSK+L5KoVcPLJgwEUommWSVR6XOH2bOskL2oLo3mFxRh43hngWeKp5b/A2SDAA5xd
+         f/QFNDWLf9qEyIF+bbxPyKca1RRQRMe1tU03UNCCypjC/aSkoYbxN1JdfzUu8bgRLwxs
+         W7PA==
+X-Gm-Message-State: AO0yUKXvEVG1QD+Ri7MOUcP9DlhdQmoXJWfEfrxfqwWAiPalawCmFWg1
+	LO0E5NM8rip7ap/CvznlvyCcPVJugdU=
+X-Google-Smtp-Source: AK7set+3krn6ScDjnpY0SuiqkW1ONs3xmjJZwHDsfw8XHhonICfnNmncFlAohsrQ6aGpUYTRH+uWbA==
+X-Received: by 2002:a05:600c:3b12:b0:3ed:2a3e:2574 with SMTP id m18-20020a05600c3b1200b003ed2a3e2574mr6227358wms.7.1678867225577;
+        Wed, 15 Mar 2023 01:00:25 -0700 (PDT)
+Received: from localhost.lan ([188.36.64.204])
+        by smtp.gmail.com with ESMTPSA id s20-20020a7bc394000000b003ed2433aa4asm956956wmj.41.2023.03.15.01.00.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Mar 2023 00:49:06 -0700 (PDT)
-From: frederic.martinsons@gmail.com
+        Wed, 15 Mar 2023 01:00:25 -0700 (PDT)
+From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Frederic Martinsons <frederic.martinsons@gmail.com>
-Subject: [PATCH] cargo.bbclass: use offline mode for building
-Date: Wed, 15 Mar 2023 08:48:51 +0100
-Message-Id: <20230315074851.26633-1-frederic.martinsons@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+Subject: [PATCH] meson.bbclass: Split into meson-common and meson classes
+Date: Wed, 15 Mar 2023 09:00:20 +0100
+Message-Id: <20230315080020.2648416-1-zboszor@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 07:49:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178525
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 08:00:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178526
 
-From: Frederic Martinsons <frederic.martinsons@gmail.com>
+The new meson-common class will be used by a new PEP517 python
+build class using meson-python a.k.a. mesonpy.
 
-There should not be any network access during the build step so
-specify this explicitely to cargo.
-This will allow better error message, e.g:
-
-| Caused by:
-|  can't checkout from 'ssh://git@.../fmartinsons/zbus-git-dep-test.git': you are in  the offline mode (--offline)
-
-Instead of
-
-|   Updating git repository `ssh://git@.../fmartinsons/zbus-git-dep-test.git`
-| warning: spurious network error (2 tries remaining): failed to resolve address for gitlab.com: Temporary failure in name resolution;class=Net (12)
-
-Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
 ---
- meta/classes-recipe/cargo.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes-recipe/meson-common.bbclass | 141 +++++++++++++++++++++++
+ meta/classes-recipe/meson.bbclass        | 136 +---------------------
+ 2 files changed, 142 insertions(+), 135 deletions(-)
+ create mode 100644 meta/classes-recipe/meson-common.bbclass
 
-diff --git a/meta/classes-recipe/cargo.bbclass b/meta/classes-recipe/cargo.bbclass
-index 93e185f2c9..7a8cc1e751 100644
---- a/meta/classes-recipe/cargo.bbclass
-+++ b/meta/classes-recipe/cargo.bbclass
-@@ -39,7 +39,7 @@ MANIFEST_PATH ??= "${S}/${CARGO_SRC_DIR}/Cargo.toml"
+diff --git a/meta/classes-recipe/meson-common.bbclass b/meta/classes-recipe/meson-common.bbclass
+new file mode 100644
+index 0000000000..e02b3e5ab6
+--- /dev/null
++++ b/meta/classes-recipe/meson-common.bbclass
+@@ -0,0 +1,141 @@
++#
++# Copyright OpenEmbedded Contributors
++#
++# SPDX-License-Identifier: MIT
++#
++
++inherit python3native meson-routines qemu
++
++DEPENDS:append = " meson-native ninja-native"
++
++EXEWRAPPER_ENABLED:class-native = "False"
++EXEWRAPPER_ENABLED:class-nativesdk = "False"
++EXEWRAPPER_ENABLED ?= "${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'True', 'False', d)}"
++DEPENDS:append = "${@' qemu-native' if d.getVar('EXEWRAPPER_ENABLED') == 'True' else ''}"
++
++# As Meson enforces out-of-tree builds we can just use cleandirs
++B = "${WORKDIR}/build"
++do_configure[cleandirs] = "${B}"
++
++# Where the meson.build build configuration is
++MESON_SOURCEPATH = "${S}"
++
++def noprefix(var, d):
++    return d.getVar(var).replace(d.getVar('prefix') + '/', '', 1)
++
++MESON_BUILDTYPE ?= "${@oe.utils.vartrue('DEBUG_BUILD', 'debug', 'plain', d)}"
++MESON_BUILDTYPE[vardeps] += "DEBUG_BUILD"
++MESONOPTS = " --prefix ${prefix} \
++              --buildtype ${MESON_BUILDTYPE} \
++              --bindir ${@noprefix('bindir', d)} \
++              --sbindir ${@noprefix('sbindir', d)} \
++              --datadir ${@noprefix('datadir', d)} \
++              --libdir ${@noprefix('libdir', d)} \
++              --libexecdir ${@noprefix('libexecdir', d)} \
++              --includedir ${@noprefix('includedir', d)} \
++              --mandir ${@noprefix('mandir', d)} \
++              --infodir ${@noprefix('infodir', d)} \
++              --sysconfdir ${sysconfdir} \
++              --localstatedir ${localstatedir} \
++              --sharedstatedir ${sharedstatedir} \
++              --wrap-mode nodownload \
++              --native-file ${WORKDIR}/meson.native"
++
++EXTRA_OEMESON:append = " ${PACKAGECONFIG_CONFARGS}"
++
++MESON_CROSS_FILE = ""
++MESON_CROSS_FILE:class-target = "--cross-file ${WORKDIR}/meson.cross"
++MESON_CROSS_FILE:class-nativesdk = "--cross-file ${WORKDIR}/meson.cross"
++
++# Needed to set up qemu wrapper below
++export STAGING_DIR_HOST
++
++def rust_tool(d, target_var):
++    rustc = d.getVar('RUSTC')
++    if not rustc:
++        return ""
++    cmd = [rustc, "--target", d.getVar(target_var)] + d.getVar("RUSTFLAGS").split()
++    return "rust = %s" % repr(cmd)
++
++addtask write_config before do_configure
++do_write_config[vardeps] += "CC CXX LD AR NM STRIP READELF CFLAGS CXXFLAGS LDFLAGS RUSTC RUSTFLAGS"
++do_write_config() {
++    # This needs to be Py to split the args into single-element lists
++    cat >${WORKDIR}/meson.cross <<EOF
++[binaries]
++c = ${@meson_array('CC', d)}
++cpp = ${@meson_array('CXX', d)}
++cython = 'cython3'
++ar = ${@meson_array('AR', d)}
++nm = ${@meson_array('NM', d)}
++strip = ${@meson_array('STRIP', d)}
++readelf = ${@meson_array('READELF', d)}
++objcopy = ${@meson_array('OBJCOPY', d)}
++pkgconfig = 'pkg-config'
++llvm-config = 'llvm-config'
++cups-config = 'cups-config'
++g-ir-scanner = '${STAGING_BINDIR}/g-ir-scanner-wrapper'
++g-ir-compiler = '${STAGING_BINDIR}/g-ir-compiler-wrapper'
++${@rust_tool(d, "HOST_SYS")}
++${@"exe_wrapper = '${WORKDIR}/meson-qemuwrapper'" if d.getVar('EXEWRAPPER_ENABLED') == 'True' else ""}
++
++[built-in options]
++c_args = ${@meson_array('CFLAGS', d)}
++c_link_args = ${@meson_array('LDFLAGS', d)}
++cpp_args = ${@meson_array('CXXFLAGS', d)}
++cpp_link_args = ${@meson_array('LDFLAGS', d)}
++
++[properties]
++needs_exe_wrapper = true
++
++[host_machine]
++system = '${@meson_operating_system('HOST_OS', d)}'
++cpu_family = '${@meson_cpu_family('HOST_ARCH', d)}'
++cpu = '${HOST_ARCH}'
++endian = '${@meson_endian('HOST', d)}'
++
++[target_machine]
++system = '${@meson_operating_system('TARGET_OS', d)}'
++cpu_family = '${@meson_cpu_family('TARGET_ARCH', d)}'
++cpu = '${TARGET_ARCH}'
++endian = '${@meson_endian('TARGET', d)}'
++EOF
++
++    cat >${WORKDIR}/meson.native <<EOF
++[binaries]
++c = ${@meson_array('BUILD_CC', d)}
++cpp = ${@meson_array('BUILD_CXX', d)}
++cython = 'cython3'
++ar = ${@meson_array('BUILD_AR', d)}
++nm = ${@meson_array('BUILD_NM', d)}
++strip = ${@meson_array('BUILD_STRIP', d)}
++readelf = ${@meson_array('BUILD_READELF', d)}
++objcopy = ${@meson_array('BUILD_OBJCOPY', d)}
++pkgconfig = 'pkg-config-native'
++${@rust_tool(d, "BUILD_SYS")}
++
++[built-in options]
++c_args = ${@meson_array('BUILD_CFLAGS', d)}
++c_link_args = ${@meson_array('BUILD_LDFLAGS', d)}
++cpp_args = ${@meson_array('BUILD_CXXFLAGS', d)}
++cpp_link_args = ${@meson_array('BUILD_LDFLAGS', d)}
++EOF
++}
++
++do_write_config:append:class-target() {
++    # Write out a qemu wrapper that will be used as exe_wrapper so that meson
++    # can run target helper binaries through that.
++    qemu_binary="${@qemu_wrapper_cmdline(d, '$STAGING_DIR_HOST', ['$STAGING_DIR_HOST/${libdir}','$STAGING_DIR_HOST/${base_libdir}'])}"
++    cat > ${WORKDIR}/meson-qemuwrapper << EOF
++#!/bin/sh
++# Use a modules directory which doesn't exist so we don't load random things
++# which may then get deleted (or their dependencies) and potentially segfault
++export GIO_MODULE_DIR=${STAGING_LIBDIR}/gio/modules-dummy
++
++# meson sets this wrongly (only to libs in build-dir), qemu_wrapper_cmdline() and GIR_EXTRA_LIBS_PATH take care of it properly
++unset LD_LIBRARY_PATH
++
++$qemu_binary "\$@"
++EOF
++    chmod +x ${WORKDIR}/meson-qemuwrapper
++}
+diff --git a/meta/classes-recipe/meson.bbclass b/meta/classes-recipe/meson.bbclass
+index 48688bed75..f1273aa1c0 100644
+--- a/meta/classes-recipe/meson.bbclass
++++ b/meta/classes-recipe/meson.bbclass
+@@ -4,141 +4,7 @@
+ # SPDX-License-Identifier: MIT
+ #
  
- RUSTFLAGS ??= ""
- BUILD_MODE = "${@['--release', ''][d.getVar('DEBUG_BUILD') == '1']}"
--CARGO_BUILD_FLAGS = "-v --target ${RUST_HOST_SYS} ${BUILD_MODE} --manifest-path=${MANIFEST_PATH}"
-+CARGO_BUILD_FLAGS = "-v --offline --target ${RUST_HOST_SYS} ${BUILD_MODE} --manifest-path=${MANIFEST_PATH}"
+-inherit python3native meson-routines qemu
+-
+-DEPENDS:append = " meson-native ninja-native"
+-
+-EXEWRAPPER_ENABLED:class-native = "False"
+-EXEWRAPPER_ENABLED:class-nativesdk = "False"
+-EXEWRAPPER_ENABLED ?= "${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'True', 'False', d)}"
+-DEPENDS:append = "${@' qemu-native' if d.getVar('EXEWRAPPER_ENABLED') == 'True' else ''}"
+-
+-# As Meson enforces out-of-tree builds we can just use cleandirs
+-B = "${WORKDIR}/build"
+-do_configure[cleandirs] = "${B}"
+-
+-# Where the meson.build build configuration is
+-MESON_SOURCEPATH = "${S}"
+-
+-def noprefix(var, d):
+-    return d.getVar(var).replace(d.getVar('prefix') + '/', '', 1)
+-
+-MESON_BUILDTYPE ?= "${@oe.utils.vartrue('DEBUG_BUILD', 'debug', 'plain', d)}"
+-MESON_BUILDTYPE[vardeps] += "DEBUG_BUILD"
+-MESONOPTS = " --prefix ${prefix} \
+-              --buildtype ${MESON_BUILDTYPE} \
+-              --bindir ${@noprefix('bindir', d)} \
+-              --sbindir ${@noprefix('sbindir', d)} \
+-              --datadir ${@noprefix('datadir', d)} \
+-              --libdir ${@noprefix('libdir', d)} \
+-              --libexecdir ${@noprefix('libexecdir', d)} \
+-              --includedir ${@noprefix('includedir', d)} \
+-              --mandir ${@noprefix('mandir', d)} \
+-              --infodir ${@noprefix('infodir', d)} \
+-              --sysconfdir ${sysconfdir} \
+-              --localstatedir ${localstatedir} \
+-              --sharedstatedir ${sharedstatedir} \
+-              --wrap-mode nodownload \
+-              --native-file ${WORKDIR}/meson.native"
+-
+-EXTRA_OEMESON:append = " ${PACKAGECONFIG_CONFARGS}"
+-
+-MESON_CROSS_FILE = ""
+-MESON_CROSS_FILE:class-target = "--cross-file ${WORKDIR}/meson.cross"
+-MESON_CROSS_FILE:class-nativesdk = "--cross-file ${WORKDIR}/meson.cross"
+-
+-# Needed to set up qemu wrapper below
+-export STAGING_DIR_HOST
+-
+-def rust_tool(d, target_var):
+-    rustc = d.getVar('RUSTC')
+-    if not rustc:
+-        return ""
+-    cmd = [rustc, "--target", d.getVar(target_var)] + d.getVar("RUSTFLAGS").split()
+-    return "rust = %s" % repr(cmd)
+-
+-addtask write_config before do_configure
+-do_write_config[vardeps] += "CC CXX LD AR NM STRIP READELF CFLAGS CXXFLAGS LDFLAGS RUSTC RUSTFLAGS"
+-do_write_config() {
+-    # This needs to be Py to split the args into single-element lists
+-    cat >${WORKDIR}/meson.cross <<EOF
+-[binaries]
+-c = ${@meson_array('CC', d)}
+-cpp = ${@meson_array('CXX', d)}
+-cython = 'cython3'
+-ar = ${@meson_array('AR', d)}
+-nm = ${@meson_array('NM', d)}
+-strip = ${@meson_array('STRIP', d)}
+-readelf = ${@meson_array('READELF', d)}
+-objcopy = ${@meson_array('OBJCOPY', d)}
+-pkgconfig = 'pkg-config'
+-llvm-config = 'llvm-config'
+-cups-config = 'cups-config'
+-g-ir-scanner = '${STAGING_BINDIR}/g-ir-scanner-wrapper'
+-g-ir-compiler = '${STAGING_BINDIR}/g-ir-compiler-wrapper'
+-${@rust_tool(d, "HOST_SYS")}
+-${@"exe_wrapper = '${WORKDIR}/meson-qemuwrapper'" if d.getVar('EXEWRAPPER_ENABLED') == 'True' else ""}
+-
+-[built-in options]
+-c_args = ${@meson_array('CFLAGS', d)}
+-c_link_args = ${@meson_array('LDFLAGS', d)}
+-cpp_args = ${@meson_array('CXXFLAGS', d)}
+-cpp_link_args = ${@meson_array('LDFLAGS', d)}
+-
+-[properties]
+-needs_exe_wrapper = true
+-
+-[host_machine]
+-system = '${@meson_operating_system('HOST_OS', d)}'
+-cpu_family = '${@meson_cpu_family('HOST_ARCH', d)}'
+-cpu = '${HOST_ARCH}'
+-endian = '${@meson_endian('HOST', d)}'
+-
+-[target_machine]
+-system = '${@meson_operating_system('TARGET_OS', d)}'
+-cpu_family = '${@meson_cpu_family('TARGET_ARCH', d)}'
+-cpu = '${TARGET_ARCH}'
+-endian = '${@meson_endian('TARGET', d)}'
+-EOF
+-
+-    cat >${WORKDIR}/meson.native <<EOF
+-[binaries]
+-c = ${@meson_array('BUILD_CC', d)}
+-cpp = ${@meson_array('BUILD_CXX', d)}
+-cython = 'cython3'
+-ar = ${@meson_array('BUILD_AR', d)}
+-nm = ${@meson_array('BUILD_NM', d)}
+-strip = ${@meson_array('BUILD_STRIP', d)}
+-readelf = ${@meson_array('BUILD_READELF', d)}
+-objcopy = ${@meson_array('BUILD_OBJCOPY', d)}
+-pkgconfig = 'pkg-config-native'
+-${@rust_tool(d, "BUILD_SYS")}
+-
+-[built-in options]
+-c_args = ${@meson_array('BUILD_CFLAGS', d)}
+-c_link_args = ${@meson_array('BUILD_LDFLAGS', d)}
+-cpp_args = ${@meson_array('BUILD_CXXFLAGS', d)}
+-cpp_link_args = ${@meson_array('BUILD_LDFLAGS', d)}
+-EOF
+-}
+-
+-do_write_config:append:class-target() {
+-    # Write out a qemu wrapper that will be used as exe_wrapper so that meson
+-    # can run target helper binaries through that.
+-    qemu_binary="${@qemu_wrapper_cmdline(d, '$STAGING_DIR_HOST', ['$STAGING_DIR_HOST/${libdir}','$STAGING_DIR_HOST/${base_libdir}'])}"
+-    cat > ${WORKDIR}/meson-qemuwrapper << EOF
+-#!/bin/sh
+-# Use a modules directory which doesn't exist so we don't load random things
+-# which may then get deleted (or their dependencies) and potentially segfault
+-export GIO_MODULE_DIR=${STAGING_LIBDIR}/gio/modules-dummy
+-
+-# meson sets this wrongly (only to libs in build-dir), qemu_wrapper_cmdline() and GIR_EXTRA_LIBS_PATH take care of it properly
+-unset LD_LIBRARY_PATH
+-
+-$qemu_binary "\$@"
+-EOF
+-    chmod +x ${WORKDIR}/meson-qemuwrapper
+-}
++inherit meson-common
  
- # This is based on the content of CARGO_BUILD_FLAGS and generally will need to
- # change if CARGO_BUILD_FLAGS changes.
+ # Tell externalsrc that changes to this file require a reconfigure
+ CONFIGURE_FILES = "meson.build"
 -- 
-2.34.1
+2.39.2
 
 
