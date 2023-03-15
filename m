@@ -2,112 +2,124 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1023C7619A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A10DC7618D
 	for <webhook@archiver.kernel.org>; Wed, 15 Mar 2023 14:01:50 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web11.8786.1678888902880020754
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web10.8796.1678888909558157735
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Mar 2023 07:01:44 -0700
+ Wed, 15 Mar 2023 07:01:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=Z1fPM6Xt;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id v21so10000155ple.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 07:01:44 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=krSqZAO9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f52.google.com with SMTP id h12-20020a17090aea8c00b0023d1311fab3so2096328pjz.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 07:01:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678888903;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1678888908;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fXzX0gdS//EIMxZzQUaZCbLKFQDz8MeQa6aWrRdF6OA=;
-        b=Z1fPM6XtWk2neFJJt5qFuqXnj3ocvNU7FDoEWP5OSeRZMIfnkezK4dPbB28AE+Zlv2
-         doupQpNpl6zECWeeQoeqoQb+T6Hz6AqAAnI+03ZVZNdrazPxFKYsd2kV5hNRTjvhXN7Y
-         Sck6x4k0CqsNYuWjzFFwvray+bzkKmshARwcyKWrujZ/YsUMJl9YBIIsw7Ym7d58+cvs
-         7YIvCk9GvSyoQGJcNB/hnNrPBy4+/HbMKomkjH3VzAAsLx9QVO/ktdxl7p+wOFsmQMv0
-         /hs/TmnG7Lr3i6NtEdZPh/JklojHT8C/OGGu+ZENrQWTPHqGJdzNuOCt+WmYm4IdXG93
-         37jA==
+        bh=wTW4hM0VSF7LFJ/NCK6iG+tETSGyjR8S+zmadiTpiUs=;
+        b=krSqZAO9AIW3lnPPRDiNpi0yN/3CW39hRv7XrODssFRT6Ui3OpL4Aj8PIOzeIVlx1m
+         8nlrEJtpZYBeY90bam840Rm+/THqpAStiwyPisWDmLqwY2IGN9Mj4AoTdrs1q7akfe25
+         I9yuFltQ9tDOYBeQXVUJKVP4oPWiMUuTm6TfXeUkP0c/51Z4XLY1M8Ie5RKeoiIY4uYg
+         xaY6nap7hmg9SzppAnAeYRkUZa4rV1AuL/EhyjBlcPFsg8ABWpmi3y+Q9jy2Rbd8gAFh
+         //9qre9g6tgeHvXvWq+RXhyOE66d18GKjgAX0XIAOVhvMnWwwALp6w33knvIdh+ahh7W
+         7yiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678888903;
+        d=1e100.net; s=20210112; t=1678888908;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fXzX0gdS//EIMxZzQUaZCbLKFQDz8MeQa6aWrRdF6OA=;
-        b=MIwO5pEYUs/f1gN8/pReW4SU15iwQxGuNHNeW4BLDTXlAlRT9FNHkuLRQT2+5+H5BF
-         TrUVVDz3DM2hy9Cb6w+shSg+QHSrpkDRrKM0ESe3gQ9cZUv5fVLpbPT4cLeF4fouPqGq
-         3MM+JXhKvzbT53En+6ZMvS1QekrMFa3HvRbmZGEctjv7pifKSgs7ADRSk7AEM7EWTO6K
-         ty+QoKZ5oeAAaCRaWv55ykeibbCDMUqtLiAuWTBIWVAW/dIWZTwouGuwvZiNJ02Ihie9
-         mOf3VmwcntSAId7mfClHXqsNijMgN3Vk9h7zFp9PtiC2PO2jA0yfQ70MnGpwAXsPi07N
-         JreQ==
-X-Gm-Message-State: AO0yUKWrqRsLTczkf1pcLrBp7RL5u8sgFDR5LDTM3zlE8KN9DZgqA1CB
-	E2UTyNq6fQqx8rcM2coliiyWQWdxzkxXfuLnUDc=
-X-Google-Smtp-Source: AK7set+b9WM7R2x9WKLFesV0F3DHDgqF+r06/90be7Y2EDHIP1vrZDrmcAIEQ/E91yHW8a16+BM54Q==
-X-Received: by 2002:a17:902:d4c7:b0:19c:eb9a:7712 with SMTP id o7-20020a170902d4c700b0019ceb9a7712mr3448110plg.1.1678888903405;
-        Wed, 15 Mar 2023 07:01:43 -0700 (PDT)
+        bh=wTW4hM0VSF7LFJ/NCK6iG+tETSGyjR8S+zmadiTpiUs=;
+        b=spN1gsAGRBrv7P49qj/VvERFenexZHzvZTyHK/193mrPHZcgC0vjJkh7+vfIHu9+Mc
+         ko5osemD3rCiKhDStI08NqWE6fxuIizkPaNXC7r10qvZhiIw+2fmZRtnVkxrEm0Hz/bg
+         FZmM+IHOOzVYlK3GN0zzS+r37GTd8KxYqOCX7zKQhy19pY2qRcx1/nobDEBt4FoJWRDp
+         ZwlEWBWypq4YZW4B+17w4ct+uU+30Kx5aJseYF3Q3Zj30R58FSanTUrAjA5n2Q6j3gmA
+         N6jJqsnZCk+c2kvQvJs0xDH8FfqtyJuhmJCi0A0NFzXGvpk6z5o8Vcwobz5nNf/syLJ7
+         wOog==
+X-Gm-Message-State: AO0yUKWjF/8bv9/91aeUloPaOzlhK18hz0i4mGB/foLBNRMulVEKahC2
+	lfPdt/Z74o6ZZm2Km+pqPFxwAo3eX1OFcLJGtdY=
+X-Google-Smtp-Source: AK7set+qn60U9RVmQS+J4Kq6xOjl5UBbS16O+iICyH4wtQsO+BdLMom21H52UowP0QOhEzvQMkaz9A==
+X-Received: by 2002:a17:903:187:b0:19c:dc38:3eb5 with SMTP id z7-20020a170903018700b0019cdc383eb5mr3240504plg.14.1678888908589;
+        Wed, 15 Mar 2023 07:01:48 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id h6-20020a170902f54600b001a0432ca99csm3663755plf.269.2023.03.15.07.01.42
+        by smtp.gmail.com with ESMTPSA id h6-20020a170902f54600b001a0432ca99csm3663755plf.269.2023.03.15.07.01.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Mar 2023 07:01:43 -0700 (PDT)
+        Wed, 15 Mar 2023 07:01:48 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 11/22] linux-yocto-rt/5.15: update to -rt59
-Date: Wed, 15 Mar 2023 04:01:02 -1000
-Message-Id: <7819b6b18dd7f77e8990644e42fb637095feb973.1678888649.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 14/22] python3-setuptools-rust-native: Add direct dependency of native python3 modules
+Date: Wed, 15 Mar 2023 04:01:05 -1000
+Message-Id: <0ae1ed426e97d9d53fb31a9751de5a3f1898b16b.1678888649.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1678888649.git.steve@sakoman.com>
 References: <cover.1678888649.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 14:01:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178562
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178565
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Poonam <Poonam.Jadhav@kpit.com>
 
-Integrating the following commit(s) to linux-yocto/5.15:
+Add direct dependency of below native python3 modules
+to fix the compile issue 
 
-    4d335265c101 'Linux 5.15.94-rt59'
-    c3b4464f5d2b 'Linux 5.15.93-rt58'
-    c67bd325f576 'Linux 5.15.92-rt57'
-    48e551ae0f55 'Linux 5.15.86-rt56'
-    977a63a270ad 'Linux 5.15.85-rt55'
-    adaa1d9e19a5 'Linux 5.15.79-rt54'
-    ff3c61c5ead1 'Linux 5.15.76-rt53'
-    e17260e8d340 'Linux 5.15.73-rt52'
-    c83f436b7981 'Linux 5.15.71-rt51'
-    e01c9e3ba82d 'Linux 5.15.70-rt50'
-    debedeb4264e mm/memcg: Only perform the debug checks on !PREEMPT_RT
-    1ef2cd0b8676 mm/memcg: Add a comment regarding the release `obj'.
-    f8d153e08d42 mm/memcg: Add missing counter index which are not update in interrupt.
-    11624404f67a mm/memcg: Disable migration instead of preemption in drain_all_stock().
-    0a1f4de6ed4f mm/memcg: Protect memcg_stock with a local_lock_t
-    3f15202f27da mm/memcg: Opencode the inner part of obj_cgroup_uncharge_pages() in drain_obj_stock()
-    40dbbd2f9773 mm/memcg: Protect per-CPU counter by disabling preemption on PREEMPT_RT where needed.
-    6269831106f5 mm/memcg: Disable threshold event handlers on PREEMPT_RT
-    8da0e71b7b7d mm/memcg: Revert ("mm/memcg: optimize user context object stock access")
+python3-semantic-version-native
+python3-setuptools-native
+python3-setuptools-scm-native
+python3-toml-native
+python3-typing-extensions-native
+python3-wheel-native
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit f318c27fdc4ac276743bd37c466e3fc7296bcfd5)
+This issue is not seen in the upstream yocto but in the project,
+where the python modules are not built by any other dependency.
+They have to be explicitly pulled.
+
+This fixes below error:
+
+  File "<path to file>/python3-setuptools-rust-native/1.1.2-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/setuptools/config.py", line 422, in _parse_attr
+    module = importlib.import_module(module_name)
+  File "<path to file>/python3-setuptools-rust-native/1.1.2-r0/recipe-sysroot-native/usr/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "<path to file>/python3-setuptools-rust-native/1.1.2-r0/setuptools-rust-1.1.2/setuptools_rust/__init__.py", line 1, in <module>
+    from .build import build_rust
+  File "<path to file>/python3-setuptools-rust-native/1.1.2-r0/setuptools-rust-1.1.2/setuptools_rust/build.py", line 23, in <module>
+    from typing_extensions import Literal
+ModuleNotFoundError: No module named 'typing_extensions'
+
+Signed-off-by: Poonam Jadhav <Poonam.Jadhav@kpit.com>
+Signed-off-by: Poonam Jadhav <ppjadhav456@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../python/python3-setuptools-rust-native_1.1.2.bb            | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-index caa5e5197f..0f557ba2c5 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-@@ -11,7 +11,7 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/recipes-devtools/python/python3-setuptools-rust-native_1.1.2.bb b/meta/recipes-devtools/python/python3-setuptools-rust-native_1.1.2.bb
+index 8ec9a86f00..c11116a1f4 100644
+--- a/meta/recipes-devtools/python/python3-setuptools-rust-native_1.1.2.bb
++++ b/meta/recipes-devtools/python/python3-setuptools-rust-native_1.1.2.bb
+@@ -14,9 +14,7 @@ SRC_URI[sha256sum] = "a0adb9b503c0ffc4e8fe80b7c617898cefa78049983aaaea7f747e153a
  
--SRCREV_machine ?= "c69881f9ba51496f0930cd39bd67f9dfb8d3a612"
-+SRCREV_machine ?= "4d335265c1010cdf45dc0169b1b79638323a5109"
- SRCREV_meta ?= "509f4b9d68337f103633d48b621c1c9aa0dc975d"
+ inherit cargo pypi python_setuptools_build_meta native
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+-DEPENDS += "python3-setuptools-scm-native python3-wheel-native"
+-
+-RDEPENDS:${PN}:class-native += " \
++DEPENDS += " \
+     python3-semantic-version-native \
+     python3-setuptools-native \
+     python3-setuptools-scm-native \
 -- 
 2.34.1
 
