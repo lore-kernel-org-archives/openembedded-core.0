@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22BEBC77B7D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21BD4C77B7B
 	for <webhook@archiver.kernel.org>; Wed, 15 Mar 2023 15:55:32 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.12303.1678895727616560332
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.12154.1678895727435057282
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 Mar 2023 08:55:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=XTVWeXcf;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010186e5fbc073-691b2336-af97-48c6-8540-1dfc66f081b2-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=j8S3Ed/R;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010186e5fbc033-88636106-27e0-4313-962a-972a04e095e9-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1678895726;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=vNumwrvoNoOIYbDcio2sPBdvQn2wBzc6gpMRBWcEMAc=;
-	b=XTVWeXcfAQhQ7uXN+LTiE9nrXZG/ydEIdkpTEMXoHdkELtge4kH9jFrBF3slOmWZ
-	ySIzwH0O2mcpujPK3CdNphZLTQJvPj8lC2jU6PTDE74vP2dchDeLnvWc8Umi90ngZaC
-	qMxFu4ldRERYhtrAwEpjWb//agtY3pYUsXD6v76Y=
+	bh=1ThjxOD0aTc2T1btwVplXZAP5Y5Bdagocz6m7Zkuj/4=;
+	b=j8S3Ed/R2UxJhQnffBqGyaxaQD/Ec6ojy5R5XNlA3fz3Di8S6tcgQkhGdiAdTYMJ
+	Zh0doUXQ0RxMp0907YN8XrmQAJcw1+7DVT29KN6n1XDvjua8jDKm2mE/t40A6GlxDzG
+	k45KbyFBy9Pz/cEVCcjNKHJ1JGw6JPQAy1dC1xTc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1678895726;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=vNumwrvoNoOIYbDcio2sPBdvQn2wBzc6gpMRBWcEMAc=;
-	b=ZrukU089eb9zVNwRYCE2cJxuzl2B4L77+8yWNmQRQPQpvZmJcRMVz9LKzAAX6Idv
-	rzxE8l9H7LFdKPiyE51maoMKAtS4NYYcW7JLBTPhjPLliW13YQvMAEYSbdqgoQ73O66
-	pNAauCb8VyNEWutEGhE93nDDiw+PDLLMsb4MAwRs=
-Content-Type: multipart/mixed; boundary="===============3172590735020593980=="
+	bh=1ThjxOD0aTc2T1btwVplXZAP5Y5Bdagocz6m7Zkuj/4=;
+	b=ODRpw93RQ8bVnVUrcr2vIvtduZeu+20HBN3D82cHDScwkxn3K5VRS24QB001lSkj
+	GkYVaPR0ZXekt35bXaSMIdA122x8hznpr8NCcl97E0pwYlRGeA1vOQSmD7hZaAqQBkl
+	Y5B/QB5T9dlW8nNVpu/ms6IYYBD+V2620p7A9deQ=
+Content-Type: multipart/mixed; boundary="===============0486907775264785921=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Yi Zhao <yi.zhao@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libhandy: upgrading to 1.8.2 SUCCEEDED
-Message-ID: <01010186e5fbc073-691b2336-af97-48c6-8540-1dfc66f081b2-000000@us-west-2.amazonses.com>
+Subject: [AUH] libsdl2: upgrading to 2.26.4 SUCCEEDED
+Message-ID: <01010186e5fbc033-88636106-27e0-4313-962a-972a04e095e9-000000@us-west-2.amazonses.com>
 Date: Wed, 15 Mar 2023 15:55:26 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.03.15-54.240.27.45
+X-SES-Outgoing: 2023.03.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 15:55:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178620
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178619
 
---===============3172590735020593980==
+--===============0486907775264785921==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libhandy* to *1.8.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *libsdl2* to *2.26.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libhandy-upgrade-1.8.1-1.8.2.patch
+    - apply the patch: git am 0001-libsdl2-upgrade-2.26.3-2.26.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,128 +69,79 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3172590735020593980==
+--===============0486907775264785921==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/libhandy/libhandy-locale-sl: PKGSIZE changed from 11786 to 18409 (+56%)
+packages/core2-32-poky-linux/libsdl2/libsdl2: FILELIST: removed "/usr/lib/libSDL2-2.0.so.0.2600.3", added "/usr/lib/libSDL2-2.0.so.0.2600.4"
+Changes to packages/core2-32-poky-linux/libsdl2 (sysroot):
+  /usr/lib/libSDL2-2.0.so.0 changed symlink target from libSDL2-2.0.so.0.2600.3 to libSDL2-2.0.so.0.2600.4
+  /usr/lib/libSDL2-2.0.so.0.2600.3 moved to /usr/lib/libSDL2-2.0.so.0.2600.4
 
---===============3172590735020593980==
+--===============0486907775264785921==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libhandy-upgrade-1.8.1-1.8.2.patch"
+ filename="0001-libsdl2-upgrade-2.26.3-2.26.4.patch"
 
-RnJvbSAyZjIwNDkxMTY3YzI0ZjIxNzc5N2E3MmFhOWIyNDg0N2Y2NTAwMjZjIE1vbiBTZXAgMTcg
+RnJvbSBkYTA4ODU1ZTgyMDYxZjllZTA5ZjExNzM1OGExZTM3MzU4ODNlY2Y5IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgTWFyIDIwMjMgMTE6Mjk6NDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJoYW5keTogdXBncmFkZSAxLjguMSAtPiAxLjguMgoKLS0tCiAuLi4vbGliaGFuZHkve2xpYmhh
-bmR5XzEuOC4xLmJiID0+IGxpYmhhbmR5XzEuOC4yLmJifSAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtZ25vbWUvbGliaGFuZHkve2xpYmhhbmR5XzEuOC4xLmJiID0+IGxpYmhhbmR5XzEuOC4y
-LmJifSAoOTUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1nbm9tZS9saWJoYW5keS9saWJo
-YW5keV8xLjguMS5iYiBiL21ldGEvcmVjaXBlcy1nbm9tZS9saWJoYW5keS9saWJoYW5keV8xLjgu
-Mi5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ25vbWUv
-bGliaGFuZHkvbGliaGFuZHlfMS44LjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1nbm9tZS9s
-aWJoYW5keS9saWJoYW5keV8xLjguMi5iYgppbmRleCA0MWM4ZTliZmI4Li5lODYzZThkMTNiIDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvbGliaGFuZHkvbGliaGFuZHlfMS44LjEuYmIK
-KysrIGIvbWV0YS9yZWNpcGVzLWdub21lL2xpYmhhbmR5L2xpYmhhbmR5XzEuOC4yLmJiCkBAIC0x
-MCw3ICsxMCw3IEBAIExJQ0VOU0UgPSAiTEdQTC0yLjEtb25seSIKIExJQ19GSUxFU19DSEtTVU0g
-PSAiZmlsZTovL0NPUFlJTkc7bWQ1PTRmYmQ2NTM4MGNkZDI1NTk1MTA3OTAwOGIzNjQ1MTZjIgog
-CiBTUkNfVVJJID0gImdpdDovL2dpdGxhYi5nbm9tZS5vcmcvR05PTUUvbGliaGFuZHkuZ2l0O3By
-b3RvY29sPWh0dHBzO2JyYW5jaD1saWJoYW5keS0xLTgiCi1TUkNSRVYgPSAiZjA2YzFiZmE5NWEz
-MTYwNTc1YjM2MzE1YzZkOTQzNzM3NmQ4YWY3NyIKK1NSQ1JFViA9ICI0OGFlN2VjMGY3ZjllZTVm
-NjY2ZGEzOGIwZTM5ZTY2ODc0OTU3MTY2IgogUyA9ICIke1dPUktESVJ9L2dpdCIKIAogVVBTVFJF
-QU1fQ0hFQ0tfR0lUVEFHUkVHRVggPSAiKD9QPHB2ZXI+XGQrXC4oXGQqWzAyNDY4XSkrKFwuXGQr
-KSkiCi0tIAoyLjM5LjIKCg==
+CkRhdGU6IFdlZCwgMTUgTWFyIDIwMjMgMTE6NDQ6NDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJzZGwyOiB1cGdyYWRlIDIuMjYuMyAtPiAyLjI2LjQKCi0tLQogLi4uL2xpYnNkbDIve2xpYnNk
+bDJfMi4yNi4zLmJiID0+IGxpYnNkbDJfMi4yNi40LmJifSAgICAgICAgICAgIHwgMiArLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLWdyYXBoaWNzL2xpYnNkbDIve2xpYnNkbDJfMi4yNi4zLmJiID0+IGxpYnNkbDJfMi4y
+Ni40LmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJzZGwy
+L2xpYnNkbDJfMi4yNi4zLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnNkbDIvbGlic2Rs
+Ml8yLjI2LjQuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
+LWdyYXBoaWNzL2xpYnNkbDIvbGlic2RsMl8yLjI2LjMuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
+cy1ncmFwaGljcy9saWJzZGwyL2xpYnNkbDJfMi4yNi40LmJiCmluZGV4IDE1MDU0ZTFlYTkuLjc3
+NWE2OTkyMjUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJzZGwyL2xpYnNk
+bDJfMi4yNi4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJzZGwyL2xpYnNkbDJf
+Mi4yNi40LmJiCkBAIC0yNSw3ICsyNSw3IEBAIFNSQ19VUkkgPSAiaHR0cDovL3d3dy5saWJzZGwu
+b3JnL3JlbGVhc2UvU0RMMi0ke1BWfS50YXIuZ3oiCiAKIFMgPSAiJHtXT1JLRElSfS9TREwyLSR7
+UFZ9IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYzY2MTIwNWE1NTNiN2QyNTI0MjVmNGI3NTFm
+ZjEzMjA5ZTVlMDIwYjg3NmJiZmExNTk4NDk0YWY2MTc5MDA1NyIKK1NSQ19VUklbc2hhMjU2c3Vt
+XSA9ICIxYTBmNjg2NDk4ZmI3NjhhZDlmM2Y4MGIzOTAzN2E3ZDAwNmVhYzA5M2FhZDM5Y2I0ZWJj
+YzgzMmE4ODg3MjMxIgogCiBpbmhlcml0IGNtYWtlIGxpYl9wYWNrYWdlIGJpbmNvbmZpZy1kaXNh
+YmxlZCBwa2djb25maWcgdXBzdHJlYW0tdmVyc2lvbi1pcy1ldmVuCiAKLS0gCjIuMzkuMgoK
 
---===============3172590735020593980==
+--===============0486907775264785921==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libhandy: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-dbg: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKGSIZE changed from 2275864 to 2278320 (+0%)
-packages/core2-32-poky-linux/libhandy/libhandy-dev: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-dev: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-dev: PKGSIZE changed from 886083 to 886088 (+0%)
-packages/core2-32-poky-linux/libhandy/libhandy-doc: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-doc: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-examples: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-examples: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-ca: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-ca: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-cs: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-cs: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-de: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-de: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-en-gb: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-en-gb: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-es: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-es: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-eu: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-eu: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-fa: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-fa: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-fi: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-fi: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-fr: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-fr: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-fur: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-fur: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-gl: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-gl: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-hr: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-hr: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-hu: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-hu: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-id: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-id: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-ka: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-ka: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-ko: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-ko: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-nl: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-nl: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-oc: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-oc: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-pl: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-pl: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-pt-br: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-pt-br: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-pt: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-pt: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-ro: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-ro: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-ru: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-ru: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-sl: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-sl: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-sl: PKGSIZE changed from 11786 to 18409 (+56%)
-packages/core2-32-poky-linux/libhandy/libhandy-locale-sr: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-sr: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-sv: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-sv: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-tr: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-tr: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-uk: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-uk: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale-zh-cn: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-locale-zh-cn: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-src: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-src: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-src: PKGSIZE changed from 3572778 to 3574220 (+0%)
-packages/core2-32-poky-linux/libhandy/libhandy-staticdev: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy-staticdev: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libhandy/libhandy: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libhandy/libhandy: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-32-poky-linux/libsdl2: PKGV changed from 2.26.3 [default] to 2.26.4 [default]
+packages/core2-32-poky-linux/libsdl2: SRC_URI changed from "http://www.libsdl.org/release/SDL2-2.26.3.tar.gz" to "http://www.libsdl.org/release/SDL2-2.26.4.tar.gz"
+packages/core2-32-poky-linux/libsdl2: PV changed from "2.26.3" to "2.26.4"
+packages/core2-32-poky-linux/libsdl2/libsdl2-bin: PKGV changed from 2.26.3 [default] to 2.26.4 [default]
+packages/core2-32-poky-linux/libsdl2/libsdl2-bin: PV changed from "2.26.3" to "2.26.4"
+packages/core2-32-poky-linux/libsdl2/libsdl2-dbg: PKGV changed from 2.26.3 [default] to 2.26.4 [default]
+packages/core2-32-poky-linux/libsdl2/libsdl2-dbg: FILELIST: removed "/usr/lib/.debug/libSDL2-2.0.so.0.2600.3", added "/usr/lib/.debug/libSDL2-2.0.so.0.2600.4"
+packages/core2-32-poky-linux/libsdl2/libsdl2-dbg: PV changed from "2.26.3" to "2.26.4"
+packages/core2-32-poky-linux/libsdl2/libsdl2-dbg: PKGSIZE changed from 6183536 to 6183524 (-0%)
+packages/core2-32-poky-linux/libsdl2/libsdl2-dev: PKGV changed from 2.26.3 [default] to 2.26.4 [default]
+packages/core2-32-poky-linux/libsdl2/libsdl2-dev: PV changed from "2.26.3" to "2.26.4"
+packages/core2-32-poky-linux/libsdl2/libsdl2-doc: PKGV changed from 2.26.3 [default] to 2.26.4 [default]
+packages/core2-32-poky-linux/libsdl2/libsdl2-doc: PV changed from "2.26.3" to "2.26.4"
+packages/core2-32-poky-linux/libsdl2/libsdl2-locale: PKGV changed from 2.26.3 [default] to 2.26.4 [default]
+packages/core2-32-poky-linux/libsdl2/libsdl2-locale: PV changed from "2.26.3" to "2.26.4"
+packages/core2-32-poky-linux/libsdl2/libsdl2-src: PKGV changed from 2.26.3 [default] to 2.26.4 [default]
+packages/core2-32-poky-linux/libsdl2/libsdl2-src: PV changed from "2.26.3" to "2.26.4"
+packages/core2-32-poky-linux/libsdl2/libsdl2-src: PKGSIZE changed from 10022397 to 10022441 (+0%)
+packages/core2-32-poky-linux/libsdl2/libsdl2-staticdev: PKGV changed from 2.26.3 [default] to 2.26.4 [default]
+packages/core2-32-poky-linux/libsdl2/libsdl2-staticdev: PV changed from "2.26.3" to "2.26.4"
+packages/core2-32-poky-linux/libsdl2/libsdl2-staticdev: PKGSIZE changed from 9130874 to 9130710 (-0%)
+packages/core2-32-poky-linux/libsdl2/libsdl2: PKGV changed from 2.26.3 [default] to 2.26.4 [default]
+packages/core2-32-poky-linux/libsdl2/libsdl2: FILELIST: removed "/usr/lib/libSDL2-2.0.so.0.2600.3", added "/usr/lib/libSDL2-2.0.so.0.2600.4"
+packages/core2-32-poky-linux/libsdl2/libsdl2: PV changed from "2.26.3" to "2.26.4"
+Changes to packages/core2-32-poky-linux/libsdl2 (sysroot):
+  /usr/lib/libSDL2-2.0.so.0 changed symlink target from libSDL2-2.0.so.0.2600.3 to libSDL2-2.0.so.0.2600.4
+  /usr/lib/libSDL2-2.0.so.0.2600.3 moved to /usr/lib/libSDL2-2.0.so.0.2600.4
 
---===============3172590735020593980==--
+--===============0486907775264785921==--
 
