@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6206CC7EE2A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E916C7EE2E
 	for <webhook@archiver.kernel.org>; Wed, 15 Mar 2023 15:55:32 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.12301.1678895726741278287
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.12308.1678895728269652846
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Mar 2023 08:55:26 -0700
+ Wed, 15 Mar 2023 08:55:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Wy440iML;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010186e5fbbd83-a9c1c86c-9d5b-4b8b-9717-b8decf7ed174-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=aktNh9x1;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010186e5fbc3e3-d89196c8-9186-4f7a-84ed-ffa9b647c2bd-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1678895726;
+	t=1678895727;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=yF9oG2raYk5u7Cog2cQznt+F7HQOJxjG9hKNJXzIqxE=;
-	b=Wy440iMLGFzoYd+APs5CYGUgUeFF+3I4CsoDfmiaHI4lihmnldd/okny2t/a2Ee+
-	hCFCtuYOgvO/7guyfqrnOudEUuTcPRXao0HOMUxcau/37KXkKP7Q3NJWAtQCIbzm/ey
-	LBYl5QqZFnVse+EgXxhc+L76T7m+5FqnUmFXGk1c=
+	bh=U2JbX6pW4j9Hvy/RQU1DNXEadP7jSE0jv1OOdQN74zk=;
+	b=aktNh9x1ecde6yynb+WACem2r2Sv+EgNyjWLv2A0/ztXXo1npRvr1G+2deH0eRyQ
+	N0tnSGCTZJSu5+btDQwl5Tvz1TaY/SVFjUw1PNInAUWEQYJYZ+DezrA21dQ1Cu4i5Q5
+	YDdg2KT+XFamyjor/Vx9WhnywEEkWckiYv6FZSGA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1678895726;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1678895727;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=yF9oG2raYk5u7Cog2cQznt+F7HQOJxjG9hKNJXzIqxE=;
-	b=XvkJu3XXBjZMLxZzKkjgs39p3LohiyJ3Lsv6JFB5Z7vD+VdpVFOdiL/aU943I9xc
-	eHPyxH2Uj3ontoWbaleucr7j1nABBDNWN1INwU7nuzqH7ngUkxnL/eOlTE/IVH55hoo
-	BccYXnlFJ8NdayIgAuC1aOj99leSzjsnnQwzbzo8=
-Content-Type: multipart/mixed; boundary="===============1157628249239677156=="
+	bh=U2JbX6pW4j9Hvy/RQU1DNXEadP7jSE0jv1OOdQN74zk=;
+	b=r1h60SltF1iVDahxXXLIYWx8nsVPgjMhNsBYLO1IOFf8xPuy7XKS/0WXSpTmziIX
+	FoMqo4VloxpGyk9rSWQJn4t8KWITSM4sjxP3higfC5hM354XORaocUVZyn2s8o06x9G
+	41PIcfFFFDZYnwrf3ueDUhhzMSN2oIrO2Zb5RgUY=
+Content-Type: multipart/mixed; boundary="===============2260563297240097961=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-wheel: upgrading to 0.40.0 FAILED
-Message-ID: <01010186e5fbbd83-a9c1c86c-9d5b-4b8b-9717-b8decf7ed174-000000@us-west-2.amazonses.com>
-Date: Wed, 15 Mar 2023 15:55:26 +0000
+Subject: [AUH] gstreamer1.0-omx: upgrading to 1.22.1 SUCCEEDED
+Message-ID: <01010186e5fbc3e3-d89196c8-9186-4f7a-84ed-ffa9b647c2bd-000000@us-west-2.amazonses.com>
+Date: Wed, 15 Mar 2023 15:55:27 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.03.15-54.240.27.191
+X-SES-Outgoing: 2023.03.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 15:55:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178607
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178628
 
---===============1157628249239677156==
+--===============2260563297240097961==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,91 +50,80 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-wheel* to *0.40.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *gstreamer1.0-omx* to *1.22.1* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-gstreamer1.0-omx-upgrade-1.22.0-1.22.1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe python3-wheel failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (08:42:57.766260)
-Loading cache...done.
-Loaded 1791 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.3.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-044ee69054b731b22aeb1010539eaaecd5ef8379"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:044ee69054b731b22aeb1010539eaaecd5ef8379"
-workspace            = "master:37b5d544d34c9caaf70def0a29dfb0cf896dc1b7"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Loading cache...done.
-Loaded 1791 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 897 .bb files complete (895 cached, 2 parsed). 1792 targets, 38 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.3.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-044ee69054b731b22aeb1010539eaaecd5ef8379"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:044ee69054b731b22aeb1010539eaaecd5ef8379"
-workspace            = "master:37b5d544d34c9caaf70def0a29dfb0cf896dc1b7"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://files.pythonhosted.org/packages/source/w/wheel/wheel-0.40.0.tar.gz;downloadfilename=wheel-0.40.0.tar.gz...
-INFO: Rebasing devtool onto 4be1784028db04631d0aa32c1d3ecb503797d9a6
-WARNING: Command 'git rebase 4be1784028db04631d0aa32c1d3ecb503797d9a6' failed:
-Auto-merging pyproject.toml
-CONFLICT (add/add): Merge conflict in pyproject.toml
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Using source tree as build directory since that would be the default for this recipe
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/python3-wheel
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/python3-wheel/python3-wheel_0.40.0.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============1157628249239677156==--
+--===============2260563297240097961==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gstreamer1.0-omx-upgrade-1.22.0-1.22.1.patch"
+
+RnJvbSBiYzdjY2M0MTY0NjNmMjcxZjJjYjkwNTk2ZWU3MjM5MTBhNjU1ZTRiIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMTUgTWFyIDIwMjMgMTM6NDk6MDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+c3RyZWFtZXIxLjAtb214OiB1cGdyYWRlIDEuMjIuMCAtPiAxLjIyLjEKCi0tLQogLi4uL3tnc3Ry
+ZWFtZXIxLjAtb214XzEuMjIuMC5iYiA9PiBnc3RyZWFtZXIxLjAtb214XzEuMjIuMS5iYn0gIHwg
+MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
+bWUgbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL3tnc3RyZWFtZXIxLjAtb214XzEu
+MjIuMC5iYiA9PiBnc3RyZWFtZXIxLjAtb214XzEuMjIuMS5iYn0gKDk1JSkKCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLW9teF8xLjIy
+LjAuYmIgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLW9t
+eF8xLjIyLjEuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
+LW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1vbXhfMS4yMi4wLmJiCnJlbmFtZSB0
+byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLW9teF8xLjIy
+LjEuYmIKaW5kZXggZWQ0YzQ0NTgzZS4uM2FjODJmMGQ4YiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
+cGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1vbXhfMS4yMi4wLmJiCisrKyBi
+L21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtb214XzEuMjIu
+MS5iYgpAQCAtMTAsNyArMTAsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5H
+O21kNT00ZmJkNjUzODBjZGQyNTU5NTEwNzkwMDhiMzY0NTE2YyBcCiAKIFNSQ19VUkkgPSAiaHR0
+cHM6Ly9nc3RyZWFtZXIuZnJlZWRlc2t0b3Aub3JnL3NyYy9nc3Qtb214L2dzdC1vbXgtJHtQVn0u
+dGFyLnh6IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZGJjOTUxYTk5YWY1MzIzODBlNTk5YWE4
+YWNkOWUxMzg1ZmRiMjk5YjQ2YjU4NjhjZDJiZTQyMzBhZDg4ODM0MSIKK1NSQ19VUklbc2hhMjU2
+c3VtXSA9ICIyZDM3ZjYwY2QzM2U2OGRjZWYwYmNkMDliMmRkOGEwYjJlYjNhYjZkNmFjMTcyZGNh
+NDZmNzBlYjAyNzU2Njg3IgogCiBTID0gIiR7V09SS0RJUn0vZ3N0LW9teC0ke1BWfSIKIAotLSAK
+Mi4zOS4yCgo=
+
+--===============2260563297240097961==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx-dbg: PV changed from "1.22.0" to "1.22.1"
+packages/core2-32-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx-dbg: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
+packages/core2-32-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx-dev: PV changed from "1.22.0" to "1.22.1"
+packages/core2-32-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx-dev: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
+packages/core2-32-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx-doc: PV changed from "1.22.0" to "1.22.1"
+packages/core2-32-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx-doc: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
+packages/core2-32-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx-locale: PV changed from "1.22.0" to "1.22.1"
+packages/core2-32-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx-locale: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
+packages/core2-32-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx-src: PV changed from "1.22.0" to "1.22.1"
+packages/core2-32-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx-src: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
+packages/core2-32-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx-staticdev: PV changed from "1.22.0" to "1.22.1"
+packages/core2-32-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx-staticdev: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
+packages/core2-32-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx: PV changed from "1.22.0" to "1.22.1"
+packages/core2-32-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
+packages/core2-32-poky-linux/gstreamer1.0-omx: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-omx/gst-omx-1.22.0.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-omx/gst-omx-1.22.1.tar.xz"
+packages/core2-32-poky-linux/gstreamer1.0-omx: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
+packages/core2-32-poky-linux/gstreamer1.0-omx: PV changed from "1.22.0" to "1.22.1"
+
+--===============2260563297240097961==--
 
