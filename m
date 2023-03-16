@@ -2,92 +2,112 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4207C6FD1D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB76CC61DA4
 	for <webhook@archiver.kernel.org>; Thu, 16 Mar 2023 01:03:23 +0000 (UTC)
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.web10.2236.1678928599066636669
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web11.2189.1678928596771057735
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Mar 2023 18:03:19 -0700
+ Wed, 15 Mar 2023 18:03:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=KcxeWqvj;
- spf=pass (domain: gmail.com, ip: 209.85.216.54, mailfrom: ticotimo@gmail.com)
-Received: by mail-pj1-f54.google.com with SMTP id 6-20020a17090a190600b00237c5b6ecd7so3733895pjg.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 18:03:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=goAFHFUi;
+ spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: ticotimo@gmail.com)
+Received: by mail-pl1-f179.google.com with SMTP id ja10so106476plb.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Mar 2023 18:03:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678928598;
+        d=gmail.com; s=20210112; t=1678928596;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0e4/8FLaGxOrZ/NTwMkFwtWrBfwMX9TA9mcq2KH5zjk=;
-        b=KcxeWqvjj6g2fjOP7Qx7bbRXVo6dETSut/O0EH1AkX2bh6VT52w6hkyPmThc7IkGBj
-         tXd0QQ1SI0Lx/RO+lBsqFSLVU22YXxGYRt/46YuoqmqnwT7f0X6idqq5EkphPtg4+Z3N
-         gOy+i5AYtBosR13ZOaHXTIoxDwqae3hsT1Ic2xUoCNFZv954wfpb/cf3sV8L0oTr/aYm
-         HlJQ9A1wgZLq+BHzBnWja70gpWJuxC+DBXu8BRMWlwZMw0I76qC79jzSuFhLuh8F+qiZ
-         d2F9k7VadMoxyklebBXNZ+nY5iGpCABihBtHzi1woLZrjfpXMf2cUBF4SEO4LKt1qwQz
-         v9Dg==
+        bh=kOUehPerahjyMEOjSLYLVPPoIo4AhwC1GNiYj656nHE=;
+        b=goAFHFUiAhSsLg4bhQ3PMzK4oJwZB7nAS//q0oPoAluNA0HzCgj2EjMq/MFY9bO9Dh
+         1gGdAgauhBn9OIFwsne4VVxxe+41ogl1bsEAVbupFfIOyRA7IqjITUu3JF8CUr2Cs15m
+         FtTkKZ7ml5jvabqrgh5Q5rSA2BFVGTXJPKuOphSuaGhBAm1Xi4SrOBstP4Xg3v0QXSY6
+         seefU/fCMOC3pGEbS9q6tx9fHYMbBWCT8QLVFrN1gwTaufDFq31W2BmP29vLjhDigs51
+         Xeima1VEs9RZ/O4dcJV3ussFxOOz9d1k4cyFeKUXBi1A0E5Ulj7i4YTlIteYwiqQuXc5
+         m8gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678928598;
+        d=1e100.net; s=20210112; t=1678928596;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0e4/8FLaGxOrZ/NTwMkFwtWrBfwMX9TA9mcq2KH5zjk=;
-        b=29/4fU+I3Cye4vvceG8gQTmbplbdSa5q598oxfrJrnLo5Yv+mNCojV34vvn0hs3PQg
-         wc+ax4NsMDsu+Tt48f/NXizakAmxHN89cvyN+bz5w1UHDHRd8AXXENjMGcPi7tHiKt7D
-         qzmpm9vW6k4kzXhqtIIyYgikm3sgZlOWC9vbT4sYJFgFnlzQYc5BBMgk6KN+O6Mt6925
-         xu8yBpt50KfGdwK7L3raW4w9dYVO+IYzYYD6YQTzhecOiS5oHF18h4xFdTmhN3IcJSv3
-         9pEuKjZhypBZvg2a5FRxgQxVYaywxPcz7cNltiUPrfJgp4koIBq8xLMaARjw5x6szC38
-         LVWA==
-X-Gm-Message-State: AO0yUKXAjoBDPIHNb6o9vhcPc6oUnleB4tq6nauglSgPUlKNFNoVxpL4
-	5AuYBuK4xL6phOtU9FI1x7aeSnvrPnQ=
-X-Google-Smtp-Source: AK7set9siM2Yy9mxGSqwysIBfA+v4Fh5ZhIb4+nues4RhhzpZacdTrtWeOxsqebgqqtOXiXhtZyIEg==
-X-Received: by 2002:a17:903:120f:b0:19e:6947:3b27 with SMTP id l15-20020a170903120f00b0019e69473b27mr1313073plh.58.1678928598166;
-        Wed, 15 Mar 2023 18:03:18 -0700 (PDT)
+        bh=kOUehPerahjyMEOjSLYLVPPoIo4AhwC1GNiYj656nHE=;
+        b=SmmffQsXkkManbNKqc6p/sKAsqNDnyYCmNyhKrZKjFVAie4qp0YPmP3f3d35ryrtES
+         fb2dQmN4FXjWfG9EPjZxO1gyPW5SlvqyHbdkXPWXUolrq7IZJkBW1LzwsI6pCb5xxzp0
+         QpcresP7z8ZFgSiVMomGbLLerbmTGeYd4A8c4O8ORSQ3l/PIb1FegAAf2wxN6mzj/0Ox
+         NKRgX4K1UQabJfROwyKjn3Mc4UfrYXTaj/nybs/ETTxce2sMHItDY+i0exeGQPjW/M+3
+         81oFWJ867MhoZ4dDfWR0KwpGugpLRCbTqwHeuXrDzZvdH5GZGGQ9FeCcMTSPFVHLxUnQ
+         k6Qw==
+X-Gm-Message-State: AO0yUKVrSHUzmO//GInfFbdRtefCBdDhzcP2k7ZOso8mU+tNm0PU91Do
+	JQjrNA4f4hv88CST13c8WJZhnwwDXOY=
+X-Google-Smtp-Source: AK7set/bLoq6fpt4PX5Lx92ujP39d57PIpEPuJMBeZduh4jWiaTyMGaywxSMceWRZghDR5g6l23d9g==
+X-Received: by 2002:a17:903:1c9:b0:19d:1725:a655 with SMTP id e9-20020a17090301c900b0019d1725a655mr1787717plh.13.1678928595791;
+        Wed, 15 Mar 2023 18:03:15 -0700 (PDT)
 Received: from nereus.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:66f1:cb87:4495:5f63])
-        by smtp.gmail.com with ESMTPSA id kf16-20020a17090305d000b0019309be03e7sm4240035plb.66.2023.03.15.18.03.17
+        by smtp.gmail.com with ESMTPSA id kf16-20020a17090305d000b0019309be03e7sm4240035plb.66.2023.03.15.18.03.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Mar 2023 18:03:17 -0700 (PDT)
+        Wed, 15 Mar 2023 18:03:15 -0700 (PDT)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/5] python3-scons: upgrade 4.4.0 -> 4.5.1
-Date: Wed, 15 Mar 2023 18:02:58 -0700
-Message-Id: <00147706954d59a3880466e759d6a6f9412a14c6.1678928363.git.tim.orling@konsulko.com>
+Subject: [PATCH 1/5] python3-pytest: upgrade 7.2.1 -> 7.2.2
+Date: Wed, 15 Mar 2023 18:02:57 -0700
+Message-Id: <c252a5adbac333a3415b2d7155add777edbba7bf.1678928363.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1678928363.git.tim.orling@konsulko.com>
 References: <cover.1678928363.git.tim.orling@konsulko.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 01:03:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178667
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178666
 
-https://github.com/SCons/scons/blob/rel_4.5.1/CHANGES.txt
-https://github.com/SCons/scons/blob/rel_4.5.0/CHANGES.txt
+https://docs.pytest.org/en/stable/changelog.html#pytest-7-2-2-2023-03-03
+
+pytest 7.2.2 (2023-03-03)
+
+Bug Fixes
+10533: Fixed pytest.approx() handling of dictionaries containing one or
+        more values of 0.0.
+10592: Fixed crash if --cache-show and --help are passed at the same time.
+10597: Fixed bug where a fixture method named teardown would be called as
+       part of nose teardown stage.
+10626: Fixed crash if --fixtures and --help are passed at the same time.
+10660: Fixed pytest.raises() to return a ‘ContextManager’ so that type-
+       checkers could narrow pytest.raises(...) if ... else nullcontext()
+       down to ‘ContextManager’ rather than ‘object’.
+
+Improved Documentation
+10690: Added CI and BUILD_NUMBER environment variables to the documentation.
+10721: Fixed entry-points declaration in the documentation example using
+       Hatch.
+10753: Changed wording of the module level skip to be very explicit about
+       not collecting tests and not executing the rest of the module.
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- .../python/{python3-scons_4.4.0.bb => python3-scons_4.5.1.bb}   | 2 +-
+ .../python/{python3-pytest_7.2.1.bb => python3-pytest_7.2.2.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-scons_4.4.0.bb => python3-scons_4.5.1.bb} (90%)
+ rename meta/recipes-devtools/python/{python3-pytest_7.2.1.bb => python3-pytest_7.2.2.bb} (92%)
 
-diff --git a/meta/recipes-devtools/python/python3-scons_4.4.0.bb b/meta/recipes-devtools/python/python3-scons_4.5.1.bb
-similarity index 90%
-rename from meta/recipes-devtools/python/python3-scons_4.4.0.bb
-rename to meta/recipes-devtools/python/python3-scons_4.5.1.bb
-index ad1149597f3..279347ac9ca 100644
---- a/meta/recipes-devtools/python/python3-scons_4.4.0.bb
-+++ b/meta/recipes-devtools/python/python3-scons_4.5.1.bb
-@@ -5,7 +5,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=d903b0b8027f461402bac9b5169b36f7"
+diff --git a/meta/recipes-devtools/python/python3-pytest_7.2.1.bb b/meta/recipes-devtools/python/python3-pytest_7.2.2.bb
+similarity index 92%
+rename from meta/recipes-devtools/python/python3-pytest_7.2.1.bb
+rename to meta/recipes-devtools/python/python3-pytest_7.2.2.bb
+index c7610d440c1..4e2c86f641d 100644
+--- a/meta/recipes-devtools/python/python3-pytest_7.2.1.bb
++++ b/meta/recipes-devtools/python/python3-pytest_7.2.2.bb
+@@ -5,7 +5,7 @@ DESCRIPTION = "The pytest framework makes it easy to write small tests, yet scal
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=bd27e41b6550fe0fc45356d1d81ee37c"
  
- SRC_URI += " file://0001-Fix-man-page-installation.patch"
--SRC_URI[sha256sum] = "7703c4e9d2200b4854a31800c1dbd4587e1fa86e75f58795c740bcfa7eca7eaa"
-+SRC_URI[sha256sum] = "9daeabe4d87ba2bd4ea15410765fc1ed2d931b723e4dc730a487a3911b9a1738"
+-SRC_URI[sha256sum] = "d45e0952f3727241918b8fd0f376f5ff6b301cc0777c6f9a556935c92d8a7d42"
++SRC_URI[sha256sum] = "c99ab0c73aceb050f68929bc93af19ab6db0558791c6a0715723abe9d0ade9d4"
  
- PYPI_PACKAGE = "SCons"
+ DEPENDS += "python3-setuptools-scm-native"
  
 -- 
 2.30.2
