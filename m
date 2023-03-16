@@ -1,140 +1,131 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <yashinde145@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2D9AC6FD19
-	for <webhook@archiver.kernel.org>; Thu, 16 Mar 2023 10:37:56 +0000 (UTC)
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web11.8986.1678963068185542214
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2CF4C6FD19
+	for <webhook@archiver.kernel.org>; Thu, 16 Mar 2023 11:03:36 +0000 (UTC)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web11.9354.1678964613057155759
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Mar 2023 03:37:48 -0700
+ Thu, 16 Mar 2023 04:03:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jYsOD9hO;
- spf=pass (domain: gmail.com, ip: 209.85.221.66, mailfrom: zboszor@gmail.com)
-Received: by mail-wr1-f66.google.com with SMTP id l12so1032738wrm.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 03:37:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=a9UW2rTU;
+ spf=pass (domain: gmail.com, ip: 209.85.215.170, mailfrom: yashinde145@gmail.com)
+Received: by mail-pg1-f170.google.com with SMTP id y19so670804pgk.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 04:03:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678963066;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=C3tGzabhUQ4x7+lNPlQKiK/JMbDYB9UfXtN+1yOwldU=;
-        b=jYsOD9hOZ/4fFE3Lm3hUuRcpfW4gE0M6TlBphmNakSLEAD3p6MkECO4UaEtcd0rapm
-         tHYVmXlASgKNcoxzfRGjutFjIC50Iuutrqn5jgdrTx1YN5nBWjmC+/lA+RfusRngP/Cn
-         hWsRI6kS8UxRkopdQjK1unHmF0pve9z5PoRnjCpmw+DsSz2gZu5I2YQvM/DSGDiEsMnA
-         jp29xV0IEUFGzWJjjBxY+Y9++4o1GORcFMiX7Malsy93cAwvEkyqtzYGAjPOSc9r4/s/
-         hC+uOyQVncG6Ci26AKUXxgsGlWmJVXAOaAcxK4RC+7rnRvR/WTuX9YZJhohtQamrDbB1
-         4gPw==
+        d=gmail.com; s=20210112; t=1678964612;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mCo37oxWezI/H/VrZSqYG3GJC1Zr5WUYXwd0IgdH6cg=;
+        b=a9UW2rTUoh4SENObwPhPesXC4Gsa2aTrZs3XbxPU1SL4C6O3OGYTRTvBytXa32I1QX
+         E5LuCvVgfXyfIbvERfxN056aDN/8q1MlBIyDYPGE5EGfadl1VKi6J/NnZYvKRmAqCrW/
+         7yHJKJkOVwg74xkkt2sM1nHByprojjaHPQUD5/YWV0szDqx9/WCplzYXVPerprp1JUJK
+         h4/UdS6KpxItZQZhZZPzkFD4iFjDTVKkjZVqijoZJ53x9h5++R/8dif/hHKRlztpjIg1
+         TZB4F8CQduZ9M8hm4Dl1SqRgHq8Ca3KLKRR5MUqu0ZmtANAMuscIVL3y/ZKvT/F8xUm0
+         FgyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678963066;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=C3tGzabhUQ4x7+lNPlQKiK/JMbDYB9UfXtN+1yOwldU=;
-        b=txg3qBqO/ijmp4q5byswRavXB89xnnqg7XZjMwhfxzWl3dBSs45ll40/yQ5I51PArt
-         bcee2BHynX5rMqD0dk7oHvIPES91EmQWeQQ10qaErt4JYtFESyj1VBqxPMFYu1jjsjO/
-         UFkSev/NETe0lAt90kDIozMvEOF10dDQShvE92cbehg70JaUjbLQ47fnCKWS5qVC4TAm
-         uikip+Xuq+PUXaxnSFvZKPQ6FQrQoM3WKOveemsnWRs6C/Cai3wyB0Ew+PB4fjaqoKpy
-         +fJYX8fzsq1YkN6HpHgD+qtwyjn47sRF58otF9GJu+dywCUBHzWP32D81lJ/1oFJrPN0
-         iM0w==
-X-Gm-Message-State: AO0yUKXAzAJxxlnwxWeMZRsr9KxqGe2NksOgtT1u14B7lFENLvxc+Ew9
-	SFIcil4NraOXAYPzfIELt3s=
-X-Google-Smtp-Source: AK7set/R6fnXPe4089yf/AmgduqN1tPMOmTneggNRrhq8XYCrM9yZ3z3VccGZiydtjcjGn5SLuTH7Q==
-X-Received: by 2002:adf:f946:0:b0:2ca:e856:5a4 with SMTP id q6-20020adff946000000b002cae85605a4mr3912705wrr.26.1678963066305;
-        Thu, 16 Mar 2023 03:37:46 -0700 (PDT)
-Received: from [192.168.1.143] (BC2440CC.dsl.pool.telekom.hu. [188.36.64.204])
-        by smtp.gmail.com with ESMTPSA id p9-20020adfce09000000b002cdbb26bb48sm7160208wrn.33.2023.03.16.03.37.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Mar 2023 03:37:46 -0700 (PDT)
-Message-ID: <07abaf0e-333f-5a9f-8501-b1b7a33ae5d6@gmail.com>
-Date: Thu, 16 Mar 2023 11:37:45 +0100
+        d=1e100.net; s=20210112; t=1678964612;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mCo37oxWezI/H/VrZSqYG3GJC1Zr5WUYXwd0IgdH6cg=;
+        b=dciGoN3L25cQzz3hL87cO2iWZK5VsOXPE0fZSok/jFPTJM3L1yjCdoPPBGi3o++Ca/
+         K6G3/hzDKf8ubxXTU8izIw1Xe9iQQjiY4vZhblht6ExjZ9Czs1vezn8xwqfE+a9esrUd
+         5KjQ0S+AetPigvhKXI3TwmyzcLLbUPJI9+VR1OWjTGbV387Jmdameyxxtj6hrH6H/c4a
+         lWC+7dmxJaNG3TnLH9oFuFVU1NOx3yBBR8QuqU2RaslrM1xU619bNL7troNmh8OubaT8
+         6iB8woW+Yy9OLorRFyJBCWa9YR4Qma6Mq5CwfW989usN8bXfw7kuFP7bI0iTAh70OBWT
+         hUPg==
+X-Gm-Message-State: AO0yUKWTtWRQcvq6jodQIS4qA2Wd+lkRnMJjTt8R+rpmbPr0xoKUjmrU
+	JeL4LxrO8U+PCQMfXaWHhHCbKFpQzmc=
+X-Google-Smtp-Source: AK7set8ZlWXhNFPLyy9P12GdgnBm7xY+PJ2Xhm5LZ+ao3YsgRckoj76BgUetaL7jUuOf4R3+6xsdvw==
+X-Received: by 2002:a62:5c4:0:b0:623:6131:66ca with SMTP id 187-20020a6205c4000000b00623613166camr2410012pff.32.1678964612121;
+        Thu, 16 Mar 2023 04:03:32 -0700 (PDT)
+Received: from bft-2.. ([49.204.85.206])
+        by smtp.gmail.com with ESMTPSA id c11-20020aa78c0b000000b00593adee79efsm5186066pfd.55.2023.03.16.04.03.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Mar 2023 04:03:31 -0700 (PDT)
+From: Yash Shinde <yashinde145@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Randy.MacLeod@windriver.com,
+	Umesh.Kallapa@windriver.com,
+	Naveen.Gowda@windriver.com,
+	Sundeep.Kokkonda@windriver.com,
+	Shivaprasad.Moodalappa@windriver.com,
+	Yash.Shinde@windriver.com
+Subject: binutils: Fix CVE-2023-25586
+Date: Thu, 16 Mar 2023 16:32:55 +0530
+Message-Id: <20230316110255.2622075-1-yashinde145@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [OE-core] [PATCH] meson.bbclass: Split into meson-common and
- meson classes
-Content-Language: en-US
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <20230315080020.2648416-1-zboszor@gmail.com>
- <0FA14024-12BF-4952-8E22-3D8A64B472FB@arm.com>
- <efae316a-c655-ab08-13cb-214be93b59f2@gmail.com>
- <4ffadaa158a865afd1bc4c76c79244d904fefb54.camel@linuxfoundation.org>
- <174CDF317CB46FA2.18629@lists.openembedded.org>
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <174CDF317CB46FA2.18629@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 10:37:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178699
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 11:03:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178700
 
-2023. 03. 16. 11:22 keltezéssel, Zoltan Boszormenyi via lists.openembedded.org írta:
-> 2023. 03. 16. 0:08 keltezéssel, Richard Purdie írta:
->> On Wed, 2023-03-15 at 18:20 +0100, Zoltan Boszormenyi wrote:
->>> 2023. 03. 15. 17:52 keltezéssel, Ross Burton írta:
->>>> On 15 Mar 2023, at 08:00, Zoltan Boszormenyi via lists.openembedded.org 
->>>> <zboszor=gmail.com@lists.openembedded.org> wrote:
->>>>
->>>>    apart from the CONFIGURE_FILES line which would still be needed in the 
->>>> python-meson case anyway.
->>>>
->>>> I can’t see what is gained here, just inherit meson.
->>> The problem is that "inherit meson python_pep517" ends up with
->>>
->>> do_configure () {
->>>       meson_do_configure
->>> }
->>>
->>> do_compile () {
->>>       meson_do_compile
->>> }
->>>
->>> when the python_pep517_ prefixed ones are needed.
->>> It has something to do with the fact that both has the line
->>>
->>> EXPORT_FUNCTIONS do_configure do_compile do_install
->>>
->>> Which one wins may depend on inheritance order but
->>> who's to say for sure and why can't this be order agnostic?
->> Which one wins being due to inheritance order is by design.
->>
->> The export functions code adds wrappers meaning by default,
->> XXXX_do_configure is called by do_configure but if needed you can write
->> a custom function which does something like:
->>
->> do_configure () {
->>      pep517_do_configure
->>      meson_do_configure
->>      autotools_do_configure
->> }
->>      i.e. call class specific definitions in an order of your choosing. I
->> appreciate the above wouldn't make much sense but you see the idea
->> behind it.
->>
->>> I need most of meson.bbclass for the settings in the new
->>> meta_mesonpy class to pass to meson but using the pep517
->>> machinery.
->> I really dislike these "common" class abstractions and I think we need
->> to find a better way to handle things. Order does matter to class
->> inheritance already so we can rely and document that if needed.
->
-> So, if I were to use this in the new meta_mesonpy class:
->
-> inherit python_pep517 meson
->
-> then it will do what I need, even without splitting meson.bbclass into two, right?
->
-> I will test this.
+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;h=5830876a0cca17bef3b2d54908928e72cca53502]
 
-The result is that still meson_do_configure et.al. are generated
-into the build scripts.
+Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
+---
+ .../binutils/binutils-2.40.inc                |  1 +
+ .../binutils/0016-CVE-2023-25586.patch        | 34 +++++++++++++++++++
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0016-CVE-2023-25586.patch
 
-Something is not right with with EXPORT_FUNCTIONS then,
-it doesn't obey inheritance order if meson always wins.
+diff --git a/meta/recipes-devtools/binutils/binutils-2.40.inc b/meta/recipes-devtools/binutils/binutils-2.40.inc
+index c2b926bb32..93631ca3d7 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.40.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.40.inc
+@@ -34,5 +34,6 @@ SRC_URI = "\
+      file://0013-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch \
+      file://0014-configure-remove-dependencies-on-gmp-and-mpfr-when-g.patch \
+      file://0015-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patch \
++     file://0016-CVE-2023-25586.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0016-CVE-2023-25586.patch b/meta/recipes-devtools/binutils/binutils/0016-CVE-2023-25586.patch
+new file mode 100644
+index 0000000000..43e36caf3f
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0016-CVE-2023-25586.patch
+@@ -0,0 +1,34 @@
++From 5830876a0cca17bef3b2d54908928e72cca53502 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Tue, 6 Dec 2022 08:37:52 +1030
++Subject: [PATCH] PR29855, ch_type in bfd_init_section_decompress_status can be
++ uninitialized
++
++	PR 29855
++	* compress.c (bfd_init_section_decompress_status): Set ch_type
++	to zero for zlib-gnu case.
++
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=5830876a0cca17bef3b2d54908928e72cca53502]
++
++CVE: CVE-2023-25586
++
++Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
++---
++ bfd/compress.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/bfd/compress.c b/bfd/compress.c
++index 3d8c1d769f1..6b083468ca8 100644
++--- a/bfd/compress.c
+++++ b/bfd/compress.c
++@@ -1012,7 +1012,7 @@ bfd_init_section_decompress_status (bfd *abfd, sec_ptr sec)
++	  return false;
++	}
++       uncompressed_size = bfd_getb64 (header + 4);
++-      ch_type = ch_none;
+++      ch_type = 0;
++     }
++   else if (!bfd_check_compression_header (abfd, header, sec,
++					  &ch_type,
++--
++2.31.1
+-- 
+2.34.1
 
 
