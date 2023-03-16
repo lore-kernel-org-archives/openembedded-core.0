@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D502C7618E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B2BBC7619A
 	for <webhook@archiver.kernel.org>; Thu, 16 Mar 2023 09:41:16 +0000 (UTC)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.web11.8296.1678959671284595093
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.web10.8410.1678959670646066844
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Mar 2023 02:41:11 -0700
+ Thu, 16 Mar 2023 02:41:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=YZDXOsYw;
- spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f54.google.com with SMTP id y4so5111174edo.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 02:41:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=RY05wDHn;
+ spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f46.google.com with SMTP id cn21so5256777edb.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 02:41:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112; t=1678959669;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fnnT1WBCwGpGpmO8NTAxq01YQ833Ry4VTlIeSVpdtWQ=;
-        b=YZDXOsYwK/wtAP/DWMPsoRFZHV3mJMETLj2LTf76te9XWAvbjc2bLAgCaWp44ijH3l
-         OQ/RZNrHwDMfcpbNNHWxO69yvByWieCAcHKzREaSbNINQ41VVNPZaI76iFoEvaGXpyQf
-         XJeEY8njlcB7OSE/biyv5pJ9ItaZ6A2C/SzZUp0CMDUgnpYFplQB4tEFE2NMcXfA5Lso
-         iODohzn+UVReU1t6dUGpZOm5nianZpQVdqvis6RExXDR+gFdNn/+1w0IZxrul6XifqAi
-         GmhmBUQj6r2Fg5Fo6bo+S5enzIHSlnNdYwXP/B19xVUIk2ihPhWRbpitqLtaG71WN1es
-         eHnA==
+        bh=F0h/ycjSNTtNFiA8KIvGnLEj5WGEOZbfDQa3ZO+PLDg=;
+        b=RY05wDHnPwqMg54oDcboaMpq7TQhaSeLNyaEg+A1s4vxaGN1bhD8vut6frq0JeZAWp
+         XN5P6ILgy7LvxU9ECyjeW9hSaLkyVkhIggWBO5NNtzshVSME4bFgjwFcaLSJwjlwsphC
+         8i3gXSlrTJlLhtG8uVSYOQmQkePId7S5ZR8grG39R2KNEFXOy5t/fd6cF3ilN9FAANNH
+         bGy4IUox9xVaC9p28tmZ8JkN/hATwJwtuSTe+4GJyQNKHeWW00E8kqOIEkYT7fTVaBZO
+         HuFdFr9cNgT9Spz/qLNv5WXsYj1ee/VteH+6fL9whfQxIgUekXb0kA5BPwupa5MRgXpB
+         3SeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112; t=1678959669;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fnnT1WBCwGpGpmO8NTAxq01YQ833Ry4VTlIeSVpdtWQ=;
-        b=ihtrB6q7OXqPSkslJn7bLuc/NPvh1Org4Hw0ugcUaKhWMSScmYQe1nApH+fxq6OJbL
-         t1wniGkkaDJqDLEy08qcd3KT0XTzjwWpdJHomuVwOSumhbo6QCmGqoNntvgFIKVDdT+k
-         TZqYcg0t0OUMUXRne+Fz0GlG8GptAzG0Xfo/7+3zKTb0hFBM13kErH5gL8VZ+v2wF9Zx
-         gY7q2L2126NuEc8dx7iEtb8ic7MynPwUmOCsmfzWXCUBcaN/HTVyCqGyUMUz0xXoMLo/
-         w1mihy5Ed7cx+wL/bpPnBjyNFrVmL6zn4jV4g7O+apoOlpR1bmjn+yPYb4TEFWMR8oop
-         6gNQ==
-X-Gm-Message-State: AO0yUKU/6XNmVI+VZy/q3ZYmpJBmlLWJHRUQ4RuSbMx/9bSRVrzMm/E3
-	xVQaZjbBk7DSiOx7QzsByy3UENqO0jI=
-X-Google-Smtp-Source: AK7set+jdWfDYhLxA7XWnw4ztJ3/l2jqyMvarm3X6/KKt+x21O2IgmG2FxlQvpW2uK+HfnMnT3ls+w==
-X-Received: by 2002:a17:906:b319:b0:92b:5c67:c660 with SMTP id n25-20020a170906b31900b0092b5c67c660mr9508702ejz.69.1678959669434;
+        bh=F0h/ycjSNTtNFiA8KIvGnLEj5WGEOZbfDQa3ZO+PLDg=;
+        b=5Dt9G2j4078iTHSB0X+4DHGWO/JgIQjSTzLE6SCU1aG97y3y2cHxFy17nSJMhztt1j
+         1n1Nma2qsUbgwxwqEOiT8HV13fNLJ1ofW29qozXgu7z1YpKzdsNGnQiJrzhb4UM1eo4h
+         sGLg4hwA1ONbmNqP0+VHKkVponPY1pdlXGBuupVFRgJN2NjFqn62OzBIkHLcXtMp9Ce9
+         ecZal3wmUewEu4axDN5KD7tu7KX3xNdoGFdPahwDMZKBbFD4CwldjrO5WwlDaWYx6Mwv
+         GMsJJ6LpPO8QIfutls5bVq/t5xmjcc2FBiqKT4ep6PCO15S/fdIpLTZ6nHyt8eXldwdK
+         kDSg==
+X-Gm-Message-State: AO0yUKXPifBwugckeo5q1s5cBQlozhFH4MGQ16DeXopVv+ANuLfMNGqV
+	xD1T5XgJljfxSTQCtzYlQpWKKT0haRI=
+X-Google-Smtp-Source: AK7set8aN9XLVgibNnrsD+IdteCJ9Qn5cD+ZF+ykR6ygjL/sl3n2aU2u1GTdMJlq48FzOb1f9BBTJg==
+X-Received: by 2002:a17:906:1999:b0:930:18f5:d016 with SMTP id g25-20020a170906199900b0093018f5d016mr2213060ejd.15.1678959669000;
         Thu, 16 Mar 2023 02:41:09 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id lf28-20020a170907175c00b00923221f4062sm3621661ejc.112.2023.03.16.02.41.09
+        by smtp.gmail.com with ESMTPSA id lf28-20020a170907175c00b00923221f4062sm3621661ejc.112.2023.03.16.02.41.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Mar 2023 02:41:09 -0700 (PDT)
+        Thu, 16 Mar 2023 02:41:08 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 6/6] mesa: update 22.3.5 -> 23.0.0
-Date: Thu, 16 Mar 2023 10:41:02 +0100
-Message-Id: <20230316094102.2628727-6-alex@linutronix.de>
+Subject: [PATCH 5/6] mesa: do not strip rpaths from dri drivers
+Date: Thu, 16 Mar 2023 10:41:01 +0100
+Message-Id: <20230316094102.2628727-5-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230316094102.2628727-1-alex@linutronix.de>
 References: <20230316094102.2628727-1-alex@linutronix.de>
@@ -62,232 +62,35 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 09:41:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178696
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178695
 
-Drop patches:
-0001-gbm-backend-fix-gbm-compile-without-dri.patch
-0001-freedreno-pm4-Use-unsigned-instead-of-uint-to-fix-mu.patch
-(backports)
+This was needed back when we used upstream llvm-config which
+would add bogus rpaths into the drivers; nowadays it is replaced
+with a oe-specific wrapper.
 
-0001-util-format-Check-for-NEON-before-using-it.patch
-(upstream submission has stalled with unanswered concerns from upstream;
-patch no longer applies; issue does not reproduce with 'raspberrypi0-wifi' MACHINE)
+The particular reason is that mesa-native relies on having rpaths
+to work correctly (i.e. find other native libraries in the
+same sysroot location).
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...e-unsigned-instead-of-uint-to-fix-mu.patch | 44 -------------
- ...-backend-fix-gbm-compile-without-dri.patch | 65 -------------------
- ...ormat-Check-for-NEON-before-using-it.patch | 47 --------------
- .../{mesa-gl_22.3.5.bb => mesa-gl_23.0.0.bb}  |  0
- meta/recipes-graphics/mesa/mesa.inc           |  5 +-
- .../mesa/{mesa_22.3.5.bb => mesa_23.0.0.bb}   |  0
- 6 files changed, 1 insertion(+), 160 deletions(-)
- delete mode 100644 meta/recipes-graphics/mesa/files/0001-freedreno-pm4-Use-unsigned-instead-of-uint-to-fix-mu.patch
- delete mode 100644 meta/recipes-graphics/mesa/files/0001-gbm-backend-fix-gbm-compile-without-dri.patch
- delete mode 100644 meta/recipes-graphics/mesa/files/0001-util-format-Check-for-NEON-before-using-it.patch
- rename meta/recipes-graphics/mesa/{mesa-gl_22.3.5.bb => mesa-gl_23.0.0.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_22.3.5.bb => mesa_23.0.0.bb} (100%)
+ meta/recipes-graphics/mesa/mesa.inc | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-freedreno-pm4-Use-unsigned-instead-of-uint-to-fix-mu.patch b/meta/recipes-graphics/mesa/files/0001-freedreno-pm4-Use-unsigned-instead-of-uint-to-fix-mu.patch
-deleted file mode 100644
-index 3ab22889bf..0000000000
---- a/meta/recipes-graphics/mesa/files/0001-freedreno-pm4-Use-unsigned-instead-of-uint-to-fix-mu.patch
-+++ /dev/null
-@@ -1,44 +0,0 @@
--From 8a5de0b6cf1090d7f29f3974ec79c32776cf2745 Mon Sep 17 00:00:00 2001
--From: Jami Kettunen <jami.kettunen@protonmail.com>
--Date: Tue, 31 Aug 2021 00:15:58 +0300
--Subject: [PATCH] freedreno/pm4: Use unsigned instead of uint to fix musl build
--
--Upstream-Status: Backport
--
--Fixes the following error I noticed when building against aarch64 with
--musl libc:
--
--  In file included from ../src/freedreno/decode/crashdec.h:38,
--                   from ../src/freedreno/decode/crashdec.c:40:
--  ../src/freedreno/common/freedreno_pm4.h:104:15: error: unknown type name 'uint'
--    104 | static inline uint
--        |               ^~~~
--  ../src/freedreno/common/freedreno_pm4.h:105:25: error: unknown type name 'uint'; did you mean 'int'?
--    105 | pm4_calc_odd_parity_bit(uint val)
--        |                         ^~~~
--        |                         int
--
--Signed-off-by: Jami Kettunen <jami.kettunen@protonmail.com>
--Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/19665>
-----
-- src/freedreno/common/freedreno_pm4.h | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/src/freedreno/common/freedreno_pm4.h b/src/freedreno/common/freedreno_pm4.h
--index 8f958953d693..091247e709a0 100644
----- a/src/freedreno/common/freedreno_pm4.h
--+++ b/src/freedreno/common/freedreno_pm4.h
--@@ -105,8 +105,8 @@ pm4_pkt7_hdr(uint8_t opcode, uint16_t cnt)
-- #define cp_type3_opcode(pkt) (((pkt) >> 8) & 0xFF)
-- #define type3_pkt_size(pkt)  ((((pkt) >> 16) & 0x3FFF) + 1)
-- 
---static inline uint
---pm4_calc_odd_parity_bit(uint val)
--+static inline unsigned
--+pm4_calc_odd_parity_bit(unsigned val)
-- {
--    return (0x9669 >> (0xf & ((val) ^ ((val) >> 4) ^ ((val) >> 8) ^
--                              ((val) >> 12) ^ ((val) >> 16) ^ ((val) >> 20) ^
---- 
--2.39.2
--
-diff --git a/meta/recipes-graphics/mesa/files/0001-gbm-backend-fix-gbm-compile-without-dri.patch b/meta/recipes-graphics/mesa/files/0001-gbm-backend-fix-gbm-compile-without-dri.patch
-deleted file mode 100644
-index 6541671b7a..0000000000
---- a/meta/recipes-graphics/mesa/files/0001-gbm-backend-fix-gbm-compile-without-dri.patch
-+++ /dev/null
-@@ -1,65 +0,0 @@
--From 25946100e21cf2095bea334e8d7096798561d0b7 Mon Sep 17 00:00:00 2001
--From: Vincent Davis Jr <vince@underview.tech>
--Date: Wed, 28 Dec 2022 16:28:01 -0600
--Subject: [PATCH] gbm/backend: fix gbm compile without dri
--
--Upstream-Status: Backport
--
--https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/20447
--https://gitlab.freedesktop.org/mesa/mesa/-/commit/842ca284650f066e58706741a7d22d67b5088e60
--
--At mesa version 22.2.3 patch wasn't introduced until after.
--
--Commit introduces a fix that allows for gbm to be built with an empty
--backend. There are situation especially in a Yocto/OE cross compilation
--environment where you want to build with an empty backend. The particular
--situation is as such:
--
--The mesa-gl recipe is the preferred provider for virtual/libgbm, virtual/libgl,
--virtual/mesa, etc... But the x11 DISTRO_FEATURE in't included this leads to build
--errors such as:
--
--| /../../../ld: src/gbm/libgbm.so.1.0.0.p/main_backend.c.o: in function `find_backend':
--| backend.c:(.text.find_backend+0xa4): undefined reference to `gbm_dri_backend'
--| /../../../ld: src/gbm/libgbm.so.1.0.0.p/main_backend.c.o:(.data.rel.ro.builtin_backends+0x4):
--                undefined reference to `gbm_dri_backend'
--| collect2: error: ld returned 1 exit status
--
--Issue should be replicable by setting -Ddri3=disabled and -Dgbm=enabled
--
--Add fix to bypasses compilation issue by excluding gbm dri backend. If
--HAVE_DRI || HAVE_DRIX not specified.
--
--Acked-by: David Heidelberg <david.heidelberg@collabora.com>
--Signed-off-by: Vincent Davis Jr <vince@underview.tech>
-----
-- src/gbm/main/backend.c | 4 ++++
-- 1 file changed, 4 insertions(+)
--
--diff --git a/src/gbm/main/backend.c b/src/gbm/main/backend.c
--index 974d0a76a4e..feee0703495 100644
----- a/src/gbm/main/backend.c
--+++ b/src/gbm/main/backend.c
--@@ -42,7 +42,9 @@
-- #define ARRAY_SIZE(a) (sizeof(a)/sizeof((a)[0]))
-- #define VER_MIN(a, b) ((a) < (b) ? (a) : (b))
-- 
--+#if defined(HAVE_DRI) || defined(HAVE_DRI2) || defined(HAVE_DRI3)
-- extern const struct gbm_backend gbm_dri_backend;
--+#endif
-- 
-- struct gbm_backend_desc {
--    const char *name;
--@@ -51,7 +53,9 @@ struct gbm_backend_desc {
-- };
-- 
-- static const struct gbm_backend_desc builtin_backends[] = {
--+#if defined(HAVE_DRI) || defined(HAVE_DRI2) || defined(HAVE_DRI3)
--    { "dri", &gbm_dri_backend },
--+#endif
-- };
-- 
-- #define BACKEND_LIB_SUFFIX "_gbm"
---- 
--2.34.1
--
-diff --git a/meta/recipes-graphics/mesa/files/0001-util-format-Check-for-NEON-before-using-it.patch b/meta/recipes-graphics/mesa/files/0001-util-format-Check-for-NEON-before-using-it.patch
-deleted file mode 100644
-index d22ff3c8a8..0000000000
---- a/meta/recipes-graphics/mesa/files/0001-util-format-Check-for-NEON-before-using-it.patch
-+++ /dev/null
-@@ -1,47 +0,0 @@
--From f17e836ef9b1bbc6056790596420b699e48128c2 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Thu, 2 Dec 2021 19:57:42 -0800
--Subject: [PATCH] util/format: Check for NEON before using it
--
--This fixes build on rpi0-w and any other machine which does not have
--neon unit and is not used as FPU unit
--
--Fixes errors e.g.
--
--In file included from ../mesa-21.3.0/src/util/format/u_format_unpack_neon.c:35:
--/mnt/b/yoe/master/build/tmp/work/arm1176jzfshf-vfp-yoe-linux-gnueabi/mesa/2_21.3.0-r0/recipe-sysroot-native/usr/lib/clang/13.0.1/include/arm_neon.h:32:2: error: "NEON support not enabled"
--
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/14032]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
-----
-- src/util/format/u_format.c             | 2 +-
-- src/util/format/u_format_unpack_neon.c | 2 +-
-- 2 files changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/src/util/format/u_format.c b/src/util/format/u_format.c
--index c071250..0880984 100644
----- a/src/util/format/u_format.c
--+++ b/src/util/format/u_format.c
--@@ -1184,7 +1184,7 @@ static void
-- util_format_unpack_table_init(void)
-- {
--    for (enum pipe_format format = PIPE_FORMAT_NONE; format < PIPE_FORMAT_COUNT; format++) {
---#if (defined(PIPE_ARCH_AARCH64) || defined(PIPE_ARCH_ARM)) && !defined(NO_FORMAT_ASM) && !defined(__SOFTFP__)
--+#if (defined(PIPE_ARCH_AARCH64) || (defined(__ARM_NEON) && defined(PIPE_ARCH_ARM))) && !defined(NO_FORMAT_ASM)
--       const struct util_format_unpack_description *unpack = util_format_unpack_description_neon(format);
--       if (unpack) {
--          util_format_unpack_table[format] = unpack;
--diff --git a/src/util/format/u_format_unpack_neon.c b/src/util/format/u_format_unpack_neon.c
--index a4a5cb1..1e4f794 100644
----- a/src/util/format/u_format_unpack_neon.c
--+++ b/src/util/format/u_format_unpack_neon.c
--@@ -23,7 +23,7 @@
-- 
-- #include <u_format.h>
-- 
---#if (defined(PIPE_ARCH_AARCH64) || defined(PIPE_ARCH_ARM)) && !defined(NO_FORMAT_ASM) && !defined(__SOFTFP__)
--+#if (defined(PIPE_ARCH_AARCH64) || (defined(__ARM_NEON) && defined(PIPE_ARCH_ARM))) && !defined(NO_FORMAT_ASM)
-- 
-- /* armhf builds default to vfp, not neon, and refuses to compile neon intrinsics
--  * unless you tell it "no really".
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_22.3.5.bb b/meta/recipes-graphics/mesa/mesa-gl_23.0.0.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_22.3.5.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_23.0.0.bb
 diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index b082b49400..8f72f25c17 100644
+index dd15046438..b082b49400 100644
 --- a/meta/recipes-graphics/mesa/mesa.inc
 +++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -17,12 +17,9 @@ PE = "2"
- SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-meson.build-check-for-all-linux-host_os-combinations.patch \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
--           file://0001-util-format-Check-for-NEON-before-using-it.patch \
--           file://0001-gbm-backend-fix-gbm-compile-without-dri.patch \
--           file://0001-freedreno-pm4-Use-unsigned-instead-of-uint-to-fix-mu.patch \
-            "
+@@ -247,9 +247,6 @@ do_install:append () {
+     rm -f ${D}${libdir}/gallium-pipe/*.la
+     rm -f ${D}${libdir}/gbm/*.la
  
--SRC_URI[sha256sum] = "3eed2ecae2bc674494566faab9fcc9beb21cd804c7ba2b59a1694f3d7236e6a9"
-+SRC_URI[sha256sum] = "01f3cff3763f09e0adabcb8011e4aebc6ad48f6a4dd4bae904fe918707d253e4"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
-diff --git a/meta/recipes-graphics/mesa/mesa_22.3.5.bb b/meta/recipes-graphics/mesa/mesa_23.0.0.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_22.3.5.bb
-rename to meta/recipes-graphics/mesa/mesa_23.0.0.bb
+-    # it was packaged in libdricore9.1.3-1 and preventing upgrades when debian.bbclass was used
+-    chrpath --delete ${D}${libdir}/dri/*_dri.so || true
+-
+     # libwayland-egl has been moved to wayland 1.15+
+     rm -f ${D}${libdir}/libwayland-egl*
+     rm -f ${D}${libdir}/pkgconfig/wayland-egl.pc
 -- 
 2.30.2
 
