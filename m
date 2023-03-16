@@ -1,75 +1,121 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07509C7618B
-	for <webhook@archiver.kernel.org>; Thu, 16 Mar 2023 08:14:26 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web11.7350.1678954458194482071
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16BE1C7618A
+	for <webhook@archiver.kernel.org>; Thu, 16 Mar 2023 08:27:46 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.7476.1678955265000830530
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Mar 2023 01:14:18 -0700
+ Thu, 16 Mar 2023 01:27:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=LaY2igZC;
- spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f172.google.com with SMTP id z5so753229ljc.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 01:14:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678954456;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=dC0JNAw/gVVQMbQyzcXlvth3iFxWdpfwo6gdE3OIJ8w=;
-        b=LaY2igZChXrjznW2g/MpCM88dGe35YOWd3dL1hhkqYF50EXRArDCv8jutHx0K2Of43
-         tM9zpAIT/sWGcRcrsJLc8hsnZh8IYAQu/UYIFLE+3oZSJ6LtEu6/n6Yi77nBl5pfdlPZ
-         zNNL/GQcIjXs4HiPPa3TMs7kb6ded+POlTl6bOCG2hmDdCWGFlVGMT76jdslQcUVSumg
-         YezXGrGcRQ6i7YxGjdPMXOvUbctbqCVSEBr0nilHlBS9LWit+QiFT4cCZJ9Ws9Zx1pDW
-         7N1wDsowzVf1kRSEcMDx04lKkCjKYTRc1nGwPHeRUVsu2dkckkd6/GR0TDeJylM8kWuC
-         L7GQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678954456;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dC0JNAw/gVVQMbQyzcXlvth3iFxWdpfwo6gdE3OIJ8w=;
-        b=NXKCM8mb5h6aqWcX3cbEsnwwzB9z29ru4miRU5I95nMst2cFcmcKMw/EKbGWwbd2h6
-         r5gvE2hgjB9XQ4FpRGtpyAxXHsbI2U9VZwPQvwhhf3xMPNLr0xuPydhjKjE2b+znyfvs
-         QZM3SsHknE56r5JGLMJk60E0M/hwRbXc7WJO3hu+kjHMFcEMTVA//QeTLVzwavZaX6Iu
-         8HYhGUPld19vgRj/8XXCcs7EI6OwXLCgYD//3ZrPUy7ipHnFxAsvjbYzDuWD0APZ+Ema
-         O5xgHHB9sbOddC9QuBw91le39dZuyLBG12MRKfeiqwSBCS8EDZVVNbDmctJoOuwRX7iD
-         gnkg==
-X-Gm-Message-State: AO0yUKU6M3+/LxYnCzxmInnnzWy8PkdKV/aaygbY6Ck8k2whn+GHEbtu
-	FRBT9DBe492d9RtBrt5cb1H9oDKgrN6X3twlCCOoyo7X
-X-Google-Smtp-Source: AK7set8HtaM52M00nSUjvyPtRB8HXKqb0mA7zUsyaOKogR3Nk6exMD/Ou6Ut7UjyN73z/daL8th1BCC5Bm7IJ8vuRe4=
-X-Received: by 2002:a2e:b548:0:b0:293:2f6e:91bf with SMTP id
- a8-20020a2eb548000000b002932f6e91bfmr1791781ljn.7.1678954456071; Thu, 16 Mar
- 2023 01:14:16 -0700 (PDT)
+ dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=24397540d7=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32G6unoH031410
+	for <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 08:27:44 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3pbq1h8bp1-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 08:27:44 +0000
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.18; Thu, 16 Mar 2023 01:27:43 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.17 via Frontend Transport; Thu, 16 Mar 2023 01:27:42 -0700
+From: <mingli.yu@eng.windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 2/3] mdadm: fix tests/02lineargrow
+Date: Thu, 16 Mar 2023 16:27:39 +0800
+Message-ID: <20230316082740.3355373-2-mingli.yu@eng.windriver.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230316082740.3355373-1-mingli.yu@eng.windriver.com>
+References: <20230316082740.3355373-1-mingli.yu@eng.windriver.com>
 MIME-Version: 1.0
-References: <1678878683-19486-1-git-send-email-wangmy@fujitsu.com> <4909d0d1ebf1cb85ee289d31a301f70df3a5ec0d.camel@linuxfoundation.org>
-In-Reply-To: <4909d0d1ebf1cb85ee289d31a301f70df3a5ec0d.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 16 Mar 2023 09:14:04 +0100
-Message-ID: <CANNYZj98=i015GuwchUZrxjtmcWFVfCO3mKA1SdGGQ+VeYDKPw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] grep: upgrade 3.8 -> 3.9
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: wangmy <wangmy@fujitsu.com>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: fQkCuoVAPsDenCyov7BzMfVy8lW_1e2G
+X-Proofpoint-GUID: fQkCuoVAPsDenCyov7BzMfVy8lW_1e2G
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-16_06,2023-03-15_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ spamscore=0 clxscore=1015 adultscore=0 mlxlogscore=875 impostorscore=0
+ bulkscore=0 suspectscore=0 priorityscore=1501 mlxscore=0 malwarescore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303160071
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 08:14:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178677
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 08:27:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178679
 
-On Thu, 16 Mar 2023 at 09:11, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Wed, 2023-03-15 at 19:11 +0800, wangmy wrote:
-> > From: Upgrade Helper <uh@not.set>
->
-> I noticed a number of your patches have this set which is incorrect!
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Mass-reassigning the author can be done with something like:
+Backport patch [1] to fix tests/02lineargrow.
 
-git rebase origin/master --exec 'git commit --amend -a -s --no-edit
---reset-author'
+[1] https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/commit/?id=a2c832465fc75202e244327b2081231dfa974617
 
-Alex
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ ...ow-clear-the-superblock-at-every-ite.patch | 33 +++++++++++++++++++
+ meta/recipes-extended/mdadm/mdadm_4.2.bb      |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-tests-02lineargrow-clear-the-superblock-at-every-ite.patch
+
+diff --git a/meta/recipes-extended/mdadm/files/0001-tests-02lineargrow-clear-the-superblock-at-every-ite.patch b/meta/recipes-extended/mdadm/files/0001-tests-02lineargrow-clear-the-superblock-at-every-ite.patch
+new file mode 100644
+index 0000000000..1a7104b76d
+--- /dev/null
++++ b/meta/recipes-extended/mdadm/files/0001-tests-02lineargrow-clear-the-superblock-at-every-ite.patch
+@@ -0,0 +1,33 @@
++From a2c832465fc75202e244327b2081231dfa974617 Mon Sep 17 00:00:00 2001
++From: Sudhakar Panneerselvam <sudhakar.panneerselvam@oracle.com>
++Date: Wed, 22 Jun 2022 14:25:16 -0600
++Subject: [PATCH] tests/02lineargrow: clear the superblock at every iteration
++
++This fixes 02lineargrow test as prior metadata causes --add operation
++to misbehave.
++
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/commit/?id=a2c832465fc75202e244327b2081231dfa974617]
++
++Signed-off-by: Sudhakar Panneerselvam <sudhakar.panneerselvam@oracle.com>
++Signed-off-by: Himanshu Madhani <himanshu.madhani@oracle.com>
++Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
++Signed-off-by: Jes Sorensen <jes@trained-monkey.org>
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ tests/02lineargrow | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/tests/02lineargrow b/tests/02lineargrow
++index e05c219d..595bf9f2 100644
++--- a/tests/02lineargrow
+++++ b/tests/02lineargrow
++@@ -20,4 +20,6 @@ do
++   testdev $md0 3 $sz 1
++ 
++   mdadm -S $md0
+++  mdadm --zero /dev/loop2
+++  mdadm --zero /dev/loop3
++ done
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.2.bb b/meta/recipes-extended/mdadm/mdadm_4.2.bb
+index cef9e18843..b5fbc5b18e 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.2.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.2.bb
+@@ -27,6 +27,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+            file://0001-restripe.c-Use-_FILE_OFFSET_BITS-to-enable-largefile.patch \
+            file://0001-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch \
+            file://0001-mdadm-Fix-optional-write-behind-parameter.patch \
++           file://0001-tests-02lineargrow-clear-the-superblock-at-every-ite.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "461c215670864bb74a4d1a3620684aa2b2f8296dffa06743f26dda5557acf01d"
+-- 
+2.25.1
+
 
