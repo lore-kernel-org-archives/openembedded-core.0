@@ -1,106 +1,125 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4415FC6FD1F
-	for <webhook@archiver.kernel.org>; Thu, 16 Mar 2023 21:46:14 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web11.5097.1679003169123355113
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CD33C74A5B
+	for <webhook@archiver.kernel.org>; Thu, 16 Mar 2023 21:46:34 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+ by mx.groups.io with SMTP id smtpd.web10.5176.1679003185734326462
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Mar 2023 14:46:09 -0700
+ Thu, 16 Mar 2023 14:46:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=Q5b8gxre;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id y2so3056408pjg.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 14:46:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679003168;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fjA7poPXi78Xq776K31BaqBi+vHlmIg54HrfH7uRCbk=;
-        b=Q5b8gxre5QEuHVZNTU+WOuAgBiU4rGe4tVuuNEDBhYYB/URfmG2Om93b4OIcJqvMHW
-         gUY1jP2WZ2URQa/2bBMqsu9YpIeckl3P0KWBA0IxzGjy0LherY6TzQ+vsEXxVFbWYoOB
-         UFMfnKlHs2H0tHFWfXSIjcFAviCpwT+XZWYnufsUqK1ABwjI+5XYqBPyuyiaOlKGNItg
-         blwTPY/r9RAiBnxFslGtXNeJkS1ZBGH8LuB5ebcZLQmNRhqi4cHGAXqvN9OIZjVAUORl
-         UkaZXpD15iSi95PeRfCgjfFHp/LnMXxA5bPtlptlZjOICPqtBik6MrJxrjB26KZu+S0y
-         /zmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679003168;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fjA7poPXi78Xq776K31BaqBi+vHlmIg54HrfH7uRCbk=;
-        b=y0XG9zV8SKu0YKeacym075nH7ENriyvpDdAl2okk+ll6OPusxkGNSc5SPwuAVW4cbP
-         lkMkfg/dQ73Rq0Db6SCQv7UjYIGJ22pCllYYcqKpfpHjq7gXKLRB1/LIMK2+iy2fVGVc
-         7nX3aOprHBNQAKGRWqahhBD0CyZhB7ol4fJXnq4epqgQI76b2WuEqWeP4Fxm1I2bVrn+
-         VwjALDUwqb1CinTs/QGNamipeEz96AmBnSlMmN1uoJKVFt75E4y56RWYXORzse9l2aaQ
-         I557/36Ykg2SqrbyYF3wKA0aaNFgi6KSMUk9Ope9ycwFNo7x5qS3ocK56QV4wlnwqmuk
-         Pz5A==
-X-Gm-Message-State: AO0yUKUYl7sopZ+VrQWxg4AI2NLRVQFAGnTFsHcedXYC3kzN2TreFL6a
-	aMHnHGcUmFK39HZJhxILaug/61VVOddfezhD8nI=
-X-Google-Smtp-Source: AK7set8jveUDWKp3zFaBMzH8sMS2Gu1p3LgMbLqnkuEPttJ3H0YUzSrJETluSDJdggzGtkyAVEHH3w==
-X-Received: by 2002:a05:6a20:4321:b0:cb:aacb:312c with SMTP id h33-20020a056a20432100b000cbaacb312cmr5838279pzk.27.1679003168149;
-        Thu, 16 Mar 2023 14:46:08 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id bn10-20020a056a00324a00b005a84ef49c63sm137746pfb.214.2023.03.16.14.46.07
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Mar 2023 14:46:07 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 23/23] base-files: Drop localhost.localdomain from hosts file
-Date: Thu, 16 Mar 2023 11:45:20 -1000
-Message-Id: <61f268be804795fadafbc918b465561819b592ec.1679003014.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1679003014.git.steve@sakoman.com>
-References: <cover.1679003014.git.steve@sakoman.com>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=nnLkGo1/;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 39207E0004;
+	Thu, 16 Mar 2023 21:46:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1679003183;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JuKgORhDhDYhI4c+XVVCTk7imGKkVhGHaDwqLLK/1oE=;
+	b=nnLkGo1/w+BA6HLQFsPQO/0dVvfchF2ztHYRN3JuAVIeZnTeu+h3xz1zHpn+yRyNgaZyfE
+	ea8o9/sbNfgakTM0QBCYp9/LE2JZI4ZJp0uV8Dsos0QYJ/dLgO62VzWvtdOarR/vTj2orO
+	cK07fp4eCRMTVCNaJWTs8rHtkEXIwSYTFF3HTbjeCLejVEBg5Cs9AwpGVVMfiifrIX00/v
+	yJ3mdddyz7d6cAE2JoKW2wc/KuEqy42p2DL/PxNd3Z37fOWUIyDgHrZWlLc5InSbfeyeif
+	B8Mtq/kW6YfkcogVccEYGtC4Dd/sO960iS8V1ljdLoq/1B58N/w7Xao06PXEnw==
+Date: Thu, 16 Mar 2023 22:46:22 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: wangmy <wangmy@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] btrfs-tools: upgrade 6.1.3 -> 6.2.1
+Message-ID: <20230316214622adcc63a5@mail.local>
+References: <1678926524-24495-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <1678926524-24495-1-git-send-email-wangmy@fujitsu.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 21:46:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178734
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 21:46:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178735
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Hello,
 
-This was likely something we took inspiration from elsewhere with.
-It was added in:
+This fails on the AB for edgerouter-alt and meta-intel:
 
-https://git.openembedded.org/openembedded/commit/packages/netbase/netbase/hosts?id=c8e5702127e507e82e6f68a4b8c546803accea9d
+https://autobuilder.yoctoproject.org/typhoon/#/builders/111/builds/4406/steps/11/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/100/builds/4205/steps/13/logs/stdio
 
-in 2005. Debian added this entry around 2004 and discussed and dropped
-it in 2005:
+| gcc  -isystem/home/pokybuild/yocto-worker/edgerouter-alt/build/build/tmp/work/x86_64-linux/btrfs-tools-native/6.2.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -std=gnu11 -D_GNU_SOURCE -fPIC -fvisibility=hidden -I./libbtrfsutil    -o libbtrfsutil/stubs.o -c libbtrfsutil/stubs.c -o libbtrfsutil/stubs.o
+| In file included from crypto/blake2b-round.h:140,
+|                  from crypto/blake2b-sse2.c:33:
+| crypto/blake2b-sse2.c: In function ‘blake2b_compress_sse2’:
+| crypto/blake2b-load-sse41.h:21:25: error: incompatible type for argument 1 of ‘_mm_unpacklo_epi64’
+|    21 | b0 = _mm_unpacklo_epi64(m0, m1); \
+|       |                         ^~
+|       |                         |
+|       |                         uint64_t {aka long unsigned int}
+| crypto/blake2b-round.h:146:3: note: in expansion of macro ‘LOAD_MSG_0_1’
+|   146 |   LOAD_MSG_ ##r ##_1(b0, b1); \
+|       |   ^~~~~~~~~
+| crypto/blake2b-sse2.c:80:3: note: in expansion of macro ‘ROUND’
+|    80 |   ROUND( 0 );
+|       |   ^~~~~
+| In file included from crypto/blake2b-sse2.c:25:
+| /usr/lib/gcc/x86_64-redhat-linux/11/include/emmintrin.h:1046:29: note: expected ‘__m128i’ but argument is of type ‘uint64_t’ {aka ‘long unsigned int’}
+|  1046 | _mm_unpacklo_epi64 (__m128i __A, __m128i __B)
+|       |                     ~~~~~~~~^~~
+| In file included from crypto/blake2b-round.h:140,
+|                  from crypto/blake2b-sse2.c:33:
 
-https://lists.debian.org/debian-devel/2005/10/msg00559.html
+On 16/03/2023 08:28:44+0800, wangmy wrote:
+> From: Wang Mingyu <wangmy@fujitsu.com>
+> 
+> Changelog:
+> =========
+>  * fix build with crypto libraries
+>  * CI images updated, build tests extended
+> 
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  .../btrfs-tools/{btrfs-tools_6.1.3.bb => btrfs-tools_6.2.1.bb}  | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_6.1.3.bb => btrfs-tools_6.2.1.bb} (98%)
+> 
+> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.1.3.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.2.1.bb
+> similarity index 98%
+> rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_6.1.3.bb
+> rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_6.2.1.bb
+> index b4dfc5b3f3..a6ff87a90c 100644
+> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.1.3.bb
+> +++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.2.1.bb
+> @@ -19,7 +19,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;b
+>             file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+>             file://0001-Use-pread-pwrite-ftruncate-stat-instead-of-64bit-equ.patch \
+>             "
+> -SRCREV = "908b4b4450320e30fdef693f09b42f4eb93702c3"
+> +SRCREV = "366cd079bc43241b27e0838be0c5369aa00716f8"
+>  S = "${WORKDIR}/git"
+>  
+>  PACKAGECONFIG ??= " \
+> -- 
+> 2.34.1
+> 
 
-resulting in:
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#178664): https://lists.openembedded.org/g/openembedded-core/message/178664
+> Mute This Topic: https://lists.openembedded.org/mt/97641211/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
-https://salsa.debian.org/installer-team/netcfg/-/commit/3c15ee521b2b8f47b34ccc7f610523cd284f2221
 
-We should drop this for some of the reasons in those threads,
-it doesn't seem to be doing anything too helpful and isn't what most
-applications expect.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e730d005fa8aec07f9ae25c58d4566eaa92a6997)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/recipes-core/base-files/base-files/hosts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/base-files/base-files/hosts b/meta/recipes-core/base-files/base-files/hosts
-index b94f414d5c..10a5b6c704 100644
---- a/meta/recipes-core/base-files/base-files/hosts
-+++ b/meta/recipes-core/base-files/base-files/hosts
-@@ -1,4 +1,4 @@
--127.0.0.1	localhost.localdomain		localhost
-+127.0.0.1	localhost
- 
- # The following lines are desirable for IPv6 capable hosts
- ::1     localhost ip6-localhost ip6-loopback
 -- 
-2.34.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
