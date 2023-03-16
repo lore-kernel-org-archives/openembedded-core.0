@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33C50C6FD1F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A01AC74A5B
 	for <webhook@archiver.kernel.org>; Thu, 16 Mar 2023 21:46:04 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web11.5087.1679003154637938665
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web10.5161.1679003164026773978
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Mar 2023 14:45:54 -0700
+ Thu, 16 Mar 2023 14:46:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=7mM9gS26;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id p20so3236554plw.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 14:45:54 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=xyyrxpAJ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f172.google.com with SMTP id d10so1783645pgt.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 14:46:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679003153;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679003163;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Kxx1b/DIRh1oAvqHN+2l6yrCVrTpHEKcJ2JQw8CdSZE=;
-        b=7mM9gS26AHbXTbiIa6GGbHckQCKmpkj5hyr2T3JuuBj6rS7Xjfbkq8CDaneOCY3EaD
-         AcUA+QwMdKMUJIQ25GSmXWIEWbUeYTesIK/PFl3tg1x7SUW7x+xmI2YW2bxaEkSB7EU7
-         ebdwyphLATITBZodWUNccld3bvwW3xUCFff8ODOHU3JSmJ9u82YIy7BPMf1Qq8M9zOhg
-         LYQkIaVHYmgxU+DXA/Tg3gTcqvEIuVrhwyYqK8z6llpD8WAkqtzd/cBitBDcevPhld7m
-         bRgZT4/DUV0+BHi71WYuTPKDDpM7/aWG0DIn2YbMUYM5I2hmqYO4x+BAsoyZ/E/pUnYU
-         Y2Bg==
+        bh=uCHDJ8ortbRAkCeOIGr4lvQH41R+64GoeyNEGAnCC/U=;
+        b=xyyrxpAJj0q6DWzp1D/dRDc0coNfx9nCI0WAFwQbQ004ynPjF7Z93Z2E+92awSPs89
+         aQC5OrbMli/8K7HSVdv1WL5vNDMqxQWestTJiivPohFywgIt1NJWbR/rc7zAmU/EC8yr
+         TooYL4aOKEg5xnuZ55XRP0ACKVh9buNB7o78yWQ0WMIk/BvOwqAXmMYMHoKZeg14PyBw
+         WQYCILYsPGORQ3RaiBan0mM0EbFf0KZSvWK6UVcPAUh5MsuW3OCeNMb6zdZOnBqZqsJ6
+         VdYbK9UWxZ7Qh+tLyCs+tEgTN7ys8RT7MMGQqhuxjqTa6xTs+U7Ud4mNEDqm7WGl5epZ
+         ydjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679003153;
+        d=1e100.net; s=20210112; t=1679003163;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Kxx1b/DIRh1oAvqHN+2l6yrCVrTpHEKcJ2JQw8CdSZE=;
-        b=DWsQUua/pIYBVN8Uc/GDQtjPCuMKG7wwVqmGnS01H1dlzmgRuPN7O8XweU/PAyrYC5
-         KZMGtsj0Xl+TgXcv4xUp1qXBgTTTRxqLz4vZpBinzowUjs/5iuYVPovEnQhBhrVWkJDr
-         n9Tp9K+TDwQi2m2jS1OVF1A/RbIiAIaGEUGrGFylkB2uKHDKkZNru0TXwGM/2N84HYev
-         liac16osxkK/uw6YHKc0dQsxSsRtIQjPoODnU7E05zAlhOihcqamTROEqs/Dqa/BY3DO
-         EHBDcJVF1vN5lV2DS6OsdtANzl/BY0MynSmR3b5XU6Z20CnE1ozYhA4Wu67/QX4s1HiP
-         vLBQ==
-X-Gm-Message-State: AO0yUKWc2lijb2URg6FYomZImDw+Jw0BHWAKA/hp+VgoI4+PKXWL3Y9C
-	RI3Cu9k2SHOrKCMNXe/vET75ePO3A7eFamNIxdc=
-X-Google-Smtp-Source: AK7set/M2mSDItS6uNYd0bTcoINLAyrTaVth/xc7Dhwy45TsvzuR/gmNrKlzcHAw/kl7IftX5u9nLA==
-X-Received: by 2002:a05:6a20:1327:b0:d3:72c6:b018 with SMTP id g39-20020a056a20132700b000d372c6b018mr4067974pzh.39.1679003153528;
-        Thu, 16 Mar 2023 14:45:53 -0700 (PDT)
+        bh=uCHDJ8ortbRAkCeOIGr4lvQH41R+64GoeyNEGAnCC/U=;
+        b=QjxEtx1h0azWgW8VbnuVGDRS3TvMhqg9Kk8aK6tmgVtsK/8B3QA9X87AmoQCOipRjO
+         b2dVJ8HkAz84gvm18TTd3LGw5Epy30DBLxwnOsVbQD0LdIdpCab2hCQRz9xqpQbkJeEO
+         3JhpMiCMpHJbQROkc+Dzkl8QBhJa2uAfprQeYL3IXNBzFoiYuZ4tSipOQCXyymj5xPsP
+         Pxyh29XqOz+cL7l4unqyBK1sI7pBBVb1ioicQCNz4ZxFogRZv6TkpidRBKiB++AJVHTH
+         W07XkIi/+oncxILJNVILRgU9kJavQrPjoRu4ip0tNhfmw2LE6EWsuuMaMB7ceVl79d7H
+         +idA==
+X-Gm-Message-State: AO0yUKWNtC+0VWfRJik49b9mXYdDZxrSecR84znUk1NrbiftpclKqbS6
+	xRAx12h2rx1dugdBRSK66pfBGP3RsayJpUNHzWQ=
+X-Google-Smtp-Source: AK7set8bCJrxWTxi6mJR0u9rSyJpPROOo/HH2AW6YFcNod7XdqN8ys8rOq1QqhDoT6L4i3jNEFOJeg==
+X-Received: by 2002:a62:cf04:0:b0:5a8:bcf2:125 with SMTP id b4-20020a62cf04000000b005a8bcf20125mr4155478pfg.21.1679003163096;
+        Thu, 16 Mar 2023 14:46:03 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id bn10-20020a056a00324a00b005a84ef49c63sm137746pfb.214.2023.03.16.14.45.52
+        by smtp.gmail.com with ESMTPSA id bn10-20020a056a00324a00b005a84ef49c63sm137746pfb.214.2023.03.16.14.46.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Mar 2023 14:45:53 -0700 (PDT)
+        Thu, 16 Mar 2023 14:46:02 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 14/23] cups: use BUILDROOT instead of DESTDIR
-Date: Thu, 16 Mar 2023 11:45:11 -1000
-Message-Id: <992c571fc2f69c62d8f916440251a5189fae3aa1.1679003014.git.steve@sakoman.com>
+Subject: [OE-core][langdale 20/23] toolchain-scripts: Handle spaces within user $PATH
+Date: Thu, 16 Mar 2023 11:45:17 -1000
+Message-Id: <a4129420a7fcc1f56c20b0c64a22dd06d5ffdfa3.1679003014.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1679003014.git.steve@sakoman.com>
 References: <cover.1679003014.git.steve@sakoman.com>
@@ -61,41 +61,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 21:46:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178725
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178731
 
-From: Trevor Woerner <twoerner@gmail.com>
+From: Kenfe-Mickael Laventure <mickael.laventure@gmail.com>
 
-The cups documentation is clear that the correct way to install into an
-alternate root directory is to use the BUILDROOT variable. From INSTALL.md:
+The environment-setup script generated by the recipe was not quoting the
+user existing PATH when updating it causing the export command to fail.
 
-	Use the `BUILDROOT` variable to install to an alternate root directory:
+Add necessary double quotes around $PATH.
 
-	    make BUILDROOT=/some/other/root/directory install
-
-DESTDIR works, but we should use the mechanism the project specifically
-created for this purpose.
-
-Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+Signed-off-by: Kenfe-Mickael Laventure <mickael.laventure@gmail.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit f8fc70674e0ea5df46969a06da62f8ed135cae4e)
+(cherry picked from commit 42177ff2d45ee70ad00917bb6fbabca49dae4f59)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/cups/cups.inc | 2 +-
+ meta/classes-recipe/toolchain-scripts.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index 9c920bb133..b8b655a4fb 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -66,7 +66,7 @@ EXTRA_OECONF = " \
- EXTRA_AUTORECONF += "--exclude=autoheader"
- 
- do_install () {
--	oe_runmake "DESTDIR=${D}" install
-+	oe_runmake "BUILDROOT=${D}" install
- 
- 	# Remove /var/run from package as cupsd will populate it on startup
- 	rm -fr ${D}/${localstatedir}/run
+diff --git a/meta/classes-recipe/toolchain-scripts.bbclass b/meta/classes-recipe/toolchain-scripts.bbclass
+index fa658a6596..6bfe0b6de0 100644
+--- a/meta/classes-recipe/toolchain-scripts.bbclass
++++ b/meta/classes-recipe/toolchain-scripts.bbclass
+@@ -53,7 +53,7 @@ toolchain_create_sdk_env_script () {
+ 	for i in ${CANADIANEXTRAOS}; do
+ 		EXTRAPATH="$EXTRAPATH:$sdkpathnative$bindir/${TARGET_ARCH}${TARGET_VENDOR}-$i"
+ 	done
+-	echo "export PATH=$sdkpathnative$bindir:$sdkpathnative$sbindir:$sdkpathnative$base_bindir:$sdkpathnative$base_sbindir:$sdkpathnative$bindir/../${HOST_SYS}/bin:$sdkpathnative$bindir/${TARGET_SYS}"$EXTRAPATH':$PATH' >> $script
++	echo "export PATH=$sdkpathnative$bindir:$sdkpathnative$sbindir:$sdkpathnative$base_bindir:$sdkpathnative$base_sbindir:$sdkpathnative$bindir/../${HOST_SYS}/bin:$sdkpathnative$bindir/${TARGET_SYS}"$EXTRAPATH':"$PATH"' >> $script
+ 	echo 'export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT' >> $script
+ 	echo 'export PKG_CONFIG_PATH=$SDKTARGETSYSROOT'"$libdir"'/pkgconfig:$SDKTARGETSYSROOT'"$prefix"'/share/pkgconfig' >> $script
+ 	echo 'export CONFIG_SITE=${SDKPATH}/site-config-'"${multimach_target_sys}" >> $script
 -- 
 2.34.1
 
