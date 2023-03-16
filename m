@@ -1,103 +1,291 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C39AC6FD19
-	for <webhook@archiver.kernel.org>; Thu, 16 Mar 2023 08:47:46 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.7729.1678956456800161649
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 328AFC7618A
+	for <webhook@archiver.kernel.org>; Thu, 16 Mar 2023 08:50:06 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.7755.1678956603477319419
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Mar 2023 01:47:37 -0700
+ Thu, 16 Mar 2023 01:50:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UBCRJ17j;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id bg16-20020a05600c3c9000b003eb34e21bdfso2645107wmb.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 01:47:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1678956455;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=o1iE0+tOR5OYU0qSvdAS0UxjE0N1J+AYrEyUSJBYcjs=;
-        b=UBCRJ17jV3RKLvATMJvtO+HD5q/zx2wsfvE13dK6+KEXSCt7OWhdJlEMWhrIOCgGyE
-         JXdgrtHd/Cf32ykYCbb6LRtoWiz01klAleJMQ5FPP0UbKBX5TZBbYGenCIFqvEUqRTje
-         MfpiBTNJkFPf4Q7evANrhNzqWg1jFLaTnP9As=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678956455;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=o1iE0+tOR5OYU0qSvdAS0UxjE0N1J+AYrEyUSJBYcjs=;
-        b=QW8Qaukwk5ghdCkLnlJuFYh167dmJTJsAtDWLpQg9P5FlG2Dtm2RqwPQ/FXH0Ezr8v
-         /g53wG74/OJmrpyWqnf4runPL6+TdcV/dR1H2M/dYu/TEtYCOVg3B850cWxAcKHFT1+h
-         dfyQnFyjEr782yD0oAwxyr2q8haXe7zpWa57DJw+/HcSwMjRm+Fdsrk2ccyN5d6Ao3SD
-         lSp4rA7DC1phIymhGZ0sH/6sCRrjbm8v5T7rJCFJVuk+lQKog7i7UPe2LQZp93BEFgZH
-         7lgKrXa1p4xsfEyLP2FAAaZYZB0HTBu7YEj1mQV0rqHz+Pw+6DadonqYY1IYUJTCHurk
-         nyTw==
-X-Gm-Message-State: AO0yUKUrA6cm+uC4rkJsWkKjuxEHtF8VcKe69kKXfuH3QCHSaVG0uzaF
-	IQ1FbRUEnSZ4u2YoJE4QDovmOQ==
-X-Google-Smtp-Source: AK7set88XJ7mf3HrCVyXu4l5XJF8awBTHbIDeTQuLHOtMZ5HRuY39T/NbMclMVU1dB/cbjrGqQEScw==
-X-Received: by 2002:a05:600c:190c:b0:3eb:38e6:f65d with SMTP id j12-20020a05600c190c00b003eb38e6f65dmr20488643wmq.11.1678956455239;
-        Thu, 16 Mar 2023 01:47:35 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:4181:67:6e43:6a9? ([2001:8b0:aba:5f3c:4181:67:6e43:6a9])
-        by smtp.gmail.com with ESMTPSA id iz11-20020a05600c554b00b003ed201ddef2sm4411850wmb.2.2023.03.16.01.47.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Mar 2023 01:47:34 -0700 (PDT)
-Message-ID: <3d06ea7633a5ddb64833cc3cc35220f6b60cc6a2.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] openssl: update from 3.0.8 to 3.1.0
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Randy MacLeod <randy.macleod@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 16 Mar 2023 08:47:34 +0000
-In-Reply-To: <CANNYZj_RH=+p0sDkr7X983TO6fn=J8JgbLQ6EPXHaPvuYofDGA@mail.gmail.com>
-References: <174C7E5950269FC6.10695@lists.openembedded.org>
-	 <174C7EF34675A6EF.8829@lists.openembedded.org>
-	 <174C9C60B65DBC68.8829@lists.openembedded.org>
-	 <7b2609b8-5834-1639-3885-388e3f9c3cc2@windriver.com>
-	 <d9ffb011df0e8d018e10adb6c5f46183632d98bf.camel@linuxfoundation.org>
-	 <CANNYZj_RH=+p0sDkr7X983TO6fn=J8JgbLQ6EPXHaPvuYofDGA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3-1 
+ dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=24397540d7=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32G7twoU008364
+	for <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 01:50:03 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3pbqdngc3v-6
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 01:50:03 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.17; Thu, 16 Mar 2023 01:50:02 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.17 via Frontend Transport; Thu, 16 Mar 2023 01:50:02 -0700
+From: <mingli.yu@eng.windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [kirkstone][PATCH 3/3] mdadm: Fix raid0 tests
+Date: Thu, 16 Mar 2023 16:49:59 +0800
+Message-ID: <20230316084959.1063608-3-mingli.yu@eng.windriver.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230316084959.1063608-1-mingli.yu@eng.windriver.com>
+References: <20230316084959.1063608-1-mingli.yu@eng.windriver.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: 9W_6DPzsq3P72k7kiL-su8VKVh1fyW2g
+X-Proofpoint-GUID: 9W_6DPzsq3P72k7kiL-su8VKVh1fyW2g
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-16_06,2023-03-15_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
+ priorityscore=1501 lowpriorityscore=0 clxscore=1015 spamscore=0
+ mlxlogscore=999 mlxscore=0 adultscore=0 malwarescore=0 bulkscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303160074
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 08:47:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178685
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 08:50:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178688
 
-On Thu, 2023-03-16 at 09:36 +0100, Alexander Kanavin wrote:
-> On Thu, 16 Mar 2023 at 09:30, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > In the openssl source this is generated by a perl script,
-> > rypto/modes/asm/aes-gcm-avx512.pl
-> >=20
-> > Wearing suitable safety equipment to stop it burning, inside the perl
-> > script you can see references like:
-> >=20
-> > my $rndsuffix =3D &random_string();
-> >=20
-> > I think this is done to avoid symbol clashes but I couldn't see
-> > anything that would actually clash so more understanding of that this
-> > is doing is needed. I wondered if we could set some kind of perl
-> > seeding to make it deterministic.
-> >=20
-> > I'll reply again if I learn anything more.
->=20
-> Even if it's not a real fix, avx-512 support can be more or less
-> disabled by default, as support for that is limited to high end server
-> grade chips. We haven't enabled avx/avx2 yet :)
+From: Mingli Yu <mingli.yu@windriver.com>
 
-I think the fix might be straight forward and just to add something
-like:
+Backport patches to fix raid0 tests:
+  tests/00raid0
+  tests/00readonly
+  tests/03r0assem
+  tests/04r0update
+  tests/04update-metadata
 
-# Ensure the local labels are reproduicble
-srand(10000);
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ ...-Run-udevadm-settle-before-setting-r.patch |  39 +++++++
+ ...metadata-avoid-passing-chunk-size-to.patch |  41 +++++++
+ ...ts-fix-raid0-tests-for-0.90-metadata.patch | 102 ++++++++++++++++++
+ meta/recipes-extended/mdadm/mdadm_4.2.bb      |   3 +
+ 4 files changed, 185 insertions(+)
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-tests-00readonly-Run-udevadm-settle-before-setting-r.patch
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-tests-04update-metadata-avoid-passing-chunk-size-to.patch
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-tests-fix-raid0-tests-for-0.90-metadata.patch
 
-I'll put that into testing, see how it looks.
+diff --git a/meta/recipes-extended/mdadm/files/0001-tests-00readonly-Run-udevadm-settle-before-setting-r.patch b/meta/recipes-extended/mdadm/files/0001-tests-00readonly-Run-udevadm-settle-before-setting-r.patch
+new file mode 100644
+index 0000000000..c621c082e8
+--- /dev/null
++++ b/meta/recipes-extended/mdadm/files/0001-tests-00readonly-Run-udevadm-settle-before-setting-r.patch
+@@ -0,0 +1,39 @@
++From 39b381252c32275079344d30de18b76fda4bba26 Mon Sep 17 00:00:00 2001
++From: Logan Gunthorpe <logang@deltatee.com>
++Date: Wed, 27 Jul 2022 15:52:45 -0600
++Subject: [PATCH] tests/00readonly: Run udevadm settle before setting ro
++
++In some recent kernel versions, 00readonly fails with:
++
++  mdadm: failed to set readonly for /dev/md0: Device or resource busy
++  ERROR: array is not read-only!
++
++This was traced down to a race condition with udev holding a reference
++to the block device at the same time as trying to set it read only.
++
++To fix this, call udevadm settle before setting the array read only.
++
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/commit/?id=39b381252c32275079344d30de18b76fda4bba26]
++
++Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
++Signed-off-by: Jes Sorensen <jsorensen@fb.com>
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ tests/00readonly | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/tests/00readonly b/tests/00readonly
++index 39202487..afe243b3 100644
++--- a/tests/00readonly
+++++ b/tests/00readonly
++@@ -12,6 +12,7 @@ do
++ 			$dev1 $dev2 $dev3 $dev4 --assume-clean
++ 		check nosync
++ 		check $level
+++		udevadm settle
++ 		mdadm -ro $md0
++ 		check readonly
++ 		state=$(cat /sys/block/md0/md/array_state)
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/mdadm/files/0001-tests-04update-metadata-avoid-passing-chunk-size-to.patch b/meta/recipes-extended/mdadm/files/0001-tests-04update-metadata-avoid-passing-chunk-size-to.patch
+new file mode 100644
+index 0000000000..9098fb2540
+--- /dev/null
++++ b/meta/recipes-extended/mdadm/files/0001-tests-04update-metadata-avoid-passing-chunk-size-to.patch
+@@ -0,0 +1,41 @@
++From de045db607b1ac4b70fc2a8878463e029c2ab1dc Mon Sep 17 00:00:00 2001
++From: Sudhakar Panneerselvam <sudhakar.panneerselvam@oracle.com>
++Date: Wed, 22 Jun 2022 14:25:15 -0600
++Subject: [PATCH] tests/04update-metadata: avoid passing chunk size to raid1
++
++'04update-metadata' test fails with error, "specifying chunk size is
++forbidden for this level" added by commit, 5b30a34aa4b5e. Hence,
++correcting the test to ignore passing chunk size to raid1.
++
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/commit/?id=de045db607b1ac4b70fc2a8878463e029c2ab1dc]
++
++Signed-off-by: Sudhakar Panneerselvam <sudhakar.panneerselvam@oracle.com>
++Signed-off-by: Himanshu Madhani <himanshu.madhani@oracle.com>
++[logang@deltatee.com: fix if/then style and dropped unrelated hunk]
++Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
++Signed-off-by: Jes Sorensen <jes@trained-monkey.org>
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ tests/04update-metadata | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
++
++diff --git a/tests/04update-metadata b/tests/04update-metadata
++index 08c14af7..2b72a303 100644
++--- a/tests/04update-metadata
+++++ b/tests/04update-metadata
++@@ -11,7 +11,11 @@ dlist="$dev0 $dev1 $dev2 $dev3"
++ for ls in linear/4 raid1/1 raid5/3 raid6/2
++ do
++   s=${ls#*/} l=${ls%/*}
++-  mdadm -CR --assume-clean -e 0.90 $md0 --level $l -n 4 -c 64 $dlist
+++  if [[ $l == 'raid1' ]]; then
+++	mdadm -CR --assume-clean -e 0.90 $md0 --level $l -n 4 $dlist
+++  else
+++	mdadm -CR --assume-clean -e 0.90 $md0 --level $l -n 4 -c 64 $dlist
+++  fi
++   testdev $md0 $s 19904 64
++   mdadm -S $md0
++   mdadm -A $md0 --update=metadata $dlist
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/mdadm/files/0001-tests-fix-raid0-tests-for-0.90-metadata.patch b/meta/recipes-extended/mdadm/files/0001-tests-fix-raid0-tests-for-0.90-metadata.patch
+new file mode 100644
+index 0000000000..d2e7d8ee50
+--- /dev/null
++++ b/meta/recipes-extended/mdadm/files/0001-tests-fix-raid0-tests-for-0.90-metadata.patch
+@@ -0,0 +1,102 @@
++From 14c2161edb77d7294199e8aa7daa9f9d1d0ad5d7 Mon Sep 17 00:00:00 2001
++From: Sudhakar Panneerselvam <sudhakar.panneerselvam@oracle.com>
++Date: Wed, 22 Jun 2022 14:25:14 -0600
++Subject: [PATCH] tests: fix raid0 tests for 0.90 metadata
++
++Some of the test cases fail because raid0 creation fails with the error,
++"0.90 metadata does not support layouts for RAID0" added by commit,
++329dfc28debb. Fix some of the test cases by switching from raid0 to
++linear level for 0.9 metadata where possible.
++
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/commit/?id=14c2161edb77d7294199e8aa7daa9f9d1d0ad5d7]
++
++Signed-off-by: Sudhakar Panneerselvam <sudhakar.panneerselvam@oracle.com>
++Signed-off-by: Himanshu Madhani <himanshu.madhani@oracle.com>
++Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
++Signed-off-by: Jes Sorensen <jes@trained-monkey.org>
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ tests/00raid0           | 4 ++--
++ tests/00readonly        | 4 ++++
++ tests/03r0assem         | 6 +++---
++ tests/04r0update        | 4 ++--
++ tests/04update-metadata | 2 +-
++ 5 files changed, 12 insertions(+), 8 deletions(-)
++
++diff --git a/tests/00raid0 b/tests/00raid0
++index e6b21cc4..9b8896cb 100644
++--- a/tests/00raid0
+++++ b/tests/00raid0
++@@ -20,8 +20,8 @@ mdadm -S $md0
++ # now same again with different chunk size
++ for chunk in 4 32 256
++ do
++-  mdadm -CR $md0 -e0.90 -l raid0 --chunk $chunk -n3 $dev0 $dev1 $dev2
++-  check raid0
+++  mdadm -CR $md0 -e0.90 -l linear --chunk $chunk -n3 $dev0 $dev1 $dev2
+++  check linear
++   testdev $md0 3 $mdsize0 $chunk
++   mdadm -S $md0
++ 
++diff --git a/tests/00readonly b/tests/00readonly
++index 28b0fa13..39202487 100644
++--- a/tests/00readonly
+++++ b/tests/00readonly
++@@ -4,6 +4,10 @@ for metadata in 0.9 1.0 1.1 1.2
++ do
++ 	for level in linear raid0 raid1 raid4 raid5 raid6 raid10
++ 	do
+++		if [[ $metadata == "0.9" && $level == "raid0" ]];
+++		then
+++			continue
+++		fi
++ 		mdadm -CR $md0 -l $level -n 4 --metadata=$metadata \
++ 			$dev1 $dev2 $dev3 $dev4 --assume-clean
++ 		check nosync
++diff --git a/tests/03r0assem b/tests/03r0assem
++index 6744e322..44df0645 100644
++--- a/tests/03r0assem
+++++ b/tests/03r0assem
++@@ -68,9 +68,9 @@ mdadm -S $md2
++ ### Now for version 0...
++ 
++ mdadm --zero-superblock $dev0 $dev1 $dev2
++-mdadm -CR $md2 -l0 --metadata=0.90 -n3 $dev0 $dev1 $dev2
++-check raid0
++-tst="testdev $md2 3 $mdsize0 512"
+++mdadm -CR $md2 -llinear --metadata=0.90 -n3 $dev0 $dev1 $dev2
+++check linear
+++tst="testdev $md2 3 $mdsize0 1"
++ $tst
++ 
++ uuid=`mdadm -Db $md2 | sed 's/.*UUID=//'`
++diff --git a/tests/04r0update b/tests/04r0update
++index 73ee3b9f..b95efb06 100644
++--- a/tests/04r0update
+++++ b/tests/04r0update
++@@ -1,7 +1,7 @@
++ 
++ # create a raid0, re-assemble with a different super-minor
++-mdadm -CR -e 0.90 $md0 -l0 -n3 $dev0 $dev1 $dev2
++-testdev $md0 3 $mdsize0 512
+++mdadm -CR -e 0.90 $md0 -llinear -n3 $dev0 $dev1 $dev2
+++testdev $md0 3 $mdsize0 1
++ minor1=`mdadm -E $dev0 | sed -n -e 's/.*Preferred Minor : //p'`
++ mdadm -S /dev/md0
++ 
++diff --git a/tests/04update-metadata b/tests/04update-metadata
++index 232fc1ff..08c14af7 100644
++--- a/tests/04update-metadata
+++++ b/tests/04update-metadata
++@@ -8,7 +8,7 @@ set -xe
++ 
++ dlist="$dev0 $dev1 $dev2 $dev3"
++ 
++-for ls in raid0/4 linear/4 raid1/1 raid5/3 raid6/2
+++for ls in linear/4 raid1/1 raid5/3 raid6/2
++ do
++   s=${ls#*/} l=${ls%/*}
++   mdadm -CR --assume-clean -e 0.90 $md0 --level $l -n 4 -c 64 $dlist
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.2.bb b/meta/recipes-extended/mdadm/mdadm_4.2.bb
+index 120c7f582b..7a8f3a3acf 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.2.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.2.bb
+@@ -26,6 +26,9 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+            file://0001-Makefile-install-mdcheck.patch \
+            file://0001-mdadm-Fix-optional-write-behind-parameter.patch \
+            file://0001-tests-02lineargrow-clear-the-superblock-at-every-ite.patch \
++           file://0001-tests-fix-raid0-tests-for-0.90-metadata.patch \
++           file://0001-tests-00readonly-Run-udevadm-settle-before-setting-r.patch \
++           file://0001-tests-04update-metadata-avoid-passing-chunk-size-to.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "461c215670864bb74a4d1a3620684aa2b2f8296dffa06743f26dda5557acf01d"
+-- 
+2.25.1
 
-Cheers,
-
-Richard
 
