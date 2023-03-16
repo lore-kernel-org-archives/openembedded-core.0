@@ -2,68 +2,63 @@ Return-Path: <yashinde145@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2CF4C6FD19
-	for <webhook@archiver.kernel.org>; Thu, 16 Mar 2023 11:03:36 +0000 (UTC)
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
- by mx.groups.io with SMTP id smtpd.web11.9354.1678964613057155759
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD402C6FD1F
+	for <webhook@archiver.kernel.org>; Thu, 16 Mar 2023 11:09:56 +0000 (UTC)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web10.9533.1678964995357555812
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Mar 2023 04:03:33 -0700
+ Thu, 16 Mar 2023 04:09:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=a9UW2rTU;
- spf=pass (domain: gmail.com, ip: 209.85.215.170, mailfrom: yashinde145@gmail.com)
-Received: by mail-pg1-f170.google.com with SMTP id y19so670804pgk.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 04:03:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=fkuqX7gD;
+ spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: yashinde145@gmail.com)
+Received: by mail-pj1-f51.google.com with SMTP id h12-20020a17090aea8c00b0023d1311fab3so1214659pjz.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 04:09:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678964612;
+        d=gmail.com; s=20210112; t=1678964994;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=mCo37oxWezI/H/VrZSqYG3GJC1Zr5WUYXwd0IgdH6cg=;
-        b=a9UW2rTUoh4SENObwPhPesXC4Gsa2aTrZs3XbxPU1SL4C6O3OGYTRTvBytXa32I1QX
-         E5LuCvVgfXyfIbvERfxN056aDN/8q1MlBIyDYPGE5EGfadl1VKi6J/NnZYvKRmAqCrW/
-         7yHJKJkOVwg74xkkt2sM1nHByprojjaHPQUD5/YWV0szDqx9/WCplzYXVPerprp1JUJK
-         h4/UdS6KpxItZQZhZZPzkFD4iFjDTVKkjZVqijoZJ53x9h5++R/8dif/hHKRlztpjIg1
-         TZB4F8CQduZ9M8hm4Dl1SqRgHq8Ca3KLKRR5MUqu0ZmtANAMuscIVL3y/ZKvT/F8xUm0
-         FgyQ==
+        b=fkuqX7gDKINGO7gcvEsk5I5oE2io5teFSQIUNcbJ7IIGv+L+t+1s3ae4ADgkqvMA+O
+         5frfeGO/VxbI67eGKXuuhiLi0yjJqk90vaCwfR83kMCaJlhKIb+/Ogm8Q6vRbT1WTJDC
+         V9TKoE1czFdUAvAcv01qkyFRplD2GammfJOU2Ma1FIuWZEKhLb1fxYLtC5DRtcacae2n
+         QNX6Yij2uG/6XsOJy7Hzc7Uyj1+yh1MwCkUXimthc6aPwrOquMas2lTWgrS2frG7R7eg
+         2yP22upSSRoeBQLRFUzD25FPeN0MGiELBxHVJk7swnReK/7BOcwWKX/omwz6uJ0pVt7c
+         0YJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678964612;
+        d=1e100.net; s=20210112; t=1678964994;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=mCo37oxWezI/H/VrZSqYG3GJC1Zr5WUYXwd0IgdH6cg=;
-        b=dciGoN3L25cQzz3hL87cO2iWZK5VsOXPE0fZSok/jFPTJM3L1yjCdoPPBGi3o++Ca/
-         K6G3/hzDKf8ubxXTU8izIw1Xe9iQQjiY4vZhblht6ExjZ9Czs1vezn8xwqfE+a9esrUd
-         5KjQ0S+AetPigvhKXI3TwmyzcLLbUPJI9+VR1OWjTGbV387Jmdameyxxtj6hrH6H/c4a
-         lWC+7dmxJaNG3TnLH9oFuFVU1NOx3yBBR8QuqU2RaslrM1xU619bNL7troNmh8OubaT8
-         6iB8woW+Yy9OLorRFyJBCWa9YR4Qma6Mq5CwfW989usN8bXfw7kuFP7bI0iTAh70OBWT
-         hUPg==
-X-Gm-Message-State: AO0yUKWTtWRQcvq6jodQIS4qA2Wd+lkRnMJjTt8R+rpmbPr0xoKUjmrU
-	JeL4LxrO8U+PCQMfXaWHhHCbKFpQzmc=
-X-Google-Smtp-Source: AK7set8ZlWXhNFPLyy9P12GdgnBm7xY+PJ2Xhm5LZ+ao3YsgRckoj76BgUetaL7jUuOf4R3+6xsdvw==
-X-Received: by 2002:a62:5c4:0:b0:623:6131:66ca with SMTP id 187-20020a6205c4000000b00623613166camr2410012pff.32.1678964612121;
-        Thu, 16 Mar 2023 04:03:32 -0700 (PDT)
+        b=dwLB3zOrCzuoazTRbsgygScO+m20jYx4i6y1iVT9s0sDvNQAU1YvO+KUD6fHx1r4/Z
+         S5YXqYCrZwAlGdK+lzCi1JLSslSz5EKhsTootrve/uGsG25CN5cwZA6VEyILzWbpFoF7
+         r4TVLQk73I0J1lzeqQFVVZ9UEKD9RL2Mx2KPPDjCQuhN8UykrMljwRl3zz/dUWBCNeeq
+         dEWf6pGL+KnPc86haygPWJoIRrxPpb0L1AcTnaPxvLZyl4l8PI/oE+0F5R2OCtCDNYga
+         W2fzI8UXy62asCKacRbP8YdjR4fI2uI7EGG9iO6mzuhIrFVDRy5dX5iTVsRU9iUs2HuV
+         j9ag==
+X-Gm-Message-State: AO0yUKWVl/AM8xMf96sfGAn6iFbb6qCvgy58/5uR6PSRaBYe5V0IPoBI
+	JL0wr1530oSeidc/Zm7h9L3d7m9w3ls=
+X-Google-Smtp-Source: AK7set89H8BVfwJxQIWisWffmWTh8p1d5b+N2YS3BaajIigG5H4nQK+3W7RW1TuMIDKIEc2RdTei/w==
+X-Received: by 2002:a17:902:d40c:b0:1a0:49eb:4cb8 with SMTP id b12-20020a170902d40c00b001a049eb4cb8mr2310897ple.44.1678964994351;
+        Thu, 16 Mar 2023 04:09:54 -0700 (PDT)
 Received: from bft-2.. ([49.204.85.206])
-        by smtp.gmail.com with ESMTPSA id c11-20020aa78c0b000000b00593adee79efsm5186066pfd.55.2023.03.16.04.03.29
+        by smtp.gmail.com with ESMTPSA id kb5-20020a170903338500b0019a6cce2060sm5359460plb.57.2023.03.16.04.09.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Mar 2023 04:03:31 -0700 (PDT)
+        Thu, 16 Mar 2023 04:09:53 -0700 (PDT)
 From: Yash Shinde <yashinde145@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Randy.MacLeod@windriver.com,
-	Umesh.Kallapa@windriver.com,
-	Naveen.Gowda@windriver.com,
-	Sundeep.Kokkonda@windriver.com,
-	Shivaprasad.Moodalappa@windriver.com,
-	Yash.Shinde@windriver.com
-Subject: binutils: Fix CVE-2023-25586
-Date: Thu, 16 Mar 2023 16:32:55 +0530
-Message-Id: <20230316110255.2622075-1-yashinde145@gmail.com>
+Cc: Yash.Shinde@windriver.com
+Subject: [PATCH] binutils: Fix CVE-2023-25586
+Date: Thu, 16 Mar 2023 16:39:44 +0530
+Message-Id: <20230316110944.2622115-1-yashinde145@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 11:03:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178700
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Mar 2023 11:09:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178701
 
 Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;h=5830876a0cca17bef3b2d54908928e72cca53502]
 
