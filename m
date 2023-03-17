@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34900C7619A
-	for <webhook@archiver.kernel.org>; Fri, 17 Mar 2023 22:43:09 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.448.1679092983394495070
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31061C76195
+	for <webhook@archiver.kernel.org>; Fri, 17 Mar 2023 22:43:19 +0000 (UTC)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web11.482.1679092992169800602
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Mar 2023 15:43:03 -0700
+ Fri, 17 Mar 2023 15:43:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=a2GA9Ir+;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id o11so6842299ple.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 15:43:03 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=GWOa8P9X;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f48.google.com with SMTP id e15-20020a17090ac20f00b0023d1b009f52so10722051pjt.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 15:43:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679092982;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679092991;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=v4daizuM18z2yeix3M+QKNJjgogZqnSQtT+iP8Bo5Ro=;
-        b=a2GA9Ir+byTEVNXcoTZO0CoHYVr4++b2ZyQ+Ae+3avJusPY7OYL97G23kp5PhLpmKH
-         EGLdc2jHedAWGSDrTeykQHsSRTttkSQD7W4gjOIUg+hAalJhTQR3kBujThQbAesthB0X
-         UFLYyD56nqmHdWvS1Xu1OoLwfvb3y9lj5I1o6DMFJ/4uCP+EvEqkZRxePv6WdN7h/YjR
-         +Enr+7lOO2hSyXGRKBtxq5lPqbM6PGpTAgqpTp/2ZA+FtigNUBVui2NYUB5SxSHthWKl
-         6H6hY6u110iPzm1mrKhYYCvctHse3oi/wbdDWockT5gwBqki0kPqWQy8uP2ALOmPacZ7
-         tCUQ==
+        bh=6sbqHlBFBOVI9T7GahVIo91tdzf0CiFDRR14OpJ4O+I=;
+        b=GWOa8P9XA0InjWYmwhZ3Rnr/2q6Ky2LtASiXGOODZ+1YHaRuXItgAeXFcriJie5IOB
+         BBF8Vm7x/mWyAprpgmS+tw8UIpvPENRkG3/l3NJOaUwiESElWpzqh+1IdHoVpjhNyMQW
+         j7U0qtCkqnU6lT1JUndkGP2/00sWsLe3VZj30BNYe/gkjalooa01AEWNX8QvTxsmsCAg
+         vKfe0/KVmz7KvTEsdr/8Wf8W73lyvtrrWaPf4920Hq3yjyDyws66wmyikkF1yY5oL33u
+         /NhPN+oA/5Hbn9h70fevMvtqCB4HEG9Nl4AykRuY/XNkRCm/UxzijAwkRmdcP4euaMUr
+         mIEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679092982;
+        d=1e100.net; s=20210112; t=1679092991;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=v4daizuM18z2yeix3M+QKNJjgogZqnSQtT+iP8Bo5Ro=;
-        b=bxaPFuaaNEsM9VeZK0/QKwhhxnV9oxix0cqEdj7jyxKIVDan4+M8iTc/2hBMxtmk02
-         XJVmAWyW4OXotsxTdQ/Pl4KI0WAAZF7+n7BV9j0rIrH9+bHCQ5gPaN/9JhRBf3king7U
-         ugT0wKEzvlKAKoGm26SVYquRsHO3clVTfrLQM83l06VIr1yvGMsgTRsJ2P5XmqUb1qnN
-         hEjTUotZDnXjwJg6zAylqbZrSCGHPloINvmoUKRjBJ1z81zpW+QcCbqk6Jjh7EkbPAFr
-         2iAUqzWWoMxlOoUJw1em7sUEpil3zrX0OXu6bAPx2mpA85LyQAm3UeM72dZE+E+9VHqA
-         vb3g==
-X-Gm-Message-State: AO0yUKW3XUWR8prqlALqrRaJHXZ7XrIBOkG8eSsWR5uy9vH13LTDaxua
-	8oyl8wmWeJYQVqIJuGbu7k+zzXkBb37v71TrgvQ=
-X-Google-Smtp-Source: AK7set+bRQEebM3+UH25fpZpdWZb8kX/ZJ9qaWWLb2B4/pu3YbMM+5ODlQC2du5ZjnkomibDc8mwvQ==
-X-Received: by 2002:a17:903:32c9:b0:196:595b:2580 with SMTP id i9-20020a17090332c900b00196595b2580mr10830637plr.0.1679092982521;
-        Fri, 17 Mar 2023 15:43:02 -0700 (PDT)
+        bh=6sbqHlBFBOVI9T7GahVIo91tdzf0CiFDRR14OpJ4O+I=;
+        b=MeQIKxGvjKeMPa0yTjwjmqF7nSduuUaq800TeMc0lp49avbb1AmSmHwr1ERp9SUrCu
+         mp6fhvy72MgVi6DPXNCpMsAHDZGIy7uLyOqik7rP5SMB/ZWmNlIttUhmE480EWzN2PJF
+         ysg0q5NmPibtD+VXfLqbPpBfwJMt0TBSNuZ566CFgAEXAniu8sSenGYagXr0EH+pnuhh
+         VNoP45G8cf0ZZqmuHClgx3jQ4TK8jV++m2i3XlykJN4Ql/3e7p9D4ZRL5FFdQu5PwgcA
+         LPHUQ5BTw5Z9lmcXb7zPf8S3YXDvg8mGMTxubPOesisU0Tb4euR7UOXE/hAHkH3J/+uI
+         SYPQ==
+X-Gm-Message-State: AO0yUKXXkgMDOpotMDaOOu8PPRkqQasJ/z8VmlJNJcRcz0Q2NTlETNTf
+	rIbWsR3KcjBzxHwZNeGhZXKpLnZdb7ldcOBIAVc=
+X-Google-Smtp-Source: AK7set+LNzYwYI9Q3LgogaBl7EFjHFM0A5ilWYp7h9oEYSaBQyweqgnj4fveiEhvwZHLIuBkIhCK6Q==
+X-Received: by 2002:a17:903:4111:b0:19a:b6bf:1df6 with SMTP id r17-20020a170903411100b0019ab6bf1df6mr7827549pld.20.1679092991280;
+        Fri, 17 Mar 2023 15:43:11 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id jb13-20020a170903258d00b001a19040435bsm2027152plb.100.2023.03.17.15.43.01
+        by smtp.gmail.com with ESMTPSA id jb13-20020a170903258d00b001a19040435bsm2027152plb.100.2023.03.17.15.43.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Mar 2023 15:43:02 -0700 (PDT)
+        Fri, 17 Mar 2023 15:43:11 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 11/21] glibc: Add missing binutils dependency
-Date: Fri, 17 Mar 2023 12:42:25 -1000
-Message-Id: <de967efc52b858fd51b857d8de731692287430d7.1679092796.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 16/21] cups: add/fix web interface packaging
+Date: Fri, 17 Mar 2023 12:42:30 -1000
+Message-Id: <18194378508beda1ca1fee84e10351b5bf0d86a5.1679092796.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1679092796.git.steve@sakoman.com>
 References: <cover.1679092796.git.steve@sakoman.com>
@@ -60,42 +60,80 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 22:43:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178772
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 22:43:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178777
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Trevor Woerner <twoerner@gmail.com>
 
-glibc has it's dependencies handled more manually due to it's place
-in the toolchain bootstrap. It depends upon the compiler and indirectly
-through that to binutils. This did mean that if binutils changes and the
-compiler does not, sstate and hash equivalence could mean that glibc
-wouldn't rebuild.
+cups includes a web server. Users can surf to port 631 (default) of a
+machine running cups to (potentially, based on configuration, default off)
+view jobs, add printers, and perform other forms of administration.
 
-Add a direct dependency on binutils that if it changes, it forces glibc
-to rebuild, as it should.
+The location of the various resources that are used by the built-in web server
+(e.g. index.html) are installed under ${datadir}/doc/cups. By default these
+artifacts would be included in the ${PN}-doc package. The comments in this
+recipe, however, would suggest an attempt was made to have them added to
+${PN}; albeit unsuccessfully.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c4a7b3decff636292f5e76e95406a22b6fe4a994)
+These resources add roughly 1.8M to an image.
+
+Since cups does include a configuration option to disable the web interface
+(--enable-webif), add a PACKAGECONFIG (default off) to allow the user to
+decide whether or not they would like the web interface configured and its
+pieces added to the image. Enabling this PACKAGECONFIG both enables the
+web interface to be configured and built into cups, and also adds (by way
+of a recommendation) the web interface package to the image. Considering
+that the previous intention was not working, defaulting this option to off
+preserves the existing behaviour. Previously in order to have the web
+interface data included in an image, a user would have needed to explicitly
+add the ${PN}-doc package to their image.
+
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit 2c9bd267ec532cd86a4a1be1d4e499e2aae89aba)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/glibc/glibc.inc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-extended/cups/cups.inc | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
-index fdd241d973..3b940b8ab2 100644
---- a/meta/recipes-core/glibc/glibc.inc
-+++ b/meta/recipes-core/glibc/glibc.inc
-@@ -1,7 +1,9 @@
- require glibc-common.inc
- require glibc-ld.inc
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index 714be4b26c..0acc5c575e 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -48,6 +48,7 @@ PACKAGECONFIG[gnutls] = "--with-tls=gnutls,--with-tls=no,gnutls"
+ PACKAGECONFIG[pam] = "--enable-pam --with-pam-module=unix, --disable-pam, libpam"
+ PACKAGECONFIG[systemd] = "--with-systemd=${systemd_system_unitdir},--without-systemd,systemd"
+ PACKAGECONFIG[xinetd] = "--with-xinetd=${sysconfdir}/xinetd.d,--without-xinetd,xinetd"
++PACKAGECONFIG[webif] = "--enable-webif,--disable-webif"
  
--DEPENDS = "virtual/${TARGET_PREFIX}gcc libgcc-initial linux-libc-headers"
-+DEPENDS = "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}binutils${BUSUFFIX} libgcc-initial linux-libc-headers"
-+BUSUFFIX= ""
-+BUSUFFIX:class-nativesdk = "-crosssdk"
+ EXTRA_OECONF = " \
+                --enable-dbus \
+@@ -93,7 +94,7 @@ do_install () {
+ 	fi
+ }
  
- PROVIDES = "virtual/libc"
- PROVIDES += "virtual/libintl virtual/libiconv"
+-PACKAGES =+ "${PN}-lib ${PN}-libimage"
++PACKAGES =+ "${PN}-lib ${PN}-libimage ${PN}-webif"
+ 
+ RDEPENDS:${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'procps', '', d)}"
+ FILES:${PN} += "${libexecdir}/cups/"
+@@ -102,13 +103,10 @@ FILES:${PN}-lib = "${libdir}/libcups.so.*"
+ 
+ FILES:${PN}-libimage = "${libdir}/libcupsimage.so.*"
+ 
+-#package the html for the webgui inside the main packages (~1MB uncompressed)
++# put the html for the web interface into its own PACKAGE
++FILES:${PN}-webif += "${datadir}/doc/cups/ ${datadir}/icons/"
++RRECOMMENDS:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'webif', '${PN}-webif', '', d)}"
+ 
+-FILES:${PN} += "${datadir}/doc/cups/images \
+-                ${datadir}/doc/cups/*html \
+-                ${datadir}/doc/cups/*.css \
+-                ${datadir}/icons/ \
+-               "
+ CONFFILES:${PN} += "${sysconfdir}/cups/cupsd.conf"
+ 
+ MULTILIB_SCRIPTS = "${PN}-dev:${bindir}/cups-config"
 -- 
 2.34.1
 
