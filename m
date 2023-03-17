@@ -1,177 +1,127 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58C28C6FD1D
-	for <webhook@archiver.kernel.org>; Fri, 17 Mar 2023 12:01:38 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web10.17363.1679054493744791241
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7445FC74A5B
+	for <webhook@archiver.kernel.org>; Fri, 17 Mar 2023 12:37:48 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.17888.1679056664800065429
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Mar 2023 05:01:34 -0700
+ Fri, 17 Mar 2023 05:37:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=xSuwyJ71;
- spf=pass (domain: linaro.org, ip: 209.85.167.46, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f46.google.com with SMTP id b10so4969519lfb.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 05:01:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679054492;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=RYOqukYmbtYzASP+gDWH9ot6gGSjZBia29V4wSB5TTc=;
-        b=xSuwyJ71QfDXBW02L+vb1PbbsiML6CeWDoIA9z4cYeQAT9eccFN7ItCagTnlMO5y9t
-         ZhMsxrgZLkt7qTQXgfPqg/s4kmvBhxOwAce+zXOAolGuUyDEza7S6N/kIex51rDMnvj2
-         UFJeHtFt+q5GfKtwupDkfjh7IXxHb48nwfqbgub1xYgTm6fMOe4lMT/QZkrAjexBQP18
-         qXH5FLuZI2mBYTa+xca8SlLsKScOLchiWmWn1wEJVPOHFOAv/DHF8K9O1sSntbQBsoqA
-         9pV6rBUt/IrhqauPz2wc2tyJybNyG28CbI10CvksbrMt5oEF4Uxysh9NLwxRMG3gVFO8
-         ia6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679054492;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RYOqukYmbtYzASP+gDWH9ot6gGSjZBia29V4wSB5TTc=;
-        b=UxuWK+3R6Va1PEzDpZHY1ZuXnxj1eUw6Z0kXdemiM1H+0KTK7tZsgoSx/tlK/YK519
-         Yi5NLcoFiv+B6ndCtycHL40mUgIwBaguA85f/P2HYyuI9qgf3pcdRosHo9aAGIv1PdN9
-         5H8ckZzMa1n4XydKrF3nuaFSps98xomhKb/u0jmOfDsJf/YTFGbmqEw3rZJiqPxrYFLd
-         w6Sc5qJeUpY4DfrJOyYPSRoWHA7BCRN4Hqq/BSLYpjRlWC94D+Y5VoI80EvWIP4JYtRF
-         jJJtsBXFGlI9klzMpRnv00Ogp5JfyJi+HrYEtIBXTsKPeEjPJ9H7J3UVE9Y1QIAvEnGc
-         DL3A==
-X-Gm-Message-State: AO0yUKVIM0UL6BbPE0j8w/Tme4vtDw3toINRPAxjrUEfPirV8tpFpV50
-	Xb0j4YJy29Y6xhyUVEu6qMw+dg==
-X-Google-Smtp-Source: AK7set/Z4eiN+Dm36ddX220N4cV468ehRIWclFspwNpGYyZny1kCRKaEWb69U6anE/Funv9tAtEd4g==
-X-Received: by 2002:ac2:560b:0:b0:4dc:7e7a:a72f with SMTP id v11-20020ac2560b000000b004dc7e7aa72fmr4101626lfd.16.1679054491617;
-        Fri, 17 Mar 2023 05:01:31 -0700 (PDT)
-Received: from nuoska (dc7g6tyjby-d304c4945t-3.rev.dnainternet.fi. [2001:14ba:16cb:a800:e107:c77f:6058:ee33])
-        by smtp.gmail.com with ESMTPSA id b8-20020ac25628000000b004dc7fae3cfcsm343595lff.75.2023.03.17.05.01.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Mar 2023 05:01:31 -0700 (PDT)
-Date: Fri, 17 Mar 2023 14:01:29 +0200
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Jerome Forissier <jerome.forissier@linaro.org>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] e2fsprogs: switch from master to debian/master
- branch to fix compatibility
-Message-ID: <ZBRWmcQjRoq631S8@nuoska>
-References: <20230317100923.3295331-1-mikko.rapeli@linaro.org>
- <CANNYZj_RVtE=Ud1Tmcr5H0_zQZS_SK+5CT1ro4oanudVdTfBWQ@mail.gmail.com>
+ dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=24409f19bd=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32HBY2cs032139
+	for <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 05:37:44 -0700
+Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3pbqkshn9n-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 05:37:44 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.18; Fri, 17 Mar 2023 05:37:43 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.17 via Frontend Transport; Fri, 17 Mar 2023 05:37:42 -0700
+From: <mingli.yu@eng.windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] mdadm: fix tests/00raid0
+Date: Fri, 17 Mar 2023 20:37:42 +0800
+Message-ID: <20230317123742.2311641-1-mingli.yu@eng.windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANNYZj_RVtE=Ud1Tmcr5H0_zQZS_SK+5CT1ro4oanudVdTfBWQ@mail.gmail.com>
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: w70oftH8LQJaZYNJS6L-7ozQxfoCdyvg
+X-Proofpoint-GUID: w70oftH8LQJaZYNJS6L-7ozQxfoCdyvg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-17_08,2023-03-16_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ clxscore=1015 phishscore=0 adultscore=0 suspectscore=0 spamscore=0
+ malwarescore=0 priorityscore=1501 mlxlogscore=999 bulkscore=0
+ impostorscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303170085
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 12:01:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178751
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 12:37:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178752
 
-Hi,
+From: Mingli Yu <mingli.yu@windriver.com>
 
-On Fri, Mar 17, 2023 at 11:39:23AM +0100, Alexander Kanavin wrote:
-> This doesn’t seem right. We should not give special privileges to tooling
-> from any particular host distro. If you need to manipulate images, build
-> e2fsprogs-native and run that.
+Backport patch [1] to fix tests/00raid0.
 
-This is about ext4 images breaking compatibility with older versions of
-tooling used manipulate the images. For Debian the upstream maintainers
-and Debian package maintainers agreed to keep the backwards
-compatibility for longer time. I think that makes sense for yocto too.
+[1] https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/commit/?id=7539254342bc591717b0051734cc6c09c1b88640
 
-While I agree that using e2fsprogs-native is a solution too, I also
-agree that a lot of users are using non-yocto e2fsprogs when e.g.
-flashing images to target HW. Breaking compatibility can quite simply be
-avoided and upstream will maintain this branch. Win win from my point of
-view.
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ ...d-a-test-that-validates-raid0-with-l.patch | 41 +++++++++++++++++++
+ meta/recipes-extended/mdadm/mdadm_4.2.bb      |  1 +
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-tests-00raid0-add-a-test-that-validates-raid0-with-l.patch
 
-Cheers,
+diff --git a/meta/recipes-extended/mdadm/files/0001-tests-00raid0-add-a-test-that-validates-raid0-with-l.patch b/meta/recipes-extended/mdadm/files/0001-tests-00raid0-add-a-test-that-validates-raid0-with-l.patch
+new file mode 100644
+index 0000000000..1c95834a7e
+--- /dev/null
++++ b/meta/recipes-extended/mdadm/files/0001-tests-00raid0-add-a-test-that-validates-raid0-with-l.patch
+@@ -0,0 +1,41 @@
++From 7539254342bc591717b0051734cc6c09c1b88640 Mon Sep 17 00:00:00 2001
++From: Sudhakar Panneerselvam <sudhakar.panneerselvam@oracle.com>
++Date: Wed, 22 Jun 2022 14:25:13 -0600
++Subject: [PATCH] tests/00raid0: add a test that validates raid0 with layout
++ fails for 0.9
++
++329dfc28debb disallows the creation of raid0 with layouts for 0.9
++metadata. This test confirms the new behavior.
++
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/commit/?id=7539254342bc591717b0051734cc6c09c1b88640]
++
++Signed-off-by: Sudhakar Panneerselvam <sudhakar.panneerselvam@oracle.com>
++Signed-off-by: Himanshu Madhani <himanshu.madhani@oracle.com>
++Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
++Signed-off-by: Jes Sorensen <jes@trained-monkey.org>
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ tests/00raid0 | 6 ++----
++ 1 file changed, 2 insertions(+), 4 deletions(-)
++
++diff --git a/tests/00raid0 b/tests/00raid0
++index 8bc18985..e6b21cc4 100644
++--- a/tests/00raid0
+++++ b/tests/00raid0
++@@ -6,11 +6,9 @@ check raid0
++ testdev $md0 3 $mdsize2_l 512
++ mdadm -S $md0
++ 
++-# now with version-0.90 superblock
+++# verify raid0 with layouts fail for 0.90
++ mdadm -CR $md0 -e0.90 -l0 -n4 $dev0 $dev1 $dev2 $dev3
++-check raid0
++-testdev $md0 4 $mdsize0 512
++-mdadm -S $md0
+++check opposite_result
++ 
++ # now with no superblock
++ mdadm -B $md0 -l0 -n5 $dev0 $dev1 $dev2 $dev3 $dev4
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.2.bb b/meta/recipes-extended/mdadm/mdadm_4.2.bb
+index ffb42aa13a..14de9d88c2 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.2.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.2.bb
+@@ -28,6 +28,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+            file://0001-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch \
+            file://0001-mdadm-Fix-optional-write-behind-parameter.patch \
+            file://0001-tests-02lineargrow-clear-the-superblock-at-every-ite.patch \
++           file://0001-tests-00raid0-add-a-test-that-validates-raid0-with-l.patch \
+            file://0001-tests-fix-raid0-tests-for-0.90-metadata.patch \
+            file://0001-tests-00readonly-Run-udevadm-settle-before-setting-r.patch \
+            file://0001-tests-04update-metadata-avoid-passing-chunk-size-to.patch \
+-- 
+2.25.1
 
--Mikko
-
-> Alex
-> 
-> On Fri 17. Mar 2023 at 10.09, Mikko Rapeli <mikko.rapeli@linaro.org> wrote:
-> 
-> > From: Jerome Forissier <jerome.forissier@linaro.org>
-> >
-> > When trying to use e2fsck <= 1.47.0 on the root filesystem (for example,
-> > to resize a partition after copying the image to a USB stick on a
-> > computer running current Ubuntu [22.04] or Debian), an error is
-> > reported:
-> >
-> >  e2fsck 1.46.5 (30-Dec-2021)
-> >  /dev/sdb2 has unsupported feature(s): FEATURE_C12
-> >  e2fsck: Get a newer version of e2fsck!
-> >
-> > This has been discussed in [2] and a fix was made for use by
-> > Debian-based distros in [3]. Let's pick that version.
-> >
-> > Link: [1] https://gitlab.com/Linaro/trusted-reference-stack/trs/-/issues/1
-> > Link: [2] https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1031622
-> > Link: [3]
-> > https://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git/commit/?h=debian/master&id=1181f164c48574a4813bfa203dbd7b4123154021
-> >
-> > Binary compatibility of generated ext4 file system images is important
-> > so it's better to use the "debian/master" branch.
-> >
-> > Signed-off-by: Jerome Forissier <jerome.forissier@linaro.org>
-> > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> > ---
-> >  meta/recipes-devtools/e2fsprogs/e2fsprogs.inc                   | 2 +-
-> >  .../e2fsprogs/{e2fsprogs_1.47.0.bb => e2fsprogs_1.47.0-2.bb}    | 2 +-
-> >  2 files changed, 2 insertions(+), 2 deletions(-)
-> >  rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.47.0.bb =>
-> > e2fsprogs_1.47.0-2.bb} (99%)
-> >
-> > diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
-> > b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
-> > index f41a5d0b4e..2f54896e8c 100644
-> > --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
-> > +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
-> > @@ -19,7 +19,7 @@ LIC_FILES_CHKSUM =
-> > "file://NOTICE;md5=d50be0580c0b0a7fbc7a4830bbe6c12b \
-> >  SECTION = "base"
-> >  DEPENDS = "util-linux attr autoconf-archive"
-> >
-> > -SRC_URI = "git://
-> > git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git;branch=master"
-> > +SRC_URI = "git://
-> > git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git;branch=debian/master"
-> >  S = "${WORKDIR}/git"
-> >
-> >  inherit autotools gettext texinfo pkgconfig multilib_header
-> > update-alternatives ptest
-> > diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
-> > b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0-2.bb
-> > similarity index 99%
-> > rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
-> > rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0-2.bb
-> > index 2620610903..9bf89ba0c4 100644
-> > --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
-> > +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0-2.bb
-> > @@ -10,7 +10,7 @@ SRC_URI:append:class-native = " \
-> >             file://quiet-debugfs.patch \
-> >             "
-> >
-> > -SRCREV = "f4c9cc4bedacde8408edda3520a32d3842290112"
-> > +SRCREV = "1181f164c48574a4813bfa203dbd7b4123154021"
-> >  UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+\.\d+(\.\d+)*)$"
-> >
-> >  EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
-> > --
-> > 2.34.1
-> >
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#178747):
-> > https://lists.openembedded.org/g/openembedded-core/message/178747
-> > Mute This Topic: https://lists.openembedded.org/mt/97669707/1686489
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> > alex.kanavin@gmail.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
-> >
 
