@@ -2,54 +2,55 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FFC5C74A5B
-	for <webhook@archiver.kernel.org>; Fri, 17 Mar 2023 08:00:47 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web11.14142.1679040040699745968
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B13CC74A5B
+	for <webhook@archiver.kernel.org>; Fri, 17 Mar 2023 08:02:27 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web11.14168.1679040138679823317
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Mar 2023 01:00:41 -0700
+ Fri, 17 Mar 2023 01:02:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KAMA1AyT;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id v16so3635356wrn.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 01:00:40 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bWyZKlCB;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id bg16-20020a05600c3c9000b003eb34e21bdfso4581397wmb.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 01:02:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1679040039;
+        d=linuxfoundation.org; s=google; t=1679040137;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kCaidoUx0kRii+93dnnJAzzhOgcxpw9x7p6qJAleY20=;
-        b=KAMA1AyTKlSdMeRAnHzowQ8qsf1m78V9KId6F78BQt26hifGgGznvz1kJIFxSh4c4U
-         1TWuc74XQJjckqekAKdQQjU+YRMqbash5dRQXQs/9sWfBSRWLoyp9bTUQw5+AZoJOuWg
-         MbbwJRwEMHWawWd7rzUq3V1Mn2WUDHUOgkV5g=
+        bh=SP1D7FJZqpjVHapPMKxzXzjhYxZgWnh8V2WrDMeAKZw=;
+        b=bWyZKlCBlFolP/5zVcPL9U3u80y4EhJzbOPX72G6xQ95tox05a6g1RUXYmtd68Vpmz
+         j10qqyb2UK2/v9m5leHpFD7btssOx6dkq3CCaxcn8FK5/OWMWlKyZJkSUQVY3wt3bV+V
+         H98/U7N1zW0JSP8uIvGA4Ic8/QYjOw5ilXwbs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679040039;
+        d=1e100.net; s=20210112; t=1679040137;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=kCaidoUx0kRii+93dnnJAzzhOgcxpw9x7p6qJAleY20=;
-        b=fIdpG1wZiwZOj61pC3Rlw0qZ/+j3trebFcm4wp5o1FYNodlEB/d8o9FyK7jNaIazfO
-         i2Ju/OCdZB80pAKokmCrkMyUf1tQPG+pgsdaudB9uVbolOIIxSLWGtkNlHBkBcQoCrO0
-         sGgfgceGgFTx3FzZ6xWYhk6fKcILlzDK+wCMYm4SZ69selDaxK82l8IMTW5C6apYBZsO
-         w9iXohEyDqLGfPVxeJWibyItzp0Gj6hxaP/wmGxr5FpQ9mUU7JQYOBzbUXUwOQ1xSMv0
-         NLR8Z5ja7fodk465kmBNkaPIcnZld5M1SHezsJLcu3/rYYwVc9ZCh1TrfqvoaptrxQR7
-         HLYw==
-X-Gm-Message-State: AO0yUKX6qPfnxL73eQSGUwUbNAXNNOC/5dIC/SfMR6F2jVNbJ70BrP7H
-	JEjazOhAPiCN+sv9A5xlTtzpYg==
-X-Google-Smtp-Source: AK7set9U1ZaSowvN0En/62Jq5LpJDRc7kqkIDla5FDN8fVaScqApYKr9xvmcLMJo+OgHh5sxucivNQ==
-X-Received: by 2002:a5d:4382:0:b0:2cd:ddd6:c215 with SMTP id i2-20020a5d4382000000b002cdddd6c215mr6677346wrq.52.1679040039098;
-        Fri, 17 Mar 2023 01:00:39 -0700 (PDT)
+        bh=SP1D7FJZqpjVHapPMKxzXzjhYxZgWnh8V2WrDMeAKZw=;
+        b=KIAmtVuJlWeq2D5DDVIB6gD+C9aRwbWDTWssac9+0Rif6l4ateJGfxsNZCcInadXkm
+         Mm1ElpmeBvnIf0TH0aU2s8kEjx9Z0LUwOZQkauutq1/MhGDUIRpknmW7UbHmSr0KVFKy
+         yLBI9eEKs2DnMDs9trqVKZy/auzXG97B0hsR3mdUwIID/utgY+XAjjZgTj0jLN6TrSHr
+         3dIPgozvzUQmgHdicLlsq1ydj+h89eGXAA4yrbmk7PQkzYR1YHj7y5GZ6fbErjXB/N+C
+         gkVZl4buSQBVw0X/BwCXF7AfVyPkaZ0SqXKvaLNvg3CVGABEBjYky9fP+oUFDZb7mOh8
+         5xtw==
+X-Gm-Message-State: AO0yUKWxiTwE8bYjHRzVidwlHR6IHEsHOgxhS9LIRiOXMQUnZbZDnhFN
+	56HYfox1scoDz7jpJevqDMOB4A==
+X-Google-Smtp-Source: AK7set8KXJPFZymRX0EyQDJPHYZIYs7mkhKkYWyBLm/T09e8lXnK5VGRdVl93BtEat9TJqwZt+ICXw==
+X-Received: by 2002:a05:600c:3d95:b0:3eb:5990:aea4 with SMTP id bi21-20020a05600c3d9500b003eb5990aea4mr1565002wmb.12.1679040137078;
+        Fri, 17 Mar 2023 01:02:17 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:4a14:4396:c3b7:b66e? ([2001:8b0:aba:5f3c:4a14:4396:c3b7:b66e])
-        by smtp.gmail.com with ESMTPSA id d6-20020a5d6dc6000000b002c53f6c7599sm1326279wrz.29.2023.03.17.01.00.38
+        by smtp.gmail.com with ESMTPSA id 4-20020a05600c028400b003eb192787bfsm1241778wmk.25.2023.03.17.01.02.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Mar 2023 01:00:38 -0700 (PDT)
-Message-ID: <dd5e0f7df463ddc2733dc126beaa3bf29eb8d49b.camel@linuxfoundation.org>
-Subject: Re: [oe-core][PATCH] Remove usage of /var/volatile/tmp
+        Fri, 17 Mar 2023 01:02:16 -0700 (PDT)
+Message-ID: <3a75a7b37cf689642f5fa12c043e629236e17a3c.camel@linuxfoundation.org>
+Subject: Re: [RFC][oe-core][PATCH] initscripts: dont use /tmp symlink if
+ ptest is enabled
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
-Date: Fri, 17 Mar 2023 08:00:37 +0000
-In-Reply-To: <20230317060202.385862-1-f_l_k@t-online.de>
-References: <20230317060202.385862-1-f_l_k@t-online.de>
+Date: Fri, 17 Mar 2023 08:02:15 +0000
+In-Reply-To: <20230317060342.386014-1-f_l_k@t-online.de>
+References: <20230317060342.386014-1-f_l_k@t-online.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.3-1 
@@ -57,37 +58,44 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 08:00:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178744
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 08:02:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178745
 
-On Fri, 2023-03-17 at 07:02 +0100, Markus Volk wrote:
-> Currently /tmp is a link to /var/tmp which breaks glib-2.0 ptest
-> Systemd documentation describes tmpdir usage as follows:
+On Fri, 2023-03-17 at 07:03 +0100, Markus Volk wrote:
+> glib-2.0 ptest will fail if /tmp is a symlink to /var/tmp
 >=20
-> /tmp/ and /var/tmp/ are two world-writable directories Linux systems prov=
-ide for temporary files. The former is
-> typically on tmpfs and thus backed by RAM/swap, and flushed out on each r=
-eboot. The latter is typically a proper,
-> persistent file system, and thus backed by physical storage.
+> Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> ---
+>  meta/recipes-core/initscripts/initscripts_1.0.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> By default, systemd-tmpfiles will apply a concept of =E2=80=9Cageing=E2=
-=80=9D to all files and directories stored in /tmp/ and
-> /var/tmp/. This means that files that have neither been changed nor read =
-within a specific time frame are auto-
-> matically removed in regular intervals.
-> (This concept is not new to systemd-tmpfiles btw, it=E2=80=99s inherited =
-from previous subsystems such as tmpwatch.)
-> By default files in /tmp/ are cleaned up after 10 days, and those in /var=
-/tmp after 30 days.
->=20
-> This commit tries to align tmpdir to what systemd expects.
+> diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/reci=
+pes-core/initscripts/initscripts_1.0.bb
+> index 4dc477bb8d..51a90ddf58 100644
+> --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
+> +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+> @@ -108,7 +108,7 @@ do_install () {
+>  		sed -i -e '\@^d root root 0755 /var/volatile/log none$@ a\l root root =
+0755 /var/log /var/volatile/log' \
+>  			${D}${sysconfdir}/default/volatiles/00_core
+>  	fi
+> -	if [ "${VOLATILE_TMP_DIR}" !=3D "yes" ]; then
+> +	if [ "${VOLATILE_TMP_DIR}" !=3D "yes" ]  || ${@bb.utils.contains('DISTR=
+O_FEATURES','ptest','true','false',d)}; then
+>  		sed -i -e "/\<tmp\>/d" ${D}${sysconfdir}/default/volatiles/00_core
+>  	fi
+>  	install -m 0755    ${WORKDIR}/dmesg.sh		${D}${sysconfdir}/init.d
 
-This changes the system layout to what systemd wants but what happens
-to sysvinit or anything else though? Some systems won't have systemd-
-tmpfiles and so on present. The commit message above makes it sound
-like systemd is the only thing that exists/matters.
+Having a delta between what we ship and what we test on is asking for a
+ton of trouble so this isn't an option.
+
+We can't change a key image behaviour just to make some ptests pass.
 
 Cheers,
 
 Richard
+
+
+
+
 
