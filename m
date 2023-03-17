@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25E1AC74A5B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 248B6C6FD1D
 	for <webhook@archiver.kernel.org>; Fri, 17 Mar 2023 22:43:19 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web11.466.1679092964067638986
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web10.457.1679092997215324331
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Mar 2023 15:43:10 -0700
+ Fri, 17 Mar 2023 15:43:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=T6yYu4x4;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.41, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f41.google.com with SMTP id j3-20020a17090adc8300b0023d09aea4a6so10702419pjv.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 15:43:10 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=rzcRbV78;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f50.google.com with SMTP id l9-20020a17090a3f0900b0023d32684e7fso9027349pjc.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 15:43:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679092989;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679092996;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jz24XVCm6K/zhtLvnkLpTl1fFzh3MArpCY1+bgsFfCc=;
-        b=T6yYu4x4AC7Pf6fyY04/u1YXFI7VjolGx/W/ma0iLp3EVg/GhlWOajLuNXVplMbo5S
-         tYXnpxDhNBVPwjxf2cUU0vz5BCLObVDu93QD3OIf4NUnxmGqheX0i/wuNnVEH9yWskk5
-         KXIuxtkye3uwkjO0chE1hKPHr/VQjyb1n3xVqgVRGa31r30rPranxafAvjLDzceIGQOF
-         /CkjPyIbCxmZXMECiY8gMC5PvE4RxkBlEHeVVwfQwVxgwhewQ9X/p6gAqfjout47SMAd
-         AzeahMZoXrT8RhMr1eCAuoBAGvQCywORhvTK6Kq1Jhut3RIR7uBSSy8XiVEmXLQZ+Uc+
-         0Aeg==
+        bh=NHoh3L6ahCiMtBdgE7dNHosEp4qAEDkO+zZIqzeAxUY=;
+        b=rzcRbV78YKXekFZkvhnsnv3/dwuLkKmEVvx9/6d0Xr3y3SseQM7jDJ9Qg1QcIYlMnL
+         jm4V9o2bF6iCI/UjAmVblLeamDcAqVcc7W9JDNxAZSP6fCADKjzi28UupHcS3V1BwTfy
+         bo5L4QGaRnLe0q+iavxWQ2IA1BNOzNoOyej0AKgyUGrIr4FVnaZQdZXfdSquWn6m4k6N
+         X/cqKILJ4U/rO0puSwSQEOs371HX5X5zZFGOHW4R+LVSjzMsB6bq1EH//B/w5OgcKlJO
+         NJBGtib+m6g2KAdCSGNlhVyDaRYgoZobZJQciCSK+Qq2+5xa9jS6Kwxyi3LC2tfzE8NR
+         ec6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679092989;
+        d=1e100.net; s=20210112; t=1679092996;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jz24XVCm6K/zhtLvnkLpTl1fFzh3MArpCY1+bgsFfCc=;
-        b=FXapRe+zhZwlsBf90Qvl9BwxSEZg6WMvR8/kabZ7d5Odm6wGHCd04Y9xW6gOMPEZ04
-         MtopvGj84/TWfHgnN3MVcjsJj0HmL70RjTyMRCPnMtJ3+J3GS7HQ7otHFnO2TvPej4h+
-         ZPEPrPPMKCx0JVr7RjdD4VLFSMLRb0ziUdtrrVETi0IwJ1McaC5GgJ3LXS+XDMNSTi0F
-         rSxdZQU8vWZP+HNrNcYAFapT8rwLfylOjdDBVG63cvtY+LAjaRsZfEjaFeaf4evilvtX
-         jk9E8i5u6qVje/dx5KZuJB3u6JJcOa9z2nidKdeQ8xQ9qJxwLlGYQLndZTAP15D4J409
-         u9Yw==
-X-Gm-Message-State: AO0yUKUkohzTp70Qu2J0Ceo5c7bGFU+xtDHk+rHwWw6170NyGKY7RIui
-	+8QVDsvtxLKCcViF+izLvjqbvVOsNwNgS9nBvxg=
-X-Google-Smtp-Source: AK7set+H/zpZeISXuSddeLCOzy3bGdLJWGtziw7I93uN4oSi38ZsW7dJucbeIljaxODK2ruLButGMQ==
-X-Received: by 2002:a17:903:41d1:b0:1a1:97b5:c660 with SMTP id u17-20020a17090341d100b001a197b5c660mr5303747ple.20.1679092989529;
-        Fri, 17 Mar 2023 15:43:09 -0700 (PDT)
+        bh=NHoh3L6ahCiMtBdgE7dNHosEp4qAEDkO+zZIqzeAxUY=;
+        b=pK+iL79l07cX0ryKo+Z9hEpIfWhDAaukcuX00Gzo1EzdqT5FIWiqur94MM5Rt4Y0oF
+         L2peUHJFCtCGfPquXGwKJoe+Gphs2UDzsfdj4lFXHAeey0/uxTgs+XW7WEbfp0ALEL0S
+         QF2Ywe/+kvOne27kD3BONtVshQo2fmM9IF2ZgZBqc0VPbX2ozGA6mrH5i5ygP73n/luK
+         VU21T1CnMA7Wb4ShIECIiJZpe0liaN03qD3BPhJLUKriWb3LVU6bEzeOC1j/rgOw0Zla
+         21livhlrcGCIRHXlg97bdCYfpOX+acJbhNTuCkHbcsy2pZl2oonWjW79M20dZ03f6I5n
+         +gyA==
+X-Gm-Message-State: AO0yUKXVd/gZoBU/hfWH9TmMVVKnPwtRrEhnl5oppBbvC3X/d8Tvq+II
+	a/5nQsE2ISjSIctr3+yc2C7yqdCchFvKIFfqJis=
+X-Google-Smtp-Source: AK7set8ePD/2yDwHhKgfpqkVPRAEdhiv0ph4mmGu4SnaACCLNR0szT+Y1kMkNtqML14bRtpEO4vWhg==
+X-Received: by 2002:a17:903:74d:b0:1a1:a7b6:e31e with SMTP id kl13-20020a170903074d00b001a1a7b6e31emr3220507plb.7.1679092996391;
+        Fri, 17 Mar 2023 15:43:16 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id jb13-20020a170903258d00b001a19040435bsm2027152plb.100.2023.03.17.15.43.08
+        by smtp.gmail.com with ESMTPSA id jb13-20020a170903258d00b001a19040435bsm2027152plb.100.2023.03.17.15.43.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Mar 2023 15:43:09 -0700 (PDT)
+        Fri, 17 Mar 2023 15:43:16 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 15/21] cups: check PACKAGECONFIG for pam feature
-Date: Fri, 17 Mar 2023 12:42:29 -1000
-Message-Id: <7b23927a72a1f8b91802f5b2ca10f2cea239bd47.1679092796.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 19/21] populate_sdk_ext: Handle spaces within user $PATH
+Date: Fri, 17 Mar 2023 12:42:33 -1000
+Message-Id: <d2800e00bb4a1d169e0a91b758d3fb2ec5e35f74.1679092796.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1679092796.git.steve@sakoman.com>
 References: <cover.1679092796.git.steve@sakoman.com>
@@ -61,36 +61,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 22:43:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178776
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178780
 
-From: Trevor Woerner <twoerner@gmail.com>
+From: Kenfe-Mickael Laventure <mickael.laventure@gmail.com>
 
-The cups' PACKAGECONFIG is populated based on DISTRO_FEATURES, but a user
-is free to enable or disable PACKAGECONFIGs at will. In theory it is
-possible that pam is enabled globally in DISTRO_FEATURES but disabled in
-cups' PACKAGECONFIG. Checking the PACKAGECONFIG to determine whether or not
-pam is enabled would be a safer check rather than relying on DISTRO_FEATURES.
+The script generated by the sdk_ext_postinst function was not quoting
+the user existing PATH when updating it causing the export command to
+fail.
 
-Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+Add necessary double quotes around $PATH.
+
+Signed-off-by: Kenfe-Mickael Laventure <mickael.laventure@gmail.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit a053dd177ddc99ced11e68914079be0ffe261262)
+(cherry picked from commit 00e96bf250eaaded839caf465dbc0af5b604aed7)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/cups/cups.inc | 2 +-
+ meta/classes/populate_sdk_ext.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index cf06c9f1b8..714be4b26c 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -75,7 +75,7 @@ do_install () {
- 	rmdir ${D}/${libexecdir}/${BPN}/driver
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index 0fd30478dc..a673af7e7b 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -714,7 +714,7 @@ sdk_ext_postinst() {
  
- 	# Fix the pam configuration file permissions
--	if ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'true', 'false', d)}; then
-+	if ${@bb.utils.contains('PACKAGECONFIG', 'pam', 'true', 'false', d)}; then
- 	    chmod 0644 ${D}${sysconfdir}/pam.d/cups
- 	fi
+ 	# A bit of another hack, but we need this in the path only for devtool
+ 	# so put it at the end of $PATH.
+-	echo "export PATH=$target_sdk_dir/sysroots/${SDK_SYS}${bindir_nativesdk}:\$PATH" >> $env_setup_script
++	echo "export PATH=\"$target_sdk_dir/sysroots/${SDK_SYS}${bindir_nativesdk}:\$PATH\"" >> $env_setup_script
+ 
+ 	echo "printf 'SDK environment now set up; additionally you may now run devtool to perform development tasks.\nRun devtool --help for further details.\n'" >> $env_setup_script
  
 -- 
 2.34.1
