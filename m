@@ -1,127 +1,86 @@
-Return-Path: <mingli.yu@eng.windriver.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7445FC74A5B
-	for <webhook@archiver.kernel.org>; Fri, 17 Mar 2023 12:37:48 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.17888.1679056664800065429
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B3F8C6FD1D
+	for <webhook@archiver.kernel.org>; Fri, 17 Mar 2023 13:18:39 +0000 (UTC)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web10.18991.1679059115770576342
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Mar 2023 05:37:44 -0700
+ Fri, 17 Mar 2023 06:18:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=24409f19bd=mingli.yu@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32HBY2cs032139
-	for <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 05:37:44 -0700
-Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3pbqkshn9n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 05:37:44 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.18; Fri, 17 Mar 2023 05:37:43 -0700
-Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.17 via Frontend Transport; Fri, 17 Mar 2023 05:37:42 -0700
-From: <mingli.yu@eng.windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] mdadm: fix tests/00raid0
-Date: Fri, 17 Mar 2023 20:37:42 +0800
-Message-ID: <20230317123742.2311641-1-mingli.yu@eng.windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=RDwi7MWV;
+ spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f42.google.com with SMTP id l9-20020a17090a3f0900b0023d32684e7fso8089009pjc.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 06:18:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679059115;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dFXvUbdBT3Vc3ZIhg8xigYyaonoZzLce/yTSbkjzeVY=;
+        b=RDwi7MWVKdQ5PgEtMQ54DVe7vGW5TCWBKa/i+vltiEUF0J0cvYml4jkIyWYt7TkQFc
+         LjMnfrBgisr9mB9q/a98vDysbw+SPms1WVbq3+bcLg5vdyf6SBOULj15OEtTYJVwbXpD
+         RiuJ5mYsP0N/hLJcRumKCvt/wEKTD629fWaDEKm9TlPFI9ZLoNkZ6G0+3tD/jZM+BWS2
+         vWADGQxzD7UjJyvmdXh6BRdK13OcedwzGRUCxT2NFZCqF0jZolUwwb0rMASHokq+JjHp
+         r8F1KUt1KXOFmNfIPs76iOx8K5Fg1Ms0bu7svJ3Pl3P8iInSuRq0E4V5DT0A00k2uEK/
+         Swfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679059115;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dFXvUbdBT3Vc3ZIhg8xigYyaonoZzLce/yTSbkjzeVY=;
+        b=ziDFaVtnrc2XN0/3tjl5JhEyw7iO55K8nLjoOyc7SBYuo/QYckuceDIrrvEFwyre0N
+         QunJ1Xk9qCoAcotDXt6USXanrku/GCnoudlRjZIE7WIyjMVH+xUlsEItnTLRVR9Z7G6z
+         hYefN7Y+rCVAJNKPEDSbx+Rq3/sTiPmKnvyvrRPUpi++W+rTW7ligtSk1fI1S5qtSvlT
+         LYY2XCVtl8Qe34vZi3SFLqCSvCIeo2Wp8olrKLJpw/BH2cDIMzc9b74eNTZ2ZP6pZHdt
+         QzHnu55FQ172hvYPb7MU19aAS4RjQhd6hZwlYVYC/WMIywRji8MsRxcGmyqfH8Sae3qz
+         KlZg==
+X-Gm-Message-State: AO0yUKXIr4QMYwckq35O2X52T84hlQ/5Ns2SO3hoa2q3jbZfU8Cg7JDB
+	S6PKCpglLm/2J3PJnYeMzfvjVmU7c7Pr7g==
+X-Google-Smtp-Source: AK7set+KUqOjLKZpFF9ktadmojtPmiEHSbXF+e5XH2rqNZBnWhaI0pifV0HgP27fIZrf47VwL03xCA==
+X-Received: by 2002:a17:903:234a:b0:1a0:51d4:f055 with SMTP id c10-20020a170903234a00b001a051d4f055mr8613982plh.49.1679059114806;
+        Fri, 17 Mar 2023 06:18:34 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:d380::f301])
+        by smtp.gmail.com with ESMTPSA id s4-20020a170902988400b0019c2b1c4ad4sm1558085plp.6.2023.03.17.06.18.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Mar 2023 06:18:34 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] glibc: Disable warnings as errors
+Date: Fri, 17 Mar 2023 06:18:32 -0700
+Message-Id: <20230317131832.591119-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: w70oftH8LQJaZYNJS6L-7ozQxfoCdyvg
-X-Proofpoint-GUID: w70oftH8LQJaZYNJS6L-7ozQxfoCdyvg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-17_08,2023-03-16_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- clxscore=1015 phishscore=0 adultscore=0 suspectscore=0 spamscore=0
- malwarescore=0 priorityscore=1501 mlxlogscore=999 bulkscore=0
- impostorscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303170085
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 12:37:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178752
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 13:18:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178753
 
-From: Mingli Yu <mingli.yu@windriver.com>
+As distro builders this option helps using different compilers to build
+glibc
 
-Backport patch [1] to fix tests/00raid0.
-
-[1] https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/commit/?id=7539254342bc591717b0051734cc6c09c1b88640
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...d-a-test-that-validates-raid0-with-l.patch | 41 +++++++++++++++++++
- meta/recipes-extended/mdadm/mdadm_4.2.bb      |  1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-extended/mdadm/files/0001-tests-00raid0-add-a-test-that-validates-raid0-with-l.patch
+ meta/recipes-core/glibc/glibc_2.37.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-extended/mdadm/files/0001-tests-00raid0-add-a-test-that-validates-raid0-with-l.patch b/meta/recipes-extended/mdadm/files/0001-tests-00raid0-add-a-test-that-validates-raid0-with-l.patch
-new file mode 100644
-index 0000000000..1c95834a7e
---- /dev/null
-+++ b/meta/recipes-extended/mdadm/files/0001-tests-00raid0-add-a-test-that-validates-raid0-with-l.patch
-@@ -0,0 +1,41 @@
-+From 7539254342bc591717b0051734cc6c09c1b88640 Mon Sep 17 00:00:00 2001
-+From: Sudhakar Panneerselvam <sudhakar.panneerselvam@oracle.com>
-+Date: Wed, 22 Jun 2022 14:25:13 -0600
-+Subject: [PATCH] tests/00raid0: add a test that validates raid0 with layout
-+ fails for 0.9
-+
-+329dfc28debb disallows the creation of raid0 with layouts for 0.9
-+metadata. This test confirms the new behavior.
-+
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/commit/?id=7539254342bc591717b0051734cc6c09c1b88640]
-+
-+Signed-off-by: Sudhakar Panneerselvam <sudhakar.panneerselvam@oracle.com>
-+Signed-off-by: Himanshu Madhani <himanshu.madhani@oracle.com>
-+Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-+Signed-off-by: Jes Sorensen <jes@trained-monkey.org>
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ tests/00raid0 | 6 ++----
-+ 1 file changed, 2 insertions(+), 4 deletions(-)
-+
-+diff --git a/tests/00raid0 b/tests/00raid0
-+index 8bc18985..e6b21cc4 100644
-+--- a/tests/00raid0
-++++ b/tests/00raid0
-+@@ -6,11 +6,9 @@ check raid0
-+ testdev $md0 3 $mdsize2_l 512
-+ mdadm -S $md0
-+ 
-+-# now with version-0.90 superblock
-++# verify raid0 with layouts fail for 0.90
-+ mdadm -CR $md0 -e0.90 -l0 -n4 $dev0 $dev1 $dev2 $dev3
-+-check raid0
-+-testdev $md0 4 $mdsize0 512
-+-mdadm -S $md0
-++check opposite_result
-+ 
-+ # now with no superblock
-+ mdadm -B $md0 -l0 -n5 $dev0 $dev1 $dev2 $dev3 $dev4
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-extended/mdadm/mdadm_4.2.bb b/meta/recipes-extended/mdadm/mdadm_4.2.bb
-index ffb42aa13a..14de9d88c2 100644
---- a/meta/recipes-extended/mdadm/mdadm_4.2.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_4.2.bb
-@@ -28,6 +28,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
-            file://0001-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch \
-            file://0001-mdadm-Fix-optional-write-behind-parameter.patch \
-            file://0001-tests-02lineargrow-clear-the-superblock-at-every-ite.patch \
-+           file://0001-tests-00raid0-add-a-test-that-validates-raid0-with-l.patch \
-            file://0001-tests-fix-raid0-tests-for-0.90-metadata.patch \
-            file://0001-tests-00readonly-Run-udevadm-settle-before-setting-r.patch \
-            file://0001-tests-04update-metadata-avoid-passing-chunk-size-to.patch \
+diff --git a/meta/recipes-core/glibc/glibc_2.37.bb b/meta/recipes-core/glibc/glibc_2.37.bb
+index 762a2793ad..b27f98fb19 100644
+--- a/meta/recipes-core/glibc/glibc_2.37.bb
++++ b/meta/recipes-core/glibc/glibc_2.37.bb
+@@ -74,6 +74,7 @@ EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
+                 --enable-stack-protector=strong \
+                 --disable-crypt \
+                 --with-default-link \
++                --disable-werror \
+                 ${@bb.utils.contains_any('SELECTED_OPTIMIZATION', '-O0 -Og', '--disable-werror', '', d)} \
+                 ${GLIBCPIE} \
+                 ${GLIBC_EXTRA_OECONF}"
 -- 
-2.25.1
+2.40.0
 
 
