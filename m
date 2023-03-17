@@ -1,101 +1,185 @@
-Return-Path: <soumya.sambu@windriver.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9AA2C74A5B
-	for <webhook@archiver.kernel.org>; Fri, 17 Mar 2023 06:42:26 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.13534.1679035340373330096
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1C30C74A5B
+	for <webhook@archiver.kernel.org>; Fri, 17 Mar 2023 07:28:06 +0000 (UTC)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+ by mx.groups.io with SMTP id smtpd.web11.13848.1679038076831257829
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Mar 2023 23:42:20 -0700
+ Fri, 17 Mar 2023 00:27:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=euTApRv8;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=244020c12b=soumya.sambu@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32H6cOgN022025
-	for <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 06:42:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=PPS06212021;
- bh=hYDVrgvQiv5DukY4RX+qWQzkWTLuWDFMfrj5v/M/OO4=;
- b=euTApRv8XYtXmNfv9NAoZ8nFPNxgq4TNC1C9JQDFgsx+dCMrb/Eb3PWadipvNFYMb9Wm
- USy1y8z6Iu6YShQCfSxpPkeVVJ2rFJXtMOGxafImaE87gbcMBcueOGTmZi7PMA4EIYsR
- MSlxJ+QckVbbFHRU7FH5FGTRlZO8ucZLx3HYY77Q8yX8MLtMj3icfIpv9NO3SucgRqdI
- W9PYJ83l97iq7GNKzH5Y7hujbB4zeI53W7nXfx70Z4jZ3GxrhvFstIuPg5A9RDrKhhRf
- syHnlX22bTuorPZg8zNNzoDv+nMdmMLeROoUic0bhl59lCSr/aKsiS7T5ED8ja5UoBeC Zw== 
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3pbqm79cwv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 06:41:58 +0000
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Thu, 16 Mar 2023 23:41:56 -0700
-Received: from pek-hostel-deb01.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.18 via Frontend Transport; Thu, 16 Mar 2023 23:41:55 -0700
-From: Soumya <soumya.sambu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <Hari.GPillai@windriver.com>, Soumya <soumya.sambu@windriver.com>
-Subject: [oe-core][kirkstone][PATCH 1/1] vim: upgrade 9.0.1211 -> 9.0.1403
-Date: Fri, 17 Mar 2023 14:41:52 +0800
-Message-ID: <20230317064152.1748738-1-soumya.sambu@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=MJF4vWa/;
+ spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f174.google.com with SMTP id g18so4133619ljl.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 00:27:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679038074;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=MrJsUHELsP5nwO5loIptUMLG4ZFR9Pub//7OZ73eMMo=;
+        b=MJF4vWa/9b+rV7wn6rY6hUcUZiosfjN0u5pMFq4iMKMXQNWrxXz64+cLK+gz49WncI
+         2d/B9oNqEmw5vCutIzfKj6DxeIF8wvK/m5gJ9Kkiy+8r23POcynqgg+Q6eKf9LSL8hBh
+         6oyleQ3fVN93g7N6LmbPNxludmEyaeQU6ckzGO+ULZjyakUsUuANZKvlOLfPvlCKcKu0
+         hCfxuAiwhjrfVzQR8H5hAEHv0boIDJbNoOI0r6vKLiclHRMZxDzYcROw/2J+b6QOWTuJ
+         5bscOl40+VMT0yOGrag61fJjD6rOZhSmkHDm/QudQS+W15DY1ITnZrOq1sAvRIudBI3B
+         mjYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679038074;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MrJsUHELsP5nwO5loIptUMLG4ZFR9Pub//7OZ73eMMo=;
+        b=snIr81tJq2d6JDM6TbiYc5IxzdBcCaStB6Qn4Bhua4+kpLbL768iSTOG/owSihsY82
+         xzL7CgxmOqpPJahvC08qILhlTkU/SbD+mo5Q3qLHsaXa94bqUAGJNqMJc8VQWLJUD8Xv
+         yA0KOGmMsFvFSAGBZOe/zQzifLwHWyGUXK1fIMpzh3B0I+fcT7iNxNs8n+yQIQMFJl6Y
+         1uSsYGJCYfdUGIzWyLEyMJMb/OdhGqsgPnmkw50MW+A8Lc1epgVZ7cEJdx4WLNJQN7TM
+         cXOUOmhfwYDTzUcQAL3RuoZ12hpAwyLl5UvPiHJ6xxqtvXY74o8gePTORyPEb96xKk8T
+         ml9g==
+X-Gm-Message-State: AO0yUKVdgjqU/nKsZ5HFwZu3g08vqRqfS6amKadr0qBQ+Ys3SOU0Jb1C
+	ELzJia4MPmbMODH7SvoosFH+MkL64hCrrH8kAGc=
+X-Google-Smtp-Source: AK7set8XTqpHAsIDK3be6++UkoS0cimxnChZZF3C+LSPq+bKEXRhG5f99Q4mpe1hPPjpLe/THk9kAsYYN/gIC1N3ctM=
+X-Received: by 2002:a2e:9248:0:b0:299:9de5:2f1b with SMTP id
+ v8-20020a2e9248000000b002999de52f1bmr1667018ljg.7.1679038074299; Fri, 17 Mar
+ 2023 00:27:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: 0pU_e_HpVNM3xcwTpMKucXpiq8smvaLn
-X-Proofpoint-ORIG-GUID: 0pU_e_HpVNM3xcwTpMKucXpiq8smvaLn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-17_02,2023-03-16_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxscore=0
- impostorscore=0 lowpriorityscore=0 clxscore=1015 spamscore=0 phishscore=0
- malwarescore=0 suspectscore=0 priorityscore=1501 adultscore=0
- mlxlogscore=649 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303170043
+References: <20230317060342.386014-1-f_l_k@t-online.de>
+In-Reply-To: <20230317060342.386014-1-f_l_k@t-online.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 17 Mar 2023 08:27:43 +0100
+Message-ID: <CANNYZj87ZtxwYP3riyMqa6syhbv6CFi+5b+eHn9pmCor-=cumA@mail.gmail.com>
+Subject: Re: [RFC][oe-core][PATCH] initscripts: dont use /tmp symlink if ptest
+ is enabled
+To: Markus Volk <f_l_k@t-online.de>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000fba7a505f7138356"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 06:42:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178741
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 07:28:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178742
 
-This incorporates fixes for CVE-2023-0512, CVE-2023-1127, CVE-2023-1175, CVE-2023-1170, CVE-2023-0433, CVE-2023-1264, CVE-2023-1355.
+--000000000000fba7a505f7138356
+Content-Type: text/plain; charset="UTF-8"
 
-Also remove runtime/doc/uganda.txt from the license checksum: the Vim
-license is also in the top-level LICENSE file so this is redundant.
+This is not suitable unfortunately. Having ptest should not be affecting
+completely unrelated files. The problem should be solved without using it
+as a decision point.
 
-Signed-off-by: Soumya <soumya.sambu@windriver.com>
----
- meta/recipes-support/vim/vim.inc | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+Alex
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 9bc6881fce..c27b327ecb 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -10,8 +10,7 @@ DEPENDS = "ncurses gettext-native"
- RSUGGESTS:${PN} = "diffutils"
- 
- LICENSE = "Vim"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=6b30ea4fa660c483b619924bc709ef99 \
--                    file://runtime/doc/uganda.txt;md5=001ef779f422a0e9106d428c84495b4d"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=6b30ea4fa660c483b619924bc709ef99"
- 
- SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://disable_acl_header_check.patch \
-@@ -20,8 +19,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://no-path-adjust.patch \
-            "
- 
--PV .= ".1211"
--SRCREV = "f7d1c6e1884c76680980571f1cf15e0928d247b5"
-+PV .= ".1403"
-+SRCREV = "e764d1b4219e6615a04df1c3a6a5c0210a0a7dac"
- 
- # Remove when 8.3 is out
- UPSTREAM_VERSION_UNKNOWN = "1"
--- 
-2.25.1
+On Fri 17. Mar 2023 at 7.04, Markus Volk <f_l_k@t-online.de> wrote:
 
+> glib-2.0 ptest will fail if /tmp is a symlink to /var/tmp
+>
+> Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> ---
+>  meta/recipes-core/initscripts/initscripts_1.0.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb
+> b/meta/recipes-core/initscripts/initscripts_1.0.bb
+> index 4dc477bb8d..51a90ddf58 100644
+> --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
+> +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+> @@ -108,7 +108,7 @@ do_install () {
+>                 sed -i -e '\@^d root root 0755 /var/volatile/log none$@
+> a\l root root 0755 /var/log /var/volatile/log' \
+>                         ${D}${sysconfdir}/default/volatiles/00_core
+>         fi
+> -       if [ "${VOLATILE_TMP_DIR}" != "yes" ]; then
+> +       if [ "${VOLATILE_TMP_DIR}" != "yes" ]  ||
+> ${@bb.utils.contains('DISTRO_FEATURES','ptest','true','false',d)}; then
+>                 sed -i -e "/\<tmp\>/d"
+> ${D}${sysconfdir}/default/volatiles/00_core
+>         fi
+>         install -m 0755    ${WORKDIR}/dmesg.sh
+> ${D}${sysconfdir}/init.d
+> --
+> 2.34.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#178739):
+> https://lists.openembedded.org/g/openembedded-core/message/178739
+> Mute This Topic: https://lists.openembedded.org/mt/97667599/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--000000000000fba7a505f7138356
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">This is not suitable unfortunately. Having ptest should n=
+ot be affecting completely unrelated files. The problem should be solved wi=
+thout using it as a decision point.</div><div dir=3D"auto"><br></div><div d=
+ir=3D"auto">Alex</div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Fri 17. Mar 2023 at 7.04, Markus Volk &lt;<a href=
+=3D"mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>&gt; wrote:<br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(=
+204,204,204)">glib-2.0 ptest will fail if /tmp is a symlink to /var/tmp<br>
+<br>
+Signed-off-by: Markus Volk &lt;<a href=3D"mailto:f_l_k@t-online.de" target=
+=3D"_blank">f_l_k@t-online.de</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-core/initscripts/<a href=3D"http://initscripts_1.0.bb" r=
+el=3D"noreferrer" target=3D"_blank">initscripts_1.0.bb</a> | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-core/initscripts/<a href=3D"http://initscripts_1.=
+0.bb" rel=3D"noreferrer" target=3D"_blank">initscripts_1.0.bb</a> b/meta/re=
+cipes-core/initscripts/<a href=3D"http://initscripts_1.0.bb" rel=3D"norefer=
+rer" target=3D"_blank">initscripts_1.0.bb</a><br>
+index 4dc477bb8d..51a90ddf58 100644<br>
+--- a/meta/recipes-core/initscripts/<a href=3D"http://initscripts_1.0.bb" r=
+el=3D"noreferrer" target=3D"_blank">initscripts_1.0.bb</a><br>
++++ b/meta/recipes-core/initscripts/<a href=3D"http://initscripts_1.0.bb" r=
+el=3D"noreferrer" target=3D"_blank">initscripts_1.0.bb</a><br>
+@@ -108,7 +108,7 @@ do_install () {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sed -i -e &#39;\@^d=
+ root root 0755 /var/volatile/log none$@ a\l root root 0755 /var/log /var/v=
+olatile/log&#39; \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 ${D}${sysconfdir}/default/volatiles/00_core<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;${VOLATILE_TMP_DIR}&quot; !=3D &quot=
+;yes&quot; ]; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;${VOLATILE_TMP_DIR}&quot; !=3D &quot=
+;yes&quot; ]=C2=A0 || ${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;,&#39;p=
+test&#39;,&#39;true&#39;,&#39;false&#39;,d)}; then<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sed -i -e &quot;/\&=
+lt;tmp\&gt;/d&quot; ${D}${sysconfdir}/default/volatiles/00_core<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0755=C2=A0 =C2=A0 ${WORKDIR}/dmesg.s=
+h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${D}${sysconfdir}/init.d<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#178739): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/178739" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/178739</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/97667599/1686=
+489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/97667599/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000fba7a505f7138356--
 
