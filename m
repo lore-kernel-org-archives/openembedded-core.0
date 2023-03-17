@@ -1,397 +1,520 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <sakib.sajal@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F385C6FD1D
-	for <webhook@archiver.kernel.org>; Fri, 17 Mar 2023 15:25:29 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web11.22508.1679066723275708705
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AAA9C6FD1D
+	for <webhook@archiver.kernel.org>; Fri, 17 Mar 2023 15:49:39 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.23299.1679068169687840797
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Mar 2023 08:25:23 -0700
+ Fri, 17 Mar 2023 08:49:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=eyqk6DGz;
- spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f49.google.com with SMTP id s8so6676228lfr.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 08:25:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679066721;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mcjeZZIIw8/f62KKveFWO44q7D3t81bLfh+ua/xZP9A=;
-        b=eyqk6DGz6x9oM/67t++k1+pPXwNoBK0TWfjKQ9h0ElZrxD2uHE4qbEzyY+C2Gge5gC
-         a1V8mnR2Kg374aIzaV0aokSjMB91vjjK+3jZ2AYmHrXtckc+l67pJHLlxhCXACWfSl+g
-         90fWzRNbb3z9AFQEp4nTCfza16eB76CLum1oKRrGEOSj3na6kIUtt0d5rpQiIfyHbG6n
-         /qOyiLcYJDaCUDMldd4iny8j0Xseiw/mgOpmDRFjxku+xQa+CTWD10e1a2XLuPUxsuVi
-         IgNTSvepS5e3v6eeLz1j8TJ0LeC/KBHOfGaiiBllL0x/kcPNEWZo0ftKzWdBxpSY+DjM
-         M/5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679066721;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mcjeZZIIw8/f62KKveFWO44q7D3t81bLfh+ua/xZP9A=;
-        b=aUOooUz2kTBQD5jgthDn8EtR4MnzL3sKjy1O3UuvAQgF2G7B6ovNKMOGiuMVarzVfg
-         6qOZiDEHLR8N+M+ihfiuxHhLjA1txKn3xpWjSr4MlB58hcdai5qRsIGNVRpbQ8AwZt5Y
-         R9BGOC/ncPXEcdNDs4d6STd1xXHDhK/Iez1mFg0hdK5Coyq//HrEb5zM2v1oSTv7NHGL
-         G8j9W2/cph5PniPeOKNTKhHvkCzAHpaxM5JJEL7ue5VPDZvEwoDLipaWdensM0IWPC0c
-         3MIgjBbKvox0P9JKcx0pV7GJSXpoRfd/mnhy0PlYnt9cEva00kt0KKSF6x9FCAOKFK41
-         4PUw==
-X-Gm-Message-State: AO0yUKUeYFqffO3UVbLdVm1AYe1sv7+uneK5gOSHaafLM667J5AC7Y6O
-	7y0D46XEp85Lcl9IPH32qjCvKfjraukem6xE4Hc=
-X-Google-Smtp-Source: AK7set+cz+CkI10enZq0po1dV8f/xhA14FACd7cFP9XplsH7j9uwdk0fxtdQD+hgDJ5omJCUozoMNtNUfqAzbcQ08NA=
-X-Received: by 2002:a19:c510:0:b0:4d5:ca32:6ed5 with SMTP id
- w16-20020a19c510000000b004d5ca326ed5mr1123381lfe.3.1679066721243; Fri, 17 Mar
- 2023 08:25:21 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=OONUAtYS;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2440dda1bf=sakib.sajal@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32HFf5ss008969
+	for <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 15:49:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=PPS06212021;
+ bh=rdKQm/K+7oZpXId4rHxmy8sMLhoyCqXdTbfr45xX86c=;
+ b=OONUAtYSWER7tsBNoQm+WzYujIansaqW8szf1NE3kxvYD5SJhFuodz4muOyeS+mKHaXo
+ H3eQIhjSbArYnevEPzcXJ2e8zplGwD0CzChUPZY2DTzUR9n40Kn5haePManp13QVQRdE
+ wlovacD9AUh/v9s3lOkJwhiJLB+cntHDZVNV6jxmUqcm6AqaUbS0V7WPjbwtrqajJBFT
+ K7eQOmwRIZENJUQ6ulgMYcxQQZAqdsi+MhviSlft5fA31UgGz4UXvuvw+pejg1gIgLS8
+ l+3506egVSEv1iDCsftqwGAdLoJFvyvkQQzwb5fremVGWuf3N/kz+eyQ+FOSGybqGYQE cQ== 
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2173.outbound.protection.outlook.com [104.47.57.173])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3pbqm79tcx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 15:49:28 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=E/ne+xGP3reWCbbVZeXzoOKEyNi0DNqSJJmoYDaLvP4cpr9Q5MSWtWXTBq2IqMX9fUoVCfYDJVrodkOh9O1qPvh91TBPwgwJmjGz9kEqvBS4c8/JqogAncrKXoHG9hOezqK8dlQSYQ2Q6mT2JCaUOqu4LQ59bdbBBELh0+bPHJPBAKO+gH9Kf4K/H1OtmXRe6sXq0Pm2YcQ13qB/EJQ7HHW27fit78ROUxP5UEmFavlmeAmV+DPqYL/onhiSLPUCx0YeHHosQEbJTILVDD+9Q8siI1HH3a+cPi5KUzqRq9Ugzt1LvX5FO+7fD2OTYNQ+q7QJpf6Fv+G7ZxL6m5CwBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rdKQm/K+7oZpXId4rHxmy8sMLhoyCqXdTbfr45xX86c=;
+ b=KwAO6G8pWg2GfnXSeT4GVKLJt2Y/OcAu+hcve/aQX3OtTvj+mMS27G8l7PTG+hkAE+wFINdOb1dNJJbZPDSgUZxJlsysuyuGkvRGQ5LoA5CIUlWyP7hbDqDRlDSrlE0xVSto1KLCrUyR/gQ/rb1fQlga9OB4pk81KhgLtWaxQCI8bPD9HZ9HeOIIVVKgJ+LDVLqk3e2IOs4wzAr4nshdZ/PnOWLvTSWxxOontvZDVeHhj/oLGA30UIvzuKWJHrYkUY0gP7QkYWPqHngjVz5w2+PXPiD+6UHlfUcQOq5l83gV34wXaKRzxQZoL2hQqsZCDoUZslrvLg5qPvKnniRudw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DM6PR11MB2538.namprd11.prod.outlook.com (2603:10b6:5:be::20) by
+ PH7PR11MB7028.namprd11.prod.outlook.com (2603:10b6:510:20b::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.35; Fri, 17 Mar
+ 2023 15:49:25 +0000
+Received: from DM6PR11MB2538.namprd11.prod.outlook.com
+ ([fe80::4f46:b639:f638:d5f7]) by DM6PR11MB2538.namprd11.prod.outlook.com
+ ([fe80::4f46:b639:f638:d5f7%5]) with mapi id 15.20.6178.035; Fri, 17 Mar 2023
+ 15:49:24 +0000
+From: Sakib Sajal <sakib.sajal@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [kirkstone][PATCH] u-boot: fix CVE-2022-2347 and CVE-2022-30790
+Date: Fri, 17 Mar 2023 11:49:05 -0400
+Message-Id: <20230317154905.1828960-1-sakib.sajal@windriver.com>
+X-Mailer: git-send-email 2.39.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MN2PR08CA0006.namprd08.prod.outlook.com
+ (2603:10b6:208:239::11) To DM6PR11MB2538.namprd11.prod.outlook.com
+ (2603:10b6:5:be::20)
 MIME-Version: 1.0
-References: <20230317100923.3295331-1-mikko.rapeli@linaro.org>
- <CANNYZj_RVtE=Ud1Tmcr5H0_zQZS_SK+5CT1ro4oanudVdTfBWQ@mail.gmail.com> <ZBRWmcQjRoq631S8@nuoska>
-In-Reply-To: <ZBRWmcQjRoq631S8@nuoska>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 17 Mar 2023 15:25:10 +0000
-Message-ID: <CANNYZj-bB4DUWL0HqkAmJyKm7WHEdDatXZZC=EqRVuAfuFwJfw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] e2fsprogs: switch from master to debian/master
- branch to fix compatibility
-To: Mikko Rapeli <mikko.rapeli@linaro.org>
-Cc: Jerome Forissier <jerome.forissier@linaro.org>, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000079571105f71a2f2b"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR11MB2538:EE_|PH7PR11MB7028:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7b783b30-595d-48e1-e6fa-08db26ff2ed0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	ZhuK/1tk3TKL5bxcmzxf2GAdAOW4PV79BpKLrCH3SN+jROxeLpPcg6Ng6N2VSN4Hwi3XjA93d7aW4YFJ3LiQzBeFUIwA1AfaZ/zAW4fZElhwOlr059llCQJWMuToefkKd58T+23JNOsAPVRFFbzO6p+xBTTPnyGNKUDdCg2UYDgW/VVYwUkQYf9ZeT2/pbayhTDk57scwvTgTfNS4RR2x8v+UpSt8JCnYmOa2p3gq3sTNJhhAdJLJr83bpKchrVaWzc+EGMKfgP5zPhZ9k6XzmplEjy4S7hB46DtyH5VT6JqAEMi5QQn/cbCtCd7DE8fwYCpyuPsN3BUG39UPy3h7GMSPXf0S7g2KoOtYJpesctVfxNXB0CtG2VPNoIOAakADXFnWfkKCJTI8cNHgOTjcIUSrHtoZ2uhbvkTWvgAtVmxxTemKfiUw+iAwXsFXjq20MSSeBWP5JzjyyU/Dk6eSsxqJ1PC2o3GAjSKgEZxGUJDBiRHdi0v0XZhZ8+aHkmkvK3M2FdIKZf2pGsiSw6H1kR7lqYTbATT0Sj0XpG0vVf3Pes26MDDI6W9oOJOg0/FYm7gT5XX3Z5UyRKIHtDSmknhhNnrW/LvPnIPexv0DwbyM2DPm4GTNiL0zl9/tdBSA//JRZCL/xAjN4cvEwUHmoyCKPhLO5oZf7f2hzPAjL+kGfCpCaMdHtVaDBWwgSXGSWpqk5k2PqdRzTgcRcutIQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB2538.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(39850400004)(376002)(396003)(346002)(136003)(451199018)(66899018)(6916009)(66476007)(66556008)(8676002)(2906002)(66946007)(44832011)(30864003)(5660300002)(36756003)(86362001)(38350700002)(38100700002)(8936002)(6666004)(6486002)(26005)(1076003)(41300700001)(316002)(6512007)(52116002)(6506007)(478600001)(83380400001)(186003)(2616005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?LXl4+Ce3qiUt61ubizURnFqA35/0kMbF0WmcOaqyJ0rLnVTAeDwDNrUyTWxz?=
+ =?us-ascii?Q?RfEkYzqHa4+DftTS8hqiEMSwSzH/yvqM3BkC8KzhkM2yeWF0lV6TwAkYjq+8?=
+ =?us-ascii?Q?PqkGw6p1KCysADp4kv+k0CRthW4IE9k0bTzzE4VbmBolIfV+JYYstuCzFVp1?=
+ =?us-ascii?Q?NbHMcgBNVbngtY/PXtqV8yhzg+G4Q+XhxBJttxCMltLGTzCOXrC0Us8rswRs?=
+ =?us-ascii?Q?al0HXKFDrrcpDCiPdyiKtZDbKoNCSs3TgCRlQZYcenogUjG9ToEIf3eIuYjx?=
+ =?us-ascii?Q?YWDt6+CEuN0fEU5YD5eQUHDYWWyvH9h9X8x8yZ3EtwAXbQqljRkHnXpF1l2b?=
+ =?us-ascii?Q?ru3tlypFk0g9+61AjP/v8I9Fr2G+GlAJ4M2iLfR91dqaL0EJtnS8i4a4P8ZT?=
+ =?us-ascii?Q?X5N17m/6+Nv+Q1htwEOPFZSHMzGvDcZnm3huQa/7FtJgcupeD1dAvwulu3kJ?=
+ =?us-ascii?Q?Ymz1pLJb4PZG+Zo42lBBdgk/Vo0NuR2WeaevazbZXjk56FaWX+ffoI5PEUII?=
+ =?us-ascii?Q?RFqaneyVRsRdDe796MFds4G+wROqDS7loPIJra/oQMKEt1v5AysdX4YwwIdB?=
+ =?us-ascii?Q?6KIlnNuqwU16yIgoklqjoPZm2hSuJ+zVpWZLfQocjNTCb/rZYBNjQpteRrEU?=
+ =?us-ascii?Q?o67Bc/ZAw6rBJKYNlSrPGlsPeA0JS3yXGe/g6PD6VIgcPq36lOqpApGZhDzk?=
+ =?us-ascii?Q?0ypxCurhBoXLirdtOoBJqZrm2j34rSP5BejLMgkS5FrqwWopEmC4Nrz6iH67?=
+ =?us-ascii?Q?Otzpr80HV00Mvdmmnf6WePuh7UyCtrqInusHr24LYTSTlILnlq2kCDuXWIRe?=
+ =?us-ascii?Q?Nie0jjEYdMYtQD8/YCcDaWbg8l793mjuFzPeheePuVmKyDZ0g0WbtImIkuz4?=
+ =?us-ascii?Q?E03aSMJ20EnmAAn776w7L4bMBIp+DZ9Wes+OrUqz7+2gFSxEoR4xvCBnE6Uv?=
+ =?us-ascii?Q?a4dd3dVU7pn1XmLdpad2XPUSezSMnGb2DUC9jZAqkuJ2ToB0r5+dL+GzXeU9?=
+ =?us-ascii?Q?RhXTsNdl71uAOZmYvj5SkYOuFs0lMH5zZ+nBKk6GGOyQgB1qeMbi2ZJrxz3r?=
+ =?us-ascii?Q?UWJhKmWKs0A8LsSVoKtohMLA9ud4mwgzGpj1/v3Hkz4mW5xFUoM3QlXNOdd9?=
+ =?us-ascii?Q?ZMtJ/wsB6ltTkG0mtaQUKzyYUs89pHV7hFKD186JEONx01BmWA2OEelvXNWS?=
+ =?us-ascii?Q?ESB9Fp2yn0Y5xpqKhHSXpaxt+4I80ea+UxhhUxr/fbGjtkdZrwLO4qlHbw3J?=
+ =?us-ascii?Q?+w/KoJ6sZOFlEbmchvQYhG+xV/6tsfh3yVM+P4aIKz2xD8HuVmme59mmvTNC?=
+ =?us-ascii?Q?aANnSrSrOcTKXqmMTwc56vbWtj8lvv+ZTV6Smtw2BFBG4wuOk10nwrLCMhmq?=
+ =?us-ascii?Q?00SofNhuqxehadGWQ5ULuXiiiwZiCNI+qBwUCjeQoZQIcdcTsOX7NfIACUQu?=
+ =?us-ascii?Q?fudcBSxs+p6sLZv9E0Y2Jk49E5lxbrDUjFX+Pl/cBdGFsuMJS8m121GIlerp?=
+ =?us-ascii?Q?IkL8qvQHVUajp7MmVz2+98P+hdF6iLwlY1h3oVHviCA5V/UwdG7q2ZX8egBV?=
+ =?us-ascii?Q?C2NsOM2/rJU7aFzPSlcewgHzEd6uPAUVRn6UP/pd1PeYQF3H2Ze07HQCSFNE?=
+ =?us-ascii?Q?fA=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7b783b30-595d-48e1-e6fa-08db26ff2ed0
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB2538.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2023 15:49:24.9203
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dLWT+TckHDNA+IwBI0WHil+AoYqzvDzSl9urITCk7E98oW7ZGXDZh4RXp3frcgaBzq5kFeWKNQLY03NlCBG/cuyVyiaDFSkQdIV1/r4SB8A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7028
+X-Proofpoint-GUID: Tq46i6y7PCYDHcKFaIVksvpkgolHLzy8
+X-Proofpoint-ORIG-GUID: Tq46i6y7PCYDHcKFaIVksvpkgolHLzy8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-17_10,2023-03-16_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxscore=0
+ impostorscore=0 lowpriorityscore=0 clxscore=1011 spamscore=0 phishscore=0
+ malwarescore=0 suspectscore=0 priorityscore=1501 adultscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303170106
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 15:25:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178756
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Mar 2023 15:49:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178757
 
---00000000000079571105f71a2f2b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Backport appropriate patches to fix CVE-2022-2347 and CVE-2022-30790.
 
-On Fri 17. Mar 2023 at 12.01, Mikko Rapeli <mikko.rapeli@linaro.org> wrote:
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+---
+ .../u-boot/files/CVE-2022-2347_1.patch        | 129 +++++++++++++++
+ .../u-boot/files/CVE-2022-2347_2.patch        |  66 ++++++++
+ .../u-boot/files/CVE-2022-30790.patch         | 149 ++++++++++++++++++
+ meta/recipes-bsp/u-boot/u-boot_2022.01.bb     |   3 +
+ 4 files changed, 347 insertions(+)
+ create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2022-2347_1.patch
+ create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2022-2347_2.patch
+ create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2022-30790.patch
 
-> Hi,
->
-> On Fri, Mar 17, 2023 at 11:39:23AM +0100, Alexander Kanavin wrote:
-> > This doesn=E2=80=99t seem right. We should not give special privileges =
-to tooling
-> > from any particular host distro. If you need to manipulate images, buil=
-d
-> > e2fsprogs-native and run that.
->
-> This is about ext4 images breaking compatibility with older versions of
-> tooling used manipulate the images. For Debian the upstream maintainers
-> and Debian package maintainers agreed to keep the backwards
-> compatibility for longer time. I think that makes sense for yocto too.
->
-> While I agree that using e2fsprogs-native is a solution too, I also
-> agree that a lot of users are using non-yocto e2fsprogs when e.g.
-> flashing images to target HW. Breaking compatibility can quite simply be
-> avoided and upstream will maintain this branch. Win win from my point of
-> view.
+diff --git a/meta/recipes-bsp/u-boot/files/CVE-2022-2347_1.patch b/meta/recipes-bsp/u-boot/files/CVE-2022-2347_1.patch
+new file mode 100644
+index 0000000000..34ee82c3a5
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/files/CVE-2022-2347_1.patch
+@@ -0,0 +1,129 @@
++From 9d2d2deabc49dbedf93a7192b25f55d9933fcede Mon Sep 17 00:00:00 2001
++From: Venkatesh Yadav Abbarapu <venkatesh.abbarapu@amd.com>
++Date: Thu, 3 Nov 2022 09:37:48 +0530
++Subject: [PATCH 1/2] usb: gadget: dfu: Fix the unchecked length field
++
++DFU implementation does not bound the length field in USB
++DFU download setup packets, and it does not verify that
++the transfer direction. Fixing the length and transfer
++direction.
++
++CVE-2022-2347
++
++Signed-off-by: Venkatesh Yadav Abbarapu <venkatesh.abbarapu@amd.com>
++Reviewed-by: Marek Vasut <marex@denx.de>
++
++CVE: CVE-2022-2347
++Upstream-Status: Backport [fbce985e28eaca3af82afecc11961aadaf971a7e]
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ drivers/usb/gadget/f_dfu.c | 56 +++++++++++++++++++++++++-------------
++ 1 file changed, 37 insertions(+), 19 deletions(-)
++
++diff --git a/drivers/usb/gadget/f_dfu.c b/drivers/usb/gadget/f_dfu.c
++index 4bedc7d3a1..33ef62f8ba 100644
++--- a/drivers/usb/gadget/f_dfu.c
+++++ b/drivers/usb/gadget/f_dfu.c
++@@ -321,21 +321,29 @@ static int state_dfu_idle(struct f_dfu *f_dfu,
++ 	u16 len = le16_to_cpu(ctrl->wLength);
++ 	int value = 0;
++ 
+++	len = len > DFU_USB_BUFSIZ ? DFU_USB_BUFSIZ : len;
+++
++ 	switch (ctrl->bRequest) {
++ 	case USB_REQ_DFU_DNLOAD:
++-		if (len == 0) {
++-			f_dfu->dfu_state = DFU_STATE_dfuERROR;
++-			value = RET_STALL;
++-			break;
+++		if (ctrl->bRequestType == USB_DIR_OUT) {
+++			if (len == 0) {
+++				f_dfu->dfu_state = DFU_STATE_dfuERROR;
+++				value = RET_STALL;
+++				break;
+++			}
+++			f_dfu->dfu_state = DFU_STATE_dfuDNLOAD_SYNC;
+++			f_dfu->blk_seq_num = w_value;
+++			value = handle_dnload(gadget, len);
++ 		}
++-		f_dfu->dfu_state = DFU_STATE_dfuDNLOAD_SYNC;
++-		f_dfu->blk_seq_num = w_value;
++-		value = handle_dnload(gadget, len);
++ 		break;
++ 	case USB_REQ_DFU_UPLOAD:
++-		f_dfu->dfu_state = DFU_STATE_dfuUPLOAD_IDLE;
++-		f_dfu->blk_seq_num = 0;
++-		value = handle_upload(req, len);
+++		if (ctrl->bRequestType == USB_DIR_IN) {
+++			f_dfu->dfu_state = DFU_STATE_dfuUPLOAD_IDLE;
+++			f_dfu->blk_seq_num = 0;
+++			value = handle_upload(req, len);
+++			if (value >= 0 && value < len)
+++				f_dfu->dfu_state = DFU_STATE_dfuIDLE;
+++		}
++ 		break;
++ 	case USB_REQ_DFU_ABORT:
++ 		/* no zlp? */
++@@ -424,11 +432,15 @@ static int state_dfu_dnload_idle(struct f_dfu *f_dfu,
++ 	u16 len = le16_to_cpu(ctrl->wLength);
++ 	int value = 0;
++ 
+++	len = len > DFU_USB_BUFSIZ ? DFU_USB_BUFSIZ : len;
+++
++ 	switch (ctrl->bRequest) {
++ 	case USB_REQ_DFU_DNLOAD:
++-		f_dfu->dfu_state = DFU_STATE_dfuDNLOAD_SYNC;
++-		f_dfu->blk_seq_num = w_value;
++-		value = handle_dnload(gadget, len);
+++		if (ctrl->bRequestType == USB_DIR_OUT) {
+++			f_dfu->dfu_state = DFU_STATE_dfuDNLOAD_SYNC;
+++			f_dfu->blk_seq_num = w_value;
+++			value = handle_dnload(gadget, len);
+++		}
++ 		break;
++ 	case USB_REQ_DFU_ABORT:
++ 		f_dfu->dfu_state = DFU_STATE_dfuIDLE;
++@@ -511,13 +523,17 @@ static int state_dfu_upload_idle(struct f_dfu *f_dfu,
++ 	u16 len = le16_to_cpu(ctrl->wLength);
++ 	int value = 0;
++ 
+++	len = len > DFU_USB_BUFSIZ ? DFU_USB_BUFSIZ : len;
+++
++ 	switch (ctrl->bRequest) {
++ 	case USB_REQ_DFU_UPLOAD:
++-		/* state transition if less data then requested */
++-		f_dfu->blk_seq_num = w_value;
++-		value = handle_upload(req, len);
++-		if (value >= 0 && value < len)
++-			f_dfu->dfu_state = DFU_STATE_dfuIDLE;
+++		if (ctrl->bRequestType == USB_DIR_IN) {
+++			/* state transition if less data then requested */
+++			f_dfu->blk_seq_num = w_value;
+++			value = handle_upload(req, len);
+++			if (value >= 0 && value < len)
+++				f_dfu->dfu_state = DFU_STATE_dfuIDLE;
+++		}
++ 		break;
++ 	case USB_REQ_DFU_ABORT:
++ 		f_dfu->dfu_state = DFU_STATE_dfuIDLE;
++@@ -593,6 +609,8 @@ dfu_handle(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
++ 	int value = 0;
++ 	u8 req_type = ctrl->bRequestType & USB_TYPE_MASK;
++ 
+++	len = len > DFU_USB_BUFSIZ ? DFU_USB_BUFSIZ : len;
+++
++ 	debug("w_value: 0x%x len: 0x%x\n", w_value, len);
++ 	debug("req_type: 0x%x ctrl->bRequest: 0x%x f_dfu->dfu_state: 0x%x\n",
++ 	       req_type, ctrl->bRequest, f_dfu->dfu_state);
++@@ -612,7 +630,7 @@ dfu_handle(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
++ 		value = dfu_state[f_dfu->dfu_state] (f_dfu, ctrl, gadget, req);
++ 
++ 	if (value >= 0) {
++-		req->length = value;
+++		req->length = value > DFU_USB_BUFSIZ ? DFU_USB_BUFSIZ : value;
++ 		req->zero = value < len;
++ 		value = usb_ep_queue(gadget->ep0, req, 0);
++ 		if (value < 0) {
++-- 
++2.32.0
++
+diff --git a/meta/recipes-bsp/u-boot/files/CVE-2022-2347_2.patch b/meta/recipes-bsp/u-boot/files/CVE-2022-2347_2.patch
+new file mode 100644
+index 0000000000..708c7923d2
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/files/CVE-2022-2347_2.patch
+@@ -0,0 +1,66 @@
++From 0f465b3e81baa095b62a154a739c5378285526db Mon Sep 17 00:00:00 2001
++From: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
++Date: Wed, 30 Nov 2022 09:29:16 +0100
++Subject: [PATCH 2/2] usb: gadget: dfu: Fix check of transfer direction
++
++Commit fbce985e28eaca3af82afecc11961aadaf971a7e to fix CVE-2022-2347
++blocks DFU usb requests.
++The verification of the transfer direction was done by an equality
++but it is a bit mask.
++
++Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
++Reviewed-by: Fabio Estevam <festevam@denx.de>
++Reviewed-by: Sultan Qasim Khan <sultan.qasimkhan@nccgroup.com>
++Reviewed-by: Marek Vasut <marex@denx.de>
++Tested-by: Marek Vasut <marex@denx.de>
++
++CVE: CVE-2022-2347
++Upstream-Status: Backport [14dc0ab138988a8e45ffa086444ec8db48b3f103]
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ drivers/usb/gadget/f_dfu.c | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/drivers/usb/gadget/f_dfu.c b/drivers/usb/gadget/f_dfu.c
++index 33ef62f8ba..44877df4ec 100644
++--- a/drivers/usb/gadget/f_dfu.c
+++++ b/drivers/usb/gadget/f_dfu.c
++@@ -325,7 +325,7 @@ static int state_dfu_idle(struct f_dfu *f_dfu,
++ 
++ 	switch (ctrl->bRequest) {
++ 	case USB_REQ_DFU_DNLOAD:
++-		if (ctrl->bRequestType == USB_DIR_OUT) {
+++		if (!(ctrl->bRequestType & USB_DIR_IN)) {
++ 			if (len == 0) {
++ 				f_dfu->dfu_state = DFU_STATE_dfuERROR;
++ 				value = RET_STALL;
++@@ -337,7 +337,7 @@ static int state_dfu_idle(struct f_dfu *f_dfu,
++ 		}
++ 		break;
++ 	case USB_REQ_DFU_UPLOAD:
++-		if (ctrl->bRequestType == USB_DIR_IN) {
+++		if (ctrl->bRequestType & USB_DIR_IN) {
++ 			f_dfu->dfu_state = DFU_STATE_dfuUPLOAD_IDLE;
++ 			f_dfu->blk_seq_num = 0;
++ 			value = handle_upload(req, len);
++@@ -436,7 +436,7 @@ static int state_dfu_dnload_idle(struct f_dfu *f_dfu,
++ 
++ 	switch (ctrl->bRequest) {
++ 	case USB_REQ_DFU_DNLOAD:
++-		if (ctrl->bRequestType == USB_DIR_OUT) {
+++		if (!(ctrl->bRequestType & USB_DIR_IN)) {
++ 			f_dfu->dfu_state = DFU_STATE_dfuDNLOAD_SYNC;
++ 			f_dfu->blk_seq_num = w_value;
++ 			value = handle_dnload(gadget, len);
++@@ -527,7 +527,7 @@ static int state_dfu_upload_idle(struct f_dfu *f_dfu,
++ 
++ 	switch (ctrl->bRequest) {
++ 	case USB_REQ_DFU_UPLOAD:
++-		if (ctrl->bRequestType == USB_DIR_IN) {
+++		if (ctrl->bRequestType & USB_DIR_IN) {
++ 			/* state transition if less data then requested */
++ 			f_dfu->blk_seq_num = w_value;
++ 			value = handle_upload(req, len);
++-- 
++2.32.0
++
+diff --git a/meta/recipes-bsp/u-boot/files/CVE-2022-30790.patch b/meta/recipes-bsp/u-boot/files/CVE-2022-30790.patch
+new file mode 100644
+index 0000000000..e67cf391a8
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/files/CVE-2022-30790.patch
+@@ -0,0 +1,149 @@
++From 1817c3824a08bbad7fd2fbae1a6e73be896e8e5e Mon Sep 17 00:00:00 2001
++From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
++Date: Fri, 14 Oct 2022 19:43:39 +0200
++Subject: [PATCH] net: (actually/better) deal with CVE-2022-{30790,30552}
++
++I hit a strange problem with v2022.10: Sometimes my tftp transfer
++would seemingly just hang. It only happened for some files. Moreover,
++changing tftpblocksize from 65464 to 65460 or 65000 made it work again
++for all the files I tried. So I started suspecting it had something to
++do with the file sizes and in particular the way the tftp blocks get
++fragmented and reassembled.
++
++v2022.01 showed no problems with any of the files or any value of
++tftpblocksize.
++
++Looking at what had changed in net.c or tftp.c since January showed
++only one remotely interesting thing, b85d130ea0ca.
++
++So I fired up wireshark on my host to see if somehow one of the
++packets would be too small. But no, with both v2022.01 and v2022.10,
++the exact same sequence of packets were sent, all but the last of size
++1500, and the last being 1280 bytes.
++
++But then it struck me that 1280 is 5*256, so one of the two bytes
++on-the-wire is 0 and the other is 5, and when then looking at the code
++again the lack of endianness conversion becomes obvious. [ntohs is
++both applied to ip->ip_off just above, as well as to ip->ip_len just a
++little further down when the "len" is actually computed].
++
++IOWs the current code would falsely reject any packet which happens to
++be a multiple of 256 bytes in size, breaking tftp transfers somewhat
++randomly, and if it did get one of those "malicious" packets with
++ip_len set to, say, 27, it would be seen by this check as being 6912
++and hence not rejected.
++
++====
++
++Now, just adding the missing ntohs() would make my initial problem go
++away, in that I can now download the file where the last fragment ends
++up being 1280 bytes. But there's another bug in the code and/or
++analysis: The right-hand side is too strict, in that it is ok for the
++last fragment not to have a multiple of 8 bytes as payload - it really
++must be ok, because nothing in the IP spec says that IP datagrams must
++have a multiple of 8 bytes as payload. And comments in the code also
++mention this.
++
++To fix that, replace the comparison with <= IP_HDR_SIZE and add
++another check that len is actually a multiple of 8 when the "more
++fragments" bit is set - which it necessarily is for the case where
++offset8 ends up being 0, since we're only called when
++
++  (ip_off & (IP_OFFS | IP_FLAGS_MFRAG)).
++
++====
++
++So, does this fix CVE-2022-30790 for real? It certainly correctly
++rejects the POC code which relies on sending a packet of size 27 with
++the MFRAG flag set. Can the attack be carried out with a size 27
++packet that doesn't set MFRAG (hence must set a non-zero fragment
++offset)? I dunno. If we get a packet without MFRAG, we update
++h->last_byte in the hole we've found to be start+len, hence we'd enter
++one of
++
++	if ((h >= thisfrag) && (h->last_byte <= start + len)) {
++
++or
++
++	} else if (h->last_byte <= start + len) {
++
++and thus won't reach any of the
++
++		/* overlaps with initial part of the hole: move this hole */
++		newh = thisfrag + (len / 8);
++
++		/* fragment sits in the middle: split the hole */
++		newh = thisfrag + (len / 8);
++
++IOW these division are now guaranteed to be exact, and thus I think
++the scenario in CVE-2022-30790 cannot happen anymore.
++
++====
++
++However, there's a big elephant in the room, which has always been
++spelled out in the comments, and which makes me believe that one can
++still cause mayhem even with packets whose payloads are all 8-byte
++aligned:
++
++    This code doesn't deal with a fragment that overlaps with two
++    different holes (thus being a superset of a previously-received
++    fragment).
++
++Suppose each character below represents 8 bytes, with D being already
++received data, H being a hole descriptor (struct hole), h being
++non-populated chunks, and P representing where the payload of a just
++received packet should go:
++
++  DDDHhhhhDDDDHhhhDDDD
++        PPPPPPPPP
++
++I'm pretty sure in this case we'd end up with h being the first hole,
++enter the simple
++
++	} else if (h->last_byte <= start + len) {
++		/* overlaps with final part of the hole: shorten this hole */
++		h->last_byte = start;
++
++case, and thus in the memcpy happily overwrite the second H with our
++chosen payload. This is probably worth fixing...
++
++Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
++
++CVE: CVE-2022-30790
++Upstream-Status: Backport [1817c3824a08bbad7fd2fbae1a6e73be896e8e5e]
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ net/net.c | 10 +++++++++-
++ 1 file changed, 9 insertions(+), 1 deletion(-)
++
++diff --git a/net/net.c b/net/net.c
++index 434c3b411e..987c25931e 100644
++--- a/net/net.c
+++++ b/net/net.c
++@@ -924,7 +924,11 @@ static struct ip_udp_hdr *__net_defragment(struct ip_udp_hdr *ip, int *lenp)
++ 	int offset8, start, len, done = 0;
++ 	u16 ip_off = ntohs(ip->ip_off);
++ 
++-	if (ip->ip_len < IP_MIN_FRAG_DATAGRAM_SIZE)
+++	/*
+++	 * Calling code already rejected <, but we don't have to deal
+++	 * with an IP fragment with no payload.
+++	 */
+++	if (ntohs(ip->ip_len) <= IP_HDR_SIZE)
++ 		return NULL;
++ 
++ 	/* payload starts after IP header, this fragment is in there */
++@@ -934,6 +938,10 @@ static struct ip_udp_hdr *__net_defragment(struct ip_udp_hdr *ip, int *lenp)
++ 	start = offset8 * 8;
++ 	len = ntohs(ip->ip_len) - IP_HDR_SIZE;
++ 
+++	/* All but last fragment must have a multiple-of-8 payload. */
+++	if ((len & 7) && (ip_off & IP_FLAGS_MFRAG))
+++		return NULL;
+++
++ 	if (start + len > IP_MAXUDP) /* fragment extends too far */
++ 		return NULL;
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2022.01.bb b/meta/recipes-bsp/u-boot/u-boot_2022.01.bb
+index c4cfcbca19..4120ef9ff0 100644
+--- a/meta/recipes-bsp/u-boot/u-boot_2022.01.bb
++++ b/meta/recipes-bsp/u-boot/u-boot_2022.01.bb
+@@ -7,6 +7,9 @@ SRC_URI +=       " file://0001-riscv32-Use-double-float-ABI-for-rv32.patch \
+                    file://0001-fs-squashfs-sqfs_read-Prevent-arbitrary-code-executi.patch \
+                    file://0001-net-Check-for-the-minimum-IP-fragmented-datagram-siz.patch \
+                    file://0001-fs-squashfs-Use-kcalloc-when-relevant.patch \
++                   file://CVE-2022-30790.patch \
++                   file://CVE-2022-2347_1.patch \
++                   file://CVE-2022-2347_2.patch \
+                  "
+ 
+ DEPENDS += "bc-native dtc-native python3-setuptools-native"
+-- 
+2.39.2
 
-
-But then we should put e2fsprogs into buildtools-tarball(-extended). It=E2=
-=80=99s
-not any different to providing compatible gcc, when one from the host
-distro is too old.
-
-Taking a custom branch creates a maintenance problem. What if it stops
-being maintained? Will it follow proper upstream closely? Can we ever drop
-this backwards compatibility? It creates a long term headache that I do not
-want.
-
-Alex
-
-
-
->
-> Cheers,
->
-> -Mikko
->
-> > Alex
-> >
-> > On Fri 17. Mar 2023 at 10.09, Mikko Rapeli <mikko.rapeli@linaro.org>
-> wrote:
-> >
-> > > From: Jerome Forissier <jerome.forissier@linaro.org>
-> > >
-> > > When trying to use e2fsck <=3D 1.47.0 on the root filesystem (for
-> example,
-> > > to resize a partition after copying the image to a USB stick on a
-> > > computer running current Ubuntu [22.04] or Debian), an error is
-> > > reported:
-> > >
-> > >  e2fsck 1.46.5 (30-Dec-2021)
-> > >  /dev/sdb2 has unsupported feature(s): FEATURE_C12
-> > >  e2fsck: Get a newer version of e2fsck!
-> > >
-> > > This has been discussed in [2] and a fix was made for use by
-> > > Debian-based distros in [3]. Let's pick that version.
-> > >
-> > > Link: [1]
-> https://gitlab.com/Linaro/trusted-reference-stack/trs/-/issues/1
-> > > Link: [2] https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D1031622
-> > > Link: [3]
-> > >
-> https://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git/commit/?h=3Ddebian/m=
-aster&id=3D1181f164c48574a4813bfa203dbd7b4123154021
-> > >
-> > > Binary compatibility of generated ext4 file system images is importan=
-t
-> > > so it's better to use the "debian/master" branch.
-> > >
-> > > Signed-off-by: Jerome Forissier <jerome.forissier@linaro.org>
-> > > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> > > ---
-> > >  meta/recipes-devtools/e2fsprogs/e2fsprogs.inc                   | 2 =
-+-
-> > >  .../e2fsprogs/{e2fsprogs_1.47.0.bb =3D> e2fsprogs_1.47.0-2.bb}    | =
-2
-> +-
-> > >  2 files changed, 2 insertions(+), 2 deletions(-)
-> > >  rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.47.0.bb =3D>
-> > > e2fsprogs_1.47.0-2.bb} (99%)
-> > >
-> > > diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
-> > > b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
-> > > index f41a5d0b4e..2f54896e8c 100644
-> > > --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
-> > > +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
-> > > @@ -19,7 +19,7 @@ LIC_FILES_CHKSUM =3D
-> > > "file://NOTICE;md5=3Dd50be0580c0b0a7fbc7a4830bbe6c12b \
-> > >  SECTION =3D "base"
-> > >  DEPENDS =3D "util-linux attr autoconf-archive"
-> > >
-> > > -SRC_URI =3D "git://
-> > > git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git;branch=3Dmaster"
-> > > +SRC_URI =3D "git://
-> > > git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git;branch=3Ddebian/master"
-> > >  S =3D "${WORKDIR}/git"
-> > >
-> > >  inherit autotools gettext texinfo pkgconfig multilib_header
-> > > update-alternatives ptest
-> > > diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
-> > > b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0-2.bb
-> > > similarity index 99%
-> > > rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
-> > > rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0-2.bb
-> > > index 2620610903..9bf89ba0c4 100644
-> > > --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
-> > > +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0-2.bb
-> > > @@ -10,7 +10,7 @@ SRC_URI:append:class-native =3D " \
-> > >             file://quiet-debugfs.patch \
-> > >             "
-> > >
-> > > -SRCREV =3D "f4c9cc4bedacde8408edda3520a32d3842290112"
-> > > +SRCREV =3D "1181f164c48574a4813bfa203dbd7b4123154021"
-> > >  UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>\d+\.\d+(\.\d+)*)$"
-> > >
-> > >  EXTRA_OECONF +=3D "--libdir=3D${base_libdir} --sbindir=3D${base_sbin=
-dir} \
-> > > --
-> > > 2.34.1
-> > >
-> > >
-> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > > Links: You receive all messages sent to this group.
-> > > View/Reply Online (#178747):
-> > > https://lists.openembedded.org/g/openembedded-core/message/178747
-> > > Mute This Topic: https://lists.openembedded.org/mt/97669707/1686489
-> > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
-> [
-> > > alex.kanavin@gmail.com]
-> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > >
-> > >
->
-
---00000000000079571105f71a2f2b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Fri 17. Mar 2023 at 12.01, Mikko Rapeli &lt;<a href=3D"m=
-ailto:mikko.rapeli@linaro.org">mikko.rapeli@linaro.org</a>&gt; wrote:<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left-width:1px;border-left-style:solid;padding-left:1ex;border-left-col=
-or:rgb(204,204,204)">Hi,<br>
-<br>
-On Fri, Mar 17, 2023 at 11:39:23AM +0100, Alexander Kanavin wrote:<br>
-&gt; This doesn=E2=80=99t seem right. We should not give special privileges=
- to tooling<br>
-&gt; from any particular host distro. If you need to manipulate images, bui=
-ld<br>
-&gt; e2fsprogs-native and run that.<br>
-<br>
-This is about ext4 images breaking compatibility with older versions of<br>
-tooling used manipulate the images. For Debian the upstream maintainers<br>
-and Debian package maintainers agreed to keep the backwards<br>
-compatibility for longer time. I think that makes sense for yocto too.<br>
-<br>
-While I agree that using e2fsprogs-native is a solution too, I also<br>
-agree that a lot of users are using non-yocto e2fsprogs when e.g.<br>
-flashing images to target HW. Breaking compatibility can quite simply be<br=
->
-avoided and upstream will maintain this branch. Win win from my point of<br=
->
-view.</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">But then we=
- should put e2fsprogs into buildtools-tarball(-extended). It=E2=80=99s not =
-any different to providing compatible gcc, when one from the host distro is=
- too old.=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto">Taking a=
- custom branch creates a maintenance problem. What if it stops being mainta=
-ined? Will it follow proper upstream closely? Can we ever drop this backwar=
-ds compatibility? It creates a long term headache that I do not want.</div>=
-<div dir=3D"auto"><br></div><div dir=3D"auto">Alex</div><div dir=3D"auto"><=
-br></div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid=
-;padding-left:1ex;border-left-color:rgb(204,204,204)" dir=3D"auto"><br>
-<br>
-Cheers,<br>
-<br>
--Mikko<br>
-<br>
-&gt; Alex<br>
-&gt; <br>
-&gt; On Fri 17. Mar 2023 at 10.09, Mikko Rapeli &lt;<a href=3D"mailto:mikko=
-.rapeli@linaro.org" target=3D"_blank">mikko.rapeli@linaro.org</a>&gt; wrote=
-:<br>
-&gt; <br>
-&gt; &gt; From: Jerome Forissier &lt;<a href=3D"mailto:jerome.forissier@lin=
-aro.org" target=3D"_blank">jerome.forissier@linaro.org</a>&gt;<br>
-&gt; &gt;<br>
-&gt; &gt; When trying to use e2fsck &lt;=3D 1.47.0 on the root filesystem (=
-for example,<br>
-&gt; &gt; to resize a partition after copying the image to a USB stick on a=
-<br>
-&gt; &gt; computer running current Ubuntu [22.04] or Debian), an error is<b=
-r>
-&gt; &gt; reported:<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 e2fsck 1.46.5 (30-Dec-2021)<br>
-&gt; &gt;=C2=A0 /dev/sdb2 has unsupported feature(s): FEATURE_C12<br>
-&gt; &gt;=C2=A0 e2fsck: Get a newer version of e2fsck!<br>
-&gt; &gt;<br>
-&gt; &gt; This has been discussed in [2] and a fix was made for use by<br>
-&gt; &gt; Debian-based distros in [3]. Let&#39;s pick that version.<br>
-&gt; &gt;<br>
-&gt; &gt; Link: [1] <a href=3D"https://gitlab.com/Linaro/trusted-reference-=
-stack/trs/-/issues/1" rel=3D"noreferrer" target=3D"_blank">https://gitlab.c=
-om/Linaro/trusted-reference-stack/trs/-/issues/1</a><br>
-&gt; &gt; Link: [2] <a href=3D"https://bugs.debian.org/cgi-bin/bugreport.cg=
-i?bug=3D1031622" rel=3D"noreferrer" target=3D"_blank">https://bugs.debian.o=
-rg/cgi-bin/bugreport.cgi?bug=3D1031622</a><br>
-&gt; &gt; Link: [3]<br>
-&gt; &gt; <a href=3D"https://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git/c=
-ommit/?h=3Ddebian/master&amp;id=3D1181f164c48574a4813bfa203dbd7b4123154021"=
- rel=3D"noreferrer" target=3D"_blank">https://git.kernel.org/pub/scm/fs/ext=
-2/e2fsprogs.git/commit/?h=3Ddebian/master&amp;id=3D1181f164c48574a4813bfa20=
-3dbd7b4123154021</a><br>
-&gt; &gt;<br>
-&gt; &gt; Binary compatibility of generated ext4 file system images is impo=
-rtant<br>
-&gt; &gt; so it&#39;s better to use the &quot;debian/master&quot; branch.<b=
-r>
-&gt; &gt;<br>
-&gt; &gt; Signed-off-by: Jerome Forissier &lt;<a href=3D"mailto:jerome.fori=
-ssier@linaro.org" target=3D"_blank">jerome.forissier@linaro.org</a>&gt;<br>
-&gt; &gt; Signed-off-by: Mikko Rapeli &lt;<a href=3D"mailto:mikko.rapeli@li=
-naro.org" target=3D"_blank">mikko.rapeli@linaro.org</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt;=C2=A0 meta/recipes-devtools/e2fsprogs/e2fsprogs.inc=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
-&gt; &gt;=C2=A0 .../e2fsprogs/{<a href=3D"http://e2fsprogs_1.47.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">e2fsprogs_1.47.0.bb</a> =3D&gt; <a href=
-=3D"http://e2fsprogs_1.47.0-2.bb" rel=3D"noreferrer" target=3D"_blank">e2fs=
-progs_1.47.0-2.bb</a>}=C2=A0 =C2=A0 | 2 +-<br>
-&gt; &gt;=C2=A0 2 files changed, 2 insertions(+), 2 deletions(-)<br>
-&gt; &gt;=C2=A0 rename meta/recipes-devtools/e2fsprogs/{<a href=3D"http://e=
-2fsprogs_1.47.0.bb" rel=3D"noreferrer" target=3D"_blank">e2fsprogs_1.47.0.b=
-b</a> =3D&gt;<br>
-&gt; &gt; <a href=3D"http://e2fsprogs_1.47.0-2.bb" rel=3D"noreferrer" targe=
-t=3D"_blank">e2fsprogs_1.47.0-2.bb</a>} (99%)<br>
-&gt; &gt;<br>
-&gt; &gt; diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc<br>
-&gt; &gt; b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc<br>
-&gt; &gt; index f41a5d0b4e..2f54896e8c 100644<br>
-&gt; &gt; --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc<br>
-&gt; &gt; +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc<br>
-&gt; &gt; @@ -19,7 +19,7 @@ LIC_FILES_CHKSUM =3D<br>
-&gt; &gt; &quot;file://NOTICE;md5=3Dd50be0580c0b0a7fbc7a4830bbe6c12b \<br>
-&gt; &gt;=C2=A0 SECTION =3D &quot;base&quot;<br>
-&gt; &gt;=C2=A0 DEPENDS =3D &quot;util-linux attr autoconf-archive&quot;<br=
->
-&gt; &gt;<br>
-&gt; &gt; -SRC_URI =3D &quot;git://<br>
-&gt; &gt; <a href=3D"http://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git;br=
-anch=3Dmaster" rel=3D"noreferrer" target=3D"_blank">git.kernel.org/pub/scm/=
-fs/ext2/e2fsprogs.git;branch=3Dmaster</a>&quot;<br>
-&gt; &gt; +SRC_URI =3D &quot;git://<br>
-&gt; &gt; <a href=3D"http://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git;br=
-anch=3Ddebian/master" rel=3D"noreferrer" target=3D"_blank">git.kernel.org/p=
-ub/scm/fs/ext2/e2fsprogs.git;branch=3Ddebian/master</a>&quot;<br>
-&gt; &gt;=C2=A0 S =3D &quot;${WORKDIR}/git&quot;<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 inherit autotools gettext texinfo pkgconfig multilib_header=
-<br>
-&gt; &gt; update-alternatives ptest<br>
-&gt; &gt; diff --git a/meta/recipes-devtools/e2fsprogs/<a href=3D"http://e2=
-fsprogs_1.47.0.bb" rel=3D"noreferrer" target=3D"_blank">e2fsprogs_1.47.0.bb=
-</a><br>
-&gt; &gt; b/meta/recipes-devtools/e2fsprogs/<a href=3D"http://e2fsprogs_1.4=
-7.0-2.bb" rel=3D"noreferrer" target=3D"_blank">e2fsprogs_1.47.0-2.bb</a><br=
->
-&gt; &gt; similarity index 99%<br>
-&gt; &gt; rename from meta/recipes-devtools/e2fsprogs/<a href=3D"http://e2f=
-sprogs_1.47.0.bb" rel=3D"noreferrer" target=3D"_blank">e2fsprogs_1.47.0.bb<=
-/a><br>
-&gt; &gt; rename to meta/recipes-devtools/e2fsprogs/<a href=3D"http://e2fsp=
-rogs_1.47.0-2.bb" rel=3D"noreferrer" target=3D"_blank">e2fsprogs_1.47.0-2.b=
-b</a><br>
-&gt; &gt; index 2620610903..9bf89ba0c4 100644<br>
-&gt; &gt; --- a/meta/recipes-devtools/e2fsprogs/<a href=3D"http://e2fsprogs=
-_1.47.0.bb" rel=3D"noreferrer" target=3D"_blank">e2fsprogs_1.47.0.bb</a><br=
->
-&gt; &gt; +++ b/meta/recipes-devtools/e2fsprogs/<a href=3D"http://e2fsprogs=
-_1.47.0-2.bb" rel=3D"noreferrer" target=3D"_blank">e2fsprogs_1.47.0-2.bb</a=
-><br>
-&gt; &gt; @@ -10,7 +10,7 @@ SRC_URI:append:class-native =3D &quot; \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://quiet-debug=
-fs.patch \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-&gt; &gt;<br>
-&gt; &gt; -SRCREV =3D &quot;f4c9cc4bedacde8408edda3520a32d3842290112&quot;<=
-br>
-&gt; &gt; +SRCREV =3D &quot;1181f164c48574a4813bfa203dbd7b4123154021&quot;<=
-br>
-&gt; &gt;=C2=A0 UPSTREAM_CHECK_GITTAGREGEX =3D &quot;v(?P&lt;pver&gt;\d+\.\=
-d+(\.\d+)*)$&quot;<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 EXTRA_OECONF +=3D &quot;--libdir=3D${base_libdir} --sbindir=
-=3D${base_sbindir} \<br>
-&gt; &gt; --<br>
-&gt; &gt; 2.34.1<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; &gt; Links: You receive all messages sent to this group.<br>
-&gt; &gt; View/Reply Online (#178747):<br>
-&gt; &gt; <a href=3D"https://lists.openembedded.org/g/openembedded-core/mes=
-sage/178747" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedde=
-d.org/g/openembedded-core/message/178747</a><br>
-&gt; &gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/976=
-69707/1686489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembed=
-ded.org/mt/97669707/1686489</a><br>
-&gt; &gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.op=
-enembedded.org" target=3D"_blank">openembedded-core+owner@lists.openembedde=
-d.org</a><br>
-&gt; &gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembe=
-dded-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openemb=
-edded.org/g/openembedded-core/unsub</a> [<br>
-&gt; &gt; <a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.=
-kanavin@gmail.com</a>]<br>
-&gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-</blockquote></div></div>
-
---00000000000079571105f71a2f2b--
 
