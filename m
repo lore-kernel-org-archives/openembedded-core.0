@@ -1,241 +1,204 @@
-Return-Path: <chee.yang.lee@intel.com>
+Return-Path: <ernstp@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A16DBC7618A
-	for <webhook@archiver.kernel.org>; Sat, 18 Mar 2023 11:59:14 +0000 (UTC)
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by mx.groups.io with SMTP id smtpd.web10.4889.1679140750075052873
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA0CCC61DA4
+	for <webhook@archiver.kernel.org>; Sat, 18 Mar 2023 12:49:04 +0000 (UTC)
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+ by mx.groups.io with SMTP id smtpd.web11.5618.1679143741691289818
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Mar 2023 04:59:10 -0700
+ Sat, 18 Mar 2023 05:49:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=W/f819Oi;
- spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: chee.yang.lee@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679140750; x=1710676750;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=1JzPKVFhlYv+k9GdYQ/rMJ1IKpConyMAxdtvA9PajRI=;
-  b=W/f819OiUgQX5kyWChEmpfqiLghFuJYNoX2rxUIPqvV/CEsjjLHFWv2y
-   zjeTt3SS7rlx1k2c5P2pfynT9cGa/jTZ5Opwe6Ib6bjTSVuX+BYa9sFHn
-   cwNZ8FHj79e4TL73VArP5gE1g39exPeCnxQ54NZ1eWXtKCA3R5NP5ApPi
-   ski3ZQTrUP5PoxHAOC85rGtXdtAOTeU+OZUrA1wvOv8S5SStbmh8JKNy8
-   H/PyRmcp4o5nQi8gA/UsUOk+nhbCl0kkb5soVifFcq2i5NvJMCNuNcF8P
-   Ly8Ln9wyxKUlXGccfcT/XtFOqFeSur+tMoh78VDFOXuSvEjnQc/60Lt0m
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="339964106"
-X-IronPort-AV: E=Sophos;i="5.98,271,1673942400"; 
-   d="scan'208";a="339964106"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 04:59:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="1009965055"
-X-IronPort-AV: E=Sophos;i="5.98,271,1673942400"; 
-   d="scan'208";a="1009965055"
-Received: from andromeda02.png.intel.com ([10.221.253.198])
-  by fmsmga005.fm.intel.com with ESMTP; 18 Mar 2023 04:59:09 -0700
-From: chee.yang.lee@intel.com
-To: openembedded-core@lists.openembedded.org
-Subject: [langdale][patch 2/3] tiff: Fix CVE-2023-0795 CVE-2023-0796 CVE-2023-0797 CVE-2023-0798 CVE-2023-0799
-Date: Sat, 18 Mar 2023 19:58:58 +0800
-Message-Id: <20230318115859.3071237-2-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20230318115859.3071237-1-chee.yang.lee@intel.com>
-References: <20230318115859.3071237-1-chee.yang.lee@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=OFpUMgfd;
+ spf=pass (domain: gmail.com, ip: 209.85.167.171, mailfrom: ernstp@gmail.com)
+Received: by mail-oi1-f171.google.com with SMTP id bh20so5716935oib.9
+        for <openembedded-core@lists.openembedded.org>; Sat, 18 Mar 2023 05:49:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679143741;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=lbDal2T6z/FJmlCyIcpRtYkq8vOahmYegutN1q71WDk=;
+        b=OFpUMgfdWCN1UM9D+n/9huV6O0zEibxoyPUSxOyO7ipZkC0QSkyH/f2EfRPvLVDPKG
+         l3qytAWMaJgzLdLJ38c1K6A8+fItDH5S++14dlPxCCa/hgzHh9xfs2P+WiJmRuZjlkSz
+         /eezrAyS0WC0UFzy6gA75YilYxKmoHGiQAUq6FyNq+fYXsq7UOdK3K4BLYkxemcijsdR
+         Uq+YSpfMSv/VAiDSqQ0B2VnfUwfSG0r8IDF61pB1HoQQF7eindpFaAm1AmbX++6NqbXA
+         KdBLOFyel0cU5wJDMpzRtfVL21Yv0MnKplP8ZWPjRqisZTu6KJstywB17s9su6MSeP+/
+         gSfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679143741;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lbDal2T6z/FJmlCyIcpRtYkq8vOahmYegutN1q71WDk=;
+        b=SS9kbmEfR9Jfy1Ia9yNkS7T/6Nk2BefjLhw55+5RSENlv6MZ22mkdH79BNMnatk3C0
+         d5pgbZuwbGT7PrgQpFtyEaSUobqDoVoiGi9c4/YcHk0EyiLJmehkyhALGXIALTbcA0yk
+         FuXfLctQJzfi1aVobrOPzeE8ivFyoEC4Xfp+SXD660NGHujv/YzfRfn9eWGxNuR+SUJV
+         Iw5/u3meXMfmlDj79Wmpttw2BwSBf8jyQrVDBoMkD4gBCN96Sozs86LxFs6vjedE/AfO
+         oEJ+eu7XZlih5U0wtkJ8XDgIDnhTNWuuqMfWo7yTQl9DSy5dSGTqDOHkJLYI7X7YbL/9
+         gnfA==
+X-Gm-Message-State: AO0yUKXwSRaUPxS7Abot2Srl0DR5ACFpWF/N06qG0RKhUNB+bHIy1b8/
+	U5Yutsh2vjNMyGYYDPq51FQQpidtQYvfbzLt1xo=
+X-Google-Smtp-Source: AK7set+nbfQv/LbUtRVbXuNxHujtMySumggsS+kEhRUXNrH3gy6zISRUexkh69mNQzQb/+26H1d1yY/bHbf/2aOwbUA=
+X-Received: by 2002:aca:2309:0:b0:384:2fd0:e1c8 with SMTP id
+ e9-20020aca2309000000b003842fd0e1c8mr3793741oie.11.1679143740880; Sat, 18 Mar
+ 2023 05:49:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAD=4a=Xi3cEf9KM-iB3nsLPEEJGupxVJZrMQ7qP9c7aSb3bJQQ@mail.gmail.com>
+ <DDD6EA4D-08CA-473B-B291-ECBB71686B92@arm.com> <1749EE1744C6F5F2.17255@lists.openembedded.org>
+In-Reply-To: <1749EE1744C6F5F2.17255@lists.openembedded.org>
+From: =?UTF-8?Q?Ernst_Sj=C3=B6strand?= <ernstp@gmail.com>
+Date: Sat, 18 Mar 2023 13:48:49 +0100
+Message-ID: <CAD=4a=WMwU3aut0CGF=j6U0VizfrDYsE2+zURfHDEAEvDPFfcQ@mail.gmail.com>
+Subject: Re: [OE-core] PEP 517 and PEP 621 support on Dunfell?
+To: ernstp@gmail.com
+Cc: Ross Burton <Ross.Burton@arm.com>, OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000033bd1705f72c1eb3"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 18 Mar 2023 11:59:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178786
+ <openembedded-core@lists.openembedded.org>; Sat, 18 Mar 2023 12:49:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178788
 
-From: Chee Yang Lee <chee.yang.lee@intel.com>
+--00000000000033bd1705f72c1eb3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-import patch from ubuntu to fix multiple CVEs
-http://archive.ubuntu.com/ubuntu/pool/main/t/tiff/tiff_4.4.0-4ubuntu3.3.debian.tar.xz
+Ah, I wasn't aware of https://git.yoctoproject.org/meta-lts-mixins/ .
+Not sure how that would work exactly with commit access etc.
 
-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
----
- .../CVE-2023-0795_0796_0797_0798_0799.patch   | 154 ++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.4.0.bb |   1 +
- 2 files changed, 155 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-0795_0796_0797_0798_0799.patch
+Anyway I made further updates to
+https://github.com/ernstp/meta-setuptools-backport , looking pretty good
+now IMHO.
 
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-0795_0796_0797_0798_0799.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-0795_0796_0797_0798_0799.patch
-new file mode 100644
-index 0000000000..926df680b3
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2023-0795_0796_0797_0798_0799.patch
-@@ -0,0 +1,154 @@
-+From: Markus Koschany <apo@debian.org>
-+Date: Tue, 21 Feb 2023 14:26:43 +0100
-+Subject: CVE-2023-0795
-+
-+This is also the fix for CVE-2023-0796, CVE-2023-0797, CVE-2023-0798,
-+CVE-2023-0799.
-+
-+Bug-Debian: https://bugs.debian.org/1031632
-+Origin: https://gitlab.com/libtiff/libtiff/-/commit/afaabc3e50d4e5d80a94143f7e3c997e7e410f68
-+
-+CVE: CVE-2023-0795 CVE-2023-0796 CVE-2023-0797 CVE-2023-0798 CVE-2023-0799
-+Upstream-Status: Backport [import from ubuntu debian/patches/CVE-2023-0795.patch http://archive.ubuntu.com/ubuntu/pool/main/t/tiff/tiff_4.4.0-4ubuntu3.3.debian.tar.xz ]
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ tools/tiffcrop.c | 51 ++++++++++++++++++++++++++++++---------------------
-+ 1 file changed, 30 insertions(+), 21 deletions(-)
-+
-+--- tiff-4.4.0.orig/tools/tiffcrop.c
-++++ tiff-4.4.0/tools/tiffcrop.c
-+@@ -269,7 +269,6 @@ struct  region {
-+   uint32_t width;     /* width in pixels */
-+   uint32_t length;    /* length in pixels */
-+   uint32_t buffsize;  /* size of buffer needed to hold the cropped region */
-+-  unsigned char *buffptr; /* address of start of the region */
-+ };
-+ 
-+ /* Cropping parameters from command line and image data 
-+@@ -524,7 +523,7 @@ static int rotateContigSamples24bits(uin
-+ static int rotateContigSamples32bits(uint16_t, uint16_t, uint16_t, uint32_t,
-+                                      uint32_t, uint32_t, uint8_t *, uint8_t *);
-+ static int rotateImage(uint16_t, struct image_data *, uint32_t *, uint32_t *,
-+-                       unsigned char **);
-++                       unsigned char **, int);
-+ static int mirrorImage(uint16_t, uint16_t, uint16_t, uint32_t, uint32_t,
-+                        unsigned char *);
-+ static int invertImage(uint16_t, uint16_t, uint16_t, uint32_t, uint32_t,
-+@@ -5219,7 +5218,6 @@ initCropMasks (struct crop_mask *cps)
-+      cps->regionlist[i].width = 0;
-+      cps->regionlist[i].length = 0;
-+      cps->regionlist[i].buffsize = 0;
-+-     cps->regionlist[i].buffptr = NULL;
-+      cps->zonelist[i].position = 0;
-+      cps->zonelist[i].total = 0;
-+      }
-+@@ -6551,8 +6549,13 @@ static int  correct_orientation(struct i
-+                  (uint16_t) (image->adjustments & ROTATE_ANY));
-+       return (-1);
-+       }
-+- 
-+-    if (rotateImage(rotation, image, &image->width, &image->length, work_buff_ptr))
-++
-++      /* Dummy variable in order not to switch two times the
-++       * image->width,->length within rotateImage(),
-++       * but switch xres, yres there. */
-++      uint32_t width = image->width;
-++      uint32_t length = image->length;
-++      if (rotateImage(rotation, image, &width, &length, work_buff_ptr, TRUE))
-+       {
-+       TIFFError ("correct_orientation", "Unable to rotate image");
-+       return (-1);
-+@@ -6661,7 +6664,6 @@ extractCompositeRegions(struct image_dat
-+     /* These should not be needed for composite images */
-+     crop->regionlist[i].width = crop_width;
-+     crop->regionlist[i].length = crop_length;
-+-    crop->regionlist[i].buffptr = crop_buff;
-+ 
-+     src_rowsize = ((img_width * bps * spp) + 7) / 8;
-+     dst_rowsize = (((crop_width * bps * count) + 7) / 8);
-+@@ -6900,7 +6902,6 @@ extractSeparateRegion(struct image_data
-+ 
-+   crop->regionlist[region].width = crop_width;
-+   crop->regionlist[region].length = crop_length;
-+-  crop->regionlist[region].buffptr = crop_buff;
-+ 
-+   src = read_buff;
-+   dst = crop_buff;
-+@@ -7778,7 +7779,7 @@ processCropSelections(struct image_data
-+     if (crop->crop_mode & CROP_ROTATE) /* rotate should be last as it can reallocate the buffer */
-+       {
-+       if (rotateImage(crop->rotation, image, &crop->combined_width, 
-+-                      &crop->combined_length, &crop_buff))
-++                      &crop->combined_length, &crop_buff, FALSE))
-+         {
-+         TIFFError("processCropSelections", 
-+                   "Failed to rotate composite regions by %"PRIu32" degrees", crop->rotation);
-+@@ -7888,7 +7889,7 @@ processCropSelections(struct image_data
-+            * ToDo: Therefore rotateImage() and its usage has to be reworked (e.g. like mirrorImage()) !!
-+            */
-+ 	if (rotateImage(crop->rotation, image, &crop->regionlist[i].width, 
-+-			&crop->regionlist[i].length, &crop_buff))
-++			&crop->regionlist[i].length, &crop_buff, FALSE))
-+           {
-+           TIFFError("processCropSelections", 
-+                     "Failed to rotate crop region by %"PRIu16" degrees", crop->rotation);
-+@@ -8020,7 +8021,7 @@ createCroppedImage(struct image_data *im
-+   if (crop->crop_mode & CROP_ROTATE) /* rotate should be last as it can reallocate the buffer */
-+     {
-+     if (rotateImage(crop->rotation, image, &crop->combined_width, 
-+-                    &crop->combined_length, crop_buff_ptr))
-++                    &crop->combined_length, crop_buff_ptr, TRUE))
-+       {
-+       TIFFError("createCroppedImage", 
-+                 "Failed to rotate image or cropped selection by %"PRIu16" degrees", crop->rotation);
-+@@ -8683,7 +8684,7 @@ rotateContigSamples32bits(uint16_t rotat
-+ /* Rotate an image by a multiple of 90 degrees clockwise */
-+ static int
-+ rotateImage(uint16_t rotation, struct image_data *image, uint32_t *img_width,
-+-            uint32_t *img_length, unsigned char **ibuff_ptr)
-++            uint32_t *img_length, unsigned char **ibuff_ptr, int rot_image_params)
-+   {
-+   int      shift_width;
-+   uint32_t   bytes_per_pixel, bytes_per_sample;
-+@@ -8874,11 +8875,15 @@ rotateImage(uint16_t rotation, struct im
-+ 
-+               *img_width = length;
-+               *img_length = width;
-+-              image->width = length;
-+-              image->length = width;
-+-              res_temp = image->xres;
-+-              image->xres = image->yres;
-+-              image->yres = res_temp;
-++            /* Only toggle image parameters if whole input image is rotated. */
-++            if (rot_image_params)
-++            {
-++                image->width = length;
-++                image->length = width;
-++                res_temp = image->xres;
-++                image->xres = image->yres;
-++                image->yres = res_temp;
-++            }
-+ 	      break;
-+ 
-+     case 270: if ((bps % 8) == 0) /* byte aligned data */
-+@@ -8951,11 +8956,15 @@ rotateImage(uint16_t rotation, struct im
-+ 
-+               *img_width = length;
-+               *img_length = width;
-+-              image->width = length;
-+-              image->length = width;
-+-              res_temp = image->xres;
-+-              image->xres = image->yres;
-+-              image->yres = res_temp;
-++            /* Only toggle image parameters if whole input image is rotated. */
-++            if (rot_image_params)
-++            {
-++                image->width = length;
-++                image->length = width;
-++                res_temp = image->xres;
-++                image->xres = image->yres;
-++                image->yres = res_temp;
-++            }
-+               break;
-+     default:
-+               break;
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
-index 3b42dbe4a5..9df3c5a015 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
-@@ -19,6 +19,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://0001-tiffcrop-subroutines-require-a-larger-buffer-fixes-2.patch \
-            file://CVE-2022-48281.patch \
-            file://CVE-2023-0800_0801_0802_0803_0804.patch \
-+           file://CVE-2023-0795_0796_0797_0798_0799.patch \
-            "
- 
- SRC_URI[sha256sum] = "917223b37538959aca3b790d2d73aa6e626b688e02dcda272aec24c2f498abed"
--- 
-2.37.3
+//Ernst
 
+Den m=C3=A5n 6 mars 2023 kl 21:22 skrev Ernst Sj=C3=B6strand via
+lists.openembedded.org <ernstp=3Dgmail.com@lists.openembedded.org>:
+
+> Oh I didn't see your reply, Gmail threw it in the spam folder.
+>
+> I made a prototype here if anyone's interested:
+> https://github.com/ernstp/meta-setuptools-backport
+>
+> //E
+>
+> Den tis 28 feb. 2023 kl 17:14 skrev Ross Burton <Ross.Burton@arm.com>:
+>
+>> On 28 Feb 2023, at 15:00, Ernst Sj=C3=B6strand via lists.openembedded.or=
+g
+>> <ernstp=3Dgmail.com@lists.openembedded.org> wrote:
+>> > more and more Python projects are removing their setup.py and setup.cf=
+g
+>> and switching to pyproject.toml. That unfortunately means you can't inst=
+all
+>> those packages on Yocto Dunfell.
+>> >
+>> > Would it be reasonable to backport support for this to Dunfell? I see
+>> that the changes done for this support was actually kindof big, and as
+>> usual updating setuptools will probably cause some old package version t=
+o
+>> fail to install instead.
+>>
+>> The changes were kind of big, and I do worry that they=E2=80=99d break s=
+tuff that
+>> is expected to work.
+>>
+>> A =E2=80=9Cmixin=E2=80=9D layer which just contains the new classes and =
+recipes would be
+>> a much better approach for Dunfell.
+>>
+>> Ross
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#178084):
+> https://lists.openembedded.org/g/openembedded-core/message/178084
+> Mute This Topic: https://lists.openembedded.org/mt/97291680/4947266
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> ernstp@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--00000000000033bd1705f72c1eb3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:arial,he=
+lvetica,sans-serif">Ah, I wasn&#39;t aware of <a href=3D"https://git.yoctop=
+roject.org/meta-lts-mixins/" rel=3D"noreferrer" target=3D"_blank">https://g=
+it.yoctoproject.org/meta-lts-<span class=3D"gmail-il">mixins</span>/</a> .<=
+/div><div class=3D"gmail_default" style=3D"font-family:arial,helvetica,sans=
+-serif">Not sure how that would work exactly with commit access etc.</div><=
+div class=3D"gmail_default" style=3D"font-family:arial,helvetica,sans-serif=
+"><br></div><div class=3D"gmail_default" style=3D"font-family:arial,helveti=
+ca,sans-serif">Anyway I made further updates to <a href=3D"https://github.c=
+om/ernstp/meta-setuptools-backport">https://github.com/ernstp/meta-setuptoo=
+ls-backport</a> , looking pretty good now IMHO.</div><div class=3D"gmail_de=
+fault" style=3D"font-family:arial,helvetica,sans-serif"><br></div><div clas=
+s=3D"gmail_default" style=3D"font-family:arial,helvetica,sans-serif">//Erns=
+t<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"g=
+mail_attr">Den m=C3=A5n 6 mars 2023 kl 21:22 skrev Ernst Sj=C3=B6strand via=
+ <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;e=
+rnstp=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@lists=
+.openembedded.org</a>&gt;:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-fami=
+ly:arial,helvetica,sans-serif">Oh I didn&#39;t see your reply, Gmail threw =
+it in the spam folder.</div><div class=3D"gmail_default" style=3D"font-fami=
+ly:arial,helvetica,sans-serif"><br></div><div class=3D"gmail_default" style=
+=3D"font-family:arial,helvetica,sans-serif">I made a prototype here if anyo=
+ne&#39;s interested: <a href=3D"https://github.com/ernstp/meta-setuptools-b=
+ackport" target=3D"_blank">https://github.com/ernstp/meta-setuptools-backpo=
+rt</a></div><div class=3D"gmail_default" style=3D"font-family:arial,helveti=
+ca,sans-serif"><br></div><div class=3D"gmail_default" style=3D"font-family:=
+arial,helvetica,sans-serif">//E<br></div></div><br><div class=3D"gmail_quot=
+e"><div dir=3D"ltr" class=3D"gmail_attr">Den tis 28 feb. 2023 kl 17:14 skre=
+v Ross Burton &lt;<a href=3D"mailto:Ross.Burton@arm.com" target=3D"_blank">=
+Ross.Burton@arm.com</a>&gt;:<br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">On 28 Feb 2023, at 15:00, Ernst Sj=C3=B6strand via <a href=3D"=
+http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.o=
+penembedded.org</a> &lt;ernstp=3D<a href=3D"mailto:gmail.com@lists.openembe=
+dded.org" target=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:=
+<br>
+&gt; more and more Python projects are removing their setup.py and setup.cf=
+g and switching to pyproject.toml. That unfortunately means you can&#39;t i=
+nstall those packages on Yocto Dunfell.<br>
+&gt; <br>
+&gt; Would it be reasonable to backport support for this to Dunfell? I see =
+that the changes done for this support was actually kindof big, and as usua=
+l updating setuptools will probably cause some old package version to fail =
+to install instead.<br>
+<br>
+The changes were kind of big, and I do worry that they=E2=80=99d break stuf=
+f that is expected to work.<br>
+<br>
+A =E2=80=9Cmixin=E2=80=9D layer which just contains the new classes and rec=
+ipes would be a much better approach for Dunfell.<br>
+<br>
+Ross</blockquote></div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#178084): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/178084" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/178084</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/97291680/4947=
+266" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/97291680/4947266</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:ernstp@gmail.com" target=
+=3D"_blank">ernstp@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--00000000000033bd1705f72c1eb3--
 
