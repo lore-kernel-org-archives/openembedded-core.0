@@ -1,289 +1,209 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
+Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74D0AC6FD1C
-	for <webhook@archiver.kernel.org>; Mon, 20 Mar 2023 21:21:40 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web11.1369.1679347294917667765
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8235BC6FD1C
+	for <webhook@archiver.kernel.org>; Mon, 20 Mar 2023 21:40:50 +0000 (UTC)
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+ by mx.groups.io with SMTP id smtpd.web10.1857.1679348446737315638
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Mar 2023 14:21:34 -0700
+ Mon, 20 Mar 2023 14:40:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=cLPyPIr5;
- spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pl1-f181.google.com with SMTP id ja10so13946874plb.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Mar 2023 14:21:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679347294;
-        h=content-language:thread-index:mime-version:message-id:date:subject
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hN8xGNiBwb2MCTQ0xkJutRCwdiFuftHl1FMoRRahE+k=;
-        b=cLPyPIr5y3Qz6TDbNyE8CM6+OWfUHseiucjcvpEWAHbyZzlYuZz3vQZcXU7w1zbtuY
-         RKM9UbUKaz7Y20nnSITTliGzAJgVWuBqOARgpkMN1CYL5zxyga+DpNpDbTPWT2vEJYBV
-         VNTRLP0Cyx/cL6Dxo+aoj6q6h6J3moLdG+Ovai7tUeNW2iHvSJS+H0Tu6tRzSTMmOAKR
-         Q/v7RCoyhjZMrYILm9aqxT7a9HA3Jeaq2i4oMQcXWiKHlCjDROPx9o2ua97F7wGnjYvQ
-         GEgQCS0UHYwaapCBQjLgFUYyMI23h2z3VtoK6IUMjTGKQ1Gh723B7FHyVp3ceYNRvbrx
-         k6gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679347294;
-        h=content-language:thread-index:mime-version:message-id:date:subject
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hN8xGNiBwb2MCTQ0xkJutRCwdiFuftHl1FMoRRahE+k=;
-        b=UlTtFyk8DGX2oqlZuwmn9EVv3QPxHia02h+DCb6BxQsy4qxVa6WdK0o/XDM2PFgSW7
-         xxB13RNgBZWRCkX4OxZqVj3CiUZwGuu1IMpZuT9EvpCWNAgZ7yfCOcMAGPTyvkFBfp3b
-         2w88vM9LYTvskgKzVdoW05P2ZERmFU7iVTrGYn+7Z76S7X/U+5Np4syCdga6YPenIHGs
-         /Xa9VOJoeMHmRrkIxJXIRcHio/DVYXUuNRKUDx63Kr7D7qnJDpuhFEh5qRsKHdNAxuB8
-         s/COytuj32Dw1HCWRoiXNq6ogO56nZy1qRbRidy8CvXI6qemHiWPxnzxfld1jKuhZJHz
-         VYvA==
-X-Gm-Message-State: AO0yUKXshuOGUOYzQowZQ9gCYdxulDqC1mEbdM5PuxDXvGCJKcbT4VFi
-	kgEY/7NSxh7iJDKTdF/eX8JuepOpVlA=
-X-Google-Smtp-Source: AK7set+4XD0BWqRFr4r9pFfsz06UXkUqmnLP9fVlg34gwTQ+EJVsF6KXtyj23kNDXC7U4fy3f7pdnw==
-X-Received: by 2002:a17:902:f68e:b0:1a1:c9f7:cec5 with SMTP id l14-20020a170902f68e00b001a1c9f7cec5mr7605545plg.2.1679347293862;
-        Mon, 20 Mar 2023 14:21:33 -0700 (PDT)
-Received: from skjolley ([2600:1011:a124:5236:fab7:c3f3:b8a7:82b5])
-        by smtp.gmail.com with ESMTPSA id g5-20020a170902c38500b0019cbec6c17bsm7147373plg.190.2023.03.20.14.21.32
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 20 Mar 2023 14:21:33 -0700 (PDT)
-From: <sjolley.yp.pm@gmail.com>
-To: <yocto@lists.yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
-Date: Mon, 20 Mar 2023 14:21:31 -0700
-Message-ID: <0ac301d95b71$f1a33f60$d4e9be20$@gmail.com>
+ dkim=missing; spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from lons-builder.int.hatle.net (76.164.132.203.bevcomm.net [76.164.132.203] (may be forged))
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 32KLeiJO013081
+	for <openembedded-core@lists.openembedded.org>; Mon, 20 Mar 2023 16:40:45 -0500
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] tcf-agent: Update to current version
+Date: Mon, 20 Mar 2023 16:40:44 -0500
+Message-Id: <20230320214044.1361971-1-mark.hatle@kernel.crashing.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0AC4_01D95B37.454551C0"
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQKQ1RJlJNpFeKc/6bcIvd6hpmhk4A==
-Content-Language: en-us
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by gate.crashing.org id 32KLeiJO013081
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Mar 2023 21:21:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178842
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Mar 2023 21:40:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178843
 
-This is a multipart message in MIME format.
+From: Mark Hatle <mark.hatle@amd.com>
 
-------=_NextPart_000_0AC4_01D95B37.454551C0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+While there has not been an official release in some time, the latest ver=
+sion
+fixes a large number of bugs and adds support for Dwarf 5, among other
+things.  (Dwarf 5 is default in gcc 12 and newer.)
 
-All,
+Short change log since the last version:
+    TCF Agent: Narrow down LoadLibrary search scope
+    TCF Agent: faster breakpoint planting
+    Bug 581214 - Expression evaluation fails for a data member that is de=
+fined in a structure, union or class that is of type DW_AT_data_bit_offse=
+t attribute (DWARF5)
+    TCF Agent: reduced memory footprint
+    TCF Agent: fixed build error on CygWin: CYGWIN_VERSION_CYGWIN_CONV un=
+defined
+    TCF Agent: workaround for GCC compilation error: function may return =
+address of local variable
+    Bug 581034 - "long long int" data type can't be recognized from dwarf=
+5 debug info generated by llvm15
+    TCF Agent: Removal of unused variable causing clang-15 build error
+    TCF Agent: fixed: malformed HTTP request can crash the agent
+    TCF Agent: fixed assertion failure in the Breakpoints service
+    TCF Agent: GDB Remote Serial Protocol: fixed handling of process ID 0
+    Bug 580644 - steps into the function of shared library does not work =
+on PPC
+    TCF Agent: add PowerPC 32-bit and big-endian builds in the Dockerfile
+    TCF Agent: check glibc version when calling pthread_setname_np()
+    Bug 580600 - -Wmisleading-indentation issue for gcc version less than=
+ 6.0
+    Bug 580489 - failed to handle .debug_rnglists section sometimes
+    Bug 580450 - failed to read the full compilation unit tag in dwarf 5 =
+when customized sections
+    Bug 580414 - failed to handle debug sections for DWARF 5
+    Bug 580326 - Can not display the type of global variable defined in a=
+ sharedlib
+    Fixed text formatting in Makefile.inc
+    Bug 580279 - VERSION grep in agent/Makefile.inc need update for vxWor=
+ks
+    Bug 580089 - pid2id() failed to get a right id
+    TCF Agent: improved comments
+    TCF Agent: a few more asserts
+    TCF Agent: improved X86 disassembler
+    Bug 580002 - [tcf-dev] Speedup compute_reverse_lookup_indices
+    Bug 579989 - compile error by vs2008 on windows
+    TCF Agent: improved X86 disassembler
+    Bug 579947 - NULL pointer caused the tcf-server crashed when load ELF=
+ file that compiled by LLVM 14 with dwarf-5
+    TCF Agent: fixed Coverity warning
+    TCF Agent: fixed Coverity warning
+    TCF Agent: new function in HTTP server API: closed() call-back
+    Merge "TCF Agent: Fix potential memory/resource leaks"
+    TCF Agent: Fix potential memory/resource leaks
+    TCF Agent: Fix unsafe strcpy
+    TCF Agent: Respect certain ENABLE_* macros
+    Bug 579412 - incorrect or missing copyright information
+    TCF Agent: Lazy PC initialization
+    Bug 579362 - the process IDs should be pid_t instead of UINT32 in wai=
+tpid.c and waitpid.h files
+    Bug 579378 - update copyright year to 2022
+    Bug 579274 - unknown option -Wmisleading-indentation issue for gcc ve=
+rsion less than 6.0
+    TCF Agent: ARM v8 stack crawl: fixed handling of ERET instruction
+    TCF Agent: fixed handling of line info file names when file contains =
+a mix DWARF 5 and DWARF 3
+    TCF Tests: fixed incorrect error reports in DWARF reader test
+    TCF Agent: disabled bogus warnings misleading-indentation
+    TCF Agent: fixed handling of line info file names in DWARF 5
+    TCF Agent: Expressions: fixed handling of a static field of a struct =
+stored in a register
+    TCF Agent: fixed error when building with c++-11
+    TCF Agent: DWARF 5: improved handling of location expressions
+    TCF Agent: DWARF reader: fixed regression - "FORM_FLAG expected" erro=
+r
+    TCF Agent: DWARF reader: new object flag DOIF_inlined
+    TCF Tests: improved tests of var declarations
+    TCF Agent: fixed regression: memory corruption in the symbols proxy
+    TCF Agent: fixed issues with handling GCC-11 debug info
+    TCF Agent: fixed warning: ISO C90 forbids mixed declarations and code
+    TCF Agent: Fix stack frame cleanup on error
+    TCF Agent: Add missing parentheses
+    Bug 578201 - Sometimes variables show as "N/A - Cannot read target me=
+mory. Input/output error"
+    Bug 577936 - dprintf not work as expected
+    TCF Agent: lazy initialization in rand32()
+    TCF Agent: new API function: rand32()
+    TCF Agent: fixed possible buffer overflow when calling fscanf()
+    Bug 577174 - Sometimes variables show as "N/A - Value of register is =
+unknown in the selected frame"
+    Bug 577064 - Union type variables don=E2=80=99t show correctly if bas=
+ed on a register
+    TCF Agent: fixed: tmp_vprintf and loc_vprintf can segfault on Linux
+    Bug 577001 - DW_AT_high_pc with DW_FORM_udata form not handled
+    TCF Agent: fixed pthread_cond_timedwait() on Windows
+    TCF Agent: Expressions service: improved error message
 
- 
+Signed-off-by: Mark Hatle <mark.hatle@amd.com>
+Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+---
+ .../tcf-agent/tcf-agent/ldflags.patch         | 29 ++++++++++---------
+ .../tcf-agent/tcf-agent_git.bb                |  2 +-
+ 2 files changed, 17 insertions(+), 14 deletions(-)
 
-The triage team is starting to try and collect up and classify bugs which a
-newcomer to the project would be able to work on in a way which means people
-can find them. They're being listed on the triage page under the appropriate
-heading:
-
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
-review:
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
-how to create a bugzilla account at:
-<https://bugzilla.yoctoproject.org/createaccount.cgi>
-https://bugzilla.yoctoproject.org/createaccount.cgi
-
-The idea is these bugs should be straight forward for a person to help work
-on who doesn't have deep experience with the project.  If anyone can help,
-please take ownership of the bug and send patches!  If anyone needs
-help/advice there are people on irc who can likely do so, or some of the
-more experienced contributors will likely be happy to help too.
-
- 
-
-Also, the triage team meets weekly and does its best to handle the bugs
-reported into the Bugzilla. The number of people attending that meeting has
-fallen, as have the number of people available to help fix bugs. One of the
-things we hear users report is they don't know how to help. We (the triage
-team) are therefore going to start reporting out the currently 423
-unassigned or newcomer bugs.
-
- 
-
-We're hoping people may be able to spare some time now and again to help out
-with these.  Bugs are split into two types, "true bugs" where things don't
-work as they should and "enhancements" which are features we'd want to add
-to the system.  There are also roughly four different "priority" classes
-right now,  "4.2", "4.3", "4.99" and "Future", the more pressing/urgent
-issues being in "4.2" and then "4.3".
-
- 
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
-like and I will assign it to you (please make sure you have a Bugzilla
-account).  The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
-_Bugs
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_0AC4_01D95B37.454551C0
-Content-Type: text/html;
-	boundary="----=_NextPart_000_0B62_01D955C1.0BEFBC10";
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p class=3DMsoNormal =
-style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The triage team is starting to try and =
-collect up and classify bugs which a newcomer to the project would be =
-able to work on in a way which means people can find them. They're being =
-listed on the triage page under the appropriate =
-heading:<o:p></o:p></p><p><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
-s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
-please review: <a =
-href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded</a> and how to create a bugzilla account at: <a =
-href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
-style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
-/span></a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The idea is these bugs should be straight =
-forward for a person to help work on who doesn't have deep experience =
-with the project.&nbsp; If anyone can help, please take ownership of the =
-bug and send patches!&nbsp; If anyone needs help/advice there are people =
-on irc who can likely do so, or some of the more experienced =
-contributors will likely be happy to help too.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
-meets weekly and does its best to handle the bugs reported into the =
-Bugzilla. The number of people attending that meeting has fallen, as =
-have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage =
-team) are therefore going to start reporting out the currently 423 =
-unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>We're hoping people may be able to spare =
-some time now and again to help out with these.&nbsp; Bugs are split =
-into two types, &quot;true bugs&quot; where things don't work as they =
-should and &quot;enhancements&quot; which are features we'd want to add =
-to the system.&nbsp; There are also roughly four different =
-&quot;priority&quot; classes right now, &nbsp;&#8220;4.2&#8221;, =
-&#8220;4.3&#8221;, &quot;4.99&quot; and &quot;Future&quot;, the more =
-pressing/urgent issues being in &quot;4.2&quot; and then =
-&#8220;4.3&#8221;.<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>Please review this link and if a bug is =
-something you would be able to help with either take ownership of the =
-bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
-e-mail with the bug number you would like and I will assign it to you =
-(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
-or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
-nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-------=_NextPart_000_0AC4_01D95B37.454551C0--
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch b/me=
+ta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
+index dfe492091c..d701e8dec0 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
+@@ -1,7 +1,7 @@
+ We need LDFLAGS to be respected otherwise there are QA warnings as the r=
+ight
+ flags don't get used.
+=20
+-Upstream-Status: Inappropriate
++Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
+=20
+ From d92af0483c20365fd0af740d0baef8870b4aa374 Mon Sep 17 00:00:00 2001
+@@ -10,23 +10,26 @@ Date: Wed, 26 Aug 2015 19:18:11 +0500
+ Subject: [PATCH] tcf-agent: obey LDFLAGS
+=20
+ Signed-off-by: Abdur Rehman <abdur_rehman@mentor.com>
++
++Rebased to 4a2c4baaccbc8c29ce0297705de9a4e096d57ce5 version
++
++Signed-off-by: Mark hatle <mark.hatle@amd.com>
++
++
+ ---
+  Makefile.inc |    2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+=20
+-diff --git a/Makefile.inc b/Makefile.inc
+-index 959028f..3148942 100644
+---- a/Makefile.inc
+-+++ b/Makefile.inc
+-@@ -96,7 +96,7 @@ NO_LINK_F	?=3D -c
++Index: agent/Makefile.inc
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++--- agent.orig/Makefile.inc
+++++ agent/Makefile.inc
++@@ -111,7 +111,7 @@ NO_LINK_F   ?=3D -c
+  # Linker definition and flags
+ =20
+- LINK		?=3D $(CC)
+--LINK_FLAGS	?=3D $(CFLAGS)
+-+LINK_FLAGS	?=3D $(LDFLAGS) $(CFLAGS)
+- LINK_OUT_F	?=3D $(OUT_OBJ_F)
++ LINK        ?=3D $(CC)
++-LINK_FLAGS  ?=3D $(CFLAGS)
+++LINK_FLAGS  ?=3D $(LDFLAGS) $(CFLAGS)
++ LINK_OUT_F  ?=3D $(OUT_OBJ_F)
+ =20
+  # Archiver definition and flags
+---=20
+-1.7.9.5
+-
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/reci=
+pes-devtools/tcf-agent/tcf-agent_git.bb
+index 0d627f4e23..9e77f12b53 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+@@ -6,7 +6,7 @@ BUGTRACKER =3D "https://bugs.eclipse.org/bugs/"
+ LICENSE =3D "EPL-1.0 | EDL-1.0"
+ LIC_FILES_CHKSUM =3D "file://edl-v10.html;md5=3D522a390a83dc186513f05005=
+43ad3679"
+=20
+-SRCREV =3D "2735e3d6b7eccb05ab232825c618c837d27a5010"
++SRCREV =3D "4a2c4baaccbc8c29ce0297705de9a4e096d57ce5"
+ PV =3D "1.7.0+git${SRCPV}"
+=20
+ UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>(\d+(\.\d+)+))"
+--=20
+2.25.1
 
 
