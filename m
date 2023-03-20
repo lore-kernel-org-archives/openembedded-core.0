@@ -1,167 +1,127 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <romuald.jeanne@st.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6FBEC6FD1D
-	for <webhook@archiver.kernel.org>; Mon, 20 Mar 2023 13:28:14 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.13909.1679318885317032966
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37993C6FD1D
+	for <webhook@archiver.kernel.org>; Mon, 20 Mar 2023 13:48:35 +0000 (UTC)
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+ by mx.groups.io with SMTP id smtpd.web11.14429.1679320110417829480
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Mar 2023 06:28:05 -0700
+ Mon, 20 Mar 2023 06:48:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E35D1106F;
-	Mon, 20 Mar 2023 06:28:48 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8AD4A3F71E;
-	Mon, 20 Mar 2023 06:28:04 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Subject: [PATCH 17/17] python3-jsonpointer: rewrite testing
-Date: Mon, 20 Mar 2023 13:27:51 +0000
-Message-Id: <20230320132751.518693-17-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230320132751.518693-1-ross.burton@arm.com>
-References: <20230320132751.518693-1-ross.burton@arm.com>
+ dkim=pass header.i=@st.com header.s=stmicroelectronics header.b=GE2S5NUb;
+ spf=pass (domain: st.com, ip: 185.132.182.106, mailfrom: prvs=1443c70c56=romuald.jeanne@st.com)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32KCtHsX026759
+	for <openembedded-core@lists.openembedded.org>; Mon, 20 Mar 2023 14:48:28 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=STMicroelectronics;
+ bh=ngss0wAAmlTVZ/dqdNy0puhoILpI+CAX7Xu4LZwiCKY=;
+ b=GE2S5NUbQYrh4Xo+am9PIje6OMoSg/elzfrM8dfmlW7cqKCsgZTc5GTDfJ4vDDka07xe
+ ya5QCKv7YQArwSqWVgA7j9dFeMMXIWGO4P67jKDVV1RepKgp2WfDWm2ru+rrvMntaqpv
+ bYBut703dyfrkNj49qa3a27uQnQVOtreJqqVoh5Fh6sPCYnduJ45GgFjmg1Z9lkCppvj
+ LF9GQmJDZatM0OE7CmxTEXmf/QEKTyc4nTdXE+0xPQju6CTLFi39BslLXK9zslPfX4l2
+ U56kzlY5Ss/jppLeaWc5ZcbYAYQXFJxESvpxEC6BUDObj/khCQ2JdX4YCBWpJ3+20V5i +g== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3pd3kq3dqd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 20 Mar 2023 14:48:28 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id BF7FA100034
+	for <openembedded-core@lists.openembedded.org>; Mon, 20 Mar 2023 14:48:27 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 64D1A216ECF
+	for <openembedded-core@lists.openembedded.org>; Mon, 20 Mar 2023 14:48:27 +0100 (CET)
+Received: from localhost (10.201.23.79) by SHFDAG1NODE1.st.com (10.75.129.69)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Mon, 20 Mar
+ 2023 14:48:27 +0100
+From: <romuald.jeanne@st.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Romuald Jeanne <romuald.jeanne@st.com>
+Subject: [PATCH] oeqa/selftest/imagefeatures: set a test for mutliubi in test_image_fstypes
+Date: Mon, 20 Mar 2023 14:48:18 +0100
+Message-ID: <20230320134818.4510-1-romuald.jeanne@st.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [10.201.23.79]
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-20_09,2023-03-20_02,2023-02-09_01
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Mar 2023 13:28:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178829
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Mar 2023 13:48:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178830
 
-The tests installed by jsonpointer use unittest not pytest, so update
-the dependencies.
+From: Romuald Jeanne <romuald.jeanne@st.com>
 
-Use the unittest runner in python3-unittest-automake-output to get the
-correct output.
+Allow 'multiubi' fstype image.
+Set 'MULTIUBI_BUILD' with two entries to allow configuration for two
+different '.ubifs'.
+Configure 'MKUBIFS_ARGS_*' and 'UBINIZE_ARGS_*' for both configurations.
 
-Apply a patch so the test suite doesn't run twice.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Romuald Jeanne <romuald.jeanne@st.com>
 ---
- .../0001-Clean-up-test-runner.patch           | 62 +++++++++++++++++++
- .../python/python3-jsonpointer/run-ptest      |  2 +-
- .../python/python3-jsonpointer_2.3.bb         |  6 +-
- 3 files changed, 68 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python3-jsonpointer/0001=
--Clean-up-test-runner.patch
+ meta/lib/oeqa/selftest/cases/imagefeatures.py | 27 +++++++++++++++----
+ 1 file changed, 22 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-jsonpointer/0001-Clean-=
-up-test-runner.patch b/meta/recipes-devtools/python/python3-jsonpointer/0=
-001-Clean-up-test-runner.patch
-new file mode 100644
-index 00000000000..4121834dbfb
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-jsonpointer/0001-Clean-up-test=
--runner.patch
-@@ -0,0 +1,62 @@
-+From 04a864f33848da6af1dea906ba4922770022ef66 Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@arm.com>
-+Date: Thu, 16 Mar 2023 14:21:32 +0000
-+Subject: [PATCH] Clean up test runner
+diff --git a/meta/lib/oeqa/selftest/cases/imagefeatures.py b/meta/lib/oeqa/selftest/cases/imagefeatures.py
+index bdd4d3200e2..cc374663e1a 100644
+--- a/meta/lib/oeqa/selftest/cases/imagefeatures.py
++++ b/meta/lib/oeqa/selftest/cases/imagefeatures.py
+@@ -203,7 +203,7 @@ class ImageFeatures(OESelftestTestCase):
+         image_name = 'core-image-minimal'
+ 
+         all_image_types = set(get_bb_var("IMAGE_TYPES", image_name).split())
+-        skip_image_types = set(('container', 'elf', 'f2fs', 'multiubi', 'tar.zst', 'wic.zst', 'squashfs-lzo'))
++        skip_image_types = set(('container', 'elf', 'f2fs', 'tar.zst', 'wic.zst', 'squashfs-lzo'))
+         img_types = all_image_types - skip_image_types
+ 
+         config = """
+@@ -211,6 +211,12 @@ IMAGE_FSTYPES += "%s"
+ WKS_FILE = "wictestdisk.wks"
+ MKUBIFS_ARGS ?= "-m 2048 -e 129024 -c 2047"
+ UBINIZE_ARGS ?= "-m 2048 -p 128KiB -s 512"
++MULTIUBI_BUILD += "mtd_2_128"
++MKUBIFS_ARGS_mtd_2_128 ?= "-m 2048 -e 129024 -c 2047"
++UBINIZE_ARGS_mtd_2_128 ?= "-m 2048 -p 128KiB -s 512"
++MULTIUBI_BUILD += "mtd_4_256"
++MKUBIFS_ARGS_mtd_4_256 ?= "-m 4096 -e 253952 -c 4096"
++UBINIZE_ARGS_mtd_4_256 ?= "-m 4096 -p 256KiB"
+ """ % ' '.join(img_types)
+         self.write_config(config)
+ 
+@@ -219,10 +225,21 @@ UBINIZE_ARGS ?= "-m 2048 -p 128KiB -s 512"
+         deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE')
+         link_name = get_bb_var('IMAGE_LINK_NAME', image_name)
+         for itype in img_types:
+-            image_path = os.path.join(deploy_dir_image, "%s.%s" % (link_name, itype))
+-            # check if result image is in deploy directory
+-            self.assertTrue(os.path.exists(image_path),
+-                            "%s image %s doesn't exist" % (itype, image_path))
++            if itype == 'multiubi':
++                # For multiubi build we need to manage MULTIUBI_BUILD entry to append
++                # specific name to IMAGE_LINK_NAME
++                multiubi_build = get_bb_var('MULTIUBI_BUILD', image_name).split()
++                for vname in multiubi_build:
++                    image_path = os.path.join(deploy_dir_image, "%s_%s.ubifs" % (link_name, vname))
++                    # check if result image is in deploy directory
++                    self.assertTrue(os.path.exists(image_path),
++                                    "%s image %s doesn't exist" % (itype, image_path))
++            else:
++                image_path = os.path.join(deploy_dir_image, "%s.%s" % (link_name, itype))
++                # check if result image is in deploy directory
++                self.assertTrue(os.path.exists(image_path),
++                                "%s image %s doesn't exist" % (itype, image_path))
 +
-+Test code doesn't need to manually construct a TestSuite and a
-+TextTestRunner, the unittest module has a discovery function that does
-+all this for you.
-+
-+Delete all of the manual logic from tests.py, replace it with the two
-+lines to bring in the doctest unit tests, and update the makefile to
-+run the unittest discovery.
-+
-+Upstream-Status: Submitted [https://github.com/stefankoegl/python-json-p=
-ointer/pull/54]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ makefile |  2 +-
-+ tests.py | 24 ++++--------------------
-+ 2 files changed, 5 insertions(+), 21 deletions(-)
-+
-+diff --git a/tests.py b/tests.py
-+index 9252369..6b4b8cc 100755
-+--- a/tests.py
-++++ b/tests.py
-+@@ -7,6 +7,7 @@ import doctest
-+ import unittest
-+ import sys
-+ import copy
-++import jsonpointer
-+ from jsonpointer import resolve_pointer, EndOfList, JsonPointerExceptio=
-n, \
-+          JsonPointer, set_pointer
-+=20
-+@@ -410,23 +411,6 @@ class AltTypesTests(unittest.TestCase):
-+         self.assertRaises(JsonPointerException, resolve_pointer, doc, '=
-/root/1/2/3/4')
-+=20
-+=20
-+-
-+-suite =3D unittest.TestSuite()
-+-suite.addTest(unittest.makeSuite(SpecificationTests))
-+-suite.addTest(unittest.makeSuite(ComparisonTests))
-+-suite.addTest(unittest.makeSuite(WrongInputTests))
-+-suite.addTest(unittest.makeSuite(ToLastTests))
-+-suite.addTest(unittest.makeSuite(SetTests))
-+-suite.addTest(unittest.makeSuite(AltTypesTests))
-+-
-+-modules =3D ['jsonpointer']
-+-
-+-for module in modules:
-+-    m =3D __import__(module, fromlist=3D[module])
-+-    suite.addTest(doctest.DocTestSuite(m))
-+-
-+-runner =3D unittest.TextTestRunner(verbosity=3D1)
-+-result =3D runner.run(suite)
-+-
-+-if not result.wasSuccessful():
-+-    sys.exit(1)
-++def load_tests(loader, tests, ignore):
-++    tests.addTests(doctest.DocTestSuite(jsonpointer))
-++    return tests
-+--=20
-+2.34.1
-+
-diff --git a/meta/recipes-devtools/python/python3-jsonpointer/run-ptest b=
-/meta/recipes-devtools/python/python3-jsonpointer/run-ptest
-index 51e609f4bad..7ebd69231f2 100644
---- a/meta/recipes-devtools/python/python3-jsonpointer/run-ptest
-+++ b/meta/recipes-devtools/python/python3-jsonpointer/run-ptest
-@@ -1,3 +1,3 @@
- #!/bin/sh
-=20
--python3 tests.py
-+python3 -mputao.unittest tests.py
-diff --git a/meta/recipes-devtools/python/python3-jsonpointer_2.3.bb b/me=
-ta/recipes-devtools/python/python3-jsonpointer_2.3.bb
-index 16d5cab4cfb..0ec4de055c5 100644
---- a/meta/recipes-devtools/python/python3-jsonpointer_2.3.bb
-+++ b/meta/recipes-devtools/python/python3-jsonpointer_2.3.bb
-@@ -5,6 +5,8 @@ LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3D32b15c843b=
-7a329130f4e266a281ebb3"
-=20
- inherit pypi ptest setuptools3
-=20
-+SRC_URI +=3D "file://0001-Clean-up-test-runner.patch"
-+
- SRC_URI[sha256sum] =3D "97cba51526c829282218feb99dab1b1e6bdf8efd1c43dc9d=
-57be093c0d69c99a"
-=20
- RDEPENDS:${PN} +=3D " \
-@@ -18,7 +20,9 @@ SRC_URI +=3D " \
- "
-=20
- RDEPENDS:${PN}-ptest +=3D " \
--	${PYTHON_PN}-pytest \
-+	${PYTHON_PN}-doctest \
-+	${PYTHON_PN}-unittest \
-+	${PYTHON_PN}-unittest-automake-output \
- "
-=20
- do_install_ptest() {
---=20
-2.34.1
+ 
+     def test_useradd_static(self):
+         config = """
+-- 
+2.17.1
 
 
