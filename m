@@ -2,26 +2,26 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2E28C77B6E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1F78C77B71
 	for <webhook@archiver.kernel.org>; Mon, 20 Mar 2023 13:28:04 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.13904.1679318882721239588
+ by mx.groups.io with SMTP id smtpd.web10.13803.1679318876748230906
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Mar 2023 06:28:02 -0700
+ Mon, 20 Mar 2023 06:27:56 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 49625106F;
-	Mon, 20 Mar 2023 06:28:46 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5A5391042;
+	Mon, 20 Mar 2023 06:28:40 -0700 (PDT)
 Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E4AF13F71E;
-	Mon, 20 Mar 2023 06:28:01 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id ED0753F71E;
+	Mon, 20 Mar 2023 06:27:55 -0700 (PDT)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
 Cc: nd@arm.com
-Subject: [PATCH 13/17] python3-pyasn1: : use python3-unittest-automake-output
-Date: Mon, 20 Mar 2023 13:27:47 +0000
-Message-Id: <20230320132751.518693-13-ross.burton@arm.com>
+Subject: [PATCH 04/17] python3-unittest-automake-output: add new recipe for ptest integration
+Date: Mon, 20 Mar 2023 13:27:38 +0000
+Message-Id: <20230320132751.518693-4-ross.burton@arm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230320132751.518693-1-ross.burton@arm.com>
 References: <20230320132751.518693-1-ross.burton@arm.com>
@@ -31,44 +31,43 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 Mar 2023 13:28:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178825
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178816
 
-Instead of using sed to reformat the output use this new module.
+This package contains modules for both unittest and pytest that alter
+the output to look like automake's 'make check' output, for better
+integration with ptest.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-devtools/python/python-pyasn1.inc        | 1 +
- meta/recipes-devtools/python/python3-pyasn1/run-ptest | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ .../python/python3-unittest-automake-output_0.1.bb   | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-unittest-automak=
+e-output_0.1.bb
 
-diff --git a/meta/recipes-devtools/python/python-pyasn1.inc b/meta/recipe=
-s-devtools/python/python-pyasn1.inc
-index 1b941630e72..126d0388efa 100644
---- a/meta/recipes-devtools/python/python-pyasn1.inc
-+++ b/meta/recipes-devtools/python/python-pyasn1.inc
-@@ -24,6 +24,7 @@ SRC_URI +=3D " \
-=20
- RDEPENDS:${PN}-ptest +=3D " \
- 	${PYTHON_PN}-pytest \
-+	${PYTHON_PN}-unittest-automake-output \
- "
-=20
- do_install_ptest() {
-diff --git a/meta/recipes-devtools/python/python3-pyasn1/run-ptest b/meta=
-/recipes-devtools/python/python3-pyasn1/run-ptest
-index b63c4de0d9a..8d2017d39ce 100644
---- a/meta/recipes-devtools/python/python3-pyasn1/run-ptest
-+++ b/meta/recipes-devtools/python/python3-pyasn1/run-ptest
-@@ -1,3 +1,3 @@
- #!/bin/sh
-=20
--pytest -o log_cli=3Dtrue -o log_cli_level=3DINFO | sed -e 's/\[...%\]//g=
-'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'|sed -e 's/SKIPPED/S=
-KIP/g'| awk '{if ($NF=3D=3D"PASS" || $NF=3D=3D"FAIL" || $NF=3D=3D"SKIP" |=
-| $NF=3D=3D"XFAIL" || $NF=3D=3D"XPASS"){printf "%s: %s\n", $NF, $0}else{p=
-rint}}'| awk '{if ($NF=3D=3D"PASS" || $NF=3D=3D"FAIL" || $NF=3D=3D"SKIP" =
-|| $NF=3D=3D"XFAIL" || $NF=3D=3D"XPASS") {$NF=3D"";print $0}else{print}}'
-+pytest --automake
+diff --git a/meta/recipes-devtools/python/python3-unittest-automake-outpu=
+t_0.1.bb b/meta/recipes-devtools/python/python3-unittest-automake-output_=
+0.1.bb
+new file mode 100644
+index 00000000000..5de526b895e
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.b=
+b
+@@ -0,0 +1,12 @@
++SUMMARY =3D "Modules to make unittest and pytest look like Automake outp=
+ut, for ptest"
++LICENSE =3D "MIT"
++LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Df6f16008d9fb7349f06609329f1ab=
+93b"
++
++SRC_URI =3D "git://gitlab.com/rossburton/python-unittest-automake-output=
+;protocol=3Dhttps;branch=3Dmain"
++SRCREV =3D "06537edb18f3641c70bce25256f6ecf5f5164ead"
++
++S =3D "${WORKDIR}/git"
++
++inherit python_flit_core
++
++BBCLASSEXTEND =3D "native nativesdk"
 --=20
 2.34.1
 
