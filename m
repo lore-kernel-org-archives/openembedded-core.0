@@ -1,90 +1,93 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <marex@denx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3DB9C7618A
-	for <webhook@archiver.kernel.org>; Mon, 20 Mar 2023 10:01:12 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web11.10071.1679306465055922992
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8E11C6FD1D
+	for <webhook@archiver.kernel.org>; Mon, 20 Mar 2023 10:21:52 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web11.10403.1679307704131458932
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Mar 2023 03:01:05 -0700
+ Mon, 20 Mar 2023 03:21:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ekiCegkd;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id j2so9711623wrh.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Mar 2023 03:01:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1679306463;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=bX2FuDlA/zwJahMs2Rao0FRPHD428WyFTxDcUdsfQLM=;
-        b=ekiCegkdnA0R4DHuG56OQgBmxfInS4a6TRlcsbTDjyf7CW4wX8aKYtrqTAJ1pdWVVu
-         vKbMFqhYRQatcpq9ycgLP9PbKxPtiBNCy4dqlbyVbcwp6RVy88AcNlzd6x2rl0fSxsT8
-         mtmjAT76Q/77tAdhK5akJxdwNlH901dvxYG00=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679306463;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bX2FuDlA/zwJahMs2Rao0FRPHD428WyFTxDcUdsfQLM=;
-        b=B47RXprzoocZoNPp2MCvM6i6Sl1VQIc666X/zBs0IM49WFW5jNlv/Eye7xkBumEn7y
-         m/sZ3SO/u8nGL0mql5IFGP6Od8BIDgRqXAZbjBcnDJRQvmTPoGuWgTFmKvt59hPV6+87
-         W5koiEVTO7FH8CLW3pEz0QaLr+6Tn2PtnlJni9qFKxEdByW7hNSlwGA/dUHreaGLBfpZ
-         LUDh9IxG7sDoMP1RPCP/wN04TptvuysNRA+6a0Phz7wglrNhCtgeGGq1t84khVyyWFWT
-         3T29qwitVj72IByQXPlZkJrZIWpiQV990RRzF1nuz6lwdx7qQYLUG3+A0IyG50gBd0bn
-         lg0g==
-X-Gm-Message-State: AO0yUKXI1rvHWnP86WuPFvUUwLEswpCsI64OmlVDkREd0yKQ7ZYEc2rh
-	rBXgN81OwuKySbmne/2QKiFFTw==
-X-Google-Smtp-Source: AK7set/wQBUiHuLcWtrx14/aKpnK6rclBx3huBmruPkJRAuYSphAYZxcIE5QcgP08buOQP0JbihMdQ==
-X-Received: by 2002:adf:e941:0:b0:2ce:e571:5cc3 with SMTP id m1-20020adfe941000000b002cee5715cc3mr9044059wrn.28.1679306463553;
-        Mon, 20 Mar 2023 03:01:03 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:1e4e:398:789f:af73? ([2001:8b0:aba:5f3c:1e4e:398:789f:af73])
-        by smtp.gmail.com with ESMTPSA id p14-20020a5d48ce000000b002d45575643esm6457866wrs.43.2023.03.20.03.01.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Mar 2023 03:01:03 -0700 (PDT)
-Message-ID: <b035e00a13a04de67dea942bb202671b7c7d0393.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 6/6] mesa: update 22.3.5 -> 23.0.0
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Khem Raj <raj.khem@gmail.com>
-Cc: Alexander Kanavin <alex@linutronix.de>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 20 Mar 2023 10:01:02 +0000
-In-Reply-To: <CANNYZj8w3QZ5H4L76ZD=qY3YmLYDP31nrJQWxh+BS+Ub7dc=ww@mail.gmail.com>
-References: <20230316094102.2628727-1-alex@linutronix.de>
-	 <20230316094102.2628727-6-alex@linutronix.de>
-	 <CAMKF1sqhwupoW0kV7ao94DvdbxTH4B5i3HfMwOnp6M+g0g85Sg@mail.gmail.com>
-	 <CANNYZj9rnnKP_wGaqqg8ozVz1Q5ikbqccQCADshnFpuozG3MyQ@mail.gmail.com>
-	 <CAMKF1spQmR-yy3nvjDs6aDMKd-NB3yBMPTTCvp8XNptfYRPjPQ@mail.gmail.com>
-	 <CANNYZj8w3QZ5H4L76ZD=qY3YmLYDP31nrJQWxh+BS+Ub7dc=ww@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3-1 
+ dkim=pass header.i=@denx.de header.s=phobos-20191101 header.b=HdAG10Ow;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: marex@denx.de)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 6230485A1D;
+	Mon, 20 Mar 2023 11:21:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1679307701;
+	bh=4n8WmRC4QPLPgrrXNsTFezPd5SX0fzqkj7vIDLgsts8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=HdAG10OwEx/OSeJL/d8LPmEKRiubBojXSba80Bfs0vHONytDT2d/c/3l5tZ/YrMgu
+	 DT7MKbbJ1sCrwfYzYCMBZQcMgA7KzEoWt5fyFEyRCZZxO8ugCRLj7U2FwYT/j/snKf
+	 NtfLILF5x91rZqsFYR3/nwtMEYCvygDJTW6uksHkjvWPyvGkMEcXUfmcsvmKyUpu6w
+	 0JyHjNRe/9GmrrMPcEyJHutW5+RmqfeWly7zo3RSE5QoQRFKmSXLY3+AamerS/eMrQ
+	 qmohzuAmxLk+NpHPMOEHzUU/DVwz/T3/NHzPI9rWFXxm53/I6vNEnsopcWed8AeHcg
+	 tUHNq7unypmzA==
+Message-ID: <181b96a5-62de-225b-417d-67d3b5197264@denx.de>
+Date: Mon, 20 Mar 2023 11:21:34 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [OE-core] [PATCH] systemd-systemctl: Create machine-id with
+ "uninitialized" text in it
+To: ChenQi <Qi.Chen@windriver.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Armin Kuster <akuster808@gmail.com>, Bob Henz <robert_henz@jabil.com>,
+ Kristian Klausen <kristian@klausen.dk>,
+ Nick Potenski <nick.potenski@garmin.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20230227191548.95504-1-marex@denx.de>
+ <b006eac7-bc3b-59f7-0ac3-7701042bac54@windriver.com>
+ <34a6fdfb-f96d-536d-7761-fb46b06a302f@denx.de>
+ <CO6PR11MB560219C3F043786F9A9EF378EDBD9@CO6PR11MB5602.namprd11.prod.outlook.com>
+ <4cea1d51-8291-48a9-629c-8ebdd1a97e71@denx.de>
+ <335648f9-d1d3-fe27-f492-1fdda85fa3fc@windriver.com>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <335648f9-d1d3-fe27-f492-1fdda85fa3fc@windriver.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Mar 2023 10:01:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178809
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Mar 2023 10:21:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178810
 
-On Mon, 2023-03-20 at 08:09 +0100, Alexander Kanavin wrote:
-> On Sat, 18 Mar 2023 at 19:38, Khem Raj <raj.khem@gmail.com> wrote:
-> > Perhaps in the next cycle yes and definitely for the next LTS it
-> > should be dropped.
-> >=20
-> > Its stll supported via Extended Security Maintenance (ESM)  and users
-> > maybe still be using it.
->=20
-> The question is: are ubuntu 18.04 workers going to be maintained after
-> 18.04 transitions to ESM next month? In all likelihood they won't be,
-> as it is a commercial subscription, and then we can't continue to test
-> with it.
+On 3/20/23 03:23, ChenQi wrote:
+> On 3/20/23 06:55, Marek Vasut wrote:
+>> On 3/17/23 15:32, Chen, Qi wrote:
+>>> Hi Marek,
+>>
+>> Hi,
+>>
+>> sorry for the delay
+>>
+>>> I used the following line in local.conf and the firstboot worked:
+>>> IMAGE_PREPROCESS_COMMAND:remove = "systemd_preset_all;"
+>>
+>> But doesn't that also inhibit the rootfs-time preset-all ? I would 
+>> like to keep that, I just need for the systemd firstboot units to run 
+>> on first boot to do first boot system setup things, which they won't 
+>> without the 'uninitialized' in /etc/machine-id .
+> 
+> 
+> 1) Lacking of /etc/machine-id file also triggers firstboot.
+> 
+> 2) systemd firstboot does 'preset-all'. If you enable firstboot, then 
+> you don't need rootfs-time preset-all.
 
-I think the fact it can work with buildtools should mean we're ok. As
-mentioned, we already need it there for python version requirements and
-as mentioned, it is EOL soon anyway.
+All right, thank you. Please go ahead with the revert.
 
-Cheers,
-
-Richard
+But can you please document this IMAGE_PREPROCESS_COMMAND:remove = 
+"systemd_preset_all;" somewhere at least in the commit message, so 
+others who run into non-working firstboot won't have to struggle with it 
+? Maybe even add this into the comment in 'systemctl' script ?
 
