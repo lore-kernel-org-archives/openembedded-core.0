@@ -1,581 +1,1475 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <sjolley.yp.pm@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 945F3C74A5B
-	for <webhook@archiver.kernel.org>; Tue, 21 Mar 2023 14:32:07 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.web10.15019.1679409117661246229
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ED47C6FD1D
+	for <webhook@archiver.kernel.org>; Tue, 21 Mar 2023 14:47:17 +0000 (UTC)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web11.15172.1679410035977721289
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Mar 2023 07:31:59 -0700
+ Tue, 21 Mar 2023 07:47:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=XOINPfQ5;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20230321143154549ad2d93eb5230ec1-8stmeo@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20230321143154549ad2d93eb5230ec1
-        for <openembedded-core@lists.openembedded.org>;
-        Tue, 21 Mar 2023 15:31:54 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=e21g+YeicioMlCaXDwwSI857b2ePTjDoUi/OJLsWkEA=;
- b=XOINPfQ5AGavGkGTUgjsa4YixK71AtesLACwyoN4ypgmmCgQhy5YrVTpr0bGs+hrKsT85d
- 0et6FYMM7AKlGItPLa1f6CciNNssC6V4sOBhOxZXVzBY0rITxy2YIYXk6cYvN/UnPIadobvk
- sX9V4Z589E20urubZkDQl2b108aUI=;
-From: "P. Marko" <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH] systemd: fix CVE-2022-4415
-Date: Tue, 21 Mar 2023 15:30:41 +0100
-Message-Id: <20230321143041.755259-1-peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=QShRXl/G;
+ spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pj1-f51.google.com with SMTP id l9-20020a17090a3f0900b0023d32684e7fso1617400pjc.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 07:47:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679410035;
+        h=content-language:thread-index:mime-version:message-id:date:subject
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=muz09MCqJa4xMIE7byy1Ld3NsUr3yxtZvFcscHuKCeg=;
+        b=QShRXl/GmWgnFnY7BHBpYxIg/XDn/xSNRYaN/u2ZnsV3p1oezeFSh474TDKnFur7c5
+         U4DdAnl/fMTvgiUhPCuhKyJtbKvmIM3nKaBkis2ybc5NEDm3bN9mo0jgHkotflSGf3nf
+         owJfnEe8Hp3q3zadBG8v+xmrUEmETw4WyykyK/lXQ+OYBTmk1zmI2tErvL/LDpyXXNk+
+         d3wT0I5vNnzzXyJ4o29eO62cwYYT1iKGF2RXXPlnGZxcL86KfPIHSfk+gRdr6GLPDY5b
+         3DYPWJGEZfBogH3kn1Kwpj9ous+kqzKmpu0P85ajQCYTw5mzcVxJ4c5ZAKnfI0wAToN9
+         Za/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679410035;
+        h=content-language:thread-index:mime-version:message-id:date:subject
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=muz09MCqJa4xMIE7byy1Ld3NsUr3yxtZvFcscHuKCeg=;
+        b=6NAmME7unsltwPKAhzHF4qFOZ9uNcX/xqVr1GCPhuBtsJo3xqeBD7Sfku0EPo8+e7p
+         8hKbLIIruSXhPytyfLti6551+GWmbIIPE1aa6DVc/1frUrrCMbAP4WCdIPfFmSjqsPY2
+         9RGja5m/XYS71UzwgMjcBaxsRByACL4mtgIz/up8448tNEyWLBiXC7aIr1bl2ykt3ubK
+         kdl8KE/x8D61prW8wrajPxEXYopGdOPDS7g1NCQr8MkrEIU0FzdJOMHdeuITfmFvCas+
+         IWX5E7qWb+st99mq8kq3XaHw83i4C2VKp5/kaI7Cf3kwrBZJwJJTZC7SZVyweZB3PU9u
+         MvqA==
+X-Gm-Message-State: AO0yUKXJLwCYR7ezhFdyg/oNxIUghTnyPyvBavwAuavGQZBj9YdH54YE
+	cSXJLqJi1QU/lxK2qG3VJ8MKjENaBE4=
+X-Google-Smtp-Source: AK7set9zJQGHB8p5C/LOTPFGmwgQoIUBVuE4XTmK5/hO2NeskFbk7UrLqp7omEx6pXbDDRPJzMC9mQ==
+X-Received: by 2002:a17:902:da8a:b0:19e:b2f3:e8c4 with SMTP id j10-20020a170902da8a00b0019eb2f3e8c4mr3234171plx.25.1679410034791;
+        Tue, 21 Mar 2023 07:47:14 -0700 (PDT)
+Received: from skjolley ([2600:1011:a124:5236:fab7:c3f3:b8a7:82b5])
+        by smtp.gmail.com with ESMTPSA id bi11-20020a170902bf0b00b0019f11caf11asm8866944plb.166.2023.03.21.07.47.13
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 21 Mar 2023 07:47:14 -0700 (PDT)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@lists.yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Status 21 March 2023 (WW12)
+Date: Tue, 21 Mar 2023 07:47:12 -0700
+Message-ID: <0e5301d95c04$06477070$12d65150$@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0E54_01D95BC9.59EB5790"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AdlcA/i+3oUWjjkDRCK6lSxwDBuLZA==
+Content-Language: en-us
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 14:32:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178887
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 14:47:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178888
 
-From: Peter Marko <peter.marko@siemens.com>
+This is a multipart message in MIME format.
 
-Backport from v250-stable branch (v250.9)
+------=_NextPart_000_0E54_01D95BC9.59EB5790
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- .../systemd/systemd/CVE-2022-4415-1.patch     | 109 +++++
- .../systemd/systemd/CVE-2022-4415-2.patch     | 391 ++++++++++++++++++
- meta/recipes-core/systemd/systemd_250.5.bb    |   2 +
- 3 files changed, 502 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/CVE-2022-4415-1.patch
- create mode 100644 meta/recipes-core/systemd/systemd/CVE-2022-4415-2.patch
+Current Dev Position: YP 4.2 M4
 
-diff --git a/meta/recipes-core/systemd/systemd/CVE-2022-4415-1.patch b/meta/recipes-core/systemd/systemd/CVE-2022-4415-1.patch
-new file mode 100644
-index 0000000000..5cf0fe284e
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/CVE-2022-4415-1.patch
-@@ -0,0 +1,109 @@
-+From 45d323fc889a55fae400a5b08a56273d5724ef4a Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Zbigniew=20J=C4=99drzejewski-Szmek?= <zbyszek@in.waw.pl>
-+Date: Tue, 29 Nov 2022 09:00:16 +0100
-+Subject: [PATCH 1/2] coredump: adjust whitespace
-+
-+(cherry picked from commit 510a146634f3e095b34e2a26023b1b1f99dcb8c0)
-+(cherry picked from commit cc2eb7a9b5fd6d9dd8ea35fb045ce6e5e16e1187)
-+(cherry picked from commit cb044d734c44cd3c05a6e438b5b995b2a9cfa73c)
-+
-+Preparation to avoid conflicts when applying CVE CVE-2022-4415
-+Upstream-Status: Backport [https://github.com/systemd/systemd-stable/commit/45d323fc889a55fae400a5b08a56273d5724ef4a]
-+
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ src/coredump/coredump.c | 56 ++++++++++++++++++++---------------------
-+ 1 file changed, 28 insertions(+), 28 deletions(-)
-+
-+diff --git a/src/coredump/coredump.c b/src/coredump/coredump.c
-+index eaea63f682..8295b03ac7 100644
-+--- a/src/coredump/coredump.c
-++++ b/src/coredump/coredump.c
-+@@ -103,16 +103,16 @@ enum {
-+ };
-+ 
-+ static const char * const meta_field_names[_META_MAX] = {
-+-        [META_ARGV_PID]          = "COREDUMP_PID=",
-+-        [META_ARGV_UID]          = "COREDUMP_UID=",
-+-        [META_ARGV_GID]          = "COREDUMP_GID=",
-+-        [META_ARGV_SIGNAL]       = "COREDUMP_SIGNAL=",
-+-        [META_ARGV_TIMESTAMP]    = "COREDUMP_TIMESTAMP=",
-+-        [META_ARGV_RLIMIT]       = "COREDUMP_RLIMIT=",
-+-        [META_ARGV_HOSTNAME]     = "COREDUMP_HOSTNAME=",
-+-        [META_COMM]              = "COREDUMP_COMM=",
-+-        [META_EXE]               = "COREDUMP_EXE=",
-+-        [META_UNIT]              = "COREDUMP_UNIT=",
-++        [META_ARGV_PID]       = "COREDUMP_PID=",
-++        [META_ARGV_UID]       = "COREDUMP_UID=",
-++        [META_ARGV_GID]       = "COREDUMP_GID=",
-++        [META_ARGV_SIGNAL]    = "COREDUMP_SIGNAL=",
-++        [META_ARGV_TIMESTAMP] = "COREDUMP_TIMESTAMP=",
-++        [META_ARGV_RLIMIT]    = "COREDUMP_RLIMIT=",
-++        [META_ARGV_HOSTNAME]  = "COREDUMP_HOSTNAME=",
-++        [META_COMM]           = "COREDUMP_COMM=",
-++        [META_EXE]            = "COREDUMP_EXE=",
-++        [META_UNIT]           = "COREDUMP_UNIT=",
-+ };
-+ 
-+ typedef struct Context {
-+@@ -131,9 +131,9 @@ typedef enum CoredumpStorage {
-+ } CoredumpStorage;
-+ 
-+ static const char* const coredump_storage_table[_COREDUMP_STORAGE_MAX] = {
-+-        [COREDUMP_STORAGE_NONE] = "none",
-++        [COREDUMP_STORAGE_NONE]     = "none",
-+         [COREDUMP_STORAGE_EXTERNAL] = "external",
-+-        [COREDUMP_STORAGE_JOURNAL] = "journal",
-++        [COREDUMP_STORAGE_JOURNAL]  = "journal",
-+ };
-+ 
-+ DEFINE_PRIVATE_STRING_TABLE_LOOKUP(coredump_storage, CoredumpStorage);
-+@@ -149,13 +149,13 @@ static uint64_t arg_max_use = UINT64_MAX;
-+ 
-+ static int parse_config(void) {
-+         static const ConfigTableItem items[] = {
-+-                { "Coredump", "Storage",          config_parse_coredump_storage,           0, &arg_storage           },
-+-                { "Coredump", "Compress",         config_parse_bool,                       0, &arg_compress          },
-+-                { "Coredump", "ProcessSizeMax",   config_parse_iec_uint64,                 0, &arg_process_size_max  },
-+-                { "Coredump", "ExternalSizeMax",  config_parse_iec_uint64_infinity,        0, &arg_external_size_max },
-+-                { "Coredump", "JournalSizeMax",   config_parse_iec_size,                   0, &arg_journal_size_max  },
-+-                { "Coredump", "KeepFree",         config_parse_iec_uint64,                 0, &arg_keep_free         },
-+-                { "Coredump", "MaxUse",           config_parse_iec_uint64,                 0, &arg_max_use           },
-++                { "Coredump", "Storage",          config_parse_coredump_storage,     0, &arg_storage           },
-++                { "Coredump", "Compress",         config_parse_bool,                 0, &arg_compress          },
-++                { "Coredump", "ProcessSizeMax",   config_parse_iec_uint64,           0, &arg_process_size_max  },
-++                { "Coredump", "ExternalSizeMax",  config_parse_iec_uint64_infinity,  0, &arg_external_size_max },
-++                { "Coredump", "JournalSizeMax",   config_parse_iec_size,             0, &arg_journal_size_max  },
-++                { "Coredump", "KeepFree",         config_parse_iec_uint64,           0, &arg_keep_free         },
-++                { "Coredump", "MaxUse",           config_parse_iec_uint64,           0, &arg_max_use           },
-+                 {}
-+         };
-+ 
-+@@ -201,15 +201,15 @@ static int fix_acl(int fd, uid_t uid) {
-+ static int fix_xattr(int fd, const Context *context) {
-+ 
-+         static const char * const xattrs[_META_MAX] = {
-+-                [META_ARGV_PID]          = "user.coredump.pid",
-+-                [META_ARGV_UID]          = "user.coredump.uid",
-+-                [META_ARGV_GID]          = "user.coredump.gid",
-+-                [META_ARGV_SIGNAL]       = "user.coredump.signal",
-+-                [META_ARGV_TIMESTAMP]    = "user.coredump.timestamp",
-+-                [META_ARGV_RLIMIT]       = "user.coredump.rlimit",
-+-                [META_ARGV_HOSTNAME]     = "user.coredump.hostname",
-+-                [META_COMM]              = "user.coredump.comm",
-+-                [META_EXE]               = "user.coredump.exe",
-++                [META_ARGV_PID]       = "user.coredump.pid",
-++                [META_ARGV_UID]       = "user.coredump.uid",
-++                [META_ARGV_GID]       = "user.coredump.gid",
-++                [META_ARGV_SIGNAL]    = "user.coredump.signal",
-++                [META_ARGV_TIMESTAMP] = "user.coredump.timestamp",
-++                [META_ARGV_RLIMIT]    = "user.coredump.rlimit",
-++                [META_ARGV_HOSTNAME]  = "user.coredump.hostname",
-++                [META_COMM]           = "user.coredump.comm",
-++                [META_EXE]            = "user.coredump.exe",
-+         };
-+ 
-+         int r = 0;
-+-- 
-+2.30.2
-+
-diff --git a/meta/recipes-core/systemd/systemd/CVE-2022-4415-2.patch b/meta/recipes-core/systemd/systemd/CVE-2022-4415-2.patch
-new file mode 100644
-index 0000000000..8389ee8cd6
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/CVE-2022-4415-2.patch
-@@ -0,0 +1,391 @@
-+From 1d5e0e9910500f3c3584485f77bfc35e601036e3 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Zbigniew=20J=C4=99drzejewski-Szmek?= <zbyszek@in.waw.pl>
-+Date: Mon, 28 Nov 2022 12:12:55 +0100
-+Subject: [PATCH 2/2] coredump: do not allow user to access coredumps with
-+ changed uid/gid/capabilities
-+
-+When the user starts a program which elevates its permissions via setuid,
-+setgid, or capabilities set on the file, it may access additional information
-+which would then be visible in the coredump. We shouldn't make the the coredump
-+visible to the user in such cases.
-+
-+Reported-by: Matthias Gerstner <mgerstner@suse.de>
-+
-+This reads the /proc/<pid>/auxv file and attaches it to the process metadata as
-+PROC_AUXV. Before the coredump is submitted, it is parsed and if either
-+at_secure was set (which the kernel will do for processes that are setuid,
-+setgid, or setcap), or if the effective uid/gid don't match uid/gid, the file
-+is not made accessible to the user. If we can't access this data, we assume the
-+file should not be made accessible either. In principle we could also access
-+the auxv data from a note in the core file, but that is much more complex and
-+it seems better to use the stand-alone file that is provided by the kernel.
-+
-+Attaching auxv is both convient for this patch (because this way it's passed
-+between the stages along with other fields), but I think it makes sense to save
-+it in general.
-+
-+We use the information early in the core file to figure out if the program was
-+32-bit or 64-bit and its endianness. This way we don't need heuristics to guess
-+whether the format of the auxv structure. This test might reject some cases on
-+fringe architecutes. But the impact would be limited: we just won't grant the
-+user permissions to view the coredump file. If people report that we're missing
-+some cases, we can always enhance this to support more architectures.
-+
-+I tested auxv parsing on amd64, 32-bit program on amd64, arm64, arm32, and
-+ppc64el, but not the whole coredump handling.
-+
-+(cherry picked from commit 3e4d0f6cf99f8677edd6a237382a65bfe758de03)
-+(cherry picked from commit 9b75a3d0502d6741c8ecb7175794345f8eb3827c)
-+(cherry picked from commit efca5283dc791a07171f80eef84e14fdb58fad57)
-+
-+CVE: CVE-2022-4415
-+Upstream-Status: Backport [https://github.com/systemd/systemd-stable/commit/1d5e0e9910500f3c3584485f77bfc35e601036e3]
-+
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ src/basic/io-util.h     |   9 ++
-+ src/coredump/coredump.c | 196 +++++++++++++++++++++++++++++++++++++---
-+ 2 files changed, 192 insertions(+), 13 deletions(-)
-+
-+diff --git a/src/basic/io-util.h b/src/basic/io-util.h
-+index 39728e06bc..3afb134266 100644
-+--- a/src/basic/io-util.h
-++++ b/src/basic/io-util.h
-+@@ -91,7 +91,16 @@ struct iovec_wrapper *iovw_new(void);
-+ struct iovec_wrapper *iovw_free(struct iovec_wrapper *iovw);
-+ struct iovec_wrapper *iovw_free_free(struct iovec_wrapper *iovw);
-+ void iovw_free_contents(struct iovec_wrapper *iovw, bool free_vectors);
-++
-+ int iovw_put(struct iovec_wrapper *iovw, void *data, size_t len);
-++static inline int iovw_consume(struct iovec_wrapper *iovw, void *data, size_t len) {
-++        /* Move data into iovw or free on error */
-++        int r = iovw_put(iovw, data, len);
-++        if (r < 0)
-++                free(data);
-++        return r;
-++}
-++
-+ int iovw_put_string_field(struct iovec_wrapper *iovw, const char *field, const char *value);
-+ int iovw_put_string_field_free(struct iovec_wrapper *iovw, const char *field, char *value);
-+ void iovw_rebase(struct iovec_wrapper *iovw, char *old, char *new);
-+diff --git a/src/coredump/coredump.c b/src/coredump/coredump.c
-+index 8295b03ac7..79280ab986 100644
-+--- a/src/coredump/coredump.c
-++++ b/src/coredump/coredump.c
-+@@ -4,6 +4,7 @@
-+ #include <stdio.h>
-+ #include <sys/prctl.h>
-+ #include <sys/statvfs.h>
-++#include <sys/auxv.h>
-+ #include <sys/xattr.h>
-+ #include <unistd.h>
-+ 
-+@@ -99,6 +100,7 @@ enum {
-+ 
-+         META_EXE = _META_MANDATORY_MAX,
-+         META_UNIT,
-++        META_PROC_AUXV,
-+         _META_MAX
-+ };
-+ 
-+@@ -113,10 +115,12 @@ static const char * const meta_field_names[_META_MAX] = {
-+         [META_COMM]           = "COREDUMP_COMM=",
-+         [META_EXE]            = "COREDUMP_EXE=",
-+         [META_UNIT]           = "COREDUMP_UNIT=",
-++        [META_PROC_AUXV]      = "COREDUMP_PROC_AUXV=",
-+ };
-+ 
-+ typedef struct Context {
-+         const char *meta[_META_MAX];
-++        size_t meta_size[_META_MAX];
-+         pid_t pid;
-+         bool is_pid1;
-+         bool is_journald;
-+@@ -178,13 +182,16 @@ static uint64_t storage_size_max(void) {
-+         return 0;
-+ }
-+ 
-+-static int fix_acl(int fd, uid_t uid) {
-++static int fix_acl(int fd, uid_t uid, bool allow_user) {
-++        assert(fd >= 0);
-++        assert(uid_is_valid(uid));
-+ 
-+ #if HAVE_ACL
-+         int r;
-+ 
-+-        assert(fd >= 0);
-+-        assert(uid_is_valid(uid));
-++        /* We don't allow users to read coredumps if the uid or capabilities were changed. */
-++        if (!allow_user)
-++                return 0;
-+ 
-+         if (uid_is_system(uid) || uid_is_dynamic(uid) || uid == UID_NOBODY)
-+                 return 0;
-+@@ -244,7 +251,8 @@ static int fix_permissions(
-+                 const char *filename,
-+                 const char *target,
-+                 const Context *context,
-+-                uid_t uid) {
-++                uid_t uid,
-++                bool allow_user) {
-+ 
-+         int r;
-+ 
-+@@ -254,7 +262,7 @@ static int fix_permissions(
-+ 
-+         /* Ignore errors on these */
-+         (void) fchmod(fd, 0640);
-+-        (void) fix_acl(fd, uid);
-++        (void) fix_acl(fd, uid, allow_user);
-+         (void) fix_xattr(fd, context);
-+ 
-+         r = fsync_full(fd);
-+@@ -324,6 +332,153 @@ static int make_filename(const Context *context, char **ret) {
-+         return 0;
-+ }
-+ 
-++static int parse_auxv64(
-++                const uint64_t *auxv,
-++                size_t size_bytes,
-++                int *at_secure,
-++                uid_t *uid,
-++                uid_t *euid,
-++                gid_t *gid,
-++                gid_t *egid) {
-++
-++        assert(auxv || size_bytes == 0);
-++
-++        if (size_bytes % (2 * sizeof(uint64_t)) != 0)
-++                return log_warning_errno(SYNTHETIC_ERRNO(EIO), "Incomplete auxv structure (%zu bytes).", size_bytes);
-++
-++        size_t words = size_bytes / sizeof(uint64_t);
-++
-++        /* Note that we set output variables even on error. */
-++
-++        for (size_t i = 0; i + 1 < words; i += 2)
-++                switch (auxv[i]) {
-++                case AT_SECURE:
-++                        *at_secure = auxv[i + 1] != 0;
-++                        break;
-++                case AT_UID:
-++                        *uid = auxv[i + 1];
-++                        break;
-++                case AT_EUID:
-++                        *euid = auxv[i + 1];
-++                        break;
-++                case AT_GID:
-++                        *gid = auxv[i + 1];
-++                        break;
-++                case AT_EGID:
-++                        *egid = auxv[i + 1];
-++                        break;
-++                case AT_NULL:
-++                        if (auxv[i + 1] != 0)
-++                                goto error;
-++                        return 0;
-++                }
-++ error:
-++        return log_warning_errno(SYNTHETIC_ERRNO(ENODATA),
-++                                 "AT_NULL terminator not found, cannot parse auxv structure.");
-++}
-++
-++static int parse_auxv32(
-++                const uint32_t *auxv,
-++                size_t size_bytes,
-++                int *at_secure,
-++                uid_t *uid,
-++                uid_t *euid,
-++                gid_t *gid,
-++                gid_t *egid) {
-++
-++        assert(auxv || size_bytes == 0);
-++
-++        size_t words = size_bytes / sizeof(uint32_t);
-++
-++        if (size_bytes % (2 * sizeof(uint32_t)) != 0)
-++                return log_warning_errno(SYNTHETIC_ERRNO(EIO), "Incomplete auxv structure (%zu bytes).", size_bytes);
-++
-++        /* Note that we set output variables even on error. */
-++
-++        for (size_t i = 0; i + 1 < words; i += 2)
-++                switch (auxv[i]) {
-++                case AT_SECURE:
-++                        *at_secure = auxv[i + 1] != 0;
-++                        break;
-++                case AT_UID:
-++                        *uid = auxv[i + 1];
-++                        break;
-++                case AT_EUID:
-++                        *euid = auxv[i + 1];
-++                        break;
-++                case AT_GID:
-++                        *gid = auxv[i + 1];
-++                        break;
-++                case AT_EGID:
-++                        *egid = auxv[i + 1];
-++                        break;
-++                case AT_NULL:
-++                        if (auxv[i + 1] != 0)
-++                                goto error;
-++                        return 0;
-++                }
-++ error:
-++        return log_warning_errno(SYNTHETIC_ERRNO(ENODATA),
-++                                 "AT_NULL terminator not found, cannot parse auxv structure.");
-++}
-++
-++static int grant_user_access(int core_fd, const Context *context) {
-++        int at_secure = -1;
-++        uid_t uid = UID_INVALID, euid = UID_INVALID;
-++        uid_t gid = GID_INVALID, egid = GID_INVALID;
-++        int r;
-++
-++        assert(core_fd >= 0);
-++        assert(context);
-++
-++        if (!context->meta[META_PROC_AUXV])
-++                return log_warning_errno(SYNTHETIC_ERRNO(ENODATA), "No auxv data, not adjusting permissions.");
-++
-++        uint8_t elf[EI_NIDENT];
-++        errno = 0;
-++        if (pread(core_fd, &elf, sizeof(elf), 0) != sizeof(elf))
-++                return log_warning_errno(errno_or_else(EIO),
-++                                         "Failed to pread from coredump fd: %s", errno != 0 ? strerror_safe(errno) : "Unexpected EOF");
-++
-++        if (elf[EI_MAG0] != ELFMAG0 ||
-++            elf[EI_MAG1] != ELFMAG1 ||
-++            elf[EI_MAG2] != ELFMAG2 ||
-++            elf[EI_MAG3] != ELFMAG3 ||
-++            elf[EI_VERSION] != EV_CURRENT)
-++                return log_info_errno(SYNTHETIC_ERRNO(EUCLEAN),
-++                                      "Core file does not have ELF header, not adjusting permissions.");
-++        if (!IN_SET(elf[EI_CLASS], ELFCLASS32, ELFCLASS64) ||
-++            !IN_SET(elf[EI_DATA], ELFDATA2LSB, ELFDATA2MSB))
-++                return log_info_errno(SYNTHETIC_ERRNO(EUCLEAN),
-++                                      "Core file has strange ELF class, not adjusting permissions.");
-++
-++        if ((elf[EI_DATA] == ELFDATA2LSB) != (__BYTE_ORDER == __LITTLE_ENDIAN))
-++                return log_info_errno(SYNTHETIC_ERRNO(EUCLEAN),
-++                                      "Core file has non-native endianness, not adjusting permissions.");
-++
-++        if (elf[EI_CLASS] == ELFCLASS64)
-++                r = parse_auxv64((const uint64_t*) context->meta[META_PROC_AUXV],
-++                                 context->meta_size[META_PROC_AUXV],
-++                                 &at_secure, &uid, &euid, &gid, &egid);
-++        else
-++                r = parse_auxv32((const uint32_t*) context->meta[META_PROC_AUXV],
-++                                 context->meta_size[META_PROC_AUXV],
-++                                 &at_secure, &uid, &euid, &gid, &egid);
-++        if (r < 0)
-++                return r;
-++
-++        /* We allow access if we got all the data and at_secure is not set and
-++         * the uid/gid matches euid/egid. */
-++        bool ret =
-++                at_secure == 0 &&
-++                uid != UID_INVALID && euid != UID_INVALID && uid == euid &&
-++                gid != GID_INVALID && egid != GID_INVALID && gid == egid;
-++        log_debug("Will %s access (uid="UID_FMT " euid="UID_FMT " gid="GID_FMT " egid="GID_FMT " at_secure=%s)",
-++                  ret ? "permit" : "restrict",
-++                  uid, euid, gid, egid, yes_no(at_secure));
-++        return ret;
-++}
-++
-+ static int save_external_coredump(
-+                 const Context *context,
-+                 int input_fd,
-+@@ -446,6 +601,8 @@ static int save_external_coredump(
-+                                 context->meta[META_ARGV_PID], context->meta[META_COMM]);
-+         truncated = r == 1;
-+ 
-++        bool allow_user = grant_user_access(fd, context) > 0;
-++
-+ #if HAVE_COMPRESSION
-+         if (arg_compress) {
-+                 _cleanup_(unlink_and_freep) char *tmp_compressed = NULL;
-+@@ -483,7 +640,7 @@ static int save_external_coredump(
-+                         uncompressed_size += partial_uncompressed_size;
-+                 }
-+ 
-+-                r = fix_permissions(fd_compressed, tmp_compressed, fn_compressed, context, uid);
-++                r = fix_permissions(fd_compressed, tmp_compressed, fn_compressed, context, uid, allow_user);
-+                 if (r < 0)
-+                         return r;
-+ 
-+@@ -510,7 +667,7 @@ static int save_external_coredump(
-+                            "SIZE_LIMIT=%zu", max_size,
-+                            "MESSAGE_ID=" SD_MESSAGE_TRUNCATED_CORE_STR);
-+ 
-+-        r = fix_permissions(fd, tmp, fn, context, uid);
-++        r = fix_permissions(fd, tmp, fn, context, uid, allow_user);
-+         if (r < 0)
-+                 return log_error_errno(r, "Failed to fix permissions and finalize coredump %s into %s: %m", coredump_tmpfile_name(tmp), fn);
-+ 
-+@@ -758,7 +915,7 @@ static int change_uid_gid(const Context *context) {
-+ }
-+ 
-+ static int submit_coredump(
-+-                Context *context,
-++                const Context *context,
-+                 struct iovec_wrapper *iovw,
-+                 int input_fd) {
-+ 
-+@@ -919,16 +1076,15 @@ static int save_context(Context *context, const struct iovec_wrapper *iovw) {
-+                 struct iovec *iovec = iovw->iovec + n;
-+ 
-+                 for (size_t i = 0; i < ELEMENTSOF(meta_field_names); i++) {
-+-                        char *p;
-+-
-+                         /* Note that these strings are NUL terminated, because we made sure that a
-+                          * trailing NUL byte is in the buffer, though not included in the iov_len
-+                          * count (see process_socket() and gather_pid_metadata_*()) */
-+                         assert(((char*) iovec->iov_base)[iovec->iov_len] == 0);
-+ 
-+-                        p = startswith(iovec->iov_base, meta_field_names[i]);
-++                        const char *p = startswith(iovec->iov_base, meta_field_names[i]);
-+                         if (p) {
-+                                 context->meta[i] = p;
-++                                context->meta_size[i] = iovec->iov_len - strlen(meta_field_names[i]);
-+                                 count++;
-+                                 break;
-+                         }
-+@@ -1170,6 +1326,7 @@ static int gather_pid_metadata(struct iovec_wrapper *iovw, Context *context) {
-+         uid_t owner_uid;
-+         pid_t pid;
-+         char *t;
-++        size_t size;
-+         const char *p;
-+         int r;
-+ 
-+@@ -1234,13 +1391,26 @@ static int gather_pid_metadata(struct iovec_wrapper *iovw, Context *context) {
-+                 (void) iovw_put_string_field_free(iovw, "COREDUMP_PROC_LIMITS=", t);
-+ 
-+         p = procfs_file_alloca(pid, "cgroup");
-+-        if (read_full_virtual_file(p, &t, NULL) >=0)
-++        if (read_full_virtual_file(p, &t, NULL) >= 0)
-+                 (void) iovw_put_string_field_free(iovw, "COREDUMP_PROC_CGROUP=", t);
-+ 
-+         p = procfs_file_alloca(pid, "mountinfo");
-+-        if (read_full_virtual_file(p, &t, NULL) >=0)
-++        if (read_full_virtual_file(p, &t, NULL) >= 0)
-+                 (void) iovw_put_string_field_free(iovw, "COREDUMP_PROC_MOUNTINFO=", t);
-+ 
-++        /* We attach /proc/auxv here. ELF coredumps also contain a note for this (NT_AUXV), see elf(5). */
-++        p = procfs_file_alloca(pid, "auxv");
-++        if (read_full_virtual_file(p, &t, &size) >= 0) {
-++                char *buf = malloc(strlen("COREDUMP_PROC_AUXV=") + size + 1);
-++                if (buf) {
-++                        /* Add a dummy terminator to make save_context() happy. */
-++                        *((uint8_t*) mempcpy(stpcpy(buf, "COREDUMP_PROC_AUXV="), t, size)) = '\0';
-++                        (void) iovw_consume(iovw, buf, size + strlen("COREDUMP_PROC_AUXV="));
-++                }
-++
-++                free(t);
-++        }
-++
-+         if (get_process_cwd(pid, &t) >= 0)
-+                 (void) iovw_put_string_field_free(iovw, "COREDUMP_CWD=", t);
-+ 
-+-- 
-+2.30.2
-+
-diff --git a/meta/recipes-core/systemd/systemd_250.5.bb b/meta/recipes-core/systemd/systemd_250.5.bb
-index ef524e0e3d..5405e4b6b3 100644
---- a/meta/recipes-core/systemd/systemd_250.5.bb
-+++ b/meta/recipes-core/systemd/systemd_250.5.bb
-@@ -28,6 +28,8 @@ SRC_URI += "file://touchscreen.rules \
-            file://CVE-2022-3821.patch \
-            file://CVE-2022-45873.patch \
-            file://0001-shared-json-allow-json_variant_dump-to-return-an-err.patch \
-+           file://CVE-2022-4415-1.patch \
-+           file://CVE-2022-4415-2.patch \
-            "
+Next Deadline: 3rd April 2023 YP 4.2 M4 Build
+
  
- # patches needed by musl
--- 
-2.30.2
+
+Next Team Meetings:
+
+*	Bug Triage meeting Thursday March 23rd 7:30 am PDT (
+<https://zoom.us/j/454367603?pwd=ZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09>
+https://zoom.us/j/454367603?pwd=ZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09)
+*	Weekly Project Engineering Sync Tuesday March 21st at 8 am PDT (
+<https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09>
+https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09
+<https://zoom.us/j/990892712> )
+*	Twitch -  See  <https://www.twitch.tv/theyoctojester>
+https://www.twitch.tv/theyoctojester
+
+ 
+
+Key Status/Updates:
+
+*	YP 4.1.3 was released
+*	YP 3.1.24 has passed QA and is being reviewed for release
+*	We are continuing to prepare for final release of 4.2 with the build
+now due in ~1.5 weeks
+*	We're happy to see a huge improvement in the reliability of the
+python ptests thanks to a dedicated pytest plugin to correctly format the
+output into a form we can parse, thanks Ross!
+*	Work on making "poky-bleeding" operational again has highlighted
+some challenges around AUTOREV support. There are patches pending to bitbake
+(in -next) to highlight  problematic situations users may end up in, wider
+testing of those patches by AUTOREV users would be helpful.
+*	CVE levels in the LTS releases are at higher levels than they have
+been for a while which is a concern.
+*	We have a growing number of bugs in bugzilla, any help with them is
+appreciated.
+
+ 
+
+Ways to contribute:
+
+*	As people are likely aware, the project has a number of components
+which are either unmaintained, or have people with little to no time trying
+to keep them alive. These components include: patchtest, layerindex,
+devtool, toaster, wic, oeqa, autobuilder, CROPs containers, pseudo and more.
+Many have open bugs. Help is welcome in trying to better look after these
+components!
+*	There are bugs identified as possible for newcomers to the project:
+<https://wiki.yoctoproject.org/wiki/Newcomers>
+https://wiki.yoctoproject.org/wiki/Newcomers
+*	There are bugs that are currently unassigned for YP 4.2. See:
+<https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium.2B_4.1_Unassigned_Enha
+ncements.2FBugs>
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium.2B_4.2_Unassigned_Enhan
+cements.2FBugs
+*	We'd welcome new maintainers for recipes in OE-Core. Please see the
+list at:
+<http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/distro/include/mai
+ntainers.inc>
+http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/distro/include/main
+tainers.inc and discuss with the existing maintainer, or ask on the OE-Core
+mailing list. We will likely move a chunk of these to "Unassigned" soon to
+help facilitate this.
+*	Help is very much welcome in trying to resolve our autobuilder
+intermittent issues. You can see the list of failures we're continuing to
+see by searching for the "AB-INT" tag in bugzilla:
+<https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=AB-INT>
+https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=AB-INT.
+*	Help us resolve CVE issues:
+<https://autobuilder.yocto.io/pub/non-release/patchmetrics/> CVE metrics 
+
+ 
+
+YP 4.2 Milestone Dates:
+
+*	YP 4.2 M4 build date 2023/04/03
+*	YP 4.2 M4 Release date 2023/04/28
+
+ 
+
+Upcoming dot releases:
+
+*	YP 4.1.3 is released
+*	YP 3.1.24 is ready for release
+*	YP 4.0.9 build date 2023/04/10
+*	YP 4.0.9 Release date 2023/04/21
+*	YP 4.1.4 build date 2023/05/01
+*	YP 4.1.4 Release date 2023/05/13
+*	YP 3.1.25 build date 2023/05/08
+*	YP 3.1.25 Release date 2023/05/19
+*	YP 4.0.10 build date 2023/05/15
+*	YP 4.0.10 Release date 2023/05/26
+
+ 
+
+Tracking Metrics:
+
+*	WDD 2472 (last week 2472) (
+<https://wiki.yoctoproject.org/charts/combo.html>
+https://wiki.yoctoproject.org/charts/combo.html)
+*	OE-Core/Poky Patch Metrics
+
+*	Total patches found: 1190 (last week 1185)
+*	Patches in the Pending State: 277 (23%) [last week 277 (23%)]
+
+*	 <https://autobuilder.yocto.io/pub/non-release/patchmetrics/>
+https://autobuilder.yocto.io/pub/non-release/patchmetrics/
+
+ 
+
+The Yocto Project's technical governance is through its Technical Steering
+Committee, more information is available at:
+
+ <https://wiki.yoctoproject.org/wiki/TSC>
+https://wiki.yoctoproject.org/wiki/TSC
+
+ 
+
+The Status reports are now stored on the wiki at:
+<https://wiki.yoctoproject.org/wiki/Weekly_Status>
+https://wiki.yoctoproject.org/wiki/Weekly_Status
+
+ 
+
+[If anyone has suggestions for other information you'd like to see on this
+weekly status update, let us know!]
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_0E54_01D95BC9.59EB5790
+Content-Type: text/html;
+	boundary="----=_NextPart_000_1024_01D95649.2B850700";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";
+	panose-1:0 0 0 0 0 0 0 0 0 0;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+/* List Definitions */
+@list l0
+	{mso-list-id:141428426;
+	mso-list-template-ids:1261202476;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l0:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l0:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1
+	{mso-list-id:489948935;
+	mso-list-template-ids:-1331511868;}
+@list l1:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l1:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l1:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2
+	{mso-list-id:603341271;
+	mso-list-template-ids:1020047382;}
+@list l2:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l2:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l2:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3
+	{mso-list-id:668366632;
+	mso-list-template-ids:570567110;}
+@list l3:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l3:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l3:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4
+	{mso-list-id:950015688;
+	mso-list-template-ids:2092590826;}
+@list l4:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l4:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l4:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5
+	{mso-list-id:998117536;
+	mso-list-template-ids:-557007146;}
+@list l5:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l5:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l5:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6
+	{mso-list-id:1188329590;
+	mso-list-template-ids:807303028;}
+@list l6:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l6:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l6:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7
+	{mso-list-id:1573352664;
+	mso-list-template-ids:-1965549618;}
+@list l7:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l7:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l7:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8
+	{mso-list-id:1669284948;
+	mso-list-template-ids:850305780;}
+@list l8:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l8:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l8:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9
+	{mso-list-id:1869415908;
+	mso-list-template-ids:1208007590;}
+@list l9:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l9:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l9:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10
+	{mso-list-id:1983343489;
+	mso-list-template-ids:181798378;}
+@list l10:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l10:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l10:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l11
+	{mso-list-id:2022778089;
+	mso-list-template-ids:1488073234;}
+@list l11:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l11:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l11:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l11:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l11:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l11:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l11:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l11:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l11:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Current Dev =
+Position: YP 4.2 M4</span><o:p></o:p></p><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Next Deadline: 3rd =
+April 2023 YP 4.2 M4 Build</span><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Next Team =
+Meetings:</span><o:p></o:p></p><ul =
+style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l8 level1 =
+lfo7;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Bug Triage meeting Thursday =
+March 23rd 7:30 am PDT (<a =
+href=3D"https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz0=
+9"><span =
+style=3D'color:#1155CC'>https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y=
+0bFd5aVpHVVZ6dz09</span></a>)<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l8 level1 =
+lfo7;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Weekly Project Engineering Sync =
+Tuesday March 21st at 8 am PDT (<a =
+href=3D"https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT0=
+9"><span =
+style=3D'color:#1155CC'>https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck8=
+1bkcrYjRrcmJsUT09</span></a><a =
+href=3D"https://zoom.us/j/990892712"><span =
+style=3D'color:#1155CC'>)</span></a><o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l8 level1 =
+lfo7;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Twitch -&nbsp; See <a =
+href=3D"https://www.twitch.tv/theyoctojester"><span =
+style=3D'color:#1155CC'>https://www.twitch.tv/theyoctojester</span></a><o=
+:p></o:p></span></li></ul><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Key =
+Status/Updates:</span><o:p></o:p></p><ul =
+style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
+lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 4.1.3 was =
+released<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
+lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1.24 has passed QA and is =
+being reviewed for release<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
+lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>We are continuing to prepare =
+for final release of 4.2 with the build now due in ~1.5 =
+weeks<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
+lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>We&#8217;re happy to see a huge =
+improvement in the reliability of the python ptests thanks to a =
+dedicated pytest plugin to correctly format the output into a form we =
+can parse, thanks Ross!<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
+lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Work on making =
+&#8220;poky-bleeding&#8221; operational again has highlighted some =
+challenges around AUTOREV support. There are patches pending to bitbake =
+(in -next) to highlight&nbsp; problematic situations users may end up =
+in, wider testing of those patches by AUTOREV users would be =
+helpful.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
+lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>CVE levels in the LTS releases =
+are at higher levels than they have been for a while which is a =
+concern.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
+lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>We have a growing number of =
+bugs in bugzilla, any help with them is =
+appreciated.<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Ways to =
+contribute:</span><o:p></o:p></p><ul =
+style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l9 level1 =
+lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>As people are likely aware, the =
+project has a number of components which are either unmaintained, or =
+have people with little to no time trying to keep them alive. These =
+components include: patchtest, layerindex, devtool, toaster, wic, oeqa, =
+autobuilder, CROPs containers, pseudo and more. Many have open bugs. =
+Help is welcome in trying to better look after these =
+components!<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l9 level1 =
+lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>There are bugs identified as =
+possible for newcomers to the project: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Newcomers"><span =
+style=3D'color:#1155CC'>https://wiki.yoctoproject.org/wiki/Newcomers</spa=
+n></a><o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l9 level1 =
+lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>There are bugs that are =
+currently unassigned for YP 4.2. See: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium.2B_4.1_Unass=
+igned_Enhancements.2FBugs"><span =
+style=3D'color:#1155CC'>https://wiki.yoctoproject.org/wiki/Bug_Triage#Med=
+ium.2B_4.2_Unassigned_Enhancements.2FBugs</span></a><o:p></o:p></span></l=
+i><li style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l9 =
+level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>We&#8217;d welcome new =
+maintainers for recipes in OE-Core. Please see the list at: <a =
+href=3D"http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/distro/i=
+nclude/maintainers.inc"><span =
+style=3D'color:#1155CC'>http://git.yoctoproject.org/cgit.cgi/poky/tree/me=
+ta/conf/distro/include/maintainers.inc</span></a> and discuss with the =
+existing maintainer, or ask on the OE-Core mailing list. We will likely =
+move a chunk of these to &#8220;Unassigned&#8221; soon to help =
+facilitate this.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l9 level1 =
+lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Help is very much welcome in =
+trying to resolve our autobuilder intermittent issues. You can see the =
+list of failures we&#8217;re continuing to see by searching for the =
+&#8220;AB-INT&#8221; tag in bugzilla: <a =
+href=3D"https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3DAB-IN=
+T"><span =
+style=3D'color:#1155CC'>https://bugzilla.yoctoproject.org/buglist.cgi?qui=
+cksearch=3DAB-INT</span></a>.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l9 level1 =
+lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Help us resolve CVE issues: <a =
+href=3D"https://autobuilder.yocto.io/pub/non-release/patchmetrics/"><span=
+ style=3D'color:#1155CC'>CVE =
+metrics</span></a>&nbsp;<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>YP 4.2 Milestone =
+Dates:</span><o:p></o:p></p><ul =
+style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l1 level1 =
+lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 4.2 M4 build date =
+2023/04/03<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l1 level1 =
+lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 4.2 M4 Release date =
+2023/04/28<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Upcoming dot =
+releases:</span><o:p></o:p></p><ul =
+style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
+lfo11;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 4.1.3 is =
+released<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
+lfo11;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1.24 is ready for =
+release<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
+lfo11;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 4.0.9 build date =
+2023/04/10<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
+lfo11;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 4.0.9 Release date =
+2023/04/21<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
+lfo11;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 4.1.4 build date =
+2023/05/01<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
+lfo11;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 4.1.4 Release date =
+2023/05/13<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
+lfo11;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1.25 build date =
+2023/05/08<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
+lfo11;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1.25 Release date =
+2023/05/19<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
+lfo11;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 4.0.10 build date =
+2023/05/15<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
+lfo11;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 4.0.10 Release date =
+2023/05/26<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Tracking =
+Metrics:</span><o:p></o:p></p><ul =
+style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
+lfo12;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>WDD 2472 (last week =
+2472)</span><span style=3D'font-family:Consolas'> (</span><span =
+style=3D'font-family:"Arial",sans-serif'><a =
+href=3D"https://wiki.yoctoproject.org/charts/combo.html"><span =
+style=3D'color:#1155CC'>https://wiki.yoctoproject.org/charts/combo.html</=
+span></a></span><span style=3D'font-family:Consolas'>)</span><span =
+style=3D'font-family:"Arial",sans-serif'><o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
+lfo12;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>OE-Core/Poky Patch =
+Metrics</span><span =
+style=3D'font-family:Consolas'><o:p></o:p></span></li><ul =
+style=3D'margin-top:0in;padding-inline-start:48px' type=3Dcircle><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level2 =
+lfo12;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Total patches found: 1190 (last =
+week 1185)<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level2 =
+lfo12;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Patches in the Pending State: =
+277 (23%) [last week 277 (23%)]</span><span =
+style=3D'font-family:Consolas'><o:p></o:p></span></li></ul><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
+lfo12;vertical-align:baseline'><span style=3D'font-family:Consolas'><a =
+href=3D"https://autobuilder.yocto.io/pub/non-release/patchmetrics/"><span=
+ =
+style=3D'font-family:"Arial",sans-serif;color:#1155CC'>https://autobuilde=
+r.yocto.io/pub/non-release/patchmetrics/</span></a><o:p></o:p></span></li=
+></ul><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>The Yocto =
+Project&#8217;s technical governance is through its Technical Steering =
+Committee, more information is available at:</span><o:p></o:p></p><p =
+style=3D'margin:0in'><a =
+href=3D"https://wiki.yoctoproject.org/wiki/TSC"><span =
+style=3D'font-family:"Arial",sans-serif;color:#1155CC'>https://wiki.yocto=
+project.org/wiki/TSC</span></a><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>The Status reports =
+are now stored on the wiki at: </span><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Weekly_Status"><span =
+style=3D'font-family:"Arial",sans-serif;color:#1155CC'>https://wiki.yocto=
+project.org/wiki/Weekly_Status</span></a><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>[If anyone has =
+suggestions for other information you&#8217;d like to see on this weekly =
+status update, let us know!]</span><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+------=_NextPart_000_0E54_01D95BC9.59EB5790--
 
 
