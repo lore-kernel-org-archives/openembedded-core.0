@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 584D5C7619A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59C37C761A6
 	for <webhook@archiver.kernel.org>; Tue, 21 Mar 2023 14:20:57 +0000 (UTC)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web11.14397.1679408447832312019
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web11.14404.1679408453287192571
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Mar 2023 07:20:47 -0700
+ Tue, 21 Mar 2023 07:20:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=RvITiZxa;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f47.google.com with SMTP id f6-20020a17090ac28600b0023b9bf9eb63so16055486pjt.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 07:20:47 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=4XBacrpL;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f169.google.com with SMTP id dw14so3678447pfb.6
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 07:20:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679408447;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679408452;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=R/au7txvuKSDg9/NGIMjwQPZbjbPYUi2fJqmEOTGSAs=;
-        b=RvITiZxabk/PWHX3eU3bZ0te1Zkj5CvKzezLwmWu7jCLSubEQK9YgQabnzJNqkYsYB
-         rZ6+i5eAWam34ozTiET9ohDx15ivwAQas5xTbdkBNHPuMAi4ZCJJZS3wYO/vY7uF0fc7
-         U81+rfNT+vQazT6cn97Wbvg6AWH/DNvluJ1XKX2TeNHW8E5CDq9x7nmKLc3AJdN2dmck
-         RwZsVsvpNY6KXStleZhGt1XIk5Rbm/g1/mzgTYiTo1HSKgNJdOtE+Jgk1dtHpLDWX2N1
-         E/0CCSeuGX5l8xltBpcDT6SdOtyyTHzhfJNz8mFEEoJGyalDhBbb0CBCqIc9Y7rUHDU+
-         BU5Q==
+        bh=rO6dXH7WvrK5PAZw6VZ7awDQP1+D5Nt9mMeTUQ98tA4=;
+        b=4XBacrpLM7Xh1h+X1/eWxjibCC9ALTt0xSFqs2Q5GGYQxZhuq1XYGSsBmy1w1uV3xb
+         3Nc/j4Z6oSwOASvWt2pAJ7z1qRoEbfa1zGRuxHCWRbrC9yXy6pPBxIwLZ3OIemW5MaF3
+         MnB8AgrpQVb42pxb3Yc2NdOv2e0pH4O8VrQnSo+9WvLFHbYYemcKlrblSHNL2ok3Xn8/
+         NPTXWiFneJSpZUYmiVsiHxJ5vAIJCXdzyA4c9lPYTy96Jzm3dCukVEgQxcWHNkbA/Iwh
+         7vtTZOXuIZ14Po6ZqlLyL97iLVmSdmNSRHvoR7iezQ7eLjpZekxWorkpa3sGhiBzoXec
+         FloA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679408447;
+        d=1e100.net; s=20210112; t=1679408452;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=R/au7txvuKSDg9/NGIMjwQPZbjbPYUi2fJqmEOTGSAs=;
-        b=072R//7yGNKJ3dzbhIHUlIa6OR7LcBeYS11g8btDqakS1w3EQfbv77l7vTtsyTBsYu
-         DUHQy8e5MVAu+n2VxRVKNS8ExmVjkbpPiGw55ud7zrwMgTgr51XNHKO57msocVW6N7kH
-         ngk5j7T4ifMZqB8dfBWBCyVgyH051JpeamYL88PcWuEyVHbL6KblpkYVQ4a2x/m+FChA
-         3Mz+VECN9PCzf5XHjcaQUrj2q4Oq9lnZbLFHrud7LlzhDlIW6+iOpQLuKZMXtfWI3Yiq
-         xz6pgDrpIizaK42Qs/pQpiqintqe3lAhE8drTzbu/spgGeLEjxTPirQls8NvJtyHVqzU
-         QGmw==
-X-Gm-Message-State: AO0yUKUoC4HlLsoE9U98i+VHnT2OFTS7dDXkH3wX7JGwyjbTNUTQmDYd
-	UM8dFoNbLdFukdeTws53WzDyqDgB1rwzY6A9flY=
-X-Google-Smtp-Source: AK7set+oo0yMZSACtXYHQxmh+Nf93ABrv/aIzko8zwag54opovUd9jpy1Dh/WKoevxEsaQdUIOCdoA==
-X-Received: by 2002:a05:6a20:9288:b0:d3:c972:9a83 with SMTP id q8-20020a056a20928800b000d3c9729a83mr1915005pzg.56.1679408446884;
-        Tue, 21 Mar 2023 07:20:46 -0700 (PDT)
+        bh=rO6dXH7WvrK5PAZw6VZ7awDQP1+D5Nt9mMeTUQ98tA4=;
+        b=KtSW3mpkEyP7oXHu7KbqcQPwb6dunDocXi8kXWLzw4tqiF5N0TE+DfAF1cUMoMMttc
+         Qdpsq3URqASam0WTdNGMHowX9+j8451WmgPkA7peBqceZw93YUburD3a43nfK54RA92e
+         g8IqGuMUlwIlXMZGQ7I/YPzwzHfmfqEperr7zMdGquwK//iy9y78WeTLNY25DMYg1Osp
+         /IOIivdma8LhbSIK8nw8W3zCkGueNiRsKFkOH3jltCiDKbKt8db8iqE9jp6WMspw1BAR
+         vbNYAgcoWpQFvAtXuSOqOS5z5BBZ7UGZu1Mor0gCjCPPML31+zyzbDFzfNx7PyPMXWGr
+         qVCQ==
+X-Gm-Message-State: AO0yUKWXJ5kmUjA3aM4/5rmx3s3fGiM6CXwOId3YyKzlCD8zQvvmXNoK
+	LtaRf2+JaBQARt2q6r3e9IMRsRbKBaqNRn4nVt4=
+X-Google-Smtp-Source: AK7set+FL3rSDdQe1K24ySxAVdtCneXNtXTSz3GHDSIVPCXGtTa4r1wmzeulLup4wndR0y6/71uGGw==
+X-Received: by 2002:aa7:93dc:0:b0:625:caa5:67ee with SMTP id y28-20020aa793dc000000b00625caa567eemr2201118pff.19.1679408452364;
+        Tue, 21 Mar 2023 07:20:52 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id g11-20020aa7818b000000b005892ea4f092sm8551291pfi.95.2023.03.21.07.20.46
+        by smtp.gmail.com with ESMTPSA id g11-20020aa7818b000000b005892ea4f092sm8551291pfi.95.2023.03.21.07.20.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Mar 2023 07:20:46 -0700 (PDT)
+        Tue, 21 Mar 2023 07:20:52 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 09/14] staging/multilib: Fix manifest corruption
-Date: Tue, 21 Mar 2023 04:20:14 -1000
-Message-Id: <271ac31e15d00d636e888a1f3b7d4e22e0b8267a.1679408291.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 12/14] toolchain-scripts: Handle spaces within user $PATH
+Date: Tue, 21 Mar 2023 04:20:17 -1000
+Message-Id: <ad6aaa77f1d08b4ca66f46e318f1a09b645d9e23.1679408291.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1679408291.git.steve@sakoman.com>
 References: <cover.1679408291.git.steve@sakoman.com>
@@ -61,55 +61,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 14:20:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178880
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178883
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Kenfe-Mickael Laventure <mickael.laventure@gmail.com>
 
-The previous fix wasn't enough to address all the possible ways the
-manifests might be ordered. Rework the previous fix so it is tied
-to the multilib cross-canadian code which is causing the problem.
+The environment-setup script generated by the recipe was not quoting the
+user existing PATH when updating it causing the export command to fail.
 
-RECIPE_SYSROOT_MANIFEST_SUBDIR is not documented as I'd hope nobody
-ever needs to use this outside the core multilib code.
+Add necessary double quotes around $PATH.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit beab42e00713880cd95a04729c892f8662fbcbed)
+Signed-off-by: Kenfe-Mickael Laventure <mickael.laventure@gmail.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit 42177ff2d45ee70ad00917bb6fbabca49dae4f59)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/multilib.bbclass | 1 +
- meta/classes/staging.bbclass  | 7 ++++---
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ meta/classes/toolchain-scripts.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index 9a8b02d4f6..b5c59ac593 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -45,6 +45,7 @@ python multilib_virtclass_handler () {
-         e.data.setVar("RECIPE_SYSROOT", "${WORKDIR}/recipe-sysroot")
-         e.data.setVar("STAGING_DIR_TARGET", "${WORKDIR}/recipe-sysroot")
-         e.data.setVar("STAGING_DIR_HOST", "${WORKDIR}/recipe-sysroot")
-+        e.data.setVar("RECIPE_SYSROOT_MANIFEST_SUBDIR", "nativesdk-" + variant)
-         e.data.setVar("MLPREFIX", variant + "-")
-         override = ":virtclass-multilib-" + variant
-         e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + override)
-diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index 4177e6cf05..21523c8f75 100644
---- a/meta/classes/staging.bbclass
-+++ b/meta/classes/staging.bbclass
-@@ -267,9 +267,10 @@ python extend_recipe_sysroot() {
-     pn = d.getVar("PN")
-     stagingdir = d.getVar("STAGING_DIR")
-     sharedmanifests = d.getVar("COMPONENTS_DIR") + "/manifests"
--    mlprefix = d.getVar("MLPREFIX")
--    if mlprefix:
--        sharedmanifests = sharedmanifests + "/" + mlprefix
-+    # only needed by multilib cross-canadian since it redefines RECIPE_SYSROOT
-+    manifestprefix = d.getVar("RECIPE_SYSROOT_MANIFEST_SUBDIR")
-+    if manifestprefix:
-+        sharedmanifests = sharedmanifests + "/" + manifestprefix
-     recipesysroot = d.getVar("RECIPE_SYSROOT")
-     recipesysrootnative = d.getVar("RECIPE_SYSROOT_NATIVE")
- 
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+index 9aa31dc6cd..21762b803b 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -44,7 +44,7 @@ toolchain_create_sdk_env_script () {
+ 	for i in ${CANADIANEXTRAOS}; do
+ 		EXTRAPATH="$EXTRAPATH:$sdkpathnative$bindir/${TARGET_ARCH}${TARGET_VENDOR}-$i"
+ 	done
+-	echo "export PATH=$sdkpathnative$bindir:$sdkpathnative$sbindir:$sdkpathnative$base_bindir:$sdkpathnative$base_sbindir:$sdkpathnative$bindir/../${HOST_SYS}/bin:$sdkpathnative$bindir/${TARGET_SYS}"$EXTRAPATH':$PATH' >> $script
++	echo "export PATH=$sdkpathnative$bindir:$sdkpathnative$sbindir:$sdkpathnative$base_bindir:$sdkpathnative$base_sbindir:$sdkpathnative$bindir/../${HOST_SYS}/bin:$sdkpathnative$bindir/${TARGET_SYS}"$EXTRAPATH':"$PATH"' >> $script
+ 	echo 'export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT' >> $script
+ 	echo 'export PKG_CONFIG_PATH=$SDKTARGETSYSROOT'"$libdir"'/pkgconfig:$SDKTARGETSYSROOT'"$prefix"'/share/pkgconfig' >> $script
+ 	echo 'export CONFIG_SITE=${SDKPATH}/site-config-'"${multimach_target_sys}" >> $script
 -- 
 2.34.1
 
