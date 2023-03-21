@@ -2,105 +2,152 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60A30C6FD1D
-	for <webhook@archiver.kernel.org>; Tue, 21 Mar 2023 14:21:07 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web10.14693.1679408457185911248
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77FCCC77B60
+	for <webhook@archiver.kernel.org>; Tue, 21 Mar 2023 14:23:57 +0000 (UTC)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web10.14791.1679408634104442163
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Mar 2023 07:20:57 -0700
+ Tue, 21 Mar 2023 07:23:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=ZImeLsrt;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f182.google.com with SMTP id k15so7886641pgt.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 07:20:57 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=vVRvOGtf;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.46, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f46.google.com with SMTP id fy10-20020a17090b020a00b0023b4bcf0727so16105294pjb.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 07:23:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679408456;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Mg1MKloKKOVDZYvfpUgCPHvgldeVoxeOpTuaZB1wxhY=;
-        b=ZImeLsrtSPSFSRunZKdG8I6qvhMlIk/6DTBiw91WF8gSO2bXxoyOzFCq9WIEP7tkUX
-         HSpdzyjRP+knhAzibGxkjJkSgySukKPzfx548F/DM5aD4PQ/SsWpjGfgDeuR3N1DS5Wa
-         5DpUl0xubLsjRE1wQyNnfgDD1lTHmeyITHbIbjxcXEmXq33fIXlaUvsnWuEFYVlPTcAX
-         67JUGG2zsIwMvwdxoBjLZIdgtmWa/s6PqBdYgsYhcZ1qQVG1+rGKYoZVOvMdB5Ey8hKs
-         aPh9DsmGH1UDtNyI1VxcwIBYIcCwR0WKHfUtIqfIYOAGxq5yBXKsbKOTN3UB9vbIGZuP
-         WIxg==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679408633;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LRGFatB2eoUXI02UdsU1wwt8otwIy8tYjc1OFnIucsQ=;
+        b=vVRvOGtfXA8WqnNjpZJwvoQET5YZNXpN+jCWGLDTsyAvhWHrnWKSJbZEbcRt+u+sZF
+         g4KTbhTlk71qkpuodLqfbyXJ1RBNzspot4GHQ1tMg8gIACGyZDT4KINlVojgttlQE8cK
+         16cSx0QuLAcKrKfMyHh+FnH61BYNW54EwCDZ491LZnWPCdVJGfTGxuWVZtnGp95LUb/q
+         xj2Df58ZTrqYEQ2Q8gaVXORrg9NCiXb+vw7pchhtBCduLz9DhpYWk53ZTgXPglZ9hW5E
+         fD8pFSr+2DrYrY44k3q9XG/aHJBeaH7h5zbaOf8vteN6oJni0ZXOcIocHGCKkeY60xvf
+         X6Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679408456;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Mg1MKloKKOVDZYvfpUgCPHvgldeVoxeOpTuaZB1wxhY=;
-        b=K4u4obGEgGXcZT0cJKnhiYOKRFTUCAum4UXjCI4Zv1Yrz5No/EPsFFIctamMY0U3ZX
-         UvBuJ92Clz3xI1RND5Kk7r3YSfMou3v0b2GYpXvK1ZPqVk1s9HK95xgOqwHgg+ZD2M7A
-         DnJV9+XPBzb77o4gVX14u9z9B4BPF9l58Ito6AbISMDhTzO9cdEGthF6F1uD4wY5lbKK
-         vtDfqJFL8ons5n3JXLie6oSoG/gKYexRIiElVJasTir/r4Y3UrVEYUg6oj1Bmw705/ni
-         HG7JLnowisu3NDPrC8sFKnf8Zna9y+g1ycETDf+k0VkYUoCVB3igPQxAfHvTk0VXX/sL
-         9TVQ==
-X-Gm-Message-State: AO0yUKXAgrYnwJ97QISm54dHWWAw0fHrNuUYkzyHblK1vC0V6VZZXPN3
-	0dEpSDFTeXdiEfr2uSVrw8vbfSeISYuWf+4jOmw=
-X-Google-Smtp-Source: AK7set/zW5d+SWtpb83hhWxNTXJe9sxHB+S4QTYGOHbmG3TBF4pZ8p9rWOBQXaS3OA/zeu9cHwui5Q==
-X-Received: by 2002:a62:1989:0:b0:626:f692:5b1 with SMTP id 131-20020a621989000000b00626f69205b1mr2040690pfz.22.1679408456210;
-        Tue, 21 Mar 2023 07:20:56 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1679408633;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LRGFatB2eoUXI02UdsU1wwt8otwIy8tYjc1OFnIucsQ=;
+        b=z1namnqnUam/wJ3EZpX5QMEzSwrlfC1e4RNEB7fIQesFEZCENhC8QbjAdyT5DZD7/x
+         1b03pDqKm8aoMKcXXeAGb3JpPmZzBwtxoe5K3KsedAL2zYuIjrHsjUnCqdhP55XB+Nlv
+         hMYYCKJalUPoLn0H4h6MBnBHJu5q0uoo5299gLIpfqFy/k7uCkElZUpeXb09Lw6MlnX3
+         fnH0nELrqfmkh4HtC5+noMvL2hIOhIqAegdVcrc/iWFVPZ6jj45qWYVRaSzM0qTWM2wM
+         i2cnLYTqbuZfeSQAiarKuv0CutcWh4Ov3ClkXWpLGmgC4fmjOU5Te0mx3aheJWgaVokJ
+         bpSA==
+X-Gm-Message-State: AO0yUKXIycjEYbUP7bgVqG/lJDAJkNYZem/EFPuPjEHH2Ru5s3Cc0hnN
+	EiIw0OGRxDQi+0n7g1WEpIhI6+Dv+FGItCoaOwI=
+X-Google-Smtp-Source: AK7set83AWG+czGBUaLt6onyrsdc8rVTiKBSHSIo5fQjBSX4uqOPNKdR7zHKF7xpGKAwYqVHju95Wg==
+X-Received: by 2002:a17:90b:38c7:b0:237:b702:499f with SMTP id nn7-20020a17090b38c700b00237b702499fmr3091632pjb.22.1679408633144;
+        Tue, 21 Mar 2023 07:23:53 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id g11-20020aa7818b000000b005892ea4f092sm8551291pfi.95.2023.03.21.07.20.55
+        by smtp.gmail.com with ESMTPSA id ds17-20020a17090b08d100b00230ffcb2e24sm11631345pjb.13.2023.03.21.07.23.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Mar 2023 07:20:55 -0700 (PDT)
+        Tue, 21 Mar 2023 07:23:52 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 14/14] base-files: Drop localhost.localdomain from hosts file
-Date: Tue, 21 Mar 2023 04:20:19 -1000
-Message-Id: <a04b207c4ffa900313a0b5e3079ad2eec7d31f27.1679408291.git.steve@sakoman.com>
+Subject: [OE-core][langdale 00/23] Pull request (cover letter only)
+Date: Tue, 21 Mar 2023 04:23:48 -1000
+Message-Id: <cover.1679408574.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1679408291.git.steve@sakoman.com>
-References: <cover.1679408291.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 14:21:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178885
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 14:23:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178886
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+The following changes since commit 21e8a662e6232e7fdd642b1d86d4f8f980be1a09:
 
-This was likely something we took inspiration from elsewhere with.
-It was added in:
+  vala: Fix install conflict when enable multilib. (2023-03-10 05:54:34 -1000)
 
-https://git.openembedded.org/openembedded/commit/packages/netbase/netbase/hosts?id=c8e5702127e507e82e6f68a4b8c546803accea9d
+are available in the Git repository at:
 
-in 2005. Debian added this entry around 2004 and discussed and dropped
-it in 2005:
+  https://git.openembedded.org/openembedded-core-contrib stable/langdale-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/langdale-next
 
-https://lists.debian.org/debian-devel/2005/10/msg00559.html
+Alexander Kanavin (4):
+  sudo: update 1.9.12p2 -> 1.9.13p2
+  libdnf: update 0.69.0 -> 0.70.0
+  pango: upgrade 1.50.12 -> 1.50.13
+  apt: re-enable version check
 
-resulting in:
+Kenfe-Mickael Laventure (3):
+  buildtools-tarball: Handle spaces within user $PATH
+  toolchain-scripts: Handle spaces within user $PATH
+  populate_sdk_ext: Handle spaces within user $PATH
 
-https://salsa.debian.org/installer-team/netcfg/-/commit/3c15ee521b2b8f47b34ccc7f610523cd284f2221
+Michael Halstead (1):
+  selftest/runtime_test/virgl: Disable for all Rocky Linux
 
-We should drop this for some of the reasons in those threads,
-it doesn't seem to be doing anything too helpful and isn't what most
-applications expect.
+Richard Purdie (5):
+  staging: Separate out different multiconfig manifests
+  staging/multilib: Fix manifest corruption
+  glibc: Add missing binutils dependency
+  selftest/recipetool: Stop test corrupting tinfoil class
+  base-files: Drop localhost.localdomain from hosts file
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e730d005fa8aec07f9ae25c58d4566eaa92a6997)
-Signed-off-by: Jermain Horsman <jermain.horsman@nedap.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/recipes-core/base-files/base-files/hosts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Ross Burton (3):
+  vim: upgrade to 9.0.1403
+  vim: set modified-by to the recipe MAINTAINER
+  meson: remove obsolete RPATH stripping patch
 
-diff --git a/meta/recipes-core/base-files/base-files/hosts b/meta/recipes-core/base-files/base-files/hosts
-index b94f414d5c..10a5b6c704 100644
---- a/meta/recipes-core/base-files/base-files/hosts
-+++ b/meta/recipes-core/base-files/base-files/hosts
-@@ -1,4 +1,4 @@
--127.0.0.1	localhost.localdomain		localhost
-+127.0.0.1	localhost
- 
- # The following lines are desirable for IPv6 capable hosts
- ::1     localhost ip6-localhost ip6-loopback
+Siddharth (1):
+  harfbuzz: Security fix for CVE-2023-25193
+
+Trevor Woerner (3):
+  cups: use BUILDROOT instead of DESTDIR
+  cups: check PACKAGECONFIG for pam feature
+  cups: add/fix web interface packaging
+
+Wang Mingyu (1):
+  dhcpcd: Fix install conflict when enable multilib.
+
+Xiangyu Chen (1):
+  sudo: update 1.9.13p2 -> 1.9.13p3
+
+Zoltan Boszormenyi (1):
+  piglit: Fix build time dependency
+
+ meta/classes-global/staging.bbclass           |   4 +
+ meta/classes-recipe/populate_sdk_ext.bbclass  |   2 +-
+ meta/classes-recipe/toolchain-scripts.bbclass |   2 +-
+ meta/classes/multilib.bbclass                 |   1 +
+ meta/lib/oeqa/selftest/cases/recipetool.py    |   5 +-
+ meta/lib/oeqa/selftest/cases/runtime_test.py  |   3 +-
+ .../dhcpcd/dhcpcd_9.4.1.bb                    |   1 +
+ ...-conflict-error-when-enable-multilib.patch |  46 +++++
+ meta/recipes-core/base-files/base-files/hosts |   2 +-
+ meta/recipes-core/glibc/glibc.inc             |   4 +-
+ meta/recipes-core/meta/buildtools-tarball.bb  |   2 +-
+ meta/recipes-devtools/apt/apt_2.4.5.bb        |   2 -
+ ...xt.cpp-do-not-try-to-access-BDB-data.patch |  37 ----
+ .../{libdnf_0.69.0.bb => libdnf_0.70.0.bb}    |   3 +-
+ .../meson/meson/disable-rpath-handling.patch  |  37 ----
+ meta/recipes-devtools/meson/meson_0.63.3.bb   |   1 -
+ meta/recipes-extended/cups/cups.inc           |  16 +-
+ ...o.conf.in-fix-conflict-with-multilib.patch |  21 +-
+ meta/recipes-extended/sudo/sudo.inc           |   2 +-
+ .../{sudo_1.9.12p2.bb => sudo_1.9.13p3.bb}    |   2 +-
+ .../harfbuzz/CVE-2023-25193-pre1.patch        | 135 ++++++++++++
+ .../harfbuzz/harfbuzz/CVE-2023-25193.patch    | 192 ++++++++++++++++++
+ .../harfbuzz/harfbuzz_5.1.0.bb                |   2 +
+ .../{pango_1.50.12.bb => pango_1.50.13.bb}    |   2 +-
+ meta/recipes-graphics/piglit/piglit_git.bb    |   2 +-
+ meta/recipes-support/vim/vim.inc              |   8 +-
+ 26 files changed, 421 insertions(+), 113 deletions(-)
+ create mode 100644 meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch
+ delete mode 100644 meta/recipes-devtools/libdnf/libdnf/0001-libdnf-dnf-context.cpp-do-not-try-to-access-BDB-data.patch
+ rename meta/recipes-devtools/libdnf/{libdnf_0.69.0.bb => libdnf_0.70.0.bb} (93%)
+ delete mode 100644 meta/recipes-devtools/meson/meson/disable-rpath-handling.patch
+ rename meta/recipes-extended/sudo/{sudo_1.9.12p2.bb => sudo_1.9.13p3.bb} (96%)
+ create mode 100644 meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2023-25193-pre1.patch
+ create mode 100644 meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2023-25193.patch
+ rename meta/recipes-graphics/pango/{pango_1.50.12.bb => pango_1.50.13.bb} (94%)
+
 -- 
 2.34.1
 
