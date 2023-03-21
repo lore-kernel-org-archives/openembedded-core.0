@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 680B6C77B60
-	for <webhook@archiver.kernel.org>; Tue, 21 Mar 2023 14:20:57 +0000 (UTC)
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web11.14400.1679408449784850357
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60A30C6FD1D
+	for <webhook@archiver.kernel.org>; Tue, 21 Mar 2023 14:21:07 +0000 (UTC)
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web10.14693.1679408457185911248
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Mar 2023 07:20:49 -0700
+ Tue, 21 Mar 2023 07:20:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=agl3ILfO;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.175, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f175.google.com with SMTP id h31so8648403pgl.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 07:20:49 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=ZImeLsrt;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f182.google.com with SMTP id k15so7886641pgt.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 07:20:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679408449;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679408456;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tCFMZamgVyUIlbj34pQx4H0V8pcgEEWjGT7XKV7OrVc=;
-        b=agl3ILfOtVm7Mdr1CNEd4F0OgA85sCkASGQneQJimlybPwTWsVuSn7ExFzWB4lBruX
-         45KFbsadSlCKqoKNHb69P75Kt+j2X8KNu5dpYktekTDHyNgbkKYgj+nLPSIfzdA1uj4E
-         lcMXmB0/JFSxqOnhMwmMlR2MBsIj52lFe/gKVnE0mByUDrVwy/IhkrVndSTlW6QEyK3t
-         kF3CEJPFDRnNrA1YqUcqtOaMde3kVIO5J/b3FXiwn3wjX6JxezZPXhTLgtYomUtqRrw6
-         rfzms1qQK4f7teRo51pw3Nu/OYA82tdHjA+5Eso0zfxpcmtJ2bxt61gy0blXUUb/HC/S
-         sKSg==
+        bh=Mg1MKloKKOVDZYvfpUgCPHvgldeVoxeOpTuaZB1wxhY=;
+        b=ZImeLsrtSPSFSRunZKdG8I6qvhMlIk/6DTBiw91WF8gSO2bXxoyOzFCq9WIEP7tkUX
+         HSpdzyjRP+knhAzibGxkjJkSgySukKPzfx548F/DM5aD4PQ/SsWpjGfgDeuR3N1DS5Wa
+         5DpUl0xubLsjRE1wQyNnfgDD1lTHmeyITHbIbjxcXEmXq33fIXlaUvsnWuEFYVlPTcAX
+         67JUGG2zsIwMvwdxoBjLZIdgtmWa/s6PqBdYgsYhcZ1qQVG1+rGKYoZVOvMdB5Ey8hKs
+         aPh9DsmGH1UDtNyI1VxcwIBYIcCwR0WKHfUtIqfIYOAGxq5yBXKsbKOTN3UB9vbIGZuP
+         WIxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679408449;
+        d=1e100.net; s=20210112; t=1679408456;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tCFMZamgVyUIlbj34pQx4H0V8pcgEEWjGT7XKV7OrVc=;
-        b=DMhzO72jxt4DORRQSg689gZz2VGnVBpFOZlNvL8kdpUeyI6wwksy3nxxyCO2Vbo5DI
-         9+KovYw+gEAB/5XBrKnfKgaLSFve5ms6/iV6Jhd+U+pXOGSn5rpsdfDWYTxkieZUHXEb
-         o4OKdjmNNAMrQDiV5kQYn3Cg0h18P70TPBw2VDWQz5U4r4zcczJV/fdJ9lkcNHQYHW1a
-         DX9IRNe95u4842WaBGj+Z41VlnSJ8DcFQEREQ2yL9YbmL2otEUcvGNj1jXyyIpvPb8dV
-         4WeyZYV3/+OHRFjcT03tBo9xOMwKupdov0SKCKNj58/M1kPUYGIMZKSKwYFSkrf2qwcX
-         mcXQ==
-X-Gm-Message-State: AO0yUKWNS5CHoLLZI90W4KmaZN1M4pNfluR51fhTsr2l1yuTpYz+Bk+1
-	izDov2u/6ndiGqsaUDSzPhAh4DHcLm1ZFdmTlPs=
-X-Google-Smtp-Source: AK7set/DnByOBkgnuN9VbSuABZxRxAFPURa04QttrhY/gQe7UamtMLQ24/yhz/8OE8wDIXUCeuwIvA==
-X-Received: by 2002:aa7:9e0a:0:b0:627:ff1d:db6d with SMTP id y10-20020aa79e0a000000b00627ff1ddb6dmr2181477pfq.21.1679408448637;
-        Tue, 21 Mar 2023 07:20:48 -0700 (PDT)
+        bh=Mg1MKloKKOVDZYvfpUgCPHvgldeVoxeOpTuaZB1wxhY=;
+        b=K4u4obGEgGXcZT0cJKnhiYOKRFTUCAum4UXjCI4Zv1Yrz5No/EPsFFIctamMY0U3ZX
+         UvBuJ92Clz3xI1RND5Kk7r3YSfMou3v0b2GYpXvK1ZPqVk1s9HK95xgOqwHgg+ZD2M7A
+         DnJV9+XPBzb77o4gVX14u9z9B4BPF9l58Ito6AbISMDhTzO9cdEGthF6F1uD4wY5lbKK
+         vtDfqJFL8ons5n3JXLie6oSoG/gKYexRIiElVJasTir/r4Y3UrVEYUg6oj1Bmw705/ni
+         HG7JLnowisu3NDPrC8sFKnf8Zna9y+g1ycETDf+k0VkYUoCVB3igPQxAfHvTk0VXX/sL
+         9TVQ==
+X-Gm-Message-State: AO0yUKXAgrYnwJ97QISm54dHWWAw0fHrNuUYkzyHblK1vC0V6VZZXPN3
+	0dEpSDFTeXdiEfr2uSVrw8vbfSeISYuWf+4jOmw=
+X-Google-Smtp-Source: AK7set/zW5d+SWtpb83hhWxNTXJe9sxHB+S4QTYGOHbmG3TBF4pZ8p9rWOBQXaS3OA/zeu9cHwui5Q==
+X-Received: by 2002:a62:1989:0:b0:626:f692:5b1 with SMTP id 131-20020a621989000000b00626f69205b1mr2040690pfz.22.1679408456210;
+        Tue, 21 Mar 2023 07:20:56 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id g11-20020aa7818b000000b005892ea4f092sm8551291pfi.95.2023.03.21.07.20.47
+        by smtp.gmail.com with ESMTPSA id g11-20020aa7818b000000b005892ea4f092sm8551291pfi.95.2023.03.21.07.20.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Mar 2023 07:20:48 -0700 (PDT)
+        Tue, 21 Mar 2023 07:20:55 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 10/14] glibc: Add missing binutils dependency
-Date: Tue, 21 Mar 2023 04:20:15 -1000
-Message-Id: <ea6d768d0910e2076a971bdba57605dd9d68763a.1679408291.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 14/14] base-files: Drop localhost.localdomain from hosts file
+Date: Tue, 21 Mar 2023 04:20:19 -1000
+Message-Id: <a04b207c4ffa900313a0b5e3079ad2eec7d31f27.1679408291.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1679408291.git.steve@sakoman.com>
 References: <cover.1679408291.git.steve@sakoman.com>
@@ -60,42 +60,47 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 14:20:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178881
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 14:21:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178885
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-glibc has it's dependencies handled more manually due to it's place
-in the toolchain bootstrap. It depends upon the compiler and indirectly
-through that to binutils. This did mean that if binutils changes and the
-compiler does not, sstate and hash equivalence could mean that glibc
-wouldn't rebuild.
+This was likely something we took inspiration from elsewhere with.
+It was added in:
 
-Add a direct dependency on binutils that if it changes, it forces glibc
-to rebuild, as it should.
+https://git.openembedded.org/openembedded/commit/packages/netbase/netbase/hosts?id=c8e5702127e507e82e6f68a4b8c546803accea9d
+
+in 2005. Debian added this entry around 2004 and discussed and dropped
+it in 2005:
+
+https://lists.debian.org/debian-devel/2005/10/msg00559.html
+
+resulting in:
+
+https://salsa.debian.org/installer-team/netcfg/-/commit/3c15ee521b2b8f47b34ccc7f610523cd284f2221
+
+We should drop this for some of the reasons in those threads,
+it doesn't seem to be doing anything too helpful and isn't what most
+applications expect.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c4a7b3decff636292f5e76e95406a22b6fe4a994)
+(cherry picked from commit e730d005fa8aec07f9ae25c58d4566eaa92a6997)
+Signed-off-by: Jermain Horsman <jermain.horsman@nedap.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/glibc/glibc.inc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-core/base-files/base-files/hosts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
-index 23a6ca99ae..e42040f3dc 100644
---- a/meta/recipes-core/glibc/glibc.inc
-+++ b/meta/recipes-core/glibc/glibc.inc
-@@ -1,7 +1,9 @@
- require glibc-common.inc
- require glibc-ld.inc
+diff --git a/meta/recipes-core/base-files/base-files/hosts b/meta/recipes-core/base-files/base-files/hosts
+index b94f414d5c..10a5b6c704 100644
+--- a/meta/recipes-core/base-files/base-files/hosts
++++ b/meta/recipes-core/base-files/base-files/hosts
+@@ -1,4 +1,4 @@
+-127.0.0.1	localhost.localdomain		localhost
++127.0.0.1	localhost
  
--DEPENDS = "virtual/${TARGET_PREFIX}gcc libgcc-initial linux-libc-headers"
-+DEPENDS = "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}binutils${BUSUFFIX} libgcc-initial linux-libc-headers"
-+BUSUFFIX= ""
-+BUSUFFIX:class-nativesdk = "-crosssdk"
- 
- PROVIDES = "virtual/libc"
- PROVIDES += "virtual/libintl virtual/libiconv"
+ # The following lines are desirable for IPv6 capable hosts
+ ::1     localhost ip6-localhost ip6-loopback
 -- 
 2.34.1
 
