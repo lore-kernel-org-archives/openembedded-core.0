@@ -1,181 +1,472 @@
-Return-Path: <xiangyu.chen@eng.windriver.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA8F4C6FD1D
-	for <webhook@archiver.kernel.org>; Tue, 21 Mar 2023 02:31:13 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.4017.1679365872466289499
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC04CC6FD1D
+	for <webhook@archiver.kernel.org>; Tue, 21 Mar 2023 02:38:13 +0000 (UTC)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.web11.4031.1679366284117511583
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Mar 2023 19:31:12 -0700
+ Mon, 20 Mar 2023 19:38:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2444f31f01=xiangyu.chen@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32L2UGf3001413
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 02:31:11 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3pd49ath9k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 02:31:11 +0000
-Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32L2R9E0026528
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 02:31:11 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2177.outbound.protection.outlook.com [104.47.55.177])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3pd49ath9j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 21 Mar 2023 02:31:11 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C2a9+j+n0JVwBisMZDiDDx/u9rFm3Qo4f/tErHRzWH0Hq9RjpD693W+ezozmW+mUY4zjzlElh+89DnavxjkZP3u/wSSCB/oXNdJboZDNcMB+tNnYd3T9ce7BlokvLkP2wNZ4yGiF8xYu1VWwtvi8xTZXAiWaU+3xy8eXS7DlZcQW5Fg1YN20/DMhNb7ZpBLZKbDvSNPatpGQGOU/K3grvCh2N+SWgI0c4h2iKmCM2gE2JxnoQEBeBQB4601nmLLHMAlX4gwl1pnllwQfCOcdUhlnEpWuvnzb1VmHezIBZTxIiZCqdx8eww2ImYi0WVxoeWI5NMO6B+VjeHwG86q4YQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Aek9fik+mNlB9uJqP3puiULsQ+dca1cG+7NKk6dWgD4=;
- b=gdIe+BUb3TlyfUS4bkY7Y2MeBtdTHM8tmUMjEvFcfpoXK4i5GT/WnpvQSIiu6sAw22g5XeMircYdFB3cbpPwZpG3zOfXT+6PQ+ugWz8WTBPEWvDL4Zu6qv0Kzb7Qtg9Wm0ti3qKUnEk98uEPkortV+Skug0+xqsrRIWvj+uQhV0WmSrIaKoTTchCQihJQOZfFUa0tiNMHSVCSSZ5Pzqppn/akEZAoF6NCCStBIPf9U0wcIfxX8T6/MKbaB+Vth1mP4Y0yBzkUbPF8gaGuLcWn+c5UGqt+Z2lu+JASdzXVkY22+JRGGgkSjq3c/9uEPItEczFC9x9wmeNpgXOescmAQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
-Received: from MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
- by SA3PR11MB7655.namprd11.prod.outlook.com (2603:10b6:806:307::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Tue, 21 Mar
- 2023 02:31:09 +0000
-Received: from MW4PR11MB5824.namprd11.prod.outlook.com
- ([fe80::f952:3d02:d71:cc68]) by MW4PR11MB5824.namprd11.prod.outlook.com
- ([fe80::f952:3d02:d71:cc68%5]) with mapi id 15.20.6178.037; Tue, 21 Mar 2023
- 02:31:09 +0000
-From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
-To: alex.kanavin@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH v2] rng-tools: splitting the rng-tools systemd/sysvinit serivce as a package
-Date: Tue, 21 Mar 2023 10:30:51 +0800
-Message-Id: <20230321023051.1174961-1-xiangyu.chen@eng.windriver.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYCP286CA0134.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b6::16) To MW4PR11MB5824.namprd11.prod.outlook.com
- (2603:10b6:303:187::19)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=b7WkXZ1Q;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.46, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f46.google.com with SMTP id ek18so54336781edb.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Mar 2023 19:38:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679366282;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=c87B8y6hqYSPGliy3y/kon0jnJ6ZYUeEmsTXqG9I1Mw=;
+        b=b7WkXZ1QCpnCUvPZdvZXP/7btamIYEAd02PboOgtgVFFWSL15X3qw3VX8rnUjFUiRL
+         EA15e6X8WvHOctUpqfBw/w1nf7ZXNvFU1pOmy8e/T6ID35TSWhz/hLQEt3bhjNH2/URd
+         G9jzKkw8b6PlkRx9jmTcMMrDSvRy3OCuC+BDLFnnLnML04xHOZOXXZzej/xnbrFi9mjR
+         Ma3wKiI7h3dteu3MJEbmcCHcH/uD6ucXr5w90DgcQYPmVMOOGOqYojOCzJdRY5Co7e2v
+         XNHjtmNCQPlhuatyDh0kM3dV7c6Tq3ToLD5ktGQIg2zFvbtZh9geAzkMpSAplbM5b+2o
+         ZEPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679366282;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=c87B8y6hqYSPGliy3y/kon0jnJ6ZYUeEmsTXqG9I1Mw=;
+        b=yuVkSaIjEjRKs2Q8Sdi5t8AKgifbIomZJGKhe0au1wtC5D7VH2tMrCCl47t/R/a5Od
+         ctD6T+RAWtf/D1hKyvhA+A1gyyJ4jgZZCPoASRB43KNNI8JpKMFqJQf7NimX3KJ7zZTt
+         K9F/MWSpoxBQnt9BWKqQnPdhjnFMFz4cEEyyiwTOUbzeOP2zxsY7lpd4UmX8LhTM+PMC
+         J4ChKrNsKx826Nxqwfr0NMA+wL6T02fy/1xzOgjmFZXVd4Ut5tcqh0ZDgUOoHmV8rKmq
+         7g28/uZvFqYwgtbIDtM4O4fytwRaPJDFwzvO0Pf+zoR6nfXxYUwoahU+S7gCm7Ui/DDZ
+         c8qw==
+X-Gm-Message-State: AO0yUKWDhRoUgtzlQfcjGRUa8w/rfMcvQdt7izGfNkZwUy7Tb/uQFlMZ
+	vRe21tdjVhJBI+AsNJ7bDAg4jsPlkrKOlPL6Bpa8g18nJ3mID+x948g=
+X-Google-Smtp-Source: AK7set+5DNT6pt0FATjRWJlsVF0RbiJVaO3kB2LIslfwALKvTlwTrbzIbbt084Jyc3vq1gBextZq5CYIPTXqRvdcBnA=
+X-Received: by 2002:a17:906:6613:b0:92e:a234:110a with SMTP id
+ b19-20020a170906661300b0092ea234110amr555028ejp.3.1679366281780; Mon, 20 Mar
+ 2023 19:38:01 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR11MB5824:EE_|SA3PR11MB7655:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0e7535a9-d394-4dfb-a3c5-08db29b45444
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	PZmKJnJlxZe+Emg/MXeOyNHhGoUcREc3W5fKGfgAlCbm4e3jy29RrEMpbl7MrhY1YRAA15HoGTahVxC8bqzTy5XwwEqnbc+QT+EX9CTAVnf9OMMMAVbcsW+aKwBMPy9b+GbMGxbbjgUEG8l7hUpYQ5vUeWwPiz5sTjcQNHtX/mnwrIh2W2IqzJN8cc8o7YAMXlos+RY0y8E696DxvWo4EHx9V4ITrB4NtZIyuuNhcGxIhGjXrdeLfKQqpeaCZ3MoIplyW2jBdE7nxF6ZBtZlcr5QfYBfXIbHfuVL+P9jQ8iLe47NMld+Mo1NfDhYP46WXSB000xhVt5Fw7UMpWsPOFuoyOg+sa7SwWZGUKlOrGdLYtnbtdSRBwf1gljzL4UAkQaZOdjqhVStE3q+C1AcyUs8nxR74QeMirox7Kty3GdJ2YweWqMpf+V4yF65kyqRFlPnWgSbb3RRZLZhbqgZMtII4b/6Zd/eOVH74ZZHH0zPJbadxxLcw6yfG821g61G3WRlJ0WYijchQBP//LHnTc6xB3bKB4hrRQIjBInYLDr35h0prd7Uqww4A89Mzyqn+dx6fefDrHFMxYqWrCNMzhjrJuSCPE1+X1ekBlZfyYkPUo6UqoQaQa267bETJiyygT8HMXtPy4jIPIZLLlQ6wuqiA3DUpx7VI53/1i4KtEUIcrqxJwp7azeHGDaM9Kw9nEeFMIWOhk416IP28Mq9Gz11onJn0fHmfWzDydULVHM=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5824.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(376002)(366004)(346002)(396003)(136003)(451199018)(316002)(6486002)(83380400001)(38100700002)(2616005)(38350700002)(83170400001)(966005)(478600001)(52116002)(1076003)(26005)(186003)(6506007)(6666004)(6512007)(6916009)(4326008)(2906002)(41300700001)(44832011)(8936002)(8676002)(5660300002)(66476007)(66556008)(66946007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?DuLB6FcTIE4x+0+rH4EXPtGnXf6WtZiByew0yiy34Qfl6JMu85LHlL+Wp2HW?=
- =?us-ascii?Q?MQCFGDeL3Kh4r/FO3YOaKahUzwYTeAO4iT950w/zjtf3lcbvFupVT6HAEwBI?=
- =?us-ascii?Q?CmMAlMglIyxhOIqsWUgwTdvLKRBqRouCugs2HyCfAa9yPrbRhz5jiJr67RZ7?=
- =?us-ascii?Q?Clm0dAlCh0j9oH7WYH6+R1bzRJhSslxrm4j+r3ntM3xP6rwhi85t4SRee9ig?=
- =?us-ascii?Q?/wiNPt3hV5QO3nSXckdpKgLBoZm4G0YfttZa9MyBRjEfmm8w/Ltbddb28HKp?=
- =?us-ascii?Q?G7Csbs7hDMI0KQpeBJ5yT8rbnktj4MfBsRkCHHd2KpuR1SO0g/w0Y5krOGUs?=
- =?us-ascii?Q?03hsQf8539zR2dbDao5kwfLI3GJhclrah4qy+Um6CxpTOrR/Ny6MkXo1k2rc?=
- =?us-ascii?Q?INjjSuHohC1A4gWkDahFYdz9G5Ze2LZ7Bial4nKUUlIK79xc5gt5fnWzRY4u?=
- =?us-ascii?Q?J7196H7GnPufCoxp3qgY6rnnybsIX90CKjz77o5Ili5OEQpgHK7oqO2zF1an?=
- =?us-ascii?Q?p3JKTf/jCr11Y1kjL4U4mL6SN9S8LyZ8SvCM2c+uCefvxRW/3O2JQI3LHD9N?=
- =?us-ascii?Q?b6puQKkp1H1YQWnH23kp5/ZLecZ5W4W+frjP9GCktiJsjpEgaqR0Epf91wAp?=
- =?us-ascii?Q?wE3vuzTb5j+273ULVS4oJI2hR7DKWE04XZsvmEYaLvwSOZgitYPPADuSzTOm?=
- =?us-ascii?Q?ECJUo4TZj+KG8mJePKeAgxfO+stdzgUC3Lwrt5iLlmFjySl7576i0rs7a8dg?=
- =?us-ascii?Q?5HBxjelV1k8Szbl9tgjuxTTTctWXCgOKSy4Tx3D2dkIg6le73icTKbiGvGe8?=
- =?us-ascii?Q?ZFmugrKpEqQanMVpaC1jgi/3Es7J7ndGo3UTwG0Fn6ciRTJh/jhP8IyoIJEU?=
- =?us-ascii?Q?tM9xqa2jobuR8ss3MRnUowQ01AzR/CsMyFXcjeSQGSp5uxa7ayQv0Xm9s/um?=
- =?us-ascii?Q?nFqNXrIZ8gM/KQDXM5dbKfgSn3Lk+mB/AuHgj3jjaBAlXG2cFLmlzdyW2nMd?=
- =?us-ascii?Q?Bue4EHTQhi8XM8M0CYvoqNMuFXL5iBdYSKEA5WrolW7lnTJNPHRoVfUCB9jD?=
- =?us-ascii?Q?46mTiQE8NNfXM7izfxKsxqZy9piybtkk3+9AD7NgvRH1sFg3P7MSRh3LzfpJ?=
- =?us-ascii?Q?l9QOU8a7GVX1cw0upXijP421Mg4y179IUFVuHwgs3ofBpIbChi53omD3epq/?=
- =?us-ascii?Q?/z1zlIk/mfnf9o/HxHd3BqNznxK9/w+ILOsHr7x+2TfyuWE3wPYOUYEkt5MY?=
- =?us-ascii?Q?ICraeYGtR9K/jRVyc9sVIPE2v99ZHjnJmrRJqW3lFZuqE8VG52LSD4XJ9iux?=
- =?us-ascii?Q?88/vHA1f90GXoEne3c3xXgZt6Okw/69x5swOuIga8ow5Fto0sZdM/YP0WQfq?=
- =?us-ascii?Q?6HXBZuEDdtxZm6ptLTuamEQH9ctLHbZciecYV/N2xF6RO2NJe4Y4lOJl0Iey?=
- =?us-ascii?Q?tg9RTEwFF7Cu+mTzRMwXx66ng/dPzp0nDMpSNJyDvjhsqxhI2Cke6LRnecxx?=
- =?us-ascii?Q?TAPlDgY4Rn1sKYC6fqXpO6zFKLgcfems1pluci/F8H8JhWUZiioKmD7+Pn/h?=
- =?us-ascii?Q?8/Z0GPJ4m0+A7UKZmYVwLUc7Le9hxgsJjNf/11XxYQH3C4ABOr1tvXqipKYk?=
- =?us-ascii?Q?8w=3D=3D?=
-X-OriginatorOrg: eng.windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0e7535a9-d394-4dfb-a3c5-08db29b45444
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB5824.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2023 02:31:08.9412
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VNw/Gjh/JYetRzmOqfZ6z+yF3Tv5FGcRyGMin7PSn5IqdLTqRynWcK+R8iepWvknJJeoMwH1Zg6NCMrKysg33jeBLxdFTzJ/Cbmif7617Mo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB7655
-X-Proofpoint-ORIG-GUID: f8etc6Dt66G_gV-76NakZifw1gOVAf7C
-X-Proofpoint-GUID: ooJiX5bZYqCQWknRVPUKEo12M7zQRc_o
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-20_18,2023-03-20_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 bulkscore=0
- clxscore=1015 priorityscore=1501 lowpriorityscore=0 malwarescore=0
- suspectscore=0 adultscore=0 mlxlogscore=997 mlxscore=0 impostorscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303210018
+References: <20230314125912.7014-1-kai.kang@windriver.com> <20230314125912.7014-2-kai.kang@windriver.com>
+In-Reply-To: <20230314125912.7014-2-kai.kang@windriver.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Mon, 20 Mar 2023 16:37:50 -1000
+Message-ID: <CAOSpxdaChy5+aREePx+Q_NCtn23kJ0XtmWMSiaw+-C0OTkTobw@mail.gmail.com>
+Subject: Re: [dunfell][PATCH 2/2] qemu: fix compile error
+To: kai.kang@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 02:31:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178846
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 02:38:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178847
 
-From: Xiangyu Chen <xiangyu.chen@windriver.com>
+Unfortunately I'm getting patch fuzz errors:
 
-Since we removed the openssh dependency[1] on rng-tools, there are no package requiring
-rng-tools in oe-core, meta-oe, meta-virt, and the /dev/random won't block anymore after
-linux-5.6[2], one of the reasons for keeping rng-tools build into the image is that it
-can be used to test[3], so splitting the rng-tools systemd/systvinit service as a package.
-If someone needs rng-tools daemon service, they can enable the rng-tools-service package by 
-directly.
+WARNING: qemu-native-4.2.0-r0 do_patch: Fuzz detected:
 
-Reference:
-[1] https://git.openembedded.org/openembedded-core/commit/?id=868dfb46d96a27ec9041cb902fb769330277257d
-[2] https://github.com/torvalds/linux/commit/30c08efec8884fb106b8e57094baa51bb4c44e32
-[3] https://linux.die.net/man/1/rngtest
+Applying patch 0001-hw-display-qxl-Pass-requested-buffer-size-to-qxl_phy.pa=
+tch
+patching file hw/display/qxl-logger.c
+Hunk #2 succeeded at 216 (offset 2 lines).
+Hunk #3 succeeded at 239 (offset 2 lines).
+Hunk #4 succeeded at 253 (offset 2 lines).
+patching file hw/display/qxl-render.c
+Hunk #1 succeeded at 107 with fuzz 2.
+Hunk #2 succeeded at 224 (offset -6 lines).
+Hunk #3 succeeded at 292 (offset -6 lines).
+Hunk #4 succeeded at 312 (offset -6 lines).
+patching file hw/display/qxl.c
+Hunk #1 succeeded at 275 (offset 1 line).
+Hunk #2 succeeded at 461 (offset 1 line).
+Hunk #4 succeeded at 1497 (offset 31 lines).
+Hunk #5 succeeded at 1998 (offset 23 lines).
+patching file hw/display/qxl.h
+Hunk #1 succeeded at 147 with fuzz 1.
 
-Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
----
-V1 -> V2 changes:
-according to the review comments, using FILES/PACKAGES to split the service package instead of adding 
-a custom variable to disable the rngd daemon.
----
+Steve
 
- meta/recipes-support/rng-tools/rng-tools_6.16.bb | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-support/rng-tools/rng-tools_6.16.bb b/meta/recipes-support/rng-tools/rng-tools_6.16.bb
-index 4e664a9145..7324e42e08 100644
---- a/meta/recipes-support/rng-tools/rng-tools_6.16.bb
-+++ b/meta/recipes-support/rng-tools/rng-tools_6.16.bb
-@@ -31,13 +31,20 @@ PACKAGECONFIG[libp11] = "--with-pkcs11,--without-pkcs11,libp11 openssl"
- PACKAGECONFIG[nistbeacon] = "--with-nistbeacon,--without-nistbeacon,curl libxml2"
- PACKAGECONFIG[qrypt] = "--with-qrypt,--without-qrypt,curl"
- 
--INITSCRIPT_NAME = "rng-tools"
--INITSCRIPT_PARAMS = "start 03 2 3 4 5 . stop 30 0 6 1 ."
-+INITSCRIPT_NAME:${PN}-service = "rng-tools"
-+INITSCRIPT_PARAMS:${PN}-service = "start 03 2 3 4 5 . stop 30 0 6 1 ."
- 
--SYSTEMD_SERVICE:${PN} = "rng-tools.service"
-+SYSTEMD_SERVICE:${PN}-service = "rng-tools.service"
- 
- CFLAGS += " -DJENT_CONF_ENABLE_INTERNAL_TIMER "
- 
-+PACKAGES =+ "${PN}-service"
-+
-+FILES:${PN}-service += " \
-+    ${sysconfdir}/init.d/rng-tools \
-+    ${sysconfdir}/default/rng-tools \
-+"
-+
- # Refer autogen.sh in rng-tools
- do_configure:prepend() {
-     cp ${S}/README.md ${S}/README
--- 
-2.34.1
-
+On Tue, Mar 14, 2023 at 2:59=E2=80=AFAM <kai.kang@windriver.com> wrote:
+>
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> Backport 2 patches and rebase
+> 0001-hw-display-qxl-Pass-requested-buffer-size-to-qxl_phy.patch to fix
+> compile error:
+>
+> ../qemu-6.2.0/hw/display/qxl.c: In function 'qxl_phys2virt':
+> ../qemu-6.2.0/hw/display/qxl.c:1477:67: error: 'size' undeclared (first u=
+se in this function); did you mean 'gsize'?
+>  1477 |         if (!qxl_get_check_slot_offset(qxl, pqxl, &slot, &offset,=
+ size)) {
+>       |                                                                  =
+ ^~~~
+>       |                                                                  =
+ gsize
+> ../qemu-6.2.0/hw/display/qxl.c:1477:67: note: each undeclared identifier =
+is reported only once for each function it appears in
+>
+> (From OE-Core rev: b3f42317c1932253e7e6b2fd7a263bdbd6c2f69a)
+>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/recipes-devtools/qemu/qemu.inc           |   2 +
+>  ...ave-qxl_log_command-Return-early-if-.patch |  57 +++++
+>  ...ass-requested-buffer-size-to-qxl_phy.patch | 217 ++++++++++++++++++
+>  3 files changed, 276 insertions(+)
+>  create mode 100644 meta/recipes-devtools/qemu/qemu/0001-hw-display-qxl-H=
+ave-qxl_log_command-Return-early-if-.patch
+>  create mode 100644 meta/recipes-devtools/qemu/qemu/0001-hw-display-qxl-P=
+ass-requested-buffer-size-to-qxl_phy.patch
+>
+> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
+qemu/qemu.inc
+> index 0649727338..b2b04c4536 100644
+> --- a/meta/recipes-devtools/qemu/qemu.inc
+> +++ b/meta/recipes-devtools/qemu/qemu.inc
+> @@ -117,6 +117,8 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.t=
+ar.xz \
+>             file://CVE-2021-3507.patch \
+>             file://CVE-2021-3929.patch \
+>             file://CVE-2022-4144.patch \
+> +           file://0001-hw-display-qxl-Have-qxl_log_command-Return-early-=
+if-.patch \
+> +           file://0001-hw-display-qxl-Pass-requested-buffer-size-to-qxl_=
+phy.patch \
+>             "
+>  UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+>
+> diff --git a/meta/recipes-devtools/qemu/qemu/0001-hw-display-qxl-Have-qxl=
+_log_command-Return-early-if-.patch b/meta/recipes-devtools/qemu/qemu/0001-=
+hw-display-qxl-Have-qxl_log_command-Return-early-if-.patch
+> new file mode 100644
+> index 0000000000..cd846222c9
+> --- /dev/null
+> +++ b/meta/recipes-devtools/qemu/qemu/0001-hw-display-qxl-Have-qxl_log_co=
+mmand-Return-early-if-.patch
+> @@ -0,0 +1,57 @@
+> +Upstream-Status: Backport [https://github.com/qemu/qemu/commit/61c34fc]
+> +
+> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> +
+> +From 61c34fc194b776ecadc39fb26b061331107e5599 Mon Sep 17 00:00:00 2001
+> +From: =3D?UTF-8?q?Philippe=3D20Mathieu-Daud=3DC3=3DA9?=3D <philmd@linaro=
+.org>
+> +Date: Mon, 28 Nov 2022 21:27:37 +0100
+> +Subject: [PATCH] hw/display/qxl: Have qxl_log_command Return early if no
+> + log_cmd handler
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=3DUTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +Only 3 command types are logged: no need to call qxl_phys2virt()
+> +for the other types. Using different cases will help to pass
+> +different structure sizes to qxl_phys2virt() in a pair of commits.
+> +
+> +Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> +Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> +Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> +Message-Id: <20221128202741.4945-2-philmd@linaro.org>
+> +---
+> + hw/display/qxl-logger.c | 11 +++++++++++
+> + 1 file changed, 11 insertions(+)
+> +
+> +diff --git a/hw/display/qxl-logger.c b/hw/display/qxl-logger.c
+> +index 68bfa47568..1bcf803db6 100644
+> +--- a/hw/display/qxl-logger.c
+> ++++ b/hw/display/qxl-logger.c
+> +@@ -247,6 +247,16 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *=
+ring, QXLCommandExt *ext)
+> +             qxl_name(qxl_type, ext->cmd.type),
+> +             compat ? "(compat)" : "");
+> +
+> ++    switch (ext->cmd.type) {
+> ++    case QXL_CMD_DRAW:
+> ++        break;
+> ++    case QXL_CMD_SURFACE:
+> ++        break;
+> ++    case QXL_CMD_CURSOR:
+> ++        break;
+> ++    default:
+> ++        goto out;
+> ++    }
+> +     data =3D qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
+> +     if (!data) {
+> +         return 1;
+> +@@ -269,6 +279,7 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *r=
+ing, QXLCommandExt *ext)
+> +         qxl_log_cmd_cursor(qxl, data, ext->group_id);
+> +         break;
+> +     }
+> ++out:
+> +     fprintf(stderr, "\n");
+> +     return 0;
+> + }
+> +--
+> +2.34.1
+> +
+> diff --git a/meta/recipes-devtools/qemu/qemu/0001-hw-display-qxl-Pass-req=
+uested-buffer-size-to-qxl_phy.patch b/meta/recipes-devtools/qemu/qemu/0001-=
+hw-display-qxl-Pass-requested-buffer-size-to-qxl_phy.patch
+> new file mode 100644
+> index 0000000000..ac51cf567a
+> --- /dev/null
+> +++ b/meta/recipes-devtools/qemu/qemu/0001-hw-display-qxl-Pass-requested-=
+buffer-size-to-qxl_phy.patch
+> @@ -0,0 +1,217 @@
+> +Upstream-Status: Backport [https://github.com/qemu/qemu/commit/8efec0e]
+> +
+> +Backport and rebase patch to fix compile error which imported by CVE-202=
+2-4144.patch:
+> +
+> +../qemu-6.2.0/hw/display/qxl.c: In function 'qxl_phys2virt':
+> +../qemu-6.2.0/hw/display/qxl.c:1477:67: error: 'size' undeclared (first =
+use in this function); did you mean 'gsize'?
+> +       1477 |         if (!qxl_get_check_slot_offset(qxl, pqxl, &slot, &=
+offset, size)) {
+> +               |                                                        =
+           ^~~~
+> +               |                                                        =
+           gsize
+> +../qemu-6.2.0/hw/display/qxl.c:1477:67: note: each undeclared identifier=
+ is reported only once for each function it appears in
+> +
+> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> +
+> +From 8efec0ef8bbc1e75a7ebf6e325a35806ece9b39f Mon Sep 17 00:00:00 2001
+> +From: =3D?UTF-8?q?Philippe=3D20Mathieu-Daud=3DC3=3DA9?=3D <philmd@linaro=
+.org>
+> +Date: Mon, 28 Nov 2022 21:27:39 +0100
+> +Subject: [PATCH] hw/display/qxl: Pass requested buffer size to qxl_phys2=
+virt()
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=3DUTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +Currently qxl_phys2virt() doesn't check for buffer overrun.
+> +In order to do so in the next commit, pass the buffer size
+> +as argument.
+> +
+> +For QXLCursor in qxl_render_cursor() -> qxl_cursor() we
+> +verify the size of the chunked data ahead, checking we can
+> +access 'sizeof(QXLCursor) + chunk->data_size' bytes.
+> +Since in the SPICE_CURSOR_TYPE_MONO case the cursor is
+> +assumed to fit in one chunk, no change are required.
+> +In SPICE_CURSOR_TYPE_ALPHA the ahead read is handled in
+> +qxl_unpack_chunks().
+> +
+> +Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> +Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+> +Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> +Message-Id: <20221128202741.4945-4-philmd@linaro.org>
+> +---
+> + hw/display/qxl-logger.c | 11 ++++++++---
+> + hw/display/qxl-render.c | 20 ++++++++++++++++----
+> + hw/display/qxl.c        | 14 +++++++++-----
+> + hw/display/qxl.h        |  3 ++-
+> + 4 files changed, 35 insertions(+), 13 deletions(-)
+> +
+> +diff --git a/hw/display/qxl-logger.c b/hw/display/qxl-logger.c
+> +index 1bcf803..35c38f6 100644
+> +--- a/hw/display/qxl-logger.c
+> ++++ b/hw/display/qxl-logger.c
+> +@@ -106,7 +106,7 @@ static int qxl_log_image(PCIQXLDevice *qxl, QXLPHYSI=
+CAL addr, int group_id)
+> +     QXLImage *image;
+> +     QXLImageDescriptor *desc;
+> +
+> +-    image =3D qxl_phys2virt(qxl, addr, group_id);
+> ++    image =3D qxl_phys2virt(qxl, addr, group_id, sizeof(QXLImage));
+> +     if (!image) {
+> +         return 1;
+> +     }
+> +@@ -214,7 +214,8 @@ int qxl_log_cmd_cursor(PCIQXLDevice *qxl, QXLCursorC=
+md *cmd, int group_id)
+> +                 cmd->u.set.position.y,
+> +                 cmd->u.set.visible ? "yes" : "no",
+> +                 cmd->u.set.shape);
+> +-        cursor =3D qxl_phys2virt(qxl, cmd->u.set.shape, group_id);
+> ++        cursor =3D qxl_phys2virt(qxl, cmd->u.set.shape, group_id,
+> ++                               sizeof(QXLCursor));
+> +         if (!cursor) {
+> +             return 1;
+> +         }
+> +@@ -236,6 +237,7 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *r=
+ing, QXLCommandExt *ext)
+> + {
+> +     bool compat =3D ext->flags & QXL_COMMAND_FLAG_COMPAT;
+> +     void *data;
+> ++    size_t datasz;
+> +     int ret;
+> +
+> +     if (!qxl->cmdlog) {
+> +@@ -249,15 +251,18 @@ int qxl_log_command(PCIQXLDevice *qxl, const char =
+*ring, QXLCommandExt *ext)
+> +
+> +     switch (ext->cmd.type) {
+> +     case QXL_CMD_DRAW:
+> ++        datasz =3D compat ? sizeof(QXLCompatDrawable) : sizeof(QXLDrawa=
+ble);
+> +         break;
+> +     case QXL_CMD_SURFACE:
+> ++        datasz =3D sizeof(QXLSurfaceCmd);
+> +         break;
+> +     case QXL_CMD_CURSOR:
+> ++        datasz =3D sizeof(QXLCursorCmd);
+> +         break;
+> +     default:
+> +         goto out;
+> +     }
+> +-    data =3D qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
+> ++    data =3D qxl_phys2virt(qxl, ext->cmd.data, ext->group_id, datasz);
+> +     if (!data) {
+> +         return 1;
+> +     }
+> +diff --git a/hw/display/qxl-render.c b/hw/display/qxl-render.c
+> +index ca21700..fcfd40c 100644
+> +--- a/hw/display/qxl-render.c
+> ++++ b/hw/display/qxl-render.c
+> +@@ -107,7 +107,9 @@ static void qxl_render_update_area_unlocked(PCIQXLDe=
+vice *qxl)
+> +         qxl->guest_primary.resized =3D 0;
+> +         qxl->guest_primary.data =3D qxl_phys2virt(qxl,
+> +                                                 qxl->guest_primary.surf=
+ace.mem,
+> +-                                                MEMSLOT_GROUP_GUEST);
+> ++                                                MEMSLOT_GROUP_GUEST,
+> ++                                                qxl->guest_primary.abs_=
+stride
+> ++                                                * height);
+> +         if (!qxl->guest_primary.data) {
+> +             goto end;
+> +         }
+> +@@ -228,7 +230,8 @@ static void qxl_unpack_chunks(void *dest, size_t siz=
+e, PCIQXLDevice *qxl,
+> +         if (offset =3D=3D size) {
+> +             return;
+> +         }
+> +-        chunk =3D qxl_phys2virt(qxl, chunk->next_chunk, group_id);
+> ++        chunk =3D qxl_phys2virt(qxl, chunk->next_chunk, group_id,
+> ++                              sizeof(QXLDataChunk) + chunk->data_size);
+> +         if (!chunk) {
+> +             return;
+> +         }
+> +@@ -295,7 +298,8 @@ fail:
+> + /* called from spice server thread context only */
+> + int qxl_render_cursor(PCIQXLDevice *qxl, QXLCommandExt *ext)
+> + {
+> +-    QXLCursorCmd *cmd =3D qxl_phys2virt(qxl, ext->cmd.data, ext->group_=
+id);
+> ++    QXLCursorCmd *cmd =3D qxl_phys2virt(qxl, ext->cmd.data, ext->group_=
+id,
+> ++                                      sizeof(QXLCursorCmd));
+> +     QXLCursor *cursor;
+> +     QEMUCursor *c;
+> +
+> +@@ -314,7 +318,15 @@ int qxl_render_cursor(PCIQXLDevice *qxl, QXLCommand=
+Ext *ext)
+> +     }
+> +     switch (cmd->type) {
+> +     case QXL_CURSOR_SET:
+> +-        cursor =3D qxl_phys2virt(qxl, cmd->u.set.shape, ext->group_id);
+> ++        /* First read the QXLCursor to get QXLDataChunk::data_size ... =
+*/
+> ++        cursor =3D qxl_phys2virt(qxl, cmd->u.set.shape, ext->group_id,
+> ++                               sizeof(QXLCursor));
+> ++        if (!cursor) {
+> ++            return 1;
+> ++        }
+> ++        /* Then read including the chunked data following QXLCursor. */
+> ++        cursor =3D qxl_phys2virt(qxl, cmd->u.set.shape, ext->group_id,
+> ++                               sizeof(QXLCursor) + cursor->chunk.data_s=
+ize);
+> +         if (!cursor) {
+> +             return 1;
+> +         }
+> +diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+> +index ae8aa07..2a4b2d4 100644
+> +--- a/hw/display/qxl.c
+> ++++ b/hw/display/qxl.c
+> +@@ -274,7 +274,8 @@ static void qxl_spice_monitors_config_async(PCIQXLDe=
+vice *qxl, int replay)
+> +                                           QXL_IO_MONITORS_CONFIG_ASYNC)=
+);
+> +     }
+> +
+> +-    cfg =3D qxl_phys2virt(qxl, qxl->guest_monitors_config, MEMSLOT_GROU=
+P_GUEST);
+> ++    cfg =3D qxl_phys2virt(qxl, qxl->guest_monitors_config, MEMSLOT_GROU=
+P_GUEST,
+> ++                        sizeof(QXLMonitorsConfig));
+> +     if (cfg !=3D NULL && cfg->count =3D=3D 1) {
+> +         qxl->guest_primary.resized =3D 1;
+> +         qxl->guest_head0_width  =3D cfg->heads[0].width;
+> +@@ -459,7 +460,8 @@ static int qxl_track_command(PCIQXLDevice *qxl, stru=
+ct QXLCommandExt *ext)
+> +     switch (le32_to_cpu(ext->cmd.type)) {
+> +     case QXL_CMD_SURFACE:
+> +     {
+> +-        QXLSurfaceCmd *cmd =3D qxl_phys2virt(qxl, ext->cmd.data, ext->g=
+roup_id);
+> ++        QXLSurfaceCmd *cmd =3D qxl_phys2virt(qxl, ext->cmd.data, ext->g=
+roup_id,
+> ++                                           sizeof(QXLSurfaceCmd));
+> +
+> +         if (!cmd) {
+> +             return 1;
+> +@@ -494,7 +496,8 @@ static int qxl_track_command(PCIQXLDevice *qxl, stru=
+ct QXLCommandExt *ext)
+> +     }
+> +     case QXL_CMD_CURSOR:
+> +     {
+> +-        QXLCursorCmd *cmd =3D qxl_phys2virt(qxl, ext->cmd.data, ext->gr=
+oup_id);
+> ++        QXLCursorCmd *cmd =3D qxl_phys2virt(qxl, ext->cmd.data, ext->gr=
+oup_id,
+> ++                                          sizeof(QXLCursorCmd));
+> +
+> +         if (!cmd) {
+> +             return 1;
+> +@@ -1463,7 +1466,8 @@ static bool qxl_get_check_slot_offset(PCIQXLDevice=
+ *qxl, QXLPHYSICAL pqxl,
+> + }
+> +
+> + /* can be also called from spice server thread context */
+> +-void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL pqxl, int group_id)
+> ++void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL pqxl, int group_id,
+> ++                    size_t size)
+> + {
+> +     uint64_t offset;
+> +     uint32_t slot;
+> +@@ -1971,7 +1975,7 @@ static void qxl_dirty_surfaces(PCIQXLDevice *qxl)
+> +         }
+> +
+> +         cmd =3D qxl_phys2virt(qxl, qxl->guest_surfaces.cmds[i],
+> +-                            MEMSLOT_GROUP_GUEST);
+> ++                            MEMSLOT_GROUP_GUEST, sizeof(QXLSurfaceCmd))=
+;
+> +         assert(cmd);
+> +         assert(cmd->type =3D=3D QXL_SURFACE_CMD_CREATE);
+> +         qxl_dirty_one_surface(qxl, cmd->u.surface_create.data,
+> +diff --git a/hw/display/qxl.h b/hw/display/qxl.h
+> +index 30d21f4..4551c23 100644
+> +--- a/hw/display/qxl.h
+> ++++ b/hw/display/qxl.h
+> +@@ -147,7 +147,8 @@ OBJECT_DECLARE_SIMPLE_TYPE(PCIQXLDevice, PCI_QXL)
+> + #define QXL_DEFAULT_REVISION (QXL_REVISION_STABLE_V12 + 1)
+> +
+> + /* qxl.c */
+> +-void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL phys, int group_id);
+> ++void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL phys, int group_id,
+> ++                    size_t size);
+> + void qxl_set_guest_bug(PCIQXLDevice *qxl, const char *msg, ...)
+> +     GCC_FMT_ATTR(2, 3);
+> +
+> +--
+> +2.34.1
+> +
+> --
+> 2.17.1
+>
 
