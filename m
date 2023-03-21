@@ -2,26 +2,26 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D855FC77B60
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDB96C77B62
 	for <webhook@archiver.kernel.org>; Tue, 21 Mar 2023 12:38:06 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.11949.1679402282468064813
+ by mx.groups.io with SMTP id smtpd.web10.11944.1679402278033396361
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Mar 2023 05:38:02 -0700
+ Tue, 21 Mar 2023 05:37:58 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1E5EAAD7;
-	Tue, 21 Mar 2023 05:38:46 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A945FAD7;
+	Tue, 21 Mar 2023 05:38:41 -0700 (PDT)
 Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 534A53F71E;
-	Tue, 21 Mar 2023 05:38:01 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0D2B73F71E;
+	Tue, 21 Mar 2023 05:37:56 -0700 (PDT)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
 Cc: nd@arm.com
-Subject: [PATCH v2 16/17] python3-webcolors: use python3-unittest-automake-output
-Date: Tue, 21 Mar 2023 12:37:44 +0000
-Message-Id: <20230321123745.1248462-16-ross.burton@arm.com>
+Subject: [PATCH v2 12/17] python3-pluggy: use python3-unittest-automake-output
+Date: Tue, 21 Mar 2023 12:37:40 +0000
+Message-Id: <20230321123745.1248462-12-ross.burton@arm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230321123745.1248462-1-ross.burton@arm.com>
 References: <20230321123745.1248462-1-ross.burton@arm.com>
@@ -31,41 +31,41 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 12:38:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178869
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178865
 
 Instead of using sed to reformat the output use this new module.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-devtools/python/python3-webcolors/run-ptest | 2 +-
- meta/recipes-devtools/python/python3-webcolors_1.12.bb   | 1 +
+ meta/recipes-devtools/python/python3-pluggy/run-ptest | 2 +-
+ meta/recipes-devtools/python/python3-pluggy_1.0.0.bb  | 1 +
  2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-webcolors/run-ptest b/m=
-eta/recipes-devtools/python/python3-webcolors/run-ptest
-index 3385d68939d..8d2017d39ce 100644
---- a/meta/recipes-devtools/python/python3-webcolors/run-ptest
-+++ b/meta/recipes-devtools/python/python3-webcolors/run-ptest
+diff --git a/meta/recipes-devtools/python/python3-pluggy/run-ptest b/meta=
+/recipes-devtools/python/python3-pluggy/run-ptest
+index b63c4de0d9a..8d2017d39ce 100644
+--- a/meta/recipes-devtools/python/python3-pluggy/run-ptest
++++ b/meta/recipes-devtools/python/python3-pluggy/run-ptest
 @@ -1,3 +1,3 @@
  #!/bin/sh
 =20
 -pytest -o log_cli=3Dtrue -o log_cli_level=3DINFO | sed -e 's/\[...%\]//g=
-'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'|sed -e 's/SKIPED/SK=
-IP/g'| awk '{if ($NF=3D=3D"PASS" || $NF=3D=3D"FAIL" || $NF=3D=3D"SKIP" ||=
- $NF=3D=3D"XFAIL" || $NF=3D=3D"XPASS"){printf "%s: %s\n", $NF, $0}else{pr=
-int}}'| awk '{if ($NF=3D=3D"PASS" || $NF=3D=3D"FAIL" || $NF=3D=3D"SKIP" |=
-| $NF=3D=3D"XFAIL" || $NF=3D=3D"XPASS") {$NF=3D"";print $0}else{print}}'
+'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'|sed -e 's/SKIPPED/S=
+KIP/g'| awk '{if ($NF=3D=3D"PASS" || $NF=3D=3D"FAIL" || $NF=3D=3D"SKIP" |=
+| $NF=3D=3D"XFAIL" || $NF=3D=3D"XPASS"){printf "%s: %s\n", $NF, $0}else{p=
+rint}}'| awk '{if ($NF=3D=3D"PASS" || $NF=3D=3D"FAIL" || $NF=3D=3D"SKIP" =
+|| $NF=3D=3D"XFAIL" || $NF=3D=3D"XPASS") {$NF=3D"";print $0}else{print}}'
 +pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-webcolors_1.12.bb b/met=
-a/recipes-devtools/python/python3-webcolors_1.12.bb
-index 39ff19c2b8a..02f6c9fed89 100644
---- a/meta/recipes-devtools/python/python3-webcolors_1.12.bb
-+++ b/meta/recipes-devtools/python/python3-webcolors_1.12.bb
-@@ -17,6 +17,7 @@ SRC_URI +=3D " \
+diff --git a/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb b/meta/=
+recipes-devtools/python/python3-pluggy_1.0.0.bb
+index 2935acf95fa..99ae6336b76 100644
+--- a/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb
++++ b/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb
+@@ -18,6 +18,7 @@ SRC_URI +=3D " \
 =20
  RDEPENDS:${PN}-ptest +=3D " \
-     ${PYTHON_PN}-pytest \
-+    ${PYTHON_PN}-unittest-automake-output \
+ 	${PYTHON_PN}-pytest \
++	${PYTHON_PN}-unittest-automake-output \
  "
 =20
  do_install_ptest() {
