@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59C37C761A6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57F54C6FD1D
 	for <webhook@archiver.kernel.org>; Tue, 21 Mar 2023 14:20:57 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web11.14404.1679408453287192571
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web10.14691.1679408455235668860
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Mar 2023 07:20:53 -0700
+ Tue, 21 Mar 2023 07:20:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=4XBacrpL;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f169.google.com with SMTP id dw14so3678447pfb.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 07:20:53 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=uZ9kPTp2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.42, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f42.google.com with SMTP id p3-20020a17090a74c300b0023f69bc7a68so11573854pjl.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 07:20:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679408452;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679408454;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rO6dXH7WvrK5PAZw6VZ7awDQP1+D5Nt9mMeTUQ98tA4=;
-        b=4XBacrpLM7Xh1h+X1/eWxjibCC9ALTt0xSFqs2Q5GGYQxZhuq1XYGSsBmy1w1uV3xb
-         3Nc/j4Z6oSwOASvWt2pAJ7z1qRoEbfa1zGRuxHCWRbrC9yXy6pPBxIwLZ3OIemW5MaF3
-         MnB8AgrpQVb42pxb3Yc2NdOv2e0pH4O8VrQnSo+9WvLFHbYYemcKlrblSHNL2ok3Xn8/
-         NPTXWiFneJSpZUYmiVsiHxJ5vAIJCXdzyA4c9lPYTy96Jzm3dCukVEgQxcWHNkbA/Iwh
-         7vtTZOXuIZ14Po6ZqlLyL97iLVmSdmNSRHvoR7iezQ7eLjpZekxWorkpa3sGhiBzoXec
-         FloA==
+        bh=Pt2XAiSo2+VvYDHIynCCsqwkL9eOvc7oduFZfDV+IGs=;
+        b=uZ9kPTp23MUO5jqt4MgVJeu8vbXGPjyV/E/LVdk4CP/G+gc1ytfGUuHdeQztCqOiaL
+         Qv1i15OPjETvpL9K8nsFIr+VL1vRXCpLKqlpfyhveA0uWtGhY89AP0Bfwt7ScbWnqstm
+         RsrLqiWJjXF4jsggR4Wo3AM2fS6OsgYfU/RY4MY37bC4spMi7FgDaVG7TGJHZAOF75az
+         z6e2X3XCmhdBsBFtNrqXKBY2HWNTisxsWqrMhgfFqLzIUKKUmibq2RQSFWM/HsPyqhlD
+         SI0CZ8u47Y213+yBcl6R4x4aYUBbdfO/3LDFxywI8KhGcwqfcLJTnKzj/+vxsBqZggWw
+         RAWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679408452;
+        d=1e100.net; s=20210112; t=1679408454;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rO6dXH7WvrK5PAZw6VZ7awDQP1+D5Nt9mMeTUQ98tA4=;
-        b=KtSW3mpkEyP7oXHu7KbqcQPwb6dunDocXi8kXWLzw4tqiF5N0TE+DfAF1cUMoMMttc
-         Qdpsq3URqASam0WTdNGMHowX9+j8451WmgPkA7peBqceZw93YUburD3a43nfK54RA92e
-         g8IqGuMUlwIlXMZGQ7I/YPzwzHfmfqEperr7zMdGquwK//iy9y78WeTLNY25DMYg1Osp
-         /IOIivdma8LhbSIK8nw8W3zCkGueNiRsKFkOH3jltCiDKbKt8db8iqE9jp6WMspw1BAR
-         vbNYAgcoWpQFvAtXuSOqOS5z5BBZ7UGZu1Mor0gCjCPPML31+zyzbDFzfNx7PyPMXWGr
-         qVCQ==
-X-Gm-Message-State: AO0yUKWXJ5kmUjA3aM4/5rmx3s3fGiM6CXwOId3YyKzlCD8zQvvmXNoK
-	LtaRf2+JaBQARt2q6r3e9IMRsRbKBaqNRn4nVt4=
-X-Google-Smtp-Source: AK7set+FL3rSDdQe1K24ySxAVdtCneXNtXTSz3GHDSIVPCXGtTa4r1wmzeulLup4wndR0y6/71uGGw==
-X-Received: by 2002:aa7:93dc:0:b0:625:caa5:67ee with SMTP id y28-20020aa793dc000000b00625caa567eemr2201118pff.19.1679408452364;
-        Tue, 21 Mar 2023 07:20:52 -0700 (PDT)
+        bh=Pt2XAiSo2+VvYDHIynCCsqwkL9eOvc7oduFZfDV+IGs=;
+        b=S5FVtvf/fbysUZt6XCMOfYI1g2n08H51x00SBR4l2uxUzz1pm2G/0P52ma+Y3Ws7RM
+         lXCy0npx8gZQplXu3S5o5TFAoKU/GavRmTbrY/JIH1zBdIa2CnuyCykpLuI94uCwgLhK
+         o0LnjCae44FfR7W4RL2liZUiQpoFNT8eQiVQxv65ztyxGtCwNUDYLU+OWbm4wBsZa1Hn
+         xoh3Iuay4oT3dDYzaTEqA7arummDeEIWoMb1xh5mf07IMD1bPTon30VNp9oeG8ANSNiS
+         ux2uceK6uL8XakgW/UZj87NvjLn/JY4pZKxiMHMD7tnCyeP7Pkm3dSSNtyBcA7bpkHaF
+         eSJw==
+X-Gm-Message-State: AO0yUKWiKvhmfzPZq0hQv+P6QCZjrp1RprlQi6VGjkBV5zWwnFpRua+Z
+	563JPu+vA/xFwE7kObuEbhI4RC9XM5CTY9Z5lV0=
+X-Google-Smtp-Source: AK7set8h2/b3H8F1gGtc7MVH4gON8WAQp47CNg4tBXDeADAeTn7mf5c1M+JjaJRfckLdcE8PNF1Zbw==
+X-Received: by 2002:a05:6a20:ca7:b0:d5:635c:eaa2 with SMTP id dt39-20020a056a200ca700b000d5635ceaa2mr2006152pzb.14.1679408454349;
+        Tue, 21 Mar 2023 07:20:54 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id g11-20020aa7818b000000b005892ea4f092sm8551291pfi.95.2023.03.21.07.20.51
+        by smtp.gmail.com with ESMTPSA id g11-20020aa7818b000000b005892ea4f092sm8551291pfi.95.2023.03.21.07.20.53
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Mar 2023 07:20:52 -0700 (PDT)
+        Tue, 21 Mar 2023 07:20:54 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 12/14] toolchain-scripts: Handle spaces within user $PATH
-Date: Tue, 21 Mar 2023 04:20:17 -1000
-Message-Id: <ad6aaa77f1d08b4ca66f46e318f1a09b645d9e23.1679408291.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 13/14] populate_sdk_ext: Handle spaces within user $PATH
+Date: Tue, 21 Mar 2023 04:20:18 -1000
+Message-Id: <b8298401c710146ae35f282048b66d5773a513ed.1679408291.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1679408291.git.steve@sakoman.com>
 References: <cover.1679408291.git.steve@sakoman.com>
@@ -61,36 +61,37 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 14:20:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178883
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178884
 
 From: Kenfe-Mickael Laventure <mickael.laventure@gmail.com>
 
-The environment-setup script generated by the recipe was not quoting the
-user existing PATH when updating it causing the export command to fail.
+The script generated by the sdk_ext_postinst function was not quoting
+the user existing PATH when updating it causing the export command to
+fail.
 
 Add necessary double quotes around $PATH.
 
 Signed-off-by: Kenfe-Mickael Laventure <mickael.laventure@gmail.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 42177ff2d45ee70ad00917bb6fbabca49dae4f59)
+(cherry picked from commit 00e96bf250eaaded839caf465dbc0af5b604aed7)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/toolchain-scripts.bbclass | 2 +-
+ meta/classes/populate_sdk_ext.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index 9aa31dc6cd..21762b803b 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -44,7 +44,7 @@ toolchain_create_sdk_env_script () {
- 	for i in ${CANADIANEXTRAOS}; do
- 		EXTRAPATH="$EXTRAPATH:$sdkpathnative$bindir/${TARGET_ARCH}${TARGET_VENDOR}-$i"
- 	done
--	echo "export PATH=$sdkpathnative$bindir:$sdkpathnative$sbindir:$sdkpathnative$base_bindir:$sdkpathnative$base_sbindir:$sdkpathnative$bindir/../${HOST_SYS}/bin:$sdkpathnative$bindir/${TARGET_SYS}"$EXTRAPATH':$PATH' >> $script
-+	echo "export PATH=$sdkpathnative$bindir:$sdkpathnative$sbindir:$sdkpathnative$base_bindir:$sdkpathnative$base_sbindir:$sdkpathnative$bindir/../${HOST_SYS}/bin:$sdkpathnative$bindir/${TARGET_SYS}"$EXTRAPATH':"$PATH"' >> $script
- 	echo 'export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT' >> $script
- 	echo 'export PKG_CONFIG_PATH=$SDKTARGETSYSROOT'"$libdir"'/pkgconfig:$SDKTARGETSYSROOT'"$prefix"'/share/pkgconfig' >> $script
- 	echo 'export CONFIG_SITE=${SDKPATH}/site-config-'"${multimach_target_sys}" >> $script
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index b24f8d99d5..a43ff3fb32 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -669,7 +669,7 @@ sdk_ext_postinst() {
+ 
+ 	# A bit of another hack, but we need this in the path only for devtool
+ 	# so put it at the end of $PATH.
+-	echo "export PATH=$target_sdk_dir/sysroots/${SDK_SYS}${bindir_nativesdk}:\$PATH" >> $env_setup_script
++	echo "export PATH=\"$target_sdk_dir/sysroots/${SDK_SYS}${bindir_nativesdk}:\$PATH\"" >> $env_setup_script
+ 
+ 	echo "printf 'SDK environment now set up; additionally you may now run devtool to perform development tasks.\nRun devtool --help for further details.\n'" >> $env_setup_script
+ 
 -- 
 2.34.1
 
