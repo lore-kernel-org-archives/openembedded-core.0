@@ -1,1265 +1,203 @@
-Return-Path: <chee.yang.lee@intel.com>
+Return-Path: <jing.hui.tham@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 303FCC74A5B
-	for <webhook@archiver.kernel.org>; Tue, 21 Mar 2023 03:40:44 +0000 (UTC)
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by mx.groups.io with SMTP id smtpd.web11.4833.1679370035155395217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A2C1C76195
+	for <webhook@archiver.kernel.org>; Tue, 21 Mar 2023 03:48:54 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by mx.groups.io with SMTP id smtpd.web10.5098.1679370524073122418
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Mar 2023 20:40:35 -0700
+ Mon, 20 Mar 2023 20:48:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=OCs48boM;
- spf=pass (domain: intel.com, ip: 192.55.52.115, mailfrom: chee.yang.lee@intel.com)
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=JO1n83sh;
+ spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: jing.hui.tham@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679370035; x=1710906035;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=VkEV+rLQCTbh7rzGFhq98h+aGMlCrAJmvfxD0JSubeY=;
-  b=OCs48boMSsk42iAV//m5muAzx5aZ0aZm16lLyU0RQue/ECTLWPVf5t3/
-   SLV0ucL9nHqRyghkBahcVjvm/ztpaRdoauTQGKYzWiL9cdC+AgINWJ5r/
-   VHKDCr6IqJ7BiRQb1VCdNlFnGthPN3qeHoLyX1QpQUjM8FXXbfP0LObJI
-   +lh+F/exqtwGn5psqvQadhF2xAKyb1F03TDrI7B7rvngLEwxTcRsr+iwp
-   Q1pjc/PVuvIyRRLCwG05wW1Pw02Vzd0i1YL11P6YTgwkBlN3N4+Nvmw1R
-   mPeRSy0YMtMSQSmUlUqH7TfJI4demlyrpvYXTLB3McmtEri33vEwfFWPc
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="338874769"
+  t=1679370524; x=1710906524;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=JTEWgZ3K09k1tGxSJcqM5w4WoTueQ5qfP+xC0oUf004=;
+  b=JO1n83shY9avjzuohWPGKO8ga1MoNgzrYgSPc3G5c6VR+0g0+r3Xy/lJ
+   50RcrLrVdxo/7qYaJKgAC2ErbRa7b6v1gKnFKuvhURkUCIfqqODnMfSjw
+   lGiKaJMzbC+H745e45GvPHR+Xaar1LBGilVhr5EkhC+rqwnmNNKHQK+k9
+   KJUyWwX/km3713MxEIbEnEXU+HaZbLbbBVjWYs5I5eVM1O1p+GY+wwA4A
+   7Bl9n9hnLK/e1oTgcTZj1zZ0JK00EGLDlh2wk2ecXiiKPiViLuJWuvUsB
+   res+FYVTTxqA+6q/x1YJXXVhaMjQ8iMlCLFP+2RDBAqjT19AhpeOUVruE
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="403713870"
 X-IronPort-AV: E=Sophos;i="5.98,277,1673942400"; 
-   d="scan'208";a="338874769"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 20:40:34 -0700
+   d="scan'208";a="403713870"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 20:48:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="713824962"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="681363904"
 X-IronPort-AV: E=Sophos;i="5.98,277,1673942400"; 
-   d="scan'208";a="713824962"
-Received: from andromeda02.png.intel.com ([10.221.253.198])
-  by orsmga001.jf.intel.com with ESMTP; 20 Mar 2023 20:40:33 -0700
-From: chee.yang.lee@intel.com
-To: openembedded-core@lists.openembedded.org
-Subject: [dunfell][patch v2] qemu: fix multple CVEs
-Date: Tue, 21 Mar 2023 11:40:23 +0800
-Message-Id: <20230321034023.4172190-1-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.37.3
+   d="scan'208";a="681363904"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orsmga002.jf.intel.com with ESMTP; 20 Mar 2023 20:48:35 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Mon, 20 Mar 2023 20:48:35 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Mon, 20 Mar 2023 20:48:35 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.172)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Mon, 20 Mar 2023 20:48:35 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lm89mLXyO0qwp5GGajkXFbm6wKRCqgs2pSNM9AUZzfblRFfpw9LmTkB5D5UfakSmdEATtIh7SR0frB9lAPOsuOB1XUGJ8aGcuLdP8SI909HB9vLJAqayxyhOcuFGUq5BxC5I9kfXrxVAb7/aP/R+/w6unB9qYs6Eu93MN1PwAxS6wifDOoPv++dPauMM92I9HYiRsBGiuvrx7jwO1FJLmoHcOCPAuOvhdkCrFlAozX44KB8LV9UldACCVxQRyyoU9TLtGjUcK6aGoZLVYpT3528EyX5F7UCc+FONmUOAndIj8/0VzVb+bxonOpQGLPZqGNhxhYgSnLfpza4rRLlBkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uCE4RRZC1fP6EGJ4EBsmHs3+GgxdPZMFVjsWArCJklw=;
+ b=ZeIECkyxwNdJ4Yn3lWFVgbLJDOJhd5T87DrD4Jg0bFMfGWhyxHEogRNCIgJp6Eqjn88DNezpojmApfBqMLoYUQUGHzLy9+ByjFhVqtrQ+hR0YLh5kz1i31P6WQWrzXEh3RR8N74aztwaCW2UewoVltZG7msqdTNE5sc05vrE5C46KyYbExKRwNZ+tUt/UvAvVYkkUXm2FcvubAVKVfwEJBGI0pRKoXXan6IeBcQegaHwSSo6ZWswE/OgoIJOjIUzkjBCsGtmIUCByoCQge3UVGbDYM5lEGWvKwRH47XdEwPnfP9E+7HrpSpYpU4NiLRNOWGreB5kYab1kvKD8uGgLQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BY5PR11MB4152.namprd11.prod.outlook.com (2603:10b6:a03:191::11)
+ by BN9PR11MB5402.namprd11.prod.outlook.com (2603:10b6:408:11b::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Tue, 21 Mar
+ 2023 03:48:33 +0000
+Received: from BY5PR11MB4152.namprd11.prod.outlook.com
+ ([fe80::ee9e:fa18:d293:3931]) by BY5PR11MB4152.namprd11.prod.outlook.com
+ ([fe80::ee9e:fa18:d293:3931%2]) with mapi id 15.20.6178.037; Tue, 21 Mar 2023
+ 03:48:33 +0000
+From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
+To: "yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
+	"qa-build-notification@lists.yoctoproject.org"
+	<qa-build-notification@lists.yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [yocto] QA notification for completed autobuilder build
+ (yocto-3.1.24.rc1)
+Thread-Topic: [yocto] QA notification for completed autobuilder build
+ (yocto-3.1.24.rc1)
+Thread-Index: AQHZV8l0yrMFzSW6mU6/tNSaYsz1P68EoC0Q
+Date: Tue, 21 Mar 2023 03:48:32 +0000
+Message-ID: <BY5PR11MB41524324F54E9A8FD85C31E2A1819@BY5PR11MB4152.namprd11.prod.outlook.com>
+References: <01010186e8eb6702-b82e038b-e892-43b2-92b5-f45b8eb9944b-000000@us-west-2.amazonses.com>
+In-Reply-To: <01010186e8eb6702-b82e038b-e892-43b2-92b5-f45b8eb9944b-000000@us-west-2.amazonses.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BY5PR11MB4152:EE_|BN9PR11MB5402:EE_
+x-ms-office365-filtering-correlation-id: 3156ecc1-3006-4944-84d5-08db29bf2458
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: /kbQSjJbF57VHK+GiSxPmwXaz9E5oEDxk77u8q8z18JpE5lresOxDTqWrlUp/es4cEIJVppqG6K5WDk5CwatKb3Q4ryNqsfHAfRGCK9QwYAMnT6RRO5kgxFvCNQrfWBya0xO8Rq35RvQQIGhpuwhn/qSHJ8Ww8RKTaqiu5srEm8TfT8TSO8nBcFd2b9zDkVdYl0984TttFy7lOK2kXMb1HeV/lDw66uMdWYRhZJzQCDpSrifQfBa6Juz32q6CSzxzUfRrQIoPhLNEbf0RzmPLjvV4UN+YGDTEgx1trE/xPm4Pa7msyTnIwjvMsQ6992Jb+6vw1oVXBIXDigAlG4xOyFw8oKKjHQnpMyFVQtYMai3l2FpNeHOVyCAZPuHALRCB3ynWWGkt/VKA1Bdd/VBBxwJZiVR9R4ISnV/Ux4pQBS8pdZoFJejp+V5RxZ2UeYk785qlY54DcQ5/zZYDpXQnhOP/eNPhjX5duTrs8gKZIFqNodo3FfKXK6juAgFzwet3TayFdHq2yPD3kSDy6DV/j4ky5hAZ9gwQiOj6VcphB9A7SEKAa3sh4yLQC1BUJ+CIwgBQKOhfRnLS0OAdEonQ66SGH4TswM34VNHx/Hbr51kd8cNRtPOgrw3CrcA04LOAJS/PaWT9mrXZ5nxFflmHRy12tORlYdUTLLrk6cu6+mY7z1KhURZKN9SVR+yIWWI8SCXSqCCq5TRKixd/leXXxPpTEdHNk2t9eo/omw5Kto=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4152.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(136003)(346002)(376002)(396003)(366004)(39860400002)(451199018)(38100700002)(71200400001)(7696005)(316002)(110136005)(55016003)(33656002)(8936002)(8676002)(66476007)(66946007)(66556008)(76116006)(64756008)(52536014)(41300700001)(66446008)(5660300002)(478600001)(86362001)(2906002)(122000001)(15650500001)(83380400001)(82960400001)(38070700005)(26005)(53546011)(186003)(6506007)(9686003)(966005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?lkZEIrhv/etTF3wghRHibBrdSGGQnpfLPNkyj0FYiDSWamVhMIJ6Iir5p1fm?=
+ =?us-ascii?Q?ajhAD4U/6IUZfS9QH50cJWi45m0yUxuopdIoq5WIUDGmrPtIe/Sdtl0R/Ws3?=
+ =?us-ascii?Q?VsEYS5IJ9+BSgyhSRbxoy1nnrwczpNHXGCaEZZ8sBfyubgKyLPBALHu/U6Cu?=
+ =?us-ascii?Q?QS6S7x85pWkv6UE9CoJl9V73fZaCxT/qC+zgogFnua6lJQYfTh/8fli6sIrL?=
+ =?us-ascii?Q?k4C28NOXQzxrOhwKwxZpBvlF8H3EZ1XxaRU3205g+qSMUnl8cNW2pj9sV1cC?=
+ =?us-ascii?Q?Sj3cyh9dNibmmu3srcMs+xm9X8FW6dchsTV89kys5/5NSXK8vgzQm51ARlqy?=
+ =?us-ascii?Q?8I7W40TFdLsVZzs/nPNQsY877vNgWuXZigfX/6cRDOCeEd2/+mnq/TERkAcc?=
+ =?us-ascii?Q?EFTdvQ2AWkaHGa7NkGC3P/ivcRxrca4tgMJl+EJTm8ecpSrvtt5xXsi9lE5X?=
+ =?us-ascii?Q?0ClJw7oFhpQOtNnPxAiwAVAvs0S9SoEHuil6HqU8LPPQp+aTRDhP80P0VM29?=
+ =?us-ascii?Q?3WyCWHRDzlMp7yJHgorf6LS/NtKZre8BR2SQu8YrTWYIikDViVTce2KuAPIl?=
+ =?us-ascii?Q?/M2YYI/qL+099041TeYQGnd1oPqIFZ+zz45Sv6sKnkMXon0ejswFpLnGIGuK?=
+ =?us-ascii?Q?7/LnocFJDCQ43NJsjZLcl+WVGEMFjFX/c2ZheqcBO3rX+zcmiS1DGbo6pM61?=
+ =?us-ascii?Q?VPMWfeM2agJNl02CIL0l6/zLAlsLTpcNoOfKnkq46MZZRwCBO1tRLXB38AT4?=
+ =?us-ascii?Q?yggq6YCc8T2egdTQbfXd/qS4wojKpxSFHHkAkIefhxapTRsNir3Zje3wRU4u?=
+ =?us-ascii?Q?O96Ie5Ef7NNUrLUvpd7Eg2vRqYfr/bBjoQYH2q92g9MC9T+mTwZOSKKI7ypF?=
+ =?us-ascii?Q?DbMN/U2yCont0ZGcWyfhMQDGsqFlkk5GamIGW2jY9z4SBDBWYKgKD6++16bl?=
+ =?us-ascii?Q?KVRNjelGTxhCWtOEiIu4Gp5ARRS1yDOUUIRRYEVhp2276v626TStt9hcUPFw?=
+ =?us-ascii?Q?Kr5ncyZf34OANapb3E0W4CFySD7h8akP8/5+SMZ5oMOlWCo90Ar36lgaMGSc?=
+ =?us-ascii?Q?OMYShP09+1zJPVnm3Icu7YJ1DOrOlnGS7mSQz3+aGnTFHNKPfpdQcOrVKqaV?=
+ =?us-ascii?Q?BWJ+Sm2WXrsGAyg/ib5cwWmNd1MjXxWsrjgwIu7XijwwH1uquJ0ZlmLTv6J/?=
+ =?us-ascii?Q?VA1+RGS8V1tGhTepi2zJm8Jv4XDiLDmVOgr7/daQOUfM+qM+tTU4VcW4Tlt6?=
+ =?us-ascii?Q?imlFxisMCZtnW6ZqhApqxn9CxX9DXNUL+1jVGbuYqy3JvswN+5yhhtLuHc3x?=
+ =?us-ascii?Q?AVVW4Og6WOdu/R4Xk6tjyJhJeWixav4R7gwhiatro4hodzM1JoNhMzY5NnK6?=
+ =?us-ascii?Q?ZC9xiBA5+IqVRHIVVj5gUw4h6EQAb4Wzt7jnXJaYMxSFqEPYFhOYCvwYmSMc?=
+ =?us-ascii?Q?5PW28TZ/C3fVb1EJenzKvG+nqfFWR2uKi1WcPiLIyTGQm4WosijohhUDTHQ7?=
+ =?us-ascii?Q?svVl4agGZ4B9mSHKwiNMfvJJ4q28TCmkVmQ7vvfpBG+yyoVRFXYpOA/jl/5S?=
+ =?us-ascii?Q?01XX61I11FIZq/uu0p93PtW3Bw6Va1j0n1n2D+la?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4152.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3156ecc1-3006-4944-84d5-08db29bf2458
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Mar 2023 03:48:32.8174
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: KGUXGff2rClj7U4hvqvtYSFqWjyTN4nq0E14osw3gtx20o3OnnHVg/HFNPinIqqFGNi7HG5BESw9AHIFbHZ6Hw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5402
+X-OriginatorOrg: intel.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 03:40:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178848
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Mar 2023 03:48:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178849
 
-From: Chee Yang Lee <chee.yang.lee@intel.com>
+Hi All,
+=20
+QA for yocto-3.1.24.rc1 is completed. This is the full report for this rele=
+ase: =20
+https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?=
+h=3Dintel-yocto-testresults
+=20
+=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
+No high milestone defects.
+=20
+No new issue found.=20
+=20
+Thanks,
+Jing Hui
 
-import patches from ubuntu to fix
- CVE-2020-15469
- CVE-2020-15859
- CVE-2020-17380
- CVE-2020-35504
- CVE-2020-35505
- CVE-2021-3409
- CVE-2022-26354
-https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches?h=ubuntu/focal-security
 
-Combine patches for both CVE-2020-25085 and CVE-2021-3409 also fix CVE-2020-17380.
-so mark CVE-2020-17380 fixed by CVE-2021-3409 patches. CVE-2020-17380 patch backported since
-oecore rev 6b4c58a31ec11e557d40c31f2532985dd53e61eb.
 
-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
----
-v2: patch file included link to both upstream qemu and ubuntu qemu
-
- meta/recipes-devtools/qemu/qemu.inc           |  17 +++
- .../qemu/qemu/CVE-2020-15469-1.patch          |  50 +++++++++
- .../qemu/qemu/CVE-2020-15469-2.patch          |  69 ++++++++++++
- .../qemu/qemu/CVE-2020-15469-3.patch          |  49 +++++++++
- .../qemu/qemu/CVE-2020-15469-4.patch          |  53 +++++++++
- .../qemu/qemu/CVE-2020-15469-5.patch          |  53 +++++++++
- .../qemu/qemu/CVE-2020-15469-6.patch          |  61 +++++++++++
- .../qemu/qemu/CVE-2020-15469-7.patch          |  50 +++++++++
- .../qemu/qemu/CVE-2020-15469-8.patch          |  44 ++++++++
- .../qemu/qemu/CVE-2020-15859.patch            |  39 +++++++
- .../qemu/qemu/CVE-2020-35504.patch            |  51 +++++++++
- .../qemu/qemu/CVE-2020-35505.patch            |  42 +++++++
- .../qemu/qemu/CVE-2021-3409-1.patch           |  85 +++++++++++++++
- .../qemu/qemu/CVE-2021-3409-2.patch           | 103 ++++++++++++++++++
- .../qemu/qemu/CVE-2021-3409-3.patch           |  71 ++++++++++++
- .../qemu/qemu/CVE-2021-3409-4.patch           |  52 +++++++++
- .../qemu/qemu/CVE-2021-3409-5.patch           |  93 ++++++++++++++++
- .../qemu/qemu/CVE-2022-26354.patch            |  57 ++++++++++
- 18 files changed, 1039 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-15469-1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-15469-2.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-15469-3.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-15469-4.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-15469-5.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-15469-6.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-15469-7.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-15469-8.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-15859.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-35504.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-35505.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3409-1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3409-2.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3409-3.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3409-4.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3409-5.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-26354.patch
-
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 36d0b9320f..ddbe85c9d0 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -116,6 +116,23 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
- 	   file://CVE-2021-20196.patch \
- 	   file://CVE-2021-3507.patch \
- 	   file://CVE-2021-3929.patch \
-+           file://CVE-2020-15859.patch \
-+           file://CVE-2020-15469-1.patch \
-+           file://CVE-2020-15469-2.patch \
-+           file://CVE-2020-15469-3.patch \
-+           file://CVE-2020-15469-4.patch \
-+           file://CVE-2020-15469-5.patch \
-+           file://CVE-2020-15469-6.patch \
-+           file://CVE-2020-15469-7.patch \
-+           file://CVE-2020-15469-8.patch \
-+           file://CVE-2020-35504.patch \
-+           file://CVE-2020-35505.patch \
-+           file://CVE-2022-26354.patch \
-+           file://CVE-2021-3409-1.patch \
-+           file://CVE-2021-3409-2.patch \
-+           file://CVE-2021-3409-3.patch \
-+           file://CVE-2021-3409-4.patch \
-+           file://CVE-2021-3409-5.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-15469-1.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-15469-1.patch
-new file mode 100644
-index 0000000000..20f39f0a26
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-15469-1.patch
-@@ -0,0 +1,50 @@
-+From 520f26fc6d17b71a43eaf620e834b3bdf316f3d3 Mon Sep 17 00:00:00 2001
-+From: Prasad J Pandit <pjp@fedoraproject.org>
-+Date: Tue, 11 Aug 2020 17:11:25 +0530
-+Subject: [PATCH] hw/pci-host: add pci-intack write method
-+
-+Add pci-intack mmio write method to avoid NULL pointer dereference
-+issue.
-+
-+Reported-by: Lei Sun <slei.casper@gmail.com>
-+Reviewed-by: Li Qiang <liq3ea@gmail.com>
-+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Message-Id: <20200811114133.672647-2-ppandit@redhat.com>
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-+
-+CVE: CVE-2020-15469
-+Upstream-Status: Backport [import from ubuntu
-+https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches/CVE-2020-15469-1.patch?h=ubuntu/focal-security
-+Upstream commit  https://github.com/qemu/qemu/commit/520f26fc6d17b71a43eaf620e834b3bdf316f3d3 ]
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ hw/pci-host/prep.c | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
-+
-+--- a/hw/pci-host/prep.c
-++++ b/hw/pci-host/prep.c
-+@@ -26,6 +26,7 @@
-+ #include "qemu/osdep.h"
-+ #include "qemu-common.h"
-+ #include "qemu/units.h"
-++#include "qemu/log.h"
-+ #include "qapi/error.h"
-+ #include "hw/pci/pci.h"
-+ #include "hw/pci/pci_bus.h"
-+@@ -119,8 +120,15 @@ static uint64_t raven_intack_read(void *
-+     return pic_read_irq(isa_pic);
-+ }
-+ 
-++static void raven_intack_write(void *opaque, hwaddr addr,
-++                                        uint64_t data, unsigned size)
-++{
-++    qemu_log_mask(LOG_UNIMP, "%s not implemented\n", __func__);
-++}
-++
-+ static const MemoryRegionOps raven_intack_ops = {
-+     .read = raven_intack_read,
-++    .write = raven_intack_write,
-+     .valid = {
-+         .max_access_size = 1,
-+     },
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-15469-2.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-15469-2.patch
-new file mode 100644
-index 0000000000..d6715d337c
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-15469-2.patch
-@@ -0,0 +1,69 @@
-+From 4f2a5202a05fc1612954804a2482f07bff105ea2 Mon Sep 17 00:00:00 2001
-+From: Prasad J Pandit <pjp@fedoraproject.org>
-+Date: Tue, 11 Aug 2020 17:11:26 +0530
-+Subject: [PATCH] pci-host: designware: add pcie-msi read method
-+
-+Add pcie-msi mmio read method to avoid NULL pointer dereference
-+issue.
-+
-+Reported-by: Lei Sun <slei.casper@gmail.com>
-+Reviewed-by: Li Qiang <liq3ea@gmail.com>
-+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Message-Id: <20200811114133.672647-3-ppandit@redhat.com>
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-+
-+CVE: CVE-2020-15469
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches/CVE-2020-15469-2.patch?h=ubuntu/focal-security Upstream Commit https://github.com/qemu/qemu/commit/4f2a5202a05fc1612954804a2482f07bff105ea2]
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ hw/pci-host/designware.c | 19 +++++++++++++++++++
-+ 1 file changed, 19 insertions(+)
-+
-+diff --git a/hw/pci-host/designware.c b/hw/pci-host/designware.c
-+index f9fb97a..bde3a34 100644
-+--- a/hw/pci-host/designware.c
-++++ b/hw/pci-host/designware.c
-+@@ -21,6 +21,7 @@
-+ #include "qemu/osdep.h"
-+ #include "qapi/error.h"
-+ #include "qemu/module.h"
-++#include "qemu/log.h"
-+ #include "hw/pci/msi.h"
-+ #include "hw/pci/pci_bridge.h"
-+ #include "hw/pci/pci_host.h"
-+@@ -63,6 +64,23 @@ designware_pcie_root_to_host(DesignwarePCIERoot *root)
-+     return DESIGNWARE_PCIE_HOST(bus->parent);
-+ }
-+ 
-++static uint64_t designware_pcie_root_msi_read(void *opaque, hwaddr addr,
-++                                              unsigned size)
-++{
-++    /*
-++     * Attempts to read from the MSI address are undefined in
-++     * the PCI specifications. For this hardware, the datasheet
-++     * specifies that a read from the magic address is simply not
-++     * intercepted by the MSI controller, and will go out to the
-++     * AHB/AXI bus like any other PCI-device-initiated DMA read.
-++     * This is not trivial to implement in QEMU, so since
-++     * well-behaved guests won't ever ask a PCI device to DMA from
-++     * this address we just log the missing functionality.
-++     */
-++    qemu_log_mask(LOG_UNIMP, "%s not implemented\n", __func__);
-++    return 0;
-++}
-++
-+ static void designware_pcie_root_msi_write(void *opaque, hwaddr addr,
-+                                            uint64_t val, unsigned len)
-+ {
-+@@ -77,6 +95,7 @@ static void designware_pcie_root_msi_write(void *opaque, hwaddr addr,
-+ }
-+ 
-+ static const MemoryRegionOps designware_pci_host_msi_ops = {
-++    .read = designware_pcie_root_msi_read,
-+     .write = designware_pcie_root_msi_write,
-+     .endianness = DEVICE_LITTLE_ENDIAN,
-+     .valid = {
-+-- 
-+1.8.3.1
-+
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-15469-3.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-15469-3.patch
-new file mode 100644
-index 0000000000..85abe8ff32
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-15469-3.patch
-@@ -0,0 +1,49 @@
-+From 24202d2b561c3b4c48bd28383c8c34b4ac66c2bf Mon Sep 17 00:00:00 2001
-+From: Prasad J Pandit <pjp@fedoraproject.org>
-+Date: Tue, 11 Aug 2020 17:11:27 +0530
-+Subject: [PATCH] vfio: add quirk device write method
-+
-+Add vfio quirk device mmio write method to avoid NULL pointer
-+dereference issue.
-+
-+Reported-by: Lei Sun <slei.casper@gmail.com>
-+Reviewed-by: Li Qiang <liq3ea@gmail.com>
-+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-+Acked-by: Alex Williamson <alex.williamson@redhat.com>
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Message-Id: <20200811114133.672647-4-ppandit@redhat.com>
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-+
-+CVE: CVE-2020-15469
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches/CVE-2020-15469-3.patch?h=ubuntu/focal-security Upstream commit https://github.com/qemu/qemu/commit/24202d2b561c3b4c48bd28383c8c34b4ac66c2bf]
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ hw/vfio/pci-quirks.c | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
-+
-+--- a/hw/vfio/pci-quirks.c
-++++ b/hw/vfio/pci-quirks.c
-+@@ -13,6 +13,7 @@
-+ #include "qemu/osdep.h"
-+ #include "exec/memop.h"
-+ #include "qemu/units.h"
-++#include "qemu/log.h"
-+ #include "qemu/error-report.h"
-+ #include "qemu/main-loop.h"
-+ #include "qemu/module.h"
-+@@ -278,8 +279,15 @@ static uint64_t vfio_ati_3c3_quirk_read(
-+     return data;
-+ }
-+ 
-++static void vfio_ati_3c3_quirk_write(void *opaque, hwaddr addr,
-++                                        uint64_t data, unsigned size)
-++{
-++    qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid access\n", __func__);
-++}
-++
-+ static const MemoryRegionOps vfio_ati_3c3_quirk = {
-+     .read = vfio_ati_3c3_quirk_read,
-++    .write = vfio_ati_3c3_quirk_write,
-+     .endianness = DEVICE_LITTLE_ENDIAN,
-+ };
-+ 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-15469-4.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-15469-4.patch
-new file mode 100644
-index 0000000000..52fac8a051
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-15469-4.patch
-@@ -0,0 +1,53 @@
-+From f867cebaedbc9c43189f102e4cdfdff05e88df7f Mon Sep 17 00:00:00 2001
-+From: Prasad J Pandit <pjp@fedoraproject.org>
-+Date: Tue, 11 Aug 2020 17:11:28 +0530
-+Subject: [PATCH] prep: add ppc-parity write method
-+
-+Add ppc-parity mmio write method to avoid NULL pointer dereference
-+issue.
-+
-+Reported-by: Lei Sun <slei.casper@gmail.com>
-+Acked-by: David Gibson <david@gibson.dropbear.id.au>
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Reviewed-by: Li Qiang <liq3ea@gmail.com>
-+Message-Id: <20200811114133.672647-5-ppandit@redhat.com>
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-+
-+CVE: CVE-2020-15469
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches/CVE-2020-15469-4.patch?h=ubuntu/focal-security Upstream commit https://github.com/qemu/qemu/commit/f867cebaedbc9c43189f102e4cdfdff05e88df7f]
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ hw/ppc/prep_systemio.c | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
-+
-+diff --git a/hw/ppc/prep_systemio.c b/hw/ppc/prep_systemio.c
-+index 4e48ef2..b2bd783 100644
-+--- a/hw/ppc/prep_systemio.c
-++++ b/hw/ppc/prep_systemio.c
-+@@ -23,6 +23,7 @@
-+  */
-+ 
-+ #include "qemu/osdep.h"
-++#include "qemu/log.h"
-+ #include "hw/irq.h"
-+ #include "hw/isa/isa.h"
-+ #include "hw/qdev-properties.h"
-+@@ -235,8 +236,15 @@ static uint64_t ppc_parity_error_readl(void *opaque, hwaddr addr,
-+     return val;
-+ }
-+ 
-++static void ppc_parity_error_writel(void *opaque, hwaddr addr,
-++                                    uint64_t data, unsigned size)
-++{
-++    qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid access\n", __func__);
-++}
-++
-+ static const MemoryRegionOps ppc_parity_error_ops = {
-+     .read = ppc_parity_error_readl,
-++    .write = ppc_parity_error_writel,
-+     .valid = {
-+         .min_access_size = 4,
-+         .max_access_size = 4,
-+-- 
-+1.8.3.1
-+
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-15469-5.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-15469-5.patch
-new file mode 100644
-index 0000000000..49c6c5e3e2
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-15469-5.patch
-@@ -0,0 +1,53 @@
-+From b5bf601f364e1a14ca4c3276f88dfec024acf613 Mon Sep 17 00:00:00 2001
-+From: Prasad J Pandit <pjp@fedoraproject.org>
-+Date: Tue, 11 Aug 2020 17:11:29 +0530
-+Subject: [PATCH] nvram: add nrf51_soc flash read method
-+
-+Add nrf51_soc mmio read method to avoid NULL pointer dereference
-+issue.
-+
-+Reported-by: Lei Sun <slei.casper@gmail.com>
-+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Reviewed-by: Li Qiang <liq3ea@gmail.com>
-+Message-Id: <20200811114133.672647-6-ppandit@redhat.com>
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-+
-+CVE: CVE-2020-15469
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches/CVE-2020-15469-5.patch?h=ubuntu/focal-security Upstream commit https://github.com/qemu/qemu/commit/b5bf601f364e1a14ca4c3276f88dfec024acf613 ]
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ hw/nvram/nrf51_nvm.c | 10 ++++++++++
-+ 1 file changed, 10 insertions(+)
-+
-+diff --git a/hw/nvram/nrf51_nvm.c b/hw/nvram/nrf51_nvm.c
-+index f2283c1..7b3460d 100644
-+--- a/hw/nvram/nrf51_nvm.c
-++++ b/hw/nvram/nrf51_nvm.c
-+@@ -273,6 +273,15 @@ static const MemoryRegionOps io_ops = {
-+         .endianness = DEVICE_LITTLE_ENDIAN,
-+ };
-+ 
-++static uint64_t flash_read(void *opaque, hwaddr offset, unsigned size)
-++{
-++    /*
-++     * This is a rom_device MemoryRegion which is always in
-++     * romd_mode (we never put it in MMIO mode), so reads always
-++     * go directly to RAM and never come here.
-++     */
-++    g_assert_not_reached();
-++}
-+ 
-+ static void flash_write(void *opaque, hwaddr offset, uint64_t value,
-+         unsigned int size)
-+@@ -300,6 +309,7 @@ static void flash_write(void *opaque, hwaddr offset, uint64_t value,
-+ 
-+ 
-+ static const MemoryRegionOps flash_ops = {
-++    .read = flash_read,
-+     .write = flash_write,
-+     .valid.min_access_size = 4,
-+     .valid.max_access_size = 4,
-+-- 
-+1.8.3.1
-+
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-15469-6.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-15469-6.patch
-new file mode 100644
-index 0000000000..115be68295
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-15469-6.patch
-@@ -0,0 +1,61 @@
-+Backport of:
-+
-+From 921604e175b8ec06c39503310e7b3ec1e3eafe9e Mon Sep 17 00:00:00 2001
-+From: Prasad J Pandit <pjp@fedoraproject.org>
-+Date: Tue, 11 Aug 2020 17:11:30 +0530
-+Subject: [PATCH] spapr_pci: add spapr msi read method
-+
-+Add spapr msi mmio read method to avoid NULL pointer dereference
-+issue.
-+
-+Reported-by: Lei Sun <slei.casper@gmail.com>
-+Acked-by: David Gibson <david@gibson.dropbear.id.au>
-+Reviewed-by: Li Qiang <liq3ea@gmail.com>
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Message-Id: <20200811114133.672647-7-ppandit@redhat.com>
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-+
-+CVE: CVE-2020-15469
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches/CVE-2020-15469-6.patch?h=ubuntu/focal-security Upstream commit https://github.com/qemu/qemu/commit/921604e175b8ec06c39503310e7b3ec1e3eafe9e]
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ hw/ppc/spapr_pci.c | 14 ++++++++++++--
-+ 1 file changed, 12 insertions(+), 2 deletions(-)
-+
-+--- a/hw/ppc/spapr_pci.c
-++++ b/hw/ppc/spapr_pci.c
-+@@ -52,6 +52,7 @@
-+ #include "sysemu/kvm.h"
-+ #include "sysemu/hostmem.h"
-+ #include "sysemu/numa.h"
-++#include "qemu/log.h"
-+ 
-+ /* Copied from the kernel arch/powerpc/platforms/pseries/msi.c */
-+ #define RTAS_QUERY_FN           0
-+@@ -738,6 +739,12 @@ static PCIINTxRoute spapr_route_intx_pin
-+     return route;
-+ }
-+ 
-++static uint64_t spapr_msi_read(void *opaque, hwaddr addr, unsigned size)
-++{
-++    qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid access\n", __func__);
-++    return 0;
-++}
-++
-+ /*
-+  * MSI/MSIX memory region implementation.
-+  * The handler handles both MSI and MSIX.
-+@@ -755,8 +762,11 @@ static void spapr_msi_write(void *opaque
-+ }
-+ 
-+ static const MemoryRegionOps spapr_msi_ops = {
-+-    /* There is no .read as the read result is undefined by PCI spec */
-+-    .read = NULL,
-++    /*
-++     * .read result is undefined by PCI spec.
-++     * define .read method to avoid assert failure in memory_region_init_io
-++     */
-++    .read = spapr_msi_read,
-+     .write = spapr_msi_write,
-+     .endianness = DEVICE_LITTLE_ENDIAN
-+ };
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-15469-7.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-15469-7.patch
-new file mode 100644
-index 0000000000..7d8ec32251
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-15469-7.patch
-@@ -0,0 +1,50 @@
-+From 2c9fb3b784000c1df32231e1c2464bb2e3fc4620 Mon Sep 17 00:00:00 2001
-+From: Prasad J Pandit <pjp@fedoraproject.org>
-+Date: Tue, 11 Aug 2020 17:11:31 +0530
-+Subject: [PATCH] tz-ppc: add dummy read/write methods
-+
-+Add tz-ppc-dummy mmio read/write methods to avoid assert failure
-+during initialisation.
-+
-+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Reviewed-by: Li Qiang <liq3ea@gmail.com>
-+Message-Id: <20200811114133.672647-8-ppandit@redhat.com>
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-+
-+CVE: CVE-2020-15469
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches/CVE-2020-15469-7.patch?h=ubuntu/focal-security Upstream commit https://github.com/qemu/qemu/commit/2c9fb3b784000c1df32231e1c2464bb2e3fc4620 ]
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ hw/misc/tz-ppc.c | 14 ++++++++++++++
-+ 1 file changed, 14 insertions(+)
-+
-+diff --git a/hw/misc/tz-ppc.c b/hw/misc/tz-ppc.c
-+index 6431257..36495c6 100644
-+--- a/hw/misc/tz-ppc.c
-++++ b/hw/misc/tz-ppc.c
-+@@ -196,7 +196,21 @@ static bool tz_ppc_dummy_accepts(void *opaque, hwaddr addr,
-+     g_assert_not_reached();
-+ }
-+ 
-++static uint64_t tz_ppc_dummy_read(void *opaque, hwaddr addr, unsigned size)
-++{
-++    g_assert_not_reached();
-++}
-++
-++static void tz_ppc_dummy_write(void *opaque, hwaddr addr,
-++                                        uint64_t data, unsigned size)
-++{
-++    g_assert_not_reached();
-++}
-++
-+ static const MemoryRegionOps tz_ppc_dummy_ops = {
-++    /* define r/w methods to avoid assert failure in memory_region_init_io */
-++    .read = tz_ppc_dummy_read,
-++    .write = tz_ppc_dummy_write,
-+     .valid.accepts = tz_ppc_dummy_accepts,
-+ };
-+ 
-+-- 
-+1.8.3.1
-+
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-15469-8.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-15469-8.patch
-new file mode 100644
-index 0000000000..7857ba266e
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-15469-8.patch
-@@ -0,0 +1,44 @@
-+From 735754aaa15a6ed46db51fd731e88331c446ea54 Mon Sep 17 00:00:00 2001
-+From: Prasad J Pandit <pjp@fedoraproject.org>
-+Date: Tue, 11 Aug 2020 17:11:32 +0530
-+Subject: [PATCH] imx7-ccm: add digprog mmio write method
-+
-+Add digprog mmio write method to avoid assert failure during
-+initialisation.
-+
-+Reviewed-by: Li Qiang <liq3ea@gmail.com>
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Message-Id: <20200811114133.672647-9-ppandit@redhat.com>
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-+
-+CVE: CVE-2020-15469
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches/CVE-2020-15469-8.patch?h=ubuntu/focal-security Upstream commit https://github.com/qemu/qemu/commit/735754aaa15a6ed46db51fd731e88331c446ea54]
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ hw/misc/imx7_ccm.c | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
-+
-+diff --git a/hw/misc/imx7_ccm.c b/hw/misc/imx7_ccm.c
-+index 02fc1ae..075159e 100644
-+--- a/hw/misc/imx7_ccm.c
-++++ b/hw/misc/imx7_ccm.c
-+@@ -131,8 +131,16 @@ static const struct MemoryRegionOps imx7_set_clr_tog_ops = {
-+     },
-+ };
-+ 
-++static void imx7_digprog_write(void *opaque, hwaddr addr,
-++                                        uint64_t data, unsigned size)
-++{
-++    qemu_log_mask(LOG_GUEST_ERROR,
-++                  "Guest write to read-only ANALOG_DIGPROG register\n");
-++}
-++
-+ static const struct MemoryRegionOps imx7_digprog_ops = {
-+     .read = imx7_set_clr_tog_read,
-++    .write = imx7_digprog_write,
-+     .endianness = DEVICE_NATIVE_ENDIAN,
-+     .impl = {
-+         .min_access_size = 4,
-+-- 
-+1.8.3.1
-+
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-15859.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-15859.patch
-new file mode 100644
-index 0000000000..0f43adeea8
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-15859.patch
-@@ -0,0 +1,39 @@
-+From 22dc8663d9fc7baa22100544c600b6285a63c7a3 Mon Sep 17 00:00:00 2001
-+From: Jason Wang <jasowang@redhat.com>
-+Date: Wed, 22 Jul 2020 16:57:46 +0800
-+Subject: [PATCH] net: forbid the reentrant RX
-+
-+The memory API allows DMA into NIC's MMIO area. This means the NIC's
-+RX routine must be reentrant. Instead of auditing all the NIC, we can
-+simply detect the reentrancy and return early. The queue->delivering
-+is set and cleared by qemu_net_queue_deliver() for other queue helpers
-+to know whether the delivering in on going (NIC's receive is being
-+called). We can check it and return early in qemu_net_queue_flush() to
-+forbid reentrant RX.
-+
-+Signed-off-by: Jason Wang <jasowang@redhat.com>
-+
-+CVE: CVE-2020-15859
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches/ubuntu/CVE-2020-15859.patch?h=ubuntu/focal-security Upstream commit https://github.com/qemu/qemu/commit/22dc8663d9fc7baa22100544c600b6285a63c7a3 ]
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ net/queue.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/net/queue.c b/net/queue.c
-+index 0164727..19e32c8 100644
-+--- a/net/queue.c
-++++ b/net/queue.c
-+@@ -250,6 +250,9 @@ void qemu_net_queue_purge(NetQueue *queue, NetClientState *from)
-+ 
-+ bool qemu_net_queue_flush(NetQueue *queue)
-+ {
-++    if (queue->delivering)
-++        return false;
-++
-+     while (!QTAILQ_EMPTY(&queue->packets)) {
-+         NetPacket *packet;
-+         int ret;
-+-- 
-+1.8.3.1
-+
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-35504.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-35504.patch
-new file mode 100644
-index 0000000000..97d32589d8
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-35504.patch
-@@ -0,0 +1,51 @@
-+Backport of:
-+
-+From 0db895361b8a82e1114372ff9f4857abea605701 Mon Sep 17 00:00:00 2001
-+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-+Date: Wed, 7 Apr 2021 20:57:50 +0100
-+Subject: [PATCH] esp: always check current_req is not NULL before use in DMA
-+ callbacks
-+
-+After issuing a SCSI command the SCSI layer can call the SCSIBusInfo .cancel
-+callback which resets both current_req and current_dev to NULL. If any data
-+is left in the transfer buffer (async_len != 0) then the next TI (Transfer
-+Information) command will attempt to reference the NULL pointer causing a
-+segfault.
-+
-+Buglink: https://bugs.launchpad.net/qemu/+bug/1910723
-+Buglink: https://bugs.launchpad.net/qemu/+bug/1909247
-+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-+Tested-by: Alexander Bulekov <alxndr@bu.edu>
-+Message-Id: <20210407195801.685-2-mark.cave-ayland@ilande.co.uk>
-+
-+CVE: CVE-2020-35504
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches/CVE-2020-35504.patch?h=ubuntu/focal-security Upstream commit https://github.com/qemu/qemu/commit/0db895361b8a82e1114372ff9f4857abea605701 ]
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ hw/scsi/esp.c | 19 ++++++++++++++-----
-+ 1 file changed, 14 insertions(+), 5 deletions(-)
-+
-+--- a/hw/scsi/esp.c
-++++ b/hw/scsi/esp.c
-+@@ -362,6 +362,11 @@ static void do_dma_pdma_cb(ESPState *s)
-+         do_cmd(s, s->cmdbuf);
-+         return;
-+     }
-++
-++    if (!s->current_req) {
-++        return;
-++    }
-++
-+     s->dma_left -= len;
-+     s->async_buf += len;
-+     s->async_len -= len;
-+@@ -415,6 +420,9 @@ static void esp_do_dma(ESPState *s)
-+         do_cmd(s, s->cmdbuf);
-+         return;
-+     }
-++    if (!s->current_req) {
-++        return;
-++    }
-+     if (s->async_len == 0) {
-+         /* Defer until data is available.  */
-+         return;
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-35505.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-35505.patch
-new file mode 100644
-index 0000000000..c5ff6e89ff
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-35505.patch
-@@ -0,0 +1,42 @@
-+Backport of:
-+
-+From 99545751734035b76bd372c4e7215bb337428d89 Mon Sep 17 00:00:00 2001
-+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-+Date: Wed, 7 Apr 2021 20:57:55 +0100
-+Subject: [PATCH] esp: ensure cmdfifo is not empty and current_dev is non-NULL
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=utf8
-+Content-Transfer-Encoding: 8bit
-+
-+When about to execute a SCSI command, ensure that cmdfifo is not empty and
-+current_dev is non-NULL. This can happen if the guest tries to execute a TI
-+(Transfer Information) command without issuing one of the select commands
-+first.
-+
-+Buglink: https://bugs.launchpad.net/qemu/+bug/1910723
-+Buglink: https://bugs.launchpad.net/qemu/+bug/1909247
-+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-+Reviewed-by: Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
-+Tested-by: Alexander Bulekov <alxndr@bu.edu>
-+Message-Id: <20210407195801.685-7-mark.cave-ayland@ilande.co.uk>
-+
-+CVE: CVE-2020-35504
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches/CVE-2020-35505.patch?h=ubuntu/focal-security Upstream commit https://github.com/qemu/qemu/commit/99545751734035b76bd372c4e7215bb337428d89  ]
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ hw/scsi/esp.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+--- a/hw/scsi/esp.c
-++++ b/hw/scsi/esp.c
-+@@ -193,6 +193,10 @@ static void do_busid_cmd(ESPState *s, ui
-+ 
-+     trace_esp_do_busid_cmd(busid);
-+     lun = busid & 7;
-++
-++    if (!s->current_dev) {
-++        return;
-++    }
-+     current_lun = scsi_device_find(&s->bus, 0, s->current_dev->id, lun);
-+     s->current_req = scsi_req_new(current_lun, 0, lun, buf, s);
-+     datalen = scsi_req_enqueue(s->current_req);
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3409-1.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3409-1.patch
-new file mode 100644
-index 0000000000..d53383247e
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3409-1.patch
-@@ -0,0 +1,85 @@
-+From b263d8f928001b5cfa2a993ea43b7a5b3a1811e8 Mon Sep 17 00:00:00 2001
-+From: Bin Meng <bmeng.cn@gmail.com>
-+Date: Wed, 3 Mar 2021 20:26:35 +0800
-+Subject: [PATCH] hw/sd: sdhci: Don't transfer any data when command time out
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=utf8
-+Content-Transfer-Encoding: 8bit
-+
-+At the end of sdhci_send_command(), it starts a data transfer if the
-+command register indicates data is associated. But the data transfer
-+should only be initiated when the command execution has succeeded.
-+
-+With this fix, the following reproducer:
-+
-+outl 0xcf8 0x80001810
-+outl 0xcfc 0xe1068000
-+outl 0xcf8 0x80001804
-+outw 0xcfc 0x7
-+write 0xe106802c 0x1 0x0f
-+write 0xe1068004 0xc 0x2801d10101fffffbff28a384
-+write 0xe106800c 0x1f 0x9dacbbcad9e8f7061524334251606f7e8d9cabbac9d8e7f60514233241505f
-+write 0xe1068003 0x28 0x80d000251480d000252280d000253080d000253e80d000254c80d000255a80d000256880d0002576
-+write 0xe1068003 0x1 0xfe
-+
-+cannot be reproduced with the following QEMU command line:
-+
-+$ qemu-system-x86_64 -nographic -M pc-q35-5.0 \
-+      -device sdhci-pci,sd-spec-version=3 \
-+      -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
-+      -device sd-card,drive=mydrive \
-+      -monitor none -serial none -qtest stdio
-+
-+Cc: qemu-stable@nongnu.org
-+Fixes: CVE-2020-17380
-+Fixes: CVE-2020-25085
-+Fixes: CVE-2021-3409
-+Fixes: d7dfca0807a0 ("hw/sdhci: introduce standard SD host controller")
-+Reported-by: Alexander Bulekov <alxndr@bu.edu>
-+Reported-by: Cornelius Aschermann (Ruhr-UniversitÃ¤t Bochum)
-+Reported-by: Sergej Schumilo (Ruhr-UniversitÃ¤t Bochum)
-+Reported-by: Simon WÃ¶rner (Ruhr-UniversitÃ¤t Bochum)
-+Buglink: https://bugs.launchpad.net/qemu/+bug/1892960
-+Buglink: https://bugs.launchpad.net/qemu/+bug/1909418
-+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1928146
-+Acked-by: Alistair Francis <alistair.francis@wdc.com>
-+Tested-by: Alexander Bulekov <alxndr@bu.edu>
-+Tested-by: Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
-+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-+Message-Id: <20210303122639.20004-2-bmeng.cn@gmail.com>
-+Signed-off-by: Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
-+
-+CVE: CVE-2021-3409 CVE-2020-17380
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches/CVE-2021-3409-1.patch?h=ubuntu/focal-security Upstream commit https://github.com/qemu/qemu/commit/b263d8f928001b5cfa2a993ea43b7a5b3a1811e8 ]
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ hw/sd/sdhci.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+--- a/hw/sd/sdhci.c
-++++ b/hw/sd/sdhci.c
-+@@ -316,6 +316,7 @@ static void sdhci_send_command(SDHCIStat
-+     SDRequest request;
-+     uint8_t response[16];
-+     int rlen;
-++    bool timeout = false;
-+ 
-+     s->errintsts = 0;
-+     s->acmd12errsts = 0;
-+@@ -339,6 +340,7 @@ static void sdhci_send_command(SDHCIStat
-+             trace_sdhci_response16(s->rspreg[3], s->rspreg[2],
-+                                    s->rspreg[1], s->rspreg[0]);
-+         } else {
-++            timeout = true;
-+             trace_sdhci_error("timeout waiting for command response");
-+             if (s->errintstsen & SDHC_EISEN_CMDTIMEOUT) {
-+                 s->errintsts |= SDHC_EIS_CMDTIMEOUT;
-+@@ -359,7 +361,7 @@ static void sdhci_send_command(SDHCIStat
-+ 
-+     sdhci_update_irq(s);
-+ 
-+-    if (s->blksize && (s->cmdreg & SDHC_CMD_DATA_PRESENT)) {
-++    if (!timeout && s->blksize && (s->cmdreg & SDHC_CMD_DATA_PRESENT)) {
-+         s->data_count = 0;
-+         sdhci_data_transfer(s);
-+     }
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3409-2.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3409-2.patch
-new file mode 100644
-index 0000000000..dc00f76ec9
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3409-2.patch
-@@ -0,0 +1,103 @@
-+From 8be45cc947832b3c02144c9d52921f499f2d77fe Mon Sep 17 00:00:00 2001
-+From: Bin Meng <bmeng.cn@gmail.com>
-+Date: Wed, 3 Mar 2021 20:26:36 +0800
-+Subject: [PATCH] hw/sd: sdhci: Don't write to SDHC_SYSAD register when
-+ transfer is in progress
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=utf8
-+Content-Transfer-Encoding: 8bit
-+
-+Per "SD Host Controller Standard Specification Version 7.00"
-+chapter 2.2.1 SDMA System Address Register:
-+
-+This register can be accessed only if no transaction is executing
-+(i.e., after a transaction has stopped).
-+
-+With this fix, the following reproducer:
-+
-+outl 0xcf8 0x80001010
-+outl 0xcfc 0xfbefff00
-+outl 0xcf8 0x80001001
-+outl 0xcfc 0x06000000
-+write 0xfbefff2c 0x1 0x05
-+write 0xfbefff0f 0x1 0x37
-+write 0xfbefff0a 0x1 0x01
-+write 0xfbefff0f 0x1 0x29
-+write 0xfbefff0f 0x1 0x02
-+write 0xfbefff0f 0x1 0x03
-+write 0xfbefff04 0x1 0x01
-+write 0xfbefff05 0x1 0x01
-+write 0xfbefff07 0x1 0x02
-+write 0xfbefff0c 0x1 0x33
-+write 0xfbefff0e 0x1 0x20
-+write 0xfbefff0f 0x1 0x00
-+write 0xfbefff2a 0x1 0x01
-+write 0xfbefff0c 0x1 0x00
-+write 0xfbefff03 0x1 0x00
-+write 0xfbefff05 0x1 0x00
-+write 0xfbefff2a 0x1 0x02
-+write 0xfbefff0c 0x1 0x32
-+write 0xfbefff01 0x1 0x01
-+write 0xfbefff02 0x1 0x01
-+write 0xfbefff03 0x1 0x01
-+
-+cannot be reproduced with the following QEMU command line:
-+
-+$ qemu-system-x86_64 -nographic -machine accel=qtest -m 512M \
-+       -nodefaults -device sdhci-pci,sd-spec-version=3 \
-+       -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
-+       -device sd-card,drive=mydrive -qtest stdio
-+
-+Cc: qemu-stable@nongnu.org
-+Fixes: CVE-2020-17380
-+Fixes: CVE-2020-25085
-+Fixes: CVE-2021-3409
-+Fixes: d7dfca0807a0 ("hw/sdhci: introduce standard SD host controller")
-+Reported-by: Alexander Bulekov <alxndr@bu.edu>
-+Reported-by: Cornelius Aschermann (Ruhr-UniversitÃ¤t Bochum)
-+Reported-by: Sergej Schumilo (Ruhr-UniversitÃ¤t Bochum)
-+Reported-by: Simon WÃ¶rner (Ruhr-UniversitÃ¤t Bochum)
-+Buglink: https://bugs.launchpad.net/qemu/+bug/1892960
-+Buglink: https://bugs.launchpad.net/qemu/+bug/1909418
-+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1928146
-+Tested-by: Alexander Bulekov <alxndr@bu.edu>
-+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-+Message-Id: <20210303122639.20004-3-bmeng.cn@gmail.com>
-+Signed-off-by: Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
-+
-+CVE: CVE-2021-3409 CVE-2020-17380
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches/CVE-2021-3409-2.patch?h=ubuntu/focal-security Upstream commit https://github.com/qemu/qemu/commit/8be45cc947832b3c02144c9d52921f499f2d77fe ]
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ hw/sd/sdhci.c | 20 +++++++++++---------
-+ 1 file changed, 11 insertions(+), 9 deletions(-)
-+
-+--- a/hw/sd/sdhci.c
-++++ b/hw/sd/sdhci.c
-+@@ -1117,15 +1117,17 @@ sdhci_write(void *opaque, hwaddr offset,
-+ 
-+     switch (offset & ~0x3) {
-+     case SDHC_SYSAD:
-+-        s->sdmasysad = (s->sdmasysad & mask) | value;
-+-        MASKED_WRITE(s->sdmasysad, mask, value);
-+-        /* Writing to last byte of sdmasysad might trigger transfer */
-+-        if (!(mask & 0xFF000000) && TRANSFERRING_DATA(s->prnsts) && s->blkcnt &&
-+-                s->blksize && SDHC_DMA_TYPE(s->hostctl1) == SDHC_CTRL_SDMA) {
-+-            if (s->trnmod & SDHC_TRNS_MULTI) {
-+-                sdhci_sdma_transfer_multi_blocks(s);
-+-            } else {
-+-                sdhci_sdma_transfer_single_block(s);
-++        if (!TRANSFERRING_DATA(s->prnsts)) {
-++            s->sdmasysad = (s->sdmasysad & mask) | value;
-++            MASKED_WRITE(s->sdmasysad, mask, value);
-++            /* Writing to last byte of sdmasysad might trigger transfer */
-++            if (!(mask & 0xFF000000) && s->blkcnt && s->blksize &&
-++                SDHC_DMA_TYPE(s->hostctl1) == SDHC_CTRL_SDMA) {
-++                if (s->trnmod & SDHC_TRNS_MULTI) {
-++                    sdhci_sdma_transfer_multi_blocks(s);
-++                } else {
-++                    sdhci_sdma_transfer_single_block(s);
-++                }
-+             }
-+         }
-+         break;
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3409-3.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3409-3.patch
-new file mode 100644
-index 0000000000..d06ac0ed3c
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3409-3.patch
-@@ -0,0 +1,71 @@
-+Backport of:
-+
-+From bc6f28995ff88f5d82c38afcfd65406f0ae375aa Mon Sep 17 00:00:00 2001
-+From: Bin Meng <bmeng.cn@gmail.com>
-+Date: Wed, 3 Mar 2021 20:26:37 +0800
-+Subject: [PATCH] hw/sd: sdhci: Correctly set the controller status for ADMA
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=utf8
-+Content-Transfer-Encoding: 8bit
-+
-+When an ADMA transfer is started, the codes forget to set the
-+controller status to indicate a transfer is in progress.
-+
-+With this fix, the following 2 reproducers:
-+
-+https://paste.debian.net/plain/1185136
-+https://paste.debian.net/plain/1185141
-+
-+cannot be reproduced with the following QEMU command line:
-+
-+$ qemu-system-x86_64 -nographic -machine accel=qtest -m 512M \
-+      -nodefaults -device sdhci-pci,sd-spec-version=3 \
-+      -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
-+      -device sd-card,drive=mydrive -qtest stdio
-+
-+Cc: qemu-stable@nongnu.org
-+Fixes: CVE-2020-17380
-+Fixes: CVE-2020-25085
-+Fixes: CVE-2021-3409
-+Fixes: d7dfca0807a0 ("hw/sdhci: introduce standard SD host controller")
-+Reported-by: Alexander Bulekov <alxndr@bu.edu>
-+Reported-by: Cornelius Aschermann (Ruhr-UniversitÃ¤t Bochum)
-+Reported-by: Sergej Schumilo (Ruhr-UniversitÃ¤t Bochum)
-+Reported-by: Simon WÃ¶rner (Ruhr-UniversitÃ¤t Bochum)
-+Buglink: https://bugs.launchpad.net/qemu/+bug/1892960
-+Buglink: https://bugs.launchpad.net/qemu/+bug/1909418
-+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1928146
-+Tested-by: Alexander Bulekov <alxndr@bu.edu>
-+Reviewed-by: Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
-+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-+Message-Id: <20210303122639.20004-4-bmeng.cn@gmail.com>
-+Signed-off-by: Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
-+
-+CVE: CVE-2021-3409 CVE-2020-17380
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches/CVE-2021-3409-3.patch?h=ubuntu/focal-security Upstream commit https://github.com/qemu/qemu/commit/bc6f28995ff88f5d82c38afcfd65406f0ae375aa ]
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ hw/sd/sdhci.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+--- a/hw/sd/sdhci.c
-++++ b/hw/sd/sdhci.c
-+@@ -776,8 +776,9 @@ static void sdhci_do_adma(SDHCIState *s)
-+ 
-+         switch (dscr.attr & SDHC_ADMA_ATTR_ACT_MASK) {
-+         case SDHC_ADMA_ATTR_ACT_TRAN:  /* data transfer */
-+-
-++            s->prnsts |= SDHC_DATA_INHIBIT | SDHC_DAT_LINE_ACTIVE;
-+             if (s->trnmod & SDHC_TRNS_READ) {
-++                s->prnsts |= SDHC_DOING_READ;
-+                 while (length) {
-+                     if (s->data_count == 0) {
-+                         for (n = 0; n < block_size; n++) {
-+@@ -807,6 +808,7 @@ static void sdhci_do_adma(SDHCIState *s)
-+                     }
-+                 }
-+             } else {
-++                s->prnsts |= SDHC_DOING_WRITE;
-+                 while (length) {
-+                     begin = s->data_count;
-+                     if ((length + begin) < block_size) {
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3409-4.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3409-4.patch
-new file mode 100644
-index 0000000000..2e49e3bc18
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3409-4.patch
-@@ -0,0 +1,52 @@
-+Backport of:
-+
-+From 5cd7aa3451b76bb19c0f6adc2b931f091e5d7fcd Mon Sep 17 00:00:00 2001
-+From: Bin Meng <bmeng.cn@gmail.com>
-+Date: Wed, 3 Mar 2021 20:26:38 +0800
-+Subject: [PATCH] hw/sd: sdhci: Limit block size only when SDHC_BLKSIZE
-+ register is writable
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=utf8
-+Content-Transfer-Encoding: 8bit
-+
-+The codes to limit the maximum block size is only necessary when
-+SDHC_BLKSIZE register is writable.
-+
-+Tested-by: Alexander Bulekov <alxndr@bu.edu>
-+Reviewed-by: Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
-+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-+Message-Id: <20210303122639.20004-5-bmeng.cn@gmail.com>
-+Signed-off-by: Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
-+
-+CVE: CVE-2021-3409 CVE-2020-17380
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches/CVE-2021-3409-4.patch?h=ubuntu/focal-security Upstream commit https://github.com/qemu/qemu/commit/5cd7aa3451b76bb19c0f6adc2b931f091e5d7fcd ]
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ hw/sd/sdhci.c | 14 +++++++-------
-+ 1 file changed, 7 insertions(+), 7 deletions(-)
-+
-+--- a/hw/sd/sdhci.c
-++++ b/hw/sd/sdhci.c
-+@@ -1137,15 +1137,15 @@ sdhci_write(void *opaque, hwaddr offset,
-+         if (!TRANSFERRING_DATA(s->prnsts)) {
-+             MASKED_WRITE(s->blksize, mask, extract32(value, 0, 12));
-+             MASKED_WRITE(s->blkcnt, mask >> 16, value >> 16);
-+-        }
-+ 
-+-        /* Limit block size to the maximum buffer size */
-+-        if (extract32(s->blksize, 0, 12) > s->buf_maxsz) {
-+-            qemu_log_mask(LOG_GUEST_ERROR, "%s: Size 0x%x is larger than " \
-+-                          "the maximum buffer 0x%x", __func__, s->blksize,
-+-                          s->buf_maxsz);
-++            /* Limit block size to the maximum buffer size */
-++            if (extract32(s->blksize, 0, 12) > s->buf_maxsz) {
-++                qemu_log_mask(LOG_GUEST_ERROR, "%s: Size 0x%x is larger than "
-++                              "the maximum buffer 0x%x\n", __func__, s->blksize,
-++                              s->buf_maxsz);
-+ 
-+-            s->blksize = deposit32(s->blksize, 0, 12, s->buf_maxsz);
-++                s->blksize = deposit32(s->blksize, 0, 12, s->buf_maxsz);
-++            }
-+         }
-+ 
-+         break;
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3409-5.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3409-5.patch
-new file mode 100644
-index 0000000000..7b436809e9
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3409-5.patch
-@@ -0,0 +1,93 @@
-+From cffb446e8fd19a14e1634c7a3a8b07be3f01d5c9 Mon Sep 17 00:00:00 2001
-+From: Bin Meng <bmeng.cn@gmail.com>
-+Date: Wed, 3 Mar 2021 20:26:39 +0800
-+Subject: [PATCH] hw/sd: sdhci: Reset the data pointer of s->fifo_buffer[] when
-+ a different block size is programmed
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=utf8
-+Content-Transfer-Encoding: 8bit
-+
-+If the block size is programmed to a different value from the
-+previous one, reset the data pointer of s->fifo_buffer[] so that
-+s->fifo_buffer[] can be filled in using the new block size in
-+the next transfer.
-+
-+With this fix, the following reproducer:
-+
-+outl 0xcf8 0x80001010
-+outl 0xcfc 0xe0000000
-+outl 0xcf8 0x80001001
-+outl 0xcfc 0x06000000
-+write 0xe000002c 0x1 0x05
-+write 0xe0000005 0x1 0x02
-+write 0xe0000007 0x1 0x01
-+write 0xe0000028 0x1 0x10
-+write 0x0 0x1 0x23
-+write 0x2 0x1 0x08
-+write 0xe000000c 0x1 0x01
-+write 0xe000000e 0x1 0x20
-+write 0xe000000f 0x1 0x00
-+write 0xe000000c 0x1 0x32
-+write 0xe0000004 0x2 0x0200
-+write 0xe0000028 0x1 0x00
-+write 0xe0000003 0x1 0x40
-+
-+cannot be reproduced with the following QEMU command line:
-+
-+$ qemu-system-x86_64 -nographic -machine accel=qtest -m 512M \
-+      -nodefaults -device sdhci-pci,sd-spec-version=3 \
-+      -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
-+      -device sd-card,drive=mydrive -qtest stdio
-+
-+Cc: qemu-stable@nongnu.org
-+Fixes: CVE-2020-17380
-+Fixes: CVE-2020-25085
-+Fixes: CVE-2021-3409
-+Fixes: d7dfca0807a0 ("hw/sdhci: introduce standard SD host controller")
-+Reported-by: Alexander Bulekov <alxndr@bu.edu>
-+Reported-by: Cornelius Aschermann (Ruhr-UniversitÃ¤t Bochum)
-+Reported-by: Sergej Schumilo (Ruhr-UniversitÃ¤t Bochum)
-+Reported-by: Simon WÃ¶rner (Ruhr-UniversitÃ¤t Bochum)
-+Buglink: https://bugs.launchpad.net/qemu/+bug/1892960
-+Buglink: https://bugs.launchpad.net/qemu/+bug/1909418
-+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1928146
-+Tested-by: Alexander Bulekov <alxndr@bu.edu>
-+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-+Message-Id: <20210303122639.20004-6-bmeng.cn@gmail.com>
-+Signed-off-by: Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
-+
-+CVE: CVE-2021-3409 CVE-2020-17380
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches/CVE-2021-3409-5.patch?h=ubuntu/focal-security Upstream commit https://github.com/qemu/qemu/commit/cffb446e8fd19a14e1634c7a3a8b07be3f01d5c9 ]
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ hw/sd/sdhci.c | 12 ++++++++++++
-+ 1 file changed, 12 insertions(+)
-+
-+--- a/hw/sd/sdhci.c
-++++ b/hw/sd/sdhci.c
-+@@ -1135,6 +1135,8 @@ sdhci_write(void *opaque, hwaddr offset,
-+         break;
-+     case SDHC_BLKSIZE:
-+         if (!TRANSFERRING_DATA(s->prnsts)) {
-++            uint16_t blksize = s->blksize;
-++
-+             MASKED_WRITE(s->blksize, mask, extract32(value, 0, 12));
-+             MASKED_WRITE(s->blkcnt, mask >> 16, value >> 16);
-+ 
-+@@ -1146,6 +1148,16 @@ sdhci_write(void *opaque, hwaddr offset,
-+ 
-+                 s->blksize = deposit32(s->blksize, 0, 12, s->buf_maxsz);
-+             }
-++
-++            /*
-++             * If the block size is programmed to a different value from
-++             * the previous one, reset the data pointer of s->fifo_buffer[]
-++             * so that s->fifo_buffer[] can be filled in using the new block
-++             * size in the next transfer.
-++             */
-++            if (blksize != s->blksize) {
-++                s->data_count = 0;
-++            }
-+         }
-+ 
-+         break;
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2022-26354.patch b/meta/recipes-devtools/qemu/qemu/CVE-2022-26354.patch
-new file mode 100644
-index 0000000000..fc4d6cf3df
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2022-26354.patch
-@@ -0,0 +1,57 @@
-+Backport of:
-+
-+From 8d1b247f3748ac4078524130c6d7ae42b6140aaf Mon Sep 17 00:00:00 2001
-+From: Stefano Garzarella <sgarzare@redhat.com>
-+Date: Mon, 28 Feb 2022 10:50:58 +0100
-+Subject: [PATCH] vhost-vsock: detach the virqueue element in case of error
-+
-+In vhost_vsock_common_send_transport_reset(), if an element popped from
-+the virtqueue is invalid, we should call virtqueue_detach_element() to
-+detach it from the virtqueue before freeing its memory.
-+
-+Fixes: fc0b9b0e1c ("vhost-vsock: add virtio sockets device")
-+Fixes: CVE-2022-26354
-+Cc: qemu-stable@nongnu.org
-+Reported-by: VictorV <vv474172261@gmail.com>
-+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-+Message-Id: <20220228095058.27899-1-sgarzare@redhat.com>
-+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-+
-+CVE: CVE-2022-26354
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches/CVE-2022-26354.patch?h=ubuntu/focal-security Upstream commit https://github.com/qemu/qemu/commit/8d1b247f3748ac4078524130c6d7ae42b6140aaf ]
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ hw/virtio/vhost-vsock-common.c | 10 +++++++---
-+ 1 file changed, 7 insertions(+), 3 deletions(-)
-+
-+--- a/hw/virtio/vhost-vsock.c
-++++ b/hw/virtio/vhost-vsock.c
-+@@ -221,19 +221,23 @@ static void vhost_vsock_send_transport_r
-+     if (elem->out_num) {
-+         error_report("invalid vhost-vsock event virtqueue element with "
-+                      "out buffers");
-+-        goto out;
-++        goto err;
-+     }
-+ 
-+     if (iov_from_buf(elem->in_sg, elem->in_num, 0,
-+                      &event, sizeof(event)) != sizeof(event)) {
-+         error_report("vhost-vsock event virtqueue element is too short");
-+-        goto out;
-++        goto err;
-+     }
-+ 
-+     virtqueue_push(vq, elem, sizeof(event));
-+     virtio_notify(VIRTIO_DEVICE(vsock), vq);
-+ 
-+-out:
-++    g_free(elem);
-++    return;
-++
-++err:
-++    virtqueue_detach_element(vq, elem, 0);
-+     g_free(elem);
-+ }
-+ 
--- 
-2.37.3
-
+> -----Original Message-----
+> From: yocto@lists.yoctoproject.org <yocto@lists.yoctoproject.org> On
+> Behalf Of Pokybuild User
+> Sent: Thursday, March 16, 2023 1:36 PM
+> To: yocto@lists.yoctoproject.org
+> Cc: qa-build-notification@lists.yoctoproject.org
+> Subject: [yocto] QA notification for completed autobuilder build (yocto-
+> 3.1.24.rc1)
+>=20
+>=20
+> A build flagged for QA (yocto-3.1.24.rc1) was completed on the autobuilde=
+r
+> and is available at:
+>=20
+>=20
+>     https://autobuilder.yocto.io/pub/releases/yocto-3.1.24.rc1
+>=20
+>=20
+> Build hash information:
+>=20
+> bitbake: a4cd5b0b4b355b7b75fb48c61289700e3e908b2a
+> meta-agl: 532936bdd0b2639f8a8f9cb495ac2a8ea382737e
+> meta-arm: b1fe8443a7a72c65fa0fc3371f607c6671b3a882
+> meta-aws: 70b6bbe05d7a085eb2b902c3b9c456ce762f1db6
+> meta-gplv2: 60b251c25ba87e946a0ca4cdc8d17b1cb09292ac
+> meta-intel: 472ea60857a56c6b08c64af3f6ed8b23d7cb0d21
+> meta-mingw: 524de686205b5d6736661d4532f5f98fee8589b7
+> meta-openembedded: 87571345059f82fb7599e3aa82e6fdcfbd361098
+> meta-virtualization: beea119eb529b4a11f266004aee8b548427aea39
+> oecore: efb1a73a13907bed3acac8e06053aef3e2ef57f5
+> poky: 11f05ffddd0a7adf05b1c016f73b10ddfa2daa10
+>=20
+>=20
+>=20
+> This is an automated message from the Yocto Project Autobuilder
+> Git: git://git.yoctoproject.org/yocto-autobuilder2
+> Email: richard.purdie@linuxfoundation.org
+>=20
+>=20
+>=20
 
