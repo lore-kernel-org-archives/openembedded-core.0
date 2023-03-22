@@ -1,191 +1,151 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09978C6FD1C
-	for <webhook@archiver.kernel.org>; Wed, 22 Mar 2023 13:56:04 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web11.43250.1679493363387382402
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14B92C6FD1C
+	for <webhook@archiver.kernel.org>; Wed, 22 Mar 2023 14:11:34 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web11.43730.1679494284882152215
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Mar 2023 06:56:03 -0700
+ Wed, 22 Mar 2023 07:11:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UWcEiVmT;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f46.google.com with SMTP id r29so17152733wra.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Mar 2023 06:56:03 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=S7kKUTGp;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id o2so11980249plg.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Mar 2023 07:11:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1679493362;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EAEG9aIO4UHLLcZHzc2SPAr7WdPL4Q3qE5/k7DMCwqo=;
-        b=UWcEiVmTpBH/IBE2/+4lR1c2jhNXDALMVrCgywCbQidq3emy8etaP+6/VsUb/8PMGF
-         pyGAcon0BgsSutlV1YxxL6AAy4SzUeU2RJUOJZH00JQyxwsagZikSa5KiGgkqD5JfrYl
-         UyI7hWrmJpLMGWdONLAnSQZsh0+aMy93sdBss=
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679494284;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ktz2box5uLQ45M3F89VUtuwcbrX9Zy4uxy41E9gnNvU=;
+        b=S7kKUTGpM7zcpboqMD78EvIt2wwIt1A2poMtk/lIgFlIcCWC8dLbZ1C7UVhrY8qTDw
+         K1LC7VadZFdkcCkXAr8nGux4exvnvXV1/r1CFSQBgXckkBb5pTVfp4YsWXHzUL+6CPcs
+         GyyXOlY/pN7vyB+TeE9cxP7JFxEEjP4ozer8pg+Qwtkorp/SCGwYSeBLnn3v8rduXoDE
+         0NAnqV3nHG2of/hHRGS55G5vmc64g0AHSbRM7vpNuX4pF+XeelogP3JNCSkU/gZTTUAF
+         rATxXUjw9BpO3PSN0ziEHCFX2OYhYOrhWMc000SMTsvn0NXvGWc6UvFo3GZzBdY+Kx82
+         aCVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679493362;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EAEG9aIO4UHLLcZHzc2SPAr7WdPL4Q3qE5/k7DMCwqo=;
-        b=VQwWth/uaVQyUuZp9OCnjdIzg+pz4VUdNMHudC71zOx5+GKiFfdK79JPiFcN5dKLgh
-         GJdJ5OJ8qEZDrY+x4ne9zDReeBki+QQPbQx4SdNuwmGwMpL+9Fpi9G4NmfoqyffGzF9p
-         SubupztwKQhrAyJwbsaKNuJ/F6EeHaxFYRQwy/9eJ8MAUUw9nYjYFnMhFzoUls3O1dVW
-         FOiwMWgfDWxYVdFqaaXKVD+FU9Mm6JH3YPvqb3PTso8zmIE+UE4jrZMdxbZRFC8vubXz
-         rsUv6bk9vBgGQADfu086I8ztPCR3RHdwIBw1A0eIfS2jdoMf0r5IkfhOWpr+WmIkllwo
-         +L4w==
-X-Gm-Message-State: AO0yUKVTISoBa6L7FRK7SQm4bg3MB+IKO44rea89NOPu8rXQr1Gvbz65
-	u0khZXjKRS8uDVCrZpke8HbRWg==
-X-Google-Smtp-Source: AK7set/DdCxietu3Xngn6heMX6thqHw0DjN9UZ85iN69DaQExWzbYbFl+PAOFNmQqC8At0TByEdNAQ==
-X-Received: by 2002:adf:cc8f:0:b0:2d3:fba4:e61d with SMTP id p15-20020adfcc8f000000b002d3fba4e61dmr1639187wrj.12.1679493361823;
-        Wed, 22 Mar 2023 06:56:01 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:fb64:5f49:21ba:a392? ([2001:8b0:aba:5f3c:fb64:5f49:21ba:a392])
-        by smtp.gmail.com with ESMTPSA id b9-20020adfde09000000b002daeb108304sm821001wrm.33.2023.03.22.06.56.00
+        d=1e100.net; s=20210112; t=1679494284;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ktz2box5uLQ45M3F89VUtuwcbrX9Zy4uxy41E9gnNvU=;
+        b=lGwJV+mpl290VBsFzXX7w+hquh0sIRBt+w7vJZ3Ln6gfuA2tfRjT0QSayfI8tbyFwO
+         bkNr65nnbC3aNQxGNtYz9FZglpo8P5nE7+L5ID4IbtDh8RGeTCe2RVx9DKkUP+zu2pT6
+         0c3u3VsgxQ5rKAOJkMKJqReEOKV6kkkWqgdbRe8vSRRXxBQp33W8hiYCdZLYztcuA8bl
+         m6p6N4MKAng7RgzNP8U8Z2fCTooZEOUcGc/SiJ3RC+SuZfwezuoUex+3RSCCl/N4Kg41
+         2sBM/OQheAsT04OlVJ+ELXQtgtJmNGc+6dOP9QYiHiQak+YlycFmvX/oKbYfq2guCSmp
+         jPKA==
+X-Gm-Message-State: AO0yUKV5J6BiZOSseJI6HsvooosA2Q0dpT5n1+uX3eIGsW9VTRuNrqmH
+	bTM0LPzp2H93K/n70qwjkOvXxg5sLrfSBhJOoKQ=
+X-Google-Smtp-Source: AK7set/6Xdv9/vm4vBMuZ6q5gPzpRf9PkEfmSmnWX8R334DKd776W8IlrK7B0sMOLFtL/PJwqCb3lQ==
+X-Received: by 2002:a17:902:d0d1:b0:1a1:bd50:a9e with SMTP id n17-20020a170902d0d100b001a1bd500a9emr2454756pln.47.1679494283606;
+        Wed, 22 Mar 2023 07:11:23 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
+        by smtp.gmail.com with ESMTPSA id je19-20020a170903265300b0019f3e339fb4sm10646536plb.187.2023.03.22.07.11.22
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Mar 2023 06:56:01 -0700 (PDT)
-Message-ID: <2ca64b83714e178f49a51fe61f1ef43551245533.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] selftest: incompatible_lic.py: run bitbake -c
- testimage separately for each image
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <Martin.Jansa@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 22 Mar 2023 13:56:00 +0000
-In-Reply-To: <20230313155603.3841787-1-Martin.Jansa@gmail.com>
-References: <20230313155603.3841787-1-Martin.Jansa@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3-1 
+        Wed, 22 Mar 2023 07:11:23 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 00/21] Pull request (cover letter only)
+Date: Wed, 22 Mar 2023 04:11:16 -1000
+Message-Id: <cover.1679494167.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Mar 2023 13:56:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178923
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Mar 2023 14:11:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178924
 
-On Mon, 2023-03-13 at 16:56 +0100, Martin Jansa wrote:
-> * with 1 preconfigured tap device you cannot run testimage on multiple im=
-ages
->   at the same time
->=20
->   in my case have /tmp/qemu-tap-locks/tap0.skip (tap0 is used by openvpn =
-on builder)
->   and /etc/runqemu-nosudo as my build user doesn't have sudo powers
->=20
->   but then when 2 do_testimage tasks are executed at the same time it fai=
-ls like this:
->=20
->     NOTE: recipe core-image-weston-1.0-r0: task do_testimage: Started
->     NOTE: recipe core-image-full-cmdline-1.0-r0: task do_testimage: Start=
-ed
->     QMP Available for connection at /OE/build/poky/build-st/tmp/.c2d3k3bh
->     QMP Available for connection at /OE/build/poky/build-st/tmp/._4agpi1v
->     ERROR: core-image-full-cmdline-1.0-r0 do_testimage: runqemu exited wi=
-th code 1
->     ERROR: core-image-full-cmdline-1.0-r0 do_testimage: Output from runqe=
-mu:
->     runqemu - INFO - Continuing with the following parameters:
->     KERNEL: [/OE/build/poky/build-st/tmp/deploy/images/qemux86-64/bzImage=
-]
->     MACHINE: [qemux86-64]
->     FSTYPE: [ext4]
->     ROOTFS: [/OE/build/poky/build-st/tmp/deploy/images/qemux86-64/core-im=
-age-full-cmdline-qemux86-64.ext4]
->     CONFFILE: [/OE/build/poky/build-st/tmp/deploy/images/qemux86-64/core-=
-image-full-cmdline-qemux86-64.qemuboot.conf]
->=20
->     runqemu - INFO - Found /tmp/qemu-tap-locks/tap0.skip, skipping tap0
->     runqemu - INFO - Acquiring lockfile /tmp/qemu-tap-locks/tap1.lock fai=
-led: [Errno 11] Resource temporarily unavailable
->     runqemu - ERROR - Error: There are no available tap devices to use fo=
-r networking,
->     runqemu - ERROR - and I see /etc/runqemu-nosudo exists, so I am not g=
-oing to try creating
->     runqemu - ERROR - a new one with sudo.
->     runqemu - INFO - Cleaning up
->     runqemu - INFO - Host uptime: 67474.59
->=20
->     tput: No value for $TERM and no -T specified
->=20
->     WARNING: core-image-full-cmdline-1.0-r0 do_testimage: Qemu ended unex=
-pectedly, dump data from host is in /OE/build/poky/build-st/tmp/log/runtime=
--hostdump/202303131614_qemu
->     WARNING: core-image-full-cmdline-1.0-r0 do_testimage: runqemu during =
-is_alive() test
->     ERROR: core-image-full-cmdline-1.0-r0 do_testimage: Error executing a=
- python function in exec_func_python() autogenerated:
->=20
->   which is very reasonable error message, but 600 lines later it also sho=
-ws:
->=20
->     RESULTS - xorg.XorgTest.test_xorg_running: SKIPPED (0.00s)
->     SUMMARY:
->     core-image-weston () - Ran 71 tests in 34.073s
->     core-image-weston - OK - All required tests passed (successes=3D14, s=
-kipped=3D57, failures=3D0, errors=3D0)
->     NOTE: recipe core-image-weston-1.0-r0: task do_testimage: Succeeded
->     NOTE: Tasks Summary: Attempted 1141 tasks of which 1139 didn't need t=
-o be rerun and 1 failed.
->=20
->     Summary: 1 task failed:
->       /OE/build/poky/meta/recipes-extended/images/core-image-full-cmdline=
-.bb:do_testimag
->=20
->   and I didn't notice that there are actually 2 different images core-ima=
-ge-weston
->   and core-image-full-cmdline and spent most time trying to figure out ho=
-w it was
->   able to run all those ptest when qemu failed to start at the beginning.
->=20
->   It's possible to create 2nd tap with runqemu-ifup before running this t=
-est.
->   Then it works, maybe some check like in DevtoolTests to error out early=
- if
->   there isn't enough tap devices? But the implementation in:
->   https://git.openembedded.org/openembedded-core/commit/?id=3D2258345e19e=
-fff7717fe19a5026ec55f1b6f90b6
->   has its own limitations (e.g. not checking /tmp/qemu-tap-locks/tap0.ski=
-p)
->   and would probably need to be re-implemented as some generic decorator
->   as other tests need this as well.
->=20
->   It's a bit slower when serialized:
->   INFO - RESULTS - incompatible_lic.NoGPL3InImagesTests.test_core_image_f=
-ull_cmdline_weston: PASSED (145.96s)
->   without this change:
->   INFO - RESULTS - incompatible_lic.NoGPL3InImagesTests.test_core_image_f=
-ull_cmdline_weston: PASSED (104.72s)
->=20
->   I don't mind if this is rejected, sending it mostly to document this be=
-havior.
->=20
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/lib/oeqa/selftest/cases/incompatible_lic.py | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/lib/oeqa/selftest/cases/incompatible_lic.py b/meta/lib/=
-oeqa/selftest/cases/incompatible_lic.py
-> index 4edf60fc55..b2da25e612 100644
-> --- a/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-> +++ b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-> @@ -158,5 +158,6 @@ CORE_IMAGE_EXTRA_INSTALL:pn-core-image-weston +=3D "r=
-pm"
->  CORE_IMAGE_BASE_INSTALL:remove:pn-core-image-weston =3D "matchbox-termin=
-al"
->  """)
->          bitbake('core-image-full-cmdline core-image-weston')
-> -        bitbake('-c testimage core-image-full-cmdline core-image-weston'=
-)
-> +        bitbake('-c testimage core-image-full-cmdline')
-> +        bitbake('-c testimage core-image-weston')
-> =20
+The following changes since commit 8b41b5d2e423636942e34723ad940f6f143640c9:
 
-It is expected that this should work and that multiple tap/tun devices
-would be available in general when using selftest so I don't plan to
-merge this. We could use all the parallelism we can find!
+  vala: Fix install conflict when enable multilib. (2023-03-14 05:40:43 -1000)
 
-Cheers,
+are available in the Git repository at:
 
-Richard
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
+
+Hongxu Jia (1):
+  pkgconf: fix CVE-2023-24056
+
+Joe Slater (1):
+  python3: fix CVE-2023-24329
+
+Kai Kang (1):
+  python3-git: fix indent error
+
+Kenfe-Mickael Laventure (3):
+  buildtools-tarball: Handle spaces within user $PATH
+  toolchain-scripts: Handle spaces within user $PATH
+  populate_sdk_ext: Handle spaces within user $PATH
+
+Michael Halstead (1):
+  selftest/runtime_test/virgl: Disable for all Rocky Linux
+
+Mingli Yu (3):
+  mdadm: Fix testcase 06wrmostly
+  mdadm: fix tests/02lineargrow
+  mdadm: Fix raid0 tests
+
+Richard Purdie (5):
+  staging: Separate out different multiconfig manifests
+  staging/multilib: Fix manifest corruption
+  glibc: Add missing binutils dependency
+  selftest/recipetool: Stop test corrupting tinfoil class
+  base-files: Drop localhost.localdomain from hosts file
+
+Ross Burton (2):
+  vim: upgrade to 9.0.1403
+  vim: set modified-by to the recipe MAINTAINER
+
+Trevor Woerner (3):
+  cups: use BUILDROOT instead of DESTDIR
+  cups: check PACKAGECONFIG for pam feature
+  cups: add/fix web interface packaging
+
+Wang Mingyu (1):
+  dhcpcd: Fix install conflict when enable multilib.
+
+ meta/classes/multilib.bbclass                 |   1 +
+ meta/classes/populate_sdk_ext.bbclass         |   2 +-
+ meta/classes/staging.bbclass                  |   4 +
+ meta/classes/toolchain-scripts.bbclass        |   2 +-
+ meta/lib/oeqa/selftest/cases/recipetool.py    |   5 +-
+ meta/lib/oeqa/selftest/cases/runtime_test.py  |   3 +-
+ .../dhcpcd/dhcpcd_9.4.1.bb                    |   1 +
+ ...-conflict-error-when-enable-multilib.patch |  46 ++++++++
+ meta/recipes-core/base-files/base-files/hosts |   2 +-
+ meta/recipes-core/glibc/glibc.inc             |   4 +-
+ meta/recipes-core/meta/buildtools-tarball.bb  |   2 +-
+ ...nd-stop-string-processing-on-truncat.patch |  75 +++++++++++++
+ .../recipes-devtools/pkgconf/pkgconf_1.8.0.bb |   1 +
+ ...-git-CVE-2022-24439-fix-from-PR-1521.patch |   2 +-
+ .../python/python3/cve-2023-24329.patch       |  50 +++++++++
+ .../recipes-devtools/python/python3_3.10.9.bb |   1 +
+ meta/recipes-extended/cups/cups.inc           |  16 ++-
+ ...-Fix-optional-write-behind-parameter.patch |  45 ++++++++
+ ...d-a-test-that-validates-raid0-with-l.patch |  41 +++++++
+ ...-Run-udevadm-settle-before-setting-r.patch |  39 +++++++
+ ...ow-clear-the-superblock-at-every-ite.patch |  33 ++++++
+ ...metadata-avoid-passing-chunk-size-to.patch |  41 +++++++
+ ...ts-fix-raid0-tests-for-0.90-metadata.patch | 102 ++++++++++++++++++
+ meta/recipes-extended/mdadm/mdadm_4.2.bb      |   6 ++
+ meta/recipes-support/vim/vim.inc              |   8 +-
+ 25 files changed, 511 insertions(+), 21 deletions(-)
+ create mode 100644 meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch
+ create mode 100644 meta/recipes-devtools/pkgconf/pkgconf/0001-tuple-test-for-and-stop-string-processing-on-truncat.patch
+ create mode 100644 meta/recipes-devtools/python/python3/cve-2023-24329.patch
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-mdadm-Fix-optional-write-behind-parameter.patch
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-tests-00raid0-add-a-test-that-validates-raid0-with-l.patch
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-tests-00readonly-Run-udevadm-settle-before-setting-r.patch
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-tests-02lineargrow-clear-the-superblock-at-every-ite.patch
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-tests-04update-metadata-avoid-passing-chunk-size-to.patch
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-tests-fix-raid0-tests-for-0.90-metadata.patch
+
+-- 
+2.34.1
 
 
