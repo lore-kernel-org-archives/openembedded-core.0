@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A6ACC77B60
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12CD8C761A6
 	for <webhook@archiver.kernel.org>; Wed, 22 Mar 2023 14:22:24 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web10.44324.1679494939056805020
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web10.44328.1679494942412575729
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Mar 2023 07:22:19 -0700
+ Wed, 22 Mar 2023 07:22:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=yDXt0HxE;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.46, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f46.google.com with SMTP id qe8-20020a17090b4f8800b0023f07253a2cso19304189pjb.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Mar 2023 07:22:18 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=bZHS2p8R;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f173.google.com with SMTP id dw14so5803030pfb.6
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Mar 2023 07:22:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679494938;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679494941;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=eZikPyctQpdKU61NhwhoKqw/ktGoFIB9OEt/V6Pxpx0=;
-        b=yDXt0HxEJ0HYynFGpPPfiGN6iTbIve/2otFjLjmZWrUENhW/8/28OYEMQRm/JG+I9M
-         42YzFYoQ6Np6vcMAbXNE+njjDraCJeaxAxn0zvcEeQzpahDioFLbDBjJkphqxa+SrQLa
-         iDbNLPOUCHVwT1oalSn2Kg2nqGcewq/s441DmSOz9cgq7nTApCIOGnoATAfG9LtVb//W
-         im87+ANK++xU6dnqux76JiHFkEEKj1eaO+2RJqgUHyEhf5JgZUohcYmRSj2xB0YeWjvP
-         fMkkbzaJ9X+VjjQTTWkm4d5kKmk1g6z3UtCwY9a77ip111vpiIabQzo8A+y3OuC8O8V2
-         3Pzg==
+        bh=B74jqWLB9XXwlw2wCPzDds5oIQPGutBAYE7ULCW2jV4=;
+        b=bZHS2p8RSeekPW+/ecHM+PYJjMyVxuHC1E+uuqQ4W9TO4FdpK5a9aS9OB86lIE4eOZ
+         E3JQxX3LamGYk1w8LyeARHvocBPFe7oAwcFofUL7xJmEZwXrKNJnBmFGQm4CpjvCK5LR
+         lSKV4zeoTW6PcEHOHMrcOuAJUGGPhEIXrTcjFqyuDRn2XkPbgQrKrnsps/++pkfI9Kx2
+         9ptPjByuKVXkvH4HQ3T9OxDO0X0koDPQKqcWDOLG2oendBiMU3ns9AI5LpQUepoAQyQz
+         BzJkURmBweD6Gt53x3QjZJWaURJqI+Q1WxBg7NK4ufk5snVYgy2A5nMvIMd/yrxRYgKF
+         KgAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679494938;
+        d=1e100.net; s=20210112; t=1679494941;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eZikPyctQpdKU61NhwhoKqw/ktGoFIB9OEt/V6Pxpx0=;
-        b=VaMziJexZaa+K93LsRtqX40bzhzFc9GLTgw5hIxP7Vm2pxLTnuvjyExwL24dtq5z0O
-         3x168uARtMjNogaU4mb0Kvwa2kpWXfNupc2wl27RMMBVTSRTIvXL96IPuA6qWRJaWRjO
-         Xw7nEvFSP6p+2zaAmYDb3iATXNufavh0J6qUt62oNEua83X3r1eyGl52iOA3KBXeFyMJ
-         0nxtomXCT0tBRlXZYUzCGmhqF6kNO7TS8xxdmUv48phmLLHxSOdClHqgvYIpgnCQ/PSK
-         d2ZSVisg+cE3LidDhzOJ1UzAyVDCSCjuhehshavNtcdtMV7XHDPKk+pgNSKJUU0cPZO7
-         dSdg==
-X-Gm-Message-State: AO0yUKV1h9tyHTiXrCF81w8jDaO5SMPNVe0ZvF0P4UNjWkabusm3iMlt
-	k/yOcERK17d7NU3w9mQnj2ktfnR3SHpVWqZMxJg=
-X-Google-Smtp-Source: AK7set/nHt/BaRlZ77LriybwBKAPr6u/L1dKQQYiN+cW6r3X4KMrEcNpT38AKFQ6t4OCRqabS5480Q==
-X-Received: by 2002:a05:6a20:b23:b0:d9:b94c:54a2 with SMTP id x35-20020a056a200b2300b000d9b94c54a2mr4691326pzf.16.1679494938111;
-        Wed, 22 Mar 2023 07:22:18 -0700 (PDT)
+        bh=B74jqWLB9XXwlw2wCPzDds5oIQPGutBAYE7ULCW2jV4=;
+        b=qymG4iQFTe/74xyD3LZIcweaUpvJeuvkS5m8R7BoE3ccEF9V3FUHyhM9Lmez1HBaOY
+         Ow47OXswpA4zizdDmcLS0RN54X/iuohIdDxmAqr75XyxTFisD/tfuxJXavIpK4Jw+mnS
+         a1xib8OoPn32jGpA+zGaOa5KBZb/uItOa4xylkV4tdu2YXyEx0UI1hOxido7a8jlXwFM
+         vfP4Ext691wLYdL6zq1HK4KDKqQ8GWOmfXXz+4Z2HWt8ZjBX50eSCUeTMF3j+X1/uZyv
+         R0vahyfQ8D34s4/Namc+RS694ugVzZkunAXnmW84r+Pg0G8poLr1aB+p8E3je7llP7RZ
+         1kGQ==
+X-Gm-Message-State: AO0yUKUC3BeTBl/jTy6pR9e2ekp+zR6v5NJDsNSOdR/7N33nZO+1rddw
+	i5lWQbDS1fJ4CyHSnj/r5QTEQVVyeTwwf4vvf8w=
+X-Google-Smtp-Source: AK7set9b7tl5849tCixaAqXC0AL3UhGFi39TAxqBrC2c0P2ryhXleWpoXH4Wc1z3A2anjwJWz7li+w==
+X-Received: by 2002:a05:6a00:2914:b0:627:de16:889c with SMTP id cg20-20020a056a00291400b00627de16889cmr2419063pfb.4.1679494941455;
+        Wed, 22 Mar 2023 07:22:21 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id e25-20020a62aa19000000b00627ed3e9c10sm6893524pff.137.2023.03.22.07.22.17
+        by smtp.gmail.com with ESMTPSA id e25-20020a62aa19000000b00627ed3e9c10sm6893524pff.137.2023.03.22.07.22.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Mar 2023 07:22:17 -0700 (PDT)
+        Wed, 22 Mar 2023 07:22:21 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 17/21] mdadm: fix tests/02lineargrow
-Date: Wed, 22 Mar 2023 04:21:36 -1000
-Message-Id: <fd3aaff0e52fad6075b5e1c516ed2aff2a3742fc.1679494378.git.steve@sakoman.com>
+Subject: [OE-core][langdale 19/21] cracklib: update github branch to 'main'
+Date: Wed, 22 Mar 2023 04:21:38 -1000
+Message-Id: <726bd3b50209660151be7743533bddaa2d0da360.1679494378.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1679494378.git.steve@sakoman.com>
 References: <cover.1679494378.git.steve@sakoman.com>
@@ -61,75 +61,31 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 Mar 2023 14:22:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178942
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178944
 
-From: Mingli Yu <mingli.yu@windriver.com>
+From: Tim Orling <ticotimo@gmail.com>
 
-Backport patch [1] to fix tests/02lineargrow.
-
-[1] https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/commit/?id=a2c832465fc75202e244327b2081231dfa974617
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
-(cherry picked from commit 3c2d554f141eb64785e86c8d1e5d85c65caaf322)
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit ab041ca5d036c2a1a1514893c6ffb5c7188ff00f)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...ow-clear-the-superblock-at-every-ite.patch | 33 +++++++++++++++++++
- meta/recipes-extended/mdadm/mdadm_4.2.bb      |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-extended/mdadm/files/0001-tests-02lineargrow-clear-the-superblock-at-every-ite.patch
+ meta/recipes-extended/cracklib/cracklib_2.9.8.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/mdadm/files/0001-tests-02lineargrow-clear-the-superblock-at-every-ite.patch b/meta/recipes-extended/mdadm/files/0001-tests-02lineargrow-clear-the-superblock-at-every-ite.patch
-new file mode 100644
-index 0000000000..1a7104b76d
---- /dev/null
-+++ b/meta/recipes-extended/mdadm/files/0001-tests-02lineargrow-clear-the-superblock-at-every-ite.patch
-@@ -0,0 +1,33 @@
-+From a2c832465fc75202e244327b2081231dfa974617 Mon Sep 17 00:00:00 2001
-+From: Sudhakar Panneerselvam <sudhakar.panneerselvam@oracle.com>
-+Date: Wed, 22 Jun 2022 14:25:16 -0600
-+Subject: [PATCH] tests/02lineargrow: clear the superblock at every iteration
-+
-+This fixes 02lineargrow test as prior metadata causes --add operation
-+to misbehave.
-+
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/commit/?id=a2c832465fc75202e244327b2081231dfa974617]
-+
-+Signed-off-by: Sudhakar Panneerselvam <sudhakar.panneerselvam@oracle.com>
-+Signed-off-by: Himanshu Madhani <himanshu.madhani@oracle.com>
-+Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-+Signed-off-by: Jes Sorensen <jes@trained-monkey.org>
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ tests/02lineargrow | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/tests/02lineargrow b/tests/02lineargrow
-+index e05c219d..595bf9f2 100644
-+--- a/tests/02lineargrow
-++++ b/tests/02lineargrow
-+@@ -20,4 +20,6 @@ do
-+   testdev $md0 3 $sz 1
-+ 
-+   mdadm -S $md0
-++  mdadm --zero /dev/loop2
-++  mdadm --zero /dev/loop3
-+ done
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-extended/mdadm/mdadm_4.2.bb b/meta/recipes-extended/mdadm/mdadm_4.2.bb
-index be08d512d7..120c7f582b 100644
---- a/meta/recipes-extended/mdadm/mdadm_4.2.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_4.2.bb
-@@ -25,6 +25,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
-            file://0001-Fix-parsing-of-r-in-monitor-manager-mode.patch \
-            file://0001-Makefile-install-mdcheck.patch \
-            file://0001-mdadm-Fix-optional-write-behind-parameter.patch \
-+           file://0001-tests-02lineargrow-clear-the-superblock-at-every-ite.patch \
-            "
+diff --git a/meta/recipes-extended/cracklib/cracklib_2.9.8.bb b/meta/recipes-extended/cracklib/cracklib_2.9.8.bb
+index 786940a7e0..a3db6eb394 100644
+--- a/meta/recipes-extended/cracklib/cracklib_2.9.8.bb
++++ b/meta/recipes-extended/cracklib/cracklib_2.9.8.bb
+@@ -9,7 +9,7 @@ DEPENDS = "cracklib-native zlib"
  
- SRC_URI[sha256sum] = "461c215670864bb74a4d1a3620684aa2b2f8296dffa06743f26dda5557acf01d"
+ EXTRA_OECONF = "--without-python --libdir=${base_libdir}"
+ 
+-SRC_URI = "git://github.com/cracklib/cracklib;protocol=https;branch=master \
++SRC_URI = "git://github.com/cracklib/cracklib;protocol=https;branch=main \
+            file://0001-packlib.c-support-dictionary-byte-order-dependent.patch \
+            file://0002-craklib-fix-testnum-and-teststr-failed.patch \
+            "
 -- 
 2.34.1
 
