@@ -2,146 +2,99 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A342C6FD1C
-	for <webhook@archiver.kernel.org>; Wed, 22 Mar 2023 14:22:24 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web11.44009.1679494920781267003
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05078C6FD1C
+	for <webhook@archiver.kernel.org>; Wed, 22 Mar 2023 14:22:34 +0000 (UTC)
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web11.44027.1679494945992556081
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Mar 2023 07:22:17 -0700
+ Wed, 22 Mar 2023 07:22:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=Rrsks8fz;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id bc12so18819861plb.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Mar 2023 07:22:17 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=mAClRyHj;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f43.google.com with SMTP id a16so14310792pjs.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Mar 2023 07:22:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679494936;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679494945;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=pdH16gwGvbnLjvH1OHpVO1q4WBqxhts4U4FoVZakjYw=;
-        b=Rrsks8fzbrjBqbv4bHUTPLxvels1q5uEW0JMGU+GGLSd8eGsuY0Ox3LfpNqrXxP4RW
-         ZUHzVkowhzsIL2AoY0H/ZR+N7gqiYIhDg6k9DTLVJf8UiryTiwSdxxo/YXwiTOzRWY2D
-         FnH2XSa2TUzKRlQLVtNWedgsoNJS1LzTpGuI/fq0969ykH6Y7jhbe++mEVjah8QQiv93
-         VJI435NdAgfVjOTT4783SpD7ExkgI6anmy033smSTdc3hxjQCVaFA/JrsCQGMiSy4+NH
-         yw4SWBqgLIJ9ZjEtctjjp/AOePBoXgtmb4L5SG7MFZr415Bm5tu6S89L8oii6V3zOga7
-         rjhQ==
+        bh=Qu9dO20FjC/VrcHgn8Sorc1YfBFDiZv9CwC8h1Jj77Y=;
+        b=mAClRyHj+DdAUYNItupKSotlxOZR3plS46KAbine3upMz2y5wXu/5HLcyKAAeE5jzK
+         muZWz+/hEvoAwP+0/63fyYDL9vYfPGfumIiAN7z4HssCufncPgWpfznUvANBNjSLfXx+
+         gz1SZ2pAERtUiLM7lUpH5z9udUhfxnS2kLu/EhMEL3isdvL5UlcPI6+uLamRr3rkpVs9
+         UwHV/x+v+pnizrccIB3JrXx5ht2w1sxvAgp08W0EUSshzvvpYjFb3DeElCeQyIYSXJ+K
+         JtS+RIVF8jZCpcZknfT/Kx8KoE59jWHSXEVX5yfhx/BuqOJTR8ocJAU69K+ySDLX2kRC
+         XTqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679494936;
+        d=1e100.net; s=20210112; t=1679494945;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pdH16gwGvbnLjvH1OHpVO1q4WBqxhts4U4FoVZakjYw=;
-        b=sFggYFQGPjX9oTG946H6mhBX9MPJAvpMuQADBt8A1q6YhMCLRDv1bpHcPdJJDFYUh7
-         hxXU5nj4d3SellOWjGzoS2AlEqbo7wN63MD9gx6saiYLs3sA8Vb9OWardGWqJ5jA7kfy
-         RPDEN+4pCXUJAxskDrk77giqyh7REV0bQV6ShHF6WT2Wr1Bjdie75uVT+fsRAaGNIJ70
-         AkQ76bwX96BrDKATI/9ZpGuR5H8K+OuPqfBvGq9XvmCQD7PHyfm1728eopy8CLBqbKB9
-         vvYCIuwWc7YirLulQ0e2x0A2t4lF7WXAaL53jbNDo5ao3r0S7tm+fZyCE8Oj1BXZ4DSV
-         xJrA==
-X-Gm-Message-State: AO0yUKUXSKxlfQ31xeVuWnc8DnXhyjSM4JtERMhzG1SgofGbKyijxWyK
-	h+g5AepLTM6qQXKYbEEMuytUOwj7gKOcN3idF6I=
-X-Google-Smtp-Source: AK7set80qBUuXmiqARQNpKJpK6sOdJcnviVUxM+arUTw6MRun7lOsCRJUNmRGhx8fOb1of4qxnuHdQ==
-X-Received: by 2002:a05:6a20:bb09:b0:d9:4c19:fe69 with SMTP id fc9-20020a056a20bb0900b000d94c19fe69mr2846570pzb.25.1679494936380;
-        Wed, 22 Mar 2023 07:22:16 -0700 (PDT)
+        bh=Qu9dO20FjC/VrcHgn8Sorc1YfBFDiZv9CwC8h1Jj77Y=;
+        b=bvh1Y4K3JG0QO0mbFNkZpBRfKql6JXvHjuIJqkGxoAMIFPqDai7bMYUi/ctOOtSV80
+         hSgUyAi+DVWnoDHw0QeIHv8MyoWQQvshWGcmj0icus/RVw5O0a120E5GDEsHZqbebrGX
+         IF7jZBaTSSpIZPaYQiOZqoKiLZA4A98qvQqp+WkGkl9m7Rke5i89ahqSiZ9X6kHRhZJM
+         Y4Px80uAfsIEIJNp1nO1TVAXWdaKGg5QVKaTcmkX5D1GrQNfmmRS/bHnX3baY9R9CiAW
+         fXeM6hhzilNDxJQP8xbZQKXp60xDaPSukF+MFUlV72NrjstB7Oc84EjkQO14WoQFs2Oj
+         lm3Q==
+X-Gm-Message-State: AO0yUKWNSk4PM/GTKZUpDprHaCQoSthtTJrSF0xzCJQPmgFuuY6wZqYb
+	2uvSuXKLWu9KRhrF4SQDdz4NAv0oXS9SgLsBLh8=
+X-Google-Smtp-Source: AK7set/AWDeB3rtPMH3hIqibvFWqyG7TOhkxyJR5GdwrhItpzLu0MVGM48W1aOCMX+hi5+7jxoML4g==
+X-Received: by 2002:a05:6a20:2d94:b0:d9:81b5:36f8 with SMTP id bf20-20020a056a202d9400b000d981b536f8mr5743642pzb.29.1679494945026;
+        Wed, 22 Mar 2023 07:22:25 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id e25-20020a62aa19000000b00627ed3e9c10sm6893524pff.137.2023.03.22.07.22.15
+        by smtp.gmail.com with ESMTPSA id e25-20020a62aa19000000b00627ed3e9c10sm6893524pff.137.2023.03.22.07.22.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Mar 2023 07:22:16 -0700 (PDT)
+        Wed, 22 Mar 2023 07:22:24 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 16/21] mdadm: Fix testcase 06wrmostly
-Date: Wed, 22 Mar 2023 04:21:35 -1000
-Message-Id: <04e4465fa36d2c0a4cbbaf89b5dd2b816b20a61a.1679494378.git.steve@sakoman.com>
+Subject: [OE-core][langdale 21/21] systemd: fix wrong nobody-group assignment
+Date: Wed, 22 Mar 2023 04:21:40 -1000
+Message-Id: <a0ef4386d37f84e8f169cbe3cfa9307010b89bbd.1679494378.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1679494378.git.steve@sakoman.com>
 References: <cover.1679494378.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Mar 2023 14:22:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178941
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Mar 2023 14:22:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178946
 
-From: Mingli Yu <mingli.yu@windriver.com>
+From: Piotr Łobacz <p.lobacz@welotec.com>
 
-Backport patch [1] to fix the failure of the 06wrmostly test.
+The generated /etc/group file had a wrong group name for nobody-group
+which was nobody with same id as nogroup groupd. This was leading to
+duplcate groups, with same ids and different names.
 
-[1] https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/commit/?id=41edf6f45895193f4a523cb0a08d639c9ff9ccc9
+More can be read on this link:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=11766
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
-(cherry picked from commit 9c73484cb12f39662a8f10027a55c63b95373066)
+Signed-off-by: Piotr Łobacz <p.lobacz@welotec.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit d69fccf2e5d108dd7c6059310924588d36a45865)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...-Fix-optional-write-behind-parameter.patch | 45 +++++++++++++++++++
- meta/recipes-extended/mdadm/mdadm_4.2.bb      |  1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-extended/mdadm/files/0001-mdadm-Fix-optional-write-behind-parameter.patch
+ meta/recipes-core/systemd/systemd_251.8.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/mdadm/files/0001-mdadm-Fix-optional-write-behind-parameter.patch b/meta/recipes-extended/mdadm/files/0001-mdadm-Fix-optional-write-behind-parameter.patch
-new file mode 100644
-index 0000000000..186d1e76f2
---- /dev/null
-+++ b/meta/recipes-extended/mdadm/files/0001-mdadm-Fix-optional-write-behind-parameter.patch
-@@ -0,0 +1,45 @@
-+From 41edf6f45895193f4a523cb0a08d639c9ff9ccc9 Mon Sep 17 00:00:00 2001
-+From: Logan Gunthorpe <logang@deltatee.com>
-+Date: Wed, 22 Jun 2022 14:25:12 -0600
-+Subject: [PATCH] mdadm: Fix optional --write-behind parameter
-+
-+The commit noted below changed the behaviour of --write-behind to
-+require an argument. This broke the 06wrmostly test with the error:
-+
-+  mdadm: Invalid value for maximum outstanding write-behind writes: (null).
-+         Must be between 0 and 16383.
-+
-+To fix this, check if optarg is NULL before parising it, as the origial
-+code did.
-+
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/commit/?id=41edf6f45895193f4a523cb0a08d639c9ff9ccc9]
-+
-+Fixes: 60815698c0ac ("Refactor parse_num and use it to parse optarg.")
-+Cc: Mateusz Grzonka <mateusz.grzonka@intel.com>
-+Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-+Acked-by: Mariusz Tkaczyk <mariusz.tkaczyk@linux.intel.com>
-+Signed-off-by: Jes Sorensen <jes@trained-monkey.org>
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ mdadm.c | 5 +++--
-+ 1 file changed, 3 insertions(+), 2 deletions(-)
-+
-+diff --git a/mdadm.c b/mdadm.c
-+index d0c5e6de..56722ed9 100644
-+--- a/mdadm.c
-++++ b/mdadm.c
-+@@ -1201,8 +1201,9 @@ int main(int argc, char *argv[])
-+ 		case O(BUILD, WriteBehind):
-+ 		case O(CREATE, WriteBehind):
-+ 			s.write_behind = DEFAULT_MAX_WRITE_BEHIND;
-+-			if (parse_num(&s.write_behind, optarg) != 0 ||
-+-			s.write_behind < 0 || s.write_behind > 16383) {
-++			if (optarg &&
-++			    (parse_num(&s.write_behind, optarg) != 0 ||
-++			     s.write_behind < 0 || s.write_behind > 16383)) {
-+ 				pr_err("Invalid value for maximum outstanding write-behind writes: %s.\n\tMust be between 0 and 16383.\n",
-+ 						optarg);
-+ 				exit(2);
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-extended/mdadm/mdadm_4.2.bb b/meta/recipes-extended/mdadm/mdadm_4.2.bb
-index 19035caaec..be08d512d7 100644
---- a/meta/recipes-extended/mdadm/mdadm_4.2.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_4.2.bb
-@@ -24,6 +24,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
-            file://0001-mdadm-skip-test-11spare-migration.patch \
-            file://0001-Fix-parsing-of-r-in-monitor-manager-mode.patch \
-            file://0001-Makefile-install-mdcheck.patch \
-+           file://0001-mdadm-Fix-optional-write-behind-parameter.patch \
-            "
+diff --git a/meta/recipes-core/systemd/systemd_251.8.bb b/meta/recipes-core/systemd/systemd_251.8.bb
+index 3c87e71485..991da07368 100644
+--- a/meta/recipes-core/systemd/systemd_251.8.bb
++++ b/meta/recipes-core/systemd/systemd_251.8.bb
+@@ -217,7 +217,7 @@ rootlibdir ?= "${base_libdir}"
+ rootlibexecdir = "${rootprefix}/lib"
  
- SRC_URI[sha256sum] = "461c215670864bb74a4d1a3620684aa2b2f8296dffa06743f26dda5557acf01d"
+ EXTRA_OEMESON += "-Dnobody-user=nobody \
+-                  -Dnobody-group=nobody \
++                  -Dnobody-group=nogroup \
+                   -Drootlibdir=${rootlibdir} \
+                   -Drootprefix=${rootprefix} \
+                   -Ddefault-locale=C \
 -- 
 2.34.1
 
