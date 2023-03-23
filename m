@@ -1,411 +1,97 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FA2EC77B61
-	for <webhook@archiver.kernel.org>; Thu, 23 Mar 2023 21:05:22 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web11.85136.1679605514271161454
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5416C6FD1C
+	for <webhook@archiver.kernel.org>; Thu, 23 Mar 2023 22:34:22 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.87462.1679610853087593524
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Mar 2023 14:05:14 -0700
+ Thu, 23 Mar 2023 15:34:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=L3j/ZGnW;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id l9-20020a17090a3f0900b0023d32684e7fso4122995pjc.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Mar 2023 14:05:14 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=C280b0uD;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id r29so12834wra.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Mar 2023 15:34:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679605513;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yOCrAd5MwzKOgoAraP4kDcucYPo68ravRFD6Cdz5f+w=;
-        b=L3j/ZGnWjm4Jl6/sTxryP6yCwQAHd7WxlZhkzRPUSUiYJ2MvTBa4FYsPDSVvv+2y6D
-         YZoDZzKZlyZiPtJiDVZ6qdvm+tU/CGDbC866xEnGaOk5rT/bZ/xTpL4IJqKgHKE+5KbW
-         Xc/dIOGwQoAFHSsqWdMQYU/zpc4/xTK8sl2DjcQqiodJuiDeTGrJ0J9G2qqv4dyzN3TQ
-         G/YWxyQywILao0gAEv1XlgU4dPlkTCGPL/Yz0NJoqauoQSCX7MDNzV7oTnYqf5kwLl25
-         vWhMDXFZp5Nemn70uZte61RBu/8yIqqfQHPMZVzR9MTgXfJH+eBWHIGwDjylZGwuv+ZC
-         cxtw==
+        d=linuxfoundation.org; s=google; t=1679610851;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Rm8HKfQYhJKDUPfYWgYPhoyNsTGiQIcsnSk3z7gFnWY=;
+        b=C280b0uDPGl6kBTGxhl5PomGiywcCt9DXa8ZUo+aFPPTfXFsj/u0+3nN3FRgnjdR5a
+         Zif45JOo8y86lpxtN5VCtXNcS4Nw2vs098l8MO8rOsGZH0bf3Fo1yFDORXd/LoVE4F1n
+         j7KWDpsfBWLaMV7hCFsa/NI+izSQW3bbZY0vQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679605513;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yOCrAd5MwzKOgoAraP4kDcucYPo68ravRFD6Cdz5f+w=;
-        b=3kI/njKIlkotWEMRcezUnpxNXFVFlKBkKmzZcbP7ZM5qVhK6DpTKqfOekjOcqBfTq0
-         Dvo2YUKTdXaEmxWZz2OHAJ2lpPvmr8+BmqdF2S+RasCAeseteOheWsFRsF2S0GuVdJ02
-         tGkCvhoB+XXt/41FVaL0+Py10g7LmAA9al7iIYojI7Xi9GGnsDh1PLHO4mnO8+79RdpY
-         5p5wssNTu/CzcoPDLCxjrj3XrSYrsB/KadTm4uKRvZx/tapo3iwR9LnqvvhJtHXf9bje
-         UL4NfAJ/zFN8wZAM0JJ+rYOBRzjSqJlwSbuzQcvxyCTwYpObg5NPUSpQZwhSKw3kvfme
-         UQ2A==
-X-Gm-Message-State: AAQBX9ej0jM4VK6ZMZfxOsP4xO5FrEokUkxnpE2SvtUq7GAqkbwpJRZt
-	Ptv5qPHqZmgcJk83U62w+hrTkX9s+EUJ42AE62A=
-X-Google-Smtp-Source: AKy350YDMPqZyfDFT+AR9X//v80RfcOy7HxlKV+DmUBkJbHj1JGNZLxrtHba9XnVUZCxLLr2WRSwxA==
-X-Received: by 2002:a17:902:e54c:b0:1a0:42c0:b2a5 with SMTP id n12-20020a170902e54c00b001a042c0b2a5mr336869plf.24.1679605513228;
-        Thu, 23 Mar 2023 14:05:13 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id c1-20020a170902724100b001a198adb190sm12760417pll.88.2023.03.23.14.05.12
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20210112; t=1679610851;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Rm8HKfQYhJKDUPfYWgYPhoyNsTGiQIcsnSk3z7gFnWY=;
+        b=BBzB5uVuqoZrQbwMZCo5m8AXQfVOI+2KF4zUeFTW55aBx/XQskBYZDUdtxcczBZ2ou
+         TstlNIqWhNWk7k0vKZ7Xu5nx6vu/RpDnPMACSxiFnzpjy+W6vaIOTzMpGx+XViWbiZnU
+         8Mk3w/ic22oAp5Qzg03Txp2V/OIzKNHM+wEVEdVZtwxP0FoVc2ZwSFs3uI//5H1hpY5o
+         plplBnTDWiH6boKsYGsWjCBY+o3MgqRFBpaZvQvVxw9bWQ/WblRb0LkTQEkkz0vrSGDt
+         7vCLC+I4hpBVT6lfAHZLtTvrdxWcXVj69V11iwxT0tQ3dKQHDgvQjB8VCP8Hcus0+nAk
+         V0ng==
+X-Gm-Message-State: AAQBX9ddoJmnVzvz+z5IxugbeifMgoX+jkLQtMFtjnLgTm7bm3Xq1YOp
+	vC/honR4OqKTHuNmS3AE9ZjrAQ==
+X-Google-Smtp-Source: AKy350YBI9iU7M56ubd44to7rDm62yf9j38snXA7Jc6Z1Ir7SShjOTQLwkpTL1m+l3c50ooKqnWDBA==
+X-Received: by 2002:a5d:4004:0:b0:2bf:bf05:85ac with SMTP id n4-20020a5d4004000000b002bfbf0585acmr423442wrp.23.1679610851520;
+        Thu, 23 Mar 2023 15:34:11 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:b274:32b5:9a06:2db7? ([2001:8b0:aba:5f3c:b274:32b5:9a06:2db7])
+        by smtp.gmail.com with ESMTPSA id b7-20020a5d4d87000000b002c707785da4sm17004885wru.107.2023.03.23.15.34.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Mar 2023 14:05:12 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 11/14] tzcode-native: fix build with gcc-13 on host
-Date: Thu, 23 Mar 2023 11:04:39 -1000
-Message-Id: <ac9550404d14e3676ffcbac0344ded27555adf9e.1679605352.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1679605352.git.steve@sakoman.com>
-References: <cover.1679605352.git.steve@sakoman.com>
+        Thu, 23 Mar 2023 15:34:11 -0700 (PDT)
+Message-ID: <e4746e47eed8ec1f551ea623178bd1375c8e9a33.camel@linuxfoundation.org>
+Subject: Re: [oe-core][PATCH] Remove usage of /var/volatile/tmp
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Markus Volk <f_l_k@t-online.de>, Alexander Kanavin
+ <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Mar 2023 22:34:10 +0000
+In-Reply-To: <9VVZRR.NLXPW4ISUM5R2@t-online.de>
+References: <20230317060202.385862-1-f_l_k@t-online.de>
+	 <dd5e0f7df463ddc2733dc126beaa3bf29eb8d49b.camel@linuxfoundation.org>
+	 <9FONRR.ZLSABXKTP67E@t-online.de>
+	 <a1807744c2e652e0d05c1c313039e697b2b07d1e.camel@linuxfoundation.org>
+	 <B0EORR.JWJ884MGYK8G2@t-online.de>
+	 <CANNYZj-ZHjZ9nihVrLeNgf_eeT-+k2uAGuZQEku8YAF_a2vd3Q@mail.gmail.com>
+	 <CHRXRR.A1NILQGNBS7P1@t-online.de>
+	 <CANNYZj8CgeTaT6Xn60dUZw9W+vDQWrBZ7y0bFfyPCu++-NwWUg@mail.gmail.com>
+	 <9VVZRR.NLXPW4ISUM5R2@t-online.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Mar 2023 21:05:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179005
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Mar 2023 22:34:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179009
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+On Thu, 2023-03-23 at 23:30 +0100, Markus Volk wrote:
+> Am Mi, 22. M=C3=A4r 2023 um 20:11:34 +0100 schrieb Alexander Kanavin
+> <alex.kanavin@gmail.com>:
+> > Then run bitbake -c testimage for each of them.
+>=20
+>=20
+> I built all the images but get an error here:
+>=20
+> bitbake -c testimage core-image-sato-sdk
+>=20
+> ERROR: Task do_testimage does not exist for target core-image-sato-
+> sdk (/home/flk/poky/meta/recipes-sato/images/core-image-sato-
+> sdk.bb:do_testimage). Close matches:
+> =C2=A0=C2=A0do_image
+> ERROR: Command execution failed: 1
+>=20
+> What am I missing?
 
-* passing -std=c2x to avoid build failure with gcc-13 on host
-  works as well, but the resulting zic then segfaults when
-  used in tzdata, use a fix from upstream instead
+IMAGE_CLASSES +=3D "testimage testsdk"
 
-* reported upstream in https://mm.icann.org/pipermail/tz/2023-March/032690.html
+Cheers,
 
-* fixes:
-  http://errors.yoctoproject.org/Errors/Details/697913/
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 5dabf677f38c209fb6a8ba837d5a66fd89f57d4d)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../timezone/tzcode-native.bb                 |   2 +
- ...0001-Fix-C23-related-conformance-bug.patch | 301 ++++++++++++++++++
- 2 files changed, 303 insertions(+)
- create mode 100644 meta/recipes-extended/timezone/tzcode/0001-Fix-C23-related-conformance-bug.patch
-
-diff --git a/meta/recipes-extended/timezone/tzcode-native.bb b/meta/recipes-extended/timezone/tzcode-native.bb
-index d0b23a9d80..6d52b3c422 100644
---- a/meta/recipes-extended/timezone/tzcode-native.bb
-+++ b/meta/recipes-extended/timezone/tzcode-native.bb
-@@ -2,6 +2,8 @@ require timezone.inc
- 
- SUMMARY = "tzcode, timezone zoneinfo utils -- zic, zdump, tzselect"
- 
-+SRC_URI += "file://0001-Fix-C23-related-conformance-bug.patch"
-+
- inherit native
- 
- EXTRA_OEMAKE += "cc='${CC}'"
-diff --git a/meta/recipes-extended/timezone/tzcode/0001-Fix-C23-related-conformance-bug.patch b/meta/recipes-extended/timezone/tzcode/0001-Fix-C23-related-conformance-bug.patch
-new file mode 100644
-index 0000000000..c91ef93e95
---- /dev/null
-+++ b/meta/recipes-extended/timezone/tzcode/0001-Fix-C23-related-conformance-bug.patch
-@@ -0,0 +1,301 @@
-+From 509c5974398952618abdd17f39117b88e3f50057 Mon Sep 17 00:00:00 2001
-+From: Paul Eggert <eggert@cs.ucla.edu>
-+Date: Thu, 1 Dec 2022 10:28:04 -0800
-+Subject: [PATCH] Fix C23-related conformance bug
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Problem reported by Houge Langley for ‘gcc -std=gnu99’ in:
-+https://bugs.gentoo.org/show_bug.cgi?id=883719
-+* NEWS: Mention this.
-+* date.c, localtime.c, private.h, zdump.c, zic.c:
-+Use ATTRIBUTE_* at the start of function declarations,
-+not later (such as after the keyword ‘static’).
-+This is required for strict conformance to C23.
-+
-+Upstream-Status: Backport [https://github.com/eggert/tz/commit/9cfe9507fcc22cd4a0c4da486ea1c7f0de6b075f]
-+
-+NEWS change skipped to avoid conflicts.
-+
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+---
-+ date.c      |  2 +-
-+ localtime.c |  4 ++--
-+ private.h   |  6 +++---
-+ zdump.c     | 12 ++++++------
-+ zic.c       | 34 +++++++++++++++++-----------------
-+ 5 files changed, 29 insertions(+), 29 deletions(-)
-+
-+diff --git a/date.c b/date.c
-+index 11c5e5fe..97df6ab0 100644
-+--- a/date.c
-++++ b/date.c
-+@@ -42,7 +42,7 @@ static void		display(const char *, time_t);
-+ static void		dogmt(void);
-+ static void		errensure(void);
-+ static void		timeout(FILE *, const char *, const struct tm *);
-+-static ATTRIBUTE_NORETURN void usage(void);
-++ATTRIBUTE_NORETURN static void usage(void);
-+ 
-+ int
-+ main(const int argc, char *argv[])
-+diff --git a/localtime.c b/localtime.c
-+index 1d22d351..3bf1b911 100644
-+--- a/localtime.c
-++++ b/localtime.c
-+@@ -838,7 +838,7 @@ is_digit(char c)
-+ ** Return a pointer to that character.
-+ */
-+ 
-+-static ATTRIBUTE_REPRODUCIBLE const char *
-++ATTRIBUTE_REPRODUCIBLE static const char *
-+ getzname(register const char *strp)
-+ {
-+ 	register char	c;
-+@@ -859,7 +859,7 @@ getzname(register const char *strp)
-+ ** We don't do any checking here; checking is done later in common-case code.
-+ */
-+ 
-+-static ATTRIBUTE_REPRODUCIBLE const char *
-++ATTRIBUTE_REPRODUCIBLE static const char *
-+ getqzname(register const char *strp, const int delim)
-+ {
-+ 	register int	c;
-+diff --git a/private.h b/private.h
-+index 7a73eff7..ae522986 100644
-+--- a/private.h
-++++ b/private.h
-+@@ -628,7 +628,7 @@ char *asctime(struct tm const *);
-+ char *asctime_r(struct tm const *restrict, char *restrict);
-+ char *ctime(time_t const *);
-+ char *ctime_r(time_t const *, char *);
-+-double difftime(time_t, time_t) ATTRIBUTE_UNSEQUENCED;
-++ATTRIBUTE_UNSEQUENCED double difftime(time_t, time_t);
-+ size_t strftime(char *restrict, size_t, char const *restrict,
-+ 		struct tm const *restrict);
-+ # if HAVE_STRFTIME_L
-+@@ -740,10 +740,10 @@ timezone_t tzalloc(char const *);
-+ void tzfree(timezone_t);
-+ # ifdef STD_INSPIRED
-+ #  if TZ_TIME_T || !defined posix2time_z
-+-time_t posix2time_z(timezone_t, time_t) ATTRIBUTE_REPRODUCIBLE;
-++ATTRIBUTE_REPRODUCIBLE time_t posix2time_z(timezone_t, time_t);
-+ #  endif
-+ #  if TZ_TIME_T || !defined time2posix_z
-+-time_t time2posix_z(timezone_t, time_t) ATTRIBUTE_REPRODUCIBLE;
-++ATTRIBUTE_REPRODUCIBLE time_t time2posix_z(timezone_t, time_t);
-+ #  endif
-+ # endif
-+ #endif
-+diff --git a/zdump.c b/zdump.c
-+index 7acb3e2d..3e482ba3 100644
-+--- a/zdump.c
-++++ b/zdump.c
-+@@ -89,7 +89,7 @@ static bool	warned;
-+ static bool	errout;
-+ 
-+ static char const *abbr(struct tm const *);
-+-static intmax_t	delta(struct tm *, struct tm *) ATTRIBUTE_REPRODUCIBLE;
-++ATTRIBUTE_REPRODUCIBLE static intmax_t delta(struct tm *, struct tm *);
-+ static void dumptime(struct tm const *);
-+ static time_t hunt(timezone_t, time_t, time_t, bool);
-+ static void show(timezone_t, char *, time_t, bool);
-+@@ -97,7 +97,7 @@ static void showextrema(timezone_t, char *, time_t, struct tm *, time_t);
-+ static void showtrans(char const *, struct tm const *, time_t, char const *,
-+ 		      char const *);
-+ static const char *tformat(void);
-+-static time_t yeartot(intmax_t) ATTRIBUTE_REPRODUCIBLE;
-++ATTRIBUTE_REPRODUCIBLE static time_t yeartot(intmax_t);
-+ 
-+ /* Is C an ASCII digit?  */
-+ static bool
-+@@ -125,7 +125,7 @@ is_alpha(char a)
-+ 	}
-+ }
-+ 
-+-static ATTRIBUTE_NORETURN void
-++ATTRIBUTE_NORETURN static void
-+ size_overflow(void)
-+ {
-+   fprintf(stderr, _("%s: size overflow\n"), progname);
-+@@ -134,7 +134,7 @@ size_overflow(void)
-+ 
-+ /* Return A + B, exiting if the result would overflow either ptrdiff_t
-+    or size_t.  */
-+-static ATTRIBUTE_REPRODUCIBLE ptrdiff_t
-++ATTRIBUTE_REPRODUCIBLE static ptrdiff_t
-+ sumsize(size_t a, size_t b)
-+ {
-+ #ifdef ckd_add
-+@@ -151,7 +151,7 @@ sumsize(size_t a, size_t b)
-+ 
-+ /* Return a pointer to a newly allocated buffer of size SIZE, exiting
-+    on failure.  SIZE should be nonzero.  */
-+-static void * ATTRIBUTE_MALLOC
-++ATTRIBUTE_MALLOC static void *
-+ xmalloc(size_t size)
-+ {
-+   void *p = malloc(size);
-+@@ -920,7 +920,7 @@ showextrema(timezone_t tz, char *zone, time_t lo, struct tm *lotmp, time_t hi)
-+ # include <stdarg.h>
-+ 
-+ /* A substitute for snprintf that is good enough for zdump.  */
-+-static int ATTRIBUTE_FORMAT((printf, 3, 4))
-++ATTRIBUTE_FORMAT((printf, 3, 4)) static int
-+ my_snprintf(char *s, size_t size, char const *format, ...)
-+ {
-+   int n;
-+diff --git a/zic.c b/zic.c
-+index 892414af..f143fcef 100644
-+--- a/zic.c
-++++ b/zic.c
-+@@ -459,20 +459,20 @@ static char		roll[TZ_MAX_LEAPS];
-+ ** Memory allocation.
-+ */
-+ 
-+-static ATTRIBUTE_NORETURN void
-++ATTRIBUTE_NORETURN static void
-+ memory_exhausted(const char *msg)
-+ {
-+ 	fprintf(stderr, _("%s: Memory exhausted: %s\n"), progname, msg);
-+ 	exit(EXIT_FAILURE);
-+ }
-+ 
-+-static ATTRIBUTE_NORETURN void
-++ATTRIBUTE_NORETURN static void
-+ size_overflow(void)
-+ {
-+   memory_exhausted(_("size overflow"));
-+ }
-+ 
-+-static ATTRIBUTE_REPRODUCIBLE ptrdiff_t
-++ATTRIBUTE_REPRODUCIBLE static ptrdiff_t
-+ size_sum(size_t a, size_t b)
-+ {
-+ #ifdef ckd_add
-+@@ -487,7 +487,7 @@ size_sum(size_t a, size_t b)
-+   size_overflow();
-+ }
-+ 
-+-static ATTRIBUTE_REPRODUCIBLE ptrdiff_t
-++ATTRIBUTE_REPRODUCIBLE static ptrdiff_t
-+ size_product(ptrdiff_t nitems, ptrdiff_t itemsize)
-+ {
-+ #ifdef ckd_mul
-+@@ -502,7 +502,7 @@ size_product(ptrdiff_t nitems, ptrdiff_t itemsize)
-+   size_overflow();
-+ }
-+ 
-+-static ATTRIBUTE_REPRODUCIBLE ptrdiff_t
-++ATTRIBUTE_REPRODUCIBLE static ptrdiff_t
-+ align_to(ptrdiff_t size, ptrdiff_t alignment)
-+ {
-+   ptrdiff_t lo_bits = alignment - 1, sum = size_sum(size, lo_bits);
-+@@ -526,7 +526,7 @@ memcheck(void *ptr)
-+ 	return ptr;
-+ }
-+ 
-+-static void * ATTRIBUTE_MALLOC
-++ATTRIBUTE_MALLOC static void *
-+ emalloc(size_t size)
-+ {
-+   return memcheck(malloc(size));
-+@@ -538,7 +538,7 @@ erealloc(void *ptr, size_t size)
-+   return memcheck(realloc(ptr, size));
-+ }
-+ 
-+-static char * ATTRIBUTE_MALLOC
-++ATTRIBUTE_MALLOC static char *
-+ estrdup(char const *str)
-+ {
-+   return memcheck(strdup(str));
-+@@ -608,7 +608,7 @@ eat(int fnum, lineno num)
-+ 	eats(fnum, num, 0, -1);
-+ }
-+ 
-+-static void ATTRIBUTE_FORMAT((printf, 1, 0))
-++ATTRIBUTE_FORMAT((printf, 1, 0)) static void
-+ verror(const char *const string, va_list args)
-+ {
-+ 	/*
-+@@ -626,7 +626,7 @@ verror(const char *const string, va_list args)
-+ 	fprintf(stderr, "\n");
-+ }
-+ 
-+-static void ATTRIBUTE_FORMAT((printf, 1, 2))
-++ATTRIBUTE_FORMAT((printf, 1, 2)) static void
-+ error(const char *const string, ...)
-+ {
-+ 	va_list args;
-+@@ -636,7 +636,7 @@ error(const char *const string, ...)
-+ 	errors = true;
-+ }
-+ 
-+-static void ATTRIBUTE_FORMAT((printf, 1, 2))
-++ATTRIBUTE_FORMAT((printf, 1, 2)) static void
-+ warning(const char *const string, ...)
-+ {
-+ 	va_list args;
-+@@ -666,7 +666,7 @@ close_file(FILE *stream, char const *dir, char const *name,
-+   }
-+ }
-+ 
-+-static ATTRIBUTE_NORETURN void
-++ATTRIBUTE_NORETURN static void
-+ usage(FILE *stream, int status)
-+ {
-+   fprintf(stream,
-+@@ -3597,7 +3597,7 @@ lowerit(char a)
-+ }
-+ 
-+ /* case-insensitive equality */
-+-static ATTRIBUTE_REPRODUCIBLE bool
-++ATTRIBUTE_REPRODUCIBLE static bool
-+ ciequal(register const char *ap, register const char *bp)
-+ {
-+ 	while (lowerit(*ap) == lowerit(*bp++))
-+@@ -3606,7 +3606,7 @@ ciequal(register const char *ap, register const char *bp)
-+ 	return false;
-+ }
-+ 
-+-static ATTRIBUTE_REPRODUCIBLE bool
-++ATTRIBUTE_REPRODUCIBLE static bool
-+ itsabbr(register const char *abbr, register const char *word)
-+ {
-+ 	if (lowerit(*abbr) != lowerit(*word))
-+@@ -3622,7 +3622,7 @@ itsabbr(register const char *abbr, register const char *word)
-+ 
-+ /* Return true if ABBR is an initial prefix of WORD, ignoring ASCII case.  */
-+ 
-+-static ATTRIBUTE_REPRODUCIBLE bool
-++ATTRIBUTE_REPRODUCIBLE static bool
-+ ciprefix(char const *abbr, char const *word)
-+ {
-+   do
-+@@ -3725,14 +3725,14 @@ getfields(char *cp, char **array, int arrayelts)
-+ 	return nsubs;
-+ }
-+ 
-+-static ATTRIBUTE_NORETURN void
-++ATTRIBUTE_NORETURN static void
-+ time_overflow(void)
-+ {
-+   error(_("time overflow"));
-+   exit(EXIT_FAILURE);
-+ }
-+ 
-+-static ATTRIBUTE_REPRODUCIBLE zic_t
-++ATTRIBUTE_REPRODUCIBLE static zic_t
-+ oadd(zic_t t1, zic_t t2)
-+ {
-+ #ifdef ckd_add
-+@@ -3746,7 +3746,7 @@ oadd(zic_t t1, zic_t t2)
-+   time_overflow();
-+ }
-+ 
-+-static ATTRIBUTE_REPRODUCIBLE zic_t
-++ATTRIBUTE_REPRODUCIBLE static zic_t
-+ tadd(zic_t t1, zic_t t2)
-+ {
-+ #ifdef ckd_add
--- 
-2.34.1
+Richard
 
 
