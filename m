@@ -1,128 +1,131 @@
-Return-Path: <chee.yang.lee@intel.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88F35C6FD1C
-	for <webhook@archiver.kernel.org>; Thu, 23 Mar 2023 13:52:10 +0000 (UTC)
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by mx.groups.io with SMTP id smtpd.web11.72746.1679579528596545709
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECFE3C74A5B
+	for <webhook@archiver.kernel.org>; Thu, 23 Mar 2023 15:38:10 +0000 (UTC)
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+ by mx.groups.io with SMTP id smtpd.web11.75918.1679585887677546104
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Mar 2023 06:52:08 -0700
+ Thu, 23 Mar 2023 08:38:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=kNtKUlWD;
- spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: chee.yang.lee@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679579528; x=1711115528;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=DPqVhv0GlCscH8P/VZVbFpAixpq6bOWsSayiG2IiJCM=;
-  b=kNtKUlWDCkcVXus9ryIZ5Jt9Iy+lo6wFywX/qpO4VIxynsmcqR5MLE5B
-   hrRFqtCJriZbgs9RL8Kc9Bi6nuj0XtCFQPcvaK8k0qYg9Wyredrpg8q1Y
-   H7L+TLWmNh4YXp7NKiYhQF74I48exUkItNq+B5aP4v+2QN7U8ZI2V3cWL
-   ZG0RFMvvUGixTAwfBhU+LcQx8v+9UBxu5xjI15XvKO2/MCh06rahTTbvW
-   SHQefvvtoamX7+fS2oyWq921JJKL+ceSuWljdu9IVTGqJEG+Sy2YX0IRd
-   MCMii/GVHRcWFeAfyc657iUvtbhersUZpbJV64Mwn4EgUVIHVl/t6/Fhp
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="402070040"
-X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
-   d="scan'208";a="402070040"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 06:39:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="806256111"
-X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; 
-   d="scan'208";a="806256111"
-Received: from andromeda02.png.intel.com ([10.221.253.198])
-  by orsmga004.jf.intel.com with ESMTP; 23 Mar 2023 06:39:16 -0700
-From: chee.yang.lee@intel.com
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=kpzPXNyO;
+ spf=pass (domain: gmail.com, ip: 209.85.210.45, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ot1-f45.google.com with SMTP id f19-20020a9d5f13000000b00693ce5a2f3eso12321289oti.8
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Mar 2023 08:38:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679585886;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YQyDmI9q/tiKcPIH+j3tcikhICe3X+X5+P9ticS90e4=;
+        b=kpzPXNyODRjjK/cuWqRy/jqwoaZK1WTeldjHKlB+rVtDarTQg8ra5XOTzR3m8zoQYF
+         l4M36KWz7NKKS8HbscWw6toDIFnI4ESEZOosd3cuFSG7i952H8Vl9StiY+rL6KerIfLn
+         Z6Rrdx3fyXFd8QGJi+qLD5R6UX18vJVlA/SQ6sGfovR+cWZRk8V6+LwRxy0Fls//W5yC
+         Csp3A4q1IGDa8Dj7iHo/YXcfCwKNsIs+rdSMfzDhyjK99Q/9/B3gMbWySY0g46TrhD8b
+         zD8UnPCcWnNreTSLoAhNeSOJxvut3cUJkjyz0816aXD5qzmQzZHt4zdnW/8HhmO/tFbd
+         vo3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679585886;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YQyDmI9q/tiKcPIH+j3tcikhICe3X+X5+P9ticS90e4=;
+        b=LPw28IbdglpTRr/mIoVzXvb1lTf/ov0I5B47WtTgMSga64BNUsSfYq193JnPWVPepH
+         bM+E2lRFTvf5FjiZvdQGhOEpyx8CWElJc3MWziUQLfXRYqvD2BIiDYR14F5pYE/jfNG8
+         gJn5gM83Bnp1pCFxsSQsxp5W3tjt8XXKMC2SOFXvquNcPLv7zxsM2k1ebTOgDyIyqhuR
+         vaXlh8gdBt5eXqOKAiEvrjp7dhrE4rmH3WXfI8ycLPZB5oDctA/drVfCRdaMXJL6tX5Z
+         BSofcfhUBC/oed9i2LyU+Gklh5HK3oK3+6aqgpH1ae/0jjbc0x3lJqjM8B2iaZEgWwvX
+         nzXA==
+X-Gm-Message-State: AO0yUKWnGR3cUPIFLikHG1C30labx0XO6ekE7nLXA4IuH1msnXD1Kwzd
+	C8NowTikgzwUnJooxyuZgWromO/f0LE=
+X-Google-Smtp-Source: AK7set82K7IGANceYtMYpHifdBRTlI+vs6aLnfM3LW4oHRupDumyZIUPGxgfXY+oxTKfUN9xNmbqWA==
+X-Received: by 2002:a9d:6c9a:0:b0:698:37ed:2bde with SMTP id c26-20020a9d6c9a000000b0069837ed2bdemr3639611otr.29.1679585886297;
+        Thu, 23 Mar 2023 08:38:06 -0700 (PDT)
+Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
+        by smtp.gmail.com with ESMTPSA id m10-20020a9d7aca000000b0068bcb290a38sm7592343otn.55.2023.03.23.08.38.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Mar 2023 08:38:05 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [langdale][patch] python3-setuptools: fix for CVE-2022-40897
-Date: Thu, 23 Mar 2023 21:39:07 +0800
-Message-Id: <20230323133907.1425109-1-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.37.3
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] runqemu: Fix TypeError when command fails
+Date: Thu, 23 Mar 2023 10:37:59 -0500
+Message-Id: <20230323153759.1554168-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Mar 2023 13:52:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178987
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Mar 2023 15:38:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178988
 
-From: Narpat Mali <narpat.mali@windriver.com>
+The commands passed to subprocess are tuples which when passed to a %
+format are treated as multiple format arguments instead of a single
+argument to be coerced by "%s". This results in a TypeError being
+raised with python claiming that not all arguments were consumed.
 
-Python Packaging Authority (PyPA) setuptools before 65.5.1 allows remote attackers
-to cause a denial of service via HTML in a crafted package or custom PackageIndex
-page. There is a Regular Expression Denial of Service (ReDoS) in package_index.py.
+Fix this by wrapping the command tuple in a str() call, as is done for
+the logging strings
 
-CVE: CVE-2022-40897
+[YOCTO #15078]
 
-Upstream-Status: Backport [https://github.com/pypa/setuptools/commit/43a9c9bfa6aa626ec2a22540bea28d2ca77964be]
-
-cherry-pick and modify from OE-Core rev: f574d8d57ff3fbc38e350e7a90913993081c4fdf
-
-Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- ...-of-whitespace-to-search-backtrack.-.patch | 31 +++++++++++++++++++
- .../python/python3-setuptools_65.0.2.bb       |  4 ++-
- 2 files changed, 34 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/python/python3-setuptools/0001-Limit-the-amount-of-whitespace-to-search-backtrack.-.patch
+ scripts/runqemu | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-Limit-the-amount-of-whitespace-to-search-backtrack.-.patch b/meta/recipes-devtools/python/python3-setuptools/0001-Limit-the-amount-of-whitespace-to-search-backtrack.-.patch
-new file mode 100644
-index 0000000000..20a13da7bc
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-setuptools/0001-Limit-the-amount-of-whitespace-to-search-backtrack.-.patch
-@@ -0,0 +1,31 @@
-+From 9e9f617a83f6593b476669030b0347d48e831c3f Mon Sep 17 00:00:00 2001
-+From: Narpat Mali <narpat.mali@windriver.com>
-+Date: Mon, 9 Jan 2023 14:45:05 +0000
-+Subject: [PATCH] Limit the amount of whitespace to search/backtrack. Fixes
-+ #3659.
-+
-+CVE: CVE-2022-40897
-+
-+Upstream-Status: Backport [https://github.com/pypa/setuptools/commit/43a9c9bfa6aa626ec2a22540bea28d2ca77964be]
-+
-+Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
-+---
-+ setuptools/package_index.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/setuptools/package_index.py b/setuptools/package_index.py
-+index 270e7f3..e93fcc6 100644
-+--- a/setuptools/package_index.py
-++++ b/setuptools/package_index.py
-+@@ -197,7 +197,7 @@ def unique_values(func):
-+     return wrapper
-+ 
-+ 
-+-REL = re.compile(r"""<([^>]*\srel\s*=\s*['"]?([^'">]+)[^>]*)>""", re.I)
-++REL = re.compile(r"""<([^>]*\srel\s{0,10}=\s{0,10}['"]?([^'" >]+)[^>]*)>""", re.I)
-+ # this line is here to fix emacs' cruddy broken syntax highlighting
-+ 
-+ 
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-devtools/python/python3-setuptools_65.0.2.bb b/meta/recipes-devtools/python/python3-setuptools_65.0.2.bb
-index 1a639ea333..d7cbb99c9d 100644
---- a/meta/recipes-devtools/python/python3-setuptools_65.0.2.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools_65.0.2.bb
-@@ -9,7 +9,9 @@ inherit pypi python_setuptools_build_meta
- SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 1a378925ce..6e7575c083 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -1042,7 +1042,7 @@ to your build configuration.
+                 cmd = ('runqemu-extract-sdk', src, dest)
+                 logger.info('Running %s...' % str(cmd))
+                 if subprocess.call(cmd) != 0:
+-                    raise RunQemuError('Failed to run %s' % cmd)
++                    raise RunQemuError('Failed to run %s' % str(cmd))
+                 self.rootfs = dest
+                 self.cleanup_files.append(self.rootfs)
+                 self.cleanup_files.append('%s.pseudo_state' % self.rootfs)
+@@ -1051,7 +1051,7 @@ to your build configuration.
+         cmd = ('runqemu-export-rootfs', 'start', self.rootfs)
+         logger.info('Running %s...' % str(cmd))
+         if subprocess.call(cmd) != 0:
+-            raise RunQemuError('Failed to run %s' % cmd)
++            raise RunQemuError('Failed to run %s' % str(cmd))
  
- SRC_URI += "file://0001-change-shebang-to-python3.patch \
--            file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
-+            file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch \
-+            file://0001-Limit-the-amount-of-whitespace-to-search-backtrack.-.patch \
-+"
+         self.nfs_running = True
  
- SRC_URI[sha256sum] = "101bf15ca723beef42c8db91a761f3748d4d697e17fae904db60c0b619d8d094"
+@@ -1060,7 +1060,7 @@ to your build configuration.
+         if cmd != '':
+             logger.info('Running setup command %s' % str(cmd))
+             if subprocess.call(cmd, shell=True) != 0:
+-                raise RunQemuError('Failed to run %s' % cmd)
++                raise RunQemuError('Failed to run %s' % str(cmd))
  
+     def setup_net_bridge(self):
+         self.set('NETWORK_CMD', '-netdev bridge,br=%s,id=net0,helper=%s -device virtio-net-pci,netdev=net0 ' % (
+@@ -1554,7 +1554,7 @@ to your build configuration.
+         if cmd != '':
+             logger.info('Running cleanup command %s' % str(cmd))
+             if subprocess.call(cmd, shell=True) != 0:
+-                raise RunQemuError('Failed to run %s' % cmd)
++                raise RunQemuError('Failed to run %s' % str(cmd))
+ 
+     def cleanup(self):
+         if self.cleaned:
+@@ -1663,7 +1663,7 @@ to your build configuration.
+                 return result
+             raise RunQemuError("Native sysroot directory %s doesn't exist" % result)
+         else:
+-            raise RunQemuError("Can't find STAGING_BINDIR_NATIVE in '%s' output" % cmd)
++            raise RunQemuError("Can't find STAGING_BINDIR_NATIVE in '%s' output" % str(cmd))
+ 
+ 
+ def main():
 -- 
-2.37.3
+2.33.0
 
 
