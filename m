@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EA60C77B60
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50B50C761AF
 	for <webhook@archiver.kernel.org>; Thu, 23 Mar 2023 21:05:22 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web11.85137.1679605515890162454
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.85134.1679605512413192627
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Mar 2023 14:05:15 -0700
+ Thu, 23 Mar 2023 14:05:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=evMf6QuA;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id fy10-20020a17090b020a00b0023b4bcf0727so3387978pjb.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Mar 2023 14:05:15 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=aeGIYMbo;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id kq3so53821plb.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Mar 2023 14:05:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679605515;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679605511;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2QhFR4o5zYA2WdSgvYxndytMsXYtv68RzZWglNyRmag=;
-        b=evMf6QuAzEVnOX4Uhwy07CdMEoILdFXDqmdRcMqlt0oNR6pYU/ISA2Nys3AEin1Tve
-         K6tqKVqoWQGQexDuixnFuVpfoiwEdrUrRL2QHM72uC1cD9oAIQYWKUGwZDO6dvd2HL50
-         VEF2zZUfCHrT2rcKWo7FMwK7k6SwzMI3kuQcMs+w4HA7LgZyBQ9LChlB7GqGJDLtmugf
-         hsPk6ZrpNDPfeU1OrOpcO+NUF8qMHtkZVJ1/Rs3HEkR+sECpDJssOzZp+/qybupwLbrg
-         /TYESSUf+/DG5wQSRussBiOsAyficS8RR428t39U9jJHhCk2jJF4XGC4ptxb92m59sof
-         ReYQ==
+        bh=srVgYZqL0cc3Sui5ROQfCTJ3ZyxWjbFjKyU7VzIlK+s=;
+        b=aeGIYMbokL/wqsba2UHa5cbjDh8FPYp8OsoeMA6seIWFnJC7On4lYf4i4KDlJt7wru
+         fddvPpXu/fy3Cg6ABNjtu1rdPzUiRCI3surCVOE5EBjq3gGsKoeGXOvW4EJCRAubf50N
+         S2DJYZkSol+r7C37Y9Mn1OREU9+FUFimz6pHfO8QdZpUAd8yzVh7gaY3NiVYJNFDH9eB
+         lozX0Lski5mS2aisALJa878IAD4uUo7zx2+ESPyiY6uUHxipm6SHOmgv+mxOEzRVlnNw
+         BRR/3nbh1ijo1wqpmantOm50JlqHSATQ/FCavd+fBwxIKQObzbTmCwjgBDBmrextBbct
+         U2LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679605515;
+        d=1e100.net; s=20210112; t=1679605511;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2QhFR4o5zYA2WdSgvYxndytMsXYtv68RzZWglNyRmag=;
-        b=YJOhbbBLFQjMBoyCmaOQDo9lu3WOxU+GpfxsRyn7Qr8rhg14zcTIdTaRq2ppB9DkmA
-         tSciXp6PsBrgL+h9Y33q6tmuvER8eAPJbZtjZGxjiuB9bNBnsgii8s3dtFQX17hPdFzX
-         Tnolo4L2L2Uhd014EtVGlYa2Lt1dvum+V3k/4V22OgAWWc7Ny1TelcRJFdWGLayJLp5E
-         rJdf8RjvIkNml1/LgxHxSdT2iRfTlVR0dF7QSaNItVRbHj1FY+y4MHnow0QolR7sVBlP
-         w1utmOqu7WhAQylinZtTkAYZGU4591CGvkxIYbgVrWax0fsVyhepBfa5fnMnJSdDeAAn
-         mkgw==
-X-Gm-Message-State: AAQBX9e6xdINdgXBWElSZUPWbcqtQW5A/AG4eXjWdkiHS91jlGIzkthF
-	X/zkHTAEBaYHLxncNawPbUHWRJH3Z0jV3NmFO7U=
-X-Google-Smtp-Source: AKy350ZI1uqsavo/0kyXungh3C+FZxJtgq+J+8uR8HiMXtQMPVUdtGmmoNhzZHfEctlMKnqnh5IBjQ==
-X-Received: by 2002:a17:90b:38c2:b0:23b:38b2:f0bd with SMTP id nn2-20020a17090b38c200b0023b38b2f0bdmr373663pjb.15.1679605515042;
-        Thu, 23 Mar 2023 14:05:15 -0700 (PDT)
+        bh=srVgYZqL0cc3Sui5ROQfCTJ3ZyxWjbFjKyU7VzIlK+s=;
+        b=BTRa8waIa5p+NviY5e/eZ7rtjDGcTGaTsOL8/dJ9B3iXGrvk1qeT4J5UG7QfAe2xXj
+         xZnuFkKyn6uFF25GOosGdgJ/LyFsqZi3lcy5nOF8T05TIlpUkNR223nnrM3zFm3RJijI
+         elzg87bsz8o5OR1H0i7zCWnhKeIokVMjARcg24d6dFygve4YYjsE6k6ZFZxfO5PVT7CN
+         JrJgedDJ9EXtO9Ep/saF178kNkFrJcwQpDiruFaZAKNCWXRCkwD9HJ2Td9vjJpQbzVUT
+         AT1IXLK8Dm7iWOi6CHyu17Bo+2dJc542wC6Scgm7QoEsTv42Yb4dRLGKnrpHPESsphUI
+         5BLQ==
+X-Gm-Message-State: AAQBX9e/X59QtkMJ4RGnY/POu3AFbt6XRKQdNAwIXB72Vg7j7PbauJls
+	RL/y63ruT3djFmvs7b8Is9Y4BHTN/5lFNnG9PXA=
+X-Google-Smtp-Source: AKy350Zg5jzmm47KZhpmbazG0F1nIVrRPAKa3hPm6bdsSyeq4dVrykHEL3E6eI/EyGRbZ8++vNZthQ==
+X-Received: by 2002:a17:902:f90d:b0:19c:dbce:dce4 with SMTP id kw13-20020a170902f90d00b0019cdbcedce4mr244631plb.15.1679605511459;
+        Thu, 23 Mar 2023 14:05:11 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id c1-20020a170902724100b001a198adb190sm12760417pll.88.2023.03.23.14.05.14
+        by smtp.gmail.com with ESMTPSA id c1-20020a170902724100b001a198adb190sm12760417pll.88.2023.03.23.14.05.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Mar 2023 14:05:14 -0700 (PDT)
+        Thu, 23 Mar 2023 14:05:11 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 12/14] pybootchartui: Fix python syntax issue
-Date: Thu, 23 Mar 2023 11:04:40 -1000
-Message-Id: <2429ae83400af67b1cff2adb406ec84b3147ed5e.1679605352.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 10/14] tzdata: use separate B instead of WORKDIR for zic output
+Date: Thu, 23 Mar 2023 11:04:38 -1000
+Message-Id: <cf96296296a71d0d164f4e528991f0946efe9b29.1679605352.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1679605352.git.steve@sakoman.com>
 References: <cover.1679605352.git.steve@sakoman.com>
@@ -61,35 +61,52 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 23 Mar 2023 21:05:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179006
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179004
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Martin Jansa <Martin.Jansa@gmail.com>
 
-Fix:
+* avoid copying whole exec_prefix over base_prefix as there
+  were only zoneinfo files anyway
 
-scripts/pybootchartgui/pybootchartgui/parsing.py:134: SyntaxWarning: "is" with a literal. Did you mean "=="?
-  if pid is 0:
-
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c9a6511ae618035b8efad01646e37ba28ce1e3f8)
+(cherry picked from commit 37846f8735683ed0fab5ef5c12d77c6041348801)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/pybootchartgui/pybootchartgui/parsing.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-extended/timezone/tzdata.bb | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/pybootchartgui/pybootchartgui/parsing.py b/scripts/pybootchartgui/pybootchartgui/parsing.py
-index b42dac6b88..9d6787ec5a 100644
---- a/scripts/pybootchartgui/pybootchartgui/parsing.py
-+++ b/scripts/pybootchartgui/pybootchartgui/parsing.py
-@@ -128,7 +128,7 @@ class Trace:
-     def compile(self, writer):
+diff --git a/meta/recipes-extended/timezone/tzdata.bb b/meta/recipes-extended/timezone/tzdata.bb
+index ce725008c0..dd1960ffa7 100644
+--- a/meta/recipes-extended/timezone/tzdata.bb
++++ b/meta/recipes-extended/timezone/tzdata.bb
+@@ -16,17 +16,21 @@ TZONES = " \
+ # "fat" is needed by e.g. MariaDB's mysql_tzinfo_to_sql
+ ZIC_FMT ?= "slim"
  
-         def find_parent_id_for(pid):
--            if pid is 0:
-+            if pid == 0:
-                 return 0
-             ppid = self.parent_map.get(pid)
-             if ppid:
++do_configure[cleandirs] = "${B}"
++B = "${WORKDIR}/build"
++
+ do_compile() {
+ 	for zone in ${TZONES}; do
+-		${STAGING_BINDIR_NATIVE}/zic -b ${ZIC_FMT} -d ${WORKDIR}${datadir}/zoneinfo -L /dev/null ${S}/${zone}
+-		${STAGING_BINDIR_NATIVE}/zic -b ${ZIC_FMT} -d ${WORKDIR}${datadir}/zoneinfo/posix -L /dev/null ${S}/${zone}
+-		${STAGING_BINDIR_NATIVE}/zic -b ${ZIC_FMT} -d ${WORKDIR}${datadir}/zoneinfo/right -L ${S}/leapseconds ${S}/${zone}
++		${STAGING_BINDIR_NATIVE}/zic -b ${ZIC_FMT} -d ${B}/zoneinfo -L /dev/null ${S}/${zone}
++		${STAGING_BINDIR_NATIVE}/zic -b ${ZIC_FMT} -d ${B}/zoneinfo/posix -L /dev/null ${S}/${zone}
++		${STAGING_BINDIR_NATIVE}/zic -b ${ZIC_FMT} -d ${B}/zoneinfo/right -L ${S}/leapseconds ${S}/${zone}
+ 	done
+ }
+ 
+ do_install() {
+-	install -d ${D}$exec_prefix ${D}${datadir}/zoneinfo
+-	cp -pPR ${WORKDIR}$exec_prefix ${D}${base_prefix}
++	install -d ${D}${datadir}/zoneinfo
++	cp -pPR ${B}/zoneinfo/* ${D}${datadir}/zoneinfo
++
+ 	# libc is removing zoneinfo files from package
+ 	cp -pP "${S}/zone.tab" ${D}${datadir}/zoneinfo
+ 	cp -pP "${S}/zone1970.tab" ${D}${datadir}/zoneinfo
 -- 
 2.34.1
 
