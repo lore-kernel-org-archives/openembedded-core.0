@@ -1,85 +1,75 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EA1FC6FD1C
-	for <webhook@archiver.kernel.org>; Thu, 23 Mar 2023 12:02:40 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web10.70717.1679572957755316893
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23720C6FD1C
+	for <webhook@archiver.kernel.org>; Thu, 23 Mar 2023 12:26:30 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.web10.71116.1679574379959074637
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Mar 2023 05:02:38 -0700
+ Thu, 23 Mar 2023 05:26:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hLIGZHU8;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id y14so20175173wrq.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Mar 2023 05:02:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1679572956;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=CTFrg2vT1Y3Xo3i6zgegdm4aJha/UvxW85o8tDlrGjw=;
-        b=hLIGZHU8FlSV1lPPETZEnhSZFUMZVZPtUIGloRHpQlxSTy3PLZjIBLVgYXtlu1jnl3
-         qO73nchdhO1APuEdfRUtNio6PKe0tyMOqgNp17OmkF6OekFpnXkVzIG3Q8htbNhP8B3J
-         mT217HnzX8rNQtPmt9ivmCWMoUIbYgSZnH5xY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679572956;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CTFrg2vT1Y3Xo3i6zgegdm4aJha/UvxW85o8tDlrGjw=;
-        b=Olm5xMoylj0y6mAugv9IuUaP1JUtbdh+YBfSmIPZDdcDKbOeLc9CIRH0XTlRpitW1J
-         Gkj/tweBRheB3vHhIsZ4pmpqkVodjPzmaDghhDLvDDE70HO9/P2TyjLo8GsLaocXWGep
-         rD6+IyOX75HmCccyOfnizOKv64o3UR/YdlMU1XtHzCAAc3WzqyJ+cg/Pdm7TE0505wTZ
-         shxI6P5ciSfnzBz7uWRDyKSM61JMZ7+ab2tIBItek474VrWKdoZ91XZN+sN4zTskBlix
-         1PwE2Y4gSfwb/nhj8Yq/3wHyes0iid5I8J9BxvRJtzDQGi8eMWgyvDjPCMRIW4sX9Ml3
-         UinQ==
-X-Gm-Message-State: AAQBX9d6BlrYckEsBvT7ZLJjXAN+uPlDU7hFEIrwGhGxJ3tlTmkqdHXX
-	guyTQi6b7+jZdRnTUoPZqVq5Kg==
-X-Google-Smtp-Source: AKy350brwsbvPNi5AUtS7h2flRFdRP1vs898q8LwEG7E83WESeAaDIrOtXJv0R3fAwqCJ7JEA8FAvQ==
-X-Received: by 2002:a5d:4442:0:b0:2ce:a9b5:37d4 with SMTP id x2-20020a5d4442000000b002cea9b537d4mr1956410wrr.21.1679572956145;
-        Thu, 23 Mar 2023 05:02:36 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:f1c6:d95c:5baf:6f61? ([2001:8b0:aba:5f3c:f1c6:d95c:5baf:6f61])
-        by smtp.gmail.com with ESMTPSA id p5-20020a5d4e05000000b002d75909c76esm9121325wrt.73.2023.03.23.05.02.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Mar 2023 05:02:35 -0700 (PDT)
-Message-ID: <f7d2ef262419b2328adccf0cac83ff42a975a4c8.camel@linuxfoundation.org>
-Subject: Re: [OE-core][master][langdale][kirkstone][PATCH]
- gcc-shared-source: ensure that S exists in do_deploy_source_date_epoch
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Marko, Peter" <Peter.Marko@siemens.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Mar 2023 12:02:34 +0000
-In-Reply-To: <AS1PR10MB569705403F56BA43CA730619FD879@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20230323110146.243968-1-peter.marko@siemens.com>
-	 <a8d4855315c091bde32979f928885320c1b5b3dd.camel@linuxfoundation.org>
-	 <174F09F9DA2ECC9A.19937@lists.openembedded.org>
-	 <AS1PR10MB569705403F56BA43CA730619FD879@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3-1 
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=hctXSR+l;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-20230323122616d5f963e8a1d66ebdd4-pdsxqd@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20230323122616d5f963e8a1d66ebdd4
+        for <openembedded-core@lists.openembedded.org>;
+        Thu, 23 Mar 2023 13:26:17 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=braVwp1QL8mbubtkJjaLiVmFdIjUJkshIyNc4Mk8PM4=;
+ b=hctXSR+l41P1tfJ/wUzboCRIEkBD2FbvDfmwI3H+O9Kvicy6E/aP6v25uJZFkY3GLfXPYj
+ U/Q64x8UM8ZcVm1jGyvOFgJJbygSHLGQwHHQNcutbLakUkrprEPWKuTHnfv9pTB9wecxROan
+ 63VayS1d7nYF9k80sf4UzsC0tcTAI=;
+From: "P. Marko" <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][master][langdale][kirkstone][PATCH] gcc-shared-source: do not use ${S}/.. in  deploy_source_date_epoch
+Date: Thu, 23 Mar 2023 13:25:16 +0100
+Message-Id: <20230323122516.336367-1-peter.marko@siemens.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Mar 2023 12:02:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178981
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Mar 2023 12:26:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178982
 
-On Thu, 2023-03-23 at 11:59 +0000, Marko, Peter wrote:
-> Would this be more acceptable change?
->=20
-> -       cp -p ${S}/../$sde_file ${SDE_DEPLOYDIR}
-> -       cp -p ${S}/../$sde_file ${SDE_FILE}
-> +       cp -p $(dirname ${S})/$sde_file ${SDE_DEPLOYDIR}
-> +       cp -p $(dirname ${S})/$sde_file ${SDE_FILE}
+From: Peter Marko <peter.marko@siemens.com>
 
-Yes, that makes it clearer what was going on.
+This function is referencing '${S}/..'.
+It uses ${S} only as good known directory path to start
+traversing from, and it does not need it to exist or be populated.
+If ${S} does not exist yet, the function will fail because
+it cannot evaluate path .. from non-existing directory.
 
-We did have a different bug in this area which I thought this was
-perhaps related to but it does sound like a different issue.
+Reproducer (verified in master and kirkstone):
+  bitbake gcc -c deploy_source_date_epoch
+  bitbake gcc -c cleansstate
+  rm -rf build/tmp
+  bitbake gcc -c deploy_source_date_epoch
 
-Cheers,
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ meta/recipes-devtools/gcc/gcc-shared-source.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Richard
+diff --git a/meta/recipes-devtools/gcc/gcc-shared-source.inc b/meta/recipes-devtools/gcc/gcc-shared-source.inc
+index cd2e341099..03f520b093 100644
+--- a/meta/recipes-devtools/gcc/gcc-shared-source.inc
++++ b/meta/recipes-devtools/gcc/gcc-shared-source.inc
+@@ -16,6 +16,6 @@ do_deploy_source_date_epoch () {
+ 	sde_file=${SDE_FILE}
+ 	sde_file=${sde_file#${WORKDIR}/}
+ 	mkdir -p ${SDE_DEPLOYDIR} $(dirname ${SDE_FILE})
+-	cp -p ${S}/../$sde_file ${SDE_DEPLOYDIR}
+-	cp -p ${S}/../$sde_file ${SDE_FILE}
++	cp -p $(dirname ${S})/$sde_file ${SDE_DEPLOYDIR}
++	cp -p $(dirname ${S})/$sde_file ${SDE_FILE}
+ }
+-- 
+2.30.2
+
 
