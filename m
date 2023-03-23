@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53C5AC761AF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A69AC77B60
 	for <webhook@archiver.kernel.org>; Thu, 23 Mar 2023 21:05:12 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web11.85132.1679605508665892192
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web10.85699.1679605504716075067
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Mar 2023 14:05:08 -0700
+ Thu, 23 Mar 2023 14:05:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=OD/f8Nsw;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f53.google.com with SMTP id qe8-20020a17090b4f8800b0023f07253a2cso3356479pjb.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Mar 2023 14:05:08 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=0jJBmxSL;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f45.google.com with SMTP id p3-20020a17090a74c300b0023f69bc7a68so3350047pjl.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Mar 2023 14:05:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679605508;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679605504;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/01RA1TdHULJvLny8cqnehIxgdl3uZdgh1fPJ70Rdzc=;
-        b=OD/f8Nswh7zJpqWivejA8+O9WF7uPs+Mr2Gnbq1md+jbHycVbPit24BdOmSOck6BFO
-         XGmVUbhqm3UEALG7i73/UT/o2NzXEatCmMR2zykQndgFMdsOHdkC5TAlx16t+fFRcsuy
-         p4FsZbncXFblfR+PlpqJ2Saz2M2UDXz0aYrgOhb6vhQ1iYMBcScb9THGFFpoooUP/gV8
-         o33kJwGbOQWET4pwT+C8Vklc+L2QwutihiVVlYPbA/fm3odM9O+roTykHbr2K2nhJEao
-         Exvtaq+nLn0HOD3nxJ2jHDP5C/IUEr8CafarP5DHvGKRLpWTUIIgPaoTcv9Q0MiXWfoz
-         R2dw==
+        bh=5bEk92H6auiqXJpyyA+uCbQSPDtuFJLHGs5F7jQer9o=;
+        b=0jJBmxSLpgUNwyFdGKWVXq5Gdp6pW7M+9dKzTNDsryaKtmgmHMTj4NcVoXrQg4ggBk
+         ciDVBAGpWBfgH+l6/zmLkPxYO6M8m3K99No2jUdyeEMPzoUEA6GjA44SanNpBGtTP7lQ
+         JHangKR7w72SgSmN4ESW08omfhI0XjLHaIl7k/p13qMgE46RBp3f94Kb7KiTZawS3wjC
+         RYm3eg1FattCHkS9ccggjEVw6/shf6KvDAi6aUwtclIaBNIHbn+0Tgx0lQYmw3ZS4tUH
+         S2Ki0Jzb+hbumLGVkiMZuADFW4xPPZ8z5lWpfzFPlAZO2V/KkoKOobqpYzz/y1SVus4N
+         57WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679605508;
+        d=1e100.net; s=20210112; t=1679605504;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/01RA1TdHULJvLny8cqnehIxgdl3uZdgh1fPJ70Rdzc=;
-        b=t69bSGaOhLslHpXuloiTpPDKpS+W+k08El7eScuOhK2o5WKaUvPQ0DmpdoPZcCyakg
-         YP79DJnG8dMgAzRi7+yCZOJoXvA3QYKchSvgXP60frEIEdAxicoA5ozoMBEYRl58gJxU
-         7gNMWzVxFGmplwuo6Vce2pOcjno8NZdkpAkOmOW03EvFCfJLWZoTX+4IrOwkxKn92r7H
-         TQz5m2YGP8AC2s1HeHWy0ycg/RikJaY9BrghH8A6Z7lx+na2ijUcD33Ohy+qJWlJQwsm
-         2gAdcpDQRRKWEIhmfcK2D7WQ2YS7iEHb1L10HnXbAPIBzQcBcZqzxPdid9Y/LA0BS799
-         WAVA==
-X-Gm-Message-State: AAQBX9fzjh+Ii+5TGjbw2vnS5Pik0FuIgoUTh5QAAMv+yDzU9LSnUMzx
-	GLr3NhijIs9EV1Gxi6Sv4t+SLcmZmk/lazNtTmQ=
-X-Google-Smtp-Source: AKy350bmX54cZ/YXpiA4j/7m5SCpryy4nVoxw5RheV6+E0nD0XQPr92krwTkj9BxNrJFfDxaibw+aw==
-X-Received: by 2002:a17:903:70b:b0:1a1:ab92:5c6b with SMTP id kk11-20020a170903070b00b001a1ab925c6bmr124011plb.57.1679605507776;
-        Thu, 23 Mar 2023 14:05:07 -0700 (PDT)
+        bh=5bEk92H6auiqXJpyyA+uCbQSPDtuFJLHGs5F7jQer9o=;
+        b=vFaveNqL5KNky/51wwRmM5vG06zYCiMR7r0+JV3m6zHhKNe0KFc2iii1TGBRnR1hPc
+         ReJOFo5NAfRlSFJ24hlV8JVNElLC2V92EqbJVtl0C5AWgoq7+s6HoFGaCwrG8M9aLoD9
+         w7mKbMOcDeqg75qUkYAqWHet4D/3QXSDOaUCQHU05c5zWUTcZh6iV4vtcVt99zdDR/Ee
+         lvS2HSb9/KK1kIuZGWxurbWS9sPv3cHVR5x26ZIkRHBPygn9zzD0u/Q3ug8Y5qpF+E6u
+         9SELXkqqp7s7SIGv+Gy5cK0K8iRWgzCukJxaq/P+wmnhojxVE8pQNwe38wNcymnHcB1j
+         Q9iw==
+X-Gm-Message-State: AAQBX9ely++6tVkxkTkfWUOyifcDAl0HEMKVosm5TZKpSb/KgXAYiOb5
+	A+SYBtNxlAipNPv5wp0TTIRjg9buYsmXYhn6gtU=
+X-Google-Smtp-Source: AKy350bZmW2N9uywksnFs6HN8un8xTrs7JLLzzy57P8kxWuJf9ZV5MQxM4ZUtV1yRQrkKMGLbR8iNQ==
+X-Received: by 2002:a17:902:e84e:b0:1a0:41eb:fdb3 with SMTP id t14-20020a170902e84e00b001a041ebfdb3mr336200plg.10.1679605503745;
+        Thu, 23 Mar 2023 14:05:03 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id c1-20020a170902724100b001a198adb190sm12760417pll.88.2023.03.23.14.05.06
+        by smtp.gmail.com with ESMTPSA id c1-20020a170902724100b001a198adb190sm12760417pll.88.2023.03.23.14.05.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Mar 2023 14:05:07 -0700 (PDT)
+        Thu, 23 Mar 2023 14:05:03 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 08/14] lib/resulttool: fix typo breaking resulttool log --ptest
-Date: Thu, 23 Mar 2023 11:04:36 -1000
-Message-Id: <213ed03f5a15be639a97dca6f5bbf810f7ac2eb5.1679605352.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 06/14] image_types: fix multiubi var init
+Date: Thu, 23 Mar 2023 11:04:34 -1000
+Message-Id: <0fce158e59918172b9e42558fc63342384edf657.1679605352.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1679605352.git.steve@sakoman.com>
 References: <cover.1679605352.git.steve@sakoman.com>
@@ -61,34 +61,40 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 23 Mar 2023 21:05:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179002
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179000
 
-From: Ross Burton <ross.burton@arm.com>
+From: Romuald Jeanne <romuald.jeanne@st.com>
 
-ptestresult_get_log() looked for a key called 'ptestresuls.sections',
-which should be 'ptestresult.sections'
+Make sure to expand all MKUBIFS_ARGS_<label> and UBINIZE_ARGS_<label> vars
+in 'do_image_multiubi' task to use them to init the local 'mkubifs_args'
+and 'ubinize_args' vars.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+See [YOCTO #15065]
+
+Signed-off-by: Romuald JEANNE <romuald.jeanne@st.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7c8c9f7283e54bf8b1521fbaad7dceb66a8fcdbb)
+(cherry picked from commit 09d05215cf61981c7bc828cc0ff64c2fd5edc43c)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/resulttool/resultutils.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/image_types.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/scripts/lib/resulttool/resultutils.py b/scripts/lib/resulttool/resultutils.py
-index 8917022d36..7666331ba2 100644
---- a/scripts/lib/resulttool/resultutils.py
-+++ b/scripts/lib/resulttool/resultutils.py
-@@ -142,7 +142,7 @@ def generic_get_log(sectionname, results, section):
-     return decode_log(ptest['log'])
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 960dab1a60..79081d9f98 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -187,7 +187,10 @@ multiubi_mkfs() {
+ 	fi
+ }
  
- def ptestresult_get_log(results, section):
--    return generic_get_log('ptestresuls.sections', results, section)
-+    return generic_get_log('ptestresult.sections', results, section)
- 
- def generic_get_rawlogs(sectname, results):
-     if sectname not in results:
++MULTIUBI_ARGS = "MKUBIFS_ARGS UBINIZE_ARGS"
++
+ IMAGE_CMD:multiubi () {
++	${@' '.join(['%s_%s="%s";' % (arg, name, d.getVar('%s_%s' % (arg, name))) for arg in d.getVar('MULTIUBI_ARGS').split() for name in d.getVar('MULTIUBI_BUILD').split()])}
+ 	# Split MKUBIFS_ARGS_<name> and UBINIZE_ARGS_<name>
+ 	for name in ${MULTIUBI_BUILD}; do
+ 		eval local mkubifs_args=\"\$MKUBIFS_ARGS_${name}\"
 -- 
 2.34.1
 
