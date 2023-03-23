@@ -1,115 +1,155 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A402C6FD1F
-	for <webhook@archiver.kernel.org>; Wed, 22 Mar 2023 21:53:46 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web11.57464.1679522015973583701
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 521B7C6FD1C
+	for <webhook@archiver.kernel.org>; Thu, 23 Mar 2023 02:00:27 +0000 (UTC)
+Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com [195.245.230.2])
+ by mx.groups.io with SMTP id smtpd.web11.62908.1679536816823060135
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Mar 2023 14:53:37 -0700
+ Wed, 22 Mar 2023 19:00:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=DQa7cB6T;
- spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id A3BF720002;
-	Wed, 22 Mar 2023 21:53:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1679522014;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RhBXUVVpq7yMj87hJmY+aErYyUtdX9sWKOkgmUdWOts=;
-	b=DQa7cB6T0uC11kGmYDQuKS9uCKe95306g96NXqXTiISB3Qnsir2veIkLj1pA6A++yV8gL5
-	BdHnv3dt4MrWM3/4chaJCHvwDmoIRMQCU3UEHletJQAWVOkOP1QZsILLCVfa0SpAipxvPj
-	jf/s+q7ELGfvrp867ZcdfZOOkd5vpvZ/5wHbHeJqLPF2JAjfjLxIRMLTBw/XJcpzwL9Hvc
-	ekHliTu5cQfQ0lrsApJSHeAUDwUxXC6VpfCQRlfemhAH2/SymjNRt1+I3p/6jtq1bNf7HM
-	Lp6CoX8fhIIc/a0eUV/JdddWLMDW7wcNH4syaGDk+aoqLtAASzHYCuw4PtUhXA==
-Date: Wed, 22 Mar 2023 22:53:33 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core][PATCH 1/2] debugedit: add recipe
-Message-ID: <202303222153336e7e450d@mail.local>
-References: <20230321154016.34836-1-Qi.Chen@windriver.com>
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=O5cClex+;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.2, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1679536815; i=@fujitsu.com;
+	bh=uMAzZRN1Zw9JYlxrvaDnU3+F2Ev+3BV59YuM9cTCqlY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=O5cClex+C6QP1EM1SY9MbyNI60icwfqGO07N+Bq2M/fYgjHly9xrydQokIVqwIql3
+	 ZLZIGO+GBSLz/DDZDkCfBuKeE6D8M2PVJ1TaFMeLKhujWhjBgp6fRTQl9yotSgsq7M
+	 9dTzeCbcuAG5Yw8urLcBgZQtyB/Qv496aa4u6DlU6ZQ/qrtB28Vos/DsQ5vjSo6weG
+	 yRsUTpwO/pkuTMEoTyfuSRZqVSmvriNneQWUUt/j1Kiy9g8GizXUNxbvYG0DY9VTSl
+	 Tk33dc89FYww8gkgeVBmVZ0wsfTdk2y+GpcmA0arb6s8viinJc1/NfL4T0AK6DmlhN
+	 /pueWLo6Ic32g==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrKIsWRWlGSWpSXmKPExsViZ8MxSXfdJuk
+  Ugz+bxCzu/HzH7sDocW7jCsYAxijWzLyk/IoE1oyuLR9YC3aLV2z5+I2xgbFdtIuRk0NI4DGj
+  xIIVwV2MXED2NSaJN//PsEI4exglWncuZAOpYhOQkrhx/z+QzcEhIqAncfUfWDOzgIrEi9897
+  CC2sECwxLTzU1hBbBYBVYn1H76ygNi8Ak4SnbePM4LYEgIKElMevmeGiAtKnJz5hAVijoTEwR
+  cvmCFqFCVmX25mgbArJBqnH2KCsNUkrp7bxDyBkX8WkvZZSNoXMDKtYjQrTi0qSy3SNTTQSyr
+  KTM8oyU3MzNFLrNJN1Est1S1PLS7RNdRLLC/WSy0u1iuuzE3OSdHLSy3ZxAgMxZRixuQdjFf7
+  /uodYpTkYFIS5ZUIlU4R4kvKT6nMSCzOiC8qzUktPsQow8GhJMHbuA4oJ1iUmp5akZaZA4wLm
+  LQEB4+SCC/XHKA0b3FBYm5xZjpE6hSjJcfahgN7mTk27es6wMzRuR9ICrHk5eelSonzpm4Eah
+  AAacgozYMbB4vdS4yyUsK8jAwMDEI8BalFuZklqPKvGMU5GJWEeY1XAU3hycwrgdv6CuggJqC
+  D4mZIgBxUkoiQkmpgWqN3i7VQ318jO9Cd/VCM/mLbZxumPNc/pp//aXvbyfvqZcEaohvjj6oE
+  aNpYce6J22q3fO9u0dp3r6JOvOGdZmYeYpbEIRGfmeT5ec8jkQPu7w4/zODnnyR3XEVrns80p
+  cTlx2LE58RMvWS0WLOm+m7i/vwpD+s87iyb1T89Kmv+dYHaedIXet4+/HVk8R/JSyuKHyzZFD
+  LzyzoRHnbnyz+8epVuCZr+qFk6KfjN2qlVd/c++bdpSea80xPS0i8LFYi/ORameeFBwsXvJg0
+  RuwweqFwxXr7W5sU72T2iTMYLdtSHu9fzdtapfNiWm743odUuaFdToGPLBJ2wCBv7JQ2J7/Qy
+  I81jdXe8jdfiVGIpzkg01GIuKk4EAA6Ma8hYAwAA
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-16.tower-587.messagelabs.com!1679536814!133591!1
+X-Originating-IP: [62.60.8.146]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.104.1; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 16222 invoked from network); 23 Mar 2023 02:00:14 -0000
+Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
+  by server-16.tower-587.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 23 Mar 2023 02:00:14 -0000
+Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id F3ABF1000E7
+	for <openembedded-core@lists.openembedded.org>; Thu, 23 Mar 2023 02:00:13 +0000 (GMT)
+Received: from R01UKEXCASM121.r01.fujitsu.local (R01UKEXCASM121 [10.183.43.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id E77BF1000D2
+	for <openembedded-core@lists.openembedded.org>; Thu, 23 Mar 2023 02:00:13 +0000 (GMT)
+Received: from localhost.localdomain (10.167.225.33) by
+ R01UKEXCASM121.r01.fujitsu.local (10.183.43.173) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.42; Thu, 23 Mar 2023 02:00:11 +0000
+From: <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH V4] xcb-proto: Fix install conflict when enable multilib.
+Date: Thu, 23 Mar 2023 09:59:56 +0800
+Message-ID: <1679536796-19107-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230321154016.34836-1-Qi.Chen@windriver.com>
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM121.r01.fujitsu.local (10.183.43.173)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Mar 2023 21:53:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178963
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Mar 2023 02:00:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178964
 
-Hello,
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Unfortunately, this fails on musl:
+Error: Transaction test error:
+  file /usr/share/pkgconfig/xcb-proto.pc conflicts between attempted installs of lib32-xcb-proto-dev-1.15.2-r0.armv7ahf_neon and xcb-proto-dev-1.15.2-r0.cortexa57
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/6868/steps/12/logs/stdio
+The differences between the two files are as follows:
+@@ -2,7 +2,7 @@
+ exec_prefix=/usr
+ datarootdir=${prefix}/share
+ datadir=/usr/share
+-libdir=/usr/lib64
++libdir=/usr/lib
+ xcbincludedir=${pc_sysrootdir}${datadir}/xcb
+ PYTHON_PREFIX=${prefix}
+ pythondir=${pc_sysrootdir}${libdir}/python3.11/site-packages
 
-On 21/03/2023 23:40:15+0800, Chen Qi wrote:
-> This recipe provides find-debuginfo which is used by rpm, more
-> specifically rpmbuild.
-> 
-> RPM upstream removed find-debuginfo and switched to use debugedit
-> in the following commit.
-> 
->   https://github.com/rpm-software-management/rpm/commit/04b0805a756cdd9466fb9dc717846f5bf15518cc
-> 
-> Without debugedit, rpmbuild fails to generate debuginfo package when
-> %debug_package is added to spec file.
-> 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  .../debugedit/debugedit_5.0.bb                | 21 +++++++++++++++++++
->  1 file changed, 21 insertions(+)
->  create mode 100644 meta/recipes-devtools/debugedit/debugedit_5.0.bb
-> 
-> diff --git a/meta/recipes-devtools/debugedit/debugedit_5.0.bb b/meta/recipes-devtools/debugedit/debugedit_5.0.bb
-> new file mode 100644
-> index 0000000000..624adf0416
-> --- /dev/null
-> +++ b/meta/recipes-devtools/debugedit/debugedit_5.0.bb
-> @@ -0,0 +1,21 @@
-> +SUMMARY = "Tools for creating debuginfo and source file distributions"
-> +DESCRIPTION = "debugedit provides programs and scripts for creating \
-> +debuginfo and source file distributions, collect build-ids and rewrite \
-> +source paths in DWARF data for debugging, tracing and profiling."
-> +HOMEPAGE = "https://sourceware.org/debugedit/"
-> +
-> +LICENSE = "GPL-2.0-only & GPL-3.0-only & LGPL-2.1-only"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-> +                    file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
-> +                    file://COPYING3;md5=d32239bcb673463ab874e80d47fae504"
-> +
-> +SRC_URI = "https://sourceware.org/ftp/debugedit/${PV}/debugedit-${PV}.tar.xz"
-> +SRC_URI[sha256sum] = "e9ecd7d350bebae1f178ce6776ca19a648b6fe8fa22f5b3044b38d7899aa553e"
-> +
-> +DEPENDS = "elfutils"
-> +
-> +inherit pkgconfig autotools
-> +
-> +RDEPENDS:${PN} += "bash elfutils-binutils"
-> +
-> +BBCLASSEXTEND = "native nativesdk"
-> -- 
-> 2.17.1
-> 
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ ...nstall-conflict-when-enable-multilib.patch | 32 +++++++++++++++++++
+ .../xorg-proto/xcb-proto_1.15.2.bb            |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-proto/xcb-proto/0001-Fix-install-conflict-when-enable-multilib.patch
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#178889): https://lists.openembedded.org/g/openembedded-core/message/178889
-> Mute This Topic: https://lists.openembedded.org/mt/97757563/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
+diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto/0001-Fix-install-conflict-when-enable-multilib.patch b/meta/recipes-graphics/xorg-proto/xcb-proto/0001-Fix-install-conflict-when-enable-multilib.patch
+new file mode 100644
+index 0000000000..4209139da8
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-proto/xcb-proto/0001-Fix-install-conflict-when-enable-multilib.patch
+@@ -0,0 +1,32 @@
++From fc28149b6b198042c8d29e0931415adad7ed3231 Mon Sep 17 00:00:00 2001
++From: Wang Mingyu <wangmy@fujitsu.com>
++Date: Thu, 16 Mar 2023 08:03:47 +0000
++Subject: [PATCH] Fix install conflict when enable multilib.
++
++Automake defines pythondir in terms of libdir (rather than hardcode 'lib' or query it from python as automake upstream does)
++https://git.yoctoproject.org/poky/tree/meta/recipes-devtools/automake/automake/0001-automake-Update-for-python.m4-to-respect-libdir.patch
++
++So libdir needs to be defined when pythondir is defined.
++
++Upstream-Status: Inappropriate
++
++Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
++---
++ Makefile.am | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Makefile.am b/Makefile.am
++index 8b57a83..580f5bc 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -1,6 +1,6 @@
++ SUBDIRS = src xcbgen
++ 
++-pkgconfigdir = $(datarootdir)/pkgconfig
+++pkgconfigdir = $(libdir)/pkgconfig
++ pkgconfig_DATA = xcb-proto.pc
++ 
++ EXTRA_DIST=doc xcb-proto.pc.in autogen.sh README.md
++-- 
++2.34.1
++
+diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb b/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb
+index 4e4472a9c1..e60e7958a7 100644
+--- a/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb
++++ b/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb
+@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7 \
+ 
+ SRC_URI = "https://xorg.freedesktop.org/archive/individual/proto/${BP}.tar.xz \
+            file://0001-xcb-proto.pc.in-reinstate-libdir.patch \
++           file://0001-Fix-install-conflict-when-enable-multilib.patch \
+            "
+ SRC_URI[sha256sum] = "7072beb1f680a2fe3f9e535b797c146d22528990c72f63ddb49d2f350a3653ed"
+ 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.34.1
+
 
