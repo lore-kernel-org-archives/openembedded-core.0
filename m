@@ -1,195 +1,420 @@
-Return-Path: <xiangyu.chen@eng.windriver.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A270C6FD20
-	for <webhook@archiver.kernel.org>; Fri, 24 Mar 2023 08:36:45 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.95942.1679647005050378214
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB18DC6FD20
+	for <webhook@archiver.kernel.org>; Fri, 24 Mar 2023 08:43:25 +0000 (UTC)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web10.96647.1679647402554564500
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Mar 2023 01:36:45 -0700
+ Fri, 24 Mar 2023 01:43:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2447b4ab7b=xiangyu.chen@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32O7HZbK010484
-	for <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 01:36:44 -0700
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3pgxhs8g0e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 01:36:44 -0700
-Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32O8aGL7030678
-	for <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 01:36:44 -0700
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3pgxhs8g0d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 24 Mar 2023 01:36:43 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z6/GC4R3jjqBbRWb9MJ2vs2Decz9pg7S5k8/pUSr3Umw1uZN1oWEHCcE9U2YrDGBav/FB2c/XjJvq67hMEcYY29MqzubQb0zZYLvPRQzw7KbyYwsM+PeEkP4JlgT2REXkoHaQKYRBDYyI4nDH/WiuAsiY7v9t+xqn0HDWfP3D/3ZdVUw5QLxQZ0uxy44HhfQS3G/k7W8wtiz7lS19U/b5tCit9DoWICZEPk5w5HRoFXExbeg4mteA6vxdOLtoMrlpYYy+8LMeq+ENZp5NMGhhufTGtjTjUTjGT07dYZtSGBni53SoE6g2BaG27AJBbY/up/R/5Jga8+mRTUp+i9CqQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sFKmFGAo1Yy2mooeQIOJ/D3hXYhDeW5AOjVuN0YZeiU=;
- b=BTnLBp6IsbR6/u+Y7ABwUFIlA6ZhRm/t3HcAN72t/vwe0Qkh40wkscntYm7VmBW/QxyKoKYzuYdEJbKbmpEgV56JpGZPpSCcpAspBlyf8w6Fq1Cuii8OFuZXDRoXp6VBTdCmpua56Lw0o4lfErOHtjSZDyK+QGvEkG8SXIKN7Cs2d5UrEDM7SZduF73NSyOddI1tP9UKFcABknW5rgkNnqjVIHLlQuXLfX4ECBoS6dkXx277mHqBEAUIrWUFBvY2U4dyFEp1tRe6LfJznZ75AGH3ExhyVPk8korYW16gWO0Nwaq5QRKpcnbL/6y/howJ0AyPuc95Rw+9x1VoEAP6xA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
-Received: from MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
- by SJ0PR11MB5133.namprd11.prod.outlook.com (2603:10b6:a03:2ac::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.38; Fri, 24 Mar
- 2023 08:36:39 +0000
-Received: from MW4PR11MB5824.namprd11.prod.outlook.com
- ([fe80::f952:3d02:d71:cc68]) by MW4PR11MB5824.namprd11.prod.outlook.com
- ([fe80::f952:3d02:d71:cc68%5]) with mapi id 15.20.6178.038; Fri, 24 Mar 2023
- 08:36:39 +0000
-From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
-To: richard.purdie@linuxfoundation.org,
-        openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH v2] package: moving field data process before variable process in process_pkgconfig
-Date: Fri, 24 Mar 2023 16:36:20 +0800
-Message-Id: <20230324083620.2028587-1-xiangyu.chen@eng.windriver.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR04CA0179.apcprd04.prod.outlook.com
- (2603:1096:4:14::17) To MW4PR11MB5824.namprd11.prod.outlook.com
- (2603:10b6:303:187::19)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=iB91zqOQ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: zboszor@gmail.com)
+Received: by mail-ed1-f42.google.com with SMTP id ew6so4862664edb.7
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 01:43:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679647401;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zdOt/IVg86nhFMsqq7RF3fYF7DFLEndpzkq9QO3Rd3w=;
+        b=iB91zqOQoRXc0k880sLvIRO7nLNldP4u1XQ2BYA8MTHk2b+ciSVUJhBJ7d0oHNRY2H
+         P48tjCwMSMz9dD5oXbkkWiDbTVM9CxJe+AvObAHibbTwUrtr7IVY5nsJXEwwTmr4h8S6
+         46gdFopGIsPVIv91tGAUy9cpqX4iND5MKXIyecU+pbPllNslkEKG+gEcCkhwgOk6SNwI
+         QG2GEmWWfYCRCBV2KGJuQfticQODs3+nwrFb41+0JEjQucrATpFao4T2+vMZMl4HW12c
+         8kOnlrtkm/X0tE8ql9mRYdClPwFhCG6t8qNNN8ueLFvJY0IwuwiLTS1pYcEepHasNaw7
+         GIBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679647401;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zdOt/IVg86nhFMsqq7RF3fYF7DFLEndpzkq9QO3Rd3w=;
+        b=ri/K22F9lhoP8ggXACCGHKGTp4Gi5zb7odX+SA3GvCSBzYETR/f+7Fo2yGK60r5ygg
+         Jtl+F/GvPTuuVtRJe5drgBgv3cAKfb+1Hdyxn5XWUNQV6bFop0ngcuPFeG0o5STnPVbi
+         blEgVNKbKXoEmdomcjoBR5hFGofIh4zTfB6XaifvG1e6MeVlwxC4NZQXCfqh9/JGajU1
+         3qWdC/fLU2+/XGHkppdDnaB3WJqufNjSEjqitfmP0ZDqEFkJajKPql1WtsYRohJ6gwfJ
+         SdQL+sskM+JnQmotot9F8BIA+sG/hRHdvNmvI9G8h2AI+rSa3jQ1ETMy1/b9jKEzzfRt
+         h5/A==
+X-Gm-Message-State: AAQBX9edO4QLGjQ9DnhEu7tpg3FoZZWWJhvOxi1Vvxdm3mlNxCQJkkGg
+	KUD22gYTFs6DuBGWzppOg1w=
+X-Google-Smtp-Source: AKy350aL6GwRDBEp0fh9ABOwkS8nc5uatrnGiu9voCQe9ql6FduYU3ME0LZlBjCMAGCiN5L97aTZMw==
+X-Received: by 2002:a17:907:3e1a:b0:932:853c:c958 with SMTP id hp26-20020a1709073e1a00b00932853cc958mr2175580ejc.25.1679647400906;
+        Fri, 24 Mar 2023 01:43:20 -0700 (PDT)
+Received: from [192.168.2.2] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id b4-20020a17090630c400b0092b5384d6desm9900272ejb.153.2023.03.24.01.43.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Mar 2023 01:43:20 -0700 (PDT)
+Message-ID: <58aab6f6-c036-6ba5-3735-23ff77aff90e@gmail.com>
+Date: Fri, 24 Mar 2023 09:43:19 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR11MB5824:EE_|SJ0PR11MB5133:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8e8f51ff-dc90-4220-9c57-08db2c42e33b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	k4hYI7azgal9cAxu3V5n5lWOKVYtMGmdMXtDkHF+kRYONBczO5Otb28lnHU2taexRmt+54G8zoCR/NF2qi5BskSaYBotO8O10afWNrtWF5SBVMdmAY+lv06LO+rK2Vk0PpqmL29Qs7LtLyPWMWel/ndTiROq/SsJMV8tY+a3ZvID/rJ9X97h9Nn1rG3niVsSLbge3a/bLMyOWCg/8cY4lMhFA07HFL/ha+vxWIsWcp38iW8KWki8CF+8FEAzGI3EPMSqhKwd+ik4noDXnMCJNiavugGPOGwM8A4R2W6BGc3MYa4Vn7cbHPNSDLXkODaz2AXh1O4P//eKmVZMkCVaFmifU4OneoPUQ6pqFNAWXHPyicqPGsnOsZRveaiFU9XdJyIvyH+IRMHA3uAx+SIY1DEOcqQ/lm9YHDKN19nEPZgyag4BGZNJMp3u0MafucyUFmyRUBqrwgG1i3qg76mJaJ5Wace1BOmF6FrwWT1g7eyQSG0W5Pfz9VCrAKHj0aac9KAxy8b5mq0NhILiiR99VRjdLampmFGOAWhNFhfiJsxkFy/Ij8qGJUdJ8EQ+vilIWd6Cn6GgziYGALkqspNRxSAxFzuCDrJqup9QmyP+H5wzFGkThWhvCyldtxL89NwCRk8UZHDheTaMkp3KrnSA4cGdzj7NsDY4LsF3jsxGyv91kfdq0RWEnxfEGxNu2BzaQIOEnDAYTCc13UC0/iU6Ow==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5824.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(376002)(346002)(39850400004)(136003)(366004)(396003)(451199018)(66476007)(8676002)(66556008)(66946007)(41300700001)(5660300002)(44832011)(316002)(6512007)(6666004)(26005)(1076003)(6506007)(8936002)(186003)(478600001)(83380400001)(2616005)(6486002)(52116002)(38100700002)(83170400001)(38350700002)(2906002)(21314003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?vTdH2ehkxvP5zU8DP7zzWHgDWClpwAVCays7l5BvgIV+pba0olduNtB02GcX?=
- =?us-ascii?Q?F2pzaNYITq5MKBZtgwkYrjRhwUME9CNSAYjq4fWnwsxwx57t34KuiE5Uqzor?=
- =?us-ascii?Q?p+68dKps3MyzzePKCU2TCsaR5NEjhb004oPvjs3sA08ttX4Z7MsB6tbYekHa?=
- =?us-ascii?Q?TpAxZmDxNil9TrLHQe3sl8rj6Q+pa3oBOO3iLzJfOjUvIQn9WqHQAOjj6SOu?=
- =?us-ascii?Q?6gE//xYSHvUqyXGN4tE5wDU1K9ejl52QWXXyKWGCwk+THLLBaNet4bw+d+Da?=
- =?us-ascii?Q?nS/Vx3SfmxIlCuwWPNFZdjsll6RXwQ1a3Lf8UZweGiNjaWLuV0B47I8sL7eF?=
- =?us-ascii?Q?LXSKzwnMgxWvD02ufCfUDBepZfTez9pOCLfb7aXqZ6laEPytckgMlsbZ/Vem?=
- =?us-ascii?Q?LHM/OaYVJQK/P/OELZF2es4TO/fJvumo6ro5dZSJCsjtVC/7sukSNZlet24/?=
- =?us-ascii?Q?5d0L+FO3Q0Vv3Jgxkw+ZkmN+UXbBrUEjr1PpuH79Hdpr9/WaBGtR4C+b1aPM?=
- =?us-ascii?Q?m6zbSm9qYOmMyD36zDWvv+/r+hWQN2RK984ILF26cl9XSdEtQcROZP+foo5j?=
- =?us-ascii?Q?m1Y9VWJcq9nVw3hVl5fTIp3XG1PlDrTL3+1KwFbPnxyWBmOmgltwU424rclD?=
- =?us-ascii?Q?BUI4fiNUK/AxV5ymsSqURMU8BQk43D1n6QuXPu0z+nAgattL0OZzHHdf+QKe?=
- =?us-ascii?Q?dLIamI7JgCAuynwDAdSMnxIEpCQ1OjPh62Tyhf+n3PjUdz2QUv1rzL7+ZjAN?=
- =?us-ascii?Q?Erv6HtlQT15oNkuuPCjTwCbNvsHE2sd6PiTt5agNcpsrACXl4xwfvGrddxeQ?=
- =?us-ascii?Q?CIPhMOM9GeNMkef6mItdsq7T/znZF9VzFwaPWKTnKloHci86wD02bCiMONL/?=
- =?us-ascii?Q?zFH00rJcXQjnMkPTkuSN5QwOagiPx/YRpXfMCBBzyhuqkAYXCGYDyp9Vjp7/?=
- =?us-ascii?Q?/mzo2Gc3dBq3uSDptmxUJmYBNG14sKAMlxOJQu2UB6DbL0pFnPvDVJQGpblT?=
- =?us-ascii?Q?y8o8nbClkiwHWCU+1CGp9+eTSeV2l+Qz4XRhV32l7oJdrF1GeRp8CDlM/Pm7?=
- =?us-ascii?Q?LjSRIGD2vHQHxHKm42SlYePvF0EucxCeo6OqCXPCcr7G6gW4ZxoTrKQQRp3s?=
- =?us-ascii?Q?WIxlowDeHROS/UGkV+laWUWbfkKu0mjaO2jHdNoZazkf+6HE8rV62JG3jcPi?=
- =?us-ascii?Q?aZbtW79pMR1JYvtMyPl+Wrd+zEW7g3Nn2x00UJtA2HH7fAQtSAuFlEr6i5tj?=
- =?us-ascii?Q?wtPnscYvKHnFkVM19jtHkFc2b3lCran/0hqHXE8w5KK3w9hNSvkggvNgJkE1?=
- =?us-ascii?Q?trPiiSNanmEca2gmcPYOXwb6VwWx8kx9rRVqQDtMgMUkWNJdOPd3g/jy39IS?=
- =?us-ascii?Q?Ha1SgjhZVJQgqgNsznddk48iKGyCWtEfN+kTIUgrBFOBnqizYTaKf6AOD/p4?=
- =?us-ascii?Q?OnuSDukW48Ox/0Q35Gn1/1ctvcVdbrf7h0HcxUZNUFcQEfcSp085ipa/TXZC?=
- =?us-ascii?Q?Z9hOAebFRc/d2p393Xi5tWyW9tC2yoeVuzcwjC9ZFUNj7AABqccdezebXE4k?=
- =?us-ascii?Q?CQpV0nItL+kHO4eaQRd9TyypWsXQmyl17wjOw8iif8Diu1i34wlhgskU5dZE?=
- =?us-ascii?Q?tw=3D=3D?=
-X-OriginatorOrg: eng.windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e8f51ff-dc90-4220-9c57-08db2c42e33b
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB5824.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2023 08:36:39.6417
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: R4+j67vgDMbKMKUI3515eCaToRXAfzhGomgBvutf+a+uTNcAVaRc2xk5U1K5pnL7/zX1djAsGDoyDZOkA/M4XCG0bEoJFoW+p9V8s9pAHzc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5133
-X-Proofpoint-ORIG-GUID: K_qk0ywJU7FyMv88LBZQoOHgE99XYj0S
-X-Proofpoint-GUID: fRITIKLBh8SukAn6KfxxoU2D62o_5l2U
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-24_04,2023-03-23_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- malwarescore=0 spamscore=0 lowpriorityscore=0 phishscore=0
- priorityscore=1501 mlxlogscore=999 clxscore=1015 suspectscore=0 mlxscore=0
- adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2303240070
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [OE-core] [PATCH v2] meson.bbclass: Split into meson-env and
+ meson classes
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+ Ross Burton <Ross.Burton@arm.com>
+References: <174CE003EF809BC1.11516@lists.openembedded.org>
+ <20230324031319.4172410-1-zboszor@gmail.com>
+ <CANNYZj-qCPb2Jtmq_PC9vD+z9my1XH4HT-UG_R58sWbDa3V2Vw@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+In-Reply-To: <CANNYZj-qCPb2Jtmq_PC9vD+z9my1XH4HT-UG_R58sWbDa3V2Vw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 08:36:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179019
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 08:43:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179020
 
-From: Xiangyu Chen <xiangyu.chen@windriver.com>
+2023. 03. 24. 8:47 keltezéssel, Alexander Kanavin írta:
+> It would help if you explain why existing meson class can't be used
+> directly, and what the meson class adds compared to meson-env that
+> gets in the way of that.
 
-Currently, the latest version abseil-cpp contains a new library named "absl_log_internal_format", it's
-basic package config(.pc file) as below:
+The email thread for the mesonpy bbclass in
+openembedded-devel lists all the problems.
 
-prefix=/usr
-exec_prefix=${prefix}
+Summary:
+* Both meson and python_pep517 classes declare
+    EXPORT_FUNCTION. For some reason, meson always wins
+    regardless of the inheritance order. The mesonpy class
+    needs the meson cross compiler environment using the
+    pep517 configure/compile/install functions.
+* The meson class adds do_qa_configure which fails because
+    the mesonpy build moves the meson setup phase from
+    do_configure to do_compile. Removing items from
+    do_configure[postfuncs] is impossible because this results
+    in a parse error:
+    do_configure[postfuncs]:remove = "meson_do_qa_configure"
 
-......
+The only option left is to split the environment setup part
+out of meson.bbclass.
 
-Requires: absl_config = 20230125, absl_core_headers = 20230125, absl_log_internal_append_truncated = 20230125,
-absl_log_internal_config = 20230125, absl_log_internal_globals = 20230125, absl_log_severity = 20230125,
-absl_strings = 20230125, absl_str_format = 20230125, absl_time = 20230125, absl_span = 20230125
-......
-
-Normally, the process_pkgconfig() would process variable data before field data in a .pc file, but in the
-absl_log_internal_format, the field data in "Requires" section contains "xxxx = xxxx" format, the
-process_pkgconfig() treats them as normal variable and using the setVar() in bitbake's data_smart.py
-try to process. The absl_log_internal_format field data contains "_append_", this hit the setVar() checking
-and finally bitbake stop building and reporting an error as below:
-
-"Variable xxx contains an operation using the old override syntax. Please convert this layer/metadata before attempting to use with a newer bitbake."
-
-This patch move the field data process before variable process to avoid the process_pkgconfig() treat the field
-data as variable.
-
-Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
----
-
-Changes:
-V1 -> V2: changing the package.py instead of bitbake's data_smart.py
-v1 thread please refer:https://lists.openembedded.org/g/bitbake-devel/message/14525
-
----
- meta/lib/oe/package.py | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-index c9eb75d852..7a6b31957a 100644
---- a/meta/lib/oe/package.py
-+++ b/meta/lib/oe/package.py
-@@ -1823,18 +1823,18 @@ def process_pkgconfig(pkgfiles, d):
-                     with open(file, 'r') as f:
-                         lines = f.readlines()
-                     for l in lines:
--                        m = var_re.match(l)
--                        if m:
--                            name = m.group(1)
--                            val = m.group(2)
--                            pd.setVar(name, pd.expand(val))
--                            continue
-                         m = field_re.match(l)
-                         if m:
-                             hdr = m.group(1)
-                             exp = pd.expand(m.group(2))
-                             if hdr == 'Requires':
-                                 pkgconfig_needed[pkg] += exp.replace(',', ' ').split()
-+                                continue
-+                        m = var_re.match(l)
-+                        if m:
-+                            name = m.group(1)
-+                            val = m.group(2)
-+                            pd.setVar(name, pd.expand(val))
- 
-     for pkg in packages.split():
-         pkgs_file = os.path.join(shlibswork_dir, pkg + ".pclist")
--- 
-2.34.1
+> Alex
+>
+> On Fri, 24 Mar 2023 at 04:13, Zoltan Boszormenyi <zboszor@gmail.com> wrote:
+>> The new meson-env class will be used by a new PEP517 python
+>> build class using meson-python a.k.a. mesonpy.
+>>
+>> Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+>> ---
+>> v2: The split-off part is called meson-env.bbclass
+>>      because "common" is not liked.
+>>
+>>   meta/classes-recipe/meson-env.bbclass | 141 ++++++++++++++++++++++++++
+>>   meta/classes-recipe/meson.bbclass     | 136 +------------------------
+>>   2 files changed, 142 insertions(+), 135 deletions(-)
+>>   create mode 100644 meta/classes-recipe/meson-env.bbclass
+>>
+>> diff --git a/meta/classes-recipe/meson-env.bbclass b/meta/classes-recipe/meson-env.bbclass
+>> new file mode 100644
+>> index 0000000000..e02b3e5ab6
+>> --- /dev/null
+>> +++ b/meta/classes-recipe/meson-env.bbclass
+>> @@ -0,0 +1,141 @@
+>> +#
+>> +# Copyright OpenEmbedded Contributors
+>> +#
+>> +# SPDX-License-Identifier: MIT
+>> +#
+>> +
+>> +inherit python3native meson-routines qemu
+>> +
+>> +DEPENDS:append = " meson-native ninja-native"
+>> +
+>> +EXEWRAPPER_ENABLED:class-native = "False"
+>> +EXEWRAPPER_ENABLED:class-nativesdk = "False"
+>> +EXEWRAPPER_ENABLED ?= "${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'True', 'False', d)}"
+>> +DEPENDS:append = "${@' qemu-native' if d.getVar('EXEWRAPPER_ENABLED') == 'True' else ''}"
+>> +
+>> +# As Meson enforces out-of-tree builds we can just use cleandirs
+>> +B = "${WORKDIR}/build"
+>> +do_configure[cleandirs] = "${B}"
+>> +
+>> +# Where the meson.build build configuration is
+>> +MESON_SOURCEPATH = "${S}"
+>> +
+>> +def noprefix(var, d):
+>> +    return d.getVar(var).replace(d.getVar('prefix') + '/', '', 1)
+>> +
+>> +MESON_BUILDTYPE ?= "${@oe.utils.vartrue('DEBUG_BUILD', 'debug', 'plain', d)}"
+>> +MESON_BUILDTYPE[vardeps] += "DEBUG_BUILD"
+>> +MESONOPTS = " --prefix ${prefix} \
+>> +              --buildtype ${MESON_BUILDTYPE} \
+>> +              --bindir ${@noprefix('bindir', d)} \
+>> +              --sbindir ${@noprefix('sbindir', d)} \
+>> +              --datadir ${@noprefix('datadir', d)} \
+>> +              --libdir ${@noprefix('libdir', d)} \
+>> +              --libexecdir ${@noprefix('libexecdir', d)} \
+>> +              --includedir ${@noprefix('includedir', d)} \
+>> +              --mandir ${@noprefix('mandir', d)} \
+>> +              --infodir ${@noprefix('infodir', d)} \
+>> +              --sysconfdir ${sysconfdir} \
+>> +              --localstatedir ${localstatedir} \
+>> +              --sharedstatedir ${sharedstatedir} \
+>> +              --wrap-mode nodownload \
+>> +              --native-file ${WORKDIR}/meson.native"
+>> +
+>> +EXTRA_OEMESON:append = " ${PACKAGECONFIG_CONFARGS}"
+>> +
+>> +MESON_CROSS_FILE = ""
+>> +MESON_CROSS_FILE:class-target = "--cross-file ${WORKDIR}/meson.cross"
+>> +MESON_CROSS_FILE:class-nativesdk = "--cross-file ${WORKDIR}/meson.cross"
+>> +
+>> +# Needed to set up qemu wrapper below
+>> +export STAGING_DIR_HOST
+>> +
+>> +def rust_tool(d, target_var):
+>> +    rustc = d.getVar('RUSTC')
+>> +    if not rustc:
+>> +        return ""
+>> +    cmd = [rustc, "--target", d.getVar(target_var)] + d.getVar("RUSTFLAGS").split()
+>> +    return "rust = %s" % repr(cmd)
+>> +
+>> +addtask write_config before do_configure
+>> +do_write_config[vardeps] += "CC CXX LD AR NM STRIP READELF CFLAGS CXXFLAGS LDFLAGS RUSTC RUSTFLAGS"
+>> +do_write_config() {
+>> +    # This needs to be Py to split the args into single-element lists
+>> +    cat >${WORKDIR}/meson.cross <<EOF
+>> +[binaries]
+>> +c = ${@meson_array('CC', d)}
+>> +cpp = ${@meson_array('CXX', d)}
+>> +cython = 'cython3'
+>> +ar = ${@meson_array('AR', d)}
+>> +nm = ${@meson_array('NM', d)}
+>> +strip = ${@meson_array('STRIP', d)}
+>> +readelf = ${@meson_array('READELF', d)}
+>> +objcopy = ${@meson_array('OBJCOPY', d)}
+>> +pkgconfig = 'pkg-config'
+>> +llvm-config = 'llvm-config'
+>> +cups-config = 'cups-config'
+>> +g-ir-scanner = '${STAGING_BINDIR}/g-ir-scanner-wrapper'
+>> +g-ir-compiler = '${STAGING_BINDIR}/g-ir-compiler-wrapper'
+>> +${@rust_tool(d, "HOST_SYS")}
+>> +${@"exe_wrapper = '${WORKDIR}/meson-qemuwrapper'" if d.getVar('EXEWRAPPER_ENABLED') == 'True' else ""}
+>> +
+>> +[built-in options]
+>> +c_args = ${@meson_array('CFLAGS', d)}
+>> +c_link_args = ${@meson_array('LDFLAGS', d)}
+>> +cpp_args = ${@meson_array('CXXFLAGS', d)}
+>> +cpp_link_args = ${@meson_array('LDFLAGS', d)}
+>> +
+>> +[properties]
+>> +needs_exe_wrapper = true
+>> +
+>> +[host_machine]
+>> +system = '${@meson_operating_system('HOST_OS', d)}'
+>> +cpu_family = '${@meson_cpu_family('HOST_ARCH', d)}'
+>> +cpu = '${HOST_ARCH}'
+>> +endian = '${@meson_endian('HOST', d)}'
+>> +
+>> +[target_machine]
+>> +system = '${@meson_operating_system('TARGET_OS', d)}'
+>> +cpu_family = '${@meson_cpu_family('TARGET_ARCH', d)}'
+>> +cpu = '${TARGET_ARCH}'
+>> +endian = '${@meson_endian('TARGET', d)}'
+>> +EOF
+>> +
+>> +    cat >${WORKDIR}/meson.native <<EOF
+>> +[binaries]
+>> +c = ${@meson_array('BUILD_CC', d)}
+>> +cpp = ${@meson_array('BUILD_CXX', d)}
+>> +cython = 'cython3'
+>> +ar = ${@meson_array('BUILD_AR', d)}
+>> +nm = ${@meson_array('BUILD_NM', d)}
+>> +strip = ${@meson_array('BUILD_STRIP', d)}
+>> +readelf = ${@meson_array('BUILD_READELF', d)}
+>> +objcopy = ${@meson_array('BUILD_OBJCOPY', d)}
+>> +pkgconfig = 'pkg-config-native'
+>> +${@rust_tool(d, "BUILD_SYS")}
+>> +
+>> +[built-in options]
+>> +c_args = ${@meson_array('BUILD_CFLAGS', d)}
+>> +c_link_args = ${@meson_array('BUILD_LDFLAGS', d)}
+>> +cpp_args = ${@meson_array('BUILD_CXXFLAGS', d)}
+>> +cpp_link_args = ${@meson_array('BUILD_LDFLAGS', d)}
+>> +EOF
+>> +}
+>> +
+>> +do_write_config:append:class-target() {
+>> +    # Write out a qemu wrapper that will be used as exe_wrapper so that meson
+>> +    # can run target helper binaries through that.
+>> +    qemu_binary="${@qemu_wrapper_cmdline(d, '$STAGING_DIR_HOST', ['$STAGING_DIR_HOST/${libdir}','$STAGING_DIR_HOST/${base_libdir}'])}"
+>> +    cat > ${WORKDIR}/meson-qemuwrapper << EOF
+>> +#!/bin/sh
+>> +# Use a modules directory which doesn't exist so we don't load random things
+>> +# which may then get deleted (or their dependencies) and potentially segfault
+>> +export GIO_MODULE_DIR=${STAGING_LIBDIR}/gio/modules-dummy
+>> +
+>> +# meson sets this wrongly (only to libs in build-dir), qemu_wrapper_cmdline() and GIR_EXTRA_LIBS_PATH take care of it properly
+>> +unset LD_LIBRARY_PATH
+>> +
+>> +$qemu_binary "\$@"
+>> +EOF
+>> +    chmod +x ${WORKDIR}/meson-qemuwrapper
+>> +}
+>> diff --git a/meta/classes-recipe/meson.bbclass b/meta/classes-recipe/meson.bbclass
+>> index 48688bed75..697cf6ecc8 100644
+>> --- a/meta/classes-recipe/meson.bbclass
+>> +++ b/meta/classes-recipe/meson.bbclass
+>> @@ -4,141 +4,7 @@
+>>   # SPDX-License-Identifier: MIT
+>>   #
+>>
+>> -inherit python3native meson-routines qemu
+>> -
+>> -DEPENDS:append = " meson-native ninja-native"
+>> -
+>> -EXEWRAPPER_ENABLED:class-native = "False"
+>> -EXEWRAPPER_ENABLED:class-nativesdk = "False"
+>> -EXEWRAPPER_ENABLED ?= "${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'True', 'False', d)}"
+>> -DEPENDS:append = "${@' qemu-native' if d.getVar('EXEWRAPPER_ENABLED') == 'True' else ''}"
+>> -
+>> -# As Meson enforces out-of-tree builds we can just use cleandirs
+>> -B = "${WORKDIR}/build"
+>> -do_configure[cleandirs] = "${B}"
+>> -
+>> -# Where the meson.build build configuration is
+>> -MESON_SOURCEPATH = "${S}"
+>> -
+>> -def noprefix(var, d):
+>> -    return d.getVar(var).replace(d.getVar('prefix') + '/', '', 1)
+>> -
+>> -MESON_BUILDTYPE ?= "${@oe.utils.vartrue('DEBUG_BUILD', 'debug', 'plain', d)}"
+>> -MESON_BUILDTYPE[vardeps] += "DEBUG_BUILD"
+>> -MESONOPTS = " --prefix ${prefix} \
+>> -              --buildtype ${MESON_BUILDTYPE} \
+>> -              --bindir ${@noprefix('bindir', d)} \
+>> -              --sbindir ${@noprefix('sbindir', d)} \
+>> -              --datadir ${@noprefix('datadir', d)} \
+>> -              --libdir ${@noprefix('libdir', d)} \
+>> -              --libexecdir ${@noprefix('libexecdir', d)} \
+>> -              --includedir ${@noprefix('includedir', d)} \
+>> -              --mandir ${@noprefix('mandir', d)} \
+>> -              --infodir ${@noprefix('infodir', d)} \
+>> -              --sysconfdir ${sysconfdir} \
+>> -              --localstatedir ${localstatedir} \
+>> -              --sharedstatedir ${sharedstatedir} \
+>> -              --wrap-mode nodownload \
+>> -              --native-file ${WORKDIR}/meson.native"
+>> -
+>> -EXTRA_OEMESON:append = " ${PACKAGECONFIG_CONFARGS}"
+>> -
+>> -MESON_CROSS_FILE = ""
+>> -MESON_CROSS_FILE:class-target = "--cross-file ${WORKDIR}/meson.cross"
+>> -MESON_CROSS_FILE:class-nativesdk = "--cross-file ${WORKDIR}/meson.cross"
+>> -
+>> -# Needed to set up qemu wrapper below
+>> -export STAGING_DIR_HOST
+>> -
+>> -def rust_tool(d, target_var):
+>> -    rustc = d.getVar('RUSTC')
+>> -    if not rustc:
+>> -        return ""
+>> -    cmd = [rustc, "--target", d.getVar(target_var)] + d.getVar("RUSTFLAGS").split()
+>> -    return "rust = %s" % repr(cmd)
+>> -
+>> -addtask write_config before do_configure
+>> -do_write_config[vardeps] += "CC CXX LD AR NM STRIP READELF CFLAGS CXXFLAGS LDFLAGS RUSTC RUSTFLAGS"
+>> -do_write_config() {
+>> -    # This needs to be Py to split the args into single-element lists
+>> -    cat >${WORKDIR}/meson.cross <<EOF
+>> -[binaries]
+>> -c = ${@meson_array('CC', d)}
+>> -cpp = ${@meson_array('CXX', d)}
+>> -cython = 'cython3'
+>> -ar = ${@meson_array('AR', d)}
+>> -nm = ${@meson_array('NM', d)}
+>> -strip = ${@meson_array('STRIP', d)}
+>> -readelf = ${@meson_array('READELF', d)}
+>> -objcopy = ${@meson_array('OBJCOPY', d)}
+>> -pkgconfig = 'pkg-config'
+>> -llvm-config = 'llvm-config'
+>> -cups-config = 'cups-config'
+>> -g-ir-scanner = '${STAGING_BINDIR}/g-ir-scanner-wrapper'
+>> -g-ir-compiler = '${STAGING_BINDIR}/g-ir-compiler-wrapper'
+>> -${@rust_tool(d, "HOST_SYS")}
+>> -${@"exe_wrapper = '${WORKDIR}/meson-qemuwrapper'" if d.getVar('EXEWRAPPER_ENABLED') == 'True' else ""}
+>> -
+>> -[built-in options]
+>> -c_args = ${@meson_array('CFLAGS', d)}
+>> -c_link_args = ${@meson_array('LDFLAGS', d)}
+>> -cpp_args = ${@meson_array('CXXFLAGS', d)}
+>> -cpp_link_args = ${@meson_array('LDFLAGS', d)}
+>> -
+>> -[properties]
+>> -needs_exe_wrapper = true
+>> -
+>> -[host_machine]
+>> -system = '${@meson_operating_system('HOST_OS', d)}'
+>> -cpu_family = '${@meson_cpu_family('HOST_ARCH', d)}'
+>> -cpu = '${HOST_ARCH}'
+>> -endian = '${@meson_endian('HOST', d)}'
+>> -
+>> -[target_machine]
+>> -system = '${@meson_operating_system('TARGET_OS', d)}'
+>> -cpu_family = '${@meson_cpu_family('TARGET_ARCH', d)}'
+>> -cpu = '${TARGET_ARCH}'
+>> -endian = '${@meson_endian('TARGET', d)}'
+>> -EOF
+>> -
+>> -    cat >${WORKDIR}/meson.native <<EOF
+>> -[binaries]
+>> -c = ${@meson_array('BUILD_CC', d)}
+>> -cpp = ${@meson_array('BUILD_CXX', d)}
+>> -cython = 'cython3'
+>> -ar = ${@meson_array('BUILD_AR', d)}
+>> -nm = ${@meson_array('BUILD_NM', d)}
+>> -strip = ${@meson_array('BUILD_STRIP', d)}
+>> -readelf = ${@meson_array('BUILD_READELF', d)}
+>> -objcopy = ${@meson_array('BUILD_OBJCOPY', d)}
+>> -pkgconfig = 'pkg-config-native'
+>> -${@rust_tool(d, "BUILD_SYS")}
+>> -
+>> -[built-in options]
+>> -c_args = ${@meson_array('BUILD_CFLAGS', d)}
+>> -c_link_args = ${@meson_array('BUILD_LDFLAGS', d)}
+>> -cpp_args = ${@meson_array('BUILD_CXXFLAGS', d)}
+>> -cpp_link_args = ${@meson_array('BUILD_LDFLAGS', d)}
+>> -EOF
+>> -}
+>> -
+>> -do_write_config:append:class-target() {
+>> -    # Write out a qemu wrapper that will be used as exe_wrapper so that meson
+>> -    # can run target helper binaries through that.
+>> -    qemu_binary="${@qemu_wrapper_cmdline(d, '$STAGING_DIR_HOST', ['$STAGING_DIR_HOST/${libdir}','$STAGING_DIR_HOST/${base_libdir}'])}"
+>> -    cat > ${WORKDIR}/meson-qemuwrapper << EOF
+>> -#!/bin/sh
+>> -# Use a modules directory which doesn't exist so we don't load random things
+>> -# which may then get deleted (or their dependencies) and potentially segfault
+>> -export GIO_MODULE_DIR=${STAGING_LIBDIR}/gio/modules-dummy
+>> -
+>> -# meson sets this wrongly (only to libs in build-dir), qemu_wrapper_cmdline() and GIR_EXTRA_LIBS_PATH take care of it properly
+>> -unset LD_LIBRARY_PATH
+>> -
+>> -$qemu_binary "\$@"
+>> -EOF
+>> -    chmod +x ${WORKDIR}/meson-qemuwrapper
+>> -}
+>> +inherit meson-env
+>>
+>>   # Tell externalsrc that changes to this file require a reconfigure
+>>   CONFIGURE_FILES = "meson.build"
+>> --
+>> 2.39.2
+>>
+>>
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#179011): https://lists.openembedded.org/g/openembedded-core/message/179011
+>> Mute This Topic: https://lists.openembedded.org/mt/97816812/1686489
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>>
 
 
