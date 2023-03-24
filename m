@@ -2,20 +2,20 @@ Return-Path: <kubiznak@2n.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 909A6C77B62
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88C64C761AF
 	for <webhook@archiver.kernel.org>; Fri, 24 Mar 2023 15:24:47 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web11.104276.1679671479008757001
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web10.104939.1679671480917221105
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Mar 2023 08:24:40 -0700
+ Fri, 24 Mar 2023 08:24:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: 2n.com, ip: 195.60.68.17, mailfrom: kubiznak@2n.com)
+ dkim=missing; spf=pass (domain: 2n.com, ip: 195.60.68.18, mailfrom: kubiznak@2n.com)
 From: =?UTF-8?q?Petr=20Kubiz=C5=88=C3=A1k?= <kubiznak@2n.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: =?UTF-8?q?Petr=20Kubiz=C5=88=C3=A1k?= <kubiznak@2n.com>
-Subject: [OE-core][PATCH v3 4/6] gconf: depend on glib-2.0-native
-Date: Fri, 24 Mar 2023 16:22:36 +0100
-Message-ID: <20230324152238.194877-4-kubiznak@2n.com>
+Subject: [OE-core][PATCH v3 6/6] webkitgtk: add missing dependencies
+Date: Fri, 24 Mar 2023 16:22:38 +0100
+Message-ID: <20230324152238.194877-6-kubiznak@2n.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230324152238.194877-1-kubiznak@2n.com>
 References: <20230324152238.194877-1-kubiznak@2n.com>
@@ -29,30 +29,38 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 15:24:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179065
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179067
 
-When gobject-introspection feature is disabled, glib-2.0-native package
-dependency is not pulled in, which causes a failure in do_configure
-due to missing glib-gettextize.
+When gobject-introspection feature is disabled, gettext and
+glib-2.0-native dependencies are not pulled in, which causes failures
+in do_compile due to missing xgettext and gdbus-codegen.
 
 Signed-off-by: Petr Kubizňák <kubiznak@2n.com>
 ---
- meta/recipes-gnome/gnome/gconf_3.2.6.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-sato/webkit/webkitgtk_2.38.5.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-gnome/gnome/gconf_3.2.6.bb b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-index 776f6091aa..4930aeb9f0 100644
---- a/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-+++ b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-@@ -7,7 +7,7 @@ HOMEPAGE = "https://gitlab.gnome.org/Archive/gconf"
- LICENSE = "LGPL-2.0-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.38.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.38.5.bb
+index e52920883a..b49ecf2a31 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.38.5.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.38.5.bb
+@@ -17,7 +17,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            "
+ SRC_URI[sha256sum] = "40c20c43022274df5893f22b1054fa894c3eea057389bb08aee08c5b0bb0c1a7"
  
--DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native"
-+DEPENDS = "glib-2.0 glib-2.0-native dbus dbus-glib libxml2 intltool-native"
+-inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen
++inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen gettext
  
- inherit gnomebase gtk-doc gettext gobject-introspection gio-module-cache
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+ REQUIRED_DISTRO_FEATURES = "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'opengl', '', d)}"
+@@ -38,6 +38,7 @@ DEPENDS += " \
+           libnotify \
+           gstreamer1.0 \
+           gstreamer1.0-plugins-base \
++          glib-2.0-native \
+           "
  
+ PACKAGECONFIG_SOUP ?= "soup3"
 -- 
 2.30.2
 
