@@ -2,131 +2,375 @@ Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98E41C6FD1C
-	for <webhook@archiver.kernel.org>; Fri, 24 Mar 2023 23:13:27 +0000 (UTC)
-Received: from mailout05.t-online.de (mailout05.t-online.de [194.25.134.82])
- by mx.groups.io with SMTP id smtpd.web11.11402.1679699604114392894
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8646FC76195
+	for <webhook@archiver.kernel.org>; Fri, 24 Mar 2023 23:15:47 +0000 (UTC)
+Received: from mailout06.t-online.de (mailout06.t-online.de [194.25.134.19])
+ by mx.groups.io with SMTP id smtpd.web10.11534.1679699738579247504
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Mar 2023 16:13:24 -0700
+ Fri, 24 Mar 2023 16:15:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.82, mailfrom: f_l_k@t-online.de)
-Received: from fwd88.dcpf.telekom.de (fwd88.aul.t-online.de [10.223.144.114])
-	by mailout05.t-online.de (Postfix) with SMTP id 462D0D61D;
-	Sat, 25 Mar 2023 00:13:21 +0100 (CET)
-Received: from [192.168.178.83] ([84.163.41.244]) by fwd88.t-online.de
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.19, mailfrom: f_l_k@t-online.de)
+Received: from fwd71.dcpf.telekom.de (fwd71.aul.t-online.de [10.223.144.97])
+	by mailout06.t-online.de (Postfix) with SMTP id F14CB1037F
+	for <openembedded-core@lists.openembedded.org>; Sat, 25 Mar 2023 00:15:36 +0100 (CET)
+Received: from flk-MS-7C91.fritz.box ([84.163.41.244]) by fwd71.t-online.de
 	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1pfqau-4BGdyi0; Sat, 25 Mar 2023 00:13:12 +0100
-Date: Sat, 25 Mar 2023 00:13:06 +0100
+	esmtp id 1pfqd7-1JAB0L0; Sat, 25 Mar 2023 00:15:30 +0100
 From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [oe-core][PATCH] Remove usage of /var/volatile/tmp
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-Message-Id: <UHS1SR.41XVDUNLPY6P2@t-online.de>
-In-Reply-To: 
-	<CANNYZj8eyCvwacnVoQui+ghL=cN=D8yDaBWAV1eBtvcz9qPOGA@mail.gmail.com>
-References: <20230317060202.385862-1-f_l_k@t-online.de>
-	<dd5e0f7df463ddc2733dc126beaa3bf29eb8d49b.camel@linuxfoundation.org>
-	<9FONRR.ZLSABXKTP67E@t-online.de>
-	<a1807744c2e652e0d05c1c313039e697b2b07d1e.camel@linuxfoundation.org>
-	<B0EORR.JWJ884MGYK8G2@t-online.de>
-	<CANNYZj-ZHjZ9nihVrLeNgf_eeT-+k2uAGuZQEku8YAF_a2vd3Q@mail.gmail.com>
-	<CHRXRR.A1NILQGNBS7P1@t-online.de>
-	<CANNYZj8CgeTaT6Xn60dUZw9W+vDQWrBZ7y0bFfyPCu++-NwWUg@mail.gmail.com>
-	<1TC1SR.M6OX77V0K20W3@t-online.de>
-	<CANNYZj8eyCvwacnVoQui+ghL=cN=D8yDaBWAV1eBtvcz9qPOGA@mail.gmail.com>
-X-Mailer: geary/40.0
+To: openembedded-core@lists.openembedded.org
+Cc: Markus Volk <f_l_k@t-online.de>
+Subject: [oe-core][PATCHv2] Remove usage of /var/volatile/tmp
+Date: Sat, 25 Mar 2023 00:15:17 +0100
+Message-Id: <20230324231517.1157417-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-/lOaEJggDoDAYTUPy3fG"
-X-TOI-EXPURGATEID: 150726::1679699592-0B7FDC01-C1B85F72/0/0 CLEAN NORMAL
-X-TOI-MSGID: 9a3368a0-4270-44a5-920c-c38a605a4ccf
+X-TOI-EXPURGATEID: 150726::1679699730-94C5AC12-0D458BA0/0/0 CLEAN NORMAL
+X-TOI-MSGID: c4165d3c-f4cc-4d84-8bf3-33203e754302
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 23:13:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179080
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 23:15:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179081
 
---=-/lOaEJggDoDAYTUPy3fG
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Glib-2.0 uses ptest to ensure that /tmp is not a symlink.
 
-Am Fr, 24. M=E4r 2023 um 20:53:22 +0100 schrieb Alexander Kanavin=20
-<alex.kanavin@gmail.com>:
-> Do you have something in your local setup
-> that pulls it in? core-image-sato-sdk does not by default add it.
+This commit tries to align tmpdir usage. The symlinks for /tmp and /var/t=
+mp are
+replaced by directories and by default a tmpfs is mounted in /tmp.
+/var/volatile/tmp is removed.
 
-True, thanks for the hint. I still had this lines in local.conf because=20
-of the glib ptest issue.
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+---
+ meta/conf/bitbake.conf                        |  4 ---
+ meta/files/fs-perms-persistent-log.txt        |  2 --
+ meta/files/fs-perms.txt                       |  2 --
+ .../lib/oeqa/files/buildhistory_filelist1.txt |  1 -
+ .../lib/oeqa/files/buildhistory_filelist2.txt |  1 -
+ meta/recipes-core/base-files/base-files/fstab |  1 +
+ .../base-files/base-files_3.0.14.bb           |  4 +--
+ .../initscripts-1.0/populate-volatile.sh      |  2 +-
+ .../initscripts/initscripts-1.0/volatiles     |  5 ++-
+ .../initscripts/initscripts_1.0.bb            |  3 --
+ .../systemd/systemd/00-create-volatile.conf   |  4 +--
+ meta/recipes-core/systemd/systemd_253.1.bb    |  7 ----
+ meta/recipes-core/udev/eudev/init             |  4 ---
+ .../e2fsprogs/e2fsprogs/run-ptest             |  2 +-
+ ...eak_cmsg.stderr.exp-adjust-tmp-paths.patch | 34 -------------------
+ .../valgrind/valgrind_3.20.0.bb               |  1 -
+ 16 files changed, 8 insertions(+), 69 deletions(-)
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-none-tes=
+ts-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch
 
-DISTRO_FEATURES:append =3D " ptest"
-EXTRA_IMAGE_FEATURES +=3D "ptest-pkgs"
-
-That shortens the test duration by far
-
-sysvinit:
- SUMMARY:
-core-image-sato-sdk () - Ran 71 tests in 129.937s
-core-image-sato-sdk - OK - All required tests passed (successes=3D49,=20
-skipped=3D22, failures=3D0, errors=3D0)
-NOTE: Tasks Summary: Attempted 1159 tasks of which 1158 didn't need to=20
-be rerun and all succeeded.
-
-systemd:
-SUMMARY:
-core-image-sato-sdk () - Ran 71 tests in 129.812s
-core-image-sato-sdk - OK - All required tests passed (successes=3D56,=20
-skipped=3D15, failures=3D0, errors=3D0)
-NOTE: Tasks Summary: Attempted 1159 tasks of which 1158 didn't need to=20
-be rerun and all succeeded.
-
-busybox:
-File "/home/flk/poky/meta/lib/oeqa/runtime/cases/ssh.py", line 17, in=20
-test_ssh
-    self.assertEqual(status, 0, msg=3D'SSH Test failed: %s' % output)
-AssertionError: 255 !=3D 0 : SSH Test failed: ssh: connect to host=20
-xxx.xxx.xxx.xxx port 22: Connection refused
-RESULTS - ssh.SSHTest.test_ssh: FAILED (8.09s)
-SUMMARY:
-core-image-sato-sdk () - Ran 71 tests in 43.593s
-core-image-sato-sdk - FAIL - Required tests failed (successes=3D2,=20
-skipped=3D68, failures=3D1, errors=3D0)
-
-There is an issue with mdev-busybox but i guess it is not related?
-
-
---=-/lOaEJggDoDAYTUPy3fG
-Content-Type: text/html; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div id=3D"geary-body" dir=3D"auto">Am Fr, 24. M=E4r 2023 um 20:53:22 +0100=
- schrieb Alexander Kanavin &lt;alex.kanavin@gmail.com&gt;:<br><blockquote t=
-ype=3D"cite"><div class=3D"plaintext" style=3D"white-space: break-spaces;">=
-Do you have something in your local setup
-that pulls it in? core-image-sato-sdk does not by default add it.</div></bl=
-ockquote><div><br></div><div>True, thanks for the hint. I still had this li=
-nes in local.conf because of the glib ptest issue.</div><div><br></div><div=
-><div>DISTRO_FEATURES:append =3D " ptest"</div><div>EXTRA_IMAGE_FEATURES +=
-=3D "ptest-pkgs"</div></div><div><br></div><div>That shortens the test dura=
-tion by far</div><div><br></div><div>sysvinit:</div><div>&nbsp;SUMMARY:</di=
-v><div>core-image-sato-sdk () - Ran 71 tests in 129.937s</div><div>core-ima=
-ge-sato-sdk - OK - All required tests passed (successes=3D49, skipped=3D22,=
- failures=3D0, errors=3D0)</div><div>NOTE: Tasks Summary: Attempted 1159 ta=
-sks of which 1158 didn't need to be rerun and all succeeded.</div><div><br>=
-</div><div><div>systemd:</div><div>SUMMARY:</div><div><div>core-image-sato-=
-sdk () - Ran 71 tests in 129.812s</div><div>core-image-sato-sdk - OK - All =
-required tests passed (successes=3D56, skipped=3D15, failures=3D0, errors=
-=3D0)</div><div>NOTE: Tasks Summary: Attempted 1159 tasks of which 1158 did=
-n't need to be rerun and all succeeded.</div></div></div><div><br></div><di=
-v>busybox:</div><div>File "/home/flk/poky/meta/lib/oeqa/runtime/cases/ssh.p=
-y", line 17, in test_ssh</div><div><div>&nbsp; &nbsp; self.assertEqual(stat=
-us, 0, msg=3D'SSH Test failed: %s' % output)</div><div>AssertionError: 255 =
-!=3D 0 : SSH Test failed: ssh: connect to host xxx.xxx.xxx.xxx port 22: Con=
-nection refused</div></div><div><div>RESULTS - ssh.SSHTest.test_ssh: FAILED=
- (8.09s)</div><div>SUMMARY:</div><div>core-image-sato-sdk () - Ran 71 tests=
- in 43.593s</div><div>core-image-sato-sdk - FAIL - Required tests failed (s=
-uccesses=3D2, skipped=3D68, failures=3D1, errors=3D0)</div></div><div><br><=
-/div><div>There is an issue with mdev-busybox but i guess it is not related=
-?</div></div>
---=-/lOaEJggDoDAYTUPy3fG--
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index afd9e2f552..dcf6ce99d1 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -90,10 +90,6 @@ ROOT_HOME ??=3D "/home/root"
+ # If set to boolean false ('no', 'n', 'false', 'f', '0'), /var/log is on=
+ persistent storage.
+ VOLATILE_LOG_DIR ?=3D "yes"
+=20
+-# if set to 'yes': /tmp links to /var/tmp which links to /var/volatile/t=
+mp
+-# otherwise:       /tmp is on persistent storage
+-VOLATILE_TMP_DIR ?=3D "yes"
+-
+ BB_RENAMED_VARIABLES[PNBLACKLIST] =3D "SKIP_RECIPE"
+ BB_RENAMED_VARIABLES[CVE_CHECK_PN_WHITELIST] =3D "CVE_CHECK_SKIP_RECIPE"
+ BB_RENAMED_VARIABLES[CVE_CHECK_WHITELIST] =3D "CVE_CHECK_IGNORE"
+diff --git a/meta/files/fs-perms-persistent-log.txt b/meta/files/fs-perms=
+-persistent-log.txt
+index 518c1be3c9..326c0ed092 100644
+--- a/meta/files/fs-perms-persistent-log.txt
++++ b/meta/files/fs-perms-persistent-log.txt
+@@ -47,7 +47,6 @@ ${oldincludedir}	0755	root	root	true	0644	root	root
+ # Links
+ ${localstatedir}/run	link	/run
+ ${localstatedir}/lock	link	/run/lock
+-${localstatedir}/tmp	link	volatile/tmp
+=20
+ /home				0755	root	root	false - - -
+ /srv				0755	root	root	false - - -
+@@ -57,7 +56,6 @@ ${localstatedir}/local		0755	root	root	false - - -
+ # Special permissions from base-files
+ # Set 1777
+ /tmp				01777	root	root	false - - -
+-${localstatedir}/volatile/tmp	01777	root	root	false - - -
+=20
+ # Set 0700
+ ${ROOT_HOME}			0700	root	root	false - - -
+diff --git a/meta/files/fs-perms.txt b/meta/files/fs-perms.txt
+index daa4aed840..ed59311035 100644
+--- a/meta/files/fs-perms.txt
++++ b/meta/files/fs-perms.txt
+@@ -48,7 +48,6 @@ ${oldincludedir}	0755	root	root	true	0644	root	root
+ ${localstatedir}/run	link	/run
+ ${localstatedir}/log	link	volatile/log
+ ${localstatedir}/lock	link	/run/lock
+-${localstatedir}/tmp	link	volatile/tmp
+=20
+ /home				0755	root	root	false - - -
+ /srv				0755	root	root	false - - -
+@@ -58,7 +57,6 @@ ${localstatedir}/local		0755	root	root	false - - -
+ # Special permissions from base-files
+ # Set 1777
+ /tmp				01777	root	root	false - - -
+-${localstatedir}/volatile/tmp	01777	root	root	false - - -
+=20
+ # Set 0700
+ ${ROOT_HOME}			0700	root	root	false - - -
+diff --git a/meta/lib/oeqa/files/buildhistory_filelist1.txt b/meta/lib/oe=
+qa/files/buildhistory_filelist1.txt
+index 8d882895ad..ec50017383 100644
+--- a/meta/lib/oeqa/files/buildhistory_filelist1.txt
++++ b/meta/lib/oeqa/files/buildhistory_filelist1.txt
+@@ -9210,5 +9210,4 @@ lrwxrwxrwx root       root               12 ./var/l=
+og -> volatile/log
+ lrwxrwxrwx root       root                6 ./var/run -> ../run
+ drwxr-xr-x root       root             4096 ./var/spool
+ drwxrwxr-x root       mail             4096 ./var/spool/mail
+-lrwxrwxrwx root       root               12 ./var/tmp -> volatile/tmp
+ drwxr-xr-x root       root             4096 ./var/volatile
+diff --git a/meta/lib/oeqa/files/buildhistory_filelist2.txt b/meta/lib/oe=
+qa/files/buildhistory_filelist2.txt
+index ac6307060d..cedec51c38 100644
+--- a/meta/lib/oeqa/files/buildhistory_filelist2.txt
++++ b/meta/lib/oeqa/files/buildhistory_filelist2.txt
+@@ -9213,5 +9213,4 @@ lrwxrwxrwx root       root               12 ./var/l=
+og -> volatile/log
+ lrwxrwxrwx root       root                6 ./var/run -> ../run
+ drwxr-xr-x root       root             4096 ./var/spool
+ drwxrwxr-x root       mail             4096 ./var/spool/mail
+-lrwxrwxrwx root       root               12 ./var/tmp -> volatile/tmp
+ drwxr-xr-x root       root             4096 ./var/volatile
+diff --git a/meta/recipes-core/base-files/base-files/fstab b/meta/recipes=
+-core/base-files/base-files/fstab
+index 70e400f567..7064573130 100644
+--- a/meta/recipes-core/base-files/base-files/fstab
++++ b/meta/recipes-core/base-files/base-files/fstab
+@@ -5,6 +5,7 @@ proc                 /proc                proc       defa=
+ults              0  0
+ devpts               /dev/pts             devpts     mode=3D0620,ptmxmod=
+e=3D0666,gid=3D5      0  0
+ tmpfs                /run                 tmpfs      mode=3D0755,nodev,n=
+osuid,strictatime 0  0
+ tmpfs                /var/volatile        tmpfs      defaults           =
+   0  0
++tmpfs                /tmp                 tmpfs      defaults           =
+   0  0
+=20
+ # uncomment this if your device has a SD/MMC/Transflash slot
+ #/dev/mmcblk0p1       /media/card          auto       defaults,sync,noau=
+to  0  0
+diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/rec=
+ipes-core/base-files/base-files_3.0.14.bb
+index ff83567bd9..c2ecea0a25 100644
+--- a/meta/recipes-core/base-files/base-files_3.0.14.bb
++++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+@@ -29,7 +29,7 @@ S =3D "${WORKDIR}"
+ INHIBIT_DEFAULT_DEPS =3D "1"
+=20
+ docdir:append =3D "/${P}"
+-dirs1777 =3D "/tmp ${localstatedir}/volatile/tmp"
++dirs1777 =3D "/tmp /var/tmp"
+ dirs2775 =3D ""
+ dirs555 =3D "/sys /proc"
+ dirs755 =3D "/boot /dev ${base_bindir} ${base_sbindir} ${base_libdir} \
+@@ -53,7 +53,7 @@ dirs755-lsb =3D "/srv  \
+                ${prefix}/lib/locale"
+ dirs2775-lsb =3D "/var/mail"
+=20
+-volatiles =3D "${@'log' if oe.types.boolean('${VOLATILE_LOG_DIR}') else =
+''} tmp"
++volatiles =3D "${@'log' if oe.types.boolean('${VOLATILE_LOG_DIR}') else =
+''}"
+ conffiles =3D "${sysconfdir}/debian_version ${sysconfdir}/host.conf \
+              ${sysconfdir}/issue /${sysconfdir}/issue.net \
+              ${sysconfdir}/nsswitch.conf ${sysconfdir}/profile \
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volat=
+ile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.=
+sh
+index bc630e871c..ecfb6fdc2b 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+@@ -23,7 +23,7 @@ ROOT_DIR=3D"$(echo "$DIRNAME" | sed -ne 's:/etc/.*::p')=
+"
+ [ "$ROOTFS_READ_ONLY" =3D "yes" ] && VOLATILE_ENABLE_CACHE=3Dno
+=20
+ CFGDIR=3D"${ROOT_DIR}/etc/default/volatiles"
+-TMPROOT=3D"${ROOT_DIR}/var/volatile/tmp"
++TMPROOT=3D"${ROOT_DIR}/tmp"
+ COREDEF=3D"00_core"
+=20
+ [ "${VERBOSE}" !=3D "no" ] && echo "Populating volatile Filesystems."
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles b/me=
+ta/recipes-core/initscripts/initscripts-1.0/volatiles
+index cd8a4be05f..7232a8ef90 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/volatiles
++++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
+@@ -25,11 +25,10 @@
+ # link the file defined as /var/test will actually be created as /tmp/te=
+stfile.
+ d root root 1777 /run/lock none
+ d root root 0755 /var/volatile/log none
+-d root root 1777 /var/volatile/tmp none
+ l root root 1777 /var/lock /run/lock
+ l root root 0755 /var/run /run
+-l root root 1777 /var/tmp /var/volatile/tmp
+-l root root 1777 /tmp /var/tmp
++d root root 1777 /tmp
++d root root 1777 /var/tmp
+ d root root 0755 /var/lock/subsys none
+ f root root 0664 /var/log/wtmp none
+ f root root 0664 /var/run/utmp none
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/reci=
+pes-core/initscripts/initscripts_1.0.bb
+index 4dc477bb8d..7c9d9ca4f1 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -108,9 +108,6 @@ do_install () {
+ 		sed -i -e '\@^d root root 0755 /var/volatile/log none$@ a\l root root =
+0755 /var/log /var/volatile/log' \
+ 			${D}${sysconfdir}/default/volatiles/00_core
+ 	fi
+-	if [ "${VOLATILE_TMP_DIR}" !=3D "yes" ]; then
+-		sed -i -e "/\<tmp\>/d" ${D}${sysconfdir}/default/volatiles/00_core
+-	fi
+ 	install -m 0755    ${WORKDIR}/dmesg.sh		${D}${sysconfdir}/init.d
+ 	install -m 0644    ${WORKDIR}/logrotate-dmesg.conf ${D}${sysconfdir}/
+=20
+diff --git a/meta/recipes-core/systemd/systemd/00-create-volatile.conf b/=
+meta/recipes-core/systemd/systemd/00-create-volatile.conf
+index c4277221a2..1ba9b836cf 100644
+--- a/meta/recipes-core/systemd/systemd/00-create-volatile.conf
++++ b/meta/recipes-core/systemd/systemd/00-create-volatile.conf
+@@ -1,8 +1,6 @@
+ #This goes hand-in-hand with the base-files of OE-Core. The file must
+-# be sorted before 'systemd.conf' becuase this attempts to create a file
++# be sorted before 'systemd.conf' because this attempts to create a file
+ # inside /var/log.
+=20
+-
+ d		/run/lock		1777	-	-	-
+ d		/var/volatile/log		-	-	-	-
+-d		/var/volatile/tmp		1777	-	-
+diff --git a/meta/recipes-core/systemd/systemd_253.1.bb b/meta/recipes-co=
+re/systemd/systemd_253.1.bb
+index 9c2b96d3c1..26a1efc1d1 100644
+--- a/meta/recipes-core/systemd/systemd_253.1.bb
++++ b/meta/recipes-core/systemd/systemd_253.1.bb
+@@ -289,13 +289,6 @@ do_install() {
+ 		rm -rf ${D}${localstatedir}/log/journal/remote
+ 	fi
+=20
+-	# if the user requests /tmp be on persistent storage (i.e. not volatile=
+)
+-	# then don't use a tmpfs for /tmp
+-	if [ "${VOLATILE_TMP_DIR}" !=3D "yes" ]; then
+-		rm -f ${D}${rootlibdir}/systemd/system/tmp.mount
+-		rm -f ${D}${rootlibdir}/systemd/system/local-fs.target.wants/tmp.mount
+-	fi
+-
+ 	install -d ${D}${systemd_system_unitdir}/graphical.target.wants
+ 	install -d ${D}${systemd_system_unitdir}/multi-user.target.wants
+ 	install -d ${D}${systemd_system_unitdir}/poweroff.target.wants
+diff --git a/meta/recipes-core/udev/eudev/init b/meta/recipes-core/udev/e=
+udev/init
+index 477a525b21..2084de83ae 100644
+--- a/meta/recipes-core/udev/eudev/init
++++ b/meta/recipes-core/udev/eudev/init
+@@ -79,10 +79,6 @@ case "$1" in
+     }
+     [ -e /dev/pts ] || mkdir -m 0755 /dev/pts
+     [ -e /dev/shm ] || mkdir -m 1777 /dev/shm
+-    # the automount rule for udev needs /tmp directory available, as /tm=
+p is a symlink
+-    # to /var/tmp which in turn is a symlink to /var/volatile/tmp, we ne=
+ed to make sure
+-    # /var/volatile/tmp directory to be available.
+-    mkdir -m 1777 -p /var/volatile/tmp
+=20
+     # make_extra_nodes
+     kill_udevd > "/dev/null" 2>&1
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest b/meta/r=
+ecipes-devtools/e2fsprogs/e2fsprogs/run-ptest
+index c97c0377e9..1f873b055e 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
+@@ -2,7 +2,7 @@
+=20
+ cd ./test
+ SKIP_SLOW_TESTS=3Dyes ./test_script | sed -u -e '/:[[:space:]]ok/s/^/PAS=
+S: /' -e '/:[[:space:]]failed/s/^/FAIL: /' -e '/:[[:space:]]skipped/s/^/S=
+KIP: /'
+-rm -rf /var/volatile/tmp/*e2fsprogs*
++rm -rf /tmp/*e2fsprogs*
+ rm -f tmp-*
+ rm -f *.tmp
+ rm -f *.ok
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-fdle=
+ak_cmsg.stderr.exp-adjust-tmp-paths.patch b/meta/recipes-devtools/valgrin=
+d/valgrind/0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch
+deleted file mode 100644
+index e421ac6c80..0000000000
+--- a/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-fdleak_cmsg=
+.stderr.exp-adjust-tmp-paths.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From f405297d3382cd98391d02f397e2387da1f42879 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Fri, 24 Jan 2020 17:55:39 +0100
+-Subject: [PATCH] none/tests/fdleak_cmsg.stderr.exp: adjust /tmp paths
+-
+-In oe-core, /tmp is linked to /var/volatile/tmp and
+-valgrind output changes accordingly
+-
+-Upstream-Status: Inappropriate [oe-core specific]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- none/tests/fdleak_cmsg.stderr.exp | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/none/tests/fdleak_cmsg.stderr.exp b/none/tests/fdleak_cmsg.=
+stderr.exp
+-index 6e5a797b9..0ede1ab18 100644
+---- a/none/tests/fdleak_cmsg.stderr.exp
+-+++ b/none/tests/fdleak_cmsg.stderr.exp
+-@@ -25,10 +25,10 @@ Open file descriptor ...: /dev/null
+-=20
+-=20
+- FILE DESCRIPTORS: 6 open (3 std) at exit.
+--Open file descriptor ...: /tmp/data2
+-+Open file descriptor ...: ...
+-    ...
+-=20
+--Open file descriptor ...: /tmp/data1
+-+Open file descriptor ...: ...
+-    ...
+-=20
+- Open AF_UNIX socket ...: <unknown>
+---=20
+-2.17.1
+-
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.20.0.bb b/meta/rec=
+ipes-devtools/valgrind/valgrind_3.20.0.bb
+index 07e50426e4..4ea173ba80 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.20.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.20.0.bb
+@@ -36,7 +36,6 @@ SRC_URI =3D "https://sourceware.org/pub/valgrind/valgri=
+nd-${PV}.tar.bz2 \
+            file://0001-valgrind-filter_xml_frames-do-not-filter-usr.patc=
+h \
+            file://0001-memcheck-vgtests-remove-fullpath-after-flags.patc=
+h \
+            file://s390x_vec_op_t.patch \
+-           file://0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-path=
+s.patch \
+            file://0001-memcheck-tests-Fix-timerfd-syscall-test.patch \
+            file://0001-docs-Disable-manual-validation.patch \
+            file://0001-drd-tests-Include-missing-cstdint.patch \
+--=20
+2.34.1
 
 
