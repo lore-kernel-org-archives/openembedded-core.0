@@ -1,58 +1,70 @@
-Return-Path: <kubiznak@2n.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9076EC77B61
-	for <webhook@archiver.kernel.org>; Fri, 24 Mar 2023 15:24:47 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web11.104275.1679671478962836792
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A43D4C6FD20
+	for <webhook@archiver.kernel.org>; Fri, 24 Mar 2023 15:31:37 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web11.104503.1679671888608155564
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Mar 2023 08:24:40 -0700
+ Fri, 24 Mar 2023 08:31:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: 2n.com, ip: 195.60.68.18, mailfrom: kubiznak@2n.com)
-From: =?UTF-8?q?Petr=20Kubiz=C5=88=C3=A1k?= <kubiznak@2n.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: =?UTF-8?q?Petr=20Kubiz=C5=88=C3=A1k?= <kubiznak@2n.com>
-Subject: [OE-core][PATCH v3 3/6] python3-pygobject: depend on gobject-introspection
-Date: Fri, 24 Mar 2023 16:22:35 +0100
-Message-ID: <20230324152238.194877-3-kubiznak@2n.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230324152238.194877-1-kubiznak@2n.com>
-References: <20230324152238.194877-1-kubiznak@2n.com>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=m+AM23Rc;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 944E5FF809;
+	Fri, 24 Mar 2023 15:31:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1679671886;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=CWUwpsSLzWaLNSJ2FZa66rLDyDndSj3k2PAalms6ok0=;
+	b=m+AM23RcrSFMN2F5uI9LtNxbXUwgzQ/atRObbsHnfDvt8/CjAgVRxfU+3oFWw7noMvHk4w
+	XK3H1NigtmfG+TJHyZdbJ6+oNZz2I0Z974UmVo/ZlrR41/G33I4sVVaHeV+PLMpzS7cDtz
+	qad2ndWmWLodJagkBj6Lj48dUo6x0EtcrviqTAZHpRV2zq27wo/Sqm4IJaNKcAb3idHZN6
+	kXwQ/4ttjBCNMbW7/F3qjFTBumXoFuvEjmhYq7xB6IEoXQ2LBMXszJ0rHQym8a2trVQPo6
+	my8wjNW6xONpMqBmTzfBHiXOuVhAGmyT73l1WtZwXsGen+9Mu6xgGk530I9DLw==
+From: alexandre.belloni@bootlin.com
+To: openembedded-core@lists.openembedded.org
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Subject: [PATCH] stress-ng: upgrade 0.15.04 -> 0.15.06
+Date: Fri, 24 Mar 2023 16:31:20 +0100
+Message-Id: <20230324153120.1126449-1-alexandre.belloni@bootlin.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.0.5.60]
-X-ClientProxiedBy: se-mail01w.axis.com (10.20.40.7) To se-mail01w.axis.com
- (10.20.40.7)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 15:24:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179064
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 15:31:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179068
 
-When g-i feature is disabled, the gobject-introspection package
-dependency is not pulled in but pygobject has a hard dependency on it.
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
-Signed-off-by: Petr Kubizňák <kubiznak@2n.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 ---
- meta/recipes-devtools/python/python3-pygobject_3.42.2.bb | 2 +-
+ .../stress-ng/{stress-ng_0.15.04.bb => stress-ng_0.15.06.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/stress-ng/{stress-ng_0.15.04.bb => stress-ng_0.15.06.bb} (94%)
 
-diff --git a/meta/recipes-devtools/python/python3-pygobject_3.42.2.bb b/meta/recipes-devtools/python/python3-pygobject_3.42.2.bb
-index cc7b07e804..f54f4ce784 100644
---- a/meta/recipes-devtools/python/python3-pygobject_3.42.2.bb
-+++ b/meta/recipes-devtools/python/python3-pygobject_3.42.2.bb
-@@ -10,7 +10,7 @@ GIR_MESON_OPTION = ""
+diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.15.04.bb b/meta/recipes-extended/stress-ng/stress-ng_0.15.06.bb
+similarity index 94%
+rename from meta/recipes-extended/stress-ng/stress-ng_0.15.04.bb
+rename to meta/recipes-extended/stress-ng/stress-ng_0.15.06.bb
+index 74d8356812d5..31cf2e8987bb 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng_0.15.04.bb
++++ b/meta/recipes-extended/stress-ng/stress-ng_0.15.06.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
  
- inherit gnomebase setuptools3-base gobject-introspection upstream-version-is-even
+ SRC_URI = "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master \
+            "
+-SRCREV = "b9a437ec790ad4bcc71d31b2df39d4a601c55fa8"
++SRCREV = "f2a80e4fdba0aaf71d7d3687acb34e3827e68886"
+ S = "${WORKDIR}/git"
  
--DEPENDS += "python3 glib-2.0"
-+DEPENDS += "python3 glib-2.0 gobject-introspection"
- 
- SRCNAME="pygobject"
- 
+ DEPENDS = "coreutils-native libbsd"
 -- 
-2.30.2
+2.39.2
 
 
