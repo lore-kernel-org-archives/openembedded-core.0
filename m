@@ -2,20 +2,20 @@ Return-Path: <kubiznak@2n.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B40A4C6FD1C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEBC7C76196
 	for <webhook@archiver.kernel.org>; Fri, 24 Mar 2023 09:36:55 +0000 (UTC)
 Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
  by mx.groups.io with SMTP id smtpd.web10.97243.1679650612367403867
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Mar 2023 02:36:55 -0700
+ Fri, 24 Mar 2023 02:36:53 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: 2n.com, ip: 195.60.68.18, mailfrom: kubiznak@2n.com)
 From: =?UTF-8?q?Petr=20Kubiz=C5=88=C3=A1k?= <kubiznak@2n.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: =?UTF-8?q?Petr=20Kubiz=C5=88=C3=A1k?= <kubiznak@2n.com>
-Subject: [OE-core][PATCH v2 2/3] graphene: add glib PACKAGECONFIG
-Date: Fri, 24 Mar 2023 10:33:25 +0100
-Message-ID: <20230324093326.3973899-3-kubiznak@2n.com>
+Subject: [OE-core][PATCH v2 1/3] gobject-introspection: check for GI_DATA_ENABLED
+Date: Fri, 24 Mar 2023 10:33:24 +0100
+Message-ID: <20230324093326.3973899-2-kubiznak@2n.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230324093326.3973899-1-kubiznak@2n.com>
 References: <175673>
@@ -30,35 +30,50 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 09:36:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179024
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179023
 
-When gobject-introspection is enabled, glib dependency is pulled in
-automatically. When it is disabled, glib dependency should be optional
-via PACKAGECONFIG.
-
-Default is to enable glib so that graphene-gobject is built
-(dependency of gtk4).
+When GI_DATA_ENABLED is 'False' (e.g. because
+'gobject-introspection-data' is not in DISTRO_FEATURES),
+gobject-introspection and gobject-introspection-native
+should not be added to DEPENDS. This is to reduce dependency chain
+when g-i is disabled.
 
 Signed-off-by: Petr Kubizňák <kubiznak@2n.com>
 ---
- meta/recipes-graphics/graphene/graphene_1.10.8.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/classes-recipe/gobject-introspection.bbclass | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-graphics/graphene/graphene_1.10.8.bb b/meta/recipes-graphics/graphene/graphene_1.10.8.bb
-index 120ee80b17..5c870147d0 100644
---- a/meta/recipes-graphics/graphene/graphene_1.10.8.bb
-+++ b/meta/recipes-graphics/graphene/graphene_1.10.8.bb
-@@ -11,8 +11,9 @@ SRC_URI[archive.sha256sum] = "a37bb0e78a419dcbeaa9c7027bcff52f5ec2367c25ec859da3
+diff --git a/meta/classes-recipe/gobject-introspection.bbclass b/meta/classes-recipe/gobject-introspection.bbclass
+index 0c7b7d200a..eb55e7c5e8 100644
+--- a/meta/classes-recipe/gobject-introspection.bbclass
++++ b/meta/classes-recipe/gobject-introspection.bbclass
+@@ -35,7 +35,8 @@ EXTRA_OEMESON:prepend:class-nativesdk = "${@['', '${GIRMESONBUILD}'][d.getVar('G
  
- # Disable neon support by default on ARM-32 platforms because of the
- # following upstream bug: https://github.com/ebassi/graphene/issues/215
--PACKAGECONFIG ?= "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', 'neon', '', d)}"
-+PACKAGECONFIG ?= "glib ${@bb.utils.contains('TUNE_FEATURES', 'aarch64', 'neon', '', d)}"
+ # Generating introspection data depends on a combination of native and target
+ # introspection tools, and qemu to run the target tools.
+-DEPENDS:append:class-target = " gobject-introspection gobject-introspection-native qemu-native"
++DEPENDS:append:class-target = " ${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'gobject-introspection gobject-introspection-native', '', d)}"
++DEPENDS:append:class-target = " qemu-native"
  
-+PACKAGECONFIG[glib] = ",,glib-2.0"
- PACKAGECONFIG[neon] = "-Darm_neon=true,-Darm_neon=false,"
+ # Even though introspection is disabled on -native, gobject-introspection package is still
+ # needed for m4 macros.
+@@ -46,10 +47,12 @@ DEPENDS:append:class-nativesdk = " gobject-introspection-native"
+ export XDG_DATA_DIRS = "${STAGING_DATADIR}:${STAGING_LIBDIR}"
  
- GIR_MESON_ENABLE_FLAG = 'enabled'
+ do_configure:prepend:class-target () {
+-    # introspection.m4 pre-packaged with upstream tarballs does not yet
+-    # have our fixes
+-    mkdir -p ${S}/m4
+-    cp ${STAGING_DIR_TARGET}/${datadir}/aclocal/introspection.m4 ${S}/m4
++    if [ "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '1', '0', d)}" = "1" ] ; then
++        # introspection.m4 pre-packaged with upstream tarballs does not yet
++        # have our fixes
++        mkdir -p ${S}/m4
++        cp ${STAGING_DIR_TARGET}/${datadir}/aclocal/introspection.m4 ${S}/m4
++    fi
+ }
+ 
+ # .typelib files are needed at runtime and so they go to the main package (so
 -- 
 2.30.2
 
