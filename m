@@ -1,94 +1,74 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96B00C6FD1C
-	for <webhook@archiver.kernel.org>; Fri, 24 Mar 2023 19:31:16 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web10.6482.1679686267048717867
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A033BC6FD1C
+	for <webhook@archiver.kernel.org>; Fri, 24 Mar 2023 19:53:36 +0000 (UTC)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web10.7059.1679687615819150017
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Mar 2023 12:31:07 -0700
+ Fri, 24 Mar 2023 12:53:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=lvqArvaI;
- spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f46.google.com with SMTP id u11-20020a05600c19cb00b003edcc414997so1647309wmq.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 12:31:06 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=W9HhvB5l;
+ spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f177.google.com with SMTP id h9so2886647ljq.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 12:53:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679686265;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VOxhS5wnLa8Uxc9H9e9a5Og+n6NMDzWbfaJWGTR869E=;
-        b=lvqArvaIXOfXGmCMVok01AUkl84oewqStVWfOMqmQRbLGMVGH8R4ZhHLoICMYpdcGm
-         dcmC057TyNKkY6Q3zRrdFWqjm/EciUT6+yTRukYhD7rJxSEo0xI9k/S1i2mZGCENDcar
-         G709q4kpFBshJBtsUo4ShkkFFg63ag9lczQrTOX/s76uTvUVfwNfUK1+MC4Ck73Qmakm
-         gJN+kbZkLVPgUY2rdrvo/WQk64MudTlSjJoMJmTsUQ9iegqKzH6Za+J9ssRG82Tb0Acn
-         LMylR7iQYgMgVKi2OkX3CNmbzuZvf/37ggtKQVr7dVOyL/MJV8UI77R4YOUTwAKter1N
-         g0cw==
+        d=gmail.com; s=20210112; t=1679687614;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=eEId5bIEPrCemxTXYhoFG+Bn/X1MA+1fL6tilyrp0ig=;
+        b=W9HhvB5loffrxeF/fcG/7oYkKSrpsN2KKsn3KpTnASlbty3XPcn8S0o+l7IwBIqGFj
+         FtEIVppXMCqu0kmP5wWMeSpq2ml30ZxOtYQbjS/HXpz8RkTV68elV7kMhC1Eu+2HKvDy
+         qmDfH8RJFrmMA+sg8y5/pnkA4kzxHvZ6vrYI7M+n1TqCXNaQ61K6YvgO+pyM09YnIck9
+         c1EpQNr29eJSYUJiHKhjY4TeiMgcdyYEStRLH3QDzxFtAFQFRs+fjjh/bWE9hLyM6Pyw
+         QdHSN29Zf0wq4ftKeBGcK3I+iwVDt5R/o0BmNqArmv06yLlOxF+RgPwYrIILed4aQCqJ
+         wZzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679686265;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20210112; t=1679687614;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VOxhS5wnLa8Uxc9H9e9a5Og+n6NMDzWbfaJWGTR869E=;
-        b=R0MsllqiosI7bTnBeNz8Si+z2eOlKr0UzSaJJlsZZi3HFMwh/innd0oX86RHW8o7II
-         pnwiLx1MnVtXQ66+fv6tsV3GUCXClG47Lmk3E7L3F8SDidpIryf+EQUuvZHIzQIPa7q/
-         U5y7X87YUwkvUxX3TwLgQpyfCDvpL0PU0aAhU1M/vO9ey4Ain/qKeynjswFEoSuaEJc2
-         JE1QYFvyObCufIWbQACt4KPzcQp+Rre+iY+iXhDRhb2I279GoKWfQx/Y9uzA8ZhABlPG
-         /vN+0iC9yb+bJhQaX+AP6X114SGjhEbQYtR3Dxw2Il82ClJ++Wmu+ANsLyGFGbuZRfHs
-         r8+Q==
-X-Gm-Message-State: AO0yUKXAS3mXbefE20sDNyZngopGIbLvJkQayZeq4TOGzJt6bNS+O/FR
-	Sw/EGQLygRqewZn4dzY05mL0chLxJwY=
-X-Google-Smtp-Source: AK7set8M8344RE/JX5FACzOjiDAIOgt2cZXxl0+7pbFnoRq85P5N7fqB9mKv0fhwux29YMgLtUh+WQ==
-X-Received: by 2002:a7b:cb81:0:b0:3ee:1a70:7ea2 with SMTP id m1-20020a7bcb81000000b003ee1a707ea2mr2863883wmi.3.1679686265035;
-        Fri, 24 Mar 2023 12:31:05 -0700 (PDT)
-Received: from og-worker-dev-01.infra.foundries.io.net (51-159-19-113.rev.poneytelecom.eu. [51.159.19.113])
-        by smtp.gmail.com with ESMTPSA id o9-20020a05600c510900b003ed793d9de0sm11464503wms.1.2023.03.24.12.31.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Mar 2023 12:31:04 -0700 (PDT)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [PATCH] buildstats-summary: add an option to disable bold
-Date: Fri, 24 Mar 2023 19:30:31 +0000
-Message-Id: <20230324193031.3059235-1-jose.quaresma@foundries.io>
-X-Mailer: git-send-email 2.34.1
+        bh=eEId5bIEPrCemxTXYhoFG+Bn/X1MA+1fL6tilyrp0ig=;
+        b=bfSEdAy/NK1FucN5LMnhvk0xOQoQ4PUWXXRwSXI/mioNuTZ+HbqiSRSMFZFAy6dyF7
+         i5+mPceqcg165NG9M2HtEPUHwKgPuNrHMNUunzSVgggOHkBw0aVpcNlqtSoEI29BEI4G
+         0e/YfB67ggz7J1B4Ds63Se84G0OXOdqsXULdBJS1g80dxwHJn7apSO43wuWykUQYZz0H
+         8HFUUCghqN86ZHia4dIVj2828lAjmucoKVkZNyzYUW+aDpEj3j+YsNywRXFQOkJgazj+
+         5C1XFuJ11LG8baPWgJfILgwD6o7Rzx1kG9hfHA2WD/g7cokWP5PS0HQSdlobYCyMc3cX
+         dOEg==
+X-Gm-Message-State: AO0yUKWZgSDRD94SphHTTTOUnwpEKpM0bDaUUSMIugy6LQbBI5d/6ydf
+	EI4aZalnWu70KeE55TCDZEnaHz7LWuCmCP5FQ30=
+X-Google-Smtp-Source: AK7set98fEg/niF5dBXTspWC7NBl4YGiSG9hDofryECQrtz1xkA+U1DZzfpMZajd4DxQ0wN+T/spmKJhp/eLLrbvgEY=
+X-Received: by 2002:a2e:2a84:0:b0:293:4ba5:f626 with SMTP id
+ q126-20020a2e2a84000000b002934ba5f626mr4969401ljq.2.1679687613922; Fri, 24
+ Mar 2023 12:53:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230317060202.385862-1-f_l_k@t-online.de> <dd5e0f7df463ddc2733dc126beaa3bf29eb8d49b.camel@linuxfoundation.org>
+ <9FONRR.ZLSABXKTP67E@t-online.de> <a1807744c2e652e0d05c1c313039e697b2b07d1e.camel@linuxfoundation.org>
+ <B0EORR.JWJ884MGYK8G2@t-online.de> <CANNYZj-ZHjZ9nihVrLeNgf_eeT-+k2uAGuZQEku8YAF_a2vd3Q@mail.gmail.com>
+ <CHRXRR.A1NILQGNBS7P1@t-online.de> <CANNYZj8CgeTaT6Xn60dUZw9W+vDQWrBZ7y0bFfyPCu++-NwWUg@mail.gmail.com>
+ <1TC1SR.M6OX77V0K20W3@t-online.de>
+In-Reply-To: <1TC1SR.M6OX77V0K20W3@t-online.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 24 Mar 2023 20:53:22 +0100
+Message-ID: <CANNYZj8eyCvwacnVoQui+ghL=cN=D8yDaBWAV1eBtvcz9qPOGA@mail.gmail.com>
+Subject: Re: [oe-core][PATCH] Remove usage of /var/volatile/tmp
+To: Markus Volk <f_l_k@t-online.de>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 19:31:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179076
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 19:53:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179077
 
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
----
- scripts/buildstats-summary | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Fri, 24 Mar 2023 at 18:34, Markus Volk <f_l_k@t-online.de> wrote:
+> RESULTS - ptest.PtestRunnerTest.test_ptestrunner_expectsuccess: FAILED (8407.07s)
 
-diff --git a/scripts/buildstats-summary b/scripts/buildstats-summary
-index 89348318af..f521d78650 100755
---- a/scripts/buildstats-summary
-+++ b/scripts/buildstats-summary
-@@ -75,7 +75,7 @@ def dump_buildstats(args, bs: buildstats.BuildStats):
-     for t in tasks:
-         if t.duration >= minimum:
-             line = f"{t.duration}    {t.recipe}:{t.task}"
--            if t.duration >= highlight:
-+            if args.highlight and t.duration >= highlight:
-                 print(f"\033[1m{line}\033[0m")
-             else:
-                 print(line)
-@@ -111,7 +111,7 @@ def main(argv=None) -> int:
-         type=int,
-         default=60,
-         metavar="SECS",
--        help="Highlight tasks longer than SECS seconds",
-+        help="Highlight tasks longer than SECS seconds (0 disabled)",
-     )
- 
-     args = parser.parse_args(argv)
--- 
-2.34.1
+This test is executed only if the image includes ptest-runner package,
+and requires special setup. Do you have something in your local setup
+that pulls it in? core-image-sato-sdk does not by default add it.
 
+Alex
 
