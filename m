@@ -1,107 +1,132 @@
-Return-Path: <geissonator@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2F34C6FD20
-	for <webhook@archiver.kernel.org>; Fri, 24 Mar 2023 20:13:46 +0000 (UTC)
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
- by mx.groups.io with SMTP id smtpd.web11.7440.1679688826023491859
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98E41C6FD1C
+	for <webhook@archiver.kernel.org>; Fri, 24 Mar 2023 23:13:27 +0000 (UTC)
+Received: from mailout05.t-online.de (mailout05.t-online.de [194.25.134.82])
+ by mx.groups.io with SMTP id smtpd.web11.11402.1679699604114392894
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Mar 2023 13:13:46 -0700
+ Fri, 24 Mar 2023 16:13:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=JhlStEV0;
- spf=pass (domain: gmail.com, ip: 209.85.167.175, mailfrom: geissonator@gmail.com)
-Received: by mail-oi1-f175.google.com with SMTP id bi31so2114768oib.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 13:13:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679688825;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/t3fozCPGT8x3H5nNSRu+WR+lUngKcgAzTJJ65crkMc=;
-        b=JhlStEV0NE3Gqahrt6em9FNwOmxzpYIDi7euranCKaIXqJBMzAxOMQGIBOqttBULuy
-         KteH3JGOLiW1xCw1WUxX8WWmC4x6Exns/Bh+CbtPj1Kacx2lGPzajCiYrzoGYkxNNily
-         JMneAHwuKMGv7id+EnhifPd9kBK2osSqhOMKhNADBPeDZo6McGcCm3GyFi0csU8MXpwo
-         7Hv6doo8UBKNQRF6T5T2FXyo2cSH8qlKc1S57mtUqT3tgFqMhgXs84X57wFsNqJRYNlg
-         tVY9/lFDzFSaveWzMUIK9/cd8+OMYbKEhK2zud7dW5QeZhHDpT34OGbKzDWu1Elnfajp
-         DnXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679688825;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/t3fozCPGT8x3H5nNSRu+WR+lUngKcgAzTJJ65crkMc=;
-        b=CZSC53DYZEldPRm9S+pwsi/qrTmPKYVZr+2TIEimpZyt3Au6nrXH5GwJdHlAK2IWIN
-         iKGoGl7LxrJ66EZFqR7Gi/ZhMD3vwId5NGOHr/YJis2ckoNsiiwFFFoSJxKuRKoKRzT+
-         EgzaZJ12c4o4xX2iSTqakFW47m/KfieCIQlHaoLaEMAgCkMoF5dyQtpdhTgdNxizZZ3x
-         Zp1oR+zx5TjfySAqQiDHSLDKtNlG0u/uoZ4uqGk41aYInBoSKaQItWbuNRRqWHXaQkNo
-         oYrNuMrwvCGbhyiCZsynSHiZ7NVF/L2UdADKxkLGh51Mk5m5Rhxz0Pd0LgMt9FAhQw+L
-         9Ypg==
-X-Gm-Message-State: AO0yUKWIRMq29RC5JWQNG2kaEp0CZIoDLxHRlShWtOpslesa0tiKGKQD
-	IWB4k0NRe69IqCojETtpNBmh0Ba3vajqiA==
-X-Google-Smtp-Source: AK7set/QR5ryR+R2Gu6b54+2pCV2aFGwwO2k7/WVKphqVLJWzDR4uwEpi+PQu3LLuckBmU2idNT0Nw==
-X-Received: by 2002:a05:6808:3a84:b0:37b:2252:b94c with SMTP id fb4-20020a0568083a8400b0037b2252b94cmr1779700oib.4.1679688825093;
-        Fri, 24 Mar 2023 13:13:45 -0700 (PDT)
-Received: from localhost.localdomain ([2600:8803:af0f:ec00:c550:b209:c1e1:c7b9])
-        by smtp.gmail.com with ESMTPSA id s129-20020acadb87000000b0038756901d1esm2433089oig.35.2023.03.24.13.13.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Mar 2023 13:13:44 -0700 (PDT)
-From: Andrew Geissler <geissonator@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Andrew Geissler <geissonator@gmail.com>
-Subject: [PATCH] filemap.py: enforce maximum of 4kb block size
-Date: Fri, 24 Mar 2023 15:13:33 -0500
-Message-Id: <20230324201333.77508-1-geissonator@gmail.com>
-X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.82, mailfrom: f_l_k@t-online.de)
+Received: from fwd88.dcpf.telekom.de (fwd88.aul.t-online.de [10.223.144.114])
+	by mailout05.t-online.de (Postfix) with SMTP id 462D0D61D;
+	Sat, 25 Mar 2023 00:13:21 +0100 (CET)
+Received: from [192.168.178.83] ([84.163.41.244]) by fwd88.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1pfqau-4BGdyi0; Sat, 25 Mar 2023 00:13:12 +0100
+Date: Sat, 25 Mar 2023 00:13:06 +0100
+From: Markus Volk <f_l_k@t-online.de>
+Subject: Re: [oe-core][PATCH] Remove usage of /var/volatile/tmp
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+Message-Id: <UHS1SR.41XVDUNLPY6P2@t-online.de>
+In-Reply-To: 
+	<CANNYZj8eyCvwacnVoQui+ghL=cN=D8yDaBWAV1eBtvcz9qPOGA@mail.gmail.com>
+References: <20230317060202.385862-1-f_l_k@t-online.de>
+	<dd5e0f7df463ddc2733dc126beaa3bf29eb8d49b.camel@linuxfoundation.org>
+	<9FONRR.ZLSABXKTP67E@t-online.de>
+	<a1807744c2e652e0d05c1c313039e697b2b07d1e.camel@linuxfoundation.org>
+	<B0EORR.JWJ884MGYK8G2@t-online.de>
+	<CANNYZj-ZHjZ9nihVrLeNgf_eeT-+k2uAGuZQEku8YAF_a2vd3Q@mail.gmail.com>
+	<CHRXRR.A1NILQGNBS7P1@t-online.de>
+	<CANNYZj8CgeTaT6Xn60dUZw9W+vDQWrBZ7y0bFfyPCu++-NwWUg@mail.gmail.com>
+	<1TC1SR.M6OX77V0K20W3@t-online.de>
+	<CANNYZj8eyCvwacnVoQui+ghL=cN=D8yDaBWAV1eBtvcz9qPOGA@mail.gmail.com>
+X-Mailer: geary/40.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/alternative; boundary="=-/lOaEJggDoDAYTUPy3fG"
+X-TOI-EXPURGATEID: 150726::1679699592-0B7FDC01-C1B85F72/0/0 CLEAN NORMAL
+X-TOI-MSGID: 9a3368a0-4270-44a5-920c-c38a605a4ccf
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 20:13:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179079
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 23:13:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179080
 
-The logic in this script validates that the length of data sections are
-evenly divisible by the block size. On most systems the block size is
-4KB and all is good. Some systems though, such as ppc64le, have a block
-size larger then 4KB. For example on a POWER9 based ppc64le system, the
-block size is 64KB.
+--=-/lOaEJggDoDAYTUPy3fG
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-This results in this script failing with errors like this when building
-wic images:
-|440, in _do_get_mapped_ranges
-|     assert extent_len % self.block_size == 0
-|            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-| AssertionError
+Am Fr, 24. M=E4r 2023 um 20:53:22 +0100 schrieb Alexander Kanavin=20
+<alex.kanavin@gmail.com>:
+> Do you have something in your local setup
+> that pulls it in? core-image-sato-sdk does not by default add it.
 
-In this case the data section size was 268KB and the block size was
-64KB, resulting in the above assert failure.
+True, thanks for the hint. I still had this lines in local.conf because=20
+of the glib ptest issue.
 
-Resolves https://bugzilla.yoctoproject.org/show_bug.cgi?id=15075
+DISTRO_FEATURES:append =3D " ptest"
+EXTRA_IMAGE_FEATURES +=3D "ptest-pkgs"
 
-Signed-off-by: Andrew Geissler <geissonator@gmail.com>
----
- scripts/lib/wic/filemap.py | 7 +++++++
- 1 file changed, 7 insertions(+)
+That shortens the test duration by far
 
-diff --git a/scripts/lib/wic/filemap.py b/scripts/lib/wic/filemap.py
-index 4d9da28172..85b39d5d74 100644
---- a/scripts/lib/wic/filemap.py
-+++ b/scripts/lib/wic/filemap.py
-@@ -46,6 +46,13 @@ def get_block_size(file_obj):
-             bsize = stat.st_blksize
-         else:
-             raise IOError("Unable to determine block size")
-+
-+    # The logic in this script only supports a maximum of a 4KB
-+    # block size
-+    max_block_size = 4 * 1024
-+    if bsize > max_block_size:
-+        bsize = max_block_size
-+
-     return bsize
- 
- class ErrorNotSupp(Exception):
--- 
-2.37.1 (Apple Git-137.1)
+sysvinit:
+ SUMMARY:
+core-image-sato-sdk () - Ran 71 tests in 129.937s
+core-image-sato-sdk - OK - All required tests passed (successes=3D49,=20
+skipped=3D22, failures=3D0, errors=3D0)
+NOTE: Tasks Summary: Attempted 1159 tasks of which 1158 didn't need to=20
+be rerun and all succeeded.
+
+systemd:
+SUMMARY:
+core-image-sato-sdk () - Ran 71 tests in 129.812s
+core-image-sato-sdk - OK - All required tests passed (successes=3D56,=20
+skipped=3D15, failures=3D0, errors=3D0)
+NOTE: Tasks Summary: Attempted 1159 tasks of which 1158 didn't need to=20
+be rerun and all succeeded.
+
+busybox:
+File "/home/flk/poky/meta/lib/oeqa/runtime/cases/ssh.py", line 17, in=20
+test_ssh
+    self.assertEqual(status, 0, msg=3D'SSH Test failed: %s' % output)
+AssertionError: 255 !=3D 0 : SSH Test failed: ssh: connect to host=20
+xxx.xxx.xxx.xxx port 22: Connection refused
+RESULTS - ssh.SSHTest.test_ssh: FAILED (8.09s)
+SUMMARY:
+core-image-sato-sdk () - Ran 71 tests in 43.593s
+core-image-sato-sdk - FAIL - Required tests failed (successes=3D2,=20
+skipped=3D68, failures=3D1, errors=3D0)
+
+There is an issue with mdev-busybox but i guess it is not related?
+
+
+--=-/lOaEJggDoDAYTUPy3fG
+Content-Type: text/html; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div id=3D"geary-body" dir=3D"auto">Am Fr, 24. M=E4r 2023 um 20:53:22 +0100=
+ schrieb Alexander Kanavin &lt;alex.kanavin@gmail.com&gt;:<br><blockquote t=
+ype=3D"cite"><div class=3D"plaintext" style=3D"white-space: break-spaces;">=
+Do you have something in your local setup
+that pulls it in? core-image-sato-sdk does not by default add it.</div></bl=
+ockquote><div><br></div><div>True, thanks for the hint. I still had this li=
+nes in local.conf because of the glib ptest issue.</div><div><br></div><div=
+><div>DISTRO_FEATURES:append =3D " ptest"</div><div>EXTRA_IMAGE_FEATURES +=
+=3D "ptest-pkgs"</div></div><div><br></div><div>That shortens the test dura=
+tion by far</div><div><br></div><div>sysvinit:</div><div>&nbsp;SUMMARY:</di=
+v><div>core-image-sato-sdk () - Ran 71 tests in 129.937s</div><div>core-ima=
+ge-sato-sdk - OK - All required tests passed (successes=3D49, skipped=3D22,=
+ failures=3D0, errors=3D0)</div><div>NOTE: Tasks Summary: Attempted 1159 ta=
+sks of which 1158 didn't need to be rerun and all succeeded.</div><div><br>=
+</div><div><div>systemd:</div><div>SUMMARY:</div><div><div>core-image-sato-=
+sdk () - Ran 71 tests in 129.812s</div><div>core-image-sato-sdk - OK - All =
+required tests passed (successes=3D56, skipped=3D15, failures=3D0, errors=
+=3D0)</div><div>NOTE: Tasks Summary: Attempted 1159 tasks of which 1158 did=
+n't need to be rerun and all succeeded.</div></div></div><div><br></div><di=
+v>busybox:</div><div>File "/home/flk/poky/meta/lib/oeqa/runtime/cases/ssh.p=
+y", line 17, in test_ssh</div><div><div>&nbsp; &nbsp; self.assertEqual(stat=
+us, 0, msg=3D'SSH Test failed: %s' % output)</div><div>AssertionError: 255 =
+!=3D 0 : SSH Test failed: ssh: connect to host xxx.xxx.xxx.xxx port 22: Con=
+nection refused</div></div><div><div>RESULTS - ssh.SSHTest.test_ssh: FAILED=
+ (8.09s)</div><div>SUMMARY:</div><div>core-image-sato-sdk () - Ran 71 tests=
+ in 43.593s</div><div>core-image-sato-sdk - FAIL - Required tests failed (s=
+uccesses=3D2, skipped=3D68, failures=3D1, errors=3D0)</div></div><div><br><=
+/div><div>There is an issue with mdev-busybox but i guess it is not related=
+?</div></div>
+--=-/lOaEJggDoDAYTUPy3fG--
 
 
