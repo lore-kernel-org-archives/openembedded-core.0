@@ -1,119 +1,317 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28DCEC76196
-	for <webhook@archiver.kernel.org>; Fri, 24 Mar 2023 10:29:36 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web11.97470.1679653766755659261
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C80CC6FD20
+	for <webhook@archiver.kernel.org>; Fri, 24 Mar 2023 10:57:46 +0000 (UTC)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web10.98394.1679655458102085813
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Mar 2023 03:29:27 -0700
+ Fri, 24 Mar 2023 03:57:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Y74Auvvq;
- spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f180.google.com with SMTP id h9so1215801ljq.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 03:29:26 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=C8G9Egj4;
+ spf=pass (domain: mvista.com, ip: 209.85.216.51, mailfrom: sdoshi@mvista.com)
+Received: by mail-pj1-f51.google.com with SMTP id p3-20020a17090a74c300b0023f69bc7a68so1200893pjl.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 03:57:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679653765;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wzBbdDIKZi2LsLG3/9k4zXq0JgYUAnwXIYX5V1P4Erc=;
-        b=Y74Auvvq5mppnsuefleTYLFgGgw4k0KHEBCUkS95en1A+VsUNzkZ2LnWOHrqJSHbJs
-         SWFVovFugUPM/qUxPh5Jwr0opmYtvOjQrgIGbSdFbUoPh/7dcCPeyE0rHDiSsSdqptjB
-         qaZBJ3UlkgXylxBTs+B1BoC19rMGTLCWzkrxQvc/Q9NdOoAHAKMgPXjzPiA9pHE3VOWM
-         0r0zNw+mW4+O+I1ClEWOdGSdz1RLaBt2JmAMhzv1MXLJZNCC4HqA8Mk+/EAqOQXr236h
-         e6sTbG78QubnJf1cFqEycY0fTQt5X0OGxE0qFDLw4Nbjze33VK+VsdIPIi2oW4WPja0T
-         iVbw==
+        d=mvista.com; s=google; t=1679655457;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dnUQ1Sx0XxEJrZOnwfIlLoO/kxOQ/5zLbk0koPGrQNM=;
+        b=C8G9Egj4NEt9j1n26wtAPAd5YDREK+3HooKH2ZDCQf6n8sJwJKf7cWWj5TU8+IrMSt
+         BuCVagx9AfVfzTJE5OhSSzkQEMOYmzwP7vpfH8SSgOkUqRK9SxcHIzHOAomd0TXcroEP
+         LxRc4JlqsjCnLWoLvrm+poZXplkQ+4hvL3oJc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679653765;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wzBbdDIKZi2LsLG3/9k4zXq0JgYUAnwXIYX5V1P4Erc=;
-        b=X4F/+w3QooTo5tGPGjlYoXG4rQdzm/95GuqNVqDw/0ZJNzU/T4yzHyVA1R+gqUA/+o
-         /NX+XBuMO9XLJLJSNXxUjBbu94wF1go4u0iG7rySkAQc9bw4gqxMM0K6xzVda95k+SUK
-         BpXRcJfIV8MEdsJAETQnXHxhD0ylu/oE8NshynptkUrMN+m5SEgCLB4aN/AcNORMU7Vz
-         y8zp6Q4Lhy2tCKOylQEsPsZvfgkyZICRTwQXZ0IBQp+TuBmGDmokNNyik99T9xUmRSmh
-         nVzMyqi0qaZtBE9xOicGUPc79r9nip8CO8R253pz98bJ2OxQWaZnG17zRCu4EseQu97f
-         ydTA==
-X-Gm-Message-State: AAQBX9fclgk8aLyPDA4kAZ7Ss1nLwgDKgSzluYPhBz/dGn3VIZUza77F
-	L0PHKdQzA6oa43v06wbAaWXt6ltvVVn9eqQmJ3w=
-X-Google-Smtp-Source: AKy350ZkIphCCS2h7lHqKizIhOncvwpVKvUh4Z+9XVJe6mZABDkLrXGx1RO0i4wyrLN3AV/KMZoZuiwXJcFiQbO1yRA=
-X-Received: by 2002:a2e:6a12:0:b0:29a:9053:ed22 with SMTP id
- f18-20020a2e6a12000000b0029a9053ed22mr700887ljc.7.1679653764707; Fri, 24 Mar
- 2023 03:29:24 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1679655457;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dnUQ1Sx0XxEJrZOnwfIlLoO/kxOQ/5zLbk0koPGrQNM=;
+        b=YrRiKifkFe9doIObrFozeGvA5ZHfhzHPvgV4yT1G/S8Wp0WkE2tahR6hnSXcoTh9tW
+         5G9pw+4wmCF+wcrcIXiMhsMkvIhmceHxn0KL9MxTwen77+BhycuQU7hMu+Rw2JT5Ngtf
+         A3UTLAnG3/Fe3f8AleCfM6i8mJE8Paxr5lSbIaFSsk+MW4I/ruU62izGLFDDUTyU1iKJ
+         hCjTBZx6L0uzHrMTlvR5qC+x6DxvYW0dZNtjtUiJQL+toQscQh32H/VfzL3a8AZx9BUJ
+         MBnyEFPhkxQVOJUOXsTyycn/PgDG/pU80XeJJeyJ2cE0DlrrEXRuz7dsKGnin0FEevaD
+         YvAA==
+X-Gm-Message-State: AAQBX9f3gbdsYl5PRTUQauiZZI0+V9r7clowgPcC9glSCNSbjKu+Lw8t
+	khMDmojlnd3sWZ5bsWBCH00UhxunxNELtQRUjSo=
+X-Google-Smtp-Source: AKy350YHynF+guIVcvYRvHFMJm6awvB63oE6SDQJNGUwfJoktCyK0c0lXxzEXI6U4dYJtcPcCDrzZQ==
+X-Received: by 2002:a17:902:db06:b0:19e:748c:ee29 with SMTP id m6-20020a170902db0600b0019e748cee29mr2557177plx.55.1679655456892;
+        Fri, 24 Mar 2023 03:57:36 -0700 (PDT)
+Received: from siddharth-latitude-3420.mvista.com ([45.119.9.190])
+        by smtp.gmail.com with ESMTPSA id x12-20020a1709029a4c00b001a1a9a639c2sm13506865plv.134.2023.03.24.03.57.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Mar 2023 03:57:36 -0700 (PDT)
+From: Siddharth <sdoshi@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Siddharth Doshi <sdoshi@mvista.com>
+Subject: [OE-core][master][PATCH] OpenSSL: Security fix for CVE-2023-0464
+Date: Fri, 24 Mar 2023 16:27:30 +0530
+Message-Id: <20230324105730.134476-1-sdoshi@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230324093326.3973899-1-kubiznak@2n.com> <20230324093326.3973899-3-kubiznak@2n.com>
-In-Reply-To: <20230324093326.3973899-3-kubiznak@2n.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 24 Mar 2023 11:29:13 +0100
-Message-ID: <CANNYZj-Abxph_jTa5BkrvWUyV=F9h_4K3nNRO0g-oNA10VKQ4A@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v2 2/3] graphene: add glib PACKAGECONFIG
-To: =?UTF-8?B?UGV0ciBLdWJpesWIw6Fr?= <kubiznak@2n.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 10:29:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179033
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 10:57:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179034
 
-Shouldn't this be something like
-PACKAGECONFIG[gobject-types] =3D
-"-Dgobject_types=3Dtrue,-Dgobject_types=3Dfalse,glib-2.0"
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-?
+Upstream-Status: Backport from [https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=2017771e2db3e2b96f89bbe8766c3209f6a99545]
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+---
+ .../openssl/openssl/CVE-2023-0464.patch       | 226 ++++++++++++++++++
+ .../openssl/openssl_3.1.0.bb                  |   1 +
+ 2 files changed, 227 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-0464.patch
 
-Alex
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-0464.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-0464.patch
+new file mode 100644
+index 0000000000..33b0bb6c79
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2023-0464.patch
+@@ -0,0 +1,226 @@
++From 2017771e2db3e2b96f89bbe8766c3209f6a99545 Mon Sep 17 00:00:00 2001
++From: Pauli <pauli@openssl.org>
++Date: Wed, 8 Mar 2023 15:28:20 +1100
++Subject: [PATCH] x509: excessive resource use verifying policy constraints
++
++A security vulnerability has been identified in all supported versions
++of OpenSSL related to the verification of X.509 certificate chains
++that include policy constraints.  Attackers may be able to exploit this
++vulnerability by creating a malicious certificate chain that triggers
++exponential use of computational resources, leading to a denial-of-service
++(DoS) attack on affected systems.
++
++Fixes CVE-2023-0464
++
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++Reviewed-by: Shane Lontis <shane.lontis@oracle.com>
++(Merged from https://github.com/openssl/openssl/pull/20570)
++
++Upstream-Status: Backport from [https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=2017771e2db3e2b96f89bbe8766c3209f6a99545]
++CVE: CVE-2023-0464
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++
++---
++ crypto/x509/pcy_local.h |  8 +++++++-
++ crypto/x509/pcy_node.c  | 12 +++++++++---
++ crypto/x509/pcy_tree.c  | 36 ++++++++++++++++++++++++++----------
++ 3 files changed, 42 insertions(+), 14 deletions(-)
++
++diff --git a/crypto/x509/pcy_local.h b/crypto/x509/pcy_local.h
++index 18b53cc..cba107c 100644
++--- a/crypto/x509/pcy_local.h
+++++ b/crypto/x509/pcy_local.h
++@@ -111,6 +111,11 @@ struct X509_POLICY_LEVEL_st {
++ };
++ 
++ struct X509_POLICY_TREE_st {
+++    /* The number of nodes in the tree */
+++    size_t node_count;
+++    /* The maximum number of nodes in the tree */
+++    size_t node_maximum;
+++
++     /* This is the tree 'level' data */
++     X509_POLICY_LEVEL *levels;
++     int nlevel;
++@@ -157,7 +162,8 @@ X509_POLICY_NODE *ossl_policy_tree_find_sk(STACK_OF(X509_POLICY_NODE) *sk,
++ X509_POLICY_NODE *ossl_policy_level_add_node(X509_POLICY_LEVEL *level,
++                                              X509_POLICY_DATA *data,
++                                              X509_POLICY_NODE *parent,
++-                                             X509_POLICY_TREE *tree);
+++                                             X509_POLICY_TREE *tree,
+++                                             int extra_data);
++ void ossl_policy_node_free(X509_POLICY_NODE *node);
++ int ossl_policy_node_match(const X509_POLICY_LEVEL *lvl,
++                            const X509_POLICY_NODE *node, const ASN1_OBJECT *oid);
++diff --git a/crypto/x509/pcy_node.c b/crypto/x509/pcy_node.c
++index 9d9a7ea..450f95a 100644
++--- a/crypto/x509/pcy_node.c
+++++ b/crypto/x509/pcy_node.c
++@@ -59,10 +59,15 @@ X509_POLICY_NODE *ossl_policy_level_find_node(const X509_POLICY_LEVEL *level,
++ X509_POLICY_NODE *ossl_policy_level_add_node(X509_POLICY_LEVEL *level,
++                                              X509_POLICY_DATA *data,
++                                              X509_POLICY_NODE *parent,
++-                                             X509_POLICY_TREE *tree)
+++                                             X509_POLICY_TREE *tree,
+++                                             int extra_data)
++ {
++     X509_POLICY_NODE *node;
++ 
+++    /* Verify that the tree isn't too large.  This mitigates CVE-2023-0464 */
+++    if (tree->node_maximum > 0 && tree->node_count >= tree->node_maximum)
+++        return NULL;
+++
++     node = OPENSSL_zalloc(sizeof(*node));
++     if (node == NULL) {
++         ERR_raise(ERR_LIB_X509V3, ERR_R_MALLOC_FAILURE);
++@@ -70,7 +75,7 @@ X509_POLICY_NODE *ossl_policy_level_add_node(X509_POLICY_LEVEL *level,
++     }
++     node->data = data;
++     node->parent = parent;
++-    if (level) {
+++    if (level != NULL) {
++         if (OBJ_obj2nid(data->valid_policy) == NID_any_policy) {
++             if (level->anyPolicy)
++                 goto node_error;
++@@ -90,7 +95,7 @@ X509_POLICY_NODE *ossl_policy_level_add_node(X509_POLICY_LEVEL *level,
++         }
++     }
++ 
++-    if (tree) {
+++    if (extra_data) {
++         if (tree->extra_data == NULL)
++             tree->extra_data = sk_X509_POLICY_DATA_new_null();
++         if (tree->extra_data == NULL){
++@@ -103,6 +108,7 @@ X509_POLICY_NODE *ossl_policy_level_add_node(X509_POLICY_LEVEL *level,
++         }
++     }
++ 
+++    tree->node_count++;
++     if (parent)
++         parent->nchild++;
++ 
++diff --git a/crypto/x509/pcy_tree.c b/crypto/x509/pcy_tree.c
++index fa45da5..f953a05 100644
++--- a/crypto/x509/pcy_tree.c
+++++ b/crypto/x509/pcy_tree.c
++@@ -14,6 +14,17 @@
++ 
++ #include "pcy_local.h"
++ 
+++/*
+++ * If the maximum number of nodes in the policy tree isn't defined, set it to
+++ * a generous default of 1000 nodes.
+++ *
+++ * Defining this to be zero means unlimited policy tree growth which opens the
+++ * door on CVE-2023-0464.
+++ */
+++#ifndef OPENSSL_POLICY_TREE_NODES_MAX
+++# define OPENSSL_POLICY_TREE_NODES_MAX 1000
+++#endif
+++
++ static void expected_print(BIO *channel,
++                            X509_POLICY_LEVEL *lev, X509_POLICY_NODE *node,
++                            int indent)
++@@ -163,6 +174,9 @@ static int tree_init(X509_POLICY_TREE **ptree, STACK_OF(X509) *certs,
++         return X509_PCY_TREE_INTERNAL;
++     }
++ 
+++    /* Limit the growth of the tree to mitigate CVE-2023-0464 */
+++    tree->node_maximum = OPENSSL_POLICY_TREE_NODES_MAX;
+++
++     /*
++      * http://tools.ietf.org/html/rfc5280#section-6.1.2, figure 3.
++      *
++@@ -180,7 +194,7 @@ static int tree_init(X509_POLICY_TREE **ptree, STACK_OF(X509) *certs,
++     if ((data = ossl_policy_data_new(NULL,
++                                      OBJ_nid2obj(NID_any_policy), 0)) == NULL)
++         goto bad_tree;
++-    if (ossl_policy_level_add_node(level, data, NULL, tree) == NULL) {
+++    if (ossl_policy_level_add_node(level, data, NULL, tree, 1) == NULL) {
++         ossl_policy_data_free(data);
++         goto bad_tree;
++     }
++@@ -239,7 +253,8 @@ static int tree_init(X509_POLICY_TREE **ptree, STACK_OF(X509) *certs,
++  * Return value: 1 on success, 0 otherwise
++  */
++ static int tree_link_matching_nodes(X509_POLICY_LEVEL *curr,
++-                                    X509_POLICY_DATA *data)
+++                                    X509_POLICY_DATA *data,
+++                                    X509_POLICY_TREE *tree)
++ {
++     X509_POLICY_LEVEL *last = curr - 1;
++     int i, matched = 0;
++@@ -249,13 +264,13 @@ static int tree_link_matching_nodes(X509_POLICY_LEVEL *curr,
++         X509_POLICY_NODE *node = sk_X509_POLICY_NODE_value(last->nodes, i);
++ 
++         if (ossl_policy_node_match(last, node, data->valid_policy)) {
++-            if (ossl_policy_level_add_node(curr, data, node, NULL) == NULL)
+++            if (ossl_policy_level_add_node(curr, data, node, tree, 0) == NULL)
++                 return 0;
++             matched = 1;
++         }
++     }
++     if (!matched && last->anyPolicy) {
++-        if (ossl_policy_level_add_node(curr, data, last->anyPolicy, NULL) == NULL)
+++        if (ossl_policy_level_add_node(curr, data, last->anyPolicy, tree, 0) == NULL)
++             return 0;
++     }
++     return 1;
++@@ -268,7 +283,8 @@ static int tree_link_matching_nodes(X509_POLICY_LEVEL *curr,
++  * Return value: 1 on success, 0 otherwise.
++  */
++ static int tree_link_nodes(X509_POLICY_LEVEL *curr,
++-                           const X509_POLICY_CACHE *cache)
+++                           const X509_POLICY_CACHE *cache,
+++                           X509_POLICY_TREE *tree)
++ {
++     int i;
++ 
++@@ -276,7 +292,7 @@ static int tree_link_nodes(X509_POLICY_LEVEL *curr,
++         X509_POLICY_DATA *data = sk_X509_POLICY_DATA_value(cache->data, i);
++ 
++         /* Look for matching nodes in previous level */
++-        if (!tree_link_matching_nodes(curr, data))
+++        if (!tree_link_matching_nodes(curr, data, tree))
++             return 0;
++     }
++     return 1;
++@@ -307,7 +323,7 @@ static int tree_add_unmatched(X509_POLICY_LEVEL *curr,
++     /* Curr may not have anyPolicy */
++     data->qualifier_set = cache->anyPolicy->qualifier_set;
++     data->flags |= POLICY_DATA_FLAG_SHARED_QUALIFIERS;
++-    if (ossl_policy_level_add_node(curr, data, node, tree) == NULL) {
+++    if (ossl_policy_level_add_node(curr, data, node, tree, 1) == NULL) {
++         ossl_policy_data_free(data);
++         return 0;
++     }
++@@ -370,7 +386,7 @@ static int tree_link_any(X509_POLICY_LEVEL *curr,
++     /* Finally add link to anyPolicy */
++     if (last->anyPolicy &&
++             ossl_policy_level_add_node(curr, cache->anyPolicy,
++-                                       last->anyPolicy, NULL) == NULL)
+++                                       last->anyPolicy, tree, 0) == NULL)
++         return 0;
++     return 1;
++ }
++@@ -553,7 +569,7 @@ static int tree_calculate_user_set(X509_POLICY_TREE *tree,
++             extra->flags = POLICY_DATA_FLAG_SHARED_QUALIFIERS
++                 | POLICY_DATA_FLAG_EXTRA_NODE;
++             node = ossl_policy_level_add_node(NULL, extra, anyPolicy->parent,
++-                                              tree);
+++                                              tree, 1);
++         }
++         if (!tree->user_policies) {
++             tree->user_policies = sk_X509_POLICY_NODE_new_null();
++@@ -580,7 +596,7 @@ static int tree_evaluate(X509_POLICY_TREE *tree)
++ 
++     for (i = 1; i < tree->nlevel; i++, curr++) {
++         cache = ossl_policy_cache_set(curr->cert);
++-        if (!tree_link_nodes(curr, cache))
+++        if (!tree_link_nodes(curr, cache, tree))
++             return X509_PCY_TREE_INTERNAL;
++ 
++         if (!(curr->flags & X509_V_FLAG_INHIBIT_ANY)
++-- 
++2.25.1
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.1.0.bb b/meta/recipes-connectivity/openssl/openssl_3.1.0.bb
+index 85286a0618..b319c66044 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.1.0.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.1.0.bb
+@@ -12,6 +12,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+            file://0001-Configure-do-not-tweak-mips-cflags.patch \
+            file://fix_random_labels.patch \
++           file://CVE-2023-0464.patch \
+            "
+ 
+ SRC_URI:append:class-nativesdk = " \
+-- 
+2.25.1
 
-On Fri, 24 Mar 2023 at 10:36, Petr Kubiz=C5=88=C3=A1k <kubiznak@2n.com> wro=
-te:
->
-> When gobject-introspection is enabled, glib dependency is pulled in
-> automatically. When it is disabled, glib dependency should be optional
-> via PACKAGECONFIG.
->
-> Default is to enable glib so that graphene-gobject is built
-> (dependency of gtk4).
->
-> Signed-off-by: Petr Kubiz=C5=88=C3=A1k <kubiznak@2n.com>
-> ---
->  meta/recipes-graphics/graphene/graphene_1.10.8.bb | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-graphics/graphene/graphene_1.10.8.bb b/meta/rec=
-ipes-graphics/graphene/graphene_1.10.8.bb
-> index 120ee80b17..5c870147d0 100644
-> --- a/meta/recipes-graphics/graphene/graphene_1.10.8.bb
-> +++ b/meta/recipes-graphics/graphene/graphene_1.10.8.bb
-> @@ -11,8 +11,9 @@ SRC_URI[archive.sha256sum] =3D "a37bb0e78a419dcbeaa9c70=
-27bcff52f5ec2367c25ec859da3
->
->  # Disable neon support by default on ARM-32 platforms because of the
->  # following upstream bug: https://github.com/ebassi/graphene/issues/215
-> -PACKAGECONFIG ?=3D "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', 'ne=
-on', '', d)}"
-> +PACKAGECONFIG ?=3D "glib ${@bb.utils.contains('TUNE_FEATURES', 'aarch64'=
-, 'neon', '', d)}"
->
-> +PACKAGECONFIG[glib] =3D ",,glib-2.0"
->  PACKAGECONFIG[neon] =3D "-Darm_neon=3Dtrue,-Darm_neon=3Dfalse,"
->
->  GIR_MESON_ENABLE_FLAG =3D 'enabled'
-> --
-> 2.30.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#179024): https://lists.openembedded.org/g/openembedde=
-d-core/message/179024
-> Mute This Topic: https://lists.openembedded.org/mt/97820022/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
 
