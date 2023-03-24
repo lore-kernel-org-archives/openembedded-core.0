@@ -2,73 +2,75 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A13FFC6FD20
-	for <webhook@archiver.kernel.org>; Fri, 24 Mar 2023 15:22:07 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web11.104196.1679671325521072316
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FDF6C6FD1C
+	for <webhook@archiver.kernel.org>; Fri, 24 Mar 2023 15:23:57 +0000 (UTC)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web10.104919.1679671435505412794
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Mar 2023 08:22:05 -0700
+ Fri, 24 Mar 2023 08:23:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=eXl1/p4+;
- spf=pass (domain: gmail.com, ip: 209.85.167.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f51.google.com with SMTP id q16so2691135lfe.10
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 08:22:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=kLFo4PyW;
+ spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f41.google.com with SMTP id k37so2768481lfv.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 08:23:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679671324;
+        d=gmail.com; s=20210112; t=1679671433;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1pA/foizHN8HuKTqKja2tIk4RxL780znWTSteJt8PyE=;
-        b=eXl1/p4+q6dz//onpfinj6K98BxKy5yxk6otZtPeel3w0QWFNDqL/zvKq178mr9cH8
-         n5oNVbP7+a/v5NkZ7bwggzX/IfiMU2GOiMATOlMV7v+SxHfzi3E8xS5FevO/oW1Mwql5
-         VH0kXeKkpcZ+6ROGR82sXIuklbu+sbUeSzf7xUinGHEUTlH4p3l+t57JHm7Lv2CSxfA6
-         x4KFXx5i9eXmftjfNY8G6/Nz4dDZ4zsPpKWPmSH6SxXPs0VK9hC9PkIOgjejsgNGrM2S
-         Hi8+6Yy54I6TeI4tgOdVHcWdMGsWbNX5Ac1PQXnnSsaXBBz5kO3zuiVGsPjsDGRYPpUh
-         IFqg==
+        bh=Y2/CJ/F7LB7qgReFG/vcjT/RbmxdAILm6MLTdtX5edw=;
+        b=kLFo4PyWsuwW9w1YKi3xz/K+YI0Ypdz/WFb5In9mjeQHhy4VSbTUklWa4nqk/SzqFz
+         5h09duHW0qBVwpK4+LXLS5i8xxwoGe38jccpXMfxd4WwQgoM+0ocJa/rD2qId4rW7v9m
+         bJEGL9L8cvv9FUzDij2EFRLKLvqDw787Du1TVsAawM0H39TzYZl2jR2jJ3wlovaA8e57
+         5I97N11m/t3sd92CBdG4lWD1kpXeOLbTvUPJVIgdQvgA1xFFxf3OLUEwCfWgO1hYgPyx
+         3kRk1bwCbb8FLwh9nDKOOQXM2WitW7/HTvTtGZ5cmI6DV1UuxxnoVKbHpk7MLT5qE8C9
+         zSXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679671324;
+        d=1e100.net; s=20210112; t=1679671433;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1pA/foizHN8HuKTqKja2tIk4RxL780znWTSteJt8PyE=;
-        b=6/4GII8PS5NJAyAs7eL9PS+mLjGxFnrxA3ZSEf3sh9hInDfW6dTVBRVCRhX4fb7gJ3
-         KDZZUAnFUZRu3f/1qeFHRAMmc6V6MaRCyN53Arp0XyguEXl+ynbXK2oRJIGmKmEEF423
-         eZ7eYwabbTwvMBjGRNxLuXjd9t999vXF1HXbbVKahmq3Hnl3QjvrznIKnm/VrbRo+OzQ
-         OEunjoZcV4Fy3wUOdkWGRtGSW2gq6pn0SVAQzlNvFVFo1uNwsjzlqj9jmh4/LfW59IfJ
-         L1/ATvLqmyR4i/D1i+GF0EAtOxgh6jZUK50wRY/b+ca6KvbLmvsIPfX7IuUsg97Iyc3h
-         yoRw==
-X-Gm-Message-State: AAQBX9cioh2POClga3E50y/2zDBkackbDppXHDBm2Q1nlAWzUHnt0+XV
-	9HpaAXYVaVD52ypICLRLyUbKqlz8tgTJ4EnRDyw=
-X-Google-Smtp-Source: AKy350a6nz5ZUYt1dF19VW0qC/5LHWxqj/jBZ1NwrRdq3B07tqOQsEbsVqkiqBWtXREPSiXN0nTRxVFvDw6VRSnxM4Q=
-X-Received: by 2002:ac2:522e:0:b0:4ea:e2f8:5ed6 with SMTP id
- i14-20020ac2522e000000b004eae2f85ed6mr802145lfl.11.1679671323586; Fri, 24 Mar
- 2023 08:22:03 -0700 (PDT)
+        bh=Y2/CJ/F7LB7qgReFG/vcjT/RbmxdAILm6MLTdtX5edw=;
+        b=PWdshMlCMfBmMiDvel88dYmyAksD8OkWE+nJBTANn86mQiUHQjGe8g5A643lSBhKYt
+         bH+KKwgBTRIPNckjB1mHMtuPeEEghPL4ZvQ5KQzbGQ+NRRRnicQDFQELiVGJqSCtkEU4
+         4LZM9RefLnF4f6ERyIjNDXx+k2huCNCXbdjQiySu6/jPqH5u2knxaLrctdwkaAxQuYjz
+         yDkh3DH0uYX2q7vW21BV1OHmkmXcXqPYyY58uGA16b11Ieg2HNxMGqM7xNWd2SzEQAy8
+         avtNrM7VwASpWVfWbZhP1saeRpFrdxqUdPQZJe/ZaMHvY6v6WEtvKpSgAkKgsVntuJIs
+         eWew==
+X-Gm-Message-State: AAQBX9eAFsAvzf6IQU2Q+lqVv0QXjrVULAZiAcRfT69KYTtPBIcNPLXf
+	x4FMe4HgglvIeJedTjQ9TtebniZa91bgliPQCLXD6fzM
+X-Google-Smtp-Source: AKy350ZtOrJ4DUDJ0GxD8X0jA7C4sSvwBVHlkm+sNm4PoVLYw9Mjh8U79sjuzd9rZPS4H+JkOD9j28ZXLCuYkKAb+nY=
+X-Received: by 2002:ac2:5ddb:0:b0:4e8:c8f1:a010 with SMTP id
+ x27-20020ac25ddb000000b004e8c8f1a010mr821123lfq.11.1679671433320; Fri, 24 Mar
+ 2023 08:23:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230324145958.278236-1-throos@amazon.de>
 In-Reply-To: <20230324145958.278236-1-throos@amazon.de>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 24 Mar 2023 16:21:52 +0100
-Message-ID: <CANNYZj9_w84pYU4bKfVF4cnC0=CSmtTCNipeWjUdnDaioUB3WA@mail.gmail.com>
+Date: Fri, 24 Mar 2023 16:23:42 +0100
+Message-ID: <CANNYZj9S6nOySc52kL7-hryjTzirS6EKLMEjxTzrDyyGvE3xdw@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] change the default behavior of bitbake-layers
  and oe-setup-builddir to rel paths
 To: throos@amazon.de
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000094f46d05f7a6f42a"
+Content-Type: multipart/alternative; boundary="0000000000001f5bf005f7a6fbd2"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 15:22:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179060
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 15:23:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179061
 
---00000000000094f46d05f7a6f42a
+--0000000000001f5bf005f7a6fbd2
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Build directories are not meant to be relocatable, and will likely break in
-all kinds of ways if you try. Can you explain the use case?
+Also, this will break build templates, as they can=E2=80=99t contain paths =
+relative
+to build dirs.
 
 Alex
 
 On Fri 24. Mar 2023 at 16.00, Thomas Roos via lists.openembedded.org
-<throos=amazon.de@lists.openembedded.org> wrote:
+<throos=3Damazon.de@lists.openembedded.org> wrote:
 
 > From: Thomas Roos <throos@amazon.de>
 >
@@ -76,7 +78,8 @@ On Fri 24. Mar 2023 at 16.00, Thomas Roos via lists.openembedded.org
 > bblayers.conf.
 > Instead of an absolute path this will create an relative path to $TOPDIR,
 > which will
-> allow to move the bblayers.conf to different paths without modification of
+> allow to move the bblayers.conf to different paths without modification o=
+f
 > it.
 >
 > Signed-off-by: Thomas Roos <throos@amazon.de>
@@ -94,8 +97,8 @@ On Fri 24. Mar 2023 at 16.00, Thomas Roos via lists.openembedded.org
 >  class ActionPlugin(LayerPlugin):
 >      def do_add_layer(self, args):
 >          """Add one or more layers to bblayers.conf."""
-> -        layerdirs = [os.path.abspath(ldir) for ldir in args.layerdir]
-> +        layerdirs = [os.path.relpath(ldir, findTopdir()) for ldir in
+> -        layerdirs =3D [os.path.abspath(ldir) for ldir in args.layerdir]
+> +        layerdirs =3D [os.path.relpath(ldir, findTopdir()) for ldir in
 > args.layerdir]
 >
 >          for layerdir in layerdirs:
@@ -105,10 +108,11 @@ On Fri 24. Mar 2023 at 16.00, Thomas Roos via lists.openembedded.org
 > contain a conf/layer.conf file\n" % layerdir)
 >                  return 1
 >
-> +        layerdirs = [os.path.join('${TOPDIR}', ldir) for ldir in
+> +        layerdirs =3D [os.path.join('${TOPDIR}', ldir) for ldir in
 > args.layerdir]
 > +
->          bblayers_conf = os.path.join(findTopdir(),'conf', 'bblayers.conf')
+>          bblayers_conf =3D os.path.join(findTopdir(),'conf', 'bblayers.co=
+nf')
 >          if not os.path.exists(bblayers_conf):
 >              sys.stderr.write("Unable to find bblayers.conf\n")
 > diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
@@ -122,11 +126,12 @@ On Fri 24. Mar 2023 at 16.00, Thomas Roos via lists.openembedded.org
 >      # to replace it for compatibility.
 > -    sed -e "s|##OEROOT##|$OEROOT|g" \
 > -        -e "s|##COREBASE##|$OEROOT|g" \
-> +    LAYERPATH='${TOPDIR}'/$(realpath --relative-to=$BUILDDIR $OEROOT)
+> +    LAYERPATH=3D'${TOPDIR}'/$(realpath --relative-to=3D$BUILDDIR $OEROOT=
+)
 > +    sed -e "s|##OEROOT##|$LAYERPATH|"g \
 > +        -e "s|##COREBASE##|$LAYERPATH|"g \
 >          "$OECORELAYERCONF" > "$BUILDDIR/conf/bblayers.conf"
->      SHOWYPDOC=yes
+>      SHOWYPDOC=3Dyes
 >  fi
 > --
 > 2.34.1
@@ -142,14 +147,15 @@ On Fri 24. Mar 2023 at 16.00, Thomas Roos via lists.openembedded.org
 > Amazon Web Services EMEA SARL, Niederlassung Deutschland
 > Marcel-Breuer-Str. 12, D-80807 Muenchen
 > Sitz der Zweigniederlassung: Muenchen
-> eingetragen im Handelsregister des Amtsgerichts Muenchen unter HRB 242240,
+> eingetragen im Handelsregister des Amtsgerichts Muenchen unter HRB 242240=
+,
 > USt-ID DE317013094
 >
 >
 >
 >
 >
-> -=-=-=-=-=-=-=-=-=-=-=-
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
 > View/Reply Online (#179040):
 > https://lists.openembedded.org/g/openembedded-core/message/179040
@@ -157,25 +163,25 @@ On Fri 24. Mar 2023 at 16.00, Thomas Roos via lists.openembedded.org
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
 > alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 >
 
---00000000000094f46d05f7a6f42a
+--0000000000001f5bf005f7a6fbd2
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">Build directories are not meant to be relocatable, and wi=
-ll likely break in all kinds of ways if you try. Can you explain the use ca=
-se?</div><div dir=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><br><=
-div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri 24. =
-Mar 2023 at 16.00, Thomas Roos via <a href=3D"http://lists.openembedded.org=
-">lists.openembedded.org</a> &lt;throos=3D<a href=3D"mailto:amazon.de@lists=
-.openembedded.org">amazon.de@lists.openembedded.org</a>&gt; wrote:<br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:=
-rgb(204,204,204)" dir=3D"auto">From: Thomas Roos &lt;<a href=3D"mailto:thro=
-os@amazon.de" target=3D"_blank">throos@amazon.de</a>&gt;<br>
+<div dir=3D"auto">Also, this will break build templates, as they can=E2=80=
+=99t contain paths relative to build dirs.</div><div dir=3D"auto"><br></div=
+><div dir=3D"auto">Alex</div><div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Fri 24. Mar 2023 at 16.00, Thomas Roos via=
+ <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;t=
+hroos=3D<a href=3D"mailto:amazon.de@lists.openembedded.org">amazon.de@lists=
+.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:=
+solid;padding-left:1ex;border-left-color:rgb(204,204,204)">From: Thomas Roo=
+s &lt;<a href=3D"mailto:throos@amazon.de" target=3D"_blank">throos@amazon.d=
+e</a>&gt;<br>
 <br>
 This patch will use the $TOPDIR variable to create layer entries in bblayer=
 s.conf.<br>
@@ -284,5 +290,5 @@ rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
 <br>
 </blockquote></div></div>
 
---00000000000094f46d05f7a6f42a--
+--0000000000001f5bf005f7a6fbd2--
 
