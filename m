@@ -1,123 +1,110 @@
-Return-Path: <throos@amazon.de>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61F7DC6FD20
-	for <webhook@archiver.kernel.org>; Fri, 24 Mar 2023 15:00:17 +0000 (UTC)
-Received: from smtp-fw-80006.amazon.com (smtp-fw-80006.amazon.com [99.78.197.217])
- by mx.groups.io with SMTP id smtpd.web10.104094.1679670014930581706
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 718F0C6FD20
+	for <webhook@archiver.kernel.org>; Fri, 24 Mar 2023 15:08:57 +0000 (UTC)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+ by mx.groups.io with SMTP id smtpd.web10.104392.1679670532583753224
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Mar 2023 08:00:15 -0700
+ Fri, 24 Mar 2023 08:08:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amazon.de header.s=amazon201209 header.b=kXvsw224;
- spf=pass (domain: amazon.de, ip: 99.78.197.217, mailfrom: prvs=44022c1a6=throos@amazon.de)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=cuQHl44q;
+ spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f46.google.com with SMTP id m16so1711157qvi.12
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 08:08:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1679670016; x=1711206016;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=5Ds6u2pXBE5F+GpqE1HWlBu/r3Z3+l+ka8gRCgsion4=;
-  b=kXvsw224Xfn4E2E2yu9BT+8GS/bvsRhfSOxN8xOvQpcAs/kOzOO2l7FW
-   aIeawWzaXEc3hBIkQXklWSqH3t5fh/uIGHVOkjXczafe84bx6u7fPkYJS
-   WwbrV34O1ESBiIJTVSigyXCU/T4SX/aUEEgYfwT7g+hamiHWPf2tcokiP
-   M=;
-X-IronPort-AV: E=Sophos;i="5.98,288,1673913600"; 
-   d="scan'208";a="197116431"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-pdx-2b-m6i4x-189d700f.us-west-2.amazon.com) ([10.25.36.210])
-  by smtp-border-fw-80006.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 15:00:13 +0000
-Received: from EX19D016EUC001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
-	by email-inbound-relay-pdx-2b-m6i4x-189d700f.us-west-2.amazon.com (Postfix) with ESMTPS id 1C88D415A2
-	for <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 15:00:12 +0000 (UTC)
-Received: from u182adcbddbfb55.ant.amazon.com (10.85.99.86) by
- EX19D016EUC001.ant.amazon.com (10.252.51.169) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 24 Mar 2023 15:00:09 +0000
-From: <throos@amazon.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: Thomas Roos <throos@amazon.de>
-Subject: [PATCH] change the default behavior of bitbake-layers and oe-setup-builddir to rel paths
-Date: Fri, 24 Mar 2023 15:59:58 +0100
-Message-ID: <20230324145958.278236-1-throos@amazon.de>
-X-Mailer: git-send-email 2.25.1
+        d=gmail.com; s=20210112; t=1679670531;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qjdMToaVXOwpksBOU8uXUE4RnU345OwXFzksXbTs2/c=;
+        b=cuQHl44qA/j+BcWNPajlcnrWrA0UjjJ1JMZ6K/KTNLvVmArpKdnXVSNd2MsH3xRcoo
+         KeenKJGfTIdIIymxcJCPuVDSG764hO+WDJv4hoyKAuCzDQJb6rRoLssqXCzvSD9cPhHf
+         M6iscDJ5bfGTSDkqD0M+PWBzWzwBrjV62QCuleC5HWpRADXsbtauP6LOp2Z11YOihY9l
+         an+OtzBzGKvGwGcY7orjO4eEFKUhEjO/jgXRIIQ6BzKY7W9fG1dbBJQ98TlN7DMZ2NuC
+         20Ov1YabsgKTt15oBPRMRFl4mTXIFwz3z24QGNpx3NnwR9aBMHGkn3b0+PthRzaKBHP2
+         BDVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679670531;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qjdMToaVXOwpksBOU8uXUE4RnU345OwXFzksXbTs2/c=;
+        b=qae9VHhgE8hVXh5tTva3J9Hx+mj1Yjnm6ByHs8piDwz3LC+3PTQlcS6ZPEitDH+wM8
+         NOHmGVX4YcFS0xG0tjKkAgjVTVQER2wX0JHgJQg4yTUfWwaJGYMsUexnuMVbXUC7EU+Z
+         7MTAhMiWpmCCE0BbJrsgmNOTx8OxIu4/SbfRLpGMNPB+xIdaO4HDQVgdjEFRmWy2jzOT
+         faJsWzjZULljZyH6FqHPUWtkuxixkp4YEU65pQYYCyTA1Fa/1CUYre7nrGh7CUpfu6EJ
+         G5CZVPvNO2zPBGWfF5jcQBQrHUKn6g9jDUsFtLJQXztb+8BxWXKnyhYulqKbgXKYFNOk
+         Hmbg==
+X-Gm-Message-State: AAQBX9dmA2p8/aWmut+XQ5NGGX7wgsF/LnB2IYnZd0rbnGWU07F9u8xM
+	0UddFTzXlz4vy/BDZrqsIftlq7uViKd4Gg==
+X-Google-Smtp-Source: AKy350Z6LSj6dOHUtjDsk4kYHCGmTkGKdgBnWIlNMxTWHNsV/4RARnFpgpS2kr0PsX79zV1PZYFzrg==
+X-Received: by 2002:a05:6214:ac4:b0:5a1:d44:79a7 with SMTP id g4-20020a0562140ac400b005a10d4479a7mr5696512qvi.20.1679670531364;
+        Fri, 24 Mar 2023 08:08:51 -0700 (PDT)
+Received: from build.lan (cpe7c9a54441c1f-cm7c9a54441c1d.cpe.net.cable.rogers.com. [173.34.238.88])
+        by smtp.gmail.com with ESMTPSA id mf10-20020a0562145d8a00b005dd8b9345e8sm746219qvb.128.2023.03.24.08.08.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Mar 2023 08:08:50 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/7] kernel: consolidated pull request
+Date: Fri, 24 Mar 2023 11:08:41 -0400
+Message-Id: <cover.1679670268.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Originating-IP: [10.85.99.86]
-X-ClientProxiedBy: EX19D033UWA002.ant.amazon.com (10.13.139.10) To
- EX19D016EUC001.ant.amazon.com (10.252.51.169)
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 15:00:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179040
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 15:08:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179041
 
-From: Thomas Roos <throos@amazon.de>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-This patch will use the $TOPDIR variable to create layer entries in bblayers.conf.
-Instead of an absolute path this will create an relative path to $TOPDIR, which will
-allow to move the bblayers.conf to different paths without modification of it.
+Richard,
 
-Signed-off-by: Thomas Roos <throos@amazon.de>
----
- bitbake/lib/bblayers/action.py | 4 +++-
- scripts/oe-setup-builddir      | 5 +++--
- 2 files changed, 6 insertions(+), 3 deletions(-)
+Here's the latest round of -stable updates. Along with them, there's
+some fixes for on-target/SDK builds with kernel-devsrc and fixes to
+ensure that 6.3+ works against the upcoming release.
 
-diff --git a/bitbake/lib/bblayers/action.py b/bitbake/lib/bblayers/action.py
-index 0d7fd6edd1..bd13e15a2f 100644
---- a/bitbake/lib/bblayers/action.py
-+++ b/bitbake/lib/bblayers/action.py
-@@ -26,7 +26,7 @@ def plugin_init(plugins):
- class ActionPlugin(LayerPlugin):
-     def do_add_layer(self, args):
-         """Add one or more layers to bblayers.conf."""
--        layerdirs = [os.path.abspath(ldir) for ldir in args.layerdir]
-+        layerdirs = [os.path.relpath(ldir, findTopdir()) for ldir in args.layerdir]
- 
-         for layerdir in layerdirs:
-             if not os.path.exists(layerdir):
-@@ -38,6 +38,8 @@ class ActionPlugin(LayerPlugin):
-                 sys.stderr.write("Specified layer directory %s doesn't contain a conf/layer.conf file\n" % layerdir)
-                 return 1
- 
-+        layerdirs = [os.path.join('${TOPDIR}', ldir) for ldir in args.layerdir]
-+
-         bblayers_conf = os.path.join(findTopdir(),'conf', 'bblayers.conf')
-         if not os.path.exists(bblayers_conf):
-             sys.stderr.write("Unable to find bblayers.conf\n")
-diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
-index 89ae30f609..65a77b76fd 100755
---- a/scripts/oe-setup-builddir
-+++ b/scripts/oe-setup-builddir
-@@ -92,8 +92,9 @@ EOM
-     # bitbake without the init script after the first run.
-     # ##COREBASE## is deprecated as its meaning was inconsistent, but continue
-     # to replace it for compatibility.
--    sed -e "s|##OEROOT##|$OEROOT|g" \
--        -e "s|##COREBASE##|$OEROOT|g" \
-+    LAYERPATH='${TOPDIR}'/$(realpath --relative-to=$BUILDDIR $OEROOT)
-+    sed -e "s|##OEROOT##|$LAYERPATH|"g \
-+        -e "s|##COREBASE##|$LAYERPATH|"g \
-         "$OECORELAYERCONF" > "$BUILDDIR/conf/bblayers.conf"
-     SHOWYPDOC=yes
- fi
+I was out of the office last week, or these would have been avialable
+sooner .. I already have more -stable updates pending.
+
+I'll be sending hardware reference bumps, and updates to the LTS
+releases in separate series.
+
+Bruce
+
+The following changes since commit f5c671e201e98f071a7e5e4cbd83af9751c34201:
+
+  lttng-modules: fix for v6.3+ kernels (2023-03-22 23:17:27 +0000)
+
+are available in the Git repository at:
+
+  https://git.yoctoproject.org/poky-contrib zedd/kernel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (7):
+  linux-yocto/6.1: update to v6.1.15
+  linux-yocto/5.15: update to v5.15.98
+  linux-yocto/6.1: update to v6.1.20
+  linux-yocto/5.15: update to v5.15.103
+  kernel-devsrc: fix mismatched compiler warning
+  linux-yocto-dev: bump to v6.3
+  kernel/kernel-devsrc: powerpc: add elfutils dependency
+
+ meta/recipes-kernel/linux/kernel-devsrc.bb    |  9 ++++++
+ meta/recipes-kernel/linux/linux-yocto-dev.bb  |  5 ++--
+ .../linux/linux-yocto-rt_5.15.bb              |  6 ++--
+ .../linux/linux-yocto-rt_6.1.bb               |  6 ++--
+ .../linux/linux-yocto-tiny_5.15.bb            |  6 ++--
+ .../linux/linux-yocto-tiny_6.1.bb             |  6 ++--
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb | 26 ++++++++---------
+ meta/recipes-kernel/linux/linux-yocto_6.1.bb  | 28 +++++++++----------
+ 8 files changed, 51 insertions(+), 41 deletions(-)
+
 -- 
 2.34.1
-
-
-
-
-Amazon Web Services EMEA SARL
-38 avenue John F. Kennedy, L-1855 Luxembourg
-Sitz der Gesellschaft: L-1855 Luxemburg
-eingetragen im Luxemburgischen Handelsregister unter R.C.S. B186284
-
-Amazon Web Services EMEA SARL, Niederlassung Deutschland
-Marcel-Breuer-Str. 12, D-80807 Muenchen
-Sitz der Zweigniederlassung: Muenchen
-eingetragen im Handelsregister des Amtsgerichts Muenchen unter HRB 242240, USt-ID DE317013094
-
-
-
 
 
