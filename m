@@ -1,370 +1,364 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <kai.kang@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FBBDC77B61
-	for <webhook@archiver.kernel.org>; Sat, 25 Mar 2023 00:50:08 +0000 (UTC)
-Received: from mailout11.t-online.de (mailout11.t-online.de [194.25.134.85])
- by mx.groups.io with SMTP id smtpd.web10.13232.1679705401224501303
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00C23C6FD1C
+	for <webhook@archiver.kernel.org>; Sat, 25 Mar 2023 07:44:49 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.17261.1679730284417255467
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Mar 2023 17:50:01 -0700
+ Sat, 25 Mar 2023 00:44:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.85, mailfrom: f_l_k@t-online.de)
-Received: from fwd79.dcpf.telekom.de (fwd79.aul.t-online.de [10.223.144.105])
-	by mailout11.t-online.de (Postfix) with SMTP id D7C43ABB6
-	for <openembedded-core@lists.openembedded.org>; Sat, 25 Mar 2023 01:48:44 +0100 (CET)
-Received: from flk-MS-7C91.fritz.box ([84.154.174.49]) by fwd79.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1pfs5M-20zHG50; Sat, 25 Mar 2023 01:48:44 +0100
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Markus Volk <f_l_k@t-online.de>
-Subject: [oe-core][PATCH 1/7] glib-2.0: update 2.74.6 -> 2.76.1
-Date: Sat, 25 Mar 2023 01:48:12 +0100
-Message-Id: <20230325004818.2784943-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=qtbqeUyV;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=24482fab1e=kai.kang@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32P7ibcv004246
+	for <openembedded-core@lists.openembedded.org>; Sat, 25 Mar 2023 07:44:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
+ subject : date : message-id : mime-version : content-type; s=PPS06212021;
+ bh=S4ToK0euB911MJz6qfOyU4b7E/CS9pXZR0IsxTvj6Y8=;
+ b=qtbqeUyVMs6l1FpGXYJ3V15zgzwDwIP6v2+QG7xBI+BPy9h2jOQZ7ORCzktRvgQwqJ4x
+ flICS+oLRwcqmX5G4wedGfaBuow6o9C9RsXeWX6N8eUJUH31X9HMB+a7HT7XiNyXpaOY
+ 4uZn3/QQN4rcJFSnUWLejErwVdTBqKReaJvlz0eZHrT4C9VVoWEjlz7tpAnCz3yxZGQM
+ 859IWHu+qNkspAJcOKt8EUoyYTfU8LbYF3HmX8mvm5hNq6D3cM9jWtn2sAO+hTgv2Khd
+ 3G263GDQcOY52YOD7QjAONNhQC6QPTOA347CqCYP1TQDo4LHns93/qHxqpgJY5WNQqMG eg== 
+Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3phqxbr5vf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sat, 25 Mar 2023 07:44:43 +0000
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.18; Sat, 25 Mar 2023 00:44:42 -0700
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.17 via Frontend Transport; Sat, 25 Mar 2023 00:44:41 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] webkitgtk: 2.38.5 -> 2.40.0
+Date: Sat, 25 Mar 2023 15:44:39 +0800
+Message-ID: <20230325074439.21643-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1679705324-E67FBC37-448F6170/0/0 CLEAN NORMAL
-X-TOI-MSGID: 309102ac-19d3-41a8-bbd5-9a99fa8fde15
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Proofpoint-GUID: oxneSk7TSv5bhsPT_XXwNw4NVvanITvu
+X-Proofpoint-ORIG-GUID: oxneSk7TSv5bhsPT_XXwNw4NVvanITvu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-24_11,2023-03-24_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=999
+ spamscore=0 clxscore=1015 adultscore=0 priorityscore=1501
+ lowpriorityscore=0 suspectscore=0 malwarescore=0 phishscore=0 mlxscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2303250063
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 25 Mar 2023 00:50:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179084
+ <openembedded-core@lists.openembedded.org>; Sat, 25 Mar 2023 07:44:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179088
 
+From: Kai Kang <kai.kang@windriver.com>
+
+Update webkitgtk from 2.38.5 to 2.40.0
+* remove d318bb461f040b90453bc4e100dcf967243ecd98.patch which applied already
+* rebase 0d3344e17d258106617b0e6d783d073b188a2548.patch
+* add dependency unifdef-native
+* remove packgeconfig 'opengl' that ENABLE_GRAPHICS_CONTEXT_GL has been
+  removed and replaced with ENABLE(WEBGL)[1]
+* remove packageconfig 'angle' that non-ANGLE WebGL implementations has
+  been removed[2]
+* add packageconfig 'gst-gl' that USE_GSTREAMER_GL invokes functions
+  from gstreamer1.0-plugins-base which only build with gles2 and egl
+* add packageconfig 'gst-transcoder' which depends on gstreamer1.0-plugins-bad
+* disable USE_AVIF
+* adjust indent by replacing tabs with spaces
+
+Highlights of the WebKitGTK 2.40.0 release[3]
+* New GTK4 API is now stable.
+* Use ANGLE for WebGL implementation and enable WebGL2.
+* Prefer EGL over X11, intead of GLX, where available.
+* Add support for speech synthesis using Flite.
+* Enable the async clipboard API.
+* Add API to query the permission state of web features.
+* Add API to support asynchronously returning values from user script messages.
+* Make it possible to handle WebKitDownload::decide-destination signal asynchronously.
+* Add new JavaScript execution APIs.
+* Make webkit://gpu output exportable as JSON.
+* Fix large memory allocation when uploading content.
+
+[1]: https://github.com/WebKit/WebKit/commit/09da49a2cc5dfea8eafe7cbcefd6b6f8a17c7f38
+[2]: https://github.com/WebKit/WebKit/commit/d257ea20c5996ada3c009a6a2f4a639f92c0e2ca
+[3]: https://webkitgtk.org/2023/03/17/webkitgtk2.40.0-released.html
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- ...-info-don-t-assume-million-in-one-ev.patch | 50 ------------
- ...build-do-not-use-can_run_host_binari.patch | 48 ------------
- .../glib-2.0/glib-2.0/cpp-null.patch          | 77 -------------------
- .../glib-2.0/glib-2.0/cpp-null2.patch         | 31 --------
- .../glib-2.0/glib-2.0/relocate-modules.patch  | 11 ++-
- ...{glib-2.0_2.74.6.bb =3D> glib-2.0_2.76.1.bb} |  6 +-
- 6 files changed, 8 insertions(+), 215 deletions(-)
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-g-=
-file-info-don-t-assume-million-in-one-ev.patch
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-me=
-son.build-do-not-use-can_run_host_binari.patch
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/cpp-null.patch
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/cpp-null2.patch
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.74.6.bb =3D> glib-2.0_2.76=
-.1.bb} (87%)
+ ...ibGcrypt.cmake-check-PC_GCRYPT_FOUND.patch | 34 +++++++++++++++++++
+ ...44e17d258106617b0e6d783d073b188a2548.patch | 32 ++++++++++++-----
+ ...ebkitgtk_2.38.5.bb => webkitgtk_2.40.0.bb} | 29 ++++++++--------
+ 3 files changed, 72 insertions(+), 23 deletions(-)
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-FindLibGcrypt.cmake-check-PC_GCRYPT_FOUND.patch
+ rename meta/recipes-sato/webkit/{webkitgtk_2.38.5.bb => webkitgtk_2.40.0.bb} (87%)
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-g-file-in=
-fo-don-t-assume-million-in-one-ev.patch b/meta/recipes-core/glib-2.0/glib=
--2.0/0001-gio-tests-g-file-info-don-t-assume-million-in-one-ev.patch
-deleted file mode 100644
-index 57ada66907..0000000000
---- a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-g-file-info-don-=
-t-assume-million-in-one-ev.patch
-+++ /dev/null
-@@ -1,50 +0,0 @@
--From 3c56ff21b9a5fe18f9cec9b97ae1788fdf5d563e Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@arm.com>
--Date: Tue, 6 Jul 2021 19:26:03 +0100
--Subject: [PATCH] gio/tests/g-file-info: don't assume million-in-one even=
-ts
--
--Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/merge_r=
-equests/2990]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
-- don't happen
--
--The access and creation time tests create a file, gets the time in
--seconds, then gets the time in microseconds and assumes that the
--difference between the two has to be above 0.
--
--As rare as this may be, it can happen:
--
--$ stat g-file-info-test-50A450 -c %y
--2021-07-06 18:24:56.000000767 +0100
--
--Change the test to simply assert that the difference not negative to
--handle this case.
--
--This is the same fix as 289f8b, but that was just modification time.
--
-----
-- gio/tests/g-file-info.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/gio/tests/g-file-info.c b/gio/tests/g-file-info.c
--index d9ad045..c9b12b0 100644
----- a/gio/tests/g-file-info.c
--+++ b/gio/tests/g-file-info.c
--@@ -307,7 +307,7 @@ test_g_file_info_access_time (void)
--   g_assert_nonnull (dt_usecs);
--=20
--   ts =3D g_date_time_difference (dt_usecs, dt);
---  g_assert_cmpint (ts, >, 0);
--+  g_assert_cmpint (ts, >=3D, 0);
--   g_assert_cmpint (ts, <, G_USEC_PER_SEC);
--=20
--   /* Try again with nanosecond precision. */
--@@ -442,7 +442,7 @@ test_g_file_info_creation_time (void)
--   g_assert_nonnull (dt_usecs);
--=20
--   ts =3D g_date_time_difference (dt_usecs, dt);
---  g_assert_cmpint (ts, >, 0);
--+  g_assert_cmpint (ts, >=3D, 0);
--   g_assert_cmpint (ts, <, G_USEC_PER_SEC);
--=20
--   /* Try again with nanosecond precision. */
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-meson.bui=
-ld-do-not-use-can_run_host_binari.patch b/meta/recipes-core/glib-2.0/glib=
--2.0/0001-gio-tests-meson.build-do-not-use-can_run_host_binari.patch
-deleted file mode 100644
-index db08b5af55..0000000000
---- a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-meson.build-do-n=
-ot-use-can_run_host_binari.patch
-+++ /dev/null
-@@ -1,48 +0,0 @@
--From fdbffaea2fa85c203cc6aacb5734acac65aeaa19 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Fri, 11 Nov 2022 13:12:42 +0100
--Subject: [PATCH] tests/meson.build: do not use can_run_host_binaries()
--
--can_run_host_binaries() returns true even when cross compiling,
--if there is an executable wrapper defined that can run
--cross-binaries under some kind of emulation.
--
--Unfortunately, custom_target() will not use the wrapper
--and will attempt to execute the command directly. Until
--this is addressed in meson upstream, we have to disable
--these targets in cross scenarios.
--
--Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/glib/-/merge_=
-requests/3067]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
--
-----
-- gio/tests/meson.build  | 2 +-
-- glib/tests/meson.build | 2 +-
-- 2 files changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/gio/tests/meson.build b/gio/tests/meson.build
--index 49cfa25ce..ea59656f9 100644
----- a/gio/tests/meson.build
--+++ b/gio/tests/meson.build
--@@ -652,7 +652,7 @@ if installed_tests_enabled
--   endforeach
-- endif
--=20
---if meson.can_run_host_binaries()
--+if not meson.is_cross_build()
--=20
--   compiler_type =3D '--compiler=3D@0@'.format(cc.get_id())
--=20
--diff --git a/glib/tests/meson.build b/glib/tests/meson.build
--index 69508178e..e4f75f302 100644
----- a/glib/tests/meson.build
--+++ b/glib/tests/meson.build
--@@ -411,7 +411,7 @@ executable('testing-helper', 'testing-helper.c',
-- )
--=20
-- # some testing of gtester functionality
---if meson.can_run_host_binaries() and host_system !=3D 'windows'
--+if not meson.is_cross_build() and host_system !=3D 'windows'
--   xmllint =3D find_program('xmllint', required: false)
--   if xmllint.found()
--     tmpsample_xml =3D custom_target('tmpsample.xml',
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/cpp-null.patch b/meta/re=
-cipes-core/glib-2.0/glib-2.0/cpp-null.patch
-deleted file mode 100644
-index 63cbf90ab2..0000000000
---- a/meta/recipes-core/glib-2.0/glib-2.0/cpp-null.patch
-+++ /dev/null
-@@ -1,77 +0,0 @@
--From 0ca5254c5d92aec675b76b4bfa72a6885cde6066 Mon Sep 17 00:00:00 2001
--From: =3D?UTF-8?q?Marco=3D20Trevisan=3D20=3D28Trevi=3DC3=3DB1o=3D29?=3D =
-<mail@3v1n0.net>
--Date: Sat, 29 Oct 2022 04:30:52 +0200
--Subject: [PATCH] glib/gmacros: Always define NULL as nullptr in C++11 an=
-d
-- newer
--
--Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/=
-0ca5254c5d92aec675b76b4bfa72a6885cde6066]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- glib/gmacros.h     |  9 ++++++++-
-- glib/tests/cxx.cpp | 13 -------------
-- 2 files changed, 8 insertions(+), 14 deletions(-)
--
--diff --git a/glib/gmacros.h b/glib/gmacros.h
--index 5302841105..9fe8270822 100644
----- a/glib/gmacros.h
--+++ b/glib/gmacros.h
--@@ -870,10 +870,17 @@
--  */
-- #ifndef NULL
-- #  ifdef __cplusplus
---#  define NULL        (0L)
--+#    if __cplusplus >=3D 201103L
--+#      define NULL (nullptr)
--+#    else
--+#      define NULL (0L)
--+#    endif /* __cplusplus >=3D 201103L */
-- #  else /* !__cplusplus */
-- #  define NULL        ((void*) 0)
-- #  endif /* !__cplusplus */
--+#elif defined (__cplusplus) && __cplusplus >=3D 201103L
--+#  undef NULL
--+#  define NULL (nullptr)
-- #endif
--=20
-- #ifndef	FALSE
--diff --git a/glib/tests/cxx.cpp b/glib/tests/cxx.cpp
--index 6ac60791c8..045457c6e2 100644
----- a/glib/tests/cxx.cpp
--+++ b/glib/tests/cxx.cpp
--@@ -34,21 +34,12 @@ test_typeof (void)
--   MyObject *obj3 =3D g_atomic_pointer_get (&obj2);
--   g_assert_true (obj3 =3D=3D obj);
--=20
---#if __cplusplus >=3D 201103L
---  MyObject *obj4 =3D nullptr;
---#else
--   MyObject *obj4 =3D NULL;
---#endif
--   g_atomic_pointer_set (&obj4, obj3);
--   g_assert_true (obj4 =3D=3D obj);
--=20
---#if __cplusplus >=3D 201103L
---  MyObject *obj5 =3D nullptr;
---  g_atomic_pointer_compare_and_exchange (&obj5, nullptr, obj4);
---#else
--   MyObject *obj5 =3D NULL;
--   g_atomic_pointer_compare_and_exchange (&obj5, NULL, obj4);
---#endif
--   g_assert_true (obj5 =3D=3D obj);
--=20
--   MyObject *obj6 =3D g_steal_pointer (&obj5);
--@@ -195,11 +186,7 @@ test_steal_pointer (void)
-- int
-- main (int argc, char *argv[])
-- {
---#if __cplusplus >=3D 201103L
---  g_test_init (&argc, &argv, nullptr);
---#else
--   g_test_init (&argc, &argv, NULL);
---#endif
--=20
--   g_test_add_func ("/C++/typeof", test_typeof);
--   g_test_add_func ("/C++/atomic-pointer-compare-and-exchange", test_ato=
-mic_pointer_compare_and_exchange);
----=20
--GitLab
--
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/cpp-null2.patch b/meta/r=
-ecipes-core/glib-2.0/glib-2.0/cpp-null2.patch
-deleted file mode 100644
-index 763d5ce539..0000000000
---- a/meta/recipes-core/glib-2.0/glib-2.0/cpp-null2.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--From 7dc19632f3115e3f517c6bc80436fe72c1dcdeb4 Mon Sep 17 00:00:00 2001
--From: =3D?UTF-8?q?Marco=3D20Trevisan=3D20=3D28Trevi=3DC3=3DB1o=3D29?=3D =
-<mail@3v1n0.net>
--Date: Sat, 29 Oct 2022 04:16:00 +0200
--Subject: [PATCH] glib/tests/cxx: Ensure NULL is always casted to a point=
-er
-- type
--
--Otherwise it may not be recognized as valid sentinel
--Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/=
-7dc19632f3115e3f517c6bc80436fe72c1dcdeb4]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- glib/tests/cxx.cpp | 4 ++++
-- 1 file changed, 4 insertions(+)
--
--diff --git a/glib/tests/cxx.cpp b/glib/tests/cxx.cpp
--index 045457c6e2..aa5e0cb576 100644
----- a/glib/tests/cxx.cpp
--+++ b/glib/tests/cxx.cpp
--@@ -186,7 +186,11 @@ test_steal_pointer (void)
-- int
-- main (int argc, char *argv[])
-- {
--+#if __cplusplus >=3D 201103L
--   g_test_init (&argc, &argv, NULL);
--+#else
--+  g_test_init (&argc, &argv, static_cast<void *>(NULL));
--+#endif
--=20
--   g_test_add_func ("/C++/typeof", test_typeof);
--   g_test_add_func ("/C++/atomic-pointer-compare-and-exchange", test_ato=
-mic_pointer_compare_and_exchange);
----=20
--GitLab
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch b=
-/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-index ae6881b61e..4a2eb3b1a7 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-@@ -14,6 +14,9 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
- Port patch to 2.48
- Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-=20
-+Port patch to 2.75
-+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-FindLibGcrypt.cmake-check-PC_GCRYPT_FOUND.patch b/meta/recipes-sato/webkit/webkitgtk/0001-FindLibGcrypt.cmake-check-PC_GCRYPT_FOUND.patch
+new file mode 100644
+index 0000000000..dc56bbb92c
+--- /dev/null
++++ b/meta/recipes-sato/webkit/webkitgtk/0001-FindLibGcrypt.cmake-check-PC_GCRYPT_FOUND.patch
+@@ -0,0 +1,34 @@
++Upstream-Status: Submitted [https://github.com/WebKit/WebKit/pull/11913]
 +
- ---
-  gio/giomodule.c | 12 +++++++++++-
-  1 file changed, 11 insertions(+), 1 deletion(-)
-@@ -31,7 +34,7 @@ index f5dbb45..c926e77 100644
-  #endif
-  #include <glib/gstdio.h>
- =20
--@@ -1261,7 +1263,15 @@ get_gio_module_dir (void)
-+@@ -1270,7 +1272,15 @@
-                                       NULL);
-        g_free (install_dir);
-  #else
-@@ -45,6 +48,6 @@ index f5dbb45..c926e77 100644
- +      } else {
- +        module_dir =3D g_strdup (GIO_MODULE_DIR);
- +      }
-- #endif
--     }
--=20
-+ #ifdef __APPLE__
-+ #include "TargetConditionals.h"
-+ #if TARGET_OS_OSX
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.74.6.bb b/meta/recipes=
--core/glib-2.0/glib-2.0_2.76.1.bb
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++
++From de30f1a1caf81902d254e046e382f9cf9cd62c58 Mon Sep 17 00:00:00 2001
++From: Kai Kang <kai.kang@windriver.com>
++Date: Fri, 24 Mar 2023 17:58:29 +0800
++Subject: [PATCH] FindLibGcrypt.cmake: check PC_GCRYPT_FOUND
++
++After `pkg_check_modules(PC_GCRYPT QUIET libgcrypt)` in
++FindLibGcrypt.cmake, PC_GCRYPT_FOUND will be set but PC_GCRYPT is kept
++empty. So check PC_GCRYPT_FOUND instead.
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++---
++ Source/cmake/FindLibGcrypt.cmake | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Source/cmake/FindLibGcrypt.cmake b/Source/cmake/FindLibGcrypt.cmake
++index 8bee72963902..2e84cfc4e9b1 100644
++--- a/Source/cmake/FindLibGcrypt.cmake
+++++ b/Source/cmake/FindLibGcrypt.cmake
++@@ -49,7 +49,7 @@ if (PkgConfig_FOUND)
++     set(LibGcrypt_VERSION ${PC_GCRYPT_VERSION})
++ endif ()
++ 
++-if (LIBGCRYPTCONFIG_SCRIPT AND NOT PC_GCRYPT)
+++if (LIBGCRYPTCONFIG_SCRIPT AND NOT PC_GCRYPT_FOUND)
++     execute_process(
++         COMMAND "${LIBGCRYPTCONFIG_SCRIPT}" --prefix
++         RESULT_VARIABLE CONFIGSCRIPT_RESULT
++-- 
++2.34.1
++
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch b/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
+index 32f92f7ff5..d47e7ac419 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
+@@ -35,14 +35,16 @@ Upstream-Status: Submitted [https://github.com/WebKit/WebKit/pull/1233]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ 
+  .../cpu/arm/filters/FELightingNEON.cpp        |  4 +-
+- .../graphics/cpu/arm/filters/FELightingNEON.h | 54 +++++++++----------
++ .../graphics/cpu/arm/filters/FELightingNEON.h | 52 +++++++++----------
+  .../graphics/filters/DistantLightSource.h     |  4 ++
+  .../platform/graphics/filters/FELighting.h    |  7 ---
+  .../graphics/filters/PointLightSource.h       |  4 ++
+  .../graphics/filters/SpotLightSource.h        |  4 ++
+  .../software/FELightingSoftwareApplier.h      | 16 ++++++
+- 7 files changed, 57 insertions(+), 36 deletions(-)
++ 7 files changed, 56 insertions(+), 35 deletions(-)
+ 
++diff --git a/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp b/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp
++index f6ff8c20..42a97ffc 100644
+ --- a/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp
+ +++ b/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp
+ @@ -49,7 +49,7 @@ short* feLightingConstantsForNeon()
+@@ -63,6 +65,8 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  {
+      // Calling a powf function from the assembly code would require to save
+      // and reload a lot of NEON registers. Since the base is in range [0..1]
++diff --git a/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h b/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h
++index b17c603d..e4629cda 100644
+ --- a/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h
+ +++ b/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h
+ @@ -24,14 +24,15 @@
+@@ -104,7 +108,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+          0,
+          0,
+          0,
+-@@ -111,23 +112,23 @@ inline void FELighting::platformApplyNeo
++@@ -111,23 +112,23 @@ inline void FELighting::platformApplyNeon(const LightingData& data, const LightS
+      // Set light source arguments.
+      floatArguments.constOne = 1;
+  
+@@ -133,7 +137,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+          floatArguments.lightX = spotLightSource.position().x();
+          floatArguments.lightY = spotLightSource.position().y();
+          floatArguments.lightZ = spotLightSource.position().z();
+-@@ -145,7 +146,7 @@ inline void FELighting::platformApplyNeo
++@@ -145,7 +146,7 @@ inline void FELighting::platformApplyNeon(const LightingData& data, const LightS
+          if (spotLightSource.specularExponent() == 1)
+              neonData.flags |= FLAG_CONE_EXPONENT_IS_1;
+      } else {
+@@ -142,7 +146,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+          floatArguments.lightX = paintingData.initialLightingData.lightVector.x();
+          floatArguments.lightY = paintingData.initialLightingData.lightVector.y();
+          floatArguments.lightZ = paintingData.initialLightingData.lightVector.z();
+-@@ -155,38 +156,39 @@ inline void FELighting::platformApplyNeo
++@@ -155,38 +156,39 @@ inline void FELighting::platformApplyNeon(const LightingData& data, const LightS
+      // Set lighting arguments.
+      floatArguments.surfaceScale = data.surfaceScale;
+      floatArguments.minusSurfaceScaleDividedByFour = -data.surfaceScale / 4;
+@@ -192,16 +196,18 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+              }
+              parallelJobs.execute();
+              return;
+-@@ -199,5 +201,3 @@ inline void FELighting::platformApplyNeo
++@@ -199,5 +201,3 @@ inline void FELighting::platformApplyNeon(const LightingData& data, const LightS
+  } // namespace WebCore
+  
+  #endif // CPU(ARM_NEON) && COMPILER(GCC_COMPATIBLE)
+ -
+ -#endif // FELightingNEON_h
++diff --git a/Source/WebCore/platform/graphics/filters/DistantLightSource.h b/Source/WebCore/platform/graphics/filters/DistantLightSource.h
++index 70c6512f..b032c82e 100644
+ --- a/Source/WebCore/platform/graphics/filters/DistantLightSource.h
+ +++ b/Source/WebCore/platform/graphics/filters/DistantLightSource.h
+-@@ -25,6 +25,10 @@
+- #include "LightSource.h"
++@@ -26,6 +26,10 @@
++ #include <wtf/ArgumentCoder.h>
+  #include <wtf/Ref.h>
+  
+ +namespace WTF {
+@@ -211,6 +217,8 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  namespace WebCore {
+  
+  class DistantLightSource : public LightSource {
++diff --git a/Source/WebCore/platform/graphics/filters/FELighting.h b/Source/WebCore/platform/graphics/filters/FELighting.h
++index 53beb596..e78a9354 100644
+ --- a/Source/WebCore/platform/graphics/filters/FELighting.h
+ +++ b/Source/WebCore/platform/graphics/filters/FELighting.h
+ @@ -35,8 +35,6 @@
+@@ -222,7 +230,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  class FELighting : public FilterEffect {
+  public:
+      const Color& lightingColor() const { return m_lightingColor; }
+-@@ -67,11 +65,6 @@ protected:
++@@ -64,11 +62,6 @@ protected:
+  
+      std::unique_ptr<FilterEffectApplier> createSoftwareApplier() const override;
+  
+@@ -234,6 +242,8 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+      Color m_lightingColor;
+      float m_surfaceScale;
+      float m_diffuseConstant;
++diff --git a/Source/WebCore/platform/graphics/filters/PointLightSource.h b/Source/WebCore/platform/graphics/filters/PointLightSource.h
++index 3a5723f0..675d63f5 100644
+ --- a/Source/WebCore/platform/graphics/filters/PointLightSource.h
+ +++ b/Source/WebCore/platform/graphics/filters/PointLightSource.h
+ @@ -26,6 +26,10 @@
+@@ -247,6 +257,8 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  namespace WebCore {
+  
+  class PointLightSource : public LightSource {
++diff --git a/Source/WebCore/platform/graphics/filters/SpotLightSource.h b/Source/WebCore/platform/graphics/filters/SpotLightSource.h
++index 684626f7..dea58389 100644
+ --- a/Source/WebCore/platform/graphics/filters/SpotLightSource.h
+ +++ b/Source/WebCore/platform/graphics/filters/SpotLightSource.h
+ @@ -26,6 +26,10 @@
+@@ -260,6 +272,8 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  namespace WebCore {
+  
+  class SpotLightSource : public LightSource {
++diff --git a/Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h b/Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h
++index c974d921..e2896660 100644
+ --- a/Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h
+ +++ b/Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h
+ @@ -36,6 +36,7 @@
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.38.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.40.0.bb
 similarity index 87%
-rename from meta/recipes-core/glib-2.0/glib-2.0_2.74.6.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0_2.76.1.bb
-index 5b79ae481c..1238b57c70 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.74.6.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.76.1.bb
-@@ -14,14 +14,10 @@ SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${=
-PV}.tar.xz \
-            file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
-            file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
-            file://0001-gio-tests-resources.c-comment-out-a-build-host-on=
-ly-.patch \
--           file://0001-gio-tests-g-file-info-don-t-assume-million-in-one=
--ev.patch \
--           file://0001-gio-tests-meson.build-do-not-use-can_run_host_bin=
-ari.patch \
--           file://cpp-null.patch \
--           file://cpp-null2.patch \
+rename from meta/recipes-sato/webkit/webkitgtk_2.38.5.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.40.0.bb
+index e52920883a..f3d426ed7f 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.38.5.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.40.0.bb
+@@ -13,9 +13,9 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch \
+            file://reproducibility.patch \
+            file://0d3344e17d258106617b0e6d783d073b188a2548.patch \
+-           file://d318bb461f040b90453bc4e100dcf967243ecd98.patch \
++           file://0001-FindLibGcrypt.cmake-check-PC_GCRYPT_FOUND.patch \
             "
- SRC_URI:append:class-native =3D " file://relocate-modules.patch"
-=20
--SRC_URI[sha256sum] =3D "069cf7e51cd261eb163aaf06c8d1754c6835f31252180aff=
-5814e5afc7757fbc"
-+SRC_URI[sha256sum] =3D "43dc0f6a126958f5b454136c4398eab420249c16171a7697=
-84486e25f2fda19f"
-=20
- # Find any meson cross files in FILESPATH that are relevant for the curr=
-ent
- # build (using siteinfo) and add them to EXTRA_OEMESON.
---=20
-2.34.1
+-SRC_URI[sha256sum] = "40c20c43022274df5893f22b1054fa894c3eea057389bb08aee08c5b0bb0c1a7"
++SRC_URI[sha256sum] = "a4607ea1bf89669e89b1cb2c63faaec513f93de09b6ae60cc71d6a8aab7ab393"
+ 
+ inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen
+ 
+@@ -27,6 +27,7 @@ CVE_PRODUCT = "webkitgtk webkitgtk\+"
+ DEPENDS += " \
+           ruby-native \
+           gperf-native \
++          unifdef-native \
+           cairo \
+           harfbuzz \
+           jpeg \
+@@ -42,8 +43,8 @@ DEPENDS += " \
+ 
+ PACKAGECONFIG_SOUP ?= "soup3"
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd wayland x11', d)} \
+-                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'webgl opengl', '', d)} \
+-                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'webgl gles2', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'webgl', '', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'webgl gles2 gst-gl', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl-or-es', '', d)} \
+                    enchant \
+                    libsecret \
+@@ -51,13 +52,11 @@ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd wayland x11',
+                   "
+ 
+ PACKAGECONFIG[wayland] = "-DENABLE_WAYLAND_TARGET=ON,-DENABLE_WAYLAND_TARGET=OFF,wayland libwpe wpebackend-fdo wayland-native"
+-PACKAGECONFIG[angle] = "-DUSE_ANGLE_WEBGL=ON,-DUSE_ANGLE_WEBGL=OFF"
+ PACKAGECONFIG[x11] = "-DENABLE_X11_TARGET=ON,-DENABLE_X11_TARGET=OFF,virtual/libx11 libxcomposite libxdamage libxrender libxt"
+ PACKAGECONFIG[geoclue] = "-DENABLE_GEOLOCATION=ON,-DENABLE_GEOLOCATION=OFF,geoclue"
+ PACKAGECONFIG[enchant] = "-DENABLE_SPELLCHECK=ON,-DENABLE_SPELLCHECK=OFF,enchant2"
+ PACKAGECONFIG[gles2] = "-DENABLE_GLES2=ON,-DENABLE_GLES2=OFF,virtual/libgles2"
+ PACKAGECONFIG[webgl] = "-DENABLE_WEBGL=ON,-DENABLE_WEBGL=OFF,virtual/egl"
+-PACKAGECONFIG[opengl] = "-DENABLE_GRAPHICS_CONTEXT_GL=ON,-DENABLE_GRAPHICS_CONTEXT_GL=OFF,virtual/egl"
+ PACKAGECONFIG[opengl-or-es] = "-DUSE_OPENGL_OR_ES=ON,-DUSE_OPENGL_OR_ES=OFF"
+ PACKAGECONFIG[libsecret] = "-DUSE_LIBSECRET=ON,-DUSE_LIBSECRET=OFF,libsecret"
+ PACKAGECONFIG[libhyphen] = "-DUSE_LIBHYPHEN=ON,-DUSE_LIBHYPHEN=OFF,libhyphen"
+@@ -69,6 +68,8 @@ PACKAGECONFIG[lcms] = "-DUSE_LCMS=ON,-DUSE_LCMS=OFF,lcms"
+ PACKAGECONFIG[soup2] = "-DUSE_SOUP2=ON,-DUSE_SOUP2=OFF,libsoup-2.4,,,soup3"
+ PACKAGECONFIG[soup3] = ",,libsoup,,,soup2"
+ PACKAGECONFIG[journald] = "-DENABLE_JOURNALD_LOG=ON,-DENABLE_JOURNALD_LOG=OFF,systemd"
++PACKAGECONFIG[gst-gl] ="-DUSE_GSTREAMER_GL=ON,-DUSE_GSTREAMER_GL=OFF"
++PACKAGECONFIG[gst-transcoder] ="-DUSE_GSTREAMER_TRANSCODER=ON,-DUSE_GSTREAMER_TRANSCODER=OFF,gstreamer1.0-plugins-bad"
+ 
+ # webkitgtk is full of /usr/bin/env python, particular for generating docs
+ do_configure[postfuncs] += "setup_python_link"
+@@ -79,14 +80,15 @@ setup_python_link() {
+ }
+ 
+ EXTRA_OECMAKE = " \
+-		-DPORT=GTK \
+-		${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-DENABLE_INTROSPECTION=ON', '-DENABLE_INTROSPECTION=OFF', d)} \
+-		${@bb.utils.contains('GIDOCGEN_ENABLED', 'True', '-DENABLE_DOCUMENTATION=ON', '-DENABLE_DOCUMENTATION=OFF', d)} \
+-		-DENABLE_MINIBROWSER=ON \
++                -DPORT=GTK \
++                ${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-DENABLE_INTROSPECTION=ON', '-DENABLE_INTROSPECTION=OFF', d)} \
++                ${@bb.utils.contains('GIDOCGEN_ENABLED', 'True', '-DENABLE_DOCUMENTATION=ON', '-DENABLE_DOCUMENTATION=OFF', d)} \
++                -DENABLE_MINIBROWSER=ON \
+                 -DPYTHON_EXECUTABLE=`which python3` \
+                 -DENABLE_BUBBLEWRAP_SANDBOX=OFF \
+                 -DENABLE_GAMEPAD=OFF \
+-		"
++                -DUSE_AVIF=OFF \
++                "
+ 
+ # Javascript JIT is not supported on ARC
+ EXTRA_OECMAKE:append:arc = " -DENABLE_JIT=OFF "
+@@ -158,8 +160,7 @@ src_package_preprocess () {
+             ${B}/JavaScriptCore/DerivedSources/*.h \
+             ${B}/JavaScriptCore/DerivedSources/yarr/*.h \
+             ${B}/JavaScriptCore/PrivateHeaders/JavaScriptCore/*.h \
+-            ${B}/WebKit2Gtk/DerivedSources/webkit2/*.cpp \
+-            ${B}/WebKit2Gtk/DerivedSources/webkit2/*.h
+-
++            ${B}/WebKitGTK/DerivedSources/webkit/*.cpp \
++            ${B}/WebKitGTK/DerivedSources/webkit/*.h
+ }
+ 
+-- 
+2.17.1
 
 
