@@ -1,77 +1,69 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 066A1C761AF
-	for <webhook@archiver.kernel.org>; Sat, 25 Mar 2023 18:56:04 +0000 (UTC)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
- by mx.groups.io with SMTP id smtpd.web11.28503.1679770553443218061
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C641AC6FD1C
+	for <webhook@archiver.kernel.org>; Sat, 25 Mar 2023 18:56:13 +0000 (UTC)
+Received: from mailout09.t-online.de (mailout09.t-online.de [194.25.134.84])
+ by mx.groups.io with SMTP id smtpd.web10.28625.1679770573129874168
  for <openembedded-core@lists.openembedded.org>;
- Sat, 25 Mar 2023 11:55:53 -0700
+ Sat, 25 Mar 2023 11:56:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=SUTZkg2p;
- spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f174.google.com with SMTP id x20so4981906ljq.9
-        for <openembedded-core@lists.openembedded.org>; Sat, 25 Mar 2023 11:55:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679770551;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qGay0ullRY/Lvrvjl1AEmrjTbq2AWJlgjDsLKSUMVtQ=;
-        b=SUTZkg2pDvl7pcdlwT4PBZuJb6lXwRer2ZQWzgnwnyu16ElLxRXICia4AULCN07PUX
-         /7ejUc6thhsAXwQ6j5sOHpzz36D8ol7lYlhKfuhf2HWrJcLW0Ma77//Or0C0PNFg1+GI
-         5EHYelUC2VanfMkQz6Dzjm7vqTBigxwiTWGa3XY1CXoKgXg5O3PCK6iox1ZWnurXfyCn
-         qgnIyA4UuSKsiqatSThNvwlFU5UAibrsYNb1tyc39RuS/rHUO4KSD+PJnFw4xTrOx6Hv
-         0N6FsSZRssWbyFaZJccVY8FHc3JTWiP6At+kzv9SRZcaMHcKfFeE9PQkHyS0WV/wHw2Q
-         yxTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679770551;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qGay0ullRY/Lvrvjl1AEmrjTbq2AWJlgjDsLKSUMVtQ=;
-        b=muvtR13lqtE0s2Xtg4V44kKgxrchtLXQRIlg+9ka9QzZuGwOx8aEpkmKpp+1Mco/O+
-         xSy0h+bOt2nA7Q4/tMrna69LPkrF2iQFWuBijShghMk1jakQsy5x+6TKJGyUuGLyI7Yc
-         jS5m1OcGmB/YFdOcB6sdnIenuc+oYdtdvz/LrDanC4eEWWwexCQWuNpxLEC2tFH7karh
-         VRCOXGa04aHepzPRj89thjlfPd9h/4+t+feh29NXqKJ83Ef5hZsYGApreBQ3muBaHV7L
-         Q4C+80YJR+2Td0CUalkJq12SFoS1sKmOlushGKGptRWPBgIR0zdYpmryo2R/XEt3pOTQ
-         IieQ==
-X-Gm-Message-State: AAQBX9fkFvGayXv0Zh+jlkvtPHIwl6WPn0k1/E64vIrBowxfbt5pJM9d
-	2GkwL/BH8OFZwvIt5dpV/g2UTpJWLKq7yRok6kk=
-X-Google-Smtp-Source: AKy350ZNdLLyrnhdGr/aROSuC6lA3MUGNmPhrkIGJOiDqcTihn/75UXuGUfTpJNTsVDeBbE2h+IgEipkuOz+VfAJCQo=
-X-Received: by 2002:a2e:6a12:0:b0:29a:9053:ed22 with SMTP id
- f18-20020a2e6a12000000b0029a9053ed22mr2055171ljc.7.1679770551590; Sat, 25 Mar
- 2023 11:55:51 -0700 (PDT)
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.84, mailfrom: f_l_k@t-online.de)
+Received: from fwd84.dcpf.telekom.de (fwd84.aul.t-online.de [10.223.144.110])
+	by mailout09.t-online.de (Postfix) with SMTP id 2E81D1F08;
+	Sat, 25 Mar 2023 19:56:10 +0100 (CET)
+Received: from [192.168.178.83] ([84.154.174.49]) by fwd84.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1pg93e-1Hio6q0; Sat, 25 Mar 2023 19:56:06 +0100
+Date: Sat, 25 Mar 2023 19:56:00 +0100
+From: Markus Volk <f_l_k@t-online.de>
+Subject: Re: [oe-core][PATCH 7/7] webkitgtk: update 2.38.5 -> 2.40.0
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Message-Id: <C9B3SR.NAPPU9EQ2ILI3@t-online.de>
+In-Reply-To: 
+	<CANNYZj-RdghFdcmNa=NeA1tqxe1SkcgbsN3d2H18y54MrOzyVw@mail.gmail.com>
+References: <20230325004818.2784943-1-f_l_k@t-online.de>
+	<20230325004818.2784943-7-f_l_k@t-online.de>
+	<CANNYZj-RdghFdcmNa=NeA1tqxe1SkcgbsN3d2H18y54MrOzyVw@mail.gmail.com>
+X-Mailer: geary/40.0
 MIME-Version: 1.0
-References: <cover.1679734210.git.frederic.martinsons@gmail.com> <b48dd61e593e57d7673b65a34a44cd304cb7b7b8.1679734210.git.frederic.martinsons@gmail.com>
-In-Reply-To: <b48dd61e593e57d7673b65a34a44cd304cb7b7b8.1679734210.git.frederic.martinsons@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 25 Mar 2023 19:55:39 +0100
-Message-ID: <CANNYZj9P1fAvs6kErzVogStEwuPvJOYRLHOWn6Q3PKaNFXu7PQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 4/5] devtool: add support for multiple git url
- inside a cargo based recipe
-To: Frederic Martinsons <frederic.martinsons@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, alex.kiernan@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/alternative; boundary="=-lyX+BReAo5ZTnPv7q13v"
+X-TOI-EXPURGATEID: 150726::1679770566-9AD51C79-B9D3874C/0/0 CLEAN NORMAL
+X-TOI-MSGID: 29210a21-e4bd-4eec-bc3c-d481584e87e7
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 25 Mar 2023 18:56:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179103
+ <openembedded-core@lists.openembedded.org>; Sat, 25 Mar 2023 18:56:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179104
 
-On Sat, 25 Mar 2023 at 10:01, Frederic Martinsons
-<frederic.martinsons@gmail.com> wrote:
-> +            if url in cargo_git_deps:
-> +                local_srcuri.append(url)
->
->          d.setVar('SRC_URI', ' '.join(local_srcuri))
+--=-lyX+BReAo5ZTnPv7q13v
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-What actually happens without this patch, and what does the patch
-change? The commit message isn't making it clear.
+Am Sa, 25. M=E4r 2023 um 19:35:57 +0100 schrieb Alexander Kanavin=20
+<alex.kanavin@gmail.com>:
+> Can you please name the gtk3 variant webkitgtk-3
 
-Adding special cases based on custom variables is also not great; why
-would git:// entries in rust recipes be treated differently than
-git:// entries in other recipes?
+Will do. I was afraid that webkitgtk-4 is confusing for the gtk3=20
+variant, but named it anyway because meson reports that webkitgtk-4.0=20
+is missing if it is not found. If the gtk4 variant is missing, meson=20
+complains about missing webkitgtk-6.0
 
-Alex
+
+--=-lyX+BReAo5ZTnPv7q13v
+Content-Type: text/html; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div id=3D"geary-body" dir=3D"auto">Am Sa, 25. M=E4r 2023 um 19:35:57 +0100=
+ schrieb Alexander Kanavin &lt;alex.kanavin@gmail.com&gt;:<br><blockquote t=
+ype=3D"cite"><div class=3D"plaintext" style=3D"white-space: break-spaces;">=
+Can you please name the gtk3 variant webkitgtk-3</div></blockquote><div><br=
+></div><div>Will do. I was afraid that webkitgtk-4 is confusing for the gtk=
+3 variant, but named it anyway because meson reports that webkitgtk-4.0 is =
+missing if it is not found. If the gtk4 variant is missing, meson complains=
+ about missing webkitgtk-6.0</div></div>
+--=-lyX+BReAo5ZTnPv7q13v--
+
 
