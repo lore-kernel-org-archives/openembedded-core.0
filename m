@@ -2,374 +2,100 @@ Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8646FC76195
-	for <webhook@archiver.kernel.org>; Fri, 24 Mar 2023 23:15:47 +0000 (UTC)
-Received: from mailout06.t-online.de (mailout06.t-online.de [194.25.134.19])
- by mx.groups.io with SMTP id smtpd.web10.11534.1679699738579247504
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14B2EC761AF
+	for <webhook@archiver.kernel.org>; Sat, 25 Mar 2023 00:50:08 +0000 (UTC)
+Received: from mailout11.t-online.de (mailout11.t-online.de [194.25.134.85])
+ by mx.groups.io with SMTP id smtpd.web11.13189.1679705401272992951
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Mar 2023 16:15:39 -0700
+ Fri, 24 Mar 2023 17:50:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.19, mailfrom: f_l_k@t-online.de)
-Received: from fwd71.dcpf.telekom.de (fwd71.aul.t-online.de [10.223.144.97])
-	by mailout06.t-online.de (Postfix) with SMTP id F14CB1037F
-	for <openembedded-core@lists.openembedded.org>; Sat, 25 Mar 2023 00:15:36 +0100 (CET)
-Received: from flk-MS-7C91.fritz.box ([84.163.41.244]) by fwd71.t-online.de
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.85, mailfrom: f_l_k@t-online.de)
+Received: from fwd79.dcpf.telekom.de (fwd79.aul.t-online.de [10.223.144.105])
+	by mailout11.t-online.de (Postfix) with SMTP id C98C919E91
+	for <openembedded-core@lists.openembedded.org>; Sat, 25 Mar 2023 01:48:55 +0100 (CET)
+Received: from flk-MS-7C91.fritz.box ([84.154.174.49]) by fwd79.t-online.de
 	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1pfqd7-1JAB0L0; Sat, 25 Mar 2023 00:15:30 +0100
+	esmtp id 1pfs5N-20zHG90; Sat, 25 Mar 2023 01:48:45 +0100
 From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Markus Volk <f_l_k@t-online.de>
-Subject: [oe-core][PATCHv2] Remove usage of /var/volatile/tmp
-Date: Sat, 25 Mar 2023 00:15:17 +0100
-Message-Id: <20230324231517.1157417-1-f_l_k@t-online.de>
+Subject: [oe-core][PATCH 5/7] adwaita-icon-theme: update 43 -> 44.0
+Date: Sat, 25 Mar 2023 01:48:16 +0100
+Message-Id: <20230325004818.2784943-5-f_l_k@t-online.de>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230325004818.2784943-1-f_l_k@t-online.de>
+References: <20230325004818.2784943-1-f_l_k@t-online.de>
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1679699730-94C5AC12-0D458BA0/0/0 CLEAN NORMAL
-X-TOI-MSGID: c4165d3c-f4cc-4d84-8bf3-33203e754302
+X-TOI-EXPURGATEID: 150726::1679705325-E67FBC37-AD376387/0/0 CLEAN NORMAL
+X-TOI-MSGID: 8ee11568-8ce8-4992-afac-618fc9423e6b
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Mar 2023 23:15:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179081
+ <openembedded-core@lists.openembedded.org>; Sat, 25 Mar 2023 00:50:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179082
 
-Glib-2.0 uses ptest to ensure that /tmp is not a symlink.
-
-This commit tries to align tmpdir usage. The symlinks for /tmp and /var/t=
-mp are
-replaced by directories and by default a tmpfs is mounted in /tmp.
-/var/volatile/tmp is removed.
+- fix patch-fuzz
 
 Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- meta/conf/bitbake.conf                        |  4 ---
- meta/files/fs-perms-persistent-log.txt        |  2 --
- meta/files/fs-perms.txt                       |  2 --
- .../lib/oeqa/files/buildhistory_filelist1.txt |  1 -
- .../lib/oeqa/files/buildhistory_filelist2.txt |  1 -
- meta/recipes-core/base-files/base-files/fstab |  1 +
- .../base-files/base-files_3.0.14.bb           |  4 +--
- .../initscripts-1.0/populate-volatile.sh      |  2 +-
- .../initscripts/initscripts-1.0/volatiles     |  5 ++-
- .../initscripts/initscripts_1.0.bb            |  3 --
- .../systemd/systemd/00-create-volatile.conf   |  4 +--
- meta/recipes-core/systemd/systemd_253.1.bb    |  7 ----
- meta/recipes-core/udev/eudev/init             |  4 ---
- .../e2fsprogs/e2fsprogs/run-ptest             |  2 +-
- ...eak_cmsg.stderr.exp-adjust-tmp-paths.patch | 34 -------------------
- .../valgrind/valgrind_3.20.0.bb               |  1 -
- 16 files changed, 8 insertions(+), 69 deletions(-)
- delete mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-none-tes=
-ts-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch
+ .../0001-Don-t-use-AC_CANONICAL_HOST.patch                  | 6 +++---
+ ...{adwaita-icon-theme_43.bb =3D> adwaita-icon-theme_44.0.bb} | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-gnome/gnome/{adwaita-icon-theme_43.bb =3D> adwaita-i=
+con-theme_44.0.bb} (95%)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index afd9e2f552..dcf6ce99d1 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -90,10 +90,6 @@ ROOT_HOME ??=3D "/home/root"
- # If set to boolean false ('no', 'n', 'false', 'f', '0'), /var/log is on=
- persistent storage.
- VOLATILE_LOG_DIR ?=3D "yes"
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-A=
+C_CANONICAL_HOST.patch b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001=
+-Don-t-use-AC_CANONICAL_HOST.patch
+index 0a1487f8e3..dd54afebc3 100644
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANON=
+ICAL_HOST.patch
++++ b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANON=
+ICAL_HOST.patch
+@@ -1,4 +1,4 @@
+-From e1a12b73c25d1ad0f267b22ac5d799bc1fbd0fa4 Mon Sep 17 00:00:00 2001
++From dc3b4814a4c37fe07f5369dcc547095f5e01505e Mon Sep 17 00:00:00 2001
+ From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Date: Tue, 30 May 2017 14:55:49 +0300
+ Subject: [PATCH] Don't use AC_CANONICAL_HOST
+@@ -14,12 +14,12 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.c=
+om>
+  1 file changed, 1 deletion(-)
 =20
--# if set to 'yes': /tmp links to /var/tmp which links to /var/volatile/t=
-mp
--# otherwise:       /tmp is on persistent storage
--VOLATILE_TMP_DIR ?=3D "yes"
--
- BB_RENAMED_VARIABLES[PNBLACKLIST] =3D "SKIP_RECIPE"
- BB_RENAMED_VARIABLES[CVE_CHECK_PN_WHITELIST] =3D "CVE_CHECK_SKIP_RECIPE"
- BB_RENAMED_VARIABLES[CVE_CHECK_WHITELIST] =3D "CVE_CHECK_IGNORE"
-diff --git a/meta/files/fs-perms-persistent-log.txt b/meta/files/fs-perms=
--persistent-log.txt
-index 518c1be3c9..326c0ed092 100644
---- a/meta/files/fs-perms-persistent-log.txt
-+++ b/meta/files/fs-perms-persistent-log.txt
-@@ -47,7 +47,6 @@ ${oldincludedir}	0755	root	root	true	0644	root	root
- # Links
- ${localstatedir}/run	link	/run
- ${localstatedir}/lock	link	/run/lock
--${localstatedir}/tmp	link	volatile/tmp
+ diff --git a/configure.ac b/configure.ac
+-index 6ddc49b..39752bb 100644
++index 3870795..9afb012 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -3,7 +3,6 @@ AC_PREREQ(2.53)
+ =20
+- AC_INIT([adwaita-icon-theme], [43],
++ AC_INIT([adwaita-icon-theme], [44.0],
+          [http://bugzilla.gnome.org/enter_bug.cgi?product=3Dadwaita-icon=
+-theme])
+ -AC_CANONICAL_HOST
+  AC_CONFIG_MACRO_DIR([m4])
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_43.bb b/meta/rec=
+ipes-gnome/gnome/adwaita-icon-theme_44.0.bb
+similarity index 95%
+rename from meta/recipes-gnome/gnome/adwaita-icon-theme_43.bb
+rename to meta/recipes-gnome/gnome/adwaita-icon-theme_44.0.bb
+index 8cb4d147f1..268a68ccea 100644
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme_43.bb
++++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_44.0.bb
+@@ -14,7 +14,7 @@ inherit allarch autotools pkgconfig gettext gtk-icon-ca=
+che gnomebase
 =20
- /home				0755	root	root	false - - -
- /srv				0755	root	root	false - - -
-@@ -57,7 +56,6 @@ ${localstatedir}/local		0755	root	root	false - - -
- # Special permissions from base-files
- # Set 1777
- /tmp				01777	root	root	false - - -
--${localstatedir}/volatile/tmp	01777	root	root	false - - -
+ SRC_URI +=3D " file://0001-Don-t-use-AC_CANONICAL_HOST.patch"
 =20
- # Set 0700
- ${ROOT_HOME}			0700	root	root	false - - -
-diff --git a/meta/files/fs-perms.txt b/meta/files/fs-perms.txt
-index daa4aed840..ed59311035 100644
---- a/meta/files/fs-perms.txt
-+++ b/meta/files/fs-perms.txt
-@@ -48,7 +48,6 @@ ${oldincludedir}	0755	root	root	true	0644	root	root
- ${localstatedir}/run	link	/run
- ${localstatedir}/log	link	volatile/log
- ${localstatedir}/lock	link	/run/lock
--${localstatedir}/tmp	link	volatile/tmp
+-SRC_URI[archive.sha256sum] =3D "2e3ac77d32a6aa5554155df37e8f0a0dd54fc5a6=
+5fd721e88d505f970da32ec6"
++SRC_URI[archive.sha256sum] =3D "4889c5601bbfecd25d80ba342209d0a936dcf691=
+ee56bd6eca4cde361f1a664c"
 =20
- /home				0755	root	root	false - - -
- /srv				0755	root	root	false - - -
-@@ -58,7 +57,6 @@ ${localstatedir}/local		0755	root	root	false - - -
- # Special permissions from base-files
- # Set 1777
- /tmp				01777	root	root	false - - -
--${localstatedir}/volatile/tmp	01777	root	root	false - - -
+ DEPENDS +=3D "librsvg-native"
 =20
- # Set 0700
- ${ROOT_HOME}			0700	root	root	false - - -
-diff --git a/meta/lib/oeqa/files/buildhistory_filelist1.txt b/meta/lib/oe=
-qa/files/buildhistory_filelist1.txt
-index 8d882895ad..ec50017383 100644
---- a/meta/lib/oeqa/files/buildhistory_filelist1.txt
-+++ b/meta/lib/oeqa/files/buildhistory_filelist1.txt
-@@ -9210,5 +9210,4 @@ lrwxrwxrwx root       root               12 ./var/l=
-og -> volatile/log
- lrwxrwxrwx root       root                6 ./var/run -> ../run
- drwxr-xr-x root       root             4096 ./var/spool
- drwxrwxr-x root       mail             4096 ./var/spool/mail
--lrwxrwxrwx root       root               12 ./var/tmp -> volatile/tmp
- drwxr-xr-x root       root             4096 ./var/volatile
-diff --git a/meta/lib/oeqa/files/buildhistory_filelist2.txt b/meta/lib/oe=
-qa/files/buildhistory_filelist2.txt
-index ac6307060d..cedec51c38 100644
---- a/meta/lib/oeqa/files/buildhistory_filelist2.txt
-+++ b/meta/lib/oeqa/files/buildhistory_filelist2.txt
-@@ -9213,5 +9213,4 @@ lrwxrwxrwx root       root               12 ./var/l=
-og -> volatile/log
- lrwxrwxrwx root       root                6 ./var/run -> ../run
- drwxr-xr-x root       root             4096 ./var/spool
- drwxrwxr-x root       mail             4096 ./var/spool/mail
--lrwxrwxrwx root       root               12 ./var/tmp -> volatile/tmp
- drwxr-xr-x root       root             4096 ./var/volatile
-diff --git a/meta/recipes-core/base-files/base-files/fstab b/meta/recipes=
--core/base-files/base-files/fstab
-index 70e400f567..7064573130 100644
---- a/meta/recipes-core/base-files/base-files/fstab
-+++ b/meta/recipes-core/base-files/base-files/fstab
-@@ -5,6 +5,7 @@ proc                 /proc                proc       defa=
-ults              0  0
- devpts               /dev/pts             devpts     mode=3D0620,ptmxmod=
-e=3D0666,gid=3D5      0  0
- tmpfs                /run                 tmpfs      mode=3D0755,nodev,n=
-osuid,strictatime 0  0
- tmpfs                /var/volatile        tmpfs      defaults           =
-   0  0
-+tmpfs                /tmp                 tmpfs      defaults           =
-   0  0
-=20
- # uncomment this if your device has a SD/MMC/Transflash slot
- #/dev/mmcblk0p1       /media/card          auto       defaults,sync,noau=
-to  0  0
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/rec=
-ipes-core/base-files/base-files_3.0.14.bb
-index ff83567bd9..c2ecea0a25 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -29,7 +29,7 @@ S =3D "${WORKDIR}"
- INHIBIT_DEFAULT_DEPS =3D "1"
-=20
- docdir:append =3D "/${P}"
--dirs1777 =3D "/tmp ${localstatedir}/volatile/tmp"
-+dirs1777 =3D "/tmp /var/tmp"
- dirs2775 =3D ""
- dirs555 =3D "/sys /proc"
- dirs755 =3D "/boot /dev ${base_bindir} ${base_sbindir} ${base_libdir} \
-@@ -53,7 +53,7 @@ dirs755-lsb =3D "/srv  \
-                ${prefix}/lib/locale"
- dirs2775-lsb =3D "/var/mail"
-=20
--volatiles =3D "${@'log' if oe.types.boolean('${VOLATILE_LOG_DIR}') else =
-''} tmp"
-+volatiles =3D "${@'log' if oe.types.boolean('${VOLATILE_LOG_DIR}') else =
-''}"
- conffiles =3D "${sysconfdir}/debian_version ${sysconfdir}/host.conf \
-              ${sysconfdir}/issue /${sysconfdir}/issue.net \
-              ${sysconfdir}/nsswitch.conf ${sysconfdir}/profile \
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volat=
-ile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.=
-sh
-index bc630e871c..ecfb6fdc2b 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-@@ -23,7 +23,7 @@ ROOT_DIR=3D"$(echo "$DIRNAME" | sed -ne 's:/etc/.*::p')=
-"
- [ "$ROOTFS_READ_ONLY" =3D "yes" ] && VOLATILE_ENABLE_CACHE=3Dno
-=20
- CFGDIR=3D"${ROOT_DIR}/etc/default/volatiles"
--TMPROOT=3D"${ROOT_DIR}/var/volatile/tmp"
-+TMPROOT=3D"${ROOT_DIR}/tmp"
- COREDEF=3D"00_core"
-=20
- [ "${VERBOSE}" !=3D "no" ] && echo "Populating volatile Filesystems."
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles b/me=
-ta/recipes-core/initscripts/initscripts-1.0/volatiles
-index cd8a4be05f..7232a8ef90 100644
---- a/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-@@ -25,11 +25,10 @@
- # link the file defined as /var/test will actually be created as /tmp/te=
-stfile.
- d root root 1777 /run/lock none
- d root root 0755 /var/volatile/log none
--d root root 1777 /var/volatile/tmp none
- l root root 1777 /var/lock /run/lock
- l root root 0755 /var/run /run
--l root root 1777 /var/tmp /var/volatile/tmp
--l root root 1777 /tmp /var/tmp
-+d root root 1777 /tmp
-+d root root 1777 /var/tmp
- d root root 0755 /var/lock/subsys none
- f root root 0664 /var/log/wtmp none
- f root root 0664 /var/run/utmp none
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/reci=
-pes-core/initscripts/initscripts_1.0.bb
-index 4dc477bb8d..7c9d9ca4f1 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -108,9 +108,6 @@ do_install () {
- 		sed -i -e '\@^d root root 0755 /var/volatile/log none$@ a\l root root =
-0755 /var/log /var/volatile/log' \
- 			${D}${sysconfdir}/default/volatiles/00_core
- 	fi
--	if [ "${VOLATILE_TMP_DIR}" !=3D "yes" ]; then
--		sed -i -e "/\<tmp\>/d" ${D}${sysconfdir}/default/volatiles/00_core
--	fi
- 	install -m 0755    ${WORKDIR}/dmesg.sh		${D}${sysconfdir}/init.d
- 	install -m 0644    ${WORKDIR}/logrotate-dmesg.conf ${D}${sysconfdir}/
-=20
-diff --git a/meta/recipes-core/systemd/systemd/00-create-volatile.conf b/=
-meta/recipes-core/systemd/systemd/00-create-volatile.conf
-index c4277221a2..1ba9b836cf 100644
---- a/meta/recipes-core/systemd/systemd/00-create-volatile.conf
-+++ b/meta/recipes-core/systemd/systemd/00-create-volatile.conf
-@@ -1,8 +1,6 @@
- #This goes hand-in-hand with the base-files of OE-Core. The file must
--# be sorted before 'systemd.conf' becuase this attempts to create a file
-+# be sorted before 'systemd.conf' because this attempts to create a file
- # inside /var/log.
-=20
--
- d		/run/lock		1777	-	-	-
- d		/var/volatile/log		-	-	-	-
--d		/var/volatile/tmp		1777	-	-
-diff --git a/meta/recipes-core/systemd/systemd_253.1.bb b/meta/recipes-co=
-re/systemd/systemd_253.1.bb
-index 9c2b96d3c1..26a1efc1d1 100644
---- a/meta/recipes-core/systemd/systemd_253.1.bb
-+++ b/meta/recipes-core/systemd/systemd_253.1.bb
-@@ -289,13 +289,6 @@ do_install() {
- 		rm -rf ${D}${localstatedir}/log/journal/remote
- 	fi
-=20
--	# if the user requests /tmp be on persistent storage (i.e. not volatile=
-)
--	# then don't use a tmpfs for /tmp
--	if [ "${VOLATILE_TMP_DIR}" !=3D "yes" ]; then
--		rm -f ${D}${rootlibdir}/systemd/system/tmp.mount
--		rm -f ${D}${rootlibdir}/systemd/system/local-fs.target.wants/tmp.mount
--	fi
--
- 	install -d ${D}${systemd_system_unitdir}/graphical.target.wants
- 	install -d ${D}${systemd_system_unitdir}/multi-user.target.wants
- 	install -d ${D}${systemd_system_unitdir}/poweroff.target.wants
-diff --git a/meta/recipes-core/udev/eudev/init b/meta/recipes-core/udev/e=
-udev/init
-index 477a525b21..2084de83ae 100644
---- a/meta/recipes-core/udev/eudev/init
-+++ b/meta/recipes-core/udev/eudev/init
-@@ -79,10 +79,6 @@ case "$1" in
-     }
-     [ -e /dev/pts ] || mkdir -m 0755 /dev/pts
-     [ -e /dev/shm ] || mkdir -m 1777 /dev/shm
--    # the automount rule for udev needs /tmp directory available, as /tm=
-p is a symlink
--    # to /var/tmp which in turn is a symlink to /var/volatile/tmp, we ne=
-ed to make sure
--    # /var/volatile/tmp directory to be available.
--    mkdir -m 1777 -p /var/volatile/tmp
-=20
-     # make_extra_nodes
-     kill_udevd > "/dev/null" 2>&1
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest b/meta/r=
-ecipes-devtools/e2fsprogs/e2fsprogs/run-ptest
-index c97c0377e9..1f873b055e 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
-@@ -2,7 +2,7 @@
-=20
- cd ./test
- SKIP_SLOW_TESTS=3Dyes ./test_script | sed -u -e '/:[[:space:]]ok/s/^/PAS=
-S: /' -e '/:[[:space:]]failed/s/^/FAIL: /' -e '/:[[:space:]]skipped/s/^/S=
-KIP: /'
--rm -rf /var/volatile/tmp/*e2fsprogs*
-+rm -rf /tmp/*e2fsprogs*
- rm -f tmp-*
- rm -f *.tmp
- rm -f *.ok
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-fdle=
-ak_cmsg.stderr.exp-adjust-tmp-paths.patch b/meta/recipes-devtools/valgrin=
-d/valgrind/0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch
-deleted file mode 100644
-index e421ac6c80..0000000000
---- a/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-fdleak_cmsg=
-.stderr.exp-adjust-tmp-paths.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From f405297d3382cd98391d02f397e2387da1f42879 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Fri, 24 Jan 2020 17:55:39 +0100
--Subject: [PATCH] none/tests/fdleak_cmsg.stderr.exp: adjust /tmp paths
--
--In oe-core, /tmp is linked to /var/volatile/tmp and
--valgrind output changes accordingly
--
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- none/tests/fdleak_cmsg.stderr.exp | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/none/tests/fdleak_cmsg.stderr.exp b/none/tests/fdleak_cmsg.=
-stderr.exp
--index 6e5a797b9..0ede1ab18 100644
----- a/none/tests/fdleak_cmsg.stderr.exp
--+++ b/none/tests/fdleak_cmsg.stderr.exp
--@@ -25,10 +25,10 @@ Open file descriptor ...: /dev/null
--=20
--=20
-- FILE DESCRIPTORS: 6 open (3 std) at exit.
---Open file descriptor ...: /tmp/data2
--+Open file descriptor ...: ...
--    ...
--=20
---Open file descriptor ...: /tmp/data1
--+Open file descriptor ...: ...
--    ...
--=20
-- Open AF_UNIX socket ...: <unknown>
----=20
--2.17.1
--
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.20.0.bb b/meta/rec=
-ipes-devtools/valgrind/valgrind_3.20.0.bb
-index 07e50426e4..4ea173ba80 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.20.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.20.0.bb
-@@ -36,7 +36,6 @@ SRC_URI =3D "https://sourceware.org/pub/valgrind/valgri=
-nd-${PV}.tar.bz2 \
-            file://0001-valgrind-filter_xml_frames-do-not-filter-usr.patc=
-h \
-            file://0001-memcheck-vgtests-remove-fullpath-after-flags.patc=
-h \
-            file://s390x_vec_op_t.patch \
--           file://0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-path=
-s.patch \
-            file://0001-memcheck-tests-Fix-timerfd-syscall-test.patch \
-            file://0001-docs-Disable-manual-validation.patch \
-            file://0001-drd-tests-Include-missing-cstdint.patch \
 --=20
 2.34.1
 
