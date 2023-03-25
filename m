@@ -1,223 +1,177 @@
-Return-Path: <kai.kang@eng.windriver.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D31BBC6FD1F
-	for <webhook@archiver.kernel.org>; Sat, 25 Mar 2023 14:43:02 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.23083.1679755374534545393
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42980C6FD1C
+	for <webhook@archiver.kernel.org>; Sat, 25 Mar 2023 15:58:33 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web11.24690.1679759907263372105
  for <openembedded-core@lists.openembedded.org>;
- Sat, 25 Mar 2023 07:42:54 -0700
+ Sat, 25 Mar 2023 08:58:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriver.com header.s=pps06212021 header.b=qcQE63/0;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=24482fab1e=kai.kang@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32PEfpdc007182
-	for <openembedded-core@lists.openembedded.org>; Sat, 25 Mar 2023 14:42:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : mime-version : content-type :
- content-transfer-encoding; s=PPS06212021;
- bh=ilfg3l/H2lZsBxoIGQqvL3TvnlWkD2rI8VFv+wnFLZU=;
- b=qcQE63/0K0nYMfeskF7eNlMUjt0l4zJKb+EHnGzYr2oDeE5gpi1oB3mV57/5WtI/PK21
- Gz90o/jxuIYgHuaRfRElzMt/ufNQX40NiYa0ljTvXzy9ENLDnOdo/HidPx2Xieq61nzq
- 7/VTZdiCkuIgZTojtwOOy24pLD/c9NiElHswTESEJuoIdDY8AYLOuLO+boNc1AlQ4X3N
- gdktKGUbIIs8aT8MmePYyI1VvgnYWrJJbe2FCXKa8eygXeV3XusIHypPYfLhZtLqJHZ5
- ZbTxZbRoHo3lxe12eAOyhuEstCl5ucnFAJogwuwb7gYpWcD0YWeCfsaIqRPnLB+G5j9o iw== 
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3php640g9w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sat, 25 Mar 2023 14:42:53 +0000
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Sat, 25 Mar 2023 07:42:52 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.17 via Frontend Transport; Sat, 25 Mar 2023 07:42:51 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [dunfell][PATCH v2 1/2] QEMU: CVE-2022-4144 QXL: qxl_phys2virt unsafe address translation can lead to out-of-bounds read
-Date: Sat, 25 Mar 2023 22:42:46 +0800
-Message-ID: <20230325144247.34549-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=YkVBFOR+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f170.google.com with SMTP id le6so4444952plb.12
+        for <openembedded-core@lists.openembedded.org>; Sat, 25 Mar 2023 08:58:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1679759906;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/6pvNxZyk+eWQR+P+9ybQaGmQhIq9jlpkIV5DbN3oJI=;
+        b=YkVBFOR+S7z1bY7D2I6nyvHBL/y6GxIbUdNBBrV9usZ2aLb3+jAEmKZjWMyI5+iznn
+         Y6Z4RJ0AqYFmgZkt7LZz1AJU8toe4UYdwlSJgA5rI53FVc77ySdcaFdvHVGomKHud30o
+         a0P5goP6C+ILJCEfnALRUBdjs+evS9GdRw7nRMEdR7irNVvYc0wjKfowNuRQlXApG6b9
+         tchQj9ipZx5KPmtAsBs3M3ojNmJjfV3lYXUAEySSXCVUPKeTO25bjVLthWBS+WLUdAuq
+         wyT1ujEnHXrX5YxeAdy8DHr4LV+phsvIdnqu6HqxBG7pB9UQ39D372HBWyxR0D6tA7oN
+         fPhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679759906;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/6pvNxZyk+eWQR+P+9ybQaGmQhIq9jlpkIV5DbN3oJI=;
+        b=IqpL6uA/ODpzS8jAUbBYMbYreIQNaDDDeruCBi56M4MY0/aoi09mb6WXdUGSf/JVb7
+         XO+KKK4BztI96jN00+NQcv9uusqCMUJZFdFm2hJslbxjyQz2xEfYfxvQDgnXPnEp6Ude
+         dn4IY76AxW7eRm8nAdJKW89MkQcFKhfs+pZpajV/KzBrZrc04n7q+Kq7zQKW1o0zH3UA
+         IGWFfw6+2q/GeVk5nM3uxdtwZ+TsmwNe1vUb3XAazb6E7Z8IDV3Det27CS5EdtVx26qE
+         s4mEn/YKzRn5nbNgX2yuve66ABGkmr/4EYJTotxQcDGMZwHd0SbnVS6WGyg5S6BH1CbZ
+         XWjw==
+X-Gm-Message-State: AO0yUKWYM5UB92b3hvgH7GpaBXMfFtvxLO1o/AmBlwFlU5sIg66hsD6P
+	mCDR2UbtpdRvMtoD4m2qIuL3gA1YheuOZ092o5U=
+X-Google-Smtp-Source: AK7set8OAB5HOKohsxccp/C3GDXJaYo8KyXctm3hnCNIYHuDKSFkRfoe7DNO1IVWHplH4qm26sMFvQ==
+X-Received: by 2002:a05:6a20:3b19:b0:d6:91f5:2b10 with SMTP id c25-20020a056a203b1900b000d691f52b10mr6160524pzh.58.1679759906091;
+        Sat, 25 Mar 2023 08:58:26 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
+        by smtp.gmail.com with ESMTPSA id f31-20020a63101f000000b00502f017657dsm15140394pgl.83.2023.03.25.08.58.25
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Mar 2023 08:58:25 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][langdale 00/21] Pull request (cover letter only)
+Date: Sat, 25 Mar 2023 05:58:19 -1000
+Message-Id: <cover.1679759775.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Proofpoint-ORIG-GUID: cXoqh1Fi3uDcUCmA0cUESOAyDJ34_kMe
-X-Proofpoint-GUID: cXoqh1Fi3uDcUCmA0cUESOAyDJ34_kMe
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-24_11,2023-03-24_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
- phishscore=0 spamscore=0 bulkscore=0 mlxlogscore=999 priorityscore=1501
- lowpriorityscore=0 clxscore=1015 mlxscore=0 adultscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2303250122
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 32PEfpdc007182
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 25 Mar 2023 14:43:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179097
+ <openembedded-core@lists.openembedded.org>; Sat, 25 Mar 2023 15:58:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179099
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+The following changes since commit 61f268be804795fadafbc918b465561819b592ec:
 
-Upstream-Status: Backport from https://gitlab.com/qemu-project/qemu/-/com=
-mit/6dbbf055148c6f1b7d8a3251a65bd6f3d1e1f622
+  base-files: Drop localhost.localdomain from hosts file (2023-03-16 04:35:11 -1000)
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+are available in the Git repository at:
 
-Replace the tabs with spaces to correct the indent.
+  https://git.openembedded.org/openembedded-core-contrib stable/langdale-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/langdale-next
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-devtools/qemu/qemu.inc           |   9 +-
- .../qemu/qemu/CVE-2022-4144.patch             | 103 ++++++++++++++++++
- 2 files changed, 108 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-4144.patch
+Alexander Kanavin (1):
+  devtool/upgrade: do not delete the workspace/recipes directory
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
-qemu/qemu.inc
-index 36d0b9320f..0649727338 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -112,10 +112,11 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}=
-.tar.xz \
-            file://CVE-2022-0216-1.patch \
-            file://CVE-2022-0216-2.patch \
-            file://CVE-2021-3750.patch \
--	   file://CVE-2021-3638.patch \
--	   file://CVE-2021-20196.patch \
--	   file://CVE-2021-3507.patch \
--	   file://CVE-2021-3929.patch \
-+           file://CVE-2021-3638.patch \
-+           file://CVE-2021-20196.patch \
-+           file://CVE-2021-3507.patch \
-+           file://CVE-2021-3929.patch \
-+           file://CVE-2022-4144.patch \
-            "
- UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
-=20
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2022-4144.patch b/meta/r=
-ecipes-devtools/qemu/qemu/CVE-2022-4144.patch
-new file mode 100644
-index 0000000000..3f0d5fbd5c
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2022-4144.patch
-@@ -0,0 +1,103 @@
-+From 6dbbf055148c6f1b7d8a3251a65bd6f3d1e1f622 Mon Sep 17 00:00:00 2001
-+From: =3D?UTF-8?q?Philippe=3D20Mathieu-Daud=3DC3=3DA9?=3D <philmd@linaro=
-.org>
-+Date: Mon, 28 Nov 2022 21:27:40 +0100
-+Subject: [PATCH] hw/display/qxl: Avoid buffer overrun in qxl_phys2virt
-+ (CVE-2022-4144)
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Have qxl_get_check_slot_offset() return false if the requested
-+buffer size does not fit within the slot memory region.
-+
-+Similarly qxl_phys2virt() now returns NULL in such case, and
-+qxl_dirty_one_surface() aborts.
-+
-+This avoids buffer overrun in the host pointer returned by
-+memory_region_get_ram_ptr().
-+
-+Fixes: CVE-2022-4144 (out-of-bounds read)
-+Reported-by: Wenxu Yin (@awxylitol)
-+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1336
-+
-+Signed-off-by: Philippe Mathieu-Daud=C3=83=C2=A9 <philmd@linaro.org>
-+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-+Message-Id: <20221128202741.4945-5-philmd@linaro.org>
-+
-+Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit=
-/6dbbf055148c6f1b7d8a3251a65bd6f3d1e1f622]
-+CVE: CVE-2022-4144
-+Comments: Deleted patch hunk in qxl.h,as it contains change
-+in comments which is not present in current version of qemu.
-+
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ hw/display/qxl.c | 27 +++++++++++++++++++++++----
-+ 1 file changed, 23 insertions(+), 4 deletions(-)
-+
-+diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-+index cd7eb39d..6bc8385b 100644
-+--- a/hw/display/qxl.c
-++++ b/hw/display/qxl.c
-+@@ -1440,11 +1440,13 @@ static void qxl_reset_surfaces(PCIQXLDevice *d)
-+=20
-+ /* can be also called from spice server thread context */
-+ static bool qxl_get_check_slot_offset(PCIQXLDevice *qxl, QXLPHYSICAL pq=
-xl,
-+-                                      uint32_t *s, uint64_t *o)
-++                                      uint32_t *s, uint64_t *o,
-++                                      size_t size_requested)
-+ {
-+     uint64_t phys   =3D le64_to_cpu(pqxl);
-+     uint32_t slot   =3D (phys >> (64 -  8)) & 0xff;
-+     uint64_t offset =3D phys & 0xffffffffffff;
-++    uint64_t size_available;
-+=20
-+     if (slot >=3D NUM_MEMSLOTS) {
-+         qxl_set_guest_bug(qxl, "slot too large %d >=3D %d", slot,
-+@@ -1468,6 +1470,23 @@ static bool qxl_get_check_slot_offset(PCIQXLDevic=
-e *qxl, QXLPHYSICAL pqxl,
-+                           slot, offset, qxl->guest_slots[slot].size);
-+         return false;
-+     }
-++    size_available =3D memory_region_size(qxl->guest_slots[slot].mr);
-++    if (qxl->guest_slots[slot].offset + offset >=3D size_available) {
-++        qxl_set_guest_bug(qxl,
-++                          "slot %d offset %"PRIu64" > region size %"PRI=
-u64"\n",
-++                          slot, qxl->guest_slots[slot].offset + offset,
-++                          size_available);
-++        return false;
-++    }
-++    size_available -=3D qxl->guest_slots[slot].offset + offset;
-++    if (size_requested > size_available) {
-++        qxl_set_guest_bug(qxl,
-++                          "slot %d offset %"PRIu64" size %zu: "
-++                          "overrun by %"PRIu64" bytes\n",
-++                          slot, offset, size_requested,
-++                          size_requested - size_available);
-++        return false;
-++    }
-+=20
-+     *s =3D slot;
-+     *o =3D offset;
-+@@ -1486,7 +1505,7 @@ void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL=
- pqxl, int group_id)
-+         offset =3D le64_to_cpu(pqxl) & 0xffffffffffff;
-+         return (void *)(intptr_t)offset;
-+     case MEMSLOT_GROUP_GUEST:
-+-        if (!qxl_get_check_slot_offset(qxl, pqxl, &slot, &offset)) {
-++        if (!qxl_get_check_slot_offset(qxl, pqxl, &slot, &offset, size)=
-) {
-+             return NULL;
-+         }
-+         ptr =3D memory_region_get_ram_ptr(qxl->guest_slots[slot].mr);
-+@@ -1944,9 +1963,9 @@ static void qxl_dirty_one_surface(PCIQXLDevice *qx=
-l, QXLPHYSICAL pqxl,
-+     uint32_t slot;
-+     bool rc;
-+=20
-+-    rc =3D qxl_get_check_slot_offset(qxl, pqxl, &slot, &offset);
-+-    assert(rc =3D=3D true);
-+     size =3D (uint64_t)height * abs(stride);
-++    rc =3D qxl_get_check_slot_offset(qxl, pqxl, &slot, &offset, size);
-++    assert(rc =3D=3D true);
-+     trace_qxl_surfaces_dirty(qxl->id, offset, size);
-+     qxl_set_dirty(qxl->guest_slots[slot].mr,
-+                   qxl->guest_slots[slot].offset + offset,
-+--=20
-+2.25.1
-+
---=20
-2.17.1
+Chee Yang Lee (3):
+  git: ignore CVE-2023-22743
+  tiff: Fix CVE-2023-0795 CVE-2023-0796 CVE-2023-0797 CVE-2023-0798
+    CVE-2023-0799
+  go: upgrade to 1.19.7
+
+Frederic Martinsons (1):
+  cargo.bbclass: use offline mode for building
+
+Khem Raj (1):
+  systemd.bbclass: Add /usr/lib/systemd to searchpaths as well
+
+Martin Jansa (3):
+  timezone: use 'tz' subdir instead of ${WORKDIR} directly
+  tzdata: use separate B instead of WORKDIR for zic output
+  tzcode-native: fix build with gcc-13 on host
+
+Mikko Rapeli (1):
+  oeqa rtc.py: skip if read-only-rootfs
+
+Mingli Yu (3):
+  mdadm: Fix testcase 06wrmostly
+  mdadm: fix tests/02lineargrow
+  mdadm: Fix raid0 tests
+
+Piotr Łobacz (1):
+  systemd: fix wrong nobody-group assignment
+
+Richard Purdie (2):
+  pybootchartui: Fix python syntax issue
+  pybootchart: Fix extents handling to account for cpu/io/mem pressure
+    changes
+
+Romuald JEANNE (1):
+  image_types: fix vname var init in multiubi_mkfs() function
+
+Romuald Jeanne (1):
+  image_types: fix multiubi var init
+
+Ross Burton (1):
+  lib/resulttool: fix typo breaking resulttool log --ptest
+
+Sudip Mukherjee (1):
+  libgit2: update license information
+
+Tim Orling (1):
+  cracklib: update github branch to 'main'
+
+ meta/classes-recipe/cargo.bbclass             |   2 +-
+ meta/classes-recipe/image_types.bbclass       |  16 +-
+ meta/classes-recipe/systemd.bbclass           |   1 +
+ meta/lib/oeqa/runtime/cases/rtc.py            |   8 +-
+ meta/recipes-core/systemd/systemd_251.8.bb    |   2 +-
+ meta/recipes-devtools/git/git_2.37.6.bb       |   2 +
+ .../go/{go-1.19.4.inc => go-1.19.7.inc}       |   2 +-
+ ...e_1.19.4.bb => go-binary-native_1.19.7.bb} |   4 +-
+ ..._1.19.4.bb => go-cross-canadian_1.19.7.bb} |   0
+ ...{go-cross_1.19.4.bb => go-cross_1.19.7.bb} |   0
+ ...osssdk_1.19.4.bb => go-crosssdk_1.19.7.bb} |   0
+ ...o-native_1.19.4.bb => go-native_1.19.7.bb} |   0
+ ...runtime_1.19.4.bb => go-runtime_1.19.7.bb} |   0
+ .../go/{go_1.19.4.bb => go_1.19.7.bb}         |   0
+ .../cracklib/cracklib_2.9.8.bb                |   2 +-
+ ...-Fix-optional-write-behind-parameter.patch |  45 +++
+ ...d-a-test-that-validates-raid0-with-l.patch |  41 +++
+ ...-Run-udevadm-settle-before-setting-r.patch |  39 +++
+ ...ow-clear-the-superblock-at-every-ite.patch |  33 ++
+ ...metadata-avoid-passing-chunk-size-to.patch |  41 +++
+ ...ts-fix-raid0-tests-for-0.90-metadata.patch | 102 ++++++
+ meta/recipes-extended/mdadm/mdadm_4.2.bb      |   6 +
+ meta/recipes-extended/timezone/timezone.inc   |   6 +-
+ .../timezone/tzcode-native.bb                 |   3 +-
+ ...0001-Fix-C23-related-conformance-bug.patch | 301 ++++++++++++++++++
+ meta/recipes-extended/timezone/tzdata.bb      |  16 +-
+ .../CVE-2023-0795_0796_0797_0798_0799.patch   | 154 +++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.4.0.bb |   1 +
+ meta/recipes-support/libgit2/libgit2_1.5.1.bb |   2 +-
+ scripts/lib/devtool/upgrade.py                |   3 -
+ scripts/lib/resulttool/resultutils.py         |   2 +-
+ scripts/pybootchartgui/pybootchartgui/draw.py |   6 +
+ .../pybootchartgui/pybootchartgui/parsing.py  |   2 +-
+ 33 files changed, 810 insertions(+), 32 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.19.4.inc => go-1.19.7.inc} (89%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.19.4.bb => go-binary-native_1.19.7.bb} (84%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.19.4.bb => go-cross-canadian_1.19.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.19.4.bb => go-cross_1.19.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.19.4.bb => go-crosssdk_1.19.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go-native_1.19.4.bb => go-native_1.19.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.19.4.bb => go-runtime_1.19.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.19.4.bb => go_1.19.7.bb} (100%)
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-mdadm-Fix-optional-write-behind-parameter.patch
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-tests-00raid0-add-a-test-that-validates-raid0-with-l.patch
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-tests-00readonly-Run-udevadm-settle-before-setting-r.patch
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-tests-02lineargrow-clear-the-superblock-at-every-ite.patch
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-tests-04update-metadata-avoid-passing-chunk-size-to.patch
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-tests-fix-raid0-tests-for-0.90-metadata.patch
+ create mode 100644 meta/recipes-extended/timezone/tzcode/0001-Fix-C23-related-conformance-bug.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-0795_0796_0797_0798_0799.patch
+
+-- 
+2.34.1
 
 
