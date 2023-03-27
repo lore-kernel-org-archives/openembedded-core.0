@@ -1,494 +1,785 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 955B4C76195
-	for <webhook@archiver.kernel.org>; Mon, 27 Mar 2023 19:20:41 +0000 (UTC)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
- by mx.groups.io with SMTP id smtpd.web11.45594.1679944833065443753
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91D41C6FD1D
+	for <webhook@archiver.kernel.org>; Mon, 27 Mar 2023 19:47:31 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web10.46104.1679946449922073029
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Mar 2023 12:20:33 -0700
+ Mon, 27 Mar 2023 12:47:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ONRolYWV;
- spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-lj1-f177.google.com with SMTP id o20so7256953ljp.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Mar 2023 12:20:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679944831;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/XZefom2V72mZQ8alTM4Nw0Y6H1HkE2uhatTkoGxj28=;
-        b=ONRolYWVvK8zlDr9qOjuNJikShL0P1OzcTkmJKAxvfGfnr7LnxvvUn543dlyH/aQaw
-         /cqS+Ue12FyqrJOzHoKUYyD8I2GJgaZVKA1WHemegYcT0Ym3itvkshTvjjr0560ePf44
-         RvtmXT2jUWi7KVREEwUnApEiQ5Yn7lTkd4syRV82WpZGc+VEtHE+RyrIFvU1tsVAklhk
-         ZA+K3z+rajfxqU/GT7vTwgj/fdNlKouiseiEteprwZmnzT97ZIm8A0E/4lJB8d1N94aN
-         aWWFGw+/8+rC2OJFlEgIiGXnoDfXh5JvHHWCLQ6xEPqG7Irye001anPv4InIoxIJqDPd
-         qVRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679944831;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/XZefom2V72mZQ8alTM4Nw0Y6H1HkE2uhatTkoGxj28=;
-        b=W8fL/999oPBJS0EDpa4JluNNHykH198iVuE+d+LUbyvAZmCVrvc6lK91Npp71ga0Wq
-         tQW+/UBP789wWgBW6V4nSZx/ckeJkcYjQ7Ar8LIx8gHtM1TetZ1XFn6d/hlDJD+24dPv
-         3sF2gnbOQDLeKu0Jl2eDfo8y7t2LrsA1OfFLpEgCWXDxVpnvTXj6xu668YBKP0AY0+7b
-         2S0zu+Q1yp+t/f0XHBNa6HXH1MDSMvkyMhXIk86TPB95xnUXrwUCkNyxdXiPAEWWalYF
-         t46+0mx4Cd7ZscdqkdEWe0Y9ddfKfxc+nFKOTNyvlcr2hPRaDxjrb/DqR/htz8shYhec
-         3WZA==
-X-Gm-Message-State: AAQBX9c+vFlhhMgvaAbxXC2T5Ku9qCc79Pv/A72Ro8JnHtGIWc8VgU9y
-	sUsMyy9qiIWDp8oC5F/vXw1ZpDoi53VnEHLqVDY=
-X-Google-Smtp-Source: AKy350ZXIT9tZAzDIyWovhJSCWCcrF/b1X0A2R3++VCDYGingvcTJc3VWH1RjwYnrXJTqT3WzKS9abaHemc9ETtBpNQ=
-X-Received: by 2002:a05:651c:10e:b0:295:a82e:ec06 with SMTP id
- a14-20020a05651c010e00b00295a82eec06mr3899662ljb.3.1679944831037; Mon, 27 Mar
- 2023 12:20:31 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=WIj3LdM5;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id AF22460005;
+	Mon, 27 Mar 2023 19:47:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1679946448;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nU7JSm7RVoIUmxm7HDd4bXnamtZWqnEw8UJLrn0SXCk=;
+	b=WIj3LdM5lYoKleZevoLEAfUlMAfh9Uzur0aGKfS7QAaOkiKbb5U34a7Rg5CJETfEANVyBc
+	RY9ITC4f2cauDhcZ8eDqJPWLArruTQOAba3YhZILauU7rBE3BttsxC8eVYdIpHTL2G77+B
+	8cRQo0CE40mYTfuiZz0++GREGUXWldlqLDNtFl7EQQBgi7wpyF4yAJ+d218Lb7fT+6jTF3
+	zhRchOEt92mgegYNAF6F3V4++1MoXvdHuk0U0Ip01JrA5gMsKsz8yqbQJKFw6i6WWhPyIS
+	xaBi5S6Yf/uk3oACeovNsYVJ9F/nOZnhqKHaYwuKBLDTvWl3ukP0Y30HfV6WcQ==
+Date: Mon, 27 Mar 2023 21:47:27 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Markus Volk <f_l_k@t-online.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [oe-core][PATCHv2] webkitgtk: update 2.38.5 -> 2.40.0
+Message-ID: <20230327194727d709fd64@mail.local>
+References: <20230326164557.27827-1-f_l_k@t-online.de>
 MIME-Version: 1.0
-References: <cover.1679734210.git.frederic.martinsons@gmail.com>
- <094a85975f9b1ef0fc622f4f0acc70a935f1e6fe.camel@linuxfoundation.org>
- <CANNYZj8tNBngz4OLgF9YTKVQU08AjWgFf6JS2aHk0qQt=D6tBA@mail.gmail.com>
- <CA+cAkeqyAKnXHSvWDStkYCf6Uj99_OFaq5wQq60iLc6kkW7sDA@mail.gmail.com>
- <CANNYZj82788D_5t+Pt8u6NT0KX0ZzaEfdUCGAD_f92tCCmS5OQ@mail.gmail.com>
- <CA+cAkeqJESh4oOf=C5YevFdT3vLobLCELRD-wGvbPvvpexTmyw@mail.gmail.com>
- <CAO5Uq5QBNLT-BuQhpSyoEwHGd_c+JEt8q9UKEFA6ejjKab7-4w@mail.gmail.com>
- <CA+cAkeoZTZCBogKpy5mrn=G+w+hedMmm4KGB3q=8Ubp_=rOoRQ@mail.gmail.com>
- <CAO5Uq5RNRnfH=_C4bDnT9u4puME_b_=G1DdmScHu7e4zanVF2A@mail.gmail.com> <CANNYZj-FzfwgzCUBnUrMzN_kigHF9ttc59svOACvFG=QjidsQQ@mail.gmail.com>
-In-Reply-To: <CANNYZj-FzfwgzCUBnUrMzN_kigHF9ttc59svOACvFG=QjidsQQ@mail.gmail.com>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Date: Mon, 27 Mar 2023 21:20:19 +0200
-Message-ID: <CA+cAkeqkGmgszQbeRS4Z+8YP2uYa_OuWTpJUkmKyTnSQ8wOo1A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 0/5] Extend cargo based recip support
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Alex Kiernan <alex.kiernan@gmail.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000e575f305f7e6a207"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230326164557.27827-1-f_l_k@t-online.de>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Mar 2023 19:20:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179174
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Mar 2023 19:47:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179175
 
---000000000000e575f305f7e6a207
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-Thank you alex and alexender ;)
+Please adjust maintainers.inc:
 
-I'll take a look at this as soon as possible and and tell you in a
-dedicated thread if I'm making progress. But first, I'll work for the
-devtool test that has been mentioned first.
+The following recipes do not have a maintainer assigned to them. Please add an entry to meta/conf/distro/include/maintainers.inc file.
 
-Have a good evening (or day, depending on your timezone)
+Could you run the oe-selftest when submitting?
 
-Le lun. 27 mars 2023, 21:00, Alexander Kanavin <alex.kanavin@gmail.com> a
-=C3=A9crit :
+Thanks!
 
-> For the kernel modules you could start by replicating an out-of-yocto
-> kernel build as shown here:
-> https://lwn.net/Articles/910762/
->
-> Alex
->
-> On Mon, 27 Mar 2023 at 20:52, Alex Kiernan <alex.kiernan@gmail.com> wrote=
-:
-> >
-> > IIRC the cross upgrade just works, its the target build which explodes:
-> >
-> > https://github.com/akiernan/openembedded-core
-> >
-> > On Mon, Mar 27, 2023 at 7:40=E2=80=AFPM Fr=C3=A9d=C3=A9ric Martinsons
-> > <frederic.martinsons@gmail.com> wrote:
-> > >
-> > > Ok great, I'm willing to know more about the bootstrap of a rust
-> toolchain, I think I can start by just upgrading my poky master to rust
-> 1.68 and see what it spills out when I compile the hello world
-> > >
-> > > On the other hand, for enabling rust kernel modules in
-> linux-yocto-dev, I don't know where to start (full disclosure : I have no
-> skills about kernel and kernel module developments)
-> > >
-> > > Le lun. 27 mars 2023, 20:30, Alex Kiernan <alex.kiernan@gmail.com> a
-> =C3=A9crit :
-> > >>
-> > >> Updating the rust version is pretty much nothing to do with your rus=
-t
-> > >> knowledge and way more about digging into how the bootstrap process
-> > >> hangs together... whilst I have an awesome rustacean working for me,=
- I
-> > >> don't think I've ever had to drag him into helping with an upgrade.
-> > >>
-> > >> I wish I could say I'd spent the last few weeks figuring out why the
-> > >> upgrade broke, but I've been buried down the bottom of an ESP-IDF
-> > >> application...
-> > >>
-> > >> Alex
-> > >>
-> > >> On Mon, Mar 27, 2023 at 7:08=E2=80=AFPM Fr=C3=A9d=C3=A9ric Martinson=
-s
-> > >> <frederic.martinsons@gmail.com> wrote:
-> > >> >
-> > >> > I'll look at this but I'm not sure if I can help since I'm a
-> beginner (enthusiastic but still)
-> > >> >
-> > >> > Le lun. 27 mars 2023, 19:19, Alexander Kanavin <
-> alex.kanavin@gmail.com> a =C3=A9crit :
-> > >> >>
-> > >> >> If you'd like to do more here's off the top of my head:
-> > >> >>
-> > >> >> - enable rust kernel modules in linux-yocto-dev
-> > >> >>
-> > >> >> - help Alex Kiernan with update 1.67 -> 1.68; we need as many
-> people
-> > >> >> as possible capable of updating the rust toolchain. It's often no=
-t
-> > >> >> trivial:
-> > >> >> https://lists.openembedded.org/g/openembedded-core/message/178272
-> > >> >>
-> > >> >> Alex
-> > >> >>
-> > >> >> On Mon, 27 Mar 2023 at 17:01, Fr=C3=A9d=C3=A9ric Martinsons
-> > >> >> <frederic.martinsons@gmail.com> wrote:
-> > >> >> >
-> > >> >> > Ah!
-> > >> >> >
-> > >> >> > Alright, I'll try to setup a devtool test which demonstrate the
-> usage of git subpath with the zvariant.
-> > >> >> > I'll then issue a V4 series which reintroduce the zvariant
-> recipe in meta-selftest and the unit test on it.
-> > >> >> >
-> > >> >> > I must admit I felt in love for rust since the beginning of the
-> year and considering that I use yocto on a daily basis, I'll do everythin=
-g
-> I can to extend the support of developing rust for embedded devices.
-> > >> >> >
-> > >> >> > Thank you all for the advices.
-> > >> >> >
-> > >> >> > Le lun. 27 mars 2023, 16:25, Alexander Kanavin <
-> alex.kanavin@gmail.com> a =C3=A9crit :
-> > >> >> >>
-> > >> >> >> So if devtool tests would operate on zvariant recipe, then the
-> recipe
-> > >> >> >> can simply go into meta-selftest after all :)
-> > >> >> >>
-> > >> >> >> Alex
-> > >> >> >>
-> > >> >> >> On Mon, 27 Mar 2023 at 16:20, Richard Purdie
-> > >> >> >> <richard.purdie@linuxfoundation.org> wrote:
-> > >> >> >> >
-> > >> >> >> > On Sat, 2023-03-25 at 10:00 +0100, Frederic Martinsons wrote=
-:
-> > >> >> >> > > From: Frederic Martinsons <frederic.martinsons@gmail.com>
-> > >> >> >> > >
-> > >> >> >> > > This series brings the support of local git repository
-> inside
-> > >> >> >> > > a cargo based recipe.
-> > >> >> >> > >
-> > >> >> >> > > It also enable devtool capacity on it and provide a real
-> crate
-> > >> >> >> > > example recipe to show how things are done.
-> > >> >> >> > >
-> > >> >> >> > > The following changes since commit
-> 4876189dd2ae5a04a296b11b537b9f613159c6bf:
-> > >> >> >> > >
-> > >> >> >> > >   xcb-proto: Fix install conflict when enable multilib.
-> (2023-03-23 22:38:41 +0000)
-> > >> >> >> > >
-> > >> >> >> > > are available in the Git repository at:
-> > >> >> >> > >
-> > >> >> >> > >   https://gitlab.com/fmartinsons/openembedded-core
-> cargo-extend-support-git-and-devtool
-> > >> >> >> > >
-> > >> >> >> > > Alex Kiernan (1):
-> > >> >> >> > >   cargo_common.bbclass: Support local github repos
-> > >> >> >> > >
-> > >> >> >> > > Frederic Martinsons (4):
-> > >> >> >> > >   cargo_common.bbclass: add support of user in url for pat=
-ch
-> > >> >> >> > >   rust-example: provide a recipe for zvariant
-> > >> >> >> > >   devtool: add support for multiple git url inside a cargo
-> based recipe
-> > >> >> >> > >   patch: support of git patches when the source uri
-> contained subpath
-> > >> >> >> > >     param
-> > >> >> >> >
-> > >> >> >> > The various rust/cargo/crate patches look like they're
-> heading in a
-> > >> >> >> > good direction, thanks!
-> > >> >> >> >
-> > >> >> >> > The one thing which I think is missing is more support for
-> testing some
-> > >> >> >> > of these changes in our automated testing.
-> > >> >> >> >
-> > >> >> >> > In particular, devtool does have a decent test suite so we
-> should
-> > >> >> >> > ensure new devtool additions have tests.
-> > >> >> >> >
-> > >> >> >> > You can see the devtools tests in
-> > >> >> >> > meta/lib/oeqa/selftest/cases/devtool.py and run them with a
-> command
-> > >> >> >> > like "oe-selftest -r devtool -j 3" for example.
-> > >> >> >> >
-> > >> >> >> > Cheers,
-> > >> >> >> >
-> > >> >> >> > Richard
-> > >> >> >> >
-> > >> >> >> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > >> >> >> > Links: You receive all messages sent to this group.
-> > >> >> >> > View/Reply Online (#179160):
-> https://lists.openembedded.org/g/openembedded-core/message/179160
-> > >> >> >> > Mute This Topic:
-> https://lists.openembedded.org/mt/97840361/1686489
-> > >> >> >> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > >> >> >> > Unsubscribe:
-> https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> > >> >> >> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > >> >> >> >
-> > >>
-> > >>
-> > >>
-> > >> --
-> > >> Alex Kiernan
-> >
-> >
-> >
-> > --
-> > Alex Kiernan
->
+On 26/03/2023 18:45:57+0200, Markus Volk wrote:
+> - added PACKAGECONFIGs for av1 support, gamepad and sandboxing
+> - cmake tries to find where bwrap and xdg-dbus-proxy are located on target and reads the path from
+>   ${STAGING_BINDIR_NATIVE}. This breaks reproducibility and runtime. Fix by adding the needed paths manually.
+> - ccache seems to be working well now. Enable by default. It significantly improves buildtime on rebuilds.
+> - webkitgtk can be built with both, gtk+3 and gtk4 but it cant be built with support for both at once.
+>   there are still some packages that require the gtk3 variant, nameably surf, gnome-online-accounts and wxwidgets
+>   while ephiphany for example has a hard dependency on webkitgtk built with gtk4. This is why we need to provide
+>   recipes for both variants. If built with gtk+3 webkitgtk provides the 4.0 api, if built with gtk4 it'll provide the
+>   6.0 api. The only conflicting file between those two is the WebKitWebDriver binary. This was renamed for the gtk3
+>   variant so both variants can be installed into the same image.
+> - update dependencies
+> - wpebackend-fdo: update
+> 
+> Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> ---
+>  ...spection.cmake-prefix-variables-obta.patch |   0
+>  .../reproducibility.patch                     |   0
+>  .../recipes-sato/webkit/webkitgtk-3_2.40.0.bb | 168 ++++++++++
+>  ...44e17d258106617b0e6d783d073b188a2548.patch | 296 ------------------
+>  ...bb461f040b90453bc4e100dcf967243ecd98.patch |  30 --
+>  ...ebkitgtk_2.38.5.bb => webkitgtk_2.40.0.bb} |  67 ++--
+>  ...fdo_1.14.0.bb => wpebackend-fdo_1.14.1.bb} |   2 +-
+>  7 files changed, 201 insertions(+), 362 deletions(-)
+>  rename meta/recipes-sato/webkit/{webkitgtk => files}/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch (100%)
+>  rename meta/recipes-sato/webkit/{webkitgtk => files}/reproducibility.patch (100%)
+>  create mode 100644 meta/recipes-sato/webkit/webkitgtk-3_2.40.0.bb
+>  delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
+>  delete mode 100644 meta/recipes-sato/webkit/webkitgtk/d318bb461f040b90453bc4e100dcf967243ecd98.patch
+>  rename meta/recipes-sato/webkit/{webkitgtk_2.38.5.bb => webkitgtk_2.40.0.bb} (77%)
+>  rename meta/recipes-sato/webkit/{wpebackend-fdo_1.14.0.bb => wpebackend-fdo_1.14.1.bb} (90%)
+> 
+> diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch b/meta/recipes-sato/webkit/files/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
+> similarity index 100%
+> rename from meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
+> rename to meta/recipes-sato/webkit/files/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
+> diff --git a/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch b/meta/recipes-sato/webkit/files/reproducibility.patch
+> similarity index 100%
+> rename from meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
+> rename to meta/recipes-sato/webkit/files/reproducibility.patch
+> diff --git a/meta/recipes-sato/webkit/webkitgtk-3_2.40.0.bb b/meta/recipes-sato/webkit/webkitgtk-3_2.40.0.bb
+> new file mode 100644
+> index 0000000000..4401b0e527
+> --- /dev/null
+> +++ b/meta/recipes-sato/webkit/webkitgtk-3_2.40.0.bb
+> @@ -0,0 +1,168 @@
+> +SUMMARY = "WebKit web rendering engine for the GTK+ platform"
+> +HOMEPAGE = "https://www.webkitgtk.org/"
+> +BUGTRACKER = "https://bugs.webkit.org/"
+> +
+> +LICENSE = "BSD-2-Clause & LGPL-2.0-or-later"
+> +LIC_FILES_CHKSUM = "file://Source/JavaScriptCore/COPYING.LIB;md5=d0c6d6397a5d84286dda758da57bd691 \
+> +                    file://Source/WebCore/LICENSE-APPLE;md5=4646f90082c40bcf298c285f8bab0b12 \
+> +                    file://Source/WebCore/LICENSE-LGPL-2;md5=36357ffde2b64ae177b2494445b79d21 \
+> +                    file://Source/WebCore/LICENSE-LGPL-2.1;md5=a778a33ef338abbaf8b8a7c36b6eec80 \
+> +                    "
+> +
+> +SRC_URI = "https://www.webkitgtk.org/releases/webkitgtk-${PV}.tar.xz \
+> +           file://0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch \
+> +           file://reproducibility.patch \
+> +           "
+> +SRC_URI[sha256sum] = "a4607ea1bf89669e89b1cb2c63faaec513f93de09b6ae60cc71d6a8aab7ab393"
+> +
+> +S = "${WORKDIR}/webkitgtk-${PV}"
+> +
+> +inherit ccache cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen mime-xdg
+> +
+> +ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+> +
+> +CVE_PRODUCT = "webkitgtk webkitgtk\+"
+> +
+> +DEPENDS += " \
+> +          atk \
+> +          cairo \
+> +          gperf-native \
+> +          gstreamer1.0 \
+> +          gstreamer1.0-plugins-base \
+> +          gstreamer1.0-plugins-bad \
+> +          ${@bb.utils.contains('LICENSE_FLAGS', 'commercial', 'gstreamer1.0-libav', '', d)} \
+> +          gtk+3 \
+> +          harfbuzz \
+> +          jpeg \
+> +          libnotify \
+> +          libsoup \
+> +          libtasn1 \
+> +          libwebp \
+> +          libxslt \
+> +          ruby-native \
+> +          unifdef-native \
+> +          "
+> +
+> +PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11 opengl', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'webgl opengl', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'wayland opengl', 'webgl gles2', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'journald', '', d)} \
+> +                   enchant \
+> +                   libsecret \
+> +                  "
+> +
+> +PACKAGECONFIG[wayland] = "-DENABLE_WAYLAND_TARGET=ON,-DENABLE_WAYLAND_TARGET=OFF,wayland wayland-native libwpe wpebackend-fdo"
+> +PACKAGECONFIG[angle] = "-DUSE_ANGLE_EGL=ON,-DUSE_ANGLE_EGL=OFF,virtual/egl"
+> +PACKAGECONFIG[bubblewrap] = "-DENABLE_BUBBLEWRAP_SANDBOX=ON,-DENABLE_BUBBLEWRAP_SANDBOX=OFF,bubblewrap-native libseccomp xdg-dbus-proxy-native,bubblewrap xdg-dbus-proxy"
+> +PACKAGECONFIG[x11] = "-DENABLE_X11_TARGET=ON,-DENABLE_X11_TARGET=OFF,virtual/libx11 libxcomposite libxdamage libxrender libxt"
+> +PACKAGECONFIG[libavif] = "-DUSE_AVIF=ON,-DUSE_AVIF=OFF,libavif"
+> +PACKAGECONFIG[gamepad] = "-DENABLE_GAMEPAD=ON,-DENABLE_GAMEPAD=OFF,libmanette"
+> +PACKAGECONFIG[geoclue] = "-DENABLE_GEOLOCATION=ON,-DENABLE_GEOLOCATION=OFF,geoclue"
+> +PACKAGECONFIG[enchant] = "-DENABLE_SPELLCHECK=ON,-DENABLE_SPELLCHECK=OFF,enchant2"
+> +PACKAGECONFIG[gles2] = "-DENABLE_GLES2=ON,-DENABLE_GLES2=OFF,virtual/libgles2"
+> +PACKAGECONFIG[webgl] = "-DENABLE_WEBGL=ON,-DENABLE_WEBGL=OFF,virtual/egl"
+> +PACKAGECONFIG[opengl] = "-DUSE_OPENGL_OR_ES=ON,-DUSE_OPENGL_OR_ES=OFF,virtual/egl libepoxy"
+> +PACKAGECONFIG[libsecret] = "-DUSE_LIBSECRET=ON,-DUSE_LIBSECRET=OFF,libsecret"
+> +PACKAGECONFIG[libhyphen] = "-DUSE_LIBHYPHEN=ON,-DUSE_LIBHYPHEN=OFF,libhyphen"
+> +PACKAGECONFIG[woff2] = "-DUSE_WOFF2=ON,-DUSE_WOFF2=OFF,woff2"
+> +PACKAGECONFIG[openjpeg] = "-DUSE_OPENJPEG=ON,-DUSE_OPENJPEG=OFF,openjpeg"
+> +PACKAGECONFIG[reduce-size] = "-DCMAKE_BUILD_TYPE=MinSizeRel,-DCMAKE_BUILD_TYPE=Release,,"
+> +PACKAGECONFIG[lcms] = "-DUSE_LCMS=ON,-DUSE_LCMS=OFF,lcms"
+> +PACKAGECONFIG[journald] = "-DENABLE_JOURNALD_LOG=ON,-DENABLE_JOURNALD_LOG=OFF,systemd"
+> +
+> +# webkitgtk is full of /usr/bin/env python, particular for generating docs
+> +do_configure[postfuncs] += "setup_python_link"
+> +setup_python_link() {
+> +	if [ ! -e ${STAGING_BINDIR_NATIVE}/python ]; then
+> +		ln -s `which python3` ${STAGING_BINDIR_NATIVE}/python
+> +	fi
+> +}
+> +
+> +EXTRA_OECMAKE = " \
+> +		-DENABLE_2022_GLIB_API=OFF \
+> +		-DPORT=GTK \
+> +		-DUSE_GTK4=OFF \
+> +		-DUSE_XDGMIME=ON \
+> +		-DBWRAP_EXECUTABLE=${bindir}/bwrap \
+> +		-DDBUS_PROXY_EXECUTABLE=${bindir}/xdg-dbus-proxy \
+> +		${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-DENABLE_INTROSPECTION=ON', '-DENABLE_INTROSPECTION=OFF', d)} \
+> +		${@bb.utils.contains('GIDOCGEN_ENABLED', 'True', '-DENABLE_DOCUMENTATION=ON', '-DENABLE_DOCUMENTATION=OFF', d)} \
+> +		-DENABLE_MINIBROWSER=ON \
+> +                -DPYTHON_EXECUTABLE=`which python3` \
+> +		"
+> +
+> +# Javascript JIT is not supported on ARC
+> +EXTRA_OECMAKE:append:arc = " -DENABLE_JIT=OFF "
+> +# By default 25-bit "medium" calls are used on ARC
+> +# which is not enough for binaries larger than 32 MiB
+> +CFLAGS:append:arc = " -mlong-calls"
+> +CXXFLAGS:append:arc = " -mlong-calls"
+> +
+> +# Needed for non-mesa graphics stacks when x11 is disabled
+> +CXXFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', '-DEGL_NO_X11=1', d)}"
+> +
+> +# Javascript JIT is not supported on powerpc
+> +EXTRA_OECMAKE:append:powerpc = " -DENABLE_JIT=OFF "
+> +EXTRA_OECMAKE:append:powerpc64 = " -DENABLE_JIT=OFF "
+> +
+> +# ARM JIT code does not build on ARMv4/5/6 anymore
+> +EXTRA_OECMAKE:append:armv5 = " -DENABLE_JIT=OFF "
+> +EXTRA_OECMAKE:append:armv6 = " -DENABLE_JIT=OFF "
+> +EXTRA_OECMAKE:append:armv4 = " -DENABLE_JIT=OFF "
+> +
+> +EXTRA_OECMAKE:append:mipsarch = " -DUSE_LD_GOLD=OFF "
+> +EXTRA_OECMAKE:append:powerpc = " -DUSE_LD_GOLD=OFF "
+> +
+> +# JIT and gold linker does not work on RISCV
+> +EXTRA_OECMAKE:append:riscv32 = " -DUSE_LD_GOLD=OFF -DENABLE_JIT=OFF"
+> +EXTRA_OECMAKE:append:riscv64 = " -DUSE_LD_GOLD=OFF -DENABLE_JIT=OFF"
+> +
+> +# JIT not supported on MIPS either
+> +EXTRA_OECMAKE:append:mipsarch = " -DENABLE_JIT=OFF -DENABLE_C_LOOP=ON "
+> +
+> +# JIT not supported on X32
+> +# An attempt was made to upstream JIT support for x32 in
+> +# https://bugs.webkit.org/show_bug.cgi?id=100450, but this was closed as
+> +# unresolved due to limited X32 adoption.
+> +EXTRA_OECMAKE:append:x86-x32 = " -DENABLE_JIT=OFF "
+> +
+> +SECURITY_CFLAGS:remove:aarch64 = "-fpie"
+> +SECURITY_CFLAGS:append:aarch64 = " -fPIE"
+> +
+> +FILES:${PN} += "${libdir}/webkit2gtk-4.*/injected-bundle"
+> +
+> +RRECOMMENDS:${PN} += "ca-certificates shared-mime-info"
+> +
+> +# http://errors.yoctoproject.org/Errors/Details/20370/
+> +ARM_INSTRUCTION_SET:armv4 = "arm"
+> +ARM_INSTRUCTION_SET:armv5 = "arm"
+> +ARM_INSTRUCTION_SET:armv6 = "arm"
+> +
+> +# https://bugzilla.yoctoproject.org/show_bug.cgi?id=9474
+> +# https://bugs.webkit.org/show_bug.cgi?id=159880
+> +# JSC JIT can build on ARMv7 with -marm, but doesn't work on runtime.
+> +# Upstream only tests regularly the JSC JIT on ARMv7 with Thumb2 (-mthumb).
+> +ARM_INSTRUCTION_SET:armv7a = "thumb"
+> +ARM_INSTRUCTION_SET:armv7r = "thumb"
+> +ARM_INSTRUCTION_SET:armv7ve = "thumb"
+> +
+> +# introspection inside qemu-arm hangs forever on musl/arm builds
+> +# therefore disable GI_DATA
+> +GI_DATA_ENABLED:libc-musl:armv7a = "False"
+> +GI_DATA_ENABLED:libc-musl:armv7ve = "False"
+> +
+> +PACKAGE_PREPROCESS_FUNCS += "src_package_preprocess"
+> +src_package_preprocess () {
+> +        # Trim build paths from comments in generated sources to ensure reproducibility
+> +        sed -i -e "s,${WORKDIR},,g" \
+> +            ${B}/JavaScriptCore/DerivedSources/*.h \
+> +            ${B}/JavaScriptCore/DerivedSources/yarr/*.h \
+> +            ${B}/JavaScriptCore/PrivateHeaders/JavaScriptCore/*.h \
+> +            ${B}/WebKitGTK/DerivedSources/webkit/*.cpp \
+> +            ${B}/WebKitGTK/DerivedSources/webkit/*.h
+> +}
+> +
+> +do_install:append() {
+> +	# webkitwebdriver conflicts between webkitgtk and webkitgtk-3 ... move
+> +	mv ${D}${bindir}/WebKitWebDriver ${D}${bindir}/WebKitWebDriver-3
+> +}
+> diff --git a/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch b/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
+> deleted file mode 100644
+> index 32f92f7ff5..0000000000
+> --- a/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
+> +++ /dev/null
+> @@ -1,296 +0,0 @@
+> -From 0d3344e17d258106617b0e6d783d073b188a2548 Mon Sep 17 00:00:00 2001
+> -From: Adrian Perez de Castro <aperez@igalia.com>
+> -Date: Thu, 2 Jun 2022 11:19:06 +0300
+> -Subject: [PATCH] [ARM][NEON] FELightningNEON.cpp fails to build, NEON fast
+> - path seems unused https://bugs.webkit.org/show_bug.cgi?id=241182
+> -
+> -Reviewed by NOBODY (OOPS!).
+> -
+> -Move the NEON fast path for the SVG lighting filter effects into
+> -FELightingSoftwareApplier, and arrange to actually use them by
+> -forwarding calls to applyPlatformGeneric() into applyPlatformNeon().
+> -
+> -Some changes were needed to adapt platformApplyNeon() to the current
+> -state of filters after r286140. This was not detected because the code
+> -bitrotted due to it being guarded with CPU(ARM_TRADITIONAL), which does
+> -not get used much these days: CPU(ARM_THUMB2) is more common. It should
+> -be possible to use the NEON fast paths also in Thumb mode, but that is
+> -left for a follow-up fix.
+> -
+> -* Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp:
+> -(WebCore::FELightingSoftwareApplier::platformApplyNeonWorker):
+> -(WebCore::FELightingSoftwareApplier::getPowerCoefficients):
+> -(WebCore::FELighting::platformApplyNeonWorker): Deleted.
+> -(WebCore::FELighting::getPowerCoefficients): Deleted.
+> -* Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h:
+> -(WebCore::FELightingSoftwareApplier::applyPlatformNeon):
+> -(WebCore::FELighting::platformApplyNeon): Deleted.
+> -* Source/WebCore/platform/graphics/filters/DistantLightSource.h:
+> -* Source/WebCore/platform/graphics/filters/FELighting.h:
+> -* Source/WebCore/platform/graphics/filters/PointLightSource.h:
+> -* Source/WebCore/platform/graphics/filters/SpotLightSource.h:
+> -* Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h:
+> ----
+> -Upstream-Status: Submitted [https://github.com/WebKit/WebKit/pull/1233]
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -
+> - .../cpu/arm/filters/FELightingNEON.cpp        |  4 +-
+> - .../graphics/cpu/arm/filters/FELightingNEON.h | 54 +++++++++----------
+> - .../graphics/filters/DistantLightSource.h     |  4 ++
+> - .../platform/graphics/filters/FELighting.h    |  7 ---
+> - .../graphics/filters/PointLightSource.h       |  4 ++
+> - .../graphics/filters/SpotLightSource.h        |  4 ++
+> - .../software/FELightingSoftwareApplier.h      | 16 ++++++
+> - 7 files changed, 57 insertions(+), 36 deletions(-)
+> -
+> ---- a/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp
+> -+++ b/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp
+> -@@ -49,7 +49,7 @@ short* feLightingConstantsForNeon()
+> -     return s_FELightingConstantsForNeon;
+> - }
+> - 
+> --void FELighting::platformApplyNeonWorker(FELightingPaintingDataForNeon* parameters)
+> -+void FELightingSoftwareApplier::platformApplyNeonWorker(FELightingPaintingDataForNeon* parameters)
+> - {
+> -     neonDrawLighting(parameters);
+> - }
+> -@@ -464,7 +464,7 @@ TOSTRING(neonDrawLighting) ":" NL
+> -     "b .lightStrengthCalculated" NL
+> - ); // NOLINT
+> - 
+> --int FELighting::getPowerCoefficients(float exponent)
+> -+int FELightingSoftwareApplier::getPowerCoefficients(float exponent)
+> - {
+> -     // Calling a powf function from the assembly code would require to save
+> -     // and reload a lot of NEON registers. Since the base is in range [0..1]
+> ---- a/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h
+> -+++ b/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h
+> -@@ -24,14 +24,15 @@
+> -  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+> -  */
+> - 
+> --#ifndef FELightingNEON_h
+> --#define FELightingNEON_h
+> -+#pragma once
+> - 
+> - #if CPU(ARM_NEON) && CPU(ARM_TRADITIONAL) && COMPILER(GCC_COMPATIBLE)
+> - 
+> --#include "FELighting.h"
+> -+#include "FELightingSoftwareApplier.h"
+> -+#include "ImageBuffer.h"
+> - #include "PointLightSource.h"
+> - #include "SpotLightSource.h"
+> -+#include <wtf/ObjectIdentifier.h>
+> - #include <wtf/ParallelJobs.h>
+> - 
+> - namespace WebCore {
+> -@@ -93,14 +94,14 @@ extern "C" {
+> - void neonDrawLighting(FELightingPaintingDataForNeon*);
+> - }
+> - 
+> --inline void FELighting::platformApplyNeon(const LightingData& data, const LightSource::PaintingData& paintingData)
+> -+inline void FELightingSoftwareApplier::applyPlatformNeon(const FELightingSoftwareApplier::LightingData& data, const LightSource::PaintingData& paintingData)
+> - {
+> --    alignas(16) FELightingFloatArgumentsForNeon floatArguments;
+> --    FELightingPaintingDataForNeon neonData = {
+> -+    WebCore::FELightingFloatArgumentsForNeon alignas(16) floatArguments;
+> -+    WebCore::FELightingPaintingDataForNeon neonData = {
+> -         data.pixels->data(),
+> -         1,
+> --        data.widthDecreasedByOne - 1,
+> --        data.heightDecreasedByOne - 1,
+> -+        data.width - 2,
+> -+        data.height - 2,
+> -         0,
+> -         0,
+> -         0,
+> -@@ -111,23 +112,23 @@ inline void FELighting::platformApplyNeo
+> -     // Set light source arguments.
+> -     floatArguments.constOne = 1;
+> - 
+> --    auto color = m_lightingColor.toColorTypeLossy<SRGBA<uint8_t>>().resolved();
+> -+    auto color = data.lightingColor.toColorTypeLossy<SRGBA<uint8_t>>().resolved();
+> - 
+> -     floatArguments.colorRed = color.red;
+> -     floatArguments.colorGreen = color.green;
+> -     floatArguments.colorBlue = color.blue;
+> -     floatArguments.padding4 = 0;
+> - 
+> --    if (m_lightSource->type() == LS_POINT) {
+> -+    if (data.lightSource->type() == LS_POINT) {
+> -         neonData.flags |= FLAG_POINT_LIGHT;
+> --        PointLightSource& pointLightSource = static_cast<PointLightSource&>(m_lightSource.get());
+> -+        const auto& pointLightSource = *static_cast<const PointLightSource*>(data.lightSource);
+> -         floatArguments.lightX = pointLightSource.position().x();
+> -         floatArguments.lightY = pointLightSource.position().y();
+> -         floatArguments.lightZ = pointLightSource.position().z();
+> -         floatArguments.padding2 = 0;
+> --    } else if (m_lightSource->type() == LS_SPOT) {
+> -+    } else if (data.lightSource->type() == LS_SPOT) {
+> -         neonData.flags |= FLAG_SPOT_LIGHT;
+> --        SpotLightSource& spotLightSource = static_cast<SpotLightSource&>(m_lightSource.get());
+> -+        const auto& spotLightSource = *static_cast<const SpotLightSource*>(data.lightSource);
+> -         floatArguments.lightX = spotLightSource.position().x();
+> -         floatArguments.lightY = spotLightSource.position().y();
+> -         floatArguments.lightZ = spotLightSource.position().z();
+> -@@ -145,7 +146,7 @@ inline void FELighting::platformApplyNeo
+> -         if (spotLightSource.specularExponent() == 1)
+> -             neonData.flags |= FLAG_CONE_EXPONENT_IS_1;
+> -     } else {
+> --        ASSERT(m_lightSource->type() == LS_DISTANT);
+> -+        ASSERT(data.lightSource->type() == LS_DISTANT);
+> -         floatArguments.lightX = paintingData.initialLightingData.lightVector.x();
+> -         floatArguments.lightY = paintingData.initialLightingData.lightVector.y();
+> -         floatArguments.lightZ = paintingData.initialLightingData.lightVector.z();
+> -@@ -155,38 +156,39 @@ inline void FELighting::platformApplyNeo
+> -     // Set lighting arguments.
+> -     floatArguments.surfaceScale = data.surfaceScale;
+> -     floatArguments.minusSurfaceScaleDividedByFour = -data.surfaceScale / 4;
+> --    if (m_lightingType == FELighting::DiffuseLighting)
+> --        floatArguments.diffuseConstant = m_diffuseConstant;
+> -+    if (data.filterType == FilterEffect::Type::FEDiffuseLighting)
+> -+        floatArguments.diffuseConstant = data.diffuseConstant;
+> -     else {
+> -         neonData.flags |= FLAG_SPECULAR_LIGHT;
+> --        floatArguments.diffuseConstant = m_specularConstant;
+> --        neonData.specularExponent = getPowerCoefficients(m_specularExponent);
+> --        if (m_specularExponent == 1)
+> -+        floatArguments.diffuseConstant = data.specularConstant;
+> -+        neonData.specularExponent = getPowerCoefficients(data.specularExponent);
+> -+        if (data.specularExponent == 1)
+> -             neonData.flags |= FLAG_SPECULAR_EXPONENT_IS_1;
+> -     }
+> -     if (floatArguments.diffuseConstant == 1)
+> -         neonData.flags |= FLAG_DIFFUSE_CONST_IS_1;
+> - 
+> --    int optimalThreadNumber = ((data.widthDecreasedByOne - 1) * (data.heightDecreasedByOne - 1)) / s_minimalRectDimension;
+> -+    static constexpr int minimalRectDimension = 100 * 100; // Empirical data limit for parallel jobs
+> -+    int optimalThreadNumber = ((data.width - 2) * (data.height - 2)) / minimalRectDimension;
+> -     if (optimalThreadNumber > 1) {
+> -         // Initialize parallel jobs
+> --        ParallelJobs<FELightingPaintingDataForNeon> parallelJobs(&WebCore::FELighting::platformApplyNeonWorker, optimalThreadNumber);
+> -+        ParallelJobs<FELightingPaintingDataForNeon> parallelJobs(&FELightingSoftwareApplier::platformApplyNeonWorker, optimalThreadNumber);
+> - 
+> -         // Fill the parameter array
+> -         int job = parallelJobs.numberOfJobs();
+> -         if (job > 1) {
+> -             int yStart = 1;
+> --            int yStep = (data.heightDecreasedByOne - 1) / job;
+> -+            int yStep = (data.height - 2) / job;
+> -             for (--job; job >= 0; --job) {
+> -                 FELightingPaintingDataForNeon& params = parallelJobs.parameter(job);
+> -                 params = neonData;
+> -                 params.yStart = yStart;
+> --                params.pixels += (yStart - 1) * (data.widthDecreasedByOne + 1) * 4;
+> -+                params.pixels += (yStart - 1) * data.width * 4;
+> -                 if (job > 0) {
+> -                     params.absoluteHeight = yStep;
+> -                     yStart += yStep;
+> -                 } else
+> --                    params.absoluteHeight = data.heightDecreasedByOne - yStart;
+> -+                    params.absoluteHeight = (data.height - 1) - yStart;
+> -             }
+> -             parallelJobs.execute();
+> -             return;
+> -@@ -199,5 +201,3 @@ inline void FELighting::platformApplyNeo
+> - } // namespace WebCore
+> - 
+> - #endif // CPU(ARM_NEON) && COMPILER(GCC_COMPATIBLE)
+> --
+> --#endif // FELightingNEON_h
+> ---- a/Source/WebCore/platform/graphics/filters/DistantLightSource.h
+> -+++ b/Source/WebCore/platform/graphics/filters/DistantLightSource.h
+> -@@ -25,6 +25,10 @@
+> - #include "LightSource.h"
+> - #include <wtf/Ref.h>
+> - 
+> -+namespace WTF {
+> -+class TextStream;
+> -+} // namespace WTF
+> -+
+> - namespace WebCore {
+> - 
+> - class DistantLightSource : public LightSource {
+> ---- a/Source/WebCore/platform/graphics/filters/FELighting.h
+> -+++ b/Source/WebCore/platform/graphics/filters/FELighting.h
+> -@@ -35,8 +35,6 @@
+> - 
+> - namespace WebCore {
+> - 
+> --struct FELightingPaintingDataForNeon;
+> --
+> - class FELighting : public FilterEffect {
+> - public:
+> -     const Color& lightingColor() const { return m_lightingColor; }
+> -@@ -67,11 +65,6 @@ protected:
+> - 
+> -     std::unique_ptr<FilterEffectApplier> createSoftwareApplier() const override;
+> - 
+> --#if CPU(ARM_NEON) && CPU(ARM_TRADITIONAL) && COMPILER(GCC_COMPATIBLE)
+> --    static int getPowerCoefficients(float exponent);
+> --    inline void platformApplyNeon(const LightingData&, const LightSource::PaintingData&);
+> --#endif
+> --
+> -     Color m_lightingColor;
+> -     float m_surfaceScale;
+> -     float m_diffuseConstant;
+> ---- a/Source/WebCore/platform/graphics/filters/PointLightSource.h
+> -+++ b/Source/WebCore/platform/graphics/filters/PointLightSource.h
+> -@@ -26,6 +26,10 @@
+> - #include "LightSource.h"
+> - #include <wtf/Ref.h>
+> - 
+> -+namespace WTF {
+> -+class TextStream;
+> -+} // namespace WTF
+> -+
+> - namespace WebCore {
+> - 
+> - class PointLightSource : public LightSource {
+> ---- a/Source/WebCore/platform/graphics/filters/SpotLightSource.h
+> -+++ b/Source/WebCore/platform/graphics/filters/SpotLightSource.h
+> -@@ -26,6 +26,10 @@
+> - #include "LightSource.h"
+> - #include <wtf/Ref.h>
+> - 
+> -+namespace WTF {
+> -+class TextStream;
+> -+} // namespace WTF
+> -+
+> - namespace WebCore {
+> - 
+> - class SpotLightSource : public LightSource {
+> ---- a/Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h
+> -+++ b/Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h
+> -@@ -36,6 +36,7 @@
+> - namespace WebCore {
+> - 
+> - class FELighting;
+> -+struct FELightingPaintingDataForNeon;
+> - 
+> - class FELightingSoftwareApplier final : public FilterEffectConcreteApplier<FELighting> {
+> -     WTF_MAKE_FAST_ALLOCATED;
+> -@@ -132,8 +133,23 @@ private:
+> - 
+> -     static void applyPlatformGenericPaint(const LightingData&, const LightSource::PaintingData&, int startY, int endY);
+> -     static void applyPlatformGenericWorker(ApplyParameters*);
+> -+
+> -+#if CPU(ARM_NEON) && CPU(ARM_TRADITIONAL) && COMPILER(GCC_COMPATIBLE)
+> -+    static int getPowerCoefficients(float exponent);
+> -+    static void platformApplyNeonWorker(FELightingPaintingDataForNeon*);
+> -+    inline static void applyPlatformNeon(const LightingData&, const LightSource::PaintingData&);
+> -+
+> -+    inline static void applyPlatformGeneric(const LightingData& data, const LightSource::PaintingData& paintingData)
+> -+    {
+> -+        applyPlatformNeon(data, paintingData);
+> -+    }
+> -+#else
+> -     static void applyPlatformGeneric(const LightingData&, const LightSource::PaintingData&);
+> -+#endif
+> -+
+> -     static void applyPlatform(const LightingData&);
+> - };
+> - 
+> - } // namespace WebCore
+> -+
+> -+#include "FELightingNEON.h"
+> diff --git a/meta/recipes-sato/webkit/webkitgtk/d318bb461f040b90453bc4e100dcf967243ecd98.patch b/meta/recipes-sato/webkit/webkitgtk/d318bb461f040b90453bc4e100dcf967243ecd98.patch
+> deleted file mode 100644
+> index 1ff9dcea7e..0000000000
+> --- a/meta/recipes-sato/webkit/webkitgtk/d318bb461f040b90453bc4e100dcf967243ecd98.patch
+> +++ /dev/null
+> @@ -1,30 +0,0 @@
+> -From d318bb461f040b90453bc4e100dcf967243ecd98 Mon Sep 17 00:00:00 2001
+> -From: Michael Catanzaro <mcatanzaro@redhat.com>
+> -Date: Mon, 16 Jan 2023 16:55:26 -0800
+> -Subject: [PATCH] WebKitGTK 2.39.4 does not build due to missing #include in
+> - ANGLE https://bugs.webkit.org/show_bug.cgi?id=250689
+> -
+> -Unreviewed build fix.
+> -
+> -* Source/ThirdParty/ANGLE/include/GLSLANG/ShaderVars.h:
+> -
+> -Canonical link: https://commits.webkit.org/258968@main
+> -
+> -Upstream-Status: Backport [https://bugs.webkit.org/show_bug.cgi?id=250689]
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ----
+> - Source/ThirdParty/ANGLE/include/GLSLANG/ShaderVars.h | 1 +
+> - 1 file changed, 1 insertion(+)
+> -
+> -diff --git a/Source/ThirdParty/ANGLE/include/GLSLANG/ShaderVars.h b/Source/ThirdParty/ANGLE/include/GLSLANG/ShaderVars.h
+> -index 94cb93e01fc0..ec7bda372f30 100644
+> ---- a/Source/ThirdParty/ANGLE/include/GLSLANG/ShaderVars.h
+> -+++ b/Source/ThirdParty/ANGLE/include/GLSLANG/ShaderVars.h
+> -@@ -12,6 +12,7 @@
+> - 
+> - #include <algorithm>
+> - #include <array>
+> -+#include <cstdint>
+> - #include <string>
+> - #include <vector>
+> - 
+> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.38.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.40.0.bb
+> similarity index 77%
+> rename from meta/recipes-sato/webkit/webkitgtk_2.38.5.bb
+> rename to meta/recipes-sato/webkit/webkitgtk_2.40.0.bb
+> index e52920883a..84a5981ba0 100644
+> --- a/meta/recipes-sato/webkit/webkitgtk_2.38.5.bb
+> +++ b/meta/recipes-sato/webkit/webkitgtk_2.40.0.bb
+> @@ -12,62 +12,62 @@ LIC_FILES_CHKSUM = "file://Source/JavaScriptCore/COPYING.LIB;md5=d0c6d6397a5d842
+>  SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+>             file://0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch \
+>             file://reproducibility.patch \
+> -           file://0d3344e17d258106617b0e6d783d073b188a2548.patch \
+> -           file://d318bb461f040b90453bc4e100dcf967243ecd98.patch \
+>             "
+> -SRC_URI[sha256sum] = "40c20c43022274df5893f22b1054fa894c3eea057389bb08aee08c5b0bb0c1a7"
+> +SRC_URI[sha256sum] = "a4607ea1bf89669e89b1cb2c63faaec513f93de09b6ae60cc71d6a8aab7ab393"
+>  
+> -inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen
+> +inherit cmake ccache pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen mime-xdg
+>  
+>  ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+> -REQUIRED_DISTRO_FEATURES = "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'opengl', '', d)}"
+> +REQUIRED_DISTRO_FEATURES = "opengl"
+>  
+>  CVE_PRODUCT = "webkitgtk webkitgtk\+"
+>  
+>  DEPENDS += " \
+> -          ruby-native \
+> -          gperf-native \
+> +          atk \
+>            cairo \
+> +          gperf-native \
+> +          gstreamer1.0 \
+> +          gstreamer1.0-plugins-base \
+> +          gstreamer1.0-plugins-bad \
+> +          ${@bb.utils.contains('LICENSE_FLAGS', 'commercial', 'gstreamer1.0-libav', '', d)} \
+>            harfbuzz \
+>            jpeg \
+> -          atk \
+> +          libnotify \
+> +          libsoup \
+> +          libtasn1 \
+>            libwebp \
+> -          gtk+3 \
+>            libxslt \
+> -          libtasn1 \
+> -          libnotify \
+> -          gstreamer1.0 \
+> -          gstreamer1.0-plugins-base \
+> +          ruby-native \
+> +          unifdef-native \
+>            "
+>  
+> -PACKAGECONFIG_SOUP ?= "soup3"
+> -PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd wayland x11', d)} \
+> +PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11 opengl', d)} \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'webgl opengl', '', d)} \
+> -                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'webgl gles2', d)} \
+> -                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl-or-es', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'wayland opengl', 'webgl gles2', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'journald', '', d)} \
+> +                   gtk4 \
+>                     enchant \
+>                     libsecret \
+> -                   ${PACKAGECONFIG_SOUP} \
+>                    "
+>  
+> -PACKAGECONFIG[wayland] = "-DENABLE_WAYLAND_TARGET=ON,-DENABLE_WAYLAND_TARGET=OFF,wayland libwpe wpebackend-fdo wayland-native"
+> -PACKAGECONFIG[angle] = "-DUSE_ANGLE_WEBGL=ON,-DUSE_ANGLE_WEBGL=OFF"
+> +PACKAGECONFIG[wayland] = "-DENABLE_WAYLAND_TARGET=ON,-DENABLE_WAYLAND_TARGET=OFF,wayland wayland-native libwpe wpebackend-fdo"
+> +PACKAGECONFIG[angle] = "-DUSE_ANGLE_EGL=ON,-DUSE_ANGLE_EGL=OFF,virtual/egl"
+> +PACKAGECONFIG[bubblewrap] = "-DENABLE_BUBBLEWRAP_SANDBOX=ON,-DENABLE_BUBBLEWRAP_SANDBOX=OFF,bubblewrap-native libseccomp xdg-dbus-proxy-native,bubblewrap xdg-dbus-proxy"
+>  PACKAGECONFIG[x11] = "-DENABLE_X11_TARGET=ON,-DENABLE_X11_TARGET=OFF,virtual/libx11 libxcomposite libxdamage libxrender libxt"
+> +PACKAGECONFIG[libavif] = "-DUSE_AVIF=ON,-DUSE_AVIF=OFF,libavif"
+> +PACKAGECONFIG[gtk4] = "-DUSE_GTK4=ON,-DUSE_GTK4=OFF,gtk4"
+> +PACKAGECONFIG[gamepad] = "-DENABLE_GAMEPAD=ON,-DENABLE_GAMEPAD=OFF,libmanette"
+>  PACKAGECONFIG[geoclue] = "-DENABLE_GEOLOCATION=ON,-DENABLE_GEOLOCATION=OFF,geoclue"
+>  PACKAGECONFIG[enchant] = "-DENABLE_SPELLCHECK=ON,-DENABLE_SPELLCHECK=OFF,enchant2"
+>  PACKAGECONFIG[gles2] = "-DENABLE_GLES2=ON,-DENABLE_GLES2=OFF,virtual/libgles2"
+>  PACKAGECONFIG[webgl] = "-DENABLE_WEBGL=ON,-DENABLE_WEBGL=OFF,virtual/egl"
+> -PACKAGECONFIG[opengl] = "-DENABLE_GRAPHICS_CONTEXT_GL=ON,-DENABLE_GRAPHICS_CONTEXT_GL=OFF,virtual/egl"
+> -PACKAGECONFIG[opengl-or-es] = "-DUSE_OPENGL_OR_ES=ON,-DUSE_OPENGL_OR_ES=OFF"
+> +PACKAGECONFIG[opengl] = "-DUSE_OPENGL_OR_ES=ON,-DUSE_OPENGL_OR_ES=OFF,virtual/egl libepoxy"
+>  PACKAGECONFIG[libsecret] = "-DUSE_LIBSECRET=ON,-DUSE_LIBSECRET=OFF,libsecret"
+>  PACKAGECONFIG[libhyphen] = "-DUSE_LIBHYPHEN=ON,-DUSE_LIBHYPHEN=OFF,libhyphen"
+>  PACKAGECONFIG[woff2] = "-DUSE_WOFF2=ON,-DUSE_WOFF2=OFF,woff2"
+>  PACKAGECONFIG[openjpeg] = "-DUSE_OPENJPEG=ON,-DUSE_OPENJPEG=OFF,openjpeg"
+> -PACKAGECONFIG[systemd] = "-DUSE_SYSTEMD=ON,-DUSE_SYSTEMD=off,systemd"
+>  PACKAGECONFIG[reduce-size] = "-DCMAKE_BUILD_TYPE=MinSizeRel,-DCMAKE_BUILD_TYPE=Release,,"
+>  PACKAGECONFIG[lcms] = "-DUSE_LCMS=ON,-DUSE_LCMS=OFF,lcms"
+> -PACKAGECONFIG[soup2] = "-DUSE_SOUP2=ON,-DUSE_SOUP2=OFF,libsoup-2.4,,,soup3"
+> -PACKAGECONFIG[soup3] = ",,libsoup,,,soup2"
+>  PACKAGECONFIG[journald] = "-DENABLE_JOURNALD_LOG=ON,-DENABLE_JOURNALD_LOG=OFF,systemd"
+>  
+>  # webkitgtk is full of /usr/bin/env python, particular for generating docs
+> @@ -79,13 +79,15 @@ setup_python_link() {
+>  }
+>  
+>  EXTRA_OECMAKE = " \
+> +		-DENABLE_2022_GLIB_API=ON \
+>  		-DPORT=GTK \
+> +		-DUSE_XDGMIME=ON \
+> +		-DBWRAP_EXECUTABLE=${bindir}/bwrap \
+> +		-DDBUS_PROXY_EXECUTABLE=${bindir}/xdg-dbus-proxy \
+>  		${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-DENABLE_INTROSPECTION=ON', '-DENABLE_INTROSPECTION=OFF', d)} \
+>  		${@bb.utils.contains('GIDOCGEN_ENABLED', 'True', '-DENABLE_DOCUMENTATION=ON', '-DENABLE_DOCUMENTATION=OFF', d)} \
+>  		-DENABLE_MINIBROWSER=ON \
+>                  -DPYTHON_EXECUTABLE=`which python3` \
+> -                -DENABLE_BUBBLEWRAP_SANDBOX=OFF \
+> -                -DENABLE_GAMEPAD=OFF \
+>  		"
+>  
+>  # Javascript JIT is not supported on ARC
+> @@ -126,7 +128,7 @@ EXTRA_OECMAKE:append:x86-x32 = " -DENABLE_JIT=OFF "
+>  SECURITY_CFLAGS:remove:aarch64 = "-fpie"
+>  SECURITY_CFLAGS:append:aarch64 = " -fPIE"
+>  
+> -FILES:${PN} += "${libdir}/webkit2gtk-4.*/injected-bundle/libwebkit2gtkinjectedbundle.so"
+> +FILES:${PN} += "${libdir}/webkitgtk-6.*/injected-bundle"
+>  
+>  RRECOMMENDS:${PN} += "ca-certificates shared-mime-info"
+>  
+> @@ -148,9 +150,6 @@ ARM_INSTRUCTION_SET:armv7ve = "thumb"
+>  GI_DATA_ENABLED:libc-musl:armv7a = "False"
+>  GI_DATA_ENABLED:libc-musl:armv7ve = "False"
+>  
+> -# Can't be built with ccache
+> -CCACHE_DISABLE = "1"
+> -
+>  PACKAGE_PREPROCESS_FUNCS += "src_package_preprocess"
+>  src_package_preprocess () {
+>          # Trim build paths from comments in generated sources to ensure reproducibility
+> @@ -158,8 +157,6 @@ src_package_preprocess () {
+>              ${B}/JavaScriptCore/DerivedSources/*.h \
+>              ${B}/JavaScriptCore/DerivedSources/yarr/*.h \
+>              ${B}/JavaScriptCore/PrivateHeaders/JavaScriptCore/*.h \
+> -            ${B}/WebKit2Gtk/DerivedSources/webkit2/*.cpp \
+> -            ${B}/WebKit2Gtk/DerivedSources/webkit2/*.h
+> -
+> +            ${B}/WebKitGTK/DerivedSources/webkit/*.cpp \
+> +            ${B}/WebKitGTK/DerivedSources/webkit/*.h
+>  }
+> -
+> diff --git a/meta/recipes-sato/webkit/wpebackend-fdo_1.14.0.bb b/meta/recipes-sato/webkit/wpebackend-fdo_1.14.1.bb
+> similarity index 90%
+> rename from meta/recipes-sato/webkit/wpebackend-fdo_1.14.0.bb
+> rename to meta/recipes-sato/webkit/wpebackend-fdo_1.14.1.bb
+> index 708201043b..9f2ea0b7de 100644
+> --- a/meta/recipes-sato/webkit/wpebackend-fdo_1.14.0.bb
+> +++ b/meta/recipes-sato/webkit/wpebackend-fdo_1.14.1.bb
+> @@ -13,7 +13,7 @@ inherit meson features_check pkgconfig
+>  REQUIRED_DISTRO_FEATURES = "opengl"
+>  
+>  SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
+> -SRC_URI[sha256sum] = "e75b0cb2c7145448416e8696013d8883f675c66c11ed750e06865efec5809155"
+> +SRC_URI[sha256sum] = "01938dd93c62b3a47b18dd13c70d50490a8b8a6caec23c8550a3dbdbcc6bbb50"
+>  
+>  # Especially helps compiling with clang which enable this as error when
+>  # using c++11
+> -- 
+> 2.34.1
+> 
 
---000000000000e575f305f7e6a207
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#179128): https://lists.openembedded.org/g/openembedded-core/message/179128
+> Mute This Topic: https://lists.openembedded.org/mt/97865034/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
-<div dir=3D"auto">Thank you alex and alexender ;)<div dir=3D"auto"><br></di=
-v><div dir=3D"auto">I&#39;ll take a look at this as soon as possible and an=
-d tell you in a dedicated thread if I&#39;m making progress. But first, I&#=
-39;ll work for the devtool test that has been mentioned first.</div><div di=
-r=3D"auto"><br></div><div dir=3D"auto">Have a good evening (or day, dependi=
-ng on your timezone)=C2=A0</div></div><br><div class=3D"gmail_quote"><div d=
-ir=3D"ltr" class=3D"gmail_attr">Le lun. 27 mars 2023, 21:00, Alexander Kana=
-vin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a=
->&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">For the =
-kernel modules you could start by replicating an out-of-yocto<br>
-kernel build as shown here:<br>
-<a href=3D"https://lwn.net/Articles/910762/" rel=3D"noreferrer noreferrer" =
-target=3D"_blank">https://lwn.net/Articles/910762/</a><br>
-<br>
-Alex<br>
-<br>
-On Mon, 27 Mar 2023 at 20:52, Alex Kiernan &lt;<a href=3D"mailto:alex.kiern=
-an@gmail.com" target=3D"_blank" rel=3D"noreferrer">alex.kiernan@gmail.com</=
-a>&gt; wrote:<br>
-&gt;<br>
-&gt; IIRC the cross upgrade just works, its the target build which explodes=
-:<br>
-&gt;<br>
-&gt; <a href=3D"https://github.com/akiernan/openembedded-core" rel=3D"noref=
-errer noreferrer" target=3D"_blank">https://github.com/akiernan/openembedde=
-d-core</a><br>
-&gt;<br>
-&gt; On Mon, Mar 27, 2023 at 7:40=E2=80=AFPM Fr=C3=A9d=C3=A9ric Martinsons<=
-br>
-&gt; &lt;<a href=3D"mailto:frederic.martinsons@gmail.com" target=3D"_blank"=
- rel=3D"noreferrer">frederic.martinsons@gmail.com</a>&gt; wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; Ok great, I&#39;m willing to know more about the bootstrap of a r=
-ust toolchain, I think I can start by just upgrading my poky master to rust=
- 1.68 and see what it spills out when I compile the hello world<br>
-&gt; &gt;<br>
-&gt; &gt; On the other hand, for enabling rust kernel modules in linux-yoct=
-o-dev, I don&#39;t know where to start (full disclosure : I have no skills =
-about kernel and kernel module developments)<br>
-&gt; &gt;<br>
-&gt; &gt; Le lun. 27 mars 2023, 20:30, Alex Kiernan &lt;<a href=3D"mailto:a=
-lex.kiernan@gmail.com" target=3D"_blank" rel=3D"noreferrer">alex.kiernan@gm=
-ail.com</a>&gt; a =C3=A9crit :<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; Updating the rust version is pretty much nothing to do with y=
-our rust<br>
-&gt; &gt;&gt; knowledge and way more about digging into how the bootstrap p=
-rocess<br>
-&gt; &gt;&gt; hangs together... whilst I have an awesome rustacean working =
-for me, I<br>
-&gt; &gt;&gt; don&#39;t think I&#39;ve ever had to drag him into helping wi=
-th an upgrade.<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; I wish I could say I&#39;d spent the last few weeks figuring =
-out why the<br>
-&gt; &gt;&gt; upgrade broke, but I&#39;ve been buried down the bottom of an=
- ESP-IDF<br>
-&gt; &gt;&gt; application...<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; Alex<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; On Mon, Mar 27, 2023 at 7:08=E2=80=AFPM Fr=C3=A9d=C3=A9ric Ma=
-rtinsons<br>
-&gt; &gt;&gt; &lt;<a href=3D"mailto:frederic.martinsons@gmail.com" target=
-=3D"_blank" rel=3D"noreferrer">frederic.martinsons@gmail.com</a>&gt; wrote:=
-<br>
-&gt; &gt;&gt; &gt;<br>
-&gt; &gt;&gt; &gt; I&#39;ll look at this but I&#39;m not sure if I can help=
- since I&#39;m a beginner (enthusiastic but still)<br>
-&gt; &gt;&gt; &gt;<br>
-&gt; &gt;&gt; &gt; Le lun. 27 mars 2023, 19:19, Alexander Kanavin &lt;<a hr=
-ef=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank" rel=3D"noreferrer">a=
-lex.kanavin@gmail.com</a>&gt; a =C3=A9crit :<br>
-&gt; &gt;&gt; &gt;&gt;<br>
-&gt; &gt;&gt; &gt;&gt; If you&#39;d like to do more here&#39;s off the top =
-of my head:<br>
-&gt; &gt;&gt; &gt;&gt;<br>
-&gt; &gt;&gt; &gt;&gt; - enable rust kernel modules in linux-yocto-dev<br>
-&gt; &gt;&gt; &gt;&gt;<br>
-&gt; &gt;&gt; &gt;&gt; - help Alex Kiernan with update 1.67 -&gt; 1.68; we =
-need as many people<br>
-&gt; &gt;&gt; &gt;&gt; as possible capable of updating the rust toolchain. =
-It&#39;s often not<br>
-&gt; &gt;&gt; &gt;&gt; trivial:<br>
-&gt; &gt;&gt; &gt;&gt; <a href=3D"https://lists.openembedded.org/g/openembe=
-dded-core/message/178272" rel=3D"noreferrer noreferrer" target=3D"_blank">h=
-ttps://lists.openembedded.org/g/openembedded-core/message/178272</a><br>
-&gt; &gt;&gt; &gt;&gt;<br>
-&gt; &gt;&gt; &gt;&gt; Alex<br>
-&gt; &gt;&gt; &gt;&gt;<br>
-&gt; &gt;&gt; &gt;&gt; On Mon, 27 Mar 2023 at 17:01, Fr=C3=A9d=C3=A9ric Mar=
-tinsons<br>
-&gt; &gt;&gt; &gt;&gt; &lt;<a href=3D"mailto:frederic.martinsons@gmail.com"=
- target=3D"_blank" rel=3D"noreferrer">frederic.martinsons@gmail.com</a>&gt;=
- wrote:<br>
-&gt; &gt;&gt; &gt;&gt; &gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt; Ah!<br>
-&gt; &gt;&gt; &gt;&gt; &gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt; Alright, I&#39;ll try to setup a devtool test w=
-hich demonstrate the usage of git subpath with the zvariant.<br>
-&gt; &gt;&gt; &gt;&gt; &gt; I&#39;ll then issue a V4 series which reintrodu=
-ce the zvariant recipe in meta-selftest and the unit test on it.<br>
-&gt; &gt;&gt; &gt;&gt; &gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt; I must admit I felt in love for rust since the =
-beginning of the year and considering that I use yocto on a daily basis, I&=
-#39;ll do everything I can to extend the support of developing rust for emb=
-edded devices.<br>
-&gt; &gt;&gt; &gt;&gt; &gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt; Thank you all for the advices.<br>
-&gt; &gt;&gt; &gt;&gt; &gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt; Le lun. 27 mars 2023, 16:25, Alexander Kanavin =
-&lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank" rel=3D"nore=
-ferrer">alex.kanavin@gmail.com</a>&gt; a =C3=A9crit :<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; So if devtool tests would operate on zvaria=
-nt recipe, then the recipe<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; can simply go into meta-selftest after all =
-:)<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; Alex<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; On Mon, 27 Mar 2023 at 16:20, Richard Purdi=
-e<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &lt;<a href=3D"mailto:richard.purdie@linuxf=
-oundation.org" target=3D"_blank" rel=3D"noreferrer">richard.purdie@linuxfou=
-ndation.org</a>&gt; wrote:<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; On Sat, 2023-03-25 at 10:00 +0100, Fre=
-deric Martinsons wrote:<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt; From: Frederic Martinsons &lt;<a =
-href=3D"mailto:frederic.martinsons@gmail.com" target=3D"_blank" rel=3D"nore=
-ferrer">frederic.martinsons@gmail.com</a>&gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt; This series brings the support of=
- local git repository inside<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt; a cargo based recipe.<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt; It also enable devtool capacity o=
-n it and provide a real crate<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt; example recipe to show how things=
- are done.<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt; The following changes since commi=
-t 4876189dd2ae5a04a296b11b537b9f613159c6bf:<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt;=C2=A0 =C2=A0xcb-proto: Fix instal=
-l conflict when enable multilib. (2023-03-23 22:38:41 +0000)<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt; are available in the Git reposito=
-ry at:<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt;=C2=A0 =C2=A0<a href=3D"https://gi=
-tlab.com/fmartinsons/openembedded-core" rel=3D"noreferrer noreferrer" targe=
-t=3D"_blank">https://gitlab.com/fmartinsons/openembedded-core</a> cargo-ext=
-end-support-git-and-devtool<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt; Alex Kiernan (1):<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt;=C2=A0 =C2=A0cargo_common.bbclass:=
- Support local github repos<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt; Frederic Martinsons (4):<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt;=C2=A0 =C2=A0cargo_common.bbclass:=
- add support of user in url for patch<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt;=C2=A0 =C2=A0rust-example: provide=
- a recipe for zvariant<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt;=C2=A0 =C2=A0devtool: add support =
-for multiple git url inside a cargo based recipe<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt;=C2=A0 =C2=A0patch: support of git=
- patches when the source uri contained subpath<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0param<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; The various rust/cargo/crate patches l=
-ook like they&#39;re heading in a<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; good direction, thanks!<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; The one thing which I think is missing=
- is more support for testing some<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; of these changes in our automated test=
-ing.<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; In particular, devtool does have a dec=
-ent test suite so we should<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; ensure new devtool additions have test=
-s.<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; You can see the devtools tests in<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; meta/lib/oeqa/selftest/cases/devtool.p=
-y and run them with a command<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; like &quot;oe-selftest -r devtool -j 3=
-&quot; for example.<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; Cheers,<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; Richard<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt;<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=
-=3D-=3D-<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; Links: You receive all messages sent t=
-o this group.<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; View/Reply Online (#179160): <a href=
-=3D"https://lists.openembedded.org/g/openembedded-core/message/179160" rel=
-=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openembedded.org=
-/g/openembedded-core/message/179160</a><br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; Mute This Topic: <a href=3D"https://li=
-sts.openembedded.org/mt/97840361/1686489" rel=3D"noreferrer noreferrer" tar=
-get=3D"_blank">https://lists.openembedded.org/mt/97840361/1686489</a><br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; Group Owner: <a href=3D"mailto:openemb=
-edded-core%2Bowner@lists.openembedded.org" target=3D"_blank" rel=3D"norefer=
-rer">openembedded-core+owner@lists.openembedded.org</a><br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; Unsubscribe: <a href=3D"https://lists.=
-openembedded.org/g/openembedded-core/unsub" rel=3D"noreferrer noreferrer" t=
-arget=3D"_blank">https://lists.openembedded.org/g/openembedded-core/unsub</=
-a> [<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank" rel=3D"nore=
-ferrer">alex.kanavin@gmail.com</a>]<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=
-=3D-=3D-<br>
-&gt; &gt;&gt; &gt;&gt; &gt;&gt; &gt;<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; --<br>
-&gt; &gt;&gt; Alex Kiernan<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; --<br>
-&gt; Alex Kiernan<br>
-</blockquote></div>
 
---000000000000e575f305f7e6a207--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
