@@ -1,263 +1,198 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <wentao.zhang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C17D8C76195
-	for <webhook@archiver.kernel.org>; Mon, 27 Mar 2023 09:27:28 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web10.30541.1679909238953166103
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0A36C77B61
+	for <webhook@archiver.kernel.org>; Mon, 27 Mar 2023 09:32:08 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.30596.1679909524585195712
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Mar 2023 02:27:19 -0700
+ Mon, 27 Mar 2023 02:32:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=XQ9+Pn3S;
- spf=pass (domain: gmail.com, ip: 209.85.167.51, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-lf1-f51.google.com with SMTP id h25so10468863lfv.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Mar 2023 02:27:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679909237;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=dmCSHT2c+U54laPmHkqyogXZ/afdMd1nvk5DJVLXWUc=;
-        b=XQ9+Pn3SxNSTJIS6Bh8sTZUee6ZSZWGs3F2NUOX74EE3mcgia8+xL/9BTvZMRlE52a
-         uZHaXfE563Y9OcU66R4GZUiBNE9BHxy8ymv3kogw38b3k5rjJXsRN4Xzxkyd6ICYBr56
-         THB6aiwry+cNsGGrYACS4Oj3nZ8nmv7A13SeVOv3dctOueJhe7ncFteP/6O1O03Os9AH
-         ukJiQwInOens1hpqmA0W6Vbq7xh2D4f7j2BrwWBKarP6zcObjFgpbeMikpfgoFOJjQL4
-         Rb/Gjri7L2oV+V9CuZEeNSW4ujKdTLSk09qbP5Nms9VDB1zXXhvsLl3qFsZYPixzdqKC
-         z3Vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679909237;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dmCSHT2c+U54laPmHkqyogXZ/afdMd1nvk5DJVLXWUc=;
-        b=nw7uo4+GdVRR9Oa0/Efqy4vntSB+nkf71VCDATW79rALPHWIDA97zPljLwxvoP0n6H
-         tDgtFhkB6nCNVOtm6ju84QsM2yIeAGE+zV1wNz//G9nENbyki8MicrqrPeMcscwZYQ7F
-         ZGhn9LmrkshDUE8vX1a9B4HL57/a6zvDoJ5V7C8KYtpDjymcSYuKx4zgSYYGuq/vna10
-         3nhC2FP775SlRmAraA7INmunv9Y2+KCNsdWROgB1L0jX7/UhtNNstvEAQLsRDSMOuxk9
-         GS0EqZsxNWuFkqGFgQTrtyB8qK8LxngUvUmx6hDlHvabaIBGe4DBgysis1JS+0iXRF4+
-         lIQw==
-X-Gm-Message-State: AAQBX9dpkIaYr2N+NT/rAkgqWpcAweV5WfgAUxeY9fWbI8k6J5FRQOEj
-	oxv0tWdD2TRiKS6zeqsSCvEuZzrW4TcZlE1s+a4=
-X-Google-Smtp-Source: AK7set9SOIlzj+EDnWrFS6HE8i4j8WexqcxM+pOPC+vFAcfcYZOlBTzJe2Ljukf3sElif3PT6K69F7g53YfjnllB7vQ=
-X-Received: by 2002:a05:6512:2523:b0:4e8:3ee1:db14 with SMTP id
- be35-20020a056512252300b004e83ee1db14mr9288044lfb.6.1679909236931; Mon, 27
- Mar 2023 02:27:16 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=mZahN1ct;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2450b5d428=wentao.zhang@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32R80BtR006700
+	for <openembedded-core@lists.openembedded.org>; Mon, 27 Mar 2023 09:32:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=PPS06212021;
+ bh=giGuvkgwVGQoT+Dq0poZ6gm/ouhelxwhhYxO9V3djp0=;
+ b=mZahN1ctpm4HqR7dP4X4fMQOUvmWhYkuxViG6fCQhI6kkk76M+z7PO1xmTHmonhCbwuD
+ pi6V8Aje6WajdnJ640RD2tIad0qnLBB5LIqZCc0HAlunV0Y3oeMIWOu61yBewcJAH2N1
+ n8rcamXkaj+2utzH26px6R5MGfvt4T2ImtOR1/cvzPS+pWqvLCbi/X44uzo6+RVK+fE3
+ 7uZdo7oyfD3SD10/x2ot0mTSrzS6xEZ51GzLyZnrYc+nI0v2xjs6ElF/YeDxOBgMRLAI
+ z3TaF6qM8r3d/OaOKm/IpqTOUdVuResvK2tE203AZlslFNpfc4UnT6mbgrhxmOwGhYb+ Fw== 
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2171.outbound.protection.outlook.com [104.47.57.171])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3phqxbssay-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 27 Mar 2023 09:32:03 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dkAQHhIR8c4MEJijTG0gnL2i46gBs2xImFoE0oGp1DUx3E7z4VAAFGgFIdM+alDics/ur59fzzPMUW3XfTi5FK6IavjdKNPB1zDj1Z5E4IFAvnn8NqHlodvf5m+pI4OlO1FWCExtHPyKJvZld5llqMtFZ+D5SQG7ZGO5yQ6NiN8ygmcl1XrLoquFm3z7mONbHs9V/NelaD7DnyDu7CRybxdU05RUZBJLuBFfbeT1HhxHM8S0ZPxs5TgXv+Ha/GpZn3kE5XlgtbEl+NI5/ecINRv8vGQ5+kbIGlVX9I7MU7bxnT4NqALJzyUYEqz6Q12ZIV6pbOPZmU5TqFyymrMo0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=giGuvkgwVGQoT+Dq0poZ6gm/ouhelxwhhYxO9V3djp0=;
+ b=CCa5UMIh83otV3FGFBOi6kXKIevswa58VotQfmQNyHJj8kdgk+Uzka+JoprWTPRGJNzUP+Pr+UE6OBozvTMW7417ZhcXNHzVYRbCxljteQ627ycIa2SkzIAb0yyeicRrXBbI6S5grh1Bl2O+VwI52D1ElzzoHZSKzWhWLtrmN0evAH5RMNkNPUspvb1jS9t76dOlAnuOmPUMhSW76b+Q68rSDH+qoS6gEH8iri9g0nElMRdbYBXhaTZkFbuwQdX4R/7k3fJd9FUUORXwup1hcYR5NmY79M61sr8Om+ETBtcMdYOCLgPy/x+QyATvkufn+rn9W8DRpad0+gwlGqkNcA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SA2PR11MB4938.namprd11.prod.outlook.com (2603:10b6:806:fb::14)
+ by DM4PR11MB5971.namprd11.prod.outlook.com (2603:10b6:8:5e::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6222.30; Mon, 27 Mar 2023 09:31:59 +0000
+Received: from SA2PR11MB4938.namprd11.prod.outlook.com
+ ([fe80::9ad:892d:ae85:59bc]) by SA2PR11MB4938.namprd11.prod.outlook.com
+ ([fe80::9ad:892d:ae85:59bc%4]) with mapi id 15.20.6222.030; Mon, 27 Mar 2023
+ 09:31:59 +0000
+From: Wentao Zhang <wentao.zhang@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [oe-core][PATCH] python3: Fix failing sysconfig.py test on x86(64 bit) using lib64 as baselib by updating test_sysconfig for posix_user purelib
+Date: Mon, 27 Mar 2023 17:31:45 +0800
+Message-Id: <20230327093145.373240-1-wentao.zhang@windriver.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TY2PR04CA0011.apcprd04.prod.outlook.com
+ (2603:1096:404:f6::23) To SA2PR11MB4938.namprd11.prod.outlook.com
+ (2603:10b6:806:fb::14)
 MIME-Version: 1.0
-References: <cover.1679842454.git.frederic.martinsons@gmail.com>
- <2e5fd3f0a5145af70fb1caee38d5cbf0a7c42877.1679842454.git.frederic.martinsons@gmail.com>
- <89ef864d-c816-b4e1-2425-85a46d001d18@berginkonsult.se> <CANNYZj8kqi2Vgg13esDKnS9JDgDdRhU5Dew-HZQOhq1B5GshQA@mail.gmail.com>
-In-Reply-To: <CANNYZj8kqi2Vgg13esDKnS9JDgDdRhU5Dew-HZQOhq1B5GshQA@mail.gmail.com>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Date: Mon, 27 Mar 2023 11:27:05 +0200
-Message-ID: <CA+cAkept7dS4=nWRtdd98PbFr3NLpLxqs_FSifduYk+2DEkW4Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCHV2 3/5] rust-example: provide a recipe for zvariant
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Peter Bergin <peter@berginkonsult.se>, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000052816705f7de59dd"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PR11MB4938:EE_|DM4PR11MB5971:EE_
+X-MS-Office365-Filtering-Correlation-Id: 838d79b7-d565-4c0f-1996-08db2ea61d12
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	L71yNN08ghOIc+WgB+cU4LHnBPOSJrsbM8AX2FbJNXVv6VGqXGqVhnIS0rOPDTrzJeHEhB5z23S3n3tzPITp8/CnZ0PHVdM+kVK94dDBlwcj4SkSJNeaWHP64dIVbTwmVYDZlh1gvrrB79qtnfMM8nd9XhA0H1KatfwqR/fofopqfQd/DWbUgHVUv2bytGny4KXPNNofUuRFC9KjUCx4x4PQgdKEyzzRgEupsFqkRpQ9WxX2au7MboSXMVnliVyf5nhu4dmedc+BwGAVjnEVrtPgAsDKeOsDf7ulKmRta7LzqiliCyyoTq92yZEKo8zjbz7aJDehHq5c7CkLearJRcXHfmburCHys9QXoKZDmIDNfRdGCMX+9nwgCEj95MAOs6ris7QvEBjFdeb+kMDURcS1FbUhnAUMJB4JfG+6o1yyuUR6rQG6anrcOaFfXClLUPE1XMdq75QV/ZxpU06j9XvNVuu94o4cQ5TUcpzCUBDVrpLoGn63wlmEuY6TOQfVxMMCWdXn0Ibse8OnbHl0T6t5O6A6x68CxQtHauyCrYOkZSjRgJI+jHORvYyZdzNm0/5BxKbSu3wZtmBLmXd6rh4uSWfQUhKWx3o1blZ2KFU=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA2PR11MB4938.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(366004)(376002)(39850400004)(136003)(346002)(451199021)(1076003)(6666004)(26005)(66946007)(6506007)(6512007)(2616005)(83380400001)(186003)(52116002)(316002)(41300700001)(8676002)(66476007)(6916009)(66556008)(5660300002)(2906002)(8936002)(44832011)(38100700002)(38350700002)(6486002)(36756003)(86362001)(478600001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?j6g/7fNO54CRxcInAjf1im1xCmp7cfw3kWqIX0Ef2fRO2hyYX0UjXIGYCsWM?=
+ =?us-ascii?Q?wMQfX592oCw+A0VayqYNCWL28/Q9G1gmycW5kjeyypkbNqw1C+iCUGRJVdTL?=
+ =?us-ascii?Q?f7JmAmR840CuQIZlkk59KJkOHydZiuB6qNZVx/Jsnt33hUZEQ84POQasSTW8?=
+ =?us-ascii?Q?CbNWzeiV862f65nQ5WS/xRfPbf4Bw/+3KQq+cMsK99mfNJYkjAqzMN1gSLd/?=
+ =?us-ascii?Q?iGdnV2DV7FYPhfWFbtmHqVj6pNfJTLiTT5rh5l0N06kvu9fS35qUsDTy7R14?=
+ =?us-ascii?Q?c8ot5liWhWidlhi1onUuDSYK9u4JfVZ1fe5zSpa65W8xkRs/S0J+A3d53Rd7?=
+ =?us-ascii?Q?5iZGTMbY573ViP7/QFwDo6V1afX5+c6gXgqGPfCmXmUzJwpIJrm8kGURgSFO?=
+ =?us-ascii?Q?FkdmZA8jue9lC/h2wk7DdcS0ruxM5NfFXWkw2iW0DFGdcBtYBChyMmeZp15f?=
+ =?us-ascii?Q?AYInEzO2bnNUYPZCnxHklLTpvxtBRTqq8a+OJVzF874uBNv4K/sa/7dk8ldZ?=
+ =?us-ascii?Q?kMy4Ydhaig+Bz2lZ58Jd5IhUxBtHcm2GY1iKcBS+2aKirdmvjuQIeAuhaHpY?=
+ =?us-ascii?Q?d1yLJ7LamR8PlVgRd4KCJn6QsfTkX0rQ6wyzTR9mEco+ZQtn/ugYu8xptNkv?=
+ =?us-ascii?Q?bExjf2TGQZyeVfNjPQQf0X2EwxoF7+ef7hcjs9h7qFiRVcmqBvX6+lV/L6Y3?=
+ =?us-ascii?Q?qGs8coC3DvklWZD6rebvPzp/Tv2iGhxMAhKQUmVBhEkeMwjuALrlHbEvZGwV?=
+ =?us-ascii?Q?ACbcaue4Bjx4k+3Kt23NjYKQgkZpIOf4yn44WSHtFagSQ0msBNuXQOWd4jGl?=
+ =?us-ascii?Q?DgqDA3DbCpCGQ6aOMGQHsJH9QmZhTqBqrBdW0lhNoauwoWzacX4tND/PX9F+?=
+ =?us-ascii?Q?EqV6GqdjWDtBgpQrfWsQhkOX4XWujvCTx1NFTDbQwb+YtdVlKqk4/1VmTibZ?=
+ =?us-ascii?Q?a5vq13abL+pZFQvzht8RAmKpb7+2C/VvhgoCUXrRcVpO3ecDeoZwJYYlp16r?=
+ =?us-ascii?Q?tFusulZqUJavir4uO7YL2JqBCzCK7Ga6aOI9uhp0LBnsLRpT2Ljyf6fG/h/1?=
+ =?us-ascii?Q?V9CD4NKPVQhQBJGymae8uGB6Q7x+zi/KuZHz14poyMMh2gAlBvW8ENfHHxIg?=
+ =?us-ascii?Q?pqf8hyBc2GDgDY2YHlYxPwItwaE/86qeBOsASEQR6EeSzmcf4PyPy2ZyZXsJ?=
+ =?us-ascii?Q?ytytWHCK9qhBT4hGYlieN8CZroMuoYfRfjfdcZUVk96z/9iu5YQKLbUZq12i?=
+ =?us-ascii?Q?e7Uzu3COfngf9uW9VoaJfxGprJlz13nCGa+Qdyw3zjIT2OtkGrM682NZeSWn?=
+ =?us-ascii?Q?lnaelkOvitdiIo/dc434yz0p96zgmcN41d9IJ6hbav2Tgrcfjc5joM0nzLLG?=
+ =?us-ascii?Q?Hglw6YsvWxQbpF0r9+rNJcgvqa1nG7H0tVWM+HXZzjesbOm0t7QlNJWtBVfP?=
+ =?us-ascii?Q?WSzWHUc6d6QO4XVEI7RrIZGR93zO/b7EzEXaZzdCuBuGv3PqCvHezWCSkBAx?=
+ =?us-ascii?Q?6WzgeEMqKoUdOcyHUseRBR8Ld0WVkph6C2BkYta4W+hjS3FTfdZGc897PlHx?=
+ =?us-ascii?Q?YQiwK/Xn8BnfTn69PALKPe1hsArsjt4lh4HxS8ELlbEy8L3W99dYuLMbTaQJ?=
+ =?us-ascii?Q?YA=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 838d79b7-d565-4c0f-1996-08db2ea61d12
+X-MS-Exchange-CrossTenant-AuthSource: SA2PR11MB4938.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2023 09:31:59.2078
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: owHPokkTqfc2X1qWErT1Q3FWwQE2E26D9UbBPEhqb3iTGYwpCV8rCcN7O/LKCMP6Grbx84s7r3jlnUTPnh7gtqc77+Zc18pMNEDsz1QOSgU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5971
+X-Proofpoint-GUID: Nwcb6HL_gfQCKxzGVTSuDTQhZT6jelOo
+X-Proofpoint-ORIG-GUID: Nwcb6HL_gfQCKxzGVTSuDTQhZT6jelOo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-24_11,2023-03-24_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=999
+ spamscore=0 clxscore=1015 adultscore=0 priorityscore=1501
+ lowpriorityscore=0 suspectscore=0 malwarescore=0 phishscore=0 mlxscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2303270078
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Mar 2023 09:27:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179152
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Mar 2023 09:32:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179153
 
---00000000000052816705f7de59dd
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Steps to trigger the failed test:
+Edit local.conf to add something as follows:
+    BASELIB = "lib64"
+    IMAGE_INSTALL:append = " python3-tests".
+bitbake core-image-sato
+runqemu qemux86-64 nographic slirp
+Reproducer:
+    $python3 -m test test_sysconfig
 
-There is an ongoing discussion about the place for this recipe. When it
-wil' be clear, I'll issue a dedicated patch for this.
+sysconfig.py use platlibdir for purelib. Update
+test_sysconfig.test_user_similar() for the posix_user
+scheme: "purelib" doesn't use sys.platlibdir.
 
-In the meantime, I removed this example in the last version of this series
-(V3)
+Signed-off-by: Wentao Zhang <wentao.zhang@windriver.com>
+---
+ ...est_sysconfig-for-posix_user-purelib.patch | 30 +++++++++++++++++++
+ .../recipes-devtools/python/python3_3.11.2.bb |  1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch
 
-Le lun. 27 mars 2023, 11:12, Alexander Kanavin <alex.kanavin@gmail.com> a
-=C3=A9crit :
+diff --git a/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch b/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch
+new file mode 100644
+index 0000000000..3d39839309
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch
+@@ -0,0 +1,30 @@
++From b9f825b298b555c4770024d1f68ef1df65aad20a Mon Sep 17 00:00:00 2001
++From: Wentao Zhang <wentao.zhang@windriver.com>
++Date: Mon, 20 Mar 2023 13:39:52 +0800
++Subject: [PATCH] Update test_sysconfig for posix_user purelib
++
++Update test_sysconfig.test_user_similar() for the posix_user scheme:
++"purelib" doesn't use sys.platlibdir.
++
++Upstream-Status: Inappropriate [oe-core specific]
++Signed-off-by: Wentao Zhang <wentao.zhang@windriver.com>
++---
++ Lib/test/test_sysconfig.py | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Lib/test/test_sysconfig.py b/Lib/test/test_sysconfig.py
++index d96371d..20aea4b 100644
++--- a/Lib/test/test_sysconfig.py
+++++ b/Lib/test/test_sysconfig.py
++@@ -373,7 +373,7 @@ class TestSysConfig(unittest.TestCase):
++                 expected = os.path.normpath(global_path.replace(base, user, 1))
++                 # bpo-44860: platlib of posix_user doesn't use sys.platlibdir,
++                 # whereas posix_prefix does.
++-                if name == 'platlib':
+++                if name == 'platlib' or name == 'purelib':
++                     # Replace "/lib64/python3.11/site-packages" suffix
++                     # with "/lib/python3.11/site-packages".
++                     py_version_short = sysconfig.get_python_version()
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/python/python3_3.11.2.bb b/meta/recipes-devtools/python/python3_3.11.2.bb
+index 43c147ca6d..f67012c083 100644
+--- a/meta/recipes-devtools/python/python3_3.11.2.bb
++++ b/meta/recipes-devtools/python/python3_3.11.2.bb
+@@ -31,6 +31,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-setup.py-Do-not-detect-multiarch-paths-when-cross-co.patch \
+            file://deterministic_imports.patch \
+            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
++           file://0001-Update-test_sysconfig-for-posix_user-purelib.patch \
+            "
+ 
+ SRC_URI:append:class-native = " \
+-- 
+2.25.1
 
-> rust-hello-world is actually used in test images to verify that
-> toolchains produce working binaries.
->
-> For zvariant I guess meta-skeleton would work best, if the recipe
-> comes with a README explaining why is it there, and how to handle
-> maintenance of similar recipes.
->
-> Alex
->
-> On Mon, 27 Mar 2023 at 10:58, Peter Bergin <peter@berginkonsult.se> wrote=
-:
-> >
-> >
-> > On 2023-03-26 16:56, Frederic Martinsons wrote:
-> > > From: Frederic Martinsons <frederic.martinsons@gmail.com>
-> > >
-> > > This recipe is for showing a "real world" example of
-> > > a crate that depends on some git repositories.
-> > >
-> > > Usually, this kind of crate is built within a global
-> > > workspace (here it is the zbus project) and so
-> > > doesn't need a Cargo.lock on its own.
-> > >
-> > > For the sake of the demonstration, I had to add
-> > > a patch for providing a Cargo.lock and modifying
-> > > zvariant_derive to get it from crates.io instead
-> > > of pulling locally with a relative path.
-> > >
-> > > The use case where the crate had some git repository
-> > > in dependency is very common for "private" crate that
-> > > are not aimed to be published on crates.io.
-> > > When the project grow bigger, it is common to have
-> > > a bin and multiple lib developped in parallel, and these
-> > > libs are surely on a git repostitory.
-> > >
-> > > Hence the need of this support in oe-core.
-> > >
-> > > Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
-> > > ---
-> > >   .../rust-example/zvariant-crates.inc          |  140 ++
-> > >   .../0001-Tweak-zvariant-cargo-config.patch    | 1249
-> +++++++++++++++++
-> > >   .../rust-example/zvariant_3.12.0.bb           |   20 +
-> > >   3 files changed, 1409 insertions(+)
-> > >   create mode 100644
-> meta/recipes-extended/rust-example/zvariant-crates.inc
-> > >   create mode 100644
-> meta/recipes-extended/rust-example/zvariant/0001-Tweak-zvariant-cargo-con=
-fig.patch
-> > >   create mode 100644 meta/recipes-extended/rust-example/
-> zvariant_3.12.0.bb
-> >
-> > Why not use meta-skeleton for the examples? I know and have seen before
-> > that for some reason the rust-example is placed in oe-core/meta, but
-> > think rust-example should have its home in meta-skeleton as it is the
-> > place for example recipes. Just a suggestion to move this now before
-> > filling up more example recipes among the core recipes.
-> >
-> > /Peter
-> >
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#179150):
-> https://lists.openembedded.org/g/openembedded-core/message/179150
-> > Mute This Topic: https://lists.openembedded.org/mt/97862976/1686489
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
-
---00000000000052816705f7de59dd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">There is an ongoing discussion about the place for this r=
-ecipe. When it wil&#39; be clear, I&#39;ll issue a dedicated patch for this=
-.<div dir=3D"auto"><br></div><div dir=3D"auto">In the meantime, I removed t=
-his example in the last version of this series (V3)=C2=A0</div></div><br><d=
-iv class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Le lun. 27 m=
-ars 2023, 11:12, Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail=
-.com">alex.kanavin@gmail.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
-lid;padding-left:1ex">rust-hello-world is actually used in test images to v=
-erify that<br>
-toolchains produce working binaries.<br>
-<br>
-For zvariant I guess meta-skeleton would work best, if the recipe<br>
-comes with a README explaining why is it there, and how to handle<br>
-maintenance of similar recipes.<br>
-<br>
-Alex<br>
-<br>
-On Mon, 27 Mar 2023 at 10:58, Peter Bergin &lt;<a href=3D"mailto:peter@berg=
-inkonsult.se" target=3D"_blank" rel=3D"noreferrer">peter@berginkonsult.se</=
-a>&gt; wrote:<br>
-&gt;<br>
-&gt;<br>
-&gt; On 2023-03-26 16:56, Frederic Martinsons wrote:<br>
-&gt; &gt; From: Frederic Martinsons &lt;<a href=3D"mailto:frederic.martinso=
-ns@gmail.com" target=3D"_blank" rel=3D"noreferrer">frederic.martinsons@gmai=
-l.com</a>&gt;<br>
-&gt; &gt;<br>
-&gt; &gt; This recipe is for showing a &quot;real world&quot; example of<br=
->
-&gt; &gt; a crate that depends on some git repositories.<br>
-&gt; &gt;<br>
-&gt; &gt; Usually, this kind of crate is built within a global<br>
-&gt; &gt; workspace (here it is the zbus project) and so<br>
-&gt; &gt; doesn&#39;t need a Cargo.lock on its own.<br>
-&gt; &gt;<br>
-&gt; &gt; For the sake of the demonstration, I had to add<br>
-&gt; &gt; a patch for providing a Cargo.lock and modifying<br>
-&gt; &gt; zvariant_derive to get it from <a href=3D"http://crates.io" rel=
-=3D"noreferrer noreferrer" target=3D"_blank">crates.io</a> instead<br>
-&gt; &gt; of pulling locally with a relative path.<br>
-&gt; &gt;<br>
-&gt; &gt; The use case where the crate had some git repository<br>
-&gt; &gt; in dependency is very common for &quot;private&quot; crate that<b=
-r>
-&gt; &gt; are not aimed to be published on <a href=3D"http://crates.io" rel=
-=3D"noreferrer noreferrer" target=3D"_blank">crates.io</a>.<br>
-&gt; &gt; When the project grow bigger, it is common to have<br>
-&gt; &gt; a bin and multiple lib developped in parallel, and these<br>
-&gt; &gt; libs are surely on a git repostitory.<br>
-&gt; &gt;<br>
-&gt; &gt; Hence the need of this support in oe-core.<br>
-&gt; &gt;<br>
-&gt; &gt; Signed-off-by: Frederic Martinsons &lt;<a href=3D"mailto:frederic=
-.martinsons@gmail.com" target=3D"_blank" rel=3D"noreferrer">frederic.martin=
-sons@gmail.com</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt;=C2=A0 =C2=A0.../rust-example/zvariant-crates.inc=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 140 ++<br>
-&gt; &gt;=C2=A0 =C2=A0.../0001-Tweak-zvariant-cargo-config.patch=C2=A0 =C2=
-=A0 | 1249 +++++++++++++++++<br>
-&gt; &gt;=C2=A0 =C2=A0.../rust-example/<a href=3D"http://zvariant_3.12.0.bb=
-" rel=3D"noreferrer noreferrer" target=3D"_blank">zvariant_3.12.0.bb</a>=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A020 +<br>
-&gt; &gt;=C2=A0 =C2=A03 files changed, 1409 insertions(+)<br>
-&gt; &gt;=C2=A0 =C2=A0create mode 100644 meta/recipes-extended/rust-example=
-/zvariant-crates.inc<br>
-&gt; &gt;=C2=A0 =C2=A0create mode 100644 meta/recipes-extended/rust-example=
-/zvariant/0001-Tweak-zvariant-cargo-config.patch<br>
-&gt; &gt;=C2=A0 =C2=A0create mode 100644 meta/recipes-extended/rust-example=
-/<a href=3D"http://zvariant_3.12.0.bb" rel=3D"noreferrer noreferrer" target=
-=3D"_blank">zvariant_3.12.0.bb</a><br>
-&gt;<br>
-&gt; Why not use meta-skeleton for the examples? I know and have seen befor=
-e<br>
-&gt; that for some reason the rust-example is placed in oe-core/meta, but<b=
-r>
-&gt; think rust-example should have its home in meta-skeleton as it is the<=
-br>
-&gt; place for example recipes. Just a suggestion to move this now before<b=
-r>
-&gt; filling up more example recipes among the core recipes.<br>
-&gt;<br>
-&gt; /Peter<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#179150): <a href=3D"https://lists.openembedded.org=
-/g/openembedded-core/message/179150" rel=3D"noreferrer noreferrer" target=
-=3D"_blank">https://lists.openembedded.org/g/openembedded-core/message/1791=
-50</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/97862976=
-/1686489" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.ope=
-nembedded.org/mt/97862976/1686489</a><br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lis=
-ts.openembedded.org</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
-core/unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.o=
-penembedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanav=
-in@gmail.com" target=3D"_blank" rel=3D"noreferrer">alex.kanavin@gmail.com</=
-a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;<br>
-</blockquote></div>
-
---00000000000052816705f7de59dd--
 
