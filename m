@@ -1,325 +1,123 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F9A8C76195
-	for <webhook@archiver.kernel.org>; Tue, 28 Mar 2023 09:02:05 +0000 (UTC)
-Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
- by mx.groups.io with SMTP id smtpd.web10.61483.1679994120307545890
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41CABC76196
+	for <webhook@archiver.kernel.org>; Tue, 28 Mar 2023 09:18:45 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web10.61729.1679995119753622548
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Mar 2023 02:02:00 -0700
+ Tue, 28 Mar 2023 02:18:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=PEdUMpJa;
- spf=pass (domain: gmail.com, ip: 209.85.166.179, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-il1-f179.google.com with SMTP id o12so1019696ilh.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Mar 2023 02:02:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679994119;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XvmD/U0BnraOBKfAavI0rlSlfhNFA84yho8Hm805vNQ=;
-        b=PEdUMpJaZUz4uVhNxaySdZ1JsNfHGO/PzHMEFKbXsyb1t6e9l8IB7psOQ9SBX9yxTp
-         4nEnr3+TfzQHTA3gY8zJFcagkfFw++7PJN5zPt7Q9iV2WKmHCqq8vQwKH2AcRzan3CA4
-         zhvA2WJBSgJqQOvGOV2dE9/iKIgpnLsHnxkXnKsB2f63SjaelObaxuSDbvEGftImtlJx
-         iNX0duzFWoPacgpwkw/f9Af9XOvbMhIlzPi8a/m+aaZwhstOCzZmk0lA5Xuz5hlt2Bym
-         uG68mez6KDHjMkSvbVxdvmAx8PH1yjbcYxE05ymsN+el8Sjd5CVnNQ6Ggm7MlTASHlDR
-         vKBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679994119;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XvmD/U0BnraOBKfAavI0rlSlfhNFA84yho8Hm805vNQ=;
-        b=eU85fexLWGGC29Ex5cPPtQh9qH+nK+D5AXducrdFPSueVyjpjXCnSAtIHFtti3DYSw
-         VzvSL1qKUx58ktkQj46Gc/i6hxEPbhvNIsCKNkpUoXWNszzgxFWT8n0aklUxQX8EUa8I
-         NIeGww+C+GUyiSFBTe4CqVAh91jPcfgIuMIgtMXyGo7tBCR0C7g6koxALO7oS/tB3adQ
-         bjKm5trIpmNyMcADiqnUvixg86+7mfzYa4lwDP0itaSUJeWXk11/YNpQhcVoVr8mtqdX
-         C8HqPO8RQi1cRpNAg+lb/CVjozzK+Drv20Y6mrtuI8J65rFdPBY7FEE8g1jd2mST5AI4
-         hNEg==
-X-Gm-Message-State: AAQBX9e1uMfcholYeeilSfbYPrqveInGw3xhQlpBtp2LVS7ulWZ/1Zd6
-	oqDVFrOJT/D/S6W4PRYNYrrFPQY/7sQflSkLRiw=
-X-Google-Smtp-Source: AKy350ZFuehML/aaG57Rn5AqH9kpWFhmJqDB8IU1zkXF0g3cWBKDxCdRfOvYc6BTxIYeiiOtXOlWETX5RIDeT2KXdyc=
-X-Received: by 2002:a05:6e02:1448:b0:323:1234:2b1d with SMTP id
- p8-20020a056e02144800b0032312342b1dmr7046615ilo.1.1679994119430; Tue, 28 Mar
- 2023 02:01:59 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=VQTsq9lR;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 4BF2B1C0005;
+	Tue, 28 Mar 2023 09:18:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1679995117;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H6wUPtzEwX/I4ftuVBylPa3rjnclpYKpwmPVvSmNCLE=;
+	b=VQTsq9lRUIRtHBMF/vkthTcee9Hh/NjoidhGzgybXraLg/Tms3gtLxeSEXL5Ao5HFfNqtL
+	x4YcnSI08LvlaKSIwheVegD+Tdz9zOy7aGrs0yHxuzzK4jMag4pww2SmOkB03TN1nhMKEr
+	eEfwGbx9fwhGW9LNaee+y/AuViidIS2jRABsX+sELwtkNL2cWkq1lO05jAhsDWfpm5jUg7
+	EWbmX9YKqBmweTDmwj0OhzoDVtMvhXl2Rgk13iajGw3tTmSkkP1Jca4KFWAR0t5p4SCQGE
+	9HGNBYaBE/T6vVShvhFAttagyG5duDVFc4DPZpml3jco4si2RmWVL5tOaTN9xw==
+Date: Tue, 28 Mar 2023 11:18:36 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Markus Volk <f_l_k@t-online.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [oe-core][PATCH] import libadwaita from meta-gnome
+Message-ID: <2023032809183607448ce9@mail.local>
+References: <20230328080156.854975-1-f_l_k@t-online.de>
 MIME-Version: 1.0
-References: <cover.1679734210.git.frederic.martinsons@gmail.com>
- <094a85975f9b1ef0fc622f4f0acc70a935f1e6fe.camel@linuxfoundation.org>
- <CANNYZj8tNBngz4OLgF9YTKVQU08AjWgFf6JS2aHk0qQt=D6tBA@mail.gmail.com>
- <CA+cAkeqyAKnXHSvWDStkYCf6Uj99_OFaq5wQq60iLc6kkW7sDA@mail.gmail.com>
- <CANNYZj82788D_5t+Pt8u6NT0KX0ZzaEfdUCGAD_f92tCCmS5OQ@mail.gmail.com>
- <CA+cAkeqJESh4oOf=C5YevFdT3vLobLCELRD-wGvbPvvpexTmyw@mail.gmail.com>
- <CAO5Uq5QBNLT-BuQhpSyoEwHGd_c+JEt8q9UKEFA6ejjKab7-4w@mail.gmail.com>
- <CA+cAkeoZTZCBogKpy5mrn=G+w+hedMmm4KGB3q=8Ubp_=rOoRQ@mail.gmail.com>
- <CAO5Uq5RNRnfH=_C4bDnT9u4puME_b_=G1DdmScHu7e4zanVF2A@mail.gmail.com>
- <CANNYZj-FzfwgzCUBnUrMzN_kigHF9ttc59svOACvFG=QjidsQQ@mail.gmail.com>
- <CA+cAkeqkGmgszQbeRS4Z+8YP2uYa_OuWTpJUkmKyTnSQ8wOo1A@mail.gmail.com>
- <CANNYZj9_Ob5aXzNGajLo2oy7-rtrO+Ly9xvHsL5g0x87EGcprg@mail.gmail.com>
- <CAO5Uq5SwLNVk2v5T1Ckt+3hn_yJ7dsgVMkscu27Okg3J7gZAwQ@mail.gmail.com> <CANNYZj84YMex981r9DhQQURBz-TaeUSyTBfDcVbr1iSi+bD2+Q@mail.gmail.com>
-In-Reply-To: <CANNYZj84YMex981r9DhQQURBz-TaeUSyTBfDcVbr1iSi+bD2+Q@mail.gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Tue, 28 Mar 2023 09:01:47 +0000
-Message-ID: <CAO5Uq5TuV4whUnOR5dnMo-zV64iNyXke=HW0ghgSun-79_U-Vw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 0/5] Extend cargo based recip support
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230328080156.854975-1-f_l_k@t-online.de>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Mar 2023 09:02:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179215
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Mar 2023 09:18:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179216
 
-Ah! I stared at all of that stuff and failed to spot it, thanks!
+Please take the time to send proper series that are versioned. The
+changelog then goes in the cover letter when adding or removing patches.
+For individual patches, the changelog goes after the --- marker and
+before the diffstat.
 
-On Tue, Mar 28, 2023 at 9:37=E2=80=AFAM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> The exploding part was the 'unable to find std crate', which is fixed
-> by not doing 'build --stage 2' at all, and going directly to 'install'
-> (which builds all the needed parts in correct order anyway and is
-> tested upstream).
->
-> I'll add the getrandom-open64.patch update to my tree, thanks.
->
-> Alex
->
-> On Tue, 28 Mar 2023 at 09:11, Alex Kiernan <alex.kiernan@gmail.com> wrote=
-:
-> >
-> > I was going to say, that looks pretty much identical to what I had,
-> > but it looks like they've reverted some LTO stuff in 1.68.1, which I
-> > guess is what was exploding:
-> >
-> > https://github.com/rust-lang/rust/issues/109067
-> >
-> > Would be good to pick up this too:
-> >
-> > https://github.com/akiernan/openembedded-core/commit/9e098599aa5247086a=
-346bf73a087a2ce4ab640f#diff-84ec9441385da6fa39407418d2eebc685e1ca4260bfeb94=
-c6f5d411ef706df1e
-> >
-> > which was a backport of what actually got merged upstream for @Khem
-> > Raj's open64 fix:
-> >
-> > On Mon, Mar 27, 2023 at 11:13=E2=80=AFPM Alexander Kanavin
-> > <alex.kanavin@gmail.com> wrote:
-> > >
-> > > I think I have meanwhile resolved the 1.68 upgrade issues:
-> > > https://git.yoctoproject.org/poky-contrib/log/?h=3Dakanavin/package-v=
-ersion-updates
-> > >
-> > > So that leaves the hip and cool rust-in-kernel project ;-)
-> > >
-> > > Alex
-> > >
-> > > On Mon, 27 Mar 2023 at 21:20, Fr=C3=A9d=C3=A9ric Martinsons
-> > > <frederic.martinsons@gmail.com> wrote:
-> > > >
-> > > > Thank you alex and alexender ;)
-> > > >
-> > > > I'll take a look at this as soon as possible and and tell you in a =
-dedicated thread if I'm making progress. But first, I'll work for the devto=
-ol test that has been mentioned first.
-> > > >
-> > > > Have a good evening (or day, depending on your timezone)
-> > > >
-> > > > Le lun. 27 mars 2023, 21:00, Alexander Kanavin <alex.kanavin@gmail.=
-com> a =C3=A9crit :
-> > > >>
-> > > >> For the kernel modules you could start by replicating an out-of-yo=
-cto
-> > > >> kernel build as shown here:
-> > > >> https://lwn.net/Articles/910762/
-> > > >>
-> > > >> Alex
-> > > >>
-> > > >> On Mon, 27 Mar 2023 at 20:52, Alex Kiernan <alex.kiernan@gmail.com=
-> wrote:
-> > > >> >
-> > > >> > IIRC the cross upgrade just works, its the target build which ex=
-plodes:
-> > > >> >
-> > > >> > https://github.com/akiernan/openembedded-core
-> > > >> >
-> > > >> > On Mon, Mar 27, 2023 at 7:40=E2=80=AFPM Fr=C3=A9d=C3=A9ric Marti=
-nsons
-> > > >> > <frederic.martinsons@gmail.com> wrote:
-> > > >> > >
-> > > >> > > Ok great, I'm willing to know more about the bootstrap of a ru=
-st toolchain, I think I can start by just upgrading my poky master to rust =
-1.68 and see what it spills out when I compile the hello world
-> > > >> > >
-> > > >> > > On the other hand, for enabling rust kernel modules in linux-y=
-octo-dev, I don't know where to start (full disclosure : I have no skills a=
-bout kernel and kernel module developments)
-> > > >> > >
-> > > >> > > Le lun. 27 mars 2023, 20:30, Alex Kiernan <alex.kiernan@gmail.=
-com> a =C3=A9crit :
-> > > >> > >>
-> > > >> > >> Updating the rust version is pretty much nothing to do with y=
-our rust
-> > > >> > >> knowledge and way more about digging into how the bootstrap p=
-rocess
-> > > >> > >> hangs together... whilst I have an awesome rustacean working =
-for me, I
-> > > >> > >> don't think I've ever had to drag him into helping with an up=
-grade.
-> > > >> > >>
-> > > >> > >> I wish I could say I'd spent the last few weeks figuring out =
-why the
-> > > >> > >> upgrade broke, but I've been buried down the bottom of an ESP=
--IDF
-> > > >> > >> application...
-> > > >> > >>
-> > > >> > >> Alex
-> > > >> > >>
-> > > >> > >> On Mon, Mar 27, 2023 at 7:08=E2=80=AFPM Fr=C3=A9d=C3=A9ric Ma=
-rtinsons
-> > > >> > >> <frederic.martinsons@gmail.com> wrote:
-> > > >> > >> >
-> > > >> > >> > I'll look at this but I'm not sure if I can help since I'm =
-a beginner (enthusiastic but still)
-> > > >> > >> >
-> > > >> > >> > Le lun. 27 mars 2023, 19:19, Alexander Kanavin <alex.kanavi=
-n@gmail.com> a =C3=A9crit :
-> > > >> > >> >>
-> > > >> > >> >> If you'd like to do more here's off the top of my head:
-> > > >> > >> >>
-> > > >> > >> >> - enable rust kernel modules in linux-yocto-dev
-> > > >> > >> >>
-> > > >> > >> >> - help Alex Kiernan with update 1.67 -> 1.68; we need as m=
-any people
-> > > >> > >> >> as possible capable of updating the rust toolchain. It's o=
-ften not
-> > > >> > >> >> trivial:
-> > > >> > >> >> https://lists.openembedded.org/g/openembedded-core/message=
-/178272
-> > > >> > >> >>
-> > > >> > >> >> Alex
-> > > >> > >> >>
-> > > >> > >> >> On Mon, 27 Mar 2023 at 17:01, Fr=C3=A9d=C3=A9ric Martinson=
-s
-> > > >> > >> >> <frederic.martinsons@gmail.com> wrote:
-> > > >> > >> >> >
-> > > >> > >> >> > Ah!
-> > > >> > >> >> >
-> > > >> > >> >> > Alright, I'll try to setup a devtool test which demonstr=
-ate the usage of git subpath with the zvariant.
-> > > >> > >> >> > I'll then issue a V4 series which reintroduce the zvaria=
-nt recipe in meta-selftest and the unit test on it.
-> > > >> > >> >> >
-> > > >> > >> >> > I must admit I felt in love for rust since the beginning=
- of the year and considering that I use yocto on a daily basis, I'll do eve=
-rything I can to extend the support of developing rust for embedded devices=
-.
-> > > >> > >> >> >
-> > > >> > >> >> > Thank you all for the advices.
-> > > >> > >> >> >
-> > > >> > >> >> > Le lun. 27 mars 2023, 16:25, Alexander Kanavin <alex.kan=
-avin@gmail.com> a =C3=A9crit :
-> > > >> > >> >> >>
-> > > >> > >> >> >> So if devtool tests would operate on zvariant recipe, t=
-hen the recipe
-> > > >> > >> >> >> can simply go into meta-selftest after all :)
-> > > >> > >> >> >>
-> > > >> > >> >> >> Alex
-> > > >> > >> >> >>
-> > > >> > >> >> >> On Mon, 27 Mar 2023 at 16:20, Richard Purdie
-> > > >> > >> >> >> <richard.purdie@linuxfoundation.org> wrote:
-> > > >> > >> >> >> >
-> > > >> > >> >> >> > On Sat, 2023-03-25 at 10:00 +0100, Frederic Martinson=
-s wrote:
-> > > >> > >> >> >> > > From: Frederic Martinsons <frederic.martinsons@gmai=
-l.com>
-> > > >> > >> >> >> > >
-> > > >> > >> >> >> > > This series brings the support of local git reposit=
-ory inside
-> > > >> > >> >> >> > > a cargo based recipe.
-> > > >> > >> >> >> > >
-> > > >> > >> >> >> > > It also enable devtool capacity on it and provide a=
- real crate
-> > > >> > >> >> >> > > example recipe to show how things are done.
-> > > >> > >> >> >> > >
-> > > >> > >> >> >> > > The following changes since commit 4876189dd2ae5a04=
-a296b11b537b9f613159c6bf:
-> > > >> > >> >> >> > >
-> > > >> > >> >> >> > >   xcb-proto: Fix install conflict when enable multi=
-lib. (2023-03-23 22:38:41 +0000)
-> > > >> > >> >> >> > >
-> > > >> > >> >> >> > > are available in the Git repository at:
-> > > >> > >> >> >> > >
-> > > >> > >> >> >> > >   https://gitlab.com/fmartinsons/openembedded-core =
-cargo-extend-support-git-and-devtool
-> > > >> > >> >> >> > >
-> > > >> > >> >> >> > > Alex Kiernan (1):
-> > > >> > >> >> >> > >   cargo_common.bbclass: Support local github repos
-> > > >> > >> >> >> > >
-> > > >> > >> >> >> > > Frederic Martinsons (4):
-> > > >> > >> >> >> > >   cargo_common.bbclass: add support of user in url =
-for patch
-> > > >> > >> >> >> > >   rust-example: provide a recipe for zvariant
-> > > >> > >> >> >> > >   devtool: add support for multiple git url inside =
-a cargo based recipe
-> > > >> > >> >> >> > >   patch: support of git patches when the source uri=
- contained subpath
-> > > >> > >> >> >> > >     param
-> > > >> > >> >> >> >
-> > > >> > >> >> >> > The various rust/cargo/crate patches look like they'r=
-e heading in a
-> > > >> > >> >> >> > good direction, thanks!
-> > > >> > >> >> >> >
-> > > >> > >> >> >> > The one thing which I think is missing is more suppor=
-t for testing some
-> > > >> > >> >> >> > of these changes in our automated testing.
-> > > >> > >> >> >> >
-> > > >> > >> >> >> > In particular, devtool does have a decent test suite =
-so we should
-> > > >> > >> >> >> > ensure new devtool additions have tests.
-> > > >> > >> >> >> >
-> > > >> > >> >> >> > You can see the devtools tests in
-> > > >> > >> >> >> > meta/lib/oeqa/selftest/cases/devtool.py and run them =
-with a command
-> > > >> > >> >> >> > like "oe-selftest -r devtool -j 3" for example.
-> > > >> > >> >> >> >
-> > > >> > >> >> >> > Cheers,
-> > > >> > >> >> >> >
-> > > >> > >> >> >> > Richard
-> > > >> > >> >> >> >
-> > > >> > >> >> >> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > > >> > >> >> >> > Links: You receive all messages sent to this group.
-> > > >> > >> >> >> > View/Reply Online (#179160): https://lists.openembedd=
-ed.org/g/openembedded-core/message/179160
-> > > >> > >> >> >> > Mute This Topic: https://lists.openembedded.org/mt/97=
-840361/1686489
-> > > >> > >> >> >> > Group Owner: openembedded-core+owner@lists.openembedd=
-ed.org
-> > > >> > >> >> >> > Unsubscribe: https://lists.openembedded.org/g/openemb=
-edded-core/unsub [alex.kanavin@gmail.com]
-> > > >> > >> >> >> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > > >> > >> >> >> >
-> > > >> > >>
-> > > >> > >>
-> > > >> > >>
-> > > >> > >> --
-> > > >> > >> Alex Kiernan
-> > > >> >
-> > > >> >
-> > > >> >
-> > > >> > --
-> > > >> > Alex Kiernan
-> >
-> >
-> >
-> > --
-> > Alex Kiernan
+You can't expect maintainers to cherry pick patches from different
+series. As you underlined, a build takes 5 to 10 hours, every build
+failure is also delaying work from others.
+
+On 28/03/2023 10:01:56+0200, Markus Volk wrote:
+> Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> ---
+>  meta/conf/distro/include/maintainers.inc      |  1 +
+>  .../libadwaita/libadwaita_1.3.1.bb            | 24 +++++++++++++++++++
+>  2 files changed, 25 insertions(+)
+>  create mode 100644 meta/recipes-gnome/libadwaita/libadwaita_1.3.1.bb
+> 
+> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+> index 1fec9bc6f4..62272cd1bd 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -303,6 +303,7 @@ RECIPE_MAINTAINER:pn-ldconfig-native = "Khem Raj <raj.khem@gmail.com>"
+>  RECIPE_MAINTAINER:pn-less = "Yi Zhao <yi.zhao@windriver.com>"
+>  RECIPE_MAINTAINER:pn-liba52 = "Unassigned <unassigned@yoctoproject.org>"
+>  RECIPE_MAINTAINER:pn-libacpi = "Anuj Mittal <anuj.mittal@intel.com>"
+> +RECIPE_MAINTAINER:pn-libadwaita = "Markus Volk <f_l_k@t-online.de>"
+>  RECIPE_MAINTAINER:pn-libaio = "Alexander Kanavin <alex.kanavin@gmail.com>"
+>  RECIPE_MAINTAINER:pn-libarchive = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
+>  RECIPE_MAINTAINER:pn-libassuan = "Unassigned <unassigned@yoctoproject.org>"
+> diff --git a/meta/recipes-gnome/libadwaita/libadwaita_1.3.1.bb b/meta/recipes-gnome/libadwaita/libadwaita_1.3.1.bb
+> new file mode 100644
+> index 0000000000..8f927e3f7e
+> --- /dev/null
+> +++ b/meta/recipes-gnome/libadwaita/libadwaita_1.3.1.bb
+> @@ -0,0 +1,24 @@
+> +SUMMARY = "Building blocks for modern GNOME applications"
+> +LICENSE="LGPL-2.1-or-later"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+> +
+> +GNOMEBASEBUILDCLASS = "meson"
+> +
+> +DEPENDS = " \
+> +    gtk4 \
+> +"
+> +
+> +inherit gnomebase gobject-introspection gtk-doc vala features_check
+> +
+> +SRC_URI[archive.sha256sum] = "6b8bbf413c501b46c8616a0e5b836d7a34091140941412520bbd9ddda6df8cbd"
+> +
+> +ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+> +REQUIRED_DISTRO_FEATURES = "opengl"
+> +
+> +GIR_MESON_ENABLE_FLAG = 'enabled'
+> +GIR_MESON_DISABLE_FLAG = 'disabled'
+> +GTKDOC_MESON_OPTION = 'gtk_doc'
+> +
+> +PACKAGECONFIG[examples] = "-Dexamples=true,-Dexamples=false"
+> +
+> +FILES:${PN} += "${datadir}/metainfo"
+> -- 
+> 2.34.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#179208): https://lists.openembedded.org/g/openembedded-core/message/179208
+> Mute This Topic: https://lists.openembedded.org/mt/97900769/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
-
---=20
-Alex Kiernan
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
