@@ -1,248 +1,166 @@
-Return-Path: <skulkarni@mvista.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA5E6C76196
-	for <webhook@archiver.kernel.org>; Tue, 28 Mar 2023 11:35:55 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web10.63852.1680003350738215164
- for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Mar 2023 04:35:50 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08E85C76195
+	for <webhook@archiver.kernel.org>; Tue, 28 Mar 2023 12:11:26 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web11.64597.1680005479924560274
+ for <Openembedded-core@lists.openembedded.org>;
+ Tue, 28 Mar 2023 05:11:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=dGyeOApK;
- spf=pass (domain: mvista.com, ip: 209.85.216.50, mailfrom: skulkarni@mvista.com)
-Received: by mail-pj1-f50.google.com with SMTP id l9-20020a17090a3f0900b0023d32684e7fso1256398pjc.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Mar 2023 04:35:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=dHpCi41n;
+ spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: rybczynska@gmail.com)
+Received: by mail-lj1-f171.google.com with SMTP id y35so9769737ljq.4
+        for <Openembedded-core@lists.openembedded.org>; Tue, 28 Mar 2023 05:11:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1680003350;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BbUy3MBRAMIyW39AVBRXFMOXl+sMlNkLPBHjsM8yXMg=;
-        b=dGyeOApKcok4YhehAFZppgkUk84G+qag9E+9uxPgfxE7L9JP21kxxfA2B8Y3eh0TZc
-         fKt8cleL2ytWkgIsFmowKXPKva33Fks57h6OE89nbnqoCvuvF7PlWmFAMZPb7YSmMfRe
-         DvFTImZfCh8CT/lKCxKcIFHvPrp+sQG5vixkQ=
+        d=gmail.com; s=20210112; t=1680005478;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=rjAzPPVi2D8UkFaZ1XZG6LKOgaaAv0+mxwSLv+5iry8=;
+        b=dHpCi41nTQs/2bWBkQ+UtA6hmG4YYq8uyrPpvF1uxmgD41zBKfkgs3Q7MlHF/KfC2n
+         DgiVKHITfFhPa3nziQgGTcLijeNJ89pD//IIqkoE8PLq5P7/edrPKQisudyg4qW42gid
+         652HUuq/0APkmmuTe8j/Yu5xZCC3uMC3Ia9HvJHY1q99zOArB+uE8zpFcKpmPlC46YPP
+         uTAn2L88kOaA+CGc3Qgq6rdT2TaUBgqALGOcjX3K1A2E5D3CCKh+/HSStZoWO3JKgjNg
+         10z4Lu8dBKUY58uN6NgOestQXjwbycZLAeWM0H1JX1ZUpZwsG4EnFKUeCD0v69JaeWX2
+         153Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680003350;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BbUy3MBRAMIyW39AVBRXFMOXl+sMlNkLPBHjsM8yXMg=;
-        b=vdX18HlqYNeabmu9IrJfXgS+Pk9jfAQ0o/0+MM515NhR2+dDj7O0/Bu6bww/HrbJJz
-         cZBa8pq77vfRmEVIvxnL3ZvDEs2WDqimf90WbM2VJYudYSdfmtpa0BK6WfpwuPyxpvtb
-         lbVZFXenapJPtKjvWWhmSDsMP4lBe/za7lbGLQHjyTM+CxNBMfs95ZP27rrrGkL4UJ/Y
-         H7owKken+zmHpTPLYnnMwN5Z0QOdspzXtkOVMRGZh7bKCO4PbseGLasujLM2cO9/7EfG
-         C9sYAlFy7RG/BwR3yRSlIyQJjW+IvjxaO1g5PplrW8eB14B+nijc3FDM0BwWFaLGpeAF
-         7IiA==
-X-Gm-Message-State: AAQBX9fRKtzh9/Rv5vVgBL1BFuKh2ZAW5DqtkbZY448/WabaQ1n+Z2Tq
-	0fK2Mu0MvvN6smhIAABl+FSlEuf5gTXEGFhZpkU=
-X-Google-Smtp-Source: AKy350ZKHCT+TtK3RLtrtJvhLXTCGHJK/CNq9uCC87D4ws1hqSt/g+mNiWR5pk2V9yFhwRmYFk5CmQ==
-X-Received: by 2002:a17:90b:314c:b0:23d:42d4:b9f5 with SMTP id ip12-20020a17090b314c00b0023d42d4b9f5mr17239685pjb.37.1680003349593;
-        Tue, 28 Mar 2023 04:35:49 -0700 (PDT)
-Received: from kite.mvista.com ([182.74.28.237])
-        by smtp.gmail.com with ESMTPSA id z9-20020a17090a170900b002369e16b276sm5885504pjd.32.2023.03.28.04.35.48
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 28 Mar 2023 04:35:49 -0700 (PDT)
-From: skulkarni@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Shubham Kulkarni <skulkarni@mvista.com>
-Subject: [OE-core][dunfell][PATCH] go-runtime: Security fix for CVE-2022-41723
-Date: Tue, 28 Mar 2023 17:05:41 +0530
-Message-Id: <1680003341-23780-1-git-send-email-skulkarni@mvista.com>
-X-Mailer: git-send-email 2.7.4
+        d=1e100.net; s=20210112; t=1680005478;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rjAzPPVi2D8UkFaZ1XZG6LKOgaaAv0+mxwSLv+5iry8=;
+        b=XHkP8DZPgiSsjdlDMe2fAJdVTF9fu5R8sL62QdeJgkV//Xibj07OAeTXBwMKipVCRv
+         +PCiqO7banbB9Nqirp3pAy540oCn2uvGyhzna0WGbCF24kb9rN450heAUq0JWK4YS7Jd
+         K0Np1Co0q4db2QfP1kKHoCfAZgJuwkEWOdFiPe8XSBzbijNa2phqWkvslvWdtkbLo8St
+         EBwNox3o8N2hBfCfd5/JwJQk3hmCkPHYy5U6VULD+hay69Rtcgi2UNUzpXvNGmD8QeLt
+         B7xFV/Iydhd/cz+0EsN5w9VxOrF85UBRMCdjbEy5u7JbtOv+VSTUf60qVKIvtHbT1zsp
+         /N/Q==
+X-Gm-Message-State: AAQBX9dJ+EcDMgobXQRQ+Qf34Rz4REBcQ5D7KfslfmFVGEND9hmDH8CX
+	mGg803Y6MDLulob9Q4dYf0vJfLQqj7eafL4tOdg=
+X-Google-Smtp-Source: AKy350YVbqY4m8FkrwYdVHBOCYQa3SxW+spSTqPuOZbm8p0naJWdOgnOvrLtxGgBES2oyBnZIvk6eICkYAkXoXc2vzI=
+X-Received: by 2002:a2e:3218:0:b0:29d:a0b4:aa55 with SMTP id
+ y24-20020a2e3218000000b0029da0b4aa55mr4671960ljy.10.1680005477847; Tue, 28
+ Mar 2023 05:11:17 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAApg2=SJRjhc5SGEoBYfKb6PkMqRW21ED8Bv1v-+QTSASCsQ4g@mail.gmail.com>
+ <9A00276D-E0D8-47DA-AC38-96418BF47388@arm.com> <17461DA243F6D621.15085@lists.openembedded.org>
+In-Reply-To: <17461DA243F6D621.15085@lists.openembedded.org>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Tue, 28 Mar 2023 14:11:04 +0200
+Message-ID: <CAApg2=QOKGr_NBAQrMR=ZagDO-vmhvV+5A8GMcot89pRV_THuA@mail.gmail.com>
+Subject: Re: [OE-core] Cve fetcher update
+To: rybczynska@gmail.com
+Cc: Ross Burton <Ross.Burton@arm.com>, OE-core <Openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: multipart/alternative; boundary="000000000000ba569d05f7f4c1cc"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Mar 2023 11:35:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179228
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Mar 2023 12:11:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179229
 
-From: Shubham Kulkarni <skulkarni@mvista.com>
+--000000000000ba569d05f7f4c1cc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Disable cmd/internal/moddeps test, since this update includes PRIVATE
-track fixes.
+On Wed, Feb 22, 2023 at 11:08=E2=80=AFAM Marta Rybczynska via lists.openemb=
+edded.org
+<rybczynska=3Dgmail.com@lists.openembedded.org> wrote:
 
-Backport from https://github.com/golang/go/commit/5c3e11bd0b5c0a86e5beffcd4339b86a902b21c3
+>
+>
+> On Tue, Feb 21, 2023 at 2:47 PM Ross Burton <Ross.Burton@arm.com> wrote:
+>
+>> Hi Marta,
+>>
+>> > On 21 Feb 2023, at 13:20, Marta Rybczynska <rybczynska@gmail.com>
+>> wrote:
+>> > I'm finishing the new fetcher for cve check using the 2.0 NVD API. Wil=
+l
+>> need testers to check as many configurations as possible before we switc=
+h
+>> the format.
+>> >
+>> > The current estimate is this week, hoping that the real life doesn't
+>> interfere.
+>> >
+>> > Good news for all users is that nothing changes for you. Results shoul=
+d
+>> be compatible. The one noticeable thing is that the complete fetch is
+>> longer than before.
+>>
+>> Awesome, thanks Marta.  I=E2=80=99ll happily review and test the code.
+>>
+>> How long is a complete fetch now?  My very rough testing when I first
+>> looked at the new API suggested 30 minutes for a full sync.
+>>
+>>
+> Thanks Ross. The fetcher now has the recommended 6 seconds wait so it is
+> long - but a similar time you had (around 30 min). It seems that in
+> practice it does not change much - the rate limiting is on the server sid=
+e.
+> This being said, there is only my instance now, when there will be many
+> more, it could change.
+>
+>
+>
+Hello Ross,
+Have you finished your review? The new version that is under test in my
+systems right now is using urllib. I'm wondering what was your other
+feedback.
 
-Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
----
- meta/recipes-devtools/go/go-1.14.inc               |   1 +
- .../go/go-1.14/CVE-2022-41723.patch                | 156 +++++++++++++++++++++
- 2 files changed, 157 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2022-41723.patch
+Kind regards,
+Marta
 
-diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
-index be9abb5..f2a5fc3 100644
---- a/meta/recipes-devtools/go/go-1.14.inc
-+++ b/meta/recipes-devtools/go/go-1.14.inc
-@@ -52,6 +52,7 @@ SRC_URI += "\
-     file://CVE-2022-41715.patch \
-     file://CVE-2022-41717.patch \
-     file://CVE-2022-1962.patch \
-+    file://CVE-2022-41723.patch \
- "
- 
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
-diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2022-41723.patch b/meta/recipes-devtools/go/go-1.14/CVE-2022-41723.patch
-new file mode 100644
-index 0000000..a93fa31
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.14/CVE-2022-41723.patch
-@@ -0,0 +1,156 @@
-+From 451766789f646617157c725e20c955d4a9a70d4e Mon Sep 17 00:00:00 2001
-+From: Roland Shoemaker <bracewell@google.com>
-+Date: Mon, 6 Feb 2023 10:03:44 -0800
-+Subject: [PATCH] net/http: update bundled golang.org/x/net/http2
-+
-+Disable cmd/internal/moddeps test, since this update includes PRIVATE
-+track fixes.
-+
-+Fixes CVE-2022-41723
-+Fixes #58355
-+Updates #57855
-+
-+Change-Id: Ie870562a6f6e44e4e8f57db6a0dde1a41a2b090c
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1728939
-+Reviewed-by: Damien Neil <dneil@google.com>
-+Reviewed-by: Julie Qiu <julieqiu@google.com>
-+Reviewed-by: Tatiana Bradley <tatianabradley@google.com>
-+Run-TryBot: Roland Shoemaker <bracewell@google.com>
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/468118
-+TryBot-Result: Gopher Robot <gobot@golang.org>
-+Run-TryBot: Michael Pratt <mpratt@google.com>
-+Auto-Submit: Michael Pratt <mpratt@google.com>
-+Reviewed-by: Than McIntosh <thanm@google.com>
-+
-+Upstream-Status: Backport [https://github.com/golang/go/commit/5c3e11bd0b5c0a86e5beffcd4339b86a902b21c3]
-+CVE: CVE-2022-41723
-+Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
-+---
-+ src/vendor/golang.org/x/net/http2/hpack/hpack.go | 79 +++++++++++++++---------
-+ 1 file changed, 49 insertions(+), 30 deletions(-)
-+
-+diff --git a/src/vendor/golang.org/x/net/http2/hpack/hpack.go b/src/vendor/golang.org/x/net/http2/hpack/hpack.go
-+index 85f18a2..02e80e3 100644
-+--- a/src/vendor/golang.org/x/net/http2/hpack/hpack.go
-++++ b/src/vendor/golang.org/x/net/http2/hpack/hpack.go
-+@@ -359,6 +359,7 @@ func (d *Decoder) parseFieldLiteral(n uint8, it indexType) error {
-+
-+	var hf HeaderField
-+	wantStr := d.emitEnabled || it.indexed()
-++	var undecodedName undecodedString
-+	if nameIdx > 0 {
-+		ihf, ok := d.at(nameIdx)
-+		if !ok {
-+@@ -366,15 +367,27 @@ func (d *Decoder) parseFieldLiteral(n uint8, it indexType) error {
-+		}
-+		hf.Name = ihf.Name
-+	} else {
-+-		hf.Name, buf, err = d.readString(buf, wantStr)
-++		undecodedName, buf, err = d.readString(buf)
-+		if err != nil {
-+			return err
-+		}
-+	}
-+-	hf.Value, buf, err = d.readString(buf, wantStr)
-++	undecodedValue, buf, err := d.readString(buf)
-+	if err != nil {
-+		return err
-+	}
-++	if wantStr {
-++		if nameIdx <= 0 {
-++			hf.Name, err = d.decodeString(undecodedName)
-++			if err != nil {
-++				return err
-++			}
-++		}
-++		hf.Value, err = d.decodeString(undecodedValue)
-++		if err != nil {
-++			return err
-++		}
-++	}
-+	d.buf = buf
-+	if it.indexed() {
-+		d.dynTab.add(hf)
-+@@ -459,46 +472,52 @@ func readVarInt(n byte, p []byte) (i uint64, remain []byte, err error) {
-+	return 0, origP, errNeedMore
-+ }
-+
-+-// readString decodes an hpack string from p.
-++// readString reads an hpack string from p.
-+ //
-+-// wantStr is whether s will be used. If false, decompression and
-+-// []byte->string garbage are skipped if s will be ignored
-+-// anyway. This does mean that huffman decoding errors for non-indexed
-+-// strings past the MAX_HEADER_LIST_SIZE are ignored, but the server
-+-// is returning an error anyway, and because they're not indexed, the error
-+-// won't affect the decoding state.
-+-func (d *Decoder) readString(p []byte, wantStr bool) (s string, remain []byte, err error) {
-++// It returns a reference to the encoded string data to permit deferring decode costs
-++// until after the caller verifies all data is present.
-++func (d *Decoder) readString(p []byte) (u undecodedString, remain []byte, err error) {
-+	if len(p) == 0 {
-+-		return "", p, errNeedMore
-++		return u, p, errNeedMore
-+	}
-+	isHuff := p[0]&128 != 0
-+	strLen, p, err := readVarInt(7, p)
-+	if err != nil {
-+-		return "", p, err
-++		return u, p, err
-+	}
-+	if d.maxStrLen != 0 && strLen > uint64(d.maxStrLen) {
-+-		return "", nil, ErrStringLength
-++		// Returning an error here means Huffman decoding errors
-++		// for non-indexed strings past the maximum string length
-++		// are ignored, but the server is returning an error anyway
-++		// and because the string is not indexed the error will not
-++		// affect the decoding state.
-++		return u, nil, ErrStringLength
-+	}
-+	if uint64(len(p)) < strLen {
-+-		return "", p, errNeedMore
-+-	}
-+-	if !isHuff {
-+-		if wantStr {
-+-			s = string(p[:strLen])
-+-		}
-+-		return s, p[strLen:], nil
-++		return u, p, errNeedMore
-+	}
-++	u.isHuff = isHuff
-++	u.b = p[:strLen]
-++	return u, p[strLen:], nil
-++}
-+
-+-	if wantStr {
-+-		buf := bufPool.Get().(*bytes.Buffer)
-+-		buf.Reset() // don't trust others
-+-		defer bufPool.Put(buf)
-+-		if err := huffmanDecode(buf, d.maxStrLen, p[:strLen]); err != nil {
-+-			buf.Reset()
-+-			return "", nil, err
-+-		}
-++type undecodedString struct {
-++	isHuff bool
-++	b      []byte
-++}
-++
-++func (d *Decoder) decodeString(u undecodedString) (string, error) {
-++	if !u.isHuff {
-++		return string(u.b), nil
-++	}
-++	buf := bufPool.Get().(*bytes.Buffer)
-++	buf.Reset() // don't trust others
-++	var s string
-++	err := huffmanDecode(buf, d.maxStrLen, u.b)
-++	if err == nil {
-+		s = buf.String()
-+-		buf.Reset() // be nice to GC
-+	}
-+-	return s, p[strLen:], nil
-++	buf.Reset() // be nice to GC
-++	bufPool.Put(buf)
-++	return s, err
-+ }
-+--
-+2.7.4
--- 
-2.7.4
+--000000000000ba569d05f7f4c1cc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 22, 2023 at 11:08=E2=80=
+=AFAM Marta Rybczynska via <a href=3D"http://lists.openembedded.org">lists.=
+openembedded.org</a> &lt;rybczynska=3D<a href=3D"mailto:gmail.com@lists.ope=
+nembedded.org">gmail.com@lists.openembedded.org</a>&gt; wrote:<br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D=
+"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gm=
+ail_attr">On Tue, Feb 21, 2023 at 2:47 PM Ross Burton &lt;<a href=3D"mailto=
+:Ross.Burton@arm.com" target=3D"_blank">Ross.Burton@arm.com</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Marta,<br>
+<br>
+&gt; On 21 Feb 2023, at 13:20, Marta Rybczynska &lt;<a href=3D"mailto:rybcz=
+ynska@gmail.com" target=3D"_blank">rybczynska@gmail.com</a>&gt; wrote:<br>
+&gt; I&#39;m finishing the new fetcher for cve check using the 2.0 NVD API.=
+ Will need testers to check as many configurations as possible before we sw=
+itch the format.<br>
+&gt; <br>
+&gt; The current estimate is this week, hoping that the real life doesn&#39=
+;t interfere.<br>
+&gt; <br>
+&gt; Good news for all users is that nothing changes for you. Results shoul=
+d be compatible. The one noticeable thing is that the complete fetch is lon=
+ger than before.<br>
+<br>
+Awesome, thanks Marta.=C2=A0 I=E2=80=99ll happily review and test the code.=
+<br>
+<br>
+How long is a complete fetch now?=C2=A0 My very rough testing when I first =
+looked at the new API suggested 30 minutes for a full sync.<br>
+<br></blockquote><div><br></div><div>Thanks Ross. The fetcher now has the r=
+ecommended 6 seconds wait so it is long - but a similar time you had (aroun=
+d 30 min). It seems that in practice it does not change much - the rate lim=
+iting is on the server side. This being said, there is only my instance now=
+, when there will be many more, it could change.<br></div><div><br></div><b=
+r></div></div></blockquote><div><br></div><div>Hello Ross,</div><div>Have y=
+ou finished your review? The new version that is under test in my <span cla=
+ss=3D"ng" style=3D"background:rgba(0,0,0,0) none repeat scroll 0% 0%!import=
+ant">systems</span> right now is using urllib. I&#39;m wondering <span clas=
+s=3D"ng" style=3D"background:rgba(0,0,0,0) none repeat scroll 0% 0%!importa=
+nt">what was your</span> other <span class=3D"ng" style=3D"background:rgba(=
+0,0,0,0) none repeat scroll 0% 0%!important">feedback</span>.</div><div><br=
+></div><div>Kind regards,</div><div>Marta <br></div></div></div>
+
+--000000000000ba569d05f7f4c1cc--
 
