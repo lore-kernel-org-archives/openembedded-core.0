@@ -2,139 +2,118 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67A44C6FD18
-	for <webhook@archiver.kernel.org>; Tue, 28 Mar 2023 21:44:01 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web11.9610.1680039835030354090
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 059B5C6FD18
+	for <webhook@archiver.kernel.org>; Tue, 28 Mar 2023 23:48:22 +0000 (UTC)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.web11.12318.1680047294707601905
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Mar 2023 14:43:55 -0700
+ Tue, 28 Mar 2023 16:48:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=kDuZRFrr;
- spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f53.google.com with SMTP id qe8-20020a17090b4f8800b0023f07253a2cso14071402pjb.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Mar 2023 14:43:54 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jmGxzX+F;
+ spf=pass (domain: gmail.com, ip: 209.85.215.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f178.google.com with SMTP id d10so8238254pgt.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Mar 2023 16:48:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680039834;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MoNCyA2SB6oyu7KLcttlug5azWoeSxvvwHqfp+UW3XA=;
-        b=kDuZRFrrOJCTStbrRmL952by/Ul9ex7haCoz2xq+/or5jVrc2dsjkUSzLoM15h8P0S
-         /I/7a7nd1S82A6+rw5RusfiFwXh4zsfwYV21vipUtuWRALxisU0+Wn4C/eQF3iwc2zNI
-         o/mULeNpzN2qUfnlrAIJu8vUoDasYYpspESm+X8ty8ylvZQfTBpM5oIbyJ74WY6/9pok
-         81v5EOzVNMIjZcQFc1mQMQHPETRJwT8LVZDXDIimsLSCbknF6QSJgGVFCJTNjTPS+8xf
-         8PV1ZEtfsjjQAYbrmTs+xKB8+LqtJbtlYllJ6sFWPPftRQjNvRuH7uZxK8nxZ6JqYlkv
-         iRAg==
+        d=gmail.com; s=20210112; t=1680047294;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Qj72cXPR4hkQ1mSHV8nhofxkT9dY5L2dysUNyQ/POLw=;
+        b=jmGxzX+F6e64RGZyUAX9C9zDoDItD5UMseEoTYVba4gltI79GGGq77CPUYUPpXUcy0
+         jHyw1ru2f8/FaQ8LHcgZQdbUDR/Dcm/2BvTu4aqCFW9P3bYSwFUMEsS0dKPwAbnJwd6w
+         WrojT5jPSheKZqZNHs3g8XpckcMMUE0gM/Fizd4l+x8Nt51ScqvyYPmJnUBI7kZ0yYer
+         7LRSFwEFImKL0w9S8enElgsJi/0vJKdIzgOrUSSw5LldDF61kaKulCPISGVc+kE30Cx6
+         dL6gsa61xjawypaFc1HthLuYY6ugAp0+QLMYkpJc+QDUzTCiFci0/xH0vGN98hJKEuTV
+         sYOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680039834;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MoNCyA2SB6oyu7KLcttlug5azWoeSxvvwHqfp+UW3XA=;
-        b=ogHIeil+fNrEgdnA5DEl+H0cYUTQ312ktdbu8cvPquaqRUlZvckoUy37bgKsiP7tPt
-         ZAo4aCpYmJAYlOIE2dv5n1kHWEH02bGXikL3Ztn+UKfM0huvDjiXtx8JFwVWfjn/hDKg
-         RRm8rqotjZbtqPvpuxFY7dLJk4k3oLUXQ0b0QMSD8jc6VcQIInPD0LNDeVcBlqQrScXd
-         Uz6u/8q+udtQvfhFrLdlFwaesJtlX2l1huzp8yQMMMae/oNf6liUTRPj8ZFSTojWManb
-         LZqkgrIRyVZrsNnyve8pu8k3a4+9RLAtZW1qC/WwgUGvf8p9UeGOJ/rYpOC17o5X7dXG
-         BRog==
-X-Gm-Message-State: AAQBX9dVADqkMMeqGH/QAy7Iern5kjybL5uLw+eVazQj6LPd0Mdk8aux
-	xQt40GIQk8qx/G0tnSUPBxXq0y9xZvNydg==
-X-Google-Smtp-Source: AKy350YMZJNTR9zfbjNRMtDxgpn2ggMxVOvXkcP/ALznKLrdXlTJkyrSRCmYoWGazyiInssJQiUFeQ==
-X-Received: by 2002:a17:902:d0c9:b0:1a1:ee8c:eed7 with SMTP id n9-20020a170902d0c900b001a1ee8ceed7mr12879119pln.67.1680039833957;
-        Tue, 28 Mar 2023 14:43:53 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680047294;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Qj72cXPR4hkQ1mSHV8nhofxkT9dY5L2dysUNyQ/POLw=;
+        b=59u1Y3t3aibBThjnCzJNyxQk+YGvmVvfh4ASN47GXfgBcZ5y0T/1bba+DP9pE6FEj/
+         QV7O1mkNwZtKoBN5vwOKzEHr23Nv/66v74WRToXmY6lIgTE9/C1H3GsHqK2HU9PyhpZd
+         UzBUJDpwDEyhiruZcDbzynl/5B6ZrSWyjSBkyQMRB9fg9ffyLQpDGDp0J54Tvly9Jrfn
+         fSC8qVeiavrK+TLyU30hw3VCdWw0KAYD5rEn92O/I7fdLDhh/otw23rwqJdFV8S55k4y
+         Bnzeo3DlLe4eYSa5GvRyYLLs+WK9hC5HVp6PzZff20LxpbipJzyMzRYHSY/tXJIGfaya
+         WEqQ==
+X-Gm-Message-State: AAQBX9dzrr0loytBXqv5uBdjIjab2O9MkUv1k4ErZ0zQktElkxk/ZyJu
+	JVN/Vc+mtBcAB+Cr09Y72aOHMb3H3OKgSQ==
+X-Google-Smtp-Source: AKy350Ze2i1ER1H6wK5nlxB3A/vNPff5cskRSmVkNvRWYXhshUbivWhMMpSSDd5zbNEGzJsqfvNyVw==
+X-Received: by 2002:aa7:9485:0:b0:625:70a5:7817 with SMTP id z5-20020aa79485000000b0062570a57817mr15347619pfk.34.1680047293676;
+        Tue, 28 Mar 2023 16:48:13 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:d380::bed3])
-        by smtp.gmail.com with ESMTPSA id t7-20020a170902a5c700b001a207906418sm10254613plq.23.2023.03.28.14.43.53
+        by smtp.gmail.com with ESMTPSA id m12-20020aa78a0c000000b0058bcb42dd1asm21668080pfa.111.2023.03.28.16.48.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Mar 2023 14:43:53 -0700 (PDT)
+        Tue, 28 Mar 2023 16:48:13 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] webkitgtk: Fix build on 32bit platforms without 64bit atomics
-Date: Tue, 28 Mar 2023 14:43:51 -0700
-Message-Id: <20230328214351.3666478-1-raj.khem@gmail.com>
+Subject: [PATCH 2/3] libstemmer: Bring recipe from meta-oe
+Date: Tue, 28 Mar 2023 16:48:09 -0700
+Message-Id: <20230328234810.2103043-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230328234810.2103043-1-raj.khem@gmail.com>
+References: <20230328234810.2103043-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Mar 2023 21:44:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179249
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Mar 2023 23:48:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179251
 
-The fix is to remove a static_assert which is anyway diagnostics
-we will not hit on 64bit platforms and it will still work on 32bit
-platforms although a bit slow.
+Needed by appstream-glib
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...move-static_assert-for-64bit-atomics.patch | 33 +++++++++++++++++++
- .../recipes-sato/webkit/webkitgtk-3_2.40.0.bb |  1 +
- meta/recipes-sato/webkit/webkitgtk_2.40.0.bb  |  1 +
- 3 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-sato/webkit/files/0001-ANGLE-Remove-static_assert-for-64bit-atomics.patch
+ .../libstemmer/libstemmer_2.2.0.bb            | 37 +++++++++++++++++++
+ 1 file changed, 37 insertions(+)
+ create mode 100644 meta/recipes-support/libstemmer/libstemmer_2.2.0.bb
 
-diff --git a/meta/recipes-sato/webkit/files/0001-ANGLE-Remove-static_assert-for-64bit-atomics.patch b/meta/recipes-sato/webkit/files/0001-ANGLE-Remove-static_assert-for-64bit-atomics.patch
+diff --git a/meta/recipes-support/libstemmer/libstemmer_2.2.0.bb b/meta/recipes-support/libstemmer/libstemmer_2.2.0.bb
 new file mode 100644
-index 0000000000..d39eee6c58
+index 0000000000..be2935a385
 --- /dev/null
-+++ b/meta/recipes-sato/webkit/files/0001-ANGLE-Remove-static_assert-for-64bit-atomics.patch
-@@ -0,0 +1,33 @@
-+From 03d5f84e7bb292f5cf7120af91e979fc87b36e04 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Tue, 28 Mar 2023 14:38:17 -0700
-+Subject: [PATCH] ANGLE: Remove static_assert for 64bit atomics
++++ b/meta/recipes-support/libstemmer/libstemmer_2.2.0.bb
+@@ -0,0 +1,37 @@
++SUMMARY = "Snowball compiler and stemming algorithms"
++HOMEPAGE = "https://snowballstem.org/"
++LICENSE = "BSD-3-Clause"
++LIC_FILES_CHKSUM = "file://COPYING;md5=19139aaf3c8c8fa1ca6edd59c072fb9f"
 +
-+This will make sure that it can be built on 32bit platforms e.g.
-+mips32/ppc32
++DEPENDS:append:class-target = " ${BPN}-native"
 +
-+This partially reverts https://chromium-review.googlesource.com/c/angle/angle/+/4205892
-+the suggestion to remove the assertion is from the author of the patch
-+itself
++SRC_URI = "git://github.com/snowballstem/snowball.git;branch=master;protocol=https \
++           file://0001-Build-so-lib.patch \
++           "
++SRCREV = "48a67a2831005f49c48ec29a5837640e23e54e6b"
++S = "${WORKDIR}/git"
 +
-+Upstream-Status: Inappropriate [32-bit specific]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ Source/ThirdParty/ANGLE/src/libANGLE/renderer/serial_utils.h | 1 -
-+ 1 file changed, 1 deletion(-)
++LIBVER = "0.0.0"
 +
-+diff --git a/Source/ThirdParty/ANGLE/src/libANGLE/renderer/serial_utils.h b/Source/ThirdParty/ANGLE/src/libANGLE/renderer/serial_utils.h
-+index 51ad1af9..9412c805 100644
-+--- a/Source/ThirdParty/ANGLE/src/libANGLE/renderer/serial_utils.h
-++++ b/Source/ThirdParty/ANGLE/src/libANGLE/renderer/serial_utils.h
-+@@ -129,7 +129,6 @@ class AtomicQueueSerial final
-+   private:
-+     static constexpr uint64_t kInvalid = 0;
-+     std::atomic<uint64_t> mValue       = kInvalid;
-+-    static_assert(decltype(mValue)::is_always_lock_free, "Must always be lock free");
-+ };
-+ 
-+ // Used as default/initial serial
-+-- 
-+2.40.0
++inherit lib_package
 +
-diff --git a/meta/recipes-sato/webkit/webkitgtk-3_2.40.0.bb b/meta/recipes-sato/webkit/webkitgtk-3_2.40.0.bb
-index a9d6af2626..23378d7d16 100644
---- a/meta/recipes-sato/webkit/webkitgtk-3_2.40.0.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk-3_2.40.0.bb
-@@ -15,6 +15,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/webkitgtk-${PV}.tar.xz \
-            file://reproducibility.patch \
-            file://0d3344e17d258106617b0e6d783d073b188a2548.patch \
-            file://disable_wasm_riscv64.patch \
-+           file://0001-ANGLE-Remove-static_assert-for-64bit-atomics.patch \
-            "
- SRC_URI[sha256sum] = "a4607ea1bf89669e89b1cb2c63faaec513f93de09b6ae60cc71d6a8aab7ab393"
- 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.40.0.bb b/meta/recipes-sato/webkit/webkitgtk_2.40.0.bb
-index e219cbf6d4..5c64dab23b 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.40.0.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.40.0.bb
-@@ -15,6 +15,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://reproducibility.patch \
-            file://0d3344e17d258106617b0e6d783d073b188a2548.patch \
-            file://disable_wasm_riscv64.patch \
-+           file://0001-ANGLE-Remove-static_assert-for-64bit-atomics.patch \
-            "
- SRC_URI[sha256sum] = "a4607ea1bf89669e89b1cb2c63faaec513f93de09b6ae60cc71d6a8aab7ab393"
- 
++do_compile:prepend:class-target() {
++    # use native tools
++    sed -i 's:./snowball :snowball :g' ${S}/GNUmakefile
++}
++
++do_install() {
++    install -d ${D}${bindir}
++    install -m 755 ${S}/snowball ${D}${bindir}
++    install -m 755 ${S}/stemwords ${D}${bindir}
++
++    install -d ${D}${libdir}
++    install -m 755 ${S}/libstemmer.so.${LIBVER} ${D}${libdir}/
++    ln -s libstemmer.so.${LIBVER} ${D}${libdir}/libstemmer.so.0
++    ln -s libstemmer.so.${LIBVER} ${D}${libdir}/libstemmer.so
++
++    install -d ${D}${includedir}
++    install -m 644 ${S}/include/*.h ${D}${includedir}
++}
++
++BBCLASSEXTEND = "native"
 -- 
 2.40.0
 
