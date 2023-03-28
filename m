@@ -1,71 +1,92 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8B56C76195
-	for <webhook@archiver.kernel.org>; Tue, 28 Mar 2023 08:08:34 +0000 (UTC)
-Received: from mailout09.t-online.de (mailout09.t-online.de [194.25.134.84])
- by mx.groups.io with SMTP id smtpd.web11.60990.1679990905016758664
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1233CC76196
+	for <webhook@archiver.kernel.org>; Tue, 28 Mar 2023 08:27:55 +0000 (UTC)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web10.61093.1679992073602415814
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Mar 2023 01:08:25 -0700
+ Tue, 28 Mar 2023 01:27:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.84, mailfrom: f_l_k@t-online.de)
-Received: from fwd75.dcpf.telekom.de (fwd75.aul.t-online.de [10.223.144.101])
-	by mailout09.t-online.de (Postfix) with SMTP id 9FEBC1D406;
-	Tue, 28 Mar 2023 10:08:22 +0200 (CEST)
-Received: from [192.168.178.83] ([84.163.35.166]) by fwd75.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1ph4NS-1A8aTg0; Tue, 28 Mar 2023 10:08:22 +0200
-Message-ID: <7f2b3a3e-5e33-5948-f230-a39baad4703b@t-online.de>
-Date: Tue, 28 Mar 2023 10:08:22 +0200
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=F+2hF5kA;
+ spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f42.google.com with SMTP id h11so7786718lfu.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Mar 2023 01:27:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679992071;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=EnnMO1f6N455GJv+OHlH8sSBbYOWtesOuRP9WA/mZ54=;
+        b=F+2hF5kAJaWFwkqW1sfLftgNqchmGpAfdb5QbDuxJE8VYCaf8WLfXN9W8Xg6z6pmw2
+         g/iBRf0BHraPeJZPA3ro0rHxYFcDXpg8199tVSb7yCyyAe4WdKiQE1DXT3ZMknlSYEYc
+         f+Ps7QrXim4LpoAH68mqb2+SAtD+NdaRpYFSH20yWtINwcjwig4fKJ7vsXyH84DLPAYK
+         fWuOV+o8J4l+hvJJkI6nasQWfBxp0cZkJQciHsXyJZeVUNCRvO25M+u75/orjFnufavv
+         eiJeAmx/lvznGa0hmO0PfoDSqRkc/7RGrp56QNmoOt3/GeIFncQSi8D6zC3BZxP37G4j
+         Mcsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679992071;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EnnMO1f6N455GJv+OHlH8sSBbYOWtesOuRP9WA/mZ54=;
+        b=WZLYPgM6u2+iHQmIikVaWs4yaGKjj4UP4JWE9dXObEyWPEF/VBjamqcPxVfaUyE9qc
+         Z9d717sNQmhZ4pcjWHndumTJ0cPluvuRrkgAxR76os8tjPbuZIXH8AmJ+n5EEoA+SBGw
+         QxNi2ttMXSRRKec34MMJfZDIXifpBGjHniAQBbytLfoC9Be1SgiZugx9EIzIgpiLsxHk
+         jVvu2IjClvCdqPipA3I25OTv5qUUo6Zy6YeNPhsaBikyBWnCcQj3gT3hgLFXqFTGWgHS
+         p+OHtHIhdh2o4U7sK3F7rEZVMu5rpd4zjSwX69U9/dFJdrUVdlGcmuhdNmHfMARHUzcy
+         A8DA==
+X-Gm-Message-State: AAQBX9evL1EGWVcPNDZvLLtPWovcRObhyBnMe61jdQrrxmUc+BUaZNUo
+	F+wuycva6Uwypgi6f0BoHhYt+NQU/00MHJVAtfg=
+X-Google-Smtp-Source: AKy350akD1Z+jhlAJUfYH69KA88EJs5XCerRQk5+1Tqe6OKu/a4aVV+19E3KMSq0QKlNfrKnwt+qM1OGrYvfwL4aIgY=
+X-Received: by 2002:ac2:4884:0:b0:4e8:426d:123f with SMTP id
+ x4-20020ac24884000000b004e8426d123fmr4334877lfc.11.1679992071441; Tue, 28 Mar
+ 2023 01:27:51 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [oe-core][PATCHv4] webkitgtk: update 2.38.5 -> 2.40.0
-Content-Language: en-US
-From: Markus Volk <f_l_k@t-online.de>
-To: alexandre.belloni@bootlin.com
-Cc: openembedded-core@lists.openembedded.org
-References: <17507FB5CB63E584.14179@lists.openembedded.org>
- <6d514983-364b-99a0-4a5c-528bf6cb26bc@t-online.de>
- <20230328071714e8631733@mail.local>
- <17508499C64227F9.28404@lists.openembedded.org>
- <17508627FA842C9E.14179@lists.openembedded.org>
-In-Reply-To: <17508627FA842C9E.14179@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TOI-EXPURGATEID: 150726::1679990902-DBFFCC10-2FE3B712/0/0 CLEAN NORMAL
-X-TOI-MSGID: 035dbff0-bab3-4906-a248-829ae8dc2df9
-Content-Transfer-Encoding: quoted-printable
+References: <20230325004818.2784943-1-f_l_k@t-online.de> <20230325004818.2784943-6-f_l_k@t-online.de>
+ <2023032714382786bc343b@mail.local> <dd874e52-dc20-813c-3211-62b70c1d210c@t-online.de>
+In-Reply-To: <dd874e52-dc20-813c-3211-62b70c1d210c@t-online.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 28 Mar 2023 10:27:40 +0200
+Message-ID: <CANNYZj_x0esv-NGjaP4+7q=hjKy9sW8cQZA6BOSg87Vdmt_-oQ@mail.gmail.com>
+Subject: Re: [oe-core][PATCH 6/7] epiphany: update 43.1 -> 44.0
+To: Markus Volk <f_l_k@t-online.de>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Mar 2023 08:08:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179209
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Mar 2023 08:27:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179210
 
-I've sent a patch that imports libadwaita. Don't know if thats what is=20
-planned to do, but that would be needed along with the epiphany update=20
-to test the webkitgtk patch
+We do want a real browser application in oe-core, and there's no
+better choice than epiphany, even though it tends to pull in hard
+dependencies that are sometimes questionable from 'lean build'
+perspective.
 
-Am 28.03.23 um 09:56 schrieb Markus Volk:
-> I have to partially correct myself. The recipe is so far standalone=20
-> that webkitgtk can be built without the other patches. However,=20
-> epiphany will break because=C2=A0 DEPENDS =3D "webkitgtk" would need to=
- be=20
-> DEPENDS =3D "webkitgtk-3" for the old epiphany recipe.
+If webkitgtk itself has an alternative in-tree, then epiphany can move
+to meta-gnome.
+
+Alex
+
+On Tue, 28 Mar 2023 at 02:54, Markus Volk <f_l_k@t-online.de> wrote:
 >
-> Am 28.03.23 um 09:26 schrieb Markus Volk:
->> This patch is standalone. There is still the problem for Epiphany=20
->> with libadwaita. But that would require a decision that should not be=20
->> made by me.=20
+> libadwaita is a hard dependency for epiphany so it would be needed to
+> import it from meta-gnome or to move  epiphany to meta-gnome
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> https://gitlab.gnome.org/GNOME/epiphany/-/blob/44.0/meson.build#L78
+>
+>
+> Am 27.03.23 um 16:38 schrieb Alexandre Belloni:
+> > ERROR: Nothing PROVIDES 'libadwaita' (but /home/pokybuild/yocto-worker/reproducible/build/meta/recipes-gnome/epiphany/epiphany_44.0.bb DEPENDS on or otherwise requires it). Close matches:
+> >    libedit
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#179207): https://lists.openembedded.org/g/openembed=
-ded-core/message/179207
-> Mute This Topic: https://lists.openembedded.org/mt/97899808/3618223
+> View/Reply Online (#179192): https://lists.openembedded.org/g/openembedded-core/message/179192
+> Mute This Topic: https://lists.openembedded.org/mt/97836713/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-f_l_k@t-online.de]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
 
