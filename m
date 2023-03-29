@@ -2,56 +2,56 @@ Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E10F5C77B61
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D445BC74A5B
 	for <webhook@archiver.kernel.org>; Wed, 29 Mar 2023 15:30:56 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web10.1033.1680103852377466388
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web10.1029.1680103849594932018
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Mar 2023 08:30:52 -0700
+ Wed, 29 Mar 2023 08:30:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=YJXBV3ry;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id n19so9206171wms.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Mar 2023 08:30:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ifKHCPaz;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id bg16-20020a05600c3c9000b003eb34e21bdfso11746953wmb.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Mar 2023 08:30:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680103850;
+        d=gmail.com; s=20210112; t=1680103848;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ol8FfIAHbEw0jNdubbhfpGHjv/EAyiWShTkIPW2gNVQ=;
-        b=YJXBV3ry/0beTf+oGH+6qsUJkizW2B6DINY7d3IrC+f5duBFucs2jJET6+iPDCZL5o
-         /ceOds0+BqYzjy2UQXbn/JYsttHjWUWWdfCGvNbLLuf7HfnCcPz7aYdscnNygi2TSMJj
-         Og3g9BASWd2aW6cTsNgouuiLDR7OVDH9Egs1fPFK4LIgzPKBZez6kBFnWzkYXIv6hqkH
-         /3mLezTqySFdEGude0OtuoHI0cWtdcjVc5bKsW9yWH+kE5/nuUFsQ9yVgDSQqw4llp+K
-         AXTg9I2jnE09L7IDzrHpIxtqotiC2Q/I1Df4ivD4qqjYsaB7W7eKmlM8QLxrx9crdgYP
-         X/NQ==
+        bh=6lzaowPBGNyClSitAu7sVLJ9GXQv0xYa51QvIRhfNm0=;
+        b=ifKHCPaz1uuZFu5fFVf4W4Moh2O6EwwQGkTRL6URL0fPGY7ds60W+Jn2T8+7Y9QCAc
+         s5vpBZQhVcT15owyMI2jXLa/haGMaF16FpC7HEHZXZaCmOCzj45kBAvapxvoaTzLNNT2
+         zTheC7hfEt8BNUhiM5KMIpF1Jt260uPxBmdTQIUh8SXONkp8HBXygcSYKEiJzt/9KZ2X
+         gc4zdNhaBL5A7/dTlWmPGyREx3U8Uup8o+7JyhPtvi9O84lN8VFUT2b/XrjzecqzZqm8
+         7SBYG5wS/Psqc71k4OLSslRgE9d9dA0n8MnU4KJJHHq/sDR26oKQh6k2KVU8ox3DfyYn
+         Mb6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680103850;
+        d=1e100.net; s=20210112; t=1680103848;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ol8FfIAHbEw0jNdubbhfpGHjv/EAyiWShTkIPW2gNVQ=;
-        b=mTZKfx6QdaJV5hyIcrjfsj2Zt6MDRpiwnWFVBjfxA4YvJ5IPwt9e7gs/jOtEdOmlut
-         JGpq+SDslknor+7n6kkAB9KAsengMnqX3j57gI3nV4HuZCkfkDCw8QH/vDjVAjfN7+Zz
-         o5vkZQ+kO3GvO7PyogdCUxsJewB4juZACFnB9p44HSr5Xep2ZDkA8/K3M3a/BGTK8YTe
-         5mZZvB3ZVYkKMy+7DQVDtO4DEuVu8VqnS/I4Nm66iSH3dVw64sdvjDZoygB718a0vPKF
-         nyuK7ZXTjiVlq7LaNceWvkbdb8BduR2RjQvWiQx8Gk9BgVEZGOMrqiHKK3bFvDftdLv+
-         ywXw==
-X-Gm-Message-State: AAQBX9d9jcoQNj9EayU3c0heDdkJmXplMwfy/uhpL6SRaxDXXAs3cP3d
-	XL6GCCrbhNt0q+u08um53WGKr0h66p0=
-X-Google-Smtp-Source: AKy350Ze78Y2fHvQv6BWayeA7LWRxfYapq4IHErjucjHFZ8w2glCI9GFS8IZgjuyQPuACPQzdQQTvw==
-X-Received: by 2002:a7b:cd93:0:b0:3ed:346d:4534 with SMTP id y19-20020a7bcd93000000b003ed346d4534mr2187805wmj.0.1680103850557;
-        Wed, 29 Mar 2023 08:30:50 -0700 (PDT)
+        bh=6lzaowPBGNyClSitAu7sVLJ9GXQv0xYa51QvIRhfNm0=;
+        b=Z/RWBNfNh8HSXXdyZFHsDchbRfWDsqCZ3+/1cnVSF//NZxO2CZJzbLoj3nnQU/Rh4G
+         YPW7V5o0+SfwGFPuV+zqlpbkxBXe8+1FBbb/U1vw7lV7KyV1vbkMXlMrE4bSKz2avSMd
+         ook7LlBDqD1RKUqP8w4onkHVtQ/KiQFCboT/LAdxXKGFK3A7sBbsaUrt1KeGHxGnkxW+
+         In03Eqgwl9/OXRA4ONwbOgkposdCkUyMl/dpoiazPtRXduBkeehuXrXX0dQEqdgIptPX
+         2QBOKoakjfN2c7unEa34bgRc4o1OZfIig+CDLZyg7njzdm1o3l3+zN8CxMthi9S4OnZC
+         yVGw==
+X-Gm-Message-State: AO0yUKX04S8kIQVgNmFVwHKUsDEj2sOZnn6yKwFeK6uvOG34zgKV81Oj
+	d/yPyps0c+UckYkl2X2meauxhByTcVE=
+X-Google-Smtp-Source: AK7set+WfgjGXSx/mfoTMBvw23VqVxUwif5Gq5dfeJAbWyj6DdXYGlemGf8Y9ejyamz2PR4DjIDVbQ==
+X-Received: by 2002:a05:600c:220e:b0:3ee:a205:848f with SMTP id z14-20020a05600c220e00b003eea205848fmr14305408wml.20.1680103847618;
+        Wed, 29 Mar 2023 08:30:47 -0700 (PDT)
 Received: from work-pc.core.sigfox.net ([2a01:e0a:8d5:c6c0:f236:1d99:4c31:5762])
-        by smtp.gmail.com with ESMTPSA id a13-20020a05600c224d00b003edef091b17sm2607378wmm.37.2023.03.29.08.30.49
+        by smtp.gmail.com with ESMTPSA id a13-20020a05600c224d00b003edef091b17sm2607378wmm.37.2023.03.29.08.30.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Mar 2023 08:30:50 -0700 (PDT)
+        Wed, 29 Mar 2023 08:30:47 -0700 (PDT)
 From: frederic.martinsons@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: alex.kiernan@gmail.com
-Subject: [PATCH V4 3/5] devtool: add support for multiple git url inside a cargo based recipe
-Date: Wed, 29 Mar 2023 17:30:32 +0200
-Message-Id: <0e0921c5735b85c6020a3292aec05fcf7947bebd.1680103647.git.frederic.martinsons@gmail.com>
+Subject: [PATCH V4 1/5] cargo_common.bbclass: Support local github repos
+Date: Wed, 29 Mar 2023 17:30:30 +0200
+Message-Id: <09a3ae010aaa2617dac03ff602c4ce68e0cc4060.1680103647.git.frederic.martinsons@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1680103647.git.frederic.martinsons@gmail.com>
 References: <cover.1680103647.git.frederic.martinsons@gmail.com>
@@ -61,39 +61,71 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 29 Mar 2023 15:30:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179288
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179286
 
-From: Frederic Martinsons <frederic.martinsons@gmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
 
-Without that, the possible git urls that are in SRC_URI of a recipe
-are removed from SRC_URI during devtool process and so the
-cargo_common_do_patch_paths in cargo_common.bbclass cannot
-patch these packages to fetch them locally.
+Since disable network was added cargo configurations which reference git
+repos fail as they attempt to fetch across the network as part of
+do_compile, even if EXTRA_OECARGO_PATHS to add them as part of `paths`
+is used, as this is documented as only working for packages which exist
+in crates.io.
 
-I use a generic type name because I foresee this change will
-be useful for recipe that used a package manager (cargo but also
-npm) see https://bugzilla.yoctoproject.org/show_bug.cgi?id=11015
+Add parsing of the SRC_URIs for git repos and include `[patch]` sections
+to redirect to the checked out source repos which the bitbake fetcher
+has already populated.
 
-Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
+There are still cases which don't work - if you have multiple copies of
+the same repo with different revisions, there's currently no way to
+represent that and anything using a repo which has a virtual manifest
+will fail to build (see https://github.com/rust-lang/cargo/issues/4934).
+
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
- meta/classes/externalsrc.bbclass | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ meta/classes-recipe/cargo_common.bbclass | 30 ++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-index 26c5803ee6..b00fdba8e9 100644
---- a/meta/classes/externalsrc.bbclass
-+++ b/meta/classes/externalsrc.bbclass
-@@ -68,9 +68,7 @@ python () {
-         for url in fetch.urls:
-             url_data = fetch.ud[url]
-             parm = url_data.parm
--            if (url_data.type == 'file' or
--                    url_data.type == 'npmsw' or url_data.type == 'crate' or
--                    'type' in parm and parm['type'] == 'kmeta'):
-+            if url_data.type in ['file', 'npmsw', 'crate'] or parm.get('type') in ['kmeta', 'git-dependency']:
-                 local_srcuri.append(url)
+diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-recipe/cargo_common.bbclass
+index f503a001dd..63b1382908 100644
+--- a/meta/classes-recipe/cargo_common.bbclass
++++ b/meta/classes-recipe/cargo_common.bbclass
+@@ -116,6 +116,36 @@ cargo_common_do_configure () {
+ 	EOF
+ }
  
-         d.setVar('SRC_URI', ' '.join(local_srcuri))
++python cargo_common_do_patch_paths() {
++    cargo_config = os.path.join(d.getVar("CARGO_HOME"), "config")
++    if not os.path.exists(cargo_config):
++        return
++
++    src_uri = (d.getVar('SRC_URI') or "").split()
++    if len(src_uri) == 0:
++        return
++
++    patches = dict()
++    workdir = d.getVar('WORKDIR')
++    fetcher = bb.fetch2.Fetch(src_uri, d)
++    for url in fetcher.urls:
++        ud = fetcher.ud[url]
++        if ud.type == 'git':
++            name = ud.parm.get('name')
++            destsuffix = ud.parm.get('destsuffix')
++            if name is not None and destsuffix is not None:
++                repo = '%s://%s%s' % (ud.proto, ud.host, ud.path)
++                path = '%s = { path = "%s" }' % (name, os.path.join(workdir, destsuffix))
++                patches.setdefault(repo, []).append(path)
++
++    with open(cargo_config, "a+") as config:
++        for k, v in patches.items():
++            print('\n[patch."%s"]' % k, file=config)
++            for name in v:
++                print(name, file=config)
++}
++do_configure[postfuncs] += "cargo_common_do_patch_paths"
++
+ oe_cargo_fix_env () {
+ 	export CC="${RUST_TARGET_CC}"
+ 	export CXX="${RUST_TARGET_CXX}"
 -- 
 2.34.1
 
