@@ -1,108 +1,221 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B757C6FD18
-	for <webhook@archiver.kernel.org>; Wed, 29 Mar 2023 10:53:15 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.21451.1680087192077398453
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CC75C74A5B
+	for <webhook@archiver.kernel.org>; Wed, 29 Mar 2023 11:10:25 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web11.21727.1680088220174898585
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Mar 2023 03:53:12 -0700
+ Wed, 29 Mar 2023 04:10:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QsaLc7Y9;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id l12so15163017wrm.10
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Mar 2023 03:53:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=MSw/+nnw;
+ spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f49.google.com with SMTP id j24so15270670wrd.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Mar 2023 04:10:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1680087190;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=rdrhrNpi1DmKDJrXrV2wn0zWN0014KuVywPdlCfVsvc=;
-        b=QsaLc7Y9FmhufrFolInkTZWkryqqirq/ehSF9hEMbiP1prNeOnaECL+oKcHqhszGyK
-         ncKme776sisZQRojcRHXMlxojEP+yO7KlVuLxpQh08Bi6Wp7wG4kitXiKYy6CsxoUeoO
-         /+0ydW2NSSjZg2EVXc/LaKBN/RoJUoydt2ASM=
+        d=gmail.com; s=20210112; t=1680088218;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=nAC3puUboV+PaW2AQboG/NDyPZL41B5tfCSBNI9NrRA=;
+        b=MSw/+nnwxQBlbmApkHWJkSx0euEE2SHCQWltiUvU6bO40MGjZJstHH/WHn2vXMgh5t
+         q7CIOpEGdqY6+VddtNSIhX9jMcoOi64rufElFIjjWdCBejrYU8HjApn7FpMZqc4ZMbR8
+         lZDEuVJB0Rim75wSVHnQMnR3cgMvlk4GByeLN+xB8py7rRAXFZ1oud/l2ubTU0O2AipG
+         6lwDlfnsPQb36f5mJEonPvkRew50zF+swJNuCoUuW5u2E5Xo9OGG+fB+Xvc+Kfr5Z1jj
+         YlXluEhysVir7/fWVQSA0fbxit7Y7ook2upvUJ11g6hyXCcBn5yvjN4oCQwezYZL7YIr
+         IS8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680087190;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rdrhrNpi1DmKDJrXrV2wn0zWN0014KuVywPdlCfVsvc=;
-        b=66e6jJkYC1pMJx+n3YSytqzUkH6HsylUtuJHRayDBUyQJxGCTs8+s6idKKIRVDf04q
-         m9Pd+NRzPVuDAB65KoxrOUbTwCZJHUs+fm9ybnYKyL7LsGEHIHMWmwFXKbH8zI1gZ+Sh
-         yvcfAsUL8nkDD+63Q5wOBUO+VfnJU0c2D7lg1OjgSpTQZFQ82oStk8xomL1SFd1Eylde
-         ucGYEVBUhBNXT2hmROWLEFmzDK5Bxw1wCT6NGNYQFxiYLbSDvIc7Zgl7e5QqUwXZyzq+
-         JU8uSp28w7nL/sIGYXtpS82U0zBS/QVp9DH3gO31QTVfwIquA0kzbRuF3EfbWp99JWhU
-         L/xQ==
-X-Gm-Message-State: AAQBX9c8wiASrEBK9hUxhDSgoXd/dB3tjTxg4ZwUbs+RVzdIRU/nf72g
-	IfgFoq8Qm4FAnVEZZE+Yh2pp8Q==
-X-Google-Smtp-Source: AKy350Y8BXvrbaxEjbVkHIRG/jxBOheYkDrN9GiSiG92V/1xspRhLHBMtaYyD03gt5mA5mulBBDpzw==
-X-Received: by 2002:a5d:51c8:0:b0:2d4:53d7:ea7f with SMTP id n8-20020a5d51c8000000b002d453d7ea7fmr15948664wrv.3.1680087190381;
-        Wed, 29 Mar 2023 03:53:10 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a292:121e:1e7c:1ae7? ([2001:8b0:aba:5f3c:a292:121e:1e7c:1ae7])
-        by smtp.gmail.com with ESMTPSA id y16-20020a5d4ad0000000b002d51d10a3fasm26596428wrs.55.2023.03.29.03.53.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Mar 2023 03:53:10 -0700 (PDT)
-Message-ID: <8cb5371cbfacac03d340142b36511a73834669d0.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2 0/1] Change the serial runner usage
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Louis Rannou <lrannou@baylibre.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: khilman@baylibre.com
-Date: Wed, 29 Mar 2023 11:53:09 +0100
-In-Reply-To: <20230303090139.207454-1-lrannou@baylibre.com>
-References: <20230303090139.207454-1-lrannou@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3-1 
+        d=1e100.net; s=20210112; t=1680088218;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nAC3puUboV+PaW2AQboG/NDyPZL41B5tfCSBNI9NrRA=;
+        b=kyuNUZmz3sdPeFFObKm0VUf8LWTFEwXI8GZ6f9rw2JKmkBtnulAhqPaD0bCGvpz9rF
+         0OAu1omfJrRoWdy9yYHgyZjhYvMdqMJYlOCnxbtOp6uLto/2otYXxwMkOC/PD/pZsztQ
+         k5hVtgEoUi4ZY6ZTA7T0xTBVPGuoi7tQaGSrFAPvMpzUWwvOQXGQyW9eZOWPrEJ/QhOT
+         0t1k3bXrhcLC0NFFykiz5sjirmrNmVFvKC201/Lbwo5y3arRhlP0mGGcXzqQ1I+e7+1a
+         YYjwJJ6Lnzul91I+RjHjIPH6QtoMb7o2x+Xivbay8Umrm7e/HZimUxCZVIwHswALftyR
+         r9xg==
+X-Gm-Message-State: AAQBX9f4z4R0DQZ+87pSotHwQj/Fnr71k+zgJgaBpo9HT18b9PuGYj+e
+	5H8TizXC7VF9dF9vRAfpPOWt4rRukGFkOL7wggQ=
+X-Google-Smtp-Source: AKy350a80kaSMGworpaSVTZ0pyqWo/tjIiWiZjDHWXpvA8dxPa55tW1G/Etx+gpegmTRyEPVMbMf0D3SZZYabxsGV3A=
+X-Received: by 2002:a5d:4cc3:0:b0:2e2:1f55:7ce9 with SMTP id
+ c3-20020a5d4cc3000000b002e21f557ce9mr1335743wrt.1.1680088218264; Wed, 29 Mar
+ 2023 04:10:18 -0700 (PDT)
 MIME-Version: 1.0
+References: <20230207215439.1391583-1-richard.purdie@linuxfoundation.org>
+ <CA+chaQegKKEqfCG3-BG=zs44CTLojSu0tFAWqpuPk3aze2jYiA@mail.gmail.com> <23839d81dabf0f98af383b3c09d9eb772624231e.camel@linuxfoundation.org>
+In-Reply-To: <23839d81dabf0f98af383b3c09d9eb772624231e.camel@linuxfoundation.org>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 29 Mar 2023 13:10:03 +0200
+Message-ID: <CA+chaQfVqAiZ_kwB7MP7R+OnPE=zTUC0hPStTb7CM-Y3tpN9ug@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] uninative: Upgrade to 3.9 to include glibc 2.37
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Steve Sakoman <steve@sakoman.com>, openembedded-core@lists.openembedded.org, 
+	Michael Halstead <mhalstead@linuxfoundation.org>
+Content-Type: multipart/alternative; boundary="00000000000070e79605f80805d3"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Mar 2023 10:53:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179273
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Mar 2023 11:10:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179274
 
-On Fri, 2023-03-03 at 10:01 +0100, Louis Rannou wrote:
-> The actual serial runner has a different usage compare to the ssh runner.=
- The
-> return status is different and failure are not raised as exceptions.
->=20
-> Initially, I wanted to create a new run_serial_socket and modify the old
-> run_serial to use the former. And there was a second patch that changed e=
-very
-> call to run_serial to run_serial_socket. But that is not easy as each tes=
-t
-> can have a different manner to handle the exception.
->=20
-> Therefore, this patch only suggest a new runner and add a comment to depr=
-ecate
-> the former runner.
->=20
-> Louis Rannou (1):
->   oeqa/utils/qemurunner: change the serial runner usage
->=20
->  meta/lib/oeqa/targetcontrol.py    |  3 ++
->  meta/lib/oeqa/utils/qemurunner.py | 57 +++++++++++++++++++++++++++++++
->  2 files changed, 60 insertions(+)
+--00000000000070e79605f80805d3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sorry about the late reply to this. I think the idea of the new runner
-is great and we should improve and clean this up.
+Over night I got one failure in kirkstone with new uninative:
 
-As the patch stands, it creates a largely duplicate function with no
-users. Experience shows this tends to bitrot quickly.
+Exception: subprocess.CalledProcessError: Command '('patchelf-uninative',
+'--set-interpreter',
+'TOPDIR/BUILD/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2',
+'TOPDIR/BUILD/work/x86_64-linux/3gpt/fakes/sstate-build-populate_sysroot/re=
+cipe-sysroot-native/usr/bin/makePr0n')'
+returned non-zero exit status 1.
 
-For that reason I'm reluctant to take just this change without
-converting at least some of the existing users to use the new API.
+Subprocess output:
+patchelf: open: Permission denied
 
-Ideally we'd convert everything but at the very least the new function
-should be usable by a decent chunk of the existing code, even if we
-have to adjust it to make that work.
+After discussing with RP on #yocto he mentioned patchelf change related to
+this and that's:
+https://git.openembedded.org/openembedded-core/commit/?id=3D728775c87a7e35a=
+03408675ce1c7a8cd061b2fda
+which is already in langdale and does apply for kirkstone.
 
-Cheers,
+I've backported this for my kirkstone builds and will send formal backport
+request for all 4 changes after a bit more testing (even safe things tend
+to break if you build a lot of weird stuff).
 
-Richard
+Regards,
 
+On Tue, Mar 28, 2023 at 10:33=E2=80=AFPM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
+> On Tue, 2023-03-28 at 22:13 +0200, Martin Jansa wrote:
+> > On Tue, Feb 7, 2023 at 10:54=E2=80=AFPM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > > From: Michael Halstead <mhalstead@linuxfoundation.org>
+> > >
+> > > Update uninative to work with the new glibc 2.37.
+> > >
+> >
+> >
+> > >
+> > > Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
+> > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > > ---
+> > >  meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
+> > >  1 file changed, 5 insertions(+), 5 deletions(-)
+> > >
+> > > diff --git a/meta/conf/distro/include/yocto-uninative.inc
+> > > b/meta/conf/distro/include/yocto-uninative.inc
+> > > index 51c0cdee438..8a5cab5360d 100644
+> > > --- a/meta/conf/distro/include/yocto-uninative.inc
+> > > +++ b/meta/conf/distro/include/yocto-uninative.inc
+> > > @@ -6,10 +6,10 @@
+> > >  # to the distro running on the build machine.
+> > >  #
+> > >
+> > > -UNINATIVE_MAXGLIBCVERSION =3D "2.36"
+> > > -UNINATIVE_VERSION =3D "3.8.1"
+> > > +UNINATIVE_MAXGLIBCVERSION =3D "2.37"
+> > > +UNINATIVE_VERSION =3D "3.9"
+> > >
+> >
+> >
+> > Was there some dependency on other changes to consider this for
+> > backport to langdale (which already has the libgcc change with 3.8.1)
+> > and then kirkstone (needs both update to 3.8.1 and then this).
+> >
+> > I'll start using it for my ubuntu-23.10 builds (with glibc 2.37) and
+> > ask for backport later if there is no reply on this.
+>
+> Uninative should generally be safe for backporting.
+>
+> Cheers,
+>
+> Richard
+>
 
+--00000000000070e79605f80805d3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Over night I got one failure in kirkstone with new uninati=
+ve:<div><br></div><div>Exception: subprocess.CalledProcessError: Command &#=
+39;(&#39;patchelf-uninative&#39;, &#39;--set-interpreter&#39;, &#39;TOPDIR/=
+BUILD/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2&#39;, &#39;T=
+OPDIR/BUILD/work/x86_64-linux/3gpt/fakes/sstate-build-populate_sysroot/reci=
+pe-sysroot-native/usr/bin/makePr0n&#39;)&#39; returned non-zero exit status=
+ 1.<br><br>Subprocess output:<br>patchelf: open: Permission denied<br></div=
+><div><br></div><div>After discussing with RP on #yocto he mentioned patche=
+lf change related to this and that&#39;s:</div><div><a href=3D"https://git.=
+openembedded.org/openembedded-core/commit/?id=3D728775c87a7e35a03408675ce1c=
+7a8cd061b2fda">https://git.openembedded.org/openembedded-core/commit/?id=3D=
+728775c87a7e35a03408675ce1c7a8cd061b2fda</a><br></div><div>which is already=
+ in langdale and does apply for kirkstone.<br></div><div><br></div><div>I&#=
+39;ve backported this for my kirkstone builds and will send formal backport=
+ request for all 4 changes after a bit more testing (even safe things tend =
+to break if you build a lot of weird stuff).</div><div><br></div><div>Regar=
+ds,</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gma=
+il_attr">On Tue, Mar 28, 2023 at 10:33=E2=80=AFPM Richard Purdie &lt;<a hre=
+f=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundat=
+ion.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">On Tue, 2023-03-28 at 22:13 +0200, Martin Jansa wrote:<br>
+&gt; On Tue, Feb 7, 2023 at 10:54=E2=80=AFPM Richard Purdie<br>
+&gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_b=
+lank">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
+&gt; &gt; From: Michael Halstead &lt;<a href=3D"mailto:mhalstead@linuxfound=
+ation.org" target=3D"_blank">mhalstead@linuxfoundation.org</a>&gt;<br>
+&gt; &gt; <br>
+&gt; &gt; Update uninative to work with the new glibc 2.37.<br>
+&gt; &gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; &gt; <br>
+&gt; &gt; Signed-off-by: Michael Halstead &lt;<a href=3D"mailto:mhalstead@l=
+inuxfoundation.org" target=3D"_blank">mhalstead@linuxfoundation.org</a>&gt;=
+<br>
+&gt; &gt; Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdi=
+e@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundation.org=
+</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt; =C2=A0meta/conf/distro/include/yocto-uninative.inc | 10 +++++----=
+-<br>
+&gt; &gt; =C2=A01 file changed, 5 insertions(+), 5 deletions(-)<br>
+&gt; &gt; <br>
+&gt; &gt; diff --git a/meta/conf/distro/include/yocto-uninative.inc<br>
+&gt; &gt; b/meta/conf/distro/include/yocto-uninative.inc<br>
+&gt; &gt; index 51c0cdee438..8a5cab5360d 100644<br>
+&gt; &gt; --- a/meta/conf/distro/include/yocto-uninative.inc<br>
+&gt; &gt; +++ b/meta/conf/distro/include/yocto-uninative.inc<br>
+&gt; &gt; @@ -6,10 +6,10 @@<br>
+&gt; &gt; =C2=A0# to the distro running on the build machine.<br>
+&gt; &gt; =C2=A0#<br>
+&gt; &gt; <br>
+&gt; &gt; -UNINATIVE_MAXGLIBCVERSION =3D &quot;2.36&quot;<br>
+&gt; &gt; -UNINATIVE_VERSION =3D &quot;3.8.1&quot;<br>
+&gt; &gt; +UNINATIVE_MAXGLIBCVERSION =3D &quot;2.37&quot;<br>
+&gt; &gt; +UNINATIVE_VERSION =3D &quot;3.9&quot;<br>
+&gt; &gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; Was there some dependency on other changes to consider this for<br>
+&gt; backport to langdale (which already has the libgcc change with 3.8.1)<=
+br>
+&gt; and then kirkstone (needs both update to 3.8.1 and then this).<br>
+&gt; <br>
+&gt; I&#39;ll start using it for my ubuntu-23.10 builds (with glibc 2.37) a=
+nd<br>
+&gt; ask for backport later if there is no reply on this.<br>
+<br>
+Uninative should generally be safe for backporting.<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+</blockquote></div>
+
+--00000000000070e79605f80805d3--
 
