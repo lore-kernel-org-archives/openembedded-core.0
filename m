@@ -1,144 +1,153 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3555C74A5B
-	for <webhook@archiver.kernel.org>; Wed, 29 Mar 2023 19:18:06 +0000 (UTC)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web11.6543.1680117483798833032
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCF8DC74A5B
+	for <webhook@archiver.kernel.org>; Wed, 29 Mar 2023 22:33:37 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web10.11433.1680129208842663040
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Mar 2023 12:18:04 -0700
+ Wed, 29 Mar 2023 15:33:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=W2s22T3I;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.49, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f49.google.com with SMTP id eh3so67441303edb.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Mar 2023 12:18:03 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OhZap6la;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id i5-20020a05600c354500b003edd24054e0so12340841wmq.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Mar 2023 15:33:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680117482; x=1682709482;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=linuxfoundation.org; s=google; t=1680129207;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ineICYo3/vvOEUTQLyKX2qjFAS3Q/Q+BH7tS0a2GKiY=;
-        b=W2s22T3II/o7+XmKD3GZ2R4zDSHVFuPK1/dg3NM7F1Iqq279TAvDXsnIL+IQJvjn/Q
-         H/S4Y/yH3h6OdYvNPF+T6ukOUDkuQKB21Cnx5+tmC/og1Ot2D0MgLrU6Zg11PQ7Du/N9
-         kQJCHORbu97cgfLDqpF7b8M2harNsJtZI1DgB4JqSZw5jdmSwa1u8bUi/O2jW9OM1T4y
-         fb65kBl0DHYEC+LjuCuiakOzDB2O3fm3GtjK5TYUW3GLCxBeVSXkhSSlMm1UCGC9s912
-         KMtzr6Q7YtT125RpZZt7aUmZHfHmeTzOFJrYN/6vFY4vXpn7FqTtwanyzj26QYSppe9I
-         hvJg==
+        bh=YJum+0W6A04DpVNSsefy7DlJ6gZR6kzd9b4cnyAHQwc=;
+        b=OhZap6laraV8ZNEe5Iic5EUNZ681urC2h+DFpjJqwJsESqktKFGbAIJbJFANsvMb8M
+         TSXXc52pQ+Lewnpr4sOsM+rQq2QgfD4sR6VYWTS7VPdWNPvNVNftsRtdD+XIb1hIVoX3
+         zOqdUB1u8ZFAnuR17+V58/JKnmGg8emcw/tRQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680117482; x=1682709482;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ineICYo3/vvOEUTQLyKX2qjFAS3Q/Q+BH7tS0a2GKiY=;
-        b=tkmSSj54LTE06j32r+EVfukhUycdFd058T7rnqJ7av9YLxdCbXvXb/sOlZv+xOhvHX
-         cGtGsdcXf0yAjKz9ym4dB3t1tWHqMCyJLbWZJb5O6JsTLu2Pezox78V1pll8PPSYRtJf
-         AgOaigqhDg6/8zGDblsbG4Vnz/tqYkVbPzUI/hCE4UcbdgzlYFB08E0kpfi0CHSKt1dG
-         UcpIGXRXVP2zhz/wOR8ienX96PnSF4ZWUt+RUGCEUuNt2TVqxyrxKW7dtswgxxAVc68t
-         5US3HkMsrMIrAyznzcEhTtU8dRnxLPQsVmzpsMoNYsdrg0xk2maN8ovMhUZU/sDoNr8c
-         Cq2A==
-X-Gm-Message-State: AAQBX9fSi78Ck5ZJ2XALWtTnMmgPSJbqWG2etuEI1B869zv0h7mwM8p+
-	YZGfc+JLn/tEUz900y1SjRoHB0vsa8Lfe/qtz/URrQ==
-X-Google-Smtp-Source: AKy350ZELwW3qoMeJIBsfNOJ5nHMEmRcpQFxPGfRdNU6DoAELS0W71XAvkyijIYkuuhXq5P400DC04jQT3bmMdb2jPc=
-X-Received: by 2002:a17:906:ee89:b0:92e:a234:110a with SMTP id
- wt9-20020a170906ee8900b0092ea234110amr10653173ejb.3.1680117481726; Wed, 29
- Mar 2023 12:18:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <BYAPR11MB28862F0807337647C5351586C2899@BYAPR11MB2886.namprd11.prod.outlook.com>
- <BYAPR11MB28862F6E6A1DFB11BFFB0FB9C2899@BYAPR11MB2886.namprd11.prod.outlook.com>
- <CAMKF1sq0z7KDh1F243rKKCPr2x2thwvWrx68uw93spkx-2z1=w@mail.gmail.com>
-In-Reply-To: <CAMKF1sq0z7KDh1F243rKKCPr2x2thwvWrx68uw93spkx-2z1=w@mail.gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Wed, 29 Mar 2023 09:17:50 -1000
-Message-ID: <CAOSpxdaC8YyaVUxkNJBDt5DsPESknkSt7p=S7FWk_rQA8RjSHw@mail.gmail.com>
-Subject: Re: [OE-core] Build error with dunfell release "yocto-3.1.24"
-To: gauragup@cisco.com
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>
+        d=1e100.net; s=20210112; t=1680129207;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=YJum+0W6A04DpVNSsefy7DlJ6gZR6kzd9b4cnyAHQwc=;
+        b=IelIDSQrKWA/c2ae+EjuPCnhbQfXOTrm7KnaH+VFeXPgiRieUKiY5bX0RKoizjRk9e
+         RkHICiL3Fsyo4dZaElRQH7fTSFM/rLAKxELTqhz7PomMxAjXcrcHyfPeUSkP26xsiWwp
+         2YZJCl+X3wN1tWMI9EnFwD9y7wIbEPiKF/synrbo5BvCZiX7yi06NneXQoKu+b/JCYl9
+         ffy41MuSsno78u6MRLmJXPusCTBY0A1Wf13CPegrjoHxHVQg+OlwwPf/WFxucnM3KomL
+         UX90QIL8QrQKfoPMt0hNW1DEkVX6P6e6XZ5p4lf7jpZZxBtx8Kdjy+7KqK8mLFWG2Sbp
+         JLzg==
+X-Gm-Message-State: AAQBX9eX3nXrvdBsbbNPejMeQv9Eq7bP11c8gWqjTNrfpvWsINei8Lg/
+	/DXMMw7fxC5CRVTS1Xc5IR7Bkg==
+X-Google-Smtp-Source: AKy350Z8Oso+j58E5eNRqzwGdCD6qYKOYfmTM8rCjBf+j+jOD3tMSGBKr8Sx/4Kb1JHnK63RQnT6Fg==
+X-Received: by 2002:a05:600c:ac7:b0:3f0:3377:c15f with SMTP id c7-20020a05600c0ac700b003f03377c15fmr600008wmr.12.1680129206957;
+        Wed, 29 Mar 2023 15:33:26 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:baab:1fff:1fab:55d8? ([2001:8b0:aba:5f3c:baab:1fff:1fab:55d8])
+        by smtp.gmail.com with ESMTPSA id g19-20020a05600c311300b003ee74c25f12sm3728359wmo.35.2023.03.29.15.33.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Mar 2023 15:33:26 -0700 (PDT)
+Message-ID: <d7fad7b0cea99470a35d5c3c0f057d6e4f70f758.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] lib/oe/gpg_sign.py: Avoid race when creating
+ .sig files in detach_sign
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Tobias Hagelborn <tobias.hagelborn@axis.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 29 Mar 2023 23:33:25 +0100
+In-Reply-To: <20230323100847.3740485-1-tobiasha@axis.com>
+References: <20230323100847.3740485-1-tobiasha@axis.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Mar 2023 19:18:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179297
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Mar 2023 22:33:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179298
 
-On Wed, Mar 29, 2023 at 8:03=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wrote=
-:
->
-> On Wed, Mar 29, 2023 at 9:51=E2=80=AFAM Gaurav Gupta (gauragup) via
-> lists.openembedded.org <gauragup=3Dcisco.com@lists.openembedded.org>
-> wrote:
-> >
-> > Hello,
-> >
-> >
-> >
-> > On latest =E2=80=9Cdunfell=E2=80=9D branch, there=E2=80=99s a compiler =
-warning/error when building QEMU.
-> >
-> >
-> >
-> > The patch for CVE-2021-3929 applied on dunfell returns a value for a vo=
-id function: https://github.com/openembedded/openembedded-core/blob/dunfell=
-/meta/recipes-devtools/qemu/qemu/CVE-2021-3929.patch#L58
-> >
-> >
-> >
-> > This results in the following warning/error:
-> >
-> >
-> >
-> > <ws>/qemu/4.2.0-r0/qemu-4.2.0/hw/block/nvme.c:77:6: error: void functio=
-n 'nvme_addr_read' should not return a value [-Wreturn-type]
-> >
-> > return NVME_DATA_TRAS_ERROR;
-> >
-> > ^      ~~~~~~~~~~~~~~~~~~~~
-> >
-> >
-> >
-> > In newer versions of qemu, the functions is changed to have a return va=
-lue, but that is not present in the version of qemu used in =E2=80=9Cdunfel=
-l=E2=80=9D.
-> >
-> >
->
-> yeah perhaps we need to backport
-> https://github.com/qemu/qemu/commit/94cbcf530f9d9789b75ef1ae227ba4a4f702b=
-f7d
-> as well.
->
-> https://github.com/openembedded/openembedded-core/blob/dunfell/meta/recip=
-es-devtools/qemu/qemu/CVE-2021-3929.patch#L58
+On Thu, 2023-03-23 at 11:08 +0100, Tobias Hagelborn wrote:
+> Move the signature file into place only after it is successfully signed.
+> This to avoid race and corrupted .sig files in cases multiple onging
+> builds write to a shared sstate-cache dir.
+>=20
+> Signed-off-by: Tobias Hagelborn <tobiasha@axis.com>
+> ---
+>  meta/lib/oe/gpg_sign.py | 25 +++++++++++++++----------
+>  1 file changed, 15 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
+> index 613dab8561..868846cdc5 100644
+> --- a/meta/lib/oe/gpg_sign.py
+> +++ b/meta/lib/oe/gpg_sign.py
+> @@ -5,11 +5,12 @@
+>  #
+> =20
+>  """Helper module for GPG signing"""
+> -import os
+> =20
+>  import bb
+> -import subprocess
+> +import os
+>  import shlex
+> +import subprocess
+> +import tempfile
+> =20
+>  class LocalSigner(object):
+>      """Class for handling local (on the build host) signing"""
+> @@ -73,8 +74,6 @@ class LocalSigner(object):
+>              cmd +=3D ['--homedir', self.gpg_path]
+>          if armor:
+>              cmd +=3D ['--armor']
+> -        if output_suffix:
+> -            cmd +=3D ['-o', input_file + "." + output_suffix]
+>          if use_sha256:
+>              cmd +=3D ['--digest-algo', "SHA256"]
+> =20
+> @@ -83,19 +82,25 @@ class LocalSigner(object):
+>          if self.gpg_version > (2,1,):
+>              cmd +=3D ['--pinentry-mode', 'loopback']
+> =20
+> -        cmd +=3D [input_file]
+> -
+>          try:
+>              if passphrase_file:
+>                  with open(passphrase_file) as fobj:
+>                      passphrase =3D fobj.readline();
+> =20
+> -            job =3D subprocess.Popen(cmd, stdin=3Dsubprocess.PIPE, stder=
+r=3Dsubprocess.PIPE)
+> -            (_, stderr) =3D job.communicate(passphrase.encode("utf-8"))
+> +            output_file =3D input_file + "." + (output_suffix or 'sig')
 
-I haven't seen this error on the autobuilder!
+This doesn't match the behaviour of output_suffix as used above where
+it defaults to None. This forces it to a default of "sig" instead?
 
-Gaurav, could you try the patch that Khem suggested above and see if
-that works for you?
-
-If so please submit a patch!
-
-Thanks,
-
-Steve
+If that intentional that should be in the commit message.
 
 
-> > Thanks,
-> >
-> > Gaurav
-> >
-> >
-> >
-> >
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#179293): https://lists.openembedded.org/g/openembedde=
-d-core/message/179293
-> Mute This Topic: https://lists.openembedded.org/mt/97933015/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> +            with tempfile.TemporaryDirectory(dir=3Dos.path.dirname(outpu=
+t_file)) as tmp_dir:
+> +                tmp_file =3D os.path.join(tmp_dir, os.path.basename(outp=
+ut_file))
+> +                cmd +=3D ['-o', tmp_file]
+> +
+> +                cmd +=3D [input_file]
+> +
+> +                job =3D subprocess.Popen(cmd, stdin=3Dsubprocess.PIPE, s=
+tderr=3Dsubprocess.PIPE)
+> +                (_, stderr) =3D job.communicate(passphrase.encode("utf-8=
+"))
+> =20
+> -            if job.returncode:
+> -                bb.fatal("GPG exited with code %d: %s" % (job.returncode=
+, stderr.decode("utf-8")))
+> +                if job.returncode:
+> +                    bb.fatal("GPG exited with code %d: %s" % (job.return=
+code, stderr.decode("utf-8")))
+> =20
+> +                os.rename(tmp_file, output_file)
+>          except IOError as e:
+>              bb.error("IO error (%s): %s" % (e.errno, e.strerror))
+>              raise Exception("Failed to sign '%s'" % input_file)
+
+Cheers,
+
+Richard
 
