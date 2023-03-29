@@ -1,99 +1,92 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <geoffrey.giry@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ECACC74A5B
-	for <webhook@archiver.kernel.org>; Wed, 29 Mar 2023 13:30:45 +0000 (UTC)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.web10.24566.1680096637152232313
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90F8AC74A5B
+	for <webhook@archiver.kernel.org>; Wed, 29 Mar 2023 13:31:15 +0000 (UTC)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+ by mx.groups.io with SMTP id smtpd.web10.24580.1680096672735491229
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Mar 2023 06:30:37 -0700
+ Wed, 29 Mar 2023 06:31:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=BPtc6SDl;
- spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f51.google.com with SMTP id y4so63395969edo.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Mar 2023 06:30:36 -0700 (PDT)
+ dkim=pass header.i=@smile-fr.20210112.gappssmtp.com header.s=20210112 header.b=RXXn9Yva;
+ spf=pass (domain: smile.fr, ip: 209.85.208.41, mailfrom: geoffrey.giry@smile.fr)
+Received: by mail-ed1-f41.google.com with SMTP id b20so63388636edd.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Mar 2023 06:31:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680096635;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fo1W5IDO+1uVlxltEg0ZMKPf3FJFeZ0MNwa+HBon6x0=;
-        b=BPtc6SDlvIktBEV+Mxg0c5NYTt9T51KKEGTLq3RbK0e7cjt2QJSWQMsyVbsWSU4Xck
-         ceadTWORPvcJspOBKFF1X7rog2KidjWCKMCosoiKpBSo2+0BVT/GsjkurtvGZh9IS6c8
-         HPdh6GEFGBplnd3Hpspp4BIER1vkGWBgGG5Y3/dl6UDckyvMsHDqYrX/Fl9oduZrjEhI
-         hhy6LXKhHHIMjK9LWcGP/tT6EQTf24rV+C58C9lGKPPmk4ZN13PWdea1cS4I6u8F+dUh
-         gXvSjSYFuHYzhV4qJpBO763Cw76ZuTebc+7DoLgStJ0VImRtYsJ/D33gItWhV0VybHuO
-         bgxg==
+        d=smile-fr.20210112.gappssmtp.com; s=20210112; t=1680096671;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gO+fkga2+vrhd1S7wNVg/Rmayq6zjrT3cGiLCn3NB3U=;
+        b=RXXn9Yvaqx56rXyT5LlB/tsM6SVUkRMjQhKfSOZ0phqoPKqXuTGsbjXpklUTyUCSk3
+         ZHmJvMgGEMHnWj5xEI8Os8ycB74zgoi5k6QW15+1Y2JkBTVuQHrylc3X6cRsFO0D1dp7
+         gXeFIeTCuJwVIAwRGV/64mt8dBXeNZJf/5bnome7ihiYMOzq1StFNf2ay6Uh8UYdKds9
+         ciU4a1Q5hIXh/CXQ34/K/fFaZYpfbCkIb3W6gS1GK//+Ek10wRA5di35+PSOkaroRJNL
+         7NqvXxB8F02atdhXpzQTNBwTuiL40lj4oY6FzNVKnZFKcWc6An03gAiHJzAEMYZzuzRd
+         NNIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680096635;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fo1W5IDO+1uVlxltEg0ZMKPf3FJFeZ0MNwa+HBon6x0=;
-        b=0LvI1kjy9OJXhpeTQJ/TIRRbRPT3tnJ50Q29QRY9YCFj14WbaGSNhQKS54jHTB6kSg
-         MIjOkzLUuAPPsnvHQSPY/Rb7ztlBdYge27HyBFUA8eAGf2R0gHLGbqCITF4+4ccc+G/u
-         PVWahSjS6Aj8gJcWk+UsCZd14dQtrU69BzqzzpelH1OdgycCKBhT6xjW0MqxKrVd16Et
-         guoVPRsVXXs6qeY+kTIvLjMrNnFRefRPqoqyRw8cM1MfZDLwgLC2qK9s0ucaCTXPzbCV
-         uZbb1Sfb+rK1yAI8QHSWe1RlqI1dLe+LHjuESlp1E3IjZLLGe37e8oUQfzQcKY6MnGoM
-         EEew==
-X-Gm-Message-State: AAQBX9dA9xUXXSklKs25sudlVDO4oGmIfekaKFDKExfvI9Mi6+1n2oac
-	BcZ5/P2cUJEYUY0nxg8pLHt+z/HdtmQ=
-X-Google-Smtp-Source: AKy350Yy+cC3YWGn68AFwtJ2WT3gTMnWsMTD42A+w/Siyp1urT57M0cHcX0EpzqEjKy1oqkArdKNVA==
-X-Received: by 2002:a17:906:641:b0:8b1:77bf:3bdd with SMTP id t1-20020a170906064100b008b177bf3bddmr20475257ejb.36.1680096635345;
-        Wed, 29 Mar 2023 06:30:35 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id 11-20020a170906300b00b0093137b1f23fsm16479651ejz.37.2023.03.29.06.30.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Mar 2023 06:30:35 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: steve@sakoman.com,
-	Martin Jansa <Martin.Jansa@gmail.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [kirkstone][PATCH] bmap-tools: switch to main branch
-Date: Wed, 29 Mar 2023 15:30:29 +0200
-Message-Id: <20230329133029.2426674-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.40.0
+        d=1e100.net; s=20210112; t=1680096671;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gO+fkga2+vrhd1S7wNVg/Rmayq6zjrT3cGiLCn3NB3U=;
+        b=KUCySy3v7MSJo1Uxm7o9LmEFNMe2w9zaS3l8IkkjWmonhqeeJQ0PfFswTuB638iLIl
+         NnPnTdsFCtmQATVh+6tnx2zJyBTB5QoFy0Czy3i3hGqqoiq1hrVGjrbipTwrFM3PZHC1
+         gC1WP8LKHWjJRb+/Jg8YHjsUO1H5f1pbe1UZg1LN/YrtSR71dNXDBlF2h04eTm+Y8Cay
+         pHSbKwyf4gGEdfEqWx+ik6iJX5/PfAMmT8SLNHtUYmDZMwjhXU4e5NuXBRhsi6Sa7vNl
+         c6WAD0MpdweMkzFPYgOGMe4XtMVZedgRvC4IDrdTj3YSYMuqJEVfSX0eZgUbLBUUB1Wx
+         rqNA==
+X-Gm-Message-State: AAQBX9ctuRlT4pUvubjGGfwyxw4b095n8urv6OnMSJY1bFvDWMePC/9B
+	fsWc6mLe4KLaaXTvWlcyZubdqmELI5RTpvTHfpQO4A==
+X-Google-Smtp-Source: AKy350aVzQxW9Rs/ND+GhhxI+tTE9vdiQEZJ9tRlF7Z/QVl4Av3I4hK8x8+HL6rI5rkGcMEhXHBUcuWlAdSCCQo0jP0=
+X-Received: by 2002:a17:907:3e8b:b0:931:ce20:db6e with SMTP id
+ hs11-20020a1709073e8b00b00931ce20db6emr10827514ejc.2.1680096670886; Wed, 29
+ Mar 2023 06:31:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230328102349.57990-1-geoffrey.giry@smile.fr> <CAApg2=TD8PtdUxmLT7wOqRG-7O9zEaEKt0n47mRuRX_yvr1T=A@mail.gmail.com>
+In-Reply-To: <CAApg2=TD8PtdUxmLT7wOqRG-7O9zEaEKt0n47mRuRX_yvr1T=A@mail.gmail.com>
+From: Geoffrey GIRY <geoffrey.giry@smile.fr>
+Date: Wed, 29 Mar 2023 15:30:58 +0200
+Message-ID: <CAGwXbzZN_FXowS4QvFKxEW-a3_voTT3J6HZDjjg1P=ZEASFKkw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] Fix cve-check false negative
+To: Marta Rybczynska <rybczynska@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Yoann CONGAL <yoann.congal@smile.fr>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Mar 2023 13:30:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179278
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Mar 2023 13:31:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179279
 
-* master branch was removed upstream:
-  downloads/git2/github.com.intel.bmap-tools $ git remote prune origin
-  Pruning origin
-  URL: https://github.com/intel/bmap-tools
-   * [pruned] refs/heads/master
-   * [pruned] refs/pull/73/merge
+Hello Marta,
 
-* downloads/git2/github.com.intel.bmap-tools $ git branch -a --contains c0673962a8ec1624b5189dc1d24f33fe4f06785a
-  main
-  release-3.0
+We only tested core-image-minimal and some recipes that use the update
+and release candidate formats (pX and -rcX)
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
----
- meta/recipes-support/bmap-tools/bmap-tools_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Geoffrey GIRY
+SMILE ECS - R&D Engineer
 
-diff --git a/meta/recipes-support/bmap-tools/bmap-tools_git.bb b/meta/recipes-support/bmap-tools/bmap-tools_git.bb
-index 78c51e7731..89b7bf2b93 100644
---- a/meta/recipes-support/bmap-tools/bmap-tools_git.bb
-+++ b/meta/recipes-support/bmap-tools/bmap-tools_git.bb
-@@ -9,7 +9,7 @@ SECTION = "console/utils"
- LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
--SRC_URI = "git://github.com/intel/${BPN};branch=master;protocol=https"
-+SRC_URI = "git://github.com/intel/${BPN};branch=main;protocol=https"
- 
- SRCREV = "c0673962a8ec1624b5189dc1d24f33fe4f06785a"
- S = "${WORKDIR}/git"
--- 
-2.40.0
-
+Le mer. 29 mars 2023 =C3=A0 06:45, Marta Rybczynska <rybczynska@gmail.com> =
+a =C3=A9crit :
+>
+> On Tue, Mar 28, 2023 at 12:24=E2=80=AFPM Geoffrey GIRY <geoffrey.giry@smi=
+le.fr> wrote:
+>>
+>> Fixes [YOCTO #14127]
+>>
+>> NVD DB store version and update in the same value, separated by '_'.
+>> The proposed patch check if the version from NVD DB contains a "_",
+>> ie 9.2.0_p1 is convert to 9.2.0p1 before version comparison.
+>>
+>
+> Thank you for the patch. Which layers (and world builds) have you verifie=
+d it with?
+> I'm asking because versioning is always a complicated problems with frequ=
+ent exceptions to all "rules".
+>
+> Kind regards,
+> Marta
 
