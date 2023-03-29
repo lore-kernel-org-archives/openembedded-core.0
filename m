@@ -2,66 +2,66 @@ Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8303C761A6
-	for <webhook@archiver.kernel.org>; Wed, 29 Mar 2023 13:30:05 +0000 (UTC)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web11.24535.1680096602621422657
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ECACC74A5B
+	for <webhook@archiver.kernel.org>; Wed, 29 Mar 2023 13:30:45 +0000 (UTC)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web10.24566.1680096637152232313
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Mar 2023 06:30:02 -0700
+ Wed, 29 Mar 2023 06:30:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gPPEdDIH;
- spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f46.google.com with SMTP id t10so63159490edd.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Mar 2023 06:30:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=BPtc6SDl;
+ spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f51.google.com with SMTP id y4so63395969edo.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Mar 2023 06:30:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680096601;
+        d=gmail.com; s=20210112; t=1680096635;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=fo1W5IDO+1uVlxltEg0ZMKPf3FJFeZ0MNwa+HBon6x0=;
-        b=gPPEdDIHCe9nYFMn5m/rmmnp6pvlemMcOTfdN7xPMz0eQpPbrRuz0hDvQl+zmoAOEQ
-         1rqNZzAEvQREY7Bi5cVeY+g9bBD75k8rBOHhETAFxi5ZTOLqoqJQl9IC/rtKseMkgsif
-         VK888538+L8JsxhbJu7taoTw9bBRv+hdc70ccgLkLRmKqG5Lx0btubAq8NNiZGG6Krhq
-         wAtYLIy8JObbEugYcIGie7+yVpvrRJwDoTdx8Q1ecOX0d6M+H1kQWErnUxEwwEf9pqXN
-         RUT3911UUJabI0xLApty3hkL1BIvv6EyRci0l7+v67r+YAMwZxKDNM2uTHPM3YHYMuXW
-         pVGw==
+        b=BPtc6SDlvIktBEV+Mxg0c5NYTt9T51KKEGTLq3RbK0e7cjt2QJSWQMsyVbsWSU4Xck
+         ceadTWORPvcJspOBKFF1X7rog2KidjWCKMCosoiKpBSo2+0BVT/GsjkurtvGZh9IS6c8
+         HPdh6GEFGBplnd3Hpspp4BIER1vkGWBgGG5Y3/dl6UDckyvMsHDqYrX/Fl9oduZrjEhI
+         hhy6LXKhHHIMjK9LWcGP/tT6EQTf24rV+C58C9lGKPPmk4ZN13PWdea1cS4I6u8F+dUh
+         gXvSjSYFuHYzhV4qJpBO763Cw76ZuTebc+7DoLgStJ0VImRtYsJ/D33gItWhV0VybHuO
+         bgxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680096601;
+        d=1e100.net; s=20210112; t=1680096635;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=fo1W5IDO+1uVlxltEg0ZMKPf3FJFeZ0MNwa+HBon6x0=;
-        b=ms4jCYjRQMT8aYBcIlWa26x8PTz2XJcp5Q3EYgpRK1VGZTZ8Kd9l0Dj4M6gyK+4bBk
-         eoRREIO1IbvrwRQNQgd1TiqxfIAyTwj48b4HLTDvLZ9ddwuW3JotsODX1bTvFaE94AIq
-         Z2ZyZTskLLLbhGbNB0la8fKZbBYDYQMnLQZt4ojY6t0xLSfEHsX7ZqT3/IZ6/EZ2M9Td
-         TpjGs9AAqBcj4eIlWxj2wvNvcKD2BymzQyuBhkcoVkBgsvjGF+UztCW3vioLYGbvUneK
-         h+GDLicWU3FvOohLaY8ZgTEj5+icUCgq3yn6N/v9MI1nZXdyhYS6wguCmvA6AUtmR7Lc
-         JDwA==
-X-Gm-Message-State: AAQBX9fStXb5nRZp7n0PP7JSHC8pOL2DZzvBBCwijfkKzCULCyg1oLuz
-	PSK48g7f8cccVCSRqUCZTuLEKjXZXhc=
-X-Google-Smtp-Source: AKy350ZGrtpTslJspkH3uG5kk7URJI/4uZyg7V6wUERbuLxBM142/nezOOD6+SwYFYZgYKBR6LIuLw==
-X-Received: by 2002:a17:907:75ca:b0:93f:b391:9a07 with SMTP id jl10-20020a17090775ca00b0093fb3919a07mr2187706ejc.15.1680096600725;
-        Wed, 29 Mar 2023 06:30:00 -0700 (PDT)
+        b=0LvI1kjy9OJXhpeTQJ/TIRRbRPT3tnJ50Q29QRY9YCFj14WbaGSNhQKS54jHTB6kSg
+         MIjOkzLUuAPPsnvHQSPY/Rb7ztlBdYge27HyBFUA8eAGf2R0gHLGbqCITF4+4ccc+G/u
+         PVWahSjS6Aj8gJcWk+UsCZd14dQtrU69BzqzzpelH1OdgycCKBhT6xjW0MqxKrVd16Et
+         guoVPRsVXXs6qeY+kTIvLjMrNnFRefRPqoqyRw8cM1MfZDLwgLC2qK9s0ucaCTXPzbCV
+         uZbb1Sfb+rK1yAI8QHSWe1RlqI1dLe+LHjuESlp1E3IjZLLGe37e8oUQfzQcKY6MnGoM
+         EEew==
+X-Gm-Message-State: AAQBX9dA9xUXXSklKs25sudlVDO4oGmIfekaKFDKExfvI9Mi6+1n2oac
+	BcZ5/P2cUJEYUY0nxg8pLHt+z/HdtmQ=
+X-Google-Smtp-Source: AKy350Yy+cC3YWGn68AFwtJ2WT3gTMnWsMTD42A+w/Siyp1urT57M0cHcX0EpzqEjKy1oqkArdKNVA==
+X-Received: by 2002:a17:906:641:b0:8b1:77bf:3bdd with SMTP id t1-20020a170906064100b008b177bf3bddmr20475257ejb.36.1680096635345;
+        Wed, 29 Mar 2023 06:30:35 -0700 (PDT)
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id gv52-20020a1709072bf400b0093a7952411asm11033574ejc.48.2023.03.29.06.30.00
+        by smtp.gmail.com with ESMTPSA id 11-20020a170906300b00b0093137b1f23fsm16479651ejz.37.2023.03.29.06.30.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Mar 2023 06:30:00 -0700 (PDT)
+        Wed, 29 Mar 2023 06:30:35 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: steve@sakoman.com,
 	Martin Jansa <Martin.Jansa@gmail.com>,
 	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [langdale][PATCH] bmap-tools: switch to main branch
-Date: Wed, 29 Mar 2023 15:29:52 +0200
-Message-Id: <20230329132952.2415412-1-Martin.Jansa@gmail.com>
+Subject: [kirkstone][PATCH] bmap-tools: switch to main branch
+Date: Wed, 29 Mar 2023 15:30:29 +0200
+Message-Id: <20230329133029.2426674-1-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Mar 2023 13:30:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179277
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Mar 2023 13:30:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179278
 
 * master branch was removed upstream:
   downloads/git2/github.com.intel.bmap-tools $ git remote prune origin
