@@ -1,279 +1,284 @@
-Return-Path: <sudipm.mukherjee@gmail.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32C95C6FD18
-	for <webhook@archiver.kernel.org>; Wed, 29 Mar 2023 11:30:15 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web11.22030.1680089405586438324
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D543C74A5B
+	for <webhook@archiver.kernel.org>; Wed, 29 Mar 2023 12:35:55 +0000 (UTC)
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
+ by mx.groups.io with SMTP id smtpd.web11.23228.1680093352348719809
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Mar 2023 04:30:05 -0700
+ Wed, 29 Mar 2023 05:35:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=b8SNOxgB;
- spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: sudipm.mukherjee@gmail.com)
-Received: by mail-wr1-f46.google.com with SMTP id j24so15328729wrd.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Mar 2023 04:30:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=o+d71hGg;
+ spf=pass (domain: gmail.com, ip: 209.85.166.52, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-io1-f52.google.com with SMTP id h187so5037264iof.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Mar 2023 05:35:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680089404;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NtY03RiunRtrYK8UqBqZ4A1gIeziRk02+nipe6PbqA0=;
-        b=b8SNOxgBCMmYCwgvAA6l3EhtMLvTz+4PUqhyWJe+uUQYDChA9osBKbUlHxWf6/qVr0
-         myKs3nJBFQYZXFlMvXqEFIqmppOMC7XT3bnxv3UHhTXPaJV3I5gtKHWqUgb/MPFhGZca
-         PTmKsXDqTLAt3XvGh79uUIa20ibHMjJJvJLKh8JpvkwXkKB+AwzakX/28HuJrbj40nYP
-         R8yYOE8FI3V2SwjieCh7UlrD2oVgWHbrsj1ZuJ3xXP2OnPCb3SSUQDLhIWLtNbw1gtTh
-         SuOVxEJeeu0DQWNTrDVnpGDBC1FQAYrmDBFTq1LsOnFDRF8VQ6HD2TRvvLcXWwPkArUq
-         99Gw==
+        d=gmail.com; s=20210112; t=1680093351;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xd0vxNqp8Q4+gLjgJFX6UIi0LOrn5toeHCsn8XrzCho=;
+        b=o+d71hGgL+3zJ6/6jRsSNXyRBYEcG6kffKw6djt4QPJwlvPFL6HpDUAMKGPLIUHVab
+         YDhvTdfnyNeFba7Hb3153jxIcVnLKolxn0Vv2HK89j01FUPdTmYsoJ1euqTA9226v52Z
+         JeQ1NYW/G7pKoSA2OM3KsFlUphI0EjnTJGvdNkl7XXacqFtaOye4S9qklKRf/bJ9GHS2
+         pbj5X0tGsLWO7XSkxXP8kzHYN7DSLOyWxbbzU+7BBM0fODxWQE1LwOvU1/rucvjPkPRh
+         U4F5G0BmPY/izuVANyD0ZRWqwYFtaa4Dp/E3lcdy6mfD6UCs+j0stfNHwc6uMdI/Bi5Q
+         h3xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680089404;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NtY03RiunRtrYK8UqBqZ4A1gIeziRk02+nipe6PbqA0=;
-        b=UTnxl4MQsAhBO7BpY0ciKj6IC/nPOGq378N+7PHiPZ8OjtQtTrkGyMT4Qqe5ePzlOt
-         PuVIf/WpleYUwm+m9aOx+V2xU/NQcaEEQfRCmv90qbyYIlTe4uKeGKt2afMGGC81uQSO
-         CEFas3fBOxjAGx5gHN0lYMNFk3iYPWZ5a3bHGjXu+uf9/izRiMuEh/wIfyy3mN4ui+9M
-         30gjzdMbCPLpQVdbnu0uxBeJaZYy2FAXYnwf2vmc59kWffblo4aai7uJtsDczcCMB8cl
-         Jvd7SoEULd++ybhn93TqcGMEcGHxNpEtcGw+kkmypuHpNA1YgXF1ND0iUJ16EV4RFPQK
-         EzmA==
-X-Gm-Message-State: AAQBX9e8Qp/rwoMEFYAit+Phl2FLPsONmXwsemyk4hZ+MmQSd3MSrxdg
-	7r5CgDJ7fIduQROZWODxUcdNcVhIsV4=
-X-Google-Smtp-Source: AKy350YCx2IIZXHR+Td8vBcSU8/XvmxK0IS7oSuHgajPgNFiO5tuwpxhr9FjkvF66QzbpGKtv4HAgg==
-X-Received: by 2002:adf:e90e:0:b0:2da:f076:717f with SMTP id f14-20020adfe90e000000b002daf076717fmr15645491wrm.53.1680089403719;
-        Wed, 29 Mar 2023 04:30:03 -0700 (PDT)
-Received: from debian.office.codethink.co.uk ([167.98.27.226])
-        by smtp.gmail.com with ESMTPSA id n17-20020a5d4c51000000b002c54c9bd71fsm29924387wrt.93.2023.03.29.04.30.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Mar 2023 04:30:03 -0700 (PDT)
-From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Subject: [PATCH] cracklib: upgrade to v2.9.10
-Date: Wed, 29 Mar 2023 12:30:00 +0100
-Message-Id: <20230329113000.66712-1-sudipm.mukherjee@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        d=1e100.net; s=20210112; t=1680093351;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xd0vxNqp8Q4+gLjgJFX6UIi0LOrn5toeHCsn8XrzCho=;
+        b=5592+fmN/LXw7CFyh8ufmxKTU83IQ7sXrU6IIaG+Z7sIfmj4vq6XWWOOmhMMJH0psc
+         wLkRdHNAZ/NROUkcQM2pGFwfMSAdx4KEMHGns5hgnknFD8Upu6rU6VQ94go9AiaRpa4A
+         +753d+gnwFAPH7oWoFGu0PNO/r2oEAnHbbaSeMnMbmYjUMV/VDSMTKlQkmwsB7cnEozv
+         DeQBtnTorzAGFX77E9Wd6Wykr4kDG3AjiDwdqOC3kXceePMh5DnGnC3y/sSClE7xPFtW
+         HWzl2pDmLYzhobwDV+P00OMZsIVEqWyjvT//xI7bDPT4KBl+aL3JAjAea7jWBC32OaU+
+         3WcA==
+X-Gm-Message-State: AO0yUKVR/AqqIr3i1mMOiQi17kUM1zgfB5lFDq3JQEuc2RGbdiXOCmAA
+	4hii9vX+tvnCHfmZnUHp2VV40cLhkGht/oRMm1c=
+X-Google-Smtp-Source: AK7set9vOcJLS2b3+7EZ925MslPVqt+9AcITSjZCT6tNZus+9ytQd07czdrAeA/kG1q6boXwEQZY9H8q35BORyAL+ok=
+X-Received: by 2002:a5e:a913:0:b0:758:cc6f:32f4 with SMTP id
+ c19-20020a5ea913000000b00758cc6f32f4mr7162458iod.4.1680093351441; Wed, 29 Mar
+ 2023 05:35:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1679734210.git.frederic.martinsons@gmail.com>
+ <094a85975f9b1ef0fc622f4f0acc70a935f1e6fe.camel@linuxfoundation.org>
+ <CANNYZj8tNBngz4OLgF9YTKVQU08AjWgFf6JS2aHk0qQt=D6tBA@mail.gmail.com>
+ <CA+cAkeqyAKnXHSvWDStkYCf6Uj99_OFaq5wQq60iLc6kkW7sDA@mail.gmail.com>
+ <CANNYZj82788D_5t+Pt8u6NT0KX0ZzaEfdUCGAD_f92tCCmS5OQ@mail.gmail.com>
+ <CA+cAkeqJESh4oOf=C5YevFdT3vLobLCELRD-wGvbPvvpexTmyw@mail.gmail.com>
+ <CAO5Uq5QBNLT-BuQhpSyoEwHGd_c+JEt8q9UKEFA6ejjKab7-4w@mail.gmail.com>
+ <CA+cAkeoZTZCBogKpy5mrn=G+w+hedMmm4KGB3q=8Ubp_=rOoRQ@mail.gmail.com>
+ <CAO5Uq5RNRnfH=_C4bDnT9u4puME_b_=G1DdmScHu7e4zanVF2A@mail.gmail.com>
+ <CANNYZj-FzfwgzCUBnUrMzN_kigHF9ttc59svOACvFG=QjidsQQ@mail.gmail.com>
+ <CA+cAkeqkGmgszQbeRS4Z+8YP2uYa_OuWTpJUkmKyTnSQ8wOo1A@mail.gmail.com> <CANNYZj9_Ob5aXzNGajLo2oy7-rtrO+Ly9xvHsL5g0x87EGcprg@mail.gmail.com>
+In-Reply-To: <CANNYZj9_Ob5aXzNGajLo2oy7-rtrO+Ly9xvHsL5g0x87EGcprg@mail.gmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Wed, 29 Mar 2023 12:35:39 +0000
+Message-ID: <CAO5Uq5Sfn=DE6_AnG4ArPyZAQJakaP=TBRi8eRMDBCg8ATDETA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 0/5] Extend cargo based recip support
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Mar 2023 11:30:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179275
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Mar 2023 12:35:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179276
 
-Remove a patch which has been applied upstream and rebase
-another patch on top of v2.9.10
+Just run this up locally and rebuilt our world - looks good to me.
 
-Signed-off-by: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
----
- ...port-dictionary-byte-order-dependent.patch | 28 +++++-----
- ...aklib-fix-testnum-and-teststr-failed.patch | 53 -------------------
- .../{cracklib_2.9.8.bb => cracklib_2.9.10.bb} |  3 +-
- 3 files changed, 15 insertions(+), 69 deletions(-)
- delete mode 100644 meta/recipes-extended/cracklib/cracklib/0002-craklib-fix-testnum-and-teststr-failed.patch
- rename meta/recipes-extended/cracklib/{cracklib_2.9.8.bb => cracklib_2.9.10.bb} (87%)
+On Mon, Mar 27, 2023 at 11:13=E2=80=AFPM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> I think I have meanwhile resolved the 1.68 upgrade issues:
+> https://git.yoctoproject.org/poky-contrib/log/?h=3Dakanavin/package-versi=
+on-updates
+>
+> So that leaves the hip and cool rust-in-kernel project ;-)
+>
+> Alex
+>
+> On Mon, 27 Mar 2023 at 21:20, Fr=C3=A9d=C3=A9ric Martinsons
+> <frederic.martinsons@gmail.com> wrote:
+> >
+> > Thank you alex and alexender ;)
+> >
+> > I'll take a look at this as soon as possible and and tell you in a dedi=
+cated thread if I'm making progress. But first, I'll work for the devtool t=
+est that has been mentioned first.
+> >
+> > Have a good evening (or day, depending on your timezone)
+> >
+> > Le lun. 27 mars 2023, 21:00, Alexander Kanavin <alex.kanavin@gmail.com>=
+ a =C3=A9crit :
+> >>
+> >> For the kernel modules you could start by replicating an out-of-yocto
+> >> kernel build as shown here:
+> >> https://lwn.net/Articles/910762/
+> >>
+> >> Alex
+> >>
+> >> On Mon, 27 Mar 2023 at 20:52, Alex Kiernan <alex.kiernan@gmail.com> wr=
+ote:
+> >> >
+> >> > IIRC the cross upgrade just works, its the target build which explod=
+es:
+> >> >
+> >> > https://github.com/akiernan/openembedded-core
+> >> >
+> >> > On Mon, Mar 27, 2023 at 7:40=E2=80=AFPM Fr=C3=A9d=C3=A9ric Martinson=
+s
+> >> > <frederic.martinsons@gmail.com> wrote:
+> >> > >
+> >> > > Ok great, I'm willing to know more about the bootstrap of a rust t=
+oolchain, I think I can start by just upgrading my poky master to rust 1.68=
+ and see what it spills out when I compile the hello world
+> >> > >
+> >> > > On the other hand, for enabling rust kernel modules in linux-yocto=
+-dev, I don't know where to start (full disclosure : I have no skills about=
+ kernel and kernel module developments)
+> >> > >
+> >> > > Le lun. 27 mars 2023, 20:30, Alex Kiernan <alex.kiernan@gmail.com>=
+ a =C3=A9crit :
+> >> > >>
+> >> > >> Updating the rust version is pretty much nothing to do with your =
+rust
+> >> > >> knowledge and way more about digging into how the bootstrap proce=
+ss
+> >> > >> hangs together... whilst I have an awesome rustacean working for =
+me, I
+> >> > >> don't think I've ever had to drag him into helping with an upgrad=
+e.
+> >> > >>
+> >> > >> I wish I could say I'd spent the last few weeks figuring out why =
+the
+> >> > >> upgrade broke, but I've been buried down the bottom of an ESP-IDF
+> >> > >> application...
+> >> > >>
+> >> > >> Alex
+> >> > >>
+> >> > >> On Mon, Mar 27, 2023 at 7:08=E2=80=AFPM Fr=C3=A9d=C3=A9ric Martin=
+sons
+> >> > >> <frederic.martinsons@gmail.com> wrote:
+> >> > >> >
+> >> > >> > I'll look at this but I'm not sure if I can help since I'm a be=
+ginner (enthusiastic but still)
+> >> > >> >
+> >> > >> > Le lun. 27 mars 2023, 19:19, Alexander Kanavin <alex.kanavin@gm=
+ail.com> a =C3=A9crit :
+> >> > >> >>
+> >> > >> >> If you'd like to do more here's off the top of my head:
+> >> > >> >>
+> >> > >> >> - enable rust kernel modules in linux-yocto-dev
+> >> > >> >>
+> >> > >> >> - help Alex Kiernan with update 1.67 -> 1.68; we need as many =
+people
+> >> > >> >> as possible capable of updating the rust toolchain. It's often=
+ not
+> >> > >> >> trivial:
+> >> > >> >> https://lists.openembedded.org/g/openembedded-core/message/178=
+272
+> >> > >> >>
+> >> > >> >> Alex
+> >> > >> >>
+> >> > >> >> On Mon, 27 Mar 2023 at 17:01, Fr=C3=A9d=C3=A9ric Martinsons
+> >> > >> >> <frederic.martinsons@gmail.com> wrote:
+> >> > >> >> >
+> >> > >> >> > Ah!
+> >> > >> >> >
+> >> > >> >> > Alright, I'll try to setup a devtool test which demonstrate =
+the usage of git subpath with the zvariant.
+> >> > >> >> > I'll then issue a V4 series which reintroduce the zvariant r=
+ecipe in meta-selftest and the unit test on it.
+> >> > >> >> >
+> >> > >> >> > I must admit I felt in love for rust since the beginning of =
+the year and considering that I use yocto on a daily basis, I'll do everyth=
+ing I can to extend the support of developing rust for embedded devices.
+> >> > >> >> >
+> >> > >> >> > Thank you all for the advices.
+> >> > >> >> >
+> >> > >> >> > Le lun. 27 mars 2023, 16:25, Alexander Kanavin <alex.kanavin=
+@gmail.com> a =C3=A9crit :
+> >> > >> >> >>
+> >> > >> >> >> So if devtool tests would operate on zvariant recipe, then =
+the recipe
+> >> > >> >> >> can simply go into meta-selftest after all :)
+> >> > >> >> >>
+> >> > >> >> >> Alex
+> >> > >> >> >>
+> >> > >> >> >> On Mon, 27 Mar 2023 at 16:20, Richard Purdie
+> >> > >> >> >> <richard.purdie@linuxfoundation.org> wrote:
+> >> > >> >> >> >
+> >> > >> >> >> > On Sat, 2023-03-25 at 10:00 +0100, Frederic Martinsons wr=
+ote:
+> >> > >> >> >> > > From: Frederic Martinsons <frederic.martinsons@gmail.co=
+m>
+> >> > >> >> >> > >
+> >> > >> >> >> > > This series brings the support of local git repository =
+inside
+> >> > >> >> >> > > a cargo based recipe.
+> >> > >> >> >> > >
+> >> > >> >> >> > > It also enable devtool capacity on it and provide a rea=
+l crate
+> >> > >> >> >> > > example recipe to show how things are done.
+> >> > >> >> >> > >
+> >> > >> >> >> > > The following changes since commit 4876189dd2ae5a04a296=
+b11b537b9f613159c6bf:
+> >> > >> >> >> > >
+> >> > >> >> >> > >   xcb-proto: Fix install conflict when enable multilib.=
+ (2023-03-23 22:38:41 +0000)
+> >> > >> >> >> > >
+> >> > >> >> >> > > are available in the Git repository at:
+> >> > >> >> >> > >
+> >> > >> >> >> > >   https://gitlab.com/fmartinsons/openembedded-core carg=
+o-extend-support-git-and-devtool
+> >> > >> >> >> > >
+> >> > >> >> >> > > Alex Kiernan (1):
+> >> > >> >> >> > >   cargo_common.bbclass: Support local github repos
+> >> > >> >> >> > >
+> >> > >> >> >> > > Frederic Martinsons (4):
+> >> > >> >> >> > >   cargo_common.bbclass: add support of user in url for =
+patch
+> >> > >> >> >> > >   rust-example: provide a recipe for zvariant
+> >> > >> >> >> > >   devtool: add support for multiple git url inside a ca=
+rgo based recipe
+> >> > >> >> >> > >   patch: support of git patches when the source uri con=
+tained subpath
+> >> > >> >> >> > >     param
+> >> > >> >> >> >
+> >> > >> >> >> > The various rust/cargo/crate patches look like they're he=
+ading in a
+> >> > >> >> >> > good direction, thanks!
+> >> > >> >> >> >
+> >> > >> >> >> > The one thing which I think is missing is more support fo=
+r testing some
+> >> > >> >> >> > of these changes in our automated testing.
+> >> > >> >> >> >
+> >> > >> >> >> > In particular, devtool does have a decent test suite so w=
+e should
+> >> > >> >> >> > ensure new devtool additions have tests.
+> >> > >> >> >> >
+> >> > >> >> >> > You can see the devtools tests in
+> >> > >> >> >> > meta/lib/oeqa/selftest/cases/devtool.py and run them with=
+ a command
+> >> > >> >> >> > like "oe-selftest -r devtool -j 3" for example.
+> >> > >> >> >> >
+> >> > >> >> >> > Cheers,
+> >> > >> >> >> >
+> >> > >> >> >> > Richard
+> >> > >> >> >> >
+> >> > >> >> >> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >> > >> >> >> > Links: You receive all messages sent to this group.
+> >> > >> >> >> > View/Reply Online (#179160): https://lists.openembedded.o=
+rg/g/openembedded-core/message/179160
+> >> > >> >> >> > Mute This Topic: https://lists.openembedded.org/mt/978403=
+61/1686489
+> >> > >> >> >> > Group Owner: openembedded-core+owner@lists.openembedded.o=
+rg
+> >> > >> >> >> > Unsubscribe: https://lists.openembedded.org/g/openembedde=
+d-core/unsub [alex.kanavin@gmail.com]
+> >> > >> >> >> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >> > >> >> >> >
+> >> > >>
+> >> > >>
+> >> > >>
+> >> > >> --
+> >> > >> Alex Kiernan
+> >> >
+> >> >
+> >> >
+> >> > --
+> >> > Alex Kiernan
 
-diff --git a/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch b/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
-index 8fb512a224..20572b55c4 100644
---- a/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
-+++ b/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
-@@ -26,7 +26,7 @@ Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
-  1 file changed, 210 insertions(+), 4 deletions(-)
- 
- diff --git a/lib/packlib.c b/lib/packlib.c
--index 8acb7be..a9d8750 100644
-+index 9396e1d..d0bb181 100644
- --- a/lib/packlib.c
- +++ b/lib/packlib.c
- @@ -16,6 +16,12 @@
-@@ -41,8 +41,8 @@ index 8acb7be..a9d8750 100644
- +#include <byteswap.h>
-  #include "packer.h"
-  
-- static const char vers_id[] = "packlib.c : v2.3p2 Alec Muffett 18 May 1993";
--@@ -45,6 +51,185 @@ typedef struct
-+ #define DEBUG 0
-+@@ -43,6 +49,185 @@ typedef struct
-      char data_get[NUMWORDS][MAXWORDLEN];
-  } PWDICT64;
-  
-@@ -228,7 +228,7 @@ index 8acb7be..a9d8750 100644
-  
-  static int
-  _PWIsBroken64(FILE *ifp)
--@@ -57,6 +242,7 @@ _PWIsBroken64(FILE *ifp)
-+@@ -55,6 +240,7 @@ _PWIsBroken64(FILE *ifp)
-         return 0;
-      }
-  
-@@ -236,7 +236,7 @@ index 8acb7be..a9d8750 100644
-      return (pdesc64.header.pih_magic == PIH_MAGIC);
-  }
-  
--@@ -149,7 +335,11 @@ PWOpen(prefix, mode)
-+@@ -147,7 +333,11 @@ PWOpen(prefix, mode)
-  	pdesc.header.pih_blocklen = NUMWORDS;
-  	pdesc.header.pih_numwords = 0;
-  
-@@ -249,7 +249,7 @@ index 8acb7be..a9d8750 100644
-      } else
-      {
-  	pdesc.flags &= ~PFOR_WRITE;
--@@ -173,6 +363,7 @@ PWOpen(prefix, mode)
-+@@ -171,6 +361,7 @@ PWOpen(prefix, mode)
-  	    return NULL;
-  	}
-  
-@@ -257,7 +257,7 @@ index 8acb7be..a9d8750 100644
-          if ((pdesc.header.pih_magic == 0) || (pdesc.header.pih_numwords == 0))
-          {
-              /* uh-oh. either a broken "64-bit" file or a garbage file. */
--@@ -195,6 +386,7 @@ PWOpen(prefix, mode)
-+@@ -193,6 +384,7 @@ PWOpen(prefix, mode)
-  		}
-                  return NULL;
-              }
-@@ -265,7 +265,7 @@ index 8acb7be..a9d8750 100644
-              if (pdesc64.header.pih_magic != PIH_MAGIC)
-              {
-                  /* nope, not "64-bit" after all */
--@@ -290,6 +482,7 @@ PWOpen(prefix, mode)
-+@@ -288,6 +480,7 @@ PWOpen(prefix, mode)
-                  {
-                      pdesc.flags &= ~PFOR_USEHWMS;
-                  }
-@@ -273,7 +273,7 @@ index 8acb7be..a9d8750 100644
-                  for (i = 0; i < sizeof(pdesc.hwms) / sizeof(pdesc.hwms[0]); i++)
-                  {
-                      pdesc.hwms[i] = pdesc64.hwms[i];
--@@ -299,6 +492,7 @@ PWOpen(prefix, mode)
-+@@ -297,6 +490,7 @@ PWOpen(prefix, mode)
-  	    {
-  		pdesc.flags &= ~PFOR_USEHWMS;
-  	    }
-@@ -281,7 +281,7 @@ index 8acb7be..a9d8750 100644
-  #if DEBUG
-              for (i=1; i<=0xff; i++)
-              {
--@@ -332,7 +526,11 @@ PWClose(pwp)
-+@@ -330,7 +524,11 @@ PWClose(pwp)
-  	    return (-1);
-  	}
-  
-@@ -294,7 +294,7 @@ index 8acb7be..a9d8750 100644
-  	{
-  	    fprintf(stderr, "index magic fwrite failed\n");
-  	    return (-1);
--@@ -351,7 +549,12 @@ PWClose(pwp)
-+@@ -349,7 +547,12 @@ PWClose(pwp)
-  	    	printf("hwm[%02x] = %d\n", i, pwp->hwms[i]);
-  #endif
-  	    }
-@@ -308,7 +308,7 @@ index 8acb7be..a9d8750 100644
-  	}
-      }
-  
--@@ -405,7 +608,8 @@ PutPW(pwp, string)
-+@@ -403,7 +606,8 @@ PutPW(pwp, string)
-  
-  	datum = (uint32_t) ftell(pwp->dfp);
-  
-@@ -318,7 +318,7 @@ index 8acb7be..a9d8750 100644
-  
-  	fputs(pwp->data_put[0], pwp->dfp);
-  	putc(0, (FILE*) pwp->dfp);
--@@ -464,6 +668,7 @@ GetPW(pwp, number)
-+@@ -462,6 +666,7 @@ GetPW(pwp, number)
-             perror("(index fread failed)");
-             return NULL;
-         }
-@@ -326,7 +326,7 @@ index 8acb7be..a9d8750 100644
-         datum = datum64;
-      } else {
-         if (fseek(pwp->ifp, sizeof(struct pi_header) + (thisblock * sizeof(uint32_t)), 0))
--@@ -477,6 +682,7 @@ GetPW(pwp, number)
-+@@ -475,6 +680,7 @@ GetPW(pwp, number)
-             perror("(index fread failed)");
-             return NULL;
-         }
-diff --git a/meta/recipes-extended/cracklib/cracklib/0002-craklib-fix-testnum-and-teststr-failed.patch b/meta/recipes-extended/cracklib/cracklib/0002-craklib-fix-testnum-and-teststr-failed.patch
-deleted file mode 100644
-index 1ee97357d0..0000000000
---- a/meta/recipes-extended/cracklib/cracklib/0002-craklib-fix-testnum-and-teststr-failed.patch
-+++ /dev/null
-@@ -1,53 +0,0 @@
--From 7250328d7f77069726603ef7132826c9260d3c92 Mon Sep 17 00:00:00 2001
--From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Sat, 27 Apr 2013 16:02:30 +0800
--Subject: [PATCH 2/2] craklib:fix testnum and teststr failed
--
--Error log:
--...
--$ ./testnum
--(null).pwd.gz: No such file or directory
--PWOpen: No such file or directory
--
--$ ./util/teststr
--(null).pwd.gz: No such file or directory
--PWOpen: No such file or directory
--...
--Set DEFAULT_CRACKLIB_DICT as the path of  PWOpen
--
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
--Upstream-Status: Submitted [https://github.com/cracklib/cracklib/pull/42]
-----
-- util/testnum.c | 2 +-
-- util/teststr.c | 2 +-
-- 2 files changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/util/testnum.c b/util/testnum.c
--index ae2246d..ca210ff 100644
----- a/util/testnum.c
--+++ b/util/testnum.c
--@@ -20,7 +20,7 @@ main ()
--     PWDICT *pwp;
--     char buffer[STRINGSIZE];
-- 
---    if (!(pwp = PWOpen (NULL, "r")))
--+    if (!(pwp = PWOpen (DEFAULT_CRACKLIB_DICT, "r")))
--     {
-- 	perror ("PWOpen");
-- 	return (-1);
--diff --git a/util/teststr.c b/util/teststr.c
--index 2a31fa4..9fb9cda 100644
----- a/util/teststr.c
--+++ b/util/teststr.c
--@@ -15,7 +15,7 @@ main ()
--     PWDICT *pwp;
--     char buffer[STRINGSIZE];
-- 
---    if (!(pwp = PWOpen (NULL, "r")))
--+    if (!(pwp = PWOpen (DEFAULT_CRACKLIB_DICT, "r")))
--     {
-- 	perror ("PWOpen");
-- 	return (-1);
---- 
--2.20.1
--
-diff --git a/meta/recipes-extended/cracklib/cracklib_2.9.8.bb b/meta/recipes-extended/cracklib/cracklib_2.9.10.bb
-similarity index 87%
-rename from meta/recipes-extended/cracklib/cracklib_2.9.8.bb
-rename to meta/recipes-extended/cracklib/cracklib_2.9.10.bb
-index a3db6eb394..8197cdad9e 100644
---- a/meta/recipes-extended/cracklib/cracklib_2.9.8.bb
-+++ b/meta/recipes-extended/cracklib/cracklib_2.9.10.bb
-@@ -11,10 +11,9 @@ EXTRA_OECONF = "--without-python --libdir=${base_libdir}"
- 
- SRC_URI = "git://github.com/cracklib/cracklib;protocol=https;branch=main \
-            file://0001-packlib.c-support-dictionary-byte-order-dependent.patch \
--           file://0002-craklib-fix-testnum-and-teststr-failed.patch \
-            "
- 
--SRCREV = "d9e8f9f47718539aeba80f90f4e072549926dc9c"
-+SRCREV = "e74c539344d024709ee76e2920b0af7f9a5c5556"
- S = "${WORKDIR}/git/src"
- 
- inherit autotools gettext
--- 
-2.17.1
 
+
+--=20
+Alex Kiernan
 
