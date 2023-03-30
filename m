@@ -1,113 +1,87 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C416C77B72
-	for <webhook@archiver.kernel.org>; Thu, 30 Mar 2023 13:47:42 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web11.25744.1680184054669443320
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8C78C6FD1D
+	for <webhook@archiver.kernel.org>; Thu, 30 Mar 2023 13:51:01 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web11.25831.1680184258973731581
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Mar 2023 06:47:35 -0700
+ Thu, 30 Mar 2023 06:50:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FHAcWo+O;
- spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id j11so24562613lfg.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 06:47:34 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eF7WWBNI;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id q19so16089755wrc.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 06:50:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680184053;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=linuxfoundation.org; s=google; t=1680184257;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ExyvztSvaYqi3aFpgkC0WNL2wQ6P5GIAsMmc/z/1UyU=;
-        b=FHAcWo+OdYp1vDs4rwnWbUrGdeQ3/TGVp8wAsy6JBHFAEZZNqieGa/ry4GqhRJH/Ob
-         N3j5z/b3V0BszTVxZFL9+pdYBybz8ctIyE6OnzHVkcIc6K3W1CertcG6mvEK1vGAGDlH
-         rwOd+/kgvCf14d4+TijXEX5Y4uLy6x3TOkTRwEUnG9u3XKpjuYJaWyJ5pcdlneDV5+vk
-         5sdsO1264EsdlAKonHfeujbAev59o6ay7z6BGSYvYNscIJrbnE3ryJ/G8bzzEtwcpikm
-         byhoWS4X5IhUt0v4tJ5wCxX1cdWQhfLhKc2y7qUE0kpMKH+2rrFnjdtNLmCGtq/9an/0
-         5i/Q==
+        bh=nodpsUoa53SExbVsuWnxxK1TuRoH11O5vM1ciQRyScc=;
+        b=eF7WWBNIrVMI2a52XgRlOp0HY24PUCwKGO+6qUAexUsqxhe09zEPzMVN7TVlMLAvh8
+         P6vdWJ5zEcIcm2lDnJ0N8RugOvCf7WYE2aXxCHgyEsxGevpBWm/2I1t7ET8CrFJE48ON
+         7H3YNWdg9i7XwTg6EX8zxLGv1WlNAdAr+irgU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680184053;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ExyvztSvaYqi3aFpgkC0WNL2wQ6P5GIAsMmc/z/1UyU=;
-        b=1OXOZXup0EXxgKUhpX3zMTT+RFucclWY973DyRRUJmOY3FX7KdzwGyYyK8oB1TvPsq
-         VqL5gcdBdBycWB+xIn7oKqdt3rPH5cYDPJG6m0qVu3ynaCNnWF7YLlnSJDia4jD4jyXq
-         EnlHQgB1gE7r924BHeiWB3KiriszWqAIE3nDcODNyu9zgWDe72Xp3ZH6kBXyffEWui+E
-         TvwikoreVEHUTm460Pny0tdS3BDh4NrC7tFyilt45TPN7DBO6JAEl7WRje8tUZtn483R
-         QWLQFQa5lRFJ2mQfjdgfpFXhRQHJuNR6azGqRVN9VkZTynBGI+CHwfApMeLUF7wi7BQN
-         Ivcg==
-X-Gm-Message-State: AAQBX9eYCuhkLYc8ep64azu4gGwGEcUXl/AIDrK9v+iCB9Oashr60xBz
-	8XZedHq4EorGg0d49ffFxkO29VNXnuqpqxhit6l50b0R
-X-Google-Smtp-Source: AKy350bkgm6db4xBCIET+X/q/PAWq3TklwMa4pSQRbD5RbbPI2rzaLlIvTZ5m5rH8NC4tuzTdYqCh8r4zjhmckMWx/Q=
-X-Received: by 2002:ac2:44d8:0:b0:4d5:ca32:6ed5 with SMTP id
- d24-20020ac244d8000000b004d5ca326ed5mr1880284lfm.3.1680184052563; Thu, 30 Mar
- 2023 06:47:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230330134214.2772913-1-zboszor@gmail.com> <20230330134214.2772913-2-zboszor@gmail.com>
-In-Reply-To: <20230330134214.2772913-2-zboszor@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 30 Mar 2023 15:47:21 +0200
-Message-ID: <CANNYZj--VdBinzni-5vKpb9Q4qq09x-oo9WAfmZYoBb5bfZ3BQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] libgudev: Allow native build
-To: Zoltan Boszormenyi <zboszor@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
+        d=1e100.net; s=20210112; t=1680184257;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=nodpsUoa53SExbVsuWnxxK1TuRoH11O5vM1ciQRyScc=;
+        b=vJodGoMEjIHZNe2snB48nEKn9gHNeefX+yLE7mXMpAiZys/b5vphZAuI+181hIpMst
+         aAeh4WOW/+ywqNox575vRXanYR8/G4XO2NAGTzB+UXkNP6NmDtqYZ87t3qVwj39l7SFM
+         JcMF6a2HazTiAXY071dZJkjU6UhaTSumu11bRhivvyP1Vvrg9CiBmcpBSN6DzRUseGdu
+         LQaQCSnqOKbV9U6Ib/t1G2X89Yb/f00ZAoOattCVK2GeQbg3UrtFDzpnZ+NISFFnmEZ4
+         /vu7u/aAloEQ9rnkySM7KywFWqhgk5ZtbV8Ds7b0VnzYmfAJ8puTfrkBtN7MWUFolreG
+         tThQ==
+X-Gm-Message-State: AAQBX9dAE9XTuze09Fjr8wTIrec4j/2T3j41fnaiRYi8/aNWW6k9QVuP
+	Ssgl/wAhlnBh5pfxg/M1d2FqKIAmtU3njnlT0Xw=
+X-Google-Smtp-Source: AKy350aHIiIOkzFxS3iSXr4zaQRdTLLMSAdGPVtwrLiWhYtR7rbu2wlOYu3ZM1Ycs6/vsaZIrJdBYg==
+X-Received: by 2002:a5d:460b:0:b0:2d2:59cf:468f with SMTP id t11-20020a5d460b000000b002d259cf468fmr4774638wrq.15.1680184257346;
+        Thu, 30 Mar 2023 06:50:57 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:77e0:6cb9:7d92:358e? ([2001:8b0:aba:5f3c:77e0:6cb9:7d92:358e])
+        by smtp.gmail.com with ESMTPSA id h5-20020a5d4305000000b002c3f81c51b6sm32797133wrq.90.2023.03.30.06.50.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Mar 2023 06:50:57 -0700 (PDT)
+Message-ID: <a25c3a41d623242edf004723dc94518228cfc1da.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/2] systemd: Allow native build
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Zoltan Boszormenyi <zboszor@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 30 Mar 2023 14:50:56 +0100
+In-Reply-To: <20230330134214.2772913-1-zboszor@gmail.com>
+References: <20230330134214.2772913-1-zboszor@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.47.3-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 13:47:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179324
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 13:51:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179325
 
-Can you look into specific details of why libgudev is needed, and
-whether it can be made optional? Also, what is it from
-libfprint-native that libfprint needs?
+On Thu, 2023-03-30 at 15:42 +0200, Zoltan Boszormenyi wrote:
+> systemd-native is a dependency for libgudev-native, which
+> in turn is a dependency for libfprint-native, which is needed
+> to build libfprint.
+>=20
+> The native systemctl binary is removed so it doesn't conflict
+> with the script from systemd-systemctl-native.
+>=20
+> TODO? The new natively built systemctl binary may replace
+> the script in systemd-systemctl-native, as it supports
+> more options and works better than the script. For example,
+> the current script does not create the symlinks in
+> /etc/systemd/system for WantedBy=3D and RequiredBy=3D settings
+> and does not support systemctl set-default some.target.
 
-I would really like to know these details before we conclude that
-adding native variants for tricky, brittle items like all of systemd
-is indeed the only option. Maybe we can break those dependency chains.
+Which piece of systemd is libfprint needing?=C2=A0
 
-Alex
+We've had a request for systemd-native before and my opinion on it
+hasn't changed, I'd much prefer not to have it.
 
+Cheers,
 
-On Thu, 30 Mar 2023 at 15:42, Zoltan Boszormenyi <zboszor@gmail.com> wrote:
->
-> libgudev-native is a dependency of libfprint-native, which
-> is needed to build libfprint.
->
-> Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
-> ---
->  meta/recipes-gnome/libgudev/libgudev_237.bb | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-gnome/libgudev/libgudev_237.bb b/meta/recipes-g=
-nome/libgudev/libgudev_237.bb
-> index 9ce43ce34b..ad3a16ab99 100644
-> --- a/meta/recipes-gnome/libgudev/libgudev_237.bb
-> +++ b/meta/recipes-gnome/libgudev/libgudev_237.bb
-> @@ -9,6 +9,8 @@ SRC_URI[archive.sha256sum] =3D "0d06b21170d20c93e4f0534db=
-b9b0a8b4f1119ffb00b4031aa
->
->  DEPENDS =3D "glib-2.0 udev"
->
-> +BBCLASSEXTEND =3D "native"
-> +
->  RCONFLICTS:${PN} =3D "systemd (<=3D 220)"
->
->  LICENSE =3D "LGPL-2.1-only"
-> --
-> 2.39.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#179322): https://lists.openembedded.org/g/openembedde=
-d-core/message/179322
-> Mute This Topic: https://lists.openembedded.org/mt/97950751/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Richard
 
