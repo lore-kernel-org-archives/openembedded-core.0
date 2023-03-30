@@ -1,136 +1,110 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B845CC6FD1D
-	for <webhook@archiver.kernel.org>; Thu, 30 Mar 2023 16:34:22 +0000 (UTC)
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
- by mx.groups.io with SMTP id smtpd.web10.30424.1680194061741398187
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B10CCC761A6
+	for <webhook@archiver.kernel.org>; Thu, 30 Mar 2023 16:39:12 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web10.30569.1680194349883115441
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Mar 2023 09:34:21 -0700
+ Thu, 30 Mar 2023 09:39:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=EA3vYgh4;
- spf=pass (domain: gmail.com, ip: 209.85.166.171, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-il1-f171.google.com with SMTP id l9so10099123iln.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 09:34:21 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bhxPvQyp;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id m2so19730513wrh.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 09:39:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680194061;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3V60RcAoi0wsTv3crbRmYnMxm/Yr3vcWGAbPvVUZz9o=;
-        b=EA3vYgh4QEvqXErmmZQz7qUjgX3gWbHIYeda/nRCQjLekK6KoB2F8UtbvESW62D7Za
-         y9PEJOnfWLEFMa2Dj+Ze0BAFYP7bUhJHbw1wd/NfqBTFlz9t3JSgDyVKzErJMXvstY/I
-         MGU52A9/MbkpBZcf1trTnIKF0IDcU5i3XrEX94pnP4MXRNPXCO3JuZxU4GobYrq6T6hN
-         rJ7omDajhdoFcjvJUNKudLFAcmji+WTgaahqvbtZ8jTNyNM4D5txzGKe0IISK4kKbc3e
-         +06qDbqDNlj8GAp42fy8e4JzaO2yiV6ioqZrMx3sWpyHl8H/R3VId1yTcpNUt2gQQFPF
-         eHNA==
+        d=linuxfoundation.org; s=google; t=1680194348;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=kIELM1N8Qcj8dsRMnGOudsGjxO53K2hVH/BCDNlOgBg=;
+        b=bhxPvQypI+w9i4+pIYtBWEO7IlHxpKL4vFMdz8BSlWAuMsPULtdrO1tGPieCHe8o9g
+         FZmoJ4vXxoTk3Wt17YeX4g06NAHazl+LShIowUm4JX6psZUjk4OvA0MQkuOlbIaSUy0k
+         9+iKOGvN0V+RtJeLTNayLqwkv6rK7CALlfEvE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680194061;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3V60RcAoi0wsTv3crbRmYnMxm/Yr3vcWGAbPvVUZz9o=;
-        b=pkr/hdz5kQ3P131uvru94VE3qk8IbfwfKGGkyzWcQqb6zsXd292d3ZrhWlYDXiwyQe
-         FSSJzclhGcYlpXpXMaz0O6Pn4Z9vFEYAgM4ahBGvB3cFqH4qDkdfO2tT1hXlB2ucHRRn
-         FeoJv/BG9DKBR7xoAxulLecx+Ifepj+2lugjOPWn+jptJuu5s4x8RNjBWFH2iGbtoONA
-         eDs/pIHU55p3xeDgDBVWjkKzlHo+EolYSgKDayS+GO9jmec0pEpGxRjdfa1LIlgJZ3oQ
-         t5SnM1SyeJPDpS4A4PytzBFp6PxFs8uNJ1AFX0dP7MAFMVU4vxyuoJF0SRjdNEMHbaac
-         dBmA==
-X-Gm-Message-State: AAQBX9eKVIFJmmmEq+lwqqtBr6cULdM4f89cRgjaX79S/lqzZqYiUUL6
-	7e+a2tropkzo9jt2TFbITqYnOaYUfoF3dCPndZc=
-X-Google-Smtp-Source: AKy350ag1tT/r4jfEdq/YlBj+cdU2APKVHA04JRiAp8YKamaLOgMpTs1h2wYnH08PmoyUQ3rJJF0cUJ5jdTisj6dp5w=
-X-Received: by 2002:a92:3005:0:b0:326:17ae:47b9 with SMTP id
- x5-20020a923005000000b0032617ae47b9mr6389529ile.1.1680194060813; Thu, 30 Mar
- 2023 09:34:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1680190966.git.frederic.martinsons@gmail.com> <6279ccad3163dca527872a9144d63fb8f07c6f0e.1680190966.git.frederic.martinsons@gmail.com>
-In-Reply-To: <6279ccad3163dca527872a9144d63fb8f07c6f0e.1680190966.git.frederic.martinsons@gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Thu, 30 Mar 2023 17:34:09 +0100
-Message-ID: <CAO5Uq5Sgt7EwB2DN_r2bB9nt7XQ_qi3SNrhbrVvB6Bru-XsjXw@mail.gmail.com>
-Subject: Re: [PATCH V5 6/6] cargo-update-recipe-crates: don't walk on the
- whole dir
-To: frederic.martinsons@gmail.com
+        d=1e100.net; s=20210112; t=1680194348;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kIELM1N8Qcj8dsRMnGOudsGjxO53K2hVH/BCDNlOgBg=;
+        b=KBcbNl6YWUUY9rF9FPflvC0jFoqgrYrFwrzdLtymGA7FlllAe5c/Jeiyc1dp/hCWHy
+         Zl7WrVIiHhY/XNkWIUhcW9ZKS3J8NrUmYjSlRMSzjHLX+VglsR593dwmfmbOb80hQSZK
+         uL3rhtvypXyg6J3MPM//HwjK7XAeEQ3eC390ALjTIwk8eijUidoFksAu/xhvs3hbxBCt
+         Pughf0mnZ107TrJGWUGO6X+x/QEmpSVRDIVyTYn8EicZOs7U82BCrOe4/hq1BfEcXgLq
+         obae2qgMaUrxFvmDl9fE7B4imdM/8WB5oQMQROBRFsQXj+gDXmywXGvxTuA0opLGIXvU
+         IFTA==
+X-Gm-Message-State: AAQBX9cFZHiKsN2S/y/06IEY079rb/V47KH/7DLG0NwV8HJnnqiPuzlP
+	SGmAurQO+w7ThLjcTzXTAp2blg==
+X-Google-Smtp-Source: AKy350aRzUlcLwE5DUKTd062JsyfRVvM5AuCyciKFfLvvySWONCbLFgf3qXdqweq5tRkm8ZJ8tzN3g==
+X-Received: by 2002:adf:dcc5:0:b0:2e5:982:3805 with SMTP id x5-20020adfdcc5000000b002e509823805mr1702910wrm.59.1680194348345;
+        Thu, 30 Mar 2023 09:39:08 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:77e0:6cb9:7d92:358e? ([2001:8b0:aba:5f3c:77e0:6cb9:7d92:358e])
+        by smtp.gmail.com with ESMTPSA id t6-20020adff606000000b002d828a9f9ddsm25166423wrp.115.2023.03.30.09.39.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Mar 2023 09:39:08 -0700 (PDT)
+Message-ID: <ab068d9c1e16fe78ea74b25a30412b55cad616a1.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/2] systemd: Allow native build
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Zoltan Boszormenyi
+	 <zboszor@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Mar 2023 17:39:07 +0100
+In-Reply-To: <CANNYZj9uYcBaDHgBABrnjCuH9AGTEQ8PhkxuJBm+FaTTNkwaPw@mail.gmail.com>
+References: <20230330134214.2772913-1-zboszor@gmail.com>
+	 <a25c3a41d623242edf004723dc94518228cfc1da.camel@linuxfoundation.org>
+	 <869f611a-1645-52b6-1f3b-e4b605f2ddd4@gmail.com>
+	 <CANNYZj9uYcBaDHgBABrnjCuH9AGTEQ8PhkxuJBm+FaTTNkwaPw@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.47.3-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 16:34:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179344
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 16:39:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179345
 
-On Thu, Mar 30, 2023 at 4:45=E2=80=AFPM <frederic.martinsons@gmail.com> wro=
-te:
->
-> From: Frederic Martinsons <frederic.martinsons@gmail.com>
->
-> There is no need to do such things, Cargo.lock file
-> has to be at the root of CARGO_LOCK_SRC_DIR.
-> This avoid finding other possible Cargo.lock that
-> would be in subdir (for example if a patch is applied
-> on the recipe, we can have .pc subdir in S and a Cargo.lock
-> can be there)
->
-> Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
-> ---
->  .../cargo-update-recipe-crates.bbclass               | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/classes-recipe/cargo-update-recipe-crates.bbclass b/met=
-a/classes-recipe/cargo-update-recipe-crates.bbclass
-> index daa363b0dd..549cfe627e 100644
-> --- a/meta/classes-recipe/cargo-update-recipe-crates.bbclass
-> +++ b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
-> @@ -68,10 +68,14 @@ def get_crates(f):
->  import os
->  crates =3D "# Autogenerated with 'bitbake -c update_crates ${PN}'\n\n"
->  found =3D False
-> -for root, dirs, files in os.walk('${CARGO_LOCK_SRC_DIR}'):
-> -    for file in files:
-> -        if file =3D=3D 'Cargo.lock':
-> -            crates +=3D get_crates(os.path.join(root, file))
-> +for file in os.listdir('${CARGO_LOCK_SRC_DIR}'):
-> +    if file =3D=3D 'Cargo.lock':
-> +        try:
-> +            cargo_lock_path =3D os.path.join('${CARGO_LOCK_SRC_DIR}', fi=
-le)
-> +            crates +=3D get_crates(cargo_lock_path)
-> +        except Exception as e:
-> +            raise ValueError("Cannot parse '%s'" % cargo_lock_path) from=
- e
-> +        else:
->              found =3D True
->  if not found:
->      raise ValueError("Unable to find Cargo.lock in ${CARGO_LOCK_SRC_DIR}=
-")
+On Thu, 2023-03-30 at 16:10 +0200, Alexander Kanavin wrote:
+> On Thu, 30 Mar 2023 at 16:08, Zoltan Boszormenyi <zboszor@gmail.com> wrot=
+e:
+> > Please see the MR:
+> > https://gitlab.freedesktop.org/libfprint/libfprint/-/merge_requests/431
+> >=20
+> > udev (provided by systemd) -> libgudev -> libfprint
+> > also:
+> > udev-native -> libgudev-native -> libfprint-native -> libfprint
+> >=20
+> > Also, please read the TODO part of the patch for systemd
+> > and consider it.
+>=20
+> We can simply direct libfprint to run its own target pieces under qemu
+> usermode, and avoid all this nasty native stuff. Meson has direct
+> support for it, and even if it doesn't work, libfprint can be patched
+> to use a custom 'wrapper' for executing the binaries.
 
-Isn't this just a long-winded version of something like this
-(completely untested):
+Before we jump to using qemu user mode, the first question has to be do
+we really need a libgudev native to make libfprint-native work enough
+to build libprintf.
 
-diff --git a/meta/classes-recipe/cargo-update-recipe-crates.bbclass
-b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
-index daa363b0dd65..22ddcfa5c1e3 100644
---- a/meta/classes-recipe/cargo-update-recipe-crates.bbclass
-+++ b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
-@@ -67,14 +67,7 @@ def get_crates(f):
+I'd hope the answer is no, we don't as we don't want the build systems
+udev setup/devices leaking into a target build.
 
- import os
- crates =3D "# Autogenerated with 'bitbake -c update_crates ${PN}'\n\n"
--found =3D False
--for root, dirs, files in os.walk('${CARGO_LOCK_SRC_DIR}'):
--    for file in files:
--        if file =3D=3D 'Cargo.lock':
--            crates +=3D get_crates(os.path.join(root, file))
--            found =3D True
--if not found:
--    raise ValueError("Unable to find Cargo.lock in ${CARGO_LOCK_SRC_DIR}")
-+crates +=3D get_crates(os.path.join("${CARGO_LOCK_SRC_DIR}", "Cargo.lock")=
-)
- open("${TARGET_FILE}", 'w').write(crates)
- EOF
+We intentionally try and keep native dependencies minimal and needing
+native udev/systemd versions of things sets of warnings in my mind and
+in others since it often means we're doing things we shouldn't be or
+don't actually need.
 
---=20
-Alex Kiernan
+I appreciate there are issues with systemctl-native but those are
+separate issues and should be addressed as such. Complicating the build
+dependencies unnecessarily is bad and we should minimise them where
+possible. it isn't that I didn't read that bit of the patch, I just
+don't see it as a reason to have this dependency for libfprint.
+
+So, I come back to the question of what libfprint needs from libfprint-
+native and whether it really does need udev for that?
+
+Cheers,
+
+Richard
 
