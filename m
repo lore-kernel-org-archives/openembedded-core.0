@@ -1,128 +1,101 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F0B9C761AF
-	for <webhook@archiver.kernel.org>; Thu, 30 Mar 2023 14:31:32 +0000 (UTC)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web11.26928.1680186687099726083
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22EA6C761A6
+	for <webhook@archiver.kernel.org>; Thu, 30 Mar 2023 14:42:12 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web11.27254.1680187330037469084
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Mar 2023 07:31:27 -0700
+ Thu, 30 Mar 2023 07:42:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=kO0CdRAT;
- spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: zboszor@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id b20so77325708edd.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 07:31:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=RGw4fEgH;
+ spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f53.google.com with SMTP id y15so24817596lfa.7
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 07:42:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680186685;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=m4YT7+lT7EoFuF/3qQZ+Iagt02ZqWagR+piEyp0VSts=;
-        b=kO0CdRAT3ICboKgkx6A/DCu/1HXEVPB6fcumyMTO/40G+i3vd01EktvzxQIpGRT3pP
-         GJ64YmYOYPtdJlB78bZn6lobxntbvtM/eAX0+a8TwxXGKBd+4FJp6rz5An9hDME/aaKC
-         mKaj1xCyewJ1L+V8GGBakO10o+2pAAz54TfyxE7HN1UvX4uYaX9G96VcyJzVA82wXbCr
-         bmoWEUe7Tc0Oh9mAMJcBJ6R4zx4IAbqEUxSQWy8w7KmUK8QIVXkbEbGhZy9O5gJF4dcG
-         bHLdxT/m1nC9ThtlfIi79nSpypwxLdcDp6C4Ujpg/PDwr08NcCciRT7b2gMCh9VNd+KB
-         my/g==
+        d=gmail.com; s=20210112; t=1680187328;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JtWy/zEPtbtOY0Bcd1ehewlpOhF9KrJ3jEK0rWbqWUs=;
+        b=RGw4fEgHkrSumVOeOLTWOnsg8p8KUkMFZWeu6vjeknu5OCLpyRT7Qns3gEXVPUbglP
+         aB1qPP8UgduQuqIIE3Ci1vE+U0zMj9UtuAyI6ZIrQ/OzZQMQ/Xr6h0HgEVMo5W/CpEmI
+         V1OMHpL9vzxMFQ+jA5uD14NOLJHtu3o5WwdFmoL6hxihgKOoCbSSbYlwgIMriIGJcPcl
+         tX+9MNmEY5Of/nx6aLVn8EhAvdJmG/VmNJxk0YaPMg8DqFaqjIHua4kZW3yVV+AAOm2o
+         53xh7Gwai/aSTFKLSQkDUryco7p2Os8YLPmCjOss4FWYsqheY8kXMy0DQvrxExINFL5Z
+         CQQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680186685;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=m4YT7+lT7EoFuF/3qQZ+Iagt02ZqWagR+piEyp0VSts=;
-        b=CIc1wcLgvdFTyzG8bsy0bLgdfL27D/pRM3yADL7TP1DmDgPX/NJeWH9rxa1h6DyQ8d
-         VBKeTwcVz1NDL4615a7FeAv4MJ5utcM5uMXLjB3lq866ham0OaPrCDmfaF4NBRKJWXvn
-         iAEOKLSsYNkF424a2kWU2ovFMgWO8mBJfQ433P/6IjYUWAEolAxXt88SYymHlnftNndO
-         Tk/92tIjkQrWlk6v2Mz1s5rzj5ipQHv3WVbb/fqFJALeueLzmjF/jlPGlY/H7t5PByFj
-         g+8OFIx81UbamJc6KU+DRGCgvJ06Jng22BEtGLo+oMVAIXhbPMcvHgSRrZCnlYbtNu6W
-         UapQ==
-X-Gm-Message-State: AAQBX9cKZtvGV1qLhc/09TD7MqpyetneGyrsgMron3gK+tusaocARdYx
-	APq6hGuL4YslfaJ5DuNj+1wp0hh5cZU=
-X-Google-Smtp-Source: AKy350bTPFDQ3apC9C3TdfmM4E5CyNXVVqpNXmVCG4oVoh+JlGG2gM1tkyrB7pEKDJaEsHJ78gfUwg==
-X-Received: by 2002:a17:906:5646:b0:930:7d8f:15a4 with SMTP id v6-20020a170906564600b009307d8f15a4mr23649821ejr.53.1680186685586;
-        Thu, 30 Mar 2023 07:31:25 -0700 (PDT)
-Received: from [192.168.2.2] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id b1-20020a1709065e4100b008ca52f7fbcbsm17694288eju.1.2023.03.30.07.31.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Mar 2023 07:31:25 -0700 (PDT)
-Message-ID: <1deaad30-4816-af4d-910d-ef2242952033@gmail.com>
-Date: Thu, 30 Mar 2023 16:31:24 +0200
+        d=1e100.net; s=20210112; t=1680187328;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JtWy/zEPtbtOY0Bcd1ehewlpOhF9KrJ3jEK0rWbqWUs=;
+        b=r7tuMk6oQ8Fjyrj1qB5L2tTMAunK92LhYj+AxhoLLGgkYX2VudQe6rcLFPn9xA7Bld
+         MflngIDwZyKeSuEFLuSN99BjwAY5ULlxxxTnt/tm7CoJkegzoyxMqRNFuhXJS5zd3T8j
+         fSPzRB6E38Ulm97q6iDh8IwYJspec1A66WQ2ATG7CnbuVEVy0aLk4TrpBi3ARjYOYDyd
+         6yD9htKCucv+2MT9Uzh72NBy2r0fAnf/Ut1SDuhGLa57TWGoCO3/lW5NwJgecz6M5AfY
+         fITpWong9RRyphW9DHsjIxB3Uy5BsUWzsv0wEhIuC4//hCAqRUejFKnHSFol/92IxMSI
+         f/dQ==
+X-Gm-Message-State: AAQBX9eUaCYDJtTDWca3vBFveNf561j9fNgCLpnUeV+HBiiW/TAR1isT
+	Os6mG+hdtMJc8bf7Evqs9znFxA7pTYUsW2vwxN0=
+X-Google-Smtp-Source: AKy350Y3SlxLWudheAGJDkChAAyauODY2AixRy3SahlV8AOXJLEMScPsIDrPUOB+f5AaHRfoOFbyowHstmWag/iQHsY=
+X-Received: by 2002:ac2:4a9d:0:b0:4e8:9988:f8ab with SMTP id
+ l29-20020ac24a9d000000b004e89988f8abmr6967089lfp.11.1680187328055; Thu, 30
+ Mar 2023 07:42:08 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
+References: <20230330134214.2772913-1-zboszor@gmail.com> <a25c3a41d623242edf004723dc94518228cfc1da.camel@linuxfoundation.org>
+ <869f611a-1645-52b6-1f3b-e4b605f2ddd4@gmail.com> <CANNYZj9uYcBaDHgBABrnjCuH9AGTEQ8PhkxuJBm+FaTTNkwaPw@mail.gmail.com>
+ <1deaad30-4816-af4d-910d-ef2242952033@gmail.com>
+In-Reply-To: <1deaad30-4816-af4d-910d-ef2242952033@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 30 Mar 2023 16:41:56 +0200
+Message-ID: <CANNYZj_RSRs=e5NS4QT=BnyYasf8-PrpFjSkfhPZCPLqtwZ1+w@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH 1/2] systemd: Allow native build
-Content-Language: en-US
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20230330134214.2772913-1-zboszor@gmail.com>
- <a25c3a41d623242edf004723dc94518228cfc1da.camel@linuxfoundation.org>
- <869f611a-1645-52b6-1f3b-e4b605f2ddd4@gmail.com>
- <CANNYZj9uYcBaDHgBABrnjCuH9AGTEQ8PhkxuJBm+FaTTNkwaPw@mail.gmail.com>
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <CANNYZj9uYcBaDHgBABrnjCuH9AGTEQ8PhkxuJBm+FaTTNkwaPw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 14:31:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179330
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 14:42:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179331
 
-2023. 03. 30. 16:10 keltezéssel, Alexander Kanavin írta:
-> On Thu, 30 Mar 2023 at 16:08, Zoltan Boszormenyi <zboszor@gmail.com> wrote:
->> Please see the MR:
->> https://gitlab.freedesktop.org/libfprint/libfprint/-/merge_requests/431
->>
->> udev (provided by systemd) -> libgudev -> libfprint
->> also:
->> udev-native -> libgudev-native -> libfprint-native -> libfprint
->>
->> Also, please read the TODO part of the patch for systemd
->> and consider it.
-> We can simply direct libfprint to run its own target pieces under qemu
-> usermode
+On Thu, 30 Mar 2023 at 16:31, B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=A1n <zbosz=
+or@gmail.com> wrote:
+> The mariadb change to use CROSSCOMPILING_EMULATOR
+> instead of building mariadb-native was reverted because
+> qemu is not ominpotent. The same applies to meson
+> running executables via qemu. No custom wrapper would help.
 
-The mariadb change to use CROSSCOMPILING_EMULATOR
-instead of building mariadb-native was reverted because
-qemu is not ominpotent. The same applies to meson
-running executables via qemu. No custom wrapper would help.
+Mariadb's problem was that (for a specific target) it somehow included
+CPU instructions that qemu usermode doesn't support, and no one looked
+into what those instructions were and why they were produced in the
+first place, preferring to revert the whole thing. There are lots of
+counter-examples in core where qemu usermode works fine, and has been
+working that way for many years, for example gobject introspection, or
+all of the scripts in ../scripts/postinst-intercepts/ which run every
+time you bake an image, including update_udev_hwdb by the way that
+runs target udevadm. I am not maintaining oe-devel, and I do not keep
+an eye on things like that, otherwise I would've asked for further
+investigation into what crashes and why.
 
-> , and avoid all this nasty native stuff. Meson has direct
-> support for it, and even if it doesn't work, libfprint can be patched
-> to use a custom 'wrapper' for executing the binaries.
+I do not want to add complex native dependency chains when usermode
+would work. It's me who's going to fix them when they break, not you.
 
-You seem to have omitted reading a large part in the
-commit message for the systemd change.
+> You seem to have omitted reading a large part in the
+> commit message for the systemd change.
+>
+> > TODO? The new natively built systemctl binary may replace
+> > the script in systemd-systemctl-native, as it supports
+> > more options and works better than the script. For example,
+> > the current script does not create the symlinks in
+> > /etc/systemd/system for WantedBy=3D and RequiredBy=3D settings
+> > and does not support systemctl set-default some.target.
 
-> TODO? The new natively built systemctl binary may replace
-> the script in systemd-systemctl-native, as it supports
-> more options and works better than the script. For example,
-> the current script does not create the symlinks in
-> /etc/systemd/system for WantedBy= and RequiredBy= settings
-> and does not support systemctl set-default some.target.
+This is a separate concern, and needs to be proposed as such.
 
-
-This is not relevant to libfprint itself, it's a bug in
-Yocto's systemctl replacement script.
-
-----8<--- foo.service ----8<---
-...
-[Install]
-WantedBy=bar.service
-RequiredBy=baz.service
-...
-----8<--- foo.service ----8<---
-
-The symlinks in /etc/systemd/system/bar.service.wants
-and /etc/systemd/system/baz.service.requires are not
-created for foo.service.
-
-This command is also not supported by the Yocto replacement:
-
-systemctl set-default custom.target
-
-I have been bitten by both issues.
-
+Alex
 
