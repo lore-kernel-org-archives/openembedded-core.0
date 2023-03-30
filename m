@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2F39C77B6D
-	for <webhook@archiver.kernel.org>; Thu, 30 Mar 2023 21:14:33 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web11.38978.1680210866986904883
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF723C7619A
+	for <webhook@archiver.kernel.org>; Thu, 30 Mar 2023 21:14:43 +0000 (UTC)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web11.38987.1680210873853986843
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Mar 2023 14:14:27 -0700
+ Thu, 30 Mar 2023 14:14:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=6e76ci7d;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f169.google.com with SMTP id o11so19393073ple.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 14:14:26 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=XIhifak4;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f52.google.com with SMTP id gp15-20020a17090adf0f00b0023d1bbd9f9eso23374922pjb.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 14:14:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680210866; x=1682802866;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680210873; x=1682802873;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uYGsAVetNv1WCsX5k+luhaCwvE5bJU7ER+kr0Zpa1D0=;
-        b=6e76ci7d+KCTN6P8EsBsbd4Sth7eevnFXjLEAEwLVFqNjW+Yyp9dY2eOLoNwNjljla
-         MCK9/CpmqrsFOPVBeGUfiWnT+fNyiYsvgwdjceeV63vjdR+cHFvmgZD5aPKKfhxzJgSt
-         g4OJd267Z1sGc9qr/+XWy/uF/GTsNxKOTR9iK0yN9Ai1lygqqPlEHb8HR/5hms0yT3dV
-         yiY9gCYrq4skReRbjDYcZNPnaGCFF9+J8MCR2PRWovvyDrM4zNyORtfrxgaoa2zJMAHU
-         YiQG1FDu/b9f36sqSveIIxMhMnfpn9VIWhuFT6xmY4yjhv6BdVdRaoJznZ6xzQkfvYfj
-         fzqA==
+        bh=0SMaCavEhWqnUD1RNxRAQvZOMxViLCeZ/vXJQhvzFYU=;
+        b=XIhifak4EN95zat5Om9OMYp2lrQ/3JuuDSp8uZWfqnBZium5EfAteobwxhRxCZ7w3E
+         O4kt14LQBCUSNs2izN6D9TRqYFH/6zexWNcHBG/yEZ6DnOPSlmZ5pcQOkct+2rmd9U6q
+         FSjABn3YJbDFK4wqSZq6VojUSSTwgiRb+xS2eLP0xotvelgCW/4IzM0qKB4xJ8zVGmQ2
+         vTEI2gmWFo6qaqRCg6GBo1YgDZfq5foEIuJVq41nw27WnHCfdPVQfR9ssRUShTKBXTXA
+         vjQupGhYLsQLjFFAGNpPNM0TqvetH97RpntaErUL0kgspEUCn/+681lCDJHAsSVdokjg
+         BtNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680210866; x=1682802866;
+        d=1e100.net; s=20210112; t=1680210873; x=1682802873;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uYGsAVetNv1WCsX5k+luhaCwvE5bJU7ER+kr0Zpa1D0=;
-        b=tYn+fwy5bA/EkNYd3z9mnsMkqnZZb31/ef8eVvj0ICMqBaEKsWO+rbZLJWrawJ2lcq
-         pPtnEOQ48Ml3Rlk69RDKYJA5Hnb3Dsqka8MazFXfyTLKxSxSKB10eNswtP2WWnivtjZS
-         haelghmsg2pJlchzpCwOW5W6j3ZqSeMCIEoYfLIqOnUoLFxL+wQxoVoDy5OnvkfiFFzl
-         XHskAqFsw73ijYCma9eAlWr+ERHOEKEhCCw1q3sfJeEaWNwHLIrbL6ikrUW2QHryX2V/
-         HXpcsn9+hC4ROR3rR281xufxLF8dYP5lAC0LqHuMldHKB4bPqxHcCOoEp1faS9NHI9Q/
-         e4Pw==
-X-Gm-Message-State: AAQBX9eNRH0kNBFfKEBD2S2lAiouU+ql0WJT9PGsHN0EPx+PsbNEOPGc
-	UculrBV7PassEArJ6Dme678fEyBdqgHrYpLTrL0=
-X-Google-Smtp-Source: AKy350ZV3m0WZRgTPO21dpfw7GQ8wNgRyeg4BdC5M4QIJC89QuDuGC4TGEeRebdsxSkbQO3+bFBJGQ==
-X-Received: by 2002:a05:6a20:3545:b0:e4:2a2c:869b with SMTP id f5-20020a056a20354500b000e42a2c869bmr1568833pze.36.1680210865976;
-        Thu, 30 Mar 2023 14:14:25 -0700 (PDT)
+        bh=0SMaCavEhWqnUD1RNxRAQvZOMxViLCeZ/vXJQhvzFYU=;
+        b=kbQH71sRoOqc6xbADf6LGAi+NqIf9cEjOtPq7qpSJ90cVar0duhy7sINOuzVIaE/nI
+         fgEDmWgUs4ZE8vMomECho2loJx8D3WqG0xDgy4tTiJ/LWsk6dC5YFbDrDUGOyi/6VNeT
+         WzlgG3o6zN/SXkbTcM/K1BgO5wxm1Lovmf839Gq22L/zqy1QWoA7d2re0CsBR+tuVYXA
+         rxdvZp25T5NQUT4qaYqw2pBAMu/VuqmyGa/LMsOhJi0FH/cH06rFcrgJnb5LTIQKvF0V
+         rI3vW/7o9YvXUPfuNL4dBHzVf5zQvRepmVWyUw/qv/vPXkqWJ8QYD6pa4ugbRhsFzdGi
+         syVA==
+X-Gm-Message-State: AAQBX9fypfpHqqrqD9+FxPPnFP6dYcSO7yWoe4bajYCPSOU5JuyFHeLy
+	UFKegPCy1ffgYJFR5/NU9iw8twLSYMRW8rKXV/Q=
+X-Google-Smtp-Source: AKy350ZppF2cnGbtL/DfkvcOWggUlJcb8zrbqUwuGRkzOIwWiEwAgy714pah37M+Cq/UpURWtI2iAA==
+X-Received: by 2002:a17:90b:4b8a:b0:23f:582d:f45f with SMTP id lr10-20020a17090b4b8a00b0023f582df45fmr25157564pjb.1.1680210872915;
+        Thu, 30 Mar 2023 14:14:32 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id c30-20020a631c1e000000b0050301521335sm250661pgc.11.2023.03.30.14.14.24
+        by smtp.gmail.com with ESMTPSA id c30-20020a631c1e000000b0050301521335sm250661pgc.11.2023.03.30.14.14.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Mar 2023 14:14:25 -0700 (PDT)
+        Thu, 30 Mar 2023 14:14:32 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 10/14] selftest: devtool: set BB_HASHSERVE_UPSTREAM when setting SSTATE_MIRROR
-Date: Thu, 30 Mar 2023 11:13:52 -1000
-Message-Id: <14c727e4cafd7e1a945913bcc69747bb2efe3c71.1680210378.git.steve@sakoman.com>
+Subject: [OE-core][langdale 14/14] scripts/lib/buildstats: handle top-level build_stats not being complete
+Date: Thu, 30 Mar 2023 11:13:56 -1000
+Message-Id: <6c9ca2f2de98c84d11beccbfde7c1e26cb25dfb6.1680210378.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1680210378.git.steve@sakoman.com>
 References: <cover.1680210378.git.steve@sakoman.com>
@@ -60,60 +60,39 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 21:14:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179369
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 21:14:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179373
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+From: Ross Burton <ross.burton@arm.com>
 
-* with my build/conf/local.conf:
-  SSTATE_DIR = "/OE/build/poky/build/sstate-cache"
-  these devtool tests will first set own SSTATE_DIR and the original one set as SSTATE_MIRROR:
+If we try to parse a buildstats directory which was either aborted or
+is still being built then the top-level build_stats file doesn't
+contain an elapsed value which causes an exception:
 
-2023-03-11 11:51:46,837 - oe-selftest - INFO - test_devtool_update_recipe_append (devtool.DevtoolUpdateTests.test_devtool_update_recipe_append)
-2023-03-11 11:51:46,846 - oe-selftest - DEBUG - Appending to: /OE/build/poky/build/build-st-2023-03-11-patch2/devtool.DevtoolUpdateTests.test_devtool_update_recipe_append/build-st/conf/selftest.inc
-SSTATE_DIR = "/OE/build/poky/build/build-st-2023-03-11-patch2/devtool.DevtoolUpdateTests.test_devtool_update_recipe_append/build-st/sstate_devtool"
-SSTATE_MIRRORS += "file://.* file:////OE/build/poky/build/sstate-cache/PATH"
+UnboundLocalError: local variable 'elapsed' referenced before assignment
 
-* but that unfortunately leads to a warning from sanity.bbclass
-  about SSTATE_MIRRORS without matching BB_HASHSERVE, because
-  BB_HASHSERVE is set to "auto" by default
+Default both start and elapsed to 0 so that the parse succeeds.
 
-  these tests failing with:
-
-2023-03-11 11:55:39,610 - oe-selftest - INFO - ======================================================================
-2023-03-11 11:55:39,610 - oe-selftest - INFO - FAIL: test_devtool_update_recipe_append_git (devtool.DevtoolUpdateTests.test_devtool_update_recipe_append_git)
-2023-03-11 11:55:39,610 - oe-selftest - INFO - ----------------------------------------------------------------------
-2023-03-11 11:55:39,611 - oe-selftest - INFO - Traceback (most recent call last):
-  File "/OE/build/poky/meta/lib/oeqa/selftest/cases/devtool.py", line 1118, in test_devtool_update_recipe_append_git
-    self.assertNotIn('WARNING:', result.output)
-AssertionError: 'WARNING:' unexpectedly found in 'NOTE: Starting bitbake server...\nWARNING: You are using a local hash equivalence server but have configured an sstate mirror. This will likely mean no sstate will match from the mirror. You may wish to disable the hash equivalence use (BB_HASHSERVE), or use a hash equivalence server alongside the sstate mirror.\nLoading cache...done.\nLoaded 0 entries from dependency cache.\nParsing recipes...done.\nParsing of 947 .bb files complete (0 cached, 947 parsed). 1764 targets, 52 skipped, 0 masked, 0 errors.\n\nSummary: There was 1 WARNING message.\nINFO: Updating SRCREV in recipe mtd-utils-selftest_git.bb\nNOTE: Writing append file /tmp/devtoolqa1m2lh02v/layer/recipes-devtools/mtd/mtd-utils-selftest_git.bbappend'
-----------------------------------------------------------------------
-
-* just setting BB_HASHSERVE to empty doesn't work, because then we
-  would need to disable OEEquivHash as well as it fails with:
-
-  ERROR: OEEquivHash requires BB_HASHSERVE to be set
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 96d4392ee9c5c3674e5c4c4512f527a2ca6765e4)
+(cherry picked from commit 701d985aa8f2e9c2b9c0736fa25b424f3701889e)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 1 +
+ scripts/lib/buildstats.py | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 0cb7403f16..877d77d488 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -276,6 +276,7 @@ class DevtoolBase(DevtoolTestCase):
-         cls.sstate_conf  = 'SSTATE_DIR = "%s"\n' % cls.devtool_sstate
-         cls.sstate_conf += ('SSTATE_MIRRORS += "file://.* file:///%s/PATH"\n'
-                             % cls.original_sstate)
-+        cls.sstate_conf += ('BB_HASHSERVE_UPSTREAM = "hashserv.yocto.io:8687"\n')
- 
-     @classmethod
-     def tearDownClass(cls):
+diff --git a/scripts/lib/buildstats.py b/scripts/lib/buildstats.py
+index fa94c65539..6db60d5bcf 100644
+--- a/scripts/lib/buildstats.py
++++ b/scripts/lib/buildstats.py
+@@ -234,6 +234,7 @@ class BuildStats(dict):
+         """
+         Parse the top-level build_stats file for build-wide start and duration.
+         """
++        start = elapsed = 0
+         with open(path) as fobj:
+             for line in fobj.readlines():
+                 key, val = line.split(':', 1)
 -- 
 2.34.1
 
