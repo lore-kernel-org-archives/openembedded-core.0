@@ -1,519 +1,143 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2F87C6FD1D
-	for <webhook@archiver.kernel.org>; Thu, 30 Mar 2023 20:22:23 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web11.37700.1680207742572252317
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF33FC6FD1D
+	for <webhook@archiver.kernel.org>; Thu, 30 Mar 2023 21:14:13 +0000 (UTC)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web10.38926.1680210847409167621
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Mar 2023 13:22:23 -0700
+ Thu, 30 Mar 2023 14:14:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20210112 header.b=hUEnBXqC;
- spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id j24so20355976wrd.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 13:22:22 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=i4sKkkRd;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.54, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f54.google.com with SMTP id d13so18528138pjh.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 14:14:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680207741; x=1682799741;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=OsUTDjLqjaDicnPDHvqPih6r6Ep74phS5mfOxTZzQ2w=;
-        b=hUEnBXqC5/I5/lY4Yn4RO1F+2YTCBMQd61JW+jYegTU7ybocQNC2H/cXX0OGEGsASs
-         cAzv162Fj44iLyNt+iG/CIDoP+zhJ4xhfnhp5gZAnnNCbHGdR1k9pa9ZuHBffwwgSU4W
-         u7BMQE3bFpv6HK50KKrJgFklX5ElP6YDob+Zqzk/Emk1rSn779SxoUuzxUw60rXoXAYV
-         PL2WgNoRH++FfORjjwCV7MllSnxyh3kEl2qAFi0wQrl1Ik9alLWkAfLLUDJsUxUwRV9h
-         IVSbF74FYDlnG+GZ/ZVv3EVv0KPsCS2hxQ9c4KH4RZg/kJiYFeexyx3BtTY4s5W7oURN
-         dOaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680207741; x=1682799741;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680210846; x=1682802846;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OsUTDjLqjaDicnPDHvqPih6r6Ep74phS5mfOxTZzQ2w=;
-        b=JAK+OvBB9ZtC6Hnj/WVA+0vwSU2FA5ppJ199060W3Z2kZfrB8g8BVuBhwg4vQCBIz3
-         V1b0WPMKQuAEJ5Tlq4+snHK9iUd8psk2WR3IM5MnVl04idGEwhgAKf0BWgDCxmw+zus4
-         IxVEnBzzu8kKg0bKx6CZJddoRUcnBcR9mmmBKbLQjyJtcVAakBmHf3GVow1TZYUq/TIe
-         G2nuRgUAhbCSZVYh3MjcwgNXGf3NsWCxOTIDw9qoa31Dda1c4mYJrbEkFx5YDYjS6IqZ
-         /U8octBmr9/rOmG19oR2QCC1c1Uy0ZQTlHesEdeZ3qkY5zBBdSROHJWfdbYJXfO1mo2Z
-         lqPA==
-X-Gm-Message-State: AAQBX9e6XQMnqNo98FWfO6X9WN0ABSQ90WQmSe+ogLIOHrNKSrB0WNYK
-	5UgbEF9jqvamQrLRmn6DvMWw6a/us44Y3pAV11Y=
-X-Google-Smtp-Source: AKy350YscgjhbKVSvd+Tcthsk6MP6MKjnlq4qg2RbbC46Smqbc0UmU3OZD2iQ1fISjPsnAaFzSCVrJnXK2mPi5v/7xg=
-X-Received: by 2002:a5d:6daf:0:b0:2cf:ea35:f8bc with SMTP id
- u15-20020a5d6daf000000b002cfea35f8bcmr2349693wrs.6.1680207740833; Thu, 30 Mar
- 2023 13:22:20 -0700 (PDT)
+        bh=fLTN6Mgqlk7XAg1zyy2hujU2yzmDPZr8bo5rWdvO5Hc=;
+        b=i4sKkkRdqwBNUeevPzSUzuxWcB++82GdVoRFCSg30t+5cuPggjw3mLeojws3Tz8b9f
+         yPyMpLjKzcCXcLFZLYmNoKuLNK1RzYwnDcZE94CvPZaozvZMqKFPkidVR0fwaWWsd066
+         34WCWB3My9PsjP/oOMklaOSX3rqgmxXtnJEl4+DQv2+pPGz/pfVdRhoHrE9mJ3ujX8JD
+         3KOrMVk5yeIPzw0McgjwpagGXIwCObeDQU+P81OUCRNMynJ0pauSiIclAxKdv6BPWT1Z
+         gPdf6HA2grLKWUI+quuax769tSM59Cu8m7Jr33e+3079I38DROYlaZOHljySZviza69Y
+         7o0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680210846; x=1682802846;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fLTN6Mgqlk7XAg1zyy2hujU2yzmDPZr8bo5rWdvO5Hc=;
+        b=vXCTaayPw026lCh4WOeXJJ09UKCizlfrqrNyAUKPSbLfZYQ/OVk31eCfbdgTbFsLvm
+         7UA+nWzJpBQHE6IopUBzIIDJxJiUyLQfcWa71Q8obUhOM3P/8O57T3wYKpPyKYbyPaHP
+         yXIUhge/OVPZBTr3vu4r1pU8I9PMjr+z6jYTlegV3PtfHllL089CfVvaAmpvZIZ8qCTM
+         GV8Ke11ykKCFoCKPTXEEVdKqQ3I2BX1QJ25EsKL8siw8Cn2T/GYAOj0XOV/U8I94MjNM
+         mtzaN5G/TXp/2yN9Qg6X8rr7oqJW2v+l9IyImk/jFkdt8p1PM73mzjf9uNvjMElsotBQ
+         LNYA==
+X-Gm-Message-State: AAQBX9fURVsvYYDLVmVaTukM/kdxJZ+sqtG5tVz+qXSnHDYZGRwK7nsF
+	nzNRDjr8gHOPwfabQT5gPIQQlGJvVn4CxlQ0XJA=
+X-Google-Smtp-Source: AKy350a5wMSMsqS8yo3hn6W/FE55xS5lbHSG8mlAC7aPDyjeFJShVw7P2M19dKqBhw8ko9bHVs99Qg==
+X-Received: by 2002:a17:903:2803:b0:1a1:c0e6:d8d6 with SMTP id kp3-20020a170903280300b001a1c0e6d8d6mr20017834plb.54.1680210846456;
+        Thu, 30 Mar 2023 14:14:06 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
+        by smtp.gmail.com with ESMTPSA id c30-20020a631c1e000000b0050301521335sm250661pgc.11.2023.03.30.14.14.05
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Mar 2023 14:14:06 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][langdale 01/14] python3-setuptools: fix for CVE-2022-40897
+Date: Thu, 30 Mar 2023 11:13:43 -1000
+Message-Id: <f2230ead6c145efc902336b2b9d5a4f0ecb749de.1680210378.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1680210378.git.steve@sakoman.com>
+References: <cover.1680210378.git.steve@sakoman.com>
 MIME-Version: 1.0
-References: <cover.1680190966.git.frederic.martinsons@gmail.com>
- <6279ccad3163dca527872a9144d63fb8f07c6f0e.1680190966.git.frederic.martinsons@gmail.com>
- <CAO5Uq5Sgt7EwB2DN_r2bB9nt7XQ_qi3SNrhbrVvB6Bru-XsjXw@mail.gmail.com>
- <CA+chaQc24hyg7mTKA+BkeTSPBT3bnuc8K0NcUHVZFS8obXrYew@mail.gmail.com>
- <CA+cAkerB9D=iztBn_VQDPQyDZUp5rMtfj=CwuU4aeFL=RDERbQ@mail.gmail.com> <CA+cAkeobeK=g_oGJvOsLEMDtcuBVwrFKuyU6gR-z1GmB+Sv2Qg@mail.gmail.com>
-In-Reply-To: <CA+cAkeobeK=g_oGJvOsLEMDtcuBVwrFKuyU6gR-z1GmB+Sv2Qg@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 30 Mar 2023 22:22:06 +0200
-Message-ID: <CA+chaQdgowREQAE5jg9pP2H4LNjuDW0-0E6a5UZL8JtywOgD_A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH V5 6/6] cargo-update-recipe-crates: don't walk
- on the whole dir
-To: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Cc: Alex Kiernan <alex.kiernan@gmail.com>, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000008a924d05f823d9fb"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 20:22:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179358
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 21:14:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179360
 
---0000000000008a924d05f823d9fb
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Narpat Mali <narpat.mali@windriver.com>
 
-On Thu, Mar 30, 2023 at 10:07=E2=80=AFPM Fr=C3=A9d=C3=A9ric Martinsons <
-frederic.martinsons@gmail.com> wrote:
+Python Packaging Authority (PyPA) setuptools before 65.5.1 allows remote attackers
+to cause a denial of service via HTML in a crafted package or custom PackageIndex
+page. There is a Regular Expression Denial of Service (ReDoS) in package_index.py.
 
-> By the way, about this "chickens and eggs" problem, isn't it the same for
-> a regular recipe you just upgraded?
->
+CVE: CVE-2022-40897
 
-I don't know, I haven't upgraded a recipe with crates yet :)
+Upstream-Status: Backport [https://github.com/pypa/setuptools/commit/43a9c9bfa6aa626ec2a22540bea28d2ca77964be]
 
-It's just this time I was aware that the .inc file will need to be
-refreshed and it wasn't obvious at first that easiest way to avoid do_fetch
-issue blocking .inc refresh is to remove all crates first by emptying .inc
-file.
+cherry-pick and modify from OE-Core rev: f574d8d57ff3fbc38e350e7a90913993081c4fdf
 
-Personnaly, when I update a recipe, I let bitbake tell me what is the new
-> checksum expected and put it the recipe (as the error message says).
->
+Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ ...-of-whitespace-to-search-backtrack.-.patch | 31 +++++++++++++++++++
+ .../python/python3-setuptools_65.0.2.bb       |  4 ++-
+ 2 files changed, 34 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/python/python3-setuptools/0001-Limit-the-amount-of-whitespace-to-search-backtrack.-.patch
 
-For regular recipes with a few checksum I do the same. But it doesn't scale
-here as you mention bellow.
-as it reported only the first wrong checksum from MANY.
+diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-Limit-the-amount-of-whitespace-to-search-backtrack.-.patch b/meta/recipes-devtools/python/python3-setuptools/0001-Limit-the-amount-of-whitespace-to-search-backtrack.-.patch
+new file mode 100644
+index 0000000000..20a13da7bc
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-setuptools/0001-Limit-the-amount-of-whitespace-to-search-backtrack.-.patch
+@@ -0,0 +1,31 @@
++From 9e9f617a83f6593b476669030b0347d48e831c3f Mon Sep 17 00:00:00 2001
++From: Narpat Mali <narpat.mali@windriver.com>
++Date: Mon, 9 Jan 2023 14:45:05 +0000
++Subject: [PATCH] Limit the amount of whitespace to search/backtrack. Fixes
++ #3659.
++
++CVE: CVE-2022-40897
++
++Upstream-Status: Backport [https://github.com/pypa/setuptools/commit/43a9c9bfa6aa626ec2a22540bea28d2ca77964be]
++
++Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
++---
++ setuptools/package_index.py | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/setuptools/package_index.py b/setuptools/package_index.py
++index 270e7f3..e93fcc6 100644
++--- a/setuptools/package_index.py
+++++ b/setuptools/package_index.py
++@@ -197,7 +197,7 @@ def unique_values(func):
++     return wrapper
++ 
++ 
++-REL = re.compile(r"""<([^>]*\srel\s*=\s*['"]?([^'">]+)[^>]*)>""", re.I)
+++REL = re.compile(r"""<([^>]*\srel\s{0,10}=\s{0,10}['"]?([^'" >]+)[^>]*)>""", re.I)
++ # this line is here to fix emacs' cruddy broken syntax highlighting
++ 
++ 
++-- 
++2.34.1
++
+diff --git a/meta/recipes-devtools/python/python3-setuptools_65.0.2.bb b/meta/recipes-devtools/python/python3-setuptools_65.0.2.bb
+index 1a639ea333..d7cbb99c9d 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_65.0.2.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_65.0.2.bb
+@@ -9,7 +9,9 @@ inherit pypi python_setuptools_build_meta
+ SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
+ 
+ SRC_URI += "file://0001-change-shebang-to-python3.patch \
+-            file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
++            file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch \
++            file://0001-Limit-the-amount-of-whitespace-to-search-backtrack.-.patch \
++"
+ 
+ SRC_URI[sha256sum] = "101bf15ca723beef42c8db91a761f3748d4d697e17fae904db60c0b619d8d094"
+ 
+-- 
+2.34.1
 
-But I'm aware this is not exactly the same, since a cargo based recipe
-> could contain a ton of crate:// uri and if you apply this method, you hav=
-e
-> to copy the new checksum one by one, bitbake error after another...
->
-> Don't know how to make this better and I plead guilty for not mentioning
-> that in a dedicated commit message.
->
-
-Better late than never, you can include it in v6 of this patch (I have read
-the git log of the .bbclass before going to refresh the .inc files, so
-others might notice it there as well).
-
-Of course, if someone come up with a smoothier way of doing this, I'll make
-> a new patch.
->
-
-I think I found what the other issue with arrayvec create was:
-
-meta-webos/recipes-upstreamable/solana/solana-crates.inc:    crate://
-crates.io/arrayvec/0.7.2 \
-meta-webos/recipes-upstreamable/solana/solana-crates.inc:SRC_URI[arrayvec.s=
-ha256sum]
-=3D "8da52d66c7071e2e3fa2a1e5c6d088fec47b593032b254f5e980de8ea54454d6"
-meta-webos/recipes-upstreamable/solana/solana-crates.inc:    crate://
-crates.io/arrayvec/0.7.1 \
-meta-webos/recipes-upstreamable/solana/solana-crates.inc:SRC_URI[arrayvec.s=
-ha256sum]
-=3D "be4dc07131ffa69b8072d35f5007352af944213cde02545e2103680baed38fcd"
-meta-webos/recipes-upstreamable/sugar/sugar-crates.inc:    crate://
-crates.io/arrayvec/0.7.2 \
-meta-webos/recipes-upstreamable/sugar/sugar-crates.inc:SRC_URI[arrayvec.sha=
-256sum]
-=3D "8da52d66c7071e2e3fa2a1e5c6d088fec47b593032b254f5e980de8ea54454d6"
-
-So different Cargo.lock files included in the same ${S} have different
-version, but in this case it didn't set different name parameter, probably
-because different Cargo.lock files are processed separately?
-
-Thanks
-
-Le jeu. 30 mars 2023, 21:50, Fr=C3=A9d=C3=A9ric Martinsons <
-> frederic.martinsons@gmail.com> a =C3=A9crit :
->
->> Well I see what you mean, I'll take a look at your example to try to fin=
-d
->> out if multiple Cargo.lock could be expected.
->>
->> And for your second remark, yes, there is a chicken and eggs issue for
->> updating crates checksum from scratch.
->> You didn't miss anything, I came across this when updating crates
->> checksum that was "pristine"
->>  and I only manage to execute update_crates by locally patching
->> bitbake/lib/bb/fetch2/crate.py for
->> recommends_checksum method to return False .
->> I'm aware that is not ideal but I don't know how to make this better
->> (maybe make do_update_crates
->> after do_fetch instead of after do_patch ? )
->>
->>
->> Le jeu. 30 mars 2023, 21:23, Martin Jansa <martin.jansa@gmail.com> a
->> =C3=A9crit :
->>
->>> I don't remember the exact details now, but when I was working on
->>> updating solana recipes to use this
->>>
->>> https://github.com/webosose/meta-webosose/commit/9bdfae7988077d0211eeee=
-79cc339d0770cd86b4
->>>
->>> the S was pointing to just some subdirectory and multiple Cargo.locks
->>> files were parsed in other directories as well, that's why I was adding
->>>
->>> https://git.openembedded.org/openembedded-core/commit/meta/classes-reci=
-pe/cargo-update-recipe-crates.bbclass?id=3D7636a2b8080521ed2ad54b0edce47a87=
-42a12d58
->>>
->>> in the end I've changed to use the root directory in S and just
->>> set CARGO_SRC_DIR to right subdirectory to build.
->>>
->>> I don't have much experience with crates other than these solana
->>> recipes, but isn't there some valid use-case for multiple Cargo.locks?
->>> I assume Alex in original implementation didn't use the os.walk just to
->>> make it more complicated :).
->>>
->>> And FWIW when trying to regenerate these .inc files with current master
->>> and with:
->>> $ bitbake -c update_crates solana-keygen
->>> it fails with:
->>> ERROR: solana-keygen-1.14.5-r0 do_fetch: No checksum specified for
->>> '/OE/lge/build/webos/mickledore/downloads/Inflector-0.11.4.crate', plea=
-se
->>> add at least one to the recipe:
->>> SRC_URI[Inflector.sha256sum] =3D
->>> "fe438c63458706e03479442743baae6c88256498e6431708f6dfc520a26515d3"
->>> ERROR: solana-keygen-1.14.5-r0 do_fetch: Bitbake Fetcher Error:
->>> NoChecksumError('Missing SRC_URI checksum', '
->>> https://crates.io/api/v1/crates/Inflector/0.11.4/download')
->>>
->>> Isn't it an chicken&egg issue now when do_fetch enforces checksums to b=
-e
->>> used? Or am I just missing some of the pending changes or just using it
->>> incorrectly?
->>>
->>>
->>> On Thu, Mar 30, 2023 at 6:34=E2=80=AFPM Alex Kiernan <alex.kiernan@gmai=
-l.com>
->>> wrote:
->>>
->>>> On Thu, Mar 30, 2023 at 4:45=E2=80=AFPM <frederic.martinsons@gmail.com=
-> wrote:
->>>> >
->>>> > From: Frederic Martinsons <frederic.martinsons@gmail.com>
->>>> >
->>>> > There is no need to do such things, Cargo.lock file
->>>> > has to be at the root of CARGO_LOCK_SRC_DIR.
->>>> > This avoid finding other possible Cargo.lock that
->>>> > would be in subdir (for example if a patch is applied
->>>> > on the recipe, we can have .pc subdir in S and a Cargo.lock
->>>> > can be there)
->>>> >
->>>> > Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
->>>> > ---
->>>> >  .../cargo-update-recipe-crates.bbclass               | 12
->>>> ++++++++----
->>>> >  1 file changed, 8 insertions(+), 4 deletions(-)
->>>> >
->>>> > diff --git a/meta/classes-recipe/cargo-update-recipe-crates.bbclass
->>>> b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
->>>> > index daa363b0dd..549cfe627e 100644
->>>> > --- a/meta/classes-recipe/cargo-update-recipe-crates.bbclass
->>>> > +++ b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
->>>> > @@ -68,10 +68,14 @@ def get_crates(f):
->>>> >  import os
->>>> >  crates =3D "# Autogenerated with 'bitbake -c update_crates ${PN}'\n=
-\n"
->>>> >  found =3D False
->>>> > -for root, dirs, files in os.walk('${CARGO_LOCK_SRC_DIR}'):
->>>> > -    for file in files:
->>>> > -        if file =3D=3D 'Cargo.lock':
->>>> > -            crates +=3D get_crates(os.path.join(root, file))
->>>> > +for file in os.listdir('${CARGO_LOCK_SRC_DIR}'):
->>>> > +    if file =3D=3D 'Cargo.lock':
->>>> > +        try:
->>>> > +            cargo_lock_path =3D os.path.join('${CARGO_LOCK_SRC_DIR}=
-',
->>>> file)
->>>> > +            crates +=3D get_crates(cargo_lock_path)
->>>> > +        except Exception as e:
->>>> > +            raise ValueError("Cannot parse '%s'" % cargo_lock_path)
->>>> from e
->>>> > +        else:
->>>> >              found =3D True
->>>> >  if not found:
->>>> >      raise ValueError("Unable to find Cargo.lock in
->>>> ${CARGO_LOCK_SRC_DIR}")
->>>>
->>>> Isn't this just a long-winded version of something like this
->>>> (completely untested):
->>>>
->>>> diff --git a/meta/classes-recipe/cargo-update-recipe-crates.bbclass
->>>> b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
->>>> index daa363b0dd65..22ddcfa5c1e3 100644
->>>> --- a/meta/classes-recipe/cargo-update-recipe-crates.bbclass
->>>> +++ b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
->>>> @@ -67,14 +67,7 @@ def get_crates(f):
->>>>
->>>>  import os
->>>>  crates =3D "# Autogenerated with 'bitbake -c update_crates ${PN}'\n\n=
-"
->>>> -found =3D False
->>>> -for root, dirs, files in os.walk('${CARGO_LOCK_SRC_DIR}'):
->>>> -    for file in files:
->>>> -        if file =3D=3D 'Cargo.lock':
->>>> -            crates +=3D get_crates(os.path.join(root, file))
->>>> -            found =3D True
->>>> -if not found:
->>>> -    raise ValueError("Unable to find Cargo.lock in
->>>> ${CARGO_LOCK_SRC_DIR}")
->>>> +crates +=3D get_crates(os.path.join("${CARGO_LOCK_SRC_DIR}",
->>>> "Cargo.lock"))
->>>>  open("${TARGET_FILE}", 'w').write(crates)
->>>>  EOF
->>>>
->>>> --
->>>> Alex Kiernan
->>>>
->>>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>>> Links: You receive all messages sent to this group.
->>>> View/Reply Online (#179344):
->>>> https://lists.openembedded.org/g/openembedded-core/message/179344
->>>> Mute This Topic: https://lists.openembedded.org/mt/97953740/3617156
->>>> Group Owner: openembedded-core+owner@lists.openembedded.org
->>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
-[
->>>> Martin.Jansa@gmail.com]
->>>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>>>
->>>>
-
---0000000000008a924d05f823d9fb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, Mar 30, 2023 at 10:07=E2=80=AFPM =
-Fr=C3=A9d=C3=A9ric Martinsons &lt;<a href=3D"mailto:frederic.martinsons@gma=
-il.com" target=3D"_blank">frederic.martinsons@gmail.com</a>&gt; wrote:<br><=
-/div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex"><div dir=3D"auto">By the way, about this &quot;chickens and eggs&quo=
-t; problem, isn&#39;t it the same for a regular recipe you just upgraded?=
-=C2=A0</div></blockquote><div><br></div><div>I don&#39;t know, I haven&#39;=
-t upgraded a recipe with crates yet :)</div><div><br></div><div>It&#39;s ju=
-st this time I was aware that the .inc file will need to be refreshed and i=
-t wasn&#39;t obvious at first that easiest way to avoid do_fetch issue bloc=
-king .inc refresh is to remove all crates first by emptying .inc file.</div=
-><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
-=3D"auto"><div dir=3D"auto">Personnaly, when I update a recipe, I let bitba=
-ke tell me what is the new checksum expected and put it the recipe (as the =
-error message says).</div></div></blockquote><div><br></div><div>For regula=
-r recipes with a few checksum I do the same. But it doesn&#39;t scale here =
-as you mention bellow.</div><div>as it reported only the first wrong checks=
-um from MANY.</div><div><br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex"><div dir=3D"auto"><div dir=3D"auto">But I&#39;m aware this is no=
-t exactly the same, since a cargo based recipe could contain a ton of crate=
-:// uri and if you apply this method, you have to copy the new checksum one=
- by one, bitbake error after another...=C2=A0</div><div dir=3D"auto"><br></=
-div><div dir=3D"auto">Don&#39;t know how to make this better and I plead gu=
-ilty for not mentioning that in a dedicated commit message.</div></div></bl=
-ockquote><div><br></div><div>Better late than never, you can include it in =
-v6 of this patch (I have read the git log of the .bbclass before going to r=
-efresh the .inc files, so others might notice it there as well).</div><div>=
-<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"aut=
-o"><div dir=3D"auto">Of course, if someone come up with a smoothier way of =
-doing this, I&#39;ll make a new patch.=C2=A0</div></div></blockquote><div><=
-br></div><div>I think I found what the other issue with arrayvec create was=
-:</div><div><br></div><div>meta-webos/recipes-upstreamable/solana/solana-cr=
-ates.inc: =C2=A0 =C2=A0crate://<a href=3D"http://crates.io/arrayvec/0.7.2">=
-crates.io/arrayvec/0.7.2</a> \<br>meta-webos/recipes-upstreamable/solana/so=
-lana-crates.inc:SRC_URI[arrayvec.sha256sum] =3D &quot;8da52d66c7071e2e3fa2a=
-1e5c6d088fec47b593032b254f5e980de8ea54454d6&quot;<br>meta-webos/recipes-ups=
-treamable/solana/solana-crates.inc: =C2=A0 =C2=A0crate://<a href=3D"http://=
-crates.io/arrayvec/0.7.1">crates.io/arrayvec/0.7.1</a> \<br>meta-webos/reci=
-pes-upstreamable/solana/solana-crates.inc:SRC_URI[arrayvec.sha256sum] =3D &=
-quot;be4dc07131ffa69b8072d35f5007352af944213cde02545e2103680baed38fcd&quot;=
-<br>meta-webos/recipes-upstreamable/sugar/sugar-crates.inc: =C2=A0 =C2=A0cr=
-ate://<a href=3D"http://crates.io/arrayvec/0.7.2">crates.io/arrayvec/0.7.2<=
-/a> \<br>meta-webos/recipes-upstreamable/sugar/sugar-crates.inc:SRC_URI[arr=
-ayvec.sha256sum] =3D &quot;8da52d66c7071e2e3fa2a1e5c6d088fec47b593032b254f5=
-e980de8ea54454d6&quot;</div><div><br></div><div>So different Cargo.lock fil=
-es included in the same ${S} have different version, but in this case it di=
-dn&#39;t set different name parameter, probably because different Cargo.loc=
-k files are processed separately?</div><div><br></div><div>Thanks</div><div=
-><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div class=3D"=
-gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Le jeu. 30 mars 2023, 21=
-:50, Fr=C3=A9d=C3=A9ric Martinsons &lt;<a href=3D"mailto:frederic.martinson=
-s@gmail.com" target=3D"_blank">frederic.martinsons@gmail.com</a>&gt; a =C3=
-=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><=
-div dir=3D"ltr"><div dir=3D"auto"><div>Well I see what you mean, I&#39;ll t=
-ake a look at your example to try to find out if multiple Cargo.lock could =
-be expected.<div dir=3D"auto"><br></div><div dir=3D"auto">And for your seco=
-nd remark, yes, there is a chicken and eggs issue for updating crates check=
-sum from scratch.</div><div dir=3D"auto">You didn&#39;t miss anything, I ca=
-me across this when updating crates checksum that was &quot;pristine&quot;<=
-/div><div dir=3D"auto">=C2=A0and I only manage to execute update_crates by =
-locally patching bitbake/lib/bb/fetch2/crate.py for</div><div dir=3D"auto">=
-recommends_checksum method to return False .<br></div><div>I&#39;m aware th=
-at is not ideal but I don&#39;t know how to make this better (maybe make do=
-_update_crates</div><div>after do_fetch instead of after do_patch ? )</div>=
-<br><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Le=
- jeu. 30 mars 2023, 21:23, Martin Jansa &lt;<a href=3D"mailto:martin.jansa@=
-gmail.com" rel=3D"noreferrer" target=3D"_blank">martin.jansa@gmail.com</a>&=
-gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex"><div dir=3D"ltr">I don&#39;t remember the exact details now, but wh=
-en I was working on updating solana recipes to use this<div><a href=3D"http=
-s://github.com/webosose/meta-webosose/commit/9bdfae7988077d0211eeee79cc339d=
-0770cd86b4" rel=3D"noreferrer noreferrer" target=3D"_blank">https://github.=
-com/webosose/meta-webosose/commit/9bdfae7988077d0211eeee79cc339d0770cd86b4<=
-/a></div><div><br></div><div>the S was pointing to just some subdirectory a=
-nd multiple Cargo.locks files were parsed in other directories as well, tha=
-t&#39;s why I was adding=C2=A0<br><div><a href=3D"https://git.openembedded.=
-org/openembedded-core/commit/meta/classes-recipe/cargo-update-recipe-crates=
-.bbclass?id=3D7636a2b8080521ed2ad54b0edce47a8742a12d58" rel=3D"noreferrer n=
-oreferrer" target=3D"_blank">https://git.openembedded.org/openembedded-core=
-/commit/meta/classes-recipe/cargo-update-recipe-crates.bbclass?id=3D7636a2b=
-8080521ed2ad54b0edce47a8742a12d58</a><br></div><div><br></div><div>in the e=
-nd I&#39;ve changed to use the root directory in S and just set=C2=A0CARGO_=
-SRC_DIR to right subdirectory to build.</div><div><br></div><div>I don&#39;=
-t have much experience with crates other than these solana recipes, but isn=
-&#39;t there some valid use-case for multiple Cargo.locks?</div><div>I assu=
-me Alex in original implementation didn&#39;t use the os.walk just to make =
-it more complicated :).</div><div><br></div><div>And FWIW when trying to re=
-generate these .inc files with current master and with:</div><div>$ bitbake=
- -c update_crates solana-keygen<br></div><div>it fails with:</div><div>ERRO=
-R: solana-keygen-1.14.5-r0 do_fetch: No checksum specified for &#39;/OE/lge=
-/build/webos/mickledore/downloads/Inflector-0.11.4.crate&#39;, please add a=
-t least one to the recipe:<br>SRC_URI[Inflector.sha256sum] =3D &quot;fe438c=
-63458706e03479442743baae6c88256498e6431708f6dfc520a26515d3&quot;<br>ERROR: =
-solana-keygen-1.14.5-r0 do_fetch: Bitbake Fetcher Error: NoChecksumError(&#=
-39;Missing SRC_URI checksum&#39;, &#39;<a href=3D"https://crates.io/api/v1/=
-crates/Inflector/0.11.4/download" rel=3D"noreferrer noreferrer" target=3D"_=
-blank">https://crates.io/api/v1/crates/Inflector/0.11.4/download</a>&#39;)<=
-br></div><div><br></div><div>Isn&#39;t it an chicken&amp;egg issue now when=
- do_fetch enforces checksums to be used? Or am I just missing some of the p=
-ending changes or just using it incorrectly?</div><div>=C2=A0</div></div></=
-div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On=
- Thu, Mar 30, 2023 at 6:34=E2=80=AFPM Alex Kiernan &lt;<a href=3D"mailto:al=
-ex.kiernan@gmail.com" rel=3D"noreferrer noreferrer" target=3D"_blank">alex.=
-kiernan@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">On Thu, Mar 30, 2023 at 4:45=E2=80=AFPM &lt;<a href=3D"mai=
-lto:frederic.martinsons@gmail.com" rel=3D"noreferrer noreferrer" target=3D"=
-_blank">frederic.martinsons@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; From: Frederic Martinsons &lt;<a href=3D"mailto:frederic.martinsons@gm=
-ail.com" rel=3D"noreferrer noreferrer" target=3D"_blank">frederic.martinson=
-s@gmail.com</a>&gt;<br>
-&gt;<br>
-&gt; There is no need to do such things, Cargo.lock file<br>
-&gt; has to be at the root of CARGO_LOCK_SRC_DIR.<br>
-&gt; This avoid finding other possible Cargo.lock that<br>
-&gt; would be in subdir (for example if a patch is applied<br>
-&gt; on the recipe, we can have .pc subdir in S and a Cargo.lock<br>
-&gt; can be there)<br>
-&gt;<br>
-&gt; Signed-off-by: Frederic Martinsons &lt;<a href=3D"mailto:frederic.mart=
-insons@gmail.com" rel=3D"noreferrer noreferrer" target=3D"_blank">frederic.=
-martinsons@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 .../cargo-update-recipe-crates.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 12 ++++++++----<br>
-&gt;=C2=A0 1 file changed, 8 insertions(+), 4 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/classes-recipe/cargo-update-recipe-crates.bbclass b/=
-meta/classes-recipe/cargo-update-recipe-crates.bbclass<br>
-&gt; index daa363b0dd..549cfe627e 100644<br>
-&gt; --- a/meta/classes-recipe/cargo-update-recipe-crates.bbclass<br>
-&gt; +++ b/meta/classes-recipe/cargo-update-recipe-crates.bbclass<br>
-&gt; @@ -68,10 +68,14 @@ def get_crates(f):<br>
-&gt;=C2=A0 import os<br>
-&gt;=C2=A0 crates =3D &quot;# Autogenerated with &#39;bitbake -c update_cra=
-tes ${PN}&#39;\n\n&quot;<br>
-&gt;=C2=A0 found =3D False<br>
-&gt; -for root, dirs, files in os.walk(&#39;${CARGO_LOCK_SRC_DIR}&#39;):<br=
->
-&gt; -=C2=A0 =C2=A0 for file in files:<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if file =3D=3D &#39;Cargo.lock&#39;:<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 crates +=3D get_crates(os.p=
-ath.join(root, file))<br>
-&gt; +for file in os.listdir(&#39;${CARGO_LOCK_SRC_DIR}&#39;):<br>
-&gt; +=C2=A0 =C2=A0 if file =3D=3D &#39;Cargo.lock&#39;:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cargo_lock_path =3D os.path=
-.join(&#39;${CARGO_LOCK_SRC_DIR}&#39;, file)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 crates +=3D get_crates(carg=
-o_lock_path)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 except Exception as e:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise ValueError(&quot;Cann=
-ot parse &#39;%s&#39;&quot; % cargo_lock_path) from e<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 found =3D True<br>
-&gt;=C2=A0 if not found:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 raise ValueError(&quot;Unable to find Cargo.lock i=
-n ${CARGO_LOCK_SRC_DIR}&quot;)<br>
-<br>
-Isn&#39;t this just a long-winded version of something like this<br>
-(completely untested):<br>
-<br>
-diff --git a/meta/classes-recipe/cargo-update-recipe-crates.bbclass<br>
-b/meta/classes-recipe/cargo-update-recipe-crates.bbclass<br>
-index daa363b0dd65..22ddcfa5c1e3 100644<br>
---- a/meta/classes-recipe/cargo-update-recipe-crates.bbclass<br>
-+++ b/meta/classes-recipe/cargo-update-recipe-crates.bbclass<br>
-@@ -67,14 +67,7 @@ def get_crates(f):<br>
-<br>
-=C2=A0import os<br>
-=C2=A0crates =3D &quot;# Autogenerated with &#39;bitbake -c update_crates $=
-{PN}&#39;\n\n&quot;<br>
--found =3D False<br>
--for root, dirs, files in os.walk(&#39;${CARGO_LOCK_SRC_DIR}&#39;):<br>
--=C2=A0 =C2=A0 for file in files:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if file =3D=3D &#39;Cargo.lock&#39;:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 crates +=3D get_crates(os.path.j=
-oin(root, file))<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 found =3D True<br>
--if not found:<br>
--=C2=A0 =C2=A0 raise ValueError(&quot;Unable to find Cargo.lock in ${CARGO_=
-LOCK_SRC_DIR}&quot;)<br>
-+crates +=3D get_crates(os.path.join(&quot;${CARGO_LOCK_SRC_DIR}&quot;, &qu=
-ot;Cargo.lock&quot;))<br>
-=C2=A0open(&quot;${TARGET_FILE}&quot;, &#39;w&#39;).write(crates)<br>
-=C2=A0EOF<br>
-<br>
--- <br>
-Alex Kiernan<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#179344): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/179344" rel=3D"noreferrer noreferrer noreferrer" ta=
-rget=3D"_blank">https://lists.openembedded.org/g/openembedded-core/message/=
-179344</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/97953740/3617=
-156" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https://lis=
-ts.openembedded.org/mt/97953740/3617156</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" rel=3D"noreferrer noreferrer" target=3D"_blank">openembedded-core+own=
-er@lists.openembedded.org</a><br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https://l=
-ists.openembedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:Mart=
-in.Jansa@gmail.com" rel=3D"noreferrer noreferrer" target=3D"_blank">Martin.=
-Jansa@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-</blockquote></div></div></div>
-</div>
-</blockquote></div>
-</blockquote></div></div>
-
---0000000000008a924d05f823d9fb--
 
