@@ -1,227 +1,165 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D52CDC761A6
-	for <webhook@archiver.kernel.org>; Thu, 30 Mar 2023 12:49:21 +0000 (UTC)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
- by mx.groups.io with SMTP id smtpd.web10.24046.1680180553232314269
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD47FC761AF
+	for <webhook@archiver.kernel.org>; Thu, 30 Mar 2023 12:55:01 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web10.24181.1680180893752819710
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Mar 2023 05:49:13 -0700
+ Thu, 30 Mar 2023 05:54:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=md3PrrOQ;
- spf=pass (domain: gmail.com, ip: 209.85.208.182, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-lj1-f182.google.com with SMTP id a44so818614ljr.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 05:49:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680180551;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=nJXwTStjWjflEFXg9xOq+t8l7nAlDKMr/2mnd7+SXm8=;
-        b=md3PrrOQFZcL97cxAMmAAtTI1UVGU/yJxrfsyMNZqtBVII5xflN5o5b5WAcjJ37V+o
-         FNiZtwLDd/5e4fsFQ7jy5aY5IqxdMsAg4ZYZM2cacrjS0K0CPJa4LzLe+xjC1JDL3sfL
-         jdl52EChZ0B1Sl77VDON6Bp/m58yg5AJaS1F81HDI0dVOauVyIzwCtPxW9benRI2749W
-         Wzx7uA8U5d+EWl2cc4U8xssz/r1AJtUbXCWr5sHKXysnTbyuO3gUByPV+76a6cnwedpf
-         7HBcAsLNvaenL+M0ZgajVelyxDk6nl160f2xDNPYB5Ys9KOE5lw+Hhm+jRMsHuJ1EjmX
-         sntg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680180551;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nJXwTStjWjflEFXg9xOq+t8l7nAlDKMr/2mnd7+SXm8=;
-        b=wtnmdyV0qyAqqug2byN79LF1tNCl4QUBHChdc9iDQ3ylS5zks59AFeyoy+gOU+G2I3
-         O5Z++8Hz0E7/BMX6nm091g7Xidz600vRN/Tiuv2/EVGtwsM1oXaUlLBQYg18ee7FkJEP
-         V2Txnh94UWpMxaXcFaeq2C7ciA4pqvBXWwXCzQyjh7J1SrIypjf7/4oBiyZ/G0Ixdy0n
-         u5CgZeVe5GoIPsNoI56cHDYAvWqcgKLS02MXj2yd3XKs1+AOPgH7NPnbOcAzTD/qFojP
-         2bbNK52bC7UBnp4araT+D54RhhbknY/wfpaWOWV5jqgbKdhKzYcJmPolUbRUvXhBzO5W
-         ldwA==
-X-Gm-Message-State: AAQBX9ctGfYsmLbXVI8uTPRmjlKeoU6AQu88opPiL8tRLsFwoFGmTzLU
-	GKkLL6Kr+mfQ5Wi9lYI9GLeNVTT/6/fx0rTQcws=
-X-Google-Smtp-Source: AKy350bjcOhejl9i77Eohq9WakcRn9m8dFQSlDsh1+82/IgVGj9AftuHjAMk/o5s89gDBEm9GrQ5y0s1bgjZGwcouNE=
-X-Received: by 2002:a2e:90d7:0:b0:2a6:16b4:a554 with SMTP id
- o23-20020a2e90d7000000b002a616b4a554mr912658ljg.3.1680180550934; Thu, 30 Mar
- 2023 05:49:10 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=BX9JPkFj;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id C29181BF207;
+	Thu, 30 Mar 2023 12:54:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1680180891;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HKenD7rA8UbXrDzl/rygPDfBxnZPQ4t/Fx83MqFliAg=;
+	b=BX9JPkFj2zd8OjjzaWMDdFxB0JSUA7I1F0iGCpFIeqW9KrktsMx9NONA2XslW5dYcr9vJJ
+	clGrgAdyVbxFEW6nxIDvfGzOapCaqB9TRVeEpTZsNWVtMF2uEyofQft/YTP7LsCrXm+Vwf
+	vYYX8NJY6GDEyNCRgBBcuw7BQz9ERexU4CUP1hj49V27+ygqeOpNJkSxT/zHwoxX988bw7
+	J/5Rma4uXeLWq9H/KmY0c/+EIjKOV7prWZDeGNUITP8Av37bU8ZMgwQQOip0biQqABYQVr
+	AJ+51QnQ2gYDtefGaGPmABZk8dJV1P5z8RfCasApFmxQCG5ZPCZ1DoDmd/1XXA==
+Date: Thu, 30 Mar 2023 14:54:50 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Tobias Hagelborn <tobias.hagelborn@axis.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] lib/oe/gpg_sign.py: Avoid race when creating
+ .sig files in detach_sign
+Message-ID: <202303301254507aff37b1@mail.local>
+References: <20230323100847.3740485-1-tobiasha@axis.com>
+ <1751049D3A378E36.12651@lists.openembedded.org>
+ <208af449dd70c4d88af9e9259413c823d83e0302.camel@linuxfoundation.org>
 MIME-Version: 1.0
-References: <cover.1680103647.git.frederic.martinsons@gmail.com>
- <8d69fe1e3f390a7e8fa568abdc20e5d0ee634fc1.1680103647.git.frederic.martinsons@gmail.com>
- <20230330090324705e693e@mail.local> <2023033009145701b67168@mail.local>
- <CA+cAker5pJUBoOSEVZtk++394xGgXqcDDD9eFJpu07+Ai5PaWg@mail.gmail.com>
- <d83c8058e83e33d02e4650c2d29c1a03a6db739f.camel@linuxfoundation.org> <1751320CE5466FC4.12651@lists.openembedded.org>
-In-Reply-To: <1751320CE5466FC4.12651@lists.openembedded.org>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Date: Thu, 30 Mar 2023 14:48:59 +0200
-Message-ID: <CA+cAkepAz3Wgj5uEgY9LOanHaSnuH3A66DCGoo=xyV9k9twxSg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH V4 5/5] meta-selftest: provide a recipe for zvariant
-To: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, openembedded-core@lists.openembedded.org, 
-	Alex Kiernan <alex.kiernan@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000e5a22b05f81d8493"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <208af449dd70c4d88af9e9259413c823d83e0302.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 12:49:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179318
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 12:55:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179319
 
---000000000000e5a22b05f81d8493
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 30/03/2023 10:10:21+0100, Richard Purdie wrote:
+> On Wed, 2023-03-29 at 23:33 +0100, Richard Purdie via
+> lists.openembedded.org wrote:
+> > On Thu, 2023-03-23 at 11:08 +0100, Tobias Hagelborn wrote:
+> > > Move the signature file into place only after it is successfully signed.
+> > > This to avoid race and corrupted .sig files in cases multiple onging
+> > > builds write to a shared sstate-cache dir.
+> > > 
+> > > Signed-off-by: Tobias Hagelborn <tobiasha@axis.com>
+> > > ---
+> > >  meta/lib/oe/gpg_sign.py | 25 +++++++++++++++----------
+> > >  1 file changed, 15 insertions(+), 10 deletions(-)
+> > > 
+> > > diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
+> > > index 613dab8561..868846cdc5 100644
+> > > --- a/meta/lib/oe/gpg_sign.py
+> > > +++ b/meta/lib/oe/gpg_sign.py
+> > > @@ -5,11 +5,12 @@
+> > >  #
+> > >  
+> > >  """Helper module for GPG signing"""
+> > > -import os
+> > >  
+> > >  import bb
+> > > -import subprocess
+> > > +import os
+> > >  import shlex
+> > > +import subprocess
+> > > +import tempfile
+> > >  
+> > >  class LocalSigner(object):
+> > >      """Class for handling local (on the build host) signing"""
+> > > @@ -73,8 +74,6 @@ class LocalSigner(object):
+> > >              cmd += ['--homedir', self.gpg_path]
+> > >          if armor:
+> > >              cmd += ['--armor']
+> > > -        if output_suffix:
+> > > -            cmd += ['-o', input_file + "." + output_suffix]
+> > >          if use_sha256:
+> > >              cmd += ['--digest-algo', "SHA256"]
+> > >  
+> > > @@ -83,19 +82,25 @@ class LocalSigner(object):
+> > >          if self.gpg_version > (2,1,):
+> > >              cmd += ['--pinentry-mode', 'loopback']
+> > >  
+> > > -        cmd += [input_file]
+> > > -
+> > >          try:
+> > >              if passphrase_file:
+> > >                  with open(passphrase_file) as fobj:
+> > >                      passphrase = fobj.readline();
+> > >  
+> > > -            job = subprocess.Popen(cmd, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
+> > > -            (_, stderr) = job.communicate(passphrase.encode("utf-8"))
+> > > +            output_file = input_file + "." + (output_suffix or 'sig')
+> > 
+> > This doesn't match the behaviour of output_suffix as used above where
+> > it defaults to None. This forces it to a default of "sig" instead?
+> > 
+> > If that intentional that should be in the commit message.
+> > 
+> > 
+> > > +            with tempfile.TemporaryDirectory(dir=os.path.dirname(output_file)) as tmp_dir:
+> > > +                tmp_file = os.path.join(tmp_dir, os.path.basename(output_file))
+> > > +                cmd += ['-o', tmp_file]
+> > > +
+> > > +                cmd += [input_file]
+> > > +
+> > > +                job = subprocess.Popen(cmd, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
+> > > +                (_, stderr) = job.communicate(passphrase.encode("utf-8"))
+> > >  
+> > > -            if job.returncode:
+> > > -                bb.fatal("GPG exited with code %d: %s" % (job.returncode, stderr.decode("utf-8")))
+> > > +                if job.returncode:
+> > > +                    bb.fatal("GPG exited with code %d: %s" % (job.returncode, stderr.decode("utf-8")))
+> > >  
+> > > +                os.rename(tmp_file, output_file)
+> > >          except IOError as e:
+> > >              bb.error("IO error (%s): %s" % (e.errno, e.strerror))
+> > >              raise Exception("Failed to sign '%s'" % input_file)
+> 
+> I've been struggling to confirm it but have now done so. This does
+> cause an oe-selftest failure as here:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/4950/steps/14/logs/stdio
+> 
+> 
+> i.e. from
+> 
+> oe-selftest -r runtime_test.TestImage.test_testimage_dnf
+> 
 
-Ah, when trying to update the checksum, I encounter an issue in
-do_update_crates (specific to the zvariant recipe structure), I'll add
-another patch for that.
+I realize just now that I forgot to send an email telling exactly that,
+sorry!
 
-Le jeu. 30 mars 2023, 14:26, Frederic Martinsons via lists.openembedded.org
-<frederic.martinsons=3Dgmail.com@lists.openembedded.org> a =C3=A9crit :
+> Cheers,
+> 
+> Richard
+> 
+> 
 
-> Ok,  I'll do this rebase in the coming hours.
->
->
-> On Thu, 30 Mar 2023 at 13:35, Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
->
->> On Thu, 2023-03-30 at 11:47 +0200, Frederic Martinsons wrote:
->> > What version of bitbake you had pulled ?
->> > Because "mandatory checksum on crates" is a patch I submitted two
->> > weeks ago
->> > (https://patchwork.yoctoproject.org/project/bitbake/patch/20230317081
->> > 916.1857201-2-frederic.martinsons@gmail.com/))
->> > and it is not yet merged in bitbake master nor in poky master.
->> >
->> > So I construct the present series without these patches in mind since
->> > it is not related.
->> > I you plan to merge the previous series, I can update the zvariant
->> > for this recipe of course
->> > it can be done by issuing "bitbake -c update_crates zvariant" if this
->> > patch
->> > (https://patchwork.yoctoproject.org/project/bitbake/patch/20230316121
->> > 249.28209-1-frederic.martinsons@gmail.com/) is present
->> >
->> > I'm sorry, I must admit that I'm kinda lost with the patch submission
->> > process when it impacts multiple different
->> > projects.
->> > Can you advise on the way of doing this?
->>
->> I've merged the other series now so could you rebase this one on master
->> please?
->>
->> Usually if there are two related series you'd base one on the other and
->> note it in the 0/X of the series. We'd work on the assumption the
->> earlier patches would merge first.
->>
->> The holdup was that I wanted to check something in the bitbake patch,
->> which turned out to be fine, I just needed to do it as part of review
->> due diligence.
->>
->> Cheers,
->>
->> Richard
->>
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#179316):
-> https://lists.openembedded.org/g/openembedded-core/message/179316
-> Mute This Topic: https://lists.openembedded.org/mt/97931116/6213388
+> View/Reply Online (#179308): https://lists.openembedded.org/g/openembedded-core/message/179308
+> Mute This Topic: https://lists.openembedded.org/mt/97797700/3617179
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> frederic.martinsons@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
---000000000000e5a22b05f81d8493
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">Ah, when trying to update the checksum, I encounter an is=
-sue in do_update_crates (specific to the zvariant recipe structure), I&#39;=
-ll add another patch for that.=C2=A0</div><br><div class=3D"gmail_quote"><d=
-iv dir=3D"ltr" class=3D"gmail_attr">Le jeu. 30 mars 2023, 14:26, Frederic M=
-artinsons via <a href=3D"http://lists.openembedded.org">lists.openembedded.=
-org</a> &lt;frederic.martinsons=3D<a href=3D"mailto:gmail.com@lists.openemb=
-edded.org">gmail.com@lists.openembedded.org</a>&gt; a =C3=A9crit=C2=A0:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">Ok,=C2=A0 I&#39;ll do=
- this rebase in the coming hours.<div><br></div></div><br><div class=3D"gma=
-il_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 30 Mar 2023 at 13:3=
-5, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org"=
- target=3D"_blank" rel=3D"noreferrer">richard.purdie@linuxfoundation.org</a=
->&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On =
-Thu, 2023-03-30 at 11:47 +0200, Frederic Martinsons wrote:<br>
-&gt; What version of bitbake you had pulled ?<br>
-&gt; Because &quot;mandatory checksum on crates&quot; is a patch I submitte=
-d two<br>
-&gt; weeks ago<br>
-&gt; (<a href=3D"https://patchwork.yoctoproject.org/project/bitbake/patch/2=
-0230317081" rel=3D"noreferrer noreferrer" target=3D"_blank">https://patchwo=
-rk.yoctoproject.org/project/bitbake/patch/20230317081</a><br>
-&gt; <a href=3D"http://916.1857201-2-frederic.martinsons@gmail.com/" rel=3D=
-"noreferrer noreferrer" target=3D"_blank">916.1857201-2-frederic.martinsons=
-@gmail.com/</a>))<br>
-&gt; and it is not yet merged in bitbake master nor in poky master.<br>
-&gt; <br>
-&gt; So I construct the present series without these patches in mind since<=
-br>
-&gt; it is not related.<br>
-&gt; I you plan to merge the previous series, I can update the zvariant<br>
-&gt; for this recipe of course<br>
-&gt; it can be done by issuing &quot;bitbake -c update_crates zvariant&quot=
-; if this<br>
-&gt; patch<br>
-&gt; (<a href=3D"https://patchwork.yoctoproject.org/project/bitbake/patch/2=
-0230316121" rel=3D"noreferrer noreferrer" target=3D"_blank">https://patchwo=
-rk.yoctoproject.org/project/bitbake/patch/20230316121</a><br>
-&gt; <a href=3D"http://249.28209-1-frederic.martinsons@gmail.com/" rel=3D"n=
-oreferrer noreferrer" target=3D"_blank">249.28209-1-frederic.martinsons@gma=
-il.com/</a>) is present<br>
-&gt; <br>
-&gt; I&#39;m sorry, I must admit that I&#39;m kinda lost with the patch sub=
-mission<br>
-&gt; process when it impacts multiple different<br>
-&gt; projects.<br>
-&gt; Can you advise on the way of doing this?<br>
-<br>
-I&#39;ve merged the other series now so could you rebase this one on master=
-<br>
-please?<br>
-<br>
-Usually if there are two related series you&#39;d base one on the other and=
-<br>
-note it in the 0/X of the series. We&#39;d work on the assumption the<br>
-earlier patches would merge first.<br>
-<br>
-The holdup was that I wanted to check something in the bitbake patch,<br>
-which turned out to be fine, I just needed to do it as part of review<br>
-due diligence.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-</blockquote></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#179316): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/179316" rel=3D"noreferrer noreferrer" target=3D"_bl=
-ank">https://lists.openembedded.org/g/openembedded-core/message/179316</a><=
-br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/97931116/6213=
-388" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openembe=
-dded.org/mt/97931116/6213388</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lists.op=
-enembedded.org</a><br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openem=
-bedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:frederic.martin=
-sons@gmail.com" target=3D"_blank" rel=3D"noreferrer">frederic.martinsons@gm=
-ail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---000000000000e5a22b05f81d8493--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
