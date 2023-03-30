@@ -2,56 +2,56 @@ Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6360FC77B62
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 635CBC77B60
 	for <webhook@archiver.kernel.org>; Thu, 30 Mar 2023 15:45:12 +0000 (UTC)
 Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web10.28925.1680191109620069962
+ by mx.groups.io with SMTP id smtpd.web11.29130.1680191103132127290
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Mar 2023 08:45:09 -0700
+ Thu, 30 Mar 2023 08:45:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=D5LqnlLc;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=SiOkGXIN;
  spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-wr1-f52.google.com with SMTP id h17so19540981wrt.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 08:45:09 -0700 (PDT)
+Received: by mail-wr1-f52.google.com with SMTP id v1so19564922wrv.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 08:45:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680191107;
+        d=gmail.com; s=20210112; t=1680191101;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2BcR/uGzEXfL6UolqHEOdeWKieUzdUS3CcmmeXV2eGs=;
-        b=D5LqnlLc1eluuGqruM9sLTHZiU2z/9H6KFJ2lPvKFIxueXNDshHR05MJX3tYGhtEYk
-         c5aOJwVIT0FZ8fTcaDGZG2VX2UxbopEMKDhg2yxsjJ/QGu3lqZLSmXqmln7uvwm+Crr6
-         ii4hNnIodTRctiLmL7O+hxS7mx/HxiDkxc2qiiYZmP9YlorwGCvSEcS4l6QaIJ9M48sz
-         XcO269QtIznfLkqhRT1Cp8FLt3P16qauOyUiB69l+j7LYl7UpebAUUv6mfsgt2BpXZZY
-         ZJs/wJayeyGi85BsEJl+F1C1ENxR1H7RTOVzQD0uoabDAl+QC4Qp3h1tcpMoCG7SYaFc
-         7HVg==
+        bh=ol8FfIAHbEw0jNdubbhfpGHjv/EAyiWShTkIPW2gNVQ=;
+        b=SiOkGXIN4yAtH0HDkWY4Lh6yGHJ7ADbX8ZU5kk09YN7sVXtHFEtqtIxEp91rn3HJcg
+         /9HpvPWVizetl+PwWUsnYPs7/yj4PGaE7uTdTaDU/ICQb9bkFdz6Z3+4CLXSNI2X4Z9F
+         +gFiJHgM0HxU1oktmvXvGLD2+TkWdxI/eToQM/HfcfgudPV18WiLDKYiLuaTy7FODP7k
+         GtP8RKRd2f+gvrP7Qk+ke7tsC4RXsaWKfvkpLwIRg+QtiqFSQhHMvh3uMnvf3o3nJGPd
+         9t+OTcp84tj5WXdybAJIVFr/y34UmC2Vy+t8QMW13PXVx1LbZh5Qf5QfHa4zM/PpOWoS
+         asHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680191107;
+        d=1e100.net; s=20210112; t=1680191101;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2BcR/uGzEXfL6UolqHEOdeWKieUzdUS3CcmmeXV2eGs=;
-        b=mZkKdN0F/9K/B+wSWgIDgZbpob9SSZEurCyyIOjV6LAcxY6ijP7Hl56GTIzcouoTiM
-         6i5ll3wk//63pZIL5bUi0l5kKfOZgZQ7SfmnwYJ6UjEMSjL22WDlkugrDjcdnGQpOdW+
-         uqP9cPBHTCDDXWFRlM0H9J0h1MIcUtFluqEodaHBT8Wx6SxYbfbBFXciFsVkxhLH7Lif
-         I2C6FoL53RachjyCt8UbGVc+DfKmCph2LeE7+ou8JW+5nenE/IwurUXaGwYxqf/LHrT1
-         wZn/QLz1SIndpozy06QFKv9AHjuqFhKqC0LxiAVDXtJBR7dkxAOWMfDkA+rdrAnc2bjK
-         Vdgw==
-X-Gm-Message-State: AAQBX9cjSwvJpQgvzGqhOkt3EE9TCMToruDMMXMvJWwuGdp3M0SntE1M
-	zJcSClrOh7PZcwAdkAs9BbVDlIIts0w=
-X-Google-Smtp-Source: AKy350aOuwmHaO/8wqNEEPmmYzwccMXWq0BkUU1L3nXTyOVpGz+QFKuVbd70cqkZ0kxnDO2eX4E6sg==
-X-Received: by 2002:a05:6000:1206:b0:2ce:a8e9:bb3d with SMTP id e6-20020a056000120600b002cea8e9bb3dmr18693406wrx.4.1680191107362;
-        Thu, 30 Mar 2023 08:45:07 -0700 (PDT)
+        bh=ol8FfIAHbEw0jNdubbhfpGHjv/EAyiWShTkIPW2gNVQ=;
+        b=VfCzDh5pJXKsZqAW+H5wG7Tq2r98YBZ9ALWSvZ+YflDa+lzPJ+sNroKaE+CSgjowuo
+         wHHUaUm/G4/Ypq8OQBNHyfIzCa/XFXWhGGwsRN2s0Ije0c2Ww5KB3EC5rFfAQ7YRB+0O
+         FmPi36ZaIStBYhgcir4K3/rDIUNXySVdCP90hrXORjIleCxmsqghdftW0XmfmFF9PAn4
+         MABaIBSzX3M/Y/lom7n9ZZAU9ZzS/GkEzVS4vr/1ZIAmwGe3xBjdnbuagfnuTYZHlrk9
+         t+QcbVt/MysOi9T56zhsPbGAZ9gtQitYJxSxyDmNK6jKMASOvymqxeJkF60jnil3RcT1
+         4gUQ==
+X-Gm-Message-State: AAQBX9cilYAYDp/Ji6hyoQzD5FTq4Aw/T8+W0j+Zck0/u+P/0sg0Wn7O
+	xOMSys6khE4JCHW0V7h608cJLzc5NmU=
+X-Google-Smtp-Source: AKy350YDKZEiQOTvkDE5Y/l+KV2akYm+6Ph7boggXJQ8+wqvAX7Igcko+yqPu7sXl4jh0eNx72hpOw==
+X-Received: by 2002:adf:ea49:0:b0:2ce:82f8:812d with SMTP id j9-20020adfea49000000b002ce82f8812dmr17884948wrn.54.1680191101183;
+        Thu, 30 Mar 2023 08:45:01 -0700 (PDT)
 Received: from work-pc.. ([2a01:e0a:8d5:c6c0:c898:b1f6:d5c7:39c5])
-        by smtp.gmail.com with ESMTPSA id x12-20020a5d650c000000b002c5544b3a69sm33151056wru.89.2023.03.30.08.45.06
+        by smtp.gmail.com with ESMTPSA id x12-20020a5d650c000000b002c5544b3a69sm33151056wru.89.2023.03.30.08.45.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Mar 2023 08:45:07 -0700 (PDT)
+        Thu, 30 Mar 2023 08:45:00 -0700 (PDT)
 From: frederic.martinsons@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: alex.kiernan@gmail.com
-Subject: [PATCH V5 6/6] cargo-update-recipe-crates: don't walk on the whole dir
-Date: Thu, 30 Mar 2023 17:44:53 +0200
-Message-Id: <6279ccad3163dca527872a9144d63fb8f07c6f0e.1680190966.git.frederic.martinsons@gmail.com>
+Subject: [PATCH V5 3/6] devtool: add support for multiple git url inside a cargo based recipe
+Date: Thu, 30 Mar 2023 17:44:50 +0200
+Message-Id: <19ff7843ad82c2b3e245ce71d082650b3eed7822.1680190966.git.frederic.martinsons@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1680190966.git.frederic.martinsons@gmail.com>
 References: <cover.1680190966.git.frederic.martinsons@gmail.com>
@@ -61,45 +61,39 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 30 Mar 2023 15:45:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179343
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179340
 
 From: Frederic Martinsons <frederic.martinsons@gmail.com>
 
-There is no need to do such things, Cargo.lock file
-has to be at the root of CARGO_LOCK_SRC_DIR.
-This avoid finding other possible Cargo.lock that
-would be in subdir (for example if a patch is applied
-on the recipe, we can have .pc subdir in S and a Cargo.lock
-can be there)
+Without that, the possible git urls that are in SRC_URI of a recipe
+are removed from SRC_URI during devtool process and so the
+cargo_common_do_patch_paths in cargo_common.bbclass cannot
+patch these packages to fetch them locally.
+
+I use a generic type name because I foresee this change will
+be useful for recipe that used a package manager (cargo but also
+npm) see https://bugzilla.yoctoproject.org/show_bug.cgi?id=11015
 
 Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
 ---
- .../cargo-update-recipe-crates.bbclass               | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ meta/classes/externalsrc.bbclass | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/classes-recipe/cargo-update-recipe-crates.bbclass b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
-index daa363b0dd..549cfe627e 100644
---- a/meta/classes-recipe/cargo-update-recipe-crates.bbclass
-+++ b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
-@@ -68,10 +68,14 @@ def get_crates(f):
- import os
- crates = "# Autogenerated with 'bitbake -c update_crates ${PN}'\n\n"
- found = False
--for root, dirs, files in os.walk('${CARGO_LOCK_SRC_DIR}'):
--    for file in files:
--        if file == 'Cargo.lock':
--            crates += get_crates(os.path.join(root, file))
-+for file in os.listdir('${CARGO_LOCK_SRC_DIR}'):
-+    if file == 'Cargo.lock':
-+        try:
-+            cargo_lock_path = os.path.join('${CARGO_LOCK_SRC_DIR}', file)
-+            crates += get_crates(cargo_lock_path)
-+        except Exception as e:
-+            raise ValueError("Cannot parse '%s'" % cargo_lock_path) from e
-+        else:
-             found = True
- if not found:
-     raise ValueError("Unable to find Cargo.lock in ${CARGO_LOCK_SRC_DIR}")
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+index 26c5803ee6..b00fdba8e9 100644
+--- a/meta/classes/externalsrc.bbclass
++++ b/meta/classes/externalsrc.bbclass
+@@ -68,9 +68,7 @@ python () {
+         for url in fetch.urls:
+             url_data = fetch.ud[url]
+             parm = url_data.parm
+-            if (url_data.type == 'file' or
+-                    url_data.type == 'npmsw' or url_data.type == 'crate' or
+-                    'type' in parm and parm['type'] == 'kmeta'):
++            if url_data.type in ['file', 'npmsw', 'crate'] or parm.get('type') in ['kmeta', 'git-dependency']:
+                 local_srcuri.append(url)
+ 
+         d.setVar('SRC_URI', ' '.join(local_srcuri))
 -- 
 2.34.1
 
