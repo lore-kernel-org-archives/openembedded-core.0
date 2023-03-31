@@ -1,111 +1,82 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <geoffrey.giry@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADABCC761A6
-	for <webhook@archiver.kernel.org>; Fri, 31 Mar 2023 15:55:29 +0000 (UTC)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web11.58844.1680278126374236259
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B73B8C76196
+	for <webhook@archiver.kernel.org>; Fri, 31 Mar 2023 16:03:29 +0000 (UTC)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+ by mx.groups.io with SMTP id smtpd.web10.59160.1680278604770031765
  for <openembedded-core@lists.openembedded.org>;
- Fri, 31 Mar 2023 08:55:26 -0700
+ Fri, 31 Mar 2023 09:03:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CGYJPeVq;
- spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f42.google.com with SMTP id g19so16393340lfr.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 31 Mar 2023 08:55:26 -0700 (PDT)
+ dkim=pass header.i=@smile-fr.20210112.gappssmtp.com header.s=20210112 header.b=MSKR0WO8;
+ spf=pass (domain: smile.fr, ip: 209.85.208.41, mailfrom: geoffrey.giry@smile.fr)
+Received: by mail-ed1-f41.google.com with SMTP id t10so91372723edd.12
+        for <openembedded-core@lists.openembedded.org>; Fri, 31 Mar 2023 09:03:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680278124;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IOVbmxbpq01Cm8QY53TSwbwNWetVBI7FV+GfI/VcGpY=;
-        b=CGYJPeVquBS80dOKjuVBFbr3BsBWdkr2oFR6FCVpDFHKn2oiJqte7XOkrjvhCE+aWa
-         S7R6rf1uq7b++FXdB5t3xpb3X86yKOf+6UcjxQIfzOvZBf1AES69XEwCAw8xgReyf/Fl
-         LSzc6OBuwUHSq6hgavxIa0hL9MbPS0PxpPZanOo7Yl4AcVn7udC4/nxxme+55ZvfZPGG
-         t12/cxvRXn139jTps20L7uBBliOS+h0j0W6DIfh7w9nwehEnzZfx2XWlH/HnCHWO1fH/
-         Qsg1HvyUwW+1zc/EuuvDfbbEoMQx/dBJf+PAY7yH7dRyE1Mjt9Ufm64X3DhE9KjeiGhf
-         lAGA==
+        d=smile-fr.20210112.gappssmtp.com; s=20210112; t=1680278602;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/RwgCPaS5659S42a0tsRr9mCncKafaxxcpUahHxankk=;
+        b=MSKR0WO8sNPH3antoni9D9jUGwVlrv0NzwI1vH2Bh0d/i8UsBTZPtY56DX2T7zryqA
+         UWpNDTpds5wAQTPKoD+R+zmuSdHM5uJemi8gC7Bma2VhGLdZtdrVDydvl/hMgGFdIFD3
+         4PrUnewW0s5JY3eQfxX8Y6+YCzuwf6kJbrEtzDE5LJswbEixAegPZRYovF17GRgtGbQh
+         k5R4j2N9MeCrjmIdVudg99149gWbcoEfb+9RDzKC3lpdcKUIsc7u+8QCkh9Gb0bLlHym
+         fL6fctjT2SYIB5sZWsx6QDAxO0OGr2DTopp/b5l2XPe+h9JWbC/+boTy+ObB3sRwjGvd
+         7wZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680278124;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IOVbmxbpq01Cm8QY53TSwbwNWetVBI7FV+GfI/VcGpY=;
-        b=Cg9JrZ3oOoGSknSxAHCJMA8+s7j2/TBh+jhaCv6JWTDfEntV1rT6baFK92jt2rgrJd
-         eyldITwGsQIeWMELChWfT3sXNH3UMUnSh/UkU4H9CYckPDTSRHruuUMZaft1UmeNlxri
-         xeZ2VsTObU5teIfJwlxHV7AHxDhmqL6PBWmXSk+7/VfZUDkyGG54zNc7+7s2K6DxbWrl
-         JVFN18E4wS+OHZzZXkWtPk/iRffFGvz/1kBvJJjLACNAzuEKEbygW+Yt869CS7TAxHii
-         Z9r8qYwCZ2R6nyjeHq3w2hpzY+/O02rgOIRpRzTAowwG6i9ot86nj9T8hVSBaswiWoxf
-         phzA==
-X-Gm-Message-State: AAQBX9cJMDr59vXERXZrXoc6ezaj1ML3g4ExdHn12347oIb84w5iMonq
-	BraOFG5Cfyn9WR1vhVgTUfA5T8Wk+Qt6dIb85sA=
-X-Google-Smtp-Source: AKy350Y6dxaisR8qmn2t7kQcz6aCUfixnPvIZk5DF4GAc9J3AtB1m6OAC5c8ua9H/obUEznVTsLjgGRQvtbQfFx0nC0=
-X-Received: by 2002:ac2:4a9d:0:b0:4e8:9988:f8ab with SMTP id
- l29-20020ac24a9d000000b004e89988f8abmr8207529lfp.11.1680278124405; Fri, 31
- Mar 2023 08:55:24 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680278602;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/RwgCPaS5659S42a0tsRr9mCncKafaxxcpUahHxankk=;
+        b=udtD3duBtwQ//Uj/vwjgNg7Fdz0avdGl+Z4u4t4mxZBxTu/h+Ptz0XszCD7iv0oN19
+         qYNcwRbyVM631G25Y4wwajlB+EK2s2fndNOKDxUUbXBXkzavHc9cuT1MTzDdv/p00bXF
+         QVDffJQNHnt3PU8fDbK7h4tYS6PSflVNraoXFxiiYlt7UoDqs25PUOkCAfz33BGwykdv
+         21hksKdO7JfwmHzBFrlBiIt707GqwrTzfBv1v/aqi32HxE7vU88XJiYaI/ZrujtaawyR
+         EYH9X5jocHbmtUcb2M5bLYsgKir92uxEkBFsbUnEYT0F9CuxUsxdLABapuqkTxD2L34/
+         Ztfw==
+X-Gm-Message-State: AAQBX9dphON6xB5t63IW51rSwCEbNSu7GxN4AZZzp0OzQ1yPk+bUBjvc
+	HmLDUjQWMvb9pJaiSYnk30nUb7breW8SPxAfZxW9QA==
+X-Google-Smtp-Source: AKy350aRLA62zEqe72k/LvVAHuiBQslqbgELfGPiXbB9COUIKndkNm9hTrQW+La8O71YKk7P5am+UAcgHHZSEwaIdtI=
+X-Received: by 2002:a17:907:d48d:b0:93e:c1ab:ae67 with SMTP id
+ vj13-20020a170907d48d00b0093ec1abae67mr12890697ejc.2.1680278602684; Fri, 31
+ Mar 2023 09:03:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1680238655.git.frederic.martinsons@gmail.com>
- <d0b6aff677d7e7a268b4c16a83ff3162e9c60dd1.1680238655.git.frederic.martinsons@gmail.com>
- <73108638b9d165f203117b4f6a9e63ef94a0f2a5.camel@linuxfoundation.org>
- <CANNYZj8syo4bNVz3OzwS-tbfPm-UPjFyZYy2cfSznqMLH5wGhg@mail.gmail.com>
- <c007fc29d99e2116d2fd53a9338d329559723102.camel@linuxfoundation.org>
- <CANNYZj8xFw5_c6vZ_aiDhSuf1+aZRayJfvXHpg9=mhtGp7taTQ@mail.gmail.com> <CA+cAkeqXdBYLbtVzMvwTLWPqTBkWm7dmPit_M6LG5Tt4VRUwtw@mail.gmail.com>
-In-Reply-To: <CA+cAkeqXdBYLbtVzMvwTLWPqTBkWm7dmPit_M6LG5Tt4VRUwtw@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 31 Mar 2023 17:55:13 +0200
-Message-ID: <CANNYZj9jH0XvVT0nDropkBV8_R2KSJ69_YL8En7TwaUQvgG+uA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH V6 5/6] meta-selftest: provide a recipe for zvariant
-To: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org, 
-	Alex Kiernan <alex.kiernan@gmail.com>
+References: <20230328102349.57990-1-geoffrey.giry@smile.fr>
+ <CAApg2=TD8PtdUxmLT7wOqRG-7O9zEaEKt0n47mRuRX_yvr1T=A@mail.gmail.com>
+ <CAGwXbzZN_FXowS4QvFKxEW-a3_voTT3J6HZDjjg1P=ZEASFKkw@mail.gmail.com>
+ <CAApg2=TfJT1g3EhEhGRXYXqVdS-0o25c_060ijhcmo73L9WSyQ@mail.gmail.com>
+ <20230331085949df4c2e33@mail.local> <5f816f4b5b77b10417949a507b4e35d0ad034b78.camel@linuxfoundation.org>
+In-Reply-To: <5f816f4b5b77b10417949a507b4e35d0ad034b78.camel@linuxfoundation.org>
+From: Geoffrey GIRY <geoffrey.giry@smile.fr>
+Date: Fri, 31 Mar 2023 18:03:11 +0200
+Message-ID: <CAGwXbzaCU8WRrMg6ekM2tSYKgPB+qANG3SUZ6M0kFXjrSxejYA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] Fix cve-check false negative
+To: Marta Rybczynska <rybczynska@gmail.com>
+Cc: alexandre.belloni@bootlin.com, openembedded-core@lists.openembedded.org, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, Yoann CONGAL <yoann.congal@smile.fr>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 31 Mar 2023 15:55:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179450
+ <openembedded-core@lists.openembedded.org>; Fri, 31 Mar 2023 16:03:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179451
 
-You need to set up two identical builds in different build directories
-and verify that what gets installed and packaged is identical (in this
-case it's not). The most common problem is build paths leaking into
-the binaries or other installed artifacts, and it can be tricky to
-narrow it down to a specific point where it happens in a build.
+Hello,
 
-The broader rationale for doing this is here https://reproducible-builds.or=
-g/
+Marta Rybczynska wrote:
+> Would it be possible to run it over the world build of oe-core and possibly meta-oe ?
 
-Alex
+I tried the following:
 
-On Fri, 31 Mar 2023 at 17:01, Fr=C3=A9d=C3=A9ric Martinsons
-<frederic.martinsons@gmail.com> wrote:
->
-> Ok I'll take a look at this next week. But I don't know anything about re=
-productability build so if you have any info that can point me to the right=
- direction, I'll be glad to read it.
->
-> Le ven. 31 mars 2023, 15:50, Alexander Kanavin <alex.kanavin@gmail.com> a=
- =C3=A9crit :
->>
->> On Fri, 31 Mar 2023 at 15:26, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->> > > > We do have other reproducibility issues in rust and had to exclude=
- some
->> > > > packages from the test because of this. We do want to resolve thos=
-e
->> > > > issues though.
->> > >
->> > > But aren't recipes in meta-selftest exempted from reproducibility re=
-quirement?
->> >
->> > I suspect we can put an EXCLUDE_FROM_WORLD =3D "1" in there and then t=
-his
->> > will "go away" but shouldn't our output be reproducible and isn't this
->> > therefore actually a good test?
->>
->> That's true. There's also rust itself which continues to be the only
->> item in core that's in the reproducibility exception list.
->>
->> Alex
+The command `bibake -c cve_check world` reports the same CVE with and
+without the patch applied.
+I did test for oe-core alone, and found the same results as the autobuilder.
+I also did test with meta-oe and found the same result (many more CVE,
+but the same appears with and without the patch).
+
+Sincerely,
+Geoffrey GIRY
+SMILE ECS - R&D Engineer
 
