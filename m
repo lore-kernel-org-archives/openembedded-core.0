@@ -1,88 +1,115 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <celledge@siteworx.io>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14D41C761A6
-	for <webhook@archiver.kernel.org>; Fri, 31 Mar 2023 16:34:30 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web11.60028.1680280465170718070
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA606C77B60
+	for <webhook@archiver.kernel.org>; Fri, 31 Mar 2023 20:44:23 +0000 (UTC)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web10.6674.1680295462556287755
  for <openembedded-core@lists.openembedded.org>;
- Fri, 31 Mar 2023 09:34:25 -0700
+ Fri, 31 Mar 2023 13:44:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CeqCSTq2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id l37so13247375wms.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 31 Mar 2023 09:34:24 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@siteworx.io header.s=google header.b=d4hO3pfM;
+ spf=pass (domain: siteworx.io, ip: 209.85.208.51, mailfrom: celledge@siteworx.io)
+Received: by mail-ed1-f51.google.com with SMTP id i5so94679834eda.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 31 Mar 2023 13:44:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1680280463;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+        d=siteworx.io; s=google; t=1680295460; x=1682887460;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=pXWYpDXI/RMfx0AVU8HcnsRQE75fLGKhTpapuEJZviM=;
-        b=CeqCSTq2Qna8ekFQzDGcruEXJC0uaZwumGBxN4FJRCC3YYYitMO9quiwUxSb/tHPVK
-         XKxATWvkwh7aj2szq1FRRYP8jjXzQ6qMzYlf/3uYC0sJAm+UfxS6Ew/fsoMcOcGL0QoM
-         xmtdIpPS6K7A240jNn7OW1fIS6b70W9prlac4=
+        bh=MXAiylVt+WUHs/e88T3Anq6Oj0/UDfaTfO3ebpAE9ko=;
+        b=d4hO3pfMAwrssdhFwgi3VcvgI20y22Max9MGmmEgQIzDSUMNGXfd6FeH4X7CBgkjrt
+         n/mfAG0s7Hmpc7zzBUT7iyGKlr4rv77sHA9XM/NOC7DR9/smRqK9+4tscDQxhp49H9/F
+         g6xXdtjKDECyOG4t8f59l0ExBXK1Ss/CdqESvxgmOf1ybKXPuv43+6O0mxZZfL/MZr0e
+         GZW7utXSmHa8Tu2wj/nqpv244wOnufUJpYb8qoasUSe3yXzqeUmGzemDHqz2qXt8xJX4
+         QK90YqCuySPbkTnNd6GiT4KT3GXYhXaVGfvop3l7aRqEwX6XRaOBKo5dQGpGfujcoSW6
+         IVtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680280463;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+        d=1e100.net; s=20210112; t=1680295460; x=1682887460;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=pXWYpDXI/RMfx0AVU8HcnsRQE75fLGKhTpapuEJZviM=;
-        b=aPQW4WCrnY6QLL74njtGG28G79oFotdhqMJP128yNzhi2U01SPtq6iICA8r+EcwB1d
-         5GOcI51VYWG0Q0WE70tAJHg5RYLC9tpJo46D4cFZvScBExB4w1FNkqT99ACk1mrW7+Df
-         jx9GnJsYTRmq8HVsjSO9LSTj81vDUc8A84l0pLvmXvT1cZ0cea1UtIvWxFj5dL9OrpcK
-         7J8I9SedU7n7ZZpthVqJk6UFI8rfIGPbVIwaWAABy5eYgCiWVH1jvhDxIRHpTkraVmV9
-         bnk9nioLmblgVhZ/d8aaKyyoZgcUWIPPtNGN+BTjTg+Q9R/WKcdhK3fOmuOaIOp2CnEa
-         6thQ==
-X-Gm-Message-State: AO0yUKWzU+To886uwhpesbjh2TRMyZE9Z7p7/8ITajxzdehHpoG9lbgi
-	08ndDQj0CNsXbMrxlP0SUiIENQ==
-X-Google-Smtp-Source: AK7set8j0BWoTe0WTpyINocufXOxwtGJeRBJwm9JkU2LybaD0xSAZYYiOUTW/OkVWYSLjA0yfaFISA==
-X-Received: by 2002:a1c:770b:0:b0:3ed:4b0f:5378 with SMTP id t11-20020a1c770b000000b003ed4b0f5378mr20823956wmi.27.1680280463388;
-        Fri, 31 Mar 2023 09:34:23 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:18b7:bfe:d74b:7341? ([2001:8b0:aba:5f3c:18b7:bfe:d74b:7341])
-        by smtp.gmail.com with ESMTPSA id p13-20020a05600c468d00b003ef7058ea02sm10283006wmo.29.2023.03.31.09.34.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Mar 2023 09:34:22 -0700 (PDT)
-Message-ID: <55024a9677091b2b1d3bc4faac1216e271940272.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH V6 5/6] meta-selftest: provide a recipe for
- zvariant
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?Fr=E9d=E9ric?= Martinsons
- <frederic.martinsons@gmail.com>,  Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Alex Kiernan
-	 <alex.kiernan@gmail.com>
-Date: Fri, 31 Mar 2023 17:34:22 +0100
-In-Reply-To: <CA+cAkeqXdBYLbtVzMvwTLWPqTBkWm7dmPit_M6LG5Tt4VRUwtw@mail.gmail.com>
-References: <cover.1680238655.git.frederic.martinsons@gmail.com>
-	 <d0b6aff677d7e7a268b4c16a83ff3162e9c60dd1.1680238655.git.frederic.martinsons@gmail.com>
-	 <73108638b9d165f203117b4f6a9e63ef94a0f2a5.camel@linuxfoundation.org>
-	 <CANNYZj8syo4bNVz3OzwS-tbfPm-UPjFyZYy2cfSznqMLH5wGhg@mail.gmail.com>
-	 <c007fc29d99e2116d2fd53a9338d329559723102.camel@linuxfoundation.org>
-	 <CANNYZj8xFw5_c6vZ_aiDhSuf1+aZRayJfvXHpg9=mhtGp7taTQ@mail.gmail.com>
-	 <CA+cAkeqXdBYLbtVzMvwTLWPqTBkWm7dmPit_M6LG5Tt4VRUwtw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.47.3-1 
+        bh=MXAiylVt+WUHs/e88T3Anq6Oj0/UDfaTfO3ebpAE9ko=;
+        b=oTj5PVHPFd55rtLv0y6aeA6BLH3fou7icSTx/hqAsGHjYFJAjrmFHlONlnM7l3Ae6Z
+         YJWgyoBegd3KOHTMS27XdDHqjn7DLgaW1u6+G0ZP7BuNGlNpYbyBnA+KrJWXBEenZQmj
+         pmx8wlXD0FUM4QhqiK91iZzVzuejcAxagtyesXs+rfWcd+SNEP7B86xe3TYaEVQss2Mk
+         TYwlRCQwBAfA3k8UH52elS9/xuKd3u21kOdHFoslFJ6R8BRrhnXuKO+elnc0dx0+jw0S
+         +/9cih/N5zT47ExGWsfIoAsuxBIv0AEAuhGGC3Atm851LSrmRQkTU8Ziqns0S2FkQYUG
+         TLeg==
+X-Gm-Message-State: AAQBX9db3sxtVHzRI1oztMjIkDgB1McWRFCZJq2gLwSC9IY3EnoOxsTD
+	EfQCVN8kMingAxC+MkFTDZ1g8u3cDiObUMRCAviJB9UTupdHbiWy8HBdAg==
+X-Google-Smtp-Source: AKy350auPcUgXladZTf73S+DXIKLcIE4u+cndnan8TlrFz0sFWTXbt2mbp93mH3ovkYghi3wOTvHAd/j5hMGw8YNdKo=
+X-Received: by 2002:a17:906:bc94:b0:8e6:266c:c75e with SMTP id
+ lv20-20020a170906bc9400b008e6266cc75emr15101869ejb.14.1680295460134; Fri, 31
+ Mar 2023 13:44:20 -0700 (PDT)
 MIME-Version: 1.0
+From: Chris Elledge <celledge@siteworx.io>
+Date: Fri, 31 Mar 2023 16:44:09 -0400
+Message-ID: <CAHkgX0umV9QhxPXdMmG=kVUt5Z3t77SraRRFMiipaZwsnzUgiQ@mail.gmail.com>
+Subject: [PATCH] busybox: hwclock init moved earlier in startup
+To: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000004ff0c05f8384611"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 31 Mar 2023 16:34:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179454
+ <openembedded-core@lists.openembedded.org>; Fri, 31 Mar 2023 20:44:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179455
 
-On Fri, 2023-03-31 at 17:01 +0200, Fr=C3=A9d=C3=A9ric Martinsons wrote:
-> Ok I'll take a look at this next week. But I don't know anything
-> about reproductability build so if you have any info that can point
-> me to the right direction, I'll be glad to read it.=C2=A0
+--00000000000004ff0c05f8384611
+Content-Type: text/plain; charset="UTF-8"
 
-I think the simplest thing is if I add an EXCLUDE_FROM_WORLD to that
-recipe for now but we should file a bug for the reproducibility issue
-and ultimately fix it.
+hwclock.sh had default update-rc parameters which made it run after
+other tasks that work with the clock such as connman. This causes a
+time obtained by NTP to be clobbered by a potentially incorrect time
+in the RTC.
 
-This would let us add the additional testing but aim for improving this
-in due course as well.
+Provided non-default INITSCRIPT_PARAMS to have hwclock.sh run during
+the rc startup before runlevel initscripts start.
 
-Cheers,
+Signed-off-by: Chris Elledge <celledge@siteworx.io>
+---
+ meta/recipes-core/busybox/busybox.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-Richard
+diff --git a/meta/recipes-core/busybox/busybox.inc
+b/meta/recipes-core/busybox/busybox.inc
+index 62dc839245..f5d7c3f9c8 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -34,6 +34,7 @@ INITSCRIPT_PACKAGES = "${PN}-httpd ${PN}-syslog
+${PN}-udhcpd ${PN}-mdev ${PN}-hw
+
+ INITSCRIPT_NAME:${PN}-httpd = "busybox-httpd"
+ INITSCRIPT_NAME:${PN}-hwclock = "hwclock.sh"
++INITSCRIPT_PARAMS:${PN}-hwclock = "start 40 S . stop 20 0 1 6 ."
+ INITSCRIPT_NAME:${PN}-mdev = "mdev"
+ INITSCRIPT_PARAMS:${PN}-mdev = "start 04 S ."
+ INITSCRIPT_NAME:${PN}-syslog = "syslog"
+--
+2.34.1
+
+--00000000000004ff0c05f8384611
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">hwclock.sh had default update-rc parameters which made it =
+run after<br>other tasks that work with the clock such as connman. This cau=
+ses a<br>time obtained by NTP to be clobbered by a potentially incorrect ti=
+me<br>in the RTC.<br><br>Provided non-default INITSCRIPT_PARAMS to have hwc=
+lock.sh run during<br>the rc startup before runlevel initscripts start.<br>=
+<br>Signed-off-by: Chris Elledge &lt;<a href=3D"mailto:celledge@siteworx.io=
+" target=3D"_blank">celledge@siteworx.io</a>&gt;<br>---<br>=C2=A0meta/recip=
+es-core/busybox/busybox.inc | 1 +<br>=C2=A01 file changed, 1 insertion(+)<b=
+r><br>diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-cor=
+e/busybox/busybox.inc<br>index 62dc839245..f5d7c3f9c8 100644<br>--- a/meta/=
+recipes-core/busybox/busybox.inc<br>+++ b/meta/recipes-core/busybox/busybox=
+.inc<br>@@ -34,6 +34,7 @@ INITSCRIPT_PACKAGES =3D &quot;${PN}-httpd ${PN}-s=
+yslog ${PN}-udhcpd ${PN}-mdev ${PN}-hw<br>=C2=A0<br>=C2=A0INITSCRIPT_NAME:$=
+{PN}-httpd =3D &quot;busybox-httpd&quot;<br>=C2=A0INITSCRIPT_NAME:${PN}-hwc=
+lock =3D &quot;hwclock.sh&quot;<br>+INITSCRIPT_PARAMS:${PN}-hwclock =3D &qu=
+ot;start 40 S . stop 20 0 1 6 .&quot;<br>=C2=A0INITSCRIPT_NAME:${PN}-mdev =
+=3D &quot;mdev&quot;<br>=C2=A0INITSCRIPT_PARAMS:${PN}-mdev =3D &quot;start =
+04 S .&quot;<br>=C2=A0INITSCRIPT_NAME:${PN}-syslog =3D &quot;syslog&quot;<f=
+ont color=3D"#888888"><br>--<br>2.34.1</font><br></div>
+
+--00000000000004ff0c05f8384611--
 
