@@ -1,69 +1,162 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C173C76196
-	for <webhook@archiver.kernel.org>; Fri, 31 Mar 2023 14:05:49 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web10.55650.1680271543561251334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A669C76196
+	for <webhook@archiver.kernel.org>; Fri, 31 Mar 2023 14:23:29 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web11.56119.1680272606551772321
  for <openembedded-core@lists.openembedded.org>;
- Fri, 31 Mar 2023 07:05:43 -0700
+ Fri, 31 Mar 2023 07:23:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=P5NJNtij;
- spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f180.google.com with SMTP id o20so20207013ljp.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 31 Mar 2023 07:05:43 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=ZXZDlIyi;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f171.google.com with SMTP id ja10so21370810plb.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 31 Mar 2023 07:23:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680271542;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=eO0yx2Yj9At3Np9+b+O//nugNRik3i8+2Ivr9larFcs=;
-        b=P5NJNtijMUlaFtJmxcysql/fGLQba6ysvYjkwPCagq73dryqkSu7iaVCDj4fcz1Cqk
-         OyHCP8nBCOf3MYTI3CFMAEOzHTkXKzz6Se9xSmQ5BOgU1wEAY7WtHsv7J/4RWbZZDlPP
-         /pCHaxJx6tZ06x9O+vANKRSKRcCj4unx7olVjutxvHTr5//LE4qJdpvjVbC4F/C74M0r
-         w+zvUqWCasxrjk4AFv4MaTg1gynq7MLOQ5cI/u88DvhU5wFcuuSCyElNP6MIs8lUm3NX
-         HpiZGl1HefUO8rtCCJoRD2gPyitPz6gDwkN6LZosn6ZGBEbAZaQk7aTqPMnsbujt79t4
-         cUzQ==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680272605; x=1682864605;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tSblDAjPNvIFD5W+WYmGCDeIFLhSUk171MIW+XjYjbg=;
+        b=ZXZDlIyi+8NU26mqXRrEzd4KUyKIdvxtSAIoQNKAvLT06wje1rS/jWxyB3ttuHfGxH
+         r8C3DZOVRybSVjCzZtLNlEmndUvVBb5fo/GYHc1Qyh/TRx+xZU9txjUnARiYQgd+Lpsy
+         BUdK8sedS+auMsg8P3YMcIBQuEWhqHfBbFHwpUgM/t93rE2KhVpmwb7vSkd09P5yISGD
+         PYp2bBYIqOJwhqqC4zOdG2IALh1borL8sQ+3QSObFnYbGKdbvUdgFudE7r7siMolvRwr
+         pkVkJTY0CVd8A1ZkpzWtnDg9LDxYnGcVGEtiscx6siJVNYVHGecqTjnWLNo+G4pXUGvx
+         THzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680271542;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eO0yx2Yj9At3Np9+b+O//nugNRik3i8+2Ivr9larFcs=;
-        b=K3dYdwpjD2/WXXgvfi2LdbOhGUg6pixkzhCvGvs89YNRpcIkZW91e5TJfWeyTv6/8r
-         4Sea9Acm7pClkGaJ8O11pXa5ylwrT4eWvsJguY8DpTt4WIgwrBoMptNmom4cyIJptWPc
-         94/Cnt9plxx207JsaOgBaFEjBaZwYjPFePziXwPFrVleZKmPdyjsBfOXSJk9ECQKzuSt
-         xSjMKm4sWFDFA1JhuGiR3K3ZEKzQTaSG9mrACKg1yhGz44x4/X06Qqyy0/3ccmpTJJ9S
-         qYGuS9A/HRph4TiadYChsfHyh4Vf5VEeFlK8wa90bgnSEmH1RR7sXOUkrvHyYz+ZmuuO
-         1oVA==
-X-Gm-Message-State: AAQBX9ejZlJ8XmLTv7Kw1D3oznyy19YaLZfv3k2JJfnyx2QAuKp8wjH0
-	Muarqzf+NRFx0unNJqQBNkJ9naYNxV11opkOCPY=
-X-Google-Smtp-Source: AKy350Z1s8aZPkTC10GyuPVxRda8xwPXQrzojkoC0KGXIyYBbljEr8oAK+x8Jfb2M0xccFOAmcRHSyiVuPGxcbsjePA=
-X-Received: by 2002:a2e:9e42:0:b0:299:c1c7:693c with SMTP id
- g2-20020a2e9e42000000b00299c1c7693cmr8502085ljk.7.1680271541624; Fri, 31 Mar
- 2023 07:05:41 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680272605; x=1682864605;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tSblDAjPNvIFD5W+WYmGCDeIFLhSUk171MIW+XjYjbg=;
+        b=xZsZxHdMRsBegh2jCBHJHyB559a7lHLjuZ00AobVwDwkCXRQFdLjIZDOOmB6mr9uTw
+         2iSJl4YUCI137j9sWxxsc59n7ty1IxZAlE9P69l2DrqiBjaJOqvH3svPuJSx6ZsUORfV
+         FQUEWoAuw7CbY46i5UG1yXhe+g36g4OAxZeewCOzt2MJN88EHi4G2TNUMz9fXEQFp+kr
+         EDltfrjF8+bLOvLN5Fk2cP8ByjBh9D328Tf+5weUlt3VvwMnFKx8Zy27ob52ubs8h73Y
+         TwTYClloK2n/FNi7tJtXAU+U9pGv33VN23GEPsojRg+4+MpVuO+cnS4kTn68hBK/rg4G
+         Ecsw==
+X-Gm-Message-State: AAQBX9fwJvaTTpGNR/0RybzUNDKzDq5KxKRjV4vrkBuOXbgT2UNYF77u
+	/FJinxQVKZGyIQ396/M7yye9gRK05UoOK7ie7O4=
+X-Google-Smtp-Source: AKy350bmt3sJArs+N0TEeej++1PAuWCw0TcTPBZrlJd5aQWBG4itXqaBpRMJkxeavtu2tdTUtsyACQ==
+X-Received: by 2002:a17:902:cf0e:b0:1a1:b440:3773 with SMTP id i14-20020a170902cf0e00b001a1b4403773mr32119189plg.27.1680272605501;
+        Fri, 31 Mar 2023 07:23:25 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
+        by smtp.gmail.com with ESMTPSA id c20-20020a170902b69400b0019f1027f88bsm1592240pls.307.2023.03.31.07.23.24
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Mar 2023 07:23:25 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/15] Pull request (cover letter only)
+Date: Fri, 31 Mar 2023 04:23:20 -1000
+Message-Id: <cover.1680272543.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230331104025.1478393-1-ejo@pengutronix.de> <20230331104025.1478393-5-ejo@pengutronix.de>
-In-Reply-To: <20230331104025.1478393-5-ejo@pengutronix.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 31 Mar 2023 16:05:30 +0200
-Message-ID: <CANNYZj8Z1kSGOpZ7jj5bRT++ugPNTrbzyuFdF6y7TYc98bqqtg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/9] oeqa/utils/qemurunner: support ignoring vt100
- escape sequences
-To: Enrico Jorns <ejo@pengutronix.de>
-Cc: openembedded-core@lists.openembedded.org, yocto@pengutronix.de, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, alexandre.belloni@bootlin.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 31 Mar 2023 14:05:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179447
+ <openembedded-core@lists.openembedded.org>; Fri, 31 Mar 2023 14:23:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179448
 
-On Fri, 31 Mar 2023 at 12:40, Enrico Jorns <ejo@pengutronix.de> wrote:
-> +re_vt100 = re.compile(r'(\x1b\[|\x9b)[^@-_a-z]*[@-_a-z]|\x1b[@-_a-z]')
+The following changes since commit a04b207c4ffa900313a0b5e3079ad2eec7d31f27:
 
-This piece of 'magic' needs to be explained :) What does it define?
+  base-files: Drop localhost.localdomain from hosts file (2023-03-20 16:38:51 -1000)
 
-Alex
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+
+Bruce Ashfield (4):
+  linux-yocto/5.4: update to v5.4.231
+  linux-yocto/5.4: update to v5.4.233
+  linux-yocto/5.4: update to v5.4.234
+  linux-yocto/5.4: update to v5.4.237
+
+Chee Yang Lee (2):
+  qemu: fix multple CVEs
+  git: ignore CVE-2023-22743
+
+Joshua Watt (5):
+  classes/create-spdx: Backport
+  classes/package: Add extended packaged data
+  licenses: Add GPL+ licenses to map
+  create-spdx: Use gzip for compression
+  classes/package: Use gzip for extended package data
+
+Mikko Rapeli (1):
+  oeqa rtc.py: skip if read-only-rootfs
+
+Piotr Łobacz (1):
+  systemd: fix wrong nobody-group assignment
+
+Richard Purdie (1):
+  pybootchartui: Fix python syntax issue
+
+Ross Burton (1):
+  lib/resulttool: fix typo breaking resulttool log --ptest
+
+ meta/classes/create-spdx-2.2.bbclass          | 1067 +++
+ meta/classes/create-spdx.bbclass              |    8 +
+ meta/classes/package.bbclass                  |   39 +-
+ meta/conf/licenses.conf                       |    7 +
+ meta/files/spdx-licenses.json                 | 5937 +++++++++++++++++
+ meta/lib/oe/packagedata.py                    |   11 +
+ meta/lib/oe/sbom.py                           |   84 +
+ meta/lib/oe/spdx.py                           |  357 +
+ meta/lib/oeqa/runtime/cases/rtc.py            |    8 +-
+ meta/recipes-core/systemd/systemd_244.5.bb    |    2 +-
+ meta/recipes-devtools/git/git.inc             |    2 +
+ meta/recipes-devtools/qemu/qemu.inc           |   17 +
+ .../qemu/qemu/CVE-2020-15469-1.patch          |   50 +
+ .../qemu/qemu/CVE-2020-15469-2.patch          |   69 +
+ .../qemu/qemu/CVE-2020-15469-3.patch          |   49 +
+ .../qemu/qemu/CVE-2020-15469-4.patch          |   53 +
+ .../qemu/qemu/CVE-2020-15469-5.patch          |   53 +
+ .../qemu/qemu/CVE-2020-15469-6.patch          |   61 +
+ .../qemu/qemu/CVE-2020-15469-7.patch          |   50 +
+ .../qemu/qemu/CVE-2020-15469-8.patch          |   44 +
+ .../qemu/qemu/CVE-2020-15859.patch            |   39 +
+ .../qemu/qemu/CVE-2020-35504.patch            |   51 +
+ .../qemu/qemu/CVE-2020-35505.patch            |   42 +
+ .../qemu/qemu/CVE-2021-3409-1.patch           |   85 +
+ .../qemu/qemu/CVE-2021-3409-2.patch           |  103 +
+ .../qemu/qemu/CVE-2021-3409-3.patch           |   71 +
+ .../qemu/qemu/CVE-2021-3409-4.patch           |   52 +
+ .../qemu/qemu/CVE-2021-3409-5.patch           |   93 +
+ .../qemu/qemu/CVE-2022-26354.patch            |   57 +
+ .../linux/linux-yocto-rt_5.4.bb               |    6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |    8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |   22 +-
+ scripts/lib/resulttool/resultutils.py         |    2 +-
+ .../pybootchartgui/pybootchartgui/parsing.py  |    2 +-
+ 34 files changed, 8574 insertions(+), 27 deletions(-)
+ create mode 100644 meta/classes/create-spdx-2.2.bbclass
+ create mode 100644 meta/classes/create-spdx.bbclass
+ create mode 100644 meta/files/spdx-licenses.json
+ create mode 100644 meta/lib/oe/sbom.py
+ create mode 100644 meta/lib/oe/spdx.py
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-15469-1.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-15469-2.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-15469-3.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-15469-4.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-15469-5.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-15469-6.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-15469-7.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-15469-8.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-15859.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-35504.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-35505.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3409-1.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3409-2.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3409-3.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3409-4.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3409-5.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-26354.patch
+
+-- 
+2.34.1
+
 
