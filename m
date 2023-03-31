@@ -2,10 +2,10 @@ Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 166DAC77B70
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F178C77B72
 	for <webhook@archiver.kernel.org>; Fri, 31 Mar 2023 10:40:48 +0000 (UTC)
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
- by mx.groups.io with SMTP id smtpd.web11.51474.1680259240373351002
+ by mx.groups.io with SMTP id smtpd.web11.51478.1680259240429544553
  for <openembedded-core@lists.openembedded.org>;
  Fri, 31 Mar 2023 03:40:40 -0700
 Authentication-Results: mx.groups.io;
@@ -14,14 +14,14 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1piCBS-0002Hi-EL; Fri, 31 Mar 2023 12:40:38 +0200
+	id 1piCBS-0002IR-EJ; Fri, 31 Mar 2023 12:40:38 +0200
 Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1piCBP-007yTn-QW; Fri, 31 Mar 2023 12:40:35 +0200
+	id 1piCBR-007yUD-Lh; Fri, 31 Mar 2023 12:40:37 +0200
 Received: from ejo by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1piCBP-006DmC-3b; Fri, 31 Mar 2023 12:40:35 +0200
+	id 1piCBP-006DmV-C8; Fri, 31 Mar 2023 12:40:35 +0200
 From: Enrico Jorns <ejo@pengutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: yocto@pengutronix.de,
@@ -29,10 +29,12 @@ Cc: yocto@pengutronix.de,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Alexander Kanavin <alex.kanavin@gmail.com>,
 	alexandre.belloni@bootlin.com
-Subject: [PATCH v2 0/9] Add barebox bootloader support (and testing)
-Date: Fri, 31 Mar 2023 12:40:16 +0200
-Message-Id: <20230331104025.1478393-1-ejo@pengutronix.de>
+Subject: [PATCH v2 5/9] oeqa/utils/qemurunner: simplify output parsing and make crlf-compatible
+Date: Fri, 31 Mar 2023 12:40:21 +0200
+Message-Id: <20230331104025.1478393-6-ejo@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230331104025.1478393-1-ejo@pengutronix.de>
+References: <20230331104025.1478393-1-ejo@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -43,52 +45,65 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 31 Mar 2023 10:40:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179421
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179423
 
-This adds support for the barebox bootloader (and tools) to oe-core.
+Reduces the nesting depth and replaces the manual newline matching by
+built-in splitlines() method.
 
-In order to have proper testing, this extends oe-selftest to allow
-basic testing of bootloaders. While at it, cover both barebox and u-boot.
+This makes it compatible with shells that use windows-compatible line
+breaks, e.g. for EFI loaders.
 
-v2:
-  * set myself as maintainer in maintainers.inc
-  * move doc from documentation.conf to recipe
-  * update to barebox v2023.03 (including fixes for musl, etc.)
-  * set standard configs for qemu machines to allow building them
-  * add better efi dir support in barebox recipe
-  * enable testing bootloaders in oeqa
-  * add test cases for barebox (and u-boot)
+More comments and an early return handling should make the code a bit
+more readable.
 
-Enrico Jorns (7):
-  barebox: set default BAREBOX_CONFIG for qemu machines
-  oeqa/utils/qemurunner: support ignoring vt100 escape sequences
-  oeqa/utils/qemurunner: simplify output parsing and make
-    crlf-compatible
-  oeqa/utils/commands: document runqemu context manager
-  oeqa: support passing custom boot patterns to runqemu
-  oeqa/selftest/cases: add barebox tests
-  oeqa/selftest/cases: add basic u-boot test
+Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
+---
+ meta/lib/oeqa/utils/qemurunner.py | 32 +++++++++++++++----------------
+ 1 file changed, 15 insertions(+), 17 deletions(-)
 
-Marco Felsch (2):
-  barebox: add initial support
-  barebox-tools: add initial barebox tools support
-
- meta/conf/distro/include/maintainers.inc      |   2 +
- meta/lib/oeqa/selftest/cases/barebox.py       |  72 +++++++++
- meta/lib/oeqa/selftest/cases/uboot.py         |  40 +++++
- meta/lib/oeqa/targetcontrol.py                |   5 +-
- meta/lib/oeqa/utils/commands.py               |  22 ++-
- meta/lib/oeqa/utils/qemurunner.py             |  37 +++--
- .../barebox/barebox-tools_2023.03.0.bb        |  56 +++++++
- meta/recipes-bsp/barebox/barebox.inc          | 138 ++++++++++++++++++
- meta/recipes-bsp/barebox/barebox_2023.03.0.bb |   3 +
- 9 files changed, 351 insertions(+), 24 deletions(-)
- create mode 100644 meta/lib/oeqa/selftest/cases/barebox.py
- create mode 100644 meta/lib/oeqa/selftest/cases/uboot.py
- create mode 100644 meta/recipes-bsp/barebox/barebox-tools_2023.03.0.bb
- create mode 100644 meta/recipes-bsp/barebox/barebox.inc
- create mode 100644 meta/recipes-bsp/barebox/barebox_2023.03.0.bb
-
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 95c9e6596c..1e544acc90 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -672,23 +672,21 @@ class QemuRunner:
+                         return (1, "")
+                     raise Exception("No data on serial console socket, connection closed?")
+ 
+-        if data:
+-            if raw:
+-                status = 1
+-            else:
+-                # Remove first line (command line) and last line (prompt)
+-                data = data[data.find('$?\r\n')+4:data.rfind('\r\n')]
+-                index = data.rfind('\r\n')
+-                if index == -1:
+-                    status_cmd = data
+-                    data = ""
+-                else:
+-                    status_cmd = data[index+2:]
+-                    data = data[:index]
+-                if (status_cmd == "0"):
+-                    status = 1
+-        return (status, str(data))
+-
++        # If we got no data, we assume something went wrong and return 0
++        if not data:
++            return (0, str(None))
++
++        # in raw mode, we cannot check exit status output and thus assume success
++        if raw:
++            return (1, str(data))
++
++        # Split lines into array and remove first line (command line) and last line (prompt)
++        # Also remove empty lines to ease catching results
++        outlines = list(filter(None, data.splitlines()[1:-1]))
++        # Remaining last line contains exit code output
++        if (outlines[-1] == "0"):
++            status = 1
++        return (status, "\n".join(outlines[0:-1]))
+ 
+     def _dump_host(self):
+         self.host_dumper.create_dir("qemu")
 -- 
 2.39.2
 
