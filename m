@@ -1,161 +1,109 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <lrannou@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE214C76196
-	for <webhook@archiver.kernel.org>; Fri, 31 Mar 2023 07:48:46 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web10.49346.1680248921654812425
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D57EDC76196
+	for <webhook@archiver.kernel.org>; Fri, 31 Mar 2023 07:50:36 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.49302.1680249032817046539
  for <openembedded-core@lists.openembedded.org>;
- Fri, 31 Mar 2023 00:48:42 -0700
+ Fri, 31 Mar 2023 00:50:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=bhXzxFgo;
- spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: rybczynska@gmail.com)
-Received: by mail-lf1-f44.google.com with SMTP id q16so27774904lfe.10
-        for <openembedded-core@lists.openembedded.org>; Fri, 31 Mar 2023 00:48:41 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20210112.gappssmtp.com header.s=20210112 header.b=g+5ez1J8;
+ spf=pass (domain: baylibre.com, ip: 209.85.128.53, mailfrom: lrannou@baylibre.com)
+Received: by mail-wm1-f53.google.com with SMTP id l15-20020a05600c4f0f00b003ef6d684102so9461965wmq.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 31 Mar 2023 00:50:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680248920;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=JimkGEeO+UdQL/gHOL3/2XmVkVEJ6lMbHcJ9VZYvq5g=;
-        b=bhXzxFgoVrHpToB3qeT2z7e3IAZc/9zXaMhFKwLkhcKezD9sM7PVKZiUOm4cIAE4v1
-         Luox5gcI3fsCCjGFKPcESnQSk0On2b6mbwH0eYQni0Ui59j341D4Je96jRLmcdfiCI0A
-         HcldGRKg47uhel09kAsHm9KRCPyl26OH6zpN8mBUmSbeE9Whr0GgX7bacPuF14ukuS0e
-         wuKUloOfOA4tXtX29N4qhWvDyWTOlzk4GIsYr8klDfs6ZyHwg1DDqlUdmLnXP3V+Hm9r
-         pFoX2QzwSsmOtRXsttUTMv++Qc+vTKijQCilvoMcPkQOdTquSw5E0nva6g7NNB502tBU
-         ID1A==
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1680249031;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kM+wSS5+g3NImDhJBnnMHYSyu6CCNag62kQtKVrNs7w=;
+        b=g+5ez1J8XgdS+57AfULnazPhEdbIAzRZMM+862FM/1ZzdjFBRUYjnGaKFT7grXQ/b2
+         peZTSzNl+19biVfZIvRtvzGFgX7DWZ1FN07XLXvAG7AOj5sjs0/PRFnxm3rjg8J9b/HB
+         J28NMQuQRjnMN6eAugPdBYspbD+c2QIttRIRXFYgkmmSyQ1t6jvmlp/GCPwWrOrtGI/K
+         DkRXzGEZ5SwzL5ba6sHcp54IDLqSHD4OQPsPjRaZpRlQ+X/O6Utw9z1v91qJWjGQswRf
+         PiBAJEy4b6XUpvtY5w3dG1dcg/MIKYNrbmBMcSeFmf6f+JlUynL4uHVk06ZG44qST2dm
+         vk7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680248920;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JimkGEeO+UdQL/gHOL3/2XmVkVEJ6lMbHcJ9VZYvq5g=;
-        b=Cca3U3p1jlJqHWHW9lCZ4wSSvWD8dJtMBfzPUBpeGu05gRbimONX60+C+dkZujvrLn
-         SYHb4jlF0nvBjxeQ3QzjfDS2Qoq9QpddY9JvEl+0JvgAKna0Onu5GdeWrEW8Bx7o4u4p
-         O+LGFOlSSXBfub42ift9Wzo79v5JHdtTczQWWw9TfuAxgZdmwOX9DLOGv8nig4icbKk0
-         oLlFtCLCSGyouRIAkHd7pgJY8S2itb5JJbrzg0KJ6oY0qldxeVP9XLGRh7pcA5CdboEu
-         ym1Dglr+1NkSrPAu1QCoohBt0IuHLYo0WBI/lqvy5quGcgPrJS7EnbesFXfMyu5LWpQM
-         s2Sw==
-X-Gm-Message-State: AAQBX9c7vJFhDXhDCJ9dW0WvNqkj0AUWIFNJajpY6ZFl4awkUGE1fRAG
-	Xr5KPUh+R0ZeiBHhfx0IahKfOwqu/3beiYmHtPE=
-X-Google-Smtp-Source: AKy350ZnacTYsVLNr+uAUVKa2LxG2vPODOwQSlB11Xx+0kJye8zB6D92j18HDFHmBZ1mNTdyjztHp4i8+2xdMsXEC5Y=
-X-Received: by 2002:ac2:560e:0:b0:4e9:22ff:948e with SMTP id
- v14-20020ac2560e000000b004e922ff948emr7804700lfd.6.1680248919574; Fri, 31 Mar
- 2023 00:48:39 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680249031;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kM+wSS5+g3NImDhJBnnMHYSyu6CCNag62kQtKVrNs7w=;
+        b=6FOJAPwnxLxKfW27DhBKLE3lEGdCNjJ4SXItKxT9ys42tHtiF2ixEOqzm/uvMxSEet
+         KTSxjgEl2RLa0XFy2h+gqwFZDRDQBIkvw+kEJ/bWITDWQCse7doXiPaCayFv09cDLwha
+         PyXWCqkBz0a/VyVyqenyxG2BKCwPOTAhopsmk52j3snGSwM4VYIO5UPriUvaW/yokpzd
+         C0BxtyByZUD2ypF9wqa8ls5XERdDKZwSRi8sTZm1tA3mu6+lpt0eVZEkDoftm9c+x9b1
+         UrNjDItALIcHLksdvadbzGxZ5nDyo+YUns9kphJT4KVQ87y+xGKwbqTXKZ2EDucbvHZ7
+         Ml3Q==
+X-Gm-Message-State: AAQBX9ecZDzMu4QroDRcibQIpzITY9q3217iusXfOfiOhcahhhNp+3qu
+	ekT5X7OXwBwHZjL+sYnJEa2bzA==
+X-Google-Smtp-Source: AKy350ZG9ZcsSq7UOtrvZ/p1scKh9EuVJAij7QGMC4vZmtL7+MUaR1OPLwTDBazdSAR4hngvEJSrdg==
+X-Received: by 2002:a05:600c:1c0e:b0:3f0:3144:89d9 with SMTP id j14-20020a05600c1c0e00b003f0314489d9mr4516425wms.20.1680249030920;
+        Fri, 31 Mar 2023 00:50:30 -0700 (PDT)
+Received: from [172.30.105.10] (lmontsouris-658-1-109-35.w92-154.abo.wanadoo.fr. [92.154.6.35])
+        by smtp.gmail.com with ESMTPSA id g19-20020a05600c311300b003ee74c25f12sm8797948wmo.35.2023.03.31.00.50.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 31 Mar 2023 00:50:30 -0700 (PDT)
+Message-ID: <1c449008-fc52-4111-847d-00d3604e2bef@baylibre.com>
+Date: Fri, 31 Mar 2023 09:50:29 +0200
 MIME-Version: 1.0
-References: <20230328102349.57990-1-geoffrey.giry@smile.fr>
- <CAApg2=TD8PtdUxmLT7wOqRG-7O9zEaEKt0n47mRuRX_yvr1T=A@mail.gmail.com> <CAGwXbzZN_FXowS4QvFKxEW-a3_voTT3J6HZDjjg1P=ZEASFKkw@mail.gmail.com>
-In-Reply-To: <CAGwXbzZN_FXowS4QvFKxEW-a3_voTT3J6HZDjjg1P=ZEASFKkw@mail.gmail.com>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Fri, 31 Mar 2023 09:48:27 +0200
-Message-ID: <CAApg2=TfJT1g3EhEhGRXYXqVdS-0o25c_060ijhcmo73L9WSyQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] Fix cve-check false negative
-To: Geoffrey GIRY <geoffrey.giry@smile.fr>
-Cc: openembedded-core@lists.openembedded.org, 
-	Yoann CONGAL <yoann.congal@smile.fr>
-Content-Type: multipart/alternative; boundary="000000000000fc4c9e05f82d6fcc"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [OE-core] [PATCH v2 0/1] Change the serial runner usage
+Content-Language: en-US
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+Cc: khilman@baylibre.com
+References: <20230303090139.207454-1-lrannou@baylibre.com>
+ <8cb5371cbfacac03d340142b36511a73834669d0.camel@linuxfoundation.org>
+From: Louis Rannou <lrannou@baylibre.com>
+In-Reply-To: <8cb5371cbfacac03d340142b36511a73834669d0.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 31 Mar 2023 07:48:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179402
+ <openembedded-core@lists.openembedded.org>; Fri, 31 Mar 2023 07:50:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179403
 
---000000000000fc4c9e05f82d6fcc
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 29/03/2023 12:53, Richard Purdie wrote:
+> On Fri, 2023-03-03 at 10:01 +0100, Louis Rannou wrote:
+>> The actual serial runner has a different usage compare to the ssh runner. The
+>> return status is different and failure are not raised as exceptions.
+>>
+>> Initially, I wanted to create a new run_serial_socket and modify the old
+>> run_serial to use the former. And there was a second patch that changed every
+>> call to run_serial to run_serial_socket. But that is not easy as each test
+>> can have a different manner to handle the exception.
+>>
+>> Therefore, this patch only suggest a new runner and add a comment to deprecate
+>> the former runner.
+>>
+>> Louis Rannou (1):
+>>    oeqa/utils/qemurunner: change the serial runner usage
+>>
+>>   meta/lib/oeqa/targetcontrol.py    |  3 ++
+>>   meta/lib/oeqa/utils/qemurunner.py | 57 +++++++++++++++++++++++++++++++
+>>   2 files changed, 60 insertions(+)
+> 
+> Sorry about the late reply to this. I think the idea of the new runner
+> is great and we should improve and clean this up.
+> 
+> As the patch stands, it creates a largely duplicate function with no
+> users. Experience shows this tends to bitrot quickly.
+> 
+> For that reason I'm reluctant to take just this change without
+> converting at least some of the existing users to use the new API.
+> 
+> Ideally we'd convert everything but at the very least the new function
+> should be usable by a decent chunk of the existing code, even if we
+> have to adjust it to make that work.
 
-Hello Geoffrey,
-Would it be possible to run it over the world build of oe-core and possibly
-meta-oe ?
+Hello,
+You're right. I'll send a v3 changing some tests using that serial runner.
 
-My build farm will be available only next week and I would like to know if
-there are unexpected changes.
-
-Kind regards,
-Marta
-
-On Wed, Mar 29, 2023 at 3:31=E2=80=AFPM Geoffrey GIRY <geoffrey.giry@smile.=
-fr>
-wrote:
-
-> Hello Marta,
->
-> We only tested core-image-minimal and some recipes that use the update
-> and release candidate formats (pX and -rcX)
->
-> Geoffrey GIRY
-> SMILE ECS - R&D Engineer
->
-> Le mer. 29 mars 2023 =C3=A0 06:45, Marta Rybczynska <rybczynska@gmail.com=
-> a
-> =C3=A9crit :
-> >
-> > On Tue, Mar 28, 2023 at 12:24=E2=80=AFPM Geoffrey GIRY <geoffrey.giry@s=
-mile.fr>
-> wrote:
-> >>
-> >> Fixes [YOCTO #14127]
-> >>
-> >> NVD DB store version and update in the same value, separated by '_'.
-> >> The proposed patch check if the version from NVD DB contains a "_",
-> >> ie 9.2.0_p1 is convert to 9.2.0p1 before version comparison.
-> >>
-> >
-> > Thank you for the patch. Which layers (and world builds) have you
-> verified it with?
-> > I'm asking because versioning is always a complicated problems with
-> frequent exceptions to all "rules".
-> >
-> > Kind regards,
-> > Marta
->
-
---000000000000fc4c9e05f82d6fcc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hello Geoffrey,</div><div>Would it be possible to run=
- it over the world build of oe-core and possibly meta-oe ?</div><div><br></=
-div><div>My build farm will be available only next week and I would like to=
- know if there are unexpected changes.</div><div><br></div><div>Kind regard=
-s,</div><div>Marta<br></div></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Wed, Mar 29, 2023 at 3:31=E2=80=AFPM Geoff=
-rey GIRY &lt;<a href=3D"mailto:geoffrey.giry@smile.fr">geoffrey.giry@smile.=
-fr</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">Hello Marta,<br>
-<br>
-We only tested core-image-minimal and some recipes that use the update<br>
-and release candidate formats (pX and -rcX)<br>
-<br>
-Geoffrey GIRY<br>
-SMILE ECS - R&amp;D Engineer<br>
-<br>
-Le mer. 29 mars 2023 =C3=A0 06:45, Marta Rybczynska &lt;<a href=3D"mailto:r=
-ybczynska@gmail.com" target=3D"_blank">rybczynska@gmail.com</a>&gt; a =C3=
-=A9crit :<br>
-&gt;<br>
-&gt; On Tue, Mar 28, 2023 at 12:24=E2=80=AFPM Geoffrey GIRY &lt;<a href=3D"=
-mailto:geoffrey.giry@smile.fr" target=3D"_blank">geoffrey.giry@smile.fr</a>=
-&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; Fixes [YOCTO #14127]<br>
-&gt;&gt;<br>
-&gt;&gt; NVD DB store version and update in the same value, separated by &#=
-39;_&#39;.<br>
-&gt;&gt; The proposed patch check if the version from NVD DB contains a &qu=
-ot;_&quot;,<br>
-&gt;&gt; ie 9.2.0_p1 is convert to 9.2.0p1 before version comparison.<br>
-&gt;&gt;<br>
-&gt;<br>
-&gt; Thank you for the patch. Which layers (and world builds) have you veri=
-fied it with?<br>
-&gt; I&#39;m asking because versioning is always a complicated problems wit=
-h frequent exceptions to all &quot;rules&quot;.<br>
-&gt;<br>
-&gt; Kind regards,<br>
-&gt; Marta<br>
-</blockquote></div>
-
---000000000000fc4c9e05f82d6fcc--
+Thanks,
+Louis
 
