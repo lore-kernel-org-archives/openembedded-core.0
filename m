@@ -1,235 +1,76 @@
-Return-Path: <ejo@pengutronix.de>
+Return-Path: <kubiznak@2n.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2A01C77B62
-	for <webhook@archiver.kernel.org>; Fri, 31 Mar 2023 10:40:47 +0000 (UTC)
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
- by mx.groups.io with SMTP id smtpd.web11.51476.1680259240421530960
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75321C6FD18
+	for <webhook@archiver.kernel.org>; Fri, 31 Mar 2023 11:48:38 +0000 (UTC)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web11.52491.1680263315827130215
  for <openembedded-core@lists.openembedded.org>;
- Fri, 31 Mar 2023 03:40:40 -0700
+ Fri, 31 Mar 2023 04:48:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: ejo@pengutronix.de)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1piCBS-0002Hm-EK; Fri, 31 Mar 2023 12:40:38 +0200
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1piCBP-007yTs-UL; Fri, 31 Mar 2023 12:40:35 +0200
-Received: from ejo by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1piCBP-006DmF-50; Fri, 31 Mar 2023 12:40:35 +0200
-From: Enrico Jorns <ejo@pengutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: yocto@pengutronix.de,
-	ejo@pengutronix.de,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Alexander Kanavin <alex.kanavin@gmail.com>,
-	alexandre.belloni@bootlin.com
-Subject: [PATCH v2 1/9] barebox: add initial support
-Date: Fri, 31 Mar 2023 12:40:17 +0200
-Message-Id: <20230331104025.1478393-2-ejo@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230331104025.1478393-1-ejo@pengutronix.de>
-References: <20230331104025.1478393-1-ejo@pengutronix.de>
+ dkim=missing; spf=pass (domain: 2n.com, ip: 195.60.68.17, mailfrom: kubiznak@2n.com)
+From: =?UTF-8?q?Petr=20Kubiz=C5=88=C3=A1k?= <kubiznak@2n.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: =?UTF-8?q?Petr=20Kubiz=C5=88=C3=A1k?= <kubiznak@2n.com>
+Subject: [OE-core][PATCH v4 01/10] gobject-introspection: reduce dependencies
+Date: Fri, 31 Mar 2023 13:46:25 +0200
+Message-ID: <20230331114634.3578244-1-kubiznak@2n.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ejo@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: se-mail01w.axis.com (10.20.40.7) To se-mail01w.axis.com
+ (10.20.40.7)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 31 Mar 2023 10:40:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179426
+ <openembedded-core@lists.openembedded.org>; Fri, 31 Mar 2023 11:48:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179429
 
-From: Marco Felsch <m.felsch@pengutronix.de>
+When GI_DATA_ENABLED is 'False' (e.g. because
+'gobject-introspection-data' is not in DISTRO_FEATURES),
+gobject-introspection, gobject-introspection-native and qemu-native
+should not be added to DEPENDS. This is to reduce dependency chain
+when g-i is disabled.
 
-This adds the support for the barebox bootloader to oe-core. The recipe
-is based on the recipe found in meta-ptx [1] with a few minor adaptions.
-
-This basic support includes the bootloader and the target tools to
-interact with the bootloader. The host tools support is not part of
-this commit. This will be added later on as separate recipe.
-
-[1] https://github.com/pengutronix/meta-ptx/tree/master/recipes-bsp/barebox
-
-Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
+Signed-off-by: Petr Kubizňák <kubiznak@2n.com>
 ---
- meta/conf/distro/include/maintainers.inc      |   1 +
- meta/recipes-bsp/barebox/barebox.inc          | 133 ++++++++++++++++++
- meta/recipes-bsp/barebox/barebox_2023.03.0.bb |   3 +
- 3 files changed, 137 insertions(+)
- create mode 100644 meta/recipes-bsp/barebox/barebox.inc
- create mode 100644 meta/recipes-bsp/barebox/barebox_2023.03.0.bb
+ meta/classes-recipe/gobject-introspection.bbclass | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 682ec2cfdf..86d5519489 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -54,6 +54,7 @@ RECIPE_MAINTAINER:pn-automake = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER:pn-avahi = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-babeltrace = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-babeltrace2 = "Alexander Kanavin <alex.kanavin@gmail.com>"
-+RECIPE_MAINTAINER:pn-barebox = "Enrico Jörns <yocto@pengutronix.de>"
- RECIPE_MAINTAINER:pn-baremetal-helloworld = "Alejandro Hernandez <alejandro@enedino.org>"
- RECIPE_MAINTAINER:pn-base-files = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-base-passwd = "Anuj Mittal <anuj.mittal@intel.com>"
-diff --git a/meta/recipes-bsp/barebox/barebox.inc b/meta/recipes-bsp/barebox/barebox.inc
-new file mode 100644
-index 0000000000..a6c790b84b
---- /dev/null
-+++ b/meta/recipes-bsp/barebox/barebox.inc
-@@ -0,0 +1,133 @@
-+SUMMARY = "barebox is a bootloader designed for embedded systems. It runs on a variety of architectures including x86, ARM, MIPS, PowerPC and others."
-+HOMEPAGE = "https://barebox.org/"
-+SECTION = "bootloaders"
-+PROVIDES = "virtual/bootloader"
-+
-+LICENSE = "GPL-2.0-only"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=f5125d13e000b9ca1f0d3364286c4192"
-+
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
-+require conf/image-uefi.conf
-+
-+inherit kernel-arch deploy cml1 pkgconfig
-+
-+# libusb1 is only required for usb tools like imx-usb-loader. These tools may
-+# be enabled within the defconfig file so depend on it here to be more user
-+# friendly (do not abort the build). The actual tools are provided by the
-+# barebox-tools package.
-+DEPENDS = "libusb1 bison-native flex-native"
-+
-+export KBUILD_BUILD_USER ?= "oe-user"
-+export KBUILD_BUILD_HOST ?= "oe-host"
-+
-+SRC_URI = "https://barebox.org/download/barebox-${PV}.tar.bz2"
-+
-+S = "${WORKDIR}/barebox-${PV}"
-+B = "${WORKDIR}/build"
-+
-+def get_layer_rev(path):
-+    try:
-+        rev, _ = bb.process.run("git describe --match='' --always --dirty --broken", cwd=path)
-+    except bb.process.ExecutionError:
-+        rev = ""
-+    return rev.strip()
-+
-+BAREBOX_BUILDSYSTEM_VERSION[doc] = "Build system version to add to the barebox image. By default this is the git description of the containing layer."
-+BAREBOX_BUILDSYSTEM_VERSION ??= "${@get_layer_rev(os.path.dirname(d.getVar('FILE')))}"
-+
-+BAREBOX_FIRMWARE_DIR[doc] = "Overwrite barebox' firmware blobs search directory (CONFIG_EXTRA_FIRMWARE_DIR) with this path, default ${B}/firmware"
-+BAREBOX_FIRMWARE_DIR ??= "${B}/firmware"
-+
-+EXTRA_OEMAKE = " \
-+    CROSS_COMPILE=${TARGET_PREFIX} -C ${S} O=${B} \
-+    BUILDSYSTEM_VERSION=${BAREBOX_BUILDSYSTEM_VERSION} \
-+    CONFIG_EXTRA_FIRMWARE_DIR=${BAREBOX_FIRMWARE_DIR} \
-+"
-+
-+BAREBOX_CONFIG[doc] = "The barebox kconfig defconfig file. Not used if a file called defconfig is added to the SRC_URI."
-+BAREBOX_CONFIG ?= ""
-+
-+do_configure() {
-+        if [ -e ${WORKDIR}/defconfig ]; then
-+                cp ${WORKDIR}/defconfig ${B}/.config
-+        else
-+                if [ -n "${BAREBOX_CONFIG}" ]; then
-+                        oe_runmake ${BAREBOX_CONFIG}
-+                else
-+                        bbfatal "No defconfig given. Either add file 'file://defconfig' to SRC_URI or set BAREBOX_CONFIG"
-+                fi
-+        fi
-+
-+        ${S}/scripts/kconfig/merge_config.sh -m .config ${@" ".join(find_cfgs(d))}
-+        cml1_do_configure
-+}
-+
-+BAREBOX_ENV_DIR[doc] = "Overlay the barebox built-in environment with the environment provided by the BSP if specified."
-+BAREBOX_ENV_DIR ??= "${WORKDIR}/env/"
-+
-+do_compile () {
-+        export userccflags="${TARGET_LDFLAGS}${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
-+        unset LDFLAGS
-+        unset CFLAGS
-+        unset CPPFLAGS
-+        unset CXXFLAGS
-+        unset MACHINE
-+
-+        if [ -d ${BAREBOX_ENV_DIR} ]; then
-+                BAREBOX_DEFAULT_ENV="$(grep ^CONFIG_DEFAULT_ENVIRONMENT_PATH .config | cut -d '=' -f 2 | tr -d '"')"
-+                oe_runmake CONFIG_DEFAULT_ENVIRONMENT_PATH="\"${BAREBOX_DEFAULT_ENV} ${BAREBOX_ENV_DIR}\""
-+        else
-+                oe_runmake
-+        fi
-+}
-+
-+BAREBOX_BINARY[doc] = "Specify the barebox binary to install. If not specified all barebox artifacts are installed."
-+BAREBOX_BINARY ??= "${@'barebox.efi' if d.getVar('EFI_PROVIDER') == 'barebox' else ''}"
-+BAREBOX_SUFFIX[doc] = "Specify the suffix for ${BAREBOX_IMAGE}."
-+BAREBOX_SUFFIX ??= "img"
-+BAREBOX_IMAGE[doc] = "A unique barebox image name. Unused if ${BAREBOX_BINARY} is not set."
-+BAREBOX_IMAGE_DEFAULT ?= "${PN}-${MACHINE}-${PV}-${PR}.${BAREBOX_SUFFIX}"
-+BAREBOX_IMAGE ?= "${@'${EFI_BOOT_IMAGE}' if d.getVar('EFI_PROVIDER') == 'barebox' else '${BAREBOX_IMAGE_DEFAULT}'}"
-+
-+BAREBOX_INSTALL_PATH ?= "${@'${EFI_FILES_PATH}' if d.getVar('EFI_PROVIDER') == 'barebox' else '/boot'}"
-+
-+do_install () {
-+        if [ -n "${BAREBOX_BINARY}" ]; then
-+
-+                BAREBOX_BIN=${B}/${BAREBOX_BINARY}
-+                if [ ! -f "${BAREBOX_BIN}" ]; then
-+                        BAREBOX_BIN=${B}/images/${BAREBOX_BINARY}
-+                fi
-+                if [ ! -f "${BAREBOX_BIN}" ]; then
-+                        bbfatal "Failed to locate ${BAREBOX_BINARY}"
-+                fi
-+
-+                install -D -m 644 ${BAREBOX_BIN} ${D}${BAREBOX_INSTALL_PATH}/${BAREBOX_IMAGE}
-+                ln -sf ${BAREBOX_IMAGE} ${D}${BAREBOX_INSTALL_PATH}/${BAREBOX_BINARY}
-+        else
-+                install -d ${D}${BAREBOX_INSTALL_PATH}/
-+                for image in $(cat ${B}/barebox-flash-images); do
-+                        install -m 644 ${B}/${image} ${D}${BAREBOX_INSTALL_PATH}/
-+                done
-+        fi
-+}
-+FILES:${PN} = "${BAREBOX_INSTALL_PATH}"
-+
-+do_deploy () {
-+        if [ -n "${BAREBOX_BINARY}" ]; then
-+
-+                BAREBOX_BIN=${B}/${BAREBOX_BINARY}
-+                if [ ! -f "${BAREBOX_BIN}" ]; then
-+                        BAREBOX_BIN=${B}/images/${BAREBOX_BINARY}
-+                fi
-+
-+                install -D -m 644 ${BAREBOX_BIN} ${DEPLOYDIR}/${BAREBOX_IMAGE}
-+                ln -sf ${BAREBOX_IMAGE} ${DEPLOYDIR}/${BAREBOX_BINARY}
-+        else
-+                for image in $(cat ${B}/barebox-flash-images); do
-+                        cp ${B}/${image} ${DEPLOYDIR}
-+                done
-+        fi
-+}
-+addtask deploy after do_compile
-diff --git a/meta/recipes-bsp/barebox/barebox_2023.03.0.bb b/meta/recipes-bsp/barebox/barebox_2023.03.0.bb
-new file mode 100644
-index 0000000000..860b68a95f
---- /dev/null
-+++ b/meta/recipes-bsp/barebox/barebox_2023.03.0.bb
-@@ -0,0 +1,3 @@
-+require barebox.inc
-+
-+SRC_URI[sha256sum] = "d0f78a69ba240327247c8fd0e1d45287e4a0dff99ed847e9a696cc2da0cf388c"
+diff --git a/meta/classes-recipe/gobject-introspection.bbclass b/meta/classes-recipe/gobject-introspection.bbclass
+index 0c7b7d200a..98edb93761 100644
+--- a/meta/classes-recipe/gobject-introspection.bbclass
++++ b/meta/classes-recipe/gobject-introspection.bbclass
+@@ -35,7 +35,7 @@ EXTRA_OEMESON:prepend:class-nativesdk = "${@['', '${GIRMESONBUILD}'][d.getVar('G
+ 
+ # Generating introspection data depends on a combination of native and target
+ # introspection tools, and qemu to run the target tools.
+-DEPENDS:append:class-target = " gobject-introspection gobject-introspection-native qemu-native"
++DEPENDS:append:class-target = " ${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'gobject-introspection gobject-introspection-native qemu-native', '', d)}"
+ 
+ # Even though introspection is disabled on -native, gobject-introspection package is still
+ # needed for m4 macros.
+@@ -46,10 +46,12 @@ DEPENDS:append:class-nativesdk = " gobject-introspection-native"
+ export XDG_DATA_DIRS = "${STAGING_DATADIR}:${STAGING_LIBDIR}"
+ 
+ do_configure:prepend:class-target () {
+-    # introspection.m4 pre-packaged with upstream tarballs does not yet
+-    # have our fixes
+-    mkdir -p ${S}/m4
+-    cp ${STAGING_DIR_TARGET}/${datadir}/aclocal/introspection.m4 ${S}/m4
++    if [ "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '1', '0', d)}" = "1" ] ; then
++        # introspection.m4 pre-packaged with upstream tarballs does not yet
++        # have our fixes
++        mkdir -p ${S}/m4
++        cp ${STAGING_DIR_TARGET}/${datadir}/aclocal/introspection.m4 ${S}/m4
++    fi
+ }
+ 
+ # .typelib files are needed at runtime and so they go to the main package (so
 -- 
-2.39.2
+2.30.2
 
 
