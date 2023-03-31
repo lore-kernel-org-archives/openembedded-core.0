@@ -2,10 +2,10 @@ Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12C9DC77B6F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 166DAC77B70
 	for <webhook@archiver.kernel.org>; Fri, 31 Mar 2023 10:40:48 +0000 (UTC)
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
- by mx.groups.io with SMTP id smtpd.web11.51473.1680259240364668679
+ by mx.groups.io with SMTP id smtpd.web11.51474.1680259240373351002
  for <openembedded-core@lists.openembedded.org>;
  Fri, 31 Mar 2023 03:40:40 -0700
 Authentication-Results: mx.groups.io;
@@ -14,14 +14,14 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1piCBS-0002IG-EK; Fri, 31 Mar 2023 12:40:38 +0200
+	id 1piCBS-0002Hi-EL; Fri, 31 Mar 2023 12:40:38 +0200
 Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1piCBQ-007yU1-TU; Fri, 31 Mar 2023 12:40:36 +0200
+	id 1piCBP-007yTn-QW; Fri, 31 Mar 2023 12:40:35 +0200
 Received: from ejo by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1piCBP-006Dmh-HP; Fri, 31 Mar 2023 12:40:35 +0200
+	id 1piCBP-006DmC-3b; Fri, 31 Mar 2023 12:40:35 +0200
 From: Enrico Jorns <ejo@pengutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: yocto@pengutronix.de,
@@ -29,12 +29,10 @@ Cc: yocto@pengutronix.de,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Alexander Kanavin <alex.kanavin@gmail.com>,
 	alexandre.belloni@bootlin.com
-Subject: [PATCH v2 8/9] oeqa/selftest/cases: add barebox tests
-Date: Fri, 31 Mar 2023 12:40:24 +0200
-Message-Id: <20230331104025.1478393-9-ejo@pengutronix.de>
+Subject: [PATCH v2 0/9] Add barebox bootloader support (and testing)
+Date: Fri, 31 Mar 2023 12:40:16 +0200
+Message-Id: <20230331104025.1478393-1-ejo@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230331104025.1478393-1-ejo@pengutronix.de>
-References: <20230331104025.1478393-1-ejo@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -45,92 +43,52 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 31 Mar 2023 10:40:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179422
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179421
 
-Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
----
- meta/lib/oeqa/selftest/cases/barebox.py | 72 +++++++++++++++++++++++++
- 1 file changed, 72 insertions(+)
+This adds support for the barebox bootloader (and tools) to oe-core.
+
+In order to have proper testing, this extends oe-selftest to allow
+basic testing of bootloaders. While at it, cover both barebox and u-boot.
+
+v2:
+  * set myself as maintainer in maintainers.inc
+  * move doc from documentation.conf to recipe
+  * update to barebox v2023.03 (including fixes for musl, etc.)
+  * set standard configs for qemu machines to allow building them
+  * add better efi dir support in barebox recipe
+  * enable testing bootloaders in oeqa
+  * add test cases for barebox (and u-boot)
+
+Enrico Jorns (7):
+  barebox: set default BAREBOX_CONFIG for qemu machines
+  oeqa/utils/qemurunner: support ignoring vt100 escape sequences
+  oeqa/utils/qemurunner: simplify output parsing and make
+    crlf-compatible
+  oeqa/utils/commands: document runqemu context manager
+  oeqa: support passing custom boot patterns to runqemu
+  oeqa/selftest/cases: add barebox tests
+  oeqa/selftest/cases: add basic u-boot test
+
+Marco Felsch (2):
+  barebox: add initial support
+  barebox-tools: add initial barebox tools support
+
+ meta/conf/distro/include/maintainers.inc      |   2 +
+ meta/lib/oeqa/selftest/cases/barebox.py       |  72 +++++++++
+ meta/lib/oeqa/selftest/cases/uboot.py         |  40 +++++
+ meta/lib/oeqa/targetcontrol.py                |   5 +-
+ meta/lib/oeqa/utils/commands.py               |  22 ++-
+ meta/lib/oeqa/utils/qemurunner.py             |  37 +++--
+ .../barebox/barebox-tools_2023.03.0.bb        |  56 +++++++
+ meta/recipes-bsp/barebox/barebox.inc          | 138 ++++++++++++++++++
+ meta/recipes-bsp/barebox/barebox_2023.03.0.bb |   3 +
+ 9 files changed, 351 insertions(+), 24 deletions(-)
  create mode 100644 meta/lib/oeqa/selftest/cases/barebox.py
+ create mode 100644 meta/lib/oeqa/selftest/cases/uboot.py
+ create mode 100644 meta/recipes-bsp/barebox/barebox-tools_2023.03.0.bb
+ create mode 100644 meta/recipes-bsp/barebox/barebox.inc
+ create mode 100644 meta/recipes-bsp/barebox/barebox_2023.03.0.bb
 
-diff --git a/meta/lib/oeqa/selftest/cases/barebox.py b/meta/lib/oeqa/selftest/cases/barebox.py
-new file mode 100644
-index 0000000000..497cd6e8dd
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/barebox.py
-@@ -0,0 +1,72 @@
-+# Qemu-based barebox bootloader integration testing
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.utils.commands import bitbake, runqemu
-+from oeqa.core.decorator.data import skipIfNotArch
-+from oeqa.core.decorator import OETestTag
-+
-+barebox_boot_patterns = {
-+        'search_reached_prompt': r"stop autoboot",
-+        'search_login_succeeded': r"barebox@[^:]+:[^ ]+ ",
-+        'search_cmd_finished': r"barebox@[a-zA-Z0-9\-\s]+:/"
-+        }
-+
-+
-+class BareboxTest(OESelftestTestCase):
-+
-+    @skipIfNotArch(['arm', 'aarch64'])
-+    @OETestTag("runqemu")
-+    def test_boot_barebox(self):
-+        """
-+        Tests building barebox and booting it with QEMU
-+        """
-+
-+        self.write_config("""
-+QB_DEFAULT_KERNEL = "barebox-dt-2nd.img"
-+PREFERRED_PROVIDER_virtual/bootloader = "barebox"
-+""")
-+
-+        bitbake("virtual/bootloader core-image-minimal")
-+
-+        with runqemu('core-image-minimal', ssh=False, runqemuparams='nographic',
-+                     boot_patterns=barebox_boot_patterns) as qemu:
-+
-+            # test if barebox console works
-+            cmd = "version"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(status, 1, msg=output)
-+            self.assertTrue("barebox" in output, msg=output)
-+
-+    @skipIfNotArch(['x86_64'])
-+    @OETestTag("runqemu")
-+    def test_boot_barebox_efi(self):
-+        """
-+        Tests building barebox for UEFI and booting it as EFI payload
-+        with QEMU + OVMF
-+        """
-+        image = "core-image-minimal"
-+
-+        self.write_config("""
-+IMAGE_INSTALL:append = " barebox"
-+MACHINE_FEATURES:append = " pcbios efi"
-+EXTRA_IMAGEDEPENDS += "ovmf"
-+EFI_PROVIDER = "barebox"
-+IMAGE_FSTYPES += "wic"
-+WKS_FILE = "efi-bootdisk.wks.in"
-+""")
-+
-+        bitbake(image)
-+
-+        with runqemu(image, ssh=False, runqemuparams='nographic ovmf',
-+                     boot_patterns=barebox_boot_patterns, image_fstype='wic') as qemu:
-+
-+            # test if barebox console works
-+            cmd = "version"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(status, 1, msg=output)
-+            self.assertTrue("barebox" in output, msg=output)
 -- 
 2.39.2
 
