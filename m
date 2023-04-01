@@ -2,37 +2,37 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24649C88C8C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B711C88C8B
 	for <webhook@archiver.kernel.org>; Sat,  1 Apr 2023 21:29:03 +0000 (UTC)
 Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.32130.1680384535237060478
+ by mx.groups.io with SMTP id smtpd.web10.32140.1680384535187890442
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Apr 2023 14:28:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=aUZ/hmRF;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101873eb9281e-551d78d4-1dd1-4465-92b1-3fde63f0b500-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=koyQ/Wf9;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101873eb92799-03be60dc-bb9b-4f68-a25e-4ed63fc00bcf-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1680384534;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=D8IsPnnFtOtWZZfQ/ug0ujLlYFV0DvQvO0UJ+O+n83o=;
-	b=aUZ/hmRFZVJWOX+mkpDRFQaczdGJR1i3g2MHyRC4634xCSXD8AWWvgkvyffeuzb6
-	+UVN7LgE52g1uyXkmrNQOsG4OhzdUXmeaaFoqku7UnC0emkxLV3xFleSvTF5XwG3m2b
-	YoEvep0zKvM+a7RELxdcGEz2R2LzUaqVWCnMq2l4=
+	bh=oaf2rvUKKiU5xcLjh/1YgIhdtCSguRPE7jtPEBDo53c=;
+	b=koyQ/Wf9XkHZpJzbN0KBjDq7k9DU0KlAkSj7MObmH7qUu75uQW6dlQooVsAA5HMM
+	8Q+RblvJy2USxRYQuaHrMU1jfjG1nAnrPC6FgS+hLnYkeTnapTe4epFhhnYTiHrnt5s
+	d1aqy+l4fO4P7a6VzkNUjkWRv7g6XzL3vBMlXL1o=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1680384534;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=D8IsPnnFtOtWZZfQ/ug0ujLlYFV0DvQvO0UJ+O+n83o=;
-	b=TRe7RzjxkQsvv80Dykd0qR7tHXeGpBN9tg3z25bkbqdw9RcBgryZBVrQmaOlObj0
-	zNHKFGBM0/i7Wfo61tYhlEbsnbgy52ssk1kGaKQTaoUUN/7FBNbubRkwC69itNX+P+X
-	mYtAhRQ5y/y6pUMrCfa0Dc1x7ZNC8LfKaq/YhVyo=
-Content-Type: multipart/mixed; boundary="===============5770021146226821209=="
+	bh=oaf2rvUKKiU5xcLjh/1YgIhdtCSguRPE7jtPEBDo53c=;
+	b=QmcAOki0kP1AjehCDsTelNjk4rVm4hNZfhqE35CGzf/sFX6As4mX5C+4rbcWOLur
+	qErbfA9dZbXeXQEbNUl6emXsP6D0PNYIIMqi7zDlB7lPnFB6Y4o1CAfCf37VitA8Wko
+	cwOM758ogfmjwLvon8FkBntVtt7/pimwpkKI+2RA=
+Content-Type: multipart/mixed; boundary="===============2536001176135436785=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Denys Dmytriyenko <denis@denix.org>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] grep: upgrading to 3.10 SUCCEEDED
-Message-ID: <010101873eb9281e-551d78d4-1dd1-4465-92b1-3fde63f0b500-000000@us-west-2.amazonses.com>
+Subject: [AUH] squashfs-tools: upgrading to 4.6.1 SUCCEEDED
+Message-ID: <010101873eb92799-03be60dc-bb9b-4f68-a25e-4ed63fc00bcf-000000@us-west-2.amazonses.com>
 Date: Sat, 1 Apr 2023 21:28:54 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2023.04.01-54.240.27.33
@@ -40,9 +40,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Apr 2023 21:29:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179516
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179514
 
---===============5770021146226821209==
+--===============2536001176135436785==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *grep* to *3.10* has Succeeded.
+that the automatic attempt to upgrade the recipe *squashfs-tools* to *4.6.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-grep-upgrade-3.9-3.10.patch
+    - apply the patch: git am 0001-squashfs-tools-upgrade-4.5.1-4.6.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,151 +69,110 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============5770021146226821209==
+--===============2536001176135436785==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-squashfs-tools-upgrade-4.5.1-4.6.1.patch"
+
+RnJvbSA5YjY1YTViZTYzNjQzMTdjMzhiZWNmNTJhYmRiOTNlODZiYzdiOTk1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMSBBcHIgMjAyMyAxMTozOTo0NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHNx
+dWFzaGZzLXRvb2xzOiB1cGdyYWRlIDQuNS4xIC0+IDQuNi4xCgotLS0KIC4uLi5zaC1kby1ub3Qt
+d3JpdGUtb3JpZ2luYWwtdGltZXN0YW1wcy5wYXRjaCB8IDMwIC0tLS0tLS0tLS0tLS0tLS0tLS0K
+IC4uLi9zcXVhc2hmcy10b29scy9zcXVhc2hmcy10b29sc19naXQuYmIgICAgICB8ICA4ICsrLS0t
+CiAyIGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMzUgZGVsZXRpb25zKC0pCiBkZWxl
+dGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3NxdWFzaGZzLXRvb2xzL2ZpbGVz
+LzAwMDEtaW5zdGFsbC1tYW5wYWdlcy5zaC1kby1ub3Qtd3JpdGUtb3JpZ2luYWwtdGltZXN0YW1w
+cy5wYXRjaAoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zcXVhc2hmcy10b29s
+cy9maWxlcy8wMDAxLWluc3RhbGwtbWFucGFnZXMuc2gtZG8tbm90LXdyaXRlLW9yaWdpbmFsLXRp
+bWVzdGFtcHMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3F1YXNoZnMtdG9vbHMvZmls
+ZXMvMDAwMS1pbnN0YWxsLW1hbnBhZ2VzLnNoLWRvLW5vdC13cml0ZS1vcmlnaW5hbC10aW1lc3Rh
+bXBzLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCBlZDFkMmY1YjNiLi4wMDAw
+MDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zcXVhc2hmcy10b29scy9maWxlcy8w
+MDAxLWluc3RhbGwtbWFucGFnZXMuc2gtZG8tbm90LXdyaXRlLW9yaWdpbmFsLXRpbWVzdGFtcHMu
+cGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSwzMCArMCwwIEBACi1Gcm9tIGI0NGIwMGRhZTE5NWQ4
+NTg3ODU3YzdlODA1NGU5YmU0ZWFhMWY4YjMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1Gcm9t
+OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleEBsaW51dHJvbml4LmRlPgotRGF0ZTogVGh1LCA3IEFw
+ciAyMDIyIDA5OjI2OjA5ICswMjAwCi1TdWJqZWN0OiBbUEFUQ0hdIGluc3RhbGwtbWFucGFnZXMu
+c2g6IGRvIG5vdCB3cml0ZSBvcmlnaW5hbCB0aW1lc3RhbXBzIGludG8KLSAuZ3ogbWV0YWRhdGEK
+LQotVGhpcyBoZWxwcyBiaW5hcnkgcmVwcm9kdWNpYmlsaXR5LgotCi1VcHN0cmVhbS1TdGF0dXM6
+IFN1Ym1pdHRlZCBbaHR0cHM6Ly9naXRodWIuY29tL3Bsb3VnaGVyL3NxdWFzaGZzLXRvb2xzL3B1
+bGwvMTc3XQotU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25p
+eC5kZT4KLS0tLQotIGdlbmVyYXRlLW1hbnBhZ2VzL2luc3RhbGwtbWFucGFnZXMuc2ggfCAyICst
+Ci0gMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCi0KLWRpZmYg
+LS1naXQgYS9nZW5lcmF0ZS1tYW5wYWdlcy9pbnN0YWxsLW1hbnBhZ2VzLnNoIGIvZ2VuZXJhdGUt
+bWFucGFnZXMvaW5zdGFsbC1tYW5wYWdlcy5zaAotaW5kZXggZDRjOWU5MS4uNmE0M2I4OSAxMDA3
+NTUKLS0tLSBhL2dlbmVyYXRlLW1hbnBhZ2VzL2luc3RhbGwtbWFucGFnZXMuc2gKLSsrKyBiL2dl
+bmVyYXRlLW1hbnBhZ2VzL2luc3RhbGwtbWFucGFnZXMuc2gKLUBAIC01Niw3ICs1Niw3IEBAIGZv
+ciBpIGluIG1rc3F1YXNoZnMgdW5zcXVhc2hmcyBzcWZzdGFyIHNxZnNjYXQ7IGRvCi0gCQlleGl0
+IDEKLSAJZmkKLSAKLS0JaWYgISBnemlwIC1mOSAkMi8kaS4xOyB0aGVuCi0rCWlmICEgZ3ppcCAt
+biAtZjkgJDIvJGkuMTsgdGhlbgotIAkJZWNobyAiJDA6IENvbXByZXNzaW5nIGluc3RhbGxlZCBt
+YW5wYWdlIGZhaWxlZC4gIEFib3J0aW5nIiA+JjIKLSAJCWV4aXQgMQotIAlmaQotLS0gCi0yLjMw
+LjIKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3NxdWFzaGZzLXRvb2xzL3Nx
+dWFzaGZzLXRvb2xzX2dpdC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zcXVhc2hmcy10b29s
+cy9zcXVhc2hmcy10b29sc19naXQuYmIKaW5kZXggNGUwMDlkMjYyNS4uOTgyYTQzZjg4OSAxMDA2
+NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3NxdWFzaGZzLXRvb2xzL3NxdWFzaGZzLXRv
+b2xzX2dpdC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3F1YXNoZnMtdG9vbHMvc3F1
+YXNoZnMtdG9vbHNfZ2l0LmJiCkBAIC03LDExICs3LDkgQEAgU0VDVElPTiA9ICJiYXNlIgogTElD
+RU5TRSA9ICJHUEwtMi4wLW9ubHkiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5H
+O21kNT1iMjM0ZWU0ZDY5ZjVmY2U0NDg2YTgwZmRhZjRhNDI2MyIKIAotUFYgPSAiNC41LjEiCi1T
+UkNSRVYgPSAiYWZkZDYzZmMzODY5MTliNGFhNDBkNTczYjBhNjA2OTQxNGQxNDMxNyIKLVNSQ19V
+UkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9wbG91Z2hlci9zcXVhc2hmcy10b29scy5naXQ7cHJvdG9j
+b2w9aHR0cHM7YnJhbmNoPW1hc3RlciBcCi0gICAgICAgICAgIGZpbGU6Ly8wMDAxLWluc3RhbGwt
+bWFucGFnZXMuc2gtZG8tbm90LXdyaXRlLW9yaWdpbmFsLXRpbWVzdGFtcHMucGF0Y2ggXAotICAg
+ICAgICAgICAiCitQViA9ICI0LjYuMSIKK1NSQ1JFViA9ICJkOGNiODJkOTg0MDMzMGY5MzQ0ZWMz
+N2I5OTI1OTViNWQ3YjQ0MTg0IgorU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL3Bsb3VnaGVy
+L3NxdWFzaGZzLXRvb2xzLmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9djYuMS4xIgogVVBTVFJF
+QU1fQ0hFQ0tfR0lUVEFHUkVHRVggPSAiKD9QPHB2ZXI+KFxkKyhcLlxkKykrKSkiCiAKIFMgPSAi
+JHtXT1JLRElSfS9naXQiCi0tIAoyLjM5LjIKCg==
+
+--===============2536001176135436785==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/grep/grep-dbg: PKGSIZE changed from 798648 to 802332 (+0%)
-packages/core2-32-poky-linux/grep/grep-dbg: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-dbg: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-dev: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-dev: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-doc: PKGSIZE changed from 169836 to 169744 (-0%)
-packages/core2-32-poky-linux/grep/grep-doc: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-doc: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-af: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-af: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-be: PKGSIZE changed from 23295 to 23299 (+0%)
-packages/core2-32-poky-linux/grep/grep-locale-be: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-be: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-bg: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-bg: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-ca: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-ca: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-cs: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-cs: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-da: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-da: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-de: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-de: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-el: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-el: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-eo: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-eo: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-es: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-es: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-et: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-et: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-eu: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-eu: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-fi: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-fi: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-fr: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-fr: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-ga: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-ga: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-gl: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-gl: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-he: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-he: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-hr: PKGSIZE changed from 17885 to 18215 (+2%)
-packages/core2-32-poky-linux/grep/grep-locale-hr: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-hr: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-hu: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-hu: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-id: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-id: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-it: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-it: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-ja: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-ja: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-ka: PKGSIZE changed from 27371 to 27905 (+2%)
-packages/core2-32-poky-linux/grep/grep-locale-ka: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-ka: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-ko: PKGSIZE changed from 19017 to 19419 (+2%)
-packages/core2-32-poky-linux/grep/grep-locale-ko: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-ko: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-ky: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-ky: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-lt: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-lt: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-nb: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-nb: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-nl: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-nl: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-pa: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-pa: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-pl: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-pl: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-pt-br: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-pt-br: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-pt: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-pt: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-ro: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-ro: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-ru: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-ru: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-sk: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-sk: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-sl: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-sl: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-sr: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-sr: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-sv: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-sv: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-ta: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-ta: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-th: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-th: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-tr: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-tr: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-uk: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-uk: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-vi: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-vi: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-zh-cn: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-zh-cn: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-locale-zh-tw: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-locale-zh-tw: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-src: PKGSIZE changed from 1886047 to 1888700 (+0%)
-packages/core2-32-poky-linux/grep/grep-src: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-src: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep-staticdev: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep-staticdev: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep/grep: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep/grep: PKGV changed from 3.9 [default] to 3.10 [default]
-packages/core2-32-poky-linux/grep: PV changed from "3.9" to "3.10"
-packages/core2-32-poky-linux/grep: SRC_URI changed from "https://ftp.gnu.org/gnu/grep/grep-3.9.tar.xz" to "https://ftp.gnu.org/gnu/grep/grep-3.10.tar.xz"
-packages/core2-32-poky-linux/grep: PKGV changed from 3.9 [default] to 3.10 [default]
+packages/core2-32-poky-linux/squashfs-tools: SRC_URI changed from "git://github.com/plougher/squashfs-tools.git;protocol=https;branch=master file://0001-install-manpages.sh-do-not-write-original-timestamps.patch" to "git://github.com/plougher/squashfs-tools.git;protocol=https;branch=v6.1.1"
+packages/core2-32-poky-linux/squashfs-tools: PKGV changed from 4.5.1 [default] to 4.6.1 [default]
+packages/core2-32-poky-linux/squashfs-tools: PV changed from "4.5.1" to "4.6.1"
+packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-dbg: PKGSIZE changed from 990368 to 1063808 (+7%)
+packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-dbg: PKGV changed from 4.5.1 [default] to 4.6.1 [default]
+packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-dbg: PV changed from "4.5.1" to "4.6.1"
+packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-dev: PKGSIZE changed from 13473 to 13487 (+0%)
+packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-dev: PKGV changed from 4.5.1 [default] to 4.6.1 [default]
+packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-dev: PV changed from "4.5.1" to "4.6.1"
+packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-doc: PKGSIZE changed from 14092 to 18027 (+28%)
+packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-doc: PKGV changed from 4.5.1 [default] to 4.6.1 [default]
+packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-doc: PV changed from "4.5.1" to "4.6.1"
+packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-locale: PKGV changed from 4.5.1 [default] to 4.6.1 [default]
+packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-locale: PV changed from "4.5.1" to "4.6.1"
+packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-src: PKGSIZE changed from 882898 to 958469 (+9%)
+packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-src: PKGV changed from 4.5.1 [default] to 4.6.1 [default]
+packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-src: FILELIST: removed "/usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/pseudo.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquashfs_info.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/read_xattrs.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquashfs_info.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/pseudo.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/read_fs.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/tar.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/xz_wrapper.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/xz_wrapper.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/tar.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/read_fs.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/sort.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/gzip_wrapper.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/reader.c /u
+ sr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/zstd_wrapper.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/gzip_wrapper.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/sort.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/zstd_wrapper.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/xattr.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/info.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/error.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/compressor.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/info.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquash-2.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/xattr.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/compressor.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquash-3.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquash-123.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/process_fragments.h /usr/src/deb
+ ug/squashfs-tools/4.5.1-r0/squashfs-tools/restore.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquash-34.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/process_fragments.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/restore.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/mksquashfs_error.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquash-12.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/action.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/squashfs_compat.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/action.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquash-4.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquashfs.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquashfs_xattr.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/mksquashfs.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/squashfs_fs.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/cach
+ es-queues-lists.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/tar_xattr.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquash-1.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/lzo_wrapper.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/progressbar.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/mksquashfs.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/lzo_wrapper.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/progressbar.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquashfs.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/caches-queues-lists.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquash-1234.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/lz4_wrapper.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/lzma_xz_wrapper.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/lz4_wrapper.c", added "/usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/date.h /usr/src/debug/s
+ quashfs-tools/4.6.1-r0/squashfs-tools/gzip_wrapper.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/zstd_wrapper.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/tar_xattr.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/reader.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/date.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/gzip_wrapper.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/mksquashfs_error.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/reader.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/zstd_wrapper.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/compressor.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/sort.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/pseudo.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquashfs_info.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/lz4_wrapper.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/pseudo.h /usr/src/debug/sq
+ uashfs-tools/4.6.1-r0/squashfs-tools/sort.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/compressor.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/read_xattrs.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquashfs_info.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/lz4_wrapper.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/process_fragments.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/xattr.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/error.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/xattr.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/process_fragments.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquash-1234.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/tar.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/xz_wrapper.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/action.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/caches-queues-lists.h /usr/src
+ /debug/squashfs-tools/4.6.1-r0/squashfs-tools/xz_wrapper.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/tar.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/lzma_xz_wrapper.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/squashfs_compat.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/caches-queues-lists.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/action.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/restore.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquashfs_xattr.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquash-3.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquash-4.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquashfs.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/lzo_wrapper.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/mksquashfs.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/progressbar.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/
+ unsquash-1.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquash-2.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/lzo_wrapper.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/mksquashfs.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/progressbar.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/restore.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/squashfs_fs.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquashfs.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/read_fs.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquash-12.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/read_fs.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/signals.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/info.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/info.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquash-123.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquash-3
+ 4.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/pseudo_xattr.c"
+packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-src: PV changed from "4.5.1" to "4.6.1"
+packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-staticdev: PKGV changed from 4.5.1 [default] to 4.6.1 [default]
+packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-staticdev: PV changed from "4.5.1" to "4.6.1"
+packages/core2-32-poky-linux/squashfs-tools/squashfs-tools: PKGSIZE changed from 486252 to 527340 (+8%)
+packages/core2-32-poky-linux/squashfs-tools/squashfs-tools: PKGV changed from 4.5.1 [default] to 4.6.1 [default]
+packages/core2-32-poky-linux/squashfs-tools/squashfs-tools: PV changed from "4.5.1" to "4.6.1"
 
---===============5770021146226821209==
-Content-Type: application/octet-stream
+--===============2536001176135436785==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-grep-upgrade-3.9-3.10.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-RnJvbSA4YjlkZjA3YTVlYjNmNmE0NWYxODc4YWUyNjExM2UyZTgwYWE1Yzc1IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBBcHIgMjAyMyAxMjowNDowMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdy
-ZXA6IHVwZ3JhZGUgMy45IC0+IDMuMTAKCi0tLQogbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2dyZXAv
-e2dyZXBfMy45LmJiID0+IGdyZXBfMy4xMC5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBp
-bnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQv
-Z3JlcC97Z3JlcF8zLjkuYmIgPT4gZ3JlcF8zLjEwLmJifSAoOTQlKQoKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1leHRlbmRlZC9ncmVwL2dyZXBfMy45LmJiIGIvbWV0YS9yZWNpcGVzLWV4dGVu
-ZGVkL2dyZXAvZ3JlcF8zLjEwLmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJlbmFtZSBmcm9tIG1l
-dGEvcmVjaXBlcy1leHRlbmRlZC9ncmVwL2dyZXBfMy45LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lw
-ZXMtZXh0ZW5kZWQvZ3JlcC9ncmVwXzMuMTAuYmIKaW5kZXggM2MzOWE1ZmI1Ni4uMzNmZDY0ZDI3
-ZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2dyZXAvZ3JlcF8zLjkuYmIKKysr
-IGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2dyZXAvZ3JlcF8zLjEwLmJiCkBAIC04LDcgKzgsNyBA
-QCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT0xZWJiZDNlMzQyMzdhZjI2
-ZGE1ZGMwOGE0ZTQ0MDQ2NCIKIAogU1JDX1VSSSA9ICIke0dOVV9NSVJST1J9L2dyZXAvZ3JlcC0k
-e1BWfS50YXIueHoiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJhYmNkMTE0MDllZTIzZDRjYWYz
-NWZlYjQyMmU1M2JiYWM4NjcwMTRjZmVlZDMxM2JiNWY0ODhhY2ExNzBiNTk5IgorU1JDX1VSSVtz
-aGEyNTZzdW1dID0gIjI0ZWZhNWI1OTVmYjVhNzEwMDg3OWI1MWI4ODY4YTBiYjg3YTcxYzE4M2Qw
-MmM0YzYwMjYzM2I4OGFmNjg1NWIiCiAKIGluaGVyaXQgYXV0b3Rvb2xzIGdldHRleHQgdGV4aW5m
-byBwa2djb25maWcKIAotLSAKMi4zOS4yCgo=
+packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-doc: PKGSIZE changed from 14092 to 18027 (+28%)
 
---===============5770021146226821209==--
+--===============2536001176135436785==--
 
