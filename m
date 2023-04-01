@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19302C88C84
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 245F5C88C85
 	for <webhook@archiver.kernel.org>; Sat,  1 Apr 2023 21:29:03 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.32132.1680384535478656519
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.32129.1680384535233715827
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Apr 2023 14:28:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=AwGV0D9S;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101873eb92941-f6970e8d-21e0-4c8b-9133-934704ae31c7-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Qan/2+o7;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101873eb92858-f03e4e6e-dab8-4bb2-984e-690e7a4f0157-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1680384535;
+	t=1680384534;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=n5GMRjh+bK+D/+yfO0ggu1sxFSGV05Um0tco3RoffEc=;
-	b=AwGV0D9S5mzcWwvOYPhbn2VVMPX6jHj0VLH/+CHQPbJ8lIrchCN4hlJoB8dyY7tE
-	l7gLJUCfi5nXQR2PFZy3hMDV2rybLwBLIJz+uHXjPw4+wpm3wmipiGEvatFiAy7hehZ
-	H8OgCAQOrwi3G6ELZcv6Fd3XqXA5lxWDDfHpXBU4=
+	bh=1Fs5/WuFRY51a9nil0nBiOTgmvEz8TpISv9Qylv+1WA=;
+	b=Qan/2+o7+GUplHJjaaHyfiyj/u8bXpcm5I1bgx8JBw4YIjztpcSzlMaSHU5eX+S/
+	feOaDr1hVaRHLm9GTcT8Gk6aGAZMnZi6Sff9MTn6o1Z9GGRsY9OoxbOfQ/oibzv1w24
+	3dWNm5f9njVr9o0yWD9t/oCjfM4cOH9I+rpXWHw8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1680384535;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1680384534;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=n5GMRjh+bK+D/+yfO0ggu1sxFSGV05Um0tco3RoffEc=;
-	b=UKjfHIXD3bWtt1gZlTz4jrU1RbkFIxzpvOi3g5U2wcSNjAj376+3nphcbNat+Wqb
-	MYHTUbSkHr0XUMm2R0E6SAJiqBs9GweU0E0eqNhKzGxubgjMzK5vraooujQRxHzf1W9
-	j2R1c6h+QuWVlVB0hLst4uqlClOgTbXWaLkMYMrA=
-Content-Type: multipart/mixed; boundary="===============6748296430983237224=="
+	bh=1Fs5/WuFRY51a9nil0nBiOTgmvEz8TpISv9Qylv+1WA=;
+	b=lFOF28jRn3YQNIEDFTXkPRdqcR4uvgoED7XjaWMYiWXOJ5aBCvWm116WNE31N9mX
+	dDG3oTVDkM1s9c9jWEsKCpj4Dkd8ZI4H5vsVpckE0gStLJdcC3xHIkAZoT6PR3+AmIT
+	TcNMFWhUKSDrbF46/G8M6D6+3puubTe6P+LFrKRY=
+Content-Type: multipart/mixed; boundary="===============7475276834987105933=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gsettings-desktop-schemas: upgrading to 44.0 SUCCEEDED
-Message-ID: <010101873eb92941-f6970e8d-21e0-4c8b-9133-934704ae31c7-000000@us-west-2.amazonses.com>
+Subject: [AUH] texinfo: upgrading to 7.0.3 SUCCEEDED
+Message-ID: <010101873eb92858-f03e4e6e-dab8-4bb2-984e-690e7a4f0157-000000@us-west-2.amazonses.com>
 Date: Sat, 1 Apr 2023 21:28:54 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.04.01-54.240.27.29
+X-SES-Outgoing: 2023.04.01-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Apr 2023 21:29:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179519
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179515
 
---===============6748296430983237224==
+--===============7475276834987105933==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gsettings-desktop-schemas* to *44.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *texinfo* to *7.0.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gsettings-desktop-schemas-upgrade-43.0-44.0.patch
+    - apply the patch: git am 0001-texinfo-upgrade-7.0.2-7.0.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,196 +69,145 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6748296430983237224==
+--===============7475276834987105933==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-dbg: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-dbg: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-dev: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-dev: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-doc: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-doc: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ab: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ab: PKGSIZE changed from 4006 to 5482 (+37%)
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ab: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-as: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-as: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-bg: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-bg: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-bs: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-bs: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ca+valencia: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ca+valencia: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ca: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ca: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-cs: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-cs: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-da: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-da: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-de: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-de: PKGSIZE changed from 113088 to 116224 (+3%)
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-de: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-el: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-el: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-en-gb: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-en-gb: PKGSIZE changed from 102592 to 105311 (+3%)
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-en-gb: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-eo: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-eo: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-es: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-es: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-eu: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-eu: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fi: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fi: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fr: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fr: PKGSIZE changed from 119612 to 122848 (+3%)
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fr: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fur: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fur: PKGSIZE changed from 108103 to 114383 (+6%)
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fur: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-gl: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-gl: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-gu: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-gu: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-he: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-he: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-hi: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-hi: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-hr: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-hr: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-hu: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-hu: PKGSIZE changed from 117640 to 117667 (+0%)
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-hu: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-id: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-id: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-is: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-is: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-it: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-it: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ja: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ja: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ka: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ka: PKGSIZE changed from 6987 to 10204 (+46%)
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ka: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-kk: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-kk: PKGSIZE changed from 26430 to 26811 (+1%)
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-kk: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-lt: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-lt: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-lv: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-lv: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ml: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ml: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ms: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ms: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-nb: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-nb: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ne: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ne: PKGSIZE changed from 47589 to 59959 (+26%)
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ne: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-nl: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-nl: PKGSIZE changed from 56063 to 60219 (+7%)
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-nl: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-oc: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-oc: PKGSIZE changed from 102959 to 103177 (+0%)
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-oc: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-or: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-or: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pa: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pa: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pl: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pl: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pt-br: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pt-br: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pt: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pt: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ro: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ro: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ru: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ru: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sk: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sk: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sl: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sl: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sr+latin: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sr+latin: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sr: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sr: PKGSIZE changed from 142864 to 146701 (+3%)
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sr: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sv: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sv: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-tg: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-tg: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-tr: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-tr: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ug: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ug: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-uk: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-uk: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-vi: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-vi: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-zh-cn: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-zh-cn: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-zh-hk: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-zh-hk: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-zh-tw: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-zh-tw: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-src: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-src: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-staticdev: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-staticdev: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas: PV changed from "43.0" to "44.0"
-packages/core2-32-poky-linux/gsettings-desktop-schemas: SRC_URI changed from "https://download.gnome.org/sources//gsettings-desktop-schemas/43/gsettings-desktop-schemas-43.0.tar.xz;name=archive" to "https://download.gnome.org/sources//gsettings-desktop-schemas/44/gsettings-desktop-schemas-44.0.tar.xz;name=archive"
-packages/core2-32-poky-linux/gsettings-desktop-schemas: PKGV changed from 43.0 [default] to 44.0 [default]
-packages/core2-32-poky-linux/gsettings-desktop-schemas: PV changed from "43.0" to "44.0"
+packages/core2-32-poky-linux/texinfo/info-doc: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/info-doc: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/info-doc: PKGSIZE changed from 118228 to 118226 (-0%)
+packages/core2-32-poky-linux/texinfo/info: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/info: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo: SRC_URI changed from "https://ftp.gnu.org/gnu/texinfo/texinfo-7.0.2.tar.gz file://disable-native-tools.patch file://link-zip.patch file://dont-depend-on-help2man.patch file://use_host_makedoc.patch" to "https://ftp.gnu.org/gnu/texinfo/texinfo-7.0.3.tar.gz file://disable-native-tools.patch file://link-zip.patch file://dont-depend-on-help2man.patch file://use_host_makedoc.patch"
+packages/core2-32-poky-linux/texinfo/texinfo-dbg: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-dbg: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-dbg: PKGSIZE changed from 1136716 to 1136696 (-0%)
+packages/core2-32-poky-linux/texinfo/texinfo-dev: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-dev: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-doc: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-doc: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-doc: PKGSIZE changed from 1948992 to 1948980 (-0%)
+packages/core2-32-poky-linux/texinfo/texinfo-locale-ca.us-ascii: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-ca.us-ascii: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-ca: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-ca: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-cs: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-cs: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-cs: PKGSIZE changed from 120737 to 121763 (+1%)
+packages/core2-32-poky-linux/texinfo/texinfo-locale-da: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-da: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-de.us-ascii: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-de.us-ascii: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-de: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-de: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-el: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-el: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-eo: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-eo: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-es: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-es: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-fi: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-fi: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-fr: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-fr: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-fr: PKGSIZE changed from 122408 to 123534 (+1%)
+packages/core2-32-poky-linux/texinfo/texinfo-locale-he: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-he: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-hr: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-hr: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-hr: PKGSIZE changed from 117696 to 118771 (+1%)
+packages/core2-32-poky-linux/texinfo/texinfo-locale-hu: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-hu: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-id: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-id: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-it: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-it: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-ja: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-ja: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-nb: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-nb: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-nl: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-nl: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-no.us-ascii: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-no.us-ascii: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-pl: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-pl: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-pl: PKGSIZE changed from 118851 to 119877 (+1%)
+packages/core2-32-poky-linux/texinfo/texinfo-locale-pt-br.us-ascii: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-pt-br.us-ascii: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-pt-br: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-pt-br: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-pt.us-ascii: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-pt.us-ascii: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-pt: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-pt: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-ro: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-ro: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-ro: PKGSIZE changed from 123923 to 125013 (+1%)
+packages/core2-32-poky-linux/texinfo/texinfo-locale-ru: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-ru: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-rw: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-rw: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-sk: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-sk: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-sl: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-sl: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-sr: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-sr: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-sr: PKGSIZE changed from 120055 to 122945 (+2%)
+packages/core2-32-poky-linux/texinfo/texinfo-locale-sv: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-sv: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-tr: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-tr: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-uk: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-uk: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-uk: PKGSIZE changed from 146627 to 147891 (+1%)
+packages/core2-32-poky-linux/texinfo/texinfo-locale-vi: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-vi: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-zh-cn: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-zh-cn: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-locale-zh-tw: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-locale-zh-tw: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-src: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-src: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo-src: PKGSIZE changed from 1600105 to 1600157 (+0%)
+packages/core2-32-poky-linux/texinfo/texinfo-staticdev: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo-staticdev: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo: PKGV changed from 7.0.2 [default] to 7.0.3 [default]
+packages/core2-32-poky-linux/texinfo/texinfo: PV changed from "7.0.2" to "7.0.3"
+packages/core2-32-poky-linux/texinfo/texinfo: PKGSIZE changed from 6255159 to 6257033 (+0%)
 
---===============6748296430983237224==
+--===============7475276834987105933==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gsettings-desktop-schemas-upgrade-43.0-44.0.patch"
+ filename="0001-texinfo-upgrade-7.0.2-7.0.3.patch"
 
-RnJvbSA0ZGU5MWJiNmNmOTg0MzZiNmZmZDQ0ZGMwYmM1OWYxMDFmZWFiNzVmIE1vbiBTZXAgMTcg
+RnJvbSAwNDc2ZDM3ZDJhOTdkODFmN2E3OWQzNTRjY2ZmYmRjMjM0ZjkwZWZmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBBcHIgMjAyMyAxNDozMjoxOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
-ZXR0aW5ncy1kZXNrdG9wLXNjaGVtYXM6IHVwZ3JhZGUgNDMuMCAtPiA0NC4wCgotLS0KIC4uLmVz
-a3RvcC1zY2hlbWFzXzQzLjAuYmIgPT4gZ3NldHRpbmdzLWRlc2t0b3Atc2NoZW1hc180NC4wLmJi
-fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1nbm9tZS9nc2V0dGluZ3MtZGVza3RvcC1zY2hlbWFzL3tnc2V0
-dGluZ3MtZGVza3RvcC1zY2hlbWFzXzQzLjAuYmIgPT4gZ3NldHRpbmdzLWRlc2t0b3Atc2NoZW1h
-c180NC4wLmJifSAoODUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1nbm9tZS9nc2V0dGlu
-Z3MtZGVza3RvcC1zY2hlbWFzL2dzZXR0aW5ncy1kZXNrdG9wLXNjaGVtYXNfNDMuMC5iYiBiL21l
-dGEvcmVjaXBlcy1nbm9tZS9nc2V0dGluZ3MtZGVza3RvcC1zY2hlbWFzL2dzZXR0aW5ncy1kZXNr
-dG9wLXNjaGVtYXNfNDQuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDg1JQpyZW5hbWUgZnJvbSBtZXRh
-L3JlY2lwZXMtZ25vbWUvZ3NldHRpbmdzLWRlc2t0b3Atc2NoZW1hcy9nc2V0dGluZ3MtZGVza3Rv
-cC1zY2hlbWFzXzQzLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1nbm9tZS9nc2V0dGluZ3Mt
-ZGVza3RvcC1zY2hlbWFzL2dzZXR0aW5ncy1kZXNrdG9wLXNjaGVtYXNfNDQuMC5iYgppbmRleCA5
-NjZhNjdmZWFkLi44ZTMwZDVlNTI0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvZ3Nl
-dHRpbmdzLWRlc2t0b3Atc2NoZW1hcy9nc2V0dGluZ3MtZGVza3RvcC1zY2hlbWFzXzQzLjAuYmIK
-KysrIGIvbWV0YS9yZWNpcGVzLWdub21lL2dzZXR0aW5ncy1kZXNrdG9wLXNjaGVtYXMvZ3NldHRp
-bmdzLWRlc2t0b3Atc2NoZW1hc180NC4wLmJiCkBAIC0xMyw0ICsxMyw0IEBAIEdOT01FQkFTRUJV
-SUxEQ0xBU1MgPSAibWVzb24iCiAKIGluaGVyaXQgZ25vbWViYXNlIGdzZXR0aW5ncyBnb2JqZWN0
-LWludHJvc3BlY3Rpb24gZ2V0dGV4dAogCi1TUkNfVVJJW2FyY2hpdmUuc2hhMjU2c3VtXSA9ICI1
-ZDU1NjgyODJhYjM4Yjk1NzU5ZDQyNTQwMWY3NDc2ZTU2ZjhjYmYyNjI5ODg1NTg3NDM5ZjQzYmQw
-Yjg0YmJlIgorU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiZWIyZGU0NWNhZDkwNTk5NDg0
-OWU2NDJhNjIzYWRlYjc1ZDQxYjIxYjA2MjZkNDBkMmEwN2I4ZWEyODFmZWMwZSIKLS0gCjIuMzku
-MgoK
+CkRhdGU6IFNhdCwgMSBBcHIgMjAyMyAxMjoxMjowMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHRl
+eGluZm86IHVwZ3JhZGUgNy4wLjIgLT4gNy4wLjMKCi0tLQogLi4uL3RleGluZm8ve3RleGluZm9f
+Ny4wLjIuYmIgPT4gdGV4aW5mb183LjAuMy5iYn0gICAgICAgICAgICAgIHwgMiArLQogMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
+cGVzLWV4dGVuZGVkL3RleGluZm8ve3RleGluZm9fNy4wLjIuYmIgPT4gdGV4aW5mb183LjAuMy5i
+Yn0gKDk3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvdGV4aW5mby90ZXhp
+bmZvXzcuMC4yLmJiIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3RleGluZm8vdGV4aW5mb183LjAu
+My5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZXh0ZW5k
+ZWQvdGV4aW5mby90ZXhpbmZvXzcuMC4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZXh0ZW5k
+ZWQvdGV4aW5mby90ZXhpbmZvXzcuMC4zLmJiCmluZGV4IGRhNDU1ZGY0YmIuLmIxNDkxNzdiNzIg
+MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC90ZXhpbmZvL3RleGluZm9fNy4wLjIu
+YmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3RleGluZm8vdGV4aW5mb183LjAuMy5iYgpA
+QCAtMzUsNyArMzUsNyBAQCBTUkNfVVJJID0gIiR7R05VX01JUlJPUn0vdGV4aW5mby8ke0JQfS50
+YXIuZ3ogXAogICAgICAgICAgICAke1RBUkdFVF9QQVRDSH0gXAogICAgICAgICAgICAiCiAKLVNS
+Q19VUklbc2hhMjU2c3VtXSA9ICJhOWM2NDZiYzRmNmJiMzE4NDNmMTI5Zjg0MDhhM2E2MjczMzQ1
+NzVmYWY3YjIyZWJjNDE2YmU1Y2IxNTcwNTUzIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjNjYzU3
+MDZmYjA4NmI4OTVlMWRjMmI0MDdhYWRlOWY5NWEzYTIzM2ZmODU2MjczZTJiNjU5YjA4OWYxMTc2
+ODMiCiAKIHRleF90ZXhpbmZvID0gInRleG1mL3RleC90ZXhpbmZvIgogCi0tIAoyLjM5LjIKCg==
 
---===============6748296430983237224==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ab: PKGSIZE changed from 4006 to 5482 (+37%)
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ka: PKGSIZE changed from 6987 to 10204 (+46%)
-packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ne: PKGSIZE changed from 47589 to 59959 (+26%)
-
---===============6748296430983237224==--
+--===============7475276834987105933==--
 
