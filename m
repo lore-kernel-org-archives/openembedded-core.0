@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8CB1C77B78
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A42F3C77B76
 	for <webhook@archiver.kernel.org>; Sat,  1 Apr 2023 21:29:01 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.32135.1680384534528376269
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.32149.1680384537056653530
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Apr 2023 14:28:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=M1SfZHhN;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101873eb93006-b44a6bef-7eb6-4391-888a-df56b9227039-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=WZ40Lee/;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101873eb92f46-c179e9e1-7c26-4b69-98f3-4f7c3e7040f0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1680384536;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=9tP22H7yU9Ijao8jBvy9RZj16+mYA899rA8yqkoxdc0=;
-	b=M1SfZHhN8NzX7WjK4XvHfL9cwB+6dayZBQ3JWIbMjMFZf7dBY8d6gSqAI3eh0pPu
-	zlYslhGW8hE4VlskUoFcjORS6MrDQiFaLaI3towX8hq1n2Xx+9HaroRr6FmOtPwo1Er
-	O7P5OYz9dsHlCsZYSeF1e1/6l3trupP6nAAhJLhU=
+	bh=q9av58twExZS6ssE1Wibm0deQvD3PWgtWeni11UqXCI=;
+	b=WZ40Lee/z/VZwvRpQZ/MvMFEUSNHnn+hBYTsBPUbF+TCZXkDaa96JbLO+ixJhTUi
+	THmWQsBY8ePCiEaFoUgbB+Hw/X47lWEhm8paHR60VBJgao/eix73qgnKC0tkyozBpcU
+	mOnRGQgSK95d/5LNfhjKGC6C8cgHqZiRDBFCzGN0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1680384536;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=9tP22H7yU9Ijao8jBvy9RZj16+mYA899rA8yqkoxdc0=;
-	b=qGhvCX7vkCDaaIxYmjOREod+Gfm0C8GAupLC0/l3ExVQ9eozuLBXk6lOidN3F4pb
-	cod5wFqknO42K34FG0rfjRQfGawMbl1SPz6wbkeTD7mlcbAGgKEmy1MFW15/ep4JsV4
-	WoDn3y47/kgRnbJwp9Di4gSnd7uFIfQIbcL2E/Fw=
-Content-Type: multipart/mixed; boundary="===============8960573349597376972=="
+	bh=q9av58twExZS6ssE1Wibm0deQvD3PWgtWeni11UqXCI=;
+	b=lLFpVzZdhOSX/sCnoD2HIbY4/nQ3UvE/DZoUDHG6Y861/KFN9FeKQHprRz7zI0g0
+	m5ZmRORP7+OYO3rpV9CYuMB9PBO3stU9KxPMcmBGVEquWlkXS6YdNG8eptGC/oqy3f0
+	v/bi95MOrDXZZXPkYktAXBguwYAo+nNDCQYB5nKU=
+Content-Type: multipart/mixed; boundary="===============9187240566679127187=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] webkitgtk: upgrading to 2.40.0 FAILED
-Message-ID: <010101873eb93006-b44a6bef-7eb6-4391-888a-df56b9227039-000000@us-west-2.amazonses.com>
+Subject: [AUH] gstreamer1.0-vaapi: upgrading to 1.22.1 FAILED
+Message-ID: <010101873eb92f46-c179e9e1-7c26-4b69-98f3-4f7c3e7040f0-000000@us-west-2.amazonses.com>
 Date: Sat, 1 Apr 2023 21:28:56 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.04.01-54.240.27.31
+X-SES-Outgoing: 2023.04.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Apr 2023 21:29:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179561
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179565
 
---===============8960573349597376972==
+--===============9187240566679127187==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,7 +50,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *webkitgtk* to *2.40.0* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *gstreamer1.0-vaapi* to *1.22.1* has Failed(do_compile).
 
 Detailed error information:
 
@@ -59,7 +59,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-webkitgtk-upgrade-2.38.5-2.40.0.patch
+    - apply the patch: git am 0001-gstreamer1.0-vaapi-upgrade-1.22.0-1.22.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,7 +75,7 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8960573349597376972==
+--===============9187240566679127187==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -96,242 +96,110 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "i686-poky-linux"
 MACHINE              = "qemux86"
 DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-18325e70bd2310b1ec3ee3423d1fc8db662aa4ab"
+DISTRO_VERSION       = "4.1+snapshot-4d0543f76ed6e714bb99354881246d3d3b8b21dc"
 TUNE_FEATURES        = "m32 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:18325e70bd2310b1ec3ee3423d1fc8db662aa4ab"
+meta-yocto-bsp       = "tmp-auh-upgrades:4d0543f76ed6e714bb99354881246d3d3b8b21dc"
 workspace            = "master:d59756912cd450b0af3d8893b822c66dafe42544"
 
 Initialising tasks...done.
-Sstate summary: Wanted 263 Local 256 Mirrors 0 Missed 7 Current 448 (97% match, 99% complete)
+Sstate summary: Wanted 254 Local 247 Mirrors 0 Missed 7 Current 438 (97% match, 98% complete)
 NOTE: Executing Tasks
-NOTE: Running setscene task 683 of 711 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 1452 of 2456 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.0.bb:do_fetch)
-NOTE: recipe webkitgtk-2.40.0-r0: task do_fetch: Started
-NOTE: recipe webkitgtk-2.40.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1580 of 2456 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.0.bb:do_unpack)
-NOTE: recipe webkitgtk-2.40.0-r0: task do_unpack: Started
-NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 2408 of 2456 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe webkitgtk-2.40.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe webkitgtk-2.40.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe webkitgtk-2.40.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2444 of 2456 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.0.bb:do_patch)
-NOTE: recipe webkitgtk-2.40.0-r0: task do_patch: Started
-NOTE: recipe webkitgtk-2.40.0-r0: task do_patch: Failed
-NOTE: Tasks Summary: Attempted 2444 tasks of which 2440 didn't need to be rerun and 1 failed.
+NOTE: Running task 2317 of 2443 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.1.bb:do_fetch)
+NOTE: Running task 2418 of 2443 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.1.bb:do_write_config)
+NOTE: recipe gstreamer1.0-vaapi-1.22.1-r0: task do_fetch: Started
+NOTE: recipe gstreamer1.0-vaapi-1.22.1-r0: task do_write_config: Started
+NOTE: recipe gstreamer1.0-vaapi-1.22.1-r0: task do_fetch: Succeeded
+NOTE: Running task 2430 of 2443 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.1.bb:do_unpack)
+NOTE: Running task 2431 of 2443 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gstreamer1.0-vaapi-1.22.1-r0: task do_write_config: Succeeded
+NOTE: recipe gstreamer1.0-vaapi-1.22.1-r0: task do_unpack: Started
+NOTE: recipe gstreamer1.0-vaapi-1.22.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gstreamer1.0-vaapi-1.22.1-r0: task do_unpack: Succeeded
+NOTE: Running task 2432 of 2443 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.1.bb:do_patch)
+NOTE: recipe gstreamer1.0-vaapi-1.22.1-r0: task do_patch: Started
+NOTE: recipe gstreamer1.0-vaapi-1.22.1-r0: task do_patch: Succeeded
+NOTE: Running task 2433 of 2443 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2434 of 2443 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.1.bb:do_populate_lic)
+NOTE: recipe gstreamer1.0-vaapi-1.22.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gstreamer1.0-vaapi-1.22.1-r0: task do_populate_lic: Started
+NOTE: recipe gstreamer1.0-vaapi-1.22.1-r0: task do_populate_lic: Succeeded
+NOTE: recipe gstreamer1.0-vaapi-1.22.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gstreamer1.0-vaapi-1.22.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2435 of 2443 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.1.bb:do_configure)
+NOTE: recipe gstreamer1.0-vaapi-1.22.1-r0: task do_configure: Started
+NOTE: recipe gstreamer1.0-vaapi-1.22.1-r0: task do_configure: Succeeded
+NOTE: Running task 2436 of 2443 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.1.bb:do_compile)
+NOTE: recipe gstreamer1.0-vaapi-1.22.1-r0: task do_compile: Started
+NOTE: recipe gstreamer1.0-vaapi-1.22.1-r0: task do_compile: Succeeded
+NOTE: Running task 2437 of 2443 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.1.bb:do_install)
+NOTE: recipe gstreamer1.0-vaapi-1.22.1-r0: task do_install: Started
+Log data follows:
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.37.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu-native_7.2.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.115.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libva/libva_2.16.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-wo
+ rker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland-protocols_1.31.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_populate_sysroot', '/ho
+ me/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.0.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/meson/meson_1.0.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/rec
+ ipes-extended/xz/xz_5.4.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['glibc', 'systemd', 'gcc-cross-i686', 'gcc-runtime', 'qemu-native', 'quilt-native', 'libdrm', 'libva', 'mesa', 'wayland-protocols', 'wayland', 'libx11', 'libxrandr', 'libxrender', 'gstreamer1.0-plugins-bad', 'gstreamer1.0-plugins-base', 'gstreamer1.0', 'meson-native', 'ninja-native', 'patch-native', 'pkgconfig-native', 'pseudo-native', 'python3-native', 'xz-native', 'wayland-native', 'linux-libc-headers', 'libxfixes', 'libxext', 'libgcc', 'gettext-minimal-native', 'libtool-native', 'glib-2.0-native', 'zlib-native', 're2c-native', 'openssl-native', 'libffi-native', 'libnsl2-native', 'util-linux-libuuid-native', 'bzip2-native', 'sqlite3-native', 'libtirpc-native', 'ncurses-native', 'readline-native', 'gdbm-native', 'libtheora', 'libxv', 'orc', 'alsa-lib', 'libsm', 'zlib', 'gobject-introspection', 'libpng', 'pango', 'libogg', 'libvorbis', 'util-linux', 'iso-codes', 'libjpeg-turbo', 'glib-2.0', 'libxml2', 'libffi', 'expat', 'xorgproto', 'vu
+ lkan-loader', 'libxxf86vm', 'libxshmfence', 'vulkan-headers', 'libxdamage', 'xrandr', 'libxml2-native', 'expat-native', 'libpthread-stubs', 'libpciaccess', 'util-macros', 'autoconf-archive', 'libxcb', 'xtrans', 'update-rc.d', 'initscripts', 'base-passwd', 'shadow-native', 'libseccomp', 'libxkbcommon', 'libcap', 'shadow', 'acl', 'shadow-sysroot', 'libpam', 'kmod', 'zstd', 'base-files', 'opkg-utils', 'bash-completion', 'libsndfile1', 'bluez5', 'cairo', 'sbc', 'libwebp', 'bzip2', 'librsvg', 'libusb1', 'openssl', 'curl', 'libgudev', 'attr-native', 'python3-build-native', 'python3-installer-native', 'python3-setuptools-native', 'python3-wheel-native', 'gmp-native', 'gnu-config-native', 'flex-native', 'mpfr-native', 'texinfo-dummy-native', 'libmpc-native', 'zstd-native', 'binutils-cross-i686', 'util-linux-native', 'libpcre2-native', 'gettext-native', 'perl-native', 'libice', 'python3', 'libxft', 'fribidi', 'freetype', 'fontconfig', 'harfbuzz', 'util-linux-libuuid', 'ncurses', 'libxcrypt',
+  'libcap-ng', 'libpcre2', 'cmake-native', 'libxau', 'libxdmcp', 'xcb-proto', 'xkeyboard-config', 'attr', 'cracklib', 'xz', 'flac', 'libical', 'dbus', 'readline', 'pixman', 'libstd-rs', 'vala', 'gdk-pixbuf', 'libidn2', 'python3-flit-core-native', 'python3-pyproject-hooks-native', 'python3-packaging-native', 'm4-native', 'libcap-ng-native', 'make-native', 'libtirpc', 'sqlite3', 'gdbm', 'libnsl2', 'icu', 'shared-mime-info', 'libunistring', 'unzip-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_install
+| Installing gst/vaapi/libgstvaapi.so to /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/gstreamer1.0-vaapi/1.22.1-r0/image/usr/lib/gstreamer-1.0
+| mv: cannot stat '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/gstreamer1.0-vaapi/1.22.1-r0/image//usr/lib/gstreamer-1.0/pkgconfig/*.pc': No such file or directory
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/gstreamer1.0-vaapi/1.22.1-r0/temp/run.do_install.3632353:154 exit 1 from 'mv /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/gstreamer1.0-vaapi/1.22.1-r0/image//usr/lib/gstreamer-1.0/pkgconfig/*.pc /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/gstreamer1.0-vaapi/1.22.1-r0/image//usr/lib/pkgconfig'
+| WARNING: Backtrace (BB generated script):
+| 	#1: do_install, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/gstreamer1.0-vaapi/1.22.1-r0/temp/run.do_install.3632353, line 154
+| 	#2: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/gstreamer1.0-vaapi/1.22.1-r0/temp/run.do_install.3632353, line 164
+NOTE: recipe gstreamer1.0-vaapi-1.22.1-r0: task do_install: Failed
+NOTE: Tasks Summary: Attempted 2437 tasks of which 2427 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 
 Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.0.bb:do_patch
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: webkitgtk-2.40.0-r0 do_patch: QA Issue: Missing Upstream-Status in patch
-/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
-Please add according to https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommendations:_Upstream-Status . [patch-status-core]
-ERROR: webkitgtk-2.40.0-r0 do_patch: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/webkitgtk/2.40.0-r0/temp/log.do_patch.3910821
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.0.bb:do_patch) failed with exit code '1'
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.1.bb:do_install
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: gstreamer1.0-vaapi-1.22.1-r0 do_install: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/gstreamer1.0-vaapi/1.22.1-r0/temp/run.do_install.3632353', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/gstreamer1.0-vaapi/1.22.1-r0/temp/log.do_install.3632353
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.1.bb:do_install) failed with exit code '1'
 
---===============8960573349597376972==
+--===============9187240566679127187==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-webkitgtk-upgrade-2.38.5-2.40.0.patch"
+ filename="0001-gstreamer1.0-vaapi-upgrade-1.22.0-1.22.1.patch"
 
-RnJvbSBiNGMxODhkZGJkNWJjM2Y5YTM0NGFmZjRiODY5ZjAzZDU2YzUxNmQ0IE1vbiBTZXAgMTcg
+RnJvbSAyNmJhNWE3NmQ4MTFmZjQ2MzNiMWIxZDJlOTQxYWJiOTM4ZmEwYjc1IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBBcHIgMjAyMyAyMDowODo1OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHdl
-YmtpdGd0azogdXBncmFkZSAyLjM4LjUgLT4gMi40MC4wCgotLS0KIC4uLjQ0ZTE3ZDI1ODEwNjYx
-N2IwZTZkNzgzZDA3M2IxODhhMjU0OC5wYXRjaCB8IDQyICsrKysrKysrKysrKy0tLS0tLS0KIC4u
-LmJiNDYxZjA0MGI5MDQ1M2JjNGUxMDBkY2Y5NjcyNDNlY2Q5OC5wYXRjaCB8IDMwIC0tLS0tLS0t
-LS0tLS0KIC4uLmVia2l0Z3RrXzIuMzguNS5iYiA9PiB3ZWJraXRndGtfMi40MC4wLmJifSB8ICAz
-ICstCiAzIGZpbGVzIGNoYW5nZWQsIDI4IGluc2VydGlvbnMoKyksIDQ3IGRlbGV0aW9ucygtKQog
-ZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJraXRndGsvZDMx
-OGJiNDYxZjA0MGI5MDQ1M2JjNGUxMDBkY2Y5NjcyNDNlY2Q5OC5wYXRjaAogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1zYXRvL3dlYmtpdC97d2Via2l0Z3RrXzIuMzguNS5iYiA9PiB3ZWJraXRndGtfMi40
-MC4wLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJr
-aXRndGsvMGQzMzQ0ZTE3ZDI1ODEwNjYxN2IwZTZkNzgzZDA3M2IxODhhMjU0OC5wYXRjaCBiL21l
-dGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJraXRndGsvMGQzMzQ0ZTE3ZDI1ODEwNjYxN2IwZTZk
-NzgzZDA3M2IxODhhMjU0OC5wYXRjaAppbmRleCAzMmY5MmY3ZmY1Li5iN2U3ZGFiMjIwIDEwMDY0
-NAotLS0gYS9tZXRhL3JlY2lwZXMtc2F0by93ZWJraXQvd2Via2l0Z3RrLzBkMzM0NGUxN2QyNTgx
-MDY2MTdiMGU2ZDc4M2QwNzNiMTg4YTI1NDgucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXNhdG8v
-d2Via2l0L3dlYmtpdGd0ay8wZDMzNDRlMTdkMjU4MTA2NjE3YjBlNmQ3ODNkMDczYjE4OGEyNTQ4
-LnBhdGNoCkBAIC0xLDggKzEsOCBAQAotRnJvbSAwZDMzNDRlMTdkMjU4MTA2NjE3YjBlNmQ3ODNk
-MDczYjE4OGEyNTQ4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA4ODk1ZTQ5ZjE2NTNh
-YjJmYjY2N2ExNDk3ZGNhYTliYzBjNGYzNDM3IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJv
-bTogQWRyaWFuIFBlcmV6IGRlIENhc3RybyA8YXBlcmV6QGlnYWxpYS5jb20+CiBEYXRlOiBUaHUs
-IDIgSnVuIDIwMjIgMTE6MTk6MDYgKzAzMDAKLVN1YmplY3Q6IFtQQVRDSF0gW0FSTV1bTkVPTl0g
-RkVMaWdodG5pbmdORU9OLmNwcCBmYWlscyB0byBidWlsZCwgTkVPTiBmYXN0Ci0gcGF0aCBzZWVt
-cyB1bnVzZWQgaHR0cHM6Ly9idWdzLndlYmtpdC5vcmcvc2hvd19idWcuY2dpP2lkPTI0MTE4Mgor
-U3ViamVjdDogW1BBVENIXSBGRUxpZ2h0bmluZ05FT04uY3BwIGZhaWxzIHRvIGJ1aWxkLCBORU9O
-IGZhc3QgcGF0aCBzZWVtcworIHVudXNlZCBodHRwczovL2J1Z3Mud2Via2l0Lm9yZy9zaG93X2J1
-Zy5jZ2k/aWQ9MjQxMTgyCiAKIFJldmlld2VkIGJ5IE5PQk9EWSAoT09QUyEpLgogCkBAIC0zMCwx
-OSArMzAsMTkgQEAgbGVmdCBmb3IgYSBmb2xsb3ctdXAgZml4LgogKiBTb3VyY2UvV2ViQ29yZS9w
-bGF0Zm9ybS9ncmFwaGljcy9maWx0ZXJzL1BvaW50TGlnaHRTb3VyY2UuaDoKICogU291cmNlL1dl
-YkNvcmUvcGxhdGZvcm0vZ3JhcGhpY3MvZmlsdGVycy9TcG90TGlnaHRTb3VyY2UuaDoKICogU291
-cmNlL1dlYkNvcmUvcGxhdGZvcm0vZ3JhcGhpY3MvZmlsdGVycy9zb2Z0d2FyZS9GRUxpZ2h0aW5n
-U29mdHdhcmVBcHBsaWVyLmg6Ci0tLS0KLVVwc3RyZWFtLVN0YXR1czogU3VibWl0dGVkIFtodHRw
-czovL2dpdGh1Yi5jb20vV2ViS2l0L1dlYktpdC9wdWxsLzEyMzNdCi1TaWduZWQtb2ZmLWJ5OiBL
-aGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogCistLS0KICAuLi4vY3B1L2FybS9maWx0ZXJz
-L0ZFTGlnaHRpbmdORU9OLmNwcCAgICAgICAgfCAgNCArLQotIC4uLi9ncmFwaGljcy9jcHUvYXJt
-L2ZpbHRlcnMvRkVMaWdodGluZ05FT04uaCB8IDU0ICsrKysrKysrKy0tLS0tLS0tLS0KKyAuLi4v
-Z3JhcGhpY3MvY3B1L2FybS9maWx0ZXJzL0ZFTGlnaHRpbmdORU9OLmggfCA1MiArKysrKysrKyst
-LS0tLS0tLS0tCiAgLi4uL2dyYXBoaWNzL2ZpbHRlcnMvRGlzdGFudExpZ2h0U291cmNlLmggICAg
-IHwgIDQgKysKICAuLi4vcGxhdGZvcm0vZ3JhcGhpY3MvZmlsdGVycy9GRUxpZ2h0aW5nLmggICAg
-fCAgNyAtLS0KICAuLi4vZ3JhcGhpY3MvZmlsdGVycy9Qb2ludExpZ2h0U291cmNlLmggICAgICAg
-fCAgNCArKwogIC4uLi9ncmFwaGljcy9maWx0ZXJzL1Nwb3RMaWdodFNvdXJjZS5oICAgICAgICB8
-ICA0ICsrCiAgLi4uL3NvZnR3YXJlL0ZFTGlnaHRpbmdTb2Z0d2FyZUFwcGxpZXIuaCAgICAgIHwg
-MTYgKysrKysrCi0gNyBmaWxlcyBjaGFuZ2VkLCA1NyBpbnNlcnRpb25zKCspLCAzNiBkZWxldGlv
-bnMoLSkKKyA3IGZpbGVzIGNoYW5nZWQsIDU2IGluc2VydGlvbnMoKyksIDM1IGRlbGV0aW9ucygt
-KQogCitkaWZmIC0tZ2l0IGEvU291cmNlL1dlYkNvcmUvcGxhdGZvcm0vZ3JhcGhpY3MvY3B1L2Fy
-bS9maWx0ZXJzL0ZFTGlnaHRpbmdORU9OLmNwcCBiL1NvdXJjZS9XZWJDb3JlL3BsYXRmb3JtL2dy
-YXBoaWNzL2NwdS9hcm0vZmlsdGVycy9GRUxpZ2h0aW5nTkVPTi5jcHAKK2luZGV4IGY2ZmY4YzIw
-Li40MmE5N2ZmYyAxMDA2NDQKIC0tLSBhL1NvdXJjZS9XZWJDb3JlL3BsYXRmb3JtL2dyYXBoaWNz
-L2NwdS9hcm0vZmlsdGVycy9GRUxpZ2h0aW5nTkVPTi5jcHAKICsrKyBiL1NvdXJjZS9XZWJDb3Jl
-L3BsYXRmb3JtL2dyYXBoaWNzL2NwdS9hcm0vZmlsdGVycy9GRUxpZ2h0aW5nTkVPTi5jcHAKIEBA
-IC00OSw3ICs0OSw3IEBAIHNob3J0KiBmZUxpZ2h0aW5nQ29uc3RhbnRzRm9yTmVvbigpCkBAIC02
-Myw2ICs2Myw4IEBAIFNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+
-CiAgewogICAgICAvLyBDYWxsaW5nIGEgcG93ZiBmdW5jdGlvbiBmcm9tIHRoZSBhc3NlbWJseSBj
-b2RlIHdvdWxkIHJlcXVpcmUgdG8gc2F2ZQogICAgICAvLyBhbmQgcmVsb2FkIGEgbG90IG9mIE5F
-T04gcmVnaXN0ZXJzLiBTaW5jZSB0aGUgYmFzZSBpcyBpbiByYW5nZSBbMC4uMV0KK2RpZmYgLS1n
-aXQgYS9Tb3VyY2UvV2ViQ29yZS9wbGF0Zm9ybS9ncmFwaGljcy9jcHUvYXJtL2ZpbHRlcnMvRkVM
-aWdodGluZ05FT04uaCBiL1NvdXJjZS9XZWJDb3JlL3BsYXRmb3JtL2dyYXBoaWNzL2NwdS9hcm0v
-ZmlsdGVycy9GRUxpZ2h0aW5nTkVPTi5oCitpbmRleCBiMTdjNjAzZC4uZTQ2MjljZGEgMTAwNjQ0
-CiAtLS0gYS9Tb3VyY2UvV2ViQ29yZS9wbGF0Zm9ybS9ncmFwaGljcy9jcHUvYXJtL2ZpbHRlcnMv
-RkVMaWdodGluZ05FT04uaAogKysrIGIvU291cmNlL1dlYkNvcmUvcGxhdGZvcm0vZ3JhcGhpY3Mv
-Y3B1L2FybS9maWx0ZXJzL0ZFTGlnaHRpbmdORU9OLmgKIEBAIC0yNCwxNCArMjQsMTUgQEAKQEAg
-LTEwNCw3ICsxMDYsNyBAQCBTaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwu
-Y29tPgogICAgICAgICAgMCwKICAgICAgICAgIDAsCiAgICAgICAgICAwLAotQEAgLTExMSwyMyAr
-MTEyLDIzIEBAIGlubGluZSB2b2lkIEZFTGlnaHRpbmc6OnBsYXRmb3JtQXBwbHlOZW8KK0BAIC0x
-MTEsMjMgKzExMiwyMyBAQCBpbmxpbmUgdm9pZCBGRUxpZ2h0aW5nOjpwbGF0Zm9ybUFwcGx5TmVv
-bihjb25zdCBMaWdodGluZ0RhdGEmIGRhdGEsIGNvbnN0IExpZ2h0UwogICAgICAvLyBTZXQgbGln
-aHQgc291cmNlIGFyZ3VtZW50cy4KICAgICAgZmxvYXRBcmd1bWVudHMuY29uc3RPbmUgPSAxOwog
-IApAQCAtMTMzLDcgKzEzNSw3IEBAIFNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBn
-bWFpbC5jb20+CiAgICAgICAgICBmbG9hdEFyZ3VtZW50cy5saWdodFggPSBzcG90TGlnaHRTb3Vy
-Y2UucG9zaXRpb24oKS54KCk7CiAgICAgICAgICBmbG9hdEFyZ3VtZW50cy5saWdodFkgPSBzcG90
-TGlnaHRTb3VyY2UucG9zaXRpb24oKS55KCk7CiAgICAgICAgICBmbG9hdEFyZ3VtZW50cy5saWdo
-dFogPSBzcG90TGlnaHRTb3VyY2UucG9zaXRpb24oKS56KCk7Ci1AQCAtMTQ1LDcgKzE0Niw3IEBA
-IGlubGluZSB2b2lkIEZFTGlnaHRpbmc6OnBsYXRmb3JtQXBwbHlOZW8KK0BAIC0xNDUsNyArMTQ2
-LDcgQEAgaW5saW5lIHZvaWQgRkVMaWdodGluZzo6cGxhdGZvcm1BcHBseU5lb24oY29uc3QgTGln
-aHRpbmdEYXRhJiBkYXRhLCBjb25zdCBMaWdodFMKICAgICAgICAgIGlmIChzcG90TGlnaHRTb3Vy
-Y2Uuc3BlY3VsYXJFeHBvbmVudCgpID09IDEpCiAgICAgICAgICAgICAgbmVvbkRhdGEuZmxhZ3Mg
-fD0gRkxBR19DT05FX0VYUE9ORU5UX0lTXzE7CiAgICAgIH0gZWxzZSB7CkBAIC0xNDIsNyArMTQ0
-LDcgQEAgU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAgICAg
-ICAgIGZsb2F0QXJndW1lbnRzLmxpZ2h0WCA9IHBhaW50aW5nRGF0YS5pbml0aWFsTGlnaHRpbmdE
-YXRhLmxpZ2h0VmVjdG9yLngoKTsKICAgICAgICAgIGZsb2F0QXJndW1lbnRzLmxpZ2h0WSA9IHBh
-aW50aW5nRGF0YS5pbml0aWFsTGlnaHRpbmdEYXRhLmxpZ2h0VmVjdG9yLnkoKTsKICAgICAgICAg
-IGZsb2F0QXJndW1lbnRzLmxpZ2h0WiA9IHBhaW50aW5nRGF0YS5pbml0aWFsTGlnaHRpbmdEYXRh
-LmxpZ2h0VmVjdG9yLnooKTsKLUBAIC0xNTUsMzggKzE1NiwzOSBAQCBpbmxpbmUgdm9pZCBGRUxp
-Z2h0aW5nOjpwbGF0Zm9ybUFwcGx5TmVvCitAQCAtMTU1LDM4ICsxNTYsMzkgQEAgaW5saW5lIHZv
-aWQgRkVMaWdodGluZzo6cGxhdGZvcm1BcHBseU5lb24oY29uc3QgTGlnaHRpbmdEYXRhJiBkYXRh
-LCBjb25zdCBMaWdodFMKICAgICAgLy8gU2V0IGxpZ2h0aW5nIGFyZ3VtZW50cy4KICAgICAgZmxv
-YXRBcmd1bWVudHMuc3VyZmFjZVNjYWxlID0gZGF0YS5zdXJmYWNlU2NhbGU7CiAgICAgIGZsb2F0
-QXJndW1lbnRzLm1pbnVzU3VyZmFjZVNjYWxlRGl2aWRlZEJ5Rm91ciA9IC1kYXRhLnN1cmZhY2VT
-Y2FsZSAvIDQ7CkBAIC0xOTIsMTYgKzE5NCwxOCBAQCBTaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8
-cmFqLmtoZW1AZ21haWwuY29tPgogICAgICAgICAgICAgIH0KICAgICAgICAgICAgICBwYXJhbGxl
-bEpvYnMuZXhlY3V0ZSgpOwogICAgICAgICAgICAgIHJldHVybjsKLUBAIC0xOTksNSArMjAxLDMg
-QEAgaW5saW5lIHZvaWQgRkVMaWdodGluZzo6cGxhdGZvcm1BcHBseU5lbworQEAgLTE5OSw1ICsy
-MDEsMyBAQCBpbmxpbmUgdm9pZCBGRUxpZ2h0aW5nOjpwbGF0Zm9ybUFwcGx5TmVvbihjb25zdCBM
-aWdodGluZ0RhdGEmIGRhdGEsIGNvbnN0IExpZ2h0UwogIH0gLy8gbmFtZXNwYWNlIFdlYkNvcmUK
-ICAKICAjZW5kaWYgLy8gQ1BVKEFSTV9ORU9OKSAmJiBDT01QSUxFUihHQ0NfQ09NUEFUSUJMRSkK
-IC0KIC0jZW5kaWYgLy8gRkVMaWdodGluZ05FT05faAorZGlmZiAtLWdpdCBhL1NvdXJjZS9XZWJD
-b3JlL3BsYXRmb3JtL2dyYXBoaWNzL2ZpbHRlcnMvRGlzdGFudExpZ2h0U291cmNlLmggYi9Tb3Vy
-Y2UvV2ViQ29yZS9wbGF0Zm9ybS9ncmFwaGljcy9maWx0ZXJzL0Rpc3RhbnRMaWdodFNvdXJjZS5o
-CitpbmRleCA3MGM2NTEyZi4uYjAzMmM4MmUgMTAwNjQ0CiAtLS0gYS9Tb3VyY2UvV2ViQ29yZS9w
-bGF0Zm9ybS9ncmFwaGljcy9maWx0ZXJzL0Rpc3RhbnRMaWdodFNvdXJjZS5oCiArKysgYi9Tb3Vy
-Y2UvV2ViQ29yZS9wbGF0Zm9ybS9ncmFwaGljcy9maWx0ZXJzL0Rpc3RhbnRMaWdodFNvdXJjZS5o
-Ci1AQCAtMjUsNiArMjUsMTAgQEAKLSAjaW5jbHVkZSAiTGlnaHRTb3VyY2UuaCIKK0BAIC0yNiw2
-ICsyNiwxMCBAQAorICNpbmNsdWRlIDx3dGYvQXJndW1lbnRDb2Rlci5oPgogICNpbmNsdWRlIDx3
-dGYvUmVmLmg+CiAgCiArbmFtZXNwYWNlIFdURiB7CkBAIC0yMTEsNiArMjE1LDggQEAgU2lnbmVk
-LW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICBuYW1lc3BhY2UgV2ViQ29y
-ZSB7CiAgCiAgY2xhc3MgRGlzdGFudExpZ2h0U291cmNlIDogcHVibGljIExpZ2h0U291cmNlIHsK
-K2RpZmYgLS1naXQgYS9Tb3VyY2UvV2ViQ29yZS9wbGF0Zm9ybS9ncmFwaGljcy9maWx0ZXJzL0ZF
-TGlnaHRpbmcuaCBiL1NvdXJjZS9XZWJDb3JlL3BsYXRmb3JtL2dyYXBoaWNzL2ZpbHRlcnMvRkVM
-aWdodGluZy5oCitpbmRleCA1M2JlYjU5Ni4uZTc4YTkzNTQgMTAwNjQ0CiAtLS0gYS9Tb3VyY2Uv
-V2ViQ29yZS9wbGF0Zm9ybS9ncmFwaGljcy9maWx0ZXJzL0ZFTGlnaHRpbmcuaAogKysrIGIvU291
-cmNlL1dlYkNvcmUvcGxhdGZvcm0vZ3JhcGhpY3MvZmlsdGVycy9GRUxpZ2h0aW5nLmgKIEBAIC0z
-NSw4ICszNSw2IEBACkBAIC0yMjIsNyArMjI4LDcgQEAgU2lnbmVkLW9mZi1ieTogS2hlbSBSYWog
-PHJhai5raGVtQGdtYWlsLmNvbT4KICBjbGFzcyBGRUxpZ2h0aW5nIDogcHVibGljIEZpbHRlckVm
-ZmVjdCB7CiAgcHVibGljOgogICAgICBjb25zdCBDb2xvciYgbGlnaHRpbmdDb2xvcigpIGNvbnN0
-IHsgcmV0dXJuIG1fbGlnaHRpbmdDb2xvcjsgfQotQEAgLTY3LDExICs2NSw2IEBAIHByb3RlY3Rl
-ZDoKK0BAIC02NCwxMSArNjIsNiBAQCBwcm90ZWN0ZWQ6CiAgCiAgICAgIHN0ZDo6dW5pcXVlX3B0
-cjxGaWx0ZXJFZmZlY3RBcHBsaWVyPiBjcmVhdGVTb2Z0d2FyZUFwcGxpZXIoKSBjb25zdCBvdmVy
-cmlkZTsKICAKQEAgLTIzNCw2ICsyNDAsOCBAQCBTaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFq
-LmtoZW1AZ21haWwuY29tPgogICAgICBDb2xvciBtX2xpZ2h0aW5nQ29sb3I7CiAgICAgIGZsb2F0
-IG1fc3VyZmFjZVNjYWxlOwogICAgICBmbG9hdCBtX2RpZmZ1c2VDb25zdGFudDsKK2RpZmYgLS1n
-aXQgYS9Tb3VyY2UvV2ViQ29yZS9wbGF0Zm9ybS9ncmFwaGljcy9maWx0ZXJzL1BvaW50TGlnaHRT
-b3VyY2UuaCBiL1NvdXJjZS9XZWJDb3JlL3BsYXRmb3JtL2dyYXBoaWNzL2ZpbHRlcnMvUG9pbnRM
-aWdodFNvdXJjZS5oCitpbmRleCAzYTU3MjNmMC4uNjc1ZDYzZjUgMTAwNjQ0CiAtLS0gYS9Tb3Vy
-Y2UvV2ViQ29yZS9wbGF0Zm9ybS9ncmFwaGljcy9maWx0ZXJzL1BvaW50TGlnaHRTb3VyY2UuaAog
-KysrIGIvU291cmNlL1dlYkNvcmUvcGxhdGZvcm0vZ3JhcGhpY3MvZmlsdGVycy9Qb2ludExpZ2h0
-U291cmNlLmgKIEBAIC0yNiw2ICsyNiwxMCBAQApAQCAtMjQ3LDYgKzI1NSw4IEBAIFNpZ25lZC1v
-ZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgbmFtZXNwYWNlIFdlYkNvcmUg
-ewogIAogIGNsYXNzIFBvaW50TGlnaHRTb3VyY2UgOiBwdWJsaWMgTGlnaHRTb3VyY2UgeworZGlm
-ZiAtLWdpdCBhL1NvdXJjZS9XZWJDb3JlL3BsYXRmb3JtL2dyYXBoaWNzL2ZpbHRlcnMvU3BvdExp
-Z2h0U291cmNlLmggYi9Tb3VyY2UvV2ViQ29yZS9wbGF0Zm9ybS9ncmFwaGljcy9maWx0ZXJzL1Nw
-b3RMaWdodFNvdXJjZS5oCitpbmRleCA2ODQ2MjZmNy4uZGVhNTgzODkgMTAwNjQ0CiAtLS0gYS9T
-b3VyY2UvV2ViQ29yZS9wbGF0Zm9ybS9ncmFwaGljcy9maWx0ZXJzL1Nwb3RMaWdodFNvdXJjZS5o
-CiArKysgYi9Tb3VyY2UvV2ViQ29yZS9wbGF0Zm9ybS9ncmFwaGljcy9maWx0ZXJzL1Nwb3RMaWdo
-dFNvdXJjZS5oCiBAQCAtMjYsNiArMjYsMTAgQEAKQEAgLTI2MCw2ICsyNzAsOCBAQCBTaWduZWQt
-b2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogIG5hbWVzcGFjZSBXZWJDb3Jl
-IHsKICAKICBjbGFzcyBTcG90TGlnaHRTb3VyY2UgOiBwdWJsaWMgTGlnaHRTb3VyY2UgeworZGlm
-ZiAtLWdpdCBhL1NvdXJjZS9XZWJDb3JlL3BsYXRmb3JtL2dyYXBoaWNzL2ZpbHRlcnMvc29mdHdh
-cmUvRkVMaWdodGluZ1NvZnR3YXJlQXBwbGllci5oIGIvU291cmNlL1dlYkNvcmUvcGxhdGZvcm0v
-Z3JhcGhpY3MvZmlsdGVycy9zb2Z0d2FyZS9GRUxpZ2h0aW5nU29mdHdhcmVBcHBsaWVyLmgKK2lu
-ZGV4IGM5NzRkOTIxLi5lMjg5NjY2MCAxMDA2NDQKIC0tLSBhL1NvdXJjZS9XZWJDb3JlL3BsYXRm
-b3JtL2dyYXBoaWNzL2ZpbHRlcnMvc29mdHdhcmUvRkVMaWdodGluZ1NvZnR3YXJlQXBwbGllci5o
-CiArKysgYi9Tb3VyY2UvV2ViQ29yZS9wbGF0Zm9ybS9ncmFwaGljcy9maWx0ZXJzL3NvZnR3YXJl
-L0ZFTGlnaHRpbmdTb2Z0d2FyZUFwcGxpZXIuaAogQEAgLTM2LDYgKzM2LDcgQEAKZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJraXRndGsvZDMxOGJiNDYxZjA0MGI5MDQ1
-M2JjNGUxMDBkY2Y5NjcyNDNlY2Q5OC5wYXRjaCBiL21ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93
-ZWJraXRndGsvZDMxOGJiNDYxZjA0MGI5MDQ1M2JjNGUxMDBkY2Y5NjcyNDNlY2Q5OC5wYXRjaApk
-ZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMWZmOWRjZWE3ZS4uMDAwMDAwMDAwMAotLS0g
-YS9tZXRhL3JlY2lwZXMtc2F0by93ZWJraXQvd2Via2l0Z3RrL2QzMThiYjQ2MWYwNDBiOTA0NTNi
-YzRlMTAwZGNmOTY3MjQzZWNkOTgucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSwzMCArMCwwIEBA
-Ci1Gcm9tIGQzMThiYjQ2MWYwNDBiOTA0NTNiYzRlMTAwZGNmOTY3MjQzZWNkOTggTW9uIFNlcCAx
-NyAwMDowMDowMCAyMDAxCi1Gcm9tOiBNaWNoYWVsIENhdGFuemFybyA8bWNhdGFuemFyb0ByZWRo
-YXQuY29tPgotRGF0ZTogTW9uLCAxNiBKYW4gMjAyMyAxNjo1NToyNiAtMDgwMAotU3ViamVjdDog
-W1BBVENIXSBXZWJLaXRHVEsgMi4zOS40IGRvZXMgbm90IGJ1aWxkIGR1ZSB0byBtaXNzaW5nICNp
-bmNsdWRlIGluCi0gQU5HTEUgaHR0cHM6Ly9idWdzLndlYmtpdC5vcmcvc2hvd19idWcuY2dpP2lk
-PTI1MDY4OQotCi1VbnJldmlld2VkIGJ1aWxkIGZpeC4KLQotKiBTb3VyY2UvVGhpcmRQYXJ0eS9B
-TkdMRS9pbmNsdWRlL0dMU0xBTkcvU2hhZGVyVmFycy5oOgotCi1DYW5vbmljYWwgbGluazogaHR0
-cHM6Ly9jb21taXRzLndlYmtpdC5vcmcvMjU4OTY4QG1haW4KLQotVXBzdHJlYW0tU3RhdHVzOiBC
-YWNrcG9ydCBbaHR0cHM6Ly9idWdzLndlYmtpdC5vcmcvc2hvd19idWcuY2dpP2lkPTI1MDY4OV0K
-LVNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+Ci0tLS0KLSBTb3Vy
-Y2UvVGhpcmRQYXJ0eS9BTkdMRS9pbmNsdWRlL0dMU0xBTkcvU2hhZGVyVmFycy5oIHwgMSArCi0g
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCi0KLWRpZmYgLS1naXQgYS9Tb3VyY2UvVGhp
-cmRQYXJ0eS9BTkdMRS9pbmNsdWRlL0dMU0xBTkcvU2hhZGVyVmFycy5oIGIvU291cmNlL1RoaXJk
-UGFydHkvQU5HTEUvaW5jbHVkZS9HTFNMQU5HL1NoYWRlclZhcnMuaAotaW5kZXggOTRjYjkzZTAx
-ZmMwLi5lYzdiZGEzNzJmMzAgMTAwNjQ0Ci0tLS0gYS9Tb3VyY2UvVGhpcmRQYXJ0eS9BTkdMRS9p
-bmNsdWRlL0dMU0xBTkcvU2hhZGVyVmFycy5oCi0rKysgYi9Tb3VyY2UvVGhpcmRQYXJ0eS9BTkdM
-RS9pbmNsdWRlL0dMU0xBTkcvU2hhZGVyVmFycy5oCi1AQCAtMTIsNiArMTIsNyBAQAotIAotICNp
-bmNsdWRlIDxhbGdvcml0aG0+Ci0gI2luY2x1ZGUgPGFycmF5PgotKyNpbmNsdWRlIDxjc3RkaW50
-PgotICNpbmNsdWRlIDxzdHJpbmc+Ci0gI2luY2x1ZGUgPHZlY3Rvcj4KLSAKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJraXRndGtfMi4zOC41LmJiIGIvbWV0YS9yZWNp
-cGVzLXNhdG8vd2Via2l0L3dlYmtpdGd0a18yLjQwLjAuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUK
-cmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXNhdG8vd2Via2l0L3dlYmtpdGd0a18yLjM4LjUuYmIK
-cmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJraXRndGtfMi40MC4wLmJiCmlu
-ZGV4IDgzMmM4MzI3ZGQuLmRiYjYwZjQ5YzEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zYXRv
-L3dlYmtpdC93ZWJraXRndGtfMi4zOC41LmJiCisrKyBiL21ldGEvcmVjaXBlcy1zYXRvL3dlYmtp
-dC93ZWJraXRndGtfMi40MC4wLmJiCkBAIC0xMyw5ICsxMyw4IEBAIFNSQ19VUkkgPSAiaHR0cHM6
-Ly93d3cud2Via2l0Z3RrLm9yZy9yZWxlYXNlcy8ke0JQTn0tJHtQVn0udGFyLnh6IFwKICAgICAg
-ICAgICAgZmlsZTovLzAwMDEtRmluZEdPYmplY3RJbnRyb3NwZWN0aW9uLmNtYWtlLXByZWZpeC12
-YXJpYWJsZXMtb2J0YS5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly9yZXByb2R1Y2liaWxpdHku
-cGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vMGQzMzQ0ZTE3ZDI1ODEwNjYxN2IwZTZkNzgzZDA3
-M2IxODhhMjU0OC5wYXRjaCBcCi0gICAgICAgICAgIGZpbGU6Ly9kMzE4YmI0NjFmMDQwYjkwNDUz
-YmM0ZTEwMGRjZjk2NzI0M2VjZDk4LnBhdGNoIFwKICAgICAgICAgICAgIgotU1JDX1VSSVtzaGEy
-NTZzdW1dID0gIjQwYzIwYzQzMDIyMjc0ZGY1ODkzZjIyYjEwNTRmYTg5NGMzZWVhMDU3Mzg5YmIw
-OGFlZTA4YzViMGJiMGMxYTciCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYTQ2MDdlYTFiZjg5NjY5
-ZTg5YjFjYjJjNjNmYWFlYzUxM2Y5M2RlMDliNmFlNjBjYzcxZDZhOGFhYjdhYjM5MyIKIAogaW5o
-ZXJpdCBjbWFrZSBwa2djb25maWcgZ29iamVjdC1pbnRyb3NwZWN0aW9uIHBlcmxuYXRpdmUgZmVh
-dHVyZXNfY2hlY2sgdXBzdHJlYW0tdmVyc2lvbi1pcy1ldmVuIGdpLWRvY2dlbgogCi0tIAoyLjM5
-LjIKCg==
+CkRhdGU6IFNhdCwgMSBBcHIgMjAyMyAxOTo0NzoyNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
+dHJlYW1lcjEuMC12YWFwaTogdXBncmFkZSAxLjIyLjAgLT4gMS4yMi4xCgotLS0KIC4uLnN0cmVh
+bWVyMS4wLXZhYXBpXzEuMjIuMC5iYiA9PiBnc3RyZWFtZXIxLjAtdmFhcGlfMS4yMi4xLmJifSB8
+IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
+YW1lIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci97Z3N0cmVhbWVyMS4wLXZhYXBp
+XzEuMjIuMC5iYiA9PiBnc3RyZWFtZXIxLjAtdmFhcGlfMS4yMi4xLmJifSAoOTYlKQoKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtdmFh
+cGlfMS4yMi4wLmJiIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1l
+cjEuMC12YWFwaV8xLjIyLjEuYmIKc2ltaWxhcml0eSBpbmRleCA5NiUKcmVuYW1lIGZyb20gbWV0
+YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC12YWFwaV8xLjIyLjAu
+YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIx
+LjAtdmFhcGlfMS4yMi4xLmJiCmluZGV4IDhhNzAzZjUzM2UuLjk3YmY5MzQ4MjEgMTAwNjQ0Ci0t
+LSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtdmFhcGlf
+MS4yMi4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFt
+ZXIxLjAtdmFhcGlfMS4yMi4xLmJiCkBAIC0xMSw3ICsxMSw3IEBAIExJQ19GSUxFU19DSEtTVU0g
+PSAiZmlsZTovL0NPUFlJTkcuTElCO21kNT00ZmJkNjUzODBjZGQyNTU5NTEwNzkwMDhiMzY0NTE2
+YyIKIAogU1JDX1VSSSA9ICJodHRwczovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5vcmcvc3JjLyR7
+UkVBTFBOfS8ke1JFQUxQTn0tJHtQVn0udGFyLnh6IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAi
+NTkzY2NhZDE5Zjg4ZTVmYTI5ZjQwZjk4MzU2YzAwNzgwNmJkNTM1ODI4NzA3YjE0MDY5NDRkMTZh
+OTBiZGZmNSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI0MjNiNTdkYjdmYzVmOTEzN2RhZGYxN2Ni
+Mzg1M2E0NzQzOGQ2M2NkNGJhNjg4OWE4ODJlNjNmYjViZTk5N2JjIgogCiBTID0gIiR7V09SS0RJ
+Un0vJHtSRUFMUE59LSR7UFZ9IgogREVQRU5EUyA9ICJsaWJ2YSBnc3RyZWFtZXIxLjAgZ3N0cmVh
+bWVyMS4wLXBsdWdpbnMtYmFzZSBnc3RyZWFtZXIxLjAtcGx1Z2lucy1iYWQiCi0tIAoyLjM5LjIK
+Cg==
 
---===============8960573349597376972==--
+--===============9187240566679127187==--
 
