@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDAB5C87FDE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9239AC7EE31
 	for <webhook@archiver.kernel.org>; Sat,  1 Apr 2023 21:29:02 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.32142.1680384535556441972
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.32139.1680384535109213537
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Apr 2023 14:28:55 -0700
+ Sat, 01 Apr 2023 14:28:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=PqoPMteX;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101873eb928bd-a6ec5922-29f0-48d9-b435-2c1d99c6fb67-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=jAQdkZOM;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101873eb92bfa-90529ea7-a7e8-4a90-a499-a5d3ccf51fac-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1680384535;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=iqj+ZJqoTUH7EiAiwLC7CgRhyL33YyROq9sBW6woVoo=;
-	b=PqoPMteX/taH2Wz35nnc49dInyJXoxD3A6fIc8Wp6kL59RSwoZdeZLpK0qCQ7e/l
-	UcWvCKyDuAANsqB3HhkcM7SxUPFLDe6a+vCXoOdlMTFqHoavxzByowtxurBtsnB7MMP
-	vBbI74dP8NaWhaMs6CsoSAZI/xEN6T15Yosar5RM=
+	bh=KhcgF5RH7qQYf3FkdCyATJI4vXZ4BTT+DM5tUs+grpY=;
+	b=jAQdkZOMi6RxOcO2JwGzKyltwr21+XCjax5RCD+C5fnw2XmA++MckkJxy7+wDiEd
+	jijHA5fCfnFnfsDL9sPzg04GV/814if58oL1+wlgffQlS6+6aT3onYrPHAJpsgPr4kk
+	625mHvFJNxblC8bR3IASmT9Jbr1MPL+A3UvrdTR0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1680384535;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=iqj+ZJqoTUH7EiAiwLC7CgRhyL33YyROq9sBW6woVoo=;
-	b=XyAse8tMTqk76bttZZbQh+BbtHsqNWpy2ek45BMLmfu6yAKrfgNAWt4Wzk1bH9BZ
-	HiNULh9T7Sg364uI8ormqquiV2XPkmtRmuXOcw8WiWWjC4IsChxw/qJmvYDqpjeqbc9
-	mOZlBxVCNi3XQK1QuhS5ouV05f3v3Pl2RmGcTDr0=
-Content-Type: multipart/mixed; boundary="===============4245819966398862187=="
+	bh=KhcgF5RH7qQYf3FkdCyATJI4vXZ4BTT+DM5tUs+grpY=;
+	b=J0RyIDaSJO/XBdEfxQMdVHlxjd5MMV+L3oFakuPAeGinfGD/+weOgXmYs72h8xkk
+	czhEPTyzIQMXKjT+/v9MRpT/fhfRJXOBQnOI/n12OWhGDHoHEsE9awMa6PvYIIyeiBE
+	uEsdZom6YFfJ+jU1cMkAY23gPsQi/ltR7kXTXPfw=
+Content-Type: multipart/mixed; boundary="===============3691519421687730050=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Denys Dmytriyenko <denis@denix.org>
+To: Jose Quaresma <quaresma.jose@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] xz: upgrading to 5.4.2 SUCCEEDED
-Message-ID: <010101873eb928bd-a6ec5922-29f0-48d9-b435-2c1d99c6fb67-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Apr 2023 21:28:54 +0000
+Subject: [AUH] spirv-tools: upgrading to 1.3.243.0 SUCCEEDED
+Message-ID: <010101873eb92bfa-90529ea7-a7e8-4a90-a499-a5d3ccf51fac-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Apr 2023 21:28:55 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.04.01-54.240.27.193
+X-SES-Outgoing: 2023.04.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Apr 2023 21:29:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179524
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179535
 
---===============4245819966398862187==
+--===============3691519421687730050==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *xz* to *5.4.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *spirv-tools* to *1.3.243.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-xz-upgrade-5.4.1-5.4.2.patch
+    - apply the patch: git am 0001-spirv-tools-upgrade-1.3.239.0-1.3.243.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,209 +69,163 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============4245819966398862187==
-Content-Type: application/octet-stream
+--===============3691519421687730050==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-xz-upgrade-5.4.1-5.4.2.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
 
-RnJvbSA2YjZkMjg3YjcxMmVkMjRkNjg3MjQ5NzlhZTg1NzhjM2ZhZDIzODVkIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBBcHIgMjAyMyAxMzoyNTo0MiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHh6
-OiB1cGdyYWRlIDUuNC4xIC0+IDUuNC4yCgotLS0KIC4uLi94ei97eHpfNS40LjEuYmIgPT4geHpf
-NS40LjIuYmJ9ICAgICAgICAgICB8IDcxICsrKysrKysrKysrKysrKysrKy0KIDEgZmlsZSBjaGFu
-Z2VkLCA2OCBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBl
-cy1leHRlbmRlZC94ei97eHpfNS40LjEuYmIgPT4geHpfNS40LjIuYmJ9ICgzNSUpCgpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3h6L3h6XzUuNC4xLmJiIGIvbWV0YS9yZWNpcGVz
-LWV4dGVuZGVkL3h6L3h6XzUuNC4yLmJiCnNpbWlsYXJpdHkgaW5kZXggMzUlCnJlbmFtZSBmcm9t
-IG1ldGEvcmVjaXBlcy1leHRlbmRlZC94ei94el81LjQuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
-cGVzLWV4dGVuZGVkL3h6L3h6XzUuNC4yLmJiCmluZGV4IDcxYmY0YjU0MGEuLjMwOTZjMzhlYzQg
-MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC94ei94el81LjQuMS5iYgorKysgYi9t
-ZXRhL3JlY2lwZXMtZXh0ZW5kZWQveHoveHpfNS40LjIuYmIKQEAgLTEsMyArMSw2OCBAQAorIyBG
-SVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdk
-ZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdl
-ZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhl
-IExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisj
-IHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBs
-ZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUg
-Y2hhbmdlczoKKyMKKyMgLS0tIENPUFlJTkcKKyMgKysrIENPUFlJTkcKKyMgQEAgLTIwLDYgKzIw
-LDE3IEBACisjICAgICAgICAtIEFsbCB0aGUgZG9jdW1lbnRhdGlvbiBpbiB0aGUgZG9jIGRpcmVj
-dG9yeSBhbmQgbW9zdCBvZiB0aGUKKyMgICAgICAgICAgWFogVXRpbHMgc3BlY2lmaWMgZG9jdW1l
-bnRhdGlvbiBmaWxlcyBpbiBvdGhlciBkaXJlY3RvcmllcworIyAgICAgICAgICBhcmUgaW4gdGhl
-IHB1YmxpYyBkb21haW4uCisjICsKKyMgKyAgICAgICAgTm90ZTogVGhlIEphdmFTY3JpcHQgZmls
-ZXMgKHVuZGVyIHRoZSBNSVQgbGljZW5zZSkgaGF2ZQorIyArICAgICAgICBiZWVuIHJlbW92ZWQg
-ZnJvbSB0aGUgRG94eWdlbi1nZW5lcmF0ZWQgSFRNTCB2ZXJzaW9uIG9mIHRoZQorIyArICAgICAg
-ICBsaWJsem1hIEFQSSBkb2N1bWVudGF0aW9uLiBEb3h5Z2VuIGl0c2VsZiBpcyB1bmRlciB0aGUg
-R05VIEdQTAorIyArICAgICAgICBidXQgdGhlIHJlbWFpbmluZyBmaWxlcyBnZW5lcmF0ZWQgYnkg
-RG94eWdlbiBhcmUgbm90IGFmZmVjdGVkCisjICsgICAgICAgIGJ5IHRoZSBsaWNlbnNlcyB1c2Vk
-IGluIERveHlnZW4gYmVjYXVzZSBEb3h5Z2VuIGxpY2Vuc2luZyBoYXMKKyMgKyAgICAgICAgdGhl
-IGZvbGxvd2luZyBleGNlcHRpb246CisjICsKKyMgKyAgICAgICAgICAgICJEb2N1bWVudHMgcHJv
-ZHVjZWQgYnkgZG94eWdlbiBhcmUgZGVyaXZhdGl2ZSB3b3JrcworIyArICAgICAgICAgICAgZGVy
-aXZlZCBmcm9tIHRoZSBpbnB1dCB1c2VkIGluIHRoZWlyIHByb2R1Y3Rpb247CisjICsgICAgICAg
-ICAgICB0aGV5IGFyZSBub3QgYWZmZWN0ZWQgYnkgdGhpcyBsaWNlbnNlLiIKKyMgIAorIyAgICAg
-ICAgLSBUcmFuc2xhdGVkIG1lc3NhZ2VzIGFyZSBpbiB0aGUgcHVibGljIGRvbWFpbi4KKyMgIAor
-IyAtLS0gQ09QWUlORy5HUEx2MworIyArKysgQ09QWUlORy5HUEx2MworIyBAQCAtMSw3ICsxLDcg
-QEAKKyMgICAgICAgICAgICAgICAgICAgICAgR05VIEdFTkVSQUwgUFVCTElDIExJQ0VOU0UKKyMg
-ICAgICAgICAgICAgICAgICAgICAgICAgVmVyc2lvbiAzLCAyOSBKdW5lIDIwMDcKKyMgIAorIyAt
-IENvcHlyaWdodCAoQykgMjAwNyBGcmVlIFNvZnR3YXJlIEZvdW5kYXRpb24sIEluYy4gPGh0dHA6
-Ly9mc2Yub3JnLz4KKyMgKyBDb3B5cmlnaHQgKEMpIDIwMDcgRnJlZSBTb2Z0d2FyZSBGb3VuZGF0
-aW9uLCBJbmMuIDxodHRwczovL2ZzZi5vcmcvPgorIyAgIEV2ZXJ5b25lIGlzIHBlcm1pdHRlZCB0
-byBjb3B5IGFuZCBkaXN0cmlidXRlIHZlcmJhdGltIGNvcGllcworIyAgIG9mIHRoaXMgbGljZW5z
-ZSBkb2N1bWVudCwgYnV0IGNoYW5naW5nIGl0IGlzIG5vdCBhbGxvd2VkLgorIyAgCisjIEBAIC02
-NDUsNyArNjQ1LDcgQEAKKyMgICAgICBHTlUgR2VuZXJhbCBQdWJsaWMgTGljZW5zZSBmb3IgbW9y
-ZSBkZXRhaWxzLgorIyAgCisjICAgICAgWW91IHNob3VsZCBoYXZlIHJlY2VpdmVkIGEgY29weSBv
-ZiB0aGUgR05VIEdlbmVyYWwgUHVibGljIExpY2Vuc2UKKyMgLSAgICBhbG9uZyB3aXRoIHRoaXMg
-cHJvZ3JhbS4gIElmIG5vdCwgc2VlIDxodHRwOi8vd3d3LmdudS5vcmcvbGljZW5zZXMvPi4KKyMg
-KyAgICBhbG9uZyB3aXRoIHRoaXMgcHJvZ3JhbS4gIElmIG5vdCwgc2VlIDxodHRwczovL3d3dy5n
-bnUub3JnL2xpY2Vuc2VzLz4uCisjICAKKyMgIEFsc28gYWRkIGluZm9ybWF0aW9uIG9uIGhvdyB0
-byBjb250YWN0IHlvdSBieSBlbGVjdHJvbmljIGFuZCBwYXBlciBtYWlsLgorIyAgCisjIEBAIC02
-NjQsMTEgKzY2NCwxMSBAQAorIyAgICBZb3Ugc2hvdWxkIGFsc28gZ2V0IHlvdXIgZW1wbG95ZXIg
-KGlmIHlvdSB3b3JrIGFzIGEgcHJvZ3JhbW1lcikgb3Igc2Nob29sLAorIyAgaWYgYW55LCB0byBz
-aWduIGEgImNvcHlyaWdodCBkaXNjbGFpbWVyIiBmb3IgdGhlIHByb2dyYW0sIGlmIG5lY2Vzc2Fy
-eS4KKyMgIEZvciBtb3JlIGluZm9ybWF0aW9uIG9uIHRoaXMsIGFuZCBob3cgdG8gYXBwbHkgYW5k
-IGZvbGxvdyB0aGUgR05VIEdQTCwgc2VlCisjIC08aHR0cDovL3d3dy5nbnUub3JnL2xpY2Vuc2Vz
-Lz4uCisjICs8aHR0cHM6Ly93d3cuZ251Lm9yZy9saWNlbnNlcy8+LgorIyAgCisjICAgIFRoZSBH
-TlUgR2VuZXJhbCBQdWJsaWMgTGljZW5zZSBkb2VzIG5vdCBwZXJtaXQgaW5jb3Jwb3JhdGluZyB5
-b3VyIHByb2dyYW0KKyMgIGludG8gcHJvcHJpZXRhcnkgcHJvZ3JhbXMuICBJZiB5b3VyIHByb2dy
-YW0gaXMgYSBzdWJyb3V0aW5lIGxpYnJhcnksIHlvdQorIyAgbWF5IGNvbnNpZGVyIGl0IG1vcmUg
-dXNlZnVsIHRvIHBlcm1pdCBsaW5raW5nIHByb3ByaWV0YXJ5IGFwcGxpY2F0aW9ucyB3aXRoCisj
-ICB0aGUgbGlicmFyeS4gIElmIHRoaXMgaXMgd2hhdCB5b3Ugd2FudCB0byBkbywgdXNlIHRoZSBH
-TlUgTGVzc2VyIEdlbmVyYWwKKyMgIFB1YmxpYyBMaWNlbnNlIGluc3RlYWQgb2YgdGhpcyBMaWNl
-bnNlLiAgQnV0IGZpcnN0LCBwbGVhc2UgcmVhZAorIyAtPGh0dHA6Ly93d3cuZ251Lm9yZy9waGls
-b3NvcGh5L3doeS1ub3QtbGdwbC5odG1sPi4KKyMgKzxodHRwczovL3d3dy5nbnUub3JnL2xpY2Vu
-c2VzL3doeS1ub3QtbGdwbC5odG1sPi4KKyMgCisjCisKIFNVTU1BUlkgPSAiVXRpbGl0aWVzIGZv
-ciBtYW5hZ2luZyBMWk1BIGNvbXByZXNzZWQgZmlsZXMiCiBIT01FUEFHRSA9ICJodHRwczovL3R1
-a2Fhbmkub3JnL3h6LyIKIERFU0NSSVBUSU9OID0gIlhaIFV0aWxzIGlzIGZyZWUgZ2VuZXJhbC1w
-dXJwb3NlIGRhdGEgY29tcHJlc3Npb24gc29mdHdhcmUgd2l0aCBhIGhpZ2ggY29tcHJlc3Npb24g
-cmF0aW8uIFhaIFV0aWxzIHdlcmUgd3JpdHRlbiBmb3IgUE9TSVgtbGlrZSBzeXN0ZW1zLCBidXQg
-YWxzbyB3b3JrIG9uIHNvbWUgbm90LXNvLVBPU0lYIHN5c3RlbXMuIFhaIFV0aWxzIGFyZSB0aGUg
-c3VjY2Vzc29yIHRvIExaTUEgVXRpbHMuIgpAQCAtMTcsMTUgKzgyLDE1IEBAIExJQ0VOU0U6JHtQ
-Tn0tZGJnID0gIkdQTC0yLjAtb3ItbGF0ZXIiCiBMSUNFTlNFOiR7UE59LWxvY2FsZSA9ICJHUEwt
-Mi4wLW9yLWxhdGVyIgogTElDRU5TRTpsaWJsem1hID0gIlBEIgogCi1MSUNfRklMRVNfQ0hLU1VN
-ID0gImZpbGU6Ly9DT1BZSU5HO21kNT05N2Q1NTRhMzI4ODFmZWUwYWEyODNkOTZlNDdjYjI0YSBc
-CitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT1jOGVhODRlYmU3YjkzY2Nl
-Njc2YjU0MzU1ZGM2YjJjMCBcCiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9DT1BZSU5HLkdQ
-THYyO21kNT1iMjM0ZWU0ZDY5ZjVmY2U0NDg2YTgwZmRhZjRhNDI2MyBcCi0gICAgICAgICAgICAg
-ICAgICAgIGZpbGU6Ly9DT1BZSU5HLkdQTHYzO21kNT1kMzIyMzliY2I2NzM0NjNhYjg3NGU4MGQ0
-N2ZhZTUwNCBcCisgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9DT1BZSU5HLkdQTHYzO21kNT0x
-ZWJiZDNlMzQyMzdhZjI2ZGE1ZGMwOGE0ZTQ0MDQ2NCBcCiAgICAgICAgICAgICAgICAgICAgIGZp
-bGU6Ly9DT1BZSU5HLkxHUEx2Mi4xO21kNT00ZmJkNjUzODBjZGQyNTU5NTEwNzkwMDhiMzY0NTE2
-YyBcCiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9saWIvZ2V0b3B0LmM7ZW5kbGluZT0yMztt
-ZDU9MjA2OWIwZWU3MTA1NzJjMDNiYjMxMTRlNDUzMmNkODQgXAogICAgICAgICAgICAgICAgICAg
-ICAiCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly90dWthYW5pLm9yZy94ei94ei0ke1BWfS50YXIuZ3oi
-Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZTRiMGY4MTU4MmVmYTE1NWNjZjI3YmI4ODI3NTI1NGE0
-MjlkNDQ5NjhlNDg4ZmM5NGI4MDZmMmE2MWNkM2UyMiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI4
-Nzk0NzY3OWFiY2Y3N2NjNTA5ZDhkMWI0NzQyMThmZDE2YjcyMjgxZTI3OTczNjBlOTA5ZGVhZWUx
-YWM5ZDA1IgogVVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAieHotKD9QPHB2ZXI+XGQrKFwuXGQrKSsp
-XC50YXIiCiAKIENBQ0hFRF9DT05GSUdVUkVWQVJTICs9ICJnbF9jdl9wb3NpeF9zaGVsbD0vYmlu
-L3NoIgotLSAKMi4zOS4yCgo=
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 898 .bb files complete (0 cached, 898 parsed). 1797 targets, 73 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the ppc7400 sysroot...done.
+Removing 1 recipes from the qemuppc sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============4245819966398862187==
+Build Configuration:
+BB_VERSION           = "2.3.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "powerpc-poky-linux"
+MACHINE              = "qemuppc"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-950905a0caeb5dd5f3b576f12d08dbeade6a87c9"
+TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:950905a0caeb5dd5f3b576f12d08dbeade6a87c9"
+workspace            = "master:d59756912cd450b0af3d8893b822c66dafe42544"
+
+Initialising tasks...done.
+Sstate summary: Wanted 40 Local 26 Mirrors 0 Missed 14 Current 233 (65% match, 94% complete)
+Removing 3 stale sstate objects for arch qemuppc...done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 742 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_fetch)
+NOTE: Running task 772 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_fetch)
+NOTE: Running task 920 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_fetch: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_fetch: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_fetch: Succeeded
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_fetch: Succeeded
+NOTE: Running task 921 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_unpack)
+NOTE: Running task 922 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_unpack)
+NOTE: Running task 923 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_unpack: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_unpack: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_install: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1013 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_patch)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_patch: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_patch: Succeeded
+NOTE: Running task 1014 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_generate_toolchain_file)
+NOTE: Running task 1015 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1016 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_patch)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_patch: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_patch: Succeeded
+NOTE: Running task 1017 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1018 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_generate_toolchain_file)
+NOTE: Running task 1019 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_populate_lic)
+NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1020 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: Running task 1026 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_configure)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_populate_lic: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe base-files-3.0.14-r89: task do_package: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_configure: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_populate_lic unihash changed to ca6f851d8ad1b85af8295a711e0ebe093aa26be9631f9cb6d4ac83fc2001fee5
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_configure: Succeeded
+NOTE: Running task 1027 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_compile)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_compile: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_compile: Succeeded
+NOTE: Running task 1028 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_install)
+NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
+NOTE: Running task 1029 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_install: Started
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 7994dc0197a3d7f2ae99e629c620e5b799d87ecde32071472b49df20689399c2
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_install: Succeeded
+NOTE: Running task 1033 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_populate_sysroot)
+NOTE: Running task 1034 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_package)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_populate_sysroot: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_package: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1035 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1036 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_configure)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_configure: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_package: Succeeded
+NOTE: Running task 1037 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_packagedata)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_packagedata: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_configure: Succeeded
+NOTE: Running task 1038 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_compile)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_packagedata: Failed
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_compile: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_compile: Succeeded
+NOTE: Tasks Summary: Attempted 1038 tasks of which 1014 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_packagedata
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-src went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-dbg went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-staticdev went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-dev went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-doc went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-locale went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/spirv-headers/1_1.3.239.0-r0/temp/log.do_packagedata.827728
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_packagedata) failed with exit code '1'
+
+--===============3691519421687730050==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/xz: SRC_URI changed from "https://tukaani.org/xz/xz-5.4.1.tar.gz" to "https://tukaani.org/xz/xz-5.4.2.tar.gz"
-packages/core2-32-poky-linux/xz: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/liblzma: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/liblzma: FILELIST: removed "/usr/lib/liblzma.so.5.4.1", added "/usr/lib/liblzma.so.5.4.2"
-packages/core2-32-poky-linux/xz/liblzma: PV changed from "5.4.1" to "5.4.2"
-Changes to packages/core2-32-poky-linux/xz (sysroot):
-  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.4.1 to liblzma.so.5.4.2
-  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.4.1 to liblzma.so.5.4.2
-  /usr/lib/liblzma.so.5.4.1 moved to /usr/lib/liblzma.so.5.4.2
-packages/core2-32-poky-linux/xz/xz-dbg: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-dbg: FILELIST: removed "/usr/lib/.debug/liblzma.so.5.4.1", added "/usr/lib/.debug/liblzma.so.5.4.2"
-packages/core2-32-poky-linux/xz/xz-dbg: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-dbg: PKGSIZE changed from 920564 to 921576 (+0%)
-packages/core2-32-poky-linux/xz/xz-dev: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-dev: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-dev: PKGSIZE changed from 207530 to 225608 (+9%)
-packages/core2-32-poky-linux/xz/xz-doc: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-doc: FILELIST: added "/usr/share/doc/xz/api/globals_func.html /usr/share/doc/xz/api/structlzma__stream__flags.html /usr/share/doc/xz/api/tabs.css /usr/share/man/pt_BR/man1/xzmore.1 /usr/share/man/pt_BR/man1/lzgrep.1 /usr/share/man/pt_BR/man1/lzdiff.1 /usr/share/man/pt_BR/man1/lzless.1 /usr/share/man/pt_BR/man1/lzmore.1 /usr/share/man/pt_BR/man1/unlzma.1 /usr/share/doc/xz/api/tab_sd.png /usr/share/man/pt_BR/man1/xzdiff.1 /usr/share/man/pt_BR/man1/xzgrep.1 /usr/share/man/pt_BR/man1/xzless.1 /usr/share/doc/xz/api/splitbard.png /usr/share/doc/xz/api/globals_defs.html /usr/share/doc/xz/api/structlzma__allocator.html /usr/share/doc/xz/api/tab_b.png /usr/share/doc/xz/api/files.html /usr/share/doc/xz/api/nav_f.png /usr/share/doc/xz/api/sync_off.png /usr/share/doc/xz/api/bc_s.png /usr/share/doc/xz/api/tab_s.png /usr/share/man/pt_BR/man1/lzcat.1 /usr/share/man/pt_BR/man1/lzcmp.1 /usr/share/man/pt_BR/man1/xzcat.1 /usr/share/man/pt_BR/man1/xzcmp.1 /usr/share/ma
- n/pt_BR/man1/xzdec.1 /usr/share/doc/xz/api/tab_hd.png /usr/share/man/pt_BR/man1/lzma.1 /usr/share/doc/xz/api/open.png /usr/share/doc/xz/api/bdwn.png /usr/share/doc/xz/api/bcj_8h.html /usr/share/doc/xz/api/structlzma__options__lzma.html /usr/share/doc/xz/api/folderclosed.png /usr/share/doc/xz/api/doxygen.svg /usr/share/doc/xz/api/tab_h.png /usr/share/doc/xz/api/doxygen.css /usr/share/doc/xz/api/splitbar.png /usr/share/doc/xz/api/vli_8h.html /usr/share/doc/xz/api/index.html /usr/share/doc/xz/api/structlzma__options__delta.html /usr/share/doc/xz/api/lzma12_8h.html /usr/share/doc/xz/api/docd.png /usr/share/doc/xz/api/bc_sd.png /usr/share/doc/xz/api/version_8h.html /usr/share/doc/xz/api/structlzma__index__iter.html /usr/share/doc/xz/api/stream__flags_8h.html /usr/share/doc/xz/api/structlzma__options__bcj.html /usr/share/doc/xz/api/tab_a.png /usr/share/man/pt_BR/man1/lzmadec.1 /usr/share/doc/xz/api/check_8h.html /usr/share/doc/xz/api/classes.html /usr/share/doc/xz/api/globals.html /usr/sh
- are/doc/xz/api/structlzma__block.html /usr/share/doc/xz/api/tab_bd.png /usr/share/doc/xz/api/lzma_8h.html /usr/share/doc/xz/api/block_8h.html /usr/share/doc/xz/api/index__hash_8h.html /usr/share/doc/xz/api/sync_on.png /usr/share/doc/xz/api/nav_g.png /usr/share/doc/xz/api/hardware_8h.html /usr/share/doc/xz/api/dir_b17a1d403082bd69a703ed987cf158fb.html /usr/share/doc/xz/api/nav_fd.png /usr/share/doc/xz/api/globals_enum.html /usr/share/doc/xz/api/structlzma__mt.html /usr/share/doc/xz/api/functions_vars.html /usr/share/man/pt_BR/man1/unxz.1 /usr/share/doc/xz/api/globals_type.html /usr/share/doc/xz/api/annotated.html /usr/share/doc/xz/api/functions.html /usr/share/doc/xz/api/nav_h.png /usr/share/man/pt_BR/man1/xz.1 /usr/share/doc/xz/api/nav_hd.png /usr/share/doc/xz/api/globals_eval.html /usr/share/doc/xz/api/closed.png /usr/share/doc/xz/api/delta_8h.html /usr/share/doc/xz/api/container_8h.html /usr/share/doc/xz/api/base_8h.html /usr/share/doc/xz/api/tab_ad.png /usr/share/doc/xz/api/filte
- r_8h.html /usr/share/doc/xz/api/structlzma__filter.html /usr/share/doc/xz/api/structlzma__stream.html /usr/share/doc/xz/api/index_8h.html /usr/share/doc/xz/api/doc.png /usr/share/man/pt_BR/man1/lzegrep.1 /usr/share/man/pt_BR/man1/lzfgrep.1 /usr/share/man/pt_BR/man1/xzegrep.1 /usr/share/man/pt_BR/man1/xzfgrep.1 /usr/share/doc/xz/api/folderopen.png"
-packages/core2-32-poky-linux/xz/xz-doc: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-doc: PKGSIZE changed from 824677 to 1774444 (+115%)
-packages/core2-32-poky-linux/xz/xz-locale-ca: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-locale-ca: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-locale-ca: PKGSIZE changed from 27063 to 26876 (-1%)
-packages/core2-32-poky-linux/xz/xz-locale-cs: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-locale-cs: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-locale-cs: PKGSIZE changed from 17769 to 17576 (-1%)
-packages/core2-32-poky-linux/xz/xz-locale-da: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-locale-da: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-locale-da: PKGSIZE changed from 12214 to 12015 (-2%)
-packages/core2-32-poky-linux/xz/xz-locale-de: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-locale-de: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-locale-de: PKGSIZE changed from 28577 to 28377 (-1%)
-packages/core2-32-poky-linux/xz/xz-locale-eo: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-locale-eo: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-locale-eo: PKGSIZE changed from 26106 to 25925 (-1%)
-packages/core2-32-poky-linux/xz/xz-locale-es: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-locale-es: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-locale-es: PKGSIZE changed from 27170 to 26979 (-1%)
-packages/core2-32-poky-linux/xz/xz-locale-fi: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-locale-fi: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-locale-fi: PKGSIZE changed from 26117 to 25923 (-1%)
-packages/core2-32-poky-linux/xz/xz-locale-fr: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-locale-fr: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-locale-fr: PKGSIZE changed from 22488 to 22307 (-1%)
-packages/core2-32-poky-linux/xz/xz-locale-hr: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-locale-hr: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-locale-hr: PKGSIZE changed from 26665 to 26482 (-1%)
-packages/core2-32-poky-linux/xz/xz-locale-hu: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-locale-hu: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-locale-hu: PKGSIZE changed from 27566 to 27374 (-1%)
-packages/core2-32-poky-linux/xz/xz-locale-it: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-locale-it: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-locale-it: PKGSIZE changed from 22220 to 22043 (-1%)
-packages/core2-32-poky-linux/xz/xz-locale-ko: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-locale-ko: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-locale-ko: PKGSIZE changed from 27372 to 27172 (-1%)
-packages/core2-32-poky-linux/xz/xz-locale-pl: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-locale-pl: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-locale-pl: PKGSIZE changed from 26621 to 26448 (-1%)
-packages/core2-32-poky-linux/xz/xz-locale-pt-br: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-locale-pt-br: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-locale-pt-br: PKGSIZE changed from 22122 to 26890 (+22%)
-packages/core2-32-poky-linux/xz/xz-locale-pt: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-locale-pt: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-locale-pt: PKGSIZE changed from 22062 to 21887 (-1%)
-packages/core2-32-poky-linux/xz/xz-locale-ro: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-locale-ro: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-locale-ro: PKGSIZE changed from 28514 to 28299 (-1%)
-packages/core2-32-poky-linux/xz/xz-locale-sr: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-locale-sr: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-locale-sr: PKGSIZE changed from 27774 to 27551 (-1%)
-packages/core2-32-poky-linux/xz/xz-locale-sv: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-locale-sv: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-locale-sv: PKGSIZE changed from 26554 to 26376 (-1%)
-packages/core2-32-poky-linux/xz/xz-locale-tr: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-locale-tr: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-locale-tr: PKGSIZE changed from 26714 to 26545 (-1%)
-packages/core2-32-poky-linux/xz/xz-locale-uk: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-locale-uk: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-locale-uk: PKGSIZE changed from 35300 to 35025 (-1%)
-packages/core2-32-poky-linux/xz/xz-locale-vi: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-locale-vi: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-locale-vi: PKGSIZE changed from 22966 to 22760 (-1%)
-packages/core2-32-poky-linux/xz/xz-locale-zh-cn: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-locale-zh-cn: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-locale-zh-cn: PKGSIZE changed from 25226 to 25033 (-1%)
-packages/core2-32-poky-linux/xz/xz-locale-zh-tw: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-locale-zh-tw: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-locale-zh-tw: PKGSIZE changed from 18813 to 18638 (-1%)
-packages/core2-32-poky-linux/xz/xz-src: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-src: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz-src: PKGSIZE changed from 1284472 to 1306178 (+2%)
-packages/core2-32-poky-linux/xz/xz-staticdev: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz-staticdev: PV changed from "5.4.1" to "5.4.2"
-packages/core2-32-poky-linux/xz/xz: PKGV changed from 5.4.1 [default] to 5.4.2 [default]
-packages/core2-32-poky-linux/xz/xz: PV changed from "5.4.1" to "5.4.2"
+packages/core2-32-poky-linux/spirv-tools: PV changed from "1.3.239.0" to "1.3.243.0"
+packages/core2-32-poky-linux/spirv-tools: PKGV changed from 1.3.239.0 [default] to 1.3.243.0 [default]
+packages/core2-32-poky-linux/spirv-tools/spirv-tools-dbg: PV changed from "1.3.239.0" to "1.3.243.0"
+packages/core2-32-poky-linux/spirv-tools/spirv-tools-dbg: PKGSIZE changed from 272982892 to 296852492 (+9%)
+packages/core2-32-poky-linux/spirv-tools/spirv-tools-dbg: PKGV changed from 1.3.239.0 [default] to 1.3.243.0 [default]
+packages/core2-32-poky-linux/spirv-tools/spirv-tools-dev: PV changed from "1.3.239.0" to "1.3.243.0"
+packages/core2-32-poky-linux/spirv-tools/spirv-tools-dev: PKGSIZE changed from 168298 to 172761 (+3%)
+packages/core2-32-poky-linux/spirv-tools/spirv-tools-dev: PKGV changed from 1.3.239.0 [default] to 1.3.243.0 [default]
+packages/core2-32-poky-linux/spirv-tools/spirv-tools-doc: PV changed from "1.3.239.0" to "1.3.243.0"
+packages/core2-32-poky-linux/spirv-tools/spirv-tools-doc: PKGV changed from 1.3.239.0 [default] to 1.3.243.0 [default]
+packages/core2-32-poky-linux/spirv-tools/spirv-tools-lesspipe: PV changed from "1.3.239.0" to "1.3.243.0"
+packages/core2-32-poky-linux/spirv-tools/spirv-tools-lesspipe: PKGV changed from 1.3.239.0 [default] to 1.3.243.0 [default]
+packages/core2-32-poky-linux/spirv-tools/spirv-tools-locale: PV changed from "1.3.239.0" to "1.3.243.0"
+packages/core2-32-poky-linux/spirv-tools/spirv-tools-locale: PKGV changed from 1.3.239.0 [default] to 1.3.243.0 [default]
+packages/core2-32-poky-linux/spirv-tools/spirv-tools-src: FILELIST: directory renamed /usr/src/debug/spirv-tools/1_1.3.239.0-r0/source/link -> /usr/src/debug/spirv-tools/1_1.3.243.0-r0/source/link, directory renamed /usr/src/debug/spirv-tools/1_1.3.239.0-r0/source/util -> /usr/src/debug/spirv-tools/1_1.3.243.0-r0/source/util, directory renamed /usr/src/debug/spirv-tools/1_1.3.239.0-r0/tools -> /usr/src/debug/spirv-tools/1_1.3.243.0-r0/tools, directory renamed /usr/src/debug/spirv-tools/1_1.3.239.0-r0/source/lint -> /usr/src/debug/spirv-tools/1_1.3.243.0-r0/source/lint, directory renamed /usr/src/debug/spirv-tools/1_1.3.239.0-r0/include/spirv-tools -> /usr/src/debug/spirv-tools/1_1.3.243.0-r0/include/spirv-tools, directory renamed /usr/src/debug/spirv-tools/1_1.3.239.0-r0/tools/lint -> /usr/src/debug/spirv-tools/1_1.3.243.0-r0/tools/lint, directory renamed /usr/src/debug/spirv-tools/1_1.3.239.0-r0/tools/link -> /usr/src/debug/spirv-tools/1_1.3.243.0-r0/tools/link, directory renamed /u
+ sr/src/debug/spirv-tools/1_1.3.239.0-r0 -> /usr/src/debug/spirv-tools/1_1.3.243.0-r0, directory renamed /usr/src/debug/spirv-tools/1_1.3.239.0-r0/source -> /usr/src/debug/spirv-tools/1_1.3.243.0-r0/source, directory renamed /usr/src/debug/spirv-tools/1_1.3.239.0-r0/tools/val -> /usr/src/debug/spirv-tools/1_1.3.243.0-r0/tools/val, directory renamed /usr/src/debug/spirv-tools/1_1.3.239.0-r0/source/opt -> /usr/src/debug/spirv-tools/1_1.3.243.0-r0/source/opt, directory renamed /usr/src/debug/spirv-tools/1_1.3.239.0-r0/tools/as -> /usr/src/debug/spirv-tools/1_1.3.243.0-r0/tools/as, directory renamed /usr/src/debug/spirv-tools/1_1.3.239.0-r0/tools/cfg -> /usr/src/debug/spirv-tools/1_1.3.243.0-r0/tools/cfg, directory renamed /usr/src/debug/spirv-tools/1_1.3.239.0-r0/tools/reduce -> /usr/src/debug/spirv-tools/1_1.3.243.0-r0/tools/reduce, directory renamed /usr/src/debug/spirv-tools/1_1.3.239.0-r0/tools/dis -> /usr/src/debug/spirv-tools/1_1.3.243.0-r0/tools/dis, directory renamed /usr/src/de
+ bug/spirv-tools/1_1.3.239.0-r0/source/reduce -> /usr/src/debug/spirv-tools/1_1.3.243.0-r0/source/reduce, directory renamed /usr/src/debug/spirv-tools/1_1.3.239.0-r0/source/val -> /usr/src/debug/spirv-tools/1_1.3.243.0-r0/source/val, directory renamed /usr/src/debug/spirv-tools/1_1.3.239.0-r0/tools/opt -> /usr/src/debug/spirv-tools/1_1.3.243.0-r0/tools/opt, directory renamed /usr/src/debug/spirv-tools/1_1.3.239.0-r0/source/diff -> /usr/src/debug/spirv-tools/1_1.3.243.0-r0/source/diff, removed "/usr/src/debug/spirv-tools/1_1.3.239.0-r0/tools/util/cli_consumer.cpp /usr/src/debug/spirv-tools/1_1.3.239.0-r0/tools/util/cli_consumer.h", added "/usr/src/debug/spirv-tools/1_1.3.243.0-r0/tools/util/cli_consumer.cpp /usr/src/debug/spirv-tools/1_1.3.243.0-r0/tools/util/cli_consumer.h /usr/src/debug/spirv-tools/1_1.3.243.0-r0/tools/util/flags.h /usr/src/debug/spirv-tools/1_1.3.243.0-r0/tools/util/flags.cpp"
+packages/core2-32-poky-linux/spirv-tools/spirv-tools-src: PV changed from "1.3.239.0" to "1.3.243.0"
+packages/core2-32-poky-linux/spirv-tools/spirv-tools-src: PKGSIZE changed from 5537771 to 5561186 (+0%)
+packages/core2-32-poky-linux/spirv-tools/spirv-tools-src: PKGV changed from 1.3.239.0 [default] to 1.3.243.0 [default]
+packages/core2-32-poky-linux/spirv-tools/spirv-tools-staticdev: PV changed from "1.3.239.0" to "1.3.243.0"
+packages/core2-32-poky-linux/spirv-tools/spirv-tools-staticdev: PKGV changed from 1.3.239.0 [default] to 1.3.243.0 [default]
+packages/core2-32-poky-linux/spirv-tools/spirv-tools: PV changed from "1.3.239.0" to "1.3.243.0"
+packages/core2-32-poky-linux/spirv-tools/spirv-tools: PKGSIZE changed from 7609638 to 8486738 (+12%)
+packages/core2-32-poky-linux/spirv-tools/spirv-tools: PKGV changed from 1.3.239.0 [default] to 1.3.243.0 [default]
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1625,28 +1579,169 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
-Changes to packages/x86_64-linux/xz-native (sysroot):
-  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.4.1 to liblzma.so.5.4.2
-  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.4.1 to liblzma.so.5.4.2
-  /usr/lib/liblzma.so.5.4.1 moved to /usr/lib/liblzma.so.5.4.2
 
---===============4245819966398862187==
+--===============3691519421687730050==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-spirv-tools-upgrade-1.3.239.0-1.3.243.0.patch"
+
+RnJvbSBlMWVkMGQ5N2YzODgwOTdhMTI1N2M1YTQwYWFhNmU2M2I0MzQ2NjQ1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMSBBcHIgMjAyMyAxNzo0MzowNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHNw
+aXJ2LXRvb2xzOiB1cGdyYWRlIDEuMy4yMzkuMCAtPiAxLjMuMjQzLjAKCi0tLQogLi4uL3NwaXIv
+e3NwaXJ2LXRvb2xzXzEuMy4yMzkuMC5iYiA9PiBzcGlydi10b29sc18xLjMuMjQzLjAuYmJ9IHwg
+MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
+bWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIve3NwaXJ2LXRvb2xzXzEuMy4yMzkuMC5iYiA9
+PiBzcGlydi10b29sc18xLjMuMjQzLjAuYmJ9ICg5NiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtdG9vbHNfMS4zLjIzOS4wLmJiIGIvbWV0YS9yZWNpcGVz
+LWdyYXBoaWNzL3NwaXIvc3BpcnYtdG9vbHNfMS4zLjI0My4wLmJiCnNpbWlsYXJpdHkgaW5kZXgg
+OTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LXRvb2xzXzEu
+My4yMzkuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtdG9v
+bHNfMS4zLjI0My4wLmJiCmluZGV4IDUxMDliYjUzMzMuLjI5MGM1M2U4ZTQgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LXRvb2xzXzEuMy4yMzkuMC5iYgorKysg
+Yi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGlydi10b29sc18xLjMuMjQzLjAuYmIKQEAg
+LTcsNyArNyw3IEBAIFNFQ1RJT04gPSAiZ3JhcGhpY3MiCiBMSUNFTlNFICA9ICJBcGFjaGUtMi4w
+IgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9M2I4M2VmOTYzODdmMTQ2
+NTVmYzg1NGRkYzNjNmJkNTciCiAKLVNSQ1JFViA9ICI2M2RlNjA4ZGFlYjdlOTFmYmVhNmQ3NDc3
+YTUwZGViZTdjYWM1N2NlIgorU1JDUkVWID0gIjQ0ZDcyYTliMzY3MDJmMDkzZGQyMDgxNTU2MWE1
+Njc3OGIyZDE4MWUiCiBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL1NQ
+SVJWLVRvb2xzLmdpdDticmFuY2g9bWFpbjtwcm90b2NvbD1odHRwcyIKIFBFID0gIjEiCiBVUFNU
+UkVBTV9DSEVDS19HSVRUQUdSRUdFWCA9ICJzZGstKD9QPHB2ZXI+XGQrKFwuXGQrKSspIgotLSAK
+Mi4zOS4yCgo=
+
+--===============3691519421687730050==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+Loading cache...done.
+Loaded 1799 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 898 .bb files complete (897 cached, 1 parsed). 1797 targets, 38 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.3.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-950905a0caeb5dd5f3b576f12d08dbeade6a87c9"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:950905a0caeb5dd5f3b576f12d08dbeade6a87c9"
+workspace            = "master:d59756912cd450b0af3d8893b822c66dafe42544"
+
+Initialising tasks...done.
+Sstate summary: Wanted 40 Local 26 Mirrors 0 Missed 14 Current 233 (65% match, 94% complete)
+Removing 3 stale sstate objects for arch qemux86_64...done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 742 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_fetch)
+NOTE: Running task 772 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_fetch)
+NOTE: Running task 921 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_fetch: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_fetch: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_fetch: Succeeded
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_fetch: Succeeded
+NOTE: Running task 922 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_unpack)
+NOTE: Running task 923 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_unpack)
+NOTE: Running task 924 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_unpack: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_unpack: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_install: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1013 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_patch)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_patch: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_patch: Succeeded
+NOTE: Running task 1014 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_generate_toolchain_file)
+NOTE: Running task 1015 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1016 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_patch)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_patch: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_patch: Succeeded
+NOTE: Running task 1017 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1018 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_generate_toolchain_file)
+NOTE: Running task 1019 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_populate_lic)
+NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1020 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_configure)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_generate_toolchain_file: Started
+NOTE: Running task 1021 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_populate_lic: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_configure: Started
+NOTE: recipe base-files-3.0.14-r89: task do_package: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_populate_lic unihash changed to ca6f851d8ad1b85af8295a711e0ebe093aa26be9631f9cb6d4ac83fc2001fee5
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_configure: Succeeded
+NOTE: Running task 1027 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_compile)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_compile: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_compile: Succeeded
+NOTE: Running task 1028 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_install)
+NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_install: Started
+NOTE: Running task 1029 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_install: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 36deaa96c352f3b0c6063b0341b3a10810745556a80ce4a4680e35c33ecc2227
+NOTE: Running task 1033 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_populate_sysroot)
+NOTE: Running task 1034 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_package)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_populate_sysroot: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_package: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1035 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1036 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_configure)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_configure: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_package: Succeeded
+NOTE: Running task 1037 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_packagedata)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_packagedata: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_configure: Succeeded
+NOTE: Running task 1038 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_compile)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_compile: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_packagedata: Failed
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_compile: Succeeded
+NOTE: Tasks Summary: Attempted 1038 tasks of which 1014 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_packagedata
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-src went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-dbg went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-staticdev went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-dev went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-doc went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-locale went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/spirv-headers/1_1.3.239.0-r0/temp/log.do_packagedata.724795
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_packagedata) failed with exit code '1'
+
+--===============3691519421687730050==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/xz/liblzma: FILELIST: removed "/usr/lib/liblzma.so.5.4.1", added "/usr/lib/liblzma.so.5.4.2"
-Changes to packages/core2-32-poky-linux/xz (sysroot):
-  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.4.1 to liblzma.so.5.4.2
-  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.4.1 to liblzma.so.5.4.2
-  /usr/lib/liblzma.so.5.4.1 moved to /usr/lib/liblzma.so.5.4.2
-packages/core2-32-poky-linux/xz/xz-doc: FILELIST: added "/usr/share/doc/xz/api/tabs.css /usr/share/doc/xz/api/delta_8h.html /usr/share/doc/xz/api/sync_on.png /usr/share/doc/xz/api/nav_hd.png /usr/share/doc/xz/api/structlzma__index__iter.html /usr/share/doc/xz/api/structlzma__allocator.html /usr/share/doc/xz/api/bdwn.png /usr/share/doc/xz/api/tab_ad.png /usr/share/doc/xz/api/nav_g.png /usr/share/doc/xz/api/docd.png /usr/share/doc/xz/api/folderopen.png /usr/share/doc/xz/api/index.html /usr/share/man/pt_BR/man1/xzgrep.1 /usr/share/man/pt_BR/man1/xzless.1 /usr/share/man/pt_BR/man1/xzmore.1 /usr/share/doc/xz/api/folderclosed.png /usr/share/man/pt_BR/man1/lzdiff.1 /usr/share/man/pt_BR/man1/lzgrep.1 /usr/share/man/pt_BR/man1/lzless.1 /usr/share/man/pt_BR/man1/lzmore.1 /usr/share/man/pt_BR/man1/unlzma.1 /usr/share/man/pt_BR/man1/xzdiff.1 /usr/share/doc/xz/api/hardware_8h.html /usr/share/doc/xz/api/globals_enum.html /usr/share/doc/xz/api/tab_b.png /usr/share/doc/xz/api/annotated.html /usr/sha
- re/doc/xz/api/functions.html /usr/share/doc/xz/api/stream__flags_8h.html /usr/share/doc/xz/api/structlzma__stream__flags.html /usr/share/doc/xz/api/bc_sd.png /usr/share/doc/xz/api/tab_a.png /usr/share/doc/xz/api/nav_f.png /usr/share/doc/xz/api/tab_h.png /usr/share/doc/xz/api/structlzma__options__delta.html /usr/share/doc/xz/api/globals.html /usr/share/doc/xz/api/tab_bd.png /usr/share/doc/xz/api/nav_fd.png /usr/share/doc/xz/api/open.png /usr/share/doc/xz/api/index__hash_8h.html /usr/share/doc/xz/api/tab_s.png /usr/share/doc/xz/api/globals_type.html /usr/share/doc/xz/api/globals_defs.html /usr/share/doc/xz/api/lzma_8h.html /usr/share/doc/xz/api/dir_b17a1d403082bd69a703ed987cf158fb.html /usr/share/doc/xz/api/bcj_8h.html /usr/share/doc/xz/api/splitbard.png /usr/share/man/pt_BR/man1/xz.1 /usr/share/doc/xz/api/container_8h.html /usr/share/doc/xz/api/sync_off.png /usr/share/doc/xz/api/structlzma__block.html /usr/share/doc/xz/api/splitbar.png /usr/share/doc/xz/api/structlzma__filter.html /u
- sr/share/doc/xz/api/structlzma__stream.html /usr/share/man/pt_BR/man1/lzma.1 /usr/share/doc/xz/api/structlzma__options__bcj.html /usr/share/doc/xz/api/block_8h.html /usr/share/doc/xz/api/tab_sd.png /usr/share/man/pt_BR/man1/lzmadec.1 /usr/share/doc/xz/api/files.html /usr/share/doc/xz/api/vli_8h.html /usr/share/doc/xz/api/structlzma__mt.html /usr/share/man/pt_BR/man1/unxz.1 /usr/share/doc/xz/api/globals_eval.html /usr/share/doc/xz/api/classes.html /usr/share/doc/xz/api/nav_h.png /usr/share/doc/xz/api/structlzma__options__lzma.html /usr/share/doc/xz/api/doc.png /usr/share/doc/xz/api/lzma12_8h.html /usr/share/doc/xz/api/globals_func.html /usr/share/doc/xz/api/bc_s.png /usr/share/doc/xz/api/tab_hd.png /usr/share/doc/xz/api/doxygen.svg /usr/share/man/pt_BR/man1/xzdec.1 /usr/share/man/pt_BR/man1/lzcat.1 /usr/share/man/pt_BR/man1/lzcmp.1 /usr/share/doc/xz/api/check_8h.html /usr/share/doc/xz/api/base_8h.html /usr/share/man/pt_BR/man1/xzcat.1 /usr/share/man/pt_BR/man1/xzcmp.1 /usr/share/doc/
- xz/api/closed.png /usr/share/doc/xz/api/functions_vars.html /usr/share/doc/xz/api/index_8h.html /usr/share/doc/xz/api/version_8h.html /usr/share/man/pt_BR/man1/lzegrep.1 /usr/share/man/pt_BR/man1/lzfgrep.1 /usr/share/man/pt_BR/man1/xzegrep.1 /usr/share/man/pt_BR/man1/xzfgrep.1 /usr/share/doc/xz/api/doxygen.css /usr/share/doc/xz/api/filter_8h.html"
-packages/core2-32-poky-linux/xz/xz-doc: PKGSIZE changed from 824677 to 1774444 (+115%)
-packages/core2-32-poky-linux/xz/xz-locale-pt-br: PKGSIZE changed from 22122 to 26890 (+22%)
+packages/core2-32-poky-linux/spirv-tools/spirv-tools: PKGSIZE changed from 7609638 to 8486738 (+12%)
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -3000,10 +3095,522 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
-Changes to packages/x86_64-linux/xz-native (sysroot):
-  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.4.1 to liblzma.so.5.4.2
-  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.4.1 to liblzma.so.5.4.2
-  /usr/lib/liblzma.so.5.4.1 moved to /usr/lib/liblzma.so.5.4.2
 
---===============4245819966398862187==--
+--===============3691519421687730050==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 898 .bb files complete (0 cached, 898 parsed). 1797 targets, 50 skipped, 0 masked, 0 errors.
+Removing 9 recipes from the core2-32 sysroot...done.
+Removing 31 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.3.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux-musl"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-950905a0caeb5dd5f3b576f12d08dbeade6a87c9"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:950905a0caeb5dd5f3b576f12d08dbeade6a87c9"
+workspace            = "master:d59756912cd450b0af3d8893b822c66dafe42544"
+
+Initialising tasks...done.
+Sstate summary: Wanted 149 Local 135 Mirrors 0 Missed 14 Current 120 (90% match, 94% complete)
+Removing 2 stale sstate objects for arch x86_64...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 121 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 123 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.2.15.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 124 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
+NOTE: Running task 562 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_fetch)
+NOTE: Running task 569 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_fetch)
+NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_fetch: Started
+NOTE: recipe base-passwd-3.6.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_fetch: Started
+NOTE: recipe bash-5.2.15-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_fetch: Succeeded
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_fetch: Succeeded
+NOTE: Running task 606 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_unpack)
+NOTE: Running task 607 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_unpack)
+NOTE: recipe bash-5.2.15-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 149 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_packagedata_setscene)
+NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 150 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 151 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.4.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 152 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.36.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 153 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.2.15.bb:do_packagedata_setscene)
+NOTE: Running setscene task 154 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
+NOTE: Running setscene task 155 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_packagedata_setscene)
+NOTE: recipe base-passwd-3.6.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_unpack: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_unpack: Started
+NOTE: recipe make-4.4.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Started
+NOTE: recipe perl-5.36.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-5.2.15-r0: task do_packagedata_setscene: Started
+NOTE: recipe coreutils-9.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-2.38.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 161 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 162 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 163 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r89: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe shadow-4.13-r0: task do_packagedata_setscene: Started
+NOTE: recipe make-4.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bash-5.2.15-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running task 624 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_unpack: Succeeded
+NOTE: Running task 629 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_patch)
+NOTE: recipe coreutils-9.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 174 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 176 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 178 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.67.bb:do_packagedata_setscene)
+NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_fetch: Started
+NOTE: recipe base-files-3.0.14-r89: task do_fetch: Succeeded
+NOTE: Running task 638 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
+NOTE: Running task 639 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_patch: Started
+NOTE: recipe libcap-2.67-r0: task do_packagedata_setscene: Started
+NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r89: task do_unpack: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_unpack: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 640 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_patch)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_patch: Succeeded
+NOTE: Running task 641 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_generate_toolchain_file)
+NOTE: Running task 642 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe shadow-4.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libcap-2.67-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_unpack: Succeeded
+NOTE: Running task 655 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_patch: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_generate_toolchain_file: Started
+NOTE: Running setscene task 190 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_patch: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_patch: Succeeded
+NOTE: Running task 660 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 661 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_generate_toolchain_file)
+NOTE: Running task 662 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_populate_lic)
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-2.38.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 193 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 195 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 198 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 200 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 202 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r89: task do_patch: Succeeded
+NOTE: Running task 668 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_populate_lic: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_configure: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_populate_lic unihash changed to ca6f851d8ad1b85af8295a711e0ebe093aa26be9631f9cb6d4ac83fc2001fee5
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_configure: Succeeded
+NOTE: Running task 673 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_compile: Started
+NOTE: recipe base-files-3.0.14-r89: task do_compile: Succeeded
+NOTE: Running task 690 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 215 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.10.bb:do_packagedata_setscene)
+NOTE: recipe cracklib-2.9.10-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r89: task do_install: Started
+NOTE: recipe cracklib-2.9.10-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
+NOTE: Running task 699 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe base-files-3.0.14-r89: task do_package: Started
+NOTE: recipe perl-5.36.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 221 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_packagedata_setscene)
+NOTE: Running setscene task 223 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 226 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
+NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 233 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 235 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-runtime-12.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-12.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
+NOTE: Running task 720 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe gcc-runtime-12.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 239 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
+NOTE: recipe gcc-runtime-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 241 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libgcc-12.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-12.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-12.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 243 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 4fad8b7554539667ce2afee5751d0311916de63fc4ed5f22dafc5460023d6d50
+NOTE: recipe musl-1.2.3+gitAUTOINC+7d756e1c04-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 244 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe musl-1.2.3+gitAUTOINC+7d756e1c04-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.3+gitAUTOINC+7d756e1c04-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 247 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 248 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 249 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_packagedata_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.3+gitAUTOINC+7d756e1c04-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 250 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 251 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 259 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 264 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe linux-libc-headers-6.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 265 of 269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.40.bb:do_populate_sysroot_setscene)
+NOTE: recipe binutils-cross-i686-2.40-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe binutils-cross-i686-2.40-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 887 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1015 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_configure)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_configure: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_configure: Succeeded
+NOTE: Running task 1016 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_compile)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_compile: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_compile: Succeeded
+NOTE: Running task 1017 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_install)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_install: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_install: Succeeded
+NOTE: Running task 1018 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_populate_sysroot)
+NOTE: Running task 1019 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_package)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_populate_sysroot: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_package: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1020 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1021 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_configure)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_configure: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_package: Succeeded
+NOTE: Running task 1022 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_packagedata)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_packagedata: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_configure: Succeeded
+NOTE: Running task 1023 of 1030 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_compile)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_compile: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_packagedata: Failed
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_compile: Succeeded
+NOTE: Tasks Summary: Attempted 1023 tasks of which 993 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_packagedata
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-src went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-dbg went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-staticdev went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-dev went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-doc went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-locale went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/spirv-headers/1_1.3.239.0-r0/temp/log.do_packagedata.852597
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_packagedata) failed with exit code '1'
+
+--===============3691519421687730050==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 898 .bb files complete (0 cached, 898 parsed). 1797 targets, 66 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the mips32r2 sysroot...done.
+Removing 1 recipes from the qemumips sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.3.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "mips-poky-linux"
+MACHINE              = "qemumips"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-950905a0caeb5dd5f3b576f12d08dbeade6a87c9"
+TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:950905a0caeb5dd5f3b576f12d08dbeade6a87c9"
+workspace            = "master:d59756912cd450b0af3d8893b822c66dafe42544"
+
+Initialising tasks...done.
+Sstate summary: Wanted 40 Local 26 Mirrors 0 Missed 14 Current 233 (65% match, 94% complete)
+Removing 3 stale sstate objects for arch qemumips...done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 742 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_fetch)
+NOTE: Running task 772 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_fetch)
+NOTE: Running task 920 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_fetch: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_fetch: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_fetch: Succeeded
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_fetch: Succeeded
+NOTE: Running task 921 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_unpack)
+NOTE: Running task 922 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_unpack)
+NOTE: Running task 923 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_unpack: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_unpack: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1013 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_patch)
+NOTE: recipe base-files-3.0.14-r89: task do_install: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_patch: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1014 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_patch)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_patch: Succeeded
+NOTE: Running task 1015 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_generate_toolchain_file)
+NOTE: Running task 1016 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_patch: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_patch: Succeeded
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: Running task 1017 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1018 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_generate_toolchain_file)
+NOTE: Running task 1019 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_populate_lic)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_populate_lic: Started
+NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
+NOTE: Running task 1020 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_configure)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_generate_toolchain_file: Started
+NOTE: Running task 1021 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_configure: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_populate_lic: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_package: Started
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_populate_lic unihash changed to ca6f851d8ad1b85af8295a711e0ebe093aa26be9631f9cb6d4ac83fc2001fee5
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_configure: Succeeded
+NOTE: Running task 1027 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_compile)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_compile: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_compile: Succeeded
+NOTE: Running task 1028 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_install)
+NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
+NOTE: Running task 1029 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_install: Started
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to f72d0fa918541ffac38106c61c0e1fbcf619abfac616beca13b0c759dc5962a5
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_install: Succeeded
+NOTE: Running task 1033 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_populate_sysroot)
+NOTE: Running task 1034 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_package)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_populate_sysroot: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_package: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1035 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1036 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_configure)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_configure: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_package: Succeeded
+NOTE: Running task 1037 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_packagedata)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_packagedata: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_configure: Succeeded
+NOTE: Running task 1038 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_compile)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_packagedata: Failed
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_compile: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_compile: Succeeded
+NOTE: Tasks Summary: Attempted 1038 tasks of which 1014 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_packagedata
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-src went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-dbg went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-staticdev went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-dev went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-doc went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-locale went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/spirv-headers/1_1.3.239.0-r0/temp/log.do_packagedata.792851
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_packagedata) failed with exit code '1'
+
+--===============3691519421687730050==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 898 .bb files complete (0 cached, 898 parsed). 1797 targets, 56 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the cortexa15t2hf-neon sysroot...done.
+Removing 1 recipes from the qemuarm sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.3.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "arm-poky-linux-gnueabi"
+MACHINE              = "qemuarm"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-950905a0caeb5dd5f3b576f12d08dbeade6a87c9"
+TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
+TARGET_FPU           = "hard"
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:950905a0caeb5dd5f3b576f12d08dbeade6a87c9"
+workspace            = "master:d59756912cd450b0af3d8893b822c66dafe42544"
+
+Initialising tasks...done.
+Sstate summary: Wanted 40 Local 26 Mirrors 0 Missed 14 Current 233 (65% match, 94% complete)
+Removing 3 stale sstate objects for arch qemuarm...done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 742 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_fetch)
+NOTE: Running task 772 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_fetch)
+NOTE: Running task 920 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_fetch: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_fetch: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_fetch: Succeeded
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_fetch: Succeeded
+NOTE: Running task 921 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_unpack)
+NOTE: Running task 922 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_unpack)
+NOTE: Running task 923 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_unpack: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_unpack: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1013 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_patch)
+NOTE: recipe base-files-3.0.14-r89: task do_install: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_patch: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_patch: Succeeded
+NOTE: Running task 1014 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_generate_toolchain_file)
+NOTE: Running task 1015 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1016 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_patch)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_patch: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_patch: Succeeded
+NOTE: Running task 1017 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1018 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_generate_toolchain_file)
+NOTE: Running task 1019 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_populate_lic)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
+NOTE: Running task 1020 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_configure)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1021 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_populate_lic: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_configure: Started
+NOTE: recipe base-files-3.0.14-r89: task do_package: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_populate_lic unihash changed to ca6f851d8ad1b85af8295a711e0ebe093aa26be9631f9cb6d4ac83fc2001fee5
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_configure: Succeeded
+NOTE: Running task 1027 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_compile)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_compile: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_compile: Succeeded
+NOTE: Running task 1028 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_install)
+NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
+NOTE: Running task 1029 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_install: Started
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_install: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to ee640553c9ed7531eb4120f495a1c27eae33b911eb232233bf76a7c935b60339
+NOTE: Running task 1033 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_populate_sysroot)
+NOTE: Running task 1034 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_package)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_populate_sysroot: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_package: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1035 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1036 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_configure)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_configure: Started
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_package: Succeeded
+NOTE: Running task 1037 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_packagedata)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_packagedata: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_configure: Succeeded
+NOTE: Running task 1038 of 1045 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_compile)
+NOTE: recipe spirv-headers-1_1.3.239.0-r0: task do_packagedata: Failed
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_compile: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_compile: Succeeded
+NOTE: Tasks Summary: Attempted 1038 tasks of which 1014 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_packagedata
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-src went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-dbg went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-staticdev went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-dev went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-doc went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers-locale went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: QA Issue: Package version for package spirv-headers went backwards which would break package feeds (from 1:1.3.243.0-r0 to 1:1.3.239.0-r0) [version-going-backwards]
+ERROR: spirv-headers-1_1.3.239.0-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/spirv-headers/1_1.3.239.0-r0/temp/log.do_packagedata.759360
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.239.0.bb:do_packagedata) failed with exit code '1'
+
+--===============3691519421687730050==--
 
