@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09D96C87FE4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04D56C87FE2
 	for <webhook@archiver.kernel.org>; Sat,  1 Apr 2023 21:29:03 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.32141.1680384535508255615
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.32133.1680384535534334145
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Apr 2023 14:28:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=lOTTSudb;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101873eb928fd-001073d8-008d-435f-bf75-2729a704aa59-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=m/X+E3EN;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101873eb92919-6708a8d3-493b-4ac0-918c-6ff26d97e07d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1680384535;
+	t=1680384534;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=5tJJEbLs20uucYD7KO/noem6RXYYxDMsq8OrHaGYd9o=;
-	b=lOTTSudb3E2N5PDZYtv/ZD3noN4Sed/DMX1Wh999h5tJQmnKNmGRaMjprnh04LBH
-	eljJkAChYwekIGLJwUmPKpq4NwaShirIl2ksCmU6JVk0DD5ASUsqCM/YmwCjVNl55bs
-	KA9G8mJBgZ3fATbTZql7ilrKhW8reyJiYgjiDMI4=
+	bh=0Y+Tc2Hmve/2J+fNMpI+SFliizMv9ApmzsmhL4HdaFk=;
+	b=m/X+E3ENdbYYctXFxYTHjSzGKEMDEAMhjvDMsPGxO8lLUtSMlx6TnJ/mMRen8xij
+	n6NgzTu7kuDhSgjRs8qDspiWpYF/grChM8rtgU96IyESI5/5lB1wiXPDAJw82kgsfC4
+	iyKqvH4O9zzJk6397EoMTWcIfOHLeXg7B5ocshjk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1680384535;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1680384534;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=5tJJEbLs20uucYD7KO/noem6RXYYxDMsq8OrHaGYd9o=;
-	b=q+GyCdCR1hJ0AhVjCv/mSesyaBe2jm8roZUxWTH713th6Wf3n6w2B3fXbR5xyyiI
-	L4U/iFBhqln4gVdBWQey5PcZfFP0SRvUepzgkybebc1XnjoHmRtzOgM0crRQshQBoIa
-	olrHR2Aqq1Hji63oS3pTEtRIWJTRlYTktwzeJQAM=
-Content-Type: multipart/mixed; boundary="===============8420767732448916005=="
+	bh=0Y+Tc2Hmve/2J+fNMpI+SFliizMv9ApmzsmhL4HdaFk=;
+	b=ZPmEo3KFMKEFSh6HKeH00oUKD26oLxDk1z/119XZak94SPIcpzr7dtsYkzpFvgSV
+	Dz8n9/tjI4O0VxX5XRaiaXPt/EqO/iDcJFy2PkiIbgaS1XB4a7/iwmfCFnzQo8c0KZ7
+	j+1aiSrYvhktfnjDg7XHRHLeLF/bXp03vEQaV8l0=
+Content-Type: multipart/mixed; boundary="===============7731027862313263635=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] epiphany: upgrading to 44.0 FAILED
-Message-ID: <010101873eb928fd-001073d8-008d-435f-bf75-2729a704aa59-000000@us-west-2.amazonses.com>
+Subject: [AUH] gobject-introspection: upgrading to 1.76.1 FAILED
+Message-ID: <010101873eb92919-6708a8d3-493b-4ac0-918c-6ff26d97e07d-000000@us-west-2.amazonses.com>
 Date: Sat, 1 Apr 2023 21:28:54 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.04.01-54.240.27.33
+X-SES-Outgoing: 2023.04.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Apr 2023 21:29:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179521
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179522
 
---===============8420767732448916005==
+--===============7731027862313263635==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,7 +50,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *epiphany* to *44.0* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *gobject-introspection* to *1.76.1* has Failed(do_compile).
 
 Detailed error information:
 
@@ -59,7 +59,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-epiphany-upgrade-43.1-44.0.patch
+    - apply the patch: git am 0001-gobject-introspection-upgrade-1.74.0-1.76.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,7 +75,58 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8420767732448916005==
+--===============7731027862313263635==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gobject-introspection-upgrade-1.74.0-1.76.1.patch"
+
+RnJvbSA1OWNhODM2MDcxOGE5OGQ0MGQyZTczOTJkMDdiNjcyMWUwMWQ0Nzg1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMSBBcHIgMjAyMyAxNDoyNzozMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdv
+YmplY3QtaW50cm9zcGVjdGlvbjogdXBncmFkZSAxLjc0LjAgLT4gMS43Ni4xCgotLS0KIC4uLjAx
+LVJlbG9jYXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1aWxkcy5wYXRj
+aCB8IDIgKy0KIC4uLi1pbnRyb3NwZWN0aW9uXzEuNzQuMC5iYiA9PiBnb2JqZWN0LWludHJvc3Bl
+Y3Rpb25fMS43Ni4xLmJifSB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCsp
+LCAyIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJv
+c3BlY3Rpb24ve2dvYmplY3QtaW50cm9zcGVjdGlvbl8xLjc0LjAuYmIgPT4gZ29iamVjdC1pbnRy
+b3NwZWN0aW9uXzEuNzYuMS5iYn0gKDk5JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ25v
+bWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50cm9zcGVjdGlvbi8wMDAxLVJlbG9j
+YXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1aWxkcy5wYXRjaCBiL21l
+dGEvcmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24vZ29iamVjdC1pbnRyb3NwZWN0
+aW9uLzAwMDEtUmVsb2NhdGUtdGhlLXJlcG9zaXRvcnktZGlyZWN0b3J5LWZvci1uYXRpdmUtYnVp
+bGRzLnBhdGNoCmluZGV4IDAzMGZmMTc2MDEuLmU0YTFmZTNkMmMgMTAwNjQ0Ci0tLSBhL21ldGEv
+cmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24vZ29iamVjdC1pbnRyb3NwZWN0aW9u
+LzAwMDEtUmVsb2NhdGUtdGhlLXJlcG9zaXRvcnktZGlyZWN0b3J5LWZvci1uYXRpdmUtYnVpbGRz
+LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24vZ29i
+amVjdC1pbnRyb3NwZWN0aW9uLzAwMDEtUmVsb2NhdGUtdGhlLXJlcG9zaXRvcnktZGlyZWN0b3J5
+LWZvci1uYXRpdmUtYnVpbGRzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBkMzk2ZTUxMjY0
+NjE2MzFlMmM3M2NlOThiYTAzNGYxZTQ0NTk4ZjZhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQor
+RnJvbSAxNmM4ZTUyNGQxODkzYTg2NTM4ZTJiZTQwZTEwMmI1MzFkYzAwYTM4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQogRnJvbTogU2FzY2hhIFNpbGJlIDx4LXlvMTdAc2Utc2lsYmUuZGU+CiBE
+YXRlOiBGcmksIDggSnVuIDIwMTggMTM6NTU6MTAgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gUmVs
+b2NhdGUgdGhlIHJlcG9zaXRvcnkgZGlyZWN0b3J5IGZvciBuYXRpdmUgYnVpbGRzCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50
+cm9zcGVjdGlvbl8xLjc0LjAuYmIgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3Nw
+ZWN0aW9uL2dvYmplY3QtaW50cm9zcGVjdGlvbl8xLjc2LjEuYmIKc2ltaWxhcml0eSBpbmRleCA5
+OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdub21lL2dvYmplY3QtaW50cm9zcGVjdGlvbi9n
+b2JqZWN0LWludHJvc3BlY3Rpb25fMS43NC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ25v
+bWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50cm9zcGVjdGlvbl8xLjc2LjEuYmIK
+aW5kZXggNzgxZWQ2NWRhMy4uZGVlM2Y0MDhjMSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdu
+b21lL2dvYmplY3QtaW50cm9zcGVjdGlvbi9nb2JqZWN0LWludHJvc3BlY3Rpb25fMS43NC4wLmJi
+CisrKyBiL21ldGEvcmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24vZ29iamVjdC1p
+bnRyb3NwZWN0aW9uXzEuNzYuMS5iYgpAQCAtMTcsNyArMTcsNyBAQCBTUkNfVVJJID0gIiR7R05P
+TUVfTUlSUk9SfS8ke0JQTn0vJHtAb2UudXRpbHMudHJpbV92ZXJzaW9uKCIke1BWfSIsIDIpfS8k
+e0JQTn0tJAogICAgICAgICAgICBmaWxlOi8vMDAwMS1nLWlyLXRvb2wtdGVtcGxhdGUuaW4tZml4
+LWdpcmRpci1wYXRoLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0g
+PSAiMzQ3YjNhNzE5ZTY4YmE0YzY5ZmYyZDU3ZWUyNjg5MjMzZWE4YzA3ZmM0OTIyMDVlNTczMzg2
+Nzc5ZTQyZDY1MyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIxOTYxNzhiZjY0MzQ1NTAxZGNkYzRk
+ODQ2OWIzNmFhNmZlODA0ODkzNTRlZmU3MWNiN2NiOGFiODJhMzczOGJmIgogCiBTUkNfVVJJOmFw
+cGVuZDpjbGFzcy1uYXRpdmUgPSAiIGZpbGU6Ly8wMDAxLVJlbG9jYXRlLXRoZS1yZXBvc2l0b3J5
+LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1aWxkcy5wYXRjaCIKIAotLSAKMi4zOS4yCgo=
+
+--===============7731027862313263635==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -96,131 +147,144 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "i686-poky-linux"
 MACHINE              = "qemux86"
 DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-8c098b8ecef675315b7cab023cc154c69f2a9d0f"
+DISTRO_VERSION       = "4.1+snapshot-c8f46a6e2702984f372fdf6f65cecfe8c72d5c2a"
 TUNE_FEATURES        = "m32 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:8c098b8ecef675315b7cab023cc154c69f2a9d0f"
+meta-yocto-bsp       = "tmp-auh-upgrades:c8f46a6e2702984f372fdf6f65cecfe8c72d5c2a"
 workspace            = "master:d59756912cd450b0af3d8893b822c66dafe42544"
 
 Initialising tasks...done.
-Sstate summary: Wanted 219 Local 212 Mirrors 0 Missed 7 Current 731 (96% match, 99% complete)
+Sstate summary: Wanted 121 Local 111 Mirrors 0 Missed 10 Current 224 (91% match, 97% complete)
 NOTE: Executing Tasks
+NOTE: Running setscene task 319 of 345 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 841 of 1296 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_fetch)
+NOTE: Running task 842 of 1296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_fetch)
+NOTE: Running task 859 of 1296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_write_config)
+NOTE: Running task 866 of 1296 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_write_config)
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_fetch: Started
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_write_config: Started
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_fetch: Succeeded
+NOTE: Running task 946 of 1296 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_unpack)
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_fetch: Started
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_write_config: Started
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_fetch: Succeeded
+NOTE: Running task 947 of 1296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_unpack)
+NOTE: Running task 948 of 1296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_write_config: Succeeded
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_write_config: Succeeded
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_unpack: Started
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_unpack: Started
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_unpack: Succeeded
+NOTE: Running task 949 of 1296 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_patch)
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_patch: Started
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_unpack: Succeeded
+NOTE: Running task 950 of 1296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_patch)
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_patch: Succeeded
+NOTE: Running task 951 of 1296 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 952 of 1296 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_populate_lic)
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_patch: Started
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_populate_lic: Started
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_patch: Succeeded
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_populate_lic: Succeeded
+NOTE: Running task 953 of 1296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 2963 of 3341 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.0.bb:do_fetch)
-NOTE: Running task 3223 of 3341 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.0.bb:do_write_config)
-NOTE: recipe epiphany-44.0-r0: task do_fetch: Started
-NOTE: recipe epiphany-44.0-r0: task do_fetch: Succeeded
-NOTE: Running task 3328 of 3341 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.0.bb:do_unpack)
-NOTE: Running task 3329 of 3341 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe epiphany-44.0-r0: task do_write_config: Started
-NOTE: recipe epiphany-44.0-r0: task do_write_config: Succeeded
-NOTE: recipe epiphany-44.0-r0: task do_unpack: Started
-NOTE: recipe epiphany-44.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe epiphany-44.0-r0: task do_unpack: Succeeded
-NOTE: Running task 3330 of 3341 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.0.bb:do_patch)
-NOTE: recipe epiphany-44.0-r0: task do_patch: Started
-NOTE: recipe epiphany-44.0-r0: task do_patch: Succeeded
-NOTE: Running task 3331 of 3341 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3332 of 3341 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.0.bb:do_populate_lic)
-NOTE: recipe epiphany-44.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe epiphany-44.0-r0: task do_populate_lic: Started
-NOTE: recipe epiphany-44.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe epiphany-44.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe epiphany-44.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3333 of 3341 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.0.bb:do_configure)
-NOTE: recipe epiphany-44.0-r0: task do_configure: Started
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1283 of 1296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_configure)
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_configure: Started
 Log data follows:
 | DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.37.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu-native_7.2.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gcr/gcr3_3.41.1.bb:do_populate_sysroot
- ', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_43.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.36.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libdazzle/libdazzle_3.44.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libhandy/libhandy_1.8.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libportal/libportal_0.6.bb:do_pop
- ulate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.38.5.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.2.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/gettext/gettext_0.21.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/r
- ecipes-devtools/meson/meson_1.0.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.36.bb:do_populate_sysroot']
+| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/autoconf-archive/autoconf-archive_2023.02.20.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/bison/bison_3.8.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/meson/meson_1.0.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yo
+ cto-worker/auh/build/build/poky/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot']
 | NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['glibc', 'desktop-file-utils', 'gcc-cross-i686', 'gcc-runtime', 'qemu-native', 'quilt-native', 'libarchive', 'gcr3', 'gdk-pixbuf', 'gsettings-desktop-schemas', 'gtk+3', 'hicolor-icon-theme', 'json-glib', 'libdazzle', 'libhandy', 'libportal', 'webkitgtk', 'libsoup', 'nettle', 'coreutils-native', 'gettext-native', 'glib-2.0-native', 'desktop-file-utils-native', 'meson-native', 'ninja-native', 'patch-native', 'pkgconfig-native', 'pseudo-native', 'python3-native', 'xz-native', 'gtk+3-native', 'zstd-native', 'libtool-native', 'texinfo-dummy-native', 'linux-libc-headers', 'zlib-native', 'gnu-config-native', 'mpfr-native', 'flex-native', 'gmp-native', 'libmpc-native', 'binutils-cross-i686', 'zstd', 'bzip2', 'zlib', 'xz', 'attr', 'opkg-utils', 'acl', 're2c-native', 'libgcc', 'glib-2.0', 'vala', 'gobject-introspection', 'util-linux-native', 'gettext-minimal-native', 'libpcre2-native', 'libffi-native', 'gmp', 'harfbuzz', 'libxt', 'gstreamer1.0', 
- 'libxrender', 'libjpeg-turbo', 'libwpe', 'libxdamage', 'gstreamer1.0-plugins-base', 'libtasn1', 'wpebackend-fdo', 'enchant2', 'libsecret', 'libnotify', 'libxcomposite', 'wayland', 'libx11', 'libxslt', 'cairo', 'mesa', 'at-spi2-core', 'libwebp', 'systemd', 'fontconfig', 'wayland-protocols', 'libxkbcommon', 'libxi', 'libxcursor', 'libepoxy', 'libxrandr', 'libpng', 'libxext', 'pango', 'libxfixes', 'libxml2', 'nghttp2', 'libpsl', 'sqlite3', 'openssl-native', 'readline-native', 'sqlite3-native', 'bzip2-native', 'libtirpc-native', 'util-linux-libuuid-native', 'ncurses-native', 'libnsl2-native', 'gdbm-native', 'gtk4', 'libgcrypt', 'p11-kit', 'shared-mime-info', 'python3-setuptools-native', 'python3-build-native', 'python3-wheel-native', 'python3-installer-native', 'attr-native', 'at-spi2-core-native', 'libx11-native', 'libxfixes-native', 'cairo-native', 'libxrender-native', 'libxi-native', 'libxext-native', 'fontconfig-native', 'libjpeg-turbo-native', 'libxdamage-native', 'libxcursor-nativ
- e', 'pango-native', 'libpng-native', 'libxcomposite-native', 'gdk-pixbuf-native', 'libxrandr-native', 'gobject-introspection-native', 'm4-native', 'libpcre2', 'libffi', 'bash-completion', 'util-linux', 'python3', 'autoconf-archive', 'libcap-ng-native', 'freetype', 'icu', 'libsm', 'util-macros', 'libxcb', 'libxdmcp', 'xorgproto', 'iso-codes', 'libogg', 'libvorbis', 'libtheora', 'alsa-lib', 'libxv', 'orc', 'libdrm', 'aspell', 'dbus', 'expat', 'xtrans', 'pixman', 'libxxf86vm', 'vulkan-headers', 'libxshmfence', 'xrandr', 'vulkan-loader', 'libxtst', 'libcap', 'base-passwd', 'shadow', 'shadow-sysroot', 'initscripts', 'kmod', 'base-files', 'libseccomp', 'libpam', 'update-rc.d', 'shadow-native', 'xkeyboard-config', 'libxft', 'fribidi', 'perl-native', 'gstreamer1.0-plugins-bad', 'libxinerama', 'gi-docgen', 'graphene', 'librsvg', 'tiff', 'libgpg-error', 'python3-packaging-native', 'python3-flit-core-native', 'python3-pyproject-hooks-native', 'libxtst-native', 'dbus-native', 'libxml2-native', 
- 'xorgproto-native', 'util-macros-native', 'libxcb-native', 'xtrans-native', 'pixman-native', 'libsm-native', 'expat-native', 'freetype-native', 'cmake-native', 'libxft-native', 'harfbuzz-native', 'fribidi-native', 'shared-mime-info-native', 'libxcrypt', 'util-linux-libuuid', 'ncurses', 'libcap-ng', 'openssl', 'libnsl2', 'readline', 'gdbm', 'libtirpc', 'libice', 'xcb-proto', 'libxau', 'libpthread-stubs', 'libpciaccess', 'cracklib', 'make-native', 'curl', 'sbc', 'bluez5', 'libgudev', 'libusb1', 'libsndfile1', 'libstd-rs', 'unzip-native', 'libxau-native', 'libpthread-stubs-native', 'libxdmcp-native', 'xcb-proto-native', 'libice-native', 'icu-native', 'itstool-native', 'libidn2', 'libical', 'flac', 'libunistring']
+| NOTE: Skipping as already exists in sysroot: ['quilt-native', 'glib-2.0-native', 'zlib-native', 'autoconf-archive-native', 'bison-native', 'flex-native', 'meson-native', 'ninja-native', 'pkgconfig-native', 'python3-native', 'xz-native', 'gtk-doc-native', 'libffi-native', 're2c-native', 'texinfo-dummy-native', 'gettext-minimal-native', 'libtool-native', 'm4-native', 'bzip2-native', 'libnsl2-native', 'readline-native', 'openssl-native', 'ncurses-native', 'util-linux-libuuid-native', 'sqlite3-native', 'gdbm-native', 'libtirpc-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-build-native', 'python3-installer-native', 'libpcre2-native', 'util-linux-native', 'gettext-native', 'gnu-config-native', 'perl-native', 'python3-flit-core-native', 'python3-pyproject-hooks-native', 'python3-packaging-native', 'libcap-ng-native', 'make-native', 'unzip-native']
 | DEBUG: Python function extend_recipe_sysroot finished
 | DEBUG: Executing shell function do_configure
-| NOTE: Executing meson -Ddeveloper_mode=false...
+| gtkdocize: neither configure.ac nor configure.in exist
+| NOTE: Executing meson -Dgtk_doc=false -Ddoctool=disabled...
 | The Meson build system
 | Version: 1.0.1
-| Source dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.0-r0/epiphany-44.0
-| Build dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.0-r0/build
-| Build type: cross build
-| Project name: epiphany
-| Project version: 44.0
-| C compiler for the host machine: i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.0-r0/recipe-sysroot (gcc 12.2.0 "i686-poky-linux-gcc (GCC) 12.2.0")
-| C linker for the host machine: i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.0-r0/recipe-sysroot ld.bfd 2.40.20230119
-| C compiler for the build machine: gcc (gcc 12.2.0 "gcc (GCC) 12.2.0")
-| C linker for the build machine: gcc ld.bfd 2.40.20230119
-| Build machine cpu family: x86_64
-| Build machine cpu: x86_64
-| Host machine cpu family: x86
-| Host machine cpu: i686
-| Target machine cpu family: x86
-| Target machine cpu: i686
-| Found pkg-config: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.0-r0/recipe-sysroot-native/usr/bin/pkg-config (0.29.2)
-| Run-time dependency iso-codes found: YES 4.13.0
-| Run-time dependency cairo found: YES 1.16.0
+| Source dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/gobject-introspection-1.76.1
+| Build dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/build
+| Build type: native build
+| Project name: gobject-introspection
+| Project version: 1.76.1
+| C compiler for the host machine: gcc (gcc 12.2.0 "gcc (GCC) 12.2.0")
+| C linker for the host machine: gcc ld.bfd 2.40.20230119
+| Host machine cpu family: x86_64
+| Host machine cpu: x86_64
+| Program python3 found: YES (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/recipe-sysroot-native/usr/bin/python3-native/python3)
+| Compiler for C supports arguments -Warray-bounds: YES
+| Compiler for C supports arguments -Wcast-align: YES
+| Compiler for C supports arguments -Wduplicated-branches: YES
+| Compiler for C supports arguments -Wformat=2: YES
+| Compiler for C supports arguments -Wformat-nonliteral: YES
+| Compiler for C supports arguments -Wformat-security: YES
+| Compiler for C supports arguments -Wimplicit-function-declaration: YES
+| Compiler for C supports arguments -Winit-self: YES
+| Compiler for C supports arguments -Wjump-misses-init: YES
+| Compiler for C supports arguments -Wlogical-op: YES
+| Compiler for C supports arguments -Wmissing-declarations: YES
+| Compiler for C supports arguments -Wmissing-format-attribute: YES
+| Compiler for C supports arguments -Wmissing-include-dirs: YES
+| Compiler for C supports arguments -Wmissing-noreturn: YES
+| Compiler for C supports arguments -Wmissing-prototypes: YES
+| Compiler for C supports arguments -Wnested-externs: YES
+| Compiler for C supports arguments -Wnull-dereference: YES
+| Compiler for C supports arguments -Wold-style-definition: YES
+| Compiler for C supports arguments -Wpacked: YES
+| Compiler for C supports arguments -Wpointer-arith: YES
+| Compiler for C supports arguments -Wrestrict: YES
+| Compiler for C supports arguments -Wreturn-type: YES
+| Compiler for C supports arguments -Wshadow: YES
+| Compiler for C supports arguments -Wsign-compare: YES
+| Compiler for C supports arguments -Wstrict-aliasing: YES
+| Compiler for C supports arguments -Wstrict-prototypes: YES
+| Compiler for C supports arguments -Wundef: YES
+| Compiler for C supports arguments -Wunused-but-set-variable: YES
+| Compiler for C supports arguments -Wwrite-strings: YES
+| Compiler for C supports arguments -fno-strict-aliasing: YES
+| Checking for size of "char" : 1
+| Checking for size of "short" : 2
+| Checking for size of "int" : 4
+| Checking for size of "long" : 8
+| Found pkg-config: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/recipe-sysroot-native/usr/bin/pkg-config-native (0.29.2)
+| Dependency glib-2.0 found: NO found 2.74.6 but need: '>=2.76.0'
+| Did not find CMake 'cmake'
 | Found CMake: NO
-| Run-time dependency gcr-4 found: NO (tried pkgconfig)
+| Run-time dependency glib-2.0 found: NO (tried pkgconfig and cmake)
+| Looking for a fallback subproject for the dependency glib-2.0
 | 
-| ../epiphany-44.0/meson.build:89:0: ERROR: Dependency "gcr-4" not found, tried pkgconfig
+| ../gobject-introspection-1.76.1/meson.build:130:0: ERROR: Automatic wrap-based subproject downloading is disabled
 | 
-| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.0-r0/build/meson-logs/meson-log.txt
+| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/build/meson-logs/meson-log.txt
 | ERROR: meson failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.0-r0/temp/run.do_configure.2846204:174 exit 1 from 'exit 1'
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/temp/run.do_configure.3489251:183 exit 1 from 'exit 1'
 | WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.0-r0/temp/run.do_configure.2846204, line 174
-| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.0-r0/temp/run.do_configure.2846204, line 163
-| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.0-r0/temp/run.do_configure.2846204, line 149
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.0-r0/temp/run.do_configure.2846204, line 187
-NOTE: recipe epiphany-44.0-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 3333 tasks of which 3325 didn't need to be rerun and 1 failed.
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/temp/run.do_configure.3489251, line 183
+| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/temp/run.do_configure.3489251, line 172
+| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/temp/run.do_configure.3489251, line 158
+| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/temp/run.do_configure.3489251, line 196
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 1283 tasks of which 1270 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 
 Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.0.bb:do_configure
+  virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_configure
 Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: epiphany-44.0-r0 do_configure: meson failed
-ERROR: epiphany-44.0-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.0-r0/temp/run.do_configure.2846204', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.0-r0/temp/log.do_configure.2846204
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.0.bb:do_configure) failed with exit code '1'
+ERROR: gobject-introspection-native-1.76.1-r0 do_configure: meson failed
+ERROR: gobject-introspection-native-1.76.1-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/temp/run.do_configure.3489251', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/temp/log.do_configure.3489251
+ERROR: Task (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_configure) failed with exit code '1'
 
---===============8420767732448916005==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-epiphany-upgrade-43.1-44.0.patch"
-
-RnJvbSBkOTUzYzYwMDk5ZWIwOGZiYjY3YzQ3YzRmNGFkZjMwOTBhOTc2ZmEyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBBcHIgMjAyMyAxNDowNTo0MSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGVw
-aXBoYW55OiB1cGdyYWRlIDQzLjEgLT4gNDQuMAoKLS0tCiAuLi4vZXBpcGhhbnkve2VwaXBoYW55
-XzQzLjEuYmIgPT4gZXBpcGhhbnlfNDQuMC5iYn0gICAgICAgICAgICAgfCAyICstCiAxIGZpbGUg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lw
-ZXMtZ25vbWUvZXBpcGhhbnkve2VwaXBoYW55XzQzLjEuYmIgPT4gZXBpcGhhbnlfNDQuMC5iYn0g
-KDkzJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZXBpcGhhbnlf
-NDMuMS5iYiBiL21ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9lcGlwaGFueV80NC4wLmJiCnNp
-bWlsYXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFu
-eS9lcGlwaGFueV80My4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkv
-ZXBpcGhhbnlfNDQuMC5iYgppbmRleCBlYTIyNzIzYTk3Li5mMDIzZTA5OTY0IDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZXBpcGhhbnlfNDMuMS5iYgorKysgYi9tZXRh
-L3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZXBpcGhhbnlfNDQuMC5iYgpAQCAtMzEsNyArMzEsNyBA
-QCBTUkNfVVJJID0gIiR7R05PTUVfTUlSUk9SfS8ke0dOT01FQk59LyR7QG9lLnV0aWxzLnRyaW1f
-dmVyc2lvbigiJHtQVn0iLCAxKX0vJHtHTgogICAgICAgICAgICBmaWxlOi8vbWlncmF0b3IucGF0
-Y2ggXAogICAgICAgICAgICBmaWxlOi8vZGlzdHJpYnV0b3IucGF0Y2ggXAogICAgICAgICAgICAi
-Ci1TUkNfVVJJW2FyY2hpdmUuc2hhMjU2c3VtXSA9ICJlODZlYWQyN2NiOTk4MjgxNTE1MDY2NGRl
-M2JmMjBmYWYzNzVmNzdiODA2NWIwMmIzMTE4MGM2NWI2YmJlYmI0IgorU1JDX1VSSVthcmNoaXZl
-LnNoYTI1NnN1bV0gPSAiYWFiZGM5ZGU4MGM0MDkwNzM2NzZlMDBlMTViYTk3MTg3NzE1ZTRiODRi
-Yzc3NmZlODZkYjg2ZDBmODE0MGJiMSIKIAogIyBEZXZlbG9wZXIgbW9kZSBlbmFibGVzIGRlYnVn
-Z2luZwogUEFDS0FHRUNPTkZJR1tkZXZlbG9wZXItbW9kZV0gPSAiLURkZXZlbG9wZXJfbW9kZT10
-cnVlLC1EZGV2ZWxvcGVyX21vZGU9ZmFsc2UiCi0tIAoyLjM5LjIKCg==
-
---===============8420767732448916005==--
+--===============7731027862313263635==--
 
