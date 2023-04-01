@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3350C77B74
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8CB1C77B78
 	for <webhook@archiver.kernel.org>; Sat,  1 Apr 2023 21:29:01 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.32142.1680384535556441972
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.32135.1680384534528376269
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Apr 2023 14:28:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=kpYZGhRb;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101873eb93047-b2d4df67-c6c2-404d-934c-3e1868ee94ca-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=M1SfZHhN;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101873eb93006-b44a6bef-7eb6-4391-888a-df56b9227039-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1680384536;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=VRsly0MAbZcv/GXb+1tutpBStTgC6BVCjTRF7NO5qhY=;
-	b=kpYZGhRbiF2GCQdSK2GJtbSy/9fem9cktrY/NMOoqhxtrIlROEh7jk5+Ho5bKQQg
-	mONoIRlXZ1QP5Ly1H5S9VPB/vnZ7SJ89lTCIiKlJY6nG5fEHa+wCI9PBS1jGISUzo5E
-	/wgtLXggiiL/FcSlEP0o2Ek1GXALyY7J4OPDlOcM=
+	bh=9tP22H7yU9Ijao8jBvy9RZj16+mYA899rA8yqkoxdc0=;
+	b=M1SfZHhN8NzX7WjK4XvHfL9cwB+6dayZBQ3JWIbMjMFZf7dBY8d6gSqAI3eh0pPu
+	zlYslhGW8hE4VlskUoFcjORS6MrDQiFaLaI3towX8hq1n2Xx+9HaroRr6FmOtPwo1Er
+	O7P5OYz9dsHlCsZYSeF1e1/6l3trupP6nAAhJLhU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1680384536;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=VRsly0MAbZcv/GXb+1tutpBStTgC6BVCjTRF7NO5qhY=;
-	b=gTHUF+Q0Mc8bmem2RdlHv3bq0auhcMVVO8ttEYkzz688L+Z+9WU2LeY4iHRCt3Ja
-	W4zTtUNycGZS/oQkWB0I2pwl+w6mDm/CRFWtYgoCWrF45w9NDNFIadVKR9W+VwGoApz
-	2l/LnngqL8w0ONUrv6vYuEKxVFktnyBI1QgvNldA=
-Content-Type: multipart/mixed; boundary="===============8118938987411320935=="
+	bh=9tP22H7yU9Ijao8jBvy9RZj16+mYA899rA8yqkoxdc0=;
+	b=qGhvCX7vkCDaaIxYmjOREod+Gfm0C8GAupLC0/l3ExVQ9eozuLBXk6lOidN3F4pb
+	cod5wFqknO42K34FG0rfjRQfGawMbl1SPz6wbkeTD7mlcbAGgKEmy1MFW15/ep4JsV4
+	WoDn3y47/kgRnbJwp9Di4gSnd7uFIfQIbcL2E/Fw=
+Content-Type: multipart/mixed; boundary="===============8960573349597376972=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] apr: upgrading to 1.7.3 SUCCEEDED
-Message-ID: <010101873eb93047-b2d4df67-c6c2-404d-934c-3e1868ee94ca-000000@us-west-2.amazonses.com>
+Subject: [AUH] webkitgtk: upgrading to 2.40.0 FAILED
+Message-ID: <010101873eb93006-b44a6bef-7eb6-4391-888a-df56b9227039-000000@us-west-2.amazonses.com>
 Date: Sat, 1 Apr 2023 21:28:56 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.04.01-54.240.27.193
+X-SES-Outgoing: 2023.04.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Apr 2023 21:29:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179564
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179561
 
---===============8118938987411320935==
+--===============8960573349597376972==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *apr* to *1.7.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *webkitgtk* to *2.40.0* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-apr-upgrade-1.7.2-1.7.3.patch
+    - apply the patch: git am 0001-webkitgtk-upgrade-2.38.5-2.40.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,84 +75,263 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8118938987411320935==
+--===============8960573349597376972==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
-packages/core2-32-poky-linux/apr/apr-bin: PV changed from "1.7.2" to "1.7.3"
-packages/core2-32-poky-linux/apr/apr-bin: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/core2-32-poky-linux/apr/apr-dbg: PV changed from "1.7.2" to "1.7.3"
-packages/core2-32-poky-linux/apr/apr-dbg: FILELIST: removed "/usr/lib/.debug/libapr-1.so.0.7.2", added "/usr/lib/.debug/libapr-1.so.0.7.3"
-packages/core2-32-poky-linux/apr/apr-dbg: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/core2-32-poky-linux/apr/apr-dbg: PKGSIZE changed from 1163376 to 1191572 (+2%)
-packages/core2-32-poky-linux/apr/apr-dev: PV changed from "1.7.2" to "1.7.3"
-packages/core2-32-poky-linux/apr/apr-dev: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/core2-32-poky-linux/apr/apr-dev: PKGSIZE changed from 572611 to 573258 (+0%)
-packages/core2-32-poky-linux/apr/apr-doc: PV changed from "1.7.2" to "1.7.3"
-packages/core2-32-poky-linux/apr/apr-doc: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/core2-32-poky-linux/apr/apr-locale: PV changed from "1.7.2" to "1.7.3"
-packages/core2-32-poky-linux/apr/apr-locale: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/core2-32-poky-linux/apr/apr-ptest: PV changed from "1.7.2" to "1.7.3"
-packages/core2-32-poky-linux/apr/apr-ptest: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/core2-32-poky-linux/apr/apr-ptest: PKGSIZE changed from 398504 to 423080 (+6%)
-packages/core2-32-poky-linux/apr/apr-src: PV changed from "1.7.2" to "1.7.3"
-packages/core2-32-poky-linux/apr/apr-src: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/core2-32-poky-linux/apr/apr-src: PKGSIZE changed from 1987769 to 2024092 (+2%)
-packages/core2-32-poky-linux/apr/apr-staticdev: PV changed from "1.7.2" to "1.7.3"
-packages/core2-32-poky-linux/apr/apr-staticdev: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/core2-32-poky-linux/apr/apr: PV changed from "1.7.2" to "1.7.3"
-packages/core2-32-poky-linux/apr/apr: FILELIST: removed "/usr/lib/libapr-1.so.0.7.2", added "/usr/lib/libapr-1.so.0.7.3"
-packages/core2-32-poky-linux/apr/apr: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/core2-32-poky-linux/apr: SRC_URI changed from "https://archive.apache.org/dist/apr/apr-1.7.2.tar.bz2 file://run-ptest file://0002-apr-Remove-workdir-path-references-from-installed-ap.patch file://0004-Fix-packet-discards-HTTP-redirect.patch file://0005-configure.in-fix-LTFLAGS-to-make-it-work-with-ccache.patch file://0007-explicitly-link-libapr-against-phtread-to-make-gold-.patch file://libtoolize_check.patch file://0001-Add-option-to-disable-timed-dependant-tests.patch file://0001-configure-Remove-runtime-test-for-mmap-that-can-map-.patch" to "https://archive.apache.org/dist/apr/apr-1.7.3.tar.bz2 file://run-ptest file://0002-apr-Remove-workdir-path-references-from-installed-ap.patch file://0004-Fix-packet-discards-HTTP-redirect.patch file://0005-configure.in-fix-LTFLAGS-to-make-it-work-with-ccache.patch file://0007-explicitly-link-libapr-against-phtread-to-make-gold-.patch file://libtoolize_check.patch file://0001-Add-option-to-disable-timed-dependant-tests.patch file://000
- 1-configure-Remove-runtime-test-for-mmap-that-can-map-.patch"
-packages/core2-32-poky-linux/apr: PV changed from "1.7.2" to "1.7.3"
-packages/core2-32-poky-linux/apr: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-Changes to packages/core2-32-poky-linux/apr (sysroot):
-  /usr/lib/libapr-1.so.0 changed symlink target from libapr-1.so.0.7.2 to libapr-1.so.0.7.3
-  /usr/lib/libapr-1.so changed symlink target from libapr-1.so.0.7.2 to libapr-1.so.0.7.3
-  /usr/lib/libapr-1.so.0.7.2 moved to /usr/lib/libapr-1.so.0.7.3
+Loading cache...done.
+Loaded 1796 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 898 .bb files complete (897 cached, 1 parsed). 1796 targets, 39 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============8118938987411320935==
+Build Configuration:
+BB_VERSION           = "2.3.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-18325e70bd2310b1ec3ee3423d1fc8db662aa4ab"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:18325e70bd2310b1ec3ee3423d1fc8db662aa4ab"
+workspace            = "master:d59756912cd450b0af3d8893b822c66dafe42544"
+
+Initialising tasks...done.
+Sstate summary: Wanted 263 Local 256 Mirrors 0 Missed 7 Current 448 (97% match, 99% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 683 of 711 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 1452 of 2456 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.0.bb:do_fetch)
+NOTE: recipe webkitgtk-2.40.0-r0: task do_fetch: Started
+NOTE: recipe webkitgtk-2.40.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1580 of 2456 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.0.bb:do_unpack)
+NOTE: recipe webkitgtk-2.40.0-r0: task do_unpack: Started
+NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2408 of 2456 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe webkitgtk-2.40.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe webkitgtk-2.40.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe webkitgtk-2.40.0-r0: task do_unpack: Succeeded
+NOTE: Running task 2444 of 2456 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.0.bb:do_patch)
+NOTE: recipe webkitgtk-2.40.0-r0: task do_patch: Started
+NOTE: recipe webkitgtk-2.40.0-r0: task do_patch: Failed
+NOTE: Tasks Summary: Attempted 2444 tasks of which 2440 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.0.bb:do_patch
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: webkitgtk-2.40.0-r0 do_patch: QA Issue: Missing Upstream-Status in patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
+Please add according to https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommendations:_Upstream-Status . [patch-status-core]
+ERROR: webkitgtk-2.40.0-r0 do_patch: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/webkitgtk/2.40.0-r0/temp/log.do_patch.3910821
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.0.bb:do_patch) failed with exit code '1'
+
+--===============8960573349597376972==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-apr-upgrade-1.7.2-1.7.3.patch"
+Content-Disposition: attachment;
+ filename="0001-webkitgtk-upgrade-2.38.5-2.40.0.patch"
 
-RnJvbSA2NTg4NWEwYWE5ZDVhMzc3NDNkOWMzZmViNTI3Y2UxMjIxYTA1NTc5IE1vbiBTZXAgMTcg
+RnJvbSBiNGMxODhkZGJkNWJjM2Y5YTM0NGFmZjRiODY5ZjAzZDU2YzUxNmQ0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBBcHIgMjAyMyAyMDoxOTowOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGFw
-cjogdXBncmFkZSAxLjcuMiAtPiAxLjcuMwoKLS0tCiBtZXRhL3JlY2lwZXMtc3VwcG9ydC9hcHIv
-e2Fwcl8xLjcuMi5iYiA9PiBhcHJfMS43LjMuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEg
-aW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLXN1cHBvcnQv
-YXByL3thcHJfMS43LjIuYmIgPT4gYXByXzEuNy4zLmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1zdXBwb3J0L2Fwci9hcHJfMS43LjIuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9y
-dC9hcHIvYXByXzEuNy4zLmJiCnNpbWlsYXJpdHkgaW5kZXggOTglCnJlbmFtZSBmcm9tIG1ldGEv
-cmVjaXBlcy1zdXBwb3J0L2Fwci9hcHJfMS43LjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1z
-dXBwb3J0L2Fwci9hcHJfMS43LjMuYmIKaW5kZXggYzkwNTljOTkyMS4uOWE5M2ZlMDk2NyAxMDA2
-NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXByL2Fwcl8xLjcuMi5iYgorKysgYi9tZXRh
-L3JlY2lwZXMtc3VwcG9ydC9hcHIvYXByXzEuNy4zLmJiCkBAIC0yNCw3ICsyNCw3IEBAIFNSQ19V
-UkkgPSAiJHtBUEFDSEVfTUlSUk9SfS9hcHIvJHtCUE59LSR7UFZ9LnRhci5iejIgXAogICAgICAg
-ICAgICBmaWxlOi8vMDAwMS1jb25maWd1cmUtUmVtb3ZlLXJ1bnRpbWUtdGVzdC1mb3ItbW1hcC10
-aGF0LWNhbi1tYXAtLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0g
-PSAiNzVlNzdjYzg2Nzc2YzAzMGMwYTVjNDA4ZGZiZDBiZjJhMGI3NWVlZDUzNTFlNTJkNTQzOWZh
-MWU1NTA5YTQzZSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI0NTVlMjE4YzA2MGM0NzRmMmM4MzQ4
-MTY4NzNmNmVkNjljMGNmMGU0Y2ZlZTU0MjgyY2M5M2U4ZTk4OWVlNTllIgogCiBpbmhlcml0IGF1
-dG90b29scy1icm9rZW5zZXAgbGliX3BhY2thZ2UgYmluY29uZmlnIG11bHRpbGliX2hlYWRlciBw
-dGVzdCBtdWx0aWxpYl9zY3JpcHQKIAotLSAKMi4zOS4yCgo=
+CkRhdGU6IFNhdCwgMSBBcHIgMjAyMyAyMDowODo1OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHdl
+YmtpdGd0azogdXBncmFkZSAyLjM4LjUgLT4gMi40MC4wCgotLS0KIC4uLjQ0ZTE3ZDI1ODEwNjYx
+N2IwZTZkNzgzZDA3M2IxODhhMjU0OC5wYXRjaCB8IDQyICsrKysrKysrKysrKy0tLS0tLS0KIC4u
+LmJiNDYxZjA0MGI5MDQ1M2JjNGUxMDBkY2Y5NjcyNDNlY2Q5OC5wYXRjaCB8IDMwIC0tLS0tLS0t
+LS0tLS0KIC4uLmVia2l0Z3RrXzIuMzguNS5iYiA9PiB3ZWJraXRndGtfMi40MC4wLmJifSB8ICAz
+ICstCiAzIGZpbGVzIGNoYW5nZWQsIDI4IGluc2VydGlvbnMoKyksIDQ3IGRlbGV0aW9ucygtKQog
+ZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJraXRndGsvZDMx
+OGJiNDYxZjA0MGI5MDQ1M2JjNGUxMDBkY2Y5NjcyNDNlY2Q5OC5wYXRjaAogcmVuYW1lIG1ldGEv
+cmVjaXBlcy1zYXRvL3dlYmtpdC97d2Via2l0Z3RrXzIuMzguNS5iYiA9PiB3ZWJraXRndGtfMi40
+MC4wLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJr
+aXRndGsvMGQzMzQ0ZTE3ZDI1ODEwNjYxN2IwZTZkNzgzZDA3M2IxODhhMjU0OC5wYXRjaCBiL21l
+dGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJraXRndGsvMGQzMzQ0ZTE3ZDI1ODEwNjYxN2IwZTZk
+NzgzZDA3M2IxODhhMjU0OC5wYXRjaAppbmRleCAzMmY5MmY3ZmY1Li5iN2U3ZGFiMjIwIDEwMDY0
+NAotLS0gYS9tZXRhL3JlY2lwZXMtc2F0by93ZWJraXQvd2Via2l0Z3RrLzBkMzM0NGUxN2QyNTgx
+MDY2MTdiMGU2ZDc4M2QwNzNiMTg4YTI1NDgucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXNhdG8v
+d2Via2l0L3dlYmtpdGd0ay8wZDMzNDRlMTdkMjU4MTA2NjE3YjBlNmQ3ODNkMDczYjE4OGEyNTQ4
+LnBhdGNoCkBAIC0xLDggKzEsOCBAQAotRnJvbSAwZDMzNDRlMTdkMjU4MTA2NjE3YjBlNmQ3ODNk
+MDczYjE4OGEyNTQ4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA4ODk1ZTQ5ZjE2NTNh
+YjJmYjY2N2ExNDk3ZGNhYTliYzBjNGYzNDM3IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJv
+bTogQWRyaWFuIFBlcmV6IGRlIENhc3RybyA8YXBlcmV6QGlnYWxpYS5jb20+CiBEYXRlOiBUaHUs
+IDIgSnVuIDIwMjIgMTE6MTk6MDYgKzAzMDAKLVN1YmplY3Q6IFtQQVRDSF0gW0FSTV1bTkVPTl0g
+RkVMaWdodG5pbmdORU9OLmNwcCBmYWlscyB0byBidWlsZCwgTkVPTiBmYXN0Ci0gcGF0aCBzZWVt
+cyB1bnVzZWQgaHR0cHM6Ly9idWdzLndlYmtpdC5vcmcvc2hvd19idWcuY2dpP2lkPTI0MTE4Mgor
+U3ViamVjdDogW1BBVENIXSBGRUxpZ2h0bmluZ05FT04uY3BwIGZhaWxzIHRvIGJ1aWxkLCBORU9O
+IGZhc3QgcGF0aCBzZWVtcworIHVudXNlZCBodHRwczovL2J1Z3Mud2Via2l0Lm9yZy9zaG93X2J1
+Zy5jZ2k/aWQ9MjQxMTgyCiAKIFJldmlld2VkIGJ5IE5PQk9EWSAoT09QUyEpLgogCkBAIC0zMCwx
+OSArMzAsMTkgQEAgbGVmdCBmb3IgYSBmb2xsb3ctdXAgZml4LgogKiBTb3VyY2UvV2ViQ29yZS9w
+bGF0Zm9ybS9ncmFwaGljcy9maWx0ZXJzL1BvaW50TGlnaHRTb3VyY2UuaDoKICogU291cmNlL1dl
+YkNvcmUvcGxhdGZvcm0vZ3JhcGhpY3MvZmlsdGVycy9TcG90TGlnaHRTb3VyY2UuaDoKICogU291
+cmNlL1dlYkNvcmUvcGxhdGZvcm0vZ3JhcGhpY3MvZmlsdGVycy9zb2Z0d2FyZS9GRUxpZ2h0aW5n
+U29mdHdhcmVBcHBsaWVyLmg6Ci0tLS0KLVVwc3RyZWFtLVN0YXR1czogU3VibWl0dGVkIFtodHRw
+czovL2dpdGh1Yi5jb20vV2ViS2l0L1dlYktpdC9wdWxsLzEyMzNdCi1TaWduZWQtb2ZmLWJ5OiBL
+aGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogCistLS0KICAuLi4vY3B1L2FybS9maWx0ZXJz
+L0ZFTGlnaHRpbmdORU9OLmNwcCAgICAgICAgfCAgNCArLQotIC4uLi9ncmFwaGljcy9jcHUvYXJt
+L2ZpbHRlcnMvRkVMaWdodGluZ05FT04uaCB8IDU0ICsrKysrKysrKy0tLS0tLS0tLS0KKyAuLi4v
+Z3JhcGhpY3MvY3B1L2FybS9maWx0ZXJzL0ZFTGlnaHRpbmdORU9OLmggfCA1MiArKysrKysrKyst
+LS0tLS0tLS0tCiAgLi4uL2dyYXBoaWNzL2ZpbHRlcnMvRGlzdGFudExpZ2h0U291cmNlLmggICAg
+IHwgIDQgKysKICAuLi4vcGxhdGZvcm0vZ3JhcGhpY3MvZmlsdGVycy9GRUxpZ2h0aW5nLmggICAg
+fCAgNyAtLS0KICAuLi4vZ3JhcGhpY3MvZmlsdGVycy9Qb2ludExpZ2h0U291cmNlLmggICAgICAg
+fCAgNCArKwogIC4uLi9ncmFwaGljcy9maWx0ZXJzL1Nwb3RMaWdodFNvdXJjZS5oICAgICAgICB8
+ICA0ICsrCiAgLi4uL3NvZnR3YXJlL0ZFTGlnaHRpbmdTb2Z0d2FyZUFwcGxpZXIuaCAgICAgIHwg
+MTYgKysrKysrCi0gNyBmaWxlcyBjaGFuZ2VkLCA1NyBpbnNlcnRpb25zKCspLCAzNiBkZWxldGlv
+bnMoLSkKKyA3IGZpbGVzIGNoYW5nZWQsIDU2IGluc2VydGlvbnMoKyksIDM1IGRlbGV0aW9ucygt
+KQogCitkaWZmIC0tZ2l0IGEvU291cmNlL1dlYkNvcmUvcGxhdGZvcm0vZ3JhcGhpY3MvY3B1L2Fy
+bS9maWx0ZXJzL0ZFTGlnaHRpbmdORU9OLmNwcCBiL1NvdXJjZS9XZWJDb3JlL3BsYXRmb3JtL2dy
+YXBoaWNzL2NwdS9hcm0vZmlsdGVycy9GRUxpZ2h0aW5nTkVPTi5jcHAKK2luZGV4IGY2ZmY4YzIw
+Li40MmE5N2ZmYyAxMDA2NDQKIC0tLSBhL1NvdXJjZS9XZWJDb3JlL3BsYXRmb3JtL2dyYXBoaWNz
+L2NwdS9hcm0vZmlsdGVycy9GRUxpZ2h0aW5nTkVPTi5jcHAKICsrKyBiL1NvdXJjZS9XZWJDb3Jl
+L3BsYXRmb3JtL2dyYXBoaWNzL2NwdS9hcm0vZmlsdGVycy9GRUxpZ2h0aW5nTkVPTi5jcHAKIEBA
+IC00OSw3ICs0OSw3IEBAIHNob3J0KiBmZUxpZ2h0aW5nQ29uc3RhbnRzRm9yTmVvbigpCkBAIC02
+Myw2ICs2Myw4IEBAIFNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+
+CiAgewogICAgICAvLyBDYWxsaW5nIGEgcG93ZiBmdW5jdGlvbiBmcm9tIHRoZSBhc3NlbWJseSBj
+b2RlIHdvdWxkIHJlcXVpcmUgdG8gc2F2ZQogICAgICAvLyBhbmQgcmVsb2FkIGEgbG90IG9mIE5F
+T04gcmVnaXN0ZXJzLiBTaW5jZSB0aGUgYmFzZSBpcyBpbiByYW5nZSBbMC4uMV0KK2RpZmYgLS1n
+aXQgYS9Tb3VyY2UvV2ViQ29yZS9wbGF0Zm9ybS9ncmFwaGljcy9jcHUvYXJtL2ZpbHRlcnMvRkVM
+aWdodGluZ05FT04uaCBiL1NvdXJjZS9XZWJDb3JlL3BsYXRmb3JtL2dyYXBoaWNzL2NwdS9hcm0v
+ZmlsdGVycy9GRUxpZ2h0aW5nTkVPTi5oCitpbmRleCBiMTdjNjAzZC4uZTQ2MjljZGEgMTAwNjQ0
+CiAtLS0gYS9Tb3VyY2UvV2ViQ29yZS9wbGF0Zm9ybS9ncmFwaGljcy9jcHUvYXJtL2ZpbHRlcnMv
+RkVMaWdodGluZ05FT04uaAogKysrIGIvU291cmNlL1dlYkNvcmUvcGxhdGZvcm0vZ3JhcGhpY3Mv
+Y3B1L2FybS9maWx0ZXJzL0ZFTGlnaHRpbmdORU9OLmgKIEBAIC0yNCwxNCArMjQsMTUgQEAKQEAg
+LTEwNCw3ICsxMDYsNyBAQCBTaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwu
+Y29tPgogICAgICAgICAgMCwKICAgICAgICAgIDAsCiAgICAgICAgICAwLAotQEAgLTExMSwyMyAr
+MTEyLDIzIEBAIGlubGluZSB2b2lkIEZFTGlnaHRpbmc6OnBsYXRmb3JtQXBwbHlOZW8KK0BAIC0x
+MTEsMjMgKzExMiwyMyBAQCBpbmxpbmUgdm9pZCBGRUxpZ2h0aW5nOjpwbGF0Zm9ybUFwcGx5TmVv
+bihjb25zdCBMaWdodGluZ0RhdGEmIGRhdGEsIGNvbnN0IExpZ2h0UwogICAgICAvLyBTZXQgbGln
+aHQgc291cmNlIGFyZ3VtZW50cy4KICAgICAgZmxvYXRBcmd1bWVudHMuY29uc3RPbmUgPSAxOwog
+IApAQCAtMTMzLDcgKzEzNSw3IEBAIFNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBn
+bWFpbC5jb20+CiAgICAgICAgICBmbG9hdEFyZ3VtZW50cy5saWdodFggPSBzcG90TGlnaHRTb3Vy
+Y2UucG9zaXRpb24oKS54KCk7CiAgICAgICAgICBmbG9hdEFyZ3VtZW50cy5saWdodFkgPSBzcG90
+TGlnaHRTb3VyY2UucG9zaXRpb24oKS55KCk7CiAgICAgICAgICBmbG9hdEFyZ3VtZW50cy5saWdo
+dFogPSBzcG90TGlnaHRTb3VyY2UucG9zaXRpb24oKS56KCk7Ci1AQCAtMTQ1LDcgKzE0Niw3IEBA
+IGlubGluZSB2b2lkIEZFTGlnaHRpbmc6OnBsYXRmb3JtQXBwbHlOZW8KK0BAIC0xNDUsNyArMTQ2
+LDcgQEAgaW5saW5lIHZvaWQgRkVMaWdodGluZzo6cGxhdGZvcm1BcHBseU5lb24oY29uc3QgTGln
+aHRpbmdEYXRhJiBkYXRhLCBjb25zdCBMaWdodFMKICAgICAgICAgIGlmIChzcG90TGlnaHRTb3Vy
+Y2Uuc3BlY3VsYXJFeHBvbmVudCgpID09IDEpCiAgICAgICAgICAgICAgbmVvbkRhdGEuZmxhZ3Mg
+fD0gRkxBR19DT05FX0VYUE9ORU5UX0lTXzE7CiAgICAgIH0gZWxzZSB7CkBAIC0xNDIsNyArMTQ0
+LDcgQEAgU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAgICAg
+ICAgIGZsb2F0QXJndW1lbnRzLmxpZ2h0WCA9IHBhaW50aW5nRGF0YS5pbml0aWFsTGlnaHRpbmdE
+YXRhLmxpZ2h0VmVjdG9yLngoKTsKICAgICAgICAgIGZsb2F0QXJndW1lbnRzLmxpZ2h0WSA9IHBh
+aW50aW5nRGF0YS5pbml0aWFsTGlnaHRpbmdEYXRhLmxpZ2h0VmVjdG9yLnkoKTsKICAgICAgICAg
+IGZsb2F0QXJndW1lbnRzLmxpZ2h0WiA9IHBhaW50aW5nRGF0YS5pbml0aWFsTGlnaHRpbmdEYXRh
+LmxpZ2h0VmVjdG9yLnooKTsKLUBAIC0xNTUsMzggKzE1NiwzOSBAQCBpbmxpbmUgdm9pZCBGRUxp
+Z2h0aW5nOjpwbGF0Zm9ybUFwcGx5TmVvCitAQCAtMTU1LDM4ICsxNTYsMzkgQEAgaW5saW5lIHZv
+aWQgRkVMaWdodGluZzo6cGxhdGZvcm1BcHBseU5lb24oY29uc3QgTGlnaHRpbmdEYXRhJiBkYXRh
+LCBjb25zdCBMaWdodFMKICAgICAgLy8gU2V0IGxpZ2h0aW5nIGFyZ3VtZW50cy4KICAgICAgZmxv
+YXRBcmd1bWVudHMuc3VyZmFjZVNjYWxlID0gZGF0YS5zdXJmYWNlU2NhbGU7CiAgICAgIGZsb2F0
+QXJndW1lbnRzLm1pbnVzU3VyZmFjZVNjYWxlRGl2aWRlZEJ5Rm91ciA9IC1kYXRhLnN1cmZhY2VT
+Y2FsZSAvIDQ7CkBAIC0xOTIsMTYgKzE5NCwxOCBAQCBTaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8
+cmFqLmtoZW1AZ21haWwuY29tPgogICAgICAgICAgICAgIH0KICAgICAgICAgICAgICBwYXJhbGxl
+bEpvYnMuZXhlY3V0ZSgpOwogICAgICAgICAgICAgIHJldHVybjsKLUBAIC0xOTksNSArMjAxLDMg
+QEAgaW5saW5lIHZvaWQgRkVMaWdodGluZzo6cGxhdGZvcm1BcHBseU5lbworQEAgLTE5OSw1ICsy
+MDEsMyBAQCBpbmxpbmUgdm9pZCBGRUxpZ2h0aW5nOjpwbGF0Zm9ybUFwcGx5TmVvbihjb25zdCBM
+aWdodGluZ0RhdGEmIGRhdGEsIGNvbnN0IExpZ2h0UwogIH0gLy8gbmFtZXNwYWNlIFdlYkNvcmUK
+ICAKICAjZW5kaWYgLy8gQ1BVKEFSTV9ORU9OKSAmJiBDT01QSUxFUihHQ0NfQ09NUEFUSUJMRSkK
+IC0KIC0jZW5kaWYgLy8gRkVMaWdodGluZ05FT05faAorZGlmZiAtLWdpdCBhL1NvdXJjZS9XZWJD
+b3JlL3BsYXRmb3JtL2dyYXBoaWNzL2ZpbHRlcnMvRGlzdGFudExpZ2h0U291cmNlLmggYi9Tb3Vy
+Y2UvV2ViQ29yZS9wbGF0Zm9ybS9ncmFwaGljcy9maWx0ZXJzL0Rpc3RhbnRMaWdodFNvdXJjZS5o
+CitpbmRleCA3MGM2NTEyZi4uYjAzMmM4MmUgMTAwNjQ0CiAtLS0gYS9Tb3VyY2UvV2ViQ29yZS9w
+bGF0Zm9ybS9ncmFwaGljcy9maWx0ZXJzL0Rpc3RhbnRMaWdodFNvdXJjZS5oCiArKysgYi9Tb3Vy
+Y2UvV2ViQ29yZS9wbGF0Zm9ybS9ncmFwaGljcy9maWx0ZXJzL0Rpc3RhbnRMaWdodFNvdXJjZS5o
+Ci1AQCAtMjUsNiArMjUsMTAgQEAKLSAjaW5jbHVkZSAiTGlnaHRTb3VyY2UuaCIKK0BAIC0yNiw2
+ICsyNiwxMCBAQAorICNpbmNsdWRlIDx3dGYvQXJndW1lbnRDb2Rlci5oPgogICNpbmNsdWRlIDx3
+dGYvUmVmLmg+CiAgCiArbmFtZXNwYWNlIFdURiB7CkBAIC0yMTEsNiArMjE1LDggQEAgU2lnbmVk
+LW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICBuYW1lc3BhY2UgV2ViQ29y
+ZSB7CiAgCiAgY2xhc3MgRGlzdGFudExpZ2h0U291cmNlIDogcHVibGljIExpZ2h0U291cmNlIHsK
+K2RpZmYgLS1naXQgYS9Tb3VyY2UvV2ViQ29yZS9wbGF0Zm9ybS9ncmFwaGljcy9maWx0ZXJzL0ZF
+TGlnaHRpbmcuaCBiL1NvdXJjZS9XZWJDb3JlL3BsYXRmb3JtL2dyYXBoaWNzL2ZpbHRlcnMvRkVM
+aWdodGluZy5oCitpbmRleCA1M2JlYjU5Ni4uZTc4YTkzNTQgMTAwNjQ0CiAtLS0gYS9Tb3VyY2Uv
+V2ViQ29yZS9wbGF0Zm9ybS9ncmFwaGljcy9maWx0ZXJzL0ZFTGlnaHRpbmcuaAogKysrIGIvU291
+cmNlL1dlYkNvcmUvcGxhdGZvcm0vZ3JhcGhpY3MvZmlsdGVycy9GRUxpZ2h0aW5nLmgKIEBAIC0z
+NSw4ICszNSw2IEBACkBAIC0yMjIsNyArMjI4LDcgQEAgU2lnbmVkLW9mZi1ieTogS2hlbSBSYWog
+PHJhai5raGVtQGdtYWlsLmNvbT4KICBjbGFzcyBGRUxpZ2h0aW5nIDogcHVibGljIEZpbHRlckVm
+ZmVjdCB7CiAgcHVibGljOgogICAgICBjb25zdCBDb2xvciYgbGlnaHRpbmdDb2xvcigpIGNvbnN0
+IHsgcmV0dXJuIG1fbGlnaHRpbmdDb2xvcjsgfQotQEAgLTY3LDExICs2NSw2IEBAIHByb3RlY3Rl
+ZDoKK0BAIC02NCwxMSArNjIsNiBAQCBwcm90ZWN0ZWQ6CiAgCiAgICAgIHN0ZDo6dW5pcXVlX3B0
+cjxGaWx0ZXJFZmZlY3RBcHBsaWVyPiBjcmVhdGVTb2Z0d2FyZUFwcGxpZXIoKSBjb25zdCBvdmVy
+cmlkZTsKICAKQEAgLTIzNCw2ICsyNDAsOCBAQCBTaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFq
+LmtoZW1AZ21haWwuY29tPgogICAgICBDb2xvciBtX2xpZ2h0aW5nQ29sb3I7CiAgICAgIGZsb2F0
+IG1fc3VyZmFjZVNjYWxlOwogICAgICBmbG9hdCBtX2RpZmZ1c2VDb25zdGFudDsKK2RpZmYgLS1n
+aXQgYS9Tb3VyY2UvV2ViQ29yZS9wbGF0Zm9ybS9ncmFwaGljcy9maWx0ZXJzL1BvaW50TGlnaHRT
+b3VyY2UuaCBiL1NvdXJjZS9XZWJDb3JlL3BsYXRmb3JtL2dyYXBoaWNzL2ZpbHRlcnMvUG9pbnRM
+aWdodFNvdXJjZS5oCitpbmRleCAzYTU3MjNmMC4uNjc1ZDYzZjUgMTAwNjQ0CiAtLS0gYS9Tb3Vy
+Y2UvV2ViQ29yZS9wbGF0Zm9ybS9ncmFwaGljcy9maWx0ZXJzL1BvaW50TGlnaHRTb3VyY2UuaAog
+KysrIGIvU291cmNlL1dlYkNvcmUvcGxhdGZvcm0vZ3JhcGhpY3MvZmlsdGVycy9Qb2ludExpZ2h0
+U291cmNlLmgKIEBAIC0yNiw2ICsyNiwxMCBAQApAQCAtMjQ3LDYgKzI1NSw4IEBAIFNpZ25lZC1v
+ZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgbmFtZXNwYWNlIFdlYkNvcmUg
+ewogIAogIGNsYXNzIFBvaW50TGlnaHRTb3VyY2UgOiBwdWJsaWMgTGlnaHRTb3VyY2UgeworZGlm
+ZiAtLWdpdCBhL1NvdXJjZS9XZWJDb3JlL3BsYXRmb3JtL2dyYXBoaWNzL2ZpbHRlcnMvU3BvdExp
+Z2h0U291cmNlLmggYi9Tb3VyY2UvV2ViQ29yZS9wbGF0Zm9ybS9ncmFwaGljcy9maWx0ZXJzL1Nw
+b3RMaWdodFNvdXJjZS5oCitpbmRleCA2ODQ2MjZmNy4uZGVhNTgzODkgMTAwNjQ0CiAtLS0gYS9T
+b3VyY2UvV2ViQ29yZS9wbGF0Zm9ybS9ncmFwaGljcy9maWx0ZXJzL1Nwb3RMaWdodFNvdXJjZS5o
+CiArKysgYi9Tb3VyY2UvV2ViQ29yZS9wbGF0Zm9ybS9ncmFwaGljcy9maWx0ZXJzL1Nwb3RMaWdo
+dFNvdXJjZS5oCiBAQCAtMjYsNiArMjYsMTAgQEAKQEAgLTI2MCw2ICsyNzAsOCBAQCBTaWduZWQt
+b2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogIG5hbWVzcGFjZSBXZWJDb3Jl
+IHsKICAKICBjbGFzcyBTcG90TGlnaHRTb3VyY2UgOiBwdWJsaWMgTGlnaHRTb3VyY2UgeworZGlm
+ZiAtLWdpdCBhL1NvdXJjZS9XZWJDb3JlL3BsYXRmb3JtL2dyYXBoaWNzL2ZpbHRlcnMvc29mdHdh
+cmUvRkVMaWdodGluZ1NvZnR3YXJlQXBwbGllci5oIGIvU291cmNlL1dlYkNvcmUvcGxhdGZvcm0v
+Z3JhcGhpY3MvZmlsdGVycy9zb2Z0d2FyZS9GRUxpZ2h0aW5nU29mdHdhcmVBcHBsaWVyLmgKK2lu
+ZGV4IGM5NzRkOTIxLi5lMjg5NjY2MCAxMDA2NDQKIC0tLSBhL1NvdXJjZS9XZWJDb3JlL3BsYXRm
+b3JtL2dyYXBoaWNzL2ZpbHRlcnMvc29mdHdhcmUvRkVMaWdodGluZ1NvZnR3YXJlQXBwbGllci5o
+CiArKysgYi9Tb3VyY2UvV2ViQ29yZS9wbGF0Zm9ybS9ncmFwaGljcy9maWx0ZXJzL3NvZnR3YXJl
+L0ZFTGlnaHRpbmdTb2Z0d2FyZUFwcGxpZXIuaAogQEAgLTM2LDYgKzM2LDcgQEAKZGlmZiAtLWdp
+dCBhL21ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJraXRndGsvZDMxOGJiNDYxZjA0MGI5MDQ1
+M2JjNGUxMDBkY2Y5NjcyNDNlY2Q5OC5wYXRjaCBiL21ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93
+ZWJraXRndGsvZDMxOGJiNDYxZjA0MGI5MDQ1M2JjNGUxMDBkY2Y5NjcyNDNlY2Q5OC5wYXRjaApk
+ZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMWZmOWRjZWE3ZS4uMDAwMDAwMDAwMAotLS0g
+YS9tZXRhL3JlY2lwZXMtc2F0by93ZWJraXQvd2Via2l0Z3RrL2QzMThiYjQ2MWYwNDBiOTA0NTNi
+YzRlMTAwZGNmOTY3MjQzZWNkOTgucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSwzMCArMCwwIEBA
+Ci1Gcm9tIGQzMThiYjQ2MWYwNDBiOTA0NTNiYzRlMTAwZGNmOTY3MjQzZWNkOTggTW9uIFNlcCAx
+NyAwMDowMDowMCAyMDAxCi1Gcm9tOiBNaWNoYWVsIENhdGFuemFybyA8bWNhdGFuemFyb0ByZWRo
+YXQuY29tPgotRGF0ZTogTW9uLCAxNiBKYW4gMjAyMyAxNjo1NToyNiAtMDgwMAotU3ViamVjdDog
+W1BBVENIXSBXZWJLaXRHVEsgMi4zOS40IGRvZXMgbm90IGJ1aWxkIGR1ZSB0byBtaXNzaW5nICNp
+bmNsdWRlIGluCi0gQU5HTEUgaHR0cHM6Ly9idWdzLndlYmtpdC5vcmcvc2hvd19idWcuY2dpP2lk
+PTI1MDY4OQotCi1VbnJldmlld2VkIGJ1aWxkIGZpeC4KLQotKiBTb3VyY2UvVGhpcmRQYXJ0eS9B
+TkdMRS9pbmNsdWRlL0dMU0xBTkcvU2hhZGVyVmFycy5oOgotCi1DYW5vbmljYWwgbGluazogaHR0
+cHM6Ly9jb21taXRzLndlYmtpdC5vcmcvMjU4OTY4QG1haW4KLQotVXBzdHJlYW0tU3RhdHVzOiBC
+YWNrcG9ydCBbaHR0cHM6Ly9idWdzLndlYmtpdC5vcmcvc2hvd19idWcuY2dpP2lkPTI1MDY4OV0K
+LVNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+Ci0tLS0KLSBTb3Vy
+Y2UvVGhpcmRQYXJ0eS9BTkdMRS9pbmNsdWRlL0dMU0xBTkcvU2hhZGVyVmFycy5oIHwgMSArCi0g
+MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCi0KLWRpZmYgLS1naXQgYS9Tb3VyY2UvVGhp
+cmRQYXJ0eS9BTkdMRS9pbmNsdWRlL0dMU0xBTkcvU2hhZGVyVmFycy5oIGIvU291cmNlL1RoaXJk
+UGFydHkvQU5HTEUvaW5jbHVkZS9HTFNMQU5HL1NoYWRlclZhcnMuaAotaW5kZXggOTRjYjkzZTAx
+ZmMwLi5lYzdiZGEzNzJmMzAgMTAwNjQ0Ci0tLS0gYS9Tb3VyY2UvVGhpcmRQYXJ0eS9BTkdMRS9p
+bmNsdWRlL0dMU0xBTkcvU2hhZGVyVmFycy5oCi0rKysgYi9Tb3VyY2UvVGhpcmRQYXJ0eS9BTkdM
+RS9pbmNsdWRlL0dMU0xBTkcvU2hhZGVyVmFycy5oCi1AQCAtMTIsNiArMTIsNyBAQAotIAotICNp
+bmNsdWRlIDxhbGdvcml0aG0+Ci0gI2luY2x1ZGUgPGFycmF5PgotKyNpbmNsdWRlIDxjc3RkaW50
+PgotICNpbmNsdWRlIDxzdHJpbmc+Ci0gI2luY2x1ZGUgPHZlY3Rvcj4KLSAKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJraXRndGtfMi4zOC41LmJiIGIvbWV0YS9yZWNp
+cGVzLXNhdG8vd2Via2l0L3dlYmtpdGd0a18yLjQwLjAuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUK
+cmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXNhdG8vd2Via2l0L3dlYmtpdGd0a18yLjM4LjUuYmIK
+cmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJraXRndGtfMi40MC4wLmJiCmlu
+ZGV4IDgzMmM4MzI3ZGQuLmRiYjYwZjQ5YzEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zYXRv
+L3dlYmtpdC93ZWJraXRndGtfMi4zOC41LmJiCisrKyBiL21ldGEvcmVjaXBlcy1zYXRvL3dlYmtp
+dC93ZWJraXRndGtfMi40MC4wLmJiCkBAIC0xMyw5ICsxMyw4IEBAIFNSQ19VUkkgPSAiaHR0cHM6
+Ly93d3cud2Via2l0Z3RrLm9yZy9yZWxlYXNlcy8ke0JQTn0tJHtQVn0udGFyLnh6IFwKICAgICAg
+ICAgICAgZmlsZTovLzAwMDEtRmluZEdPYmplY3RJbnRyb3NwZWN0aW9uLmNtYWtlLXByZWZpeC12
+YXJpYWJsZXMtb2J0YS5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly9yZXByb2R1Y2liaWxpdHku
+cGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vMGQzMzQ0ZTE3ZDI1ODEwNjYxN2IwZTZkNzgzZDA3
+M2IxODhhMjU0OC5wYXRjaCBcCi0gICAgICAgICAgIGZpbGU6Ly9kMzE4YmI0NjFmMDQwYjkwNDUz
+YmM0ZTEwMGRjZjk2NzI0M2VjZDk4LnBhdGNoIFwKICAgICAgICAgICAgIgotU1JDX1VSSVtzaGEy
+NTZzdW1dID0gIjQwYzIwYzQzMDIyMjc0ZGY1ODkzZjIyYjEwNTRmYTg5NGMzZWVhMDU3Mzg5YmIw
+OGFlZTA4YzViMGJiMGMxYTciCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYTQ2MDdlYTFiZjg5NjY5
+ZTg5YjFjYjJjNjNmYWFlYzUxM2Y5M2RlMDliNmFlNjBjYzcxZDZhOGFhYjdhYjM5MyIKIAogaW5o
+ZXJpdCBjbWFrZSBwa2djb25maWcgZ29iamVjdC1pbnRyb3NwZWN0aW9uIHBlcmxuYXRpdmUgZmVh
+dHVyZXNfY2hlY2sgdXBzdHJlYW0tdmVyc2lvbi1pcy1ldmVuIGdpLWRvY2dlbgogCi0tIAoyLjM5
+LjIKCg==
 
---===============8118938987411320935==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/apr/apr: FILELIST: removed "/usr/lib/libapr-1.so.0.7.2", added "/usr/lib/libapr-1.so.0.7.3"
-Changes to packages/core2-32-poky-linux/apr (sysroot):
-  /usr/lib/libapr-1.so.0 changed symlink target from libapr-1.so.0.7.2 to libapr-1.so.0.7.3
-  /usr/lib/libapr-1.so changed symlink target from libapr-1.so.0.7.2 to libapr-1.so.0.7.3
-  /usr/lib/libapr-1.so.0.7.2 moved to /usr/lib/libapr-1.so.0.7.3
-
---===============8118938987411320935==--
+--===============8960573349597376972==--
 
