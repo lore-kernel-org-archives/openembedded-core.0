@@ -2,56 +2,56 @@ Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8352AC76196
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6069EC77B6F
 	for <webhook@archiver.kernel.org>; Sat,  1 Apr 2023 09:31:07 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web11.17483.1680341457001012790
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web11.17485.1680341459670201935
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Apr 2023 02:30:57 -0700
+ Sat, 01 Apr 2023 02:31:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=POzg8OKg;
- spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id e18so24688964wra.9
-        for <openembedded-core@lists.openembedded.org>; Sat, 01 Apr 2023 02:30:56 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=OLEM5ogS;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id q19so21627111wrc.5
+        for <openembedded-core@lists.openembedded.org>; Sat, 01 Apr 2023 02:30:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680341455;
+        d=gmail.com; s=20210112; t=1680341458;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6lzaowPBGNyClSitAu7sVLJ9GXQv0xYa51QvIRhfNm0=;
-        b=POzg8OKgIPgqybNWLw2sQJvd/lrkZPYCmmPfcHlj8l3unXKCt3tX1+BBib+Ac9DY0V
-         2EMoxixoEIr0sV4LT8QCW0JabDmUK9vEw2mmoZ81UGXoiKSWbJzxhj4f7rZueASQfn1U
-         IeJTg5juvse9RR7Tq8HsPvspeSHjjNujMUXShrkwDgBrnu757EJHayMVIlg6vntH11Y+
-         GBYbNGVA34PHOho7EW2Y7pcsgSDXxBCIUUrR6kNysMEhHKLinvFCXD91WNVMGl7fbsMS
-         PJT/NrKTUrjYYU4jispudfPG/4FXwZmCtHSR65Qks0QU5c73jaWtcXi3m2QEUglsDOs5
-         xOEA==
+        bh=q2b0TPXaHTFMvF4K3YVDuI9TJZiA28rwMBdM4p9jhj0=;
+        b=OLEM5ogSf3wroX1sSJAi6hD5hwPCOXhdWLLh2lJFkNzI2tvAY9+IFkpsLn9fa7M6S/
+         avgbr0WjAbkXvCUaMOYX/fn0lF0tB1v0bh5lPCO805fa4rzbGKj0gwz2LJY6ngY4cvss
+         IGX9g3HrOlXB1SyvbYit3AT66fPfUk+zm1bOLBGFZ+AlnRVgbzEZFdS/6EljnZkEqWt5
+         1M/68In4/nSERRD5ChX51MjuDRGQCbUMvALHvdynEI0IZxNU/mMZnetNJdy//3EQK9Uv
+         pg0H7pB2CoQrJ1BvApOeewf+ANMqqO5I8ZXbs1YxHQCnuEbyM7Xu/xn43JkFv4/3myIF
+         8N5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680341455;
+        d=1e100.net; s=20210112; t=1680341458;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6lzaowPBGNyClSitAu7sVLJ9GXQv0xYa51QvIRhfNm0=;
-        b=o5AHd8hbgoVvjEXnc2qQZCy2ql+9Volsxrf/D43gvsLglDa+tGvvfg26/SFdIHXkXm
-         TJr/dQLGIW+C4cd//NNrcwRt/UZH31vC1GVaDvzqISghUwd3XC2QSsxFOFtxaImmtauf
-         xOwScWCKbYkP8NWBZI1XGOG3vD/vk2+gFMNx+KNrBFXOcp5P7lRa5EHM3L/boGPXbKJe
-         uTDGIXdvTI1P32s53B/FzllYOwzokvQJ0fDUv6BjWE7RXadT05HeF4qAzNdJC1oyYGa3
-         Szuf8+8wcb/jy9Vq9SyZzkkGzxfjQiPnViwxJf7pQ9NFz4f1UxHdaRZzI98vMm7k+gxb
-         nTwA==
-X-Gm-Message-State: AAQBX9cNq8pOA/ZIQK7iAaU7qNTvPzNDa26kLAVcc9aDF1BpzBtfmnqr
-	LblKdRp4rDroZM4Q/NOLZPVlfYkqpwA=
-X-Google-Smtp-Source: AKy350ZCD1EDwq+fFrEtLmFrq1ktzUmADD9V1ovsMA4+MVW5Q6WGwya6LDNEYEX85Lm1UH4z97jxYw==
-X-Received: by 2002:adf:e748:0:b0:2e5:8874:d883 with SMTP id c8-20020adfe748000000b002e58874d883mr4415842wrn.8.1680341455139;
-        Sat, 01 Apr 2023 02:30:55 -0700 (PDT)
+        bh=q2b0TPXaHTFMvF4K3YVDuI9TJZiA28rwMBdM4p9jhj0=;
+        b=Bq8QAzxRHOnnf/v5tiueF7QrH4OA2YJ5x+pmaRg+Hu5C5w3b8cuC5QU+UZI8+Za3xX
+         tphk35NqFirjpm89hO/+t/Csmw4Xl40GTgzXDPqrDQGb8php5yDvZBPE7IX+HPfu1lB+
+         6YZzsojF03wlNa08tp95c+eTbK7TaJLK1LireDzZRDapYnPkQjG0YwOM/dm0winaoXMS
+         ElNXt8MZR0k+8kp5I4xT1m8fFlIXzXu6ABRCFSznToR6cHo4hm9yoBBsm6DSaQnNX3nm
+         7Ef8faRPi5Ryy9paLcfH94NZxt8cYr8lVdTF2wlxXGW8+iyPRxwqjMonNZ14uXQMo8I1
+         Y6Ug==
+X-Gm-Message-State: AAQBX9dlLnoHJru7YcpBdaKKoeHXKcR/G4R1B3Ale9p1wvGRdWpk/6ZE
+	GieY0HdIPciPpEpfX1PPCQ+gOwIRjuk=
+X-Google-Smtp-Source: AKy350blVphZZCY3TXDj2FFrs/lhxIWOnAhcXDKsyhLIUs/sA2L+00+xdXzWvl24RwmwcuWEXXehXg==
+X-Received: by 2002:adf:e405:0:b0:2cc:1935:1ae8 with SMTP id g5-20020adfe405000000b002cc19351ae8mr22304871wrm.47.1680341457617;
+        Sat, 01 Apr 2023 02:30:57 -0700 (PDT)
 Received: from work-pc.. ([2a01:e0a:8d5:c6c0:eb6d:89c5:4fce:e824])
-        by smtp.gmail.com with ESMTPSA id p11-20020a5d4e0b000000b002e71156b0fcsm1522232wrt.6.2023.04.01.02.30.54
+        by smtp.gmail.com with ESMTPSA id p11-20020a5d4e0b000000b002e71156b0fcsm1522232wrt.6.2023.04.01.02.30.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Apr 2023 02:30:54 -0700 (PDT)
+        Sat, 01 Apr 2023 02:30:57 -0700 (PDT)
 From: frederic.martinsons@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: martin.jansa@gmail.com
-Subject: [PATCH V7 1/6] cargo_common.bbclass: Support local github repos
-Date: Sat,  1 Apr 2023 11:30:46 +0200
-Message-Id: <fe2b90021b535531a6500ceb123d45b088de364c.1680340685.git.frederic.martinsons@gmail.com>
+Subject: [PATCH V7 4/6] patch: support of git patches when the source uri contained subpath parameter
+Date: Sat,  1 Apr 2023 11:30:49 +0200
+Message-Id: <948e193f5bc70bba830ddf410256dd13e8a234fb.1680340685.git.frederic.martinsons@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1680340685.git.frederic.martinsons@gmail.com>
 References: <cover.1680340685.git.frederic.martinsons@gmail.com>
@@ -61,71 +61,121 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Apr 2023 09:31:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179460
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179463
 
-From: Alex Kiernan <alex.kiernan@gmail.com>
+From: Frederic Martinsons <frederic.martinsons@gmail.com>
 
-Since disable network was added cargo configurations which reference git
-repos fail as they attempt to fetch across the network as part of
-do_compile, even if EXTRA_OECARGO_PATHS to add them as part of `paths`
-is used, as this is documented as only working for packages which exist
-in crates.io.
+This is for a specific case where:
+  - A recipe use a subpath on a git repo (e.g. git://repo.git/projects;subpath=subproject)
+  - The recipe contains a patch to apply
+  - a devtool modify is used on this recipe
 
-Add parsing of the SRC_URIs for git repos and include `[patch]` sections
-to redirect to the checked out source repos which the bitbake fetcher
-has already populated.
+With these conditions, the patch cannot be applied at all.
+GitApplyTree class is used for handling patch under devtool, but
+when subpath is present in SRC_URI, the resulting git tree
+is dirty (every files and directories which was not in subpath are suppressed)
+and so "git am" refuse to apply patches.
 
-There are still cases which don't work - if you have multiple copies of
-the same repo with different revisions, there's currently no way to
-represent that and anything using a repo which has a virtual manifest
-will fail to build (see https://github.com/rust-lang/cargo/issues/4934).
+That would not be an issue since the GitApplyTree have a fallback
+to PatchTree in case of error, but during this error management,
+there is a "git reset --hard HEAD" call which suppress the subpath
+operation and finally prevents the patch to be applied even with PatchTree.
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+When devtool is not involved, only PatchTree class is used and the
+above problem is irrelevant.
+
+To support git patching during devtool, the presence of subpath and
+the dirtyness of the repo are checked. If both conditions are
+met, we directly call PatchTree like it was already done
+in case of error during git apply.
+
+Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
 ---
- meta/classes-recipe/cargo_common.bbclass | 30 ++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ meta/lib/oe/patch.py | 57 ++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 44 insertions(+), 13 deletions(-)
 
-diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-recipe/cargo_common.bbclass
-index f503a001dd..63b1382908 100644
---- a/meta/classes-recipe/cargo_common.bbclass
-+++ b/meta/classes-recipe/cargo_common.bbclass
-@@ -116,6 +116,36 @@ cargo_common_do_configure () {
- 	EOF
- }
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index b2dc8d0a90..d047b3b947 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -499,6 +499,36 @@ class GitApplyTree(PatchTree):
+         finally:
+             shutil.rmtree(tempdir)
  
-+python cargo_common_do_patch_paths() {
-+    cargo_config = os.path.join(d.getVar("CARGO_HOME"), "config")
-+    if not os.path.exists(cargo_config):
-+        return
++    def _need_dirty_check(self):
++        fetch = bb.fetch2.Fetch([], self.d)
++        check_dirtyness = False
++        for url in fetch.urls:
++            url_data = fetch.ud[url]
++            parm = url_data.parm
++            # a git url with subpath param will surely be dirty
++            # since the git tree from which we clone will be emptied
++            # from all files that are not in the subpath
++            if url_data.type == 'git' and parm.get('subpath'):
++                check_dirtyness = True
++        return check_dirtyness
 +
-+    src_uri = (d.getVar('SRC_URI') or "").split()
-+    if len(src_uri) == 0:
-+        return
++    def _commitpatch(self, patch, patchfilevar):
++        output = ""
++        # Add all files
++        shellcmd = ["git", "add", "-f", "-A", "."]
++        output += runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
++        # Exclude the patches directory
++        shellcmd = ["git", "reset", "HEAD", self.patchdir]
++        output += runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
++        # Commit the result
++        (tmpfile, shellcmd) = self.prepareCommit(patch['file'], self.commituser, self.commitemail)
++        try:
++            shellcmd.insert(0, patchfilevar)
++            output += runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
++        finally:
++            os.remove(tmpfile)
++        return output
 +
-+    patches = dict()
-+    workdir = d.getVar('WORKDIR')
-+    fetcher = bb.fetch2.Fetch(src_uri, d)
-+    for url in fetcher.urls:
-+        ud = fetcher.ud[url]
-+        if ud.type == 'git':
-+            name = ud.parm.get('name')
-+            destsuffix = ud.parm.get('destsuffix')
-+            if name is not None and destsuffix is not None:
-+                repo = '%s://%s%s' % (ud.proto, ud.host, ud.path)
-+                path = '%s = { path = "%s" }' % (name, os.path.join(workdir, destsuffix))
-+                patches.setdefault(repo, []).append(path)
-+
-+    with open(cargo_config, "a+") as config:
-+        for k, v in patches.items():
-+            print('\n[patch."%s"]' % k, file=config)
-+            for name in v:
-+                print(name, file=config)
-+}
-+do_configure[postfuncs] += "cargo_common_do_patch_paths"
-+
- oe_cargo_fix_env () {
- 	export CC="${RUST_TARGET_CC}"
- 	export CXX="${RUST_TARGET_CXX}"
+     def _applypatch(self, patch, force = False, reverse = False, run = True):
+         import shutil
+ 
+@@ -534,6 +564,19 @@ class GitApplyTree(PatchTree):
+         shutil.copy2(commithook, applyhook)
+         try:
+             patchfilevar = 'PATCHFILE="%s"' % os.path.basename(patch['file'])
++            if self._need_dirty_check():
++                # Check dirtyness of the tree
++                try:
++                    output = runcmd(["git", "--work-tree=%s" % reporoot, "status", "--short"])
++                except CmdError:
++                    pass
++                else:
++                    if output:
++                        # The tree is dirty, not need to try to apply patches with git anymore
++                        # since they fail, fallback directly to patch
++                        output = PatchTree._applypatch(self, patch, force, reverse, run)
++                        output += self._commitpatch(patch, patchfilevar)
++                        return output
+             try:
+                 shellcmd = [patchfilevar, "git", "--work-tree=%s" % reporoot]
+                 self.gitCommandUserOptions(shellcmd, self.commituser, self.commitemail)
+@@ -560,19 +603,7 @@ class GitApplyTree(PatchTree):
+                 except CmdError:
+                     # Fall back to patch
+                     output = PatchTree._applypatch(self, patch, force, reverse, run)
+-                # Add all files
+-                shellcmd = ["git", "add", "-f", "-A", "."]
+-                output += runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
+-                # Exclude the patches directory
+-                shellcmd = ["git", "reset", "HEAD", self.patchdir]
+-                output += runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
+-                # Commit the result
+-                (tmpfile, shellcmd) = self.prepareCommit(patch['file'], self.commituser, self.commitemail)
+-                try:
+-                    shellcmd.insert(0, patchfilevar)
+-                    output += runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
+-                finally:
+-                    os.remove(tmpfile)
++                output += self._commitpatch(patch, patchfilevar)
+                 return output
+         finally:
+             shutil.rmtree(hooks_dir)
 -- 
 2.34.1
 
