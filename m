@@ -1,130 +1,89 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7819DC77B60
-	for <webhook@archiver.kernel.org>; Sat,  1 Apr 2023 09:32:27 +0000 (UTC)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web10.17521.1680341539305138651
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB922C76196
+	for <webhook@archiver.kernel.org>; Sat,  1 Apr 2023 13:56:48 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web11.21595.1680357405903698569
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Apr 2023 02:32:19 -0700
+ Sat, 01 Apr 2023 06:56:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=TijW8cP3;
- spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-lf1-f42.google.com with SMTP id h25so31985680lfv.6
-        for <openembedded-core@lists.openembedded.org>; Sat, 01 Apr 2023 02:32:19 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Aqtwb5tw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id d11-20020a05600c3acb00b003ef6e6754c5so11624454wms.5
+        for <openembedded-core@lists.openembedded.org>; Sat, 01 Apr 2023 06:56:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680341537;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1nIWL7Sc8G6DJ5c4Xzcn4++u9Pw7FY+5pGjCEwXLoSE=;
-        b=TijW8cP3MvjAUiY7qSRtpbMegOFU/0Y0dvO32XnrAklVeuxWj9/tj0/pyo+6smiai8
-         iLe2P91MGAQiDHHGvAnuFfUKild+Ox5joBxPjofofFn/k9Z6LI1Bv07Vt0iJi99GgyeN
-         mKgImQ+vpga1P0rdPpelDiCb4Ua3pNYIdRlP0hujOWKvPzCl4sid6S6UEesKQJxOfVBI
-         QC2KC/IXMDgLPBVm0FxEWzNeI0rblikMvNR+l7Ww1sJDaUx/BzR7tz1HP3Ax9ScFnEsb
-         /XRQEGwk3BsnkQ4IdtqXa5uHkWhedAc9lbLD5QotY7XZYqoEM1KYPbbmnhZx3riR6SWU
-         0Tdw==
+        d=linuxfoundation.org; s=google; t=1680357404;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=cOLO42fmQDaMGwOhbhNZ2dGLOYpDG85nTGm4wix3wZQ=;
+        b=Aqtwb5twDCTs9iHVMWCOxrFyhzFZi4Jn9lVpMGXlhgfZ0fIIHGnOBdHZ8wGabz+6AH
+         u+OfoaMtD3Htcwx/LYriAOUIXVvWYN3gnz3F+P6xDvymRdph7lK7SqHUrTzOLPm+sc0L
+         M6TeX3QCKmqpC4rXgTrB5OxL4BZ7IRIY8pwus=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680341537;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1nIWL7Sc8G6DJ5c4Xzcn4++u9Pw7FY+5pGjCEwXLoSE=;
-        b=28OFZ+q0S22/cLjA003ORHpAxXxrM7VdoqoiSYOBYJFfR0Mnjz1YKm2Yy77cnQ4HjE
-         I4jBpy+unGlJAib8stL+cT5BBO3Balk7sPTOFRrCSedj2mNyBOWqkhCq0V0gVIH5b1PT
-         qvEogAFcDjRHD4Cic8K3yqB5sLfnzeENITGa0GuMjtD+zzqQPASnNJve+FNRZLsQDKQw
-         QmKsqHF+LOErjM1qVnirDX+mrkDVWqolf3aEUeBHjVeseO/Wyc5HEje9szIS5gnunPAK
-         IT8nnF6offF8cxADppxSefbZ4+gZ/QzTWxfDPWOyIRIevThDnYodf63uHfGugVt7wUOt
-         UotA==
-X-Gm-Message-State: AAQBX9fS2q1pqPecLgYw+r+/oe72hL4kanpsWrrCGfK6IYbf2/Ml0N20
-	baWIR3MKFVALbed+71BRHdb3oqm3//tdS1OsXRc=
-X-Google-Smtp-Source: AKy350ZNrmzpVgIB3ZMbqomVF/w98iF+NZid/0m8h+ukH9mXO0A7u1HD0ULmyz8nfe4xCkuc8OvHEpV7kM/fWc0mNg4=
-X-Received: by 2002:a05:6512:4c2:b0:4e9:c027:5be6 with SMTP id
- w2-20020a05651204c200b004e9c0275be6mr8986024lfq.12.1680341537104; Sat, 01 Apr
- 2023 02:32:17 -0700 (PDT)
-MIME-Version: 1.0
+        d=1e100.net; s=20210112; t=1680357404;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cOLO42fmQDaMGwOhbhNZ2dGLOYpDG85nTGm4wix3wZQ=;
+        b=O7TuZr8ykx8xHVlibPKMcN7dza2bBPv9A6bvi4a/3sqa8Owi/dJBrqcR+rL82ecfTa
+         zmW+AdBYR9U8M884N1tMpZ8VaAMahOlYkJ/TgIf16igc9mxQVAJTLczf+iMZQSn2b6UE
+         R7AtmGYc84hMTkoGKkHR+Gww1J3NQ7EeaNZFVWzx1pllN8XB3/V19eoEygc6L3eVKd66
+         Sn+kIUq1WGK8VmPX4uDyKrzF9p5k//PA1RQ512J5Gp4tYHXRCLC1BLkFao2osCxM8P6K
+         mkuOCJni65muEioGobG2cX7O3z1a5ZVz0C/Qdnx42n8kZOgVVodZfH/7/XR38NvGqEif
+         KtzA==
+X-Gm-Message-State: AAQBX9fNxaemgm39tXvJhoTz9W/LEH3XLlmeHrp4CezXXry2moJOIYc+
+	H9ZmqZC27oTRb60y70wDGbUi1g==
+X-Google-Smtp-Source: AKy350b1oXkMYoMgu9T07E6J4sE5ukmBG/ROLiNo4kPedQXCfEqUBzBruwNTVgeFjAQSSf4YhMWvjw==
+X-Received: by 2002:a05:600c:2291:b0:3f0:3ce2:1e3d with SMTP id 17-20020a05600c229100b003f03ce21e3dmr5727100wmf.12.1680357404383;
+        Sat, 01 Apr 2023 06:56:44 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e3d2:bb2b:b7e5:a8c4? ([2001:8b0:aba:5f3c:e3d2:bb2b:b7e5:a8c4])
+        by smtp.gmail.com with ESMTPSA id b5-20020a5d4b85000000b002c559843748sm4995450wrt.10.2023.04.01.06.56.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Apr 2023 06:56:43 -0700 (PDT)
+Message-ID: <234056a062d9d4fbe252ddd0112e44ebbce34a0f.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH V6 5/6] meta-selftest: provide a recipe for
+ zvariant
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: =?ISO-8859-1?Q?Fr=E9d=E9ric?= Martinsons <frederic.martinsons@gmail.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
+ openembedded-core@lists.openembedded.org, Alex Kiernan
+ <alex.kiernan@gmail.com>
+Date: Sat, 01 Apr 2023 14:56:42 +0100
+In-Reply-To: <CA+cAkeqTuHkq+f_dxpVKLf9mJiwExhkc+yyooObA-xxqBR407A@mail.gmail.com>
 References: <cover.1680238655.git.frederic.martinsons@gmail.com>
- <d0b6aff677d7e7a268b4c16a83ff3162e9c60dd1.1680238655.git.frederic.martinsons@gmail.com>
- <73108638b9d165f203117b4f6a9e63ef94a0f2a5.camel@linuxfoundation.org>
- <CANNYZj8syo4bNVz3OzwS-tbfPm-UPjFyZYy2cfSznqMLH5wGhg@mail.gmail.com>
- <c007fc29d99e2116d2fd53a9338d329559723102.camel@linuxfoundation.org>
- <CANNYZj8xFw5_c6vZ_aiDhSuf1+aZRayJfvXHpg9=mhtGp7taTQ@mail.gmail.com>
- <CA+cAkeqXdBYLbtVzMvwTLWPqTBkWm7dmPit_M6LG5Tt4VRUwtw@mail.gmail.com> <55024a9677091b2b1d3bc4faac1216e271940272.camel@linuxfoundation.org>
-In-Reply-To: <55024a9677091b2b1d3bc4faac1216e271940272.camel@linuxfoundation.org>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Date: Sat, 1 Apr 2023 11:32:05 +0200
-Message-ID: <CA+cAkeqTuHkq+f_dxpVKLf9mJiwExhkc+yyooObA-xxqBR407A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH V6 5/6] meta-selftest: provide a recipe for zvariant
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, openembedded-core@lists.openembedded.org, 
-	Alex Kiernan <alex.kiernan@gmail.com>
-Content-Type: multipart/alternative; boundary="0000000000006ba8d605f843005d"
+	 <d0b6aff677d7e7a268b4c16a83ff3162e9c60dd1.1680238655.git.frederic.martinsons@gmail.com>
+	 <73108638b9d165f203117b4f6a9e63ef94a0f2a5.camel@linuxfoundation.org>
+	 <CANNYZj8syo4bNVz3OzwS-tbfPm-UPjFyZYy2cfSznqMLH5wGhg@mail.gmail.com>
+	 <c007fc29d99e2116d2fd53a9338d329559723102.camel@linuxfoundation.org>
+	 <CANNYZj8xFw5_c6vZ_aiDhSuf1+aZRayJfvXHpg9=mhtGp7taTQ@mail.gmail.com>
+	 <CA+cAkeqXdBYLbtVzMvwTLWPqTBkWm7dmPit_M6LG5Tt4VRUwtw@mail.gmail.com>
+	 <55024a9677091b2b1d3bc4faac1216e271940272.camel@linuxfoundation.org>
+	 <CA+cAkeqTuHkq+f_dxpVKLf9mJiwExhkc+yyooObA-xxqBR407A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.47.3-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 01 Apr 2023 09:32:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179466
+ <openembedded-core@lists.openembedded.org>; Sat, 01 Apr 2023 13:56:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179467
 
---0000000000006ba8d605f843005d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Sat, 2023-04-01 at 11:32 +0200, Fr=C3=A9d=C3=A9ric Martinsons wrote:
+> I just submit a V7 of this series with EXCLUDE_FROM_WORLD set for
+> zvariant and
+> open a dedicated bug for the reproducibility
+> issue:=C2=A0https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15090
 
-I just submit a V7 of this series with EXCLUDE_FROM_WORLD set for zvariant
-and
-open a dedicated bug for the reproducibility issue:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15090
+Great, thanks!
 
-On Fri, 31 Mar 2023 at 18:34, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+With that open I've merged things. I did leave a comment in the recipe
+about removing the exclusion when we fix reproducibility.
 
-> On Fri, 2023-03-31 at 17:01 +0200, Fr=C3=A9d=C3=A9ric Martinsons wrote:
-> > Ok I'll take a look at this next week. But I don't know anything
-> > about reproductability build so if you have any info that can point
-> > me to the right direction, I'll be glad to read it.
->
-> I think the simplest thing is if I add an EXCLUDE_FROM_WORLD to that
-> recipe for now but we should file a bug for the reproducibility issue
-> and ultimately fix it.
->
-> This would let us add the additional testing but aim for improving this
-> in due course as well.
->
-> Cheers,
->
-> Richard
->
+Cheers,
 
---0000000000006ba8d605f843005d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">I just submit a V7 of this series with EXCLUDE_FROM_WORLD =
-set for zvariant and<div>open a dedicated bug for the reproducibility issue=
-:=C2=A0<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15090=
-">https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15090</a></div></div>=
-<br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri=
-, 31 Mar 2023 at 18:34, Richard Purdie &lt;<a href=3D"mailto:richard.purdie=
-@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri, 2023-03-31 =
-at 17:01 +0200, Fr=C3=A9d=C3=A9ric Martinsons wrote:<br>
-&gt; Ok I&#39;ll take a look at this next week. But I don&#39;t know anythi=
-ng<br>
-&gt; about reproductability build so if you have any info that can point<br=
->
-&gt; me to the right direction, I&#39;ll be glad to read it.=C2=A0<br>
-<br>
-I think the simplest thing is if I add an EXCLUDE_FROM_WORLD to that<br>
-recipe for now but we should file a bug for the reproducibility issue<br>
-and ultimately fix it.<br>
-<br>
-This would let us add the additional testing but aim for improving this<br>
-in due course as well.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-</blockquote></div>
-
---0000000000006ba8d605f843005d--
+Richard
 
