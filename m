@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32260C88C8D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DE05C88C95
 	for <webhook@archiver.kernel.org>; Sat,  1 Apr 2023 21:29:03 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.32139.1680384535109213537
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.32127.1680384534976172389
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Apr 2023 14:28:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=H+snCxkj;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101873eb92802-d7a3cf66-a448-43f8-9ba3-2ea9446d9bc4-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=InOdcz07;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101873eb927c7-97134a0c-a51b-4a87-b05f-516f0d13ecdc-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1680384534;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Ec9i+ws7tcjMpDwhhXto0ZAmbT8jiey3hqBiWJbdoEQ=;
-	b=H+snCxkj7pl+pN0+7QehhonXI9RLg67y/TghRNitgywfuVNBFCeb4zNEgeAHlof6
-	TfSx23aeTDd6VuVD/yU+DM2jKfCfjv4zvUfnPKbJRrTMuMvpOa7Pej6p8cCJCViM0pT
-	v3liUB2YFqCcZutNJj/QJRnIMGfGNuK7Cg3R6oIk=
+	bh=R42g6lKr9vU6Qj4c6/NdVLcVVEG3OGFovhJhrhyJwko=;
+	b=InOdcz07o+xIS3348b2VlkDiMCU/OswIUXomrKfVcBa6CdeND2hcSeXO1Y95pCtm
+	sL1uPq+qp8VjxowdOKzRTiBIn/K4c+kcBqvR8yya/fv6mFSnRjWVyVgfXgHRZcd5359
+	+WphenLkhCH2/T5p31MPE/39qFCHanrzI9A/nsOA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1680384534;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Ec9i+ws7tcjMpDwhhXto0ZAmbT8jiey3hqBiWJbdoEQ=;
-	b=EHm/mhE3QQ6tpj2NxhwrsQAJj5q5JvlvnJJcaZD3pboaukf//qJ8RDnq+tM4sik6
-	bG47c+60aowcwPvEXvQpKfvsHUz5ckIS85uhJad5ZeoOr1Nh7d+vB5n52k0hXLVsufC
-	bbetiXS+XKCu7wDBFJZzfwy+G19Cc/NfFobozOn8=
-Content-Type: multipart/mixed; boundary="===============3256686050488241433=="
+	bh=R42g6lKr9vU6Qj4c6/NdVLcVVEG3OGFovhJhrhyJwko=;
+	b=XchDrLhn2iBd4KqfFcsvDcYET86voq6UYiYSQCpguNjAYKmWIe2XHgtOvaXa1DJF
+	06zO/bWzJdrGmIjfmFQqvfo6oejd2pok124KKVgUGha91fiysC0TUjbvEe2fUsMf+AJ
+	A66UV+m/i1tk13D5ujZFIuOyUdF4trsL+NrrboDw=
+Content-Type: multipart/mixed; boundary="===============2908738591756886369=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] acpica: upgrading to 20230331 SUCCEEDED
-Message-ID: <010101873eb92802-d7a3cf66-a448-43f8-9ba3-2ea9446d9bc4-000000@us-west-2.amazonses.com>
+Subject: [AUH] vala: upgrading to 0.56.5 SUCCEEDED
+Message-ID: <010101873eb927c7-97134a0c-a51b-4a87-b05f-516f0d13ecdc-000000@us-west-2.amazonses.com>
 Date: Sat, 1 Apr 2023 21:28:54 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.04.01-54.240.27.192
+X-SES-Outgoing: 2023.04.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Apr 2023 21:29:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179512
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179510
 
---===============3256686050488241433==
+--===============2908738591756886369==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *acpica* to *20230331* has Succeeded.
+that the automatic attempt to upgrade the recipe *vala* to *0.56.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-acpica-upgrade-20220331-20230331.patch
+    - apply the patch: git am 0001-vala-upgrade-0.56.4-0.56.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,128 +69,59 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3256686050488241433==
-Content-Type: text/plain; charset="us-ascii"
+--===============2908738591756886369==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-vala-upgrade-0.56.4-0.56.5.patch"
 
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 898 .bb files complete (0 cached, 898 parsed). 1797 targets, 73 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the ppc7400 sysroot...done.
-Removing 1 recipes from the qemuppc sysroot...done.
+RnJvbSBjMmU1MDJiYTUxMDQwMzE1YzhiYzc5NTgxYTg5NjE4MjEzYzUxMDA4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMSBBcHIgMjAyMyAxMTo0OTowMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHZh
+bGE6IHVwZ3JhZGUgMC41Ni40IC0+IDAuNTYuNQoKLS0tCiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+dmFsYS97dmFsYV8wLjU2LjQuYmIgPT4gdmFsYV8wLjU2LjUuYmJ9IHwgMiArLQogMSBmaWxlIGNo
+YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3ZhbGEve3ZhbGFfMC41Ni40LmJiID0+IHZhbGFfMC41Ni41LmJifSAoMTglKQoK
+ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy92YWxhL3ZhbGFfMC41Ni40LmJiIGIv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3ZhbGEvdmFsYV8wLjU2LjUuYmIKc2ltaWxhcml0eSBpbmRl
+eCAxOCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3ZhbGEvdmFsYV8wLjU2LjQu
+YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy92YWxhL3ZhbGFfMC41Ni41LmJiCmlu
+ZGV4IDMyZmE4MWEwOGIuLjc0NDczNWU4NDIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy92YWxhL3ZhbGFfMC41Ni40LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy92YWxh
+L3ZhbGFfMC41Ni41LmJiCkBAIC0xLDMgKzEsMyBAQAogcmVxdWlyZSAke0JQTn0uaW5jCiAKLVNS
+Q19VUklbc2hhMjU2c3VtXSA9ICI4NjJjNDFkOTM4NTQzZWQzZDhkODZjODIxOWE2MTA4Nzc5NzE5
+M2RlZmVlOGRhMGM1MGNhZjQ5OTkzYzY2YjZhIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjJiNDI5
+MmU3MzAxZGU1ZmU5MDRlNjc2MTgxMTZiYzQwMjdmNjAxMzBhMjQyYjRhMjIyOGEyOTVlNjM1N2I0
+OGMiCi0tIAoyLjM5LjIKCg==
 
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: Nothing PROVIDES 'acpica'
-acpica was skipped: incompatible with host powerpc-poky-linux (not in COMPATIBLE_HOST)
-
---===============3256686050488241433==
+--===============2908738591756886369==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/acpica/acpica-dbg: PKGV changed from 20220331 [default] to 20230331 [default]
-packages/core2-32-poky-linux/acpica/acpica-dbg: PKGSIZE changed from 8841404 to 8821496 (-0%)
-packages/core2-32-poky-linux/acpica/acpica-dbg: PV changed from "20220331" to "20230331"
-packages/core2-32-poky-linux/acpica/acpica-dev: PKGV changed from 20220331 [default] to 20230331 [default]
-packages/core2-32-poky-linux/acpica/acpica-dev: PV changed from "20220331" to "20230331"
-packages/core2-32-poky-linux/acpica/acpica-doc: PKGV changed from 20220331 [default] to 20230331 [default]
-packages/core2-32-poky-linux/acpica/acpica-doc: PV changed from "20220331" to "20230331"
-packages/core2-32-poky-linux/acpica/acpica-locale: PKGV changed from 20220331 [default] to 20230331 [default]
-packages/core2-32-poky-linux/acpica/acpica-locale: PV changed from "20220331" to "20230331"
-packages/core2-32-poky-linux/acpica/acpica-src: PKGV changed from 20220331 [default] to 20230331 [default]
-packages/core2-32-poky-linux/acpica/acpica-src: FILELIST: directory renamed /usr/src/debug/acpica/20220331-r0/source/tools/acpibin -> /usr/src/debug/acpica/20230331-r0/source/tools/acpibin, directory renamed /usr/src/debug/acpica/20220331-r0/source/tools/acpiexec -> /usr/src/debug/acpica/20230331-r0/source/tools/acpiexec, directory renamed /usr/src/debug/acpica/20220331-r0/source/include -> /usr/src/debug/acpica/20230331-r0/source/include, directory renamed /usr/src/debug/acpica/20220331-r0/source/compiler -> /usr/src/debug/acpica/20230331-r0/source/compiler, directory renamed /usr/src/debug/acpica/20220331-r0/source/components/namespace -> /usr/src/debug/acpica/20230331-r0/source/components/namespace, directory renamed /usr/src/debug/acpica/20220331-r0/source/common -> /usr/src/debug/acpica/20230331-r0/source/common, directory renamed /usr/src/debug/acpica/20220331-r0/source/components/debugger -> /usr/src/debug/acpica/20230331-r0/source/components/debugger, directory renamed /usr/s
- rc/debug/acpica/20220331-r0/source/components/hardware -> /usr/src/debug/acpica/20230331-r0/source/components/hardware, directory renamed /usr/src/debug/acpica/20220331-r0/source/tools/acpisrc -> /usr/src/debug/acpica/20230331-r0/source/tools/acpisrc, directory renamed /usr/src/debug/acpica/20220331-r0/source/components/resources -> /usr/src/debug/acpica/20230331-r0/source/components/resources, directory renamed /usr/src/debug/acpica/20220331-r0/source/components/dispatcher -> /usr/src/debug/acpica/20230331-r0/source/components/dispatcher, directory renamed /usr/src/debug/acpica/20220331-r0/source/tools/examples -> /usr/src/debug/acpica/20230331-r0/source/tools/examples, directory renamed /usr/src/debug/acpica/20220331-r0/source/components/executer -> /usr/src/debug/acpica/20230331-r0/source/components/executer, directory renamed /usr/src/debug/acpica/20220331-r0/source/components/disassembler -> /usr/src/debug/acpica/20230331-r0/source/components/disassembler, directory renamed /us
- r/src/debug/acpica/20220331-r0/source/components/parser -> /usr/src/debug/acpica/20230331-r0/source/components/parser, directory renamed /usr/src/debug/acpica/20220331-r0/source/components/tables -> /usr/src/debug/acpica/20230331-r0/source/components/tables, directory renamed /usr/src/debug/acpica/20220331-r0/generate/unix/iasl/obj -> /usr/src/debug/acpica/20230331-r0/generate/unix/iasl/obj, directory renamed /usr/src/debug/acpica/20220331-r0/source/tools/acpixtract -> /usr/src/debug/acpica/20230331-r0/source/tools/acpixtract, directory renamed /usr/src/debug/acpica/20220331-r0/source/tools/acpidump -> /usr/src/debug/acpica/20230331-r0/source/tools/acpidump, directory renamed /usr/src/debug/acpica/20220331-r0/source/os_specific/service_layers -> /usr/src/debug/acpica/20230331-r0/source/os_specific/service_layers, directory renamed /usr/src/debug/acpica/20220331-r0/source/components/events -> /usr/src/debug/acpica/20230331-r0/source/components/events, directory renamed /usr/src/debug
- /acpica/20220331-r0/source/tools/acpihelp -> /usr/src/debug/acpica/20230331-r0/source/tools/acpihelp, removed "/usr/src/debug/acpica/20220331-r0/source/components/utilities/utcopy.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/uthex.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utosi.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utstrtoul64.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utinit.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/uterror.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utstate.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utuuid.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utxface.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utaddress.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utdecode.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utlock.c /usr/src/debug/acpica/2
- 0220331-r0/source/components/utilities/utmisc.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utxfinit.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utalloc.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utmath.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utmutex.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utdebug.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utcache.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utglobal.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utnonansi.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utbuffer.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utexcep.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utstring.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/uttrack.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utresdecode.c /usr
- /src/debug/acpica/20220331-r0/source/components/utilities/utxferror.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utxfmutex.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utids.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utdelete.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utobject.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/uteval.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utpredef.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utstrsuppt.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utascii.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utresrc.c /usr/src/debug/acpica/20220331-r0/source/components/utilities/utownerid.c", added "/usr/src/debug/acpica/20230331-r0/source/components/utilities/utcopy.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/uthex.c /usr/src/debug/acpica/20230331-r0/source/component
- s/utilities/utstrtoul64.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utosi.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utinit.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/uterror.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utstate.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utuuid.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utxface.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utcksum.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utlock.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utdecode.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utaddress.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utmisc.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utxfinit.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utalloc.c /usr/src/debug/acpica/20230331-r0/sou
- rce/components/utilities/utmath.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utmutex.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utdebug.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utcache.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utglobal.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utnonansi.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utexcep.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utbuffer.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utstring.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/uttrack.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utresdecode.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utxferror.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utxfmutex.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utids.c /usr/src/debug/a
- cpica/20230331-r0/source/components/utilities/utdelete.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utobject.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/uteval.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utpredef.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utstrsuppt.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utascii.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utresrc.c /usr/src/debug/acpica/20230331-r0/source/components/utilities/utownerid.c"
-packages/core2-32-poky-linux/acpica/acpica-src: PKGSIZE changed from 10298629 to 10435562 (+1%)
-packages/core2-32-poky-linux/acpica/acpica-src: PV changed from "20220331" to "20230331"
-packages/core2-32-poky-linux/acpica/acpica-staticdev: PKGV changed from 20220331 [default] to 20230331 [default]
-packages/core2-32-poky-linux/acpica/acpica-staticdev: PV changed from "20220331" to "20230331"
-packages/core2-32-poky-linux/acpica/acpica: PKGV changed from 20220331 [default] to 20230331 [default]
-packages/core2-32-poky-linux/acpica/acpica: PV changed from "20220331" to "20230331"
-packages/core2-32-poky-linux/acpica/acpica: PKGSIZE changed from 2659420 to 2694524 (+1%)
-packages/core2-32-poky-linux/acpica: PKGV changed from 20220331 [default] to 20230331 [default]
-packages/core2-32-poky-linux/acpica: SRC_URI changed from "https://acpica.org/sites/acpica/files/acpica-unix-20220331.tar.gz" to "https://acpica.org/sites/acpica/files/acpica-unix-20230331.tar.gz"
-packages/core2-32-poky-linux/acpica: PV changed from "20220331" to "20230331"
+packages/core2-32-poky-linux/vala: PKGV changed from 0.56.4 [default] to 0.56.5 [default]
+packages/core2-32-poky-linux/vala: PV changed from "0.56.4" to "0.56.5"
+packages/core2-32-poky-linux/vala: SRC_URI changed from "http://ftp.gnome.org/pub/GNOME/sources/vala/0.56/vala-0.56.4.tar.xz" to "http://ftp.gnome.org/pub/GNOME/sources/vala/0.56/vala-0.56.5.tar.xz"
+packages/core2-32-poky-linux/vala/vala-dbg: PKGV changed from 0.56.4 [default] to 0.56.5 [default]
+packages/core2-32-poky-linux/vala/vala-dbg: PKGSIZE changed from 15513040 to 15523700 (+0%)
+packages/core2-32-poky-linux/vala/vala-dbg: PV changed from "0.56.4" to "0.56.5"
+packages/core2-32-poky-linux/vala/vala-dev: PKGV changed from 0.56.4 [default] to 0.56.5 [default]
+packages/core2-32-poky-linux/vala/vala-dev: PV changed from "0.56.4" to "0.56.5"
+packages/core2-32-poky-linux/vala/vala-doc: PKGV changed from 0.56.4 [default] to 0.56.5 [default]
+packages/core2-32-poky-linux/vala/vala-doc: PKGSIZE changed from 10316 to 10307 (-0%)
+packages/core2-32-poky-linux/vala/vala-doc: PV changed from "0.56.4" to "0.56.5"
+packages/core2-32-poky-linux/vala/vala-locale: PKGV changed from 0.56.4 [default] to 0.56.5 [default]
+packages/core2-32-poky-linux/vala/vala-locale: PV changed from "0.56.4" to "0.56.5"
+packages/core2-32-poky-linux/vala/vala-src: PKGV changed from 0.56.4 [default] to 0.56.5 [default]
+packages/core2-32-poky-linux/vala/vala-src: PKGSIZE changed from 15772079 to 15784748 (+0%)
+packages/core2-32-poky-linux/vala/vala-src: PV changed from "0.56.4" to "0.56.5"
+packages/core2-32-poky-linux/vala/vala-staticdev: PKGV changed from 0.56.4 [default] to 0.56.5 [default]
+packages/core2-32-poky-linux/vala/vala-staticdev: PV changed from "0.56.4" to "0.56.5"
+packages/core2-32-poky-linux/vala/vala: PKGV changed from 0.56.4 [default] to 0.56.5 [default]
+packages/core2-32-poky-linux/vala/vala: PKGSIZE changed from 13417021 to 13222680 (-1%)
+packages/core2-32-poky-linux/vala/vala: PV changed from "0.56.4" to "0.56.5"
 
---===============3256686050488241433==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-acpica-upgrade-20220331-20230331.patch"
-
-RnJvbSBmMzg0M2ZmZTQxNGUyZTRmYTIzNzJkOGJmMDVlZmJiZjQ2Yjc1ZTMzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBBcHIgMjAyMyAxMTo1MjoyNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGFj
-cGljYTogdXBncmFkZSAyMDIyMDMzMSAtPiAyMDIzMDMzMQoKLS0tCiAuLi57YWNwaWNhXzIwMjIw
-MzMxLmJiID0+IGFjcGljYV8yMDIzMDMzMS5iYn0gfCAyNiArKysrKysrKysrKysrKysrKy0tCiAx
-IGZpbGUgY2hhbmdlZCwgMjQgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMtZXh0ZW5kZWQvYWNwaWNhL3thY3BpY2FfMjAyMjAzMzEuYmIgPT4gYWNwaWNh
-XzIwMjMwMzMxLmJifSAoNjUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9h
-Y3BpY2EvYWNwaWNhXzIwMjIwMzMxLmJiIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2FjcGljYS9h
-Y3BpY2FfMjAyMzAzMzEuYmIKc2ltaWxhcml0eSBpbmRleCA2NSUKcmVuYW1lIGZyb20gbWV0YS9y
-ZWNpcGVzLWV4dGVuZGVkL2FjcGljYS9hY3BpY2FfMjAyMjAzMzEuYmIKcmVuYW1lIHRvIG1ldGEv
-cmVjaXBlcy1leHRlbmRlZC9hY3BpY2EvYWNwaWNhXzIwMjMwMzMxLmJiCmluZGV4IDJjNTU0Zjg2
-M2EuLmU3ZjdjNTY1OWIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9hY3BpY2Ev
-YWNwaWNhXzIwMjIwMzMxLmJiCisrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9hY3BpY2EvYWNw
-aWNhXzIwMjMwMzMxLmJiCkBAIC0xLDMgKzEsMjUgQEAKKyMgRklYTUU6IHRoZSBMSUNfRklMRVNf
-Q0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBieSAnZGV2dG9vbCB1cGdyYWRlJy4KKyMg
-VGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSBvbGQgYW5kIHRoZSBu
-ZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRoZSBMSUNFTlNFIHZhbHVlIGlmIG5l
-ZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgorIyB0aGUgY29tbWl0IG1lc3NhZ2Ug
-dmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1wbGU6ICdMaWNlbnNlLVVwZGF0ZTog
-Y29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhlIGNoYW5nZXM6CisjCisjIC0tLSBz
-b3VyY2UvY29tcGlsZXIvYXNsY29tcGlsZS5jCisjICsrKyBzb3VyY2UvY29tcGlsZXIvYXNsY29t
-cGlsZS5jCisjIEBAIC0yLDcgKzIsNyBAQAorIyAgICoKKyMgICAqIDEuIENvcHlyaWdodCBOb3Rp
-Y2UKKyMgICAqCisjIC0gKiBTb21lIG9yIGFsbCBvZiB0aGlzIHdvcmsgLSBDb3B5cmlnaHQgKGMp
-IDE5OTkgLSAyMDIyLCBJbnRlbCBDb3JwLgorIyArICogU29tZSBvciBhbGwgb2YgdGhpcyB3b3Jr
-IC0gQ29weXJpZ2h0IChjKSAxOTk5IC0gMjAyMywgSW50ZWwgQ29ycC4KKyMgICAqIEFsbCByaWdo
-dHMgcmVzZXJ2ZWQuCisjICAgKgorIyAgICogMi4gTGljZW5zZQorIyAKKyMKKwogU1VNTUFSWSA9
-ICJBQ1BJQ0EgdG9vbHMgZm9yIHRoZSBkZXZlbG9wbWVudCBhbmQgZGVidWcgb2YgQUNQSSB0YWJs
-ZXMiCiBERVNDUklQVElPTiA9ICJUaGUgQUNQSSBDb21wb25lbnQgQXJjaGl0ZWN0dXJlIChBQ1BJ
-Q0EpIHByb2plY3QgcHJvdmlkZXMgYW4gXAogT1MtaW5kZXBlbmRlbnQgcmVmZXJlbmNlIGltcGxl
-bWVudGF0aW9uIG9mIHRoZSBBZHZhbmNlZCBDb25maWd1cmF0aW9uIGFuZCBcCkBAIC0xMCwxNCAr
-MzIsMTQgQEAgSE9NRVBBR0UgPSAiaHR0cDovL3d3dy5hY3BpY2Eub3JnLyIKIFNFQ1RJT04gPSAi
-Y29uc29sZS90b29scyIKIAogTElDRU5TRSA9ICJJbnRlbCB8IEJTRC0zLUNsYXVzZSB8IEdQTC0y
-LjAtb25seSIKLUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL3NvdXJjZS9jb21waWxlci9hc2xj
-b21waWxlLmM7YmVnaW5saW5lPTc7ZW5kbGluZT0xNTA7bWQ1PTQxYTc2YjRiMWY4MTYyNDBmMDkw
-Y2YwMTBmZWZlYmYwIgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vc291cmNlL2NvbXBpbGVy
-L2FzbGNvbXBpbGUuYztiZWdpbmxpbmU9NztlbmRsaW5lPTE1MDttZDU9NzlhNjkwNTliNDk5YmNj
-YzcwYTQ4NDQ1OTU0OTc1OGYiCiAKIENPTVBBVElCTEVfSE9TVCA9ICIoaS44Nnx4ODZfNjR8YXJt
-fGFhcmNoNjQpLiotbGludXgiCiAKIERFUEVORFMgPSAibTQtbmF0aXZlIGZsZXgtbmF0aXZlIGJp
-c29uLW5hdGl2ZSIKIAogU1JDX1VSSSA9ICJodHRwczovL2FjcGljYS5vcmcvc2l0ZXMvYWNwaWNh
-L2ZpbGVzL2FjcGljYS11bml4LSR7UFZ9LnRhci5neiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJh
-Y2FmZjY4YjE0ZjFlMDgwNGViYmZjNGI5NzI2OGE0Y2NiZWZjZmEwNTNiMDJlZDk5MjRmMmIxNGQ4
-YTk4ZTIxIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjBjNWQ2OTVkNjA1YWFhNjE3MDlmM2M2M2Y1
-N2ExYTk5Yjg5MDIyOTE3MjM5OTg0NDZiMDgxM2I1N2FjMzEwZTIiCiAKIFVQU1RSRUFNX0NIRUNL
-X1VSSSA9ICJodHRwczovL2FjcGljYS5vcmcvZG93bmxvYWRzIgogCi0tIAoyLjM5LjIKCg==
-
---===============3256686050488241433==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 898 .bb files complete (0 cached, 898 parsed). 1797 targets, 66 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the mips32r2 sysroot...done.
-Removing 1 recipes from the qemumips sysroot...done.
-
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: Nothing PROVIDES 'acpica'
-acpica was skipped: incompatible with host mips-poky-linux (not in COMPATIBLE_HOST)
-
---===============3256686050488241433==--
+--===============2908738591756886369==--
 
