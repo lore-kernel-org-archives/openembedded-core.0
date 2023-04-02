@@ -2,321 +2,449 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F6C0C761AF
-	for <webhook@archiver.kernel.org>; Sun,  2 Apr 2023 16:42:29 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web11.48826.1680453746908918702
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E95DC76196
+	for <webhook@archiver.kernel.org>; Sun,  2 Apr 2023 16:42:39 +0000 (UTC)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web10.48696.1680453750816217484
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Apr 2023 09:42:27 -0700
+ Sun, 02 Apr 2023 09:42:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=w9Z2vPAj;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f180.google.com with SMTP id kq3so25803638plb.13
-        for <openembedded-core@lists.openembedded.org>; Sun, 02 Apr 2023 09:42:26 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=vCiamAeI;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f172.google.com with SMTP id kc4so25816753plb.10
+        for <openembedded-core@lists.openembedded.org>; Sun, 02 Apr 2023 09:42:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680453746; x=1683045746;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680453750; x=1683045750;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=KkDPjbI8go2VY1Z7ln4iH7m19Q+S2x6vkahuNUp3OE0=;
-        b=w9Z2vPAjlKfk8nPXhjwKBpHRer7ARh67/j1CMbbfxqJ3yFWtbNaijgu3ftK2BfgS60
-         dQlUcRLiteXDjFv6iqoLJq+ipmtnn3gbpDbwlDyzNTyl9UPyeyplxmlw8q6IaQfrhq+I
-         2WP0bsGP0xGkpXka4lVgDCnTz31EkhFHUQIFBwOmcXZ1t6Xmob1ZBnOA86C93Z4oObcG
-         dIeXO4ZEAhwrIp80HET7YQL3iV6d4NV4qsPod2a2kPtAriQdvPK7ETVg/cs5tPK/Y+4+
-         vBc+hj/3ufxTfzdQzbI3mv8JJdwuKDUCKLS1sMUrBmHBgSc7AamwBefczUpz2RMKjIAK
-         1BdQ==
+        bh=xowJx/9yXxxy72+Lpar+LDADjdGdQCmiVoGy+8XckII=;
+        b=vCiamAeIBfrbuh58yhzzSbGriDyL9NglOHCcKgqGIPmJ1EH2djTUPcy0CA/gAWS5k9
+         xjeAyrPXvdYHKrpHBkML98W3fDPS0pMPE2SFyARAfcN2IZ31pM96Hhx5sRPR5zinf0tg
+         kcvc7JQIQu0RKBPV5SOLX3BoBdTWaO/m6hdDvF9njxYWHWdzUmi1AT4VhofBHNNgo0B7
+         aiOs1N3DbUMT70dibqxlG7UV7oTTdRMY00LYVkVvjhzpBVaOXZrABW103420Iu7wmDDR
+         nU9D5m3i/l/SJH3FG3jB17HpIwHU4ffc4ck1H2oeFVl48CKQ5/cQNdh6EJVPHu9zAwmn
+         zfPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680453746; x=1683045746;
+        d=1e100.net; s=20210112; t=1680453750; x=1683045750;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KkDPjbI8go2VY1Z7ln4iH7m19Q+S2x6vkahuNUp3OE0=;
-        b=e9aQXWHysaYPV4LPDGV6Umd1L5pbhroLE+6OdACelNl0YsBJ9qDdXXyY4BqkprsFVl
-         1Z8Le2gx5+josDSCqucfpKVQ2FqZIAXdGGYNGFiAB6pw2aF3jRPoiv7shVf6moeRU0sl
-         btq3F4zmcNiB5yF733UF79JcaWE9oRJkzszosI3tQmBCwnYVFs5cvgprzvbnBH/nzxjF
-         DbNYChIEevdqsUdJCkpQe6KAK5wjE62XmKXn8IL7etFsaAh4oHhgrZJmvLXyQnFZEaq5
-         gtBy9h+7kKIOUJEXM0S7noMngnB1pqtI7Vy9D+dmQ0qa/43ImY/KVRomTgddYrk62idr
-         T8UA==
-X-Gm-Message-State: AAQBX9feBWsYfrCLsVMQkrgmeLOX9j7HiqY5gHALfduswkvQe9qheXmu
-	RJN0uqK89SRNqZ9wH/Egyu3gx1D6n6Dv0TD/nQQ=
-X-Google-Smtp-Source: AKy350YslKWQDUuqV442AQdCLQxb3MMR+DF4bDUqp4h0VR20YkYhmNCyAhwyJr6YEeelE/X1uvUY6w==
-X-Received: by 2002:a17:903:32d2:b0:19e:68b1:65b9 with SMTP id i18-20020a17090332d200b0019e68b165b9mr44163983plr.12.1680453745779;
-        Sun, 02 Apr 2023 09:42:25 -0700 (PDT)
+        bh=xowJx/9yXxxy72+Lpar+LDADjdGdQCmiVoGy+8XckII=;
+        b=ooluKaGAWaBD6WHf066zB7bQmb4n84xTsXD9s59BRUa/30CeqYvo+ZOy3O/lP1WnCu
+         hzL7sS7V6080kRv6t9z7wW3QXCxuOSpRfzUcJYmpaRaKt8vyFfdUTvSTi2bpdhyJiu6M
+         gW48wAxk4mKZJQeUHPfeaisdzdOWQUJhAwYjvKrtas0dnJI4FYzhhvoxzvBHxkG22ZWy
+         hOVtNtA3Nn7MvsCoi29GBGR/oL4io7ITG8rqWjQObVgBbQzwnkql3ccm52PSamjiNPBu
+         YRL3I/wL6Tpc4a9BFWUd/nNMHJWQCt97VIK4jhbjnBaL7FfI+27kPCc76SSQUaP4JDZf
+         W64Q==
+X-Gm-Message-State: AAQBX9fBIdlSTIyeq6s7/kqsMoEtjwG985DT2xmoVR8jEvEHyvRnlnrp
+	wtLzhNLBDXaQ71GPdGaJmldbjmfqZd5YAr/sgLY=
+X-Google-Smtp-Source: AKy350ZqaEZuZVQ6w7h1YJnPQ9gSzO4iTYt5sFYVxn3Vxrx4RRs9S1adrWqAYp4BW/HeCzBOHXBSfw==
+X-Received: by 2002:a17:902:e812:b0:19c:e440:9256 with SMTP id u18-20020a170902e81200b0019ce4409256mr42179744plg.35.1680453749585;
+        Sun, 02 Apr 2023 09:42:29 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id ja7-20020a170902efc700b001a1ddd224desm5042079plb.89.2023.04.02.09.42.24
+        by smtp.gmail.com with ESMTPSA id ja7-20020a170902efc700b001a1ddd224desm5042079plb.89.2023.04.02.09.42.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Apr 2023 09:42:25 -0700 (PDT)
+        Sun, 02 Apr 2023 09:42:29 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 01/21] Revert "qemu: fix CVE-2021-3507"
-Date: Sun,  2 Apr 2023 06:41:56 -1000
-Message-Id: <b7d96c1e94f79044f86de5cdf4a0eaa61d4ee0b8.1680453201.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 03/21] openssl: Security fix for CVE-2023-0464, CVE-2023-0465, CVE-2023-0466
+Date: Sun,  2 Apr 2023 06:41:58 -1000
+Message-Id: <699ed495ee65991bf4ab286070d72109e72b1f81.1680453201.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1680453201.git.steve@sakoman.com>
 References: <cover.1680453201.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 02 Apr 2023 16:42:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179582
+ <openembedded-core@lists.openembedded.org>; Sun, 02 Apr 2023 16:42:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179584
 
-From: pawan <badganchipv@gmail.com>
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-This reverts commit 66575e31b76894e217350350307b30d3684ba4fa.
+Upstream-Status:
+- CVE-2023-0464: Backport from [https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=959c59c7a0164117e7f8366466a32bb1f8d77ff1]
+- CVE-2023-0465: Backport from [https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=1dd43e0709fece299b15208f36cc7c76209ba0bb]
+- CVE-2023-0466: Backport from [https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=51e8a84ce742db0f6c70510d0159dad8f7825908]
 
-Revert CVE-2021-3507 for qemu as it is not applicable for qemu6.2
-
-Link: https://nvd.nist.gov/vuln/detail/CVE-2021-3507
-
-Conflicts:
-	meta/recipes-devtools/qemu/qemu.inc
-
-Signed-off-by: pawan <badganchipv@gmail.com>
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |   2 -
- .../qemu/qemu/CVE-2021-3507_1.patch           |  92 --------------
- .../qemu/qemu/CVE-2021-3507_2.patch           | 115 ------------------
- 3 files changed, 209 deletions(-)
- delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3507_1.patch
- delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3507_2.patch
+ .../openssl/openssl/CVE-2023-0464.patch       | 225 ++++++++++++++++++
+ .../openssl/openssl/CVE-2023-0465.patch       |  56 +++++
+ .../openssl/openssl/CVE-2023-0466.patch       |  50 ++++
+ .../openssl/openssl_3.0.8.bb                  |   3 +
+ 4 files changed, 334 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-0464.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-0465.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-0466.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 5430718f75..a6ee958e4b 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -35,8 +35,6 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2021-4206.patch \
-            file://CVE-2021-4207.patch \
-            file://CVE-2022-35414.patch \
--           file://CVE-2021-3507_1.patch \
--           file://CVE-2021-3507_2.patch \
-            file://CVE-2021-3929.patch \
-            file://CVE-2021-4158.patch \
-            file://CVE-2022-0358.patch \
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3507_1.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3507_1.patch
-deleted file mode 100644
-index 4201610f4d..0000000000
---- a/meta/recipes-devtools/qemu/qemu/CVE-2021-3507_1.patch
-+++ /dev/null
-@@ -1,92 +0,0 @@
--From 963ac2cd5186b28fbfdecd15ac43afe1dbaf871a Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
--Date: Thu, 18 Nov 2021 12:57:32 +0100
--Subject: [PATCH 1/2] hw/block/fdc: Prevent end-of-track overrun
-- (CVE-2021-3507)
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--Per the 82078 datasheet, if the end-of-track (EOT byte in
--the FIFO) is more than the number of sectors per side, the
--command is terminated unsuccessfully:
--
--* 5.2.5 DATA TRANSFER TERMINATION
--
--  The 82078 supports terminal count explicitly through
--  the TC pin and implicitly through the underrun/over-
--  run and end-of-track (EOT) functions. For full sector
--  transfers, the EOT parameter can define the last
--  sector to be transferred in a single or multisector
--  transfer. If the last sector to be transferred is a par-
--  tial sector, the host can stop transferring the data in
--  mid-sector, and the 82078 will continue to complete
--  the sector as if a hardware TC was received. The
--  only difference between these implicit functions and
--  TC is that they return "abnormal termination" result
--  status. Such status indications can be ignored if they
--  were expected.
--
--* 6.1.3 READ TRACK
--
--  This command terminates when the EOT specified
--  number of sectors have been read. If the 82078
--  does not find an I D Address Mark on the diskette
--  after the second· occurrence of a pulse on the
--  INDX# pin, then it sets the IC code in Status Regis-
--  ter 0 to "01" (Abnormal termination), sets the MA bit
--  in Status Register 1 to "1", and terminates the com-
--  mand.
--
--* 6.1.6 VERIFY
--
--  Refer to Table 6-6 and Table 6-7 for information
--  concerning the values of MT and EC versus SC and
--  EOT value.
--
--* Table 6·6. Result Phase Table
--
--* Table 6-7. Verify Command Result Phase Table
--
--Fix by aborting the transfer when EOT > # Sectors Per Side.
--
--Cc: qemu-stable@nongnu.org
--Cc: Hervé Poussineau <hpoussin@reactos.org>
--Fixes: baca51faff0 ("floppy driver: disk geometry auto detect")
--Reported-by: Alexander Bulekov <alxndr@bu.edu>
--Resolves: https://gitlab.com/qemu-project/qemu/-/issues/339
--Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
--Message-Id: <20211118115733.4038610-2-philmd@redhat.com>
--Reviewed-by: Hanna Reitz <hreitz@redhat.com>
--Signed-off-by: Kevin Wolf <kwolf@redhat.com>
--
--Upstream-Status: Backport [defac5e2fbddf8423a354ff0454283a2115e1367]
--CVE: CVE-2021-3507
--
--Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-----
-- hw/block/fdc.c | 8 ++++++++
-- 1 file changed, 8 insertions(+)
--
--diff --git a/hw/block/fdc.c b/hw/block/fdc.c
--index 21d18ac2e..24b05406e 100644
----- a/hw/block/fdc.c
--+++ b/hw/block/fdc.c
--@@ -1529,6 +1529,14 @@ static void fdctrl_start_transfer(FDCtrl *fdctrl, int direction)
--         int tmp;
--         fdctrl->data_len = 128 << (fdctrl->fifo[5] > 7 ? 7 : fdctrl->fifo[5]);
--         tmp = (fdctrl->fifo[6] - ks + 1);
--+        if (tmp < 0) {
--+            FLOPPY_DPRINTF("invalid EOT: %d\n", tmp);
--+            fdctrl_stop_transfer(fdctrl, FD_SR0_ABNTERM, FD_SR1_MA, 0x00);
--+            fdctrl->fifo[3] = kt;
--+            fdctrl->fifo[4] = kh;
--+            fdctrl->fifo[5] = ks;
--+            return;
--+        }
--         if (fdctrl->fifo[0] & 0x80)
--             tmp += fdctrl->fifo[6];
--         fdctrl->data_len *= tmp;
---- 
--2.33.0
--
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3507_2.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3507_2.patch
-deleted file mode 100644
-index 9f00d9c0d0..0000000000
---- a/meta/recipes-devtools/qemu/qemu/CVE-2021-3507_2.patch
-+++ /dev/null
-@@ -1,115 +0,0 @@
--From ec5725982f811d9728ad1f9940df0e9349397e67 Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
--Date: Thu, 18 Nov 2021 12:57:33 +0100
--Subject: [PATCH 2/2] tests/qtest/fdc-test: Add a regression test for
-- CVE-2021-3507
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--Add the reproducer from https://gitlab.com/qemu-project/qemu/-/issues/339
--
--Without the previous commit, when running 'make check-qtest-i386'
--with QEMU configured with '--enable-sanitizers' we get:
--
--  ==4028352==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x619000062a00 at pc 0x5626d03c491a bp 0x7ffdb4199410 sp 0x7ffdb4198bc0
--  READ of size 786432 at 0x619000062a00 thread T0
--      #0 0x5626d03c4919 in __asan_memcpy (qemu-system-i386+0x1e65919)
--      #1 0x5626d1c023cc in flatview_write_continue softmmu/physmem.c:2787:13
--      #2 0x5626d1bf0c0f in flatview_write softmmu/physmem.c:2822:14
--      #3 0x5626d1bf0798 in address_space_write softmmu/physmem.c:2914:18
--      #4 0x5626d1bf0f37 in address_space_rw softmmu/physmem.c:2924:16
--      #5 0x5626d1bf14c8 in cpu_physical_memory_rw softmmu/physmem.c:2933:5
--      #6 0x5626d0bd5649 in cpu_physical_memory_write include/exec/cpu-common.h:82:5
--      #7 0x5626d0bd0a07 in i8257_dma_write_memory hw/dma/i8257.c:452:9
--      #8 0x5626d09f825d in fdctrl_transfer_handler hw/block/fdc.c:1616:13
--      #9 0x5626d0a048b4 in fdctrl_start_transfer hw/block/fdc.c:1539:13
--      #10 0x5626d09f4c3e in fdctrl_write_data hw/block/fdc.c:2266:13
--      #11 0x5626d09f22f7 in fdctrl_write hw/block/fdc.c:829:9
--      #12 0x5626d1c20bc5 in portio_write softmmu/ioport.c:207:17
--
--  0x619000062a00 is located 0 bytes to the right of 512-byte region [0x619000062800,0x619000062a00)
--  allocated by thread T0 here:
--      #0 0x5626d03c66ec in posix_memalign (qemu-system-i386+0x1e676ec)
--      #1 0x5626d2b988d4 in qemu_try_memalign util/oslib-posix.c:210:11
--      #2 0x5626d2b98b0c in qemu_memalign util/oslib-posix.c:226:27
--      #3 0x5626d09fbaf0 in fdctrl_realize_common hw/block/fdc.c:2341:20
--      #4 0x5626d0a150ed in isabus_fdc_realize hw/block/fdc-isa.c:113:5
--      #5 0x5626d2367935 in device_set_realized hw/core/qdev.c:531:13
--
--  SUMMARY: AddressSanitizer: heap-buffer-overflow (qemu-system-i386+0x1e65919) in __asan_memcpy
--  Shadow bytes around the buggy address:
--    0x0c32800044f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
--    0x0c3280004500: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
--    0x0c3280004510: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
--    0x0c3280004520: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
--    0x0c3280004530: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
--  =>0x0c3280004540:[fa]fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
--    0x0c3280004550: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
--    0x0c3280004560: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
--    0x0c3280004570: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
--    0x0c3280004580: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
--    0x0c3280004590: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
--  Shadow byte legend (one shadow byte represents 8 application bytes):
--    Addressable:           00
--    Heap left redzone:       fa
--    Freed heap region:       fd
--  ==4028352==ABORTING
--
--[ kwolf: Added snapshot=on to prevent write file lock failure ]
--
--Reported-by: Alexander Bulekov <alxndr@bu.edu>
--Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
--Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
--Signed-off-by: Kevin Wolf <kwolf@redhat.com>
--
--Upstream-Status: Backport [46609b90d9e3a6304def11038a76b58ff43f77bc]
--CVE: CVE-2021-3507
--
--Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-----
-- tests/qtest/fdc-test.c | 21 +++++++++++++++++++++
-- 1 file changed, 21 insertions(+)
--
--diff --git a/tests/qtest/fdc-test.c b/tests/qtest/fdc-test.c
--index 8f6eee84a..6f5850354 100644
----- a/tests/qtest/fdc-test.c
--+++ b/tests/qtest/fdc-test.c
--@@ -583,6 +583,26 @@ static void test_cve_2021_20196(void)
--     qtest_quit(s);
-- }
-- 
--+static void test_cve_2021_3507(void)
--+{
--+    QTestState *s;
--+
--+    s = qtest_initf("-nographic -m 32M -nodefaults "
--+                    "-drive file=%s,format=raw,if=floppy,snapshot=on",
--+                    test_image);
--+    qtest_outl(s, 0x9, 0x0a0206);
--+    qtest_outw(s, 0x3f4, 0x1600);
--+    qtest_outw(s, 0x3f4, 0x0000);
--+    qtest_outw(s, 0x3f4, 0x0000);
--+    qtest_outw(s, 0x3f4, 0x0000);
--+    qtest_outw(s, 0x3f4, 0x0200);
--+    qtest_outw(s, 0x3f4, 0x0200);
--+    qtest_outw(s, 0x3f4, 0x0000);
--+    qtest_outw(s, 0x3f4, 0x0000);
--+    qtest_outw(s, 0x3f4, 0x0000);
--+    qtest_quit(s);
--+}
--+
-- int main(int argc, char **argv)
-- {
--     int fd;
--@@ -614,6 +634,7 @@ int main(int argc, char **argv)
--     qtest_add_func("/fdc/read_no_dma_19", test_read_no_dma_19);
--     qtest_add_func("/fdc/fuzz-registers", fuzz_registers);
--     qtest_add_func("/fdc/fuzz/cve_2021_20196", test_cve_2021_20196);
--+    qtest_add_func("/fdc/fuzz/cve_2021_3507", test_cve_2021_3507);
-- 
--     ret = g_test_run();
-- 
---- 
--2.33.0
--
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-0464.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-0464.patch
+new file mode 100644
+index 0000000000..3b94c48e8d
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2023-0464.patch
+@@ -0,0 +1,225 @@
++From 959c59c7a0164117e7f8366466a32bb1f8d77ff1 Mon Sep 17 00:00:00 2001
++From: Pauli <pauli@openssl.org>
++Date: Wed, 8 Mar 2023 15:28:20 +1100
++Subject: [PATCH] x509: excessive resource use verifying policy constraints
++
++A security vulnerability has been identified in all supported versions
++of OpenSSL related to the verification of X.509 certificate chains
++that include policy constraints.  Attackers may be able to exploit this
++vulnerability by creating a malicious certificate chain that triggers
++exponential use of computational resources, leading to a denial-of-service
++(DoS) attack on affected systems.
++
++Fixes CVE-2023-0464
++
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++Reviewed-by: Shane Lontis <shane.lontis@oracle.com>
++(Merged from https://github.com/openssl/openssl/pull/20568)
++
++Upstream-Status: Backport from [https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=959c59c7a0164117e7f8366466a32bb1f8d77ff1]
++CVE: CVE-2023-0464
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++---
++ crypto/x509/pcy_local.h |  8 +++++++-
++ crypto/x509/pcy_node.c  | 12 +++++++++---
++ crypto/x509/pcy_tree.c  | 36 ++++++++++++++++++++++++++----------
++ 3 files changed, 42 insertions(+), 14 deletions(-)
++
++diff --git a/crypto/x509/pcy_local.h b/crypto/x509/pcy_local.h
++index 18b53cc..cba107c 100644
++--- a/crypto/x509/pcy_local.h
+++++ b/crypto/x509/pcy_local.h
++@@ -111,6 +111,11 @@ struct X509_POLICY_LEVEL_st {
++ };
++ 
++ struct X509_POLICY_TREE_st {
+++    /* The number of nodes in the tree */
+++    size_t node_count;
+++    /* The maximum number of nodes in the tree */
+++    size_t node_maximum;
+++
++     /* This is the tree 'level' data */
++     X509_POLICY_LEVEL *levels;
++     int nlevel;
++@@ -157,7 +162,8 @@ X509_POLICY_NODE *ossl_policy_tree_find_sk(STACK_OF(X509_POLICY_NODE) *sk,
++ X509_POLICY_NODE *ossl_policy_level_add_node(X509_POLICY_LEVEL *level,
++                                              X509_POLICY_DATA *data,
++                                              X509_POLICY_NODE *parent,
++-                                             X509_POLICY_TREE *tree);
+++                                             X509_POLICY_TREE *tree,
+++                                             int extra_data);
++ void ossl_policy_node_free(X509_POLICY_NODE *node);
++ int ossl_policy_node_match(const X509_POLICY_LEVEL *lvl,
++                            const X509_POLICY_NODE *node, const ASN1_OBJECT *oid);
++diff --git a/crypto/x509/pcy_node.c b/crypto/x509/pcy_node.c
++index 9d9a7ea..450f95a 100644
++--- a/crypto/x509/pcy_node.c
+++++ b/crypto/x509/pcy_node.c
++@@ -59,10 +59,15 @@ X509_POLICY_NODE *ossl_policy_level_find_node(const X509_POLICY_LEVEL *level,
++ X509_POLICY_NODE *ossl_policy_level_add_node(X509_POLICY_LEVEL *level,
++                                              X509_POLICY_DATA *data,
++                                              X509_POLICY_NODE *parent,
++-                                             X509_POLICY_TREE *tree)
+++                                             X509_POLICY_TREE *tree,
+++                                             int extra_data)
++ {
++     X509_POLICY_NODE *node;
++ 
+++    /* Verify that the tree isn't too large.  This mitigates CVE-2023-0464 */
+++    if (tree->node_maximum > 0 && tree->node_count >= tree->node_maximum)
+++        return NULL;
+++
++     node = OPENSSL_zalloc(sizeof(*node));
++     if (node == NULL) {
++         ERR_raise(ERR_LIB_X509V3, ERR_R_MALLOC_FAILURE);
++@@ -70,7 +75,7 @@ X509_POLICY_NODE *ossl_policy_level_add_node(X509_POLICY_LEVEL *level,
++     }
++     node->data = data;
++     node->parent = parent;
++-    if (level) {
+++    if (level != NULL) {
++         if (OBJ_obj2nid(data->valid_policy) == NID_any_policy) {
++             if (level->anyPolicy)
++                 goto node_error;
++@@ -90,7 +95,7 @@ X509_POLICY_NODE *ossl_policy_level_add_node(X509_POLICY_LEVEL *level,
++         }
++     }
++ 
++-    if (tree) {
+++    if (extra_data) {
++         if (tree->extra_data == NULL)
++             tree->extra_data = sk_X509_POLICY_DATA_new_null();
++         if (tree->extra_data == NULL){
++@@ -103,6 +108,7 @@ X509_POLICY_NODE *ossl_policy_level_add_node(X509_POLICY_LEVEL *level,
++         }
++     }
++ 
+++    tree->node_count++;
++     if (parent)
++         parent->nchild++;
++ 
++diff --git a/crypto/x509/pcy_tree.c b/crypto/x509/pcy_tree.c
++index fa45da5..f953a05 100644
++--- a/crypto/x509/pcy_tree.c
+++++ b/crypto/x509/pcy_tree.c
++@@ -14,6 +14,17 @@
++ 
++ #include "pcy_local.h"
++ 
+++/*
+++ * If the maximum number of nodes in the policy tree isn't defined, set it to
+++ * a generous default of 1000 nodes.
+++ *
+++ * Defining this to be zero means unlimited policy tree growth which opens the
+++ * door on CVE-2023-0464.
+++ */
+++#ifndef OPENSSL_POLICY_TREE_NODES_MAX
+++# define OPENSSL_POLICY_TREE_NODES_MAX 1000
+++#endif
+++
++ static void expected_print(BIO *channel,
++                            X509_POLICY_LEVEL *lev, X509_POLICY_NODE *node,
++                            int indent)
++@@ -163,6 +174,9 @@ static int tree_init(X509_POLICY_TREE **ptree, STACK_OF(X509) *certs,
++         return X509_PCY_TREE_INTERNAL;
++     }
++ 
+++    /* Limit the growth of the tree to mitigate CVE-2023-0464 */
+++    tree->node_maximum = OPENSSL_POLICY_TREE_NODES_MAX;
+++
++     /*
++      * http://tools.ietf.org/html/rfc5280#section-6.1.2, figure 3.
++      *
++@@ -180,7 +194,7 @@ static int tree_init(X509_POLICY_TREE **ptree, STACK_OF(X509) *certs,
++     if ((data = ossl_policy_data_new(NULL,
++                                      OBJ_nid2obj(NID_any_policy), 0)) == NULL)
++         goto bad_tree;
++-    if (ossl_policy_level_add_node(level, data, NULL, tree) == NULL) {
+++    if (ossl_policy_level_add_node(level, data, NULL, tree, 1) == NULL) {
++         ossl_policy_data_free(data);
++         goto bad_tree;
++     }
++@@ -239,7 +253,8 @@ static int tree_init(X509_POLICY_TREE **ptree, STACK_OF(X509) *certs,
++  * Return value: 1 on success, 0 otherwise
++  */
++ static int tree_link_matching_nodes(X509_POLICY_LEVEL *curr,
++-                                    X509_POLICY_DATA *data)
+++                                    X509_POLICY_DATA *data,
+++                                    X509_POLICY_TREE *tree)
++ {
++     X509_POLICY_LEVEL *last = curr - 1;
++     int i, matched = 0;
++@@ -249,13 +264,13 @@ static int tree_link_matching_nodes(X509_POLICY_LEVEL *curr,
++         X509_POLICY_NODE *node = sk_X509_POLICY_NODE_value(last->nodes, i);
++ 
++         if (ossl_policy_node_match(last, node, data->valid_policy)) {
++-            if (ossl_policy_level_add_node(curr, data, node, NULL) == NULL)
+++            if (ossl_policy_level_add_node(curr, data, node, tree, 0) == NULL)
++                 return 0;
++             matched = 1;
++         }
++     }
++     if (!matched && last->anyPolicy) {
++-        if (ossl_policy_level_add_node(curr, data, last->anyPolicy, NULL) == NULL)
+++        if (ossl_policy_level_add_node(curr, data, last->anyPolicy, tree, 0) == NULL)
++             return 0;
++     }
++     return 1;
++@@ -268,7 +283,8 @@ static int tree_link_matching_nodes(X509_POLICY_LEVEL *curr,
++  * Return value: 1 on success, 0 otherwise.
++  */
++ static int tree_link_nodes(X509_POLICY_LEVEL *curr,
++-                           const X509_POLICY_CACHE *cache)
+++                           const X509_POLICY_CACHE *cache,
+++                           X509_POLICY_TREE *tree)
++ {
++     int i;
++ 
++@@ -276,7 +292,7 @@ static int tree_link_nodes(X509_POLICY_LEVEL *curr,
++         X509_POLICY_DATA *data = sk_X509_POLICY_DATA_value(cache->data, i);
++ 
++         /* Look for matching nodes in previous level */
++-        if (!tree_link_matching_nodes(curr, data))
+++        if (!tree_link_matching_nodes(curr, data, tree))
++             return 0;
++     }
++     return 1;
++@@ -307,7 +323,7 @@ static int tree_add_unmatched(X509_POLICY_LEVEL *curr,
++     /* Curr may not have anyPolicy */
++     data->qualifier_set = cache->anyPolicy->qualifier_set;
++     data->flags |= POLICY_DATA_FLAG_SHARED_QUALIFIERS;
++-    if (ossl_policy_level_add_node(curr, data, node, tree) == NULL) {
+++    if (ossl_policy_level_add_node(curr, data, node, tree, 1) == NULL) {
++         ossl_policy_data_free(data);
++         return 0;
++     }
++@@ -370,7 +386,7 @@ static int tree_link_any(X509_POLICY_LEVEL *curr,
++     /* Finally add link to anyPolicy */
++     if (last->anyPolicy &&
++             ossl_policy_level_add_node(curr, cache->anyPolicy,
++-                                       last->anyPolicy, NULL) == NULL)
+++                                       last->anyPolicy, tree, 0) == NULL)
++         return 0;
++     return 1;
++ }
++@@ -553,7 +569,7 @@ static int tree_calculate_user_set(X509_POLICY_TREE *tree,
++             extra->flags = POLICY_DATA_FLAG_SHARED_QUALIFIERS
++                 | POLICY_DATA_FLAG_EXTRA_NODE;
++             node = ossl_policy_level_add_node(NULL, extra, anyPolicy->parent,
++-                                              tree);
+++                                              tree, 1);
++         }
++         if (!tree->user_policies) {
++             tree->user_policies = sk_X509_POLICY_NODE_new_null();
++@@ -580,7 +596,7 @@ static int tree_evaluate(X509_POLICY_TREE *tree)
++ 
++     for (i = 1; i < tree->nlevel; i++, curr++) {
++         cache = ossl_policy_cache_set(curr->cert);
++-        if (!tree_link_nodes(curr, cache))
+++        if (!tree_link_nodes(curr, cache, tree))
++             return X509_PCY_TREE_INTERNAL;
++ 
++         if (!(curr->flags & X509_V_FLAG_INHIBIT_ANY)
++-- 
++2.35.7
++
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-0465.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-0465.patch
+new file mode 100644
+index 0000000000..57fd494464
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2023-0465.patch
+@@ -0,0 +1,56 @@
++From 1dd43e0709fece299b15208f36cc7c76209ba0bb Mon Sep 17 00:00:00 2001
++From: Matt Caswell <matt@openssl.org>
++Date: Tue, 7 Mar 2023 16:52:55 +0000
++Subject: [PATCH] Ensure that EXFLAG_INVALID_POLICY is checked even in leaf
++ certs
++
++Even though we check the leaf cert to confirm it is valid, we
++later ignored the invalid flag and did not notice that the leaf
++cert was bad.
++
++Fixes: CVE-2023-0465
++
++Reviewed-by: Hugo Landau <hlandau@openssl.org>
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/20587)
++
++Upstream-Status: Backport from [https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=1dd43e0709fece299b15208f36cc7c76209ba0bb]
++CVE: CVE-2023-0465
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++---
++ crypto/x509/x509_vfy.c | 12 ++++++++++--
++ 1 file changed, 10 insertions(+), 2 deletions(-)
++
++diff --git a/crypto/x509/x509_vfy.c b/crypto/x509/x509_vfy.c
++index 9384f1d..a0282c3 100644
++--- a/crypto/x509/x509_vfy.c
+++++ b/crypto/x509/x509_vfy.c
++@@ -1654,15 +1654,23 @@ static int check_policy(X509_STORE_CTX *ctx)
++         goto memerr;
++     /* Invalid or inconsistent extensions */
++     if (ret == X509_PCY_TREE_INVALID) {
++-        int i;
+++        int i, cbcalled = 0;
++ 
++         /* Locate certificates with bad extensions and notify callback. */
++-        for (i = 1; i < sk_X509_num(ctx->chain); i++) {
+++        for (i = 0; i < sk_X509_num(ctx->chain); i++) {
++             X509 *x = sk_X509_value(ctx->chain, i);
++ 
+++            if ((x->ex_flags & EXFLAG_INVALID_POLICY) != 0)
+++                cbcalled = 1;
++             CB_FAIL_IF((x->ex_flags & EXFLAG_INVALID_POLICY) != 0,
++                        ctx, x, i, X509_V_ERR_INVALID_POLICY_EXTENSION);
++         }
+++        if (!cbcalled) {
+++            /* Should not be able to get here */
+++            ERR_raise(ERR_LIB_X509, ERR_R_INTERNAL_ERROR);
+++            return 0;
+++        }
+++        /* The callback ignored the error so we return success */
++         return 1;
++     }
++     if (ret == X509_PCY_TREE_FAILURE) {
++-- 
++2.35.7
++
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-0466.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-0466.patch
+new file mode 100644
+index 0000000000..a16bfe42ca
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2023-0466.patch
+@@ -0,0 +1,50 @@
++From 51e8a84ce742db0f6c70510d0159dad8f7825908 Mon Sep 17 00:00:00 2001
++From: Tomas Mraz <tomas@openssl.org>
++Date: Tue, 21 Mar 2023 16:15:47 +0100
++Subject: [PATCH] Fix documentation of X509_VERIFY_PARAM_add0_policy()
++
++The function was incorrectly documented as enabling policy checking.
++
++Fixes: CVE-2023-0466
++
++Reviewed-by: Matt Caswell <matt@openssl.org>
++Reviewed-by: Paul Dale <pauli@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/20563)
++
++Upstream-Status: Backport from [https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=51e8a84ce742db0f6c70510d0159dad8f7825908]
++CVE: CVE-2023-0466
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++---
++ doc/man3/X509_VERIFY_PARAM_set_flags.pod | 9 +++++++--
++ 1 file changed, 7 insertions(+), 2 deletions(-)
++
++diff --git a/doc/man3/X509_VERIFY_PARAM_set_flags.pod b/doc/man3/X509_VERIFY_PARAM_set_flags.pod
++index 75a1677..43c1900 100644
++--- a/doc/man3/X509_VERIFY_PARAM_set_flags.pod
+++++ b/doc/man3/X509_VERIFY_PARAM_set_flags.pod
++@@ -98,8 +98,9 @@ B<trust>.
++ X509_VERIFY_PARAM_set_time() sets the verification time in B<param> to
++ B<t>. Normally the current time is used.
++ 
++-X509_VERIFY_PARAM_add0_policy() enables policy checking (it is disabled
++-by default) and adds B<policy> to the acceptable policy set.
+++X509_VERIFY_PARAM_add0_policy() adds B<policy> to the acceptable policy set.
+++Contrary to preexisting documentation of this function it does not enable
+++policy checking.
++ 
++ X509_VERIFY_PARAM_set1_policies() enables policy checking (it is disabled
++ by default) and sets the acceptable policy set to B<policies>. Any existing
++@@ -400,6 +401,10 @@ The X509_VERIFY_PARAM_get_hostflags() function was added in OpenSSL 1.1.0i.
++ The X509_VERIFY_PARAM_get0_host(), X509_VERIFY_PARAM_get0_email(),
++ and X509_VERIFY_PARAM_get1_ip_asc() functions were added in OpenSSL 3.0.
++ 
+++The function X509_VERIFY_PARAM_add0_policy() was historically documented as
+++enabling policy checking however the implementation has never done this.
+++The documentation was changed to align with the implementation.
+++
++ =head1 COPYRIGHT
++ 
++ Copyright 2009-2023 The OpenSSL Project Authors. All Rights Reserved.
++-- 
++2.35.7
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.8.bb b/meta/recipes-connectivity/openssl/openssl_3.0.8.bb
+index 75f9e44748..e1f30d7a47 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.0.8.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.0.8.bb
+@@ -12,6 +12,9 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+            file://afalg.patch \
+            file://0001-Configure-do-not-tweak-mips-cflags.patch \
++           file://CVE-2023-0464.patch \
++           file://CVE-2023-0465.patch \
++           file://CVE-2023-0466.patch \
+            "
+ 
+ SRC_URI:append:class-nativesdk = " \
 -- 
 2.34.1
 
