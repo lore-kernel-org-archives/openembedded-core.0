@@ -1,99 +1,94 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <sundeep.kokkonda@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91AE2C76196
-	for <webhook@archiver.kernel.org>; Sun,  2 Apr 2023 13:32:58 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web10.44496.1680442369570307314
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F400C76196
+	for <webhook@archiver.kernel.org>; Sun,  2 Apr 2023 15:29:19 +0000 (UTC)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web10.46986.1680449349414984022
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Apr 2023 06:32:49 -0700
+ Sun, 02 Apr 2023 08:29:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=azR2esXP;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id o2so25604256plg.4
-        for <openembedded-core@lists.openembedded.org>; Sun, 02 Apr 2023 06:32:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=KkUXeWtf;
+ spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: sundeep.kokkonda@gmail.com)
+Received: by mail-pf1-f173.google.com with SMTP id z11so17551677pfh.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 02 Apr 2023 08:29:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680442369; x=1683034369;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EyPimM4my/o6L08xXDedm7Dx2ujPfv7Di/zYk1gYUaw=;
-        b=azR2esXPlJ7PRZ39tY8yczPeTuXCKWKB1lgVVHgXfgR0cSJj8CFznpWdTSN2wBetIS
-         YXXfH4QDAxXPtmZ0cJsLM76Fo8A5mJSY+4koyoBvlIIo9zHlpIoDQn/koYyY1r4bLTXY
-         z6y4wwXl1w7qKqi0+Z1/WeTp/50Ayg63M3sROe4gfUQpKyXNn5rsfA+2jmCA0JWgGRkw
-         zsftwfTCzyL9AYfIAdDejQ8FD8FzjvneI1qQezVxbBnHHZ6YjzGZZHKOS80OREHi5NJm
-         QmVLjIMMs4SVomaTxN94EE2JRgqFsQ23hHD1FhxW6gmhB3RFzo4CFDKY5JYBXN3Fv1n0
-         eezg==
+        d=gmail.com; s=20210112; t=1680449348;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YGFquxhw6sN1zAPkjB85oRHVCHFoWqrwXgFdhQY9sFQ=;
+        b=KkUXeWtfOZaO1N3LLc3uBoaGKOdBYGrw+yia0h1N+ur7wM1I7ug/DcNTDFwJiTascu
+         MoK1G+CB69qT3c5Okv2zYFAzkFejyX0WHW902Kcnww8nq+oG1AfQc7F6M4Id87qQeDWQ
+         Zwh3SiiGl+HHOcbR5fLOIr2ObJ59JTs/nmokArRlybRVh/4coOSR+77L2/f0Ule8Ng6I
+         yd3fQElh68m8K7gDXB7QGo1/y65TI6vVFzlYk2tk+o9aCrW638dnrxrcBeXvJrPxgvVM
+         9inG8a+QS84LI9E2uPgeA3cKgVVRIEQRx8WcDqlWFRU4MWtq1kTuXPft8ZIAT6YtRPzi
+         yz1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680442369; x=1683034369;
-        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EyPimM4my/o6L08xXDedm7Dx2ujPfv7Di/zYk1gYUaw=;
-        b=sIZbZ+bza/fJ7k5U+hw7lO+pVb5WdY0bWym2Ta8Z8B/Zc/bgFmCZdpOYh6GQ2ZuIwh
-         p3iJkziCFe4w+DQAVqLBEYZWlTAIo+pPb1eP5ihRRiiHZl6sUogWa7Oj0VhWHMQb01KP
-         rdNSJDAa5Y5xHYKMnbohKz+YfrBTo3orZufBysQ0sMR+/mEvyePwqAzCRUsoECOJ4ODH
-         NEnO6w+PaHU+j2+sqocGtL0cyZzbUWETz8u+vFirmwYnSki6arfQZLamlqNp1SDe78uJ
-         viXXu/H+2059fr8nz5bJ3WAD1jo5mw9zYBXn4tr/iA1xXAl5g+XySKRhc5EtE7XG2OcM
-         Rfaw==
-X-Gm-Message-State: AAQBX9f3yor8UbDShCGMROltk8tytPzSKyB/5Q/Jlg7gyVrTc68Ij4Ih
-	qG08txDU3+5qB+ozqKaBLr60SvfJ9FPM5m4WUuo=
-X-Google-Smtp-Source: AKy350bQYmDE6NaJSbPUkm5hhCkPgZ44LYGsSaqdW+wWsRvPPoQjWkCEamk7fVqc4whyNiYB5DvnOg==
-X-Received: by 2002:a17:90b:3811:b0:23b:3d6e:1ed with SMTP id mq17-20020a17090b381100b0023b3d6e01edmr36665622pjb.13.1680442368558;
-        Sun, 02 Apr 2023 06:32:48 -0700 (PDT)
-Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id cm16-20020a17090afa1000b0024095afa776sm4579321pjb.20.2023.04.02.06.32.47
+        d=1e100.net; s=20210112; t=1680449348;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YGFquxhw6sN1zAPkjB85oRHVCHFoWqrwXgFdhQY9sFQ=;
+        b=EGsoZp9NjA+noCMT8YFtO0W/Cl9NQHvPxWSaSQE418nYyc72mKJmzj/r0PbVurKkd0
+         shEDKKtCWzfTTSdjl0cWV7Eqjobr05EX0+7MQTjoF6AyvexTqxix0dw4HzdHU6wGWaoI
+         rgP2kdUNQ83kYI9Qgnt8JGatDJeT3pdtV90G7GNLBFgtJ5f6FFx/E6gkPhZdsW6ziC7J
+         8/vhIaJuKTJ3R1PXmtoizkm+B+zoT85cFAcCa9dY2RbnhEPqK9iWWHj3FW/gLtmAmz5d
+         SRLzhifzTvRAaQBVAi99rPvFzcIHk2gOi7YMKxOCtBwjiofGLuR89ekfEZUkCaK1xIDD
+         pBnw==
+X-Gm-Message-State: AAQBX9eJJD8076RPkAK+1dy0eMuTc36+AnwtgnAcOB2n/WkHAEu+VF62
+	LtHw9LunuU+uaB5ZRASxhfnZHqYw3COjtA==
+X-Google-Smtp-Source: AKy350a5ykIA5aekvb7sS3Q8XbcxL8p/QPt4K5KFZBoOm3BORRdjDBooS2jiVmJ/lJL7jc6vaiOQjw==
+X-Received: by 2002:a62:5543:0:b0:625:a012:a59c with SMTP id j64-20020a625543000000b00625a012a59cmr34430050pfb.9.1680449348469;
+        Sun, 02 Apr 2023 08:29:08 -0700 (PDT)
+Received: from bft-PowerEdge-R620.. ([49.204.85.206])
+        by smtp.gmail.com with ESMTPSA id n23-20020aa78a57000000b005809d382016sm5163357pfa.74.2023.04.02.08.29.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Apr 2023 06:32:48 -0700 (PDT)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 2F963960320; Sun,  2 Apr 2023 03:32:46 -1000 (HST)
-Subject: OE-core CVE metrics for langdale on Sun 02 Apr 2023 03:30:01 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun,  2 Apr 2023 03:32:46 -1000
-Message-Id: <20230402133246.2F963960320@nuc.router0800d9.com>
+        Sun, 02 Apr 2023 08:29:08 -0700 (PDT)
+From: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: rwmacleod@gmail.com,
+	umesh.kalappa0@gmail.com,
+	pgowda.cve@gmail.com,
+	shivams@gmail.com
+Subject: [kirkstone][PATCH] cargo : non vulnerable cve-2022-46176 added to excluded list
+Date: Sun,  2 Apr 2023 20:58:36 +0530
+Message-Id: <20230402152836.9157-1-sundeep.kokkonda@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 02 Apr 2023 13:32:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179579
+ <openembedded-core@lists.openembedded.org>; Sun, 02 Apr 2023 15:29:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179580
 
-Branch: langdale
+This cve (https://nvd.nist.gov/vuln/detail/CVE-2022-46176) is a security vulnirability when using cargo ssh.
+Kirkstone doesn't support rust on-target images and the bitbake using the 'wget' (which uses 'https') for fetching the sources instead of ssh.
+So, cargo-native also not vulnerable to this cve and so added to excluded list.
 
-New this week: 1 CVEs
-CVE-2023-0464 (CVSS3: 7.5 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0464 *
+Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
+---
+ meta/conf/distro/include/cve-extra-exclusions.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Removed this week: 1 CVEs
-CVE-2005-1796 (CVSS3: N/A): ncurses:ncurses-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2005-1796 *
+diff --git a/meta/conf/distro/include/cve-extra-exclusions.inc b/meta/conf/distro/include/cve-extra-exclusions.inc
+index 8b5f8d49b8..cb2d920441 100644
+--- a/meta/conf/distro/include/cve-extra-exclusions.inc
++++ b/meta/conf/distro/include/cve-extra-exclusions.inc
+@@ -15,6 +15,11 @@
+ # the aim of sharing that work and ensuring we don't duplicate it.
+ #
+ 
++#cargo https://nvd.nist.gov/vuln/detail/CVE-2022-46176
++#cargo security advisor https://blog.rust-lang.org/2023/01/10/cve-2022-46176.html
++#This CVE is a security issue when using cargo ssh. In kirkstone, rust 1.59.0 is used and the rust on-target is not supported, so the target images are not vulnerable to the cve.
++#The bitbake using the 'wget' (which uses 'https') for fetching the sources instead of ssh. So, the cargo-native are also not vulnerable to this cve and so added to excluded list.
++CVE_CHECK_IGNORE += "CVE-2022-46176"
+ 
+ # strace https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0006
+ # CVE is more than 20 years old with no resolution evident
+-- 
+2.34.1
 
-Full list:  Found 27 unpatched CVEs
-CVE-2020-10735 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-10735 *
-CVE-2022-3219 (CVSS3: 5.5 MEDIUM): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
-CVE-2022-3515 (CVSS3: 9.8 CRITICAL): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3515 *
-CVE-2022-37454 (CVSS3: 9.8 CRITICAL): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-37454 *
-CVE-2022-3872 (CVSS3: 8.6 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3872 *
-CVE-2022-4055 (CVSS3: 7.4 HIGH): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4055 *
-CVE-2022-40897 (CVSS3: 5.9 MEDIUM): python3-setuptools:python3-setuptools-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40897 *
-CVE-2022-42919 (CVSS3: 7.8 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42919 *
-CVE-2022-44617 (CVSS3: 7.5 HIGH): libxpm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-44617 *
-CVE-2022-45061 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-45061 *
-CVE-2022-46285 (CVSS3: 7.5 HIGH): libxpm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46285 *
-CVE-2022-4645 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4645 *
-CVE-2022-46908 (CVSS3: 7.3 HIGH): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46908 *
-CVE-2022-4743 (CVSS3: 7.5 HIGH): libsdl2:libsdl2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4743 *
-CVE-2022-4883 (CVSS3: 8.8 HIGH): libxpm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4883 *
-CVE-2023-0464 (CVSS3: 7.5 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0464 *
-CVE-2023-1544 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1544 *
-CVE-2023-23914 (CVSS3: 9.1 CRITICAL): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-23914 *
-CVE-2023-23915 (CVSS3: 6.5 MEDIUM): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-23915 *
-CVE-2023-23916 (CVSS3: 7.5 HIGH): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-23916 *
-CVE-2023-24329 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24329 *
-CVE-2023-25358 (CVSS3: 9.8 CRITICAL): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25358 *
-CVE-2023-25360 (CVSS3: 9.8 CRITICAL): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25360 *
-CVE-2023-25361 (CVSS3: 9.8 CRITICAL): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25361 *
-CVE-2023-25362 (CVSS3: 9.8 CRITICAL): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25362 *
-CVE-2023-25363 (CVSS3: 9.8 CRITICAL): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25363 *
-CVE-2023-28531 (CVSS3: 9.8 CRITICAL): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28531 *
-
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
