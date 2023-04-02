@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E95DC76196
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 503FCC761AF
 	for <webhook@archiver.kernel.org>; Sun,  2 Apr 2023 16:42:39 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web10.48696.1680453750816217484
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web11.48829.1680453749259822773
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Apr 2023 09:42:30 -0700
+ Sun, 02 Apr 2023 09:42:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=vCiamAeI;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f172.google.com with SMTP id kc4so25816753plb.10
-        for <openembedded-core@lists.openembedded.org>; Sun, 02 Apr 2023 09:42:30 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=YmOpnYpS;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id f22so21716378plr.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 02 Apr 2023 09:42:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680453750; x=1683045750;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680453748; x=1683045748;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xowJx/9yXxxy72+Lpar+LDADjdGdQCmiVoGy+8XckII=;
-        b=vCiamAeIBfrbuh58yhzzSbGriDyL9NglOHCcKgqGIPmJ1EH2djTUPcy0CA/gAWS5k9
-         xjeAyrPXvdYHKrpHBkML98W3fDPS0pMPE2SFyARAfcN2IZ31pM96Hhx5sRPR5zinf0tg
-         kcvc7JQIQu0RKBPV5SOLX3BoBdTWaO/m6hdDvF9njxYWHWdzUmi1AT4VhofBHNNgo0B7
-         aiOs1N3DbUMT70dibqxlG7UV7oTTdRMY00LYVkVvjhzpBVaOXZrABW103420Iu7wmDDR
-         nU9D5m3i/l/SJH3FG3jB17HpIwHU4ffc4ck1H2oeFVl48CKQ5/cQNdh6EJVPHu9zAwmn
-         zfPA==
+        bh=Lm0KMG9qiv7MxKutcAZROxYlLNGDq8tTJMJvzkl6HpU=;
+        b=YmOpnYpS64AdwnBPMPYRGWLKiMkRrQ1A5zWCaBQa6edcgRDnql9wfHGM0K9Sezolp5
+         YnhzIHKB2NTtOzt3XWK3TAowZYbCd5pYE7QfJnVKzhskc85QZd4a4KLB+poKQusQRH03
+         rtJDtkirZxvj+FBS6YTW84G3ZJcHmtQWDpALeHavJx9otlWrOIVDy/ZfskW1NcrevsLQ
+         sFDv43NkekJeYq6r7Exl6bM7/4P8hPVk1R1XjZg9Fd9tYgl5wKCMIpmu9cMW5ux33jHI
+         X4+6GDjE89XFyA1/XQDp6voSijazeytrQbS/FjMwI1LJ0ZfM++oa1xMZGPcybFbgY4CH
+         xOAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680453750; x=1683045750;
+        d=1e100.net; s=20210112; t=1680453748; x=1683045748;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xowJx/9yXxxy72+Lpar+LDADjdGdQCmiVoGy+8XckII=;
-        b=ooluKaGAWaBD6WHf066zB7bQmb4n84xTsXD9s59BRUa/30CeqYvo+ZOy3O/lP1WnCu
-         hzL7sS7V6080kRv6t9z7wW3QXCxuOSpRfzUcJYmpaRaKt8vyFfdUTvSTi2bpdhyJiu6M
-         gW48wAxk4mKZJQeUHPfeaisdzdOWQUJhAwYjvKrtas0dnJI4FYzhhvoxzvBHxkG22ZWy
-         hOVtNtA3Nn7MvsCoi29GBGR/oL4io7ITG8rqWjQObVgBbQzwnkql3ccm52PSamjiNPBu
-         YRL3I/wL6Tpc4a9BFWUd/nNMHJWQCt97VIK4jhbjnBaL7FfI+27kPCc76SSQUaP4JDZf
-         W64Q==
-X-Gm-Message-State: AAQBX9fBIdlSTIyeq6s7/kqsMoEtjwG985DT2xmoVR8jEvEHyvRnlnrp
-	wtLzhNLBDXaQ71GPdGaJmldbjmfqZd5YAr/sgLY=
-X-Google-Smtp-Source: AKy350ZqaEZuZVQ6w7h1YJnPQ9gSzO4iTYt5sFYVxn3Vxrx4RRs9S1adrWqAYp4BW/HeCzBOHXBSfw==
-X-Received: by 2002:a17:902:e812:b0:19c:e440:9256 with SMTP id u18-20020a170902e81200b0019ce4409256mr42179744plg.35.1680453749585;
-        Sun, 02 Apr 2023 09:42:29 -0700 (PDT)
+        bh=Lm0KMG9qiv7MxKutcAZROxYlLNGDq8tTJMJvzkl6HpU=;
+        b=2L2lRqqq7nOTaY137m2axbltK+d9KBEgj9oQXbA3/hDr/KNh3D7StTVTOYhtsRKcig
+         VxWdJPZYD9xF+WfXRV+O590PermIsLIFaamBiStr0Jj0GnNe2j9NrJsv7h72jdI40Gba
+         j6N2D5blvLdssoBM/GQqscqxQpeo3JOB27xILTxQ+T1zw9BVgDhsmu3mqPIBvzD7JLRU
+         Ul7D/ClS1w83oUh1+sIyYhv8hXVHD0lqB/x3ukoteNLEyOVyQdwFq/ATMv6QNVXRk7aC
+         sVMo9UWz947NAj5hwr4+dWFtm0nyKxIo+/HYvcBGAQ+QoZCwWySZK+lG7IpCJxHM82ty
+         qWtg==
+X-Gm-Message-State: AAQBX9doIueJv9d7koPnz7b11s7Tn3K7O9qnZ0XzZkg4uDTdUpK+Oz8P
+	QYF9VyF5aZCMZwKqJ6D12FdiEnrekVyBe4yQsh0=
+X-Google-Smtp-Source: AKy350YypYXWyyKdSc5+0AKiZNH0naFiZn9D9QiFw0RC5WXWCIK19FN+HaiD8PB+rlzebJbDhZD6Cg==
+X-Received: by 2002:a17:90b:3b49:b0:237:62f7:3106 with SMTP id ot9-20020a17090b3b4900b0023762f73106mr35341728pjb.17.1680453747736;
+        Sun, 02 Apr 2023 09:42:27 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id ja7-20020a170902efc700b001a1ddd224desm5042079plb.89.2023.04.02.09.42.28
+        by smtp.gmail.com with ESMTPSA id ja7-20020a170902efc700b001a1ddd224desm5042079plb.89.2023.04.02.09.42.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Apr 2023 09:42:29 -0700 (PDT)
+        Sun, 02 Apr 2023 09:42:27 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 03/21] openssl: Security fix for CVE-2023-0464, CVE-2023-0465, CVE-2023-0466
-Date: Sun,  2 Apr 2023 06:41:58 -1000
-Message-Id: <699ed495ee65991bf4ab286070d72109e72b1f81.1680453201.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 02/21] go: fix CVE-2022-2879 and CVE-2022-41720
+Date: Sun,  2 Apr 2023 06:41:57 -1000
+Message-Id: <a896cebe1ce2363b501723475154350acf0e0783.1680453201.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1680453201.git.steve@sakoman.com>
 References: <cover.1680453201.git.steve@sakoman.com>
@@ -61,390 +61,742 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 02 Apr 2023 16:42:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179584
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179583
 
-From: Siddharth Doshi <sdoshi@mvista.com>
+From: Sakib Sajal <sakib.sajal@windriver.com>
 
-Upstream-Status:
-- CVE-2023-0464: Backport from [https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=959c59c7a0164117e7f8366466a32bb1f8d77ff1]
-- CVE-2023-0465: Backport from [https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=1dd43e0709fece299b15208f36cc7c76209ba0bb]
-- CVE-2023-0466: Backport from [https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=51e8a84ce742db0f6c70510d0159dad8f7825908]
+Backport appropriate patches to fix CVE-2022-2879 and CVE-2022-41720.
 
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+Modified the original fix for CVE-2022-2879 to remove a testdata tarball
+and any references to it since git binary diffs are not supported in
+quilt.
+
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../openssl/openssl/CVE-2023-0464.patch       | 225 ++++++++++++++++++
- .../openssl/openssl/CVE-2023-0465.patch       |  56 +++++
- .../openssl/openssl/CVE-2023-0466.patch       |  50 ++++
- .../openssl/openssl_3.0.8.bb                  |   3 +
- 4 files changed, 334 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-0464.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-0465.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-0466.patch
+ meta/recipes-devtools/go/go-1.17.13.inc       |   2 +
+ .../go/go-1.18/CVE-2022-2879.patch            | 177 ++++++
+ .../go/go-1.18/CVE-2022-41720.patch           | 514 ++++++++++++++++++
+ 3 files changed, 693 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2022-2879.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2022-41720.patch
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-0464.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-0464.patch
-new file mode 100644
-index 0000000000..3b94c48e8d
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/CVE-2023-0464.patch
-@@ -0,0 +1,225 @@
-+From 959c59c7a0164117e7f8366466a32bb1f8d77ff1 Mon Sep 17 00:00:00 2001
-+From: Pauli <pauli@openssl.org>
-+Date: Wed, 8 Mar 2023 15:28:20 +1100
-+Subject: [PATCH] x509: excessive resource use verifying policy constraints
-+
-+A security vulnerability has been identified in all supported versions
-+of OpenSSL related to the verification of X.509 certificate chains
-+that include policy constraints.  Attackers may be able to exploit this
-+vulnerability by creating a malicious certificate chain that triggers
-+exponential use of computational resources, leading to a denial-of-service
-+(DoS) attack on affected systems.
-+
-+Fixes CVE-2023-0464
-+
-+Reviewed-by: Tomas Mraz <tomas@openssl.org>
-+Reviewed-by: Shane Lontis <shane.lontis@oracle.com>
-+(Merged from https://github.com/openssl/openssl/pull/20568)
-+
-+Upstream-Status: Backport from [https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=959c59c7a0164117e7f8366466a32bb1f8d77ff1]
-+CVE: CVE-2023-0464
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ crypto/x509/pcy_local.h |  8 +++++++-
-+ crypto/x509/pcy_node.c  | 12 +++++++++---
-+ crypto/x509/pcy_tree.c  | 36 ++++++++++++++++++++++++++----------
-+ 3 files changed, 42 insertions(+), 14 deletions(-)
-+
-+diff --git a/crypto/x509/pcy_local.h b/crypto/x509/pcy_local.h
-+index 18b53cc..cba107c 100644
-+--- a/crypto/x509/pcy_local.h
-++++ b/crypto/x509/pcy_local.h
-+@@ -111,6 +111,11 @@ struct X509_POLICY_LEVEL_st {
-+ };
-+ 
-+ struct X509_POLICY_TREE_st {
-++    /* The number of nodes in the tree */
-++    size_t node_count;
-++    /* The maximum number of nodes in the tree */
-++    size_t node_maximum;
-++
-+     /* This is the tree 'level' data */
-+     X509_POLICY_LEVEL *levels;
-+     int nlevel;
-+@@ -157,7 +162,8 @@ X509_POLICY_NODE *ossl_policy_tree_find_sk(STACK_OF(X509_POLICY_NODE) *sk,
-+ X509_POLICY_NODE *ossl_policy_level_add_node(X509_POLICY_LEVEL *level,
-+                                              X509_POLICY_DATA *data,
-+                                              X509_POLICY_NODE *parent,
-+-                                             X509_POLICY_TREE *tree);
-++                                             X509_POLICY_TREE *tree,
-++                                             int extra_data);
-+ void ossl_policy_node_free(X509_POLICY_NODE *node);
-+ int ossl_policy_node_match(const X509_POLICY_LEVEL *lvl,
-+                            const X509_POLICY_NODE *node, const ASN1_OBJECT *oid);
-+diff --git a/crypto/x509/pcy_node.c b/crypto/x509/pcy_node.c
-+index 9d9a7ea..450f95a 100644
-+--- a/crypto/x509/pcy_node.c
-++++ b/crypto/x509/pcy_node.c
-+@@ -59,10 +59,15 @@ X509_POLICY_NODE *ossl_policy_level_find_node(const X509_POLICY_LEVEL *level,
-+ X509_POLICY_NODE *ossl_policy_level_add_node(X509_POLICY_LEVEL *level,
-+                                              X509_POLICY_DATA *data,
-+                                              X509_POLICY_NODE *parent,
-+-                                             X509_POLICY_TREE *tree)
-++                                             X509_POLICY_TREE *tree,
-++                                             int extra_data)
-+ {
-+     X509_POLICY_NODE *node;
-+ 
-++    /* Verify that the tree isn't too large.  This mitigates CVE-2023-0464 */
-++    if (tree->node_maximum > 0 && tree->node_count >= tree->node_maximum)
-++        return NULL;
-++
-+     node = OPENSSL_zalloc(sizeof(*node));
-+     if (node == NULL) {
-+         ERR_raise(ERR_LIB_X509V3, ERR_R_MALLOC_FAILURE);
-+@@ -70,7 +75,7 @@ X509_POLICY_NODE *ossl_policy_level_add_node(X509_POLICY_LEVEL *level,
-+     }
-+     node->data = data;
-+     node->parent = parent;
-+-    if (level) {
-++    if (level != NULL) {
-+         if (OBJ_obj2nid(data->valid_policy) == NID_any_policy) {
-+             if (level->anyPolicy)
-+                 goto node_error;
-+@@ -90,7 +95,7 @@ X509_POLICY_NODE *ossl_policy_level_add_node(X509_POLICY_LEVEL *level,
-+         }
-+     }
-+ 
-+-    if (tree) {
-++    if (extra_data) {
-+         if (tree->extra_data == NULL)
-+             tree->extra_data = sk_X509_POLICY_DATA_new_null();
-+         if (tree->extra_data == NULL){
-+@@ -103,6 +108,7 @@ X509_POLICY_NODE *ossl_policy_level_add_node(X509_POLICY_LEVEL *level,
-+         }
-+     }
-+ 
-++    tree->node_count++;
-+     if (parent)
-+         parent->nchild++;
-+ 
-+diff --git a/crypto/x509/pcy_tree.c b/crypto/x509/pcy_tree.c
-+index fa45da5..f953a05 100644
-+--- a/crypto/x509/pcy_tree.c
-++++ b/crypto/x509/pcy_tree.c
-+@@ -14,6 +14,17 @@
-+ 
-+ #include "pcy_local.h"
-+ 
-++/*
-++ * If the maximum number of nodes in the policy tree isn't defined, set it to
-++ * a generous default of 1000 nodes.
-++ *
-++ * Defining this to be zero means unlimited policy tree growth which opens the
-++ * door on CVE-2023-0464.
-++ */
-++#ifndef OPENSSL_POLICY_TREE_NODES_MAX
-++# define OPENSSL_POLICY_TREE_NODES_MAX 1000
-++#endif
-++
-+ static void expected_print(BIO *channel,
-+                            X509_POLICY_LEVEL *lev, X509_POLICY_NODE *node,
-+                            int indent)
-+@@ -163,6 +174,9 @@ static int tree_init(X509_POLICY_TREE **ptree, STACK_OF(X509) *certs,
-+         return X509_PCY_TREE_INTERNAL;
-+     }
-+ 
-++    /* Limit the growth of the tree to mitigate CVE-2023-0464 */
-++    tree->node_maximum = OPENSSL_POLICY_TREE_NODES_MAX;
-++
-+     /*
-+      * http://tools.ietf.org/html/rfc5280#section-6.1.2, figure 3.
-+      *
-+@@ -180,7 +194,7 @@ static int tree_init(X509_POLICY_TREE **ptree, STACK_OF(X509) *certs,
-+     if ((data = ossl_policy_data_new(NULL,
-+                                      OBJ_nid2obj(NID_any_policy), 0)) == NULL)
-+         goto bad_tree;
-+-    if (ossl_policy_level_add_node(level, data, NULL, tree) == NULL) {
-++    if (ossl_policy_level_add_node(level, data, NULL, tree, 1) == NULL) {
-+         ossl_policy_data_free(data);
-+         goto bad_tree;
-+     }
-+@@ -239,7 +253,8 @@ static int tree_init(X509_POLICY_TREE **ptree, STACK_OF(X509) *certs,
-+  * Return value: 1 on success, 0 otherwise
-+  */
-+ static int tree_link_matching_nodes(X509_POLICY_LEVEL *curr,
-+-                                    X509_POLICY_DATA *data)
-++                                    X509_POLICY_DATA *data,
-++                                    X509_POLICY_TREE *tree)
-+ {
-+     X509_POLICY_LEVEL *last = curr - 1;
-+     int i, matched = 0;
-+@@ -249,13 +264,13 @@ static int tree_link_matching_nodes(X509_POLICY_LEVEL *curr,
-+         X509_POLICY_NODE *node = sk_X509_POLICY_NODE_value(last->nodes, i);
-+ 
-+         if (ossl_policy_node_match(last, node, data->valid_policy)) {
-+-            if (ossl_policy_level_add_node(curr, data, node, NULL) == NULL)
-++            if (ossl_policy_level_add_node(curr, data, node, tree, 0) == NULL)
-+                 return 0;
-+             matched = 1;
-+         }
-+     }
-+     if (!matched && last->anyPolicy) {
-+-        if (ossl_policy_level_add_node(curr, data, last->anyPolicy, NULL) == NULL)
-++        if (ossl_policy_level_add_node(curr, data, last->anyPolicy, tree, 0) == NULL)
-+             return 0;
-+     }
-+     return 1;
-+@@ -268,7 +283,8 @@ static int tree_link_matching_nodes(X509_POLICY_LEVEL *curr,
-+  * Return value: 1 on success, 0 otherwise.
-+  */
-+ static int tree_link_nodes(X509_POLICY_LEVEL *curr,
-+-                           const X509_POLICY_CACHE *cache)
-++                           const X509_POLICY_CACHE *cache,
-++                           X509_POLICY_TREE *tree)
-+ {
-+     int i;
-+ 
-+@@ -276,7 +292,7 @@ static int tree_link_nodes(X509_POLICY_LEVEL *curr,
-+         X509_POLICY_DATA *data = sk_X509_POLICY_DATA_value(cache->data, i);
-+ 
-+         /* Look for matching nodes in previous level */
-+-        if (!tree_link_matching_nodes(curr, data))
-++        if (!tree_link_matching_nodes(curr, data, tree))
-+             return 0;
-+     }
-+     return 1;
-+@@ -307,7 +323,7 @@ static int tree_add_unmatched(X509_POLICY_LEVEL *curr,
-+     /* Curr may not have anyPolicy */
-+     data->qualifier_set = cache->anyPolicy->qualifier_set;
-+     data->flags |= POLICY_DATA_FLAG_SHARED_QUALIFIERS;
-+-    if (ossl_policy_level_add_node(curr, data, node, tree) == NULL) {
-++    if (ossl_policy_level_add_node(curr, data, node, tree, 1) == NULL) {
-+         ossl_policy_data_free(data);
-+         return 0;
-+     }
-+@@ -370,7 +386,7 @@ static int tree_link_any(X509_POLICY_LEVEL *curr,
-+     /* Finally add link to anyPolicy */
-+     if (last->anyPolicy &&
-+             ossl_policy_level_add_node(curr, cache->anyPolicy,
-+-                                       last->anyPolicy, NULL) == NULL)
-++                                       last->anyPolicy, tree, 0) == NULL)
-+         return 0;
-+     return 1;
-+ }
-+@@ -553,7 +569,7 @@ static int tree_calculate_user_set(X509_POLICY_TREE *tree,
-+             extra->flags = POLICY_DATA_FLAG_SHARED_QUALIFIERS
-+                 | POLICY_DATA_FLAG_EXTRA_NODE;
-+             node = ossl_policy_level_add_node(NULL, extra, anyPolicy->parent,
-+-                                              tree);
-++                                              tree, 1);
-+         }
-+         if (!tree->user_policies) {
-+             tree->user_policies = sk_X509_POLICY_NODE_new_null();
-+@@ -580,7 +596,7 @@ static int tree_evaluate(X509_POLICY_TREE *tree)
-+ 
-+     for (i = 1; i < tree->nlevel; i++, curr++) {
-+         cache = ossl_policy_cache_set(curr->cert);
-+-        if (!tree_link_nodes(curr, cache))
-++        if (!tree_link_nodes(curr, cache, tree))
-+             return X509_PCY_TREE_INTERNAL;
-+ 
-+         if (!(curr->flags & X509_V_FLAG_INHIBIT_ANY)
-+-- 
-+2.35.7
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-0465.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-0465.patch
-new file mode 100644
-index 0000000000..57fd494464
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/CVE-2023-0465.patch
-@@ -0,0 +1,56 @@
-+From 1dd43e0709fece299b15208f36cc7c76209ba0bb Mon Sep 17 00:00:00 2001
-+From: Matt Caswell <matt@openssl.org>
-+Date: Tue, 7 Mar 2023 16:52:55 +0000
-+Subject: [PATCH] Ensure that EXFLAG_INVALID_POLICY is checked even in leaf
-+ certs
-+
-+Even though we check the leaf cert to confirm it is valid, we
-+later ignored the invalid flag and did not notice that the leaf
-+cert was bad.
-+
-+Fixes: CVE-2023-0465
-+
-+Reviewed-by: Hugo Landau <hlandau@openssl.org>
-+Reviewed-by: Tomas Mraz <tomas@openssl.org>
-+(Merged from https://github.com/openssl/openssl/pull/20587)
-+
-+Upstream-Status: Backport from [https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=1dd43e0709fece299b15208f36cc7c76209ba0bb]
-+CVE: CVE-2023-0465
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ crypto/x509/x509_vfy.c | 12 ++++++++++--
-+ 1 file changed, 10 insertions(+), 2 deletions(-)
-+
-+diff --git a/crypto/x509/x509_vfy.c b/crypto/x509/x509_vfy.c
-+index 9384f1d..a0282c3 100644
-+--- a/crypto/x509/x509_vfy.c
-++++ b/crypto/x509/x509_vfy.c
-+@@ -1654,15 +1654,23 @@ static int check_policy(X509_STORE_CTX *ctx)
-+         goto memerr;
-+     /* Invalid or inconsistent extensions */
-+     if (ret == X509_PCY_TREE_INVALID) {
-+-        int i;
-++        int i, cbcalled = 0;
-+ 
-+         /* Locate certificates with bad extensions and notify callback. */
-+-        for (i = 1; i < sk_X509_num(ctx->chain); i++) {
-++        for (i = 0; i < sk_X509_num(ctx->chain); i++) {
-+             X509 *x = sk_X509_value(ctx->chain, i);
-+ 
-++            if ((x->ex_flags & EXFLAG_INVALID_POLICY) != 0)
-++                cbcalled = 1;
-+             CB_FAIL_IF((x->ex_flags & EXFLAG_INVALID_POLICY) != 0,
-+                        ctx, x, i, X509_V_ERR_INVALID_POLICY_EXTENSION);
-+         }
-++        if (!cbcalled) {
-++            /* Should not be able to get here */
-++            ERR_raise(ERR_LIB_X509, ERR_R_INTERNAL_ERROR);
-++            return 0;
-++        }
-++        /* The callback ignored the error so we return success */
-+         return 1;
-+     }
-+     if (ret == X509_PCY_TREE_FAILURE) {
-+-- 
-+2.35.7
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-0466.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-0466.patch
-new file mode 100644
-index 0000000000..a16bfe42ca
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/CVE-2023-0466.patch
-@@ -0,0 +1,50 @@
-+From 51e8a84ce742db0f6c70510d0159dad8f7825908 Mon Sep 17 00:00:00 2001
-+From: Tomas Mraz <tomas@openssl.org>
-+Date: Tue, 21 Mar 2023 16:15:47 +0100
-+Subject: [PATCH] Fix documentation of X509_VERIFY_PARAM_add0_policy()
-+
-+The function was incorrectly documented as enabling policy checking.
-+
-+Fixes: CVE-2023-0466
-+
-+Reviewed-by: Matt Caswell <matt@openssl.org>
-+Reviewed-by: Paul Dale <pauli@openssl.org>
-+(Merged from https://github.com/openssl/openssl/pull/20563)
-+
-+Upstream-Status: Backport from [https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=51e8a84ce742db0f6c70510d0159dad8f7825908]
-+CVE: CVE-2023-0466
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ doc/man3/X509_VERIFY_PARAM_set_flags.pod | 9 +++++++--
-+ 1 file changed, 7 insertions(+), 2 deletions(-)
-+
-+diff --git a/doc/man3/X509_VERIFY_PARAM_set_flags.pod b/doc/man3/X509_VERIFY_PARAM_set_flags.pod
-+index 75a1677..43c1900 100644
-+--- a/doc/man3/X509_VERIFY_PARAM_set_flags.pod
-++++ b/doc/man3/X509_VERIFY_PARAM_set_flags.pod
-+@@ -98,8 +98,9 @@ B<trust>.
-+ X509_VERIFY_PARAM_set_time() sets the verification time in B<param> to
-+ B<t>. Normally the current time is used.
-+ 
-+-X509_VERIFY_PARAM_add0_policy() enables policy checking (it is disabled
-+-by default) and adds B<policy> to the acceptable policy set.
-++X509_VERIFY_PARAM_add0_policy() adds B<policy> to the acceptable policy set.
-++Contrary to preexisting documentation of this function it does not enable
-++policy checking.
-+ 
-+ X509_VERIFY_PARAM_set1_policies() enables policy checking (it is disabled
-+ by default) and sets the acceptable policy set to B<policies>. Any existing
-+@@ -400,6 +401,10 @@ The X509_VERIFY_PARAM_get_hostflags() function was added in OpenSSL 1.1.0i.
-+ The X509_VERIFY_PARAM_get0_host(), X509_VERIFY_PARAM_get0_email(),
-+ and X509_VERIFY_PARAM_get1_ip_asc() functions were added in OpenSSL 3.0.
-+ 
-++The function X509_VERIFY_PARAM_add0_policy() was historically documented as
-++enabling policy checking however the implementation has never done this.
-++The documentation was changed to align with the implementation.
-++
-+ =head1 COPYRIGHT
-+ 
-+ Copyright 2009-2023 The OpenSSL Project Authors. All Rights Reserved.
-+-- 
-+2.35.7
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.8.bb b/meta/recipes-connectivity/openssl/openssl_3.0.8.bb
-index 75f9e44748..e1f30d7a47 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.0.8.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.0.8.bb
-@@ -12,6 +12,9 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
-            file://afalg.patch \
-            file://0001-Configure-do-not-tweak-mips-cflags.patch \
-+           file://CVE-2023-0464.patch \
-+           file://CVE-2023-0465.patch \
-+           file://CVE-2023-0466.patch \
-            "
+diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
+index 99662bd298..856c14de40 100644
+--- a/meta/recipes-devtools/go/go-1.17.13.inc
++++ b/meta/recipes-devtools/go/go-1.17.13.inc
+@@ -20,6 +20,8 @@ SRC_URI += "\
+     file://0001-net-http-httputil-avoid-query-parameter-smuggling.patch \
+     file://CVE-2022-41715.patch \
+     file://CVE-2022-41717.patch \
++    file://CVE-2022-2879.patch \
++    file://CVE-2022-41720.patch \
+ "
+ SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
  
- SRC_URI:append:class-nativesdk = " \
+diff --git a/meta/recipes-devtools/go/go-1.18/CVE-2022-2879.patch b/meta/recipes-devtools/go/go-1.18/CVE-2022-2879.patch
+new file mode 100644
+index 0000000000..0315e1a3ee
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.18/CVE-2022-2879.patch
+@@ -0,0 +1,177 @@
++From d064ed520a7cc6b480f9565e30751e695d394f4e Mon Sep 17 00:00:00 2001
++From: Damien Neil <dneil@google.com>
++Date: Fri, 2 Sep 2022 20:45:18 -0700
++Subject: [PATCH] archive/tar: limit size of headers
++
++Set a 1MiB limit on special file blocks (PAX headers, GNU long names,
++GNU link names), to avoid reading arbitrarily large amounts of data
++into memory.
++
++Thanks to Adam Korczynski (ADA Logics) and OSS-Fuzz for reporting
++this issue.
++
++Fixes CVE-2022-2879
++Updates #54853
++Fixes #55925
++
++Change-Id: I85136d6ff1e0af101a112190e027987ab4335680
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1565555
++Reviewed-by: Tatiana Bradley <tatianabradley@google.com>
++Run-TryBot: Roland Shoemaker <bracewell@google.com>
++Reviewed-by: Roland Shoemaker <bracewell@google.com>
++(cherry picked from commit 6ee768cef6b82adf7a90dcf367a1699ef694f3b2)
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1590622
++Reviewed-by: Damien Neil <dneil@google.com>
++Reviewed-by: Julie Qiu <julieqiu@google.com>
++Reviewed-on: https://go-review.googlesource.com/c/go/+/438500
++Reviewed-by: Dmitri Shuralyov <dmitshur@golang.org>
++Reviewed-by: Carlos Amedee <carlos@golang.org>
++Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
++Run-TryBot: Carlos Amedee <carlos@golang.org>
++TryBot-Result: Gopher Robot <gobot@golang.org>
++
++CVE: CVE-2022-2879
++Upstream-Status: Backport [0a723816cd205576945fa57fbdde7e6532d59d08]
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ src/archive/tar/format.go      |  4 ++++
++ src/archive/tar/reader.go      | 14 ++++++++++++--
++ src/archive/tar/reader_test.go |  8 +++++++-
++ src/archive/tar/writer.go      |  3 +++
++ src/archive/tar/writer_test.go | 27 +++++++++++++++++++++++++++
++ 5 files changed, 53 insertions(+), 3 deletions(-)
++
++diff --git a/src/archive/tar/format.go b/src/archive/tar/format.go
++index cfe24a5..6642364 100644
++--- a/src/archive/tar/format.go
+++++ b/src/archive/tar/format.go
++@@ -143,6 +143,10 @@ const (
++ 	blockSize  = 512 // Size of each block in a tar stream
++ 	nameSize   = 100 // Max length of the name field in USTAR format
++ 	prefixSize = 155 // Max length of the prefix field in USTAR format
+++
+++	// Max length of a special file (PAX header, GNU long name or link).
+++	// This matches the limit used by libarchive.
+++	maxSpecialFileSize = 1 << 20
++ )
++ 
++ // blockPadding computes the number of bytes needed to pad offset up to the
++diff --git a/src/archive/tar/reader.go b/src/archive/tar/reader.go
++index 1b1d5b4..f645af8 100644
++--- a/src/archive/tar/reader.go
+++++ b/src/archive/tar/reader.go
++@@ -103,7 +103,7 @@ func (tr *Reader) next() (*Header, error) {
++ 			continue // This is a meta header affecting the next header
++ 		case TypeGNULongName, TypeGNULongLink:
++ 			format.mayOnlyBe(FormatGNU)
++-			realname, err := io.ReadAll(tr)
+++			realname, err := readSpecialFile(tr)
++ 			if err != nil {
++ 				return nil, err
++ 			}
++@@ -293,7 +293,7 @@ func mergePAX(hdr *Header, paxHdrs map[string]string) (err error) {
++ // parsePAX parses PAX headers.
++ // If an extended header (type 'x') is invalid, ErrHeader is returned
++ func parsePAX(r io.Reader) (map[string]string, error) {
++-	buf, err := io.ReadAll(r)
+++	buf, err := readSpecialFile(r)
++ 	if err != nil {
++ 		return nil, err
++ 	}
++@@ -826,6 +826,16 @@ func tryReadFull(r io.Reader, b []byte) (n int, err error) {
++ 	return n, err
++ }
++ 
+++// readSpecialFile is like io.ReadAll except it returns
+++// ErrFieldTooLong if more than maxSpecialFileSize is read.
+++func readSpecialFile(r io.Reader) ([]byte, error) {
+++	buf, err := io.ReadAll(io.LimitReader(r, maxSpecialFileSize+1))
+++	if len(buf) > maxSpecialFileSize {
+++		return nil, ErrFieldTooLong
+++	}
+++	return buf, err
+++}
+++
++ // discard skips n bytes in r, reporting an error if unable to do so.
++ func discard(r io.Reader, n int64) error {
++ 	// If possible, Seek to the last byte before the end of the data section.
++diff --git a/src/archive/tar/reader_test.go b/src/archive/tar/reader_test.go
++index 789ddc1..926dc3d 100644
++--- a/src/archive/tar/reader_test.go
+++++ b/src/archive/tar/reader_test.go
++@@ -6,6 +6,7 @@ package tar
++ 
++ import (
++ 	"bytes"
+++	"compress/bzip2"
++ 	"crypto/md5"
++ 	"errors"
++ 	"fmt"
++@@ -625,9 +626,14 @@ func TestReader(t *testing.T) {
++ 			}
++ 			defer f.Close()
++ 
+++			var fr io.Reader = f
+++			if strings.HasSuffix(v.file, ".bz2") {
+++				fr = bzip2.NewReader(fr)
+++			}
+++
++ 			// Capture all headers and checksums.
++ 			var (
++-				tr      = NewReader(f)
+++				tr      = NewReader(fr)
++ 				hdrs    []*Header
++ 				chksums []string
++ 				rdbuf   = make([]byte, 8)
++diff --git a/src/archive/tar/writer.go b/src/archive/tar/writer.go
++index e80498d..893eac0 100644
++--- a/src/archive/tar/writer.go
+++++ b/src/archive/tar/writer.go
++@@ -199,6 +199,9 @@ func (tw *Writer) writePAXHeader(hdr *Header, paxHdrs map[string]string) error {
++ 			flag = TypeXHeader
++ 		}
++ 		data := buf.String()
+++		if len(data) > maxSpecialFileSize {
+++			return ErrFieldTooLong
+++		}
++ 		if err := tw.writeRawFile(name, data, flag, FormatPAX); err != nil || isGlobal {
++ 			return err // Global headers return here
++ 		}
++diff --git a/src/archive/tar/writer_test.go b/src/archive/tar/writer_test.go
++index a00f02d..4e709e5 100644
++--- a/src/archive/tar/writer_test.go
+++++ b/src/archive/tar/writer_test.go
++@@ -1006,6 +1006,33 @@ func TestIssue12594(t *testing.T) {
++ 	}
++ }
++ 
+++func TestWriteLongHeader(t *testing.T) {
+++	for _, test := range []struct {
+++		name string
+++		h    *Header
+++	}{{
+++		name: "name too long",
+++		h:    &Header{Name: strings.Repeat("a", maxSpecialFileSize)},
+++	}, {
+++		name: "linkname too long",
+++		h:    &Header{Linkname: strings.Repeat("a", maxSpecialFileSize)},
+++	}, {
+++		name: "uname too long",
+++		h:    &Header{Uname: strings.Repeat("a", maxSpecialFileSize)},
+++	}, {
+++		name: "gname too long",
+++		h:    &Header{Gname: strings.Repeat("a", maxSpecialFileSize)},
+++	}, {
+++		name: "PAX header too long",
+++		h:    &Header{PAXRecords: map[string]string{"GOLANG.x": strings.Repeat("a", maxSpecialFileSize)}},
+++	}} {
+++		w := NewWriter(io.Discard)
+++		if err := w.WriteHeader(test.h); err != ErrFieldTooLong {
+++			t.Errorf("%v: w.WriteHeader() = %v, want ErrFieldTooLong", test.name, err)
+++		}
+++	}
+++}
+++
++ // testNonEmptyWriter wraps an io.Writer and ensures that
++ // Write is never called with an empty buffer.
++ type testNonEmptyWriter struct{ io.Writer }
+diff --git a/meta/recipes-devtools/go/go-1.18/CVE-2022-41720.patch b/meta/recipes-devtools/go/go-1.18/CVE-2022-41720.patch
+new file mode 100644
+index 0000000000..6c2e8804b3
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.18/CVE-2022-41720.patch
+@@ -0,0 +1,514 @@
++From f8896a97a0630b0f2f8c488310147f7f20b3ec7d Mon Sep 17 00:00:00 2001
++From: Damien Neil <dneil@google.com>
++Date: Thu, 10 Nov 2022 12:16:27 -0800
++Subject: [PATCH] os, net/http: avoid escapes from os.DirFS and http.Dir on
++ Windows
++
++Do not permit access to Windows reserved device names (NUL, COM1, etc.)
++via os.DirFS and http.Dir filesystems.
++
++Avoid escapes from os.DirFS(`\`) on Windows. DirFS would join the
++the root to the relative path with a path separator, making
++os.DirFS(`\`).Open(`/foo/bar`) open the path `\\foo\bar`, which is
++a UNC name. Not only does this not open the intended file, but permits
++reference to any file on the system rather than only files on the
++current drive.
++
++Make os.DirFS("") invalid, with all file access failing. Previously,
++a root of "" was interpreted as "/", which is surprising and probably
++unintentional.
++
++Fixes CVE-2022-41720.
++Fixes #56694.
++
++Change-Id: I275b5fa391e6ad7404309ea98ccc97405942e0f0
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1663832
++Reviewed-by: Julie Qiu <julieqiu@google.com>
++Reviewed-by: Tatiana Bradley <tatianabradley@google.com>
++Reviewed-on: https://go-review.googlesource.com/c/go/+/455360
++Reviewed-by: Michael Pratt <mpratt@google.com>
++TryBot-Result: Gopher Robot <gobot@golang.org>
++Run-TryBot: Jenny Rakoczy <jenny@golang.org>
++
++CVE: CVE-2022-41720
++Upstream-Status: Backport [7013a4f5f816af62033ad63dd06b77c30d7a62a7]
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ src/go/build/deps_test.go                 |  1 +
++ src/internal/safefilepath/path.go         | 21 +++++
++ src/internal/safefilepath/path_other.go   | 23 ++++++
++ src/internal/safefilepath/path_test.go    | 88 +++++++++++++++++++++
++ src/internal/safefilepath/path_windows.go | 95 +++++++++++++++++++++++
++ src/net/http/fs.go                        |  8 +-
++ src/net/http/fs_test.go                   | 28 +++++++
++ src/os/file.go                            | 36 +++++++--
++ src/os/os_test.go                         | 38 +++++++++
++ 9 files changed, 328 insertions(+), 10 deletions(-)
++ create mode 100644 src/internal/safefilepath/path.go
++ create mode 100644 src/internal/safefilepath/path_other.go
++ create mode 100644 src/internal/safefilepath/path_test.go
++ create mode 100644 src/internal/safefilepath/path_windows.go
++
++diff --git a/src/go/build/deps_test.go b/src/go/build/deps_test.go
++index 45e2f25..dc3bb8c 100644
++--- a/src/go/build/deps_test.go
+++++ b/src/go/build/deps_test.go
++@@ -165,6 +165,7 @@ var depsRules = `
++ 	io/fs
++ 	< internal/testlog
++ 	< internal/poll
+++	< internal/safefilepath
++ 	< os
++ 	< os/signal;
++ 
++diff --git a/src/internal/safefilepath/path.go b/src/internal/safefilepath/path.go
++new file mode 100644
++index 0000000..0f0a270
++--- /dev/null
+++++ b/src/internal/safefilepath/path.go
++@@ -0,0 +1,21 @@
+++// Copyright 2022 The Go Authors. All rights reserved.
+++// Use of this source code is governed by a BSD-style
+++// license that can be found in the LICENSE file.
+++
+++// Package safefilepath manipulates operating-system file paths.
+++package safefilepath
+++
+++import (
+++	"errors"
+++)
+++
+++var errInvalidPath = errors.New("invalid path")
+++
+++// FromFS converts a slash-separated path into an operating-system path.
+++//
+++// FromFS returns an error if the path cannot be represented by the operating
+++// system. For example, paths containing '\' and ':' characters are rejected
+++// on Windows.
+++func FromFS(path string) (string, error) {
+++	return fromFS(path)
+++}
++diff --git a/src/internal/safefilepath/path_other.go b/src/internal/safefilepath/path_other.go
++new file mode 100644
++index 0000000..f93da18
++--- /dev/null
+++++ b/src/internal/safefilepath/path_other.go
++@@ -0,0 +1,23 @@
+++// Copyright 2022 The Go Authors. All rights reserved.
+++// Use of this source code is governed by a BSD-style
+++// license that can be found in the LICENSE file.
+++
+++//go:build !windows
+++
+++package safefilepath
+++
+++import "runtime"
+++
+++func fromFS(path string) (string, error) {
+++	if runtime.GOOS == "plan9" {
+++		if len(path) > 0 && path[0] == '#' {
+++			return path, errInvalidPath
+++		}
+++	}
+++	for i := range path {
+++		if path[i] == 0 {
+++			return "", errInvalidPath
+++		}
+++	}
+++	return path, nil
+++}
++diff --git a/src/internal/safefilepath/path_test.go b/src/internal/safefilepath/path_test.go
++new file mode 100644
++index 0000000..dc662c1
++--- /dev/null
+++++ b/src/internal/safefilepath/path_test.go
++@@ -0,0 +1,88 @@
+++// Copyright 2022 The Go Authors. All rights reserved.
+++// Use of this source code is governed by a BSD-style
+++// license that can be found in the LICENSE file.
+++
+++package safefilepath_test
+++
+++import (
+++	"internal/safefilepath"
+++	"os"
+++	"path/filepath"
+++	"runtime"
+++	"testing"
+++)
+++
+++type PathTest struct {
+++	path, result string
+++}
+++
+++const invalid = ""
+++
+++var fspathtests = []PathTest{
+++	{".", "."},
+++	{"/a/b/c", "/a/b/c"},
+++	{"a\x00b", invalid},
+++}
+++
+++var winreservedpathtests = []PathTest{
+++	{`a\b`, `a\b`},
+++	{`a:b`, `a:b`},
+++	{`a/b:c`, `a/b:c`},
+++	{`NUL`, `NUL`},
+++	{`./com1`, `./com1`},
+++	{`a/nul/b`, `a/nul/b`},
+++}
+++
+++// Whether a reserved name with an extension is reserved or not varies by
+++// Windows version.
+++var winreservedextpathtests = []PathTest{
+++	{"nul.txt", "nul.txt"},
+++	{"a/nul.txt/b", "a/nul.txt/b"},
+++}
+++
+++var plan9reservedpathtests = []PathTest{
+++	{`#c`, `#c`},
+++}
+++
+++func TestFromFS(t *testing.T) {
+++	switch runtime.GOOS {
+++	case "windows":
+++		if canWriteFile(t, "NUL") {
+++			t.Errorf("can unexpectedly write a file named NUL on Windows")
+++		}
+++		if canWriteFile(t, "nul.txt") {
+++			fspathtests = append(fspathtests, winreservedextpathtests...)
+++		} else {
+++			winreservedpathtests = append(winreservedpathtests, winreservedextpathtests...)
+++		}
+++		for i := range winreservedpathtests {
+++			winreservedpathtests[i].result = invalid
+++		}
+++		for i := range fspathtests {
+++			fspathtests[i].result = filepath.FromSlash(fspathtests[i].result)
+++		}
+++	case "plan9":
+++		for i := range plan9reservedpathtests {
+++			plan9reservedpathtests[i].result = invalid
+++		}
+++	}
+++	tests := fspathtests
+++	tests = append(tests, winreservedpathtests...)
+++	tests = append(tests, plan9reservedpathtests...)
+++	for _, test := range tests {
+++		got, err := safefilepath.FromFS(test.path)
+++		if (got == "") != (err != nil) {
+++			t.Errorf(`FromFS(%q) = %q, %v; want "" only if err != nil`, test.path, got, err)
+++		}
+++		if got != test.result {
+++			t.Errorf("FromFS(%q) = %q, %v; want %q", test.path, got, err, test.result)
+++		}
+++	}
+++}
+++
+++func canWriteFile(t *testing.T, name string) bool {
+++	path := filepath.Join(t.TempDir(), name)
+++	os.WriteFile(path, []byte("ok"), 0666)
+++	b, _ := os.ReadFile(path)
+++	return string(b) == "ok"
+++}
++diff --git a/src/internal/safefilepath/path_windows.go b/src/internal/safefilepath/path_windows.go
++new file mode 100644
++index 0000000..909c150
++--- /dev/null
+++++ b/src/internal/safefilepath/path_windows.go
++@@ -0,0 +1,95 @@
+++// Copyright 2022 The Go Authors. All rights reserved.
+++// Use of this source code is governed by a BSD-style
+++// license that can be found in the LICENSE file.
+++
+++package safefilepath
+++
+++import (
+++	"syscall"
+++	"unicode/utf8"
+++)
+++
+++func fromFS(path string) (string, error) {
+++	if !utf8.ValidString(path) {
+++		return "", errInvalidPath
+++	}
+++	for len(path) > 1 && path[0] == '/' && path[1] == '/' {
+++		path = path[1:]
+++	}
+++	containsSlash := false
+++	for p := path; p != ""; {
+++		// Find the next path element.
+++		i := 0
+++		dot := -1
+++		for i < len(p) && p[i] != '/' {
+++			switch p[i] {
+++			case 0, '\\', ':':
+++				return "", errInvalidPath
+++			case '.':
+++				if dot < 0 {
+++					dot = i
+++				}
+++			}
+++			i++
+++		}
+++		part := p[:i]
+++		if i < len(p) {
+++			containsSlash = true
+++			p = p[i+1:]
+++		} else {
+++			p = ""
+++		}
+++		// Trim the extension and look for a reserved name.
+++		base := part
+++		if dot >= 0 {
+++			base = part[:dot]
+++		}
+++		if isReservedName(base) {
+++			if dot < 0 {
+++				return "", errInvalidPath
+++			}
+++			// The path element is a reserved name with an extension.
+++			// Some Windows versions consider this a reserved name,
+++			// while others do not. Use FullPath to see if the name is
+++			// reserved.
+++			if p, _ := syscall.FullPath(part); len(p) >= 4 && p[:4] == `\\.\` {
+++				return "", errInvalidPath
+++			}
+++		}
+++	}
+++	if containsSlash {
+++		// We can't depend on strings, so substitute \ for / manually.
+++		buf := []byte(path)
+++		for i, b := range buf {
+++			if b == '/' {
+++				buf[i] = '\\'
+++			}
+++		}
+++		path = string(buf)
+++	}
+++	return path, nil
+++}
+++
+++// isReservedName reports if name is a Windows reserved device name.
+++// It does not detect names with an extension, which are also reserved on some Windows versions.
+++//
+++// For details, search for PRN in
+++// https://docs.microsoft.com/en-us/windows/desktop/fileio/naming-a-file.
+++func isReservedName(name string) bool {
+++	if 3 <= len(name) && len(name) <= 4 {
+++		switch string([]byte{toUpper(name[0]), toUpper(name[1]), toUpper(name[2])}) {
+++		case "CON", "PRN", "AUX", "NUL":
+++			return len(name) == 3
+++		case "COM", "LPT":
+++			return len(name) == 4 && '1' <= name[3] && name[3] <= '9'
+++		}
+++	}
+++	return false
+++}
+++
+++func toUpper(c byte) byte {
+++	if 'a' <= c && c <= 'z' {
+++		return c - ('a' - 'A')
+++	}
+++	return c
+++}
++diff --git a/src/net/http/fs.go b/src/net/http/fs.go
++index 57e731e..43ee4b5 100644
++--- a/src/net/http/fs.go
+++++ b/src/net/http/fs.go
++@@ -9,6 +9,7 @@ package http
++ import (
++ 	"errors"
++ 	"fmt"
+++	"internal/safefilepath"
++ 	"io"
++ 	"io/fs"
++ 	"mime"
++@@ -69,14 +70,15 @@ func mapDirOpenError(originalErr error, name string) error {
++ // Open implements FileSystem using os.Open, opening files for reading rooted
++ // and relative to the directory d.
++ func (d Dir) Open(name string) (File, error) {
++-	if filepath.Separator != '/' && strings.ContainsRune(name, filepath.Separator) {
++-		return nil, errors.New("http: invalid character in file path")
+++	path, err := safefilepath.FromFS(path.Clean("/" + name))
+++	if err != nil {
+++		return nil, errors.New("http: invalid or unsafe file path")
++ 	}
++ 	dir := string(d)
++ 	if dir == "" {
++ 		dir = "."
++ 	}
++-	fullName := filepath.Join(dir, filepath.FromSlash(path.Clean("/"+name)))
+++	fullName := filepath.Join(dir, path)
++ 	f, err := os.Open(fullName)
++ 	if err != nil {
++ 		return nil, mapDirOpenError(err, fullName)
++diff --git a/src/net/http/fs_test.go b/src/net/http/fs_test.go
++index b42ade1..941448a 100644
++--- a/src/net/http/fs_test.go
+++++ b/src/net/http/fs_test.go
++@@ -648,6 +648,34 @@ func TestFileServerZeroByte(t *testing.T) {
++ 	}
++ }
++ 
+++func TestFileServerNamesEscape(t *testing.T) {
+++	t.Run("h1", func(t *testing.T) {
+++		testFileServerNamesEscape(t, h1Mode)
+++	})
+++	t.Run("h2", func(t *testing.T) {
+++		testFileServerNamesEscape(t, h2Mode)
+++	})
+++}
+++func testFileServerNamesEscape(t *testing.T, h2 bool) {
+++	defer afterTest(t)
+++	ts := newClientServerTest(t, h2, FileServer(Dir("testdata"))).ts
+++	defer ts.Close()
+++	for _, path := range []string{
+++		"/../testdata/file",
+++		"/NUL", // don't read from device files on Windows
+++	} {
+++		res, err := ts.Client().Get(ts.URL + path)
+++		if err != nil {
+++			t.Fatal(err)
+++		}
+++		res.Body.Close()
+++		if res.StatusCode < 400 || res.StatusCode > 599 {
+++			t.Errorf("Get(%q): got status %v, want 4xx or 5xx", path, res.StatusCode)
+++		}
+++
+++	}
+++}
+++
++ type fakeFileInfo struct {
++ 	dir      bool
++ 	basename string
++diff --git a/src/os/file.go b/src/os/file.go
++index e717f17..cb87158 100644
++--- a/src/os/file.go
+++++ b/src/os/file.go
++@@ -37,12 +37,12 @@
++ // Note: The maximum number of concurrent operations on a File may be limited by
++ // the OS or the system. The number should be high, but exceeding it may degrade
++ // performance or cause other issues.
++-//
++ package os
++ 
++ import (
++ 	"errors"
++ 	"internal/poll"
+++	"internal/safefilepath"
++ 	"internal/testlog"
++ 	"internal/unsafeheader"
++ 	"io"
++@@ -623,6 +623,8 @@ func isWindowsNulName(name string) bool {
++ // the /prefix tree, then using DirFS does not stop the access any more than using
++ // os.Open does. DirFS is therefore not a general substitute for a chroot-style security
++ // mechanism when the directory tree contains arbitrary content.
+++//
+++// The directory dir must not be "".
++ func DirFS(dir string) fs.FS {
++ 	return dirFS(dir)
++ }
++@@ -641,10 +643,11 @@ func containsAny(s, chars string) bool {
++ type dirFS string
++ 
++ func (dir dirFS) Open(name string) (fs.File, error) {
++-	if !fs.ValidPath(name) || runtime.GOOS == "windows" && containsAny(name, `\:`) {
++-		return nil, &PathError{Op: "open", Path: name, Err: ErrInvalid}
+++	fullname, err := dir.join(name)
+++	if err != nil {
+++		return nil, &PathError{Op: "stat", Path: name, Err: err}
++ 	}
++-	f, err := Open(string(dir) + "/" + name)
+++	f, err := Open(fullname)
++ 	if err != nil {
++ 		return nil, err // nil fs.File
++ 	}
++@@ -652,16 +655,35 @@ func (dir dirFS) Open(name string) (fs.File, error) {
++ }
++ 
++ func (dir dirFS) Stat(name string) (fs.FileInfo, error) {
++-	if !fs.ValidPath(name) || runtime.GOOS == "windows" && containsAny(name, `\:`) {
++-		return nil, &PathError{Op: "stat", Path: name, Err: ErrInvalid}
+++	fullname, err := dir.join(name)
+++	if err != nil {
+++		return nil, &PathError{Op: "stat", Path: name, Err: err}
++ 	}
++-	f, err := Stat(string(dir) + "/" + name)
+++	f, err := Stat(fullname)
++ 	if err != nil {
++ 		return nil, err
++ 	}
++ 	return f, nil
++ }
++ 
+++// join returns the path for name in dir.
+++func (dir dirFS) join(name string) (string, error) {
+++	if dir == "" {
+++		return "", errors.New("os: DirFS with empty root")
+++	}
+++	if !fs.ValidPath(name) {
+++		return "", ErrInvalid
+++	}
+++	name, err := safefilepath.FromFS(name)
+++	if err != nil {
+++		return "", ErrInvalid
+++	}
+++	if IsPathSeparator(dir[len(dir)-1]) {
+++		return string(dir) + name, nil
+++	}
+++	return string(dir) + string(PathSeparator) + name, nil
+++}
+++
++ // ReadFile reads the named file and returns the contents.
++ // A successful call returns err == nil, not err == EOF.
++ // Because ReadFile reads the whole file, it does not treat an EOF from Read
++diff --git a/src/os/os_test.go b/src/os/os_test.go
++index 506f1fb..be269bb 100644
++--- a/src/os/os_test.go
+++++ b/src/os/os_test.go
++@@ -2702,6 +2702,44 @@ func TestDirFS(t *testing.T) {
++ 	if err == nil {
++ 		t.Fatalf(`Open testdata\dirfs succeeded`)
++ 	}
+++
+++	// Test that Open does not open Windows device files.
+++	_, err = d.Open(`NUL`)
+++	if err == nil {
+++		t.Errorf(`Open NUL succeeded`)
+++	}
+++}
+++
+++func TestDirFSRootDir(t *testing.T) {
+++	cwd, err := os.Getwd()
+++	if err != nil {
+++		t.Fatal(err)
+++	}
+++	cwd = cwd[len(filepath.VolumeName(cwd)):] // trim volume prefix (C:) on Windows
+++	cwd = filepath.ToSlash(cwd)               // convert \ to /
+++	cwd = strings.TrimPrefix(cwd, "/")        // trim leading /
+++
+++	// Test that Open can open a path starting at /.
+++	d := DirFS("/")
+++	f, err := d.Open(cwd + "/testdata/dirfs/a")
+++	if err != nil {
+++		t.Fatal(err)
+++	}
+++	f.Close()
+++}
+++
+++func TestDirFSEmptyDir(t *testing.T) {
+++	d := DirFS("")
+++	cwd, _ := os.Getwd()
+++	for _, path := range []string{
+++		"testdata/dirfs/a",                          // not DirFS(".")
+++		filepath.ToSlash(cwd) + "/testdata/dirfs/a", // not DirFS("/")
+++	} {
+++		_, err := d.Open(path)
+++		if err == nil {
+++			t.Fatalf(`DirFS("").Open(%q) succeeded`, path)
+++		}
+++	}
++ }
++ 
++ func TestDirFSPathsValid(t *testing.T) {
 -- 
 2.34.1
 
