@@ -1,165 +1,130 @@
-Return-Path: <festevam@gmail.com>
+Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ACB4C76188
-	for <webhook@archiver.kernel.org>; Mon,  3 Apr 2023 20:50:17 +0000 (UTC)
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
- by mx.groups.io with SMTP id smtpd.web10.83746.1680555014498177226
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BA48C76196
+	for <webhook@archiver.kernel.org>; Mon,  3 Apr 2023 21:20:17 +0000 (UTC)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+ by mx.groups.io with SMTP id smtpd.web11.84735.1680556806436844088
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Apr 2023 13:50:14 -0700
+ Mon, 03 Apr 2023 14:20:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20210112 header.b=IbZXcX0b;
- spf=pass (domain: gmail.com, ip: 209.85.210.50, mailfrom: festevam@gmail.com)
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6a11f365f87so900974a34.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 13:50:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680555013; x=1683147013;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=t/43WWys0gxFvRRDBs9jYyL9GnuGZnCv83XudHkjiA0=;
-        b=IbZXcX0b1ra/H2/9H21r/xdrxVrddNB47it5JGJFjGdkka51Y4x6TViDUVZEhcF6kX
-         jX2NCGhz2j7x2O+NTqsF89dXB3IXXg7S9riQGo/7O02dDPFV/K2lw5AX9eUV8UPz7ogR
-         dn6D+eTNNuiZytP8XFMiE6cGaRyVxD5WNIXlEP+cWgxBD+faKqklbccJ4I4kV7Rz0m4H
-         MmerJCyLSat/q596wO6qtrg2qLS+L11od8FxCqvkgWjVH8ZVeHlp5f+bvou1Ov/YS9O6
-         K6bCDc+SMfB0GUkf0UFGpu/iAto8JVoX+h7KitM2ZLuIH+x3ylQG02AQbpKJFqCPKx2V
-         x8WA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680555013; x=1683147013;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=t/43WWys0gxFvRRDBs9jYyL9GnuGZnCv83XudHkjiA0=;
-        b=dj5OBuon7DRIX3q8AAFOIH1HvQt08WiWBkkSrMo5nvoJ+Q1qLFyTCGjpk2/6ZPZPh5
-         D0+0/kEu40z/iAjG4IqkGBh7Gl2UWbuAkHdz94tn4qcDx3XEGqRDyJeVOg1GkB+pGvpE
-         U9ahye+bvb7s2pFSjwnMEMELAUbIwwjZOYKpoOWns5A2h2g37YkMyvGtEJ0kRcAxXUPs
-         SrW9yZQ0fIwpG8bEunwPlcHW5W678H0Ev2wLBVFPokpVFZup4McF5RT05KyqaZxjGLVp
-         rVJRRDnRpSJ33VP1TA8Hr1Q3rB/WVLNEncfG1+MPF4uXdbbFDcXIyd8spwiuAud4FgqK
-         +EKQ==
-X-Gm-Message-State: AAQBX9dQi0FgUi+C51ORW1+Vz8STr7PDH9MC4Elub6ao+GJ1Lz0sg52x
-	7jPE4nys82tYni1m45v+JzI3hzA5q7O9bQ==
-X-Google-Smtp-Source: AKy350ac62phtA1ilr/40d7WOPgazQAIM86aWt8273zXgLuKWEgXTkOMH4rQjwZbWRFLkM8Qhhbvlg==
-X-Received: by 2002:a4a:e145:0:b0:51a:182f:65e3 with SMTP id p5-20020a4ae145000000b0051a182f65e3mr340626oot.1.1680555013266;
-        Mon, 03 Apr 2023 13:50:13 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b69:c650:9d7b:32b8:8187])
-        by smtp.gmail.com with ESMTPSA id j36-20020a4a9467000000b0052005fd50a4sm4500974ooi.35.2023.04.03.13.50.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Apr 2023 13:50:12 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Fabio Estevam <festevam@denx.de>
-Subject: [PATCH] u-boot: Upgrade to 2023.04
-Date: Mon,  3 Apr 2023 17:50:00 -0300
-Message-Id: <20230403205000.436458-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: ejo@pengutronix.de)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
+	by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1pjRau-0007y0-1K; Mon, 03 Apr 2023 23:20:04 +0200
+Message-ID: <9e38cb1cc2e7f7f64a47a7398961d73d6b386a7d.camel@pengutronix.de>
+Subject: Re: [PATCH v2 0/9] Add barebox bootloader support (and testing)
+From: Enrico =?ISO-8859-1?Q?J=F6rns?= <ejo@pengutronix.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Cc: yocto@pengutronix.de, Alexander Kanavin <alex.kanavin@gmail.com>, 
+	alexandre.belloni@bootlin.com
+Date: Mon, 03 Apr 2023 23:20:01 +0200
+In-Reply-To: <7269b525eb965461ff7507ed59e79ccb24dbb388.camel@linuxfoundation.org>
+References: <20230331104025.1478393-1-ejo@pengutronix.de>
+	 <7269b525eb965461ff7507ed59e79ccb24dbb388.camel@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1+deb11u1 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 20:50:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179654
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 21:20:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179655
 
-From: Fabio Estevam <festevam@denx.de>
+Hi Richard,
 
-Upgrade to U-Boot 2023.04.
+Am Montag, dem 03.04.2023 um 16:49 +0100 schrieb Richard Purdie:
+> On Fri, 2023-03-31 at 12:40 +0200, Enrico Jorns wrote:
+> > This adds support for the barebox bootloader (and tools) to oe-core.
+> > 
+> > In order to have proper testing, this extends oe-selftest to allow
+> > basic testing of bootloaders. While at it, cover both barebox and u-boot.
+> > 
+> > v2:
+> >   * set myself as maintainer in maintainers.inc
+> >   * move doc from documentation.conf to recipe
+> >   * update to barebox v2023.03 (including fixes for musl, etc.)
+> >   * set standard configs for qemu machines to allow building them
+> >   * add better efi dir support in barebox recipe
+> >   * enable testing bootloaders in oeqa
+> >   * add test cases for barebox (and u-boot)
+> > 
+> > Enrico Jorns (7):
+> >   barebox: set default BAREBOX_CONFIG for qemu machines
+> >   oeqa/utils/qemurunner: support ignoring vt100 escape sequences
+> >   oeqa/utils/qemurunner: simplify output parsing and make
+> >     crlf-compatible
+> >   oeqa/utils/commands: document runqemu context manager
+> >   oeqa: support passing custom boot patterns to runqemu
+> >   oeqa/selftest/cases: add barebox tests
+> >   oeqa/selftest/cases: add basic u-boot test
+> > 
+> > Marco Felsch (2):
+> >   barebox: add initial support
+> >   barebox-tools: add initial barebox tools support
+> 
+> Testing on the autobuilder did trigger a few issues:
+> 
+> on musl:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5023
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/6932
+> 
+> and some failing oe-selftests:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/4971
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5023
+> [there were more but look similar]
 
-Remove the patch that is now upstream.
+thank you for the autobuilder logs!
 
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
- ...ols-only-add-VIDEO-to-build-bmp_logo.patch | 39 -------------------
- meta/recipes-bsp/u-boot/u-boot-common.inc     |  2 +-
- .../u-boot/u-boot-tools_2023.01.bb            |  4 --
- .../u-boot/u-boot-tools_2023.04.bb            |  2 +
- .../{u-boot_2023.01.bb => u-boot_2023.04.bb}  |  0
- 5 files changed, 3 insertions(+), 44 deletions(-)
- delete mode 100644 meta/recipes-bsp/u-boot/files/0001-Revert-config-tools-only-add-VIDEO-to-build-bmp_logo.patch
- delete mode 100644 meta/recipes-bsp/u-boot/u-boot-tools_2023.01.bb
- create mode 100644 meta/recipes-bsp/u-boot/u-boot-tools_2023.04.bb
- rename meta/recipes-bsp/u-boot/{u-boot_2023.01.bb => u-boot_2023.04.bb} (100%)
+I fear we are running into a conceptional issue that I already feared we could run into (but did not
+test for yet).
 
-diff --git a/meta/recipes-bsp/u-boot/files/0001-Revert-config-tools-only-add-VIDEO-to-build-bmp_logo.patch b/meta/recipes-bsp/u-boot/files/0001-Revert-config-tools-only-add-VIDEO-to-build-bmp_logo.patch
-deleted file mode 100644
-index ab057611464c..000000000000
---- a/meta/recipes-bsp/u-boot/files/0001-Revert-config-tools-only-add-VIDEO-to-build-bmp_logo.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--From 5d663e105f5affbe1ba771a1124855bff748b829 Mon Sep 17 00:00:00 2001
--From: Fabio Estevam <festevam@denx.de>
--Date: Wed, 18 Jan 2023 22:15:04 -0300
--Subject: [PATCH] Revert "config: tools only: add VIDEO to build bmp_logo"
--
--This reverts commit 1cfba53ca46cade2dbf4e067afc8c19e72909a4b.
--
--Since commit 1cfba53ca46c ("config: tools only: add VIDEO to build
--bmp_logo") the build of tools-only_defconfig fails:
--
--| /bin/sh: line 1: tools/bmp_logo: No such file or directory
--
--This has been noticed in OpenEmbedded and Debian [1].
--
--Revert it for now.
--
--[1] https://lists.denx.de/pipermail/u-boot/2023-January/504758.html
--
--Upstream-Status: Backport [https://source.denx.de/u-boot/u-boot/-/commit/6333acb961b6fcaa60c6e5b623d676b332481cfa]
--Signed-off-by: Fabio Estevam <festevam@denx.de>
-----
-- configs/tools-only_defconfig | 1 -
-- 1 file changed, 1 deletion(-)
--
--diff --git a/configs/tools-only_defconfig b/configs/tools-only_defconfig
--index 2197063112..fb75235e3d 100644
----- a/configs/tools-only_defconfig
--+++ b/configs/tools-only_defconfig
--@@ -29,7 +29,6 @@ CONFIG_DM_RTC=y
-- CONFIG_SOUND=y
-- CONFIG_SYSRESET=y
-- CONFIG_TIMER=y
---CONFIG_VIDEO=y
-- # CONFIG_VIRTIO_MMIO is not set
-- # CONFIG_VIRTIO_PCI is not set
-- # CONFIG_VIRTIO_SANDBOX is not set
---- 
--2.25.1
--
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
-index d72f6d3ba253..8a2e9aef94d5 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
-@@ -12,7 +12,7 @@ PE = "1"
- 
- # We use the revision in order to avoid having to fetch it from the
- # repo during parse
--SRCREV = "62e2ad1ceafbfdf2c44d3dc1b6efc81e768a96b9"
-+SRCREV = "fd4ed6b7e83ec3aea9a2ce21baea8ca9676f40dd"
- 
- SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master"
- 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2023.01.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2023.01.bb
-deleted file mode 100644
-index 3484b359ad8f..000000000000
---- a/meta/recipes-bsp/u-boot/u-boot-tools_2023.01.bb
-+++ /dev/null
-@@ -1,4 +0,0 @@
--require u-boot-common.inc
--require u-boot-tools.inc
--
--SRC_URI += "file://0001-Revert-config-tools-only-add-VIDEO-to-build-bmp_logo.patch"
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2023.04.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2023.04.bb
-new file mode 100644
-index 000000000000..7eaf721ca837
---- /dev/null
-+++ b/meta/recipes-bsp/u-boot/u-boot-tools_2023.04.bb
-@@ -0,0 +1,2 @@
-+require u-boot-common.inc
-+require u-boot-tools.inc
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2023.01.bb b/meta/recipes-bsp/u-boot/u-boot_2023.04.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot_2023.01.bb
-rename to meta/recipes-bsp/u-boot/u-boot_2023.04.bb
+If I traced this down correctly, then the 'issue' is:
+
+| NOTE: Multiple providers are available for virtual/bootloader (barebox, u-boot)
+| Consider defining a PREFERRED_PROVIDER entry to match virtual/bootloader
+
+The fitimage tests building "virtual/bootloader", silently assuming this is equal to u-boot (which
+it actually was so far).
+
+Now, the quick fix for this would be to properly set the correct PREFERRED_PROVIDER here, but I
+could imagine that we run into similar issues in other builds, too.
+
+Do you have a good solution for this at hand? Like defining a standard preferred provider for
+virtual/bootloader?
+
+I guess one could argue possibly that the mechanism does exactly what it is meant for. And a few
+machines (like beaglebone-yocto or qemuloongarch) actually set the PREFERRED_PROVIDER, but not all
+and this might lead to silently switching the bootloader (like in our tests).
+
+I hope you have a better overview on the topic than I have and could give me a hint on how you would
+like to see this being resolved?
+
+Thanks in advance and best regards
+
+Enrico
+
+
+> Cheers,
+> 
+> Richard
+> 
+> 
+
 -- 
-2.34.1
+Pengutronix e.K.                           | Enrico Jörns                |
+Embedded Linux Consulting & Support        | https://www.pengutronix.de/ |
+Steuerwalder Str. 21                       | Phone: +49-5121-206917-180  |
+31137 Hildesheim, Germany                  | Fax:   +49-5121-206917-9    |
 
 
