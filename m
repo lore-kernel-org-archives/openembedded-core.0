@@ -1,250 +1,328 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 423D9C77B62
-	for <webhook@archiver.kernel.org>; Sun,  2 Apr 2023 16:43:09 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web10.48724.1680453784488971392
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01822C76196
+	for <webhook@archiver.kernel.org>; Mon,  3 Apr 2023 05:25:03 +0000 (UTC)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web10.63168.1680499494799114214
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Apr 2023 09:43:04 -0700
+ Sun, 02 Apr 2023 22:24:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=0ng2NYDx;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f52.google.com with SMTP id fy10-20020a17090b020a00b0023b4bcf0727so28222581pjb.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 02 Apr 2023 09:43:04 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=DsN7vOZb;
+ spf=pass (domain: mvista.com, ip: 209.85.216.46, mailfrom: hprajapati@mvista.com)
+Received: by mail-pj1-f46.google.com with SMTP id j13so26090000pjd.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 02 Apr 2023 22:24:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680453783; x=1683045783;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9hqKJ48uaDr2STEeZ8gtfIfbSk9xWX0LUiq88zMFpEY=;
-        b=0ng2NYDxG8UgENkQWEOsfLch2XSZB07qJTTfvzySmLySfMBbVwAX/DivqyooPcIaS6
-         ekuO94RCp1jK5gjnXuua7NexgvOe05Zb0t1t2lqp2XeFE439ip+Y4p6o4md6V8FzBzna
-         j1qwVdk4/NAg8th+CRKMISq9Bo3lJgbff739312EIwW64zbqiiyLKeQw3IFWzy0std4R
-         5M+nvpaKuvxheiFQ08WLx7RE9tHojuOU89sL85rLzWWgQ76y76ZgThHwBQODzSxwf+tS
-         DdEsNZTY5Yw9t3ZG7XkZnFF42W3u+qVxBeHvNmnkpG2b+WdnYFNg31hm2Bc6oxdOK7wG
-         RfrQ==
+        d=mvista.com; s=google; t=1680499494;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IFle8/DHNvFI2I96R8mYpvhxfP5pluzusZtS0rDJNsQ=;
+        b=DsN7vOZbni21RvZuDumEwyL9vre0y2RJodj+o1HYgeC/RxJK+WOVa0qAO/153KSB/2
+         AL6gPM3GLy2tJCpB50jR2asbkS/LgpRMwsGn4irwThm061fF2L7u0mtfIIwT7iAjPQQV
+         aJx4FKk+4/MWboisBf+tRf5tVj1v0F3RPV7+o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680453783; x=1683045783;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9hqKJ48uaDr2STEeZ8gtfIfbSk9xWX0LUiq88zMFpEY=;
-        b=ZNIiIgxp1bBkEo8F3FV2HbYuZ6Z8cDmDitLFi8DvJzMHYySyjWVD1BUCZJUYFrTinK
-         O2b5mjYibrBJBMzvOp9m5rWvSlg2VC80pnHwFLw+Kf03saR6t0BD8QShmnXkVZInSIdX
-         +sBuzYhG6F4webyq/fTjLZwHyH/STaoyUe6W4FVtNTo8E8lBPUg20g4+SF4HjfmFjyL4
-         FL+NM800BlxNz8tSE3qCruVr3B8bKKd6eb53T47mLtIgAjX4QQL+p2XX+kVcsvFm5NjR
-         qHgYH+hlutXu3ax4yWE5pFJP/FxBrOUR0/ApBvuLBv3AZcAmYqXm4fd+PzoLzcRcxCfr
-         MFMw==
-X-Gm-Message-State: AAQBX9f3oY60EfXBExLjH8D66S7Cb4qNdRKRzbFsiJgKyKuBSThkA85U
-	NEtO2K8iubUgwKH+vNNXf7H+Az5DPlI4SGaXaNw=
-X-Google-Smtp-Source: AKy350ad/Mb6Xk0tLutgquCmGWGL/0+BYveO/6iPoVmZzm1DZ8/mRGf2PaOGieQ40wjDr/3yjRsNXQ==
-X-Received: by 2002:a17:902:c403:b0:1a2:7356:1ecd with SMTP id k3-20020a170902c40300b001a273561ecdmr24136807plk.5.1680453783393;
-        Sun, 02 Apr 2023 09:43:03 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id ja7-20020a170902efc700b001a1ddd224desm5042079plb.89.2023.04.02.09.43.02
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20210112; t=1680499494;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IFle8/DHNvFI2I96R8mYpvhxfP5pluzusZtS0rDJNsQ=;
+        b=G4P7/YO0fgPD0dROuTrAn/nUqgW2KFUzkKgiyJ4aB2InV8YOrkRiLAVCGhv7FXgrcN
+         ZieEmevnnx6u/kDtnVbvVOGMa3rdsrJlhmT+L2PzIQ/nJja5/378hEJnOK0X4h/d5C6n
+         U8/ooNbFK1gaJ7RyeqIbvlKgDXGLEc66FNAn3DoLG/bpC6Vz+CRrOFtHTGrvewa9D8jG
+         jsa7kl/MGwPf1Ic3if/xvE4DxM3CIMn73t/O29SYtV1xBgKy1KJzR1zTjjS1eoqrYBJ4
+         bp0icHafAtb0jyfh4H+nli40PnbRL4juZDXjf5nvi2Pzf0bOxDTmlAC1PYLUg/ZkoCLI
+         EISg==
+X-Gm-Message-State: AAQBX9fSlMbdUYXh5XxY4nLCJ4SjdlATSifR6ZLSeTc4Yu+3IUgIlwUG
+	X4O+AOhYch9v6f36usHm5sko7mv8zct8VPmVbM0=
+X-Google-Smtp-Source: AKy350aOceCXuAB6UJl6JRPW7FgjnB17YNQp+Rje+TI7fL7n/yXhQVW5s1gnLS+e67DQml/RHdEwzg==
+X-Received: by 2002:a17:902:e543:b0:19a:e762:a1af with SMTP id n3-20020a170902e54300b0019ae762a1afmr17679041plf.33.1680499493603;
+        Sun, 02 Apr 2023 22:24:53 -0700 (PDT)
+Received: from MVIN00024 ([49.34.122.33])
+        by smtp.gmail.com with ESMTPSA id p2-20020a170902bd0200b001a2beda73e1sm1341918pls.166.2023.04.02.22.24.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Apr 2023 09:43:03 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
+        Sun, 02 Apr 2023 22:24:53 -0700 (PDT)
+Received: by MVIN00024 (sSMTP sendmail emulation); Mon, 03 Apr 2023 10:52:35 +0530
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 21/21] rsync: Turn on -pedantic-errors at the end of 'configure'
-Date: Sun,  2 Apr 2023 06:42:16 -1000
-Message-Id: <3eeab90fd45a1e8de6d9d16dfdec79c72639614b.1680453201.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1680453201.git.steve@sakoman.com>
-References: <cover.1680453201.git.steve@sakoman.com>
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [dunfell][PATCH] qemu: fix compile error which imported by CVE-2022-4144
+Date: Mon,  3 Apr 2023 10:52:34 +0530
+Message-Id: <20230403052234.7348-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 02 Apr 2023 16:43:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179602
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 05:25:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179603
 
-From: Khem Raj <raj.khem@gmail.com>
+Upstream-Status: Backport from https://github.com/qemu/qemu/commit/61c34fc && https://gitlab.com/qemu-project/qemu/-/commit/8efec0ef8bbc1e75a7ebf6e325a35806ece9b39f
 
-This helps in building rsync without autoconf patch, since it will be a
-while that the round trip is made, better to apply this patch here until
-next release of autoconf.
-
-(From OE-Core rev: 11522b98697befcf13076a90cec4f8ade1fa0645)
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 8d6b8fb0863d81f60f8a8b53c3b5b4676d508965)
-Signed-off-by: pawan <badganchipv@gmail.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- ...-prototypes-to-function-declarations.patch | 31 +++------
- ...antic-errors-at-the-end-of-configure.patch | 68 +++++++++++++++++++
- meta/recipes-devtools/rsync/rsync_3.2.5.bb    |  1 +
- 3 files changed, 80 insertions(+), 20 deletions(-)
- create mode 100644 meta/recipes-devtools/rsync/files/0001-Turn-on-pedantic-errors-at-the-end-of-configure.patch
+ meta/recipes-devtools/qemu/qemu.inc           |   1 +
+ ...ass-requested-buffer-size-to-qxl_phy.patch | 236 ++++++++++++++++++
+ 2 files changed, 237 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/hw-display-qxl-Pass-requested-buffer-size-to-qxl_phy.patch
 
-diff --git a/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch b/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch
-index 629b786d62..474d82db22 100644
---- a/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch
-+++ b/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch
-@@ -1,6 +1,6 @@
--From 704a240443ca5d8024cc3b01ae6c1440fa41f54a Mon Sep 17 00:00:00 2001
-+From 785c0072c80c2f6e0839478453cf65fdeac15da0 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
--Date: Tue, 16 Aug 2022 23:42:24 -0700
-+Date: Mon, 29 Aug 2022 19:53:28 -0700
- Subject: [PATCH] Add missing prototypes to function declarations
- 
- With Clang 15+ compiler -Wstrict-prototypes is triggering warnings which
-@@ -18,8 +18,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
- ---
-  checksum.c       | 2 +-
-  exclude.c        | 2 +-
-- hlink.c          | 2 +-
-- lib/compat.c     | 1 +
-+ hlink.c          | 3 +--
-  lib/pool_alloc.c | 2 +-
-  log.c            | 2 +-
-  main.c           | 2 +-
-@@ -27,7 +26,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  zlib/crc32.c     | 2 +-
-  zlib/trees.c     | 2 +-
-  zlib/zutil.c     | 4 ++--
-- 11 files changed, 13 insertions(+), 12 deletions(-)
-+ 10 files changed, 12 insertions(+), 13 deletions(-)
- 
- diff --git a/checksum.c b/checksum.c
- index fb8c0a0..174c28c 100644
-@@ -56,30 +55,19 @@ index adc82e2..79f5a82 100644
-  	if (partial_string_buf) {
-  		free(partial_string_buf);
- diff --git a/hlink.c b/hlink.c
--index 66810a3..aea142b 100644
-+index 66810a3..6511dfb 100644
- --- a/hlink.c
- +++ b/hlink.c
--@@ -117,7 +117,7 @@ static void match_gnums(int32 *ndx_list, int ndx_count)
-+@@ -117,8 +117,7 @@ static void match_gnums(int32 *ndx_list, int ndx_count)
-  	struct ht_int32_node *node = NULL;
-  	int32 gnum, gnum_next;
-  
- -	qsort(ndx_list, ndx_count, sizeof ndx_list[0], (int (*)()) hlink_compare_gnum);
-+-
- +	qsort(ndx_list, ndx_count, sizeof ndx_list[0], (int (*)(const void *, const void *)) hlink_compare_gnum);
-- 
-  	for (from = 0; from < ndx_count; from++) {
-  		file = hlink_flist->sorted[ndx_list[from]];
--diff --git a/lib/compat.c b/lib/compat.c
--index 513d79b..89b337e 100644
----- a/lib/compat.c
--+++ b/lib/compat.c
--@@ -19,6 +19,7 @@
--  * with this program; if not, visit the http://fsf.org website.
--  */
-- 
--+#include <sys/time.h>
-- #include "rsync.h"
-- #include "itypes.h"
-- 
-+ 		gnum = F_HL_GNUM(file);
- diff --git a/lib/pool_alloc.c b/lib/pool_alloc.c
- index a1a7245..4eae062 100644
- --- a/lib/pool_alloc.c
-@@ -180,3 +168,6 @@ index bbba7b2..61f8dc9 100644
-  {
-      uLong flags;
-  
-+-- 
-+2.37.2
-+
-diff --git a/meta/recipes-devtools/rsync/files/0001-Turn-on-pedantic-errors-at-the-end-of-configure.patch b/meta/recipes-devtools/rsync/files/0001-Turn-on-pedantic-errors-at-the-end-of-configure.patch
-new file mode 100644
-index 0000000000..1d9c4bfe48
---- /dev/null
-+++ b/meta/recipes-devtools/rsync/files/0001-Turn-on-pedantic-errors-at-the-end-of-configure.patch
-@@ -0,0 +1,68 @@
-+From e64a58387db46239902b610871a0eb81626e99ff Mon Sep 17 00:00:00 2001
-+From: Paul Eggert <eggert@cs.ucla.edu>
-+Date: Thu, 18 Aug 2022 07:46:28 -0700
-+Subject: [PATCH] Turn on -pedantic-errors at the end of 'configure'
-+
-+Problem reported by Khem Raj in:
-+https://lists.gnu.org/r/autoconf-patches/2022-08/msg00009.html
-+Upstream-Status: Submitted [https://lists.samba.org/archive/rsync/2022-August/032862.html]
-+---
-+ configure.ac | 35 ++++++++++++++++++++---------------
-+ 1 file changed, 20 insertions(+), 15 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index d185b2d3..7e9514f7 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -1071,21 +1071,6 @@ elif test x"$ac_cv_header_popt_h" != x"yes"; then
-+     with_included_popt=yes
-+ fi
-+ 
-+-if test x"$GCC" = x"yes"; then
-+-    if test x"$with_included_popt" != x"yes"; then
-+-	# Turn pedantic warnings into errors to ensure an array-init overflow is an error.
-+-	CFLAGS="$CFLAGS -pedantic-errors"
-+-    else
-+-	# Our internal popt code cannot be compiled with pedantic warnings as errors, so try to
-+-	# turn off pedantic warnings (which will not lose the error for array-init overflow).
-+-	# Older gcc versions don't understand -Wno-pedantic, so check if --help=warnings lists
-+-	# -Wpedantic and use that as a flag.
-+-	case `$CC --help=warnings 2>/dev/null | grep Wpedantic` in
-+-	    *-Wpedantic*) CFLAGS="$CFLAGS -pedantic-errors -Wno-pedantic" ;;
-+-	esac
-+-    fi
-+-fi
-+-
-+ AC_MSG_CHECKING([whether to use included libpopt])
-+ if test x"$with_included_popt" = x"yes"; then
-+     AC_MSG_RESULT($srcdir/popt)
-+@@ -1444,6 +1429,26 @@ case "$CC" in
-+     ;;
-+ esac
-+ 
-++# Enable -pedantic-errors last, so that it doesn't mess up other
-++# 'configure' tests.  For example, Autoconf uses empty function
-++# prototypes like 'int main () {}' which Clang 15's -pedantic-errors
-++# would reject.  Generally it's not a good idea to try to run
-++# 'configure' itself with strict compiler checking.
-++if test x"$GCC" = x"yes"; then
-++    if test x"$with_included_popt" != x"yes"; then
-++	# Turn pedantic warnings into errors to ensure an array-init overflow is an error.
-++	CFLAGS="$CFLAGS -pedantic-errors"
-++    else
-++	# Our internal popt code cannot be compiled with pedantic warnings as errors, so try to
-++	# turn off pedantic warnings (which will not lose the error for array-init overflow).
-++	# Older gcc versions don't understand -Wno-pedantic, so check if --help=warnings lists
-++	# -Wpedantic and use that as a flag.
-++	case `$CC --help=warnings 2>/dev/null | grep Wpedantic` in
-++	    *-Wpedantic*) CFLAGS="$CFLAGS -pedantic-errors -Wno-pedantic" ;;
-++	esac
-++    fi
-++fi
-++
-+ AC_CONFIG_FILES([Makefile lib/dummy zlib/dummy popt/dummy shconfig])
-+ AC_OUTPUT
-+ 
-+-- 
-+2.37.1
-+
-diff --git a/meta/recipes-devtools/rsync/rsync_3.2.5.bb b/meta/recipes-devtools/rsync/rsync_3.2.5.bb
-index 6a7e6e559f..983bdd5ab0 100644
---- a/meta/recipes-devtools/rsync/rsync_3.2.5.bb
-+++ b/meta/recipes-devtools/rsync/rsync_3.2.5.bb
-@@ -15,6 +15,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
-            file://makefile-no-rebuild.patch \
-            file://determism.patch \
-            file://0001-Add-missing-prototypes-to-function-declarations.patch \
-+           file://0001-Turn-on-pedantic-errors-at-the-end-of-configure.patch \
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 0649727338..088f164cb7 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -117,6 +117,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2021-3507.patch \
+            file://CVE-2021-3929.patch \
+            file://CVE-2022-4144.patch \
++           file://hw-display-qxl-Pass-requested-buffer-size-to-qxl_phy.patch \
             "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
- SRC_URI[sha256sum] = "2ac4d21635cdf791867bc377c35ca6dda7f50d919a58be45057fd51600c69aba"
+diff --git a/meta/recipes-devtools/qemu/qemu/hw-display-qxl-Pass-requested-buffer-size-to-qxl_phy.patch b/meta/recipes-devtools/qemu/qemu/hw-display-qxl-Pass-requested-buffer-size-to-qxl_phy.patch
+new file mode 100644
+index 0000000000..f380be486c
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/hw-display-qxl-Pass-requested-buffer-size-to-qxl_phy.patch
+@@ -0,0 +1,236 @@
++From 5a44a01c9eca6507be45d107c27377a3e8d0ee8c Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
++Date: Mon, 28 Nov 2022 21:27:39 +0100
++Subject: [PATCH] hw/display/qxl: Pass requested buffer size to qxl_phys2virt()
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Currently qxl_phys2virt() doesn't check for buffer overrun.
++In order to do so in the next commit, pass the buffer size
++as argument.
++
++For QXLCursor in qxl_render_cursor() -> qxl_cursor() we
++verify the size of the chunked data ahead, checking we can
++access 'sizeof(QXLCursor) + chunk->data_size' bytes.
++Since in the SPICE_CURSOR_TYPE_MONO case the cursor is
++assumed to fit in one chunk, no change are required.
++In SPICE_CURSOR_TYPE_ALPHA the ahead read is handled in
++qxl_unpack_chunks().
++
++Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
++Acked-by: Gerd Hoffmann <kraxel@redhat.com>
++Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
++Message-Id: <20221128202741.4945-4-philmd@linaro.org>
++
++Backport and rebase patch to fix compile error which imported by CVE-2022-4144.patch:
++
++/qxl.c: In function 'qxl_phys2virt':
++| /home/hitendra/work/yocto-work/cgx-data/dunfell-3.1/x86-generic-64-5.4-3.1-cgx/project/tmp/work/i586-montavistamllib32-linux/lib32-qemu/4.2.0-r0.8/qemu-4.2.0/hw/display/qxl.c:1508:67: error: 'size' undeclared (first use in this function); did you mean 'gsize'?
++|  1508 |         if (!qxl_get_check_slot_offset(qxl, pqxl, &slot, &offset, size)) {
++|       |                                                                   ^~~~
++|       |                                                                   gsize
++
++Upstream-Status: Backport [https://github.com/qemu/qemu/commit/61c34fc && https://gitlab.com/qemu-project/qemu/-/commit/8efec0ef8bbc1e75a7ebf6e325a35806ece9b39f]
++
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ hw/display/qxl-logger.c | 22 +++++++++++++++++++---
++ hw/display/qxl-render.c | 20 ++++++++++++++++----
++ hw/display/qxl.c        | 17 +++++++++++------
++ hw/display/qxl.h        |  3 ++-
++ 4 files changed, 48 insertions(+), 14 deletions(-)
++
++diff --git a/hw/display/qxl-logger.c b/hw/display/qxl-logger.c
++index 2ec6d8fa..031ddfec 100644
++--- a/hw/display/qxl-logger.c
+++++ b/hw/display/qxl-logger.c
++@@ -106,7 +106,7 @@ static int qxl_log_image(PCIQXLDevice *qxl, QXLPHYSICAL addr, int group_id)
++     QXLImage *image;
++     QXLImageDescriptor *desc;
++ 
++-    image = qxl_phys2virt(qxl, addr, group_id);
+++    image = qxl_phys2virt(qxl, addr, group_id, sizeof(QXLImage));
++     if (!image) {
++         return 1;
++     }
++@@ -216,7 +216,8 @@ int qxl_log_cmd_cursor(PCIQXLDevice *qxl, QXLCursorCmd *cmd, int group_id)
++                 cmd->u.set.position.y,
++                 cmd->u.set.visible ? "yes" : "no",
++                 cmd->u.set.shape);
++-        cursor = qxl_phys2virt(qxl, cmd->u.set.shape, group_id);
+++        cursor = qxl_phys2virt(qxl, cmd->u.set.shape, group_id,
+++                               sizeof(QXLCursor));
++         if (!cursor) {
++             return 1;
++         }
++@@ -238,6 +239,7 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *ring, QXLCommandExt *ext)
++ {
++     bool compat = ext->flags & QXL_COMMAND_FLAG_COMPAT;
++     void *data;
+++    size_t datasz;
++     int ret;
++ 
++     if (!qxl->cmdlog) {
++@@ -249,7 +251,20 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *ring, QXLCommandExt *ext)
++             qxl_name(qxl_type, ext->cmd.type),
++             compat ? "(compat)" : "");
++ 
++-    data = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
+++    switch (ext->cmd.type) {
+++    case QXL_CMD_DRAW:
+++        datasz = compat ? sizeof(QXLCompatDrawable) : sizeof(QXLDrawable);
+++        break;
+++    case QXL_CMD_SURFACE:
+++        datasz = sizeof(QXLSurfaceCmd);
+++        break;
+++    case QXL_CMD_CURSOR:
+++        datasz = sizeof(QXLCursorCmd);
+++        break;
+++    default:
+++        goto out;
+++    }
+++    data = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id, datasz);
++     if (!data) {
++         return 1;
++     }
++@@ -271,6 +286,7 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *ring, QXLCommandExt *ext)
++         qxl_log_cmd_cursor(qxl, data, ext->group_id);
++         break;
++     }
+++out:
++     fprintf(stderr, "\n");
++     return 0;
++ }
++diff --git a/hw/display/qxl-render.c b/hw/display/qxl-render.c
++index d532e157..a65a6d64 100644
++--- a/hw/display/qxl-render.c
+++++ b/hw/display/qxl-render.c
++@@ -107,7 +107,9 @@ static void qxl_render_update_area_unlocked(PCIQXLDevice *qxl)
++         qxl->guest_primary.resized = 0;
++         qxl->guest_primary.data = qxl_phys2virt(qxl,
++                                                 qxl->guest_primary.surface.mem,
++-                                                MEMSLOT_GROUP_GUEST);
+++                                                MEMSLOT_GROUP_GUEST,
+++                                                qxl->guest_primary.abs_stride
+++                                                * height);
++         if (!qxl->guest_primary.data) {
++             return;
++         }
++@@ -222,7 +224,8 @@ static void qxl_unpack_chunks(void *dest, size_t size, PCIQXLDevice *qxl,
++         if (offset == size) {
++             return;
++         }
++-        chunk = qxl_phys2virt(qxl, chunk->next_chunk, group_id);
+++        chunk = qxl_phys2virt(qxl, chunk->next_chunk, group_id,
+++                              sizeof(QXLDataChunk) + chunk->data_size);
++         if (!chunk) {
++             return;
++         }
++@@ -289,7 +292,8 @@ fail:
++ /* called from spice server thread context only */
++ int qxl_render_cursor(PCIQXLDevice *qxl, QXLCommandExt *ext)
++ {
++-    QXLCursorCmd *cmd = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
+++    QXLCursorCmd *cmd = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id,
+++                                      sizeof(QXLCursorCmd));
++     QXLCursor *cursor;
++     QEMUCursor *c;
++ 
++@@ -308,7 +312,15 @@ int qxl_render_cursor(PCIQXLDevice *qxl, QXLCommandExt *ext)
++     }
++     switch (cmd->type) {
++     case QXL_CURSOR_SET:
++-        cursor = qxl_phys2virt(qxl, cmd->u.set.shape, ext->group_id);
+++        /* First read the QXLCursor to get QXLDataChunk::data_size ... */
+++        cursor = qxl_phys2virt(qxl, cmd->u.set.shape, ext->group_id,
+++                               sizeof(QXLCursor));
+++        if (!cursor) {
+++            return 1;
+++        }
+++        /* Then read including the chunked data following QXLCursor. */
+++        cursor = qxl_phys2virt(qxl, cmd->u.set.shape, ext->group_id,
+++                               sizeof(QXLCursor) + cursor->chunk.data_size);
++         if (!cursor) {
++             return 1;
++         }
++diff --git a/hw/display/qxl.c b/hw/display/qxl.c
++index 6bc8385b..858d3e93 100644
++--- a/hw/display/qxl.c
+++++ b/hw/display/qxl.c
++@@ -275,7 +275,8 @@ static void qxl_spice_monitors_config_async(PCIQXLDevice *qxl, int replay)
++                                           QXL_IO_MONITORS_CONFIG_ASYNC));
++     }
++ 
++-    cfg = qxl_phys2virt(qxl, qxl->guest_monitors_config, MEMSLOT_GROUP_GUEST);
+++    cfg = qxl_phys2virt(qxl, qxl->guest_monitors_config, MEMSLOT_GROUP_GUEST,
+++                        sizeof(QXLMonitorsConfig));
++     if (cfg != NULL && cfg->count == 1) {
++         qxl->guest_primary.resized = 1;
++         qxl->guest_head0_width  = cfg->heads[0].width;
++@@ -460,7 +461,8 @@ static int qxl_track_command(PCIQXLDevice *qxl, struct QXLCommandExt *ext)
++     switch (le32_to_cpu(ext->cmd.type)) {
++     case QXL_CMD_SURFACE:
++     {
++-        QXLSurfaceCmd *cmd = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
+++        QXLSurfaceCmd *cmd = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id,
+++                                           sizeof(QXLSurfaceCmd));
++ 
++         if (!cmd) {
++             return 1;
++@@ -494,7 +496,8 @@ static int qxl_track_command(PCIQXLDevice *qxl, struct QXLCommandExt *ext)
++     }
++     case QXL_CMD_CURSOR:
++     {
++-        QXLCursorCmd *cmd = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
+++        QXLCursorCmd *cmd = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id,
+++                                          sizeof(QXLCursorCmd));
++ 
++         if (!cmd) {
++             return 1;
++@@ -674,7 +677,8 @@ static int interface_get_command(QXLInstance *sin, struct QXLCommandExt *ext)
++              *
++              * https://cgit.freedesktop.org/spice/win32/qxl-wddm-dod/commit/?id=f6e099db39e7d0787f294d5fd0dce328b5210faa
++              */
++-            void *msg = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
+++            void *msg = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id,
+++			    sizeof(QXLCommandRing));
++             if (msg != NULL && (
++                     msg < (void *)qxl->vga.vram_ptr ||
++                     msg > ((void *)qxl->vga.vram_ptr + qxl->vga.vram_size))) {
++@@ -1494,7 +1498,8 @@ static bool qxl_get_check_slot_offset(PCIQXLDevice *qxl, QXLPHYSICAL pqxl,
++ }
++ 
++ /* can be also called from spice server thread context */
++-void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL pqxl, int group_id)
+++void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL pqxl, int group_id,
+++                    size_t size)
++ {
++     uint64_t offset;
++     uint32_t slot;
++@@ -1994,7 +1999,7 @@ static void qxl_dirty_surfaces(PCIQXLDevice *qxl)
++         }
++ 
++         cmd = qxl_phys2virt(qxl, qxl->guest_surfaces.cmds[i],
++-                            MEMSLOT_GROUP_GUEST);
+++                            MEMSLOT_GROUP_GUEST, sizeof(QXLSurfaceCmd));
++         assert(cmd);
++         assert(cmd->type == QXL_SURFACE_CMD_CREATE);
++         qxl_dirty_one_surface(qxl, cmd->u.surface_create.data,
++diff --git a/hw/display/qxl.h b/hw/display/qxl.h
++index 80eb0d26..fcfd133a 100644
++--- a/hw/display/qxl.h
+++++ b/hw/display/qxl.h
++@@ -147,7 +147,8 @@ typedef struct PCIQXLDevice {
++ #define QXL_DEFAULT_REVISION QXL_REVISION_STABLE_V12
++ 
++ /* qxl.c */
++-void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL phys, int group_id);
+++void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL phys, int group_id,
+++                    size_t size);
++ void qxl_set_guest_bug(PCIQXLDevice *qxl, const char *msg, ...)
++     GCC_FMT_ATTR(2, 3);
++ 
++-- 
++2.25.1
++
 -- 
-2.34.1
+2.25.1
 
 
