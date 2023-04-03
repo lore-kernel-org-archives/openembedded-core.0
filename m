@@ -1,641 +1,168 @@
-Return-Path: <skulkarni@mvista.com>
+Return-Path: <kubiznak@2n.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59552C761A6
-	for <webhook@archiver.kernel.org>; Mon,  3 Apr 2023 10:19:44 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web10.66475.1680517180522120141
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D25EC761A6
+	for <webhook@archiver.kernel.org>; Mon,  3 Apr 2023 10:31:24 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web10.66634.1680517882113335604
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Apr 2023 03:19:41 -0700
+ Mon, 03 Apr 2023 03:31:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=TfS/hUqI;
- spf=pass (domain: mvista.com, ip: 209.85.208.180, mailfrom: skulkarni@mvista.com)
-Received: by mail-lj1-f180.google.com with SMTP id a11so29769494lji.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 03:19:40 -0700 (PDT)
+ dkim=fail, err=mail: missing word in phrase: charset not supported: "iso-8859-2";
+ spf=pass (domain: 2n.com, ip: 195.60.68.18, mailfrom: kubiznak@2n.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OFI7ezROq9t/tiF+eG9T/lvrspJGycqn/pRGkTEjxMI1JoavMxtnvOLSEXeM0Td6a5PB+OoeqThhJ9dP3Z5RNxRd+8/adfenACceQ7ZJUo759/m2bkeZnW+COdJELmU2HG0yBMGuECkS2KKnyVNPNrGuLN3RQ0c8PzzfR1Ulc6zaE2pdX+rtwypZZMLayYb7UTZs7tadzrQsrTzDnl4dYSiduHy9utftUxjj2U10q1cn0nhZKUIrBoXC9Vo826kxu0YF+Er8ovNmyaCoR+/0TYiOXrUFyRCfmeIb8+JFeQSG4MDZDRK8LhsuAAHp5zHSRqPYniY2RmpS2gf+jtRYag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0rx49lsRHkgF2bDi0ynwmsZuyRtJvl2cuEkqlpurMWE=;
+ b=k+jNkNUAuJ7/JvtqrG1TKTqX5bxLyrgR2u/LqhQNd2H9Tos7c3RQ++uBD7tOgt517oYJY8WHtnnL94SKztzNnrrhX7MSux+WUazfmynx5fYMZ6BccT0PKqaiKx6xQ+qU9Tc+WFPscY9OLH85UqzA1PYBHKKyT7U4NTADc6ptCtmV8LoMGuCwPMOJO7Ngz9TjN9luNvc/LG62GjjtY9cTve6V/Sl4Jk78IbdB27wmo/nNrj2ndyc/mHMUujkxINcEG48zFGQV5qo58AiiAlXuSdezE46gurMW0wg1rHL1rx1phdgvLfP6PNN3D9ePXSUSZVdzbg6GEKPM1tE3m7Egvw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=2n.com; dmarc=pass action=none header.from=2n.com; dkim=pass
+ header.d=2n.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1680517179;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=T2cy8tZSyr9qWDV7fYNzDnPfDJ53gZt0KCh4Ygful9Y=;
-        b=TfS/hUqIOHXzH4FgZq/7eKjkJZYHVy1laVVw7HCUuRWeYNpfYYtaIjYtsl87/gtMZh
-         QwkRVlxytsz9tER9AXR9tbDHq28w0qhgcCifBu+5vbD35ay+BaHEN/ozJtggAvZyrd+a
-         wPTZRriaJRPYuGoyKXI1yEiBMj3wCEBSBllEM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680517179;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=T2cy8tZSyr9qWDV7fYNzDnPfDJ53gZt0KCh4Ygful9Y=;
-        b=wC+zwz8+e/Dt4Vj74o3EjJ8qgjWXHTyukPtB74i7MkTJdOjZ/IXMnM0pv0kGTSIW5E
-         ogrxrKNyFBXZLC1kQoKFlck1hBa3f8LdC8QQrVpJHz3pTG7OHDPWDfz+11DwOCnVc7fh
-         EYFnYwX7tbUJOnQ/nWmfcX6Z1ckOAC/NJlcQJP9+pXm+D/HRAU2Z2ZguLdaBs4jJvd/C
-         Mzmob+5Q/eUs3LUfpgbXe0ld1j5LA5cZE0VNvDpYbZbBJRo0HScOLiMJJd8R98vgeaNQ
-         TfrGkjqg17R1WL3BozZtaswrSK7iC1ltRpl4DhokWSIRcQrnDfacStdYGr8KjJLCimRI
-         24ww==
-X-Gm-Message-State: AAQBX9e8LGZhbtFruDvKtFmNEuJFvGpiU0nbOnK0P8oIxIjw3+aNxFcf
-	8jeicry37MUn4oBVtZ+2GzjjgA7lsGRlJIKYkKFMQw==
-X-Google-Smtp-Source: AKy350ZU3iFFBDnYtecioXKlUnH77nh84do1iuokPUGDFx+b9iA9ukCeWAYH7NQXb9xJklFXpOgc6jXE35RGF57530A=
-X-Received: by 2002:a2e:7004:0:b0:299:c8c4:c9f1 with SMTP id
- l4-20020a2e7004000000b00299c8c4c9f1mr10508920ljc.8.1680517178471; Mon, 03 Apr
- 2023 03:19:38 -0700 (PDT)
+ d=axis365.onmicrosoft.com; s=selector2-axis365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0rx49lsRHkgF2bDi0ynwmsZuyRtJvl2cuEkqlpurMWE=;
+ b=wHXWLzbyDb4QodGLTugwKx5819GQM0WmhUGTgrHG/NSX4UFl3mzM2pA/eHGfzecSPCSyibhc4JGeveNk29QQl0Ur6byZecQDdRqGEqNcVpClOeK9vGI2p2T/v/7e7tdIZqfe3euzHnKPm5+3QN6yXw3coDLVxoHZiygUKWGtkS4=
+From: =?iso-8859-2?Q?Petr_Kubiz=F2=E1k_-_2N?= <Kubiznak@2n.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH v4 06/10] webkitgtk: add missing dependencies
+Thread-Topic: [OE-core][PATCH v4 06/10] webkitgtk: add missing dependencies
+Thread-Index: AQHZY8baKMX2+W2/H0yd7VqMp8wFla8UyviAgASXNz0=
+Date: Mon, 3 Apr 2023 10:31:17 +0000
+Message-ID: <DB4PR02MB100301B77BF93E3A3CC6708A5E2929@DB4PR02MB10030.eurprd02.prod.outlook.com>
+References: <20230331114634.3578244-1-kubiznak@2n.com>
+	 <20230331114634.3578244-6-kubiznak@2n.com>
+ <e1408db180e41666a38260a9f45f6edf7f725192.camel@linuxfoundation.org>
+In-Reply-To: <e1408db180e41666a38260a9f45f6edf7f725192.camel@linuxfoundation.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=2n.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB4PR02MB10030:EE_|DB9PR02MB7194:EE_
+x-ms-office365-filtering-correlation-id: 39ec8810-0110-4dbe-3400-08db342e8f3c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: LsYnx9ZaiTuxKUmIDIIXGAky5wG3tR3NsikS/iyh+IBdGspcW7zFb34E0Y3iiAoZ6XX+ZaOORIJMpgvRBZ+3ezJMP71vfJzpmwdMnU45KLpE7JAGAME8gQJctUt8e2GFqVktlKf67BKIrdFqfAkSDIkS3HiYuw1AW4phZmdELDDc/Km0B0/g0X6BPsZmg9IRSqumflnnxOCYjH87DIPrpB0zCRQK8485GqkFzOFxS/nFJJSkB6p/PXkPeO0WEXioSllPyEj1xWjMXKJgckg6YNXqg5/fnAzy0VJLdNPO5gIPUPok99CZxZ22efzKfTnjqS0TPmEHJ5xWqL47GYhEO3/ObDbyBLUOU23iPYvfNzEUJANyi3CuBSC9ktiVFpVoGoSBt7RUutPmzmvO0YL/23MInl7ACPiaEcuNLm9k2I1MrndQWJoqJt1S92U2yis7rBelOWRK69koJje8P1JOvIdqw5AbF/Oi19ZFTT+5G2B2euiBxt5IRH+2rkWnIEbznfUmGjfcRLjKZBzoIlbXrCVc+FbS0RDmoNKAJBbwptPIneuu97d2BHvYTACCJgq0a2hTXOr/372LGfRay1l8x8imfS7tSOQCGrYxNiR0HUo=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB4PR02MB10030.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(396003)(136003)(346002)(366004)(39860400002)(451199021)(83380400001)(91956017)(71200400001)(478600001)(7696005)(110136005)(316002)(6506007)(53546011)(9686003)(26005)(186003)(2906002)(5660300002)(33656002)(38100700002)(8676002)(66476007)(66556008)(66446008)(66946007)(122000001)(76116006)(41300700001)(86362001)(8936002)(64756008)(52536014)(38070700005)(55016003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-2?Q?TOD/XBWa8V3uS8oTvyMwDHsZ0rYNUOtH9Gdgx66uprp2ZV7PkfdS9akp6R?=
+ =?iso-8859-2?Q?fDg8RGsF22BLJ9vomMhA4BmfkIB960enhu/u81AsNP0gTyXGltfZOyzLwY?=
+ =?iso-8859-2?Q?ElpMwulSPSaGQLU54VuEmeL7268SOAidoWXf05cGCJ6KvIFa71Dxng0mDf?=
+ =?iso-8859-2?Q?+WL0t5eM/jSTohh1113LBXvR6Xnj+LJvawYvIWqyjwhdiHml5Q/EsjDfnp?=
+ =?iso-8859-2?Q?fMqmzJzG+2bC/MPupca3AWcyewpyhlJvwXmWHVViyIaBMm/bm6aeTgieb5?=
+ =?iso-8859-2?Q?/T0XidqfgGI2UhjAVktLW5r30dmkr4Gu6Vs6lWKPar1Moy3wv42KL+vEh2?=
+ =?iso-8859-2?Q?MK0rfpxuBU9n339L46wX9fILr3ty19iV50D1C9sJpUL0Zs4WqOQ2J4DKq6?=
+ =?iso-8859-2?Q?ofghPv0ZXbO3GUA7LxSiPFHfNn71lzLOjWy5fhgc9LOhXIu0P+pX3Tm/XL?=
+ =?iso-8859-2?Q?B2EYHLI1Q5xWUGLg/5j2Oc//Ni9wqHYN/g+gcVinNMfeM63SiuwOeStngg?=
+ =?iso-8859-2?Q?GtCxeGfyxzQ1oqwiHPlPKpCa7d+4hLWCG+LliC5GMMGODfWVvmhAsCFzim?=
+ =?iso-8859-2?Q?VtLjte1jJKfogT7hBy0cgtqf7zQt0UzTeKhcGgh5RzjI8euoC9sEPTtTe7?=
+ =?iso-8859-2?Q?a2/bWB8faOJToIThviZ43DAcXbIG2hg7GQNeY9AjPaf1yzZar3ElIQoj3f?=
+ =?iso-8859-2?Q?CRDAXklam9d6ZfgOe8KEIxcVS7S/Ov/cd9oeB03oT2lZV198ndWYKVJCwe?=
+ =?iso-8859-2?Q?NQ+gKTVtJ63QAIzsKN6CW9sOoqmdN57YUQWmIURtqF4eNsMoS2UWFpehqW?=
+ =?iso-8859-2?Q?8hMNL3Os9l6eV5ccyjTmXoHd0jueN+KTqjUbWVVGHyKiz4Z3BbuFT19q6X?=
+ =?iso-8859-2?Q?x7pi87W43msaBgZ6ZFdoUIfd6nfNh7Q201AVA2Z1PA/UPc4EpPCz1XpYrY?=
+ =?iso-8859-2?Q?9oVJ+4qDetWt/VpgTVyI0QHB7pL5DUeRWEd1ZDXiCTu2DP1jAj/09Jo1Th?=
+ =?iso-8859-2?Q?Zp3eJnpBF2c3HuP4FQHZ01tKypk1n7/fNf/v1EnxH5NL67NslR4Qrf5WcD?=
+ =?iso-8859-2?Q?y56pYx5NEPL8UXHW6aqMOk6k6s/vRK2HBjYRQm8qWbQHE325Tat1sOHaHY?=
+ =?iso-8859-2?Q?tjoUsuI215NyQfnz0tlV4VVe3SjbA2bNT76HZu6/tRIz1/lsRt2ju/bCNn?=
+ =?iso-8859-2?Q?2EL+ttZUc4tgKbapnh7SEN6+wNR8YfPz4inXNSjNi1jbK59SqUGVcvZ0yp?=
+ =?iso-8859-2?Q?I2QjNv77LVRG7dXkX3wxAmXr5rAlIuzlyC6UzwbfjSxysNjWEysQ//H9GR?=
+ =?iso-8859-2?Q?tRducKXaBs3WzhYDszDN6/3hXPr/IaMsUUK8vKas/49cNMdlYCFZG3zVHj?=
+ =?iso-8859-2?Q?pqdh/tD/WFfTf4EcnJFjMMOS7sSPsEx8wzsf+Rlv0T+iajfs7jAih2Ey3n?=
+ =?iso-8859-2?Q?UtTSlvFWcQZ/Lz7KxZA8yuyc4ExQ2CKC/IpvLFCQEnFDJwws3ABsBw0A60?=
+ =?iso-8859-2?Q?72zL3q4h/+ZPiMIOGSqNQbupAEujS0hVzrrLsdqvLtqFdt+TkzsxDiNRtH?=
+ =?iso-8859-2?Q?gUG/c6eaiN35kBpqKVPdTIK3m8LAJanQ6yGd/gePKjaDj/ah2b5Bh0J5QT?=
+ =?iso-8859-2?Q?pfYprz2ubP4J8=3D?=
+Content-Type: text/plain; charset="iso-8859-2"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <175095E37B8161A1.14179@lists.openembedded.org>
-In-Reply-To: <175095E37B8161A1.14179@lists.openembedded.org>
-From: Shubham Kulkarni <skulkarni@mvista.com>
-Date: Mon, 3 Apr 2023 15:49:27 +0530
-Message-ID: <CAKzga+zqPYSa-yOupL3S5OeM_+GRFCRECZRw7soprgWHaSNTjg@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone][PATCH] go-runtime: Security fix for CVE-2022-41723
-To: Steve Sakoman <steve@sakoman.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000764caa05f86be557"
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB4PR02MB10030.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 39ec8810-0110-4dbe-3400-08db342e8f3c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Apr 2023 10:31:17.9094
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: GqO3LJs1aiafQ5QVVl5YoeODMRgRpfd8rA4+zdZGquRyH+NM9/3CVIgNOnpWfvIi
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR02MB7194
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 10:19:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179605
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 10:31:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179606
 
---000000000000764caa05f86be557
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Steve,
-
-I think you missed the patch for the Kirkstone branch. It's showing an
-*Unpatched* in the latest CVE metrics for kirkstone.
-
-I had sent patches for CVE-2022-41723 in separate emails for both dunfell &
-kirkstone with different subjects (mentioned branch). Dunfell patch is
-already merged into dunfell-nut. I am not sure how kirkstone patch mail is
-showing as a *reply* on dunfell patch mail. In the mail details as well as
-on the list, it's showing the correct subject:
-https://lists.openembedded.org/g/openembedded-core/message/179232
-
-Apologies for the inconvenience caused. Please consider this patch for
-kirkstone to fix CVE-2022-41723 golang.org/x/net/http2: avoid quadratic
-complexity in HPACK decoding.
-
-Regards,
-Shubham Kulkarni
-
-On Tue, Mar 28, 2023 at 6:14=E2=80=AFPM Shubham Kulkarni via lists.openembe=
-dded.org
-<skulkarni=3Dmvista.com@lists.openembedded.org> wrote:
-
-> From: Shubham Kulkarni <skulkarni@mvista.com>
->
-> Disable cmd/internal/moddeps test, since this update includes PRIVATE
-> track fixes.
->
-> Backport from
-> https://github.com/golang/go/commit/5c3e11bd0b5c0a86e5beffcd4339b86a902b2=
-1c3
->
-> Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
-> ---
->  meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
->  .../go/go-1.18/CVE-2022-41723.patch           | 156 ++++++++++++++++++
->  2 files changed, 157 insertions(+)
->  create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2022-41723.patch
->
-> diff --git a/meta/recipes-devtools/go/go-1.17.13.inc
-> b/meta/recipes-devtools/go/go-1.17.13.inc
-> index 99662bd298..971e38a744 100644
-> --- a/meta/recipes-devtools/go/go-1.17.13.inc
-> +++ b/meta/recipes-devtools/go/go-1.17.13.inc
-> @@ -20,6 +20,7 @@ SRC_URI +=3D "\
->      file://0001-net-http-httputil-avoid-query-parameter-smuggling.patch =
-\
->      file://CVE-2022-41715.patch \
->      file://CVE-2022-41717.patch \
-> +    file://CVE-2022-41723.patch \
->  "
->  SRC_URI[main.sha256sum] =3D
-> "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
->
-> diff --git a/meta/recipes-devtools/go/go-1.18/CVE-2022-41723.patch
-> b/meta/recipes-devtools/go/go-1.18/CVE-2022-41723.patch
-> new file mode 100644
-> index 0000000000..a93fa31dcd
-> --- /dev/null
-> +++ b/meta/recipes-devtools/go/go-1.18/CVE-2022-41723.patch
-> @@ -0,0 +1,156 @@
-> +From 451766789f646617157c725e20c955d4a9a70d4e Mon Sep 17 00:00:00 2001
-> +From: Roland Shoemaker <bracewell@google.com>
-> +Date: Mon, 6 Feb 2023 10:03:44 -0800
-> +Subject: [PATCH] net/http: update bundled golang.org/x/net/http2
-> +
-> +Disable cmd/internal/moddeps test, since this update includes PRIVATE
-> +track fixes.
-> +
-> +Fixes CVE-2022-41723
-> +Fixes #58355
-> +Updates #57855
-> +
-> +Change-Id: Ie870562a6f6e44e4e8f57db6a0dde1a41a2b090c
-> +Reviewed-on:
-> https://team-review.git.corp.google.com/c/golang/go-private/+/1728939
-> +Reviewed-by
-> <https://team-review.git.corp.google.com/c/golang/go-private/+/1728939+Re=
-viewed-by>:
-> Damien Neil <dneil@google.com>
-> +Reviewed-by: Julie Qiu <julieqiu@google.com>
-> +Reviewed-by: Tatiana Bradley <tatianabradley@google.com>
-> +Run-TryBot: Roland Shoemaker <bracewell@google.com>
-> +Reviewed-on: https://go-review.googlesource.com/c/go/+/468118
-> +TryBot-Result: Gopher Robot <gobot@golang.org>
-> +Run-TryBot: Michael Pratt <mpratt@google.com>
-> +Auto-Submit: Michael Pratt <mpratt@google.com>
-> +Reviewed-by: Than McIntosh <thanm@google.com>
-> +
-> +Upstream-Status: Backport [
-> https://github.com/golang/go/commit/5c3e11bd0b5c0a86e5beffcd4339b86a902b2=
-1c3
-> ]
-> +CVE: CVE-2022-41723
-> +Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
-> +---
-> + src/vendor/golang.org/x/net/http2/hpack/hpack.go | 79
-> +++++++++++++++---------
-> + 1 file changed, 49 insertions(+), 30 deletions(-)
-> +
-> +diff --git a/src/vendor/golang.org/x/net/http2/hpack/hpack.go
-> b/src/vendor/golang.org/x/net/http2/hpack/hpack.go
-> +index 85f18a2..02e80e3 100644
-> +--- a/src/vendor/golang.org/x/net/http2/hpack/hpack.go
-> ++++ b/src/vendor/golang.org/x/net/http2/hpack/hpack.go
-> +@@ -359,6 +359,7 @@ func (d *Decoder) parseFieldLiteral(n uint8, it
-> indexType) error {
-> +
-> +       var hf HeaderField
-> +       wantStr :=3D d.emitEnabled || it.indexed()
-> ++      var undecodedName undecodedString
-> +       if nameIdx > 0 {
-> +               ihf, ok :=3D d.at(nameIdx)
-> +               if !ok {
-> +@@ -366,15 +367,27 @@ func (d *Decoder) parseFieldLiteral(n uint8, it
-> indexType) error {
-> +               }
-> +               hf.Name =3D ihf.Name
-> +       } else {
-> +-              hf.Name, buf, err =3D d.readString(buf, wantStr)
-> ++              undecodedName, buf, err =3D d.readString(buf)
-> +               if err !=3D nil {
-> +                       return err
-> +               }
-> +       }
-> +-      hf.Value, buf, err =3D d.readString(buf, wantStr)
-> ++      undecodedValue, buf, err :=3D d.readString(buf)
-> +       if err !=3D nil {
-> +               return err
-> +       }
-> ++      if wantStr {
-> ++              if nameIdx <=3D 0 {
-> ++                      hf.Name, err =3D d.decodeString(undecodedName)
-> ++                      if err !=3D nil {
-> ++                              return err
-> ++                      }
-> ++              }
-> ++              hf.Value, err =3D d.decodeString(undecodedValue)
-> ++              if err !=3D nil {
-> ++                      return err
-> ++              }
-> ++      }
-> +       d.buf =3D buf
-> +       if it.indexed() {
-> +               d.dynTab.add(hf)
-> +@@ -459,46 +472,52 @@ func readVarInt(n byte, p []byte) (i uint64, remai=
-n
-> []byte, err error) {
-> +       return 0, origP, errNeedMore
-> + }
-> +
-> +-// readString decodes an hpack string from p.
-> ++// readString reads an hpack string from p.
-> + //
-> +-// wantStr is whether s will be used. If false, decompression and
-> +-// []byte->string garbage are skipped if s will be ignored
-> +-// anyway. This does mean that huffman decoding errors for non-indexed
-> +-// strings past the MAX_HEADER_LIST_SIZE are ignored, but the server
-> +-// is returning an error anyway, and because they're not indexed, the
-> error
-> +-// won't affect the decoding state.
-> +-func (d *Decoder) readString(p []byte, wantStr bool) (s string, remain
-> []byte, err error) {
-> ++// It returns a reference to the encoded string data to permit deferrin=
-g
-> decode costs
-> ++// until after the caller verifies all data is present.
-> ++func (d *Decoder) readString(p []byte) (u undecodedString, remain
-> []byte, err error) {
-> +       if len(p) =3D=3D 0 {
-> +-              return "", p, errNeedMore
-> ++              return u, p, errNeedMore
-> +       }
-> +       isHuff :=3D p[0]&128 !=3D 0
-> +       strLen, p, err :=3D readVarInt(7, p)
-> +       if err !=3D nil {
-> +-              return "", p, err
-> ++              return u, p, err
-> +       }
-> +       if d.maxStrLen !=3D 0 && strLen > uint64(d.maxStrLen) {
-> +-              return "", nil, ErrStringLength
-> ++              // Returning an error here means Huffman decoding errors
-> ++              // for non-indexed strings past the maximum string length
-> ++              // are ignored, but the server is returning an error anyw=
-ay
-> ++              // and because the string is not indexed the error will n=
-ot
-> ++              // affect the decoding state.
-> ++              return u, nil, ErrStringLength
-> +       }
-> +       if uint64(len(p)) < strLen {
-> +-              return "", p, errNeedMore
-> +-      }
-> +-      if !isHuff {
-> +-              if wantStr {
-> +-                      s =3D string(p[:strLen])
-> +-              }
-> +-              return s, p[strLen:], nil
-> ++              return u, p, errNeedMore
-> +       }
-> ++      u.isHuff =3D isHuff
-> ++      u.b =3D p[:strLen]
-> ++      return u, p[strLen:], nil
-> ++}
-> +
-> +-      if wantStr {
-> +-              buf :=3D bufPool.Get().(*bytes.Buffer)
-> +-              buf.Reset() // don't trust others
-> +-              defer bufPool.Put(buf)
-> +-              if err :=3D huffmanDecode(buf, d.maxStrLen, p[:strLen]); =
-err
-> !=3D nil {
-> +-                      buf.Reset()
-> +-                      return "", nil, err
-> +-              }
-> ++type undecodedString struct {
-> ++      isHuff bool
-> ++      b      []byte
-> ++}
-> ++
-> ++func (d *Decoder) decodeString(u undecodedString) (string, error) {
-> ++      if !u.isHuff {
-> ++              return string(u.b), nil
-> ++      }
-> ++      buf :=3D bufPool.Get().(*bytes.Buffer)
-> ++      buf.Reset() // don't trust others
-> ++      var s string
-> ++      err :=3D huffmanDecode(buf, d.maxStrLen, u.b)
-> ++      if err =3D=3D nil {
-> +               s =3D buf.String()
-> +-              buf.Reset() // be nice to GC
-> +       }
-> +-      return s, p[strLen:], nil
-> ++      buf.Reset() // be nice to GC
-> ++      bufPool.Put(buf)
-> ++      return s, err
-> + }
-> +--
-> +2.7.4
-> --
-> 2.33.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#179232):
-> https://lists.openembedded.org/g/openembedded-core/message/179232
-> Mute This Topic: https://lists.openembedded.org/mt/97904222/7032091
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> skulkarni@mvista.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---000000000000764caa05f86be557
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi Steve,<div><br></div><div>I think you missed the patch =
-for the Kirkstone branch. It&#39;s showing an <b>Unpatched</b>=C2=A0in the =
-latest=C2=A0CVE metrics for kirkstone.</div><div><br></div><div>I had sent =
-patches for CVE-2022-41723 in separate emails for both dunfell &amp; kirkst=
-one with different subjects (mentioned branch). Dunfell patch is already me=
-rged into dunfell-nut. I am not sure how kirkstone patch mail is showing as=
- a <b>reply</b> on dunfell patch mail. In the mail details as well as on th=
-e list, it&#39;s showing the correct subject: <a href=3D"https://lists.open=
-embedded.org/g/openembedded-core/message/179232">https://lists.openembedded=
-.org/g/openembedded-core/message/179232</a></div><div><br></div><div>Apolog=
-ies for the inconvenience caused. Please consider this patch for kirkstone =
-to fix CVE-2022-41723 <a href=3D"http://golang.org/x/net/http2">golang.org/=
-x/net/http2</a>: avoid quadratic complexity in HPACK decoding.</div><div><b=
-r></div><div>Regards,</div><div>Shubham Kulkarni</div></div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 28, 2023=
- at 6:14=E2=80=AFPM Shubham Kulkarni via <a href=3D"http://lists.openembedd=
-ed.org">lists.openembedded.org</a> &lt;skulkarni=3D<a href=3D"mailto:mvista=
-.com@lists.openembedded.org">mvista.com@lists.openembedded.org</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Shubham=
- Kulkarni &lt;<a href=3D"mailto:skulkarni@mvista.com" target=3D"_blank">sku=
-lkarni@mvista.com</a>&gt;<br>
-<br>
-Disable cmd/internal/moddeps test, since this update includes PRIVATE<br>
-track fixes.<br>
-<br>
-Backport from <a href=3D"https://github.com/golang/go/commit/5c3e11bd0b5c0a=
-86e5beffcd4339b86a902b21c3" rel=3D"noreferrer" target=3D"_blank">https://gi=
-thub.com/golang/go/commit/5c3e11bd0b5c0a86e5beffcd4339b86a902b21c3</a><br>
-<br>
-Signed-off-by: Shubham Kulkarni &lt;<a href=3D"mailto:skulkarni@mvista.com"=
- target=3D"_blank">skulkarni@mvista.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/go/go-1.17.13.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 =C2=A01 +<br>
-=C2=A0.../go/go-1.18/CVE-2022-41723.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0| 156 ++++++++++++++++++<br>
-=C2=A02 files changed, 157 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2022-41723.pa=
-tch<br>
-<br>
-diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtool=
-s/go/go-1.17.13.inc<br>
-index 99662bd298..971e38a744 100644<br>
---- a/meta/recipes-devtools/go/go-1.17.13.inc<br>
-+++ b/meta/recipes-devtools/go/go-1.17.13.inc<br>
-@@ -20,6 +20,7 @@ SRC_URI +=3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0file://0001-net-http-httputil-avoid-query-parameter-smu=
-ggling.patch \<br>
-=C2=A0 =C2=A0 =C2=A0file://CVE-2022-41715.patch \<br>
-=C2=A0 =C2=A0 =C2=A0file://CVE-2022-41717.patch \<br>
-+=C2=A0 =C2=A0 file://CVE-2022-41723.patch \<br>
-=C2=A0&quot;<br>
-=C2=A0SRC_URI[main.sha256sum] =3D &quot;a1a48b23afb206f95e7bbaa9b898d965f90=
-826f6f1d1fc0c1d784ada0cd300fd&quot;<br>
-<br>
-diff --git a/meta/recipes-devtools/go/go-1.18/CVE-2022-41723.patch b/meta/r=
-ecipes-devtools/go/go-1.18/CVE-2022-41723.patch<br>
-new file mode 100644<br>
-index 0000000000..a93fa31dcd<br>
---- /dev/null<br>
-+++ b/meta/recipes-devtools/go/go-1.18/CVE-2022-41723.patch<br>
-@@ -0,0 +1,156 @@<br>
-+From 451766789f646617157c725e20c955d4a9a70d4e Mon Sep 17 00:00:00 2001<br>
-+From: Roland Shoemaker &lt;<a href=3D"mailto:bracewell@google.com" target=
-=3D"_blank">bracewell@google.com</a>&gt;<br>
-+Date: Mon, 6 Feb 2023 10:03:44 -0800<br>
-+Subject: [PATCH] net/http: update bundled <a href=3D"http://golang.org/x/n=
-et/http2" rel=3D"noreferrer" target=3D"_blank">golang.org/x/net/http2</a><b=
-r>
-+<br>
-+Disable cmd/internal/moddeps test, since this update includes PRIVATE<br>
-+track fixes.<br>
-+<br>
-+Fixes CVE-2022-41723<br>
-+Fixes #58355<br>
-+Updates #57855<br>
-+<br>
-+Change-Id: Ie870562a6f6e44e4e8f57db6a0dde1a41a2b090c<br>
-+Reviewed-on: <a href=3D"https://team-review.git.corp.google.com/c/golang/g=
-o-private/+/1728939+Reviewed-by" rel=3D"noreferrer" target=3D"_blank">https=
-://team-review.git.corp.google.com/c/golang/go-private/+/1728939<br>
-+Reviewed-by</a>: Damien Neil &lt;<a href=3D"mailto:dneil@google.com" targe=
-t=3D"_blank">dneil@google.com</a>&gt;<br>
-+Reviewed-by: Julie Qiu &lt;<a href=3D"mailto:julieqiu@google.com" target=
-=3D"_blank">julieqiu@google.com</a>&gt;<br>
-+Reviewed-by: Tatiana Bradley &lt;<a href=3D"mailto:tatianabradley@google.c=
-om" target=3D"_blank">tatianabradley@google.com</a>&gt;<br>
-+Run-TryBot: Roland Shoemaker &lt;<a href=3D"mailto:bracewell@google.com" t=
-arget=3D"_blank">bracewell@google.com</a>&gt;<br>
-+Reviewed-on: <a href=3D"https://go-review.googlesource.com/c/go/+/468118" =
-rel=3D"noreferrer" target=3D"_blank">https://go-review.googlesource.com/c/g=
-o/+/468118</a><br>
-+TryBot-Result: Gopher Robot &lt;<a href=3D"mailto:gobot@golang.org" target=
-=3D"_blank">gobot@golang.org</a>&gt;<br>
-+Run-TryBot: Michael Pratt &lt;<a href=3D"mailto:mpratt@google.com" target=
-=3D"_blank">mpratt@google.com</a>&gt;<br>
-+Auto-Submit: Michael Pratt &lt;<a href=3D"mailto:mpratt@google.com" target=
-=3D"_blank">mpratt@google.com</a>&gt;<br>
-+Reviewed-by: Than McIntosh &lt;<a href=3D"mailto:thanm@google.com" target=
-=3D"_blank">thanm@google.com</a>&gt;<br>
-+<br>
-+Upstream-Status: Backport [<a href=3D"https://github.com/golang/go/commit/=
-5c3e11bd0b5c0a86e5beffcd4339b86a902b21c3" rel=3D"noreferrer" target=3D"_bla=
-nk">https://github.com/golang/go/commit/5c3e11bd0b5c0a86e5beffcd4339b86a902=
-b21c3</a>]<br>
-+CVE: CVE-2022-41723<br>
-+Signed-off-by: Shubham Kulkarni &lt;<a href=3D"mailto:skulkarni@mvista.com=
-" target=3D"_blank">skulkarni@mvista.com</a>&gt;<br>
-+---<br>
-+ src/vendor/<a href=3D"http://golang.org/x/net/http2/hpack/hpack.go" rel=
-=3D"noreferrer" target=3D"_blank">golang.org/x/net/http2/hpack/hpack.go</a>=
- | 79 +++++++++++++++---------<br>
-+ 1 file changed, 49 insertions(+), 30 deletions(-)<br>
-+<br>
-+diff --git a/src/vendor/<a href=3D"http://golang.org/x/net/http2/hpack/hpa=
-ck.go" rel=3D"noreferrer" target=3D"_blank">golang.org/x/net/http2/hpack/hp=
-ack.go</a> b/src/vendor/<a href=3D"http://golang.org/x/net/http2/hpack/hpac=
-k.go" rel=3D"noreferrer" target=3D"_blank">golang.org/x/net/http2/hpack/hpa=
-ck.go</a><br>
-+index 85f18a2..02e80e3 100644<br>
-+--- a/src/vendor/<a href=3D"http://golang.org/x/net/http2/hpack/hpack.go" =
-rel=3D"noreferrer" target=3D"_blank">golang.org/x/net/http2/hpack/hpack.go<=
-/a><br>
-++++ b/src/vendor/<a href=3D"http://golang.org/x/net/http2/hpack/hpack.go" =
-rel=3D"noreferrer" target=3D"_blank">golang.org/x/net/http2/hpack/hpack.go<=
-/a><br>
-+@@ -359,6 +359,7 @@ func (d *Decoder) parseFieldLiteral(n uint8, it indexT=
-ype) error {<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0var hf HeaderField<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0wantStr :=3D d.emitEnabled || it.indexed()<br>
-++=C2=A0 =C2=A0 =C2=A0 var undecodedName undecodedString<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if nameIdx &gt; 0 {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ihf, ok :=3D <a hre=
-f=3D"http://d.at" rel=3D"noreferrer" target=3D"_blank">d.at</a>(nameIdx)<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if !ok {<br>
-+@@ -366,15 +367,27 @@ func (d *Decoder) parseFieldLiteral(n uint8, it inde=
-xType) error {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0hf.Name =3D ihf.Nam=
-e<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0} else {<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 hf.Name, buf, err =3D d.=
-readString(buf, wantStr)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 undecodedName, buf, err =
-=3D d.readString(buf)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if err !=3D nil {<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0return err<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+-=C2=A0 =C2=A0 =C2=A0 hf.Value, buf, err =3D d.readString(buf, wantStr)<br=
->
-++=C2=A0 =C2=A0 =C2=A0 undecodedValue, buf, err :=3D d.readString(buf)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if err !=3D nil {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return err<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-++=C2=A0 =C2=A0 =C2=A0 if wantStr {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if nameIdx &lt;=3D 0 {<b=
-r>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 hf.Name, err =3D d.decodeString(undecodedName)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 if err !=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return err<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 hf.Value, err =3D d.deco=
-deString(undecodedValue)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if err !=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 return err<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0d.buf =3D buf<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if it.indexed() {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d.dynTab.add(hf)<br=
->
-+@@ -459,46 +472,52 @@ func readVarInt(n byte, p []byte) (i uint64, remain =
-[]byte, err error) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0, origP, errNeedMore<br>
-+ }<br>
-+<br>
-+-// readString decodes an hpack string from p.<br>
-++// readString reads an hpack string from p.<br>
-+ //<br>
-+-// wantStr is whether s will be used. If false, decompression and<br>
-+-// []byte-&gt;string garbage are skipped if s will be ignored<br>
-+-// anyway. This does mean that huffman decoding errors for non-indexed<br=
->
-+-// strings past the MAX_HEADER_LIST_SIZE are ignored, but the server<br>
-+-// is returning an error anyway, and because they&#39;re not indexed, the=
- error<br>
-+-// won&#39;t affect the decoding state.<br>
-+-func (d *Decoder) readString(p []byte, wantStr bool) (s string, remain []=
-byte, err error) {<br>
-++// It returns a reference to the encoded string data to permit deferring =
-decode costs<br>
-++// until after the caller verifies all data is present.<br>
-++func (d *Decoder) readString(p []byte) (u undecodedString, remain []byte,=
- err error) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if len(p) =3D=3D 0 {<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return &quot;&quot;, p, =
-errNeedMore<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return u, p, errNeedMore=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0isHuff :=3D p[0]&amp;128 !=3D 0<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0strLen, p, err :=3D readVarInt(7, p)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if err !=3D nil {<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return &quot;&quot;, p, =
-err<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return u, p, err<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if d.maxStrLen !=3D 0 &amp;&amp; strLen &gt; ui=
-nt64(d.maxStrLen) {<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return &quot;&quot;, nil=
-, ErrStringLength<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // Returning an error he=
-re means Huffman decoding errors<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // for non-indexed strin=
-gs past the maximum string length<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // are ignored, but the =
-server is returning an error anyway<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // and because the strin=
-g is not indexed the error will not<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // affect the decoding s=
-tate.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return u, nil, ErrString=
-Length<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if uint64(len(p)) &lt; strLen {<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return &quot;&quot;, p, =
-errNeedMore<br>
-+-=C2=A0 =C2=A0 =C2=A0 }<br>
-+-=C2=A0 =C2=A0 =C2=A0 if !isHuff {<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if wantStr {<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 s =3D string(p[:strLen])<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return s, p[strLen:], ni=
-l<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return u, p, errNeedMore=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-++=C2=A0 =C2=A0 =C2=A0 u.isHuff =3D isHuff<br>
-++=C2=A0 =C2=A0 =C2=A0 u.b =3D p[:strLen]<br>
-++=C2=A0 =C2=A0 =C2=A0 return u, p[strLen:], nil<br>
-++}<br>
-+<br>
-+-=C2=A0 =C2=A0 =C2=A0 if wantStr {<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 buf :=3D bufPool.Get().(=
-*bytes.Buffer)<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 buf.Reset() // don&#39;t=
- trust others<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 defer bufPool.Put(buf)<b=
-r>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if err :=3D huffmanDecod=
-e(buf, d.maxStrLen, p[:strLen]); err !=3D nil {<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 buf.Reset()<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 return &quot;&quot;, nil, err<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++type undecodedString struct {<br>
-++=C2=A0 =C2=A0 =C2=A0 isHuff bool<br>
-++=C2=A0 =C2=A0 =C2=A0 b=C2=A0 =C2=A0 =C2=A0 []byte<br>
-++}<br>
-++<br>
-++func (d *Decoder) decodeString(u undecodedString) (string, error) {<br>
-++=C2=A0 =C2=A0 =C2=A0 if !u.isHuff {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return string(u.b), nil<=
-br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 buf :=3D bufPool.Get().(*bytes.Buffer)<br>
-++=C2=A0 =C2=A0 =C2=A0 buf.Reset() // don&#39;t trust others<br>
-++=C2=A0 =C2=A0 =C2=A0 var s string<br>
-++=C2=A0 =C2=A0 =C2=A0 err :=3D huffmanDecode(buf, d.maxStrLen, u.b)<br>
-++=C2=A0 =C2=A0 =C2=A0 if err =3D=3D nil {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0s =3D buf.String()<=
-br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 buf.Reset() // be nice t=
-o GC<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+-=C2=A0 =C2=A0 =C2=A0 return s, p[strLen:], nil<br>
-++=C2=A0 =C2=A0 =C2=A0 buf.Reset() // be nice to GC<br>
-++=C2=A0 =C2=A0 =C2=A0 bufPool.Put(buf)<br>
-++=C2=A0 =C2=A0 =C2=A0 return s, err<br>
-+ }<br>
-+--<br>
-+2.7.4<br>
--- <br>
-2.33.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#179232): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/179232" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/179232</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/97904222/7032=
-091" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/97904222/7032091</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:skulkarni@mvista.com" targ=
-et=3D"_blank">skulkarni@mvista.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---000000000000764caa05f86be557--
+Hi Richard,=0A=
+=0A=
+Yes, that is sufficient. I've prepared an updated patch. In the meantime, I=
+'ve noticed some of the patches from the series had been merged into master=
+-next, but not to the master yet. Should I now resend the whole series, or =
+filter out these patches, i.e. rebase to master or master-next?=0A=
+=0A=
+Thanks,=0A=
+Petr=0A=
+=0A=
+________________________________________=0A=
+From: Richard Purdie <richard.purdie@linuxfoundation.org>=0A=
+Sent: Friday, March 31, 2023 2:06 PM=0A=
+To: Petr Kubiz=F2=E1k - 2N; openembedded-core@lists.openembedded.org=0A=
+Subject: Re: [OE-core][PATCH v4 06/10] webkitgtk: add missing dependencies=
+=0A=
+=0A=
+On Fri, 2023-03-31 at 13:46 +0200, Petr Kubiz=F2=E1k wrote:=0A=
+> When gobject-introspection feature is disabled, gettext and=0A=
+> glib-2.0-native dependencies are not pulled in, which causes failures=0A=
+> in do_compile due to missing xgettext and gdbus-codegen.=0A=
+>=0A=
+> Signed-off-by: Petr Kubiz=F2=E1k <kubiznak@2n.com>=0A=
+> ---=0A=
+>  meta/recipes-sato/webkit/webkitgtk_2.38.5.bb | 3 ++-=0A=
+>  1 file changed, 2 insertions(+), 1 deletion(-)=0A=
+>=0A=
+> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.38.5.bb b/meta/recipes-=
+sato/webkit/webkitgtk_2.38.5.bb=0A=
+> index e52920883a..b49ecf2a31 100644=0A=
+> --- a/meta/recipes-sato/webkit/webkitgtk_2.38.5.bb=0A=
+> +++ b/meta/recipes-sato/webkit/webkitgtk_2.38.5.bb=0A=
+> @@ -17,7 +17,7 @@ SRC_URI =3D "https://www.webkitgtk.org/releases/${BPN}-=
+${PV}.tar.xz \=0A=
+>             "=0A=
+>  SRC_URI[sha256sum] =3D "40c20c43022274df5893f22b1054fa894c3eea057389bb08=
+aee08c5b0bb0c1a7"=0A=
+>=0A=
+> -inherit cmake pkgconfig gobject-introspection perlnative features_check =
+upstream-version-is-even gi-docgen=0A=
+> +inherit cmake pkgconfig gobject-introspection perlnative features_check =
+upstream-version-is-even gi-docgen gettext=0A=
+>=0A=
+>  ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"=0A=
+>  REQUIRED_DISTRO_FEATURES =3D "${@bb.utils.contains('DISTRO_FEATURES', 'w=
+ayland', 'opengl', '', d)}"=0A=
+> @@ -38,6 +38,7 @@ DEPENDS +=3D " \=0A=
+>            libnotify \=0A=
+>            gstreamer1.0 \=0A=
+>            gstreamer1.0-plugins-base \=0A=
+> +          glib-2.0-native \=0A=
+>            "=0A=
+>=0A=
+>  PACKAGECONFIG_SOUP ?=3D "soup3"=0A=
+=0A=
+If the dependency is just xgettext then it may just be a DEPENDS +=3D=0A=
+"gettext-native"  which is a lower requirement than the full gettext=0A=
+target code?=0A=
+=0A=
+Cheers,=0A=
+=0A=
+Richard=0A=
+=0A=
 
