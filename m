@@ -2,20 +2,20 @@ Return-Path: <kubiznak@2n.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D97BC76196
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90E9FC77B6D
 	for <webhook@archiver.kernel.org>; Mon,  3 Apr 2023 11:08:24 +0000 (UTC)
 Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web10.67185.1680520095440183673
+ by mx.groups.io with SMTP id smtpd.web11.67276.1680520096282905202
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Apr 2023 04:08:17 -0700
+ Mon, 03 Apr 2023 04:08:16 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: 2n.com, ip: 195.60.68.18, mailfrom: kubiznak@2n.com)
 From: =?UTF-8?q?Petr=20Kubiz=C5=88=C3=A1k?= <kubiznak@2n.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: =?UTF-8?q?Petr=20Kubiz=C5=88=C3=A1k?= <kubiznak@2n.com>
-Subject: [OE-core][PATCH v5 6/6] libnotify: depend on glib-2.0-native
-Date: Mon, 3 Apr 2023 13:06:46 +0200
-Message-ID: <20230403110646.2555294-6-kubiznak@2n.com>
+Subject: [OE-core][PATCH v5 2/6] graphene: add gobject-types PACKAGECONFIG
+Date: Mon, 3 Apr 2023 13:06:42 +0200
+Message-ID: <20230403110646.2555294-2-kubiznak@2n.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230403110646.2555294-1-kubiznak@2n.com>
 References: <20230403110646.2555294-1-kubiznak@2n.com>
@@ -29,30 +29,35 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 11:08:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179622
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179619
 
-When gobject-introspection feature is disabled, glib-2.0-native package
-dependency is not pulled in but libnotify has a hard dependency on it
-(do_configure fails due to missing glib-mkenums).
+Add an option to enable/disable build of graphene-gobject. When
+enabled, add glib dependency (not pulled in implicitly if
+the gobject-introspection feature is disabled).
+
+Default is to enable gobject-types so that graphene-gobject is built
+(dependency of gtk4).
 
 Signed-off-by: Petr Kubizňák <kubiznak@2n.com>
 ---
- meta/recipes-gnome/libnotify/libnotify_0.8.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-graphics/graphene/graphene_1.10.8.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb b/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb
-index bbfc217df1..b1656fe0fe 100644
---- a/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb
-+++ b/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb
-@@ -9,7 +9,7 @@ SECTION = "libs"
- LICENSE = "LGPL-2.1-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
+diff --git a/meta/recipes-graphics/graphene/graphene_1.10.8.bb b/meta/recipes-graphics/graphene/graphene_1.10.8.bb
+index 120ee80b17..9f5b4d0e2d 100644
+--- a/meta/recipes-graphics/graphene/graphene_1.10.8.bb
++++ b/meta/recipes-graphics/graphene/graphene_1.10.8.bb
+@@ -11,8 +11,9 @@ SRC_URI[archive.sha256sum] = "a37bb0e78a419dcbeaa9c7027bcff52f5ec2367c25ec859da3
  
--DEPENDS = "dbus glib-2.0 gdk-pixbuf"
-+DEPENDS = "dbus glib-2.0 glib-2.0-native gdk-pixbuf"
+ # Disable neon support by default on ARM-32 platforms because of the
+ # following upstream bug: https://github.com/ebassi/graphene/issues/215
+-PACKAGECONFIG ?= "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', 'neon', '', d)}"
++PACKAGECONFIG ?= "gobject-types ${@bb.utils.contains('TUNE_FEATURES', 'aarch64', 'neon', '', d)}"
  
- PACKAGECONFIG ?= ""
- PACKAGECONFIG[tests] = "-Dtests=true,-Dtests=false,gtk+3"
++PACKAGECONFIG[gobject-types] = "-Dgobject_types=true,-Dgobject_types=false,glib-2.0"
+ PACKAGECONFIG[neon] = "-Darm_neon=true,-Darm_neon=false,"
+ 
+ GIR_MESON_ENABLE_FLAG = 'enabled'
 -- 
 2.30.2
 
