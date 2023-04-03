@@ -1,142 +1,314 @@
-Return-Path: <thomas.de_schampheleire@nokia.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2EB3C761A6
-	for <webhook@archiver.kernel.org>; Mon,  3 Apr 2023 14:37:35 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.105])
- by mx.groups.io with SMTP id smtpd.web11.72234.1680532648934453557
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E6B0C77B6C
+	for <webhook@archiver.kernel.org>; Mon,  3 Apr 2023 14:46:35 +0000 (UTC)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+ by mx.groups.io with SMTP id smtpd.web10.72330.1680533186579211715
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Apr 2023 07:37:30 -0700
+ Mon, 03 Apr 2023 07:46:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@nokia.com header.s=selector2 header.b=HhhhMAzf;
- spf=pass (domain: nokia.com, ip: 40.107.22.105, mailfrom: thomas.de_schampheleire@nokia.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eiCwlJglBl17tLL/gtNmYivlBHpgberFc5lKd6tNFDgPv+ldhfMcs2SBbBlgDi6TLjZDI/yH1hXo5m2tEAaXBS6gWpsusePOiTJpFZ2UhyqQr3O155uEwWk5/kbqCoAZNJmvobTnb6CxQntx22FPkM6LmnDUSzJjQ5ugCPvX6Mf16Qnja4rElQr3b6AFlzOf6DWVau7NJAyYZO5vIVkguMm4aPzs6x713f80SF/VFMHapqxoPd1SRsbyyAEgr5+L3SKyGQ2s1ThDsTpzY56eCXRXrTDJpLqMgZde0kiXHVrdxntsWQxDxuZD5ZA/T+P7dqbeRzr55ICCt8+CwQCaBA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=obNDnQYDS3wtOge20KEetY2NGKlu9nGd8PkyBwY2GDw=;
- b=k2h3rhVxFLAYSDq/NihbxBYsdh/bOhM7pEo3/wDeZtGYqpVt0DHHtPme5/L0gD3BVUyx44XX/qJ7PlwrpQWYmT5D2GtPEZCX6HIKMYiDynpbiskS/aZ0gI8u62aMYyDN8bmOJJefKKGeAkq7OUFrsNDLdbviNhR/c0hH30uWx3nwGXGOGxTmEEKYr/BohdGi4z5yLyI7miH618PbYq5Dk4GFCle4VwPXASvcBIsTI4TD9JbtG22FsRwcn9HtPO5zs0I+Gu4wvw1bAiHAOASlnmk4THeQRhc1owgF7gN1oatWmUY7hVNLKcIFKdeyyCDKV47vU0TdcsSd4aaLsKq1xA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nokia.com; dmarc=pass action=none header.from=nokia.com;
- dkim=pass header.d=nokia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=obNDnQYDS3wtOge20KEetY2NGKlu9nGd8PkyBwY2GDw=;
- b=HhhhMAzfSkqWhqsllFk8LlfxWScFpGNdIsUju2VBltw0FGb/+YtviSdGeR3H2gs/g8qCXqtdSSF16xBpn267hS7WluNcAloTpJgZsclAxvmHNrNHE6gJu0jyWLf6mrqCGL+L6Q46pJeeD3+5tCELB1qVSQctiKuZ8TVyCoSogMIpAob40Tn/VRgKNTX5kzf0WT209QUUn2AnGzPIhz88r+/LZdmEK5XwRoJfVmwr3D9iakk2HhVI2yiCxnGtYF6k1t2doroHDQYKLYhR+0XonBy86VE557Xv4iJ+UQ7bA+iCrMFdAfSfLCpyz4yHY+l4ZF1ARwT6sPDPuGsSD6MJQA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nokia.com;
-Received: from VI1PR0702MB3711.eurprd07.prod.outlook.com (2603:10a6:803:5::28)
- by AM7PR07MB6562.eurprd07.prod.outlook.com (2603:10a6:20b:1a2::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.33; Mon, 3 Apr
- 2023 14:37:26 +0000
-Received: from VI1PR0702MB3711.eurprd07.prod.outlook.com
- ([fe80::1489:951:b252:d571]) by VI1PR0702MB3711.eurprd07.prod.outlook.com
- ([fe80::1489:951:b252:d571%6]) with mapi id 15.20.6254.033; Mon, 3 Apr 2023
- 14:37:26 +0000
-From: Thomas De Schampheleire <thomas.de_schampheleire@nokia.com>
-To: openembedded-core@lists.openembedded.org
-CC: Thomas De Schampheleire <thomas.de_schampheleire@nokia.com>
-Subject: [PATCH 2/2] qemu: rename deprecated --enable-trace-backend configure option
-Date: Mon,  3 Apr 2023 16:37:30 +0200
-Message-ID: <20230403143730.26123-2-thomas.de_schampheleire@nokia.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230403143730.26123-1-thomas.de_schampheleire@nokia.com>
-References: <20230403143730.26123-1-thomas.de_schampheleire@nokia.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: PA7P264CA0244.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:371::17) To VI1PR0702MB3711.eurprd07.prod.outlook.com
- (2603:10a6:803:5::28)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=rLupx3fY;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.52, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f52.google.com with SMTP id cn12so118383189edb.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 07:46:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680533185; x=1683125185;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FGSkbTJr0YgGqen4Kr93j+cx8yMWICH+h+ZqTEc5SwI=;
+        b=rLupx3fYUiCwJ0+rABMhJDKvw2EASPVDmuFH39N/RXh5NPAS2cYRwA7zKeTxaKpouJ
+         zwWvFmD9bvKvzsM3iEepdsVV52zK3srXgY3vRsh5hW2vIMg9NsdPQF0fOkt295BsKamE
+         9MjPZS/f0Hlo99V23/Q+GNr1IhxtZQ2Zov6ttJBSkPqDaHlfFo+aZ67tGS/zbMKb4/2O
+         +dekjAYOFp9dsEjHfrgrQuI2FrizYtlg5aAGODRwNSHCqQ7FVzGgFl/Tg8YE3tk4TnH2
+         8hjWHY/tqUp+AhOhft5+561dRA8QqSSlaxbenSNWY4XI1ePPPhWHHSf3m1LtySS/zb1/
+         9FpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680533185; x=1683125185;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FGSkbTJr0YgGqen4Kr93j+cx8yMWICH+h+ZqTEc5SwI=;
+        b=Z7YC9NNinN3zrugGd8kBah7xQcPGTXtTHlhk6LoEnZxzxbKZe812XYF8oBT0NsSr1R
+         fF3P+49U9XwC9BjxEJz0XCLxAMoqK/qu5sVoWRS9fpdE4QLMYRz/WP8VvIfNk3mwWKB1
+         lL+vW/ntaeqPjxP4JbJIY5Eq2IHI1IV3MFhFQ6ISNDslaI6zhanQ+FH2iiUgRXBbyML4
+         zHOfYfTMxyREFZH9Nl1Wm7xH9E6umQ6M09qOzi/b80GmZFDdt/uZ+QpdRXYHfcEJZ/bJ
+         uLkjCEC7waUFummBxUSVPhrKy6V7CyQesdq851Q4EWwHrKk07XCAcbY0UDuNywfcOXpz
+         OC3Q==
+X-Gm-Message-State: AAQBX9cQm202Z9fh0MsL8rzCUIpHbz8eQlleqoDeXIVnVsdBFsG2/Cji
+	EK4qKm7d8Nxxs6rIcXDA0fNGPHad7iasx+e0g8KHjw==
+X-Google-Smtp-Source: AKy350ZFoF+gVCc9k9gYXleQkTa/AATtXfLc3emt2KOaQuvYOkrXHbvcOzvuZm7Li+Gcc0YsAfFgUcRL3U/BYGXxEIk=
+X-Received: by 2002:a17:906:ee89:b0:92e:a234:110a with SMTP id
+ wt9-20020a170906ee8900b0092ea234110amr18412744ejb.3.1680533184876; Mon, 03
+ Apr 2023 07:46:24 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1PR0702MB3711:EE_|AM7PR07MB6562:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8dd3d59e-269b-4e31-14b2-08db3450f1d8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	n56XNwxYyH0lS29jqShCf0AaSRwiyUiKF8CshW+/HuIFMFbjEuAD5I7fJ9CIqVcUiHpBBsJOGlB4r29/ONMAVZMwHmp9vRTL5MzRDs7DYsYWl8aVaeWO52ZycVzk2qihe/8clQUovf4Bve7BpozlL+8DzeYEa9dTNj6VXzHaVP8zzjFPuVQxPiMZZjZHagxYJxiZktNTs5+0l5ra20RnQY5nYiP6CQ3i9heG9a+0fS85EBJHo2ZzhAjODZ1qgi48h/4liVwd4pN8gxhRDUKQUX6iq47blm11jzHfSZwFoer8ph9z+nN+1FAASL1JDQ1U5AmZi+oRDjX0H8g5zxOnPlE6LExk1cqaYZtyPPMx4g/rBSfWv50gaGr3I/ztjqEoia1Ky99Ovpu5UrALKOzIg0iKOfIblB3RbC44BkYVOWn/b0mIAsJD8x4vlhL1ZAo/MveJ7aygWVv93BI9vfXqjAmaP05H1CSimRPfFh3Kt0MzgvUKckw3grhzIOzWFgmEvaB8VnHkCiG7fEnxYRPLBBSQrgwegOZFWdtYcWLzrK0=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR0702MB3711.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(366004)(136003)(346002)(396003)(376002)(451199021)(2906002)(38100700002)(5660300002)(82960400001)(8936002)(66476007)(66556008)(66946007)(41300700001)(4326008)(6916009)(8676002)(36756003)(1076003)(316002)(83380400001)(2616005)(86362001)(966005)(478600001)(186003)(6666004)(6512007)(107886003)(6506007)(26005)(6486002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?RugYdVF8XJf3IfO6orSblUkWLrXWe0RJHjdL9K01f1NeI7RdG7B2Mj5aZzGj?=
- =?us-ascii?Q?401Ef15yG0io6M9/TpwCIEm0ve24oDRgj4biHH+CbJRH7q8AMJPyaN4THwVJ?=
- =?us-ascii?Q?hL75tcXZA44FA6uP8ZQpyTcLR/ISzRICs5+b+h+laXone21WYaqQ+FtNeKiE?=
- =?us-ascii?Q?eU1SCNlfUUtXbUAVYpTaCNSUqHtQyimmWHatD+O7GqMMWdMkYRKNadMCesL6?=
- =?us-ascii?Q?O06/0vDcbI6HGUODi8GnSDMxZL+V87ZF0DM+6WhM2ygxfShvLukjmsqacqz4?=
- =?us-ascii?Q?nHdB788u8Y0jXiBBfoB4gw5NNBL+Q4JR+xo6x4TWb63A+yQ9M3v0TxkTaKXw?=
- =?us-ascii?Q?eNYGv9D9PIyeAKUquTv9gsUnqZ5yj1noVnpP0syeIaP9EWYSaxuhvCh6feI7?=
- =?us-ascii?Q?dr0FX/5XHjRgoP6XZQGsksCjxUIQREISE//ibGpw6d4zk2AnvZgagBuvLkgO?=
- =?us-ascii?Q?/ha49KoenaGaSuvVS9jesXIuMRSHTtGyZ1bi4njv1XiumB2dvo1AJsNpplA2?=
- =?us-ascii?Q?ZSVakRZOh+BCCh/9xk8BZ5KM5SOS+p32/j12ESV5AMYLyHuT6EmtedQriW37?=
- =?us-ascii?Q?9J3R3B+ThylWAZTmrCrJnwilATaD9RvSn7qg1wpg6Wg8o2sN3vCsfFsgOdlr?=
- =?us-ascii?Q?+tV7jCGL29pF+bxl9BxspElm8Y/f/NccTf7JXFcKcMpMzjT1Any4r3AOKvQd?=
- =?us-ascii?Q?nDQor6zNzfuIkLReeym/oLfLbxX7JfDadFlN4Je6x7aTEsSMQLMWz7q5fyRu?=
- =?us-ascii?Q?+zpTP0HUSBPzLDb1Ul8M1Tg7nRgxpbW1MXGlj2MGnKA5H22Id5kyd68GiVU6?=
- =?us-ascii?Q?mDimfDFJfW7Z7glMneEvCtbhuUT4DxkdoEHS7oAYNLoZCMoyWuaWEq/32cDy?=
- =?us-ascii?Q?2MupOnpRzpgeDFYH5oOQmjPlf/SrCfxOJrMtV5Q/Dv514GsZuimu9vEOU1cu?=
- =?us-ascii?Q?Xw9ziuG9HzH5SVx8Jo+H3en6RB5YCyyYuap+sW5sDn7lR3H5CR0/Jk+TSeKI?=
- =?us-ascii?Q?RNczfzoa602QQo76DlJesMKvxm/boKUnNTUZS8f2FThEcSUrDQwrC7H4YkuI?=
- =?us-ascii?Q?Wd2yJ838IywzWxzqLZ2uxoo63TBT3sBbU6tKYLVo1KfPsSEb4zrv2OMMaofZ?=
- =?us-ascii?Q?DlNgA/qIbGHgpOnMswds0hZ0kPmG7NN5DWOPfBIfKCSIWc3vR/ko7jhOqXD8?=
- =?us-ascii?Q?88Rz9Sp6Uc6NISnv2lMGULE2o0gET9fw+Yqb+dgtdjcJQ4uqTiszxqxZMgDO?=
- =?us-ascii?Q?RpzZswPmWVDSWzNf0q6tqrM08yMe/13vihvkhKX8HqkPDbkYKr6ZOLoQESE5?=
- =?us-ascii?Q?f+UMXM8UZfKRQQjvSdCv9Ay/5DwJ8DFtuTVioyJiZH9qLZ4Fr9nL0AdHg9FQ?=
- =?us-ascii?Q?OLZtswKO10Ci3qgftdcaBvgqsGkOVT+ClukzuR8M5gQp6Yfta97KQJbVw7Gq?=
- =?us-ascii?Q?6CV7nkLEbVMjdvkODp3WwfsgEv0gVfPviBZuVkwbc7Yj3kxursbAUbb/adwR?=
- =?us-ascii?Q?DCPrins4Z0562P38OkrI0flOzCp+N7NeRUvsoOLDfspZ33LgBy7KdclNhIgm?=
- =?us-ascii?Q?4XbOM20Yf3ARKS25EZrG5X6Y5BBWdy8J33ZMzDZkmSAXyCG44JiGHM/or0kP?=
- =?us-ascii?Q?3gvn/cSi3D72sjqlbCwvNnM=3D?=
-X-OriginatorOrg: nokia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8dd3d59e-269b-4e31-14b2-08db3450f1d8
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR0702MB3711.eurprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2023 14:37:26.5182
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5d471751-9675-428d-917b-70f44f9630b0
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: f0VJYtEZyjHb8sWE+/QwOCBkGf7/iy/tccqPrFcckOWcwbSKdx/RomXJmRdaZ3fc+OV732rmdOXK8J8E/QU5aGHpZ/VJ1fx4Dd9g+goGtnVPsnyD7cWbVoGsigWSayGs
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR07MB6562
+References: <175095E37B8161A1.14179@lists.openembedded.org> <CAKzga+zqPYSa-yOupL3S5OeM_+GRFCRECZRw7soprgWHaSNTjg@mail.gmail.com>
+In-Reply-To: <CAKzga+zqPYSa-yOupL3S5OeM_+GRFCRECZRw7soprgWHaSNTjg@mail.gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Mon, 3 Apr 2023 04:46:14 -1000
+Message-ID: <CAOSpxdYGx5jcxPoXmdJrPSy3vL8yqdC0-ZBpUNVN0p4sVYz7sw@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone][PATCH] go-runtime: Security fix for CVE-2022-41723
+To: Shubham Kulkarni <skulkarni@mvista.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 14:37:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179636
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 14:46:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179637
 
-qemu 6.2 deprecated the configure option '--enable-trace-backend' in favor
-of '--enable-trace-backends' [1]
+On Mon, Apr 3, 2023 at 12:19=E2=80=AFAM Shubham Kulkarni <skulkarni@mvista.=
+com> wrote:
+>
+> Hi Steve,
+>
+> I think you missed the patch for the Kirkstone branch. It's showing an Un=
+patched in the latest CVE metrics for kirkstone.
+>
+> I had sent patches for CVE-2022-41723 in separate emails for both dunfell=
+ & kirkstone with different subjects (mentioned branch). Dunfell patch is a=
+lready merged into dunfell-nut. I am not sure how kirkstone patch mail is s=
+howing as a reply on dunfell patch mail. In the mail details as well as on =
+the list, it's showing the correct subject: https://lists.openembedded.org/=
+g/openembedded-core/message/179232
+>
+> Apologies for the inconvenience caused. Please consider this patch for ki=
+rkstone to fix CVE-2022-41723 golang.org/x/net/http2: avoid quadratic compl=
+exity in HPACK decoding.
 
-Rename accordingly.
+Apologies on my end for not sorting this out!
 
-[1] https://wiki.qemu.org/ChangeLog/6.2#Build_Information
+I've got it now, thanks for the reminder.
 
-Signed-off-by: Thomas De Schampheleire <thomas.de_schampheleire@nokia.com>
----
- meta/recipes-devtools/qemu/qemu.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Steve
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qe=
-mu/qemu.inc
-index ae99a9e87b..f4426fc1f2 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -207,7 +207,7 @@ PACKAGECONFIG[libudev] =3D "--enable-libudev,--disable-=
-libudev,eudev"
- PACKAGECONFIG[attr] =3D "--enable-attr,--disable-attr,attr,"
- PACKAGECONFIG[rbd] =3D "--enable-rbd,--disable-rbd,ceph,ceph"
- PACKAGECONFIG[vhost] =3D "--enable-vhost-net,--disable-vhost-net,,"
--PACKAGECONFIG[ust] =3D "--enable-trace-backend=3Dust,,lttng-ust,"
-+PACKAGECONFIG[ust] =3D "--enable-trace-backends=3Dust,,lttng-ust,"
- PACKAGECONFIG[pie] =3D "--enable-pie,--disable-pie,,"
- PACKAGECONFIG[seccomp] =3D "--enable-seccomp,--disable-seccomp,libseccomp"
- # libnfs is currently provided by meta-kodi
---=20
-2.39.2
-
+> On Tue, Mar 28, 2023 at 6:14=E2=80=AFPM Shubham Kulkarni via lists.openem=
+bedded.org <skulkarni=3Dmvista.com@lists.openembedded.org> wrote:
+>>
+>> From: Shubham Kulkarni <skulkarni@mvista.com>
+>>
+>> Disable cmd/internal/moddeps test, since this update includes PRIVATE
+>> track fixes.
+>>
+>> Backport from https://github.com/golang/go/commit/5c3e11bd0b5c0a86e5beff=
+cd4339b86a902b21c3
+>>
+>> Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
+>> ---
+>>  meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
+>>  .../go/go-1.18/CVE-2022-41723.patch           | 156 ++++++++++++++++++
+>>  2 files changed, 157 insertions(+)
+>>  create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2022-41723.patc=
+h
+>>
+>> diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devt=
+ools/go/go-1.17.13.inc
+>> index 99662bd298..971e38a744 100644
+>> --- a/meta/recipes-devtools/go/go-1.17.13.inc
+>> +++ b/meta/recipes-devtools/go/go-1.17.13.inc
+>> @@ -20,6 +20,7 @@ SRC_URI +=3D "\
+>>      file://0001-net-http-httputil-avoid-query-parameter-smuggling.patch=
+ \
+>>      file://CVE-2022-41715.patch \
+>>      file://CVE-2022-41717.patch \
+>> +    file://CVE-2022-41723.patch \
+>>  "
+>>  SRC_URI[main.sha256sum] =3D "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1=
+d1fc0c1d784ada0cd300fd"
+>>
+>> diff --git a/meta/recipes-devtools/go/go-1.18/CVE-2022-41723.patch b/met=
+a/recipes-devtools/go/go-1.18/CVE-2022-41723.patch
+>> new file mode 100644
+>> index 0000000000..a93fa31dcd
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/go/go-1.18/CVE-2022-41723.patch
+>> @@ -0,0 +1,156 @@
+>> +From 451766789f646617157c725e20c955d4a9a70d4e Mon Sep 17 00:00:00 2001
+>> +From: Roland Shoemaker <bracewell@google.com>
+>> +Date: Mon, 6 Feb 2023 10:03:44 -0800
+>> +Subject: [PATCH] net/http: update bundled golang.org/x/net/http2
+>> +
+>> +Disable cmd/internal/moddeps test, since this update includes PRIVATE
+>> +track fixes.
+>> +
+>> +Fixes CVE-2022-41723
+>> +Fixes #58355
+>> +Updates #57855
+>> +
+>> +Change-Id: Ie870562a6f6e44e4e8f57db6a0dde1a41a2b090c
+>> +Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-privat=
+e/+/1728939
+>> +Reviewed-by: Damien Neil <dneil@google.com>
+>> +Reviewed-by: Julie Qiu <julieqiu@google.com>
+>> +Reviewed-by: Tatiana Bradley <tatianabradley@google.com>
+>> +Run-TryBot: Roland Shoemaker <bracewell@google.com>
+>> +Reviewed-on: https://go-review.googlesource.com/c/go/+/468118
+>> +TryBot-Result: Gopher Robot <gobot@golang.org>
+>> +Run-TryBot: Michael Pratt <mpratt@google.com>
+>> +Auto-Submit: Michael Pratt <mpratt@google.com>
+>> +Reviewed-by: Than McIntosh <thanm@google.com>
+>> +
+>> +Upstream-Status: Backport [https://github.com/golang/go/commit/5c3e11bd=
+0b5c0a86e5beffcd4339b86a902b21c3]
+>> +CVE: CVE-2022-41723
+>> +Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
+>> +---
+>> + src/vendor/golang.org/x/net/http2/hpack/hpack.go | 79 +++++++++++++++-=
+--------
+>> + 1 file changed, 49 insertions(+), 30 deletions(-)
+>> +
+>> +diff --git a/src/vendor/golang.org/x/net/http2/hpack/hpack.go b/src/ven=
+dor/golang.org/x/net/http2/hpack/hpack.go
+>> +index 85f18a2..02e80e3 100644
+>> +--- a/src/vendor/golang.org/x/net/http2/hpack/hpack.go
+>> ++++ b/src/vendor/golang.org/x/net/http2/hpack/hpack.go
+>> +@@ -359,6 +359,7 @@ func (d *Decoder) parseFieldLiteral(n uint8, it ind=
+exType) error {
+>> +
+>> +       var hf HeaderField
+>> +       wantStr :=3D d.emitEnabled || it.indexed()
+>> ++      var undecodedName undecodedString
+>> +       if nameIdx > 0 {
+>> +               ihf, ok :=3D d.at(nameIdx)
+>> +               if !ok {
+>> +@@ -366,15 +367,27 @@ func (d *Decoder) parseFieldLiteral(n uint8, it i=
+ndexType) error {
+>> +               }
+>> +               hf.Name =3D ihf.Name
+>> +       } else {
+>> +-              hf.Name, buf, err =3D d.readString(buf, wantStr)
+>> ++              undecodedName, buf, err =3D d.readString(buf)
+>> +               if err !=3D nil {
+>> +                       return err
+>> +               }
+>> +       }
+>> +-      hf.Value, buf, err =3D d.readString(buf, wantStr)
+>> ++      undecodedValue, buf, err :=3D d.readString(buf)
+>> +       if err !=3D nil {
+>> +               return err
+>> +       }
+>> ++      if wantStr {
+>> ++              if nameIdx <=3D 0 {
+>> ++                      hf.Name, err =3D d.decodeString(undecodedName)
+>> ++                      if err !=3D nil {
+>> ++                              return err
+>> ++                      }
+>> ++              }
+>> ++              hf.Value, err =3D d.decodeString(undecodedValue)
+>> ++              if err !=3D nil {
+>> ++                      return err
+>> ++              }
+>> ++      }
+>> +       d.buf =3D buf
+>> +       if it.indexed() {
+>> +               d.dynTab.add(hf)
+>> +@@ -459,46 +472,52 @@ func readVarInt(n byte, p []byte) (i uint64, rema=
+in []byte, err error) {
+>> +       return 0, origP, errNeedMore
+>> + }
+>> +
+>> +-// readString decodes an hpack string from p.
+>> ++// readString reads an hpack string from p.
+>> + //
+>> +-// wantStr is whether s will be used. If false, decompression and
+>> +-// []byte->string garbage are skipped if s will be ignored
+>> +-// anyway. This does mean that huffman decoding errors for non-indexed
+>> +-// strings past the MAX_HEADER_LIST_SIZE are ignored, but the server
+>> +-// is returning an error anyway, and because they're not indexed, the =
+error
+>> +-// won't affect the decoding state.
+>> +-func (d *Decoder) readString(p []byte, wantStr bool) (s string, remain=
+ []byte, err error) {
+>> ++// It returns a reference to the encoded string data to permit deferri=
+ng decode costs
+>> ++// until after the caller verifies all data is present.
+>> ++func (d *Decoder) readString(p []byte) (u undecodedString, remain []by=
+te, err error) {
+>> +       if len(p) =3D=3D 0 {
+>> +-              return "", p, errNeedMore
+>> ++              return u, p, errNeedMore
+>> +       }
+>> +       isHuff :=3D p[0]&128 !=3D 0
+>> +       strLen, p, err :=3D readVarInt(7, p)
+>> +       if err !=3D nil {
+>> +-              return "", p, err
+>> ++              return u, p, err
+>> +       }
+>> +       if d.maxStrLen !=3D 0 && strLen > uint64(d.maxStrLen) {
+>> +-              return "", nil, ErrStringLength
+>> ++              // Returning an error here means Huffman decoding errors
+>> ++              // for non-indexed strings past the maximum string lengt=
+h
+>> ++              // are ignored, but the server is returning an error any=
+way
+>> ++              // and because the string is not indexed the error will =
+not
+>> ++              // affect the decoding state.
+>> ++              return u, nil, ErrStringLength
+>> +       }
+>> +       if uint64(len(p)) < strLen {
+>> +-              return "", p, errNeedMore
+>> +-      }
+>> +-      if !isHuff {
+>> +-              if wantStr {
+>> +-                      s =3D string(p[:strLen])
+>> +-              }
+>> +-              return s, p[strLen:], nil
+>> ++              return u, p, errNeedMore
+>> +       }
+>> ++      u.isHuff =3D isHuff
+>> ++      u.b =3D p[:strLen]
+>> ++      return u, p[strLen:], nil
+>> ++}
+>> +
+>> +-      if wantStr {
+>> +-              buf :=3D bufPool.Get().(*bytes.Buffer)
+>> +-              buf.Reset() // don't trust others
+>> +-              defer bufPool.Put(buf)
+>> +-              if err :=3D huffmanDecode(buf, d.maxStrLen, p[:strLen]);=
+ err !=3D nil {
+>> +-                      buf.Reset()
+>> +-                      return "", nil, err
+>> +-              }
+>> ++type undecodedString struct {
+>> ++      isHuff bool
+>> ++      b      []byte
+>> ++}
+>> ++
+>> ++func (d *Decoder) decodeString(u undecodedString) (string, error) {
+>> ++      if !u.isHuff {
+>> ++              return string(u.b), nil
+>> ++      }
+>> ++      buf :=3D bufPool.Get().(*bytes.Buffer)
+>> ++      buf.Reset() // don't trust others
+>> ++      var s string
+>> ++      err :=3D huffmanDecode(buf, d.maxStrLen, u.b)
+>> ++      if err =3D=3D nil {
+>> +               s =3D buf.String()
+>> +-              buf.Reset() // be nice to GC
+>> +       }
+>> +-      return s, p[strLen:], nil
+>> ++      buf.Reset() // be nice to GC
+>> ++      bufPool.Put(buf)
+>> ++      return s, err
+>> + }
+>> +--
+>> +2.7.4
+>> --
+>> 2.33.0
+>>
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#179232): https://lists.openembedded.org/g/openembedd=
+ed-core/message/179232
+>> Mute This Topic: https://lists.openembedded.org/mt/97904222/7032091
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [s=
+kulkarni@mvista.com]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
 
