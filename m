@@ -1,112 +1,89 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD1E7C76196
-	for <webhook@archiver.kernel.org>; Mon,  3 Apr 2023 15:50:05 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.74912.1680537002313579427
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BD46C761A6
+	for <webhook@archiver.kernel.org>; Mon,  3 Apr 2023 16:21:06 +0000 (UTC)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web11.75861.1680538862145379320
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Apr 2023 08:50:02 -0700
+ Mon, 03 Apr 2023 09:21:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Fd8OKQeb;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id o24-20020a05600c511800b003ef59905f26so18382016wms.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 08:50:02 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=zL4ExWwk;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.51, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f51.google.com with SMTP id eg48so119464764edb.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 09:21:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1680537001;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=88C7aWbEEFncTY5EwLUVgBl/F5857tIyMgBeLII+ElE=;
-        b=Fd8OKQebAmw+K8kA0NCrts0jOtDAyDy0r3qqqxO82Tf1BXi8kxSCgsew4bPG5Zsc3/
-         9pGYY3bVUe6NoE+JQSIoHCA7X5hKgQfH9xjxzHMudbPmM+x1kOW63/8hHzuordupPcrI
-         BSpw2ZbB69xQO2JK44uJs/583S7P4sz1+SQEY=
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680538860; x=1683130860;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lSX540uiD1wZSHWM+hoprwdzdlSEda6PSO8SpQtL6Yw=;
+        b=zL4ExWwkYF998p9PHdKioRtBEpwyfcHPJzx5Ub7IalVvTn3IU7PoFi7x52RX1FOuNB
+         JCqPZT7Kl+UobZtqa6EEB5IF+JwDudmS2i3phqv8+D4HSX+3uLEhnETDeTwyGZeA0Ys9
+         4+VYMIzV3V1HbV0McyebajC5l8X7XAhiFTadmi51gTitTIiDRGSgYeJwUTMqTiwSb1fP
+         1GT/hPCm6nYHL9mxleQ4wu6ohjS1Eal+A1TBzoR1sZ2J9684ssEQ4G9F8eKgUFxabg1l
+         WEflShJM0dzpcvzIVAOALYcC6TRJrAsnqG1YqhGJA2TTgU3BygVV5seOry6gF5kJ6Qhk
+         glMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680537001;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=88C7aWbEEFncTY5EwLUVgBl/F5857tIyMgBeLII+ElE=;
-        b=fyFOsfXWfDbeY8eiezwBLp6FyLJ4SmpEzAYXsJuDJFyTPUI0hf1gLcP+PVcdksGvau
-         EVaTfGGRh7Lc+uFChGxxLRLE6NBHZzL7cGWgryrOAXhBYU1+z8YldEnJ57hHlX6bCqKq
-         BSuaGFov/s6VuVUCYg7lT6lY2GSN4gyKiIiRnYyABWbwbl6XXvr2o5/yxSENVMlxTBMs
-         Skn/vaRzzA9J5GE8nxYtjfuuglT0yF5ZQsXi6VEiIoe/Lu0+7Wilh6gnTW+6tl/i+q9q
-         CPdHiYeMYUHII73hDq6Wm+n3NoetjKszdNn+LlwTh6PjR5htYWJcWJAnvmULHfGixVO8
-         JIOg==
-X-Gm-Message-State: AO0yUKWEORjhqaesPIPt4Ig8FCJCRdQAVoM5NgZj5QzptuiB5W7v7SkZ
-	8FwS46iKwlmsKTcbeXt6aGOVEg==
-X-Google-Smtp-Source: AK7set8B5c8vfINk/1fSMLwS1gVtfvQoeL9egjuua+ZW2wDAt29xEa/XcOHMJzoQojCfToRfW3zoWQ==
-X-Received: by 2002:a7b:c850:0:b0:3ed:29db:cb80 with SMTP id c16-20020a7bc850000000b003ed29dbcb80mr26909932wml.18.1680537000757;
-        Mon, 03 Apr 2023 08:50:00 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:7b4:9c72:6a4a:d9b8? ([2001:8b0:aba:5f3c:7b4:9c72:6a4a:d9b8])
-        by smtp.gmail.com with ESMTPSA id t14-20020a05600c198e00b003ee1e07a14asm19812731wmq.45.2023.04.03.08.50.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Apr 2023 08:50:00 -0700 (PDT)
-Message-ID: <7269b525eb965461ff7507ed59e79ccb24dbb388.camel@linuxfoundation.org>
-Subject: Re: [PATCH v2 0/9] Add barebox bootloader support (and testing)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Enrico Jorns <ejo@pengutronix.de>, 
-	openembedded-core@lists.openembedded.org
-Cc: yocto@pengutronix.de, Alexander Kanavin <alex.kanavin@gmail.com>, 
-	alexandre.belloni@bootlin.com
-Date: Mon, 03 Apr 2023 16:49:59 +0100
-In-Reply-To: <20230331104025.1478393-1-ejo@pengutronix.de>
-References: <20230331104025.1478393-1-ejo@pengutronix.de>
+        d=1e100.net; s=20210112; t=1680538860; x=1683130860;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lSX540uiD1wZSHWM+hoprwdzdlSEda6PSO8SpQtL6Yw=;
+        b=ZcGjNvoCy5/wXWRx8bYlQhUagKHfLQ4O0kMEEOPJmpWPBrkl9ElZ0h4K6ETljHc1p8
+         RBjZfMYpq88z85tE6goSDJF2wTSXi4nqmypg5qmewZEKqytJUYI9+fSfRlW+TqClz6MV
+         ZAadqIvJVIY1X+ff+wYrC9RDydS6ugiE57YfP7E1PeNVMcQapYxU+dXKCcTh6tfpGcYd
+         isa5CQegLqK+uQffejDMU8p0TwQxD5o1aAB8PYdge4N4jZS3Ya3K4t1dc0CaEWjdSI3g
+         glqUVXP1jf4P2MEUE17BI/mtjHY2jHieVdet/eS5PDDkrjLFZKoAjZmvr1PzNTwPBIOm
+         /5aA==
+X-Gm-Message-State: AAQBX9cdCfrTbKjjSwPKSYxZy/i8hFmsAbZ4SGYsLqhzsTXEr0cqCJEl
+	5Ez87gZ7NayKvqDcvcrq/Hx1oC2Od9GaCBmMfeybKw==
+X-Google-Smtp-Source: AKy350Zk77Oydn2PodfjTny03AznowOFdgJ1VNyol+8cbPZTTyXjJPzaJjAVu4NvdjGTCHKt9XiZfay/cTDuj19M+zI=
+X-Received: by 2002:a17:907:7f19:b0:926:8f9:735d with SMTP id
+ qf25-20020a1709077f1900b0092608f9735dmr20051022ejc.3.1680538860306; Mon, 03
+ Apr 2023 09:21:00 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAOSpxdbK7ypERAdXmVX3O_78eia1MrLwfZZKC5QL-hgrdRohLQ@mail.gmail.com>
+ <6415.1680536698753265334@lists.openembedded.org>
+In-Reply-To: <6415.1680536698753265334@lists.openembedded.org>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Mon, 3 Apr 2023 06:20:49 -1000
+Message-ID: <CAOSpxdaW3zZM83eQ+_R5q4L-vsHKPJ0Nn0jsktauLPx1mEAagg@mail.gmail.com>
+Subject: Re: [OE-core] [meta][kirkstone][PATCH 2/2] curl: Add fix for CVE-2023-23916
+To: Pawan Badganchi <badganchipv@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.47.3-1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 15:50:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179642
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 16:21:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179643
 
-On Fri, 2023-03-31 at 12:40 +0200, Enrico Jorns wrote:
-> This adds support for the barebox bootloader (and tools) to oe-core.
->=20
-> In order to have proper testing, this extends oe-selftest to allow
-> basic testing of bootloaders. While at it, cover both barebox and u-boot.
->=20
-> v2:
->   * set myself as maintainer in maintainers.inc
->   * move doc from documentation.conf to recipe
->   * update to barebox v2023.03 (including fixes for musl, etc.)
->   * set standard configs for qemu machines to allow building them
->   * add better efi dir support in barebox recipe
->   * enable testing bootloaders in oeqa
->   * add test cases for barebox (and u-boot)
->=20
-> Enrico Jorns (7):
->   barebox: set default BAREBOX_CONFIG for qemu machines
->   oeqa/utils/qemurunner: support ignoring vt100 escape sequences
->   oeqa/utils/qemurunner: simplify output parsing and make
->     crlf-compatible
->   oeqa/utils/commands: document runqemu context manager
->   oeqa: support passing custom boot patterns to runqemu
->   oeqa/selftest/cases: add barebox tests
->   oeqa/selftest/cases: add basic u-boot test
->=20
-> Marco Felsch (2):
->   barebox: add initial support
->   barebox-tools: add initial barebox tools support
+On Mon, Apr 3, 2023 at 5:45=E2=80=AFAM Pawan Badganchi <badganchipv@gmail.c=
+om> wrote:
+>
+> Hi Steve,
+> I have cloned kirkstone and applied this patch. Please find the attached =
+screenshots below.
+> Could you please build again, it will get build for sure.
 
-Testing on the autobuilder did trigger a few issues:
+You didn't actually try to build curl!  Please do a 'bitbake curl' and
+you will see the fuzz error.
 
-on musl:
+Steve
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5023
-https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/6932
 
-and some failing oe-selftests:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/4971
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5023
-[there were more but look similar]
-
-Cheers,
-
-Richard
-
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#179641): https://lists.openembedded.org/g/openembedde=
+d-core/message/179641
+> Mute This Topic: https://lists.openembedded.org/mt/97818991/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
