@@ -2,59 +2,58 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47D16C761A6
-	for <webhook@archiver.kernel.org>; Mon,  3 Apr 2023 10:43:44 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web10.66789.1680518622463054126
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E898C761A6
+	for <webhook@archiver.kernel.org>; Mon,  3 Apr 2023 10:46:34 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web10.66835.1680518793573456756
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Apr 2023 03:43:42 -0700
+ Mon, 03 Apr 2023 03:46:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BxWhymoP;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id p34so16811653wms.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 03:43:42 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WD3lFYqA;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id e18so28834687wra.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 03:46:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1680518621;
+        d=linuxfoundation.org; s=google; t=1680518792;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lqiIi3rBdLK0g94X0efy/JZLWl7Fo4V0+kZEtnwA13Q=;
-        b=BxWhymoP7YkJ82TQ6LpeCG+bZxDoKfv4xKVO+d/GpCFW0x1cvS5aQGkAv2Rk9PQb+t
-         K7sdozLbP8GiTPOpdj0+fnmT7psaZsgLMhP0evcelGKjYB9WbYPwqntx3PupcX3RUif4
-         zLxTroL9TSBCaWVcaP1Dg9NQAVU7+arwRR1Qs=
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=CaqBp9puv56Ib/NNjw28/BQpCKW2omyehUTOGuMFKUs=;
+        b=WD3lFYqAqW/FblrJZB9mBbXk+YIdq+/R8/I5KrAo7ETjOs+onPJZxA0X4aB/6A983k
+         ILqxa2/eUQNYqNqkz2Pt50g4cPCSiRYKjRDIQrTFgYGIxQLeMwrpIPqZxxtWaR0bJzUD
+         Lo7oCm5cRHFe1Di2S137nJrdFv3zzc/KHEtJ0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680518621;
+        d=1e100.net; s=20210112; t=1680518792;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=lqiIi3rBdLK0g94X0efy/JZLWl7Fo4V0+kZEtnwA13Q=;
-        b=dkREFMJpW4dpqhooKS0l+ZZNUnp7Jq75JazDIBC1FlvkL7oVQHWuAfbGf2ZiLFODmZ
-         koIQ4vlDl6+5NW1KJve2NgtVz2QquSz37iS2V7mY25n0/I0yg3UVCfwy5+v/diF2tT91
-         NBrHM0qyfinTfKzW/H39ngKVDyQE1JSB58/SbqeOEIpRFv8MMHFHmCaExZCS2lQrRnnQ
-         HcHldDnG3Bz6ZCAZ7ntVtdOr17zvs/R9IzHpOpkUG8CaLG3L5041hXuArj+4o0ZwLMoL
-         2jPECl9Sv0yXAnMVDc1UDDemUD5fvgshA1GMQlOhgSOvhaIb6baj9Q6T13TaqFkPxEt1
-         /FtA==
-X-Gm-Message-State: AO0yUKXr5ifZE1co9xGUopjn0udJ1WQ/yFDB0k1tjvKAXTf/Him6sCvt
-	BBNdjIqHqQMlJ9N//cxnaGJDMA==
-X-Google-Smtp-Source: AK7set9JP2DR5+hFPzvDcTYaMpWho9tjcZuBcvZ3U7wRdc1AsZhy1Z1siA9iSL1cl2x2y2tqS5OiAA==
-X-Received: by 2002:a05:600c:280e:b0:3ee:672d:caa8 with SMTP id m14-20020a05600c280e00b003ee672dcaa8mr25411781wmb.1.1680518620930;
-        Mon, 03 Apr 2023 03:43:40 -0700 (PDT)
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CaqBp9puv56Ib/NNjw28/BQpCKW2omyehUTOGuMFKUs=;
+        b=nOvb6bZjK0Hh74R3kMgVg9iGj4nV7EO4NL7rTt/fwY8TTgLYJhCpwFILlaJI/X/9/r
+         INQXSlyFwSCXLZh7bZQ6yyf5v/mfN2g6Byx9QPuvT7gJf78qpJUn08gMZSHxh+gHJ3py
+         BH86r9H10w8qfAJfB/1VHvtIlCyZDCkubAuPxpjEPW9llsTYB8FO1TkeVXQBYBMjSvwe
+         JB5etq/bijy952RTVoZarAOijR9uQCgxakYfoBEpdCsZh0WrH0MMe1oJ6GlphhBvnyxx
+         1jr3iFpR7+KLWoYx61INomAILIIKW+KixfsbsQ56FgJ+BiOM7UduTPkKawZzWMVBN/E6
+         4QAQ==
+X-Gm-Message-State: AAQBX9dZNCXZwrVBVDVl/sDLTxFmU/3Ki2enO7hkdP+vqLAlplARTaQ2
+	AqKPv8cpIrJVwy4Hgg+MmmtVgA==
+X-Google-Smtp-Source: AKy350YPobmhEjbSdH4kwoc1FfhasKh8B6MMBdZ5X45hRztsdwyIZm3W9fQXd6AC2Jbmp3QHmHM/Rw==
+X-Received: by 2002:adf:f1c3:0:b0:2ce:adbf:cb14 with SMTP id z3-20020adff1c3000000b002ceadbfcb14mr26785672wro.28.1680518792042;
+        Mon, 03 Apr 2023 03:46:32 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:7b4:9c72:6a4a:d9b8? ([2001:8b0:aba:5f3c:7b4:9c72:6a4a:d9b8])
-        by smtp.gmail.com with ESMTPSA id t14-20020a05600c198e00b003ee1e07a14asm19067037wmq.45.2023.04.03.03.43.40
+        by smtp.gmail.com with ESMTPSA id p6-20020a5d6386000000b002e558f1c45fsm9350527wru.69.2023.04.03.03.46.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Apr 2023 03:43:40 -0700 (PDT)
-Message-ID: <0e3a9766a809aa9b5c933932e28124c9fd7dcc47.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH v4 06/10] webkitgtk: add missing dependencies
+        Mon, 03 Apr 2023 03:46:31 -0700 (PDT)
+Message-ID: <62ee9047a3d7ed89e44fc7d5e2c9c1d3e2c80595.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [kirkstone][PATCH] cargo : non vulnerable
+ cve-2022-46176 added to excluded list
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Petr =?UTF-8?Q?Kubiz=C5=88=C3=A1k?= - 2N <Kubiznak@2n.com>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Mon, 03 Apr 2023 11:43:40 +0100
-In-Reply-To: <DB4PR02MB100301B77BF93E3A3CC6708A5E2929@DB4PR02MB10030.eurprd02.prod.outlook.com>
-References: <20230331114634.3578244-1-kubiznak@2n.com>
-	 <20230331114634.3578244-6-kubiznak@2n.com>
-	 <e1408db180e41666a38260a9f45f6edf7f725192.camel@linuxfoundation.org>
-	 <DB4PR02MB100301B77BF93E3A3CC6708A5E2929@DB4PR02MB10030.eurprd02.prod.outlook.com>
+To: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: rwmacleod@gmail.com, umesh.kalappa0@gmail.com, pgowda.cve@gmail.com, 
+	shivams@gmail.com
+Date: Mon, 03 Apr 2023 11:46:31 +0100
+In-Reply-To: <20230402152836.9157-1-sundeep.kokkonda@gmail.com>
+References: <20230402152836.9157-1-sundeep.kokkonda@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.47.3-1 
@@ -62,30 +61,53 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 10:43:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179610
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 10:46:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179611
 
-On Mon, 2023-04-03 at 10:31 +0000, Petr Kubiz=C5=88=C3=A1k - 2N wrote:
-> Hi Richard,
+On Sun, 2023-04-02 at 20:58 +0530, Sundeep KOKKONDA wrote:
+> This cve (https://nvd.nist.gov/vuln/detail/CVE-2022-46176) is a security =
+vulnirability when using cargo ssh.
+> Kirkstone doesn't support rust on-target images and the bitbake using the=
+ 'wget' (which uses 'https') for fetching the sources instead of ssh.
+> So, cargo-native also not vulnerable to this cve and so added to excluded=
+ list.
 >=20
-> Yes, that is sufficient. I've prepared an updated patch. In the
-> meantime, I've noticed some of the patches from the series had been
-> merged into master-next, but not to the master yet. Should I now
-> resend the whole series, or filter out these patches, i.e. rebase to
-> master or master-next?
+> Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
+> ---
+>  meta/conf/distro/include/cve-extra-exclusions.inc | 5 +++++
+>  1 file changed, 5 insertions(+)
+>=20
+> diff --git a/meta/conf/distro/include/cve-extra-exclusions.inc b/meta/con=
+f/distro/include/cve-extra-exclusions.inc
+> index 8b5f8d49b8..cb2d920441 100644
+> --- a/meta/conf/distro/include/cve-extra-exclusions.inc
+> +++ b/meta/conf/distro/include/cve-extra-exclusions.inc
+> @@ -15,6 +15,11 @@
+>  # the aim of sharing that work and ensuring we don't duplicate it.
+>  #
+> =20
+> +#cargo https://nvd.nist.gov/vuln/detail/CVE-2022-46176
+> +#cargo security advisor https://blog.rust-lang.org/2023/01/10/cve-2022-4=
+6176.html
+> +#This CVE is a security issue when using cargo ssh. In kirkstone, rust 1=
+.59.0 is used and the rust on-target is not supported, so the target images=
+ are not vulnerable to the cve.
+> +#The bitbake using the 'wget' (which uses 'https') for fetching the sour=
+ces instead of ssh. So, the cargo-native are also not vulnerable to this cv=
+e and so added to excluded list.
+> +CVE_CHECK_IGNORE +=3D "CVE-2022-46176"
+> =20
+>  # strace https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2000-000=
+6
+>  # CVE is more than 20 years old with no resolution evident
 
-Normally I'd suggest rebasing on master unless there is another series
-this series depends upon. The ones in master-next were the ones I
-thought were simpler/ready and had been through testing in that branch.
+Since I've been following the discussion on this one:
 
-I've just gone ahead and merged them so you should find they drop out
-naturally now.
-
-I sometimes do this just to reduce the need to resend patches, for me
-to re-read/re-test them and make it clearer where the review is still
-needed.
+Acked-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
 Cheers,
 
 Richard
+
+
 
