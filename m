@@ -1,182 +1,677 @@
-Return-Path: <kai.kang@eng.windriver.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE480C761A6
-	for <webhook@archiver.kernel.org>; Tue,  4 Apr 2023 09:21:40 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.96882.1680600090576143387
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 041CBC6FD1D
+	for <webhook@archiver.kernel.org>; Tue,  4 Apr 2023 09:58:21 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web11.97375.1680602298077612210
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Apr 2023 02:21:30 -0700
+ Tue, 04 Apr 2023 02:58:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriver.com header.s=pps06212021 header.b=K7FLWubF;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=34587a342a=kai.kang@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3349GdIg007436
-	for <openembedded-core@lists.openembedded.org>; Tue, 4 Apr 2023 02:21:30 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : mime-version : content-type :
- content-transfer-encoding; s=PPS06212021;
- bh=2gpDGb2A7NFrdXDpOkvrxtSD+1xKdpzAT1nPaSdSfHA=;
- b=K7FLWubFNcwPgq2DxhkREDCaIGNJqyTrhKHboZxfRhmFQnTHUP0O4xnVz/sGRv4jy8UC
- ewvdooxKjhIMTiG0KVWnfLVF9AhcjdcbVHNL6wNwFvHgSXxMmCbt63EjLhvwokqWNAp7
- 7cCOMsycQ16FI3y+a+RJjcmbOY2CAM/rSpyA56/Nf0qv1Mx0epw+HXnRfv1kJUUkS7Dw
- nMOBKNvfNr1MNgUR+c8aUWegw4Kr0UK/VMjpLDW+lZC4reWS3cw2O2wDRGE0F445bjtn
- MHw8ZxLrWZK8Bb3C4LKmHBYX8vQaUjMm/fc0ZE4Mlj6l1mX+BpBIHOu/VfB2B76qACPI YA== 
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ppfw6tvst-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 04 Apr 2023 02:21:29 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Tue, 4 Apr 2023 02:21:29 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.23 via Frontend Transport; Tue, 4 Apr 2023 02:21:28 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] mesa: fix non-trivial designated initializers issue
-Date: Tue, 4 Apr 2023 17:21:24 +0800
-Message-ID: <20230404092124.27242-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20210112 header.b=EnxUxu0P;
+ spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f46.google.com with SMTP id l12so32135878wrm.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Apr 2023 02:58:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680602296; x=1683194296;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=MfljTgvo13/zNrCpn0pHjIDoTAnro/jnK6JCsPuTcs0=;
+        b=EnxUxu0P2ZNVPjohsCqzhDF8UbM8QzBohHbnIcfzckXSrRZlDNsJjiME64hkRDZKYS
+         lgGPn5z46PijAcZacMS96/XIdGIfwRtRyoErTGF/jdpvdP8MR+RCvsC++dKyJ8MpRX7B
+         dGqyALBmtsvrX6aZZ0XNk/gZsSqDQXtyMIUBXj+BGPfv/A5hb6ZIeTVztIlrJO2+ZGxR
+         dIF+y/cl9bWGz7inH+tRE/sAaIzDH3WI2uKEE+r9cN8+Mz+sA1rX/dvnT8DW+E5P3UVe
+         hmypv7KTeEEViIpV0TkWKKEJQO1OXsfN8Uh68U7CsWMoHiVKdYv7qgsnC1nirgWozBm9
+         3/VQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680602296; x=1683194296;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MfljTgvo13/zNrCpn0pHjIDoTAnro/jnK6JCsPuTcs0=;
+        b=BuHh0ZLs1QJKJgfjvI8IzMF9wUkzTMSbNAoTL4oYCOJtQJUzWfESTZx/Lxqho1cFl7
+         Eq0e5l2HPwH0Ozt95HfX2OBaRR5AobmFZ77GB7EL6lgAU7GgWbyBjOxMzlaIsA9oTMiA
+         iLn3PCKyXIVOIlGCVSrbiGsdMJp5+RHaN18oMLRdvDBjflRo8OKlC/yXCvOPYCsFbGgj
+         9B0IA0+/62hE8LzSeiFMiOS89t4sBdFpzeP7np+5euMZsoMe0Q9ckKkOXm+dqZUo4TiG
+         vpQjXzCr8g6eKFYcu1eWogymWYyBGT5iqJW3J+TjbGvtLG/D9gTsHW3irzIJMR2ltTaW
+         3mNQ==
+X-Gm-Message-State: AAQBX9c5SgW1e6M91PTQCSlgUXe3cawi67C8nfHQQiOnt7BxXglynuVv
+	PSdVHPsgLDjgNNiTVXP092yITTKYXxLlPGrnu0M=
+X-Google-Smtp-Source: AKy350Z3834v/YycxjjAzvbRHOScad4hbWzZNM1qEF9Jy7DSl5e4mzn7elXpcQK93iKwGHc8aImXYnx3pSGSWAcN7GU=
+X-Received: by 2002:a5d:6e92:0:b0:2e2:1f55:7ce9 with SMTP id
+ k18-20020a5d6e92000000b002e21f557ce9mr367327wrz.1.1680602296437; Tue, 04 Apr
+ 2023 02:58:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Proofpoint-ORIG-GUID: rSs7Nbg6y7QcN2zIVLQNXAVY-pZgKXnx
-X-Proofpoint-GUID: rSs7Nbg6y7QcN2zIVLQNXAVY-pZgKXnx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-04_02,2023-04-03_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 spamscore=0
- clxscore=1015 mlxlogscore=999 lowpriorityscore=0 impostorscore=0
- adultscore=0 phishscore=0 mlxscore=0 priorityscore=1501 malwarescore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304040086
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 3349GdIg007436
+References: <20230404083113.25604-1-badganchipv@gmail.com>
+In-Reply-To: <20230404083113.25604-1-badganchipv@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 4 Apr 2023 11:57:59 +0200
+Message-ID: <CA+chaQe_21ixnj=Uq_CuMYLJCjNinjCcMcjQhm8_Ot43g37rcw@mail.gmail.com>
+Subject: Re: [OE-core] [meta][kirkstone][PATCH] curl: Add fix for CVE-2023-23916
+To: Pawan Badganchi <badganchipv@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, ranjitsinh.rathod@kpit.com
+Content-Type: multipart/alternative; boundary="000000000000e34f3205f87fb68d"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Apr 2023 09:21:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179678
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Apr 2023 09:58:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179679
 
-From: Kai Kang <kai.kang@windriver.com>
+--000000000000e34f3205f87fb68d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-It fails to compile intel/compiler/brw_simd_selection.cpp with g++ 7.5.0:
+On Tue, Apr 4, 2023 at 10:31=E2=80=AFAM Pawan Badganchi <badganchipv@gmail.=
+com>
+wrote:
 
-| mesa-23.0.0/src/intel/compiler/brw_simd_selection.cpp: In function =E2=80=
-=98int
-  brw_simd_select_for_workgroup_size(const intel_device_info*,
-  const brw_cs_prog_data*, const unsigned int*)=E2=80=99:
-| mesa-23.0.0/src/intel/compiler/brw_simd_selection.cpp:205:7: sorry,
-  unimplemented: non-trivial designated initializers not supported
-|        };
-|        ^
+> Add below patch to fix CVE-2023-23916
+>
+> CVE-2023-23916.patch
+>
+> Link: https://curl.se/docs/CVE-2023-23916.html
+>
+> Signed-off-by: pawan <badganchipv@gmail.com>
+> ---
+>  .../curl/curl/CVE-2023-23916.patch            | 221 ++++++++++++++++++
+>  meta/recipes-support/curl/curl_7.82.0.bb      |   1 +
+>  2 files changed, 222 insertions(+)
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2023-23916.patch
+>
+> diff --git a/meta/recipes-support/curl/curl/CVE-2023-23916.patch
+> b/meta/recipes-support/curl/curl/CVE-2023-23916.patch
+> new file mode 100644
+> index 0000000000..fb1a791399
+> --- /dev/null
+> +++ b/meta/recipes-support/curl/curl/CVE-2023-23916.patch
+> @@ -0,0 +1,221 @@
+> +Backport of:
+> +
+>
 
-Initialize the leading 2 members to fix the issue.
+This is quite clear from Upstream-Status and this line just breaks applying
+this .patch with "git am", so I would prefer leave just Upstream-Status and
+drop 2 lines above.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- ...on.cpp-fix-non-trivial-designated-in.patch | 59 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc           |  1 +
- 2 files changed, 60 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/files/0001-brw_simd_select=
-ion.cpp-fix-non-trivial-designated-in.patch
++From 119fb187192a9ea13dc90d9d20c215fc82799ab9 Mon Sep 17 00:00:00 2001
+> +From: Patrick Monnerat <patrick@monnerat.net>
+> +Date: Mon, 13 Feb 2023 08:33:09 +0100
+> +Subject: [PATCH] content_encoding: do not reset stage counter for each
+> header
+> +
+> +Test 418 verifies
+> +
+> +Closes #10492
+> +
+> +CVE: CVE-2023-23916
+> +Upstream-Status: Backport [
+> https://github.com/curl/curl/commit/119fb187192a9ea13dc.patch]
+> +Signed-off-by: Pawan Badganchi <Pawan.Badganchi@kpit.com>
+> +---
+> + lib/content_encoding.c  |   7 +-
+> + lib/urldata.h           |   1 +
+> + tests/data/Makefile.inc |   2 +-
+> + tests/data/test387      |   2 +-
+> + tests/data/test418      | 152 ++++++++++++++++++++++++++++++++++++++++
+> + 5 files changed, 158 insertions(+), 6 deletions(-)
+> + create mode 100644 tests/data/test418
+> +
+> +--- a/lib/content_encoding.c
+> ++++ b/lib/content_encoding.c
+> +@@ -1037,7 +1037,6 @@ CURLcode Curl_build_unencoding_stack(str
+> +                                      const char *enclist, int
+> maybechunked)
+> + {
+> +   struct SingleRequest *k =3D &data->req;
+> +-  int counter =3D 0;
+> +
+> +   do {
+> +     const char *name;
+> +@@ -1072,9 +1071,9 @@ CURLcode Curl_build_unencoding_stack(str
+> +       if(!encoding)
+> +         encoding =3D &error_encoding;  /* Defer error at stack use. */
+> +
+> +-      if(++counter >=3D MAX_ENCODE_STACK) {
+> +-        failf(data, "Reject response due to %u content encodings",
+> +-              counter);
+> ++      if(k->writer_stack_depth++ >=3D MAX_ENCODE_STACK) {
+> ++        failf(data, "Reject response due to more than %u content
+> encodings",
+> ++              MAX_ENCODE_STACK);
+> +         return CURLE_BAD_CONTENT_ENCODING;
+> +       }
+> +       /* Stack the unencoding stage. */
+> +--- a/lib/urldata.h
+> ++++ b/lib/urldata.h
+> +@@ -682,6 +682,7 @@ struct SingleRequest {
+> +   struct dohdata *doh; /* DoH specific data for this request */
+> + #endif
+> +   unsigned char setcookies;
+> ++  unsigned char writer_stack_depth; /* Unencoding stack depth. */
+> +   BIT(header);        /* incoming data has HTTP header */
+> +   BIT(content_range); /* set TRUE if Content-Range: was found */
+> +   BIT(upload_done);   /* set to TRUE when doing chunked transfer-encodi=
+ng
+> +--- a/tests/data/Makefile.inc
+> ++++ b/tests/data/Makefile.inc
+> +@@ -69,6 +69,7 @@
+> + \
+> + test400 test401 test402 test403 test404 test405 test406 test407 test408=
+ \
+> + test409 test410 \
+> ++test418 \
+> + \
+> + test430 test431 test432 test433 test434 test435 test436 \
+> + \
+> +--- /dev/null
+> ++++ b/tests/data/test418
+> +@@ -0,0 +1,152 @@
+> ++<testcase>
+> ++<info>
+> ++<keywords>
+> ++HTTP
+> ++gzip
+> ++</keywords>
+> ++</info>
+> ++
+> ++#
+> ++# Server-side
+> ++<reply>
+> ++<data nocheck=3D"yes">
+> ++HTTP/1.1 200 OK
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++Transfer-Encoding: gzip
+> ++
+> ++-foo-
+> ++</data>
+> ++</reply>
+> ++
+> ++#
+> ++# Client-side
+> ++<client>
+> ++<server>
+> ++http
+> ++</server>
+> ++ <name>
+> ++Response with multiple Transfer-Encoding headers
+> ++ </name>
+> ++ <command>
+> ++http://%HOSTIP:%HTTPPORT/%TESTNUMBER -sS
+> ++</command>
+> ++</client>
+> ++
+> ++#
+> ++# Verify data after the test has been "shot"
+> ++<verify>
+> ++<protocol crlf=3D"yes">
+> ++GET /%TESTNUMBER HTTP/1.1
+> ++Host: %HOSTIP:%HTTPPORT
+> ++User-Agent: curl/%VERSION
+> ++Accept: */*
+> ++
+> ++</protocol>
+> ++
+> ++# CURLE_BAD_CONTENT_ENCODING is 61
+> ++<errorcode>
+> ++61
+> ++</errorcode>
+> ++<stderr mode=3D"text">
+> ++curl: (61) Reject response due to more than 5 content encodings
+> ++</stderr>
+> ++</verify>
+> ++</testcase>
+> diff --git a/meta/recipes-support/curl/curl_7.82.0.bb
+> b/meta/recipes-support/curl/curl_7.82.0.bb
+> index b583060889..945745cdde 100644
+> --- a/meta/recipes-support/curl/curl_7.82.0.bb
+> +++ b/meta/recipes-support/curl/curl_7.82.0.bb
+> @@ -39,6 +39,7 @@ SRC_URI =3D "https://curl.se/download/${BP}.tar.xz \
+>             file://CVE-2023-23914_5-3.patch \
+>             file://CVE-2023-23914_5-4.patch \
+>             file://CVE-2023-23914_5-5.patch \
+> +           file://CVE-2023-23916.patch \
+>             "
+>  SRC_URI[sha256sum] =3D
+> "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
+>
+> --
+> 2.38.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#179676):
+> https://lists.openembedded.org/g/openembedded-core/message/179676
+> Mute This Topic: https://lists.openembedded.org/mt/98055877/3617156
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> Martin.Jansa@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-brw_simd_selection.cpp=
--fix-non-trivial-designated-in.patch b/meta/recipes-graphics/mesa/files/0=
-001-brw_simd_selection.cpp-fix-non-trivial-designated-in.patch
-new file mode 100644
-index 0000000000..9db738cdc0
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0001-brw_simd_selection.cpp-fix-no=
-n-trivial-designated-in.patch
-@@ -0,0 +1,59 @@
-+From 6fd92cfc8a52a1884b8bc45b9ac0c7ceaf492a58 Mon Sep 17 00:00:00 2001
-+From: Kai Kang <kai.kang@windriver.com>
-+Date: Mon, 27 Mar 2023 21:19:36 +0800
-+Subject: [PATCH] brw_simd_selection.cpp: fix non-trivial designated
-+ initializers issue
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+It fails to compile intel/compiler/brw_simd_selection.cpp with g++ 7.5.0=
-:
-+
-+| mesa-23.0.0/src/intel/compiler/brw_simd_selection.cpp: In function =E2=
-=80=98int
-+  brw_simd_select_for_workgroup_size(const intel_device_info*,
-+  const brw_cs_prog_data*, const unsigned int*)=E2=80=99:
-+| mesa-23.0.0/src/intel/compiler/brw_simd_selection.cpp:205:7: sorry,
-+  unimplemented: non-trivial designated initializers not supported
-+|        };
-+|        ^
-+
-+Initialize the leading 2 members to fix the issue.
-+
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/m=
-erge_requests/22138]
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+ src/intel/compiler/brw_simd_selection.cpp | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/intel/compiler/brw_simd_selection.cpp b/src/intel/compi=
-ler/brw_simd_selection.cpp
-+index 1515e538b74..4c065f9884a 100644
-+--- a/src/intel/compiler/brw_simd_selection.cpp
-++++ b/src/intel/compiler/brw_simd_selection.cpp
-+@@ -232,10 +232,14 @@ brw_simd_select_for_workgroup_size(const struct in=
-tel_device_info *devinfo,
-+                                    const struct brw_cs_prog_data *prog_=
-data,
-+                                    const unsigned *sizes)
-+ {
-++   void *mem_ctx =3D ralloc_context(NULL);
-++
-+    if (!sizes || (prog_data->local_size[0] =3D=3D sizes[0] &&
-+                   prog_data->local_size[1] =3D=3D sizes[1] &&
-+                   prog_data->local_size[2] =3D=3D sizes[2])) {
-+       brw_simd_selection_state simd_state{
-++         .mem_ctx =3D mem_ctx,
-++         .devinfo =3D devinfo,
-+          .prog_data =3D const_cast<struct brw_cs_prog_data *>(prog_data=
-),
-+       };
-+=20
-+@@ -257,8 +261,6 @@ brw_simd_select_for_workgroup_size(const struct inte=
-l_device_info *devinfo,
-+    cloned.prog_mask =3D 0;
-+    cloned.prog_spilled =3D 0;
-+=20
-+-   void *mem_ctx =3D ralloc_context(NULL);
-+-
-+    brw_simd_selection_state simd_state{
-+       .mem_ctx =3D mem_ctx,
-+       .devinfo =3D devinfo,
-+--=20
-+2.34.1
-+
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
-mesa/mesa.inc
-index 8f72f25c17..caab1eff6d 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -17,6 +17,7 @@ PE =3D "2"
- SRC_URI =3D "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-meson.build-check-for-all-linux-host_os-combinati=
-ons.patch \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patc=
-h \
-+           file://0001-brw_simd_selection.cpp-fix-non-trivial-designated=
--in.patch \
-            "
-=20
- SRC_URI[sha256sum] =3D "01f3cff3763f09e0adabcb8011e4aebc6ad48f6a4dd4bae9=
-04fe918707d253e4"
---=20
-2.17.1
+--000000000000e34f3205f87fb68d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, Apr 4, 2023 at 10:31=E2=80=AFAM P=
+awan Badganchi &lt;<a href=3D"mailto:badganchipv@gmail.com">badganchipv@gma=
+il.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">Add below patch to fix CVE-2023-23916<br>
+<br>
+CVE-2023-23916.patch<br>
+<br>
+Link: <a href=3D"https://curl.se/docs/CVE-2023-23916.html" rel=3D"noreferre=
+r" target=3D"_blank">https://curl.se/docs/CVE-2023-23916.html</a><br>
+<br>
+Signed-off-by: pawan &lt;<a href=3D"mailto:badganchipv@gmail.com" target=3D=
+"_blank">badganchipv@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0.../curl/curl/CVE-2023-23916.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 | 221 ++++++++++++++++++<br>
+=C2=A0meta/recipes-support/curl/<a href=3D"http://curl_7.82.0.bb" rel=3D"no=
+referrer" target=3D"_blank">curl_7.82.0.bb</a>=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+=C2=A01 +<br>
+=C2=A02 files changed, 222 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-support/curl/curl/CVE-2023-23916.patc=
+h<br>
+<br>
+diff --git a/meta/recipes-support/curl/curl/CVE-2023-23916.patch b/meta/rec=
+ipes-support/curl/curl/CVE-2023-23916.patch<br>
+new file mode 100644<br>
+index 0000000000..fb1a791399<br>
+--- /dev/null<br>
++++ b/meta/recipes-support/curl/curl/CVE-2023-23916.patch<br>
+@@ -0,0 +1,221 @@<br>
++Backport of:<br>
++<br></blockquote><div><br></div><div>This is quite clear from Upstream-Sta=
+tus and this line just breaks applying this .patch with &quot;git am&quot;,=
+ so I would prefer leave just Upstream-Status and drop 2 lines above.</div>=
+<div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
++From 119fb187192a9ea13dc90d9d20c215fc82799ab9 Mon Sep 17 00:00:00 2001<br>
++From: Patrick Monnerat &lt;<a href=3D"mailto:patrick@monnerat.net" target=
+=3D"_blank">patrick@monnerat.net</a>&gt;<br>
++Date: Mon, 13 Feb 2023 08:33:09 +0100<br>
++Subject: [PATCH] content_encoding: do not reset stage counter for each hea=
+der<br>
++<br>
++Test 418 verifies<br>
++<br>
++Closes #10492<br>
++<br>
++CVE: CVE-2023-23916<br>
++Upstream-Status: Backport [<a href=3D"https://github.com/curl/curl/commit/=
+119fb187192a9ea13dc.patch" rel=3D"noreferrer" target=3D"_blank">https://git=
+hub.com/curl/curl/commit/119fb187192a9ea13dc.patch</a>]<br>
++Signed-off-by: Pawan Badganchi &lt;<a href=3D"mailto:Pawan.Badganchi@kpit.=
+com" target=3D"_blank">Pawan.Badganchi@kpit.com</a>&gt;<br>
++---<br>
++ lib/content_encoding.c=C2=A0 |=C2=A0 =C2=A07 +-<br>
++ lib/urldata.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +<b=
+r>
++ tests/data/Makefile.inc |=C2=A0 =C2=A02 +-<br>
++ tests/data/test387=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
++ tests/data/test418=C2=A0 =C2=A0 =C2=A0 | 152 ++++++++++++++++++++++++++++=
+++++++++++++<br>
++ 5 files changed, 158 insertions(+), 6 deletions(-)<br>
++ create mode 100644 tests/data/test418<br>
++<br>
++--- a/lib/content_encoding.c<br>
+++++ b/lib/content_encoding.c<br>
++@@ -1037,7 +1037,6 @@ CURLcode Curl_build_unencoding_stack(str<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 const char *enc=
+list, int maybechunked)<br>
++ {<br>
++=C2=A0 =C2=A0struct SingleRequest *k =3D &amp;data-&gt;req;<br>
++-=C2=A0 int counter =3D 0;<br>
++ <br>
++=C2=A0 =C2=A0do {<br>
++=C2=A0 =C2=A0 =C2=A0const char *name;<br>
++@@ -1072,9 +1071,9 @@ CURLcode Curl_build_unencoding_stack(str<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if(!encoding)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0encoding =3D &amp;error_encoding;=C2=A0 =
+/* Defer error at stack use. */<br>
++ <br>
++-=C2=A0 =C2=A0 =C2=A0 if(++counter &gt;=3D MAX_ENCODE_STACK) {<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 failf(data, &quot;Reject response due to %u c=
+ontent encodings&quot;,<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 counter);<br>
+++=C2=A0 =C2=A0 =C2=A0 if(k-&gt;writer_stack_depth++ &gt;=3D MAX_ENCODE_STA=
+CK) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 failf(data, &quot;Reject response due to more=
+ than %u content encodings&quot;,<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 MAX_ENCODE_STACK);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return CURLE_BAD_CONTENT_ENCODING;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/* Stack the unencoding stage. */<br>
++--- a/lib/urldata.h<br>
+++++ b/lib/urldata.h<br>
++@@ -682,6 +682,7 @@ struct SingleRequest {<br>
++=C2=A0 =C2=A0struct dohdata *doh; /* DoH specific data for this request */=
+<br>
++ #endif<br>
++=C2=A0 =C2=A0unsigned char setcookies;<br>
+++=C2=A0 unsigned char writer_stack_depth; /* Unencoding stack depth. */<br=
+>
++=C2=A0 =C2=A0BIT(header);=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* incoming data has =
+HTTP header */<br>
++=C2=A0 =C2=A0BIT(content_range); /* set TRUE if Content-Range: was found *=
+/<br>
++=C2=A0 =C2=A0BIT(upload_done);=C2=A0 =C2=A0/* set to TRUE when doing chunk=
+ed transfer-encoding<br>
++--- a/tests/data/Makefile.inc<br>
+++++ b/tests/data/Makefile.inc<br>
++@@ -69,6 +69,7 @@<br>
++ \<br>
++ test400 test401 test402 test403 test404 test405 test406 test407 test408 \=
+<br>
++ test409 test410 \<br>
+++test418 \<br>
++ \<br>
++ test430 test431 test432 test433 test434 test435 test436 \<br>
++ \<br>
++--- /dev/null<br>
+++++ b/tests/data/test418<br>
++@@ -0,0 +1,152 @@<br>
+++&lt;testcase&gt;<br>
+++&lt;info&gt;<br>
+++&lt;keywords&gt;<br>
+++HTTP<br>
+++gzip<br>
+++&lt;/keywords&gt;<br>
+++&lt;/info&gt;<br>
+++<br>
+++#<br>
+++# Server-side<br>
+++&lt;reply&gt;<br>
+++&lt;data nocheck=3D&quot;yes&quot;&gt;<br>
+++HTTP/1.1 200 OK<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++Transfer-Encoding: gzip<br>
+++<br>
+++-foo-<br>
+++&lt;/data&gt;<br>
+++&lt;/reply&gt;<br>
+++<br>
+++#<br>
+++# Client-side<br>
+++&lt;client&gt;<br>
+++&lt;server&gt;<br>
+++http<br>
+++&lt;/server&gt;<br>
+++ &lt;name&gt;<br>
+++Response with multiple Transfer-Encoding headers<br>
+++ &lt;/name&gt;<br>
+++ &lt;command&gt;<br>
+++http://%HOSTIP:%HTTPPORT/%TESTNUMBER -sS<br>
+++&lt;/command&gt;<br>
+++&lt;/client&gt;<br>
+++<br>
+++#<br>
+++# Verify data after the test has been &quot;shot&quot;<br>
+++&lt;verify&gt;<br>
+++&lt;protocol crlf=3D&quot;yes&quot;&gt;<br>
+++GET /%TESTNUMBER HTTP/1.1<br>
+++Host: %HOSTIP:%HTTPPORT<br>
+++User-Agent: curl/%VERSION<br>
+++Accept: */*<br>
+++<br>
+++&lt;/protocol&gt;<br>
+++<br>
+++# CURLE_BAD_CONTENT_ENCODING is 61<br>
+++&lt;errorcode&gt;<br>
+++61<br>
+++&lt;/errorcode&gt;<br>
+++&lt;stderr mode=3D&quot;text&quot;&gt;<br>
+++curl: (61) Reject response due to more than 5 content encodings<br>
+++&lt;/stderr&gt;<br>
+++&lt;/verify&gt;<br>
+++&lt;/testcase&gt;<br>
+diff --git a/meta/recipes-support/curl/<a href=3D"http://curl_7.82.0.bb" re=
+l=3D"noreferrer" target=3D"_blank">curl_7.82.0.bb</a> b/meta/recipes-suppor=
+t/curl/<a href=3D"http://curl_7.82.0.bb" rel=3D"noreferrer" target=3D"_blan=
+k">curl_7.82.0.bb</a><br>
+index b583060889..945745cdde 100644<br>
+--- a/meta/recipes-support/curl/<a href=3D"http://curl_7.82.0.bb" rel=3D"no=
+referrer" target=3D"_blank">curl_7.82.0.bb</a><br>
++++ b/meta/recipes-support/curl/<a href=3D"http://curl_7.82.0.bb" rel=3D"no=
+referrer" target=3D"_blank">curl_7.82.0.bb</a><br>
+@@ -39,6 +39,7 @@ SRC_URI =3D &quot;<a href=3D"https://curl.se/download/$%7=
+BBP%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">https://curl.se/downloa=
+d/${BP}.tar.xz</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2023-23914_5-3.patch \=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2023-23914_5-4.patch \=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2023-23914_5-5.patch \=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2023-23916.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+=C2=A0SRC_URI[sha256sum] =3D &quot;0aaa12d7bd04b0966254f2703ce80dd5c38dbbd7=
+6af0297d3d690cdce58a583c&quot;<br>
+<br>
+-- <br>
+2.38.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#179676): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/179676" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/179676</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/98055877/3617=
+156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/98055877/3617156</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" ta=
+rget=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000e34f3205f87fb68d--
 
