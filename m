@@ -1,146 +1,149 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00C35C76196
-	for <webhook@archiver.kernel.org>; Tue,  4 Apr 2023 02:42:59 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web10.92013.1680576172370905839
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11DE5C76196
+	for <webhook@archiver.kernel.org>; Tue,  4 Apr 2023 02:48:59 +0000 (UTC)
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+ by mx.groups.io with SMTP id smtpd.web11.92215.1680576534512912535
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Apr 2023 19:42:52 -0700
+ Mon, 03 Apr 2023 19:48:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=A56DwRbq;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f180.google.com with SMTP id u10so29972020plz.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 19:42:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=mJM9yYT/;
+ spf=pass (domain: gmail.com, ip: 209.85.167.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f169.google.com with SMTP id l18so23273796oic.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 19:48:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680576171; x=1683168171;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7VwNo4/66e1dTUNHiFY9PtMPGzIz/U7+HFNSWqproVo=;
-        b=A56DwRbqIkMpOfAWXpXhtg3DHA1hvjaCmPrMfYcrNHoEZ1aXbjDJmLXEZprp+Us0BE
-         7Y4NWb2tbM6/Xr9mEgHRT9RHKpt00b5EsbvTRdaeo58TQtxfdlSMK2ZzMi5w//a6HHKS
-         cLnJvQbROFrR/cbkBHpRKg8AeeGbaFQQ/oigHzEbHkmP/y/+0zAEVnJUYJTOPcORhLi8
-         EiOcI92zaqeelMg85cv/Dqq/o9HZ+gQhD9Fn7q3KkWY0stuqp82ywlVqdWGpciGaK2r/
-         RLGzmBFO5f7ILH0jwdnovuiafXPVCVZpK/Qp2pXlf30028hmPD1Eogrk1VPbpPToOVAC
-         KOBQ==
+        d=gmail.com; s=20210112; t=1680576534;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C1tj1t8ucg4gj/J3OZflEv6F8J439HLfrTLzLJgb7Xg=;
+        b=mJM9yYT/32w4bU4xCvQGTnraAz4sDhxc+r0pmJpx1K6pCMPxj1k9tIqi/AD7prStUs
+         WrglBXBX1Fojppm+PkJi/F8YUpGwyId1h2x4ywp4x/2KkgGPyBU7ZxzkKtIh/L8plW0h
+         X26yF8v5SGncYdVCiLfBKF5E4UpNM1Hcotb7/X68FLXH2JZYqjo8cq9xSuu7rRsI6ZWN
+         4L8YXFBpuR6TKD61QcRifPljrs//Z3UJHJDczKCHzALyucaUnw4SIyDkRF+FuCACms8z
+         mpxai5YxwZhDbhWYfI4oIvlTBXJYmRwvvZJjSKDXSi/gW+nru2C9+ZZ/etga2G1EGmxV
+         AGbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680576171; x=1683168171;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7VwNo4/66e1dTUNHiFY9PtMPGzIz/U7+HFNSWqproVo=;
-        b=i7f1iNie2RErIZiZvNBiLd64GUQY7MT2GgVpZ35ukL5MSF1uDM0km3npWDzMMKBSI8
-         RPykrfCOLiTgLzwyjqc7TjHQm6ncQdBIi+1sIMSiPIjBCK2phXNtdoAFyYzvs4d4QfwA
-         mLtkIHfycYAH0EzUxPCtfBpmVIrO8X97hED7kYuY2eGDwFm7XD9A5fFDwgpBSXbJj3RT
-         4XSfCQrNleECLCWBROoGn5imhIiqKo+1KNsUxobaDsp4WhaR2Gsn4YlnVyFzaVkD/4Vg
-         cwGdHN8a52C8fOzWplLw/wpZRAOkgihmJMD1uUkpvlucMUqpCLdTg37GkYUMsuwH8fhd
-         NlNA==
-X-Gm-Message-State: AAQBX9fHn9QhjEHEV3VaOtu8OzcdzEC0/z+eWsYKuOsDeo6IW5CsJlD3
-	OZhoAhHybvSX9YQaTHwTjHpOftj69MK58QrEbH0=
-X-Google-Smtp-Source: AKy350aK8stQtocGEU4HMONcZMfF8Oncr2O2oQ5bBn4SbBovYQGDVXziPuY7rVOMB6Y7a8Zs93YMeQ==
-X-Received: by 2002:a05:6a20:4a14:b0:e5:58e6:be37 with SMTP id fr20-20020a056a204a1400b000e558e6be37mr707418pzb.61.1680576171359;
-        Mon, 03 Apr 2023 19:42:51 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id u16-20020aa78490000000b006242f4a8945sm7577958pfn.182.2023.04.03.19.42.50
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Apr 2023 19:42:50 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 00/14] Pull request (cover letter only)
-Date: Mon,  3 Apr 2023 16:42:43 -1000
-Message-Id: <cover.1680576095.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20210112; t=1680576534;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=C1tj1t8ucg4gj/J3OZflEv6F8J439HLfrTLzLJgb7Xg=;
+        b=yY6HFQxEQuhz9BQ6VutVg8sbOAtoyzKJPKd0z8jB14UgB4QPa7V+ZQL6Vp+zQT9C/b
+         0ynmPC29l4KW6BPwh4voyJ2+dHMzpe2S3CHK5JHU8xJfqTy/iYPhUUf1bhgjUmE20Dwy
+         qZS9xJ5o26TdyX9WYL455rlVP5M6iqFTlbIcWJXVG/9Ozi27aKJBGgvr06gtSzdBmvET
+         4ToW7X71dCqsqIn3Di/u9N7Tket+AHQCt/4CrzYPbaGFHwxr3er17/kRaY86S1bz1cN1
+         fdHoQBwQ97WNPpDww6pTyaZGVzuL0D2MB4IWmMkSormkOsRQyzu76JhoMLuUJhHfoVCO
+         iuCA==
+X-Gm-Message-State: AAQBX9f/xC7ieN7s6pMWuz+D2C6Zb9omdu2JSC4SbC+gSOPeQjKZNYmI
+	mFNUsVJ8TC9X2fGx3hQZVsq/6/ygSLgh+QYBgbzROxdje1c=
+X-Google-Smtp-Source: AKy350azxgdrV477BVr0BWttA78Ow2VZBIy/B4Cw87JWysDnoi30k+antCjNj+4keVujvuc8FF2Mj1khwh1TIF3mqzo=
+X-Received: by 2002:a05:6808:2009:b0:386:d8a5:d80b with SMTP id
+ q9-20020a056808200900b00386d8a5d80bmr376892oiw.4.1680576533678; Mon, 03 Apr
+ 2023 19:48:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <51ba3bfc-caa0-0a31-c295-e59c8416e672@kernel.crashing.org> <CO6PR11MB5602C3D93B44F41049BBDCECED939@CO6PR11MB5602.namprd11.prod.outlook.com>
+In-Reply-To: <CO6PR11MB5602C3D93B44F41049BBDCECED939@CO6PR11MB5602.namprd11.prod.outlook.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 3 Apr 2023 19:48:27 -0700
+Message-ID: <CAMKF1sqq+H5_1YQGikajgdpnwmDwrTrXYeBNv=_+4PhTiMx8pA@mail.gmail.com>
+Subject: Re: [OE-core] mesa-native fails on master
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: Mark Hatle <mark.hatle@kernel.crashing.org>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Apr 2023 02:42:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179668
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Apr 2023 02:48:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179669
 
-The following changes since commit a0ef4386d37f84e8f169cbe3cfa9307010b89bbd:
+On Mon, Apr 3, 2023 at 7:39=E2=80=AFPM Chen Qi <Qi.Chen@windriver.com> wrot=
+e:
+>
+> I just met the same issue. My host is ubuntu18, gcc version is 7.5.0.
+>
+> Regards,
+> Qi
+>
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
+penembedded.org> On Behalf Of Mark Hatle
+> Sent: Tuesday, April 4, 2023 10:25 AM
+> To: Patches and discussions about the oe-core layer <openembedded-core@li=
+sts.openembedded.org>
+> Subject: [OE-core] mesa-native fails on master
+>
+> It's been a few weeks since I last built master, but starting with today'=
+s pull I'm getting errors building mesa-native -- which pretty much kills t=
+he whole build.
+>
+> I'm on an Ubuntu 18.04 host, and have the 'buildtools-tarball' from the l=
+ast
+> 4.1.3 loaded so I can get to the minimum version of python to run a build=
+.
+>
+> (I tried with buildtools-tarball-extended and that DOES appear to work.  =
+If this is expected, you can ignore the rest of this.  But I expected the s=
+ystem to complain before trying to build everything if the compiler wasn't =
+new enough.)
+>
+>
+> The error is:
+>
+> brw_simd_selection.cpp:205:7: sorry, unimplemented: non-trivial designate=
+d initializers not supported
+>
+>
+> The host gcc is 7.5.0
+>
+> What is strange is I had 2 successful builds, and then it started failing=
+.  All
+> fresh builds.  I've no idea why one was successful and the others failed.=
+  I'm
+> wondering if maybe there is some sort of race in mesa, but lowered my par=
+allel
+> build (-j) to 1 and I'm still getting it.
 
-  systemd: fix wrong nobody-group assignment (2023-03-21 06:55:30 -1000)
 
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/langdale-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/langdale-next
-
-Bruce Ashfield (4):
-  linux-yocto/5.15: update to v5.15.98
-  linux-yocto/5.15: update to v5.15.103
-  lttng-modules: update to v2.13.9
-  kernel-devsrc: fix mismatched compiler warning
-
-Geoffrey GIRY (2):
-  cve-extra-exclusions: ignore inapplicable linux-yocto CVEs
-  cve-check: Fix false negative version issue
-
-Martin Jansa (2):
-  selftest: devtool: set BB_HASHSERVE_UPSTREAM when setting
-    SSTATE_MIRROR
-  bmap-tools: switch to main branch
-
-Narpat Mali (1):
-  python3-setuptools: fix for CVE-2022-40897
-
-Peter Marko (1):
-  gcc-shared-source: do not use ${S}/.. in deploy_source_date_epoch
-
-Randy MacLeod (1):
-  vim: upgrade 9.0.1403 -> 9.0.1429
-
-Ross Burton (1):
-  scripts/lib/buildstats: handle top-level build_stats not being
-    complete
-
-Siddharth Doshi (1):
-  openssl: Security fix for CVE-2023-0464, CVE-2023-0465, CVE-2023-0466
-
-Wang Mingyu (1):
-  xcb-proto: Fix install conflict when enable multilib.
-
- meta/classes/cve-check.bbclass                |   5 +-
- .../distro/include/cve-extra-exclusions.inc   | 212 +++++++++++++++++
- meta/lib/oe/cve_check.py                      |  39 +++
- meta/lib/oeqa/selftest/cases/cve_check.py     |  19 ++
- meta/lib/oeqa/selftest/cases/devtool.py       |   1 +
- .../openssl/openssl/CVE-2023-0464.patch       | 225 ++++++++++++++++++
- .../openssl/openssl/CVE-2023-0465.patch       |  56 +++++
- .../openssl/openssl/CVE-2023-0466.patch       |  50 ++++
- .../openssl/openssl_3.0.8.bb                  |   3 +
- .../gcc/gcc-shared-source.inc                 |   4 +-
- ...-of-whitespace-to-search-backtrack.-.patch |  31 +++
- .../python/python3-setuptools_65.0.2.bb       |   4 +-
- ...nstall-conflict-when-enable-multilib.patch |  32 +++
- .../xorg-proto/xcb-proto_1.15.2.bb            |   1 +
- .../linux/cve-exclusion_5.15.inc              |  90 +++++++
- meta/recipes-kernel/linux/kernel-devsrc.bb    |   7 +
- .../linux/linux-yocto-rt_5.15.bb              |   9 +-
- .../linux/linux-yocto-tiny_5.15.bb            |   9 +-
- meta/recipes-kernel/linux/linux-yocto_5.15.bb |  29 ++-
- ...ccessor-helpers-into-accessors.h-v6..patch |  45 ----
- .../fix-jbd2-upper-bound-for-v5.10.163.patch  |  52 ----
- ...e-the-correct-print-format-v5.10.163.patch |  61 -----
- ...ules_2.13.8.bb => lttng-modules_2.13.9.bb} |   5 +-
- .../bmap-tools/bmap-tools_git.bb              |   2 +-
- meta/recipes-support/vim/vim.inc              |   4 +-
- scripts/lib/buildstats.py                     |   1 +
- 26 files changed, 808 insertions(+), 188 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-0464.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-0465.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-0466.patch
- create mode 100644 meta/recipes-devtools/python/python3-setuptools/0001-Limit-the-amount-of-whitespace-to-search-backtrack.-.patch
- create mode 100644 meta/recipes-graphics/xorg-proto/xcb-proto/0001-Fix-install-conflict-when-enable-multilib.patch
- create mode 100644 meta/recipes-kernel/linux/cve-exclusion_5.15.inc
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-btrfs-move-accessor-helpers-into-accessors.h-v6..patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/fix-jbd2-upper-bound-for-v5.10.163.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/fix-jbd2-use-the-correct-print-format-v5.10.163.patch
- rename meta/recipes-kernel/lttng/{lttng-modules_2.13.8.bb => lttng-modules_2.13.9.bb} (83%)
-
--- 
-2.34.1
-
+You need a newer gcc compiler > 7.x
+I just abandoned using ubuntu 18.04
+see - https://lists.openembedded.org/g/openembedded-core/message/178783?p=
+=3D%2C%2C%2C20%2C0%2C0%2C0%3A%3Acreated%2C0%2Cnon-trivial+designated+initia=
+lizers+not+supported%2C20%2C2%2C0%2C97647023
+>
+>
+> Reproducer:
+>
+> git clone https://git.yoctoproject.org/poky
+>
+> cd poky
+>
+> wget
+> http://downloads.yoctoproject.org/releases/yocto/yocto-4.1.3/buildtools/x=
+86_64-buildtools-nativesdk-standalone-4.1.3.sh
+>
+> bash x86_64-buildtools-nativesdk-standalone-4.1.3.sh -d buildtools -y
+>
+> . ./buildtools/environment-...
+>
+> . ./oe-init-build-env
+>
+> bitbake mesa-native
+>
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#179667): https://lists.openembedded.org/g/openembedde=
+d-core/message/179667
+> Mute This Topic: https://lists.openembedded.org/mt/98052337/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
