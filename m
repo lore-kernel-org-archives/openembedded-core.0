@@ -2,334 +2,767 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4B80C7618D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF38EC76196
 	for <webhook@archiver.kernel.org>; Tue,  4 Apr 2023 02:39:38 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web11.92067.1680575970709666840
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web10.91955.1680575975907879341
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Apr 2023 19:39:37 -0700
+ Mon, 03 Apr 2023 19:39:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=XwIa0oR1;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f174.google.com with SMTP id l14so20487821pfc.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 19:39:37 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=154GMmj9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f51.google.com with SMTP id f6-20020a17090ac28600b0023b9bf9eb63so32523256pjt.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 19:39:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680575976; x=1683167976;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680575975; x=1683167975;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=FVp+/4f3OmihDqpPvS7L46aY43oDf1/uv4Tf/d9zV0I=;
-        b=XwIa0oR1/3J49p+PNA/2Ldxa0xwj614RWrd1PXAS9mYKKvUhRkSTAQaXXdsFOWGHCc
-         /W8x5tRs+njBcB4ukBdDbckbjsSi1csuubrccwlhsfDpcl+CKFGBu/w1hbSq7WynVUEf
-         poOPkRg/lgnBLC356ki3Zgw2JOhgS1NGx7786A/jf+GVm+ASzBKN/FOdKE20N+Ak/tCZ
-         GjoEU+fl11epizhXiYM9plgHdT5CRZOZG3Vwxhjb27/wvt7WsmAGyLl8Ia5t3Aj6UX+t
-         z0iGIlrMtPdzyrwpD5ES4/aSbjf6u8ios8d+p8z3un+nxLb+zGl8vqOL8yqnITKukNS2
-         /0GQ==
+        bh=82o2Y2KiE0HozF+GYQi6tmAzj6RMDe9n3Z+K4reRYh0=;
+        b=154GMmj9MG786fDQzO7H7UD2HwkHQ3JJpMQ7l31EGJ3ZlYfR14orgGRiMGzxZdB8vQ
+         nj66IEonziMo6RFpJGo/rL65k48bmRZPa7JfGeQZrnrpNvX7RaQa3g4Zrr3q/O1o0+U+
+         r3ZnwRWllOMUBW+f071qQUFLbLo1OpnRV8qG0WIIVk3/KDR+7Ey4+7iKBn5kxgWlHOB/
+         a9zVGleIcaIcBxSxGPvyJb1c6jKg09GriNRi6Kb4M/2X9vQaWyLCr+8fr10ksMH8oF3h
+         O7zn8ZA0Oox+S97z6rJHIAZUkl2OIFi85ERFrGAX3XeqqVJ4CVCy2HYomit37RAAODvg
+         Sr1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680575976; x=1683167976;
+        d=1e100.net; s=20210112; t=1680575975; x=1683167975;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FVp+/4f3OmihDqpPvS7L46aY43oDf1/uv4Tf/d9zV0I=;
-        b=uzho5pvgblFqJPfX1hQsprciEobR/I/rQvmvbR2LY7HQcwEzt4Z7CLj2sAllATqwJ+
-         hegMqFQJ1UNn1BjuEHJbXVciECvj8QKVPHUVloKQeK7LU5aS1EQtxLx2H7Hn/t9QbVeK
-         6bXmTUYjqmNNxajC8/bwUG/RUFp63VqfAHDL0wojQRGB6V5xsVsYwqjZLButXfwQBOAb
-         TTi3PR2jh4oTTz1p6LyW9OXbvFP70t+HKmlgFIteu4UytRUF+NLBNnrE2fQynkZmco5S
-         1f13DeyoapEfrJ6eT0ZI3ElA9W8cwdBH0wHrcDya+99PsNbWXWYtudykGwCndiCJdv7N
-         olnA==
-X-Gm-Message-State: AAQBX9fJvguzPm6IEN/5uj2c8bfTcLTcwIGTwvlEEjjJGu7Vx0fnMutd
-	ojJ4cs44+NcybG2o2+0SEm3+BBXXB33sdwVoZE0=
-X-Google-Smtp-Source: AKy350YAl8wWHrzUIOiNDViepG6L2Zv4H8so6+vEaj9cNAU1F08mmTuq2hGvhYSmKCfIER2+c9kNIA==
-X-Received: by 2002:a62:6204:0:b0:625:cb74:9e01 with SMTP id w4-20020a626204000000b00625cb749e01mr564048pfb.25.1680575976420;
-        Mon, 03 Apr 2023 19:39:36 -0700 (PDT)
+        bh=82o2Y2KiE0HozF+GYQi6tmAzj6RMDe9n3Z+K4reRYh0=;
+        b=011L36mzyBzLXOOeoTSJA5binja9PHxviWAeRB3fSgYW9rM663Bsvr5lQsevm/P6hu
+         e72YG2kLutzmOwiAU84RhVSbmmLPJUXeuF+YmyrjqjdklGPdZWsBetTTBQ1qqxBQlqf1
+         FF12vRQNy5Hg2vCV8XB8yRjTMF7sgoJNZjBhhMI1ZiEbxPxLZtiMzNFEINLmID0PVPID
+         A+f+u+jRbqPu1tSBTzG8UI7t/t5adN62Kf3EwYERPDHCsQi9DBAA1OgO6V9IpTb1PJXf
+         Yqm48vN/f8h1F/OHm8DU/fx+JLZiM6dhetvJjVOzkUZ6qibqPO2FWfO29e+A7IJchbFk
+         LCTQ==
+X-Gm-Message-State: AAQBX9f2wvDpbffmXhnaECScXQk79iaH0Ay5ZnJRzfcr594js48uKDEV
+	9G6Lp4YT2E3WEv97aOyG1GTc06oBCfT+hX1OHfc=
+X-Google-Smtp-Source: AKy350YH+M+rEY5+W5K2I5kUx1lm/C5rRfPZ7nnsu/b2bMmAKHgHtMbLdys4tSJsO1Zio8PKU84YlA==
+X-Received: by 2002:a05:6a20:b55c:b0:da:6993:73d5 with SMTP id ev28-20020a056a20b55c00b000da699373d5mr666217pzb.47.1680575974196;
+        Mon, 03 Apr 2023 19:39:34 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id a14-20020aa7864e000000b0062deace7c0csm6850569pfo.190.2023.04.03.19.39.35
+        by smtp.gmail.com with ESMTPSA id a14-20020aa7864e000000b0062deace7c0csm6850569pfo.190.2023.04.03.19.39.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Apr 2023 19:39:35 -0700 (PDT)
+        Mon, 03 Apr 2023 19:39:33 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 4/7] qemu: fix compile error which imported by CVE-2022-4144
-Date: Mon,  3 Apr 2023 16:39:13 -1000
-Message-Id: <d17f4c741c66268ce54ff89be2be9b0402c98df2.1680575792.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 3/7] git: Security fix for CVE-2023-22490 and CVE-2023-23946
+Date: Mon,  3 Apr 2023 16:39:12 -1000
+Message-Id: <071fb3b177bcbdd02ae2c28aad97af681c091e42.1680575792.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1680575792.git.steve@sakoman.com>
 References: <cover.1680575792.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 04 Apr 2023 02:39:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179663
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179662
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Upstream-Status: Backport from https://github.com/qemu/qemu/commit/61c34fc && https://gitlab.com/qemu-project/qemu/-/commit/8efec0ef8bbc1e75a7ebf6e325a35806ece9b39f
+Upstream-Status: Backport from
+https://github.com/git/git/commit/58325b93c5b6212697b088371809e9948fee8052
+&
+https://github.com/git/git/commit/cf8f6ce02a13f4d1979a53241afbee15a293fce9
+& https://github.com/git/git/commit/bffc762f87ae8d18c6001bf0044a76004245754c
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- ...ass-requested-buffer-size-to-qxl_phy.patch | 236 ++++++++++++++++++
- 2 files changed, 237 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/hw-display-qxl-Pass-requested-buffer-size-to-qxl_phy.patch
+ .../git/files/CVE-2023-22490-1.patch          | 179 +++++++++++++++++
+ .../git/files/CVE-2023-22490-2.patch          | 122 ++++++++++++
+ .../git/files/CVE-2023-22490-3.patch          | 154 +++++++++++++++
+ .../git/files/CVE-2023-23946.patch            | 184 ++++++++++++++++++
+ meta/recipes-devtools/git/git.inc             |   4 +
+ 5 files changed, 643 insertions(+)
+ create mode 100644 meta/recipes-devtools/git/files/CVE-2023-22490-1.patch
+ create mode 100644 meta/recipes-devtools/git/files/CVE-2023-22490-2.patch
+ create mode 100644 meta/recipes-devtools/git/files/CVE-2023-22490-3.patch
+ create mode 100644 meta/recipes-devtools/git/files/CVE-2023-23946.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 600a2af022..5466303c94 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -134,6 +134,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2021-3409-3.patch \
-            file://CVE-2021-3409-4.patch \
-            file://CVE-2021-3409-5.patch \
-+           file://hw-display-qxl-Pass-requested-buffer-size-to-qxl_phy.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/hw-display-qxl-Pass-requested-buffer-size-to-qxl_phy.patch b/meta/recipes-devtools/qemu/qemu/hw-display-qxl-Pass-requested-buffer-size-to-qxl_phy.patch
+diff --git a/meta/recipes-devtools/git/files/CVE-2023-22490-1.patch b/meta/recipes-devtools/git/files/CVE-2023-22490-1.patch
 new file mode 100644
-index 0000000000..f380be486c
+index 0000000000..cc9b448c5c
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/hw-display-qxl-Pass-requested-buffer-size-to-qxl_phy.patch
-@@ -0,0 +1,236 @@
-+From 5a44a01c9eca6507be45d107c27377a3e8d0ee8c Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-+Date: Mon, 28 Nov 2022 21:27:39 +0100
-+Subject: [PATCH] hw/display/qxl: Pass requested buffer size to qxl_phys2virt()
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-devtools/git/files/CVE-2023-22490-1.patch
+@@ -0,0 +1,179 @@
++From 58325b93c5b6212697b088371809e9948fee8052 Mon Sep 17 00:00:00 2001
++From: Taylor Blau <me@ttaylorr.com>
++Date: Tue, 24 Jan 2023 19:43:45 -0500
++Subject: [PATCH 1/3] t5619: demonstrate clone_local() with ambiguous transport
 +
-+Currently qxl_phys2virt() doesn't check for buffer overrun.
-+In order to do so in the next commit, pass the buffer size
-+as argument.
++When cloning a repository, Git must determine (a) what transport
++mechanism to use, and (b) whether or not the clone is local.
 +
-+For QXLCursor in qxl_render_cursor() -> qxl_cursor() we
-+verify the size of the chunked data ahead, checking we can
-+access 'sizeof(QXLCursor) + chunk->data_size' bytes.
-+Since in the SPICE_CURSOR_TYPE_MONO case the cursor is
-+assumed to fit in one chunk, no change are required.
-+In SPICE_CURSOR_TYPE_ALPHA the ahead read is handled in
-+qxl_unpack_chunks().
++Since f38aa83 (use local cloning if insteadOf makes a local URL,
++2014-07-17), the latter check happens after the remote has been
++initialized, and references the remote's URL instead of the local path.
++This is done to make it possible for a `url.<base>.insteadOf` rule to
++convert a remote URL into a local one, in which case the `clone_local()`
++mechanism should be used.
 +
-+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-+Message-Id: <20221128202741.4945-4-philmd@linaro.org>
++However, with a specially crafted repository, Git can be tricked into
++using a non-local transport while still setting `is_local` to "1" and
++using the `clone_local()` optimization. The below test case
++demonstrates such an instance, and shows that it can be used to include
++arbitrary (known) paths in the working copy of a cloned repository on a
++victim's machine[^1], even if local file clones are forbidden by
++`protocol.file.allow`.
 +
-+Backport and rebase patch to fix compile error which imported by CVE-2022-4144.patch:
++This happens in a few parts:
 +
-+/qxl.c: In function 'qxl_phys2virt':
-+| /home/hitendra/work/yocto-work/cgx-data/dunfell-3.1/x86-generic-64-5.4-3.1-cgx/project/tmp/work/i586-montavistamllib32-linux/lib32-qemu/4.2.0-r0.8/qemu-4.2.0/hw/display/qxl.c:1508:67: error: 'size' undeclared (first use in this function); did you mean 'gsize'?
-+|  1508 |         if (!qxl_get_check_slot_offset(qxl, pqxl, &slot, &offset, size)) {
-+|       |                                                                   ^~~~
-+|       |                                                                   gsize
++ 1. We first call `get_repo_path()` to see if the remote is a local
++    path. If it is, we replace the repo name with its absolute path.
 +
-+Upstream-Status: Backport [https://github.com/qemu/qemu/commit/61c34fc && https://gitlab.com/qemu-project/qemu/-/commit/8efec0ef8bbc1e75a7ebf6e325a35806ece9b39f]
++ 2. We then call `transport_get()` on the repo name and decide how to
++    access it. If it was turned into an absolute path in the previous
++    step, then we should always treat it like a file.
 +
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++ 3. We use `get_repo_path()` again, and set `is_local` as appropriate.
++    But it's already too late to rewrite the repo name as an absolute
++    path, since we've already fed it to the transport code.
++
++The attack works by including a submodule whose URL corresponds to a
++path on disk. In the below example, the repository "sub" is reachable
++via the dumb HTTP protocol at (something like):
++
++    http://127.0.0.1:NNNN/dumb/sub.git
++
++However, the path "http:/127.0.0.1:NNNN/dumb" (that is, a top-level
++directory called "http:", then nested directories "127.0.0.1:NNNN", and
++"dumb") exists within the repository, too.
++
++To determine this, it first picks the appropriate transport, which is
++dumb HTTP. It then uses the remote's URL in order to determine whether
++the repository exists locally on disk. However, the malicious repository
++also contains an embedded stub repository which is the target of a
++symbolic link at the local path corresponding to the "sub" repository on
++disk (i.e., there is a symbolic link at "http:/127.0.0.1/dumb/sub.git",
++pointing to the stub repository via ".git/modules/sub/../../../repo").
++
++This stub repository fools Git into thinking that a local repository
++exists at that URL and thus can be cloned locally. The affected call is
++in `get_repo_path()`, which in turn calls `get_repo_path_1()`, which
++locates a valid repository at that target.
++
++This then causes Git to set the `is_local` variable to "1", and in turn
++instructs Git to clone the repository using its local clone optimization
++via the `clone_local()` function.
++
++The exploit comes into play because the stub repository's top-level
++"$GIT_DIR/objects" directory is a symbolic link which can point to an
++arbitrary path on the victim's machine. `clone_local()` resolves the
++top-level "objects" directory through a `stat(2)` call, meaning that we
++read through the symbolic link and copy or hardlink the directory
++contents at the destination of the link.
++
++In other words, we can get steps (1) and (3) to disagree by leveraging
++the dangling symlink to pick a non-local transport in the first step,
++and then set is_local to "1" in the third step when cloning with
++`--separate-git-dir`, which makes the symlink non-dangling.
++
++This can result in data-exfiltration on the victim's machine when
++sensitive data is at a known path (e.g., "/home/$USER/.ssh").
++
++The appropriate fix is two-fold:
++
++ - Resolve the transport later on (to avoid using the local
++   clone optimization with a non-local transport).
++
++ - Avoid reading through the top-level "objects" directory when
++   (correctly) using the clone_local() optimization.
++
++This patch merely demonstrates the issue. The following two patches will
++implement each part of the above fix, respectively.
++
++[^1]: Provided that any target directory does not contain symbolic
++  links, in which case the changes from 6f054f9 (builtin/clone.c:
++  disallow `--local` clones with symlinks, 2022-07-28) will abort the
++  clone.
++
++Reported-by: yvvdwf <yvvdwf@gmail.com>
++Signed-off-by: Taylor Blau <me@ttaylorr.com>
++Signed-off-by: Junio C Hamano <gitster@pobox.com>
++
++Upstream-Status: Backport
++[https://github.com/git/git/commit/58325b93c5b6212697b088371809e9948fee8052]
++CVE: CVE-2023-22490
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ hw/display/qxl-logger.c | 22 +++++++++++++++++++---
-+ hw/display/qxl-render.c | 20 ++++++++++++++++----
-+ hw/display/qxl.c        | 17 +++++++++++------
-+ hw/display/qxl.h        |  3 ++-
-+ 4 files changed, 48 insertions(+), 14 deletions(-)
++ t/t5619-clone-local-ambiguous-transport.sh | 63 ++++++++++++++++++++++
++ 1 file changed, 63 insertions(+)
++ create mode 100644 t/t5619-clone-local-ambiguous-transport.sh
 +
-+diff --git a/hw/display/qxl-logger.c b/hw/display/qxl-logger.c
-+index 2ec6d8fa..031ddfec 100644
-+--- a/hw/display/qxl-logger.c
-++++ b/hw/display/qxl-logger.c
-+@@ -106,7 +106,7 @@ static int qxl_log_image(PCIQXLDevice *qxl, QXLPHYSICAL addr, int group_id)
-+     QXLImage *image;
-+     QXLImageDescriptor *desc;
-+ 
-+-    image = qxl_phys2virt(qxl, addr, group_id);
-++    image = qxl_phys2virt(qxl, addr, group_id, sizeof(QXLImage));
-+     if (!image) {
-+         return 1;
-+     }
-+@@ -216,7 +216,8 @@ int qxl_log_cmd_cursor(PCIQXLDevice *qxl, QXLCursorCmd *cmd, int group_id)
-+                 cmd->u.set.position.y,
-+                 cmd->u.set.visible ? "yes" : "no",
-+                 cmd->u.set.shape);
-+-        cursor = qxl_phys2virt(qxl, cmd->u.set.shape, group_id);
-++        cursor = qxl_phys2virt(qxl, cmd->u.set.shape, group_id,
-++                               sizeof(QXLCursor));
-+         if (!cursor) {
-+             return 1;
-+         }
-+@@ -238,6 +239,7 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *ring, QXLCommandExt *ext)
-+ {
-+     bool compat = ext->flags & QXL_COMMAND_FLAG_COMPAT;
-+     void *data;
-++    size_t datasz;
-+     int ret;
-+ 
-+     if (!qxl->cmdlog) {
-+@@ -249,7 +251,20 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *ring, QXLCommandExt *ext)
-+             qxl_name(qxl_type, ext->cmd.type),
-+             compat ? "(compat)" : "");
-+ 
-+-    data = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
-++    switch (ext->cmd.type) {
-++    case QXL_CMD_DRAW:
-++        datasz = compat ? sizeof(QXLCompatDrawable) : sizeof(QXLDrawable);
-++        break;
-++    case QXL_CMD_SURFACE:
-++        datasz = sizeof(QXLSurfaceCmd);
-++        break;
-++    case QXL_CMD_CURSOR:
-++        datasz = sizeof(QXLCursorCmd);
-++        break;
-++    default:
-++        goto out;
-++    }
-++    data = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id, datasz);
-+     if (!data) {
-+         return 1;
-+     }
-+@@ -271,6 +286,7 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *ring, QXLCommandExt *ext)
-+         qxl_log_cmd_cursor(qxl, data, ext->group_id);
-+         break;
-+     }
-++out:
-+     fprintf(stderr, "\n");
-+     return 0;
-+ }
-+diff --git a/hw/display/qxl-render.c b/hw/display/qxl-render.c
-+index d532e157..a65a6d64 100644
-+--- a/hw/display/qxl-render.c
-++++ b/hw/display/qxl-render.c
-+@@ -107,7 +107,9 @@ static void qxl_render_update_area_unlocked(PCIQXLDevice *qxl)
-+         qxl->guest_primary.resized = 0;
-+         qxl->guest_primary.data = qxl_phys2virt(qxl,
-+                                                 qxl->guest_primary.surface.mem,
-+-                                                MEMSLOT_GROUP_GUEST);
-++                                                MEMSLOT_GROUP_GUEST,
-++                                                qxl->guest_primary.abs_stride
-++                                                * height);
-+         if (!qxl->guest_primary.data) {
-+             return;
-+         }
-+@@ -222,7 +224,8 @@ static void qxl_unpack_chunks(void *dest, size_t size, PCIQXLDevice *qxl,
-+         if (offset == size) {
-+             return;
-+         }
-+-        chunk = qxl_phys2virt(qxl, chunk->next_chunk, group_id);
-++        chunk = qxl_phys2virt(qxl, chunk->next_chunk, group_id,
-++                              sizeof(QXLDataChunk) + chunk->data_size);
-+         if (!chunk) {
-+             return;
-+         }
-+@@ -289,7 +292,8 @@ fail:
-+ /* called from spice server thread context only */
-+ int qxl_render_cursor(PCIQXLDevice *qxl, QXLCommandExt *ext)
-+ {
-+-    QXLCursorCmd *cmd = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
-++    QXLCursorCmd *cmd = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id,
-++                                      sizeof(QXLCursorCmd));
-+     QXLCursor *cursor;
-+     QEMUCursor *c;
-+ 
-+@@ -308,7 +312,15 @@ int qxl_render_cursor(PCIQXLDevice *qxl, QXLCommandExt *ext)
-+     }
-+     switch (cmd->type) {
-+     case QXL_CURSOR_SET:
-+-        cursor = qxl_phys2virt(qxl, cmd->u.set.shape, ext->group_id);
-++        /* First read the QXLCursor to get QXLDataChunk::data_size ... */
-++        cursor = qxl_phys2virt(qxl, cmd->u.set.shape, ext->group_id,
-++                               sizeof(QXLCursor));
-++        if (!cursor) {
-++            return 1;
-++        }
-++        /* Then read including the chunked data following QXLCursor. */
-++        cursor = qxl_phys2virt(qxl, cmd->u.set.shape, ext->group_id,
-++                               sizeof(QXLCursor) + cursor->chunk.data_size);
-+         if (!cursor) {
-+             return 1;
-+         }
-+diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-+index 6bc8385b..858d3e93 100644
-+--- a/hw/display/qxl.c
-++++ b/hw/display/qxl.c
-+@@ -275,7 +275,8 @@ static void qxl_spice_monitors_config_async(PCIQXLDevice *qxl, int replay)
-+                                           QXL_IO_MONITORS_CONFIG_ASYNC));
-+     }
-+ 
-+-    cfg = qxl_phys2virt(qxl, qxl->guest_monitors_config, MEMSLOT_GROUP_GUEST);
-++    cfg = qxl_phys2virt(qxl, qxl->guest_monitors_config, MEMSLOT_GROUP_GUEST,
-++                        sizeof(QXLMonitorsConfig));
-+     if (cfg != NULL && cfg->count == 1) {
-+         qxl->guest_primary.resized = 1;
-+         qxl->guest_head0_width  = cfg->heads[0].width;
-+@@ -460,7 +461,8 @@ static int qxl_track_command(PCIQXLDevice *qxl, struct QXLCommandExt *ext)
-+     switch (le32_to_cpu(ext->cmd.type)) {
-+     case QXL_CMD_SURFACE:
-+     {
-+-        QXLSurfaceCmd *cmd = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
-++        QXLSurfaceCmd *cmd = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id,
-++                                           sizeof(QXLSurfaceCmd));
-+ 
-+         if (!cmd) {
-+             return 1;
-+@@ -494,7 +496,8 @@ static int qxl_track_command(PCIQXLDevice *qxl, struct QXLCommandExt *ext)
-+     }
-+     case QXL_CMD_CURSOR:
-+     {
-+-        QXLCursorCmd *cmd = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
-++        QXLCursorCmd *cmd = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id,
-++                                          sizeof(QXLCursorCmd));
-+ 
-+         if (!cmd) {
-+             return 1;
-+@@ -674,7 +677,8 @@ static int interface_get_command(QXLInstance *sin, struct QXLCommandExt *ext)
-+              *
-+              * https://cgit.freedesktop.org/spice/win32/qxl-wddm-dod/commit/?id=f6e099db39e7d0787f294d5fd0dce328b5210faa
-+              */
-+-            void *msg = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
-++            void *msg = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id,
-++			    sizeof(QXLCommandRing));
-+             if (msg != NULL && (
-+                     msg < (void *)qxl->vga.vram_ptr ||
-+                     msg > ((void *)qxl->vga.vram_ptr + qxl->vga.vram_size))) {
-+@@ -1494,7 +1498,8 @@ static bool qxl_get_check_slot_offset(PCIQXLDevice *qxl, QXLPHYSICAL pqxl,
-+ }
-+ 
-+ /* can be also called from spice server thread context */
-+-void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL pqxl, int group_id)
-++void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL pqxl, int group_id,
-++                    size_t size)
-+ {
-+     uint64_t offset;
-+     uint32_t slot;
-+@@ -1994,7 +1999,7 @@ static void qxl_dirty_surfaces(PCIQXLDevice *qxl)
-+         }
-+ 
-+         cmd = qxl_phys2virt(qxl, qxl->guest_surfaces.cmds[i],
-+-                            MEMSLOT_GROUP_GUEST);
-++                            MEMSLOT_GROUP_GUEST, sizeof(QXLSurfaceCmd));
-+         assert(cmd);
-+         assert(cmd->type == QXL_SURFACE_CMD_CREATE);
-+         qxl_dirty_one_surface(qxl, cmd->u.surface_create.data,
-+diff --git a/hw/display/qxl.h b/hw/display/qxl.h
-+index 80eb0d26..fcfd133a 100644
-+--- a/hw/display/qxl.h
-++++ b/hw/display/qxl.h
-+@@ -147,7 +147,8 @@ typedef struct PCIQXLDevice {
-+ #define QXL_DEFAULT_REVISION QXL_REVISION_STABLE_V12
-+ 
-+ /* qxl.c */
-+-void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL phys, int group_id);
-++void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL phys, int group_id,
-++                    size_t size);
-+ void qxl_set_guest_bug(PCIQXLDevice *qxl, const char *msg, ...)
-+     GCC_FMT_ATTR(2, 3);
-+ 
++diff --git a/t/t5619-clone-local-ambiguous-transport.sh b/t/t5619-clone-local-ambiguous-transport.sh
++new file mode 100644
++index 0000000..7ebd31a
++--- /dev/null
+++++ b/t/t5619-clone-local-ambiguous-transport.sh
++@@ -0,0 +1,63 @@
+++#!/bin/sh
+++
+++test_description='test local clone with ambiguous transport'
+++
+++. ./test-lib.sh
+++. "$TEST_DIRECTORY/lib-httpd.sh"
+++
+++if ! test_have_prereq SYMLINKS
+++then
+++	skip_all='skipping test, symlink support unavailable'
+++	test_done
+++fi
+++
+++start_httpd
+++
+++REPO="$HTTPD_DOCUMENT_ROOT_PATH/sub.git"
+++URI="$HTTPD_URL/dumb/sub.git"
+++
+++test_expect_success 'setup' '
+++	mkdir -p sensitive &&
+++	echo "secret" >sensitive/secret &&
+++
+++	git init --bare "$REPO" &&
+++	test_commit_bulk -C "$REPO" --ref=main 1 &&
+++
+++	git -C "$REPO" update-ref HEAD main &&
+++	git -C "$REPO" update-server-info &&
+++
+++	git init malicious &&
+++	(
+++		cd malicious &&
+++
+++		git submodule add "$URI" &&
+++
+++		mkdir -p repo/refs &&
+++		touch repo/refs/.gitkeep &&
+++		printf "ref: refs/heads/a" >repo/HEAD &&
+++		ln -s "$(cd .. && pwd)/sensitive" repo/objects &&
+++
+++		mkdir -p "$HTTPD_URL/dumb" &&
+++		ln -s "../../../.git/modules/sub/../../../repo/" "$URI" &&
+++
+++		git add . &&
+++		git commit -m "initial commit"
+++	) &&
+++
+++	# Delete all of the references in our malicious submodule to
+++	# avoid the client attempting to checkout any objects (which
+++	# will be missing, and thus will cause the clone to fail before
+++	# we can trigger the exploit).
+++	git -C "$REPO" for-each-ref --format="delete %(refname)" >in &&
+++	git -C "$REPO" update-ref --stdin <in &&
+++	git -C "$REPO" update-server-info
+++'
+++
+++test_expect_failure 'ambiguous transport does not lead to arbitrary file-inclusion' '
+++	git clone malicious clone &&
+++	git -C clone submodule update --init &&
+++
+++	test_path_is_missing clone/.git/modules/sub/objects/secret
+++'
+++
+++test_done
 +-- 
 +2.25.1
 +
+diff --git a/meta/recipes-devtools/git/files/CVE-2023-22490-2.patch b/meta/recipes-devtools/git/files/CVE-2023-22490-2.patch
+new file mode 100644
+index 0000000000..0b5b40f827
+--- /dev/null
++++ b/meta/recipes-devtools/git/files/CVE-2023-22490-2.patch
+@@ -0,0 +1,122 @@
++From cf8f6ce02a13f4d1979a53241afbee15a293fce9 Mon Sep 17 00:00:00 2001
++From: Taylor Blau <me@ttaylorr.com>
++Date: Tue, 24 Jan 2023 19:43:48 -0500
++Subject: [PATCH 2/3] clone: delay picking a transport until after get_repo_path()
++
++In the previous commit, t5619 demonstrates an issue where two calls to
++`get_repo_path()` could trick Git into using its local clone mechanism
++in conjunction with a non-local transport.
++
++That sequence is:
++
++ - the starting state is that the local path https:/example.com/foo is a
++   symlink that points to ../../../.git/modules/foo. So it's dangling.
++
++ - get_repo_path() sees that no such path exists (because it's
++   dangling), and thus we do not canonicalize it into an absolute path
++
++ - because we're using --separate-git-dir, we create .git/modules/foo.
++   Now our symlink is no longer dangling!
++
++ - we pass the url to transport_get(), which sees it as an https URL.
++
++ - we call get_repo_path() again, on the url. This second call was
++   introduced by f38aa83 (use local cloning if insteadOf makes a
++   local URL, 2014-07-17). The idea is that we want to pull the url
++   fresh from the remote.c API, because it will apply any aliases.
++
++And of course now it sees that there is a local file, which is a
++mismatch with the transport we already selected.
++
++The issue in the above sequence is calling `transport_get()` before
++deciding whether or not the repository is indeed local, and not passing
++in an absolute path if it is local.
++
++This is reminiscent of a similar bug report in [1], where it was
++suggested to perform the `insteadOf` lookup earlier. Taking that
++approach may not be as straightforward, since the intent is to store the
++original URL in the config, but to actually fetch from the insteadOf
++one, so conflating the two early on is a non-starter.
++
++Note: we pass the path returned by `get_repo_path(remote->url[0])`,
++which should be the same as `repo_name` (aside from any `insteadOf`
++rewrites).
++
++We *could* pass `absolute_pathdup()` of the same argument, which
++86521ac (Bring local clone's origin URL in line with that of a remote
++clone, 2008-09-01) indicates may differ depending on the presence of
++".git/" for a non-bare repo. That matters for forming relative submodule
++paths, but doesn't matter for the second call, since we're just feeding
++it to the transport code, which is fine either way.
++
++[1]: https://lore.kernel.org/git/CAMoD=Bi41mB3QRn3JdZL-FGHs4w3C2jGpnJB-CqSndO7FMtfzA@mail.gmail.com/
++
++Signed-off-by: Jeff King <peff@peff.net>
++Signed-off-by: Taylor Blau <me@ttaylorr.com>
++Signed-off-by: Junio C Hamano <gitster@pobox.com>
++
++Upstream-Status: Backport
++[https://github.com/git/git/commit/cf8f6ce02a13f4d1979a53241afbee15a293fce9]
++CVE: CVE-2023-22490
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ builtin/clone.c                            |  8 ++++----
++ t/t5619-clone-local-ambiguous-transport.sh | 15 +++++++++++----
++ 2 files changed, 15 insertions(+), 8 deletions(-)
++
++diff --git a/builtin/clone.c b/builtin/clone.c
++index 53e04b1..b57e703 100644
++--- a/builtin/clone.c
+++++ b/builtin/clone.c
++@@ -1112,10 +1112,6 @@ int cmd_clone(int argc, const char **argv, const char *prefix)
++ 		    branch_top.buf);
++ 	refspec_append(&remote->fetch, default_refspec.buf);
++ 
++-	transport = transport_get(remote, remote->url[0]);
++-	transport_set_verbosity(transport, option_verbosity, option_progress);
++-	transport->family = family;
++-
++ 	path = get_repo_path(remote->url[0], &is_bundle);
++ 	is_local = option_local != 0 && path && !is_bundle;
++ 	if (is_local) {
++@@ -1135,6 +1131,10 @@ int cmd_clone(int argc, const char **argv, const char *prefix)
++ 	}
++ 	if (option_local > 0 && !is_local)
++ 		warning(_("--local is ignored"));
+++
+++	transport = transport_get(remote, path ? path : remote->url[0]);
+++	transport_set_verbosity(transport, option_verbosity, option_progress);
+++	transport->family = family;
++ 	transport->cloning = 1;
++ 
++ 	transport_set_option(transport, TRANS_OPT_KEEP, "yes");
++diff --git a/t/t5619-clone-local-ambiguous-transport.sh b/t/t5619-clone-local-ambiguous-transport.sh
++index 7ebd31a..cce62bf 100644
++--- a/t/t5619-clone-local-ambiguous-transport.sh
+++++ b/t/t5619-clone-local-ambiguous-transport.sh
++@@ -53,11 +53,18 @@ test_expect_success 'setup' '
++ 	git -C "$REPO" update-server-info
++ '
++ 
++-test_expect_failure 'ambiguous transport does not lead to arbitrary file-inclusion' '
+++test_expect_success 'ambiguous transport does not lead to arbitrary file-inclusion' '
++ 	git clone malicious clone &&
++-	git -C clone submodule update --init &&
++-
++-	test_path_is_missing clone/.git/modules/sub/objects/secret
+++	test_must_fail git -C clone submodule update --init 2>err &&
+++
+++	test_path_is_missing clone/.git/modules/sub/objects/secret &&
+++	# We would actually expect "transport .file. not allowed" here,
+++	# but due to quirks of the URL detection in Git, we mis-parse
+++	# the absolute path as a bogus URL and die before that step.
+++	#
+++	# This works for now, and if we ever fix the URL detection, it
+++	# is OK to change this to detect the transport error.
+++	grep "protocol .* is not supported" err
++ '
++ 
++ test_done
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/git/files/CVE-2023-22490-3.patch b/meta/recipes-devtools/git/files/CVE-2023-22490-3.patch
+new file mode 100644
+index 0000000000..08fb7f840b
+--- /dev/null
++++ b/meta/recipes-devtools/git/files/CVE-2023-22490-3.patch
+@@ -0,0 +1,154 @@
++From bffc762f87ae8d18c6001bf0044a76004245754c Mon Sep 17 00:00:00 2001
++From: Taylor Blau <me@ttaylorr.com>
++Date: Tue, 24 Jan 2023 19:43:51 -0500
++Subject: [PATCH 3/3] dir-iterator: prevent top-level symlinks without FOLLOW_SYMLINKS
++
++When using the dir_iterator API, we first stat(2) the base path, and
++then use that as a starting point to enumerate the directory's contents.
++
++If the directory contains symbolic links, we will immediately die() upon
++encountering them without the `FOLLOW_SYMLINKS` flag. The same is not
++true when resolving the top-level directory, though.
++
++As explained in a previous commit, this oversight in 6f054f9
++(builtin/clone.c: disallow `--local` clones with symlinks, 2022-07-28)
++can be used as an attack vector to include arbitrary files on a victim's
++filesystem from outside of the repository.
++
++Prevent resolving top-level symlinks unless the FOLLOW_SYMLINKS flag is
++given, which will cause clones of a repository with a symlink'd
++"$GIT_DIR/objects" directory to fail.
++
++Signed-off-by: Taylor Blau <me@ttaylorr.com>
++Signed-off-by: Junio C Hamano <gitster@pobox.com>
++
++Upstream-Status: Backport
++[https://github.com/git/git/commit/bffc762f87ae8d18c6001bf0044a76004245754c]
++CVE: CVE-2023-22490
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ dir-iterator.c             | 13 +++++++++----
++ dir-iterator.h             |  5 +++++
++ t/t0066-dir-iterator.sh    | 27 ++++++++++++++++++++++++++-
++ t/t5604-clone-reference.sh | 16 ++++++++++++++++
++ 4 files changed, 56 insertions(+), 5 deletions(-)
++
++diff --git a/dir-iterator.c b/dir-iterator.c
++index b17e9f9..3764dd8 100644
++--- a/dir-iterator.c
+++++ b/dir-iterator.c
++@@ -203,7 +203,7 @@ struct dir_iterator *dir_iterator_begin(const char *path, unsigned int flags)
++ {
++ 	struct dir_iterator_int *iter = xcalloc(1, sizeof(*iter));
++ 	struct dir_iterator *dir_iterator = &iter->base;
++-	int saved_errno;
+++	int saved_errno, err;
++ 
++ 	strbuf_init(&iter->base.path, PATH_MAX);
++ 	strbuf_addstr(&iter->base.path, path);
++@@ -213,10 +213,15 @@ struct dir_iterator *dir_iterator_begin(const char *path, unsigned int flags)
++ 	iter->flags = flags;
++ 
++ 	/*
++-	 * Note: stat already checks for NULL or empty strings and
++-	 * inexistent paths.
+++	 * Note: stat/lstat already checks for NULL or empty strings and
+++	 * nonexistent paths.
++ 	 */
++-	if (stat(iter->base.path.buf, &iter->base.st) < 0) {
+++	if (iter->flags & DIR_ITERATOR_FOLLOW_SYMLINKS)
+++		err = stat(iter->base.path.buf, &iter->base.st);
+++	else
+++		err = lstat(iter->base.path.buf, &iter->base.st);
+++
+++	if (err < 0) {
++ 		saved_errno = errno;
++ 		goto error_out;
++ 	}
++diff --git a/dir-iterator.h b/dir-iterator.h
++index 0822915..e3b6ff2 100644
++--- a/dir-iterator.h
+++++ b/dir-iterator.h
++@@ -61,6 +61,11 @@
++  *   not the symlinks themselves, which is the default behavior. Broken
++  *   symlinks are ignored.
++  *
+++ *   Note: setting DIR_ITERATOR_FOLLOW_SYMLINKS affects resolving the
+++ *   starting path as well (e.g., attempting to iterate starting at a
+++ *   symbolic link pointing to a directory without FOLLOW_SYMLINKS will
+++ *   result in an error).
+++ *
++  * Warning: circular symlinks are also followed when
++  * DIR_ITERATOR_FOLLOW_SYMLINKS is set. The iteration may end up with
++  * an ELOOP if they happen and DIR_ITERATOR_PEDANTIC is set.
++diff --git a/t/t0066-dir-iterator.sh b/t/t0066-dir-iterator.sh
++index 92910e4..c826f60 100755
++--- a/t/t0066-dir-iterator.sh
+++++ b/t/t0066-dir-iterator.sh
++@@ -109,7 +109,9 @@ test_expect_success SYMLINKS 'setup dirs with symlinks' '
++ 	mkdir -p dir5/a/c &&
++ 	ln -s ../c dir5/a/b/d &&
++ 	ln -s ../ dir5/a/b/e &&
++-	ln -s ../../ dir5/a/b/f
+++	ln -s ../../ dir5/a/b/f &&
+++
+++	ln -s dir4 dir6
++ '
++ 
++ test_expect_success SYMLINKS 'dir-iterator should not follow symlinks by default' '
++@@ -145,4 +147,27 @@ test_expect_success SYMLINKS 'dir-iterator should follow symlinks w/ follow flag
++ 	test_cmp expected-follow-sorted-output actual-follow-sorted-output
++ '
++ 
+++test_expect_success SYMLINKS 'dir-iterator does not resolve top-level symlinks' '
+++	test_must_fail test-tool dir-iterator ./dir6 >out &&
+++
+++	grep "ENOTDIR" out
+++'
+++
+++test_expect_success SYMLINKS 'dir-iterator resolves top-level symlinks w/ follow flag' '
+++	cat >expected-follow-sorted-output <<-EOF &&
+++	[d] (a) [a] ./dir6/a
+++	[d] (a/f) [f] ./dir6/a/f
+++	[d] (a/f/c) [c] ./dir6/a/f/c
+++	[d] (b) [b] ./dir6/b
+++	[d] (b/c) [c] ./dir6/b/c
+++	[f] (a/d) [d] ./dir6/a/d
+++	[f] (a/e) [e] ./dir6/a/e
+++	EOF
+++
+++	test-tool dir-iterator --follow-symlinks ./dir6 >out &&
+++	sort out >actual-follow-sorted-output &&
+++
+++	test_cmp expected-follow-sorted-output actual-follow-sorted-output
+++'
+++
++ test_done
++diff --git a/t/t5604-clone-reference.sh b/t/t5604-clone-reference.sh
++index 4894237..615b981 100755
++--- a/t/t5604-clone-reference.sh
+++++ b/t/t5604-clone-reference.sh
++@@ -354,4 +354,20 @@ test_expect_success SYMLINKS 'clone repo with symlinked or unknown files at obje
++ 	test_must_be_empty T--shared.objects-symlinks.raw
++ '
++ 
+++test_expect_success SYMLINKS 'clone repo with symlinked objects directory' '
+++	test_when_finished "rm -fr sensitive malicious" &&
+++
+++	mkdir -p sensitive &&
+++	echo "secret" >sensitive/file &&
+++
+++	git init malicious &&
+++	rm -fr malicious/.git/objects &&
+++	ln -s "$(pwd)/sensitive" ./malicious/.git/objects &&
+++
+++	test_must_fail git clone --local malicious clone 2>err &&
+++
+++	test_path_is_missing clone &&
+++	grep "failed to start iterator over" err
+++'
+++
++ test_done
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/git/files/CVE-2023-23946.patch b/meta/recipes-devtools/git/files/CVE-2023-23946.patch
+new file mode 100644
+index 0000000000..3629ff57b2
+--- /dev/null
++++ b/meta/recipes-devtools/git/files/CVE-2023-23946.patch
+@@ -0,0 +1,184 @@
++From fade728df1221598f42d391cf377e9e84a32053f Mon Sep 17 00:00:00 2001
++From: Patrick Steinhardt <ps@pks.im>
++Date: Thu, 2 Feb 2023 11:54:34 +0100
++Subject: [PATCH] apply: fix writing behind newly created symbolic links
++
++When writing files git-apply(1) initially makes sure that none of the
++files it is about to create are behind a symlink:
++
++```
++ $ git init repo
++ Initialized empty Git repository in /tmp/repo/.git/
++ $ cd repo/
++ $ ln -s dir symlink
++ $ git apply - <<EOF
++ diff --git a/symlink/file b/symlink/file
++ new file mode 100644
++ index 0000000..e69de29
++ EOF
++ error: affected file 'symlink/file' is beyond a symbolic link
++```
++
++This safety mechanism is crucial to ensure that we don't write outside
++of the repository's working directory. It can be fooled though when the
++patch that is being applied creates the symbolic link in the first
++place, which can lead to writing files in arbitrary locations.
++
++Fix this by checking whether the path we're about to create is
++beyond a symlink or not. Tightening these checks like this should be
++fine as we already have these precautions in Git as explained
++above. Ideally, we should update the check we do up-front before
++starting to reflect the computed changes to the working tree so that
++we catch this case as well, but as part of embargoed security work,
++adding an equivalent check just before we try to write out a file
++should serve us well as a reasonable first step.
++
++Digging back into history shows that this vulnerability has existed
++since at least Git v2.9.0. As Git v2.8.0 and older don't build on my
++system anymore I cannot tell whether older versions are affected, as
++well.
++
++Reported-by: Joern Schneeweisz <jschneeweisz@gitlab.com>
++Signed-off-by: Patrick Steinhardt <ps@pks.im>
++Signed-off-by: Junio C Hamano <gitster@pobox.com>
++
++Upstream-Status: Backport
++[https://github.com/git/git/commit/fade728df1221598f42d391cf377e9e84a32053f]
++CVE: CVE-2023-23946
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ apply.c                  | 27 ++++++++++++++
++ t/t4115-apply-symlink.sh | 81 ++++++++++++++++++++++++++++++++++++++++
++ 2 files changed, 108 insertions(+)
++
++diff --git a/apply.c b/apply.c
++index f8a046a..4f303bf 100644
++--- a/apply.c
+++++ b/apply.c
++@@ -4373,6 +4373,33 @@ static int create_one_file(struct apply_state *state,
++ 	if (state->cached)
++ 		return 0;
++ 
+++	/*
+++	 * We already try to detect whether files are beyond a symlink in our
+++	 * up-front checks. But in the case where symlinks are created by any
+++	 * of the intermediate hunks it can happen that our up-front checks
+++	 * didn't yet see the symlink, but at the point of arriving here there
+++	 * in fact is one. We thus repeat the check for symlinks here.
+++	 *
+++	 * Note that this does not make the up-front check obsolete as the
+++	 * failure mode is different:
+++	 *
+++	 * - The up-front checks cause us to abort before we have written
+++	 *   anything into the working directory. So when we exit this way the
+++	 *   working directory remains clean.
+++	 *
+++	 * - The checks here happen in the middle of the action where we have
+++	 *   already started to apply the patch. The end result will be a dirty
+++	 *   working directory.
+++	 *
+++	 * Ideally, we should update the up-front checks to catch what would
+++	 * happen when we apply the patch before we damage the working tree.
+++	 * We have all the information necessary to do so.  But for now, as a
+++	 * part of embargoed security work, having this check would serve as a
+++	 * reasonable first step.
+++	 */
+++	if (path_is_beyond_symlink(state, path))
+++		return error(_("affected file '%s' is beyond a symbolic link"), path);
+++
++ 	res = try_create_file(state, path, mode, buf, size);
++ 	if (res < 0)
++ 		return -1;
++diff --git a/t/t4115-apply-symlink.sh b/t/t4115-apply-symlink.sh
++index 872fcda..1acb7b2 100755
++--- a/t/t4115-apply-symlink.sh
+++++ b/t/t4115-apply-symlink.sh
++@@ -44,4 +44,85 @@ test_expect_success 'apply --index symlink patch' '
++ 
++ '
++ 
+++test_expect_success 'symlink setup' '
+++	ln -s .git symlink &&
+++	git add symlink &&
+++	git commit -m "add symlink"
+++'
+++
+++test_expect_success SYMLINKS 'symlink escape when creating new files' '
+++	test_when_finished "git reset --hard && git clean -dfx" &&
+++
+++	cat >patch <<-EOF &&
+++	diff --git a/symlink b/renamed-symlink
+++	similarity index 100%
+++	rename from symlink
+++	rename to renamed-symlink
+++	--
+++	diff --git /dev/null b/renamed-symlink/create-me
+++	new file mode 100644
+++	index 0000000..039727e
+++	--- /dev/null
+++	+++ b/renamed-symlink/create-me
+++	@@ -0,0 +1,1 @@
+++	+busted
+++	EOF
+++
+++	test_must_fail git apply patch 2>stderr &&
+++	cat >expected_stderr <<-EOF &&
+++	error: affected file ${SQ}renamed-symlink/create-me${SQ} is beyond a symbolic link
+++	EOF
+++	test_cmp expected_stderr stderr &&
+++	! test_path_exists .git/create-me
+++'
+++
+++test_expect_success SYMLINKS 'symlink escape when modifying file' '
+++	test_when_finished "git reset --hard && git clean -dfx" &&
+++	touch .git/modify-me &&
+++
+++	cat >patch <<-EOF &&
+++	diff --git a/symlink b/renamed-symlink
+++	similarity index 100%
+++	rename from symlink
+++	rename to renamed-symlink
+++	--
+++	diff --git a/renamed-symlink/modify-me b/renamed-symlink/modify-me
+++	index 1111111..2222222 100644
+++	--- a/renamed-symlink/modify-me
+++	+++ b/renamed-symlink/modify-me
+++	@@ -0,0 +1,1 @@
+++	+busted
+++	EOF
+++
+++	test_must_fail git apply patch 2>stderr &&
+++	cat >expected_stderr <<-EOF &&
+++	error: renamed-symlink/modify-me: No such file or directory
+++	EOF
+++	test_cmp expected_stderr stderr &&
+++	test_must_be_empty .git/modify-me
+++'
+++
+++test_expect_success SYMLINKS 'symlink escape when deleting file' '
+++	test_when_finished "git reset --hard && git clean -dfx && rm .git/delete-me" &&
+++	touch .git/delete-me &&
+++
+++	cat >patch <<-EOF &&
+++	diff --git a/symlink b/renamed-symlink
+++	similarity index 100%
+++	rename from symlink
+++	rename to renamed-symlink
+++	--
+++	diff --git a/renamed-symlink/delete-me b/renamed-symlink/delete-me
+++	deleted file mode 100644
+++	index 1111111..0000000 100644
+++	EOF
+++
+++	test_must_fail git apply patch 2>stderr &&
+++	cat >expected_stderr <<-EOF &&
+++	error: renamed-symlink/delete-me: No such file or directory
+++	EOF
+++	test_cmp expected_stderr stderr &&
+++	test_path_is_file .git/delete-me
+++'
+++
++ test_done
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index 235cb8e4c0..36318eed20 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -24,6 +24,10 @@ SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
+            file://CVE-2022-41903-10.patch \
+            file://CVE-2022-41903-11.patch \
+            file://CVE-2022-41903-12.patch \
++           file://CVE-2023-22490-1.patch \
++           file://CVE-2023-22490-2.patch \
++           file://CVE-2023-22490-3.patch \
++           file://CVE-2023-23946.patch \
+            "
+ S = "${WORKDIR}/git-${PV}"
+ 
 -- 
 2.34.1
 
