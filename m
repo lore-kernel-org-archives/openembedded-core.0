@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF38EC76196
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE821C77B60
 	for <webhook@archiver.kernel.org>; Tue,  4 Apr 2023 02:39:38 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web10.91955.1680575975907879341
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web11.92069.1680575972870574674
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Apr 2023 19:39:36 -0700
+ Mon, 03 Apr 2023 19:39:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=154GMmj9;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f51.google.com with SMTP id f6-20020a17090ac28600b0023b9bf9eb63so32523256pjt.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 19:39:35 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=fSfTVFxR;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f174.google.com with SMTP id x37so18766754pga.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Apr 2023 19:39:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680575975; x=1683167975;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680575972; x=1683167972;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=82o2Y2KiE0HozF+GYQi6tmAzj6RMDe9n3Z+K4reRYh0=;
-        b=154GMmj9MG786fDQzO7H7UD2HwkHQ3JJpMQ7l31EGJ3ZlYfR14orgGRiMGzxZdB8vQ
-         nj66IEonziMo6RFpJGo/rL65k48bmRZPa7JfGeQZrnrpNvX7RaQa3g4Zrr3q/O1o0+U+
-         r3ZnwRWllOMUBW+f071qQUFLbLo1OpnRV8qG0WIIVk3/KDR+7Ey4+7iKBn5kxgWlHOB/
-         a9zVGleIcaIcBxSxGPvyJb1c6jKg09GriNRi6Kb4M/2X9vQaWyLCr+8fr10ksMH8oF3h
-         O7zn8ZA0Oox+S97z6rJHIAZUkl2OIFi85ERFrGAX3XeqqVJ4CVCy2HYomit37RAAODvg
-         Sr1w==
+        bh=y0kbmbUzgXEJmjmpxqcrndDtg7P2qrABn3fWaE5Bm10=;
+        b=fSfTVFxRkfTFmQ/n79v56zfeAH5OmaEwE7VXvoupwWbG+wmkf6gCKjv8ttG0t13+bx
+         r5NxTELxNw+S19JP9Wr6KqjNs1ir5B6EHN9lMmJSfK1O9AQSbEClj9BYbYoGqGWoy29v
+         VZjFzGC/pH+p0/xrVrLTIFujM40l9lC1s0KcsSbVafXIst2dPf9PkvSDikra+n/V5Uki
+         ODBy7mnoRUVDtC+oHgQe9DfEJ9j4lhDUwvT4Ngko/LqcLhC4EKvqo8lYGfihXuh05/rV
+         wCt2zZr1TYrvDnpfmMlVmx8d0078izmDkvF2Vdpwvfw5jjbyIyROjA+RWhVD6D6Refaw
+         +vXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680575975; x=1683167975;
+        d=1e100.net; s=20210112; t=1680575972; x=1683167972;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=82o2Y2KiE0HozF+GYQi6tmAzj6RMDe9n3Z+K4reRYh0=;
-        b=011L36mzyBzLXOOeoTSJA5binja9PHxviWAeRB3fSgYW9rM663Bsvr5lQsevm/P6hu
-         e72YG2kLutzmOwiAU84RhVSbmmLPJUXeuF+YmyrjqjdklGPdZWsBetTTBQ1qqxBQlqf1
-         FF12vRQNy5Hg2vCV8XB8yRjTMF7sgoJNZjBhhMI1ZiEbxPxLZtiMzNFEINLmID0PVPID
-         A+f+u+jRbqPu1tSBTzG8UI7t/t5adN62Kf3EwYERPDHCsQi9DBAA1OgO6V9IpTb1PJXf
-         Yqm48vN/f8h1F/OHm8DU/fx+JLZiM6dhetvJjVOzkUZ6qibqPO2FWfO29e+A7IJchbFk
-         LCTQ==
-X-Gm-Message-State: AAQBX9f2wvDpbffmXhnaECScXQk79iaH0Ay5ZnJRzfcr594js48uKDEV
-	9G6Lp4YT2E3WEv97aOyG1GTc06oBCfT+hX1OHfc=
-X-Google-Smtp-Source: AKy350YH+M+rEY5+W5K2I5kUx1lm/C5rRfPZ7nnsu/b2bMmAKHgHtMbLdys4tSJsO1Zio8PKU84YlA==
-X-Received: by 2002:a05:6a20:b55c:b0:da:6993:73d5 with SMTP id ev28-20020a056a20b55c00b000da699373d5mr666217pzb.47.1680575974196;
-        Mon, 03 Apr 2023 19:39:34 -0700 (PDT)
+        bh=y0kbmbUzgXEJmjmpxqcrndDtg7P2qrABn3fWaE5Bm10=;
+        b=FEGDdex9mDcNWfAO3U8bsuKxQ+nKRU8/426WVQaLodKhDGHbhctMLvAG+w2yAbc/G7
+         lpAcQiE337ydeBNPWnenfTBpIo+EsEbo0YYMj30NGXw5P0jPUY41hz0G9WBId+YAQKGq
+         k7tJXVLVpBCF+9P2b0R6g8S8pK2PLm/d8UM2Zym0D5tRgSJgSYA90qCGwrW8yyMV80jC
+         6946rwSFGAWanBSZs74VcYXsbsmeytUggf8a8IZ1DZmZniA1m5HZ9pBFALJMCrfNBUxJ
+         l9BCCLdgEV+WgmoHhaytzPaZOfmyPQTEXz+U11l9eCGmLLVuhcJ/1SPGh1d+qgyz759B
+         ZUhw==
+X-Gm-Message-State: AAQBX9c4k+BO2/chl2QmUDp1AeXJPk/Xjo1nTy25eGo6agOQOrnXx9oH
+	7HoVpK9lJSeLKH2oKctLRVKFRmGGoAiShDApHf0=
+X-Google-Smtp-Source: AKy350YqyBJBqQCARZRCSxVwNi0oViUHL4qC7XAvUAxesLeTAt8r2mTxHF+F+SmcvXjPmE8WGEtg4Q==
+X-Received: by 2002:a62:4e54:0:b0:575:b783:b6b3 with SMTP id c81-20020a624e54000000b00575b783b6b3mr629621pfb.28.1680575971860;
+        Mon, 03 Apr 2023 19:39:31 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id a14-20020aa7864e000000b0062deace7c0csm6850569pfo.190.2023.04.03.19.39.32
+        by smtp.gmail.com with ESMTPSA id a14-20020aa7864e000000b0062deace7c0csm6850569pfo.190.2023.04.03.19.39.30
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Apr 2023 19:39:33 -0700 (PDT)
+        Mon, 03 Apr 2023 19:39:31 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 3/7] git: Security fix for CVE-2023-22490 and CVE-2023-23946
-Date: Mon,  3 Apr 2023 16:39:12 -1000
-Message-Id: <071fb3b177bcbdd02ae2c28aad97af681c091e42.1680575792.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 2/7] go-runtime: Security fix for CVE-2022-41723
+Date: Mon,  3 Apr 2023 16:39:11 -1000
+Message-Id: <53a303fb5908edaf29e35abb08fff93e7c0ff92c.1680575792.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1680575792.git.steve@sakoman.com>
 References: <cover.1680575792.git.steve@sakoman.com>
@@ -61,708 +61,197 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 04 Apr 2023 02:39:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179662
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179661
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Shubham Kulkarni <skulkarni@mvista.com>
 
-Upstream-Status: Backport from
-https://github.com/git/git/commit/58325b93c5b6212697b088371809e9948fee8052
-&
-https://github.com/git/git/commit/cf8f6ce02a13f4d1979a53241afbee15a293fce9
-& https://github.com/git/git/commit/bffc762f87ae8d18c6001bf0044a76004245754c
+Disable cmd/internal/moddeps test, since this update includes PRIVATE
+track fixes.
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Backport from https://github.com/golang/go/commit/5c3e11bd0b5c0a86e5beffcd4339b86a902b21c3
+
+Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../git/files/CVE-2023-22490-1.patch          | 179 +++++++++++++++++
- .../git/files/CVE-2023-22490-2.patch          | 122 ++++++++++++
- .../git/files/CVE-2023-22490-3.patch          | 154 +++++++++++++++
- .../git/files/CVE-2023-23946.patch            | 184 ++++++++++++++++++
- meta/recipes-devtools/git/git.inc             |   4 +
- 5 files changed, 643 insertions(+)
- create mode 100644 meta/recipes-devtools/git/files/CVE-2023-22490-1.patch
- create mode 100644 meta/recipes-devtools/git/files/CVE-2023-22490-2.patch
- create mode 100644 meta/recipes-devtools/git/files/CVE-2023-22490-3.patch
- create mode 100644 meta/recipes-devtools/git/files/CVE-2023-23946.patch
+ meta/recipes-devtools/go/go-1.14.inc          |   1 +
+ .../go/go-1.14/CVE-2022-41723.patch           | 156 ++++++++++++++++++
+ 2 files changed, 157 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2022-41723.patch
 
-diff --git a/meta/recipes-devtools/git/files/CVE-2023-22490-1.patch b/meta/recipes-devtools/git/files/CVE-2023-22490-1.patch
-new file mode 100644
-index 0000000000..cc9b448c5c
---- /dev/null
-+++ b/meta/recipes-devtools/git/files/CVE-2023-22490-1.patch
-@@ -0,0 +1,179 @@
-+From 58325b93c5b6212697b088371809e9948fee8052 Mon Sep 17 00:00:00 2001
-+From: Taylor Blau <me@ttaylorr.com>
-+Date: Tue, 24 Jan 2023 19:43:45 -0500
-+Subject: [PATCH 1/3] t5619: demonstrate clone_local() with ambiguous transport
-+
-+When cloning a repository, Git must determine (a) what transport
-+mechanism to use, and (b) whether or not the clone is local.
-+
-+Since f38aa83 (use local cloning if insteadOf makes a local URL,
-+2014-07-17), the latter check happens after the remote has been
-+initialized, and references the remote's URL instead of the local path.
-+This is done to make it possible for a `url.<base>.insteadOf` rule to
-+convert a remote URL into a local one, in which case the `clone_local()`
-+mechanism should be used.
-+
-+However, with a specially crafted repository, Git can be tricked into
-+using a non-local transport while still setting `is_local` to "1" and
-+using the `clone_local()` optimization. The below test case
-+demonstrates such an instance, and shows that it can be used to include
-+arbitrary (known) paths in the working copy of a cloned repository on a
-+victim's machine[^1], even if local file clones are forbidden by
-+`protocol.file.allow`.
-+
-+This happens in a few parts:
-+
-+ 1. We first call `get_repo_path()` to see if the remote is a local
-+    path. If it is, we replace the repo name with its absolute path.
-+
-+ 2. We then call `transport_get()` on the repo name and decide how to
-+    access it. If it was turned into an absolute path in the previous
-+    step, then we should always treat it like a file.
-+
-+ 3. We use `get_repo_path()` again, and set `is_local` as appropriate.
-+    But it's already too late to rewrite the repo name as an absolute
-+    path, since we've already fed it to the transport code.
-+
-+The attack works by including a submodule whose URL corresponds to a
-+path on disk. In the below example, the repository "sub" is reachable
-+via the dumb HTTP protocol at (something like):
-+
-+    http://127.0.0.1:NNNN/dumb/sub.git
-+
-+However, the path "http:/127.0.0.1:NNNN/dumb" (that is, a top-level
-+directory called "http:", then nested directories "127.0.0.1:NNNN", and
-+"dumb") exists within the repository, too.
-+
-+To determine this, it first picks the appropriate transport, which is
-+dumb HTTP. It then uses the remote's URL in order to determine whether
-+the repository exists locally on disk. However, the malicious repository
-+also contains an embedded stub repository which is the target of a
-+symbolic link at the local path corresponding to the "sub" repository on
-+disk (i.e., there is a symbolic link at "http:/127.0.0.1/dumb/sub.git",
-+pointing to the stub repository via ".git/modules/sub/../../../repo").
-+
-+This stub repository fools Git into thinking that a local repository
-+exists at that URL and thus can be cloned locally. The affected call is
-+in `get_repo_path()`, which in turn calls `get_repo_path_1()`, which
-+locates a valid repository at that target.
-+
-+This then causes Git to set the `is_local` variable to "1", and in turn
-+instructs Git to clone the repository using its local clone optimization
-+via the `clone_local()` function.
-+
-+The exploit comes into play because the stub repository's top-level
-+"$GIT_DIR/objects" directory is a symbolic link which can point to an
-+arbitrary path on the victim's machine. `clone_local()` resolves the
-+top-level "objects" directory through a `stat(2)` call, meaning that we
-+read through the symbolic link and copy or hardlink the directory
-+contents at the destination of the link.
-+
-+In other words, we can get steps (1) and (3) to disagree by leveraging
-+the dangling symlink to pick a non-local transport in the first step,
-+and then set is_local to "1" in the third step when cloning with
-+`--separate-git-dir`, which makes the symlink non-dangling.
-+
-+This can result in data-exfiltration on the victim's machine when
-+sensitive data is at a known path (e.g., "/home/$USER/.ssh").
-+
-+The appropriate fix is two-fold:
-+
-+ - Resolve the transport later on (to avoid using the local
-+   clone optimization with a non-local transport).
-+
-+ - Avoid reading through the top-level "objects" directory when
-+   (correctly) using the clone_local() optimization.
-+
-+This patch merely demonstrates the issue. The following two patches will
-+implement each part of the above fix, respectively.
-+
-+[^1]: Provided that any target directory does not contain symbolic
-+  links, in which case the changes from 6f054f9 (builtin/clone.c:
-+  disallow `--local` clones with symlinks, 2022-07-28) will abort the
-+  clone.
-+
-+Reported-by: yvvdwf <yvvdwf@gmail.com>
-+Signed-off-by: Taylor Blau <me@ttaylorr.com>
-+Signed-off-by: Junio C Hamano <gitster@pobox.com>
-+
-+Upstream-Status: Backport
-+[https://github.com/git/git/commit/58325b93c5b6212697b088371809e9948fee8052]
-+CVE: CVE-2023-22490
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ t/t5619-clone-local-ambiguous-transport.sh | 63 ++++++++++++++++++++++
-+ 1 file changed, 63 insertions(+)
-+ create mode 100644 t/t5619-clone-local-ambiguous-transport.sh
-+
-+diff --git a/t/t5619-clone-local-ambiguous-transport.sh b/t/t5619-clone-local-ambiguous-transport.sh
-+new file mode 100644
-+index 0000000..7ebd31a
-+--- /dev/null
-++++ b/t/t5619-clone-local-ambiguous-transport.sh
-+@@ -0,0 +1,63 @@
-++#!/bin/sh
-++
-++test_description='test local clone with ambiguous transport'
-++
-++. ./test-lib.sh
-++. "$TEST_DIRECTORY/lib-httpd.sh"
-++
-++if ! test_have_prereq SYMLINKS
-++then
-++	skip_all='skipping test, symlink support unavailable'
-++	test_done
-++fi
-++
-++start_httpd
-++
-++REPO="$HTTPD_DOCUMENT_ROOT_PATH/sub.git"
-++URI="$HTTPD_URL/dumb/sub.git"
-++
-++test_expect_success 'setup' '
-++	mkdir -p sensitive &&
-++	echo "secret" >sensitive/secret &&
-++
-++	git init --bare "$REPO" &&
-++	test_commit_bulk -C "$REPO" --ref=main 1 &&
-++
-++	git -C "$REPO" update-ref HEAD main &&
-++	git -C "$REPO" update-server-info &&
-++
-++	git init malicious &&
-++	(
-++		cd malicious &&
-++
-++		git submodule add "$URI" &&
-++
-++		mkdir -p repo/refs &&
-++		touch repo/refs/.gitkeep &&
-++		printf "ref: refs/heads/a" >repo/HEAD &&
-++		ln -s "$(cd .. && pwd)/sensitive" repo/objects &&
-++
-++		mkdir -p "$HTTPD_URL/dumb" &&
-++		ln -s "../../../.git/modules/sub/../../../repo/" "$URI" &&
-++
-++		git add . &&
-++		git commit -m "initial commit"
-++	) &&
-++
-++	# Delete all of the references in our malicious submodule to
-++	# avoid the client attempting to checkout any objects (which
-++	# will be missing, and thus will cause the clone to fail before
-++	# we can trigger the exploit).
-++	git -C "$REPO" for-each-ref --format="delete %(refname)" >in &&
-++	git -C "$REPO" update-ref --stdin <in &&
-++	git -C "$REPO" update-server-info
-++'
-++
-++test_expect_failure 'ambiguous transport does not lead to arbitrary file-inclusion' '
-++	git clone malicious clone &&
-++	git -C clone submodule update --init &&
-++
-++	test_path_is_missing clone/.git/modules/sub/objects/secret
-++'
-++
-++test_done
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/git/files/CVE-2023-22490-2.patch b/meta/recipes-devtools/git/files/CVE-2023-22490-2.patch
-new file mode 100644
-index 0000000000..0b5b40f827
---- /dev/null
-+++ b/meta/recipes-devtools/git/files/CVE-2023-22490-2.patch
-@@ -0,0 +1,122 @@
-+From cf8f6ce02a13f4d1979a53241afbee15a293fce9 Mon Sep 17 00:00:00 2001
-+From: Taylor Blau <me@ttaylorr.com>
-+Date: Tue, 24 Jan 2023 19:43:48 -0500
-+Subject: [PATCH 2/3] clone: delay picking a transport until after get_repo_path()
-+
-+In the previous commit, t5619 demonstrates an issue where two calls to
-+`get_repo_path()` could trick Git into using its local clone mechanism
-+in conjunction with a non-local transport.
-+
-+That sequence is:
-+
-+ - the starting state is that the local path https:/example.com/foo is a
-+   symlink that points to ../../../.git/modules/foo. So it's dangling.
-+
-+ - get_repo_path() sees that no such path exists (because it's
-+   dangling), and thus we do not canonicalize it into an absolute path
-+
-+ - because we're using --separate-git-dir, we create .git/modules/foo.
-+   Now our symlink is no longer dangling!
-+
-+ - we pass the url to transport_get(), which sees it as an https URL.
-+
-+ - we call get_repo_path() again, on the url. This second call was
-+   introduced by f38aa83 (use local cloning if insteadOf makes a
-+   local URL, 2014-07-17). The idea is that we want to pull the url
-+   fresh from the remote.c API, because it will apply any aliases.
-+
-+And of course now it sees that there is a local file, which is a
-+mismatch with the transport we already selected.
-+
-+The issue in the above sequence is calling `transport_get()` before
-+deciding whether or not the repository is indeed local, and not passing
-+in an absolute path if it is local.
-+
-+This is reminiscent of a similar bug report in [1], where it was
-+suggested to perform the `insteadOf` lookup earlier. Taking that
-+approach may not be as straightforward, since the intent is to store the
-+original URL in the config, but to actually fetch from the insteadOf
-+one, so conflating the two early on is a non-starter.
-+
-+Note: we pass the path returned by `get_repo_path(remote->url[0])`,
-+which should be the same as `repo_name` (aside from any `insteadOf`
-+rewrites).
-+
-+We *could* pass `absolute_pathdup()` of the same argument, which
-+86521ac (Bring local clone's origin URL in line with that of a remote
-+clone, 2008-09-01) indicates may differ depending on the presence of
-+".git/" for a non-bare repo. That matters for forming relative submodule
-+paths, but doesn't matter for the second call, since we're just feeding
-+it to the transport code, which is fine either way.
-+
-+[1]: https://lore.kernel.org/git/CAMoD=Bi41mB3QRn3JdZL-FGHs4w3C2jGpnJB-CqSndO7FMtfzA@mail.gmail.com/
-+
-+Signed-off-by: Jeff King <peff@peff.net>
-+Signed-off-by: Taylor Blau <me@ttaylorr.com>
-+Signed-off-by: Junio C Hamano <gitster@pobox.com>
-+
-+Upstream-Status: Backport
-+[https://github.com/git/git/commit/cf8f6ce02a13f4d1979a53241afbee15a293fce9]
-+CVE: CVE-2023-22490
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ builtin/clone.c                            |  8 ++++----
-+ t/t5619-clone-local-ambiguous-transport.sh | 15 +++++++++++----
-+ 2 files changed, 15 insertions(+), 8 deletions(-)
-+
-+diff --git a/builtin/clone.c b/builtin/clone.c
-+index 53e04b1..b57e703 100644
-+--- a/builtin/clone.c
-++++ b/builtin/clone.c
-+@@ -1112,10 +1112,6 @@ int cmd_clone(int argc, const char **argv, const char *prefix)
-+ 		    branch_top.buf);
-+ 	refspec_append(&remote->fetch, default_refspec.buf);
-+ 
-+-	transport = transport_get(remote, remote->url[0]);
-+-	transport_set_verbosity(transport, option_verbosity, option_progress);
-+-	transport->family = family;
-+-
-+ 	path = get_repo_path(remote->url[0], &is_bundle);
-+ 	is_local = option_local != 0 && path && !is_bundle;
-+ 	if (is_local) {
-+@@ -1135,6 +1131,10 @@ int cmd_clone(int argc, const char **argv, const char *prefix)
-+ 	}
-+ 	if (option_local > 0 && !is_local)
-+ 		warning(_("--local is ignored"));
-++
-++	transport = transport_get(remote, path ? path : remote->url[0]);
-++	transport_set_verbosity(transport, option_verbosity, option_progress);
-++	transport->family = family;
-+ 	transport->cloning = 1;
-+ 
-+ 	transport_set_option(transport, TRANS_OPT_KEEP, "yes");
-+diff --git a/t/t5619-clone-local-ambiguous-transport.sh b/t/t5619-clone-local-ambiguous-transport.sh
-+index 7ebd31a..cce62bf 100644
-+--- a/t/t5619-clone-local-ambiguous-transport.sh
-++++ b/t/t5619-clone-local-ambiguous-transport.sh
-+@@ -53,11 +53,18 @@ test_expect_success 'setup' '
-+ 	git -C "$REPO" update-server-info
-+ '
-+ 
-+-test_expect_failure 'ambiguous transport does not lead to arbitrary file-inclusion' '
-++test_expect_success 'ambiguous transport does not lead to arbitrary file-inclusion' '
-+ 	git clone malicious clone &&
-+-	git -C clone submodule update --init &&
-+-
-+-	test_path_is_missing clone/.git/modules/sub/objects/secret
-++	test_must_fail git -C clone submodule update --init 2>err &&
-++
-++	test_path_is_missing clone/.git/modules/sub/objects/secret &&
-++	# We would actually expect "transport .file. not allowed" here,
-++	# but due to quirks of the URL detection in Git, we mis-parse
-++	# the absolute path as a bogus URL and die before that step.
-++	#
-++	# This works for now, and if we ever fix the URL detection, it
-++	# is OK to change this to detect the transport error.
-++	grep "protocol .* is not supported" err
-+ '
-+ 
-+ test_done
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/git/files/CVE-2023-22490-3.patch b/meta/recipes-devtools/git/files/CVE-2023-22490-3.patch
-new file mode 100644
-index 0000000000..08fb7f840b
---- /dev/null
-+++ b/meta/recipes-devtools/git/files/CVE-2023-22490-3.patch
-@@ -0,0 +1,154 @@
-+From bffc762f87ae8d18c6001bf0044a76004245754c Mon Sep 17 00:00:00 2001
-+From: Taylor Blau <me@ttaylorr.com>
-+Date: Tue, 24 Jan 2023 19:43:51 -0500
-+Subject: [PATCH 3/3] dir-iterator: prevent top-level symlinks without FOLLOW_SYMLINKS
-+
-+When using the dir_iterator API, we first stat(2) the base path, and
-+then use that as a starting point to enumerate the directory's contents.
-+
-+If the directory contains symbolic links, we will immediately die() upon
-+encountering them without the `FOLLOW_SYMLINKS` flag. The same is not
-+true when resolving the top-level directory, though.
-+
-+As explained in a previous commit, this oversight in 6f054f9
-+(builtin/clone.c: disallow `--local` clones with symlinks, 2022-07-28)
-+can be used as an attack vector to include arbitrary files on a victim's
-+filesystem from outside of the repository.
-+
-+Prevent resolving top-level symlinks unless the FOLLOW_SYMLINKS flag is
-+given, which will cause clones of a repository with a symlink'd
-+"$GIT_DIR/objects" directory to fail.
-+
-+Signed-off-by: Taylor Blau <me@ttaylorr.com>
-+Signed-off-by: Junio C Hamano <gitster@pobox.com>
-+
-+Upstream-Status: Backport
-+[https://github.com/git/git/commit/bffc762f87ae8d18c6001bf0044a76004245754c]
-+CVE: CVE-2023-22490
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ dir-iterator.c             | 13 +++++++++----
-+ dir-iterator.h             |  5 +++++
-+ t/t0066-dir-iterator.sh    | 27 ++++++++++++++++++++++++++-
-+ t/t5604-clone-reference.sh | 16 ++++++++++++++++
-+ 4 files changed, 56 insertions(+), 5 deletions(-)
-+
-+diff --git a/dir-iterator.c b/dir-iterator.c
-+index b17e9f9..3764dd8 100644
-+--- a/dir-iterator.c
-++++ b/dir-iterator.c
-+@@ -203,7 +203,7 @@ struct dir_iterator *dir_iterator_begin(const char *path, unsigned int flags)
-+ {
-+ 	struct dir_iterator_int *iter = xcalloc(1, sizeof(*iter));
-+ 	struct dir_iterator *dir_iterator = &iter->base;
-+-	int saved_errno;
-++	int saved_errno, err;
-+ 
-+ 	strbuf_init(&iter->base.path, PATH_MAX);
-+ 	strbuf_addstr(&iter->base.path, path);
-+@@ -213,10 +213,15 @@ struct dir_iterator *dir_iterator_begin(const char *path, unsigned int flags)
-+ 	iter->flags = flags;
-+ 
-+ 	/*
-+-	 * Note: stat already checks for NULL or empty strings and
-+-	 * inexistent paths.
-++	 * Note: stat/lstat already checks for NULL or empty strings and
-++	 * nonexistent paths.
-+ 	 */
-+-	if (stat(iter->base.path.buf, &iter->base.st) < 0) {
-++	if (iter->flags & DIR_ITERATOR_FOLLOW_SYMLINKS)
-++		err = stat(iter->base.path.buf, &iter->base.st);
-++	else
-++		err = lstat(iter->base.path.buf, &iter->base.st);
-++
-++	if (err < 0) {
-+ 		saved_errno = errno;
-+ 		goto error_out;
-+ 	}
-+diff --git a/dir-iterator.h b/dir-iterator.h
-+index 0822915..e3b6ff2 100644
-+--- a/dir-iterator.h
-++++ b/dir-iterator.h
-+@@ -61,6 +61,11 @@
-+  *   not the symlinks themselves, which is the default behavior. Broken
-+  *   symlinks are ignored.
-+  *
-++ *   Note: setting DIR_ITERATOR_FOLLOW_SYMLINKS affects resolving the
-++ *   starting path as well (e.g., attempting to iterate starting at a
-++ *   symbolic link pointing to a directory without FOLLOW_SYMLINKS will
-++ *   result in an error).
-++ *
-+  * Warning: circular symlinks are also followed when
-+  * DIR_ITERATOR_FOLLOW_SYMLINKS is set. The iteration may end up with
-+  * an ELOOP if they happen and DIR_ITERATOR_PEDANTIC is set.
-+diff --git a/t/t0066-dir-iterator.sh b/t/t0066-dir-iterator.sh
-+index 92910e4..c826f60 100755
-+--- a/t/t0066-dir-iterator.sh
-++++ b/t/t0066-dir-iterator.sh
-+@@ -109,7 +109,9 @@ test_expect_success SYMLINKS 'setup dirs with symlinks' '
-+ 	mkdir -p dir5/a/c &&
-+ 	ln -s ../c dir5/a/b/d &&
-+ 	ln -s ../ dir5/a/b/e &&
-+-	ln -s ../../ dir5/a/b/f
-++	ln -s ../../ dir5/a/b/f &&
-++
-++	ln -s dir4 dir6
-+ '
-+ 
-+ test_expect_success SYMLINKS 'dir-iterator should not follow symlinks by default' '
-+@@ -145,4 +147,27 @@ test_expect_success SYMLINKS 'dir-iterator should follow symlinks w/ follow flag
-+ 	test_cmp expected-follow-sorted-output actual-follow-sorted-output
-+ '
-+ 
-++test_expect_success SYMLINKS 'dir-iterator does not resolve top-level symlinks' '
-++	test_must_fail test-tool dir-iterator ./dir6 >out &&
-++
-++	grep "ENOTDIR" out
-++'
-++
-++test_expect_success SYMLINKS 'dir-iterator resolves top-level symlinks w/ follow flag' '
-++	cat >expected-follow-sorted-output <<-EOF &&
-++	[d] (a) [a] ./dir6/a
-++	[d] (a/f) [f] ./dir6/a/f
-++	[d] (a/f/c) [c] ./dir6/a/f/c
-++	[d] (b) [b] ./dir6/b
-++	[d] (b/c) [c] ./dir6/b/c
-++	[f] (a/d) [d] ./dir6/a/d
-++	[f] (a/e) [e] ./dir6/a/e
-++	EOF
-++
-++	test-tool dir-iterator --follow-symlinks ./dir6 >out &&
-++	sort out >actual-follow-sorted-output &&
-++
-++	test_cmp expected-follow-sorted-output actual-follow-sorted-output
-++'
-++
-+ test_done
-+diff --git a/t/t5604-clone-reference.sh b/t/t5604-clone-reference.sh
-+index 4894237..615b981 100755
-+--- a/t/t5604-clone-reference.sh
-++++ b/t/t5604-clone-reference.sh
-+@@ -354,4 +354,20 @@ test_expect_success SYMLINKS 'clone repo with symlinked or unknown files at obje
-+ 	test_must_be_empty T--shared.objects-symlinks.raw
-+ '
-+ 
-++test_expect_success SYMLINKS 'clone repo with symlinked objects directory' '
-++	test_when_finished "rm -fr sensitive malicious" &&
-++
-++	mkdir -p sensitive &&
-++	echo "secret" >sensitive/file &&
-++
-++	git init malicious &&
-++	rm -fr malicious/.git/objects &&
-++	ln -s "$(pwd)/sensitive" ./malicious/.git/objects &&
-++
-++	test_must_fail git clone --local malicious clone 2>err &&
-++
-++	test_path_is_missing clone &&
-++	grep "failed to start iterator over" err
-++'
-++
-+ test_done
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/git/files/CVE-2023-23946.patch b/meta/recipes-devtools/git/files/CVE-2023-23946.patch
-new file mode 100644
-index 0000000000..3629ff57b2
---- /dev/null
-+++ b/meta/recipes-devtools/git/files/CVE-2023-23946.patch
-@@ -0,0 +1,184 @@
-+From fade728df1221598f42d391cf377e9e84a32053f Mon Sep 17 00:00:00 2001
-+From: Patrick Steinhardt <ps@pks.im>
-+Date: Thu, 2 Feb 2023 11:54:34 +0100
-+Subject: [PATCH] apply: fix writing behind newly created symbolic links
-+
-+When writing files git-apply(1) initially makes sure that none of the
-+files it is about to create are behind a symlink:
-+
-+```
-+ $ git init repo
-+ Initialized empty Git repository in /tmp/repo/.git/
-+ $ cd repo/
-+ $ ln -s dir symlink
-+ $ git apply - <<EOF
-+ diff --git a/symlink/file b/symlink/file
-+ new file mode 100644
-+ index 0000000..e69de29
-+ EOF
-+ error: affected file 'symlink/file' is beyond a symbolic link
-+```
-+
-+This safety mechanism is crucial to ensure that we don't write outside
-+of the repository's working directory. It can be fooled though when the
-+patch that is being applied creates the symbolic link in the first
-+place, which can lead to writing files in arbitrary locations.
-+
-+Fix this by checking whether the path we're about to create is
-+beyond a symlink or not. Tightening these checks like this should be
-+fine as we already have these precautions in Git as explained
-+above. Ideally, we should update the check we do up-front before
-+starting to reflect the computed changes to the working tree so that
-+we catch this case as well, but as part of embargoed security work,
-+adding an equivalent check just before we try to write out a file
-+should serve us well as a reasonable first step.
-+
-+Digging back into history shows that this vulnerability has existed
-+since at least Git v2.9.0. As Git v2.8.0 and older don't build on my
-+system anymore I cannot tell whether older versions are affected, as
-+well.
-+
-+Reported-by: Joern Schneeweisz <jschneeweisz@gitlab.com>
-+Signed-off-by: Patrick Steinhardt <ps@pks.im>
-+Signed-off-by: Junio C Hamano <gitster@pobox.com>
-+
-+Upstream-Status: Backport
-+[https://github.com/git/git/commit/fade728df1221598f42d391cf377e9e84a32053f]
-+CVE: CVE-2023-23946
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ apply.c                  | 27 ++++++++++++++
-+ t/t4115-apply-symlink.sh | 81 ++++++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 108 insertions(+)
-+
-+diff --git a/apply.c b/apply.c
-+index f8a046a..4f303bf 100644
-+--- a/apply.c
-++++ b/apply.c
-+@@ -4373,6 +4373,33 @@ static int create_one_file(struct apply_state *state,
-+ 	if (state->cached)
-+ 		return 0;
-+ 
-++	/*
-++	 * We already try to detect whether files are beyond a symlink in our
-++	 * up-front checks. But in the case where symlinks are created by any
-++	 * of the intermediate hunks it can happen that our up-front checks
-++	 * didn't yet see the symlink, but at the point of arriving here there
-++	 * in fact is one. We thus repeat the check for symlinks here.
-++	 *
-++	 * Note that this does not make the up-front check obsolete as the
-++	 * failure mode is different:
-++	 *
-++	 * - The up-front checks cause us to abort before we have written
-++	 *   anything into the working directory. So when we exit this way the
-++	 *   working directory remains clean.
-++	 *
-++	 * - The checks here happen in the middle of the action where we have
-++	 *   already started to apply the patch. The end result will be a dirty
-++	 *   working directory.
-++	 *
-++	 * Ideally, we should update the up-front checks to catch what would
-++	 * happen when we apply the patch before we damage the working tree.
-++	 * We have all the information necessary to do so.  But for now, as a
-++	 * part of embargoed security work, having this check would serve as a
-++	 * reasonable first step.
-++	 */
-++	if (path_is_beyond_symlink(state, path))
-++		return error(_("affected file '%s' is beyond a symbolic link"), path);
-++
-+ 	res = try_create_file(state, path, mode, buf, size);
-+ 	if (res < 0)
-+ 		return -1;
-+diff --git a/t/t4115-apply-symlink.sh b/t/t4115-apply-symlink.sh
-+index 872fcda..1acb7b2 100755
-+--- a/t/t4115-apply-symlink.sh
-++++ b/t/t4115-apply-symlink.sh
-+@@ -44,4 +44,85 @@ test_expect_success 'apply --index symlink patch' '
-+ 
-+ '
-+ 
-++test_expect_success 'symlink setup' '
-++	ln -s .git symlink &&
-++	git add symlink &&
-++	git commit -m "add symlink"
-++'
-++
-++test_expect_success SYMLINKS 'symlink escape when creating new files' '
-++	test_when_finished "git reset --hard && git clean -dfx" &&
-++
-++	cat >patch <<-EOF &&
-++	diff --git a/symlink b/renamed-symlink
-++	similarity index 100%
-++	rename from symlink
-++	rename to renamed-symlink
-++	--
-++	diff --git /dev/null b/renamed-symlink/create-me
-++	new file mode 100644
-++	index 0000000..039727e
-++	--- /dev/null
-++	+++ b/renamed-symlink/create-me
-++	@@ -0,0 +1,1 @@
-++	+busted
-++	EOF
-++
-++	test_must_fail git apply patch 2>stderr &&
-++	cat >expected_stderr <<-EOF &&
-++	error: affected file ${SQ}renamed-symlink/create-me${SQ} is beyond a symbolic link
-++	EOF
-++	test_cmp expected_stderr stderr &&
-++	! test_path_exists .git/create-me
-++'
-++
-++test_expect_success SYMLINKS 'symlink escape when modifying file' '
-++	test_when_finished "git reset --hard && git clean -dfx" &&
-++	touch .git/modify-me &&
-++
-++	cat >patch <<-EOF &&
-++	diff --git a/symlink b/renamed-symlink
-++	similarity index 100%
-++	rename from symlink
-++	rename to renamed-symlink
-++	--
-++	diff --git a/renamed-symlink/modify-me b/renamed-symlink/modify-me
-++	index 1111111..2222222 100644
-++	--- a/renamed-symlink/modify-me
-++	+++ b/renamed-symlink/modify-me
-++	@@ -0,0 +1,1 @@
-++	+busted
-++	EOF
-++
-++	test_must_fail git apply patch 2>stderr &&
-++	cat >expected_stderr <<-EOF &&
-++	error: renamed-symlink/modify-me: No such file or directory
-++	EOF
-++	test_cmp expected_stderr stderr &&
-++	test_must_be_empty .git/modify-me
-++'
-++
-++test_expect_success SYMLINKS 'symlink escape when deleting file' '
-++	test_when_finished "git reset --hard && git clean -dfx && rm .git/delete-me" &&
-++	touch .git/delete-me &&
-++
-++	cat >patch <<-EOF &&
-++	diff --git a/symlink b/renamed-symlink
-++	similarity index 100%
-++	rename from symlink
-++	rename to renamed-symlink
-++	--
-++	diff --git a/renamed-symlink/delete-me b/renamed-symlink/delete-me
-++	deleted file mode 100644
-++	index 1111111..0000000 100644
-++	EOF
-++
-++	test_must_fail git apply patch 2>stderr &&
-++	cat >expected_stderr <<-EOF &&
-++	error: renamed-symlink/delete-me: No such file or directory
-++	EOF
-++	test_cmp expected_stderr stderr &&
-++	test_path_is_file .git/delete-me
-++'
-++
-+ test_done
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index 235cb8e4c0..36318eed20 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -24,6 +24,10 @@ SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
-            file://CVE-2022-41903-10.patch \
-            file://CVE-2022-41903-11.patch \
-            file://CVE-2022-41903-12.patch \
-+           file://CVE-2023-22490-1.patch \
-+           file://CVE-2023-22490-2.patch \
-+           file://CVE-2023-22490-3.patch \
-+           file://CVE-2023-23946.patch \
-            "
- S = "${WORKDIR}/git-${PV}"
+diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
+index be9abb5b2d..f2a5fc3f7c 100644
+--- a/meta/recipes-devtools/go/go-1.14.inc
++++ b/meta/recipes-devtools/go/go-1.14.inc
+@@ -52,6 +52,7 @@ SRC_URI += "\
+     file://CVE-2022-41715.patch \
+     file://CVE-2022-41717.patch \
+     file://CVE-2022-1962.patch \
++    file://CVE-2022-41723.patch \
+ "
  
+ SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
+diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2022-41723.patch b/meta/recipes-devtools/go/go-1.14/CVE-2022-41723.patch
+new file mode 100644
+index 0000000000..a93fa31dcd
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.14/CVE-2022-41723.patch
+@@ -0,0 +1,156 @@
++From 451766789f646617157c725e20c955d4a9a70d4e Mon Sep 17 00:00:00 2001
++From: Roland Shoemaker <bracewell@google.com>
++Date: Mon, 6 Feb 2023 10:03:44 -0800
++Subject: [PATCH] net/http: update bundled golang.org/x/net/http2
++
++Disable cmd/internal/moddeps test, since this update includes PRIVATE
++track fixes.
++
++Fixes CVE-2022-41723
++Fixes #58355
++Updates #57855
++
++Change-Id: Ie870562a6f6e44e4e8f57db6a0dde1a41a2b090c
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1728939
++Reviewed-by: Damien Neil <dneil@google.com>
++Reviewed-by: Julie Qiu <julieqiu@google.com>
++Reviewed-by: Tatiana Bradley <tatianabradley@google.com>
++Run-TryBot: Roland Shoemaker <bracewell@google.com>
++Reviewed-on: https://go-review.googlesource.com/c/go/+/468118
++TryBot-Result: Gopher Robot <gobot@golang.org>
++Run-TryBot: Michael Pratt <mpratt@google.com>
++Auto-Submit: Michael Pratt <mpratt@google.com>
++Reviewed-by: Than McIntosh <thanm@google.com>
++
++Upstream-Status: Backport [https://github.com/golang/go/commit/5c3e11bd0b5c0a86e5beffcd4339b86a902b21c3]
++CVE: CVE-2022-41723
++Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
++---
++ src/vendor/golang.org/x/net/http2/hpack/hpack.go | 79 +++++++++++++++---------
++ 1 file changed, 49 insertions(+), 30 deletions(-)
++
++diff --git a/src/vendor/golang.org/x/net/http2/hpack/hpack.go b/src/vendor/golang.org/x/net/http2/hpack/hpack.go
++index 85f18a2..02e80e3 100644
++--- a/src/vendor/golang.org/x/net/http2/hpack/hpack.go
+++++ b/src/vendor/golang.org/x/net/http2/hpack/hpack.go
++@@ -359,6 +359,7 @@ func (d *Decoder) parseFieldLiteral(n uint8, it indexType) error {
++
++	var hf HeaderField
++	wantStr := d.emitEnabled || it.indexed()
+++	var undecodedName undecodedString
++	if nameIdx > 0 {
++		ihf, ok := d.at(nameIdx)
++		if !ok {
++@@ -366,15 +367,27 @@ func (d *Decoder) parseFieldLiteral(n uint8, it indexType) error {
++		}
++		hf.Name = ihf.Name
++	} else {
++-		hf.Name, buf, err = d.readString(buf, wantStr)
+++		undecodedName, buf, err = d.readString(buf)
++		if err != nil {
++			return err
++		}
++	}
++-	hf.Value, buf, err = d.readString(buf, wantStr)
+++	undecodedValue, buf, err := d.readString(buf)
++	if err != nil {
++		return err
++	}
+++	if wantStr {
+++		if nameIdx <= 0 {
+++			hf.Name, err = d.decodeString(undecodedName)
+++			if err != nil {
+++				return err
+++			}
+++		}
+++		hf.Value, err = d.decodeString(undecodedValue)
+++		if err != nil {
+++			return err
+++		}
+++	}
++	d.buf = buf
++	if it.indexed() {
++		d.dynTab.add(hf)
++@@ -459,46 +472,52 @@ func readVarInt(n byte, p []byte) (i uint64, remain []byte, err error) {
++	return 0, origP, errNeedMore
++ }
++
++-// readString decodes an hpack string from p.
+++// readString reads an hpack string from p.
++ //
++-// wantStr is whether s will be used. If false, decompression and
++-// []byte->string garbage are skipped if s will be ignored
++-// anyway. This does mean that huffman decoding errors for non-indexed
++-// strings past the MAX_HEADER_LIST_SIZE are ignored, but the server
++-// is returning an error anyway, and because they're not indexed, the error
++-// won't affect the decoding state.
++-func (d *Decoder) readString(p []byte, wantStr bool) (s string, remain []byte, err error) {
+++// It returns a reference to the encoded string data to permit deferring decode costs
+++// until after the caller verifies all data is present.
+++func (d *Decoder) readString(p []byte) (u undecodedString, remain []byte, err error) {
++	if len(p) == 0 {
++-		return "", p, errNeedMore
+++		return u, p, errNeedMore
++	}
++	isHuff := p[0]&128 != 0
++	strLen, p, err := readVarInt(7, p)
++	if err != nil {
++-		return "", p, err
+++		return u, p, err
++	}
++	if d.maxStrLen != 0 && strLen > uint64(d.maxStrLen) {
++-		return "", nil, ErrStringLength
+++		// Returning an error here means Huffman decoding errors
+++		// for non-indexed strings past the maximum string length
+++		// are ignored, but the server is returning an error anyway
+++		// and because the string is not indexed the error will not
+++		// affect the decoding state.
+++		return u, nil, ErrStringLength
++	}
++	if uint64(len(p)) < strLen {
++-		return "", p, errNeedMore
++-	}
++-	if !isHuff {
++-		if wantStr {
++-			s = string(p[:strLen])
++-		}
++-		return s, p[strLen:], nil
+++		return u, p, errNeedMore
++	}
+++	u.isHuff = isHuff
+++	u.b = p[:strLen]
+++	return u, p[strLen:], nil
+++}
++
++-	if wantStr {
++-		buf := bufPool.Get().(*bytes.Buffer)
++-		buf.Reset() // don't trust others
++-		defer bufPool.Put(buf)
++-		if err := huffmanDecode(buf, d.maxStrLen, p[:strLen]); err != nil {
++-			buf.Reset()
++-			return "", nil, err
++-		}
+++type undecodedString struct {
+++	isHuff bool
+++	b      []byte
+++}
+++
+++func (d *Decoder) decodeString(u undecodedString) (string, error) {
+++	if !u.isHuff {
+++		return string(u.b), nil
+++	}
+++	buf := bufPool.Get().(*bytes.Buffer)
+++	buf.Reset() // don't trust others
+++	var s string
+++	err := huffmanDecode(buf, d.maxStrLen, u.b)
+++	if err == nil {
++		s = buf.String()
++-		buf.Reset() // be nice to GC
++	}
++-	return s, p[strLen:], nil
+++	buf.Reset() // be nice to GC
+++	bufPool.Put(buf)
+++	return s, err
++ }
++--
++2.7.4
 -- 
 2.34.1
 
