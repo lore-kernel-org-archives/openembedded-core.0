@@ -2,30 +2,30 @@ Return-Path: <thomas.de_schampheleire@nokia.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76D48C6FD1D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77FDDC77B6C
 	for <webhook@archiver.kernel.org>; Tue,  4 Apr 2023 18:34:33 +0000 (UTC)
 Received: from EUR04-DB3-obe.outbound.protection.outlook.com (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.139])
  by mx.groups.io with SMTP id smtpd.web10.110220.1680633262892860774
  for <openembedded-core@lists.openembedded.org>;
  Tue, 04 Apr 2023 11:34:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@nokia.com header.s=selector2 header.b=ED5EdlCS;
+ dkim=fail reason="body hash did not verify" header.i=@nokia.com header.s=selector2 header.b=mD787Wuf;
  spf=pass (domain: nokia.com, ip: 40.107.6.139, mailfrom: thomas.de_schampheleire@nokia.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YiEKJeAe28USF++VHsyiafwaGpJL2IMLVhF+QZ4aE8p3rd4CHHPaPHcs3SlbHdjenj3N4ZKkYIfKz3ElV+vL7OIjEotpPQ2iEoiACtmaVThA8/hmP69x0NBCdGQ68koLzvDXGC1gGWyeGDDxf/ephXYjJuL4wC9VMosU7Oey3FF+7ofbvZypkX708NWDI8qxvf+/p6ti4q2I1lyegWwpqTCBMh8NjCRKptq+gYiwyFRe2Kopof9XFGYJ+qnxBf/pIt5GFpWFd5JyuYaiZSj81qfx5axw+w/Mx2Bxk0mby1i1NTTgMcj6Q94mLtgDNJ9tX/3bkgH6VlzhGvOq97sk/g==
+ b=Zq+7ySmbE6pQ+OASdC6HqLfz0Armi5zWodUm/B+341Ngjkh/TtqDascKosEGrPnB4qRmhwrT/EGOSmUFJo1RxzVfqeSL9bc+R4YnPO7K2T2YponCWYFnVa3dnmWWWvpRmNTFXEAy/LMzbKKUcA+cyEg018BvkE2DVKrIyJKN0HJiLZgZafarNBChw9pgk2x1oWfGWjg7lZzSQ7AuWx8fLkJCKk5w726hVqnHUj1RUUqnGELXXhrll6KEpAdy66xbdW2xiyXrfQuC7yQbf+nz/x0NPWojGHCKsAPHq49o88GT15YNIP7uZ3Kxs1N9wFm9K1oVpfis5iYxtDsNsk931g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DiMR7yqilA+fn0rdsBqOpNbVhg7tHs2FK+nZYgDsfpM=;
- b=IKnLSGF13dRLCABil32Ic4sJ4nyzdaRlHVcQZCFa4Ki7m72kRMT0nkd5CboPnChgXetAimWrtxzpUUKoTHUvJiBqJ5Lt2mJ9RD0PVHgh+a+Xv4qPd5U2dP0ATuiYS+SRqIndY8gxV/mWeoMAWPQ9HpJ2fC1VSun5Ng+SSZdd/NyVh102XUR9g9UFHTjIpXulZeaFEORP/1tNDLNMoyGGg1nh4rGHlIozYVGncVRWqJNPls6hotrkRjteRtQJBzEd9zsEnGo5U7HRHolhetzE3+rnP5v6x2RKnFqGvN+PIJoStyfEbSM1Ei3MWlcxukJXMi14MofZUmvfZHW4JcN4XQ==
+ bh=dKpQbpJhqEJqlFzhDr0Oc2jpwYQx8w5wJCeq5Hwmpuw=;
+ b=Tjfaxp+uGHuMBALCAkf0d9GIwJdrNUn9s1iZueiDIvrEt/SCnZa038rxzLYHddKZTaa3UmB2dZdG1fHdaBalc8oqTJ5+Ya707frs40qXaQfeJRuCKZYDC1DS13lYGjBU82LSS0u7TV/bqML72ItlKjzDfpEFnIGmnxyjmw5IaT7xkGNIPGhkWrVviaZwbWQp/agqiwOBaBOrDV9A4dDod96hx+UNk2jYz00krPLXeo/pOXnaE/ypsgRmaFoMCFu9COQqRO6wJNT42WbHwGxSwrtYaMKKkGNvxqUY0AFbG9deRF+xZcQyjBkWu0iJfOEKIBKxolCWhb+Lrp7QlLQcbQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nokia.com; dmarc=pass action=none header.from=nokia.com;
  dkim=pass header.d=nokia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DiMR7yqilA+fn0rdsBqOpNbVhg7tHs2FK+nZYgDsfpM=;
- b=ED5EdlCS/rQq3iSkgWgyutfTdvYXDfHgfBYlD5I7CudBVRKHKi45Sly1qo2Gmz9RV8j5fge8BzuU/T+1EfMDRRmupjBx6uPR8mnLSvLpprG8DtsaZRN4zscl/gekWN2PUToBwSPFtvlIpr1yL1fh+Lw3yVrcv1Q7dHEDjjqpgF6tSiJ+Vz10RZ8ame1DxysWnRv4vE5IKmV9jmP1r4zv7OfX9qNjYoPg4g263YCgCqBB5AJe4eX/dIgHkXcvhKlQGK5RBaEn8PBRfImUfmJFhQI92EXUPe24uHYbJpUVtzDjdmFFEJNhQRCURzw2a77vEzp4auCJCe8u6SQ/IiZJxg==
+ bh=dKpQbpJhqEJqlFzhDr0Oc2jpwYQx8w5wJCeq5Hwmpuw=;
+ b=mD787WufX9SsZ+o0zMvBebMBH03QTEBgmII3p2LuaYs2/q1dAXNCR+JZsNjfjTWZ9wcV+fjq+haazrdBeoqIymPS9DsA3D+Y2U346TQHZOHO6o2W9bpM5a3AHCy5SSrOH+FVqgw8GcCvArMFX2sOGYkX8K+wSjk0fHOUaQDyjoa48XRWJ1Fb05urfQzldL8+b1mfeU9ZIbAXdi1FCerdTVGnTTJKbkrocIyeNU/bYwCmiPhBe2XWTXM+pmsFoKPZxrARuPeZVbINhOuw1GuxzqxoWFICBZWl+fr0dW30oo/nn5MA8NMlzr+CZKwXSsDegMeTdTzHLJv6WI6EhtT59w==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nokia.com;
 Received: from AM0PR0702MB3700.eurprd07.prod.outlook.com
@@ -40,90 +40,82 @@ Received: from AM0PR0702MB3700.eurprd07.prod.outlook.com
 From: Thomas De Schampheleire <thomas.de_schampheleire@nokia.com>
 To: openembedded-core@lists.openembedded.org
 CC: Thomas De Schampheleire <thomas.de_schampheleire@nokia.com>
-Subject: [PATCH v2 2/3] qemu: retain default trace backend if 'ust' is not enabled
-Date: Tue,  4 Apr 2023 20:34:04 +0200
-Message-ID: <20230404183405.14769-2-thomas.de_schampheleire@nokia.com>
+Subject: [PATCH v2 3/3] qemu: rename deprecated --enable-trace-backend configure option
+Date: Tue,  4 Apr 2023 20:34:05 +0200
+Message-ID: <20230404183405.14769-3-thomas.de_schampheleire@nokia.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230404183405.14769-1-thomas.de_schampheleire@nokia.com>
 References: <20230404183405.14769-1-thomas.de_schampheleire@nokia.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: HE1P189CA0032.EURP189.PROD.OUTLOOK.COM (2603:10a6:7:53::45)
- To AM0PR0702MB3700.eurprd07.prod.outlook.com (2603:10a6:208:23::27)
+X-ClientProxiedBy: HE1PR0902CA0028.eurprd09.prod.outlook.com
+ (2603:10a6:7:15::17) To AM0PR0702MB3700.eurprd07.prod.outlook.com
+ (2603:10a6:208:23::27)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM0PR0702MB3700:EE_|PAWPR07MB9511:EE_
-X-MS-Office365-Filtering-Correlation-Id: a1417f46-6841-4ee2-e57a-08db353b3458
+X-MS-Office365-Filtering-Correlation-Id: ff8a8f6b-a033-4138-e376-08db353b3477
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	evXVPm7Rc18W6Ws47K3p+OMItbZjVdD7Kj+1Yh5ZeSyLH5JRW5lkUV7EEYm4M5m2MWFz51vVthNqM90LWB5M5t08ceV9uD9eHotg/Vc5EH4wEIcaCOMF+/2y8pyhMhW+WK2qJn5NnVBGWRBQi8MZ//Jxk07wVx4dJEb+D7ciqC875WBpf7R6UO/7/A9DDVjpqddR6yVJgjxlP72VQohlZdWUgGJg0sG1kCLDxv+b1bRzdq3k5BXOChcd4fIvBXQaaLqJD7bSwKfmWjmafzvnN9srecS7+3LZj2t9jF0G+3sXBy5Rb60mXIPwRvdRartdA6/A6hgyUBN0ItR+VNA9XxfA1j27AZI9BnW0qUyglqB3XYFqblhSyJyfay8rd/w+j/5kXA6GoQEdYjORAM7hb5ywheMAlbOvRrATvBlhowxQd2lU/c7rAJ1y5ftrqJIguikM3WUByV9BaxGrXc8fj1//y8BBOkQAJUCsHlDlwriztKsvp5jQJ5Kv7NvVxGYaxZ3Qvy5gxgkjcMxLMIF9OuSURAj/6tobpUQAScNJpzmniN3n68rV3x9teo+NCAyh
+	StlTYhlOmRUZ5zyjwr2cKb8AMumowmmJQN8bXEh6QxRMkSy8tteQQPGTeRbg1+lHyo3DPleT7Jh069VNH5UpkC0goTx92KLKg27SjxK5k8Yna+rXFbNw8oQ2XVTpPBNaHMSisuyVCIu/01T9BES9GsWvUkY63OnnAg7oP6iXzk8N6nMn2n2+wxktSdxeE+SDic+F0xViqtdZQRkWAjYvgEdTOngRxjzZg8+ibDHjbqh0LkpYP59A9UflLbmX4imn4iXPqkvRCKWtR7PNqWzR36U7w6bQOmH0US3JLSetk+H5joZ5tNrVJPIv4P52228TQcLmxFy9r+60JkLA/V3vqA6fxGbxvsXUMSSYRPTOPqp34sAL78h584L+wX2vffZhiprG+FdMad11ZJcWH6dbpkoZndGSCTetBnYdOngsKBCU6SxAsLZP/PfuVy658UnDLJu8GMH4QHp6hHyK33qhGK8ezR8nxCPjFsoP6LOPTe7YX9pgUNt+KclBa0GBYlvzRibVohYhT48RPJiD2nWnSGnk81ZzKOuzT3a8BcgOho0=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR0702MB3700.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(346002)(366004)(136003)(376002)(39860400002)(451199021)(86362001)(38100700002)(36756003)(6486002)(2616005)(4326008)(107886003)(6506007)(6512007)(1076003)(186003)(6916009)(6666004)(8676002)(5660300002)(66476007)(66946007)(8936002)(2906002)(478600001)(316002)(41300700001)(66556008)(82960400001)(83380400001);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR0702MB3700.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(346002)(366004)(136003)(376002)(39860400002)(451199021)(86362001)(38100700002)(36756003)(6486002)(966005)(2616005)(4326008)(107886003)(6506007)(6512007)(1076003)(186003)(6916009)(6666004)(8676002)(5660300002)(66476007)(66946007)(8936002)(2906002)(478600001)(316002)(41300700001)(66556008)(82960400001)(83380400001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?w609uSBZ7Sa0LFxrlHfoFg4QAeBIGzpWlh7iFLywY2ohmZKyj36mJdu/M2SJ?=
- =?us-ascii?Q?FskZqKQF2VE5cPtvt4p4x7p9uWN4a3wxh5F3KPLgSBIFtWkoPsKNr4NoE/BA?=
- =?us-ascii?Q?VPCTA3gz7tcMUMsB1fITdJm15YHqcfAFt3O+2HGIlXBaea0F4q9Jk3gdj/M+?=
- =?us-ascii?Q?d63HMbXZOIq8AMd5SAV8gMyNobgiVIfnGI6OJ/x5JKK40exDO9sccY9SfS5h?=
- =?us-ascii?Q?sc7sGtKzVkVHC9ovqjH06mx8u+bZPYwoMq3dHjbUDO3RaLAGEdGCn6pmjA8e?=
- =?us-ascii?Q?Pid5Ed7F2muNwjw1QxYVpE5KpQYslMZ+3ahnaM3/iYi9RdbDcq5bhr1Skrm3?=
- =?us-ascii?Q?To4tI91Jvv4qfq0YkhjPN5UoT1iOY5IbCcdF9adidRWwLYK5GTtITZALy8Tg?=
- =?us-ascii?Q?ggNKoEA1BkTVN+sporZYYR+jak8IgtMSZI/9fRJbcmffbDxJ54k05tFGs10b?=
- =?us-ascii?Q?ixfkhbhwXzySiPUXPuXbebApMmTa21fQ01ZRwNHRn8ooY7uaHwfLfsyeCWry?=
- =?us-ascii?Q?8lC43Z0K3J0mgGG+bFM0Bzlqx6rHVhdMQ/UBceFBF37ea2D0NuWMTGRhd9p7?=
- =?us-ascii?Q?YluMWqKpJkoxN0on+q/GC3G/DeXZYpAYezdd3mZS4KpB0mWVua0E2klE+vyc?=
- =?us-ascii?Q?0yl1SiCUFlesRFjbRzaiUacsbVZCPQoMl8LMwz5FGTavc+G9rSJmjUbpvUlX?=
- =?us-ascii?Q?U0LCNvDuh0hic+Z0Z05ERRMCsvTxt+cEMLoFxFEt5XK2IjWpWl1ZMrhAg0iI?=
- =?us-ascii?Q?QbKyXLLeoos4U8LonYPpwHf80dZtEWT6T8GunPMRXWtIyEglsb+7MsHN9XRZ?=
- =?us-ascii?Q?3wLR1N+/C4TVBKwEOJx2PCnK81NfF8JsU4FxC6GzFVSH0mB40ymyJSwpM1i7?=
- =?us-ascii?Q?gZTcapMmXxKAv5GHDQkkuTX+XzzpAVultBIkU8FVQT5aUjlY2TeYzpkUEQb2?=
- =?us-ascii?Q?OvkUDv+Mfw1sAmxYIrUSYxVWOPeXQTGXOyaLsW0O3X552rJSWNt9lnW5Sf7l?=
- =?us-ascii?Q?MC/ULb2Jqxfx1SQk/WJaUmC+1suPWFDU+uWeKuNiQI/dr1nb0mDHy+7OBeJs?=
- =?us-ascii?Q?rp1G1dbp40h374/JCsg/qzD3n5EGWv6uzbUzDi6MTGEXqgIa8b/GCMOvO2Dw?=
- =?us-ascii?Q?0oLDcWS6QkuLIktvPPjK8BRnEjN/o48Q/ghFThj0ym9ygx1fuCg8h48t+GXv?=
- =?us-ascii?Q?vkVS5t3S/UChXG4XNn5LUYSY1sKdDWzCG9vCL3wvwadxWiOtv7KFad36yzGZ?=
- =?us-ascii?Q?pgGbmA9a/VwONYkye+tPRo+jhhM2RrJ2B/yAdR1nRmDauM31KmtQYfEd9ewo?=
- =?us-ascii?Q?LERumzptkurdkuN3jcoy+P3VfgJ00RpsBOuIW8aMWEVhquSJ3TL09+9IzKG6?=
- =?us-ascii?Q?s9wIId7f9OaLpfUyhDI/QHjIX9mxVt3unof0hgGrz1a31LVF/0NqscVsstAw?=
- =?us-ascii?Q?3AaawUqUjk9+znDE6XOyYc4p2/ct8OzAFyWxn7eCZDkE0Hc1aL8YRtNXzoYW?=
- =?us-ascii?Q?o7Dy13gKkUm+J46FRo41cyHl3i8smKlj+r5X34vgLnRDvYgmEQ63XrEuSBoz?=
- =?us-ascii?Q?7dTV5QPWyRRNEmdO+8APSuXntvogvVJiR4tpgxP2Hl5eZBcgBi5JlJKXV2bS?=
- =?us-ascii?Q?Gz65RDkGDvc0UmRYs0jwj4vW55lACPM7Usu4HzJe/T77H5mMBpWCOx0byeJZ?=
- =?us-ascii?Q?ETymaj281k9OaI1QhbuPlR3hc5k=3D?=
+	=?us-ascii?Q?DldWxv5U7ZD1KQ8hdjDTazvunRlou+CfJ+Ooimj9uaoN/STUGpaZ665xMtov?=
+ =?us-ascii?Q?7XG0rOxq2F95KcQhJmG4yur+gl9U3s0SK/3CqF5dcbA6mSW95TCQN3pJ9WUy?=
+ =?us-ascii?Q?aP3UZX1bBLEefIdsurqXpTUCsodXojUcOY5W0YCgAxCpASQAW7Ul0Ddus1Mc?=
+ =?us-ascii?Q?+mIKflYSRqDIh89arnb4e0OGAhUaCgqc0HYpDzS6RGEyRKV181Sv5vU0Wmtb?=
+ =?us-ascii?Q?6gtgfrovubEeZ3uCQoo+K2q1RXKe8WWv5bFBDQ9cTU9shqxo6ETfLilKXDp2?=
+ =?us-ascii?Q?aMf0QDEcBsKP+XEbsJLGv6oVWbLyDWuO8tyRlpOPaVucDJuhLvwEPRLlp0UN?=
+ =?us-ascii?Q?wL+cxAslUI3FPjeOAZCnXqwr+2UU7xa6uX+LXvH7a+3qGdyLNFb/zhre4jcE?=
+ =?us-ascii?Q?whXXLSsdnB90Vnux2QPlI0LvZE6R+uwbauJhUjvmBKTXx/7M5loqPQGWmXwe?=
+ =?us-ascii?Q?G40+IgjXB24vjEkommTpx3e5qI+hbokcEXJmHmP+Qbm+dZGzKiaynsaUaJ/c?=
+ =?us-ascii?Q?8QfvayjhR2hfdD9RE4mz28bgxY6qNbm1Zm+6h3UL3hlU9UYgaUMdyjei7YYH?=
+ =?us-ascii?Q?Lk5z6Uv1X9M9bSIvmOBtOPSs36gF1JDj8UoD1kFcWcqsYykYpO4X4pvndSM2?=
+ =?us-ascii?Q?y1gM8X0F5ZFrZaatxeIP3aNIGTrnA27LESjEeBfH6Pm60Cq/qV2sOL8Nou8p?=
+ =?us-ascii?Q?0R2lYlLiP07JFOpAfKa7AHIHiaVxkqG2L1SXXiaynkAqgw+wT3vLf9Dipplw?=
+ =?us-ascii?Q?zbBQAdeUgjYaHCqgt8KTJuZafpfbPlVkEQ5bzHTOKiHraDdK1r8fdtQylrMV?=
+ =?us-ascii?Q?9Cfrh6v8323ijumucdglI9Zul0dj4hCLVSNLnMS4rzHVcg/zJpjmDqzU/JJD?=
+ =?us-ascii?Q?GhqHJpB/NA629LSP9yUORwcHDN+8pNzmZ881kouHhzgSZoOngJs8hi9pxrLL?=
+ =?us-ascii?Q?3el7F46g8PFY7QkDqf1P2nyAdjXxpT1CL9y+bSthB44O68vOcjT9eJ9P/+Ad?=
+ =?us-ascii?Q?cpujwLAf5hpIppxwbhLhgVItRQocoFWyr7sCb9fm/4Exk90lROMGux8kzQaQ?=
+ =?us-ascii?Q?TgJmgqgUb/3EPsbUCMOyffhBEuUVh1gnWL/VJMKmdKBV1RJNpxL4Oi5zvv7a?=
+ =?us-ascii?Q?FwiHT+LZrZUUC96tpQUUtm6S7aKcM//k5eVekHE3u8IkSX+eU63LIRN4L70R?=
+ =?us-ascii?Q?PS73O63InrYtEaJ2txb61opF+WYfhv0YdsDTddTAReE0acxVLvuWj7xfzyiC?=
+ =?us-ascii?Q?uiDVygQtAQNi3qBpcKlHEOca/vIX0GYNljvBsOmHmDa2mkoc2nWiNg0mSZrg?=
+ =?us-ascii?Q?SS6/wVnhZDcSIJ1GAhNVLY6BjhfNEXwZtQpw2ejec78ztLI7TO/eTTp/MjMe?=
+ =?us-ascii?Q?3z6kPCZFDEE2VzbxIvGTtcqWlVkTXcYulTcZ14jOPvzWqzFXTbnNu9FYmxVG?=
+ =?us-ascii?Q?EojyfBYMW3dik9O9jWULUeyOwBDTiO54xsE7VVg9HMZCnOaBM94cr39PuD5T?=
+ =?us-ascii?Q?i1SaiFHDejH+WLbB6nOMctJx5A1IPTNGMypdpJ980HMpJ6S2KNm4Ohqh47WI?=
+ =?us-ascii?Q?fjr6FvSz+MGsbKU6OxqV8h8BWtskFK0xIF91mh88Xl4XUjU7I3GITYq67Cae?=
+ =?us-ascii?Q?QadvmBKqPdG39aPC4PZIQ1+y4x44Qg7xgXDkVD0g1rEJBDHa5MXxeCjABlKe?=
+ =?us-ascii?Q?BeoNhVaxwGfn+XzPZrAPzOzyeF8=3D?=
 X-OriginatorOrg: nokia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1417f46-6841-4ee2-e57a-08db353b3458
+X-MS-Exchange-CrossTenant-Network-Message-Id: ff8a8f6b-a033-4138-e376-08db353b3477
 X-MS-Exchange-CrossTenant-AuthSource: AM0PR0702MB3700.eurprd07.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2023 18:34:20.1927
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2023 18:34:20.3843
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 5d471751-9675-428d-917b-70f44f9630b0
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: x+cdrOvTjQ6wVY1bmACfvmZz8AUbnkjlo8okj5ONKTbfHiY1DAD19GpuRtPLtsjRXSWoAIXpUNdjlwAGL6Xq6W42S88frakpJKHkxqVI0RHWfxiKdhULu5z7FuHrd0Td
+X-MS-Exchange-CrossTenant-UserPrincipalName: MrnhuQPw6O4nNqjEhSkVbKoHharibNaX5v2MgK+WAGni1uWNqidDnWi3+xy8sAN1AGsqw6+8Hytnh/UBetz4JSEABHw2uK4BtdtvNSX1bZZiLL+PjH4x6YVy6a0Dyc4L
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR07MB9511
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 04 Apr 2023 18:34:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179706
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179707
 
-The qemu build system enables the 'log' trace backend by default, if no
-explicit choice was made with '--enable-trace-backend=3DCHOICE'.
+qemu 6.2 deprecated the configure option '--enable-trace-backend' in favor
+of '--enable-trace-backends' [1]
 
-However, the qemu recipe uses the following PACKAGECONFIG line:
-    PACKAGECONFIG[ust] =3D "--enable-trace-backend=3Dust,--enable-trace-bac=
-kend=3Dnop,lttng-ust,"
+Rename accordingly.
 
-which means that the 'nop' trace backend will be explicitly selected if the
-'ust' feature is not enabled. The 'nop' backend removes almost all trace
-points at compile time, and thus basically means 'disable tracing'.
-
-To retain the default trace backend if 'ust' is not enabled, the above
-PACKAGECONFIG line should either explicitly fall back to the 'log' backend,
-or not provide any value for the 'disabled' case. This commit chooses the
-latter to not make any assumption about the upstream default.
+[1] https://wiki.qemu.org/ChangeLog/6.2#Build_Information
 
 Signed-off-by: Thomas De Schampheleire <thomas.de_schampheleire@nokia.com>
 ---
@@ -132,7 +124,7 @@ Signed-off-by: Thomas De Schampheleire <thomas.de_schampheleire@nokia.com>
 
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qe=
 mu/qemu.inc
-index 36b2f14638..10001c3e66 100644
+index 10001c3e66..e2453dd8bc 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
 @@ -208,7 +208,7 @@ PACKAGECONFIG[libudev] =3D "--enable-libudev,--disable-=
@@ -140,9 +132,8 @@ libudev,eudev"
  PACKAGECONFIG[attr] =3D "--enable-attr,--disable-attr,attr,"
  PACKAGECONFIG[rbd] =3D "--enable-rbd,--disable-rbd,ceph,ceph"
  PACKAGECONFIG[vhost] =3D "--enable-vhost-net,--disable-vhost-net,,"
--PACKAGECONFIG[ust] =3D "--enable-trace-backend=3Dust,--enable-trace-backen=
-d=3Dnop,lttng-ust,"
-+PACKAGECONFIG[ust] =3D "--enable-trace-backend=3Dust,,lttng-ust,"
+-PACKAGECONFIG[ust] =3D "--enable-trace-backend=3Dust,,lttng-ust,"
++PACKAGECONFIG[ust] =3D "--enable-trace-backends=3Dust,,lttng-ust,"
  PACKAGECONFIG[pie] =3D "--enable-pie,--disable-pie,,"
  PACKAGECONFIG[seccomp] =3D "--enable-seccomp,--disable-seccomp,libseccomp"
  # libnfs is currently provided by meta-kodi
