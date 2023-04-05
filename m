@@ -1,122 +1,120 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4513BC76188
-	for <webhook@archiver.kernel.org>; Wed,  5 Apr 2023 08:24:37 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web11.125238.1680683067344093480
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A524C76188
+	for <webhook@archiver.kernel.org>; Wed,  5 Apr 2023 09:08:47 +0000 (UTC)
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+ by mx.groups.io with SMTP id smtpd.web10.125606.1680685723075983108
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Apr 2023 01:24:27 -0700
+ Wed, 05 Apr 2023 02:08:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WwzEyIEu;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id j24so35378692wrd.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Apr 2023 01:24:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1680683066;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5XE1VIiSCddDbFhshK9xglScVhPutbMZovZ2vAJBYQc=;
-        b=WwzEyIEui5zEW6CA4BdIfkzDiCThiGeGDqw0j8MS40KsQ2OVN+2E8Zsq+Sp+AATr+D
-         3M8oyYBgSL4mAq0MK9asK2+LmPp9NQmF7qES+QzDgi5vmY+oCJ7LtFCc9p8nxmI4Q3CY
-         LDuc5+zEmnQ1hYinMjp1+vT85U5Wi1SVtVg8o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680683066;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5XE1VIiSCddDbFhshK9xglScVhPutbMZovZ2vAJBYQc=;
-        b=kECuk0R/6acy6HDUddB5ZqNsB5L4BOJSCpdXYZuN3ycMJI8bP9Uvms4wrhqrrCdaDA
-         1o8JMdb5u7hp/lhW8Gj0RfXLiIgp8pNAFWFAprVD/Gmjq78X2hYYgM2S+IcQl7eInN2z
-         731+cFAxQ/mk1DpZB598gXfiZwsKRQTBByGo/Pna8FNZTLkHlw6fBtVfVvOD+rnklnBY
-         CN8otpqyBb1YlO8MUyaYEue+eNwVEbPyUB4TdQQrDarxbOUJj0BTNlmXcJJbFtditE9q
-         WELEju7IT0kIOpDUURBpOisvjszyZkJsofivIKqlgaPGUC1CVvmOPlanpuIYKvj8ducu
-         LvEQ==
-X-Gm-Message-State: AAQBX9eWXdn83LgQNS01A9eXqPMw9j4X89q/rGZSprVQdZDHKBqL+yuT
-	rs4GgxqQg/UjhrazPwgYNOOmQFp9ojL95zwabrI=
-X-Google-Smtp-Source: AKy350bWhR0eoTCdRCCGgdPmITWDDD2T5Pey5GgsPaWeBqHS3N2fKpPYZRTvHltbwHrmgNKpiHaYzw==
-X-Received: by 2002:adf:f705:0:b0:2d2:d324:e44f with SMTP id r5-20020adff705000000b002d2d324e44fmr3171044wrp.16.1680683065808;
-        Wed, 05 Apr 2023 01:24:25 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:f5bf:59d3:395c:4325? ([2001:8b0:aba:5f3c:f5bf:59d3:395c:4325])
-        by smtp.gmail.com with ESMTPSA id f7-20020adff8c7000000b002c5a1bd5280sm14334275wrq.95.2023.04.05.01.24.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Apr 2023 01:24:25 -0700 (PDT)
-Message-ID: <1086f8d17f0b736421d1632ced95933622ce4553.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] perl-version: make PERL* assignments
- non-immediate
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patrick Williams <patrick@stwcx.xyz>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 05 Apr 2023 09:24:24 +0100
-In-Reply-To: <20230405003850.384813-1-patrick@stwcx.xyz>
-References: <20230405003850.384813-1-patrick@stwcx.xyz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.47.3-1 
+ dkim=missing; spf=pass (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
+Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
+	by mail.kapsi.fi with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1pjz8B-009m99-KK; Wed, 05 Apr 2023 12:08:40 +0300
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1pjz8B-00DIM6-Bo; Wed, 05 Apr 2023 12:08:39 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH 1/2] oeqa ping.py: avoid busylooping failing ping command
+Date: Wed,  5 Apr 2023 12:08:31 +0300
+Message-Id: <20230405090831.3166534-1-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Rspam-Score: -1.4 (-)
+X-Rspam-Report: Action: no action
+ Symbol: ARC_NA(0.00)
+ Symbol: DMARC_POLICY_SOFTFAIL(0.10)
+ Symbol: FROM_HAS_DN(0.00)
+ Symbol: TO_DN_SOME(0.00)
+ Symbol: R_MISSING_CHARSET(0.50)
+ Symbol: R_SPF_ALLOW(-0.20)
+ Symbol: MIME_GOOD(-0.10)
+ Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
+ Symbol: RCVD_TLS_LAST(0.00)
+ Symbol: RCPT_COUNT_TWO(0.00)
+ Symbol: MID_CONTAINS_FROM(1.00)
+ Symbol: NEURAL_HAM(-0.00)
+ Symbol: FORGED_SENDER(0.30)
+ Symbol: R_DKIM_NA(0.00)
+ Symbol: MIME_TRACE(0.00)
+ Symbol: ASN(0.00)
+ Symbol: FROM_NEQ_ENVFROM(0.00)
+ Symbol: BAYES_HAM(-3.00)
+ Symbol: RCVD_COUNT_TWO(0.00)
+ Message-ID: 20230405090831.3166534-1-mikko.rapeli@linaro.org
+X-SA-Exim-Connect-IP: 2001:67c:1be8::11
+X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Apr 2023 08:24:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179727
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Apr 2023 09:08:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179728
 
-On Tue, 2023-04-04 at 19:38 -0500, Patrick Williams wrote:
-> The perl-version.bbclass executes functions which can depend on
-> variables potentially populated by native, such as `libdir`.  The
-> sanity `native-last` suggests that recipes should `inherit native`
-> last, but when that is done the variables like PERLVERSION end up
-> as `None`, since `${STAGING_LIBDIR}` needs `${libdir}` which is not
-> yet populated (by native).
->=20
-> Switch these variables to be non-immediate, which then allows the
-> `${libdir}` to be properly populated.
->=20
-> It appears that meta-openembedded/meta-perl does not use either
-> PERLVERSION or PERLARCH, nor is it used anywhere in `poky`.
-> meta-security/meta-perl uses PERLVERSION in one recipe's `do_install`
-> step.  OpenBMC's meta-phosphor similarly uses PERLVERSION in a
-> `do_install` step.  Therefore, it should be safe to make this
-> non-immediate.
->=20
-> Fixes: openbmc/openbmc#3770
-> Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
-> ---
->  meta/classes-recipe/perl-version.bbclass | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/classes-recipe/perl-version.bbclass b/meta/classes-reci=
-pe/perl-version.bbclass
-> index 269ac9eb31..e4913dd502 100644
-> --- a/meta/classes-recipe/perl-version.bbclass
-> +++ b/meta/classes-recipe/perl-version.bbclass
-> @@ -26,7 +26,7 @@ def get_perl_version(d):
->              return m.group(1)
->      return None
-> =20
-> -PERLVERSION :=3D "${@get_perl_version(d)}"
-> +PERLVERSION =3D "${@get_perl_version(d)}"
->  PERLVERSION[vardepvalue] =3D ""
-> =20
-> =20
-> @@ -49,7 +49,7 @@ def get_perl_arch(d):
->              return m.group(1)
->      return None
-> =20
-> -PERLARCH :=3D "${@get_perl_arch(d)}"
-> +PERLARCH =3D "${@get_perl_arch(d)}"
->  PERLARCH[vardepvalue] =3D ""
-> =20
->  # Determine the staged arch of perl-native from the perl configuration f=
-ile
+Use a sleep on error path before trying again. For example
+when oeqa runtime tests are executed without setting target
+IP address correctly, the tests are drowning logs with messages:
 
-Most code seems to use ${@get_perl_version(d)} and ${@get_perl_arch(d)}
-directly so perhaps we should just remove the above instead and use
-these in meta-security too?
+2023-04-04 07:19:24,985 - runtime - INFO - test_ping (ping.PingTest.test_ping)
+ping: usage error: Destination address required
+ping: usage error: Destination address required
+ping: usage error: Destination address required
+ping: usage error: Destination address required
+ping: usage error: Destination address required
+ping: usage error: Destination address required
+ping: usage error: Destination address required
+ping: usage error: Destination address required
+ping: usage error: Destination address required
+ping: usage error: Destination address required
+ping: usage error: Destination address required
+ping: usage error: Destination address required
+...
+2023-04-04 07:19:55,002 - runtime - INFO -  ... FAIL
+2023-04-04 07:19:55,002 - runtime - INFO - Traceback (most recent call
+last):
+  File \"/lava-62618/3/tests/3_oeqa-runtime-tests/image/lib/oeqa/runtime/cases/ping.py\", line 23, in test_ping
+    output += proc.communicate()[0].decode('utf-8')
+              ^^^^^^^^^^^^^^^^^^
+  File \"/usr/lib/python3.11/subprocess.py\", line 1194, in communicate
+    stdout = self.stdout.read()
+             ^^^^^^^^^^^^^^^^^^
+  File \"/lava-62618/3/tests/3_oeqa-runtime-tests/image/lib/oeqa/core/decorator/oetimeout.py\", line 18, in _timeoutHandler
+    raise OEQATimeoutError(\"Timed out after %s \"
+oeqa.core.exception.OEQATimeoutError: Timed out after 30 seconds of execution
 
-Cheers,
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+---
+ meta/lib/oeqa/runtime/cases/ping.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Richard
+diff --git a/meta/lib/oeqa/runtime/cases/ping.py b/meta/lib/oeqa/runtime/cases/ping.py
+index 967b44175f..fcb72d4543 100644
+--- a/meta/lib/oeqa/runtime/cases/ping.py
++++ b/meta/lib/oeqa/runtime/cases/ping.py
+@@ -5,6 +5,7 @@
+ #
+ 
+ from subprocess import Popen, PIPE
++from time import sleep
+ 
+ from oeqa.runtime.case import OERuntimeTestCase
+ from oeqa.core.decorator.oetimeout import OETimeout
+@@ -25,6 +26,7 @@ class PingTest(OERuntimeTestCase):
+                     count += 1
+                 else:
+                     count = 0
++                    sleep(1)
+         except OEQATimeoutError:
+             self.fail("Ping timeout error for address %s, count %s, output: %s" % (self.target.ip, count, output))
+         msg = ('Expected 5 consecutive, got %d.\n'
+-- 
+2.34.1
 
 
