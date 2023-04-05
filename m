@@ -2,100 +2,94 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E1B4C76188
-	for <webhook@archiver.kernel.org>; Wed,  5 Apr 2023 07:39:47 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.124799.1680680377584640128
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FF3FC7619A
+	for <webhook@archiver.kernel.org>; Wed,  5 Apr 2023 08:19:07 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web10.125071.1680682746249630905
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Apr 2023 00:39:37 -0700
+ Wed, 05 Apr 2023 01:19:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OM3iGUSX;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id n19-20020a05600c501300b003f064936c3eso595507wmr.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Apr 2023 00:39:37 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Xc1yRfKP;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f51.google.com with SMTP id i9so35322493wrp.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Apr 2023 01:19:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1680680376;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=O6GptB3xT+UNo11ZpnEPZpLD1W2OgWPzFZt4eoFekMY=;
-        b=OM3iGUSXio0yjzwXjin9mo5dO+YVEJbp24BvGNqLFS6UPzTwSEirBkMKAO4SxIXj+a
-         npxyvRYPV5F0QKbUN619XoPBHAqhZZmTZonvyfqbk8XrNRxHdzx2Pvfyt6ghjWVEAZzG
-         ferkYuHQjmrNqffQRPc2lYkobo8apxbsXLpmY=
+        d=linuxfoundation.org; s=google; t=1680682744;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ir04iJeXD0yypP4xgpKxxWcabazoUWWggcinJLC5nfI=;
+        b=Xc1yRfKPe8f+AJAfU3OftmkhP707oPqsSXijAADVRW8IEfheoP6YmLO+8Qz5j7fTcS
+         D66As8WmeTDnHalPFChIt12kJMeAgLqE1JvF2h6rB5fjKpNcpBSn0qOvJHCCLFC7OqvT
+         mY1ka2Zj32UoLg71LmDBkhzfeuuV8fl5IFNT0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680680376;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=O6GptB3xT+UNo11ZpnEPZpLD1W2OgWPzFZt4eoFekMY=;
-        b=3bi62zNvWol1fW+vhtxbeaTxpu5Qqyi0pxNQl7tIqtPwA/sFOF9Twh36JTCb5XMpkI
-         /Os08IJIhLZNNNelCA6R+9Bg3pvZRIGHyRQmDrq58NB2i3MrcG/tN+MVDjl+zMdnRdTv
-         KpiPfo3iltY6QsSn6S/llkrSrY7s0zIqonNQd7ZgkK0ewZAOqtd8RDeq6nbuJNgkkDfA
-         rB6b0oDZvpNUN2HVXNk7u5VK4EkeLiuSMtcT5jXD5AiJcP/bxGHUyXjSuEJWBaYa9PBh
-         ZZl5wS2rr3rJeycWfoLlmuPwnMedr0bO2R06n69uvxwLHxaxQvjRiFlYMAoz3rPKpDzv
-         3RSQ==
-X-Gm-Message-State: AAQBX9d0TbKDYsnZSbwpq3mlEE/22gB5goEwoIqUensydDgPH5qvICB9
-	hmxPhf2PfIwb5VRjek8nkyg+nAdlUbqZVl65PxI=
-X-Google-Smtp-Source: AKy350Y5l3ufv9SfenW/TTBUnSe88zscxTOc2OL1FIhRhdTaduSETD5fXFA6ww2q7tvSNAVkv7KGAg==
-X-Received: by 2002:a7b:cd85:0:b0:3ee:3f7:35aa with SMTP id y5-20020a7bcd85000000b003ee03f735aamr3927887wmj.19.1680680375424;
-        Wed, 05 Apr 2023 00:39:35 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:f5bf:59d3:395c:4325])
-        by smtp.gmail.com with ESMTPSA id d21-20020a1c7315000000b003ed1f6878a5sm1304789wmb.5.2023.04.05.00.39.34
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20210112; t=1680682744;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ir04iJeXD0yypP4xgpKxxWcabazoUWWggcinJLC5nfI=;
+        b=ph4W/a4NO786TobJ53rVDV/Mu3TF1CVI/6anZT07W2Am7rUlqaijaQ30TnMwqOajed
+         9Mab69g3b53aZD5G2MnWt2M8REGyw/fJ/sdbAJWFZ5iwTpOihhxUnClbrUaCxXuojEx5
+         iDkJ6DAnvSd+NLUlqrFvRc/wAf4nA1lIQc05ktn7ibup8e+4LKpa5Cmr1F+MTbHNJE6U
+         1wN6O1EmRUqgey2zf86x0i9nL1o3D+U/rVFHkQ2chdUZVZyDTBZPwvqg5RwLJeLDsT5C
+         vsJJEt1rIF2ahMDFEMsjzhlW5Fc/u/EvfuRNY8DrNbZzG1CF10JyYmGooRPw2XksK7eg
+         nKvg==
+X-Gm-Message-State: AAQBX9dul2ENrBEXaCsYjPzlUUw08wbJF+ZbkE27owUrgFwygztvvoxs
+	UmzskP6Jz/EAxjVLsBpo5SixYQ==
+X-Google-Smtp-Source: AKy350ZBSU4FIQ7JuYqndEd6BRaT7JG1Jgw9CjY5UCIPwNtdzv8UQUj3zWcJO25x3b28J/JbdCizOw==
+X-Received: by 2002:a5d:440d:0:b0:2d8:cacd:797e with SMTP id z13-20020a5d440d000000b002d8cacd797emr3414118wrq.10.1680682744480;
+        Wed, 05 Apr 2023 01:19:04 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:f5bf:59d3:395c:4325? ([2001:8b0:aba:5f3c:f5bf:59d3:395c:4325])
+        by smtp.gmail.com with ESMTPSA id v8-20020a5d4a48000000b002c557f82e27sm14278218wrs.99.2023.04.05.01.19.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Apr 2023 00:39:34 -0700 (PDT)
+        Wed, 05 Apr 2023 01:19:04 -0700 (PDT)
+Message-ID: <b474e607dd85ab8087a146dc01c1aadc0ddd04ce.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH v4 01/10] gobject-introspection: reduce
+ dependencies
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] xdg-utils: Fix CVE number
-Date: Wed,  5 Apr 2023 08:39:33 +0100
-Message-Id: <20230405073933.467230-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
+To: Petr =?UTF-8?Q?Kubiz=C5=88=C3=A1k?= - 2N <Kubiznak@2n.com>, 
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Wed, 05 Apr 2023 09:19:03 +0100
+In-Reply-To: <DB4PR02MB1003028940467C6316D6AD229E2909@DB4PR02MB10030.eurprd02.prod.outlook.com>
+References: <20230331114634.3578244-1-kubiznak@2n.com>
+	 <974f5837cdf9f57176e1af6d02c49a5b2cb03db1.camel@linuxfoundation.org>
+	 <DB4PR02MB10030EAC0D633CDD131D6642EE2939@DB4PR02MB10030.eurprd02.prod.outlook.com>
+	 <DB4PR02MB1003028940467C6316D6AD229E2909@DB4PR02MB10030.eurprd02.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.47.3-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Apr 2023 07:39:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179725
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Apr 2023 08:19:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179726
 
-In the previous commit I somehow mixed up and used an incorrect CVE number.
-Use the correct one.
+Hi Petr,
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../xdg-utils/{CVE-2020-27748.patch => CVE-2022-4055.patch}     | 2 +-
- meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb              | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/xdg-utils/xdg-utils/{CVE-2020-27748.patch => CVE-2022-4055.patch} (99%)
+On Wed, 2023-04-05 at 07:05 +0000, Petr Kubiz=C5=88=C3=A1k - 2N wrote:
+> Thanks for merging the vte patch. I'd like to confirm that the build
+> succeeded on my side yesterday so that should be all prerequisites
+> needed for the "gobject-introspection: reduce dependencies" which has
+> not been merged yet. I've seen that patch was already in master-next
+> but was removed from there. So I just want to make sure it is still
+> somewhere in the queue, not being forgotten.
 
-diff --git a/meta/recipes-extended/xdg-utils/xdg-utils/CVE-2020-27748.patch b/meta/recipes-extended/xdg-utils/xdg-utils/CVE-2022-4055.patch
-similarity index 99%
-rename from meta/recipes-extended/xdg-utils/xdg-utils/CVE-2020-27748.patch
-rename to meta/recipes-extended/xdg-utils/xdg-utils/CVE-2022-4055.patch
-index ec3605e1586..b2360301088 100644
---- a/meta/recipes-extended/xdg-utils/xdg-utils/CVE-2020-27748.patch
-+++ b/meta/recipes-extended/xdg-utils/xdg-utils/CVE-2022-4055.patch
-@@ -14,7 +14,7 @@ Upstream-Status: Submitted [https://gitlab.freedesktop.org/xdg/xdg-utils/-/issue
- 
- Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
- 
--CVE: CVE-2020-27748
-+CVE: CVE-2022-4055
- 
- 
- Index: xdg-utils-1.1.3/scripts/xdg-email.in
-diff --git a/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb b/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb
-index d95bcccd2a5..4d931805354 100644
---- a/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb
-+++ b/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb
-@@ -21,7 +21,7 @@ SRC_URI = "https://portland.freedesktop.org/download/${BPN}-${PV}.tar.gz \
-            file://0001-Reinstate-xdg-terminal.patch \
-            file://0001-Don-t-build-the-in-script-manual.patch \
-            file://1f199813e0eb0246f63b54e9e154970e609575af.patch \
--           file://CVE-2020-27748.patch \
-+           file://CVE-2022-4055.patch \
-           "
- 
- SRC_URI[md5sum] = "902042508b626027a3709d105f0b63ff"
--- 
-2.39.2
+We're about to make the mickledore release and that final patch is
+probably a little bit too risky this late in the release process
+(feature freeze was several weeks ago).
+
+Adding in the DEPENDS is fine and low risk but as we proved with vte,
+the other patch does cause fallout and it will impact other layers
+besides core.
+
+As such I do plan to take it but in the next development cycle. Please
+remind me if I don't as it is hard to track everything being deferred.
+
+Cheers,
+
+Richard
+
 
 
