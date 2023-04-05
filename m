@@ -2,60 +2,56 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FF3FC7619A
-	for <webhook@archiver.kernel.org>; Wed,  5 Apr 2023 08:19:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4513BC76188
+	for <webhook@archiver.kernel.org>; Wed,  5 Apr 2023 08:24:37 +0000 (UTC)
 Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web10.125071.1680682746249630905
+ by mx.groups.io with SMTP id smtpd.web11.125238.1680683067344093480
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Apr 2023 01:19:06 -0700
+ Wed, 05 Apr 2023 01:24:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Xc1yRfKP;
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WwzEyIEu;
  spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id i9so35322493wrp.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Apr 2023 01:19:06 -0700 (PDT)
+Received: by mail-wr1-f51.google.com with SMTP id j24so35378692wrd.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Apr 2023 01:24:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1680682744;
+        d=linuxfoundation.org; s=google; t=1680683066;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ir04iJeXD0yypP4xgpKxxWcabazoUWWggcinJLC5nfI=;
-        b=Xc1yRfKPe8f+AJAfU3OftmkhP707oPqsSXijAADVRW8IEfheoP6YmLO+8Qz5j7fTcS
-         D66As8WmeTDnHalPFChIt12kJMeAgLqE1JvF2h6rB5fjKpNcpBSn0qOvJHCCLFC7OqvT
-         mY1ka2Zj32UoLg71LmDBkhzfeuuV8fl5IFNT0=
+        bh=5XE1VIiSCddDbFhshK9xglScVhPutbMZovZ2vAJBYQc=;
+        b=WwzEyIEui5zEW6CA4BdIfkzDiCThiGeGDqw0j8MS40KsQ2OVN+2E8Zsq+Sp+AATr+D
+         3M8oyYBgSL4mAq0MK9asK2+LmPp9NQmF7qES+QzDgi5vmY+oCJ7LtFCc9p8nxmI4Q3CY
+         LDuc5+zEmnQ1hYinMjp1+vT85U5Wi1SVtVg8o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680682744;
+        d=1e100.net; s=20210112; t=1680683066;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ir04iJeXD0yypP4xgpKxxWcabazoUWWggcinJLC5nfI=;
-        b=ph4W/a4NO786TobJ53rVDV/Mu3TF1CVI/6anZT07W2Am7rUlqaijaQ30TnMwqOajed
-         9Mab69g3b53aZD5G2MnWt2M8REGyw/fJ/sdbAJWFZ5iwTpOihhxUnClbrUaCxXuojEx5
-         iDkJ6DAnvSd+NLUlqrFvRc/wAf4nA1lIQc05ktn7ibup8e+4LKpa5Cmr1F+MTbHNJE6U
-         1wN6O1EmRUqgey2zf86x0i9nL1o3D+U/rVFHkQ2chdUZVZyDTBZPwvqg5RwLJeLDsT5C
-         vsJJEt1rIF2ahMDFEMsjzhlW5Fc/u/EvfuRNY8DrNbZzG1CF10JyYmGooRPw2XksK7eg
-         nKvg==
-X-Gm-Message-State: AAQBX9dul2ENrBEXaCsYjPzlUUw08wbJF+ZbkE27owUrgFwygztvvoxs
-	UmzskP6Jz/EAxjVLsBpo5SixYQ==
-X-Google-Smtp-Source: AKy350ZBSU4FIQ7JuYqndEd6BRaT7JG1Jgw9CjY5UCIPwNtdzv8UQUj3zWcJO25x3b28J/JbdCizOw==
-X-Received: by 2002:a5d:440d:0:b0:2d8:cacd:797e with SMTP id z13-20020a5d440d000000b002d8cacd797emr3414118wrq.10.1680682744480;
-        Wed, 05 Apr 2023 01:19:04 -0700 (PDT)
+        bh=5XE1VIiSCddDbFhshK9xglScVhPutbMZovZ2vAJBYQc=;
+        b=kECuk0R/6acy6HDUddB5ZqNsB5L4BOJSCpdXYZuN3ycMJI8bP9Uvms4wrhqrrCdaDA
+         1o8JMdb5u7hp/lhW8Gj0RfXLiIgp8pNAFWFAprVD/Gmjq78X2hYYgM2S+IcQl7eInN2z
+         731+cFAxQ/mk1DpZB598gXfiZwsKRQTBByGo/Pna8FNZTLkHlw6fBtVfVvOD+rnklnBY
+         CN8otpqyBb1YlO8MUyaYEue+eNwVEbPyUB4TdQQrDarxbOUJj0BTNlmXcJJbFtditE9q
+         WELEju7IT0kIOpDUURBpOisvjszyZkJsofivIKqlgaPGUC1CVvmOPlanpuIYKvj8ducu
+         LvEQ==
+X-Gm-Message-State: AAQBX9eWXdn83LgQNS01A9eXqPMw9j4X89q/rGZSprVQdZDHKBqL+yuT
+	rs4GgxqQg/UjhrazPwgYNOOmQFp9ojL95zwabrI=
+X-Google-Smtp-Source: AKy350bWhR0eoTCdRCCGgdPmITWDDD2T5Pey5GgsPaWeBqHS3N2fKpPYZRTvHltbwHrmgNKpiHaYzw==
+X-Received: by 2002:adf:f705:0:b0:2d2:d324:e44f with SMTP id r5-20020adff705000000b002d2d324e44fmr3171044wrp.16.1680683065808;
+        Wed, 05 Apr 2023 01:24:25 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:f5bf:59d3:395c:4325? ([2001:8b0:aba:5f3c:f5bf:59d3:395c:4325])
-        by smtp.gmail.com with ESMTPSA id v8-20020a5d4a48000000b002c557f82e27sm14278218wrs.99.2023.04.05.01.19.03
+        by smtp.gmail.com with ESMTPSA id f7-20020adff8c7000000b002c5a1bd5280sm14334275wrq.95.2023.04.05.01.24.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Apr 2023 01:19:04 -0700 (PDT)
-Message-ID: <b474e607dd85ab8087a146dc01c1aadc0ddd04ce.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH v4 01/10] gobject-introspection: reduce
- dependencies
+        Wed, 05 Apr 2023 01:24:25 -0700 (PDT)
+Message-ID: <1086f8d17f0b736421d1632ced95933622ce4553.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] perl-version: make PERL* assignments
+ non-immediate
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Petr =?UTF-8?Q?Kubiz=C5=88=C3=A1k?= - 2N <Kubiznak@2n.com>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Wed, 05 Apr 2023 09:19:03 +0100
-In-Reply-To: <DB4PR02MB1003028940467C6316D6AD229E2909@DB4PR02MB10030.eurprd02.prod.outlook.com>
-References: <20230331114634.3578244-1-kubiznak@2n.com>
-	 <974f5837cdf9f57176e1af6d02c49a5b2cb03db1.camel@linuxfoundation.org>
-	 <DB4PR02MB10030EAC0D633CDD131D6642EE2939@DB4PR02MB10030.eurprd02.prod.outlook.com>
-	 <DB4PR02MB1003028940467C6316D6AD229E2909@DB4PR02MB10030.eurprd02.prod.outlook.com>
+To: Patrick Williams <patrick@stwcx.xyz>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 05 Apr 2023 09:24:24 +0100
+In-Reply-To: <20230405003850.384813-1-patrick@stwcx.xyz>
+References: <20230405003850.384813-1-patrick@stwcx.xyz>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.47.3-1 
@@ -63,33 +59,64 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Apr 2023 08:19:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179726
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Apr 2023 08:24:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179727
 
-Hi Petr,
+On Tue, 2023-04-04 at 19:38 -0500, Patrick Williams wrote:
+> The perl-version.bbclass executes functions which can depend on
+> variables potentially populated by native, such as `libdir`.  The
+> sanity `native-last` suggests that recipes should `inherit native`
+> last, but when that is done the variables like PERLVERSION end up
+> as `None`, since `${STAGING_LIBDIR}` needs `${libdir}` which is not
+> yet populated (by native).
+>=20
+> Switch these variables to be non-immediate, which then allows the
+> `${libdir}` to be properly populated.
+>=20
+> It appears that meta-openembedded/meta-perl does not use either
+> PERLVERSION or PERLARCH, nor is it used anywhere in `poky`.
+> meta-security/meta-perl uses PERLVERSION in one recipe's `do_install`
+> step.  OpenBMC's meta-phosphor similarly uses PERLVERSION in a
+> `do_install` step.  Therefore, it should be safe to make this
+> non-immediate.
+>=20
+> Fixes: openbmc/openbmc#3770
+> Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
+> ---
+>  meta/classes-recipe/perl-version.bbclass | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/classes-recipe/perl-version.bbclass b/meta/classes-reci=
+pe/perl-version.bbclass
+> index 269ac9eb31..e4913dd502 100644
+> --- a/meta/classes-recipe/perl-version.bbclass
+> +++ b/meta/classes-recipe/perl-version.bbclass
+> @@ -26,7 +26,7 @@ def get_perl_version(d):
+>              return m.group(1)
+>      return None
+> =20
+> -PERLVERSION :=3D "${@get_perl_version(d)}"
+> +PERLVERSION =3D "${@get_perl_version(d)}"
+>  PERLVERSION[vardepvalue] =3D ""
+> =20
+> =20
+> @@ -49,7 +49,7 @@ def get_perl_arch(d):
+>              return m.group(1)
+>      return None
+> =20
+> -PERLARCH :=3D "${@get_perl_arch(d)}"
+> +PERLARCH =3D "${@get_perl_arch(d)}"
+>  PERLARCH[vardepvalue] =3D ""
+> =20
+>  # Determine the staged arch of perl-native from the perl configuration f=
+ile
 
-On Wed, 2023-04-05 at 07:05 +0000, Petr Kubiz=C5=88=C3=A1k - 2N wrote:
-> Thanks for merging the vte patch. I'd like to confirm that the build
-> succeeded on my side yesterday so that should be all prerequisites
-> needed for the "gobject-introspection: reduce dependencies" which has
-> not been merged yet. I've seen that patch was already in master-next
-> but was removed from there. So I just want to make sure it is still
-> somewhere in the queue, not being forgotten.
-
-We're about to make the mickledore release and that final patch is
-probably a little bit too risky this late in the release process
-(feature freeze was several weeks ago).
-
-Adding in the DEPENDS is fine and low risk but as we proved with vte,
-the other patch does cause fallout and it will impact other layers
-besides core.
-
-As such I do plan to take it but in the next development cycle. Please
-remind me if I don't as it is hard to track everything being deferred.
+Most code seems to use ${@get_perl_version(d)} and ${@get_perl_arch(d)}
+directly so perhaps we should just remove the above instead and use
+these in meta-security too?
 
 Cheers,
 
 Richard
-
 
 
