@@ -1,143 +1,127 @@
-Return-Path: <patrick@stwcx.xyz>
+Return-Path: <marex@denx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5234AC76188
-	for <webhook@archiver.kernel.org>; Wed,  5 Apr 2023 12:07:48 +0000 (UTC)
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
- by mx.groups.io with SMTP id smtpd.web10.128101.1680696463163523368
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B39DC7619A
+	for <webhook@archiver.kernel.org>; Wed,  5 Apr 2023 12:29:38 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web10.128501.1680697767914914941
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Apr 2023 05:07:43 -0700
+ Wed, 05 Apr 2023 05:29:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@stwcx.xyz header.s=fm2 header.b=Eu+uMN1O;
- spf=pass (domain: stwcx.xyz, ip: 66.111.4.26, mailfrom: patrick@stwcx.xyz)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 602D55C0212;
-	Wed,  5 Apr 2023 08:07:42 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Wed, 05 Apr 2023 08:07:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1680696462; x=1680782862; bh=fD
-	AjVOmdrwI6XKgIxVCDN6wOCH0EIqmsFp0ZO8wyaD4=; b=Eu+uMN1Oqt7MlE0KKq
-	HHcP/NnUhIKdDi3iOFDJ64vE8jtWM/YAeAMOWwbgBNfm7aEX38GVtyVB1zmTtiRg
-	Iro+eP6/h2OlLRievSxbEiHFMFNGkTFizl9te8vjQAaOngpHdzPTHVvWjFLdU/Rh
-	Uew4LBl2jYSVibY+wycQKA9cblffw5G//WyUhsVZYeQU6cSALJwu94N3mFMiNXNP
-	cWizqNk5QOQ52tmndZZA7sGkhy3ZObZDqTFSQ8YE2iEOlfJE0YPfhNpiDidJJysI
-	HXHadZF1qZPWGlM4gj204dBCAWFr394b/i1B1barqOJ5G9dq0m9svh6IfuOWT52j
-	ibKQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1680696462; x=1680782862; bh=fDAjVOmdrwI6X
-	KgIxVCDN6wOCH0EIqmsFp0ZO8wyaD4=; b=MI+Yeu2ZSHSJF3U6mJ5oEWsg1sVoV
-	vCgag5s0sugMnX3+A4ibdqgSOHnmsQwkwZWBYiFEJIHwxA5HocvuTnPJIatn3zBJ
-	+kah+OggYm9RdgSBvWZKN5FWSztHDGDGev5de9vMyqMrdaZIY8ItcbJMSRAuYLOU
-	EBwfemtcBsnAbT4iDUV4PTjUhW1p28NrB2d2GfkSUlT2hH4qF2Ym/3KU2BUtLlWm
-	2BA7u6gMsKPfMGW9z6kzn4Qa/GU0M8EsLMCl6S2u1We12X/TjcuBHnaEeJ+33oJK
-	zCy1IVC9FgOOdWnxobvReq2PdTk5uezvZHcy6aW9Y08+/boe5r6Z2dafA==
-X-ME-Sender: <xms:jmQtZFUCOZJmsplxxq-CnWZ0uB7C-du8XYRsmSr2Nl8qGB0zpeTSZw>
-    <xme:jmQtZFl4sJ5lqoMHe6fI6g7dP8_etvr-gCTYhMoOQAtNNEDcH9tjQCmHx9OJ22QwS
-    K-KMM2qLaVWwfS9Mb4>
-X-ME-Received: <xmr:jmQtZBaMrzTwZQzROF8xHLoEkQRwuTuLZ8KZN_FHEUOvvMlUhpasxzDZvGyKuUDi2eMzeOM8CgBoBEvwM-5jqk2ApWYlsy78bHM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdejuddggeelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    gfrhhlucfvnfffucdlvdefmdenucfjughrpeffhffvvefukfhfgggtuggjsehgtderredt
-    tddvnecuhfhrohhmpefrrghtrhhitghkucghihhllhhirghmshcuoehprghtrhhitghkse
-    hsthiftgigrdighiiiqeenucggtffrrghtthgvrhhnpedtgeffjeetffeuueefffehleef
-    ledvueeuvddthefgffevheejfffgffeggeeuueenucffohhmrghinhepkhgvrhhnvghlrd
-    horhhgpdhophgvnhgsmhgtrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghr
-    rghmpehmrghilhhfrhhomhepphgrthhrihgtkhesshhtfigtgidrgiihii
-X-ME-Proxy: <xmx:jmQtZIXVxaNskqH194vgCSivOojfj9XUPfa0oI1s_g8pxeZwZm30Lw>
-    <xmx:jmQtZPkr8eENCy5ER2vMivhL9wyIxtRJteoEoqXX_9G6awdAeZigYw>
-    <xmx:jmQtZFcLpNmK9DKeyO7X4ZEoGgQbQK8-QHvJ2AJTeHmKJ-svWxmCRw>
-    <xmx:jmQtZOvVHeTxQebM_WnmWEkJXYw0hjfxybqJ9BI7qNl6nQg00UbIKw>
-Feedback-ID: i68a1478a:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 5 Apr 2023 08:07:41 -0400 (EDT)
-Date: Wed, 5 Apr 2023 07:07:40 -0500
-From: Patrick Williams <patrick@stwcx.xyz>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] perl-version: make PERL* assignments
- non-immediate
-Message-ID: <ZC1kjBgtNwGDVami@heinlein.vulture-banana.ts.net>
-References: <20230405003850.384813-1-patrick@stwcx.xyz>
- <1086f8d17f0b736421d1632ced95933622ce4553.camel@linuxfoundation.org>
+ dkim=fail reason="body hash did not verify" header.i=@denx.de header.s=phobos-20191101 header.b=xFcvjw13;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: marex@denx.de)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id AB33A85DC9;
+	Wed,  5 Apr 2023 14:29:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1680697765;
+	bh=k2S5PcdoLjgNPJi4zXXHKl25pZ4IotVXd03SdStD1nQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=xFcvjw137BPYlJTlIR0EC9xP/ExU0xfRVUMvVDkYf8Dh9FERSg3vgb+q+911A4rV9
+	 Vur7LN0wavSmro7VEMbsBJlKskBcYTmyyicLLrFZLu7Nu9nwBurXJih1/dbUf5dD02
+	 Rkea1+xCu6WTL3ixrT7jvpnB2wA1DvucFAACKBlAn4fW32NWSlIa6HAmSIfewM+BMu
+	 EMmZNoCuxTnXvmCejF45IJ6c4iDzPXuTTVPPJUqlIfo9vhKb4G8706AWD8FqmdXSCQ
+	 SX+W/zyZ0TVnOj3paRi5/p+NytLAkQG2wP1lWGmwnxY9hzScqEYF+hfy1Vho6cRSNH
+	 bl/e2J54Z8mUw==
+Message-ID: <4868dfb7-b70d-ad1a-6107-1b95e918660e@denx.de>
+Date: Wed, 5 Apr 2023 14:29:24 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ASOzZUL9jhgm30t6"
-Content-Disposition: inline
-In-Reply-To: <1086f8d17f0b736421d1632ced95933622ce4553.camel@linuxfoundation.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] yocto-check-layer: scan additional layers for tested
+ layer dependencies
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Cc: openembedded-core@lists.openembedded.org,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20230404213605.170461-1-marex@denx.de>
+ <CAP71WjyQOZNY5bnDkN33_nCfv8R3MBVb+MGDX1A1F+Jfg-m3_g@mail.gmail.com>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <CAP71WjyQOZNY5bnDkN33_nCfv8R3MBVb+MGDX1A1F+Jfg-m3_g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Apr 2023 12:07:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179734
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Apr 2023 12:29:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179735
 
-
---ASOzZUL9jhgm30t6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Apr 05, 2023 at 09:24:24AM +0100, Richard Purdie wrote:
-> On Tue, 2023-04-04 at 19:38 -0500, Patrick Williams wrote:
-> > =20
-> > -PERLVERSION :=3D "${@get_perl_version(d)}"
-> > +PERLVERSION =3D "${@get_perl_version(d)}"
-> >  PERLVERSION[vardepvalue] =3D ""
-> > =20
-> > =20
-> > @@ -49,7 +49,7 @@ def get_perl_arch(d):
-> >              return m.group(1)
-> >      return None
-> > =20
-> > -PERLARCH :=3D "${@get_perl_arch(d)}"
-> > +PERLARCH =3D "${@get_perl_arch(d)}"
-> >  PERLARCH[vardepvalue] =3D ""
-> > =20
+On 4/5/23 08:48, Nicolas Dechesne wrote:
+> On Tue, Apr 4, 2023 at 11:36=E2=80=AFPM Marek Vasut <marex@denx.de> wro=
+te:
 >=20
-> Most code seems to use ${@get_perl_version(d)} and ${@get_perl_arch(d)}
-> directly so perhaps we should just remove the above instead and use
-> these in meta-security too?
+>> In case a LAYERDEPENDS of a tested layer contains a dependency which i=
+s
+>> present in additional layers, such dependency does not get pulled into
+>> the layer test as a dependency be default and instead of YCL stops and
+>> reports it cannot find dependent layers.
+>>
+>=20
+> Hmm. I know this script is slightly (!) convoluted.
 
-I submitted the change to meta-security[1] and changed the one in
-openbmc/meta-phosphor[2] as well.
+Well ... yes.
 
-Do you want me to go ahead and delete these variables?  Is there any
-documentation / change-log that I should update as well?
+> But I think this is done 'by design'. Since you are expected to list al=
+l
+> your dependencies with --dependency when you are testing a layer.
 
-1. https://lore.kernel.org/yocto/20230405113726.469558-1-patrick@stwcx.xyz/=
-T/#u
-2. https://gerrit.openbmc.org/c/openbmc/openbmc/+/62164
+I am not sure that is correct. I believe the script is designed to=20
+attempt to look up the dependencies of a layer automatically. That is=20
+what the --additional-layers parameter is for, to specify the search=20
+paths for the automatic layer dependency lookup. The --dependency is=20
+there to hard-include a layer in the test, e.g. in case it cannot be=20
+automatically detected because that dependency (layer) is somehow not=20
+resolvable.
 
---=20
-Patrick Williams
+At least that is my understanding.
 
---ASOzZUL9jhgm30t6
-Content-Type: application/pgp-signature; name="signature.asc"
+And the result then is, you can have a directory with various layers,=20
+but the YCL with --additional-layers pointed into that directory will=20
+only pick the layers which are really required for validation of that=20
+tested layer, not the rest of them layers in that directory, which makes=20
+YCL runtime shorter . And that way, YCL can be used to test multiple=20
+arbitrary layers, which is useful in CI.
 
------BEGIN PGP SIGNATURE-----
+>> An example of this is a layer with LAYERDEPENDS =3D " core openembedde=
+d-core
+>> "
+>> and then by running YCL on such layer using the following invocation:
+>> $ yocto-check-layer -d --additional-layers ../meta-openembedded/ --
+>> ../meta-board-distro
+>>
+>=20
+> In this specific example, you are supposed to use --dependency
+> ../meta-openembedded instead of --additional-layers, no?
 
-iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmQtZIoACgkQqwNHzC0A
-wRmQhg//dg0rC8k4I0mB2vN4tuQuF7U9AKfW31EuM468/95jAqII4gwauDvVWS1D
-qzFxJJnIyekWycdeZUHusE+L66Zl0btWq7MEt0isViM53dGYVuBrIS5xPhia7N/1
-i9LKt5zWlSulq7qh90uAkRXN+09TSAHuSEdWlUZDnAwpWBgq+zFJVzT67vJXCcgt
-OZnRjYTNBcpXoQCTWYRNDczhxyBkuAnvXyeMx35aDuzcYTwIadSVcarJ19MqtOCc
-JELwRiCPrIIQOa2B2Uj7Y3Cw+8U/PVoqC27zY6tt04ljVOpmBgc9qZQSwGz8i6CP
-cGWGbbKi4EZG4qv6smETFyZCe6IlOheiC3OmpTAPul4FACM4KiG8uv0/4wurYDTH
-LK4dPIN60tS0Rva/GNPWSBQmzPbA6gZs0gQjsm6Jyq4LMk8TW2rAyj71PxUeHlbQ
-P9F+mFFsmr3xCO3O+fonpTWMyxid7D5xBx6d7aL2lSVgXqN+8qK33haTSaAYcI8w
-qVdadGoi2+KR+mOBupJvTjj+X9b08dxqFypJzmipN3+fCdpKAqw8Ct5dd9ZBSCUJ
-GYD2dZ/kHdV8zlgXoEFYsNk62N0Vi9fNK7rl5wMXwKLmc3K+/uiQ3hMfA9VQEz2b
-b0E/nu6OP74gb1VzLaEzOq7cWmfwwFpSrWTKT+7aMynCboh0Ank=
-=reXQ
------END PGP SIGNATURE-----
+I don't think so, the YCL should auto-lookup and auto-add the layers=20
+into dependencies from --additional-layers. That is my understanding of=20
+what --additional-layers is for, to do the auto-lookup/auto-add without=20
+having to explicitly list the dependencies on command line.
 
---ASOzZUL9jhgm30t6--
+> --additional-layers (see 31e53430f1bb6f73b82698b20ef7f1047313214a) is
+> supposed to bring extra layers when parsing/testing to mimic a full dis=
+tro
+> or to manually force optional layers to be present. But --dependency is
+> still required to contain all potential dependencies.
+
+Errr, uhhh.
+
+That is really weird, the first question which comes to my mind=20
+regarding that commit message is -- why not use --dependency to cover=20
+those use cases listed in the commit message.
+
+The second question which comes to my mind is, why does the=20
+additional-layers do automatic layer look up (based on LAYERDEPENDS) in=20
+the specified additional-layer directories, but then fails to actually=20
+add those layers into the build during the test (I think maybe that is=20
+what I am solving with this patch, without describing it well).
+
+Well that turned out to be a wall of text too, sigh ...
 
