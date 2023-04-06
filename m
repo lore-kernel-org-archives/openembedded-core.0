@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2636FC77B70
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BDCBC77B6F
 	for <webhook@archiver.kernel.org>; Thu,  6 Apr 2023 16:02:56 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web10.162539.1680796971803094908
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web11.162548.1680796966123452587
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Apr 2023 09:02:51 -0700
+ Thu, 06 Apr 2023 09:02:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=mt1KZh9P;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f172.google.com with SMTP id x37so24024469pga.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Apr 2023 09:02:51 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=B58u+JGX;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f49.google.com with SMTP id x15so37652906pjk.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Apr 2023 09:02:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680796971; x=1683388971;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680796965; x=1683388965;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CJumSe93pZIKv5lRmTOyhtUDMOKK0Jyr+T0eNgl7Upg=;
-        b=mt1KZh9P2991+e3ow8dsFqSaNmJ8z0v8tdRgGi+WvAPCFK0/2vstvLpUBXhLpUjNuu
-         d4/+K35umpTo9pM4MPsQA6z1yEAaDz7rQjEFPJpIZgTR4exbSgGXU8Hu1+tl2dE3u/Sb
-         WgJcnXG2BxmSUA7MlkZBMKQWaWqECo4qLgNP2J2jXJ6Qt1OJaGf0ljhpscIH0Kl1vddL
-         1p2o5CcjIDltRUGcQJ/cLalB/GnTxzANtD+UynBTWH4qp2ZdMLf8STgeSADYTERPzNpV
-         4hAuk0wrqWUidxpUI4E66Fabp1CrSkta/pmlt4gTfWB0NAW341SRpfbQVOmvOIAss9Jf
-         THrw==
+        bh=N7wKPdAFfi1EMmTlywiFS9ZXS8FPww6XGmxAsaOZFvs=;
+        b=B58u+JGXBcrcS7gyQp/baoCbq1qTKeMy/8cLkBYuW4g3hxZWAv3USU8UE8TQyddb/A
+         HSBS4dZ+Zr0kYPiXIf6ioMYw/MnuhKZXuenB9jTs8OF8heF6krKO7Wjkj42di/6MM/U3
+         Bw/5THz96JxwB1ebG2iswpsoVkLZlbDNDZ8+A3W9oISMJxZ5xePgOMUiRy9hugHmfXhg
+         rJJY9K9GY9nB4KiYLQo8GQbeW/yBzwmMlZA9jzYdaMSv1i79+AUM7P39Y4l7Ei8Hd0es
+         EL0h8jePGSwcxYAZ5McHR8d7/CWt8tNgTetgAb+QMgd9bBFC0S8693Zuc3izXNhKBgRY
+         b/hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680796971; x=1683388971;
+        d=1e100.net; s=20210112; t=1680796965; x=1683388965;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CJumSe93pZIKv5lRmTOyhtUDMOKK0Jyr+T0eNgl7Upg=;
-        b=OY5PGsLIc9wi6cetGc5tatRetETOCgiJMWD79BvILlcv7Va8VYXa8XpbqYp9RZvAXy
-         U+8Fll8DIVgYoNUB8FXk9UGTc2IrBk6WiDlvoqjs3VH0t6uDZXzZ/2AknPj1u7sxq7Jp
-         rYwgOmLfUfy2Xm7oT+TrvzHKTXKosm0bf9xTBgzBVqY0SsqFpXafMpRFF1+HM+Z1sPTL
-         fJnLFMc9dbmP7N8EsNWkXVZakVXy6nzXVSy9/88ODvc3ECvqbfXOc60RYdxjjjf32mNj
-         Tx6Vwg+IojY3sFiUaOZMEZ/XoAJSOBBIsFwFdHYj8//+FW1aEbEFxS3GTC048ponEv3w
-         iZkw==
-X-Gm-Message-State: AAQBX9dB6UXfh723B3E8iYJf+ZIRzHKJxgEV+kSPZwp5p96h+oWivRRz
-	k88tz9CkTMkqEn6d7JSZ1d67CmvjPCSsuD1jUmY=
-X-Google-Smtp-Source: AKy350Z46Tj8ZKIeb//Y5ddx7Wr10PETtgODxJh6N+Pt+WslYx6BH99WJvh0Zi2xy3DV85XWpESE3A==
-X-Received: by 2002:a05:6a00:1d8b:b0:626:9a1:3731 with SMTP id z11-20020a056a001d8b00b0062609a13731mr6367227pfw.7.1680796970781;
-        Thu, 06 Apr 2023 09:02:50 -0700 (PDT)
+        bh=N7wKPdAFfi1EMmTlywiFS9ZXS8FPww6XGmxAsaOZFvs=;
+        b=int79lALwTFBGMxRHVnlwVp1Xa6ImUX0xeV6qA9Qjfj7NYmSYhoS7t1gajxx5HkzfT
+         9sQYo5pYTmQrmvW+L0IW68m+ZeeJiAn5AJaaF4pDJNnGXeXGwOiOvkrgPMdsQkNdFy/F
+         Axn0J8ZTa8sV3gs07a3V9iow04szjLkl/1TnEiO5SnniPWSZ+UjyCc2yY9t1+9SkkU9g
+         xLhzcPLUJ+svSOOqEtfQ30eb3S6htlen8r0N87qCiahAPCxgMaGkXfHn5sqzAA44udR6
+         wrYBJoTFiuk6ICrSR/eC6TDhDFwIcZ4vRGADidoEgfWjkdmlzVmvIMrgkfPqG0afnV1J
+         nqBg==
+X-Gm-Message-State: AAQBX9cwSZCC0JcoCJWHHLCQ0rNUXpEo2SjMxHH3oXo9YEr21B3rOsUn
+	AsCe9ur8Iia8/ZzdJASgCcjsin17B6ZR+SKTukg=
+X-Google-Smtp-Source: AKy350ai+pQPEEN+0sh0Q1QbxfWeVzP9XvLMdTZU/xaIzRw3pWv4mmjBgcRyMD0WP7iWQmOzO3G8og==
+X-Received: by 2002:a05:6a20:b127:b0:db:52da:367a with SMTP id ed39-20020a056a20b12700b000db52da367amr24876pzb.33.1680796965095;
+        Thu, 06 Apr 2023 09:02:45 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id b13-20020aa7870d000000b0062e26487e7esm1532588pfo.155.2023.04.06.09.02.49
+        by smtp.gmail.com with ESMTPSA id b13-20020aa7870d000000b0062e26487e7esm1532588pfo.155.2023.04.06.09.02.43
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Apr 2023 09:02:50 -0700 (PDT)
+        Thu, 06 Apr 2023 09:02:44 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 17/26] oeqa/targetcontrol: remove unused imports
-Date: Thu,  6 Apr 2023 06:01:44 -1000
-Message-Id: <6659360828b5d022b90e71883159a75f4def7382.1680796770.git.steve@sakoman.com>
+Subject: [OE-core][langdale 14/26] oeqa/selftest/cases/runqemu: update imports
+Date: Thu,  6 Apr 2023 06:01:41 -1000
+Message-Id: <21a31082b7100f82280c1e0b225e6d82b9f6e4f9.1680796770.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1680796770.git.steve@sakoman.com>
 References: <cover.1680796770.git.steve@sakoman.com>
@@ -62,41 +62,41 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 06 Apr 2023 16:02:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179795
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179792
 
 From: Enrico Jörns <ejo@pengutronix.de>
 
+'tempfile' and 'oeqa.utils.command.runCmd' are unused while 'os' is
+actually used.
+
 Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 46b42edbf814d15be3a18283018ede2d4f817bc6)
+(cherry picked from commit 50f766233e83528eebeca92877277374c7193530)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/targetcontrol.py | 4 ----
- 1 file changed, 4 deletions(-)
+ meta/lib/oeqa/selftest/cases/runqemu.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index bc6b91e994..f5f2ce2f12 100644
---- a/meta/lib/oeqa/targetcontrol.py
-+++ b/meta/lib/oeqa/targetcontrol.py
-@@ -7,18 +7,14 @@
- # This module is used by testimage.bbclass for setting up and controlling a target machine.
+diff --git a/meta/lib/oeqa/selftest/cases/runqemu.py b/meta/lib/oeqa/selftest/cases/runqemu.py
+index c1d277a095..72ca77b845 100644
+--- a/meta/lib/oeqa/selftest/cases/runqemu.py
++++ b/meta/lib/oeqa/selftest/cases/runqemu.py
+@@ -4,13 +4,13 @@
+ # SPDX-License-Identifier: MIT
+ #
  
- import os
--import shutil
- import subprocess
- import bb
--import traceback
--import sys
- import logging
- from oeqa.utils.sshcontrol import SSHControl
- from oeqa.utils.qemurunner import QemuRunner
- from oeqa.utils.qemutinyrunner import QemuTinyRunner
- from oeqa.utils.dump import TargetDumper
- from oeqa.utils.dump import MonitorDumper
--from oeqa.controllers.testtargetloader import TestTargetLoader
- from abc import ABCMeta, abstractmethod
++import os
+ import re
+-import tempfile
+ import time
+ import oe.types
+ from oeqa.core.decorator import OETestTag
+ from oeqa.selftest.case import OESelftestTestCase
+-from oeqa.utils.commands import bitbake, runqemu, get_bb_var, runCmd
++from oeqa.utils.commands import bitbake, runqemu, get_bb_var
  
- class BaseTarget(object, metaclass=ABCMeta):
+ @OETestTag("runqemu")
+ class RunqemuTests(OESelftestTestCase):
 -- 
 2.34.1
 
