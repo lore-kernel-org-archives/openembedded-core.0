@@ -1,139 +1,167 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7642C76196
-	for <webhook@archiver.kernel.org>; Thu,  6 Apr 2023 11:12:14 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.155665.1680779525501016444
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECE9BC7618D
+	for <webhook@archiver.kernel.org>; Thu,  6 Apr 2023 11:58:14 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web11.156318.1680782285728757128
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Apr 2023 04:12:06 -0700
+ Thu, 06 Apr 2023 04:58:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20210112.gappssmtp.com header.s=20210112 header.b=VoC0tpwi;
- spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f53.google.com with SMTP id m8so11490646wmq.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Apr 2023 04:12:05 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OCrnGf3t;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f51.google.com with SMTP id e18so39241365wra.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Apr 2023 04:58:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20210112.gappssmtp.com; s=20210112; t=1680779524;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=i14vB10ePm4uRl58C8FTsEzCNOtYwdeCLPgzdzd3Fcg=;
-        b=VoC0tpwi789BYdgJo0W+7PuVbUN/cC/oPuEkb0GVUYvspbIP0gKrD/fbvpka2HMGHN
-         67sFBFDEQUQrqb+mDA2qaLg1DcKTSchIbxAjrknOc8ZohbQ8o/UhgOoTJ4qfWTSWG+B1
-         NEtWqQ6zMyV2nM3aqtc3NSLtK8Lsf1HaKYj7R/PBFaEp7xwa+QoPBvsdIU0MeR9AzXle
-         09py5s4d0psWkCAHHpmtfxdyTBzSJObct0z2loHHAhAlfvj35fS7s+qid982LCtgEVze
-         tSxagi3VsNOME+Ob5gMCARxTO0YidAozRzY0cV7A6tuw0GtcSpBiUU4CBOcnS1hvEkax
-         MlrA==
+        d=linuxfoundation.org; s=google; t=1680782284;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IxJ7BYpNo99enjlcCb2/zS43OYw5nexV1tdWdYQxrjg=;
+        b=OCrnGf3t4tdfscnz9bc+TZ/X2evXCwH+z4GOEagWNAzI106IgQB0esMWRJbAt1TtUD
+         QmFzCv6cvypNgfwkDHbgNiUckcUvJs2iOEJ5x1AFXHRTRDJrP5+yu8IbRc09EveXYlRH
+         u9ztT60UH0y13gI+rB59L2tRuj1KzuBKcJC0I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680779524;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=i14vB10ePm4uRl58C8FTsEzCNOtYwdeCLPgzdzd3Fcg=;
-        b=xW9hUItKg343pt+iqMec3Pjmh1IPG3dVwidC1oygq1pVYoh6lp4QS+t7fqzHy/rZV1
-         IbWSQsEkeycJQCoGH0OWt3NZtC6RROOlxeMATnt19vs+Y9m6fdT7vH24teYaNuH8iS2J
-         JIRgoxlpXg3bVMsh2QqHXFVUJT5qMN11ENb7QqZBOqKE2u/Im8m7TT2zylpRX6XppRsU
-         Mj7WYOSJfCJK/QycQbZDw9H1mG2HRA3isjnKQI2texyyFLfECJ/GW6EJAN+Zx72n7sV/
-         CGJOVdYPJz00QRy3U1QIjReOCuUni0PJXYZIlXNzdx93qlouGKIwCenPLhzfBEnEfCrY
-         nmDg==
-X-Gm-Message-State: AAQBX9dc25ow2lpxDXdHqvBCqOkVumjLWAfNwgshHJ23zqxXiIaqqGVo
-	Hj0xuBQcygVkm+p0hIxGk7Jv/g==
-X-Google-Smtp-Source: AKy350ahhum1K5H+uyOfJ+c27QUzHjY1RFa1W3YN3A2ZBkUXUaGWubZejv5XeDXhXrvHE/8NZMHn3A==
-X-Received: by 2002:a7b:c40e:0:b0:3ee:1239:1ba7 with SMTP id k14-20020a7bc40e000000b003ee12391ba7mr7031830wmi.27.1680779523653;
-        Thu, 06 Apr 2023 04:12:03 -0700 (PDT)
-Received: from [192.168.0.27] (89-159-1-53.rev.numericable.fr. [89.159.1.53])
-        by smtp.gmail.com with ESMTPSA id o11-20020a05600c4fcb00b003ebff290a52sm4920429wmq.28.2023.04.06.04.12.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Apr 2023 04:12:03 -0700 (PDT)
-Message-ID: <764c1ff2-4771-377d-2fa9-ddd3af028e89@smile.fr>
-Date: Thu, 6 Apr 2023 13:12:02 +0200
+        d=1e100.net; s=20210112; t=1680782284;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=IxJ7BYpNo99enjlcCb2/zS43OYw5nexV1tdWdYQxrjg=;
+        b=Df7QqCowArUiosrMGf8ihwoKZdxqD91DrJHrXVxCemA/4/GUpAobdFcAmKX90scxXU
+         v2gm5Xiin+lSb6aaMwQua+au5v5+k4qszeZ3Oxghvs4JGCIRxynIN1RmVjqaYB0PWNYy
+         pvy5j6Ahb9oMy5YW1Rb3ncjJqITJHuFSgJm/k93aL4StufNs0rOVAlgQVdaMBE7uVmek
+         MNRkIRvrJqn80qtAQgf73lKgJUvRgR5PtV9hIsrykWOQoawngOi7SlxszFVtwnrZa7NB
+         FwurSSnTsmjez0IzsPmQNASdBApnQDUMdMs04lHg03yiEmypIuW0SwxdWYhs25oa3DDy
+         94Pg==
+X-Gm-Message-State: AAQBX9eAwhfJBFJhlPh8yUlLgS6lr0WKAERYXWsHdCx2dbsMRicAEmgq
+	X/pwjO4WCLRK4gnD2ziywBeFEw==
+X-Google-Smtp-Source: AKy350Y/9yFfJEdms1910Betmxug2Kpq617TZTUHHfTFOsAA9GXdi/RyEaxEY7ov/BTlMWjs2rYQdg==
+X-Received: by 2002:adf:f492:0:b0:2ce:a7df:c115 with SMTP id l18-20020adff492000000b002cea7dfc115mr6615827wro.41.1680782284142;
+        Thu, 06 Apr 2023 04:58:04 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:6a84:552d:cd38:8d5? ([2001:8b0:aba:5f3c:6a84:552d:cd38:8d5])
+        by smtp.gmail.com with ESMTPSA id k13-20020a5d66cd000000b002c707785da4sm1544959wrw.107.2023.04.06.04.58.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Apr 2023 04:58:03 -0700 (PDT)
+Message-ID: <b87018c33df6153d6ac0b13e5de8c93f9294be6d.camel@linuxfoundation.org>
+Subject: Re: [qa-build-notification] QA notification for completed
+ autobuilder build (yocto-4.2.rc1)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: qa-build-notification@lists.yoctoproject.org, 
+	"<yocto@lists.yoctoproject.org>"
+	 <yocto@lists.yoctoproject.org>, "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>, Pokybuild User
+	 <pokybuild@yoctoproject.org>
+Date: Thu, 06 Apr 2023 12:58:02 +0100
+In-Reply-To: <BN6PR11MB414551F130849522F32006C5A1919@BN6PR11MB4145.namprd11.prod.outlook.com>
+References: 
+	<3f837f0f6dc5a6670ebb2d3a6e074fa614c387c3.camel@linuxfoundation.org>
+	 <BN6PR11MB414551F130849522F32006C5A1919@BN6PR11MB4145.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.47.3-1 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [OE-core] [PATCH] cve-extra-exclusions.inc: Exclude some issues
- not present in linux-yocto
-Content-Language: en-US
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-Cc: Geoffrey GIRY <geoffrey.giry@smile.fr>
-References: <20230404164400.403462-1-richard.purdie@linuxfoundation.org>
- <9cb0aae1-c1be-ab0d-2263-1ab2f928c885@smile.fr>
- <eaa125c5ba2c1a13837c65df4a961abab5f5373b.camel@linuxfoundation.org>
- <9eab4d61-3939-0703-1d81-e998f8957e99@smile.fr>
- <432346f305541dc9e25b0e7fe34de1fd12aab978.camel@linuxfoundation.org>
- <b481324c-62ee-8d82-3147-1c677020ae00@smile.fr>
- <810a3c1fcf90c6a3a7af827d10079536a1420d55.camel@linuxfoundation.org>
-From: Yoann Congal <yoann.congal@smile.fr>
-Organization: Smile ECS
-In-Reply-To: <810a3c1fcf90c6a3a7af827d10079536a1420d55.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Apr 2023 11:12:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179769
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Apr 2023 11:58:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179770
 
-On 4/6/23 10:36, Richard Purdie wrote:
-> On Thu, 2023-04-06 at 10:23 +0200, Yoann Congal wrote:
->>
->> For CVE-2022-38457 and CVE-2022-40133 
-> 
-> This one appears to be fixed for 6.1 only with this change:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=a309c7194e8a2f8bd4539b9449917913f6c2cd50
-> 
-> coming into 6.1 stable here:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=linux-6.1.y&id=7ac9578e45b20e3f3c0c8eb71f5417a499a7226a
-> 
-> 
-> The fix seems to cover both CVEs.
-> 
->> I can't track the commit properly.
->> Yes, linuxkernelcves.com gives commits for these CVEs but is this safe enough to ignore? 
->> Until now, we have only ignored CVE from commits present in the NVD database.
-> 
-> I think if we have good reason to believe these commits address the
-> CVE, we can document that. There does seem to be a strong connection
-> here but I've not gone into the details.
+Hi Jing Hui,
 
-Ok, I'm now convinced the commit fixes these CVEs.
-I'll send a patch to ignore these.
+Unfortunately there is an issue that has come up regarding the recent
+crate fetcher changes. This means we're going to need to move to an rc2
+build so we should probably stop testing rc1.
 
->> CVE-2023-23005 is disputed (as you noted), I'll look into it but at a
->> quick glance, the dispute has good arguments and we might ignore this
->> one safely.
-> 
-> Agreed. If there are strong arguments from the maintainers, this does
-> give us a good case for ignoring it as long as we document it as such.
+I'll hopefully have that ready soon. Sorry about the churn.
 
-Same, I'll send a patch to ignore this one also.
+Cheers,
+
+Richard
 
 
->> We are vulnerable to CVE-2023-28866 : It was introduced in 5.17 (bce56405201111807cc8e4f47c6de3e10b17c1ac from Fixes: tag).
->> On the 6.1 branch, this is fixed in 6.1.22 and we are at 6.1.20.
-> 
-> Hopefully we'll update soon then! :)
-> 
-> Thanks for the help with these. It does make a difference and is much
-> appreciated. You can see the downtick in master here:
-> 
-> https://autobuilder.yocto.io/pub/non-release/patchmetrics/
-> 
-> :)
+On Thu, 2023-04-06 at 09:06 +0000, Jing Hui Tham wrote:
+> Hi all,
+> =20
+> Intel and WR YP QA is planning for QA execution for YP build yocto-4.2.rc=
+1. We are planning to execute following tests for this cycle:
+> =20
+> OEQA-manual tests for following module:
+> 1. OE-Core
+> 2. BSP-hw
+> =20
+> Runtime auto test for following platforms:
+> 1. MinnowTurbot 32-bit
+> 2. NUC 7
+> 3. ADL
+> 4. TGL NUC 11
+> 5. Edgerouter
+> 6. Beaglebone
+> =20
+> ETA for completion next Tuesday, April 11.
+> =20
+> Best regards,
+> Jing Hui
+>=20
+>=20
+>=20
+> > -----Original Message-----
+> > From: qa-build-notification@lists.yoctoproject.org <qa-build-
+> > notification@lists.yoctoproject.org> On Behalf Of Richard Purdie
+> > Sent: Thursday, April 6, 2023 3:57 PM
+> > To: <yocto@lists.yoctoproject.org> <yocto@lists.yoctoproject.org>
+> > Cc: qa-build-notification <qa-build-notification@lists.yoctoproject.org=
+>
+> > Subject: [qa-build-notification] QA notification for completed autobuil=
+der
+> > build (yocto-4.2.rc1)
+> >=20
+> > A build flagged for QA (yocto-4.2.rc1) was completed on the autobuilder=
+ and
+> > is available at:
+> >=20
+> >=20
+> >     https://autobuilder.yocto.io/pub/releases/yocto-4.2.rc1
+> >=20
+> >=20
+> > Build hash information:
+> >=20
+> > bitbake: 46e1ea2e9a203992bb4de48ea21a8e736419ada2
+> > meta-agl: 09135164a21a216c6e3e75d7decce896b92962f0
+> > meta-arm: 3b4ab43d2f82b9db682a88dff4665807b62d1870
+> > meta-aws: d243fc1ad45dde57b4caa182a92b685540475cb2
+> > meta-intel: ec3147abdd0727fedc707330d58593097357f944
+> > meta-mingw: 250617ffa524c082b848487359b9d045703d59c2
+> > meta-openembedded: 60afa577e5656a7c82c902da11adc031d71ef8db
+> > meta-virtualization: 48c07a48a0e7d56266f20a01bb0c8ebc1085453b
+> > oecore: 5a96847e7ef2ff72958d739a91c90e2085c04bc6
+> > poky: 08d564bd92fc476d7f0b4a6201b752e51cf93776
+> >=20
+> >=20
+> > This is an automated message from the Yocto Project Autobuilder
+> > Git: git://git.yoctoproject.org/yocto-autobuilder2
+> > Email: richard.purdie@linuxfoundation.org
+> >=20
+> >=20
+> >=20
+> >=20
+> >=20
+> >=20
+> >=20
+>=20
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#237): https://lists.yoctoproject.org/g/qa-build-notif=
+ication/message/237
+> Mute This Topic: https://lists.yoctoproject.org/mt/98100538/1686473
+> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-notification/leave=
+/8915122/1686473/2097788548/xyzzy [richard.purdie@linuxfoundation.org]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
+>=20
+>=20
 
-Happy to see this :)
-
-> This should then mean we'll soon get a list of "real" issues instead of
-> noise.
-
-I really hope we'll get to that point!
-
-Regards,
--- 
-Yoann Congal
-Smile ECS - Tech Expert
 
