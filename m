@@ -2,95 +2,98 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1F98C761A6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EB11C7618D
 	for <webhook@archiver.kernel.org>; Thu,  6 Apr 2023 14:19:45 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web10.159531.1680790784395228820
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.159521.1680790782597043946
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Apr 2023 07:19:44 -0700
+ Thu, 06 Apr 2023 07:19:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20210112.gappssmtp.com header.s=20210112 header.b=c5cF/8E/;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id n19so22698107wms.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Apr 2023 07:19:44 -0700 (PDT)
+ dkim=pass header.i=@smile-fr.20210112.gappssmtp.com header.s=20210112 header.b=DkuCpG+B;
+ spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f54.google.com with SMTP id v14-20020a05600c470e00b003f06520825fso2971042wmo.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Apr 2023 07:19:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20210112.gappssmtp.com; s=20210112; t=1680790782;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oFMC2JfPZXz/o7zeVUBfjoMdUQkVczXC48R61x4pDIs=;
-        b=c5cF/8E/n8b/2ZHdmyzdqaXFILkbpcEv9kwQo9N4HYLx4RzAHEpPCRXS49uKZSkqY/
-         HNAy1w5bhNAJB4e3OaHS07/w2vM8UN/MgQq2XvJJ8wCgUWV+CKEoESOIFUWGyRffebrj
-         QEAvwCA+0BIB8EfO+70uykwirq0fURGM2bO8v2c7N9p7NJqBNEp5W6xCdT+wxVBI9yuR
-         TqCdCxzTyTkNXzXobBeS+X+FPy1axhOalmnTAXsEQfBvRw8JDgAu4GJBXe+bUmf5gm23
-         9XAcy2Y2K/6UyvuisKS79IJhWqft4XwJ69eS9MqMxTRMo8u2MJf1fKngXMx8S0zk1aIO
-         LqIg==
+        d=smile-fr.20210112.gappssmtp.com; s=20210112; t=1680790780;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CMODFEuZI/pgjR5tKvR28LdHRjBgr9Dhxt2A+tlovus=;
+        b=DkuCpG+B0On3BCsksiXhLLmNQ7qT+iwIxi9zOv06fTqTp6J2bxWfqL6YoC6mFd2siU
+         mbVhRL8fIVMrCUH9Ozm+v+LtXEiy3Z2vQvRO0HdLNNQLLeTegc+19KaCN3DrIyKyd2Xj
+         F9gKysrlAJ8xND86p58AxNXzqN/a2x+jgcN7mScXS0wZAScfVTWWXThSWuxml//unWsf
+         Nv9TXeB/kAaEe45KiFrTIZ51lvc81OrXc9ABw4PWNwXDjvP9RCwzubNVMD405mVBBYVQ
+         Y2TduOmTbPgWKbTctpFhoKJ1VQ2ZfPoJpqMeJehC8d2jcwMnopv1ffM31dMEclnaw/aO
+         s31Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680790782;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oFMC2JfPZXz/o7zeVUBfjoMdUQkVczXC48R61x4pDIs=;
-        b=LXZUjVCrMHNhbn9PJup9T0SR8T6fE1dqByEYLxauxzWyngqopmfif6QjWpgd3hpbbi
-         UGgXPROv5XUha2leB34DLCbs1Yfypndx2lA9acOi0TSM0yydoqr3QaCyKKI+gO10koeS
-         sirdHo6/XD6M+EpuXtBkSJCp0trId3P1G37+TWpy/bxyB835BT+xIMLOL6x27zL/LP5z
-         XcGiRFJyhjn4XvAtuUNZENw5K+oyGacDQv+UrRx2kt6n4P90iL0F2LAUvcP1+ty9NwWk
-         2CdYhGvzflDtLq5wAsj70eHLeZEAgpeYXlzFk8/Xq9gDq6ZJ9HfxLs7PxyuZsUdQveTL
-         MzOA==
-X-Gm-Message-State: AAQBX9dKJE+2Mm97UPGoigIzyu4Agvi+AI+zD2zpf3bomwaXp3e3NzU1
-	1DRPulXLCdnwzEGMaL0EnnhnZBoGpmus4G4Q52M=
-X-Google-Smtp-Source: AKy350axHrhiEIizYskTr0LTRK15WVcGG19BkofLwOk9CYIxtCkUouTmXJbvrp/lcos+xA3tEZqBZg==
-X-Received: by 2002:a05:600c:220c:b0:3dc:557f:6129 with SMTP id z12-20020a05600c220c00b003dc557f6129mr7600535wml.2.1680790782609;
-        Thu, 06 Apr 2023 07:19:42 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680790780;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CMODFEuZI/pgjR5tKvR28LdHRjBgr9Dhxt2A+tlovus=;
+        b=Ir5OuPBf9mhQG8E5iehu1Gt7541Hmp3WWn++dctD+qMCnMDPkSAk+tuJOyYzNVLQj2
+         n94cAzlwgEePK/Tw++fo/yrZGyFLHvPswayMks8LuNNaiEQqrOIjq9LexKaV4Fm4sryz
+         bFzAtyZ/pOzV9EfBeer1FXNsS7tlWfEdNkUDQ4uNnC3QDm+rHkj1lbShnjjeBsO5IrZN
+         boXUSb/5EbEbMO38zcqfdkvwAdqWiVWzSdranBdW65Ko0EXJVKxw9QORjhlU/Kukbl3k
+         wO8+njiXO5tjzSU9i+Ko6A2K9hjx+HtdKot1KFqTWOa04Kh8VXctk/RulZaGdcuzf4O5
+         +DXQ==
+X-Gm-Message-State: AAQBX9d+BK2Mx3/TODos5IefHZlsCY7rF1+7zfELN6P76jlp4TI9jIva
+	D6ZP7FdVXMfcQMrtzMsqzHhB+oYGIJhXeYH1qwM=
+X-Google-Smtp-Source: AKy350agePqYrqfj10uy2CQP4n83HhXnftCTA1DynTj7GiesPbZ6aqBjJaq5jKgLeVrT9LhEIn1MZw==
+X-Received: by 2002:a7b:c8d7:0:b0:3ee:6161:7d98 with SMTP id f23-20020a7bc8d7000000b003ee61617d98mr4785705wml.16.1680790780540;
+        Thu, 06 Apr 2023 07:19:40 -0700 (PDT)
 Received: from P-ASN-ECS-830T8C3.numericable.fr (89-159-1-53.rev.numericable.fr. [89.159.1.53])
-        by smtp.gmail.com with ESMTPSA id k23-20020a05600c0b5700b003ee44b2effasm1748331wmr.12.2023.04.06.07.19.42
+        by smtp.gmail.com with ESMTPSA id k23-20020a05600c0b5700b003ee44b2effasm1748331wmr.12.2023.04.06.07.19.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Apr 2023 07:19:42 -0700 (PDT)
+        Thu, 06 Apr 2023 07:19:40 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Cc: Yoann Congal <yoann.congal@smile.fr>,
-	Frank WOLFF <frank.wolff@smile.fr>
-Subject: [PATCH 2/2] cve-extra-exclusion: ignore disputed CVE-2023-23005
-Date: Thu,  6 Apr 2023 16:19:23 +0200
-Message-Id: <20230406141923.419980-2-yoann.congal@smile.fr>
+Cc: Yoann Congal <yoann.congal@smile.fr>
+Subject: [PATCH 1/2] cve-exclusions_6.1: ignore patched CVE-2022-38457 & CVE-2022-40133
+Date: Thu,  6 Apr 2023 16:19:22 +0200
+Message-Id: <20230406141923.419980-1-yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230406141923.419980-1-yoann.congal@smile.fr>
-References: <20230406141923.419980-1-yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 06 Apr 2023 14:19:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179776
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179775
+
+Ignore CVE-2022-38457 & CVE-2022-40133 as they looks patched in our 6.1
+branch.
+
+I've asked the NVD to add the commit as the patch for these CVEs, but in
+the meantime, other sources seem to agree that the commit fixes these
+CVEs (and I concur).
 
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-Reviewed-by: Frank WOLFF <frank.wolff@smile.fr>
 ---
- meta/conf/distro/include/cve-extra-exclusions.inc | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ meta/recipes-kernel/linux/cve-exclusion_6.1.inc | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/meta/conf/distro/include/cve-extra-exclusions.inc b/meta/conf/distro/include/cve-extra-exclusions.inc
-index 0b89598501..439d569f7d 100644
---- a/meta/conf/distro/include/cve-extra-exclusions.inc
-+++ b/meta/conf/distro/include/cve-extra-exclusions.inc
-@@ -485,6 +485,16 @@ CVE_CHECK_IGNORE += "CVE-2023-1281"
- # Backported in version v6.1.13 747ca7c8a0c7bce004709143d1cd6596b79b1deb
- CVE_CHECK_IGNORE += "CVE-2023-1513"
+diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.1.inc b/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
+index ec7ff9c1a7..8b32c2b2df 100644
+--- a/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
++++ b/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
+@@ -13,3 +13,17 @@ CVE_CHECK_IGNORE += "CVE-2022-3566"
+ # Patched in kernel since v6.1 364f997b5cfe1db0d63a390fe7c801fa2b3115f6
+ CVE_CHECK_IGNORE += "CVE-2022-3567"
  
-+# https://nvd.nist.gov/vuln/detail/CVE-2023-23005
-+# Introduced in version v6.1 7b88bda3761b95856cf97822efe8281c8100067b
-+# Patched in kernel since v6.2 4a625ceee8a0ab0273534cb6b432ce6b331db5ee
-+# But, the CVE is disputed:
-+# > NOTE: this is disputed by third parties because there are no realistic cases
-+# > in which a user can cause the alloc_memory_type error case to be reached.
-+# See: https://bugzilla.suse.com/show_bug.cgi?id=1208844#c2
-+# We can safely ignore it.
-+CVE_CHECK_IGNORE += "CVE-2023-23005"
 +
- # https://nvd.nist.gov/vuln/detail/CVE-2023-28466
- # Introduced in version v4.13 3c4d7559159bfe1e3b94df3a657b2cda3a34e218
- # Patched in kernel since v6.3-rc2 49c47cc21b5b7a3d8deb18fc57b0aa2ab1286962
++# 2023
++
++# https://nvd.nist.gov/vuln/detail/CVE-2022-38457
++# https://nvd.nist.gov/vuln/detail/CVE-2022-40133
++# Both CVE-2022-38457 & CVE-2022-40133 are fixed by the same commit:
++# Introduced in version v4.20 e14c02e6b6990e9f6ee18a214a22ac26bae1b25e
++# Patched in kernel since v6.2 a309c7194e8a2f8bd4539b9449917913f6c2cd50
++# Backported in version v6.1.7 7ac9578e45b20e3f3c0c8eb71f5417a499a7226a
++# See:
++#  * https://www.linuxkernelcves.com/cves/CVE-2022-38457
++#  * https://www.linuxkernelcves.com/cves/CVE-2022-40133
++#  * https://lore.kernel.org/all/CAODzB9q3OBD0k6W2bcWrSZo2jC3EvV0PrLyWmO07rxR4nQgkJA@mail.gmail.com/T/
++CVE_CHECK_IGNORE += "CVE-2022-38457 CVE-2022-40133"
 -- 
 2.30.2
 
