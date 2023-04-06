@@ -2,115 +2,168 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16503C76196
-	for <webhook@archiver.kernel.org>; Thu,  6 Apr 2023 15:56:56 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web10.162303.1680796605892493517
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47EB6C761A6
+	for <webhook@archiver.kernel.org>; Thu,  6 Apr 2023 16:02:06 +0000 (UTC)
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web10.162485.1680796920610777600
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Apr 2023 08:56:46 -0700
+ Thu, 06 Apr 2023 09:02:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=8EYdmdI8;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id ix20so37909188plb.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Apr 2023 08:56:45 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=TlJWtCKW;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f180.google.com with SMTP id u38so26061763pfg.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Apr 2023 09:02:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680796605; x=1683388605;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680796919; x=1683388919;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Pjvh6zJOCILhnK2g8MoZtfW+oJqFrmKZNPpo69hhNG0=;
-        b=8EYdmdI84TT9WkaKIuqegxm8JRe5hgb7We3KzLCf55YQt7ctxv1WuS3ze+X36tNtpS
-         N1BCl9jg2DzlOUg4iyaNRFsmsP6m6cufCDyjaYN5ROkimDhF8chpDzSFK6yGfrS5HwbS
-         K0D3boojyrSbwJ2W/h959dY1YsAdnJ+QPPtgM+1janViIIkfMl8AAfvTR1b48fPXOj28
-         s7SyrxMdDzc089leCyNFBPE2mlRSiR6g2EO8Es4CpDE+gCQ6k9G+gzNyTVIe1gyLPg8R
-         /9yTen6agKsc1IIwsmnQMJ6ctI/0FG6bUg+jYxF9+laadWh7IT0lIgVV6suwJvHH3XFd
-         uY5A==
+        bh=iJ/7tjJYQnkEKPgNfNV0tx9uNB6tNOaj/O08jdMjbHM=;
+        b=TlJWtCKWnfc0zPApl3WkC0r0vCuhgcuUzwo3ADvAygo9pvBDsUynjEH85grw2VW1UW
+         ejPYFKhu01sIeokoWHWFJ2z14VbMtOtW+ECZPlR7BVHM29jYzamDvkwVVpyi513YPpIA
+         h5GAZGAsc1/iqIQasrnfKQboIRtXk6Nrh+9HFB1ht/LQJE4n4psWUuO88vIuNMbU4SH2
+         uPWb2VyWcPQvYf+vmCkD5awMxGIe7CynPRhkyZNtm9F3ZfAljXNigkP+bi2vTEQsYQW9
+         WTaJAj3k9K1bAEADXrLvgG4EsVoZwCkwHNFezVJKx/FTbkA7r07QNV/7DdcK6ZpQ5wA2
+         Nf1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680796605; x=1683388605;
+        d=1e100.net; s=20210112; t=1680796919; x=1683388919;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Pjvh6zJOCILhnK2g8MoZtfW+oJqFrmKZNPpo69hhNG0=;
-        b=sz7IZnvbqFHHMmhUXdR14/LGtTxg2xN7yOoGYEedA5HihlvLNn4L/Vd/NJmHsammTN
-         vpAKlIVKGoLml/w8wUWaoDIOi4SpfMXMaHeRj7cjPK9Ez/Oso2KdtTaN9jar1OCLwBNj
-         MxaKIwF9S16UTf9viCRZmLZIQZeZM5Y4C75O9pGFd0CVj1XGjoOTv2SjwKRsO7a/pd4X
-         inKXfdIWVBazeqRrtSt3Fd1l3TNH+GLSdNoWNhhJFAmYkBpdl3pIT2TDE+/rmbrPdzCn
-         Nuuexx0vNBgwCfItKPEfghMd6qNEjmKJIUxncGRxnKNGIhUrFGSlu2G/mDEFJT131y+S
-         PcDw==
-X-Gm-Message-State: AAQBX9e/N5Pf2fi6KtUdlOJNMkXFNXILEnLo9ZFsPocqLp0GbfrTSk0q
-	xOH1YQqZqt57GHzcZ12b8zPvW0oDcUaQlUjh3rk=
-X-Google-Smtp-Source: AKy350bRI80yZTBuF6eSx51i++77PeK662QwwDJX274Uc1J+6NaiESd/zlUTcnP12BEsN3IUop2Ajw==
-X-Received: by 2002:a17:903:2803:b0:1a2:7d:17f2 with SMTP id kp3-20020a170903280300b001a2007d17f2mr8703139plb.69.1680796604685;
-        Thu, 06 Apr 2023 08:56:44 -0700 (PDT)
+        bh=iJ/7tjJYQnkEKPgNfNV0tx9uNB6tNOaj/O08jdMjbHM=;
+        b=H64we2yfaFxEw1hMLkoJ9ntr/+oGvkBdHMDw2bySepxJwat3H/GTLXF8CUbG2SSky3
+         0Gt8BoW+LhmDqk0CakWa/ghDUrVMNi2oiQ6B4ZuI30y8JBKMTtIenc0iH/nketmUNC8/
+         NmGHPphkA07Sxkgwxu3t3zOqJAoG+4asowkzFGa4GB72eJ/A4sEisxwIElfXJVNquKC2
+         Es+lD9jSshla5UCjTlZjLv0lmvCTiDQciJJt6svI23cKhHsiD6XLbE7JfVE6LMKl17v1
+         TD6YzcYWCq9B9xdHuukWI4sgD9ruzciCdadYGQIQ9Cxdx6+KNd1AWu7g2GbJOxGqz5SI
+         BviQ==
+X-Gm-Message-State: AAQBX9fuJeaGNQGmm8olLHPfo+qpug/8ui/fT5wakXeHuGrc8Xm1wtG4
+	3e8jjB7eXPlxSoGjSGUumY78wOTheJ1HePqqQWg=
+X-Google-Smtp-Source: AKy350aj6d90J1/uVtN/8yuqk6MWFj46Y0RB8VwjXncQMBCDlAOZV5sdFb2QQGPCtqZol6VRaNTnfQ==
+X-Received: by 2002:a62:1b0b:0:b0:627:ede2:89ee with SMTP id b11-20020a621b0b000000b00627ede289eemr9124411pfb.25.1680796919257;
+        Thu, 06 Apr 2023 09:01:59 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id w20-20020a170902a71400b0019928ce257dsm1553016plq.99.2023.04.06.08.56.43
+        by smtp.gmail.com with ESMTPSA id b13-20020aa7870d000000b0062e26487e7esm1532588pfo.155.2023.04.06.09.01.58
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Apr 2023 08:56:44 -0700 (PDT)
+        Thu, 06 Apr 2023 09:01:58 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 0/7] Pull request (cover letter only)
-Date: Thu,  6 Apr 2023 05:56:37 -1000
-Message-Id: <cover.1680796532.git.steve@sakoman.com>
+Subject: [OE-core][langdale 00/26] Patch review
+Date: Thu,  6 Apr 2023 06:01:27 -1000
+Message-Id: <cover.1680796770.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Apr 2023 15:56:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179777
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Apr 2023 16:02:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179778
 
-The following changes since commit 1c7d555379c4b0962bccd018870989050d87675f:
+Please review this set of patches for langdale and have comments back by
+end of day Monday.
 
-  classes/package: Use gzip for extended package data (2023-03-27 16:29:20 -1000)
+Passed a-full on autobuilder:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5152
+
+The following changes since commit 6c9ca2f2de98c84d11beccbfde7c1e26cb25dfb6:
+
+  scripts/lib/buildstats: handle top-level build_stats not being complete (2023-03-30 04:10:26 -1000)
 
 are available in the Git repository at:
 
-  https://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+  https://git.openembedded.org/openembedded-core-contrib stable/langdale-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/langdale-nut
 
-Geoffrey GIRY (1):
-  cve-check: Fix false negative version issue
+Andrew Geissler (1):
+  filemap.py: enforce maximum of 4kb block size
 
-Hitendra Prajapati (2):
-  curl: CVE-2023-23916 HTTP multi-header compression denial of service
-  qemu: fix compile error which imported by CVE-2022-4144
+Arturo Buzarra (1):
+  run-postinsts: Set dependency for ldconfig to avoid boot issues
 
-Martin Jansa (1):
-  bmap-tools: switch to main branch
+Enrico Jörns (7):
+  oeqa/selftest/cases/runqemu: update imports
+  oeqa/targetcontrol: fix misspelled RuntimeError
+  oeqa/targetcontrol: do not set dump_host_cmds redundantly
+  oeqa/targetcontrol: remove unused imports
+  oeqa/utils/commands: fix usage of undefined EPIPE
+  oeqa/utils/commands: remove unused imports
+  oeqa/utils/qemurunner: replace hard-coded user 'root' in debug output
 
-Randy MacLeod (1):
-  vim: upgrade 9.0.1403 -> 9.0.1429
+Fawzi KHABER (2):
+  package.bbclass: check packages name conflict in do_package
+  oeqa/selftest/cases/package.py: adding unittest for package rename
+    conflicts
 
-Shubham Kulkarni (1):
-  go-runtime: Security fix for CVE-2022-41723
+Jose Quaresma (3):
+  oeqs/selftest: OESelftestTestContext: replace the os.environ after
+    subprocess.check_output
+  oeqa/selftest: OESelftestTestContext: convert relative to full path
+    when newbuilddir is provided
+  oeqa/selftest/reproducible: Split different packages from missing
+    packages output
 
-Vijay Anusuri (1):
-  git: Security fix for CVE-2023-22490 and CVE-2023-23946
+Khem Raj (1):
+  Revert "runqemu: Add workaround for APIC hang on pre 4.15 kernels on
+    qemux86"
 
- meta/classes/cve-check.bbclass                |   5 +-
- meta/lib/oe/cve_check.py                      |  37 +++
- meta/lib/oeqa/selftest/cases/cve_check.py     |  19 ++
- .../git/files/CVE-2023-22490-1.patch          | 179 +++++++++++++
- .../git/files/CVE-2023-22490-2.patch          | 122 +++++++++
- .../git/files/CVE-2023-22490-3.patch          | 154 ++++++++++++
- .../git/files/CVE-2023-23946.patch            | 184 ++++++++++++++
- meta/recipes-devtools/git/git.inc             |   4 +
- meta/recipes-devtools/go/go-1.14.inc          |   1 +
- .../go/go-1.14/CVE-2022-41723.patch           | 156 ++++++++++++
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- ...ass-requested-buffer-size-to-qxl_phy.patch | 236 ++++++++++++++++++
- .../bmap-tools/bmap-tools_3.5.bb              |   2 +-
- .../curl/curl/CVE-2023-23916.patch            | 231 +++++++++++++++++
- meta/recipes-support/curl/curl_7.69.1.bb      |   1 +
- meta/recipes-support/vim/vim.inc              |   4 +-
- 16 files changed, 1332 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-devtools/git/files/CVE-2023-22490-1.patch
- create mode 100644 meta/recipes-devtools/git/files/CVE-2023-22490-2.patch
- create mode 100644 meta/recipes-devtools/git/files/CVE-2023-22490-3.patch
- create mode 100644 meta/recipes-devtools/git/files/CVE-2023-23946.patch
- create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2022-41723.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/hw-display-qxl-Pass-requested-buffer-size-to-qxl_phy.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-23916.patch
+Martin Jansa (3):
+  selftest: runqemu: better check for ROOTFS: in the log
+  selftest: runqemu: use better error message when asserts fail
+  runqemu: respect IMAGE_LINK_NAME
+
+Michael Halstead (1):
+  uninative: Upgrade to 3.9 to include glibc 2.37
+
+Mingli Yu (1):
+  report-error: catch Nothing PROVIDES error
+
+Richard Purdie (2):
+  xdg-utils: Add a patch for CVE-2020-27748
+  xdg-utils: Fix CVE number
+
+Ross Burton (2):
+  tzdata: upgrade to 2023c
+  oeqa/runtime: clean up deprecated backslash expansion
+
+Soumya (1):
+  shadow: Fix can not print full login timeout message
+
+Tobias Hagelborn (1):
+  lib/oe/gpg_sign.py: Avoid race when creating .sig files in detach_sign
+
+ .../packagenameconflict.bb                    |  10 +
+ meta/classes-global/package.bbclass           |   9 +
+ meta/classes-recipe/testimage.bbclass         |   2 +-
+ meta/classes/report-error.bbclass             |  27 +-
+ meta/conf/distro/include/yocto-uninative.inc  |  10 +-
+ meta/lib/oe/gpg_sign.py                       |  27 +-
+ meta/lib/oeqa/runtime/cases/apt.py            |   4 +-
+ meta/lib/oeqa/runtime/cases/buildcpio.py      |   7 +-
+ meta/lib/oeqa/runtime/cases/systemd.py        |   2 +-
+ meta/lib/oeqa/selftest/cases/package.py       |   7 +
+ meta/lib/oeqa/selftest/cases/reproducible.py  |  10 +-
+ meta/lib/oeqa/selftest/cases/runqemu.py       |  16 +-
+ meta/lib/oeqa/selftest/context.py             |  20 +-
+ meta/lib/oeqa/targetcontrol.py                |   8 +-
+ meta/lib/oeqa/utils/commands.py               |   6 +-
+ meta/lib/oeqa/utils/qemurunner.py             |   4 +-
+ .../run-postinsts/run-postinsts.service       |   2 +-
+ .../0001-Fix-can-not-print-full-login.patch   |  41 +++
+ meta/recipes-extended/shadow/shadow.inc       |   1 +
+ meta/recipes-extended/timezone/timezone.inc   |   6 +-
+ .../timezone/tzcode-native.bb                 |   2 -
+ ...0001-Fix-C23-related-conformance-bug.patch | 301 ------------------
+ .../xdg-utils/xdg-utils/CVE-2022-4055.patch   | 145 +++++++++
+ .../xdg-utils/xdg-utils_1.1.3.bb              |   1 +
+ scripts/lib/wic/filemap.py                    |   7 +
+ scripts/runqemu                               |  74 +++--
+ 26 files changed, 371 insertions(+), 378 deletions(-)
+ create mode 100644 meta-selftest/recipes-test/packagenameconflict/packagenameconflict.bb
+ create mode 100644 meta/recipes-extended/shadow/files/0001-Fix-can-not-print-full-login.patch
+ delete mode 100644 meta/recipes-extended/timezone/tzcode/0001-Fix-C23-related-conformance-bug.patch
+ create mode 100644 meta/recipes-extended/xdg-utils/xdg-utils/CVE-2022-4055.patch
 
 -- 
 2.34.1
