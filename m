@@ -2,169 +2,244 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47EB6C761A6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45C9DC76196
 	for <webhook@archiver.kernel.org>; Thu,  6 Apr 2023 16:02:06 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web10.162485.1680796920610777600
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.162506.1680796922262100891
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Apr 2023 09:02:00 -0700
+ Thu, 06 Apr 2023 09:02:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=TlJWtCKW;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id u38so26061763pfg.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Apr 2023 09:02:00 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=xKrzI6P4;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id q2so1811696pll.7
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Apr 2023 09:02:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680796919; x=1683388919;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iJ/7tjJYQnkEKPgNfNV0tx9uNB6tNOaj/O08jdMjbHM=;
-        b=TlJWtCKWnfc0zPApl3WkC0r0vCuhgcuUzwo3ADvAygo9pvBDsUynjEH85grw2VW1UW
-         ejPYFKhu01sIeokoWHWFJ2z14VbMtOtW+ECZPlR7BVHM29jYzamDvkwVVpyi513YPpIA
-         h5GAZGAsc1/iqIQasrnfKQboIRtXk6Nrh+9HFB1ht/LQJE4n4psWUuO88vIuNMbU4SH2
-         uPWb2VyWcPQvYf+vmCkD5awMxGIe7CynPRhkyZNtm9F3ZfAljXNigkP+bi2vTEQsYQW9
-         WTaJAj3k9K1bAEADXrLvgG4EsVoZwCkwHNFezVJKx/FTbkA7r07QNV/7DdcK6ZpQ5wA2
-         Nf1g==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680796921; x=1683388921;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BBPyuz6fAzAgSWagEh0hoS4OG7ikz5s0xRsc81gcWQA=;
+        b=xKrzI6P41XExGipTTm/pHk6Qhvqf7uDz2s1B9VX6m6YJbY8h3lqNa2F3AhwKD+9Jgn
+         3mKtDeKBODe1qH/R26d6IFYz4B8dTSauLjH7oMzhhbYe+2FkV4SBDM6vFUVo2CzTEfR+
+         uqqyQss9pEk2+h3rFM8dfYBZyBlSJlaikt5/VBgLWbuVsEK40rFr28iRqga6tbRHDOaG
+         ZLdbvoGOvr90NngqQ2sQpQzErYrBsottcbCVspsNDVbIdwB6IkBLxytscbkbAbitoxuN
+         up7LFBXqkpuoxubcn95yF0myHD2OakevSJQt5nThsrH0zmK5gxgU1u42KDkijm1fpYvh
+         csVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680796919; x=1683388919;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iJ/7tjJYQnkEKPgNfNV0tx9uNB6tNOaj/O08jdMjbHM=;
-        b=H64we2yfaFxEw1hMLkoJ9ntr/+oGvkBdHMDw2bySepxJwat3H/GTLXF8CUbG2SSky3
-         0Gt8BoW+LhmDqk0CakWa/ghDUrVMNi2oiQ6B4ZuI30y8JBKMTtIenc0iH/nketmUNC8/
-         NmGHPphkA07Sxkgwxu3t3zOqJAoG+4asowkzFGa4GB72eJ/A4sEisxwIElfXJVNquKC2
-         Es+lD9jSshla5UCjTlZjLv0lmvCTiDQciJJt6svI23cKhHsiD6XLbE7JfVE6LMKl17v1
-         TD6YzcYWCq9B9xdHuukWI4sgD9ruzciCdadYGQIQ9Cxdx6+KNd1AWu7g2GbJOxGqz5SI
-         BviQ==
-X-Gm-Message-State: AAQBX9fuJeaGNQGmm8olLHPfo+qpug/8ui/fT5wakXeHuGrc8Xm1wtG4
-	3e8jjB7eXPlxSoGjSGUumY78wOTheJ1HePqqQWg=
-X-Google-Smtp-Source: AKy350aj6d90J1/uVtN/8yuqk6MWFj46Y0RB8VwjXncQMBCDlAOZV5sdFb2QQGPCtqZol6VRaNTnfQ==
-X-Received: by 2002:a62:1b0b:0:b0:627:ede2:89ee with SMTP id b11-20020a621b0b000000b00627ede289eemr9124411pfb.25.1680796919257;
-        Thu, 06 Apr 2023 09:01:59 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680796921; x=1683388921;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BBPyuz6fAzAgSWagEh0hoS4OG7ikz5s0xRsc81gcWQA=;
+        b=w0dAS3zFuohQ71osoJbOGFyDFimx+z5GRNVM+RNUPX7cDuh2k0tf0nG1QV3+y2CTc5
+         4jhgDZG5vtMrmPymUq8iAVdZNOw/asZ608VC5iBDofTQKcRNOBlx/P2rCGAZrwJR/LM0
+         +rXFFY3d0O7p04/n6Qiuy39NZyyNmxYA8KVOmCOfb2TP/BAkiTbGwllBhJI2AvjuBMg1
+         QuUxG6GOCmXC7+QS7g4j6nxy1mJwqkEHb5T1tdav+dVZ4sleW9nEWTsHOL4Jhau0y9Cp
+         108mq4cxihEcHZ3zOsblzPefNbeDGxyKNf1MuBeWfiN69lgWV1GD8kXM0F93hc/iIpWr
+         Tl9Q==
+X-Gm-Message-State: AAQBX9cKs5UMcbqG5RO8mdhbgTVguWGZVAdFPHpiLmO338838xHFuUHP
+	To/RzX9HSM9QtaSRT9ZYDfiQqAm8MtdB2apRaGk=
+X-Google-Smtp-Source: AKy350bnPbltYeQThPbGTTijxVLPtp7B/izE4k1Juv3mhONFJ2IFhmlSlymTsgDJG/+wsjnp0a/ZmA==
+X-Received: by 2002:a05:6a20:4d83:b0:d9:840f:79c2 with SMTP id gj3-20020a056a204d8300b000d9840f79c2mr88136pzb.2.1680796921178;
+        Thu, 06 Apr 2023 09:02:01 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id b13-20020aa7870d000000b0062e26487e7esm1532588pfo.155.2023.04.06.09.01.58
+        by smtp.gmail.com with ESMTPSA id b13-20020aa7870d000000b0062e26487e7esm1532588pfo.155.2023.04.06.09.02.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Apr 2023 09:01:58 -0700 (PDT)
+        Thu, 06 Apr 2023 09:02:00 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 00/26] Patch review
-Date: Thu,  6 Apr 2023 06:01:27 -1000
-Message-Id: <cover.1680796770.git.steve@sakoman.com>
+Subject: [OE-core][langdale 01/26] xdg-utils: Add a patch for CVE-2020-27748
+Date: Thu,  6 Apr 2023 06:01:28 -1000
+Message-Id: <5b14528e7bfe2f0a29cc2d40253e49be5202efcf.1680796770.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1680796770.git.steve@sakoman.com>
+References: <cover.1680796770.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 06 Apr 2023 16:02:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179778
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179779
 
-Please review this set of patches for langdale and have comments back by
-end of day Monday.
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Passed a-full on autobuilder:
+Take a patch submitted upstream for the issue while upstream decide what
+to do. We don't use thunderbird integration so this isn't an issue for us.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5152
-
-The following changes since commit 6c9ca2f2de98c84d11beccbfde7c1e26cb25dfb6:
-
-  scripts/lib/buildstats: handle top-level build_stats not being complete (2023-03-30 04:10:26 -1000)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/langdale-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/langdale-nut
-
-Andrew Geissler (1):
-  filemap.py: enforce maximum of 4kb block size
-
-Arturo Buzarra (1):
-  run-postinsts: Set dependency for ldconfig to avoid boot issues
-
-Enrico Jörns (7):
-  oeqa/selftest/cases/runqemu: update imports
-  oeqa/targetcontrol: fix misspelled RuntimeError
-  oeqa/targetcontrol: do not set dump_host_cmds redundantly
-  oeqa/targetcontrol: remove unused imports
-  oeqa/utils/commands: fix usage of undefined EPIPE
-  oeqa/utils/commands: remove unused imports
-  oeqa/utils/qemurunner: replace hard-coded user 'root' in debug output
-
-Fawzi KHABER (2):
-  package.bbclass: check packages name conflict in do_package
-  oeqa/selftest/cases/package.py: adding unittest for package rename
-    conflicts
-
-Jose Quaresma (3):
-  oeqs/selftest: OESelftestTestContext: replace the os.environ after
-    subprocess.check_output
-  oeqa/selftest: OESelftestTestContext: convert relative to full path
-    when newbuilddir is provided
-  oeqa/selftest/reproducible: Split different packages from missing
-    packages output
-
-Khem Raj (1):
-  Revert "runqemu: Add workaround for APIC hang on pre 4.15 kernels on
-    qemux86"
-
-Martin Jansa (3):
-  selftest: runqemu: better check for ROOTFS: in the log
-  selftest: runqemu: use better error message when asserts fail
-  runqemu: respect IMAGE_LINK_NAME
-
-Michael Halstead (1):
-  uninative: Upgrade to 3.9 to include glibc 2.37
-
-Mingli Yu (1):
-  report-error: catch Nothing PROVIDES error
-
-Richard Purdie (2):
-  xdg-utils: Add a patch for CVE-2020-27748
-  xdg-utils: Fix CVE number
-
-Ross Burton (2):
-  tzdata: upgrade to 2023c
-  oeqa/runtime: clean up deprecated backslash expansion
-
-Soumya (1):
-  shadow: Fix can not print full login timeout message
-
-Tobias Hagelborn (1):
-  lib/oe/gpg_sign.py: Avoid race when creating .sig files in detach_sign
-
- .../packagenameconflict.bb                    |  10 +
- meta/classes-global/package.bbclass           |   9 +
- meta/classes-recipe/testimage.bbclass         |   2 +-
- meta/classes/report-error.bbclass             |  27 +-
- meta/conf/distro/include/yocto-uninative.inc  |  10 +-
- meta/lib/oe/gpg_sign.py                       |  27 +-
- meta/lib/oeqa/runtime/cases/apt.py            |   4 +-
- meta/lib/oeqa/runtime/cases/buildcpio.py      |   7 +-
- meta/lib/oeqa/runtime/cases/systemd.py        |   2 +-
- meta/lib/oeqa/selftest/cases/package.py       |   7 +
- meta/lib/oeqa/selftest/cases/reproducible.py  |  10 +-
- meta/lib/oeqa/selftest/cases/runqemu.py       |  16 +-
- meta/lib/oeqa/selftest/context.py             |  20 +-
- meta/lib/oeqa/targetcontrol.py                |   8 +-
- meta/lib/oeqa/utils/commands.py               |   6 +-
- meta/lib/oeqa/utils/qemurunner.py             |   4 +-
- .../run-postinsts/run-postinsts.service       |   2 +-
- .../0001-Fix-can-not-print-full-login.patch   |  41 +++
- meta/recipes-extended/shadow/shadow.inc       |   1 +
- meta/recipes-extended/timezone/timezone.inc   |   6 +-
- .../timezone/tzcode-native.bb                 |   2 -
- ...0001-Fix-C23-related-conformance-bug.patch | 301 ------------------
- .../xdg-utils/xdg-utils/CVE-2022-4055.patch   | 145 +++++++++
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit b85b7714a44caa70beb2f115483ee52745aa1b97)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../xdg-utils/xdg-utils/CVE-2020-27748.patch  | 145 ++++++++++++++++++
  .../xdg-utils/xdg-utils_1.1.3.bb              |   1 +
- scripts/lib/wic/filemap.py                    |   7 +
- scripts/runqemu                               |  74 +++--
- 26 files changed, 371 insertions(+), 378 deletions(-)
- create mode 100644 meta-selftest/recipes-test/packagenameconflict/packagenameconflict.bb
- create mode 100644 meta/recipes-extended/shadow/files/0001-Fix-can-not-print-full-login.patch
- delete mode 100644 meta/recipes-extended/timezone/tzcode/0001-Fix-C23-related-conformance-bug.patch
- create mode 100644 meta/recipes-extended/xdg-utils/xdg-utils/CVE-2022-4055.patch
+ 2 files changed, 146 insertions(+)
+ create mode 100644 meta/recipes-extended/xdg-utils/xdg-utils/CVE-2020-27748.patch
 
+diff --git a/meta/recipes-extended/xdg-utils/xdg-utils/CVE-2020-27748.patch b/meta/recipes-extended/xdg-utils/xdg-utils/CVE-2020-27748.patch
+new file mode 100644
+index 0000000000..ec3605e158
+--- /dev/null
++++ b/meta/recipes-extended/xdg-utils/xdg-utils/CVE-2020-27748.patch
+@@ -0,0 +1,145 @@
++xdg-email does not parse mailto uris properly for thunderbird
++
++When using thunderbird as mailto handler xdg-email translates mailto uris into an 'thunderbird -compose' argument. While to, cc and bcc values are properly enclosed in single quotes this is not the case for subject or body. This breaks functionality and allows to use all thunderbird -compose arguments within a mailto uri, e.g.
++
++xdg-email 'mailto:test@example.com?subject=Test,attachment=~/.thunderbird/profiles.ini,message=/home/test/test.txt'
++
++translates into
++
++thunderbird -compose to='test@example.com,',subject=Test,attachment=~/.thunderbird/profiles.ini,message=/home/test/test.txt
++
++with working attachment and message. (And, yes, ~ expands to the home directory.)
++
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/xdg/xdg-utils/-/issues/205]
++
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++
++CVE: CVE-2020-27748
++
++
++Index: xdg-utils-1.1.3/scripts/xdg-email.in
++===================================================================
++--- xdg-utils-1.1.3.orig/scripts/xdg-email.in
+++++ xdg-utils-1.1.3/scripts/xdg-email.in
++@@ -30,53 +30,6 @@ _USAGE
++ 
++ #@xdg-utils-common@
++ 
++-run_thunderbird()
++-{
++-    local THUNDERBIRD MAILTO NEWMAILTO TO CC BCC SUBJECT BODY
++-    THUNDERBIRD="$1"
++-    MAILTO=$(echo "$2" | sed 's/^mailto://')
++-    echo "$MAILTO" | grep -qs "^?"
++-    if [ "$?" = "0" ] ; then
++-        MAILTO=$(echo "$MAILTO" | sed 's/^?//')
++-    else
++-        MAILTO=$(echo "$MAILTO" | sed 's/^/to=/' | sed 's/?/\&/')
++-    fi
++-
++-    MAILTO=$(echo "$MAILTO" | sed 's/&/\n/g')
++-    TO=$(/bin/echo -e $(echo "$MAILTO" | grep '^to=' | sed 's/^to=//;s/%\(..\)/\\x\1/g' | awk '{ printf "%s,",$0 }'))
++-    CC=$(/bin/echo -e $(echo "$MAILTO" | grep '^cc=' | sed 's/^cc=//;s/%\(..\)/\\x\1/g' | awk '{ printf "%s,",$0 }'))
++-    BCC=$(/bin/echo -e $(echo "$MAILTO" | grep '^bcc=' | sed 's/^bcc=//;s/%\(..\)/\\x\1/g' | awk '{ printf "%s,",$0 }'))
++-    SUBJECT=$(echo "$MAILTO" | grep '^subject=' | tail -n 1)
++-    BODY=$(echo "$MAILTO" | grep '^body=' | tail -n 1)
++-
++-    if [ -z "$TO" ] ; then
++-        NEWMAILTO=
++-    else
++-        NEWMAILTO="to='$TO'"
++-    fi
++-    if [ -n "$CC" ] ; then
++-        NEWMAILTO="${NEWMAILTO},cc='$CC'"
++-    fi
++-    if [ -n "$BCC" ] ; then
++-        NEWMAILTO="${NEWMAILTO},bcc='$BCC'"
++-    fi
++-    if [ -n "$SUBJECT" ] ; then
++-        NEWMAILTO="${NEWMAILTO},$SUBJECT"
++-    fi
++-    if [ -n "$BODY" ] ; then
++-        NEWMAILTO="${NEWMAILTO},$BODY"
++-    fi
++-
++-    NEWMAILTO=$(echo "$NEWMAILTO" | sed 's/^,//')
++-    DEBUG 1 "Running $THUNDERBIRD -compose \"$NEWMAILTO\""
++-    "$THUNDERBIRD" -compose "$NEWMAILTO"
++-    if [ $? -eq 0 ]; then
++-        exit_success
++-    else
++-        exit_failure_operation_failed
++-    fi
++-}
++-
++ open_kde()
++ {
++     if [ -n "$KDE_SESSION_VERSION" ] && [ "$KDE_SESSION_VERSION" -ge 5 ]; then
++@@ -130,15 +83,6 @@ open_kde()
++ 
++ open_gnome3()
++ {
++-    local client
++-    local desktop
++-    desktop=`xdg-mime query default "x-scheme-handler/mailto"`
++-    client=`desktop_file_to_binary "$desktop"`
++-    echo $client | grep -E 'thunderbird|icedove' > /dev/null 2>&1
++-    if [ $? -eq 0 ] ; then
++-        run_thunderbird "$client" "$1"
++-    fi
++-
++     if gio help open 2>/dev/null 1>&2; then
++         DEBUG 1 "Running gio open \"$1\""
++         gio open "$1"
++@@ -159,13 +103,6 @@ open_gnome3()
++ 
++ open_gnome()
++ {
++-    local client
++-    client=`gconftool-2 --get /desktop/gnome/url-handlers/mailto/command | cut -d ' ' -f 1` || ""
++-    echo $client | grep -E 'thunderbird|icedove' > /dev/null 2>&1
++-    if [ $? -eq 0 ] ; then
++-        run_thunderbird "$client" "$1"
++-    fi
++-
++     if gio help open 2>/dev/null 1>&2; then
++         DEBUG 1 "Running gio open \"$1\""
++         gio open "$1"
++@@ -231,15 +168,6 @@ open_flatpak()
++ 
++ open_generic()
++ {
++-    local client
++-    local desktop
++-    desktop=`xdg-mime query default "x-scheme-handler/mailto"`
++-    client=`desktop_file_to_binary "$desktop"`
++-    echo $client | grep -E 'thunderbird|icedove' > /dev/null 2>&1
++-    if [ $? -eq 0 ] ; then
++-        run_thunderbird "$client" "$1"
++-    fi
++-
++     xdg-open "$1"
++     local ret=$?
++ 
++@@ -364,21 +292,6 @@ while [ $# -gt 0 ] ; do
++         shift
++         ;;
++ 
++-      --attach)
++-        if [ -z "$1" ] ; then
++-            exit_failure_syntax "file argument missing for --attach option"
++-        fi
++-        check_input_file "$1"
++-        file=`readlink -f "$1"` # Normalize path
++-        if [ -z "$file" ] || [ ! -f "$file" ] ; then
++-            exit_failure_file_missing "file '$1' does not exist"
++-        fi
++-
++-        url_encode "$file"
++-        options="${options}attach=${result}&"
++-        shift
++-        ;;
++-
++       -*)
++         exit_failure_syntax "unexpected option '$parm'"
++         ;;
+diff --git a/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb b/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb
+index 73acf6b744..d95bcccd2a 100644
+--- a/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb
++++ b/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb
+@@ -21,6 +21,7 @@ SRC_URI = "https://portland.freedesktop.org/download/${BPN}-${PV}.tar.gz \
+            file://0001-Reinstate-xdg-terminal.patch \
+            file://0001-Don-t-build-the-in-script-manual.patch \
+            file://1f199813e0eb0246f63b54e9e154970e609575af.patch \
++           file://CVE-2020-27748.patch \
+           "
+ 
+ SRC_URI[md5sum] = "902042508b626027a3709d105f0b63ff"
 -- 
 2.34.1
 
