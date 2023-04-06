@@ -1,257 +1,378 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E80FC77B70
-	for <webhook@archiver.kernel.org>; Thu,  6 Apr 2023 16:03:16 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web10.162558.1680796986750560344
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24F10C76196
+	for <webhook@archiver.kernel.org>; Thu,  6 Apr 2023 19:48:07 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web10.168610.1680810479561513991
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Apr 2023 09:03:06 -0700
+ Thu, 06 Apr 2023 12:48:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=kCxD/GGr;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id j14-20020a17090a7e8e00b002448c0a8813so2007207pjl.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Apr 2023 09:03:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680796986; x=1683388986;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sVjXo83jJk7VPkLIpCjpthUzWAZu1nP4Stn3sWIk5f8=;
-        b=kCxD/GGrmo3RmWFq0ro/9IHHOKAG0LhGdP4MYGf2z5BAlQ8GfP3ehsJLaCAQ7E8qpq
-         XSAObldx1YDwWtbPDQRSB8PHkolZKkRVn6lrAQPcbELQEwD11KEXyp7SpDmALpL09P72
-         oXzYz4rs+ZzsJmT7QGcAbUop0TNcxvUaSc49HonqMb5BprCkLrdMg3y/WykZdnSGOcEM
-         4INDTiJIUQTFKVrEmb2Zuz43gnkiiNUqXevR75+2NtK94USYtVywgnzndtWcCIeQHpjo
-         78x/dnk0M9CmBVGFVAiov0mpp9oZ4si7gxCys4apvizwCz4u8TIjJkDsQ9rlcTj7NoGk
-         zPBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680796986; x=1683388986;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sVjXo83jJk7VPkLIpCjpthUzWAZu1nP4Stn3sWIk5f8=;
-        b=c1vJ8wHPwbvfUAFKLeqmjtoS92dhVh+c05/0KbyhojJUUCKm7YtAsULsz4amYMO1f7
-         zjiAiViXAnclohz6aDqIbHtv9N3Lx1oVjolIGBBosURPz+++qoM+xpMrM1lVTcv98p+4
-         3q1aAMvpLqZG6teZ5uvR+ajoaEFIW8+GGdn4JLMG8diWL9p/YWQj719Vw16c89UWRb1o
-         jnvkI5siLJXqfC51IpTUjnGo1NVQbSkqy4dvip12hwS1D2wFQ5N5n5mU4n1wymE4Ronj
-         6xhN6mhRv+ECFH6rSmiZYDQDCe1RIY/XDthWI8plv2nQ3ytB31cjNLOs4MLL6a+LCPR4
-         A34w==
-X-Gm-Message-State: AAQBX9fpC9e1AZIKaOJXUsZoEfuQSjZny13+tcy+SVv2UU2DoxHHGnSQ
-	l3z3Zq5Isp5EIPhaVPXi4Yw3Ipg8Nccz0EfjjVU=
-X-Google-Smtp-Source: AKy350Z7+WdfFBSkEXsn00piMirzczFcVfnXYeavNVdgk+rk0asEOHqMLtfNj3OxN5EikCDPC3y/fQ==
-X-Received: by 2002:a05:6a20:6089:b0:e4:9ac9:844e with SMTP id p9-20020a056a20608900b000e49ac9844emr2660951pza.61.1680796985580;
-        Thu, 06 Apr 2023 09:03:05 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id b13-20020aa7870d000000b0062e26487e7esm1532588pfo.155.2023.04.06.09.03.04
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Apr 2023 09:03:05 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 25/26] runqemu: respect IMAGE_LINK_NAME
-Date: Thu,  6 Apr 2023 06:01:52 -1000
-Message-Id: <82b7a8d5e81d766d0a5c2d0fef0f4c13a8f80c31.1680796770.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1680796770.git.steve@sakoman.com>
-References: <cover.1680796770.git.steve@sakoman.com>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=R5GX6IEm;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 0C74D240005;
+	Thu,  6 Apr 2023 19:47:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1680810477;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=W+2RI+4DmQ7y2f6WE7fZyBuo8uwr33DZ1Wq2Pb4Wo54=;
+	b=R5GX6IEmqz/apkNe+XHAVAeXSk4Vyj9zXwtCRbUCvytCWbM20MDkD5+KM378/N7QSph81k
+	+YByiWzjyjdTSmNlZ2buWhvODuZsc/L55Ur9hUN969h1GzrGMirFPdIAaHfoZqp7q95p9q
+	0kJs1IoZ5KXg57QpDlrqbasRE5qrHk/c2eBWbFSS3I3BlNIcc5SEZG/uambaHTWoE4O4Xp
+	Xn3sISqIa5b1avpNPICiJ4dkJM6NSVnA6aL2VppJvwiv1uAEpzXg+F+O5/4WWjvm7fqA2D
+	O5eRBhgfAfjWIwKdt+/w6I593zGIdCzM5cLdWe1spoIEb1h0IRcc9m2hRrui8Q==
+Date: Thu, 6 Apr 2023 21:47:56 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Markus Volk <f_l_k@t-online.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [meta-oe][PATCHv5 1/8] glib-2.0: update 2.74.6 ->
+ 2.76.1
+Message-ID: <20230406194756e8cc3cfd@mail.local>
+References: <20230328103144.5757-1-f_L_K@t-online.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230328103144.5757-1-f_L_K@t-online.de>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Apr 2023 16:03:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179803
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Apr 2023 19:48:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179805
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+Hello Markus,
 
-* when searching for qemuboot.conf
-* don't assume that IMAGE_LINK_NAME is always
-  <rootfs>-<machine> (with <rootfs>-<machine>.qemuboot.conf)
+Do you mind rebasing that on top of master or ideally my own branch,
+abelloni/master-next?
 
-* runqemu: use IMAGE_LINK_NAME set by testimage.bbclass or query with bitbake -e
+The series seemed to build fine but we had other conflicting patches
+that were taken for mickledore.
 
-* testimage.bbclass was setting DEPLOY_DIR which I don't see used
-  anywhere else, so I assume it was supposed to be DEPLOY_DIR_IMAGE as mentioned
-  in corresponding runqemu code, do the same with IMAGE_LINK_NAME variable
+Thanks!
 
-* add virtual/kernel as bitbake -e target in run_bitbake_env to make
-  sure IMAGE_LINK_NAME is defined (kernel-artifact-names.bbclass inherits
-  image-artifact-names.bbclass as well)
+On 28/03/2023 12:31:37+0200, Markus Volk wrote:
+> From: Markus Volk <f_l_k@t-online.de>
+> 
+> ---
+>  ...-info-don-t-assume-million-in-one-ev.patch | 50 ------------
+>  ...build-do-not-use-can_run_host_binari.patch | 48 ------------
+>  .../glib-2.0/glib-2.0/cpp-null.patch          | 77 -------------------
+>  .../glib-2.0/glib-2.0/cpp-null2.patch         | 31 --------
+>  .../glib-2.0/glib-2.0/relocate-modules.patch  | 11 ++-
+>  ...{glib-2.0_2.74.6.bb => glib-2.0_2.76.1.bb} |  6 +-
+>  6 files changed, 8 insertions(+), 215 deletions(-)
+>  delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-g-file-info-don-t-assume-million-in-one-ev.patch
+>  delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-meson.build-do-not-use-can_run_host_binari.patch
+>  delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/cpp-null.patch
+>  delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/cpp-null2.patch
+>  rename meta/recipes-core/glib-2.0/{glib-2.0_2.74.6.bb => glib-2.0_2.76.1.bb} (87%)
+> 
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-g-file-info-don-t-assume-million-in-one-ev.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-g-file-info-don-t-assume-million-in-one-ev.patch
+> deleted file mode 100644
+> index 57ada66907..0000000000
+> --- a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-g-file-info-don-t-assume-million-in-one-ev.patch
+> +++ /dev/null
+> @@ -1,50 +0,0 @@
+> -From 3c56ff21b9a5fe18f9cec9b97ae1788fdf5d563e Mon Sep 17 00:00:00 2001
+> -From: Ross Burton <ross.burton@arm.com>
+> -Date: Tue, 6 Jul 2021 19:26:03 +0100
+> -Subject: [PATCH] gio/tests/g-file-info: don't assume million-in-one events
+> -
+> -Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/merge_requests/2990]
+> -Signed-off-by: Ross Burton <ross.burton@arm.com>
+> -
+> - don't happen
+> -
+> -The access and creation time tests create a file, gets the time in
+> -seconds, then gets the time in microseconds and assumes that the
+> -difference between the two has to be above 0.
+> -
+> -As rare as this may be, it can happen:
+> -
+> -$ stat g-file-info-test-50A450 -c %y
+> -2021-07-06 18:24:56.000000767 +0100
+> -
+> -Change the test to simply assert that the difference not negative to
+> -handle this case.
+> -
+> -This is the same fix as 289f8b, but that was just modification time.
+> -
+> ----
+> - gio/tests/g-file-info.c | 4 ++--
+> - 1 file changed, 2 insertions(+), 2 deletions(-)
+> -
+> -diff --git a/gio/tests/g-file-info.c b/gio/tests/g-file-info.c
+> -index d9ad045..c9b12b0 100644
+> ---- a/gio/tests/g-file-info.c
+> -+++ b/gio/tests/g-file-info.c
+> -@@ -307,7 +307,7 @@ test_g_file_info_access_time (void)
+> -   g_assert_nonnull (dt_usecs);
+> - 
+> -   ts = g_date_time_difference (dt_usecs, dt);
+> --  g_assert_cmpint (ts, >, 0);
+> -+  g_assert_cmpint (ts, >=, 0);
+> -   g_assert_cmpint (ts, <, G_USEC_PER_SEC);
+> - 
+> -   /* Try again with nanosecond precision. */
+> -@@ -442,7 +442,7 @@ test_g_file_info_creation_time (void)
+> -   g_assert_nonnull (dt_usecs);
+> - 
+> -   ts = g_date_time_difference (dt_usecs, dt);
+> --  g_assert_cmpint (ts, >, 0);
+> -+  g_assert_cmpint (ts, >=, 0);
+> -   g_assert_cmpint (ts, <, G_USEC_PER_SEC);
+> - 
+> -   /* Try again with nanosecond precision. */
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-meson.build-do-not-use-can_run_host_binari.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-meson.build-do-not-use-can_run_host_binari.patch
+> deleted file mode 100644
+> index db08b5af55..0000000000
+> --- a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-meson.build-do-not-use-can_run_host_binari.patch
+> +++ /dev/null
+> @@ -1,48 +0,0 @@
+> -From fdbffaea2fa85c203cc6aacb5734acac65aeaa19 Mon Sep 17 00:00:00 2001
+> -From: Alexander Kanavin <alex@linutronix.de>
+> -Date: Fri, 11 Nov 2022 13:12:42 +0100
+> -Subject: [PATCH] tests/meson.build: do not use can_run_host_binaries()
+> -
+> -can_run_host_binaries() returns true even when cross compiling,
+> -if there is an executable wrapper defined that can run
+> -cross-binaries under some kind of emulation.
+> -
+> -Unfortunately, custom_target() will not use the wrapper
+> -and will attempt to execute the command directly. Until
+> -this is addressed in meson upstream, we have to disable
+> -these targets in cross scenarios.
+> -
+> -Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/glib/-/merge_requests/3067]
+> -Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> -
+> ----
+> - gio/tests/meson.build  | 2 +-
+> - glib/tests/meson.build | 2 +-
+> - 2 files changed, 2 insertions(+), 2 deletions(-)
+> -
+> -diff --git a/gio/tests/meson.build b/gio/tests/meson.build
+> -index 49cfa25ce..ea59656f9 100644
+> ---- a/gio/tests/meson.build
+> -+++ b/gio/tests/meson.build
+> -@@ -652,7 +652,7 @@ if installed_tests_enabled
+> -   endforeach
+> - endif
+> - 
+> --if meson.can_run_host_binaries()
+> -+if not meson.is_cross_build()
+> - 
+> -   compiler_type = '--compiler=@0@'.format(cc.get_id())
+> - 
+> -diff --git a/glib/tests/meson.build b/glib/tests/meson.build
+> -index 69508178e..e4f75f302 100644
+> ---- a/glib/tests/meson.build
+> -+++ b/glib/tests/meson.build
+> -@@ -411,7 +411,7 @@ executable('testing-helper', 'testing-helper.c',
+> - )
+> - 
+> - # some testing of gtester functionality
+> --if meson.can_run_host_binaries() and host_system != 'windows'
+> -+if not meson.is_cross_build() and host_system != 'windows'
+> -   xmllint = find_program('xmllint', required: false)
+> -   if xmllint.found()
+> -     tmpsample_xml = custom_target('tmpsample.xml',
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/cpp-null.patch b/meta/recipes-core/glib-2.0/glib-2.0/cpp-null.patch
+> deleted file mode 100644
+> index 63cbf90ab2..0000000000
+> --- a/meta/recipes-core/glib-2.0/glib-2.0/cpp-null.patch
+> +++ /dev/null
+> @@ -1,77 +0,0 @@
+> -From 0ca5254c5d92aec675b76b4bfa72a6885cde6066 Mon Sep 17 00:00:00 2001
+> -From: =?UTF-8?q?Marco=20Trevisan=20=28Trevi=C3=B1o=29?= <mail@3v1n0.net>
+> -Date: Sat, 29 Oct 2022 04:30:52 +0200
+> -Subject: [PATCH] glib/gmacros: Always define NULL as nullptr in C++11 and
+> - newer
+> -
+> -Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/0ca5254c5d92aec675b76b4bfa72a6885cde6066]
+> -Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ----
+> - glib/gmacros.h     |  9 ++++++++-
+> - glib/tests/cxx.cpp | 13 -------------
+> - 2 files changed, 8 insertions(+), 14 deletions(-)
+> -
+> -diff --git a/glib/gmacros.h b/glib/gmacros.h
+> -index 5302841105..9fe8270822 100644
+> ---- a/glib/gmacros.h
+> -+++ b/glib/gmacros.h
+> -@@ -870,10 +870,17 @@
+> -  */
+> - #ifndef NULL
+> - #  ifdef __cplusplus
+> --#  define NULL        (0L)
+> -+#    if __cplusplus >= 201103L
+> -+#      define NULL (nullptr)
+> -+#    else
+> -+#      define NULL (0L)
+> -+#    endif /* __cplusplus >= 201103L */
+> - #  else /* !__cplusplus */
+> - #  define NULL        ((void*) 0)
+> - #  endif /* !__cplusplus */
+> -+#elif defined (__cplusplus) && __cplusplus >= 201103L
+> -+#  undef NULL
+> -+#  define NULL (nullptr)
+> - #endif
+> - 
+> - #ifndef	FALSE
+> -diff --git a/glib/tests/cxx.cpp b/glib/tests/cxx.cpp
+> -index 6ac60791c8..045457c6e2 100644
+> ---- a/glib/tests/cxx.cpp
+> -+++ b/glib/tests/cxx.cpp
+> -@@ -34,21 +34,12 @@ test_typeof (void)
+> -   MyObject *obj3 = g_atomic_pointer_get (&obj2);
+> -   g_assert_true (obj3 == obj);
+> - 
+> --#if __cplusplus >= 201103L
+> --  MyObject *obj4 = nullptr;
+> --#else
+> -   MyObject *obj4 = NULL;
+> --#endif
+> -   g_atomic_pointer_set (&obj4, obj3);
+> -   g_assert_true (obj4 == obj);
+> - 
+> --#if __cplusplus >= 201103L
+> --  MyObject *obj5 = nullptr;
+> --  g_atomic_pointer_compare_and_exchange (&obj5, nullptr, obj4);
+> --#else
+> -   MyObject *obj5 = NULL;
+> -   g_atomic_pointer_compare_and_exchange (&obj5, NULL, obj4);
+> --#endif
+> -   g_assert_true (obj5 == obj);
+> - 
+> -   MyObject *obj6 = g_steal_pointer (&obj5);
+> -@@ -195,11 +186,7 @@ test_steal_pointer (void)
+> - int
+> - main (int argc, char *argv[])
+> - {
+> --#if __cplusplus >= 201103L
+> --  g_test_init (&argc, &argv, nullptr);
+> --#else
+> -   g_test_init (&argc, &argv, NULL);
+> --#endif
+> - 
+> -   g_test_add_func ("/C++/typeof", test_typeof);
+> -   g_test_add_func ("/C++/atomic-pointer-compare-and-exchange", test_atomic_pointer_compare_and_exchange);
+> --- 
+> -GitLab
+> -
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/cpp-null2.patch b/meta/recipes-core/glib-2.0/glib-2.0/cpp-null2.patch
+> deleted file mode 100644
+> index 763d5ce539..0000000000
+> --- a/meta/recipes-core/glib-2.0/glib-2.0/cpp-null2.patch
+> +++ /dev/null
+> @@ -1,31 +0,0 @@
+> -From 7dc19632f3115e3f517c6bc80436fe72c1dcdeb4 Mon Sep 17 00:00:00 2001
+> -From: =?UTF-8?q?Marco=20Trevisan=20=28Trevi=C3=B1o=29?= <mail@3v1n0.net>
+> -Date: Sat, 29 Oct 2022 04:16:00 +0200
+> -Subject: [PATCH] glib/tests/cxx: Ensure NULL is always casted to a pointer
+> - type
+> -
+> -Otherwise it may not be recognized as valid sentinel
+> -Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/7dc19632f3115e3f517c6bc80436fe72c1dcdeb4]
+> -Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ----
+> - glib/tests/cxx.cpp | 4 ++++
+> - 1 file changed, 4 insertions(+)
+> -
+> -diff --git a/glib/tests/cxx.cpp b/glib/tests/cxx.cpp
+> -index 045457c6e2..aa5e0cb576 100644
+> ---- a/glib/tests/cxx.cpp
+> -+++ b/glib/tests/cxx.cpp
+> -@@ -186,7 +186,11 @@ test_steal_pointer (void)
+> - int
+> - main (int argc, char *argv[])
+> - {
+> -+#if __cplusplus >= 201103L
+> -   g_test_init (&argc, &argv, NULL);
+> -+#else
+> -+  g_test_init (&argc, &argv, static_cast<void *>(NULL));
+> -+#endif
+> - 
+> -   g_test_add_func ("/C++/typeof", test_typeof);
+> -   g_test_add_func ("/C++/atomic-pointer-compare-and-exchange", test_atomic_pointer_compare_and_exchange);
+> --- 
+> -GitLab
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+> index ae6881b61e..4a2eb3b1a7 100644
+> --- a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+> +++ b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+> @@ -14,6 +14,9 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+>  Port patch to 2.48
+>  Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+>  
+> +Port patch to 2.75
+> +Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> +
+>  ---
+>   gio/giomodule.c | 12 +++++++++++-
+>   1 file changed, 11 insertions(+), 1 deletion(-)
+> @@ -31,7 +34,7 @@ index f5dbb45..c926e77 100644
+>   #endif
+>   #include <glib/gstdio.h>
+>   
+> -@@ -1261,7 +1263,15 @@ get_gio_module_dir (void)
+> +@@ -1270,7 +1272,15 @@
+>                                        NULL);
+>         g_free (install_dir);
+>   #else
+> @@ -45,6 +48,6 @@ index f5dbb45..c926e77 100644
+>  +      } else {
+>  +        module_dir = g_strdup (GIO_MODULE_DIR);
+>  +      }
+> - #endif
+> -     }
+> - 
+> + #ifdef __APPLE__
+> + #include "TargetConditionals.h"
+> + #if TARGET_OS_OSX
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.74.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.76.1.bb
+> similarity index 87%
+> rename from meta/recipes-core/glib-2.0/glib-2.0_2.74.6.bb
+> rename to meta/recipes-core/glib-2.0/glib-2.0_2.76.1.bb
+> index 5b79ae481c..1238b57c70 100644
+> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.74.6.bb
+> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.76.1.bb
+> @@ -14,14 +14,10 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+>             file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
+>             file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
+>             file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch \
+> -           file://0001-gio-tests-g-file-info-don-t-assume-million-in-one-ev.patch \
+> -           file://0001-gio-tests-meson.build-do-not-use-can_run_host_binari.patch \
+> -           file://cpp-null.patch \
+> -           file://cpp-null2.patch \
+>             "
+>  SRC_URI:append:class-native = " file://relocate-modules.patch"
+>  
+> -SRC_URI[sha256sum] = "069cf7e51cd261eb163aaf06c8d1754c6835f31252180aff5814e5afc7757fbc"
+> +SRC_URI[sha256sum] = "43dc0f6a126958f5b454136c4398eab420249c16171a769784486e25f2fda19f"
+>  
+>  # Find any meson cross files in FILESPATH that are relevant for the current
+>  # build (using siteinfo) and add them to EXTRA_OEMESON.
+> -- 
+> 2.34.1
+> 
 
-* improve .qemuboot.conf search
-  1st search for file matching the rootfs and only when not found
-  try again with .rootfs suffix removed
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#179224): https://lists.openembedded.org/g/openembedded-core/message/179224
+> Mute This Topic: https://lists.openembedded.org/mt/97902087/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
-[YOCTO #12937]
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 716eb55bb963db7b02d985849cb025898aabc855)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/classes-recipe/testimage.bbclass |  2 +-
- scripts/runqemu                       | 69 ++++++++++++++++++++-------
- 2 files changed, 52 insertions(+), 19 deletions(-)
-
-diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
-index df22bb2344..b48cd96575 100644
---- a/meta/classes-recipe/testimage.bbclass
-+++ b/meta/classes-recipe/testimage.bbclass
-@@ -98,7 +98,7 @@ TESTIMAGELOCK:qemuall = ""
- 
- TESTIMAGE_DUMP_DIR ?= "${LOG_DIR}/runtime-hostdump/"
- 
--TESTIMAGE_UPDATE_VARS ?= "DL_DIR WORKDIR DEPLOY_DIR"
-+TESTIMAGE_UPDATE_VARS ?= "DL_DIR WORKDIR DEPLOY_DIR_IMAGE IMAGE_LINK_NAME"
- 
- testimage_dump_target () {
-     top -bn1
-diff --git a/scripts/runqemu b/scripts/runqemu
-index efc135e535..9a3c9d2ce4 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -381,13 +381,19 @@ class BaseConfig(object):
-                     fst =  m.group(1)
-             if fst:
-                 self.check_arg_fstype(fst)
--                qb = re.sub('\.' + fst + "$", '', self.rootfs)
--                qb = '%s%s' % (re.sub('\.rootfs$', '', qb), '.qemuboot.conf')
-+                qb = re.sub('\.' + fst + "$", '.qemuboot.conf', self.rootfs)
-                 if os.path.exists(qb):
-                     self.qemuboot = qb
-                     self.qbconfload = True
-                 else:
--                    logger.warning("%s doesn't exist" % qb)
-+                    logger.warning("%s doesn't exist, will try to remove '.rootfs' from filename" % qb)
-+                    # They to remove .rootfs (IMAGE_NAME_SUFFIX) as well
-+                    qb = re.sub('\.rootfs.qemuboot.conf$', '.qemuboot.conf', qb)
-+                    if os.path.exists(qb):
-+                        self.qemuboot = qb
-+                        self.qbconfload = True
-+                    else:
-+                        logger.warning("%s doesn't exist" % qb)
-             else:
-                 raise RunQemuError("Can't find FSTYPE from: %s" % p)
- 
-@@ -421,6 +427,7 @@ class BaseConfig(object):
-         # are there other scenarios in which we need to support being
-         # invoked by bitbake?
-         deploy = self.get('DEPLOY_DIR_IMAGE')
-+        image_link_name = self.get('IMAGE_LINK_NAME')
-         bbchild = deploy and self.get('OE_TMPDIR')
-         if bbchild:
-             self.set_machine_deploy_dir(arg, deploy)
-@@ -445,6 +452,12 @@ class BaseConfig(object):
-         else:
-             logger.error("%s not a directory valid DEPLOY_DIR_IMAGE" % deploy_dir_image)
-             self.set("MACHINE", arg)
-+        if not image_link_name:
-+            s = re.search('^IMAGE_LINK_NAME="(.*)"', self.bitbake_e, re.M)
-+            if s:
-+                image_link_name = s.group(1)
-+                self.set("IMAGE_LINK_NAME", image_link_name)
-+                logger.debug('Using IMAGE_LINK_NAME = "%s"' % image_link_name)
- 
-     def set_dri_path(self):
-         # As runqemu can be run within bitbake (when using testimage, for example),
-@@ -557,11 +570,18 @@ class BaseConfig(object):
-             self.check_arg_machine(unknown_arg)
- 
-         if not (self.get('DEPLOY_DIR_IMAGE') or self.qbconfload):
--            self.load_bitbake_env()
-+            self.load_bitbake_env(target=self.rootfs)
-             s = re.search('^DEPLOY_DIR_IMAGE="(.*)"', self.bitbake_e, re.M)
-             if s:
-                 self.set("DEPLOY_DIR_IMAGE", s.group(1))
- 
-+        if not self.get('IMAGE_LINK_NAME') and self.rootfs:
-+            s = re.search('^IMAGE_LINK_NAME="(.*)"', self.bitbake_e, re.M)
-+            if s:
-+                image_link_name = s.group(1)
-+                self.set("IMAGE_LINK_NAME", image_link_name)
-+                logger.debug('Using IMAGE_LINK_NAME = "%s"' % image_link_name)
-+
-     def check_kvm(self):
-         """Check kvm and kvm-host"""
-         if not (self.kvm_enabled or self.vhost_enabled):
-@@ -667,8 +687,8 @@ class BaseConfig(object):
- 
-         if self.rootfs and not os.path.exists(self.rootfs):
-             # Lazy rootfs
--            self.rootfs = "%s/%s-%s.%s" % (self.get('DEPLOY_DIR_IMAGE'),
--                    self.rootfs, self.get('MACHINE'),
-+            self.rootfs = "%s/%s.%s" % (self.get('DEPLOY_DIR_IMAGE'),
-+                    self.get('IMAGE_LINK_NAME'),
-                     self.fstype)
-         elif not self.rootfs:
-             cmd_name = '%s/%s*.%s' % (self.get('DEPLOY_DIR_IMAGE'), self.get('IMAGE_NAME'), self.fstype)
-@@ -872,8 +892,10 @@ class BaseConfig(object):
-                 machine = self.get('MACHINE')
-                 if not machine:
-                     machine = os.path.basename(deploy_dir_image)
--                self.qemuboot = "%s/%s-%s.qemuboot.conf" % (deploy_dir_image,
--                        self.rootfs, machine)
-+                if not self.get('IMAGE_LINK_NAME'):
-+                    raise RunQemuError("IMAGE_LINK_NAME wasn't set to find corresponding .qemuboot.conf file")
-+                self.qemuboot = "%s/%s.qemuboot.conf" % (deploy_dir_image,
-+                        self.get('IMAGE_LINK_NAME'))
-             else:
-                 cmd = 'ls -t %s/*.qemuboot.conf' %  deploy_dir_image
-                 logger.debug('Running %s...' % cmd)
-@@ -1569,7 +1591,7 @@ class BaseConfig(object):
- 
-         self.cleaned = True
- 
--    def run_bitbake_env(self, mach=None):
-+    def run_bitbake_env(self, mach=None, target=''):
-         bitbake = shutil.which('bitbake')
-         if not bitbake:
-             return
-@@ -1582,22 +1604,33 @@ class BaseConfig(object):
-             multiconfig = "mc:%s" % multiconfig
- 
-         if mach:
--            cmd = 'MACHINE=%s bitbake -e %s' % (mach, multiconfig)
-+            cmd = 'MACHINE=%s bitbake -e %s %s' % (mach, multiconfig, target)
-         else:
--            cmd = 'bitbake -e %s' % multiconfig
-+            cmd = 'bitbake -e %s %s' % (multiconfig, target)
- 
-         logger.info('Running %s...' % cmd)
--        return subprocess.check_output(cmd, shell=True).decode('utf-8')
-+        try:
-+            return subprocess.check_output(cmd, shell=True).decode('utf-8')
-+        except subprocess.CalledProcessError as err:
-+            logger.warning("Couldn't run '%s' to gather environment information, maybe the target wasn't an image name, will retry with virtual/kernel as a target:\n%s" % (cmd, err.output.decode('utf-8')))
-+            # need something with IMAGE_NAME_SUFFIX/IMAGE_LINK_NAME defined (kernel also inherits image-artifact-names.bbclass)
-+            target = 'virtual/kernel'
-+            if mach:
-+                cmd = 'MACHINE=%s bitbake -e %s %s' % (mach, multiconfig, target)
-+            else:
-+                cmd = 'bitbake -e %s %s' % (multiconfig, target)
-+            try:
-+                return subprocess.check_output(cmd, shell=True).decode('utf-8')
-+            except subprocess.CalledProcessError as err:
-+                logger.warning("Couldn't run '%s' to gather environment information, giving up with 'bitbake -e':\n%s" % (cmd, err.output.decode('utf-8')))
-+                return ''
- 
--    def load_bitbake_env(self, mach=None):
-+
-+    def load_bitbake_env(self, mach=None, target=None):
-         if self.bitbake_e:
-             return
- 
--        try:
--            self.bitbake_e = self.run_bitbake_env(mach=mach)
--        except subprocess.CalledProcessError as err:
--            self.bitbake_e = ''
--            logger.warning("Couldn't run 'bitbake -e' to gather environment information:\n%s" % err.output.decode('utf-8'))
-+        self.bitbake_e = self.run_bitbake_env(mach=mach, target=target)
- 
-     def validate_combos(self):
-         if (self.fstype in self.vmtypes) and self.kernel:
 -- 
-2.34.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
