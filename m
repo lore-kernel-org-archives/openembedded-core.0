@@ -1,88 +1,160 @@
-Return-Path: <kai.kang@eng.windriver.com>
+Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0997AC6FD1D
-	for <webhook@archiver.kernel.org>; Fri,  7 Apr 2023 05:15:33 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.1094.1680844524362728266
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3521C6FD1D
+	for <webhook@archiver.kernel.org>; Fri,  7 Apr 2023 05:16:42 +0000 (UTC)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+ by mx.groups.io with SMTP id smtpd.web11.1103.1680844598636132267
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Apr 2023 22:15:24 -0700
+ Thu, 06 Apr 2023 22:16:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=EFGPI7M+;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=34613e1654=kai.kang@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33759kNK016871
-	for <openembedded-core@lists.openembedded.org>; Fri, 7 Apr 2023 05:15:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : mime-version : content-type; s=PPS06212021;
- bh=5GPH+V5O5mpWtn2l0gnmXDj73M+ZrsqplsLF1ZeF62Q=;
- b=EFGPI7M+8sRNmN0SoUE3O9bik4oyllGNXE0qnaE/ZsoTLHcKx49Rp9LCe7FJa2KtPGpG
- ct00IWweZ3O7zJttrxESMxkKL34syzD9YJ75CZn2sbx79MU70g7kgRPE/47uPEg7YlT9
- P5vRA1CZjfJdIcAKlawxntk374h0tqg+vFXQeJ9NSSV9Py+bu9ieIEQLlJclibEgnboP
- F0zUK1gAIEmQ9ioLPD32rOCZ8YdMhJKlpjFHoUtFfKA+x2A/47O+LDhZvm26tCf29Msp
- 1I+M51H8L14jUY5S8HeGR7JcqIgeoDoTaDY7SUuWHWxuAmQBF/OwYCiYtNehyA3RIcg2 mg== 
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3pp9u4pnj7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 07 Apr 2023 05:15:23 +0000
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 6 Apr 2023 22:15:22 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.23 via Frontend Transport; Thu, 6 Apr 2023 22:15:21 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] libnotify: remove dependency dbus
-Date: Fri, 7 Apr 2023 13:15:19 +0800
-Message-ID: <20230407051519.1829-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=NV+GEaHs;
+ spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-lf1-f43.google.com with SMTP id y15so53270773lfa.7
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Apr 2023 22:16:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680844596;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=T42geDXR+stg7Y79arESL1Zwj539TRldNt9d9qHxaL0=;
+        b=NV+GEaHsyPnVLp+tlGu/5tp1uhb69a5aoUN9BbSXZPIP5Cbfi1O1RPpTcu7GRg2edK
+         rYK4OvKHhNsvuxrb5/dYD+T6Ix4ljUjf+nsf9td6s3jhXSQNnxSZTIqITtlOeawSOcn8
+         pkh4Yr8FXUBhUY5+QAmiOKkh9bgXyMXrsdyNwOOQJJ/B/ayy5c6InEN4g8P5IaiRpLQo
+         PLQJk/twvjo7tBCzVLCiUTKQIXirNp50tAGk81i6oRls4EwENw1olKf1BFn9Kw0pbXWo
+         kxtu72ItofO/v3Atrr5L5w4iOLFG1q8xjzKvqj+sp5bpIAbwH72TTMxNBpyhBbwZscTK
+         rjyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680844596;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=T42geDXR+stg7Y79arESL1Zwj539TRldNt9d9qHxaL0=;
+        b=2fhNbLaJraYAXb6wwnn4F3sHnB54fuyY6/c/+dPJfSmmkCXCsoOak7cg8NdNC+TSys
+         pq8Bc6XbEWzCbLsnUUg7LeDnj44Ly5kuzwz5tr62GDoWT16UwNk49JjS8fQtKWRinzbU
+         GPsn0YxsyY1szfC0+6xbd3TCOsRfiQ4iEaQAzsBpho8rjrXoM+wqjHfAmdKQV7CwyZjZ
+         /+dpw1Vg3MmhDwXelEBtszHTd//xxh3guoeKvPfG+q+/DPiZkIBBLsiU+tE/QbhSNMLX
+         xbrthFajtGtqTPlCk1Fjq6tu88N1wqwpUSkI0TP8/A6re56HK5Pk2eO/JfnPWJBNo89F
+         mnxw==
+X-Gm-Message-State: AAQBX9e0uthBLKo/G0Li3jfZiDDdZoRdvzkcJUtGobG3lsowIZBZWsdt
+	foKel6TIa2/aMAKCvbM4N/gwQYr6rhDQmEk8VhchfQzIvPI=
+X-Google-Smtp-Source: AKy350Z91Se63QsptX9GPLybQARPxii7TkKWUjFCJowGOL7Ibrh/smm4oEBkvmahI5D2QXBeYks8a2wv0gGmWtHbcwE=
+X-Received: by 2002:ac2:5382:0:b0:4d5:ca32:6aec with SMTP id
+ g2-20020ac25382000000b004d5ca326aecmr397602lfh.12.1680844595352; Thu, 06 Apr
+ 2023 22:16:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: OLI2VQEnrImrpw0SBFj_OCAH4ii-CryW
-X-Proofpoint-GUID: OLI2VQEnrImrpw0SBFj_OCAH4ii-CryW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-07_02,2023-04-06_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 mlxscore=0
- priorityscore=1501 impostorscore=0 adultscore=0 phishscore=0 spamscore=0
- bulkscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1015
- mlxlogscore=652 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304070047
+From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
+Date: Fri, 7 Apr 2023 07:16:24 +0200
+Message-ID: <CA+cAkep4o0Ep2VfZrq0jTn_gXvdBuZ9rYC7OgXMCfCHXBf68rg@mail.gmail.com>
+Subject: [OE-core][dunfell] qemu-system-native build failure
+To: openembedded-core@lists.openembedded.org
+Cc: "steve@sakoman.com" <steve@sakoman.com>
+Content-Type: multipart/alternative; boundary="00000000000007599c05f8b82174"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Apr 2023 05:15:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179810
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Apr 2023 05:16:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179811
 
-From: Kai Kang <kai.kang@windriver.com>
+--00000000000007599c05f8b82174
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-It ported to use GDBus in libnotify 0.7.0 [1]. So remove dbus from
-DEPENDS. And GDBus is provided by glib-2.0.
+Hello,
 
-[1]: https://gitlab.gnome.org/GNOME/libnotify/-/commit/f63e8ab
+I came across a build issue for qemu-system-native on dunfell branch when
+using spice PACKAGECONFIG.
+I found that the culprit is the CVE-2022-4144.patch introduced mid-march
+and that was merged in upstream
+end of november 2022:
+https://gitlab.com/qemu-project/qemu/-/commit/6dbbf055148c6f1b7d8a3251a65bd=
+6f3d1e1f622
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-gnome/libnotify/libnotify_0.8.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+because it misses a variable declaration:
 
-diff --git a/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb b/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb
-index b1656fe0fe..08e9899d00 100644
---- a/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb
-+++ b/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb
-@@ -9,7 +9,7 @@ SECTION = "libs"
- LICENSE = "LGPL-2.1-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
- 
--DEPENDS = "dbus glib-2.0 glib-2.0-native gdk-pixbuf"
-+DEPENDS = "glib-2.0 glib-2.0-native gdk-pixbuf"
- 
- PACKAGECONFIG ?= ""
- PACKAGECONFIG[tests] = "-Dtests=true,-Dtests=false,gtk+3"
--- 
-2.17.1
+|   CC      hw/dma/xlnx-zynq-devcfg.o
+|   CC      hw/dma/xlnx-zdma.o
+|   CC      hw/dma/bcm2835_dma.o
+|   CC      hw/gpio/max7310.o
+|   CC      hw/gpio/pl061.o
+| /home/test/qemu-4.2.0/hw/display/qxl.c: In function =E2=80=98qxl_phys2vir=
+t=E2=80=99:
+| /home/test/qemu-4.2.0/hw/display/qxl.c:1508:67: error: =E2=80=98size=E2=
+=80=99 undeclared
+(first use in this function); did you mean =E2=80=98gsize=E2=80=99?
+|  1508 |         if (!qxl_get_check_slot_offset(qxl, pqxl, &slot, &offset,
+size)) {
+|           |
+                                ^~~~
+|           |
+                                gsize
+| /home/test/qemu-4.2.0/hw/display/qxl.c:1508:67: note: each undeclared
+identifier is reported only once for each function it appears in
+| make: *** [/home/test/qemu-4.2.0/rules.mak:69: hw/display/qxl.o] Error 1
+| make: *** Waiting for unfinished jobs....
+| ERROR: oe_runmake failed
+| WARNING: exit code 1 from a shell command.
 
+Looking more to the qemu git, I think the backported CVE is not an atomic
+commit one
+and is a part of larger patches series, it needs at least this one:
+https://gitlab.com/qemu-project/qemu/-/commit/8efec0ef8bbc1e75a7ebf6e325a35=
+806ece9b39f
+to be able to build.
+
+Moreover, I saw 5 commits that were merged by the same issuer and that
+seems to
+be related to the same code path.
+
+Can someone who knows qemu give advice on what to do ?
+Modify the single CVE patch ? take the other commit which corrects the
+mistake ? take the whole 5 commits ?
+
+--00000000000007599c05f8b82174
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hello,<div><br></div><div>I came across=C2=A0a build issue=
+ for qemu-system-native on dunfell branch when using spice PACKAGECONFIG.</=
+div><div>I found that the culprit is the=C2=A0CVE-2022-4144.patch introduce=
+d mid-march and that was merged in upstream</div><div>end of=C2=A0november =
+2022:</div><div><a href=3D"https://gitlab.com/qemu-project/qemu/-/commit/6d=
+bbf055148c6f1b7d8a3251a65bd6f3d1e1f622">https://gitlab.com/qemu-project/qem=
+u/-/commit/6dbbf055148c6f1b7d8a3251a65bd6f3d1e1f622</a></div><div><br></div=
+><div>because it misses a variable declaration:</div><div><br></div><div>| =
+=C2=A0 CC =C2=A0 =C2=A0 =C2=A0hw/dma/xlnx-zynq-devcfg.o<br>| =C2=A0 CC =C2=
+=A0 =C2=A0 =C2=A0hw/dma/xlnx-zdma.o<br>| =C2=A0 CC =C2=A0 =C2=A0 =C2=A0hw/d=
+ma/bcm2835_dma.o<br>| =C2=A0 CC =C2=A0 =C2=A0 =C2=A0hw/gpio/max7310.o<br>| =
+=C2=A0 CC =C2=A0 =C2=A0 =C2=A0hw/gpio/pl061.o<br>| /home/test/qemu-4.2.0/hw=
+/display/qxl.c: In function =E2=80=98qxl_phys2virt=E2=80=99:<br>| /home/tes=
+t/qemu-4.2.0/hw/display/qxl.c:1508:67: error: =E2=80=98size=E2=80=99 undecl=
+ared (first use in this function); did you mean =E2=80=98gsize=E2=80=99?<br=
+>| =C2=A01508 | =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!qxl_get_check_slot_offset(=
+qxl, pqxl, &amp;slot, &amp;offset, size)) {<br>|=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~<br>|=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gsize<br>| /hom=
+e/test/qemu-4.2.0/hw/display/qxl.c:1508:67: note: each undeclared identifie=
+r is reported only once for each function it appears in<br>| make: *** [/ho=
+me/test/qemu-4.2.0/rules.mak:69: hw/display/qxl.o] Error 1<br>| make: *** W=
+aiting for unfinished jobs....<br>| ERROR: oe_runmake failed<br>| WARNING: =
+exit code 1 from a shell command.<br></div><div><br></div><div>Looking more=
+ to the qemu git, I think the backported CVE is not an atomic commit one</d=
+iv><div>and is a part of larger patches series, it needs at least this one:=
+</div><div><a href=3D"https://gitlab.com/qemu-project/qemu/-/commit/8efec0e=
+f8bbc1e75a7ebf6e325a35806ece9b39f">https://gitlab.com/qemu-project/qemu/-/c=
+ommit/8efec0ef8bbc1e75a7ebf6e325a35806ece9b39f</a></div><div>to be able to =
+build.</div><div><br></div><div>Moreover, I saw 5 commits that were merged =
+by the same issuer and that seems to</div><div>be related to the same code =
+path.<br></div><div><br></div><div>Can someone who knows qemu give advice o=
+n what to do ?</div><div>Modify the single CVE patch ? take the other commi=
+t which corrects the mistake ? take the whole 5 commits ?</div></div>
+
+--00000000000007599c05f8b82174--
 
