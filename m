@@ -1,195 +1,164 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DF5FC6FD1D
-	for <webhook@archiver.kernel.org>; Fri,  7 Apr 2023 14:08:55 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web11.8887.1680876531270898561
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65459C77B61
+	for <webhook@archiver.kernel.org>; Fri,  7 Apr 2023 14:20:35 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web11.9426.1680877234094319465
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Apr 2023 07:08:51 -0700
+ Fri, 07 Apr 2023 07:20:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=nn0pAawf;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.46, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f46.google.com with SMTP id l7so39834950pjg.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 07 Apr 2023 07:08:51 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eEa3sdfH;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id e18so42426626wra.9
+        for <openembedded-core@lists.openembedded.org>; Fri, 07 Apr 2023 07:20:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1680876530; x=1683468530;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eHVXgQ08G7baUiZ6HM1gKAywfsg7QoGFXHtr8xls5SY=;
-        b=nn0pAawfxaGS+UwSYl4uaLX37eIDt3PNArctLSjLMaUdJuP7XvvaYBAZsTRnZGvfcE
-         gtWIu0hiMba1x53PD5q/bwxE78fqrmQbOdixS6ch7geyZQcQe1DtPI41zH15azQvA0Un
-         Gtcmvpg/pjw0HvuIIBOfsIV84nvIy010bFxWtxxdUjLTC6zunKx6E5zDxNefETToRYxG
-         LK886J8hCJRnxfGAp8d66Ze1k8gza4xOmdp5Ur2AHGWvbspy9mkGvSPYcd7vsJBSySeK
-         GaIwQGbN1GreSYk68q0h/8rgNZtJXlShXhvKtJL7m3LlZCXYhfnqtCND8kPnw3LNk6Z5
-         L7PQ==
+        d=linuxfoundation.org; s=google; t=1680877232;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=H63lWgdtQQLPG+3t5Cvp+i06DkpkmpVCYeawguN7BUE=;
+        b=eEa3sdfH+zPt+S7I7YWooogb2PHCJo+d51B6ANeNYZkHXfWICjQzSJRXr+VV8C9C2T
+         JSSe+0w9c/geTWJngcYhmdep2NnXyvRVbIcOWp34fu5aphAJLO9mnGVU8Q7SJU3pFTa9
+         61fvawKBDPnqp9q5a2I5OldScx/B1lA6t9jt8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680876530; x=1683468530;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eHVXgQ08G7baUiZ6HM1gKAywfsg7QoGFXHtr8xls5SY=;
-        b=t14iPMBmfyjbvBF1RN5qY0ObLV0Ci8QXrZ6TdNKCaCWgbgp/cgMzAji9mT2rZ8qY2m
-         x4LCBt3glNBEpMd8U/vLhftXGz9u8lP+MghHK8WZpOOyqBHraWjxYVBo1zPs8rmXNNCi
-         Tln7LXCu8+D4ocW3P4oB202VSkpSwlF1L30O4O7iWG2Lt+OdhcVJn8HNpIAGUcpmRCDT
-         e6E4bvcbtx/5UZ60ZyYH+OQz8ajQ0C+2mY+nXrOZqi9Xunkgxz8b+hya9outM/J8CL7R
-         imv99UJzCLIl7P3S5gYephpSEG64cep2i6iiJNl69VYf8UsmM0b9QCyvefX/G7672N8K
-         Pjiw==
-X-Gm-Message-State: AAQBX9dKuPhthog+lNu61y5mtr6NUMxBd12vTuyXsJqjYSTwRxJhE9Dn
-	Ym7ooBEpdV/KJwS0lc2kgDcyMhoGpk5jrQ1A27I=
-X-Google-Smtp-Source: AKy350aLoHxUrTf+bH7QvgigkP5dRexU2ZhFadT/h74rHFeGNWDAsanYbyE9IrK72BjYcRkIB+Vxkw==
-X-Received: by 2002:a17:902:e491:b0:1a4:f1cd:c286 with SMTP id i17-20020a170902e49100b001a4f1cdc286mr2453278ple.9.1680876530021;
-        Fri, 07 Apr 2023 07:08:50 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id j10-20020a17090276ca00b001a21b871824sm2985333plt.119.2023.04.07.07.08.49
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20210112; t=1680877232;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=H63lWgdtQQLPG+3t5Cvp+i06DkpkmpVCYeawguN7BUE=;
+        b=vaMUm1yEHsEturLq3Ob0AGMyio5kCayfBZpSW3zX+hnCR3b3Qxx17NMybo/evMTJog
+         U/R/B564oFMlOPJSd2V8Yi4lfKZ5wwu2r2NNqV/n3v/VQuVzZByMBQfZW85HuHGuA4kL
+         RzUI132xcLO1ZiE6Wv9Z1OZ/qHOBCs+iQgY1BaF8GvqpLLSQuekY7aJp9SpA5bO2oblv
+         QHx8XLJRXMovnArWbvsKXmiOu1ihcZoNOsI4n2mZ8Pv1pMr/NoKMrkXfMWFz3lQ9d1iL
+         FkNKl43BLII9JijS0cpQAuPPeAwb5pPrBaG+H996zUzXvT3HVEdeVM+mmqT/VPTDbeMe
+         yUtQ==
+X-Gm-Message-State: AAQBX9elZCvUjG+Uo09t71MnsToos/G6NwDMTjGQ7AHR9uvSdxVfMUgZ
+	MMIRV9M4UVaVhOATUx8Te8a5ug==
+X-Google-Smtp-Source: AKy350YWnLgC80rRU9FrDFezCpcRUsPaEiUQZH/CPOcg5LCbVA6gprUy/VW/jINyY1OTLsf5C1z4vw==
+X-Received: by 2002:a05:6000:1281:b0:2ce:9da7:6d42 with SMTP id f1-20020a056000128100b002ce9da76d42mr1982952wrx.38.1680877232479;
+        Fri, 07 Apr 2023 07:20:32 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:be03:9b2d:76a:ec3b? ([2001:8b0:aba:5f3c:be03:9b2d:76a:ec3b])
+        by smtp.gmail.com with ESMTPSA id f3-20020a7bc8c3000000b003ee10fb56ebsm4806789wml.9.2023.04.07.07.20.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Apr 2023 07:08:49 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/27] Pull request (cover letter only)
-Date: Fri,  7 Apr 2023 04:08:40 -1000
-Message-Id: <cover.1680876441.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
+        Fri, 07 Apr 2023 07:20:31 -0700 (PDT)
+Message-ID: <97d250ce274316d430096427dcd129b64bbd8d43.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] cve-exclusions: Document some further
+ linux-yocto CVE statuses
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Yoann Congal <yoann.congal@smile.fr>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 07 Apr 2023 15:20:31 +0100
+In-Reply-To: <6179e5dc-6d8d-948a-16c9-7d9c0eb43933@smile.fr>
+References: <20230407105840.635561-1-richard.purdie@linuxfoundation.org>
+	 <6179e5dc-6d8d-948a-16c9-7d9c0eb43933@smile.fr>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.47.3-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Apr 2023 14:08:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179820
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Apr 2023 14:20:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179821
 
-This is the final pull request for the 4.0.9 release build.
+On Fri, 2023-04-07 at 15:38 +0200, Yoann Congal wrote:
+> Hi,
+>=20
+> On 4/7/23 12:58, Richard Purdie wrote:
+> > Add some information about some further kernel CVEs which don't apply f=
+or
+> > either linux-yocto or don't apply for linux-yocto 6.1.
+> >=20
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ---
+> >  meta/conf/distro/include/cve-extra-exclusions.inc |  7 +++++++
+> >  meta/recipes-kernel/linux/cve-exclusion_6.1.inc   | 13 +++++++++++++
+> >  2 files changed, 20 insertions(+)
+> >=20
+> > diff --git a/meta/conf/distro/include/cve-extra-exclusions.inc b/meta/c=
+onf/distro/include/cve-extra-exclusions.inc
+> > index 0b895985015..76dab1d630a 100644
+> > --- a/meta/conf/distro/include/cve-extra-exclusions.inc
+> > +++ b/meta/conf/distro/include/cve-extra-exclusions.inc
+> > @@ -438,6 +438,13 @@ CVE_CHECK_IGNORE +=3D "CVE-2023-1073"
+> >  # Backported in version 6.1.9 9f08bb650078dca24a13fea1c375358ed6292df3
+> >  CVE_CHECK_IGNORE +=3D "CVE-2023-1074"
+> > =20
+> > +# https://nvd.nist.gov/vuln/detail/CVE-2023-1076
+> > +CVE-2023-1076: linux-yocto https://web.nvd.nist.gov/view/vuln/detail?v=
+ulnId=3DCVE-2023-1076 *
+>=20
+> This line is a misplaced copy/paste maybe? (the URL a redirect from/to th=
+e one in the line just above)
+>=20
+> > +# Patched in kernel v6.3 a096ccca6e503a5c575717ff8a36ace27510ab0a
+> > +# Backported in version 6.1.16 b4ada752eaf1341f47bfa3d8ada377eca75a8d4=
+4
+> > +# Backported in version 5.15.99 67f9f02928a34aad0a2c11dab5eea269f5ec> =
++CVE_CHECK_IGNORE +=3D "CVE-2023-1076"
+>=20
+> If you want it, here is the full list of backports for this fix :=20
+> # Backported in version v5.4.235 d92d87000eda9884d49f1acec1c1fccd63cd9b11
+> # Backported in version v5.10.173 9a31af61f397500ccae49d56d809b2217d1e217=
+8
+> # Backported in version v5.15.99 67f9f02928a34aad0a2c11dab5eea269f5ecf427
+> # Backported in version v6.1.16 b4ada752eaf1341f47bfa3d8ada377eca75a8d44
+> # Backported in version v6.2.3 4aa4b4b3b3e9551c4de2bf2987247c28805fb8f6
+>=20
+> > +
+> >  # https://nvd.nist.gov/vuln/detail/CVE-2023-1077
+> >  # Patched in kernel 6.3rc1 7c4a5b89a0b5a57a64b601775b296abf77a9fe97
+> >  # Backported in version 5.15.99 2c36c390a74981d03f04f01fe7ee9c3ac3ea11=
+f7
+> > diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.1.inc b/meta/rec=
+ipes-kernel/linux/cve-exclusion_6.1.inc
+> > index ec7ff9c1a7b..b74e9675e15 100644
+> > --- a/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
+> > +++ b/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
+> > @@ -13,3 +13,16 @@ CVE_CHECK_IGNORE +=3D "CVE-2022-3566"
+> >  # Patched in kernel since v6.1 364f997b5cfe1db0d63a390fe7c801fa2b3115f=
+6
+> >  CVE_CHECK_IGNORE +=3D "CVE-2022-3567"
+> > =20
+> > +# https://nvd.nist.gov/vuln/detail/CVE-2022-38457
+> > +# https://nvd.nist.gov/vuln/detail/CVE-2022-40133
+> > +# Patched in kernel v6.2 a309c7194e8a2f8bd4539b9449917913f6c2cd50
+> > +# Patched in kernel 6.1.7 7ac9578e45b20e3f3c0c8eb71f5417a499a7226a
+> This is a backport, this line should read:
+> # Backported in version v6.1.7 7ac9578e45b20e3f3c0c8eb71f5417a499a7226a
+>=20
+> > +CVE_CHECK_IGNORE +=3D "CVE-2023-38457 CVE-2022-40133"
+>=20
+> This overlaps with the patch I sent here :
+> [PATCH 1/2] cve-exclusions_6.1: ignore patched CVE-2022-38457 & CVE-2022-=
+40133
+> https://lists.openembedded.org/g/openembedded-core/message/179775
+>=20
+>=20
+> > +
+> > +# https://nvd.nist.gov/vuln/detail/CVE-2023-1075
+> > +# Introduced in v4.20 a42055e8d2c30d4decfc13ce943d09c7b9dad221
+> > +# Patched in kernel v6.2 ffe2a22562444720b05bdfeb999c03e810d84cbb
+> > +# Backported in version 6.1.11 37c0cdf7e4919e5f76381ac60817b67bcbdacb5=
+0
+> > +# 5.15 still has issue, include/net/tls.h:is_tx_ready() would need pat=
+ch
+> > +CVE_CHECK_IGNORE +=3D "CVE-2023-1075"
+> > +
+>=20
+> That said, the content is good :
+> Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
 
-The following changes since commit 08ab1f02da65ee9815115e6a1cdb51ffed10a2dc:
+Thanks, that patch was a mess on my part, sorry.
 
-  systemd: fix wrong nobody-group assignment (2023-03-23 06:42:22 -1000)
+I knew I'd seen some of the CVEs somewhere but I must have missed a
+queuing patch. Should all be resolved on next now.
 
-are available in the Git repository at:
+Cheers,
 
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
+Richard
 
-Alexander Kanavin (1):
-  patchelf: replace a rejected patch with an equivalent
-    uninative.bbclass tweak
-
-Bruce Ashfield (10):
-  linux-yocto/5.10: update to v5.10.162
-  linux-yocto/5.10: update to v5.10.164
-  linux-yocto/5.10: update to v5.10.166
-  linux-yocto/5.10: update to v5.10.168
-  linux-yocto/5.10: update to v5.10.170
-  linux-yocto/5.10: update to v5.10.172
-  linux-yocto/5.10: update to v5.10.175
-  lttng-modules: update to v2.13.9
-  linux-yocto/5.15: update to v5.15.98
-  linux-yocto/5.15: update to v5.15.103
-
-Geoffrey GIRY (1):
-  cve-check: Fix false negative version issue
-
-Khem Raj (2):
-  rsync: Add missing prototypes to function declarations
-  rsync: Turn on -pedantic-errors at the end of 'configure'
-
-Martin Jansa (2):
-  selftest: devtool: set BB_HASHSERVE_UPSTREAM when setting
-    SSTATE_MIRROR
-  bmap-tools: switch to main branch
-
-Michael Halstead (2):
-  uninative: Upgrade to 3.8.1 to include libgcc
-  uninative: Upgrade to 3.9 to include glibc 2.37
-
-Peter Marko (1):
-  gcc-shared-source: do not use ${S}/.. in deploy_source_date_epoch
-
-Randy MacLeod (1):
-  vim: upgrade 9.0.1403 -> 9.0.1429
-
-Ross Burton (1):
-  scripts/lib/buildstats: handle top-level build_stats not being
-    complete
-
-Sakib Sajal (1):
-  go: fix CVE-2022-2879 and CVE-2022-41720
-
-Shubham Kulkarni (1):
-  go-runtime: Security fix for CVE-2022-41723
-
-Siddharth Doshi (1):
-  openssl: Security fix for CVE-2023-0464, CVE-2023-0465, CVE-2023-0466
-
-Simone Weiss (1):
-  json-c: Add ptest for json-c
-
-pawan (2):
-  Revert "qemu: fix CVE-2021-3507"
-  curl: Add fix for CVE-2023-23916
-
- meta/classes/cve-check.bbclass                |   5 +-
- meta/classes/uninative.bbclass                |   2 +
- .../distro/include/ptest-packagelists.inc     |   1 +
- meta/conf/distro/include/yocto-uninative.inc  |  10 +-
- meta/lib/oe/cve_check.py                      |  39 ++
- meta/lib/oeqa/selftest/cases/cve_check.py     |  19 +
- meta/lib/oeqa/selftest/cases/devtool.py       |   1 +
- .../openssl/openssl/CVE-2023-0464.patch       | 225 ++++++++
- .../openssl/openssl/CVE-2023-0465.patch       |  56 ++
- .../openssl/openssl/CVE-2023-0466.patch       |  50 ++
- .../openssl/openssl_3.0.8.bb                  |   3 +
- .../gcc/gcc-shared-source.inc                 |   4 +-
- meta/recipes-devtools/go/go-1.17.13.inc       |   3 +
- .../go/go-1.18/CVE-2022-2879.patch            | 177 ++++++
- .../go/go-1.18/CVE-2022-41720.patch           | 514 ++++++++++++++++++
- .../go/go-1.18/CVE-2022-41723.patch           | 156 ++++++
- meta/recipes-devtools/json-c/json-c/run-ptest |  20 +
- meta/recipes-devtools/json-c/json-c_0.15.bb   |  16 +-
- .../patchelf/handle-read-only-files.patch     |  65 ---
- .../patchelf/patchelf_0.14.5.bb               |   1 -
- meta/recipes-devtools/qemu/qemu.inc           |   2 -
- .../qemu/qemu/CVE-2021-3507_1.patch           |  92 ----
- .../qemu/qemu/CVE-2021-3507_2.patch           | 115 ----
- ...-prototypes-to-function-declarations.patch | 173 ++++++
- ...antic-errors-at-the-end-of-configure.patch |  68 +++
- meta/recipes-devtools/rsync/rsync_3.2.5.bb    |   2 +
- .../linux/linux-yocto-rt_5.10.bb              |   6 +-
- .../linux/linux-yocto-rt_5.15.bb              |   6 +-
- .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
- .../linux/linux-yocto-tiny_5.15.bb            |   6 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 +-
- meta/recipes-kernel/linux/linux-yocto_5.15.bb |  26 +-
- ...ccessor-helpers-into-accessors.h-v6..patch |  45 --
- .../fix-jbd2-upper-bound-for-v5.10.163.patch  |  52 --
- ...e-the-correct-print-format-v5.10.163.patch |  61 ---
- ...ules_2.13.8.bb => lttng-modules_2.13.9.bb} |   5 +-
- .../bmap-tools/bmap-tools_git.bb              |   2 +-
- .../curl/curl/CVE-2023-23916.patch            | 219 ++++++++
- meta/recipes-support/curl/curl_7.82.0.bb      |   1 +
- meta/recipes-support/vim/vim.inc              |   4 +-
- scripts/lib/buildstats.py                     |   1 +
- 41 files changed, 1797 insertions(+), 488 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-0464.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-0465.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-0466.patch
- create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2022-2879.patch
- create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2022-41720.patch
- create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2022-41723.patch
- create mode 100644 meta/recipes-devtools/json-c/json-c/run-ptest
- delete mode 100644 meta/recipes-devtools/patchelf/patchelf/handle-read-only-files.patch
- delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3507_1.patch
- delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3507_2.patch
- create mode 100644 meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch
- create mode 100644 meta/recipes-devtools/rsync/files/0001-Turn-on-pedantic-errors-at-the-end-of-configure.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-btrfs-move-accessor-helpers-into-accessors.h-v6..patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/fix-jbd2-upper-bound-for-v5.10.163.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/fix-jbd2-use-the-correct-print-format-v5.10.163.patch
- rename meta/recipes-kernel/lttng/{lttng-modules_2.13.8.bb => lttng-modules_2.13.9.bb} (83%)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-23916.patch
-
--- 
-2.34.1
 
 
