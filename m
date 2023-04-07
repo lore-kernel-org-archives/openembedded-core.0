@@ -1,115 +1,173 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <lrannou@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AE09C6FD1D
-	for <webhook@archiver.kernel.org>; Fri,  7 Apr 2023 14:24:35 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web10.9513.1680877469927758363
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E81EC77B61
+	for <webhook@archiver.kernel.org>; Fri,  7 Apr 2023 14:27:05 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web10.9582.1680877615709574602
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Apr 2023 07:24:30 -0700
+ Fri, 07 Apr 2023 07:26:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=M0ohu84g;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id d17so42423003wrb.11
-        for <openembedded-core@lists.openembedded.org>; Fri, 07 Apr 2023 07:24:29 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@baylibre-com.20210112.gappssmtp.com header.s=20210112 header.b=s3DPa1G/;
+ spf=pass (domain: baylibre.com, ip: 209.85.221.52, mailfrom: lrannou@baylibre.com)
+Received: by mail-wr1-f52.google.com with SMTP id r29so42424380wra.13
+        for <openembedded-core@lists.openembedded.org>; Fri, 07 Apr 2023 07:26:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1680877468;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jy8fFwQUmTY7dNMnUl+pLLBOoswSD64jZGmI7nLsyBg=;
-        b=M0ohu84g6kuNWqU2LYx6zLXoXXtZpe82sH137koqzvV6BnKDaXHznDeMKfuZrcGsxH
-         JAU6he6QFmyI9yNmHJ2me3YXe5STkCkHPrq3bTwqO0m9JUKP5S0GsgE9YNkTlb2be2qg
-         zeONcsOJv1T0Z/J4N0EshajSTkzXULPYHhPmE=
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1680877616; x=1683469616;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=82Tkobw8uiQclLSO2KBEKMDyYJAp6uOH3qprdUU/0ow=;
+        b=s3DPa1G/aPQqKOrEIM8CCcbnI35vJtFAvYunRijrFwIyORVZitSLkLdLUwBjiITKB/
+         OF0UqEdlHXQBBEixmuh1HZFcrqPqrweFF8jUfEXHBe/FdCvEcktSDO81PylM7SFO/N7g
+         hd4HgERP5Ejuon0bbMCZktGIPYlMLx7jHDYnEJn9MJFtECjDUCWnK6UhPR3s3c9qLOrA
+         Ry2FBACKkJei8gq8xI3RCWwgF05t2K+6DYk0XtzKIH21h8vQTn+qTjvaXRrMIAgXfooo
+         S9t57xsO5sW/TxD2m/TkJFCTGppIUw7zM2cKEcpMIITNzCxFvmN2W4fvQknCoZrMutlS
+         SY+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680877468;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jy8fFwQUmTY7dNMnUl+pLLBOoswSD64jZGmI7nLsyBg=;
-        b=oojdbOn+mtO2dufT0MgIRUUkCyIs4CEsC1NPo3Ht/Pw4+sSKhRhA5AWmrsTa5ndeVo
-         eclASh+nSV7Cty3uDmsdKQe8I3dhr5fIIc7x0Co6loZhAd85iJqaXDbBQw//XnDQfVJ7
-         O14IRq5EYxJPHNq7jloDgM8kJLeNC96HRiv6WkG4FW7429tWIBjJF49DzrWRIsJ1anJn
-         ZQOiiMFLTydgKSv19W+KseBvJcFxrOMgTFYnZiiVfMX0xLwcKCE6+ERz+WeF6ERDbXZM
-         K43qQuv+CgoGNEmXqGjpcpAEGQEcXali8KvxrKFWdHr1FgH+DOW76kaFsNlJO1n11Eo5
-         uBKQ==
-X-Gm-Message-State: AAQBX9ffMUVg9cwbA8bVh4wglNVD0rOmZlMHi05k5qrp2E9H9IhyECQg
-	yrsqz9+KwfRgRLYKZFvuiQQ1xyM03h4CaD7FusU=
-X-Google-Smtp-Source: AKy350Z5dcXKsADo17IE2TXYd7x0Uq/8u5k4d+LWhZwbLAY+4Unnlk0OL5JCnUr81vw+7E4jasZK3Q==
-X-Received: by 2002:a5d:69c8:0:b0:2ef:b341:4a2d with SMTP id s8-20020a5d69c8000000b002efb3414a2dmr1194454wrw.24.1680877468225;
-        Fri, 07 Apr 2023 07:24:28 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:be03:9b2d:76a:ec3b])
-        by smtp.gmail.com with ESMTPSA id o13-20020a5d62cd000000b002c70ce264bfsm4659806wrv.76.2023.04.07.07.24.27
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20210112; t=1680877616; x=1683469616;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=82Tkobw8uiQclLSO2KBEKMDyYJAp6uOH3qprdUU/0ow=;
+        b=LwNFmzwrgyAdXnhKANz+LeDIaSRCUqpsrTeRKdiimfcm5dGkgyrdtPBiowVadiqF1h
+         I0gedok6WuFweDwxTifCKxwV1TDyi15cwItbdc0K1oHolsLhfOI7uU1aEKZzpsBb7Pr3
+         d6P7/jFKzRIRiQLgYhz7aHaIlu7Mi9ei0pe+t03IEqXamnpCeV5Edjv4PyX6wODVzYCX
+         ecuKmf30SfkxM/eSdJKRZvkAdWKi0I5KJGbdSeVLUKjw1JIsKayIz4eNgsE8lSkGIr4T
+         eNwl0sGEm9HNIhnr9X2+CYWyrbUURgTkaBrNEfav2GPGLXnhjMsf8nSMTlwS0ghYgJ1n
+         BL9A==
+X-Gm-Message-State: AAQBX9dDeZUfrMuFnNSj3NhS/eZOlpZuC+XF/93r88jvYOmsJe+gn5eK
+	AkHXR5CvxssbNZe//Vs8nSOzQLiFus+AdPKyyd0y7A==
+X-Google-Smtp-Source: AKy350Zrhktf4mJxkCgrbky3RLdwiOmMMpxG4+T5qHDiD88TGRiEsRpjlI3y5af+Fa2vHSKleZoTlw==
+X-Received: by 2002:adf:ea92:0:b0:2ce:9cc8:34db with SMTP id s18-20020adfea92000000b002ce9cc834dbmr1572327wrm.71.1680877616706;
+        Fri, 07 Apr 2023 07:26:56 -0700 (PDT)
+Received: from midgar.. ([193.33.56.84])
+        by smtp.gmail.com with ESMTPSA id l13-20020a5d668d000000b002e61e002943sm4601403wru.116.2023.04.07.07.26.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Apr 2023 07:24:27 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Fri, 07 Apr 2023 07:26:56 -0700 (PDT)
+From: Louis Rannou <lrannou@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] cve-exclusions: Document some further linux-yocto CVE statuses
-Date: Fri,  7 Apr 2023 15:24:27 +0100
-Message-Id: <20230407142427.642876-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
+Cc: khilman@baylibre.com,
+	Louis Rannou <lrannou@baylibre.com>
+Subject: [PATCH v3 1/2] oeqa/utils/qemurunner: change the serial runner
+Date: Fri,  7 Apr 2023 16:26:21 +0200
+Message-Id: <20230407142622.632035-2-lrannou@baylibre.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230407142622.632035-1-lrannou@baylibre.com>
+References: <20230407142622.632035-1-lrannou@baylibre.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Apr 2023 14:24:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179822
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Apr 2023 14:27:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179824
 
-Add some information about some further kernel CVEs which don't apply for
-either linux-yocto or don't apply for linux-yocto 6.1.
+[YOCTO #15021]
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Create a new runner run_serial_socket which usage matches the traditional ssh
+runner. Its return status is 0 when the command succeeded or 0 when it
+failed. If an error is encountered, it raises an Exception.
+
+The previous serial runner is maintained and marked as deprecated.
+
+Signed-off-by: Louis Rannou <lrannou@baylibre.com>
 ---
- meta/conf/distro/include/cve-extra-exclusions.inc | 9 +++++++++
- meta/recipes-kernel/linux/cve-exclusion_6.1.inc   | 9 ++++++++-
- 2 files changed, 17 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/targetcontrol.py    |  3 ++
+ meta/lib/oeqa/utils/qemurunner.py | 57 +++++++++++++++++++++++++++++++
+ 2 files changed, 60 insertions(+)
 
-diff --git a/meta/conf/distro/include/cve-extra-exclusions.inc b/meta/conf/distro/include/cve-extra-exclusions.inc
-index 439d569f7d0..8965a15b371 100644
---- a/meta/conf/distro/include/cve-extra-exclusions.inc
-+++ b/meta/conf/distro/include/cve-extra-exclusions.inc
-@@ -438,6 +438,15 @@ CVE_CHECK_IGNORE += "CVE-2023-1073"
- # Backported in version 6.1.9 9f08bb650078dca24a13fea1c375358ed6292df3
- CVE_CHECK_IGNORE += "CVE-2023-1074"
+diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
+index d686fe07ec..3707883da7 100644
+--- a/meta/lib/oeqa/targetcontrol.py
++++ b/meta/lib/oeqa/targetcontrol.py
+@@ -206,6 +206,9 @@ class QemuTarget(BaseTarget):
+     def run_serial(self, command, timeout=60):
+         return self.runner.run_serial(command, timeout=timeout)
  
-+# https://nvd.nist.gov/vuln/detail/CVE-2023-1076
-+# Patched in kernel v6.3 a096ccca6e503a5c575717ff8a36ace27510ab0a
-+# Backported in version v5.4.235 d92d87000eda9884d49f1acec1c1fccd63cd9b11
-+# Backported in version v5.10.173 9a31af61f397500ccae49d56d809b2217d1e2178
-+# Backported in version v5.15.99 67f9f02928a34aad0a2c11dab5eea269f5ecf427
-+# Backported in version v6.1.16 b4ada752eaf1341f47bfa3d8ada377eca75a8d44
-+# Backported in version v6.2.3 4aa4b4b3b3e9551c4de2bf2987247c28805fb8f6
-+CVE_CHECK_IGNORE += "CVE-2023-1076"
++    def run_serial_socket(self, command, timeout=60):
++        return self.runner.run_serial_socket(command, timeout=timeout)
 +
- # https://nvd.nist.gov/vuln/detail/CVE-2023-1077
- # Patched in kernel 6.3rc1 7c4a5b89a0b5a57a64b601775b296abf77a9fe97
- # Backported in version 5.15.99 2c36c390a74981d03f04f01fe7ee9c3ac3ea11f7
-diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.1.inc b/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
-index 8b32c2b2dfb..aeea77a2249 100644
---- a/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
-+++ b/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
-@@ -13,7 +13,6 @@ CVE_CHECK_IGNORE += "CVE-2022-3566"
- # Patched in kernel since v6.1 364f997b5cfe1db0d63a390fe7c801fa2b3115f6
- CVE_CHECK_IGNORE += "CVE-2022-3567"
  
--
- # 2023
+ class SimpleRemoteTarget(BaseTarget):
  
- # https://nvd.nist.gov/vuln/detail/CVE-2022-38457
-@@ -27,3 +26,11 @@ CVE_CHECK_IGNORE += "CVE-2022-3567"
- #  * https://www.linuxkernelcves.com/cves/CVE-2022-40133
- #  * https://lore.kernel.org/all/CAODzB9q3OBD0k6W2bcWrSZo2jC3EvV0PrLyWmO07rxR4nQgkJA@mail.gmail.com/T/
- CVE_CHECK_IGNORE += "CVE-2022-38457 CVE-2022-40133"
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 6734cee48d..7e1c7a7eac 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -637,6 +637,7 @@ class QemuRunner:
+                 return self.qmp.cmd(command)
+ 
+     def run_serial(self, command, raw=False, timeout=60):
++        # Deprecated
+         # Returns (status, output) where status is 1 on success and 0 on error
+ 
+         # We assume target system have echo to get command status
+@@ -688,6 +689,62 @@ class QemuRunner:
+                     status = 1
+         return (status, str(data))
+ 
++    def run_serial_socket(self, command, raw=False, timeout=60):
++        # Returns (status, output) where status is 0 on success and a negative value on error.
 +
-+# https://nvd.nist.gov/vuln/detail/CVE-2023-1075
-+# Introduced in v4.20 a42055e8d2c30d4decfc13ce943d09c7b9dad221
-+# Patched in kernel v6.2 ffe2a22562444720b05bdfeb999c03e810d84cbb
-+# Backported in version 6.1.11 37c0cdf7e4919e5f76381ac60817b67bcbdacb50
-+# 5.15 still has issue, include/net/tls.h:is_tx_ready() would need patch
-+CVE_CHECK_IGNORE += "CVE-2023-1075"
++        # We assume target system have echo to get command status
++        if not raw:
++            command = "%s; echo $?\n" % command
 +
++        data = ''
++        status = 0
++        self.server_socket.sendall(command.encode('utf-8'))
++        start = time.time()
++        end = start + timeout
++        while True:
++            now = time.time()
++            if now >= end:
++                data += "<<< run_serial_socket(): command timed out after %d seconds without output >>>\r\n\r\n" % timeout
++                break
++            try:
++                sread, _, _ = select.select([self.server_socket],[],[], end - now)
++            except InterruptedError:
++                continue
++            if sread:
++                # try to avoid reading single character at a time
++                time.sleep(0.1)
++                answer = self.server_socket.recv(1024)
++                if answer:
++                    data += answer.decode('utf-8')
++                    # Search the prompt to stop
++                    if re.search(self.boot_patterns['search_cmd_finished'], data):
++                        break
++                else:
++                    if self.canexit:
++                        return (1, "")
++                    raise Exception("No data on serial console socket, connection closed?")
++
++        if not data:
++            raise Exception('serial run failed: no data')
++
++        if raw:
++            status = 0
++        else:
++            # Remove first line (command line) and last line (prompt)
++            data = data[data.find('$?\r\n')+4:data.rfind('\r\n')]
++            index = data.rfind('\r\n')
++            if index == -1:
++                data = ""
++                raise Exception('serial run failed: no result')
++            else:
++                status_cmd = data[index+2:]
++                data = data[:index]
++                try:
++                    status = int(status_cmd)
++                except ValueError as e:
++                    raise Exception('Could not convert to integer: {}'.format(str(e)))
++        return (status, str(data))
++
+ 
+     def _dump_host(self):
+         self.host_dumper.create_dir("qemu")
 -- 
-2.39.2
+2.40.0
 
 
