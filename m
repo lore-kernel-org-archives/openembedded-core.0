@@ -1,96 +1,293 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D235C77B61
-	for <webhook@archiver.kernel.org>; Sun,  9 Apr 2023 08:43:22 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web11.15640.1681029798573678040
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0FAFC77B70
+	for <webhook@archiver.kernel.org>; Sun,  9 Apr 2023 09:39:22 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+ by mx.groups.io with SMTP id smtpd.web10.16634.1681033153662028033
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Apr 2023 01:43:18 -0700
+ Sun, 09 Apr 2023 02:39:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bgxwjfTH;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id j1so6157268wrb.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 09 Apr 2023 01:43:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1681029797;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kn32yhXnJX3wj/Z+775ZCWlYq6HvHOBn1AjxKcmt764=;
-        b=bgxwjfTH4kX6uYYk29eGQqBFUgxZWRnhEKlOQ6OG9pRu8iYZhMocs10DMw9acntF7J
-         0fYnjQLUkf4CsgZCtBBY4tdUUFJWgU4Ns57N0sAl57ZaUqM0VX1KypZNPKhVExrlWTqU
-         +gqnyJ5Q3Uu84xE8dx3yL7as+2Kl58XjnOTYE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681029797;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=kn32yhXnJX3wj/Z+775ZCWlYq6HvHOBn1AjxKcmt764=;
-        b=xaXc1khryHFPjfBnQf3VYrivMAFVZS6U2XkeWxjeXDH0Aqrn6B/X9W8GGF+6Q8IujF
-         xDnVioY9faEpTifTa70A+CaxwA7Fca9d7YRAiKF0+Vm6A54UrxVV47JKwv0misiFaYWI
-         ERD1U9R3XshXByzYjoa3MHC4N8vENARVQie7wXKLwrBkvvvHMv+e+3bmQ/pRg75EI4mD
-         4ZS7nlmF5bRL9hPrV8z0ZqK2jTgSN24jJ7K525cKVSfTDlxDSE/Q3i7fE5GwP8YAVl9Z
-         cLS2VDmf5PQi3wqj+mOiK3AspIinHTfyaC9Q1EGzKDwgWJ5/uytud05zSF+iBXlEX7o2
-         v+Jg==
-X-Gm-Message-State: AAQBX9ePrrW+TT8lS3kLWR5lN+CzAEAsMTrvSligYHRkH07sYg9NPnXz
-	bIX6pbTDeCdLMWCA8kSVvyAKOw==
-X-Google-Smtp-Source: AKy350aRh/V3atNrqxwCSDeHMN9LYYlHEjCCyPcXGKIoWTkS6xwJvq4ghDAF19+jNqvDBt4Je0LScQ==
-X-Received: by 2002:adf:f4c4:0:b0:2c7:adb:db9 with SMTP id h4-20020adff4c4000000b002c70adb0db9mr2618395wrp.63.1681029796797;
-        Sun, 09 Apr 2023 01:43:16 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:44f1:76c5:692d:9225? ([2001:8b0:aba:5f3c:44f1:76c5:692d:9225])
-        by smtp.gmail.com with ESMTPSA id m5-20020adfe945000000b002f006acacc1sm1403121wrn.97.2023.04.09.01.43.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Apr 2023 01:43:16 -0700 (PDT)
-Message-ID: <6381549a7f058cb233c656dca9324ae4d7a435c2.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Reproducible build
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Frederic Martinsons <frederic.martinsons@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sun, 09 Apr 2023 09:43:15 +0100
-In-Reply-To: <CA+cAkerWUvabx_kzN2s6S64454t88ifOR+nqtaLwk0wHfw3n2Q@mail.gmail.com>
-References: <1753B0402875C548.11304@lists.openembedded.org>
-	 <CA+cAkerWUvabx_kzN2s6S64454t88ifOR+nqtaLwk0wHfw3n2Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.47.3-1 
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=hD5U9mJC;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 2E7B3C0003;
+	Sun,  9 Apr 2023 09:39:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1681033151;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=L2nDDSCg8RCPohjtfgn6QCGbrchTafs940PYkIAl5Bc=;
+	b=hD5U9mJCg+0fKllMoq3TnpiZIomY6ucpu00bTODQRQa9HXOQNbg+vgUShjMqn+Y1QLm8du
+	oUoDsOqeVtiMFMU5rgfMLGtxsj81OBNa+2GOfOFeSXpafj0yTgqC37k/K15owYVIsWZgBp
+	LCdOMZQArRS/JDPe903OstW5y7doKjWQXIzJhvQB7hJJyrAnQcchsypdnkB24DojpUOXyk
+	vcEalx80rHqwX/d3kVGkZrJM0w1LXCeVYVynkjpAn5E5cwcG+8qELcJqfAkcjl62+2bH1t
+	sMt0rAdcbEsopWEu0sPUL9Q6T/IIShPI0Tdv5fEETA3XJN5FJfU97FHlmvuyiA==
+Date: Sun, 9 Apr 2023 11:39:10 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Louis Rannou <lrannou@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org, khilman@baylibre.com
+Subject: Re: [OE-core] [PATCH v3 2/2] oeqa/selftest: change deprecated usage
+ of run_serial
+Message-ID: <20230409093910134a3fb4@mail.local>
+References: <20230407142622.632035-1-lrannou@baylibre.com>
+ <20230407142622.632035-3-lrannou@baylibre.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230407142622.632035-3-lrannou@baylibre.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 09 Apr 2023 08:43:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179835
+ <openembedded-core@lists.openembedded.org>; Sun, 09 Apr 2023 09:39:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179836
 
-On Sat, 2023-04-08 at 09:56 +0200, Frederic Martinsons wrote:
-> Forget my previous question,=C2=A0
->=20
-> I simply
-> edit=C2=A0https://git.openembedded.org/openembedded-core/tree/meta/lib/oe=
-q
-> a/selftest/cases/reproducible.py#n137
-> to replace by zavariant, and with=C2=A0OEQA_DEBUGGING_SAVED_OUTPUT set , =
-I
-> managed to see the html diff
->=20
-> Nevertheless, It took one hour, but it seems that it cannot be
-> avoided since there are two builds and one
-> without any shared state.
+Hello,
 
-Unfortunately that is the nature of the test, one side has to be built
-from scratch. Tweaking the test as you'd done to target a specific
-component is what I'd have done too to speed things up for a specific
-recipe.
+This breaks the overlayfs tests:
 
-To get a further speedup, you could probably keep the sstate for each
-of the two builds separate but retain both, then in theory on the
-pieces you change would rebuild. Again, it would mean tweaking the test
-but for debugging, I think that is fine. Rust can be a pain if you just
-rebuild those as it still takes a while. Thanks for taking a look!
+https://autobuilder.yoctoproject.org/typhoon/#builders/87/builds/5075/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#builders/86/builds/5036/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#builders/80/builds/4994/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#builders/79/builds/5045/steps/15/logs/stdio
 
-Cheers,
+On 07/04/2023 16:26:22+0200, Louis Rannou wrote:
+> Prefer the new function run_serial_socket. Change calls where the modification
+> is easy.
+> 
+> Signed-off-by: Louis Rannou <lrannou@baylibre.com>
+> ---
+>  meta/lib/oeqa/selftest/cases/debuginfod.py |  3 +-
+>  meta/lib/oeqa/selftest/cases/gdbserver.py  |  7 ++--
+>  meta/lib/oeqa/selftest/cases/locales.py    |  8 ++---
+>  meta/lib/oeqa/selftest/cases/overlayfs.py  | 42 ++++++++++++++--------
+>  meta/lib/oeqa/selftest/cases/package.py    |  7 ++--
+>  meta/lib/oeqa/selftest/cases/runqemu.py    |  2 +-
+>  6 files changed, 43 insertions(+), 26 deletions(-)
+> 
+> diff --git a/meta/lib/oeqa/selftest/cases/debuginfod.py b/meta/lib/oeqa/selftest/cases/debuginfod.py
+> index 37f51760fb..2571ce6989 100644
+> --- a/meta/lib/oeqa/selftest/cases/debuginfod.py
+> +++ b/meta/lib/oeqa/selftest/cases/debuginfod.py
+> @@ -99,7 +99,8 @@ CORE_IMAGE_EXTRA_INSTALL += "elfutils"
+>                      % (qemu.server_ip, port)
+>                  )
+>                  self.logger.info(f"Starting client {cmd}")
+> -                status, output = qemu.run_serial(cmd)
+> +                status, output = qemu.run_serial_socket(cmd)
+> +                self.assertEqual(0, status)
+>                  # This should be more comprehensive
+>                  self.assertIn("/.cache/debuginfod_client/", output)
+>          finally:
+> diff --git a/meta/lib/oeqa/selftest/cases/gdbserver.py b/meta/lib/oeqa/selftest/cases/gdbserver.py
+> index 9da97ae780..4f8c7d620f 100644
+> --- a/meta/lib/oeqa/selftest/cases/gdbserver.py
+> +++ b/meta/lib/oeqa/selftest/cases/gdbserver.py
+> @@ -43,7 +43,8 @@ CORE_IMAGE_EXTRA_INSTALL = "gdbserver"
+>              shutil.unpack_archive(filename, debugfs)
+>  
+>              with runqemu("core-image-minimal", runqemuparams="nographic") as qemu:
+> -                status, output = qemu.run_serial("kmod --help")
+> +                status, output = qemu.run_serial_socket("kmod --help")
+> +                self.assertEqual(status, 0)
+>                  self.assertIn("modprobe", output)
+>  
+>                  with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
+> @@ -61,7 +62,7 @@ CORE_IMAGE_EXTRA_INSTALL = "gdbserver"
+>                              self.fail("Timed out connecting to gdb")
+>                      future = executor.submit(run_gdb)
+>  
+> -                    status, output = qemu.run_serial("gdbserver --once :9999 kmod --help")
+> -                    self.assertEqual(status, 1)
+> +                    status, output = qemu.run_serial_socket("gdbserver --once :9999 kmod --help")
+> +                    self.assertEqual(status, 0)
+>                      # The future either returns None, or raises an exception
+>                      future.result()
+> diff --git a/meta/lib/oeqa/selftest/cases/locales.py b/meta/lib/oeqa/selftest/cases/locales.py
+> index 4ca8ffb7aa..98026d2c80 100644
+> --- a/meta/lib/oeqa/selftest/cases/locales.py
+> +++ b/meta/lib/oeqa/selftest/cases/locales.py
+> @@ -27,15 +27,15 @@ class LocalesTest(OESelftestTestCase):
+>  
+>          with runqemu("core-image-minimal", ssh=False, runqemuparams='nographic') as qemu:
+>              cmd = "locale -a"
+> -            status, output = qemu.run_serial(cmd)
+> +            status, output = qemu.run_serial_socket(cmd)
+>              # output must includes fr_FR or fr_FR.UTF-8
+> -            self.assertEqual(status, 1, msg='locale test command failed: output: %s' % output)
+> +            self.assertEqual(status, 0, msg='locale test command failed: output: %s' % output)
+>              self.assertIn("fr_FR", output, msg='locale -a test failed: output: %s' % output)
+>  
+>              cmd = "localedef --list-archive -v"
+> -            status, output = qemu.run_serial(cmd)
+> +            status, output = qemu.run_serial_socket(cmd)
+>              # output must includes fr_FR.utf8
+> -            self.assertEqual(status, 1, msg='localedef test command failed: output: %s' % output)
+> +            self.assertEqual(status, 0, msg='localedef test command failed: output: %s' % output)
+>              self.assertIn("fr_FR.utf8", output, msg='localedef test failed: output: %s' % output)
+>  
+>      def test_locales_on(self):
+> diff --git a/meta/lib/oeqa/selftest/cases/overlayfs.py b/meta/lib/oeqa/selftest/cases/overlayfs.py
+> index b4f0663828..753821490b 100644
+> --- a/meta/lib/oeqa/selftest/cases/overlayfs.py
+> +++ b/meta/lib/oeqa/selftest/cases/overlayfs.py
+> @@ -183,20 +183,24 @@ EOT
+>  
+>          with runqemu('core-image-minimal') as qemu:
+>              # Check that application service started
+> -            status, output = qemu.run_serial("systemctl status my-application")
+> +            status, output = qemu.run_serial_socket("systemctl status my-application")
+> +            self.assertEqual(0, status)
+>              self.assertTrue("active (exited)" in output, msg=output)
+>  
+>              # Check that overlay mounts are dependencies of our application unit
+> -            status, output = qemu.run_serial("systemctl list-dependencies my-application")
+> +            status, output = qemu.run_serial_socket("systemctl list-dependencies my-application")
+> +            self.assertEqual(0, status)
+>              self.assertTrue("overlayfs-user-overlays.service" in output, msg=output)
+>  
+> -            status, output = qemu.run_serial("systemctl list-dependencies overlayfs-user-overlays")
+> +            status, output = qemu.run_serial_socket("systemctl list-dependencies overlayfs-user-overlays")
+> +            self.assertEqual(0, status)
+>              self.assertTrue("usr-share-another\\x2doverlay\\x2dmount.mount" in output, msg=output)
+>              self.assertTrue("usr-share-my\\x2dapplication.mount" in output, msg=output)
+>  
+>              # Check that we have /mnt/overlay fs mounted as tmpfs and
+>              # /usr/share/my-application as an overlay (see overlayfs-user recipe)
+> -            status, output = qemu.run_serial("/bin/mount -t tmpfs,overlay")
+> +            status, output = qemu.run_serial_socket("/bin/mount -t tmpfs,overlay")
+> +            self.assertEqual(0, status)
+>  
+>              line = getline_qemu(output, "on /mnt/overlay")
+>              self.assertTrue(line and line.startswith("tmpfs"), msg=output)
+> @@ -360,7 +364,8 @@ OVERLAYFS_ETC_DEVICE = "/dev/sda3"
+>          bitbake('core-image-minimal')
+>  
+>          with runqemu('core-image-minimal', image_fstype='wic') as qemu:
+> -            status, output = qemu.run_serial("/bin/mount")
+> +            status, output = qemu.run_serial_socket("/bin/mount")
+> +            self.assertEqual(0, status)
+>  
+>              line = getline_qemu(output, "upperdir=/data/overlay-etc/upper")
+>              self.assertFalse(line, msg=output)
+> @@ -393,7 +398,8 @@ OVERLAYFS_ETC_DEVICE = "/dev/sda3"
+>          testFile = "/etc/my-test-data"
+>  
+>          with runqemu('core-image-minimal', image_fstype='wic', discard_writes=False) as qemu:
+> -            status, output = qemu.run_serial("/bin/mount")
+> +            status, output = qemu.run_serial_socket("/bin/mount")
+> +            self.assertEqual(0, status)
+>  
+>              line = getline_qemu(output, "/dev/sda3")
+>              self.assertTrue("/data" in output, msg=output)
+> @@ -402,19 +408,24 @@ OVERLAYFS_ETC_DEVICE = "/dev/sda3"
+>              self.assertTrue(line and line.startswith("/data/overlay-etc/upper on /etc type overlay"), msg=output)
+>  
+>              # check that lower layer is not available
+> -            status, output = qemu.run_serial("ls -1 /data/overlay-etc/lower")
+> +            status, output = qemu.run_serial_socket("ls -1 /data/overlay-etc/lower")
+> +            self.assertEqual(0, status)
+>              line = getline_qemu(output, "No such file or directory")
+>              self.assertTrue(line, msg=output)
+>  
+> -            status, output = qemu.run_serial("touch " + testFile)
+> -            status, output = qemu.run_serial("sync")
+> -            status, output = qemu.run_serial("ls -1 " + testFile)
+> +            status, output = qemu.run_serial_socket("touch " + testFile)
+> +            self.assertEqual(0, status)
+> +            status, output = qemu.run_serial_socket("sync")
+> +            self.assertEqual(0, status)
+> +            status, output = qemu.run_serial_socket("ls -1 " + testFile)
+> +            self.assertEqual(0, status)
+>              line = getline_qemu(output, testFile)
+>              self.assertTrue(line and line.startswith(testFile), msg=output)
+>  
+>          # Check that file exists in /etc after reboot
+>          with runqemu('core-image-minimal', image_fstype='wic') as qemu:
+> -            status, output = qemu.run_serial("ls -1 " + testFile)
+> +            status, output = qemu.run_serial_socket("ls -1 " + testFile)
+> +            self.assertEqual(0, status)
+>              line = getline_qemu(output, testFile)
+>              self.assertTrue(line and line.startswith(testFile), msg=output)
+>  
+> @@ -446,14 +457,17 @@ IMAGE_INSTALL:append = " overlayfs-user"
+>          bitbake('core-image-minimal')
+>  
+>          with runqemu('core-image-minimal', image_fstype='wic') as qemu:
+> -            status, output = qemu.run_serial("echo \"Modified in upper\" > /etc/" + testFile)
+> -            status, output = qemu.run_serial("diff /etc/" + testFile + " /data/overlay-etc/lower/" + testFile)
+> +            status, output = qemu.run_serial_socket("echo \"Modified in upper\" > /etc/" + testFile)
+> +            self.assertEqual(0, status)
+> +            status, output = qemu.run_serial_socket("diff /etc/" + testFile + " /data/overlay-etc/lower/" + testFile)
+> +            self.assertEqual(0, status)
+>              line = getline_qemu(output, "Modified in upper")
+>              self.assertTrue(line, msg=output)
+>              line = getline_qemu(output, "Original file")
+>              self.assertTrue(line, msg=output)
+>  
+> -            status, output = qemu.run_serial("touch /data/overlay-etc/lower/ro-test.txt")
+> +            status, output = qemu.run_serial_socket("touch /data/overlay-etc/lower/ro-test.txt")
+> +            self.assertEqual(0, status)
+>              line = getline_qemu(output, "Read-only file system")
+>              self.assertTrue(line, msg=output)
+>  
+> diff --git a/meta/lib/oeqa/selftest/cases/package.py b/meta/lib/oeqa/selftest/cases/package.py
+> index 1aa6c03f8a..78e8a4c26b 100644
+> --- a/meta/lib/oeqa/selftest/cases/package.py
+> +++ b/meta/lib/oeqa/selftest/cases/package.py
+> @@ -135,7 +135,8 @@ class PackageTests(OESelftestTestCase):
+>              Check that gdb ``binary`` to read symbols from separated debug file
+>              """
+>              self.logger.info("gdbtest %s" % binary)
+> -            status, output = qemu.run_serial('/usr/bin/gdb.sh %s' % binary, timeout=60)
+> +            status, output = qemu.run_serial_socket('/usr/bin/gdb.sh %s' % binary, timeout=60)
+> +            self.assertEqual(0, status)
+>              for l in output.split('\n'):
+>                  # Check debugging symbols exists
+>                  if '(no debugging symbols found)' in l:
+> @@ -166,8 +167,8 @@ class PackageTests(OESelftestTestCase):
+>  
+>          def check_ownership(qemu, expected_gid, expected_uid, path):
+>              self.logger.info("Check ownership of %s", path)
+> -            status, output = qemu.run_serial('stat -c "%U %G" ' + path)
+> -            self.assertEqual(status, 1, "stat failed: " + output)
+> +            status, output = qemu.run_serial_socket('stat -c "%U %G" ' + path)
+> +            self.assertEqual(status, 0, "stat failed: " + output)
+>              try:
+>                  uid, gid = output.split()
+>                  self.assertEqual(uid, expected_uid)
+> diff --git a/meta/lib/oeqa/selftest/cases/runqemu.py b/meta/lib/oeqa/selftest/cases/runqemu.py
+> index f01e1eec66..be1481a82e 100644
+> --- a/meta/lib/oeqa/selftest/cases/runqemu.py
+> +++ b/meta/lib/oeqa/selftest/cases/runqemu.py
+> @@ -183,7 +183,7 @@ class QemuTest(OESelftestTestCase):
+>          # (such as the exception "Console connection closed unexpectedly")
+>          # as qemu will disappear when we shut it down
+>          qemu.runner.allowexit()
+> -        qemu.run_serial("shutdown -h now")
+> +        qemu.run_serial_socket("shutdown -h now")
+>          time_track = 0
+>          try:
+>              while True:
+> -- 
+> 2.40.0
+> 
 
-Richard
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#179825): https://lists.openembedded.org/g/openembedded-core/message/179825
+> Mute This Topic: https://lists.openembedded.org/mt/98125364/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
