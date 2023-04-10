@@ -1,125 +1,125 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE628C77B6F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE454C77B61
 	for <webhook@archiver.kernel.org>; Mon, 10 Apr 2023 09:41:58 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.40289.1681119718367086296
+Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com [195.245.231.3])
+ by mx.groups.io with SMTP id smtpd.web11.40284.1681119709353061847
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Apr 2023 02:41:58 -0700
+ Mon, 10 Apr 2023 02:41:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=k8ZDMdls;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id n19-20020a05600c501300b003f064936c3eso7424043wmr.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 02:41:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681119716;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+O8L3paxbiuaAZsITQUKpBHLAeTyAH9i9D1+6vsQBgM=;
-        b=k8ZDMdls97Da/0eqeCBfeuK6d7do1dua6jeTr+nPyfoKrc9Hm9fjDgXpYeH0DHGS+V
-         26Ui4onTmDxLtd3lVM+YyTCW54LLvEEn855Q2LNbBB2h5mEVJI7xebmUZEjmsfBQhBE7
-         iTNdfnmjb61Pq56QnJr812My0BTCi54Y89TD+T6OtzGhQbHHl6/gifsoROML/tXHYMR1
-         qXBlTQol//z2fmMtBgzoKQnOKuFVLxHI7tai6tb4PFZIXh5IcVCaum/d4D1eC25z1JBW
-         jnkYJAoaNrYSmp9ZclNQhh1RlezrgckJ5osMGzBXdcDP5RuqMD5sdopLE8NFfKVafBh+
-         G9lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681119716;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+O8L3paxbiuaAZsITQUKpBHLAeTyAH9i9D1+6vsQBgM=;
-        b=bArKALf20tRvxfIISF6spgF6qxQl9555p53UMVKFcQsOY0H2uPnF6jXuKAAAk0ttxT
-         hb1Jfk/X042EVLPjNyV8+dHa0XjYqBl7JBeMeaNeeBB17bWpVx8p08H9nWFZ1KvMveto
-         v7HIpze/+SIM5HLDtYVh90nqw6AEYNYHwkGCjxG+5bPx8xFYpHC3qyr6vINElh1lkIkT
-         Q+cpX2pI5bhWtpYnQo+A5jE26NZyzC/5gTa5H+AAOru7RfMCg9+3mw8yIj3fgNiP8qm0
-         Vs3ESdsccUZsqD42LH0aF9P48PW9q68F+eelP2eKwjw1sIX5b4v0TwIB7CB0SriEY/uN
-         YFXg==
-X-Gm-Message-State: AAQBX9c1o3mfOubQZ5nPl2xGv2lHAVzuYBL5wz7tjj4d/CQSUqGRBy5u
-	R7D0MGxM8jh5TdGReMUlmOZw+EP457s=
-X-Google-Smtp-Source: AKy350aigFrbjlyr+evp+JoKIGXtickN1Si3XGhLm1723GNx36X874IT38Z07dNkOIpX/SBDiYtO8g==
-X-Received: by 2002:a1c:f716:0:b0:3ef:4138:9eef with SMTP id v22-20020a1cf716000000b003ef41389eefmr7258672wmh.36.1681119716178;
-        Mon, 10 Apr 2023 02:41:56 -0700 (PDT)
-Received: from localhost.localdomain (cust18-dsl93-89-130.idnet.net. [93.89.130.18])
-        by smtp.gmail.com with ESMTPSA id z23-20020a1c4c17000000b003f07f0405b5sm8673663wmf.43.2023.04.10.02.41.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Apr 2023 02:41:55 -0700 (PDT)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core][PATCH] rust: Upgrade 1.68.1 -> 1.68.2
-Date: Mon, 10 Apr 2023 10:41:22 +0100
-Message-Id: <20230410094122.5865-1-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.39.0
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=Z4DhII/C;
+ spf=pass (domain: fujitsu.com, ip: 195.245.231.3, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1681119707; i=@fujitsu.com;
+	bh=eBlI/s+T72gLCPUmbPqrUcPAKe4WDAwJD3F10+E3s7A=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=Z4DhII/Cgh8dYJNenbayA1cpbdVQWWo/gz9NiKECk3cu/6fSfgKUiABBgFqqLbHRS
+	 eMK+eUkbSUa2EG3s9OtW6Zj4UsybdnxKbbAs0uYU4xlkxu+TnFBhSN7yiNMSJIcDiP
+	 n16uxaXv2vfwYwf7fO5LVGEEwpaS26/NaRcb7IMtyamdhmYnL4G4GDlQMc7ER88GiD
+	 g21qMDkv7c6+Sm3Ywg0Eb4qOiNPgHgPCbnMi2dCq/9hx8nBVDZ9RbZ+uCo2aOxvrgv
+	 LmdTHtMKoa5iiULc2WsuHI0Q8TSZZvkF80zIBIPPnQkrQkyTAqSiSJgdOhU6/V5YYl
+	 3hdkkNVAtkq7g==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrKIsWRWlGSWpSXmKPExsViZ8ORqHv7pnG
+  KwZoWLos7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPVJr+CVUIVq/++Y2tgfCbQxcjFISTwmFFi
+  zdZT7BDONSaJKdPnMEM4exglLs16z9bFyMnBJiAlceP+fyCbg0NEQE/i6j9RkDCzgIrEi9897
+  CC2sIC7xL4v35hBbBYBVYlL3+eAxXkFnCSeLdwIFpcQUJCY8vA9mM0p4CzR/eEnC4gtBFTz7s
+  1SqHpBiZMzn7BAzJeQOPjiBVSvosTsy80sEHaFROP0Q0wQtprE1XObmCcwCs5C0j4LSfsCRqZ
+  VjGbFqUVlqUW6hqZ6SUWZ6RkluYmZOXqJVbqJeqmluuWpxSW6RnqJ5cV6qcXFesWVuck5KXp5
+  qSWbGIGhm1KsOGEH48W+v3qHGCU5mJREebu4jFOE+JLyUyozEosz4otKc1KLDzHKcHAoSfAyX
+  AbKCRalpqdWpGXmAOMIJi3BwaMkwitxDSjNW1yQmFucmQ6ROsWoKCXOy3EeKCEAksgozYNrg8
+  XuJUZZKWFeRgYGBiGegtSi3MwSVPlXjOIcjErCvGcuAk3hycwrgZv+CmgxE9BiLhcDkMUliQg
+  pqQam8wp/jrNUdOsV+R1l/DllxdZrEUu1HxffDxQ0Ov+KoWf/xr5W5oCTu1cF/rjF2r9vSvFf
+  uQmGW77fd8vKy+ecX/D9HudZv6uFM9z1L703LOqLqy70+PvSnOniU9czc1Z9jThxaMFdU2H1n
+  kfP23zdJ0+bkOFcqLpdsmyFRPDr3Fn6YY1VS2/J1q4qqugL+B2QbN97/fbhJZ1n38786yun8r
+  fZdMfEh20agRbGim4X51Qf50q62rem1SXJ+6SJhn3NfpYlyWd4/m75uvvArskZUoL3ErlTjny
+  +y3Dl0bKGeDP1yyEvp2nUf+uraJ7Zn1Ay99oOr5w5h5SULQpLZd4w6IUdL5qXLCFekj29zKxc
+  iaU4I9FQi7moOBEAaE3lAlgDAAA=
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-6.tower-571.messagelabs.com!1681119707!197531!1
+X-Originating-IP: [62.60.8.97]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.104.2; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 21484 invoked from network); 10 Apr 2023 09:41:47 -0000
+Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
+  by server-6.tower-571.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 10 Apr 2023 09:41:47 -0000
+Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id D9D011001A2
+	for <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 10:41:46 +0100 (BST)
+Received: from R01UKEXCASM121.r01.fujitsu.local (R01UKEXCASM121 [10.183.43.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id CDCED1001A5
+	for <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 10:41:46 +0100 (BST)
+Received: from localhost.localdomain (10.167.225.33) by
+ R01UKEXCASM121.r01.fujitsu.local (10.183.43.173) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.42; Mon, 10 Apr 2023 10:41:45 +0100
+From: <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] python3-setuptools: upgrade 67.6.0 -> 67.6.1
+Date: Mon, 10 Apr 2023 17:41:32 +0800
+Message-ID: <1681119692-25319-2-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1681119692-25319-1-git-send-email-wangmy@fujitsu.com>
+References: <1681119692-25319-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM121.r01.fujitsu.local (10.183.43.173)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 09:41:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179885
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179884
 
-Changes:
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-* Update the GitHub RSA host key bundled within Cargo. The key was
-  rotated by GitHub on 2023-03-24 after the old one leaked.
-* Mark the old GitHub RSA host key as revoked. This will prevent Cargo
-  from accepting the leaked key even when trusted by the system.
-* Add support for @revoked and a better error message for
-  @cert-authority in Cargo’s SSH host key verification
+Changelog:
+==========
+ #3865: Fixed _WouldIgnoreField warnings for scripts and gui_scripts, when entry-points is not listed in dynamic.
+ #3875: Update code generated by validate-pyproject to use v0.12.2. This should fix default license patterns when pyproject.toml is used.
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
+ .../0001-conditionally-do-not-fetch-code-by-easy_install.patch  | 2 +-
+ ...ython3-setuptools_67.6.0.bb => python3-setuptools_67.6.1.bb} | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-setuptools_67.6.0.bb => python3-setuptools_67.6.1.bb} (95%)
 
- meta/recipes-devtools/rust/{cargo_1.68.1.bb => cargo_1.68.2.bb} | 0
- .../rust/{libstd-rs_1.68.1.bb => libstd-rs_1.68.2.bb}           | 0
- ...t-cross-canadian_1.68.1.bb => rust-cross-canadian_1.68.2.bb} | 0
- .../rust/{rust-llvm_1.68.1.bb => rust-llvm_1.68.2.bb}           | 0
- meta/recipes-devtools/rust/rust-source.inc                      | 2 +-
- meta/recipes-devtools/rust/{rust_1.68.1.bb => rust_1.68.2.bb}   | 0
- 6 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/rust/{cargo_1.68.1.bb => cargo_1.68.2.bb} (100%)
- rename meta/recipes-devtools/rust/{libstd-rs_1.68.1.bb => libstd-rs_1.68.2.bb} (100%)
- rename meta/recipes-devtools/rust/{rust-cross-canadian_1.68.1.bb => rust-cross-canadian_1.68.2.bb} (100%)
- rename meta/recipes-devtools/rust/{rust-llvm_1.68.1.bb => rust-llvm_1.68.2.bb} (100%)
- rename meta/recipes-devtools/rust/{rust_1.68.1.bb => rust_1.68.2.bb} (100%)
-
-diff --git a/meta/recipes-devtools/rust/cargo_1.68.1.bb b/meta/recipes-devtools/rust/cargo_1.68.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/rust/cargo_1.68.1.bb
-rename to meta/recipes-devtools/rust/cargo_1.68.2.bb
-diff --git a/meta/recipes-devtools/rust/libstd-rs_1.68.1.bb b/meta/recipes-devtools/rust/libstd-rs_1.68.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/rust/libstd-rs_1.68.1.bb
-rename to meta/recipes-devtools/rust/libstd-rs_1.68.2.bb
-diff --git a/meta/recipes-devtools/rust/rust-cross-canadian_1.68.1.bb b/meta/recipes-devtools/rust/rust-cross-canadian_1.68.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/rust/rust-cross-canadian_1.68.1.bb
-rename to meta/recipes-devtools/rust/rust-cross-canadian_1.68.2.bb
-diff --git a/meta/recipes-devtools/rust/rust-llvm_1.68.1.bb b/meta/recipes-devtools/rust/rust-llvm_1.68.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/rust/rust-llvm_1.68.1.bb
-rename to meta/recipes-devtools/rust/rust-llvm_1.68.2.bb
-diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
-index c8f5a5a9c4c4..6d3a4b131e26 100644
---- a/meta/recipes-devtools/rust/rust-source.inc
-+++ b/meta/recipes-devtools/rust/rust-source.inc
-@@ -7,7 +7,7 @@ SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
-             file://0001-Do-not-use-LFS64-on-linux-with-musl.patch;patchdir=${RUSTSRC} \
-             file://zlib-off64_t.patch;patchdir=${RUSTSRC} \
- "
--SRC_URI[rust.sha256sum] = "5b8ea94085b65e75c1fa6310e2f90bd706fa80bfcb3544fe26f4037b911d9fb2"
-+SRC_URI[rust.sha256sum] = "ce1a115f6aafa912b4622906a92b626354973afa9288e2c7750df4dcf3390fc0"
+diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+index b12e4f5d05..4d56dc89ba 100644
+--- a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
++++ b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+@@ -1,4 +1,4 @@
+-From 8a67710131fc1b8246edc4dbcd8077eed96e13f7 Mon Sep 17 00:00:00 2001
++From 2b06ca797d3ccc5b195aaa04a085c44bf61d4de3 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Tue, 17 Jul 2018 10:13:38 +0800
+ Subject: [PATCH] conditionally do not fetch code by easy_install
+diff --git a/meta/recipes-devtools/python/python3-setuptools_67.6.0.bb b/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb
+similarity index 95%
+rename from meta/recipes-devtools/python/python3-setuptools_67.6.0.bb
+rename to meta/recipes-devtools/python/python3-setuptools_67.6.1.bb
+index aa1d525c02..ad0d7cc527 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_67.6.0.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb
+@@ -11,7 +11,7 @@ SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-e
+ SRC_URI += " \
+             file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
  
- RUSTSRC = "${WORKDIR}/rustc-${RUST_VERSION}-src"
+-SRC_URI[sha256sum] = "2ee892cd5f29f3373097f5a814697e397cf3ce313616df0af11231e2ad118077"
++SRC_URI[sha256sum] = "257de92a9d50a60b8e22abfcbb771571fde0dbf3ec234463212027a4eeecbe9a"
  
-diff --git a/meta/recipes-devtools/rust/rust_1.68.1.bb b/meta/recipes-devtools/rust/rust_1.68.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/rust/rust_1.68.1.bb
-rename to meta/recipes-devtools/rust/rust_1.68.2.bb
+ DEPENDS += "${PYTHON_PN}"
+ 
 -- 
-2.39.0
+2.34.1
 
 
