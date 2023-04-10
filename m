@@ -2,71 +2,71 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7F8CC76196
-	for <webhook@archiver.kernel.org>; Mon, 10 Apr 2023 08:58:48 +0000 (UTC)
-Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com [195.245.231.1])
- by mx.groups.io with SMTP id smtpd.web10.40599.1681117126297868527
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD55CC76196
+	for <webhook@archiver.kernel.org>; Mon, 10 Apr 2023 08:59:58 +0000 (UTC)
+Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com [85.158.142.1])
+ by mx.groups.io with SMTP id smtpd.web11.39818.1681117193092097746
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Apr 2023 01:58:46 -0700
+ Mon, 10 Apr 2023 01:59:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=BxqOk9td;
- spf=pass (domain: fujitsu.com, ip: 195.245.231.1, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=ldvukgAH;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.1, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1681117124; i=@fujitsu.com;
-	bh=ea/sPd3MtiwSuRe3bDgKGcf/YPav7zzqH/rv6GCz7+A=;
+	s=170520fj; t=1681117191; i=@fujitsu.com;
+	bh=ewBDyMPOf1MA8mAe3Y+Dn5OkRCMS9aosxIX8uGhMMZI=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Type;
-	b=BxqOk9tdxgfOeeGcuL5yYYSLQNlCRYILT7xj84wm+QsxmbIbBsKMGUm+1sjeFtFCo
-	 lXNlXdcbMQT/Yz2Y3HqaWm2X1V6gv7XIdeJtg3dSGolVeg9a/vI7hspFlogF2FcOC8
-	 UjDEZFzU67IxuGvIfqGifiZFKyPHzHyMYdCcV9snPMmna+9v5q9CF9z9Cer/7QSECV
-	 eA7g+PVrfJab4LRirGUIFqzubSpUycGsveJsw7I6cwBmoYvWSERt8NAaBpBRGG8EJJ
-	 fbx0YtIbik9SHzsR2BcdJQGdLDhJXGvJx5CAZwipysDK+2LWamwrw6YR9pC3N5Quzp
-	 EU5xsVRbz31Pw==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrIIsWRWlGSWpSXmKPExsViZ8OxWffIeeM
-  Ug6kHxSzu/HzH7sDocW7jCsYAxijWzLyk/IoE1ownE04yFhzlrFjwk6WBcQdHFyMXh5DAA0aJ
-  A2v3sUE4l5kkDu7sY4Rw9jBKzN/xEsjh5GATkJK4cf8/UBUHh4iAnsTVf6IgYWYBFYkXv3vYQ
-  WxhAUuJU82PWEFsFgFVib9drcwgNq+Ak8TV68/BxkgIKEhMefgeLM4p4CxxqW8VC4gtBFQza+
-  IcJoh6QYmTM5+wQMyXkDj44gUzRK+ixOzLzSwQdoVE4/RDTBC2msTVc5uYJzAKzkLSPgtJ+wJ
-  GplWMZsWpRWWpRbqGpnpJRZnpGSW5iZk5eolVuol6qaW65anFJbpGeonlxXqpxcV6xZW5yTkp
-  enmpJZsYgaGbUqw4YQfjxb6/eocYJTmYlER5u7iMU4T4kvJTKjMSizPii0pzUosPMcpwcChJ8
-  BqcBcoJFqWmp1akZeYA4wgmLcHBoyTCmwWMJSHe4oLE3OLMdIjUKUZdjg+HruxlFmLJy89LlR
-  Ln5QApEgApyijNgxsBi+lLjLJSwryMDAwMQjwFqUW5mSWo8q8YxTkYlYR5tx0GmsKTmVcCt+k
-  V0BFMQEdwuRiAHFGSiJCSamC6dOrsJ91+Q6sDHFw+OwOWVez+UPSVsePUpi6hI2UcMz9sMEld
-  5HtwovLGx/8Z2hK33xK02fzqmcka9WSj/dOO3NH18PKcsyZw3wvRi4nux+W+eVlzvHY+ppgt1
-  rmzbMNZngNxCm2HZ0kJBz38K3IxN6jx6d37k3L7VLfLc8gwyXxYeXDdxF0fZxrfmJ7zsO0/97
-  d1i00cxdhfHHBcI1uu4nhp9q9var9e9/EsPB/++9ZiLb5VpW9XLT4UqyTxWqd7b5tF91pj9jd
-  +qeznhKOtnZ/X2Tis+8mTq3jLf92arS5qc8q67+hF1T+PvbAgvWvFHP4HaRGcy+tfe66S+59w
-  +EefhfLaPIuwKTM98uMUlViKMxINtZiLihMBUp1ZhGQDAAA=
+	b=ldvukgAHjjrNSrmaLV7opMdvcYMgOH78nJAj+EUXErU8IcpDSZxptfUQC3VUust2X
+	 38tONDp6g5fPjYbiDqXMPX26XO0hJCXNE7toBXOXg32RGTv3BAwxXFfMg4Al6TtrLg
+	 k3m/lyoywuvcHIYlukN5MTyt89tQjMEb9DRbucR9rBRGL8mh7f8/VQKsS/s/Q3fRVK
+	 f4YKcqeS8OUDDG7lg7d2pieLChy0uEUIN2OQtLIaUJ31ez2aGWdddp/QvzcxS1XUYQ
+	 TCsqKaBQy3+ZU5Y3f1/HpBhmDZtlhq/+ZqLz7kEyZzxCTtNd/9BIscjYJbdwAxprCs
+	 qkqDmxSapgbQA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrBIsWRWlGSWpSXmKPExsViZ8ORpMt2wTj
+  F4MsrZYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePGlnOsBVeEKtovL2RqYDwp0MXIxSEk8IBR
+  YtGjFkYI5zKTxPMVH1kgnD2MEn1njgA5nBxsAlISN+7/Z+ti5OAQEdCTuPpPFCTMLKAi8eJ3D
+  zuILSxgL/Hm7UlGEJtFQFVidvtaZhCbV8BJ4s7LJUwgtoSAgsSUh+/B4pwCzhJbHu9lBRkpBF
+  RzaYM5RLmgxMmZT1ggxktIHHzxghmiVVFi9uVmFgi7QqJx+iGokWoSV89tYp7AKDgLSfssJO0
+  LGJlWMZoXpxaVpRbpGhrpJRVlpmeU5CZm5uglVukm6qWW6ublF5Vk6BrqJZYX66UWF+sVV+Ym
+  56To5aWWbGIEBm9KcZrbDsbffX/1DjFKcjApifJ2cRmnCPEl5adUZiQWZ8QXleakFh9ilOHgU
+  JLgNTgLlBMsSk1PrUjLzAFGEkxagoNHSYQ36zxQmre4IDG3ODMdInWK0Zhj0+Ere5k5Ovd3HW
+  AWYsnLz0uVEuflACkVACnNKM2DGwSL8EuMslLCvIwMDAxCPAWpRbmZJajyrxjFORiVhHm3HQa
+  awpOZVwK37xXQKUxAp3C5GICcUpKIkJJqYMpZXR3CcPWJ6NvvK+ZMeaR73f6b/OYfLQJcinpf
+  7H7kBS31ORp52l5GocNKScZrydw7Mx4cCNTUY+E6nnmjcM9t8+3u/2dK2aaKvL53S93tuCCHR
+  vFKMSnDmbpO/ToP+S+1be9t1fNf9eFw/spzpdsSVT/tPSXFMXe/xtIU+ymHw9ss9qmXVWpOjV
+  PrLTSu21rduSNOc/3B0ywzz9bNsT1wP/LL2rSMm1c3nJ225QzX1ubUl/WrRW411E6V3NS6Y8F
+  NPvbQpdITj4baP7AVtFeRcm6dfyfYIVe+Nvm//qcf525+eD7b8JbcLf9Z1SFJHF6ONxgUv51Q
+  qmcKqX8lbBA6t2Zzjlkop7j554C1PUosxRmJhlrMRcWJAJOncgNrAwAA
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-13.tower-565.messagelabs.com!1681117124!290908!1
-X-Originating-IP: [62.60.8.179]
+X-Msg-Ref: server-7.tower-728.messagelabs.com!1681117190!1441901!1
+X-Originating-IP: [62.60.8.98]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
-X-StarScan-Version: 9.104.2; banners=-,-,-
+X-StarScan-Version: 9.104.1; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 22065 invoked from network); 10 Apr 2023 08:58:44 -0000
-Received: from unknown (HELO n03ukasimr04.n03.fujitsu.local) (62.60.8.179)
-  by server-13.tower-565.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 10 Apr 2023 08:58:44 -0000
-Received: from n03ukasimr04.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id 16884159
-	for <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 09:58:44 +0100 (BST)
+Received: (qmail 27683 invoked from network); 10 Apr 2023 08:59:50 -0000
+Received: from unknown (HELO n03ukasimr03.n03.fujitsu.local) (62.60.8.98)
+  by server-7.tower-728.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 10 Apr 2023 08:59:50 -0000
+Received: from n03ukasimr03.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTP id 0CDF01CD
+	for <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 09:59:50 +0100 (BST)
 Received: from R01UKEXCASM121.r01.fujitsu.local (R01UKEXCASM121 [10.183.43.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id 0A315155
-	for <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 09:58:44 +0100 (BST)
+	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTPS id 01CDD1C7
+	for <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 09:59:50 +0100 (BST)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM121.r01.fujitsu.local (10.183.43.173) with Microsoft SMTP Server
- (TLS) id 15.0.1497.42; Mon, 10 Apr 2023 09:58:42 +0100
+ (TLS) id 15.0.1497.42; Mon, 10 Apr 2023 09:59:48 +0100
 From: <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] mesa: upgrade 23.0.0 -> 23.0.2
-Date: Mon, 10 Apr 2023 16:58:20 +0800
-Message-ID: <1681117100-24726-5-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] acpica: upgrade 20220331 -> 20230331
+Date: Mon, 10 Apr 2023 16:59:32 +0800
+Message-ID: <1681117175-24783-2-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1681117100-24726-1-git-send-email-wangmy@fujitsu.com>
-References: <1681117100-24726-1-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1681117175-24783-1-git-send-email-wangmy@fujitsu.com>
+References: <1681117175-24783-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.167.225.33]
@@ -76,35 +76,62 @@ X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 08:58:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179852
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 08:59:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179854
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
+License-Update: Copyright year updated to 2023.
+
+Changelog:
+==========
+-Update all copyright notices to the year 2023. This effects all source
+ modules, as well as utility signons.
+-Add OS-specific support for Zephyr RTOS.
+-Fix miscellaneous code that accesses various objects.
+-Remove some dead code.
+-Add C ?Flexible Array? support.
+-Add support for 64 bit LoongArch compilation.
+-Add first batch of RISC-V related definitions.
+-Performed a global automated update to remove tabs, fix indentation
+ issues, etc.
+-Allow disabling of -Werror. For distro maintainers having '-Werror' can
+ delay update of GCC. Since every GCC release might add new warnings that
+ were not yet captured, it might break the build of packages. With this
+ change, distros can now build with 'NOWERROR=TRUE' instead of patching
+ either the errors or the makefiles. The default behavior keeps on using
+ '-Werror'.
+
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/recipes-graphics/mesa/mesa.inc                           | 2 +-
- meta/recipes-graphics/mesa/{mesa_23.0.0.bb => mesa_23.0.2.bb} | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/mesa/{mesa_23.0.0.bb => mesa_23.0.2.bb} (100%)
+ .../acpica/{acpica_20220331.bb => acpica_20230331.bb}         | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/acpica/{acpica_20220331.bb => acpica_20230331.bb} (91%)
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 8f72f25c17..babd10a855 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -19,7 +19,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-            "
+diff --git a/meta/recipes-extended/acpica/acpica_20220331.bb b/meta/recipes-extended/acpica/acpica_20230331.bb
+similarity index 91%
+rename from meta/recipes-extended/acpica/acpica_20220331.bb
+rename to meta/recipes-extended/acpica/acpica_20230331.bb
+index 2c554f863a..01b8833f50 100644
+--- a/meta/recipes-extended/acpica/acpica_20220331.bb
++++ b/meta/recipes-extended/acpica/acpica_20230331.bb
+@@ -10,14 +10,14 @@ HOMEPAGE = "http://www.acpica.org/"
+ SECTION = "console/tools"
  
--SRC_URI[sha256sum] = "01f3cff3763f09e0adabcb8011e4aebc6ad48f6a4dd4bae904fe918707d253e4"
-+SRC_URI[sha256sum] = "1b7d3399fc6f16f030361f925d33ebc7600cbf98094582f54775b6a1180529e7"
+ LICENSE = "Intel | BSD-3-Clause | GPL-2.0-only"
+-LIC_FILES_CHKSUM = "file://source/compiler/aslcompile.c;beginline=7;endline=150;md5=41a76b4b1f816240f090cf010fefebf0"
++LIC_FILES_CHKSUM = "file://source/compiler/aslcompile.c;beginline=7;endline=150;md5=79a69059b499bccc70a484459549758f"
  
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
  
-diff --git a/meta/recipes-graphics/mesa/mesa_23.0.0.bb b/meta/recipes-graphics/mesa/mesa_23.0.2.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_23.0.0.bb
-rename to meta/recipes-graphics/mesa/mesa_23.0.2.bb
+ DEPENDS = "m4-native flex-native bison-native"
+ 
+ SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "acaff68b14f1e0804ebbfc4b97268a4ccbefcfa053b02ed9924f2b14d8a98e21"
++SRC_URI[sha256sum] = "0c5d695d605aaa61709f3c63f57a1a99b8902291723998446b0813b57ac310e2"
+ 
+ UPSTREAM_CHECK_URI = "https://acpica.org/downloads"
+ 
 -- 
 2.34.1
 
