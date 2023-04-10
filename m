@@ -2,102 +2,128 @@ Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F5B4C76196
-	for <webhook@archiver.kernel.org>; Mon, 10 Apr 2023 17:27:51 +0000 (UTC)
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
- by mx.groups.io with SMTP id smtpd.web10.51861.1681147669224019182
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51269C76196
+	for <webhook@archiver.kernel.org>; Mon, 10 Apr 2023 17:31:01 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web11.50715.1681147855499594418
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Apr 2023 10:27:49 -0700
+ Mon, 10 Apr 2023 10:30:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=U0+jNeJk;
- spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Ez6i0YZt;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
 Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 81A7E1BF203;
-	Mon, 10 Apr 2023 17:27:46 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 4E483240005;
+	Mon, 10 Apr 2023 17:30:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1681147666;
+	t=1681147852;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=H8K/qCQ7+6/cHYZTG+gfAUkRqasVLouamNMAyaHwSHI=;
-	b=U0+jNeJkorE78yixl+I/3s7Z4De8ml3B+7BVxbk3QAyVc51oafoZvqOXQM6t6ds6gxW3hX
-	LKj92ByVyGq2gp8EaFQZwdAAssI//AC6fsK55AgzcJ4F0N5IAA+QILkHirGglQTes8mPD7
-	7qobSbFblG5yY1RQwpGHzWPP1HPmqL+itFNZvEosjXAaPzNHL8nDmvHs/JWS/olerDlGvF
-	LQ69geQCUc0mNSeFyc/3cVDENNuN9vn7cxMbttBzlp/uMp1W7/iz5tIxlpvTpVYjpjfSPG
-	FUhzdAqPRHKHxly0HE/IyJKj8ZPiKmi8YUOyEBlLCUXPyjC1va8okswVbRX2mw==
-Date: Mon, 10 Apr 2023 19:27:45 +0200
+	bh=qnGdCHU8yhZXYjA2418lJcdCV4P9DuEnP4rLEVArWPA=;
+	b=Ez6i0YZtn7BYpxJ4QIw02t+8NmnN3OY6SH0PsPCjcE2NlA/rBVPU0LCrR7npwISubpKJ/3
+	gE4VbjPhfDmRD/OUp7A2tBE7ZWLjmilHA6JaFQPYSX/HWl7DXWoUZPOiPqtkxw3S9MK4HS
+	WXtxwi68g/HIxFB0bmQokseh6N9xRaVLSx8tTguxMs6zqmuBtudwf23M21OpiH0MOy8SZh
+	UJYR2g8MfBwYAH/Igxdpy8/G1YD08IRb+VVvv7lcch5ccmdd+ZyjxS5wAVN6lS+NzpNl42
+	1mBU5+Da+FVMasCOoc8GsdFdiPFGsbfh/Ws9FXeFfWuM4pQyQ+bbOw9rFz0Arw==
+Date: Mon, 10 Apr 2023 19:30:51 +0200
 From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: wangmy <wangmy@fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] cryptodev-linux: upgrade 1.12 -> 1.13
-Message-ID: <2023041017274515a16a50@mail.local>
-References: <1681116997-24685-1-git-send-email-wangmy@fujitsu.com>
- <1681116997-24685-4-git-send-email-wangmy@fujitsu.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Alex Kiernan <alex.kiernan@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [OE-Core][PATCH] rust: Upgrade 1.68.1 -> 1.68.2
+Message-ID: <2023041017305195b4c7aa@mail.local>
+References: <20230410094122.5865-1-alex.kiernan@gmail.com>
+ <CAMKF1sq_jvEn5VYmAnRj8HKrXtGAWj8cmD+O6eRHiBqdsLf_EQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1681116997-24685-4-git-send-email-wangmy@fujitsu.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMKF1sq_jvEn5VYmAnRj8HKrXtGAWj8cmD+O6eRHiBqdsLf_EQ@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 17:27:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179900
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 17:31:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179901
 
+My current a-full has this patch.
 
-ERROR: cryptodev-module-1.12-r0 do_patch: QA Issue: Fuzz detected:
-Applying patch 0001-Disable-installing-header-file-provided-by-another-p.patch
-patching file Makefile
-Hunk #1 succeeded at 36 with fuzz 2 (offset 3 lines).
-The context lines in the patches can be updated with devtool:
-    devtool modify cryptodev-module
-    devtool finish --force-patch-refresh cryptodev-module <layer_path>
-Don't forget to review changes done by devtool!
-Patch log indicates that patches do not apply cleanly. [patch-fuzz]
-ERROR: cryptodev-module-1.12-r0 do_patch: Fatal QA errors were found, failing task.
-
-On 10/04/2023 16:56:36+0800, wangmy wrote:
-> From: Wang Mingyu <wangmy@fujitsu.com>
+On 10/04/2023 10:21:16-0700, Khem Raj wrote:
+> If possible, Can you test this on top of contrib/abelloni/master-next
+> for musl target ?
 > 
-> Changelog:
-> ==========
-> * Fix compilation issues against Linux kernel 6.3
-> * Add support for xts, cfb, ofb and ccm aes algorithms
-> * Fix for a potential issue with CIOCCPHASH
-> * clean-up and maintenance
-> 
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
->  .../{cryptodev-linux_1.12.bb => cryptodev-linux_1.13.bb}        | 0
->  meta/recipes-kernel/cryptodev/cryptodev.inc                     | 2 +-
->  2 files changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-kernel/cryptodev/{cryptodev-linux_1.12.bb => cryptodev-linux_1.13.bb} (100%)
-> 
-> diff --git a/meta/recipes-kernel/cryptodev/cryptodev-linux_1.12.bb b/meta/recipes-kernel/cryptodev/cryptodev-linux_1.13.bb
-> similarity index 100%
-> rename from meta/recipes-kernel/cryptodev/cryptodev-linux_1.12.bb
-> rename to meta/recipes-kernel/cryptodev/cryptodev-linux_1.13.bb
-> diff --git a/meta/recipes-kernel/cryptodev/cryptodev.inc b/meta/recipes-kernel/cryptodev/cryptodev.inc
-> index ef342a157c..61c688f1d0 100644
-> --- a/meta/recipes-kernel/cryptodev/cryptodev.inc
-> +++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
-> @@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
->  
->  SRC_URI = "git://github.com/cryptodev-linux/cryptodev-linux;branch=master;protocol=https \
->             "
-> -SRCREV = "e0c25e289d6baf1d83c2b9cb523d3bc237d0c0c9"
-> +SRCREV = "795f5fda1485d447cdbad342e8304be317d4f7e8"
->  
->  S = "${WORKDIR}/git"
->  
-> -- 
-> 2.34.1
-> 
+> On Mon, Apr 10, 2023 at 2:42 AM Alex Kiernan <alex.kiernan@gmail.com> wrote:
+> >
+> > Changes:
+> >
+> > * Update the GitHub RSA host key bundled within Cargo. The key was
+> >   rotated by GitHub on 2023-03-24 after the old one leaked.
+> > * Mark the old GitHub RSA host key as revoked. This will prevent Cargo
+> >   from accepting the leaked key even when trusted by the system.
+> > * Add support for @revoked and a better error message for
+> >   @cert-authority in Cargo’s SSH host key verification
+> >
+> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> > ---
+> >
+> >  meta/recipes-devtools/rust/{cargo_1.68.1.bb => cargo_1.68.2.bb} | 0
+> >  .../rust/{libstd-rs_1.68.1.bb => libstd-rs_1.68.2.bb}           | 0
+> >  ...t-cross-canadian_1.68.1.bb => rust-cross-canadian_1.68.2.bb} | 0
+> >  .../rust/{rust-llvm_1.68.1.bb => rust-llvm_1.68.2.bb}           | 0
+> >  meta/recipes-devtools/rust/rust-source.inc                      | 2 +-
+> >  meta/recipes-devtools/rust/{rust_1.68.1.bb => rust_1.68.2.bb}   | 0
+> >  6 files changed, 1 insertion(+), 1 deletion(-)
+> >  rename meta/recipes-devtools/rust/{cargo_1.68.1.bb => cargo_1.68.2.bb} (100%)
+> >  rename meta/recipes-devtools/rust/{libstd-rs_1.68.1.bb => libstd-rs_1.68.2.bb} (100%)
+> >  rename meta/recipes-devtools/rust/{rust-cross-canadian_1.68.1.bb => rust-cross-canadian_1.68.2.bb} (100%)
+> >  rename meta/recipes-devtools/rust/{rust-llvm_1.68.1.bb => rust-llvm_1.68.2.bb} (100%)
+> >  rename meta/recipes-devtools/rust/{rust_1.68.1.bb => rust_1.68.2.bb} (100%)
+> >
+> > diff --git a/meta/recipes-devtools/rust/cargo_1.68.1.bb b/meta/recipes-devtools/rust/cargo_1.68.2.bb
+> > similarity index 100%
+> > rename from meta/recipes-devtools/rust/cargo_1.68.1.bb
+> > rename to meta/recipes-devtools/rust/cargo_1.68.2.bb
+> > diff --git a/meta/recipes-devtools/rust/libstd-rs_1.68.1.bb b/meta/recipes-devtools/rust/libstd-rs_1.68.2.bb
+> > similarity index 100%
+> > rename from meta/recipes-devtools/rust/libstd-rs_1.68.1.bb
+> > rename to meta/recipes-devtools/rust/libstd-rs_1.68.2.bb
+> > diff --git a/meta/recipes-devtools/rust/rust-cross-canadian_1.68.1.bb b/meta/recipes-devtools/rust/rust-cross-canadian_1.68.2.bb
+> > similarity index 100%
+> > rename from meta/recipes-devtools/rust/rust-cross-canadian_1.68.1.bb
+> > rename to meta/recipes-devtools/rust/rust-cross-canadian_1.68.2.bb
+> > diff --git a/meta/recipes-devtools/rust/rust-llvm_1.68.1.bb b/meta/recipes-devtools/rust/rust-llvm_1.68.2.bb
+> > similarity index 100%
+> > rename from meta/recipes-devtools/rust/rust-llvm_1.68.1.bb
+> > rename to meta/recipes-devtools/rust/rust-llvm_1.68.2.bb
+> > diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
+> > index c8f5a5a9c4c4..6d3a4b131e26 100644
+> > --- a/meta/recipes-devtools/rust/rust-source.inc
+> > +++ b/meta/recipes-devtools/rust/rust-source.inc
+> > @@ -7,7 +7,7 @@ SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
+> >              file://0001-Do-not-use-LFS64-on-linux-with-musl.patch;patchdir=${RUSTSRC} \
+> >              file://zlib-off64_t.patch;patchdir=${RUSTSRC} \
+> >  "
+> > -SRC_URI[rust.sha256sum] = "5b8ea94085b65e75c1fa6310e2f90bd706fa80bfcb3544fe26f4037b911d9fb2"
+> > +SRC_URI[rust.sha256sum] = "ce1a115f6aafa912b4622906a92b626354973afa9288e2c7750df4dcf3390fc0"
+> >
+> >  RUSTSRC = "${WORKDIR}/rustc-${RUST_VERSION}-src"
+> >
+> > diff --git a/meta/recipes-devtools/rust/rust_1.68.1.bb b/meta/recipes-devtools/rust/rust_1.68.2.bb
+> > similarity index 100%
+> > rename from meta/recipes-devtools/rust/rust_1.68.1.bb
+> > rename to meta/recipes-devtools/rust/rust_1.68.2.bb
+> > --
+> > 2.39.0
+> >
+> >
+> > 
+> >
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#179846): https://lists.openembedded.org/g/openembedded-core/message/179846
-> Mute This Topic: https://lists.openembedded.org/mt/98171941/3617179
+> View/Reply Online (#179897): https://lists.openembedded.org/g/openembedded-core/message/179897
+> Mute This Topic: https://lists.openembedded.org/mt/98172309/3617179
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
