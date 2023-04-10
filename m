@@ -2,68 +2,68 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0338C76196
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C036AC77B6F
 	for <webhook@archiver.kernel.org>; Mon, 10 Apr 2023 08:57:08 +0000 (UTC)
-Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com [85.158.142.2])
- by mx.groups.io with SMTP id smtpd.web11.39778.1681117021948410971
+Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com [85.158.142.112])
+ by mx.groups.io with SMTP id smtpd.web11.39783.1681117027812877848
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Apr 2023 01:57:02 -0700
+ Mon, 10 Apr 2023 01:57:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=Umkvj4aT;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.2, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=HpTPnMLu;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.112, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1681117020; i=@fujitsu.com;
-	bh=kMU4Fl3jpzEsxyHPKDDTiQdX3GUWFyh3qsk4M8lA7sc=;
+	s=170520fj; t=1681117026; i=@fujitsu.com;
+	bh=5d4uYBJKiYSd9/vIDNzJ03+vbkig42A4j3+UNevUUB4=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Type;
-	b=Umkvj4aThyAQb22FGhNLKpSxztbBTbgYOvouGMzPVed/JBW2+ZUphLi6k1N4+koyF
-	 lKPfQAhTg5UXv3astO47ViFjlbvuXQfdB8amZOUk7kYbSij7apq1vdvXTDT9hduulF
-	 ybJylKiQzUb7bnaTq2KEZSemUVgKu/526h+C0V8K5ZkocrNO25RgvX+Rs74mC3Smzu
-	 sCRDfs3flP0cOdcGhUemOIkcrf+qTAuvb3HzE3CnKi0dnQhjrKqh1pgeNqaE+OSh3y
-	 vtQQB4eiFW8rBYTmdY9w58qMxulbNHo7t3unLDAdefJRUVfUsx3S1uVh+jVjtiZIXW
-	 QlJfRB9qE7B6A==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrKIsWRWlGSWpSXmKPExsViZ8ORqBt53jj
-  FoOmpkcWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmtGxO7VgHUfF64dnmBoYd7J3MXJxCAk8ZpSY
-  emEDkMMJ5Fxjkvh0LRAisYdR4tzc4ywgCTYBKYkb9/+zdTFycIgI6Elc/ScKEmYWUJF48bsHr
-  FdYwFbiwOs9YDaLgKrE/ok/GEFsXgEnicfPO1hBbAkBBYkpD98zg9icAs4S7V1djBB7nSTaz3
-  cwQ9QLSpyc+YQFYr6ExMEXL5ghehUlZl9uZoGwKyQapx9igrDVJK6e28Q8gVFwFpL2WUjaFzA
-  yrWI0L04tKkst0jU010sqykzPKMlNzMzRS6zSTdRLLdXNyy8qydA11EssL9ZLLS7WK67MTc5J
-  0ctLLdnECAzdlOKkOzsYd/b91TvEKMnBpCTK28VlnCLEl5SfUpmRWJwRX1Sak1p8iFGGg0NJg
-  tfgLFBOsCg1PbUiLTMHGEcwaQkOHiUR3opjQGne4oLE3OLMdIjUKUZFKXFeyXNACQGQREZpHl
-  wbLHYvMcpKCfMyMjAwCPEUpBblZpagyr9iFOdgVBLm3XYYaApPZl4J3PRXQIuZgBZzuRiALC5
-  JREhJNTDVJIVO/xxlI6X2WH+qhv06lwzRro8nJIN/6K04dmbHjvgEQ7W21BuXJ6acMQtfckGi
-  vEz+13pjldnrlc4cqf6uGbR/6Zecbc+Wz/OIVXVYluMY8YZb5fsh+ZMrJYoULZR/fbWQt1t3Z
-  c1+WQO1XVkvDz0IZNncoKguvH7f8Yd9N3Y2e5oy/tZd6pyhsKflY+GBbrUi6dW/0+9P/6TleT
-  NXmc9E+MPuLwk+DBzar200bq47lpexRrkl5f6bjSVHo7T69/B833Wje+qxSK/p1udYff8s8/t
-  q0qYfyDDnW6W1Xvbvrje57WeWcc1hSD2cai6tm6A74+vU4FN9/D1O2fwbHq+z293DnJh2cc6c
-  lQuVWIozEg21mIuKEwHldtc5WAMAAA==
+	b=HpTPnMLuHFiI8RtGfRVVuVFvRMXaPKFmfT3YbmPPg3yorCT52/Noa8GLwzjKAHVK1
+	 GtSe3XBNdEO3xHLq+VErT0jwTyJlZUEJBZJsvUEVFTsdxmoEvs3TnMzNZy1bfptlAr
+	 9VCNWgS8AtAUJCkGYIWePoe2oFpDdR2K5qsfDFeCRcDuLj0O6l9/YI35RHe9saA8Hu
+	 BnpPmLBCbK7sXsRgK5SXfHKd4UeQXpglyB94ssjc/OLtiinTnTkWM6VKu4brQ4uLrU
+	 RVYAZKTFMI4l1mseVeJAQhblQqRMFUcI39WA2aPzFkFiXNot+nMPyObMyKbiuWil5P
+	 LjB0L7eaqtDpQ==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrGIsWRWlGSWpSXmKPExsViZ8OxWTfxvHG
+  KQf9hNos7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePpgXPMBXO4K7Yv28TWwPiNs4uRk0NI4AGj
+  RN/s4C5GLiD7MpPE5FlPGSGcPUCJy29YQKrYBKQkbtz/z9bFyMEhIqAncfWfKEiYWUBF4sXvH
+  nYQW1jAQeLRzndsIDaLgKrE7ZZeVhCbV8BJ4srkB2A1EgIKElMevmcGsTkFnCXau7oYIY5wkm
+  g/38EMUS8ocXLmExaI+RISB1+8YIboVZSYfbmZBcKukGicfogJwlaTuHpuE/MERsFZSNpnIWl
+  fwMi0itG8OLWoLLVI19BQL6koMz2jJDcxM0cvsUo3US+1VDcvv6gkQ9dQL7G8WC+1uFivuDI3
+  OSdFLy+1ZBMjMHhTitOO72B82fdX7xCjJAeTkihvF5dxihBfUn5KZUZicUZ8UWlOavEhRhkOD
+  iUJXoOzQDnBotT01Iq0zBxgJMGkJTh4lER4K44BpXmLCxJzizPTIVKnGBWlxHklzwElBEASGa
+  V5cG2w6L3EKCslzMvIwMAgxFOQWpSbWYIq/4pRnINRSZh322GgKTyZeSVw018BLWYCWszlYgC
+  yuCQRISXVwLT2SNDG5fyyvzr+SR9zPrzLcNo5rgdXcjdLLdusPOF8QF/oXHl3XoaPQm9mmM43
+  U73WpRn/+7xy0p7mOcK6x6qOWzHrGx1uO3Qs5brVIo6PMdLqwgtYVpqoWIWnN22OP3jTiLFHY
+  c4T9yXLE9VLGvPM4voDdGtfS65/MVP15tbjM6R2yxQFp2QaXEj2aNtXVXVq9mP9I31K2pftS0
+  0cmW2/qSnl3la7pWMrqyZ09b5ehlqY5AHuaVI/XU0N9l6YOiFy88aEBfwVKz9f/NUdJr/NMnZ
+  fwTHdWxKOOnrpXsfcs3qzz0zie5t7t2LBp9kp2vbKNypYPmsEJT3t36EhLx981mv6XLVFej9V
+  Tr1SV2Ipzkg01GIuKk4EAL+bjk9ZAwAA
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-5.tower-732.messagelabs.com!1681117017!434653!1
-X-Originating-IP: [62.60.8.97]
+X-Msg-Ref: server-23.tower-745.messagelabs.com!1681117024!190632!1
+X-Originating-IP: [62.60.8.179]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
-X-StarScan-Version: 9.104.1; banners=-,-,-
+X-StarScan-Version: 9.104.2; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 23998 invoked from network); 10 Apr 2023 08:56:57 -0000
-Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-5.tower-732.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 10 Apr 2023 08:56:57 -0000
-Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 4DD6C1001B5
-	for <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 09:56:57 +0100 (BST)
+Received: (qmail 16446 invoked from network); 10 Apr 2023 08:57:05 -0000
+Received: from unknown (HELO n03ukasimr04.n03.fujitsu.local) (62.60.8.179)
+  by server-23.tower-745.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 10 Apr 2023 08:57:05 -0000
+Received: from n03ukasimr04.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id 8939015F
+	for <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 09:57:04 +0100 (BST)
 Received: from R01UKEXCASM121.r01.fujitsu.local (R01UKEXCASM121 [10.183.43.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 4119C1001B0
-	for <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 09:56:57 +0100 (BST)
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id 7CDA9159
+	for <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 09:57:04 +0100 (BST)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM121.r01.fujitsu.local (10.183.43.173) with Microsoft SMTP Server
- (TLS) id 15.0.1497.42; Mon, 10 Apr 2023 09:56:55 +0100
+ (TLS) id 15.0.1497.42; Mon, 10 Apr 2023 09:57:03 +0100
 From: <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] cracklib: upgrade 2.9.10 -> 2.9.11
-Date: Mon, 10 Apr 2023 16:56:35 +0800
-Message-ID: <1681116997-24685-3-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] cryptodev-linux: upgrade 1.12 -> 1.13
+Date: Mon, 10 Apr 2023 16:56:36 +0800
+Message-ID: <1681116997-24685-4-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1681116997-24685-1-git-send-email-wangmy@fujitsu.com>
 References: <1681116997-24685-1-git-send-email-wangmy@fujitsu.com>
@@ -77,32 +77,41 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 08:57:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179845
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179846
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
+Changelog:
+==========
+* Fix compilation issues against Linux kernel 6.3
+* Add support for xts, cfb, ofb and ccm aes algorithms
+* Fix for a potential issue with CIOCCPHASH
+* clean-up and maintenance
+
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../cracklib/{cracklib_2.9.10.bb => cracklib_2.9.11.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/cracklib/{cracklib_2.9.10.bb => cracklib_2.9.11.bb} (94%)
+ .../{cryptodev-linux_1.12.bb => cryptodev-linux_1.13.bb}        | 0
+ meta/recipes-kernel/cryptodev/cryptodev.inc                     | 2 +-
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-kernel/cryptodev/{cryptodev-linux_1.12.bb => cryptodev-linux_1.13.bb} (100%)
 
-diff --git a/meta/recipes-extended/cracklib/cracklib_2.9.10.bb b/meta/recipes-extended/cracklib/cracklib_2.9.11.bb
-similarity index 94%
-rename from meta/recipes-extended/cracklib/cracklib_2.9.10.bb
-rename to meta/recipes-extended/cracklib/cracklib_2.9.11.bb
-index 8197cdad9e..34ef2b65a1 100644
---- a/meta/recipes-extended/cracklib/cracklib_2.9.10.bb
-+++ b/meta/recipes-extended/cracklib/cracklib_2.9.11.bb
-@@ -13,7 +13,7 @@ SRC_URI = "git://github.com/cracklib/cracklib;protocol=https;branch=main \
-            file://0001-packlib.c-support-dictionary-byte-order-dependent.patch \
+diff --git a/meta/recipes-kernel/cryptodev/cryptodev-linux_1.12.bb b/meta/recipes-kernel/cryptodev/cryptodev-linux_1.13.bb
+similarity index 100%
+rename from meta/recipes-kernel/cryptodev/cryptodev-linux_1.12.bb
+rename to meta/recipes-kernel/cryptodev/cryptodev-linux_1.13.bb
+diff --git a/meta/recipes-kernel/cryptodev/cryptodev.inc b/meta/recipes-kernel/cryptodev/cryptodev.inc
+index ef342a157c..61c688f1d0 100644
+--- a/meta/recipes-kernel/cryptodev/cryptodev.inc
++++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+ SRC_URI = "git://github.com/cryptodev-linux/cryptodev-linux;branch=master;protocol=https \
             "
+-SRCREV = "e0c25e289d6baf1d83c2b9cb523d3bc237d0c0c9"
++SRCREV = "795f5fda1485d447cdbad342e8304be317d4f7e8"
  
--SRCREV = "e74c539344d024709ee76e2920b0af7f9a5c5556"
-+SRCREV = "4cf5125250c6325ef0a2dc085eabff875227edc3"
- S = "${WORKDIR}/git/src"
+ S = "${WORKDIR}/git"
  
- inherit autotools gettext
 -- 
 2.34.1
 
