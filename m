@@ -2,68 +2,68 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C036AC77B6F
-	for <webhook@archiver.kernel.org>; Mon, 10 Apr 2023 08:57:08 +0000 (UTC)
-Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com [85.158.142.112])
- by mx.groups.io with SMTP id smtpd.web11.39783.1681117027812877848
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF510C76196
+	for <webhook@archiver.kernel.org>; Mon, 10 Apr 2023 08:57:18 +0000 (UTC)
+Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com [195.245.231.2])
+ by mx.groups.io with SMTP id smtpd.web10.40572.1681117030911715662
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Apr 2023 01:57:08 -0700
+ Mon, 10 Apr 2023 01:57:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=HpTPnMLu;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.112, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=Tf399R9S;
+ spf=pass (domain: fujitsu.com, ip: 195.245.231.2, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1681117026; i=@fujitsu.com;
-	bh=5d4uYBJKiYSd9/vIDNzJ03+vbkig42A4j3+UNevUUB4=;
+	s=170520fj; t=1681117029; i=@fujitsu.com;
+	bh=Ns/MXXwni3xNrlwj2Bvkq9Tl3zHxPJVrfddMLzInLRk=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Type;
-	b=HpTPnMLuHFiI8RtGfRVVuVFvRMXaPKFmfT3YbmPPg3yorCT52/Noa8GLwzjKAHVK1
-	 GtSe3XBNdEO3xHLq+VErT0jwTyJlZUEJBZJsvUEVFTsdxmoEvs3TnMzNZy1bfptlAr
-	 9VCNWgS8AtAUJCkGYIWePoe2oFpDdR2K5qsfDFeCRcDuLj0O6l9/YI35RHe9saA8Hu
-	 BnpPmLBCbK7sXsRgK5SXfHKd4UeQXpglyB94ssjc/OLtiinTnTkWM6VKu4brQ4uLrU
-	 RVYAZKTFMI4l1mseVeJAQhblQqRMFUcI39WA2aPzFkFiXNot+nMPyObMyKbiuWil5P
-	 LjB0L7eaqtDpQ==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrGIsWRWlGSWpSXmKPExsViZ8OxWTfxvHG
-  KQf9hNos7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePpgXPMBXO4K7Yv28TWwPiNs4uRk0NI4AGj
-  RN/s4C5GLiD7MpPE5FlPGSGcPUCJy29YQKrYBKQkbtz/z9bFyMEhIqAncfWfKEiYWUBF4sXvH
-  nYQW1jAQeLRzndsIDaLgKrE7ZZeVhCbV8BJ4srkB2A1EgIKElMevmcGsTkFnCXau7oYIY5wkm
-  g/38EMUS8ocXLmExaI+RISB1+8YIboVZSYfbmZBcKukGicfogJwlaTuHpuE/MERsFZSNpnIWl
-  fwMi0itG8OLWoLLVI19BQL6koMz2jJDcxM0cvsUo3US+1VDcvv6gkQ9dQL7G8WC+1uFivuDI3
-  OSdFLy+1ZBMjMHhTitOO72B82fdX7xCjJAeTkihvF5dxihBfUn5KZUZicUZ8UWlOavEhRhkOD
-  iUJXoOzQDnBotT01Iq0zBxgJMGkJTh4lER4K44BpXmLCxJzizPTIVKnGBWlxHklzwElBEASGa
-  V5cG2w6L3EKCslzMvIwMAgxFOQWpSbWYIq/4pRnINRSZh322GgKTyZeSVw018BLWYCWszlYgC
-  yuCQRISXVwLT2SNDG5fyyvzr+SR9zPrzLcNo5rgdXcjdLLdusPOF8QF/oXHl3XoaPQm9mmM43
-  U73WpRn/+7xy0p7mOcK6x6qOWzHrGx1uO3Qs5brVIo6PMdLqwgtYVpqoWIWnN22OP3jTiLFHY
-  c4T9yXLE9VLGvPM4voDdGtfS65/MVP15tbjM6R2yxQFp2QaXEj2aNtXVXVq9mP9I31K2pftS0
-  0cmW2/qSnl3la7pWMrqyZ09b5ehlqY5AHuaVI/XU0N9l6YOiFy88aEBfwVKz9f/NUdJr/NMnZ
-  fwTHdWxKOOnrpXsfcs3qzz0zie5t7t2LBp9kp2vbKNypYPmsEJT3t36EhLx981mv6XLVFej9V
-  Tr1SV2Ipzkg01GIuKk4EAL+bjk9ZAwAA
+	b=Tf399R9SNbEJqHXgSIkaoobG6w7UqBJQOStAUfEyaHI9qsduNfXvhuQ4V8JSIbzeY
+	 VWWNH8MQJbhGzxpajBi91BpgOOXT8oG7Q9rJ7VHefS0lvoGNxb0/aSTk3nrfQMUZkx
+	 faepzYFYQYrzZXj/acegIhabkG5/JfUCUJPVDTAGf5tP29VsGAaZPGHTFEqGN2zL5R
+	 CZ4zwd3PsiNDVfK0oYZESewuVRj7Bb3uqFjli+Xzb9UTw2Jmc+p4Uo0Kliofm85FtS
+	 kRQSr2UA85ZqV8xGIzSFNddYp5lGDn0oTedx/3PofijQoa1L4m24SJtHYGe8slZUp3
+	 uOsqaawmG+yCg==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrGIsWRWlGSWpSXmKPExsViZ8ORpJty3jj
+  FYOt9TYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePpvK2sBS/YK1qnLGRpYPzD1sXIxSEk8IBR
+  omFLA5RzmUni05o3jBDOHkaJm8u7mLoYOTnYBKQkbtz/D1TFwSEioCdx9Z8oSJhZQEXixe8ed
+  hBbWMBCon3fSkYQm0VAVeLp9I9sIDavgJPExCmrwWokBBQkpjx8zwxicwo4S7R3dYHVCwHVtJ
+  /vYIaoF5Q4OfMJC8R8CYmDL14wQ/QqSsy+3MwCYVdINE4/xARhq0lcPbeJeQKj4Cwk7bOQtC9
+  gZFrFaFacWlSWWqRraKCXVJSZnlGSm5iZo5dYpZuol1qqW55aXKJrpJdYXqyXWlysV1yZm5yT
+  opeXWrKJERi8KcWKrDsYL/X91TvEKMnBpCTK28VlnCLEl5SfUpmRWJwRX1Sak1p8iFGGg0NJg
+  tfgLFBOsCg1PbUiLTMHGEkwaQkOHiUR3opjQGne4oLE3OLMdIjUKUZFKXFeyXNACQGQREZpHl
+  wbLHovMcpKCfMyMjAwCPEUpBblZpagyr9iFOdgVBLm3XYYaApPZl4J3PRXQIuZgBZzuRiALC5
+  JREhJNTCtM/CdxPJh3oWNiVe+PRSdZ1wQlR7N5hicPl3rplhyC0fqdP7gZivW7rM8q/u9J5kL
+  syVd8IlY/Fcx7A3HxJkq6ldiBN+m/t95k8X1/M6bqtoc5hrPLsdqSq8Ss3rFP53vefLlUu3WT
+  JVpliuS3xUeXCCi9/pUFHto1Negl5czZvx5kZ7smmXvJp7BH/t2e0Sa2Sll/66//mGFNU2hO+
+  VYq/27X//MbEg83HRGUcZn3q5TH+qTJx7ID1k7ZcEquwsz2p9FMOi0LpR9ElfAyvKwZd+ZroP
+  znGYcW58eUO2hMMf0DXP0PZkP5Z09qx7+evnv+NFQ+7e1XzgvpfSk2aoeevztGa+wQ0Cf/5WP
+  /5RYijMSDbWYi4oTAZ6mOaBZAwAA
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-23.tower-745.messagelabs.com!1681117024!190632!1
-X-Originating-IP: [62.60.8.179]
+X-Msg-Ref: server-9.tower-548.messagelabs.com!1681117028!351723!1
+X-Originating-IP: [62.60.8.98]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.104.2; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 16446 invoked from network); 10 Apr 2023 08:57:05 -0000
-Received: from unknown (HELO n03ukasimr04.n03.fujitsu.local) (62.60.8.179)
-  by server-23.tower-745.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 10 Apr 2023 08:57:05 -0000
-Received: from n03ukasimr04.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id 8939015F
-	for <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 09:57:04 +0100 (BST)
+Received: (qmail 12550 invoked from network); 10 Apr 2023 08:57:08 -0000
+Received: from unknown (HELO n03ukasimr03.n03.fujitsu.local) (62.60.8.98)
+  by server-9.tower-548.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 10 Apr 2023 08:57:08 -0000
+Received: from n03ukasimr03.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTP id 610361CD
+	for <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 09:57:08 +0100 (BST)
 Received: from R01UKEXCASM121.r01.fujitsu.local (R01UKEXCASM121 [10.183.43.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id 7CDA9159
-	for <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 09:57:04 +0100 (BST)
+	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTPS id 55E651C7
+	for <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 09:57:08 +0100 (BST)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM121.r01.fujitsu.local (10.183.43.173) with Microsoft SMTP Server
- (TLS) id 15.0.1497.42; Mon, 10 Apr 2023 09:57:03 +0100
+ (TLS) id 15.0.1497.42; Mon, 10 Apr 2023 09:57:06 +0100
 From: <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] cryptodev-linux: upgrade 1.12 -> 1.13
-Date: Mon, 10 Apr 2023 16:56:36 +0800
-Message-ID: <1681116997-24685-4-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] dnf: upgrade 4.14.0 -> 4.15.0
+Date: Mon, 10 Apr 2023 16:56:37 +0800
+Message-ID: <1681116997-24685-5-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1681116997-24685-1-git-send-email-wangmy@fujitsu.com>
 References: <1681116997-24685-1-git-send-email-wangmy@fujitsu.com>
@@ -76,42 +76,33 @@ X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 08:57:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179846
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 08:57:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179847
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
-Changelog:
-==========
-* Fix compilation issues against Linux kernel 6.3
-* Add support for xts, cfb, ofb and ccm aes algorithms
-* Fix for a potential issue with CIOCCPHASH
-* clean-up and maintenance
-
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../{cryptodev-linux_1.12.bb => cryptodev-linux_1.13.bb}        | 0
- meta/recipes-kernel/cryptodev/cryptodev.inc                     | 2 +-
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/cryptodev/{cryptodev-linux_1.12.bb => cryptodev-linux_1.13.bb} (100%)
+ meta/recipes-devtools/dnf/{dnf_4.14.0.bb => dnf_4.15.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/dnf/{dnf_4.14.0.bb => dnf_4.15.0.bb} (98%)
 
-diff --git a/meta/recipes-kernel/cryptodev/cryptodev-linux_1.12.bb b/meta/recipes-kernel/cryptodev/cryptodev-linux_1.13.bb
-similarity index 100%
-rename from meta/recipes-kernel/cryptodev/cryptodev-linux_1.12.bb
-rename to meta/recipes-kernel/cryptodev/cryptodev-linux_1.13.bb
-diff --git a/meta/recipes-kernel/cryptodev/cryptodev.inc b/meta/recipes-kernel/cryptodev/cryptodev.inc
-index ef342a157c..61c688f1d0 100644
---- a/meta/recipes-kernel/cryptodev/cryptodev.inc
-+++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
- SRC_URI = "git://github.com/cryptodev-linux/cryptodev-linux;branch=master;protocol=https \
+diff --git a/meta/recipes-devtools/dnf/dnf_4.14.0.bb b/meta/recipes-devtools/dnf/dnf_4.15.0.bb
+similarity index 98%
+rename from meta/recipes-devtools/dnf/dnf_4.14.0.bb
+rename to meta/recipes-devtools/dnf/dnf_4.15.0.bb
+index 62df8c4ace..7bf9547424 100644
+--- a/meta/recipes-devtools/dnf/dnf_4.14.0.bb
++++ b/meta/recipes-devtools/dnf/dnf_4.15.0.bb
+@@ -18,7 +18,7 @@ SRC_URI = "git://github.com/rpm-software-management/dnf.git;branch=master;protoc
+            file://0001-dnf-write-the-log-lock-to-root.patch \
             "
--SRCREV = "e0c25e289d6baf1d83c2b9cb523d3bc237d0c0c9"
-+SRCREV = "795f5fda1485d447cdbad342e8304be317d4f7e8"
+ 
+-SRCREV = "e50875b3f5790f70720bdb670e1dd2bf4d828744"
++SRCREV = "5306910d06631bc93fa3ece0e70ed27ee592b0aa"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
  
  S = "${WORKDIR}/git"
- 
 -- 
 2.34.1
 
