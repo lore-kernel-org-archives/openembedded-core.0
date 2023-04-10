@@ -1,265 +1,473 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 107E2C76196
-	for <webhook@archiver.kernel.org>; Mon, 10 Apr 2023 16:38:21 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web10.50428.1681144692199329762
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 279CFC77B61
+	for <webhook@archiver.kernel.org>; Mon, 10 Apr 2023 16:40:41 +0000 (UTC)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web10.50531.1681144831822810500
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Apr 2023 09:38:12 -0700
+ Mon, 10 Apr 2023 09:40:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=cHgjIUgy;
- spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-lj1-f172.google.com with SMTP id by8so5517876ljb.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 09:38:11 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=QAeNYKU7;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.52, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f52.google.com with SMTP id f26so7650387ejb.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 09:40:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681144690;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=LYfHc3W3A6/q+LYbw3wwv7+KnpeBhCNfumLk54GcrS4=;
-        b=cHgjIUgyUTuqaxHahYKsfVWWrkrj/k+62/rGXN7vdgmo+4eFUHqyNLDmix//P83nw8
-         q2v9pcNv2FlPhYFhbY+eBXQFQyf5vEXdHye722oCAHnNQPeTohg6Ay/syBfq1PZPMXd3
-         eO0RQa4bZ2+2F0b4ua2WvxrrxsArO6ueARZXTpdNmxo1pRYkCaInKoSIUQFPx3QKy6rr
-         2s9oB0IRxA/gkcaB1rt2A/v711jB+TrN2T3OkSZxB0W8Pj0b0TYHrgRruzbxbgKiXs81
-         Q/XgYIn3uQ/miznwxq/WrTkbzoiqw9uLag7GJI6xq9w2WSW7JUUfsYJCBclYJonWMKQ4
-         CzyA==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1681144830; x=1683736830;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BAFcz3kiQaQLwH02dpb1ZWurYsjnr3hLepOOoTz2Shw=;
+        b=QAeNYKU7O42GRiv0WpwWJ+LSlSEOmAYuSquRsIgr5BfAsxiz0hSMSO/WKcLBLFrgRM
+         C8sot69t8RqBfoXEqapcToYW8GEIjn6QLz2nOlR//14ZqfsCcx2tz2/atVHD0NeCfi+W
+         C9aaXZdn/ZgDrhfnnbMTtWCEzDBU4tW/IRkeNSVuI+wYK035v+1wfZMF08ckW7MV7WMF
+         C/NcI66+IA3yTki6Xtr6ZdQ+pvEeYEDmOcgZ/Kbkr6pt5OLkOBn9dYWuWUfAN6p6B3SU
+         ldRhFPBq9VhuUX/XwgG7+/ZdEssVrPwFkHHQQ1ax9KehdTE48BZ/M9pdK1paej7yScDi
+         IEBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681144690;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LYfHc3W3A6/q+LYbw3wwv7+KnpeBhCNfumLk54GcrS4=;
-        b=mPhMuavTWH7S/I+c3S00R/VsMZVx89gpPGTNbhkC7dheUopC+Hl7AhYsIgjQDCG5YB
-         EiOXRxOGRdXv0YsZap4GqQhFuVOXItxcdpNwnY2KKp8+3lk3WWCNf0vof59EuUxLN7Gt
-         Zc9CEVNKbLRvYVkXptgmina6IjMh+QMhVeIcjVo3YvV5zlR+8igILT/KwHlQbsidbyzy
-         VX0Twi3HcHeMyCYs07NR5PXxkihf1GUcWHf5FNcB5iuZ2GeQmzaOQafDIOEyOo1h0iXC
-         vvFvxwQHP4Okxh0cvEvg6g5S3vdUrnxQv/80fvgNZERyEQKuqOCdEeP3PvBxIXf/mLbz
-         ElwQ==
-X-Gm-Message-State: AAQBX9cV2olpwoAyTDuu/cgFzjjxYZ8u2OKSjq9WEOz45EkjWceoo6dH
-	7jm8E0oIA5OUIyj7TY/P7u/UaTZSSa4F8COkM9o=
-X-Google-Smtp-Source: AKy350as94xcyvMyBcYAfo3PFrAqnOsz4dfVPcZoZ2hEFeFMwVimEkrpoJzjIKm+fcz1+OLXj8Sq0pr2K/o8ebYqJUg=
-X-Received: by 2002:a2e:7810:0:b0:294:6de5:e642 with SMTP id
- t16-20020a2e7810000000b002946de5e642mr3054425ljc.3.1681144690138; Mon, 10 Apr
- 2023 09:38:10 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1681144830; x=1683736830;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BAFcz3kiQaQLwH02dpb1ZWurYsjnr3hLepOOoTz2Shw=;
+        b=1dGRLF6XdkU8aUbspMYcyg2mCI5Lh+2kWTPse7M0Ap+hzT9qG6diDZ3RhZhjm0wQ5D
+         bL2FN3/Vd1v2UAXI0sZtwXons3JvPH30iG/kKWOZJEKDaZwuOL0KzayW0XC2rozKYtbW
+         PAUiJ6HsBprIHOiW1CXdId6RxJA2Iyo3YWseFsDE3EXqDebAOUzSp6WKK/9IJbBZEfA4
+         SlorSjbYFhQTHSSxBxkUbnDTf+BP5hsmGl4JxOnYisJBkl+jtmN0dI81Usb1attZ0U+J
+         BqIG38MUD0gPukbooppj+9i2ChE+YUNy6DFMYFHFl3oNwQ/kmU9nodJ3sApPFRMTez5C
+         d2Qw==
+X-Gm-Message-State: AAQBX9e8BdSCpa+c7wj5EGtoBYU7mglzjXtrjI8X2tiI7PFhnxp58dP+
+	UU8uw42ZBBivSQGZ9/wxp0Du93CC8mMM3QfBiscnJg==
+X-Google-Smtp-Source: AKy350ZPzwNgBegCAMDfiQosL6vDASIqVKdTMhKAVj7FQTY7Dn6kgkm9zEOMcu6COqKc8SiHJPbxGXgU1e8ilhA93AE=
+X-Received: by 2002:a17:906:649:b0:90a:33e4:5a69 with SMTP id
+ t9-20020a170906064900b0090a33e45a69mr3364471ejb.3.1681144829772; Mon, 10 Apr
+ 2023 09:40:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <1753B0402875C548.11304@lists.openembedded.org>
- <CA+cAkerWUvabx_kzN2s6S64454t88ifOR+nqtaLwk0wHfw3n2Q@mail.gmail.com>
- <6381549a7f058cb233c656dca9324ae4d7a435c2.camel@linuxfoundation.org>
- <CA+cAkerd92jAqwA1iDrNOV+W1mK5Tb39yvT_Dp-t18=LCNm09w@mail.gmail.com> <CANPvuRkfQuVdP-WJw58UOK9WVhy95UgujST4k6unnUvYQ7FySA@mail.gmail.com>
-In-Reply-To: <CANPvuRkfQuVdP-WJw58UOK9WVhy95UgujST4k6unnUvYQ7FySA@mail.gmail.com>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Date: Mon, 10 Apr 2023 18:37:58 +0200
-Message-ID: <CA+cAkeqCwqgDUim1fmoEqmhGTOTJCxBmoW=TeM4A5D=3aaHY4A@mail.gmail.com>
-Subject: Re: [OE-core] Reproducible build
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000012655d05f8fe0009"
+References: <20230330195143.64886-1-gauragup@cisco.com> <BYAPR11MB2886AB65C256C5D329D32FDFC2959@BYAPR11MB2886.namprd11.prod.outlook.com>
+In-Reply-To: <BYAPR11MB2886AB65C256C5D329D32FDFC2959@BYAPR11MB2886.namprd11.prod.outlook.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Mon, 10 Apr 2023 06:40:18 -1000
+Message-ID: <CAOSpxda9=06KFyN_ZvdT712F2uDHrU4+2=nm+SZk2Yi7vXN3wA@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell][PATCH] Fix qemu build error with dunfell
+ release "yocto-3.1.24"
+To: gauragup@cisco.com
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 16:38:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179892
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 16:40:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179893
 
---00000000000012655d05f8fe0009
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Gaurav,
 
-On Mon, 10 Apr 2023 at 17:32, Jose Quaresma <quaresma.jose@gmail.com> wrote=
-:
+I have this patch in my current test queue.
 
-> Hi Frederic,
+I changed the shortlog to: "qemu: fix build error introduced by
+CVE-2021-3929 fix"
+
+Steve
+
+On Mon, Apr 10, 2023 at 6:11=E2=80=AFAM Gaurav Gupta (gauragup) via
+lists.openembedded.org <gauragup=3Dcisco.com@lists.openembedded.org>
+wrote:
 >
-> Frederic Martinsons <frederic.martinsons@gmail.com> escreveu no dia
-> domingo, 9/04/2023 =C3=A0(s) 16:05:
->
->>
->>
->> Le dim. 9 avr. 2023, 10:43, Richard Purdie <
->> richard.purdie@linuxfoundation.org> a =C3=A9crit :
->>
->>> On Sat, 2023-04-08 at 09:56 +0200, Frederic Martinsons wrote:
->>> > Forget my previous question,
->>> >
->>> > I simply
->>> > edit https://git.openembedded.org/openembedded-core/tree/meta/lib/oeq
->>> > a/selftest/cases/reproducible.py#n137
->>> > to replace by zavariant, and with OEQA_DEBUGGING_SAVED_OUTPUT set , I
->>> > managed to see the html diff
->>> >
->>> > Nevertheless, It took one hour, but it seems that it cannot be
->>> > avoided since there are two builds and one
->>> > without any shared state.
->>>
->>> Unfortunately that is the nature of the test, one side has to be built
->>> from scratch. Tweaking the test as you'd done to target a specific
->>> component is what I'd have done too to speed things up for a specific
->>> recipe.
->>>
->>> To get a further speedup, you could probably keep the sstate for each
->>> of the two builds separate but retain both, then in theory on the
->>> pieces you change would rebuild. Again, it would mean tweaking the test
->>> but for debugging, I think that is fine. Rust can be a pain if you just
->>> rebuild those as it still takes a while. Thanks for taking a look!
->>>
->>> Cheers,
->>>
->>> Richard
->>>
->>>
->> Thank you for the tip, I'll try that, everything that help to speed up i=
-s
->> good to take of course.
->>
->
-> To speedup the build you can take the rust-native from the state cache [1=
-]
-> and this will improve a bit bit the time needed:
->
-> sstate_target =3D [ "rust-native" ]
->
-> [1] https://git.openembedded.org/openembedded-core/tree/meta/lib/oeqa/sel=
-ftest/cases/reproducible.py#n139
+> Hello,
 >
 >
-> Jose
+>
+> Please let me know if there are any comments or if the patch is good.
 >
 >
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#179841):
->> https://lists.openembedded.org/g/openembedded-core/message/179841
->> Mute This Topic: https://lists.openembedded.org/mt/98126404/5052612
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
->> quaresma.jose@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
->>
 >
+> Thanks,
+> Gaurav
+>
+>
+>
+> From: Gaurav Gupta <gauragup@cisco.com>
+> Date: Thursday, March 30, 2023 at 12:51 PM
+> To: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org>
+> Cc: Gaurav Gupta (gauragup) <gauragup@cisco.com>
+> Subject: [dunfell][PATCH] Fix qemu build error with dunfell release "yoct=
+o-3.1.24"
+>
+> The patch for CVE-2021-3929 applied on dunfell returns a value for a
+> void function. This results in the following compiler warning/error:
+>
+> hw/block/nvme.c:77:6: error: void function
+> 'nvme_addr_read' should not return a value [-Wreturn-type]
+>
+> return NVME_DATA_TRAS_ERROR;
+> ^      ~~~~~~~~~~~~~~~~~~~~
+>
+> In newer versions of qemu, the functions is changed to have a return
+> value, but that is not present in the version of qemu used in =E2=80=9Cdu=
+nfell=E2=80=9D.
+>
+> Backport some of the patches to correct this.
+>
+> Signed-off-by: Gaurav Gupta <gauragup@cisco.com>
+> ---
+>  meta/recipes-devtools/qemu/qemu.inc                |   2 +
+>  .../recipes-devtools/qemu/qemu/CVE-2021-3929.patch |  33 ++---
+>  .../qemu/hw-block-nvme-handle-dma-errors.patch     | 146 +++++++++++++++=
+++++++
+>  .../hw-block-nvme-refactor-nvme_addr_read.patch    |  55 ++++++++
+>  4 files changed, 221 insertions(+), 15 deletions(-)
+>  create mode 100644 meta/recipes-devtools/qemu/qemu/hw-block-nvme-handle-=
+dma-errors.patch
+>  create mode 100644 meta/recipes-devtools/qemu/qemu/hw-block-nvme-refacto=
+r-nvme_addr_read.patch
+>
+> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
+qemu/qemu.inc
+> index 0649727..4100436 100644
+> --- a/meta/recipes-devtools/qemu/qemu.inc
+> +++ b/meta/recipes-devtools/qemu/qemu.inc
+> @@ -115,6 +115,8 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.t=
+ar.xz \
+>             file://CVE-2021-3638.patch \
+>             file://CVE-2021-20196.patch \
+>             file://CVE-2021-3507.patch \
+> +           file://hw-block-nvme-refactor-nvme_addr_read.patch \
+> +           file://hw-block-nvme-handle-dma-errors.patch \
+>             file://CVE-2021-3929.patch \
+>             file://CVE-2022-4144.patch \
+>             "
+> diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3929.patch b/meta/r=
+ecipes-devtools/qemu/qemu/CVE-2021-3929.patch
+> index 3df2f88..a1862f1 100644
+> --- a/meta/recipes-devtools/qemu/qemu/CVE-2021-3929.patch
+> +++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3929.patch
+> @@ -1,7 +1,8 @@
+> -From 736b01642d85be832385063f278fe7cd4ffb5221 Mon Sep 17 00:00:00 2001
+> -From: Klaus Jensen <k.jensen@samsung.com>
+> -Date: Fri, 17 Dec 2021 10:44:01 +0100
+> -Subject: [PATCH] hw/nvme: fix CVE-2021-3929
+> +From 2c682b5975b41495f98cc34b8243042c446eec44 Mon Sep 17 00:00:00 2001
+> +From: Gaurav Gupta <gauragup@cisco.com>
+> +Date: Wed, 29 Mar 2023 14:36:16 -0700
+> +Subject: [PATCH] hw/nvme: fix CVE-2021-3929 MIME-Version: 1.0 Content-Ty=
+pe:
+> + text/plain; charset=3DUTF-8 Content-Transfer-Encoding: 8bit
+>  MIME-Version: 1.0
+>  Content-Type: text/plain; charset=3DUTF-8
+>  Content-Transfer-Encoding: 8bit
+> @@ -17,21 +18,23 @@ Reviewed-by: Keith Busch <kbusch@kernel.org>
+>  Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>  Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+>
+> -Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit=
+/736b01642d85be832385]
+> +Upstream-Status: Backport
+> +[https://gitlab.com/qemu-project/qemu/-/commit/736b01642d85be832385]
+>  CVE: CVE-2021-3929
+>  Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+> +Signed-off-by: Gaurav Gupta <gauragup@cisco.com>
+>  ---
+>   hw/block/nvme.c | 23 +++++++++++++++++++++++
+>   hw/block/nvme.h |  1 +
+>   2 files changed, 24 insertions(+)
+>
+>  diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> -index 12d82542..e7d0750c 100644
+> +index bda446d..ae9b19f 100644
+>  --- a/hw/block/nvme.c
+>  +++ b/hw/block/nvme.c
+> -@@ -52,8 +52,31 @@
+> -
+> - static void nvme_process_sq(void *opaque);
+> +@@ -60,8 +60,31 @@ static bool nvme_addr_is_cmb(NvmeCtrl *n, hwaddr addr=
+)
+> +     return addr >=3D low && addr < hi;
+> + }
+>
+>  +static inline bool nvme_addr_is_iomem(NvmeCtrl *n, hwaddr addr)
+>  +{
+> @@ -51,18 +54,18 @@ index 12d82542..e7d0750c 100644
+>  +    return addr >=3D lo && addr < hi;
+>  +}
+>  +
+> - static void nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int siz=
+e)
+> + static int nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size=
+)
+>   {
+>  +
+>  +    if (nvme_addr_is_iomem(n, addr)) {
+> -+       return NVME_DATA_TRAS_ERROR;
+> ++      return NVME_DATA_TRAS_ERROR;
+>  +    }
+>  +
+> -     if (n->cmbsz && addr >=3D n->ctrl_mem.addr &&
+> -                 addr < (n->ctrl_mem.addr + int128_get64(n->ctrl_mem.siz=
+e))) {
+> +     if (n->cmbsz && nvme_addr_is_cmb(n, addr)) {
+>           memcpy(buf, (void *)&n->cmbuf[addr - n->ctrl_mem.addr], size);
+> +         return 0;
+>  diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+> -index 557194ee..5a2b119c 100644
+> +index 557194e..5a2b119 100644
+>  --- a/hw/block/nvme.h
+>  +++ b/hw/block/nvme.h
+>  @@ -59,6 +59,7 @@ typedef struct NvmeNamespace {
+> @@ -74,5 +77,5 @@ index 557194ee..5a2b119c 100644
+>       MemoryRegion ctrl_mem;
+>       NvmeBar      bar;
+>  --
+> -2.30.2
+> +1.8.3.1
+>
+> diff --git a/meta/recipes-devtools/qemu/qemu/hw-block-nvme-handle-dma-err=
+ors.patch b/meta/recipes-devtools/qemu/qemu/hw-block-nvme-handle-dma-errors=
+.patch
+> new file mode 100644
+> index 0000000..0fdae83
+> --- /dev/null
+> +++ b/meta/recipes-devtools/qemu/qemu/hw-block-nvme-handle-dma-errors.pat=
+ch
+> @@ -0,0 +1,146 @@
+> +From ea2a7c7676d8eb9d1458eaa4b717df46782dcb3a Mon Sep 17 00:00:00 2001
+> +From: Gaurav Gupta <gauragup@cisco.com>
+> +Date: Wed, 29 Mar 2023 14:07:17 -0700
+> +Subject: [PATCH 2/2] hw/block/nvme: handle dma errors
+> +
+> +Handling DMA errors gracefully is required for the device to pass the
+> +block/011 test ("disable PCI device while doing I/O") in the blktests
+> +suite.
+> +
+> +With this patch the device sets the Controller Fatal Status bit in the
+> +CSTS register when failing to read from a submission queue or writing to
+> +a completion queue; expecting the host to reset the controller.
+> +
+> +If DMA errors occur at any other point in the execution of the command
+> +(say, while mapping the PRPs), the command is aborted with a Data
+> +Transfer Error status code.
+> +
+> +Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> +Signed-off-by: Gaurav Gupta <gauragup@cisco.com>
+> +---
+> + hw/block/nvme.c       | 41 +++++++++++++++++++++++++++++++----------
+> + hw/block/trace-events |  3 +++
+> + 2 files changed, 34 insertions(+), 10 deletions(-)
+> +
+> +diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> +index e6f24a6..bda446d 100644
+> +--- a/hw/block/nvme.c
+> ++++ b/hw/block/nvme.c
+> +@@ -60,14 +60,14 @@ static bool nvme_addr_is_cmb(NvmeCtrl *n, hwaddr add=
+r)
+> +     return addr >=3D low && addr < hi;
+> + }
+> +
+> +-static void nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int siz=
+e)
+> ++static int nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size=
+)
+> + {
+> +     if (n->cmbsz && nvme_addr_is_cmb(n, addr)) {
+> +         memcpy(buf, (void *)&n->cmbuf[addr - n->ctrl_mem.addr], size);
+> +-        return;
+> ++        return 0;
+> +     }
+> +
+> +-    pci_dma_read(&n->parent_obj, addr, buf, size);
+> ++    return pci_dma_read(&n->parent_obj, addr, buf, size);
+> + }
+> +
+> + static int nvme_check_sqid(NvmeCtrl *n, uint16_t sqid)
+> +@@ -152,6 +152,7 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIO=
+Vector *iov, uint64_t prp1,
+> +     hwaddr trans_len =3D n->page_size - (prp1 % n->page_size);
+> +     trans_len =3D MIN(len, trans_len);
+> +     int num_prps =3D (len >> n->page_bits) + 1;
+> ++    int ret;
+> +
+> +     if (unlikely(!prp1)) {
+> +         trace_nvme_err_invalid_prp();
+> +@@ -178,7 +179,11 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUI=
+OVector *iov, uint64_t prp1,
+> +
+> +             nents =3D (len + n->page_size - 1) >> n->page_bits;
+> +             prp_trans =3D MIN(n->max_prp_ents, nents) * sizeof(uint64_t=
+);
+> +-            nvme_addr_read(n, prp2, (void *)prp_list, prp_trans);
+> ++            ret =3D nvme_addr_read(n, prp2, (void *)prp_list, prp_trans=
+);
+> ++            if (ret) {
+> ++                trace_pci_nvme_err_addr_read(prp2);
+> ++                return NVME_DATA_TRAS_ERROR;
+> ++            }
+> +             while (len !=3D 0) {
+> +                 uint64_t prp_ent =3D le64_to_cpu(prp_list[i]);
+> +
+> +@@ -191,8 +196,12 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUI=
+OVector *iov, uint64_t prp1,
+> +                     i =3D 0;
+> +                     nents =3D (len + n->page_size - 1) >> n->page_bits;
+> +                     prp_trans =3D MIN(n->max_prp_ents, nents) * sizeof(=
+uint64_t);
+> +-                    nvme_addr_read(n, prp_ent, (void *)prp_list,
+> +-                        prp_trans);
+> ++                    ret =3D nvme_addr_read(n, prp_ent, (void *)prp_list=
+,
+> ++                                         prp_trans);
+> ++                    if (ret) {
+> ++                        trace_pci_nvme_err_addr_read(prp_ent);
+> ++                        return NVME_DATA_TRAS_ERROR;
+> ++                    }
+> +                     prp_ent =3D le64_to_cpu(prp_list[i]);
+> +                 }
+> +
+> +@@ -286,6 +295,7 @@ static void nvme_post_cqes(void *opaque)
+> +     NvmeCQueue *cq =3D opaque;
+> +     NvmeCtrl *n =3D cq->ctrl;
+> +     NvmeRequest *req, *next;
+> ++    int ret;
+> +
+> +     QTAILQ_FOREACH_SAFE(req, &cq->req_list, entry, next) {
+> +         NvmeSQueue *sq;
+> +@@ -295,15 +305,21 @@ static void nvme_post_cqes(void *opaque)
+> +             break;
+> +         }
+> +
+> +-        QTAILQ_REMOVE(&cq->req_list, req, entry);
+> +         sq =3D req->sq;
+> +         req->cqe.status =3D cpu_to_le16((req->status << 1) | cq->phase)=
+;
+> +         req->cqe.sq_id =3D cpu_to_le16(sq->sqid);
+> +         req->cqe.sq_head =3D cpu_to_le16(sq->head);
+> +         addr =3D cq->dma_addr + cq->tail * n->cqe_size;
+> ++        ret =3D pci_dma_write(&n->parent_obj, addr, (void *)&req->cqe,
+> ++                            sizeof(req->cqe));
+> ++        if (ret) {
+> ++            trace_pci_nvme_err_addr_write(addr);
+> ++            trace_pci_nvme_err_cfs();
+> ++            n->bar.csts =3D NVME_CSTS_FAILED;
+> ++            break;
+> ++        }
+> ++        QTAILQ_REMOVE(&cq->req_list, req, entry);
+> +         nvme_inc_cq_tail(cq);
+> +-        pci_dma_write(&n->parent_obj, addr, (void *)&req->cqe,
+> +-            sizeof(req->cqe));
+> +         QTAILQ_INSERT_TAIL(&sq->req_list, req, entry);
+> +     }
+> +     if (cq->tail !=3D cq->head) {
+> +@@ -888,7 +904,12 @@ static void nvme_process_sq(void *opaque)
+> +
+> +     while (!(nvme_sq_empty(sq) || QTAILQ_EMPTY(&sq->req_list))) {
+> +         addr =3D sq->dma_addr + sq->head * n->sqe_size;
+> +-        nvme_addr_read(n, addr, (void *)&cmd, sizeof(cmd));
+> ++        if (nvme_addr_read(n, addr, (void *)&cmd, sizeof(cmd))) {
+> ++            trace_pci_nvme_err_addr_read(addr);
+> ++            trace_pci_nvme_err_cfs();
+> ++            n->bar.csts =3D NVME_CSTS_FAILED;
+> ++            break;
+> ++        }
+> +         nvme_inc_sq_head(sq);
+> +
+> +         req =3D QTAILQ_FIRST(&sq->req_list);
+> +diff --git a/hw/block/trace-events b/hw/block/trace-events
+> +index c03e80c..4e4ad4e 100644
+> +--- a/hw/block/trace-events
+> ++++ b/hw/block/trace-events
+> +@@ -60,6 +60,9 @@ nvme_mmio_shutdown_set(void) "shutdown bit set"
+> + nvme_mmio_shutdown_cleared(void) "shutdown bit cleared"
+> +
+> + # nvme traces for error conditions
+> ++pci_nvme_err_addr_read(uint64_t addr) "addr 0x%"PRIx64""
+> ++pci_nvme_err_addr_write(uint64_t addr) "addr 0x%"PRIx64""
+> ++pci_nvme_err_cfs(void) "controller fatal status"
+> + nvme_err_invalid_dma(void) "PRP/SGL is too small for transfer size"
+> + nvme_err_invalid_prplist_ent(uint64_t prplist) "PRP list entry is null =
+or not page aligned: 0x%"PRIx64""
+> + nvme_err_invalid_prp2_align(uint64_t prp2) "PRP2 is not page aligned: 0=
+x%"PRIx64""
+> +--
+> +1.8.3.1
+> +
+> diff --git a/meta/recipes-devtools/qemu/qemu/hw-block-nvme-refactor-nvme_=
+addr_read.patch b/meta/recipes-devtools/qemu/qemu/hw-block-nvme-refactor-nv=
+me_addr_read.patch
+> new file mode 100644
+> index 0000000..66ada52
+> --- /dev/null
+> +++ b/meta/recipes-devtools/qemu/qemu/hw-block-nvme-refactor-nvme_addr_re=
+ad.patch
+> @@ -0,0 +1,55 @@
+> +From 55428706d5b0b8889b8e009eac77137bb556a4f0 Mon Sep 17 00:00:00 2001
+> +From: Klaus Jensen <k.jensen@samsung.com>
+> +Date: Tue, 9 Jun 2020 21:03:17 +0200
+> +Subject: [PATCH 1/2] hw/block/nvme: refactor nvme_addr_read
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=3DUTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +Pull the controller memory buffer check to its own function. The check
+> +will be used on its own in later patches.
+> +
+> +Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> +Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> +Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+> +Reviewed-by: Keith Busch <kbusch@kernel.org>
+> +Message-Id: <20200609190333.59390-7-its@irrelevant.dk>
+> +Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> +---
+> + hw/block/nvme.c | 16 ++++++++++++----
+> + 1 file changed, 12 insertions(+), 4 deletions(-)
+> +
+> +diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> +index 12d8254..e6f24a6 100644
+> +--- a/hw/block/nvme.c
+> ++++ b/hw/block/nvme.c
+> +@@ -52,14 +52,22 @@
+> +
+> + static void nvme_process_sq(void *opaque);
+> +
+> ++static bool nvme_addr_is_cmb(NvmeCtrl *n, hwaddr addr)
+> ++{
+> ++    hwaddr low =3D n->ctrl_mem.addr;
+> ++    hwaddr hi  =3D n->ctrl_mem.addr + int128_get64(n->ctrl_mem.size);
+> ++
+> ++    return addr >=3D low && addr < hi;
+> ++}
+> ++
+> + static void nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int siz=
+e)
+> + {
+> +-    if (n->cmbsz && addr >=3D n->ctrl_mem.addr &&
+> +-                addr < (n->ctrl_mem.addr + int128_get64(n->ctrl_mem.siz=
+e))) {
+> ++    if (n->cmbsz && nvme_addr_is_cmb(n, addr)) {
+> +         memcpy(buf, (void *)&n->cmbuf[addr - n->ctrl_mem.addr], size);
+> +-    } else {
+> +-        pci_dma_read(&n->parent_obj, addr, buf, size);
+> ++        return;
+> +     }
+> ++
+> ++    pci_dma_read(&n->parent_obj, addr, buf, size);
+> + }
+> +
+> + static int nvme_check_sqid(NvmeCtrl *n, uint16_t sqid)
+> +--
+> +1.8.3.1
+> +
 > --
-> Best regards,
+> 1.8.3.1
 >
-> Jos=C3=A9 Quaresma
 >
-
-
-Hey, thank you Jos=C3=A9 for the advice, I'll apply that for sure.
-
-By the way, like I commented in
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15090 , I'm currently
-try to reproduce (ahah) the reproducibility issue of zvariant with the use
-of reprotest (https://salsa.debian.org/reproducible-builds/reprotest)
-and outside yocto environment. For the moment, I was not able to pinpoint
-the issue (I must have
-put aside the faketime usage since it caused me segfault of rustc).
-
-I plan to dig further in reproducible.py class and how the package is built
-under yocto to try to find out
-what is going on.
-
---00000000000012655d05f8fe0009
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, 10 Apr 2023 at 17:32, Jose Qu=
-aresma &lt;<a href=3D"mailto:quaresma.jose@gmail.com">quaresma.jose@gmail.c=
-om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-"><div dir=3D"ltr"><div dir=3D"ltr">Hi=C2=A0Frederic,</div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Frederic Martinsons =
-&lt;<a href=3D"mailto:frederic.martinsons@gmail.com" target=3D"_blank">fred=
-eric.martinsons@gmail.com</a>&gt; escreveu no dia domingo, 9/04/2023 =C3=A0=
-(s) 16:05:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div =
-dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">Le dim. 9 avr. 2023, 10:43, Richard Purdie &lt;<a href=3D"m=
-ailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@=
-linuxfoundation.org</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">On Sat, 2023-04-08 at 09:56 +0200, Frederi=
-c Martinsons wrote:<br>
-&gt; Forget my previous question,=C2=A0<br>
-&gt; <br>
-&gt; I simply<br>
-&gt; edit=C2=A0<a href=3D"https://git.openembedded.org/openembedded-core/tr=
-ee/meta/lib/oeq" rel=3D"noreferrer noreferrer" target=3D"_blank">https://gi=
-t.openembedded.org/openembedded-core/tree/meta/lib/oeq</a><br>
-&gt; a/selftest/cases/reproducible.py#n137<br>
-&gt; to replace by zavariant, and with=C2=A0OEQA_DEBUGGING_SAVED_OUTPUT set=
- , I<br>
-&gt; managed to see the html diff<br>
-&gt; <br>
-&gt; Nevertheless, It took one hour, but it seems that it cannot be<br>
-&gt; avoided since there are two builds and one<br>
-&gt; without any shared state.<br>
-<br>
-Unfortunately that is the nature of the test, one side has to be built<br>
-from scratch. Tweaking the test as you&#39;d done to target a specific<br>
-component is what I&#39;d have done too to speed things up for a specific<b=
-r>
-recipe.<br>
-<br>
-To get a further speedup, you could probably keep the sstate for each<br>
-of the two builds separate but retain both, then in theory on the<br>
-pieces you change would rebuild. Again, it would mean tweaking the test<br>
-but for debugging, I think that is fine. Rust can be a pain if you just<br>
-rebuild those as it still takes a while. Thanks for taking a look!<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br><br></blockquote></div></div><div dir=3D"auto"><br></div><div di=
-r=3D"auto">Thank you for the tip, I&#39;ll try that, everything that help t=
-o speed up is good to take of course.=C2=A0</div></div></blockquote><div><b=
-r>To speedup the build you can take the rust-native from the state=C2=A0cac=
-he [1] and this will improve a bit bit the time needed:<br><br>sstate_targe=
-t =3D [ &quot;rust-native&quot; ]<br><br><pre style=3D"padding:0px;margin-t=
-op:0px;margin-bottom:0px;color:rgb(0,0,0);font-size:13.3333px"><span style=
-=3D"font-family:Arial,Helvetica,sans-serif;font-size:small;color:rgb(34,34,=
-34)">[1] <a href=3D"https://git.openembedded.org/openembedded-core/tree/met=
-a/lib/oeqa/selftest/cases/reproducible.py#n139" target=3D"_blank">https://g=
-it.openembedded.org/openembedded-core/tree/meta/lib/oeqa/selftest/cases/rep=
-roducible.py#n139</a>
-=C2=A0</span></pre>Jose<br>=C2=A0</div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex"><div dir=3D"auto"><div dir=3D"auto"></div></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#179841): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/179841" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/179841</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/98126404/5052=
-612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/98126404/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div><span>-- </span><br><di=
-v dir=3D"ltr"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</di=
-v></div></div></div></blockquote><div><br></div><div><br></div><div>Hey, th=
-ank you Jos=C3=A9 for the advice, I&#39;ll apply that for sure.</div><div><=
-br></div><div>By the way, like I commented in=C2=A0<a href=3D"https://bugzi=
-lla.yoctoproject.org/show_bug.cgi?id=3D15090">https://bugzilla.yoctoproject=
-.org/show_bug.cgi?id=3D15090</a> , I&#39;m currently</div><div>try to repro=
-duce (ahah) the reproducibility issue of zvariant with the use of reprotest=
- (<a href=3D"https://salsa.debian.org/reproducible-builds/reprotest">https:=
-//salsa.debian.org/reproducible-builds/reprotest</a>)</div><div>and outside=
- yocto environment. For the moment, I was not able to pinpoint the issue (I=
- must have</div><div>put aside the faketime usage since it caused me segfau=
-lt of rustc).</div><div><br></div><div>I plan to dig further in reproducibl=
-e.py class and how the package is built under yocto to try to find out</div=
-><div>what is going on.</div><div><br></div><div><br></div><div><br></div><=
-div>=C2=A0</div></div></div>
-
---00000000000012655d05f8fe0009--
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#179890): https://lists.openembedded.org/g/openembedde=
+d-core/message/179890
+> Mute This Topic: https://lists.openembedded.org/mt/97959050/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
