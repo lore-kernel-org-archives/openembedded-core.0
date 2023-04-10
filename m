@@ -1,146 +1,177 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <bindudaniel1996@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B776C77B70
-	for <webhook@archiver.kernel.org>; Sun,  9 Apr 2023 15:05:14 +0000 (UTC)
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
- by mx.groups.io with SMTP id smtpd.web11.21356.1681052708454074397
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF4A5C77B61
+	for <webhook@archiver.kernel.org>; Mon, 10 Apr 2023 08:13:58 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web10.40059.1681114428597066282
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Apr 2023 08:05:08 -0700
+ Mon, 10 Apr 2023 01:13:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=DNVuvqR/;
- spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-lj1-f173.google.com with SMTP id y7so15221652ljp.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 09 Apr 2023 08:05:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=aswsOkJ5;
+ spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: bindudaniel1996@gmail.com)
+Received: by mail-pl1-f169.google.com with SMTP id kh6so2490623plb.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 01:13:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681052706;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=30PR1cnm1Aj3+q1F4y9toAQL8kTCcpRZbscVz14/SEs=;
-        b=DNVuvqR/fuwJ6Vd8vg47xcyYFo1AJfW5vxxpnvtCOoF3hoECAcCqQtzCBkpPvBYuRZ
-         8nAjmRUiekF5RN2e6yUI/Jdytsq1GOcvY6IbrCOWlFX+zi+tMpFu4ZzUvxLs+XEdj5Ha
-         fZGVXbpleTcl4QtpE6Nb3UTQ5uQB2pMLxAa/8NH7uvKQ4D8bJ5nPf9U6XllZjKrJXnWo
-         iEcTM30oFapZ9FGuiJGudTm/JztqXGVfI6OqBsPMNAMY9SOrxdtniqJw4h3+2RtPISHP
-         ITkbK18m/gF5/QegjCC1gSVtyPKdcgLeB1zjPlqnZH/3uP255zhX7Q7b5UGxF4HLJ9UY
-         st5A==
+        d=gmail.com; s=20210112; t=1681114428;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=O8ChsUdqhitZIjg5kUZxUxODuTmtw7btdYXU1H40Hik=;
+        b=aswsOkJ5YTqt4MvdTZOLuKC0+v5lhaeMRFvH+MURI4LNlJMQC2snlRzWvA4/WJmVSj
+         P3sDZoSmH5p+DhK/nWLdeDikPN8uMbM0acLI7OdXbPQYs6IFkacN2F4RqO+2s84OGs/0
+         ESdbHzFRHCvaRNQtKxzzpyvsZ6A5PVEFclYhTH0/I+a+i+EIknXiJ51D4GX3DCQJ62VY
+         ONI+9WU6XeICuRYQeIMOTuQqCEn61B4Ygt9z0cu+Zq6geOKLRZ4Dz6IePPHgMLm99IcK
+         LhlMN+rOKIqX52NcBZg47EtH4Sdz/pF6j+p9l3yDS9jA50hTZRcX0YKHpAfpK+iFR+Va
+         HP/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681052706;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20210112; t=1681114428;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=30PR1cnm1Aj3+q1F4y9toAQL8kTCcpRZbscVz14/SEs=;
-        b=WNKET3mLuL9ykExTJcEH/zyTpVk61cgRV2kXQtmiefONvlxfzmbCWxNK7YCCL1mLir
-         WZwxxCz6C6b8qvAFqhqL6pr5XrCEk9XQAo2m/gTzsZRJJYKcRPmgAeW5INL3Uz3E4VSi
-         0p7kJlMGjy7i0PxqQA2h2Eo80rvK4Mghcn2fwxB0799IntbI9gdxCjkI8qrDZo8VszBP
-         9OJs7cpadNrrv77JeoDBYMSDpyOpQFkcJxTsDNcw8Dqlrx0zZSrdZSqC0MTNWhe5g8hJ
-         XQvQJNnQa3YFWvauJ5rxyvjRzLDgj9gt0DATReVwqNksSbeFpZahgJJU7sUkyhHt+PhY
-         e1gw==
-X-Gm-Message-State: AAQBX9e33E5eVhSsevaHvP+OHfFZXIzyer4+HOCoMk8b1MZI/GBcgYQm
-	NTHp/bN4muGqsxMhhOZQcT9GwkrjUENbXY4Bnkc=
-X-Google-Smtp-Source: AKy350bq8j1ZyK3kInTlFFFEnRPZ+8t9QnhdCvSCMUpQPAHhhI6r//QofAPXzJxp0VRHivdvZwS6b4AolMTjIb6CqxE=
-X-Received: by 2002:a05:651c:103c:b0:2a6:16b4:a554 with SMTP id
- w28-20020a05651c103c00b002a616b4a554mr2064737ljm.3.1681052705903; Sun, 09 Apr
- 2023 08:05:05 -0700 (PDT)
+        bh=O8ChsUdqhitZIjg5kUZxUxODuTmtw7btdYXU1H40Hik=;
+        b=E3kdKblKCtW4mAPFv7hCuxNXrdyfadX5+TyBs+906niOryKIFhilGVD3IobYj4BIbb
+         WuB9vLUWV8qXFHQISvMuHH6n+ZnHNI0z+kX7jdxkevau5PE1oNgDRdy7MKr+viKkfBxD
+         bUj/AjAGxaWQqYc0TqPigsRyobPdWqnlWkrUaCus4ObJ2vTQ4Mmk7BQUw6ygQ/1DGKje
+         pynh97ZU2JiJNNleib2730GOnZ6GXmraIbMgHz3VT+nQZm2830GNycSq0JfnbpjE22I6
+         Sgnc8son+xcSKzFaOjmLN4lAJHwveFj9Kwyow1Nxfh68tI7FLavXmobCS2nTSY7W4Rmr
+         LePQ==
+X-Gm-Message-State: AAQBX9elZ1eM574aStd8YvpMdF0SD/ujLZYpGSmMaeO5m3OpdjzRTYzF
+	gmP+8jZPV3NarSL5WXOyKOHJe6Da/meWPQ==
+X-Google-Smtp-Source: AKy350ZViuFsMw5R63NjmVWtM/CYFvf4QLdO/iGP+VrKtBn3ArZL/hV1a6OMiDfJO3zHnzeMN9aUJw==
+X-Received: by 2002:a05:6a20:b21:b0:de:5e0b:caa8 with SMTP id x33-20020a056a200b2100b000de5e0bcaa8mr7131914pzf.52.1681114427713;
+        Mon, 10 Apr 2023 01:13:47 -0700 (PDT)
+Received: from localhost.localdomain ([2401:4900:1f26:5bf2:2f53:7cd4:907:b9ed])
+        by smtp.gmail.com with ESMTPSA id n4-20020a62e504000000b0062ddefe02dfsm7442216pff.171.2023.04.10.01.13.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Apr 2023 01:13:47 -0700 (PDT)
+From: Bhabu Bindu <bindudaniel1996@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	bhabu.bindu@kpit.com
+Cc: ranjitsinh.rathod@kpit.com,
+	Bhabu Bindu <bhabu.bhabu@kpit.com>,
+	Narpat Mali <narpat.mali@windriver.com>,
+	Steve Sakoman <steve@sakoman.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [OE-core][dunfell][PATCH] ffmpeg: fix for CVE-2022-3341
+Date: Mon, 10 Apr 2023 13:43:25 +0530
+Message-Id: <20230410081325.1415216-1-bindudaniel1996@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <1753B0402875C548.11304@lists.openembedded.org>
- <CA+cAkerWUvabx_kzN2s6S64454t88ifOR+nqtaLwk0wHfw3n2Q@mail.gmail.com> <6381549a7f058cb233c656dca9324ae4d7a435c2.camel@linuxfoundation.org>
-In-Reply-To: <6381549a7f058cb233c656dca9324ae4d7a435c2.camel@linuxfoundation.org>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Date: Sun, 9 Apr 2023 17:04:54 +0200
-Message-ID: <CA+cAkerd92jAqwA1iDrNOV+W1mK5Tb39yvT_Dp-t18=LCNm09w@mail.gmail.com>
-Subject: Re: [OE-core] Reproducible build
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000006259cd05f8e895ab"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 09 Apr 2023 15:05:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179841
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 08:13:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179842
 
---0000000000006259cd05f8e895ab
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Bhabu Bindu <bhabu.bhabu@kpit.com>
 
-Le dim. 9 avr. 2023, 10:43, Richard Purdie <
-richard.purdie@linuxfoundation.org> a =C3=A9crit :
+avformat/nutdec: Add check for avformat_new_stream
+Check for failure of avformat_new_stream() and propagate
+the error code.
 
-> On Sat, 2023-04-08 at 09:56 +0200, Frederic Martinsons wrote:
-> > Forget my previous question,
-> >
-> > I simply
-> > edit https://git.openembedded.org/openembedded-core/tree/meta/lib/oeq
-> > a/selftest/cases/reproducible.py#n137
-> > to replace by zavariant, and with OEQA_DEBUGGING_SAVED_OUTPUT set , I
-> > managed to see the html diff
-> >
-> > Nevertheless, It took one hour, but it seems that it cannot be
-> > avoided since there are two builds and one
-> > without any shared state.
->
-> Unfortunately that is the nature of the test, one side has to be built
-> from scratch. Tweaking the test as you'd done to target a specific
-> component is what I'd have done too to speed things up for a specific
-> recipe.
->
-> To get a further speedup, you could probably keep the sstate for each
-> of the two builds separate but retain both, then in theory on the
-> pieces you change would rebuild. Again, it would mean tweaking the test
-> but for debugging, I think that is fine. Rust can be a pain if you just
-> rebuild those as it still takes a while. Thanks for taking a look!
->
-> Cheers,
->
-> Richard
->
->
-Thank you for the tip, I'll try that, everything that help to speed up is
-good to take of course.
+Upstream-Status: Backport [https://git.yoctoproject.org/poky/commit/?h=kirkstone&id=bba70ce34115151362bfdc49a545ee708eb297ca]
 
---0000000000006259cd05f8e895ab
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+(From OE-Core rev: e17ddd0fafb562ed7ebe7708dac9bcef2d6cecc1)
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Le dim. 9 avr. 2023, 10:43, Richard Purdie &lt;<a href=
-=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
-on.org</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
-On Sat, 2023-04-08 at 09:56 +0200, Frederic Martinsons wrote:<br>
-&gt; Forget my previous question,=C2=A0<br>
-&gt; <br>
-&gt; I simply<br>
-&gt; edit=C2=A0<a href=3D"https://git.openembedded.org/openembedded-core/tr=
-ee/meta/lib/oeq" rel=3D"noreferrer noreferrer" target=3D"_blank">https://gi=
-t.openembedded.org/openembedded-core/tree/meta/lib/oeq</a><br>
-&gt; a/selftest/cases/reproducible.py#n137<br>
-&gt; to replace by zavariant, and with=C2=A0OEQA_DEBUGGING_SAVED_OUTPUT set=
- , I<br>
-&gt; managed to see the html diff<br>
-&gt; <br>
-&gt; Nevertheless, It took one hour, but it seems that it cannot be<br>
-&gt; avoided since there are two builds and one<br>
-&gt; without any shared state.<br>
-<br>
-Unfortunately that is the nature of the test, one side has to be built<br>
-from scratch. Tweaking the test as you&#39;d done to target a specific<br>
-component is what I&#39;d have done too to speed things up for a specific<b=
-r>
-recipe.<br>
-<br>
-To get a further speedup, you could probably keep the sstate for each<br>
-of the two builds separate but retain both, then in theory on the<br>
-pieces you change would rebuild. Again, it would mean tweaking the test<br>
-but for debugging, I think that is fine. Rust can be a pain if you just<br>
-rebuild those as it still takes a while. Thanks for taking a look!<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br><br></blockquote></div></div><div dir=3D"auto"><br></div><div di=
-r=3D"auto">Thank you for the tip, I&#39;ll try that, everything that help t=
-o speed up is good to take of course.=C2=A0</div><div dir=3D"auto"></div></=
-div>
+Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit bba70ce34115151362bfdc49a545ee708eb297ca)
+Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
+---
+ .../ffmpeg/ffmpeg/CVE-2022-3341.patch         | 67 +++++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb |  1 +
+ 2 files changed, 68 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-3341.patch
 
---0000000000006259cd05f8e895ab--
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-3341.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-3341.patch
+new file mode 100644
+index 0000000000..fcbd9b3e1b
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-3341.patch
+@@ -0,0 +1,67 @@
++From 9cf652cef49d74afe3d454f27d49eb1a1394951e Mon Sep 17 00:00:00 2001
++From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
++Date: Wed, 23 Feb 2022 10:31:59 +0800
++Subject: [PATCH] avformat/nutdec: Add check for avformat_new_stream
++
++Check for failure of avformat_new_stream() and propagate
++the error code.
++
++Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
++
++CVE: CVE-2022-3341
++
++Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/9cf652cef49d74afe3d454f27d49eb1a1394951e]
++
++Comments: Refreshed Hunk
++Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
++Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
++---
++ libavformat/nutdec.c | 16 ++++++++++++----
++ 1 file changed, 12 insertions(+), 4 deletions(-)
++
++diff --git a/libavformat/nutdec.c b/libavformat/nutdec.c
++index 0a8a700acf..f9ad2c0af1 100644
++--- a/libavformat/nutdec.c
+++++ b/libavformat/nutdec.c
++@@ -351,8 +351,12 @@ static int decode_main_header(NUTContext *nut)
++         ret = AVERROR(ENOMEM);
++         goto fail;
++     }
++-    for (i = 0; i < stream_count; i++)
++-        avformat_new_stream(s, NULL);
+++    for (i = 0; i < stream_count; i++) {
+++        if (!avformat_new_stream(s, NULL)) {
+++            ret = AVERROR(ENOMEM);
+++            goto fail;
+++        }
+++    }
++ 
++     return 0;
++ fail:
++@@ -793,19 +793,23 @@
++     NUTContext *nut = s->priv_data;
++     AVIOContext *bc = s->pb;
++     int64_t pos;
++-    int initialized_stream_count;
+++    int initialized_stream_count, ret;
++ 
++     nut->avf = s;
++ 
++     /* main header */
++     pos = 0;
+++    ret = 0;
++     do {
+++        if (ret == AVERROR(ENOMEM))
+++            return ret;
+++
++         pos = find_startcode(bc, MAIN_STARTCODE, pos) + 1;
++         if (pos < 0 + 1) {
++             av_log(s, AV_LOG_ERROR, "No main startcode found.\n");
++             goto fail;
++         }
++-    } while (decode_main_header(nut) < 0);
+++    } while ((ret = decode_main_header(nut)) < 0);
++ 
++     /* stream headers */
++     pos = 0;
++
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
+index ffeec92e0e..1e000dddfa 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
+@@ -31,6 +31,7 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://CVE-2021-38291.patch \
+            file://CVE-2022-1475.patch \
+            file://CVE-2022-3109.patch \
++           file://CVE-2022-3341.patch \
+           "
+ SRC_URI[md5sum] = "348956fc2faa57a2f79bbb84ded9fbc3"
+ SRC_URI[sha256sum] = "cb754255ab0ee2ea5f66f8850e1bd6ad5cac1cd855d0a2f4990fb8c668b0d29c"
+-- 
+2.25.1
+
 
