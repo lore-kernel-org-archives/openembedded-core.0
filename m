@@ -1,266 +1,305 @@
-Return-Path: <p.lobacz@welotec.com>
+Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9798C7619A
-	for <webhook@archiver.kernel.org>; Tue, 11 Apr 2023 09:37:00 +0000 (UTC)
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.60])
- by mx.groups.io with SMTP id smtpd.web11.9618.1681205812940463262
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32D4BC76196
+	for <webhook@archiver.kernel.org>; Tue, 11 Apr 2023 10:26:31 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web11.10208.1681208782009849668
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Apr 2023 02:36:53 -0700
+ Tue, 11 Apr 2023 03:26:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="no key for verify" header.i=@welotec.com header.s=selector2 header.b=vePxzs+K;
- spf=pass (domain: welotec.com, ip: 40.107.21.60, mailfrom: p.lobacz@welotec.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iE375BKItxUvG6WLJkhcGu+XeW/6vCcn0N4GOreG14q1bZKKGneJzI8ZKIi/ANPA9RThzVWWbLD0WkHKmUaaHb/P3nWpSjqKGX8oeR4F/F7pJUDoCpo6FORSFiOpgVBN+Ebtqp0o1xDxf6TbP3V/jSlIj2pfF16wRpndLCRv8ZkJ580j6Rup0bSZAUCQasuOjjgxhMrGnN9c+fsYKCZSXAv4cHHVPNvTHRbIXtCGV7D8yUhlpKZnyzm1gmN8SDh++3X3MB3gDmzxuG9jl2FfH6dUAVdRQB2/FnsEorLuPKv29DFebxFJDMX0/D3uQ6aFc+uf6pDVnOBCHLHveKM2TQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uf+7+fOYf0RwO29THbbYDSD3QuSHqEaySffCE/OknFM=;
- b=KT285yg9fzQmxXelE+p85rHNDsG1YUeOcikOgw+0zMDUdCVwQQZpKzU37EO9ASkZxEetO8sQBWYB5Oa8if/ciqN383PJNQLf+4Vw/BzyeIZjXsJdW6W0XqLRG0irNcDTEOIn8tWUxhhJMcgF5UQVQtVKL1bhjiarqc6mFMrWvw6UE1I9cTpyiQ0CZxpVXPHNn05pyku6xgFfz52zT/FOA/b0i9a91/elrITv99BF+PmBTKqsWLoSK2x48p/wpLdxUKhi2RxqkfCU4U52hSLfGg00WqRCucGlK4gPNIHTa66arCo1hs0++1I1kRAy1vIdR7IVJTt7k1s5qECksBzM6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=welotec.com; dmarc=pass action=none header.from=welotec.com;
- dkim=pass header.d=welotec.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=welotec.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uf+7+fOYf0RwO29THbbYDSD3QuSHqEaySffCE/OknFM=;
- b=vePxzs+KZA4nj5SrmYC9Dg5ZhdoFXBTnOuMYKEL9r48RGQS/ZyMkszjYyuvObSe5E4Iyz8+zs3/sb12E8wAOIN++vxoZvdxikN/xsKXUP25JNtbGpyHLKb2flOXbIK1eKZXPU6QOO09CgTT4doZbas23h5rqXn2j6wY4n7EPBv0=
-Received: from VI1PR04MB5373.eurprd04.prod.outlook.com (2603:10a6:803:da::22)
- by PA4PR04MB7855.eurprd04.prod.outlook.com (2603:10a6:102:ca::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.38; Tue, 11 Apr
- 2023 09:36:48 +0000
-Received: from VI1PR04MB5373.eurprd04.prod.outlook.com
- ([fe80::9055:4205:39a4:364c]) by VI1PR04MB5373.eurprd04.prod.outlook.com
- ([fe80::9055:4205:39a4:364c%5]) with mapi id 15.20.6277.038; Tue, 11 Apr 2023
- 09:36:48 +0000
-From: =?utf-8?B?UGlvdHIgxYFvYmFjeg==?= <p.lobacz@welotec.com>
-To: =?utf-8?B?RmFiaWFuIEdyw7xuYmljaGxlcg==?= <f.gruenbichler@proxmox.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: ODP: [OE-core] [PATCH] tar: extend numeric-owner to ACL entries
-Thread-Topic: [OE-core] [PATCH] tar: extend numeric-owner to ACL entries
-Thread-Index: AQHZaVC/jY8Jker1dU+PuZKI3L9ofa8iF/YAgAOobwCAAB5yrA==
-Date: Tue, 11 Apr 2023 09:36:47 +0000
-Message-ID: 
- <VI1PR04MB53734C8E9AB6EE51B4809B17919A9@VI1PR04MB5373.eurprd04.prod.outlook.com>
-References: <20230407125846.3983045-1-p.lobacz@welotec.com>
-	<2023040823532071419a57@mail.local> <1681198839.m1sa9xpbzc.astroid@yuna.none>
-In-Reply-To: <1681198839.m1sa9xpbzc.astroid@yuna.none>
-Accept-Language: pl-PL, en-GB, en-US
-Content-Language: pl-PL
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=welotec.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: VI1PR04MB5373:EE_|PA4PR04MB7855:EE_
-x-ms-office365-filtering-correlation-id: 411474f9-2dd8-4cd0-fe87-08db3a70457a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- AaNv85bgzfz+QOZU1gBb6xT0y5m8wAHmr90+Asrtf+59tq9KbJOULvkN6f9hYxTd9ch4VmAeEJUran0hiWUXJcBwsh9UfTyt72+VsVMEiTRHFXamExOD2L8ZHA8qjVMlitsePekY0aBF9fkKjOf1Jo6yMlk8j8Yc7Q3oCYqt5dIsGf8VgCzPaoh88bvbng+Ol1KMthL2UgAvak6hfSjhu7tgSOhoAFYEnt3cjNamMZuNw//dLP0LWlnBHrYXxl0obgHOmzVXyTLoF0ahish5mKHrTLVKe/p7+ydAd33AwnTWPJV6iNFZfmCEoJ6IHnVkt6/otDsU+ZnEVrp4iSDVD8WAoMCn3F4ag5NlMd6PrNC3l66lR18ky+dUJA6OZQ2TIgeTNhb0ikDcCOGQ2HsBabrngwZLhGYLh/bX9zE87U1JjhAwQFnoMun+KBM5gfQMBMc2tOQcWmUss0KKjYozI+YC85Bw4mQhkVIQXemDQslHgufqpBrREAw46xZV5jzx5W9r+XL7yhmXTr67YXAJAvXPLIvQqypwwxDl+SZ5XeF7YEtAMhXRqXos8cPqIPhnT7Owk/URCPbRSKwEiBt7d3Ic/YuCz0EDd1fJdqvj4nw=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5373.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(376002)(346002)(136003)(366004)(39840400004)(451199021)(166002)(5660300002)(38070700005)(966005)(8936002)(52536014)(26005)(6506007)(9686003)(55016003)(2906002)(83380400001)(66574015)(33656002)(85182001)(85202003)(186003)(122000001)(38100700002)(86362001)(45080400002)(478600001)(91956017)(76116006)(41300700001)(66946007)(66556008)(4326008)(8676002)(64756008)(66476007)(66899021)(7696005)(110136005)(66446008)(316002)(71200400001)(19627405001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?cXZjejdsUC9waXBQemQyWFZXWXlJcmI1WFpUYk1GbXlYMmVseis4WmJoZktE?=
- =?utf-8?B?b0drVWJYT2xVYW5mcWVCUE5CNmZDOW50RzFhOWNpczk1WTU2TnlPV1JmM0VW?=
- =?utf-8?B?WTBoT2pnTWFEcG1tVDdoS1hXK25PYks0K25HVTBWS1lVMmJXQXExMVlMejBG?=
- =?utf-8?B?aUVuUEk0R0tzOXl5TlhUUlRkbFlJU0xUOXVYV0MxdHdZcjJmSXZ6Y01Uc014?=
- =?utf-8?B?ZzAyWGxabEhiS0xKaCtHQU5NejNLeVdCSll1RzlKT09IOUNTWWZ6dVJLMTRY?=
- =?utf-8?B?ck1YWDNJVzlBem1tMWpKQ09jbDcrZDhBWTNnNFpjTyttMnI4VlBqQ2UrQWY1?=
- =?utf-8?B?SGpkSjNFOVNNUW1wVmJzVTBIRFpnTThneDJROHhob3d3Yk1kSXNuUGtNUFo4?=
- =?utf-8?B?ckYyTnM5czZvc05LcEJsb1hybjF3SjZCZFVBVlY5Wm5IWU9UdHRab0VjWXdR?=
- =?utf-8?B?cDZ5T0JRSmJUOVRkNWxRbm02YVFqMEJGSHh3VzdSZUM0TFNpeFp6NGE0V1Ax?=
- =?utf-8?B?UEQ0SFFkai9CMzhlU3k2TFQ3TFJjNVlCT3cycjhWYUZMQW1heHJ2MjNrbFUw?=
- =?utf-8?B?UEsrZzNoTDZNaktOQ2FHUnBoNHlISzQvTXdLVmFMQ09CbUk3YW0zZHRPT0dK?=
- =?utf-8?B?d01rNU83OHRMSE5aaG9NMmhSb1ZLZlJmdEdNbXkyZjhKUTN0TytaWklvbE9a?=
- =?utf-8?B?V1l3STBJSnY4NUxZNWtUbmdwaXVXT1I2Zml1azkxWXlzNE9FMjhMUGo0MWFW?=
- =?utf-8?B?cHYwSGViZVJLMXpvY2lPY2RXazgzWkVjRUFyTStOSys5S2xjZUJIMFZoTUh6?=
- =?utf-8?B?Z3IvWHVWTkxsU1R5NGZmSUFTdGNwTFFSZkI3VGlSVFVxcG1zMnJsOFZQR0Iy?=
- =?utf-8?B?dHBBSXBadVYzenBUWGQ1OTRHQXpnM09XV21UZEcwMXZVZGk4QlR5R2drLzdJ?=
- =?utf-8?B?SnYwSTZ2RDBqYmVoREdsSXRIVm9jZDVSK0pFalNlWFUvY3gwNVhlTVdKaSt1?=
- =?utf-8?B?TWhLNXpOWU9XUExwN1FRbTkwbGFrWTRLV3B1WXQ0Ykc0VmRDR3c1YThOUmsr?=
- =?utf-8?B?dHJVUzlmTmJFU3Q2R2NhSy9TZy9sNDA5OU4xaFF4cTNtdmpxZzhaeEZsTEhK?=
- =?utf-8?B?dUZTb0FFYmRkdFUxbGVEQUpEa2dSQy8vVmsyL3JYdFVvS2cwZDFKdTJhaldX?=
- =?utf-8?B?c1Y2eHpNQXo3MXlPcTJXU1RUZzBQekloQ1VmMU9KL0E5NmV3OW9EUWNOMHRY?=
- =?utf-8?B?TFZoUTkzR1JSM0RzRkwvL3RtR1NpNThMWnU0RHRwYXRkYzF1cE1SYnpBWHZN?=
- =?utf-8?B?Ym1VTTBLRG9SVS9KR1pyMmRsRlRES08xcThxdHhNUjJvWHN2SWdmUm9UZ25T?=
- =?utf-8?B?M0JJNU9xZ3AwR25KUkwrYk1oYVFhUG5nTUV1TlBWaCt3OW90ckFtWXcxbEtL?=
- =?utf-8?B?cHUvaHpuZ1E0SGRLNEVmRG9YUUxWRG5vcXBTa2MwVFdReE9qdFd2Z3NVT1hw?=
- =?utf-8?B?bHRhQURVRitDS2dzc0JsZ3lWamhHaEhqNTZqOWJEN1ZzbEJyZ3B6Zk1NYy85?=
- =?utf-8?B?VGVSdDl4NStxclVyUVNBOCtYd3p1dnJjT2Rsemd4OG9KRnVTbFdhRVliY28x?=
- =?utf-8?B?ald5dTUxb2g4SGhUdGFDTnVXWjQ2ZDlCaEUyeithMGY4eEtNQXZUUXdEVVdU?=
- =?utf-8?B?czF3V2FZVm0wNGVhbi8rVWdlbmgwcngyVEFzS2hHK0xoWTJnUjZ4Q1Y0VWZP?=
- =?utf-8?B?NG50ZUI4eW55UDQwYklaOHZtZytIaWNFemF1MVdIMUE0UGYwdmk1MEJhOC95?=
- =?utf-8?B?OGxWTGVSak8yY29pRnRYenBnL29yWUw5OHNtUU5PQlo4OEJyYXc3RFErYWk4?=
- =?utf-8?B?ak1iSXFQeHgwdWlSa3dLZEZWMzhFVk96ajdiTDhabWRDVGJUNzFjT2ZRSUY4?=
- =?utf-8?B?MEhLcUJqYTl2RTNXeWJ5b1haVjVGUHlRanBkVDd4amxhREwwTGlIbTVEcXp2?=
- =?utf-8?B?TjdnVzkwVmFhcUx1YlA4ODJzSHE1SFRiYStzOCtmQTZweXkzeXNWQlUyNlM3?=
- =?utf-8?B?Z3RWT3AwVzZjaWdHUDZEUVpSM3JSMFh6VENmOU1ZNC9OVUJjMFhmQzJiSkVo?=
- =?utf-8?Q?Pst4=3D?=
-Content-Type: multipart/alternative;
-	boundary="_000_VI1PR04MB53734C8E9AB6EE51B4809B17919A9VI1PR04MB5373eurp_"
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=WYcTGLYS;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: michael.opdenacker@bootlin.com)
+Received: (Authenticated sender: michael.opdenacker@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 85D4CFF808;
+	Tue, 11 Apr 2023 10:26:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1681208780;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=L8Xn9PEO28UUAWlqWPFmcLTN2uQj4W6kq+3r/pgtRxA=;
+	b=WYcTGLYSdcZnBycNd2N1K9yR6YlNRi00mKR6ddGCLLl/7k8W9Wxsq+pr473FTOyyoNuRja
+	sIiNEbIahpz0YAsAhEWsk4k1/g7YrSbROTI9Qou/NMHkyjLebepSVneiXClEgY2cbwrX/R
+	Y0lLPPi/OcJ5nN6HrnGcp1BurpRUAEysiaUFGZpOoAYiOW3vIs4Ltn36VtsgkqC2nTF7u6
+	YzTLGfdjk1f8MwxjlrgY6NJ609piJUsnaURI8f0CFbAhMY1956XO4m+lQD5QZsS22tRM3C
+	VLrGO6KLf13i89GxhjX0Ey97VTke0PL3LrkpoCo3B/wPlCE+2dcEGmfmxqQCLQ==
+From: michael.opdenacker@bootlin.com
+To: docs@lists.yoctoproject.org
+Cc: openembedded-core@lists.openembedded.org,
+	alexis.lothore@bootlin.com,
+	Michael Opdenacker <michael.opdenacker@bootlin.com>,
+	Frederic Martinsons <frederic.martinsons@gmail.com>,
+	Marta Rybczynska <rybczynska@gmail.com>,
+	Paul Eggleton <paul.eggleton@linux.microsoft.com>,
+	Alex Kiernan <alex.kiernan@gmail.com>
+Subject: [PATCH v4] migration-guides: update 4.2 migration and release notes
+Date: Tue, 11 Apr 2023 12:25:57 +0200
+Message-Id: <20230411102557.461391-1-michael.opdenacker@bootlin.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <17539E6A97252C13.11304@lists.openembedded.org>
+References: <17539E6A97252C13.11304@lists.openembedded.org>
 MIME-Version: 1.0
-X-OriginatorOrg: welotec.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5373.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 411474f9-2dd8-4cd0-fe87-08db3a70457a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Apr 2023 09:36:47.9292
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 25111a7f-1d5a-4c51-a4ca-7f8e44011b39
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yGCi5CG95Ndun5KaIsyg3azWIsoAay59pICLOt13XGHLu8shEx4HLBkYAmQS31P3u5utxh9uwHyrCnbvSphXQw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB7855
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 09:37:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179914
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 10:26:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179915
 
---_000_VI1PR04MB53734C8E9AB6EE51B4809B17919A9VI1PR04MB5373eurp_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
 
-SGkgRmFiaWVuLA0KVGhhdCB3YXMgbXkgaW50ZW50aW9uIHRvIGxlYXZlIHlvdSBhcyBhbiBhdXRo
-b3IgYXMgeW91IGhhdmUgZm91bmQgYW5kIGZpeGVkIHRoaXMgaXNzdWUg8J+Zgg0KDQpCdHcuIHRo
-aXMgcGF0Y2ggc2F2ZWQgbXkgdGltZSBmb3IgYXBwbHlpbmcgc3R1cGlkIHNvbHV0aW9ucy4uLg0K
-QWRkaXRpb25hbHkgSSBoYXZlIGFsc28gY3JlYXRlZCBhIGJ1ZyByZXBvcnQgb24gdGhhdCBpbiB1
-YnVudHUgaHR0cHM6Ly9idWdzLmxhdW5jaHBhZC5uZXQvdWJ1bnR1Lytzb3VyY2UvdGFyLytidWcv
-MjAxNTUzOQ0KDQpCUg0KUGlvdHINCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQpP
-ZDogRmFiaWFuIEdyw7xuYmljaGxlciA8Zi5ncnVlbmJpY2hsZXJAcHJveG1veC5jb20+DQpXeXPF
-gmFuZTogd3RvcmVrLCAxMSBrd2lldG5pYSAyMDIzIDA5OjQ0DQpEbzogQWxleGFuZHJlIEJlbGxv
-bmkgPGFsZXhhbmRyZS5iZWxsb25pQGJvb3RsaW4uY29tPjsgUGlvdHIgxYFvYmFjeiA8cC5sb2Jh
-Y3pAd2Vsb3RlYy5jb20+DQpEVzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZyA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NClRlbWF0OiBS
-ZTogW09FLWNvcmVdIFtQQVRDSF0gdGFyOiBleHRlbmQgbnVtZXJpYy1vd25lciB0byBBQ0wgZW50
-cmllcw0KDQpPbiBBcHJpbCA5LCAyMDIzIDE6NTMgYW0sIEFsZXhhbmRyZSBCZWxsb25pIHdyb3Rl
-Og0KPiBIZWxsbywNCj4NCj4gT24gMDcvMDQvMjAyMyAxNDo1ODo0NiswMjAwLCBQaW90ciDFgW9i
-YWN6IHdyb3RlOg0KPj4gQUNMIGVudHJpZXMgc3RvcmUgcmVmZXJlbmNlcyB0byBudW1lcmljIHVp
-ZHMvZ2lkcy4gb24gcGxhdGZvcm1zIHRoYXQNCj4+IGhhdmUgbGliYWNsLCB1c2UgYGFjbF90b19h
-bnlfdGV4dGAgdG8gZ2VuZXJhdGUgQUNMIHN0cmluZ3MgdGhhdCBwcmVzZXJ2ZQ0KPj4gdGhvc2Ug
-bnVtZXJpYyBpZGVudGlmaWVycyBpZiBgbnVtZXJpYy1vd25lcmAgaXMgc2V0IChpbnN0ZWFkIG9m
-IGRvaW5nIGENCj4+IGNvbnZlcnNpb24gdG8gdXNlci9ncm91cCBuYW1lLCBsaWtlIHRoZSBhY2xf
-dG9fdGV4dCBmdW5jdGlvbiBkb2VzKS4NCj4+DQo+PiBbLi5dDQo+Pg0KPj4gKw0KPj4gK2FjdHVh
-bCBvdXRwdXQgKGdldGZhY2wpIC0gbm90ZSB0aGUgbWlzc2luZyB1c2VyIGVudHJ5Og0KPj4gKyAj
-IGZpbGU6IGZpbGUNCj4+ICsgIyBvd25lcjogMA0KPj4gKyAjIGdyb3VwOiAwDQo+PiArIHVzZXI6
-OnJ3LQ0KPj4gKyBncm91cDo6ci0tDQo+PiArIG90aGVyOjpyLS0NCj4+ICsNCj4NCj4gVGhpcyBw
-YXRjaCBpcyBtaXNzaW5nIHRoZSBVcHN0cmVhbS1TdGF0dXMgdGFnIGhlcmUNCj4NCj4+ICtTaWdu
-ZWQtb2ZmLWJ5OiBGYWJpYW4gR3LDvG5iaWNobGVyIDxmLmdydWVuYmljaGxlckBwcm94bW94LmNv
-bT4NCg0KKE9yaWdpbmFsIHBhdGNoIGF1dGhvciwgdGhhbmtzIGZvciB0aGUgQ0MhKQ0KDQpGV0lX
-LCBJIGdvdCBubyByZXNwb25zZSBmcm9tIHVwc3RyZWFtIG9yIHRoZSBEZWJpYW4gdGFyIG1haW50
-YWluZXJzWzBdLg0KDQpCdXQgbmljZSB0byBzZWUgdGhhdCBvdGhlciBkaXN0cm9zIGFyZSBpbnRl
-cmVzdGVkIGFzIHdlbGwgOikgbWF5YmUgd2UNCmNvdWxkIHRyeSB0byBwaW5nIHRoZSB1cHN0cmVh
-bSByZXBvcnQgb3Igc2VuZGluZyB0aGUgcGF0Y2ggdG8gc29tZQ0KcmVsZXZhbnQgZGV2ZWwgbGlz
-dD8NCg0KVGhlIGJ1ZyB3YXMgbm90IGltcG9ydGFudCBlbm91Z2ggZm9yIHVzIHRvIGp1c3RpZnkg
-Y2Fycnlpbmcgb3VyIG93biwNCmN1c3RvbSB0YXIgcGFja2FnZXMsIHNvIHdlJ2QgaWRlYWxseSBz
-dGlsbCB3YW50IHRvIHNlZSB0aGlzIHVwc3RyZWFtZWQuDQoNCjA6IGh0dHBzOi8vZXVyMDQuc2Fm
-ZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwcyUzQSUyRiUyRmJ1Z3MuZGVi
-aWFuLm9yZyUyRmNnaS1iaW4lMkZidWdyZXBvcnQuY2dpJTNGYnVnJTNEMTAwNDQzMCZkYXRhPTA1
-JTdDMDElN0NwLmxvYmFjeiU0MHdlbG90ZWMuY29tJTdDZDU4NDY5NDdkODA3NDg4ZTY1MDEwOGRi
-M2E2MGIxMWUlN0MyNTExMWE3ZjFkNWE0YzUxYTRjYTdmOGU0NDAxMWIzOSU3QzAlN0MwJTdDNjM4
-MTY3OTU5MTk1NTI0NzM1JTdDVW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5SldJam9pTUM0d0xqQXdN
-REFpTENKUUlqb2lWMmx1TXpJaUxDSkJUaUk2SWsxaGFXd2lMQ0pYVkNJNk1uMCUzRCU3QzMwMDAl
-N0MlN0MlN0Mmc2RhdGE9eFl2Y0JEeng0MFRmb2VYNmRFMkhRdWozdHBQMXUyU3lYMTlXTnFSV2Q1
-USUzRCZyZXNlcnZlZD0wPGh0dHBzOi8vYnVncy5kZWJpYW4ub3JnL2NnaS1iaW4vYnVncmVwb3J0
-LmNnaT9idWc9MTAwNDQzMD4NCg0K
+Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
+CC: Frederic Martinsons <frederic.martinsons@gmail.com>
+CC: Marta Rybczynska <rybczynska@gmail.com>
+CC: Paul Eggleton <paul.eggleton@linux.microsoft.com>
+CC: Alex Kiernan <alex.kiernan@gmail.com>
+CC: Alexis Lothoré <alexis.lothore@bootlin.com
 
---_000_VI1PR04MB53734C8E9AB6EE51B4809B17919A9VI1PR04MB5373eurp_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+---
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyIgc3R5bGU9
-ImRpc3BsYXk6bm9uZTsiPiBQIHttYXJnaW4tdG9wOjA7bWFyZ2luLWJvdHRvbTowO30gPC9zdHls
-ZT4NCjwvaGVhZD4NCjxib2R5IGRpcj0ibHRyIj4NCjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OiBD
-YWxpYnJpLCBBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNv
-bG9yOiByZ2IoMCwgMCwgMCk7IGJhY2tncm91bmQtY29sb3I6IHJnYigyNTUsIDI1NSwgMjU1KTsi
-IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiI+DQpIaSBGYWJpZW4sPC9kaXY+DQo8ZGl2IHN0eWxlPSJm
-b250LWZhbWlseTogQ2FsaWJyaSwgQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1z
-aXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1
-LCAyNTUsIDI1NSk7IiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiPg0KVGhhdCB3YXMgbXkgaW50ZW50
-aW9uIHRvIGxlYXZlIHlvdSBhcyBhbiBhdXRob3IgYXMgeW91IGhhdmUgZm91bmQgYW5kIGZpeGVk
-IHRoaXMgaXNzdWUNCjxzcGFuIGlkPSLwn5mCIj7wn5mCPC9zcGFuPjxicj4NCjwvZGl2Pg0KPGRp
-diBzdHlsZT0iZm9udC1mYW1pbHk6IENhbGlicmksIEFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2Vy
-aWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsgYmFja2dyb3VuZC1jb2xv
-cjogcmdiKDI1NSwgMjU1LCAyNTUpOyIgY2xhc3M9ImVsZW1lbnRUb1Byb29mIj4NCjxicj4NCjwv
-ZGl2Pg0KPGRpdiBzdHlsZT0iZm9udC1mYW1pbHk6IENhbGlicmksIEFyaWFsLCBIZWx2ZXRpY2Es
-IHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsgYmFja2dy
-b3VuZC1jb2xvcjogcmdiKDI1NSwgMjU1LCAyNTUpOyIgY2xhc3M9ImVsZW1lbnRUb1Byb29mIj4N
-CkJ0dy4gdGhpcyBwYXRjaCBzYXZlZCBteSB0aW1lIGZvciBhcHBseWluZyBzdHVwaWQgc29sdXRp
-b25zLi4uPC9kaXY+DQo8ZGl2IHN0eWxlPSJmb250LWZhbWlseTogQ2FsaWJyaSwgQXJpYWwsIEhl
-bHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDAp
-OyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7IiBjbGFzcz0iZWxlbWVudFRv
-UHJvb2YgQ29udGVudFBhc3RlZDAiPg0KQWRkaXRpb25hbHkgSSBoYXZlIGFsc28gY3JlYXRlZCBh
-IGJ1ZyByZXBvcnQgb24gdGhhdCBpbiB1YnVudHUgPGEgaHJlZj0iaHR0cHM6Ly9idWdzLmxhdW5j
-aHBhZC5uZXQvdWJ1bnR1Lytzb3VyY2UvdGFyLytidWcvMjAxNTUzOSIgaWQ9IkxQbG5rOTE0Njg2
-Ij4NCmh0dHBzOi8vYnVncy5sYXVuY2hwYWQubmV0L3VidW50dS8rc291cmNlL3Rhci8rYnVnLzIw
-MTU1Mzk8L2E+PGJyPg0KPC9kaXY+DQo8ZGl2IHN0eWxlPSJmb250LWZhbWlseTogQ2FsaWJyaSwg
-QXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdi
-KDAsIDAsIDApOyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7IiBjbGFzcz0i
-ZWxlbWVudFRvUHJvb2YgQ29udGVudFBhc3RlZDAiPg0KPGJyPg0KPC9kaXY+DQo8ZGl2IHN0eWxl
-PSJmb250LWZhbWlseTogQ2FsaWJyaSwgQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9u
-dC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2Io
-MjU1LCAyNTUsIDI1NSk7IiBjbGFzcz0iZWxlbWVudFRvUHJvb2YgQ29udGVudFBhc3RlZDAiPg0K
-QlI8L2Rpdj4NCjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OiBDYWxpYnJpLCBBcmlhbCwgSGVsdmV0
-aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7IGJh
-Y2tncm91bmQtY29sb3I6IHJnYigyNTUsIDI1NSwgMjU1KTsiIGNsYXNzPSJlbGVtZW50VG9Qcm9v
-ZiBDb250ZW50UGFzdGVkMCI+DQpQaW90cjxicj4NCjwvZGl2Pg0KPGRpdiBpZD0iYXBwZW5kb25z
-ZW5kIj48L2Rpdj4NCjxociBzdHlsZT0iZGlzcGxheTppbmxpbmUtYmxvY2s7d2lkdGg6OTglIiB0
-YWJpbmRleD0iLTEiPg0KPGRpdiBpZD0iZGl2UnBseUZ3ZE1zZyIgZGlyPSJsdHIiPjxmb250IGZh
-Y2U9IkNhbGlicmksIHNhbnMtc2VyaWYiIHN0eWxlPSJmb250LXNpemU6MTFwdCIgY29sb3I9IiMw
-MDAwMDAiPjxiPk9kOjwvYj4gRmFiaWFuIEdyw7xuYmljaGxlciAmbHQ7Zi5ncnVlbmJpY2hsZXJA
-cHJveG1veC5jb20mZ3Q7PGJyPg0KPGI+V3lzxYJhbmU6PC9iPiB3dG9yZWssIDExIGt3aWV0bmlh
-IDIwMjMgMDk6NDQ8YnI+DQo8Yj5Ebzo8L2I+IEFsZXhhbmRyZSBCZWxsb25pICZsdDthbGV4YW5k
-cmUuYmVsbG9uaUBib290bGluLmNvbSZndDs7IFBpb3RyIMWBb2JhY3ogJmx0O3AubG9iYWN6QHdl
-bG90ZWMuY29tJmd0Ozxicj4NCjxiPkRXOjwvYj4gb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZyAmbHQ7b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
-ZyZndDs8YnI+DQo8Yj5UZW1hdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BBVENIXSB0YXI6IGV4dGVu
-ZCBudW1lcmljLW93bmVyIHRvIEFDTCBlbnRyaWVzPC9mb250Pg0KPGRpdj4mbmJzcDs8L2Rpdj4N
-CjwvZGl2Pg0KPGRpdiBjbGFzcz0iQm9keUZyYWdtZW50Ij48Zm9udCBzaXplPSIyIj48c3BhbiBz
-dHlsZT0iZm9udC1zaXplOjExcHQ7Ij4NCjxkaXYgY2xhc3M9IlBsYWluVGV4dCI+T24gQXByaWwg
-OSwgMjAyMyAxOjUzIGFtLCBBbGV4YW5kcmUgQmVsbG9uaSB3cm90ZTo8YnI+DQomZ3Q7IEhlbGxv
-LDxicj4NCiZndDsgPGJyPg0KJmd0OyBPbiAwNy8wNC8yMDIzIDE0OjU4OjQ2KzAyMDAsIFBpb3Ry
-IMWBb2JhY3ogd3JvdGU6PGJyPg0KJmd0OyZndDsgQUNMIGVudHJpZXMgc3RvcmUgcmVmZXJlbmNl
-cyB0byBudW1lcmljIHVpZHMvZ2lkcy4gb24gcGxhdGZvcm1zIHRoYXQ8YnI+DQomZ3Q7Jmd0OyBo
-YXZlIGxpYmFjbCwgdXNlIGBhY2xfdG9fYW55X3RleHRgIHRvIGdlbmVyYXRlIEFDTCBzdHJpbmdz
-IHRoYXQgcHJlc2VydmU8YnI+DQomZ3Q7Jmd0OyB0aG9zZSBudW1lcmljIGlkZW50aWZpZXJzIGlm
-IGBudW1lcmljLW93bmVyYCBpcyBzZXQgKGluc3RlYWQgb2YgZG9pbmcgYTxicj4NCiZndDsmZ3Q7
-IGNvbnZlcnNpb24gdG8gdXNlci9ncm91cCBuYW1lLCBsaWtlIHRoZSBhY2xfdG9fdGV4dCBmdW5j
-dGlvbiBkb2VzKS48YnI+DQomZ3Q7Jmd0OyA8YnI+DQomZ3Q7Jmd0OyBbLi5dPGJyPg0KJmd0OyZn
-dDs8YnI+DQomZ3Q7Jmd0OyArPGJyPg0KJmd0OyZndDsgK2FjdHVhbCBvdXRwdXQgKGdldGZhY2wp
-IC0gbm90ZSB0aGUgbWlzc2luZyB1c2VyIGVudHJ5Ojxicj4NCiZndDsmZ3Q7ICsgIyBmaWxlOiBm
-aWxlPGJyPg0KJmd0OyZndDsgKyAjIG93bmVyOiAwPGJyPg0KJmd0OyZndDsgKyAjIGdyb3VwOiAw
-PGJyPg0KJmd0OyZndDsgKyB1c2VyOjpydy08YnI+DQomZ3Q7Jmd0OyArIGdyb3VwOjpyLS08YnI+
-DQomZ3Q7Jmd0OyArIG90aGVyOjpyLS08YnI+DQomZ3Q7Jmd0OyArPGJyPg0KJmd0OyA8YnI+DQom
-Z3Q7IFRoaXMgcGF0Y2ggaXMgbWlzc2luZyB0aGUgVXBzdHJlYW0tU3RhdHVzIHRhZyBoZXJlPGJy
-Pg0KJmd0OyA8YnI+DQomZ3Q7Jmd0OyArU2lnbmVkLW9mZi1ieTogRmFiaWFuIEdyw7xuYmljaGxl
-ciAmbHQ7Zi5ncnVlbmJpY2hsZXJAcHJveG1veC5jb20mZ3Q7PGJyPg0KPGJyPg0KKE9yaWdpbmFs
-IHBhdGNoIGF1dGhvciwgdGhhbmtzIGZvciB0aGUgQ0MhKTxicj4NCjxicj4NCkZXSVcsIEkgZ290
-IG5vIHJlc3BvbnNlIGZyb20gdXBzdHJlYW0gb3IgdGhlIERlYmlhbiB0YXIgbWFpbnRhaW5lcnNb
-MF0uPGJyPg0KPGJyPg0KQnV0IG5pY2UgdG8gc2VlIHRoYXQgb3RoZXIgZGlzdHJvcyBhcmUgaW50
-ZXJlc3RlZCBhcyB3ZWxsIDopIG1heWJlIHdlPGJyPg0KY291bGQgdHJ5IHRvIHBpbmcgdGhlIHVw
-c3RyZWFtIHJlcG9ydCBvciBzZW5kaW5nIHRoZSBwYXRjaCB0byBzb21lPGJyPg0KcmVsZXZhbnQg
-ZGV2ZWwgbGlzdD88YnI+DQo8YnI+DQpUaGUgYnVnIHdhcyBub3QgaW1wb3J0YW50IGVub3VnaCBm
-b3IgdXMgdG8ganVzdGlmeSBjYXJyeWluZyBvdXIgb3duLDxicj4NCmN1c3RvbSB0YXIgcGFja2Fn
-ZXMsIHNvIHdlJ2QgaWRlYWxseSBzdGlsbCB3YW50IHRvIHNlZSB0aGlzIHVwc3RyZWFtZWQuPGJy
-Pg0KPGJyPg0KMDogPGEgaHJlZj0iaHR0cHM6Ly9idWdzLmRlYmlhbi5vcmcvY2dpLWJpbi9idWdy
-ZXBvcnQuY2dpP2J1Zz0xMDA0NDMwIj5odHRwczovL2V1cjA0LnNhZmVsaW5rcy5wcm90ZWN0aW9u
-Lm91dGxvb2suY29tLz91cmw9aHR0cHMlM0ElMkYlMkZidWdzLmRlYmlhbi5vcmclMkZjZ2ktYmlu
-JTJGYnVncmVwb3J0LmNnaSUzRmJ1ZyUzRDEwMDQ0MzAmYW1wO2RhdGE9MDUlN0MwMSU3Q3AubG9i
-YWN6JTQwd2Vsb3RlYy5jb20lN0NkNTg0Njk0N2Q4MDc0ODhlNjUwMTA4ZGIzYTYwYjExZSU3QzI1
-MTExYTdmMWQ1YTRjNTFhNGNhN2Y4ZTQ0MDExYjM5JTdDMCU3QzAlN0M2MzgxNjc5NTkxOTU1MjQ3
-MzUlN0NVbmtub3duJTdDVFdGcGJHWnNiM2Q4ZXlKV0lqb2lNQzR3TGpBd01EQWlMQ0pRSWpvaVYy
-bHVNeklpTENKQlRpSTZJazFoYVd3aUxDSlhWQ0k2TW4wJTNEJTdDMzAwMCU3QyU3QyU3QyZhbXA7
-c2RhdGE9eFl2Y0JEeng0MFRmb2VYNmRFMkhRdWozdHBQMXUyU3lYMTlXTnFSV2Q1USUzRCZhbXA7
-cmVzZXJ2ZWQ9MDwvYT48YnI+DQo8YnI+DQo8L2Rpdj4NCjwvc3Bhbj48L2ZvbnQ+PC9kaXY+DQo8
-L2JvZHk+DQo8L2h0bWw+DQo=
+Changes in V4:
+- Fix details about regression detection, thanks to
+  feedback from Alexis Lothoré
 
---_000_VI1PR04MB53734C8E9AB6EE51B4809B17919A9VI1PR04MB5373eurp_--
+Changes in V3:
+- Add details about ptest images as suggested by Richard Purdie
+- Add details about resulttools improvements, pointing to
+  Alexis' blog post about regression detection.
+
+Changes in V2:
+- Add details about filling checksums using the 'cargo-update-recipe-crates'
+  class, as suggested by Frederic Martinsons.
+---
+ .../migration-guides/migration-4.2.rst        | 84 ++++++++++++++++++-
+ .../migration-guides/release-notes-4.2.rst    | 83 ++++++++++++++++--
+ 2 files changed, 158 insertions(+), 9 deletions(-)
+
+diff --git a/documentation/migration-guides/migration-4.2.rst b/documentation/migration-guides/migration-4.2.rst
+index 1339411b3e..3b60b9a807 100644
+--- a/documentation/migration-guides/migration-4.2.rst
++++ b/documentation/migration-guides/migration-4.2.rst
+@@ -18,11 +18,78 @@ BitBake and OpenEmbedded-Core are now relying on Python 3.8,
+ making it a requirement to use a distribution providing at least this
+ version, or to use :term:`buildtools`.
+ 
++.. _migration-4.2-gcc-8.0:
++
++gcc 8.0 is now the minumum required GNU C compiler version
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++This version, released in 2018, is a minimum requirement
++to build the ``mesa-native`` recipe.
++
++.. _migration-4.2-new-nvd-api:
++
++Fetching the NVD vulnerability database through the 2.0 API
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++This new version adds a new fetcher for the NVD database using the 2.0 API,
++as the 1.0 API will be retired in 2023.
++
++The implementation changes as little as possible, keeping the current
++database format (but using a different database file for the transition
++period), with a notable exception of not using the META table.
++
++Here are minor changes that you may notice:
++
++-  The database starts in 1999 instead of 2002
++-  The complete fetch is longer (30 minutes typically)
++
++.. _migration-4.2-rust-crate-checksums:
++
++Rust: mandatory checksums for crates
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++This release now supports checksums for Rust crates and make
++them mandatory for each crate in a recipe. See :yocto_git:`python3_bcrypt recipe changes
++</poky/commit/?h=mickledore&id=0dcb5ab3462fdaaf1646b05a00c7150eea711a9a>`
++for example.
++
++The ``cargo-update-recipe-crates`` utility
++:yocto_git:`has been extended </poky/commit/?h=mickledore&id=eef7fbea2c5bf59369390be4d5efa915591b7b22>`
++to include such checksums. So, in case you need to add the list of checksums
++to a recipe just inheriting the :ref:`ref-classes-cargo` class so far, you can
++follow these steps:
++
++#.  Make the recipe inherit :ref:`ref-classes-cargo-update-recipe-crates`
++#.  Remove all ``crate://`` lines from the recipe
++#.  Create an empty ``${BPN}-crates.inc`` file and make your recipe require it
++#.  Execute ``bitbake -c update_crates your_recipe``
++#.  Copy and paste the output of BitBake about the missing checksums into the
++    ``${BPN}-crates.inc`` file.
++
+ .. _migration-4.2-qa-checks:
+ 
+ QA check changes
+ ~~~~~~~~~~~~~~~~
+ 
++.. _migration-4.2-supported-distributions:
++
++Supported distributions
++~~~~~~~~~~~~~~~~~~~~~~~
++
++This release supports running BitBake on new GNU/Linux distributions:
++
++-  Fedora 36 and 37
++-  AlmaLinux 8.7 and 9.1
++-  OpenSuse 15.4
++
++On the other hand, some earlier distributions are no longer supported:
++
++-  Debian 10.x
++-  Fedora 34 and 35
++-  AlmaLinux 8.5
++
++See :ref:`all supported distributions <system-requirements-supported-distros>`.
++
+ .. _migration-4.2-misc-changes:
+ 
+ Miscellaneous changes
+@@ -30,6 +97,7 @@ Miscellaneous changes
+ 
+ -  The ``OEBasic`` signature handler (see :term:`BB_SIGNATURE_HANDLER`) has been
+    removed.
++  
+ 
+ .. _migration-4.2-removed-variables:
+ 
+@@ -38,7 +106,7 @@ Removed variables
+ 
+ The following variables have been removed:
+ 
+--  ``SERIAL_CONSOLE``, deprecated since version 2.6, replaced by :term:``SERIAL_CONSOLES``.
++-  ``SERIAL_CONSOLE``, deprecated since version 2.6, replaced by :term:`SERIAL_CONSOLES`.
+ 
+ .. _migration-4.2-removed-recipes:
+ 
+@@ -47,3 +115,17 @@ Removed recipes
+ 
+ The following recipes have been removed in this release:
+ 
++-  ``python3-picobuild``: after switching to ``python3-build``
++-  ``python3-strict-rfc3339``: unmaintained and not needed by anything in
++   :oe_git:`openembedded-core </openembedded-core>`
++   or :oe_git:`meta-openembedded </meta-openembedded>`.
++
++.. _migration-4.2-removed-classes:
++
++Removed classes
++~~~~~~~~~~~~~~~
++
++The following classes have been removed in this release:
++
++-  ``rust-bin``: no longer used in Poky
++
+diff --git a/documentation/migration-guides/release-notes-4.2.rst b/documentation/migration-guides/release-notes-4.2.rst
+index edafe378b0..b6e278ee5d 100644
+--- a/documentation/migration-guides/release-notes-4.2.rst
++++ b/documentation/migration-guides/release-notes-4.2.rst
+@@ -6,23 +6,90 @@ Release notes for 4.2 (mickledore)
+ New Features / Enhancements in 4.2
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-- Python 3.8 is the minimum Python version required on the build host.
+-  For host distributions that do not provide it, this is included as part of the
+-  :term:`buildtools` tarball.
++-  Python 3.8 is the minimum Python version required on the build host.
++   For host distributions that do not provide it, this is included as part of the
++   :term:`buildtools` tarball.
+ 
+-- This release now supports a new ``addpylib`` directive to enable
+-  Python libraries within layers.
++-  BitBake in this release now supports a new ``addpylib`` directive to enable
++   Python libraries within layers.
+ 
+-  This directive should be added to your layer configuration,
+-  as in the below example from ``meta/conf/layer.conf``::
++   This directive should be added to your layer configuration
++   as in the below example from ``meta/conf/layer.conf``::
+ 
+-     addpylib ${LAYERDIR}/lib oe
++      addpylib ${LAYERDIR}/lib oe
++
++-  BitBake has seen multiple internal changes that may impact
++   memory and disk usage as well as parsing time, in particular:
++
++   -  BitBake's Cooker server is now multithreaded.
++
++   -  BitBake's cache has been extended to include more hash
++      debugging data, but has also been optimized to :yocto_git:`compress
++      cache data <https://git.yoctoproject.org/poky/commit/?h=mickledore&id=7d010055e2af3294e17db862f42664ca689a9356>`.
++
++   -  BitBake's Cooker server :yocto_git:`can now be pinged
++      https://git.yoctoproject.org/poky/commit/?h=mickledore&id=26f255da09>`
++      from the UI.
+ 
+ -  Architecture-specific enhancements:
+ 
++   -  This release adds initial support for the
++      :wikipedia:`LoongArch <Loongson#LoongArch>`
++      (``loongarch64``) architecture, though there is no testing for it yet.
++
+ -  Kernel-related enhancements:
+ 
+ -  QEMU/runqemu enhancements:
+ 
+ -  Image-related enhancements:
+ 
++-  New variables:
++
++   - :term:`VOLATILE_TMP_DIR` allows to specify
++     whether ``/tmp`` should be on persistent storage
++     or in RAM.
++
++-  Rust improvements:
++
++   -  This release adds Cargo support on the target, and includes
++      automated QA tests for this functionality.
++
++   -  It also supports checksums for Rust crates and makes
++      them mandatory for each crate in a recipe.
++
++-  Testing:
++
++   -  The ptest images have changed structure in this release. The
++      underlying ``core-image-ptest`` recipe now uses :term:`BBCLASSEXTEND` to
++      create a variant for each ptest enabled recipe in OE-Core. 
++
++      For example, this means that ``core-image-ptest-bzip2``,
++      ``core-image-ptest-lttng-tools`` and many more image targets now exist
++      and can be built/tested individually. 
++
++      The ``core-image-ptest-all`` and ``core-image-ptest-fast`` targets are now
++      wrappers that target groups of individual images and means that the tests
++      can be executed in parallel during our automated testing. This also means
++      the dependencies are more accurately tested.
++
++   -  It is now possible to track regression changes between releases using
++      :oe_git:`yocto_testresults_query.py </openembedded-core/tree/scripts/yocto_testresults_query.py>`,
++      which is a thin wrapper over :oe_git:`resulttool
++      </openembedded-core/tree/scripts/resulttool>`. Here is an example
++      command, which allowed to spot and fix a regression in the
++      ``quilt`` ptest::
++
++         yocto_testresults_query.py regression-report 4.2_M1 4.2_M2
++
++      See this `blog post about regression detection
++      <https://bootlin.com/blog/continuous-integration-in-yocto-improving-the-regressions-detection/>`__.
++
++   -  This release adds support for parallel ptest execution with a ptest per image.
++      This takes ptest execution time from 3.5 hours to around 45 minutes on the autobuilder.
++
++-  Miscellaneous changes:
++
++   -  Supporting 64 bit dates on 32 bit platforms: several packages have been
++      updated to pass Y2038 tests.
++
++   -  Many packages were updated to add large file support.
+-- 
+2.34.1
+
 
