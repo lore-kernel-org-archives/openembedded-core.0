@@ -1,78 +1,98 @@
-Return-Path: <luca.ceresoli@bootlin.com>
+Return-Path: <badganchipv@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F2E7C76196
-	for <webhook@archiver.kernel.org>; Tue, 11 Apr 2023 14:18:12 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
- by mx.groups.io with SMTP id smtpd.web11.15122.1681222686629862283
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54783C76196
+	for <webhook@archiver.kernel.org>; Tue, 11 Apr 2023 14:29:02 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web11.15425.1681223338684669390
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Apr 2023 07:18:07 -0700
+ Tue, 11 Apr 2023 07:28:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=YgicZ8mY;
- spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: luca.ceresoli@bootlin.com)
-Received: from booty (unknown [77.244.183.192])
-	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 6D82640007;
-	Tue, 11 Apr 2023 14:18:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1681222684;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7jiSWsivTV1fo49TwEM/k0IWYpoRG+JLvE1eFrYl7t8=;
-	b=YgicZ8mYOU+9LZPccFRbkLjFsJZPm25XQzZBQtGMqXb5cckbHsQSxcdjLPLx2wlKenYmzj
-	QMzIt4bn4ImAZ7O4WYxmmBNxjLE30WoDey/L0iDOE2p6/Wz9vJQf6b5XNHcw4U78JELO0W
-	jpnSAxMJrbdkLDBOrTv1hE92BDbnjiVTacGy1re/GK5fT/gxtmYqKtbwZsiBjljMDtNZBE
-	/Uy0jjSetHvskOjGZ+5PA2Gwr4UexTMUIu3F1vPfdnxszBNl6+KgxmQ7ZENQazFolXVI1a
-	FLcD9fOJi9eCFWXgHnFfwOVqDoLyM6e9qeOV6u5GFKwBwnjU1Og6mvd/eSxDAA==
-Date: Tue, 11 Apr 2023 16:18:02 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "wangmy" <wangmy@fujitsu.com>
-Cc: <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH V2] squashfs-tools: upgrade 4.5.1 -> 4.6.0
-Message-ID: <20230411161802.2ede442b@booty>
-In-Reply-To: <1681174888-30847-2-git-send-email-wangmy@fujitsu.com>
-References: <1681174888-30847-1-git-send-email-wangmy@fujitsu.com>
-	<1681174888-30847-2-git-send-email-wangmy@fujitsu.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=gs1Ivksu;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: badganchipv@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id ik20so7882743plb.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 07:28:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1681223338;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xcm2h0IilGJhIIm+PxnI6kCrt63vE+0eQhA9Dwx9hJM=;
+        b=gs1IvksuW+uZdeU4YEj2v0cd8ad+GdK+d00eBLo0NMM/p/wszxdUptnQ9Xz2CytZTX
+         b9ySvqBkWSsLKSV3uGmSs6odxhJe3s0IdqQW/Iwx1FWcnad9tQtbMCivroDunYFDK82J
+         HsD5ZjO+zTnoEacQwNkNTbJ9pwrg9mZN2BHhXJ+QGvEGp9h8vaT3Tguq/XYJv/0Dts5o
+         sfhXXc6nLFYx52BSgpZGH5dM0R80wQu88d4IMNYhpYROKpPQNoyJGJQLnZyPZFfpTUJk
+         0Ovia9GduLGtxTnhVXpb63aXbu9Jo4dNRoloW3t3d7rvIA6uSG8UDOK1b7KGnfKIVZTe
+         ds6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681223338;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Xcm2h0IilGJhIIm+PxnI6kCrt63vE+0eQhA9Dwx9hJM=;
+        b=iS3Yi1x7G4VuVNAHgpM08XX7Jvt0S33qvfkOa4ksfC+m4bjWN1iYZGqexdIoRcbIkX
+         ZW1lpX8YmSPr+UTV1A28t3kKTv3bUaO7pMBGWPvLweAZcqW8uqCDc0hKW/SaiiBCqNfw
+         gawEwrW5AyeyO3+XgnWAU344IieMYfIK+XqAWSy3sn5xvxp9/+M/ZRm+t9wkGp515Flv
+         q3otiuHdr6m0YWVAPpMnQy72ebLo6cP/x37semf4rQzIaRnzQhrD1HClfgS6XUakOEwb
+         rQJA7FBVFqJ8CBTbv3K4e9RMo/AG2VFDD/I79cIdZ12EBtxKCrAKYtdz/ONDdx6McmQR
+         9yGg==
+X-Gm-Message-State: AAQBX9fZzamoEVWNWwcN/PuQPOvzfChRw+oUR60gxFyxCmmMWcF45VXe
+	9VrPPivonpWaFotk54+tQXpunqECHlI=
+X-Google-Smtp-Source: AKy350ZcHqbrHiPdPPl08DAYgiqolUVMyRaENWK/ysGDBDp0aDRgqevwirz6OHYdhX6D0zvFVLq+uQ==
+X-Received: by 2002:a17:903:11c8:b0:19c:fc41:2dfd with SMTP id q8-20020a17090311c800b0019cfc412dfdmr14076689plh.29.1681223337789;
+        Tue, 11 Apr 2023 07:28:57 -0700 (PDT)
+Received: from L-10146.. ([2401:4900:1c2d:6062:b98a:f845:9088:4739])
+        by smtp.gmail.com with ESMTPSA id o11-20020a170902bccb00b001898ee9f723sm9816393pls.2.2023.04.11.07.28.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Apr 2023 07:28:57 -0700 (PDT)
+From: pawan <badganchipv@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	badganchipv@gmail.com
+Cc: ranjitsinh.rathod@kpit.com,
+	Pawan Badganchi <Pawan.Badganchi@kpit.com>
+Subject: [OE-core][kirkstone][PATCH] tiff: Add fix for CVE-2022-4645
+Date: Tue, 11 Apr 2023 19:58:36 +0530
+Message-Id: <20230411142836.70388-1-badganchipv@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 14:18:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179922
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 14:29:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179923
 
-Hello Wang,
+From: Pawan Badganchi <Pawan.Badganchi@kpit.com>
 
-On Tue, 11 Apr 2023 09:01:28 +0800
-"wangmy" <wangmy@fujitsu.com> wrote:
+Below patch fixes the CVE-2022-4645 as well.
 
-> From: Wang Mingyu <wangmy@fujitsu.com>
-> 
-> Changelog:
-> https://github.com/plougher/squashfs-tools/blob/master/CHANGES
-> 
-> 0001-install-manpages.sh-do-not-write-original-timestamps.patch
-> removed since it's included in 4.6.0
-> 
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch
 
-Reproducible testing fails with this patch, even though I'm not sure
-exactly why in detail:
+Link: https://nvd.nist.gov/vuln/detail/CVE-2022-4645
 
-Log:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/2692/steps/12/logs/stdio
+Signed-off-by: Pawan Badganchi <Pawan.Badganchi@kpit.com>
+---
+ ...evised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Diffoscope output:
-http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20230411-n16xgjqy/packages/diff-html/
-
+diff --git a/meta/recipes-multimedia/libtiff/tiff/0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch b/meta/recipes-multimedia/libtiff/tiff/0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch
+index 37859c9192..17b37be041 100644
+--- a/meta/recipes-multimedia/libtiff/tiff/0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch
++++ b/meta/recipes-multimedia/libtiff/tiff/0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch
+@@ -23,9 +23,10 @@ This MR will close the following issues:  #149, #150, #152, #168 (to be checked)
+ 
+ It also fixes the old bug at http://bugzilla.maptools.org/show_bug.cgi?id=2599, for which the limitation of `NumberOfInks = SPP` was introduced, which is in my opinion not necessary and does not solve the general issue.
+ 
+-CVE: CVE-2022-3599
+-Upstream-Status: Backport
++CVE: CVE-2022-3599 CVE-2022-4645
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/e813112545942107551433d61afd16ac094ff246.patch]
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
++Signed-off-by: Pawan Badganchi <Pawan.Badganchi@kpit.com>
+ ---
+  libtiff/tif_dir.c      | 119 ++++++++++++++++++++++++-----------------
+  libtiff/tif_dir.h      |   2 +
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.38.1
+
 
