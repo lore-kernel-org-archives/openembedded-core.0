@@ -2,68 +2,71 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD062C76196
-	for <webhook@archiver.kernel.org>; Tue, 11 Apr 2023 01:01:48 +0000 (UTC)
-Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com [85.158.142.1])
- by mx.groups.io with SMTP id smtpd.web11.3165.1681174906319806416
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86813C77B70
+	for <webhook@archiver.kernel.org>; Tue, 11 Apr 2023 01:01:58 +0000 (UTC)
+Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com [85.158.142.112])
+ by mx.groups.io with SMTP id smtpd.web11.3166.1681174909037469590
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Apr 2023 18:01:47 -0700
+ Mon, 10 Apr 2023 18:01:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=KbIjs6Hx;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.1, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=N0vR/EDo;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.112, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1681174904; i=@fujitsu.com;
-	bh=71jqZ6zncoYmFODIHYqK3+ttp2z3xWnXIDQuLlSBF1o=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=KbIjs6HxJQmr8noDpmPXVakVyWjVzhV2bvF2qX/3pv3zZJ30ts0XC6QzLHXCN5L7T
-	 yh2IoBWHHAojB39RB/vWb9ECcVyw6K0O9P0vC7y4B1ym2tG/3yCcP4o62SSPnwBgGA
-	 K4WM51PY0DW707DWioGO3Wpq4vuqvccZFqiWT+BAtTGnplpo9XDcVaP6tuwtBuprid
-	 Rg5WYWDNQ2VwmbI3du8mVFDpUNc5ZqPWc2ozERhjrbvihO0HgYhi2M8Qr9gxnGidnF
-	 tSScjerQiRvIXqi4APA46h/kC3Z5V9l14LbW4AGBlvi+nzA3lX+i55q0O/TWR0H00i
-	 r4dhhNLKT+Qmw==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJIsWRWlGSWpSXmKPExsViZ8ORqFu+0ST
-  FYPJsQYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNaPn5Dfmggs8FRN+n2FqYJzB3cXIySEk8JhR
-  YuYewy5GLiD7GpPE5tMTGCGcPYwSUxa9YgKpYhOQkrhx/z9bFyMHh4iAnsTVf6IgYWYBFYkXv
-  3vYQWxhARuJD9cOMIPYLAKqEl8/zwGzeQWcJBZO7mIBsSUEFCSmPHwPFReUODnzCQvEHAmJgy
-  9eMEPUKErMvtwMVV8h0Tj9EBOErSZx9dwm5gmM/LOQtM9C0r6AkWkVo1lxalFZapGuiV5SUWZ
-  6RkluYmaOXmKVbqJeaqluXn5RSYauoV5iebFeanGxXnFlbnJOil5easkmRmAophQnpO1gbO37
-  q3eIUZKDSUmUd5WcSYoQX1J+SmVGYnFGfFFpTmrxIUYZDg4lCd6/i4BygkWp6akVaZk5wLiAS
-  Utw8CiJ8HKuAErzFhck5hZnpkOkTjHqcnw4dGUvsxBLXn5eqpQ4rwXIDAGQoozSPLgRsBi9xC
-  grJczLyMDAIMRTkFqUm1mCKv+KUZyDUUmYN3I90BSezLwSuE2vgI5gAjripAXYESWJCCmpBqb
-  0PgPNW4wif0/ICaybk9udqCbXLm5WE5K3JzS8f87889HXw5I4SmyFDsWsfcj+evaltoX+fzJE
-  PlS7XjoTKLd0Y1ztl9bZFrXtPzfX+HZVlxS7hl36axHt8S3o1BuedWZqIq5JTSY7T4lZVgZsf
-  DIh9IVp++NKbVYHw0NXVRjXu+UKmxt9OmIgs1GrzKPihqPY5LZ4eafM4gY1h1MbZ2c+Pa+YPO
-  l70bL4+Xs7arf61VyqW9bN7zv1vdoDoe/mAWLfhL48MVklXLClv6Pbs2ZznOsbNZ2va49oLWl
-  if8ga0N+Y4PKq6ZLH33l6LvnspcZHjLdta0kVfrZguk2DukdF2A3/qBWaUskZHFeVWIozEg21
-  mIuKEwH0nRLJTAMAAA==
+	s=170520fj; t=1681174907; i=@fujitsu.com;
+	bh=/h9C1+0cKseOw5a5RFh8X4yIT6GTtcIcRc7dg+DOUJ8=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=N0vR/EDo+hSTH+iVDbNRX8GQJYAqX/qX8hPL2GGF7rbzKTAzDKlC6L2KjFtfmCZ6L
+	 ZLBtANF6+bCNvNjNgUkVUFq0d9OGCdqOTXyxQrXgrMJElJh0okRKflXR9ZzdQD/yaD
+	 k2EjVRAVGEMiIZBqU0gOczJb+OHJ4LON/kXPM9kK43HdP2e/Ny533EKphd49Xpqf0D
+	 ZCA1vMZbHgkGGrJpcLZ0NbepWHYF1h1WLugmAFHuejQlfuukMjxPvuxskkEMn8aItP
+	 Cv+OYjWWE4q/MsgBc7Q1PD4TC/uWbVIRXF24ubwyInONyOVZmRuJ1JKEcZFwdtgRfr
+	 Mcsdo431vZI8w==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrMIsWRWlGSWpSXmKPExsViZ8OxWbdqo0m
+  Kwdscizs/37E7MHqc27iCMYAxijUzLym/IoE14/+CNSwFrRIVU/qjGhifiHYxcnIICTxglPi1
+  Jb6LkQvIvsQkseNSPzuEs4dRouvzfHaQKjYBKYkb9/+zdTFycIgI6Elc/QfWzCygIvHidw9Yi
+  bCAi8TGXfdYQGwWAVWJxVc7wcp5BZwkVk00AwlLCChITHn4nhkkzCngLHFoQxLECU4S99ZuAO
+  vkFRCUODnzCQvEdAmJgy9eMEO0KkrMvtzMAmFXSDROP8QEYatJXD23iXkCo+AsJO2zkLQvYGR
+  axWhWnFpUllqka66XVJSZnlGSm5iZo5dYpZuol1qqm5dfVJKha6iXWF6sl1pcrFdcmZuck6KX
+  l1qyiREYsinFqZw7GFf2/dU7xCjJwaQkyrtKziRFiC8pP6UyI7E4I76oNCe1+BCjDAeHkgTv3
+  0VAOcGi1PTUirTMHGD8wKQlOHiURHg5VwCleYsLEnOLM9MhUqcYjTmuXrmyl5lj076uA8xCLH
+  n5ealS4rwWIJMEQEozSvPgBsHi+hKjrJQwLyMDA4MQT0FqUW5mCar8K0ZxDkYlYd7I9UBTeDL
+  zSuD2vQI6hQnolJMWYKeUJCKkpBqYVNY0+0QuKkt5E74l2G37vQcmn1Y19ipM/RMe99rwn7iq
+  hMzJa5tu5O6btytoSvSLUgk2q/kqgiz/bhaZG3W+WP384SVmr16G3N/ts359ML95ecPKoMSUB
+  KHFTE+cD5Uv4tRJ7uyZ2LT73jXvjob3m1/q/slS5P5WuGzV4szPKtNyXoQl3Dyv98Rr2eFYB2
+  eN9Mz4JNn51p4G15IiihdwFn1o+7pi5kTD6Zs3CW3szLx0bdu+BlGVkz+zbos0Si+wy7/VvVf
+  ybwCD7lnDrxneipFdclKJ7+79dtC1yLJi6vJZdczSTOjOwrjKi9tLD6zpfnjGXzr7zIEIAW0p
+  dRexGbscuD2sT2+p9VDcn/RJiaU4I9FQi7moOBEAwAyXKmYDAAA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-5.tower-732.messagelabs.com!1681174902!478840!1
-X-Originating-IP: [62.60.8.97]
+X-Msg-Ref: server-4.tower-732.messagelabs.com!1681174905!441070!1
+X-Originating-IP: [62.60.8.179]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.104.1; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 21464 invoked from network); 11 Apr 2023 01:01:43 -0000
-Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-5.tower-732.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 11 Apr 2023 01:01:43 -0000
-Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id B10391001A5
-	for <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 02:01:42 +0100 (BST)
+Received: (qmail 5880 invoked from network); 11 Apr 2023 01:01:45 -0000
+Received: from unknown (HELO n03ukasimr04.n03.fujitsu.local) (62.60.8.179)
+  by server-4.tower-732.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 11 Apr 2023 01:01:45 -0000
+Received: from n03ukasimr04.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id 6F192153
+	for <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 02:01:45 +0100 (BST)
 Received: from R01UKEXCASM121.r01.fujitsu.local (R01UKEXCASM121 [10.183.43.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id A32C61001A2
-	for <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 02:01:42 +0100 (BST)
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id 628F17B
+	for <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 02:01:45 +0100 (BST)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM121.r01.fujitsu.local (10.183.43.173) with Microsoft SMTP Server
- (TLS) id 15.0.1497.42; Tue, 11 Apr 2023 02:01:41 +0100
+ (TLS) id 15.0.1497.42; Tue, 11 Apr 2023 02:01:43 +0100
 From: <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH V2] mesa: upgrade 23.0.0 -> 23.0.2
-Date: Tue, 11 Apr 2023 09:01:27 +0800
-Message-ID: <1681174888-30847-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH V2] squashfs-tools: upgrade 4.5.1 -> 4.6.0
+Date: Tue, 11 Apr 2023 09:01:28 +0800
+Message-ID: <1681174888-30847-2-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1681174888-30847-1-git-send-email-wangmy@fujitsu.com>
+References: <1681174888-30847-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.167.225.33]
@@ -73,41 +76,80 @@ X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 01:01:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179903
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 01:01:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179904
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
+Changelog:
+https://github.com/plougher/squashfs-tools/blob/master/CHANGES
+
+0001-install-manpages.sh-do-not-write-original-timestamps.patch
+removed since it's included in 4.6.0
+
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../mesa/{mesa-gl_23.0.0.bb => mesa-gl_23.0.2.bb}               | 0
- meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
- meta/recipes-graphics/mesa/{mesa_23.0.0.bb => mesa_23.0.2.bb}   | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_23.0.0.bb => mesa-gl_23.0.2.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_23.0.0.bb => mesa_23.0.2.bb} (100%)
+ ....sh-do-not-write-original-timestamps.patch | 30 -------------------
+ ...s-tools_git.bb => squashfs-tools_4.6.0.bb} |  4 +--
+ 2 files changed, 1 insertion(+), 33 deletions(-)
+ delete mode 100644 meta/recipes-devtools/squashfs-tools/files/0001-install-manpages.sh-do-not-write-original-timestamps.patch
+ rename meta/recipes-devtools/squashfs-tools/{squashfs-tools_git.bb => squashfs-tools_4.6.0.bb} (91%)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_23.0.0.bb b/meta/recipes-graphics/mesa/mesa-gl_23.0.2.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_23.0.0.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_23.0.2.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 8f72f25c17..babd10a855 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -19,7 +19,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
+diff --git a/meta/recipes-devtools/squashfs-tools/files/0001-install-manpages.sh-do-not-write-original-timestamps.patch b/meta/recipes-devtools/squashfs-tools/files/0001-install-manpages.sh-do-not-write-original-timestamps.patch
+deleted file mode 100644
+index ed1d2f5b3b..0000000000
+--- a/meta/recipes-devtools/squashfs-tools/files/0001-install-manpages.sh-do-not-write-original-timestamps.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From b44b00dae195d8587857c7e8054e9be4eaa1f8b3 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex@linutronix.de>
+-Date: Thu, 7 Apr 2022 09:26:09 +0200
+-Subject: [PATCH] install-manpages.sh: do not write original timestamps into
+- .gz metadata
+-
+-This helps binary reproducibility.
+-
+-Upstream-Status: Submitted [https://github.com/plougher/squashfs-tools/pull/177]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- generate-manpages/install-manpages.sh | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/generate-manpages/install-manpages.sh b/generate-manpages/install-manpages.sh
+-index d4c9e91..6a43b89 100755
+---- a/generate-manpages/install-manpages.sh
+-+++ b/generate-manpages/install-manpages.sh
+-@@ -56,7 +56,7 @@ for i in mksquashfs unsquashfs sqfstar sqfscat; do
+- 		exit 1
+- 	fi
+- 
+--	if ! gzip -f9 $2/$i.1; then
+-+	if ! gzip -n -f9 $2/$i.1; then
+- 		echo "$0: Compressing installed manpage failed.  Aborting" >&2
+- 		exit 1
+- 	fi
+--- 
+-2.30.2
+-
+diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.6.0.bb
+similarity index 91%
+rename from meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
+rename to meta/recipes-devtools/squashfs-tools/squashfs-tools_4.6.0.bb
+index 4e009d2625..6a95079da5 100644
+--- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
++++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.6.0.bb
+@@ -7,10 +7,8 @@ SECTION = "base"
+ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+-PV = "4.5.1"
+-SRCREV = "afdd63fc386919b4aa40d573b0a6069414d14317"
++SRCREV = "8c7c87ea85546dd51651ce0ce898a4a2a54311d0"
+ SRC_URI = "git://github.com/plougher/squashfs-tools.git;protocol=https;branch=master \
+-           file://0001-install-manpages.sh-do-not-write-original-timestamps.patch \
             "
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
  
--SRC_URI[sha256sum] = "01f3cff3763f09e0adabcb8011e4aebc6ad48f6a4dd4bae904fe918707d253e4"
-+SRC_URI[sha256sum] = "1b7d3399fc6f16f030361f925d33ebc7600cbf98094582f54775b6a1180529e7"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
-diff --git a/meta/recipes-graphics/mesa/mesa_23.0.0.bb b/meta/recipes-graphics/mesa/mesa_23.0.2.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_23.0.0.bb
-rename to meta/recipes-graphics/mesa/mesa_23.0.2.bb
 -- 
 2.34.1
 
