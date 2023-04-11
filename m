@@ -1,184 +1,114 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EFA7C77B61
-	for <webhook@archiver.kernel.org>; Mon, 10 Apr 2023 18:12:21 +0000 (UTC)
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
- by mx.groups.io with SMTP id smtpd.web11.51787.1681150331019963977
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD062C76196
+	for <webhook@archiver.kernel.org>; Tue, 11 Apr 2023 01:01:48 +0000 (UTC)
+Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com [85.158.142.1])
+ by mx.groups.io with SMTP id smtpd.web11.3165.1681174906319806416
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Apr 2023 11:12:11 -0700
+ Mon, 10 Apr 2023 18:01:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ReTLw+yb;
- spf=pass (domain: gmail.com, ip: 209.85.160.46, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-18436e0b673so6078897fac.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 11:12:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681150330;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q4hml9Yqqfh54VoVnn+/bIMgNzD/os0SqRCQCJkjeUM=;
-        b=ReTLw+ybY7jjvGdLYaj37Kl41nnfH9OCoGoVAsq1282kaRpRFig2uZZeB7JCCiPJEg
-         ZgjNVaYWU2Pp915vOl8Hj2jPEOQiXkqaz2Pw9caXxiV5DBfuVZiHB4pGSVuacPh+2QiQ
-         khIzH4gIYk/AEE5RvfW1s3yq68y8mMYdtOkPBCBeyA1SUZPrTE0Rrc9MTlONjBvQMdQr
-         O91yHsia7EeZpGWy09H2SxdnsBF6vB91HU2TyFamKfw1Zo7J738gGSUL6b7WQcFl6snQ
-         qJVHIPTbPaLOxL0n2daY1BV7H147vKbXzP+zlL6glwwP28SazzzMUURss6Ed5TXjKXhA
-         lkaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681150330;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=q4hml9Yqqfh54VoVnn+/bIMgNzD/os0SqRCQCJkjeUM=;
-        b=q7Xtxutjk+iPUQ/Urbqf8BfBLivlC+ulrP7hP+xdiWhuhEwii+oxgUDn3VoRKOKUij
-         PxxwF2ecRZey0BCn1CeiJA1ju6gTc1pb9at7/OMsAkDZ0md3SpnnjJxq1/uyUCaghmnK
-         orr2V/BHEemlVmvKoXV4qTBL8cu1o5swf/9DW5oBt5/GhX9wH05bxRucIyhJHz4pZqkz
-         saYXTG4LKFWxnqHCM0fLdGpDnBpcqRFBMA2Z1XBTKIJUa21i4jq+AweANmsNVoUTtXVD
-         iCUJN7oWJs/3Pz+T0VbNfxsMVWhEutMXDulszAmx48McLiCT56pQoTKuW/psvjxAH+8o
-         beBw==
-X-Gm-Message-State: AAQBX9cLddYHSgo1hH3GbZB7BWAwY97Ks/8YT9AtsQlRxVMKO0vXNASc
-	wKzeUk2cTaq4UOU5MY2YGrcAegbTY6yClSO8cgo=
-X-Google-Smtp-Source: AKy350bWQDQBnQUktG65+OOIJ87ACKJ535SfZ9GjT5gWed8rHzh00wLO4eQ6QuhZi4udb27cTGDXTN9sxXoEVVLKazM=
-X-Received: by 2002:a05:6870:12cf:b0:17a:b713:63e9 with SMTP id
- 15-20020a05687012cf00b0017ab71363e9mr3874931oam.4.1681150330138; Mon, 10 Apr
- 2023 11:12:10 -0700 (PDT)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=KbIjs6Hx;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.1, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1681174904; i=@fujitsu.com;
+	bh=71jqZ6zncoYmFODIHYqK3+ttp2z3xWnXIDQuLlSBF1o=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=KbIjs6HxJQmr8noDpmPXVakVyWjVzhV2bvF2qX/3pv3zZJ30ts0XC6QzLHXCN5L7T
+	 yh2IoBWHHAojB39RB/vWb9ECcVyw6K0O9P0vC7y4B1ym2tG/3yCcP4o62SSPnwBgGA
+	 K4WM51PY0DW707DWioGO3Wpq4vuqvccZFqiWT+BAtTGnplpo9XDcVaP6tuwtBuprid
+	 Rg5WYWDNQ2VwmbI3du8mVFDpUNc5ZqPWc2ozERhjrbvihO0HgYhi2M8Qr9gxnGidnF
+	 tSScjerQiRvIXqi4APA46h/kC3Z5V9l14LbW4AGBlvi+nzA3lX+i55q0O/TWR0H00i
+	 r4dhhNLKT+Qmw==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJIsWRWlGSWpSXmKPExsViZ8ORqFu+0ST
+  FYPJsQYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNaPn5Dfmggs8FRN+n2FqYJzB3cXIySEk8JhR
+  YuYewy5GLiD7GpPE5tMTGCGcPYwSUxa9YgKpYhOQkrhx/z9bFyMHh4iAnsTVf6IgYWYBFYkXv
+  3vYQWxhARuJD9cOMIPYLAKqEl8/zwGzeQWcJBZO7mIBsSUEFCSmPHwPFReUODnzCQvEHAmJgy
+  9eMEPUKErMvtwMVV8h0Tj9EBOErSZx9dwm5gmM/LOQtM9C0r6AkWkVo1lxalFZapGuiV5SUWZ
+  6RkluYmaOXmKVbqJeaqluXn5RSYauoV5iebFeanGxXnFlbnJOil5easkmRmAophQnpO1gbO37
+  q3eIUZKDSUmUd5WcSYoQX1J+SmVGYnFGfFFpTmrxIUYZDg4lCd6/i4BygkWp6akVaZk5wLiAS
+  Utw8CiJ8HKuAErzFhck5hZnpkOkTjHqcnw4dGUvsxBLXn5eqpQ4rwXIDAGQoozSPLgRsBi9xC
+  grJczLyMDAIMRTkFqUm1mCKv+KUZyDUUmYN3I90BSezLwSuE2vgI5gAjripAXYESWJCCmpBqb
+  0PgPNW4wif0/ICaybk9udqCbXLm5WE5K3JzS8f87889HXw5I4SmyFDsWsfcj+evaltoX+fzJE
+  PlS7XjoTKLd0Y1ztl9bZFrXtPzfX+HZVlxS7hl36axHt8S3o1BuedWZqIq5JTSY7T4lZVgZsf
+  DIh9IVp++NKbVYHw0NXVRjXu+UKmxt9OmIgs1GrzKPihqPY5LZ4eafM4gY1h1MbZ2c+Pa+YPO
+  l70bL4+Xs7arf61VyqW9bN7zv1vdoDoe/mAWLfhL48MVklXLClv6Pbs2ZznOsbNZ2va49oLWl
+  if8ga0N+Y4PKq6ZLH33l6LvnspcZHjLdta0kVfrZguk2DukdF2A3/qBWaUskZHFeVWIozEg21
+  mIuKEwH0nRLJTAMAAA==
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-5.tower-732.messagelabs.com!1681174902!478840!1
+X-Originating-IP: [62.60.8.97]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.104.1; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 21464 invoked from network); 11 Apr 2023 01:01:43 -0000
+Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
+  by server-5.tower-732.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 11 Apr 2023 01:01:43 -0000
+Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id B10391001A5
+	for <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 02:01:42 +0100 (BST)
+Received: from R01UKEXCASM121.r01.fujitsu.local (R01UKEXCASM121 [10.183.43.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id A32C61001A2
+	for <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 02:01:42 +0100 (BST)
+Received: from localhost.localdomain (10.167.225.33) by
+ R01UKEXCASM121.r01.fujitsu.local (10.183.43.173) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.42; Tue, 11 Apr 2023 02:01:41 +0100
+From: <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH V2] mesa: upgrade 23.0.0 -> 23.0.2
+Date: Tue, 11 Apr 2023 09:01:27 +0800
+Message-ID: <1681174888-30847-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <20230410094122.5865-1-alex.kiernan@gmail.com> <CAMKF1sq_jvEn5VYmAnRj8HKrXtGAWj8cmD+O6eRHiBqdsLf_EQ@mail.gmail.com>
- <2023041017305195b4c7aa@mail.local>
-In-Reply-To: <2023041017305195b4c7aa@mail.local>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 10 Apr 2023 11:11:44 -0700
-Message-ID: <CAMKF1sp-r4THLG2xfSDiVf=gkaO3aH8SvM0s+keNgAR9mow0tQ@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH] rust: Upgrade 1.68.1 -> 1.68.2
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Alex Kiernan <alex.kiernan@gmail.com>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM121.r01.fujitsu.local (10.183.43.173)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Apr 2023 18:12:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179902
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 01:01:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179903
 
-Thanks, I'll also check it out. I think the checksums for the musl
-patch would need updating I think as the versions of these crates
-might have changed.
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-On Mon, Apr 10, 2023 at 10:30=E2=80=AFAM Alexandre Belloni
-<alexandre.belloni@bootlin.com> wrote:
->
-> My current a-full has this patch.
->
-> On 10/04/2023 10:21:16-0700, Khem Raj wrote:
-> > If possible, Can you test this on top of contrib/abelloni/master-next
-> > for musl target ?
-> >
-> > On Mon, Apr 10, 2023 at 2:42=E2=80=AFAM Alex Kiernan <alex.kiernan@gmai=
-l.com> wrote:
-> > >
-> > > Changes:
-> > >
-> > > * Update the GitHub RSA host key bundled within Cargo. The key was
-> > >   rotated by GitHub on 2023-03-24 after the old one leaked.
-> > > * Mark the old GitHub RSA host key as revoked. This will prevent Carg=
-o
-> > >   from accepting the leaked key even when trusted by the system.
-> > > * Add support for @revoked and a better error message for
-> > >   @cert-authority in Cargo=E2=80=99s SSH host key verification
-> > >
-> > > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> > > ---
-> > >
-> > >  meta/recipes-devtools/rust/{cargo_1.68.1.bb =3D> cargo_1.68.2.bb} | =
-0
-> > >  .../rust/{libstd-rs_1.68.1.bb =3D> libstd-rs_1.68.2.bb}           | =
-0
-> > >  ...t-cross-canadian_1.68.1.bb =3D> rust-cross-canadian_1.68.2.bb} | =
-0
-> > >  .../rust/{rust-llvm_1.68.1.bb =3D> rust-llvm_1.68.2.bb}           | =
-0
-> > >  meta/recipes-devtools/rust/rust-source.inc                      | 2 =
-+-
-> > >  meta/recipes-devtools/rust/{rust_1.68.1.bb =3D> rust_1.68.2.bb}   | =
-0
-> > >  6 files changed, 1 insertion(+), 1 deletion(-)
-> > >  rename meta/recipes-devtools/rust/{cargo_1.68.1.bb =3D> cargo_1.68.2=
-.bb} (100%)
-> > >  rename meta/recipes-devtools/rust/{libstd-rs_1.68.1.bb =3D> libstd-r=
-s_1.68.2.bb} (100%)
-> > >  rename meta/recipes-devtools/rust/{rust-cross-canadian_1.68.1.bb =3D=
-> rust-cross-canadian_1.68.2.bb} (100%)
-> > >  rename meta/recipes-devtools/rust/{rust-llvm_1.68.1.bb =3D> rust-llv=
-m_1.68.2.bb} (100%)
-> > >  rename meta/recipes-devtools/rust/{rust_1.68.1.bb =3D> rust_1.68.2.b=
-b} (100%)
-> > >
-> > > diff --git a/meta/recipes-devtools/rust/cargo_1.68.1.bb b/meta/recipe=
-s-devtools/rust/cargo_1.68.2.bb
-> > > similarity index 100%
-> > > rename from meta/recipes-devtools/rust/cargo_1.68.1.bb
-> > > rename to meta/recipes-devtools/rust/cargo_1.68.2.bb
-> > > diff --git a/meta/recipes-devtools/rust/libstd-rs_1.68.1.bb b/meta/re=
-cipes-devtools/rust/libstd-rs_1.68.2.bb
-> > > similarity index 100%
-> > > rename from meta/recipes-devtools/rust/libstd-rs_1.68.1.bb
-> > > rename to meta/recipes-devtools/rust/libstd-rs_1.68.2.bb
-> > > diff --git a/meta/recipes-devtools/rust/rust-cross-canadian_1.68.1.bb=
- b/meta/recipes-devtools/rust/rust-cross-canadian_1.68.2.bb
-> > > similarity index 100%
-> > > rename from meta/recipes-devtools/rust/rust-cross-canadian_1.68.1.bb
-> > > rename to meta/recipes-devtools/rust/rust-cross-canadian_1.68.2.bb
-> > > diff --git a/meta/recipes-devtools/rust/rust-llvm_1.68.1.bb b/meta/re=
-cipes-devtools/rust/rust-llvm_1.68.2.bb
-> > > similarity index 100%
-> > > rename from meta/recipes-devtools/rust/rust-llvm_1.68.1.bb
-> > > rename to meta/recipes-devtools/rust/rust-llvm_1.68.2.bb
-> > > diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipe=
-s-devtools/rust/rust-source.inc
-> > > index c8f5a5a9c4c4..6d3a4b131e26 100644
-> > > --- a/meta/recipes-devtools/rust/rust-source.inc
-> > > +++ b/meta/recipes-devtools/rust/rust-source.inc
-> > > @@ -7,7 +7,7 @@ SRC_URI +=3D "https://static.rust-lang.org/dist/rustc=
--${RUST_VERSION}-src.tar.xz;n
-> > >              file://0001-Do-not-use-LFS64-on-linux-with-musl.patch;pa=
-tchdir=3D${RUSTSRC} \
-> > >              file://zlib-off64_t.patch;patchdir=3D${RUSTSRC} \
-> > >  "
-> > > -SRC_URI[rust.sha256sum] =3D "5b8ea94085b65e75c1fa6310e2f90bd706fa80b=
-fcb3544fe26f4037b911d9fb2"
-> > > +SRC_URI[rust.sha256sum] =3D "ce1a115f6aafa912b4622906a92b626354973af=
-a9288e2c7750df4dcf3390fc0"
-> > >
-> > >  RUSTSRC =3D "${WORKDIR}/rustc-${RUST_VERSION}-src"
-> > >
-> > > diff --git a/meta/recipes-devtools/rust/rust_1.68.1.bb b/meta/recipes=
--devtools/rust/rust_1.68.2.bb
-> > > similarity index 100%
-> > > rename from meta/recipes-devtools/rust/rust_1.68.1.bb
-> > > rename to meta/recipes-devtools/rust/rust_1.68.2.bb
-> > > --
-> > > 2.39.0
-> > >
-> > >
-> > >
-> > >
->
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#179897): https://lists.openembedded.org/g/openembed=
-ded-core/message/179897
-> > Mute This Topic: https://lists.openembedded.org/mt/98172309/3617179
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-alexandre.belloni@bootlin.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
->
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ .../mesa/{mesa-gl_23.0.0.bb => mesa-gl_23.0.2.bb}               | 0
+ meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
+ meta/recipes-graphics/mesa/{mesa_23.0.0.bb => mesa_23.0.2.bb}   | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_23.0.0.bb => mesa-gl_23.0.2.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_23.0.0.bb => mesa_23.0.2.bb} (100%)
+
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_23.0.0.bb b/meta/recipes-graphics/mesa/mesa-gl_23.0.2.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_23.0.0.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_23.0.2.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 8f72f25c17..babd10a855 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -19,7 +19,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "01f3cff3763f09e0adabcb8011e4aebc6ad48f6a4dd4bae904fe918707d253e4"
++SRC_URI[sha256sum] = "1b7d3399fc6f16f030361f925d33ebc7600cbf98094582f54775b6a1180529e7"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_23.0.0.bb b/meta/recipes-graphics/mesa/mesa_23.0.2.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa_23.0.0.bb
+rename to meta/recipes-graphics/mesa/mesa_23.0.2.bb
+-- 
+2.34.1
+
 
