@@ -1,305 +1,299 @@
-Return-Path: <michael.opdenacker@bootlin.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32D4BC76196
-	for <webhook@archiver.kernel.org>; Tue, 11 Apr 2023 10:26:31 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web11.10208.1681208782009849668
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8758CC7619A
+	for <webhook@archiver.kernel.org>; Tue, 11 Apr 2023 11:16:21 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web10.10848.1681211779797997779
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Apr 2023 03:26:22 -0700
+ Tue, 11 Apr 2023 04:16:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=WYcTGLYS;
- spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: michael.opdenacker@bootlin.com)
-Received: (Authenticated sender: michael.opdenacker@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 85D4CFF808;
-	Tue, 11 Apr 2023 10:26:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1681208780;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=L8Xn9PEO28UUAWlqWPFmcLTN2uQj4W6kq+3r/pgtRxA=;
-	b=WYcTGLYSdcZnBycNd2N1K9yR6YlNRi00mKR6ddGCLLl/7k8W9Wxsq+pr473FTOyyoNuRja
-	sIiNEbIahpz0YAsAhEWsk4k1/g7YrSbROTI9Qou/NMHkyjLebepSVneiXClEgY2cbwrX/R
-	Y0lLPPi/OcJ5nN6HrnGcp1BurpRUAEysiaUFGZpOoAYiOW3vIs4Ltn36VtsgkqC2nTF7u6
-	YzTLGfdjk1f8MwxjlrgY6NJ609piJUsnaURI8f0CFbAhMY1956XO4m+lQD5QZsS22tRM3C
-	VLrGO6KLf13i89GxhjX0Ey97VTke0PL3LrkpoCo3B/wPlCE+2dcEGmfmxqQCLQ==
-From: michael.opdenacker@bootlin.com
-To: docs@lists.yoctoproject.org
-Cc: openembedded-core@lists.openembedded.org,
-	alexis.lothore@bootlin.com,
-	Michael Opdenacker <michael.opdenacker@bootlin.com>,
-	Frederic Martinsons <frederic.martinsons@gmail.com>,
-	Marta Rybczynska <rybczynska@gmail.com>,
-	Paul Eggleton <paul.eggleton@linux.microsoft.com>,
-	Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [PATCH v4] migration-guides: update 4.2 migration and release notes
-Date: Tue, 11 Apr 2023 12:25:57 +0200
-Message-Id: <20230411102557.461391-1-michael.opdenacker@bootlin.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <17539E6A97252C13.11304@lists.openembedded.org>
-References: <17539E6A97252C13.11304@lists.openembedded.org>
+ dkim=pass header.i=@mvista.com header.s=google header.b=OWQhpxLY;
+ spf=pass (domain: mvista.com, ip: 209.85.214.176, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f176.google.com with SMTP id ik20so7370341plb.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 04:16:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1681211779;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=H8XVz28jsyfVvFENUP++2Y/d4WsL5zVuDxvlk1/ZDMU=;
+        b=OWQhpxLYBITu7BE5XmsBGdibBulR7d2Wzii3Hw0XE43AR+C0oq8JTcpZhfr0veoPIz
+         R41HW1IdC7CVr6dCNHgaQOMKFWpN7HKhj4D5T1S+uJYrdp2x5uw3t+9YslFH82pN+K5P
+         AHj/7QGTwp81BvocboXZtGE1flDHdFcYyodIE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681211779;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=H8XVz28jsyfVvFENUP++2Y/d4WsL5zVuDxvlk1/ZDMU=;
+        b=qUjvmPC5Yxe42FKvq8025BLQPWCji7ugLKeWi+t1iLsaMVQ9weTy28F7tYlW61USvK
+         hgJeevA4eYxVjCm7dnMfOquaNRhEPmsX2UJYIimi3xBFiqaPlKGr6D5/TUWMoiHoYFIg
+         xeRedO1CCe2Nov773gjHkWei3zFJktgl8Xe91md2TeLJYZmwZ5b+KlGVrJfH39MOy3At
+         bDlXpmLb/maJ1kpmmHlfFSEnHNKS5weeFDVqHVvADrZ2uq7B6OPueIFuaNNUM2Fv7HTz
+         6Kc6+TWKvfD6EGjrI1RFke4Ru7h5yoRKKPOR0RCKcwc8/RRicH25fAMlFUR72CDhHFaK
+         JnKw==
+X-Gm-Message-State: AAQBX9fpGXxMM90RpgGBZexHGcTs5zDuhkHBQo3etosMdF0hRZOIovBs
+	d4zUXakowM6Aph0sWl7bVWYCT2hIz+vQEikjBKs=
+X-Google-Smtp-Source: AKy350b31DxL0IKXSdFfMrMPd43sML2pFGGsP6lVl+RPrMfsmoyD1ceMAePwryPRI9eyQXpbGWAQ2A==
+X-Received: by 2002:a17:902:d2d2:b0:1a1:bcf:db5f with SMTP id n18-20020a170902d2d200b001a10bcfdb5fmr21728759plc.25.1681211778928;
+        Tue, 11 Apr 2023 04:16:18 -0700 (PDT)
+Received: from MVIN00024 ([103.250.136.203])
+        by smtp.gmail.com with ESMTPSA id bb10-20020a170902bc8a00b0019cad2de86bsm6756446plb.156.2023.04.11.04.16.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Apr 2023 04:16:18 -0700 (PDT)
+Received: by MVIN00024 (sSMTP sendmail emulation); Tue, 11 Apr 2023 16:46:12 +0530
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] curl: CVE-2023-27533 TELNET option IAC injection
+Date: Tue, 11 Apr 2023 16:46:11 +0530
+Message-Id: <20230411111611.247636-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 10:26:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179915
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 11:16:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179916
 
-From: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Upstream-Status: Backport from https://github.com/curl/curl/commit/0c28ba2faae2d7da780a66d2446045a560192cdc && https://github.com/curl/curl/commit/538b1e79a6e7b0bb829ab4cecc828d32105d0684
 
-Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
-CC: Frederic Martinsons <frederic.martinsons@gmail.com>
-CC: Marta Rybczynska <rybczynska@gmail.com>
-CC: Paul Eggleton <paul.eggleton@linux.microsoft.com>
-CC: Alex Kiernan <alex.kiernan@gmail.com>
-CC: Alexis Lothoré <alexis.lothore@bootlin.com
-
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
+ .../curl/curl/CVE-2023-27533.patch            | 208 ++++++++++++++++++
+ meta/recipes-support/curl/curl_7.82.0.bb      |   1 +
+ 2 files changed, 209 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2023-27533.patch
 
-Changes in V4:
-- Fix details about regression detection, thanks to
-  feedback from Alexis Lothoré
-
-Changes in V3:
-- Add details about ptest images as suggested by Richard Purdie
-- Add details about resulttools improvements, pointing to
-  Alexis' blog post about regression detection.
-
-Changes in V2:
-- Add details about filling checksums using the 'cargo-update-recipe-crates'
-  class, as suggested by Frederic Martinsons.
----
- .../migration-guides/migration-4.2.rst        | 84 ++++++++++++++++++-
- .../migration-guides/release-notes-4.2.rst    | 83 ++++++++++++++++--
- 2 files changed, 158 insertions(+), 9 deletions(-)
-
-diff --git a/documentation/migration-guides/migration-4.2.rst b/documentation/migration-guides/migration-4.2.rst
-index 1339411b3e..3b60b9a807 100644
---- a/documentation/migration-guides/migration-4.2.rst
-+++ b/documentation/migration-guides/migration-4.2.rst
-@@ -18,11 +18,78 @@ BitBake and OpenEmbedded-Core are now relying on Python 3.8,
- making it a requirement to use a distribution providing at least this
- version, or to use :term:`buildtools`.
+diff --git a/meta/recipes-support/curl/curl/CVE-2023-27533.patch b/meta/recipes-support/curl/curl/CVE-2023-27533.patch
+new file mode 100644
+index 0000000000..b69b20c85a
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2023-27533.patch
+@@ -0,0 +1,208 @@
++From 538b1e79a6e7b0bb829ab4cecc828d32105d0684 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Mon, 6 Mar 2023 12:07:33 +0100
++Subject: [PATCH] telnet: parse telnet options without sscanf & only accept option arguments in ascii
++
++To avoid embedded telnet negotiation commands etc.
++
++Reported-by: Harry Sintonen
++Closes #10728
++
++CVE: CVE-2023-27533
++Upstream-Status: Backport [https://github.com/curl/curl/commit/0c28ba2faae2d7da780a66d2446045a560192cdc && https://github.com/curl/curl/commit/538b1e79a6e7b0bb829ab4cecc828d32105d0684]
++
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ lib/telnet.c | 149 +++++++++++++++++++++++++++++++--------------------
++ 1 file changed, 91 insertions(+), 58 deletions(-)
++
++diff --git a/lib/telnet.c b/lib/telnet.c
++index e709973..3ecd680 100644
++--- a/lib/telnet.c
+++++ b/lib/telnet.c
++@@ -768,22 +768,32 @@ static void printsub(struct Curl_easy *data,
++   }
++ }
++ 
+++static bool str_is_nonascii(const char *str)
+++{
+++  size_t len = strlen(str);
+++  while(len--) {
+++    if(*str & 0x80)
+++      return TRUE;
+++    str++;
+++  }
+++  return FALSE;
+++}
+++
++ static CURLcode check_telnet_options(struct Curl_easy *data)
++ {
++   struct curl_slist *head;
++   struct curl_slist *beg;
++-  char option_keyword[128] = "";
++-  char option_arg[256] = "";
++   struct TELNET *tn = data->req.p.telnet;
++-  struct connectdata *conn = data->conn;
++   CURLcode result = CURLE_OK;
++-  int binary_option;
++ 
++   /* Add the user name as an environment variable if it
++      was given on the command line */
++   if(data->state.aptr.user) {
++-    msnprintf(option_arg, sizeof(option_arg), "USER,%s", conn->user);
++-    beg = curl_slist_append(tn->telnet_vars, option_arg);
+++    char buffer[256];
+++    if(str_is_nonascii(data->conn->user))
+++      return CURLE_BAD_FUNCTION_ARGUMENT;
+++    msnprintf(buffer, sizeof(buffer), "USER,%s", data->conn->user);
+++    beg = curl_slist_append(tn->telnet_vars, buffer);
++     if(!beg) {
++       curl_slist_free_all(tn->telnet_vars);
++       tn->telnet_vars = NULL;
++@@ -793,68 +803,91 @@ static CURLcode check_telnet_options(struct Curl_easy *data)
++     tn->us_preferred[CURL_TELOPT_NEW_ENVIRON] = CURL_YES;
++   }
++ 
++-  for(head = data->set.telnet_options; head; head = head->next) {
++-    if(sscanf(head->data, "%127[^= ]%*[ =]%255s",
++-              option_keyword, option_arg) == 2) {
++-
++-      /* Terminal type */
++-      if(strcasecompare(option_keyword, "TTYPE")) {
++-        strncpy(tn->subopt_ttype, option_arg, 31);
++-        tn->subopt_ttype[31] = 0; /* String termination */
++-        tn->us_preferred[CURL_TELOPT_TTYPE] = CURL_YES;
+++  for(head = data->set.telnet_options; head && !result; head = head->next) {
+++    size_t olen;
+++    char *option = head->data;
+++    char *arg;
+++    char *sep = strchr(option, '=');
+++    if(sep) {
+++      olen = sep - option;
+++      arg = ++sep;
+++      if(str_is_nonascii(arg))
++         continue;
++-      }
+++      switch(olen) {
+++      case 5:
+++        /* Terminal type */
+++        if(strncasecompare(option, "TTYPE", 5)) {
+++          strncpy(tn->subopt_ttype, arg, 31);
+++          tn->subopt_ttype[31] = 0; /* String termination */
+++          tn->us_preferred[CURL_TELOPT_TTYPE] = CURL_YES;
+++        }
+++        else
+++          result = CURLE_UNKNOWN_OPTION;
+++        break;
++ 
++-      /* Display variable */
++-      if(strcasecompare(option_keyword, "XDISPLOC")) {
++-        strncpy(tn->subopt_xdisploc, option_arg, 127);
++-        tn->subopt_xdisploc[127] = 0; /* String termination */
++-        tn->us_preferred[CURL_TELOPT_XDISPLOC] = CURL_YES;
++-        continue;
++-      }
+++      case 8:
+++        /* Display variable */
+++        if(strncasecompare(option, "XDISPLOC", 8)) {
+++          strncpy(tn->subopt_xdisploc, arg, 127);
+++          tn->subopt_xdisploc[127] = 0; /* String termination */
+++          tn->us_preferred[CURL_TELOPT_XDISPLOC] = CURL_YES;
+++        }
+++        else
+++          result = CURLE_UNKNOWN_OPTION;
+++        break;
++ 
++-      /* Environment variable */
++-      if(strcasecompare(option_keyword, "NEW_ENV")) {
++-        beg = curl_slist_append(tn->telnet_vars, option_arg);
++-        if(!beg) {
++-          result = CURLE_OUT_OF_MEMORY;
++-          break;
+++      case 7:
+++        /* Environment variable */
+++        if(strncasecompare(option, "NEW_ENV", 7)) {
+++          beg = curl_slist_append(tn->telnet_vars, arg);
+++          if(!beg) {
+++            result = CURLE_OUT_OF_MEMORY;
+++            break;
+++          }
+++          tn->telnet_vars = beg;
+++          tn->us_preferred[CURL_TELOPT_NEW_ENVIRON] = CURL_YES;
++         }
++-        tn->telnet_vars = beg;
++-        tn->us_preferred[CURL_TELOPT_NEW_ENVIRON] = CURL_YES;
++-        continue;
++-      }
+++        else
+++          result = CURLE_UNKNOWN_OPTION;
+++        break;
++ 
++-      /* Window Size */
++-      if(strcasecompare(option_keyword, "WS")) {
++-        if(sscanf(option_arg, "%hu%*[xX]%hu",
++-                  &tn->subopt_wsx, &tn->subopt_wsy) == 2)
++-          tn->us_preferred[CURL_TELOPT_NAWS] = CURL_YES;
++-        else {
++-          failf(data, "Syntax error in telnet option: %s", head->data);
++-          result = CURLE_SETOPT_OPTION_SYNTAX;
++-          break;
+++      case 2:
+++        /* Window Size */
+++        if(strncasecompare(option, "WS", 2)) {
+++          if(sscanf(arg, "%hu%*[xX]%hu",
+++                    &tn->subopt_wsx, &tn->subopt_wsy) == 2)
+++            tn->us_preferred[CURL_TELOPT_NAWS] = CURL_YES;
+++          else {
+++            failf(data, "Syntax error in telnet option: %s", head->data);
+++            result = CURLE_SETOPT_OPTION_SYNTAX;
+++          }
++         }
++-        continue;
++-      }
+++        else
+++          result = CURLE_UNKNOWN_OPTION;
+++        break;
++ 
++-      /* To take care or not of the 8th bit in data exchange */
++-      if(strcasecompare(option_keyword, "BINARY")) {
++-        binary_option = atoi(option_arg);
++-        if(binary_option != 1) {
++-          tn->us_preferred[CURL_TELOPT_BINARY] = CURL_NO;
++-          tn->him_preferred[CURL_TELOPT_BINARY] = CURL_NO;
+++      case 6:
+++        /* To take care or not of the 8th bit in data exchange */
+++        if(strncasecompare(option, "BINARY", 6)) {
+++          int binary_option = atoi(arg);
+++          if(binary_option != 1) {
+++            tn->us_preferred[CURL_TELOPT_BINARY] = CURL_NO;
+++            tn->him_preferred[CURL_TELOPT_BINARY] = CURL_NO;
+++          }
++         }
++-        continue;
+++        else
+++          result = CURLE_UNKNOWN_OPTION;
+++        break;
+++      default:
+++        failf(data, "Unknown telnet option %s", head->data);
+++        result = CURLE_UNKNOWN_OPTION;
+++        break;
++       }
++-
++-      failf(data, "Unknown telnet option %s", head->data);
++-      result = CURLE_UNKNOWN_OPTION;
++-      break;
++     }
++-    failf(data, "Syntax error in telnet option: %s", head->data);
++-    result = CURLE_SETOPT_OPTION_SYNTAX;
++-    break;
+++    else {
+++      failf(data, "Syntax error in telnet option: %s", head->data);
+++      result = CURLE_SETOPT_OPTION_SYNTAX;
+++    }
++   }
++ 
++   if(result) {
++-- 
++2.25.1
++
+diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
+index b583060889..cd6264b715 100644
+--- a/meta/recipes-support/curl/curl_7.82.0.bb
++++ b/meta/recipes-support/curl/curl_7.82.0.bb
+@@ -39,6 +39,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
+            file://CVE-2023-23914_5-3.patch \
+            file://CVE-2023-23914_5-4.patch \
+            file://CVE-2023-23914_5-5.patch \
++           file://CVE-2023-27533.patch \
+            "
+ SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
  
-+.. _migration-4.2-gcc-8.0:
-+
-+gcc 8.0 is now the minumum required GNU C compiler version
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+This version, released in 2018, is a minimum requirement
-+to build the ``mesa-native`` recipe.
-+
-+.. _migration-4.2-new-nvd-api:
-+
-+Fetching the NVD vulnerability database through the 2.0 API
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+This new version adds a new fetcher for the NVD database using the 2.0 API,
-+as the 1.0 API will be retired in 2023.
-+
-+The implementation changes as little as possible, keeping the current
-+database format (but using a different database file for the transition
-+period), with a notable exception of not using the META table.
-+
-+Here are minor changes that you may notice:
-+
-+-  The database starts in 1999 instead of 2002
-+-  The complete fetch is longer (30 minutes typically)
-+
-+.. _migration-4.2-rust-crate-checksums:
-+
-+Rust: mandatory checksums for crates
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+This release now supports checksums for Rust crates and make
-+them mandatory for each crate in a recipe. See :yocto_git:`python3_bcrypt recipe changes
-+</poky/commit/?h=mickledore&id=0dcb5ab3462fdaaf1646b05a00c7150eea711a9a>`
-+for example.
-+
-+The ``cargo-update-recipe-crates`` utility
-+:yocto_git:`has been extended </poky/commit/?h=mickledore&id=eef7fbea2c5bf59369390be4d5efa915591b7b22>`
-+to include such checksums. So, in case you need to add the list of checksums
-+to a recipe just inheriting the :ref:`ref-classes-cargo` class so far, you can
-+follow these steps:
-+
-+#.  Make the recipe inherit :ref:`ref-classes-cargo-update-recipe-crates`
-+#.  Remove all ``crate://`` lines from the recipe
-+#.  Create an empty ``${BPN}-crates.inc`` file and make your recipe require it
-+#.  Execute ``bitbake -c update_crates your_recipe``
-+#.  Copy and paste the output of BitBake about the missing checksums into the
-+    ``${BPN}-crates.inc`` file.
-+
- .. _migration-4.2-qa-checks:
- 
- QA check changes
- ~~~~~~~~~~~~~~~~
- 
-+.. _migration-4.2-supported-distributions:
-+
-+Supported distributions
-+~~~~~~~~~~~~~~~~~~~~~~~
-+
-+This release supports running BitBake on new GNU/Linux distributions:
-+
-+-  Fedora 36 and 37
-+-  AlmaLinux 8.7 and 9.1
-+-  OpenSuse 15.4
-+
-+On the other hand, some earlier distributions are no longer supported:
-+
-+-  Debian 10.x
-+-  Fedora 34 and 35
-+-  AlmaLinux 8.5
-+
-+See :ref:`all supported distributions <system-requirements-supported-distros>`.
-+
- .. _migration-4.2-misc-changes:
- 
- Miscellaneous changes
-@@ -30,6 +97,7 @@ Miscellaneous changes
- 
- -  The ``OEBasic`` signature handler (see :term:`BB_SIGNATURE_HANDLER`) has been
-    removed.
-+  
- 
- .. _migration-4.2-removed-variables:
- 
-@@ -38,7 +106,7 @@ Removed variables
- 
- The following variables have been removed:
- 
---  ``SERIAL_CONSOLE``, deprecated since version 2.6, replaced by :term:``SERIAL_CONSOLES``.
-+-  ``SERIAL_CONSOLE``, deprecated since version 2.6, replaced by :term:`SERIAL_CONSOLES`.
- 
- .. _migration-4.2-removed-recipes:
- 
-@@ -47,3 +115,17 @@ Removed recipes
- 
- The following recipes have been removed in this release:
- 
-+-  ``python3-picobuild``: after switching to ``python3-build``
-+-  ``python3-strict-rfc3339``: unmaintained and not needed by anything in
-+   :oe_git:`openembedded-core </openembedded-core>`
-+   or :oe_git:`meta-openembedded </meta-openembedded>`.
-+
-+.. _migration-4.2-removed-classes:
-+
-+Removed classes
-+~~~~~~~~~~~~~~~
-+
-+The following classes have been removed in this release:
-+
-+-  ``rust-bin``: no longer used in Poky
-+
-diff --git a/documentation/migration-guides/release-notes-4.2.rst b/documentation/migration-guides/release-notes-4.2.rst
-index edafe378b0..b6e278ee5d 100644
---- a/documentation/migration-guides/release-notes-4.2.rst
-+++ b/documentation/migration-guides/release-notes-4.2.rst
-@@ -6,23 +6,90 @@ Release notes for 4.2 (mickledore)
- New Features / Enhancements in 4.2
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--- Python 3.8 is the minimum Python version required on the build host.
--  For host distributions that do not provide it, this is included as part of the
--  :term:`buildtools` tarball.
-+-  Python 3.8 is the minimum Python version required on the build host.
-+   For host distributions that do not provide it, this is included as part of the
-+   :term:`buildtools` tarball.
- 
--- This release now supports a new ``addpylib`` directive to enable
--  Python libraries within layers.
-+-  BitBake in this release now supports a new ``addpylib`` directive to enable
-+   Python libraries within layers.
- 
--  This directive should be added to your layer configuration,
--  as in the below example from ``meta/conf/layer.conf``::
-+   This directive should be added to your layer configuration
-+   as in the below example from ``meta/conf/layer.conf``::
- 
--     addpylib ${LAYERDIR}/lib oe
-+      addpylib ${LAYERDIR}/lib oe
-+
-+-  BitBake has seen multiple internal changes that may impact
-+   memory and disk usage as well as parsing time, in particular:
-+
-+   -  BitBake's Cooker server is now multithreaded.
-+
-+   -  BitBake's cache has been extended to include more hash
-+      debugging data, but has also been optimized to :yocto_git:`compress
-+      cache data <https://git.yoctoproject.org/poky/commit/?h=mickledore&id=7d010055e2af3294e17db862f42664ca689a9356>`.
-+
-+   -  BitBake's Cooker server :yocto_git:`can now be pinged
-+      https://git.yoctoproject.org/poky/commit/?h=mickledore&id=26f255da09>`
-+      from the UI.
- 
- -  Architecture-specific enhancements:
- 
-+   -  This release adds initial support for the
-+      :wikipedia:`LoongArch <Loongson#LoongArch>`
-+      (``loongarch64``) architecture, though there is no testing for it yet.
-+
- -  Kernel-related enhancements:
- 
- -  QEMU/runqemu enhancements:
- 
- -  Image-related enhancements:
- 
-+-  New variables:
-+
-+   - :term:`VOLATILE_TMP_DIR` allows to specify
-+     whether ``/tmp`` should be on persistent storage
-+     or in RAM.
-+
-+-  Rust improvements:
-+
-+   -  This release adds Cargo support on the target, and includes
-+      automated QA tests for this functionality.
-+
-+   -  It also supports checksums for Rust crates and makes
-+      them mandatory for each crate in a recipe.
-+
-+-  Testing:
-+
-+   -  The ptest images have changed structure in this release. The
-+      underlying ``core-image-ptest`` recipe now uses :term:`BBCLASSEXTEND` to
-+      create a variant for each ptest enabled recipe in OE-Core. 
-+
-+      For example, this means that ``core-image-ptest-bzip2``,
-+      ``core-image-ptest-lttng-tools`` and many more image targets now exist
-+      and can be built/tested individually. 
-+
-+      The ``core-image-ptest-all`` and ``core-image-ptest-fast`` targets are now
-+      wrappers that target groups of individual images and means that the tests
-+      can be executed in parallel during our automated testing. This also means
-+      the dependencies are more accurately tested.
-+
-+   -  It is now possible to track regression changes between releases using
-+      :oe_git:`yocto_testresults_query.py </openembedded-core/tree/scripts/yocto_testresults_query.py>`,
-+      which is a thin wrapper over :oe_git:`resulttool
-+      </openembedded-core/tree/scripts/resulttool>`. Here is an example
-+      command, which allowed to spot and fix a regression in the
-+      ``quilt`` ptest::
-+
-+         yocto_testresults_query.py regression-report 4.2_M1 4.2_M2
-+
-+      See this `blog post about regression detection
-+      <https://bootlin.com/blog/continuous-integration-in-yocto-improving-the-regressions-detection/>`__.
-+
-+   -  This release adds support for parallel ptest execution with a ptest per image.
-+      This takes ptest execution time from 3.5 hours to around 45 minutes on the autobuilder.
-+
-+-  Miscellaneous changes:
-+
-+   -  Supporting 64 bit dates on 32 bit platforms: several packages have been
-+      updated to pass Y2038 tests.
-+
-+   -  Many packages were updated to add large file support.
 -- 
-2.34.1
+2.25.1
 
 
