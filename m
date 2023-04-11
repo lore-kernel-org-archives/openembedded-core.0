@@ -2,57 +2,57 @@ Return-Path: <lrannou@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79852C77B6F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7988EC77B70
 	for <webhook@archiver.kernel.org>; Tue, 11 Apr 2023 15:05:32 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.16680.1681225529596604451
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.16462.1681225531069058579
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Apr 2023 08:05:30 -0700
+ Tue, 11 Apr 2023 08:05:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@baylibre-com.20210112.gappssmtp.com header.s=20210112 header.b=7tWFs47F;
- spf=pass (domain: baylibre.com, ip: 209.85.128.54, mailfrom: lrannou@baylibre.com)
-Received: by mail-wm1-f54.google.com with SMTP id n19-20020a05600c501300b003f064936c3eso9544841wmr.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 08:05:29 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@baylibre-com.20210112.gappssmtp.com header.s=20210112 header.b=obYp0tjV;
+ spf=pass (domain: baylibre.com, ip: 209.85.128.47, mailfrom: lrannou@baylibre.com)
+Received: by mail-wm1-f47.google.com with SMTP id gw13so4740947wmb.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 08:05:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1681225528; x=1683817528;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1681225529; x=1683817529;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=82Tkobw8uiQclLSO2KBEKMDyYJAp6uOH3qprdUU/0ow=;
-        b=7tWFs47F3dLWRUj9LsUqu+yoJ61ZuGX337pQfnyTLQWycYblo64HtJl/bpxzev3ZPO
-         RKoIPYNBq5ItGvqLFlN7+fO5aS5ZYC11n2KhvGAMyMaJs9M6bWBh0Ztf8d/oXmb3tnaM
-         uNfJzO3qbG0rlUr7HGe5I2Z+XvES3tLgCxk2XUPKCtz0dNkEt6rzZa3oxxgjbJzaQcxe
-         76fpjQqDciIZ4ivWVGpIAZbObUG+aSr6HwPAcP5sfFbMmusQKF/yiufQKME/jWiUmmFI
-         LOY098r6V8Sx1TkEI6tbl+/kvry6AgQJm/07WiRME7/Wik81b9Hm++Xn7NmpWJNQeSYk
-         dnIQ==
+        bh=DCnUr4ui4xN693a4wAninz4qk5FmRXymzblDdnLveis=;
+        b=obYp0tjVH6eCjvueXsDICKAEblxb89SgA3E2BQSQe6HX8arM6cQkcGYwZEsEofULZD
+         mggPfABSYqNqkSOJXzTA/Ray8SAj3litR41hSkMEnpzZ9W84oyc0EJWvfcluYTeMtpJS
+         JVq8FkhMgDmw02ZN9W938HgBInpp+pvApdJTEmf9fygQ1a5eQVMyDlAn3KCV1M/5AyjM
+         Q2JADwOceUWIwp+nrnX6mFWOn2e6he3SuujzXoEzeGRhciaU2cjdZ5pbXZJdhNaCop5x
+         DJnR2VdhqVSitB0aXjxQIo/aWvEf3xJ+hjnDi61fATzC08hizh/oHdzuKubm5ZsMPGci
+         FGqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681225528; x=1683817528;
+        d=1e100.net; s=20210112; t=1681225529; x=1683817529;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=82Tkobw8uiQclLSO2KBEKMDyYJAp6uOH3qprdUU/0ow=;
-        b=Tp19FRoV9JMuYmA6g/kxcmVZ1fcxnEtlWubTU4PcoQ3N23kRj46hGcMbCTQ2uDuaSS
-         Wsmy5mV6Dk9cu0N4UvmyGivbwelb2vGpFClU2BSpSUQ0SBmBHIS0y/Td/dmFi91yLsvu
-         aTNFz4OoH7ayN+qURcCsVSY4ZbXjmjDvrLh9sNeILAGh+MLE/Iu0DoCv2wlwbD+Zsd00
-         G3leCKDw5ieoJQz/qrrllQ7NV31IzBpjPWR7byU3WQh/GilynmRFP+o4rheEJzuUK+Pz
-         cMKMoERzCMpE8CXAbeuAVOafc9pe3ev+oX4eKH+QZq6guFb3tVjhISZV3Gy+TzD/y5R0
-         Pwcw==
-X-Gm-Message-State: AAQBX9cYkCY8wfAMYvzgFaPWfnvuoMEnPXyJDsH58vrwL806c7dEjiWZ
-	kcN8vWP1kyHm/sv++E873W+fYcDoazgoRXqy5fY=
-X-Google-Smtp-Source: AKy350a108tpG6diaSl9F9/uzf4m8lX/FOkJKC2DNdZ1DRvpc7YX1vY8C4OZdTM6FVsRWXnw/trEHA==
-X-Received: by 2002:a1c:4c12:0:b0:3f0:4f83:22f4 with SMTP id z18-20020a1c4c12000000b003f04f8322f4mr6747960wmf.20.1681225528100;
-        Tue, 11 Apr 2023 08:05:28 -0700 (PDT)
+        bh=DCnUr4ui4xN693a4wAninz4qk5FmRXymzblDdnLveis=;
+        b=A5RSeFXgeFwhHnZMAoaW1kJq4+a1Lp1rGPug/EPi1W2TFxK7uK4fFVCu6TR63o6u0F
+         zUgLJ59DEYBQAh6G4vcgVMQlig0pmSqvE+4SqSMsVjITfM+xSnN5UocSkCmm0QY+v669
+         Jw6Oq0mA24ou4l7ks1ly1C5p5DIu26YYNLrs7TJWaThPFOMDIpnKXkCZCV6rx3ZxFdJ3
+         eB0O2yrPOCbg6h9WLyReII8i4ZkFSBUAQ4Psq83K44K87EXTVHDyoc6FlUQkohZflZi0
+         D/ftKGAPpKUf6OpfRZDsMoOyjWnjdKe8d+ANnd3lE/+Muh0uYu2PeXpWE6xHWHlleFjN
+         oRrw==
+X-Gm-Message-State: AAQBX9cGpKHQSlUuSywfKkrn3AcBrQdbOvhvPEpsYIc5cuwTRpU97xDn
+	pjK0+5s1ZxXNXuoWc7Qr+ZfyNMdJfeMCObWDCG0=
+X-Google-Smtp-Source: AKy350bmTWG+97M56wMrfGxJmv/CADaqj6zEpwZPKq25lHAEZTkkAnSHxQ30pSJtnf6LtucnAtsh/w==
+X-Received: by 2002:a1c:7409:0:b0:3dc:5b88:e6dd with SMTP id p9-20020a1c7409000000b003dc5b88e6ddmr10069010wmc.10.1681225529352;
+        Tue, 11 Apr 2023 08:05:29 -0700 (PDT)
 Received: from midgar.. ([2001:912:1480:1c0::1])
-        by smtp.gmail.com with ESMTPSA id n6-20020a7bc5c6000000b003f072b22dbbsm16324161wmk.16.2023.04.11.08.05.27
+        by smtp.gmail.com with ESMTPSA id n6-20020a7bc5c6000000b003f072b22dbbsm16324161wmk.16.2023.04.11.08.05.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Apr 2023 08:05:27 -0700 (PDT)
+        Tue, 11 Apr 2023 08:05:29 -0700 (PDT)
 From: Louis Rannou <lrannou@baylibre.com>
 To: openembedded-core@lists.openembedded.org
 Cc: khilman@baylibre.com,
 	Louis Rannou <lrannou@baylibre.com>
-Subject: [PATCH v4 1/2] oeqa/utils/qemurunner: change the serial runner
-Date: Tue, 11 Apr 2023 17:05:02 +0200
-Message-Id: <20230411150503.2105880-2-lrannou@baylibre.com>
+Subject: [PATCH v4 2/2] oeqa/selftest: change deprecated usage of run_serial
+Date: Tue, 11 Apr 2023 17:05:03 +0200
+Message-Id: <20230411150503.2105880-3-lrannou@baylibre.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230411150503.2105880-1-lrannou@baylibre.com>
 References: <20230411150503.2105880-1-lrannou@baylibre.com>
@@ -62,111 +62,120 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 15:05:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179928
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179929
 
-[YOCTO #15021]
-
-Create a new runner run_serial_socket which usage matches the traditional ssh
-runner. Its return status is 0 when the command succeeded or 0 when it
-failed. If an error is encountered, it raises an Exception.
-
-The previous serial runner is maintained and marked as deprecated.
+Prefer the new function run_serial_socket. Change calls where the modification
+is easy.
 
 Signed-off-by: Louis Rannou <lrannou@baylibre.com>
 ---
- meta/lib/oeqa/targetcontrol.py    |  3 ++
- meta/lib/oeqa/utils/qemurunner.py | 57 +++++++++++++++++++++++++++++++
- 2 files changed, 60 insertions(+)
+ meta/lib/oeqa/selftest/cases/debuginfod.py | 3 ++-
+ meta/lib/oeqa/selftest/cases/gdbserver.py  | 7 ++++---
+ meta/lib/oeqa/selftest/cases/locales.py    | 8 ++++----
+ meta/lib/oeqa/selftest/cases/package.py    | 7 ++++---
+ meta/lib/oeqa/selftest/cases/runqemu.py    | 2 +-
+ 5 files changed, 15 insertions(+), 12 deletions(-)
 
-diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index d686fe07ec..3707883da7 100644
---- a/meta/lib/oeqa/targetcontrol.py
-+++ b/meta/lib/oeqa/targetcontrol.py
-@@ -206,6 +206,9 @@ class QemuTarget(BaseTarget):
-     def run_serial(self, command, timeout=60):
-         return self.runner.run_serial(command, timeout=timeout)
+diff --git a/meta/lib/oeqa/selftest/cases/debuginfod.py b/meta/lib/oeqa/selftest/cases/debuginfod.py
+index 37f51760fb..2571ce6989 100644
+--- a/meta/lib/oeqa/selftest/cases/debuginfod.py
++++ b/meta/lib/oeqa/selftest/cases/debuginfod.py
+@@ -99,7 +99,8 @@ CORE_IMAGE_EXTRA_INSTALL += "elfutils"
+                     % (qemu.server_ip, port)
+                 )
+                 self.logger.info(f"Starting client {cmd}")
+-                status, output = qemu.run_serial(cmd)
++                status, output = qemu.run_serial_socket(cmd)
++                self.assertEqual(0, status)
+                 # This should be more comprehensive
+                 self.assertIn("/.cache/debuginfod_client/", output)
+         finally:
+diff --git a/meta/lib/oeqa/selftest/cases/gdbserver.py b/meta/lib/oeqa/selftest/cases/gdbserver.py
+index 9da97ae780..4f8c7d620f 100644
+--- a/meta/lib/oeqa/selftest/cases/gdbserver.py
++++ b/meta/lib/oeqa/selftest/cases/gdbserver.py
+@@ -43,7 +43,8 @@ CORE_IMAGE_EXTRA_INSTALL = "gdbserver"
+             shutil.unpack_archive(filename, debugfs)
  
-+    def run_serial_socket(self, command, timeout=60):
-+        return self.runner.run_serial_socket(command, timeout=timeout)
-+
+             with runqemu("core-image-minimal", runqemuparams="nographic") as qemu:
+-                status, output = qemu.run_serial("kmod --help")
++                status, output = qemu.run_serial_socket("kmod --help")
++                self.assertEqual(status, 0)
+                 self.assertIn("modprobe", output)
  
- class SimpleRemoteTarget(BaseTarget):
+                 with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
+@@ -61,7 +62,7 @@ CORE_IMAGE_EXTRA_INSTALL = "gdbserver"
+                             self.fail("Timed out connecting to gdb")
+                     future = executor.submit(run_gdb)
  
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 6734cee48d..7e1c7a7eac 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -637,6 +637,7 @@ class QemuRunner:
-                 return self.qmp.cmd(command)
+-                    status, output = qemu.run_serial("gdbserver --once :9999 kmod --help")
+-                    self.assertEqual(status, 1)
++                    status, output = qemu.run_serial_socket("gdbserver --once :9999 kmod --help")
++                    self.assertEqual(status, 0)
+                     # The future either returns None, or raises an exception
+                     future.result()
+diff --git a/meta/lib/oeqa/selftest/cases/locales.py b/meta/lib/oeqa/selftest/cases/locales.py
+index 4ca8ffb7aa..98026d2c80 100644
+--- a/meta/lib/oeqa/selftest/cases/locales.py
++++ b/meta/lib/oeqa/selftest/cases/locales.py
+@@ -27,15 +27,15 @@ class LocalesTest(OESelftestTestCase):
  
-     def run_serial(self, command, raw=False, timeout=60):
-+        # Deprecated
-         # Returns (status, output) where status is 1 on success and 0 on error
+         with runqemu("core-image-minimal", ssh=False, runqemuparams='nographic') as qemu:
+             cmd = "locale -a"
+-            status, output = qemu.run_serial(cmd)
++            status, output = qemu.run_serial_socket(cmd)
+             # output must includes fr_FR or fr_FR.UTF-8
+-            self.assertEqual(status, 1, msg='locale test command failed: output: %s' % output)
++            self.assertEqual(status, 0, msg='locale test command failed: output: %s' % output)
+             self.assertIn("fr_FR", output, msg='locale -a test failed: output: %s' % output)
  
-         # We assume target system have echo to get command status
-@@ -688,6 +689,62 @@ class QemuRunner:
-                     status = 1
-         return (status, str(data))
+             cmd = "localedef --list-archive -v"
+-            status, output = qemu.run_serial(cmd)
++            status, output = qemu.run_serial_socket(cmd)
+             # output must includes fr_FR.utf8
+-            self.assertEqual(status, 1, msg='localedef test command failed: output: %s' % output)
++            self.assertEqual(status, 0, msg='localedef test command failed: output: %s' % output)
+             self.assertIn("fr_FR.utf8", output, msg='localedef test failed: output: %s' % output)
  
-+    def run_serial_socket(self, command, raw=False, timeout=60):
-+        # Returns (status, output) where status is 0 on success and a negative value on error.
-+
-+        # We assume target system have echo to get command status
-+        if not raw:
-+            command = "%s; echo $?\n" % command
-+
-+        data = ''
-+        status = 0
-+        self.server_socket.sendall(command.encode('utf-8'))
-+        start = time.time()
-+        end = start + timeout
-+        while True:
-+            now = time.time()
-+            if now >= end:
-+                data += "<<< run_serial_socket(): command timed out after %d seconds without output >>>\r\n\r\n" % timeout
-+                break
-+            try:
-+                sread, _, _ = select.select([self.server_socket],[],[], end - now)
-+            except InterruptedError:
-+                continue
-+            if sread:
-+                # try to avoid reading single character at a time
-+                time.sleep(0.1)
-+                answer = self.server_socket.recv(1024)
-+                if answer:
-+                    data += answer.decode('utf-8')
-+                    # Search the prompt to stop
-+                    if re.search(self.boot_patterns['search_cmd_finished'], data):
-+                        break
-+                else:
-+                    if self.canexit:
-+                        return (1, "")
-+                    raise Exception("No data on serial console socket, connection closed?")
-+
-+        if not data:
-+            raise Exception('serial run failed: no data')
-+
-+        if raw:
-+            status = 0
-+        else:
-+            # Remove first line (command line) and last line (prompt)
-+            data = data[data.find('$?\r\n')+4:data.rfind('\r\n')]
-+            index = data.rfind('\r\n')
-+            if index == -1:
-+                data = ""
-+                raise Exception('serial run failed: no result')
-+            else:
-+                status_cmd = data[index+2:]
-+                data = data[:index]
-+                try:
-+                    status = int(status_cmd)
-+                except ValueError as e:
-+                    raise Exception('Could not convert to integer: {}'.format(str(e)))
-+        return (status, str(data))
-+
+     def test_locales_on(self):
+diff --git a/meta/lib/oeqa/selftest/cases/package.py b/meta/lib/oeqa/selftest/cases/package.py
+index 1aa6c03f8a..78e8a4c26b 100644
+--- a/meta/lib/oeqa/selftest/cases/package.py
++++ b/meta/lib/oeqa/selftest/cases/package.py
+@@ -135,7 +135,8 @@ class PackageTests(OESelftestTestCase):
+             Check that gdb ``binary`` to read symbols from separated debug file
+             """
+             self.logger.info("gdbtest %s" % binary)
+-            status, output = qemu.run_serial('/usr/bin/gdb.sh %s' % binary, timeout=60)
++            status, output = qemu.run_serial_socket('/usr/bin/gdb.sh %s' % binary, timeout=60)
++            self.assertEqual(0, status)
+             for l in output.split('\n'):
+                 # Check debugging symbols exists
+                 if '(no debugging symbols found)' in l:
+@@ -166,8 +167,8 @@ class PackageTests(OESelftestTestCase):
  
-     def _dump_host(self):
-         self.host_dumper.create_dir("qemu")
+         def check_ownership(qemu, expected_gid, expected_uid, path):
+             self.logger.info("Check ownership of %s", path)
+-            status, output = qemu.run_serial('stat -c "%U %G" ' + path)
+-            self.assertEqual(status, 1, "stat failed: " + output)
++            status, output = qemu.run_serial_socket('stat -c "%U %G" ' + path)
++            self.assertEqual(status, 0, "stat failed: " + output)
+             try:
+                 uid, gid = output.split()
+                 self.assertEqual(uid, expected_uid)
+diff --git a/meta/lib/oeqa/selftest/cases/runqemu.py b/meta/lib/oeqa/selftest/cases/runqemu.py
+index f01e1eec66..be1481a82e 100644
+--- a/meta/lib/oeqa/selftest/cases/runqemu.py
++++ b/meta/lib/oeqa/selftest/cases/runqemu.py
+@@ -183,7 +183,7 @@ class QemuTest(OESelftestTestCase):
+         # (such as the exception "Console connection closed unexpectedly")
+         # as qemu will disappear when we shut it down
+         qemu.runner.allowexit()
+-        qemu.run_serial("shutdown -h now")
++        qemu.run_serial_socket("shutdown -h now")
+         time_track = 0
+         try:
+             while True:
 -- 
 2.40.0
 
