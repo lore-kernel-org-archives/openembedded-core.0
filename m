@@ -1,531 +1,172 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E9D1C77B6F
-	for <webhook@archiver.kernel.org>; Tue, 11 Apr 2023 15:16:02 +0000 (UTC)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web11.17135.1681226154033478168
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 833A2C77B70
+	for <webhook@archiver.kernel.org>; Tue, 11 Apr 2023 15:20:12 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web10.17001.1681226410087867664
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Apr 2023 08:15:54 -0700
+ Tue, 11 Apr 2023 08:20:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20210112 header.b=OcuVsDXh;
- spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f43.google.com with SMTP id r27so10921828lfe.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 08:15:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=l1A3Hqf3;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id r27so10940125lfe.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 08:20:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681226152; x=1683818152;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J4Woqr5dsP+yYGUMa8BwKunK5Qz4jcBf1UTd6B5OSmI=;
-        b=OcuVsDXh9gX66FblP4pkDJjLaj28e0rladwoBmaEyXGFIJsUMyiJQ/4vVyHNFQJImU
-         gquEKC52UaEulJ5yBQMTVO2X+TjeeRFzE8PUXssMH/loOPh0GltcsU8nfQAp2sgzWBK2
-         dw7lFkzW1px41m2xdumy+4GheInHG6b99JC6XkWVTZK6O4PxJPfcFfl168OmgfuFYIwh
-         5/QDx5xAec8ZBN5S9j8ML/Zvj++spkgfQZZrYQr0UyuTHHCOEqZ2j7DR+aOt5geRyx6Z
-         yiiSrQYhHYj4z8bKhLJFfR10fqfM298WYyNdZzqm7qC8TBG2q2t1qIfUm+o33ba7Myf9
-         6KYw==
+        d=gmail.com; s=20210112; t=1681226408;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=wD++LxXI9yV72mj2sJzEL05eevVXBOLbu66W6bczkic=;
+        b=l1A3Hqf3FOF7od3NdIQa9U96H0y+3CZ+H0DH6Qr5zOQVGhzZSDpcz5c5W7aANSLWUs
+         Z5qhCmCujeG/nnOpKPJn/vyo1hJk8THLD444t8/fbAt7OwgWNHQRz7lT5qPeW0NxJwr/
+         hIRjrrmCpYKOaR5SvbtB+3XL+YWXlLCdaH5BMXRdykzUPPDXcUFvzOvUQlp06H2rBqc4
+         xcELeV6MPcVcvhJ0yCuMisdBd39xsxNlI3qt1alKSRkw5PUSgHyEAILtiYYVyvb+j6x/
+         +iSCgU27c+nkrOdbip6sOkCj/G259FLk9tIIJlU2AWRatFfNyTH52rhYj3VG9+UBdeA7
+         WAJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681226152; x=1683818152;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=J4Woqr5dsP+yYGUMa8BwKunK5Qz4jcBf1UTd6B5OSmI=;
-        b=rQ1MPVMYZ8410UrKywEJbOGBFsZD9Tpe65Wf73/JktDRr7ayiM1M+UKgHNrRG3Nqrv
-         L2DX1oxQfqwRTeCsT+7hw/EYmx4tBoP+VIvtZRMqRs+N0PHOM4hiyQZyRAamZgI2GfI2
-         aewRMomshwpqtEKuYibRugi8ssvV0NWjoBWxo8XoU1480YPQNYMRZAwh4z11/TgEQgKI
-         3Dd3Ig7Mp7PkRs+FsBA4t55Klv4OV0o0SjoQdt6cIjl4exaIYa28eZ6QCA9dlnRze5wT
-         2LXLZO9J1xP3XbxX8NdO1FECvgA6KWHDVVjg4M9c2l8HfBf9sL2qiEUUHeRPkTxeFmiq
-         +ESA==
-X-Gm-Message-State: AAQBX9dGZWFNKAag0druTwii/3H1A5vC7Hw6P6vFDbjKkLkQ5/AgXa9V
-	PN2k25p34zNgagXt6VQzWlnJpO3/R+ksOARaMwg=
-X-Google-Smtp-Source: AKy350Y2FoV4XQ+zAf24mdo4R1yNy1POe4Zd7YqcWIiLj4lhK6YONNb/UtJBcRmtVxRixioEQAfsHmCnfSACc7k+TCc=
-X-Received: by 2002:ac2:5df0:0:b0:4eb:3f68:5540 with SMTP id
- z16-20020ac25df0000000b004eb3f685540mr4000897lfq.11.1681226152132; Tue, 11
- Apr 2023 08:15:52 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1681226408;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wD++LxXI9yV72mj2sJzEL05eevVXBOLbu66W6bczkic=;
+        b=iEVm8X8EuzC0/GVxZIQIOl6ZLfezTmej2XXAKd5Cvw73BuhWkBS3oGAayPI69g0Cxa
+         EiZBzrv6ExG5V8J0Pa2O3I7V65hja7PeD8BGnVtPQCcswv82zNcqU2FpJHH6576PEtmv
+         UjXTDlpeaYvcPgvqpQG5OeX1pZNIm5Pe37ncW6h+x7umXHh2Dji1IhgPCqLzSMTfSnfI
+         988WgRNmPOhBAQjoX5Md6QvSodgR3PJSjmZFR9tfvyyUqrPizVRyPOf2+bhEV8NUnyDP
+         EZHr6YPtw9ryHnAxRz3tPLUeXwnZzTBgEMOH3F92oas7DeXZjFT15wuPJcnKsjN0JAH2
+         0g3A==
+X-Gm-Message-State: AAQBX9csn3d0cNOOnE/lm28NB5EXntF5NwDo9JsUjfa+/sW2KY6mDMYJ
+	oVghBJzIjfOHMAWfpGmqlG7HPotU4igGpTddOkct98n1
+X-Google-Smtp-Source: AKy350bdXUt3jkEeGm8itXTkMM8JSbEjXRXly2XQfwOw7fS7zoQSIOJQkTzC7/g96KRCMw59tR0qQupbjUG8oxn0yhQ=
+X-Received: by 2002:ac2:550e:0:b0:4d5:ca32:6aec with SMTP id
+ j14-20020ac2550e000000b004d5ca326aecmr3152731lfk.12.1681226407864; Tue, 11
+ Apr 2023 08:20:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230331052636.978578-1-alex@linutronix.de> <CAMKF1sonrntA3pKS3M=2U9VCNtM9acmGywy7DFnbHMKfokFVdw@mail.gmail.com>
-In-Reply-To: <CAMKF1sonrntA3pKS3M=2U9VCNtM9acmGywy7DFnbHMKfokFVdw@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 11 Apr 2023 17:15:40 +0200
-Message-ID: <CANNYZj_H1UufkQ6+bbEqQ=KLkS=Gkv6wj1fQH7wPGjnqJcy1zQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/7] ffmpeg: update 5.1.2 -> 6.0
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <CA+cAkepjPjqTHHwxkKv-9xJHZMoBToUpAvg+tyGKQo6KDN-89A@mail.gmail.com>
+ <CANNYZj_dRQx7FDSrbP_F-g9vgSpg2GfASZjLvhxk7PR8iwNXNA@mail.gmail.com>
+In-Reply-To: <CANNYZj_dRQx7FDSrbP_F-g9vgSpg2GfASZjLvhxk7PR8iwNXNA@mail.gmail.com>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
+Date: Tue, 11 Apr 2023 17:19:56 +0200
+Message-ID: <CA+cAkeq++J3KB--ZV8YxNbW-GeKeEELpt4rqQHtTxEECEYHRAQ@mail.gmail.com>
+Subject: Re: [OE-core] Reproducible build
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000d3ed1e05f91106fd"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 15:16:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179930
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 15:20:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179931
 
-This has been resolved by your 0.34.1 -> 0.35.1 update.
+--000000000000d3ed1e05f91106fd
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Alex
+Yes  I already did that and manage to get the test last 30mn (see the other
+mail thread)
 
-On Sat, 1 Apr 2023 at 20:57, Khem Raj <raj.khem@gmail.com> wrote:
+Le mar. 11 avr. 2023, 16:52, Alexander Kanavin <alex.kanavin@gmail.com> a
+=C3=A9crit :
+
+> If you read the code for the test, you'll see a 'bitbake world' in it
+> somewhere :) Tweak that to build only the item you need.
 >
-> I think mpv is failing to this upgrade, this issue talks about it
-> https://github.com/mpv-player/mpv/issues/9803
-> https://errors.yoctoproject.org/Errors/Details/699341/
-> This is a arm64/musl build.
+> Alternatively, you can set up two separate build directories, and
+> avoid selftest altogether for investigating and fixing the issue.
 >
-> On Thu, Mar 30, 2023 at 10:26=E2=80=AFPM Alexander Kanavin
-> <alex.kanavin@gmail.com> wrote:
+> Alex
+>
+> On Fri, 7 Apr 2023 at 17:21, Frederic Martinsons
+> <frederic.martinsons@gmail.com> wrote:
 > >
-> > Add a patch to gstreamer1.0-libav to address an API compatibility fail.
+> > Hello,
 > >
-> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> > ---
-> >  ...c-stop-accessing-out-of-bounds-frame.patch |  89 ---------------
-> >  ...c-stop-accessing-out-of-bounds-frame.patch | 108 ------------------
-> >  .../ffmpeg/ffmpeg/ffmpeg-fix-vulkan.patch     |  34 ------
-> >  .../ffmpeg/{ffmpeg_5.1.2.bb =3D> ffmpeg_6.0.bb} |   8 +-
-> >  .../gstreamer1.0-libav/ffmpeg-6.0.patch       |  49 ++++++++
-> >  .../gstreamer/gstreamer1.0-libav_1.22.0.bb    |   4 +-
-> >  6 files changed, 54 insertions(+), 238 deletions(-)
-> >  delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-=
-rpzaenc-stop-accessing-out-of-bounds-frame.patch
-> >  delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-=
-smcenc-stop-accessing-out-of-bounds-frame.patch
-> >  delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/ffmpeg-fix-vu=
-lkan.patch
-> >  rename meta/recipes-multimedia/ffmpeg/{ffmpeg_5.1.2.bb =3D> ffmpeg_6.0=
-.bb} (95%)
-> >  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-liba=
-v/ffmpeg-6.0.patch
+> > I plan to work on
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15090  in the coming
+> days.
+> > To show how things are tested I ran "oe-selftest -r
+> reproducible.ReproducibleTests.test_reproducible_builds" but even on a
+> strong machine, it took several hours (I waited for 6h and it is not
+> finished yet).
 > >
-> > diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-rpzaenc=
--stop-accessing-out-of-bounds-frame.patch b/meta/recipes-multimedia/ffmpeg/=
-ffmpeg/0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch
-> > deleted file mode 100644
-> > index 2775a81cc86..00000000000
-> > --- a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-rpzaenc-stop-a=
-ccessing-out-of-bounds-frame.patch
-> > +++ /dev/null
-> > @@ -1,89 +0,0 @@
-> > -From 92f9b28ed84a77138105475beba16c146bdaf984 Mon Sep 17 00:00:00 2001
-> > -From: Paul B Mahol <onemda@gmail.com>
-> > -Date: Sat, 12 Nov 2022 16:12:00 +0100
-> > -Subject: [PATCH] avcodec/rpzaenc: stop accessing out of bounds frame
-> > -
-> > -Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/92f=
-9b28ed84a77138105475beba16c146bdaf984]
-> > -
-> > -Signed-off-by: <narpat.mali@windriver.com>
-> > -
-> > ----
-> > - libavcodec/rpzaenc.c | 22 +++++++++++++++-------
-> > - 1 file changed, 15 insertions(+), 7 deletions(-)
-> > -
-> > -diff --git a/libavcodec/rpzaenc.c b/libavcodec/rpzaenc.c
-> > -index d710eb4f82..4ced9523e2 100644
-> > ---- a/libavcodec/rpzaenc.c
-> > -+++ b/libavcodec/rpzaenc.c
-> > -@@ -205,7 +205,7 @@ static void get_max_component_diff(const BlockInfo=
- *bi, const uint16_t *block_pt
-> > -
-> > -     // loop thru and compare pixels
-> > -     for (y =3D 0; y < bi->block_height; y++) {
-> > --        for (x =3D 0; x < bi->block_width; x++){
-> > -+        for (x =3D 0; x < bi->block_width; x++) {
-> > -             // TODO:  optimize
-> > -             min_r =3D FFMIN(R(block_ptr[x]), min_r);
-> > -             min_g =3D FFMIN(G(block_ptr[x]), min_g);
-> > -@@ -278,7 +278,7 @@ static int leastsquares(const uint16_t *block_ptr,=
- const BlockInfo *bi,
-> > -         return -1;
-> > -
-> > -     for (i =3D 0; i < bi->block_height; i++) {
-> > --        for (j =3D 0; j < bi->block_width; j++){
-> > -+        for (j =3D 0; j < bi->block_width; j++) {
-> > -             x =3D GET_CHAN(block_ptr[j], xchannel);
-> > -             y =3D GET_CHAN(block_ptr[j], ychannel);
-> > -             sumx +=3D x;
-> > -@@ -325,7 +325,7 @@ static int calc_lsq_max_fit_error(const uint16_t *=
-block_ptr, const BlockInfo *bi
-> > -     int max_err =3D 0;
-> > -
-> > -     for (i =3D 0; i < bi->block_height; i++) {
-> > --        for (j =3D 0; j < bi->block_width; j++){
-> > -+        for (j =3D 0; j < bi->block_width; j++) {
-> > -             int x_inc, lin_y, lin_x;
-> > -             x =3D GET_CHAN(block_ptr[j], xchannel);
-> > -             y =3D GET_CHAN(block_ptr[j], ychannel);
-> > -@@ -420,7 +420,9 @@ static void update_block_in_prev_frame(const uint1=
-6_t *src_pixels,
-> > -                                        uint16_t *dest_pixels,
-> > -                                        const BlockInfo *bi, int block=
-_counter)
-> > - {
-> > --    for (int y =3D 0; y < 4; y++) {
-> > -+    const int y_size =3D FFMIN(4, bi->image_height - bi->row * 4);
-> > -+
-> > -+    for (int y =3D 0; y < y_size; y++) {
-> > -         memcpy(dest_pixels, src_pixels, 8);
-> > -         dest_pixels +=3D bi->rowstride;
-> > -         src_pixels +=3D bi->rowstride;
-> > -@@ -730,14 +732,15 @@ post_skip :
-> > -
-> > -             if (err > s->sixteen_color_thresh) { // DO SIXTEEN COLOR =
-BLOCK
-> > -                 uint16_t *row_ptr;
-> > --                int rgb555;
-> > -+                int y_size, rgb555;
-> > -
-> > -                 block_offset =3D get_block_info(&bi, block_counter);
-> > -
-> > -                 row_ptr =3D &src_pixels[block_offset];
-> > -+                y_size =3D FFMIN(4, bi.image_height - bi.row * 4);
-> > -
-> > --                for (int y =3D 0; y < 4; y++) {
-> > --                    for (int x =3D 0; x < 4; x++){
-> > -+                for (int y =3D 0; y < y_size; y++) {
-> > -+                    for (int x =3D 0; x < 4; x++) {
-> > -                         rgb555 =3D row_ptr[x] & ~0x8000;
-> > -
-> > -                         put_bits(&s->pb, 16, rgb555);
-> > -@@ -745,6 +748,11 @@ post_skip :
-> > -                     row_ptr +=3D bi.rowstride;
-> > -                 }
-> > -
-> > -+                for (int y =3D y_size; y < 4; y++) {
-> > -+                    for (int x =3D 0; x < 4; x++)
-> > -+                        put_bits(&s->pb, 16, 0);
-> > -+                }
-> > -+
-> > -                 block_counter++;
-> > -             } else { // FOUR COLOR BLOCK
-> > -                 block_counter +=3D encode_four_color_block(min_color,=
- max_color,
-> > ---
-> > -2.34.1
-> > -
-> > diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-smcenc-=
-stop-accessing-out-of-bounds-frame.patch b/meta/recipes-multimedia/ffmpeg/f=
-fmpeg/0001-avcodec-smcenc-stop-accessing-out-of-bounds-frame.patch
-> > deleted file mode 100644
-> > index 923fc6a9c1b..00000000000
-> > --- a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-smcenc-stop-ac=
-cessing-out-of-bounds-frame.patch
-> > +++ /dev/null
-> > @@ -1,108 +0,0 @@
-> > -From 13c13109759090b7f7182480d075e13b36ed8edd Mon Sep 17 00:00:00 2001
-> > -From: Paul B Mahol <onemda@gmail.com>
-> > -Date: Sat, 12 Nov 2022 15:19:21 +0100
-> > -Subject: [PATCH] avcodec/smcenc: stop accessing out of bounds frame
-> > -
-> > -Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/13c=
-13109759090b7f7182480d075e13b36ed8edd]
-> > -
-> > -Signed-off-by: <narpat.mali@windriver.com>
-> > -
-> > ----
-> > - libavcodec/smcenc.c | 18 ++++++++++++++----
-> > - 1 file changed, 14 insertions(+), 4 deletions(-)
-> > -
-> > -diff --git a/libavcodec/smcenc.c b/libavcodec/smcenc.c
-> > -index f3d26a4e8d..33549b8ab4 100644
-> > ---- a/libavcodec/smcenc.c
-> > -+++ b/libavcodec/smcenc.c
-> > -@@ -61,6 +61,7 @@ typedef struct SMCContext {
-> > -         { \
-> > -             row_ptr +=3D stride * 4; \
-> > -             pixel_ptr =3D row_ptr; \
-> > -+            cur_y +=3D 4; \
-> > -         } \
-> > -     } \
-> > - }
-> > -@@ -117,6 +118,7 @@ static void smc_encode_stream(SMCContext *s, const=
- AVFrame *frame,
-> > -     const uint8_t *prev_pixels =3D (const uint8_t *)s->prev_frame->da=
-ta[0];
-> > -     uint8_t *distinct_values =3D s->distinct_values;
-> > -     const uint8_t *pixel_ptr, *row_ptr;
-> > -+    const int height =3D frame->height;
-> > -     const int width =3D frame->width;
-> > -     uint8_t block_values[16];
-> > -     int block_counter =3D 0;
-> > -@@ -125,13 +127,14 @@ static void smc_encode_stream(SMCContext *s, con=
-st AVFrame *frame,
-> > -     int color_octet_index =3D 0;
-> > -     int color_table_index;  /* indexes to color pair, quad, or octet =
-tables */
-> > -     int total_blocks;
-> > -+    int cur_y =3D 0;
-> > -
-> > -     memset(s->color_pairs, 0, sizeof(s->color_pairs));
-> > -     memset(s->color_quads, 0, sizeof(s->color_quads));
-> > -     memset(s->color_octets, 0, sizeof(s->color_octets));
-> > -
-> > -     /* Number of 4x4 blocks in frame. */
-> > --    total_blocks =3D ((frame->width + 3) / 4) * ((frame->height + 3) =
-/ 4);
-> > -+    total_blocks =3D ((width + 3) / 4) * ((height + 3) / 4);
-> > -
-> > -     pixel_ptr =3D row_ptr =3D src_pixels;
-> > -
-> > -@@ -145,11 +148,13 @@ static void smc_encode_stream(SMCContext *s, con=
-st AVFrame *frame,
-> > -         int cache_index;
-> > -         int distinct =3D 0;
-> > -         int blocks =3D 0;
-> > -+        int frame_y =3D cur_y;
-> > -
-> > -         while (prev_pixels && s->key_frame =3D=3D 0 && block_counter =
-+ inter_skip_blocks < total_blocks) {
-> > -+            const int y_size =3D FFMIN(4, height - cur_y);
-> > -             int compare =3D 0;
-> > -
-> > --            for (int y =3D 0; y < 4; y++) {
-> > -+            for (int y =3D 0; y < y_size; y++) {
-> > -                 const ptrdiff_t offset =3D pixel_ptr - src_pixels;
-> > -                 const uint8_t *prev_pixel_ptr =3D prev_pixels + offse=
-t;
-> > -
-> > -@@ -170,8 +175,10 @@ static void smc_encode_stream(SMCContext *s, cons=
-t AVFrame *frame,
-> > -
-> > -         pixel_ptr =3D xpixel_ptr;
-> > -         row_ptr =3D xrow_ptr;
-> > -+        cur_y =3D frame_y;
-> > -
-> > -         while (block_counter > 0 && block_counter + intra_skip_blocks=
- < total_blocks) {
-> > -+            const int y_size =3D FFMIN(4, height - cur_y);
-> > -             const ptrdiff_t offset =3D pixel_ptr - src_pixels;
-> > -             const int sy =3D offset / stride;
-> > -             const int sx =3D offset % stride;
-> > -@@ -180,7 +187,7 @@ static void smc_encode_stream(SMCContext *s, const=
- AVFrame *frame,
-> > -             const uint8_t *old_pixel_ptr =3D src_pixels + nx + ny * s=
-tride;
-> > -             int compare =3D 0;
-> > -
-> > --            for (int y =3D 0; y < 4; y++) {
-> > -+            for (int y =3D 0; y < y_size; y++) {
-> > -                 compare |=3D memcmp(old_pixel_ptr + y * stride, pixel=
-_ptr + y * stride, 4);
-> > -                 if (compare)
-> > -                     break;
-> > -@@ -197,9 +204,11 @@ static void smc_encode_stream(SMCContext *s, cons=
-t AVFrame *frame,
-> > -
-> > -         pixel_ptr =3D xpixel_ptr;
-> > -         row_ptr =3D xrow_ptr;
-> > -+        cur_y =3D frame_y;
-> > -
-> > -         while (block_counter + coded_blocks < total_blocks && coded_b=
-locks < 256) {
-> > --            for (int y =3D 0; y < 4; y++)
-> > -+            const int y_size =3D FFMIN(4, height - cur_y);
-> > -+            for (int y =3D 0; y < y_size; y++)
-> > -                 memcpy(block_values + y * 4, pixel_ptr + y * stride, =
-4);
-> > -
-> > -             qsort(block_values, 16, sizeof(block_values[0]), smc_cmp_=
-values);
-> > -@@ -224,6 +233,7 @@ static void smc_encode_stream(SMCContext *s, const=
- AVFrame *frame,
-> > -
-> > -         pixel_ptr =3D xpixel_ptr;
-> > -         row_ptr =3D xrow_ptr;
-> > -+        cur_y =3D frame_y;
-> > -
-> > -         blocks =3D coded_blocks;
-> > -         distinct =3D coded_distinct;
-> > ---
-> > -2.34.1
-> > -
-> > diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/ffmpeg-fix-vulkan.pa=
-tch b/meta/recipes-multimedia/ffmpeg/ffmpeg/ffmpeg-fix-vulkan.patch
-> > deleted file mode 100644
-> > index 95bd608a277..00000000000
-> > --- a/meta/recipes-multimedia/ffmpeg/ffmpeg/ffmpeg-fix-vulkan.patch
-> > +++ /dev/null
-> > @@ -1,34 +0,0 @@
-> > -From: Lynne <dev@lynne.ee>
-> > -Date: Sun, 25 Dec 2022 00:03:30 +0000 (+0100)
-> > -Subject: hwcontext_vulkan: remove optional encode/decode extensions fr=
-om the list
-> > -X-Git-Url: http://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff_plain/eb=
-0455d64690
-> > -
-> > -hwcontext_vulkan: remove optional encode/decode extensions from the li=
-st
-> > -
-> > -They're not currently used, so they don't need to be there.
-> > -Vulkan stabilized the decode extensions less than a week ago, and thei=
-r
-> > -name prefixes were changed from EXT to KHR. It's a bit too soon to be
-> > -depending on it, so rather than bumping, just remove these for now.
-> > -
-> > -Upstream-Status: Backport [https://git.ffmpeg.org/gitweb/ffmpeg.git/co=
-mmitdiff_plain/eb0455d64690]
-> > ----
-> > -
-> > -diff --git a/libavutil/hwcontext_vulkan.c b/libavutil/hwcontext_vulkan=
-.c
-> > -index f1db1c7291..2a9b5f4aac 100644
-> > ---- a/libavutil/hwcontext_vulkan.c
-> > -+++ b/libavutil/hwcontext_vulkan.c
-> > -@@ -358,14 +358,6 @@ static const VulkanOptExtension optional_device_e=
-xts[] =3D {
-> > -     { VK_KHR_EXTERNAL_MEMORY_WIN32_EXTENSION_NAME,            FF_VK_E=
-XT_EXTERNAL_WIN32_MEMORY  },
-> > -     { VK_KHR_EXTERNAL_SEMAPHORE_WIN32_EXTENSION_NAME,         FF_VK_E=
-XT_EXTERNAL_WIN32_SEM     },
-> > - #endif
-> > --
-> > --    /* Video encoding/decoding */
-> > --    { VK_KHR_VIDEO_QUEUE_EXTENSION_NAME,                      FF_VK_E=
-XT_NO_FLAG                },
-> > --    { VK_KHR_VIDEO_DECODE_QUEUE_EXTENSION_NAME,               FF_VK_E=
-XT_NO_FLAG                },
-> > --    { VK_KHR_VIDEO_ENCODE_QUEUE_EXTENSION_NAME,               FF_VK_E=
-XT_NO_FLAG                },
-> > --    { VK_EXT_VIDEO_ENCODE_H264_EXTENSION_NAME,                FF_VK_E=
-XT_NO_FLAG                },
-> > --    { VK_EXT_VIDEO_DECODE_H264_EXTENSION_NAME,                FF_VK_E=
-XT_NO_FLAG                },
-> > --    { VK_EXT_VIDEO_DECODE_H265_EXTENSION_NAME,                FF_VK_E=
-XT_NO_FLAG                },
-> > - };
-> > -
-> > - /* Converts return values to strings */
-> > diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb b/meta/reci=
-pes-multimedia/ffmpeg/ffmpeg_6.0.bb
-> > similarity index 95%
-> > rename from meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb
-> > rename to meta/recipes-multimedia/ffmpeg/ffmpeg_6.0.bb
-> > index cccd9f65abf..e4a4a0effa1 100644
-> > --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb
-> > +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.0.bb
-> > @@ -22,13 +22,9 @@ LIC_FILES_CHKSUM =3D "file://COPYING.GPLv2;md5=3Db23=
-4ee4d69f5fce4486a80fdaf4a4263 \
-> >                      file://COPYING.LGPLv2.1;md5=3Dbd7a443320af8c812e4c=
-18d1b79df004 \
-> >                      file://COPYING.LGPLv3;md5=3De6a600fd5e1d9cbde2d983=
-680233ad02"
+> > Does anyone know if it is possible to test reproducibility on a single
+> package (here, zvariant) ?
+> > Should I tweak the python test class or is there a simple way ?
 > >
-> > -SRC_URI =3D "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-> > -           file://0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-fr=
-ame.patch \
-> > -           file://0001-avcodec-smcenc-stop-accessing-out-of-bounds-fra=
-me.patch \
-> > -           file://ffmpeg-fix-vulkan.patch \
-> > -           "
-> > +SRC_URI =3D "https://www.ffmpeg.org/releases/${BP}.tar.xz"
-> >
-> > -SRC_URI[sha256sum] =3D "619e706d662c8420859832ddc259cd4d4096a48a2ce1ee=
-fd052db9e440eef3dc"
-> > +SRC_URI[sha256sum] =3D "57be87c22d9b49c112b6d24bc67d42508660e6b718b3db=
-89c44e47e289137082"
-> >
-> >  # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org=
-/show_bug.cgi?id=3D7717
-> >  ARM_INSTRUCTION_SET:armv4 =3D "arm"
-> > diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/ffmpe=
-g-6.0.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/ffmpeg-6=
-.0.patch
-> > new file mode 100644
-> > index 00000000000..0a06540fb47
-> > --- /dev/null
-> > +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/ffmpeg-6.0.p=
-atch
-> > @@ -0,0 +1,49 @@
-> > +From cde31d23c071ee93fae96331805f696856084254 Mon Sep 17 00:00:00 2001
-> > +From: "U. Artie Eoff" <ullysses.a.eoff@intel.com>
-> > +Date: Mon, 13 Feb 2023 17:02:01 -0500
-> > +Subject: [PATCH] avviddec: change
-> > + AV_CODEC_CAP_AUTO_THREADS->AV_CODEC_CAP_OTHER_THREADS
-> > +
-> > +This fixes a compile error with recent upstream FFmpeg.
-> > +
-> > +The AV_CODEC_CAP_AUTO_THREADS was deprecated and renamed to
-> > +AV_CODEC_CAP_OTHER_THREADS in FFmpeg upstream commit
-> > +7d09579190de (lavc 58.132.100).
-> > +
-> > +The AV_CODEC_CAP_AUTO_THREADS was finally removed in FFmpeg upstream
-> > +commit 10c9a0874cb3 (lavc 59.63.100).
-> > +
-> > +Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_r=
-equests/3964>
-> > +
-> > +Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gs=
-treamer/-/commit/cde31d23c071ee93fae96331805f696856084254?merge_request_iid=
-=3D3964]
-> > +Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> > +---
-> > + ext/libav/gstavviddec.c | 6 +++++-
-> > + 1 file changed, 5 insertions(+), 1 deletion(-)
-> > +
-> > +diff --git a/ext/libav/gstavviddec.c b/ext/libav/gstavviddec.c
-> > +index 43cea456ae8..6d7c4cd0de8 100644
-> > +--- a/ext/libav/gstavviddec.c
-> > ++++ b/ext/libav/gstavviddec.c
-> > +@@ -35,6 +35,10 @@
-> > +
-> > + GST_DEBUG_CATEGORY_STATIC (GST_CAT_PERFORMANCE);
-> > +
-> > ++#if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(58,132,100)
-> > ++#define AV_CODEC_CAP_OTHER_THREADS AV_CODEC_CAP_AUTO_THREADS
-> > ++#endif
-> > ++
-> > + #define GST_FFMPEG_VIDEO_CODEC_FRAME_FLAG_ALLOCATED (1<<15)
-> > +
-> > + #define MAX_TS_MASK 0xff
-> > +@@ -615,7 +619,7 @@ gst_ffmpegviddec_set_format (GstVideoDecoder * dec=
-oder,
-> > +   if (ffmpegdec->max_threads =3D=3D 0) {
-> > +     /* When thread type is FF_THREAD_FRAME, extra latency is introduc=
-ed equal
-> > +      * to one frame per thread. We thus need to calculate the thread =
-count ourselves */
-> > +-    if ((!(oclass->in_plugin->capabilities & AV_CODEC_CAP_AUTO_THREAD=
-S)) ||
-> > ++    if ((!(oclass->in_plugin->capabilities & AV_CODEC_CAP_OTHER_THREA=
-DS)) ||
-> > +         (ffmpegdec->context->thread_type & FF_THREAD_FRAME))
-> > +       ffmpegdec->context->thread_count =3D
-> > +           MIN (gst_ffmpeg_auto_max_threads (), 16);
-> > +--
-> > +GitLab
-> > diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.=
-0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.0.bb
-> > index 625a52ea555..d1dce6739dd 100644
-> > --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.0.bb
-> > +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.0.bb
-> > @@ -11,7 +11,9 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D69333daa04=
-4cb77e486cc36129f7a770 \
-> >                      file://ext/libav/gstav.h;beginline=3D1;endline=3D1=
-8;md5=3Da752c35267d8276fd9ca3db6994fca9c \
-> >                      "
-> >
-> > -SRC_URI =3D "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav=
--${PV}.tar.xz"
-> > +SRC_URI =3D "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav=
--${PV}.tar.xz \
-> > +           file://ffmpeg-6.0.patch \
-> > +          "
-> >  SRC_URI[sha256sum] =3D "0e48407b4905227a260213dbda84cba3812f0530fc7a75=
-b43829102ef82810f1"
-> >
-> >  S =3D "${WORKDIR}/gst-libav-${PV}"
-> > --
-> > 2.30.2
-> >
+> > Thanks
 > >
 > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > > Links: You receive all messages sent to this group.
-> > View/Reply Online (#179384): https://lists.openembedded.org/g/openembed=
-ded-core/message/179384
-> > Mute This Topic: https://lists.openembedded.org/mt/97967685/1997914
+> > View/Reply Online (#179826):
+> https://lists.openembedded.org/g/openembedded-core/message/179826
+> > Mute This Topic: https://lists.openembedded.org/mt/98126404/1686489
 > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-raj.khem@gmail.com]
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
 > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > >
+>
+
+--000000000000d3ed1e05f91106fd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Yes=C2=A0 I already did that and manage to get the test l=
+ast 30mn (see the other mail thread)=C2=A0</div><br><div class=3D"gmail_quo=
+te"><div dir=3D"ltr" class=3D"gmail_attr">Le mar. 11 avr. 2023, 16:52, Alex=
+ander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gm=
+ail.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
+>If you read the code for the test, you&#39;ll see a &#39;bitbake world&#39=
+; in it<br>
+somewhere :) Tweak that to build only the item you need.<br>
+<br>
+Alternatively, you can set up two separate build directories, and<br>
+avoid selftest altogether for investigating and fixing the issue.<br>
+<br>
+Alex<br>
+<br>
+On Fri, 7 Apr 2023 at 17:21, Frederic Martinsons<br>
+&lt;<a href=3D"mailto:frederic.martinsons@gmail.com" target=3D"_blank" rel=
+=3D"noreferrer">frederic.martinsons@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Hello,<br>
+&gt;<br>
+&gt; I plan to work on <a href=3D"https://bugzilla.yoctoproject.org/show_bu=
+g.cgi?id=3D15090" rel=3D"noreferrer noreferrer" target=3D"_blank">https://b=
+ugzilla.yoctoproject.org/show_bug.cgi?id=3D15090</a>=C2=A0 in the coming da=
+ys.<br>
+&gt; To show how things are tested I ran &quot;oe-selftest -r reproducible.=
+ReproducibleTests.test_reproducible_builds&quot; but even on a strong machi=
+ne, it took several hours (I waited for 6h and it is not finished yet).<br>
+&gt;<br>
+&gt; Does anyone know if it is possible to test reproducibility on a single=
+ package (here, zvariant) ?<br>
+&gt; Should I tweak the python test class or is there a simple way ?<br>
+&gt;<br>
+&gt; Thanks<br>
+&gt;<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#179826): <a href=3D"https://lists.openembedded.org=
+/g/openembedded-core/message/179826" rel=3D"noreferrer noreferrer" target=
+=3D"_blank">https://lists.openembedded.org/g/openembedded-core/message/1798=
+26</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/98126404=
+/1686489" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.ope=
+nembedded.org/mt/98126404/1686489</a><br>
+&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
+edded.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lis=
+ts.openembedded.org</a><br>
+&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
+core/unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.o=
+penembedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanav=
+in@gmail.com" target=3D"_blank" rel=3D"noreferrer">alex.kanavin@gmail.com</=
+a>]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;<br>
+</blockquote></div>
+
+--000000000000d3ed1e05f91106fd--
 
