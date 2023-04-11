@@ -1,114 +1,266 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <p.lobacz@welotec.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5200C76196
-	for <webhook@archiver.kernel.org>; Tue, 11 Apr 2023 09:04:20 +0000 (UTC)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
- by mx.groups.io with SMTP id smtpd.web10.9101.1681203852633794222
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9798C7619A
+	for <webhook@archiver.kernel.org>; Tue, 11 Apr 2023 09:37:00 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.60])
+ by mx.groups.io with SMTP id smtpd.web11.9618.1681205812940463262
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Apr 2023 02:04:12 -0700
+ Tue, 11 Apr 2023 02:36:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20210112 header.b=X4Nu0rJ9;
- spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f53.google.com with SMTP id ga37so18859663ejc.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 02:04:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681203851; x=1683795851;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pMQAuiAx/kPFkN46M6wztIxvpGWA6fEojtd7KzAdSKU=;
-        b=X4Nu0rJ9E9LBerO08GaRr+teKrOJm9hZZDKMLwv4E87Wz9LlxRAzzNJZwsnDHp7g1f
-         WMuGG3uVktfFf+wVAc19BOmqFQLjtQXaE8NOXj+lk8kbiAyTIS1F6sxlPtg5crIIAfqv
-         g+ub3ABcUqV93jnmI/VDlxRwI/ymMJlD+y5MLiXqFRvuxRnMdMhT8Tr406ZXSns2ga4L
-         In1J/SErnGQgtcB+IyIykroOZrFN8al9Oryf7tnmfU4hEcDeD9mnI7ykQCyK4YZb8l1T
-         /hBIZn2Emwvg7MN2Cw/09EKXg+HUcrSujdYbLE9C7GxzL0oN90+fYpYq7FHkQGgjXVOA
-         DBHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681203851; x=1683795851;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pMQAuiAx/kPFkN46M6wztIxvpGWA6fEojtd7KzAdSKU=;
-        b=ciHoECrnf3yUpZMeK5DTndxNoVmRObaYzaLZyuOVlBtfmPT5c8cDuDCkfRaRDvhUyy
-         qK/1mLK/rMrl4p4vo1qYHi9o3JL6axDgeULIfhyC98EDafZAbDRG4VaAi3SGeOeQRVaP
-         tgxFYVzqS6S+hYqMpBbYACsYGEf1ACYvYGx+plGUdQc/JKBQnuxYA/JHd4f0L90krWS0
-         55rsfGeIeSj0ysMMTkmx3Qyms+G8TuGxuzTBICvSaUiGzNgGO6GRu1d34RHaioLuyO0R
-         nY0IpHFO9yjkDZojPZCdgwlb2GjHINkQqbtwhe2ZICb9xD14MeBSEzrBw3Z8ww8HoDpj
-         lYsw==
-X-Gm-Message-State: AAQBX9cyY3skaKEorf1Bp2VG+av10jrYyXNIZ1cbodu6L1P6PW5wI3Tw
-	fX1IFYYud9jNUUhKGoPNGIfx8W7hpMQ=
-X-Google-Smtp-Source: AKy350bTx6760PNWQvaP8IbquoYmdAGJa1k80EOWu2Kf0aV7r2uy4ioMrZ+pq80mzex5ERJNnjv/pg==
-X-Received: by 2002:a17:906:f285:b0:932:4990:2563 with SMTP id gu5-20020a170906f28500b0093249902563mr9151698ejb.24.1681203850810;
-        Tue, 11 Apr 2023 02:04:10 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id lo12-20020a170906fa0c00b00947792df079sm5925678ejb.115.2023.04.11.02.04.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Apr 2023 02:04:10 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH 2/3] populate_sdk_ext.bbclass: redirect stderr to stdout so that both end in LOGFILE
-Date: Tue, 11 Apr 2023 11:03:47 +0200
-Message-Id: <20230411090348.2434686-2-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230411090348.2434686-1-Martin.Jansa@gmail.com>
-References: <20230411090348.2434686-1-Martin.Jansa@gmail.com>
+ dkim=fail reason="no key for verify" header.i=@welotec.com header.s=selector2 header.b=vePxzs+K;
+ spf=pass (domain: welotec.com, ip: 40.107.21.60, mailfrom: p.lobacz@welotec.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iE375BKItxUvG6WLJkhcGu+XeW/6vCcn0N4GOreG14q1bZKKGneJzI8ZKIi/ANPA9RThzVWWbLD0WkHKmUaaHb/P3nWpSjqKGX8oeR4F/F7pJUDoCpo6FORSFiOpgVBN+Ebtqp0o1xDxf6TbP3V/jSlIj2pfF16wRpndLCRv8ZkJ580j6Rup0bSZAUCQasuOjjgxhMrGnN9c+fsYKCZSXAv4cHHVPNvTHRbIXtCGV7D8yUhlpKZnyzm1gmN8SDh++3X3MB3gDmzxuG9jl2FfH6dUAVdRQB2/FnsEorLuPKv29DFebxFJDMX0/D3uQ6aFc+uf6pDVnOBCHLHveKM2TQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uf+7+fOYf0RwO29THbbYDSD3QuSHqEaySffCE/OknFM=;
+ b=KT285yg9fzQmxXelE+p85rHNDsG1YUeOcikOgw+0zMDUdCVwQQZpKzU37EO9ASkZxEetO8sQBWYB5Oa8if/ciqN383PJNQLf+4Vw/BzyeIZjXsJdW6W0XqLRG0irNcDTEOIn8tWUxhhJMcgF5UQVQtVKL1bhjiarqc6mFMrWvw6UE1I9cTpyiQ0CZxpVXPHNn05pyku6xgFfz52zT/FOA/b0i9a91/elrITv99BF+PmBTKqsWLoSK2x48p/wpLdxUKhi2RxqkfCU4U52hSLfGg00WqRCucGlK4gPNIHTa66arCo1hs0++1I1kRAy1vIdR7IVJTt7k1s5qECksBzM6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=welotec.com; dmarc=pass action=none header.from=welotec.com;
+ dkim=pass header.d=welotec.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=welotec.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uf+7+fOYf0RwO29THbbYDSD3QuSHqEaySffCE/OknFM=;
+ b=vePxzs+KZA4nj5SrmYC9Dg5ZhdoFXBTnOuMYKEL9r48RGQS/ZyMkszjYyuvObSe5E4Iyz8+zs3/sb12E8wAOIN++vxoZvdxikN/xsKXUP25JNtbGpyHLKb2flOXbIK1eKZXPU6QOO09CgTT4doZbas23h5rqXn2j6wY4n7EPBv0=
+Received: from VI1PR04MB5373.eurprd04.prod.outlook.com (2603:10a6:803:da::22)
+ by PA4PR04MB7855.eurprd04.prod.outlook.com (2603:10a6:102:ca::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.38; Tue, 11 Apr
+ 2023 09:36:48 +0000
+Received: from VI1PR04MB5373.eurprd04.prod.outlook.com
+ ([fe80::9055:4205:39a4:364c]) by VI1PR04MB5373.eurprd04.prod.outlook.com
+ ([fe80::9055:4205:39a4:364c%5]) with mapi id 15.20.6277.038; Tue, 11 Apr 2023
+ 09:36:48 +0000
+From: =?utf-8?B?UGlvdHIgxYFvYmFjeg==?= <p.lobacz@welotec.com>
+To: =?utf-8?B?RmFiaWFuIEdyw7xuYmljaGxlcg==?= <f.gruenbichler@proxmox.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: ODP: [OE-core] [PATCH] tar: extend numeric-owner to ACL entries
+Thread-Topic: [OE-core] [PATCH] tar: extend numeric-owner to ACL entries
+Thread-Index: AQHZaVC/jY8Jker1dU+PuZKI3L9ofa8iF/YAgAOobwCAAB5yrA==
+Date: Tue, 11 Apr 2023 09:36:47 +0000
+Message-ID: 
+ <VI1PR04MB53734C8E9AB6EE51B4809B17919A9@VI1PR04MB5373.eurprd04.prod.outlook.com>
+References: <20230407125846.3983045-1-p.lobacz@welotec.com>
+	<2023040823532071419a57@mail.local> <1681198839.m1sa9xpbzc.astroid@yuna.none>
+In-Reply-To: <1681198839.m1sa9xpbzc.astroid@yuna.none>
+Accept-Language: pl-PL, en-GB, en-US
+Content-Language: pl-PL
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=welotec.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: VI1PR04MB5373:EE_|PA4PR04MB7855:EE_
+x-ms-office365-filtering-correlation-id: 411474f9-2dd8-4cd0-fe87-08db3a70457a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ AaNv85bgzfz+QOZU1gBb6xT0y5m8wAHmr90+Asrtf+59tq9KbJOULvkN6f9hYxTd9ch4VmAeEJUran0hiWUXJcBwsh9UfTyt72+VsVMEiTRHFXamExOD2L8ZHA8qjVMlitsePekY0aBF9fkKjOf1Jo6yMlk8j8Yc7Q3oCYqt5dIsGf8VgCzPaoh88bvbng+Ol1KMthL2UgAvak6hfSjhu7tgSOhoAFYEnt3cjNamMZuNw//dLP0LWlnBHrYXxl0obgHOmzVXyTLoF0ahish5mKHrTLVKe/p7+ydAd33AwnTWPJV6iNFZfmCEoJ6IHnVkt6/otDsU+ZnEVrp4iSDVD8WAoMCn3F4ag5NlMd6PrNC3l66lR18ky+dUJA6OZQ2TIgeTNhb0ikDcCOGQ2HsBabrngwZLhGYLh/bX9zE87U1JjhAwQFnoMun+KBM5gfQMBMc2tOQcWmUss0KKjYozI+YC85Bw4mQhkVIQXemDQslHgufqpBrREAw46xZV5jzx5W9r+XL7yhmXTr67YXAJAvXPLIvQqypwwxDl+SZ5XeF7YEtAMhXRqXos8cPqIPhnT7Owk/URCPbRSKwEiBt7d3Ic/YuCz0EDd1fJdqvj4nw=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5373.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(376002)(346002)(136003)(366004)(39840400004)(451199021)(166002)(5660300002)(38070700005)(966005)(8936002)(52536014)(26005)(6506007)(9686003)(55016003)(2906002)(83380400001)(66574015)(33656002)(85182001)(85202003)(186003)(122000001)(38100700002)(86362001)(45080400002)(478600001)(91956017)(76116006)(41300700001)(66946007)(66556008)(4326008)(8676002)(64756008)(66476007)(66899021)(7696005)(110136005)(66446008)(316002)(71200400001)(19627405001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?cXZjejdsUC9waXBQemQyWFZXWXlJcmI1WFpUYk1GbXlYMmVseis4WmJoZktE?=
+ =?utf-8?B?b0drVWJYT2xVYW5mcWVCUE5CNmZDOW50RzFhOWNpczk1WTU2TnlPV1JmM0VW?=
+ =?utf-8?B?WTBoT2pnTWFEcG1tVDdoS1hXK25PYks0K25HVTBWS1lVMmJXQXExMVlMejBG?=
+ =?utf-8?B?aUVuUEk0R0tzOXl5TlhUUlRkbFlJU0xUOXVYV0MxdHdZcjJmSXZ6Y01Uc014?=
+ =?utf-8?B?ZzAyWGxabEhiS0xKaCtHQU5NejNLeVdCSll1RzlKT09IOUNTWWZ6dVJLMTRY?=
+ =?utf-8?B?ck1YWDNJVzlBem1tMWpKQ09jbDcrZDhBWTNnNFpjTyttMnI4VlBqQ2UrQWY1?=
+ =?utf-8?B?SGpkSjNFOVNNUW1wVmJzVTBIRFpnTThneDJROHhob3d3Yk1kSXNuUGtNUFo4?=
+ =?utf-8?B?ckYyTnM5czZvc05LcEJsb1hybjF3SjZCZFVBVlY5Wm5IWU9UdHRab0VjWXdR?=
+ =?utf-8?B?cDZ5T0JRSmJUOVRkNWxRbm02YVFqMEJGSHh3VzdSZUM0TFNpeFp6NGE0V1Ax?=
+ =?utf-8?B?UEQ0SFFkai9CMzhlU3k2TFQ3TFJjNVlCT3cycjhWYUZMQW1heHJ2MjNrbFUw?=
+ =?utf-8?B?UEsrZzNoTDZNaktOQ2FHUnBoNHlISzQvTXdLVmFMQ09CbUk3YW0zZHRPT0dK?=
+ =?utf-8?B?d01rNU83OHRMSE5aaG9NMmhSb1ZLZlJmdEdNbXkyZjhKUTN0TytaWklvbE9a?=
+ =?utf-8?B?V1l3STBJSnY4NUxZNWtUbmdwaXVXT1I2Zml1azkxWXlzNE9FMjhMUGo0MWFW?=
+ =?utf-8?B?cHYwSGViZVJLMXpvY2lPY2RXazgzWkVjRUFyTStOSys5S2xjZUJIMFZoTUh6?=
+ =?utf-8?B?Z3IvWHVWTkxsU1R5NGZmSUFTdGNwTFFSZkI3VGlSVFVxcG1zMnJsOFZQR0Iy?=
+ =?utf-8?B?dHBBSXBadVYzenBUWGQ1OTRHQXpnM09XV21UZEcwMXZVZGk4QlR5R2drLzdJ?=
+ =?utf-8?B?SnYwSTZ2RDBqYmVoREdsSXRIVm9jZDVSK0pFalNlWFUvY3gwNVhlTVdKaSt1?=
+ =?utf-8?B?TWhLNXpOWU9XUExwN1FRbTkwbGFrWTRLV3B1WXQ0Ykc0VmRDR3c1YThOUmsr?=
+ =?utf-8?B?dHJVUzlmTmJFU3Q2R2NhSy9TZy9sNDA5OU4xaFF4cTNtdmpxZzhaeEZsTEhK?=
+ =?utf-8?B?dUZTb0FFYmRkdFUxbGVEQUpEa2dSQy8vVmsyL3JYdFVvS2cwZDFKdTJhaldX?=
+ =?utf-8?B?c1Y2eHpNQXo3MXlPcTJXU1RUZzBQekloQ1VmMU9KL0E5NmV3OW9EUWNOMHRY?=
+ =?utf-8?B?TFZoUTkzR1JSM0RzRkwvL3RtR1NpNThMWnU0RHRwYXRkYzF1cE1SYnpBWHZN?=
+ =?utf-8?B?Ym1VTTBLRG9SVS9KR1pyMmRsRlRES08xcThxdHhNUjJvWHN2SWdmUm9UZ25T?=
+ =?utf-8?B?M0JJNU9xZ3AwR25KUkwrYk1oYVFhUG5nTUV1TlBWaCt3OW90ckFtWXcxbEtL?=
+ =?utf-8?B?cHUvaHpuZ1E0SGRLNEVmRG9YUUxWRG5vcXBTa2MwVFdReE9qdFd2Z3NVT1hw?=
+ =?utf-8?B?bHRhQURVRitDS2dzc0JsZ3lWamhHaEhqNTZqOWJEN1ZzbEJyZ3B6Zk1NYy85?=
+ =?utf-8?B?VGVSdDl4NStxclVyUVNBOCtYd3p1dnJjT2Rsemd4OG9KRnVTbFdhRVliY28x?=
+ =?utf-8?B?ald5dTUxb2g4SGhUdGFDTnVXWjQ2ZDlCaEUyeithMGY4eEtNQXZUUXdEVVdU?=
+ =?utf-8?B?czF3V2FZVm0wNGVhbi8rVWdlbmgwcngyVEFzS2hHK0xoWTJnUjZ4Q1Y0VWZP?=
+ =?utf-8?B?NG50ZUI4eW55UDQwYklaOHZtZytIaWNFemF1MVdIMUE0UGYwdmk1MEJhOC95?=
+ =?utf-8?B?OGxWTGVSak8yY29pRnRYenBnL29yWUw5OHNtUU5PQlo4OEJyYXc3RFErYWk4?=
+ =?utf-8?B?ak1iSXFQeHgwdWlSa3dLZEZWMzhFVk96ajdiTDhabWRDVGJUNzFjT2ZRSUY4?=
+ =?utf-8?B?MEhLcUJqYTl2RTNXeWJ5b1haVjVGUHlRanBkVDd4amxhREwwTGlIbTVEcXp2?=
+ =?utf-8?B?TjdnVzkwVmFhcUx1YlA4ODJzSHE1SFRiYStzOCtmQTZweXkzeXNWQlUyNlM3?=
+ =?utf-8?B?Z3RWT3AwVzZjaWdHUDZEUVpSM3JSMFh6VENmOU1ZNC9OVUJjMFhmQzJiSkVo?=
+ =?utf-8?Q?Pst4=3D?=
+Content-Type: multipart/alternative;
+	boundary="_000_VI1PR04MB53734C8E9AB6EE51B4809B17919A9VI1PR04MB5373eurp_"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: welotec.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5373.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 411474f9-2dd8-4cd0-fe87-08db3a70457a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Apr 2023 09:36:47.9292
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 25111a7f-1d5a-4c51-a4ca-7f8e44011b39
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yGCi5CG95Ndun5KaIsyg3azWIsoAay59pICLOt13XGHLu8shEx4HLBkYAmQS31P3u5utxh9uwHyrCnbvSphXQw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB7855
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 09:04:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179912
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Apr 2023 09:37:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179914
 
-* this in the end doesn't help much, I was debugging warning (about base-files.do_install
-  signature being different than expected) from:
+--_000_VI1PR04MB53734C8E9AB6EE51B4809B17919A9VI1PR04MB5373eurp_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-  python3 $target_sdk_dir/ext-sdk-prepare.py $LOGFILE '${SDK_INSTALL_TARGETS}'
+SGkgRmFiaWVuLA0KVGhhdCB3YXMgbXkgaW50ZW50aW9uIHRvIGxlYXZlIHlvdSBhcyBhbiBhdXRo
+b3IgYXMgeW91IGhhdmUgZm91bmQgYW5kIGZpeGVkIHRoaXMgaXNzdWUg8J+Zgg0KDQpCdHcuIHRo
+aXMgcGF0Y2ggc2F2ZWQgbXkgdGltZSBmb3IgYXBwbHlpbmcgc3R1cGlkIHNvbHV0aW9ucy4uLg0K
+QWRkaXRpb25hbHkgSSBoYXZlIGFsc28gY3JlYXRlZCBhIGJ1ZyByZXBvcnQgb24gdGhhdCBpbiB1
+YnVudHUgaHR0cHM6Ly9idWdzLmxhdW5jaHBhZC5uZXQvdWJ1bnR1Lytzb3VyY2UvdGFyLytidWcv
+MjAxNTUzOQ0KDQpCUg0KUGlvdHINCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQpP
+ZDogRmFiaWFuIEdyw7xuYmljaGxlciA8Zi5ncnVlbmJpY2hsZXJAcHJveG1veC5jb20+DQpXeXPF
+gmFuZTogd3RvcmVrLCAxMSBrd2lldG5pYSAyMDIzIDA5OjQ0DQpEbzogQWxleGFuZHJlIEJlbGxv
+bmkgPGFsZXhhbmRyZS5iZWxsb25pQGJvb3RsaW4uY29tPjsgUGlvdHIgxYFvYmFjeiA8cC5sb2Jh
+Y3pAd2Vsb3RlYy5jb20+DQpEVzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZyA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NClRlbWF0OiBS
+ZTogW09FLWNvcmVdIFtQQVRDSF0gdGFyOiBleHRlbmQgbnVtZXJpYy1vd25lciB0byBBQ0wgZW50
+cmllcw0KDQpPbiBBcHJpbCA5LCAyMDIzIDE6NTMgYW0sIEFsZXhhbmRyZSBCZWxsb25pIHdyb3Rl
+Og0KPiBIZWxsbywNCj4NCj4gT24gMDcvMDQvMjAyMyAxNDo1ODo0NiswMjAwLCBQaW90ciDFgW9i
+YWN6IHdyb3RlOg0KPj4gQUNMIGVudHJpZXMgc3RvcmUgcmVmZXJlbmNlcyB0byBudW1lcmljIHVp
+ZHMvZ2lkcy4gb24gcGxhdGZvcm1zIHRoYXQNCj4+IGhhdmUgbGliYWNsLCB1c2UgYGFjbF90b19h
+bnlfdGV4dGAgdG8gZ2VuZXJhdGUgQUNMIHN0cmluZ3MgdGhhdCBwcmVzZXJ2ZQ0KPj4gdGhvc2Ug
+bnVtZXJpYyBpZGVudGlmaWVycyBpZiBgbnVtZXJpYy1vd25lcmAgaXMgc2V0IChpbnN0ZWFkIG9m
+IGRvaW5nIGENCj4+IGNvbnZlcnNpb24gdG8gdXNlci9ncm91cCBuYW1lLCBsaWtlIHRoZSBhY2xf
+dG9fdGV4dCBmdW5jdGlvbiBkb2VzKS4NCj4+DQo+PiBbLi5dDQo+Pg0KPj4gKw0KPj4gK2FjdHVh
+bCBvdXRwdXQgKGdldGZhY2wpIC0gbm90ZSB0aGUgbWlzc2luZyB1c2VyIGVudHJ5Og0KPj4gKyAj
+IGZpbGU6IGZpbGUNCj4+ICsgIyBvd25lcjogMA0KPj4gKyAjIGdyb3VwOiAwDQo+PiArIHVzZXI6
+OnJ3LQ0KPj4gKyBncm91cDo6ci0tDQo+PiArIG90aGVyOjpyLS0NCj4+ICsNCj4NCj4gVGhpcyBw
+YXRjaCBpcyBtaXNzaW5nIHRoZSBVcHN0cmVhbS1TdGF0dXMgdGFnIGhlcmUNCj4NCj4+ICtTaWdu
+ZWQtb2ZmLWJ5OiBGYWJpYW4gR3LDvG5iaWNobGVyIDxmLmdydWVuYmljaGxlckBwcm94bW94LmNv
+bT4NCg0KKE9yaWdpbmFsIHBhdGNoIGF1dGhvciwgdGhhbmtzIGZvciB0aGUgQ0MhKQ0KDQpGV0lX
+LCBJIGdvdCBubyByZXNwb25zZSBmcm9tIHVwc3RyZWFtIG9yIHRoZSBEZWJpYW4gdGFyIG1haW50
+YWluZXJzWzBdLg0KDQpCdXQgbmljZSB0byBzZWUgdGhhdCBvdGhlciBkaXN0cm9zIGFyZSBpbnRl
+cmVzdGVkIGFzIHdlbGwgOikgbWF5YmUgd2UNCmNvdWxkIHRyeSB0byBwaW5nIHRoZSB1cHN0cmVh
+bSByZXBvcnQgb3Igc2VuZGluZyB0aGUgcGF0Y2ggdG8gc29tZQ0KcmVsZXZhbnQgZGV2ZWwgbGlz
+dD8NCg0KVGhlIGJ1ZyB3YXMgbm90IGltcG9ydGFudCBlbm91Z2ggZm9yIHVzIHRvIGp1c3RpZnkg
+Y2Fycnlpbmcgb3VyIG93biwNCmN1c3RvbSB0YXIgcGFja2FnZXMsIHNvIHdlJ2QgaWRlYWxseSBz
+dGlsbCB3YW50IHRvIHNlZSB0aGlzIHVwc3RyZWFtZWQuDQoNCjA6IGh0dHBzOi8vZXVyMDQuc2Fm
+ZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwcyUzQSUyRiUyRmJ1Z3MuZGVi
+aWFuLm9yZyUyRmNnaS1iaW4lMkZidWdyZXBvcnQuY2dpJTNGYnVnJTNEMTAwNDQzMCZkYXRhPTA1
+JTdDMDElN0NwLmxvYmFjeiU0MHdlbG90ZWMuY29tJTdDZDU4NDY5NDdkODA3NDg4ZTY1MDEwOGRi
+M2E2MGIxMWUlN0MyNTExMWE3ZjFkNWE0YzUxYTRjYTdmOGU0NDAxMWIzOSU3QzAlN0MwJTdDNjM4
+MTY3OTU5MTk1NTI0NzM1JTdDVW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5SldJam9pTUM0d0xqQXdN
+REFpTENKUUlqb2lWMmx1TXpJaUxDSkJUaUk2SWsxaGFXd2lMQ0pYVkNJNk1uMCUzRCU3QzMwMDAl
+N0MlN0MlN0Mmc2RhdGE9eFl2Y0JEeng0MFRmb2VYNmRFMkhRdWozdHBQMXUyU3lYMTlXTnFSV2Q1
+USUzRCZyZXNlcnZlZD0wPGh0dHBzOi8vYnVncy5kZWJpYW4ub3JnL2NnaS1iaW4vYnVncmVwb3J0
+LmNnaT9idWc9MTAwNDQzMD4NCg0K
 
-  this shows the warning on console, but it doesn't end in $LOGFILE, because it
-  writes only contents of cooker log into the $LOGFILE with:
+--_000_VI1PR04MB53734C8E9AB6EE51B4809B17919A9VI1PR04MB5373eurp_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-    with open(logfile, 'a') as logf:
-        logf.write('Preparing SDK for %s...\n' % ', '.join(sdk_targets))
+PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
+dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyIgc3R5bGU9
+ImRpc3BsYXk6bm9uZTsiPiBQIHttYXJnaW4tdG9wOjA7bWFyZ2luLWJvdHRvbTowO30gPC9zdHls
+ZT4NCjwvaGVhZD4NCjxib2R5IGRpcj0ibHRyIj4NCjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OiBD
+YWxpYnJpLCBBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNv
+bG9yOiByZ2IoMCwgMCwgMCk7IGJhY2tncm91bmQtY29sb3I6IHJnYigyNTUsIDI1NSwgMjU1KTsi
+IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiI+DQpIaSBGYWJpZW4sPC9kaXY+DQo8ZGl2IHN0eWxlPSJm
+b250LWZhbWlseTogQ2FsaWJyaSwgQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1z
+aXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1
+LCAyNTUsIDI1NSk7IiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiPg0KVGhhdCB3YXMgbXkgaW50ZW50
+aW9uIHRvIGxlYXZlIHlvdSBhcyBhbiBhdXRob3IgYXMgeW91IGhhdmUgZm91bmQgYW5kIGZpeGVk
+IHRoaXMgaXNzdWUNCjxzcGFuIGlkPSLwn5mCIj7wn5mCPC9zcGFuPjxicj4NCjwvZGl2Pg0KPGRp
+diBzdHlsZT0iZm9udC1mYW1pbHk6IENhbGlicmksIEFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2Vy
+aWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsgYmFja2dyb3VuZC1jb2xv
+cjogcmdiKDI1NSwgMjU1LCAyNTUpOyIgY2xhc3M9ImVsZW1lbnRUb1Byb29mIj4NCjxicj4NCjwv
+ZGl2Pg0KPGRpdiBzdHlsZT0iZm9udC1mYW1pbHk6IENhbGlicmksIEFyaWFsLCBIZWx2ZXRpY2Es
+IHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsgYmFja2dy
+b3VuZC1jb2xvcjogcmdiKDI1NSwgMjU1LCAyNTUpOyIgY2xhc3M9ImVsZW1lbnRUb1Byb29mIj4N
+CkJ0dy4gdGhpcyBwYXRjaCBzYXZlZCBteSB0aW1lIGZvciBhcHBseWluZyBzdHVwaWQgc29sdXRp
+b25zLi4uPC9kaXY+DQo8ZGl2IHN0eWxlPSJmb250LWZhbWlseTogQ2FsaWJyaSwgQXJpYWwsIEhl
+bHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDAp
+OyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7IiBjbGFzcz0iZWxlbWVudFRv
+UHJvb2YgQ29udGVudFBhc3RlZDAiPg0KQWRkaXRpb25hbHkgSSBoYXZlIGFsc28gY3JlYXRlZCBh
+IGJ1ZyByZXBvcnQgb24gdGhhdCBpbiB1YnVudHUgPGEgaHJlZj0iaHR0cHM6Ly9idWdzLmxhdW5j
+aHBhZC5uZXQvdWJ1bnR1Lytzb3VyY2UvdGFyLytidWcvMjAxNTUzOSIgaWQ9IkxQbG5rOTE0Njg2
+Ij4NCmh0dHBzOi8vYnVncy5sYXVuY2hwYWQubmV0L3VidW50dS8rc291cmNlL3Rhci8rYnVnLzIw
+MTU1Mzk8L2E+PGJyPg0KPC9kaXY+DQo8ZGl2IHN0eWxlPSJmb250LWZhbWlseTogQ2FsaWJyaSwg
+QXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdi
+KDAsIDAsIDApOyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7IiBjbGFzcz0i
+ZWxlbWVudFRvUHJvb2YgQ29udGVudFBhc3RlZDAiPg0KPGJyPg0KPC9kaXY+DQo8ZGl2IHN0eWxl
+PSJmb250LWZhbWlseTogQ2FsaWJyaSwgQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9u
+dC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2Io
+MjU1LCAyNTUsIDI1NSk7IiBjbGFzcz0iZWxlbWVudFRvUHJvb2YgQ29udGVudFBhc3RlZDAiPg0K
+QlI8L2Rpdj4NCjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OiBDYWxpYnJpLCBBcmlhbCwgSGVsdmV0
+aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7IGJh
+Y2tncm91bmQtY29sb3I6IHJnYigyNTUsIDI1NSwgMjU1KTsiIGNsYXNzPSJlbGVtZW50VG9Qcm9v
+ZiBDb250ZW50UGFzdGVkMCI+DQpQaW90cjxicj4NCjwvZGl2Pg0KPGRpdiBpZD0iYXBwZW5kb25z
+ZW5kIj48L2Rpdj4NCjxociBzdHlsZT0iZGlzcGxheTppbmxpbmUtYmxvY2s7d2lkdGg6OTglIiB0
+YWJpbmRleD0iLTEiPg0KPGRpdiBpZD0iZGl2UnBseUZ3ZE1zZyIgZGlyPSJsdHIiPjxmb250IGZh
+Y2U9IkNhbGlicmksIHNhbnMtc2VyaWYiIHN0eWxlPSJmb250LXNpemU6MTFwdCIgY29sb3I9IiMw
+MDAwMDAiPjxiPk9kOjwvYj4gRmFiaWFuIEdyw7xuYmljaGxlciAmbHQ7Zi5ncnVlbmJpY2hsZXJA
+cHJveG1veC5jb20mZ3Q7PGJyPg0KPGI+V3lzxYJhbmU6PC9iPiB3dG9yZWssIDExIGt3aWV0bmlh
+IDIwMjMgMDk6NDQ8YnI+DQo8Yj5Ebzo8L2I+IEFsZXhhbmRyZSBCZWxsb25pICZsdDthbGV4YW5k
+cmUuYmVsbG9uaUBib290bGluLmNvbSZndDs7IFBpb3RyIMWBb2JhY3ogJmx0O3AubG9iYWN6QHdl
+bG90ZWMuY29tJmd0Ozxicj4NCjxiPkRXOjwvYj4gb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZyAmbHQ7b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
+ZyZndDs8YnI+DQo8Yj5UZW1hdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BBVENIXSB0YXI6IGV4dGVu
+ZCBudW1lcmljLW93bmVyIHRvIEFDTCBlbnRyaWVzPC9mb250Pg0KPGRpdj4mbmJzcDs8L2Rpdj4N
+CjwvZGl2Pg0KPGRpdiBjbGFzcz0iQm9keUZyYWdtZW50Ij48Zm9udCBzaXplPSIyIj48c3BhbiBz
+dHlsZT0iZm9udC1zaXplOjExcHQ7Ij4NCjxkaXYgY2xhc3M9IlBsYWluVGV4dCI+T24gQXByaWwg
+OSwgMjAyMyAxOjUzIGFtLCBBbGV4YW5kcmUgQmVsbG9uaSB3cm90ZTo8YnI+DQomZ3Q7IEhlbGxv
+LDxicj4NCiZndDsgPGJyPg0KJmd0OyBPbiAwNy8wNC8yMDIzIDE0OjU4OjQ2KzAyMDAsIFBpb3Ry
+IMWBb2JhY3ogd3JvdGU6PGJyPg0KJmd0OyZndDsgQUNMIGVudHJpZXMgc3RvcmUgcmVmZXJlbmNl
+cyB0byBudW1lcmljIHVpZHMvZ2lkcy4gb24gcGxhdGZvcm1zIHRoYXQ8YnI+DQomZ3Q7Jmd0OyBo
+YXZlIGxpYmFjbCwgdXNlIGBhY2xfdG9fYW55X3RleHRgIHRvIGdlbmVyYXRlIEFDTCBzdHJpbmdz
+IHRoYXQgcHJlc2VydmU8YnI+DQomZ3Q7Jmd0OyB0aG9zZSBudW1lcmljIGlkZW50aWZpZXJzIGlm
+IGBudW1lcmljLW93bmVyYCBpcyBzZXQgKGluc3RlYWQgb2YgZG9pbmcgYTxicj4NCiZndDsmZ3Q7
+IGNvbnZlcnNpb24gdG8gdXNlci9ncm91cCBuYW1lLCBsaWtlIHRoZSBhY2xfdG9fdGV4dCBmdW5j
+dGlvbiBkb2VzKS48YnI+DQomZ3Q7Jmd0OyA8YnI+DQomZ3Q7Jmd0OyBbLi5dPGJyPg0KJmd0OyZn
+dDs8YnI+DQomZ3Q7Jmd0OyArPGJyPg0KJmd0OyZndDsgK2FjdHVhbCBvdXRwdXQgKGdldGZhY2wp
+IC0gbm90ZSB0aGUgbWlzc2luZyB1c2VyIGVudHJ5Ojxicj4NCiZndDsmZ3Q7ICsgIyBmaWxlOiBm
+aWxlPGJyPg0KJmd0OyZndDsgKyAjIG93bmVyOiAwPGJyPg0KJmd0OyZndDsgKyAjIGdyb3VwOiAw
+PGJyPg0KJmd0OyZndDsgKyB1c2VyOjpydy08YnI+DQomZ3Q7Jmd0OyArIGdyb3VwOjpyLS08YnI+
+DQomZ3Q7Jmd0OyArIG90aGVyOjpyLS08YnI+DQomZ3Q7Jmd0OyArPGJyPg0KJmd0OyA8YnI+DQom
+Z3Q7IFRoaXMgcGF0Y2ggaXMgbWlzc2luZyB0aGUgVXBzdHJlYW0tU3RhdHVzIHRhZyBoZXJlPGJy
+Pg0KJmd0OyA8YnI+DQomZ3Q7Jmd0OyArU2lnbmVkLW9mZi1ieTogRmFiaWFuIEdyw7xuYmljaGxl
+ciAmbHQ7Zi5ncnVlbmJpY2hsZXJAcHJveG1veC5jb20mZ3Q7PGJyPg0KPGJyPg0KKE9yaWdpbmFs
+IHBhdGNoIGF1dGhvciwgdGhhbmtzIGZvciB0aGUgQ0MhKTxicj4NCjxicj4NCkZXSVcsIEkgZ290
+IG5vIHJlc3BvbnNlIGZyb20gdXBzdHJlYW0gb3IgdGhlIERlYmlhbiB0YXIgbWFpbnRhaW5lcnNb
+MF0uPGJyPg0KPGJyPg0KQnV0IG5pY2UgdG8gc2VlIHRoYXQgb3RoZXIgZGlzdHJvcyBhcmUgaW50
+ZXJlc3RlZCBhcyB3ZWxsIDopIG1heWJlIHdlPGJyPg0KY291bGQgdHJ5IHRvIHBpbmcgdGhlIHVw
+c3RyZWFtIHJlcG9ydCBvciBzZW5kaW5nIHRoZSBwYXRjaCB0byBzb21lPGJyPg0KcmVsZXZhbnQg
+ZGV2ZWwgbGlzdD88YnI+DQo8YnI+DQpUaGUgYnVnIHdhcyBub3QgaW1wb3J0YW50IGVub3VnaCBm
+b3IgdXMgdG8ganVzdGlmeSBjYXJyeWluZyBvdXIgb3duLDxicj4NCmN1c3RvbSB0YXIgcGFja2Fn
+ZXMsIHNvIHdlJ2QgaWRlYWxseSBzdGlsbCB3YW50IHRvIHNlZSB0aGlzIHVwc3RyZWFtZWQuPGJy
+Pg0KPGJyPg0KMDogPGEgaHJlZj0iaHR0cHM6Ly9idWdzLmRlYmlhbi5vcmcvY2dpLWJpbi9idWdy
+ZXBvcnQuY2dpP2J1Zz0xMDA0NDMwIj5odHRwczovL2V1cjA0LnNhZmVsaW5rcy5wcm90ZWN0aW9u
+Lm91dGxvb2suY29tLz91cmw9aHR0cHMlM0ElMkYlMkZidWdzLmRlYmlhbi5vcmclMkZjZ2ktYmlu
+JTJGYnVncmVwb3J0LmNnaSUzRmJ1ZyUzRDEwMDQ0MzAmYW1wO2RhdGE9MDUlN0MwMSU3Q3AubG9i
+YWN6JTQwd2Vsb3RlYy5jb20lN0NkNTg0Njk0N2Q4MDc0ODhlNjUwMTA4ZGIzYTYwYjExZSU3QzI1
+MTExYTdmMWQ1YTRjNTFhNGNhN2Y4ZTQ0MDExYjM5JTdDMCU3QzAlN0M2MzgxNjc5NTkxOTU1MjQ3
+MzUlN0NVbmtub3duJTdDVFdGcGJHWnNiM2Q4ZXlKV0lqb2lNQzR3TGpBd01EQWlMQ0pRSWpvaVYy
+bHVNeklpTENKQlRpSTZJazFoYVd3aUxDSlhWQ0k2TW4wJTNEJTdDMzAwMCU3QyU3QyU3QyZhbXA7
+c2RhdGE9eFl2Y0JEeng0MFRmb2VYNmRFMkhRdWozdHBQMXUyU3lYMTlXTnFSV2Q1USUzRCZhbXA7
+cmVzZXJ2ZWQ9MDwvYT48YnI+DQo8YnI+DQo8L2Rpdj4NCjwvc3Bhbj48L2ZvbnQ+PC9kaXY+DQo8
+L2JvZHk+DQo8L2h0bWw+DQo=
 
-        ret = run_command_interruptible('BB_SETSCENE_ENFORCE=1 bitbake --quiet %s' % ' '.join(sdk_targets))
-        if not ret:
-            ret = run_command_interruptible('bitbake --quiet build-sysroots')
-        lastlog = get_last_consolelog()
-        if lastlog:
-            with open(lastlog, 'r') as f:
-                for line in f:
-                    logf.write(line)
-        if ret:
-            print('ERROR: SDK preparation failed: error log written to %s' % logfile)
-            return ret
-
-  maybe we could remove whole support for $LOGFILE parameter and just redirect
-  the output like other commands on this line
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes-recipe/populate_sdk_ext.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes-recipe/populate_sdk_ext.bbclass b/meta/classes-recipe/populate_sdk_ext.bbclass
-index 7f55c83ee2..8146036fa9 100644
---- a/meta/classes-recipe/populate_sdk_ext.bbclass
-+++ b/meta/classes-recipe/populate_sdk_ext.bbclass
-@@ -739,7 +739,7 @@ sdk_ext_postinst() {
- 		# current working directory when first ran, nor will it set $1 when
- 		# sourcing a script. That is why this has to look so ugly.
- 		LOGFILE="$target_sdk_dir/preparing_build_system.log"
--		sh -c ". buildtools/environment-setup* > $LOGFILE && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> $LOGFILE && python3 $target_sdk_dir/ext-sdk-prepare.py $LOGFILE '${SDK_INSTALL_TARGETS}'" || { echo "printf 'ERROR: this SDK was not fully installed and needs reinstalling\n'" >> $env_setup_script ; exit 1 ; }
-+		sh -c ". buildtools/environment-setup* > $LOGFILE 2>&1 && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> $LOGFILE 2>&1 && python3 $target_sdk_dir/ext-sdk-prepare.py $LOGFILE '${SDK_INSTALL_TARGETS}'" || { echo "printf 'ERROR: this SDK was not fully installed and needs reinstalling\n'" >> $env_setup_script ; exit 1 ; }
- 	fi
- 	if [ -e $target_sdk_dir/ext-sdk-prepare.py ]; then
- 		rm $target_sdk_dir/ext-sdk-prepare.py
--- 
-2.40.0
-
+--_000_VI1PR04MB53734C8E9AB6EE51B4809B17919A9VI1PR04MB5373eurp_--
 
