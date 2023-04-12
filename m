@@ -1,305 +1,154 @@
-Return-Path: <michael.opdenacker@bootlin.com>
+Return-Path: <niko.mauno@vaisala.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 425DDC7619A
-	for <webhook@archiver.kernel.org>; Wed, 12 Apr 2023 08:32:47 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web11.37804.1681288358085230374
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 314F9C7619A
+	for <webhook@archiver.kernel.org>; Wed, 12 Apr 2023 08:36:17 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.79])
+ by mx.groups.io with SMTP id smtpd.web10.37862.1681288569849815707
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Apr 2023 01:32:38 -0700
+ Wed, 12 Apr 2023 01:36:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=UzZkxF96;
- spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: michael.opdenacker@bootlin.com)
-Received: (Authenticated sender: michael.opdenacker@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id F043FFF807;
-	Wed, 12 Apr 2023 08:32:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1681288355;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/eFYJs84wXt21688YvqxHuV4uIgflZyfQMQreQ777b0=;
-	b=UzZkxF96dEYmSp1Gb1XqeDMQdEjIpFansg7PPHbliQ9L8o3/G/uuG+D9e3/DLg19Ha6k0C
-	hPA3mNAuHubKSOa+zHk2vrJthbQLsN+3B4MUuG4gNM8l+UrebqmcZCXJRTnOyoT3+ebhTK
-	uGMlsJP8VNt+GVoD8LD9IrxjI9b9fEfsz28F2fSFDVLATmOvZB0TRJAJxgeDrYJqg2POFf
-	7eft1/EK3pS4iJrma17owH6EpM2sIP2OzTkBCE7RphobaZH//PQQSsrKx4JketYG4V+f+H
-	8LYNNLE9PwQGhDc4wxioJfc+ReE7Msao+OeqigRn4Tx3aOfJnnRQ9kGcdXUuRA==
-From: michael.opdenacker@bootlin.com
-To: docs@lists.yoctoproject.org
-Cc: openembedded-core@lists.openembedded.org,
-	Michael Opdenacker <michael.opdenacker@bootlin.com>,
-	Frederic Martinsons <frederic.martinsons@gmail.com>,
-	Marta Rybczynska <rybczynska@gmail.com>,
-	Paul Eggleton <paul.eggleton@linux.microsoft.com>,
-	Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [PATCH v5] migration-guides: update 4.2 migration and release notes
-Date: Wed, 12 Apr 2023 10:32:24 +0200
-Message-Id: <20230412083224.529102-1-michael.opdenacker@bootlin.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <1754DA7B0A2BC525.1885@lists.openembedded.org>
-References: <1754DA7B0A2BC525.1885@lists.openembedded.org>
+ dkim=fail reason="body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=pS6a+ID3;
+ spf=pass (domain: vaisala.com, ip: 40.107.20.79, mailfrom: niko.mauno@vaisala.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VjoYQoHzoKfVMRkuNb8mkGXYEWk4b+dbT5RIHHf5rftLvghBUuoN+HZWP7MrSbiE1FC79RkGUVxCZ+9mx+yspWvvfcGNeLd/z7F+xxTHRkm5YCBlCZN7qqKoZbD4pbIBLg+fdLgC89gvEoN49Kp6HfelV7JfQOJ6zaDsOCa9evE29BQMgPND+qi1OMnfJjr0tvOs3o48lb8jWJbMETlj76RPoHFfwdsM8DTnVpEsu1TP+sAINZuci+MN0Ndzo4za8eXwOPjqrB+4iuhVwaT7vXwy8EQU+o0Xfc9l20md+HgUHCN08OR8rQWVMjiRvyocG0X+VmcKotvoJmp0O6oJFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+O0VGu4xyBZOaW2hEkE4owFA4qAKzJLJRHC9MD6/gu4=;
+ b=gZZcBek9g1ribOgZyTDYQpb6RcpbQpBDwl+mtd/V65s2zyOB9XVfUirCHHrm6n0kB5cLOQss9mK/Oxxwmzu/t/AonVbO+Ifh/a1fkqcfzr+SPE+pg2/haSqjWkLzX+Rwpe2sNAWK0QYyDv+w1Kql0AM++sMYiwnDuEBA3IhMxrgou/cFqhza1dpMjv3sSAd5btfJilI9Y3ob+y8qPiL/7rE1O9tu2XdgqxkBYWE4DRdWqbSgWMhm0rh+f/2A/EkqrFFpP7WUWcAW7Jx+3K0THfeFkSyjfozMw0LtfylmO3LPOWQTLcnjq+XBnK3MaWOJyPMGW9k9Sv+6Oo2Vwjt0Uw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
+ dkim=pass header.d=vaisala.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+O0VGu4xyBZOaW2hEkE4owFA4qAKzJLJRHC9MD6/gu4=;
+ b=pS6a+ID3CEGORRnbE1sZR0a9+0G/lpmhgt86zOFUMeu+WcwSp54NX+tUxD0j1WcRwu/7eQdFgMFQrHphQCHpcGIsZT7jwH5VrbjGqj6iqRTMaEDKXXSgw+uHvJbCRxwsfW/NTJguRzhByx5l7JjuJyfTl9hpF7+sEY/1rTlLSYzfhk8FnOP9tJ2vKnnIfXh0eT3pY+GaZdceRiuYCIIzmuCWC3kp4cYI20LDtaggR2fspZMdZE91gLkWK9C0mFyTZnl5tHfmwrJipWDXup2WUxoWZeBNPP43UwDhTSpKQRc6iunuFz6sWKruib7457ZfO0WGDgsK72342minU5+MGg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vaisala.com;
+Received: from AS4PR06MB8447.eurprd06.prod.outlook.com (2603:10a6:20b:4e2::11)
+ by PAXPR06MB8111.eurprd06.prod.outlook.com (2603:10a6:102:1ad::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.30; Wed, 12 Apr
+ 2023 08:36:06 +0000
+Received: from AS4PR06MB8447.eurprd06.prod.outlook.com
+ ([fe80::9b07:4b2e:9949:63cd]) by AS4PR06MB8447.eurprd06.prod.outlook.com
+ ([fe80::9b07:4b2e:9949:63cd%2]) with mapi id 15.20.6298.030; Wed, 12 Apr 2023
+ 08:36:06 +0000
+From: niko.mauno@vaisala.com
+To: openembedded-core@lists.openembedded.org
+CC: Mark Hatle <mark.hatle@kernel.crashing.org>,
+	Mark Hatle <mark.hatle@amd.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [kirkstone][PATCH] openssl: Move microblaze to linux-latomic config
+Date: Wed, 12 Apr 2023 08:35:30 +0000
+Message-ID: <20230412083530.2452114-1-niko.mauno@vaisala.com>
+X-Mailer: git-send-email 2.39.2
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: GV3P280CA0078.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:a::26) To AS4PR06MB8447.eurprd06.prod.outlook.com
+ (2603:10a6:20b:4e2::11)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|PAXPR06MB8111:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1e3113e8-6a11-468c-9d74-08db3b30f554
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	diUuvonbYFwY+glvJEK+aySs47hGA20F+FU7SOAku9wJbw4pHjy3TXURXcHzQLAw2V55AZXCK2WOU/6cEfTueNERXIEuLbZe0wdXO9UopCUIEQLYv4rWxv6kjz9w1pO8pdhKwkLvV1oqfTnBE0PJ1gRR+VehRV18vdA6FV/nwkrHy1PNzct07+kvMAWRBOgDy8TRnBHUy7yQe0JgWMvTEKaU4ZgjmRgEffXJqP15mpA0iDj7Zeffg8z38Nu22RyBJDngry71BlppSzcQp0fPVjfi9W02nJtolZCCWkQJj0Jbs21D32wQ2mTjL0NldhC0ICOTw20ZyPbVYLFs7dG81Vad8OAPjLY8I1W2DmQ6R+aSrLgukr9yNMuTq7BaC074nNIHBKTjVbpDo7kY/nZOsazeihNtLPRcHWlbKDBgUCwZExspwG8L8dhcXOLbcD24yhJ6ajPyaRTzASOczhfXoZd/IcNRhw/WKkYaiyBnV59da3PZfyAqihGwXo2bR5KI/KGL4+asD0Uc7J9eRaidq0ggvy/ZwMYL+fN+C+EmUkXP3Z4q/EjtmcflOuYALxo017ruYWhkLuVa6MbkLpbj7JYD3+zTQdkuXXlVJtLqNLWff0NY1n+3PX4f/j13Cyar
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(396003)(39860400002)(136003)(366004)(376002)(451199021)(26005)(1076003)(66476007)(66556008)(4326008)(66946007)(6512007)(6506007)(36756003)(9686003)(2906002)(83380400001)(6666004)(6486002)(52116002)(2616005)(186003)(6916009)(54906003)(86362001)(5660300002)(8676002)(8936002)(38100700002)(38350700002)(478600001)(41300700001)(316002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?VU6m3VZ4u8oJXXz0GKt1JGYWq/Jfn8CGtqltwNLkvpwgzjWuAmbT62iSZ97R?=
+ =?us-ascii?Q?ZMLh8/vcI6an1eR78gX+h/4mzqI0mSVrMmVeRNVys0E3GNVJxL+s30yPswfc?=
+ =?us-ascii?Q?Y1ARWvuhMS1e6jzZrhTPSxTPbyTAObTZ68Z9jVcz5L2gHSaoqsjaZQdXRuOP?=
+ =?us-ascii?Q?Y9l8NpaKKzKwf5W52cxq7p4zFg+/E2djZ/9u+atr548W8HmsngQR8raxDR40?=
+ =?us-ascii?Q?lkv8y51GLvn0fD24AlwqhgnDVdlynYHNWnUUj1EaAavK2ckSVOudxHKlAn4R?=
+ =?us-ascii?Q?pIgR5PUuMQ5XWgzN0N2EEhNAnNirpyU1GJzryPMj0nJH7CE9UDv+5eWlzqnv?=
+ =?us-ascii?Q?pbtLdSlxNAADvLtau33YF4g306c5VZMydePVmYceHDVQxEHmUYUhRfhVNzZl?=
+ =?us-ascii?Q?MTM00ApC7FfTwlcjcsydFcdp5qgsUFyRUandikAv11ydWp1lFpFBPsvgdpwI?=
+ =?us-ascii?Q?rvE7s3nq0d/Myu4Q7XtOMZeR+kVhXtQcFt1E4gMTtnR4scPPWVOTXka4N+FB?=
+ =?us-ascii?Q?xPkFF8Vv9a1dIt5u/wDkZa8gDLcyJjupZdmVZWZN8xkUZv4tvvHy8jW7Mpkj?=
+ =?us-ascii?Q?cTB9ysz5Z8xcRWSF8Zfh7Fy7yYv6cAbHgt2pUKkxRQ9wkv/B2WT7kadecq0w?=
+ =?us-ascii?Q?YWb0bhKknVnXIyazLhD+5ZzUU3z4XqzWj3NEXLMMysChsOPFRWVD/3zbETRt?=
+ =?us-ascii?Q?YAmvcxHuU094Okiyaw4Z/oYLUxg3bthx3C/0dn8abut8P40ZBaKe9pSLNsdp?=
+ =?us-ascii?Q?RfIXxp/kitEvDmg6hmc8tKlJu2CSacfW9MXIr+lbT2lF+ElFSKyRly202Z+6?=
+ =?us-ascii?Q?rER2TkQNK3BxE6oW9oQCTYtTr+UyS9vK93qhyT8DR5QZFDQ6T1opDTcTsHb2?=
+ =?us-ascii?Q?TnKk+lt44d4MicoU2uuRh/f3lcw+Gl9Xn7VvdOLUtu7K7DrowEgN4XtqLIrm?=
+ =?us-ascii?Q?ZDb7BkeKl86I1hT1gOTv1MQ830fhIPbUTV1PiyTjmCx3XP9cRS8vCwZ+GIXo?=
+ =?us-ascii?Q?RqGbovwhrxTshRdnUpXgUtZ3L1Voc+ZHFnvrkQofvm+V/hdLx/7cPAt/catf?=
+ =?us-ascii?Q?OBxD+uFIH1MP+Prpa29uch+SSYQ4Nank+UaDhz/O8koYyLUduxec+aBEueni?=
+ =?us-ascii?Q?SkTlHn1u1EU7dq+0u1vdfCecTg2zYunTXSDb8jRQR8BZS1GAiq1d6b1iA7bq?=
+ =?us-ascii?Q?ZiJUeehscv+y/pqt+FCQ4V3sOauGEvbxCr96iQ9WPKIf9sJJ2vYqSuvpiNly?=
+ =?us-ascii?Q?X3+oNd0BgSiTGtTSGwsBLz+0W9BwsWyPKVmMGMX0EzsDDFLQrd503zGdFSQd?=
+ =?us-ascii?Q?TKWnUfpePlg4YI1vJDBtZWX/ZT5pCa042BXWDM2b0PHmyg0ttC0P2RNxhgjF?=
+ =?us-ascii?Q?OrrPDOrTUBqk9s0hZ65jrLyuIOhci4a2g+53dRt9ZOyy+gL1+kN8i6Hl+Zcu?=
+ =?us-ascii?Q?d49ut5c37ugDHCmZs/uwTv+RvufKH0v2YG/2fGj5BJhftvPvim3IALRmLI/2?=
+ =?us-ascii?Q?BTAWWB2p5ks+hi/pmCII+n+rXYVwjPWLJcHSFctXRLoQ7ur2WXtzVIFUEG6G?=
+ =?us-ascii?Q?vXwBfx8FVh7Hu4owvrnMXQ1rzUDirESBeu5PFsEmGlA3gJNA+pJNCegJ3jJF?=
+ =?us-ascii?Q?tw=3D=3D?=
+X-OriginatorOrg: vaisala.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1e3113e8-6a11-468c-9d74-08db3b30f554
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR06MB8447.eurprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Apr 2023 08:36:06.5023
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SttxYBohKAZ3AqRVrj+sJkUFH66Bgquo3OhDPoSaRku9B98Vbpgx9x6H7pvaR0kAEhwxkzW/6Y6//P06DWc6Mg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR06MB8111
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Apr 2023 08:32:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179942
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Apr 2023 08:36:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179943
 
-From: Michael Opdenacker <michael.opdenacker@bootlin.com>
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
 
-Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
-CC: Frederic Martinsons <frederic.martinsons@gmail.com>
-CC: Marta Rybczynska <rybczynska@gmail.com>
-CC: Paul Eggleton <paul.eggleton@linux.microsoft.com>
-CC: Alex Kiernan <alex.kiernan@gmail.com>
-CC: Alexis Lothoré <alexis.lothore@bootlin.com
+When building with the previous a number of atomic functions come back as
+undefined.  Switching to linux-latomic fixes this.
 
+(From OE-Core rev: 88d5bf78ffb1d120df48139b1ed3c2e3fa8310d0)
+
+Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+Signed-off-by: Mark Hatle <mark.hatle@amd.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
+ meta/recipes-connectivity/openssl/openssl_3.0.8.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Changes in V5:
-- Remove empty "QA changes" in the migration notes.
-  This way, this version is ready for the release.
-
-Changes in V4:
-- Fix details about regression detection, thanks to
-  feedback from Alexis Lothoré
-
-Changes in V3:
-- Add details about ptest images as suggested by Richard Purdie
-- Add details about resulttools improvements, pointing to
-  Alexis' blog post about regression detection.
-
-Changes in V2:
-- Add details about filling checksums using the 'cargo-update-recipe-crates'
-  class, as suggested by Frederic Martinsons.
----
- .../migration-guides/migration-4.2.rst        | 85 ++++++++++++++++++-
- .../migration-guides/release-notes-4.2.rst    | 83 ++++++++++++++++--
- 2 files changed, 156 insertions(+), 12 deletions(-)
-
-diff --git a/documentation/migration-guides/migration-4.2.rst b/documentation/migration-guides/migration-4.2.rst
-index 1339411b3e..ccc3e8905e 100644
---- a/documentation/migration-guides/migration-4.2.rst
-+++ b/documentation/migration-guides/migration-4.2.rst
-@@ -18,10 +18,72 @@ BitBake and OpenEmbedded-Core are now relying on Python 3.8,
- making it a requirement to use a distribution providing at least this
- version, or to use :term:`buildtools`.
- 
--.. _migration-4.2-qa-checks:
-+.. _migration-4.2-gcc-8.0:
- 
--QA check changes
--~~~~~~~~~~~~~~~~
-+gcc 8.0 is now the minumum required GNU C compiler version
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+This version, released in 2018, is a minimum requirement
-+to build the ``mesa-native`` recipe.
-+
-+.. _migration-4.2-new-nvd-api:
-+
-+Fetching the NVD vulnerability database through the 2.0 API
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+This new version adds a new fetcher for the NVD database using the 2.0 API,
-+as the 1.0 API will be retired in 2023.
-+
-+The implementation changes as little as possible, keeping the current
-+database format (but using a different database file for the transition
-+period), with a notable exception of not using the META table.
-+
-+Here are minor changes that you may notice:
-+
-+-  The database starts in 1999 instead of 2002
-+-  The complete fetch is longer (30 minutes typically)
-+
-+.. _migration-4.2-rust-crate-checksums:
-+
-+Rust: mandatory checksums for crates
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+This release now supports checksums for Rust crates and make
-+them mandatory for each crate in a recipe. See :yocto_git:`python3_bcrypt recipe changes
-+</poky/commit/?h=mickledore&id=0dcb5ab3462fdaaf1646b05a00c7150eea711a9a>`
-+for example.
-+
-+The ``cargo-update-recipe-crates`` utility
-+:yocto_git:`has been extended </poky/commit/?h=mickledore&id=eef7fbea2c5bf59369390be4d5efa915591b7b22>`
-+to include such checksums. So, in case you need to add the list of checksums
-+to a recipe just inheriting the :ref:`ref-classes-cargo` class so far, you can
-+follow these steps:
-+
-+#.  Make the recipe inherit :ref:`ref-classes-cargo-update-recipe-crates`
-+#.  Remove all ``crate://`` lines from the recipe
-+#.  Create an empty ``${BPN}-crates.inc`` file and make your recipe require it
-+#.  Execute ``bitbake -c update_crates your_recipe``
-+#.  Copy and paste the output of BitBake about the missing checksums into the
-+    ``${BPN}-crates.inc`` file.
-+
-+.. _migration-4.2-supported-distributions:
-+
-+Supported distributions
-+~~~~~~~~~~~~~~~~~~~~~~~
-+
-+This release supports running BitBake on new GNU/Linux distributions:
-+
-+-  Fedora 36 and 37
-+-  AlmaLinux 8.7 and 9.1
-+-  OpenSuse 15.4
-+
-+On the other hand, some earlier distributions are no longer supported:
-+
-+-  Debian 10.x
-+-  Fedora 34 and 35
-+-  AlmaLinux 8.5
-+
-+See :ref:`all supported distributions <system-requirements-supported-distros>`.
- 
- .. _migration-4.2-misc-changes:
- 
-@@ -30,6 +92,7 @@ Miscellaneous changes
- 
- -  The ``OEBasic`` signature handler (see :term:`BB_SIGNATURE_HANDLER`) has been
-    removed.
-+  
- 
- .. _migration-4.2-removed-variables:
- 
-@@ -38,7 +101,7 @@ Removed variables
- 
- The following variables have been removed:
- 
---  ``SERIAL_CONSOLE``, deprecated since version 2.6, replaced by :term:``SERIAL_CONSOLES``.
-+-  ``SERIAL_CONSOLE``, deprecated since version 2.6, replaced by :term:`SERIAL_CONSOLES`.
- 
- .. _migration-4.2-removed-recipes:
- 
-@@ -47,3 +110,17 @@ Removed recipes
- 
- The following recipes have been removed in this release:
- 
-+-  ``python3-picobuild``: after switching to ``python3-build``
-+-  ``python3-strict-rfc3339``: unmaintained and not needed by anything in
-+   :oe_git:`openembedded-core </openembedded-core>`
-+   or :oe_git:`meta-openembedded </meta-openembedded>`.
-+
-+.. _migration-4.2-removed-classes:
-+
-+Removed classes
-+~~~~~~~~~~~~~~~
-+
-+The following classes have been removed in this release:
-+
-+-  ``rust-bin``: no longer used in Poky
-+
-diff --git a/documentation/migration-guides/release-notes-4.2.rst b/documentation/migration-guides/release-notes-4.2.rst
-index edafe378b0..b6e278ee5d 100644
---- a/documentation/migration-guides/release-notes-4.2.rst
-+++ b/documentation/migration-guides/release-notes-4.2.rst
-@@ -6,23 +6,90 @@ Release notes for 4.2 (mickledore)
- New Features / Enhancements in 4.2
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--- Python 3.8 is the minimum Python version required on the build host.
--  For host distributions that do not provide it, this is included as part of the
--  :term:`buildtools` tarball.
-+-  Python 3.8 is the minimum Python version required on the build host.
-+   For host distributions that do not provide it, this is included as part of the
-+   :term:`buildtools` tarball.
- 
--- This release now supports a new ``addpylib`` directive to enable
--  Python libraries within layers.
-+-  BitBake in this release now supports a new ``addpylib`` directive to enable
-+   Python libraries within layers.
- 
--  This directive should be added to your layer configuration,
--  as in the below example from ``meta/conf/layer.conf``::
-+   This directive should be added to your layer configuration
-+   as in the below example from ``meta/conf/layer.conf``::
- 
--     addpylib ${LAYERDIR}/lib oe
-+      addpylib ${LAYERDIR}/lib oe
-+
-+-  BitBake has seen multiple internal changes that may impact
-+   memory and disk usage as well as parsing time, in particular:
-+
-+   -  BitBake's Cooker server is now multithreaded.
-+
-+   -  BitBake's cache has been extended to include more hash
-+      debugging data, but has also been optimized to :yocto_git:`compress
-+      cache data <https://git.yoctoproject.org/poky/commit/?h=mickledore&id=7d010055e2af3294e17db862f42664ca689a9356>`.
-+
-+   -  BitBake's Cooker server :yocto_git:`can now be pinged
-+      https://git.yoctoproject.org/poky/commit/?h=mickledore&id=26f255da09>`
-+      from the UI.
- 
- -  Architecture-specific enhancements:
- 
-+   -  This release adds initial support for the
-+      :wikipedia:`LoongArch <Loongson#LoongArch>`
-+      (``loongarch64``) architecture, though there is no testing for it yet.
-+
- -  Kernel-related enhancements:
- 
- -  QEMU/runqemu enhancements:
- 
- -  Image-related enhancements:
- 
-+-  New variables:
-+
-+   - :term:`VOLATILE_TMP_DIR` allows to specify
-+     whether ``/tmp`` should be on persistent storage
-+     or in RAM.
-+
-+-  Rust improvements:
-+
-+   -  This release adds Cargo support on the target, and includes
-+      automated QA tests for this functionality.
-+
-+   -  It also supports checksums for Rust crates and makes
-+      them mandatory for each crate in a recipe.
-+
-+-  Testing:
-+
-+   -  The ptest images have changed structure in this release. The
-+      underlying ``core-image-ptest`` recipe now uses :term:`BBCLASSEXTEND` to
-+      create a variant for each ptest enabled recipe in OE-Core. 
-+
-+      For example, this means that ``core-image-ptest-bzip2``,
-+      ``core-image-ptest-lttng-tools`` and many more image targets now exist
-+      and can be built/tested individually. 
-+
-+      The ``core-image-ptest-all`` and ``core-image-ptest-fast`` targets are now
-+      wrappers that target groups of individual images and means that the tests
-+      can be executed in parallel during our automated testing. This also means
-+      the dependencies are more accurately tested.
-+
-+   -  It is now possible to track regression changes between releases using
-+      :oe_git:`yocto_testresults_query.py </openembedded-core/tree/scripts/yocto_testresults_query.py>`,
-+      which is a thin wrapper over :oe_git:`resulttool
-+      </openembedded-core/tree/scripts/resulttool>`. Here is an example
-+      command, which allowed to spot and fix a regression in the
-+      ``quilt`` ptest::
-+
-+         yocto_testresults_query.py regression-report 4.2_M1 4.2_M2
-+
-+      See this `blog post about regression detection
-+      <https://bootlin.com/blog/continuous-integration-in-yocto-improving-the-regressions-detection/>`__.
-+
-+   -  This release adds support for parallel ptest execution with a ptest per image.
-+      This takes ptest execution time from 3.5 hours to around 45 minutes on the autobuilder.
-+
-+-  Miscellaneous changes:
-+
-+   -  Supporting 64 bit dates on 32 bit platforms: several packages have been
-+      updated to pass Y2038 tests.
-+
-+   -  Many packages were updated to add large file support.
--- 
-2.34.1
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.8.bb b/meta/reci=
+pes-connectivity/openssl/openssl_3.0.8.bb
+index e1f30d7a47..82f3e18dd7 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.0.8.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.0.8.bb
+@@ -80,7 +80,7 @@ do_configure () {
+ 	esac
+ 	target=3D"$os-${HOST_ARCH}"
+ 	case $target in
+-	linux-arc)
++	linux-arc | linux-microblaze*)
+ 		target=3Dlinux-latomic
+ 		;;
+ 	linux-arm*)
+@@ -108,7 +108,7 @@ do_configure () {
+ 	linux-*-mips64 | linux-mips64 | linux-*-mips64el | linux-mips64el)
+ 		target=3Dlinux64-mips64
+ 		;;
+-	linux-microblaze* | linux-nios2* | linux-sh3 | linux-sh4 | linux-arc*)
++	linux-nios2* | linux-sh3 | linux-sh4 | linux-arc*)
+ 		target=3Dlinux-generic32
+ 		;;
+ 	linux-powerpc)
+--=20
+2.39.2
 
 
