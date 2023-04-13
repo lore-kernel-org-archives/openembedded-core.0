@@ -1,152 +1,108 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A0EEC77B61
-	for <webhook@archiver.kernel.org>; Thu, 13 Apr 2023 05:36:21 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web10.5700.1681364170721942077
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16D45C77B6C
+	for <webhook@archiver.kernel.org>; Thu, 13 Apr 2023 05:54:41 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web10.5878.1681365275094410933
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Apr 2023 22:36:10 -0700
+ Wed, 12 Apr 2023 22:54:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=RRYvJMBo;
- spf=pass (domain: mvista.com, ip: 209.85.210.180, mailfrom: hprajapati@mvista.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-63b5465fc13so663b3a.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Apr 2023 22:36:10 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=dBs3LrDv;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id i8so4959104plt.10
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Apr 2023 22:54:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1681364170; x=1683956170;
+        d=gmail.com; s=20221208; t=1681365274; x=1683957274;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eLAlL3qtDouShr+OQGrdlnlLFp7lse8qgHm07mpgJLQ=;
-        b=RRYvJMBo93Av/npdQRtcA2W3YAMs6VPlo70IxuYeRORD3nDxGSTEty0TSIr6ajWNgr
-         58N6PSm4a9qO5RjQZTG6az6Iiom57LJkzQmYO++5Xy0XckuNKoUXpf4jqBRCswhSGo9D
-         mjXM0FLwZ3spueetZRm71VOFZPK1PrDTNa9eA=
+        bh=Sop0z7Jsw/6bBzokQbQSJvIlu5uV+Kr11/ib4t6Ga9k=;
+        b=dBs3LrDvvYmm2+EZOMY3u/FpGu54SfuYQzO8fCOypdPqQkJVvyZnVdoxK8s1Aj6PXR
+         D6aoFUJIZrgwdPUqKUJ7w0gLxJhkiTeos3DTkpObZ+znTMEMZipU9vm6SHxs2t+HT9Jf
+         VlP32O5ZHB7ZQSauQLvwf9Jl9sTnHiyAIg5a0GAVIhqGSPbOUCSA7YnGG+11alVRlNam
+         YfOXLYT0NAArZC8DY4vRYvtcw6qfWozYFC14XHJSK72NvZ+GZdpmt9xxpn3v2L2smD0g
+         BIg/gh2srI0O7Ka/b9hQ6/YXfFxBI1/PyyBea4ngKheSvGc6VNKiehnZzZohlvEQfSCV
+         Cl9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681364170; x=1683956170;
+        d=1e100.net; s=20221208; t=1681365274; x=1683957274;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=eLAlL3qtDouShr+OQGrdlnlLFp7lse8qgHm07mpgJLQ=;
-        b=lgcBar2FPSwqz5CzPqbOmMxOlfh6FgJWDPogpheiB5qrC0eAxFj1hF5Ls6urqfkzju
-         wD+F1fIYoROMHRv5JECe4SeghEzmX+s8CZ+4R1aKZKoPlc2kPdj9ukcCdfs+YdSrgZ3Z
-         781ApXh1M3FLk5ddH+CwMmZKDFvPsJnQnQVZ1bPp7uv3XfGOoGCkOZZ+nhuoQUbT2Vio
-         wFYm+NSztKTIZVIV+0cSE8jAL3UAPR1m56+su0uvuJ9umfDOPZmZ/M3eD12QcRo0NZcv
-         Hz8tceCUPiRrSKCKc2ZFRPN7gh2fC3vT6NdNIOFmhqAH3bCI5iAPG7Sy0bJfiYiX4gNW
-         bP8A==
-X-Gm-Message-State: AAQBX9ctA8hNaoL9kmqpOW1sOsBmHpkWHGrYve0a+qbHnmktQhC8AILi
-	14k/5XiEBO0tbS7tgpQ88pDCxzGKK64lhJMA3yE=
-X-Google-Smtp-Source: AKy350Z2ruLVe4igCYf9yzHd/27az+pg44/GEVIMnOZamHUU4qrKdRwYQYFxqO7HjozQO30F+04cfA==
-X-Received: by 2002:a05:6a00:b4f:b0:634:dcf7:e885 with SMTP id p15-20020a056a000b4f00b00634dcf7e885mr2398354pfo.25.1681364169908;
-        Wed, 12 Apr 2023 22:36:09 -0700 (PDT)
-Received: from MVIN00024 ([43.249.234.197])
-        by smtp.gmail.com with ESMTPSA id z9-20020aa791c9000000b0062e63cdfcb2sm422029pfa.93.2023.04.12.22.36.07
+        bh=Sop0z7Jsw/6bBzokQbQSJvIlu5uV+Kr11/ib4t6Ga9k=;
+        b=Uyrg0phVZyLPyLtjamlOyAZhrh3L4LFJYbpssqWaLRGdHMY78DkLe+8LiP801Y3J06
+         wL6IRW5RsIKasE327viE/qI7DBPapSxAZC4717VJAIZ3jXCn7J2GHZuxQt+xp+Fv3zKh
+         fOkaHCJfDfCNJW2HsUdChrXTESEMKMQQkfjuIhro0BD8t+jqcSbw2szgDzo1W5wZUWVU
+         vlHiRACkFhrU/popu1ivxcbRsOCXJRhJ/6kGWMw+RYUwR5iAGzj9E7zRLLEQfFPAxxbv
+         ZGsFjeaKW4eu8m+FbCXkFo2ilZA41O3nZqZd/4UREPfENcG7+KmWukzPrCmXVIZ23pJ9
+         puOA==
+X-Gm-Message-State: AAQBX9dD0nAhz6IDb56O/UWN+lt4BaDAwtV6sBQ8Wif3lGl+ZiAW2R+c
+	tXAHLicOWbj37AdPqbslX98jSbYlI5I=
+X-Google-Smtp-Source: AKy350ZeQnWZTCWbt8IWc98yOIxG8Bg48TRXrIWRRqTemMrgLhztBQTPF04jq8y+squ5SM+xv9/0GA==
+X-Received: by 2002:a17:903:110d:b0:19f:35df:5d60 with SMTP id n13-20020a170903110d00b0019f35df5d60mr1549714plh.22.1681365274267;
+        Wed, 12 Apr 2023 22:54:34 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:d380::ebd0])
+        by smtp.gmail.com with ESMTPSA id on1-20020a17090b1d0100b00244b13111e6sm2410781pjb.38.2023.04.12.22.54.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Apr 2023 22:36:09 -0700 (PDT)
-Received: by MVIN00024 (sSMTP sendmail emulation); Thu, 13 Apr 2023 11:06:04 +0530
-From: Hitendra Prajapati <hprajapati@mvista.com>
+        Wed, 12 Apr 2023 22:54:33 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [dunfell][PATCH] ruby: CVE-2023-28756 ReDoS vulnerability in Time
-Date: Thu, 13 Apr 2023 11:06:02 +0530
-Message-Id: <20230413053602.95914-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/2] musl-locales: Add Canadian French (fr_CA) locale support
+Date: Wed, 12 Apr 2023 22:54:31 -0700
+Message-Id: <20230413055432.1977413-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Apr 2023 05:36:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179956
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Apr 2023 05:54:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179957
 
-Upstream-Status: Backport from https://github.com/ruby/ruby/commit/957bb7cb81995f26c671afce0ee50a5c660e540e
-
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../ruby/ruby/CVE-2023-28756.patch            | 61 +++++++++++++++++++
- meta/recipes-devtools/ruby/ruby_2.7.6.bb      |  1 +
- 2 files changed, 62 insertions(+)
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2023-28756.patch
+ meta/recipes-core/musl/musl-locales_git.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2023-28756.patch b/meta/recipes-devtools/ruby/ruby/CVE-2023-28756.patch
-new file mode 100644
-index 0000000000..c25a147d36
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/CVE-2023-28756.patch
-@@ -0,0 +1,61 @@
-+From 957bb7cb81995f26c671afce0ee50a5c660e540e Mon Sep 17 00:00:00 2001
-+From: Hiroshi SHIBATA <hsbt@ruby-lang.org>
-+Date: Wed, 29 Mar 2023 13:28:25 +0900
-+Subject: [PATCH] CVE-2023-28756
-+
-+CVE: CVE-2023-28756
-+Upstream-Status: Backport [https://github.com/ruby/ruby/commit/957bb7cb81995f26c671afce0ee50a5c660e540e]
-+
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ lib/time.rb       | 6 +++---
-+ test/test_time.rb | 9 +++++++++
-+ 2 files changed, 12 insertions(+), 3 deletions(-)
-+
-+diff --git a/lib/time.rb b/lib/time.rb
-+index f27bacd..4a86e8e 100644
-+--- a/lib/time.rb
-++++ b/lib/time.rb
-+@@ -501,8 +501,8 @@ class Time
-+           (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+
-+           (\d{2,})\s+
-+           (\d{2})\s*
-+-          :\s*(\d{2})\s*
-+-          (?::\s*(\d{2}))?\s+
-++          :\s*(\d{2})
-++          (?:\s*:\s*(\d\d))?\s+
-+           ([+-]\d{4}|
-+            UT|GMT|EST|EDT|CST|CDT|MST|MDT|PST|PDT|[A-IK-Z])/ix =~ date
-+         # Since RFC 2822 permit comments, the regexp has no right anchor.
-+@@ -717,7 +717,7 @@ class Time
-+   #
-+   # If self is a UTC time, Z is used as TZD.  [+-]hh:mm is used otherwise.
-+   #
-+-  # +fractional_digits+ specifies a number of digits to use for fractional
-++  # +fraction_digits+ specifies a number of digits to use for fractional
-+   # seconds.  Its default value is 0.
-+   #
-+   #     require 'time'
-+diff --git a/test/test_time.rb b/test/test_time.rb
-+index ca20788..4f11048 100644
-+--- a/test/test_time.rb
-++++ b/test/test_time.rb
-+@@ -62,6 +62,15 @@ class TestTimeExtension < Test::Unit::TestCase # :nodoc:
-+     assert_equal(true, t.utc?)
-+   end
-+ 
-++  def test_rfc2822_nonlinear
-++    pre = ->(n) {"0 Feb 00 00 :00" + " " * n}
-++    assert_linear_performance([100, 500, 5000, 50_000], pre: pre) do |s|
-++      assert_raise(ArgumentError) do
-++        Time.rfc2822(s)
-++      end
-++    end
-++  end
-++
-+   def test_encode_rfc2822
-+     t = Time.utc(1)
-+     assert_equal("Mon, 01 Jan 0001 00:00:00 -0000", t.rfc2822)
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/ruby/ruby_2.7.6.bb b/meta/recipes-devtools/ruby/ruby_2.7.6.bb
-index 3af321a83e..91ffde5fa3 100644
---- a/meta/recipes-devtools/ruby/ruby_2.7.6.bb
-+++ b/meta/recipes-devtools/ruby/ruby_2.7.6.bb
-@@ -7,6 +7,7 @@ SRC_URI += " \
-            file://run-ptest \
-            file://0001-Modify-shebang-of-libexec-y2racc-and-libexec-racc2y.patch \
-            file://0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch \
-+           file://CVE-2023-28756.patch \
-            "
+diff --git a/meta/recipes-core/musl/musl-locales_git.bb b/meta/recipes-core/musl/musl-locales_git.bb
+index 92532237e0..6ffac4fade 100644
+--- a/meta/recipes-core/musl/musl-locales_git.bb
++++ b/meta/recipes-core/musl/musl-locales_git.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=cf5713fba707073020b1db2acaa73e78 \
+ SRC_URI = "git://git.adelielinux.org/adelie/musl-locales;protocol=https;branch=main"
  
- SRC_URI[md5sum] = "f972fb0cce662966bec10d5c5f32d042"
+ PV = "1.0+git${SRCPV}"
+-SRCREV = "cac3dcdccd1d0c08d17f4919d862737d64b76f79"
++SRCREV = "5663f5bfd30bf9e1e0ba3fc5fe2da6725969f30e"
+ 
+ S = "${WORKDIR}/git"
+ 
+@@ -35,6 +35,7 @@ LICENSE:locale-base-en-gb = "MIT"
+ LICENSE:locale-base-en-us = "MIT"
+ LICENSE:locale-base-es-es = "MIT"
+ LICENSE:locale-base-fi-fi = "MIT"
++LICENSE:locale-base-fr-ca = "MIT"
+ LICENSE:locale-base-fr-fr = "MIT"
+ LICENSE:locale-base-it-it = "MIT"
+ LICENSE:locale-base-nb-no = "MIT"
+@@ -52,6 +53,7 @@ PACKAGES =+ "locale-base-cs-cz \
+              locale-base-en-us \
+              locale-base-es-es \
+              locale-base-fi-fi \
++             locale-base-fr-ca \
+              locale-base-fr-fr \
+              locale-base-it-it \
+              locale-base-nb-no \
+@@ -69,6 +71,7 @@ FILES:locale-base-en-gb += "${datadir}/i18n/locales/musl/en_GB.UTF-8"
+ FILES:locale-base-en-us += "${datadir}/i18n/locales/musl/en_US.UTF-8"
+ FILES:locale-base-es-es += "${datadir}/i18n/locales/musl/es_ES.UTF-8"
+ FILES:locale-base-fi-fi += "${datadir}/i18n/locales/musl/fi_FI.UTF-8"
++FILES:locale-base-fr-ca += "${datadir}/i18n/locales/musl/fr_CA.UTF-8"
+ FILES:locale-base-fr-fr += "${datadir}/i18n/locales/musl/fr_FR.UTF-8"
+ FILES:locale-base-it-it += "${datadir}/i18n/locales/musl/it_IT.UTF-8"
+ FILES:locale-base-nb-no += "${datadir}/i18n/locales/musl/nb_NO.UTF-8"
 -- 
-2.25.1
+2.40.0
 
 
