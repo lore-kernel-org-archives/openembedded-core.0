@@ -2,54 +2,85 @@ Return-Path: <jamin_lin@aspeedtech.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A42FC77B61
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54FCCC77B6C
 	for <webhook@archiver.kernel.org>; Thu, 13 Apr 2023 10:31:22 +0000 (UTC)
 Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
- by mx.groups.io with SMTP id smtpd.web10.9187.1681381875458694254
+ by mx.groups.io with SMTP id smtpd.web10.9189.1681381880410697789
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Apr 2023 03:31:15 -0700
+ Thu, 13 Apr 2023 03:31:20 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: aspeedtech.com, ip: 211.20.114.71, mailfrom: jamin_lin@aspeedtech.com)
 Received: from mail.aspeedtech.com ([192.168.0.24])
-	by twspam01.aspeedtech.com with ESMTP id 33DAFEwp011533
-	for <openembedded-core@lists.openembedded.org>; Thu, 13 Apr 2023 18:15:14 +0800 (GMT-8)
+	by twspam01.aspeedtech.com with ESMTP id 33DAFGT1011547
+	for <openembedded-core@lists.openembedded.org>; Thu, 13 Apr 2023 18:15:16 +0800 (GMT-8)
 	(envelope-from jamin_lin@aspeedtech.com)
 Received: from localhost.localdomain (192.168.70.121) by TWMBX02.aspeed.com
  (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 13 Apr
- 2023 18:31:11 +0800
+ 2023 18:31:14 +0800
 From: Jamin Lin <jamin_lin@aspeedtech.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 0/2] kernel-fitimage/uboot-sign: support 64bits address
-Date: Thu, 13 Apr 2023 18:31:07 +0800
-Message-ID: <20230413103109.5604-1-jamin_lin@aspeedtech.com>
+Subject: [PATCH 1/2] kernel-fitimage: support 64 bits address
+Date: Thu, 13 Apr 2023 18:31:08 +0800
+Message-ID: <20230413103109.5604-2-jamin_lin@aspeedtech.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230413103109.5604-1-jamin_lin@aspeedtech.com>
+References: <20230413103109.5604-1-jamin_lin@aspeedtech.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [192.168.70.121]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 33DAFEwp011533
+X-MAIL: twspam01.aspeedtech.com 33DAFGT1011547
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 13 Apr 2023 10:31:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179968
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179969
 
-v1:
-kernel-fitimage.bbclass: allow users to change address-cells
-to support 64bits address
-uboot-sign.bbclass: allow users to change address-cells
-to support 64bits address.
+The default value of address-cells is "1", so the generated "its" file
+only supports 32bits address for kernel FIT image.
+However, some platforms may want to support 64bits address
+of UBOOT_LOADADDRESS and UBOOT_ENTRYPOINT.
+Therefore, adds a variable to support both 64bits and 32bits address cells.
 
-Jamin Lin (2):
-  kernel-fitimage: support 64 bits address
-  uboot-sign: support 64bits address
+By default, the address-cell is "1" which is used for 32bits load address.
+If users would like to use 64bits load address, users are able to
+set as following for "0x400000000" 64bits load address.
+1. FIT_ADDRESS_CELLS = "2"
+2. UBOOT_LOADADDRESS= "0x04 0x00000000"
 
+(From OE-Core rev: f79046d082f3a7752e6780b2990470dcd36cbba4)
+
+Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
+---
  meta/classes-recipe/kernel-fitimage.bbclass | 6 +++++-
- meta/classes-recipe/uboot-sign.bbclass      | 6 +++++-
- 2 files changed, 10 insertions(+), 2 deletions(-)
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
+diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-recipe/kernel-fitimage.bbclass
+index b77747404f..d294f28d17 100644
+--- a/meta/classes-recipe/kernel-fitimage.bbclass
++++ b/meta/classes-recipe/kernel-fitimage.bbclass
+@@ -92,6 +92,10 @@ FIT_SUPPORTED_INITRAMFS_FSTYPES ?= "cpio.lz4 cpio.lzo cpio.lzma cpio.xz cpio.zst
+ # Allow user to select the default DTB for FIT image when multiple dtb's exists.
+ FIT_CONF_DEFAULT_DTB ?= ""
+ 
++# length of address in number of <u32> cells
++# ex: 1 32bits address, 2 64bits address
++FIT_ADDRESS_CELLS ?= "1"
++
+ # Keys used to sign individually image nodes.
+ # The keys to sign image nodes must be different from those used to sign
+ # configuration nodes, otherwise the "required" property, from
+@@ -110,7 +114,7 @@ fitimage_emit_fit_header() {
+ 
+ / {
+         description = "${FIT_DESC}";
+-        #address-cells = <1>;
++        #address-cells = <${FIT_ADDRESS_CELLS}>;
+ EOF
+ }
+ 
 -- 
 2.17.1
 
