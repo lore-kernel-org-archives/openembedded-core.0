@@ -1,101 +1,74 @@
-Return-Path: <throos@amazon.de>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51011C77B6E
-	for <webhook@archiver.kernel.org>; Fri, 14 Apr 2023 14:34:42 +0000 (UTC)
-Received: from smtp-fw-80006.amazon.com (smtp-fw-80006.amazon.com [99.78.197.217])
- by mx.groups.io with SMTP id smtpd.web11.11171.1681482874037599431
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00296C77B6E
+	for <webhook@archiver.kernel.org>; Fri, 14 Apr 2023 15:33:21 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.web10.13357.1681486393445075479
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Apr 2023 07:34:34 -0700
+ Fri, 14 Apr 2023 08:33:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amazon.de header.s=amazon201209 header.b=wBGYqro+;
- spf=pass (domain: amazon.de, ip: 99.78.197.217, mailfrom: prvs=461effbcb=throos@amazon.de)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1681482874; x=1713018874;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=gmHGm2O4dDBZjQpTO3oUMLMS1Hq2k4xSM0LWSYvu/ok=;
-  b=wBGYqro+6zXV05ummPPb0Q5HREwqLnjdC7gud3kKfnzyte4MFbeMnctY
-   wpZesYZjf2llQYPC1c8+91C5VlSGJtx0A9xcxFWVi/3onWkYBjti9G6GL
-   83wmN1tcwPKIS61brHD+TvgPEqfcrKdUnlt0tJZgDP1BcdVGxAbq62aXd
-   c=;
-X-IronPort-AV: E=Sophos;i="5.99,197,1677542400"; 
-   d="scan'208";a="204508312"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-iad-1a-m6i4x-96feee09.us-east-1.amazon.com) ([10.25.36.210])
-  by smtp-border-fw-80006.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 14:34:31 +0000
-Received: from EX19D016EUC001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
-	by email-inbound-relay-iad-1a-m6i4x-96feee09.us-east-1.amazon.com (Postfix) with ESMTPS id A38EE438AE
-	for <openembedded-core@lists.openembedded.org>; Fri, 14 Apr 2023 14:34:30 +0000 (UTC)
-Received: from u182adcbddbfb55.ant.amazon.com (10.85.99.97) by
- EX19D016EUC001.ant.amazon.com (10.252.51.169) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 14 Apr 2023 14:34:28 +0000
-From: <throos@amazon.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: Thomas Roos <throos@amazon.de>
-Subject: [PATCH] oeqa/utils/metadata.py: Fix running oe-selftest running with no distro set
-Date: Fri, 14 Apr 2023 16:34:17 +0200
-Message-ID: <20230414143417.310198-1-throos@amazon.de>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=lMVS0Ymz;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-2023041415330865637a8928f87226dc-pe_epc@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 2023041415330865637a8928f87226dc
+        for <openembedded-core@lists.openembedded.org>;
+        Fri, 14 Apr 2023 17:33:09 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=OOg87Q30GH+ZHY2I2pe+RiOkZlQbbX/TwryvpPZprMc=;
+ b=lMVS0YmzgpBOOucimkVRAeX41/Tbn7mbI5h8EAHCTw7I5z+fiOPlbsmvPNMCz6L7V9iZ9m
+ 9ks51o/ycozqwRovUjcVjOgkIxSX7+ijoekV6Gtec3cSlQUjnFTIg8r0G9mdSu6588mM/TqG
+ MvEEBRbwHEV5tALhEJ1MX0BmjUD8o=;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Saul Wold <saul.wold@windriver.com>,
+	Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH] package.bbclass: correct check for /build in copydebugsources()
+Date: Fri, 14 Apr 2023 17:32:13 +0200
+Message-Id: <20230414153213.32833-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.85.99.97]
-X-ClientProxiedBy: EX19D037UWC003.ant.amazon.com (10.13.139.231) To
- EX19D016EUC001.ant.amazon.com (10.252.51.169)
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Apr 2023 14:34:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179999
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Apr 2023 15:33:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180000
 
-From: Thomas Roos <throos@amazon.de>
+Newly introduced kirkstone-only commit
+https://git.openembedded.org/openembedded-core/commit/?h=kirkstone&id=80839835ec9fcb63069289225a3c1af257ffdef7
+broke builds with externalsrc in Gitlab-CI.
+This is yocto-4.0.9 regression.
 
-This will use default values when no distribution is set.
+It checks if directory starts with "build" instead of
+if checking if it equals to "build".
+Gitlab-CI uses directory "/builds" which matches the check
+but directory /build does not exist, only /builds.
+After successful check it tries to move this non-existent
+directory which does not exists and thus do_package fails.
 
-[YOCTO #15086]
-
-Signed-off-by: Thomas Roos <throos@amazon.de>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/lib/oeqa/utils/metadata.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/classes/package.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/utils/metadata.py b/meta/lib/oeqa/utils/metadata.py
-index 8013aa684d..15ec190c4a 100644
---- a/meta/lib/oeqa/utils/metadata.py
-+++ b/meta/lib/oeqa/utils/metadata.py
-@@ -27,9 +27,9 @@ def metadata_from_bb():
-     data_dict = get_bb_vars()
- 
-     # Distro information
--    info_dict['distro'] = {'id': data_dict['DISTRO'],
--                           'version_id': data_dict['DISTRO_VERSION'],
--                           'pretty_name': '%s %s' % (data_dict['DISTRO'], data_dict['DISTRO_VERSION'])}
-+    info_dict['distro'] = {'id': data_dict.get('DISTRO', 'NODISTRO'),
-+                                'version_id': data_dict.get('DISTRO_VERSION', 'NO_DISTRO_VERSION'),
-+                                'pretty_name': '%s %s' % (data_dict.get('DISTRO', 'NODISTRO'), data_dict.get('DISTRO_VERSION', 'NO_DISTRO_VERSION'))}
- 
-     # Host distro information
-     os_release = get_os_release()
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 2950218145..67acc278d1 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -638,7 +638,7 @@ def copydebugsources(debugsrcdir, sources, d):
+             if os.path.exists(dvar + debugsrcdir + sdir):
+                 # Special case for /build since we need to move into
+                 # /usr/src/debug/build so rename sdir to build.build
+-                if sdir.find("/build") == 0:
++                if sdir == "/build" or sdir.find("/build/") == 0:
+                     cmd = "mv %s%s%s %s%s%s" % (dvar, debugsrcdir, "/build", dvar, debugsrcdir, "/build.build")
+                     subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+                     sdir = sdir.replace("/build", "/build.build", 1)
 -- 
-2.34.1
-
-
-
-
-Amazon Web Services EMEA SARL
-38 avenue John F. Kennedy, L-1855 Luxembourg
-Sitz der Gesellschaft: L-1855 Luxemburg
-eingetragen im Luxemburgischen Handelsregister unter R.C.S. B186284
-
-Amazon Web Services EMEA SARL, Niederlassung Deutschland
-Marcel-Breuer-Str. 12, D-80807 Muenchen
-Sitz der Zweigniederlassung: Muenchen
-eingetragen im Handelsregister des Amtsgerichts Muenchen unter HRB 242240, USt-ID DE317013094
-
-
-
+2.30.2
 
 
