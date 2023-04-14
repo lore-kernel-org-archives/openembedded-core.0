@@ -1,111 +1,108 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75631C77B71
-	for <webhook@archiver.kernel.org>; Fri, 14 Apr 2023 16:50:22 +0000 (UTC)
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
- by mx.groups.io with SMTP id smtpd.web11.15854.1681491021825935286
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3213EC77B71
+	for <webhook@archiver.kernel.org>; Fri, 14 Apr 2023 19:29:23 +0000 (UTC)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+ by mx.groups.io with SMTP id smtpd.web11.19887.1681500562391403348
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Apr 2023 09:50:21 -0700
+ Fri, 14 Apr 2023 12:29:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=B36HF4Az;
- spf=pass (domain: gmail.com, ip: 209.85.210.53, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f53.google.com with SMTP id 39-20020a9d04aa000000b006a1370e214aso7300856otm.11
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Apr 2023 09:50:21 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=YwVZaYnB;
+ spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f46.google.com with SMTP id e9so14474847qvv.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Apr 2023 12:29:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681491021; x=1684083021;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JaX9yFnfoZzyghU+St2wCLBwMtWuBZoDGgBAJNjuatY=;
-        b=B36HF4AzspW18u7WS9s1ZkiVB9P42Co9stxmT6gv4YIw2ulI7hz3zgHpDu7Q3Ymtqb
-         U6sZp3cONE1z8H956Xdr8wLtVAFobbTDKJE02zul90eZSoUMH3aIR2HTiZ/WhrB3hAJz
-         /yty0yP3VoDDcm+l/4sabMNU+tLKG66pjKricTL3dbSlG1o03JpVwJQaEKmjZJobug+2
-         42YAswCFN735IrsZcU+M4HqztURAYRbACrK6K9orLlGlbefdJzYRMwugObyniEK/1zwv
-         tEZaJxIZYkMUVaCq8qgn4T8Bu4djiqRyGg6VlJ/QzqXYufjGW0pHrOZ1Dc8gI6CMDBwf
-         nEAw==
+        d=gmail.com; s=20221208; t=1681500561; x=1684092561;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MwOVqRJj7qLA6ZLRmGEkYNxXLcqUcVzKU2KLz/XVJdg=;
+        b=YwVZaYnBdMbmcehxSU7MWFecZ7fwAOPvkpkDMtOQ+6j+tRcXfYO7ColsgS3qlWnZdA
+         7rnvbMF869A/LXKT475ZFqK5gNEP/K7nNK3GNG3fXFX70ubBOOEBMid9vUwkoJp4Yt/J
+         M/zQKspQLHCLxRR0iGaPitF9EOmP9AtlAfA60Epaa2IuBVG44cFpQV/FSEfAouw2QgN1
+         nxI2vrdQSzJt2TeIOr/XQOxIsdaKDM5DY0d3bwy1ydadcNwU+nzUQJUhBj4MINjqvZ79
+         Usu0f308uy0lR2kkpZLR9TUvCvZDsQP72ieMEYbwwV1b4VmQcogFKj//dj0i9T0+AbqA
+         1rJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681491021; x=1684083021;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JaX9yFnfoZzyghU+St2wCLBwMtWuBZoDGgBAJNjuatY=;
-        b=KuZFoNJBVg8DRs/Sd79RuN3i7yflxyF1YOvBjW7QpKndcD6I5P2uAYaPEamixXC6ix
-         um08ByLZXbZbfIrFH1/uP4iofHct7D7PmpB24KF3Zj3MgiIuinho8SjDcV560jqwfgjE
-         mYAm2KbHzeY5/sjYl8CEx+/TROpc/MQdEHi9kQ1lJChwsNx299UR1n9x1bMqHYYkfO6j
-         xkrY2a9COkx74IgkXH7ZuXbKDm4v6p0Jt6pnGyL9Ama1ikWsNhvbfgvFEzRFiv1qY02a
-         gO5jTRQZfQ6WhCRQ87FtYfzL6dH9+fiMnBIZq5PIFJLWr4XSyUDTaLQJvPIj/yaqbEnN
-         KEBA==
-X-Gm-Message-State: AAQBX9eMbqxlprtumv7OIonviJLZvlxBrhYkaeANU2FH3b+f+Zfsst8Z
-	lnw5iV5YJVN9FsbGmqcfO74GWHctYmP9dmVTz/7N/wOi
-X-Google-Smtp-Source: AKy350YKgRuy39+2IvXoGHN2OuUbz8SffY3wioN+29P2I5fgCL6Epv7skk842jN6Wg+NRGI5kAAXJGsmviEkeWs7HtI=
-X-Received: by 2002:a05:6830:18f6:b0:69f:573:6113 with SMTP id
- d22-20020a05683018f600b0069f05736113mr1695852otf.2.1681491020785; Fri, 14 Apr
- 2023 09:50:20 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1681500561; x=1684092561;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MwOVqRJj7qLA6ZLRmGEkYNxXLcqUcVzKU2KLz/XVJdg=;
+        b=hwb3Bz3HazGfC41eZJTuNs33eu+E7ThPOB4sJEv4tQ8zhggW4tGLownDot0vB5Su7z
+         T2LoCbc80aaxh0Aii+jN3oWQR511fkZuAe4hCEsw9snNdEQGkxvBzFgfikVnbw9FYa8B
+         krbrz2TTX7eshWZNjqkYkSHeT5YQ2E/aimDSTf5YTG5vC+5MEE03RvJO6W+QooUBAe2T
+         VdKOy5MvsacHZ1LoNVarzCoZec7N3FG1sWKbyru02JogCI8NVOzkcsJOarhON/crlGJK
+         vLdDvs++90LnzEXXEaaCJik7PS40FFXeZy6P4xNsBuU7zFHsvH7lfWTg0F0U2pv4OOd7
+         x+7g==
+X-Gm-Message-State: AAQBX9ct/MTLhs97a64XJzRpx3n2bFoi9BlUMkHYWo6oew58ljYe+b8D
+	WJm9nrhvwbEgwieVfZIPz9antRSCc+v5DA==
+X-Google-Smtp-Source: AKy350afQwbSLknZbueJNloaO2CzgW0wMcwOmpPcLD+kTgyKawUiDVDMQevkJ0udpeHEMJlSI9Oeqg==
+X-Received: by 2002:a05:6214:27e9:b0:534:86f1:bcb5 with SMTP id jt9-20020a05621427e900b0053486f1bcb5mr5813631qvb.41.1681500561343;
+        Fri, 14 Apr 2023 12:29:21 -0700 (PDT)
+Received: from localhost.localdomain ([174.112.183.231])
+        by smtp.gmail.com with ESMTPSA id r2-20020a0cf802000000b005ef5b1006c5sm434797qvn.38.2023.04.14.12.29.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Apr 2023 12:29:20 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] kernel: improve initramfs bundle processing time
+Date: Fri, 14 Apr 2023 15:29:19 -0400
+Message-Id: <20230414192919.1887564-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230414155511.91980-1-raj.khem@gmail.com>
-In-Reply-To: <20230414155511.91980-1-raj.khem@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 14 Apr 2023 09:49:54 -0700
-Message-ID: <CAMKF1sqeJyQuDJF1Qqxrj+cBwxND70=pNt4OQ7Mswh+0QoqyKA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] gawk: Disable known ptest fails on musl
-To: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Apr 2023 16:50:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180004
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Apr 2023 19:29:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180005
 
-ignore this set, it does not work.
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-On Fri, Apr 14, 2023 at 8:55=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wrote=
-:
->
-> Add needed locale rdeps on musl as well.
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
-> v2: Delete failing tests on musl
->
->  meta/recipes-extended/gawk/gawk_5.2.1.bb | 17 +++++++++++++++--
->  1 file changed, 15 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-extended/gawk/gawk_5.2.1.bb b/meta/recipes-exte=
-nded/gawk/gawk_5.2.1.bb
-> index e381bad148..bbb26231a1 100644
-> --- a/meta/recipes-extended/gawk/gawk_5.2.1.bb
-> +++ b/meta/recipes-extended/gawk/gawk_5.2.1.bb
-> @@ -62,8 +62,21 @@ do_install_ptest() {
->         rm -f ${D}${PTEST_PATH}/test/timeout.*
->  }
->
-> -RDEPENDS:${PN}-ptest +=3D "make"
-> +do_install_ptest:append:libc-musl() {
-> +       # Reported  https://lists.gnu.org/archive/html/bug-gawk/2021-02/m=
-sg00005.html
-> +       rm -f ${D}${PTEST_PATH}/test/clos1way6.*
-> +       # Needs en_US.UTF-8 but then does not work with musl
-> +       rm -f ${D}${PTEST_PATH}/test/backsmalls1.*
-> +       # Needs en_US.UTF-8 but then does not work with musl
-> +       rm -f ${D}${PTEST_PATH}/test/commas.*
-> +       # The below two need LANG=3DC inside the make rule for musl
-> +       rm -f ${D}${PTEST_PATH}/test/rebt8b1.*
-> +       rm -f ${D}${PTEST_PATH}/test/regx8bit.*
-> +}
-> +
-> +RDEPENDS:${PN}-ptest +=3D "make locale-base-en-us"
->
-> -RDEPENDS:${PN}-ptest:append:libc-glibc =3D " locale-base-en-us locale-ba=
-se-en-us.iso-8859-1"
-> +RDEPENDS:${PN}-ptest:append:libc-glibc =3D " locale-base-en-us.iso-8859-=
-1"
-> +RDEPENDS:${PN}-ptest:append:libc-musl =3D " musl-locales"
->
->  BBCLASSEXTEND =3D "native nativesdk"
-> --
-> 2.40.0
->
+This is a partial fix for bugzilla 15059 [https://bugzilla.yoctoproject.org/show_bug.cgi?id=15059]
+
+It has been noted by several people that when an initramfs is bundled:
+
+  - a lot of the kernel is rebuilt
+  - it takes a really long time
+
+When looking at the logs, the second kernel compilation (that performs
+the bundle) is not using the parallel make settings, and builds with
+-j1.
+
+We are already explicitly passing PARALLEL_MAKE when building kernel
+modules, and by extending that explicit use to the main kernel
+compilation, we ensure that we always get a parallel build.
+
+Build times chnaged from more than 30 minutes for the bundle, to
+3 minutes in local testing.
+
+The question of whether or not too much is rebuilding during the
+bundle step is still an open question, but with this tweak, at least
+the build time is back in the realm of acceptable.
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ meta/classes-recipe/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
+index aefa0d21bc..e634eabd49 100644
+--- a/meta/classes-recipe/kernel.bbclass
++++ b/meta/classes-recipe/kernel.bbclass
+@@ -382,7 +382,7 @@ kernel_do_compile() {
+ 		use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio
+ 	fi
+ 	for typeformake in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
+-		oe_runmake ${typeformake} ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
++		oe_runmake ${PARALLEL_MAKE} ${typeformake} ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
+ 	done
+ }
+ 
+-- 
+2.25.1
+
 
