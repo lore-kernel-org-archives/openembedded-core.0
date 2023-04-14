@@ -2,144 +2,145 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15455C77B71
-	for <webhook@archiver.kernel.org>; Fri, 14 Apr 2023 15:55:22 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web10.14069.1681487716375942140
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64461C77B6E
+	for <webhook@archiver.kernel.org>; Fri, 14 Apr 2023 16:11:52 +0000 (UTC)
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+ by mx.groups.io with SMTP id smtpd.web10.14589.1681488707167371584
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Apr 2023 08:55:16 -0700
+ Fri, 14 Apr 2023 09:11:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=KLz6bovM;
- spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f48.google.com with SMTP id fw22-20020a17090b129600b00247255b2f40so4915877pjb.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Apr 2023 08:55:16 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=XFnryTSL;
+ spf=pass (domain: gmail.com, ip: 209.85.160.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-187bee46f9dso830506fac.11
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Apr 2023 09:11:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681487715; x=1684079715;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1681488706; x=1684080706;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=h+REbhRopdeiI9Kg7kC+AxbVNnA62Btianr2YQdg6YY=;
-        b=KLz6bovMZ6ponM0oEplRRjoHWbpfpeRKuIWUqttm5aGBZe88cnAGJ/1jzOC83KRiIW
-         ZSG3xPDtvNrx4Y6ojFMmxjXLrTNVKnOdDN0kHVitYfT4oHPDOjUWmm6ppe56nyCvCPAK
-         k/pJWOFvgX1Zl9kgtibajyg+M679SBttr6H8/M9wy6Nn29MYTW8Wa9OhW1FUaPsjInE4
-         mbQK6QnPP3WwpO8n7C/qFMxZfkqx3oMKMieA9v/MJeGUqe6FgHL4PMvuQ5YbdBdwyow8
-         oatWDxE3WumC9jy+uJywLwLynK/HplKA7SB7hFDXrOFVPvo6f0SvN5XwaWcms+6QFfSA
-         s9UA==
+        bh=XZsCbC28hUcpHsL/QUe1yUlizjpWnq9XuVunkANDQ18=;
+        b=XFnryTSLYpSw7E6cwTDiycmdvyU6UyqBdS45FbnMk0HSamJ54moUzaYdm8wVu8hwiy
+         2qUnHJuhxXx2EtkP+WRV4Jl490g5wnGrN3VJRzRSJB/O5G91byMbpx0yNkZzR1W8RFAu
+         SIySlJDDoLT1+MfXWUb6NlngWkyHAiRfQv24KH9KV4ql6MgcQlUW6Wqya3HKN8qpSmEZ
+         0hJEa38w9DthfiMRT3vYF64psad0GgfwFnlA9YWRN2/e5+RFmoPt4GFRK1/asN5Ki61X
+         mdLz4pjEcwW69ieeNGIA5vnuBY6Deb4JFAa2Uc5y75Hx5FWKw7RxXK8P5zUXb0Snz76Y
+         4j1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681487716; x=1684079716;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1681488706; x=1684080706;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=h+REbhRopdeiI9Kg7kC+AxbVNnA62Btianr2YQdg6YY=;
-        b=J+99RKqtR6ANtcJIK7bOlp3x7BgxV0DbOjn2l3DTdHhCuTo7I3SNyA8mF69+G0w+eG
-         JMYQizgDiMGjXnEawRM4L1+qkil2aUu+LBKhYzqiDXvW36CroBBPdlImc0KEPyXZtQLB
-         o+A8+XWQKRc5x7Xgdt61aNcr0oH/Vf5uxa7AAmXtDSmj2hGY2+yfcQ1QFPOm8UUVorJm
-         WENtaFRLm+9UWMNnNB+hqy0Lmmw+OV4apbeZ/G03fz3KdmsnUgAFiERby0w1aOyzLHnH
-         oBW6ZMQb7fMIWUnRqU+tHPJw4NuBPQE7Mty6Q+sjTl8wFs71PVBoYpx2UEZlkNMYN/7a
-         7tHg==
-X-Gm-Message-State: AAQBX9fXtMVxvVxdAPcgQ2qsbGFmwiokfW9LF0U/cIqkK7j4afm9VB+E
-	lQx9p/Vl5r12rH5TPL0IRLiteWZXLHs=
-X-Google-Smtp-Source: AKy350YvGWQJY0kPIVSbO23cWX3j8TpYlplREjMZ7b42CDca0XA84Od183ogJ8PeKgNNQ2h+sK2vHQ==
-X-Received: by 2002:a17:902:e886:b0:1a1:cef2:acd4 with SMTP id w6-20020a170902e88600b001a1cef2acd4mr3229223plg.21.1681487715508;
-        Fri, 14 Apr 2023 08:55:15 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:d380::ebd0])
-        by smtp.gmail.com with ESMTPSA id u3-20020a17090282c300b001a1c721f7f8sm3218900plz.267.2023.04.14.08.55.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Apr 2023 08:55:15 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Ross Burton <ross.burton@arm.com>
-Subject: [PATCH v2 2/2] gawk: Remove redundant patch
-Date: Fri, 14 Apr 2023 08:55:11 -0700
-Message-Id: <20230414155511.91980-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230414155511.91980-1-raj.khem@gmail.com>
-References: <20230414155511.91980-1-raj.khem@gmail.com>
+        bh=XZsCbC28hUcpHsL/QUe1yUlizjpWnq9XuVunkANDQ18=;
+        b=ZmzDkP6Z6g/guPhe2ZjOTz8Ox/mgefl0Qso1h9fRTslkrpFO1bvYMVspQo4FK79c4i
+         BOTNeLOcFPuimnso2e65kxJVuiJydoqBDaKR4Z/sZxrDs5NoPjJqy6t2n+4Tnsxwl8NC
+         o2qBlsSP8dMe2MQvk9iVC9TPkhvq5UyEFU64fQQrsLimyeiN6vUYn4OSrWZ9ztAjXkRw
+         GKwaRzdtIbpZIEJCsvTicQpk53qPkSTAAbK30adqKgNFSb4T/oKnRqIdv6YimiRh2QID
+         BBpqP0Io4J6EZziqgUM3DWTTwWcohzYiZ3pfT6DaoBLAP1uSEQnYt0EoEpAIlu7u4wWO
+         e9bg==
+X-Gm-Message-State: AAQBX9fAo0YwA3W2yMWOtPqwMHypYmGTzNO7g2Kw/Ermb/gvhkzQdH2N
+	ogplv1sSTc4VFysLkXPn1lK0uvddj6VkfzYF/Y4=
+X-Google-Smtp-Source: AKy350afFyExPLTUGIfhAuqfw8UCfst8mkiqRmBkAkGLS2SRdaR+6nCz1+xwewsl2WVI7YUBAUjX7/hNPQTcQtwHX5I=
+X-Received: by 2002:a05:6870:d622:b0:17e:915c:84a2 with SMTP id
+ a34-20020a056870d62200b0017e915c84a2mr3246570oaq.4.1681488706113; Fri, 14 Apr
+ 2023 09:11:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1681462400-3660-1-git-send-email-qiutt@fujitsu.com> <1efe32dfbfba7491c672f81571bd950c629f1d79.camel@linuxfoundation.org>
+In-Reply-To: <1efe32dfbfba7491c672f81571bd950c629f1d79.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 14 Apr 2023 09:11:19 -0700
+Message-ID: <CAMKF1srH4rxtr6srtJvNZEpfPZhfYR_jOshBrZomSAGEy2JYuA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH V1] coreutils: Add gcc parameter for ptest
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: "qiutt@fujitsu.com" <qiutt@fujitsu.com>, openembedded-core@lists.openembedded.org, 
+	fnstml-fujitsuten@fujitsu.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Apr 2023 15:55:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180002
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Apr 2023 16:11:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180003
 
-This patch is doing the same things thats already being done in the
-do_install_ptest where the problematic tests are being deleted from
-final package. run-ptest script runs a find for available tests and runs
-each test target found during run therefore its enough to remove
-them from final install.
+On Fri, Apr 14, 2023 at 3:06=E2=80=AFAM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Fri, 2023-04-14 at 16:53 +0800, qiutt@fujitsu.com wrote:
+> > From: Qiu Tingting <qiutt@fujitsu.com>
+> >
+> > If gcc is installed in image, ptest result has 4 ERROR.
+> >   ERROR: tests/rm/r-root.sh
+> >   ERROR: tests/rm/rm-readdir-fail.sh
+> >   ERROR: tests/cp/nfs-removal-race.sh
+> >   ERROR: tests/ls/getxattr-speedup.sh
+> >
+> > r-root.log as an example:
+> >   --------------------------
+> >   k.c:1:10: fatal error: stdio.h: No such file or directory
+> >       1 | #include <stdio.h>
+> >         |          ^~~~~~~~~
+> >   compilation terminated.
+> >   r-root.sh: set-up failure: failed to build shared library
+> >   ERROR tests/rm/r-root.sh (exit status: 99)
+> >   --------------------------
+> >
+> > reason:
+> >   In these cases, k.c file is created and compiled by gcc before run.
+> >   There is a stdio.h file in /usr/include/ directory,
+> >   but gcc parameter is not set it.
+> >
+> > solution:
+> >   Add "-l /usr/include/" in gcc parameter.
+> >
+> > other:
+> >   If gcc is not installed in image, these cases will be skipped.
+> >
+> > Signed-off-by: Qiu Tingting <qiutt@fujitsu.com>
+> > ---
+> >  meta/recipes-core/coreutils/coreutils_9.1.bb | 1 +
+> >  1 file changed, 1 insertion(+)
+>
+>
+> I'm a bit puzzled by this. Wouldn't on target gcc have /usr/include as
+> part of it's default search path? Why isn't the default search path
+> working?
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Ross Burton <ross.burton@arm.com>
----
- .../gawk/gawk/remove-sensitive-tests.patch    | 43 -------------------
- meta/recipes-extended/gawk/gawk_5.2.1.bb      |  1 -
- 2 files changed, 44 deletions(-)
- delete mode 100644 meta/recipes-extended/gawk/gawk/remove-sensitive-tests.patch
+yeah. Perhaps looking at full compiler commandline used just for this
+test would help maybe there is something like
+-ffreestanding or something passed to it.
 
-diff --git a/meta/recipes-extended/gawk/gawk/remove-sensitive-tests.patch b/meta/recipes-extended/gawk/gawk/remove-sensitive-tests.patch
-deleted file mode 100644
-index ffae55058b..0000000000
---- a/meta/recipes-extended/gawk/gawk/remove-sensitive-tests.patch
-+++ /dev/null
-@@ -1,43 +0,0 @@
--From 354d24baf7c51977d22ff61ad42e6a2cbd4dc8ac Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@arm.com>
--Date: Tue, 21 Dec 2021 17:09:12 +0000
--Subject: [PATCH] gawk: remove load-sensitive tests
--
--These tests require an unloaded host as otherwise timing sensitive tests can fail
--https://bugzilla.yoctoproject.org/show_bug.cgi?id=14371
--
--Upstream-Status: Inappropriate
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
-----
-- test/Maketests | 10 ----------
-- 1 file changed, 10 deletions(-)
--
--diff --git a/test/Maketests b/test/Maketests
--index 3a667af..f117697 100644
----- a/test/Maketests
--+++ b/test/Maketests
--@@ -2137,11 +2137,6 @@ symtab12:
-- 	@-AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
-- 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
-- 
---timeout:
---	@echo $@ $(ZOS_FAIL)
---	@-AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
---	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
---
-- typedregex1:
-- 	@echo $@
-- 	@-AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
--@@ -2371,11 +2366,6 @@ rwarray:
-- 	@-AWKPATH="$(srcdir)" $(AWK) -f $@.awk  < "$(srcdir)"/$@.in >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
-- 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
-- 
---time:
---	@echo $@
---	@-AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
---	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
---
-- mpfrbigint:
-- 	@echo $@
-- 	@-AWKPATH="$(srcdir)" $(AWK) -f $@.awk  -M >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
-diff --git a/meta/recipes-extended/gawk/gawk_5.2.1.bb b/meta/recipes-extended/gawk/gawk_5.2.1.bb
-index bbb26231a1..c914326563 100644
---- a/meta/recipes-extended/gawk/gawk_5.2.1.bb
-+++ b/meta/recipes-extended/gawk/gawk_5.2.1.bb
-@@ -16,7 +16,6 @@ PACKAGECONFIG[readline] = "--with-readline,--without-readline,readline"
- PACKAGECONFIG[mpfr] = "--with-mpfr,--without-mpfr, mpfr"
- 
- SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
--           file://remove-sensitive-tests.patch \
-            file://run-ptest \
-            "
- 
--- 
-2.40.0
-
+>
+> Cheers,
+>
+> Richard
+>
+>
+> >
+> > diff --git a/meta/recipes-core/coreutils/coreutils_9.1.bb b/meta/recipe=
+s-core/coreutils/coreutils_9.1.bb
+> > index 4807eefd04..fe785b673d 100644
+> > --- a/meta/recipes-core/coreutils/coreutils_9.1.bb
+> > +++ b/meta/recipes-core/coreutils/coreutils_9.1.bb
+> > @@ -184,6 +184,7 @@ do_install_ptest () {
+> >      install ${S}/build-aux/test-driver ${D}${PTEST_PATH}/build-aux/
+> >      cp ${B}/Makefile ${D}${PTEST_PATH}/
+> >      cp ${S}/init.cfg ${D}${PTEST_PATH}/
+> > +    sed -i 's/CC -Wall -shared/CC -Wall -shared -l \/usr\/include\//g'=
+ ${D}${PTEST_PATH}/init.cfg
+> >      cp -r ${B}/src ${D}${PTEST_PATH}/
+> >      cp -r ${S}/src/*.c ${D}${PTEST_PATH}/src
+> >      sed -i '/^VPATH/s/=3D .*$/=3D ./g' ${D}${PTEST_PATH}/Makefile
+> >
+> >
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#179996): https://lists.openembedded.org/g/openembedde=
+d-core/message/179996
+> Mute This Topic: https://lists.openembedded.org/mt/98258324/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
