@@ -1,108 +1,120 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3213EC77B71
-	for <webhook@archiver.kernel.org>; Fri, 14 Apr 2023 19:29:23 +0000 (UTC)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
- by mx.groups.io with SMTP id smtpd.web11.19887.1681500562391403348
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AF2CC77B77
+	for <webhook@archiver.kernel.org>; Fri, 14 Apr 2023 23:43:09 +0000 (UTC)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web10.2746.1681515783646666372
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Apr 2023 12:29:22 -0700
+ Fri, 14 Apr 2023 16:43:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=YwVZaYnB;
- spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f46.google.com with SMTP id e9so14474847qvv.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Apr 2023 12:29:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=lB7U0alE;
+ spf=pass (domain: gmail.com, ip: 209.85.216.52, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f52.google.com with SMTP id v9so25380661pjk.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Apr 2023 16:43:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681500561; x=1684092561;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MwOVqRJj7qLA6ZLRmGEkYNxXLcqUcVzKU2KLz/XVJdg=;
-        b=YwVZaYnBdMbmcehxSU7MWFecZ7fwAOPvkpkDMtOQ+6j+tRcXfYO7ColsgS3qlWnZdA
-         7rnvbMF869A/LXKT475ZFqK5gNEP/K7nNK3GNG3fXFX70ubBOOEBMid9vUwkoJp4Yt/J
-         M/zQKspQLHCLxRR0iGaPitF9EOmP9AtlAfA60Epaa2IuBVG44cFpQV/FSEfAouw2QgN1
-         nxI2vrdQSzJt2TeIOr/XQOxIsdaKDM5DY0d3bwy1ydadcNwU+nzUQJUhBj4MINjqvZ79
-         Usu0f308uy0lR2kkpZLR9TUvCvZDsQP72ieMEYbwwV1b4VmQcogFKj//dj0i9T0+AbqA
-         1rJg==
+        d=gmail.com; s=20221208; t=1681515783; x=1684107783;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TAtJIKvZQ5kKXdJgtoJUjDnGFcJfeY7i1jcQgHilQvo=;
+        b=lB7U0alEhsxCPA+/WW76VwgelP5w4h48SG/KWpzXgnSw5SOasQynlTU16BcMRHKPqw
+         /AsXDczFQcfIRGOGfUOSapAt8o64xBhbKNXahGqEIIOlgrodUrkdXOwXh69rDURF3daj
+         jriUIW5xTYf914n9/w15/fFr3nuk9DBwcoCamvkkSLU+YXQY4f74QtcI6L/I8I0Hpn5v
+         o+ybLhvX5yGW4OQPcoLODYslFYlGFAGGSAgH9+8CXAxR+fd+2NylGKe/zBoWo/qtpe0p
+         r5ATdTCL8eblc2a90nUmEZQ6H2aOi0Nv/ydNJaL6osIQ8fzPidPzS1lHq5/vJ2I6STvP
+         xoVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681500561; x=1684092561;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MwOVqRJj7qLA6ZLRmGEkYNxXLcqUcVzKU2KLz/XVJdg=;
-        b=hwb3Bz3HazGfC41eZJTuNs33eu+E7ThPOB4sJEv4tQ8zhggW4tGLownDot0vB5Su7z
-         T2LoCbc80aaxh0Aii+jN3oWQR511fkZuAe4hCEsw9snNdEQGkxvBzFgfikVnbw9FYa8B
-         krbrz2TTX7eshWZNjqkYkSHeT5YQ2E/aimDSTf5YTG5vC+5MEE03RvJO6W+QooUBAe2T
-         VdKOy5MvsacHZ1LoNVarzCoZec7N3FG1sWKbyru02JogCI8NVOzkcsJOarhON/crlGJK
-         vLdDvs++90LnzEXXEaaCJik7PS40FFXeZy6P4xNsBuU7zFHsvH7lfWTg0F0U2pv4OOd7
-         x+7g==
-X-Gm-Message-State: AAQBX9ct/MTLhs97a64XJzRpx3n2bFoi9BlUMkHYWo6oew58ljYe+b8D
-	WJm9nrhvwbEgwieVfZIPz9antRSCc+v5DA==
-X-Google-Smtp-Source: AKy350afQwbSLknZbueJNloaO2CzgW0wMcwOmpPcLD+kTgyKawUiDVDMQevkJ0udpeHEMJlSI9Oeqg==
-X-Received: by 2002:a05:6214:27e9:b0:534:86f1:bcb5 with SMTP id jt9-20020a05621427e900b0053486f1bcb5mr5813631qvb.41.1681500561343;
-        Fri, 14 Apr 2023 12:29:21 -0700 (PDT)
-Received: from localhost.localdomain ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id r2-20020a0cf802000000b005ef5b1006c5sm434797qvn.38.2023.04.14.12.29.20
+        d=1e100.net; s=20221208; t=1681515783; x=1684107783;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TAtJIKvZQ5kKXdJgtoJUjDnGFcJfeY7i1jcQgHilQvo=;
+        b=iv79rUrjzvVCLdVR3+jZ0+EOn4nozcFBG80orPpuUnw10iE2F0VdXvblXWwlKMRTV5
+         WwS1jZgJStVM6nKgb7suhbJedR+hP4wAWgBV6Hz3F7XGMtWgC5PgBBNaRIAA2T13zENM
+         JfNozZoKAn3+ICQY7GBiGZujzWIQjKpOqu0R/ajz8VIwMeEJWwZyWJcIPMMPF/Ual8nh
+         qq/eIIfWA9nemV8tLW9VKM8YCyMKR7p9IhQiFcIfOnf9g8eFf+l/kAjijIfPR4rXRaqX
+         Wh+fn4q+DjM54bevp2j9NQcXXXZaBwLWLNwwAu5COAZZ8et9mgwee0NhUHYB/kRgnqG/
+         QkEA==
+X-Gm-Message-State: AAQBX9ehq1nsJIyxsdPc2ryQeBrHQm4zMCvNpEwU5NofrAhpYtykVyQ8
+	qd6a8Ptg5fPI8xIEXX31jtErBJ8KSfY=
+X-Google-Smtp-Source: AKy350b+cEjCSRt65wzM+ZBsZ1+3hNO+g/zMecMYbwlusSTjUx3dc3hnQG8LkI+s/r4mAbFZp3gmCA==
+X-Received: by 2002:a05:6a20:2927:b0:d9:27f7:8c4a with SMTP id t39-20020a056a20292700b000d927f78c4amr6745104pzf.0.1681515782614;
+        Fri, 14 Apr 2023 16:43:02 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:d380::ebd0])
+        by smtp.gmail.com with ESMTPSA id x24-20020a62fb18000000b0062de9ef6915sm3476564pfm.216.2023.04.14.16.43.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Apr 2023 12:29:20 -0700 (PDT)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] kernel: improve initramfs bundle processing time
-Date: Fri, 14 Apr 2023 15:29:19 -0400
-Message-Id: <20230414192919.1887564-1-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Fri, 14 Apr 2023 16:43:02 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v3 3/3] gawk: Add skipped.txt to emit test to ignore
+Date: Fri, 14 Apr 2023 16:42:58 -0700
+Message-Id: <20230414234258.157267-3-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230414234258.157267-1-raj.khem@gmail.com>
+References: <20230414234258.157267-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Apr 2023 19:29:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180005
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Apr 2023 23:43:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180008
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+This file can be processed by run-ptest during runtime and tests
+mentioned in skipped.txt will not be run.
 
-This is a partial fix for bugzilla 15059 [https://bugzilla.yoctoproject.org/show_bug.cgi?id=15059]
-
-It has been noted by several people that when an initramfs is bundled:
-
-  - a lot of the kernel is rebuilt
-  - it takes a really long time
-
-When looking at the logs, the second kernel compilation (that performs
-the bundle) is not using the parallel make settings, and builds with
--j1.
-
-We are already explicitly passing PARALLEL_MAKE when building kernel
-modules, and by extending that explicit use to the main kernel
-compilation, we ensure that we always get a parallel build.
-
-Build times chnaged from more than 30 minutes for the bundle, to
-3 minutes in local testing.
-
-The question of whether or not too much is rebuilding during the
-bundle step is still an open question, but with this tweak, at least
-the build time is back in the realm of acceptable.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes-recipe/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v3: New
 
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index aefa0d21bc..e634eabd49 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -382,7 +382,7 @@ kernel_do_compile() {
- 		use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio
- 	fi
- 	for typeformake in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
--		oe_runmake ${typeformake} ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
-+		oe_runmake ${PARALLEL_MAKE} ${typeformake} ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
- 	done
+ meta/recipes-extended/gawk/gawk/run-ptest | 5 +++++
+ meta/recipes-extended/gawk/gawk_5.2.1.bb  | 6 ++++++
+ 2 files changed, 11 insertions(+)
+
+diff --git a/meta/recipes-extended/gawk/gawk/run-ptest b/meta/recipes-extended/gawk/gawk/run-ptest
+index 2675650600..f4ef3e7bd4 100644
+--- a/meta/recipes-extended/gawk/gawk/run-ptest
++++ b/meta/recipes-extended/gawk/gawk/run-ptest
+@@ -3,6 +3,11 @@
+ cd test
+ for i in `grep -E "^[a-z0-9_-]*:$" Maketests |awk -F: '{print $1}'`; do
+   unset LANG
++  grep -q "^$i$" skipped.txt
++  if [ $? -eq 0 ]; then
++    echo "SKIP: $i"
++    continue
++  fi
+   srcdir=`pwd` AWKPROG=gawk AWK=gawk CMP=cmp make -f Maketests $i >$i.tmp 2>&1
+   if [ -e _$i ]; then
+     cat _$i
+diff --git a/meta/recipes-extended/gawk/gawk_5.2.1.bb b/meta/recipes-extended/gawk/gawk_5.2.1.bb
+index c914326563..768c8eb364 100644
+--- a/meta/recipes-extended/gawk/gawk_5.2.1.bb
++++ b/meta/recipes-extended/gawk/gawk_5.2.1.bb
+@@ -59,6 +59,9 @@ do_install_ptest() {
+ 	# https://bugzilla.yoctoproject.org/show_bug.cgi?id=14371
+ 	rm -f ${D}${PTEST_PATH}/test/time.*
+ 	rm -f ${D}${PTEST_PATH}/test/timeout.*
++	for t in time timeout; do
++		echo $t >> ${D}${PTEST_PATH}/test/skipped.txt
++	done
  }
  
+ do_install_ptest:append:libc-musl() {
+@@ -71,6 +74,9 @@ do_install_ptest:append:libc-musl() {
+ 	# The below two need LANG=C inside the make rule for musl
+ 	rm -f ${D}${PTEST_PATH}/test/rebt8b1.*
+ 	rm -f ${D}${PTEST_PATH}/test/regx8bit.*
++	for t in clos1way6 backsmalls1 commas rebt8b1 regx8bit; do
++		echo $t >> ${D}${PTEST_PATH}/test/skipped.txt
++	done
+ }
+ 
+ RDEPENDS:${PN}-ptest += "make locale-base-en-us"
 -- 
-2.25.1
+2.40.0
 
 
