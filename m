@@ -1,136 +1,214 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86DE4C77B70
-	for <webhook@archiver.kernel.org>; Fri, 14 Apr 2023 10:07:00 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.5601.1681466815146519811
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8A23C77B6E
+	for <webhook@archiver.kernel.org>; Fri, 14 Apr 2023 10:55:40 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web10.6251.1681469733135853582
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Apr 2023 03:06:55 -0700
+ Fri, 14 Apr 2023 03:55:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=LgP28lTg;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id n42-20020a05600c3baa00b003f0b12814aaso719248wms.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Apr 2023 03:06:54 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=NWi7ZO11;
+ spf=pass (domain: mvista.com, ip: 209.85.214.171, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f171.google.com with SMTP id w11so17927304plp.13
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Apr 2023 03:55:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1681466813; x=1684058813;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=1E3/TbTfXx2SQAoSRiFJFGJJ4Gs7ywf9AN0M5ZW6TpA=;
-        b=LgP28lTgkrmfPT6uvihOe7ZjrtiYEYVZhX7/nJZUQUei/gHRKlYWKErIkmCxkiIDKz
-         Bp9qdf+QXojJX2VAt1euq/6DFApytNTsA/TSKEYFYviUGajZEOxzhgIsOPj51uEgJVDG
-         Kg/ulJ/vT9vXUo/LBGiZoaRb73fXr+6MOrgVE=
+        d=mvista.com; s=google; t=1681469732; x=1684061732;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1JOttfw/1Ya0M5eL6aSV5c0MhFYHvDqK6rpyWGKB98Q=;
+        b=NWi7ZO11h1QSFKSWMvQpLCLY2UuSuh9IMjwDmmd1Q1mEQPn6DgD6ynNw4s1z3qXQ7V
+         9++JZ2ziSUErc+EL0WYC7tpXnT4/mXScZwhNMCmYSgIRiGYIHi+9YzQ2doKBvAfBphyJ
+         EtdZex5RXZg5wdOtUN0sSnG4QQiog7vZsHHzE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681466813; x=1684058813;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1E3/TbTfXx2SQAoSRiFJFGJJ4Gs7ywf9AN0M5ZW6TpA=;
-        b=R590I/23M1Y93kWfTdEvCzs9Mzlsglb17fWEuessj4cz/eBSG5rJxp542WooFmOrf9
-         l9mZgUD1ZAL6Vc3S4ZQuJsNvuNnnzv99AUw3kgs52XQtO8+QLs6LWEyxrQGnkCc1nDTe
-         jWlsKrH4s6C7ZhK2XecqjxrWIZ+5IMb15shXt6kVGR/BhC3w8+RnPM2BNETTouCiQuCC
-         Eoxvfiit6DsQdRFwYZ1f8z/oEbUuHBBAYJS7Ye8I/ArdLmkOSrIR3LGVRZnIlBRMWZk8
-         pBKyTqYvJfgpfLgkWfd1l556v0TW6Jd2H36ORYIdgn74oEr12yLq2NgMMpoz8MRajpXl
-         kjiA==
-X-Gm-Message-State: AAQBX9fYm1iFv3N1cEQ+IdJSTcrXl9VcCjFKGGNI+ZdnTvMK1QqbZKGN
-	oNGfL4fqPjf6/bPFIfwfgk8tNg==
-X-Google-Smtp-Source: AKy350a/LiOSVilvJZeuDq8/eSnYH9mlE57J6BWBs55t3AnrA7HeX5nZt4D4IP0jisLWas+SjBF0xw==
-X-Received: by 2002:a7b:c386:0:b0:3f0:a798:2758 with SMTP id s6-20020a7bc386000000b003f0a7982758mr3849377wmj.1.1681466813442;
-        Fri, 14 Apr 2023 03:06:53 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:4676:d773:dc86:c4a1? ([2001:8b0:aba:5f3c:4676:d773:dc86:c4a1])
-        by smtp.gmail.com with ESMTPSA id f16-20020a05600c155000b003f0a1c18128sm4921760wmg.29.2023.04.14.03.06.52
+        d=1e100.net; s=20221208; t=1681469732; x=1684061732;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1JOttfw/1Ya0M5eL6aSV5c0MhFYHvDqK6rpyWGKB98Q=;
+        b=VoRDt98BmM+QDgSkcS0hiiq90AeYxYDMNnf3n6L4rcmXTTtXl54IWPfUkID6Bg+A0E
+         mWoDOa6jL92E/tD1OvMzuAfJKBDGX0t7y0yyIxNbBCSkLlUrlf8b/POijNZtYRk3yTAn
+         KVcYTaGdwygfwcyVh/Q0u7FCxU7YmLQLosCWpG3rq08XF6kf1DIwPYveVmsu3LM8TjaU
+         eIfiPJWLpaA+bUzNcB6ehJiSgy4OMbpyM9JMs54592uie2qb/Tlc1t5W4TeDv3b6Z7GX
+         VdSkKeWwioLKcgfMigVczdsgXXN1EuXK+iOaK0fVjOXW/8SABeWFgA35y0WZdQwe6dl2
+         y1iA==
+X-Gm-Message-State: AAQBX9fDZh1JdKkfvRprSKNz+QsnYQw8VPwOWM7C9B22os1Tiartbb0Q
+	01uN8HSspXbIULiZ/q0WA28EOX3gICVUABVAlMY=
+X-Google-Smtp-Source: AKy350ZQjnLRoYQda294wiFZ9VRtFdI2EVM1c1jWxiooDA1LsQbDa4yDOxxXMGzS1A3MbQIVEIVn6A==
+X-Received: by 2002:a17:90a:ab0e:b0:23d:35c9:bf1c with SMTP id m14-20020a17090aab0e00b0023d35c9bf1cmr5273511pjq.16.1681469732386;
+        Fri, 14 Apr 2023 03:55:32 -0700 (PDT)
+Received: from MVIN00024 ([150.129.170.210])
+        by smtp.gmail.com with ESMTPSA id jm10-20020a17090304ca00b001a526805b86sm2820416plb.191.2023.04.14.03.55.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Apr 2023 03:06:53 -0700 (PDT)
-Message-ID: <1efe32dfbfba7491c672f81571bd950c629f1d79.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH V1] coreutils: Add gcc parameter for ptest
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "qiutt@fujitsu.com" <qiutt@fujitsu.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: fnstml-fujitsuten@fujitsu.com
-Date: Fri, 14 Apr 2023 11:06:52 +0100
-In-Reply-To: <1681462400-3660-1-git-send-email-qiutt@fujitsu.com>
-References: <1681462400-3660-1-git-send-email-qiutt@fujitsu.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.47.3-1 
+        Fri, 14 Apr 2023 03:55:32 -0700 (PDT)
+Received: by MVIN00024 (sSMTP sendmail emulation); Fri, 14 Apr 2023 16:25:25 +0530
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [dunfell][PATCH] curl: CVE-2023-27534 SFTP path ~ resolving discrepancy
+Date: Fri, 14 Apr 2023 16:25:23 +0530
+Message-Id: <20230414105523.81661-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Apr 2023 10:07:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179996
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Apr 2023 10:55:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/179997
 
-On Fri, 2023-04-14 at 16:53 +0800, qiutt@fujitsu.com wrote:
-> From: Qiu Tingting <qiutt@fujitsu.com>
->=20
-> If gcc is installed in image, ptest result has 4 ERROR.
->   ERROR: tests/rm/r-root.sh
->   ERROR: tests/rm/rm-readdir-fail.sh
->   ERROR: tests/cp/nfs-removal-race.sh
->   ERROR: tests/ls/getxattr-speedup.sh
->=20
-> r-root.log as an example:
->   --------------------------
->   k.c:1:10: fatal error: stdio.h: No such file or directory
->       1 | #include <stdio.h>
->         |          ^~~~~~~~~
->   compilation terminated.
->   r-root.sh: set-up failure: failed to build shared library
->   ERROR tests/rm/r-root.sh (exit status: 99)
->   --------------------------
->=20
-> reason:
->   In these cases, k.c file is created and compiled by gcc before run.
->   There is a stdio.h file in /usr/include/ directory,
->   but gcc parameter is not set it.
->=20
-> solution:
->   Add "-l /usr/include/" in gcc parameter.
->=20
-> other:
->   If gcc is not installed in image, these cases will be skipped.
->=20
-> Signed-off-by: Qiu Tingting <qiutt@fujitsu.com>
-> ---
->  meta/recipes-core/coreutils/coreutils_9.1.bb | 1 +
->  1 file changed, 1 insertion(+)
+Upstream-Status: Backport from https://github.com/curl/curl/commit/4e2b52b5f7a3bf50a0f1494155717b02cc1df6d6
 
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ .../curl/curl/CVE-2023-27534.patch            | 123 ++++++++++++++++++
+ meta/recipes-support/curl/curl_7.69.1.bb      |   1 +
+ 2 files changed, 124 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2023-27534.patch
 
-I'm a bit puzzled by this. Wouldn't on target gcc have /usr/include as
-part of it's default search path? Why isn't the default search path
-working?
-
-Cheers,
-
-Richard
-
-
->=20
-> diff --git a/meta/recipes-core/coreutils/coreutils_9.1.bb b/meta/recipes-=
-core/coreutils/coreutils_9.1.bb
-> index 4807eefd04..fe785b673d 100644
-> --- a/meta/recipes-core/coreutils/coreutils_9.1.bb
-> +++ b/meta/recipes-core/coreutils/coreutils_9.1.bb
-> @@ -184,6 +184,7 @@ do_install_ptest () {
->      install ${S}/build-aux/test-driver ${D}${PTEST_PATH}/build-aux/
->      cp ${B}/Makefile ${D}${PTEST_PATH}/
->      cp ${S}/init.cfg ${D}${PTEST_PATH}/
-> +    sed -i 's/CC -Wall -shared/CC -Wall -shared -l \/usr\/include\//g' $=
-{D}${PTEST_PATH}/init.cfg
->      cp -r ${B}/src ${D}${PTEST_PATH}/
->      cp -r ${S}/src/*.c ${D}${PTEST_PATH}/src
->      sed -i '/^VPATH/s/=3D .*$/=3D ./g' ${D}${PTEST_PATH}/Makefile
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#179993): https://lists.openembedded.org/g/openembedde=
-d-core/message/179993
-> Mute This Topic: https://lists.openembedded.org/mt/98258324/1686473
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ri=
-chard.purdie@linuxfoundation.org]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+diff --git a/meta/recipes-support/curl/curl/CVE-2023-27534.patch b/meta/recipes-support/curl/curl/CVE-2023-27534.patch
+new file mode 100644
+index 0000000000..aeeffd5fea
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2023-27534.patch
+@@ -0,0 +1,123 @@
++From 4e2b52b5f7a3bf50a0f1494155717b02cc1df6d6 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Thu, 9 Mar 2023 16:22:11 +0100
++Subject: [PATCH] curl_path: create the new path with dynbuf
++
++CVE: CVE-2023-27534
++Upstream-Status: Backport [https://github.com/curl/curl/commit/4e2b52b5f7a3bf50a0f1494155717b02cc1df6d6]
++
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ lib/curl_path.c | 71 ++++++++++++++++++++++++-------------------------
++ 1 file changed, 35 insertions(+), 36 deletions(-)
++
++diff --git a/lib/curl_path.c b/lib/curl_path.c
++index f429634..e17db4b 100644
++--- a/lib/curl_path.c
+++++ b/lib/curl_path.c
++@@ -30,6 +30,8 @@
++ #include "escape.h"
++ #include "memdebug.h"
++ 
+++#define MAX_SSHPATH_LEN 100000 /* arbitrary */
+++
++ /* figure out the path to work with in this particular request */
++ CURLcode Curl_getworkingpath(struct connectdata *conn,
++                              char *homedir,  /* when SFTP is used */
++@@ -37,60 +39,57 @@ CURLcode Curl_getworkingpath(struct connectdata *conn,
++                                              real path to work with */
++ {
++   struct Curl_easy *data = conn->data;
++-  char *real_path = NULL;
++   char *working_path;
++   size_t working_path_len;
+++  struct dynbuf npath;
++   CURLcode result =
++     Curl_urldecode(data, data->state.up.path, 0, &working_path,
++                    &working_path_len, FALSE);
++   if(result)
++     return result;
++ 
+++  /* new path to switch to in case we need to */
+++  Curl_dyn_init(&npath, MAX_SSHPATH_LEN);
+++
++   /* Check for /~/, indicating relative to the user's home directory */
++-  if(conn->handler->protocol & CURLPROTO_SCP) {
++-    real_path = malloc(working_path_len + 1);
++-    if(real_path == NULL) {
+++  if((data->conn->handler->protocol & CURLPROTO_SCP) &&
+++     (working_path_len > 3) && (!memcmp(working_path, "/~/", 3))) {
+++    /* It is referenced to the home directory, so strip the leading '/~/' */
+++    if(Curl_dyn_addn(&npath, &working_path[3], working_path_len - 3)) {
++       free(working_path);
++       return CURLE_OUT_OF_MEMORY;
++     }
++-    if((working_path_len > 3) && (!memcmp(working_path, "/~/", 3)))
++-      /* It is referenced to the home directory, so strip the leading '/~/' */
++-      memcpy(real_path, working_path + 3, working_path_len - 2);
++-    else
++-      memcpy(real_path, working_path, 1 + working_path_len);
++   }
++-  else if(conn->handler->protocol & CURLPROTO_SFTP) {
++-    if((working_path_len > 1) && (working_path[1] == '~')) {
++-      size_t homelen = strlen(homedir);
++-      real_path = malloc(homelen + working_path_len + 1);
++-      if(real_path == NULL) {
++-        free(working_path);
++-        return CURLE_OUT_OF_MEMORY;
++-      }
++-      /* It is referenced to the home directory, so strip the
++-         leading '/' */
++-      memcpy(real_path, homedir, homelen);
++-      real_path[homelen] = '/';
++-      real_path[homelen + 1] = '\0';
++-      if(working_path_len > 3) {
++-        memcpy(real_path + homelen + 1, working_path + 3,
++-               1 + working_path_len -3);
++-      }
+++  else if((data->conn->handler->protocol & CURLPROTO_SFTP) &&
+++          (working_path_len > 2) && !memcmp(working_path, "/~/", 3)) {
+++    size_t len;
+++    const char *p;
+++    int copyfrom = 3;
+++    if(Curl_dyn_add(&npath, homedir)) {
+++      free(working_path);
+++      return CURLE_OUT_OF_MEMORY;
++     }
++-    else {
++-      real_path = malloc(working_path_len + 1);
++-      if(real_path == NULL) {
++-        free(working_path);
++-        return CURLE_OUT_OF_MEMORY;
++-      }
++-      memcpy(real_path, working_path, 1 + working_path_len);
+++    /* Copy a separating '/' if homedir does not end with one */
+++    len = Curl_dyn_len(&npath);
+++    p = Curl_dyn_ptr(&npath);
+++    if(len && (p[len-1] != '/'))
+++      copyfrom = 2;
+++
+++    if(Curl_dyn_addn(&npath,
+++                     &working_path[copyfrom], working_path_len - copyfrom)) {
+++      free(working_path);
+++      return CURLE_OUT_OF_MEMORY;
++     }
++   }
++ 
++-  free(working_path);
+++  if(Curl_dyn_len(&npath)) {
+++    free(working_path);
++ 
++-  /* store the pointer for the caller to receive */
++-  *path = real_path;
+++    /* store the pointer for the caller to receive */
+++    *path = Curl_dyn_ptr(&npath);
+++  }
+++  else
+++    *path = working_path;
++ 
++   return CURLE_OK;
++ }
++-- 
++2.25.1
++
+diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.69.1.bb
+index 899daf8eac..fddf15e3ff 100644
+--- a/meta/recipes-support/curl/curl_7.69.1.bb
++++ b/meta/recipes-support/curl/curl_7.69.1.bb
+@@ -42,6 +42,7 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://CVE-2022-32221.patch \
+            file://CVE-2022-35260.patch \
+            file://CVE-2022-43552.patch \
++           file://CVE-2023-27534.patch \
+ "
+ 
+ SRC_URI[md5sum] = "ec5fc263f898a3dfef08e805f1ecca42"
+-- 
+2.25.1
 
 
