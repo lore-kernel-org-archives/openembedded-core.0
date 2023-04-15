@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 398A2C7EE21
-	for <webhook@archiver.kernel.org>; Sat, 15 Apr 2023 18:01:29 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.13531.1681581686258227478
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C05AC88C83
+	for <webhook@archiver.kernel.org>; Sat, 15 Apr 2023 18:01:30 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.13806.1681581685431984805
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Apr 2023 11:01:27 -0700
+ Sat, 15 Apr 2023 11:01:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=DW6j6KV0;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018786143fe2-f318988c-7540-4fab-80be-26df670bad4b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=RCVEm7U8;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018786143557-bebc3d41-b47c-4427-96cc-de1e7b4b7910-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1681581687;
+	t=1681581684;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=1RqhFH6YfIghLZ93pKDf9G39qwKxH5YIA7AZuAlKd5o=;
-	b=DW6j6KV0+dz4rRkFDDpzDAq3LiKCKfHLvpeMVhpvVCSEG1AroIO0Jxi+GEJ7KaZL
-	bpBmdhvM6mYn8+7V0lWfDGcMn4HM/WtoyA3fr0GMgHQjKH5QWGvFx3Y95hrwL1eF7C8
-	MNjiRGprbkSkMLOsWhX1jJvnyQVv0LnQBYc/kfXs=
+	bh=yj4bj+QDS9+kpS8pMol4mb1hlGpKCuh2GCehrXSbR+M=;
+	b=RCVEm7U8naEZKarGLeNKuBLpaMf7SJgGaV40GC5XI1sP+kwTlVNUkVlsSPLXL9q2
+	odoJBVlaXvTVT7zdotbytbycrCUqhCtp053y8zpdc2QmPlfP/Jl33/PF8cj7B45yljU
+	MyhSOnkAL72P7hpLtUAEGxp58rzTGxTS8JHQ1mH8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1681581687;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1681581684;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=1RqhFH6YfIghLZ93pKDf9G39qwKxH5YIA7AZuAlKd5o=;
-	b=O+Zvjg4fjBh0g+qCiqvGVxnkC+FIvISpU0obb5Uq4FqSdBwppTDsoknHRUCeNrcQ
-	Ah0M9eL+4IbO23QSxG81DP7HZx6qUb3YElq8RljRXWQTkKPUeIdMyR5UDa2gM8k3h5o
-	9HQX5SHllB5MjQEnMmMz3ltqPWHObNuyTnoTAKbc=
-Content-Type: multipart/mixed; boundary="===============4458964067092060066=="
+	bh=yj4bj+QDS9+kpS8pMol4mb1hlGpKCuh2GCehrXSbR+M=;
+	b=HfRltfZgsWPoiOyf7RFpXbMQ0cNCx4v9iv3Ue3b7npvB6IZyDHy1Tv05VLCELKdJ
+	t4kDtyLFi6e9o3FRQDHENYL7+uEz2fdQptjRZGq+BZLRHAO1OGJtijIWys/Mr4SXVeJ
+	PDxsDoMvQX+7WcYKtjNY3uwnF7n0pME0BmMG0/Cc=
+Content-Type: multipart/mixed; boundary="===============4667251149192416894=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gstreamer1.0-plugins-good: upgrading to 1.22.2 SUCCEEDED
-Message-ID: <0101018786143fe2-f318988c-7540-4fab-80be-26df670bad4b-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Apr 2023 18:01:26 +0000
+Subject: [AUH] createrepo-c: upgrading to 0.21.1 SUCCEEDED
+Message-ID: <0101018786143557-bebc3d41-b47c-4427-96cc-de1e7b4b7910-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Apr 2023 18:01:24 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.04.15-54.240.27.23
+X-SES-Outgoing: 2023.04.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Apr 2023 18:01:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180097
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Apr 2023 18:01:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180048
 
---===============4458964067092060066==
+--===============4667251149192416894==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gstreamer1.0-plugins-good* to *1.22.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *createrepo-c* to *0.21.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-plugins-good-upgrade-1.22.0-1.22.2.patch
+    - apply the patch: git am 0001-createrepo-c-upgrade-0.20.1-0.21.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,14 +69,14 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============4458964067092060066==
+--===============4667251149192416894==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 Loading cache...done.
-Loaded 1799 entries from dependency cache.
+Loaded 1801 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 899 .bb files complete (898 cached, 1 parsed). 1799 targets, 39 skipped, 0 masked, 0 errors.
 NOTE: Resolving any missing task queue dependencies
@@ -93,836 +93,665 @@ TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:088f7a42c0e8459daf9854475faf7902315bdfff"
+meta-yocto-bsp       = "tmp-auh-upgrades:7896474770f9317fc2f0d6383208a5ba333711f9"
 workspace            = "master:ff633ce7a7ffc0d39b86043caeb63a9ffcef99b8"
 
 Initialising tasks...done.
-Sstate summary: Wanted 85 Local 22 Mirrors 0 Missed 63 Current 619 (25% match, 91% complete)
+Sstate summary: Wanted 77 Local 13 Mirrors 0 Missed 64 Current 439 (16% match, 87% complete)
 NOTE: Executing Tasks
-NOTE: Running setscene task 634 of 704 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 637 of 704 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_populate_sysroot_setscene: Succeeded
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-plugins-base/1.22.0-r0/temp/log.do_packagedata_setscene.2460822
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 703 of 704 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_package_setscene)
-NOTE: Running task 1904 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_fetch)
-NOTE: Running task 1914 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_fetch)
-NOTE: Running task 1976 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_fetch)
-NOTE: Running task 1977 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_fetch)
-NOTE: Running task 1979 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_fetch)
-NOTE: Running task 1980 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_fetch)
-NOTE: Running task 2038 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_fetch)
-NOTE: Running task 2048 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_fetch)
-NOTE: Running task 2061 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_fetch)
-NOTE: Running task 2081 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_fetch)
-NOTE: Running task 2115 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_fetch)
-NOTE: Running task 2116 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_fetch)
-NOTE: Running task 2117 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/mpg123/mpg123_1.31.3.bb:do_fetch)
-NOTE: Running task 2118 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_fetch)
-NOTE: Running task 2125 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_write_config)
-NOTE: recipe libdaemon-0.14-r0: task do_fetch: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_fetch: Started
-NOTE: Running task 2166 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_fetch)
-NOTE: recipe speexdsp-1.2.1-r0: task do_fetch: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_fetch: Succeeded
-NOTE: Running task 2205 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_write_config)
-NOTE: Running task 2219 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_unpack)
-NOTE: Running task 2220 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_fetch: Started
-NOTE: Running task 2221 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_unpack)
-NOTE: Running task 2222 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_prepare_recipe_sysroot)
-NOTE: recipe ofono-2.0-r0: task do_fetch: Started
-NOTE: recipe libtool-2.4.7-r0: task do_fetch: Started
-NOTE: Running task 2241 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_write_config)
-NOTE: recipe avahi-0.8-r0: task do_fetch: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_fetch: Succeeded
-NOTE: Running task 2251 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_unpack)
-NOTE: Running task 2252 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_prepare_recipe_sysroot)
-NOTE: recipe ofono-2.0-r0: task do_fetch: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_fetch: Started
-NOTE: Running task 2253 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_unpack)
-NOTE: Running task 2254 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libpsl-0.21.2-r0: task do_fetch: Started
-NOTE: recipe taglib-1.13-r0: task do_fetch: Started
-NOTE: recipe libtool-2.4.7-r0: task do_fetch: Succeeded
-NOTE: recipe avahi-0.8-r0: task do_fetch: Succeeded
-NOTE: recipe pulseaudio-16.1-r0: task do_fetch: Started
-NOTE: recipe lame-3.100-r0: task do_fetch: Started
-NOTE: Running task 2255 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_unpack)
-NOTE: Running task 2256 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_prepare_recipe_sysroot)
-NOTE: recipe nghttp2-1.52.0-r0: task do_fetch: Succeeded
-NOTE: recipe speex-1.2.1-r0: task do_fetch: Started
-NOTE: Running task 2257 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_unpack)
-NOTE: recipe taglib-1.13-r0: task do_fetch: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_fetch: Succeeded
-NOTE: recipe pulseaudio-16.1-r0: task do_fetch: Succeeded
-NOTE: Running task 2258 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_unpack)
-NOTE: Running task 2259 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_unpack)
-NOTE: Running task 2260 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_unpack)
-NOTE: Running task 2261 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe lame-3.100-r0: task do_fetch: Succeeded
-NOTE: recipe libsoup-3.4.0-r0: task do_fetch: Started
-NOTE: recipe speex-1.2.1-r0: task do_fetch: Succeeded
-NOTE: Running task 2262 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libsoup-3.4.0-r0: task do_fetch: Succeeded
-NOTE: recipe mpg123-1.31.3-r0: task do_fetch: Started
-NOTE: recipe pulseaudio-16.1-r0: task do_write_config: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_fetch: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_unpack: Started
-NOTE: Running task 2263 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_unpack)
-NOTE: Running task 2264 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_unpack)
-NOTE: Running task 2265 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_unpack)
-NOTE: Running task 2266 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_unpack)
-NOTE: Running task 2267 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libsoup-3.4.0-r0: task do_write_config: Started
-NOTE: recipe libdaemon-0.14-r0: task do_unpack: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_fetch: Succeeded
-NOTE: recipe speexdsp-1.2.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libdaemon-0.14-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2268 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_prepare_recipe_sysroot)
-NOTE: recipe mpg123-1.31.3-r0: task do_fetch: Succeeded
-NOTE: Running task 2269 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_unpack)
-NOTE: Running task 2270 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/mpg123/mpg123_1.31.3.bb:do_unpack)
-NOTE: recipe speexdsp-1.2.1-r0: task do_unpack: Succeeded
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_write_config: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_unpack: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2271 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_patch)
-NOTE: recipe libdaemon-0.14-r0: task do_unpack: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_unpack: Started
-NOTE: Running task 2272 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_patch)
-NOTE: recipe pulseaudio-16.1-r0: task do_write_config: Succeeded
-NOTE: recipe libsoup-3.4.0-r0: task do_write_config: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_unpack: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_unpack: Started
-NOTE: recipe libtool-2.4.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_unpack: Started
-NOTE: Running task 2273 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_patch)
-NOTE: recipe taglib-1.13-r0: task do_unpack: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_unpack: Started
-NOTE: recipe avahi-0.8-r0: task do_unpack: Started
-NOTE: recipe lame-3.100-r0: task do_unpack: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_write_config: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe speex-1.2.1-r0: task do_unpack: Started
-NOTE: recipe taglib-1.13-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libsoup-3.4.0-r0: task do_unpack: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe taglib-1.13-r0: task do_unpack: Succeeded
-NOTE: recipe pulseaudio-16.1-r0: task do_unpack: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_patch: Started
-NOTE: Running task 2274 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_patch)
-NOTE: recipe speex-1.2.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2275 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_patch)
-NOTE: recipe mpg123-1.31.3-r0: task do_unpack: Started
-NOTE: recipe libdaemon-0.14-r0: task do_patch: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_patch: Started
-NOTE: recipe lame-3.100-r0: task do_unpack: Succeeded
-NOTE: recipe lame-3.100-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2276 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_patch)
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_unpack: Started
-NOTE: recipe avahi-0.8-r0: task do_unpack: Succeeded
-NOTE: Running task 2277 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_patch)
-NOTE: recipe taglib-1.13-r0: task do_patch: Started
-NOTE: recipe libtool-2.4.7-r0: task do_unpack: Succeeded
-NOTE: recipe speex-1.2.1-r0: task do_patch: Started
-NOTE: Running task 2278 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_patch)
-NOTE: recipe ofono-2.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2279 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_patch)
-NOTE: recipe lame-3.100-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_package_setscene: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2280 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_patch)
-NOTE: recipe libsoup-3.4.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2281 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_patch)
-NOTE: recipe avahi-0.8-r0: task do_patch: Started
-NOTE: recipe mpg123-1.31.3-r0: task do_unpack: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_patch: Started
-NOTE: recipe speex-1.2.1-r0: task do_patch: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_patch: Started
-NOTE: Running task 2282 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/mpg123/mpg123_1.31.3.bb:do_patch)
-NOTE: Running task 2283 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe pulseaudio-16.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2284 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_patch)
-NOTE: recipe libpsl-0.21.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2285 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_patch)
-NOTE: recipe nghttp2-1.52.0-r0: task do_patch: Started
-NOTE: recipe libtool-2.4.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libsoup-3.4.0-r0: task do_patch: Started
-NOTE: recipe libdaemon-0.14-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe speexdsp-1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe speexdsp-1.2.1-r0: task do_patch: Succeeded
-NOTE: recipe speex-1.2.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_patch: Succeeded
-NOTE: Running task 2286 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2287 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_deploy_source_date_epoch)
-NOTE: recipe mpg123-1.31.3-r0: task do_patch: Started
-NOTE: recipe taglib-1.13-r0: task do_patch: Succeeded
-NOTE: recipe libsoup-3.4.0-r0: task do_patch: Succeeded
-NOTE: recipe taglib-1.13-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2288 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2289 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_generate_toolchain_file)
-NOTE: Running task 2290 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_deploy_source_date_epoch)
-NOTE: recipe pulseaudio-16.1-r0: task do_patch: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_patch: Succeeded
-NOTE: Running task 2291 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_deploy_source_date_epoch)
-NOTE: recipe libpsl-0.21.2-r0: task do_patch: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_patch: Succeeded
-NOTE: recipe speexdsp-1.2.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe mpg123-1.31.3-r0: task do_patch: Succeeded
-NOTE: recipe lame-3.100-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2292 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_generate_toolchain_file)
-NOTE: Running task 2293 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2294 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/mpg123/mpg123_1.31.3.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2295 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_patch)
-NOTE: recipe taglib-1.13-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe taglib-1.13-r0: task do_generate_toolchain_file: Started
-NOTE: recipe libsoup-3.4.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lame-3.100-r0: task do_patch: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2296 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_deploy_source_date_epoch)
-NOTE: recipe speex-1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe taglib-1.13-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_patch: Succeeded
-NOTE: recipe mpg123-1.31.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_generate_toolchain_file: Started
-NOTE: Running task 2297 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe nghttp2-1.52.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_patch: Started
-NOTE: recipe avahi-0.8-r0: task do_patch: Succeeded
-NOTE: Running task 2298 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_deploy_source_date_epoch)
-NOTE: recipe pulseaudio-16.1-r0: task do_patch: Succeeded
-NOTE: Running task 2299 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: Running task 2300 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_configure)
-NOTE: recipe speexdsp-1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lame-3.100-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2301 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_configure)
-NOTE: recipe libpsl-0.21.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe taglib-1.13-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2302 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_configure)
-NOTE: Running task 2303 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_configure)
-NOTE: recipe avahi-0.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libsoup-3.4.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_configure: Started
-NOTE: recipe pulseaudio-16.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_configure: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe mpg123-1.31.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_patch: Succeeded
-NOTE: Running task 2304 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2305 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_configure)
-NOTE: Running task 2306 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_populate_lic)
-NOTE: recipe taglib-1.13-r0: task do_configure: Started
-NOTE: recipe libdaemon-0.14-r0: task do_configure: Started
-NOTE: recipe lame-3.100-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2307 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_configure)
-NOTE: recipe libpsl-0.21.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2308 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_populate_lic: Started
-NOTE: recipe avahi-0.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe pulseaudio-16.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lame-3.100-r0: task do_configure: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_populate_lic unihash changed to ddbf6b27387096f3295bedeb481d38a4565eb81108b4e26a99ff9690ee17880c
-NOTE: recipe ofono-2.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_patch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2309 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe ofono-2.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libtool-2.4.7-r0: task do_patch: Succeeded
-NOTE: Running task 2310 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_deploy_source_date_epoch)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 447 of 516 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 450 of 516 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 470 of 516 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_populate_sysroot_setscene)
+NOTE: recipe shadow-4.13-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxml2-2.10.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxml2-2.10.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe shadow-4.13-r0: task do_populate_sysroot_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/libxml2/2.10.3-r0/temp/log.do_packagedata_setscene.2646929
+NOTE: recipe libxml2-2.10.3-r0: task do_populate_sysroot_setscene: Succeeded
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 515 of 516 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_package_setscene)
+NOTE: Running task 896 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_fetch)
+NOTE: Running task 897 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_fetch)
+NOTE: Running task 948 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_fetch)
+NOTE: Running task 983 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_fetch)
+NOTE: Running task 996 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_fetch)
+NOTE: Running task 1031 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_fetch)
+NOTE: Running task 1035 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_fetch)
+NOTE: Running task 1179 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_fetch)
+NOTE: recipe nettle-3.8.1-r0: task do_fetch: Started
+NOTE: Running task 1198 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_fetch)
+NOTE: Running task 1199 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_fetch)
+NOTE: Running task 1203 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_fetch)
+NOTE: Running task 1204 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_fetch)
+NOTE: Running task 1205 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_fetch)
+NOTE: recipe libgpg-error-1.46-r0: task do_fetch: Started
+NOTE: recipe libunistring-1.1-r0: task do_fetch: Started
+NOTE: recipe nettle-3.8.1-r0: task do_fetch: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_fetch: Succeeded
+NOTE: recipe libidn2-2.3.4-r0: task do_fetch: Started
+NOTE: Running task 1269 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_unpack)
+NOTE: Running task 1270 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libunistring-1.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1271 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_unpack)
+NOTE: Running task 1272 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1273 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_unpack)
+NOTE: Running task 1274 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe curl-8.0.1-r0: task do_fetch: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_fetch: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_fetch: Succeeded
+NOTE: recipe gnutls-3.8.0-r0: task do_fetch: Started
+NOTE: Running task 1298 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_unpack)
+NOTE: recipe curl-8.0.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1327 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_unpack)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_fetch: Succeeded
+NOTE: recipe gnutls-3.8.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1353 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_unpack)
+NOTE: Running task 1368 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_unpack)
+NOTE: recipe file-5.44-r0: task do_fetch: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_fetch: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_fetch: Started
+NOTE: recipe lua-5.4.4-r0: task do_fetch: Started
+NOTE: recipe popt-1.19-r0: task do_fetch: Started
+NOTE: recipe elfutils-0.188-r0: task do_fetch: Started
+NOTE: Running task 1449 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_fetch)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_fetch: Succeeded
+NOTE: recipe libarchive-3.6.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1462 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_fetch)
+NOTE: Running task 1463 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_unpack)
+NOTE: recipe popt-1.19-r0: task do_fetch: Succeeded
+NOTE: Running task 1476 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_unpack)
+NOTE: Running task 1477 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe lua-5.4.4-r0: task do_fetch: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_unpack: Started
+NOTE: Running task 1478 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_unpack)
+NOTE: Running task 1479 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_unpack)
+NOTE: Running task 1480 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_prepare_recipe_sysroot)
+NOTE: recipe nettle-3.8.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libunistring-1.1-r0: task do_unpack: Started
+NOTE: Running task 1481 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe elfutils-0.188-r0: task do_fetch: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_unpack: Started
+NOTE: recipe libunistring-1.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1492 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_unpack)
+NOTE: recipe libidn2-2.3.4-r0: task do_unpack: Started
+NOTE: recipe file-5.44-r0: task do_fetch: Succeeded
+NOTE: Running task 1524 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_unpack)
+NOTE: Running task 1525 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_unpack: Started
+NOTE: recipe curl-8.0.1-r0: task do_unpack: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_unpack: Started
+NOTE: Running task 1637 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_package_write_rpm)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_unpack: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_fetch: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_unpack: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe lua-5.4.4-r0: task do_unpack: Started
+NOTE: recipe popt-1.19-r0: task do_unpack: Started
+NOTE: recipe popt-1.19-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe nettle-3.8.1-r0: task do_unpack: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1639 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_patch)
+NOTE: recipe elfutils-0.188-r0: task do_unpack: Started
+NOTE: recipe popt-1.19-r0: task do_unpack: Succeeded
+NOTE: Running task 1640 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_patch)
+NOTE: recipe file-5.44-r0: task do_unpack: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_fetch: Succeeded
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_unpack: Succeeded
+NOTE: Running task 1641 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_unpack)
+NOTE: Running task 1642 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_patch)
+NOTE: recipe file-5.44-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe lua-5.4.4-r0: task do_unpack: Succeeded
+NOTE: recipe libidn2-2.3.4-r0: task do_unpack: Succeeded
+NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1643 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_patch)
+NOTE: Running task 1644 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_unpack)
+NOTE: Running task 1645 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_patch)
+NOTE: recipe libgpg-error-1.46-r0: task do_unpack: Succeeded
+NOTE: recipe libxml2-2.10.3-r0: task do_package_setscene: Started
+NOTE: recipe nettle-3.8.1-r0: task do_patch: Started
+NOTE: Running task 1646 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_patch)
+NOTE: recipe bash-completion-2.11-r0: task do_package_write_rpm: Started
+NOTE: recipe libunistring-1.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1647 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_patch)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_unpack: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_patch: Started
+NOTE: recipe popt-1.19-r0: task do_patch: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1648 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_patch)
+NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Started
+NOTE: recipe lua-5.4.4-r0: task do_patch: Started
+NOTE: recipe nettle-3.8.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libidn2-2.3.4-r0: task do_patch: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_patch: Started
+NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_patch: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_patch: Succeeded
+NOTE: Running task 1649 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_deploy_source_date_epoch)
+NOTE: recipe libarchive-3.6.2-r0: task do_patch: Started
+NOTE: recipe libunistring-1.1-r0: task do_patch: Succeeded
+NOTE: recipe libidn2-2.3.4-r0: task do_patch: Succeeded
+NOTE: Running task 1650 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe popt-1.19-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1651 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe popt-1.19-r0: task do_patch: Succeeded
+NOTE: recipe curl-8.0.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1652 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1653 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_patch)
+NOTE: recipe libarchive-3.6.2-r0: task do_patch: Succeeded
+NOTE: recipe libarchive-3.6.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1654 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe lua-5.4.4-r0: task do_patch: Succeeded
+NOTE: Running task 1655 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe file-5.44-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_patch: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_patch: Succeeded
+NOTE: Running task 1656 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1657 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_deploy_source_date_epoch)
+NOTE: recipe libunistring-1.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe popt-1.19-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe curl-8.0.1-r0: task do_patch: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe file-5.44-r0: task do_unpack: Succeeded
+NOTE: Running task 1658 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_patch)
+NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe curl-8.0.1-r0: task do_patch: Succeeded
+NOTE: Running task 1659 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe libgpg-error-1.46-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe nettle-3.8.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1660 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_patch)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe createrepo-c-0.21.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1661 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_patch)
+NOTE: recipe libunistring-1.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe file-5.44-r0: task do_patch: Started
+NOTE: Running task 1662 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_configure)
+NOTE: recipe libidn2-2.3.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe popt-1.19-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe curl-8.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1663 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_configure)
+NOTE: recipe libarchive-3.6.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe file-5.44-r0: task do_patch: Succeeded
+NOTE: Running task 1664 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_configure)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_patch: Started
+NOTE: Running task 1665 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_deploy_source_date_epoch)
+NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe createrepo-c-0.21.1-r0: task do_patch: Started
+NOTE: Running task 1666 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure)
+NOTE: recipe libgpg-error-1.46-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1667 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_configure)
+NOTE: recipe nettle-3.8.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_configure: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1668 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_configure)
+NOTE: Running task 1669 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_patch)
+NOTE: recipe popt-1.19-r0: task do_configure: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_configure: Started
+NOTE: recipe file-5.44-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1670 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_patch)
+NOTE: recipe lua-5.4.4-r0: task do_configure: Started
+NOTE: recipe curl-8.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_configure: Started
+NOTE: recipe nettle-3.8.1-r0: task do_configure: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_patch: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_patch: Succeeded
+NOTE: Running task 1671 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1672 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_generate_toolchain_file)
+NOTE: Running task 1673 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_lic)
+NOTE: recipe lua-5.4.4-r0: task do_configure: Succeeded
+NOTE: Running task 1674 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure_ptest_base)
+NOTE: recipe elfutils-0.188-r0: task do_unpack: Succeeded
+NOTE: recipe file-5.44-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1675 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_patch)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_generate_toolchain_file: Started
+NOTE: Running task 1676 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_configure)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_lic: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_patch: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Started
+NOTE: Running task 1677 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1678 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile)
+NOTE: recipe elfutils-0.188-r0: task do_patch: Started
+NOTE: recipe file-5.44-r0: task do_configure: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_patch: Succeeded
+NOTE: Running task 1679 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_lic: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_lic unihash changed to 41fdd12f168f2f36edfe64572f3dd0291d1760e55284963136ed98eb0e466592
+NOTE: recipe createrepo-c-0.21.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_compile: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gnutls-3.8.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Succeeded
+NOTE: Running task 1680 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe elfutils-0.188-r0: task do_patch: Succeeded
+NOTE: Running task 1681 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_deploy_source_date_epoch)
+NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe elfutils-0.188-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe elfutils-0.188-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_compile: Succeeded
+NOTE: Running task 1682 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile_ptest_base)
+NOTE: recipe libxml2-2.10.3-r0: task do_package_setscene: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Started
 NOTE: Setscene tasks completed
-NOTE: Running task 2322 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_packagedata)
-NOTE: recipe ofono-2.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2323 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_configure)
-NOTE: recipe libtool-2.4.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_packagedata: Started
-NOTE: recipe ofono-2.0-r0: task do_configure: Started
-NOTE: recipe libtool-2.4.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2324 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_configure)
-NOTE: recipe libtool-2.4.7-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_packagedata: Succeeded
-NOTE: recipe taglib-1.13-r0: task do_configure: Succeeded
-NOTE: Running task 2325 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_compile)
-NOTE: recipe taglib-1.13-r0: task do_compile: Started
-NOTE: recipe taglib-1.13-r0: task do_compile: Succeeded
-NOTE: Running task 2326 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_install)
-NOTE: recipe taglib-1.13-r0: task do_install: Started
-NOTE: recipe taglib-1.13-r0: task do_install: Succeeded
-NOTE: Running task 2327 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_populate_sysroot)
-NOTE: Running task 2328 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_package)
-NOTE: recipe taglib-1.13-r0: task do_populate_sysroot: Started
-NOTE: recipe taglib-1.13-r0: task do_package: Started
-NOTE: recipe taglib-1.13-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_configure: Succeeded
-NOTE: Running task 2329 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_compile)
-NOTE: recipe nghttp2-1.52.0-r0: task do_compile: Started
-NOTE: recipe taglib-1.13-r0: task do_package: Succeeded
-NOTE: Running task 2330 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_packagedata)
-NOTE: recipe taglib-1.13-r0: task do_packagedata: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_configure: Succeeded
-NOTE: Running task 2331 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_compile)
-NOTE: recipe taglib-1.13-r0: task do_packagedata: Succeeded
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_compile: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_compile: Succeeded
-NOTE: Running task 2332 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_install)
-NOTE: recipe nghttp2-1.52.0-r0: task do_install: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_compile: Succeeded
-NOTE: Running task 2333 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_install)
-NOTE: recipe nghttp2-1.52.0-r0: task do_install: Succeeded
-NOTE: Running task 2334 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_populate_sysroot)
-NOTE: Running task 2335 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_package)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_install: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_populate_sysroot: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_package: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_install: Succeeded
-NOTE: Running task 2336 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_populate_sysroot)
-NOTE: Running task 2337 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_package)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_populate_sysroot: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_package: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_configure: Succeeded
-NOTE: Running task 2338 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_compile)
-NOTE: recipe nghttp2-1.52.0-r0: task do_package: Succeeded
-NOTE: Running task 2339 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_packagedata)
-NOTE: recipe libdaemon-0.14-r0: task do_compile: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_packagedata: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_packagedata: Succeeded
-NOTE: recipe speexdsp-1.2.1-r0: task do_configure: Succeeded
-NOTE: Running task 2340 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_compile)
-NOTE: recipe speexdsp-1.2.1-r0: task do_compile: Started
-NOTE: recipe libtool-2.4.7-r0: task do_configure: Succeeded
-NOTE: Running task 2341 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_compile)
-NOTE: recipe libtool-2.4.7-r0: task do_compile: Started
-NOTE: recipe libdaemon-0.14-r0: task do_compile: Succeeded
-NOTE: Running task 2342 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_install)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_package: Succeeded
-NOTE: Running task 2343 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_packagedata)
-NOTE: recipe libdaemon-0.14-r0: task do_install: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_packagedata: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_packagedata: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_install: Succeeded
-NOTE: Running task 2344 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_populate_sysroot)
-NOTE: Running task 2345 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_package)
-NOTE: recipe libdaemon-0.14-r0: task do_populate_sysroot: Started
-NOTE: recipe libdaemon-0.14-r0: task do_package: Started
-NOTE: recipe lame-3.100-r0: task do_configure: Succeeded
-NOTE: Running task 2346 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_compile)
-NOTE: recipe lame-3.100-r0: task do_compile: Started
-NOTE: recipe libdaemon-0.14-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2347 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe speexdsp-1.2.1-r0: task do_compile: Succeeded
-NOTE: Running task 2348 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_install)
-NOTE: recipe avahi-0.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_install: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_install: Succeeded
-NOTE: Running task 2349 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_populate_sysroot)
-NOTE: Running task 2350 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_package)
-NOTE: recipe speexdsp-1.2.1-r0: task do_populate_sysroot: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_package: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_package: Succeeded
-NOTE: Running task 2351 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2352 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_packagedata)
-NOTE: recipe speex-1.2.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe avahi-0.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2353 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_configure)
-NOTE: recipe libdaemon-0.14-r0: task do_packagedata: Started
-NOTE: recipe avahi-0.8-r0: task do_configure: Started
-NOTE: recipe speex-1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2354 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_configure)
-NOTE: recipe libdaemon-0.14-r0: task do_packagedata: Succeeded
-NOTE: recipe speex-1.2.1-r0: task do_configure: Started
-NOTE: recipe ofono-2.0-r0: task do_configure: Succeeded
-NOTE: Running task 2355 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_compile)
-NOTE: recipe ofono-2.0-r0: task do_compile: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_package: Succeeded
-NOTE: Running task 2356 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_packagedata)
-NOTE: recipe speexdsp-1.2.1-r0: task do_packagedata: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_packagedata: Succeeded
-NOTE: recipe lame-3.100-r0: task do_compile: Succeeded
-NOTE: Running task 2357 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_install)
-NOTE: recipe lame-3.100-r0: task do_install: Started
-NOTE: recipe libtool-2.4.7-r0: task do_compile: Succeeded
-NOTE: Running task 2358 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_install)
-NOTE: recipe libtool-2.4.7-r0: task do_install: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_configure: Succeeded
-NOTE: Running task 2359 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_compile)
-NOTE: recipe lame-3.100-r0: task do_install: Succeeded
-NOTE: Running task 2360 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_populate_sysroot)
-NOTE: Running task 2361 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_package)
-NOTE: recipe libpsl-0.21.2-r0: task do_compile: Started
-NOTE: recipe lame-3.100-r0: task do_populate_sysroot: Started
-NOTE: recipe lame-3.100-r0: task do_package: Started
-NOTE: recipe ofono-2.0-r0: task do_compile: Succeeded
-NOTE: Running task 2362 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_install)
-NOTE: recipe lame-3.100-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_install: Started
-NOTE: recipe libtool-2.4.7-r0: task do_install: Succeeded
-NOTE: Running task 2363 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_populate_sysroot)
-NOTE: Running task 2364 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_package)
-NOTE: recipe libtool-2.4.7-r0: task do_populate_sysroot: Started
-NOTE: recipe libtool-2.4.7-r0: task do_package: Started
-NOTE: recipe ofono-2.0-r0: task do_install: Succeeded
-NOTE: Running task 2365 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_populate_sysroot)
-NOTE: Running task 2366 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_package)
-NOTE: recipe ofono-2.0-r0: task do_populate_sysroot: Started
-NOTE: recipe ofono-2.0-r0: task do_package: Started
-NOTE: recipe libtool-2.4.7-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe lame-3.100-r0: task do_package: Succeeded
-NOTE: Running task 2367 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_packagedata)
-NOTE: recipe lame-3.100-r0: task do_packagedata: Started
-NOTE: recipe lame-3.100-r0: task do_packagedata: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_package: Succeeded
-NOTE: Running task 2368 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_packagedata)
-NOTE: recipe libtool-2.4.7-r0: task do_packagedata: Started
-NOTE: recipe libtool-2.4.7-r0: task do_packagedata: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_compile: Succeeded
-NOTE: Running task 2369 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_install)
-NOTE: recipe libpsl-0.21.2-r0: task do_install: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_install: Succeeded
-NOTE: Running task 2370 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_populate_sysroot)
-NOTE: Running task 2371 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_package)
-NOTE: recipe libpsl-0.21.2-r0: task do_populate_sysroot: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_package: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2372 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libsoup-3.4.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe ofono-2.0-r0: task do_package: Succeeded
-NOTE: Running task 2373 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_packagedata)
-NOTE: recipe ofono-2.0-r0: task do_packagedata: Started
-NOTE: recipe libsoup-3.4.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2374 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_configure)
-NOTE: recipe libpsl-0.21.2-r0: task do_package: Succeeded
-NOTE: Running task 2375 of 2414 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_packagedata)
-NOTE: recipe libsoup-3.4.0-r0: task do_configure: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_packagedata: Started
-NOTE: recipe ofono-2.0-r0: task do_packagedata: Failed
-NOTE: recipe libpsl-0.21.2-r0: task do_packagedata: Succeeded
-NOTE: recipe speex-1.2.1-r0: task do_configure: Succeeded
-NOTE: recipe libsoup-3.4.0-r0: task do_configure: Succeeded
-NOTE: recipe avahi-0.8-r0: task do_configure: Succeeded
-NOTE: Tasks Summary: Attempted 2375 tasks of which 2239 didn't need to be rerun and 1 failed.
+NOTE: Running task 1720 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_packagedata)
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1723 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install)
+NOTE: recipe libxml2-2.10.3-r0: task do_packagedata: Started
+NOTE: recipe lua-5.4.4-r0: task do_install: Started
+NOTE: recipe libxml2-2.10.3-r0: task do_packagedata: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_install: Succeeded
+NOTE: Running task 1732 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install_ptest_base)
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Started
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1733 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_populate_sysroot)
+NOTE: Running task 1734 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_package)
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Started
+NOTE: recipe lua-5.4.4-r0: task do_package: Started
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_configure: Succeeded
+NOTE: Running task 1735 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_configure_ptest_base)
+NOTE: recipe nettle-3.8.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe nettle-3.8.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1736 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_compile)
+NOTE: recipe nettle-3.8.1-r0: task do_compile: Started
+NOTE: recipe lua-5.4.4-r0: task do_package: Succeeded
+NOTE: Running task 1737 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_packagedata)
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Started
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Succeeded
+NOTE: recipe popt-1.19-r0: task do_configure: Succeeded
+NOTE: Running task 1738 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_configure_ptest_base)
+NOTE: recipe popt-1.19-r0: task do_configure_ptest_base: Started
+NOTE: recipe popt-1.19-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1739 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_compile)
+NOTE: recipe popt-1.19-r0: task do_compile: Started
+NOTE: recipe popt-1.19-r0: task do_compile: Succeeded
+NOTE: Running task 1740 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_compile_ptest_base)
+NOTE: recipe popt-1.19-r0: task do_compile_ptest_base: Started
+NOTE: recipe popt-1.19-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1741 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_install)
+NOTE: recipe popt-1.19-r0: task do_install: Started
+NOTE: recipe popt-1.19-r0: task do_install: Succeeded
+NOTE: Running task 1742 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_install_ptest_base)
+NOTE: recipe popt-1.19-r0: task do_install_ptest_base: Started
+NOTE: recipe popt-1.19-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1743 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_populate_sysroot)
+NOTE: Running task 1744 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_package)
+NOTE: recipe popt-1.19-r0: task do_populate_sysroot: Started
+NOTE: recipe popt-1.19-r0: task do_package: Started
+NOTE: recipe popt-1.19-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe file-5.44-r0: task do_configure: Succeeded
+NOTE: Running task 1745 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_compile)
+NOTE: recipe file-5.44-r0: task do_compile: Started
+NOTE: recipe nettle-3.8.1-r0: task do_compile: Succeeded
+NOTE: Running task 1746 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_compile_ptest_base)
+NOTE: recipe libgpg-error-1.46-r0: task do_configure: Succeeded
+NOTE: Running task 1747 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_configure_ptest_base)
+NOTE: recipe nettle-3.8.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_configure_ptest_base: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1748 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_compile)
+NOTE: recipe libgpg-error-1.46-r0: task do_compile: Started
+NOTE: recipe file-5.44-r0: task do_compile: Succeeded
+NOTE: Running task 1749 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_install)
+NOTE: recipe nettle-3.8.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1750 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_install)
+NOTE: recipe file-5.44-r0: task do_install: Started
+NOTE: recipe nettle-3.8.1-r0: task do_install: Started
+NOTE: recipe file-5.44-r0: task do_install: Succeeded
+NOTE: Running task 1751 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_populate_sysroot)
+NOTE: Running task 1752 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_package)
+NOTE: recipe file-5.44-r0: task do_populate_sysroot: Started
+NOTE: recipe popt-1.19-r0: task do_package: Succeeded
+NOTE: recipe file-5.44-r0: task do_package: Started
+NOTE: Running task 1753 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_packagedata)
+NOTE: recipe nettle-3.8.1-r0: task do_install: Succeeded
+NOTE: Running task 1754 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_install_ptest_base)
+NOTE: recipe popt-1.19-r0: task do_packagedata: Started
+NOTE: recipe nettle-3.8.1-r0: task do_install_ptest_base: Started
+NOTE: recipe file-5.44-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1755 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_populate_sysroot)
+NOTE: Running task 1756 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_package)
+NOTE: recipe nettle-3.8.1-r0: task do_populate_sysroot: Started
+NOTE: recipe popt-1.19-r0: task do_packagedata: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_package: Started
+NOTE: recipe nettle-3.8.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe file-5.44-r0: task do_package: Succeeded
+NOTE: Running task 1757 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_packagedata)
+NOTE: recipe file-5.44-r0: task do_packagedata: Started
+NOTE: recipe file-5.44-r0: task do_packagedata: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_compile: Succeeded
+NOTE: Running task 1758 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_compile_ptest_base)
+NOTE: recipe libgpg-error-1.46-r0: task do_compile_ptest_base: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1759 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_install)
+NOTE: recipe libgpg-error-1.46-r0: task do_install: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_install: Succeeded
+NOTE: Running task 1760 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_install_ptest_base)
+NOTE: recipe libgpg-error-1.46-r0: task do_install_ptest_base: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1761 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_populate_sysroot)
+NOTE: Running task 1762 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_package)
+NOTE: recipe libgpg-error-1.46-r0: task do_populate_sysroot: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_package: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1763 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1764 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_configure)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_configure: Started
+NOTE: recipe nettle-3.8.1-r0: task do_package: Succeeded
+NOTE: Running task 1765 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_packagedata)
+NOTE: recipe nettle-3.8.1-r0: task do_packagedata: Started
+NOTE: recipe nettle-3.8.1-r0: task do_packagedata: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_package: Succeeded
+NOTE: Running task 1766 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_packagedata)
+NOTE: recipe libgpg-error-1.46-r0: task do_packagedata: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_packagedata: Succeeded
+NOTE: recipe libarchive-3.6.2-r0: task do_configure: Succeeded
+NOTE: Running task 1767 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_compile)
+NOTE: recipe libarchive-3.6.2-r0: task do_compile: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_compile: Succeeded
+NOTE: Running task 1768 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_install)
+NOTE: recipe libarchive-3.6.2-r0: task do_install: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_install: Succeeded
+NOTE: Running task 1769 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_populate_sysroot)
+NOTE: Running task 1770 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_package)
+NOTE: recipe libarchive-3.6.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_package: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_configure: Succeeded
+NOTE: Running task 1771 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_compile)
+NOTE: recipe libunistring-1.1-r0: task do_compile: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_package: Succeeded
+NOTE: Running task 1772 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_packagedata)
+NOTE: recipe libarchive-3.6.2-r0: task do_packagedata: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_packagedata: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_configure: Succeeded
+NOTE: Running task 1773 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_configure_ptest_base)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1774 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_compile)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_compile: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_compile: Succeeded
+NOTE: Running task 1775 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_compile_ptest_base)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1776 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_install)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_install: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_install: Succeeded
+NOTE: Running task 1777 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_install_ptest_base)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_install_ptest_base: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1778 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_populate_sysroot)
+NOTE: Running task 1779 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_package)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_package: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_package: Succeeded
+NOTE: Running task 1780 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_packagedata)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_packagedata: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_packagedata: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_compile: Succeeded
+NOTE: Running task 1781 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_install)
+NOTE: recipe libunistring-1.1-r0: task do_install: Started
+NOTE: recipe libunistring-1.1-r0: task do_install: Succeeded
+NOTE: Running task 1782 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_populate_sysroot)
+NOTE: Running task 1783 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_package)
+NOTE: recipe libunistring-1.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libunistring-1.1-r0: task do_package: Started
+NOTE: recipe libunistring-1.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1784 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libidn2-2.3.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1785 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_configure)
+NOTE: recipe libidn2-2.3.4-r0: task do_configure: Started
+NOTE: recipe libunistring-1.1-r0: task do_package: Succeeded
+NOTE: Running task 1786 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_packagedata)
+NOTE: recipe libunistring-1.1-r0: task do_packagedata: Started
+NOTE: recipe libunistring-1.1-r0: task do_packagedata: Succeeded
+NOTE: recipe libidn2-2.3.4-r0: task do_configure: Succeeded
+NOTE: Running task 1787 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_compile)
+NOTE: recipe libidn2-2.3.4-r0: task do_compile: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_compile: Succeeded
+NOTE: Running task 1788 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_install)
+NOTE: recipe libidn2-2.3.4-r0: task do_install: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_install: Succeeded
+NOTE: Running task 1789 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_populate_sysroot)
+NOTE: Running task 1790 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_package)
+NOTE: recipe libidn2-2.3.4-r0: task do_populate_sysroot: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_package: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1791 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1792 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gnutls-3.8.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe curl-8.0.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe curl-8.0.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1793 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_configure)
+NOTE: recipe curl-8.0.1-r0: task do_configure: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1794 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_configure)
+NOTE: recipe gnutls-3.8.0-r0: task do_configure: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_package: Succeeded
+NOTE: Running task 1795 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_packagedata)
+NOTE: recipe libidn2-2.3.4-r0: task do_packagedata: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_packagedata: Succeeded
+NOTE: recipe curl-8.0.1-r0: task do_configure: Succeeded
+NOTE: Running task 1796 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_configure_ptest_base)
+NOTE: recipe curl-8.0.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe curl-8.0.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1797 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_compile)
+NOTE: recipe curl-8.0.1-r0: task do_compile: Started
+NOTE: recipe curl-8.0.1-r0: task do_compile: Succeeded
+NOTE: Running task 1798 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_compile_ptest_base)
+NOTE: recipe curl-8.0.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe curl-8.0.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1799 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_install)
+NOTE: recipe curl-8.0.1-r0: task do_install: Started
+NOTE: recipe curl-8.0.1-r0: task do_install: Succeeded
+NOTE: Running task 1800 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_install_ptest_base)
+NOTE: recipe curl-8.0.1-r0: task do_install_ptest_base: Started
+NOTE: recipe curl-8.0.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1801 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_populate_sysroot)
+NOTE: Running task 1802 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_package)
+NOTE: recipe curl-8.0.1-r0: task do_populate_sysroot: Started
+NOTE: recipe curl-8.0.1-r0: task do_package: Started
+NOTE: recipe curl-8.0.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe curl-8.0.1-r0: task do_package: Succeeded
+NOTE: Running task 1803 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_packagedata)
+NOTE: recipe curl-8.0.1-r0: task do_packagedata: Started
+NOTE: recipe curl-8.0.1-r0: task do_packagedata: Succeeded
+NOTE: recipe gnutls-3.8.0-r0: task do_configure: Succeeded
+NOTE: Running task 1804 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_configure_ptest_base)
+NOTE: recipe gnutls-3.8.0-r0: task do_configure_ptest_base: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1805 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_compile)
+NOTE: recipe gnutls-3.8.0-r0: task do_compile: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_compile: Succeeded
+NOTE: Running task 1806 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_compile_ptest_base)
+NOTE: recipe gnutls-3.8.0-r0: task do_compile_ptest_base: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1807 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_install)
+NOTE: recipe gnutls-3.8.0-r0: task do_install: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_install: Succeeded
+NOTE: Running task 1808 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_install_ptest_base)
+NOTE: recipe gnutls-3.8.0-r0: task do_install_ptest_base: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1809 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_populate_sysroot)
+NOTE: Running task 1810 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_package)
+NOTE: recipe gnutls-3.8.0-r0: task do_populate_sysroot: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_package: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1811 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1812 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_configure)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_configure: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_package: Succeeded
+NOTE: Running task 1813 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_packagedata)
+NOTE: recipe gnutls-3.8.0-r0: task do_packagedata: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_packagedata: Succeeded
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_configure: Succeeded
+NOTE: Running task 1814 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_compile)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_compile: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_compile: Succeeded
+NOTE: Running task 1815 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_install)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_install: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_install: Succeeded
+NOTE: Running task 1816 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_populate_sysroot)
+NOTE: Running task 1817 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_package)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_populate_sysroot: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_package: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1818 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_prepare_recipe_sysroot)
+NOTE: recipe elfutils-0.188-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe elfutils-0.188-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1819 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_configure)
+NOTE: recipe elfutils-0.188-r0: task do_configure: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_package: Succeeded
+NOTE: Running task 1820 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_packagedata)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_packagedata: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_packagedata: Succeeded
+NOTE: recipe elfutils-0.188-r0: task do_configure: Succeeded
+NOTE: Running task 1821 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_configure_ptest_base)
+NOTE: recipe elfutils-0.188-r0: task do_configure_ptest_base: Started
+NOTE: recipe elfutils-0.188-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1822 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_compile)
+NOTE: recipe elfutils-0.188-r0: task do_compile: Started
+NOTE: recipe elfutils-0.188-r0: task do_compile: Succeeded
+NOTE: Running task 1823 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_compile_ptest_base)
+NOTE: recipe elfutils-0.188-r0: task do_compile_ptest_base: Started
+NOTE: recipe elfutils-0.188-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1824 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_install)
+NOTE: recipe elfutils-0.188-r0: task do_install: Started
+NOTE: recipe elfutils-0.188-r0: task do_install: Succeeded
+NOTE: Running task 1825 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_install_ptest_base)
+NOTE: recipe elfutils-0.188-r0: task do_install_ptest_base: Started
+NOTE: recipe elfutils-0.188-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1826 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_populate_sysroot)
+NOTE: Running task 1827 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_package)
+NOTE: recipe elfutils-0.188-r0: task do_populate_sysroot: Started
+NOTE: recipe elfutils-0.188-r0: task do_package: Started
+NOTE: recipe elfutils-0.188-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1828 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1829 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_configure)
+NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Started
+NOTE: recipe elfutils-0.188-r0: task do_package: Succeeded
+NOTE: Running task 1830 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_packagedata)
+NOTE: recipe elfutils-0.188-r0: task do_packagedata: Started
+NOTE: recipe elfutils-0.188-r0: task do_packagedata: Succeeded
+NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Succeeded
+NOTE: Running task 1831 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_compile)
+NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Succeeded
+NOTE: Running task 1832 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_install)
+NOTE: recipe rpm-1_4.18.0-r0: task do_install: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_install: Succeeded
+NOTE: Running task 1833 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_populate_sysroot)
+NOTE: Running task 1834 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_package)
+NOTE: recipe rpm-1_4.18.0-r0: task do_populate_sysroot: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_package: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1835 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1836 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_configure)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_configure: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_configure: Succeeded
+NOTE: Running task 1837 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_compile)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_compile: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_compile: Succeeded
+NOTE: Running task 1838 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_install)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_install: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_install: Succeeded
+NOTE: Running task 1839 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_sysroot)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_sysroot: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe rpm-1_4.18.0-r0: task do_package: Succeeded
+NOTE: Running task 1840 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_packagedata)
+NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1841 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package: Succeeded
+NOTE: Running task 1842 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_packagedata)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_packagedata: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 1843 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package_write_rpm)
+NOTE: Running task 1844 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package_qa)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package_write_rpm: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package_qa: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package_qa: Succeeded
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1845 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_build)
+NOTE: Tasks Summary: Attempted 1845 tasks of which 1649 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_packagedata
-Summary: There were 113 ERROR messages, returning a non-zero exit code.
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-src went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-dbg went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-staticdev went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-dev went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-doc went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-apps went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-meta went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-glib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstallocators-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstapp-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstaudio-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstfft-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstgl-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstpbutils-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstriff-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstrtp-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstrtsp-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstsdp-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgsttag-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstvideo-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-adder went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-alsa went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-app went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audioconvert went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audiomixer went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audiorate went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audioresample went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audiotestsrc went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-compositor went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-encoding went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-gio went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-ogg went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-opengl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-overlaycomposition went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-pango went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-pbtypes went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-playback went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-rawparse went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-subparse went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-tcp went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-theora went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-typefindfunctions went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-videoconvertscale went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-videorate went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-videotestsrc went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-volume went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-vorbis went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-ximagesink went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-xvimagesink went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-allocators-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-app-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audio-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-gl-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-glegl-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-glwayland-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-glx11-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-pbutils-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-rtp-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-rtsp-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-sdp-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-tag-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-video-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-af went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-az went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-bg went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ca went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-cs went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-da went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-de went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-el went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-en-gb went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-eo went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-es went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-eu went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-fi went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-fr went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-fur went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-gl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-hr went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-hu went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-id went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-it went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ja went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ka went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-lt went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-lv went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-nb went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-nl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-or went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-pl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-pt-br went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ro went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ru went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sk went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sq went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sr went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sv went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-tr went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-uk went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-vi went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-zh-cn went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-src went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-dbg went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-tests went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-staticdev went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-dev went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-doc went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-locale went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/ofono/2.0-r0/temp/log.do_packagedata.2512000
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_packagedata) failed with exit code '1'
+Summary: There were 11 ERROR messages, returning a non-zero exit code.
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-src went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-dbg went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-ptest went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-staticdev went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-dev went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-doc went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-locale went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-utils went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2 went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-python went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
 
---===============4458964067092060066==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-gstreamer1.0-plugins-good-upgrade-1.22.0-1.22.2.patch"
-
-RnJvbSBmNDQ4MGJkMDQ4ODUzODhkMDZkMDYxNWQ2MjU3NDUyOTc5MTlhYmYzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgQXByIDIwMjMgMTY6MjY6MDAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-c3RyZWFtZXIxLjAtcGx1Z2lucy1nb29kOiB1cGdyYWRlIDEuMjIuMCAtPiAxLjIyLjIKCi0tLQog
-Li4udWdpbnMtZ29vZF8xLjIyLjAuYmIgPT4gZ3N0cmVhbWVyMS4wLXBsdWdpbnMtZ29vZF8xLjIy
-LjIuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
-KC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL3tnc3RyZWFtZXIx
-LjAtcGx1Z2lucy1nb29kXzEuMjIuMC5iYiA9PiBnc3RyZWFtZXIxLjAtcGx1Z2lucy1nb29kXzEu
-MjIuMi5iYn0gKDk3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3Ry
-ZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtZ29vZF8xLjIyLjAuYmIgYi9tZXRhL3JlY2lwZXMt
-bXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtZ29vZF8xLjIyLjIuYmIK
-c2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEv
-Z3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWdvb2RfMS4yMi4wLmJiCnJlbmFtZSB0byBt
-ZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtZ29v
-ZF8xLjIyLjIuYmIKaW5kZXggNjdhNmEyMjQwNC4uYTkzNTI5NDliNSAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWdvb2Rf
-MS4yMi4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFt
-ZXIxLjAtcGx1Z2lucy1nb29kXzEuMjIuMi5iYgpAQCAtOCw3ICs4LDcgQEAgU1JDX1VSSSA9ICJo
-dHRwczovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5vcmcvc3JjL2dzdC1wbHVnaW5zLWdvb2QvZ3N0
-LXBsdWdpbnMtZ28KICAgICAgICAgICAgZmlsZTovLzAwMDEtcXQtaW5jbHVkZS1leHQtcXQtZ3N0
-cXRnbC5oLWluc3RlYWQtb2YtZ3N0LWdsLWdzdGdsZi5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6
-Ly8wMDAxLXY0bDItRGVmaW5lLWlvY3RsX3JlcV90LWZvci1wb3NpeC1saW51eC1jYXNlLnBhdGNo
-IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNTgyZTYxNzI3MWU3ZjMxNGQxYTIyMTFlM2UzODU2
-YWUyZTQzMDNjOGMwZDYxMTRlOWM0YTVlYTU3MTkyOTRiMCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9
-ICI3YzhjYzU5NDI1ZjJiMjMyZjYwY2E3ZDEzZTU2ZWRkNjE1ZGE0ZjcxMWU3M2RkMDFhN2NmZmE0
-NmU2YmMwY2RkIgogCiBTID0gIiR7V09SS0RJUn0vZ3N0LXBsdWdpbnMtZ29vZC0ke1BWfSIKIAot
-LSAKMi4zOS4yCgo=
-
---===============4458964067092060066==
+--===============4667251149192416894==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-adaptivedemux2: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-adaptivedemux2: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-alaw: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-alaw: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-alpha: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-alpha: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-alphacolor: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-alphacolor: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-apetag: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-apetag: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-apps: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-apps: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-audiofx: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-audiofx: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-audioparsers: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-audioparsers: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-auparse: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-auparse: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-autodetect: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-autodetect: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-avi: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-avi: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-cairo: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-cairo: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-cutter: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-cutter: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dbg: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dbg: PKGSIZE changed from 17478600 to 17485468 (+0%)
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dbg: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-debug: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-debug: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-deinterlace: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-deinterlace: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dev: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dev: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-doc: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-doc: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dtmf: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dtmf: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-effectv: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-effectv: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-equalizer: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-equalizer: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-flac: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-flac: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-flv: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-flv: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-flxdec: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-flxdec: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-gdkpixbuf: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-gdkpixbuf: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-glib: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-glib: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-goom: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-goom: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-goom2k1: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-goom2k1: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-icydemux: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-icydemux: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-id3demux: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-id3demux: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-imagefreeze: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-imagefreeze: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-interleave: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-interleave: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-isomp4: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-isomp4: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-jpeg: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-jpeg: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-lame: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-lame: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-level: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-level: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-af: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-af: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-az: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-az: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-bg: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-bg: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ca: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ca: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-cs: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-cs: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-da: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-da: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-de: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-de: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-el: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-el: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-en-gb: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-en-gb: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-eo: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-eo: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-es: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-es: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-eu: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-eu: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fi: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fi: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fr: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fr: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fur: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fur: PKGSIZE changed from 10887 to 14036 (+29%)
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fur: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-gl: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-gl: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-hr: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-hr: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-hu: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-hu: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-id: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-id: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-it: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-it: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ja: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ja: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ka: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ka: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ky: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ky: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-lt: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-lt: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-lv: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-lv: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-mt: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-mt: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-nb: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-nb: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-nl: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-nl: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-or: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-or: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-pl: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-pl: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-pt-br: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-pt-br: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ro: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ro: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ru: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ru: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sk: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sk: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sl: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sl: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sq: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sq: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sr: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sr: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sv: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sv: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-tr: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-tr: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-uk: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-uk: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-vi: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-vi: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-cn: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-cn: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-hk: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-hk: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-tw: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-tw: PKGSIZE changed from 11449 to 12179 (+6%)
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-tw: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-matroska: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-matroska: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-meta: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-meta: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-monoscope: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-monoscope: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-mpg123: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-mpg123: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-mulaw: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-mulaw: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-multifile: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-multifile: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-multipart: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-multipart: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-navigationtest: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-navigationtest: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-ossaudio: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-ossaudio: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-png: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-png: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-pulseaudio: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-pulseaudio: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-replaygain: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-replaygain: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtp: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtp: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtpmanager: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtpmanager: PKGSIZE changed from 671696 to 675792 (+1%)
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtpmanager: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtsp: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtsp: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-shapewipe: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-shapewipe: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-smpte: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-smpte: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-soup: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-soup: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-spectrum: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-spectrum: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-speex: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-speex: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-src: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-src: PKGSIZE changed from 12928600 to 12939908 (+0%)
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-src: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-staticdev: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-staticdev: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-taglib: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-taglib: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-udp: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-udp: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-video4linux2: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-video4linux2: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videobox: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videobox: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videocrop: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videocrop: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videofilter: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videofilter: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videomixer: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videomixer: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-wavenc: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-wavenc: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-wavparse: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-wavparse: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-ximagesrc: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-ximagesrc: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-xingmux: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-xingmux: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-y4menc: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-y4menc: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.22.0.tar.xz file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch file://0001-v4l2-Define-ioctl_req_t-for-posix-linux-case.patch" to "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.22.2.tar.xz file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch file://0001-v4l2-Define-ioctl_req_t-for-posix-linux-case.patch"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/createrepo-c/createrepo-c-bash-completion: PV changed from "0.20.1" to "0.21.1"
+packages/core2-32-poky-linux/createrepo-c/createrepo-c-bash-completion: PKGV changed from 0.20.1 [default] to 0.21.1 [default]
+packages/core2-32-poky-linux/createrepo-c/createrepo-c-dbg: PV changed from "0.20.1" to "0.21.1"
+packages/core2-32-poky-linux/createrepo-c/createrepo-c-dbg: FILELIST: removed "/usr/lib/.debug/libcreaterepo_c.so.0.20.1", added "/usr/lib/.debug/libcreaterepo_c.so.0.21.1"
+packages/core2-32-poky-linux/createrepo-c/createrepo-c-dbg: PKGV changed from 0.20.1 [default] to 0.21.1 [default]
+packages/core2-32-poky-linux/createrepo-c/createrepo-c-dbg: PKGSIZE changed from 1158848 to 1213820 (+5%)
+packages/core2-32-poky-linux/createrepo-c/createrepo-c-dev: PV changed from "0.20.1" to "0.21.1"
+packages/core2-32-poky-linux/createrepo-c/createrepo-c-dev: PKGV changed from 0.20.1 [default] to 0.21.1 [default]
+packages/core2-32-poky-linux/createrepo-c/createrepo-c-dev: PKGSIZE changed from 142602 to 146318 (+3%)
+packages/core2-32-poky-linux/createrepo-c/createrepo-c-doc: PV changed from "0.20.1" to "0.21.1"
+packages/core2-32-poky-linux/createrepo-c/createrepo-c-doc: PKGV changed from 0.20.1 [default] to 0.21.1 [default]
+packages/core2-32-poky-linux/createrepo-c/createrepo-c-locale: PV changed from "0.20.1" to "0.21.1"
+packages/core2-32-poky-linux/createrepo-c/createrepo-c-locale: PKGV changed from 0.20.1 [default] to 0.21.1 [default]
+packages/core2-32-poky-linux/createrepo-c/createrepo-c-src: PV changed from "0.20.1" to "0.21.1"
+packages/core2-32-poky-linux/createrepo-c/createrepo-c-src: PKGV changed from 0.20.1 [default] to 0.21.1 [default]
+packages/core2-32-poky-linux/createrepo-c/createrepo-c-src: PKGSIZE changed from 1222467 to 1271448 (+4%)
+packages/core2-32-poky-linux/createrepo-c/createrepo-c-staticdev: PV changed from "0.20.1" to "0.21.1"
+packages/core2-32-poky-linux/createrepo-c/createrepo-c-staticdev: PKGV changed from 0.20.1 [default] to 0.21.1 [default]
+packages/core2-32-poky-linux/createrepo-c/createrepo-c: PV changed from "0.20.1" to "0.21.1"
+packages/core2-32-poky-linux/createrepo-c/createrepo-c: FILELIST: removed "/usr/lib/libcreaterepo_c.so.0.20.1", added "/usr/lib/libcreaterepo_c.so.0.21.1"
+packages/core2-32-poky-linux/createrepo-c/createrepo-c: PKGV changed from 0.20.1 [default] to 0.21.1 [default]
+packages/core2-32-poky-linux/createrepo-c/createrepo-c: PKGSIZE changed from 526215 to 534884 (+2%)
+packages/core2-32-poky-linux/createrepo-c: PV changed from "0.20.1" to "0.21.1"
+packages/core2-32-poky-linux/createrepo-c: PKGV changed from 0.20.1 [default] to 0.21.1 [default]
+Changes to packages/core2-32-poky-linux/createrepo-c (sysroot):
+  /usr/lib/libcreaterepo_c.so.0 changed symlink target from libcreaterepo_c.so.0.20.1 to libcreaterepo_c.so.0.21.1
+  /usr/lib/libcreaterepo_c.so.0.20.1 moved to /usr/lib/libcreaterepo_c.so.0.21.1
 
---===============4458964067092060066==
+--===============4667251149192416894==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -948,558 +777,642 @@ TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:088f7a42c0e8459daf9854475faf7902315bdfff"
+meta-yocto-bsp       = "tmp-auh-upgrades:7896474770f9317fc2f0d6383208a5ba333711f9"
 workspace            = "master:ff633ce7a7ffc0d39b86043caeb63a9ffcef99b8"
 
 Initialising tasks...done.
-Sstate summary: Wanted 86 Local 23 Mirrors 0 Missed 63 Current 614 (26% match, 91% complete)
+Sstate summary: Wanted 77 Local 13 Mirrors 0 Missed 64 Current 439 (16% match, 87% complete)
 NOTE: Executing Tasks
-NOTE: Running setscene task 630 of 700 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 633 of 700 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_populate_sysroot_setscene: Succeeded
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/gstreamer1.0-plugins-base/1.22.0-r0/temp/log.do_packagedata_setscene.2633367
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 699 of 700 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_package_setscene)
-NOTE: Running task 1898 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_fetch)
-NOTE: Running task 1906 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_fetch)
-NOTE: Running task 1957 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_fetch)
-NOTE: Running task 1959 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_fetch)
-NOTE: Running task 1960 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_fetch)
-NOTE: Running task 1961 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_fetch)
-NOTE: Running task 2020 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_fetch)
-NOTE: Running task 2030 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_fetch)
-NOTE: Running task 2046 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_fetch)
-NOTE: Running task 2063 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_fetch)
-NOTE: Running task 2096 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_fetch)
-NOTE: Running task 2097 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_fetch)
-NOTE: Running task 2098 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_fetch)
-NOTE: Running task 2099 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/mpg123/mpg123_1.31.3.bb:do_fetch)
-NOTE: Running task 2107 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_write_config)
-NOTE: recipe libdaemon-0.14-r0: task do_fetch: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_fetch: Started
-NOTE: Running task 2148 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_fetch)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_fetch: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_fetch: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_fetch: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_fetch: Started
-NOTE: Running task 2184 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_write_config)
-NOTE: recipe ofono-2.0-r0: task do_fetch: Started
-NOTE: Running task 2195 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_unpack)
-NOTE: Running task 2196 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_unpack)
-NOTE: Running task 2197 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2198 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_fetch: Succeeded
-NOTE: recipe avahi-0.8-r0: task do_fetch: Started
-NOTE: Running task 2218 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_unpack)
-NOTE: Running task 2219 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_prepare_recipe_sysroot)
-NOTE: recipe nghttp2-1.52.0-r0: task do_fetch: Started
-NOTE: Running task 2225 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_write_config)
-NOTE: recipe ofono-2.0-r0: task do_fetch: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_fetch: Started
-NOTE: recipe taglib-1.13-r0: task do_fetch: Started
-NOTE: Running task 2229 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_unpack)
-NOTE: recipe libtool-2.4.7-r0: task do_fetch: Succeeded
-NOTE: Running task 2230 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe avahi-0.8-r0: task do_fetch: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_fetch: Succeeded
-NOTE: recipe pulseaudio-16.1-r0: task do_fetch: Started
-NOTE: recipe speex-1.2.1-r0: task do_fetch: Started
-NOTE: Running task 2231 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_unpack)
-NOTE: recipe libpsl-0.21.2-r0: task do_fetch: Succeeded
-NOTE: recipe taglib-1.13-r0: task do_fetch: Succeeded
-NOTE: recipe mpg123-1.31.3-r0: task do_fetch: Started
-NOTE: recipe libsoup-3.4.0-r0: task do_fetch: Started
-NOTE: Running task 2232 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_unpack)
-NOTE: recipe speex-1.2.1-r0: task do_fetch: Succeeded
-NOTE: recipe pulseaudio-16.1-r0: task do_fetch: Succeeded
-NOTE: recipe lame-3.100-r0: task do_fetch: Started
-NOTE: recipe mpg123-1.31.3-r0: task do_fetch: Succeeded
-NOTE: recipe libsoup-3.4.0-r0: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_fetch: Started
-NOTE: recipe pulseaudio-16.1-r0: task do_write_config: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_unpack: Started
-NOTE: recipe libdaemon-0.14-r0: task do_unpack: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2233 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_unpack)
-NOTE: recipe libsoup-3.4.0-r0: task do_write_config: Started
-NOTE: recipe libdaemon-0.14-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_fetch: Succeeded
-NOTE: recipe lame-3.100-r0: task do_fetch: Succeeded
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_unpack: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2234 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_unpack)
-NOTE: Running task 2235 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2236 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_unpack)
-NOTE: Running task 2237 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_unpack)
-NOTE: Running task 2238 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_unpack)
-NOTE: Running task 2239 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_unpack)
-NOTE: Running task 2240 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_unpack)
-NOTE: Running task 2241 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/mpg123/mpg123_1.31.3.bb:do_unpack)
-NOTE: Running task 2242 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe speexdsp-1.2.1-r0: task do_unpack: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_unpack: Succeeded
-NOTE: Running task 2243 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_patch)
-NOTE: Running task 2244 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_patch)
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_write_config: Started
-NOTE: recipe ofono-2.0-r0: task do_unpack: Started
-NOTE: Running task 2245 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_unpack: Succeeded
-NOTE: Running task 2246 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_unpack)
-NOTE: Running task 2247 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_patch)
-NOTE: Running task 2248 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_prepare_recipe_sysroot)
-NOTE: recipe pulseaudio-16.1-r0: task do_write_config: Succeeded
-NOTE: Running task 2249 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libsoup-3.4.0-r0: task do_write_config: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libtool-2.4.7-r0: task do_unpack: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_unpack: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_write_config: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_unpack: Started
-NOTE: recipe avahi-0.8-r0: task do_unpack: Started
-NOTE: recipe speex-1.2.1-r0: task do_unpack: Started
-NOTE: recipe lame-3.100-r0: task do_unpack: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_patch: Started
-NOTE: recipe libsoup-3.4.0-r0: task do_unpack: Started
-NOTE: recipe taglib-1.13-r0: task do_unpack: Started
-NOTE: recipe mpg123-1.31.3-r0: task do_unpack: Started
-NOTE: recipe pulseaudio-16.1-r0: task do_unpack: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_patch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lame-3.100-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libdaemon-0.14-r0: task do_patch: Started
-NOTE: recipe speex-1.2.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2256 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_patch)
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_unpack: Started
-NOTE: recipe taglib-1.13-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe taglib-1.13-r0: task do_unpack: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_package_setscene: Started
-NOTE: Running task 2257 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_patch)
-NOTE: recipe lame-3.100-r0: task do_unpack: Succeeded
-NOTE: Running task 2258 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_patch)
-NOTE: recipe ofono-2.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2259 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_patch)
-NOTE: recipe avahi-0.8-r0: task do_unpack: Succeeded
-NOTE: Running task 2260 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_patch)
-NOTE: recipe speex-1.2.1-r0: task do_patch: Started
-NOTE: recipe taglib-1.13-r0: task do_patch: Started
-NOTE: recipe libtool-2.4.7-r0: task do_unpack: Succeeded
-NOTE: recipe lame-3.100-r0: task do_patch: Started
-NOTE: Running task 2261 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_patch)
-NOTE: recipe libdaemon-0.14-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_patch: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe speexdsp-1.2.1-r0: task do_patch: Succeeded
-NOTE: recipe libsoup-3.4.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2262 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_patch)
-NOTE: Running task 2263 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe nghttp2-1.52.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2264 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_patch)
-NOTE: recipe avahi-0.8-r0: task do_patch: Started
-NOTE: recipe mpg123-1.31.3-r0: task do_unpack: Succeeded
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2265 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/mpg123/mpg123_1.31.3.bb:do_patch)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_patch: Succeeded
-NOTE: Running task 2266 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_deploy_source_date_epoch)
-NOTE: recipe speex-1.2.1-r0: task do_patch: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_patch: Succeeded
-NOTE: Running task 2267 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2268 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_deploy_source_date_epoch)
-NOTE: recipe libtool-2.4.7-r0: task do_patch: Started
-NOTE: recipe pulseaudio-16.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2269 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_patch)
-NOTE: recipe libtool-2.4.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe speexdsp-1.2.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libsoup-3.4.0-r0: task do_patch: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_patch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2270 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_patch)
-NOTE: recipe mpg123-1.31.3-r0: task do_patch: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe speex-1.2.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lame-3.100-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libsoup-3.4.0-r0: task do_patch: Succeeded
-NOTE: Running task 2271 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2272 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_patch)
-NOTE: recipe taglib-1.13-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe taglib-1.13-r0: task do_patch: Succeeded
-NOTE: recipe pulseaudio-16.1-r0: task do_patch: Started
-NOTE: Running task 2273 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_generate_toolchain_file)
-NOTE: Running task 2274 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_deploy_source_date_epoch)
-NOTE: recipe lame-3.100-r0: task do_patch: Succeeded
-NOTE: recipe mpg123-1.31.3-r0: task do_patch: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_patch: Started
-NOTE: Running task 2275 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2276 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/mpg123/mpg123_1.31.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe libsoup-3.4.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe taglib-1.13-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe taglib-1.13-r0: task do_generate_toolchain_file: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2277 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_patch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_patch: Succeeded
-NOTE: recipe mpg123-1.31.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2278 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe libdaemon-0.14-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2279 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_configure)
-NOTE: recipe lame-3.100-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe speex-1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2280 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_configure)
-NOTE: recipe nghttp2-1.52.0-r0: task do_patch: Succeeded
-NOTE: Running task 2281 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_generate_toolchain_file)
-NOTE: Running task 2282 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe taglib-1.13-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe avahi-0.8-r0: task do_patch: Succeeded
-NOTE: Running task 2283 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_deploy_source_date_epoch)
-NOTE: recipe speexdsp-1.2.1-r0: task do_configure: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_configure: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe pulseaudio-16.1-r0: task do_patch: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_configure: Started
-NOTE: Running task 2284 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe libsoup-3.4.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_generate_toolchain_file: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe taglib-1.13-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2285 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_patch: Succeeded
-NOTE: Running task 2286 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2287 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_populate_lic)
-NOTE: recipe avahi-0.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe mpg123-1.31.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe lame-3.100-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2288 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_configure)
-NOTE: recipe taglib-1.13-r0: task do_configure: Started
-NOTE: recipe pulseaudio-16.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_populate_lic: Started
-NOTE: recipe lame-3.100-r0: task do_configure: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2289 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_configure)
-NOTE: Running task 2290 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_configure)
-NOTE: recipe avahi-0.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_populate_lic unihash changed to ddbf6b27387096f3295bedeb481d38a4565eb81108b4e26a99ff9690ee17880c
-NOTE: recipe nghttp2-1.52.0-r0: task do_configure: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_configure: Started
-NOTE: recipe ofono-2.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe pulseaudio-16.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_patch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2291 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe ofono-2.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libtool-2.4.7-r0: task do_patch: Succeeded
-NOTE: Running task 2292 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_deploy_source_date_epoch)
-NOTE: recipe ofono-2.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2293 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 447 of 516 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 450 of 516 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 470 of 516 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxml2-2.10.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxml2-2.10.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe shadow-4.13-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe shadow-4.13-r0: task do_populate_sysroot_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/libxml2/2.10.3-r0/temp/log.do_packagedata_setscene.3446612
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 515 of 516 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_package_setscene)
+NOTE: recipe libxml2-2.10.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 896 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_fetch)
+NOTE: Running task 897 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_fetch)
+NOTE: Running task 948 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_fetch)
+NOTE: Running task 983 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_fetch)
+NOTE: Running task 996 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_fetch)
+NOTE: Running task 1031 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_fetch)
+NOTE: Running task 1035 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_fetch)
+NOTE: recipe nettle-3.8.1-r0: task do_fetch: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_fetch: Started
+NOTE: Running task 1179 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_fetch)
+NOTE: recipe libunistring-1.1-r0: task do_fetch: Started
+NOTE: Running task 1198 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_fetch)
+NOTE: Running task 1199 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_fetch)
+NOTE: Running task 1203 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_fetch)
+NOTE: Running task 1204 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_fetch)
+NOTE: Running task 1205 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_fetch)
+NOTE: recipe nettle-3.8.1-r0: task do_fetch: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_fetch: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_fetch: Succeeded
+NOTE: recipe libidn2-2.3.4-r0: task do_fetch: Started
+NOTE: Running task 1252 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_unpack)
+NOTE: Running task 1253 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_unpack)
+NOTE: Running task 1254 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1255 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_unpack)
+NOTE: recipe curl-8.0.1-r0: task do_fetch: Started
+NOTE: Running task 1256 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libidn2-2.3.4-r0: task do_fetch: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_fetch: Started
+NOTE: Running task 1257 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gnutls-3.8.0-r0: task do_fetch: Started
+NOTE: Running task 1258 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_unpack)
+NOTE: recipe curl-8.0.1-r0: task do_fetch: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1296 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_unpack)
+NOTE: Running task 1306 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_unpack)
+NOTE: recipe gnutls-3.8.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1327 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_unpack)
+NOTE: recipe file-5.44-r0: task do_fetch: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_fetch: Started
+NOTE: recipe popt-1.19-r0: task do_fetch: Started
+NOTE: recipe lua-5.4.4-r0: task do_fetch: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_fetch: Started
+NOTE: recipe elfutils-0.188-r0: task do_fetch: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_fetch: Succeeded
+NOTE: Running task 1426 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_unpack)
+NOTE: recipe libarchive-3.6.2-r0: task do_fetch: Succeeded
+NOTE: recipe popt-1.19-r0: task do_fetch: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_unpack: Started
+NOTE: recipe libunistring-1.1-r0: task do_unpack: Started
+NOTE: recipe lua-5.4.4-r0: task do_fetch: Succeeded
+NOTE: Running task 1450 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_fetch)
+NOTE: Running task 1460 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_unpack)
+NOTE: recipe libgpg-error-1.46-r0: task do_unpack: Started
+NOTE: Running task 1461 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_unpack)
+NOTE: Running task 1462 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libgpg-error-1.46-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1463 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_unpack)
+NOTE: Running task 1464 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_prepare_recipe_sysroot)
+NOTE: recipe elfutils-0.188-r0: task do_fetch: Succeeded
+NOTE: Running task 1465 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe nettle-3.8.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libunistring-1.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_unpack: Started
+NOTE: Running task 1466 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_unpack)
+NOTE: Running task 1470 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_fetch)
+NOTE: recipe file-5.44-r0: task do_fetch: Succeeded
+NOTE: Running task 1509 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_unpack)
+NOTE: Running task 1510 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_unpack: Started
+NOTE: recipe curl-8.0.1-r0: task do_unpack: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_unpack: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_unpack: Started
+NOTE: Running task 1637 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_package_write_rpm)
+NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_unpack: Started
+NOTE: recipe popt-1.19-r0: task do_unpack: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe lua-5.4.4-r0: task do_unpack: Started
+NOTE: recipe popt-1.19-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_fetch: Started
+NOTE: recipe nettle-3.8.1-r0: task do_unpack: Succeeded
+NOTE: recipe file-5.44-r0: task do_unpack: Started
+NOTE: Running task 1639 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_patch)
+NOTE: recipe elfutils-0.188-r0: task do_unpack: Started
+NOTE: recipe popt-1.19-r0: task do_unpack: Succeeded
+NOTE: recipe file-5.44-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1640 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_patch)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_unpack: Succeeded
+NOTE: recipe libidn2-2.3.4-r0: task do_unpack: Succeeded
+NOTE: Running task 1641 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_patch)
+NOTE: Running task 1642 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_patch)
+NOTE: recipe lua-5.4.4-r0: task do_unpack: Succeeded
+NOTE: recipe createrepo-c-0.21.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1643 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_unpack)
+NOTE: Running task 1644 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_patch)
+NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1645 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_unpack)
+NOTE: recipe libunistring-1.1-r0: task do_unpack: Succeeded
+NOTE: recipe libxml2-2.10.3-r0: task do_package_setscene: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_unpack: Succeeded
+NOTE: Running task 1646 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_patch)
+NOTE: Running task 1647 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_patch)
+NOTE: recipe nettle-3.8.1-r0: task do_patch: Started
+NOTE: recipe popt-1.19-r0: task do_patch: Started
+NOTE: recipe bash-completion-2.11-r0: task do_package_write_rpm: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_patch: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1648 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_patch)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_unpack: Started
+NOTE: recipe lua-5.4.4-r0: task do_patch: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_patch: Started
+NOTE: recipe libunistring-1.1-r0: task do_patch: Started
+NOTE: recipe nettle-3.8.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_patch: Started
+NOTE: recipe libunistring-1.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_patch: Succeeded
+NOTE: Running task 1649 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_patch: Succeeded
+NOTE: Running task 1650 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_deploy_source_date_epoch)
+NOTE: recipe libarchive-3.6.2-r0: task do_patch: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_patch: Succeeded
+NOTE: Running task 1651 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe libunistring-1.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe popt-1.19-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe curl-8.0.1-r0: task do_unpack: Succeeded
+NOTE: recipe popt-1.19-r0: task do_patch: Succeeded
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1652 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_patch)
+NOTE: Running task 1653 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_deploy_source_date_epoch)
+NOTE: recipe libarchive-3.6.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libarchive-3.6.2-r0: task do_patch: Succeeded
+NOTE: Running task 1654 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe file-5.44-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_patch: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_patch: Succeeded
+NOTE: Running task 1655 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe libidn2-2.3.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1656 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe libgpg-error-1.46-r0: task do_patch: Succeeded
+NOTE: Running task 1657 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_deploy_source_date_epoch)
+NOTE: recipe file-5.44-r0: task do_unpack: Succeeded
+NOTE: Running task 1658 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_patch)
+NOTE: recipe popt-1.19-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe curl-8.0.1-r0: task do_patch: Started
+NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe nettle-3.8.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe curl-8.0.1-r0: task do_patch: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1659 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1660 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_configure)
+NOTE: recipe file-5.44-r0: task do_patch: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1661 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_patch)
+NOTE: recipe libidn2-2.3.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe file-5.44-r0: task do_patch: Succeeded
+NOTE: recipe createrepo-c-0.21.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1662 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1663 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_patch)
+NOTE: recipe curl-8.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libunistring-1.1-r0: task do_configure: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe popt-1.19-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1664 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_configure)
+NOTE: Running task 1665 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_configure)
+NOTE: Running task 1666 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_patch: Started
+NOTE: recipe nettle-3.8.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1667 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_configure)
+NOTE: recipe libgpg-error-1.46-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1668 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_configure)
+NOTE: recipe file-5.44-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_patch: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1669 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_patch)
+NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1670 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_patch)
+NOTE: recipe libarchive-3.6.2-r0: task do_configure: Started
+NOTE: recipe lua-5.4.4-r0: task do_configure: Started
+NOTE: recipe popt-1.19-r0: task do_configure: Started
+NOTE: recipe nettle-3.8.1-r0: task do_configure: Started
+NOTE: recipe curl-8.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_configure: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_patch: Started
+NOTE: recipe lua-5.4.4-r0: task do_configure: Succeeded
+NOTE: Running task 1671 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure_ptest_base)
+NOTE: recipe file-5.44-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe createrepo-c-0.21.1-r0: task do_patch: Succeeded
+NOTE: Running task 1672 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_configure)
+NOTE: Running task 1673 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1674 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_generate_toolchain_file)
+NOTE: Running task 1675 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_lic)
+NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe file-5.44-r0: task do_configure: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_lic: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_patch: Succeeded
+NOTE: recipe elfutils-0.188-r0: task do_unpack: Succeeded
+NOTE: Running task 1676 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1677 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_patch)
+NOTE: recipe gnutls-3.8.0-r0: task do_patch: Succeeded
+NOTE: Running task 1678 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1679 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_lic: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe elfutils-0.188-r0: task do_patch: Started
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_lic unihash changed to 41fdd12f168f2f36edfe64572f3dd0291d1760e55284963136ed98eb0e466592
+NOTE: recipe gnutls-3.8.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe lua-5.4.4-r0: task do_compile: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gnutls-3.8.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Succeeded
+NOTE: Running task 1680 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe elfutils-0.188-r0: task do_patch: Succeeded
+NOTE: Running task 1681 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_deploy_source_date_epoch)
+NOTE: recipe elfutils-0.188-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe elfutils-0.188-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_compile: Succeeded
+NOTE: recipe libxml2-2.10.3-r0: task do_package_setscene: Succeeded
+NOTE: Running task 1682 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile_ptest_base)
 NOTE: Setscene tasks completed
-NOTE: Running task 2305 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_packagedata)
-NOTE: recipe libtool-2.4.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe ofono-2.0-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_packagedata: Started
-NOTE: recipe libtool-2.4.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2306 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_configure)
-NOTE: recipe libtool-2.4.7-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_packagedata: Succeeded
-NOTE: recipe taglib-1.13-r0: task do_configure: Succeeded
-NOTE: Running task 2307 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_compile)
-NOTE: recipe taglib-1.13-r0: task do_compile: Started
-NOTE: recipe taglib-1.13-r0: task do_compile: Succeeded
-NOTE: Running task 2308 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_install)
-NOTE: recipe taglib-1.13-r0: task do_install: Started
-NOTE: recipe taglib-1.13-r0: task do_install: Succeeded
-NOTE: Running task 2309 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_populate_sysroot)
-NOTE: Running task 2310 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_package)
-NOTE: recipe taglib-1.13-r0: task do_package: Started
-NOTE: recipe taglib-1.13-r0: task do_populate_sysroot: Started
-NOTE: recipe taglib-1.13-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_configure: Succeeded
-NOTE: Running task 2311 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_compile)
-NOTE: recipe nghttp2-1.52.0-r0: task do_compile: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_configure: Succeeded
-NOTE: recipe taglib-1.13-r0: task do_package: Succeeded
-NOTE: Running task 2312 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_compile)
-NOTE: Running task 2313 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_packagedata)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_compile: Started
-NOTE: recipe taglib-1.13-r0: task do_packagedata: Started
-NOTE: recipe taglib-1.13-r0: task do_packagedata: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_compile: Succeeded
-NOTE: Running task 2314 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_install)
-NOTE: recipe nghttp2-1.52.0-r0: task do_install: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_compile: Succeeded
-NOTE: Running task 2315 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_install)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_install: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_install: Succeeded
-NOTE: Running task 2316 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_populate_sysroot)
-NOTE: Running task 2317 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_package)
-NOTE: recipe nghttp2-1.52.0-r0: task do_populate_sysroot: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_package: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_install: Succeeded
-NOTE: Running task 2318 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_populate_sysroot)
-NOTE: Running task 2319 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_package)
-NOTE: recipe nghttp2-1.52.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_populate_sysroot: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_package: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_configure: Succeeded
-NOTE: Running task 2320 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_compile)
-NOTE: recipe libdaemon-0.14-r0: task do_compile: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_package: Succeeded
-NOTE: Running task 2321 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_packagedata)
-NOTE: recipe nghttp2-1.52.0-r0: task do_packagedata: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_configure: Succeeded
-NOTE: Running task 2322 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_compile)
-NOTE: recipe lame-3.100-r0: task do_configure: Succeeded
-NOTE: Running task 2323 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_compile)
-NOTE: recipe nghttp2-1.52.0-r0: task do_packagedata: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_configure: Succeeded
-NOTE: recipe speexdsp-1.2.1-r0: task do_compile: Started
-NOTE: Running task 2324 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_compile)
-NOTE: recipe lame-3.100-r0: task do_compile: Started
-NOTE: recipe libtool-2.4.7-r0: task do_compile: Started
-NOTE: recipe libdaemon-0.14-r0: task do_compile: Succeeded
-NOTE: Running task 2325 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_install)
-NOTE: recipe libdaemon-0.14-r0: task do_install: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_package: Succeeded
-NOTE: Running task 2326 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_packagedata)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_packagedata: Started
-NOTE: recipe libdaemon-0.14-r0: task do_install: Succeeded
-NOTE: Running task 2327 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_populate_sysroot)
-NOTE: Running task 2328 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_package)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_packagedata: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_populate_sysroot: Started
-NOTE: recipe libdaemon-0.14-r0: task do_package: Started
-NOTE: recipe libdaemon-0.14-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2329 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe speexdsp-1.2.1-r0: task do_compile: Succeeded
-NOTE: Running task 2330 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_install)
-NOTE: recipe avahi-0.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_install: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_install: Succeeded
-NOTE: Running task 2331 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_populate_sysroot)
-NOTE: Running task 2332 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_package)
-NOTE: recipe speexdsp-1.2.1-r0: task do_populate_sysroot: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_package: Started
-NOTE: recipe libdaemon-0.14-r0: task do_package: Succeeded
-NOTE: Running task 2333 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_packagedata)
-NOTE: recipe avahi-0.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe speexdsp-1.2.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2334 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_configure)
-NOTE: Running task 2335 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libdaemon-0.14-r0: task do_packagedata: Started
-NOTE: recipe speex-1.2.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe avahi-0.8-r0: task do_configure: Started
-NOTE: recipe libdaemon-0.14-r0: task do_packagedata: Succeeded
-NOTE: recipe speex-1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2336 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_configure)
-NOTE: recipe speex-1.2.1-r0: task do_configure: Started
-NOTE: recipe ofono-2.0-r0: task do_configure: Succeeded
-NOTE: Running task 2337 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_compile)
-NOTE: recipe ofono-2.0-r0: task do_compile: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_package: Succeeded
-NOTE: Running task 2338 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_packagedata)
-NOTE: recipe speexdsp-1.2.1-r0: task do_packagedata: Started
-NOTE: recipe lame-3.100-r0: task do_compile: Succeeded
-NOTE: Running task 2339 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_install)
-NOTE: recipe lame-3.100-r0: task do_install: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_packagedata: Succeeded
-NOTE: recipe lame-3.100-r0: task do_install: Succeeded
-NOTE: Running task 2340 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_populate_sysroot)
-NOTE: Running task 2341 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_package)
-NOTE: recipe lame-3.100-r0: task do_populate_sysroot: Started
-NOTE: recipe lame-3.100-r0: task do_package: Started
-NOTE: recipe libtool-2.4.7-r0: task do_compile: Succeeded
-NOTE: Running task 2342 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_install)
-NOTE: recipe libtool-2.4.7-r0: task do_install: Started
-NOTE: recipe lame-3.100-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_configure: Succeeded
-NOTE: Running task 2343 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_compile)
-NOTE: recipe libpsl-0.21.2-r0: task do_compile: Started
-NOTE: recipe ofono-2.0-r0: task do_compile: Succeeded
-NOTE: Running task 2344 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_install)
-NOTE: recipe ofono-2.0-r0: task do_install: Started
-NOTE: recipe libtool-2.4.7-r0: task do_install: Succeeded
-NOTE: Running task 2345 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_populate_sysroot)
-NOTE: Running task 2346 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_package)
-NOTE: recipe libtool-2.4.7-r0: task do_populate_sysroot: Started
-NOTE: recipe libtool-2.4.7-r0: task do_package: Started
-NOTE: recipe ofono-2.0-r0: task do_install: Succeeded
-NOTE: Running task 2347 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_populate_sysroot)
-NOTE: Running task 2348 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_package)
-NOTE: recipe libtool-2.4.7-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_populate_sysroot: Started
-NOTE: recipe ofono-2.0-r0: task do_package: Started
-NOTE: recipe lame-3.100-r0: task do_package: Succeeded
-NOTE: Running task 2349 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_packagedata)
-NOTE: recipe lame-3.100-r0: task do_packagedata: Started
-NOTE: recipe lame-3.100-r0: task do_packagedata: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_package: Succeeded
-NOTE: Running task 2350 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_packagedata)
-NOTE: recipe libtool-2.4.7-r0: task do_packagedata: Started
-NOTE: recipe libtool-2.4.7-r0: task do_packagedata: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_compile: Succeeded
-NOTE: Running task 2351 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_install)
-NOTE: recipe libpsl-0.21.2-r0: task do_install: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_install: Succeeded
-NOTE: Running task 2352 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_populate_sysroot)
-NOTE: Running task 2353 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_package)
-NOTE: recipe libpsl-0.21.2-r0: task do_populate_sysroot: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_package: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2354 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe ofono-2.0-r0: task do_package: Succeeded
-NOTE: recipe libsoup-3.4.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2355 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_packagedata)
-NOTE: recipe ofono-2.0-r0: task do_packagedata: Started
-NOTE: recipe ofono-2.0-r0: task do_packagedata: Failed
-NOTE: recipe libsoup-3.4.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_package: Succeeded
-NOTE: recipe speex-1.2.1-r0: task do_configure: Succeeded
-NOTE: recipe avahi-0.8-r0: task do_configure: Succeeded
-NOTE: Tasks Summary: Attempted 2355 tasks of which 2221 didn't need to be rerun and 1 failed.
+NOTE: Running task 1720 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_packagedata)
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Started
+NOTE: recipe libxml2-2.10.3-r0: task do_packagedata: Started
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1723 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install)
+NOTE: recipe lua-5.4.4-r0: task do_install: Started
+NOTE: recipe libxml2-2.10.3-r0: task do_packagedata: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_install: Succeeded
+NOTE: Running task 1732 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install_ptest_base)
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Started
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1733 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_populate_sysroot)
+NOTE: Running task 1734 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_package)
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Started
+NOTE: recipe lua-5.4.4-r0: task do_package: Started
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_configure: Succeeded
+NOTE: Running task 1735 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_configure_ptest_base)
+NOTE: recipe nettle-3.8.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe nettle-3.8.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1736 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_compile)
+NOTE: recipe nettle-3.8.1-r0: task do_compile: Started
+NOTE: recipe lua-5.4.4-r0: task do_package: Succeeded
+NOTE: Running task 1737 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_packagedata)
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Started
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Succeeded
+NOTE: recipe popt-1.19-r0: task do_configure: Succeeded
+NOTE: Running task 1738 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_configure_ptest_base)
+NOTE: recipe popt-1.19-r0: task do_configure_ptest_base: Started
+NOTE: recipe popt-1.19-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1739 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_compile)
+NOTE: recipe popt-1.19-r0: task do_compile: Started
+NOTE: recipe popt-1.19-r0: task do_compile: Succeeded
+NOTE: Running task 1740 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_compile_ptest_base)
+NOTE: recipe popt-1.19-r0: task do_compile_ptest_base: Started
+NOTE: recipe popt-1.19-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1741 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_install)
+NOTE: recipe popt-1.19-r0: task do_install: Started
+NOTE: recipe popt-1.19-r0: task do_install: Succeeded
+NOTE: Running task 1742 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_install_ptest_base)
+NOTE: recipe popt-1.19-r0: task do_install_ptest_base: Started
+NOTE: recipe popt-1.19-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1743 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_populate_sysroot)
+NOTE: Running task 1744 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_package)
+NOTE: recipe popt-1.19-r0: task do_populate_sysroot: Started
+NOTE: recipe popt-1.19-r0: task do_package: Started
+NOTE: recipe file-5.44-r0: task do_configure: Succeeded
+NOTE: Running task 1745 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_compile)
+NOTE: recipe file-5.44-r0: task do_compile: Started
+NOTE: recipe popt-1.19-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_compile: Succeeded
+NOTE: Running task 1746 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_compile_ptest_base)
+NOTE: recipe nettle-3.8.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_configure: Succeeded
+NOTE: Running task 1747 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_configure_ptest_base)
+NOTE: recipe libgpg-error-1.46-r0: task do_configure_ptest_base: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1748 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_compile)
+NOTE: recipe libgpg-error-1.46-r0: task do_compile: Started
+NOTE: recipe nettle-3.8.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1749 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_install)
+NOTE: recipe nettle-3.8.1-r0: task do_install: Started
+NOTE: recipe file-5.44-r0: task do_compile: Succeeded
+NOTE: Running task 1750 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_install)
+NOTE: recipe file-5.44-r0: task do_install: Started
+NOTE: recipe nettle-3.8.1-r0: task do_install: Succeeded
+NOTE: recipe file-5.44-r0: task do_install: Succeeded
+NOTE: Running task 1751 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_install_ptest_base)
+NOTE: Running task 1752 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_populate_sysroot)
+NOTE: Running task 1753 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_package)
+NOTE: recipe file-5.44-r0: task do_populate_sysroot: Started
+NOTE: recipe nettle-3.8.1-r0: task do_install_ptest_base: Started
+NOTE: recipe file-5.44-r0: task do_package: Started
+NOTE: recipe popt-1.19-r0: task do_package: Succeeded
+NOTE: Running task 1754 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_packagedata)
+NOTE: recipe popt-1.19-r0: task do_packagedata: Started
+NOTE: recipe nettle-3.8.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1755 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_populate_sysroot)
+NOTE: Running task 1756 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_package)
+NOTE: recipe nettle-3.8.1-r0: task do_populate_sysroot: Started
+NOTE: recipe nettle-3.8.1-r0: task do_package: Started
+NOTE: recipe file-5.44-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe popt-1.19-r0: task do_packagedata: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe file-5.44-r0: task do_package: Succeeded
+NOTE: Running task 1757 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_packagedata)
+NOTE: recipe file-5.44-r0: task do_packagedata: Started
+NOTE: recipe file-5.44-r0: task do_packagedata: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_compile: Succeeded
+NOTE: Running task 1758 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_compile_ptest_base)
+NOTE: recipe libgpg-error-1.46-r0: task do_compile_ptest_base: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1759 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_install)
+NOTE: recipe libgpg-error-1.46-r0: task do_install: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_install: Succeeded
+NOTE: Running task 1760 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_install_ptest_base)
+NOTE: recipe libgpg-error-1.46-r0: task do_install_ptest_base: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1761 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_populate_sysroot)
+NOTE: Running task 1762 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_package)
+NOTE: recipe libgpg-error-1.46-r0: task do_populate_sysroot: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_package: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1763 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1764 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_configure)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_configure: Started
+NOTE: recipe nettle-3.8.1-r0: task do_package: Succeeded
+NOTE: Running task 1765 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_packagedata)
+NOTE: recipe nettle-3.8.1-r0: task do_packagedata: Started
+NOTE: recipe nettle-3.8.1-r0: task do_packagedata: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_package: Succeeded
+NOTE: Running task 1766 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_packagedata)
+NOTE: recipe libgpg-error-1.46-r0: task do_packagedata: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_packagedata: Succeeded
+NOTE: recipe libarchive-3.6.2-r0: task do_configure: Succeeded
+NOTE: Running task 1767 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_compile)
+NOTE: recipe libarchive-3.6.2-r0: task do_compile: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_compile: Succeeded
+NOTE: Running task 1768 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_install)
+NOTE: recipe libarchive-3.6.2-r0: task do_install: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_install: Succeeded
+NOTE: Running task 1769 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_populate_sysroot)
+NOTE: Running task 1770 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_package)
+NOTE: recipe libarchive-3.6.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_package: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libarchive-3.6.2-r0: task do_package: Succeeded
+NOTE: Running task 1771 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_packagedata)
+NOTE: recipe libarchive-3.6.2-r0: task do_packagedata: Started
+NOTE: recipe libunistring-1.1-r0: task do_configure: Succeeded
+NOTE: Running task 1772 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_compile)
+NOTE: recipe libunistring-1.1-r0: task do_compile: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_packagedata: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_configure: Succeeded
+NOTE: Running task 1773 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_configure_ptest_base)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1774 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_compile)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_compile: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_compile: Succeeded
+NOTE: Running task 1775 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_compile_ptest_base)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1776 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_install)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_install: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_install: Succeeded
+NOTE: Running task 1777 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_install_ptest_base)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_install_ptest_base: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1778 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_populate_sysroot)
+NOTE: Running task 1779 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_package)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_package: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_package: Succeeded
+NOTE: Running task 1780 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_packagedata)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_packagedata: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_packagedata: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_compile: Succeeded
+NOTE: Running task 1781 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_install)
+NOTE: recipe libunistring-1.1-r0: task do_install: Started
+NOTE: recipe libunistring-1.1-r0: task do_install: Succeeded
+NOTE: Running task 1782 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_populate_sysroot)
+NOTE: Running task 1783 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_package)
+NOTE: recipe libunistring-1.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libunistring-1.1-r0: task do_package: Started
+NOTE: recipe libunistring-1.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1784 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libidn2-2.3.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1785 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_configure)
+NOTE: recipe libidn2-2.3.4-r0: task do_configure: Started
+NOTE: recipe libunistring-1.1-r0: task do_package: Succeeded
+NOTE: Running task 1786 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_packagedata)
+NOTE: recipe libunistring-1.1-r0: task do_packagedata: Started
+NOTE: recipe libunistring-1.1-r0: task do_packagedata: Succeeded
+NOTE: recipe libidn2-2.3.4-r0: task do_configure: Succeeded
+NOTE: Running task 1787 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_compile)
+NOTE: recipe libidn2-2.3.4-r0: task do_compile: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_compile: Succeeded
+NOTE: Running task 1788 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_install)
+NOTE: recipe libidn2-2.3.4-r0: task do_install: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_install: Succeeded
+NOTE: Running task 1789 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_populate_sysroot)
+NOTE: Running task 1790 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_package)
+NOTE: recipe libidn2-2.3.4-r0: task do_populate_sysroot: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_package: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1791 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1792 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe curl-8.0.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe curl-8.0.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1793 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_configure)
+NOTE: recipe curl-8.0.1-r0: task do_configure: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1794 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_configure)
+NOTE: recipe gnutls-3.8.0-r0: task do_configure: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_package: Succeeded
+NOTE: Running task 1795 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_packagedata)
+NOTE: recipe libidn2-2.3.4-r0: task do_packagedata: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_packagedata: Succeeded
+NOTE: recipe curl-8.0.1-r0: task do_configure: Succeeded
+NOTE: Running task 1796 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_configure_ptest_base)
+NOTE: recipe curl-8.0.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe curl-8.0.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1797 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_compile)
+NOTE: recipe curl-8.0.1-r0: task do_compile: Started
+NOTE: recipe curl-8.0.1-r0: task do_compile: Succeeded
+NOTE: Running task 1798 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_compile_ptest_base)
+NOTE: recipe curl-8.0.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe curl-8.0.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1799 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_install)
+NOTE: recipe curl-8.0.1-r0: task do_install: Started
+NOTE: recipe curl-8.0.1-r0: task do_install: Succeeded
+NOTE: Running task 1800 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_install_ptest_base)
+NOTE: recipe curl-8.0.1-r0: task do_install_ptest_base: Started
+NOTE: recipe curl-8.0.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1801 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_populate_sysroot)
+NOTE: Running task 1802 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_package)
+NOTE: recipe curl-8.0.1-r0: task do_populate_sysroot: Started
+NOTE: recipe curl-8.0.1-r0: task do_package: Started
+NOTE: recipe curl-8.0.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe curl-8.0.1-r0: task do_package: Succeeded
+NOTE: Running task 1803 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_packagedata)
+NOTE: recipe curl-8.0.1-r0: task do_packagedata: Started
+NOTE: recipe curl-8.0.1-r0: task do_packagedata: Succeeded
+NOTE: recipe gnutls-3.8.0-r0: task do_configure: Succeeded
+NOTE: Running task 1804 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_configure_ptest_base)
+NOTE: recipe gnutls-3.8.0-r0: task do_configure_ptest_base: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1805 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_compile)
+NOTE: recipe gnutls-3.8.0-r0: task do_compile: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_compile: Succeeded
+NOTE: Running task 1806 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_compile_ptest_base)
+NOTE: recipe gnutls-3.8.0-r0: task do_compile_ptest_base: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1807 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_install)
+NOTE: recipe gnutls-3.8.0-r0: task do_install: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_install: Succeeded
+NOTE: Running task 1808 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_install_ptest_base)
+NOTE: recipe gnutls-3.8.0-r0: task do_install_ptest_base: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1809 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_populate_sysroot)
+NOTE: Running task 1810 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_package)
+NOTE: recipe gnutls-3.8.0-r0: task do_populate_sysroot: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_package: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1811 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1812 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_configure)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_configure: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_package: Succeeded
+NOTE: Running task 1813 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_packagedata)
+NOTE: recipe gnutls-3.8.0-r0: task do_packagedata: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_packagedata: Succeeded
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_configure: Succeeded
+NOTE: Running task 1814 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_compile)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_compile: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_compile: Succeeded
+NOTE: Running task 1815 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_install)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_install: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_install: Succeeded
+NOTE: Running task 1816 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_populate_sysroot)
+NOTE: Running task 1817 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_package)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_populate_sysroot: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_package: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1818 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_prepare_recipe_sysroot)
+NOTE: recipe elfutils-0.188-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe elfutils-0.188-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1819 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_configure)
+NOTE: recipe elfutils-0.188-r0: task do_configure: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_package: Succeeded
+NOTE: Running task 1820 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_packagedata)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_packagedata: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_packagedata: Succeeded
+NOTE: recipe elfutils-0.188-r0: task do_configure: Succeeded
+NOTE: Running task 1821 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_configure_ptest_base)
+NOTE: recipe elfutils-0.188-r0: task do_configure_ptest_base: Started
+NOTE: recipe elfutils-0.188-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1822 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_compile)
+NOTE: recipe elfutils-0.188-r0: task do_compile: Started
+NOTE: recipe elfutils-0.188-r0: task do_compile: Succeeded
+NOTE: Running task 1823 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_compile_ptest_base)
+NOTE: recipe elfutils-0.188-r0: task do_compile_ptest_base: Started
+NOTE: recipe elfutils-0.188-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1824 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_install)
+NOTE: recipe elfutils-0.188-r0: task do_install: Started
+NOTE: recipe elfutils-0.188-r0: task do_install: Succeeded
+NOTE: Running task 1825 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_install_ptest_base)
+NOTE: recipe elfutils-0.188-r0: task do_install_ptest_base: Started
+NOTE: recipe elfutils-0.188-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1826 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_populate_sysroot)
+NOTE: Running task 1827 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_package)
+NOTE: recipe elfutils-0.188-r0: task do_populate_sysroot: Started
+NOTE: recipe elfutils-0.188-r0: task do_package: Started
+NOTE: recipe elfutils-0.188-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1828 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1829 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_configure)
+NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Started
+NOTE: recipe elfutils-0.188-r0: task do_package: Succeeded
+NOTE: Running task 1830 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_packagedata)
+NOTE: recipe elfutils-0.188-r0: task do_packagedata: Started
+NOTE: recipe elfutils-0.188-r0: task do_packagedata: Succeeded
+NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Succeeded
+NOTE: Running task 1831 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_compile)
+NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Succeeded
+NOTE: Running task 1832 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_install)
+NOTE: recipe rpm-1_4.18.0-r0: task do_install: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_install: Succeeded
+NOTE: Running task 1833 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_populate_sysroot)
+NOTE: Running task 1834 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_package)
+NOTE: recipe rpm-1_4.18.0-r0: task do_populate_sysroot: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_package: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1835 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1836 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_configure)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_configure: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_configure: Succeeded
+NOTE: Running task 1837 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_compile)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_compile: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_compile: Succeeded
+NOTE: Running task 1838 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_install)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_install: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_install: Succeeded
+NOTE: Running task 1839 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_sysroot)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_sysroot: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe rpm-1_4.18.0-r0: task do_package: Succeeded
+NOTE: Running task 1840 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_packagedata)
+NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1841 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package: Succeeded
+NOTE: Running task 1842 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_packagedata)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_packagedata: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 1843 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package_write_rpm)
+NOTE: Running task 1844 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package_qa)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package_write_rpm: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package_qa: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package_qa: Succeeded
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1845 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_build)
+NOTE: Tasks Summary: Attempted 1845 tasks of which 1649 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_packagedata
-Summary: There were 113 ERROR messages, returning a non-zero exit code.
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-src went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-dbg went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-staticdev went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-dev went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-doc went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-apps went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-meta went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-glib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstallocators-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstapp-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstaudio-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstfft-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstgl-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstpbutils-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstriff-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstrtp-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstrtsp-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstsdp-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgsttag-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstvideo-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-adder went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-alsa went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-app went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audioconvert went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audiomixer went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audiorate went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audioresample went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audiotestsrc went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-compositor went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-encoding went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-gio went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-ogg went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-opengl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-overlaycomposition went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-pango went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-pbtypes went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-playback went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-rawparse went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-subparse went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-tcp went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-theora went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-typefindfunctions went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-videoconvertscale went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-videorate went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-videotestsrc went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-volume went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-vorbis went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-ximagesink went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-xvimagesink went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-allocators-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-app-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audio-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-gl-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-glegl-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-glwayland-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-glx11-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-pbutils-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-rtp-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-rtsp-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-sdp-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-tag-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-video-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-af went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-az went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-bg went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ca went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-cs went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-da went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-de went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-el went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-en-gb went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-eo went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-es went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-eu went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-fi went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-fr went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-fur went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-gl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-hr went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-hu went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-id went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-it went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ja went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ka went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-lt went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-lv went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-nb went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-nl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-or went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-pl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-pt-br went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ro went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ru went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sk went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sq went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sr went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sv went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-tr went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-uk went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-vi went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-zh-cn went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-src went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-dbg went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-tests went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-staticdev went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-dev went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-doc went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-locale went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/ofono/2.0-r0/temp/log.do_packagedata.2683540
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_packagedata) failed with exit code '1'
+Summary: There were 11 ERROR messages, returning a non-zero exit code.
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-src went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-dbg went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-ptest went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-staticdev went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-dev went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-doc went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-locale went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-utils went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2 went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-python went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
 
---===============4458964067092060066==
+--===============4667251149192416894==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fur: PKGSIZE changed from 10887 to 14036 (+29%)
+packages/core2-32-poky-linux/createrepo-c/createrepo-c: FILELIST: removed "/usr/lib/libcreaterepo_c.so.0.20.1", added "/usr/lib/libcreaterepo_c.so.0.21.1"
+Changes to packages/core2-32-poky-linux/createrepo-c (sysroot):
+  /usr/lib/libcreaterepo_c.so.0 changed symlink target from libcreaterepo_c.so.0.20.1 to libcreaterepo_c.so.0.21.1
+  /usr/lib/libcreaterepo_c.so.0.20.1 moved to /usr/lib/libcreaterepo_c.so.0.21.1
 
---===============4458964067092060066==
+--===============4667251149192416894==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -1509,8 +1422,8 @@ Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 899 .bb files complete (0 cached, 899 parsed). 1799 targets, 51 skipped, 0 masked, 0 errors.
-Removing 116 recipes from the core2-32 sysroot...done.
-Removing 115 recipes from the qemux86 sysroot...done.
+Removing 71 recipes from the core2-32 sysroot...done.
+Removing 76 recipes from the qemux86 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -1525,1109 +1438,1099 @@ TUNE_FEATURES        = "m32 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:088f7a42c0e8459daf9854475faf7902315bdfff"
+meta-yocto-bsp       = "tmp-auh-upgrades:7896474770f9317fc2f0d6383208a5ba333711f9"
 workspace            = "master:ff633ce7a7ffc0d39b86043caeb63a9ffcef99b8"
 
 Initialising tasks...done.
-Sstate summary: Wanted 467 Local 408 Mirrors 0 Missed 59 Current 214 (87% match, 91% complete)
+Sstate summary: Wanted 258 Local 174 Mirrors 0 Missed 84 Current 164 (67% match, 80% complete)
 Removing 2 stale sstate objects for arch x86_64...done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 215 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 217 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 222 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb:do_packagedata_setscene)
-NOTE: Running setscene task 223 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libgudev/libgudev_237.bb:do_packagedata_setscene)
-NOTE: Running setscene task 224 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 227 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 228 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libgudev/libgudev_237.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 229 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 165 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 171 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 172 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 173 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 176 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 177 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 178 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 180 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 205 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
 NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Started
 NOTE: recipe base-passwd-3.6.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgudev-237-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgudev-237-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdk-pixbuf-2.42.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdk-pixbuf-2.42.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libgudev-237-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-passwd-3.6.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 275 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bluez5/bluez5_5.66.bb:do_packagedata_setscene)
-NOTE: Running setscene task 276 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 277 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.56.bb:do_packagedata_setscene)
-NOTE: Running setscene task 280 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 285 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bluez5/bluez5_5.66.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 286 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 288 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.56.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 291 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 293 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 294 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 299 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_packagedata_setscene)
-NOTE: Running setscene task 300 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 301 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.68.bb:do_packagedata_setscene)
-NOTE: Running setscene task 302 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.68.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgudev-237-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 934 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_fetch)
-NOTE: Running task 937 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_fetch)
-NOTE: Running task 950 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_fetch)
-NOTE: Running task 951 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_fetch)
-NOTE: Running task 952 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_fetch)
-NOTE: Running task 961 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_fetch)
-NOTE: Running task 962 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_fetch)
-NOTE: Running task 965 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_fetch)
-NOTE: Running task 968 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_fetch)
-NOTE: Running task 973 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/mpg123/mpg123_1.31.3.bb:do_fetch)
-NOTE: Running task 974 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_fetch)
-NOTE: Running task 975 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_fetch)
-NOTE: Running task 976 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_fetch)
-NOTE: Running task 984 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_write_config)
-NOTE: Running task 989 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_fetch)
-NOTE: Running task 1003 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_write_config)
-NOTE: Running task 1007 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_write_config)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe mobile-broadband-provider-info-1_20221107-r0: task do_packagedata_setscene: Started
-NOTE: recipe ell-0.56-r0: task do_packagedata_setscene: Started
-NOTE: recipe mobile-broadband-provider-info-1_20221107-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxtst-1_1.2.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe ell-0.56-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxtst-1_1.2.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sbc-2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_packagedata_setscene: Started
-NOTE: recipe sbc-2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-2.68-r0: task do_packagedata_setscene: Started
-NOTE: recipe bluez5-5.66-r0: task do_packagedata_setscene: Started
-NOTE: recipe bluez5-5.66-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-2.68-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libdaemon-0.14-r0: task do_fetch: Started
-NOTE: recipe libdaemon-0.14-r0: task do_fetch: Succeeded
-NOTE: recipe mpg123-1.31.3-r0: task do_fetch: Started
-NOTE: recipe ofono-2.0-r0: task do_fetch: Started
-NOTE: Running task 1009 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_unpack)
-NOTE: recipe speexdsp-1.2.1-r0: task do_fetch: Started
-NOTE: recipe avahi-0.8-r0: task do_fetch: Started
-NOTE: recipe taglib-1.13-r0: task do_fetch: Started
-NOTE: recipe mpg123-1.31.3-r0: task do_fetch: Succeeded
-NOTE: Running task 1010 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/mpg123/mpg123_1.31.3.bb:do_unpack)
-NOTE: recipe taglib-1.13-r0: task do_fetch: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_fetch: Started
-NOTE: recipe ofono-2.0-r0: task do_fetch: Succeeded
-NOTE: recipe avahi-0.8-r0: task do_fetch: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_fetch: Started
-NOTE: Running task 1011 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_unpack)
-NOTE: recipe speexdsp-1.2.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1012 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_unpack)
-NOTE: Running task 1013 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_unpack)
-NOTE: Running task 1014 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_unpack)
-NOTE: recipe libpsl-0.21.2-r0: task do_fetch: Started
-NOTE: recipe lame-3.100-r0: task do_fetch: Started
-NOTE: recipe speex-1.2.1-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_fetch: Started
-NOTE: recipe libsoup-3.4.0-r0: task do_write_config: Started
-NOTE: recipe mobile-broadband-provider-info-1_20221107-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libsoup-3.4.0-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_write_config: Started
-NOTE: recipe libxtst-1_1.2.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_fetch: Succeeded
-NOTE: recipe pulseaudio-16.1-r0: task do_fetch: Started
-NOTE: recipe speex-1.2.1-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 310 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.bb:do_packagedata_setscene)
-NOTE: Running task 1015 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_unpack)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_fetch: Succeeded
-NOTE: recipe lame-3.100-r0: task do_fetch: Succeeded
-NOTE: recipe pulseaudio-16.1-r0: task do_write_config: Started
-NOTE: Running task 1016 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_unpack)
-NOTE: recipe libsoup-3.4.0-r0: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_fetch: Succeeded
-NOTE: recipe libcap-2.68-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_fetch: Succeeded
-NOTE: recipe bluez5-5.66-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1017 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_unpack)
-NOTE: Running setscene task 313 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 315 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_packagedata_setscene)
-NOTE: Running task 1018 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_unpack)
-NOTE: recipe sbc-2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 317 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_packagedata_setscene)
-NOTE: Running task 1019 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_unpack)
-NOTE: recipe sbc-2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 1020 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_unpack)
-NOTE: recipe ell-0.56-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1021 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_unpack)
-NOTE: recipe pulseaudio-16.1-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 319 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 320 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe ell-0.56-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxtst-1_1.2.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe mpg123-1.31.3-r0: task do_unpack: Started
-NOTE: recipe mobile-broadband-provider-info-1_20221107-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_unpack: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_write_config: Succeeded
-NOTE: Running setscene task 324 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.bb:do_populate_sysroot_setscene)
-NOTE: recipe bluez5-5.66-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libsoup-3.4.0-r0: task do_write_config: Succeeded
-NOTE: recipe speexdsp-1.2.1-r0: task do_unpack: Started
-NOTE: Running setscene task 327 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe libcap-2.68-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 328 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 329 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_populate_sysroot_setscene)
-NOTE: recipe pulseaudio-16.1-r0: task do_write_config: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_unpack: Started
-NOTE: recipe taglib-1.13-r0: task do_unpack: Started
-NOTE: recipe libdaemon-0.14-r0: task do_unpack: Succeeded
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 1042 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_unpack)
-NOTE: recipe avahi-0.8-r0: task do_unpack: Started
-NOTE: Running task 1044 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_patch)
-NOTE: recipe libxi-1_1.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_unpack: Succeeded
-NOTE: recipe speex-1.2.1-r0: task do_unpack: Started
-NOTE: Running task 1052 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_patch)
-NOTE: recipe libpsl-0.21.2-r0: task do_unpack: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_unpack: Started
-NOTE: recipe lame-3.100-r0: task do_unpack: Started
-NOTE: recipe libical-3.0.16-r0: task do_packagedata_setscene: Started
-NOTE: recipe eudev-3.2.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtool-2.4.7-r0: task do_unpack: Started
-NOTE: recipe taglib-1.13-r0: task do_unpack: Succeeded
-NOTE: recipe libsoup-3.4.0-r0: task do_unpack: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_unpack: Started
-NOTE: Running task 1053 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_patch)
-NOTE: recipe dbus-1.14.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe speex-1.2.1-r0: task do_unpack: Succeeded
-NOTE: recipe libxi-1_1.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 1054 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_patch)
-NOTE: recipe libsndfile1-1.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libsndfile1-1.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libdaemon-0.14-r0: task do_patch: Started
-NOTE: recipe lame-3.100-r0: task do_unpack: Succeeded
-NOTE: Running task 1055 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_patch)
-NOTE: recipe speexdsp-1.2.1-r0: task do_patch: Started
-NOTE: recipe avahi-0.8-r0: task do_unpack: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe pulseaudio-16.1-r0: task do_unpack: Started
-NOTE: recipe eudev-3.2.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 1056 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_patch)
-NOTE: recipe dbus-1.14.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe mpg123-1.31.3-r0: task do_unpack: Succeeded
-NOTE: Running task 1057 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/mpg123/mpg123_1.31.3.bb:do_patch)
-NOTE: recipe taglib-1.13-r0: task do_patch: Started
-NOTE: recipe libxi-1_1.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe speex-1.2.1-r0: task do_patch: Started
-NOTE: recipe libical-3.0.16-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_unpack: Succeeded
-NOTE: Running setscene task 334 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.6.bb:do_packagedata_setscene)
-NOTE: recipe eudev-3.2.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1058 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_patch)
-NOTE: Running setscene task 336 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_30.bb:do_packagedata_setscene)
-NOTE: recipe libtool-2.4.7-r0: task do_unpack: Succeeded
-NOTE: recipe speexdsp-1.2.1-r0: task do_patch: Succeeded
-NOTE: Running task 1059 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_patch)
-NOTE: Running task 1060 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe lame-3.100-r0: task do_patch: Started
-NOTE: recipe dbus-1.14.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 338 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata_setscene)
-NOTE: Running setscene task 339 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 340 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 341 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_packagedata_setscene)
-NOTE: recipe libsndfile1-1.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe taglib-1.13-r0: task do_patch: Succeeded
-NOTE: Running setscene task 343 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.2.bb:do_packagedata_setscene)
-NOTE: recipe libsoup-3.4.0-r0: task do_unpack: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_patch: Succeeded
-NOTE: recipe libxi-1_1.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 1061 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_generate_toolchain_file)
-NOTE: Running task 1062 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_deploy_source_date_epoch)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/gstreamer1.0-plugins-base/1.22.0-r0/temp/log.do_packagedata_setscene.2690580
-NOTE: recipe nghttp2-1.52.0-r0: task do_unpack: Succeeded
-NOTE: recipe mpg123-1.31.3-r0: task do_patch: Started
-NOTE: recipe speex-1.2.1-r0: task do_patch: Succeeded
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 345 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_package_setscene)
-NOTE: recipe avahi-0.8-r0: task do_patch: Started
-NOTE: recipe vala-0.56.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe libsndfile1-1.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_patch: Started
-NOTE: recipe kmod-30-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata_setscene: Started
-NOTE: recipe gdk-pixbuf-2.42.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe speexdsp-1.2.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running setscene task 346 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe eudev-3.2.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtool-2.4.7-r0: task do_patch: Started
-NOTE: recipe initscripts-1.0-r155: task do_packagedata_setscene: Started
-NOTE: recipe taglib-1.13-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe taglib-1.13-r0: task do_generate_toolchain_file: Started
-NOTE: recipe mpg123-1.31.3-r0: task do_patch: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe flac-1.4.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe dbus-1.14.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe shadow-4.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_unpack: Succeeded
-NOTE: recipe lame-3.100-r0: task do_patch: Succeeded
-NOTE: Running setscene task 350 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot_setscene)
-NOTE: recipe taglib-1.13-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe pulseaudio-16.1-r0: task do_unpack: Succeeded
-NOTE: Running setscene task 352 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 353 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 354 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 355 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_30.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 358 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 359 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_unpack: Succeeded
-NOTE: recipe vala-0.56.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe kmod-30-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata_setscene: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_patch: Succeeded
-NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe initscripts-1.0-r155: task do_packagedata_setscene: Succeeded
-NOTE: recipe speexdsp-1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe flac-1.4.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe taglib-1.13-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1092 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_patch)
-NOTE: Running task 1093 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_patch)
-NOTE: Running task 1095 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1096 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1097 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_patch)
-NOTE: Running task 1098 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_patch)
-NOTE: Running task 1099 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_patch)
-NOTE: Running task 1100 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/mpg123/mpg123_1.31.3.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1101 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1102 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe avahi-0.8-r0: task do_patch: Succeeded
-NOTE: Running task 1103 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_deploy_source_date_epoch)
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot_setscene: Started
-NOTE: recipe initscripts-1.0-r155: task do_populate_sysroot_setscene: Started
-NOTE: recipe flac-1.4.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vala-0.56.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe shadow-4.13-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe kmod-30-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe shared-mime-info-2.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe shared-mime-info-2.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libdaemon-0.14-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_patch: Started
-NOTE: recipe ofono-2.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lame-3.100-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe mpg123-1.31.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_patch: Started
-NOTE: recipe libsoup-3.4.0-r0: task do_patch: Started
-NOTE: recipe speex-1.2.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_patch: Started
-NOTE: recipe libsoup-3.4.0-r0: task do_patch: Succeeded
-NOTE: Running task 1104 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe avahi-0.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe pulseaudio-16.1-r0: task do_patch: Started
-NOTE: recipe shadow-4.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 368 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
-NOTE: recipe initscripts-1.0-r155: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_patch: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_patch: Succeeded
-NOTE: Running task 1115 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1116 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_generate_toolchain_file)
-NOTE: Running task 1117 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe flac-1.4.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe shadow-4.13-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 373 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe kmod-30-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lame-3.100-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_patch: Succeeded
-NOTE: Running task 1140 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe speex-1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1141 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_populate_lic)
-NOTE: recipe mpg123-1.31.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe shared-mime-info-2.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_generate_toolchain_file: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libsoup-3.4.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vala-0.56.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe avahi-0.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_populate_lic: Started
-NOTE: recipe pulseaudio-16.1-r0: task do_patch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 1146 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_package_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_populate_lic unihash changed to ddbf6b27387096f3295bedeb481d38a4565eb81108b4e26a99ff9690ee17880c
-NOTE: recipe libsoup-3.4.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe shared-mime-info-2.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe pulseaudio-16.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe pulseaudio-16.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_patch: Succeeded
-NOTE: Running task 1156 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_deploy_source_date_epoch)
-NOTE: recipe libtool-2.4.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libtool-2.4.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 380 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.33.bb:do_packagedata_setscene)
-NOTE: Running setscene task 381 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.33.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 382 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 383 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 384 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.14.bb:do_packagedata_setscene)
-NOTE: Running setscene task 385 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.14.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 386 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_packagedata_setscene)
-NOTE: Running setscene task 387 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 388 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 389 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 391 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 392 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 393 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 394 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 395 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 396 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxv-1.0.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxv-1.0.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe alsa-lib-1.2.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe alsa-lib-1.2.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe orc-0.4.33-r0: task do_packagedata_setscene: Started
-NOTE: recipe orc-0.4.33-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_packagedata_setscene: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_populate_sysroot_setscene: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe pango-1.50.14-r0: task do_packagedata_setscene: Started
-NOTE: recipe pango-1.50.14-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gstreamer1.0-1.22.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gstreamer1.0-1.22.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_packagedata_setscene: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 400 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_packagedata_setscene)
-NOTE: recipe alsa-lib-1.2.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe orc-0.4.33-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe pango-1.50.14-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 405 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_7.1.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 406 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 407 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_packagedata_setscene)
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 410 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe alsa-lib-1.2.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe pango-1.50.14-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 414 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_7.1.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 416 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 417 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_populate_sysroot_setscene)
-NOTE: recipe orc-0.4.33-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gstreamer1.0-1.22.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe fribidi-1.0.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe harfbuzz-7.1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe harfbuzz-7.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe fribidi-1.0.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gstreamer1.0-1.22.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxft-1_2.3.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe fribidi-1.0.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe harfbuzz-7.1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 425 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.74.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 426 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 427 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_72-1.bb:do_packagedata_setscene)
-NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxft-1_2.3.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe harfbuzz-7.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 430 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.74.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 431 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 433 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_72-1.bb:do_populate_sysroot_setscene)
-NOTE: recipe fribidi-1.0.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe icu-72-1-r0: task do_packagedata_setscene: Started
-NOTE: recipe cairo-1.16.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.74.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe icu-72-1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gobject-introspection-1.74.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gobject-introspection-1.74.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe cairo-1.16.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 437 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 438 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.14.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 439 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 440 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 441 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_packagedata_setscene)
-NOTE: recipe icu-72-1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 444 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.14.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 445 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 446 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 447 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe fontconfig-2.14.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe pixman-1_0.42.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.74.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe mesa-2_23.0.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.74.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 448 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe icu-72-1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libsm-1_1.2.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe fontconfig-2.14.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe pixman-1_0.42.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe mesa-2_23.0.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe pixman-1_0.42.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libsm-1_1.2.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 453 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_packagedata_setscene)
-NOTE: recipe glib-2.0-1_2.74.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe fontconfig-2.14.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 455 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.13.0.bb:do_packagedata_setscene)
-NOTE: recipe libice-1_1.1.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 456 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe fontconfig-2.14.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe freetype-2.13.0-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 459 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.13.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe pixman-1_0.42.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe mesa-2_23.0.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 462 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.115.bb:do_packagedata_setscene)
-NOTE: Running setscene task 463 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.239.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 464 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 465 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 466 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 467 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_packagedata_setscene)
-NOTE: recipe libice-1_1.1.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe mesa-2_23.0.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe freetype-2.13.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 468 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.115.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 470 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.239.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 471 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 472 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 473 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 474 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe vulkan-loader-1.3.239.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe xrandr-1_1.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libice-1_1.1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libdrm-2.4.115-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxshmfence-1.3.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe freetype-2.13.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 477 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.39.bb:do_packagedata_setscene)
-NOTE: recipe glib-2.0-1_2.74.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe vulkan-loader-1.3.239.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxshmfence-1.3.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libdrm-2.4.115-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpng-1.6.39-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe vulkan-loader-1.3.239.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 480 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 481 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 482 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.0.bb:do_packagedata_setscene)
-NOTE: recipe xrandr-1_1.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 484 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_packagedata_setscene)
-NOTE: recipe libice-1_1.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxshmfence-1.3.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe freetype-2.13.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 488 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.39.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libdrm-2.4.115-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 491 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.17.bb:do_packagedata_setscene)
-NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxfixes-1_6.0.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe wayland-1.22.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe xrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 493 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe vulkan-loader-1.3.239.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpng-1.6.39-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glib-2.0-1_2.74.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 496 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 498 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 499 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe libdrm-2.4.115-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 502 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 503 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 504 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_packagedata_setscene)
-NOTE: Running setscene task 505 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxshmfence-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 507 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.17.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpng-1.6.39-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpciaccess-0.17-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxfixes-1_6.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpcre2-10.42-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpciaccess-0.17-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe wayland-1.22.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpcre2-10.42-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 511 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 512 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_packagedata_setscene)
-NOTE: recipe wayland-1.22.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-2.38.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.38.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 515 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 516 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_packagedata_setscene)
-NOTE: recipe libxfixes-1_6.0.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpng-1.6.39-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpciaccess-0.17-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Started
 NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxfixes-1_6.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxext-1_1.3.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxml2-2.10.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpcre2-10.42-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpciaccess-0.17-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 522 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 524 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpcre2-10.42-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-linux-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe wayland-1.22.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 528 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 529 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxext-1_1.3.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxext-1_1.3.5-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 534 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_packagedata_setscene)
+NOTE: recipe libxml2-2.10.3-r0: task do_packagedata_setscene: Started
 NOTE: recipe libxml2-2.10.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxml2-2.10.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 536 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_packagedata_setscene)
-NOTE: recipe libx11-1_1.8.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxext-1_1.3.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 537 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe glib-2.0-1_2.74.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-2.0-1_2.74.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 539 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_fetch)
+NOTE: Running task 540 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_fetch)
+NOTE: Running task 541 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_fetch)
+NOTE: recipe python3-3.11.2-r0: task do_package_write_rpm_setscene: Started
+NOTE: Running task 592 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_fetch)
+NOTE: Running task 594 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_fetch)
+NOTE: Running task 603 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_fetch)
+NOTE: Running task 616 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_fetch)
+NOTE: Running task 617 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_fetch)
+NOTE: Running task 618 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_fetch)
+NOTE: Running task 671 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_fetch)
+NOTE: Running task 672 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/zstd/zstd_1.5.4.bb:do_fetch)
+NOTE: Running task 673 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/fts/fts_1.2.7.bb:do_fetch)
+NOTE: Running task 674 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-obstack.bb:do_fetch)
+NOTE: Running task 675 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_fetch)
+NOTE: Running task 676 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_fetch)
+NOTE: Running task 677 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_fetch)
+NOTE: Running task 678 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_fetch)
+NOTE: Running task 679 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_fetch)
+NOTE: Running task 713 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_fetch)
+NOTE: Running task 714 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_fetch)
+NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libseccomp-2.5.4-r0: task do_fetch: Started
+NOTE: recipe libunistring-1.1-r0: task do_fetch: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_fetch: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_fetch: Started
 NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe python3-3.11.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-passwd-3.6.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_fetch: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_fetch: Started
+NOTE: recipe nettle-3.8.1-r0: task do_fetch: Started
+NOTE: recipe fts-1.2.7-r0: task do_fetch: Started
+NOTE: recipe curl-8.0.1-r0: task do_fetch: Started
+NOTE: recipe musl-obstack-1.2.3-r0: task do_fetch: Started
+NOTE: recipe libunistring-1.1-r0: task do_fetch: Succeeded
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_fetch: Started
+NOTE: Running task 771 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_unpack)
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libxml2/2.10.3-r0/temp/log.do_packagedata_setscene.3708502
+NOTE: recipe libidn2-2.3.4-r0: task do_fetch: Succeeded
+NOTE: recipe file-5.44-r0: task do_fetch: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_fetch: Started
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: recipe libgcrypt-1.10.1-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 264 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_package_setscene)
+NOTE: recipe elfutils-0.188-r0: task do_fetch: Started
+NOTE: recipe curl-8.0.1-r0: task do_fetch: Succeeded
+NOTE: recipe createrepo-c-0.21.1-r0: task do_fetch: Started
+NOTE: recipe lua-5.4.4-r0: task do_fetch: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_fetch: Succeeded
 NOTE: recipe libxml2-2.10.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 542 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libx11-1_1.8.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libx11-1_1.8.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 544 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_packagedata_setscene)
-NOTE: Running setscene task 545 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_packagedata_setscene)
-NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.11.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libx11-1_1.8.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 547 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 548 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe nettle-3.8.1-r0: task do_fetch: Succeeded
+NOTE: recipe zstd-1.5.4-r0: task do_fetch: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_fetch: Succeeded
+NOTE: recipe libarchive-3.6.2-r0: task do_fetch: Started
+NOTE: Running task 772 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_unpack)
+NOTE: recipe popt-1.19-r0: task do_fetch: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_fetch: Succeeded
+NOTE: Running task 773 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_unpack)
+NOTE: recipe lua-5.4.4-r0: task do_fetch: Succeeded
+NOTE: Running task 774 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_unpack)
+NOTE: Running task 775 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_unpack)
+NOTE: Running task 776 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_unpack)
+NOTE: recipe libarchive-3.6.2-r0: task do_fetch: Succeeded
+NOTE: Running task 777 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_unpack)
+NOTE: recipe libseccomp-2.5.4-r0: task do_fetch: Succeeded
+NOTE: recipe popt-1.19-r0: task do_fetch: Succeeded
+NOTE: recipe elfutils-0.188-r0: task do_fetch: Succeeded
+NOTE: Running task 778 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_unpack)
+NOTE: Running task 779 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_unpack)
+NOTE: Running task 780 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_unpack)
+NOTE: Running task 781 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_unpack)
+NOTE: Running task 782 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_unpack)
+NOTE: recipe python3-3.11.2-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Started
+NOTE: recipe glib-2.0-1_2.74.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 265 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_packagedata_setscene)
+NOTE: recipe file-5.44-r0: task do_fetch: Succeeded
+NOTE: recipe createrepo-c-0.21.1-r0: task do_fetch: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_unpack: Started
+NOTE: Running setscene task 266 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.2.15.bb:do_packagedata_setscene)
+NOTE: Running setscene task 267 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
+NOTE: Running setscene task 268 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 269 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_packagedata_setscene)
+NOTE: Running task 783 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_unpack)
+NOTE: Running task 784 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_unpack)
+NOTE: Running task 785 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_unpack)
+NOTE: recipe zstd-1.5.4-r0: task do_fetch: Succeeded
+NOTE: Running task 786 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/zstd/zstd_1.5.4.bb:do_unpack)
+NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Succeeded
+NOTE: Running task 787 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_unpack)
+NOTE: recipe libunistring-1.1-r0: task do_unpack: Succeeded
+NOTE: Running task 788 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_patch)
+NOTE: recipe nettle-3.8.1-r0: task do_unpack: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_unpack: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_unpack: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_unpack: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_unpack: Started
+NOTE: recipe unzip-1_6.0-r5: task do_packagedata_setscene: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_unpack: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_unpack: Started
+NOTE: recipe popt-1.19-r0: task do_unpack: Started
+NOTE: recipe lua-5.4.4-r0: task do_unpack: Started
+NOTE: recipe curl-8.0.1-r0: task do_unpack: Started
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Started
+NOTE: recipe zstd-1.5.4-r0: task do_unpack: Started
+NOTE: recipe file-5.44-r0: task do_unpack: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_unpack: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_unpack: Started
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-5.2.15-r0: task do_packagedata_setscene: Started
+NOTE: recipe elfutils-0.188-r0: task do_unpack: Started
+NOTE: recipe coreutils-9.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Started
+NOTE: recipe libunistring-1.1-r0: task do_patch: Started
+NOTE: recipe popt-1.19-r0: task do_unpack: Succeeded
+NOTE: Running task 789 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_patch)
+NOTE: recipe lua-5.4.4-r0: task do_unpack: Succeeded
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_unpack: Succeeded
+NOTE: Running task 790 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_patch)
+NOTE: Running task 791 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_patch)
+NOTE: recipe nettle-3.8.1-r0: task do_unpack: Succeeded
+NOTE: recipe glib-2.0-1_2.74.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 272 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 273 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 274 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_packagedata_setscene)
+NOTE: Running setscene task 275 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_populate_sysroot_setscene)
+NOTE: Running task 792 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_patch)
+NOTE: recipe libunistring-1.1-r0: task do_patch: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_packagedata_setscene: Succeeded
+NOTE: Running task 798 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe popt-1.19-r0: task do_patch: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_unpack: Succeeded
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_patch: Started
+NOTE: Running task 803 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_patch)
+NOTE: recipe lua-5.4.4-r0: task do_patch: Started
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 279 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata_setscene)
+NOTE: Running setscene task 281 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 282 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_packagedata_setscene)
+NOTE: recipe libgpg-error-1.46-r0: task do_unpack: Succeeded
+NOTE: recipe libarchive-3.6.2-r0: task do_unpack: Succeeded
+NOTE: Running task 808 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_patch)
+NOTE: Running task 809 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_patch)
+NOTE: recipe nettle-3.8.1-r0: task do_patch: Started
+NOTE: recipe libpcre2-10.42-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-2.38.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libunistring-1.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libpcre2-10.42-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-2.38.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe popt-1.19-r0: task do_patch: Succeeded
+NOTE: Running task 810 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_deploy_source_date_epoch)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_patch: Succeeded
+NOTE: recipe libidn2-2.3.4-r0: task do_patch: Started
+NOTE: Running task 811 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_deploy_source_date_epoch)
+NOTE: recipe shadow-4.13-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata_setscene: Started
+NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_patch: Started
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bash-5.2.15-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libarchive-3.6.2-r0: task do_patch: Started
+NOTE: recipe fts-1.2.7-r0: task do_fetch: Succeeded
+NOTE: recipe argp-standalone-1.4.1-r0: task do_fetch: Succeeded
+NOTE: Running task 820 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/fts/fts_1.2.7.bb:do_unpack)
+NOTE: recipe musl-obstack-1.2.3-r0: task do_fetch: Succeeded
+NOTE: Running task 821 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_unpack)
+NOTE: recipe libidn2-2.3.4-r0: task do_patch: Succeeded
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe popt-1.19-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 822 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-obstack.bb:do_unpack)
+NOTE: Running task 823 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe libpcre2-10.42-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpcre2-10.42-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_patch: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 828 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe coreutils-9.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 293 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 294 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 295 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 296 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 297 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.68.bb:do_packagedata_setscene)
+NOTE: Running setscene task 298 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.68.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxml2-2.10.3-r0: task do_package_setscene: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_unpack: Succeeded
+NOTE: recipe libarchive-3.6.2-r0: task do_patch: Succeeded
+NOTE: Running task 833 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_patch)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_unpack: Succeeded
+NOTE: Running task 834 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe curl-8.0.1-r0: task do_unpack: Succeeded
+NOTE: recipe file-5.44-r0: task do_unpack: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata_setscene: Succeeded
+NOTE: Running task 835 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_patch)
+NOTE: Running task 836 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_patch)
+NOTE: Running task 837 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_patch)
+NOTE: recipe argp-standalone-1.4.1-r0: task do_unpack: Started
+NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe fts-1.2.7-r0: task do_unpack: Started
+NOTE: recipe musl-obstack-1.2.3-r0: task do_unpack: Started
+NOTE: recipe zstd-1.5.4-r0: task do_unpack: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_patch: Succeeded
+NOTE: Running task 852 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/zstd/zstd_1.5.4.bb:do_patch)
+NOTE: Running task 853 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe libidn2-2.3.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcap-2.68-r0: task do_packagedata_setscene: Started
+NOTE: recipe gmp-6.2.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libcap-2.68-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe acl-2.3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_patch: Succeeded
+NOTE: Running task 854 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_deploy_source_date_epoch)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_patch: Started
+NOTE: recipe file-5.44-r0: task do_patch: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libseccomp-2.5.4-r0: task do_patch: Started
+NOTE: recipe popt-1.19-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe zstd-1.5.4-r0: task do_patch: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Succeeded
+NOTE: recipe curl-8.0.1-r0: task do_patch: Started
+NOTE: Running task 855 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_patch)
+NOTE: recipe nettle-3.8.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe shadow-4.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_unpack: Succeeded
+NOTE: Running task 857 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_patch)
+NOTE: recipe file-5.44-r0: task do_patch: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 861 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_deploy_source_date_epoch)
+NOTE: recipe curl-8.0.1-r0: task do_patch: Succeeded
+NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libseccomp-2.5.4-r0: task do_patch: Succeeded
+NOTE: Running task 862 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 863 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe gmp-6.2.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libcap-2.68-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zstd-1.5.4-r0: task do_patch: Succeeded
+NOTE: recipe acl-2.3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 868 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/zstd/zstd_1.5.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 310 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 311 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libcap-2.68-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libidn2-2.3.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_patch: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Started
+NOTE: recipe file-5.44-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe createrepo-c-0.21.1-r0: task do_patch: Succeeded
+NOTE: Running task 877 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 878 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_generate_toolchain_file)
+NOTE: Running task 879 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_lic)
+NOTE: recipe libseccomp-2.5.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe curl-8.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe zstd-1.5.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe nettle-3.8.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe createrepo-c-0.21.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_unpack: Succeeded
+NOTE: recipe fts-1.2.7-r0: task do_unpack: Succeeded
+NOTE: Running task 880 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_patch)
+NOTE: Running task 881 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/fts/fts_1.2.7.bb:do_patch)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_lic: Started
+NOTE: recipe musl-obstack-1.2.3-r0: task do_unpack: Succeeded
+NOTE: Running task 882 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-obstack.bb:do_patch)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe gnutls-3.8.0-r0: task do_unpack: Succeeded
+NOTE: recipe libseccomp-2.5.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 883 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_patch)
+NOTE: recipe file-5.44-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe argp-standalone-1.4.1-r0: task do_patch: Started
+NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe fts-1.2.7-r0: task do_patch: Started
+NOTE: recipe curl-8.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe zstd-1.5.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe musl-obstack-1.2.3-r0: task do_patch: Started
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_lic unihash changed to 41fdd12f168f2f36edfe64572f3dd0291d1760e55284963136ed98eb0e466592
+NOTE: recipe createrepo-c-0.21.1-r0: task do_deploy_source_date_epoch: Succeeded
 NOTE: recipe util-linux-2.38.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 551 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 552 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 553 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 554 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 555 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 556 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 317 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 318 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 319 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 320 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 321 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 322 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe gnutls-3.8.0-r0: task do_patch: Started
+NOTE: recipe elfutils-0.188-r0: task do_unpack: Succeeded
+NOTE: Running task 892 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_patch)
+NOTE: recipe fts-1.2.7-r0: task do_patch: Succeeded
+NOTE: Running task 893 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/fts/fts_1.2.7.bb:do_deploy_source_date_epoch)
+NOTE: recipe musl-obstack-1.2.3-r0: task do_patch: Succeeded
+NOTE: Running task 894 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-obstack.bb:do_deploy_source_date_epoch)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_patch: Succeeded
+NOTE: Running task 895 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe argp-standalone-1.4.1-r0: task do_patch: Succeeded
+NOTE: Running task 896 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_deploy_source_date_epoch)
 NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 559 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_packagedata_setscene)
-NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 560 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 561 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 562 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_packagedata_setscene)
 NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Started
 NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-3.11.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 564 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 565 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 566 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 567 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 568 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 569 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 570 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
-NOTE: Running setscene task 571 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 572 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_packagedata_setscene)
-NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 574 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe xcb-proto-1.15.2-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 575 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 577 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 578 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe fts-1.2.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe elfutils-0.188-r0: task do_patch: Started
+NOTE: recipe musl-obstack-1.2.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_deploy_source_date_epoch: Started
 NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe readline-8.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.41.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.4.2-r0: task do_packagedata_setscene: Started
 NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 324 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_package_setscene)
+NOTE: recipe gnutls-3.8.0-r0: task do_patch: Succeeded
 NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 897 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xcb-proto-1.15.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xcb-proto-1.15.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.41.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 587 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 588 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_packagedata_setscene)
-NOTE: recipe readline-8.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 592 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 595 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_packagedata_setscene)
-NOTE: recipe openssl-3.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe fts-1.2.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe musl-obstack-1.2.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_package_setscene: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gnutls-3.8.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Succeeded
+NOTE: Running task 902 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running setscene task 327 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 328 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_populate_sysroot_setscene)
+NOTE: recipe bash-completion-2.11-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 330 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bash-completion-2.11-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe elfutils-0.188-r0: task do_patch: Succeeded
+NOTE: Running task 911 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_deploy_source_date_epoch)
+NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe elfutils-0.188-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe elfutils-0.188-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxml2-2.10.3-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 334 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 335 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-3.11.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-3.11.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.11.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 337 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 338 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 339 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 340 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_packagedata_setscene)
+NOTE: Running setscene task 341 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 342 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 343 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 344 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
+NOTE: Running setscene task 345 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 346 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_packagedata_setscene)
 NOTE: recipe python3-3.11.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 598 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 599 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 600 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 602 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 603 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 604 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 605 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 606 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 607 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xcb-proto-1.15.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.0-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 611 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 612 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe xorgproto-2022.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.4.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 347 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 348 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 349 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 350 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 352 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 353 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 354 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 355 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 356 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 357 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Started
+NOTE: recipe readline-8.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.4.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe readline-8.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe openssl-3.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe xz-5.4.2-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe sqlite3-3_3.41.2-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-macros-1_1.20.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xorgproto-2022.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-macros-1_1.20.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xorgproto-2022.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 620 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
+NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe readline-8.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 361 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 363 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_packagedata_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe openssl-3.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe readline-8.2-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe xz-5.4.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 370 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_populate_sysroot_setscene)
 NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 624 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe sqlite3-3_3.41.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe readline-8.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 630 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe xorgproto-2022.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 373 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xz-5.4.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
 NOTE: recipe openssl-3.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 635 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 636 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_populate_sysroot_setscene)
 NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 384 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
 NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 641 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 643 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_packagedata_setscene)
-NOTE: Running setscene task 644 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 645 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 387 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 388 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
 NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 649 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_packagedata_setscene)
-NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 390 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_packagedata_setscene)
+NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 651 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 392 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_populate_sysroot_setscene)
 NOTE: recipe gcc-runtime-12.2.0-r0: task do_packagedata_setscene: Started
 NOTE: recipe gcc-runtime-12.2.0-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe gcc-runtime-12.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 654 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_packagedata_setscene)
-NOTE: recipe gcc-runtime-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 395 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_packagedata_setscene)
 NOTE: recipe libgcc-12.2.0-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 656 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcc-12.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 397 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_populate_sysroot_setscene)
 NOTE: recipe libgcc-12.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 658 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 399 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-12.2.0-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe musl-1.2.3+gitAUTOINC+1d5750b95c-r0: task do_packagedata_setscene: Started
 NOTE: recipe libgcc-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 659 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 400 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
 NOTE: recipe musl-1.2.3+gitAUTOINC+1d5750b95c-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 662 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 663 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 664 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 403 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 404 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 405 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_packagedata_setscene)
 NOTE: recipe musl-1.2.3+gitAUTOINC+1d5750b95c-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
 NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
 NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Started
 NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.3+gitAUTOINC+1d5750b95c-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 666 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 668 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
 NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-1.2.3+gitAUTOINC+1d5750b95c-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 409 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 410 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
 NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 675 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 416 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot_setscene)
 NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 678 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 419 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_populate_sysroot_setscene)
 NOTE: recipe linux-libc-headers-6.1-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe linux-libc-headers-6.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 679 of 681 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.40.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 420 of 422 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.40.bb:do_populate_sysroot_setscene)
 NOTE: recipe binutils-cross-i686-2.40-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe binutils-cross-i686-2.40-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 2073 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2078 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2106 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2107 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2168 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2169 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2190 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2191 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2238 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_packagedata)
-NOTE: recipe speexdsp-1.2.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libdaemon-0.14-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libtool-2.4.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe ofono-2.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe taglib-1.13-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lame-3.100-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_packagedata: Started
-NOTE: recipe libdaemon-0.14-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe speexdsp-1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2240 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_configure)
-NOTE: Running task 2241 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_configure)
-NOTE: Running task 2242 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_configure)
-NOTE: recipe lame-3.100-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2243 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_configure)
-NOTE: recipe libdaemon-0.14-r0: task do_configure: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_configure: Started
-NOTE: recipe libtool-2.4.7-r0: task do_configure: Started
-NOTE: recipe taglib-1.13-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2244 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_configure)
-NOTE: recipe lame-3.100-r0: task do_configure: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2245 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_configure)
-NOTE: recipe taglib-1.13-r0: task do_configure: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2246 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_configure)
-NOTE: recipe nghttp2-1.52.0-r0: task do_configure: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_configure: Started
-NOTE: recipe ofono-2.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2247 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_configure)
-NOTE: recipe ofono-2.0-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_packagedata: Succeeded
-NOTE: recipe taglib-1.13-r0: task do_configure: Succeeded
-NOTE: Running task 2248 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_compile)
-NOTE: recipe taglib-1.13-r0: task do_compile: Started
-NOTE: recipe taglib-1.13-r0: task do_compile: Succeeded
-NOTE: Running task 2249 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_install)
-NOTE: recipe taglib-1.13-r0: task do_install: Started
-NOTE: recipe taglib-1.13-r0: task do_install: Succeeded
-NOTE: Running task 2250 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_populate_sysroot)
-NOTE: Running task 2251 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_package)
-NOTE: recipe nghttp2-1.52.0-r0: task do_configure: Succeeded
-NOTE: Running task 2252 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_compile)
-NOTE: recipe taglib-1.13-r0: task do_populate_sysroot: Started
-NOTE: recipe taglib-1.13-r0: task do_package: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_compile: Started
-NOTE: recipe taglib-1.13-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_compile: Succeeded
-NOTE: Running task 2253 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_install)
-NOTE: recipe nghttp2-1.52.0-r0: task do_install: Started
-NOTE: recipe taglib-1.13-r0: task do_package: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_install: Succeeded
-NOTE: Running task 2254 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_packagedata)
-NOTE: Running task 2255 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_populate_sysroot)
-NOTE: Running task 2256 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_package)
-NOTE: recipe taglib-1.13-r0: task do_packagedata: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_populate_sysroot: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_package: Started
-NOTE: recipe taglib-1.13-r0: task do_packagedata: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe lame-3.100-r0: task do_configure: Succeeded
-NOTE: Running task 2257 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_compile)
-NOTE: recipe lame-3.100-r0: task do_compile: Started
-NOTE: recipe libdaemon-0.14-r0: task do_configure: Succeeded
-NOTE: Running task 2258 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_compile)
-NOTE: recipe nghttp2-1.52.0-r0: task do_package: Succeeded
-NOTE: Running task 2259 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_packagedata)
-NOTE: recipe libdaemon-0.14-r0: task do_compile: Started
-NOTE: recipe libtool-2.4.7-r0: task do_configure: Succeeded
-NOTE: Running task 2260 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_compile)
-NOTE: recipe nghttp2-1.52.0-r0: task do_packagedata: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_configure: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_compile: Started
-NOTE: Running task 2261 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_compile)
-NOTE: recipe speexdsp-1.2.1-r0: task do_compile: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_packagedata: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_compile: Succeeded
-NOTE: Running task 2262 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_install)
-NOTE: recipe libdaemon-0.14-r0: task do_install: Started
-NOTE: recipe libdaemon-0.14-r0: task do_install: Succeeded
-NOTE: Running task 2263 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_populate_sysroot)
-NOTE: Running task 2264 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_package)
-NOTE: recipe libdaemon-0.14-r0: task do_populate_sysroot: Started
-NOTE: recipe libdaemon-0.14-r0: task do_package: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_compile: Succeeded
-NOTE: Running task 2265 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_install)
-NOTE: recipe speexdsp-1.2.1-r0: task do_install: Started
-NOTE: recipe libdaemon-0.14-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2266 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe avahi-0.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_install: Succeeded
-NOTE: Running task 2267 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_populate_sysroot)
-NOTE: Running task 2268 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_package)
-NOTE: recipe speexdsp-1.2.1-r0: task do_populate_sysroot: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_package: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2269 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe speex-1.2.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe avahi-0.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2270 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_configure)
-NOTE: recipe speex-1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_package: Succeeded
-NOTE: Running task 2271 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_configure)
-NOTE: recipe avahi-0.8-r0: task do_configure: Started
-NOTE: Running task 2272 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_packagedata)
-NOTE: recipe speex-1.2.1-r0: task do_configure: Started
-NOTE: recipe libdaemon-0.14-r0: task do_packagedata: Started
-NOTE: recipe libdaemon-0.14-r0: task do_packagedata: Succeeded
-NOTE: recipe lame-3.100-r0: task do_compile: Succeeded
-NOTE: Running task 2273 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_install)
-NOTE: recipe lame-3.100-r0: task do_install: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_package: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_configure: Succeeded
-NOTE: Running task 2274 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_packagedata)
-NOTE: Running task 2275 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_compile)
-NOTE: recipe speexdsp-1.2.1-r0: task do_packagedata: Started
-NOTE: recipe ofono-2.0-r0: task do_compile: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_packagedata: Succeeded
-NOTE: recipe lame-3.100-r0: task do_install: Succeeded
-NOTE: Running task 2276 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_populate_sysroot)
-NOTE: Running task 2277 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_package)
-NOTE: recipe lame-3.100-r0: task do_populate_sysroot: Started
-NOTE: recipe lame-3.100-r0: task do_package: Started
-NOTE: recipe lame-3.100-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_compile: Succeeded
-NOTE: Running task 2278 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_install)
-NOTE: recipe libtool-2.4.7-r0: task do_install: Started
-NOTE: recipe libtool-2.4.7-r0: task do_install: Succeeded
-NOTE: Running task 2279 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_populate_sysroot)
-NOTE: Running task 2280 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_package)
-NOTE: recipe lame-3.100-r0: task do_package: Succeeded
-NOTE: Running task 2281 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_packagedata)
-NOTE: recipe libtool-2.4.7-r0: task do_package: Started
-NOTE: recipe libtool-2.4.7-r0: task do_populate_sysroot: Started
-NOTE: recipe lame-3.100-r0: task do_packagedata: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_configure: Succeeded
-NOTE: Running task 2282 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_compile)
-NOTE: recipe libpsl-0.21.2-r0: task do_compile: Started
-NOTE: recipe lame-3.100-r0: task do_packagedata: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_compile: Succeeded
-NOTE: Running task 2283 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_install)
-NOTE: recipe ofono-2.0-r0: task do_install: Started
-NOTE: recipe ofono-2.0-r0: task do_install: Succeeded
-NOTE: Running task 2284 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_populate_sysroot)
-NOTE: Running task 2285 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_package)
-NOTE: recipe ofono-2.0-r0: task do_populate_sysroot: Started
-NOTE: recipe ofono-2.0-r0: task do_package: Started
-NOTE: recipe ofono-2.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_package: Succeeded
-NOTE: Running task 2286 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_packagedata)
-NOTE: recipe libtool-2.4.7-r0: task do_packagedata: Started
-NOTE: recipe libtool-2.4.7-r0: task do_packagedata: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_compile: Succeeded
-NOTE: Running task 2287 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_install)
-NOTE: recipe libpsl-0.21.2-r0: task do_install: Started
-NOTE: recipe speex-1.2.1-r0: task do_configure: Succeeded
-NOTE: Running task 2288 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_compile)
-NOTE: recipe speex-1.2.1-r0: task do_compile: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_install: Succeeded
-NOTE: Running task 2289 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_populate_sysroot)
-NOTE: Running task 2290 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_package)
-NOTE: recipe libpsl-0.21.2-r0: task do_populate_sysroot: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_package: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2291 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libsoup-3.4.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe ofono-2.0-r0: task do_package: Succeeded
-NOTE: Running task 2292 of 2332 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_packagedata)
-NOTE: recipe ofono-2.0-r0: task do_packagedata: Started
-NOTE: recipe ofono-2.0-r0: task do_packagedata: Failed
-NOTE: recipe libsoup-3.4.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_package: Succeeded
-NOTE: recipe speex-1.2.1-r0: task do_compile: Succeeded
-NOTE: recipe avahi-0.8-r0: task do_configure: Succeeded
-NOTE: Tasks Summary: Attempted 2292 tasks of which 2168 didn't need to be rerun and 1 failed.
+NOTE: Running task 1105 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1106 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1107 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1118 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1164 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1223 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1224 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/zstd/zstd_1.5.4.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1227 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/fts/fts_1.2.7.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1228 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-obstack.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1229 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1230 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1325 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_packagedata)
+NOTE: recipe nettle-3.8.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libunistring-1.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1376 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_package_write_rpm)
+NOTE: recipe libgpg-error-1.46-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe zstd-1.5.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe file-5.44-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe fts-1.2.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe musl-obstack-1.2.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe popt-1.19-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxml2-2.10.3-r0: task do_packagedata: Started
+NOTE: recipe bash-completion-2.11-r0: task do_package_write_rpm: Started
+NOTE: recipe zstd-1.5.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1377 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/zstd/zstd_1.5.4.bb:do_configure)
+NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1378 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure)
+NOTE: recipe zstd-1.5.4-r0: task do_configure: Started
+NOTE: recipe nettle-3.8.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1379 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_configure)
+NOTE: recipe libseccomp-2.5.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1380 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_configure)
+NOTE: recipe libunistring-1.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe argp-standalone-1.4.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1381 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_configure)
+NOTE: Running task 1382 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_configure)
+NOTE: recipe libgpg-error-1.46-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1383 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_configure)
+NOTE: recipe lua-5.4.4-r0: task do_configure: Started
+NOTE: recipe fts-1.2.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe musl-obstack-1.2.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1384 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-obstack.bb:do_configure)
+NOTE: recipe file-5.44-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe popt-1.19-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1385 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/fts/fts_1.2.7.bb:do_configure)
+NOTE: Running task 1386 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_configure)
+NOTE: Running task 1387 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_configure)
+NOTE: recipe libxml2-2.10.3-r0: task do_packagedata: Succeeded
+NOTE: recipe zstd-1.5.4-r0: task do_configure: Succeeded
+NOTE: Running task 1388 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/zstd/zstd_1.5.4.bb:do_compile)
+NOTE: recipe nettle-3.8.1-r0: task do_configure: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_configure: Started
+NOTE: recipe libunistring-1.1-r0: task do_configure: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_configure: Started
+NOTE: recipe lua-5.4.4-r0: task do_configure: Succeeded
+NOTE: recipe musl-obstack-1.2.3-r0: task do_configure: Started
+NOTE: recipe fts-1.2.7-r0: task do_configure: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_configure: Started
+NOTE: Running task 1389 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure_ptest_base)
+NOTE: recipe file-5.44-r0: task do_configure: Started
+NOTE: recipe popt-1.19-r0: task do_configure: Started
+NOTE: recipe zstd-1.5.4-r0: task do_compile: Started
+NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Started
+NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1390 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile)
+NOTE: recipe lua-5.4.4-r0: task do_compile: Started
+NOTE: recipe lua-5.4.4-r0: task do_compile: Succeeded
+NOTE: Running task 1391 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile_ptest_base)
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Started
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1392 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install)
+NOTE: recipe bash-completion-2.11-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_install: Started
+NOTE: recipe lua-5.4.4-r0: task do_install: Succeeded
+NOTE: Running task 1393 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install_ptest_base)
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Started
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1394 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_populate_sysroot)
+NOTE: Running task 1395 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_package)
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Started
+NOTE: recipe lua-5.4.4-r0: task do_package: Started
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_configure: Succeeded
+NOTE: Running task 1396 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_configure_ptest_base)
+NOTE: recipe nettle-3.8.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe nettle-3.8.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1397 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_compile)
+NOTE: recipe argp-standalone-1.4.1-r0: task do_configure: Succeeded
+NOTE: Running task 1398 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_compile)
+NOTE: recipe nettle-3.8.1-r0: task do_compile: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_compile: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_compile: Succeeded
+NOTE: Running task 1399 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_install)
+NOTE: recipe argp-standalone-1.4.1-r0: task do_install: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_install: Succeeded
+NOTE: Running task 1400 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_populate_sysroot)
+NOTE: Running task 1401 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_package)
+NOTE: recipe argp-standalone-1.4.1-r0: task do_populate_sysroot: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_package: Started
+NOTE: recipe lua-5.4.4-r0: task do_package: Succeeded
+NOTE: Running task 1402 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_packagedata)
+NOTE: recipe argp-standalone-1.4.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Started
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Succeeded
+NOTE: recipe musl-obstack-1.2.3-r0: task do_configure: Succeeded
+NOTE: Running task 1403 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-obstack.bb:do_compile)
+NOTE: recipe musl-obstack-1.2.3-r0: task do_compile: Started
+NOTE: recipe fts-1.2.7-r0: task do_configure: Succeeded
+NOTE: Running task 1404 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/fts/fts_1.2.7.bb:do_compile)
+NOTE: recipe fts-1.2.7-r0: task do_compile: Started
+NOTE: recipe musl-obstack-1.2.3-r0: task do_compile: Succeeded
+NOTE: Running task 1405 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-obstack.bb:do_install)
+NOTE: recipe musl-obstack-1.2.3-r0: task do_install: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_package: Succeeded
+NOTE: Running task 1406 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_packagedata)
+NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata: Started
+NOTE: recipe musl-obstack-1.2.3-r0: task do_install: Succeeded
+NOTE: Running task 1407 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-obstack.bb:do_populate_sysroot)
+NOTE: Running task 1408 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-obstack.bb:do_package)
+NOTE: recipe fts-1.2.7-r0: task do_compile: Succeeded
+NOTE: Running task 1409 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/fts/fts_1.2.7.bb:do_install)
+NOTE: recipe musl-obstack-1.2.3-r0: task do_package: Started
+NOTE: recipe musl-obstack-1.2.3-r0: task do_populate_sysroot: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata: Succeeded
+NOTE: recipe fts-1.2.7-r0: task do_install: Started
+NOTE: recipe fts-1.2.7-r0: task do_install: Succeeded
+NOTE: Running task 1410 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/fts/fts_1.2.7.bb:do_populate_sysroot)
+NOTE: Running task 1411 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/fts/fts_1.2.7.bb:do_package)
+NOTE: recipe musl-obstack-1.2.3-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe fts-1.2.7-r0: task do_populate_sysroot: Started
+NOTE: recipe fts-1.2.7-r0: task do_package: Started
+NOTE: recipe fts-1.2.7-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe popt-1.19-r0: task do_configure: Succeeded
+NOTE: Running task 1412 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_configure_ptest_base)
+NOTE: recipe popt-1.19-r0: task do_configure_ptest_base: Started
+NOTE: recipe popt-1.19-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1413 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_compile)
+NOTE: recipe popt-1.19-r0: task do_compile: Started
+NOTE: recipe musl-obstack-1.2.3-r0: task do_package: Succeeded
+NOTE: Running task 1414 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-obstack.bb:do_packagedata)
+NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_configure: Succeeded
+NOTE: Running task 1415 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_configure_ptest_base)
+NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata: Succeeded
+NOTE: recipe libseccomp-2.5.4-r0: task do_configure_ptest_base: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe fts-1.2.7-r0: task do_package: Succeeded
+NOTE: Running task 1416 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_compile)
+NOTE: Running task 1417 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/fts/fts_1.2.7.bb:do_packagedata)
+NOTE: recipe libseccomp-2.5.4-r0: task do_compile: Started
+NOTE: recipe fts-1.2.7-r0: task do_packagedata: Started
+NOTE: recipe fts-1.2.7-r0: task do_packagedata: Succeeded
+NOTE: recipe popt-1.19-r0: task do_compile: Succeeded
+NOTE: Running task 1418 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_compile_ptest_base)
+NOTE: recipe file-5.44-r0: task do_configure: Succeeded
+NOTE: Running task 1419 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_compile)
+NOTE: recipe popt-1.19-r0: task do_compile_ptest_base: Started
+NOTE: recipe file-5.44-r0: task do_compile: Started
+NOTE: recipe popt-1.19-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1420 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_install)
+NOTE: recipe popt-1.19-r0: task do_install: Started
+NOTE: recipe popt-1.19-r0: task do_install: Succeeded
+NOTE: Running task 1421 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_install_ptest_base)
+NOTE: recipe popt-1.19-r0: task do_install_ptest_base: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_configure: Succeeded
+NOTE: Running task 1422 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_configure_ptest_base)
+NOTE: recipe popt-1.19-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1423 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_populate_sysroot)
+NOTE: Running task 1424 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_package)
+NOTE: recipe libgpg-error-1.46-r0: task do_configure_ptest_base: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1425 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_compile)
+NOTE: recipe popt-1.19-r0: task do_populate_sysroot: Started
+NOTE: recipe popt-1.19-r0: task do_package: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_compile: Started
+NOTE: recipe file-5.44-r0: task do_compile: Succeeded
+NOTE: Running task 1426 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_install)
+NOTE: recipe popt-1.19-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe file-5.44-r0: task do_install: Started
+NOTE: recipe file-5.44-r0: task do_install: Succeeded
+NOTE: Running task 1427 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_populate_sysroot)
+NOTE: Running task 1428 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_package)
+NOTE: recipe file-5.44-r0: task do_populate_sysroot: Started
+NOTE: recipe file-5.44-r0: task do_package: Started
+NOTE: recipe file-5.44-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libseccomp-2.5.4-r0: task do_compile: Succeeded
+NOTE: Running task 1429 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_compile_ptest_base)
+NOTE: recipe nettle-3.8.1-r0: task do_compile: Succeeded
+NOTE: Running task 1430 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_compile_ptest_base)
+NOTE: recipe libseccomp-2.5.4-r0: task do_compile_ptest_base: Started
+NOTE: recipe nettle-3.8.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1431 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_install)
+NOTE: recipe libseccomp-2.5.4-r0: task do_install: Started
+NOTE: recipe popt-1.19-r0: task do_package: Succeeded
+NOTE: recipe file-5.44-r0: task do_package: Succeeded
+NOTE: Running task 1432 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_packagedata)
+NOTE: Running task 1433 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_packagedata)
+NOTE: recipe popt-1.19-r0: task do_packagedata: Started
+NOTE: recipe file-5.44-r0: task do_packagedata: Started
+NOTE: recipe nettle-3.8.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1434 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_install)
+NOTE: recipe nettle-3.8.1-r0: task do_install: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_install: Succeeded
+NOTE: Running task 1435 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_install_ptest_base)
+NOTE: recipe file-5.44-r0: task do_packagedata: Succeeded
+NOTE: recipe libseccomp-2.5.4-r0: task do_install_ptest_base: Started
+NOTE: recipe popt-1.19-r0: task do_packagedata: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_install: Succeeded
+NOTE: Running task 1436 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_install_ptest_base)
+NOTE: recipe nettle-3.8.1-r0: task do_install_ptest_base: Started
+NOTE: recipe nettle-3.8.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1437 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_populate_sysroot)
+NOTE: Running task 1438 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_package)
+NOTE: recipe nettle-3.8.1-r0: task do_populate_sysroot: Started
+NOTE: recipe nettle-3.8.1-r0: task do_package: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1439 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_populate_sysroot)
+NOTE: Running task 1440 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_package)
+NOTE: recipe nettle-3.8.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libseccomp-2.5.4-r0: task do_populate_sysroot: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_package: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_compile: Succeeded
+NOTE: Running task 1441 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_compile_ptest_base)
+NOTE: recipe libgpg-error-1.46-r0: task do_compile_ptest_base: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1442 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_install)
+NOTE: recipe libgpg-error-1.46-r0: task do_install: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_install: Succeeded
+NOTE: Running task 1443 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_install_ptest_base)
+NOTE: recipe libgpg-error-1.46-r0: task do_install_ptest_base: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1444 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_populate_sysroot)
+NOTE: Running task 1445 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_package)
+NOTE: recipe libgpg-error-1.46-r0: task do_populate_sysroot: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_package: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1446 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1447 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_configure)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_configure: Started
+NOTE: recipe zstd-1.5.4-r0: task do_compile: Succeeded
+NOTE: Running task 1448 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/zstd/zstd_1.5.4.bb:do_install)
+NOTE: recipe zstd-1.5.4-r0: task do_install: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_package: Succeeded
+NOTE: Running task 1449 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_packagedata)
+NOTE: recipe libgpg-error-1.46-r0: task do_packagedata: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_package: Succeeded
+NOTE: Running task 1450 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_packagedata)
+NOTE: recipe libseccomp-2.5.4-r0: task do_packagedata: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_packagedata: Succeeded
+NOTE: recipe libseccomp-2.5.4-r0: task do_packagedata: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_package: Succeeded
+NOTE: Running task 1451 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_packagedata)
+NOTE: recipe nettle-3.8.1-r0: task do_packagedata: Started
+NOTE: recipe nettle-3.8.1-r0: task do_packagedata: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_configure: Succeeded
+NOTE: Running task 1452 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_compile)
+NOTE: recipe libunistring-1.1-r0: task do_compile: Started
+NOTE: recipe zstd-1.5.4-r0: task do_install: Succeeded
+NOTE: Running task 1453 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/zstd/zstd_1.5.4.bb:do_populate_sysroot)
+NOTE: Running task 1454 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/zstd/zstd_1.5.4.bb:do_package)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_configure: Succeeded
+NOTE: Running task 1455 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_configure_ptest_base)
+NOTE: recipe zstd-1.5.4-r0: task do_populate_sysroot: Started
+NOTE: recipe zstd-1.5.4-r0: task do_package: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1456 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_compile)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_compile: Started
+NOTE: recipe zstd-1.5.4-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1457 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libarchive-3.6.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1458 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_configure)
+NOTE: recipe libarchive-3.6.2-r0: task do_configure: Started
+NOTE: recipe zstd-1.5.4-r0: task do_package: Succeeded
+NOTE: Running task 1459 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/zstd/zstd_1.5.4.bb:do_packagedata)
+NOTE: recipe zstd-1.5.4-r0: task do_packagedata: Started
+NOTE: recipe zstd-1.5.4-r0: task do_packagedata: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_compile: Succeeded
+NOTE: Running task 1460 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_compile_ptest_base)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1461 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_install)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_install: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_install: Succeeded
+NOTE: Running task 1462 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_install_ptest_base)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_install_ptest_base: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1463 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_populate_sysroot)
+NOTE: Running task 1464 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_package)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_package: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_package: Succeeded
+NOTE: Running task 1465 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_packagedata)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_packagedata: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_packagedata: Succeeded
+NOTE: recipe libarchive-3.6.2-r0: task do_configure: Succeeded
+NOTE: Running task 1466 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_compile)
+NOTE: recipe libarchive-3.6.2-r0: task do_compile: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_compile: Succeeded
+NOTE: Running task 1467 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_install)
+NOTE: recipe libarchive-3.6.2-r0: task do_install: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_install: Succeeded
+NOTE: Running task 1468 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_populate_sysroot)
+NOTE: Running task 1469 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_package)
+NOTE: recipe libarchive-3.6.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_package: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libarchive-3.6.2-r0: task do_package: Succeeded
+NOTE: Running task 1470 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_packagedata)
+NOTE: recipe libarchive-3.6.2-r0: task do_packagedata: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_packagedata: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_compile: Succeeded
+NOTE: Running task 1471 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_install)
+NOTE: recipe libunistring-1.1-r0: task do_install: Started
+NOTE: recipe libunistring-1.1-r0: task do_install: Succeeded
+NOTE: Running task 1472 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_populate_sysroot)
+NOTE: Running task 1473 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_package)
+NOTE: recipe libunistring-1.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libunistring-1.1-r0: task do_package: Started
+NOTE: recipe libunistring-1.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1474 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libidn2-2.3.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1475 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_configure)
+NOTE: recipe libidn2-2.3.4-r0: task do_configure: Started
+NOTE: recipe libunistring-1.1-r0: task do_package: Succeeded
+NOTE: Running task 1476 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_packagedata)
+NOTE: recipe libunistring-1.1-r0: task do_packagedata: Started
+NOTE: recipe libunistring-1.1-r0: task do_packagedata: Succeeded
+NOTE: recipe libidn2-2.3.4-r0: task do_configure: Succeeded
+NOTE: Running task 1477 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_compile)
+NOTE: recipe libidn2-2.3.4-r0: task do_compile: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_compile: Succeeded
+NOTE: Running task 1478 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_install)
+NOTE: recipe libidn2-2.3.4-r0: task do_install: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_install: Succeeded
+NOTE: Running task 1479 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_populate_sysroot)
+NOTE: Running task 1480 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_package)
+NOTE: recipe libidn2-2.3.4-r0: task do_populate_sysroot: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_package: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1481 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1482 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe curl-8.0.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe curl-8.0.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1483 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_configure)
+NOTE: recipe curl-8.0.1-r0: task do_configure: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1484 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_configure)
+NOTE: recipe gnutls-3.8.0-r0: task do_configure: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_package: Succeeded
+NOTE: Running task 1485 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_packagedata)
+NOTE: recipe libidn2-2.3.4-r0: task do_packagedata: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_packagedata: Succeeded
+NOTE: recipe curl-8.0.1-r0: task do_configure: Succeeded
+NOTE: Running task 1486 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_configure_ptest_base)
+NOTE: recipe curl-8.0.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe curl-8.0.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1487 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_compile)
+NOTE: recipe curl-8.0.1-r0: task do_compile: Started
+NOTE: recipe curl-8.0.1-r0: task do_compile: Succeeded
+NOTE: Running task 1488 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_compile_ptest_base)
+NOTE: recipe curl-8.0.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe curl-8.0.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1489 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_install)
+NOTE: recipe curl-8.0.1-r0: task do_install: Started
+NOTE: recipe curl-8.0.1-r0: task do_install: Succeeded
+NOTE: Running task 1490 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_install_ptest_base)
+NOTE: recipe curl-8.0.1-r0: task do_install_ptest_base: Started
+NOTE: recipe curl-8.0.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1491 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_populate_sysroot)
+NOTE: Running task 1492 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_package)
+NOTE: recipe curl-8.0.1-r0: task do_populate_sysroot: Started
+NOTE: recipe curl-8.0.1-r0: task do_package: Started
+NOTE: recipe curl-8.0.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe curl-8.0.1-r0: task do_package: Succeeded
+NOTE: Running task 1493 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_packagedata)
+NOTE: recipe curl-8.0.1-r0: task do_packagedata: Started
+NOTE: recipe curl-8.0.1-r0: task do_packagedata: Succeeded
+NOTE: recipe gnutls-3.8.0-r0: task do_configure: Succeeded
+NOTE: Running task 1494 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_configure_ptest_base)
+NOTE: recipe gnutls-3.8.0-r0: task do_configure_ptest_base: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1495 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_compile)
+NOTE: recipe gnutls-3.8.0-r0: task do_compile: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_compile: Succeeded
+NOTE: Running task 1496 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_compile_ptest_base)
+NOTE: recipe gnutls-3.8.0-r0: task do_compile_ptest_base: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1497 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_install)
+NOTE: recipe gnutls-3.8.0-r0: task do_install: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_install: Succeeded
+NOTE: Running task 1498 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_install_ptest_base)
+NOTE: recipe gnutls-3.8.0-r0: task do_install_ptest_base: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1499 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_populate_sysroot)
+NOTE: Running task 1500 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_package)
+NOTE: recipe gnutls-3.8.0-r0: task do_populate_sysroot: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_package: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1501 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1502 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_configure)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_configure: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_package: Succeeded
+NOTE: Running task 1503 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_packagedata)
+NOTE: recipe gnutls-3.8.0-r0: task do_packagedata: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_packagedata: Succeeded
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_configure: Succeeded
+NOTE: Running task 1504 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_compile)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_compile: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_compile: Succeeded
+NOTE: Running task 1505 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_install)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_install: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_install: Succeeded
+NOTE: Running task 1506 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_populate_sysroot)
+NOTE: Running task 1507 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_package)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_populate_sysroot: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_package: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1508 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_prepare_recipe_sysroot)
+NOTE: recipe elfutils-0.188-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe elfutils-0.188-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1509 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_configure)
+NOTE: recipe elfutils-0.188-r0: task do_configure: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_package: Succeeded
+NOTE: Running task 1510 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_packagedata)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_packagedata: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_packagedata: Succeeded
+NOTE: recipe elfutils-0.188-r0: task do_configure: Succeeded
+NOTE: Running task 1511 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_configure_ptest_base)
+NOTE: recipe elfutils-0.188-r0: task do_configure_ptest_base: Started
+NOTE: recipe elfutils-0.188-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1512 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_compile)
+NOTE: recipe elfutils-0.188-r0: task do_compile: Started
+NOTE: recipe elfutils-0.188-r0: task do_compile: Succeeded
+NOTE: Running task 1513 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_compile_ptest_base)
+NOTE: recipe elfutils-0.188-r0: task do_compile_ptest_base: Started
+NOTE: recipe elfutils-0.188-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1514 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_install)
+NOTE: recipe elfutils-0.188-r0: task do_install: Started
+NOTE: recipe elfutils-0.188-r0: task do_install: Succeeded
+NOTE: Running task 1515 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_install_ptest_base)
+NOTE: recipe elfutils-0.188-r0: task do_install_ptest_base: Started
+NOTE: recipe elfutils-0.188-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1516 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_populate_sysroot)
+NOTE: Running task 1517 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_package)
+NOTE: recipe elfutils-0.188-r0: task do_populate_sysroot: Started
+NOTE: recipe elfutils-0.188-r0: task do_package: Started
+NOTE: recipe elfutils-0.188-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1518 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1519 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_configure)
+NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Started
+NOTE: recipe elfutils-0.188-r0: task do_package: Succeeded
+NOTE: Running task 1520 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_packagedata)
+NOTE: recipe elfutils-0.188-r0: task do_packagedata: Started
+NOTE: recipe elfutils-0.188-r0: task do_packagedata: Succeeded
+NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Succeeded
+NOTE: Running task 1521 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_compile)
+NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Succeeded
+NOTE: Running task 1522 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_install)
+NOTE: recipe rpm-1_4.18.0-r0: task do_install: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_install: Succeeded
+NOTE: Running task 1523 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_populate_sysroot)
+NOTE: Running task 1524 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_package)
+NOTE: recipe rpm-1_4.18.0-r0: task do_populate_sysroot: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_package: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1525 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1526 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_configure)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_configure: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_configure: Succeeded
+NOTE: Running task 1527 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_compile)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_compile: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_compile: Succeeded
+NOTE: Running task 1528 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_install)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_install: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_package: Succeeded
+NOTE: Running task 1529 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_packagedata)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_install: Succeeded
+NOTE: Running task 1530 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_sysroot)
+NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_sysroot: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1531 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package: Succeeded
+NOTE: Running task 1532 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_packagedata)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_packagedata: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 1533 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package_write_rpm)
+NOTE: Running task 1534 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package_qa)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package_write_rpm: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package_qa: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package_qa: Succeeded
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1535 of 1535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_build)
+NOTE: Tasks Summary: Attempted 1535 tasks of which 1281 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_packagedata
-Summary: There were 113 ERROR messages, returning a non-zero exit code.
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-src went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-dbg went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-staticdev went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-dev went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-doc went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-apps went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-meta went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-glib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstallocators-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstapp-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstaudio-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstfft-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstgl-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstpbutils-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstriff-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstrtp-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstrtsp-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstsdp-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgsttag-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstvideo-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-adder went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-alsa went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-app went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audioconvert went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audiomixer went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audiorate went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audioresample went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audiotestsrc went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-compositor went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-encoding went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-gio went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-ogg went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-opengl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-overlaycomposition went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-pango went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-pbtypes went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-playback went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-rawparse went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-subparse went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-tcp went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-theora went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-typefindfunctions went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-videoconvertscale went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-videorate went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-videotestsrc went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-volume went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-vorbis went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-ximagesink went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-xvimagesink went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-allocators-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-app-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audio-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-gl-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-glegl-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-glwayland-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-glx11-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-pbutils-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-rtp-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-rtsp-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-sdp-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-tag-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-video-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-af went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-az went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-bg went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ca went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-cs went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-da went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-de went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-el went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-en-gb went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-eo went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-es went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-eu went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-fi went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-fr went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-fur went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-gl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-hr went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-hu went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-id went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-it went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ja went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ka went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-lt went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-lv went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-nb went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-nl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-or went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-pl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-pt-br went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ro went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ru went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sk went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sq went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sr went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sv went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-tr went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-uk went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-vi went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-zh-cn went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-src went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-dbg went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-tests went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-staticdev went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-dev went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-doc went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-locale went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ofono/2.0-r0/temp/log.do_packagedata.2753514
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_packagedata) failed with exit code '1'
+Summary: There were 11 ERROR messages, returning a non-zero exit code.
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-src went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-dbg went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-ptest went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-staticdev went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-dev went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-doc went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-locale went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-utils went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2 went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-python went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
 
---===============4458964067092060066==
+--===============4667251149192416894==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-createrepo-c-upgrade-0.20.1-0.21.1.patch"
+
+RnJvbSBmNjEyMzM0Y2JjYTIxNTc0MTIxZDBkYWVjNmEzYjUyZTg4MDQ2NzE4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMTUgQXByIDIwMjMgMDg6NTE6NTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
+cmVhdGVyZXBvLWM6IHVwZ3JhZGUgMC4yMC4xIC0+IDAuMjEuMQoKLS0tCiAuLi4vY3JlYXRlcmVw
+by1jLzAwMDEtaW5jbHVkZS1ycG0tcnBtc3RyaW5nLmgucGF0Y2ggICAgICB8IDkgKysrKysrLS0t
+CiAuLi4ve2NyZWF0ZXJlcG8tY18wLjIwLjEuYmIgPT4gY3JlYXRlcmVwby1jXzAuMjEuMS5iYn0g
+ICB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygt
+KQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jcmVhdGVyZXBvLWMve2NyZWF0ZXJlcG8t
+Y18wLjIwLjEuYmIgPT4gY3JlYXRlcmVwby1jXzAuMjEuMS5iYn0gKDk2JSkKCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY3JlYXRlcmVwby1jL2NyZWF0ZXJlcG8tYy8wMDAxLWlu
+Y2x1ZGUtcnBtLXJwbXN0cmluZy5oLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NyZWF0
+ZXJlcG8tYy9jcmVhdGVyZXBvLWMvMDAwMS1pbmNsdWRlLXJwbS1ycG1zdHJpbmcuaC5wYXRjaApp
+bmRleCBhMjQ5ZWFmNWExLi44N2NmNzI3MjEzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvY3JlYXRlcmVwby1jL2NyZWF0ZXJlcG8tYy8wMDAxLWluY2x1ZGUtcnBtLXJwbXN0cmlu
+Zy5oLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jcmVhdGVyZXBvLWMvY3JlYXRl
+cmVwby1jLzAwMDEtaW5jbHVkZS1ycG0tcnBtc3RyaW5nLmgucGF0Y2gKQEAgLTEsNyArMSw3IEBA
+Ci1Gcm9tIDhkZWZlNmFhZjkxNjEzYzNmY2I1NDBkZjY1YTk0Y2Q1NmQzNzczNjcgTW9uIFNlcCAx
+NyAwMDowMDowMCAyMDAxCitGcm9tIDU0MzAyODYzMzU1NDhlZjFiZGQ0MGE1M2MzZjE5MzVkYjEy
+NTFlM2YgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1A
+Z21haWwuY29tPgogRGF0ZTogRnJpLCAxMyBKYW4gMjAyMyAxMzoyMTo1MSAtMDgwMAotU3ViamVj
+dDogW1BBVENIIDEvMl0gaW5jbHVkZSBycG0vcnBtc3RyaW5nLmgKK1N1YmplY3Q6IFtQQVRDSF0g
+aW5jbHVkZSBycG0vcnBtc3RyaW5nLmgKIAogSXRzIG5lZWRlZCBmb3IgcmFzcHJpbnRmIGRlY2xh
+cmF0aW9uCiAKQEAgLTExLDEwICsxMSwxMyBAQCBvbiAncmFzcHJpbnRmJzsgSVNPIEM5OSBhbmQg
+bGF0ZXIgZG8gbm90IHN1cHBvcnQgaW1wbGljaXQgZnVuY3Rpb24gZGVjbGFyYXRpb25zCiAKIFVw
+c3RyZWFtLVN0YXR1czogU3VibWl0dGVkIFtodHRwczovL2dpdGh1Yi5jb20vcnBtLXNvZnR3YXJl
+LW1hbmFnZW1lbnQvY3JlYXRlcmVwb19jL3B1bGwvMzQwXQogU2lnbmVkLW9mZi1ieTogS2hlbSBS
+YWogPHJhai5raGVtQGdtYWlsLmNvbT4KKwogLS0tCiAgc3JjL3htbF9maWxlLmMgfCAxICsKICAx
+IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKIAorZGlmZiAtLWdpdCBhL3NyYy94bWxfZmls
+ZS5jIGIvc3JjL3htbF9maWxlLmMKK2luZGV4IGQyNDAwYjguLjg3MTEwOWMgMTAwNjQ0CiAtLS0g
+YS9zcmMveG1sX2ZpbGUuYwogKysrIGIvc3JjL3htbF9maWxlLmMKIEBAIC0xOSw2ICsxOSw3IEBA
+CkBAIC0yMyw1ICsyNiw1IEBAIFNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFp
+bC5jb20+CiAgI2luY2x1ZGUgPGdsaWIvZ3N0ZGlvLmg+CiArI2luY2x1ZGUgPHJwbS9ycG1zdHJp
+bmcuaD4KICAjaW5jbHVkZSA8YXNzZXJ0Lmg+CisgI2luY2x1ZGUgPHJwbS9ycG1zdHJpbmcuaD4K
+ICAjaW5jbHVkZSAieG1sX2ZpbGUuaCIKLSAjaW5jbHVkZSA8ZXJybm8uaD4KZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9jcmVhdGVyZXBvLWMvY3JlYXRlcmVwby1jXzAuMjAuMS5i
+YiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jcmVhdGVyZXBvLWMvY3JlYXRlcmVwby1jXzAuMjEu
+MS5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvY3JlYXRlcmVwby1jL2NyZWF0ZXJlcG8tY18wLjIwLjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
+aXBlcy1kZXZ0b29scy9jcmVhdGVyZXBvLWMvY3JlYXRlcmVwby1jXzAuMjEuMS5iYgppbmRleCAx
+YzRjZGQ1ZTNjLi4wZjFmN2FhNmZhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+Y3JlYXRlcmVwby1jL2NyZWF0ZXJlcG8tY18wLjIwLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL2NyZWF0ZXJlcG8tYy9jcmVhdGVyZXBvLWNfMC4yMS4xLmJiCkBAIC05LDcgKzksNyBA
+QCBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vcnBtLXNvZnR3YXJlLW1hbmFnZW1lbnQvY3Jl
+YXRlcmVwb19jO2JyYW5jaD1tYXN0ZXI7cAogICAgICAgICAgICBmaWxlOi8vMDAwMS1pbmNsdWRl
+LXJwbS1ycG1zdHJpbmcuaC5wYXRjaCBcCiAgICAgICAgICAgICIKIAotU1JDUkVWID0gImFmMTRl
+MTY0YTNlNGFiOWRmYWVmMTIxMmU4NTJiOWVjZWJjMzI2YTIiCitTUkNSRVYgPSAiMDY1MmQ3MzAz
+Y2UyMzZlNTk2YzgzYzI5Y2NjOWJlZTc4NjhmY2U2ZSIKIAogUyA9ICIke1dPUktESVJ9L2dpdCIK
+IAotLSAKMi4zOS4yCgo=
+
+--===============4667251149192416894==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -2653,553 +2556,631 @@ TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
 TARGET_FPU           = "hard"
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:088f7a42c0e8459daf9854475faf7902315bdfff"
+meta-yocto-bsp       = "tmp-auh-upgrades:7896474770f9317fc2f0d6383208a5ba333711f9"
 workspace            = "master:ff633ce7a7ffc0d39b86043caeb63a9ffcef99b8"
 
 Initialising tasks...done.
-Sstate summary: Wanted 86 Local 23 Mirrors 0 Missed 63 Current 614 (26% match, 91% complete)
+Sstate summary: Wanted 77 Local 13 Mirrors 0 Missed 64 Current 439 (16% match, 87% complete)
 NOTE: Executing Tasks
-NOTE: Running setscene task 630 of 700 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 633 of 700 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 1898 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_fetch)
-NOTE: Running task 1908 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_fetch)
-NOTE: Running task 1959 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_fetch)
-NOTE: Running task 1960 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_fetch)
-NOTE: Running task 1961 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_fetch)
-NOTE: Running task 1962 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_fetch)
-NOTE: Running task 2021 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_fetch)
-NOTE: Running task 2030 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_fetch)
-NOTE: Running task 2046 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_fetch)
-NOTE: Running task 2063 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_fetch)
-NOTE: Running task 2096 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/mpg123/mpg123_1.31.3.bb:do_fetch)
-NOTE: Running task 2097 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_fetch)
-NOTE: Running task 2098 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_fetch)
-NOTE: Running task 2099 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_fetch)
-NOTE: Running task 2110 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_write_config)
-NOTE: Running task 2148 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_fetch)
-NOTE: Running task 2184 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_write_config)
-NOTE: Running task 2219 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_write_config)
-NOTE: recipe speexdsp-1.2.1-r0: task do_fetch: Started
-NOTE: recipe libdaemon-0.14-r0: task do_fetch: Started
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/gstreamer1.0-plugins-base/1.22.0-r0/temp/log.do_packagedata_setscene.2518382
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_fetch: Started
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 699 of 700 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_package_setscene)
-NOTE: recipe speexdsp-1.2.1-r0: task do_fetch: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_fetch: Started
-NOTE: recipe libdaemon-0.14-r0: task do_fetch: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_fetch: Started
-NOTE: recipe avahi-0.8-r0: task do_fetch: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_fetch: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_fetch: Started
-NOTE: recipe ofono-2.0-r0: task do_fetch: Succeeded
-NOTE: Running task 2229 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_unpack)
-NOTE: recipe taglib-1.13-r0: task do_fetch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_fetch: Started
-NOTE: Running task 2230 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_unpack)
-NOTE: Running task 2231 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_unpack)
-NOTE: Running task 2232 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_unpack)
-NOTE: recipe pulseaudio-16.1-r0: task do_fetch: Started
-NOTE: recipe mpg123-1.31.3-r0: task do_fetch: Started
-NOTE: recipe lame-3.100-r0: task do_fetch: Started
-NOTE: Running task 2233 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe nghttp2-1.52.0-r0: task do_fetch: Succeeded
-NOTE: recipe avahi-0.8-r0: task do_fetch: Succeeded
-NOTE: recipe speex-1.2.1-r0: task do_fetch: Started
-NOTE: recipe libtool-2.4.7-r0: task do_fetch: Succeeded
-NOTE: recipe taglib-1.13-r0: task do_fetch: Succeeded
-NOTE: recipe libsoup-3.4.0-r0: task do_fetch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_fetch: Succeeded
-NOTE: Running task 2234 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_unpack)
-NOTE: recipe mpg123-1.31.3-r0: task do_fetch: Succeeded
-NOTE: recipe lame-3.100-r0: task do_fetch: Succeeded
-NOTE: recipe speex-1.2.1-r0: task do_fetch: Succeeded
-NOTE: Running task 2235 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_unpack)
-NOTE: recipe pulseaudio-16.1-r0: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_fetch: Started
-NOTE: recipe pulseaudio-16.1-r0: task do_write_config: Started
-NOTE: recipe libsoup-3.4.0-r0: task do_fetch: Succeeded
-NOTE: Running task 2236 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_unpack)
-NOTE: recipe libsoup-3.4.0-r0: task do_write_config: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_write_config: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_fetch: Succeeded
-NOTE: Running task 2237 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_unpack)
-NOTE: recipe pulseaudio-16.1-r0: task do_write_config: Succeeded
-NOTE: recipe libsoup-3.4.0-r0: task do_write_config: Succeeded
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_write_config: Succeeded
-NOTE: Running task 2238 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2239 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2240 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2241 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2242 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_unpack)
-NOTE: Running task 2243 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_unpack)
-NOTE: Running task 2244 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/mpg123/mpg123_1.31.3.bb:do_unpack)
-NOTE: Running task 2245 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_unpack)
-NOTE: Running task 2246 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_unpack)
-NOTE: Running task 2247 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_unpack)
-NOTE: Running task 2248 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2249 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2250 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_unpack)
-NOTE: Running task 2251 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2252 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_prepare_recipe_sysroot)
-NOTE: recipe speexdsp-1.2.1-r0: task do_unpack: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_unpack: Started
-NOTE: recipe libdaemon-0.14-r0: task do_unpack: Started
-NOTE: recipe ofono-2.0-r0: task do_unpack: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_unpack: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libtool-2.4.7-r0: task do_unpack: Started
-NOTE: recipe libdaemon-0.14-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe avahi-0.8-r0: task do_unpack: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_unpack: Succeeded
-NOTE: recipe speexdsp-1.2.1-r0: task do_unpack: Succeeded
-NOTE: recipe pulseaudio-16.1-r0: task do_unpack: Started
-NOTE: Running task 2253 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_patch)
-NOTE: Running task 2254 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_patch)
-NOTE: recipe libdaemon-0.14-r0: task do_unpack: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe mpg123-1.31.3-r0: task do_unpack: Started
-NOTE: recipe libtool-2.4.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe taglib-1.13-r0: task do_unpack: Started
-NOTE: recipe lame-3.100-r0: task do_unpack: Started
-NOTE: recipe speex-1.2.1-r0: task do_unpack: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_unpack: Started
-NOTE: Running task 2255 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_patch)
-NOTE: recipe libsoup-3.4.0-r0: task do_unpack: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_unpack: Started
-NOTE: recipe speex-1.2.1-r0: task do_unpack: Succeeded
-NOTE: recipe taglib-1.13-r0: task do_unpack: Succeeded
-NOTE: Running task 2256 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_patch)
-NOTE: recipe taglib-1.13-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2257 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_patch)
-NOTE: recipe lame-3.100-r0: task do_unpack: Succeeded
-NOTE: recipe lame-3.100-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2258 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_patch)
-NOTE: recipe avahi-0.8-r0: task do_unpack: Succeeded
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_patch: Started
-NOTE: Running task 2259 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_patch)
-NOTE: recipe libdaemon-0.14-r0: task do_patch: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_patch: Started
-NOTE: recipe libtool-2.4.7-r0: task do_unpack: Succeeded
-NOTE: recipe speex-1.2.1-r0: task do_patch: Started
-NOTE: recipe ofono-2.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2260 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_patch)
-NOTE: recipe taglib-1.13-r0: task do_patch: Started
-NOTE: Running task 2261 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_patch)
-NOTE: recipe mpg123-1.31.3-r0: task do_unpack: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2262 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/mpg123/mpg123_1.31.3.bb:do_patch)
-NOTE: Running task 2263 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_patch)
-NOTE: recipe libsoup-3.4.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2264 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_patch)
-NOTE: recipe lame-3.100-r0: task do_patch: Started
-NOTE: recipe avahi-0.8-r0: task do_patch: Started
-NOTE: recipe pulseaudio-16.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2265 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_patch)
-NOTE: recipe speex-1.2.1-r0: task do_patch: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_patch: Started
-NOTE: recipe ofono-2.0-r0: task do_patch: Started
-NOTE: Running task 2266 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe mpg123-1.31.3-r0: task do_patch: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_patch: Started
-NOTE: recipe libtool-2.4.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libsoup-3.4.0-r0: task do_patch: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_patch: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_unpack: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2267 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2268 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_patch)
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_unpack: Succeeded
-NOTE: recipe speex-1.2.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2269 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_patch)
-NOTE: recipe nghttp2-1.52.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe speexdsp-1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe speexdsp-1.2.1-r0: task do_patch: Succeeded
-NOTE: recipe libsoup-3.4.0-r0: task do_patch: Succeeded
-NOTE: Running task 2270 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2271 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe mpg123-1.31.3-r0: task do_patch: Succeeded
-NOTE: Running task 2272 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/mpg123/mpg123_1.31.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe libdaemon-0.14-r0: task do_patch: Succeeded
-NOTE: recipe pulseaudio-16.1-r0: task do_patch: Started
-NOTE: Running task 2273 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_deploy_source_date_epoch)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_package_setscene: Started
-NOTE: recipe lame-3.100-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_patch: Succeeded
-NOTE: Running task 2274 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_generate_toolchain_file)
-NOTE: Running task 2275 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe taglib-1.13-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe taglib-1.13-r0: task do_patch: Succeeded
-NOTE: Running task 2276 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_generate_toolchain_file)
-NOTE: recipe libpsl-0.21.2-r0: task do_patch: Started
-NOTE: Running task 2277 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_deploy_source_date_epoch)
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_patch: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libsoup-3.4.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lame-3.100-r0: task do_patch: Succeeded
-NOTE: recipe mpg123-1.31.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2278 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_deploy_source_date_epoch)
-NOTE: recipe libdaemon-0.14-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_patch: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2279 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe speex-1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_generate_toolchain_file: Started
-NOTE: recipe taglib-1.13-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe taglib-1.13-r0: task do_generate_toolchain_file: Started
-NOTE: recipe avahi-0.8-r0: task do_patch: Succeeded
-NOTE: Running task 2280 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_deploy_source_date_epoch)
-NOTE: recipe lame-3.100-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe pulseaudio-16.1-r0: task do_patch: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe taglib-1.13-r0: task do_generate_toolchain_file: Succeeded
-NOTE: Running task 2281 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_patch: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2282 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2283 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_populate_lic)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2284 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_configure)
-NOTE: recipe mpg123-1.31.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libsoup-3.4.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe avahi-0.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2285 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_configure)
-NOTE: Running task 2286 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_configure)
-NOTE: recipe nghttp2-1.52.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe taglib-1.13-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2287 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_configure)
-NOTE: recipe pulseaudio-16.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2288 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_populate_lic: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_configure: Started
-NOTE: recipe libdaemon-0.14-r0: task do_configure: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_configure: Started
-NOTE: recipe lame-3.100-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2289 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_configure)
-NOTE: recipe libpsl-0.21.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2290 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_configure)
-NOTE: recipe taglib-1.13-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_populate_lic unihash changed to ddbf6b27387096f3295bedeb481d38a4565eb81108b4e26a99ff9690ee17880c
-NOTE: recipe nghttp2-1.52.0-r0: task do_configure: Started
-NOTE: recipe avahi-0.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe pulseaudio-16.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lame-3.100-r0: task do_configure: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_configure: Started
-NOTE: recipe ofono-2.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_patch: Succeeded
-NOTE: Running task 2291 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe ofono-2.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libtool-2.4.7-r0: task do_patch: Succeeded
-NOTE: Running task 2292 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_deploy_source_date_epoch)
-NOTE: recipe libtool-2.4.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe ofono-2.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2293 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 447 of 516 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 450 of 516 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 470 of 516 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_populate_sysroot_setscene)
+NOTE: recipe shadow-4.13-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxml2-2.10.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxml2-2.10.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe shadow-4.13-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxml2-2.10.3-r0: task do_populate_sysroot_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/libxml2/2.10.3-r0/temp/log.do_packagedata_setscene.2909873
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 515 of 516 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_package_setscene)
+NOTE: Running task 896 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_fetch)
+NOTE: Running task 897 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_fetch)
+NOTE: Running task 948 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_fetch)
+NOTE: Running task 983 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_fetch)
+NOTE: Running task 996 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_fetch)
+NOTE: Running task 1031 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_fetch)
+NOTE: Running task 1035 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_fetch)
+NOTE: Running task 1179 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_fetch)
+NOTE: Running task 1198 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_fetch)
+NOTE: Running task 1199 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_fetch)
+NOTE: Running task 1203 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_fetch)
+NOTE: Running task 1204 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_fetch)
+NOTE: Running task 1205 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_fetch)
+NOTE: recipe nettle-3.8.1-r0: task do_fetch: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_fetch: Started
+NOTE: recipe libunistring-1.1-r0: task do_fetch: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_fetch: Started
+NOTE: recipe nettle-3.8.1-r0: task do_fetch: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_fetch: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_fetch: Succeeded
+NOTE: Running task 1349 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_unpack)
+NOTE: Running task 1350 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_unpack)
+NOTE: Running task 1351 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_prepare_recipe_sysroot)
+NOTE: recipe curl-8.0.1-r0: task do_fetch: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_fetch: Started
+NOTE: Running task 1352 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_unpack)
+NOTE: Running task 1353 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1354 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libidn2-2.3.4-r0: task do_fetch: Succeeded
+NOTE: recipe gnutls-3.8.0-r0: task do_fetch: Started
+NOTE: Running task 1369 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_unpack)
+NOTE: recipe curl-8.0.1-r0: task do_fetch: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1417 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_unpack)
+NOTE: Running task 1431 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_unpack)
+NOTE: recipe gnutls-3.8.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1448 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_fetch)
+NOTE: recipe file-5.44-r0: task do_fetch: Started
+NOTE: Running task 1457 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_unpack)
+NOTE: Running task 1462 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_fetch)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_fetch: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_fetch: Started
+NOTE: recipe popt-1.19-r0: task do_fetch: Started
+NOTE: recipe lua-5.4.4-r0: task do_fetch: Started
+NOTE: recipe elfutils-0.188-r0: task do_fetch: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_fetch: Succeeded
+NOTE: recipe libarchive-3.6.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1547 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_unpack)
+NOTE: Running task 1560 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_unpack)
+NOTE: recipe popt-1.19-r0: task do_fetch: Succeeded
+NOTE: Running task 1561 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe lua-5.4.4-r0: task do_fetch: Succeeded
+NOTE: Running task 1562 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_unpack)
+NOTE: Running task 1563 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1564 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_unpack)
+NOTE: Running task 1565 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe elfutils-0.188-r0: task do_fetch: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_unpack: Started
+NOTE: Running task 1592 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_unpack)
+NOTE: recipe libunistring-1.1-r0: task do_unpack: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_unpack: Started
+NOTE: recipe nettle-3.8.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libunistring-1.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe file-5.44-r0: task do_fetch: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1631 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_unpack)
+NOTE: Running task 1632 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1638 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_package_write_rpm)
+NOTE: recipe libidn2-2.3.4-r0: task do_unpack: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_unpack: Started
+NOTE: recipe curl-8.0.1-r0: task do_unpack: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_fetch: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_unpack: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_unpack: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_unpack: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe popt-1.19-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe popt-1.19-r0: task do_unpack: Started
+NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe elfutils-0.188-r0: task do_unpack: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_fetch: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_unpack: Succeeded
+NOTE: recipe file-5.44-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1639 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_unpack)
+NOTE: recipe lua-5.4.4-r0: task do_unpack: Started
+NOTE: recipe file-5.44-r0: task do_unpack: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1640 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_patch)
+NOTE: recipe popt-1.19-r0: task do_unpack: Succeeded
+NOTE: recipe libidn2-2.3.4-r0: task do_unpack: Succeeded
+NOTE: Running task 1641 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_patch)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_unpack: Succeeded
+NOTE: Running task 1642 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_patch)
+NOTE: Running task 1643 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_unpack)
+NOTE: Running task 1644 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_patch)
+NOTE: recipe lua-5.4.4-r0: task do_unpack: Succeeded
+NOTE: Running task 1645 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_patch)
+NOTE: recipe libgpg-error-1.46-r0: task do_unpack: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1646 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_patch)
+NOTE: Running task 1647 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_patch)
+NOTE: recipe libarchive-3.6.2-r0: task do_unpack: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_patch: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_unpack: Started
+NOTE: Running task 1648 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_patch)
+NOTE: recipe popt-1.19-r0: task do_patch: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_patch: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Started
+NOTE: recipe libxml2-2.10.3-r0: task do_package_setscene: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_patch: Started
+NOTE: recipe libunistring-1.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_package_write_rpm: Started
+NOTE: recipe nettle-3.8.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_patch: Started
+NOTE: recipe libunistring-1.1-r0: task do_patch: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_patch: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_patch: Started
+NOTE: recipe libunistring-1.1-r0: task do_patch: Succeeded
+NOTE: Running task 1649 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libidn2-2.3.4-r0: task do_patch: Succeeded
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_patch: Succeeded
+NOTE: Running task 1650 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1651 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_deploy_source_date_epoch)
+NOTE: recipe popt-1.19-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe popt-1.19-r0: task do_patch: Succeeded
+NOTE: Running task 1652 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_deploy_source_date_epoch)
+NOTE: recipe libarchive-3.6.2-r0: task do_patch: Succeeded
+NOTE: recipe file-5.44-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libarchive-3.6.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1653 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe curl-8.0.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1654 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_patch)
+NOTE: recipe nettle-3.8.1-r0: task do_patch: Succeeded
+NOTE: Running task 1655 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe libidn2-2.3.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_patch: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_patch: Succeeded
+NOTE: Running task 1656 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1657 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libunistring-1.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe popt-1.19-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe file-5.44-r0: task do_unpack: Succeeded
+NOTE: Running task 1658 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_patch)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_unpack: Succeeded
+NOTE: recipe curl-8.0.1-r0: task do_patch: Started
+NOTE: Running task 1659 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_patch)
+NOTE: recipe nettle-3.8.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe curl-8.0.1-r0: task do_patch: Succeeded
+NOTE: Running task 1660 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe file-5.44-r0: task do_patch: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1661 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_patch)
+NOTE: recipe libidn2-2.3.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_patch: Started
+NOTE: recipe libunistring-1.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe file-5.44-r0: task do_patch: Succeeded
+NOTE: Running task 1662 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1663 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_configure)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe popt-1.19-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libarchive-3.6.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1664 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_configure)
+NOTE: Running task 1665 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_configure)
+NOTE: recipe curl-8.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_patch: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1666 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_patch)
+NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe file-5.44-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libunistring-1.1-r0: task do_configure: Started
+NOTE: Running task 1667 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_configure)
+NOTE: Running task 1668 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure)
+NOTE: recipe libgpg-error-1.46-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1669 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_configure)
+NOTE: recipe gnutls-3.8.0-r0: task do_unpack: Succeeded
+NOTE: recipe libarchive-3.6.2-r0: task do_configure: Started
+NOTE: Running task 1670 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_patch)
+NOTE: recipe popt-1.19-r0: task do_configure: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Started
+NOTE: recipe nettle-3.8.1-r0: task do_configure: Started
+NOTE: recipe lua-5.4.4-r0: task do_configure: Started
+NOTE: recipe curl-8.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_configure: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_patch: Succeeded
+NOTE: Running task 1671 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1672 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_generate_toolchain_file)
+NOTE: Running task 1673 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_lic)
+NOTE: recipe gnutls-3.8.0-r0: task do_patch: Started
+NOTE: recipe file-5.44-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1674 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_configure)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_patch: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_configure: Succeeded
+NOTE: Running task 1675 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe elfutils-0.188-r0: task do_unpack: Succeeded
+NOTE: Running task 1676 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_patch)
+NOTE: Running task 1677 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure_ptest_base)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_lic: Started
+NOTE: recipe file-5.44-r0: task do_configure: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe elfutils-0.188-r0: task do_patch: Started
+NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_patch: Succeeded
+NOTE: Running task 1678 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_lic unihash changed to 41fdd12f168f2f36edfe64572f3dd0291d1760e55284963136ed98eb0e466592
+NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1679 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gnutls-3.8.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_compile: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Succeeded
+NOTE: Running task 1680 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe elfutils-0.188-r0: task do_patch: Succeeded
+NOTE: Running task 1681 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_deploy_source_date_epoch)
+NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe elfutils-0.188-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe elfutils-0.188-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libxml2-2.10.3-r0: task do_package_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 2305 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_packagedata)
-NOTE: recipe ofono-2.0-r0: task do_configure: Started
-NOTE: recipe libtool-2.4.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2306 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_packagedata: Started
-NOTE: recipe libtool-2.4.7-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_packagedata: Succeeded
-NOTE: recipe taglib-1.13-r0: task do_configure: Succeeded
-NOTE: Running task 2307 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_compile)
-NOTE: recipe taglib-1.13-r0: task do_compile: Started
-NOTE: recipe taglib-1.13-r0: task do_compile: Succeeded
-NOTE: Running task 2308 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_install)
-NOTE: recipe taglib-1.13-r0: task do_install: Started
-NOTE: recipe taglib-1.13-r0: task do_install: Succeeded
-NOTE: Running task 2309 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_populate_sysroot)
-NOTE: Running task 2310 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_package)
-NOTE: recipe taglib-1.13-r0: task do_populate_sysroot: Started
-NOTE: recipe taglib-1.13-r0: task do_package: Started
-NOTE: recipe taglib-1.13-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_configure: Succeeded
-NOTE: Running task 2311 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_compile)
-NOTE: recipe nghttp2-1.52.0-r0: task do_compile: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_configure: Succeeded
-NOTE: Running task 2312 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_compile)
-NOTE: recipe taglib-1.13-r0: task do_package: Succeeded
-NOTE: Running task 2313 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_packagedata)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_compile: Started
-NOTE: recipe taglib-1.13-r0: task do_packagedata: Started
-NOTE: recipe taglib-1.13-r0: task do_packagedata: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_compile: Succeeded
-NOTE: Running task 2314 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_install)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_compile: Succeeded
-NOTE: Running task 2315 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_install)
-NOTE: recipe nghttp2-1.52.0-r0: task do_install: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_install: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_install: Succeeded
-NOTE: Running task 2316 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_populate_sysroot)
-NOTE: Running task 2317 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_package)
-NOTE: recipe nghttp2-1.52.0-r0: task do_populate_sysroot: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_package: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_install: Succeeded
-NOTE: Running task 2318 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_populate_sysroot)
-NOTE: Running task 2319 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_package)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_populate_sysroot: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_package: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_configure: Succeeded
-NOTE: Running task 2320 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_compile)
-NOTE: recipe libdaemon-0.14-r0: task do_compile: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_package: Succeeded
-NOTE: recipe lame-3.100-r0: task do_configure: Succeeded
-NOTE: Running task 2321 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_packagedata)
-NOTE: Running task 2322 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_compile)
-NOTE: recipe lame-3.100-r0: task do_compile: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_packagedata: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_configure: Succeeded
-NOTE: Running task 2323 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_compile)
-NOTE: recipe nghttp2-1.52.0-r0: task do_packagedata: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_configure: Succeeded
-NOTE: recipe speexdsp-1.2.1-r0: task do_compile: Started
-NOTE: Running task 2324 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_compile)
-NOTE: recipe libtool-2.4.7-r0: task do_compile: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_package: Succeeded
-NOTE: Running task 2325 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_packagedata)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_packagedata: Started
-NOTE: recipe libdaemon-0.14-r0: task do_compile: Succeeded
-NOTE: Running task 2326 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_install)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_packagedata: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_install: Started
-NOTE: recipe libdaemon-0.14-r0: task do_install: Succeeded
-NOTE: Running task 2327 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_populate_sysroot)
-NOTE: Running task 2328 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_package)
-NOTE: recipe libdaemon-0.14-r0: task do_populate_sysroot: Started
-NOTE: recipe libdaemon-0.14-r0: task do_package: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_compile: Succeeded
-NOTE: Running task 2329 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_install)
-NOTE: recipe speexdsp-1.2.1-r0: task do_install: Started
-NOTE: recipe libdaemon-0.14-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2330 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe avahi-0.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_install: Succeeded
-NOTE: Running task 2331 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_populate_sysroot)
-NOTE: Running task 2332 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_package)
-NOTE: recipe speexdsp-1.2.1-r0: task do_populate_sysroot: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_package: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2333 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe ofono-2.0-r0: task do_configure: Succeeded
-NOTE: Running task 2334 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_compile)
-NOTE: recipe speex-1.2.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe ofono-2.0-r0: task do_compile: Started
-NOTE: recipe speex-1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2335 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_configure)
-NOTE: recipe libdaemon-0.14-r0: task do_package: Succeeded
-NOTE: Running task 2336 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_packagedata)
-NOTE: recipe speex-1.2.1-r0: task do_configure: Started
-NOTE: recipe avahi-0.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2337 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_configure)
-NOTE: recipe libdaemon-0.14-r0: task do_packagedata: Started
-NOTE: recipe avahi-0.8-r0: task do_configure: Started
-NOTE: recipe libdaemon-0.14-r0: task do_packagedata: Succeeded
-NOTE: recipe lame-3.100-r0: task do_compile: Succeeded
-NOTE: Running task 2338 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_install)
-NOTE: recipe lame-3.100-r0: task do_install: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_package: Succeeded
-NOTE: Running task 2339 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_packagedata)
-NOTE: recipe speexdsp-1.2.1-r0: task do_packagedata: Started
-NOTE: recipe lame-3.100-r0: task do_install: Succeeded
-NOTE: Running task 2340 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_populate_sysroot)
-NOTE: Running task 2341 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_package)
-NOTE: recipe lame-3.100-r0: task do_populate_sysroot: Started
-NOTE: recipe lame-3.100-r0: task do_package: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_packagedata: Succeeded
-NOTE: recipe lame-3.100-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_compile: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_configure: Succeeded
-NOTE: Running task 2342 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_install)
-NOTE: Running task 2343 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_compile)
-NOTE: recipe libpsl-0.21.2-r0: task do_compile: Started
-NOTE: recipe libtool-2.4.7-r0: task do_install: Started
-NOTE: recipe ofono-2.0-r0: task do_compile: Succeeded
-NOTE: Running task 2344 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_install)
-NOTE: recipe ofono-2.0-r0: task do_install: Started
-NOTE: recipe lame-3.100-r0: task do_package: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_install: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_install: Succeeded
-NOTE: Running task 2345 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_packagedata)
-NOTE: Running task 2346 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_populate_sysroot)
-NOTE: Running task 2347 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_populate_sysroot)
-NOTE: Running task 2348 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_package)
-NOTE: Running task 2349 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_package)
-NOTE: recipe lame-3.100-r0: task do_packagedata: Started
-NOTE: recipe ofono-2.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libtool-2.4.7-r0: task do_populate_sysroot: Started
-NOTE: recipe ofono-2.0-r0: task do_package: Started
-NOTE: recipe libtool-2.4.7-r0: task do_package: Started
-NOTE: recipe lame-3.100-r0: task do_packagedata: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_package: Succeeded
-NOTE: Running task 2350 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_packagedata)
-NOTE: recipe libtool-2.4.7-r0: task do_packagedata: Started
-NOTE: recipe libtool-2.4.7-r0: task do_packagedata: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_compile: Succeeded
-NOTE: Running task 2351 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_install)
-NOTE: recipe libpsl-0.21.2-r0: task do_install: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_install: Succeeded
-NOTE: Running task 2352 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_populate_sysroot)
-NOTE: Running task 2353 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_package)
-NOTE: recipe libpsl-0.21.2-r0: task do_populate_sysroot: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_package: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2354 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libsoup-3.4.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe ofono-2.0-r0: task do_package: Succeeded
-NOTE: Running task 2355 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_packagedata)
-NOTE: recipe ofono-2.0-r0: task do_packagedata: Started
-NOTE: recipe libsoup-3.4.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2356 of 2396 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_configure)
-NOTE: recipe libpsl-0.21.2-r0: task do_package: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_packagedata: Failed
-NOTE: recipe libsoup-3.4.0-r0: task do_configure: Started
-NOTE: recipe speex-1.2.1-r0: task do_configure: Succeeded
-NOTE: recipe libsoup-3.4.0-r0: task do_configure: Succeeded
-NOTE: recipe avahi-0.8-r0: task do_configure: Succeeded
-NOTE: Tasks Summary: Attempted 2356 tasks of which 2221 didn't need to be rerun and 1 failed.
+NOTE: Running task 1719 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_packagedata)
+NOTE: recipe libxml2-2.10.3-r0: task do_packagedata: Started
+NOTE: recipe lua-5.4.4-r0: task do_compile: Succeeded
+NOTE: Running task 1722 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile_ptest_base)
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Started
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1723 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install)
+NOTE: recipe libxml2-2.10.3-r0: task do_packagedata: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_install: Started
+NOTE: recipe lua-5.4.4-r0: task do_install: Succeeded
+NOTE: Running task 1732 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install_ptest_base)
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Started
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1733 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_populate_sysroot)
+NOTE: Running task 1734 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_package)
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Started
+NOTE: recipe lua-5.4.4-r0: task do_package: Started
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_configure: Succeeded
+NOTE: Running task 1735 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_configure_ptest_base)
+NOTE: recipe nettle-3.8.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe nettle-3.8.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1736 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_compile)
+NOTE: recipe nettle-3.8.1-r0: task do_compile: Started
+NOTE: recipe lua-5.4.4-r0: task do_package: Succeeded
+NOTE: Running task 1737 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_packagedata)
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Started
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Succeeded
+NOTE: recipe popt-1.19-r0: task do_configure: Succeeded
+NOTE: Running task 1738 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_configure_ptest_base)
+NOTE: recipe popt-1.19-r0: task do_configure_ptest_base: Started
+NOTE: recipe popt-1.19-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1739 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_compile)
+NOTE: recipe popt-1.19-r0: task do_compile: Started
+NOTE: recipe popt-1.19-r0: task do_compile: Succeeded
+NOTE: Running task 1740 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_compile_ptest_base)
+NOTE: recipe popt-1.19-r0: task do_compile_ptest_base: Started
+NOTE: recipe popt-1.19-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1741 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_install)
+NOTE: recipe popt-1.19-r0: task do_install: Started
+NOTE: recipe popt-1.19-r0: task do_install: Succeeded
+NOTE: Running task 1742 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_install_ptest_base)
+NOTE: recipe popt-1.19-r0: task do_install_ptest_base: Started
+NOTE: recipe popt-1.19-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1743 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_populate_sysroot)
+NOTE: Running task 1744 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_package)
+NOTE: recipe popt-1.19-r0: task do_populate_sysroot: Started
+NOTE: recipe popt-1.19-r0: task do_package: Started
+NOTE: recipe popt-1.19-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe file-5.44-r0: task do_configure: Succeeded
+NOTE: Running task 1745 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_compile)
+NOTE: recipe file-5.44-r0: task do_compile: Started
+NOTE: recipe nettle-3.8.1-r0: task do_compile: Succeeded
+NOTE: Running task 1746 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_compile_ptest_base)
+NOTE: recipe nettle-3.8.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_configure: Succeeded
+NOTE: Running task 1747 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_configure_ptest_base)
+NOTE: recipe libgpg-error-1.46-r0: task do_configure_ptest_base: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1748 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_compile)
+NOTE: recipe libgpg-error-1.46-r0: task do_compile: Started
+NOTE: recipe nettle-3.8.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1749 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_install)
+NOTE: recipe file-5.44-r0: task do_compile: Succeeded
+NOTE: Running task 1750 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_install)
+NOTE: recipe nettle-3.8.1-r0: task do_install: Started
+NOTE: recipe file-5.44-r0: task do_install: Started
+NOTE: recipe popt-1.19-r0: task do_package: Succeeded
+NOTE: Running task 1751 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_packagedata)
+NOTE: recipe file-5.44-r0: task do_install: Succeeded
+NOTE: Running task 1752 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_populate_sysroot)
+NOTE: Running task 1753 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_package)
+NOTE: recipe popt-1.19-r0: task do_packagedata: Started
+NOTE: recipe nettle-3.8.1-r0: task do_install: Succeeded
+NOTE: Running task 1754 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_install_ptest_base)
+NOTE: recipe file-5.44-r0: task do_populate_sysroot: Started
+NOTE: recipe file-5.44-r0: task do_package: Started
+NOTE: recipe nettle-3.8.1-r0: task do_install_ptest_base: Started
+NOTE: recipe nettle-3.8.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1755 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_populate_sysroot)
+NOTE: Running task 1756 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_package)
+NOTE: recipe popt-1.19-r0: task do_packagedata: Succeeded
+NOTE: recipe file-5.44-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_populate_sysroot: Started
+NOTE: recipe nettle-3.8.1-r0: task do_package: Started
+NOTE: recipe nettle-3.8.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe file-5.44-r0: task do_package: Succeeded
+NOTE: Running task 1757 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_packagedata)
+NOTE: recipe file-5.44-r0: task do_packagedata: Started
+NOTE: recipe file-5.44-r0: task do_packagedata: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_compile: Succeeded
+NOTE: Running task 1758 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_compile_ptest_base)
+NOTE: recipe libgpg-error-1.46-r0: task do_compile_ptest_base: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1759 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_install)
+NOTE: recipe libgpg-error-1.46-r0: task do_install: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_install: Succeeded
+NOTE: Running task 1760 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_install_ptest_base)
+NOTE: recipe libgpg-error-1.46-r0: task do_install_ptest_base: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1761 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_populate_sysroot)
+NOTE: Running task 1762 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_package)
+NOTE: recipe libgpg-error-1.46-r0: task do_populate_sysroot: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_package: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1763 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1764 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_configure)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_configure: Started
+NOTE: recipe nettle-3.8.1-r0: task do_package: Succeeded
+NOTE: Running task 1765 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_packagedata)
+NOTE: recipe nettle-3.8.1-r0: task do_packagedata: Started
+NOTE: recipe nettle-3.8.1-r0: task do_packagedata: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_package: Succeeded
+NOTE: Running task 1766 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_packagedata)
+NOTE: recipe libgpg-error-1.46-r0: task do_packagedata: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_packagedata: Succeeded
+NOTE: recipe libarchive-3.6.2-r0: task do_configure: Succeeded
+NOTE: Running task 1767 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_compile)
+NOTE: recipe libarchive-3.6.2-r0: task do_compile: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_compile: Succeeded
+NOTE: Running task 1768 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_install)
+NOTE: recipe libarchive-3.6.2-r0: task do_install: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_install: Succeeded
+NOTE: Running task 1769 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_populate_sysroot)
+NOTE: Running task 1770 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_package)
+NOTE: recipe libarchive-3.6.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_package: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_configure: Succeeded
+NOTE: Running task 1771 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_compile)
+NOTE: recipe libunistring-1.1-r0: task do_compile: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_package: Succeeded
+NOTE: Running task 1772 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_packagedata)
+NOTE: recipe libarchive-3.6.2-r0: task do_packagedata: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_packagedata: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_configure: Succeeded
+NOTE: Running task 1773 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_configure_ptest_base)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1774 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_compile)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_compile: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_compile: Succeeded
+NOTE: Running task 1775 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_compile_ptest_base)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1776 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_install)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_install: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_install: Succeeded
+NOTE: Running task 1777 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_install_ptest_base)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_install_ptest_base: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1778 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_populate_sysroot)
+NOTE: Running task 1779 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_package)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_package: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_package: Succeeded
+NOTE: Running task 1780 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_packagedata)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_packagedata: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_packagedata: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_compile: Succeeded
+NOTE: Running task 1781 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_install)
+NOTE: recipe libunistring-1.1-r0: task do_install: Started
+NOTE: recipe libunistring-1.1-r0: task do_install: Succeeded
+NOTE: Running task 1782 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_populate_sysroot)
+NOTE: Running task 1783 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_package)
+NOTE: recipe libunistring-1.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libunistring-1.1-r0: task do_package: Started
+NOTE: recipe libunistring-1.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1784 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libidn2-2.3.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1785 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_configure)
+NOTE: recipe libidn2-2.3.4-r0: task do_configure: Started
+NOTE: recipe libunistring-1.1-r0: task do_package: Succeeded
+NOTE: Running task 1786 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_packagedata)
+NOTE: recipe libunistring-1.1-r0: task do_packagedata: Started
+NOTE: recipe libunistring-1.1-r0: task do_packagedata: Succeeded
+NOTE: recipe libidn2-2.3.4-r0: task do_configure: Succeeded
+NOTE: Running task 1787 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_compile)
+NOTE: recipe libidn2-2.3.4-r0: task do_compile: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_compile: Succeeded
+NOTE: Running task 1788 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_install)
+NOTE: recipe libidn2-2.3.4-r0: task do_install: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_install: Succeeded
+NOTE: Running task 1789 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_populate_sysroot)
+NOTE: Running task 1790 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_package)
+NOTE: recipe libidn2-2.3.4-r0: task do_populate_sysroot: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_package: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1791 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1792 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe curl-8.0.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe curl-8.0.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1793 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_configure)
+NOTE: recipe curl-8.0.1-r0: task do_configure: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1794 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_configure)
+NOTE: recipe gnutls-3.8.0-r0: task do_configure: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_package: Succeeded
+NOTE: Running task 1795 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_packagedata)
+NOTE: recipe libidn2-2.3.4-r0: task do_packagedata: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_packagedata: Succeeded
+NOTE: recipe curl-8.0.1-r0: task do_configure: Succeeded
+NOTE: Running task 1796 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_configure_ptest_base)
+NOTE: recipe curl-8.0.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe curl-8.0.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1797 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_compile)
+NOTE: recipe curl-8.0.1-r0: task do_compile: Started
+NOTE: recipe curl-8.0.1-r0: task do_compile: Succeeded
+NOTE: Running task 1798 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_compile_ptest_base)
+NOTE: recipe curl-8.0.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe curl-8.0.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1799 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_install)
+NOTE: recipe curl-8.0.1-r0: task do_install: Started
+NOTE: recipe curl-8.0.1-r0: task do_install: Succeeded
+NOTE: Running task 1800 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_install_ptest_base)
+NOTE: recipe curl-8.0.1-r0: task do_install_ptest_base: Started
+NOTE: recipe curl-8.0.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1801 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_populate_sysroot)
+NOTE: Running task 1802 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_package)
+NOTE: recipe curl-8.0.1-r0: task do_populate_sysroot: Started
+NOTE: recipe curl-8.0.1-r0: task do_package: Started
+NOTE: recipe curl-8.0.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe curl-8.0.1-r0: task do_package: Succeeded
+NOTE: Running task 1803 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_packagedata)
+NOTE: recipe curl-8.0.1-r0: task do_packagedata: Started
+NOTE: recipe curl-8.0.1-r0: task do_packagedata: Succeeded
+NOTE: recipe gnutls-3.8.0-r0: task do_configure: Succeeded
+NOTE: Running task 1804 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_configure_ptest_base)
+NOTE: recipe gnutls-3.8.0-r0: task do_configure_ptest_base: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1805 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_compile)
+NOTE: recipe gnutls-3.8.0-r0: task do_compile: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_compile: Succeeded
+NOTE: Running task 1806 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_compile_ptest_base)
+NOTE: recipe gnutls-3.8.0-r0: task do_compile_ptest_base: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1807 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_install)
+NOTE: recipe gnutls-3.8.0-r0: task do_install: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_install: Succeeded
+NOTE: Running task 1808 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_install_ptest_base)
+NOTE: recipe gnutls-3.8.0-r0: task do_install_ptest_base: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1809 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_populate_sysroot)
+NOTE: Running task 1810 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_package)
+NOTE: recipe gnutls-3.8.0-r0: task do_populate_sysroot: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_package: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1811 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1812 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_configure)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_configure: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_package: Succeeded
+NOTE: Running task 1813 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_packagedata)
+NOTE: recipe gnutls-3.8.0-r0: task do_packagedata: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_packagedata: Succeeded
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_configure: Succeeded
+NOTE: Running task 1814 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_compile)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_compile: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_compile: Succeeded
+NOTE: Running task 1815 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_install)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_install: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_install: Succeeded
+NOTE: Running task 1816 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_populate_sysroot)
+NOTE: Running task 1817 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_package)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_populate_sysroot: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_package: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1818 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_prepare_recipe_sysroot)
+NOTE: recipe elfutils-0.188-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe elfutils-0.188-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1819 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_configure)
+NOTE: recipe elfutils-0.188-r0: task do_configure: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_package: Succeeded
+NOTE: Running task 1820 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_packagedata)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_packagedata: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_packagedata: Succeeded
+NOTE: recipe elfutils-0.188-r0: task do_configure: Succeeded
+NOTE: Running task 1821 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_configure_ptest_base)
+NOTE: recipe elfutils-0.188-r0: task do_configure_ptest_base: Started
+NOTE: recipe elfutils-0.188-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1822 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_compile)
+NOTE: recipe elfutils-0.188-r0: task do_compile: Started
+NOTE: recipe elfutils-0.188-r0: task do_compile: Succeeded
+NOTE: Running task 1823 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_compile_ptest_base)
+NOTE: recipe elfutils-0.188-r0: task do_compile_ptest_base: Started
+NOTE: recipe elfutils-0.188-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1824 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_install)
+NOTE: recipe elfutils-0.188-r0: task do_install: Started
+NOTE: recipe elfutils-0.188-r0: task do_install: Succeeded
+NOTE: Running task 1825 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_install_ptest_base)
+NOTE: recipe elfutils-0.188-r0: task do_install_ptest_base: Started
+NOTE: recipe elfutils-0.188-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1826 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_populate_sysroot)
+NOTE: Running task 1827 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_package)
+NOTE: recipe elfutils-0.188-r0: task do_populate_sysroot: Started
+NOTE: recipe elfutils-0.188-r0: task do_package: Started
+NOTE: recipe elfutils-0.188-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1828 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1829 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_configure)
+NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Started
+NOTE: recipe elfutils-0.188-r0: task do_package: Succeeded
+NOTE: Running task 1830 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_packagedata)
+NOTE: recipe elfutils-0.188-r0: task do_packagedata: Started
+NOTE: recipe elfutils-0.188-r0: task do_packagedata: Succeeded
+NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Succeeded
+NOTE: Running task 1831 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_compile)
+NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Succeeded
+NOTE: Running task 1832 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_install)
+NOTE: recipe rpm-1_4.18.0-r0: task do_install: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_install: Succeeded
+NOTE: Running task 1833 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_populate_sysroot)
+NOTE: Running task 1834 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_package)
+NOTE: recipe rpm-1_4.18.0-r0: task do_populate_sysroot: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_package: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1835 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1836 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_configure)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_configure: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_configure: Succeeded
+NOTE: Running task 1837 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_compile)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_compile: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_compile: Succeeded
+NOTE: Running task 1838 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_install)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_install: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_install: Succeeded
+NOTE: Running task 1839 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_sysroot)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_sysroot: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe rpm-1_4.18.0-r0: task do_package: Succeeded
+NOTE: Running task 1840 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_packagedata)
+NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1841 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package: Succeeded
+NOTE: Running task 1842 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_packagedata)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_packagedata: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 1843 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package_write_rpm)
+NOTE: Running task 1844 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package_qa)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package_write_rpm: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package_qa: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package_qa: Succeeded
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1845 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_build)
+NOTE: Tasks Summary: Attempted 1845 tasks of which 1649 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_packagedata
-Summary: There were 113 ERROR messages, returning a non-zero exit code.
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-src went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-dbg went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-staticdev went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-dev went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-doc went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-apps went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-meta went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-glib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstallocators-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstapp-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstaudio-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstfft-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstgl-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstpbutils-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstriff-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstrtp-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstrtsp-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstsdp-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgsttag-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstvideo-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-adder went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-alsa went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-app went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audioconvert went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audiomixer went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audiorate went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audioresample went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audiotestsrc went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-compositor went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-encoding went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-gio went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-ogg went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-opengl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-overlaycomposition went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-pango went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-pbtypes went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-playback went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-rawparse went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-subparse went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-tcp went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-theora went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-typefindfunctions went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-videoconvertscale went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-videorate went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-videotestsrc went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-volume went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-vorbis went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-ximagesink went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-xvimagesink went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-allocators-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-app-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audio-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-gl-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-glegl-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-glwayland-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-glx11-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-pbutils-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-rtp-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-rtsp-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-sdp-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-tag-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-video-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-af went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-az went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-bg went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ca went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-cs went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-da went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-de went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-el went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-en-gb went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-eo went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-es went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-eu went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-fi went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-fr went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-fur went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-gl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-hr went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-hu went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-id went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-it went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ja went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ka went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-lt went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-lv went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-nb went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-nl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-or went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-pl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-pt-br went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ro went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ru went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sk went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sq went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sr went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sv went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-tr went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-uk went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-vi went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-zh-cn went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-src went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-dbg went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-tests went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-staticdev went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-dev went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-doc went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-locale went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/ofono/2.0-r0/temp/log.do_packagedata.2568658
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_packagedata) failed with exit code '1'
+Summary: There were 11 ERROR messages, returning a non-zero exit code.
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-src went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-dbg went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-ptest went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-staticdev went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-dev went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-doc went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-locale went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-utils went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2 went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-python went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
 
---===============4458964067092060066==
+--===============4667251149192416894==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -3225,548 +3206,671 @@ TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:088f7a42c0e8459daf9854475faf7902315bdfff"
+meta-yocto-bsp       = "tmp-auh-upgrades:7896474770f9317fc2f0d6383208a5ba333711f9"
 workspace            = "master:ff633ce7a7ffc0d39b86043caeb63a9ffcef99b8"
 
 Initialising tasks...done.
-Sstate summary: Wanted 86 Local 23 Mirrors 0 Missed 63 Current 604 (26% match, 90% complete)
+Sstate summary: Wanted 81 Local 13 Mirrors 0 Missed 68 Current 435 (16% match, 86% complete)
 NOTE: Executing Tasks
-NOTE: Running setscene task 620 of 690 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 623 of 690 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 1886 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_fetch)
-NOTE: Running task 1894 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_fetch)
-NOTE: Running task 1945 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_fetch)
-NOTE: Running task 1946 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_fetch)
-NOTE: Running task 1949 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_fetch)
-NOTE: Running task 1950 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_fetch)
-NOTE: Running task 2006 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_fetch)
-NOTE: Running task 2015 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_fetch)
-NOTE: Running task 2026 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_fetch)
-NOTE: Running task 2045 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_fetch)
-NOTE: Running task 2076 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_fetch)
-NOTE: Running task 2077 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_fetch)
-NOTE: Running task 2078 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/mpg123/mpg123_1.31.3.bb:do_fetch)
-NOTE: Running task 2080 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_fetch)
-NOTE: Running task 2087 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_write_config)
-NOTE: Running task 2122 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_fetch)
-NOTE: Running task 2150 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_write_config)
-NOTE: recipe speexdsp-1.2.1-r0: task do_fetch: Started
-NOTE: recipe libdaemon-0.14-r0: task do_fetch: Started
-NOTE: Running task 2183 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_write_config)
-NOTE: recipe speexdsp-1.2.1-r0: task do_fetch: Succeeded
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_fetch: Started
-NOTE: recipe libdaemon-0.14-r0: task do_fetch: Succeeded
-NOTE: Running task 2193 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_unpack)
-NOTE: recipe ofono-2.0-r0: task do_fetch: Started
-NOTE: Running task 2194 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2195 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_unpack)
-NOTE: Running task 2196 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libtool-2.4.7-r0: task do_fetch: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_fetch: Succeeded
-NOTE: Running task 2197 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_unpack)
-NOTE: recipe avahi-0.8-r0: task do_fetch: Started
-NOTE: Running task 2198 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_prepare_recipe_sysroot)
-NOTE: recipe nghttp2-1.52.0-r0: task do_fetch: Started
-NOTE: recipe ofono-2.0-r0: task do_fetch: Succeeded
-NOTE: recipe taglib-1.13-r0: task do_fetch: Started
-NOTE: Running task 2199 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_unpack)
-NOTE: recipe libpsl-0.21.2-r0: task do_fetch: Started
-NOTE: Running task 2200 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe lame-3.100-r0: task do_fetch: Started
-NOTE: recipe mpg123-1.31.3-r0: task do_fetch: Started
-NOTE: recipe speex-1.2.1-r0: task do_fetch: Started
-NOTE: recipe pulseaudio-16.1-r0: task do_fetch: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_fetch: Succeeded
-NOTE: recipe taglib-1.13-r0: task do_fetch: Succeeded
-NOTE: recipe libsoup-3.4.0-r0: task do_fetch: Started
-NOTE: recipe avahi-0.8-r0: task do_fetch: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_fetch: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_fetch: Succeeded
-NOTE: Running task 2201 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_unpack)
-NOTE: recipe mpg123-1.31.3-r0: task do_fetch: Succeeded
-NOTE: recipe lame-3.100-r0: task do_fetch: Succeeded
-NOTE: recipe speex-1.2.1-r0: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_fetch: Started
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/gstreamer1.0-plugins-base/1.22.0-r0/temp/log.do_packagedata_setscene.2575668
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: recipe pulseaudio-16.1-r0: task do_fetch: Succeeded
-NOTE: recipe libsoup-3.4.0-r0: task do_fetch: Succeeded
-NOTE: recipe libsoup-3.4.0-r0: task do_write_config: Started
-NOTE: Running setscene task 689 of 690 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_package_setscene)
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_write_config: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_fetch: Succeeded
-NOTE: recipe speexdsp-1.2.1-r0: task do_unpack: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libdaemon-0.14-r0: task do_unpack: Started
-NOTE: recipe libdaemon-0.14-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe pulseaudio-16.1-r0: task do_write_config: Started
-NOTE: Running task 2202 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_unpack)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_unpack: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_unpack: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_unpack: Started
-NOTE: recipe libdaemon-0.14-r0: task do_unpack: Succeeded
-NOTE: recipe libsoup-3.4.0-r0: task do_write_config: Succeeded
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_write_config: Succeeded
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_unpack: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe pulseaudio-16.1-r0: task do_write_config: Succeeded
-NOTE: recipe avahi-0.8-r0: task do_unpack: Started
-NOTE: Running task 2203 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_patch)
-NOTE: recipe avahi-0.8-r0: task do_unpack: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2204 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_patch)
-NOTE: Running task 2205 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_patch)
-NOTE: Running task 2206 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_patch)
-NOTE: Running task 2207 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_patch)
-NOTE: Running task 2208 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_unpack)
-NOTE: Running task 2209 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_unpack)
-NOTE: Running task 2210 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2211 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_unpack)
-NOTE: Running task 2212 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_unpack)
-NOTE: Running task 2213 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_unpack)
-NOTE: Running task 2214 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_unpack)
-NOTE: Running task 2215 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/mpg123/mpg123_1.31.3.bb:do_unpack)
-NOTE: Running task 2216 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_unpack)
-NOTE: Running task 2217 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2218 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2219 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_unpack)
-NOTE: Running task 2220 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_prepare_recipe_sysroot)
-NOTE: recipe speexdsp-1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2221 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libdaemon-0.14-r0: task do_patch: Started
-NOTE: recipe libtool-2.4.7-r0: task do_unpack: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_patch: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_unpack: Started
-NOTE: recipe ofono-2.0-r0: task do_patch: Started
-NOTE: recipe taglib-1.13-r0: task do_unpack: Started
-NOTE: recipe lame-3.100-r0: task do_unpack: Started
-NOTE: recipe libtool-2.4.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe mpg123-1.31.3-r0: task do_unpack: Started
-NOTE: recipe speex-1.2.1-r0: task do_unpack: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_unpack: Started
-NOTE: recipe avahi-0.8-r0: task do_patch: Started
-NOTE: recipe libsoup-3.4.0-r0: task do_unpack: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_patch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe pulseaudio-16.1-r0: task do_unpack: Started
-NOTE: recipe lame-3.100-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe taglib-1.13-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_unpack: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_patch: Succeeded
-NOTE: Running task 2222 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_deploy_source_date_epoch)
-NOTE: recipe taglib-1.13-r0: task do_unpack: Succeeded
-NOTE: recipe speex-1.2.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2223 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_patch)
-NOTE: Running task 2224 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_patch)
-NOTE: recipe lame-3.100-r0: task do_unpack: Succeeded
-NOTE: recipe speexdsp-1.2.1-r0: task do_patch: Succeeded
-NOTE: Running task 2225 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_patch)
-NOTE: Running task 2226 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe libdaemon-0.14-r0: task do_patch: Succeeded
-NOTE: Running task 2227 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_deploy_source_date_epoch)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe taglib-1.13-r0: task do_patch: Started
-NOTE: recipe speex-1.2.1-r0: task do_patch: Started
-NOTE: recipe libtool-2.4.7-r0: task do_unpack: Succeeded
-NOTE: Running task 2228 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_patch)
-NOTE: recipe speexdsp-1.2.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lame-3.100-r0: task do_patch: Started
-NOTE: recipe mpg123-1.31.3-r0: task do_unpack: Succeeded
-NOTE: Running task 2229 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/mpg123/mpg123_1.31.3.bb:do_patch)
-NOTE: recipe libsoup-3.4.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2230 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_patch)
-NOTE: recipe nghttp2-1.52.0-r0: task do_unpack: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2231 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_patch)
-NOTE: recipe speex-1.2.1-r0: task do_patch: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2232 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe pulseaudio-16.1-r0: task do_unpack: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_patch: Started
-NOTE: Running task 2233 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_patch)
-NOTE: recipe mpg123-1.31.3-r0: task do_patch: Started
-NOTE: recipe avahi-0.8-r0: task do_patch: Succeeded
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2234 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2235 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_configure)
-NOTE: recipe lame-3.100-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_patch: Started
-NOTE: recipe speex-1.2.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_unpack: Succeeded
-NOTE: recipe libsoup-3.4.0-r0: task do_patch: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2236 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_patch)
-NOTE: recipe taglib-1.13-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe taglib-1.13-r0: task do_patch: Succeeded
-NOTE: Running task 2237 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2238 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_generate_toolchain_file)
-NOTE: Running task 2239 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2240 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_patch)
-NOTE: recipe nghttp2-1.52.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe mpg123-1.31.3-r0: task do_patch: Succeeded
-NOTE: Running task 2241 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/mpg123/mpg123_1.31.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe libsoup-3.4.0-r0: task do_patch: Succeeded
-NOTE: Running task 2242 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe lame-3.100-r0: task do_patch: Succeeded
-NOTE: Running task 2243 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_deploy_source_date_epoch)
-NOTE: recipe libdaemon-0.14-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_package_setscene: Started
-NOTE: Running task 2244 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_configure)
-NOTE: recipe avahi-0.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe pulseaudio-16.1-r0: task do_patch: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_patch: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_patch: Started
-NOTE: Running task 2245 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_generate_toolchain_file)
-NOTE: Running task 2246 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe speexdsp-1.2.1-r0: task do_configure: Started
-NOTE: recipe taglib-1.13-r0: task do_generate_toolchain_file: Started
-NOTE: recipe taglib-1.13-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_patch: Started
-NOTE: recipe mpg123-1.31.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lame-3.100-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libsoup-3.4.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_patch: Succeeded
-NOTE: Running task 2247 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe speex-1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe taglib-1.13-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_configure: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_generate_toolchain_file: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe taglib-1.13-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_patch: Succeeded
-NOTE: Running task 2248 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_configure)
-NOTE: recipe avahi-0.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2249 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2250 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_populate_lic)
-NOTE: recipe mpg123-1.31.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe pulseaudio-16.1-r0: task do_patch: Succeeded
-NOTE: recipe lame-3.100-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libsoup-3.4.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2251 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2252 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_configure)
-NOTE: recipe ofono-2.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_patch: Succeeded
-NOTE: Running task 2253 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe taglib-1.13-r0: task do_configure: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_populate_lic: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2254 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_configure)
-NOTE: recipe libpsl-0.21.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lame-3.100-r0: task do_configure: Started
-NOTE: Running task 2255 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_configure)
-NOTE: recipe pulseaudio-16.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe ofono-2.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_populate_lic: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_configure: Started
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb:do_populate_lic unihash changed to ddbf6b27387096f3295bedeb481d38a4565eb81108b4e26a99ff9690ee17880c
-NOTE: recipe gstreamer1.0-plugins-good-1.22.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_configure: Started
-NOTE: recipe pulseaudio-16.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2256 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_configure)
-NOTE: recipe ofono-2.0-r0: task do_configure: Started
-NOTE: recipe libtool-2.4.7-r0: task do_patch: Succeeded
-NOTE: Running task 2257 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_deploy_source_date_epoch)
-NOTE: recipe libtool-2.4.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 443 of 516 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 446 of 516 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 466 of 516 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxml2-2.10.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxml2-2.10.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe shadow-4.13-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe shadow-4.13-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxml2-2.10.3-r0: task do_populate_sysroot_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/libxml2/2.10.3-r0/temp/log.do_packagedata_setscene.3171444
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 515 of 516 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_package_setscene)
+NOTE: Running task 895 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_fetch)
+NOTE: Running task 896 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_fetch)
+NOTE: Running task 897 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_fetch)
+NOTE: Running task 946 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_fetch)
+NOTE: Running task 981 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_fetch)
+NOTE: Running task 991 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_fetch)
+NOTE: Running task 1024 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_fetch)
+NOTE: Running task 1028 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_fetch)
+NOTE: Running task 1168 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_fetch)
+NOTE: Running task 1187 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_fetch)
+NOTE: Running task 1188 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_fetch)
+NOTE: Running task 1192 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_fetch)
+NOTE: Running task 1193 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_fetch)
+NOTE: Running task 1194 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_fetch)
+NOTE: recipe libseccomp-2.5.4-r0: task do_fetch: Started
+NOTE: recipe nettle-3.8.1-r0: task do_fetch: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_fetch: Started
+NOTE: recipe libunistring-1.1-r0: task do_fetch: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_fetch: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_fetch: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_fetch: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1317 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_unpack)
+NOTE: Running task 1318 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_unpack)
+NOTE: Running task 1319 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_prepare_recipe_sysroot)
+NOTE: recipe curl-8.0.1-r0: task do_fetch: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_fetch: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_fetch: Succeeded
+NOTE: Running task 1320 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_unpack)
+NOTE: recipe gnutls-3.8.0-r0: task do_fetch: Started
+NOTE: Running task 1321 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe curl-8.0.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1322 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_unpack)
+NOTE: Running task 1323 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1324 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_unpack)
+NOTE: Running task 1328 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_unpack)
+NOTE: recipe libseccomp-2.5.4-r0: task do_fetch: Succeeded
+NOTE: recipe gnutls-3.8.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1345 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_unpack)
+NOTE: Running task 1346 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe file-5.44-r0: task do_fetch: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_fetch: Started
+NOTE: Running task 1347 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_unpack)
+NOTE: recipe popt-1.19-r0: task do_fetch: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_fetch: Started
+NOTE: recipe lua-5.4.4-r0: task do_fetch: Started
+NOTE: recipe elfutils-0.188-r0: task do_fetch: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_fetch: Succeeded
+NOTE: recipe libarchive-3.6.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1407 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_unpack)
+NOTE: recipe popt-1.19-r0: task do_fetch: Succeeded
+NOTE: Running task 1421 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_unpack)
+NOTE: Running task 1422 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe lua-5.4.4-r0: task do_fetch: Succeeded
+NOTE: Running task 1423 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_unpack)
+NOTE: Running task 1424 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1425 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_unpack)
+NOTE: Running task 1426 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe nettle-3.8.1-r0: task do_unpack: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_unpack: Started
+NOTE: Running task 1447 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_fetch)
+NOTE: recipe elfutils-0.188-r0: task do_fetch: Succeeded
+NOTE: Running task 1460 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_fetch)
+NOTE: recipe libgpg-error-1.46-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libunistring-1.1-r0: task do_unpack: Started
+NOTE: Running task 1474 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_unpack)
+NOTE: recipe file-5.44-r0: task do_fetch: Succeeded
+NOTE: Running task 1499 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_unpack)
+NOTE: Running task 1500 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libunistring-1.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe nettle-3.8.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_unpack: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_unpack: Started
+NOTE: recipe curl-8.0.1-r0: task do_unpack: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_unpack: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_unpack: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_unpack: Started
+NOTE: Running task 1627 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_package_write_rpm)
+NOTE: recipe libarchive-3.6.2-r0: task do_unpack: Started
+NOTE: recipe popt-1.19-r0: task do_unpack: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe lua-5.4.4-r0: task do_unpack: Started
+NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe popt-1.19-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Started
+NOTE: recipe elfutils-0.188-r0: task do_unpack: Started
+NOTE: recipe file-5.44-r0: task do_unpack: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_fetch: Started
+NOTE: recipe file-5.44-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe popt-1.19-r0: task do_unpack: Succeeded
+NOTE: Running task 1628 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_patch)
+NOTE: recipe nettle-3.8.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1629 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_patch)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_unpack: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_unpack: Succeeded
+NOTE: Running task 1630 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_patch)
+NOTE: Running task 1631 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_patch)
+NOTE: recipe libidn2-2.3.4-r0: task do_unpack: Succeeded
+NOTE: recipe createrepo-c-0.21.1-r0: task do_fetch: Succeeded
+NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1632 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_unpack)
+NOTE: Running task 1633 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_patch)
+NOTE: Running task 1634 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_unpack)
+NOTE: recipe libunistring-1.1-r0: task do_unpack: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_unpack: Succeeded
+NOTE: Running task 1635 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_patch)
+NOTE: Running task 1636 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_patch)
+NOTE: recipe bash-completion-2.11-r0: task do_package_write_rpm: Started
+NOTE: recipe nettle-3.8.1-r0: task do_patch: Started
+NOTE: recipe popt-1.19-r0: task do_patch: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_unpack: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_patch: Started
+NOTE: Running task 1637 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_patch)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_patch: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_unpack: Started
+NOTE: recipe libxml2-2.10.3-r0: task do_package_setscene: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_patch: Started
+NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_patch: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_patch: Started
+NOTE: recipe nettle-3.8.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_patch: Succeeded
+NOTE: recipe libarchive-3.6.2-r0: task do_patch: Started
+NOTE: Running task 1638 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe libseccomp-2.5.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_patch: Succeeded
+NOTE: Running task 1639 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_deploy_source_date_epoch)
+NOTE: recipe libgpg-error-1.46-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libidn2-2.3.4-r0: task do_patch: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_patch: Succeeded
+NOTE: Running task 1640 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe libseccomp-2.5.4-r0: task do_unpack: Succeeded
+NOTE: recipe popt-1.19-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1641 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1642 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_patch)
+NOTE: recipe popt-1.19-r0: task do_patch: Succeeded
+NOTE: recipe file-5.44-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1643 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_deploy_source_date_epoch)
+NOTE: recipe curl-8.0.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1644 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_patch)
+NOTE: recipe libarchive-3.6.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libarchive-3.6.2-r0: task do_patch: Succeeded
+NOTE: Running task 1645 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe nettle-3.8.1-r0: task do_patch: Succeeded
+NOTE: recipe file-5.44-r0: task do_unpack: Succeeded
+NOTE: Running task 1646 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1647 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_patch)
+NOTE: recipe libunistring-1.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_patch: Succeeded
+NOTE: recipe libseccomp-2.5.4-r0: task do_patch: Started
+NOTE: Running task 1648 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_deploy_source_date_epoch)
+NOTE: recipe popt-1.19-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_patch: Succeeded
+NOTE: recipe curl-8.0.1-r0: task do_patch: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1649 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1650 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_patch)
+NOTE: recipe file-5.44-r0: task do_patch: Started
+NOTE: recipe curl-8.0.1-r0: task do_patch: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1651 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe libgpg-error-1.46-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe file-5.44-r0: task do_patch: Succeeded
+NOTE: Running task 1652 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_deploy_source_date_epoch)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe createrepo-c-0.21.1-r0: task do_unpack: Succeeded
+NOTE: recipe libseccomp-2.5.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_patch: Started
+NOTE: Running task 1653 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_patch)
+NOTE: recipe libunistring-1.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libidn2-2.3.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1654 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_configure)
+NOTE: Running task 1655 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure)
+NOTE: recipe popt-1.19-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1656 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_configure)
+NOTE: recipe curl-8.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe file-5.44-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1657 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_configure)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_patch: Started
+NOTE: recipe nettle-3.8.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_configure: Started
+NOTE: Running task 1658 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_configure)
+NOTE: Running task 1659 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_patch)
+NOTE: recipe lua-5.4.4-r0: task do_configure: Started
+NOTE: recipe popt-1.19-r0: task do_configure: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1660 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_configure)
+NOTE: recipe libseccomp-2.5.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1661 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_configure)
+NOTE: recipe libarchive-3.6.2-r0: task do_configure: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_unpack: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_configure: Succeeded
+NOTE: recipe curl-8.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_configure: Started
+NOTE: Running task 1662 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_patch)
+NOTE: Running task 1663 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure_ptest_base)
+NOTE: recipe file-5.44-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Started
+NOTE: Running task 1664 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_configure)
+NOTE: recipe libgpg-error-1.46-r0: task do_configure: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_configure: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_patch: Succeeded
+NOTE: Running task 1665 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1666 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_generate_toolchain_file)
+NOTE: Running task 1667 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_lic)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_patch: Succeeded
+NOTE: recipe gnutls-3.8.0-r0: task do_patch: Started
+NOTE: recipe file-5.44-r0: task do_configure: Started
+NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Started
+NOTE: Running task 1668 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1669 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_lic: Started
+NOTE: recipe elfutils-0.188-r0: task do_unpack: Succeeded
+NOTE: Running task 1670 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_patch)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_lic unihash changed to 41fdd12f168f2f36edfe64572f3dd0291d1760e55284963136ed98eb0e466592
+NOTE: recipe lua-5.4.4-r0: task do_compile: Started
+NOTE: recipe elfutils-0.188-r0: task do_patch: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_patch: Succeeded
+NOTE: Running task 1671 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gnutls-3.8.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Succeeded
+NOTE: Running task 1672 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe elfutils-0.188-r0: task do_patch: Succeeded
+NOTE: Running task 1673 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_deploy_source_date_epoch)
+NOTE: recipe elfutils-0.188-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe elfutils-0.188-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_compile: Succeeded
+NOTE: Running task 1674 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile_ptest_base)
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Started
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1675 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install)
+NOTE: recipe libxml2-2.10.3-r0: task do_package_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 2269 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb:do_packagedata)
-NOTE: recipe libtool-2.4.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2270 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_packagedata: Started
-NOTE: recipe libtool-2.4.7-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.0-r0: task do_packagedata: Succeeded
-NOTE: recipe taglib-1.13-r0: task do_configure: Succeeded
-NOTE: Running task 2271 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_compile)
-NOTE: recipe taglib-1.13-r0: task do_compile: Started
-NOTE: recipe taglib-1.13-r0: task do_compile: Succeeded
-NOTE: Running task 2272 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_install)
-NOTE: recipe taglib-1.13-r0: task do_install: Started
-NOTE: recipe taglib-1.13-r0: task do_install: Succeeded
-NOTE: Running task 2273 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_populate_sysroot)
-NOTE: Running task 2274 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_package)
-NOTE: recipe taglib-1.13-r0: task do_populate_sysroot: Started
-NOTE: recipe taglib-1.13-r0: task do_package: Started
-NOTE: recipe taglib-1.13-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_configure: Succeeded
-NOTE: Running task 2275 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_compile)
-NOTE: recipe nghttp2-1.52.0-r0: task do_compile: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_configure: Succeeded
-NOTE: Running task 2276 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_compile)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_compile: Started
-NOTE: recipe taglib-1.13-r0: task do_package: Succeeded
-NOTE: Running task 2277 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/taglib/taglib_1.13.bb:do_packagedata)
-NOTE: recipe taglib-1.13-r0: task do_packagedata: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_compile: Succeeded
-NOTE: Running task 2278 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_install)
-NOTE: recipe taglib-1.13-r0: task do_packagedata: Succeeded
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_install: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_compile: Succeeded
-NOTE: Running task 2279 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_install)
-NOTE: recipe nghttp2-1.52.0-r0: task do_install: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_install: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_install: Succeeded
-NOTE: Running task 2280 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_populate_sysroot)
-NOTE: Running task 2281 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_package)
-NOTE: Running task 2282 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_populate_sysroot)
-NOTE: Running task 2283 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_package)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_populate_sysroot: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_package: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_package: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe nghttp2-1.52.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_configure: Succeeded
-NOTE: Running task 2284 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_compile)
-NOTE: recipe libdaemon-0.14-r0: task do_compile: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_package: Succeeded
-NOTE: Running task 2285 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_packagedata)
-NOTE: recipe libtool-2.4.7-r0: task do_configure: Succeeded
-NOTE: Running task 2286 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_compile)
-NOTE: recipe nghttp2-1.52.0-r0: task do_packagedata: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_package: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_compile: Started
-NOTE: Running task 2287 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_packagedata)
-NOTE: recipe libdaemon-0.14-r0: task do_compile: Succeeded
-NOTE: Running task 2288 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_install)
-NOTE: recipe speexdsp-1.2.1-r0: task do_configure: Succeeded
-NOTE: Running task 2289 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_compile)
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_packagedata: Started
-NOTE: recipe nghttp2-1.52.0-r0: task do_packagedata: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_install: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_compile: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_packagedata: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_install: Succeeded
-NOTE: Running task 2290 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_populate_sysroot)
-NOTE: Running task 2291 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_package)
-NOTE: recipe libdaemon-0.14-r0: task do_populate_sysroot: Started
-NOTE: recipe libdaemon-0.14-r0: task do_package: Started
-NOTE: recipe libdaemon-0.14-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2292 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe avahi-0.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_compile: Succeeded
-NOTE: Running task 2293 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_install)
-NOTE: recipe speexdsp-1.2.1-r0: task do_install: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_install: Succeeded
-NOTE: Running task 2294 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_populate_sysroot)
-NOTE: Running task 2295 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_package)
-NOTE: recipe libdaemon-0.14-r0: task do_package: Succeeded
-NOTE: recipe speexdsp-1.2.1-r0: task do_populate_sysroot: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_package: Started
-NOTE: Running task 2296 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_packagedata)
-NOTE: recipe avahi-0.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2297 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_configure)
-NOTE: recipe libdaemon-0.14-r0: task do_packagedata: Started
-NOTE: recipe ofono-2.0-r0: task do_configure: Succeeded
-NOTE: Running task 2298 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_compile)
-NOTE: recipe avahi-0.8-r0: task do_configure: Started
-NOTE: recipe ofono-2.0-r0: task do_compile: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2299 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libdaemon-0.14-r0: task do_packagedata: Succeeded
-NOTE: recipe speex-1.2.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe speex-1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2300 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_configure)
-NOTE: recipe speex-1.2.1-r0: task do_configure: Started
-NOTE: recipe lame-3.100-r0: task do_configure: Succeeded
-NOTE: Running task 2301 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_compile)
-NOTE: recipe lame-3.100-r0: task do_compile: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_package: Succeeded
-NOTE: Running task 2302 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_packagedata)
-NOTE: recipe speexdsp-1.2.1-r0: task do_packagedata: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_packagedata: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_compile: Succeeded
-NOTE: Running task 2303 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_install)
-NOTE: recipe libtool-2.4.7-r0: task do_install: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_configure: Succeeded
-NOTE: Running task 2304 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_compile)
-NOTE: recipe libpsl-0.21.2-r0: task do_compile: Started
-NOTE: recipe ofono-2.0-r0: task do_compile: Succeeded
-NOTE: Running task 2305 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_install)
-NOTE: recipe ofono-2.0-r0: task do_install: Started
-NOTE: recipe libtool-2.4.7-r0: task do_install: Succeeded
-NOTE: Running task 2306 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_populate_sysroot)
-NOTE: Running task 2307 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_package)
-NOTE: recipe libtool-2.4.7-r0: task do_populate_sysroot: Started
-NOTE: recipe libtool-2.4.7-r0: task do_package: Started
-NOTE: recipe ofono-2.0-r0: task do_install: Succeeded
-NOTE: Running task 2308 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_populate_sysroot)
-NOTE: Running task 2309 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_package)
-NOTE: recipe ofono-2.0-r0: task do_populate_sysroot: Started
-NOTE: recipe ofono-2.0-r0: task do_package: Started
-NOTE: recipe libtool-2.4.7-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe ofono-2.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe lame-3.100-r0: task do_compile: Succeeded
-NOTE: Running task 2310 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_install)
-NOTE: recipe lame-3.100-r0: task do_install: Started
-NOTE: recipe lame-3.100-r0: task do_install: Succeeded
-NOTE: Running task 2311 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_populate_sysroot)
-NOTE: Running task 2312 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_package)
-NOTE: recipe lame-3.100-r0: task do_populate_sysroot: Started
-NOTE: recipe lame-3.100-r0: task do_package: Started
-NOTE: recipe libtool-2.4.7-r0: task do_package: Succeeded
-NOTE: Running task 2313 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_packagedata)
-NOTE: recipe lame-3.100-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libtool-2.4.7-r0: task do_packagedata: Started
-NOTE: recipe libtool-2.4.7-r0: task do_packagedata: Succeeded
-NOTE: recipe lame-3.100-r0: task do_package: Succeeded
-NOTE: Running task 2314 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/lame/lame_3.100.bb:do_packagedata)
-NOTE: recipe lame-3.100-r0: task do_packagedata: Started
-NOTE: recipe lame-3.100-r0: task do_packagedata: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_compile: Succeeded
-NOTE: Running task 2315 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_install)
-NOTE: recipe libpsl-0.21.2-r0: task do_install: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_install: Succeeded
-NOTE: Running task 2316 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_populate_sysroot)
-NOTE: Running task 2317 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_package)
-NOTE: recipe libpsl-0.21.2-r0: task do_populate_sysroot: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_package: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2318 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe ofono-2.0-r0: task do_package: Succeeded
-NOTE: Running task 2319 of 2360 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_packagedata)
-NOTE: recipe libsoup-3.4.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe ofono-2.0-r0: task do_packagedata: Started
-NOTE: recipe ofono-2.0-r0: task do_packagedata: Failed
-NOTE: recipe libsoup-3.4.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_package: Succeeded
-NOTE: recipe speex-1.2.1-r0: task do_configure: Succeeded
-NOTE: recipe avahi-0.8-r0: task do_configure: Succeeded
-NOTE: Tasks Summary: Attempted 2319 tasks of which 2185 didn't need to be rerun and 1 failed.
+NOTE: Running task 1713 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_packagedata)
+NOTE: recipe lua-5.4.4-r0: task do_install: Started
+NOTE: recipe libxml2-2.10.3-r0: task do_packagedata: Started
+NOTE: recipe lua-5.4.4-r0: task do_install: Succeeded
+NOTE: Running task 1716 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install_ptest_base)
+NOTE: recipe libxml2-2.10.3-r0: task do_packagedata: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Started
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1725 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_populate_sysroot)
+NOTE: Running task 1726 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_package)
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Started
+NOTE: recipe lua-5.4.4-r0: task do_package: Started
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_configure: Succeeded
+NOTE: Running task 1727 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_configure_ptest_base)
+NOTE: recipe nettle-3.8.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe nettle-3.8.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1728 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_compile)
+NOTE: recipe nettle-3.8.1-r0: task do_compile: Started
+NOTE: recipe lua-5.4.4-r0: task do_package: Succeeded
+NOTE: Running task 1729 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_packagedata)
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Started
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Succeeded
+NOTE: recipe popt-1.19-r0: task do_configure: Succeeded
+NOTE: Running task 1730 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_configure_ptest_base)
+NOTE: recipe popt-1.19-r0: task do_configure_ptest_base: Started
+NOTE: recipe popt-1.19-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1731 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_compile)
+NOTE: recipe libseccomp-2.5.4-r0: task do_configure: Succeeded
+NOTE: Running task 1732 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_configure_ptest_base)
+NOTE: recipe popt-1.19-r0: task do_compile: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_configure_ptest_base: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1733 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_compile)
+NOTE: recipe libseccomp-2.5.4-r0: task do_compile: Started
+NOTE: recipe popt-1.19-r0: task do_compile: Succeeded
+NOTE: Running task 1734 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_compile_ptest_base)
+NOTE: recipe popt-1.19-r0: task do_compile_ptest_base: Started
+NOTE: recipe popt-1.19-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1735 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_install)
+NOTE: recipe popt-1.19-r0: task do_install: Started
+NOTE: recipe popt-1.19-r0: task do_install: Succeeded
+NOTE: Running task 1736 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_install_ptest_base)
+NOTE: recipe popt-1.19-r0: task do_install_ptest_base: Started
+NOTE: recipe popt-1.19-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1737 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_populate_sysroot)
+NOTE: Running task 1738 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_package)
+NOTE: recipe popt-1.19-r0: task do_populate_sysroot: Started
+NOTE: recipe popt-1.19-r0: task do_package: Started
+NOTE: recipe file-5.44-r0: task do_configure: Succeeded
+NOTE: Running task 1739 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_compile)
+NOTE: recipe popt-1.19-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe file-5.44-r0: task do_compile: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_compile: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_compile: Succeeded
+NOTE: Running task 1740 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_compile_ptest_base)
+NOTE: Running task 1741 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_compile_ptest_base)
+NOTE: recipe libseccomp-2.5.4-r0: task do_compile_ptest_base: Started
+NOTE: recipe nettle-3.8.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe file-5.44-r0: task do_compile: Succeeded
+NOTE: Running task 1742 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_install)
+NOTE: recipe file-5.44-r0: task do_install: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1743 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_install)
+NOTE: recipe libseccomp-2.5.4-r0: task do_install: Started
+NOTE: recipe file-5.44-r0: task do_install: Succeeded
+NOTE: Running task 1744 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_populate_sysroot)
+NOTE: Running task 1745 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_package)
+NOTE: recipe libgpg-error-1.46-r0: task do_configure: Succeeded
+NOTE: Running task 1746 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_configure_ptest_base)
+NOTE: recipe file-5.44-r0: task do_populate_sysroot: Started
+NOTE: recipe popt-1.19-r0: task do_package: Succeeded
+NOTE: recipe file-5.44-r0: task do_package: Started
+NOTE: Running task 1747 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_packagedata)
+NOTE: recipe nettle-3.8.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1748 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_install)
+NOTE: recipe libgpg-error-1.46-r0: task do_configure_ptest_base: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_install: Succeeded
+NOTE: Running task 1749 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_install_ptest_base)
+NOTE: recipe libgpg-error-1.46-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1750 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_compile)
+NOTE: recipe popt-1.19-r0: task do_packagedata: Started
+NOTE: recipe nettle-3.8.1-r0: task do_install: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_install_ptest_base: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_compile: Started
+NOTE: recipe file-5.44-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe popt-1.19-r0: task do_packagedata: Succeeded
+NOTE: recipe nettle-3.8.1-r0: task do_install: Succeeded
+NOTE: Running task 1751 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_install_ptest_base)
+NOTE: recipe nettle-3.8.1-r0: task do_install_ptest_base: Started
+NOTE: recipe nettle-3.8.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1752 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_populate_sysroot)
+NOTE: Running task 1753 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_package)
+NOTE: recipe nettle-3.8.1-r0: task do_populate_sysroot: Started
+NOTE: recipe nettle-3.8.1-r0: task do_package: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1754 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_populate_sysroot)
+NOTE: Running task 1755 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_package)
+NOTE: recipe libseccomp-2.5.4-r0: task do_populate_sysroot: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_package: Started
+NOTE: recipe nettle-3.8.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe file-5.44-r0: task do_package: Succeeded
+NOTE: Running task 1756 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.44.bb:do_packagedata)
+NOTE: recipe file-5.44-r0: task do_packagedata: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe file-5.44-r0: task do_packagedata: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_compile: Succeeded
+NOTE: Running task 1757 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_compile_ptest_base)
+NOTE: recipe libgpg-error-1.46-r0: task do_compile_ptest_base: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1758 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_install)
+NOTE: recipe libgpg-error-1.46-r0: task do_install: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_install: Succeeded
+NOTE: Running task 1759 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_install_ptest_base)
+NOTE: recipe libgpg-error-1.46-r0: task do_install_ptest_base: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_package: Succeeded
+NOTE: Running task 1760 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_packagedata)
+NOTE: recipe libgpg-error-1.46-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1761 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_populate_sysroot)
+NOTE: Running task 1762 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_package)
+NOTE: recipe libseccomp-2.5.4-r0: task do_packagedata: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_populate_sysroot: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_package: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_packagedata: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1763 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe nettle-3.8.1-r0: task do_package: Succeeded
+NOTE: Running task 1764 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_packagedata)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1765 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_configure)
+NOTE: recipe nettle-3.8.1-r0: task do_packagedata: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_configure: Started
+NOTE: recipe nettle-3.8.1-r0: task do_packagedata: Succeeded
+NOTE: recipe libgpg-error-1.46-r0: task do_package: Succeeded
+NOTE: Running task 1766 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb:do_packagedata)
+NOTE: recipe libgpg-error-1.46-r0: task do_packagedata: Started
+NOTE: recipe libgpg-error-1.46-r0: task do_packagedata: Succeeded
+NOTE: recipe libarchive-3.6.2-r0: task do_configure: Succeeded
+NOTE: Running task 1767 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_compile)
+NOTE: recipe libarchive-3.6.2-r0: task do_compile: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_compile: Succeeded
+NOTE: Running task 1768 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_install)
+NOTE: recipe libarchive-3.6.2-r0: task do_install: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_install: Succeeded
+NOTE: Running task 1769 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_populate_sysroot)
+NOTE: Running task 1770 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_package)
+NOTE: recipe libarchive-3.6.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_package: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_configure: Succeeded
+NOTE: Running task 1771 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_compile)
+NOTE: recipe libunistring-1.1-r0: task do_compile: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_package: Succeeded
+NOTE: Running task 1772 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_packagedata)
+NOTE: recipe libarchive-3.6.2-r0: task do_packagedata: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_packagedata: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_configure: Succeeded
+NOTE: Running task 1773 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_configure_ptest_base)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1774 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_compile)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_compile: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_compile: Succeeded
+NOTE: Running task 1775 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_compile_ptest_base)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1776 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_install)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_install: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_install: Succeeded
+NOTE: Running task 1777 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_install_ptest_base)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_install_ptest_base: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1778 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_populate_sysroot)
+NOTE: Running task 1779 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_package)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_package: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_package: Succeeded
+NOTE: Running task 1780 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_packagedata)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_packagedata: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_packagedata: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_compile: Succeeded
+NOTE: Running task 1781 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_install)
+NOTE: recipe libunistring-1.1-r0: task do_install: Started
+NOTE: recipe libunistring-1.1-r0: task do_install: Succeeded
+NOTE: Running task 1782 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_populate_sysroot)
+NOTE: Running task 1783 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_package)
+NOTE: recipe libunistring-1.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libunistring-1.1-r0: task do_package: Started
+NOTE: recipe libunistring-1.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1784 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libidn2-2.3.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1785 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_configure)
+NOTE: recipe libidn2-2.3.4-r0: task do_configure: Started
+NOTE: recipe libunistring-1.1-r0: task do_package: Succeeded
+NOTE: Running task 1786 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_packagedata)
+NOTE: recipe libunistring-1.1-r0: task do_packagedata: Started
+NOTE: recipe libunistring-1.1-r0: task do_packagedata: Succeeded
+NOTE: recipe libidn2-2.3.4-r0: task do_configure: Succeeded
+NOTE: Running task 1787 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_compile)
+NOTE: recipe libidn2-2.3.4-r0: task do_compile: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_compile: Succeeded
+NOTE: Running task 1788 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_install)
+NOTE: recipe libidn2-2.3.4-r0: task do_install: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_install: Succeeded
+NOTE: Running task 1789 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_populate_sysroot)
+NOTE: Running task 1790 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_package)
+NOTE: recipe libidn2-2.3.4-r0: task do_populate_sysroot: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_package: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1791 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1792 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe curl-8.0.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe curl-8.0.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1793 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_configure)
+NOTE: recipe curl-8.0.1-r0: task do_configure: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1794 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_configure)
+NOTE: recipe gnutls-3.8.0-r0: task do_configure: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_package: Succeeded
+NOTE: Running task 1795 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_packagedata)
+NOTE: recipe libidn2-2.3.4-r0: task do_packagedata: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_packagedata: Succeeded
+NOTE: recipe curl-8.0.1-r0: task do_configure: Succeeded
+NOTE: Running task 1796 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_configure_ptest_base)
+NOTE: recipe curl-8.0.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe curl-8.0.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1797 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_compile)
+NOTE: recipe curl-8.0.1-r0: task do_compile: Started
+NOTE: recipe curl-8.0.1-r0: task do_compile: Succeeded
+NOTE: Running task 1798 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_compile_ptest_base)
+NOTE: recipe curl-8.0.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe curl-8.0.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1799 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_install)
+NOTE: recipe curl-8.0.1-r0: task do_install: Started
+NOTE: recipe curl-8.0.1-r0: task do_install: Succeeded
+NOTE: Running task 1800 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_install_ptest_base)
+NOTE: recipe curl-8.0.1-r0: task do_install_ptest_base: Started
+NOTE: recipe curl-8.0.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1801 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_populate_sysroot)
+NOTE: Running task 1802 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_package)
+NOTE: recipe curl-8.0.1-r0: task do_populate_sysroot: Started
+NOTE: recipe curl-8.0.1-r0: task do_package: Started
+NOTE: recipe curl-8.0.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe curl-8.0.1-r0: task do_package: Succeeded
+NOTE: Running task 1803 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.0.1.bb:do_packagedata)
+NOTE: recipe curl-8.0.1-r0: task do_packagedata: Started
+NOTE: recipe curl-8.0.1-r0: task do_packagedata: Succeeded
+NOTE: recipe gnutls-3.8.0-r0: task do_configure: Succeeded
+NOTE: Running task 1804 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_configure_ptest_base)
+NOTE: recipe gnutls-3.8.0-r0: task do_configure_ptest_base: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1805 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_compile)
+NOTE: recipe gnutls-3.8.0-r0: task do_compile: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_compile: Succeeded
+NOTE: Running task 1806 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_compile_ptest_base)
+NOTE: recipe gnutls-3.8.0-r0: task do_compile_ptest_base: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1807 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_install)
+NOTE: recipe gnutls-3.8.0-r0: task do_install: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_install: Succeeded
+NOTE: Running task 1808 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_install_ptest_base)
+NOTE: recipe gnutls-3.8.0-r0: task do_install_ptest_base: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1809 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_populate_sysroot)
+NOTE: Running task 1810 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_package)
+NOTE: recipe gnutls-3.8.0-r0: task do_populate_sysroot: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_package: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1811 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1812 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_configure)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_configure: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_package: Succeeded
+NOTE: Running task 1813 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_packagedata)
+NOTE: recipe gnutls-3.8.0-r0: task do_packagedata: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_packagedata: Succeeded
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_configure: Succeeded
+NOTE: Running task 1814 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_compile)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_compile: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_compile: Succeeded
+NOTE: Running task 1815 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_install)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_install: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_install: Succeeded
+NOTE: Running task 1816 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_populate_sysroot)
+NOTE: Running task 1817 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_package)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_populate_sysroot: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_package: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1818 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_prepare_recipe_sysroot)
+NOTE: recipe elfutils-0.188-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe elfutils-0.188-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1819 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_configure)
+NOTE: recipe elfutils-0.188-r0: task do_configure: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_package: Succeeded
+NOTE: Running task 1820 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb:do_packagedata)
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_packagedata: Started
+NOTE: recipe libmicrohttpd-0.9.76-r0: task do_packagedata: Succeeded
+NOTE: recipe elfutils-0.188-r0: task do_configure: Succeeded
+NOTE: Running task 1821 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_configure_ptest_base)
+NOTE: recipe elfutils-0.188-r0: task do_configure_ptest_base: Started
+NOTE: recipe elfutils-0.188-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1822 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_compile)
+NOTE: recipe elfutils-0.188-r0: task do_compile: Started
+NOTE: recipe elfutils-0.188-r0: task do_compile: Succeeded
+NOTE: Running task 1823 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_compile_ptest_base)
+NOTE: recipe elfutils-0.188-r0: task do_compile_ptest_base: Started
+NOTE: recipe elfutils-0.188-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1824 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_install)
+NOTE: recipe elfutils-0.188-r0: task do_install: Started
+NOTE: recipe elfutils-0.188-r0: task do_install: Succeeded
+NOTE: Running task 1825 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_install_ptest_base)
+NOTE: recipe elfutils-0.188-r0: task do_install_ptest_base: Started
+NOTE: recipe elfutils-0.188-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1826 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_populate_sysroot)
+NOTE: Running task 1827 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_package)
+NOTE: recipe elfutils-0.188-r0: task do_populate_sysroot: Started
+NOTE: recipe elfutils-0.188-r0: task do_package: Started
+NOTE: recipe elfutils-0.188-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1828 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1829 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_configure)
+NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Started
+NOTE: recipe elfutils-0.188-r0: task do_package: Succeeded
+NOTE: Running task 1830 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.188.bb:do_packagedata)
+NOTE: recipe elfutils-0.188-r0: task do_packagedata: Started
+NOTE: recipe elfutils-0.188-r0: task do_packagedata: Succeeded
+NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Succeeded
+NOTE: Running task 1831 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_compile)
+NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Succeeded
+NOTE: Running task 1832 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_install)
+NOTE: recipe rpm-1_4.18.0-r0: task do_install: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_install: Succeeded
+NOTE: Running task 1833 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_populate_sysroot)
+NOTE: Running task 1834 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_package)
+NOTE: recipe rpm-1_4.18.0-r0: task do_populate_sysroot: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_package: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1835 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1836 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_configure)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_configure: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_configure: Succeeded
+NOTE: Running task 1837 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_compile)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_compile: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_compile: Succeeded
+NOTE: Running task 1838 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_install)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_install: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_install: Succeeded
+NOTE: Running task 1839 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_sysroot)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_sysroot: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe rpm-1_4.18.0-r0: task do_package: Succeeded
+NOTE: Running task 1840 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_packagedata)
+NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Started
+NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1841 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package: Succeeded
+NOTE: Running task 1842 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_packagedata)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_packagedata: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 1843 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package_write_rpm)
+NOTE: Running task 1844 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package_qa)
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package_write_rpm: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package_qa: Started
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package_qa: Succeeded
+NOTE: recipe createrepo-c-0.21.1-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1845 of 1845 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_build)
+NOTE: Tasks Summary: Attempted 1845 tasks of which 1635 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_packagedata
-Summary: There were 113 ERROR messages, returning a non-zero exit code.
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-src went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-dbg went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-staticdev went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-dev went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-doc went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-apps went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-meta went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-glib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstallocators-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstapp-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstaudio-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstfft-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstgl-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstpbutils-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstriff-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstrtp-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstrtsp-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstsdp-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgsttag-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgstvideo-1.0 went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-adder went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-alsa went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-app went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audioconvert went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audiomixer went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audiorate went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audioresample went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audiotestsrc went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-compositor went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-encoding went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-gio went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-ogg went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-opengl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-overlaycomposition went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-pango went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-pbtypes went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-playback went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-rawparse went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-subparse went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-tcp went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-theora went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-typefindfunctions went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-videoconvertscale went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-videorate went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-videotestsrc went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-volume went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-vorbis went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-ximagesink went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-xvimagesink went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-allocators-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-app-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audio-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-gl-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-glegl-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-glwayland-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-glx11-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-pbutils-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-rtp-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-rtsp-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-sdp-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-tag-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-video-typelib went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-af went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-az went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-bg went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ca went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-cs went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-da went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-de went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-el went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-en-gb went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-eo went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-es went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-eu went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-fi went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-fr went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-fur went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-gl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-hr went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-hu went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-id went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-it went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ja went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ka went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-lt went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-lv went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-nb went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-nl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-or went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-pl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-pt-br went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ro went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ru went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sk went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sl went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sq went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sr went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sv went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-tr went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-uk went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-vi went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-zh-cn went backwards which would break package feeds (from 0:1.22.2-r0 to 0:1.22.0-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.22.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-src went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-dbg went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-tests went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-staticdev went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-dev went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-doc went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono-locale went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: QA Issue: Package version for package ofono went backwards which would break package feeds (from 0:2.1-r0 to 0:2.0-r0) [version-going-backwards]
-ERROR: ofono-2.0-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/ofono/2.0-r0/temp/log.do_packagedata.2626158
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.0.bb:do_packagedata) failed with exit code '1'
+Summary: There were 11 ERROR messages, returning a non-zero exit code.
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-src went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-dbg went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-ptest went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-staticdev went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-dev went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-doc went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-locale went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-utils went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2 went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxml2-python went backwards which would break package feeds (from 0:2.10.4-r0 to 0:2.10.3-r0) [version-going-backwards]
+ERROR: libxml2-2.10.3-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
 
---===============4458964067092060066==--
+--===============4667251149192416894==--
 
