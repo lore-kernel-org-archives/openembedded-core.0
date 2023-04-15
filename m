@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9A01C88CBD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8BF4CA9EA5
 	for <webhook@archiver.kernel.org>; Sat, 15 Apr 2023 18:01:30 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.13796.1681581683817668563
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.13797.1681581684288546984
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Apr 2023 11:01:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=N6Ckbbxy;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018786143c48-5fbc95d6-bec9-485b-8422-b46099e3a66b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=WYUTQ67r;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018786143be3-038343df-f80c-4ddf-a0c7-d80895305d0e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1681581686;
+	t=1681581685;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=dTKoY1HJVcI0A6U966/ZsqyZsOy7H12ayZe0QRzySqo=;
-	b=N6Ckbbxy99v/dQN6XSfQZoUsAYvm7GHc+KVlvm8ZGTnb6E22f8LcuVV2odloBXcF
-	poL0drrnsTgTZjT6YYXABHxGNP2yTpDEx4X6Jnh6xfs4XhquzhwQkvygSoQ0d/EGPey
-	deRT6wZ4/uo3XU5vFrKaOUqN/tmWyZIt3fwB9YdM=
+	bh=/lEEs46H5XnIvxSgeF05RoXvE3HkcY9z6WRoZYnYdJw=;
+	b=WYUTQ67rslPF1Y02o6QU4sm0eoDSi9tY35aFIPWU9ivcfKBbOi0QIjaIVJjhqg/p
+	MN3iY54uHH1THTW1xrEj04zxUpUehOsV8wf331D6oMgGVw3UzOhDj8EjV84FaUHLzYE
+	H0KPGHgATF1lClesg8UrXRhFoL71Pch1O52CDPMg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1681581686;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1681581685;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=dTKoY1HJVcI0A6U966/ZsqyZsOy7H12ayZe0QRzySqo=;
-	b=rygS57qiNykpmguJ+6zxHxe1Mc9TW/uKaOMuG21TGO4kYTbOPJoRG3eiG0X6JoTm
-	pjk4Rjr0470E9UAt3zjvozigTnl8h/sJ6HHqEo8JivW9Z0J1/hxDKuNw76xjbAUCFRf
-	wjggz2J9Kjxd9qFIIJ71uK2ggQwl5+nr7BcjCM98=
-Content-Type: multipart/mixed; boundary="===============2940159638888293770=="
+	bh=/lEEs46H5XnIvxSgeF05RoXvE3HkcY9z6WRoZYnYdJw=;
+	b=QW8yEdM7zjgraLqSk+7E9VtcLP6kFHkEIEwhSXXxjAdjEsbUGT4ItsKSPfybHNcE
+	iE8+mz19+vA9TX/Xui3PRvgRBDkHSodCqKJDUNzR+1mzqIx5+aUQrA0yh995l1PXCKJ
+	qUBeg8GhqLvZ/e3c90pwAokh7HcnliVrZO73npDc=
+Content-Type: multipart/mixed; boundary="===============3565668650326452580=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libva: upgrading to 2.18.0 SUCCEEDED
-Message-ID: <0101018786143c48-5fbc95d6-bec9-485b-8422-b46099e3a66b-000000@us-west-2.amazonses.com>
+Subject: [AUH] kmscube: upgrading to cf4ec7f35521eb54d72ce0c92ce65b2249171cbd
+ SUCCEEDED
+Message-ID: <0101018786143be3-038343df-f80c-4ddf-a0c7-d80895305d0e-000000@us-west-2.amazonses.com>
 Date: Sat, 15 Apr 2023 18:01:25 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.04.15-54.240.27.23
+X-SES-Outgoing: 2023.04.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Apr 2023 18:01:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180066
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180058
 
---===============2940159638888293770==
+--===============3565668650326452580==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libva* to *2.18.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *kmscube* to *cf4ec7f35521eb54d72ce0c92ce65b2249171cbd* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libva-upgrade-2.16.0-2.18.0.patch
+    - apply the patch: git am 0001-kmscube-upgrade-to-latest-revision.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,121 +70,39 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============2940159638888293770==
+--===============3565668650326452580==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-kmscube-upgrade-to-latest-revision.patch"
+
+RnJvbSAxYzQyMzIzNmEwZWExYjgwZGRlOWU3OTM3Yjc4M2Q5ODY3Y2NlM2NhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMTUgQXByIDIwMjMgMTM6NTQ6MDAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBr
+bXNjdWJlOiB1cGdyYWRlIHRvIGxhdGVzdCByZXZpc2lvbgoKLS0tCiBtZXRhL3JlY2lwZXMtZ3Jh
+cGhpY3Mva21zY3ViZS9rbXNjdWJlX2dpdC5iYiB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
+c2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFw
+aGljcy9rbXNjdWJlL2ttc2N1YmVfZ2l0LmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2ttc2N1
+YmUva21zY3ViZV9naXQuYmIKaW5kZXggYjJjMTBlMDlmYi4uZTNjMDk4M2QyYiAxMDA2NDQKLS0t
+IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2ttc2N1YmUva21zY3ViZV9naXQuYmIKKysrIGIvbWV0
+YS9yZWNpcGVzLWdyYXBoaWNzL2ttc2N1YmUva21zY3ViZV9naXQuYmIKQEAgLTEwLDcgKzEwLDcg
+QEAgREVQRU5EUyA9ICJ2aXJ0dWFsL2xpYmdsZXMzIHZpcnR1YWwvbGliZ2xlczIgdmlydHVhbC9l
+Z2wgbGliZHJtIgogCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9rbXNjdWJlLmM7YmVnaW5s
+aW5lPTE7ZW5kbGluZT0yMzttZDU9OGIzMDlkNGVlNjdiNzMxNWZmNzM4MTI3MGRkNjMxZmIiCiAK
+LVNSQ1JFViA9ICIzNDUxMTE0ODFkNjU0YjM4YTcyYjVjMzYyOTE1MWRjNzRmN2E4MmJjIgorU1JD
+UkVWID0gImNmNGVjN2YzNTUyMWViNTRkNzJjZTBjOTJjZTY1YjIyNDkxNzFjYmQiCiBTUkNfVVJJ
+ID0gImdpdDovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvbWVzYS9rbXNjdWJlO2JyYW5jaD1tYXN0
+ZXI7cHJvdG9jb2w9aHR0cHMiCiBVUFNUUkVBTV9DSEVDS19DT01NSVRTID0gIjEiCiAKLS0gCjIu
+MzkuMgoK
+
+--===============3565668650326452580==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libva: PKGV changed from 2.16.0 [default] to 2.18.0 [default]
-packages/core2-32-poky-linux/libva: SRC_URI changed from "https://github.com/intel/libva/releases/download/2.16.0/libva-2.16.0.tar.bz2" to "https://github.com/intel/libva/releases/download/2.18.0/libva-2.18.0.tar.bz2"
-packages/core2-32-poky-linux/libva: PV changed from "2.16.0" to "2.18.0"
-packages/core2-32-poky-linux/libva/libva-dbg: PKGV changed from 2.16.0 [default] to 2.18.0 [default]
-packages/core2-32-poky-linux/libva/libva-dbg: RRECOMMENDS: added "libxcb-dbg libx11-xcb-dbg libxcb-dri3-dbg"
-packages/core2-32-poky-linux/libva/libva-dbg: FILELIST: removed "/usr/lib/.debug/libva-x11.so.2.1600.0 /usr/lib/.debug/libva-drm.so.2.1600.0 /usr/lib/.debug/libva.so.2.1600.0 /usr/lib/.debug/libva-wayland.so.2.1600.0 /usr/lib/.debug/libva-glx.so.2.1600.0", added "/usr/lib/.debug/libva-glx.so.2.1800.0 /usr/lib/.debug/libva-drm.so.2.1800.0 /usr/lib/.debug/libva-x11.so.2.1800.0 /usr/lib/.debug/libva.so.2.1800.0 /usr/lib/.debug/libva-wayland.so.2.1800.0"
-packages/core2-32-poky-linux/libva/libva-dbg: PV changed from "2.16.0" to "2.18.0"
-packages/core2-32-poky-linux/libva/libva-dbg: PKGSIZE changed from 730640 to 705620 (-3%)
-packages/core2-32-poky-linux/libva/libva-dev: PKGV changed from 2.16.0 [default] to 2.18.0 [default]
-packages/core2-32-poky-linux/libva/libva-dev: RRECOMMENDS: added "libxcb-dev libx11-xcb-dev libxcb-dri3-dev"
-packages/core2-32-poky-linux/libva/libva-dev: PV changed from "2.16.0" to "2.18.0"
-packages/core2-32-poky-linux/libva/libva-dev: PKGSIZE changed from 649531 to 649621 (+0%)
-packages/core2-32-poky-linux/libva/libva-doc: PKGV changed from 2.16.0 [default] to 2.18.0 [default]
-packages/core2-32-poky-linux/libva/libva-doc: PV changed from "2.16.0" to "2.18.0"
-packages/core2-32-poky-linux/libva/libva-glx: PKGV changed from 2.16.0 [default] to 2.18.0 [default]
-packages/core2-32-poky-linux/libva/libva-glx: FILELIST: removed "/usr/lib/libva-glx.so.2.1600.0", added "/usr/lib/libva-glx.so.2.1800.0"
-packages/core2-32-poky-linux/libva/libva-glx: PV changed from "2.16.0" to "2.18.0"
-packages/core2-32-poky-linux/libva/libva-locale: PKGV changed from 2.16.0 [default] to 2.18.0 [default]
-packages/core2-32-poky-linux/libva/libva-locale: PV changed from "2.16.0" to "2.18.0"
-packages/core2-32-poky-linux/libva/libva-src: PKGV changed from 2.16.0 [default] to 2.18.0 [default]
-packages/core2-32-poky-linux/libva/libva-src: FILELIST: directory renamed /usr/src/debug/libva/2.16.0-r0/va/glx -> /usr/src/debug/libva/2.18.0-r0/va/glx, directory renamed /usr/src/debug/libva/2.16.0-r0/va -> /usr/src/debug/libva/2.18.0-r0/va, directory renamed /usr/src/debug/libva/2.16.0-r0/va/drm -> /usr/src/debug/libva/2.18.0-r0/va/drm, removed "/usr/src/debug/libva/2.16.0-r0/va/x11/va_dri2.h /usr/src/debug/libva/2.16.0-r0/va/wayland/va_wayland_drm.c /usr/src/debug/libva/2.16.0-r0/va/x11/va_dricommon.c /usr/src/debug/libva/2.16.0-r0/va/x11/va_nvctrl.c /usr/src/debug/libva/2.16.0-r0/va/wayland/va_wayland_emgd.c /usr/src/debug/libva/2.16.0-r0/va/wayland/va_wayland_private.h /usr/src/debug/libva/2.16.0-r0/va/wayland/va_backend_wayland.h /usr/src/debug/libva/2.16.0-r0/va/wayland/va_wayland_drm.h /usr/src/debug/libva/2.16.0-r0/va/x11/va_dri2.c /usr/src/debug/libva/2.16.0-r0/va/wayland/va_wayland_emgd.h /usr/src/debug/libva/2.16.0-r0/va/x11/va_nvctrl.h /usr/src/debug/libva/2.16.0-r0/va/
- x11/va_dricommon.h /usr/src/debug/libva/2.16.0-r0/va/x11/dri2_util.c /usr/src/debug/libva/2.16.0-r0/va/wayland/va_wayland.c /usr/src/debug/libva/2.16.0-r0/va/x11/va_dri2str.h /usr/src/debug/libva/2.16.0-r0/va/x11/va_fglrx.h /usr/src/debug/libva/2.16.0-r0/va/x11/va_x11.c /usr/src/debug/libva/2.16.0-r0/va/x11/va_fglrx.c", added "/usr/src/debug/libva/2.18.0-r0/va/wayland/va_wayland_private.h /usr/src/debug/libva/2.18.0-r0/va/x11/va_dricommon.h /usr/src/debug/libva/2.18.0-r0/va/wayland/va_wayland_drm.h /usr/src/debug/libva/2.18.0-r0/va/x11/va_dricommon.c /usr/src/debug/libva/2.18.0-r0/va/wayland/va_wayland.c /usr/src/debug/libva/2.18.0-r0/va/wayland/va_wayland_drm.c /usr/src/debug/libva/2.18.0-r0/va/wayland/va_backend_wayland.h /usr/src/debug/libva/2.18.0-r0/va/x11/va_dri2str.h /usr/src/debug/libva/2.18.0-r0/va/x11/va_dri3.c /usr/src/debug/libva/2.18.0-r0/va/x11/va_dri2.c /usr/src/debug/libva/2.18.0-r0/va/x11/va_x11.c /usr/src/debug/libva/2.18.0-r0/va/x11/dri2_util.c /usr/src/debug/libv
- a/2.18.0-r0/va/x11/va_dri3.h /usr/src/debug/libva/2.18.0-r0/va/x11/va_dri2.h"
-packages/core2-32-poky-linux/libva/libva-src: PV changed from "2.16.0" to "2.18.0"
-packages/core2-32-poky-linux/libva/libva-src: PKGSIZE changed from 1124659 to 1102368 (-2%)
-packages/core2-32-poky-linux/libva/libva-staticdev: PKGV changed from 2.16.0 [default] to 2.18.0 [default]
-packages/core2-32-poky-linux/libva/libva-staticdev: PV changed from "2.16.0" to "2.18.0"
-packages/core2-32-poky-linux/libva/libva-wayland: PKGV changed from 2.16.0 [default] to 2.18.0 [default]
-packages/core2-32-poky-linux/libva/libva-wayland: FILELIST: removed "/usr/lib/libva-wayland.so.2.1600.0", added "/usr/lib/libva-wayland.so.2.1800.0"
-packages/core2-32-poky-linux/libva/libva-wayland: PV changed from "2.16.0" to "2.18.0"
-packages/core2-32-poky-linux/libva/libva-wayland: PKGSIZE changed from 22017 to 17921 (-19%)
-packages/core2-32-poky-linux/libva/libva-x11: PKGV changed from 2.16.0 [default] to 2.18.0 [default]
-packages/core2-32-poky-linux/libva/libva-x11: RDEPENDS: added "libxcb (['>= 1.15']) libx11-xcb (['>= 1.8.4']) libxcb-dri3 (['>= 1.15'])"
-packages/core2-32-poky-linux/libva/libva-x11: FILELIST: removed "/usr/lib/libva-x11.so.2.1600.0", added "/usr/lib/libva-x11.so.2.1800.0"
-packages/core2-32-poky-linux/libva/libva-x11: PV changed from "2.16.0" to "2.18.0"
-packages/core2-32-poky-linux/libva/libva-x11: PKGSIZE changed from 26101 to 30133 (+15%)
-packages/core2-32-poky-linux/libva/libva: PKGV changed from 2.16.0 [default] to 2.18.0 [default]
-packages/core2-32-poky-linux/libva/libva: FILELIST: removed "/usr/lib/libva-drm.so.2.1600.0 /usr/lib/libva.so.2.1600.0", added "/usr/lib/libva.so.2.1800.0 /usr/lib/libva-drm.so.2.1800.0"
-packages/core2-32-poky-linux/libva/libva: PV changed from "2.16.0" to "2.18.0"
-Changes to packages/core2-32-poky-linux/libva (sysroot):
-  /usr/lib/libva-drm.so.2 changed symlink target from libva-drm.so.2.1600.0 to libva-drm.so.2.1800.0
-  /usr/lib/libva-glx.so.2 changed symlink target from libva-glx.so.2.1600.0 to libva-glx.so.2.1800.0
-  /usr/lib/libva.so.2 changed symlink target from libva.so.2.1600.0 to libva.so.2.1800.0
-  /usr/lib/libva-wayland.so.2 changed symlink target from libva-wayland.so.2.1600.0 to libva-wayland.so.2.1800.0
-  /usr/lib/libva-x11.so.2 changed symlink target from libva-x11.so.2.1600.0 to libva-x11.so.2.1800.0
-  /usr/lib/libva-drm.so.2.1600.0 moved to /usr/lib/libva-drm.so.2.1800.0
-  /usr/lib/libva-glx.so.2.1600.0 moved to /usr/lib/libva-glx.so.2.1800.0
-  /usr/lib/libva.so.2.1600.0 moved to /usr/lib/libva.so.2.1800.0
-  /usr/lib/libva-wayland.so.2.1600.0 moved to /usr/lib/libva-wayland.so.2.1800.0
-  /usr/lib/libva-x11.so.2.1600.0 moved to /usr/lib/libva-x11.so.2.1800.0
+packages/core2-32-poky-linux/kmscube/kmscube-src: PKGSIZE changed from 4577539 to 4577537 (-0%)
 
---===============2940159638888293770==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/libva/libva-dbg: RRECOMMENDS: added "libx11-xcb-dbg libxcb-dbg libxcb-dri3-dbg"
-packages/core2-32-poky-linux/libva/libva-dev: RRECOMMENDS: added "libxcb-dri3-dev libxcb-dev libx11-xcb-dev"
-packages/core2-32-poky-linux/libva/libva-glx: FILELIST: removed "/usr/lib/libva-glx.so.2.1600.0", added "/usr/lib/libva-glx.so.2.1800.0"
-packages/core2-32-poky-linux/libva/libva-wayland: FILELIST: removed "/usr/lib/libva-wayland.so.2.1600.0", added "/usr/lib/libva-wayland.so.2.1800.0"
-packages/core2-32-poky-linux/libva/libva-wayland: PKGSIZE changed from 22017 to 17921 (-19%)
-packages/core2-32-poky-linux/libva/libva-x11: RDEPENDS: added "libxcb (['>= 1.15']) libx11-xcb (['>= 1.8.4']) libxcb-dri3 (['>= 1.15'])"
-packages/core2-32-poky-linux/libva/libva-x11: FILELIST: removed "/usr/lib/libva-x11.so.2.1600.0", added "/usr/lib/libva-x11.so.2.1800.0"
-packages/core2-32-poky-linux/libva/libva-x11: PKGSIZE changed from 26101 to 30133 (+15%)
-packages/core2-32-poky-linux/libva/libva: FILELIST: removed "/usr/lib/libva-drm.so.2.1600.0 /usr/lib/libva.so.2.1600.0", added "/usr/lib/libva-drm.so.2.1800.0 /usr/lib/libva.so.2.1800.0"
-Changes to packages/core2-32-poky-linux/libva (sysroot):
-  /usr/lib/libva-drm.so.2 changed symlink target from libva-drm.so.2.1600.0 to libva-drm.so.2.1800.0
-  /usr/lib/libva-glx.so.2 changed symlink target from libva-glx.so.2.1600.0 to libva-glx.so.2.1800.0
-  /usr/lib/libva.so.2 changed symlink target from libva.so.2.1600.0 to libva.so.2.1800.0
-  /usr/lib/libva-wayland.so.2 changed symlink target from libva-wayland.so.2.1600.0 to libva-wayland.so.2.1800.0
-  /usr/lib/libva-x11.so.2 changed symlink target from libva-x11.so.2.1600.0 to libva-x11.so.2.1800.0
-  /usr/lib/libva-drm.so.2.1600.0 moved to /usr/lib/libva-drm.so.2.1800.0
-  /usr/lib/libva-glx.so.2.1600.0 moved to /usr/lib/libva-glx.so.2.1800.0
-  /usr/lib/libva.so.2.1600.0 moved to /usr/lib/libva.so.2.1800.0
-  /usr/lib/libva-wayland.so.2.1600.0 moved to /usr/lib/libva-wayland.so.2.1800.0
-  /usr/lib/libva-x11.so.2.1600.0 moved to /usr/lib/libva-x11.so.2.1800.0
-
---===============2940159638888293770==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libva-upgrade-2.16.0-2.18.0.patch"
-
-RnJvbSA1MWMwYjJhNTRlYmMyZDU3ZTQ3MzkxMDcxODVlZDdjOWUyNWMyNGIxIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgQXByIDIwMjMgMTM6NTk6MzEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ2YTogdXBncmFkZSAyLjE2LjAgLT4gMi4xOC4wCgotLS0KIG1ldGEvcmVjaXBlcy1ncmFwaGlj
-cy9saWJ2YS9saWJ2YS5pbmMgICAgICAgICAgICAgICAgICAgICAgICAgICB8IDIgKy0KIC4uLi9y
-ZWNpcGVzLWdyYXBoaWNzL2xpYnZhL3tsaWJ2YV8yLjE2LjAuYmIgPT4gbGlidmFfMi4xOC4wLmJi
-fSB8IDAKIDIgZmlsZXMgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
-bmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEve2xpYnZhXzIuMTYuMC5iYiA9PiBsaWJ2
-YV8yLjE4LjAuYmJ9ICgxMDAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9s
-aWJ2YS9saWJ2YS5pbmMgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmEuaW5jCmlu
-ZGV4IDBmMTZkYWNjOTguLjdlZDBjOWVkODkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFw
-aGljcy9saWJ2YS9saWJ2YS5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnZhL2xp
-YnZhLmluYwpAQCAtMTgsNyArMTgsNyBAQCBMSUNFTlNFID0gIk1JVCIKIAogU1JDX1VSSSA9ICIk
-e0dJVEhVQl9CQVNFX1VSSX0vZG93bmxvYWQvJHtQVn0vbGlidmEtJHtQVn0udGFyLmJ6MiIKIExJ
-Q19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTJlNDg5NDBmOTRhY2IwYWY1ODJl
-NWVmMDM1Mzc4MDBmIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjExNWZhY2EwZGIyYzQxN2EzN2Rh
-NDk4MzA4NzBlMjYwNDUwZmExMzA2NmY1ZTI0ZTI1MmEyMGMzNmQ5MjBhMWMiCitTUkNfVVJJW3No
-YTI1NnN1bV0gPSAiYTM1NzdlZWJhMGMyMzkyNDY4NmM3ZTJmMjAzMDA3MzczNmM4MjgyYTgwZjI3
-YjU0NzNlMzNlYTk0Y2NkNDk4MiIKIAogUyA9ICIke1dPUktESVJ9L2xpYnZhLSR7UFZ9IgogCmRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmFfMi4xNi4wLmJiIGIv
-bWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnZhL2xpYnZhXzIuMTguMC5iYgpzaW1pbGFyaXR5IGlu
-ZGV4IDEwMCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnZhL2xpYnZhXzIu
-MTYuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnZhL2xpYnZhXzIuMTgu
-MC5iYgotLSAKMi4zOS4yCgo=
-
---===============2940159638888293770==--
+--===============3565668650326452580==--
 
