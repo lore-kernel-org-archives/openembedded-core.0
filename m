@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3240C77B79
-	for <webhook@archiver.kernel.org>; Sat, 15 Apr 2023 15:27:07 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web10.10502.1681572424358936387
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE47CC7619A
+	for <webhook@archiver.kernel.org>; Sat, 15 Apr 2023 15:27:17 +0000 (UTC)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web11.10389.1681572430161420102
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Apr 2023 08:27:04 -0700
+ Sat, 15 Apr 2023 08:27:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=EkHEMe6+;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id d15so4017840pll.12
-        for <openembedded-core@lists.openembedded.org>; Sat, 15 Apr 2023 08:27:04 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=uaTmu3IG;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.41, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f41.google.com with SMTP id kx14so1274174pjb.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 15 Apr 2023 08:27:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1681572423; x=1684164423;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1681572429; x=1684164429;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=h9xAJm7ZWkbYRCZ0+V5WkNnbB1jIfjxUB/0WEj2sqd8=;
-        b=EkHEMe6+uNguyvIO8H8cEBx2eBkfSgPxj0HJHW46CUBUOksD7wBbWlpTvJc2ruxrfu
-         1bbnTTsivNO03vGB9quyUwmedG/DoZSFYBVXqtj3Jnp3DdeX9v9ecrx5oF9u3sKGSMdo
-         f/2nynLvShdksHZS16RmGgS/0ZqevpeH5uimN2/6IE0eD60rm3F6fBs3XbaSkEErxjrB
-         XKHxkvJmuJqIv9KSj6VnjgkAfrkKBRyuFWGoRa49y/iSUlCr6dIMFgPWqi2zVUVIWZ+C
-         PjDDGoxcM1H07dxoVTU5WqsOr5rsxl0JkcmGiOYGU5aSmCsfRD0FnHJB+zXhVw3HPi/f
-         Oy0g==
+        bh=yQG5QkkdxzMWaiywD+45WoZhYKSQYl/RBmgG4tXiWro=;
+        b=uaTmu3IGeDLcg7tZKZ9ui78G51yJMz7qA/NDli6rS0W1tzIaSnumUtjQPF1wF42xZq
+         phIJrb8Q8KpPNLtM/JD+Ts13hetV1C7XLHAPYZy7VdIYzonZrYT+QF3EC/ACt7Qk1kgW
+         0ifs3dUJCL7tsxjxOjImVet1UFr1f9RreA3j3IyNkZpJwAiAw6XRPPJULHurHkNs8Ju0
+         S+M+AySpks687G/3pbOlHnRgdJQJKn7CcBG76a0+iC0/9veA/C8h80oI4/0AW6rjxqfe
+         AhO7fORXeuF8IfpaBGPxCp+OmgsZmb6FyHF0igZvo4IEC3hsewbylM6nYEdJPrruZ9f0
+         6R2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681572423; x=1684164423;
+        d=1e100.net; s=20221208; t=1681572429; x=1684164429;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=h9xAJm7ZWkbYRCZ0+V5WkNnbB1jIfjxUB/0WEj2sqd8=;
-        b=BfNpJ8xOhFp7DLNLsf5Qz8M38pri0We885gHrH69aU0czSJ/vs4yD6g3sKV+889Qs6
-         XzvQQpzcgr3XJ62/ICI+WRLM8qkV2pM3E+lyXgoJ5d4yQJeHOF1jEJrJBduk0qiAdD5T
-         1X7rFkI8JHjSdKTfTN/HsqMRQEUlQQw9GjuG3WJDNwCXCp6E3EDPF9z5oT8xZF9KaFiO
-         cQjVGZlg8Q2KIhS/3zK99gJ+UUAmRFO/SUi/5uNOckUWhswwjGuNzsIgVJRnrks4RaeD
-         3KirrbEdA+UeqmUpuK490c/AVH3zMEA/d9ZkGnircrQy+APN/vpKtZRBR96Eeg5dQKKW
-         v61g==
-X-Gm-Message-State: AAQBX9devodFp7vI8R8xHmEEYRDfJUfDnYz5ZdLkNQu0/IHTu0ivPIW0
-	rrGyT9PD0OSGR+a9mnYBazFd9qrJ4SOkcPD3NAM=
-X-Google-Smtp-Source: AKy350afI88EHEr7UiRu7f4dljRh2Uv8JwAalBA/SzzxVy+38UtBAz0IEZzFqwObpXzmjtrmiYr3qQ==
-X-Received: by 2002:a05:6a20:a10f:b0:ec:a118:6471 with SMTP id q15-20020a056a20a10f00b000eca1186471mr9689077pzk.50.1681572423447;
-        Sat, 15 Apr 2023 08:27:03 -0700 (PDT)
+        bh=yQG5QkkdxzMWaiywD+45WoZhYKSQYl/RBmgG4tXiWro=;
+        b=hDXaPezLa1DajwhBalumf4c4Fwu26OdHuwOseq5U0pY8p9yV15kz6bg2QQDFSGqD45
+         KX1lvJK5iQs7l3GrUDQw6GNF0dK8ops/mIFsLu+0MZOL/qOtdwjhPZwd2XuNYtrQIALY
+         TX/3vlHkB32wgk4g55uaeMNCP1sKinvBLohSntT1KHSFKoaBAw1UIi/5uh1AR/3X6hG/
+         tvhqw8klHd+Um/sNgCdZGXT3RreJRrLIuQCkJQNwN+cR9cfZA135Z26Q1mkXAD2oOY3Z
+         +G4Is+1mG6zmUh8aAy61cLI7mlewGR4TPW4MjoPGUmXWxd1E6T3HDAxH5iw9MG56sUO+
+         P2pA==
+X-Gm-Message-State: AAQBX9ePuGrbtWRD/c6I7uFjOav7SBhAATja2kVjU2DswY4UYb/UZmSO
+	JHUtd03kNrvhi42cZgz1R+UZRvPjiPINqXdwxmU=
+X-Google-Smtp-Source: AKy350ai8hobaXQ1/wVJWi834oF9isAJfJJz1l4xduMpLo3wiJneW5qMoUpNUxrhV0LZTUnbAko2jg==
+X-Received: by 2002:a05:6a20:4927:b0:ea:e535:ce2c with SMTP id ft39-20020a056a20492700b000eae535ce2cmr8896838pzb.0.1681572429242;
+        Sat, 15 Apr 2023 08:27:09 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id u22-20020aa78496000000b0063b1e7ffc5fsm4824410pfn.39.2023.04.15.08.27.02
+        by smtp.gmail.com with ESMTPSA id u22-20020aa78496000000b0063b1e7ffc5fsm4824410pfn.39.2023.04.15.08.27.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Apr 2023 08:27:03 -0700 (PDT)
+        Sat, 15 Apr 2023 08:27:08 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 4/7] tiff: Add fix for CVE-2022-4645
-Date: Sat, 15 Apr 2023 05:26:41 -1000
-Message-Id: <d1aa26fe8170937508a4d2242001892cea84d29a.1681572283.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 7/7] package.bbclass: correct check for /build in copydebugsources()
+Date: Sat, 15 Apr 2023 05:26:44 -1000
+Message-Id: <b67e714b367a08fdeeeff68c2d9495ec9bc07304.1681572283.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1681572283.git.steve@sakoman.com>
 References: <cover.1681572283.git.steve@sakoman.com>
@@ -60,40 +60,42 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Apr 2023 15:27:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180014
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Apr 2023 15:27:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180017
 
-From: Pawan Badganchi <Pawan.Badganchi@kpit.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Below patch fixes the CVE-2022-4645 as well.
+Newly introduced kirkstone-only commit
+https://git.openembedded.org/openembedded-core/commit/?h=kirkstone&id=80839835ec9fcb63069289225a3c1af257ffdef7
+broke builds with externalsrc in Gitlab-CI.
+This is yocto-4.0.9 regression.
 
-0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch
+It checks if directory starts with "build" instead of
+if checking if it equals to "build".
+Gitlab-CI uses directory "/builds" which matches the check
+but directory /build does not exist, only /builds.
+After successful check it tries to move this non-existent
+directory which does not exists and thus do_package fails.
 
-Link: https://nvd.nist.gov/vuln/detail/CVE-2022-4645
-
-Signed-off-by: Pawan Badganchi <Pawan.Badganchi@kpit.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...evised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/classes/package.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff/0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch b/meta/recipes-multimedia/libtiff/tiff/0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch
-index 37859c9192..17b37be041 100644
---- a/meta/recipes-multimedia/libtiff/tiff/0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch
-+++ b/meta/recipes-multimedia/libtiff/tiff/0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch
-@@ -23,9 +23,10 @@ This MR will close the following issues:  #149, #150, #152, #168 (to be checked)
- 
- It also fixes the old bug at http://bugzilla.maptools.org/show_bug.cgi?id=2599, for which the limitation of `NumberOfInks = SPP` was introduced, which is in my opinion not necessary and does not solve the general issue.
- 
--CVE: CVE-2022-3599
--Upstream-Status: Backport
-+CVE: CVE-2022-3599 CVE-2022-4645
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/e813112545942107551433d61afd16ac094ff246.patch]
- Signed-off-by: Ross Burton <ross.burton@arm.com>
-+Signed-off-by: Pawan Badganchi <Pawan.Badganchi@kpit.com>
- ---
-  libtiff/tif_dir.c      | 119 ++++++++++++++++++++++++-----------------
-  libtiff/tif_dir.h      |   2 +
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 2950218145..67acc278d1 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -638,7 +638,7 @@ def copydebugsources(debugsrcdir, sources, d):
+             if os.path.exists(dvar + debugsrcdir + sdir):
+                 # Special case for /build since we need to move into
+                 # /usr/src/debug/build so rename sdir to build.build
+-                if sdir.find("/build") == 0:
++                if sdir == "/build" or sdir.find("/build/") == 0:
+                     cmd = "mv %s%s%s %s%s%s" % (dvar, debugsrcdir, "/build", dvar, debugsrcdir, "/build.build")
+                     subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+                     sdir = sdir.replace("/build", "/build.build", 1)
 -- 
 2.34.1
 
