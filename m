@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE47CC7619A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE5B3C77B70
 	for <webhook@archiver.kernel.org>; Sat, 15 Apr 2023 15:27:17 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web11.10389.1681572430161420102
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web11.10388.1681572428402728457
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Apr 2023 08:27:10 -0700
+ Sat, 15 Apr 2023 08:27:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=uaTmu3IG;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.41, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f41.google.com with SMTP id kx14so1274174pjb.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 15 Apr 2023 08:27:10 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=BnfY7Vho;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-63b62d2f729so433809b3a.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 15 Apr 2023 08:27:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1681572429; x=1684164429;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1681572427; x=1684164427;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=yQG5QkkdxzMWaiywD+45WoZhYKSQYl/RBmgG4tXiWro=;
-        b=uaTmu3IGeDLcg7tZKZ9ui78G51yJMz7qA/NDli6rS0W1tzIaSnumUtjQPF1wF42xZq
-         phIJrb8Q8KpPNLtM/JD+Ts13hetV1C7XLHAPYZy7VdIYzonZrYT+QF3EC/ACt7Qk1kgW
-         0ifs3dUJCL7tsxjxOjImVet1UFr1f9RreA3j3IyNkZpJwAiAw6XRPPJULHurHkNs8Ju0
-         S+M+AySpks687G/3pbOlHnRgdJQJKn7CcBG76a0+iC0/9veA/C8h80oI4/0AW6rjxqfe
-         AhO7fORXeuF8IfpaBGPxCp+OmgsZmb6FyHF0igZvo4IEC3hsewbylM6nYEdJPrruZ9f0
-         6R2g==
+        bh=xR8eyXG3SUI3Dy6xjaxgVB9PeDUcBvWiIVNl95g3fqs=;
+        b=BnfY7VhoN1t+ws69MTbZjk3dRzOw9fdvCRf3sAn/+KluAI0nkZ78qyBD6GahD3nWiG
+         CBzUz/+gONbazzY/y+P/fxpVog2iXiJOAHPdWfevjtmeGAKPJbip5N3BGz5lJVLWUo4U
+         g8FnrvdfG51MTY26pg+x1AzRAibXO9DDuWlsZDcaX/9QQeipT6aeQTtnlurvemitCgJP
+         3W13uST0hU01WAeJ20mvY0Yz4OoYVksJ0E6Fto4ahWg8OtyLNsde74slbJowVh5X5BeZ
+         xqj9WSWx0IMEvN2TCEyKAIO8hQ1FRmp7l5qrzznr6n16woGUfiglQccsJAULo9xWj07e
+         Inhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681572429; x=1684164429;
+        d=1e100.net; s=20221208; t=1681572427; x=1684164427;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yQG5QkkdxzMWaiywD+45WoZhYKSQYl/RBmgG4tXiWro=;
-        b=hDXaPezLa1DajwhBalumf4c4Fwu26OdHuwOseq5U0pY8p9yV15kz6bg2QQDFSGqD45
-         KX1lvJK5iQs7l3GrUDQw6GNF0dK8ops/mIFsLu+0MZOL/qOtdwjhPZwd2XuNYtrQIALY
-         TX/3vlHkB32wgk4g55uaeMNCP1sKinvBLohSntT1KHSFKoaBAw1UIi/5uh1AR/3X6hG/
-         tvhqw8klHd+Um/sNgCdZGXT3RreJRrLIuQCkJQNwN+cR9cfZA135Z26Q1mkXAD2oOY3Z
-         +G4Is+1mG6zmUh8aAy61cLI7mlewGR4TPW4MjoPGUmXWxd1E6T3HDAxH5iw9MG56sUO+
-         P2pA==
-X-Gm-Message-State: AAQBX9ePuGrbtWRD/c6I7uFjOav7SBhAATja2kVjU2DswY4UYb/UZmSO
-	JHUtd03kNrvhi42cZgz1R+UZRvPjiPINqXdwxmU=
-X-Google-Smtp-Source: AKy350ai8hobaXQ1/wVJWi834oF9isAJfJJz1l4xduMpLo3wiJneW5qMoUpNUxrhV0LZTUnbAko2jg==
-X-Received: by 2002:a05:6a20:4927:b0:ea:e535:ce2c with SMTP id ft39-20020a056a20492700b000eae535ce2cmr8896838pzb.0.1681572429242;
-        Sat, 15 Apr 2023 08:27:09 -0700 (PDT)
+        bh=xR8eyXG3SUI3Dy6xjaxgVB9PeDUcBvWiIVNl95g3fqs=;
+        b=AmRigIR30Rn7HAMMBtUSjnal3zJbmjkEXG2yFMbmRh658ysQbaFva+oMdRKo4h1Co6
+         y4ZpsNGbRzqkQZvpaSWoD/r5fYn56zX/B11aMGbbhHHfSf74i5JHJ3+TUyqwp4aZ2UiE
+         MiWCaOohw00VRR1whCXWULqfkIvGfX3hQtfF17ymEFImm/wou1zlktu+WswcK4ZqCdiq
+         90taT0s6CN90KcjLINAC+EDhDXgXfXlgby7/nABWn0jSmzTfCnDzeEy7lJTZxzzkInuW
+         Q0vcNde2o1TAYFSCMr7WOrw25Gf8V9EvyL/ALF1NnamZ6399WdIN64cQUgpyit1EGg9N
+         EVTg==
+X-Gm-Message-State: AAQBX9fqfBrOfRM1+5RLKVTfImNXj6AqkvhLB0Uj2p7VR3HvkvAJ3DJE
+	Sn0AZMMmpl1688yc26VJcYm2DoO5AdBKbr1QHq4=
+X-Google-Smtp-Source: AKy350b7EYb9ovC4yNzvJKUjFH2GrDYFuZHRikKxiZOUu3OEbRVP4F536/OD37sgAbMosqVcyaa5dA==
+X-Received: by 2002:a05:6a00:22d6:b0:625:ebc3:b26c with SMTP id f22-20020a056a0022d600b00625ebc3b26cmr14380823pfj.22.1681572427384;
+        Sat, 15 Apr 2023 08:27:07 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id u22-20020aa78496000000b0063b1e7ffc5fsm4824410pfn.39.2023.04.15.08.27.08
+        by smtp.gmail.com with ESMTPSA id u22-20020aa78496000000b0063b1e7ffc5fsm4824410pfn.39.2023.04.15.08.27.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Apr 2023 08:27:08 -0700 (PDT)
+        Sat, 15 Apr 2023 08:27:07 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 7/7] package.bbclass: correct check for /build in copydebugsources()
-Date: Sat, 15 Apr 2023 05:26:44 -1000
-Message-Id: <b67e714b367a08fdeeeff68c2d9495ec9bc07304.1681572283.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 6/7] openssl: Move microblaze to linux-latomic config
+Date: Sat, 15 Apr 2023 05:26:43 -1000
+Message-Id: <26b4db753c4f2080a132fb176b514efafa3ff8e3.1681572283.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1681572283.git.steve@sakoman.com>
 References: <cover.1681572283.git.steve@sakoman.com>
@@ -61,41 +61,46 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Apr 2023 15:27:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180017
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180016
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
 
-Newly introduced kirkstone-only commit
-https://git.openembedded.org/openembedded-core/commit/?h=kirkstone&id=80839835ec9fcb63069289225a3c1af257ffdef7
-broke builds with externalsrc in Gitlab-CI.
-This is yocto-4.0.9 regression.
+When building with the previous a number of atomic functions come back as
+undefined.  Switching to linux-latomic fixes this.
 
-It checks if directory starts with "build" instead of
-if checking if it equals to "build".
-Gitlab-CI uses directory "/builds" which matches the check
-but directory /build does not exist, only /builds.
-After successful check it tries to move this non-existent
-directory which does not exists and thus do_package fails.
+(From OE-Core rev: 88d5bf78ffb1d120df48139b1ed3c2e3fa8310d0)
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+Signed-off-by: Mark Hatle <mark.hatle@amd.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/package.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-connectivity/openssl/openssl_3.0.8.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 2950218145..67acc278d1 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -638,7 +638,7 @@ def copydebugsources(debugsrcdir, sources, d):
-             if os.path.exists(dvar + debugsrcdir + sdir):
-                 # Special case for /build since we need to move into
-                 # /usr/src/debug/build so rename sdir to build.build
--                if sdir.find("/build") == 0:
-+                if sdir == "/build" or sdir.find("/build/") == 0:
-                     cmd = "mv %s%s%s %s%s%s" % (dvar, debugsrcdir, "/build", dvar, debugsrcdir, "/build.build")
-                     subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
-                     sdir = sdir.replace("/build", "/build.build", 1)
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.8.bb b/meta/recipes-connectivity/openssl/openssl_3.0.8.bb
+index e1f30d7a47..82f3e18dd7 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.0.8.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.0.8.bb
+@@ -80,7 +80,7 @@ do_configure () {
+ 	esac
+ 	target="$os-${HOST_ARCH}"
+ 	case $target in
+-	linux-arc)
++	linux-arc | linux-microblaze*)
+ 		target=linux-latomic
+ 		;;
+ 	linux-arm*)
+@@ -108,7 +108,7 @@ do_configure () {
+ 	linux-*-mips64 | linux-mips64 | linux-*-mips64el | linux-mips64el)
+ 		target=linux64-mips64
+ 		;;
+-	linux-microblaze* | linux-nios2* | linux-sh3 | linux-sh4 | linux-arc*)
++	linux-nios2* | linux-sh3 | linux-sh4 | linux-arc*)
+ 		target=linux-generic32
+ 		;;
+ 	linux-powerpc)
 -- 
 2.34.1
 
