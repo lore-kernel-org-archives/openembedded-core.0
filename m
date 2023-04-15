@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FFE3C7EE2F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 425F1C7EE25
 	for <webhook@archiver.kernel.org>; Sat, 15 Apr 2023 18:01:29 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.13536.1681581687072608332
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.13537.1681581687375791922
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Apr 2023 11:01:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ZpP6sIsZ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018786143ecf-fcfb59ce-638c-49d3-afb2-311ba632fd36-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=MwdXFpMi;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101878614401a-caee7bc5-b8f1-47f4-8354-09ab403dca31-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1681581686;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=zwNgpIz8TL7UZBJUiMazigLsoaGigjUX60vDVmtritQ=;
-	b=ZpP6sIsZbCi7Y9ZtIksiB3/OPpuRA2nekyqTRXxp3c8rQ8F27pB7Q80vkb5sO9d3
-	5R0r/nGgcOj7ISo+TH/qatz+qG+ZFY6o3+ki+w4lPYxKKQ18sA0NJ8ytQW/Jw9jRG7Z
-	zdjJ66jATJXCHlC11hHyz5SF3kVOwl32NJeAAn6U=
+	bh=QNfT5+u+NPCTgSwLO/keHj02K3tn1veOby1hcfevSLI=;
+	b=MwdXFpMiV9n6Zup2Emd+5mRhHkXajVfUbw4YWmvIpRpO849xQGKZYrVKckI22sSw
+	sJYQEG9kjCUz4vSkDHI5L2MHBV2aaHgNsM4i1G1Md1KyhTVbhetdp7vkG0T0TcZJssP
+	lxiXJ20zR6OLiiKa7qHfD+q63gNCouMqUTUetp38=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1681581686;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=zwNgpIz8TL7UZBJUiMazigLsoaGigjUX60vDVmtritQ=;
-	b=hECbPh0Pf8G8hbbZiQlFBR51mvaC7xPpgvOHkgIVUmqE3rWiqIN2cO14EphHp4Em
-	6sSDCKMDpYNHP8npQNVeNG1/nJ7t236OrVhVN74mJv8P0a+cKF6irwCjQroUYmhetZZ
-	n4HZpvQ6Eml63lx7OZOdsFRFGT7HxsXn0StfzcrI=
-Content-Type: multipart/mixed; boundary="===============1156307532117250898=="
+	bh=QNfT5+u+NPCTgSwLO/keHj02K3tn1veOby1hcfevSLI=;
+	b=Fu7SIm67PARsE/rJ9sdcga371q4lBjZmZwY1KvdevrKftXYbjlV5q9JdOFHzAPtg
+	F/cWa87Xd1C62/5OH0LBXWo0Yw2PRQundK3niQ/czABtjOMZQGpoLHbBFOel1qliXDs
+	CY58zL1WDSxw0Ib0g17lbwrRs7clX5t9BxmJ/L3Q=
+Content-Type: multipart/mixed; boundary="===============7628892233430544552=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gstreamer1.0-libav: upgrading to 1.22.2 SUCCEEDED
-Message-ID: <0101018786143ecf-fcfb59ce-638c-49d3-afb2-311ba632fd36-000000@us-west-2.amazonses.com>
+Subject: [AUH] gstreamer1.0-plugins-ugly: upgrading to 1.22.2 SUCCEEDED
+Message-ID: <010101878614401a-caee7bc5-b8f1-47f4-8354-09ab403dca31-000000@us-west-2.amazonses.com>
 Date: Sat, 15 Apr 2023 18:01:26 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.04.15-54.240.27.45
+X-SES-Outgoing: 2023.04.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Apr 2023 18:01:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180088
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180095
 
---===============1156307532117250898==
+--===============7628892233430544552==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gstreamer1.0-libav* to *1.22.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *gstreamer1.0-plugins-ugly* to *1.22.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-libav-upgrade-1.22.0-1.22.2.patch
+    - apply the patch: git am 0001-gstreamer1.0-plugins-ugly-upgrade-1.22.0-1.22.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,112 +69,168 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============1156307532117250898==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-gstreamer1.0-libav-upgrade-1.22.0-1.22.2.patch"
-
-RnJvbSA0ZTJmOTdlYzg2YzExMDFlZWI0ZThjZGQ4MWIxODRiZmVkMTY5YWI0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgQXByIDIwMjMgMTU6NTE6NTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-c3RyZWFtZXIxLjAtbGliYXY6IHVwZ3JhZGUgMS4yMi4wIC0+IDEuMjIuMgoKLS0tCiAuLi4vZ3N0
-cmVhbWVyMS4wLWxpYmF2L2ZmbXBlZy02LjAucGF0Y2ggICAgICAgfCA0OSAtLS0tLS0tLS0tLS0t
-LS0tLS0tCiAuLi4xLjIyLjAuYmIgPT4gZ3N0cmVhbWVyMS4wLWxpYmF2XzEuMjIuMi5iYn0gfCAg
-NiArLS0KIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCA1MyBkZWxldGlvbnMoLSkK
-IGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0
-cmVhbWVyMS4wLWxpYmF2L2ZmbXBlZy02LjAucGF0Y2gKIHJlbmFtZSBtZXRhL3JlY2lwZXMtbXVs
-dGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEuMC1saWJhdl8xLjIyLjAuYmIgPT4gZ3N0cmVh
-bWVyMS4wLWxpYmF2XzEuMjIuMi5iYn0gKDg1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-bXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLWxpYmF2L2ZmbXBlZy02LjAucGF0Y2gg
-Yi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLWxpYmF2L2Zm
-bXBlZy02LjAucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDBhMDY1NDBmYjQu
-LjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJl
-YW1lcjEuMC1saWJhdi9mZm1wZWctNi4wLnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsNDkgKzAs
-MCBAQAotRnJvbSBjZGUzMWQyM2MwNzFlZTkzZmFlOTYzMzE4MDVmNjk2ODU2MDg0MjU0IE1vbiBT
-ZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogIlUuIEFydGllIEVvZmYiIDx1bGx5c3Nlcy5hLmVv
-ZmZAaW50ZWwuY29tPgotRGF0ZTogTW9uLCAxMyBGZWIgMjAyMyAxNzowMjowMSAtMDUwMAotU3Vi
-amVjdDogW1BBVENIXSBhdnZpZGRlYzogY2hhbmdlCi0gQVZfQ09ERUNfQ0FQX0FVVE9fVEhSRUFE
-Uy0+QVZfQ09ERUNfQ0FQX09USEVSX1RIUkVBRFMKLQotVGhpcyBmaXhlcyBhIGNvbXBpbGUgZXJy
-b3Igd2l0aCByZWNlbnQgdXBzdHJlYW0gRkZtcGVnLgotCi1UaGUgQVZfQ09ERUNfQ0FQX0FVVE9f
-VEhSRUFEUyB3YXMgZGVwcmVjYXRlZCBhbmQgcmVuYW1lZCB0bwotQVZfQ09ERUNfQ0FQX09USEVS
-X1RIUkVBRFMgaW4gRkZtcGVnIHVwc3RyZWFtIGNvbW1pdAotN2QwOTU3OTE5MGRlIChsYXZjIDU4
-LjEzMi4xMDApLgotCi1UaGUgQVZfQ09ERUNfQ0FQX0FVVE9fVEhSRUFEUyB3YXMgZmluYWxseSBy
-ZW1vdmVkIGluIEZGbXBlZyB1cHN0cmVhbQotY29tbWl0IDEwYzlhMDg3NGNiMyAobGF2YyA1OS42
-My4xMDApLgotCi1QYXJ0LW9mOiA8aHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL2dzdHJl
-YW1lci9nc3RyZWFtZXIvLS9tZXJnZV9yZXF1ZXN0cy8zOTY0PgotCi1VcHN0cmVhbS1TdGF0dXM6
-IEJhY2twb3J0IFtodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvZ3N0cmVhbWVyL2dzdHJl
-YW1lci8tL2NvbW1pdC9jZGUzMWQyM2MwNzFlZTkzZmFlOTYzMzE4MDVmNjk2ODU2MDg0MjU0P21l
-cmdlX3JlcXVlc3RfaWlkPTM5NjRdCi1TaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8
-YWxleEBsaW51dHJvbml4LmRlPgotLS0tCi0gZXh0L2xpYmF2L2dzdGF2dmlkZGVjLmMgfCA2ICsr
-KysrLQotIDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKLQot
-ZGlmZiAtLWdpdCBhL2V4dC9saWJhdi9nc3RhdnZpZGRlYy5jIGIvZXh0L2xpYmF2L2dzdGF2dmlk
-ZGVjLmMKLWluZGV4IDQzY2VhNDU2YWU4Li42ZDdjNGNkMGRlOCAxMDA2NDQKLS0tLSBhL2V4dC9s
-aWJhdi9nc3RhdnZpZGRlYy5jCi0rKysgYi9leHQvbGliYXYvZ3N0YXZ2aWRkZWMuYwotQEAgLTM1
-LDYgKzM1LDEwIEBACi0gCi0gR1NUX0RFQlVHX0NBVEVHT1JZX1NUQVRJQyAoR1NUX0NBVF9QRVJG
-T1JNQU5DRSk7Ci0gCi0rI2lmIExJQkFWQ09ERUNfVkVSU0lPTl9JTlQgPCBBVl9WRVJTSU9OX0lO
-VCg1OCwxMzIsMTAwKQotKyNkZWZpbmUgQVZfQ09ERUNfQ0FQX09USEVSX1RIUkVBRFMgQVZfQ09E
-RUNfQ0FQX0FVVE9fVEhSRUFEUwotKyNlbmRpZgotKwotICNkZWZpbmUgR1NUX0ZGTVBFR19WSURF
-T19DT0RFQ19GUkFNRV9GTEFHX0FMTE9DQVRFRCAoMTw8MTUpCi0gCi0gI2RlZmluZSBNQVhfVFNf
-TUFTSyAweGZmCi1AQCAtNjE1LDcgKzYxOSw3IEBAIGdzdF9mZm1wZWd2aWRkZWNfc2V0X2Zvcm1h
-dCAoR3N0VmlkZW9EZWNvZGVyICogZGVjb2RlciwKLSAgIGlmIChmZm1wZWdkZWMtPm1heF90aHJl
-YWRzID09IDApIHsKLSAgICAgLyogV2hlbiB0aHJlYWQgdHlwZSBpcyBGRl9USFJFQURfRlJBTUUs
-IGV4dHJhIGxhdGVuY3kgaXMgaW50cm9kdWNlZCBlcXVhbAotICAgICAgKiB0byBvbmUgZnJhbWUg
-cGVyIHRocmVhZC4gV2UgdGh1cyBuZWVkIHRvIGNhbGN1bGF0ZSB0aGUgdGhyZWFkIGNvdW50IG91
-cnNlbHZlcyAqLwotLSAgICBpZiAoKCEob2NsYXNzLT5pbl9wbHVnaW4tPmNhcGFiaWxpdGllcyAm
-IEFWX0NPREVDX0NBUF9BVVRPX1RIUkVBRFMpKSB8fAotKyAgICBpZiAoKCEob2NsYXNzLT5pbl9w
-bHVnaW4tPmNhcGFiaWxpdGllcyAmIEFWX0NPREVDX0NBUF9PVEhFUl9USFJFQURTKSkgfHwKLSAg
-ICAgICAgIChmZm1wZWdkZWMtPmNvbnRleHQtPnRocmVhZF90eXBlICYgRkZfVEhSRUFEX0ZSQU1F
-KSkKLSAgICAgICBmZm1wZWdkZWMtPmNvbnRleHQtPnRocmVhZF9jb3VudCA9Ci0gICAgICAgICAg
-IE1JTiAoZ3N0X2ZmbXBlZ19hdXRvX21heF90aHJlYWRzICgpLCAxNik7Ci0tLSAKLUdpdExhYgpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEu
-MC1saWJhdl8xLjIyLjAuYmIgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0
-cmVhbWVyMS4wLWxpYmF2XzEuMjIuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDg1JQpyZW5hbWUgZnJv
-bSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLWxpYmF2XzEu
-MjIuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJl
-YW1lcjEuMC1saWJhdl8xLjIyLjIuYmIKaW5kZXggZDFkY2U2NzM5ZC4uZWQzZGJhY2EyMiAxMDA2
-NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1s
-aWJhdl8xLjIyLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dz
-dHJlYW1lcjEuMC1saWJhdl8xLjIyLjIuYmIKQEAgLTExLDEwICsxMSw4IEBAIExJQ19GSUxFU19D
-SEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTY5MzMzZGFhMDQ0Y2I3N2U0ODZjYzM2MTI5Zjdh
-NzcwIFwKICAgICAgICAgICAgICAgICAgICAgZmlsZTovL2V4dC9saWJhdi9nc3Rhdi5oO2JlZ2lu
-bGluZT0xO2VuZGxpbmU9MTg7bWQ1PWE3NTJjMzUyNjdkODI3NmZkOWNhM2RiNjk5NGZjYTljIFwK
-ICAgICAgICAgICAgICAgICAgICAgIgogCi1TUkNfVVJJID0gImh0dHBzOi8vZ3N0cmVhbWVyLmZy
-ZWVkZXNrdG9wLm9yZy9zcmMvZ3N0LWxpYmF2L2dzdC1saWJhdi0ke1BWfS50YXIueHogXAotICAg
-ICAgICAgICBmaWxlOi8vZmZtcGVnLTYuMC5wYXRjaCBcCi0gICAgICAgICAgIgotU1JDX1VSSVtz
-aGEyNTZzdW1dID0gIjBlNDg0MDdiNDkwNTIyN2EyNjAyMTNkYmRhODRjYmEzODEyZjA1MzBmYzdh
-NzViNDM4MjkxMDJlZjgyODEwZjEiCitTUkNfVVJJID0gImh0dHBzOi8vZ3N0cmVhbWVyLmZyZWVk
-ZXNrdG9wLm9yZy9zcmMvZ3N0LWxpYmF2L2dzdC1saWJhdi0ke1BWfS50YXIueHoiCitTUkNfVVJJ
-W3NoYTI1NnN1bV0gPSAiZmNhYWY5ODc4ZmU4ZjNiYzgyMzE3ZWYxM2ExNTU4ODI0Y2I2OGRmMWY4
-OTY4YzY3OTdmNTU2YzVlMzNiY2ZmZCIKIAogUyA9ICIke1dPUktESVJ9L2dzdC1saWJhdi0ke1BW
-fSIKIAotLSAKMi4zOS4yCgo=
-
---===============1156307532117250898==
+--===============7628892233430544552==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dbg: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dbg: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dbg: PKGSIZE changed from 728824 to 729792 (+0%)
-packages/core2-32-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dev: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dev: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-doc: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-doc: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-locale: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-locale: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-src: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-src: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-src: PKGSIZE changed from 499251 to 499845 (+0%)
-packages/core2-32-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-staticdev: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-staticdev: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-libav: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
-packages/core2-32-poky-linux/gstreamer1.0-libav: PV changed from "1.22.0" to "1.22.2"
-packages/core2-32-poky-linux/gstreamer1.0-libav: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-1.22.0.tar.xz file://ffmpeg-6.0.patch" to "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-1.22.2.tar.xz"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-a52dec: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-a52dec: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-apps: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-apps: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-asf: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-asf: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dbg: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dbg: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dev: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dev: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-doc: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-doc: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dvdlpcmdec: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dvdlpcmdec: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dvdsub: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dvdsub: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-glib: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-glib: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-af: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-af: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ast: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ast: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-az: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-az: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-bg: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-bg: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ca: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ca: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-cs: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-cs: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-da: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-da: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-de: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-de: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-el: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-el: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-en-gb: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-en-gb: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-eo: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-eo: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-es: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-es: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-eu: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-eu: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fi: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fi: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fr: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fr: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fur: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fur: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-gl: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-gl: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-hr: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-hr: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-hu: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-hu: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-id: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-id: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-it: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-it: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ja: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ja: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ka: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ka: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-lt: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-lt: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-lv: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-lv: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ms: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ms: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-mt: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-mt: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-nb: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-nb: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-nl: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-nl: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-or: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-or: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-pl: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-pl: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-pt-br: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-pt-br: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ro: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ro: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ru: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ru: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sk: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sk: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sl: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sl: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sq: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sq: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sr: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sr: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sv: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sv: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ta: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ta: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-tr: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-tr: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-uk: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-uk: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-vi: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-vi: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-zh-cn: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-zh-cn: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-zh-tw: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-zh-tw: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-meta: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-meta: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-mpeg2dec: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-mpeg2dec: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-realmedia: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-realmedia: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-src: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-src: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-staticdev: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-staticdev: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly: PV changed from "1.22.0" to "1.22.2"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly: PKGV changed from 1.22.0 [default] to 1.22.2 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-1.22.0.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-1.22.2.tar.xz"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-ugly: PV changed from "1.22.0" to "1.22.2"
 
---===============1156307532117250898==--
+--===============7628892233430544552==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gstreamer1.0-plugins-ugly-upgrade-1.22.0-1.22.2.patch"
+
+RnJvbSBhNzgyMTg5OGUxMjUyODk1ODEyNzBhYjBiMTg3NDczMWFmMTVhYzQ4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMTUgQXByIDIwMjMgMTY6MzI6MTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+c3RyZWFtZXIxLjAtcGx1Z2lucy11Z2x5OiB1cGdyYWRlIDEuMjIuMCAtPiAxLjIyLjIKCi0tLQog
+Li4udWdpbnMtdWdseV8xLjIyLjAuYmIgPT4gZ3N0cmVhbWVyMS4wLXBsdWdpbnMtdWdseV8xLjIy
+LjIuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
+KC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL3tnc3RyZWFtZXIx
+LjAtcGx1Z2lucy11Z2x5XzEuMjIuMC5iYiA9PiBnc3RyZWFtZXIxLjAtcGx1Z2lucy11Z2x5XzEu
+MjIuMi5iYn0gKDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3Ry
+ZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtdWdseV8xLjIyLjAuYmIgYi9tZXRhL3JlY2lwZXMt
+bXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtdWdseV8xLjIyLjIuYmIK
+c2ltaWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEv
+Z3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLXVnbHlfMS4yMi4wLmJiCnJlbmFtZSB0byBt
+ZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtdWds
+eV8xLjIyLjIuYmIKaW5kZXggMzViYWFlYTMwNC4uZGM4MWJmMjdmNiAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLXVnbHlf
+MS4yMi4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFt
+ZXIxLjAtcGx1Z2lucy11Z2x5XzEuMjIuMi5iYgpAQCAtMTQsNyArMTQsNyBAQCBMSUNFTlNFX0ZM
+QUdTID0gImNvbW1lcmNpYWwiCiBTUkNfVVJJID0gIiBcCiAgICAgICAgICAgICBodHRwczovL2dz
+dHJlYW1lci5mcmVlZGVza3RvcC5vcmcvc3JjL2dzdC1wbHVnaW5zLXVnbHkvZ3N0LXBsdWdpbnMt
+dWdseS0ke1BWfS50YXIueHogXAogICAgICAgICAgICAgIgotU1JDX1VSSVtzaGEyNTZzdW1dID0g
+ImE2NDRkYzk4MWFmYTJkOGQzYTkxM2Y3NjNhYjk1MjNjMDYyMGVlNGU2NWE3ZWM3M2M3NzIxYzI5
+ZGEzYzVhMGMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiOGYzMGY0NGRiMGJkMDYzNzA5YmY2ZmJl
+NTUxMzhlM2E5OGFmMGFiY2I2MWMzNjBmMzU1ODJiYmUxMGU4MDY5MSIKIAogUyA9ICIke1dPUktE
+SVJ9L2dzdC1wbHVnaW5zLXVnbHktJHtQVn0iCiAKLS0gCjIuMzkuMgoK
+
+--===============7628892233430544552==--
 
