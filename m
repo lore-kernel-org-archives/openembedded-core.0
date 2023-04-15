@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB0F9CA9EB2
-	for <webhook@archiver.kernel.org>; Sat, 15 Apr 2023 18:01:30 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.13516.1681581683731219745
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00B25CA9EB3
+	for <webhook@archiver.kernel.org>; Sat, 15 Apr 2023 18:01:31 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.13800.1681581684687937873
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Apr 2023 11:01:25 -0700
+ Sat, 15 Apr 2023 11:01:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=H0Rj0CpE;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018786143876-34e3c870-dd20-4f25-92c4-ebfb8d8705d4-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ZvZ+CoCM;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010187861433b5-65bbccb3-7439-4d65-95fe-d4ca09b79ece-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1681581685;
+	t=1681581683;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=8AUCl3c9pQXyiqwtImT9fNqYkGGYokV2qlynwj8nE38=;
-	b=H0Rj0CpEomQrNvKThtQb6XD611Gwmyr1J+/HNjKNjltrZCINbnIt6zSuk3JhxW51
-	O3SXs9NaC6/lLiwgVihvqUYxLpC6/mQpdhe3PsFumikfqA96Uxx0PqMLLmyeIq4GkZ9
-	Q2u0WlLopAZYXdsqFWvX0cUZycS0tS3F8G9mqiNU=
+	bh=vmLtpsBR0zVEFXR0BiUcZoUzEuYbnM03C8TzLTLtV/c=;
+	b=ZvZ+CoCMLYD2nn/QYL2AHU6nHSGGkI3weDHmKGaQ2wOhOBcW35j5oJ3sRKy9LM8L
+	pxXG2GOtgrGZbkGkfZ3gMv3dRclIsW89FejEkA2esHYgopUp6VlOJ5HJr9NhwOLDF0z
+	FHpyiLrvG9EeEwg7kJdgUPIucaldoqITcDR5YVLo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1681581685;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1681581683;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=8AUCl3c9pQXyiqwtImT9fNqYkGGYokV2qlynwj8nE38=;
-	b=RPP2JiiWh8RZSaC3uTFZy7CMdqmqfcDTDFHryuICQnpr2kXcpTFjZ+6OahuzQcRd
-	8Zq13evCQJmp+kpj5whecxfvfjevH3uBOY9vscVhpNsiJoXUNy9gs1WkjvqYwNUbM0G
-	V003T+A6/0GAWjdX7MjYSH8G0VjIhyPGyqEkCgR8=
-Content-Type: multipart/mixed; boundary="===============3443781722696297741=="
+	bh=vmLtpsBR0zVEFXR0BiUcZoUzEuYbnM03C8TzLTLtV/c=;
+	b=B+USoiBDSp5xaTWDguPuqGFjfinXMSltgQBGtW0KKYWGqyJY6Zettc0fKUInQBD3
+	KVvryFGhBOh1zeM/1OGJPJPcqJd4jcq+Au949oVb7rL9JAp3F2QPiU2cctdcOJB8igt
+	Dr+gVWZDVYGz/tjT/jnbCxhWWl57bmHJsTeazKaI=
+Content-Type: multipart/mixed; boundary="===============1378184193546443270=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-importlib-metadata: upgrading to 6.3.0 SUCCEEDED
-Message-ID: <0101018786143876-34e3c870-dd20-4f25-92c4-ebfb8d8705d4-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Apr 2023 18:01:24 +0000
+Subject: [AUH] ovmf: upgrading to edk2-stable202302 FAILED
+Message-ID: <01010187861433b5-65bbccb3-7439-4d65-95fe-d4ca09b79ece-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Apr 2023 18:01:23 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.04.15-54.240.27.192
+X-SES-Outgoing: 2023.04.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Apr 2023 18:01:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180040
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180029
 
---===============3443781722696297741==
+--===============1378184193546443270==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,92 +50,58 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-importlib-metadata* to *6.3.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *ovmf* to *edk2-stable202302* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-importlib-metadata-upgrade-6.2.0-6.3.0.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe ovmf failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)... (07:58:32.033079)
+Loading cache...done.
+Loaded 1799 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:196c9169cf011b87b8e4df89e9cef7d503bf3192"
+workspace            = "master:ff633ce7a7ffc0d39b86043caeb63a9ffcef99b8"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Rebasing devtool onto f80f052277c88a67c55e107b550f504eeea947d3
+WARNING: Command 'git rebase f80f052277c88a67c55e107b550f504eeea947d3' failed:
+Auto-merging BaseTools/Conf/tools_def.template
+CONFLICT (content): Merge conflict in BaseTools/Conf/tools_def.template
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Using source tree as build directory since that would be the default for this recipe
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/ovmf
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/ovmf/ovmf_git.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============3443781722696297741==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-importlib-metadata-upgrade-6.2.0-6.3.0.patch"
-
-RnJvbSAzNmZmOTVlMDA5OGE4YzkzNmY3NWU1M2I1MzBiZjcxMTIyMmMyYWIxIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgQXByIDIwMjMgMTA6MjY6MTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWltcG9ydGxpYi1tZXRhZGF0YTogdXBncmFkZSA2LjIuMCAtPiA2LjMuMAoKLS0tCiAu
-Li5pYi1tZXRhZGF0YV82LjIuMC5iYiA9PiBweXRob24zLWltcG9ydGxpYi1tZXRhZGF0YV82LjMu
-MC5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
-LSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWltcG9ydGxp
-Yi1tZXRhZGF0YV82LjIuMC5iYiA9PiBweXRob24zLWltcG9ydGxpYi1tZXRhZGF0YV82LjMuMC5i
-Yn0gKDg4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
-bjMtaW1wb3J0bGliLW1ldGFkYXRhXzYuMi4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLWltcG9ydGxpYi1tZXRhZGF0YV82LjMuMC5iYgpzaW1pbGFyaXR5IGluZGV4
-IDg4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaW1w
-b3J0bGliLW1ldGFkYXRhXzYuMi4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cHl0aG9uL3B5dGhvbjMtaW1wb3J0bGliLW1ldGFkYXRhXzYuMy4wLmJiCmluZGV4IDNlOWI0MGVl
-OWQuLmMxYzUyM2RjYmEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
-cHl0aG9uMy1pbXBvcnRsaWItbWV0YWRhdGFfNi4yLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3B5dGhvbi9weXRob24zLWltcG9ydGxpYi1tZXRhZGF0YV82LjMuMC5iYgpAQCAtOCw3
-ICs4LDcgQEAgaW5oZXJpdCBweXBpIHB5dGhvbl9zZXR1cHRvb2xzX2J1aWxkX21ldGEKIFBZUElf
-UEFDS0FHRSA9ICJpbXBvcnRsaWJfbWV0YWRhdGEiCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICIv
-aW1wb3J0bGliLW1ldGFkYXRhLyg/UDxwdmVyPihcZCtbXC5cLV9dKikrKS8iCiAKLVNSQ19VUklb
-c2hhMjU2c3VtXSA9ICI5MTI3YWFkMmY0OWQ3MjAzZTcxMTIwOThjMTJiOTJlNGZkMTA2MWNjZDE4
-NTQ4Y2RmZGM0OTE3MWE4YzA3M2NjIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjIzYzJiY2FlNDc2
-MmRmYjBiYmUwNzJkMzU4ZmFlYzI0OTU3OTAxZDc1YjZjNGFiMTExNzJjMGM5ODI1MzI0MDIiCiAK
-IFMgPSAiJHtXT1JLRElSfS9pbXBvcnRsaWJfbWV0YWRhdGEtJHtQVn0iCiAKLS0gCjIuMzkuMgoK
-
---===============3443781722696297741==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/python3-importlib-metadata: SRC_URI changed from "https://files.pythonhosted.org/packages/source/i/importlib_metadata/importlib_metadata-6.2.0.tar.gz;downloadfilename=importlib_metadata-6.2.0.tar.gz" to "https://files.pythonhosted.org/packages/source/i/importlib_metadata/importlib_metadata-6.3.0.tar.gz;downloadfilename=importlib_metadata-6.3.0.tar.gz"
-packages/core2-32-poky-linux/python3-importlib-metadata: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
-packages/core2-32-poky-linux/python3-importlib-metadata: PV changed from "6.2.0" to "6.3.0"
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dbg: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dbg: PV changed from "6.2.0" to "6.3.0"
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dev: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dev: PV changed from "6.2.0" to "6.3.0"
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-doc: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-doc: PV changed from "6.2.0" to "6.3.0"
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-locale: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-locale: PV changed from "6.2.0" to "6.3.0"
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-src: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-src: PV changed from "6.2.0" to "6.3.0"
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-staticdev: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-staticdev: PV changed from "6.2.0" to "6.3.0"
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PKGSIZE changed from 134917 to 140113 (+4%)
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PV changed from "6.2.0" to "6.3.0"
-Changes to packages/core2-32-poky-linux/python3-importlib-metadata (sysroot):
-  /usr/lib/python3.11/site-packages/importlib_metadata-6.2.0.dist-info moved to /usr/lib/python3.11/site-packages/importlib_metadata-6.3.0.dist-info
-
---===============3443781722696297741==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/python3-importlib-metadata (sysroot):
-  /usr/lib/python3.11/site-packages/importlib_metadata-6.2.0.dist-info moved to /usr/lib/python3.11/site-packages/importlib_metadata-6.3.0.dist-info
-
---===============3443781722696297741==--
+--===============1378184193546443270==--
 
