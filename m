@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C50F6CA9EAB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3291CA9EAE
 	for <webhook@archiver.kernel.org>; Sat, 15 Apr 2023 18:01:30 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.13803.1681581684927022451
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.13516.1681581683731219745
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Apr 2023 11:01:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=HX7e7ExH;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018786143579-08f27764-2bce-4f0f-9e72-3e2d3de97a65-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=lXZqYnMg;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010187861436c3-4c3779cd-df90-4826-ad85-d22dcaabb62b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1681581684;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=E/E5tizJflRCe99av8a3G5Lv/xJs6fUWp304DjY7P+I=;
-	b=HX7e7ExHIZ8rKDdh7CQAbBfv5Av0BxR5wcdc4Rd3TRrXw0fQqunwiB7jE1aM5+Oc
-	FQfyBmOxLMR4C0C9nuIl7cyIaJ7lD6j9zmBVELf6hrPPorqP0/K9FfTNdbXxrZA0b6D
-	O5opaIgqPID2FT/19BwI46wmHaFN1ybs8znEXVe4=
+	bh=mJVIiVF57U97JzviXw+deu8HIk5XEt+CcVFiBdv8zAs=;
+	b=lXZqYnMghwOgT7a+o7/y2/W9Naa5u2uMtmnINnI10uzAg653lNMWP1hq5GmoJNlP
+	wk7YoeWo9tzoIXlNsxC0cAP9oqJkIVU1k8qNYeKX4JIMZBpG7ZadMIOnY1O+KM/3cFF
+	N9jX9wT1J2bY40idTqeTa3mR6P7FWMvdwhPAStJY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1681581684;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=E/E5tizJflRCe99av8a3G5Lv/xJs6fUWp304DjY7P+I=;
-	b=atEG+8s+pCWHl2MXGMzJDJegw1AAnoxguQFsU0qJvOjSVREwNDSHrhjFW8A2yhaz
-	ZPahUbaUak1ltoak36ChsOB79s0szMG795mS4YjtbcTlCqdwH84S7VyuK51qMw5UgiB
-	7xiSePjYSwGIJaJ1TQ2Y2q+yhSl0vw721ZYTfhNc=
-Content-Type: multipart/mixed; boundary="===============3196768676231730235=="
+	bh=mJVIiVF57U97JzviXw+deu8HIk5XEt+CcVFiBdv8zAs=;
+	b=ML/8vzIM5YA6fpGKtCKUjaN9loAAX7tzqgbPgZz+3VuRRTb9c2wdjkab73NzCPkF
+	jULm8UWwkBnyQfnryvsQ5u3UxwO8AIU9PtB079DaR9q73hwsgqbaDgPCmLBT3xJwxDZ
+	v3vB3BeoXruc5i4IQdKkK0NA1jHItwCMuMzs1PoM=
+Content-Type: multipart/mixed; boundary="===============0501653763383365424=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Wang Mingyu <wangmy@fujitsu.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] btrfs-tools: upgrading to 6.2.2 SUCCEEDED
-Message-ID: <0101018786143579-08f27764-2bce-4f0f-9e72-3e2d3de97a65-000000@us-west-2.amazonses.com>
+Subject: [AUH] go: upgrading to 1.20.3 FAILED
+Message-ID: <01010187861436c3-4c3779cd-df90-4826-ad85-d22dcaabb62b-000000@us-west-2.amazonses.com>
 Date: Sat, 15 Apr 2023 18:01:24 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.04.15-54.240.27.29
+X-SES-Outgoing: 2023.04.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Apr 2023 18:01:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180034
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180036
 
---===============3196768676231730235==
+--===============0501653763383365424==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *btrfs-tools* to *6.2.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *go* to *1.20.3* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-btrfs-tools-upgrade-6.1.3-6.2.2.patch
+    - apply the patch: git am 0001-go-upgrade-1.20.1-1.20.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,83 +75,304 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3196768676231730235==
+--===============0501653763383365424==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGSIZE changed from 17379552 to 19630676 (+13%)
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dbg: PV changed from "6.1.3" to "6.2.2"
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGV changed from 6.1.3 [default] to 6.2.2 [default]
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dev: PV changed from "6.1.3" to "6.2.2"
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dev: PKGV changed from 6.1.3 [default] to 6.2.2 [default]
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-doc: PV changed from "6.1.3" to "6.2.2"
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-doc: PKGV changed from 6.1.3 [default] to 6.2.2 [default]
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-locale: PV changed from "6.1.3" to "6.2.2"
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-locale: PKGV changed from 6.1.3 [default] to 6.2.2 [default]
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-src: PKGSIZE changed from 3740233 to 3781220 (+1%)
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-src: PV changed from "6.1.3" to "6.2.2"
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-src: FILELIST: directory renamed /usr/src/debug/btrfs-tools/6.1.3-r0/check -> /usr/src/debug/btrfs-tools/6.2.2-r0/check, directory renamed /usr/src/debug/btrfs-tools/6.1.3-r0/libbtrfsutil/python -> /usr/src/debug/btrfs-tools/6.2.2-r0/libbtrfsutil/python, directory renamed /usr/src/debug/btrfs-tools/6.1.3-r0/image -> /usr/src/debug/btrfs-tools/6.2.2-r0/image, directory renamed /usr/src/debug/btrfs-tools/6.1.3-r0/convert -> /usr/src/debug/btrfs-tools/6.2.2-r0/convert, directory renamed /usr/src/debug/btrfs-tools/6.1.3-r0/kernel-lib -> /usr/src/debug/btrfs-tools/6.2.2-r0/kernel-lib, directory renamed /usr/src/debug/btrfs-tools/6.1.3-r0/mkfs -> /usr/src/debug/btrfs-tools/6.2.2-r0/mkfs, directory renamed /usr/src/debug/btrfs-tools/6.1.3-r0/cmds -> /usr/src/debug/btrfs-tools/6.2.2-r0/cmds, directory renamed /usr/src/debug/btrfs-tools/6.1.3-r0/kernel-shared -> /usr/src/debug/btrfs-tools/6.2.2-r0/kernel-shared, directory renamed /usr/src/d
- ebug/btrfs-tools/6.1.3-r0/libbtrfsutil -> /usr/src/debug/btrfs-tools/6.2.2-r0/libbtrfsutil, removed "/usr/src/debug/btrfs-tools/6.1.3-r0/common/units.c /usr/src/debug/btrfs-tools/6.1.3-r0/common/utils.c /usr/src/debug/btrfs-tools/6.1.3-r0/common/help.h /usr/src/debug/btrfs-tools/6.1.3-r0/common/parse-utils.h /usr/src/debug/btrfs-tools/6.1.3-r0/common/units.h /usr/src/debug/btrfs-tools/6.1.3-r0/common/utils.h /usr/src/debug/btrfs-tools/6.1.3-r0/btrfs-find-root.c /usr/src/debug/btrfs-tools/6.1.3-r0/common/parse-utils.c /usr/src/debug/btrfs-tools/6.1.3-r0/libbtrfs/ctree.h /usr/src/debug/btrfs-tools/6.1.3-r0/common/help.c /usr/src/debug/btrfs-tools/6.1.3-r0/libbtrfs/ioctl.h /usr/src/debug/btrfs-tools/6.1.3-r0/libbtrfs/send-utils.h /usr/src/debug/btrfs-tools/6.1.3-r0/kerncompat.h /usr/src/debug/btrfs-tools/6.1.3-r0/libbtrfs/send-utils.c /usr/src/debug/btrfs-tools/6.1.3-r0/ioctl.h /usr/src/debug/btrfs-tools/6.1.3-r0/crypto/hash.c /usr/src/debug/btrfs-tools/6.1.3-r0/crypto/xxhash.h /usr/sr
- c/debug/btrfs-tools/6.1.3-r0/crypto/hash.h /usr/src/debug/btrfs-tools/6.1.3-r0/crypto/xxhash.c /usr/src/debug/btrfs-tools/6.1.3-r0/common/open-utils.h /usr/src/debug/btrfs-tools/6.1.3-r0/common/path-utils.h /usr/src/debug/btrfs-tools/6.1.3-r0/common/send-utils.h /usr/src/debug/btrfs-tools/6.1.3-r0/common/task-utils.h /usr/src/debug/btrfs-tools/6.1.3-r0/common/open-utils.c /usr/src/debug/btrfs-tools/6.1.3-r0/common/path-utils.c /usr/src/debug/btrfs-tools/6.1.3-r0/common/send-utils.c /usr/src/debug/btrfs-tools/6.1.3-r0/common/task-utils.c /usr/src/debug/btrfs-tools/6.1.3-r0/crypto/blake2b-ref.c /usr/src/debug/btrfs-tools/6.1.3-r0/crypto/crc32c.h /usr/src/debug/btrfs-tools/6.1.3-r0/common/send-stream.h /usr/src/debug/btrfs-tools/6.1.3-r0/common/fsfeatures.c /usr/src/debug/btrfs-tools/6.1.3-r0/common/send-stream.c /usr/src/debug/btrfs-tools/6.1.3-r0/btrfstune.c /usr/src/debug/btrfs-tools/6.1.3-r0/crypto/crc32c.c /usr/src/debug/btrfs-tools/6.1.3-r0/common/fsfeatures.h /usr/src/debug/btrf
- s-tools/6.1.3-r0/common/string-table.h /usr/src/debug/btrfs-tools/6.1.3-r0/btrfs.c /usr/src/debug/btrfs-tools/6.1.3-r0/libbtrfs/send-stream.h /usr/src/debug/btrfs-tools/6.1.3-r0/crypto/sha.h /usr/src/debug/btrfs-tools/6.1.3-r0/btrfs-map-logical.c /usr/src/debug/btrfs-tools/6.1.3-r0/libbtrfs/send.h /usr/src/debug/btrfs-tools/6.1.3-r0/libbtrfs/send-stream.c /usr/src/debug/btrfs-tools/6.1.3-r0/btrfs-select-super.c /usr/src/debug/btrfs-tools/6.1.3-r0/crypto/blake2.h /usr/src/debug/btrfs-tools/6.1.3-r0/common/filesystem-utils.c /usr/src/debug/btrfs-tools/6.1.3-r0/common/format-output.h /usr/src/debug/btrfs-tools/6.1.3-r0/common/device-scan.h /usr/src/debug/btrfs-tools/6.1.3-r0/common/device-utils.h /usr/src/debug/btrfs-tools/6.1.3-r0/common/rbtree-utils.h /usr/src/debug/btrfs-tools/6.1.3-r0/crypto/blake2-impl.h /usr/src/debug/btrfs-tools/6.1.3-r0/crypto/sha224-256.c /usr/src/debug/btrfs-tools/6.1.3-r0/common/extent-cache.c /usr/src/debug/btrfs-tools/6.1.3-r0/common/device-utils.c /usr/sr
- c/debug/btrfs-tools/6.1.3-r0/common/device-scan.c /usr/src/debug/btrfs-tools/6.1.3-r0/common/format-output.c /usr/src/debug/btrfs-tools/6.1.3-r0/common/filesystem-utils.h /usr/src/debug/btrfs-tools/6.1.3-r0/common/extent-cache.h /usr/src/debug/btrfs-tools/6.1.3-r0/common/rbtree-utils.c /usr/src/debug/btrfs-tools/6.1.3-r0/common/messages.h /usr/src/debug/btrfs-tools/6.1.3-r0/common/string-table.c /usr/src/debug/btrfs-tools/6.1.3-r0/common/string-utils.c /usr/src/debug/btrfs-tools/6.1.3-r0/common/string-utils.h /usr/src/debug/btrfs-tools/6.1.3-r0/common/messages.c", added "/usr/src/debug/btrfs-tools/6.2.2-r0/common/units.c /usr/src/debug/btrfs-tools/6.2.2-r0/common/utils.c /usr/src/debug/btrfs-tools/6.2.2-r0/common/help.h /usr/src/debug/btrfs-tools/6.2.2-r0/libbtrfs/crc32c.c /usr/src/debug/btrfs-tools/6.2.2-r0/common/parse-utils.h /usr/src/debug/btrfs-tools/6.2.2-r0/common/units.h /usr/src/debug/btrfs-tools/6.2.2-r0/common/utils.h /usr/src/debug/btrfs-tools/6.2.2-r0/btrfs-find-root.c 
- /usr/src/debug/btrfs-tools/6.2.2-r0/common/parse-utils.c /usr/src/debug/btrfs-tools/6.2.2-r0/libbtrfs/crc32c.h /usr/src/debug/btrfs-tools/6.2.2-r0/libbtrfs/ctree.h /usr/src/debug/btrfs-tools/6.2.2-r0/common/help.c /usr/src/debug/btrfs-tools/6.2.2-r0/libbtrfs/ioctl.h /usr/src/debug/btrfs-tools/6.2.2-r0/tune/change-uuid.c /usr/src/debug/btrfs-tools/6.2.2-r0/libbtrfs/send-utils.h /usr/src/debug/btrfs-tools/6.2.2-r0/crypto/blake2b-sse2.c /usr/src/debug/btrfs-tools/6.2.2-r0/crypto/blake2b-avx2.c /usr/src/debug/btrfs-tools/6.2.2-r0/libbtrfs/send-utils.c /usr/src/debug/btrfs-tools/6.2.2-r0/crypto/hash.c /usr/src/debug/btrfs-tools/6.2.2-r0/tune/change-csum.c /usr/src/debug/btrfs-tools/6.2.2-r0/tune/change-metadata-uuid.c /usr/src/debug/btrfs-tools/6.2.2-r0/crypto/xxhash.h /usr/src/debug/btrfs-tools/6.2.2-r0/crypto/hash.h /usr/src/debug/btrfs-tools/6.2.2-r0/tune/convert-bgt.c /usr/src/debug/btrfs-tools/6.2.2-r0/common/open-utils.h /usr/src/debug/btrfs-tools/6.2.2-r0/common/cpu-utils.c /usr/s
- rc/debug/btrfs-tools/6.2.2-r0/common/path-utils.h /usr/src/debug/btrfs-tools/6.2.2-r0/common/send-utils.h /usr/src/debug/btrfs-tools/6.2.2-r0/common/task-utils.h /usr/src/debug/btrfs-tools/6.2.2-r0/common/open-utils.c /usr/src/debug/btrfs-tools/6.2.2-r0/common/path-utils.c /usr/src/debug/btrfs-tools/6.2.2-r0/common/send-utils.c /usr/src/debug/btrfs-tools/6.2.2-r0/common/task-utils.c /usr/src/debug/btrfs-tools/6.2.2-r0/include/kerncompat.h /usr/src/debug/btrfs-tools/6.2.2-r0/common/cpu-utils.h /usr/src/debug/btrfs-tools/6.2.2-r0/crypto/blake2b-ref.c /usr/src/debug/btrfs-tools/6.2.2-r0/crypto/crc32c.h /usr/src/debug/btrfs-tools/6.2.2-r0/common/send-stream.h /usr/src/debug/btrfs-tools/6.2.2-r0/tune/seeding.c /usr/src/debug/btrfs-tools/6.2.2-r0/common/fsfeatures.c /usr/src/debug/btrfs-tools/6.2.2-r0/common/send-stream.c /usr/src/debug/btrfs-tools/6.2.2-r0/crypto/crc32c.c /usr/src/debug/btrfs-tools/6.2.2-r0/common/fsfeatures.h /usr/src/debug/btrfs-tools/6.2.2-r0/crypto/sha256-x86.c /usr/
- src/debug/btrfs-tools/6.2.2-r0/btrfs.c /usr/src/debug/btrfs-tools/6.2.2-r0/libbtrfs/send-stream.h /usr/src/debug/btrfs-tools/6.2.2-r0/common/string-table.h /usr/src/debug/btrfs-tools/6.2.2-r0/crypto/sha.h /usr/src/debug/btrfs-tools/6.2.2-r0/btrfs-map-logical.c /usr/src/debug/btrfs-tools/6.2.2-r0/libbtrfs/send.h /usr/src/debug/btrfs-tools/6.2.2-r0/libbtrfs/send-stream.c /usr/src/debug/btrfs-tools/6.2.2-r0/crypto/blake2b-sse41.c /usr/src/debug/btrfs-tools/6.2.2-r0/btrfs-select-super.c /usr/src/debug/btrfs-tools/6.2.2-r0/crypto/blake2.h /usr/src/debug/btrfs-tools/6.2.2-r0/common/filesystem-utils.c /usr/src/debug/btrfs-tools/6.2.2-r0/common/format-output.h /usr/src/debug/btrfs-tools/6.2.2-r0/common/device-scan.h /usr/src/debug/btrfs-tools/6.2.2-r0/common/device-utils.h /usr/src/debug/btrfs-tools/6.2.2-r0/common/rbtree-utils.h /usr/src/debug/btrfs-tools/6.2.2-r0/crypto/blake2-impl.h /usr/src/debug/btrfs-tools/6.2.2-r0/crypto/sha224-256.c /usr/src/debug/btrfs-tools/6.2.2-r0/common/extent-
- cache.c /usr/src/debug/btrfs-tools/6.2.2-r0/common/device-utils.c /usr/src/debug/btrfs-tools/6.2.2-r0/common/device-scan.c /usr/src/debug/btrfs-tools/6.2.2-r0/common/format-output.c /usr/src/debug/btrfs-tools/6.2.2-r0/common/filesystem-utils.h /usr/src/debug/btrfs-tools/6.2.2-r0/common/extent-cache.h /usr/src/debug/btrfs-tools/6.2.2-r0/common/rbtree-utils.c /usr/src/debug/btrfs-tools/6.2.2-r0/tune/tune.h /usr/src/debug/btrfs-tools/6.2.2-r0/common/messages.h /usr/src/debug/btrfs-tools/6.2.2-r0/common/string-table.c /usr/src/debug/btrfs-tools/6.2.2-r0/common/string-utils.c /usr/src/debug/btrfs-tools/6.2.2-r0/tune/main.c /usr/src/debug/btrfs-tools/6.2.2-r0/include/ioctl.h /usr/src/debug/btrfs-tools/6.2.2-r0/common/string-utils.h /usr/src/debug/btrfs-tools/6.2.2-r0/common/messages.c"
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-src: PKGV changed from 6.1.3 [default] to 6.2.2 [default]
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-staticdev: PV changed from "6.1.3" to "6.2.2"
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-staticdev: PKGV changed from 6.1.3 [default] to 6.2.2 [default]
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools: PKGSIZE changed from 6156440 to 6328528 (+3%)
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools: PV changed from "6.1.3" to "6.2.2"
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools: PKGV changed from 6.1.3 [default] to 6.2.2 [default]
-packages/core2-32-poky-linux/btrfs-tools: PV changed from "6.1.3" to "6.2.2"
-packages/core2-32-poky-linux/btrfs-tools: PKGV changed from 6.1.3 [default] to 6.2.2 [default]
-Changes to packages/core2-32-poky-linux/btrfs-tools (sysroot):
-  /usr/lib/python3.11/site-packages/btrfsutil-6.1.3-py3.11.egg-info moved to /usr/lib/python3.11/site-packages/btrfsutil-6.2.2-py3.11.egg-info
+Loading cache...done.
+Loaded 1798 entries from dependency cache.
+Parsing recipes...
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: ParseError at /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/go/go-runtime_1.20.1.bb:1: Could not include required file go-1.20.1.inc
+ERROR: Parsing halted due to errors, see error messages above
 
---===============3196768676231730235==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGSIZE changed from 17379552 to 19630676 (+13%)
-Changes to packages/core2-32-poky-linux/btrfs-tools (sysroot):
-  /usr/lib/python3.11/site-packages/btrfsutil-6.1.3-py3.11.egg-info moved to /usr/lib/python3.11/site-packages/btrfsutil-6.2.2-py3.11.egg-info
-
---===============3196768676231730235==
+--===============0501653763383365424==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-btrfs-tools-upgrade-6.1.3-6.2.2.patch"
+ filename="0001-go-upgrade-1.20.1-1.20.3.patch"
 
-RnJvbSAxNzA4ZDhkYmU5N2Y5ZjU4NWMxYmZjMWEzY2QwNWNjMjhkYmU4NDA1IE1vbiBTZXAgMTcg
+RnJvbSAyNTY1MWZlYjRjOGFiZTQ5Zjg3Y2EwMzhjNTQyYTBkNWE4ZmI4N2EyIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgQXByIDIwMjMgMDg6MTY6NDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBi
-dHJmcy10b29sczogdXBncmFkZSA2LjEuMyAtPiA2LjIuMgoKLS0tCiAuLi4vYnRyZnMtdG9vbHMv
-e2J0cmZzLXRvb2xzXzYuMS4zLmJiID0+IGJ0cmZzLXRvb2xzXzYuMi4yLmJifSAgfCAyICstCiAx
-IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMve2J0cmZzLXRvb2xzXzYuMS4zLmJiID0+IGJ0
-cmZzLXRvb2xzXzYuMi4yLmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9idHJmcy10b29scy9idHJmcy10b29sc182LjEuMy5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9idHJmcy10b29scy9idHJmcy10b29sc182LjIuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDk4
-JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9v
-bHNfNi4xLjMuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29scy9i
-dHJmcy10b29sc182LjIuMi5iYgppbmRleCBiNGRmYzViM2YzLi45YjAwNjE0OThkIDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHNfNi4xLjMu
-YmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzXzYu
-Mi4yLmJiCkBAIC0xOSw3ICsxOSw3IEBAIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0Lmtlcm5lbC5vcmcv
-cHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2tkYXZlL2J0cmZzLXByb2dzLmdpdDtiCiAgICAgICAg
-ICAgIGZpbGU6Ly8wMDAxLUFkZC1hLXBvc3NpYmlsaXR5LXRvLXNwZWNpZnktd2hlcmUtcHl0aG9u
-LW1vZHVsZXMtYXIucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1Vc2UtcHJlYWQtcHdy
-aXRlLWZ0cnVuY2F0ZS1zdGF0LWluc3RlYWQtb2YtNjRiaXQtZXF1LnBhdGNoIFwKICAgICAgICAg
-ICAgIgotU1JDUkVWID0gIjkwOGI0YjQ0NTAzMjBlMzBmZGVmNjkzZjA5YjQyZjRlYjkzNzAyYzMi
-CitTUkNSRVYgPSAiOTFhODMwMzRjNWIzMTY1N2Y5YThmYzllMGMyN2U4YTc5MmU2ODJjMyIKIFMg
-PSAiJHtXT1JLRElSfS9naXQiCiAKIFBBQ0tBR0VDT05GSUcgPz89ICIgXAotLSAKMi4zOS4yCgo=
+CkRhdGU6IFNhdCwgMTUgQXByIDIwMjMgMDk6MjY6MTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+bzogdXBncmFkZSAxLjIwLjEgLT4gMS4yMC4zCgotLS0KIC4uLi9nby97Z28tMS4yMC4xLmluYyA9
+PiBnby0xLjIwLjMuaW5jfSAgICAgICB8ICAyNiArLS0KIC4uLm9tcGlsZS1pbnN0YW50aWF0ZWQt
+Z2VuZXJpYy1tZXRob2RzLS5wYXRjaCB8ICA5MCAtLS0tLS0tLQogLi4uL2dvL2dvL0NWRS0yMDIz
+LTI0NTMyLnBhdGNoICAgICAgICAgICAgICAgIHwgMjA4IC0tLS0tLS0tLS0tLS0tLS0tLQogLi4u
+L2dvL3tnb18xLjIwLjEuYmIgPT4gZ29fMS4yMC4zLmJifSAgICAgICAgIHwgICAwCiA0IGZpbGVz
+IGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKyksIDMxMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvZ28ve2dvLTEuMjAuMS5pbmMgPT4gZ28tMS4yMC4zLmluY30gKDE1
+JSkKIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ28vZ28vMDAxMC1j
+bWQtY29tcGlsZS1yZS1jb21waWxlLWluc3RhbnRpYXRlZC1nZW5lcmljLW1ldGhvZHMtLnBhdGNo
+CiBkZWxldGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL2dvL0NWRS0yMDIz
+LTI0NTMyLnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL3tnb18xLjIwLjEu
+YmIgPT4gZ29fMS4yMC4zLmJifSAoMTAwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvZ28vZ28tMS4yMC4xLmluYyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby0xLjIw
+LjMuaW5jCnNpbWlsYXJpdHkgaW5kZXggMTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0
+b29scy9nby9nby0xLjIwLjEuaW5jCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ28v
+Z28tMS4yMC4zLmluYwppbmRleCBiMWY1NjkyMTJkLi5iMDk5N2NkMzgzIDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ28vZ28tMS4yMC4xLmluYworKysgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvZ28vZ28tMS4yMC4zLmluYwpAQCAtNCwxNyArNCwxNSBAQCBGSUxFU0VYVFJBUEFU
+SFM6cHJlcGVuZCA6PSAiJHtGSUxFX0RJUk5BTUV9L2dvOiIKIAogTElDX0ZJTEVTX0NIS1NVTSA9
+ICJmaWxlOi8vTElDRU5TRTttZDU9NWQ0OTUwZWNiN2IyNmQyYzVlNGU3YjRlMGRkNzQ3MDciCiAK
+LVNSQ19VUkkgKz0gIlwKLSAgICBmaWxlOi8vMDAwMS1jbWQtZ28tbWFrZS1jb250ZW50LWJhc2Vk
+LWhhc2gtZ2VuZXJhdGlvbi1sZXNzLXBlZGFuLnBhdGNoIFwKLSAgICBmaWxlOi8vMDAwMi1jbWQt
+Z28tQWxsb3ctR09UT09MRElSLXRvLWJlLW92ZXJyaWRkZW4taW4tdGhlLWVudmlyLnBhdGNoIFwK
+LSAgICBmaWxlOi8vMDAwMy1sZC1hZGQtc29uYW1lLXRvLXNoYXJlYWJsZS1vYmplY3RzLnBhdGNo
+IFwKLSAgICBmaWxlOi8vMDAwNC1tYWtlLmJhc2gtb3ZlcnJpZGUtQ0Mtd2hlbi1idWlsZGluZy1k
+aXN0LWFuZC1nb19ib290LnBhdGNoIFwKLSAgICBmaWxlOi8vMDAwNS1jbWQtZGlzdC1zZXBhcmF0
+ZS1ob3N0LWFuZC10YXJnZXQtYnVpbGRzLnBhdGNoIFwKLSAgICBmaWxlOi8vMDAwNi1jbWQtZ28t
+bWFrZS1HT1JPT1QtcHJlY2lvdXMtYnktZGVmYXVsdC5wYXRjaCBcCi0gICAgZmlsZTovLzAwMDct
+ZXhlYy5nby1kby1ub3Qtd3JpdGUtbGlua2VyLWZsYWdzLWludG8tYnVpbGRpZHMucGF0Y2ggXAot
+ICAgIGZpbGU6Ly8wMDA4LXNyYy1jbWQtZGlzdC1idWlsZGdvLmdvLWRvLW5vdC1oYXJkY29kZS1o
+b3N0LWNvbXBpbGUucGF0Y2ggXAotICAgIGZpbGU6Ly8wMDA5LWdvLUZpbHRlci1idWlsZC1wYXRo
+cy1vbi1zdGF0aWNseS1saW5rZWQtYXJjaGVzLnBhdGNoIFwKLSAgICBmaWxlOi8vMDAxMC1jbWQt
+Y29tcGlsZS1yZS1jb21waWxlLWluc3RhbnRpYXRlZC1nZW5lcmljLW1ldGhvZHMtLnBhdGNoIFwK
+LSAgICBmaWxlOi8vQ1ZFLTIwMjMtMjQ1MzIucGF0Y2ggXAotIgotU1JDX1VSSVttYWluLnNoYTI1
+NnN1bV0gPSAiYjVjMWEzYWY1MmMzODVhNmQxYzc2YWVkNTM2MWNmMjY0NTkwMjM5ODBkMDMyMGRl
+NzY1OGJhZTM5MTU4MzFhMiIKK1NSQ19VUkkgPSAiaHR0cHM6Ly9nb2xhbmcub3JnL2RsL2dvJHtQ
+Vn0uc3JjLnRhci5nejtuYW1lPW1haW4gXAorICAgICAgICAgICBmaWxlOi8vMDAwMS1jbWQtZ28t
+bWFrZS1jb250ZW50LWJhc2VkLWhhc2gtZ2VuZXJhdGlvbi1sZXNzLXBlZGFuLnBhdGNoIFwKKyAg
+ICAgICAgICAgZmlsZTovLzAwMDItY21kLWdvLUFsbG93LUdPVE9PTERJUi10by1iZS1vdmVycmlk
+ZGVuLWluLXRoZS1lbnZpci5wYXRjaCBcCisgICAgICAgICAgIGZpbGU6Ly8wMDAzLWxkLWFkZC1z
+b25hbWUtdG8tc2hhcmVhYmxlLW9iamVjdHMucGF0Y2ggXAorICAgICAgICAgICBmaWxlOi8vMDAw
+NC1tYWtlLmJhc2gtb3ZlcnJpZGUtQ0Mtd2hlbi1idWlsZGluZy1kaXN0LWFuZC1nb19ib290LnBh
+dGNoIFwKKyAgICAgICAgICAgZmlsZTovLzAwMDUtY21kLWRpc3Qtc2VwYXJhdGUtaG9zdC1hbmQt
+dGFyZ2V0LWJ1aWxkcy5wYXRjaCBcCisgICAgICAgICAgIGZpbGU6Ly8wMDA2LWNtZC1nby1tYWtl
+LUdPUk9PVC1wcmVjaW91cy1ieS1kZWZhdWx0LnBhdGNoIFwKKyAgICAgICAgICAgZmlsZTovLzAw
+MDctZXhlYy5nby1kby1ub3Qtd3JpdGUtbGlua2VyLWZsYWdzLWludG8tYnVpbGRpZHMucGF0Y2gg
+XAorICAgICAgICAgICBmaWxlOi8vMDAwOC1zcmMtY21kLWRpc3QtYnVpbGRnby5nby1kby1ub3Qt
+aGFyZGNvZGUtaG9zdC1jb21waWxlLnBhdGNoIFwKKyAgICAgICAgICAgZmlsZTovLzAwMDktZ28t
+RmlsdGVyLWJ1aWxkLXBhdGhzLW9uLXN0YXRpY2x5LWxpbmtlZC1hcmNoZXMucGF0Y2ggXAorICAg
+ICAgICAgICAiCitTUkNfVVJJW21haW4uc2hhMjU2c3VtXSA9ICJlNDQ3YjQ5OGNkZTUwMjE1YzRm
+NzYxOWU1MTI0YjBmYzRlMjVmYjVkMTZlYTQ3MjcxYzQ3ZjI3OGU3YWE3NjNhIgpkaWZmIC0tZ2l0
+IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL2dvLzAwMTAtY21kLWNvbXBpbGUtcmUtY29tcGls
+ZS1pbnN0YW50aWF0ZWQtZ2VuZXJpYy1tZXRob2RzLS5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9nby9nby8wMDEwLWNtZC1jb21waWxlLXJlLWNvbXBpbGUtaW5zdGFudGlhdGVkLWdlbmVy
+aWMtbWV0aG9kcy0ucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IGY5YWMyMDI0
+MjEuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL2dvLzAwMTAtY21k
+LWNvbXBpbGUtcmUtY29tcGlsZS1pbnN0YW50aWF0ZWQtZ2VuZXJpYy1tZXRob2RzLS5wYXRjaAor
+KysgL2Rldi9udWxsCkBAIC0xLDkwICswLDAgQEAKLUZyb20gN2EzYmIxNmI0M2VmYmE3MzY3NDYy
+OWVhZTQzNjlmOTAwNGUzN2YyMiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IEN1b25n
+IE1hbmggTGUgPGN1b25nLm1hbmhsZS52bkBnbWFpbC5jb20+Ci1EYXRlOiBTYXQsIDE4IE1hciAy
+MDIzIDAwOjUzOjA3ICswNzAwCi1TdWJqZWN0OiBbUEFUQ0hdIGNtZC9jb21waWxlOiByZS1jb21w
+aWxlIGluc3RhbnRpYXRlZCBnZW5lcmljIG1ldGhvZHMgaW4KLSBsaW5rc2hhcmVkIG1vZGUKLQot
+Rm9yIEdbVF0gdGhhdCB3YXMgc2VlbiBhbmQgY29tcGlsZWQgaW4gaW1wb3J0ZWQgcGFja2FnZSwg
+aXQgaXMgbm90IGFkZGVkCi10byB0eXBlY2hlY2suVGFyZ2V0LkRlY2xzLCBwcmV2ZW50IHdhc3Rp
+bmcgY29tcGlsZSB0aW1lIHJlLWNyZWF0aW5nCi1EVVBPS1Mgc3ltYm9scy4gSG93ZXZlciwgdGhl
+IGxpbmtlciBkbyBub3Qgc3VwcG9ydCBhIHR5cGUgc3ltYm9sCi1yZWZlcmVuY2luZyBhIG1ldGhv
+ZCBzeW1ib2wgYWNyb3NzIERTTyBib3VuZGFyeS4gVGhhdCBjYXVzZXMgdW5yZWFjaGFibGUKLXN5
+bSBlcnJvciB3aGVuIGJ1aWxkaW5nIHVuZGVyIC1saW5rc2hhcmVkIG1vZGUuCi0KLVRvIGZpeCBp
+dCwgYWx3YXlzIHJlLWNvbXBpbGUgZ2VuZXJpYyBtZXRob2RzIGluIGxpbmtzaGFyZWQgbW9kZS4K
+LQotRml4ZXMgIzU4OTY2Ci0KLUNoYW5nZS1JZDogSTg5NGI0MTdjZmU4MjM0YWUxZmU4MDljYzk3
+NTg4OTM0NWRmMjJjZWYKLVJldmlld2VkLW9uOiBodHRwczovL2dvLXJldmlldy5nb29nbGVzb3Vy
+Y2UuY29tL2MvZ28vKy80NzczNzUKLVJ1bi1UcnlCb3Q6IEN1b25nIE1hbmggTGUgPGN1b25nLm1h
+bmhsZS52bkBnbWFpbC5jb20+Ci1SZXZpZXdlZC1ieTogQ2hlcnJ5IE11aSA8Y2hlcnJ5eXpAZ29v
+Z2xlLmNvbT4KLVJldmlld2VkLWJ5OiBNYXR0aGV3IERlbXBza3kgPG1kZW1wc2t5QGdvb2dsZS5j
+b20+Ci1UcnlCb3QtUmVzdWx0OiBHb3BoZXIgUm9ib3QgPGdvYm90QGdvbGFuZy5vcmc+Ci0KLVVw
+c3RyZWFtLVN0YXR1czogQmFja3BvcnQgW2h0dHBzOi8vZ2l0aHViLmNvbS9nb2xhbmcvZ28vY29t
+bWl0L2JjZDgyMTI1Zjg1YzdjNTUyNDkzZTg2M2ZhMWJiMTRlNmM0NDQ1NTddCi0KLVNpZ25lZC1v
+ZmYtYnk6IEpvc2UgUXVhcmVzbWEgPGpvc2UucXVhcmVzbWFAZm91bmRyaWVzLmlvPgotLS0tCi0g
+bWlzYy9jZ28vdGVzdHNoYXJlZC9zaGFyZWRfdGVzdC5nbyAgICAgICAgICAgICAgfCAgNyArKysr
+KystCi0gbWlzYy9jZ28vdGVzdHNoYXJlZC90ZXN0ZGF0YS9pc3N1ZTU4OTY2L21haW4uZ28gfCAx
+NSArKysrKysrKysrKysrKysKLSBzcmMvY21kL2NvbXBpbGUvaW50ZXJuYWwvbm9kZXIvdW5pZmll
+ZC5nbyAgICAgICB8ICA2ICsrKysrLQotIDMgZmlsZXMgY2hhbmdlZCwgMjYgaW5zZXJ0aW9ucygr
+KSwgMiBkZWxldGlvbnMoLSkKLSBjcmVhdGUgbW9kZSAxMDA2NDQgbWlzYy9jZ28vdGVzdHNoYXJl
+ZC90ZXN0ZGF0YS9pc3N1ZTU4OTY2L21haW4uZ28KLQotZGlmZiAtLWdpdCBhL21pc2MvY2dvL3Rl
+c3RzaGFyZWQvc2hhcmVkX3Rlc3QuZ28gYi9taXNjL2Nnby90ZXN0c2hhcmVkL3NoYXJlZF90ZXN0
+LmdvCi1pbmRleCBiMTRmYjFjYjNhLi4wM2RhOGY5NDM1IDEwMDY0NAotLS0tIGEvbWlzYy9jZ28v
+dGVzdHNoYXJlZC9zaGFyZWRfdGVzdC5nbwotKysrIGIvbWlzYy9jZ28vdGVzdHNoYXJlZC9zaGFy
+ZWRfdGVzdC5nbwotQEAgLTExMTIsOCArMTExMiwxMyBAQCBmdW5jIFRlc3RTdGQodCAqdGVzdGlu
+Zy5UKSB7Ci0gCQl0LlNraXAoInNraXAgaW4gc2hvcnQgbW9kZSIpCi0gCX0KLSAJdC5QYXJhbGxl
+bCgpCi0rCXRtcERpciA6PSB0LlRlbXBEaXIoKQotIAkvLyBVc2UgYSB0ZW1wb3JhcnkgcGtnZGly
+IHRvIG5vdCBpbnRlcmZlcmUgd2l0aCBvdGhlciB0ZXN0cywgYW5kIG5vdCB3cml0ZSB0byBHT1JP
+T1QuCi0gCS8vIENhbm5vdCB1c2UgZ29DbWQgYXMgaXQgcnVucyB3aXRoIGNsb25lZCBHT1JPT1Qg
+d2hpY2ggaXMgaW5jb21wbGV0ZS4KLSAJcnVuV2l0aEVudih0LCAiYnVpbGRpbmcgc3RkIiwgW11z
+dHJpbmd7IkdPUk9PVD0iICsgb2xkR09ST09UfSwKLS0JCWZpbGVwYXRoLkpvaW4ob2xkR09ST09U
+LCAiYmluIiwgImdvIiksICJpbnN0YWxsIiwgIi1idWlsZG1vZGU9c2hhcmVkIiwgIi1wa2dkaXI9
+Iit0LlRlbXBEaXIoKSwgInN0ZCIpCi0rCQlmaWxlcGF0aC5Kb2luKG9sZEdPUk9PVCwgImJpbiIs
+ICJnbyIpLCAiaW5zdGFsbCIsICItYnVpbGRtb2RlPXNoYXJlZCIsICItcGtnZGlyPSIrdG1wRGly
+LCAic3RkIikKLSsKLSsJLy8gSXNzdWUgIzU4OTY2LgotKwlydW5XaXRoRW52KHQsICJ0ZXN0aW5n
+IGlzc3VlICM1ODk2NiIsIFtdc3RyaW5neyJHT1JPT1Q9IiArIG9sZEdPUk9PVH0sCi0rCQlmaWxl
+cGF0aC5Kb2luKG9sZEdPUk9PVCwgImJpbiIsICJnbyIpLCAicnVuIiwgIi1saW5rc2hhcmVkIiwg
+Ii1wa2dkaXI9Iit0bXBEaXIsICIuL2lzc3VlNTg5NjYvbWFpbi5nbyIpCi0gfQotZGlmZiAtLWdp
+dCBhL21pc2MvY2dvL3Rlc3RzaGFyZWQvdGVzdGRhdGEvaXNzdWU1ODk2Ni9tYWluLmdvIGIvbWlz
+Yy9jZ28vdGVzdHNoYXJlZC90ZXN0ZGF0YS9pc3N1ZTU4OTY2L21haW4uZ28KLW5ldyBmaWxlIG1v
+ZGUgMTAwNjQ0Ci1pbmRleCAwMDAwMDAwMDAwLi4yZDkyM2MzNjA3Ci0tLS0gL2Rldi9udWxsCi0r
+KysgYi9taXNjL2Nnby90ZXN0c2hhcmVkL3Rlc3RkYXRhL2lzc3VlNTg5NjYvbWFpbi5nbwotQEAg
+LTAsMCArMSwxNSBAQAotKy8vIENvcHlyaWdodCAyMDIzIFRoZSBHbyBBdXRob3JzLiBBbGwgcmln
+aHRzIHJlc2VydmVkLgotKy8vIFVzZSBvZiB0aGlzIHNvdXJjZSBjb2RlIGlzIGdvdmVybmVkIGJ5
+IGEgQlNELXN0eWxlCi0rLy8gbGljZW5zZSB0aGF0IGNhbiBiZSBmb3VuZCBpbiB0aGUgTElDRU5T
+RSBmaWxlLgotKwotK3BhY2thZ2UgbWFpbgotKwotK2ltcG9ydCAiY3J5cHRvL2VsbGlwdGljIgot
+KwotK3ZhciBjdXJ2ZSBlbGxpcHRpYy5DdXJ2ZQotKwotK2Z1bmMgbWFpbigpIHsKLSsJc3dpdGNo
+IGN1cnZlIHsKLSsJY2FzZSBlbGxpcHRpYy5QMjI0KCk6Ci0rCX0KLSt9Ci1kaWZmIC0tZ2l0IGEv
+c3JjL2NtZC9jb21waWxlL2ludGVybmFsL25vZGVyL3VuaWZpZWQuZ28gYi9zcmMvY21kL2NvbXBp
+bGUvaW50ZXJuYWwvbm9kZXIvdW5pZmllZC5nbwotaW5kZXggZWQ5N2EwOTMwMi4uMjUxMzZlNmFh
+ZCAxMDA2NDQKLS0tLSBhL3NyYy9jbWQvY29tcGlsZS9pbnRlcm5hbC9ub2Rlci91bmlmaWVkLmdv
+Ci0rKysgYi9zcmMvY21kL2NvbXBpbGUvaW50ZXJuYWwvbm9kZXIvdW5pZmllZC5nbwotQEAgLTE1
+OCw3ICsxNTgsMTEgQEAgZnVuYyByZWFkQm9kaWVzKHRhcmdldCAqaXIuUGFja2FnZSwgZHVyaW5n
+SW5saW5pbmcgYm9vbCkgewotIAkJCS8vIEluc3RhbnRpYXRlZCBnZW5lcmljIGZ1bmN0aW9uOiBh
+ZGQgdG8gRGVjbHMgZm9yIHR5cGVjaGVja2luZwotIAkJCS8vIGFuZCBjb21waWxhdGlvbi4KLSAJ
+CQlpZiBmbi5PQ2xvc3VyZSA9PSBuaWwgJiYgbGVuKHByaS5kaWN0LnRhcmdzKSAhPSAwIHsKLS0J
+CQkJaWYgZHVyaW5nSW5saW5pbmcgewotKwkJCQkvLyBjbWQvbGluayBkb2VzIG5vdCBzdXBwb3J0
+IGEgdHlwZSBzeW1ib2wgcmVmZXJlbmNpbmcgYSBtZXRob2Qgc3ltYm9sCi0rCQkJCS8vIGFjcm9z
+cyBEU08gYm91bmRhcnksIHNvIGZvcmNlIHJlLWNvbXBpbGluZyBtZXRob2RzIG9uIGEgZ2VuZXJp
+YyB0eXBlCi0rCQkJCS8vIGV2ZW4gaXQgd2FzIHNlZW4gZnJvbSBpbXBvcnRlZCBwYWNrYWdlIGlu
+IGxpbmtzaGFyZWQgbW9kZSwgc2VlICM1ODk2Ni4KLSsJCQkJY2FuU2tpcE5vbkdlbmVyaWNNZXRo
+b2QgOj0gIShiYXNlLkN0eHQuRmxhZ19saW5rc2hhcmVkICYmIGlyLklzTWV0aG9kKGZuKSkKLSsJ
+CQkJaWYgZHVyaW5nSW5saW5pbmcgJiYgY2FuU2tpcE5vbkdlbmVyaWNNZXRob2QgewotIAkJCQkJ
+aW5sRGVjbHMgPSBhcHBlbmQoaW5sRGVjbHMsIGZuKQotIAkJCQl9IGVsc2UgewotIAkJCQkJdGFy
+Z2V0LkRlY2xzID0gYXBwZW5kKHRhcmdldC5EZWNscywgZm4pCmRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvZ28vZ28vQ1ZFLTIwMjMtMjQ1MzIucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvZ28vZ28vQ1ZFLTIwMjMtMjQ1MzIucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAw
+NjQ0CmluZGV4IDIyZjA4MGRiZDQuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL2dvL2dvL0NWRS0yMDIzLTI0NTMyLnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsMjA4ICsw
+LDAgQEAKLUZyb20gNjAyZWVhYWIzODdmMjRhNGIyOGM1ZWNjYmI1MGZhOTM0ZjNiYzNjNCBNb24g
+U2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IEZpbGlwcG8gVmFsc29yZGEgPGZpbGlwcG9AZ29s
+YW5nLm9yZz4KLURhdGU6IE1vbiwgMTMgRmViIDIwMjMgMTU6MTY6MjcgKzAxMDAKLVN1YmplY3Q6
+IFtQQVRDSF0gW3JlbGVhc2UtYnJhbmNoLmdvMS4yMF0gY3J5cHRvL2ludGVybmFsL25pc3RlYzog
+cmVkdWNlIFAtMjU2Ci0gc2NhbGFyCi0KLVVubGlrZSB0aGUgcmVzdCBvZiBuaXN0ZWMsIHRoZSBQ
+LTI1NiBhc3NlbWJseSBkb2Vzbid0IHVzZSBjb21wbGV0ZQotYWRkaXRpb24gZm9ybXVsYXMsIG1l
+YW5pbmcgdGhhdCBwMjU2UG9pbnRBZGRbQWZmaW5lXUFzbSB3b24ndCByZXR1cm4gdGhlCi1jb3Jy
+ZWN0IHZhbHVlIGlmIHRoZSB0d28gaW5wdXRzIGFyZSBlcXVhbC4KLQotVGhpcyB3YXMgKHVuZG9j
+dW1lbnRlZGx5KSBpZ25vcmVkIGluIHRoZSBzY2FsYXIgbXVsdGlwbGljYXRpb24gbG9vcHMKLWJl
+Y2F1c2UgYXMgbG9uZyBhcyB0aGUgaW5wdXQgcG9pbnQgaXMgbm90IHRoZSBpZGVudGl0eSBhbmQg
+dGhlIHNjYWxhciBpcwotbG93ZXIgdGhhbiB0aGUgb3JkZXIgb2YgdGhlIGdyb3VwLCB0aGUgYWRk
+aXRpb24gaW5wdXRzIGNhbid0IGJlIHRoZSBzYW1lLgotCi1BcyBwYXJ0IG9mIHRoZSBtYXRoL2Jp
+ZyByZXdyaXRlLCB3ZSB3ZW50IGhvd2V2ZXIgZnJvbSBhbHdheXMgcmVkdWNpbmcKLXRoZSBzY2Fs
+YXIgdG8gb25seSBjaGVja2luZyBpdHMgbGVuZ3RoLCB1bmRlciB0aGUgaW5jb3JyZWN0IGFzc3Vt
+cHRpb24KLXRoYXQgdGhlIHNjYWxhciBtdWx0aXBsaWNhdGlvbiBsb29wIGRpZG4ndCByZXF1aXJl
+IHJlZHVjdGlvbi4KLQotQWRkZWQgYSByZWR1Y3Rpb24sIGFuZCB3aGlsZSBhdCBpdCBhZGRlZCBp
+dCBpbiBQMjU2T3JkSW52ZXJzZSwgdG9vLCB0bwotZW5mb3JjZSBhIHVuaXZlcnNhbCByZWR1Y3Rp
+b24gaW52YXJpYW50IG9uIHAyNTZPcmRFbGVtZW50IHZhbHVlcy4KLQotTm90ZSB0aGF0IGlmIHRo
+ZSBpbnB1dCBwb2ludCBpcyB0aGUgaW5maW5pdHksIHRoZSBjb2RlIGN1cnJlbnRseSBzdGlsbAot
+cmVsaWVzIG9uIHVuZGVmaW5lZCBiZWhhdmlvciwgYnV0IHRoYXQncyBlYXNpbHkgdGVzdGVkIHRv
+IGJlaGF2ZQotYWNjZXB0YWJseSwgYW5kIHdpbGwgYmUgYWRkcmVzc2VkIGluIGEgZnV0dXJlIENM
+LgotCi1VcGRhdGVzICM1ODY0NwotRml4ZXMgIzU4NzIwCi1GaXhlcyBDVkUtMjAyMy0yNDUzMgot
+Ci0oRmlsZWQgd2l0aCB0aGUgInNhZmUgQVBJcyBsaWtlIGNvbXBsZXRlIGFkZGl0aW9uIGZvcm11
+bGFzIGFyZSBnb29kIiBkZXB0LikKLQotQ2hhbmdlLUlkOiBJN2IyYzc1MjM4NDQwZTY4NTJiZTI3
+MTBmYWQ2NmZmMWZkYzRlMmIyNAotUmV2aWV3ZWQtb246IGh0dHBzOi8vZ28tcmV2aWV3Lmdvb2ds
+ZXNvdXJjZS5jb20vYy9nby8rLzQ3MTI1NQotVHJ5Qm90LVJlc3VsdDogR29waGVyIFJvYm90IDxn
+b2JvdEBnb2xhbmcub3JnPgotUmV2aWV3ZWQtYnk6IFJvbGFuZCBTaG9lbWFrZXIgPHJvbGFuZEBn
+b2xhbmcub3JnPgotUnVuLVRyeUJvdDogRmlsaXBwbyBWYWxzb3JkYSA8ZmlsaXBwb0Bnb2xhbmcu
+b3JnPgotQXV0by1TdWJtaXQ6IEZpbGlwcG8gVmFsc29yZGEgPGZpbGlwcG9AZ29sYW5nLm9yZz4K
+LVJldmlld2VkLWJ5OiBEYW1pZW4gTmVpbCA8ZG5laWxAZ29vZ2xlLmNvbT4KLShjaGVycnkgcGlj
+a2VkIGZyb20gY29tbWl0IDIwM2U1OWFkNDFiZDI4OGUxZDkyYjZmNjE3YzJmNTVlNzBkM2M4ZTMp
+Ci1SZXZpZXdlZC1vbjogaHR0cHM6Ly9nby1yZXZpZXcuZ29vZ2xlc291cmNlLmNvbS9jL2dvLysv
+NDcxNjk1Ci1SZXZpZXdlZC1ieTogRG1pdHJpIFNodXJhbHlvdiA8ZG1pdHNodXJAZ29vZ2xlLmNv
+bT4KLUF1dG8tU3VibWl0OiBEbWl0cmkgU2h1cmFseW92IDxkbWl0c2h1ckBnb29nbGUuY29tPgot
+UmV2aWV3ZWQtYnk6IEZpbGlwcG8gVmFsc29yZGEgPGZpbGlwcG9AZ29sYW5nLm9yZz4KLVJ1bi1U
+cnlCb3Q6IFJvbGFuZCBTaG9lbWFrZXIgPHJvbGFuZEBnb2xhbmcub3JnPgotCi1DVkU6IENWRS0y
+MDIzLTI0NTMyCi1VcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0IFs2MDJlZWFhYjM4N2YyNGE0YjI4
+YzVlY2NiYjUwZmE5MzRmM2JjM2M0XQotU2lnbmVkLW9mZi1ieTogUm9zcyBCdXJ0b24gPHJvc3Mu
+YnVydG9uQGFybS5jb20+Ci0KLS0tLQotIHNyYy9jcnlwdG8vaW50ZXJuYWwvbmlzdGVjL25pc3Rl
+Y190ZXN0LmdvIHwgODEgKysrKysrKysrKysrKysrKysrKysrKysKLSBzcmMvY3J5cHRvL2ludGVy
+bmFsL25pc3RlYy9wMjU2X2FzbS5nbyAgICB8IDE3ICsrKysrCi0gc3JjL2NyeXB0by9pbnRlcm5h
+bC9uaXN0ZWMvcDI1Nl9vcmRpbnYuZ28gfCAgMSArCi0gMyBmaWxlcyBjaGFuZ2VkLCA5OSBpbnNl
+cnRpb25zKCspCi0KLWRpZmYgLS1naXQgYS9zcmMvY3J5cHRvL2ludGVybmFsL25pc3RlYy9uaXN0
+ZWNfdGVzdC5nbyBiL3NyYy9jcnlwdG8vaW50ZXJuYWwvbmlzdGVjL25pc3RlY190ZXN0LmdvCi1p
+bmRleCAzMDlmNjhiZTE2YTlmLi45MTAzNjA4YzE4YTBmIDEwMDY0NAotLS0tIGEvc3JjL2NyeXB0
+by9pbnRlcm5hbC9uaXN0ZWMvbmlzdGVjX3Rlc3QuZ28KLSsrKyBiL3NyYy9jcnlwdG8vaW50ZXJu
+YWwvbmlzdGVjL25pc3RlY190ZXN0LmdvCi1AQCAtOCw2ICs4LDcgQEAgaW1wb3J0ICgKLSAJImJ5
+dGVzIgotIAkiY3J5cHRvL2VsbGlwdGljIgotIAkiY3J5cHRvL2ludGVybmFsL25pc3RlYyIKLSsJ
+ImZtdCIKLSAJImludGVybmFsL3Rlc3RlbnYiCi0gCSJtYXRoL2JpZyIKLSAJIm1hdGgvcmFuZCIK
+LUBAIC0xNjUsNiArMTY2LDg2IEBAIGZ1bmMgdGVzdEVxdWl2YWxlbnRzW1AgbmlzdFBvaW50W1Bd
+XSh0ICp0ZXN0aW5nLlQsIG5ld1BvaW50IGZ1bmMoKSBQLCBjIGVsbGlwdGljCi0gCX0KLSB9Ci0g
+Ci0rZnVuYyBUZXN0U2NhbGFyTXVsdCh0ICp0ZXN0aW5nLlQpIHsKLSsJdC5SdW4oIlAyMjQiLCBm
+dW5jKHQgKnRlc3RpbmcuVCkgewotKwkJdGVzdFNjYWxhck11bHQodCwgbmlzdGVjLk5ld1AyMjRQ
+b2ludCwgZWxsaXB0aWMuUDIyNCgpKQotKwl9KQotKwl0LlJ1bigiUDI1NiIsIGZ1bmModCAqdGVz
+dGluZy5UKSB7Ci0rCQl0ZXN0U2NhbGFyTXVsdCh0LCBuaXN0ZWMuTmV3UDI1NlBvaW50LCBlbGxp
+cHRpYy5QMjU2KCkpCi0rCX0pCi0rCXQuUnVuKCJQMzg0IiwgZnVuYyh0ICp0ZXN0aW5nLlQpIHsK
+LSsJCXRlc3RTY2FsYXJNdWx0KHQsIG5pc3RlYy5OZXdQMzg0UG9pbnQsIGVsbGlwdGljLlAzODQo
+KSkKLSsJfSkKLSsJdC5SdW4oIlA1MjEiLCBmdW5jKHQgKnRlc3RpbmcuVCkgewotKwkJdGVzdFNj
+YWxhck11bHQodCwgbmlzdGVjLk5ld1A1MjFQb2ludCwgZWxsaXB0aWMuUDUyMSgpKQotKwl9KQot
+K30KLSsKLStmdW5jIHRlc3RTY2FsYXJNdWx0W1AgbmlzdFBvaW50W1BdXSh0ICp0ZXN0aW5nLlQs
+IG5ld1BvaW50IGZ1bmMoKSBQLCBjIGVsbGlwdGljLkN1cnZlKSB7Ci0rCUcgOj0gbmV3UG9pbnQo
+KS5TZXRHZW5lcmF0b3IoKQotKwljaGVja1NjYWxhciA6PSBmdW5jKHQgKnRlc3RpbmcuVCwgc2Nh
+bGFyIFtdYnl0ZSkgewotKwkJcDEsIGVyciA6PSBuZXdQb2ludCgpLlNjYWxhckJhc2VNdWx0KHNj
+YWxhcikKLSsJCWZhdGFsSWZFcnIodCwgZXJyKQotKwkJcDIsIGVyciA6PSBuZXdQb2ludCgpLlNj
+YWxhck11bHQoRywgc2NhbGFyKQotKwkJZmF0YWxJZkVycih0LCBlcnIpCi0rCQlpZiAhYnl0ZXMu
+RXF1YWwocDEuQnl0ZXMoKSwgcDIuQnl0ZXMoKSkgewotKwkJCXQuRXJyb3IoIltrXUcgIT0gU2Nh
+bGFyQmFzZU11bHQoaykiKQotKwkJfQotKwotKwkJZCA6PSBuZXcoYmlnLkludCkuU2V0Qnl0ZXMo
+c2NhbGFyKQotKwkJZC5TdWIoYy5QYXJhbXMoKS5OLCBkKQotKwkJZC5Nb2QoZCwgYy5QYXJhbXMo
+KS5OKQotKwkJZzEsIGVyciA6PSBuZXdQb2ludCgpLlNjYWxhckJhc2VNdWx0KGQuRmlsbEJ5dGVz
+KG1ha2UoW11ieXRlLCBsZW4oc2NhbGFyKSkpKQotKwkJZmF0YWxJZkVycih0LCBlcnIpCi0rCQln
+MS5BZGQoZzEsIHAxKQotKwkJaWYgIWJ5dGVzLkVxdWFsKGcxLkJ5dGVzKCksIG5ld1BvaW50KCku
+Qnl0ZXMoKSkgewotKwkJCXQuRXJyb3IoIltOIC0ga11HICsgW2tdRyAhPSDiiJ4iKQotKwkJfQot
+Kwl9Ci0rCi0rCWJ5dGVMZW4gOj0gbGVuKGMuUGFyYW1zKCkuTi5CeXRlcygpKQotKwliaXRMZW4g
+Oj0gYy5QYXJhbXMoKS5OLkJpdExlbigpCi0rCXQuUnVuKCIwIiwgZnVuYyh0ICp0ZXN0aW5nLlQp
+IHsgY2hlY2tTY2FsYXIodCwgbWFrZShbXWJ5dGUsIGJ5dGVMZW4pKSB9KQotKwl0LlJ1bigiMSIs
+IGZ1bmModCAqdGVzdGluZy5UKSB7Ci0rCQljaGVja1NjYWxhcih0LCBiaWcuTmV3SW50KDEpLkZp
+bGxCeXRlcyhtYWtlKFtdYnl0ZSwgYnl0ZUxlbikpKQotKwl9KQotKwl0LlJ1bigiTi0xIiwgZnVu
+Yyh0ICp0ZXN0aW5nLlQpIHsKLSsJCWNoZWNrU2NhbGFyKHQsIG5ldyhiaWcuSW50KS5TdWIoYy5Q
+YXJhbXMoKS5OLCBiaWcuTmV3SW50KDEpKS5CeXRlcygpKQotKwl9KQotKwl0LlJ1bigiTiIsIGZ1
+bmModCAqdGVzdGluZy5UKSB7IGNoZWNrU2NhbGFyKHQsIGMuUGFyYW1zKCkuTi5CeXRlcygpKSB9
+KQotKwl0LlJ1bigiTisxIiwgZnVuYyh0ICp0ZXN0aW5nLlQpIHsKLSsJCWNoZWNrU2NhbGFyKHQs
+IG5ldyhiaWcuSW50KS5BZGQoYy5QYXJhbXMoKS5OLCBiaWcuTmV3SW50KDEpKS5CeXRlcygpKQot
+Kwl9KQotKwl0LlJ1bigiYWxsMXMiLCBmdW5jKHQgKnRlc3RpbmcuVCkgewotKwkJcyA6PSBuZXco
+YmlnLkludCkuTHNoKGJpZy5OZXdJbnQoMSksIHVpbnQoYml0TGVuKSkKLSsJCXMuU3ViKHMsIGJp
+Zy5OZXdJbnQoMSkpCi0rCQljaGVja1NjYWxhcih0LCBzLkJ5dGVzKCkpCi0rCX0pCi0rCWlmIHRl
+c3RpbmcuU2hvcnQoKSB7Ci0rCQlyZXR1cm4KLSsJfQotKwlmb3IgaSA6PSAwOyBpIDwgYml0TGVu
+OyBpKysgewotKwkJdC5SdW4oZm10LlNwcmludGYoIjE8PCVkIiwgaSksIGZ1bmModCAqdGVzdGlu
+Zy5UKSB7Ci0rCQkJcyA6PSBuZXcoYmlnLkludCkuTHNoKGJpZy5OZXdJbnQoMSksIHVpbnQoaSkp
+Ci0rCQkJY2hlY2tTY2FsYXIodCwgcy5GaWxsQnl0ZXMobWFrZShbXWJ5dGUsIGJ5dGVMZW4pKSkK
+LSsJCX0pCi0rCX0KLSsJLy8gVGVzdCBOKzEuLi5OKzMyIHNpbmNlIHRoZXkgcmlzayBvdmVybGFw
+cGluZyB3aXRoIHByZWNvbXB1dGVkIHRhYmxlIHZhbHVlcwotKwkvLyBpbiB0aGUgZmluYWwgYWRk
+aXRpb25zLgotKwlmb3IgaSA6PSBpbnQ2NCgyKTsgaSA8PSAzMjsgaSsrIHsKLSsJCXQuUnVuKGZt
+dC5TcHJpbnRmKCJOKyVkIiwgaSksIGZ1bmModCAqdGVzdGluZy5UKSB7Ci0rCQkJY2hlY2tTY2Fs
+YXIodCwgbmV3KGJpZy5JbnQpLkFkZChjLlBhcmFtcygpLk4sIGJpZy5OZXdJbnQoaSkpLkJ5dGVz
+KCkpCi0rCQl9KQotKwl9Ci0rfQotKwotK2Z1bmMgZmF0YWxJZkVycih0ICp0ZXN0aW5nLlQsIGVy
+ciBlcnJvcikgewotKwl0LkhlbHBlcigpCi0rCWlmIGVyciAhPSBuaWwgewotKwkJdC5GYXRhbChl
+cnIpCi0rCX0KLSt9Ci0rCi0gZnVuYyBCZW5jaG1hcmtTY2FsYXJNdWx0KGIgKnRlc3RpbmcuQikg
+ewotIAliLlJ1bigiUDIyNCIsIGZ1bmMoYiAqdGVzdGluZy5CKSB7Ci0gCQliZW5jaG1hcmtTY2Fs
+YXJNdWx0KGIsIG5pc3RlYy5OZXdQMjI0UG9pbnQoKS5TZXRHZW5lcmF0b3IoKSwgMjgpCi1kaWZm
+IC0tZ2l0IGEvc3JjL2NyeXB0by9pbnRlcm5hbC9uaXN0ZWMvcDI1Nl9hc20uZ28gYi9zcmMvY3J5
+cHRvL2ludGVybmFsL25pc3RlYy9wMjU2X2FzbS5nbwotaW5kZXggNmVhMTYxZWI0OTk1My4uOTlh
+MjJiODMzZjAyOCAxMDA2NDQKLS0tLSBhL3NyYy9jcnlwdG8vaW50ZXJuYWwvbmlzdGVjL3AyNTZf
+YXNtLmdvCi0rKysgYi9zcmMvY3J5cHRvL2ludGVybmFsL25pc3RlYy9wMjU2X2FzbS5nbwotQEAg
+LTM2NCw2ICszNjQsMjEgQEAgZnVuYyBwMjU2UG9pbnREb3VibGVBc20ocmVzLCBpbiAqUDI1NlBv
+aW50KQotIC8vIE1vbnRnb21lcnkgZG9tYWluICh3aXRoIFIgMsKy4oG14oG2KSBhcyBmb3VyIHVp
+bnQ2NCBsaW1icyBpbiBsaXR0bGUtZW5kaWFuIG9yZGVyLgotIHR5cGUgcDI1Nk9yZEVsZW1lbnQg
+WzRddWludDY0Ci0gCi0rLy8gcDI1Nk9yZFJlZHVjZSBlbnN1cmVzIHMgaXMgaW4gdGhlIHJhbmdl
+IFswLCBvcmQoRyktMV0uCi0rZnVuYyBwMjU2T3JkUmVkdWNlKHMgKnAyNTZPcmRFbGVtZW50KSB7
+Ci0rCS8vIFNpbmNlIDIgKiBvcmQoRykgPiAywrLigbXigbYsIHdlIGNhbiBqdXN0IGNvbmRpdGlv
+bmFsbHkgc3VidHJhY3Qgb3JkKEcpLAotKwkvLyBrZWVwaW5nIHRoZSByZXN1bHQgaWYgaXQgZG9l
+c24ndCB1bmRlcmZsb3cuCi0rCXQwLCBiIDo9IGJpdHMuU3ViNjQoc1swXSwgMHhmM2I5Y2FjMmZj
+NjMyNTUxLCAwKQotKwl0MSwgYiA6PSBiaXRzLlN1YjY0KHNbMV0sIDB4YmNlNmZhYWRhNzE3OWU4
+NCwgYikKLSsJdDIsIGIgOj0gYml0cy5TdWI2NChzWzJdLCAweGZmZmZmZmZmZmZmZmZmZmYsIGIp
+Ci0rCXQzLCBiIDo9IGJpdHMuU3ViNjQoc1szXSwgMHhmZmZmZmZmZjAwMDAwMDAwLCBiKQotKwl0
+TWFzayA6PSBiIC0gMSAvLyB6ZXJvIGlmIHN1YnRyYWN0aW9uIHVuZGVyZmxvd2VkCi0rCXNbMF0g
+Xj0gKHQwIF4gc1swXSkgJiB0TWFzawotKwlzWzFdIF49ICh0MSBeIHNbMV0pICYgdE1hc2sKLSsJ
+c1syXSBePSAodDIgXiBzWzJdKSAmIHRNYXNrCi0rCXNbM10gXj0gKHQzIF4gc1szXSkgJiB0TWFz
+awotK30KLSsKLSAvLyBBZGQgc2V0cyBxID0gcDEgKyBwMiwgYW5kIHJldHVybnMgcS4gVGhlIHBv
+aW50cyBtYXkgb3ZlcmxhcC4KLSBmdW5jIChxICpQMjU2UG9pbnQpIEFkZChyMSwgcjIgKlAyNTZQ
+b2ludCkgKlAyNTZQb2ludCB7Ci0gCXZhciBzdW0sIGRvdWJsZSBQMjU2UG9pbnQKLUBAIC0zOTMs
+NiArNDA4LDcgQEAgZnVuYyAociAqUDI1NlBvaW50KSBTY2FsYXJCYXNlTXVsdChzY2FsYXIgW11i
+eXRlKSAoKlAyNTZQb2ludCwgZXJyb3IpIHsKLSAJfQotIAlzY2FsYXJSZXZlcnNlZCA6PSBuZXco
+cDI1Nk9yZEVsZW1lbnQpCi0gCXAyNTZPcmRCaWdUb0xpdHRsZShzY2FsYXJSZXZlcnNlZCwgKCpb
+MzJdYnl0ZSkoc2NhbGFyKSkKLSsJcDI1Nk9yZFJlZHVjZShzY2FsYXJSZXZlcnNlZCkKLSAKLSAJ
+ci5wMjU2QmFzZU11bHQoc2NhbGFyUmV2ZXJzZWQpCi0gCXJldHVybiByLCBuaWwKLUBAIC00MDcs
+NiArNDIzLDcgQEAgZnVuYyAociAqUDI1NlBvaW50KSBTY2FsYXJNdWx0KHEgKlAyNTZQb2ludCwg
+c2NhbGFyIFtdYnl0ZSkgKCpQMjU2UG9pbnQsIGVycm9yKQotIAl9Ci0gCXNjYWxhclJldmVyc2Vk
+IDo9IG5ldyhwMjU2T3JkRWxlbWVudCkKLSAJcDI1Nk9yZEJpZ1RvTGl0dGxlKHNjYWxhclJldmVy
+c2VkLCAoKlszMl1ieXRlKShzY2FsYXIpKQotKwlwMjU2T3JkUmVkdWNlKHNjYWxhclJldmVyc2Vk
+KQotIAotIAlyLlNldChxKS5wMjU2U2NhbGFyTXVsdChzY2FsYXJSZXZlcnNlZCkKLSAJcmV0dXJu
+IHIsIG5pbAotZGlmZiAtLWdpdCBhL3NyYy9jcnlwdG8vaW50ZXJuYWwvbmlzdGVjL3AyNTZfb3Jk
+aW52LmdvIGIvc3JjL2NyeXB0by9pbnRlcm5hbC9uaXN0ZWMvcDI1Nl9vcmRpbnYuZ28KLWluZGV4
+IDg2YTdhMjMwYmRjZTguLjEyNzRmYjdmZDNmNWMgMTAwNjQ0Ci0tLS0gYS9zcmMvY3J5cHRvL2lu
+dGVybmFsL25pc3RlYy9wMjU2X29yZGludi5nbwotKysrIGIvc3JjL2NyeXB0by9pbnRlcm5hbC9u
+aXN0ZWMvcDI1Nl9vcmRpbnYuZ28KLUBAIC0yNSw2ICsyNSw3IEBAIGZ1bmMgUDI1Nk9yZEludmVy
+c2UoayBbXWJ5dGUpIChbXWJ5dGUsIGVycm9yKSB7Ci0gCi0gCXggOj0gbmV3KHAyNTZPcmRFbGVt
+ZW50KQotIAlwMjU2T3JkQmlnVG9MaXR0bGUoeCwgKCpbMzJdYnl0ZSkoaykpCi0rCXAyNTZPcmRS
+ZWR1Y2UoeCkKLSAKLSAJLy8gSW52ZXJzaW9uIGlzIGltcGxlbWVudGVkIGFzIGV4cG9uZW50aWF0
+aW9uIGJ5IG4gLSAyLCBwZXIgRmVybWF0J3MgbGl0dGxlIHRoZW9yZW0uCi0gCS8vCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ28vZ29fMS4yMC4xLmJiIGIvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL2dvL2dvXzEuMjAuMy5iYgpzaW1pbGFyaXR5IGluZGV4IDEwMCUKcmVuYW1lIGZy
+b20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL2dvXzEuMjAuMS5iYgpyZW5hbWUgdG8gbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL2dvL2dvXzEuMjAuMy5iYgotLSAKMi4zOS4yCgo=
 
---===============3196768676231730235==--
+--===============0501653763383365424==--
 
