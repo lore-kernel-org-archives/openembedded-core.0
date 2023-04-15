@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E254C88CB8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EDCCC88CBA
 	for <webhook@archiver.kernel.org>; Sat, 15 Apr 2023 18:01:30 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.13526.1681581685424452860
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.13802.1681581684862979186
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Apr 2023 11:01:25 -0700
+ Sat, 15 Apr 2023 11:01:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=N4W3Pd0y;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018786143758-79b53076-4cc0-40ad-9cb2-157699172f39-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=VGgUt19a;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010187861435a0-5640ab6e-5114-4990-addf-03c10049fdb3-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1681581684;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=OdBuWzuifRPK1dTT5tV2x81pGoGDt/WG4pski867iCc=;
-	b=N4W3Pd0y3yldnT21H/0hPVvhxoGt3Ge363q9hWjrjxi1eEqWqX4htjBjhR5hwgTp
-	e9tU8Bg6pswzWa00gRA0c/LcspZMbkUsnt344P/Ike5GcD07PhUPNm7d5FTe2lzfrlM
-	FOht61sfXLpyVAmWdBNM6tvv9iVm4OUp/nZsFFYc=
+	bh=JqO1d5do26FVznxWOFqOPEeWhhwcg7hstntl98Y9Ccw=;
+	b=VGgUt19a0sT2j148djG3szAUJQHi75aBpmsJXl+h1egTl/sRK9L6x7sK70Ls3BnS
+	ulEGv1IzZ/mUkcoUimeavdMwJnVQj157FCY/n4D3+Sd8yQ4zoSwImv5QFjGpxkOWyVy
+	iUCDN1Rcsj/4EXtV81M0E7vgEkiKBsCfGkWoCe7o=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1681581684;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=OdBuWzuifRPK1dTT5tV2x81pGoGDt/WG4pski867iCc=;
-	b=jAKUdXXitmRXUJpvdPGnmgF/1lbDPQNMo+H+b5hbBoHnPlF8/CUepR0F6FbJUZbs
-	mm7t4/cst0PNIPtwyNbjDm2kN5AnEULlHY+W6O2t/mGoDqfWjwUW3EGkmT4Imk+/Zx5
-	DpK+J/nLuhntZ2qvug5onv4UVujVvON8zUphlHMs=
-Content-Type: multipart/mixed; boundary="===============3918719411108490891=="
+	bh=JqO1d5do26FVznxWOFqOPEeWhhwcg7hstntl98Y9Ccw=;
+	b=TJCEhdjUo3y3e31bStjgcqDJw8FH5FVJM0yzkB083ZIi8xHXvFltjjYsZcPSOVlh
+	AjII4fLqlnU1mWhNDnGzu9XiRd9bTmRoT8gigbZD1ruNP2zIkIJm0VA3ibJ0WI1MTWU
+	T4NMyXyNtQDS2UERcJfN9cTdaQ5t9SWVsckAbKtw=
+Content-Type: multipart/mixed; boundary="===============6911905360884424345=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Zang Ruochen <zangruochen@loongson.cn>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] llvm: upgrading to 16.0.1 FAILED
-Message-ID: <0101018786143758-79b53076-4cc0-40ad-9cb2-157699172f39-000000@us-west-2.amazonses.com>
+Subject: [AUH] elfutils: upgrading to 0.189 FAILED
+Message-ID: <01010187861435a0-5640ab6e-5114-4990-addf-03c10049fdb3-000000@us-west-2.amazonses.com>
 Date: Sat, 15 Apr 2023 18:01:24 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.04.15-54.240.27.30
+X-SES-Outgoing: 2023.04.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Apr 2023 18:01:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180045
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180033
 
---===============3918719411108490891==
+--===============6911905360884424345==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,14 +50,14 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *llvm* to *16.0.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *elfutils* to *0.189* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe llvm failed.
+Running 'devtool upgrade' for recipe elfutils failed.
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (09:39:49.260769)
+NOTE: Retrying server connection (#1)... (09:15:48.859681)
 Loading cache...done.
 Loaded 1799 entries from dependency cache.
 Removing 1 recipes from the x86_64 sysroot...done.
@@ -75,7 +75,7 @@ TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:a18113fc4b16efbeb8a3199f691782fae4ca4fc6"
+meta-yocto-bsp       = "tmp-auh-upgrades:4641a9aba41fa0bb69aa8f5c3b671ca3ab999c63"
 workspace            = "master:ff633ce7a7ffc0d39b86043caeb63a9ffcef99b8"
 
 Initialising tasks...done.
@@ -84,40 +84,53 @@ NOTE: Executing Tasks
 NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
+Loading cache...done.
+Loaded 1799 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 900 .bb files complete (898 cached, 2 parsed). 1800 targets, 39 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:4641a9aba41fa0bb69aa8f5c3b671ca3ab999c63"
+workspace            = "master:ff633ce7a7ffc0d39b86043caeb63a9ffcef99b8"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  52% |###################                 | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
 INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
 INFO: Adding local source files to srctree...
 INFO: Extracting upgraded version source...
-INFO: Rebasing devtool onto cd89023f797900e4492da58b7bed36f702120011
-WARNING: Command 'git rebase cd89023f797900e4492da58b7bed36f702120011' failed:
-Auto-merging libcxx/docs/ReleaseNotes.rst
-CONFLICT (content): Merge conflict in libcxx/docs/ReleaseNotes.rst
-Auto-merging libcxx/docs/Status/Cxx20Papers.csv
-CONFLICT (content): Merge conflict in libcxx/docs/Status/Cxx20Papers.csv
-Auto-merging libcxx/include/__algorithm/fill.h
-Auto-merging libcxx/include/__algorithm/fill_n.h
-Auto-merging libcxx/include/__bit_reference
-CONFLICT (content): Merge conflict in libcxx/include/__bit_reference
-Auto-merging libcxx/include/__memory/construct_at.h
-Auto-merging libcxx/include/__memory/pointer_traits.h
-CONFLICT (content): Merge conflict in libcxx/include/__memory/pointer_traits.h
-Auto-merging libcxx/include/__memory/uninitialized_algorithms.h
-CONFLICT (content): Merge conflict in libcxx/include/__memory/uninitialized_algorithms.h
-Auto-merging libcxx/include/__split_buffer
-CONFLICT (content): Merge conflict in libcxx/include/__split_buffer
-Auto-merging libcxx/include/memory
-CONFLICT (content): Merge conflict in libcxx/include/memory
-Auto-merging libcxx/include/vector
-CONFLICT (content): Merge conflict in libcxx/include/vector
-Auto-merging libcxx/test/support/allocators.h
-CONFLICT (content): Merge conflict in libcxx/test/support/allocators.h
-Auto-merging libcxx/test/support/poisoned_hash_helper.h
-Auto-merging libcxx/test/support/test_allocator.h
-CONFLICT (content): Merge conflict in libcxx/test/support/test_allocator.h
+INFO: Fetching https://sourceware.org/elfutils/ftp/0.189/elfutils-0.189.tar.bz2...
+INFO: Rebasing devtool onto a26fc1a7b28e85f4e4c23871ae4b63a6ec2b2cb1
+INFO: Rebasing devtool-override-libc-musl onto a26fc1a7b28e85f4e4c23871ae4b63a6ec2b2cb1
+WARNING: Command 'git rebase a26fc1a7b28e85f4e4c23871ae4b63a6ec2b2cb1' failed:
+Auto-merging config/eu.am
+CONFLICT (content): Merge conflict in config/eu.am
 
 You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/llvm
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/llvm/llvm_git.bb
-WARNING: Version is pinned to 15.% via PREFERRED_VERSION; it may need adjustment to match the new version before any further steps are taken
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/elfutils
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/elfutils/elfutils_0.189.bb
 
 
 
@@ -126,5 +139,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3918719411108490891==--
+--===============6911905360884424345==--
 
