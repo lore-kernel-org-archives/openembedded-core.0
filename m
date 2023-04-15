@@ -2,47 +2,46 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8461C87FE4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7481FC7EE31
 	for <webhook@archiver.kernel.org>; Sat, 15 Apr 2023 18:01:29 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.13532.1681581686460611776
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.13807.1681581685487634893
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Apr 2023 11:01:26 -0700
+ Sat, 15 Apr 2023 11:01:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Q6qIDRAF;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101878614395e-be9a0946-d7fe-40ba-9d54-0f854b0ff35a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=n3gUwsBb;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018786143e2e-6149cff1-99d6-42f9-8e96-2f6d30b963a5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1681581685;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=sCqnBhtIwFM0/Xnu+0Typ0Dm4xR8IKW6+z0E+NRHuK4=;
-	b=Q6qIDRAFGJjnJSrLLh1rCEQ7EozHj8x1WB33k5S8fFoQbS81DFXKew6JBEX124p/
-	MK2vGIbo9LlI02UX0qMdBpCI0qQJJ+E6qxKhTFvD6r9W4mhnMiqWcbdykXI846oJROn
-	Dm/rzQQponJuE542QfqW9cMDnjCjbbnM498a9eug=
+	t=1681581686;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=ut+QGDjdoMKQRAf/Q0MocoPq2XY+PKo0k9qLpnw1RiY=;
+	b=n3gUwsBb/sE/5iSrJ2OtZHzCHKbjnJ68qnkRewSgjl/jW78JQcp9H7fD2+YH57H4
+	6WCu9Dgu8PmFu4vsE8D/jFucjOlPer6kHuQDhZ0HNb7kdx2wh3u1/dBagEZzlmw/e26
+	wao6/7LtzNiYY9K2w3VM9RWFzkdKLq0G9wZdSPnc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1681581685;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=sCqnBhtIwFM0/Xnu+0Typ0Dm4xR8IKW6+z0E+NRHuK4=;
-	b=Y/UpHCXjcBSKhvFDU+cf8/C4l0ndYebu+HNhq09Rfqf/BJrQ+HgANwXphssW7VHG
-	ltkK8zWN9VHcIlQhwqSXfqlCZHzqUqs/pr+0Rrwo03alpUG5k5amoZIo8JvJwMylN9w
-	FS4k3PzpQrJrAUAvxA+g6A80t2W5ISax82uqjyDU=
-Content-Type: multipart/mixed; boundary="===============6447466840135883163=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1681581686;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=ut+QGDjdoMKQRAf/Q0MocoPq2XY+PKo0k9qLpnw1RiY=;
+	b=I0Ls98cIZesKvE7g/5v4MP03whG5vDFzBxQEAyngDNhdYGPYW6sK+p6OCka+7My+
+	MCPoi3fP/JABfnzWAIifPzI7WeUddSKA2nDg/HCWCkeB2/KWB0zdYe8O+Ylgri+CbnR
+	Bm+0q0JyPoOz7mgyM/Jt+Z29qixj8bAO5c5iKUhU=
+Content-Type: multipart/mixed; boundary="===============2834241716880769854=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pytest: upgrading to 7.3.1 SUCCEEDED
-Message-ID: <010101878614395e-be9a0946-d7fe-40ba-9d54-0f854b0ff35a-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Apr 2023 18:01:25 +0000
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] xf86-input-libinput: upgrading to 1.3.0 SUCCEEDED
+Message-ID: <0101018786143e2e-6149cff1-99d6-42f9-8e96-2f6d30b963a5-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Apr 2023 18:01:26 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.04.15-54.240.27.191
+X-SES-Outgoing: 2023.04.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Apr 2023 18:01:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180073
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180090
 
---===============6447466840135883163==
+--===============2834241716880769854==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +49,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-pytest* to *7.3.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *xf86-input-libinput* to *1.3.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pytest-upgrade-7.2.2-7.3.1.patch
+    - apply the patch: git am 0001-xf86-input-libinput-upgrade-1.2.1-1.3.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,45 +68,14 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6447466840135883163==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-pytest-upgrade-7.2.2-7.3.1.patch"
-
-RnJvbSBiMTFkZTVhOGZlYzQyYjEwY2UzNGE2NDBmMDI2OThhZTkwNGYxMzllIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgQXByIDIwMjMgMTA6MzQ6MjMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXB5dGVzdDogdXBncmFkZSA3LjIuMiAtPiA3LjMuMQoKLS0tCiAuLi4vcHl0aG9uL3tw
-eXRob24zLXB5dGVzdF83LjIuMi5iYiA9PiBweXRob24zLXB5dGVzdF83LjMuMS5iYn0gfCAyICst
-CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXB5dGVzdF83LjIuMi5iYiA9PiBw
-eXRob24zLXB5dGVzdF83LjMuMS5iYn0gKDkyJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHl0ZXN0XzcuMi4yLmJiIGIvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3B5dGhvbi9weXRob24zLXB5dGVzdF83LjMuMS5iYgpzaW1pbGFyaXR5IGluZGV4IDky
-JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHl0ZXN0
-XzcuMi4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
-cHl0ZXN0XzcuMy4xLmJiCmluZGV4IDRlMmM4NmY2NDEuLjk5NjU4NDRkMWEgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weXRlc3RfNy4yLjIuYmIKKysr
-IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5dGVzdF83LjMuMS5iYgpA
-QCAtNSw3ICs1LDcgQEAgREVTQ1JJUFRJT04gPSAiVGhlIHB5dGVzdCBmcmFtZXdvcmsgbWFrZXMg
-aXQgZWFzeSB0byB3cml0ZSBzbWFsbCB0ZXN0cywgeWV0IHNjYWwKIExJQ0VOU0UgPSAiTUlUIgog
-TElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9YmQyN2U0MWI2NTUwZmUwZmM0
-NTM1NmQxZDgxZWUzN2MiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJjOTlhYjBjNzNhY2ViMDUw
-ZjY4OTI5YmM5M2FmMTlhYjZkYjA1NTg3OTFjNmEwNzE1NzIzYWJlOWQwYWRlOWQ0IgorU1JDX1VS
-SVtzaGEyNTZzdW1dID0gIjQzNGFmYWZkNzhiMWQ3OGVkMGFkZGYxNjBhZDJiNzdhMzBkMzVkNGJk
-ZjhhZjIzNGZlNjIxOTE5ZDllZDE1ZTMiCiAKIERFUEVORFMgKz0gInB5dGhvbjMtc2V0dXB0b29s
-cy1zY20tbmF0aXZlIgogCi0tIAoyLjM5LjIKCg==
-
---===============6447466840135883163==
+--===============2834241716880769854==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 Loading cache...done.
-Loaded 1801 entries from dependency cache.
+Loaded 1799 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 899 .bb files complete (898 cached, 1 parsed). 1799 targets, 39 skipped, 0 masked, 0 errors.
 NOTE: Resolving any missing task queue dependencies
@@ -124,369 +92,433 @@ TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:0f8fc9759a2003f355eeb117b6c8716750a5d82d"
+meta-yocto-bsp       = "tmp-auh-upgrades:9cd85c62b1ee0b91e7c8244ecad5604d3d31da5f"
 workspace            = "master:ff633ce7a7ffc0d39b86043caeb63a9ffcef99b8"
 
 Initialising tasks...done.
-Sstate summary: Wanted 54 Local 12 Mirrors 0 Missed 42 Current 341 (22% match, 89% complete)
+Sstate summary: Wanted 64 Local 21 Mirrors 0 Missed 43 Current 494 (32% match, 92% complete)
 NOTE: Executing Tasks
-NOTE: Running setscene task 356 of 395 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_packagedata_setscene)
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_packagedata_setscene: Started
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/python3-importlib-metadata/6.2.0-r0/temp/log.do_packagedata_setscene.1094752
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 394 of 395 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_package_setscene)
-NOTE: Running task 948 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_fetch)
-NOTE: Running task 949 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_fetch)
-NOTE: Running task 950 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_fetch)
-NOTE: Running task 1018 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_fetch)
-NOTE: Running task 1090 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_fetch)
-NOTE: Running task 1092 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_fetch)
-NOTE: Running task 1093 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_fetch)
-NOTE: Running task 1094 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_fetch)
-NOTE: Running task 1095 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_fetch)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_fetch: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_fetch: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_fetch: Started
-NOTE: Running task 1357 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_package_write_rpm)
-NOTE: recipe python3-pytest-7.3.1-r0: task do_fetch: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_fetch: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_fetch: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_fetch: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_fetch: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_fetch: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_fetch: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1358 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_unpack)
-NOTE: recipe python3-py-1.11.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1359 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_unpack)
-NOTE: Running task 1360 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_unpack)
-NOTE: Running task 1361 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1362 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1363 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1364 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_unpack)
-NOTE: Running task 1365 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1366 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_unpack)
-NOTE: Running task 1367 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_unpack)
-NOTE: Running task 1368 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_unpack)
-NOTE: Running task 1369 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_unpack)
-NOTE: Running task 1370 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_unpack)
-NOTE: Running task 1371 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1372 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1373 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1374 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_unpack: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_unpack: Started
-NOTE: Running task 1375 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_unpack: Started
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_package_setscene: Started
-NOTE: Running task 1376 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_22.2.0.bb:do_package_write_rpm)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_unpack: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_unpack: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_unpack: Succeeded
-NOTE: Running task 1379 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_patch)
-NOTE: Running task 1380 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_patch)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1381 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_patch)
-NOTE: recipe python3-pytest-7.3.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_unpack: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_unpack: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_unpack: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_unpack: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_unpack: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1382 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_patch)
-NOTE: recipe python3-packaging-23.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1383 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_patch)
-NOTE: Running task 1384 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_patch)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1385 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_patch)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_patch: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_patch: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_patch: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_unpack: Succeeded
-NOTE: recipe python3-attrs-22.2.0-r0: task do_package_write_rpm: Started
-NOTE: Running task 1386 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_patch)
-NOTE: recipe python3-packaging-23.0-r0: task do_patch: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_patch: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_patch: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_patch: Started
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 395 of 395 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_patch: Started
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 504 of 558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 505 of 558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 531 of 558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/encodings_1.0.7.bb:do_packagedata_setscene)
+NOTE: recipe encodings-1_1.0.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe encodings-1_1.0.7-r0: task do_packagedata_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/vulkan-headers/1.3.239.0-r0/temp/log.do_packagedata_setscene.893479
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 557 of 558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_package_setscene)
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 1368 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_fetch)
+NOTE: Running task 1369 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_fetch)
+NOTE: Running task 1406 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_fetch)
+NOTE: Running task 1494 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_fetch)
+NOTE: Running task 1562 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_write_config)
+NOTE: Running task 1585 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_fetch)
+NOTE: Running task 1644 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_fetch)
+NOTE: Running task 1645 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_fetch)
+NOTE: Running task 1646 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_fetch)
+NOTE: recipe mtdev-1.1.6-r0: task do_fetch: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_fetch: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_fetch: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1723 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_fetch)
+NOTE: recipe libinput-1.22.1-r0: task do_fetch: Started
+NOTE: Running task 1732 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_unpack)
+NOTE: Running task 1733 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1734 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_unpack)
+NOTE: Running task 1735 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe font-util-1.4.0-r0: task do_fetch: Started
+NOTE: Running task 1764 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_fetch)
+NOTE: Running task 1766 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_write_config)
+NOTE: Running task 1798 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_write_config)
+NOTE: recipe font-util-1.4.0-r0: task do_fetch: Succeeded
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_fetch: Started
+NOTE: Running task 1825 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_unpack)
+NOTE: Running task 1826 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libinput-1.22.1-r0: task do_write_config: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_fetch: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_fetch: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_fetch: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_fetch: Started
+NOTE: Running task 1827 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_unpack)
+NOTE: recipe libinput-1.22.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1828 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_unpack)
+NOTE: recipe libxfont2-2.0.6-r0: task do_fetch: Succeeded
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1829 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_unpack)
+NOTE: Running task 1830 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_unpack)
+NOTE: Running task 1831 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe mtdev-1.1.6-r0: task do_unpack: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_unpack: Started
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_package_setscene: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_fetch: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_fetch: Started
+NOTE: recipe libinput-1.22.1-r0: task do_write_config: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_write_config: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_fetch: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_fetch: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1832 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_unpack)
+NOTE: Running task 1833 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_unpack)
+NOTE: Running task 1834 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_write_config: Started
+NOTE: Running task 1835 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_unpack)
+NOTE: recipe font-util-1.4.0-r0: task do_unpack: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_unpack: Succeeded
+NOTE: recipe font-util-1.4.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1836 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_patch)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_unpack: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_write_config: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_unpack: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_unpack: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_unpack: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_write_config: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1837 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_patch)
+NOTE: recipe libxcvt-0.1.2-r0: task do_unpack: Started
+NOTE: recipe font-util-1.4.0-r0: task do_unpack: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_unpack: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_unpack: Started
+NOTE: Running task 1838 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_patch)
+NOTE: recipe mtdev-1.1.6-r0: task do_patch: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_unpack: Succeeded
+NOTE: Running task 1839 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_patch)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1840 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_patch)
+NOTE: recipe libxfont2-2.0.6-r0: task do_unpack: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_patch: Started
+NOTE: Running task 1841 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_patch)
+NOTE: recipe font-util-1.4.0-r0: task do_patch: Started
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_package_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1396 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_packagedata)
-NOTE: Running task 1397 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_patch)
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_packagedata: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_patch: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_patch: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_patch: Succeeded
-NOTE: Running task 1398 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1399 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_patch: Succeeded
-NOTE: Running task 1400 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_patch: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_patch: Succeeded
-NOTE: Running task 1401 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1402 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_patch: Succeeded
-NOTE: Running task 1403 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1404 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_populate_lic)
-NOTE: recipe python3-py-1.11.0-r0: task do_patch: Succeeded
-NOTE: Running task 1405 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_patch: Succeeded
-NOTE: Running task 1406 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_patch: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_populate_lic: Started
-NOTE: Running task 1407 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_package_write_rpm)
-NOTE: Running task 1408 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-py-1.11.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1409 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_configure)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 1410 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_configure)
-NOTE: recipe python3-pytest-7.3.1-r0: task do_populate_lic: Succeeded
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_package_write_rpm: Started
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_populate_lic unihash changed to 5c4f43bad1b6c7533e7b04037aa6df082d5a98c53495f9c40267d0d698e9e847
-NOTE: recipe python3-packaging-23.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1411 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_configure)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1412 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_configure)
-NOTE: Running task 1413 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_configure)
-NOTE: recipe python3-py-1.11.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1414 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_configure)
-NOTE: recipe python3-attrs-22.2.0-r0: task do_package_write_rpm: Succeeded
-NOTE: Running task 1415 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_configure)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_configure: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_configure: Started
-NOTE: Running task 1416 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_configure)
-NOTE: recipe python3-packaging-23.0-r0: task do_configure: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1417 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_configure)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_configure: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_configure: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_configure: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_configure: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_configure: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_configure: Succeeded
-NOTE: Running task 1418 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_configure_ptest_base)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_configure: Started
-NOTE: Running task 1419 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_configure_ptest_base)
-NOTE: recipe python3-packaging-23.0-r0: task do_configure: Succeeded
-NOTE: Running task 1420 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_compile)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_configure: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_configure: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_configure: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_configure: Succeeded
-NOTE: Running task 1421 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_compile)
-NOTE: recipe python3-py-1.11.0-r0: task do_configure: Succeeded
-NOTE: Running task 1422 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_configure_ptest_base)
-NOTE: Running task 1423 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_compile)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_configure_ptest_base: Started
-NOTE: Running task 1424 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_compile)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_configure: Succeeded
-NOTE: Running task 1425 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_compile)
-NOTE: recipe python3-packaging-23.0-r0: task do_compile: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_configure_ptest_base: Succeeded
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_configure: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1426 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_compile)
-NOTE: Running task 1427 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_compile)
-NOTE: recipe python3-pytest-7.3.1-r0: task do_compile: Started
-NOTE: Running task 1428 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_compile)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_compile: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_configure_ptest_base: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_compile: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_compile: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1429 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_compile)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_compile: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_compile: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_compile: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_compile: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_compile: Succeeded
-NOTE: Running task 1430 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_install)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_compile: Succeeded
-NOTE: Running task 1431 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_install)
-NOTE: recipe python3-packaging-23.0-r0: task do_install: Started
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_install: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_compile: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_compile: Succeeded
-NOTE: Running task 1432 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_compile_ptest_base)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_compile: Succeeded
-NOTE: Running task 1433 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_install)
-NOTE: Running task 1434 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_compile_ptest_base)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_install: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1435 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_install)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1436 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_install)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_install: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_install: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_install: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_install: Succeeded
-NOTE: Running task 1437 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_package)
-NOTE: Running task 1438 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_package)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_package: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_package: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_install: Succeeded
-NOTE: Running task 1439 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_package)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_package: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_install: Succeeded
-NOTE: Running task 1440 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_install_ptest_base)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_install: Succeeded
-NOTE: Running task 1441 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_install_ptest_base)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_install_ptest_base: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_compile: Succeeded
-NOTE: Running task 1442 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_install)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_install_ptest_base: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_compile: Succeeded
-NOTE: Running task 1443 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_install)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1444 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_package)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_install_ptest_base: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_compile: Succeeded
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_install: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_compile: Succeeded
-NOTE: Running task 1445 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_install)
-NOTE: Running task 1446 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_compile_ptest_base)
-NOTE: Running task 1447 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_package)
-NOTE: recipe python3-py-1.11.0-r0: task do_install: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_package: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_install: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_package: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1448 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_install)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_install: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_package: Succeeded
-NOTE: Running task 1449 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_packagedata)
-NOTE: recipe python3-py-1.11.0-r0: task do_install: Succeeded
-NOTE: Running task 1450 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_package)
-NOTE: recipe python3-packaging-23.0-r0: task do_package: Succeeded
-NOTE: Running task 1451 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_packagedata)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_packagedata: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_package: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_install: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_packagedata: Started
-NOTE: Running task 1452 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_install_ptest_base)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_package: Succeeded
-NOTE: Running task 1453 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_packagedata)
-NOTE: recipe python3-pytest-7.3.1-r0: task do_install: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_install_ptest_base: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 1454 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_package)
-NOTE: Running task 1455 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_populate_sysroot)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_packagedata: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_install_ptest_base: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_packagedata: Failed
-NOTE: recipe python3-pytest-7.3.1-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_package: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_package: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_install: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_package: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_package: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_package: Succeeded
-NOTE: Tasks Summary: Attempted 1455 tasks of which 1358 didn't need to be rerun and 1 failed.
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_unpack: Succeeded
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_patch: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_patch: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe mtdev-1.1.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1859 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe mtdev-1.1.6-r0: task do_patch: Succeeded
+NOTE: Running task 1864 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_packagedata)
+NOTE: Running task 1865 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1870 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_patch)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_patch: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_patch: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_patch: Succeeded
+NOTE: Running task 1872 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_deploy_source_date_epoch)
+NOTE: recipe font-util-1.4.0-r0: task do_patch: Succeeded
+NOTE: Running task 1873 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe font-util-1.4.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxfont2-2.0.6-r0: task do_patch: Succeeded
+NOTE: Running task 1874 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_deploy_source_date_epoch)
+NOTE: recipe libevdev-1.13.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_packagedata: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_patch: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_patch: Started
+NOTE: Running task 1875 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe font-util-1.4.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_patch: Succeeded
+NOTE: Running task 1876 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1877 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_populate_lic)
+NOTE: recipe libxfont2-2.0.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libinput-1.22.1-r0: task do_unpack: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1878 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_patch)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_populate_lic: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_unpack: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe mtdev-1.1.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1879 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_patch)
+NOTE: Running task 1880 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_configure)
+NOTE: Running task 1881 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_configure)
+NOTE: recipe font-util-1.4.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1882 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_configure)
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_packagedata: Succeeded
+NOTE: recipe libxfont2-2.0.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_patch: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_unpack: Succeeded
+NOTE: Running task 1889 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_patch)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_populate_lic unihash changed to 76218b70f9df79b8152b46f5730858b69862a2418932ec834bebe34698bfd4d8
+NOTE: recipe libxcvt-0.1.2-r0: task do_patch: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_configure: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_configure: Started
+NOTE: Running task 1890 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_configure)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe font-util-1.4.0-r0: task do_configure: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_patch: Succeeded
+NOTE: Running task 1891 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_patch: Started
+NOTE: recipe libinput-1.22.1-r0: task do_patch: Succeeded
+NOTE: Running task 1892 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_configure: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libinput-1.22.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_patch: Succeeded
+NOTE: Running task 1893 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxcvt-0.1.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1894 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_configure)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libinput-1.22.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_configure: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_configure: Succeeded
+NOTE: Running task 1895 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_compile)
+NOTE: recipe libxcvt-0.1.2-r0: task do_compile: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_compile: Succeeded
+NOTE: Running task 1896 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_install)
+NOTE: recipe libxcvt-0.1.2-r0: task do_install: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_install: Succeeded
+NOTE: Running task 1897 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_populate_sysroot)
+NOTE: Running task 1898 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_package)
+NOTE: recipe libxcvt-0.1.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_package: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_package: Succeeded
+NOTE: Running task 1899 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_packagedata)
+NOTE: recipe libxcvt-0.1.2-r0: task do_packagedata: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_packagedata: Succeeded
+NOTE: recipe font-util-1.4.0-r0: task do_configure: Succeeded
+NOTE: Running task 1900 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_compile)
+NOTE: recipe font-util-1.4.0-r0: task do_compile: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_configure: Succeeded
+NOTE: Running task 1901 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_compile)
+NOTE: recipe mtdev-1.1.6-r0: task do_compile: Started
+NOTE: recipe font-util-1.4.0-r0: task do_compile: Succeeded
+NOTE: Running task 1902 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_install)
+NOTE: recipe font-util-1.4.0-r0: task do_install: Started
+NOTE: recipe font-util-1.4.0-r0: task do_install: Succeeded
+NOTE: Running task 1903 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_populate_sysroot)
+NOTE: Running task 1904 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_package)
+NOTE: recipe font-util-1.4.0-r0: task do_populate_sysroot: Started
+NOTE: recipe font-util-1.4.0-r0: task do_package: Started
+NOTE: recipe font-util-1.4.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1905 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_compile: Succeeded
+NOTE: Running task 1906 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_install)
+NOTE: recipe mtdev-1.1.6-r0: task do_install: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1907 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_configure)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_configure: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_install: Succeeded
+NOTE: Running task 1908 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_populate_sysroot)
+NOTE: Running task 1909 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_package)
+NOTE: recipe mtdev-1.1.6-r0: task do_populate_sysroot: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_package: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe font-util-1.4.0-r0: task do_package: Succeeded
+NOTE: Running task 1910 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_packagedata)
+NOTE: recipe font-util-1.4.0-r0: task do_packagedata: Started
+NOTE: recipe font-util-1.4.0-r0: task do_packagedata: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_configure: Succeeded
+NOTE: Running task 1911 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_compile)
+NOTE: recipe libevdev-1.13.0-r0: task do_compile: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_package: Succeeded
+NOTE: Running task 1912 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_packagedata)
+NOTE: recipe mtdev-1.1.6-r0: task do_packagedata: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_packagedata: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_compile: Succeeded
+NOTE: Running task 1913 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_install)
+NOTE: recipe libevdev-1.13.0-r0: task do_install: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_configure: Succeeded
+NOTE: Running task 1914 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_compile)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_compile: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_install: Succeeded
+NOTE: Running task 1915 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_populate_sysroot)
+NOTE: Running task 1916 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_package)
+NOTE: recipe libevdev-1.13.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_package: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1917 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libinput-1.22.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_compile: Succeeded
+NOTE: Running task 1918 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_install)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_install: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_install: Succeeded
+NOTE: Running task 1919 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_populate_sysroot)
+NOTE: Running task 1920 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_package)
+NOTE: recipe libinput-1.22.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1921 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_configure)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_package: Started
+NOTE: recipe libinput-1.22.1-r0: task do_configure: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_package: Succeeded
+NOTE: Running task 1922 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_packagedata)
+NOTE: recipe libevdev-1.13.0-r0: task do_packagedata: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_packagedata: Succeeded
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_package: Succeeded
+NOTE: Running task 1923 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_packagedata)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_packagedata: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_packagedata: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_configure: Succeeded
+NOTE: Running task 1924 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_configure_ptest_base)
+NOTE: recipe libinput-1.22.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe libinput-1.22.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1925 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_compile)
+NOTE: recipe libinput-1.22.1-r0: task do_compile: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_configure: Succeeded
+NOTE: Running task 1926 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_compile)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_compile: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_compile: Succeeded
+NOTE: Running task 1927 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_install)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_install: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_install: Succeeded
+NOTE: Running task 1928 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_populate_sysroot)
+NOTE: Running task 1929 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_package)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_populate_sysroot: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_package: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1930 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxfont2-2.0.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libinput-1.22.1-r0: task do_compile: Succeeded
+NOTE: Running task 1931 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_compile_ptest_base)
+NOTE: recipe libxfont2-2.0.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1932 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_configure)
+NOTE: recipe libinput-1.22.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_configure: Started
+NOTE: recipe libinput-1.22.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1933 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_install)
+NOTE: recipe libinput-1.22.1-r0: task do_install: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_package: Succeeded
+NOTE: Running task 1934 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_packagedata)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_packagedata: Started
+NOTE: recipe libinput-1.22.1-r0: task do_install: Succeeded
+NOTE: Running task 1935 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_install_ptest_base)
+NOTE: recipe libinput-1.22.1-r0: task do_install_ptest_base: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_packagedata: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1936 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_populate_sysroot)
+NOTE: Running task 1937 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_package)
+NOTE: recipe libinput-1.22.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libinput-1.22.1-r0: task do_package: Started
+NOTE: recipe libinput-1.22.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_package: Succeeded
+NOTE: Running task 1938 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_packagedata)
+NOTE: recipe libinput-1.22.1-r0: task do_packagedata: Started
+NOTE: recipe libinput-1.22.1-r0: task do_packagedata: Succeeded
+NOTE: recipe libxfont2-2.0.6-r0: task do_configure: Succeeded
+NOTE: Running task 1939 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_compile)
+NOTE: recipe libxfont2-2.0.6-r0: task do_compile: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_compile: Succeeded
+NOTE: Running task 1940 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_install)
+NOTE: recipe libxfont2-2.0.6-r0: task do_install: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_install: Succeeded
+NOTE: Running task 1941 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_populate_sysroot)
+NOTE: Running task 1942 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_package)
+NOTE: recipe libxfont2-2.0.6-r0: task do_populate_sysroot: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_package: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1943 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1944 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_configure)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_configure: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_package: Succeeded
+NOTE: Running task 1945 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_packagedata)
+NOTE: recipe libxfont2-2.0.6-r0: task do_packagedata: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_packagedata: Succeeded
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_configure: Succeeded
+NOTE: Running task 1946 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_compile)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_compile: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_compile: Succeeded
+NOTE: Running task 1947 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_install)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_install: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_install: Succeeded
+NOTE: Running task 1948 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_populate_sysroot)
+NOTE: Running task 1949 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_package)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_populate_sysroot: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_package: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1950 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1951 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_configure)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_configure: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_package: Succeeded
+NOTE: Running task 1952 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_packagedata)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_packagedata: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_packagedata: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_configure: Succeeded
+NOTE: Running task 1953 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_compile)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_compile: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_compile: Succeeded
+NOTE: Running task 1954 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_install)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_install: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_install: Succeeded
+NOTE: Running task 1955 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_package)
+NOTE: Running task 1956 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_populate_sysroot)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_populate_sysroot: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package: Succeeded
+NOTE: Running task 1957 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_packagedata)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_packagedata: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1958 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_package_write_rpm)
+NOTE: Running task 1959 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_package_qa)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package_write_rpm: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package_qa: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package_qa: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1960 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_build)
+NOTE: Tasks Summary: Attempted 1960 tasks of which 1839 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_packagedata
-Summary: There were 16 ERROR messages, returning a non-zero exit code.
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-src went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-dbg went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-staticdev went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-dev went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-doc went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-locale went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-src went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-dbg went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-staticdev went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-dev went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-doc went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-locale went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/python3-packaging/23.0-r0/temp/log.do_packagedata.1099550
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_packagedata) failed with exit code '1'
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-src went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-dbg went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-staticdev went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-dev went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-doc went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-locale went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
 
---===============6447466840135883163==
+--===============2834241716880769854==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-pytest: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pytest/pytest-7.2.2.tar.gz;downloadfilename=pytest-7.2.2.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pytest/pytest-7.3.1.tar.gz;downloadfilename=pytest-7.3.1.tar.gz"
-packages/core2-32-poky-linux/python3-pytest: PV changed from "7.2.2" to "7.3.1"
-packages/core2-32-poky-linux/python3-pytest: PKGV changed from 7.2.2 [default] to 7.3.1 [default]
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-dbg: PV changed from "7.2.2" to "7.3.1"
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-dbg: PKGV changed from 7.2.2 [default] to 7.3.1 [default]
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-dev: PV changed from "7.2.2" to "7.3.1"
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-dev: PKGV changed from 7.2.2 [default] to 7.3.1 [default]
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-doc: PV changed from "7.2.2" to "7.3.1"
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-doc: PKGV changed from 7.2.2 [default] to 7.3.1 [default]
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-locale: PV changed from "7.2.2" to "7.3.1"
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-locale: PKGV changed from 7.2.2 [default] to 7.3.1 [default]
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-src: PV changed from "7.2.2" to "7.3.1"
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-src: PKGV changed from 7.2.2 [default] to 7.3.1 [default]
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-staticdev: PV changed from "7.2.2" to "7.3.1"
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-staticdev: PKGV changed from 7.2.2 [default] to 7.3.1 [default]
-packages/core2-32-poky-linux/python3-pytest/python3-pytest: PKGSIZE changed from 2613851 to 2642878 (+1%)
-packages/core2-32-poky-linux/python3-pytest/python3-pytest: PV changed from "7.2.2" to "7.3.1"
-packages/core2-32-poky-linux/python3-pytest/python3-pytest: PKGV changed from 7.2.2 [default] to 7.3.1 [default]
-Changes to packages/core2-32-poky-linux/python3-pytest (sysroot):
-  /usr/lib/python3.11/site-packages/pytest-7.2.2.dist-info moved to /usr/lib/python3.11/site-packages/pytest-7.3.1.dist-info
+packages/core2-32-poky-linux/xf86-input-libinput: PKGV changed from 1.2.1 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/xf86-input-libinput: SRC_URI changed from "https://www.x.org/releases//individual/driver/xf86-input-libinput-1.2.1.tar.xz" to "https://www.x.org/releases//individual/driver/xf86-input-libinput-1.3.0.tar.xz"
+packages/core2-32-poky-linux/xf86-input-libinput: PV changed from "1.2.1" to "1.3.0"
+packages/core2-32-poky-linux/xf86-input-libinput/xf86-input-libinput-dbg: PKGV changed from 1.2.1 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/xf86-input-libinput/xf86-input-libinput-dbg: PKGSIZE changed from 213640 to 221556 (+4%)
+packages/core2-32-poky-linux/xf86-input-libinput/xf86-input-libinput-dbg: PV changed from "1.2.1" to "1.3.0"
+packages/core2-32-poky-linux/xf86-input-libinput/xf86-input-libinput-dev: PKGV changed from 1.2.1 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/xf86-input-libinput/xf86-input-libinput-dev: PKGSIZE changed from 9974 to 10867 (+9%)
+packages/core2-32-poky-linux/xf86-input-libinput/xf86-input-libinput-dev: PV changed from "1.2.1" to "1.3.0"
+packages/core2-32-poky-linux/xf86-input-libinput/xf86-input-libinput-doc: PKGV changed from 1.2.1 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/xf86-input-libinput/xf86-input-libinput-doc: PKGSIZE changed from 17951 to 19140 (+7%)
+packages/core2-32-poky-linux/xf86-input-libinput/xf86-input-libinput-doc: PV changed from "1.2.1" to "1.3.0"
+packages/core2-32-poky-linux/xf86-input-libinput/xf86-input-libinput-locale: PKGV changed from 1.2.1 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/xf86-input-libinput/xf86-input-libinput-locale: PV changed from "1.2.1" to "1.3.0"
+packages/core2-32-poky-linux/xf86-input-libinput/xf86-input-libinput-src: PKGV changed from 1.2.1 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/xf86-input-libinput/xf86-input-libinput-src: PKGSIZE changed from 182206 to 210863 (+16%)
+packages/core2-32-poky-linux/xf86-input-libinput/xf86-input-libinput-src: FILELIST: removed "/usr/src/debug/xf86-input-libinput/2_1.2.1-r0/src/draglock.c /usr/src/debug/xf86-input-libinput/2_1.2.1-r0/src/xf86libinput.c /usr/src/debug/xf86-input-libinput/2_1.2.1-r0/src/draglock.h /usr/src/debug/xf86-input-libinput/2_1.2.1-r0/src/bezier.h /usr/src/debug/xf86-input-libinput/2_1.2.1-r0/src/bezier.c", added "/usr/src/debug/xf86-input-libinput/2_1.3.0-r0/src/draglock.c /usr/src/debug/xf86-input-libinput/2_1.3.0-r0/src/util-strings.c /usr/src/debug/xf86-input-libinput/2_1.3.0-r0/src/xf86libinput.c /usr/src/debug/xf86-input-libinput/2_1.3.0-r0/src/util-strings.h /usr/src/debug/xf86-input-libinput/2_1.3.0-r0/src/draglock.h /usr/src/debug/xf86-input-libinput/2_1.3.0-r0/src/bezier.h /usr/src/debug/xf86-input-libinput/2_1.3.0-r0/src/bezier.c"
+packages/core2-32-poky-linux/xf86-input-libinput/xf86-input-libinput-src: PV changed from "1.2.1" to "1.3.0"
+packages/core2-32-poky-linux/xf86-input-libinput/xf86-input-libinput-staticdev: PKGV changed from 1.2.1 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/xf86-input-libinput/xf86-input-libinput-staticdev: PV changed from "1.2.1" to "1.3.0"
+packages/core2-32-poky-linux/xf86-input-libinput/xf86-input-libinput: PKGV changed from 1.2.1 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/xf86-input-libinput/xf86-input-libinput: PKGSIZE changed from 90033 to 94161 (+5%)
+packages/core2-32-poky-linux/xf86-input-libinput/xf86-input-libinput: PV changed from "1.2.1" to "1.3.0"
 
---===============6447466840135883163==
+--===============2834241716880769854==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -512,351 +544,411 @@ TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:0f8fc9759a2003f355eeb117b6c8716750a5d82d"
+meta-yocto-bsp       = "tmp-auh-upgrades:9cd85c62b1ee0b91e7c8244ecad5604d3d31da5f"
 workspace            = "master:ff633ce7a7ffc0d39b86043caeb63a9ffcef99b8"
 
 Initialising tasks...done.
-Sstate summary: Wanted 54 Local 12 Mirrors 0 Missed 42 Current 341 (22% match, 89% complete)
+Sstate summary: Wanted 65 Local 22 Mirrors 0 Missed 43 Current 493 (33% match, 92% complete)
 NOTE: Executing Tasks
-NOTE: Running setscene task 356 of 395 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_packagedata_setscene)
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_packagedata_setscene: Started
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/python3-importlib-metadata/6.2.0-r0/temp/log.do_packagedata_setscene.1121699
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 394 of 395 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_package_setscene)
-NOTE: Running task 948 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_fetch)
-NOTE: Running task 949 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_fetch)
-NOTE: Running task 950 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_fetch)
-NOTE: Running task 1018 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_fetch)
-NOTE: Running task 1090 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_fetch)
-NOTE: Running task 1091 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_fetch)
-NOTE: Running task 1092 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_fetch)
-NOTE: Running task 1094 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_fetch)
-NOTE: Running task 1095 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_fetch)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_fetch: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_fetch: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_fetch: Started
-NOTE: Running task 1357 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_package_write_rpm)
-NOTE: recipe python3-pytest-7.3.1-r0: task do_fetch: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_fetch: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_fetch: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_fetch: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_fetch: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_fetch: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_fetch: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1358 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_unpack)
-NOTE: recipe python3-py-1.11.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1359 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_unpack)
-NOTE: Running task 1360 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_unpack)
-NOTE: Running task 1361 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1362 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1363 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1364 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_unpack)
-NOTE: Running task 1365 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1366 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_unpack)
-NOTE: Running task 1367 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_unpack)
-NOTE: Running task 1368 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_unpack)
-NOTE: Running task 1369 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_unpack)
-NOTE: Running task 1370 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_unpack)
-NOTE: Running task 1371 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1372 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1373 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1374 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_unpack: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_unpack: Started
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_package_setscene: Started
-NOTE: Running task 1375 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_unpack: Started
-NOTE: Running task 1376 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_22.2.0.bb:do_package_write_rpm)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_unpack: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_unpack: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_unpack: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1379 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_patch)
-NOTE: Running task 1380 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_patch)
-NOTE: recipe python3-pytest-7.3.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_unpack: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_unpack: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_unpack: Started
-NOTE: Running task 1381 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_patch)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_unpack: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_unpack: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1382 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_patch)
-NOTE: recipe python3-packaging-23.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1383 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_patch)
-NOTE: Running task 1384 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_patch)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1385 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_patch)
-NOTE: recipe python3-attrs-22.2.0-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_patch: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_patch: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_patch: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1386 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_patch)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_patch: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_patch: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_patch: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_patch: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_patch: Started
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 395 of 395 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 504 of 558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 505 of 558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 531 of 558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/encodings_1.0.7.bb:do_packagedata_setscene)
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe encodings-1_1.0.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe encodings-1_1.0.7-r0: task do_packagedata_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/vulkan-headers/1.3.239.0-r0/temp/log.do_packagedata_setscene.1021094
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 557 of 558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_package_setscene)
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 1367 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_fetch)
+NOTE: Running task 1369 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_fetch)
+NOTE: Running task 1406 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_fetch)
+NOTE: Running task 1494 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_fetch)
+NOTE: Running task 1562 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_write_config)
+NOTE: Running task 1586 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_fetch)
+NOTE: recipe libevdev-1.13.0-r0: task do_fetch: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_fetch: Started
+NOTE: Running task 1645 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_fetch)
+NOTE: Running task 1646 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_fetch)
+NOTE: Running task 1648 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_fetch)
+NOTE: recipe libevdev-1.13.0-r0: task do_fetch: Succeeded
+NOTE: recipe mtdev-1.1.6-r0: task do_fetch: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_fetch: Started
+NOTE: Running task 1712 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_unpack)
+NOTE: Running task 1713 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_unpack)
+NOTE: Running task 1714 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1715 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1727 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_fetch)
+NOTE: recipe font-util-1.4.0-r0: task do_fetch: Started
+NOTE: Running task 1764 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_fetch)
+NOTE: Running task 1768 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_write_config)
+NOTE: Running task 1798 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_write_config)
+NOTE: recipe font-util-1.4.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1825 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_unpack)
+NOTE: Running task 1826 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_fetch: Started
+NOTE: recipe libinput-1.22.1-r0: task do_write_config: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_fetch: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_fetch: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_fetch: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_fetch: Started
+NOTE: Running task 1827 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_unpack)
+NOTE: recipe libinput-1.22.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1828 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_unpack)
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_package_setscene: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_fetch: Succeeded
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_fetch: Succeeded
+NOTE: recipe mtdev-1.1.6-r0: task do_unpack: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_unpack: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1829 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_unpack)
+NOTE: Running task 1830 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_unpack)
+NOTE: Running task 1831 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libevdev-1.13.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_fetch: Started
+NOTE: recipe libinput-1.22.1-r0: task do_write_config: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_write_config: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_fetch: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_fetch: Succeeded
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_fetch: Started
+NOTE: recipe font-util-1.4.0-r0: task do_unpack: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_write_config: Started
+NOTE: Running task 1832 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_unpack)
+NOTE: Running task 1833 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_unpack)
+NOTE: recipe font-util-1.4.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1834 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe mtdev-1.1.6-r0: task do_unpack: Succeeded
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_fetch: Succeeded
+NOTE: Running task 1835 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_patch)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_unpack: Started
+NOTE: Running task 1836 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_unpack)
+NOTE: recipe libxfont2-2.0.6-r0: task do_unpack: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_unpack: Started
+NOTE: recipe libinput-1.22.1-r0: task do_unpack: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_write_config: Succeeded
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_write_config: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1837 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_patch)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_unpack: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_unpack: Started
+NOTE: recipe font-util-1.4.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1838 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_patch)
+NOTE: recipe libxcvt-0.1.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_patch: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_unpack: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_unpack: Succeeded
+NOTE: Running task 1839 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_patch)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1840 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_patch)
+NOTE: recipe libxfont2-2.0.6-r0: task do_unpack: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_patch: Started
+NOTE: Running task 1841 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_patch)
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_package_setscene: Succeeded
+NOTE: recipe font-util-1.4.0-r0: task do_patch: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_unpack: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 1396 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_packagedata)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1397 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_patch)
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_packagedata: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_patch: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_patch: Succeeded
-NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_patch: Succeeded
-NOTE: Running task 1398 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_patch: Succeeded
-NOTE: Running task 1399 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1400 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_patch: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_patch: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_patch: Succeeded
-NOTE: Running task 1401 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1402 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-packaging-23.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1403 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1404 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_populate_lic)
-NOTE: recipe python3-py-1.11.0-r0: task do_patch: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1405 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-py-1.11.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_patch: Succeeded
-NOTE: Running task 1406 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_patch: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1407 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_populate_lic: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1408 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_package_write_rpm)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_populate_lic unihash changed to 5c4f43bad1b6c7533e7b04037aa6df082d5a98c53495f9c40267d0d698e9e847
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_package_write_rpm: Started
-NOTE: Running task 1409 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_configure)
-NOTE: recipe python3-attrs-22.2.0-r0: task do_package_write_rpm: Succeeded
-NOTE: Running task 1410 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_configure)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1411 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_configure)
-NOTE: recipe python3-packaging-23.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1412 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_configure)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1413 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_configure)
-NOTE: recipe python3-py-1.11.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1414 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_configure)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1415 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_configure)
-NOTE: Running task 1416 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_configure)
-NOTE: Running task 1417 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_configure)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_configure: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_configure: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_configure: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_configure: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_configure: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_configure: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_configure: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_configure: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_configure: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_configure: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_configure: Succeeded
-NOTE: Running task 1418 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_configure_ptest_base)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_configure: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_configure: Succeeded
-NOTE: Running task 1419 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_configure_ptest_base)
-NOTE: recipe python3-packaging-23.0-r0: task do_configure: Succeeded
-NOTE: Running task 1420 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_configure_ptest_base)
-NOTE: Running task 1421 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_compile)
-NOTE: Running task 1422 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_compile)
-NOTE: recipe python3-pytest-7.3.1-r0: task do_configure: Succeeded
-NOTE: Running task 1423 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_compile)
-NOTE: recipe python3-py-1.11.0-r0: task do_configure: Succeeded
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_configure: Succeeded
-NOTE: Running task 1424 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_compile)
-NOTE: Running task 1425 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_compile)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_configure_ptest_base: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_configure: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_configure_ptest_base: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_compile: Started
-NOTE: Running task 1426 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_compile)
-NOTE: recipe python3-packaging-23.0-r0: task do_compile: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_configure_ptest_base: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_compile: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1427 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_compile)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1428 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_compile)
-NOTE: recipe python3-py-1.11.0-r0: task do_compile: Started
-NOTE: Running task 1429 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_compile)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_compile: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_compile: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_compile: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_compile: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_compile: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_compile: Succeeded
-NOTE: Running task 1430 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_install)
-NOTE: recipe python3-packaging-23.0-r0: task do_compile: Succeeded
-NOTE: Running task 1431 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_install)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_install: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_install: Started
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_compile: Succeeded
-NOTE: Running task 1432 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_install)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_compile: Succeeded
-NOTE: Running task 1433 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_compile_ptest_base)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_compile: Succeeded
-NOTE: Running task 1434 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_compile_ptest_base)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_install: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_install: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1435 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_install)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1436 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_package)
-NOTE: Running task 1437 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_install)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_package: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_install: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_install: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_install: Started
-NOTE: Running task 1438 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_package)
-NOTE: recipe python3-packaging-23.0-r0: task do_package: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_install: Succeeded
-NOTE: Running task 1439 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_package)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_package: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_install: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_install: Succeeded
-NOTE: Running task 1440 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_install_ptest_base)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_compile: Succeeded
-NOTE: Running task 1441 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_install)
-NOTE: Running task 1442 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_install_ptest_base)
-NOTE: recipe python3-py-1.11.0-r0: task do_compile: Succeeded
-NOTE: Running task 1443 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_install)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_install_ptest_base: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_install: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_install_ptest_base: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_compile: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_compile: Succeeded
-NOTE: Running task 1444 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_install)
-NOTE: Running task 1445 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_compile_ptest_base)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_install_ptest_base: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_install_ptest_base: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_install: Started
-NOTE: Running task 1446 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_package)
-NOTE: Running task 1447 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_package)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_install: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_compile_ptest_base: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_package: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_package: Started
-NOTE: Running task 1448 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_install)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_install: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_package: Succeeded
-NOTE: Running task 1449 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_packagedata)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_packagedata: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_install: Succeeded
-NOTE: Running task 1450 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_package)
-NOTE: recipe python3-packaging-23.0-r0: task do_package: Succeeded
-NOTE: Running task 1451 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_packagedata)
-NOTE: recipe python3-py-1.11.0-r0: task do_package: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_packagedata: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_install: Succeeded
-NOTE: Running task 1452 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_install_ptest_base)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_package: Succeeded
-NOTE: Running task 1453 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_packagedata)
-NOTE: recipe python3-pytest-7.3.1-r0: task do_install: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_install_ptest_base: Started
-NOTE: Running task 1454 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_package)
-NOTE: Running task 1455 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_populate_sysroot)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_packagedata: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_install_ptest_base: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_packagedata: Failed
-NOTE: recipe python3-pytest-7.3.1-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_package: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_install: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_package: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_package: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_package: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_package: Succeeded
-NOTE: Tasks Summary: Attempted 1455 tasks of which 1358 didn't need to be rerun and 1 failed.
+NOTE: Running task 1863 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_packagedata)
+NOTE: Running task 1868 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_patch)
+NOTE: recipe mtdev-1.1.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_patch: Succeeded
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_patch: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_patch: Succeeded
+NOTE: Running task 1870 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1871 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_patch: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_patch: Started
+NOTE: recipe font-util-1.4.0-r0: task do_patch: Succeeded
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_patch: Succeeded
+NOTE: Running task 1872 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1873 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_deploy_source_date_epoch)
+NOTE: recipe font-util-1.4.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxfont2-2.0.6-r0: task do_patch: Succeeded
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_packagedata: Started
+NOTE: Running task 1874 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_deploy_source_date_epoch)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_patch: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_patch: Succeeded
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_patch: Succeeded
+NOTE: Running task 1875 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1876 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1877 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_populate_lic)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe font-util-1.4.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxfont2-2.0.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_populate_lic: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1878 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_configure)
+NOTE: recipe mtdev-1.1.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1879 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_patch)
+NOTE: Running task 1880 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_configure)
+NOTE: recipe libxcvt-0.1.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_packagedata: Succeeded
+NOTE: recipe font-util-1.4.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1887 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_configure)
+NOTE: recipe libxfont2-2.0.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_unpack: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_configure: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_unpack: Succeeded
+NOTE: Running task 1888 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_patch)
+NOTE: Running task 1889 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_patch)
+NOTE: recipe mtdev-1.1.6-r0: task do_configure: Started
+NOTE: recipe libinput-1.22.1-r0: task do_patch: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_populate_lic unihash changed to 76218b70f9df79b8152b46f5730858b69862a2418932ec834bebe34698bfd4d8
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1890 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_configure)
+NOTE: recipe font-util-1.4.0-r0: task do_configure: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_patch: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_patch: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_patch: Succeeded
+NOTE: Running task 1891 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_configure: Started
+NOTE: recipe libinput-1.22.1-r0: task do_patch: Succeeded
+NOTE: Running task 1892 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxcvt-0.1.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libinput-1.22.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_patch: Succeeded
+NOTE: Running task 1893 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_deploy_source_date_epoch)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1894 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_configure)
+NOTE: recipe libinput-1.22.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_configure: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_configure: Succeeded
+NOTE: Running task 1895 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_compile)
+NOTE: recipe libxcvt-0.1.2-r0: task do_compile: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_compile: Succeeded
+NOTE: Running task 1896 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_install)
+NOTE: recipe libxcvt-0.1.2-r0: task do_install: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_install: Succeeded
+NOTE: Running task 1897 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_populate_sysroot)
+NOTE: Running task 1898 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_package)
+NOTE: recipe libxcvt-0.1.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_package: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_package: Succeeded
+NOTE: Running task 1899 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_packagedata)
+NOTE: recipe libxcvt-0.1.2-r0: task do_packagedata: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_packagedata: Succeeded
+NOTE: recipe font-util-1.4.0-r0: task do_configure: Succeeded
+NOTE: Running task 1900 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_compile)
+NOTE: recipe font-util-1.4.0-r0: task do_compile: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_configure: Succeeded
+NOTE: Running task 1901 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_compile)
+NOTE: recipe mtdev-1.1.6-r0: task do_compile: Started
+NOTE: recipe font-util-1.4.0-r0: task do_compile: Succeeded
+NOTE: Running task 1902 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_install)
+NOTE: recipe font-util-1.4.0-r0: task do_install: Started
+NOTE: recipe font-util-1.4.0-r0: task do_install: Succeeded
+NOTE: Running task 1903 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_populate_sysroot)
+NOTE: Running task 1904 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_package)
+NOTE: recipe font-util-1.4.0-r0: task do_populate_sysroot: Started
+NOTE: recipe font-util-1.4.0-r0: task do_package: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_compile: Succeeded
+NOTE: Running task 1905 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_install)
+NOTE: recipe mtdev-1.1.6-r0: task do_install: Started
+NOTE: recipe font-util-1.4.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1906 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_install: Succeeded
+NOTE: Running task 1907 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_populate_sysroot)
+NOTE: Running task 1908 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_package)
+NOTE: recipe mtdev-1.1.6-r0: task do_populate_sysroot: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_package: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1909 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_configure)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_configure: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe font-util-1.4.0-r0: task do_package: Succeeded
+NOTE: Running task 1910 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_packagedata)
+NOTE: recipe font-util-1.4.0-r0: task do_packagedata: Started
+NOTE: recipe font-util-1.4.0-r0: task do_packagedata: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_configure: Succeeded
+NOTE: Running task 1911 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_compile)
+NOTE: recipe libevdev-1.13.0-r0: task do_compile: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_package: Succeeded
+NOTE: Running task 1912 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_packagedata)
+NOTE: recipe mtdev-1.1.6-r0: task do_packagedata: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_packagedata: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_compile: Succeeded
+NOTE: Running task 1913 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_install)
+NOTE: recipe libevdev-1.13.0-r0: task do_install: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_configure: Succeeded
+NOTE: Running task 1914 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_compile)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_compile: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_install: Succeeded
+NOTE: Running task 1915 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_populate_sysroot)
+NOTE: Running task 1916 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_package)
+NOTE: recipe libevdev-1.13.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_package: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1917 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libinput-1.22.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_compile: Succeeded
+NOTE: Running task 1918 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_install)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_install: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_install: Succeeded
+NOTE: Running task 1919 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_populate_sysroot)
+NOTE: Running task 1920 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_package)
+NOTE: recipe libinput-1.22.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1921 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_configure)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libinput-1.22.1-r0: task do_configure: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_package: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_package: Succeeded
+NOTE: Running task 1922 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_packagedata)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_packagedata: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_packagedata: Succeeded
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_package: Succeeded
+NOTE: Running task 1923 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_packagedata)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_packagedata: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_packagedata: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_configure: Succeeded
+NOTE: Running task 1924 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_configure_ptest_base)
+NOTE: recipe libinput-1.22.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe libinput-1.22.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1925 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_compile)
+NOTE: recipe libinput-1.22.1-r0: task do_compile: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_configure: Succeeded
+NOTE: Running task 1926 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_compile)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_compile: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_compile: Succeeded
+NOTE: Running task 1927 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_install)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_install: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_install: Succeeded
+NOTE: Running task 1928 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_populate_sysroot)
+NOTE: Running task 1929 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_package)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_populate_sysroot: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_package: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1930 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxfont2-2.0.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1931 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_configure)
+NOTE: recipe libxfont2-2.0.6-r0: task do_configure: Started
+NOTE: recipe libinput-1.22.1-r0: task do_compile: Succeeded
+NOTE: Running task 1932 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_compile_ptest_base)
+NOTE: recipe libinput-1.22.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe libinput-1.22.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1933 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_install)
+NOTE: recipe libinput-1.22.1-r0: task do_install: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_package: Succeeded
+NOTE: Running task 1934 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_packagedata)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_packagedata: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_packagedata: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_install: Succeeded
+NOTE: Running task 1935 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_install_ptest_base)
+NOTE: recipe libinput-1.22.1-r0: task do_install_ptest_base: Started
+NOTE: recipe libinput-1.22.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1936 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_populate_sysroot)
+NOTE: Running task 1937 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_package)
+NOTE: recipe libinput-1.22.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libinput-1.22.1-r0: task do_package: Started
+NOTE: recipe libinput-1.22.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_package: Succeeded
+NOTE: Running task 1938 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_packagedata)
+NOTE: recipe libinput-1.22.1-r0: task do_packagedata: Started
+NOTE: recipe libinput-1.22.1-r0: task do_packagedata: Succeeded
+NOTE: recipe libxfont2-2.0.6-r0: task do_configure: Succeeded
+NOTE: Running task 1939 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_compile)
+NOTE: recipe libxfont2-2.0.6-r0: task do_compile: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_compile: Succeeded
+NOTE: Running task 1940 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_install)
+NOTE: recipe libxfont2-2.0.6-r0: task do_install: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_install: Succeeded
+NOTE: Running task 1941 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_populate_sysroot)
+NOTE: Running task 1942 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_package)
+NOTE: recipe libxfont2-2.0.6-r0: task do_populate_sysroot: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_package: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1943 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1944 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_configure)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_configure: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_package: Succeeded
+NOTE: Running task 1945 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_packagedata)
+NOTE: recipe libxfont2-2.0.6-r0: task do_packagedata: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_packagedata: Succeeded
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_configure: Succeeded
+NOTE: Running task 1946 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_compile)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_compile: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_compile: Succeeded
+NOTE: Running task 1947 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_install)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_install: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_install: Succeeded
+NOTE: Running task 1948 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_populate_sysroot)
+NOTE: Running task 1949 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_package)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_populate_sysroot: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_package: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1950 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1951 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_configure)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_configure: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_package: Succeeded
+NOTE: Running task 1952 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_packagedata)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_packagedata: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_packagedata: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_configure: Succeeded
+NOTE: Running task 1953 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_compile)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_compile: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_compile: Succeeded
+NOTE: Running task 1954 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_install)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_install: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_install: Succeeded
+NOTE: Running task 1955 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_package)
+NOTE: Running task 1956 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_populate_sysroot)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_populate_sysroot: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package: Succeeded
+NOTE: Running task 1957 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_packagedata)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_packagedata: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1958 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_package_write_rpm)
+NOTE: Running task 1959 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_package_qa)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package_write_rpm: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package_qa: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package_qa: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1960 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_build)
+NOTE: Tasks Summary: Attempted 1960 tasks of which 1839 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_packagedata
-Summary: There were 16 ERROR messages, returning a non-zero exit code.
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-src went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-dbg went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-staticdev went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-dev went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-doc went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-locale went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-src went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-dbg went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-staticdev went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-dev went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-doc went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-locale went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/python3-packaging/23.0-r0/temp/log.do_packagedata.1126487
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_packagedata) failed with exit code '1'
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-src went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-dbg went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-staticdev went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-dev went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-doc went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-locale went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
 
---===============6447466840135883163==
+--===============2834241716880769854==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/python3-pytest (sysroot):
-  /usr/lib/python3.11/site-packages/pytest-7.2.2.dist-info moved to /usr/lib/python3.11/site-packages/pytest-7.3.1.dist-info
+packages/core2-32-poky-linux/xf86-input-libinput/xf86-input-libinput-src: PKGSIZE changed from 182206 to 210863 (+16%)
 
---===============6447466840135883163==
+--===============2834241716880769854==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -866,8 +958,8 @@ Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 899 .bb files complete (0 cached, 899 parsed). 1799 targets, 51 skipped, 0 masked, 0 errors.
-Removing 34 recipes from the core2-32 sysroot...done.
-Removing 49 recipes from the qemux86 sysroot...done.
+Removing 87 recipes from the core2-32 sysroot...done.
+Removing 88 recipes from the qemux86 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -882,559 +974,752 @@ TUNE_FEATURES        = "m32 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:0f8fc9759a2003f355eeb117b6c8716750a5d82d"
+meta-yocto-bsp       = "tmp-auh-upgrades:9cd85c62b1ee0b91e7c8244ecad5604d3d31da5f"
 workspace            = "master:ff633ce7a7ffc0d39b86043caeb63a9ffcef99b8"
 
 Initialising tasks...done.
-Sstate summary: Wanted 209 Local 167 Mirrors 0 Missed 42 Current 182 (79% match, 89% complete)
+Sstate summary: Wanted 292 Local 249 Mirrors 0 Missed 43 Current 195 (85% match, 91% complete)
 Removing 2 stale sstate objects for arch x86_64...done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 183 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 190 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pathlib2_2.3.7.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 198 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_22.2.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 199 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 203 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-more-itertools_9.1.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 230 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.15.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 231 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 232 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Started
-NOTE: Running task 667 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_fetch)
-NOTE: Running task 668 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_fetch)
-NOTE: Running task 669 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_fetch)
-NOTE: Running task 694 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_fetch)
-NOTE: recipe base-passwd-3.6.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-pathlib2-2.3.7-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-zipp-3.15.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-attrs-22.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-more-itertools-9.1.0-r0: task do_packagedata_setscene: Started
-NOTE: Running task 733 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_fetch)
-NOTE: Running task 734 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_fetch)
-NOTE: Running task 735 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_fetch)
-NOTE: Running task 736 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_fetch)
-NOTE: Running task 737 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_fetch)
-NOTE: recipe python3-3.11.2-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_fetch: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_fetch: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_fetch: Started
-NOTE: recipe python3-pathlib2-2.3.7-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_fetch: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_fetch: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_fetch: Started
-NOTE: Running setscene task 238 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pathlib2_2.3.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 239 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_packagedata_setscene)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_fetch: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_fetch: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_fetch: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_fetch: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_fetch: Succeeded
-NOTE: Running task 840 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_unpack)
-NOTE: Running task 841 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_unpack)
-NOTE: Running task 842 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_unpack)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_fetch: Succeeded
-NOTE: Running task 843 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_unpack)
-NOTE: Running task 844 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_unpack)
-NOTE: recipe python3-zipp-3.15.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-attrs-22.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 845 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_unpack)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/python3-importlib-metadata/6.2.0-r0/temp/log.do_packagedata_setscene.1130314
-NOTE: Running task 846 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_unpack)
-NOTE: Running task 847 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_unpack)
-NOTE: Running setscene task 242 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_22.2.0.bb:do_package_setscene)
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: recipe python3-more-itertools-9.1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe base-passwd-3.6.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 243 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_package_setscene)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-six-1.16.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-pathlib2-2.3.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_unpack: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_unpack: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_unpack: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_unpack: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_unpack: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_unpack: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_unpack: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_unpack: Started
-NOTE: Running setscene task 244 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-more-itertools_9.1.0.bb:do_package_setscene)
-NOTE: recipe python3-3.11.2-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_unpack: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_unpack: Succeeded
-NOTE: Running setscene task 245 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_packagedata_setscene)
-NOTE: recipe python3-pytest-7.3.1-r0: task do_unpack: Succeeded
-NOTE: recipe python3-pathlib2-2.3.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-six-1.16.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_unpack: Succeeded
-NOTE: Running setscene task 248 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_package_setscene)
-NOTE: Running setscene task 249 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.2.15.bb:do_packagedata_setscene)
-NOTE: Running setscene task 250 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 252 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 253 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_packagedata_setscene)
-NOTE: Running task 852 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_patch)
-NOTE: Running task 853 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_patch)
-NOTE: Running task 854 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_patch)
-NOTE: Running task 855 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_patch)
-NOTE: Running task 862 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_patch)
-NOTE: Running task 863 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_patch)
-NOTE: Running task 864 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_patch)
-NOTE: Running task 865 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_patch)
-NOTE: Running task 866 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_unpack)
-NOTE: recipe unzip-1_6.0-r5: task do_packagedata_setscene: Started
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_patch: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_patch: Started
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_patch: Started
-NOTE: recipe bash-5.2.15-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_patch: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_unpack: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_patch: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_patch: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_patch: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_patch: Started
-NOTE: recipe coreutils-9.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe unzip-1_6.0-r5: task do_packagedata_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_patch: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_patch: Succeeded
-NOTE: Running setscene task 257 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata_setscene)
-NOTE: Running setscene task 259 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 260 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_packagedata_setscene)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_patch: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_patch: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_patch: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_patch: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_patch: Succeeded
-NOTE: Running task 877 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 878 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 879 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 880 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 881 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 882 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_deploy_source_date_epoch)
-NOTE: Running task 883 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 884 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_populate_lic)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_patch: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata_setscene: Started
-NOTE: Running task 885 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe shadow-4.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_populate_lic: Started
-NOTE: recipe bash-5.2.15-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 269 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 271 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 273 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.68.bb:do_packagedata_setscene)
-NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_populate_lic: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_unpack: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_populate_lic unihash changed to 5c4f43bad1b6c7533e7b04037aa6df082d5a98c53495f9c40267d0d698e9e847
-NOTE: Running task 912 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_patch)
-NOTE: recipe python3-attrs-22.2.0-r0: task do_package_setscene: Started
-NOTE: recipe python3-six-1.16.0-r0: task do_package_setscene: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_package_setscene: Started
-NOTE: recipe python3-more-itertools-9.1.0-r0: task do_package_setscene: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libcap-2.68-r0: task do_packagedata_setscene: Started
-NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_patch: Started
-NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe shadow-4.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_patch: Succeeded
-NOTE: Running task 917 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe libcap-2.68-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 282 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_packagedata_setscene)
-NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-six-1.16.0-r0: task do_package_setscene: Succeeded
-NOTE: recipe python3-attrs-22.2.0-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 287 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_22.2.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 288 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe python3-more-itertools-9.1.0-r0: task do_package_setscene: Succeeded
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 289 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-more-itertools_9.1.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 290 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 291 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 292 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running setscene task 295 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 214 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 215 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_packagedata_setscene)
+NOTE: Running setscene task 220 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.13.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 227 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 229 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.11.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 230 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 234 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.13.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 242 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 244 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcheck/libcheck_0.15.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 245 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcheck/libcheck_0.15.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe freetype-2.13.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe freetype-2.13.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe eudev-3.2.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe libepoxy-1.5.10-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcheck-0.15.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcheck-0.15.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libepoxy-1.5.10-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe eudev-3.2.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe pixman-1_0.42.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe pixman-1_0.42.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 746 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_fetch)
+NOTE: Running task 747 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_fetch)
+NOTE: Running task 748 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_fetch)
+NOTE: Running task 764 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_fetch)
+NOTE: Running task 802 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_write_config)
+NOTE: Running task 813 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_fetch)
+NOTE: Running task 843 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_fetch)
+NOTE: Running task 844 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_fetch)
+NOTE: Running task 845 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_fetch)
+NOTE: Running task 891 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_fetch)
+NOTE: Running task 892 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_fetch)
+NOTE: Running task 893 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_write_config)
+NOTE: Running task 896 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_write_config)
+NOTE: recipe freetype-2.13.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcheck-0.15.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 258 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.39.bb:do_packagedata_setscene)
+NOTE: recipe eudev-3.2.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 261 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 262 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 263 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_30.bb:do_packagedata_setscene)
+NOTE: recipe libepoxy-1.5.10-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe pixman-1_0.42.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 265 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.2.bb:do_packagedata_setscene)
+NOTE: recipe libevdev-1.13.0-r0: task do_fetch: Started
+NOTE: recipe eudev-3.2.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe pixman-1_0.42.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libepoxy-1.5.10-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 267 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe mtdev-1.1.6-r0: task do_fetch: Started
+NOTE: recipe font-util-1.4.0-r0: task do_fetch: Started
+NOTE: Running setscene task 269 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 271 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 273 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_30.bb:do_populate_sysroot_setscene)
+NOTE: recipe libinput-1.22.1-r0: task do_fetch: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_fetch: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_fetch: Succeeded
+NOTE: recipe libcheck-0.15.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe freetype-2.13.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxfont2-2.0.6-r0: task do_fetch: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_fetch: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_fetch: Succeeded
+NOTE: Running task 915 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_unpack)
+NOTE: recipe font-util-1.4.0-r0: task do_fetch: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_write_config: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_fetch: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_fetch: Started
+NOTE: Running setscene task 276 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.39.bb:do_populate_sysroot_setscene)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_fetch: Succeeded
+NOTE: Running task 918 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_unpack)
+NOTE: Running task 921 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_unpack)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_fetch: Succeeded
+NOTE: recipe libxfont2-2.0.6-r0: task do_fetch: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_write_config: Started
+NOTE: Running task 923 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_unpack)
+NOTE: Running task 927 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_unpack)
+NOTE: Running task 928 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_unpack)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_fetch: Succeeded
+NOTE: recipe initscripts-1.0-r155: task do_packagedata_setscene: Started
+NOTE: Running task 929 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_unpack)
+NOTE: recipe libpng-1.6.39-r0: task do_packagedata_setscene: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_write_config: Started
+NOTE: recipe kmod-30-r0: task do_packagedata_setscene: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_fetch: Started
+NOTE: recipe initscripts-1.0-r155: task do_populate_sysroot_setscene: Started
+NOTE: recipe libinput-1.22.1-r0: task do_fetch: Succeeded
+NOTE: recipe util-linux-2.38.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libinput-1.22.1-r0: task do_write_config: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_fetch: Succeeded
+NOTE: Running task 930 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_unpack)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_fetch: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_write_config: Succeeded
+NOTE: recipe mesa-2_23.0.2-r0: task do_packagedata_setscene: Started
+NOTE: Running task 931 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_unpack)
+NOTE: Running task 932 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_unpack)
+NOTE: recipe kmod-30-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_unpack: Started
+NOTE: recipe util-linux-2.38.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe mesa-2_23.0.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpng-1.6.39-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_unpack: Started
+NOTE: recipe font-util-1.4.0-r0: task do_unpack: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_write_config: Succeeded
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_unpack: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_unpack: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_unpack: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_unpack: Started
+NOTE: recipe libpng-1.6.39-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe initscripts-1.0-r155: task do_packagedata_setscene: Succeeded
+NOTE: recipe mtdev-1.1.6-r0: task do_unpack: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_unpack: Started
+NOTE: Running task 933 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_patch)
+NOTE: recipe libinput-1.22.1-r0: task do_unpack: Started
+NOTE: recipe kmod-30-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_unpack: Started
+NOTE: recipe initscripts-1.0-r155: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe font-util-1.4.0-r0: task do_unpack: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_unpack: Succeeded
+NOTE: Running task 944 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_patch)
+NOTE: Running task 945 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_patch)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_unpack: Succeeded
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_unpack: Succeeded
+NOTE: Running task 946 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_patch)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_unpack: Succeeded
+NOTE: Running task 947 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_patch)
+NOTE: recipe libxfont2-2.0.6-r0: task do_unpack: Succeeded
+NOTE: Running task 948 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_patch)
+NOTE: Running task 949 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_patch)
+NOTE: recipe libpng-1.6.39-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe kmod-30-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe mtdev-1.1.6-r0: task do_patch: Started
+NOTE: recipe util-linux-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe mesa-2_23.0.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 284 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.115.bb:do_packagedata_setscene)
+NOTE: Running setscene task 285 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.239.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 286 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 287 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 288 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 289 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_packagedata_setscene)
+NOTE: recipe libevdev-1.13.0-r0: task do_patch: Started
+NOTE: recipe font-util-1.4.0-r0: task do_patch: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_patch: Started
+NOTE: recipe mesa-2_23.0.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_patch: Started
+NOTE: Running setscene task 290 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.115.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 292 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.239.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 293 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 294 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 295 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 296 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxfont2-2.0.6-r0: task do_patch: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_patch: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_patch: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_patch: Succeeded
+NOTE: recipe font-util-1.4.0-r0: task do_patch: Succeeded
+NOTE: Running task 963 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 964 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_deploy_source_date_epoch)
+NOTE: Running task 965 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_patch: Succeeded
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_patch: Succeeded
+NOTE: Running task 966 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxfont2-2.0.6-r0: task do_patch: Succeeded
+NOTE: Running task 967 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 968 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_deploy_source_date_epoch)
+NOTE: recipe vulkan-loader-1.3.239.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe xrandr-1_1.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_patch: Succeeded
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxshmfence-1.3.2-r0: task do_packagedata_setscene: Started
+NOTE: Running task 969 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 970 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_populate_lic)
+NOTE: recipe libdrm-2.4.115-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-loader-1.3.239.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxshmfence-1.3.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libdrm-2.4.115-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe font-util-1.4.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_populate_lic: Started
+NOTE: recipe libxshmfence-1.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xrandr-1_1.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 300 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.0.bb:do_packagedata_setscene)
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe vulkan-loader-1.3.239.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_unpack: Succeeded
+NOTE: Running setscene task 303 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 304 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 305 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_packagedata_setscene)
+NOTE: Running task 971 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_patch)
+NOTE: recipe vulkan-loader-1.3.239.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 306 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 308 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 310 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxshmfence-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libdrm-2.4.115-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 314 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.17.bb:do_packagedata_setscene)
+NOTE: recipe libinput-1.22.1-r0: task do_unpack: Succeeded
+NOTE: recipe libdrm-2.4.115-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 316 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.17.bb:do_populate_sysroot_setscene)
+NOTE: Running task 990 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_patch)
+NOTE: recipe libevdev-1.13.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_populate_lic: Succeeded
+NOTE: recipe libxfixes-1_6.0.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_packagedata_setscene: Started
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_populate_lic unihash changed to 76218b70f9df79b8152b46f5730858b69862a2418932ec834bebe34698bfd4d8
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe wayland-1.22.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe xrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_patch: Started
+NOTE: Running setscene task 318 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe font-util-1.4.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxfont2-2.0.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxfixes-1_6.0.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe wayland-1.22.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpciaccess-0.17-r0: task do_packagedata_setscene: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_unpack: Succeeded
+NOTE: Running task 999 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_patch)
+NOTE: recipe libpciaccess-0.17-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libinput-1.22.1-r0: task do_patch: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_patch: Succeeded
+NOTE: Running task 1000 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxfixes-1_6.0.0-r0: task do_packagedata_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/vulkan-headers/1.3.239.0-r0/temp/log.do_packagedata_setscene.1066153
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 320 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_package_setscene)
+NOTE: recipe util-linux-2.38.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe wayland-1.22.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_patch: Started
+NOTE: recipe libpciaccess-0.17-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxfixes-1_6.0.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe wayland-1.22.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_patch: Succeeded
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpciaccess-0.17-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_patch: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running setscene task 323 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 324 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 326 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 327 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 328 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 329 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 335 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 336 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 338 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 339 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 340 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 341 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 342 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 343 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_populate_sysroot_setscene)
+NOTE: Running task 1022 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1023 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_deploy_source_date_epoch)
+NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxext-1_1.3.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxext-1_1.3.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Started
 NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-attrs-22.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-six-1.16.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-more-itertools-9.1.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxml2-2.10.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxml2-2.10.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libinput-1.22.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 347 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_packagedata_setscene)
+NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxml2-2.10.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 354 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_packagedata_setscene)
+NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxml2-2.10.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 357 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 358 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe libinput-1.22.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libx11-1_1.8.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libx11-1_1.8.4-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe python3-3.11.2-r0: task do_packagedata_setscene: Started
 NOTE: recipe python3-3.11.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-attrs-22.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-six-1.16.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-more-itertools-9.1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 361 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_packagedata_setscene)
+NOTE: Running setscene task 362 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_packagedata_setscene)
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_package_setscene: Started
+NOTE: recipe libx11-1_1.8.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 364 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 365 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_package_setscene: Succeeded
+NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 369 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 370 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_populate_sysroot_setscene)
+NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe python3-3.11.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 300 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 301 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 302 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 303 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 304 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 305 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 306 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
-NOTE: Running setscene task 307 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 308 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_packagedata_setscene)
+NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 374 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 375 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 376 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 377 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 378 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 379 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 381 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 382 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 383 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 384 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 386 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 387 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 388 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 389 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 390 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
+NOTE: Running setscene task 391 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 392 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_packagedata_setscene)
+NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Started
 NOTE: recipe python3-3.11.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 309 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 310 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 311 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 313 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 314 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 315 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 316 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 317 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 318 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 393 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 394 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 395 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 397 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 398 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 399 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 400 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 401 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 402 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_populate_sysroot_setscene)
 NOTE: recipe readline-8.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe openssl-3.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Started
 NOTE: recipe xz-5.4.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
 NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Started
 NOTE: recipe sqlite3-3_3.41.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
 NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe readline-8.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xz-5.4.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.41.2-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe openssl-3.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 320 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.4.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.41.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 406 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 407 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_packagedata_setscene)
 NOTE: recipe readline-8.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 327 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 329 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_packagedata_setscene)
+NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 409 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xcb-proto-1.15.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xcb-proto-1.15.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 418 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_packagedata_setscene)
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 421 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 422 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_populate_sysroot_setscene)
 NOTE: recipe openssl-3.1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 334 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.41.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xz-5.4.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xz-5.4.2-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe readline-8.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 340 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xz-5.4.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 424 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 428 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-macros-1_1.20.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 433 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_packagedata_setscene)
+NOTE: Running setscene task 434 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_populate_sysroot_setscene)
 NOTE: recipe openssl-3.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xz-5.4.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-macros-1_1.20.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 347 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
-NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 350 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_packagedata_setscene)
-NOTE: Running setscene task 351 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_populate_sysroot_setscene)
-NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 356 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Started
 NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-macros-1_1.20.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xorgproto-2022.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-macros-1_1.20.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 446 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
+NOTE: recipe xorgproto-2022.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 452 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 453 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 359 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_packagedata_setscene)
-NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 455 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_packagedata_setscene)
 NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 361 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 457 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_populate_sysroot_setscene)
 NOTE: recipe gcc-runtime-12.2.0-r0: task do_packagedata_setscene: Started
 NOTE: recipe gcc-runtime-12.2.0-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe gcc-runtime-12.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 364 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 460 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_packagedata_setscene)
 NOTE: recipe libgcc-12.2.0-r0: task do_packagedata_setscene: Started
 NOTE: recipe gcc-runtime-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 366 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcc-12.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 462 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_populate_sysroot_setscene)
 NOTE: recipe libgcc-12.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 368 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 464 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-12.2.0-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe musl-1.2.3+gitAUTOINC+1d5750b95c-r0: task do_packagedata_setscene: Started
 NOTE: recipe libgcc-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 369 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 465 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
 NOTE: recipe musl-1.2.3+gitAUTOINC+1d5750b95c-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 372 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 373 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 374 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 468 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 469 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 470 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_packagedata_setscene)
 NOTE: recipe musl-1.2.3+gitAUTOINC+1d5750b95c-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
 NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
 NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-1.2.3+gitAUTOINC+1d5750b95c-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 375 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 376 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
 NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-1.2.3+gitAUTOINC+1d5750b95c-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 474 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 475 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
 NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 384 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 481 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot_setscene)
 NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 388 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 484 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_populate_sysroot_setscene)
 NOTE: recipe linux-libc-headers-6.1-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe linux-libc-headers-6.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 389 of 391 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.40.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 485 of 487 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.40.bb:do_populate_sysroot_setscene)
 NOTE: recipe binutils-cross-i686-2.40-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe binutils-cross-i686-2.40-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 1256 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1257 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1258 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1294 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1341 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1342 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1343 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1344 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1345 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1353 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_packagedata)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1390 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_package_write_rpm)
-NOTE: recipe python3-pytest-7.3.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1391 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_22.2.0.bb:do_package_write_rpm)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_packagedata: Started
-NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-attrs-22.2.0-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1393 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_package_write_rpm)
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1394 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_configure)
-NOTE: Running task 1395 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_configure)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1396 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_configure)
-NOTE: recipe python3-packaging-23.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1397 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_configure)
-NOTE: recipe python3-pytest-7.3.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1398 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_configure)
-NOTE: Running task 1399 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_configure)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1400 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_configure)
-NOTE: recipe python3-py-1.11.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1401 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_configure)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_configure: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_configure: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_configure: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_configure: Started
-NOTE: Running task 1402 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_configure)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_configure: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_configure: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_configure: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_configure: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_configure: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_configure: Succeeded
-NOTE: Running task 1403 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_configure_ptest_base)
-NOTE: Running task 1404 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_configure_ptest_base)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_configure: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_configure: Started
-NOTE: Running task 1405 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_configure_ptest_base)
-NOTE: recipe python3-packaging-23.0-r0: task do_configure: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_configure: Succeeded
-NOTE: Running task 1406 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_compile)
-NOTE: Running task 1407 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_compile)
-NOTE: recipe python3-pytest-7.3.1-r0: task do_configure: Succeeded
-NOTE: Running task 1408 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_compile)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_configure: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_configure: Succeeded
-NOTE: Running task 1409 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_compile)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_configure_ptest_base: Started
-NOTE: Running task 1410 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_compile)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_compile: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_configure_ptest_base: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_configure: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_compile: Started
-NOTE: Running task 1411 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_compile)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_configure_ptest_base: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_compile: Started
-NOTE: Running task 1412 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_compile)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1413 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_compile)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_compile: Started
-NOTE: Running task 1414 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_compile)
-NOTE: recipe python3-py-1.11.0-r0: task do_compile: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_compile: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_compile: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_compile: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_compile: Started
-NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_compile: Succeeded
-NOTE: Running task 1415 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_install)
-NOTE: recipe python3-attrs-22.2.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_compile: Succeeded
-NOTE: Running task 1416 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_install)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_install: Started
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_install: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_compile: Succeeded
-NOTE: Running task 1417 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_compile_ptest_base)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_compile: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_compile: Succeeded
-NOTE: Running task 1418 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_compile_ptest_base)
-NOTE: Running task 1419 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_install)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_install: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_compile_ptest_base: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1420 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_install)
-NOTE: Running task 1421 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_install)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_install: Succeeded
-NOTE: Running task 1422 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_package)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_install: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_install: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_install: Succeeded
-NOTE: Running task 1423 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_package)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_package: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_package: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_install: Succeeded
-NOTE: Running task 1424 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_package)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_install: Succeeded
-NOTE: Running task 1425 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_install_ptest_base)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_package: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_install: Succeeded
-NOTE: Running task 1426 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_install_ptest_base)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_compile: Succeeded
-NOTE: Running task 1427 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_install)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_install_ptest_base: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_compile: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_install_ptest_base: Started
-NOTE: Running task 1428 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_install)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_install: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_install_ptest_base: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_compile: Succeeded
-NOTE: Running task 1429 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_compile_ptest_base)
-NOTE: Running task 1430 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_package)
-NOTE: recipe python3-pytest-7.3.1-r0: task do_compile: Succeeded
-NOTE: Running task 1431 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_install)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1432 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_package)
-NOTE: recipe python3-py-1.11.0-r0: task do_install: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_package: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1433 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_install)
-NOTE: recipe python3-pytest-7.3.1-r0: task do_install: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_package: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_install: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_package: Succeeded
-NOTE: Running task 1434 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_packagedata)
-NOTE: recipe python3-packaging-23.0-r0: task do_package: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_install: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_packagedata: Started
-NOTE: Running task 1435 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_packagedata)
-NOTE: Running task 1436 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_package)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_install: Succeeded
-NOTE: Running task 1437 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_install_ptest_base)
-NOTE: recipe python3-py-1.11.0-r0: task do_package: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_packagedata: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_install_ptest_base: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_package: Succeeded
-NOTE: Running task 1438 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_packagedata)
-NOTE: recipe python3-pytest-7.3.1-r0: task do_install: Succeeded
-NOTE: Running task 1439 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_package)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1440 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_populate_sysroot)
-NOTE: Running task 1441 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_package)
-NOTE: recipe python3-packaging-23.0-r0: task do_packagedata: Failed
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_packagedata: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_package: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_package: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_package: Succeeded
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_install: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_package: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_package: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_package: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_package: Succeeded
-NOTE: Tasks Summary: Attempted 1441 tasks of which 1343 didn't need to be rerun and 1 failed.
+NOTE: Running task 1503 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1505 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1545 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1597 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_packagedata)
+NOTE: Running task 1604 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1607 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libevdev-1.13.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe font-util-1.4.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_packagedata: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe mtdev-1.1.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1646 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_configure)
+NOTE: Running task 1647 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_configure)
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_packagedata: Succeeded
+NOTE: recipe font-util-1.4.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1654 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_configure)
+NOTE: recipe libevdev-1.13.0-r0: task do_configure: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_configure: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1655 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_configure)
+NOTE: recipe font-util-1.4.0-r0: task do_configure: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_configure: Started
+NOTE: Running task 1656 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_configure)
+NOTE: recipe libxcvt-0.1.2-r0: task do_configure: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_configure: Succeeded
+NOTE: Running task 1657 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_compile)
+NOTE: recipe libxcvt-0.1.2-r0: task do_compile: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_compile: Succeeded
+NOTE: Running task 1658 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_install)
+NOTE: recipe libxcvt-0.1.2-r0: task do_install: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_install: Succeeded
+NOTE: Running task 1659 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_populate_sysroot)
+NOTE: Running task 1660 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_package)
+NOTE: recipe libxcvt-0.1.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_package: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_package: Succeeded
+NOTE: Running task 1661 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_packagedata)
+NOTE: recipe libxcvt-0.1.2-r0: task do_packagedata: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_packagedata: Succeeded
+NOTE: recipe font-util-1.4.0-r0: task do_configure: Succeeded
+NOTE: Running task 1662 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_compile)
+NOTE: recipe font-util-1.4.0-r0: task do_compile: Started
+NOTE: recipe font-util-1.4.0-r0: task do_compile: Succeeded
+NOTE: Running task 1663 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_install)
+NOTE: recipe mtdev-1.1.6-r0: task do_configure: Succeeded
+NOTE: Running task 1664 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_compile)
+NOTE: recipe font-util-1.4.0-r0: task do_install: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_compile: Started
+NOTE: recipe font-util-1.4.0-r0: task do_install: Succeeded
+NOTE: Running task 1665 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_populate_sysroot)
+NOTE: Running task 1666 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_package)
+NOTE: recipe font-util-1.4.0-r0: task do_populate_sysroot: Started
+NOTE: recipe font-util-1.4.0-r0: task do_package: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_compile: Succeeded
+NOTE: Running task 1667 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_install)
+NOTE: recipe font-util-1.4.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1668 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_prepare_recipe_sysroot)
+NOTE: recipe mtdev-1.1.6-r0: task do_install: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1669 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_configure)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_configure: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_install: Succeeded
+NOTE: Running task 1670 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_populate_sysroot)
+NOTE: Running task 1671 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_package)
+NOTE: recipe mtdev-1.1.6-r0: task do_populate_sysroot: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_package: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe font-util-1.4.0-r0: task do_package: Succeeded
+NOTE: Running task 1672 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_packagedata)
+NOTE: recipe font-util-1.4.0-r0: task do_packagedata: Started
+NOTE: recipe font-util-1.4.0-r0: task do_packagedata: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_configure: Succeeded
+NOTE: Running task 1673 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_compile)
+NOTE: recipe libevdev-1.13.0-r0: task do_compile: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_package: Succeeded
+NOTE: Running task 1674 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_packagedata)
+NOTE: recipe mtdev-1.1.6-r0: task do_packagedata: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_packagedata: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_compile: Succeeded
+NOTE: Running task 1675 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_install)
+NOTE: recipe libevdev-1.13.0-r0: task do_install: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_configure: Succeeded
+NOTE: Running task 1676 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_compile)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_compile: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_install: Succeeded
+NOTE: Running task 1677 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_populate_sysroot)
+NOTE: Running task 1678 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_package)
+NOTE: recipe libevdev-1.13.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_package: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1679 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libinput-1.22.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_compile: Succeeded
+NOTE: Running task 1680 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_install)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_install: Started
+NOTE: recipe libinput-1.22.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1681 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_configure)
+NOTE: recipe libinput-1.22.1-r0: task do_configure: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_install: Succeeded
+NOTE: Running task 1682 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_populate_sysroot)
+NOTE: Running task 1683 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_package)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_package: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_package: Succeeded
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1684 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_packagedata)
+NOTE: recipe libevdev-1.13.0-r0: task do_packagedata: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_packagedata: Succeeded
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_package: Succeeded
+NOTE: Running task 1685 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_packagedata)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_packagedata: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_packagedata: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_configure: Succeeded
+NOTE: Running task 1686 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_configure_ptest_base)
+NOTE: recipe libinput-1.22.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe libinput-1.22.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1687 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_compile)
+NOTE: recipe libinput-1.22.1-r0: task do_compile: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_configure: Succeeded
+NOTE: Running task 1688 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_compile)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_compile: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_compile: Succeeded
+NOTE: Running task 1689 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_install)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_install: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_install: Succeeded
+NOTE: Running task 1690 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_populate_sysroot)
+NOTE: Running task 1691 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_package)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_populate_sysroot: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_package: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1692 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxfont2-2.0.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1693 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_configure)
+NOTE: recipe libxfont2-2.0.6-r0: task do_configure: Started
+NOTE: recipe libinput-1.22.1-r0: task do_compile: Succeeded
+NOTE: Running task 1694 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_compile_ptest_base)
+NOTE: recipe libinput-1.22.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe libinput-1.22.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1695 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_install)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_package: Succeeded
+NOTE: Running task 1696 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_packagedata)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_packagedata: Started
+NOTE: recipe libinput-1.22.1-r0: task do_install: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_packagedata: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_install: Succeeded
+NOTE: Running task 1697 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_install_ptest_base)
+NOTE: recipe libinput-1.22.1-r0: task do_install_ptest_base: Started
+NOTE: recipe libinput-1.22.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1698 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_populate_sysroot)
+NOTE: Running task 1699 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_package)
+NOTE: recipe libinput-1.22.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libinput-1.22.1-r0: task do_package: Started
+NOTE: recipe libinput-1.22.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_package: Succeeded
+NOTE: Running task 1700 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_packagedata)
+NOTE: recipe libinput-1.22.1-r0: task do_packagedata: Started
+NOTE: recipe libinput-1.22.1-r0: task do_packagedata: Succeeded
+NOTE: recipe libxfont2-2.0.6-r0: task do_configure: Succeeded
+NOTE: Running task 1701 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_compile)
+NOTE: recipe libxfont2-2.0.6-r0: task do_compile: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_compile: Succeeded
+NOTE: Running task 1702 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_install)
+NOTE: recipe libxfont2-2.0.6-r0: task do_install: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_install: Succeeded
+NOTE: Running task 1703 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_populate_sysroot)
+NOTE: Running task 1704 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_package)
+NOTE: recipe libxfont2-2.0.6-r0: task do_populate_sysroot: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_package: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1705 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1706 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_configure)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_configure: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_package: Succeeded
+NOTE: Running task 1707 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_packagedata)
+NOTE: recipe libxfont2-2.0.6-r0: task do_packagedata: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_packagedata: Succeeded
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_configure: Succeeded
+NOTE: Running task 1708 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_compile)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_compile: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_compile: Succeeded
+NOTE: Running task 1709 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_install)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_install: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_install: Succeeded
+NOTE: Running task 1710 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_populate_sysroot)
+NOTE: Running task 1711 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_package)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_populate_sysroot: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_package: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1712 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1713 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_configure)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_configure: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_package: Succeeded
+NOTE: Running task 1714 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_packagedata)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_packagedata: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_packagedata: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_configure: Succeeded
+NOTE: Running task 1715 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_compile)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_compile: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_compile: Succeeded
+NOTE: Running task 1716 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_install)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_install: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_install: Succeeded
+NOTE: Running task 1717 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_package)
+NOTE: Running task 1718 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_populate_sysroot)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_populate_sysroot: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package: Succeeded
+NOTE: Running task 1719 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_packagedata)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_packagedata: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1720 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_package_write_rpm)
+NOTE: Running task 1721 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_package_qa)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package_write_rpm: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package_qa: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package_qa: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1722 of 1722 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_build)
+NOTE: Tasks Summary: Attempted 1722 tasks of which 1601 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_packagedata
-Summary: There were 16 ERROR messages, returning a non-zero exit code.
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-src went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-dbg went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-staticdev went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-dev went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-doc went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-locale went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-src went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-dbg went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-staticdev went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-dev went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-doc went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-locale went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/python3-packaging/23.0-r0/temp/log.do_packagedata.1140191
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_packagedata) failed with exit code '1'
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-src went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-dbg went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-staticdev went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-dev went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-doc went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-locale went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
 
---===============6447466840135883163==
+--===============2834241716880769854==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -1460,345 +1745,435 @@ TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
 TARGET_FPU           = "hard"
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:0f8fc9759a2003f355eeb117b6c8716750a5d82d"
+meta-yocto-bsp       = "tmp-auh-upgrades:9cd85c62b1ee0b91e7c8244ecad5604d3d31da5f"
 workspace            = "master:ff633ce7a7ffc0d39b86043caeb63a9ffcef99b8"
 
 Initialising tasks...done.
-Sstate summary: Wanted 54 Local 12 Mirrors 0 Missed 42 Current 341 (22% match, 89% complete)
+Sstate summary: Wanted 65 Local 22 Mirrors 0 Missed 43 Current 493 (33% match, 92% complete)
 NOTE: Executing Tasks
-NOTE: Running setscene task 356 of 395 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_packagedata_setscene)
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_packagedata_setscene: Started
-NOTE: Running task 948 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_fetch)
-NOTE: Running task 949 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_fetch)
-NOTE: Running task 950 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_fetch)
-NOTE: Running task 1018 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_fetch)
-NOTE: Running task 1090 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_fetch)
-NOTE: Running task 1091 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_fetch)
-NOTE: Running task 1092 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_fetch)
-NOTE: Running task 1094 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_fetch)
-NOTE: Running task 1095 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_fetch)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/python3-importlib-metadata/6.2.0-r0/temp/log.do_packagedata_setscene.1103293
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 394 of 395 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_package_setscene)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_fetch: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_fetch: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_fetch: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_fetch: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_fetch: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_fetch: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_fetch: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_fetch: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_fetch: Started
-NOTE: Running task 1185 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_unpack)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_fetch: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1186 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_unpack)
-NOTE: Running task 1187 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_unpack)
-NOTE: Running task 1188 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1189 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1190 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1191 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_unpack)
-NOTE: Running task 1192 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1193 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_unpack)
-NOTE: Running task 1194 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_unpack)
-NOTE: Running task 1195 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_unpack)
-NOTE: Running task 1196 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_unpack)
-NOTE: Running task 1205 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_unpack)
-NOTE: Running task 1275 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1276 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1277 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1278 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_unpack: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_unpack: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_unpack: Started
-NOTE: Running task 1280 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_unpack: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_unpack: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_unpack: Started
-NOTE: Running task 1371 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_patch)
-NOTE: Running task 1372 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_patch)
-NOTE: Running task 1377 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_package_write_rpm)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_unpack: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_unpack: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_unpack: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_unpack: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_unpack: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1378 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_patch)
-NOTE: recipe python3-py-1.11.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_unpack: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_unpack: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_patch: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_patch: Started
-NOTE: Running task 1379 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_patch)
-NOTE: Running task 1380 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_patch)
-NOTE: Running task 1381 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_patch)
-NOTE: Running task 1382 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_patch)
-NOTE: Running task 1383 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_patch)
-NOTE: Running task 1384 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_22.2.0.bb:do_package_write_rpm)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_unpack: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_patch: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_patch: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_patch: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_patch: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_patch: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_patch: Started
-NOTE: Running task 1387 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_patch)
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_package_setscene: Started
-NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-attrs-22.2.0-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_patch: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_patch: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1388 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_patch: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1389 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_patch: Succeeded
-NOTE: Running task 1390 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-pytest-7.3.1-r0: task do_patch: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_patch: Succeeded
-NOTE: Running task 1391 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1392 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1393 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_populate_lic)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_package_setscene: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running setscene task 395 of 395 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe python3-packaging-23.0-r0: task do_patch: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_patch: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_patch: Succeeded
-NOTE: Running task 1394 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1395 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-packaging-23.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 1396 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_patch: Succeeded
-NOTE: Running task 1397 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-pytest-7.3.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_populate_lic: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 1407 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_packagedata)
-NOTE: recipe python3-pytest-7.3.1-r0: task do_populate_lic: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_populate_lic unihash changed to 5c4f43bad1b6c7533e7b04037aa6df082d5a98c53495f9c40267d0d698e9e847
+NOTE: Running setscene task 504 of 558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 505 of 558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 531 of 558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/encodings_1.0.7.bb:do_packagedata_setscene)
+NOTE: recipe encodings-1_1.0.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe encodings-1_1.0.7-r0: task do_packagedata_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/vulkan-headers/1.3.239.0-r0/temp/log.do_packagedata_setscene.936251
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 557 of 558 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_package_setscene)
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 1367 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_fetch)
+NOTE: Running task 1368 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_fetch)
+NOTE: Running task 1406 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_fetch)
+NOTE: Running task 1494 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_fetch)
+NOTE: Running task 1562 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_write_config)
+NOTE: Running task 1586 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_fetch)
+NOTE: Running task 1645 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_fetch)
+NOTE: Running task 1646 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_fetch)
+NOTE: Running task 1648 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_fetch)
+NOTE: recipe mtdev-1.1.6-r0: task do_fetch: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_fetch: Started
+NOTE: Running task 1723 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_fetch)
+NOTE: Running task 1760 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_fetch)
+NOTE: Running task 1767 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_write_config)
+NOTE: recipe mtdev-1.1.6-r0: task do_fetch: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_fetch: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_fetch: Started
+NOTE: Running task 1794 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_write_config)
+NOTE: Running task 1795 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_unpack)
+NOTE: Running task 1796 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_unpack)
+NOTE: Running task 1797 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1798 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe font-util-1.4.0-r0: task do_fetch: Started
+NOTE: recipe font-util-1.4.0-r0: task do_fetch: Succeeded
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_fetch: Started
+NOTE: Running task 1825 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_unpack)
+NOTE: recipe libinput-1.22.1-r0: task do_write_config: Started
+NOTE: Running task 1826 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxfont2-2.0.6-r0: task do_fetch: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_fetch: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_fetch: Succeeded
+NOTE: Running task 1827 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_unpack)
+NOTE: recipe libinput-1.22.1-r0: task do_fetch: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_fetch: Started
+NOTE: Running task 1828 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_unpack)
+NOTE: recipe libxfont2-2.0.6-r0: task do_fetch: Succeeded
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1829 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_unpack)
+NOTE: Running task 1830 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_unpack)
+NOTE: Running task 1831 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_fetch: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_fetch: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_write_config: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_unpack: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_unpack: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_fetch: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_write_config: Succeeded
+NOTE: Running task 1832 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_unpack)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_write_config: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_fetch: Succeeded
+NOTE: Running task 1833 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_unpack)
+NOTE: recipe libxcvt-0.1.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1834 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_unpack)
+NOTE: Running task 1835 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe font-util-1.4.0-r0: task do_unpack: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_unpack: Succeeded
+NOTE: recipe font-util-1.4.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_write_config: Succeeded
+NOTE: Running task 1836 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_patch)
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_package_setscene: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_unpack: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_unpack: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_unpack: Started
+NOTE: recipe libinput-1.22.1-r0: task do_unpack: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_write_config: Succeeded
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_unpack: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_unpack: Started
+NOTE: Running task 1837 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_patch)
+NOTE: recipe font-util-1.4.0-r0: task do_unpack: Succeeded
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_unpack: Started
+NOTE: Running task 1838 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_patch)
+NOTE: recipe libxcvt-0.1.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_patch: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_unpack: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_unpack: Succeeded
+NOTE: Running task 1839 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_patch)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_unpack: Succeeded
+NOTE: recipe libxfont2-2.0.6-r0: task do_unpack: Succeeded
+NOTE: Running task 1840 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_patch)
+NOTE: Running task 1841 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_patch)
+NOTE: recipe libevdev-1.13.0-r0: task do_patch: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1842 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_patch)
+NOTE: recipe font-util-1.4.0-r0: task do_patch: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_patch: Succeeded
+NOTE: recipe mtdev-1.1.6-r0: task do_patch: Succeeded
+NOTE: recipe mtdev-1.1.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1843 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1844 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_deploy_source_date_epoch)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_patch: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_patch: Started
+NOTE: recipe font-util-1.4.0-r0: task do_patch: Succeeded
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_package_setscene: Succeeded
+NOTE: Running task 1845 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxfont2-2.0.6-r0: task do_patch: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_patch: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 1408 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_configure)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1409 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_configure)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1410 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_configure)
-NOTE: Running task 1411 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_configure)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1412 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_configure)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_packagedata: Started
-NOTE: Running task 1413 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_configure)
-NOTE: Running task 1414 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_configure)
-NOTE: recipe python3-packaging-23.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_configure: Started
-NOTE: Running task 1415 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_configure)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_configure: Started
-NOTE: Running task 1416 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_configure)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_configure: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_configure: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_configure: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_configure: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_configure: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_configure: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_configure: Succeeded
-NOTE: Running task 1417 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_configure_ptest_base)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_configure: Succeeded
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_configure: Started
-NOTE: Running task 1418 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_configure_ptest_base)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_configure: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_configure: Succeeded
-NOTE: Running task 1419 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_configure_ptest_base)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_configure: Succeeded
-NOTE: Running task 1420 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_compile)
-NOTE: Running task 1421 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_compile)
-NOTE: recipe python3-py-1.11.0-r0: task do_configure: Succeeded
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1422 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_compile)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_configure: Succeeded
-NOTE: Running task 1423 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_package_write_rpm)
-NOTE: recipe python3-attrs-22.2.0-r0: task do_package_write_rpm: Succeeded
-NOTE: Running task 1424 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_compile)
-NOTE: recipe python3-packaging-23.0-r0: task do_configure: Succeeded
-NOTE: Running task 1425 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_compile)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_configure: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_configure_ptest_base: Started
-NOTE: Running task 1426 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_compile)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_configure_ptest_base: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_compile: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_compile: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_compile: Started
-NOTE: Running task 1427 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_compile)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_configure_ptest_base: Succeeded
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_package_write_rpm: Started
-NOTE: Running task 1428 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_compile)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_compile: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_configure_ptest_base: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_compile: Started
-NOTE: Running task 1429 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_compile)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_compile: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_compile: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_compile: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_compile: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_compile: Succeeded
-NOTE: Running task 1430 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_install)
-NOTE: recipe python3-packaging-23.0-r0: task do_compile: Succeeded
-NOTE: Running task 1431 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_install)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_install: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_compile: Succeeded
-NOTE: Running task 1432 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_install)
-NOTE: recipe python3-packaging-23.0-r0: task do_install: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_compile: Succeeded
-NOTE: Running task 1433 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_compile_ptest_base)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_compile: Succeeded
-NOTE: Running task 1434 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_compile_ptest_base)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_install: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1435 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_install)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1436 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_install)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_install: Succeeded
-NOTE: Running task 1437 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_package)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_install: Started
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_install: Succeeded
-NOTE: Running task 1438 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_package)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_install: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_package: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_install: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_package: Started
-NOTE: Running task 1439 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_package)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_package: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_install: Succeeded
-NOTE: Running task 1440 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_install_ptest_base)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_compile: Succeeded
-NOTE: Running task 1441 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_install)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_install: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_compile: Succeeded
-NOTE: Running task 1442 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_install_ptest_base)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_install_ptest_base: Started
-NOTE: Running task 1443 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_install)
-NOTE: recipe python3-pytest-7.3.1-r0: task do_compile: Succeeded
-NOTE: Running task 1444 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_install)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_install: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_compile: Succeeded
-NOTE: Running task 1445 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_compile_ptest_base)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1446 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_package)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_install_ptest_base: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_install: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_install: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_install_ptest_base: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1447 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_package)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_package: Started
-NOTE: Running task 1448 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_install)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_package: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_install: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_install: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_package: Succeeded
-NOTE: Running task 1449 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_package)
-NOTE: Running task 1450 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_packagedata)
-NOTE: recipe python3-packaging-23.0-r0: task do_package: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_package: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_packagedata: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_install: Succeeded
-NOTE: Running task 1451 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_packagedata)
-NOTE: Running task 1452 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_install_ptest_base)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_package: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_install: Succeeded
-NOTE: Running task 1453 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_packagedata)
-NOTE: Running task 1454 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_package)
-NOTE: Running task 1455 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_populate_sysroot)
-NOTE: recipe python3-packaging-23.0-r0: task do_packagedata: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_install_ptest_base: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_packagedata: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_package: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_install_ptest_base: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 1456 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_package)
-NOTE: recipe python3-packaging-23.0-r0: task do_packagedata: Failed
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_package: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_install: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_package: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_package: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_package: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_package: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_package: Succeeded
-NOTE: Tasks Summary: Attempted 1456 tasks of which 1358 didn't need to be rerun and 1 failed.
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_patch: Started
+NOTE: recipe font-util-1.4.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1866 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1868 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_packagedata)
+NOTE: recipe libxfont2-2.0.6-r0: task do_patch: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1874 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_deploy_source_date_epoch)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_patch: Succeeded
+NOTE: Running task 1875 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1876 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_populate_lic)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_patch: Succeeded
+NOTE: Running task 1877 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe font-util-1.4.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_packagedata: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_populate_lic: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libinput-1.22.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1878 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_patch)
+NOTE: recipe libevdev-1.13.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe mtdev-1.1.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1879 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_configure)
+NOTE: Running task 1880 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_configure)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_unpack: Succeeded
+NOTE: Running task 1881 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_patch)
+NOTE: recipe libxcvt-0.1.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1882 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_patch)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_populate_lic unihash changed to 76218b70f9df79b8152b46f5730858b69862a2418932ec834bebe34698bfd4d8
+NOTE: recipe font-util-1.4.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_patch: Started
+NOTE: Running task 1883 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_configure)
+NOTE: recipe libxfont2-2.0.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_configure: Started
+NOTE: Running task 1884 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_configure)
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_packagedata: Succeeded
+NOTE: recipe mtdev-1.1.6-r0: task do_configure: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_patch: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_patch: Started
+NOTE: recipe font-util-1.4.0-r0: task do_configure: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_patch: Succeeded
+NOTE: Running task 1891 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe libinput-1.22.1-r0: task do_patch: Succeeded
+NOTE: Running task 1892 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_configure: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_patch: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1893 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_deploy_source_date_epoch)
+NOTE: recipe libinput-1.22.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1894 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_configure)
+NOTE: recipe libinput-1.22.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_configure: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_configure: Succeeded
+NOTE: Running task 1895 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_compile)
+NOTE: recipe libxcvt-0.1.2-r0: task do_compile: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_compile: Succeeded
+NOTE: Running task 1896 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_install)
+NOTE: recipe libxcvt-0.1.2-r0: task do_install: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_install: Succeeded
+NOTE: Running task 1897 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_populate_sysroot)
+NOTE: Running task 1898 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_package)
+NOTE: recipe libxcvt-0.1.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_package: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_package: Succeeded
+NOTE: Running task 1899 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_packagedata)
+NOTE: recipe libxcvt-0.1.2-r0: task do_packagedata: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_packagedata: Succeeded
+NOTE: recipe font-util-1.4.0-r0: task do_configure: Succeeded
+NOTE: Running task 1900 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_compile)
+NOTE: recipe font-util-1.4.0-r0: task do_compile: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_configure: Succeeded
+NOTE: Running task 1901 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_compile)
+NOTE: recipe mtdev-1.1.6-r0: task do_compile: Started
+NOTE: recipe font-util-1.4.0-r0: task do_compile: Succeeded
+NOTE: Running task 1902 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_install)
+NOTE: recipe font-util-1.4.0-r0: task do_install: Started
+NOTE: recipe font-util-1.4.0-r0: task do_install: Succeeded
+NOTE: Running task 1903 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_populate_sysroot)
+NOTE: Running task 1904 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_package)
+NOTE: recipe mtdev-1.1.6-r0: task do_compile: Succeeded
+NOTE: Running task 1905 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_install)
+NOTE: recipe font-util-1.4.0-r0: task do_populate_sysroot: Started
+NOTE: recipe font-util-1.4.0-r0: task do_package: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_install: Started
+NOTE: recipe font-util-1.4.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1906 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_install: Succeeded
+NOTE: Running task 1907 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_populate_sysroot)
+NOTE: Running task 1908 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_package)
+NOTE: recipe mtdev-1.1.6-r0: task do_populate_sysroot: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_package: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1909 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_configure)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_configure: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe font-util-1.4.0-r0: task do_package: Succeeded
+NOTE: Running task 1910 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_packagedata)
+NOTE: recipe font-util-1.4.0-r0: task do_packagedata: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_configure: Succeeded
+NOTE: Running task 1911 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_compile)
+NOTE: recipe libevdev-1.13.0-r0: task do_compile: Started
+NOTE: recipe font-util-1.4.0-r0: task do_packagedata: Succeeded
+NOTE: recipe mtdev-1.1.6-r0: task do_package: Succeeded
+NOTE: Running task 1912 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_packagedata)
+NOTE: recipe mtdev-1.1.6-r0: task do_packagedata: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_packagedata: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_compile: Succeeded
+NOTE: Running task 1913 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_install)
+NOTE: recipe libevdev-1.13.0-r0: task do_install: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_configure: Succeeded
+NOTE: Running task 1914 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_compile)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_compile: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_install: Succeeded
+NOTE: Running task 1915 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_populate_sysroot)
+NOTE: Running task 1916 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_package)
+NOTE: recipe libevdev-1.13.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_package: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1917 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libinput-1.22.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_compile: Succeeded
+NOTE: Running task 1918 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_install)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_install: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_install: Succeeded
+NOTE: Running task 1919 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_populate_sysroot)
+NOTE: Running task 1920 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_package)
+NOTE: recipe libinput-1.22.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1921 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_configure)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_package: Started
+NOTE: recipe libinput-1.22.1-r0: task do_configure: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_package: Succeeded
+NOTE: Running task 1922 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_packagedata)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_packagedata: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_packagedata: Succeeded
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_package: Succeeded
+NOTE: Running task 1923 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_packagedata)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_packagedata: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_packagedata: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_configure: Succeeded
+NOTE: Running task 1924 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_configure_ptest_base)
+NOTE: recipe libinput-1.22.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe libinput-1.22.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1925 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_compile)
+NOTE: recipe libinput-1.22.1-r0: task do_compile: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_configure: Succeeded
+NOTE: Running task 1926 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_compile)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_compile: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_compile: Succeeded
+NOTE: Running task 1927 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_install)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_install: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_install: Succeeded
+NOTE: Running task 1928 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_populate_sysroot)
+NOTE: Running task 1929 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_package)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_populate_sysroot: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_package: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1930 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxfont2-2.0.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1931 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_configure)
+NOTE: recipe libxfont2-2.0.6-r0: task do_configure: Started
+NOTE: recipe libinput-1.22.1-r0: task do_compile: Succeeded
+NOTE: Running task 1932 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_compile_ptest_base)
+NOTE: recipe libinput-1.22.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_package: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1933 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_install)
+NOTE: Running task 1934 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_packagedata)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_packagedata: Started
+NOTE: recipe libinput-1.22.1-r0: task do_install: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_packagedata: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_install: Succeeded
+NOTE: Running task 1935 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_install_ptest_base)
+NOTE: recipe libinput-1.22.1-r0: task do_install_ptest_base: Started
+NOTE: recipe libinput-1.22.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1936 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_populate_sysroot)
+NOTE: Running task 1937 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_package)
+NOTE: recipe libinput-1.22.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libinput-1.22.1-r0: task do_package: Started
+NOTE: recipe libinput-1.22.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_package: Succeeded
+NOTE: Running task 1938 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_packagedata)
+NOTE: recipe libinput-1.22.1-r0: task do_packagedata: Started
+NOTE: recipe libinput-1.22.1-r0: task do_packagedata: Succeeded
+NOTE: recipe libxfont2-2.0.6-r0: task do_configure: Succeeded
+NOTE: Running task 1939 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_compile)
+NOTE: recipe libxfont2-2.0.6-r0: task do_compile: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_compile: Succeeded
+NOTE: Running task 1940 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_install)
+NOTE: recipe libxfont2-2.0.6-r0: task do_install: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_install: Succeeded
+NOTE: Running task 1941 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_populate_sysroot)
+NOTE: Running task 1942 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_package)
+NOTE: recipe libxfont2-2.0.6-r0: task do_populate_sysroot: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_package: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1943 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1944 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_configure)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_configure: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_package: Succeeded
+NOTE: Running task 1945 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_packagedata)
+NOTE: recipe libxfont2-2.0.6-r0: task do_packagedata: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_packagedata: Succeeded
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_configure: Succeeded
+NOTE: Running task 1946 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_compile)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_compile: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_compile: Succeeded
+NOTE: Running task 1947 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_install)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_install: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_install: Succeeded
+NOTE: Running task 1948 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_populate_sysroot)
+NOTE: Running task 1949 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_package)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_populate_sysroot: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_package: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1950 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1951 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_configure)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_configure: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_package: Succeeded
+NOTE: Running task 1952 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_packagedata)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_packagedata: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_packagedata: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_configure: Succeeded
+NOTE: Running task 1953 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_compile)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_compile: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_compile: Succeeded
+NOTE: Running task 1954 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_install)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_install: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_install: Succeeded
+NOTE: Running task 1955 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_package)
+NOTE: Running task 1956 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_populate_sysroot)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_populate_sysroot: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package: Succeeded
+NOTE: Running task 1957 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_packagedata)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_packagedata: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1958 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_package_write_rpm)
+NOTE: Running task 1959 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_package_qa)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package_write_rpm: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package_qa: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package_qa: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1960 of 1960 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_build)
+NOTE: Tasks Summary: Attempted 1960 tasks of which 1839 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_packagedata
-Summary: There were 16 ERROR messages, returning a non-zero exit code.
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-src went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-dbg went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-staticdev went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-dev went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-doc went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-locale went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-src went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-dbg went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-staticdev went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-dev went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-doc went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-locale went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/python3-packaging/23.0-r0/temp/log.do_packagedata.1108108
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_packagedata) failed with exit code '1'
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-src went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-dbg went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-staticdev went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-dev went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-doc went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-locale went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
 
---===============6447466840135883163==
+--===============2834241716880769854==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-xf86-input-libinput-upgrade-1.2.1-1.3.0.patch"
+
+RnJvbSA2ODEzMWQyODgwMDVhNWQ3MWZiNjkxMDhiYzc0MjdhZjFiNDE4NGY4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMTUgQXByIDIwMjMgMTU6MjI6MzggKzAwMDAKU3ViamVjdDogW1BBVENIXSB4
+Zjg2LWlucHV0LWxpYmlucHV0OiB1cGdyYWRlIDEuMi4xIC0+IDEuMy4wCgotLS0KIC4uLmY4Ni1p
+bnB1dC1saWJpbnB1dF8xLjIuMS5iYiA9PiB4Zjg2LWlucHV0LWxpYmlucHV0XzEuMy4wLmJifSB8
+IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
+YW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWRyaXZlci97eGY4Ni1pbnB1dC1saWJpbnB1
+dF8xLjIuMS5iYiA9PiB4Zjg2LWlucHV0LWxpYmlucHV0XzEuMy4wLmJifSAoNzclKQoKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWRyaXZlci94Zjg2LWlucHV0LWxpYmlu
+cHV0XzEuMi4xLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctZHJpdmVyL3hmODYtaW5w
+dXQtbGliaW5wdXRfMS4zLjAuYmIKc2ltaWxhcml0eSBpbmRleCA3NyUKcmVuYW1lIGZyb20gbWV0
+YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctZHJpdmVyL3hmODYtaW5wdXQtbGliaW5wdXRfMS4yLjEu
+YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWRyaXZlci94Zjg2LWlucHV0
+LWxpYmlucHV0XzEuMy4wLmJiCmluZGV4IGUxYzQ3YWE1ZTcuLjg5MjA0NmU5NTkgMTAwNjQ0Ci0t
+LSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWRyaXZlci94Zjg2LWlucHV0LWxpYmlucHV0
+XzEuMi4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWRyaXZlci94Zjg2LWlu
+cHV0LWxpYmlucHV0XzEuMy4wLmJiCkBAIC03LDYgKzcsNiBAQCBMSUNfRklMRVNfQ0hLU1VNID0g
+ImZpbGU6Ly9DT1BZSU5HO21kNT1hMjI5MjUxMjdiZDNjODI3YzM4NGNlZGQyM2VkMjMwOSIKIERF
+UEVORFMgKz0gImxpYmlucHV0IgogCiBYT1JHX0RSSVZFUl9DT01QUkVTU09SID0gIi50YXIueHoi
+Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiODE1MWRiNWI5ZGRiMzE3YzBjZTkyZGNiNjJkYTlhOGRi
+NTA3OWU1YjhhOTViNjBhYmM4NTRkYTIxZTdlOTcxYiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIx
+NDQ2YmEyMGEyMmJjOTY4YjVhNGEwYjRkYmMzYjhlMDM3YzUwZDljNTlhYzc1ZmEzZjdmYzUwNmM1
+OGMxYWJiIgogCiBGSUxFUzoke1BOfSArPSAiJHtkYXRhZGlyfS9YMTEveG9yZy5jb25mLmQiCi0t
+IAoyLjM5LjIKCg==
+
+--===============2834241716880769854==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -1824,343 +2199,401 @@ TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:0f8fc9759a2003f355eeb117b6c8716750a5d82d"
+meta-yocto-bsp       = "tmp-auh-upgrades:9cd85c62b1ee0b91e7c8244ecad5604d3d31da5f"
 workspace            = "master:ff633ce7a7ffc0d39b86043caeb63a9ffcef99b8"
 
 Initialising tasks...done.
-Sstate summary: Wanted 54 Local 12 Mirrors 0 Missed 42 Current 341 (22% match, 89% complete)
+Sstate summary: Wanted 65 Local 22 Mirrors 0 Missed 43 Current 489 (33% match, 92% complete)
 NOTE: Executing Tasks
-NOTE: Running setscene task 356 of 395 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_packagedata_setscene)
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_packagedata_setscene: Started
-NOTE: Running task 948 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_fetch)
-NOTE: Running task 949 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_fetch)
-NOTE: Running task 950 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_fetch)
-NOTE: Running task 1018 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_fetch)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/python3-importlib-metadata/6.2.0-r0/temp/log.do_packagedata_setscene.1112527
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 394 of 395 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_package_setscene)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_fetch: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_fetch: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_fetch: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_fetch: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_fetch: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1052 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_unpack)
-NOTE: Running task 1053 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_unpack)
-NOTE: Running task 1054 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_unpack)
-NOTE: Running task 1055 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1056 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1057 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1058 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_unpack)
-NOTE: Running task 1097 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_fetch)
-NOTE: Running task 1098 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_fetch)
-NOTE: Running task 1099 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_fetch)
-NOTE: Running task 1100 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_fetch)
-NOTE: Running task 1102 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_fetch)
-NOTE: Running task 1170 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_unpack: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_unpack: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_unpack: Started
-NOTE: Running task 1366 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_package_write_rpm)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_fetch: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_fetch: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_unpack: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_unpack: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_unpack: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_fetch: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_fetch: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_fetch: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1367 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_patch)
-NOTE: recipe python3-py-1.11.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_unpack: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1368 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_patch)
-NOTE: Running task 1369 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_patch)
-NOTE: Running task 1370 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_patch)
-NOTE: Running task 1371 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_unpack)
-NOTE: Running task 1372 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_unpack)
-NOTE: Running task 1373 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_unpack)
-NOTE: Running task 1374 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_unpack)
-NOTE: Running task 1375 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_unpack)
-NOTE: Running task 1376 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1377 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1378 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1379 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1380 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1381 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_22.2.0.bb:do_package_write_rpm)
-NOTE: recipe python3-py-1.11.0-r0: task do_unpack: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_unpack: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_unpack: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_unpack: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_patch: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_unpack: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_patch: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_patch: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_patch: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_package_setscene: Started
-NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1383 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_patch)
-NOTE: recipe python3-packaging-23.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1384 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_patch)
-NOTE: Running task 1385 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_patch)
-NOTE: recipe python3-packaging-23.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-attrs-22.2.0-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1386 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_patch)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_patch: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_patch: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_patch: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_patch: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_patch: Succeeded
-NOTE: Running task 1387 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1388 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_patch: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_patch: Succeeded
-NOTE: Running task 1389 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 395 of 395 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe python3-pytest-7.3.1-r0: task do_patch: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 1390 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1391 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_populate_lic)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1392 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_patch)
-NOTE: recipe python3-pytest-7.3.1-r0: task do_populate_lic: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_patch: Started
-NOTE: Running task 1402 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_packagedata)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1403 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_configure)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1404 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_configure)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_populate_lic: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_patch: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_patch: Succeeded
-NOTE: Running task 1405 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_configure)
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_populate_lic unihash changed to 5c4f43bad1b6c7533e7b04037aa6df082d5a98c53495f9c40267d0d698e9e847
+NOTE: Running setscene task 500 of 554 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 501 of 554 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 527 of 554 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/encodings_1.0.7.bb:do_packagedata_setscene)
+NOTE: recipe encodings-1_1.0.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe encodings-1_1.0.7-r0: task do_packagedata_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/vulkan-headers/1.3.239.0-r0/temp/log.do_packagedata_setscene.978614
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 553 of 554 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_package_setscene)
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 1357 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_fetch)
+NOTE: Running task 1359 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_fetch)
+NOTE: Running task 1395 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_fetch)
+NOTE: Running task 1482 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_fetch)
+NOTE: Running task 1550 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_write_config)
+NOTE: Running task 1573 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_fetch)
+NOTE: Running task 1632 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_fetch)
+NOTE: Running task 1635 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_fetch)
+NOTE: Running task 1636 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_fetch)
+NOTE: recipe mtdev-1.1.6-r0: task do_fetch: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_fetch: Started
+NOTE: Running task 1711 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_fetch)
+NOTE: recipe mtdev-1.1.6-r0: task do_fetch: Succeeded
+NOTE: Running task 1748 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_fetch)
+NOTE: Running task 1755 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_write_config)
+NOTE: recipe libevdev-1.13.0-r0: task do_fetch: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_fetch: Started
+NOTE: Running task 1763 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_unpack)
+NOTE: Running task 1764 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1765 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_unpack)
+NOTE: Running task 1766 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe font-util-1.4.0-r0: task do_fetch: Started
+NOTE: Running task 1784 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_write_config)
+NOTE: recipe font-util-1.4.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1811 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_unpack)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_fetch: Started
+NOTE: Running task 1812 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libinput-1.22.1-r0: task do_write_config: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_fetch: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_fetch: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_fetch: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_fetch: Started
+NOTE: Running task 1813 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_unpack)
+NOTE: recipe libinput-1.22.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1814 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_unpack)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_fetch: Succeeded
+NOTE: recipe libxfont2-2.0.6-r0: task do_fetch: Succeeded
+NOTE: Running task 1815 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_unpack)
+NOTE: Running task 1816 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_unpack)
+NOTE: Running task 1817 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_fetch: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_fetch: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_unpack: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_write_config: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_unpack: Started
+NOTE: recipe libinput-1.22.1-r0: task do_write_config: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_fetch: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1818 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_unpack)
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_package_setscene: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_fetch: Succeeded
+NOTE: Running task 1819 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_unpack)
+NOTE: recipe libxcvt-0.1.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1820 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_unpack)
+NOTE: Running task 1821 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_write_config: Started
+NOTE: recipe font-util-1.4.0-r0: task do_unpack: Started
+NOTE: recipe font-util-1.4.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_unpack: Succeeded
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_unpack: Started
+NOTE: Running task 1822 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_patch)
+NOTE: recipe libxcvt-0.1.2-r0: task do_write_config: Succeeded
+NOTE: recipe libxfont2-2.0.6-r0: task do_unpack: Started
+NOTE: recipe libinput-1.22.1-r0: task do_unpack: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_unpack: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_write_config: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_unpack: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_unpack: Started
+NOTE: Running task 1823 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_patch)
+NOTE: recipe libxcvt-0.1.2-r0: task do_unpack: Started
+NOTE: recipe font-util-1.4.0-r0: task do_unpack: Succeeded
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_unpack: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1824 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_patch)
+NOTE: recipe mtdev-1.1.6-r0: task do_patch: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_unpack: Succeeded
+NOTE: Running task 1825 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_patch)
+NOTE: recipe libxfont2-2.0.6-r0: task do_unpack: Succeeded
+NOTE: Running task 1826 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_patch)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_unpack: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_patch: Started
+NOTE: Running task 1827 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_patch)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1828 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_patch)
+NOTE: recipe font-util-1.4.0-r0: task do_patch: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_patch: Succeeded
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_patch: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1829 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe mtdev-1.1.6-r0: task do_patch: Succeeded
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_package_setscene: Succeeded
+NOTE: Running task 1830 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_deploy_source_date_epoch)
 NOTE: Setscene tasks completed
-NOTE: Running task 1406 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-py-1.11.0-r0: task do_patch: Succeeded
-NOTE: Running task 1407 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1408 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-packaging-23.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_packagedata: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1409 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_configure)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_configure: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_patch: Succeeded
-NOTE: Running task 1410 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_configure: Started
-NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_patch: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1411 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-packaging-23.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_configure: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_configure: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_configure: Succeeded
-NOTE: Running task 1412 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_configure_ptest_base)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_configure: Succeeded
-NOTE: Running task 1413 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_configure_ptest_base)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_configure: Succeeded
-NOTE: Running task 1414 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_configure_ptest_base)
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1415 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.2.0.bb:do_package_write_rpm)
-NOTE: recipe python3-pytest-7.3.1-r0: task do_configure: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1416 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_compile)
-NOTE: Running task 1417 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_configure)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_configure_ptest_base: Started
-NOTE: Running task 1418 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_configure)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe python3-attrs-22.2.0-r0: task do_package_write_rpm: Succeeded
-NOTE: Running task 1419 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_configure)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_configure_ptest_base: Started
-NOTE: Running task 1420 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_configure)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_configure_ptest_base: Succeeded
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1421 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_compile)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1422 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_configure)
-NOTE: Running task 1423 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_compile)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_configure_ptest_base: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_configure: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_compile: Started
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_package_write_rpm: Started
-NOTE: Running task 1424 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_compile)
-NOTE: recipe python3-py-1.11.0-r0: task do_configure: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_configure: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_configure: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_configure: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_compile: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_compile: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_configure: Succeeded
-NOTE: Running task 1425 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_compile)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_compile: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_configure: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_configure: Succeeded
-NOTE: Running task 1426 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_compile)
-NOTE: Running task 1427 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_compile)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_configure: Succeeded
-NOTE: Running task 1428 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_compile)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_configure: Succeeded
-NOTE: Running task 1429 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_compile)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_compile: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_compile: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_compile: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_compile: Started
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_compile: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_compile: Succeeded
-NOTE: Running task 1430 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_compile_ptest_base)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_compile: Succeeded
-NOTE: Running task 1431 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_compile_ptest_base)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_compile: Succeeded
-NOTE: Running task 1432 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_install)
-NOTE: recipe python3-packaging-23.0-r0: task do_compile: Succeeded
-NOTE: Running task 1433 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_install)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1434 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_install)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_install: Started
-NOTE: Running task 1435 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_install)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_compile: Succeeded
-NOTE: Running task 1436 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_install)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_install: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_install: Started
-NOTE: recipe python3-importlib-metadata-6.2.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_install: Started
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_install: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_install: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_install: Succeeded
-NOTE: Running task 1437 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_package)
-NOTE: Running task 1438 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_package)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_install: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_install: Succeeded
-NOTE: Running task 1439 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_install_ptest_base)
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_install: Succeeded
-NOTE: Running task 1440 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_install_ptest_base)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_package: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_package: Started
-NOTE: Running task 1441 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_package)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_install_ptest_base: Started
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_install_ptest_base: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_package: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_compile: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_compile: Succeeded
-NOTE: Running task 1442 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_install)
-NOTE: Running task 1443 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_compile_ptest_base)
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_install_ptest_base: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1444 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_package)
-NOTE: Running task 1445 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb:do_package)
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_compile: Succeeded
-NOTE: Running task 1446 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb:do_install)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_install: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_compile_ptest_base: Succeeded
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_package: Started
-NOTE: Running task 1447 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_install)
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_package: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_compile: Succeeded
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_install: Started
-NOTE: Running task 1448 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_install)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_install: Started
-NOTE: recipe python3-py-1.11.0-r0: task do_install: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_install: Succeeded
-NOTE: Running task 1449 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_install_ptest_base)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_package: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_install: Succeeded
-NOTE: Running task 1450 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_package)
-NOTE: recipe python3-packaging-23.0-r0: task do_package: Succeeded
-NOTE: Running task 1451 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_packagedata)
-NOTE: Running task 1452 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.3.1.bb:do_populate_sysroot)
-NOTE: recipe python3-py-1.11.0-r0: task do_install: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_install_ptest_base: Started
-NOTE: Running task 1453 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_packagedata)
-NOTE: Running task 1454 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_package)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_packagedata: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-pytest-7.3.1-r0: task do_package: Started
-NOTE: recipe python3-packaging-23.0-r0: task do_packagedata: Started
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1455 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb:do_package)
-NOTE: recipe python3-py-1.11.0-r0: task do_package: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_package: Succeeded
-NOTE: Running task 1456 of 1474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_packagedata)
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_package: Started
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_packagedata: Started
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-packaging-23.0-r0: task do_packagedata: Failed
-NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_package: Succeeded
-NOTE: recipe python3-wcwidth-0.2.6-r0: task do_package: Succeeded
-NOTE: recipe python3-iniconfig-2.0.0-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-setuptools-67.6.1-r0: task do_install: Succeeded
-NOTE: recipe python3-pluggy-1.0.0-r0: task do_package: Succeeded
-NOTE: recipe python3-py-1.11.0-r0: task do_package: Succeeded
-NOTE: recipe python3-pytest-7.3.1-r0: task do_package: Succeeded
-NOTE: Tasks Summary: Attempted 1456 tasks of which 1358 didn't need to be rerun and 1 failed.
+NOTE: Running task 1852 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.239.0.bb:do_packagedata)
+NOTE: recipe libxfont2-2.0.6-r0: task do_patch: Started
+NOTE: recipe font-util-1.4.0-r0: task do_patch: Succeeded
+NOTE: Running task 1858 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe font-util-1.4.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_patch: Succeeded
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_patch: Started
+NOTE: Running task 1859 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_deploy_source_date_epoch)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_patch: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_patch: Succeeded
+NOTE: Running task 1860 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_deploy_source_date_epoch)
+NOTE: recipe libevdev-1.13.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_patch: Succeeded
+NOTE: Running task 1861 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1862 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_populate_lic)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_patch: Succeeded
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_packagedata: Started
+NOTE: Running task 1863 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe font-util-1.4.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_populate_lic: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libinput-1.22.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1864 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_patch)
+NOTE: recipe libevdev-1.13.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe mtdev-1.1.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1865 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_configure)
+NOTE: Running task 1866 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_configure)
+NOTE: recipe libxcvt-0.1.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1867 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_patch)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe font-util-1.4.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1868 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_configure)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_populate_lic: Succeeded
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_unpack: Succeeded
+NOTE: Running task 1869 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_patch)
+NOTE: recipe libinput-1.22.1-r0: task do_patch: Started
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_populate_lic unihash changed to 76218b70f9df79b8152b46f5730858b69862a2418932ec834bebe34698bfd4d8
+NOTE: recipe libxfont2-2.0.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_configure: Started
+NOTE: recipe vulkan-headers-1.3.239.0-r0: task do_packagedata: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe mtdev-1.1.6-r0: task do_configure: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_patch: Started
+NOTE: Running task 1876 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_configure)
+NOTE: recipe libxcvt-0.1.2-r0: task do_patch: Succeeded
+NOTE: Running task 1877 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe font-util-1.4.0-r0: task do_configure: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_patch: Started
+NOTE: recipe libinput-1.22.1-r0: task do_patch: Succeeded
+NOTE: Running task 1878 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_configure: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libinput-1.22.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_patch: Succeeded
+NOTE: Running task 1879 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxcvt-0.1.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1880 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_configure)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libinput-1.22.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_configure: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_configure: Succeeded
+NOTE: Running task 1881 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_compile)
+NOTE: recipe libxcvt-0.1.2-r0: task do_compile: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_compile: Succeeded
+NOTE: Running task 1882 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_install)
+NOTE: recipe libxcvt-0.1.2-r0: task do_install: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_install: Succeeded
+NOTE: Running task 1883 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_populate_sysroot)
+NOTE: Running task 1884 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_package)
+NOTE: recipe libxcvt-0.1.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_package: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxcvt-0.1.2-r0: task do_package: Succeeded
+NOTE: Running task 1885 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_packagedata)
+NOTE: recipe libxcvt-0.1.2-r0: task do_packagedata: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_packagedata: Succeeded
+NOTE: recipe font-util-1.4.0-r0: task do_configure: Succeeded
+NOTE: Running task 1886 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_compile)
+NOTE: recipe font-util-1.4.0-r0: task do_compile: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_configure: Succeeded
+NOTE: Running task 1887 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_compile)
+NOTE: recipe mtdev-1.1.6-r0: task do_compile: Started
+NOTE: recipe font-util-1.4.0-r0: task do_compile: Succeeded
+NOTE: Running task 1888 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_install)
+NOTE: recipe font-util-1.4.0-r0: task do_install: Started
+NOTE: recipe font-util-1.4.0-r0: task do_install: Succeeded
+NOTE: Running task 1889 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_populate_sysroot)
+NOTE: Running task 1890 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_package)
+NOTE: recipe font-util-1.4.0-r0: task do_populate_sysroot: Started
+NOTE: recipe font-util-1.4.0-r0: task do_package: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_compile: Succeeded
+NOTE: recipe font-util-1.4.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1891 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_install)
+NOTE: Running task 1892 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_install: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1893 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_configure)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_configure: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_install: Succeeded
+NOTE: Running task 1894 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_populate_sysroot)
+NOTE: Running task 1895 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_package)
+NOTE: recipe mtdev-1.1.6-r0: task do_populate_sysroot: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_package: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe font-util-1.4.0-r0: task do_package: Succeeded
+NOTE: Running task 1896 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_packagedata)
+NOTE: recipe font-util-1.4.0-r0: task do_packagedata: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_configure: Succeeded
+NOTE: Running task 1897 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_compile)
+NOTE: recipe font-util-1.4.0-r0: task do_packagedata: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_compile: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_package: Succeeded
+NOTE: Running task 1898 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_packagedata)
+NOTE: recipe mtdev-1.1.6-r0: task do_packagedata: Started
+NOTE: recipe mtdev-1.1.6-r0: task do_packagedata: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_compile: Succeeded
+NOTE: Running task 1899 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_install)
+NOTE: recipe libevdev-1.13.0-r0: task do_install: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_configure: Succeeded
+NOTE: Running task 1900 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_compile)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_compile: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_install: Succeeded
+NOTE: Running task 1901 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_populate_sysroot)
+NOTE: Running task 1902 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_package)
+NOTE: recipe libevdev-1.13.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_package: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1903 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libinput-1.22.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_compile: Succeeded
+NOTE: Running task 1904 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_install)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_install: Started
+NOTE: recipe libinput-1.22.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1905 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_configure)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_install: Succeeded
+NOTE: Running task 1906 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_populate_sysroot)
+NOTE: Running task 1907 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_package)
+NOTE: recipe libinput-1.22.1-r0: task do_configure: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_package: Started
+NOTE: recipe libevdev-1.13.0-r0: task do_package: Succeeded
+NOTE: Running task 1908 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.0.bb:do_packagedata)
+NOTE: recipe libevdev-1.13.0-r0: task do_packagedata: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libevdev-1.13.0-r0: task do_packagedata: Succeeded
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_package: Succeeded
+NOTE: Running task 1909 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_packagedata)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_packagedata: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_packagedata: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_configure: Succeeded
+NOTE: Running task 1910 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_configure_ptest_base)
+NOTE: recipe libinput-1.22.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe libinput-1.22.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1911 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_compile)
+NOTE: recipe libinput-1.22.1-r0: task do_compile: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_configure: Succeeded
+NOTE: Running task 1912 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_compile)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_compile: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_compile: Succeeded
+NOTE: Running task 1913 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_install)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_install: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_install: Succeeded
+NOTE: Running task 1914 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_populate_sysroot)
+NOTE: Running task 1915 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_package)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_populate_sysroot: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_package: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1916 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxfont2-2.0.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1917 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_configure)
+NOTE: recipe libxfont2-2.0.6-r0: task do_configure: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_package: Succeeded
+NOTE: Running task 1918 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_packagedata)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_packagedata: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_packagedata: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_compile: Succeeded
+NOTE: Running task 1919 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_compile_ptest_base)
+NOTE: recipe libinput-1.22.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe libinput-1.22.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1920 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_install)
+NOTE: recipe libinput-1.22.1-r0: task do_install: Started
+NOTE: recipe libinput-1.22.1-r0: task do_install: Succeeded
+NOTE: Running task 1921 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_install_ptest_base)
+NOTE: recipe libinput-1.22.1-r0: task do_install_ptest_base: Started
+NOTE: recipe libinput-1.22.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1922 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_populate_sysroot)
+NOTE: Running task 1923 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_package)
+NOTE: recipe libinput-1.22.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libinput-1.22.1-r0: task do_package: Started
+NOTE: recipe libinput-1.22.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libinput-1.22.1-r0: task do_package: Succeeded
+NOTE: Running task 1924 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.22.1.bb:do_packagedata)
+NOTE: recipe libinput-1.22.1-r0: task do_packagedata: Started
+NOTE: recipe libinput-1.22.1-r0: task do_packagedata: Succeeded
+NOTE: recipe libxfont2-2.0.6-r0: task do_configure: Succeeded
+NOTE: Running task 1925 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_compile)
+NOTE: recipe libxfont2-2.0.6-r0: task do_compile: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_compile: Succeeded
+NOTE: Running task 1926 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_install)
+NOTE: recipe libxfont2-2.0.6-r0: task do_install: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_install: Succeeded
+NOTE: Running task 1927 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_populate_sysroot)
+NOTE: Running task 1928 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_package)
+NOTE: recipe libxfont2-2.0.6-r0: task do_populate_sysroot: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_package: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1929 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1930 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_configure)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_configure: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_package: Succeeded
+NOTE: Running task 1931 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_packagedata)
+NOTE: recipe libxfont2-2.0.6-r0: task do_packagedata: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_packagedata: Succeeded
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_configure: Succeeded
+NOTE: Running task 1932 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_compile)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_compile: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_compile: Succeeded
+NOTE: Running task 1933 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_install)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_install: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_install: Succeeded
+NOTE: Running task 1934 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_populate_sysroot)
+NOTE: Running task 1935 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_package)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_populate_sysroot: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_package: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1936 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1937 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_configure)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_configure: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_package: Succeeded
+NOTE: Running task 1938 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb:do_packagedata)
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_packagedata: Started
+NOTE: recipe xserver-xorg-2_21.1.8-r0: task do_packagedata: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_configure: Succeeded
+NOTE: Running task 1939 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_compile)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_compile: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_compile: Succeeded
+NOTE: Running task 1940 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_install)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_install: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_install: Succeeded
+NOTE: Running task 1941 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_package)
+NOTE: Running task 1942 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_populate_sysroot)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_populate_sysroot: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package: Succeeded
+NOTE: Running task 1943 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_packagedata)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_packagedata: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1944 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_package_write_rpm)
+NOTE: Running task 1945 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_package_qa)
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package_write_rpm: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package_qa: Started
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package_qa: Succeeded
+NOTE: recipe xf86-input-libinput-2_1.3.0-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1946 of 1946 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.3.0.bb:do_build)
+NOTE: Tasks Summary: Attempted 1946 tasks of which 1825 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_packagedata
-Summary: There were 16 ERROR messages, returning a non-zero exit code.
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-src went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-dbg went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-staticdev went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-dev went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-doc went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata-locale went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-importlib-metadata went backwards which would break package feeds (from 0:6.3.0-r0 to 0:6.2.0-r0) [version-going-backwards]
-ERROR: python3-importlib-metadata-6.2.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-src went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-dbg went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-staticdev went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-dev went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-doc went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging-locale went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: QA Issue: Package version for package python3-packaging went backwards which would break package feeds (from 0:23.1-r0 to 0:23.0-r0) [version-going-backwards]
-ERROR: python3-packaging-23.0-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/python3-packaging/23.0-r0/temp/log.do_packagedata.1117838
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-packaging_23.0.bb:do_packagedata) failed with exit code '1'
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-src went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-dbg went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-staticdev went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-dev went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-doc went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-locale went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers went backwards which would break package feeds (from 0:1.3.243.0-r0 to 0:1.3.239.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.239.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
 
---===============6447466840135883163==--
+--===============2834241716880769854==--
 
