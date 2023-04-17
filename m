@@ -1,528 +1,188 @@
-Return-Path: <sdoshi@mvista.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48E0DC77B70
-	for <webhook@archiver.kernel.org>; Mon, 17 Apr 2023 07:31:41 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web10.48929.1681716698608405784
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3467AC77B76
+	for <webhook@archiver.kernel.org>; Mon, 17 Apr 2023 07:37:51 +0000 (UTC)
+Received: from esa17.fujitsucc.c3s2.iphmx.com (esa17.fujitsucc.c3s2.iphmx.com [216.71.158.34])
+ by mx.groups.io with SMTP id smtpd.web10.49000.1681717066499783229
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Apr 2023 00:31:40 -0700
+ Mon, 17 Apr 2023 00:37:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=jJt9M+9i;
- spf=pass (domain: mvista.com, ip: 209.85.216.46, mailfrom: sdoshi@mvista.com)
-Received: by mail-pj1-f46.google.com with SMTP id hg12so10123881pjb.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Apr 2023 00:31:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1681716697; x=1684308697;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RBIwD1k4SGBy33prcFFj8aYRbVF/gLBClVI3TDk0Wa8=;
-        b=jJt9M+9iPC1zwiab3L8PqwfApADUqr+T1Ffenm3rjDzJ0ZW4tixNTfzz+B5z6AtxU6
-         KF+6L7PP0LngSloXDJVKaob/rSyWmne38vCdZs3DWIjOmPLYMHQDn2R/F3Izf4yft/s+
-         4lik1zA/9HEkVBzmktXt7LrsK8vMDz7yknLV8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681716697; x=1684308697;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RBIwD1k4SGBy33prcFFj8aYRbVF/gLBClVI3TDk0Wa8=;
-        b=PwABZamBceIcBjL8exIA81aFLr2u++d0dhHKztCPA/ZmRsQyDpJ81Uy7xSZDNKEhvn
-         sJ4azLN6OdW+lw5wB1TFI8LN/KdqzzKaujtlPo/MFKVhPeahOphenVIpOgadTSCnTZXk
-         BabU+vJB/Pm+XZrP/s/Vs53HiHyf51E63y28KII03fnSwlpl7/oF6gnA2hkE7Z5BKzKa
-         bpPLomag3+H7mw2nsogj33et66DKcMyZ6xzbsjDZFsWdagkJ2ePYqKtmDW3focYt/+Os
-         DG/FXaWFKo6mMgMD+jXwlc7x85woinEXiucmTbKaQwtomLrgnsm80MhxOJGUEsopYdHN
-         e/Sg==
-X-Gm-Message-State: AAQBX9eXUpHYFAm+5f+Mjsa8huZmCgeeMG3w8R+uqxH0RkDEn5Br6860
-	mBqA7vxM9LfogiynvuoSDJRK9wWzcopfz6Agj+s=
-X-Google-Smtp-Source: AKy350bAIjqlFx4cAn4nqXrpUVwX6ikwG4gonwSq5rOBBAEc1C7Q86WpV9sw8kleEu0mkqsTBcgXaA==
-X-Received: by 2002:a17:90a:4403:b0:246:ac0b:9d40 with SMTP id s3-20020a17090a440300b00246ac0b9d40mr13984082pjg.15.1681716697260;
-        Mon, 17 Apr 2023 00:31:37 -0700 (PDT)
-Received: from siddharth-latitude-3420.mvista.com ([157.32.18.47])
-        by smtp.gmail.com with ESMTPSA id me18-20020a17090b17d200b00244991b3f7asm15238734pjb.1.2023.04.17.00.31.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Apr 2023 00:31:36 -0700 (PDT)
-From: Siddharth <sdoshi@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Siddharth Doshi <sdoshi@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] curl: Security fix for CVE-2023-27535, CVE-2023-27536, CVE-2023-27538
-Date: Mon, 17 Apr 2023 13:01:28 +0530
-Message-Id: <20230417073128.43630-1-sdoshi@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@fujitsu.com header.s=fj1 header.b=uL5v0gSv;
+ spf=pass (domain: fujitsu.com, ip: 216.71.158.34, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
+  t=1681717067; x=1713253067;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=y8L+EPMFJfxJXAyo2Fyt9ypBdus5YiqA2/pOVCrytt8=;
+  b=uL5v0gSvf0EGSWonsP/EXieMCmWc0a7gPb3T1sxviA2QOYL71+DueGXP
+   vC+p5HAsmwnTitNIsASMHgwWc9HK8LvRSrko4Ds88W5veYk+lgmXt8gZ8
+   jLB0dDUVaYFiNoeOX6BpOfMONg278R87+mVPqyo0OGpaFTXw8q+aqWSeR
+   p/P6DxyAJqo5/Pm9tLYzCwUrIhFf9nOIiBOyzf2o/8PHk8Vf36sugYYJq
+   lE93tdXWcdZ3lwEn7eaBiqD4o6zmop+3wwEXwXzmgMDWqC087UUaeJwIr
+   P8o0qF9nZUTbfEJD0Uq3FLjGDrQ9rk1MAgv7dJ7FbO0hbQbBQhDZe2xz8
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10682"; a="82111060"
+X-IronPort-AV: E=Sophos;i="5.99,203,1677510000"; 
+   d="scan'208";a="82111060"
+Received: from mail-tycjpn01lp2175.outbound.protection.outlook.com (HELO JPN01-TYC-obe.outbound.protection.outlook.com) ([104.47.23.175])
+  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 16:37:45 +0900
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kBE1O8w9dL9TnOz0fUYAjP/f2uShMnQqRAbG3SFX56PhUGqzBggTx+CHL/D8z2sW0e1xJmtdzkNvTgIzBTnBnII0eJqaHvIbjr3eCjxhsBTuVQGRpmTK4zKSYaTtKC0JmmxolS36oMkLYIX26I7dHrVk9No/V6coBVuOXNI9je/LzVQztDTgYIwRPvOQA2i+jMkqg1S7u6AIgdrVSff3BtQ2/N0ZF7+HuilG396WrDgDlQyneBfQqJ058EXtgmjs6BzhXVku/uiaHzUYaEBdntwSDoV6sY8JVi0c6RBd11+rG3BKflPZ+kA25I9GWQwXImKu70WZYu3hR3kQy+zkyQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=y8L+EPMFJfxJXAyo2Fyt9ypBdus5YiqA2/pOVCrytt8=;
+ b=cP9nxFPDEscaTV07kIqR/jRHkAFt08ME0347Lkp8dvT6H1dIHpEKTTZaFR+yjm1vxK83TWQGbK6cSnur+UaOHvKM/97Y4TaN6ipBggsjWfb3md4IOfoDkHNv8N7yD0j/xiCHVtZICQsYkZbeMqSt1f9s0KQFcY+avA/5FgWHuU1tr/TGwxX6hE+39gADSh6fR6hsGIZg6fu+GNWj16B3u1gDuQfzP3ArFAmKj9K0jDBDHKNCzNsXtjrwBjsHDQnTDWoZnTnPLy/CVF0MTg32eZtvpXP/SctuuWq8J0TTIP3vHm41W7e/6TWnIb4iONuEFn0kB6l1y8RtVJdUcO18WA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+Received: from OSBPR01MB1845.jpnprd01.prod.outlook.com (2603:1096:603:5::13)
+ by OSZPR01MB8545.jpnprd01.prod.outlook.com (2603:1096:604:18a::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.45; Mon, 17 Apr
+ 2023 07:37:41 +0000
+Received: from OSBPR01MB1845.jpnprd01.prod.outlook.com
+ ([fe80::d0c8:d828:b11:7d9e]) by OSBPR01MB1845.jpnprd01.prod.outlook.com
+ ([fe80::d0c8:d828:b11:7d9e%5]) with mapi id 15.20.6298.045; Mon, 17 Apr 2023
+ 07:37:40 +0000
+From: "Mingyu Wang (Fujitsu)" <wangmy@fujitsu.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [oe] [meta-oe] [PATCH] tcsh: upgrade 6.24.07 -> 6.24.10
+Thread-Topic: [oe] [meta-oe] [PATCH] tcsh: upgrade 6.24.07 -> 6.24.10
+Thread-Index: AQHZcPsB1KrDQmOawU6QrRSIU1UPM68vHLmQ
+Date: Mon, 17 Apr 2023 07:37:40 +0000
+Message-ID: 
+ <OSBPR01MB1845BE4DF795DBA5E75FDDEBDC9C9@OSBPR01MB1845.jpnprd01.prod.outlook.com>
+References: <1681715072-18848-1-git-send-email-wangmy@fujitsu.com>
+ <1681715072-18848-2-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1681715072-18848-2-git-send-email-wangmy@fujitsu.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ =?utf-8?B?TVNJUF9MYWJlbF9hNzI5NWNjMS1kMjc5LTQyYWMtYWI0ZC0zYjBmNGZlY2Uw?=
+ =?utf-8?B?NTBfQWN0aW9uSWQ9MjQ1MjZkNmQtOWM1Yi00YTIyLTllMTMtYmMxMzhhMGYx?=
+ =?utf-8?B?Y2IzO01TSVBfTGFiZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQtM2IwZjRm?=
+ =?utf-8?B?ZWNlMDUwX0NvbnRlbnRCaXRzPTA7TVNJUF9MYWJlbF9hNzI5NWNjMS1kMjc5?=
+ =?utf-8?B?LTQyYWMtYWI0ZC0zYjBmNGZlY2UwNTBfRW5hYmxlZD10cnVlO01TSVBfTGFi?=
+ =?utf-8?B?ZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQtM2IwZjRmZWNlMDUwX01ldGhv?=
+ =?utf-8?B?ZD1TdGFuZGFyZDtNU0lQX0xhYmVsX2E3Mjk1Y2MxLWQyNzktNDJhYy1hYjRk?=
+ =?utf-8?B?LTNiMGY0ZmVjZTA1MF9OYW1lPUZVSklUU1UtUkVTVFJJQ1RFRO+/ou++gA==?=
+ =?utf-8?B?776LO01TSVBfTGFiZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQtM2IwZjRm?=
+ =?utf-8?B?ZWNlMDUwX1NldERhdGU9MjAyMy0wNC0xN1QwNzozNjozN1o7TVNJUF9MYWJl?=
+ =?utf-8?B?bF9hNzI5NWNjMS1kMjc5LTQyYWMtYWI0ZC0zYjBmNGZlY2UwNTBfU2l0ZUlk?=
+ =?utf-8?Q?=3Da19f121d-81e1-4858-a9d8-736e267fd4c7;?=
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fujitsu.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OSBPR01MB1845:EE_|OSZPR01MB8545:EE_
+x-ms-office365-filtering-correlation-id: 1b5fedd1-1eef-43c5-5949-08db3f169f7f
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ lQXhrGliMt2wj8qgOp8dNUNOJjUbnp6GpoqG764a6NFQ571fN53DArrlFZVw4YDZpEhpGr6F2KdG6qI68+/nRdg83yPb8z7gH5LWOojRoGxxQ3mILj+PbYo0b4kd3XwMFyGD0TsJl8hlEBIh/t5/d5pXaXcqKVyuajMc7V47aSdVmNa2c5DDZBqf7nlYU59uL6qRgOBDSGx9ygSRbFXwXX73FYyO/OgtnylvdS8jbGCTVuNCG6SOyKfUsAPcT2yHk4GiGdKs8Rki7HZrkKYPKZt6F849yk02Nx/10kkH+zg2mpb+ClJjcR2WkxleScoTFQ/b3bxib/QS/4VQmtB234Ra3XqDEFUuMgRsjO2WPKPhnr+bj87RcwM9DAQ51Z+o4Pa/t+iNECDBUwM2LMlhU5AUQTgqxvZI001MXuedH8kzf3okZ6AigFMGQrBqNYk3Wb+CdXRszHq+NQe9rfd0X38StYZ7Qf817Fh7QoJrIHFHVgpHTFbkNHsRyWd1Ow0z2WT1w37bTDIv2Fd3i654FlmJ0wVKmIPFf7mt6vDfj+s+4IFwsq/SdYUzxiEFflcCGl0YZGTBAGxD9fMj2CLv34HhROLdgEYgvz3YWvvb0+cKzoQUc0DpX6cwXmDIpWBd
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSBPR01MB1845.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(396003)(376002)(39860400002)(366004)(136003)(1590799018)(451199021)(86362001)(8676002)(8936002)(7696005)(1580799015)(966005)(55016003)(5660300002)(52536014)(83380400001)(122000001)(38100700002)(38070700005)(186003)(85182001)(6506007)(53546011)(26005)(9686003)(478600001)(82960400001)(6916009)(66556008)(66476007)(76116006)(66446008)(64756008)(66946007)(2906002)(33656002)(71200400001)(41300700001)(316002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?S3BTWnIwdnRCcHlXSFJ1ZFp3Q0xIUjgxTFlYdTltM0xuam1yM1pqd3hHNnJp?=
+ =?utf-8?B?Mmg3MHdLVGNKT2c0VjFDV1JvdDBpSWdncW1JaWJ4dG1aL0VnU3c2Q3lUUUox?=
+ =?utf-8?B?U1A3NnNBTkpIYVZXdEJ3QjlkaHFpbWNyRjNEUGx6N05tRThLZXViOG5BRDZy?=
+ =?utf-8?B?ckx2NXFjYjFiSUFEZzhuNGxXZEkyMk5Rb2kyQ2VtWkk3RnpOSGxGMm83b09q?=
+ =?utf-8?B?NjM4WG4vUEhYRW5nUmhXeFNxTkdPTTAvMTYxMzdvd3Q0MW5WV3E1S2NzaHJW?=
+ =?utf-8?B?MXcvZ1ZPYzgxU1E5UXFxWnZlOWUrT1pZZWZrVUZwOTNJazAyOTZncEplWHRi?=
+ =?utf-8?B?RzRzTmRFWXJkV2ZPNEtQSlJkcUZqM2tUcmNvTlNOOUgwZ3lWYzNCamZNRGxZ?=
+ =?utf-8?B?Rkc5bDdqVk0wMTJVeW4zdmVLSEcrdEhkVGh6YzlYVHRGT0QrV0haNy9jelB6?=
+ =?utf-8?B?L0p6RFBBdWJLU2ExSW1leXhUNzQ0VXBZYm5yQ0pWR3hML3FuU0gvMjFteWg4?=
+ =?utf-8?B?SDBjZmlsM04vUEpqUG1TOW1wMzRrS0t0WDQ0end3bkF4VmVXa1EzVGE0VWVp?=
+ =?utf-8?B?Y3UrK29PWDJGcFpzTGExQ0g5VlhqSWZnazJBblQ1dlg5QW0zYWdOWXFqRDhY?=
+ =?utf-8?B?d01iRmI0WkVVejdlR1ZLMndER3VmdkFwditXU3VETXZsOGZtYW1OdzdWUXJa?=
+ =?utf-8?B?K2tXTVdtU2kram1xemJteEV5aFFVWDBJRDZyTHpNQXJlYzl4R2VPajREcVcv?=
+ =?utf-8?B?c0ZvTHp0WlJ2V2tQVlJVZVYxcHVhQSs3MFF5KzdpbWFXMFN4Sjl4SmJDdjly?=
+ =?utf-8?B?T1duZFlCTFYzN0VJQmhkbG9lL0FXSlNUTUJ2Z2RBRGxRRTBmR2pJQzNZbnJ1?=
+ =?utf-8?B?KzJDY3Ztci9MbVpIZ0FwbDlhKzBhWWM2THFtUm8yZUIwSEZpMFNWVklLcG9I?=
+ =?utf-8?B?WjE5ckgwQUFVUkx3L3dibXIwbDlFVGduajhmTWt1a1RIbWphNVM0TWxQcmgy?=
+ =?utf-8?B?MStKdEh4dlA2SjZzQ3pJTnR5WFlidkt5Y2trWDB3TFlJcnBWUko4UUEwL1V0?=
+ =?utf-8?B?TmtmdXdRUG5qT281VmttQTgwYVdmRDNDRFZBTFBjN2xKVHdsNllJcS9sbkc2?=
+ =?utf-8?B?dG10NGJLWDBWenpaaEcwQ0dOS0NJWTVBZDBCYkppdjd4eUlnRWh4akltZy9N?=
+ =?utf-8?B?MjhpSjFIb0NEVm5xaFlhT1g3STFCaFJGa3ZxUEs2UXNidXg0Nm9mMFREM3N3?=
+ =?utf-8?B?OWI5VGRSLzAvc2tBbVg5dWpwdmlUY3JhNldzZkkwc29jTW9mMEVWcDYxRCtQ?=
+ =?utf-8?B?T2orb3RqTWFvMU5WNjZIc1dEa3dXbGlDZnd0bVBlRWJKdFFnb2R3ZUpteDRD?=
+ =?utf-8?B?YUZOd2IyRWxDaFE5b3NDSzBJTzY1Z2x1ZGVkdFRicVlwblo1SEp2VUw5by9y?=
+ =?utf-8?B?dnFzdDNwWVpMdU5PYVI3NEdGNnBoSEZpSWRBS3JCaTVqNzF5UWlFam9iRXQr?=
+ =?utf-8?B?azU2VHJSSFgrRGJadWkrMStBQ1JZdFFnSnBDK29scE9WdXUyT2kwdy9ib3Jn?=
+ =?utf-8?B?QisxWFpuWDFTdk1vc0JHekxDL3k2M2xaR2tUckVoRVo1dnNWWWZzbHBUQWh1?=
+ =?utf-8?B?NVdrQldCN1BiUDlVQlVWRHhjRHZ4ZVZUMDFSWmNoOTByeUVreUpQamttbHVa?=
+ =?utf-8?B?R0dGMkFXeGIzeFovdDRhT1RoNUFuMkQyeEQvNlBMcldPRXhVajkwUHpOKzFH?=
+ =?utf-8?B?TGxMS21wRkFrUkJYN1VtTlZMSi9KaXBUTzNJRC9kWitxaGR2T2E5NUxOeXZ3?=
+ =?utf-8?B?ZmtyZHdkSVBoUXhMMHZ4ZWgxZ1M5RDZ3ZGJqZmxQOEh6bW1HazRHdksyZG1M?=
+ =?utf-8?B?UC84YTZLaytEY1RwK203R2YyU3hYQmlhSm4rUER0d0JFNmF5SHpmekVMSjVF?=
+ =?utf-8?B?SFVsTTRkenhRQWN4N2p0Qm15OUNhVzI3bHY1bmZ4ZWpWckprL2E4cndiZlZW?=
+ =?utf-8?B?WlFvZTFyVG1CTitnQ08vaCtkK0pKRmFweGJURzZQYkc3MlR0YlRWb01TTkFU?=
+ =?utf-8?B?ZHBwYnkxdzBaaHZXOGZXTWNUQThaWW4yMVR1bHVEM3BDRHBKcjIrekVnOFFR?=
+ =?utf-8?Q?85EM=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	PWwoY3gCKhMo5q707wrIhkzgQIqrgBdkUm78yvV8xtOCj6DrtqpdZIapuMx6PBe+D0iT1//TkGrQHXv/HVq4lNDHyv0OkGHEyAscS73LEEoFDWq/XXK/CexVAJvhVQqVDlv5WcBg0Iiq6EgUzWsNJ+waPjONCHH2+VeQSV4vqRj1jzeSB7wXrqrV6vyWunpyL859/gAfRkyPz7v/F05zeHiYjkk4FF1yI330s7R31SdiwaUNCBKP9VrNBaPUkVPzXuohqr3T5IC+jDQupfzZXxFlwnxJMB/gpFIWprWyorNQnkPz6/Re5vEqyCAe3wa6np96XYOOLB5tEHYVlMcJ22hW4P0tGJL1H6i2Q0puYzGrgu4jHMt+8OQgEeS01Ye2zLsp3C1ouAZgwHPfM63kp+y/A3SYCGcFMlZYQBgsqUgRTAenbzMEWPPHDbb5suEFtsCMxZdISPavoUesLi4WKIVQiQDoDAzXmW5xV/9ogA5zFqZ+hP+aXUjcqe2kTvrMzGcnUpY4X05Cq16B4vryKm+3upqSOKvnfO1q9qqBnIEtobYEdZATJnJaD++QAkXNC7MSiAa4LpXLvygNtQ+QIiQNtrtXrCAUOchQBppZdrQR2pXmwB8/miJLqLDBs/RkxP1Ax1oYhYLDjtm72dyOMMLydivJux6pJIJLnkY6xbcETZV9E63i34I97oHBdGObb0d7Ghazn7nAJnqfoZ82AGSB5gjTdcSTMQw4LHQbgqQSi3KfeoJgvyD5F5aPfzRkTuD5XSR/UDJvmNm/MN8ELM90SGsv3zU2pcHdSJZ3QVY=
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OSBPR01MB1845.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1b5fedd1-1eef-43c5-5949-08db3f169f7f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Apr 2023 07:37:40.0461
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: irg5avZlK+2rlS+ULxQ6XWRwsWgsUxJf2NWP/sQHd2BBjnU88ivCvqMEMgmI9vVJdXsm4vdhwmEBmp5IoSWXRQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB8545
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Apr 2023 07:31:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180143
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Apr 2023 07:37:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180144
 
-From: Siddharth Doshi <sdoshi@mvista.com>
-
-Upstream-Status: Backport from [https://github.com/curl/curl/commit/ed5095ed94281989e103c72e032200b83be37878, https://github.com/curl/curl/commit/8f4608468b890dce2dad9f91d5607ee7e9c1aba1, https://github.com/curl/curl/commit/af369db4d3833272b8ed443f7fcc2e757a0872eb, https://github.com/curl/curl/commit/af369db4d3833272b8ed443f7fcc2e757a0872eb]
-
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
----
- .../curl/curl/CVE-2023-27535-pre1.patch       | 196 ++++++++++++++++++
- .../CVE-2023-27535_and_CVE-2023-27538.patch   | 170 +++++++++++++++
- .../curl/curl/CVE-2023-27536.patch            |  52 +++++
- meta/recipes-support/curl/curl_7.82.0.bb      |   3 +
- 4 files changed, 421 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-27535-pre1.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-27535_and_CVE-2023-27538.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-27536.patch
-
-diff --git a/meta/recipes-support/curl/curl/CVE-2023-27535-pre1.patch b/meta/recipes-support/curl/curl/CVE-2023-27535-pre1.patch
-new file mode 100644
-index 0000000000..57e1cb9e13
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2023-27535-pre1.patch
-@@ -0,0 +1,196 @@
-+From ed5095ed94281989e103c72e032200b83be37878 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Thu, 6 Oct 2022 00:49:10 +0200
-+Subject: [PATCH] strcase: add and use Curl_timestrcmp
-+
-+This is a strcmp() alternative function for comparing "secrets",
-+designed to take the same time no matter the content to not leak
-+match/non-match info to observers based on how fast it is.
-+
-+The time this function takes is only a function of the shortest input
-+string.
-+
-+Reported-by: Trail of Bits
-+
-+Closes #9658
-+
-+Upstream-Status: Backport from [https://github.com/curl/curl/commit/ed5095ed94281989e103c72e032200b83be37878]
-+Comment: to backport fix for CVE-2023-27535, add function Curl_timestrcmp.
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ lib/netrc.c             |  6 +++---
-+ lib/strcase.c           | 22 ++++++++++++++++++++++
-+ lib/strcase.h           |  1 +
-+ lib/url.c               | 33 +++++++++++++--------------------
-+ lib/vauth/digest_sspi.c |  4 ++--
-+ lib/vtls/vtls.c         |  4 ++--
-+ 6 files changed, 43 insertions(+), 27 deletions(-)
-+
-+diff --git a/lib/netrc.c b/lib/netrc.c
-+index 0a4ae2c..b771b60 100644
-+--- a/lib/netrc.c
-++++ b/lib/netrc.c
-+@@ -140,9 +140,9 @@ static int parsenetrc(const char *host,
-+           /* we are now parsing sub-keywords concerning "our" host */
-+           if(state_login) {
-+             if(specific_login) {
-+-              state_our_login = strcasecompare(login, tok);
-++              state_our_login = !Curl_timestrcmp(login, tok);
-+             }
-+-            else if(!login || strcmp(login, tok)) {
-++            else if(!login || Curl_timestrcmp(login, tok)) {
-+               if(login_alloc) {
-+                 free(login);
-+                 login_alloc = FALSE;
-+@@ -158,7 +158,7 @@ static int parsenetrc(const char *host,
-+           }
-+           else if(state_password) {
-+             if((state_our_login || !specific_login)
-+-                && (!password || strcmp(password, tok))) {
-++               && (!password || Curl_timestrcmp(password, tok))) {
-+               if(password_alloc) {
-+                 free(password);
-+                 password_alloc = FALSE;
-+diff --git a/lib/strcase.c b/lib/strcase.c
-+index 692a3f1..be085b3 100644
-+--- a/lib/strcase.c
-++++ b/lib/strcase.c
-+@@ -141,6 +141,28 @@ bool Curl_safecmp(char *a, char *b)
-+   return !a && !b;
-+ }
-+ 
-++/*
-++ * Curl_timestrcmp() returns 0 if the two strings are identical. The time this
-++ * function spends is a function of the shortest string, not of the contents.
-++ */
-++int Curl_timestrcmp(const char *a, const char *b)
-++{
-++  int match = 0;
-++  int i = 0;
-++
-++  if(a && b) {
-++    while(1) {
-++      match |= a[i]^b[i];
-++      if(!a[i] || !b[i])
-++        break;
-++      i++;
-++    }
-++  }
-++  else
-++    return a || b;
-++  return match;
-++}
-++
-+ /* --- public functions --- */
-+ 
-+ int curl_strequal(const char *first, const char *second)
-+diff --git a/lib/strcase.h b/lib/strcase.h
-+index 382b80a..c6979da 100644
-+--- a/lib/strcase.h
-++++ b/lib/strcase.h
-+@@ -48,5 +48,6 @@ void Curl_strntoupper(char *dest, const char *src, size_t n);
-+ void Curl_strntolower(char *dest, const char *src, size_t n);
-+ 
-+ bool Curl_safecmp(char *a, char *b);
-++int Curl_timestrcmp(const char *first, const char *second);
-+ 
-+ #endif /* HEADER_CURL_STRCASE_H */
-+diff --git a/lib/url.c b/lib/url.c
-+index df4377d..c397b57 100644
-+--- a/lib/url.c
-++++ b/lib/url.c
-+@@ -930,19 +930,10 @@ socks_proxy_info_matches(const struct proxy_info *data,
-+   /* the user information is case-sensitive
-+      or at least it is not defined as case-insensitive
-+      see https://datatracker.ietf.org/doc/html/rfc3986#section-3.2.1 */
-+-  if(!data->user != !needle->user)
-+-    return FALSE;
-+-  /* curl_strequal does a case insentive comparison, so do not use it here! */
-+-  if(data->user &&
-+-     needle->user &&
-+-     strcmp(data->user, needle->user) != 0)
-+-    return FALSE;
-+-  if(!data->passwd != !needle->passwd)
-+-    return FALSE;
-++
-+   /* curl_strequal does a case insentive comparison, so do not use it here! */
-+-  if(data->passwd &&
-+-     needle->passwd &&
-+-     strcmp(data->passwd, needle->passwd) != 0)
-++  if(Curl_timestrcmp(data->user, needle->user) ||
-++     Curl_timestrcmp(data->passwd, needle->passwd))
-+     return FALSE;
-+   return TRUE;
-+ }
-+@@ -1341,10 +1332,10 @@ ConnectionExists(struct Curl_easy *data,
-+       if(!(needle->handler->flags & PROTOPT_CREDSPERREQUEST)) {
-+         /* This protocol requires credentials per connection,
-+            so verify that we're using the same name and password as well */
-+-        if(strcmp(needle->user, check->user) ||
-+-           strcmp(needle->passwd, check->passwd) ||
-+-           !Curl_safecmp(needle->sasl_authzid, check->sasl_authzid) ||
-+-           !Curl_safecmp(needle->oauth_bearer, check->oauth_bearer)) {
-++        if(Curl_timestrcmp(needle->user, check->user) ||
-++           Curl_timestrcmp(needle->passwd, check->passwd) ||
-++           Curl_timestrcmp(needle->sasl_authzid, check->sasl_authzid) ||
-++           Curl_timestrcmp(needle->oauth_bearer, check->oauth_bearer)) {
-+           /* one of them was different */
-+           continue;
-+         }
-+@@ -1420,8 +1411,8 @@ ConnectionExists(struct Curl_easy *data,
-+            possible. (Especially we must not reuse the same connection if
-+            partway through a handshake!) */
-+         if(wantNTLMhttp) {
-+-          if(strcmp(needle->user, check->user) ||
-+-             strcmp(needle->passwd, check->passwd)) {
-++          if(Curl_timestrcmp(needle->user, check->user) ||
-++             Curl_timestrcmp(needle->passwd, check->passwd)) {
-+ 
-+             /* we prefer a credential match, but this is at least a connection
-+                that can be reused and "upgraded" to NTLM */
-+@@ -1443,8 +1434,10 @@ ConnectionExists(struct Curl_easy *data,
-+           if(!check->http_proxy.user || !check->http_proxy.passwd)
-+             continue;
-+ 
-+-          if(strcmp(needle->http_proxy.user, check->http_proxy.user) ||
-+-             strcmp(needle->http_proxy.passwd, check->http_proxy.passwd))
-++          if(Curl_timestrcmp(needle->http_proxy.user,
-++                             check->http_proxy.user) ||
-++             Curl_timestrcmp(needle->http_proxy.passwd,
-++                             check->http_proxy.passwd))
-+             continue;
-+         }
-+         else if(check->proxy_ntlm_state != NTLMSTATE_NONE) {
-+diff --git a/lib/vauth/digest_sspi.c b/lib/vauth/digest_sspi.c
-+index 94f8f8c..a413419 100644
-+--- a/lib/vauth/digest_sspi.c
-++++ b/lib/vauth/digest_sspi.c
-+@@ -429,8 +429,8 @@ CURLcode Curl_auth_create_digest_http_message(struct Curl_easy *data,
-+      has changed then delete that context. */
-+   if((userp && !digest->user) || (!userp && digest->user) ||
-+      (passwdp && !digest->passwd) || (!passwdp && digest->passwd) ||
-+-     (userp && digest->user && strcmp(userp, digest->user)) ||
-+-     (passwdp && digest->passwd && strcmp(passwdp, digest->passwd))) {
-++     (userp && digest->user && Curl_timestrcmp(userp, digest->user)) ||
-++     (passwdp && digest->passwd && Curl_timestrcmp(passwdp, digest->passwd))) {
-+     if(digest->http_context) {
-+       s_pSecFn->DeleteSecurityContext(digest->http_context);
-+       Curl_safefree(digest->http_context);
-+diff --git a/lib/vtls/vtls.c b/lib/vtls/vtls.c
-+index e2d3438..881c8d2 100644
-+--- a/lib/vtls/vtls.c
-++++ b/lib/vtls/vtls.c
-+@@ -146,8 +146,8 @@ Curl_ssl_config_matches(struct ssl_primary_config *data,
-+      Curl_safecmp(data->random_file, needle->random_file) &&
-+      Curl_safecmp(data->egdsocket, needle->egdsocket) &&
-+ #ifdef USE_TLS_SRP
-+-     Curl_safecmp(data->username, needle->username) &&
-+-     Curl_safecmp(data->password, needle->password) &&
-++     !Curl_timestrcmp(data->username, needle->username) &&
-++     !Curl_timestrcmp(data->password, needle->password) &&
-+      (data->authtype == needle->authtype) &&
-+ #endif
-+      Curl_safe_strcasecompare(data->cipher_list, needle->cipher_list) &&
-+-- 
-+2.35.7
-+
-diff --git a/meta/recipes-support/curl/curl/CVE-2023-27535_and_CVE-2023-27538.patch b/meta/recipes-support/curl/curl/CVE-2023-27535_and_CVE-2023-27538.patch
-new file mode 100644
-index 0000000000..4e701edfff
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2023-27535_and_CVE-2023-27538.patch
-@@ -0,0 +1,170 @@
-+From 8f4608468b890dce2dad9f91d5607ee7e9c1aba1 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Thu, 9 Mar 2023 17:47:06 +0100
-+Subject: [PATCH] ftp: add more conditions for connection reuse
-+
-+Reported-by: Harry Sintonen
-+Closes #10730
-+
-+Upstream-Status: Backport from [https://github.com/curl/curl/commit/8f4608468b890dce2dad9f91d5607ee7e9c1aba1, https://github.com/curl/curl/commit/af369db4d3833272b8ed443f7fcc2e757a0872eb]
-+Comment: Backport for CVE-2023-27535 also fixes CVE-2023-27538 in the file "lib/url.c".
-+CVE: CVE-2023-27535, CVE-2023-27538 
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ lib/ftp.c     | 28 ++++++++++++++++++++++++++--
-+ lib/ftp.h     |  5 +++++
-+ lib/setopt.c  |  2 +-
-+ lib/url.c     | 19 ++++++++++++++++---
-+ lib/urldata.h |  4 ++--
-+ 5 files changed, 50 insertions(+), 8 deletions(-)
-+
-+diff --git a/lib/ftp.c b/lib/ftp.c
-+index c6efaed..93bbaeb 100644
-+--- a/lib/ftp.c
-++++ b/lib/ftp.c
-+@@ -4097,6 +4097,8 @@ static CURLcode ftp_disconnect(struct Curl_easy *data,
-+   }
-+ 
-+   freedirs(ftpc);
-++  Curl_safefree(ftpc->account);
-++  Curl_safefree(ftpc->alternative_to_user);
-+   Curl_safefree(ftpc->prevpath);
-+   Curl_safefree(ftpc->server_os);
-+   Curl_pp_disconnect(pp);
-+@@ -4364,11 +4366,31 @@ static CURLcode ftp_setup_connection(struct Curl_easy *data,
-+ {
-+   char *type;
-+   struct FTP *ftp;
-++  struct ftp_conn *ftpc = &conn->proto.ftpc;
-+ 
-+-  data->req.p.ftp = ftp = calloc(sizeof(struct FTP), 1);
-++  ftp = calloc(sizeof(struct FTP), 1);
-+   if(!ftp)
-+     return CURLE_OUT_OF_MEMORY;
-+ 
-++  /* clone connection related data that is FTP specific */
-++  if(data->set.str[STRING_FTP_ACCOUNT]) {
-++    ftpc->account = strdup(data->set.str[STRING_FTP_ACCOUNT]);
-++    if(!ftpc->account) {
-++      free(ftp);
-++      return CURLE_OUT_OF_MEMORY;
-++    }
-++  }
-++  if(data->set.str[STRING_FTP_ALTERNATIVE_TO_USER]) {
-++    ftpc->alternative_to_user =
-++      strdup(data->set.str[STRING_FTP_ALTERNATIVE_TO_USER]);
-++    if(!ftpc->alternative_to_user) {
-++      Curl_safefree(ftpc->account);
-++      free(ftp);
-++      return CURLE_OUT_OF_MEMORY;
-++    }
-++  }
-++  data->req.p.ftp = ftp;
-++
-+   ftp->path = &data->state.up.path[1]; /* don't include the initial slash */
-+ 
-+   /* FTP URLs support an extension like ";type=<typecode>" that
-+@@ -4403,7 +4425,9 @@ static CURLcode ftp_setup_connection(struct Curl_easy *data,
-+   /* get some initial data into the ftp struct */
-+   ftp->transfer = PPTRANSFER_BODY;
-+   ftp->downloadsize = 0;
-+-  conn->proto.ftpc.known_filesize = -1; /* unknown size for now */
-++  ftpc->known_filesize = -1; /* unknown size for now */
-++  ftpc->use_ssl = data->set.use_ssl;
-++  ftpc->ccc = data->set.ftp_ccc;
-+ 
-+   return CURLE_OK;
-+ }
-+diff --git a/lib/ftp.h b/lib/ftp.h
-+index 1cfdac0..afca25b 100644
-+--- a/lib/ftp.h
-++++ b/lib/ftp.h
-+@@ -115,6 +115,8 @@ struct FTP {
-+    struct */
-+ struct ftp_conn {
-+   struct pingpong pp;
-++  char *account;
-++  char *alternative_to_user;
-+   char *entrypath; /* the PWD reply when we logged on */
-+   char *file;    /* url-decoded file name (or path) */
-+   char **dirs;   /* realloc()ed array for path components */
-+@@ -144,6 +146,9 @@ struct ftp_conn {
-+   ftpstate state; /* always use ftp.c:state() to change state! */
-+   ftpstate state_saved; /* transfer type saved to be reloaded after
-+                            data connection is established */
-++  unsigned char use_ssl;   /* if AUTH TLS is to be attempted etc, for FTP or
-++                              IMAP or POP3 or others! (type: curl_usessl)*/
-++  unsigned char ccc;       /* ccc level for this connection */
-+   curl_off_t retr_size_saved; /* Size of retrieved file saved */
-+   char *server_os;     /* The target server operating system. */
-+   curl_off_t known_filesize; /* file size is different from -1, if wildcard
-+diff --git a/lib/setopt.c b/lib/setopt.c
-+index 29a78a4..89d0150 100644
-+--- a/lib/setopt.c
-++++ b/lib/setopt.c
-+@@ -2304,7 +2304,7 @@ CURLcode Curl_vsetopt(struct Curl_easy *data, CURLoption option, va_list param)
-+     arg = va_arg(param, long);
-+     if((arg < CURLUSESSL_NONE) || (arg >= CURLUSESSL_LAST))
-+       return CURLE_BAD_FUNCTION_ARGUMENT;
-+-    data->set.use_ssl = (curl_usessl)arg;
-++    data->set.use_ssl = (unsigned char)arg;
-+     break;
-+ 
-+   case CURLOPT_SSL_OPTIONS:
-+diff --git a/lib/url.c b/lib/url.c
-+index c397b57..280171c 100644
-+--- a/lib/url.c
-++++ b/lib/url.c
-+@@ -1347,11 +1347,24 @@ ConnectionExists(struct Curl_easy *data,
-+          (check->httpversion >= 20) &&
-+          (data->state.httpwant < CURL_HTTP_VERSION_2_0))
-+         continue;
-+-
-+-      if(get_protocol_family(needle->handler) == PROTO_FAMILY_SSH) {
-+-        if(!ssh_config_matches(needle, check))
-++#ifdef USE_SSH
-++      else if(get_protocol_family(needle->handler) & PROTO_FAMILY_SSH) {
-++      if(!ssh_config_matches(needle, check))
-+           continue;
-+       }
-++#endif
-++#ifndef CURL_DISABLE_FTP
-++      else if(get_protocol_family(needle->handler) & PROTO_FAMILY_FTP) {
-++        /* Also match ACCOUNT, ALTERNATIVE-TO-USER, USE_SSL and CCC options */
-++        if(Curl_timestrcmp(needle->proto.ftpc.account,
-++                           check->proto.ftpc.account) ||
-++           Curl_timestrcmp(needle->proto.ftpc.alternative_to_user,
-++                           check->proto.ftpc.alternative_to_user) ||
-++           (needle->proto.ftpc.use_ssl != check->proto.ftpc.use_ssl) ||
-++           (needle->proto.ftpc.ccc != check->proto.ftpc.ccc))
-++          continue;
-++      }
-++#endif
-+ 
-+       if((needle->handler->flags&PROTOPT_SSL)
-+ #ifndef CURL_DISABLE_PROXY
-+diff --git a/lib/urldata.h b/lib/urldata.h
-+index 69eb2ee..6e6122a 100644
-+--- a/lib/urldata.h
-++++ b/lib/urldata.h
-+@@ -1748,8 +1748,6 @@ struct UserDefined {
-+   enum CURL_NETRC_OPTION
-+        use_netrc;        /* defined in include/curl.h */
-+ #endif
-+-  curl_usessl use_ssl;   /* if AUTH TLS is to be attempted etc, for FTP or
-+-                            IMAP or POP3 or others! */
-+   long new_file_perms;    /* Permissions to use when creating remote files */
-+   long new_directory_perms; /* Permissions to use when creating remote dirs */
-+   long ssh_auth_types;   /* allowed SSH auth types */
-+@@ -1877,6 +1875,8 @@ struct UserDefined {
-+   BIT(http09_allowed); /* allow HTTP/0.9 responses */
-+   BIT(mail_rcpt_allowfails); /* allow RCPT TO command to fail for some
-+                                 recipients */
-++  unsigned char use_ssl;   /* if AUTH TLS is to be attempted etc, for FTP or
-++                              IMAP or POP3 or others! (type: curl_usessl)*/
-+ };
-+ 
-+ struct Names {
-+-- 
-+2.35.7
-+
-diff --git a/meta/recipes-support/curl/curl/CVE-2023-27536.patch b/meta/recipes-support/curl/curl/CVE-2023-27536.patch
-new file mode 100644
-index 0000000000..fb3ee6a14d
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2023-27536.patch
-@@ -0,0 +1,52 @@
-+From cb49e67303dbafbab1cebf4086e3ec15b7d56ee5 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Fri, 10 Mar 2023 09:22:43 +0100
-+Subject: [PATCH] url: only reuse connections with same GSS delegation
-+
-+Upstream-Status: Backport from [https://github.com/curl/curl/commit/af369db4d3833272b8ed443f7fcc2e757a0872eb]
-+CVE: CVE-2023-27536
-+Signed-off-by: Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ lib/url.c     | 6 ++++++
-+ lib/urldata.h | 1 +
-+ 2 files changed, 7 insertions(+)
-+
-+diff --git a/lib/url.c b/lib/url.c
-+index 280171c..c6413a1 100644
-+--- a/lib/url.c
-++++ b/lib/url.c
-+@@ -1341,6 +1341,11 @@ ConnectionExists(struct Curl_easy *data,
-+         }
-+       }
-+ 
-++      /* GSS delegation differences do not actually affect every connection
-++         and auth method, but this check takes precaution before efficiency */
-++      if(needle->gssapi_delegation != check->gssapi_delegation)
-++        continue;
-++
-+       /* If multiplexing isn't enabled on the h2 connection and h1 is
-+          explicitly requested, handle it: */
-+       if((needle->handler->protocol & PROTO_FAMILY_HTTP) &&
-+@@ -1813,6 +1818,7 @@ static struct connectdata *allocate_conn(struct Curl_easy *data)
-+   conn->fclosesocket = data->set.fclosesocket;
-+   conn->closesocket_client = data->set.closesocket_client;
-+   conn->lastused = Curl_now(); /* used now */
-++  conn->gssapi_delegation = data->set.gssapi_delegation;
-+ 
-+   return conn;
-+   error:
-+diff --git a/lib/urldata.h b/lib/urldata.h
-+index 6e6122a..602c735 100644
-+--- a/lib/urldata.h
-++++ b/lib/urldata.h
-+@@ -1131,6 +1131,7 @@ struct connectdata {
-+   int socks5_gssapi_enctype;
-+ #endif
-+   unsigned short localport;
-++  long gssapi_delegation; /* inherited from set.gssapi_delegation */
-+ };
-+ 
-+ /* The end of connectdata. */
-+-- 
-+2.35.7
-diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-index 4c18afe293..70ceb9f370 100644
---- a/meta/recipes-support/curl/curl_7.82.0.bb
-+++ b/meta/recipes-support/curl/curl_7.82.0.bb
-@@ -42,6 +42,9 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2023-23916.patch \
-            file://CVE-2023-27533.patch \
-            file://CVE-2023-27534.patch \
-+           file://CVE-2023-27535-pre1.patch \
-+           file://CVE-2023-27535_and_CVE-2023-27538.patch \
-+           file://CVE-2023-27536.patch \
-            "
- SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
- 
--- 
-2.25.1
-
+U29ycnksIHRoZSBlbWFpbCBhZGRyZXNzIHdhcyB3cml0dGVuIGluY29ycmVjdGx5IHdoZW4gc2Vu
+ZGluZyB0aGUgcGF0Y2guIA0KVGhlIGVtYWlscyBvZiBtZXRhLW9lIHdlcmUgc2VudCBoZXJlLCBw
+bGVhc2UgaWdub3JlIHRoZW4uDQrCoCAtLQ0KQmVzdCBSZWdhcmRzDQotLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCldhbmcgTWluZ3l1DQpEZXZlbG9w
+bWVudCBEZXB0LkkNCk5hbmppbmcgRnVqaXRzdSBOYW5kYSBTb2Z0d2FyZSBUZWNoLiBDby4sIEx0
+ZC4oRk5TVCkgTm8uIDYgV2Vuemh1IFJvYWQsIE5hbmppbmcsIDIxMDAxMiwgQ2hpbmENClRFTDog
+Kzg2KzI1LTg2NjMwNTY2LTg1NjgNCkNPSU5TOiA3OTk4ODU0OA0KRkFYOiArODYrMjUtODMzMTc2
+ODUNCk1BSUw6IHdhbmdteUBmdWppdHN1LmNvbQ0KaHR0cDovL3d3dy5mdWppdHN1LmNvbS9jbi9m
+bnN0Lw0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IFdhbmcsIE1pbmd5
+dS/njosg6bij55GcIDx3YW5nbXlAZnVqaXRzdS5jb20+DQo+IFNlbnQ6IE1vbmRheSwgQXByaWwg
+MTcsIDIwMjMgMzowNSBQTQ0KPiBUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZw0KPiBDYzogV2FuZywgTWluZ3l1L+eOiyDpuKPnkZwgPHdhbmdteUBmdWppdHN1LmNv
+bT4NCj4gU3ViamVjdDogW29lXSBbbWV0YS1vZV0gW1BBVENIXSB0Y3NoOiB1cGdyYWRlIDYuMjQu
+MDcgLT4gNi4yNC4xMA0KPiANCj4gRnJvbTogV2FuZyBNaW5neXUgPHdhbmdteUBmdWppdHN1LmNv
+bT4NCj4gDQo+IENoYW5nZWxvZzoNCj4gICAgLSBBdm9pZCBub24tZGVmYXVsdCBzZXR0aW5ncyBp
+biBzeXN0ZW0td2lkZSBpbml0IGZpbGVzLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogV2FuZyBNaW5n
+eXUgPHdhbmdteUBmdWppdHN1LmNvbT4NCj4gLS0tDQo+ICAuLi4vcmVjaXBlcy1zaGVsbHMvdGNz
+aC97dGNzaF82LjI0LjA3LmJiID0+IHRjc2hfNi4yNC4xMC5iYn0gICAgfCAyICstDQo+ICAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkgIHJlbmFtZQ0KPiBtZXRh
+LW9lL3JlY2lwZXMtc2hlbGxzL3Rjc2gve3Rjc2hfNi4yNC4wNy5iYiA9PiB0Y3NoXzYuMjQuMTAu
+YmJ9ICg5NCUpDQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS1vZS9yZWNpcGVzLXNoZWxscy90Y3No
+L3Rjc2hfNi4yNC4wNy5iYg0KPiBiL21ldGEtb2UvcmVjaXBlcy1zaGVsbHMvdGNzaC90Y3NoXzYu
+MjQuMTAuYmINCj4gc2ltaWxhcml0eSBpbmRleCA5NCUNCj4gcmVuYW1lIGZyb20gbWV0YS1vZS9y
+ZWNpcGVzLXNoZWxscy90Y3NoL3Rjc2hfNi4yNC4wNy5iYg0KPiByZW5hbWUgdG8gbWV0YS1vZS9y
+ZWNpcGVzLXNoZWxscy90Y3NoL3Rjc2hfNi4yNC4xMC5iYg0KPiBpbmRleCBmMTM2YzA2YjcuLmFi
+ZWI2ZTgwMyAxMDA2NDQNCj4gLS0tIGEvbWV0YS1vZS9yZWNpcGVzLXNoZWxscy90Y3NoL3Rjc2hf
+Ni4yNC4wNy5iYg0KPiArKysgYi9tZXRhLW9lL3JlY2lwZXMtc2hlbGxzL3Rjc2gvdGNzaF82LjI0
+LjEwLmJiDQo+IEBAIC0xMyw3ICsxMyw3IEBAIFNSQ19VUkkgPSAiIFwNCj4gICAgICBmaWxlOi8v
+MDAwMS1FbmFibGUtc3lzdGVtLW1hbGxvYy1vbi1hbGwtbGludXgucGF0Y2ggXA0KPiAgICAgIGZp
+bGU6Ly8wMDAyLUFkZC1kZWJpYW4tY3NoLXNjcmlwdHMucGF0Y2ggXCAgIg0KPiAtU1JDX1VSSVtz
+aGEyNTZzdW1dID0NCj4gIjc0ZTRlOTgwNWNiZDk0MTNlZDM0YjRmZmExZDcyZmM4ZDBlZjgxYTVi
+Nzk0NzY4NTQwOTE0MTZjZTkzMzY5OTUiDQo+ICtTUkNfVVJJW3NoYTI1NnN1bV0gPQ0KPiAiMTM0
+NzVjMGZiZWI3NDEzOWQzM2VkNzkzYmYwMGZmYmJiMmFjMmRjOWZiMWQ0NDQ2N2E0MTA3NjBhYmEz
+NjY2NCINCj4gDQo+ICBFWFRSQV9PRU1BS0UgKz0gIkNDX0ZPUl9HRVRIT1NUPScke0JVSUxEX0ND
+fSciDQo+ICBpbmhlcml0IGF1dG90b29scw0KPiAtLQ0KPiAyLjM0LjENCg0K
 
