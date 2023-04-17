@@ -1,187 +1,152 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <christoph.lauer@email.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69C2BC77B7A
-	for <webhook@archiver.kernel.org>; Mon, 17 Apr 2023 16:42:31 +0000 (UTC)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.web11.767.1681749742238322906
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B32C3C77B76
+	for <webhook@archiver.kernel.org>; Mon, 17 Apr 2023 17:54:51 +0000 (UTC)
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+ by mx.groups.io with SMTP id smtpd.web10.3113.1681754083523843211
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Apr 2023 09:42:22 -0700
+ Mon, 17 Apr 2023 10:54:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=1oomhmZ8;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.48, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-506b8c6bbdbso75727a12.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Apr 2023 09:42:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1681749740; x=1684341740;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YBvNh/QZc+fpQPqLXKyugnxXE4dEIjpvXDv8tng0VVs=;
-        b=1oomhmZ8ITQ5gtI/xCnmtCr0FdtBz3px1ifiSaI7OBAPM7YrfEuQy9vrIkhIQdfwLH
-         1jPTsUVeOtDBU+YaC8Tr7syOIuA+7m9ao7n+GTwZVAnHynco4xx1x7zEPFIz4H6G3n0o
-         c6yD5gAHfjCIEGCITm6eweVFac/2bZ//88mfW5sdX1Mz6MoUbYDi/1plqrY+Pxvulk+B
-         g6A0E4iGUTACy4hsVOuKLhkybXovlPBKha/nnkFq0HK5Az2V1bEMExZgYF9dZ0BUcz+K
-         1J0bZh94/6WMr2aMSFa5XHdS7kICENRWg6qMRZ9vFS3UTapjY5/+trWWoC5cOTavSZHO
-         vMrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681749740; x=1684341740;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YBvNh/QZc+fpQPqLXKyugnxXE4dEIjpvXDv8tng0VVs=;
-        b=GyIEstc6itxJfI3v9/ZZfET/+8DidHjufm13JH3l4BIIHXYDD+pNeFs01X3dfQEcJA
-         XGj6hQYFdkPne3NB6FdzDKd+v9gG33YnaEiAl/ZZWL7saYr+IZuuMqDjeUHSpOkAqcwh
-         fA6yCrBcJQgxAwRAXLoBkM8exsCidHKz+kigkxwllqINa3Osgg3HWk2GTl6siYUUM7An
-         WwFGyvLhfznuAsgco1AaWdSoL8C6DpiETURkRVBnqNH2tAmSCnJNYwoDDdtbniV3KZzZ
-         XtcQsgGnfl/gRzbiznBKO+2oHBuFYgbEltRslAH4i8SEvpQhoaC6JH8M6Nsc9n6bT9cW
-         iLWA==
-X-Gm-Message-State: AAQBX9coIVWc3Nr0gY316Cz3Rq17aERO66+en7gtetqQmU2pEfjQIdaZ
-	C5WKS/3OyOvug0lZvoeLGGxra6sZySMoe9iLZzXSYXob/2LsFR6Hqnk=
-X-Google-Smtp-Source: AKy350Zj0lYgyFxD9gJEwuLiPpEm5m9XpdkBZHU3JZuEEQs69rWRJ8HmpOvQ1rV9S/wdcqpKBezoMAVom0MKZI9i18Y=
-X-Received: by 2002:a50:d0c5:0:b0:504:ca21:cc64 with SMTP id
- g5-20020a50d0c5000000b00504ca21cc64mr7366720edf.2.1681749740540; Mon, 17 Apr
- 2023 09:42:20 -0700 (PDT)
+ dkim=pass header.i=christoph.lauer@email.de header.s=s29768273 header.b=K3dM3rc9;
+ spf=pass (domain: email.de, ip: 212.227.17.12, mailfrom: christoph.lauer@email.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=email.de;
+	s=s29768273; t=1681754080; i=christoph.lauer@email.de;
+	bh=EGc81aUXVmThc7GRHr7jWCm0KX071UW0TIUkxC3/crM=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=K3dM3rc9tNk6nrpC8KBEKRR6pbLFy9sCLtjc4CDDVEer/SYX3mqbUVdXvkmScdghS
+	 quW6+aVkM47uUJarro2fVjBhTaDZ+EkisfPq9aPGQzI9+GMj5Mwk9olX/dtqQ3PhcL
+	 B5ikPlZkDX+dcNHzyMiimRouesWWqP04NIP6r5rk16bcoAfwDpnqw681vGYGHHfTZv
+	 0uojwReWdR1k7lTf5GzaWHLkw82wZq16lWfkgHL4e4jnBiWCZViZeJff4tSaiN4gPf
+	 NOuhMrdwkLPqs5QMqUj3nuFRIadOjCrDle7Hg8mEwszaoEQXrIbrl6jUt8u5CjNo4t
+	 YyuOh6gThT+1w==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.35] ([91.23.94.88]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MYLii-1ptXFK0G94-00VfgY; Mon, 17
+ Apr 2023 19:54:40 +0200
+Message-ID: <7dff700b-49ae-d924-5ef0-4ad92ad055b4@email.de>
+Date: Mon, 17 Apr 2023 19:54:39 +0200
 MIME-Version: 1.0
-References: <20230417062207.3870781-1-mingli.yu@eng.windriver.com>
-In-Reply-To: <20230417062207.3870781-1-mingli.yu@eng.windriver.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 17 Apr 2023 06:42:09 -1000
-Message-ID: <CAOSpxdbuzJiBAiSw4P3+YJc6rUqg1zvU_vsVds9zWq3L5V=EzQ@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH] curl: Fix CVE-2023-27536
-To: "Yu, Mingli" <mingli.yu@eng.windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [OE-core] [PATCH] make-mod-scripts: preserve libraries when
+ rm_work is used
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+ Christoph Lauer <christoph.lauer@xtronic.de>
+References: <20230416103052.28268-1-christoph.lauer@email.de>
+ <CANPvuRm3KYY4GbKJ6c37fO0-J=JN_1dxsqcGSQLoS+xjR9DxTA@mail.gmail.com>
+Content-Language: en-US
+From: Christoph Lauer <Christoph.Lauer@email.de>
+In-Reply-To: <CANPvuRm3KYY4GbKJ6c37fO0-J=JN_1dxsqcGSQLoS+xjR9DxTA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:EjK9pwMT2nlOBFbdYZ3JOqi7j7/AQ8pQEmstaJ7hkYxa8GCxED0
+ y96+/CV25IUP3Q7LnDtArnCxXhErG4OtXpsS3VfQplJjMEPdN1YN42+urrBplNBH/QrzmTh
+ IwZq35wgUQPgDztnyEcWV0GaE+QtEeumoY6OOVi82nYnI1KgeabojpZr06zcW1x5f/YNQuY
+ cdxuQaPPIa787CV2SE4Zw==
+UI-OutboundReport: notjunk:1;M01:P0:T+e8IsIx04E=;8yOWOuETnUh1V1AupxbJqS0occP
+ F2WDmqGwvYvdxuLyWBPoCHuHl+w5w+xFETzTGrTY3z2FUzTAQG9XyHuxNoSTe4k2oyfTEDM1d
+ 6Xq6UHg+SGcJXSLT1qxpz8s/SoKiGIK2+T/daGDfgDgMeFY57DeDSLJtl8MP2QnIadGJyYx/q
+ N+Gf00/koShouVVcRShQVorx+yO+dECtHWBSUeTDLepKoVUSWAmA/dl0aZgvOvp6dTpDUz+Gx
+ PXL0knWC8CYi61QW5t5GsFDJKYvh5g48Lv51PiGzURDgnCUAqKhYdcRRO5u/MEiVIlaQhW98z
+ qZoZrFLXrsJcdYG8xilY4rnWv7FiljEz24YmIdB5WWy4AjKbzy0NK/OgIiPGdCx8VYWA8Q3Mr
+ DlAVakgmNsc2XDbUpSmQaslP+MrrYM/bxyLXv0DD7sljDRyISjhpn/fZZXsxygV5NWGao1zuo
+ M4MoQSeF7sVCRXflf1Xb1qeAoZqOU6TFcpT3pyIctdK3FNb+RKG2t5NvLYI7K4lLTa52KegqL
+ +bDJkIDa8N4t2vQHLbZE5Mot7HPtK6VvjqsDvLo401qpxZnP2jgyEPabck1z1iVvN60Vmkc4H
+ CM4jj7VDUg+qUIpMsNMbiN3+X0US8iS0K7gttEWe7ir4iAmpkg9BCsf7NCbxZAH47dCNaeq0V
+ G4Jf4w5SzF6HtviLg4TM2GS00X3P8Hi0b6sbg7m45jaIijEtkXY+9P3gS8zP99dUC9/1gNGYI
+ KI2WHvhzjnbrmZ9hfpOi3XttM51T+ieaa1tB5cZgWtBbRGJpExyVopZple30WAK4U7VsPmuCh
+ lXc2A8YDpSPXkE5zEr2WWx/jB4QRrMEHbLoRJBqrXe+tp3LRIcr36lVSlkEUONQdIhV/HjLvJ
+ inrs7X46pFNV55yVtd4ZUKM945Mks5U34TSO5E0Qv8M/of9luNb4EbI8ddEkGgnVcTd9v9tTK
+ Q1IS2oZvhapQehEAOKXroLZaX08=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Apr 2023 16:42:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180164
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Apr 2023 17:54:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180165
 
-There is also a patch submitted today that fixes this CVE as well as
-two others: https://lists.openembedded.org/g/openembedded-core/message/1801=
-43
+Hi Jose,
 
-Could you review the above patch and ack if you approve.  It would be
-nice to fix all three patches in a single commit if possible.
+Thanks for your comment; I intend to backport the patch to all actively
+maintained branches once it is accepted for master merge.
 
-Thanks!
+Christoph
 
-Steve
-
-On Sun, Apr 16, 2023 at 8:22=E2=80=AFPM Yu, Mingli <mingli.yu@eng.windriver=
-.com> wrote:
+Am 17.04.23 um 12:19 schrieb Jose Quaresma:
+> Hi Christoph,
 >
-> From: Mingli Yu <mingli.yu@windriver.com>
+> This patch is also applicable on kirstone so it can be backported.
+> I use in my distro=C2=A0RM_WORK_EXCLUDE +=3D "make-mod-scripts" but your=
+ fix
+> looks better.
+> Thanks.
 >
-> Backport patch [1] to fix CVE-2023-27536.
+> Jose
 >
-> [1] https://github.com/curl/curl/commit/cb49e67303dba
+> Christoph Lauer <christoph.lauer@email.de
+> <mailto:christoph.lauer@email.de>> escreveu no dia domingo, 16/04/2023
+> =C3=A0(s) 11:31:
 >
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> ---
->  .../curl/curl/CVE-2023-27536.patch            | 57 +++++++++++++++++++
->  meta/recipes-support/curl/curl_7.82.0.bb      |  1 +
->  2 files changed, 58 insertions(+)
->  create mode 100644 meta/recipes-support/curl/curl/CVE-2023-27536.patch
+>     From: Christoph Lauer <christoph.lauer@xtronic.de
+>     <mailto:christoph.lauer@xtronic.de>>
 >
-> diff --git a/meta/recipes-support/curl/curl/CVE-2023-27536.patch b/meta/r=
-ecipes-support/curl/curl/CVE-2023-27536.patch
-> new file mode 100644
-> index 0000000000..842c70785a
-> --- /dev/null
-> +++ b/meta/recipes-support/curl/curl/CVE-2023-27536.patch
-> @@ -0,0 +1,57 @@
-> +From 6b1ef6d5ebbfd5e68dea1eea2dc0c6cc4dc2e394 Mon Sep 17 00:00:00 2001
-> +From: Daniel Stenberg <daniel@haxx.se>
-> +Date: Mon, 17 Apr 2023 05:36:18 +0000
-> +Subject: [PATCH] url: only reuse connections with same GSS delegation
-> +
-> +Reported-by: Harry Sintonen
-> +Closes #10731
-> +
-> +CVE: CVE-2023-27536
-> +
-> +Upstream-Status: Backport [https://github.com/curl/curl/commit/cb49e6730=
-3dba]
-> +
-> +Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> +---
-> + lib/url.c     | 6 ++++++
-> + lib/urldata.h | 1 +
-> + 2 files changed, 7 insertions(+)
-> +
-> +diff --git a/lib/url.c b/lib/url.c
-> +index df4377d..8c43c3b 100644
-> +--- a/lib/url.c
-> ++++ b/lib/url.c
-> +@@ -1350,6 +1350,11 @@ ConnectionExists(struct Curl_easy *data,
-> +         }
-> +       }
-> +
-> ++      /* GSS delegation differences do not actually affect every connec=
-tion
-> ++         and auth method, but this check takes precaution before effici=
-ency */
-> ++      if(needle->gssapi_delegation !=3D check->gssapi_delegation)
-> ++        continue;
-> ++
-> +       /* If multiplexing isn't enabled on the h2 connection and h1 is
-> +          explicitly requested, handle it: */
-> +       if((needle->handler->protocol & PROTO_FAMILY_HTTP) &&
-> +@@ -1807,6 +1812,7 @@ static struct connectdata *allocate_conn(struct Cu=
-rl_easy *data)
-> +   conn->fclosesocket =3D data->set.fclosesocket;
-> +   conn->closesocket_client =3D data->set.closesocket_client;
-> +   conn->lastused =3D Curl_now(); /* used now */
-> ++  conn->gssapi_delegation =3D data->set.gssapi_delegation;
-> +
-> +   return conn;
-> +   error:
-> +diff --git a/lib/urldata.h b/lib/urldata.h
-> +index 69eb2ee..c2a7e6c 100644
-> +--- a/lib/urldata.h
-> ++++ b/lib/urldata.h
-> +@@ -1131,6 +1131,7 @@ struct connectdata {
-> +   int socks5_gssapi_enctype;
-> + #endif
-> +   unsigned short localport;
-> ++  unsigned char gssapi_delegation; /* inherited from set.gssapi_delegat=
-ion */
-> + };
-> +
-> + /* The end of connectdata. */
-> +--
-> +2.23.0
-> +
-> diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-supp=
-ort/curl/curl_7.82.0.bb
-> index 945745cdde..888527857a 100644
-> --- a/meta/recipes-support/curl/curl_7.82.0.bb
-> +++ b/meta/recipes-support/curl/curl_7.82.0.bb
-> @@ -40,6 +40,7 @@ SRC_URI =3D "https://curl.se/download/${BP}.tar.xz \
->             file://CVE-2023-23914_5-4.patch \
->             file://CVE-2023-23914_5-5.patch \
->             file://CVE-2023-23916.patch \
-> +           file://CVE-2023-27536.patch \
->             "
->  SRC_URI[sha256sum] =3D "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d=
-3d690cdce58a583c"
+>     With rm_work active, external module signing throws an error:
+>     scripts/sign-file: error while loading shared libraries:
+>     libcrypto.so.3: cannot open shared object file: No such file or
+>     directory
+>     Preserve libraries that sign-file script needs during runtime.
+>
+>     Signed-off-by: Christoph Lauer <christoph.lauer@xtronic.de
+>     <mailto:christoph.lauer@xtronic.de>>
+>     ---
+>      =C2=A0meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+>     <http://make-mod-scripts_1.0.bb> | 3 +++
+>      =C2=A01 file changed, 3 insertions(+)
+>
+>     diff --git
+>     a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+>     <http://make-mod-scripts_1.0.bb>
+>     b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+>     <http://make-mod-scripts_1.0.bb>
+>     index 28e0807d1d..0e24efc597 100644
+>     --- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+>     <http://make-mod-scripts_1.0.bb>
+>     +++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+>     <http://make-mod-scripts_1.0.bb>
+>     @@ -32,3 +32,6 @@ do_configure() {
+>      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -C ${STAGIN=
+G_KERNEL_DIR}
+>     O=3D${STAGING_KERNEL_BUILDDIR} $t
+>      =C2=A0 =C2=A0 =C2=A0 =C2=A0 done
+>      =C2=A0}
+>     +
+>     +# keep native libraries required for module signing
+>     +RM_WORK_EXCLUDE_ITEMS +=3D "recipe-sysroot-native"
+>     --
+>     2.17.1
+>
+>
+>     -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>     Links: You receive all messages sent to this group.
+>     View/Reply Online (#180113):
+>     https://lists.openembedded.org/g/openembedded-core/message/180113
+>     <https://lists.openembedded.org/g/openembedded-core/message/180113>
+>     Mute This Topic: https://lists.openembedded.org/mt/98296212/5052612
+>     <https://lists.openembedded.org/mt/98296212/5052612>
+>     Group Owner: openembedded-core+owner@lists.openembedded.org
+>     <mailto:openembedded-core%2Bowner@lists.openembedded.org>
+>     Unsubscribe:
+>     https://lists.openembedded.org/g/openembedded-core/unsub
+>     <https://lists.openembedded.org/g/openembedded-core/unsub>
+>     [quaresma.jose@gmail.com <mailto:quaresma.jose@gmail.com>]
+>     -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 >
 > --
-> 2.25.1
+> Best regards,
 >
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#180120): https://lists.openembedded.org/g/openembedde=
-d-core/message/180120
-> Mute This Topic: https://lists.openembedded.org/mt/98313621/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> Jos=C3=A9 Quaresma
 
