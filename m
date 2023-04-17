@@ -1,122 +1,106 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F13AC77B70
-	for <webhook@archiver.kernel.org>; Mon, 17 Apr 2023 08:05:21 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web11.48720.1681718718684670746
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BDC5C77B72
+	for <webhook@archiver.kernel.org>; Mon, 17 Apr 2023 08:08:21 +0000 (UTC)
+Received: from mail3.bemta32.messagelabs.com (mail3.bemta32.messagelabs.com [195.245.230.18])
+ by mx.groups.io with SMTP id smtpd.web11.48767.1681718899247812330
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Apr 2023 01:05:18 -0700
+ Mon, 17 Apr 2023 01:08:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=JUYMkbzG;
- spf=pass (domain: mvista.com, ip: 209.85.214.180, mailfrom: hprajapati@mvista.com)
-Received: by mail-pl1-f180.google.com with SMTP id la15so1512782plb.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Apr 2023 01:05:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1681718718; x=1684310718;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JwT99BTdVYAwmxr8SeaiRwYdM1sV/KvIrJl2pDmf8As=;
-        b=JUYMkbzGVblf+YZEVATSF5d6NkBXxwOUf6i8B3Xq4Gb2F2n9w1pZFn3uyfciO1DbnW
-         EIjD2w2IF7E93lnZOx53kext9c+r0uewVDaWB6lZ1KkU0J+hZLY4Hp8SNynAmR6xzSey
-         bBe9s8E3RIOuQHD7UHEme3opAlZ26X8YxqMXI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681718718; x=1684310718;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JwT99BTdVYAwmxr8SeaiRwYdM1sV/KvIrJl2pDmf8As=;
-        b=jsCIUD9dJS8VF1UHc22RBEsZaY6EknsCgZYwTkm3Tz7h96MQVook24Vtizo35w6XD2
-         WyEz8kwoMHN5SQlXH3rVEnNRcftFkwO416LNydvzz5rWshnpzWWUGEuOwmubrC6c7cs0
-         O5UUZrGvhTJW9Ol63K45uEjU07aNJupp9sxbl9AcZurQ9TULESFtY4mD9Ja6gQ+amICl
-         vNT7A1wWUwlZSDkGDKOxwnFy43ZfZtTFD2xLw+7sCCL8RT+UJg2GbPeAifMN/FJoL8yM
-         CkVe3U6yWRnBM1mt/rOX3X8D8CZ/AwxPJTCQA4Wl8URJZ9gQF6Qr4FqjQGoelhJoxb3T
-         MK2g==
-X-Gm-Message-State: AAQBX9e6vCLgUEbPd+WSV5MbhgFDNzXSM20ddFDBfz9tj62mEGanPFKm
-	OxMPcv5oE6XXsSPJh0OQn7Zncs19TvSNkJpTQbo=
-X-Google-Smtp-Source: AKy350Y4DrnOQrD4vAnXiK2ZrI2LyDWoOfvSTDh2K6soZ1hzrUY8NaboeGKl06ZpUN7ZHIulPqp7ww==
-X-Received: by 2002:a05:6a20:3c90:b0:ec:8bae:83a8 with SMTP id b16-20020a056a203c9000b000ec8bae83a8mr15758052pzj.28.1681718717946;
-        Mon, 17 Apr 2023 01:05:17 -0700 (PDT)
-Received: from MVIN00024 ([103.250.136.209])
-        by smtp.gmail.com with ESMTPSA id j12-20020a17090276cc00b001a674fb0dd8sm7057293plt.247.2023.04.17.01.05.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Apr 2023 01:05:17 -0700 (PDT)
-Received: by MVIN00024 (sSMTP sendmail emulation); Mon, 17 Apr 2023 13:35:13 +0530
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH] curl: CVE-2023-27538 fix SSH connection too eager reuse
-Date: Mon, 17 Apr 2023 13:35:12 +0530
-Message-Id: <20230417080512.169770-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=RonYLQzT;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.18, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1681718897; i=@fujitsu.com;
+	bh=6sA3dVXDYfPVeasixgSjB/345IXbhoS9bws+OOd6C24=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=RonYLQzT/abKWEfn591QlZYYTAK77SWeYpC7ZlP5kAjkz8LfryGuCWhqrngB4fRf9
+	 uyHaQlTVqA5Maf4Q/V+pcs2Ug7zk24s+OzFI6Vsx8lwFIN2b0OmdkD0gnlDuiSzWRn
+	 L6Il9nQwNfN4QIIo3gSr/oXlaAPLkPX7ccOiekIRnp0GM8G4MeRVwxU6XLRWgnenrF
+	 jdcfJUxP3OACeRKj5obavnIglq0wE7NTwkJ3r8YKmyqQ7ku0/fEsovCfODgT498oUw
+	 w1ZGYplzypNjtpj4e4bkI3qJ1m5ceAeYGQO+D0H1b7tkf0HPdyg11QbrpapLUwZviJ
+	 ZTvMHdnqw8FXw==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrHIsWRWlGSWpSXmKPExsViZ8OxWbfwn02
+  Kwb1dPBZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aMf6tYC76xVxw4Po2tgbGDvYuRi0NI4AGj
+  xJLWqSwQzhUmiYYfsxkhnL2MEr+WzwXKcHKwCUhJ3Lj/n62LkYNDREBP4uo/UZAws4CKxIvfP
+  ewgtrCAqcS048sYQWwWAVWJzh1nWUFsXgEniRdLn7OB2BICChJTHr5nhogLSpyc+YQFYo6ExM
+  EXL5ghahQlZl9uZoGwKyVaP/yCstUkrp7bxDyBkX8WkvZZSNoXMDKtYjQrTi0qSy3SNTTQSyr
+  KTM8oyU3MzNFLrNJN1Est1S1PLS7RNdRLLC/WSy0u1iuuzE3OSdHLSy3ZxAgMxpRixuQdjFf7
+  /uodYpTkYFIS5X2Rap0ixJeUn1KZkVicEV9UmpNafIhRhoNDSYL35U+bFCHBotT01Iq0zBxgZ
+  MCkJTh4lER4jZ8BpXmLCxJzizPTIVKnGBWlxHlf/wFKCIAkMkrz4Npg0XiJUVZKmJeRgYFBiK
+  cgtSg3swRV/hWjOAejkjAv+1+gKTyZeSVw018BLWYCWiynBLa4JBEhJdXAlHokaV3yn3uHVe3
+  PNvGFXGn/nZGm8jZQv8696MrZ8OTS6DTRTSE72Kd+nCaycIHeq7pjEdOz9c8evtCZaXHL1sU9
+  ZO7u5oOXzBylc3RyY1bPn6FblXNHVunjfMPO7jZ3ZVdXpp6g8KWS5Q7OGeseHqrafWNWYMJaM
+  1v5GM8Nj98cPcc95evDwzu+yJexs15auaT27QXRR3mfQiz7Cg/Hf5Y9tWvanxdTJyXpOM8z87
+  xXcmSTQqqjfu+9ae124bcVzx097uA1tVvw871ZO/ZxKeSIiP4wOCyqZNr6YVrroZQqs/wOqw+
+  HdJt/PpojJ8r/fNNOhlPuycX7pCzqepbEmUfI5YtffB37XUpHepmaEktxRqKhFnNRcSIAgLqt
+  kUEDAAA=
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-7.tower-585.messagelabs.com!1681718896!741176!1
+X-Originating-IP: [62.60.8.179]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.104.2; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 21227 invoked from network); 17 Apr 2023 08:08:17 -0000
+Received: from unknown (HELO n03ukasimr04.n03.fujitsu.local) (62.60.8.179)
+  by server-7.tower-585.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 17 Apr 2023 08:08:17 -0000
+Received: from n03ukasimr04.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id CA6A4151
+	for <openembedded-core@lists.openembedded.org>; Mon, 17 Apr 2023 09:08:16 +0100 (BST)
+Received: from R01UKEXCASM223.r01.fujitsu.local (R01UKEXCASM223 [10.182.185.121])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id BE870142
+	for <openembedded-core@lists.openembedded.org>; Mon, 17 Apr 2023 09:08:16 +0100 (BST)
+Received: from localhost.localdomain (10.167.225.33) by
+ R01UKEXCASM223.r01.fujitsu.local (10.182.185.121) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.42; Mon, 17 Apr 2023 09:08:15 +0100
+From: <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] parted: upgrade 3.5 -> 3.6
+Date: Mon, 17 Apr 2023 16:07:53 +0800
+Message-ID: <1681718877-19480-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM223.r01.fujitsu.local (10.182.185.121)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Apr 2023 08:05:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180151
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Apr 2023 08:08:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180152
 
-Upstream-Status: Backport from https://github.com/curl/curl/commit/af369db4d3833272b8ed443f7fcc2e757a0872eb
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../curl/curl/CVE-2023-27538.patch            | 31 +++++++++++++++++++
- meta/recipes-support/curl/curl_7.82.0.bb      |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-27538.patch
+ meta/recipes-extended/parted/{parted_3.5.bb => parted_3.6.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/parted/{parted_3.5.bb => parted_3.6.bb} (96%)
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2023-27538.patch b/meta/recipes-support/curl/curl/CVE-2023-27538.patch
-new file mode 100644
-index 0000000000..8ef81fb306
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2023-27538.patch
-@@ -0,0 +1,31 @@
-+From af369db4d3833272b8ed443f7fcc2e757a0872eb Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Fri, 10 Mar 2023 08:22:51 +0100
-+Subject: [PATCH] url: fix the SSH connection reuse check
-+
-+Reported-by: Harry Sintonen
-+Closes #10735
-+
-+CVE: CVE-2023-27538
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/af369db4d3833272b8ed443f7fcc2e757a0872eb]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ lib/url.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/lib/url.c b/lib/url.c
-+index f5e54c7..7dd342a 100644
-+--- a/lib/url.c
-++++ b/lib/url.c
-+@@ -1353,7 +1353,7 @@ ConnectionExists(struct Curl_easy *data,
-+          (data->state.httpwant < CURL_HTTP_VERSION_2_0))
-+         continue;
-+ 
-+-      if(get_protocol_family(needle->handler) == PROTO_FAMILY_SSH) {
-++      if(get_protocol_family(needle->handler) & PROTO_FAMILY_SSH) {
-+         if(!ssh_config_matches(needle, check))
-+           continue;
-+       }
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-index 4c18afe293..b0a456016d 100644
---- a/meta/recipes-support/curl/curl_7.82.0.bb
-+++ b/meta/recipes-support/curl/curl_7.82.0.bb
-@@ -42,6 +42,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2023-23916.patch \
-            file://CVE-2023-27533.patch \
-            file://CVE-2023-27534.patch \
-+           file://CVE-2023-27538.patch \
+diff --git a/meta/recipes-extended/parted/parted_3.5.bb b/meta/recipes-extended/parted/parted_3.6.bb
+similarity index 96%
+rename from meta/recipes-extended/parted/parted_3.5.bb
+rename to meta/recipes-extended/parted/parted_3.6.bb
+index ea2b68bbd8..05d57507fb 100644
+--- a/meta/recipes-extended/parted/parted_3.5.bb
++++ b/meta/recipes-extended/parted/parted_3.6.bb
+@@ -11,7 +11,7 @@ SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
+            file://run-ptest \
             "
- SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
+ 
+-SRC_URI[sha256sum] = "4938dd5c1c125f6c78b1f4b3e297526f18ee74aa43d45c248578b1d2470c05a2"
++SRC_URI[sha256sum] = "3b43dbe33cca0f9a18601ebab56b7852b128ec1a3df3a9b30ccde5e73359e612"
+ 
+ inherit autotools pkgconfig gettext texinfo ptest
  
 -- 
-2.25.1
+2.34.1
 
 
