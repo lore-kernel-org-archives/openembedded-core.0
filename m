@@ -1,122 +1,110 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A4E2C77B61
-	for <webhook@archiver.kernel.org>; Mon, 17 Apr 2023 05:01:00 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.47243.1681707655520024137
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3950C77B61
+	for <webhook@archiver.kernel.org>; Mon, 17 Apr 2023 06:04:40 +0000 (UTC)
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web10.47910.1681711477845155487
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Apr 2023 22:00:55 -0700
+ Sun, 16 Apr 2023 23:04:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=TEWp0Nkd;
- spf=pass (domain: mvista.com, ip: 209.85.214.175, mailfrom: hprajapati@mvista.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1a66b9bd893so9954285ad.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 16 Apr 2023 22:00:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=YABzHERU;
+ spf=pass (domain: gmail.com, ip: 209.85.215.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-51b6d0b9430so477825a12.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 16 Apr 2023 23:04:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1681707655; x=1684299655;
+        d=gmail.com; s=20221208; t=1681711477; x=1684303477;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=abHRGLHJ+MZ171r9kN1OatHVCuBr2upOu/Mx4tyhJAQ=;
-        b=TEWp0NkdEWCsPCAo9tORzTJYwCiCOP/0JXLk+3FPW95GhiyMYISOQRqSGAMM29wI9B
-         YUfEUFq6CPGpj5Qb+HOLlwpsJeeCel1ywpU0O+U1Xlh2RK6T1FyPl70GA2tLmSlTtu4g
-         hqr9Fo2l8gUKGNRRTmXAzCA1jLPiVMGTEWPjo=
+        bh=DmoJt5HSWAdnragDVSzI4xlHynZbAmbQ8i6dTZdiIqs=;
+        b=YABzHERULrzFT4/LrgfhplGkIEhbX9EH5EOfpmZ2E45A29sF2Aux+8EsnovK6IBSqs
+         lvPkuyZ4xbpPaWrmaA0QK9R3+Z20TxiAHpipkJDI6oTgIpUMuS76gsXBdU6hftoLAt8p
+         SX5jIEC99k6uQLMSJQQbo38iLdj+EduaSaw1SphVHio3obMliRoQif5mQBsd1x640oL0
+         YOEZ79J/etINOZG6DhLUrW357+v8eMIGHf4g+3TzmjqgiuBObQcRmPXL5e6pOu6XnW/c
+         sDi0OCDnvDjz1ARwG/IaNruD4beBL6rzk3UAA75BpB1/k4AQiJ6n33toatpZ95gRsIc0
+         07iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681707655; x=1684299655;
+        d=1e100.net; s=20221208; t=1681711477; x=1684303477;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=abHRGLHJ+MZ171r9kN1OatHVCuBr2upOu/Mx4tyhJAQ=;
-        b=i92rMU4q/ieqHP6zncMxyu4OOmZzetDUC2ZMbnRqZ2aBCKHWRZwb+XNHj6+/qysDNB
-         XWVtPP1DaTsMvVNpqXnAuvAwTzmgpQN49nuQWOhwRvvuIfr6D5jHP+kYk2bDOocxGMRW
-         zWqDHmgbhdTMe/5vMt/8LscvncOquRApIIYxShyTbJ8Ysu8vtz1mByQ2FoEgdvrxQjmr
-         KgGg13YAHi1pSZTZT+a+Ti9r2o6X1V8ZZm/ILhOyZoh6d03VIzjHxeEscvRfg00aiNoq
-         lN/fAObWZz9p+I32FULYCgKMy1VXd6g2JQfp6LCD0PyIIKk5XTvrs4n46bf9RUBac6NV
-         W07w==
-X-Gm-Message-State: AAQBX9f0NGHW6pvWr9Lq4ZWXDdax76ECMH1+n4XHVzU/zNpI2iCV6cbD
-	u2TMSjkb+SAzrFXYlwob/HB6oL0AUk9p/VpR4/Q=
-X-Google-Smtp-Source: AKy350aDfzFSfYa3uvcmVrxQ/QXQ1sisAaHU3nmC1rkx1BwcmRBIaSf2E5+2ww5fgDu/vkWhqy7trw==
-X-Received: by 2002:a05:6a00:2191:b0:63b:599b:a2da with SMTP id h17-20020a056a00219100b0063b599ba2damr18018952pfi.27.1681707654772;
-        Sun, 16 Apr 2023 22:00:54 -0700 (PDT)
-Received: from MVIN00024 ([103.250.136.209])
-        by smtp.gmail.com with ESMTPSA id x17-20020a62fb11000000b0063b96574b8bsm1102348pfm.220.2023.04.16.22.00.52
+        bh=DmoJt5HSWAdnragDVSzI4xlHynZbAmbQ8i6dTZdiIqs=;
+        b=TlR8DRGdmA38lIJJuekUiLaBEhp7ESzQM+whMPyyakrW5lTWnUX/l6RJI+GRSOEZjS
+         JgUR4VA9E8kxCb5LzcqE5/UJKY1yPEYFMOiSzNO6zG6WGOrFFqREo2ovRkMXZMO2MbRy
+         bvSU4/72TijfVt4Gxia7s9kgefHgNiLA9Kxutcs3KDtbSqAgD3GS06vNJ4NGltONiqWb
+         FhlgDUDblpU3JxkYMxSCGxIb7e3Crkb5spx3DNiQi9B/BKfio+79rnW5gHfVA8ANWNvr
+         tyiWZsho5L2DikNj9Kbh2Vc9+coZCPOpom6nrHXR4pG11bIia1n/f99kVktTq/CRG9B6
+         uZjQ==
+X-Gm-Message-State: AAQBX9fl8riTdpaOceQgGLcJJ4aKCZRwPcVh1q50U2HX+w4FE+9b1EHA
+	CT/8u14obBfDPDZRBTh7KK0umZB2X03qAg==
+X-Google-Smtp-Source: AKy350YtTNbHMqFOsn2YkGG7gi/leRMaE79nPWpuBlXhuwUtli7Wj1MDAiUdAuW3bifTrDftItMQYQ==
+X-Received: by 2002:a05:6a00:1794:b0:63b:877f:ee53 with SMTP id s20-20020a056a00179400b0063b877fee53mr7277077pfg.17.1681711476871;
+        Sun, 16 Apr 2023 23:04:36 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:d380::ebd0])
+        by smtp.gmail.com with ESMTPSA id n3-20020aa79043000000b0063aa1763146sm6552127pfo.17.2023.04.16.23.04.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Apr 2023 22:00:54 -0700 (PDT)
-Received: by MVIN00024 (sSMTP sendmail emulation); Mon, 17 Apr 2023 10:30:49 +0530
-From: Hitendra Prajapati <hprajapati@mvista.com>
+        Sun, 16 Apr 2023 23:04:36 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [dunfell][PATCH] curl: CVE-2023-27538 fix SSH connection too eager reuse
-Date: Mon, 17 Apr 2023 10:30:48 +0530
-Message-Id: <20230417050048.73565-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] libxml2: Disable icu tests on musl
+Date: Sun, 16 Apr 2023 23:04:33 -0700
+Message-Id: <20230417060433.3830941-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Apr 2023 05:01:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180118
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Apr 2023 06:04:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180119
 
-Upstream-Status: Backport from https://github.com/curl/curl/commit/af369db4d3833272b8ed443f7fcc2e757a0872eb
+these tests do not work with musl's iconv implementation and would need
+enabling icu support using --with-icu which we do not enable by default
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Additionally enable locale with musl too.
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../curl/curl/CVE-2023-27538.patch            | 31 +++++++++++++++++++
- meta/recipes-support/curl/curl_7.69.1.bb      |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-27538.patch
+ meta/recipes-core/libxml/libxml2_2.10.3.bb | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2023-27538.patch b/meta/recipes-support/curl/curl/CVE-2023-27538.patch
-new file mode 100644
-index 0000000000..6c40989d3b
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2023-27538.patch
-@@ -0,0 +1,31 @@
-+From af369db4d3833272b8ed443f7fcc2e757a0872eb Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Fri, 10 Mar 2023 08:22:51 +0100
-+Subject: [PATCH] url: fix the SSH connection reuse check
-+
-+Reported-by: Harry Sintonen
-+Closes #10735
-+
-+CVE: CVE-2023-27538
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/af369db4d3833272b8ed443f7fcc2e757a0872eb]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ lib/url.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/lib/url.c b/lib/url.c
-+index 8da0245..9f14a7b 100644
-+--- a/lib/url.c
-++++ b/lib/url.c
-+@@ -1266,7 +1266,7 @@ ConnectionExists(struct Curl_easy *data,
-+         }
-+       }
-+ 
-+-      if(get_protocol_family(needle->handler->protocol) == PROTO_FAMILY_SSH) {
-++      if(get_protocol_family(needle->handler->protocol) & PROTO_FAMILY_SSH) {
-+         if(!ssh_config_matches(needle, check))
-+           continue;
-+       }
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.69.1.bb
-index a7f4f5748f..46ee25da3a 100644
---- a/meta/recipes-support/curl/curl_7.69.1.bb
-+++ b/meta/recipes-support/curl/curl_7.69.1.bb
-@@ -44,6 +44,7 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://CVE-2022-43552.patch \
-            file://CVE-2023-23916.patch \
-            file://CVE-2023-27534.patch \
-+           file://CVE-2023-27538.patch \
- "
+diff --git a/meta/recipes-core/libxml/libxml2_2.10.3.bb b/meta/recipes-core/libxml/libxml2_2.10.3.bb
+index 6b3dd3ec42..0ccd48964f 100644
+--- a/meta/recipes-core/libxml/libxml2_2.10.3.bb
++++ b/meta/recipes-core/libxml/libxml2_2.10.3.bb
+@@ -40,15 +40,15 @@ inherit autotools pkgconfig binconfig-disabled ptest
  
- SRC_URI[md5sum] = "ec5fc263f898a3dfef08e805f1ecca42"
+ inherit ${@bb.utils.contains('PACKAGECONFIG', 'python', 'python3targetconfig', '', d)}
+ 
+-RDEPENDS:${PN}-ptest += "bash make ${@bb.utils.contains('PACKAGECONFIG', 'python', 'libgcc python3-core python3-logging python3-shell python3-stringold python3-threading python3-unittest ${PN}-python', '', d)}"
++RDEPENDS:${PN}-ptest += "bash make locale-base-en-us ${@bb.utils.contains('PACKAGECONFIG', 'python', 'libgcc python3-core python3-logging python3-shell python3-stringold python3-threading python3-unittest ${PN}-python', '', d)}"
+ 
+ RDEPENDS:${PN}-python += "${@bb.utils.contains('PACKAGECONFIG', 'python', 'python3-core', '', d)}"
+ 
++RDEPENDS:${PN}-ptest:append:libc-musl = " musl-locales"
+ RDEPENDS:${PN}-ptest:append:libc-glibc = " glibc-gconv-ebcdic-us \
+                                            glibc-gconv-ibm1141 \
+                                            glibc-gconv-iso8859-5 \
+                                            glibc-gconv-euc-jp \
+-                                           locale-base-en-us \
+                                          "
+ 
+ # WARNING: zlib is required for RPM use
+@@ -85,6 +85,11 @@ do_install_ptest () {
+     fi
+ }
+ 
++# with musl we need to enable icu support explicitly for these tests
++do_install_ptest:append:libc-musl () {
++	rm -rf ${D}/${PTEST_PATH}/test/icu_parse_test.xml
++}
++
+ do_install:append:class-native () {
+ 	# Docs are not needed in the native case
+ 	rm ${D}${datadir}/gtk-doc -rf
 -- 
-2.25.1
+2.40.0
 
 
