@@ -1,136 +1,122 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E483C77B78
-	for <webhook@archiver.kernel.org>; Mon, 17 Apr 2023 08:05:11 +0000 (UTC)
-Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com [195.245.231.1])
- by mx.groups.io with SMTP id smtpd.web11.48711.1681718701244735157
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F13AC77B70
+	for <webhook@archiver.kernel.org>; Mon, 17 Apr 2023 08:05:21 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.48720.1681718718684670746
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Apr 2023 01:05:01 -0700
+ Mon, 17 Apr 2023 01:05:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=XjHa2rb0;
- spf=pass (domain: fujitsu.com, ip: 195.245.231.1, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1681718699; i=@fujitsu.com;
-	bh=xLiCcZ6/Q3oG5F1UQqM7aOp09NqfNl8nDu3+JoSQ2eE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=XjHa2rb0ptmGPT4sK/Fp8gNKRohRfgE4suis+0hO3KozR3dNTxQZGgx/Ng+B9142W
-	 cSGRu/aZhVBZxqtIMoVS4MjUhRQg7F+wMZhE+iB88ENK55K6gjwnm0uVfnPmqJnw4U
-	 7Z5ZFDvN6MxW0qQmPCt28UxxzSj6V9YwAODm/dGOX5kMRjwMJbSHLRorVF7ntDlAu9
-	 Su7dqAbbhpeQ7er4INekj/NLZtGFXS5LuwpuneGtDIYL9Rh/oDwvFn5AbDAxnAoCxd
-	 ntn6DPL8phAFXm6KqELpCJOm8sJfuEcLSs674p7sr7L5nYJWZ46X3MWknK93zd21Nq
-	 t+hocXsY/qXMw==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrIIsWRWlGSWpSXmKPExsViZ8OxWXf1X5s
-  Ug0vNPBZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8b2mT3MBdtFKi5+P8rYwPhRqIuRi0NI4AGj
-  RMOFE2wQzhUmiTnr3zBCOHsZJdpnfmPuYuTkYBOQkrhx/z9QFQeHiICexNV/oiBhZgEViRe/e
-  9hBwsICVhI/bxqChFkEVCUW/F3DCmLzCjhJ9N89xARiSwgoSEx5+B5sIqeAs8SJYzNZQGwhoJ
-  qly+4zQ9QLSpyc+YQFYryExMEXL5ghehUlZl9uZoGwKyVaP/yCstUkrp7bxDyBUXAWkvZZSNo
-  XMDKtYjQrTi0qSy3SNbTUSyrKTM8oyU3MzNFLrNJN1Est1S1PLS7RNdJLLC/WSy0u1iuuzE3O
-  SdHLSy3ZxAgM3ZRipXU7GJf0/dU7xCjJwaQkyvsi1TpFiC8pP6UyI7E4I76oNCe1+BCjDAeHk
-  gTvy582KUKCRanpqRVpmTnAOIJJS3DwKInwGj8DSvMWFyTmFmemQ6ROMepyfDh0ZS+zEEtefl
-  6qlDjv6z9ARQIgRRmleXAjYDF9iVFWSpiXkYGBQYinILUoN7MEVf4VozgHo5IwLzswQQjxZOa
-  VwG16BXQEE9ARckpgR5QkIqSkGpiY4vpmOS4rlq7fH5uUmrf9jOJt8zNGKYvrmO7ePx2sfnuz
-  c7zo3xfcrM09khVPn78VmJc5wUWHo6vs+4x9SU3zPRfYcOYwbP6/TflknY9iqpxuyKQY59sas
-  z5p+p/7+ez/icRDmQ8eBC0Rdpx+4pHbIUfxubIHn52LmNsv3nct6Wzx9OnHSz2fb1L66mHX+N
-  v6hp3TleBGr5TNb2wPyN3w3P93Esf2elY7vby/OgePWui9EhZyq5fdxKz9cbVn4q0LN+bsEV/
-  RbPBy4pITPpXGGSw+S0+WzCvYayBgESLnGOm47fuhA7mHJv7Wm7xnyR6RN4FxDqwaM+sryxg3
-  ckQsuztRR6U9J069aVbZE1klluKMREMt5qLiRABzcXfsZAMAAA==
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-7.tower-571.messagelabs.com!1681718699!408089!1
-X-Originating-IP: [62.60.8.179]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.104.2; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 18294 invoked from network); 17 Apr 2023 08:04:59 -0000
-Received: from unknown (HELO n03ukasimr04.n03.fujitsu.local) (62.60.8.179)
-  by server-7.tower-571.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 17 Apr 2023 08:04:59 -0000
-Received: from n03ukasimr04.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id E063A151
-	for <openembedded-core@lists.openembedded.org>; Mon, 17 Apr 2023 09:04:58 +0100 (BST)
-Received: from R01UKEXCASM223.r01.fujitsu.local (R01UKEXCASM223 [10.182.185.121])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id D4550142
-	for <openembedded-core@lists.openembedded.org>; Mon, 17 Apr 2023 09:04:58 +0100 (BST)
-Received: from localhost.localdomain (10.167.225.33) by
- R01UKEXCASM223.r01.fujitsu.local (10.182.185.121) with Microsoft SMTP Server
- (TLS) id 15.0.1497.42; Mon, 17 Apr 2023 09:04:57 +0100
-From: <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] boost: upgrade 1.81.0 -> 1.82.0
-Date: Mon, 17 Apr 2023 16:04:30 +0800
-Message-ID: <1681718671-19418-4-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1681718671-19418-1-git-send-email-wangmy@fujitsu.com>
-References: <1681718671-19418-1-git-send-email-wangmy@fujitsu.com>
+ dkim=pass header.i=@mvista.com header.s=google header.b=JUYMkbzG;
+ spf=pass (domain: mvista.com, ip: 209.85.214.180, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f180.google.com with SMTP id la15so1512782plb.11
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Apr 2023 01:05:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1681718718; x=1684310718;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JwT99BTdVYAwmxr8SeaiRwYdM1sV/KvIrJl2pDmf8As=;
+        b=JUYMkbzGVblf+YZEVATSF5d6NkBXxwOUf6i8B3Xq4Gb2F2n9w1pZFn3uyfciO1DbnW
+         EIjD2w2IF7E93lnZOx53kext9c+r0uewVDaWB6lZ1KkU0J+hZLY4Hp8SNynAmR6xzSey
+         bBe9s8E3RIOuQHD7UHEme3opAlZ26X8YxqMXI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681718718; x=1684310718;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JwT99BTdVYAwmxr8SeaiRwYdM1sV/KvIrJl2pDmf8As=;
+        b=jsCIUD9dJS8VF1UHc22RBEsZaY6EknsCgZYwTkm3Tz7h96MQVook24Vtizo35w6XD2
+         WyEz8kwoMHN5SQlXH3rVEnNRcftFkwO416LNydvzz5rWshnpzWWUGEuOwmubrC6c7cs0
+         O5UUZrGvhTJW9Ol63K45uEjU07aNJupp9sxbl9AcZurQ9TULESFtY4mD9Ja6gQ+amICl
+         vNT7A1wWUwlZSDkGDKOxwnFy43ZfZtTFD2xLw+7sCCL8RT+UJg2GbPeAifMN/FJoL8yM
+         CkVe3U6yWRnBM1mt/rOX3X8D8CZ/AwxPJTCQA4Wl8URJZ9gQF6Qr4FqjQGoelhJoxb3T
+         MK2g==
+X-Gm-Message-State: AAQBX9e6vCLgUEbPd+WSV5MbhgFDNzXSM20ddFDBfz9tj62mEGanPFKm
+	OxMPcv5oE6XXsSPJh0OQn7Zncs19TvSNkJpTQbo=
+X-Google-Smtp-Source: AKy350Y4DrnOQrD4vAnXiK2ZrI2LyDWoOfvSTDh2K6soZ1hzrUY8NaboeGKl06ZpUN7ZHIulPqp7ww==
+X-Received: by 2002:a05:6a20:3c90:b0:ec:8bae:83a8 with SMTP id b16-20020a056a203c9000b000ec8bae83a8mr15758052pzj.28.1681718717946;
+        Mon, 17 Apr 2023 01:05:17 -0700 (PDT)
+Received: from MVIN00024 ([103.250.136.209])
+        by smtp.gmail.com with ESMTPSA id j12-20020a17090276cc00b001a674fb0dd8sm7057293plt.247.2023.04.17.01.05.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Apr 2023 01:05:17 -0700 (PDT)
+Received: by MVIN00024 (sSMTP sendmail emulation); Mon, 17 Apr 2023 13:35:13 +0530
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] curl: CVE-2023-27538 fix SSH connection too eager reuse
+Date: Mon, 17 Apr 2023 13:35:12 +0530
+Message-Id: <20230417080512.169770-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM223.r01.fujitsu.local (10.182.185.121)
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Apr 2023 08:05:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180149
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Apr 2023 08:05:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180151
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+Upstream-Status: Backport from https://github.com/curl/curl/commit/af369db4d3833272b8ed443f7fcc2e757a0872eb
 
-Changelog:
-https://www.boost.org/users/history/version_1_82_0.html
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- .../boost/{boost-1.81.0.inc => boost-1.82.0.inc}                | 2 +-
- ...oost-build-native_1.81.0.bb => boost-build-native_1.82.0.bb} | 2 +-
- meta/recipes-support/boost/{boost_1.81.0.bb => boost_1.82.0.bb} | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/boost/{boost-1.81.0.inc => boost-1.82.0.inc} (90%)
- rename meta/recipes-support/boost/{boost-build-native_1.81.0.bb => boost-build-native_1.82.0.bb} (92%)
- rename meta/recipes-support/boost/{boost_1.81.0.bb => boost_1.82.0.bb} (100%)
+ .../curl/curl/CVE-2023-27538.patch            | 31 +++++++++++++++++++
+ meta/recipes-support/curl/curl_7.82.0.bb      |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2023-27538.patch
 
-diff --git a/meta/recipes-support/boost/boost-1.81.0.inc b/meta/recipes-support/boost/boost-1.82.0.inc
-similarity index 90%
-rename from meta/recipes-support/boost/boost-1.81.0.inc
-rename to meta/recipes-support/boost/boost-1.82.0.inc
-index 291796c736..39d3c9ce5d 100644
---- a/meta/recipes-support/boost/boost-1.81.0.inc
-+++ b/meta/recipes-support/boost/boost-1.82.0.inc
-@@ -12,7 +12,7 @@ BOOST_MAJ = "${@"_".join(d.getVar("PV").split(".")[0:2])}"
- BOOST_P = "boost_${BOOST_VER}"
+diff --git a/meta/recipes-support/curl/curl/CVE-2023-27538.patch b/meta/recipes-support/curl/curl/CVE-2023-27538.patch
+new file mode 100644
+index 0000000000..8ef81fb306
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2023-27538.patch
+@@ -0,0 +1,31 @@
++From af369db4d3833272b8ed443f7fcc2e757a0872eb Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Fri, 10 Mar 2023 08:22:51 +0100
++Subject: [PATCH] url: fix the SSH connection reuse check
++
++Reported-by: Harry Sintonen
++Closes #10735
++
++CVE: CVE-2023-27538
++Upstream-Status: Backport [https://github.com/curl/curl/commit/af369db4d3833272b8ed443f7fcc2e757a0872eb]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ lib/url.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/lib/url.c b/lib/url.c
++index f5e54c7..7dd342a 100644
++--- a/lib/url.c
+++++ b/lib/url.c
++@@ -1353,7 +1353,7 @@ ConnectionExists(struct Curl_easy *data,
++          (data->state.httpwant < CURL_HTTP_VERSION_2_0))
++         continue;
++ 
++-      if(get_protocol_family(needle->handler) == PROTO_FAMILY_SSH) {
+++      if(get_protocol_family(needle->handler) & PROTO_FAMILY_SSH) {
++         if(!ssh_config_matches(needle, check))
++           continue;
++       }
++-- 
++2.25.1
++
+diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
+index 4c18afe293..b0a456016d 100644
+--- a/meta/recipes-support/curl/curl_7.82.0.bb
++++ b/meta/recipes-support/curl/curl_7.82.0.bb
+@@ -42,6 +42,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
+            file://CVE-2023-23916.patch \
+            file://CVE-2023-27533.patch \
+            file://CVE-2023-27534.patch \
++           file://CVE-2023-27538.patch \
+            "
+ SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
  
- SRC_URI = "https://boostorg.jfrog.io/artifactory/main/release/${PV}/source/${BOOST_P}.tar.bz2"
--SRC_URI[sha256sum] = "71feeed900fbccca04a3b4f2f84a7c217186f28a940ed8b7ed4725986baf99fa"
-+SRC_URI[sha256sum] = "a6e1ab9b0860e6a2881dd7b21fe9f737a095e5f33a3a874afc6a345228597ee6"
- 
- UPSTREAM_CHECK_URI = "http://www.boost.org/users/download/"
- UPSTREAM_CHECK_REGEX = "release/(?P<pver>.*)/source/"
-diff --git a/meta/recipes-support/boost/boost-build-native_1.81.0.bb b/meta/recipes-support/boost/boost-build-native_1.82.0.bb
-similarity index 92%
-rename from meta/recipes-support/boost/boost-build-native_1.81.0.bb
-rename to meta/recipes-support/boost/boost-build-native_1.82.0.bb
-index d01c7658d5..dcfb65e3d6 100644
---- a/meta/recipes-support/boost/boost-build-native_1.81.0.bb
-+++ b/meta/recipes-support/boost/boost-build-native_1.82.0.bb
-@@ -7,7 +7,7 @@ LICENSE = "BSL-1.0"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e4224ccaecb14d942c71d31bef20d78c"
- 
- SRC_URI = "git://github.com/boostorg/build;protocol=https;branch=master"
--SRCREV = "0271fafc1141c182d4aaa8db8b1c08a109d04c87"
-+SRCREV = "9f488e003a568dffe0caed05d86ed6f1a8f8c7f3"
- PE = "1"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "boost-(?P<pver>(\d+(\.\d+)+))"
-diff --git a/meta/recipes-support/boost/boost_1.81.0.bb b/meta/recipes-support/boost/boost_1.82.0.bb
-similarity index 100%
-rename from meta/recipes-support/boost/boost_1.81.0.bb
-rename to meta/recipes-support/boost/boost_1.82.0.bb
 -- 
-2.34.1
+2.25.1
 
 
