@@ -2,130 +2,246 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC5E9C6FD18
-	for <webhook@archiver.kernel.org>; Tue, 18 Apr 2023 13:59:33 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web11.9615.1681826370566876873
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE0AEC6FD18
+	for <webhook@archiver.kernel.org>; Tue, 18 Apr 2023 14:34:33 +0000 (UTC)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web11.10544.1681828471366978412
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Apr 2023 06:59:31 -0700
+ Tue, 18 Apr 2023 07:34:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=YYVXJFzT;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.48, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f48.google.com with SMTP id fy21so30457731ejb.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Apr 2023 06:59:30 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=eEH+3sc2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.43, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f43.google.com with SMTP id xi5so73741137ejb.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Apr 2023 07:34:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1681826369; x=1684418369;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1681828470; x=1684420470;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cKSnURzg+QR8PJ1FPGvBK5LtWsAumm3GAHkdynQwHgw=;
-        b=YYVXJFzTR7bw+5p7QwndxNZBlqK7lMSJEuYadY9blTTrjX0b8sLgJKKMZvzEksdTem
-         iAq5wURWlXZb0wxTdvtpSTySpHmZN1edWPZXmegM8tXE5Z+IJhzVKwGGlu7puXS+MlMm
-         DFTOC/4WzebzgXW6+MLZYbG7q9Zpfs6HPD8zXDvTfZLSDowzK0sgbIaekiVAAKeCoTw4
-         60kZgp3dAhlcsMV5xafZcoahN0KSd99sk6fbDVLZ5d7PZegO/O+a0qSMrDPI4UnGbwEw
-         iNnIlJ+2fpb3arlivbTJAX2DZ8qBBw0Tp5N+TglrCpR6+IC0zKvGuCZ+MCcTTY97yiuZ
-         BO5A==
+        bh=1Armtey/53adT6GHiyL6Fi5Sw2VVhRMO1SvuNvHOFno=;
+        b=eEH+3sc2fwE0XP0nzYhYlss2+zs8aKJA0VWjmANPzkinBOCappTNQJCLzZDAKni6m+
+         pqC+bPSmw+fVz9BAl6z13YLNfJjqSY81AsL7tvh9AI05o5sW5r7mQAuUfKTdmCthx/20
+         ZCHLUAUMWK6xGeVzRwYJJGMLZlhiunCqTzHypxU1GzJXHuAv2iDa2PzcerCKigmfeQGT
+         RGB7CMOdGPZQgs7hUo0yj1w3NLYLgy1/biLAroY4YKf1WxONeOYknkLptLJ3tDCsHX1O
+         BCUmpb6mK2VmK8SSeTeIp93RS84a+wpTiRpjb4MS2lw1fCr4JVjqkWwtTFkTQjRTHa8e
+         UXhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681826369; x=1684418369;
+        d=1e100.net; s=20221208; t=1681828470; x=1684420470;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cKSnURzg+QR8PJ1FPGvBK5LtWsAumm3GAHkdynQwHgw=;
-        b=S2Wynt4ZD/6YCByjlfurSKmn5I1N4yrfz4e7w3+n20gQE53ZvFKI9WqQANh57caLDb
-         qN1f/baRj9bLUTpb7FlOpzcmfypTpEWrsLYTt0M4hKsH+tfT2kB2btjnIk5eqR8yjPjd
-         LlMYPTks/tOVd45SNsnZBTTHDvcc+pwlWl3dfraMRG7OSbYHaQ2Qe5ihy7uatgeRM/JA
-         1Iedj721a5W6wGg0MhZg0vzLIeRHzNbjhoT0DtYRT+MXDUnj2jlRgn+mEH9osqtj3g6V
-         rbyIgKPiLBkpk1nTqUCtUZJ3qIDlUywdUg/7Raj/fR1Z3ALakyTXw6ObJOmiUl79dysY
-         p3yA==
-X-Gm-Message-State: AAQBX9c2KBqdyob9vpJOODgDJ4WXVIIw04HGMA9539SIb/HD2zvgK6SI
-	hKhKJ7gaFd3uQmeUURjsRA/uVzekG9psPP7BJDjHRw==
-X-Google-Smtp-Source: AKy350YEURLqdCRnqtibLfgBGz4Eala6bY1MsTGaPU5bfXqgDBRrVUATDCo3PIwj/hTgp7oD5IHkuckXI3ArroD+8dg=
-X-Received: by 2002:a17:906:8447:b0:94f:99:858e with SMTP id
- e7-20020a170906844700b0094f0099858emr5371448ejy.3.1681826368745; Tue, 18 Apr
- 2023 06:59:28 -0700 (PDT)
+        bh=1Armtey/53adT6GHiyL6Fi5Sw2VVhRMO1SvuNvHOFno=;
+        b=cLt8acx5YEnHqckqiFSbhWf/bUyx5y+vWAwF/Rhy6aQK7K4XYr8j7w2LiSDEbqgdKN
+         YCr/6jizeTe5Ow1Y02zLzEgmjuG/iCpoVnks7RbXRE9VVOBL1PqU4AaebC6xZdpCYKV1
+         6SqIED8rBgrqHcpkC/iwBpoqUK27kJjz2z/wSwU0gySlW7j8j2IfrzfwnA6Mhv0I03iI
+         0n/9rt10J/4ShT6WNrpU73sq4jY0c7jGW1+p40oPMrqsvuPktiPIgm0uwOeTNqQsn7Kl
+         5SPrh9n/mTZvyWaY6vXPy3Uy3b18kmPFKZ+LtYgjqgpX45Tpqh6SibuJOIXZnvn6u/QP
+         Q4Sw==
+X-Gm-Message-State: AAQBX9er4t9ZiSL066s1aNuzHvzS1LO3roTLWRff8sSt8dSJ25yB6bdK
+	xiI1koRnCbPq+aOovXCRAdm/MZy5owLaXbcQlSIkIQ==
+X-Google-Smtp-Source: AKy350bguKS1QjGnUXEhQAgtyyrPxuJN/85Gnrc41NsZJAtoz2dJFztX4lqo1/YDJfBMdw88mxBL9NklcIqr5d4Dt14=
+X-Received: by 2002:a17:906:f57:b0:931:3a19:d835 with SMTP id
+ h23-20020a1709060f5700b009313a19d835mr5604601ejj.3.1681828469610; Tue, 18 Apr
+ 2023 07:34:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230402152836.9157-1-sundeep.kokkonda@gmail.com> <CH2PR11MB4470098ED8A0713564517D43899D9@CH2PR11MB4470.namprd11.prod.outlook.com>
-In-Reply-To: <CH2PR11MB4470098ED8A0713564517D43899D9@CH2PR11MB4470.namprd11.prod.outlook.com>
+References: <20230418115423.30752-1-skulkarni@mvista.com>
+In-Reply-To: <20230418115423.30752-1-skulkarni@mvista.com>
 From: Steve Sakoman <steve@sakoman.com>
-Date: Tue, 18 Apr 2023 03:59:16 -1000
-Message-ID: <CAOSpxdZ6gZX9EVcJYE-fwqHaf0uKV3=7GR_jiQOb-PeomqLtEA@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH] cargo : non vulnerable
- cve-2022-46176 added to excluded list
-To: "Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 18 Apr 2023 04:34:18 -1000
+Message-ID: <CAOSpxdY6vJ85rT9mQ6B+8z8NRiXVam+uMqmLfX2U9MeKLqb1yw@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone][PATCH] go-runtime: Security fix for CVE-2022-41722
+To: Shubham Kulkarni <skulkarni@mvista.com>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Apr 2023 13:59:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180191
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Apr 2023 14:34:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180192
 
-On Tue, Apr 18, 2023 at 1:46=E2=80=AFAM Kokkonda, Sundeep
-<Sundeep.Kokkonda@windriver.com> wrote:
->
-> Hello Steve,
->
-> When this patch is planned to take into Kirkstone?
+There were a couple of issues with this patch.  I've fixed both so no
+need to resubmit, but in the future please be sure to check the
+following:
 
-It is in the set of patches being tested today.  So if all goes well
-it should hit the kirkstone branch later this week.
+1. Patch should be based on the latest kirkstone head -- you were
+using an earlier state which was missing "go: fix CVE-2022-41724,
+41725" so the patch didn't apply.
+2. CVE patch files should have a CVE: tag in addition to the
+Upstream-status: and Signed-off-by: tags
+
+Thanks for helping fix CVEs!
 
 Steve
 
-> ________________________________
-> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> on behalf of Sundeep KOKKONDA via lists.openembedded.org <=
-sundeep.kokkonda=3Dgmail.com@lists.openembedded.org>
-> Sent: 02 April 2023 20:58
-> To: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
-nembedded.org>
-> Cc: rwmacleod@gmail.com <rwmacleod@gmail.com>; umesh.kalappa0@gmail.com <=
-umesh.kalappa0@gmail.com>; pgowda.cve@gmail.com <pgowda.cve@gmail.com>; shi=
-vams@gmail.com <shivams@gmail.com>
-> Subject: [OE-core] [kirkstone][PATCH] cargo : non vulnerable cve-2022-461=
-76 added to excluded list
+On Tue, Apr 18, 2023 at 1:54=E2=80=AFAM Shubham Kulkarni <skulkarni@mvista.=
+com> wrote:
 >
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender an=
-d know the content is safe.
+> From: Shubham Kulkarni <skulkarni@mvista.com>
 >
-> This cve (https://nvd.nist.gov/vuln/detail/CVE-2022-46176) is a security =
-vulnirability when using cargo ssh.
-> Kirkstone doesn't support rust on-target images and the bitbake using the=
- 'wget' (which uses 'https') for fetching the sources instead of ssh.
-> So, cargo-native also not vulnerable to this cve and so added to excluded=
- list.
+> path/filepath: do not Clean("a/../c:/b") into c:\b on Windows
 >
-> Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
+> Backport from https://github.com/golang/go/commit/bdf07c2e168baf736e4c057=
+279ca12a4d674f18c
+>
+> Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
 > ---
->  meta/conf/distro/include/cve-extra-exclusions.inc | 5 +++++
->  1 file changed, 5 insertions(+)
+>  meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
+>  .../go/go-1.18/CVE-2022-41722.patch           | 102 ++++++++++++++++++
+>  2 files changed, 103 insertions(+)
+>  create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2022-41722.patch
 >
-> diff --git a/meta/conf/distro/include/cve-extra-exclusions.inc b/meta/con=
-f/distro/include/cve-extra-exclusions.inc
-> index 8b5f8d49b8..cb2d920441 100644
-> --- a/meta/conf/distro/include/cve-extra-exclusions.inc
-> +++ b/meta/conf/distro/include/cve-extra-exclusions.inc
-> @@ -15,6 +15,11 @@
->  # the aim of sharing that work and ensuring we don't duplicate it.
->  #
+> diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devto=
+ols/go/go-1.17.13.inc
+> index 14d58932dc..d104e34408 100644
+> --- a/meta/recipes-devtools/go/go-1.17.13.inc
+> +++ b/meta/recipes-devtools/go/go-1.17.13.inc
+> @@ -23,6 +23,7 @@ SRC_URI +=3D "\
+>      file://CVE-2022-2879.patch \
+>      file://CVE-2022-41720.patch \
+>      file://CVE-2022-41723.patch \
+> +    file://CVE-2022-41722.patch \
+>  "
+>  SRC_URI[main.sha256sum] =3D "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d=
+1fc0c1d784ada0cd300fd"
 >
-> +#cargo https://nvd.nist.gov/vuln/detail/CVE-2022-46176
-> +#cargo security advisor https://blog.rust-lang.org/2023/01/10/cve-2022-4=
-6176.html
-> +#This CVE is a security issue when using cargo ssh. In kirkstone, rust 1=
-.59.0 is used and the rust on-target is not supported, so the target images=
- are not vulnerable to the cve.
-> +#The bitbake using the 'wget' (which uses 'https') for fetching the sour=
-ces instead of ssh. So, the cargo-native are also not vulnerable to this cv=
-e and so added to excluded list.
-> +CVE_CHECK_IGNORE +=3D "CVE-2022-46176"
->
->  # strace https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2000-000=
-6
->  # CVE is more than 20 years old with no resolution evident
+> diff --git a/meta/recipes-devtools/go/go-1.18/CVE-2022-41722.patch b/meta=
+/recipes-devtools/go/go-1.18/CVE-2022-41722.patch
+> new file mode 100644
+> index 0000000000..447c3d45bd
+> --- /dev/null
+> +++ b/meta/recipes-devtools/go/go-1.18/CVE-2022-41722.patch
+> @@ -0,0 +1,102 @@
+> +From a826b19625caebed6dd0f3fbd9d0111f6c83737c Mon Sep 17 00:00:00 2001
+> +From: Damien Neil <dneil@google.com>
+> +Date: Mon, 12 Dec 2022 16:43:37 -0800
+> +Subject: [PATCH] path/filepath: do not Clean("a/../c:/b") into c:\b on W=
+indows
+> +
+> +Do not permit Clean to convert a relative path into one starting
+> +with a drive reference. This change causes Clean to insert a .
+> +path element at the start of a path when the original path does not
+> +start with a volume name, and the first path element would contain
+> +a colon.
+> +
+> +This may introduce a spurious but harmless . path element under
+> +some circumstances. For example, Clean("a/../b:/../c") becomes `.\c`.
+> +
+> +This reverts CL 401595, since the change here supersedes the one
+> +in that CL.
+> +
+> +Thanks to RyotaK (https://twitter.com/ryotkak) for reporting this issue.
+> +
+> +Updates #57274
+> +Fixes #57276
+> +Fixes CVE-2022-41722
+> +
+> +Change-Id: I837446285a03aa74c79d7642720e01f354c2ca17
+> +Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private=
+/+/1675249
+> +Reviewed-by: Roland Shoemaker <bracewell@google.com>
+> +Run-TryBot: Damien Neil <dneil@google.com>
+> +Reviewed-by: Julie Qiu <julieqiu@google.com>
+> +TryBot-Result: Security TryBots <security-trybots@go-security-trybots.ia=
+m.gserviceaccount.com>
+> +(cherry picked from commit 8ca37f4813ef2f64600c92b83f17c9f3ca6c03a5)
+> +Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private=
+/+/1728944
+> +Run-TryBot: Roland Shoemaker <bracewell@google.com>
+> +Reviewed-by: Tatiana Bradley <tatianabradley@google.com>
+> +Reviewed-by: Damien Neil <dneil@google.com>
+> +Reviewed-on: https://go-review.googlesource.com/c/go/+/468119
+> +Reviewed-by: Than McIntosh <thanm@google.com>
+> +Run-TryBot: Michael Pratt <mpratt@google.com>
+> +TryBot-Result: Gopher Robot <gobot@golang.org>
+> +Auto-Submit: Michael Pratt <mpratt@google.com>
+> +
+> +Upstream-Status: Backport from https://github.com/golang/go/commit/bdf07=
+c2e168baf736e4c057279ca12a4d674f18
+> +Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
+> +---
+> + src/path/filepath/path.go | 27 ++++++++++++++-------------
+> + 1 file changed, 14 insertions(+), 13 deletions(-)
+> +
+> +diff --git a/src/path/filepath/path.go b/src/path/filepath/path.go
+> +index 8300a32..94621a0 100644
+> +--- a/src/path/filepath/path.go
+> ++++ b/src/path/filepath/path.go
+> +@@ -15,6 +15,7 @@ import (
+> +       "errors"
+> +       "io/fs"
+> +       "os"
+> ++      "runtime"
+> +       "sort"
+> +       "strings"
+> + )
+> +@@ -117,21 +118,9 @@ func Clean(path string) string {
+> +               case os.IsPathSeparator(path[r]):
+> +                       // empty path element
+> +                       r++
+> +-              case path[r] =3D=3D '.' && r+1 =3D=3D n:
+> ++              case path[r] =3D=3D '.' && (r+1 =3D=3D n || os.IsPathSepa=
+rator(path[r+1])):
+> +                       // . element
+> +                       r++
+> +-              case path[r] =3D=3D '.' && os.IsPathSeparator(path[r+1]):
+> +-                      // ./ element
+> +-                      r++
+> +-
+> +-                      for r < len(path) && os.IsPathSeparator(path[r]) =
+{
+> +-                              r++
+> +-                      }
+> +-                      if out.w =3D=3D 0 && volumeNameLen(path[r:]) > 0 =
+{
+> +-                              // When joining prefix "." and an absolut=
+e path on Windows,
+> +-                              // the prefix should not be removed.
+> +-                              out.append('.')
+> +-                      }
+> +               case path[r] =3D=3D '.' && path[r+1] =3D=3D '.' && (r+2 =
+=3D=3D n || os.IsPathSeparator(path[r+2])):
+> +                       // .. element: remove to last separator
+> +                       r +=3D 2
+> +@@ -157,6 +146,18 @@ func Clean(path string) string {
+> +                       if rooted && out.w !=3D 1 || !rooted && out.w !=
+=3D 0 {
+> +                               out.append(Separator)
+> +                       }
+> ++                      // If a ':' appears in the path element at the st=
+art of a Windows path,
+> ++                      // insert a .\ at the beginning to avoid converti=
+ng relative paths
+> ++                      // like a/../c: into c:.
+> ++                      if runtime.GOOS =3D=3D "windows" && out.w =3D=3D =
+0 && out.volLen =3D=3D 0 && r !=3D 0 {
+> ++                              for i :=3D r; i < n && !os.IsPathSeparato=
+r(path[i]); i++ {
+> ++                                      if path[i] =3D=3D ':' {
+> ++                                              out.append('.')
+> ++                                              out.append(Separator)
+> ++                                              break
+> ++                                      }
+> ++                              }
+> ++                      }
+> +                       // copy element
+> +                       for ; r < n && !os.IsPathSeparator(path[r]); r++ =
+{
+> +                               out.append(path[r])
+> +--
+> +2.7.4
 > --
-> 2.34.1
+> 2.33.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#180187): https://lists.openembedded.org/g/openembedde=
+d-core/message/180187
+> Mute This Topic: https://lists.openembedded.org/mt/98341957/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
