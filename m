@@ -1,185 +1,110 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <bluelightning@bluelightning.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C12B8C6FD18
-	for <webhook@archiver.kernel.org>; Tue, 18 Apr 2023 21:12:35 +0000 (UTC)
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
- by mx.groups.io with SMTP id smtpd.web10.22014.1681852349455427018
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A07AC6FD18
+	for <webhook@archiver.kernel.org>; Tue, 18 Apr 2023 22:43:16 +0000 (UTC)
+Received: from mail-49-r22.ipv4.per01.ds.network (mail-49-r22.ipv4.per01.ds.network [27.123.26.153])
+ by mx.groups.io with SMTP id smtpd.web11.24272.1681857789946406715
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Apr 2023 14:12:29 -0700
+ Tue, 18 Apr 2023 15:43:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=kDYelUFb;
- spf=pass (domain: gmail.com, ip: 209.85.166.172, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-329627dabfbso39023825ab.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Apr 2023 14:12:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681852348; x=1684444348;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rV4/KTptNcfsbNfj9hXokFb7w4O41buAGa3WtQcUCJE=;
-        b=kDYelUFby4HaO2tJXWLayalY910mzGLEBL/BVO6a/TcAuBQ+DFQc3RcONiNPQEd3rH
-         WXRJO8z7cKngbsm+OTEBNHRRo1/TJynPpvhU7D59Vk6+dyWiHiBU9tV5I3yaEsXS5byE
-         PrGP9xwewe8HDs9cdr9HMI0WsB3nplWAqo6CiigB4joP3bYpm9iMWfQfmXZlmbX53akl
-         6+Y6ovYaJma3LIB6uAPvXHB3QJDobXeVKCCfJWoRr10nGN13m2K8etvdSQkXyvGv3/MX
-         l3SRMBYBkST5KcWEjjKp9OvA3GaK7g/o+GzDFjupjRGTpUe5xocmVCtco6IRlHdhKe73
-         0ajQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681852348; x=1684444348;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rV4/KTptNcfsbNfj9hXokFb7w4O41buAGa3WtQcUCJE=;
-        b=fUgniMvl4S3K55jgbaor50E3PqNNXzMMcR0Zi/Ani38cwKlS73I6NNz/Rhp010TZx8
-         Ba8MRP63ZjZ6rzBi0rI3RgEhe6iRj/biZpwyqrzsoXaLLR+OZWRqSOTZ2Btn5KFHbmhR
-         UdXHwumcoB2ZwSd8Cj+X18ncOiBWYpqvQvChOLi9A3cCXCfNEpzPLeZVG0E5BhKjQsb7
-         WkFIqY7BvHLvjUIy5I+FaXXmkYVpmBUEQB0rpMc1tlo3e++SWbSk5VIsQTrC/3kVheFY
-         lWJ4dSZJ7TtKj2f0zPfgpl+lQ4xn2w241QsxPPLmgwAojpyBkkF7CvjKF65NhMBsVxuR
-         e/Fg==
-X-Gm-Message-State: AAQBX9fIJT4h5vTXwV3tMgmS74ulzmVZN8l5QT7UWDGPgYf256yX992m
-	+bi3CwWkXBtClfUyRzgBm6IjiDqxoarIpceSFOs=
-X-Google-Smtp-Source: AKy350YPAq6ITOhvLXAls+G/k3qQaooNrIfNJwTv4oA/C5hnNQUT8TbnY6OrYPqcVEERFPeHETvtUmjkRMKDYrIBJno=
-X-Received: by 2002:a05:6602:2c94:b0:760:f293:12d8 with SMTP id
- i20-20020a0566022c9400b00760f29312d8mr194325iow.7.1681852348664; Tue, 18 Apr
- 2023 14:12:28 -0700 (PDT)
+ dkim=fail reason="no key for verify" header.i=@softec.co.nz header.s=default header.b=j1nFovHr;
+ spf=none, err=permanent DNS error (domain: bluelightning.org, ip: 27.123.26.153, mailfrom: bluelightning@bluelightning.org)
+Received: from server-72-r70.ipv4.per01.ds.network (cp-fp06.syd02.ds.network [122.201.124.108])
+	by halon-out01.au.ds.network (Halon) with ESMTPS
+	id 78d87d90-de3a-11ed-a07e-f8bc12f6d67f;
+	Wed, 19 Apr 2023 06:43:43 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=softec.co.nz; s=default; h=Content-Type:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=GXFBbCxmMaNDGqBDzQV2XpHbHGr2CdP60B4n+D2aBmA=; b=j1nFovHrvWCnBaNdKaEs5kLtdZ
+	BBPEtj53RpypG1ycDPnWhhH3FPnmPjABxNKumWSTAzPJGnQV6s9dbk78WKuqwVesv75am2H2dtIml
+	Aaw5nx1pKkH6+N4fBWNw7DnhCd1+Qt53/k18YLNIRzTBS2FXl+X3JyQFjnVVIrb/CeqP5FYsf+vBG
+	s0lSBKYW9LskipOnDkb1SR3/IsCu3yiN3J19zWUieHdJjDchuCjln6UEbswkhOxn9BU1SSdj9IG5P
+	3cH+4oTaZkke6Grj/4iAFaHRvhFEgoUR/cfMR2zawq/GGY93J3OJ0kpwl6v0bVd3w8pEoUHVhLV/y
+	pvf+1hLg==;
+Received: from [161.29.131.251] (port=44799 helo=linc.localnet)
+	by cp-fp06.syd02.ds.network with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <bluelightning@bluelightning.org>)
+	id 1pou2T-009CU3-OD;
+	Wed, 19 Apr 2023 10:43:05 +1200
+From: Paul Eggleton <bluelightning@bluelightning.org>
+To: Martin Jansa <Martin.Jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 09/14] image-artifact-names: add IMAGE_MACHINE_SUFFIX variable
+Date: Wed, 19 Apr 2023 10:43:05 +1200
+Message-ID: <45473015.fMDQidcC6G@linc>
+In-Reply-To: <06c7db2b170b9cf47c803ea12c83b58f886074b2.1678709427.git.Martin.Jansa@gmail.com>
+References: <cover.1678709427.git.Martin.Jansa@gmail.com> <06c7db2b170b9cf47c803ea12c83b58f886074b2.1678709427.git.Martin.Jansa@gmail.com>
 MIME-Version: 1.0
-References: <20230416103052.28268-1-christoph.lauer@email.de>
- <27b6976546dae12e92dd3af28f657c02eca4afe8.camel@linuxfoundation.org>
- <CANPvuRnSPULJzxC0qt=sQLWS5jyx4OkJ2cQobDzHs0LmmBG6MQ@mail.gmail.com>
- <CADkTA4N9Sypxccr0OU6KQxPK5rbsL_mNFGaJ2Zn_jYHL1tNSEg@mail.gmail.com> <652908a6640ffc911d46613cb99159086131416f.camel@linuxfoundation.org>
-In-Reply-To: <652908a6640ffc911d46613cb99159086131416f.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 18 Apr 2023 17:12:20 -0400
-Message-ID: <CADkTA4MBh46pqJoQjW4dhOc3Sw-4+rr-u4d48OPSs9eC1VPx8A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] make-mod-scripts: preserve libraries when
- rm_work is used
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Jose Quaresma <quaresma.jose@gmail.com>, Christoph Lauer <christoph.lauer@email.de>, 
-	openembedded-core@lists.openembedded.org, 
-	Christoph Lauer <christoph.lauer@xtronic.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cp-fp06.syd02.ds.network
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - bluelightning.org
+X-Get-Message-Sender-Via: cp-fp06.syd02.ds.network: authenticated_id: paul@softec.co.nz
+X-Authenticated-Sender: cp-fp06.syd02.ds.network: paul@softec.co.nz
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Apr 2023 21:12:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180203
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Apr 2023 22:43:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180204
 
-On Tue, Apr 18, 2023 at 5:04=E2=80=AFPM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Tue, 2023-04-18 at 16:25 -0400, Bruce Ashfield wrote:
-> > On Mon, Apr 17, 2023 at 6:31=E2=80=AFPM Jose Quaresma <quaresma.jose@gm=
-ail.com> wrote:
-> > >
-> > >
-> > >
-> > > Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia s=
-egunda, 17/04/2023 =C3=A0(s) 20:51:
-> > > >
-> > > > On Sun, 2023-04-16 at 12:30 +0200, Christoph Lauer wrote:
-> > > > > From: Christoph Lauer <christoph.lauer@xtronic.de>
-> > > > >
-> > > > > With rm_work active, external module signing throws an error:
-> > > > > scripts/sign-file: error while loading shared libraries: libcrypt=
-o.so.3: cannot open shared object file: No such file or directory
-> > > > > Preserve libraries that sign-file script needs during runtime.
-> > > > >
-> > > > > Signed-off-by: Christoph Lauer <christoph.lauer@xtronic.de>
-> > > > > ---
-> > > > >  meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 3=
- +++
-> > > > >  1 file changed, 3 insertions(+)
-> > > > >
-> > > > > diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-script=
-s_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-> > > > > index 28e0807d1d..0e24efc597 100644
-> > > > > --- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.b=
-b
-> > > > > +++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.b=
-b
-> > > > > @@ -32,3 +32,6 @@ do_configure() {
-> > > > >               -C ${STAGING_KERNEL_DIR} O=3D${STAGING_KERNEL_BUILD=
-DIR} $t
-> > > > >       done
-> > > > >  }
-> > > > > +
-> > > > > +# keep native libraries required for module signing
-> > > > > +RM_WORK_EXCLUDE_ITEMS +=3D "recipe-sysroot-native"
-> > > >
-> > > > I'm really reluctant to take this change as it isn't the way
-> > > > dependencies are meant to work.
-> > > >
-> > > > It sounds like something in a shared workdir is depending on someth=
-ing
-> > > > in a recipe workdir and we simply don't support that. Everything ne=
-eded
-> > > > should be in the shared workdir. At best this is a bandaid and ther=
-e
-> > > > will be other ways to make this fail such as cleaning make-mod-scri=
-pts.
-> > >
-> > >
-> > > The problem is because for signing the kernel modules the sign-file.c=
- [1] is linked dynamically with openssl-native.
-> > > This works when building the in tree kernel modules but will fail whe=
-n we try to sing any out of tree kernel module.
-> > > To sign the out of tree kernel we will use the binaries from the shar=
-ed workdir but the native libcrypto.so.3 is removed by
-> > > the rm_work bbclass. We need to link the sign-file statically otherwi=
-se it will not work with the rm_work bbclass.
-> > >
-> > > [1] https://github.com/torvalds/linux/blob/master/scripts/sign-file.c
-> > >
-> > > Another solution for this problem can be changing the make-mod-script=
-s to be a native tool and in this way
-> > > they will be installed and the dependencies will be handled correctly=
-.
-> >
-> > There would very likely be different issues if the scripts were
-> > generated and then packaged as a native tool / package. Since they are
-> > so tightly coupled to the kernel. We'd just trade one set of issues
-> > for another (out of sync artifacts, etc).
-> >
-> > I'm going to hack on this a bit.
-> >
-> > That being said, I've never done any module signing .. since I don't
-> > need it in my development workflow.
-> >
-> > Is there a canonical guide to getting it setup so I can test my static
-> > link and relocated artifacts fixes ? is it with meta-integrity and the
-> > kernel-modsign bbclass ?
->
-> I did think about this a bit more. It does likely depend on the version
-> of libcrypto from the host system as to whether it reproduces or not.
-> The possible solution ideas I came up with are:
->
-> a) statically link sign-file so we don't need libcrypto
-> b) copy the libcrypto.so into a known location in the shared workdir
-> (probably some new path) and then adding an RPATH/RUNPATH using chrpath
-> to the binary.
+Hi Martin
 
-Agreed. I have sign-file statically building here, and it works, but
-objtool is blowing up under static linking.
+On Tuesday, 14 March 2023 01:15:36 NZST Martin Jansa wrote:
+> * to make it easier for projects to avoid default -${MACHINE} suffix if
+>   the ${MACHINE} named DEPLOY_DIR_IMAGE works better for them
+> 
+> * also use IMAGE_LINK_NAME in IMAGE_NAME to make it more clear
+>   that IMAGE_NAME is the same as IMAGE_LINK_NAME but with version
+>   suffix
+> 
+> * adding it as separate variable helps us to catch the cases
+>   where we didn't respect ${IMAGE_LINK_NAME} variable and just used
+>   the common default ${IMAGE_BASENAME}-${MACHINE}.
+> 
+> [YOCTO #12937]
+> 
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/classes-recipe/image-artifact-names.bbclass  | 15 ++++++++++++---
+>  meta/classes-recipe/kernel-artifact-names.bbclass |  2 +-
+>  2 files changed, 13 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/classes-recipe/image-artifact-names.bbclass
+> b/meta/classes-recipe/image-artifact-names.bbclass index
+> 9dc25b6dde..ac2376d59a 100644
+> --- a/meta/classes-recipe/image-artifact-names.bbclass
+> +++ b/meta/classes-recipe/image-artifact-names.bbclass
+> @@ -11,11 +11,20 @@
+>  IMAGE_BASENAME ?= "${PN}"
+>  IMAGE_VERSION_SUFFIX ?= "-${DATETIME}"
+>  IMAGE_VERSION_SUFFIX[vardepsexclude] += "DATETIME SOURCE_DATE_EPOCH"
+> -IMAGE_NAME ?= "${IMAGE_BASENAME}-${MACHINE}${IMAGE_VERSION_SUFFIX}"
+> -IMAGE_LINK_NAME ?= "${IMAGE_BASENAME}-${MACHINE}"
+> +IMAGE_NAME ?= "${IMAGE_LINK_NAME}${IMAGE_VERSION_SUFFIX}"
+> +IMAGE_LINK_NAME ?= "${IMAGE_BASENAME}${IMAGE_MACHINE_SUFFIX}"
 
-If I can't break the tools into separate bits, or fix that static link
-.. My other idea is the same as yours, if we copy out the .so and make
-sure it is in a recognized location in the artifacts dir, we are good
-to go.
+So there's a minor unfortunate side-effect of this in that you can no longer 
+just set IMAGE_LINK_NAME = "" to drop the symlinks - a minority use case, but 
+something I have used. Of course you can just re-set the value of IMAGE_NAME. 
+I am making a note in the manual and migration guide.
 
-Bruce
-
->
-> Cheers,
->
-> Richard
->
->
+Cheers
+Paul
 
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+
+
 
