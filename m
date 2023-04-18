@@ -1,282 +1,220 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <jing.hui.tham@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE79EC77B71
-	for <webhook@archiver.kernel.org>; Tue, 18 Apr 2023 04:22:41 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web10.801.1681791758459327451
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52EF3C77B75
+	for <webhook@archiver.kernel.org>; Tue, 18 Apr 2023 04:29:21 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by mx.groups.io with SMTP id smtpd.web11.880.1681792159369037399
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Apr 2023 21:22:38 -0700
+ Mon, 17 Apr 2023 21:29:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=KOzMI3YB;
- spf=pass (domain: mvista.com, ip: 209.85.210.178, mailfrom: hprajapati@mvista.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-63b51fd2972so1412010b3a.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Apr 2023 21:22:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1681791758; x=1684383758;
-        h=in-reply-to:from:content-language:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ie8Mwk4norPq1gZBZkngkL/nR4ukHMCrQ/MIeWl9P4g=;
-        b=KOzMI3YBYHxT+A20NE5Gtf0g1w4wDg3PLN/6y+4fd5+srgxjwH3ZzFuSQ4GJPQ7jHy
-         kn5V0oICqzqz2beo9TzMDpXZyaa3iphkp92MToxkCrN1TnDQimdlRhxPixC3Q3LQAyw6
-         l4cTvSoJYZW7zTWkHL0VPUwWYQoma+936ed70=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681791758; x=1684383758;
-        h=in-reply-to:from:content-language:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Ie8Mwk4norPq1gZBZkngkL/nR4ukHMCrQ/MIeWl9P4g=;
-        b=JyWyAapJUiPknARS6xjHgWXYGcN4auoxPGVltUoY2SCdabnxraQstQgL5IhVQnKqhN
-         krWAfJfJbUOiW78b1H8L7b4e/jepix1P9XSWkmR3864xf5FG8D2ECFVB//FMp7XE78+/
-         KNyNHrgy5Lj1guc7HHw/pB+hTHw/eS28wOrucHKfYDmR69MLj5SwbobrgB8StPI8uU5H
-         7yVe3ZK3N0QrVa9tYjRyI6n7DA2TU1oxke1AjaGd4QmBW3GstOq4vUn88NiySgDRzlR8
-         oQmSIzA1e8t6GAKh1qeUYnt5qRX2e3i4WyYNK7sSReIIvrphvK9GaceQvhIaJ3c0swY4
-         3Agw==
-X-Gm-Message-State: AAQBX9c6xQIRwPKrgisJeGhGDAVRJyFt1QmuyYYjTg6Y2QFJ6By8/xlN
-	n/gpXm9DbP+jz7hmSHqY9ooAmg==
-X-Google-Smtp-Source: AKy350Z5F+n0nei5zfB8zknzmmSPxqaJ03ZMhuPCRKNZj43c00oNxdWGg+Yn1jlaFt54Ex1J8i1KRA==
-X-Received: by 2002:a17:902:dac1:b0:1a6:4127:857 with SMTP id q1-20020a170902dac100b001a641270857mr1124987plx.5.1681791757380;
-        Mon, 17 Apr 2023 21:22:37 -0700 (PDT)
-Received: from [192.168.1.102] ([150.129.170.130])
-        by smtp.gmail.com with ESMTPSA id g22-20020a1709029f9600b0019c91989a1csm8485948plq.300.2023.04.17.21.22.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Apr 2023 21:22:37 -0700 (PDT)
-Content-Type: multipart/alternative;
- boundary="------------Dj7nHnBLlwsc6M57jpqqCzZQ"
-Message-ID: <b01b0157-98ec-e84f-8395-d5d6fb05d0ea@mvista.com>
-Date: Tue, 18 Apr 2023 09:52:33 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [OE-core] [kirkstone][PATCH] curl: CVE-2023-27538 fix SSH
- connection too eager reuse
-To: Steve Sakoman <steve@sakoman.com>
-Cc: openembedded-core@lists.openembedded.org
-References: <20230417080512.169770-1-hprajapati@mvista.com>
- <CAOSpxdYO7-MnXgOCrWqT0OF54=sWGyUbmN-yyNOHHy8b7mF-1g@mail.gmail.com>
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=mZ/HgE+O;
+ spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: jing.hui.tham@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681792159; x=1713328159;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=SSO4AAwlo5jusJCKZyauDZ1eYXAleoNDeGcqWcc8dMA=;
+  b=mZ/HgE+OkrQEqsg6JKd2b+Zmsap51PAX2p7g/3t2LNwCjtlddcW5IGbQ
+   rUg33dl7V36LtY/VN/f9K1nafkUoKkQY4yhZ1YYGDa1nCfz6Y9+L0LcS0
+   8j/tgqF3bsb9VF8GNa4+ldo8zP2gA3Wg1K/5qBQsd7cGdGSru288tPoRK
+   7CbOp6gN8nslnZnXPxND0cUvtZ2X2xXb9J4AnuTJuZTI8pTyx7V4SQT8K
+   serHjM3kExNDuSKWFdSACmfejSgST47CZum7V0Zgp4T2gcqXkhVDO+mbV
+   wX63gKe4fOftQAaQUzgdN52+bdqmyM8nq9JtW4wUMx0gJyOQRHNAKEdQL
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="342565594"
+X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; 
+   d="scan'208";a="342565594"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 21:29:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="760219519"
+X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; 
+   d="scan'208";a="760219519"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga004.fm.intel.com with ESMTP; 17 Apr 2023 21:29:18 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Mon, 17 Apr 2023 21:29:18 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Mon, 17 Apr 2023 21:29:18 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Mon, 17 Apr 2023 21:29:18 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.48) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Mon, 17 Apr 2023 21:29:18 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IVZivbwv6hLlOonE2tDJXoMtCRArW9eeLvJIswaeKQUv3eMcgEy1uY6jThrBHKI7+adF5jdyxgEDRn4yrgToCrmv56ZQpWWcy5JHIL1CddqgZjXL1a02S9vX6l5obU6GrvExA9hLlahAMMAhZ4pEgbPdR+hD7EOVJVxw56fjEQfzVL/9wVm2nBXl8kSdvTj4J+8SKMzu20NIFbJ1rCurdQlEWJXtSD8ktQ1m/zb5duWrziECa3MAVqAqr80d3bdDGkPEueCvDHEopEWHMhMVvdk9htf2vEUX7EtTq7BD+YjEb8QO6Vxukkkv4TjfHy3Cijgk1S5C3paLQj1Z4xLquA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=klIqfkTNluHIz0mlIhgiYxU4bVZSOZlKoZzGjM3PDYw=;
+ b=DyegxdBlCzYDcqq3nFhW35WKQaTT4rBh9CbNFgpfdT+9yNZFOWhmSjXOBKd0r640nsBneYTZENXwAszM6g3o77QpLkkZKXNTTZBOLTaG6zG5K4weBpyrNLFLQQsw2M69Hz6S4fM1tIKe0EVvzQ7VrnjyZ+dvK29d9Maox5D4Us2oWkYnAqT9akqDReLSQxxSALtwbKFM3Cpwu+5It/1X4oJLF5F8JryoCmcGoukrIqtbQyJPnHtXMHnPdvvzISs5tFdZxneKP5sXGvoOH1hKeqMvppRrpBiA1yYFZzrcEd0cgyccXXaIuaoNMNAWAW/Z0wWFHM1SgihED7HRTPl+nA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BY5PR11MB4152.namprd11.prod.outlook.com (2603:10b6:a03:191::11)
+ by SJ2PR11MB7428.namprd11.prod.outlook.com (2603:10b6:a03:4cf::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.45; Tue, 18 Apr
+ 2023 04:29:16 +0000
+Received: from BY5PR11MB4152.namprd11.prod.outlook.com
+ ([fe80::5f31:3301:4918:ca67]) by BY5PR11MB4152.namprd11.prod.outlook.com
+ ([fe80::5f31:3301:4918:ca67%5]) with mapi id 15.20.6298.045; Tue, 18 Apr 2023
+ 04:29:16 +0000
+From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
+To: "qa-build-notification@lists.yoctoproject.org"
+	<qa-build-notification@lists.yoctoproject.org>,
+	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [qa-build-notification] QA notification for completed autobuilder
+ build (yocto-4.0.9.rc1)
+Thread-Topic: [qa-build-notification] QA notification for completed
+ autobuilder build (yocto-4.0.9.rc1)
+Thread-Index: AQHZbY95r7KNq6lyIUic2qx9gQnmsa8wgV3w
+Date: Tue, 18 Apr 2023 04:29:16 +0000
+Message-ID: <BY5PR11MB4152902AC610E3FA39097BA4A19D9@BY5PR11MB4152.namprd11.prod.outlook.com>
+References: <01010187779e6a8a-9f7af2b6-6b9f-429d-8340-d75d26017f8d-000000@us-west-2.amazonses.com>
+In-Reply-To: <01010187779e6a8a-9f7af2b6-6b9f-429d-8340-d75d26017f8d-000000@us-west-2.amazonses.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: Hitendra Prajapati <hprajapati@mvista.com>
-In-Reply-To: <CAOSpxdYO7-MnXgOCrWqT0OF54=sWGyUbmN-yyNOHHy8b7mF-1g@mail.gmail.com>
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BY5PR11MB4152:EE_|SJ2PR11MB7428:EE_
+x-ms-office365-filtering-correlation-id: 90c8d67d-4b29-4045-80a7-08db3fc5788a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: njbd3xuBsHbRIEZT9Ud3lD9rJ1EaHtapt1N84rx4j9KxVYqDoGZDIncKV3FHx9hZKGvrivZFUwJTgGo5IRT0uSiLKKf5+iE1Ma4RYSEh/I2IbxV2aED41VeXLxrz/7iECcq+UJT4+ZJ2EVUsO1F6gGIlDCaRB5J1Zx+g+Qlf9NP5p6B3meTLpI8Z5sKdc5mcpHXhj29NSVrUVLaEIiT0b9/TJwgY5sGRBAZC2Mj6tBl9qoA0Ovf7iccE3VShMMbY+1EflchcR2FupSX75FRNoeCZHs+XJI4IzLCaiek/thBgLSzEj1nP6f6H/PZ6wjKKCFK4JURQxZs8nlUpRbdBHaqTMLqtJViJfE1iY+5L52J7nKiAzpvXO4HI6Alo4QmFmV6hrUkwvWQ1eFF/umqe64d6rVvZG09nGf/iAOBPuIBjYazcBSIzqnGy8i4zq+g1wmX4uGIKzef9WdumJqn+myJf/iNX6pw8iNQSYoJ0k7JLE1L58Styep4z8PiOIWjzgtJhrRezANzQivH0hPXrS8KJ1ryM3UdI5iriOuIldNzN5GQETjj97sQuFFvMcZ5phYu6ipZ3iG0m/ublxkhqIb+KBPaeP33OlR+qd1mpWGBcvkefeOaOAiv007S7tDxnBdTVorOoSDswyYbpHyO4rw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4152.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(366004)(396003)(136003)(39860400002)(346002)(451199021)(33656002)(76116006)(110136005)(316002)(66446008)(64756008)(66946007)(66556008)(66476007)(966005)(71200400001)(7696005)(478600001)(41300700001)(5660300002)(8676002)(55016003)(8936002)(15650500001)(2906002)(52536014)(38070700005)(86362001)(82960400001)(122000001)(38100700002)(6506007)(9686003)(26005)(186003)(53546011)(83380400001)(66899021);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?byO12N5mitxOQlkd0+x32UjdF5CpeAQNEzM6huaRSqG6+3VuujTFaPFVdpXB?=
+ =?us-ascii?Q?ttTsr1itw9SLje21ximgxwnVWMhdxT5U/ZmOpAjMM/JXpLBGse4uTAFSj7ID?=
+ =?us-ascii?Q?8zzCIT1x2KiofK/d0lJac8wR2yijesk/Cssjxaew4XPAPpHh5zM+CCsspVm1?=
+ =?us-ascii?Q?p/GGZhDFwIjj6rH+ffZaFf2EGEpdGqopF0jJHa5PC0CFcM8VJ157R5DR23sA?=
+ =?us-ascii?Q?XxwOxBx9Goy0f2LHQ07wwS2n9I0UyGTT7sl/4MYfq8RLZdmGeqFI1yeZKTnL?=
+ =?us-ascii?Q?ZSbwJh+8ifzgzCrrNBucWuWJpFmagcsYcrLY4Q8410E3qR4kv/wrXcsFjST/?=
+ =?us-ascii?Q?PPz+N0t6KSWXH2AnzqF2p1LXd8k/5SyDUGRVMhCtMzGnKELq7kSJrZDJeLQa?=
+ =?us-ascii?Q?RJvJqEOt1KHE7heW/XM8eHUria5UD+bj9X872X+75FXK+M5UcAGzN/jf4FCS?=
+ =?us-ascii?Q?XPq/629QAhYibrBOhgbYGmLfc+CSADG5NhUCTUOQnx6ho8nKJu6jZFrKzd20?=
+ =?us-ascii?Q?lJuOiYtRsEqJFAnCkEg1zr2jKKMye8+Qc9FIaku6Vk/bzFCckkrfMXneli/d?=
+ =?us-ascii?Q?rPO79vGAbjWrWEl/MVThYYHWfCWNLPGCzbb1f/t6mziuDhzDoekzFD0pfl+a?=
+ =?us-ascii?Q?xZwk6gg7Zk0qzh9nXdbC1czbmuI5GmV7GidR3y4Cfckq3f6FcHtExI2xgls4?=
+ =?us-ascii?Q?+byqNNPKgmJlpJxCi87gbNw3OAknMTDXf51PfzYeOXTd0hQffcW5Y63CtyOd?=
+ =?us-ascii?Q?XbE/p7F5DvEfeuqgKkgZRb4PFudFZyhSu88nDQ9e8gX2uULFKNAqN19eHfCo?=
+ =?us-ascii?Q?JsDN1vNyrKmu/6K5shwKMTSa825KFhojMnJ1P/YEywUnN3BMVqvVkVyBY0dc?=
+ =?us-ascii?Q?DxTwJiTXEc9gv9YhaNlT5BZ8uEaZlRsJH3tUM9Pgk8jhgVh6kQd6VRQIRUvO?=
+ =?us-ascii?Q?tuZ2YVaXk1iHDhNi+ybNNFZhjBTEtUmHZEV39CECu+pFakbAKf6DyigcRRcw?=
+ =?us-ascii?Q?e4Yg32h95XGwmx1MgQrsY80AntqUBLaY8ZfQibbhlL4kad86lKmHONXyupz6?=
+ =?us-ascii?Q?/wfU2dOgyAc+A3ieg+EY43qvKVL6XT87UWCnGQ8EsE9dBO1kUAUOEWiI7R2m?=
+ =?us-ascii?Q?v8FoNMkwlIay22YD/LrQOidF8BVA4AiJEB3aLZjYum67oPyUau7PLiNKdWQn?=
+ =?us-ascii?Q?tOxyspV3rrBg7JHWcNoWbZgTI7ReYvWFqWT1eNSa6kaGOFPi5lxr8ZFcB6KA?=
+ =?us-ascii?Q?KBIGurNEQMqYERpNu9xqwSkhlACUx5g6mHwL2hCDnOQNpxqRvcSxLRtXhhJY?=
+ =?us-ascii?Q?daykroaQSmBn8+oGboTXhlawfpF3+q0PRqLtJo5qqZSPz6DafTnNEEsOF73D?=
+ =?us-ascii?Q?V6+ldgZHyvCoaS/mtEa2c+ZHzctm9PDt4V9fyfZJa7FlnFf8y2cdzY9s4ei5?=
+ =?us-ascii?Q?wxlu1gMMZdnUKOAHFF4h9xuCEl/o+F3bsbWNJY1V4BaiEYzvFNKMhL49Hzaw?=
+ =?us-ascii?Q?Y5VcLsCLpEvMxXSKU9JQoJX1f3SUdim9ZS5kBseyYHPNkSb7TgiGla2znNGc?=
+ =?us-ascii?Q?oNBnT4tg+XDpAg5zYiiY7s5KRskzWmY04ICn/OYC?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4152.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 90c8d67d-4b29-4045-80a7-08db3fc5788a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Apr 2023 04:29:16.6055
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0a7P3MWjFsPxX2E/9PY6GNeBsAQiwEEb7RvVeKnbihIDA9r4D7gF981+eP3qXsIRQQtvILWOsGoGxSgvoIn3iQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7428
+X-OriginatorOrg: intel.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Apr 2023 04:22:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180175
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Apr 2023 04:29:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180176
 
-This is a multi-part message in MIME format.
---------------Dj7nHnBLlwsc6M57jpqqCzZQ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-Hi Steve,
-
-It is fine with combined patch as it contains fix for CVE-2023-27538.
-
-Thank you & Regards,
-
-Hitendra
-
-On 17/04/23 22:11, Steve Sakoman wrote:
-> There is also a patch submitted today that fixes this CVE as well as
-> two others:https://lists.openembedded.org/g/openembedded-core/message/180143
->
-> Could you review the above patch and ack if you approve.  It would be
-> nice to fix all three patches in a single commit if possible.
->
-> Thanks!
->
-> Steve
->
-> On Sun, Apr 16, 2023 at 10:05 PM Hitendra Prajapati
-> <hprajapati@mvista.com>  wrote:
->> Upstream-Status: Backport fromhttps://github.com/curl/curl/commit/af369db4d3833272b8ed443f7fcc2e757a0872eb
->>
->> Signed-off-by: Hitendra Prajapati<hprajapati@mvista.com>
->> ---
->>   .../curl/curl/CVE-2023-27538.patch            | 31 +++++++++++++++++++
->>   meta/recipes-support/curl/curl_7.82.0.bb      |  1 +
->>   2 files changed, 32 insertions(+)
->>   create mode 100644 meta/recipes-support/curl/curl/CVE-2023-27538.patch
->>
->> diff --git a/meta/recipes-support/curl/curl/CVE-2023-27538.patch b/meta/recipes-support/curl/curl/CVE-2023-27538.patch
->> new file mode 100644
->> index 0000000000..8ef81fb306
->> --- /dev/null
->> +++ b/meta/recipes-support/curl/curl/CVE-2023-27538.patch
->> @@ -0,0 +1,31 @@
->> +From af369db4d3833272b8ed443f7fcc2e757a0872eb Mon Sep 17 00:00:00 2001
->> +From: Daniel Stenberg<daniel@haxx.se>
->> +Date: Fri, 10 Mar 2023 08:22:51 +0100
->> +Subject: [PATCH] url: fix the SSH connection reuse check
->> +
->> +Reported-by: Harry Sintonen
->> +Closes #10735
->> +
->> +CVE: CVE-2023-27538
->> +Upstream-Status: Backport [https://github.com/curl/curl/commit/af369db4d3833272b8ed443f7fcc2e757a0872eb]
->> +Signed-off-by: Hitendra Prajapati<hprajapati@mvista.com>
->> +---
->> + lib/url.c | 2 +-
->> + 1 file changed, 1 insertion(+), 1 deletion(-)
->> +
->> +diff --git a/lib/url.c b/lib/url.c
->> +index f5e54c7..7dd342a 100644
->> +--- a/lib/url.c
->> ++++ b/lib/url.c
->> +@@ -1353,7 +1353,7 @@ ConnectionExists(struct Curl_easy *data,
->> +          (data->state.httpwant < CURL_HTTP_VERSION_2_0))
->> +         continue;
->> +
->> +-      if(get_protocol_family(needle->handler) == PROTO_FAMILY_SSH) {
->> ++      if(get_protocol_family(needle->handler) & PROTO_FAMILY_SSH) {
->> +         if(!ssh_config_matches(needle, check))
->> +           continue;
->> +       }
->> +--
->> +2.25.1
->> +
->> diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
->> index 4c18afe293..b0a456016d 100644
->> --- a/meta/recipes-support/curl/curl_7.82.0.bb
->> +++ b/meta/recipes-support/curl/curl_7.82.0.bb
->> @@ -42,6 +42,7 @@ SRC_URI ="https://curl.se/download/${BP}.tar.xz \ file://CVE-2023-23916.patch 
->> \ file://CVE-2023-27533.patch \ file://CVE-2023-27534.patch \ + 
->> file://CVE-2023-27538.patch \ "
->>   SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
->>
->> --
->> 2.25.1
->>
->>
->> -=-=-=-=-=-=-=-=-=-=-=-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#180151):https://lists.openembedded.org/g/openembedded-core/message/180151
->> Mute This Topic:https://lists.openembedded.org/mt/98314707/3620601
->> Group Owner:openembedded-core+owner@lists.openembedded.org
->> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  [steve@sakoman.com]
->> -=-=-=-=-=-=-=-=-=-=-=-
->>
--- 
-Regards,
-Hitendra Prajapati
-MontaVista Software LLC
---------------Dj7nHnBLlwsc6M57jpqqCzZQ
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>Hi Steve,</p>
-    <p>It is fine with combined patch as it contains fix for
-      CVE-2023-27538.</p>
-    <p>Thank you &amp; Regards,</p>
-    <p>Hitendra <br>
-    </p>
-    <div class="moz-cite-prefix">On 17/04/23 22:11, Steve Sakoman wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAOSpxdYO7-MnXgOCrWqT0OF54=sWGyUbmN-yyNOHHy8b7mF-1g@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">There is also a patch submitted today that fixes this CVE as well as
-two others: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/180143">https://lists.openembedded.org/g/openembedded-core/message/180143</a>
-
-Could you review the above patch and ack if you approve.  It would be
-nice to fix all three patches in a single commit if possible.
-
-Thanks!
-
-Steve
-
-On Sun, Apr 16, 2023 at 10:05 PM Hitendra Prajapati
-<a class="moz-txt-link-rfc2396E" href="mailto:hprajapati@mvista.com">&lt;hprajapati@mvista.com&gt;</a> wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-Upstream-Status: Backport from <a class="moz-txt-link-freetext" href="https://github.com/curl/curl/commit/af369db4d3833272b8ed443f7fcc2e757a0872eb">https://github.com/curl/curl/commit/af369db4d3833272b8ed443f7fcc2e757a0872eb</a>
-
-Signed-off-by: Hitendra Prajapati <a class="moz-txt-link-rfc2396E" href="mailto:hprajapati@mvista.com">&lt;hprajapati@mvista.com&gt;</a>
----
- .../curl/curl/CVE-2023-27538.patch            | 31 +++++++++++++++++++
- meta/recipes-support/curl/curl_7.82.0.bb      |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-27538.patch
-
-diff --git a/meta/recipes-support/curl/curl/CVE-2023-27538.patch b/meta/recipes-support/curl/curl/CVE-2023-27538.patch
-new file mode 100644
-index 0000000000..8ef81fb306
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2023-27538.patch
-@@ -0,0 +1,31 @@
-+From af369db4d3833272b8ed443f7fcc2e757a0872eb Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <a class="moz-txt-link-rfc2396E" href="mailto:daniel@haxx.se">&lt;daniel@haxx.se&gt;</a>
-+Date: Fri, 10 Mar 2023 08:22:51 +0100
-+Subject: [PATCH] url: fix the SSH connection reuse check
-+
-+Reported-by: Harry Sintonen
-+Closes #10735
-+
-+CVE: CVE-2023-27538
-+Upstream-Status: Backport [<a class="moz-txt-link-freetext" href="https://github.com/curl/curl/commit/af369db4d3833272b8ed443f7fcc2e757a0872eb">https://github.com/curl/curl/commit/af369db4d3833272b8ed443f7fcc2e757a0872eb</a>]
-+Signed-off-by: Hitendra Prajapati <a class="moz-txt-link-rfc2396E" href="mailto:hprajapati@mvista.com">&lt;hprajapati@mvista.com&gt;</a>
-+---
-+ lib/url.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/lib/url.c b/lib/url.c
-+index f5e54c7..7dd342a 100644
-+--- a/lib/url.c
-++++ b/lib/url.c
-+@@ -1353,7 +1353,7 @@ ConnectionExists(struct Curl_easy *data,
-+          (data-&gt;state.httpwant &lt; CURL_HTTP_VERSION_2_0))
-+         continue;
-+
-+-      if(get_protocol_family(needle-&gt;handler) == PROTO_FAMILY_SSH) {
-++      if(get_protocol_family(needle-&gt;handler) &amp; PROTO_FAMILY_SSH) {
-+         if(!ssh_config_matches(needle, check))
-+           continue;
-+       }
-+--
-+2.25.1
-+
-diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-index 4c18afe293..b0a456016d 100644
---- a/meta/recipes-support/curl/curl_7.82.0.bb
-+++ b/meta/recipes-support/curl/curl_7.82.0.bb
-@@ -42,6 +42,7 @@ SRC_URI = <a class="moz-txt-link-rfc2396E" href="https://curl.se/download/${BP}.tar.xz\file://CVE-2023-23916.patch\file://CVE-2023-27533.patch\file://CVE-2023-27534.patch\+file://CVE-2023-27538.patch\">"https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2023-23916.patch \
-            file://CVE-2023-27533.patch \
-            file://CVE-2023-27534.patch \
-+           file://CVE-2023-27538.patch \
-            "</a>
- SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
-
---
-2.25.1
+Hi All,
+=20
+QA for yocto-4.0.9.rc1 is completed. This is the full report for this relea=
+se: =20
+https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?=
+h=3Dintel-yocto-testresults
+=20
+=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
+No high milestone defects.
+=20
+No new issue found.=20
+=20
+Thanks,
+Jing Hui
 
 
--=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#180151): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/180151">https://lists.openembedded.org/g/openembedded-core/message/180151</a>
-Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/98314707/3620601">https://lists.openembedded.org/mt/98314707/3620601</a>
-Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
-Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:steve@sakoman.com">steve@sakoman.com</a>]
--=-=-=-=-=-=-=-=-=-=-=-
+> -----Original Message-----
+> From: qa-build-notification@lists.yoctoproject.org <qa-build-
+> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User
+> Sent: Thursday, April 13, 2023 6:38 AM
+> To: yocto@lists.yoctoproject.org
+> Cc: qa-build-notification@lists.yoctoproject.org
+> Subject: [qa-build-notification] QA notification for completed autobuilde=
+r
+> build (yocto-4.0.9.rc1)
+>=20
+>=20
+> A build flagged for QA (yocto-4.0.9.rc1) was completed on the autobuilder
+> and is available at:
+>=20
+>=20
+>     https://autobuilder.yocto.io/pub/releases/yocto-4.0.9.rc1
+>=20
+>=20
+> Build hash information:
+>=20
+> bitbake: 2802adb572eb73a3eb2725a74a9bbdaafc543fa7
+> meta-agl: 535bc8f54ce5fcb4a94204df5f2b3317beb53f23
+> meta-arm: a0216a41bde3f191037332a9238648bedfbc61bd
+> meta-aws: 3f7ab5912239d667764e7df885776b267eddf265
+> meta-gplv2: d2f8b5cdb285b72a4ed93450f6703ca27aa42e8a
+> meta-intel: 4c6cc14669d0e9de36e1a050ce4084ca14181722
+> meta-mingw: a90614a6498c3345704e9611f2842eb933dc51c1
+> meta-openembedded: 571e36e20e9d1f27af0eb4545291beeb64f280e2
+> meta-virtualization: bfa6727718bc4eb550c24e2c03a4118b4e7bc842
+> oecore: ff4b57ffff903a93b710284c7c7f916ddd74712f
+> poky: 09def309f91929f47c6cce386016ccb777bd2cfc
+>=20
+>=20
+>=20
+> This is an automated message from the Yocto Project Autobuilder
+> Git: git://git.yoctoproject.org/yocto-autobuilder2
+> Email: richard.purdie@linuxfoundation.org
+>=20
+>=20
+>=20
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#243): https://lists.yoctoproject.org/g/qa-build-
+> notification/message/243
+> Mute This Topic: https://lists.yoctoproject.org/mt/98230059/6424044
+> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-
+> notification/leave/10762429/6424044/1746813897/xyzzy
+> [jing.hui.tham@intel.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
-</pre>
-      </blockquote>
-    </blockquote>
-    <div class="moz-signature">-- <br>
-      <font color="#0000ff">
-        Regards,<br>
-        Hitendra Prajapati<br>
-        MontaVista Software LLC<br>
-      </font></div>
-  </body>
-</html>
-
---------------Dj7nHnBLlwsc6M57jpqqCzZQ--
 
