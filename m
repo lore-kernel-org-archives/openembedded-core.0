@@ -2,60 +2,60 @@ Return-Path: <pazhukov@suse.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9C4DC77B76
-	for <webhook@archiver.kernel.org>; Tue, 18 Apr 2023 13:29:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE29DC77B75
+	for <webhook@archiver.kernel.org>; Tue, 18 Apr 2023 13:33:13 +0000 (UTC)
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by mx.groups.io with SMTP id smtpd.web11.8803.1681824561971746426
+ by mx.groups.io with SMTP id smtpd.web10.9041.1681824790507884113
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Apr 2023 06:29:22 -0700
+ Tue, 18 Apr 2023 06:33:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@suse.de header.s=susede2_rsa header.b=rrXMcPJd;
+ dkim=fail reason="body hash did not verify" header.i=@suse.de header.s=susede2_rsa header.b=Iw6aRb80;
  spf=pass (domain: suse.de, ip: 195.135.220.29, mailfrom: pazhukov@suse.de)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E89CB1F8D5;
-	Tue, 18 Apr 2023 13:29:19 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D4BB31F8D5;
+	Tue, 18 Apr 2023 13:33:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1681824559; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1681824788; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=rTbRrP7dvujzFWQgNfr/Beh15H7FnUjQ0WsoODPITfQ=;
-	b=rrXMcPJdte9YhjCp9k3fUdFW4xXpnOJiY7yPpWcDMws76WIlMc9G2u2FJnk6FcFy7ocuNv
-	XzZXZtrBe/2d+i6ikVXx5DcwzR7YK4e0bCnv99mk+u/VJFGqORQf/35efWEEt3Uo1jZh+3
-	5F1hJbbP0Y5aMgLRaMMgUFNMpOxZjXA=
+	bh=IwBODCcSkl/VqimYNN0gPbwBCUok84O7YtwLNG79fJ0=;
+	b=Iw6aRb80kBCcJDqiQyNfk6mFuTenvSTrXLfyqYZ0QkRC2aJ12zBaNBTSyAJq9NxgxD872o
+	M1SsiSzn4pSf2tn+oi5E+GQTeOXngDPDEz2RS8xxFUdsWNdPAQvF8gmCPEAvnCJNN8Dhpl
+	ab/HREJfCPB6ddq3rxhwQn0w+MWT0ik=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1681824559;
+	s=susede2_ed25519; t=1681824788;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=rTbRrP7dvujzFWQgNfr/Beh15H7FnUjQ0WsoODPITfQ=;
-	b=Dz7LKm6hTg6bObHfauZlshjwbO7RfBMrGKROmLnztRdvA+8Dod4UadS35kuJYg0J7wA+io
-	+vA11vJgwtMnIPCA==
+	bh=IwBODCcSkl/VqimYNN0gPbwBCUok84O7YtwLNG79fJ0=;
+	b=M+lb2/zI7BB5LsQjHvKnJEnJM+QtYEdKfVG6Hgn7Lkjax2Z3fnEpbskch6z8Tlynl15CE6
+	V9XMgs0TgRAVbcAA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B1B0413581;
-	Tue, 18 Apr 2023 13:29:19 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9792113581;
+	Tue, 18 Apr 2023 13:33:08 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id Kp8RKS+bPmRPOAAAMHmgww
-	(envelope-from <pazhukov@suse.de>); Tue, 18 Apr 2023 13:29:19 +0000
+	id yFu9IhScPmS+OgAAMHmgww
+	(envelope-from <pazhukov@suse.de>); Tue, 18 Apr 2023 13:33:08 +0000
 From: Pavel Zhukov <pazhukov@suse.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Pavel Zhukov <pazhukov@suse.de>,
 	pavel@zhukoff.net
-Subject: [PATCH] scripts/runqemu: Add possibility to disable network
-Date: Tue, 18 Apr 2023 15:29:36 +0200
-Message-Id: <20230418132936.3860394-1-pazhukov@suse.de>
+Subject: [PATCH v2] scripts/runqemu: Add possibility to disable network
+Date: Tue, 18 Apr 2023 15:33:25 +0200
+Message-Id: <20230418133325.3860559-1-pazhukov@suse.de>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Apr 2023 13:29:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180188
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Apr 2023 13:33:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180189
 
 Default network configuration requires tun/tap module and while being
 usable it conflicts with tap devices created by VPN clients sometimes
@@ -67,11 +67,11 @@ not needed and SDL/serial is enough to communicate with the image.
 
 Signed-off-by: Pavel Zhukov <pazhukov@suse.de>
 ---
- scripts/runqemu | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ scripts/runqemu | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/runqemu b/scripts/runqemu
-index 4c06cefbff..f953891c9d 100755
+index 4c06cefbff..56715c3e1e 100755
 --- a/scripts/runqemu
 +++ b/scripts/runqemu
 @@ -66,6 +66,7 @@ of the following environment variables (in any order):
@@ -100,30 +100,18 @@ e if unspecified)
              elif arg =3D=3D 'sdl':
                  self.sdl =3D True
              elif arg =3D=3D 'gtk':
-@@ -1223,6 +1227,10 @@ to your build configuration.
-=20
+@@ -1224,7 +1228,8 @@ to your build configuration.
          self.set('NETWORK_CMD', '%s %s' % (self.network_device.replace('=
 @MAC@', mac), qemu_tap_opt))
 =20
-+    def setup_nonetwork(self):
-+        self.set('NETWORK_CMD', '-nic none')
-+        return
-+
      def setup_network(self):
-         if self.get('QB_NET') =3D=3D 'none':
+-        if self.get('QB_NET') =3D=3D 'none':
++        if self.nonetwork or self.get('QB_NET') =3D=3D 'none':
++            self.set('NETWORK_CMD', '-nic none')
              return
-@@ -1717,7 +1725,10 @@ def main():
-         # Check whether the combos is valid or not
-         config.validate_combos()
-         config.print_config()
--        config.setup_network()
-+        if config.nonetwork:
-+            config.setup_nonetwork()
-+        else:
-+            config.setup_network()
-         config.setup_rootfs()
-         config.setup_final()
-         config.setup_cmd()
+         if sys.stdin.isatty():
+             self.saved_stty =3D subprocess.check_output(("stty", "-g")).=
+decode('utf-8').strip()
 --=20
 2.39.2
 
