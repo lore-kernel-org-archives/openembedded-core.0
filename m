@@ -1,220 +1,222 @@
-Return-Path: <jing.hui.tham@intel.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52EF3C77B75
-	for <webhook@archiver.kernel.org>; Tue, 18 Apr 2023 04:29:21 +0000 (UTC)
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by mx.groups.io with SMTP id smtpd.web11.880.1681792159369037399
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85D82C77B71
+	for <webhook@archiver.kernel.org>; Tue, 18 Apr 2023 05:23:11 +0000 (UTC)
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+ by mx.groups.io with SMTP id smtpd.web11.1448.1681795390878980960
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Apr 2023 21:29:19 -0700
+ Mon, 17 Apr 2023 22:23:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=mZ/HgE+O;
- spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: jing.hui.tham@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681792159; x=1713328159;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=SSO4AAwlo5jusJCKZyauDZ1eYXAleoNDeGcqWcc8dMA=;
-  b=mZ/HgE+OkrQEqsg6JKd2b+Zmsap51PAX2p7g/3t2LNwCjtlddcW5IGbQ
-   rUg33dl7V36LtY/VN/f9K1nafkUoKkQY4yhZ1YYGDa1nCfz6Y9+L0LcS0
-   8j/tgqF3bsb9VF8GNa4+ldo8zP2gA3Wg1K/5qBQsd7cGdGSru288tPoRK
-   7CbOp6gN8nslnZnXPxND0cUvtZ2X2xXb9J4AnuTJuZTI8pTyx7V4SQT8K
-   serHjM3kExNDuSKWFdSACmfejSgST47CZum7V0Zgp4T2gcqXkhVDO+mbV
-   wX63gKe4fOftQAaQUzgdN52+bdqmyM8nq9JtW4wUMx0gJyOQRHNAKEdQL
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="342565594"
-X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; 
-   d="scan'208";a="342565594"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 21:29:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="760219519"
-X-IronPort-AV: E=Sophos;i="5.99,206,1677571200"; 
-   d="scan'208";a="760219519"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmsmga004.fm.intel.com with ESMTP; 17 Apr 2023 21:29:18 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Mon, 17 Apr 2023 21:29:18 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Mon, 17 Apr 2023 21:29:18 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Mon, 17 Apr 2023 21:29:18 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.48) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Mon, 17 Apr 2023 21:29:18 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IVZivbwv6hLlOonE2tDJXoMtCRArW9eeLvJIswaeKQUv3eMcgEy1uY6jThrBHKI7+adF5jdyxgEDRn4yrgToCrmv56ZQpWWcy5JHIL1CddqgZjXL1a02S9vX6l5obU6GrvExA9hLlahAMMAhZ4pEgbPdR+hD7EOVJVxw56fjEQfzVL/9wVm2nBXl8kSdvTj4J+8SKMzu20NIFbJ1rCurdQlEWJXtSD8ktQ1m/zb5duWrziECa3MAVqAqr80d3bdDGkPEueCvDHEopEWHMhMVvdk9htf2vEUX7EtTq7BD+YjEb8QO6Vxukkkv4TjfHy3Cijgk1S5C3paLQj1Z4xLquA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=klIqfkTNluHIz0mlIhgiYxU4bVZSOZlKoZzGjM3PDYw=;
- b=DyegxdBlCzYDcqq3nFhW35WKQaTT4rBh9CbNFgpfdT+9yNZFOWhmSjXOBKd0r640nsBneYTZENXwAszM6g3o77QpLkkZKXNTTZBOLTaG6zG5K4weBpyrNLFLQQsw2M69Hz6S4fM1tIKe0EVvzQ7VrnjyZ+dvK29d9Maox5D4Us2oWkYnAqT9akqDReLSQxxSALtwbKFM3Cpwu+5It/1X4oJLF5F8JryoCmcGoukrIqtbQyJPnHtXMHnPdvvzISs5tFdZxneKP5sXGvoOH1hKeqMvppRrpBiA1yYFZzrcEd0cgyccXXaIuaoNMNAWAW/Z0wWFHM1SgihED7HRTPl+nA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BY5PR11MB4152.namprd11.prod.outlook.com (2603:10b6:a03:191::11)
- by SJ2PR11MB7428.namprd11.prod.outlook.com (2603:10b6:a03:4cf::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.45; Tue, 18 Apr
- 2023 04:29:16 +0000
-Received: from BY5PR11MB4152.namprd11.prod.outlook.com
- ([fe80::5f31:3301:4918:ca67]) by BY5PR11MB4152.namprd11.prod.outlook.com
- ([fe80::5f31:3301:4918:ca67%5]) with mapi id 15.20.6298.045; Tue, 18 Apr 2023
- 04:29:16 +0000
-From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
-To: "qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>,
-	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [qa-build-notification] QA notification for completed autobuilder
- build (yocto-4.0.9.rc1)
-Thread-Topic: [qa-build-notification] QA notification for completed
- autobuilder build (yocto-4.0.9.rc1)
-Thread-Index: AQHZbY95r7KNq6lyIUic2qx9gQnmsa8wgV3w
-Date: Tue, 18 Apr 2023 04:29:16 +0000
-Message-ID: <BY5PR11MB4152902AC610E3FA39097BA4A19D9@BY5PR11MB4152.namprd11.prod.outlook.com>
-References: <01010187779e6a8a-9f7af2b6-6b9f-429d-8340-d75d26017f8d-000000@us-west-2.amazonses.com>
-In-Reply-To: <01010187779e6a8a-9f7af2b6-6b9f-429d-8340-d75d26017f8d-000000@us-west-2.amazonses.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BY5PR11MB4152:EE_|SJ2PR11MB7428:EE_
-x-ms-office365-filtering-correlation-id: 90c8d67d-4b29-4045-80a7-08db3fc5788a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: njbd3xuBsHbRIEZT9Ud3lD9rJ1EaHtapt1N84rx4j9KxVYqDoGZDIncKV3FHx9hZKGvrivZFUwJTgGo5IRT0uSiLKKf5+iE1Ma4RYSEh/I2IbxV2aED41VeXLxrz/7iECcq+UJT4+ZJ2EVUsO1F6gGIlDCaRB5J1Zx+g+Qlf9NP5p6B3meTLpI8Z5sKdc5mcpHXhj29NSVrUVLaEIiT0b9/TJwgY5sGRBAZC2Mj6tBl9qoA0Ovf7iccE3VShMMbY+1EflchcR2FupSX75FRNoeCZHs+XJI4IzLCaiek/thBgLSzEj1nP6f6H/PZ6wjKKCFK4JURQxZs8nlUpRbdBHaqTMLqtJViJfE1iY+5L52J7nKiAzpvXO4HI6Alo4QmFmV6hrUkwvWQ1eFF/umqe64d6rVvZG09nGf/iAOBPuIBjYazcBSIzqnGy8i4zq+g1wmX4uGIKzef9WdumJqn+myJf/iNX6pw8iNQSYoJ0k7JLE1L58Styep4z8PiOIWjzgtJhrRezANzQivH0hPXrS8KJ1ryM3UdI5iriOuIldNzN5GQETjj97sQuFFvMcZ5phYu6ipZ3iG0m/ublxkhqIb+KBPaeP33OlR+qd1mpWGBcvkefeOaOAiv007S7tDxnBdTVorOoSDswyYbpHyO4rw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4152.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(366004)(396003)(136003)(39860400002)(346002)(451199021)(33656002)(76116006)(110136005)(316002)(66446008)(64756008)(66946007)(66556008)(66476007)(966005)(71200400001)(7696005)(478600001)(41300700001)(5660300002)(8676002)(55016003)(8936002)(15650500001)(2906002)(52536014)(38070700005)(86362001)(82960400001)(122000001)(38100700002)(6506007)(9686003)(26005)(186003)(53546011)(83380400001)(66899021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?byO12N5mitxOQlkd0+x32UjdF5CpeAQNEzM6huaRSqG6+3VuujTFaPFVdpXB?=
- =?us-ascii?Q?ttTsr1itw9SLje21ximgxwnVWMhdxT5U/ZmOpAjMM/JXpLBGse4uTAFSj7ID?=
- =?us-ascii?Q?8zzCIT1x2KiofK/d0lJac8wR2yijesk/Cssjxaew4XPAPpHh5zM+CCsspVm1?=
- =?us-ascii?Q?p/GGZhDFwIjj6rH+ffZaFf2EGEpdGqopF0jJHa5PC0CFcM8VJ157R5DR23sA?=
- =?us-ascii?Q?XxwOxBx9Goy0f2LHQ07wwS2n9I0UyGTT7sl/4MYfq8RLZdmGeqFI1yeZKTnL?=
- =?us-ascii?Q?ZSbwJh+8ifzgzCrrNBucWuWJpFmagcsYcrLY4Q8410E3qR4kv/wrXcsFjST/?=
- =?us-ascii?Q?PPz+N0t6KSWXH2AnzqF2p1LXd8k/5SyDUGRVMhCtMzGnKELq7kSJrZDJeLQa?=
- =?us-ascii?Q?RJvJqEOt1KHE7heW/XM8eHUria5UD+bj9X872X+75FXK+M5UcAGzN/jf4FCS?=
- =?us-ascii?Q?XPq/629QAhYibrBOhgbYGmLfc+CSADG5NhUCTUOQnx6ho8nKJu6jZFrKzd20?=
- =?us-ascii?Q?lJuOiYtRsEqJFAnCkEg1zr2jKKMye8+Qc9FIaku6Vk/bzFCckkrfMXneli/d?=
- =?us-ascii?Q?rPO79vGAbjWrWEl/MVThYYHWfCWNLPGCzbb1f/t6mziuDhzDoekzFD0pfl+a?=
- =?us-ascii?Q?xZwk6gg7Zk0qzh9nXdbC1czbmuI5GmV7GidR3y4Cfckq3f6FcHtExI2xgls4?=
- =?us-ascii?Q?+byqNNPKgmJlpJxCi87gbNw3OAknMTDXf51PfzYeOXTd0hQffcW5Y63CtyOd?=
- =?us-ascii?Q?XbE/p7F5DvEfeuqgKkgZRb4PFudFZyhSu88nDQ9e8gX2uULFKNAqN19eHfCo?=
- =?us-ascii?Q?JsDN1vNyrKmu/6K5shwKMTSa825KFhojMnJ1P/YEywUnN3BMVqvVkVyBY0dc?=
- =?us-ascii?Q?DxTwJiTXEc9gv9YhaNlT5BZ8uEaZlRsJH3tUM9Pgk8jhgVh6kQd6VRQIRUvO?=
- =?us-ascii?Q?tuZ2YVaXk1iHDhNi+ybNNFZhjBTEtUmHZEV39CECu+pFakbAKf6DyigcRRcw?=
- =?us-ascii?Q?e4Yg32h95XGwmx1MgQrsY80AntqUBLaY8ZfQibbhlL4kad86lKmHONXyupz6?=
- =?us-ascii?Q?/wfU2dOgyAc+A3ieg+EY43qvKVL6XT87UWCnGQ8EsE9dBO1kUAUOEWiI7R2m?=
- =?us-ascii?Q?v8FoNMkwlIay22YD/LrQOidF8BVA4AiJEB3aLZjYum67oPyUau7PLiNKdWQn?=
- =?us-ascii?Q?tOxyspV3rrBg7JHWcNoWbZgTI7ReYvWFqWT1eNSa6kaGOFPi5lxr8ZFcB6KA?=
- =?us-ascii?Q?KBIGurNEQMqYERpNu9xqwSkhlACUx5g6mHwL2hCDnOQNpxqRvcSxLRtXhhJY?=
- =?us-ascii?Q?daykroaQSmBn8+oGboTXhlawfpF3+q0PRqLtJo5qqZSPz6DafTnNEEsOF73D?=
- =?us-ascii?Q?V6+ldgZHyvCoaS/mtEa2c+ZHzctm9PDt4V9fyfZJa7FlnFf8y2cdzY9s4ei5?=
- =?us-ascii?Q?wxlu1gMMZdnUKOAHFF4h9xuCEl/o+F3bsbWNJY1V4BaiEYzvFNKMhL49Hzaw?=
- =?us-ascii?Q?Y5VcLsCLpEvMxXSKU9JQoJX1f3SUdim9ZS5kBseyYHPNkSb7TgiGla2znNGc?=
- =?us-ascii?Q?oNBnT4tg+XDpAg5zYiiY7s5KRskzWmY04ICn/OYC?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=MgSOmET4;
+ spf=pass (domain: gmail.com, ip: 209.85.210.43, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-6a42e7c5c1cso211451a34.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Apr 2023 22:23:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681795390; x=1684387390;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=e07Zz0RHNG8S4vkYMUGy2ghjM5uuvv7FzFE+/gvUPQM=;
+        b=MgSOmET4O6BJbZWez8gKuQOWmPfifQHvdKKSIC3/hKlT1PSsCKh0uX2cQ/wOcWbMbN
+         VKGJhtWCHk/x28xKp93A4hqWGU3PW38m1lSaanYM0BZxxbO48gRqJSmC5hF0YtBe7/Dj
+         E5GZkurWXWy0R2pWKshSGU9FIrYJjaVmqah9jlMDlpfrXryTK8ssk30uMDqZQJ1q1a2t
+         uJlOncPux3rCpuS1bhUTA2CEzuBNyTVoLHIy+tIURkOzxiGLP/vvp4DRBUDCk+LejZQL
+         ivojiqo+L1Jd/nWRMvb8TKQZfz9XYzG5VZLpu22NirZRH4lJoTU1L9+7zw8RH5SP8AG+
+         xYvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681795390; x=1684387390;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=e07Zz0RHNG8S4vkYMUGy2ghjM5uuvv7FzFE+/gvUPQM=;
+        b=hipIfAj+C0qPerT+rA9q6Qf8S4T35n4w/NXIZepv8p1PsAhk/qRFeRQpseynVURqJo
+         udVRshU9KGtrU0pEH8VIB6ycQwVCkhnmeInDZrx6r0np4FuwJFxjLn8Fe/cODZsjzSUk
+         QYrYNb3Ybxn0eEBZQTna8mfn4eXyjyMeu6njFGdEoHqabvXE8IpWt4JYEq6wxZN1WhcW
+         R60H1sLlsSgD1YXqt9tw+RRW4Wod7Qdg+ERDahPEWg78qTLiz6BGwbCjDcq7hzSIkb2I
+         tqONDwN7iUZCL+WoU+WFmPWkGi14y68qNLCEY5QZC7NHxy3cIWrDLQwlQqlW8Wzm/ElV
+         KjNw==
+X-Gm-Message-State: AAQBX9cjJaYsfOzS1dTLpVPMCG2e8cQbybmOTppfgBCxKhuEbe+SgNOH
+	JXrTT8FkiPh2MFdMEZIMGg9ZVitSZ6WB0PR+hoc=
+X-Google-Smtp-Source: AKy350al7Hx8ftwp+4MWat6EaaRFu5nsdNatSzFFSix1+lXVnOlLvsNufvO4syMUPr/vC5OOBQAfg3qcFjSZD7bmdvs=
+X-Received: by 2002:a05:6830:11ca:b0:6a4:4f4c:cb1c with SMTP id
+ v10-20020a05683011ca00b006a44f4ccb1cmr298921otq.2.1681795389853; Mon, 17 Apr
+ 2023 22:23:09 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4152.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 90c8d67d-4b29-4045-80a7-08db3fc5788a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Apr 2023 04:29:16.6055
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 0a7P3MWjFsPxX2E/9PY6GNeBsAQiwEEb7RvVeKnbihIDA9r4D7gF981+eP3qXsIRQQtvILWOsGoGxSgvoIn3iQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7428
-X-OriginatorOrg: intel.com
+References: <CAMKF1socwNE1yE3ywMyimSqu8JF03hzKR27YKXL6qJu-1r2d3g@mail.gmail.com>
+ <17294.1681789353965294418@lists.openembedded.org>
+In-Reply-To: <17294.1681789353965294418@lists.openembedded.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 17 Apr 2023 22:22:59 -0700
+Message-ID: <CAMKF1so1_QYXQNyWX3uQZy_BCWm=TipazCbHcSr_A90ytyoJ5A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH V1] coreutils: Add gcc parameter for ptest
+To: "qiutt@fujitsu.com" <qiutt@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000cc147505f995806b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Apr 2023 04:29:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180176
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Apr 2023 05:23:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180177
 
-Hi All,
-=20
-QA for yocto-4.0.9.rc1 is completed. This is the full report for this relea=
-se: =20
-https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?=
-h=3Dintel-yocto-testresults
-=20
-=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
-No high milestone defects.
-=20
-No new issue found.=20
-=20
-Thanks,
-Jing Hui
+--000000000000cc147505f995806b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Apr 17, 2023 at 8:42 PM qiutt@fujitsu.com <qiutt@fujitsu.com> wrote=
+:
 
-> -----Original Message-----
-> From: qa-build-notification@lists.yoctoproject.org <qa-build-
-> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User
-> Sent: Thursday, April 13, 2023 6:38 AM
-> To: yocto@lists.yoctoproject.org
-> Cc: qa-build-notification@lists.yoctoproject.org
-> Subject: [qa-build-notification] QA notification for completed autobuilde=
-r
-> build (yocto-4.0.9.rc1)
->=20
->=20
-> A build flagged for QA (yocto-4.0.9.rc1) was completed on the autobuilder
-> and is available at:
->=20
->=20
->     https://autobuilder.yocto.io/pub/releases/yocto-4.0.9.rc1
->=20
->=20
-> Build hash information:
->=20
-> bitbake: 2802adb572eb73a3eb2725a74a9bbdaafc543fa7
-> meta-agl: 535bc8f54ce5fcb4a94204df5f2b3317beb53f23
-> meta-arm: a0216a41bde3f191037332a9238648bedfbc61bd
-> meta-aws: 3f7ab5912239d667764e7df885776b267eddf265
-> meta-gplv2: d2f8b5cdb285b72a4ed93450f6703ca27aa42e8a
-> meta-intel: 4c6cc14669d0e9de36e1a050ce4084ca14181722
-> meta-mingw: a90614a6498c3345704e9611f2842eb933dc51c1
-> meta-openembedded: 571e36e20e9d1f27af0eb4545291beeb64f280e2
-> meta-virtualization: bfa6727718bc4eb550c24e2c03a4118b4e7bc842
-> oecore: ff4b57ffff903a93b710284c7c7f916ddd74712f
-> poky: 09def309f91929f47c6cce386016ccb777bd2cfc
->=20
->=20
->=20
-> This is an automated message from the Yocto Project Autobuilder
-> Git: git://git.yoctoproject.org/yocto-autobuilder2
-> Email: richard.purdie@linuxfoundation.org
->=20
->=20
->=20
->=20
->=20
+> This should be a symlink to gcc on target so I wonder why it does not wor=
+k
+>
+> First, see the coreutils=E2=80=99 files which installed on target.
+>
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+>   Makefile  -->created by cross-compile
+>
+>   build-aux
+>
+>   init.cfg     --> copied from src
+>
+>   run-ptest
+>
+> tests
+>
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> In Makefile, CC is defined by aarch64-agl-linux-gcc with
+> --sysroot=3Drecipe-sysroot.
+>
+>  CC =3D aarch64-agl-linux-gcc  -fstack-protector-strong  -O2
+> -D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-security -Werror=3Dformat-securit=
+y
+> --sysroot=3Drecipe-sysroot
+>
+> In init.cfg, CC  is used to compile k.c file.
+>
+>  $CC -Wall -shared --std=3Dgnu99 -fPIC -O2 $* "$in" -o "$out"
+> $gcc_shared_libs_
+>
+> Because of =E2=80=9C--sysroot=3Drecipe-sysroot=E2=80=9D, it does not work=
+.
+>
+> So, we could add =E2=80=9C-I /usr/include=E2=80=9D in Makefile or init.cf=
+g, or delete =E2=80=9C
+> --sysroot=3Drecipe-sysroot=E2=80=9D from Makefile.
+>
+> Which one is better?
+>
+
+Delete sysroot
+
+> Let me know, and I will send the patch v2.
+>
+> thanks.
+>
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#243): https://lists.yoctoproject.org/g/qa-build-
-> notification/message/243
-> Mute This Topic: https://lists.yoctoproject.org/mt/98230059/6424044
-> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-
-> notification/leave/10762429/6424044/1746813897/xyzzy
-> [jing.hui.tham@intel.com]
+> View/Reply Online (#180174):
+> https://lists.openembedded.org/g/openembedded-core/message/180174
+> Mute This Topic: https://lists.openembedded.org/mt/98258324/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+>
+>
 
+--000000000000cc147505f995806b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Mon, Apr 17, 2023 at 8:42 PM <a href=3D"mailto:qiutt@fuj=
+itsu.com">qiutt@fujitsu.com</a> &lt;<a href=3D"mailto:qiutt@fujitsu.com">qi=
+utt@fujitsu.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:so=
+lid;padding-left:1ex;border-left-color:rgb(204,204,204)"><blockquote>
+<p style=3D"margin:0px">This should be a symlink to gcc on target so I wond=
+er why it does not work=C2=A0</p>
+</blockquote>
+<p style=3D"margin:0mm"><span lang=3D"EN-US" style=3D"font-size:11pt">First=
+, see the coreutils=E2=80=99 files which installed on target.</span><span l=
+ang=3D"EN-US"></span></p>
+<p style=3D"margin:0mm"><span lang=3D"EN-US" style=3D"font-size:11pt">=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D</span><span lang=3D"EN-US"></=
+span></p>
+<p style=3D"margin:0mm"><span lang=3D"EN-US" style=3D"font-size:11pt">=C2=
+=A0=C2=A0Makefile=C2=A0 --&gt;created by cross-compile</span><span lang=3D"=
+EN-US"></span></p>
+<p style=3D"margin:0mm"><span lang=3D"EN-US" style=3D"font-size:11pt">=C2=
+=A0=C2=A0build-aux</span><span lang=3D"EN-US"></span></p>
+<p style=3D"margin:0mm"><span lang=3D"EN-US" style=3D"font-size:11pt">=C2=
+=A0=C2=A0init.cfg =C2=A0=C2=A0=C2=A0=C2=A0--&gt; copied from src</span><spa=
+n lang=3D"EN-US"></span></p>
+<p style=3D"margin:0mm"><span lang=3D"EN-US" style=3D"font-size:11pt">=C2=
+=A0=C2=A0run-ptest</span><span lang=3D"EN-US"></span></p>
+<p style=3D"margin:0mm"><span lang=3D"EN-US" style=3D"font-size:11pt">tests=
+</span><span lang=3D"EN-US"></span></p>
+<p style=3D"margin:0mm"><span lang=3D"EN-US" style=3D"font-size:11pt">=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D</span><span lang=3D"EN-US"></=
+span></p>
+<p style=3D"margin:0mm"><span lang=3D"EN-US">In=C2=A0</span><span lang=3D"E=
+N-US" style=3D"font-size:11pt">Makefile, CC is defined by=C2=A0</span><span=
+ lang=3D"EN-US">aarch64-agl-linux-gcc with --sysroot=3Drecipe-sysroot.</spa=
+n></p>
+<p style=3D"margin:0mm"><span lang=3D"EN-US">=C2=A0CC =3D aarch64-agl-linux=
+-gcc=C2=A0 -fstack-protector-strong=C2=A0 -O2 -D_FORTIFY_SOURCE=3D2 -Wforma=
+t -Wformat-security -Werror=3Dformat-security --sysroot=3Drecipe-sysroot</s=
+pan></p>
+<p style=3D"margin:0mm"><span lang=3D"EN-US" style=3D"font-size:11pt">In in=
+it.cfg, CC=C2=A0 is used to compile=C2=A0</span><span lang=3D"EN-US">k.c fi=
+le.</span></p>
+<p style=3D"margin:0mm"><span lang=3D"EN-US">=C2=A0$CC -Wall -shared --std=
+=3Dgnu99 -fPIC -O2 $* &quot;$in&quot; -o &quot;$out&quot; $gcc_shared_libs_=
+</span></p>
+<p style=3D"margin:0mm"><span lang=3D"EN-US">Because of=C2=A0</span><span l=
+ang=3D"ZH-CN">=E2=80=9C</span><span lang=3D"EN-US">--sysroot=3Drecipe-sysro=
+ot</span><span lang=3D"ZH-CN">=E2=80=9D</span><span lang=3D"EN-US">, it doe=
+s not work.</span></p>
+<p style=3D"margin:0mm"><span lang=3D"EN-US">So, we could add=C2=A0</span><=
+span lang=3D"ZH-CN">=E2=80=9C</span><span lang=3D"EN-US">-I /usr/include</s=
+pan><span lang=3D"ZH-CN">=E2=80=9D</span><span lang=3D"EN-US">=C2=A0in=C2=
+=A0</span><span lang=3D"EN-US" style=3D"font-size:11pt">Makefile or init.cf=
+g, or delete=C2=A0</span><span lang=3D"ZH-CN">=E2=80=9C</span><span lang=3D=
+"EN-US">--sysroot=3Drecipe-sysroot</span><span lang=3D"ZH-CN">=E2=80=9D</sp=
+an><span lang=3D"EN-US">=C2=A0from=C2=A0</span><span lang=3D"EN-US" style=
+=3D"font-size:11pt">Makefile.</span><span lang=3D"EN-US"></span></p>
+<p style=3D"margin:0mm"><span lang=3D"EN-US" style=3D"font-size:11pt">Which=
+ one is better?</span></p></blockquote><div dir=3D"auto"><br></div><div dir=
+=3D"auto">Delete sysroot=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;=
+padding-left:1ex;border-left-color:rgb(204,204,204)"><p style=3D"margin:0mm=
+" dir=3D"auto"><span lang=3D"EN-US" style=3D"font-size:11pt"></span><span l=
+ang=3D"EN-US"></span></p>
+<p style=3D"margin:0mm"><span lang=3D"EN-US" style=3D"font-size:11pt">Let m=
+e know, and I will send the patch v2.</span><span lang=3D"EN-US"></span></p=
+>
+<p style=3D"margin:0mm"><span lang=3D"EN-US" style=3D"font-size:11pt">thank=
+s.</span><span lang=3D"EN-US"></span></p>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#180174): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/180174" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/180174</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/98258324/1997=
+914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/98258324/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000cc147505f995806b--
 
