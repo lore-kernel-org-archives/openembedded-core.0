@@ -2,120 +2,107 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FD1AC6FD18
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30900C77B7C
 	for <webhook@archiver.kernel.org>; Wed, 19 Apr 2023 13:41:50 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.37997.1681911707492872384
+ by mx.groups.io with SMTP id smtpd.web11.38103.1681911707335879916
  for <openembedded-core@lists.openembedded.org>;
  Wed, 19 Apr 2023 06:41:47 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EA2DF14BF;
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4ADC21424;
 	Wed, 19 Apr 2023 06:42:30 -0700 (PDT)
 Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B5F3C3F6C4;
-	Wed, 19 Apr 2023 06:41:46 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 151143F6C4;
+	Wed, 19 Apr 2023 06:41:45 -0700 (PDT)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
 Cc: nd@arm.com
-Subject: [PATCH 2/2] xserver-xorg: backport fix for CVE-2023-1393
-Date: Wed, 19 Apr 2023 14:41:43 +0100
-Message-Id: <20230419134143.1530528-2-ross.burton@arm.com>
+Subject: [PATCH 1/2] screen: backport fix for CVE-2023-24626
+Date: Wed, 19 Apr 2023 14:41:42 +0100
+Message-Id: <20230419134143.1530528-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230419134143.1530528-1-ross.burton@arm.com>
-References: <20230419134143.1530528-1-ross.burton@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 19 Apr 2023 13:41:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180221
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180222
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- ...posite-Fix-use-after-free-of-the-COW.patch | 46 +++++++++++++++++++
- .../xorg-xserver/xserver-xorg_21.1.7.bb       |  3 +-
- 2 files changed, 48 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-=
-composite-Fix-use-after-free-of-the-COW.patch
+ .../screen/screen/signal-permission.patch     | 40 +++++++++++++++++++
+ meta/recipes-extended/screen/screen_4.9.0.bb  |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-extended/screen/screen/signal-permission=
+.patch
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-composi=
-te-Fix-use-after-free-of-the-COW.patch b/meta/recipes-graphics/xorg-xserv=
-er/xserver-xorg/0001-composite-Fix-use-after-free-of-the-COW.patch
+diff --git a/meta/recipes-extended/screen/screen/signal-permission.patch =
+b/meta/recipes-extended/screen/screen/signal-permission.patch
 new file mode 100644
-index 00000000000..fc426daba51
+index 00000000000..77dc649090a
 --- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-composite-Fix-=
-use-after-free-of-the-COW.patch
-@@ -0,0 +1,46 @@
-+From 26ef545b3502f61ca722a7a3373507e88ef64110 Mon Sep 17 00:00:00 2001
-+From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Mon, 13 Mar 2023 11:08:47 +0100
-+Subject: [PATCH] composite: Fix use-after-free of the COW
++++ b/meta/recipes-extended/screen/screen/signal-permission.patch
+@@ -0,0 +1,40 @@
++From e9ad41bfedb4537a6f0de20f00b27c7739f168f7 Mon Sep 17 00:00:00 2001
++From: Alexander Naumov <alexander_naumov@opensuse.org>
++Date: Mon, 30 Jan 2023 17:22:25 +0200
++Subject: fix: missing signal sending permission check on failed query me=
+ssages
 +
-+ZDI-CAN-19866/CVE-2023-1393
++Signed-off-by: Alexander Naumov <alexander_naumov@opensuse.org>
 +
-+If a client explicitly destroys the compositor overlay window (aka COW),
-+we would leave a dangling pointer to that window in the CompScreen
-+structure, which will trigger a use-after-free later.
-+
-+Make sure to clear the CompScreen pointer to the COW when the latter get=
-s
-+destroyed explicitly by the client.
-+
-+This vulnerability was discovered by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
-+
-+Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-+Reviewed-by: Adam Jackson <ajax@redhat.com>
-+
-+CVE: CVE-2023-1393
++CVE: CVE-2023-24626
 +Upstream-Status: Backport
 +Signed-off-by: Ross Burton <ross.burton@arm.com>
 +---
-+ composite/compwindow.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
++ src/socket.c | 9 +++++++--
++ 1 file changed, 7 insertions(+), 2 deletions(-)
 +
-+diff --git a/composite/compwindow.c b/composite/compwindow.c
-+index 4e2494b86..b30da589e 100644
-+--- a/composite/compwindow.c
-++++ b/composite/compwindow.c
-+@@ -620,6 +620,11 @@ compDestroyWindow(WindowPtr pWin)
-+     ret =3D (*pScreen->DestroyWindow) (pWin);
-+     cs->DestroyWindow =3D pScreen->DestroyWindow;
-+     pScreen->DestroyWindow =3D compDestroyWindow;
-++
-++    /* Did we just destroy the overlay window? */
-++    if (pWin =3D=3D cs->pOverlayWin)
-++        cs->pOverlayWin =3D NULL;
-++
-+ /*    compCheckTree (pWin->drawable.pScreen); can't check -- tree isn't=
- good*/
-+     return ret;
-+ }
++diff --git a/src/socket.c b/src/socket.c
++index 147dc54..54d8cb8 100644
++--- a/socket.c
+++++ b/socket.c
++@@ -1285,11 +1285,16 @@ ReceiveMsg()
++           else
++             queryflag =3D -1;
++=20
++-          Kill(m.m.command.apid,
+++          if (CheckPid(m.m.command.apid)) {
+++            Msg(0, "Query attempt with bad pid(%d)!", m.m.command.apid)=
+;
+++          }
+++          else {
+++            Kill(m.m.command.apid,
++                (queryflag >=3D 0)
++                    ? SIGCONT
++                    : SIG_BYE); /* Send SIG_BYE if an error happened */
++-          queryflag =3D -1;
+++            queryflag =3D -1;
+++          }
++         }
++         break;
++       case MSG_COMMAND:
 +--=20
-+2.34.1
++cgit v1.1
 +
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.7.bb b/=
-meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.7.bb
-index 212c7d39c23..f0771cc86ec 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.7.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.7.bb
-@@ -1,7 +1,8 @@
- require xserver-xorg.inc
-=20
- SRC_URI +=3D "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-h=
-ardwar.patch \
--           file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
-+            file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch =
-\
-+            file://0001-composite-Fix-use-after-free-of-the-COW.patch \
+diff --git a/meta/recipes-extended/screen/screen_4.9.0.bb b/meta/recipes-=
+extended/screen/screen_4.9.0.bb
+index 77e8000bf3b..235cd8c6cfc 100644
+--- a/meta/recipes-extended/screen/screen_4.9.0.bb
++++ b/meta/recipes-extended/screen/screen_4.9.0.bb
+@@ -22,6 +22,7 @@ SRC_URI =3D "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
+            file://0001-fix-for-multijob-build.patch \
+            file://0001-Remove-more-compatibility-stuff.patch \
+            file://0001-configure-Add-needed-system-headers-in-checks.pat=
+ch \
++           file://signal-permission.patch \
             "
- SRC_URI[sha256sum] =3D "d9c60b2dd0ec52326ca6ab20db0e490b1ff4f566f59ca742=
-d6532e92795877bb"
 =20
+ SRC_URI[sha256sum] =3D "f9335281bb4d1538ed078df78a20c2f39d3af9a4e91c57d0=
+84271e0289c730f4"
 --=20
 2.34.1
 
