@@ -1,209 +1,102 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <leon.anavi@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFFB3C77B72
-	for <webhook@archiver.kernel.org>; Thu, 20 Apr 2023 09:58:07 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web11.4212.1681984681083107384
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7EDCC77B73
+	for <webhook@archiver.kernel.org>; Thu, 20 Apr 2023 10:00:27 +0000 (UTC)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web11.4238.1681984819532966630
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Apr 2023 02:58:01 -0700
+ Thu, 20 Apr 2023 03:00:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=IGaMBEq8;
- spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-4edc114c716so439953e87.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 02:58:00 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@konsulko.com header.s=google header.b=FS1PcIFH;
+ spf=pass (domain: konsulko.com, ip: 209.85.218.43, mailfrom: leon.anavi@konsulko.com)
+Received: by mail-ej1-f43.google.com with SMTP id dx24so4956390ejb.11
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 03:00:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681984679; x=1684576679;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qyrS0LSXqUCNo4b+GBI0v/MdkVq8gV0M70CAnbCe0lE=;
-        b=IGaMBEq8iyBBiS4Nx/z3XP8yVfl31Kob90dHC/39nN+ojVr7B6BfzfeHcbPjDLyVsP
-         CWnfl0BpcELzNIucyWk4q4782SOlMgnJU2gXD9tjvo3vFcfr0/Y4F2cM2sYVXoFIuQGi
-         JxqI7UWc7IJSy/R0RVK3MVvNFe/iaH4jgTe4MxTED7zsxz9Z5MTgLMy8u9YnPXbBVR0f
-         hY1MrUauQCdoXHfJ+KSAigeS94Rpah5LQa1DtJpF7Hfioly9VPT3u+3FaqdhfhdhneKZ
-         k/t7TfKuhE7/V9U6B7bkTjTYWiDmKCg7d4ZCvlcbGE1aWzKlkDOUNhK8mE2me6mJhvH9
-         QHAQ==
+        d=konsulko.com; s=google; t=1681984818; x=1684576818;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BlKSsYRIQePxwGVas0LiJpfhikC0squBkHIn8C7YRzE=;
+        b=FS1PcIFHOMrMpNW/tRAxyNlocEDHum70yxizwJhJsf9aFP4Y5DcDkcUL/z1Yrsbi1A
+         OT+onuGpKBOoZQQCquHHjl2OpC/qoqOHgDgniQlevrw+EZIKn34wnp9Zfhi3a83jVbE/
+         k71jYfVg7vOavMD6afsO6e/Es8deKaxNUvRao=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681984679; x=1684576679;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qyrS0LSXqUCNo4b+GBI0v/MdkVq8gV0M70CAnbCe0lE=;
-        b=IJVW8BBzLrdTouwGES/sE4eMCieeXs+tuvjb4NW2E9Lm+ugYpJaVdl3zjGnFy/pUyO
-         WUgGgBwA07PrOnU+4ogRm2tDNg8ZAuyeG5oEN2Q8bZPxcMDMoIntTqdCaiu9iUm/iinQ
-         10qx84MDq8e+lfMp+HKJJ3RvFn4rF8L81uRSWf1+k3xVCoqdIhlImcbZcTPnsjxY+1sQ
-         4OQ/eI75vfQVX+kdi7/aoFvs1mtTx0Yqg2LJTBsQE8S2M6NZWvPxutbUSEloM8IcF7dR
-         AEeJsltVfOR3aCILnRmkqwAUrKfjhDp2cRAZlIDVdbB6qhMburqz6WP+BEZkth81vGZu
-         rlBA==
-X-Gm-Message-State: AAQBX9fjQVshRYgPmeu25mycQ1eTVgULAqwQdo3tpTTqKAFgmEE2n6mG
-	D3dr2S01XdSgV+3nKycFfnxe+uWqbdsJSv6zhU4=
-X-Google-Smtp-Source: AKy350bildGCTcCuqeWrRBRwBdSlrvlikBZxMXx27G+DGBpIz6Je9mjq+mqVlFUbFL88BzivMJV3pGM/0fX5InCGV8w=
-X-Received: by 2002:a05:6512:145:b0:4e0:822f:9500 with SMTP id
- m5-20020a056512014500b004e0822f9500mr207471lfo.12.1681984678796; Thu, 20 Apr
- 2023 02:57:58 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1681984818; x=1684576818;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BlKSsYRIQePxwGVas0LiJpfhikC0squBkHIn8C7YRzE=;
+        b=k9qkJ/Hcwk2zF1Dfq0DFBkavLWMZca4nzax6BjQOaI/PjXcqRGiWlyJhi9tTPfB4Nh
+         kYyE5cSUvJwTgjqHnNW2q7qClmukB9h6sBCI2qi42Q9ENeS/J2kMt9sSqb11pbYLXLFW
+         +dPg9+V/hXwFfLywoW9brqqznHc/XCTMlH9AKpDSqP1cjBrUbNiCmhBWomVpTIo1n4Aa
+         7idQKg6SJptLMIxnKnVoXgrJdivHgTLPi/9B0d2aB0zhJgeXelyCvmNSSBXq+qhdAFcH
+         jVDpGQJwIu+54Czx2b/mysbQptUsvJC99tvqWsJFTimqcl+Yey9vHnD8Rv3azpSA3kOU
+         ZzVQ==
+X-Gm-Message-State: AAQBX9dS72o3eMAJvgbiKrMfqN3HTHs2xAES5Bke5BVTjlzz023hEQbr
+	nP8cBqji9+ddEHoyPr/VCtTA5Q==
+X-Google-Smtp-Source: AKy350bugISqUZaifr8ay1vcbHjatIwueLMGRTUQRrwnY0Z4rEf4+f4aM7J+4KuZvyY/tjmPUfKOXw==
+X-Received: by 2002:a17:906:716:b0:94d:57d2:7632 with SMTP id y22-20020a170906071600b0094d57d27632mr982245ejb.31.1681984817563;
+        Thu, 20 Apr 2023 03:00:17 -0700 (PDT)
+Received: from [192.168.5.249] ([46.55.231.62])
+        by smtp.gmail.com with ESMTPSA id k18-20020a1709060cb200b0094ed72b6552sm544671ejh.98.2023.04.20.03.00.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Apr 2023 03:00:17 -0700 (PDT)
+Message-ID: <8a4872eb-076d-2807-add3-fe7b68de03a8@konsulko.com>
+Date: Thu, 20 Apr 2023 13:00:16 +0300
 MIME-Version: 1.0
-References: <CA+cAkepE6FLo7L8N0FG-39CfFfLgK9RPFH0qvi+dRNOY5gpXRw@mail.gmail.com>
- <b8187209629974cf50110a5690a14360e7c02026.camel@linuxfoundation.org>
-In-Reply-To: <b8187209629974cf50110a5690a14360e7c02026.camel@linuxfoundation.org>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Date: Thu, 20 Apr 2023 11:57:47 +0200
-Message-ID: <CA+cAkeqwkQRFzEYVC0jm0xdby9RrGqYtVOenc85+J-nMiGwtoA@mail.gmail.com>
-Subject: Re: [OE-core] Cargo and ptest
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [OE-core] [PATCHv3] python3-manifest.json: Fix re in core
+Content-Language: en-US
+To: Paul Eggleton <bluelightning@bluelightning.org>
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000004c229905f9c1934b"
+References: <20221103122755.3818894-1-leon.anavi@konsulko.com>
+ <2427094.jE0xQCEvom@linc>
+From: Leon Anavi <leon.anavi@konsulko.com>
+In-Reply-To: <2427094.jE0xQCEvom@linc>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 09:58:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180246
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 10:00:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180247
 
---0000000000004c229905f9c1934b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Paul,
 
-Le jeu. 20 avr. 2023, 11:41, Richard Purdie <
-richard.purdie@linuxfoundation.org> a =C3=A9crit :
-
-> On Thu, 2023-04-20 at 09:27 +0200, Frederic Martinsons wrote:
-> > Hello,
-> >
-> > I would like to build and ship tests for recipes which uses cargo and
-> > in the process, three questions arose (maybe more when I will
-> > progress).
-> > I would like to have your opinions on them.
-> >
-> > 1) should we ship cargo-native in ptest images or should we just
-> > build and ship test binaries alone ?
+On 20.04.23 г. 7:59 ч., Paul Eggleton wrote:
+> Hi Leon
 >
-> ptests run in target images so they'd depend on "cargo" and cargo-
-> native wouldn't be appropriate.
+> On Friday, 4 November 2022 01:27:55 NZST Leon Anavi wrote:
+>> Following the update from 3.10.6 to 3.11.0, the source code of
+>> module re for regular expression operations has been moved to
+>> Lib/re/. File python3-manifest.json has been modified according
+>> to the new path.
+>>
+>> According to the instructions the new python3-manifest.json
+>> version was created by running bitbake python3 -c create_manifest.
+>> Because of this it also updated other files and rdepends in it.
+> Maybe you're already aware, but just in case not, this patch appears to have
+> effectively undone the change you made earlier ("Move urllib to netclient"):
 >
+>    https://git.openembedded.org/openembedded-core/commit/?id=e74ab2c144042b0a9f788b1b15f11b2800e2c7a1
+Thank you for pointing this out. Sorry, I have been quite busy for 
+several months and I didn't have the time to follow up with the upstream 
+of meta-python recently. I vaguely remember these patches so I am not 
+sure about the current state of urllib to netclient. I think it still 
+makes sense to have urllib in netclient.
 
-Of course, I meant cargo, not cargo-native.
-I'm asking for that because running "cargo test" to execute the whole test
-suite is the standard for rust project but it will force us to embed cargo
-(plus all it's deps) and source code for doing that. I think I will go for
-the test binaries only for the moment. Note that I will need to do some
-"clever" search of them because they do not have a deterministic name (
-https://github.com/rust-lang/cargo/issues/1924)
+Best regards, Leon
 
-
-> 2) should we place the cargo ptest specifics in a dedicated class
-> > (e.g ptest-cargo.bbclass, like already existing ptest-gnome or ptest-
-> > perl) or put this in cargo.bbclass itself ?
+> Cheers
+> Paul
 >
-> If ptests for cargo all follow a common format and a class can enable
-> them for a large set of recipes, a class is appropriate.
 >
-> If would only be in cargo.bbclass itself if all cargo recipes had
-> standard ptests.
->
+-- 
+Leon Anavi
+Software Engineer
+konsulko.com
 
-Yes they do follow a common format for all rust projects (except for the
-generated binary name, see above). But a recipe can perfectly choose to not
-implementing any tests if they want to.
-I'll go for a separate class to clearly distinguish test things in a first
-time.
-
-
-> > 3) should we embed all kind of tests (unit, integration and doc
-> > tests, see
-> > https://doc.rust-lang.org/book/ch11-03-test-organization.html) or
-> > just the unit tests ?
->
-> I don't know about the rust specific details but unit and integration
-> tests are both appropriate. I've no strong opinion on doc tests.
-> They're probably fine if they don't add large dependency chains and run
-> quickly.
->
-> Cheers,
->
-> Richard
->
-
-OK I'll see how doc tests behave for already existing recipes (if they have
-some).
-
->
-
---0000000000004c229905f9c1934b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Le jeu. 20 avr. 2023, 11:41, Richard Purdie &lt;<a hre=
-f=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundat=
-ion.org</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
->On Thu, 2023-04-20 at 09:27 +0200, Frederic Martinsons wrote:<br>
-&gt; Hello,<br>
-&gt; <br>
-&gt; I would like to build and ship tests for recipes which uses cargo and<=
-br>
-&gt; in the process, three questions arose (maybe more when I will<br>
-&gt; progress).<br>
-&gt; I would like to have your opinions on them.=C2=A0<br>
-&gt; <br>
-&gt; 1) should we ship cargo-native in ptest images or should we just<br>
-&gt; build and ship test binaries alone ?=C2=A0<br>
-<br>
-ptests run in target images so they&#39;d depend on &quot;cargo&quot; and c=
-argo-<br>
-native wouldn&#39;t be appropriate.<br></blockquote></div></div><div dir=3D=
-"auto"><br></div><div dir=3D"auto">Of course, I meant cargo, not cargo-nati=
-ve.=C2=A0</div><div dir=3D"auto">I&#39;m asking for that because running &q=
-uot;cargo test&quot; to execute the whole test suite is the standard for ru=
-st project but it will force us to embed cargo (plus all it&#39;s deps) and=
- source code for doing that. I think I will go for the test binaries only f=
-or the moment. Note that I will need to do some &quot;clever&quot; search o=
-f them because they do not have a deterministic name (<a href=3D"https://gi=
-thub.com/rust-lang/cargo/issues/1924">https://github.com/rust-lang/cargo/is=
-sues/1924</a>)=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto"><br=
-></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex">
-&gt; 2) should we place the cargo ptest specifics in a dedicated class<br>
-&gt; (e.g ptest-cargo.bbclass, like already existing ptest-gnome or ptest-<=
-br>
-&gt; perl) or put this in cargo.bbclass itself ?<br>
-<br>
-If ptests for cargo all follow a common format and a class can enable<br>
-them for a large set of recipes, a class is appropriate.<br>
-<br>
-If would only be in cargo.bbclass itself if all cargo recipes had<br>
-standard ptests.<br></blockquote></div></div><div dir=3D"auto"><br></div><d=
-iv dir=3D"auto">Yes they do follow a common format for all rust projects (e=
-xcept for the generated binary name, see above). But a recipe can perfectly=
- choose to not implementing any tests if they want to.=C2=A0</div><div dir=
-=3D"auto">I&#39;ll go for a separate class to clearly distinguish test thin=
-gs in a first time.=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto=
-"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-&gt; 3) should we embed all kind of tests (unit, integration and doc<br>
-&gt; tests, see<br>
-&gt; <a href=3D"https://doc.rust-lang.org/book/ch11-03-test-organization.ht=
-ml" rel=3D"noreferrer noreferrer" target=3D"_blank">https://doc.rust-lang.o=
-rg/book/ch11-03-test-organization.html</a>) or<br>
-&gt; just the unit tests ?<br>
-<br>
-I don&#39;t know about the rust specific details but unit and integration<b=
-r>
-tests are both appropriate. I&#39;ve no strong opinion on doc tests.<br>
-They&#39;re probably fine if they don&#39;t add large dependency chains and=
- run<br>
-quickly.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D=
-"auto">OK I&#39;ll see how doc tests behave for already existing recipes (i=
-f they have some).=C2=A0</div><div dir=3D"auto"><div class=3D"gmail_quote">=
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-</blockquote></div></div></div>
-
---0000000000004c229905f9c1934b--
 
