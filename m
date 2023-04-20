@@ -1,102 +1,84 @@
-Return-Path: <leon.anavi@konsulko.com>
+Return-Path: <kubiznak@2n.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7EDCC77B73
-	for <webhook@archiver.kernel.org>; Thu, 20 Apr 2023 10:00:27 +0000 (UTC)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web11.4238.1681984819532966630
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3203EC77B76
+	for <webhook@archiver.kernel.org>; Thu, 20 Apr 2023 11:41:58 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web11.5569.1681990915017513573
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Apr 2023 03:00:19 -0700
+ Thu, 20 Apr 2023 04:41:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@konsulko.com header.s=google header.b=FS1PcIFH;
- spf=pass (domain: konsulko.com, ip: 209.85.218.43, mailfrom: leon.anavi@konsulko.com)
-Received: by mail-ej1-f43.google.com with SMTP id dx24so4956390ejb.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 03:00:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1681984818; x=1684576818;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BlKSsYRIQePxwGVas0LiJpfhikC0squBkHIn8C7YRzE=;
-        b=FS1PcIFHOMrMpNW/tRAxyNlocEDHum70yxizwJhJsf9aFP4Y5DcDkcUL/z1Yrsbi1A
-         OT+onuGpKBOoZQQCquHHjl2OpC/qoqOHgDgniQlevrw+EZIKn34wnp9Zfhi3a83jVbE/
-         k71jYfVg7vOavMD6afsO6e/Es8deKaxNUvRao=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681984818; x=1684576818;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BlKSsYRIQePxwGVas0LiJpfhikC0squBkHIn8C7YRzE=;
-        b=k9qkJ/Hcwk2zF1Dfq0DFBkavLWMZca4nzax6BjQOaI/PjXcqRGiWlyJhi9tTPfB4Nh
-         kYyE5cSUvJwTgjqHnNW2q7qClmukB9h6sBCI2qi42Q9ENeS/J2kMt9sSqb11pbYLXLFW
-         +dPg9+V/hXwFfLywoW9brqqznHc/XCTMlH9AKpDSqP1cjBrUbNiCmhBWomVpTIo1n4Aa
-         7idQKg6SJptLMIxnKnVoXgrJdivHgTLPi/9B0d2aB0zhJgeXelyCvmNSSBXq+qhdAFcH
-         jVDpGQJwIu+54Czx2b/mysbQptUsvJC99tvqWsJFTimqcl+Yey9vHnD8Rv3azpSA3kOU
-         ZzVQ==
-X-Gm-Message-State: AAQBX9dS72o3eMAJvgbiKrMfqN3HTHs2xAES5Bke5BVTjlzz023hEQbr
-	nP8cBqji9+ddEHoyPr/VCtTA5Q==
-X-Google-Smtp-Source: AKy350bugISqUZaifr8ay1vcbHjatIwueLMGRTUQRrwnY0Z4rEf4+f4aM7J+4KuZvyY/tjmPUfKOXw==
-X-Received: by 2002:a17:906:716:b0:94d:57d2:7632 with SMTP id y22-20020a170906071600b0094d57d27632mr982245ejb.31.1681984817563;
-        Thu, 20 Apr 2023 03:00:17 -0700 (PDT)
-Received: from [192.168.5.249] ([46.55.231.62])
-        by smtp.gmail.com with ESMTPSA id k18-20020a1709060cb200b0094ed72b6552sm544671ejh.98.2023.04.20.03.00.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Apr 2023 03:00:17 -0700 (PDT)
-Message-ID: <8a4872eb-076d-2807-add3-fe7b68de03a8@konsulko.com>
-Date: Thu, 20 Apr 2023 13:00:16 +0300
+ dkim=missing; spf=pass (domain: 2n.com, ip: 195.60.68.18, mailfrom: kubiznak@2n.com)
+From: =?UTF-8?q?Petr=20Kubiz=C5=88=C3=A1k?= <kubiznak@2n.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: =?UTF-8?q?Petr=20Kubiz=C5=88=C3=A1k?= <kubiznak@2n.com>
+Subject: [OE-core][PATCH] devicetree.bbclass: Allow selection of dts files to build
+Date: Thu, 20 Apr 2023 13:40:46 +0200
+Message-ID: <20230420114046.873360-1-kubiznak@2n.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [OE-core] [PATCHv3] python3-manifest.json: Fix re in core
-Content-Language: en-US
-To: Paul Eggleton <bluelightning@bluelightning.org>
-Cc: openembedded-core@lists.openembedded.org
-References: <20221103122755.3818894-1-leon.anavi@konsulko.com>
- <2427094.jE0xQCEvom@linc>
-From: Leon Anavi <leon.anavi@konsulko.com>
-In-Reply-To: <2427094.jE0xQCEvom@linc>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: se-mail01w.axis.com (10.20.40.7) To se-mail01w.axis.com
+ (10.20.40.7)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 10:00:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180247
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 11:41:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180248
 
-Hi Paul,
+Add DT_FILES variable to allow the user of the class to select specific
+dts files to build. This is useful for packages featuring dts files
+for multiple machines.
 
-On 20.04.23 г. 7:59 ч., Paul Eggleton wrote:
-> Hi Leon
->
-> On Friday, 4 November 2022 01:27:55 NZST Leon Anavi wrote:
->> Following the update from 3.10.6 to 3.11.0, the source code of
->> module re for regular expression operations has been moved to
->> Lib/re/. File python3-manifest.json has been modified according
->> to the new path.
->>
->> According to the instructions the new python3-manifest.json
->> version was created by running bitbake python3 -c create_manifest.
->> Because of this it also updated other files and rdepends in it.
-> Maybe you're already aware, but just in case not, this patch appears to have
-> effectively undone the change you made earlier ("Move urllib to netclient"):
->
->    https://git.openembedded.org/openembedded-core/commit/?id=e74ab2c144042b0a9f788b1b15f11b2800e2c7a1
-Thank you for pointing this out. Sorry, I have been quite busy for 
-several months and I didn't have the time to follow up with the upstream 
-of meta-python recently. I vaguely remember these patches so I am not 
-sure about the current state of urllib to netclient. I think it still 
-makes sense to have urllib in netclient.
+Since many machine configs contain a list of dtb files
+(e.g. KERNEL_DEVICETREE), DT_FILES works with both dts and dtb files.
 
-Best regards, Leon
+Signed-off-by: Petr Kubizňák <kubiznak@2n.com>
+---
+ meta/classes-recipe/devicetree.bbclass | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-> Cheers
-> Paul
->
->
+diff --git a/meta/classes-recipe/devicetree.bbclass b/meta/classes-recipe/devicetree.bbclass
+index ed2a92e447..fb73c44e22 100644
+--- a/meta/classes-recipe/devicetree.bbclass
++++ b/meta/classes-recipe/devicetree.bbclass
+@@ -53,8 +53,10 @@ KERNEL_INCLUDE ??= " \
+ 
+ DT_INCLUDE[doc] = "Search paths to be made available to both the device tree compiler and preprocessor for inclusion."
+ DT_INCLUDE ?= "${DT_FILES_PATH} ${KERNEL_INCLUDE}"
+-DT_FILES_PATH[doc] = "Defaults to source directory, can be used to select dts files that are not in source (e.g. generated)."
++DT_FILES_PATH[doc] = "Path to the directory containing dts files to build. Defaults to source directory."
+ DT_FILES_PATH ?= "${S}"
++DT_FILES[doc] = "Space-separated list of dts or dtb files to build. If empty, all dts files are built."
++DT_FILES ?= ""
+ 
+ DT_PADDING_SIZE[doc] = "Size of padding on the device tree blob, used as extra space typically for additional properties during boot."
+ DT_PADDING_SIZE ??= "0x3000"
+@@ -125,7 +127,10 @@ def devicetree_compile(dtspath, includes, d):
+     subprocess.run(dtcargs, check = True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+ 
+ python devicetree_do_compile() {
++    import re
+     includes = expand_includes("DT_INCLUDE", d)
++    dtfiles = d.getVar("DT_FILES")
++    filter = [ re.sub('dtb[o]?', 'dts', dtfile) for dtfile in dtfiles.split() ]
+     listpath = d.getVar("DT_FILES_PATH")
+     for dts in os.listdir(listpath):
+         dtspath = os.path.join(listpath, dts)
+@@ -134,6 +139,9 @@ python devicetree_do_compile() {
+                 continue # skip non-.dts files and non-overlay files
+         except:
+             continue # skip if can't determine if overlay
++        if filter:
++            if not(dts in filter):
++                continue # skip if dts not in defined filter
+         devicetree_compile(dtspath, includes, d)
+ }
+ 
 -- 
-Leon Anavi
-Software Engineer
-konsulko.com
+2.30.2
 
 
