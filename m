@@ -1,345 +1,175 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15088C77B73
-	for <webhook@archiver.kernel.org>; Thu, 20 Apr 2023 15:27:19 +0000 (UTC)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
- by mx.groups.io with SMTP id smtpd.web10.11250.1682004433962592449
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 258B5C77B72
+	for <webhook@archiver.kernel.org>; Thu, 20 Apr 2023 17:21:11 +0000 (UTC)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+ by mx.groups.io with SMTP id smtpd.web11.1920.1682011266754650906
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Apr 2023 08:27:14 -0700
+ Thu, 20 Apr 2023 10:21:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=IsO2C6E4;
- spf=pass (domain: gmail.com, ip: 209.85.208.181, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2a8bae45579so5755071fa.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 08:27:13 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=JoTBbqoy;
+ spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f170.google.com with SMTP id h8so3662095ljf.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 10:21:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682004432; x=1684596432;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0pyFzhC8yLdBxI0diCyNbKxKK6csciCV0TQNjBHA5RY=;
-        b=IsO2C6E4+zmlB7F5bPr4jyjMc7VOHPIBNIPDYhrqC8FvnPpJhEB1TB6SNz5eK9Txde
-         kFvxTBaSjn7rsIhebuffE+lFmY3IxT/JKotP6cr82gO9I4lexCqOWuTN0nhVke9Ogptg
-         IMekWc8ydcc/Z9LmklmlzA077IbuHXrdQc02eu4KcnmzOPEFZDkAs+K9qHY6hlY+FIir
-         QruW7x4HIDyqhbti3OTRIYm9OJeOIKheq0+uSKhV2zg8io/P0aEbcpKOBk6VPfty6PMp
-         dBqH2ptqO2J2dPA2BGcmSIkSsaveFvw85dOoYlSN71xFYXHAT37AIwxuDXVEYKjrhXKB
-         ZgFQ==
+        d=gmail.com; s=20221208; t=1682011265; x=1684603265;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YUMUBRFfRIzoztO87fL5QNiqRkwSQ5RmGoQ7jtQ/Nlo=;
+        b=JoTBbqoyOYs90nCFS1VAkcT2uxaaUp6WrcQ4tgZG+lMtNN7+l0JVAAW2fFRTAFElGz
+         EsvawR3EQUaA3cTsyRUuSNPyG/EXJ1NN6GsfguzlAQXe0Ip+jYyM6bgTiBHzaERw0BTF
+         jFMs2l96s9Kvy/wx3wNFrUG7ODLkYH0BwfVi0bGEeoNqr1Lzsuxrxw6eWN7L+7h2j99r
+         KS6/bUVZwe3Vgg5UI+j0FDNPgzy4D06sQ6MvYiBzeIus/pp9jS34usfLG7W7wBQ8tqAm
+         lAyV/hGhMYbJGfHRqo3yDu3IpT4OFotNWMWqfX5QHlAJ6pp9TA/0RxvcORha4KqunyA2
+         5jGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682004432; x=1684596432;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0pyFzhC8yLdBxI0diCyNbKxKK6csciCV0TQNjBHA5RY=;
-        b=ZCrvznqfCMak7a93dOftSuu5EU/2DJ0OyUAKpC5zZtrzsufnD4BXL0UQwOO8Fvcvw+
-         FA/zbQANQBzhEEV69Nw+FBpZ7fhHFUKFVuj3ZlrHNdMLi+4yi28b1kx06ugCmphbS/Tq
-         6aOf8axhQgXN3mpHdy/pVfXv+Z+r0k5Hq2xFiiWQmCmPglOprBKXzMfKaiDHQw98gWKo
-         mWzCaCJy1qJScYxadLr2zeXGxP2UeICreTG62Qr1HMRmhqC2rIzvC6m5/buAiJzvrwld
-         t3BryQ8B66NVrH6cwAWyA6QGmh/HSNqWrZjFMKZBIFAoWkMCdQCu2nkafvkIz32fYUJD
-         41hQ==
-X-Gm-Message-State: AAQBX9eVD5iD1LfT/1BuoPoTDRFuORVWV0swMLiRU2nziyAAztPyjmVw
-	zRigkiqiYXCMR2e1rmBsMT4qoQf4vDEsPrx+Sos=
-X-Google-Smtp-Source: AKy350aRAVdlKxuPzJWL5Id9bHGOEkPoIUsRxP+AkagTneIYysDGBHsUijkNFJYIJGg+jRaeL3jdlUUNbmQOkUa7p8U=
-X-Received: by 2002:a19:7403:0:b0:4ee:db34:6f6e with SMTP id
- v3-20020a197403000000b004eedb346f6emr503415lfe.12.1682004431863; Thu, 20 Apr
- 2023 08:27:11 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1682011265; x=1684603265;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YUMUBRFfRIzoztO87fL5QNiqRkwSQ5RmGoQ7jtQ/Nlo=;
+        b=bc3B5cD6zG5nvnTPgudJwL2GiX9YNcboeKsSxrMvB2Lar8JfKI5jl/1234QCity4l4
+         dp5h35U8A63wiXE7w0u+LV0OqfsBLNXS9egzVGU6d2R4s6TtHRgzLUjCIwFabKQ35bJV
+         r3RVqpKevtF9wNkNNFHwmn6s7ZKGWCcufjiCCCSwWfzNcRQR7m6CxDEdTWAoO1b8r0fp
+         L/KtD3i7E3vCA8X0jSy87mqtZ/VRJb8Z0fn80sE2aknLckphQK1YYjAXdkZG2x7/cAB/
+         HOIO8XDRpGSJLJ5MDSPQJPElXUVwCiJhnklVuP1hw6XIJi05cT6nLzcPuvj8aPQu4x8y
+         qjTA==
+X-Gm-Message-State: AAQBX9eVdopb4o4gALsxSVbQmKemF50EWuW4LeZOXFeEgG/qF3hG97a8
+	OzU/sCMAfijRtz7Ft4vGByeOL9X4h3nGgUo1jPQ=
+X-Google-Smtp-Source: AKy350YN0yZo/TzwnJdz9z5hazIaLfWZpofn4JnenIA0DzkIXICS+xinqvKKaEh9h9tEWVXqFsHn+LmnrA+cCMIRO7o=
+X-Received: by 2002:a2e:9cd4:0:b0:299:ac68:4806 with SMTP id
+ g20-20020a2e9cd4000000b00299ac684806mr621297ljj.9.1682011264644; Thu, 20 Apr
+ 2023 10:21:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <CA+cAkepE6FLo7L8N0FG-39CfFfLgK9RPFH0qvi+dRNOY5gpXRw@mail.gmail.com>
- <b8187209629974cf50110a5690a14360e7c02026.camel@linuxfoundation.org>
- <CA+cAkeqwkQRFzEYVC0jm0xdby9RrGqYtVOenc85+J-nMiGwtoA@mail.gmail.com> <f0057a72-aebd-230e-f247-ca47f3ac025a@gmail.com>
-In-Reply-To: <f0057a72-aebd-230e-f247-ca47f3ac025a@gmail.com>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Date: Thu, 20 Apr 2023 17:27:00 +0200
-Message-ID: <CA+cAkeo+W46HDaLD8aUM3ewn=_M8XepKaP_v+vOmfR0rP9Qt6A@mail.gmail.com>
-Subject: Re: [OE-core] Cargo and ptest
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000ac043505f9c62c68"
+References: <20230420052442.16443-1-yang.xu@mediatek.com> <CANNYZj-C8ujMnqkZqyU8rgAF+rJ9Bwqc2bOLkuGu0d0cJpXfpg@mail.gmail.com>
+ <90b1e25cde406898154a05d03babc739120e643c.camel@mediatek.com>
+In-Reply-To: <90b1e25cde406898154a05d03babc739120e643c.camel@mediatek.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 20 Apr 2023 19:20:53 +0200
+Message-ID: <CANNYZj-0u9XVkCVHT+WjtFkQ_nYg9i4OUj311wK5GgRhp7ZZfA@mail.gmail.com>
+Subject: Re: [PATCH] openssl: set package level PERL5LIB
+To: =?UTF-8?B?WWFuZyBYdSAo5b6Q5omsKQ==?= <Yang.Xu@mediatek.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 15:27:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180255
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 17:21:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180256
 
---000000000000ac043505f9c62c68
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thank you, I understand this now. I'm fine with the fix, but can you
+add this additional information to the commit message? So that it's
+available in git history if anyone needs to understand it.
 
-Le jeu. 20 avr. 2023, 17:00, Khem Raj <raj.khem@gmail.com> a =C3=A9crit :
+Alex
 
-> On 4/20/23 2:57 AM, Frederic Martinsons wrote:
-> >
-> >
-> > Le jeu. 20 avr. 2023, 11:41, Richard Purdie
-> > <richard.purdie@linuxfoundation.org
-> > <mailto:richard.purdie@linuxfoundation.org>> a =C3=A9crit :
-> >
-> >     On Thu, 2023-04-20 at 09:27 +0200, Frederic Martinsons wrote:
-> >      > Hello,
-> >      >
-> >      > I would like to build and ship tests for recipes which uses carg=
-o
-> and
-> >      > in the process, three questions arose (maybe more when I will
-> >      > progress).
-> >      > I would like to have your opinions on them.
-> >      >
-> >      > 1) should we ship cargo-native in ptest images or should we just
-> >      > build and ship test binaries alone ?
-> >
-> >     ptests run in target images so they'd depend on "cargo" and cargo-
-> >     native wouldn't be appropriate.
-> >
-> >
-> > Of course, I meant cargo, not cargo-native.
-> > I'm asking for that because running "cargo test" to execute the whole
-> > test suite is the standard for rust project but it will force us to
-> > embed cargo (plus all it's deps) and source code for doing that. I thin=
-k
-> > I will go for the test binaries only for the moment. Note that I will
-> > need to do some "clever" search of them because they do not have a
-> > deterministic name (https://github.com/rust-lang/cargo/issues/1924
-> > <https://github.com/rust-lang/cargo/issues/1924>)
+On Thu, 20 Apr 2023 at 15:42, Yang Xu (=E5=BE=90=E6=89=AC) <Yang.Xu@mediate=
+k.com> wrote:
 >
-> Usually ptests are cross compiled during build and results are packaged
-> into PN-ptest package. A run-ptest script is added to this package which
-> is used to execute the tests on device. This also integrates with
-> ptest-runner and larger system testing if you wish to do so. in some
-> cases we
-> might package tools needed to run the tests on target but seldom do we
-> compile the tests on target and then run them because embedded targets
-> may not have enough musle to do that. So if cargo binary is needed to
-> run the pre-compiled tests then I think adding that to rdeps of PN-ptest
-> might be fine.
+> Dear Alexander,
 >
-
-Yes, thanks, I'm aware of PN-test package and run-ptest script, this is
-what I plan to do.
-
-But I don't think embedding cargo is desirable, since issuing "cargo test"
-command doesn't imply to run pre compiled binary, this will compile the
-project and run tests onto (pretty like what a Makefile project would do
-with "make check"), so this would imply to pull a lot of dependencies for
-that (though I don't how many exactly)
-
+> Sorry, let me explain the problem we met.
 >
-> >
-> >      > 2) should we place the cargo ptest specifics in a dedicated clas=
-s
-> >      > (e.g ptest-cargo.bbclass, like already existing ptest-gnome or
-> ptest-
-> >      > perl) or put this in cargo.bbclass itself ?
-> >
-> >     If ptests for cargo all follow a common format and a class can enab=
-le
-> >     them for a large set of recipes, a class is appropriate.
-> >
-> >     If would only be in cargo.bbclass itself if all cargo recipes had
-> >     standard ptests.
-> >
-> >
-> > Yes they do follow a common format for all rust projects (except for th=
-e
-> > generated binary name, see above). But a recipe can perfectly choose to
-> > not implementing any tests if they want to.
-> > I'll go for a separate class to clearly distinguish test things in a
-> > first time.
-> >
-> >
-> >      > 3) should we embed all kind of tests (unit, integration and doc
-> >      > tests, see
-> >      > https://doc.rust-lang.org/book/ch11-03-test-organization.html
-> >     <https://doc.rust-lang.org/book/ch11-03-test-organization.html>) or
-> >      > just the unit tests ?
-> >
-> >     I don't know about the rust specific details but unit and integrati=
-on
-> >     tests are both appropriate. I've no strong opinion on doc tests.
-> >     They're probably fine if they don't add large dependency chains and
-> run
-> >     quickly.
-> >
-> >     Cheers,
-> >
-> >     Richard
-> >
-> >
-> > OK I'll see how doc tests behave for already existing recipes (if they
-> > have some).
-> >
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#180246):
-> https://lists.openembedded.org/g/openembedded-core/message/180246
-> > Mute This Topic: https://lists.openembedded.org/mt/98384286/1997914
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
+> The simplified environment and scenarios is:
+> 1) User A, his home directory is /home/A, generate one sstate cache
+> under /home/A.
+> 2) This sstate cache moved to /home/Public, act as shared sstate cache
+> 3) User B, his home directory is /home/B, using sstate cache in
+> /home/Public and build yocto.
+> 4) User B has no permission to access /home/A.
 >
-
---000000000000ac043505f9c62c68
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Le jeu. 20 avr. 2023, 17:00, Khem Raj &lt;<a href=3D"m=
-ailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; a =C3=A9crit=C2=A0:<br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex">On 4/20/23 2:57 AM, Frederic Martinso=
-ns wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; Le jeu. 20 avr. 2023, 11:41, Richard Purdie <br>
-&gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_b=
-lank" rel=3D"noreferrer">richard.purdie@linuxfoundation.org</a> <br>
-&gt; &lt;mailto:<a href=3D"mailto:richard.purdie@linuxfoundation.org" targe=
-t=3D"_blank" rel=3D"noreferrer">richard.purdie@linuxfoundation.org</a>&gt;&=
-gt; a =C3=A9crit=C2=A0:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0On Thu, 2023-04-20 at 09:27 +0200, Frederic Martins=
-ons wrote:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; Hello,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; I would like to build and ship tests for reci=
-pes which uses cargo and<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; in the process, three questions arose (maybe =
-more when I will<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; progress).<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; I would like to have your opinions on them.<b=
-r>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; 1) should we ship cargo-native in ptest image=
-s or should we just<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; build and ship test binaries alone ?<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0ptests run in target images so they&#39;d depend on=
- &quot;cargo&quot; and cargo-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0native wouldn&#39;t be appropriate.<br>
-&gt; <br>
-&gt; <br>
-&gt; Of course, I meant cargo, not cargo-native.<br>
-&gt; I&#39;m asking for that because running &quot;cargo test&quot; to exec=
-ute the whole <br>
-&gt; test suite is the standard for rust project but it will force us to <b=
-r>
-&gt; embed cargo (plus all it&#39;s deps) and source code for doing that. I=
- think <br>
-&gt; I will go for the test binaries only for the moment. Note that I will =
-<br>
-&gt; need to do some &quot;clever&quot; search of them because they do not =
-have a <br>
-&gt; deterministic name (<a href=3D"https://github.com/rust-lang/cargo/issu=
-es/1924" rel=3D"noreferrer noreferrer" target=3D"_blank">https://github.com=
-/rust-lang/cargo/issues/1924</a> <br>
-&gt; &lt;<a href=3D"https://github.com/rust-lang/cargo/issues/1924" rel=3D"=
-noreferrer noreferrer" target=3D"_blank">https://github.com/rust-lang/cargo=
-/issues/1924</a>&gt;)<br>
-<br>
-Usually ptests are cross compiled during build and results are packaged<br>
-into PN-ptest package. A run-ptest script is added to this package which<br=
+> The problem we met is while openssl built from scratch but perl using
+> cache,
+> it will be aborted at do_configure stage,
+> error message is "Can not locate Text/Template.pm at /home/A/[build
+> path]/[perl module path]/Text/Template.pm : Permission Denied".
 >
-is used to execute the tests on device. This also integrates with <br>
-ptest-runner and larger system testing if you wish to do so. in some <br>
-cases we<br>
-might package tools needed to run the tests on target but seldom do we<br>
-compile the tests on target and then run them because embedded targets <br>
-may not have enough musle to do that. So if cargo binary is needed to <br>
-run the pre-compiled tests then I think adding that to rdeps of PN-ptest <b=
-r>
-might be fine.<br></blockquote></div></div><div dir=3D"auto"><br></div><div=
- dir=3D"auto">Yes, thanks, I&#39;m aware of PN-test package and run-ptest s=
-cript, this is what I plan to do.=C2=A0</div><div dir=3D"auto"><br></div><d=
-iv dir=3D"auto">But I don&#39;t think embedding cargo is desirable, since i=
-ssuing &quot;cargo test&quot; command doesn&#39;t imply to run pre compiled=
- binary, this will compile the project and run tests onto (pretty like what=
- a Makefile project would do with &quot;make check&quot;), so this would im=
-ply to pull a lot of dependencies for that (though I don&#39;t how many exa=
-ctly)=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=
-=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex">
-&gt; <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; 2) should we place the cargo ptest specifics =
-in a dedicated class<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; (e.g ptest-cargo.bbclass, like already existi=
-ng ptest-gnome or ptest-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; perl) or put this in cargo.bbclass itself ?<b=
-r>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0If ptests for cargo all follow a common format and =
-a class can enable<br>
-&gt;=C2=A0 =C2=A0 =C2=A0them for a large set of recipes, a class is appropr=
-iate.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0If would only be in cargo.bbclass itself if all car=
-go recipes had<br>
-&gt;=C2=A0 =C2=A0 =C2=A0standard ptests.<br>
-&gt; <br>
-&gt; <br>
-&gt; Yes they do follow a common format for all rust projects (except for t=
-he <br>
-&gt; generated binary name, see above). But a recipe can perfectly choose t=
-o <br>
-&gt; not implementing any tests if they want to.<br>
-&gt; I&#39;ll go for a separate class to clearly distinguish test things in=
- a <br>
-&gt; first time.<br>
-&gt; <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; 3) should we embed all kind of tests (unit, i=
-ntegration and doc<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; tests, see<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; <a href=3D"https://doc.rust-lang.org/book/ch1=
-1-03-test-organization.html" rel=3D"noreferrer noreferrer" target=3D"_blank=
-">https://doc.rust-lang.org/book/ch11-03-test-organization.html</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://doc.rust-lang.org/book/ch11-=
-03-test-organization.html" rel=3D"noreferrer noreferrer" target=3D"_blank">=
-https://doc.rust-lang.org/book/ch11-03-test-organization.html</a>&gt;) or<b=
-r>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; just the unit tests ?<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0I don&#39;t know about the rust specific details bu=
-t unit and integration<br>
-&gt;=C2=A0 =C2=A0 =C2=A0tests are both appropriate. I&#39;ve no strong opin=
-ion on doc tests.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0They&#39;re probably fine if they don&#39;t add lar=
-ge dependency chains and run<br>
-&gt;=C2=A0 =C2=A0 =C2=A0quickly.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Cheers,<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Richard<br>
-&gt; <br>
-&gt; <br>
-&gt; OK I&#39;ll see how doc tests behave for already existing recipes (if =
-they <br>
-&gt; have some).<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#180246): <a href=3D"https://lists.openembedded.org=
-/g/openembedded-core/message/180246" rel=3D"noreferrer noreferrer" target=
-=3D"_blank">https://lists.openembedded.org/g/openembedded-core/message/1802=
-46</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/98384286=
-/1997914" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.ope=
-nembedded.org/mt/98384286/1997914</a><br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lis=
-ts.openembedded.org</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
-core/unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.o=
-penembedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@g=
-mail.com" target=3D"_blank" rel=3D"noreferrer">raj.khem@gmail.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; <br>
-</blockquote></div></div></div>
-
---000000000000ac043505f9c62c68--
+> There are some information about perl:
+> 1. perl will hardcode buildtime path in @INC in binary (module search
+> directories)
+> 2. when "use MODULE", perl will search @INC from begin to end until it
+> found MODULE.
+> 3. when perl search module through directories in @INC
+>    3.1 if [directory]/MODULE.pm is not exist, search in next directory
+> in @INC.
+>    3.2 if [directory]/MODULE.pm has no permission to access, perl will
+> ABORT.
+>
+> While build openssl from from scratch with perl using cache, @INC
+> directory order is:
+> 1.<PERL5LIB>
+> 2.<default module path in ${WORKDIR}/recipe-sysroot-native>
+> 3.<hardcode module path in binary, which point to /home/A/XXX/YYY>
+> 4.<module found by FindBin, module Text-Template can be found by it>
+>
+> Q:What makes PERL5LIB setting inappropriate? Why is perl that has been
+> built by a different user (and placed into sstate) not suitable?
+> A:
+> There is no path external/perl/Text-Template-1.46/lib/ exists,
+> openssl has upgraded to external/perl/Text-Template-1.56/lib/.
+> With current recipe, highest priority folder <PERL5LIB> pointed to an
+> non-exist folder and meaningless.
+> Lowest priority folder "<module found by FindBin>" includes modules in
+> openssl source code.
+>
+> While perl search "Text/Template.pm", it can not found it in <PERL5LIB>
+> and <default module path>.
+> And then perl search module in <hardcode module path in binary>,
+> *if /home/A is not existed, perl will search in <module found by
+> FindBin> and found Text/Template.pm finally. (OK case)
+> *if /home/A is existed but has no permission access, perl will ABORT
+> immediately. (NG case, case we met)
+>
+> So my fixup is
+> 1) set appropriate PERL5LIB to make perl can found Text/Tempalte.pm at
+> highest priority folder <PERL5LIB>.
+> 2) add other perl module directories needed by openssl build in
+> PERL5LIB
+> 3) set PERL5LIB as package environment variable
+>
+> Q: Doesn't this mean that perl from sstate can be broken in certain
+> scenarios, and that needs to be fixed instead?
+> A:
+> I think it is a module/mechanisms co-work problem because I think
+> sstate cache and perl is behavior normally.
+> Caller of perl has response to prepare appropriate module setting.
+>
+> Sorry, I hope I explain the situation clearly.
+>
+> Thank you
+>
+> On Thu, 2023-04-20 at 11:22 +0200, Alexander Kanavin wrote:
+> > External email : Please do not click links or open attachments until
+> > you have verified the sender or the content.
+> >
+> >
+> > On Thu, 20 Apr 2023 at 07:30, Yang Xu <yang.xu@mediatek.com> wrote:
+> > >
+> > > Build openssl with shared state cache may meet problem under below
+> > > conditions:
+> > > 1. sstate cache generated by another user on same machine
+> > > 2. inappropriate PERL5LIB setting
+> > > 3. openssl build from scratch but perl using cache
+> > >
+> > > When building openssl, without appropriate PERL5LIB setting, perl
+> > > tries
+> > > to search Text::Template in no permission path and abort.
+> > >
+> > > This patch does three things:
+> > > 1. openssl upgrade external Text-Template from 1.46 to 1.56,
+> > > correct perl module path.
+> > > 2. add necessary module path while openssl build
+> > > 3. set package level PERL5LIB to make perl found module in S
+> >
+> > I'm not sure I understand the description of the problem, or the fix.
+> > What makes PERL5LIB setting inappropriate? Why is perl that has been
+> > built by a different user (and placed into sstate) not suitable?
+> > Doesn't this mean that perl from sstate can be broken in certain
+> > scenarios, and that needs to be fixed instead?
+> >
+> > Alex
 
