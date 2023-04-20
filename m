@@ -1,97 +1,79 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0925BC77B73
-	for <webhook@archiver.kernel.org>; Thu, 20 Apr 2023 07:27:17 +0000 (UTC)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web10.2526.1681975635875052567
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CDCFC77B72
+	for <webhook@archiver.kernel.org>; Thu, 20 Apr 2023 08:44:07 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web10.3415.1681980240890371906
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Apr 2023 00:27:16 -0700
+ Thu, 20 Apr 2023 01:44:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=aejIq2/f;
- spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2a8dc00ade2so3308301fa.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 00:27:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681975634; x=1684567634;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ZqqpXUBIjdNVW1Nz9inkgA0XmAb9dzQawDY3safmKrs=;
-        b=aejIq2/fc0FN03YH5rS9tooEBoZSdkK3DdCOVas/1C2Yb8RPMZU7s+zD1tlrrNU+Y5
-         JalVDALWVeU+oArowHel2+uLVkjQ2HDJaLI879WKX/f6fj80Rri4nbA+1VS4P0g+leNO
-         VFVrRCJS/L+ihiARYF7UtKXl/cGhvvo5eGB4ItVXYXnbdBbsf69JSUxfAthyj71Fdo+p
-         givQUT2cyagxQu7a/QZzoaMuHvleVTmsVXgrA5bRBaT9ltxEKZWYpttIsqdpewfdFasf
-         4iMK4XXZYsreKB5ls6r3P1GLB5hs270M9DLmGiIKL6n1HGdNj+S+Q2xYDCuhOfY01+Fp
-         BOHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681975634; x=1684567634;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZqqpXUBIjdNVW1Nz9inkgA0XmAb9dzQawDY3safmKrs=;
-        b=iJjjEajoNR0eCrAUbEJ9IX+yIKpRFN+o+ZsFumDR0BLq5+JLu/G2w3nBD0OV99Z3V5
-         aHdax+h+iwR0wZq4eGMpK+g9QM5Bm4vtqRSCbMTpobIg4im5jCK2luROZclLrTSxcQyN
-         HmF+8Z59PjmqNV3e8Sr0x1Ww7kBG6X9KebcEXKtZYQqgH34P4qqcNo9N1G8IW2HXZL3f
-         Bg1rapdqNOc7r7+gRXDrC4CpIE4cT6PREhruUjwx+QNr7E8ij7yJZ2REwQ6uEs3rCCBY
-         b5NRbNJJL7XNNolG4nCLw9rJjDi1Xej0xUirVCVjBMajW3A9A3bLZZ+5qtdxgdbxPq6H
-         Sy2w==
-X-Gm-Message-State: AAQBX9f+y0T/sSnbfbf/ZSyE/MOlri+ZC1aApgSDoQZgRyLcKqPjzXNb
-	M1Q+o/fEhANY6YuIA33FYXkqclcYpFmKHUGViMtsic/q
-X-Google-Smtp-Source: AKy350a7xpQUMK6fhDHzzhTI0F0aUBlsiiDE77M0Ha9BBzdny/wiWKwoUI+ZRK3oq8OkHeMiqcqBvxiWgjxCoHZo6vE=
-X-Received: by 2002:ac2:5929:0:b0:4ee:8ff3:c987 with SMTP id
- v9-20020ac25929000000b004ee8ff3c987mr96422lfi.12.1681975633382; Thu, 20 Apr
- 2023 00:27:13 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=E5tghEy9;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: luca.ceresoli@bootlin.com)
+Received: from booty (unknown [77.244.183.192])
+	(Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 93DEC60013;
+	Thu, 20 Apr 2023 08:43:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1681980238;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r/jAaXmRg1sCP3SDi98fzuG5Y0mds1w1jk5rS/Pgv4I=;
+	b=E5tghEy95tbj9Lgc3VxPfCPQhlAWs+3l07tEUAjLK35AwcHdY+wiRo2CSWq749t6MzW4tH
+	3ftVPSObsfC1rsD1E9jP92SUxriT+aZaM22MIYc8wuA7+HKzrhWY5RtSC+39i+gL0hM52/
+	R+lQQURhaS8aEFlaNtju0M2BZyvL2BUld7ScRqIBw7ROPMOdggtEvbuieu4KekV125ALQR
+	CbTdrKeqLz+FEaUV9upYwYRsB4r2cJc3+aWI0iNz3uvtlvjgazRATNFt3B8c3v97LGDAJB
+	EmZTmc8WmhZbsagRFmmv5bcbUu0hqDeLuIQWApH2K1tW1jFp5EqVOkswI/sy9A==
+Date: Thu, 20 Apr 2023 10:43:55 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Yang Xu via lists.openembedded.org"
+ <yang.xu=mediatek.com@lists.openembedded.org>
+Cc: yang.xu@mediatek.com, <openembedded-core@lists.openembedded.org>,
+ <alex.kanavin@gmail.com>
+Subject: Re: [OE-core] [PATCH v2] openssl: set package level PERL5LIB
+Message-ID: <20230420104355.68722b88@booty>
+In-Reply-To: <20230420063034.16806-1-yang.xu@mediatek.com>
+References: <20230420063034.16806-1-yang.xu@mediatek.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Date: Thu, 20 Apr 2023 09:27:02 +0200
-Message-ID: <CA+cAkepE6FLo7L8N0FG-39CfFfLgK9RPFH0qvi+dRNOY5gpXRw@mail.gmail.com>
-Subject: Cargo and ptest
-To: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000260fb805f9bf7876"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 07:27:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180238
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 08:44:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180239
 
---000000000000260fb805f9bf7876
-Content-Type: text/plain; charset="UTF-8"
+Hello Yang,
 
-Hello,
+thanks for you patch. However there is an issue with your e-mail, see
+below
 
-I would like to build and ship tests for recipes which uses cargo and in
-the process, three questions arose (maybe more when I will progress).
-I would like to have your opinions on them.
+On Thu, 20 Apr 2023 06:30:34 +0000
+"Yang Xu via lists.openembedded.org"
+<yang.xu=mediatek.com@lists.openembedded.org> wrote:
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1) should we ship cargo-native in ptest images or should we just build and
-ship test binaries alone ?
-2) should we place the cargo ptest specifics in a dedicated class (e.g
-ptest-cargo.bbclass, like already existing ptest-gnome or ptest-perl) or
-put this in cargo.bbclass itself ?
-3) should we embed all kind of tests (unit, integration and doc tests, see
-https://doc.rust-lang.org/book/ch11-03-test-organization.html) or just the
-unit tests ?
+As you can see your sender address has been mangled, and as a result
+the patch is rejected by the the openembedded git server. This is not
+your fault, but we need you to modify your git configuration to prevent
+this from happening in the future. Have a look at the wiki for more
+info and how to solve that:
 
-Thank you very much for all insights you could give on this matter.
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded#Fixing_your_From_identity
 
---000000000000260fb805f9bf7876
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I'm taking your patch for testing on the autobuilders, fixing it
+manually so you don't need to resend it.
 
-<div dir=3D"auto">Hello,<div dir=3D"auto"><br></div><div dir=3D"auto">I wou=
-ld like to build and ship tests for recipes which uses cargo and in the pro=
-cess, three questions arose (maybe more when I will progress).</div><div di=
-r=3D"auto">I would like to have your opinions on them.=C2=A0</div><div dir=
-=3D"auto"><br></div><div dir=3D"auto">1) should we ship cargo-native in pte=
-st images or should we just build and ship test binaries alone ?=C2=A0</div=
-><div dir=3D"auto">2) should we place the cargo ptest specifics in a dedica=
-ted class (e.g ptest-cargo.bbclass, like already existing ptest-gnome or pt=
-est-perl) or put this in cargo.bbclass itself ?</div><div dir=3D"auto">3) s=
-hould we embed all kind of tests (unit, integration and doc tests, see <a h=
-ref=3D"https://doc.rust-lang.org/book/ch11-03-test-organization.html">https=
-://doc.rust-lang.org/book/ch11-03-test-organization.html</a>) or just the u=
-nit tests ?</div><div dir=3D"auto"><br></div><div dir=3D"auto">Thank you ve=
-ry much for all insights you could give on this matter.=C2=A0</div></div>
+Best regards,
+Luca
 
---000000000000260fb805f9bf7876--
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
