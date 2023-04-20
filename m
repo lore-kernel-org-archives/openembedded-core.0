@@ -1,102 +1,130 @@
-Return-Path: <yang.xu@mediatek.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1DFBC77B73
-	for <webhook@archiver.kernel.org>; Thu, 20 Apr 2023 06:30:56 +0000 (UTC)
-Received: from mailgw02.mediatek.com (mailgw02.mediatek.com [210.61.82.184])
- by mx.groups.io with SMTP id smtpd.web11.2057.1681972255885113089
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 003FEC77B72
+	for <webhook@archiver.kernel.org>; Thu, 20 Apr 2023 06:55:16 +0000 (UTC)
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web10.2218.1681973710162687818
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Apr 2023 23:30:56 -0700
+ Wed, 19 Apr 2023 23:55:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mediatek.com header.s=dk header.b=QDvaZo5A;
- spf=pass (domain: mediatek.com, ip: 210.61.82.184, mailfrom: yang.xu@mediatek.com)
-X-UUID: e3af60eedf4411edb6b9f13eb10bd0fe-20230420
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=tR0LiZIwZ69NB5DumMXjVDS1COTPMpdiP//CGE3qXJs=;
-	b=QDvaZo5AHcGIbMBtL3f5ydbl11cC/EjXs4+UgZS+bGQKWW8MDkvr5p+NwqCTPnvU/l0eSO/UBuZyBnrKNTPaQisp5UnUgz7c0XqxPQOztK3PbmyX4zv3l3gQpTJgsBD8g3M5QsLnt7KrjdQzVkeuzTy4uyUVuJh+G3c8RAFoekw=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22,REQID:58e3474b-2835-4376-854d-9cc09ba48efd,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:120426c,CLOUDID:874d93eb-db6f-41fe-8b83-13fe7ed1ef52,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-UUID: e3af60eedf4411edb6b9f13eb10bd0fe-20230420
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw02.mediatek.com
-	(envelope-from <yang.xu@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1158672009; Thu, 20 Apr 2023 14:30:48 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Thu, 20 Apr 2023 14:30:47 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.25 via Frontend Transport; Thu, 20 Apr 2023 14:30:47 +0800
-From: Yang Xu <yang.xu@mediatek.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <alex.kanavin@gmail.com>, Yang Xu <yang.xu@mediatek.com>
-Subject: [PATCH v2] openssl: set package level PERL5LIB
-Date: Thu, 20 Apr 2023 06:30:34 +0000
-Message-ID: <20230420063034.16806-1-yang.xu@mediatek.com>
+ dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=LHEU2XuQ;
+ spf=pass (domain: mvista.com, ip: 209.85.210.178, mailfrom: hprajapati@mvista.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-63b5c48ea09so633521b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Apr 2023 23:55:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1681973709; x=1684565709;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HO35TZ3MyFkHfaxFVKM1ZzodfceB1ss0HVZtawpI0L4=;
+        b=LHEU2XuQlmfu6WFzSx1e1BCNC8YwPPGyvS3dIIhbK5hyzBdKLhXRI+TMwUS4IWW+TU
+         5Mpwr9eSPM+wDQGoUUufRW4gg6j2prb3ORcHvYQtNkbrSs7CG2JmAgoAFOAq8NQwRNPW
+         HXl0KgOi3wR/TBlkagtHHDp2RPyX/YPPTfpB8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681973709; x=1684565709;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HO35TZ3MyFkHfaxFVKM1ZzodfceB1ss0HVZtawpI0L4=;
+        b=az+ek8G+0k21GZnoVI4rPrYZEznaj4f+LfImc9UhP054nYl+ebQawn4p7EPw4QVGYs
+         XvqzirKODTQpBOUQpti8I042KMdnoF3ty/3kuBXpkJRyQ3zbUeAfkquWIYINY2XoyPIY
+         lSDifdVq9HWQ7QY9s5UH5FcSDuNRRNxPznAHy3ONF0lQnDbXflLJSbIcalXVKqEVAo8L
+         OUzm2Rv1bC01hz7aR4H+LL1h+ieGBULcwDQzLGgc5hvoYIelCSv5jr3PWaDpFJ8XpQoA
+         dR7K5As97qMNjaiOM2hOMEMp4WiJBjkRGzHSZ216ajK4uCsFW6x9CY4umJx/3eTBFP60
+         DTrg==
+X-Gm-Message-State: AAQBX9dDhAnwTIWlLYfnw6Hbf8z0ZFirJh1VmGQHL+rz+xpxQFhQpKAp
+	pw9BWT3YCzif3DUj3w+F6P7SGVcHkS/p9H1btPk=
+X-Google-Smtp-Source: AKy350YH8Jo8d7igUf8B6kR6ZHM3gCPcY3ITgwIclw4CNHptGfdK8P/Uerw2e/1a/zD1NnwR/gTXew==
+X-Received: by 2002:a05:6a00:2355:b0:63b:8ddc:2e0c with SMTP id j21-20020a056a00235500b0063b8ddc2e0cmr139794pfj.32.1681973709260;
+        Wed, 19 Apr 2023 23:55:09 -0700 (PDT)
+Received: from MVIN00024 ([150.129.170.130])
+        by smtp.gmail.com with ESMTPSA id x4-20020aa784c4000000b0063d238b1e4bsm497351pfn.160.2023.04.19.23.55.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Apr 2023 23:55:08 -0700 (PDT)
+Received: by MVIN00024 (sSMTP sendmail emulation); Thu, 20 Apr 2023 12:25:03 +0530
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [dunfell][PATCH] screen: CVE-2023-24626 allows sending SIGHUP to arbitrary PIDs
+Date: Thu, 20 Apr 2023 12:25:02 +0530
+Message-Id: <20230420065502.77030-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 06:30:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180236
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 06:55:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180237
 
-Build openssl with shared state cache may meet problem under below conditions:
-1. sstate cache generated by another user on same machine
-2. inappropriate PERL5LIB setting
-3. openssl build from scratch but perl using cache
+Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/screen.git/commit/?id=e9ad41bfedb4537a6f0de20f00b27c7739f168f7
 
-When building openssl, without appropriate PERL5LIB setting, perl from cache
-tries to search Text::Template and other modules in no permission path and
-abort immediately.
-
-This patch does three things:
-1. openssl upgrades external Text-Template from 1.46 to 1.56,
-correct perl module path.
-2. add necessary module path while openssl build
-3. set package level PERL5LIB to make perl found module in S
-
-Signed-off-by: Yang Xu <yang.xu@mediatek.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- meta/recipes-connectivity/openssl/openssl_3.1.0.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ .../screen/screen/CVE-2023-24626.patch        | 40 +++++++++++++++++++
+ meta/recipes-extended/screen/screen_4.8.0.bb  |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-extended/screen/screen/CVE-2023-24626.patch
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.1.0.bb b/meta/recipes-connectivity/openssl/openssl_3.1.0.bb
-index b319c66044..613451f265 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.1.0.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.1.0.bb
-@@ -54,6 +54,10 @@ CFLAGS:append:class-nativesdk = " -DOPENSSLDIR=/not/builtin -DENGINESDIR=/not/bu
- # The default is to trust upstream choices.
- DEPRECATED_CRYPTO_FLAGS ?= ""
- 
-+# Set package level PERL5LIB
-+PERL5LIB = "${S}/external/perl/Text-Template-1.56/lib/:${S}/crypto/perlasm"
-+export PERL5LIB
+diff --git a/meta/recipes-extended/screen/screen/CVE-2023-24626.patch b/meta/recipes-extended/screen/screen/CVE-2023-24626.patch
+new file mode 100644
+index 0000000000..73caf9d81b
+--- /dev/null
++++ b/meta/recipes-extended/screen/screen/CVE-2023-24626.patch
+@@ -0,0 +1,40 @@
++From e9ad41bfedb4537a6f0de20f00b27c7739f168f7 Mon Sep 17 00:00:00 2001
++From: Alexander Naumov <alexander_naumov@opensuse.org>
++Date: Mon, 30 Jan 2023 17:22:25 +0200
++Subject: fix: missing signal sending permission check on failed query messages
 +
- do_configure () {
- 	# When we upgrade glibc but not uninative we see obtuse failures in openssl. Make
- 	# the issue really clear that perl isn't functional due to symbol mismatch issues.
-@@ -138,7 +142,7 @@ do_configure () {
- 	fi
- 	# WARNING: do not set compiler/linker flags (-I/-D etc.) in EXTRA_OECONF, as they will fully replace the
- 	# environment variables set by bitbake. Adjust the environment variables instead.
--	HASHBANGPERL="/usr/bin/env perl" PERL=perl PERL5LIB="${S}/external/perl/Text-Template-1.46/lib/" \
-+	HASHBANGPERL="/usr/bin/env perl" PERL=perl \
- 	perl ${S}/Configure ${EXTRA_OECONF} ${PACKAGECONFIG_CONFARGS} ${DEPRECATED_CRYPTO_FLAGS} --prefix=$useprefix --openssldir=${libdir}/ssl-3 --libdir=${libdir} $target
- 	perl ${B}/configdata.pm --dump
- }
++Signed-off-by: Alexander Naumov <alexander_naumov@opensuse.org>
++
++CVE: CVE-2023-24626
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/screen.git/commit/?id=e9ad41bfedb4537a6f0de20f00b27c7739f168f7]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ socket.c | 9 +++++++--
++ 1 file changed, 7 insertions(+), 2 deletions(-)
++
++diff --git a/socket.c b/socket.c
++index bb68b35..9d87445 100644
++--- a/socket.c
+++++ b/socket.c
++@@ -1285,11 +1285,16 @@ ReceiveMsg()
++           else
++             queryflag = -1;
++ 
++-          Kill(m.m.command.apid,
+++          if (CheckPid(m.m.command.apid)) {
+++            Msg(0, "Query attempt with bad pid(%d)!", m.m.command.apid);
+++          }
+++          else {
+++            Kill(m.m.command.apid,
++                (queryflag >= 0)
++                    ? SIGCONT
++                    : SIG_BYE); /* Send SIG_BYE if an error happened */
++-          queryflag = -1;
+++            queryflag = -1;
+++          }
++         }
++         break;
++       case MSG_COMMAND:
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/screen/screen_4.8.0.bb b/meta/recipes-extended/screen/screen_4.8.0.bb
+index fe640c262b..c4faa27023 100644
+--- a/meta/recipes-extended/screen/screen_4.8.0.bb
++++ b/meta/recipes-extended/screen/screen_4.8.0.bb
+@@ -22,6 +22,7 @@ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
+            file://0001-fix-for-multijob-build.patch \
+            file://0001-Remove-more-compatibility-stuff.patch \
+            file://CVE-2021-26937.patch \
++           file://CVE-2023-24626.patch \
+           "
+ 
+ SRC_URI[md5sum] = "d276213d3acd10339cd37848b8c4ab1e"
 -- 
 2.25.1
 
