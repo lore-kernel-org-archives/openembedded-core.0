@@ -1,84 +1,102 @@
-Return-Path: <bluelightning@bluelightning.org>
+Return-Path: <yang.xu@mediatek.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53DDBC77B73
-	for <webhook@archiver.kernel.org>; Thu, 20 Apr 2023 04:59:46 +0000 (UTC)
-Received: from mail-49-r22.ipv4.per01.ds.network (mail-49-r22.ipv4.per01.ds.network [27.123.26.153])
- by mx.groups.io with SMTP id smtpd.web10.1237.1681966783627372469
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A436CC77B73
+	for <webhook@archiver.kernel.org>; Thu, 20 Apr 2023 05:30:36 +0000 (UTC)
+Received: from mailgw01.mediatek.com (mailgw01.mediatek.com [60.244.123.138])
+ by mx.groups.io with SMTP id smtpd.web11.1538.1681968626348885328
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Apr 2023 21:59:44 -0700
+ Wed, 19 Apr 2023 22:30:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="no key for verify" header.i=@softec.co.nz header.s=default header.b=LcCm3NS9;
- spf=none, err=permanent DNS error (domain: bluelightning.org, ip: 27.123.26.153, mailfrom: bluelightning@bluelightning.org)
-Received: from server-72-r70.ipv4.per01.ds.network (cp-fp06.syd02.ds.network [122.201.124.108])
-	by halon-out01.au.ds.network (Halon) with ESMTPS
-	id 3c5fcd70-df38-11ed-a07e-f8bc12f6d67f;
-	Thu, 20 Apr 2023 13:00:14 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=softec.co.nz; s=default; h=Content-Type:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=g/cWAFYChmv3Wd3AdSqFr+c4fTrTLNaVg+S+B3eiBcs=; b=LcCm3NS9kGk3SW/21O3ZGCNDc4
-	TU9ctNuTvPPPdt2r7HxxYf7YDsy1gtpskvTBCw8F9/AYbic6urcwQjq7ENMnFg2jpQlV1A9yryQHJ
-	tpryU+c9sd/7UNF6gKKd9QJm6lh/jDGNs7iaGyhuwYvkjpGnbthHzgN+iyh9TP0Y+w5oqvPUXcFuz
-	P3FQedkwn9bXBdHS45QoBYufhMefsJIFlikLKQoObfphwunZXC2gSJkCLZcyYyF7ndcQ8yxPDHO6V
-	SPvp/2tg5Q5Df0wero1VDuXNqdFezCrq9nWXjMiUpmg3yUVOnmmkAv1HIjk9osqyN7fuXWlriPovz
-	Dj3G2dnA==;
-Received: from [161.29.131.251] (port=7394 helo=linc.localnet)
-	by cp-fp06.syd02.ds.network with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <bluelightning@bluelightning.org>)
-	id 1ppMOR-00AMmA-5B;
-	Thu, 20 Apr 2023 16:59:39 +1200
-From: Paul Eggleton <bluelightning@bluelightning.org>
-To: Leon Anavi <leon.anavi@konsulko.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCHv3] python3-manifest.json: Fix re in core
-Date: Thu, 20 Apr 2023 16:59:37 +1200
-Message-ID: <2427094.jE0xQCEvom@linc>
-In-Reply-To: <20221103122755.3818894-1-leon.anavi@konsulko.com>
-References: <20221103122755.3818894-1-leon.anavi@konsulko.com>
+ dkim=pass header.i=@mediatek.com header.s=dk header.b=WPHo0KA5;
+ spf=pass (domain: mediatek.com, ip: 60.244.123.138, mailfrom: yang.xu@mediatek.com)
+X-UUID: 7105abc8df3c11eda9a90f0bb45854f4-20230420
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=0cy5beHziW4JrVBUFG+rsWirFIGH8ckCNMbiclcAlUY=;
+	b=WPHo0KA5VhXktuY1zQT8zJYdwZwudViEMqqByIHNqvnY0cvqRljR3IUgrTJmd8SkLeAoxxW7cRV7gaQTjG53AvMmT03xMtnTKblgUjuHRjpt9BGo1PO/MaybCd0ijGaAtse3XWkZ0en7T7XDR/irCpS7A7uBPGephaSQxjZ/6P4=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.22,REQID:52661cc0-52c3-4ba5-90ee-572a83b35866,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:120426c,CLOUDID:feb8aa84-cd9c-45f5-8134-710979e3df0e,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-UUID: 7105abc8df3c11eda9a90f0bb45854f4-20230420
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
+	(envelope-from <yang.xu@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1058929950; Thu, 20 Apr 2023 13:30:20 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.25; Thu, 20 Apr 2023 13:30:19 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.25 via Frontend Transport; Thu, 20 Apr 2023 13:30:19 +0800
+From: Yang Xu <yang.xu@mediatek.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <alex.kanavin@gmail.com>, Yang Xu <yang.xu@mediatek.com>
+Subject: [PATCH] openssl: set package level PERL5LIB
+Date: Thu, 20 Apr 2023 05:24:42 +0000
+Message-ID: <20230420052442.16443-1-yang.xu@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cp-fp06.syd02.ds.network
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - bluelightning.org
-X-Get-Message-Sender-Via: cp-fp06.syd02.ds.network: authenticated_id: paul@softec.co.nz
-X-Authenticated-Sender: cp-fp06.syd02.ds.network: paul@softec.co.nz
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 04:59:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180234
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 05:30:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180235
 
-Hi Leon
+Build openssl with shared state cache may meet problem under below conditions:
+1. sstate cache generated by another user on same machine
+2. inappropriate PERL5LIB setting
+3. openssl build from scratch but perl using cache
 
-On Friday, 4 November 2022 01:27:55 NZST Leon Anavi wrote:
-> Following the update from 3.10.6 to 3.11.0, the source code of
-> module re for regular expression operations has been moved to
-> Lib/re/. File python3-manifest.json has been modified according
-> to the new path.
-> 
-> According to the instructions the new python3-manifest.json
-> version was created by running bitbake python3 -c create_manifest.
-> Because of this it also updated other files and rdepends in it.
+When building openssl, without appropriate PERL5LIB setting, perl tries
+to search Text::Template in no permission path and abort.
 
-Maybe you're already aware, but just in case not, this patch appears to have
-effectively undone the change you made earlier ("Move urllib to netclient"):
+This patch does three things:
+1. openssl upgrade external Text-Template from 1.46 to 1.56,
+correct perl module path.
+2. add necessary module path while openssl build
+3. set package level PERL5LIB to make perl found module in S
 
-  https://git.openembedded.org/openembedded-core/commit/?id=e74ab2c144042b0a9f788b1b15f11b2800e2c7a1
+Signed-off-by: Yang Xu <yang.xu@mediatek.com>
+---
+ meta/recipes-connectivity/openssl/openssl_3.1.0.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Cheers
-Paul
-
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.1.0.bb b/meta/recipes-connectivity/openssl/openssl_3.1.0.bb
+index b319c66044..ed1c579df9 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.1.0.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.1.0.bb
+@@ -54,6 +54,10 @@ CFLAGS:append:class-nativesdk = " -DOPENSSLDIR=/not/builtin -DENGINESDIR=/not/bu
+ # The default is to trust upstream choices.
+ DEPRECATED_CRYPTO_FLAGS ?= ""
+ 
++# Set package level PERL5LIB
++PERL5LIB="${S}/external/perl/Text-Template-1.56/lib/:${S}/crypto/perlasm"
++export PERL5LIB
++
+ do_configure () {
+ 	# When we upgrade glibc but not uninative we see obtuse failures in openssl. Make
+ 	# the issue really clear that perl isn't functional due to symbol mismatch issues.
+@@ -138,7 +142,7 @@ do_configure () {
+ 	fi
+ 	# WARNING: do not set compiler/linker flags (-I/-D etc.) in EXTRA_OECONF, as they will fully replace the
+ 	# environment variables set by bitbake. Adjust the environment variables instead.
+-	HASHBANGPERL="/usr/bin/env perl" PERL=perl PERL5LIB="${S}/external/perl/Text-Template-1.46/lib/" \
++	HASHBANGPERL="/usr/bin/env perl" PERL=perl \
+ 	perl ${S}/Configure ${EXTRA_OECONF} ${PACKAGECONFIG_CONFARGS} ${DEPRECATED_CRYPTO_FLAGS} --prefix=$useprefix --openssldir=${libdir}/ssl-3 --libdir=${libdir} $target
+ 	perl ${B}/configdata.pm --dump
+ }
+-- 
+2.25.1
 
 
