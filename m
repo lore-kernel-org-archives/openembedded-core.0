@@ -2,46 +2,46 @@ Return-Path: <yang.xu@mediatek.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A436CC77B73
-	for <webhook@archiver.kernel.org>; Thu, 20 Apr 2023 05:30:36 +0000 (UTC)
-Received: from mailgw01.mediatek.com (mailgw01.mediatek.com [60.244.123.138])
- by mx.groups.io with SMTP id smtpd.web11.1538.1681968626348885328
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1DFBC77B73
+	for <webhook@archiver.kernel.org>; Thu, 20 Apr 2023 06:30:56 +0000 (UTC)
+Received: from mailgw02.mediatek.com (mailgw02.mediatek.com [210.61.82.184])
+ by mx.groups.io with SMTP id smtpd.web11.2057.1681972255885113089
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Apr 2023 22:30:26 -0700
+ Wed, 19 Apr 2023 23:30:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mediatek.com header.s=dk header.b=WPHo0KA5;
- spf=pass (domain: mediatek.com, ip: 60.244.123.138, mailfrom: yang.xu@mediatek.com)
-X-UUID: 7105abc8df3c11eda9a90f0bb45854f4-20230420
+ dkim=pass header.i=@mediatek.com header.s=dk header.b=QDvaZo5A;
+ spf=pass (domain: mediatek.com, ip: 210.61.82.184, mailfrom: yang.xu@mediatek.com)
+X-UUID: e3af60eedf4411edb6b9f13eb10bd0fe-20230420
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=0cy5beHziW4JrVBUFG+rsWirFIGH8ckCNMbiclcAlUY=;
-	b=WPHo0KA5VhXktuY1zQT8zJYdwZwudViEMqqByIHNqvnY0cvqRljR3IUgrTJmd8SkLeAoxxW7cRV7gaQTjG53AvMmT03xMtnTKblgUjuHRjpt9BGo1PO/MaybCd0ijGaAtse3XWkZ0en7T7XDR/irCpS7A7uBPGephaSQxjZ/6P4=;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=tR0LiZIwZ69NB5DumMXjVDS1COTPMpdiP//CGE3qXJs=;
+	b=QDvaZo5AHcGIbMBtL3f5ydbl11cC/EjXs4+UgZS+bGQKWW8MDkvr5p+NwqCTPnvU/l0eSO/UBuZyBnrKNTPaQisp5UnUgz7c0XqxPQOztK3PbmyX4zv3l3gQpTJgsBD8g3M5QsLnt7KrjdQzVkeuzTy4uyUVuJh+G3c8RAFoekw=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22,REQID:52661cc0-52c3-4ba5-90ee-572a83b35866,IP:0,U
+X-CID-O-INFO: VERSION:1.1.22,REQID:58e3474b-2835-4376-854d-9cc09ba48efd,IP:0,U
 	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
 	release,TS:0
-X-CID-META: VersionHash:120426c,CLOUDID:feb8aa84-cd9c-45f5-8134-710979e3df0e,B
+X-CID-META: VersionHash:120426c,CLOUDID:874d93eb-db6f-41fe-8b83-13fe7ed1ef52,B
 	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
 	RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
-X-UUID: 7105abc8df3c11eda9a90f0bb45854f4-20230420
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
+X-UUID: e3af60eedf4411edb6b9f13eb10bd0fe-20230420
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw02.mediatek.com
 	(envelope-from <yang.xu@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1058929950; Thu, 20 Apr 2023 13:30:20 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+	with ESMTP id 1158672009; Thu, 20 Apr 2023 14:30:48 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Thu, 20 Apr 2023 13:30:19 +0800
+ 15.2.1118.25; Thu, 20 Apr 2023 14:30:47 +0800
 Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.25 via Frontend Transport; Thu, 20 Apr 2023 13:30:19 +0800
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.25 via Frontend Transport; Thu, 20 Apr 2023 14:30:47 +0800
 From: Yang Xu <yang.xu@mediatek.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <alex.kanavin@gmail.com>, Yang Xu <yang.xu@mediatek.com>
-Subject: [PATCH] openssl: set package level PERL5LIB
-Date: Thu, 20 Apr 2023 05:24:42 +0000
-Message-ID: <20230420052442.16443-1-yang.xu@mediatek.com>
+Subject: [PATCH v2] openssl: set package level PERL5LIB
+Date: Thu, 20 Apr 2023 06:30:34 +0000
+Message-ID: <20230420063034.16806-1-yang.xu@mediatek.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -50,19 +50,20 @@ X-MTK: N
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 05:30:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180235
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 06:30:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180236
 
 Build openssl with shared state cache may meet problem under below conditions:
 1. sstate cache generated by another user on same machine
 2. inappropriate PERL5LIB setting
 3. openssl build from scratch but perl using cache
 
-When building openssl, without appropriate PERL5LIB setting, perl tries
-to search Text::Template in no permission path and abort.
+When building openssl, without appropriate PERL5LIB setting, perl from cache
+tries to search Text::Template and other modules in no permission path and
+abort immediately.
 
 This patch does three things:
-1. openssl upgrade external Text-Template from 1.46 to 1.56,
+1. openssl upgrades external Text-Template from 1.46 to 1.56,
 correct perl module path.
 2. add necessary module path while openssl build
 3. set package level PERL5LIB to make perl found module in S
@@ -73,7 +74,7 @@ Signed-off-by: Yang Xu <yang.xu@mediatek.com>
  1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/meta/recipes-connectivity/openssl/openssl_3.1.0.bb b/meta/recipes-connectivity/openssl/openssl_3.1.0.bb
-index b319c66044..ed1c579df9 100644
+index b319c66044..613451f265 100644
 --- a/meta/recipes-connectivity/openssl/openssl_3.1.0.bb
 +++ b/meta/recipes-connectivity/openssl/openssl_3.1.0.bb
 @@ -54,6 +54,10 @@ CFLAGS:append:class-nativesdk = " -DOPENSSLDIR=/not/builtin -DENGINESDIR=/not/bu
@@ -81,7 +82,7 @@ index b319c66044..ed1c579df9 100644
  DEPRECATED_CRYPTO_FLAGS ?= ""
  
 +# Set package level PERL5LIB
-+PERL5LIB="${S}/external/perl/Text-Template-1.56/lib/:${S}/crypto/perlasm"
++PERL5LIB = "${S}/external/perl/Text-Template-1.56/lib/:${S}/crypto/perlasm"
 +export PERL5LIB
 +
  do_configure () {
