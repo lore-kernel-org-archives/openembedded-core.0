@@ -1,165 +1,127 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BC73C6FD18
-	for <webhook@archiver.kernel.org>; Thu, 20 Apr 2023 01:39:03 +0000 (UTC)
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
- by mx.groups.io with SMTP id smtpd.web11.56316.1681954742815885869
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBA95C6FD18
+	for <webhook@archiver.kernel.org>; Thu, 20 Apr 2023 03:03:34 +0000 (UTC)
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+ by mx.groups.io with SMTP id smtpd.web10.57117.1681959811442209030
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Apr 2023 18:39:02 -0700
+ Wed, 19 Apr 2023 20:03:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=XYsATQGz;
- spf=pass (domain: gmail.com, ip: 209.85.161.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-546ee6030e5so191171eaf.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Apr 2023 18:39:02 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=DjqnYwSU;
+ spf=pass (domain: gmail.com, ip: 209.85.166.172, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-32b47d6792dso3686705ab.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Apr 2023 20:03:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681954742; x=1684546742;
+        d=gmail.com; s=20221208; t=1681959810; x=1684551810;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=x5oRrUKTqFEcfe9/yjISwBD2pMU8aHn36WbaZtfbpeg=;
-        b=XYsATQGz04k0QeC2KUNEkEsOE78CCqPoLxCdGBBW4bjZeLqqK2wQ/t4DW9n7v3mzqs
-         VXpXwNVk1mMO80oj4SP9G1oaHai6LEYFSsecHVuOpykW7RDox0ogjLsiEc7Vx0mywmxQ
-         pzRac7C8BFFfzPAUprzHrLVhA/uf/QC1NxGue9GRs2mBVTu/DfIko0i/11kV3S5gqiB/
-         k0pXaaEOdKCIdRXTBG3NPNIZrMwIOPP9pI3B4dutVen6K0zfBKg6ALO0FnAcoYO1EAJo
-         Z7Cs/POhHfM4ppAdZ5o0PEvtUhjnyfisTdDD3bWQEHdfivJGzpkZl3S5/os4aH5qAuxD
-         XLlQ==
+        bh=tkB9NTULPKdP68txgyYC0BrXM8hSztTEg9ekaCOotDk=;
+        b=DjqnYwSURuEvI7Po/lFCfVrkvsThcoouADpOjHC1/WLkt89b39Kd1lpyv53TFjVLK3
+         +QnMi2K9ekQG9fLo46EpFuP+SWQTiZXhP4es4URsLhyF2v0TACZ1kpSXSEAzWVpYTYQJ
+         DNGI9fD1kKiS5TrnE7pc34kNj44cAkdPOpYBUiztrD951ctrGVZXBgulH3m4zgWXfQq0
+         HNCWqDdX7clYWrNjeYjSh0uQ1xtBexpR9s4yUX/oHW+fvx0tpI+LQDpa8RaLcna46Q94
+         0uexvTmjT0ehwYyJ8ZeoNWoDpvFP1nJHnX8Ws/ZgOEiWqNtVuIEmTUjd5yVsxJVJF0RU
+         CkGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681954742; x=1684546742;
+        d=1e100.net; s=20221208; t=1681959810; x=1684551810;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=x5oRrUKTqFEcfe9/yjISwBD2pMU8aHn36WbaZtfbpeg=;
-        b=jBurBmgGg9ap5jeNlNBHS3NzWVzyaavcYtb5qKI2WEpU7jE7jXnM8Z79HCEI28RQe1
-         OKumKGxqhjWAd5zDMi6xNZtGEpecanDDCC60sxprynHynNMAxGFYQA5HEkTTSSz8KuPE
-         2gZGqQvrEnHlIqiVsDllio9hff4cPd0txkc7tnMxYdlxnjOMZ0FaD9STurWb3luA9f+4
-         VDQg1Sl73orjcjDcbfGuwpcfsYAh4oyeED/ldHXDlZ0TzL2NtjK+HI2awD6slfENjUX+
-         TWFD/SnIfm1HmX6m2xGF75kKa9sC1RCRoYcFRxoMLEFokkSKWIYCxqO/jB0+FMwtZOAx
-         M5uw==
-X-Gm-Message-State: AAQBX9eT4usSiI/tz/Lme1nZ9sWEnw4erPMDkMMyAaD2AwmQDg3qsI45
-	GxV9movCfGjfPxce04kr9CC7wsGnlI+/KZFNsnwzwnnL44E=
-X-Google-Smtp-Source: AKy350YKpHeRuosdPQsRm5U54ohsJulWvEXuB74lvyWsNidkJhfBtWootcncOyJ+iYlDTkKAY6mvkO5e13R6hxWlbvQ=
-X-Received: by 2002:a05:6870:42d2:b0:184:6af3:2184 with SMTP id
- z18-20020a05687042d200b001846af32184mr8388oah.8.1681954741801; Wed, 19 Apr
- 2023 18:39:01 -0700 (PDT)
+        bh=tkB9NTULPKdP68txgyYC0BrXM8hSztTEg9ekaCOotDk=;
+        b=WIkBpFt6AO7L0/uBvjLT6j06gQJUPLe+HQyWYKYyugPP0s9r247gJ4Eq03YV5dtUu+
+         HCyWLydtBzpBoXEhJC9yMJxZFuDxEmCLSijjiAtPkV+AobI5GL9+7HeGz+GbvDBVQv0+
+         7NTzjMVdlz2JlIdQPC7XC6Z73a7/CfTyqBgMmoYdHBN0EC6lNPS9svwgH+XGOTJSBeAL
+         eHSM76fJpcTWzcSUX4eyw3lBZMeh+JT+GAOFU6xCnKvDozEYS6sZDYnv1ofRoonjG3N6
+         3I2LmKAg4DV7M628K/R6UXuX1X0ei/dZWQRxVnaCaq/e8KQab9ouwVh3X7yoh8mhWQZk
+         fKjQ==
+X-Gm-Message-State: AAQBX9cwRl2+ywF8/ujPrwHDpDM4+N471/BdOdWyURJMnTOt8qPhfEcg
+	D77RXsKH+SEuTWQzO42fgOyRCgzYrXKh4x4sCAM=
+X-Google-Smtp-Source: AKy350bImcr/6FQS7+FnM176jC7A45kto1zIxLgAUvOL+fC+zItnB+dVZvv8sJeqHziYxYLKPaWqndFspMidbkvLwHo=
+X-Received: by 2002:a92:c80c:0:b0:322:fe79:8141 with SMTP id
+ v12-20020a92c80c000000b00322fe798141mr426150iln.1.1681959810627; Wed, 19 Apr
+ 2023 20:03:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230419134143.1530528-1-ross.burton@arm.com> <20230419134143.1530528-2-ross.burton@arm.com>
-In-Reply-To: <20230419134143.1530528-2-ross.burton@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 19 Apr 2023 18:38:35 -0700
-Message-ID: <CAMKF1sp0o0UtmUGS_m5DHBN7vUTCNH6s_Lo0O8BVyjAwK6AX1Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] xserver-xorg: backport fix for CVE-2023-1393
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org, nd@arm.com
+References: <20230416103052.28268-1-christoph.lauer@email.de>
+ <27b6976546dae12e92dd3af28f657c02eca4afe8.camel@linuxfoundation.org>
+ <CANPvuRnSPULJzxC0qt=sQLWS5jyx4OkJ2cQobDzHs0LmmBG6MQ@mail.gmail.com>
+ <CADkTA4N9Sypxccr0OU6KQxPK5rbsL_mNFGaJ2Zn_jYHL1tNSEg@mail.gmail.com>
+ <652908a6640ffc911d46613cb99159086131416f.camel@linuxfoundation.org>
+ <CADkTA4MBh46pqJoQjW4dhOc3Sw-4+rr-u4d48OPSs9eC1VPx8A@mail.gmail.com>
+ <CANPvuR=M0-ndA609d2i43rgVVSPrHzEeo5o7orRjmeR9BA5_QQ@mail.gmail.com>
+ <CADkTA4MMj6qUNHyjNV6QxE0iZAwA8=Ur6Ks4_7ETJtmrv6TrNA@mail.gmail.com>
+ <CANPvuRmb7Kh3hgjZEcr1vU4czrULvLYabk3apBERQbo4RJ8y3w@mail.gmail.com> <afb0f1d6405256d9dfc6bd5bc0a642ddb1dd82c5.camel@linuxfoundation.org>
+In-Reply-To: <afb0f1d6405256d9dfc6bd5bc0a642ddb1dd82c5.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 19 Apr 2023 23:03:25 -0400
+Message-ID: <CADkTA4OwhsGOeY57Gu8RZz2quvwDJ36=0bTtmY45WsGKsKjLog@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] make-mod-scripts: preserve libraries when
+ rm_work is used
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Jose Quaresma <quaresma.jose@gmail.com>, Christoph Lauer <christoph.lauer@email.de>, 
+	openembedded-core@lists.openembedded.org, 
+	Christoph Lauer <christoph.lauer@xtronic.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 01:39:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180232
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 03:03:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180233
 
-Fails to patch - https://errors.yoctoproject.org/Errors/Details/700408/
+On Wed, Apr 19, 2023 at 6:54=E2=80=AFPM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Wed, 2023-04-19 at 23:34 +0100, Jose Quaresma wrote:
+> > Hi,
+> >
+> > Not related with the previous discussion but just for
+> > your information.
+> > The rm_work.bbclass has an exception for the kernel recipes [1].
+> > So I don't understand why we can't do the same for the make-mod-
+> > scripts
+> > who is the twin brother of all these kernel recipes.
+> >
+> > [1]
+> > https://git.openembedded.org/openembedded-core/tree/meta/classes/rm_wor=
+k.bbclass#n168
+>
+> Ideally we wouldn't be doing this for the kernel recipes.
+>
+> There is also a big difference to that and the proposed patch. The
+> proposed patch was preserving a specific directory rather than an
+> entire recipe. Removing the task stamps but leaving a small piece of
+> WORKDIR is quite different to preserving WORKDIR and STAMPS for a
+> specific recipe. The former is not tested and will break things. The
+> latter is better tolerated by bitbake.
 
-On Wed, Apr 19, 2023 at 6:41=E2=80=AFAM Ross Burton <ross.burton@arm.com> w=
-rote:
+Agreed.
+
+Plus, I am working on this now.
+
+I have static linking of the scripts/tools working, but what I haven't
+figured out is how to do that without patching the Makefiles.
+
+Next up will be some rpath trickery.
+
+Bruce
+
 >
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  ...posite-Fix-use-after-free-of-the-COW.patch | 46 +++++++++++++++++++
->  .../xorg-xserver/xserver-xorg_21.1.7.bb       |  3 +-
->  2 files changed, 48 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-=
-composite-Fix-use-after-free-of-the-COW.patch
+> So yes, we could do the same. I'm sure there will be other recipes
+> people want to preserve for other reasons. Where do we draw the line?
+> We could preserve everything and drop rm_work, then we wouldn't have
+> these problems? :)
 >
-> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-composi=
-te-Fix-use-after-free-of-the-COW.patch b/meta/recipes-graphics/xorg-xserver=
-/xserver-xorg/0001-composite-Fix-use-after-free-of-the-COW.patch
-> new file mode 100644
-> index 00000000000..fc426daba51
-> --- /dev/null
-> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-composite-Fix-=
-use-after-free-of-the-COW.patch
-> @@ -0,0 +1,46 @@
-> +From 26ef545b3502f61ca722a7a3373507e88ef64110 Mon Sep 17 00:00:00 2001
-> +From: Olivier Fourdan <ofourdan@redhat.com>
-> +Date: Mon, 13 Mar 2023 11:08:47 +0100
-> +Subject: [PATCH] composite: Fix use-after-free of the COW
-> +
-> +ZDI-CAN-19866/CVE-2023-1393
-> +
-> +If a client explicitly destroys the compositor overlay window (aka COW),
-> +we would leave a dangling pointer to that window in the CompScreen
-> +structure, which will trigger a use-after-free later.
-> +
-> +Make sure to clear the CompScreen pointer to the COW when the latter get=
-s
-> +destroyed explicitly by the client.
-> +
-> +This vulnerability was discovered by:
-> +Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
-> +
-> +Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-> +Reviewed-by: Adam Jackson <ajax@redhat.com>
-> +
-> +CVE: CVE-2023-1393
-> +Upstream-Status: Backport
-> +Signed-off-by: Ross Burton <ross.burton@arm.com>
-> +---
-> + composite/compwindow.c | 5 +++++
-> + 1 file changed, 5 insertions(+)
-> +
-> +diff --git a/composite/compwindow.c b/composite/compwindow.c
-> +index 4e2494b86..b30da589e 100644
-> +--- a/composite/compwindow.c
-> ++++ b/composite/compwindow.c
-> +@@ -620,6 +620,11 @@ compDestroyWindow(WindowPtr pWin)
-> +     ret =3D (*pScreen->DestroyWindow) (pWin);
-> +     cs->DestroyWindow =3D pScreen->DestroyWindow;
-> +     pScreen->DestroyWindow =3D compDestroyWindow;
-> ++
-> ++    /* Did we just destroy the overlay window? */
-> ++    if (pWin =3D=3D cs->pOverlayWin)
-> ++        cs->pOverlayWin =3D NULL;
-> ++
-> + /*    compCheckTree (pWin->drawable.pScreen); can't check -- tree isn't=
- good*/
-> +     return ret;
-> + }
-> +--
-> +2.34.1
-> +
-> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.7.bb b/=
-meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.7.bb
-> index 212c7d39c23..f0771cc86ec 100644
-> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.7.bb
-> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.7.bb
-> @@ -1,7 +1,8 @@
->  require xserver-xorg.inc
+> Cheers,
 >
->  SRC_URI +=3D "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-h=
-ardwar.patch \
-> -           file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
-> +            file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch =
-\
-> +            file://0001-composite-Fix-use-after-free-of-the-COW.patch \
->             "
->  SRC_URI[sha256sum] =3D "d9c60b2dd0ec52326ca6ab20db0e490b1ff4f566f59ca742=
-d6532e92795877bb"
->
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#180221): https://lists.openembedded.org/g/openembedde=
-d-core/message/180221
-> Mute This Topic: https://lists.openembedded.org/mt/98366626/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> Richard
+
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
