@@ -1,93 +1,170 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <vkumbhar@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93EADC77B72
-	for <webhook@archiver.kernel.org>; Thu, 20 Apr 2023 09:25:57 +0000 (UTC)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.web11.3846.1681982751009529990
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C0AFC77B73
+	for <webhook@archiver.kernel.org>; Thu, 20 Apr 2023 09:31:47 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web11.3917.1681983102209158036
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Apr 2023 02:25:51 -0700
+ Thu, 20 Apr 2023 02:31:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=IiljB15Q;
- spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f170.google.com with SMTP id a10so2050480ljr.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 02:25:50 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=HiBeg+4A;
+ spf=pass (domain: mvista.com, ip: 209.85.214.175, mailfrom: vkumbhar@mvista.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1a66b9bd7dfso9811865ad.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 02:31:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681982749; x=1684574749;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=W9ssOEBpA8/IfcdN6Wa72pHPhZCUBPaO7g7FZDPqwG0=;
-        b=IiljB15QKKrcr0FoT8H86xEaYUIccttQM5pWz/OWRb4VD9J3RS0f/l6r97iIk3eAoW
-         f40gxp/lIEZvqIPhgrqxI/1uhrSn7tR1zUHPcYy70lFEeap21SkcYYiljpl2F/zCZLzG
-         7CwCG7MRQGlLdRSnhyx7CpS0kItYs/Yyrdd5lHTijZcZqeJnpTvogGhCzq3t+doKyj17
-         0Dep4adszR+u6xIrtcwkdibmoZ8Mj/+/sd7GB1XLb4ttLC6NAAmnGBGDOr0zGoZxgGGy
-         0Ya+VV//A6CGf5hM6rLcplxnqWisKqExJn00SHnAZNFhV5lZDk5b2wW0sKdfXLy3uguz
-         D9RA==
+        d=mvista.com; s=google; t=1681983101; x=1684575101;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aZAO3CkL72TuXwOnxY85m7xjnu3AmCqRjyVDmeJyZ8w=;
+        b=HiBeg+4AcAVp02iEHF0Ikah5uhF8GsfVA7cZ/gb1CMlDY3NzhUDbdPhobgA6U0S2lC
+         GG7lG9K0D4hsEhRm0qc/ST1EtvRkIe9VJqjZXOWmriiqYOWhHNtabYs4i2i/4juGEt3V
+         OhBgCg9ioEudhaCVrwoNmJpjC6yrfQvotm+k4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681982749; x=1684574749;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1681983101; x=1684575101;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=W9ssOEBpA8/IfcdN6Wa72pHPhZCUBPaO7g7FZDPqwG0=;
-        b=LZ8ULkSu39DAVQo+0X5SNDiMBTA/7etC9vRj4vjjdhjAe/2TrIS+siXVGc4gP//vFc
-         2amofhqofmgeDmZe0I+9NKcLh5/zeq9/E9WKdpqEu1/jmK+wtG5EBiHGIsuBTE/5ooMQ
-         UiecXmMc0poQ/TG8uQPH/MNrq99TMen06n4Y8D802uGwn8O9cHlMkcnJeNQMvGslysDi
-         oF8bopQ/idQ7pu0kBGICsWf9YkjndYv0oDOX+eLzCUwxj60IcSPDhfkVMZDnKfvVkITk
-         0SJnKF6xmTHi/gbKO4fCwrpU/G09522bu1akexEJJjpNr7/L8i7Ad612CpXljIqxUzS6
-         pgkg==
-X-Gm-Message-State: AAQBX9duD6cA1lnDXrBe0Qi43nCZSVnsZoL+gh9jnIdPLVyWJvBzXCvJ
-	mTSYA+g3BNy3i7CJAEzYctv1lS8wvr29UEYZOkQ=
-X-Google-Smtp-Source: AKy350a4WXbd9wRHEsE2Jmf9Z6BvC3zWYZJ8L8q4HOT+t/EpjmuRPIBVQV4WEg8ZOOYup4FkfvZEIWUetQWhqgLmaKQ=
-X-Received: by 2002:a2e:721a:0:b0:2a8:e430:34e9 with SMTP id
- n26-20020a2e721a000000b002a8e43034e9mr269008ljc.20.1681982749085; Thu, 20 Apr
- 2023 02:25:49 -0700 (PDT)
+        bh=aZAO3CkL72TuXwOnxY85m7xjnu3AmCqRjyVDmeJyZ8w=;
+        b=OOUQ+UgYWKbyBnYIuulVgSuO4DIEeB0CfFGK6eB0jP+aJRk7AG7lKfdPTiNd+OaeYz
+         +rEqQ9iIAHGn2OF3BaAqeth3eXMu9GSbLDuzVpcS++o1WUftuIZ01G1LMVatb6y62Hgb
+         vXg8O0DgER8f1OAAWdMBGFO0IBYI0qSXBghDUfhntkheZ1erSJ2hcCq01bSSZQjDGG7W
+         U3mAUCyNym4n8sQBGVLx7EYYcqMr3PFajOz6sSKpyfH17NGo2DZm0jB/8m/ToAk490Ue
+         CQc6g+b0yl1t8erME7w1bD4xp0ymTmtcbQfn8XgGCUTSdNNBKxFBBsULUt2bcynSxNe6
+         tzUQ==
+X-Gm-Message-State: AAQBX9eXAqSQWaCIaiijxJzrPoHeZ6HmN+uuVj219yx0kpEURRlcMiIy
+	y04Oo6PqWwRFGbxnmBkXyCW3xuBIGmDNmkPIsR4=
+X-Google-Smtp-Source: AKy350Z2ybw7YW44Dx9V5xEvir3r+vMPsfysk93jmdhqbpLoGPhAUo/GuZJDV8akubytqSawioJUVg==
+X-Received: by 2002:a17:902:e883:b0:1a6:bb7b:7a68 with SMTP id w3-20020a170902e88300b001a6bb7b7a68mr1182913plg.37.1681983101202;
+        Thu, 20 Apr 2023 02:31:41 -0700 (PDT)
+Received: from localhost.localdomain ([116.74.134.63])
+        by smtp.gmail.com with ESMTPSA id jj21-20020a170903049500b001a69e002c7esm793093plb.178.2023.04.20.02.31.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Apr 2023 02:31:40 -0700 (PDT)
+From: Vivek Kumbhar <vkumbhar@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Vivek Kumbhar <vkumbhar@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] go: fix CVE-2023-24537 Infinite loop in parsing
+Date: Thu, 20 Apr 2023 15:01:28 +0530
+Message-Id: <20230420093128.1209660-1-vkumbhar@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <CA+cAkepE6FLo7L8N0FG-39CfFfLgK9RPFH0qvi+dRNOY5gpXRw@mail.gmail.com>
-In-Reply-To: <CA+cAkepE6FLo7L8N0FG-39CfFfLgK9RPFH0qvi+dRNOY5gpXRw@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 20 Apr 2023 11:25:37 +0200
-Message-ID: <CANNYZj-G1AzrcbdVjQnBt4eSc7Ky_pHgzd+3KQ_p2ory+F-Prg@mail.gmail.com>
-Subject: Re: [OE-core] Cargo and ptest
-To: Frederic Martinsons <frederic.martinsons@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 09:25:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180242
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 09:31:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180243
 
-I'm not sure anyone can really give qualified answers, you just need
-to write down some code and iteratively get it to something you like.
-You don't have to show your work in progress, if you think it looks
-horrible :)
+Setting a large line or column number using a //line directive can cause
+integer overflow even in small source files.
 
-Question 1 is odd: cargo-native would not run in target images, so you
-can't add it to them.
+Limit line and column numbers in //line directives to 2^30-1, which
+is small enough to avoid int32 overflow on all reasonbly-sized files.
 
-Alex
+Fixes CVE-2023-24537
+Fixes #59273
+For #59180
 
-On Thu, 20 Apr 2023 at 09:27, Frederic Martinsons
-<frederic.martinsons@gmail.com> wrote:
->
-> Hello,
->
-> I would like to build and ship tests for recipes which uses cargo and in the process, three questions arose (maybe more when I will progress).
-> I would like to have your opinions on them.
->
-> 1) should we ship cargo-native in ptest images or should we just build and ship test binaries alone ?
-> 2) should we place the cargo ptest specifics in a dedicated class (e.g ptest-cargo.bbclass, like already existing ptest-gnome or ptest-perl) or put this in cargo.bbclass itself ?
-> 3) should we embed all kind of tests (unit, integration and doc tests, see https://doc.rust-lang.org/book/ch11-03-test-organization.html) or just the unit tests ?
->
-> Thank you very much for all insights you could give on this matter.
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#180238): https://lists.openembedded.org/g/openembedded-core/message/180238
-> Mute This Topic: https://lists.openembedded.org/mt/98384286/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+---
+ meta/recipes-devtools/go/go-1.17.13.inc       |  1 +
+ .../go/go-1.18/CVE-2023-24537.patch           | 72 +++++++++++++++++++
+ 2 files changed, 73 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2023-24537.patch
+
+diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
+index 34d58aec2f..cda9227042 100644
+--- a/meta/recipes-devtools/go/go-1.17.13.inc
++++ b/meta/recipes-devtools/go/go-1.17.13.inc
+@@ -27,6 +27,7 @@ SRC_URI += "\
+     file://add_godebug.patch \
+     file://cve-2022-41725.patch \
+     file://CVE-2022-41722.patch \
++    file://CVE-2023-24537.patch \
+ "
+ SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
+ 
+diff --git a/meta/recipes-devtools/go/go-1.18/CVE-2023-24537.patch b/meta/recipes-devtools/go/go-1.18/CVE-2023-24537.patch
+new file mode 100644
+index 0000000000..7733a605e7
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.18/CVE-2023-24537.patch
+@@ -0,0 +1,72 @@
++From bf8c7c575c8a552d9d79deb29e80854dc88528d0 Mon Sep 17 00:00:00 2001
++From: Damien Neil <dneil@google.com>
++Date: Mon, 20 Mar 2023 10:43:19 -0700
++Subject: [PATCH] [release-branch.go1.20] mime/multipart: limit parsed mime
++ message sizes
++
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1802456
++Reviewed-by: Julie Qiu <julieqiu@google.com>
++Reviewed-by: Roland Shoemaker <bracewell@google.com>
++Run-TryBot: Damien Neil <dneil@google.com>
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1802611
++Reviewed-by: Damien Neil <dneil@google.com>
++Change-Id: Ifdfa192d54f722d781a4d8c5f35b5fb72d122168
++Reviewed-on: https://go-review.googlesource.com/c/go/+/481986
++Reviewed-by: Matthew Dempsky <mdempsky@google.com>
++TryBot-Result: Gopher Robot <gobot@golang.org>
++Run-TryBot: Michael Knyszek <mknyszek@google.com>
++Auto-Submit: Michael Knyszek <mknyszek@google.com>
++Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
++Upstream-Status: Backport [https://github.com/golang/go/commit/126a1d02da82f93ede7ce0bd8d3c51ef627f2104]
++CVE: CVE-2023-24537
++Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
++---
++ src/go/parser/parser_test.go | 16 ++++++++++++++++
++ src/go/scanner/scanner.go    |  7 +++++--
++ 2 files changed, 21 insertions(+), 2 deletions(-)
++
++diff --git a/src/go/parser/parser_test.go b/src/go/parser/parser_test.go
++index 1a46c87..993df63 100644
++--- a/src/go/parser/parser_test.go
+++++ b/src/go/parser/parser_test.go
++@@ -746,3 +746,19 @@ func TestScopeDepthLimit(t *testing.T) {
++		}
++	}
++ }
+++
+++// TestIssue59180 tests that line number overflow doesn't cause an infinite loop.
+++func TestIssue59180(t *testing.T) {
+++	testcases := []string{
+++		"package p\n//line :9223372036854775806\n\n//",
+++		"package p\n//line :1:9223372036854775806\n\n//",
+++		"package p\n//line file:9223372036854775806\n\n//",
+++	}
+++
+++	for _, src := range testcases {
+++		_, err := ParseFile(token.NewFileSet(), "", src, ParseComments)
+++		if err == nil {
+++			t.Errorf("ParseFile(%s) succeeded unexpectedly", src)
+++		}
+++	}
+++}
++diff --git a/src/go/scanner/scanner.go b/src/go/scanner/scanner.go
++index f08e28c..2276e07 100644
++--- a/src/go/scanner/scanner.go
+++++ b/src/go/scanner/scanner.go
++@@ -251,13 +251,16 @@ func (s *Scanner) updateLineInfo(next, offs int, text []byte) {
++		return
++	}
++
+++	// Put a cap on the maximum size of line and column numbers.
+++	// 30 bits allows for some additional space before wrapping an int32.
+++	const maxLineCol = 1<<30 - 1
++	var line, col int
++	i2, n2, ok2 := trailingDigits(text[:i-1])
++	if ok2 {
++		//line filename:line:col
++		i, i2 = i2, i
++		line, col = n2, n
++-		if col == 0 {
+++		if col == 0 || col > maxLineCol {
++			s.error(offs+i2, "invalid column number: "+string(text[i2:]))
++			return
+-- 
+2.25.1
+
 
