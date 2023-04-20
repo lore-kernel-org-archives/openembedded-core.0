@@ -1,131 +1,84 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4390DC77B73
-	for <webhook@archiver.kernel.org>; Thu, 20 Apr 2023 08:48:47 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web10.3457.1681980518590047757
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B68DC77B72
+	for <webhook@archiver.kernel.org>; Thu, 20 Apr 2023 09:22:27 +0000 (UTC)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+ by mx.groups.io with SMTP id smtpd.web11.3808.1681982538025980897
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Apr 2023 01:48:38 -0700
+ Thu, 20 Apr 2023 02:22:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=hfpaocbG;
- spf=pass (domain: mvista.com, ip: 209.85.210.171, mailfrom: hprajapati@mvista.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-63b5c830d5eso653436b3a.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 01:48:38 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=d8nJRoTp;
+ spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f170.google.com with SMTP id k15so2055264ljq.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 02:22:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1681980518; x=1684572518;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AonCfHgnvkgRc5BMZhIPlusbPIF0IhC9y2n042VAK0o=;
-        b=hfpaocbGnHO6708M/w/0VVg5Mnc+E1uhRpbuHyQHrKU6KU6Mv6N3DSOUUWB3EXHScz
-         r7WazBFqDdoPk1s8xyPBVE7BJwKwh8BqoAUf5YUlyn+BPlEwG1+okOR3OEBf2ZJcckIR
-         1OU1nQCwdOn0IGklHbNtYyPF2iSdP9MQe3+9U=
+        d=gmail.com; s=20221208; t=1681982536; x=1684574536;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=bDJc2Xz5AzFNL/YuyaH88mVBaPGeqvX7ApBCo7TXnOQ=;
+        b=d8nJRoTpj7WEFMgTx9IOEWAiEXC2vkhU7Fnq9XyiIVOosZZqUo5y55tUSe5jSivFxV
+         HkIrUQynhUTOoaJacK12k6GqhJ+IZgftofCq3+/ZFPn3dSRyto+8L3of/W9puo5JrpqQ
+         Gvof77Cc4y4XLIQ7EToFyZjuc6pk5N9jy7wC2i8KKtYDi9oHh+dm5F0qAzTs6ZGkRmK1
+         +qHjl5LHj9NXgsgkkxR0VKyInu7RaBDPWug/QotEwMriQfn3RHl0A/Jag5ppjwktJFli
+         0XngTih8U91NxcIVxLKKDKj7JklsoBnghuIztPXSRO8PP9raZ3PXVyzsWmMlO+C3h0QC
+         N3LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681980518; x=1684572518;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1681982536; x=1684574536;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AonCfHgnvkgRc5BMZhIPlusbPIF0IhC9y2n042VAK0o=;
-        b=ksF2KF01DGGK1clLwcrWKj8xfPMxZwyApn/YD8mLgeBJajJJqC8zPHCI7hSK5gfMPS
-         POfsr57Rp6RymQM54nLp8sV46JEOx25BnNbGGqYAxZEB4MywvuAPRYGr683DRBhQ+xuH
-         EDtFi/v9GuMitI0UwOTv1TRAWajXgxubD6Cq+DDlvkxlZdYqJBQGGBSwA/4mpw2ggsmW
-         r8FqzOuYcIjLr71xVVR6P1k3TfUs7tRDqERS2efjVSTGnne7HtSxhDBr32FwNo3YnPI+
-         ZEEkvT0Togmz1CmnhPqKUGqUxDF32/qy+X6kw2WNiEaNM1/Ir/MK3EzvyJjBy9j4ltss
-         x+Ug==
-X-Gm-Message-State: AAQBX9ddDGyTcnJqHH2vLGUZDeW6nBEuaS4Qkra9mz9WyKhQbhhA3PHf
-	eQtGqBt+Qg5av+xG59/bOQSV/05/gk2wre+MGaY=
-X-Google-Smtp-Source: AKy350ZXgvX04j/1p/RFPDi1ove7H/6e0V02Pgs7f53BmAAVsUE6D2iSBsk5XOWZB9/eAhb7aVnHeQ==
-X-Received: by 2002:a05:6a00:2305:b0:63d:287f:fdf5 with SMTP id h5-20020a056a00230500b0063d287ffdf5mr530426pfh.27.1681980517814;
-        Thu, 20 Apr 2023 01:48:37 -0700 (PDT)
-Received: from MVIN00024 ([150.129.170.130])
-        by smtp.gmail.com with ESMTPSA id o76-20020a62cd4f000000b0063d6666ee4csm763687pfg.34.2023.04.20.01.48.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Apr 2023 01:48:37 -0700 (PDT)
-Received: by MVIN00024 (sSMTP sendmail emulation); Thu, 20 Apr 2023 14:18:32 +0530
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH] screen: CVE-2023-24626 allows sending SIGHUP to arbitrary PIDs
-Date: Thu, 20 Apr 2023 14:18:30 +0530
-Message-Id: <20230420084830.101561-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+        bh=bDJc2Xz5AzFNL/YuyaH88mVBaPGeqvX7ApBCo7TXnOQ=;
+        b=TVbceUySbfuVMPRWAzfhY6XxKZXgNHkvvwagPU3NGKa94T4DVITFhj0RXbKvqkSAc5
+         xP6WDxP9d5PPKzgsyNL+ZGnD42U1YWzwRTNhPqaeibqUk2PEeANBQUl4d9RNhzh5AdbR
+         VVr1amxHUVsGg9WU3WQirJTrvDC6Wbzlb4gUimNUa6+5EttZiScQyq9bCczDB2lsQzdt
+         mDuJJMnd1I1o9y451NuK7dcm4zLqnNYJtTYAsiuYaDuWoYExuqDD3lVYm5AY2ciHA6jp
+         1SKTrxcC/xrxybTg2ClTtpLOmXAyUwdyxebkfIWGqxuVsqK1acyNvW5ySWK3Ci+WJ27R
+         rWyQ==
+X-Gm-Message-State: AAQBX9cmTYAq8J5ihP2v2hYu1DCHuuI+O0Yifbr6f99XJhSszfYu0WMX
+	SLrxMKtI714WDH4mNJIoMtQAtiwZHB9HNe/Zkas=
+X-Google-Smtp-Source: AKy350b5AwUMklgC8thedkC5bMYkxo/t3J6caDAvS/ouLko54cM/dEjF4PDcJe+k0uuTGV7rGa3wMzS59VfKZ8ZmKBM=
+X-Received: by 2002:a2e:9954:0:b0:2a7:a616:c39 with SMTP id
+ r20-20020a2e9954000000b002a7a6160c39mr231620ljj.48.1681982535843; Thu, 20 Apr
+ 2023 02:22:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230420052442.16443-1-yang.xu@mediatek.com>
+In-Reply-To: <20230420052442.16443-1-yang.xu@mediatek.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 20 Apr 2023 11:22:04 +0200
+Message-ID: <CANNYZj-C8ujMnqkZqyU8rgAF+rJ9Bwqc2bOLkuGu0d0cJpXfpg@mail.gmail.com>
+Subject: Re: [PATCH] openssl: set package level PERL5LIB
+To: Yang Xu <yang.xu@mediatek.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 08:48:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180240
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 09:22:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180241
 
-Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/screen.git/commit/?id=e9ad41bfedb4537a6f0de20f00b27c7739f168f7
+On Thu, 20 Apr 2023 at 07:30, Yang Xu <yang.xu@mediatek.com> wrote:
+>
+> Build openssl with shared state cache may meet problem under below conditions:
+> 1. sstate cache generated by another user on same machine
+> 2. inappropriate PERL5LIB setting
+> 3. openssl build from scratch but perl using cache
+>
+> When building openssl, without appropriate PERL5LIB setting, perl tries
+> to search Text::Template in no permission path and abort.
+>
+> This patch does three things:
+> 1. openssl upgrade external Text-Template from 1.46 to 1.56,
+> correct perl module path.
+> 2. add necessary module path while openssl build
+> 3. set package level PERL5LIB to make perl found module in S
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- .../screen/screen/CVE-2023-24626.patch        | 40 +++++++++++++++++++
- meta/recipes-extended/screen/screen_4.9.0.bb  |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-extended/screen/screen/CVE-2023-24626.patch
+I'm not sure I understand the description of the problem, or the fix.
+What makes PERL5LIB setting inappropriate? Why is perl that has been
+built by a different user (and placed into sstate) not suitable?
+Doesn't this mean that perl from sstate can be broken in certain
+scenarios, and that needs to be fixed instead?
 
-diff --git a/meta/recipes-extended/screen/screen/CVE-2023-24626.patch b/meta/recipes-extended/screen/screen/CVE-2023-24626.patch
-new file mode 100644
-index 0000000000..73caf9d81b
---- /dev/null
-+++ b/meta/recipes-extended/screen/screen/CVE-2023-24626.patch
-@@ -0,0 +1,40 @@
-+From e9ad41bfedb4537a6f0de20f00b27c7739f168f7 Mon Sep 17 00:00:00 2001
-+From: Alexander Naumov <alexander_naumov@opensuse.org>
-+Date: Mon, 30 Jan 2023 17:22:25 +0200
-+Subject: fix: missing signal sending permission check on failed query messages
-+
-+Signed-off-by: Alexander Naumov <alexander_naumov@opensuse.org>
-+
-+CVE: CVE-2023-24626
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/screen.git/commit/?id=e9ad41bfedb4537a6f0de20f00b27c7739f168f7]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ socket.c | 9 +++++++--
-+ 1 file changed, 7 insertions(+), 2 deletions(-)
-+
-+diff --git a/socket.c b/socket.c
-+index bb68b35..9d87445 100644
-+--- a/socket.c
-++++ b/socket.c
-+@@ -1285,11 +1285,16 @@ ReceiveMsg()
-+           else
-+             queryflag = -1;
-+ 
-+-          Kill(m.m.command.apid,
-++          if (CheckPid(m.m.command.apid)) {
-++            Msg(0, "Query attempt with bad pid(%d)!", m.m.command.apid);
-++          }
-++          else {
-++            Kill(m.m.command.apid,
-+                (queryflag >= 0)
-+                    ? SIGCONT
-+                    : SIG_BYE); /* Send SIG_BYE if an error happened */
-+-          queryflag = -1;
-++            queryflag = -1;
-++          }
-+         }
-+         break;
-+       case MSG_COMMAND:
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-extended/screen/screen_4.9.0.bb b/meta/recipes-extended/screen/screen_4.9.0.bb
-index b36173b8de..19070d87d8 100644
---- a/meta/recipes-extended/screen/screen_4.9.0.bb
-+++ b/meta/recipes-extended/screen/screen_4.9.0.bb
-@@ -21,6 +21,7 @@ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
-            file://0002-comm.h-now-depends-on-term.h.patch \
-            file://0001-fix-for-multijob-build.patch \
-            file://0001-Remove-more-compatibility-stuff.patch \
-+           file://CVE-2023-24626.patch \
-           "
- 
- SRC_URI[sha256sum] = "f9335281bb4d1538ed078df78a20c2f39d3af9a4e91c57d084271e0289c730f4"
--- 
-2.25.1
-
+Alex
 
