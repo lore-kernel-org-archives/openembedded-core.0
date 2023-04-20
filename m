@@ -1,131 +1,97 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 003FEC77B72
-	for <webhook@archiver.kernel.org>; Thu, 20 Apr 2023 06:55:16 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web10.2218.1681973710162687818
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0925BC77B73
+	for <webhook@archiver.kernel.org>; Thu, 20 Apr 2023 07:27:17 +0000 (UTC)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+ by mx.groups.io with SMTP id smtpd.web10.2526.1681975635875052567
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Apr 2023 23:55:10 -0700
+ Thu, 20 Apr 2023 00:27:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=LHEU2XuQ;
- spf=pass (domain: mvista.com, ip: 209.85.210.178, mailfrom: hprajapati@mvista.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-63b5c48ea09so633521b3a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Apr 2023 23:55:10 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=aejIq2/f;
+ spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2a8dc00ade2so3308301fa.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 00:27:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1681973709; x=1684565709;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HO35TZ3MyFkHfaxFVKM1ZzodfceB1ss0HVZtawpI0L4=;
-        b=LHEU2XuQlmfu6WFzSx1e1BCNC8YwPPGyvS3dIIhbK5hyzBdKLhXRI+TMwUS4IWW+TU
-         5Mpwr9eSPM+wDQGoUUufRW4gg6j2prb3ORcHvYQtNkbrSs7CG2JmAgoAFOAq8NQwRNPW
-         HXl0KgOi3wR/TBlkagtHHDp2RPyX/YPPTfpB8=
+        d=gmail.com; s=20221208; t=1681975634; x=1684567634;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ZqqpXUBIjdNVW1Nz9inkgA0XmAb9dzQawDY3safmKrs=;
+        b=aejIq2/fc0FN03YH5rS9tooEBoZSdkK3DdCOVas/1C2Yb8RPMZU7s+zD1tlrrNU+Y5
+         JalVDALWVeU+oArowHel2+uLVkjQ2HDJaLI879WKX/f6fj80Rri4nbA+1VS4P0g+leNO
+         VFVrRCJS/L+ihiARYF7UtKXl/cGhvvo5eGB4ItVXYXnbdBbsf69JSUxfAthyj71Fdo+p
+         givQUT2cyagxQu7a/QZzoaMuHvleVTmsVXgrA5bRBaT9ltxEKZWYpttIsqdpewfdFasf
+         4iMK4XXZYsreKB5ls6r3P1GLB5hs270M9DLmGiIKL6n1HGdNj+S+Q2xYDCuhOfY01+Fp
+         BOHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681973709; x=1684565709;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HO35TZ3MyFkHfaxFVKM1ZzodfceB1ss0HVZtawpI0L4=;
-        b=az+ek8G+0k21GZnoVI4rPrYZEznaj4f+LfImc9UhP054nYl+ebQawn4p7EPw4QVGYs
-         XvqzirKODTQpBOUQpti8I042KMdnoF3ty/3kuBXpkJRyQ3zbUeAfkquWIYINY2XoyPIY
-         lSDifdVq9HWQ7QY9s5UH5FcSDuNRRNxPznAHy3ONF0lQnDbXflLJSbIcalXVKqEVAo8L
-         OUzm2Rv1bC01hz7aR4H+LL1h+ieGBULcwDQzLGgc5hvoYIelCSv5jr3PWaDpFJ8XpQoA
-         dR7K5As97qMNjaiOM2hOMEMp4WiJBjkRGzHSZ216ajK4uCsFW6x9CY4umJx/3eTBFP60
-         DTrg==
-X-Gm-Message-State: AAQBX9dDhAnwTIWlLYfnw6Hbf8z0ZFirJh1VmGQHL+rz+xpxQFhQpKAp
-	pw9BWT3YCzif3DUj3w+F6P7SGVcHkS/p9H1btPk=
-X-Google-Smtp-Source: AKy350YH8Jo8d7igUf8B6kR6ZHM3gCPcY3ITgwIclw4CNHptGfdK8P/Uerw2e/1a/zD1NnwR/gTXew==
-X-Received: by 2002:a05:6a00:2355:b0:63b:8ddc:2e0c with SMTP id j21-20020a056a00235500b0063b8ddc2e0cmr139794pfj.32.1681973709260;
-        Wed, 19 Apr 2023 23:55:09 -0700 (PDT)
-Received: from MVIN00024 ([150.129.170.130])
-        by smtp.gmail.com with ESMTPSA id x4-20020aa784c4000000b0063d238b1e4bsm497351pfn.160.2023.04.19.23.55.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Apr 2023 23:55:08 -0700 (PDT)
-Received: by MVIN00024 (sSMTP sendmail emulation); Thu, 20 Apr 2023 12:25:03 +0530
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [dunfell][PATCH] screen: CVE-2023-24626 allows sending SIGHUP to arbitrary PIDs
-Date: Thu, 20 Apr 2023 12:25:02 +0530
-Message-Id: <20230420065502.77030-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+        d=1e100.net; s=20221208; t=1681975634; x=1684567634;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZqqpXUBIjdNVW1Nz9inkgA0XmAb9dzQawDY3safmKrs=;
+        b=iJjjEajoNR0eCrAUbEJ9IX+yIKpRFN+o+ZsFumDR0BLq5+JLu/G2w3nBD0OV99Z3V5
+         aHdax+h+iwR0wZq4eGMpK+g9QM5Bm4vtqRSCbMTpobIg4im5jCK2luROZclLrTSxcQyN
+         HmF+8Z59PjmqNV3e8Sr0x1Ww7kBG6X9KebcEXKtZYQqgH34P4qqcNo9N1G8IW2HXZL3f
+         Bg1rapdqNOc7r7+gRXDrC4CpIE4cT6PREhruUjwx+QNr7E8ij7yJZ2REwQ6uEs3rCCBY
+         b5NRbNJJL7XNNolG4nCLw9rJjDi1Xej0xUirVCVjBMajW3A9A3bLZZ+5qtdxgdbxPq6H
+         Sy2w==
+X-Gm-Message-State: AAQBX9f+y0T/sSnbfbf/ZSyE/MOlri+ZC1aApgSDoQZgRyLcKqPjzXNb
+	M1Q+o/fEhANY6YuIA33FYXkqclcYpFmKHUGViMtsic/q
+X-Google-Smtp-Source: AKy350a7xpQUMK6fhDHzzhTI0F0aUBlsiiDE77M0Ha9BBzdny/wiWKwoUI+ZRK3oq8OkHeMiqcqBvxiWgjxCoHZo6vE=
+X-Received: by 2002:ac2:5929:0:b0:4ee:8ff3:c987 with SMTP id
+ v9-20020ac25929000000b004ee8ff3c987mr96422lfi.12.1681975633382; Thu, 20 Apr
+ 2023 00:27:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
+Date: Thu, 20 Apr 2023 09:27:02 +0200
+Message-ID: <CA+cAkepE6FLo7L8N0FG-39CfFfLgK9RPFH0qvi+dRNOY5gpXRw@mail.gmail.com>
+Subject: Cargo and ptest
+To: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000260fb805f9bf7876"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 06:55:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180237
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 07:27:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180238
 
-Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/screen.git/commit/?id=e9ad41bfedb4537a6f0de20f00b27c7739f168f7
+--000000000000260fb805f9bf7876
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- .../screen/screen/CVE-2023-24626.patch        | 40 +++++++++++++++++++
- meta/recipes-extended/screen/screen_4.8.0.bb  |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-extended/screen/screen/CVE-2023-24626.patch
+Hello,
 
-diff --git a/meta/recipes-extended/screen/screen/CVE-2023-24626.patch b/meta/recipes-extended/screen/screen/CVE-2023-24626.patch
-new file mode 100644
-index 0000000000..73caf9d81b
---- /dev/null
-+++ b/meta/recipes-extended/screen/screen/CVE-2023-24626.patch
-@@ -0,0 +1,40 @@
-+From e9ad41bfedb4537a6f0de20f00b27c7739f168f7 Mon Sep 17 00:00:00 2001
-+From: Alexander Naumov <alexander_naumov@opensuse.org>
-+Date: Mon, 30 Jan 2023 17:22:25 +0200
-+Subject: fix: missing signal sending permission check on failed query messages
-+
-+Signed-off-by: Alexander Naumov <alexander_naumov@opensuse.org>
-+
-+CVE: CVE-2023-24626
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/screen.git/commit/?id=e9ad41bfedb4537a6f0de20f00b27c7739f168f7]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ socket.c | 9 +++++++--
-+ 1 file changed, 7 insertions(+), 2 deletions(-)
-+
-+diff --git a/socket.c b/socket.c
-+index bb68b35..9d87445 100644
-+--- a/socket.c
-++++ b/socket.c
-+@@ -1285,11 +1285,16 @@ ReceiveMsg()
-+           else
-+             queryflag = -1;
-+ 
-+-          Kill(m.m.command.apid,
-++          if (CheckPid(m.m.command.apid)) {
-++            Msg(0, "Query attempt with bad pid(%d)!", m.m.command.apid);
-++          }
-++          else {
-++            Kill(m.m.command.apid,
-+                (queryflag >= 0)
-+                    ? SIGCONT
-+                    : SIG_BYE); /* Send SIG_BYE if an error happened */
-+-          queryflag = -1;
-++            queryflag = -1;
-++          }
-+         }
-+         break;
-+       case MSG_COMMAND:
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-extended/screen/screen_4.8.0.bb b/meta/recipes-extended/screen/screen_4.8.0.bb
-index fe640c262b..c4faa27023 100644
---- a/meta/recipes-extended/screen/screen_4.8.0.bb
-+++ b/meta/recipes-extended/screen/screen_4.8.0.bb
-@@ -22,6 +22,7 @@ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
-            file://0001-fix-for-multijob-build.patch \
-            file://0001-Remove-more-compatibility-stuff.patch \
-            file://CVE-2021-26937.patch \
-+           file://CVE-2023-24626.patch \
-           "
- 
- SRC_URI[md5sum] = "d276213d3acd10339cd37848b8c4ab1e"
--- 
-2.25.1
+I would like to build and ship tests for recipes which uses cargo and in
+the process, three questions arose (maybe more when I will progress).
+I would like to have your opinions on them.
 
+1) should we ship cargo-native in ptest images or should we just build and
+ship test binaries alone ?
+2) should we place the cargo ptest specifics in a dedicated class (e.g
+ptest-cargo.bbclass, like already existing ptest-gnome or ptest-perl) or
+put this in cargo.bbclass itself ?
+3) should we embed all kind of tests (unit, integration and doc tests, see
+https://doc.rust-lang.org/book/ch11-03-test-organization.html) or just the
+unit tests ?
+
+Thank you very much for all insights you could give on this matter.
+
+--000000000000260fb805f9bf7876
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Hello,<div dir=3D"auto"><br></div><div dir=3D"auto">I wou=
+ld like to build and ship tests for recipes which uses cargo and in the pro=
+cess, three questions arose (maybe more when I will progress).</div><div di=
+r=3D"auto">I would like to have your opinions on them.=C2=A0</div><div dir=
+=3D"auto"><br></div><div dir=3D"auto">1) should we ship cargo-native in pte=
+st images or should we just build and ship test binaries alone ?=C2=A0</div=
+><div dir=3D"auto">2) should we place the cargo ptest specifics in a dedica=
+ted class (e.g ptest-cargo.bbclass, like already existing ptest-gnome or pt=
+est-perl) or put this in cargo.bbclass itself ?</div><div dir=3D"auto">3) s=
+hould we embed all kind of tests (unit, integration and doc tests, see <a h=
+ref=3D"https://doc.rust-lang.org/book/ch11-03-test-organization.html">https=
+://doc.rust-lang.org/book/ch11-03-test-organization.html</a>) or just the u=
+nit tests ?</div><div dir=3D"auto"><br></div><div dir=3D"auto">Thank you ve=
+ry much for all insights you could give on this matter.=C2=A0</div></div>
+
+--000000000000260fb805f9bf7876--
 
