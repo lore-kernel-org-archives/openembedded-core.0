@@ -1,83 +1,94 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 207C7C77B73
-	for <webhook@archiver.kernel.org>; Thu, 20 Apr 2023 20:11:46 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.1658.1682021499164847859
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB313C77B73
+	for <webhook@archiver.kernel.org>; Fri, 21 Apr 2023 01:12:08 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web11.1870.1682039522701392364
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Apr 2023 13:11:39 -0700
+ Thu, 20 Apr 2023 18:12:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=HMr2w+K2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f1738d0d4cso6522755e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 13:11:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=cnhs0LLe;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1a66b9bd893so16021355ad.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 18:12:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1682021497; x=1684613497;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ZDPSkcWwIv32eJLwd0PAJxT66K4cgjYNBICAwUKoHC0=;
-        b=HMr2w+K25ARQeHZu+R104l+FQbU+2Y8xrDI8saVe74qnjzN7mUoDjNffj7C0V3/EDi
-         A+QVd8rah7cyzqmauzkiXWU+nc8il/PDZepPA9gYuAxb1TNTl5H+shZ/nCW7KnQVsZ3z
-         NRHsy2vh3QJ1l28PBM/BuSwhqyENYTrlgbD2E=
+        d=gmail.com; s=20221208; t=1682039522; x=1684631522;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MpJAwmav4JahHXIiaXN/04bRR97qZ+RtjPIrG8yoWM4=;
+        b=cnhs0LLed8G/QllplCu0W1dcK56jM78zOzjOW7MoEZNcdShOUSRw5Z0bBYCoyyqZbB
+         GeMZ74aDDkVpoav20attkutz2XWjhH83UWrgHBkcB+/J9o2qTgw9WsRFo9GztCZl3vaC
+         zKLEE8Wal5COK18juu8T/d9h9QIro5I2qN/t/2xEvwvwf+MVYBDcU4uGAniYNYyol03M
+         fKsSGJ2ng+FVLKdG1RhG/si+0kUCBNQ4bWDEzaOLWAYDRwkt9jxjNc6ygzvCK29rm6gO
+         Mp5PL6jia6HXZq737uaMulBhK7QU58dNag3gshjrK7dBVnse9nJTZd6JFQhTEeOn26xM
+         zyZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682021497; x=1684613497;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZDPSkcWwIv32eJLwd0PAJxT66K4cgjYNBICAwUKoHC0=;
-        b=HTzizdVqng9JOnT3SL3UL3ovx2lFJw9LpdQRriAZSS7qQCLnGUSVUdtMNW4aDHh9M9
-         Pohtdp75sa8wYWnMomtMtKBCdGutVQNfzpl5gdIonW7956iA06a9uRRRbWPaazsTcGZR
-         NkDLMhRzrzY43/mtv12v6TphDX6rrT866VHJCQfM3sXBKYI589CKjC17lYyH0hqq+6Gq
-         tElYnPQabxjs5ZKuJ6rIrOQS2s6UIZKr4M7wv+8XoEwCsT47F9JmcmNRL9VTahPKVb2W
-         Z/fjrv6FaGcKLcBH7ZrynqywZAX7k402ckaDFPMl5OcrULnA013FRZodGPMp1SK72L2s
-         M3MA==
-X-Gm-Message-State: AAQBX9e9+MIg4vQk0YRNylp4vd63aGdreVpawX/+qgP+mcFvvBTnVSfi
-	nuM1moNe0AenT6+aH45lbm/pvg==
-X-Google-Smtp-Source: AKy350bDbTS/m1kgCWJrHWuEMtbRlaX1zHqY285qvL3aWnahpcEHoOEWFZqK5U1mbElbfEOO1JJ2Aw==
-X-Received: by 2002:a05:600c:acc:b0:3f1:6ef6:c9d6 with SMTP id c12-20020a05600c0acc00b003f16ef6c9d6mr84217wmr.32.1682021497464;
-        Thu, 20 Apr 2023 13:11:37 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:10d8:8852:10bb:43b4? ([2001:8b0:aba:5f3c:10d8:8852:10bb:43b4])
-        by smtp.gmail.com with ESMTPSA id v19-20020a05600c215300b003ee20b4b2dasm2873721wml.46.2023.04.20.13.11.36
+        d=1e100.net; s=20221208; t=1682039522; x=1684631522;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MpJAwmav4JahHXIiaXN/04bRR97qZ+RtjPIrG8yoWM4=;
+        b=GFekLXDZsOVpGHJy0d7ylCOx3lfKSAr5HJgdo406WbKhzUVhHvDUoEss0ejuqMZ/RL
+         +o9EdfqeBV12bK7shpn7aQFi1AJsvReEmfo5UZbASK8TmxuxVuBuuFrjNhRDHDxniF19
+         DPBACj1oNWUdT99TmpxzZZq/1JO9lAH1SdX0cBnSm4bhBV6Hcrv9GBEuYR363X+RE6EW
+         iOr9Lg/U95u3wTSBXFUtHZaRddrqXHTwgwPfRu6cv4nfENhzTlsi8QU6wn9J9iPOlLot
+         io9MhFaUo42wRNpwt0PigYABXH4uZFIVKtKx/AiXkDT7In9tDolLxhm+SewVcm/4b3J/
+         SotQ==
+X-Gm-Message-State: AAQBX9dEtjx0KCh9dvWisXZUj7SmfcAgd2NFsmq8ve0vQhfFHrc3hJw9
+	F9v7bkdF+N6myx2/kYgVoA7WtD2bKDlMpg==
+X-Google-Smtp-Source: AKy350bsSWg1fQt0EUtQ7gnb86hty0AoE5auVeYhuIyKLb4s84azeJpWo3r3CBXJbshwf+kxnUZJMA==
+X-Received: by 2002:a17:902:bd94:b0:1a6:ef75:3c53 with SMTP id q20-20020a170902bd9400b001a6ef753c53mr3264366pls.11.1682039521754;
+        Thu, 20 Apr 2023 18:12:01 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:d380::ebd0])
+        by smtp.gmail.com with ESMTPSA id p4-20020a170902bd0400b0019462aa090bsm1639256pls.284.2023.04.20.18.12.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Apr 2023 13:11:37 -0700 (PDT)
-Message-ID: <db555f3f6c09c4576358846cba9e64d055422e59.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] openssl: set package level PERL5LIB
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Yang Xu
-	=?UTF-8?Q?=28=E5=BE=90=E6=89=AC=29?=
-	 <Yang.Xu@mediatek.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Apr 2023 21:11:35 +0100
-In-Reply-To: <CANNYZj-0u9XVkCVHT+WjtFkQ_nYg9i4OUj311wK5GgRhp7ZZfA@mail.gmail.com>
-References: <20230420052442.16443-1-yang.xu@mediatek.com>
-	 <CANNYZj-C8ujMnqkZqyU8rgAF+rJ9Bwqc2bOLkuGu0d0cJpXfpg@mail.gmail.com>
-	 <90b1e25cde406898154a05d03babc739120e643c.camel@mediatek.com>
-	 <CANNYZj-0u9XVkCVHT+WjtFkQ_nYg9i4OUj311wK5GgRhp7ZZfA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.47.3-1 
+        Thu, 20 Apr 2023 18:12:01 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 2/2] lua: Disable locale dependent tests on musl
+Date: Thu, 20 Apr 2023 18:11:58 -0700
+Message-Id: <20230421011158.790929-2-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230421011158.790929-1-raj.khem@gmail.com>
+References: <20230421011158.790929-1-raj.khem@gmail.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 20:11:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180257
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Apr 2023 01:12:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180259
 
-On Thu, 2023-04-20 at 19:20 +0200, Alexander Kanavin wrote:
-> Thank you, I understand this now. I'm fine with the fix, but can you
-> add this additional information to the commit message? So that it's
-> available in git history if anyone needs to understand it.
+These tests depend on features of locale which is not fully available on
+musl
 
-I think there is something additional we need to do. If the path
-compiled into perl breaks when it is installed from sstate, we should
-make sure this path is *always* incorrect. That way things will work or
-fail deterministicly.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/lua/lua_5.4.4.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Cheers,
+diff --git a/meta/recipes-devtools/lua/lua_5.4.4.bb b/meta/recipes-devtools/lua/lua_5.4.4.bb
+index 4fa5c593cf..26ec35f997 100644
+--- a/meta/recipes-devtools/lua/lua_5.4.4.bb
++++ b/meta/recipes-devtools/lua/lua_5.4.4.bb
+@@ -56,6 +56,12 @@ do_install_ptest () {
+         cp -R --no-dereference --preserve=mode,links -v ${WORKDIR}/lua-${PV_testsuites}-tests ${D}${PTEST_PATH}/test
+ }
+ 
++do_install_ptest:append:libc-musl () {
++        # locale tests does not work on musl, due to limited locale implementation
++        # https://wiki.musl-libc.org/open-issues.html#Locale-limitations
++        sed -i -e 's|os.setlocale("pt_BR") or os.setlocale("ptb")|false|g' ${D}${PTEST_PATH}/test/literals.lua
++}
++
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ inherit multilib_script
+-- 
+2.40.0
 
-Richard
 
