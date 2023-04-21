@@ -1,79 +1,120 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ppjadhav456@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DE62C7618E
-	for <webhook@archiver.kernel.org>; Fri, 21 Apr 2023 06:55:00 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web11.5904.1682060098045116118
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 790AAC7618E
+	for <webhook@archiver.kernel.org>; Fri, 21 Apr 2023 07:15:20 +0000 (UTC)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web11.6139.1682061313016448142
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Apr 2023 23:54:58 -0700
+ Fri, 21 Apr 2023 00:15:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=nHwhBE+Q;
- spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-4ec8399e963so1330784e87.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 23:54:57 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=Be/hyBn/;
+ spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: ppjadhav456@gmail.com)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-63d4595d60fso12503882b3a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 21 Apr 2023 00:15:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682060096; x=1684652096;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=R0SzMJOO9Nza7lOKrQFehPJLAUJvbxijbunK9+j9h7o=;
-        b=nHwhBE+Q0+Dup45b79QPvqss/o8Vicxf4HKOqWWwPVFOtqj9zq5lLn9mUmK6YukVOF
-         V9W8Y1UVMo0sk+so1QzkvgdXGG5ldUutEUi+Mdft/cHmUK6+uf9Xqfsxt2KsXuQG923E
-         tmhZFIzRAtcxkBnp8cDgZcWt7Fh1RFNqpxKqmez5KncVyocTnf2tVoxbZaIjnikDHhUC
-         BCebenyOBmij2CaqN/8x5/A5nmG/JSU/AMI0MmXd9QEKr/emNb22yy4u6xgkk2MxvC63
-         cpTAa/HlLTglCQz4DU0PkX7xWq0g6zYeT7cw62GGedv0ejnw8C/V1QLXdarjdBbZ3Jhg
-         NJlA==
+        d=gmail.com; s=20221208; t=1682061312; x=1684653312;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UIrqWMI7++v+/UUfrjZ0PIjY0lUGx2fMddpY7lMSpOk=;
+        b=Be/hyBn/WzUnlxYgt4xLwHqmsoANhSd6LtjyU/u0nKubgumwFnFodKbi6w+BADdyGL
+         /rVcxkF5GReQONQ8gjqbFwMi5HNbrYyaiQPXNSPBaUmqCY7n6S4+59Wxr8jzyf+8zYpf
+         GMCdQIkziUADHbRzsumniazM+WdavdgF/OhwQPy6OhbWya7/DTGDBZ6EnExsjX3rzvv1
+         WbAo7Dj8ty6wXjbH95tpQn6WSJiD/hz4QN9itAxZKoq6ZhHL/pDS/Mg8C2bNVbzFylYF
+         yDuaMPETuUKHiEXcU7JDgRbtJcRxy5S3CJtDRZRCgFOcy+wjiHqSmBDU00oXrKty/gUf
+         6FYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682060096; x=1684652096;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1682061312; x=1684653312;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=R0SzMJOO9Nza7lOKrQFehPJLAUJvbxijbunK9+j9h7o=;
-        b=KnpIlzKY1vuW/jdaoC97i2vvpM8DQZGxSuajtUPueEz2K5J7SlK+OJ3DbIxNWkJvlA
-         JJcuX8F5rqVce+BvYuFaUdFJ/mIkI5As5T42mdj6DILQ+ckLMnF6848m/+lO98Au12Lq
-         We2571gIEfq0CGyrQG2Ub8J70nOVOUpscdEpLBwlx4dwfbyOVKatpZDst/smxKsW0ppV
-         hmNB/8svB0rAvJWw01dZ2G7BzqF+xfzDbyq2lCIkPY6+kT5XRVmjb/qxuz2zPmNfs4dm
-         7Rj3ikH+1eKpYpRuL6psEQsT9RETm0zdnSjZAyBYMHAn33JLeHWEloK2cdbfLkGWhZz4
-         LhGg==
-X-Gm-Message-State: AAQBX9cSd67RtldJDeRUB/Zlf0TNJAzRg8kezVKlNxcelERWGWAFWpJ/
-	WGGWqho5+vLpVqMHw+lQ+O8XqiXdChgt+DDfWI4=
-X-Google-Smtp-Source: AKy350bemEJZu6lGE/FR6XY+1FWmUJBrG/jRHWoC5givrfa0mTS8MM5iCeZMsX1KdudO0XhCD6osHn/QMR9eiocwkE0=
-X-Received: by 2002:ac2:518b:0:b0:4ec:a48a:28c0 with SMTP id
- u11-20020ac2518b000000b004eca48a28c0mr837570lfi.25.1682060096213; Thu, 20 Apr
- 2023 23:54:56 -0700 (PDT)
+        bh=UIrqWMI7++v+/UUfrjZ0PIjY0lUGx2fMddpY7lMSpOk=;
+        b=OeYNKaNfdGwNeBaJFcA/oUQ2O4SdAXG8GtCspxXvvzU8FYiymL6jLX10/IZS4hYkVf
+         PJB0+0Lp3y0Y0nUZ2W816IFHoLUM+8CMI7Oo0nQZeCuXK8rlO/Iwdfz9Y8jQ8g++UUtp
+         7Ynos4XePUz9yJGgtpP/nr2a2d0qtkfTXrUBUuUsfppKy6YDydzwh5MeGDQZklGigoZZ
+         IXyWtjCST95JCfqntvmzUucrggYAPMkyPKXq4VZYDmEBs4R8GhLypu2BmxMZMyEQsJQW
+         KIB411V5DJPDbUMgt6bn4sxbKSF62tkMhKGyczPbkM8Ickg9+82lmZ0mGy8U37saPLJn
+         0Y3g==
+X-Gm-Message-State: AAQBX9eKvxeeD3vx8EFArAugyVGnkA88zJlh7IAgYht8/8BiGHLZrvgI
+	9TM14fY5FKidjeQdDHyzDj8XTLPGKWaTtA==
+X-Google-Smtp-Source: AKy350ZXTHuSOkShyN98TAMfSypFnHRd43mLxl+DJDvOpN/AQOlqGRUUQWMhkT98ucqI+QyeczDVlQ==
+X-Received: by 2002:a17:903:294c:b0:1a6:846f:90cb with SMTP id li12-20020a170903294c00b001a6846f90cbmr7549873plb.11.1682061311711;
+        Fri, 21 Apr 2023 00:15:11 -0700 (PDT)
+Received: from localhost.localdomain ([38.41.69.0])
+        by smtp.gmail.com with ESMTPSA id a13-20020a170902ee8d00b001a66bf1406bsm2144354pld.144.2023.04.21.00.15.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Apr 2023 00:15:11 -0700 (PDT)
+From: Poonam Jadhav <ppjadhav456@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	poonam.jadhav@kpit.com
+Cc: ranjitsinh.rathod@kpit.com,
+	Pascal Bach <pascal.bach@siemens.com>,
+	Mikko Rapeli <mikko.rapeli@bmw.de>,
+	Poonam Jadhav <ppjadhav456@gmail.com>
+Subject: [OE-core][master][PATCH] cmake: add CMAKE_SYSROOT to generated toolchain file
+Date: Fri, 21 Apr 2023 12:39:47 +0530
+Message-Id: <20230421070947.32523-1-ppjadhav456@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230420052442.16443-1-yang.xu@mediatek.com> <CANNYZj-C8ujMnqkZqyU8rgAF+rJ9Bwqc2bOLkuGu0d0cJpXfpg@mail.gmail.com>
- <90b1e25cde406898154a05d03babc739120e643c.camel@mediatek.com>
- <CANNYZj-0u9XVkCVHT+WjtFkQ_nYg9i4OUj311wK5GgRhp7ZZfA@mail.gmail.com> <db555f3f6c09c4576358846cba9e64d055422e59.camel@linuxfoundation.org>
-In-Reply-To: <db555f3f6c09c4576358846cba9e64d055422e59.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 21 Apr 2023 08:54:44 +0200
-Message-ID: <CANNYZj-F8S2WQRT01e46HCWrx68AYbKdUGOGWsk7aaLY1SSLxg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] openssl: set package level PERL5LIB
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: =?UTF-8?B?WWFuZyBYdSAo5b6Q5omsKQ==?= <Yang.Xu@mediatek.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Apr 2023 06:55:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180277
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Apr 2023 07:15:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180278
 
-On Thu, 20 Apr 2023 at 22:11, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> > Thank you, I understand this now. I'm fine with the fix, but can you
-> > add this additional information to the commit message? So that it's
-> > available in git history if anyone needs to understand it.
->
-> I think there is something additional we need to do. If the path
-> compiled into perl breaks when it is installed from sstate, we should
-> make sure this path is *always* incorrect. That way things will work or
-> fail deterministicly.
+From: Pascal Bach <pascal.bach@siemens.com>
 
-That's right. I'll take a look at what happens inside perl, finding
-the correct place to patch can be tricky.
+This already got fixed in the toolchain file that is used during development
+in https://github.com/openembedded/openembedded-core/commit/cb42802f2fe1760f894a435b07286bca3a220364
 
-Alex
+The toolchain file generated by the cmake.bbclass however does not set
+CMAKE_SYSROOT. Under certain circumstances this also leads to the error:
+`"stdlib.h: No such file or directory #include_next <stdlib.h>"`
+during the build of a recipe.
+
+An example where this accured was during the upgrade of the Apache Thrift
+recipe in meta-openembedded to 0.11.0. With this change the build works out of
+the box.
+
+CMAKE_SYSROOT must only be set when crosscompiling, otherwise it will interfere
+with the native compiler headers.
+
+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+
+(from http://lists.openembedded.org/pipermail/openembedded-core/2018-August/154791.html )
+
+Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
+Signed-off-by: Poonam Jadhav <ppjadhav456@gmail.com>
+---
+ meta/classes-recipe/cmake.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/classes-recipe/cmake.bbclass b/meta/classes-recipe/cmake.bbclass
+index 554b948c32..301367b515 100644
+--- a/meta/classes-recipe/cmake.bbclass
++++ b/meta/classes-recipe/cmake.bbclass
+@@ -94,6 +94,8 @@ def map_host_arch_to_uname_arch(host_arch):
+ cmake_do_generate_toolchain_file() {
+ 	if [ "${BUILD_SYS}" = "${HOST_SYS}" ]; then
+ 		cmake_crosscompiling="set( CMAKE_CROSSCOMPILING FALSE )"
++       else
++               cmake_sysroot="set( CMAKE_SYSROOT \"${RECIPE_SYSROOT}\" )"
+ 	fi
+ 	cat > ${WORKDIR}/toolchain.cmake <<EOF
+ # CMake system name must be something like "Linux".
+@@ -126,6 +128,8 @@ set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
+ set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
+ set( CMAKE_PROGRAM_PATH "/" )
+ 
++$cmake_sysroot
++
+ # Use qt.conf settings
+ set( ENV{QT_CONF_PATH} ${WORKDIR}/qt.conf )
+ 
+-- 
+2.25.1
+
 
