@@ -1,129 +1,87 @@
-Return-Path: <yang.xu@mediatek.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FD75C77B73
-	for <webhook@archiver.kernel.org>; Fri, 21 Apr 2023 03:38:39 +0000 (UTC)
-Received: from mailgw01.mediatek.com (mailgw01.mediatek.com [60.244.123.138])
- by mx.groups.io with SMTP id smtpd.web10.3995.1682048316433920320
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59A13C77B76
+	for <webhook@archiver.kernel.org>; Fri, 21 Apr 2023 03:41:39 +0000 (UTC)
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web10.4041.1682048497387456985
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Apr 2023 20:38:36 -0700
+ Thu, 20 Apr 2023 20:41:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mediatek.com header.s=dk header.b=MWxFCP2+;
- spf=pass (domain: mediatek.com, ip: 60.244.123.138, mailfrom: yang.xu@mediatek.com)
-X-UUID: fc158954dff511eda9a90f0bb45854f4-20230421
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=Zf+QV9JKRU2C1QHS4DwxlsjqXFGA9GNU0Fb/gVVcJsk=;
-	b=MWxFCP2+eVnX9e+jDy5HpB9HQs2Z2fJTc0AA1cZ1Qk/cAGZqKhwdu83JbWTRSQEDtHts0ynydG8lK2uWTqvlccLUQtuyMiDn612/hFAfK6SJyu+r/M/aw6uHUKMggVZ7STo748DdPNZWGpBp10qRdGKyNc7YNdZDqYK0ntAJQCE=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22,REQID:597a5c78-004f-43f4-a946-91511053f8a0,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:120426c,CLOUDID:f754c684-cd9c-45f5-8134-710979e3df0e,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-UUID: fc158954dff511eda9a90f0bb45854f4-20230421
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
-	(envelope-from <yang.xu@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1199143871; Fri, 21 Apr 2023 11:38:30 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Fri, 21 Apr 2023 11:38:29 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.25 via Frontend Transport; Fri, 21 Apr 2023 11:38:29 +0800
-From: <yang.xu@mediatek.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <alex.kanavin@gmail.com>, Yang Xu <yang.xu@mediatek.com>
-Subject: [PATCH v3] openssl: set package level PERL5LIB
-Date: Fri, 21 Apr 2023 03:38:01 +0000
-Message-ID: <20230421033801.28653-1-yang.xu@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=sHZG9zOP;
+ spf=pass (domain: gmail.com, ip: 209.85.210.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-63b7588005fso1631872b3a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 20:41:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682048497; x=1684640497;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=glppKLQ8Iu+NJBcOQlMFx/s1yTOv6NThP7tk9wrN4pY=;
+        b=sHZG9zOPJn+EoB6QbFX+Wbtyh1kUhavO0U8EDymWFrZWQBTnRm7Dex/3UJfZMMXWtd
+         qqcCWi2p7z1coaCSjVdADurK4w8GwQ+glHAEt75GIjlaK3Beo+st50/9Yv3DpgYIc4gZ
+         lZPfjSiukig5+ywNHKYvpa7XT+XfrTRPcO3iM2TtbNTjGyeRMPEJ0DaMYBIg7+YzRmlR
+         plthv+7AfMFDaz9pYrgUyo/wZMsCuCdPvwEXs33Y19sH25VIKc3vHQt/sjmN/FdPwrPb
+         yb0ujKCxDGOnHjaMLb1pXZmCn4AnnZ9kEG3zE3EMKcVim2tTaMSL/Q0bVqIT8UjxaGU6
+         hgNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682048497; x=1684640497;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=glppKLQ8Iu+NJBcOQlMFx/s1yTOv6NThP7tk9wrN4pY=;
+        b=DvnseSidWHm3nVJntlMRmIY4fgWZnHKm9eZZX+5Eo9mOl1RuubrnL84czB3ckcCS5J
+         kwynMeX7/nh+kSnD1ubB7Wwb8+3xsqDKuo3O0aSoZhKlJXMpTmU4c6dPwLzbkkMfVBO9
+         PlX9C7WR0QPq3P4nJdY9en0sEDUU04ac0MYxL1xmBTpUk8jFQiABFbKQ+Ew8GgZoModp
+         7EIAwduHBb2Kc9vDsO5VKZNn9oRPUo5/GiW9f/z+RylUv3Lu9ofA82kB0Hqaj/E7wo0K
+         lOopNN3S83+oyZpvLUrdHBkLQlqoDcsf+9OkZ7emG4WJALRWfcXVnlFZ+pUFqCc+SySe
+         RqEw==
+X-Gm-Message-State: AAQBX9eVJhHS3dJR815ValapLTSOPKFsFpg0Bq8S/PDK771Yup6Akec+
+	z2AWIN6wyjnLuuEXBdVbuXooewBwOaDpPQ==
+X-Google-Smtp-Source: AKy350aKhKGaih9nyra/DcKM9/ve0Ki55d0vBai9lJlSh4yqQS777E32hP3qXrEnIT2tSn6eSmsh1A==
+X-Received: by 2002:a05:6a00:843:b0:63d:6744:8caf with SMTP id q3-20020a056a00084300b0063d67448cafmr4489443pfk.26.1682048496473;
+        Thu, 20 Apr 2023 20:41:36 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:d380::ebd0])
+        by smtp.gmail.com with ESMTPSA id v11-20020aa7850b000000b0062bc045bf4fsm2027199pfn.19.2023.04.20.20.41.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Apr 2023 20:41:36 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 3/3] fts: Fix typo in summary
+Date: Thu, 20 Apr 2023 20:41:33 -0700
+Message-Id: <20230421034133.1136343-3-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230421034133.1136343-1-raj.khem@gmail.com>
+References: <20230421034133.1136343-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Apr 2023 03:38:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180264
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Apr 2023 03:41:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180267
 
-From: Yang Xu <yang.xu@mediatek.com>
-
-Build openssl with shared state cache may meet problem under below conditions:
-1. sstate cache generated by another user on same machine
-2. inappropriate PERL5LIB setting
-3. openssl build from scratch but perl using cache
-
-When build openssl from scratch with perl using cache, it will be aborted at do_configure stage,
-error message is like "Can't locate Text/Template.pm at /home/A/[build path]/[perl module path]/Text/Template.pm : Permission Denied".
-
-The simplified environment and scenarios is:
-1) User A, his home directory is /home/A, generate one sstate cache under /home/A.
-2) This sstate cache moved to /home/Public, act as shared sstate cache
-3) User B, his home directory is /home/B, using sstate cache in /home/Public and build yocto.
-4) User B has no permission to access /home/A.
-
-Some information about perl behavior:
-1. perl will hardcode buildtime path in @INC in binary (module search directories)
-2. when "use MODULE", perl will search @INC from begin to end until it found MODULE.
-3. when perl search module through directories in @INC
-     3.1 if [directory]/MODULE.pm is not exist, search in next directory in @INC.
-     3.2 if [directory]/MODULE.pm has no permission to access, perl will ABORT.
-
-While build openssl from from scratch with perl using cache, @INC directory order is:
-1.<PERL5LIB>
-2.<default module path in ${WORKDIR}/recipe-sysroot-native>
-3.<hardcode module path in binary, which include /home/A/XXX/YYY>
-4.<module found by FindBin, module Text-Template can be found by it>
-
-Without appropriate PERL5LIB setting, perl can't find Text/Template.pm in
-<PERL5LIB>, and it also can't find it in <default module path>.
-
-Then perl search Text/Template.pm in <hardcode module path in binary>,
-*if /home/A is not existed, perl will search in <module found by FindBin> and found Text/Template.pm finally. (OK case)
-*if /home/A is existed but has no permission access, perl will ABORT immediately. (NG case)
-
-So this patch does some fixup for NG case:
-1) set appropriate PERL5LIB to make perl can found Text/Tempalte.pm at highest priority folder <PERL5LIB>.
-2) add other perl module directories needed by openssl build in PERL5LIB
-3) set PERL5LIB as package environment variable
-
-Signed-off-by: Yang Xu <yang.xu@mediatek.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-connectivity/openssl/openssl_3.1.0.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/recipes-core/fts/fts_1.2.7.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.1.0.bb b/meta/recipes-connectivity/openssl/openssl_3.1.0.bb
-index b319c66044..613451f265 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.1.0.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.1.0.bb
-@@ -54,6 +54,10 @@ CFLAGS:append:class-nativesdk = " -DOPENSSLDIR=/not/builtin -DENGINESDIR=/not/bu
- # The default is to trust upstream choices.
- DEPRECATED_CRYPTO_FLAGS ?= ""
+diff --git a/meta/recipes-core/fts/fts_1.2.7.bb b/meta/recipes-core/fts/fts_1.2.7.bb
+index d3b0f31eda..10103830af 100644
+--- a/meta/recipes-core/fts/fts_1.2.7.bb
++++ b/meta/recipes-core/fts/fts_1.2.7.bb
+@@ -1,7 +1,7 @@
+ # Copyright (C) 2015 Khem Raj <raj.khem@gmail.com>
+ # Released under the MIT license (see COPYING.MIT for the terms)
  
-+# Set package level PERL5LIB
-+PERL5LIB = "${S}/external/perl/Text-Template-1.56/lib/:${S}/crypto/perlasm"
-+export PERL5LIB
-+
- do_configure () {
- 	# When we upgrade glibc but not uninative we see obtuse failures in openssl. Make
- 	# the issue really clear that perl isn't functional due to symbol mismatch issues.
-@@ -138,7 +142,7 @@ do_configure () {
- 	fi
- 	# WARNING: do not set compiler/linker flags (-I/-D etc.) in EXTRA_OECONF, as they will fully replace the
- 	# environment variables set by bitbake. Adjust the environment variables instead.
--	HASHBANGPERL="/usr/bin/env perl" PERL=perl PERL5LIB="${S}/external/perl/Text-Template-1.46/lib/" \
-+	HASHBANGPERL="/usr/bin/env perl" PERL=perl \
- 	perl ${S}/Configure ${EXTRA_OECONF} ${PACKAGECONFIG_CONFARGS} ${DEPRECATED_CRYPTO_FLAGS} --prefix=$useprefix --openssldir=${libdir}/ssl-3 --libdir=${libdir} $target
- 	perl ${B}/configdata.pm --dump
- }
+-SUMMARY = "Implementation of ftsfor musl libc packages"
++SUMMARY = "Implementation of fts for musl libc packages"
+ HOMEPAGE = "https://github.com/pullmoll/musl-fts"
+ DESCRIPTION = "The musl-fts package implements the fts(3) functions fts_open, fts_read, fts_children, fts_set and fts_close, which are missing in musl libc."
+ LICENSE = "BSD-3-Clause"
 -- 
-2.25.1
+2.40.0
 
 
