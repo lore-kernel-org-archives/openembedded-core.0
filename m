@@ -1,328 +1,114 @@
-Return-Path: <ppjadhav456@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30C7DC7618E
-	for <webhook@archiver.kernel.org>; Fri, 21 Apr 2023 06:08:20 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web11.5499.1682057298167804951
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BA52C7618E
+	for <webhook@archiver.kernel.org>; Fri, 21 Apr 2023 06:20:00 +0000 (UTC)
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+ by mx.groups.io with SMTP id smtpd.web11.5603.1682057998154937555
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Apr 2023 23:08:18 -0700
+ Thu, 20 Apr 2023 23:19:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=ccW4n1fR;
- spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: ppjadhav456@gmail.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1a526aa3dd5so21004575ad.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 23:08:18 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=o3Rst1Wx;
+ spf=pass (domain: gmail.com, ip: 209.85.210.43, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-6a5fe1ebc42so726300a34.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Apr 2023 23:19:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682057297; x=1684649297;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/iVa7Vo9Ff8Eh3jQ2tAzhSa5Gzq5qrF38XtXp+xTN5c=;
-        b=ccW4n1fRa9FKSf4wS8rq+bF6i+QYrFwKyCJKvI83p726b3pNxf087gt2Qz4yPI5yE5
-         3GVOoT0SWFXHGzwj+zPAZ+t//92fNuNFKYoG8Y+z9iuYeDdRxe3LYXvQkYe0/o/xb4K7
-         8cp8JtmzFq0CSYNlzPr5a+6KeSL0dlz88OiNVAqGMoyBCAGtrLotpsZOBuvuAdyDQGna
-         0Z877A8n4zJ5fv/acrHPDlLNTDx9AF2MATt3D7NptEDVm/IHAE9Rde61OZF/TOGaYFeJ
-         2AWQQ3fCKJLF9O45QBQ3fbLySe5v0cnqZoMlghCJq2XB2yKKSTSHRqm2fIw914DsUsQv
-         zNDQ==
+        d=gmail.com; s=20221208; t=1682057997; x=1684649997;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3d5FOINAXFtg5uUkBDrwMaiNpG7LTeTMFkpX/f47zeY=;
+        b=o3Rst1WxrK64Q7Kf23Ls+5VITWtF3fWmZ3DOteF+MXTJe+DgZe4zcPqZjU3xRvF9Og
+         9v4kNfs8STkitiSoacyBJtkuAqEJxy/gf/+M0XYA9DMxOm84XVa1qwoPXHDqBOeHfUh5
+         bb3geNEk7kBlLLVcldVJFfCg0EHBlxlJXk8tfO8I+k59o+Np45S+yxRZIGLTxZSuE/5R
+         iFXfaolCHyaJWwqS0PKyUddA2dTZXxfZJc1SjB7ZmZkqH+p3Bt2bfRVnNqhri+biiOG9
+         0FCvk8dz9B5tmvfdb0u44MGilQlxBkxPqIu9M2eIKKovGpiCHx1dwP6CC/sqgMrqVuH9
+         VrsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682057297; x=1684649297;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/iVa7Vo9Ff8Eh3jQ2tAzhSa5Gzq5qrF38XtXp+xTN5c=;
-        b=mGKMbjLWMEX5JFvg5CdVv2Vq2W87eTBw/X6i9NKecmP1HGnz4NdU3/PQseItRkA25l
-         FbFARe/SL2z0HZM8I5qxKk5LH1wUzVCawa1A5sTqCldG+8mLMs6kc5wsFBpepLvOb6K5
-         /p08xyPJl0xfpWunYX+tvQB2/yuUqtyvcQiZTVt7WVRZqUysQskrA6t/wZDVz5CIp3n6
-         Zz6Lf4I5/9IPvw00T6xPGIsMelaIiiQiVcAr61y+Aro+j686P7iVtFqWx9YKhbwLzqbf
-         lRusltDKYhZ3u5mQFl7mSkAuhJ1WWOJhTMg8aHFqI1F8Zo7nOrBoIml4QK5KBRWqWuMj
-         iOhg==
-X-Gm-Message-State: AAQBX9eoq92llOU6XL8svPtf2AqCkPLtZ4qZ8rd+ZVDLuzvrnPq/JdHc
-	eaXZa6ErY1/lknSMGne56y+n2+KoQnCzCQ==
-X-Google-Smtp-Source: AKy350YOJGwbHDRVnVjbBshV84hhpIh0bhRhMa3qvb/PDKOXJcqYw/O5ZO597SjuyN1xs8ctKLAAaQ==
-X-Received: by 2002:a17:903:234b:b0:1a1:e33f:d567 with SMTP id c11-20020a170903234b00b001a1e33fd567mr4828521plh.52.1682057297063;
-        Thu, 20 Apr 2023 23:08:17 -0700 (PDT)
-Received: from localhost.localdomain ([38.41.69.0])
-        by smtp.gmail.com with ESMTPSA id y23-20020a1709029b9700b001a69c1c78e7sm2027236plp.71.2023.04.20.23.08.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Apr 2023 23:08:15 -0700 (PDT)
-From: Poonam Jadhav <ppjadhav456@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	poonam.jadhav@kpit.com
-Cc: ranjitsinh.rathod@kpit.com,
-	Poonam Jadhav <Poonam.Jadhav@kpit.com>,
-	Pascal Bach <pascal.bach@siemens.com>,
-	Mikko Rapeli <mikko.rapeli@bmw.de>,
-	Poonam Jadhav <ppjadhav456@gmail.com>
-Subject: [OE-core][master][PATCH] cmake: add CMAKE_SYSROOT to generated toolchain file
-Date: Fri, 21 Apr 2023 11:37:41 +0530
-Message-Id: <20230421060741.21471-1-ppjadhav456@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        d=1e100.net; s=20221208; t=1682057997; x=1684649997;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3d5FOINAXFtg5uUkBDrwMaiNpG7LTeTMFkpX/f47zeY=;
+        b=fqNU3nflxCJhlg645qhAqPrtI+Ds3v4ly14AZbARi+kguZOkx1HMdenqQw59mz5xgv
+         MpbXtY4QqdcFbyTvAQTj+alBD3l5LzFVjGTDtrS94+pcmbv40c99zeBB2reCa3tw1WWv
+         zSXJ3gwiontnlpxhq1Qw84oqJWU6bEFz3QXiWbZ1hXP1wlBR44rXeB0bS4ZHXRKRuDxZ
+         1LQ0JQoefyQ4UY2woXv6IU48hZMmNUvrW4aYhMLEoF7zqAYhn8SndikYnGcn5WttUrhr
+         vdqiOdOcNjVIKB1nSJ4xnF4xI9lD9tY9ZemAH2XPTWM43Nm7rJY2qWsRhLLJbKG0eV37
+         JmPw==
+X-Gm-Message-State: AAQBX9c9zDoIWKENvKA1VzW0eTH4MD0TptbY+r1H2EsxnbH/+SXGWmu7
+	65LjbSveqx4PE/NYw6oj5E/fzQBMkBhV+oALYa0BhDMm
+X-Google-Smtp-Source: AKy350YjWLscbwVhFIA5zOqVl+R3X1rOtnSWflmIdVsplRtCwW+VTKaywVsG0DkJTd1l0f6vS0+koiJtyZhXOfCyLMo=
+X-Received: by 2002:a05:6870:a70e:b0:177:9a66:2a88 with SMTP id
+ g14-20020a056870a70e00b001779a662a88mr2986637oam.45.1682057997051; Thu, 20
+ Apr 2023 23:19:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1682057176-19939-1-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1682057176-19939-1-git-send-email-wangmy@fujitsu.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 20 Apr 2023 23:19:31 -0700
+Message-ID: <CAMKF1sqsUoTbnvidb4uZ+UZqrLqb1LA=ck3gGwjwCRCfd1JYHQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] gdb: use update-alternatives for sframe-spec.info
+To: wangmy <wangmy@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Apr 2023 06:08:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180274
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Apr 2023 06:20:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180275
 
-From: Poonam Jadhav <Poonam.Jadhav@kpit.com>
+On Thu, Apr 20, 2023 at 11:06=E2=80=AFPM wangmy <wangmy@fujitsu.com> wrote:
+>
+> From: Wang Mingyu <wangmy@fujitsu.com>
+>
+> binutils also uses the doc 'sframe-spec.info'.
+>
+> binutils has a priority of 100.
 
-This already got fixed in the toolchain file that is used during development
-in https://github.com/openembedded/openembedded-core/commit/cb42802f2fe1760f894a435b07286bca3a220364
+I think binutils is right package to provide this info file. Please
+delete it in do_install of gdb. We do not need two copies.
 
-The toolchain file generated by the cmake.bbclass however does not set
-CMAKE_SYSROOT. Under certain circumstances this also leads to the error:
-`"stdlib.h: No such file or directory #include_next <stdlib.h>"`
-during the build of a recipe.
-
-An example where this accured was during the upgrade of the Apache Thrift
-recipe in meta-openembedded to 0.11.0. With this change the build works out of
-the box.
-
-CMAKE_SYSROOT must only be set when crosscompiling, otherwise it will interfere
-with the native compiler headers.
-
-Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
-
-(from http://lists.openembedded.org/pipermail/openembedded-core/2018-August/154791.html )
-
-Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
-Signed-off-by: Poonam Jadhav <ppjadhav456@gmail.com>
----
- meta/classes/cmake.bbclass | 223 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 223 insertions(+)
- create mode 100644 meta/classes/cmake.bbclass
-
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-new file mode 100644
-index 0000000000..68326b1ea0
---- /dev/null
-+++ b/meta/classes/cmake.bbclass
-@@ -0,0 +1,223 @@
-+# Path to the CMake file to process.
-+OECMAKE_SOURCEPATH ??= "${S}"
-+
-+DEPENDS_prepend = "cmake-native "
-+B = "${WORKDIR}/build"
-+
-+# What CMake generator to use.
-+# The supported options are "Unix Makefiles" or "Ninja".
-+OECMAKE_GENERATOR ?= "Ninja"
-+
-+python() {
-+    generator = d.getVar("OECMAKE_GENERATOR")
-+    if "Unix Makefiles" in generator:
-+        args = "-G '" + generator +  "' -DCMAKE_MAKE_PROGRAM=" + d.getVar("MAKE")
-+        d.setVar("OECMAKE_GENERATOR_ARGS", args)
-+        d.setVarFlag("do_compile", "progress", "percent")
-+    elif "Ninja" in generator:
-+        args = "-G '" + generator + "' -DCMAKE_MAKE_PROGRAM=ninja"
-+        d.appendVar("DEPENDS", " ninja-native")
-+        d.setVar("OECMAKE_GENERATOR_ARGS", args)
-+        d.setVarFlag("do_compile", "progress", r"outof:^\[(\d+)/(\d+)\]\s+")
-+    else:
-+        bb.fatal("Unknown CMake Generator %s" % generator)
-+
-+    # C/C++ Compiler (without cpu arch/tune arguments)
-+    if not d.getVar('OECMAKE_C_COMPILER'):
-+        cc_list = d.getVar('CC').split()
-+        if cc_list[0] == 'ccache':
-+            d.setVar('OECMAKE_C_COMPILER_LAUNCHER', cc_list[0])
-+            d.setVar('OECMAKE_C_COMPILER', cc_list[1])
-+        else:
-+            d.setVar('OECMAKE_C_COMPILER', cc_list[0])
-+
-+    if not d.getVar('OECMAKE_CXX_COMPILER'):
-+        cxx_list = d.getVar('CXX').split()
-+        if cxx_list[0] == 'ccache':
-+            d.setVar('OECMAKE_CXX_COMPILER_LAUNCHER', cxx_list[0])
-+            d.setVar('OECMAKE_CXX_COMPILER', cxx_list[1])
-+        else:
-+            d.setVar('OECMAKE_CXX_COMPILER', cxx_list[0])
-+}
-+OECMAKE_AR ?= "${AR}"
-+
-+# Compiler flags
-+OECMAKE_C_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CFLAGS}"
-+OECMAKE_CXX_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CXXFLAGS}"
-+OECMAKE_C_FLAGS_RELEASE ?= "-DNDEBUG"
-+OECMAKE_CXX_FLAGS_RELEASE ?= "-DNDEBUG"
-+OECMAKE_C_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CPPFLAGS} ${LDFLAGS}"
-+OECMAKE_CXX_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CXXFLAGS} ${LDFLAGS}"
-+CXXFLAGS += "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
-+CFLAGS += "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
-+
-+OECMAKE_C_COMPILER_LAUNCHER ?= ""
-+OECMAKE_CXX_COMPILER_LAUNCHER ?= ""
-+
-+OECMAKE_RPATH ?= ""
-+OECMAKE_PERLNATIVE_DIR ??= ""
-+OECMAKE_EXTRA_ROOT_PATH ?= ""
-+
-+OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM = "ONLY"
-+OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM_class-native = "BOTH"
-+
-+EXTRA_OECMAKE_append = " ${PACKAGECONFIG_CONFARGS}"
-+
-+export CMAKE_BUILD_PARALLEL_LEVEL
-+CMAKE_BUILD_PARALLEL_LEVEL_task-compile = "${@oe.utils.parallel_make(d, False)}"
-+CMAKE_BUILD_PARALLEL_LEVEL_task-install = "${@oe.utils.parallel_make(d, True)}"
-+
-+OECMAKE_TARGET_COMPILE ?= "all"
-+OECMAKE_TARGET_INSTALL ?= "install"
-+
-+def map_host_os_to_system_name(host_os):
-+    if host_os.startswith('mingw'):
-+        return 'Windows'
-+    if host_os.startswith('linux'):
-+        return 'Linux'
-+    return host_os
-+
-+# CMake expects target architectures in the format of uname(2),
-+# which do not always match TARGET_ARCH, so all the necessary
-+# conversions should happen here.
-+def map_host_arch_to_uname_arch(host_arch):
-+    if host_arch == "powerpc":
-+        return "ppc"
-+    if host_arch == "powerpc64":
-+        return "ppc64"
-+    return host_arch
-+
-+
-+cmake_do_generate_toolchain_file() {
-+	if [ "${BUILD_SYS}" = "${HOST_SYS}" ]; then
-+		cmake_crosscompiling="set( CMAKE_CROSSCOMPILING FALSE )"
-+	else
-+		cmake_sysroot="set( CMAKE_SYSROOT \"${RECIPE_SYSROOT}\" )"
-+	fi
-+	cat > ${WORKDIR}/toolchain.cmake <<EOF
-+# CMake system name must be something like "Linux".
-+# This is important for cross-compiling.
-+$cmake_crosscompiling
-+set( CMAKE_SYSTEM_NAME ${@map_host_os_to_system_name(d.getVar('HOST_OS'))} )
-+set( CMAKE_SYSTEM_PROCESSOR ${@map_host_arch_to_uname_arch(d.getVar('HOST_ARCH'))} )
-+set( CMAKE_C_COMPILER ${OECMAKE_C_COMPILER} )
-+set( CMAKE_CXX_COMPILER ${OECMAKE_CXX_COMPILER} )
-+set( CMAKE_C_COMPILER_LAUNCHER ${OECMAKE_C_COMPILER_LAUNCHER} )
-+set( CMAKE_CXX_COMPILER_LAUNCHER ${OECMAKE_CXX_COMPILER_LAUNCHER} )
-+set( CMAKE_ASM_COMPILER ${OECMAKE_C_COMPILER} )
-+set( CMAKE_AR ${OECMAKE_AR} CACHE FILEPATH "Archiver" )
-+set( CMAKE_C_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "CFLAGS" )
-+set( CMAKE_CXX_FLAGS "${OECMAKE_CXX_FLAGS}" CACHE STRING "CXXFLAGS" )
-+set( CMAKE_ASM_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "ASM FLAGS" )
-+set( CMAKE_C_FLAGS_RELEASE "${OECMAKE_C_FLAGS_RELEASE}" CACHE STRING "Additional CFLAGS for release" )
-+set( CMAKE_CXX_FLAGS_RELEASE "${OECMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "Additional CXXFLAGS for release" )
-+set( CMAKE_ASM_FLAGS_RELEASE "${OECMAKE_C_FLAGS_RELEASE}" CACHE STRING "Additional ASM FLAGS for release" )
-+set( CMAKE_C_LINK_FLAGS "${OECMAKE_C_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
-+set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_CXX_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
-+
-+# only search in the paths provided so cmake doesnt pick
-+# up libraries and tools from the native build machine
-+set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${STAGING_DIR_NATIVE} ${CROSS_DIR} ${OECMAKE_PERLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH} ${EXTERNAL_TOOLCHAIN} ${HOSTTOOLS_DIR})
-+set( CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY )
-+set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ${OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM} )
-+set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
-+set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
-+set( CMAKE_PROGRAM_PATH "/" )
-+
-+$cmake_sysroot
-+
-+# Use qt.conf settings
-+set( ENV{QT_CONF_PATH} ${WORKDIR}/qt.conf )
-+
-+# We need to set the rpath to the correct directory as cmake does not provide any
-+# directory as rpath by default
-+set( CMAKE_INSTALL_RPATH ${OECMAKE_RPATH} )
-+
-+# Use RPATHs relative to build directory for reproducibility
-+set( CMAKE_BUILD_RPATH_USE_ORIGIN ON )
-+
-+# Use our cmake modules
-+list(APPEND CMAKE_MODULE_PATH "${STAGING_DATADIR}/cmake/Modules/")
-+
-+# add for non /usr/lib libdir, e.g. /usr/lib64
-+set( CMAKE_LIBRARY_PATH ${libdir} ${base_libdir})
-+
-+# add include dir to implicit includes in case it differs from /usr/include
-+list(APPEND CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES ${includedir})
-+list(APPEND CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES ${includedir})
-+
-+EOF
-+}
-+
-+addtask generate_toolchain_file after do_patch before do_configure
-+
-+CONFIGURE_FILES = "CMakeLists.txt"
-+
-+cmake_do_configure() {
-+	if [ "${OECMAKE_BUILDPATH}" ]; then
-+		bbnote "cmake.bbclass no longer uses OECMAKE_BUILDPATH.  The default behaviour is now out-of-tree builds with B=WORKDIR/build."
-+	fi
-+
-+	if [ "${S}" != "${B}" ]; then
-+		rm -rf ${B}
-+		mkdir -p ${B}
-+		cd ${B}
-+	else
-+		find ${B} -name CMakeFiles -or -name Makefile -or -name cmake_install.cmake -or -name CMakeCache.txt -delete
-+	fi
-+
-+	# Just like autotools cmake can use a site file to cache result that need generated binaries to run
-+	if [ -e ${WORKDIR}/site-file.cmake ] ; then
-+		oecmake_sitefile="-C ${WORKDIR}/site-file.cmake"
-+	else
-+		oecmake_sitefile=
-+	fi
-+
-+	cmake \
-+	  ${OECMAKE_GENERATOR_ARGS} \
-+	  $oecmake_sitefile \
-+	  ${OECMAKE_SOURCEPATH} \
-+	  -DCMAKE_INSTALL_PREFIX:PATH=${prefix} \
-+	  -DCMAKE_INSTALL_BINDIR:PATH=${@os.path.relpath(d.getVar('bindir'), d.getVar('prefix') + '/')} \
-+	  -DCMAKE_INSTALL_SBINDIR:PATH=${@os.path.relpath(d.getVar('sbindir'), d.getVar('prefix') + '/')} \
-+	  -DCMAKE_INSTALL_LIBEXECDIR:PATH=${@os.path.relpath(d.getVar('libexecdir'), d.getVar('prefix') + '/')} \
-+	  -DCMAKE_INSTALL_SYSCONFDIR:PATH=${sysconfdir} \
-+	  -DCMAKE_INSTALL_SHAREDSTATEDIR:PATH=${@os.path.relpath(d.getVar('sharedstatedir'), d.  getVar('prefix') + '/')} \
-+	  -DCMAKE_INSTALL_LOCALSTATEDIR:PATH=${localstatedir} \
-+	  -DCMAKE_INSTALL_LIBDIR:PATH=${@os.path.relpath(d.getVar('libdir'), d.getVar('prefix') + '/')} \
-+	  -DCMAKE_INSTALL_INCLUDEDIR:PATH=${@os.path.relpath(d.getVar('includedir'), d.getVar('prefix') + '/')} \
-+	  -DCMAKE_INSTALL_DATAROOTDIR:PATH=${@os.path.relpath(d.getVar('datadir'), d.getVar('prefix') + '/')} \
-+	  -DPYTHON_EXECUTABLE:PATH=${PYTHON} \
-+	  -DPython_EXECUTABLE:PATH=${PYTHON} \
-+	  -DPython3_EXECUTABLE:PATH=${PYTHON} \
-+	  -DLIB_SUFFIX=${@d.getVar('baselib').replace('lib', '')} \
-+	  -DCMAKE_INSTALL_SO_NO_EXE=0 \
-+	  -DCMAKE_TOOLCHAIN_FILE=${WORKDIR}/toolchain.cmake \
-+	  -DCMAKE_NO_SYSTEM_FROM_IMPORTED=1 \
-+	  ${EXTRA_OECMAKE} \
-+	  -Wno-dev
-+}
-+
-+# To disable verbose cmake logs for a given recipe or globally config metadata e.g. local.conf
-+# add following
-+#
-+# CMAKE_VERBOSE = ""
-+#
-+
-+CMAKE_VERBOSE ??= "VERBOSE=1"
-+
-+# Then run do_compile again
-+cmake_runcmake_build() {
-+	bbnote ${DESTDIR:+DESTDIR=${DESTDIR} }${CMAKE_VERBOSE} cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
-+	eval ${DESTDIR:+DESTDIR=${DESTDIR} }${CMAKE_VERBOSE} cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
-+}
-+
-+cmake_do_compile()  {
-+	cmake_runcmake_build --target ${OECMAKE_TARGET_COMPILE}
-+}
-+
-+cmake_do_install() {
-+	DESTDIR='${D}' cmake_runcmake_build --target ${OECMAKE_TARGET_INSTALL}
-+}
-+
-+EXPORT_FUNCTIONS do_configure do_compile do_install do_generate_toolchain_file
--- 
-2.25.1
-
+>
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  meta/recipes-devtools/gdb/gdb-common.inc | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devt=
+ools/gdb/gdb-common.inc
+> index 925b0c2f80..338d1650d2 100644
+> --- a/meta/recipes-devtools/gdb/gdb-common.inc
+> +++ b/meta/recipes-devtools/gdb/gdb-common.inc
+> @@ -53,6 +53,12 @@ do_configure () {
+>
+>  # we don't want gdb to provide bfd/iberty/opcodes, which instead will ov=
+erride the
+>  # right bits installed by binutils.  Same for bfd.info -- also from binu=
+tils.
+> +inherit update-alternatives
+> +
+> +ALTERNATIVE_PRIORITY =3D "50"
+> +ALTERNATIVE:${PN}-doc =3D "sframe-spec"
+> +ALTERNATIVE_LINK_NAME[sframe-spec] =3D "${infodir}/sframe-spec.info"
+> +
+>  do_install:append() {
+>         rm -rf ${D}${libdir}
+>         rm -rf ${D}${includedir}
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#180272): https://lists.openembedded.org/g/openembedde=
+d-core/message/180272
+> Mute This Topic: https://lists.openembedded.org/mt/98405289/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
