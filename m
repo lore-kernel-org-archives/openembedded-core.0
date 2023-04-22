@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B33C9C77B7F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CB99C6FD18
 	for <webhook@archiver.kernel.org>; Sat, 22 Apr 2023 15:54:59 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.10293.1682178893075932394
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.10296.1682178896861703920
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Apr 2023 08:54:53 -0700
+ Sat, 22 Apr 2023 08:54:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=xbfSrBVS;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1a67bcde3a7so34611585ad.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 22 Apr 2023 08:54:53 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=BrV+8Yzy;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1a686260adcso34946035ad.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 22 Apr 2023 08:54:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1682178892; x=1684770892;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1682178896; x=1684770896;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Ibe4sE/z4qA8aYoR3a3Ndn/KiaKklsxlSgZtqM9qlzs=;
-        b=xbfSrBVS2160mvxCh7JSiXLEmLOi76f9zpkw/0xnZfA9C8njhkGz9rkgIQtBjOKkPB
-         dEepJkUpatDu8N0LqSRYgXj54XpC+t7z5tjeIoPuyfNcmS1cVB3390WUKdq8ii4LGaOY
-         ZXv3lQqhQw/BP0R6P/RqegYumjNP9Syoa+yOUFoGZkzr5+/df95jhdT1F1qCu7euAO6q
-         QUIYkzHWJ16D4m/5BGCOr3n1MqdPKCzB8VVlBQYDjeWgIDe03I6lpNG47VAWV14WT8PJ
-         KmxxJFt4usWu2szpVKHQlcvdKoasE0r+np1xfH/MFeIUc38/k9jEkEst93vQP9K9liJV
-         X0mg==
+        bh=oiU/+OJ1+NTRsOIuMwE2sdY2j7LBza6ASYTNd6CifPA=;
+        b=BrV+8YzyGBnES7qyyEc80GtjrbMk4iXsLAavS1840W7Ra1dLOI7Po64XGNAXymqpQf
+         cva5GDl0K3J7g1k7On1C3HlM9BAcYT7WDHZc3MeEPy9rMl2npPG393qAJszHwpyKYUvz
+         1SdG4wGw/TVL/vt+Hf2xAaowKGLSvsDvqKPTCzideSXKq+gOxtkcBTfcnJRUFZtdm6d3
+         mRpSRh3zTPMihr8tj09kJzxiaj1xJlx636VXhFZupVATrXq6ls9qOB4J/dnQVavrnYP7
+         gEafaARNGUr7ka/fO8ephgSyhVjRgUWb4rcYgD9hW/BCQFZUhGzoEEYJo+QwvwaVI5HG
+         uwtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682178892; x=1684770892;
+        d=1e100.net; s=20221208; t=1682178896; x=1684770896;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ibe4sE/z4qA8aYoR3a3Ndn/KiaKklsxlSgZtqM9qlzs=;
-        b=Y5CfNjAQE0ciF3v607VdNyIo170NfKb/oCOGPOkr/EOFd0spvcoywFJSeFLmWcxHk1
-         uExyjogyOopAw/sz+1kJsRgD6ZA0FopS57H7NWU+2ka0xDKwFlwIdyr1KLryqVVsQbaB
-         tHo2hI0LuHgjNXwhkXjhBUVmpIrd0NOqCysgeiP0JzphMqLUu2cWCjdLat/AnVeAjZdJ
-         PLuskQWxHMyE5d7l52P5c67f0a0AUMJi08tgBxd8afzCc+VLv3loYcvTA3N7+m8dryd7
-         7lqy9vAwoWashQkiBkCW5Ytx4ZTqOSNRriW3vxeYXMH3I48cW6Ufzip9S3beVtFslOAB
-         XluQ==
-X-Gm-Message-State: AAQBX9dsuRZ8KMq6RoEdTWjdxuDsH0hFLJjyXzeJdKln8HA0vYwGTHWj
-	mbQbMUR02exfxqDBcOBz8i1j7hZs9aL4boy6eI0=
-X-Google-Smtp-Source: AKy350Zaa49e99p84QXMY/g7qq9aR2c44jMAla3Oi2tKq2b+tGcVqg+eAR8HH3VpVxelQut/dqkRWA==
-X-Received: by 2002:a17:902:e742:b0:1a9:1b4:9fd5 with SMTP id p2-20020a170902e74200b001a901b49fd5mr9793057plf.68.1682178892120;
-        Sat, 22 Apr 2023 08:54:52 -0700 (PDT)
+        bh=oiU/+OJ1+NTRsOIuMwE2sdY2j7LBza6ASYTNd6CifPA=;
+        b=jgGnttH4oMJg9VqrT4CgsWhb68lXezqEFIMXcV7I8729Dy2hNG5/H8wNPhWP92l4jX
+         zOdC+GK6CrsdMLstYWtqnQjOMFt+Jo8LGDPAitT/Of7uItoQGl6eKfs6wmZZjYMFcNno
+         XULiN0B7ZHIwQxpYwC5eBeAksPQUpRsrFK6ANx8ODYLSzk/n6FOd5PmqtfFYqWmQfGTn
+         Hb8YhgRKBK4LYFKQli0ZVeyu1lEHYzwDKYMgqQyJECC8j0nelFdJs6q6d6qj7qsmjfHc
+         Kf5AdG+ngbRkyx0o0EITI36PTVYD0gkAQT9hOLfHPyL0/gW7K14vFZ7unOXlI+Rip8m7
+         zn7A==
+X-Gm-Message-State: AAQBX9ci6cN8Z99y+8PL/kGeNAe7vtsrF+fQhDbc3tX7tr5eV2pjK1wd
+	7akFjlZPpw/WO5M4Ke/5QNXF/+oK9gxWwc089Uw=
+X-Google-Smtp-Source: AKy350bpUsaw9/0skuBeeQFozQqDMbyM7BKJddozsMG/YGWQn9MUaSlcPtIJUHRmKOskKZ6aWf12Kw==
+X-Received: by 2002:a17:902:f292:b0:1a6:b247:4316 with SMTP id k18-20020a170902f29200b001a6b2474316mr8300774plc.62.1682178895969;
+        Sat, 22 Apr 2023 08:54:55 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id e12-20020a170902d38c00b001a686578b44sm4205342pld.110.2023.04.22.08.54.51
+        by smtp.gmail.com with ESMTPSA id e12-20020a170902d38c00b001a686578b44sm4205342pld.110.2023.04.22.08.54.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Apr 2023 08:54:51 -0700 (PDT)
+        Sat, 22 Apr 2023 08:54:55 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 1/8] ruby: CVE-2023-28756 ReDoS vulnerability in Time
-Date: Sat, 22 Apr 2023 05:54:33 -1000
-Message-Id: <0f8eb0505e19ccd27e1b91f27285a9fc87f2aa93.1682178752.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 3/8] cargo : non vulnerable cve-2022-46176 added to excluded list
+Date: Sat, 22 Apr 2023 05:54:35 -1000
+Message-Id: <7e4037fd0a66a860b4809be72a89e2de97960a17.1682178752.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1682178752.git.steve@sakoman.com>
 References: <cover.1682178752.git.steve@sakoman.com>
@@ -61,111 +61,37 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 22 Apr 2023 15:54:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180303
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180305
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
 
-Upstream-Status: Backport from https://github.com/ruby/ruby/commit/957bb7cb81995f26c671afce0ee50a5c660e540e
+This cve (https://nvd.nist.gov/vuln/detail/CVE-2022-46176) is a security vulnirability when using cargo ssh.
+Kirkstone doesn't support rust on-target images and the bitbake using the 'wget' (which uses 'https') for fetching the sources instead of ssh.
+So, cargo-native also not vulnerable to this cve and so added to excluded list.
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
+Acked-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../ruby/ruby/CVE-2023-28756.patch            | 73 +++++++++++++++++++
- meta/recipes-devtools/ruby/ruby_3.1.3.bb      |  1 +
- 2 files changed, 74 insertions(+)
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2023-28756.patch
+ meta/conf/distro/include/cve-extra-exclusions.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2023-28756.patch b/meta/recipes-devtools/ruby/ruby/CVE-2023-28756.patch
-new file mode 100644
-index 0000000000..cf24b13f53
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/CVE-2023-28756.patch
-@@ -0,0 +1,73 @@
-+From 957bb7cb81995f26c671afce0ee50a5c660e540e Mon Sep 17 00:00:00 2001
-+From: Hiroshi SHIBATA <hsbt@ruby-lang.org>
-+Date: Wed, 29 Mar 2023 13:28:25 +0900
-+Subject: [PATCH] CVE-2023-28756
-+
-+CVE: CVE-2023-28756
-+Upstream-Status: Backport [https://github.com/ruby/ruby/commit/957bb7cb81995f26c671afce0ee50a5c660e540e]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ lib/time.gemspec  | 2 +-
-+ lib/time.rb       | 6 +++---
-+ test/test_time.rb | 9 +++++++++
-+ 3 files changed, 13 insertions(+), 4 deletions(-)
-+
-+diff --git a/lib/time.gemspec b/lib/time.gemspec
-+index 72fba34..bada91a 100644
-+--- a/lib/time.gemspec
-++++ b/lib/time.gemspec
-+@@ -1,6 +1,6 @@
-+ Gem::Specification.new do |spec|
-+   spec.name          = "time"
-+-  spec.version       = "0.2.0"
-++  spec.version       = "0.2.2"
-+   spec.authors       = ["Tanaka Akira"]
-+   spec.email         = ["akr@fsij.org"]
-+ 
-+diff --git a/lib/time.rb b/lib/time.rb
-+index bd20a1a..6a13212 100644
-+--- a/lib/time.rb
-++++ b/lib/time.rb
-+@@ -509,8 +509,8 @@ class Time
-+           (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+
-+           (\d{2,})\s+
-+           (\d{2})\s*
-+-          :\s*(\d{2})\s*
-+-          (?::\s*(\d{2}))?\s+
-++          :\s*(\d{2})
-++          (?:\s*:\s*(\d\d))?\s+
-+           ([+-]\d{4}|
-+            UT|GMT|EST|EDT|CST|CDT|MST|MDT|PST|PDT|[A-IK-Z])/ix =~ date
-+         # Since RFC 2822 permit comments, the regexp has no right anchor.
-+@@ -701,7 +701,7 @@ class Time
-+   #
-+   # If self is a UTC time, Z is used as TZD.  [+-]hh:mm is used otherwise.
-+   #
-+-  # +fractional_digits+ specifies a number of digits to use for fractional
-++  # +fraction_digits+ specifies a number of digits to use for fractional
-+   # seconds.  Its default value is 0.
-+   #
-+   #     require 'time'
-+diff --git a/test/test_time.rb b/test/test_time.rb
-+index b50d841..23e8e10 100644
-+--- a/test/test_time.rb
-++++ b/test/test_time.rb
-+@@ -62,6 +62,15 @@ class TestTimeExtension < Test::Unit::TestCase # :nodoc:
-+     assert_equal(true, t.utc?)
-+   end
-+ 
-++  def test_rfc2822_nonlinear
-++    pre = ->(n) {"0 Feb 00 00 :00" + " " * n}
-++    assert_linear_performance([100, 500, 5000, 50_000], pre: pre) do |s|
-++      assert_raise(ArgumentError) do
-++        Time.rfc2822(s)
-++      end
-++    end
-++  end
-++
-+   if defined?(Ractor)
-+     def test_rfc2822_ractor
-+       assert_ractor(<<~RUBY, require: 'time')
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/ruby/ruby_3.1.3.bb b/meta/recipes-devtools/ruby/ruby_3.1.3.bb
-index c8454da3a9..92efc5db91 100644
---- a/meta/recipes-devtools/ruby/ruby_3.1.3.bb
-+++ b/meta/recipes-devtools/ruby/ruby_3.1.3.bb
-@@ -29,6 +29,7 @@ SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
-            file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch \
-            file://0006-Make-gemspecs-reproducible.patch \
-            file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch \
-+           file://CVE-2023-28756.patch \
-            "
- UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
+diff --git a/meta/conf/distro/include/cve-extra-exclusions.inc b/meta/conf/distro/include/cve-extra-exclusions.inc
+index 8b5f8d49b8..cb2d920441 100644
+--- a/meta/conf/distro/include/cve-extra-exclusions.inc
++++ b/meta/conf/distro/include/cve-extra-exclusions.inc
+@@ -15,6 +15,11 @@
+ # the aim of sharing that work and ensuring we don't duplicate it.
+ #
  
++#cargo https://nvd.nist.gov/vuln/detail/CVE-2022-46176
++#cargo security advisor https://blog.rust-lang.org/2023/01/10/cve-2022-46176.html
++#This CVE is a security issue when using cargo ssh. In kirkstone, rust 1.59.0 is used and the rust on-target is not supported, so the target images are not vulnerable to the cve.
++#The bitbake using the 'wget' (which uses 'https') for fetching the sources instead of ssh. So, the cargo-native are also not vulnerable to this cve and so added to excluded list.
++CVE_CHECK_IGNORE += "CVE-2022-46176"
+ 
+ # strace https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0006
+ # CVE is more than 20 years old with no resolution evident
 -- 
 2.34.1
 
