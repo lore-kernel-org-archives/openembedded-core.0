@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F860C7618E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F8B8C77B76
 	for <webhook@archiver.kernel.org>; Sat, 22 Apr 2023 15:58:29 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web11.10376.1682179098180738074
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web10.10403.1682179104071513233
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Apr 2023 08:58:21 -0700
+ Sat, 22 Apr 2023 08:58:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=R5MO/kG7;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-63d4595d60fso19807462b3a.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 22 Apr 2023 08:58:21 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=j9OX+u+F;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1a920d484bdso26690425ad.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 22 Apr 2023 08:58:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1682179101; x=1684771101;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1682179103; x=1684771103;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CeWuTEfoFMKwzf+T85+9MRGaHNVOwyHhDjfMl0AQm0Q=;
-        b=R5MO/kG7SNXg9zvnTEQiBJWXGmr7lktiqXCm6f6XNtkz061Jcr7W5TUv+gEncNNsKY
-         NVoP7jbBUtQ2/MLrdanJfI8mxLHqJg7iYM5oMwVzOhlCWAF8KP01VCXpsjlP4ZxrRw4f
-         +bKD7lglnZH6Cdgiq91jt7PBHFChgNm5nzUXLlHqzdxUZQr/fTQmLkCutVWA1pHOH3eO
-         eF4rg0NO38gyMPbbpP/Rvk/xfy7sVML67KtofeXKqPTGI2O2+6PLsHoeOeeSrq/syFx+
-         GinafsvUIsXkeDsy8YAQN4EojnHtW33SaTscaxkf38XZiLzg0vw1Deyeau6qKYHTBQpv
-         oXdg==
+        bh=t3yUQiSy43PLSomVgoEr1XAZ3U8MaTa4kFbrKxML/qg=;
+        b=j9OX+u+Fg2ZisjOXyr42QAPlpcKBfQ3GPMmrpqrqSlEFiBjkfqGP1cRB0GmJQaYRtB
+         5pOYWukPXo3pzBDXgPJuw/jl5rrmE0RSxta3V/NAFDTV9PycyBjVVtgeg5dIxn16yQn5
+         Kg0dzog8fXgwA3EFnrQE8Yay3np/t26Zdv7CSJmi8Lhe7RORsysUK7QWdiesll1c3XEG
+         Kha/33oJZcsZh04XlggSgz7m5zyXZviY3X3HafLJMV6tzsy5jtW/8ox9kkUrF8ExPrV4
+         s2JofKfRtUxlJVO138Y4irINSL1tdKQp809kyq42yFl+JJvqULka9Rv7hA7zQQWpkQik
+         GFbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682179101; x=1684771101;
+        d=1e100.net; s=20221208; t=1682179103; x=1684771103;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CeWuTEfoFMKwzf+T85+9MRGaHNVOwyHhDjfMl0AQm0Q=;
-        b=GvoJaEQPLiUms8p+5RqomzAKWDolTyPXjcQN8yIYHi3zV3vHmcZ/lq+0zvmSydkCtJ
-         CCNsD6dfCba6vSiVAfHdnxYzcKiqPkRI7HSCcHDtCthXi7UpU0USUlL4aiMbddiXmL0Y
-         6OVwso8vX+w+U5859KJF5pNTo8+Itut78fLYSrkQUEPoqh5yUCNzTJU68YpEG6Ab444v
-         OdyQq6qyIyu7xjVn5hgulPoHoao9FOxKuFm3k74dc4yOTkddCw1oHWciyxSmkfX61RmZ
-         4fxGfaAksHoOHQwrg/3Mdxn+JT8FejnjIm99j4o7wnPa3SO9RdCpIGEZ6jq0mAK4JayC
-         5Bng==
-X-Gm-Message-State: AAQBX9fzuzObyCz8OxXYabTYBo+7zwSQiJDWe/qdryFNkEQciq7fejlU
-	k1CJutySV3RQuWXKAgO6Osw7Cee6tSIA8xcuQSc=
-X-Google-Smtp-Source: AKy350ZA5DdBaBLwyJShV+ae9zsRzTy9QxHhqbE4A1KBbfSKlUBwkq8bWlC9trAvIZdhnc/s1nGofA==
-X-Received: by 2002:a17:902:d50f:b0:1a9:4cd5:e7e0 with SMTP id b15-20020a170902d50f00b001a94cd5e7e0mr6196273plg.17.1682179100981;
-        Sat, 22 Apr 2023 08:58:20 -0700 (PDT)
+        bh=t3yUQiSy43PLSomVgoEr1XAZ3U8MaTa4kFbrKxML/qg=;
+        b=FWQh/GQ5oJndQXuZ9UhE84jZFu+JdRoi+NaqbMDvp7IHp4ozgLkwg+TNGYGFX670EJ
+         70vKQC3uI+PdEclUWC9L+d7LgajWmaaA48tP4CM23R48t5eW20WBsxaCOOM+aeA6Xwfp
+         SMAadze2I8EN96kDLrwCny4UdinaWPeGhr1+VZvSmQlDeMZHrnDD+DBjjCZAGkuEtLbW
+         J6vkNVbTGqjL2r1xjwa3thCBNzhGPqSOTrfpNk9hy7pwDAefmMSKt78OmFjyTpIkS+dB
+         2MxRCAy+AZe/gCjYXaPmwSqN6lSp6CSSxG5WCqo2gCPzRpnzCORPEv4s8wv9pS4LHafA
+         Zq6g==
+X-Gm-Message-State: AAQBX9fVWV077dS7oabO0oKuN/5RHQhm8Jddr/w9MaLjvmnzFLY4PgS7
+	5B/ZrQ9Gltuan5nghLzh08qiKrwPZLz2/xoxwMc=
+X-Google-Smtp-Source: AKy350a5LidB7R7n3bG/ADaJpggaoOfu8vE2tw2XMyxA8pe/piwo14wfAtId+oFpSARkgjgxFxLCbw==
+X-Received: by 2002:a17:903:24c:b0:1a6:b1a2:5f21 with SMTP id j12-20020a170903024c00b001a6b1a25f21mr11423539plh.8.1682179103098;
+        Sat, 22 Apr 2023 08:58:23 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id t13-20020a1709028c8d00b001a4fe00a8d4sm4189412plo.90.2023.04.22.08.58.20
+        by smtp.gmail.com with ESMTPSA id t13-20020a1709028c8d00b001a4fe00a8d4sm4189412plo.90.2023.04.22.08.58.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Apr 2023 08:58:20 -0700 (PDT)
+        Sat, 22 Apr 2023 08:58:22 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 6/7] go: Security fix for CVE-2020-29510
-Date: Sat, 22 Apr 2023 05:58:03 -1000
-Message-Id: <76d855f3d2c250ac85ca6f24bf0e178fb32607f9.1682178944.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 7/7] go: fix CVE-2023-24537 Infinite loop in parsing
+Date: Sat, 22 Apr 2023 05:58:04 -1000
+Message-Id: <d1943e6a0ec00653c81cd4c0bb0d6b7e0909094c.1682178944.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1682178944.git.steve@sakoman.com>
 References: <cover.1682178944.git.steve@sakoman.com>
@@ -61,105 +61,118 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 22 Apr 2023 15:58:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180317
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180318
 
-From: Shubham Kulkarni <skulkarni@mvista.com>
+From: Vivek Kumbhar <vkumbhar@mvista.com>
 
-encoding/xml: replace comments inside directives with a space
+Setting a large line or column number using a //line directive can cause
+integer overflow even in small source files.
 
-Backport from https://github.com/golang/go/commit/a9cfd55e2b09735a25976d1b008a0a3c767494f8
+Limit line and column numbers in //line directives to 2^30-1, which
+is small enough to avoid int32 overflow on all reasonbly-sized files.
 
-Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
  meta/recipes-devtools/go/go-1.14.inc          |  1 +
- .../go/go-1.14/CVE-2020-29510.patch           | 65 +++++++++++++++++++
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2020-29510.patch
+ .../go/go-1.14/CVE-2023-24537.patch           | 76 +++++++++++++++++++
+ 2 files changed, 77 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-24537.patch
 
 diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
-index 8df9d62612..7178739b7e 100644
+index 7178739b7e..56f4f12c37 100644
 --- a/meta/recipes-devtools/go/go-1.14.inc
 +++ b/meta/recipes-devtools/go/go-1.14.inc
-@@ -55,6 +55,7 @@ SRC_URI += "\
-     file://CVE-2022-41723.patch \
+@@ -56,6 +56,7 @@ SRC_URI += "\
      file://CVE-2022-41722-1.patch \
      file://CVE-2022-41722-2.patch \
-+    file://CVE-2020-29510.patch \
+     file://CVE-2020-29510.patch \
++    file://CVE-2023-24537.patch \
  "
  
  SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
-diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2020-29510.patch b/meta/recipes-devtools/go/go-1.14/CVE-2020-29510.patch
+diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-24537.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-24537.patch
 new file mode 100644
-index 0000000000..e1c9e0bdb9
+index 0000000000..e04b717fc1
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.14/CVE-2020-29510.patch
-@@ -0,0 +1,65 @@
-+From a0bf4d38dc2057d28396594264bbdd43d412de22 Mon Sep 17 00:00:00 2001
-+From: Filippo Valsorda <filippo@golang.org>
-+Date: Tue, 27 Oct 2020 00:21:30 +0100
-+Subject: [PATCH] encoding/xml: replace comments inside directives with a space
++++ b/meta/recipes-devtools/go/go-1.14/CVE-2023-24537.patch
+@@ -0,0 +1,76 @@
++From bf8c7c575c8a552d9d79deb29e80854dc88528d0 Mon Sep 17 00:00:00 2001
++From: Damien Neil <dneil@google.com>
++Date: Mon, 20 Mar 2023 10:43:19 -0700
++Subject: [PATCH] [release-branch.go1.20] mime/multipart: limit parsed mime
++ message sizes
 +
-+A Directive (like <!ENTITY xxx []>) can't have other nodes nested inside
-+it (in our data structure representation), so there is no way to
-+preserve comments. The previous behavior was to just elide them, which
-+however might change the semantic meaning of the surrounding markup.
-+Instead, replace them with a space which hopefully has the same semantic
-+effect of the comment.
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1802456
++Reviewed-by: Julie Qiu <julieqiu@google.com>
++Reviewed-by: Roland Shoemaker <bracewell@google.com>
++Run-TryBot: Damien Neil <dneil@google.com>
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1802611
++Reviewed-by: Damien Neil <dneil@google.com>
++Change-Id: Ifdfa192d54f722d781a4d8c5f35b5fb72d122168
++Reviewed-on: https://go-review.googlesource.com/c/go/+/481986
++Reviewed-by: Matthew Dempsky <mdempsky@google.com>
++TryBot-Result: Gopher Robot <gobot@golang.org>
++Run-TryBot: Michael Knyszek <mknyszek@google.com>
++Auto-Submit: Michael Knyszek <mknyszek@google.com>
 +
-+Directives are not actually a node type in the XML spec, which instead
-+specifies each of them separately (<!ENTITY, <!DOCTYPE, etc.), each with
-+its own grammar. The rules for where and when the comments are allowed
-+are not straightforward, and can't be implemented without implementing
-+custom logic for each of the directives.
-+
-+Simply preserving the comments in the body of the directive would be
-+problematic, as there can be unmatched quotes inside the comment.
-+Whether those quotes are considered meaningful semantically or not,
-+other parsers might disagree and interpret the output differently.
-+
-+This issue was reported by Juho Nurminen of Mattermost as it leads to
-+round-trip mismatches. See #43168. It's not being fixed in a security
-+release because round-trip stability is not a currently supported
-+security property of encoding/xml, and we don't believe these fixes
-+would be sufficient to reliably guarantee it in the future.
-+
-+Fixes CVE-2020-29510
-+Updates #43168
-+
-+Change-Id: Icd86c75beff3e1e0689543efebdad10ed5178ce3
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/277893
-+Run-TryBot: Filippo Valsorda <filippo@golang.org>
-+TryBot-Result: Go Bot <gobot@golang.org>
-+Trust: Filippo Valsorda <filippo@golang.org>
-+Reviewed-by: Katie Hockman <katie@golang.org>
-+
-+Upstream-Status: Backport from https://github.com/golang/go/commit/a9cfd55e2b09735a25976d1b008a0a3c767494f8
-+CVE: CVE-2020-29510
-+Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
++Upstream-Status: Backport [https://github.com/golang/go/commit/126a1d02da82f93ede7ce0bd8d3c51ef627f2104]
++CVE: CVE-2023-24537
++Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
 +---
-+ src/encoding/xml/xml.go | 6 ++++++
-+ 1 file changed, 6 insertions(+)
++ src/go/parser/parser_test.go | 16 ++++++++++++++++
++ src/go/scanner/scanner.go    |  5 ++++-
++ 2 files changed, 20 insertions(+), 1 deletion(-)
 +
-+diff --git a/src/encoding/xml/xml.go b/src/encoding/xml/xml.go
-+index 01a1460..98647b2 100644
-+--- a/src/encoding/xml/xml.go
-++++ b/src/encoding/xml/xml.go
-+@@ -768,6 +768,12 @@ func (d *Decoder) rawToken() (Token, error) {
-+					}
-+					b0, b1 = b1, b
-+				}
++diff --git a/src/go/parser/parser_test.go b/src/go/parser/parser_test.go
++index 37a6a2b..714557c 100644
++--- a/src/go/parser/parser_test.go
+++++ b/src/go/parser/parser_test.go
++@@ -738,3 +738,19 @@ func TestScopeDepthLimit(t *testing.T) {
++ 		}
++ 	}
++ }
 ++
-++				// Replace the comment with a space in the returned Directive
-++				// body, so that markup parts that were separated by the comment
-++				// (like a "<" and a "!") don't get joined when re-encoding the
-++				// Directive, taking new semantic meaning.
-++				d.buf.WriteByte(' ')
-+			}
-+		}
-+		return Directive(d.buf.Bytes()), nil
-+--
-+2.7.4
+++// TestIssue59180 tests that line number overflow doesn't cause an infinite loop.
+++func TestIssue59180(t *testing.T) {
+++	testcases := []string{
+++		"package p\n//line :9223372036854775806\n\n//",
+++		"package p\n//line :1:9223372036854775806\n\n//",
+++		"package p\n//line file:9223372036854775806\n\n//",
+++	}
+++
+++	for _, src := range testcases {
+++		_, err := ParseFile(token.NewFileSet(), "", src, ParseComments)
+++		if err == nil {
+++			t.Errorf("ParseFile(%s) succeeded unexpectedly", src)
+++		}
+++	}
+++}
++diff --git a/src/go/scanner/scanner.go b/src/go/scanner/scanner.go
++index 00fe2dc..3159d25 100644
++--- a/src/go/scanner/scanner.go
+++++ b/src/go/scanner/scanner.go
++@@ -246,13 +246,16 @@ func (s *Scanner) updateLineInfo(next, offs int, text []byte) {
++ 		return
++ 	}
++ 
+++	// Put a cap on the maximum size of line and column numbers.
+++	// 30 bits allows for some additional space before wrapping an int32.
+++	const maxLineCol = 1<<30 - 1
++ 	var line, col int
++ 	i2, n2, ok2 := trailingDigits(text[:i-1])
++ 	if ok2 {
++ 		//line filename:line:col
++ 		i, i2 = i2, i
++ 		line, col = n2, n
++-		if col == 0 {
+++		if col == 0 || col > maxLineCol {
++ 			s.error(offs+i2, "invalid column number: "+string(text[i2:]))
++ 			return
++ 		}
++-- 
++2.25.1
++
 -- 
 2.34.1
 
