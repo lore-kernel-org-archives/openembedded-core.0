@@ -1,105 +1,111 @@
-Return-Path: <denis@denix.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30046C77B78
-	for <webhook@archiver.kernel.org>; Sat, 22 Apr 2023 22:07:51 +0000 (UTC)
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web10.17445.1682201263417056890
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 740C3C77B78
+	for <webhook@archiver.kernel.org>; Sat, 22 Apr 2023 22:22:51 +0000 (UTC)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web10.17715.1682202165880233518
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Apr 2023 15:07:43 -0700
+ Sat, 22 Apr 2023 15:22:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 9E83340301;
-	Sat, 22 Apr 2023 22:07:42 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 59duwN6YUZwJ; Sat, 22 Apr 2023 22:07:42 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-88-116.washdc.fios.verizon.net [100.15.88.116])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 7FAB140021;
-	Sat, 22 Apr 2023 22:07:41 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 043D6163831; Sat, 22 Apr 2023 18:07:02 -0400 (EDT)
-Date: Sat, 22 Apr 2023 18:07:01 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Petr =?utf-8?B?S3ViaXrFiMOhaw==?= <kubiznak@2n.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core][PATCH v3] devicetree.bbclass: Allow selection of dts
- files to build
-Message-ID: <20230422220701.GD9226@denix.org>
-References: <20230421152325.3327461-1-kubiznak@2n.com>
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=QYJRwBUl;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.41, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-95369921f8eso444929266b.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 22 Apr 2023 15:22:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1682202164; x=1684794164;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1WAQdGHYIgJcPuuqjHUIi7o6Ag3vIytbgWuF88a+RGk=;
+        b=QYJRwBUlt+bF+TwJM/mAjjbTR0zmsVb6Xkw75JIi2em65msVjmxS3aAYOg2f3e5fRY
+         4jscPxnwm9cvkRxQ2bAYJcDB+hLyQ9pw5SJh+2g+K68oqrptZh3H5wE0hXGNhLTHQoI2
+         +WMsFgPXFTzXkP773/XwQ/r4B1DuHMwSJ73r3NavdB/ISmDz8ORDgEgZUk7Jzxs2Afvd
+         HTDzOeHDnDykOpknD/T7y+fIqMV0U1FoNHGSuliNR+mOnbc56uG7kW+I0CuG3hyVoElN
+         i3jBxgGyvD5PWQeFGNpeeYpLeApjN0mexrHXHlvC8VTApTYnSknKqDOqjZDWX3uuVC3n
+         eDkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682202164; x=1684794164;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1WAQdGHYIgJcPuuqjHUIi7o6Ag3vIytbgWuF88a+RGk=;
+        b=SbDiQNYQihYpdDjRAoUxvcuWk34eeHbOKdVhsTNimpdsYyxACsBDK6ktnTcZC1G5lJ
+         isYp2Nj5fuP8dUUhM1Ztm34N/UXENBh5m5DKQ2ECOWNftohwz3xedMxBYEJkb3usdWB3
+         WwEXHTOwWAfd2HewoaCEPjrmAwDQXfZp7Z08Bj9w+32dPJL1LBI9DpQ2UP24EvcBhc0d
+         KNKGat+omfgKzhZ4hYdeQqjBK+Zas7u59dNca1pHMVspIRs/v+m1UPG13tlK9CEuaa+X
+         3rp3+6cXeoCnFryMjui2TYqeFznkNvHm0U1NbDw6uI0NHAlltpgRHd0kufdqpr8+1VsV
+         RKpQ==
+X-Gm-Message-State: AAQBX9d2IvHiD4Ipqn9VdPWSzs68GeLp5HCx/kTnenqBWKM6wRtPxzg+
+	6R71nev3cAFCwvr8GsVLehkLu4XUJyH7rgOmQ0auwJ+NC9FOuC0B
+X-Google-Smtp-Source: AKy350bDILG5lMCeFbyCiP8xsvN2ZZXeJPL/J9GOXxSarFylBy/cBYmWJpbA4wjtcpcQp/dxUsFMqQUuJ56ASyxdAw4=
+X-Received: by 2002:a17:906:d042:b0:94a:93f4:711d with SMTP id
+ bo2-20020a170906d04200b0094a93f4711dmr6674482ejb.4.1682202164021; Sat, 22 Apr
+ 2023 15:22:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230421152325.3327461-1-kubiznak@2n.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
+References: <20230421112447.21966-1-skulkarni@mvista.com> <CAKzga+z6NaV9QyyzQKFuAniM9VkZvuC4zm2xyQQaGaQPa+JJog@mail.gmail.com>
+In-Reply-To: <CAKzga+z6NaV9QyyzQKFuAniM9VkZvuC4zm2xyQQaGaQPa+JJog@mail.gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Sat, 22 Apr 2023 12:22:33 -1000
+Message-ID: <CAOSpxdZxCLXJWba62z7Js-y0sS3ax14mC26jcZvZZ3fRY7MHcQ@mail.gmail.com>
+Subject: Re: [OE-core][dunfell][PATCH] go: Ignore CVE-2022-1705
+To: Shubham Kulkarni <skulkarni@mvista.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 22 Apr 2023 22:07:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180324
+ <openembedded-core@lists.openembedded.org>; Sat, 22 Apr 2023 22:22:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180325
 
-On Fri, Apr 21, 2023 at 05:23:25PM +0200, Petr Kubiz=C5=88=C3=A1k wrote:
-> Add DT_FILES variable to allow the user of the class to select specific
-> dts files to build. This is useful for packages featuring dts files
-> for multiple machines.
->=20
-> Since many machine configs contain a list of dtb files
-> (e.g. KERNEL_DEVICETREE), DT_FILES works with both dts and dtb files.
+I don't see the patch on this list or in patchworks.  Could you please rese=
+nd?
 
-Any examples of this being used? Not really clear from the description wh=
-at's=20
-this really used for...
+Thanks,
 
+Steve
 
-> Signed-off-by: Petr Kubiz=C5=88=C3=A1k <kubiznak@2n.com>
-> ---
->  meta/classes-recipe/devicetree.bbclass | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/classes-recipe/devicetree.bbclass b/meta/classes-reci=
-pe/devicetree.bbclass
-> index ed2a92e447..bd50d7fa1d 100644
-> --- a/meta/classes-recipe/devicetree.bbclass
-> +++ b/meta/classes-recipe/devicetree.bbclass
-> @@ -53,8 +53,10 @@ KERNEL_INCLUDE ??=3D " \
-> =20
->  DT_INCLUDE[doc] =3D "Search paths to be made available to both the dev=
-ice tree compiler and preprocessor for inclusion."
->  DT_INCLUDE ?=3D "${DT_FILES_PATH} ${KERNEL_INCLUDE}"
-> -DT_FILES_PATH[doc] =3D "Defaults to source directory, can be used to s=
-elect dts files that are not in source (e.g. generated)."
-> +DT_FILES_PATH[doc] =3D "Path to the directory containing dts files to =
-build. Defaults to source directory."
->  DT_FILES_PATH ?=3D "${S}"
-> +DT_FILES[doc] =3D "Space-separated list of dts or dtb files (relative =
-to DT_FILES_PATH) to build. If empty, all dts files are built."
-> +DT_FILES ?=3D ""
-> =20
->  DT_PADDING_SIZE[doc] =3D "Size of padding on the device tree blob, use=
-d as extra space typically for additional properties during boot."
->  DT_PADDING_SIZE ??=3D "0x3000"
-> @@ -125,9 +127,12 @@ def devicetree_compile(dtspath, includes, d):
->      subprocess.run(dtcargs, check =3D True, stdout=3Dsubprocess.PIPE, =
-stderr=3Dsubprocess.STDOUT)
-> =20
->  python devicetree_do_compile() {
-> +    import re
->      includes =3D expand_includes("DT_INCLUDE", d)
-> +    dtfiles =3D d.getVar("DT_FILES").split()
-> +    dtfiles =3D [ re.sub(r"\.dtbo?$", ".dts", dtfile) for dtfile in dt=
-files ]
->      listpath =3D d.getVar("DT_FILES_PATH")
-> -    for dts in os.listdir(listpath):
-> +    for dts in dtfiles or os.listdir(listpath):
->          dtspath =3D os.path.join(listpath, dts)
->          try:
->              if not(os.path.isfile(dtspath)) or not(dts.endswith(".dts"=
-) or devicetree_source_is_overlay(dtspath)):
-> --=20
-> 2.30.2
+On Sat, Apr 22, 2023 at 6:12=E2=80=AFAM Shubham Kulkarni <skulkarni@mvista.=
+com> wrote:
+>
+> Hi Steve,
+>
+> Is there any issue with this patch? It's not included in the patch review=
+ list email.
+>
+> Thanks,
+> Shubham
+>
+> On Fri, 21 Apr, 2023, 4:54 pm Shubham Kulkarni, <skulkarni@mvista.com> wr=
+ote:
+>>
+>> From: Shubham Kulkarni <skulkarni@mvista.com>
+>>
+>> The vulnerability was introduced in go1.15beta1 with commit d5734d4.
+>> Dunfell uses go1.14 version which does not contain the affected code.
+>>
+>> Ref: https://security-tracker.debian.org/tracker/CVE-2022-1705
+>>
+>> Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
+>> ---
+>>  meta/recipes-devtools/go/go-1.14.inc | 3 +++
+>>  1 file changed, 3 insertions(+)
+>>
+>> diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtool=
+s/go/go-1.14.inc
+>> index 8df9d62612..961e233fe6 100644
+>> --- a/meta/recipes-devtools/go/go-1.14.inc
+>> +++ b/meta/recipes-devtools/go/go-1.14.inc
+>> @@ -85,3 +85,6 @@ CVE_CHECK_WHITELIST +=3D "CVE-2022-30630"
+>>
+>>  # This is specific to Microsoft Windows
+>>  CVE_CHECK_WHITELIST +=3D "CVE-2022-41716"
+>> +
+>> +# Issue introduced in go1.15beta1, does not exist in 1.14
+>> +CVE_CHECK_WHITELIST +=3D "CVE-2022-1705"
+>> --
+>> 2.40.0
+>>
 
