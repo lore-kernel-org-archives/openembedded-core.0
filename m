@@ -1,231 +1,181 @@
-Return-Path: <nathan@nathanrossi.com>
+Return-Path: <christoph.lauer@email.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DA03C7618E
-	for <webhook@archiver.kernel.org>; Sat, 22 Apr 2023 04:22:36 +0000 (UTC)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web11.1875.1682137355173809877
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F318FC7618E
+	for <webhook@archiver.kernel.org>; Sat, 22 Apr 2023 13:07:08 +0000 (UTC)
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+ by mx.groups.io with SMTP id smtpd.web11.6774.1682168821033732592
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Apr 2023 21:22:35 -0700
+ Sat, 22 Apr 2023 06:07:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@nathanrossi.com header.s=google header.b=N311c+ui;
- spf=pass (domain: nathanrossi.com, ip: 209.85.218.49, mailfrom: nathan@nathanrossi.com)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-956ff2399b1so342541966b.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 Apr 2023 21:22:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nathanrossi.com; s=google; t=1682137353; x=1684729353;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NGXES+l38RunUFDQVayQLIzeOri8nK0+H9BZ9xZOS+o=;
-        b=N311c+uixOSgPnooGtHQVezinMXn0rNs+1UWd0jNaOOaRXFMxNiiXAB7qfbMioO+qn
-         IjL/quSkJBXgSefhukTdAEWLdvoiQwPstqu6l1Bp8ablEUm9i3aBFueJUDZge2OFu9bi
-         niu2C/rvDB+4gT7zpHo+wdmddwfZ0ilrSCC2iTM45BbVaMAoVChu8lrz/YISw3WmDnsR
-         EycIci0xD95aZE4alPn0W20zddpX04n9+w6n6ZEJIHavXZwjxLWpcukXUqhwNT2eg1fw
-         rD1wTMzx9VUl6UQj6SMBESEuicdhe8I4ap0+8KRy2hGYFw+krMmOZTjQ62giNIqB54B9
-         vh0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682137353; x=1684729353;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NGXES+l38RunUFDQVayQLIzeOri8nK0+H9BZ9xZOS+o=;
-        b=aDiHIFjDwzYvtOSG9dCHfN4x28BdCSUcwfbUiH8XZYR3j9VVWaGUQWfJBm33ml/oHB
-         RIftRA4rUlpZKVyUzzyuDvumQtXrn9LkqrI4a7t40Csh0OsSlBYCqQmh9v1z7Zn0Ggsc
-         e/uYS08NmXlbBo89VWcR018E7kDJbjYGuRuKJ7AC/SAq4qNbsvmFyGIs/LIGg6FR36oa
-         yD0xNJ8JgVaNrgXrsMnI1qCLJ88Es9KKWBcFaMuTcoIB82xjGWmdNKI32SwI5uLu4M2t
-         gKGpYMLn7JbAC6Vct3DBlmvkpOiAlQqYUnNMzQ7029hMgCiMtJ8IO/ijmpvrJLX9nk+Y
-         T3wg==
-X-Gm-Message-State: AAQBX9fXlgnRd5UR9Bwy35MyiOOwkMqyMX3pVwwaWt6rCxI2SCDDSKQW
-	JJNuCdriJw4LpyRNh/yBvKg0p07+TvG6Q4qy/8hlDw==
-X-Google-Smtp-Source: AKy350ZinJGVar5eRiEbowGNghpdwKifRbAssU6VGr7mPqOQJ0OsylQf59UvzViwvRexgndfn5rDsl6/8+Pfx6PpwS0=
-X-Received: by 2002:a17:906:697:b0:94e:d84e:d4d0 with SMTP id
- u23-20020a170906069700b0094ed84ed4d0mr4010073ejb.18.1682137353377; Fri, 21
- Apr 2023 21:22:33 -0700 (PDT)
+ dkim=pass header.i=christoph.lauer@email.de header.s=s29768273 header.b=l8EAw0R8;
+ spf=pass (domain: email.de, ip: 212.227.17.12, mailfrom: christoph.lauer@email.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=email.de;
+	s=s29768273; t=1682168817; i=christoph.lauer@email.de;
+	bh=ScJPTA770LJ/QdxuZiVLOQAPwjgemdqGxwLQOq/97IA=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=l8EAw0R8A7Y69XrCb1da9c6N8Qdd9E8Qg99pCeWCNTckNJQnxvKKjIAuUb3wmYXvL
+	 TiIMfa+0epfK8n7NUq3hXdfSvlCu4swtAIFRxMdqYtuplrdGSJ/8yv/8kEYuip54m5
+	 wsfn1MlWMNqtevSMlQ6obuMhQl10x3fQrBMefeUCy6f9R7toqmrt6dgpgKCVSYDgPO
+	 sDkDti1E1p2uJ7Fjr3IZ3HXzjOUGVvlDrEdqzf6hhJPdF3JywFt9AA4InWvoMJj3n/
+	 oU9S60DCuD5gTj/l/5gJVQlYX2fTJvpAez0/nSidze3Fpj6whUROHDPf/ePqALzalx
+	 hopSe6R2qfnrg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.35] ([91.23.94.88]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MCogs-1pz2dl2nE8-008yhT; Sat, 22
+ Apr 2023 15:06:57 +0200
+Message-ID: <7b254d25-03b9-5d0a-4257-4d43c50d069f@email.de>
+Date: Sat, 22 Apr 2023 15:06:56 +0200
 MIME-Version: 1.0
-References: <20230421084052.2675963-1-kubiznak@2n.com> <CA+aJhH16TxvXisfH=E4LMQJz3UzcqVdAcDpFCVxEZUe5HoKhAg@mail.gmail.com>
- <DB4PR02MB10030A06B7DBE76E6892847EBE2609@DB4PR02MB10030.eurprd02.prod.outlook.com>
- <DB4PR02MB10030AB1EDBA33EA8FC8E82DCE2609@DB4PR02MB10030.eurprd02.prod.outlook.com>
-In-Reply-To: <DB4PR02MB10030AB1EDBA33EA8FC8E82DCE2609@DB4PR02MB10030.eurprd02.prod.outlook.com>
-From: Nathan Rossi <nathan@nathanrossi.com>
-Date: Sat, 22 Apr 2023 14:22:22 +1000
-Message-ID: <CA+aJhH0VRr6s9whH12xHLDUNe0LNcfXKhEvQs_SD-d10d939QQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v2] devicetree.bbclass: Allow selection of dts
- files to build
-To: =?UTF-8?B?UGV0ciBLdWJpesWIw6FrIC0gMk4=?= <Kubiznak@2n.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [OE-core] [PATCH] make-mod-scripts: preserve libraries when
+ rm_work is used
+Content-Language: en-US
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Jose Quaresma <quaresma.jose@gmail.com>,
+ openembedded-core@lists.openembedded.org,
+ Christoph Lauer <christoph.lauer@xtronic.de>
+References: <20230416103052.28268-1-christoph.lauer@email.de>
+ <27b6976546dae12e92dd3af28f657c02eca4afe8.camel@linuxfoundation.org>
+ <CANPvuRnSPULJzxC0qt=sQLWS5jyx4OkJ2cQobDzHs0LmmBG6MQ@mail.gmail.com>
+ <CADkTA4N9Sypxccr0OU6KQxPK5rbsL_mNFGaJ2Zn_jYHL1tNSEg@mail.gmail.com>
+ <652908a6640ffc911d46613cb99159086131416f.camel@linuxfoundation.org>
+ <CADkTA4MBh46pqJoQjW4dhOc3Sw-4+rr-u4d48OPSs9eC1VPx8A@mail.gmail.com>
+ <CANPvuR=M0-ndA609d2i43rgVVSPrHzEeo5o7orRjmeR9BA5_QQ@mail.gmail.com>
+ <CADkTA4MMj6qUNHyjNV6QxE0iZAwA8=Ur6Ks4_7ETJtmrv6TrNA@mail.gmail.com>
+ <CANPvuRmb7Kh3hgjZEcr1vU4czrULvLYabk3apBERQbo4RJ8y3w@mail.gmail.com>
+ <afb0f1d6405256d9dfc6bd5bc0a642ddb1dd82c5.camel@linuxfoundation.org>
+ <175785898B60CE37.9727@lists.openembedded.org>
+ <CADkTA4MQty2wAcBrDGT=vqVeAHpMbzKjpf8-6xbH7UKa2R6wsg@mail.gmail.com>
+From: Christoph Lauer <Christoph.Lauer@email.de>
+In-Reply-To: <CADkTA4MQty2wAcBrDGT=vqVeAHpMbzKjpf8-6xbH7UKa2R6wsg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:NPiy99X6UJpL/BYTc1QP/xwuMppcYJ3h560apWDJrLdMYIPazH1
+ Q85/M+oLAPVXN8PTjFM/gz/6SQsUVcJ6oZrumh/WA3atKOFqkQKBjq2tgYHn27LEWt9GKWn
+ 3BHES0j1IScjQpEcDISr798TlnollvYUWLITOCPKnQB4RwipYM/ApQsvwlAOmvYXgc5eG+l
+ mqv19BieWp7bksxGRS13g==
+UI-OutboundReport: notjunk:1;M01:P0:Wf8M8nB8RTI=;VR5xUroChTWRFzsgDyNPNzeY2Pz
+ 54nNK0cXfeOW9AjtwwDdY3cmzkFiVTk62U5GBevR1pdvtGKADYmK0tdyk7mkFVS2NOLBKfjus
+ gKd+G03Iu/596iXVSiuBCMnU6E0qVKAdTgROBgAiarw2JbVc+MQgo1omNHFBhVE/+mJNtja7j
+ BFhjlVhPpO+2yFPHCKm0zi2Qh+gLDGcNY83E5f6oyhJPDKqtWxRBokom99nvrNFth5i1OoXtT
+ ZAgLB6khwaGlAN3pl76QofjYXRtDr98aMRyZJBAar5Lm9fSfaAo/yN1FreL51ujisqqmSryOx
+ AAjF8DtBZTdXR/8BQvMF4uy68jLmdnpC9Gi1DsWdzWkUaBbtMrN74seoB+WmMOGGcm4/ypc65
+ dtI2GlggwvvwRcM0xKC/CMN2xHvrZTAgAZ4eh1o05+A25qF7YHN5QSTIf0+nILWrK+hwKBDYf
+ JVyazP5s24UlYHDCCIe29mKgbo56EqzoUWCGwavw3h/bH4gy45eA8E7GuLaXZ+kv0a2v/l6Px
+ mfH0fh74Q6eBCzBNvjKJi07zC9rIuhFRVZyG2RreH62y0WSLLDgjYgmkpd/7LJNxs9X2teRLu
+ BgxMYykDwOLLF9IviLWO37IlZf5gr57qJftKVEDz1/h2fcS1H0e6lEX0IbuI3IpmV+xh0jDJL
+ z1rkaiSNMIIwGerhPjFHrfL2S6GS7ivcASoylUPeywBwHermwAIFnGrk/D9/6WSevhWC/aWJv
+ W8ocehdZC27JoQlz6M01TgVQY6Cafgjut3EsZFXDda3k08Z5HzQ4h+ktfcoyeUS207h/jF1Sn
+ 3bzArCTxiYNN4+S0KtLPrVSVcEf5VF5dconpAj/LlS8uzwyIbdRWL7i7rCShVids8bvmyi2aM
+ k1oaitGoLkl8LmwDuCmCrKuGEJWOrRGJDw3tlVZDcQPncudCl+nZkabphjBdbKpAK1W/pe9XC
+ fZTQqw==
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 22 Apr 2023 04:22:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180300
+ <openembedded-core@lists.openembedded.org>; Sat, 22 Apr 2023 13:07:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180301
 
-On Fri, 21 Apr 2023 at 22:47, Petr Kubiz=C5=88=C3=A1k - 2N <Kubiznak@2n.com=
-> wrote:
+Am 21.04.23 um 22:28 schrieb Bruce Ashfield:
+> On Wed, Apr 19, 2023 at 11:03=E2=80=AFPM Bruce Ashfield via
+> lists.openembedded.org
+> <bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
+>>
+>> On Wed, Apr 19, 2023 at 6:54=E2=80=AFPM Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>>>
+>>> On Wed, 2023-04-19 at 23:34 +0100, Jose Quaresma wrote:
+>>>> Hi,
+>>>>
+>>>> Not related with the previous discussion but just for
+>>>> your information.
+>>>> The rm_work.bbclass has an exception for the kernel recipes [1].
+>>>> So I don't understand why we can't do the same for the make-mod-
+>>>> scripts
+>>>> who is the twin brother of all these kernel recipes.
+>>>>
+>>>> [1]
+>>>> https://git.openembedded.org/openembedded-core/tree/meta/classes/rm_w=
+ork.bbclass#n168
+>>>
+>>> Ideally we wouldn't be doing this for the kernel recipes.
+>>>
+>>> There is also a big difference to that and the proposed patch. The
+>>> proposed patch was preserving a specific directory rather than an
+>>> entire recipe. Removing the task stamps but leaving a small piece of
+>>> WORKDIR is quite different to preserving WORKDIR and STAMPS for a
+>>> specific recipe. The former is not tested and will break things. The
+>>> latter is better tolerated by bitbake.
+>>
+>> Agreed.
+>>
+>> Plus, I am working on this now.
+>>
+>> I have static linking of the scripts/tools working, but what I haven't
+>> figured out is how to do that without patching the Makefiles.
+>>
 >
-> > kernel-devicetree.bbclass does the same translation dtb->dts
+> It turned out to be quite the battle to get older kernels what was
+> required for static linking of the tools.
 >
-> I mean dts->dtb, of course. The point is dtb's are expected on the input.
+> Attached is my WIP patch. I'm out of the office early next week, but
+> will revisit it once I'm back.
 >
-> Petr
+> Bruce
 >
-> ________________________________________
-> From: Petr Kubiz=C5=88=C3=A1k - 2N <Kubiznak@2n.com>
-> Sent: Friday, April 21, 2023 2:30 PM
-> To: Nathan Rossi
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core][PATCH v2] devicetree.bbclass: Allow selection of d=
-ts files to build
+>> Next up will be some rpath trickery.
+>>
+>> Bruce
+>>
+>>>
+>>> So yes, we could do the same. I'm sure there will be other recipes
+>>> people want to preserve for other reasons. Where do we draw the line?
+>>> We could preserve everything and drop rm_work, then we wouldn't have
+>>> these problems? :)
+>>>
+>>> Cheers,
+>>>
+>>> Richard
+>>
+>>
+>>
+>> --
+>> - Thou shalt not follow the NULL pointer, for chaos and madness await
+>> thee at its end
+>> - "Use the force Harry" - Gandalf, Star Trek II
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#180233): https://lists.openembedded.org/g/openembed=
+ded-core/message/180233
+>> Mute This Topic: https://lists.openembedded.org/mt/98296212/1050810
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+bruce.ashfield@gmail.com]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
 >
-> Hi Nathan,
 >
-> Thank you for great suggestions. All of them are valid and I will update =
-the patch once we discuss the .dtb -> .dts mapping.
->
-> > I am also curious why you need to handle this mapping of .dtb -> .dts.
-> > Do you have an example recipe that is using this class in this way?
-> > Because the ".dtb" in KERNEL_DEVICETREE is specifically because the
-> > KERNEL_DEVICETREE variable is pointing at kernel makefile targets.
->
-> I don't have an example of a particular recipe, but how about EXTERNAL_KE=
-RNEL_DEVICETREE variable, used in kernel-fitimage.bbclass? Albeit I don't u=
-se this variable in my recipes, I believe it could be used for both classes=
- now with simple assignment DT_FILES =3D EXTERNAL_KERNEL_DEVICETREE.
->
-> And if for whatever reason someone uses a custom variable (like me), they=
- would still expect dtb's rather than dts's. I didn't find any example of u=
-sing lists of dts files. Contrary, kernel-devicetree.bbclass does the same =
-translation dtb->dts and it even warns about dts being provided (see normal=
-ize_dtb()). I didn't want to be that strict here (if someone has a list of =
-dts files, while not to use it directly) but in general, I expect a list of=
- dtb files will be much more common.
 
-So just trying to make the DT_FILES somewhat consistent with the
-KERNEL_DEVICETREE, seems fine. I was only curious in case you had some
-special path handling that might be better solved by overriding the
-devicetree_do_compile and calling the associated compile functions
-directly.
+Thank you for your work, I see you put some time and effort into it.
+HOSTPKG_CONFIG is, as you mentioned, available since kernel version 5.19
+(see kernel patch [1]), so we need a way to call 'pkg-config --static'
+with pre-5.19 kernels. A way without modifying the Makefile would be to
+modify openssls pkg-config in recipe-sysroot-native of make-mod-script,
+so 'pkg-config --libs' actually shows the dependencies of 'pkg-config
+=2D-static --libs', but it's a bit hacky.
 
-The v3 patch looks good :).
+Also fully-static executables still need the same glibc during runtime
+that they were built with, which makes them error-prone and is generally
+discouraged. As an alternative, we could build dynamic executables that
+use the static libcrypto library. The linker links by default against
+the shared library, so we could remove them from recipe-sysroot-native
+to force linking against the static library (again, somewhat hacky).
 
-Thanks,
-Nathan
-
-
->
-> Kind Regards,
-> Petr
->
-> ________________________________________
-> From: Nathan Rossi <nathan@nathanrossi.com>
-> Sent: Friday, April 21, 2023 1:44 PM
-> To: Petr Kubiz=C5=88=C3=A1k - 2N
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core][PATCH v2] devicetree.bbclass: Allow selection of d=
-ts files to build
->
-> On Fri, 21 Apr 2023 at 18:41, Petr Kubiz=C5=88=C3=A1k <kubiznak@2n.com> w=
-rote:
-> >
-> > Add DT_FILES variable to allow the user of the class to select specific
-> > dts files to build. This is useful for packages featuring dts files
-> > for multiple machines.
-> >
-> > Since many machine configs contain a list of dtb files
-> > (e.g. KERNEL_DEVICETREE), DT_FILES works with both dts and dtb files.
-> >
-> > Signed-off-by: Petr Kubiz=C5=88=C3=A1k <kubiznak@2n.com>
-> > ---
-> >  meta/classes-recipe/devicetree.bbclass | 10 +++++++++-
-> >  1 file changed, 9 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/meta/classes-recipe/devicetree.bbclass b/meta/classes-reci=
-pe/devicetree.bbclass
-> > index ed2a92e447..8f348f1370 100644
-> > --- a/meta/classes-recipe/devicetree.bbclass
-> > +++ b/meta/classes-recipe/devicetree.bbclass
-> > @@ -53,8 +53,10 @@ KERNEL_INCLUDE ??=3D " \
-> >
-> >  DT_INCLUDE[doc] =3D "Search paths to be made available to both the dev=
-ice tree compiler and preprocessor for inclusion."
-> >  DT_INCLUDE ?=3D "${DT_FILES_PATH} ${KERNEL_INCLUDE}"
-> > -DT_FILES_PATH[doc] =3D "Defaults to source directory, can be used to s=
-elect dts files that are not in source (e.g. generated)."
-> > +DT_FILES_PATH[doc] =3D "Path to the directory containing dts files to =
-build. Defaults to source directory."
-> >  DT_FILES_PATH ?=3D "${S}"
-> > +DT_FILES[doc] =3D "Space-separated list of dts or dtb files to build. =
-If empty, all dts files are built."
->
-> Worth noting in the doc string that DT_FILES paths are relative to
-> DT_FILES_PATH.
->
-> > +DT_FILES ?=3D ""
-> >
-> >  DT_PADDING_SIZE[doc] =3D "Size of padding on the device tree blob, use=
-d as extra space typically for additional properties during boot."
-> >  DT_PADDING_SIZE ??=3D "0x3000"
-> > @@ -125,7 +127,10 @@ def devicetree_compile(dtspath, includes, d):
-> >      subprocess.run(dtcargs, check =3D True, stdout=3Dsubprocess.PIPE, =
-stderr=3Dsubprocess.STDOUT)
-> >
-> >  python devicetree_do_compile() {
-> > +    import re
-> >      includes =3D expand_includes("DT_INCLUDE", d)
-> > +    dtfiles =3D d.getVar("DT_FILES")
->
-> If this populates the variable dtfiles with DT_FILES already split it
-> can fall back to os.listdir if empty, this avoids the need for the "if
-> filter..." logic within the loop:
->
-> dtfiles =3D d.getVar("DT_FILES").split()
-> dtfiles =3D [<renaming for dtb> for dtfiles in dtfiles]
-> for dts in dtfiles or os.listdir(listpath):
->
-> > +    filter =3D [ re.sub("dtbo?", "dts", dtfile) for dtfile in dtfiles.=
-split() ]
->
-> This regex is a bit problematic, it will substitute any part of the
-> filename and not just the extension suffix. E.g. "test-dtbo.dts" ->
-> "test-dts.dts". The expression might need to be something similar to
-> "\.dtbo?$".
->
-> I am also curious why you need to handle this mapping of .dtb -> .dts.
-> Do you have an example recipe that is using this class in this way?
-> Because the ".dtb" in KERNEL_DEVICETREE is specifically because the
-> KERNEL_DEVICETREE variable is pointing at kernel makefile targets.
->
-> Regards,
-> Nathan
->
-> >      listpath =3D d.getVar("DT_FILES_PATH")
-> >      for dts in os.listdir(listpath):
-> >          dtspath =3D os.path.join(listpath, dts)
-> > @@ -134,6 +139,9 @@ python devicetree_do_compile() {
-> >                  continue # skip non-.dts files and non-overlay files
-> >          except:
-> >              continue # skip if can't determine if overlay
-> > +        if filter:
-> > +            if not(dts in filter):
-> > +                continue # skip if dts not in defined filter
-> >          devicetree_compile(dtspath, includes, d)
-> >  }
-> >
-> > --
-> > 2.30.2
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#180281): https://lists.openembedded.org/g/openembed=
-ded-core/message/180281
-> > Mute This Topic: https://lists.openembedded.org/mt/98406619/3616963
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-nathan@nathanrossi.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
+[1]
+https://github.com/torvalds/linux/commit/d5ea4fece4508bf8e72b659cd22fa4840=
+d8d61e5
 
