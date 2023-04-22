@@ -1,201 +1,148 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <skulkarni@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6074C77B7F
-	for <webhook@archiver.kernel.org>; Sat, 22 Apr 2023 15:59:59 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web10.10437.1682179195946706337
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBBF0C6FD18
+	for <webhook@archiver.kernel.org>; Sat, 22 Apr 2023 16:12:09 +0000 (UTC)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+ by mx.groups.io with SMTP id smtpd.web10.10700.1682179923801051839
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Apr 2023 08:59:56 -0700
+ Sat, 22 Apr 2023 09:12:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=EqZfYDTr;
- spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f1950f5676so15944425e9.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 22 Apr 2023 08:59:55 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=LUR89umN;
+ spf=pass (domain: mvista.com, ip: 209.85.208.181, mailfrom: skulkarni@mvista.com)
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2a8dd1489b0so25939611fa.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 22 Apr 2023 09:12:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682179194; x=1684771194;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9cjp1ogdo4ofojqZKwp4y1Y1xui7YN6OnrH+gN6VrZ4=;
-        b=EqZfYDTrH7nh+IHOJqH0LYJ8El9amsxY+nCb7cpNh694aHBbzSt2MgN9GztbhXGOOT
-         8IR++0+IEI4eM9490vCKnn5AO5bTR2sMc9yZ5sbEgOjvqJj8IK8k+2IBWk+Yo+uaCCQc
-         Ke8Bhd9rAcXI901eVlhhua6srDmMY/JYQwaKB6vC4GB1Z5iSBXN9eU0Z29w323m5HF53
-         +gumX/uR9bnnGOJN8l1O9Xz/lHcmBhu20hNMyyqS81w/091wOcT6GFgBBWEId9+T2NPk
-         PGhMsRI29XxDUUJMT+j7W4MqGKoekd+M/3Qj44LrLr3f0RfAZzF6V5wLtr2PsfGqr3GT
-         zu6w==
+        d=mvista.com; s=google; t=1682179922; x=1684771922;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hW6APwebghVBMIZ+TKhsUMOW2c0bRxVCLm6V+CfEtzE=;
+        b=LUR89umNE6UK/QW6KJKpc02/Dj9o9xsJpJhskzLW72L9CEx6m2DwQuZARAy8MGwWiM
+         g3mbLhf1uxhi4xW/eqhbGEEMldJhDUigJJYwp/r1sPFLUlVp3bGiZ5ehrJKWnDfaTVjv
+         dU4oAcgckZH02H7MevkzIOaZC+h1kBqtXVgAM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682179194; x=1684771194;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9cjp1ogdo4ofojqZKwp4y1Y1xui7YN6OnrH+gN6VrZ4=;
-        b=BGLpaBp9ci9O44VCYgCDBlG7ffe59Q+VvDnqg24vGVB8iCGupXP2lvBETPOvcuOO+0
-         qtVlrq0I5jiXsjjW1QUKOwvGn09evBJJ9jzNu4XVRoTFV1Ei/FgKZbptPxrLjUPs0ibf
-         mgADDepB170fRrYwojJAh2TGSA42htKfP08FimNzTjuEoC7s3oMnOi0ZlTy5eIqLngre
-         uyFO/rG8UQuulkGu5rv8qa0CMUF4eUsW94o+fhT6QSS8oJjrCUISrN79AKCejVXrBFrG
-         WaULrazA9mu8HTIbjDKHpCmKGIzo5oQ9JmgCtH3JZbpihEWZbQh2B2/EWHrP4hf/+r29
-         tPPA==
-X-Gm-Message-State: AAQBX9ergmalkX7z1ebKMSAOFyMfXihq6dftGOUK4LwsCymOLVCIDXGv
-	yDziBZBqnutnUW4t2ch19Evon7dgry8=
-X-Google-Smtp-Source: AKy350a3AJCyBikmJSmbveYyB0090WZkm+3R0MBsghPbVHci4zfdKAre2/MIhIzuO/qbZQiicCcp+A==
-X-Received: by 2002:a5d:4d8d:0:b0:2ee:f1f0:14bb with SMTP id b13-20020a5d4d8d000000b002eef1f014bbmr5657045wru.49.1682179193833;
-        Sat, 22 Apr 2023 08:59:53 -0700 (PDT)
-Received: from work-pc.. ([2a01:e0a:8d5:c6c0:446e:1477:ec70:1aee])
-        by smtp.gmail.com with ESMTPSA id e29-20020a5d595d000000b002fddcb73162sm6798184wri.71.2023.04.22.08.59.52
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Apr 2023 08:59:53 -0700 (PDT)
-From: frederic.martinsons@gmail.com
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/3] ptest-cargo.bbclass: create class
-Date: Sat, 22 Apr 2023 17:59:41 +0200
-Message-Id: <aa3fa22b7e1ab102ed43ff0b6f2f6c3ae3701ad4.1682178812.git.frederic.martinsons@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1682178812.git.frederic.martinsons@gmail.com>
-References: <cover.1682178812.git.frederic.martinsons@gmail.com>
+        d=1e100.net; s=20221208; t=1682179922; x=1684771922;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hW6APwebghVBMIZ+TKhsUMOW2c0bRxVCLm6V+CfEtzE=;
+        b=ly11YiInvVgmrEOWWJFivE7gJm/2jzgDbRgDQLOk4Lrboi/1DcKKgAIvTdzyD3iOch
+         Eh3nzB1o2XbRe+icwm7tQmwbhuEMfEK5rZNK4upO6R0mvVTb8o5ityiuahlNrZFa4/99
+         sPsbiPkNQjyNi4+H1JLpeBwBYiEuyKaxXf5W3z9ou9gE+dLCVGjlUWZEeUn1riQyb4p3
+         vXPhIouG1u/wLWhj3S76Q54sqBYdG5Bx2lAVA5T0O6J8CNF7BEtoPTuAPjxHErvP8mgQ
+         YTwd+UOQZxoDmpJfh0oWOGhUUtdrNIn2W8Nc+XJZAxF0uH/CJewmnFlBkvSDTYl2kg6S
+         jLXA==
+X-Gm-Message-State: AAQBX9eotgXq7zBXX0RrSKQGWmZq9h1BCCycSrVBdSADM5rkJ3dc/5Ke
+	nJX5Ah8TDd+zTrLCvsgUvpKLMAxdcyuIZDaZhExr+dB9cGfBW3Dl
+X-Google-Smtp-Source: AKy350ZcdW2anf58TtNqXcqUOSeKFrEc8n6cZK6UPoFuZiguibLT+fgxKLKdClyFnpbrxKj+pG3NUrOBklgJfMSGj4o=
+X-Received: by 2002:a05:651c:108:b0:2a8:b286:826e with SMTP id
+ a8-20020a05651c010800b002a8b286826emr1345637ljb.33.1682179921424; Sat, 22 Apr
+ 2023 09:12:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230421112447.21966-1-skulkarni@mvista.com>
+In-Reply-To: <20230421112447.21966-1-skulkarni@mvista.com>
+From: Shubham Kulkarni <skulkarni@mvista.com>
+Date: Sat, 22 Apr 2023 21:41:50 +0530
+Message-ID: <CAKzga+z6NaV9QyyzQKFuAniM9VkZvuC4zm2xyQQaGaQPa+JJog@mail.gmail.com>
+Subject: Re: [OE-core][dunfell][PATCH] go: Ignore CVE-2022-1705
+To: openembedded-core@lists.openembedded.org, 
+	Steve Sakoman <steve@sakoman.com>
+Content-Type: multipart/alternative; boundary="000000000000aa481105f9ef08cc"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 22 Apr 2023 15:59:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180320
+ <openembedded-core@lists.openembedded.org>; Sat, 22 Apr 2023 16:12:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180323
 
-From: Frederic Martinsons <frederic.martinsons@gmail.com>
+--000000000000aa481105f9ef08cc
+Content-Type: text/plain; charset="UTF-8"
 
-This new class offer the capbility to build rust tests and
-find them correctly.
-Due to non deterministic name of generated binaries, a custom
-parsing of build result must be performed.
-See https://github.com/rust-lang/cargo/issues/1924
+Hi Steve,
 
-All rust project will generate a test binary even if there are
-not test defined in source code (the binary will just output
-that it ran 0 tests)
+Is there any issue with this patch? It's not included in the patch review
+list email.
 
-Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
----
- meta/classes-recipe/ptest-cargo.bbclass | 108 ++++++++++++++++++++++++
- 1 file changed, 108 insertions(+)
- create mode 100644 meta/classes-recipe/ptest-cargo.bbclass
+Thanks,
+Shubham
 
-diff --git a/meta/classes-recipe/ptest-cargo.bbclass b/meta/classes-recipe/ptest-cargo.bbclass
-new file mode 100644
-index 0000000000..a76b06b46a
---- /dev/null
-+++ b/meta/classes-recipe/ptest-cargo.bbclass
-@@ -0,0 +1,108 @@
-+inherit cargo ptest
-+
-+CARGO_TEST_BINARIES_FILES ?= "${B}/test_binaries_list"
-+
-+# sadly generated test binary have no deterministic names (https://github.com/rust-lang/cargo/issues/1924)
-+# which force us to parse the cargo output in json format to find those test binaries
-+python do_compile_ptest_base() {
-+    import subprocess
-+    import json
-+
-+    cargo = bb.utils.which(d.getVar("PATH"), d.getVar("CARGO", True))
-+    cargo_build_flags = d.getVar("CARGO_BUILD_FLAGS", True)
-+    rust_flags = d.getVar("RUSTFLAGS", True)
-+    manifest_path = d.getVar("MANIFEST_PATH", True)
-+
-+    env = os.environ.copy()
-+    env['RUSTFLAGS'] = rust_flags
-+    cmd = f"{cargo} build --tests --message-format json {cargo_build_flags}"
-+    bb.note(f"Building tests with cargo ({cmd})")
-+
-+    try:
-+        proc = subprocess.Popen(cmd, shell=True, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-+    except subprocess.CalledProcessError as e:
-+        bb.fatal(f"Cannot build test with cargo: {e}")
-+
-+    lines = []
-+    for line in proc.stdout:
-+        data = line.decode('utf-8').strip('\n')
-+        lines.append(data)
-+        bb.note(data)
-+    proc.communicate()
-+    if proc.returncode != 0:
-+        bb.fatal(f"Unable to compile test with cargo, '{cmd}' failed")
-+
-+    # Definition of the format: https://doc.rust-lang.org/cargo/reference/external-tools.html#json-messages
-+    test_bins = []
-+    for line in lines:
-+        try:
-+            data = json.loads(line)
-+        except json.JSONDecodeError:
-+            # skip lines that are not a json
-+            pass
-+        else:
-+            try:
-+                # Filter the test packages coming from the current manifest
-+                current_manifest_path = os.path.normpath(data['manifest_path'])
-+                project_manifest_path = os.path.normpath(manifest_path)
-+                if current_manifest_path == project_manifest_path:
-+                    if data['target']['test'] or data['target']['doctest'] and data['executable']:
-+                        test_bins.append(data['executable'])
-+            except KeyError as e:
-+                # skip lines that do not meet the requirements
-+                pass
-+
-+    # All rust project will genrate at least one unit test binary
-+    # It will just run a test suite with 0 tests if the project didn't define some
-+    # So it is not expected to have an empty list here
-+    if not test_bins:
-+        bb.fatal("Unable to find any test binaries")
-+
-+    cargo_test_binaries_file = d.getVar('CARGO_TEST_BINARIES_FILES', True)
-+    bb.note(f"Found {len(test_bins)} tests, write their path into {cargo_test_binaries_file}")
-+    with open(cargo_test_binaries_file, "w") as f:
-+        for test_bin in test_bins:
-+            f.write(f"{test_bin}\n")
-+
-+}
-+
-+python do_install_ptest_base() {
-+    import shutil
-+
-+    dest_dir = d.getVar("D", True)
-+    pn = d.getVar("PN", True)
-+    ptest_path = d.getVar("PTEST_PATH", True)
-+    cargo_test_binaries_file = d.getVar('CARGO_TEST_BINARIES_FILES', True)
-+
-+    ptest_dir = os.path.join(dest_dir, ptest_path.lstrip('/'))
-+    os.makedirs(ptest_dir, exist_ok=True)
-+
-+    test_bins = []
-+    with open(cargo_test_binaries_file, "r") as f:
-+        for line in f.readlines():
-+            test_bins.append(line.strip('\n'))
-+
-+    test_paths = []
-+    for test_bin in test_bins:
-+        shutil.copy2(test_bin, ptest_dir)
-+        test_paths.append(os.path.join(ptest_path, os.path.basename(test_bin)))
-+
-+    ptest_script = os.path.join(ptest_dir, "run-ptest")
-+    if os.path.exists(ptest_script):
-+        with open(ptest_script, "a") as f:
-+            for test_path in test_paths:
-+                f.write(f"{test_path}\n")
-+    else:
-+        with open(ptest_script, "a") as f:
-+            f.write("#!/bin/sh\n")
-+            for test_path in test_paths:
-+                f.write(f"{test_path}\n")
-+    os.chmod(ptest_script, 0o755)
-+
-+    # this is chown -R root:root ${D}${PTEST_PATH}
-+    for root, dirs, files in os.walk(ptest_dir):
-+        for d in dirs:
-+            shutil.chown(os.path.join(root, d), "root", "root")
-+        for f in files:
-+            shutil.chown(os.path.join(root, f), "root", "root")
-+}
--- 
-2.34.1
+On Fri, 21 Apr, 2023, 4:54 pm Shubham Kulkarni, <skulkarni@mvista.com>
+wrote:
 
+> From: Shubham Kulkarni <skulkarni@mvista.com>
+>
+> The vulnerability was introduced in go1.15beta1 with commit d5734d4.
+> Dunfell uses go1.14 version which does not contain the affected code.
+>
+> Ref: https://security-tracker.debian.org/tracker/CVE-2022-1705
+>
+> Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
+> ---
+>  meta/recipes-devtools/go/go-1.14.inc | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/recipes-devtools/go/go-1.14.inc
+> b/meta/recipes-devtools/go/go-1.14.inc
+> index 8df9d62612..961e233fe6 100644
+> --- a/meta/recipes-devtools/go/go-1.14.inc
+> +++ b/meta/recipes-devtools/go/go-1.14.inc
+> @@ -85,3 +85,6 @@ CVE_CHECK_WHITELIST += "CVE-2022-30630"
+>
+>  # This is specific to Microsoft Windows
+>  CVE_CHECK_WHITELIST += "CVE-2022-41716"
+> +
+> +# Issue introduced in go1.15beta1, does not exist in 1.14
+> +CVE_CHECK_WHITELIST += "CVE-2022-1705"
+> --
+> 2.40.0
+>
+>
+
+--000000000000aa481105f9ef08cc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Hi Steve,<div dir=3D"auto"><br></div><div dir=3D"auto">Is=
+ there any issue with this patch? It&#39;s not included in the patch review=
+ list email.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks,</di=
+v><div dir=3D"auto">Shubham</div></div><br><div class=3D"gmail_quote"><div =
+dir=3D"ltr" class=3D"gmail_attr">On Fri, 21 Apr, 2023, 4:54 pm Shubham Kulk=
+arni, &lt;<a href=3D"mailto:skulkarni@mvista.com" target=3D"_blank" rel=3D"=
+noreferrer">skulkarni@mvista.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">From: Shubham Kulkarni &lt;<a href=3D"mailto:skulkarni@mvista=
+.com" rel=3D"noreferrer noreferrer" target=3D"_blank">skulkarni@mvista.com<=
+/a>&gt;<br>
+<br>
+The vulnerability was introduced in go1.15beta1 with commit d5734d4.<br>
+Dunfell uses go1.14 version which does not contain the affected code.<br>
+<br>
+Ref: <a href=3D"https://security-tracker.debian.org/tracker/CVE-2022-1705" =
+rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https://security=
+-tracker.debian.org/tracker/CVE-2022-1705</a><br>
+<br>
+Signed-off-by: Shubham Kulkarni &lt;<a href=3D"mailto:skulkarni@mvista.com"=
+ rel=3D"noreferrer noreferrer" target=3D"_blank">skulkarni@mvista.com</a>&g=
+t;<br>
+---<br>
+=C2=A0meta/recipes-devtools/go/go-1.14.inc | 3 +++<br>
+=C2=A01 file changed, 3 insertions(+)<br>
+<br>
+diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/g=
+o/go-1.14.inc<br>
+index 8df9d62612..961e233fe6 100644<br>
+--- a/meta/recipes-devtools/go/go-1.14.inc<br>
++++ b/meta/recipes-devtools/go/go-1.14.inc<br>
+@@ -85,3 +85,6 @@ CVE_CHECK_WHITELIST +=3D &quot;CVE-2022-30630&quot;<br>
+<br>
+=C2=A0# This is specific to Microsoft Windows<br>
+=C2=A0CVE_CHECK_WHITELIST +=3D &quot;CVE-2022-41716&quot;<br>
++<br>
++# Issue introduced in go1.15beta1, does not exist in 1.14<br>
++CVE_CHECK_WHITELIST +=3D &quot;CVE-2022-1705&quot;<br>
+-- <br>
+2.40.0<br>
+<br>
+</blockquote></div>
+
+--000000000000aa481105f9ef08cc--
 
