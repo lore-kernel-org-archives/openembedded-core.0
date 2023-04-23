@@ -2,64 +2,64 @@ Return-Path: <christoph.lauer@email.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 202A2C77B73
-	for <webhook@archiver.kernel.org>; Sun, 23 Apr 2023 08:13:24 +0000 (UTC)
-Received: from mout.web.de (mout.web.de [212.227.17.11])
- by mx.groups.io with SMTP id smtpd.web11.23675.1682237594367661806
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09902C77B73
+	for <webhook@archiver.kernel.org>; Sun, 23 Apr 2023 08:14:24 +0000 (UTC)
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+ by mx.groups.io with SMTP id smtpd.web11.23684.1682237656747649225
  for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Apr 2023 01:13:15 -0700
+ Sun, 23 Apr 2023 01:14:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=christoph.lauer@email.de header.s=s29768273 header.b=Y2ytxIir;
- spf=pass (domain: email.de, ip: 212.227.17.11, mailfrom: christoph.lauer@email.de)
+ dkim=pass header.i=christoph.lauer@email.de header.s=s29768273 header.b=wIvtMCdn;
+ spf=pass (domain: email.de, ip: 212.227.15.4, mailfrom: christoph.lauer@email.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=email.de;
-	s=s29768273; t=1682237590; i=christoph.lauer@email.de;
-	bh=nyErMOK3BN3QeiugDbJAgLxFTOkb60j6CZkebek5w5Q=;
+	s=s29768273; t=1682237653; i=christoph.lauer@email.de;
+	bh=8lIeLTlqXKfJ9O60usTE1KnLvLBCZ+Lx+mfxtGirWs8=;
 	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-	b=Y2ytxIirMpgMWPHjam7d2gHChxtDjI3sUvXOb/lSEvfyUFd6dNgB4/iFVvCXkCvmU
-	 UTi38cu9Bg/hlH8BHak9MbrSaQLRxseBiLXDunjBFHwobTmIm46NyGRc+ruIscSESC
-	 6CpyqlQnCBzVGa4BlCkPDI54ViEkVIaVWTYv0rUodvktFS51y67ZSTOJBbvp3GpOJu
-	 iqUjI4nbvXcijfYjnjzy/rdi8MklhbvP4WPTZ1ommpsRlYg7TReorjxjsgmggT3eI9
-	 d0t3YhLlVklRT8bWCJHJMmJBMqhN8Ug38krOorBRcuT+GH5mjD6u+7cRJdHkNbtl/Y
-	 8yIsBcevJEI/w==
+	b=wIvtMCdnbx5XynXwkd3t1N8aqG8p4iLtxHhX7N6dFAZf/uqMwFaiNGx/7bj/YqMCr
+	 qbhgU74AANaU5Mdu0ZuuC1UPbINIH1ASvhCQ4L4hgg2GqO5YxdKtO0rl5SqvSZrcdR
+	 yvU0fIeAts4m2HFFz5TJOknSRWnjpKtkDuhRbE2turEyNA13pC0blMM5I3NSAaqjzr
+	 iuujhlW5x4mlvApxsC//FfqKCYf+MhnWqZ3Ub5GKQAK9HUFVJInW+MUOIBWa6i8+B0
+	 vCMyTxF3o89d6P2k0JV1yhsB3jB0ybLuvTk5GfR0PIYf0ZBK04l70kEO/Ag9yNQPHb
+	 XCB2r9NynsvTg==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
 Received: from xtr-acuyocto-p01.xtronic-net.com ([178.251.90.190]) by
- smtp.web.de (mrweb106 [213.165.67.124]) with ESMTPSA (Nemesis) id
- 1MUCuv-1piQFx1c7X-00R2z2; Sun, 23 Apr 2023 10:13:10 +0200
+ smtp.web.de (mrweb005 [213.165.67.108]) with ESMTPSA (Nemesis) id
+ 1M7Nii-1pw0dN0ukO-008FAz; Sun, 23 Apr 2023 10:14:13 +0200
 From: Christoph Lauer <christoph.lauer@email.de>
 To: openembedded-core@lists.openembedded.org
 Cc: steve@sakoman.com,
 	Christoph Lauer <christoph.lauer@xtronic.de>,
 	Alexandre Belloni <alexandre.belloni@bootlin.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [dunfell][PATCH] populate_sdk_base: add zip options
-Date: Sun, 23 Apr 2023 10:12:04 +0200
-Message-Id: <20230423081204.47276-1-christoph.lauer@email.de>
+Subject: [kirkstone][PATCH] populate_sdk_base: add zip options
+Date: Sun, 23 Apr 2023 10:14:08 +0200
+Message-Id: <20230423081408.47397-1-christoph.lauer@email.de>
 X-Mailer: git-send-email 2.17.1
-X-Provags-ID: V03:K1:TSBsJNMdoEQQ6eW4kSX1B1qy45bL5RkrL/tiqV0Y53z0W0OUu5V
- HDKSGq0PgRT2+4k8vs5MlcSuk2TYEtWvnBVebFwDvti16OeSFsrj4wBz00TtS1Fa1qqcTaw
- f4V4iucSvX3MHcOhx/sn5I1C2AjgoxTOP+ywWGVZGOu7H6mjSCsscvec75QXhm3pw/v0Ayv
- gZDknu4AyFn4XXzZU4rdQ==
-UI-OutboundReport: notjunk:1;M01:P0:cXyXfI6OPA0=;jD1HnbuUEnDcaWEc+ho4qejoBGT
- MpHBEI+bD/viWldq5va1Ppk3MzHLp4ZFadjHDqFzfS8VZUoLC8Nv0etrF53O4u/NY021zt2KY
- 1OJhJQHDJl52WoAlocDuRWPaLnJWX/Jq1yrKzMLDrn6tBmVz9196CB8cFBH3UlSCwZ6CYZ9Gl
- UGo68aBHg/AqLvckkbmA+Qllbg3fMQFesgBe5cXb8rlZqc5EcYqbHYU3xwSfKUhQfqcEhinuW
- nhMW42acvPwMEAQxLcgj3I5aDrzgmDK1313wkul7pNGkIIHMEVWsj/xaSXA3UAOl5s9ZEvMBO
- RQ7tQQvMkYB43GVhyWdzVwL6rHEDM45hYW6rOR6cn1scRg2NKkaxLemr5aPoYNEKfgyNk1DN9
- OoW2tC0luDvyz65ixqhdrjf2MqDWCiCoHQXLV6zg7GzhlMVIG70/6X+FqfNNRJzB4SDkIkgfQ
- uTxm7cYM3KLUKnlc1N9VF4vI7AYteFZFZgGVGf/aEeADOghHVZe1/5/QfLAYCPSiuV/18kKwi
- SxbfXTI8k6vAw/VycKaUvyi/y2MazzDgomAzHiXRYtOQ4eW8O2EjNlCk1aBnBHPYOajnioI0W
- ds/zQy/H5xACBxC0iKkwiRmHXBkelLyGm3SsKyAkj6LmE31LeL1UNTsWt7a7MxRttX8o+rYV+
- S6Hmxf0u+r9X18z7qlhQoYFcBuF6Ol5LeqHsbtut8Ey5CeekNdLzHTqOwhc/1SpTvxjF/c8x8
- vbn32nb+82lp/KXIuY42y5g9DC/XUk6gKmX1Ei5mOM4TBjEBFI0TFvb7JsqYo3k5AZFyhzMkZ
- VgpQckZb7jmwbzXMQf6DDO2uHtKpgQz8qMAc+4AZoP3RLidc4mxUq1rl/yGbolb/sctE9kRcY
- ZBRgY66wcGdCVPWIKLDCDpNAy8qn7aE01puQeQ8GfJu4Krr/BFKwmLnlizLirYbdTDf+8Jf9Y
- c4Bo2w==
+X-Provags-ID: V03:K1:fWtsmm73gXZGVZftnshdXh+YhcoVkh1aqTVNTsULBk2GDp+XcNP
+ tvdIGj+OgoPiNrMmxwy+Ix7hLEBQ7pGjlg/681A/PhYvUu2GEA0g1ExqBVXGYqOFkvHKR/Q
+ YEselVgzoB1JfskdOSLVdiRnKQE9AV16s90yJD54zmDZevMDb01xMkV6cCIx07+z28cDSHY
+ FzTn+9Pa6FEsrojtjlclQ==
+UI-OutboundReport: notjunk:1;M01:P0:HfQD6LqobOQ=;qUiZwX73BTT1FVBIBJCXaZZl8fI
+ sq43NsllZAxv1Bj9ooJSeZIGdHZ0+yIsLYKkRtd68NE9Be3+asCZhTv41hQUHO9rCErloOTRs
+ jicXYkDIFrK8gx0eUILArosZdXAiB8B/O09BpGKqUVje4ffouDWZBTPpA4AolDQwkqScupSBs
+ xJHu2Y9/m77FPRcRo5tjh/4ok2VpmWmPtiheTyTLr5mTNN6OyDpJ8PrZG1G30NmYd81GMhEiX
+ FqVe8751YSHLPH0BfCGQWH4udjfqAa5soE8cyniXFvIpVBwI/RhcfN93yp0JenUV3nLJH17hh
+ JR1Gjsnd2qZ9ihOvVpN1hU3AQTy14RHmpYi9k9XHS0vXx+17oKqsWs8eImjBjzv2kbGOzbHQ4
+ baZ2RiqK7rqL78PTalgHoAOrNFm9W4Gv4PWYjayVTaVzvA+9bHTHDYMI63GVx8el0nZeX48mR
+ B+H58GOg6LaD3/+0LCoXjFVdhUpohVI5dhhfm7pts4wtjdyTHV+oRo4hNWnA/kDLaSOtrog/F
+ i+JEFVihiTuu/tvmBUDMZ/8aJ632dPJUl0K6J69Uo3qP8MBR6zUIX0f7cTfoiHANISLHLIKhs
+ RKz29OHXzCcvpC+ehSOLJGVAjECRkYN2FY1CCOqNloxCOtKbYFLWUuBY+/aNNg3xvsnlujEWi
+ bk43XCu+ZjSBecS+iZjCWEhPuF1Qk+Lga48Z5lUXzmSB0fCOEmw+LQKzrAmUR/RmKio6ofMg+
+ mZcvMrt29l/ZYtiAfurEg+eiAG41ZwP3qW3RkdPH12uBBHv6FjZ8yMYj2uDJKJkvD8emlT8nG
+ fzwmR6cYWm2ggJnGIxGcxMZCs8gQNxvEZbEjSIQzYRzZRjTZou8vhOwe4kJWP1Ct/b3FBtTVM
+ rXOP848j3QIR9x+gq7N6g1AN/iIO485pGa34tLmmKP8msNEbmncJurlJ9iXTuPzMih0nmaE67
+ 8sFG5dQyFKvEmtzIQjjq6qJPkFg=
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 23 Apr 2023 08:13:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180328
+ <openembedded-core@lists.openembedded.org>; Sun, 23 Apr 2023 08:14:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180329
 
 From: Christoph Lauer <christoph.lauer@xtronic.de>
 
@@ -77,10 +77,10 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
 diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populat=
 e_sdk_base.bbclass
-index 396792f0f7..49fdfaa93d 100644
+index 16f929bf59..fb00460172 100644
 =2D-- a/meta/classes/populate_sdk_base.bbclass
 +++ b/meta/classes/populate_sdk_base.bbclass
-@@ -51,6 +51,8 @@ TOOLCHAIN_OUTPUTNAME ?=3D "${SDK_NAME}-toolchain-${SDK_V=
+@@ -53,6 +53,8 @@ TOOLCHAIN_OUTPUTNAME ?=3D "${SDK_NAME}-toolchain-${SDK_V=
 ERSION}"
  SDK_ARCHIVE_TYPE ?=3D "tar.xz"
  SDK_XZ_COMPRESSION_LEVEL ?=3D "-9"
@@ -91,7 +91,7 @@ ERSION}"
  # To support different sdk type according to SDK_ARCHIVE_TYPE, now suppor=
 t zip and tar.xz
  python () {
-@@ -58,7 +60,7 @@ python () {
+@@ -60,7 +62,7 @@ python () {
         d.setVar('SDK_ARCHIVE_DEPENDS', 'zip-native')
         # SDK_ARCHIVE_CMD used to generate archived sdk ${TOOLCHAIN_OUTPUT=
 NAME}.${SDK_ARCHIVE_TYPE} from input dir ${SDK_OUTPUT}/${SDKPATH} to outpu=
