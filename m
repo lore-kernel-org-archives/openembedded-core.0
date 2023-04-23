@@ -1,199 +1,114 @@
-Return-Path: <skulkarni@mvista.com>
+Return-Path: <christoph.lauer@email.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C08EC77B73
-	for <webhook@archiver.kernel.org>; Sun, 23 Apr 2023 06:00:03 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web11.22566.1682229595255777576
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 202A2C77B73
+	for <webhook@archiver.kernel.org>; Sun, 23 Apr 2023 08:13:24 +0000 (UTC)
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+ by mx.groups.io with SMTP id smtpd.web11.23675.1682237594367661806
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Apr 2023 22:59:55 -0700
+ Sun, 23 Apr 2023 01:13:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=VXwGvhbc;
- spf=pass (domain: mvista.com, ip: 209.85.208.180, mailfrom: skulkarni@mvista.com)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2a8bae45579so28856491fa.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 22 Apr 2023 22:59:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1682229593; x=1684821593;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=IH65uhZctsfackKCAsyfzbGdY+1UMcyXKqCsoruP4Yg=;
-        b=VXwGvhbcqss2GEU8tD4CT+AxnKwp/L11HBgMtUTBRYTTYo6T3Ut7zlWPoqF8/f1pyA
-         KGKS0Lovae52P3/LR4c6EozjZpu4g7Xg1mSUC+GUhBpKNvs6TtF+XawfAbaiG9OY3Rg7
-         jM+yhQq3vGONWKsy12LV7mqNIJ1ZkCirXk868=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682229593; x=1684821593;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IH65uhZctsfackKCAsyfzbGdY+1UMcyXKqCsoruP4Yg=;
-        b=GxWS8do3iw0E8H9cHbylrc3R8o4SRK9HsRoZbl7m4j+DnsguK5QTt08o1MgkGh5HE9
-         ba3Pje7d66xyqHob0Etu9JLKLoAbtbgVcKu9KPG2HzOK0SrwN8o8VDyEcVR0fBUHaoH1
-         YfKqjyn4rDPbCJ1ud5GKIkxbtvLu9cTGn0scvlXcDqRrnxUgAXdocZwpIXCsR+vucaUI
-         T0DOqQcPoUqXfvkGqbVLpAecPrYQQ9MtPXPjFpCToZyFp/Zot3M+QZKueLD+lg3Bx0dg
-         sWSoLfuLviYz55N4XJu0CfyShsUsDhB4ZlYaSi6yTEHwpYLsFCt9NIYprnvZHIRaPGup
-         bMvw==
-X-Gm-Message-State: AAQBX9fXedIcwedq0Gqh0M/SlHr749hAes6E2M8jScfenTIKQdUtYz9x
-	oCpOUv1znGlYY8Ays2SZhv5zRuXa5wf6eAVNupW9xw==
-X-Google-Smtp-Source: AKy350YiCWzWd5SRfS+RY9/vWY6SaS/3h7jf+doitSUeijdkZrXr/gYAVQ1OSq3XD5SysLg+STJqcVHm5gJr4qcI9rw=
-X-Received: by 2002:a2e:884f:0:b0:2a8:a5b8:184a with SMTP id
- z15-20020a2e884f000000b002a8a5b8184amr1991254ljj.40.1682229592949; Sat, 22
- Apr 2023 22:59:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230421112447.21966-1-skulkarni@mvista.com> <CAKzga+z6NaV9QyyzQKFuAniM9VkZvuC4zm2xyQQaGaQPa+JJog@mail.gmail.com>
- <CAOSpxdZxCLXJWba62z7Js-y0sS3ax14mC26jcZvZZ3fRY7MHcQ@mail.gmail.com>
-In-Reply-To: <CAOSpxdZxCLXJWba62z7Js-y0sS3ax14mC26jcZvZZ3fRY7MHcQ@mail.gmail.com>
-From: Shubham Kulkarni <skulkarni@mvista.com>
-Date: Sun, 23 Apr 2023 11:29:41 +0530
-Message-ID: <CAKzga+yaXYPsoHxqEoAjp=AWmPUm-qYTyMQUJype-BFipQmZVg@mail.gmail.com>
-Subject: Re: [OE-core][dunfell][PATCH] go: Ignore CVE-2022-1705
-To: Steve Sakoman <steve@sakoman.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000519c3605f9fa99da"
+ dkim=pass header.i=christoph.lauer@email.de header.s=s29768273 header.b=Y2ytxIir;
+ spf=pass (domain: email.de, ip: 212.227.17.11, mailfrom: christoph.lauer@email.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=email.de;
+	s=s29768273; t=1682237590; i=christoph.lauer@email.de;
+	bh=nyErMOK3BN3QeiugDbJAgLxFTOkb60j6CZkebek5w5Q=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+	b=Y2ytxIirMpgMWPHjam7d2gHChxtDjI3sUvXOb/lSEvfyUFd6dNgB4/iFVvCXkCvmU
+	 UTi38cu9Bg/hlH8BHak9MbrSaQLRxseBiLXDunjBFHwobTmIm46NyGRc+ruIscSESC
+	 6CpyqlQnCBzVGa4BlCkPDI54ViEkVIaVWTYv0rUodvktFS51y67ZSTOJBbvp3GpOJu
+	 iqUjI4nbvXcijfYjnjzy/rdi8MklhbvP4WPTZ1ommpsRlYg7TReorjxjsgmggT3eI9
+	 d0t3YhLlVklRT8bWCJHJMmJBMqhN8Ug38krOorBRcuT+GH5mjD6u+7cRJdHkNbtl/Y
+	 8yIsBcevJEI/w==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from xtr-acuyocto-p01.xtronic-net.com ([178.251.90.190]) by
+ smtp.web.de (mrweb106 [213.165.67.124]) with ESMTPSA (Nemesis) id
+ 1MUCuv-1piQFx1c7X-00R2z2; Sun, 23 Apr 2023 10:13:10 +0200
+From: Christoph Lauer <christoph.lauer@email.de>
+To: openembedded-core@lists.openembedded.org
+Cc: steve@sakoman.com,
+	Christoph Lauer <christoph.lauer@xtronic.de>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [dunfell][PATCH] populate_sdk_base: add zip options
+Date: Sun, 23 Apr 2023 10:12:04 +0200
+Message-Id: <20230423081204.47276-1-christoph.lauer@email.de>
+X-Mailer: git-send-email 2.17.1
+X-Provags-ID: V03:K1:TSBsJNMdoEQQ6eW4kSX1B1qy45bL5RkrL/tiqV0Y53z0W0OUu5V
+ HDKSGq0PgRT2+4k8vs5MlcSuk2TYEtWvnBVebFwDvti16OeSFsrj4wBz00TtS1Fa1qqcTaw
+ f4V4iucSvX3MHcOhx/sn5I1C2AjgoxTOP+ywWGVZGOu7H6mjSCsscvec75QXhm3pw/v0Ayv
+ gZDknu4AyFn4XXzZU4rdQ==
+UI-OutboundReport: notjunk:1;M01:P0:cXyXfI6OPA0=;jD1HnbuUEnDcaWEc+ho4qejoBGT
+ MpHBEI+bD/viWldq5va1Ppk3MzHLp4ZFadjHDqFzfS8VZUoLC8Nv0etrF53O4u/NY021zt2KY
+ 1OJhJQHDJl52WoAlocDuRWPaLnJWX/Jq1yrKzMLDrn6tBmVz9196CB8cFBH3UlSCwZ6CYZ9Gl
+ UGo68aBHg/AqLvckkbmA+Qllbg3fMQFesgBe5cXb8rlZqc5EcYqbHYU3xwSfKUhQfqcEhinuW
+ nhMW42acvPwMEAQxLcgj3I5aDrzgmDK1313wkul7pNGkIIHMEVWsj/xaSXA3UAOl5s9ZEvMBO
+ RQ7tQQvMkYB43GVhyWdzVwL6rHEDM45hYW6rOR6cn1scRg2NKkaxLemr5aPoYNEKfgyNk1DN9
+ OoW2tC0luDvyz65ixqhdrjf2MqDWCiCoHQXLV6zg7GzhlMVIG70/6X+FqfNNRJzB4SDkIkgfQ
+ uTxm7cYM3KLUKnlc1N9VF4vI7AYteFZFZgGVGf/aEeADOghHVZe1/5/QfLAYCPSiuV/18kKwi
+ SxbfXTI8k6vAw/VycKaUvyi/y2MazzDgomAzHiXRYtOQ4eW8O2EjNlCk1aBnBHPYOajnioI0W
+ ds/zQy/H5xACBxC0iKkwiRmHXBkelLyGm3SsKyAkj6LmE31LeL1UNTsWt7a7MxRttX8o+rYV+
+ S6Hmxf0u+r9X18z7qlhQoYFcBuF6Ol5LeqHsbtut8Ey5CeekNdLzHTqOwhc/1SpTvxjF/c8x8
+ vbn32nb+82lp/KXIuY42y5g9DC/XUk6gKmX1Ei5mOM4TBjEBFI0TFvb7JsqYo3k5AZFyhzMkZ
+ VgpQckZb7jmwbzXMQf6DDO2uHtKpgQz8qMAc+4AZoP3RLidc4mxUq1rl/yGbolb/sctE9kRcY
+ ZBRgY66wcGdCVPWIKLDCDpNAy8qn7aE01puQeQ8GfJu4Krr/BFKwmLnlizLirYbdTDf+8Jf9Y
+ c4Bo2w==
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 23 Apr 2023 06:00:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180327
+ <openembedded-core@lists.openembedded.org>; Sun, 23 Apr 2023 08:13:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180328
 
---000000000000519c3605f9fa99da
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Christoph Lauer <christoph.lauer@xtronic.de>
 
-Hi Steve,
+Add SDK_ZIP_OPTIONS to remove symbolic link creation in zip archive or add=
+ options, e.g. for encryption of the zip archive.
 
-I resent the patch (
-https://lists.openembedded.org/g/openembedded-core/message/180326). Please
-let me know if this is ok OR shall I need to send it as v2 ?
+(From OE-Core rev: 04b62f9459b401c276255f166d0738b6f902a576)
 
-Thanks,
-Shubham
+Signed-off-by: Christoph Lauer <christoph.lauer@xtronic.de>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+=2D--
+ meta/classes/populate_sdk_base.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-On Sun, Apr 23, 2023 at 3:52=E2=80=AFAM Steve Sakoman <steve@sakoman.com> w=
-rote:
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populat=
+e_sdk_base.bbclass
+index 396792f0f7..49fdfaa93d 100644
+=2D-- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -51,6 +51,8 @@ TOOLCHAIN_OUTPUTNAME ?=3D "${SDK_NAME}-toolchain-${SDK_V=
+ERSION}"
+ SDK_ARCHIVE_TYPE ?=3D "tar.xz"
+ SDK_XZ_COMPRESSION_LEVEL ?=3D "-9"
+ SDK_XZ_OPTIONS ?=3D "${XZ_DEFAULTS} ${SDK_XZ_COMPRESSION_LEVEL}"
++SDK_ZIP_OPTIONS ?=3D "-y"
++
 
-> I don't see the patch on this list or in patchworks.  Could you please
-> resend?
->
-> Thanks,
->
-> Steve
->
-> On Sat, Apr 22, 2023 at 6:12=E2=80=AFAM Shubham Kulkarni <skulkarni@mvist=
-a.com>
-> wrote:
-> >
-> > Hi Steve,
-> >
-> > Is there any issue with this patch? It's not included in the patch
-> review list email.
-> >
-> > Thanks,
-> > Shubham
-> >
-> > On Fri, 21 Apr, 2023, 4:54 pm Shubham Kulkarni, <skulkarni@mvista.com>
-> wrote:
-> >>
-> >> From: Shubham Kulkarni <skulkarni@mvista.com>
-> >>
-> >> The vulnerability was introduced in go1.15beta1 with commit d5734d4.
-> >> Dunfell uses go1.14 version which does not contain the affected code.
-> >>
-> >> Ref: https://security-tracker.debian.org/tracker/CVE-2022-1705
-> >>
-> >> Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
-> >> ---
-> >>  meta/recipes-devtools/go/go-1.14.inc | 3 +++
-> >>  1 file changed, 3 insertions(+)
-> >>
-> >> diff --git a/meta/recipes-devtools/go/go-1.14.inc
-> b/meta/recipes-devtools/go/go-1.14.inc
-> >> index 8df9d62612..961e233fe6 100644
-> >> --- a/meta/recipes-devtools/go/go-1.14.inc
-> >> +++ b/meta/recipes-devtools/go/go-1.14.inc
-> >> @@ -85,3 +85,6 @@ CVE_CHECK_WHITELIST +=3D "CVE-2022-30630"
-> >>
-> >>  # This is specific to Microsoft Windows
-> >>  CVE_CHECK_WHITELIST +=3D "CVE-2022-41716"
-> >> +
-> >> +# Issue introduced in go1.15beta1, does not exist in 1.14
-> >> +CVE_CHECK_WHITELIST +=3D "CVE-2022-1705"
-> >> --
-> >> 2.40.0
-> >>
->
+ # To support different sdk type according to SDK_ARCHIVE_TYPE, now suppor=
+t zip and tar.xz
+ python () {
+@@ -58,7 +60,7 @@ python () {
+        d.setVar('SDK_ARCHIVE_DEPENDS', 'zip-native')
+        # SDK_ARCHIVE_CMD used to generate archived sdk ${TOOLCHAIN_OUTPUT=
+NAME}.${SDK_ARCHIVE_TYPE} from input dir ${SDK_OUTPUT}/${SDKPATH} to outpu=
+t dir ${SDKDEPLOYDIR}
+        # recommand to cd into input dir first to avoid archive with build=
+path
+-       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; zip -r -=
+y ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} .')
++       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; zip -r $=
+{SDK_ZIP_OPTIONS} ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TY=
+PE} .')
+     else:
+        d.setVar('SDK_ARCHIVE_DEPENDS', 'xz-native')
+        d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; tar ${SD=
+KTAROPTS} -cf - . | xz ${SDK_XZ_OPTIONS} > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUT=
+PUTNAME}.${SDK_ARCHIVE_TYPE}')
+=2D-
+2.17.1
 
---000000000000519c3605f9fa99da
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi Steve,<div><br></div><div>I resent the patch (<a href=
-=3D"https://lists.openembedded.org/g/openembedded-core/message/180326">http=
-s://lists.openembedded.org/g/openembedded-core/message/180326</a>). Please =
-let me know if this is ok OR shall I need to send it as v2 ?</div><div><br>=
-</div><div>Thanks,</div><div>Shubham</div></div><br><div class=3D"gmail_quo=
-te"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Apr 23, 2023 at 3:52=E2=
-=80=AFAM Steve Sakoman &lt;<a href=3D"mailto:steve@sakoman.com">steve@sakom=
-an.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">I don&#39;t see the patch on this list or in patchworks.=C2=A0 Could =
-you please resend?<br>
-<br>
-Thanks,<br>
-<br>
-Steve<br>
-<br>
-On Sat, Apr 22, 2023 at 6:12=E2=80=AFAM Shubham Kulkarni &lt;<a href=3D"mai=
-lto:skulkarni@mvista.com" target=3D"_blank">skulkarni@mvista.com</a>&gt; wr=
-ote:<br>
-&gt;<br>
-&gt; Hi Steve,<br>
-&gt;<br>
-&gt; Is there any issue with this patch? It&#39;s not included in the patch=
- review list email.<br>
-&gt;<br>
-&gt; Thanks,<br>
-&gt; Shubham<br>
-&gt;<br>
-&gt; On Fri, 21 Apr, 2023, 4:54 pm Shubham Kulkarni, &lt;<a href=3D"mailto:=
-skulkarni@mvista.com" target=3D"_blank">skulkarni@mvista.com</a>&gt; wrote:=
-<br>
-&gt;&gt;<br>
-&gt;&gt; From: Shubham Kulkarni &lt;<a href=3D"mailto:skulkarni@mvista.com"=
- target=3D"_blank">skulkarni@mvista.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; The vulnerability was introduced in go1.15beta1 with commit d5734d=
-4.<br>
-&gt;&gt; Dunfell uses go1.14 version which does not contain the affected co=
-de.<br>
-&gt;&gt;<br>
-&gt;&gt; Ref: <a href=3D"https://security-tracker.debian.org/tracker/CVE-20=
-22-1705" rel=3D"noreferrer" target=3D"_blank">https://security-tracker.debi=
-an.org/tracker/CVE-2022-1705</a><br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Shubham Kulkarni &lt;<a href=3D"mailto:skulkarni@mv=
-ista.com" target=3D"_blank">skulkarni@mvista.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 meta/recipes-devtools/go/go-1.14.inc | 3 +++<br>
-&gt;&gt;=C2=A0 1 file changed, 3 insertions(+)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-d=
-evtools/go/go-1.14.inc<br>
-&gt;&gt; index 8df9d62612..961e233fe6 100644<br>
-&gt;&gt; --- a/meta/recipes-devtools/go/go-1.14.inc<br>
-&gt;&gt; +++ b/meta/recipes-devtools/go/go-1.14.inc<br>
-&gt;&gt; @@ -85,3 +85,6 @@ CVE_CHECK_WHITELIST +=3D &quot;CVE-2022-30630&qu=
-ot;<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 # This is specific to Microsoft Windows<br>
-&gt;&gt;=C2=A0 CVE_CHECK_WHITELIST +=3D &quot;CVE-2022-41716&quot;<br>
-&gt;&gt; +<br>
-&gt;&gt; +# Issue introduced in go1.15beta1, does not exist in 1.14<br>
-&gt;&gt; +CVE_CHECK_WHITELIST +=3D &quot;CVE-2022-1705&quot;<br>
-&gt;&gt; --<br>
-&gt;&gt; 2.40.0<br>
-&gt;&gt;<br>
-</blockquote></div>
-
---000000000000519c3605f9fa99da--
 
