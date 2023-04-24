@@ -1,90 +1,86 @@
-Return-Path: <rs@ti.com>
+Return-Path: <joe.slater@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 793C7C7618E
-	for <webhook@archiver.kernel.org>; Mon, 24 Apr 2023 15:32:52 +0000 (UTC)
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by mx.groups.io with SMTP id smtpd.web10.54912.1682350362801853465
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B9C3C77B61
+	for <webhook@archiver.kernel.org>; Mon, 24 Apr 2023 17:30:53 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.58543.1682357451902580292
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Apr 2023 08:32:43 -0700
+ Mon, 24 Apr 2023 10:30:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17q1 header.b=m32UII2W;
- spf=pass (domain: ti.com, ip: 198.47.23.249, mailfrom: rs@ti.com)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 33OFWYwj008552;
-	Mon, 24 Apr 2023 10:32:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1682350354;
-	bh=uhikrs+ZD2hp3Drx74+m6IBMl2TojV0VOXBU25TIl0Q=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=m32UII2WaKTcQXvq1TQ9J5Gdzbp0b3Avf7BW0LASD0/FXP3WqjwpDnGJtIfzt9w7o
-	 gKD4o6OnXjm4gVSqCgl/pgSs5zancjSn/yYYPQjk4O5GdAIiYuA6lgXL0WQBldWO1z
-	 iuNwRj/jdwCDTBuWZjN+vbuNwPPlg4YFGxszTrOU=
-Received: from DFLE107.ent.ti.com (dfle107.ent.ti.com [10.64.6.28])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 33OFWYij117219
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 24 Apr 2023 10:32:34 -0500
-Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Mon, 24
- Apr 2023 10:32:33 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Mon, 24 Apr 2023 10:32:33 -0500
-Received: from [128.247.81.144] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
-	by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 33OFWX2p021373;
-	Mon, 24 Apr 2023 10:32:33 -0500
-Message-ID: <51022390-b911-5b8c-36bf-3ddb13263826@ti.com>
-Date: Mon, 24 Apr 2023 10:32:33 -0500
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=gG91ItCQ;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=347898eb4c=joe.slater@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33OBn0uo026899
+	for <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 17:30:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=PPS06212021;
+ bh=wRtKE+ma/cwDzNj9QwJEgU4HrLVOn6HLprvSywgalEE=;
+ b=gG91ItCQmvY+/bQN9FcqrQwXvA5rb/lbvpFCBdkoqgD5ViwiBFUGz8nzGlYt+yn6wzUL
+ F8LcRtgS1C8EnoB3TgpfECjNpnJ2qP+DYAt4moVncVdhaW1uhPrK9Hy5JOKirMGYtKxB
+ cT7WIQDPDNKK4/uUIECXHPiuCHvX/Ip+g70Q/vO0DvP7ALIpBGmQoCxl239mGYNcSx0y
+ CGQJ8fg9dyiTxT7Nqozjxp9cNecGkjSwtrNoUJrcv1MOIIUVTqAgFid6uEDc0rFt++qc
+ qsb6Tu8lJThKF4HQ44D1zyjxAry21ZDci9P7m3iTeHtHhRBtwk1KDHk4spN5clVqatbT mQ== 
+Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3q44t3tkp7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 17:30:50 +0000
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Mon, 24 Apr 2023 10:30:49 -0700
+Received: from ala-jslater-lx2.corp.ad.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.23 via Frontend Transport; Mon, 24 Apr 2023 10:30:48 -0700
+From: Joe Slater <joe.slater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
+Subject: [oe-core][PATCH 1/1] ghostscript: fix CVE-2023-28879
+Date: Mon, 24 Apr 2023 10:30:48 -0700
+Message-ID: <20230424173048.3185286-1-joe.slater@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [EXTERNAL] Re: [OE-core] [PATCH v2] wic/bootimg-efi: if
- fixed-size is set then use that for mkdosfs
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        "Randolph Sapp via
- lists.openembedded.org" <rs=ti.com@lists.openembedded.org>
-CC: <zarkakareem@gmail.com>, <reatmon@ti.com>, <denis@denix.org>, <afd@ti.com>,
-        <openembedded-core@lists.openembedded.org>
-References: <20230421212613.3660730-1-rs@ti.com>
- <20230424104813.79ddd2bc@booty>
-Content-Language: en-US, en-US-large
-From: Randolph Sapp <rs@ti.com>
-In-Reply-To: <20230424104813.79ddd2bc@booty>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: 0JoKAh1i4gpRDGA5vjI4r2tFcfsaU7uL
+X-Proofpoint-ORIG-GUID: 0JoKAh1i4gpRDGA5vjI4r2tFcfsaU7uL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-24_10,2023-04-21_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 adultscore=0 clxscore=1011 impostorscore=0 suspectscore=0
+ bulkscore=0 mlxlogscore=511 lowpriorityscore=0 phishscore=0 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304240156
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 15:32:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180358
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 17:30:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180359
 
-On 4/24/23 03:48, Luca Ceresoli wrote:
-> Hello Randolph,
-> 
-> On Fri, 21 Apr 2023 16:26:13 -0500
-> "Randolph Sapp via lists.openembedded.org"
-> <rs=ti.com@lists.openembedded.org> wrote:
->   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> 
-> As you can see your sender address has been mangled, and as a result
-> the patch is rejected by the the openembedded git server. This is not
-> your fault, but we need you to modify your git configuration to prevent
-> this from happening in the future. Have a look at the wiki for more
-> info and how to solve that:
-> 
-Ah! Thanks for the heads up. I've just adjust my configs.
+Backport from tag ghostpdl-10.01.1-gse-10174 which is
+after 10.01.1.
 
-> https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded#Fixing_your_From_identity
-> 
-> I'm taking your patch for testing on the autobuilders, fixing it
-> manually so you don't need to resend your patch this time.
-> 
-> Best regards,
-> Luca
-> 
-Cool, thanks!
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
+---
+ meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb b/meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb
+index 56a93632e2..86ecdbe24a 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb
+@@ -34,6 +34,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+                 file://avoid-host-contamination.patch \
+                 file://mkdir-p.patch \
+                 file://cross-compile.patch \
++                file://cve-2023-28879.patch \
+ "
+ 
+ SRC_URI = "${SRC_URI_BASE} \
+-- 
+2.25.1
+
 
