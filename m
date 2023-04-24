@@ -1,153 +1,135 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6F32C77B73
-	for <webhook@archiver.kernel.org>; Mon, 24 Apr 2023 13:04:31 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web11.50234.1682341461692577330
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16110C77B61
+	for <webhook@archiver.kernel.org>; Mon, 24 Apr 2023 14:02:42 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.51822.1682344953972072615
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Apr 2023 06:04:22 -0700
+ Mon, 24 Apr 2023 07:02:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=QjmiKvtj;
- spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-3f1e2555b5aso9583505e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 06:04:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682341460; x=1684933460;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bTJIPlHiVEVVAc3BfDouOjbQyoDiuYmP6m/yZcPN3Oc=;
-        b=QjmiKvtj70A3kQwuatPSPVHyg2B3zKTs24fTXadL/7kyua3B8bGvarHN8vBtGYLn1T
-         jaaay2JhyylsHB3bJHhZ9HKs4JHOIOY7Vx5nGf5ngnV8Bk5tA43Tc2BPTf+r/xCikxL5
-         +ueQyhUBoKfpiPPVeAgaJ44/TZeUQR5psi+31J8OJu2VdoJC2r7yh4ovhD+bn/mb+Qlj
-         znBTQXZRFfPMYcsU+3dJokLvrmgsxSQZfH68MXorPFa+C2DSgO3MJkPilf8YbQsI9K82
-         8nwt11YSfFa9XdwyxNgIcPItske59J8IxfLpBgiRwfgO8zugXCgzK1+yRW53jzkktyva
-         awxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682341460; x=1684933460;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bTJIPlHiVEVVAc3BfDouOjbQyoDiuYmP6m/yZcPN3Oc=;
-        b=CNeYI+YuSRcq/PoSB2msHu0EUUoUKX44HIG6rIhVne3g1qBGpvVuuWXTG4M7//oZzu
-         1X1JUgMm3EmVl2gIwX1NR+mw/Nht2M6dny8yyOQq4RVY9xHzKRcedvP3Iaqw0xpje1W5
-         MoKMoJjivwqkWyWjAbOWM/zSXmeraSZ2BJ9zqc1qooJLAaBhotoiL0hZZ9Pzx6oIn8Dp
-         oDae6sdLz9qnnEipVxrcbRPfYSh4uchBYvBI8o8ErKB5+h2n22LUcuBoo6bgtoceTet3
-         k4s+Vc4j/hOcwze3YFJCEBNeJNotDaylFqNo7YXU0kSGREGKlfXg8neYasNtcwHTPdWf
-         fmgw==
-X-Gm-Message-State: AAQBX9dbiLthZcUOA2Qa7VgX73XsRJLhc4evHk6+P9+iSq6rieKbUKJ9
-	OkJJeQ/LwhhVDUHLXa7rNrwopg3vREw=
-X-Google-Smtp-Source: AKy350YFkNflaBUVJkwjoJZ+ZfL3+lJYTBu48Rm/R3l1kTkJB25jNvrIRz/ulfhCUOCVgONGnneDQQ==
-X-Received: by 2002:a05:600c:b59:b0:3ee:ed5:6115 with SMTP id k25-20020a05600c0b5900b003ee0ed56115mr7609808wmr.19.1682341459716;
-        Mon, 24 Apr 2023 06:04:19 -0700 (PDT)
-Received: from work-pc.core.sigfox.net ([2a01:e0a:8d5:c6c0:d7e1:16f4:c5d8:fb02])
-        by smtp.gmail.com with ESMTPSA id eo9-20020a05600c82c900b003f0ad8d1c69sm9170508wmb.25.2023.04.24.06.04.18
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Apr 2023 06:04:18 -0700 (PDT)
-From: frederic.martinsons@gmail.com
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 735B31FB;
+	Mon, 24 Apr 2023 07:03:17 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 14BDD3F64C;
+	Mon, 24 Apr 2023 07:02:32 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCHV2 3/3] zvariant: add ptest feature for zvariant test suite
-Date: Mon, 24 Apr 2023 15:04:13 +0200
-Message-Id: <76a38b59d861ed303a00e96d83a30b3aa3cc4b69.1682341336.git.frederic.martinsons@gmail.com>
+Cc: nd@arm.com
+Subject: [PATCH] connman: backport fix for CVE-2023-28488
+Date: Mon, 24 Apr 2023 15:02:31 +0100
+Message-Id: <20230424140231.350204-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1682341336.git.frederic.martinsons@gmail.com>
-References: <cover.1682341336.git.frederic.martinsons@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 13:04:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180354
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 14:02:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180355
 
-From: Frederic Martinsons <frederic.martinsons@gmail.com>
-
-Below is the output of run-ptest script under qemu
-
-root@qemux86-64:~# /usr/lib/zvariant/ptest/run-ptest
-
-running 37 tests
-test framing_offset_size::tests::framing_offset_size_bump ... ok$<2>
-test owned_value::tests::from_value ... ok$<2>
-test object_path::unit::owned_from_reader ... ok$<2>
-test str::tests::from_string ... ok$<2>
-test signature::tests::signature_slicing ... ok$<2>
-test str::tests::test_ordering ... ok$<2>
-test owned_value::tests::map_conversion ... ok$<2>
-test owned_value::tests::serde ... ok$<2>
-test tests::enums ... ok$<2>
-test tests::derive ... ok$<2>
-test tests::f64_value ... ok$<2>
-test tests::i16_value ... ok$<2>
-test tests::fd_value ... ok$<2>
-test tests::i32_value ... ok$<2>
-test tests::i8_value ... ok$<2>
-test tests::i64_value ... ok$<2>
-test tests::ip_addr ... ok$<2>
-test tests::issue_59 ... ok$<2>
-test tests::issue_99 ... ok$<2>
-test tests::array_value ... ok$<2>
-test tests::object_path_value ... ok$<2>
-test tests::dict_value ... ok$<2>
-test tests::signature_value ... ok$<2>
-test tests::serialized_size ... ok$<2>
-test tests::struct_byte_array ... ok$<2>
-test tests::struct_ref ... ok$<2>
-test tests::str_value ... ok$<2>
-test tests::option_value ... ok$<2>
-test tests::struct_value ... ok$<2>
-test tests::struct_with_hashmap ... ok$<2>
-test tests::u16_value ... ok$<2>
-test tests::u32_value ... ok$<2>
-test tests::unit ... ok$<2>
-test tests::u8_value ... ok$<2>
-test tests::unit_fds ... ok$<2>
-test tests::value_value ... ok$<2>
-test tests::recursion_limits ... ok$<2>
-
-test result: ok$<2>. 37 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.21s
-
-root@qemux86-64:~#
-
-Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../recipes-extended/zvariant/zvariant_3.12.0.bb         | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ ...ify-and-sanitize-packet-length-first.patch | 63 +++++++++++++++++++
+ .../connman/connman_1.41.bb                   |  1 +
+ 2 files changed, 64 insertions(+)
+ create mode 100644 meta/recipes-connectivity/connman/connman/0001-gdhcp-=
+Verify-and-sanitize-packet-length-first.patch
 
-diff --git a/meta-selftest/recipes-extended/zvariant/zvariant_3.12.0.bb b/meta-selftest/recipes-extended/zvariant/zvariant_3.12.0.bb
-index 4285d11b72..36f2a07ecf 100644
---- a/meta-selftest/recipes-extended/zvariant/zvariant_3.12.0.bb
-+++ b/meta-selftest/recipes-extended/zvariant/zvariant_3.12.0.bb
-@@ -7,6 +7,8 @@ HOMEPAGE = "https://gitlab.freedesktop.org/dbus/zbus/"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=b377b220f43d747efdec40d69fcaa69d"
- 
-+DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'glib-2.0', '', d)}"
+diff --git a/meta/recipes-connectivity/connman/connman/0001-gdhcp-Verify-=
+and-sanitize-packet-length-first.patch b/meta/recipes-connectivity/connma=
+n/connman/0001-gdhcp-Verify-and-sanitize-packet-length-first.patch
+new file mode 100644
+index 00000000000..8e2f47a1d55
+--- /dev/null
++++ b/meta/recipes-connectivity/connman/connman/0001-gdhcp-Verify-and-san=
+itize-packet-length-first.patch
+@@ -0,0 +1,63 @@
++From 99e2c16ea1cced34a5dc450d76287a1c3e762138 Mon Sep 17 00:00:00 2001
++From: Daniel Wagner <wagi@monom.org>
++Date: Tue, 11 Apr 2023 08:12:56 +0200
++Subject: [PATCH] gdhcp: Verify and sanitize packet length first
 +
- SRC_URI = " \
-     git://gitlab.freedesktop.org/dbus/zbus;protocol=https;branch=main;subpath=zvariant \
-     file://0001-Tweak-zvariant-crate-config.patch;striplevel=2 \
-@@ -21,10 +23,15 @@ python do_clean_lic_file_symlink() {
- 
- addtask clean_lic_file_symlink after do_unpack before do_patch
- 
--inherit cargo cargo-update-recipe-crates
-+inherit ptest-cargo pkgconfig cargo-update-recipe-crates
- 
- # Remove this when the recipe is reproducible
- EXCLUDE_FROM_WORLD = "1"
- 
- require ${BPN}-crates.inc
- require ${BPN}-git-crates.inc
++Avoid overwriting the read packet length after the initial test. Thus
++move all the length checks which depends on the total length first
++and do not use the total lenght from the IP packet afterwards.
 +
-+# zvariant is an indermediate product for the zbus project
-+# and so, it provided only a static lib (rlib) which fall only
-+# in -dev package
-+ALLOW_EMPTY:${PN} = "1"
--- 
++Fixes CVE-2023-28488
++
++Reported by Polina Smirnova <moe.hwr@gmail.com>
++
++CVE: CVE-2023-28488
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++
++---
++ gdhcp/client.c | 16 +++++++++-------
++ 1 file changed, 9 insertions(+), 7 deletions(-)
++
++diff --git a/gdhcp/client.c b/gdhcp/client.c
++index 7efa7e45..82017692 100644
++--- a/gdhcp/client.c
+++++ b/gdhcp/client.c
++@@ -1319,9 +1319,9 @@ static bool sanity_check(struct ip_udp_dhcp_packet=
+ *packet, int bytes)
++ static int dhcp_recv_l2_packet(struct dhcp_packet *dhcp_pkt, int fd,
++ 				struct sockaddr_in *dst_addr)
++ {
++-	int bytes;
++ 	struct ip_udp_dhcp_packet packet;
++ 	uint16_t check;
+++	int bytes, tot_len;
++=20
++ 	memset(&packet, 0, sizeof(packet));
++=20
++@@ -1329,15 +1329,17 @@ static int dhcp_recv_l2_packet(struct dhcp_packe=
+t *dhcp_pkt, int fd,
++ 	if (bytes < 0)
++ 		return -1;
++=20
++-	if (bytes < (int) (sizeof(packet.ip) + sizeof(packet.udp)))
++-		return -1;
++-
++-	if (bytes < ntohs(packet.ip.tot_len))
+++	tot_len =3D ntohs(packet.ip.tot_len);
+++	if (bytes > tot_len) {
+++		/* ignore any extra garbage bytes */
+++		bytes =3D tot_len;
+++	} else if (bytes < tot_len) {
++ 		/* packet is bigger than sizeof(packet), we did partial read */
++ 		return -1;
+++	}
++=20
++-	/* ignore any extra garbage bytes */
++-	bytes =3D ntohs(packet.ip.tot_len);
+++	if (bytes < (int) (sizeof(packet.ip) + sizeof(packet.udp)))
+++		return -1;
++=20
++ 	if (!sanity_check(&packet, bytes))
++ 		return -1;
++--=20
++2.34.1
++
+diff --git a/meta/recipes-connectivity/connman/connman_1.41.bb b/meta/rec=
+ipes-connectivity/connman/connman_1.41.bb
+index 79542b2175d..3f2e29820f8 100644
+--- a/meta/recipes-connectivity/connman/connman_1.41.bb
++++ b/meta/recipes-connectivity/connman/connman_1.41.bb
+@@ -8,6 +8,7 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/network/${BPN}/${B=
+P}.tar.xz \
+            file://CVE-2022-32293_p1.patch \
+            file://CVE-2022-32293_p2.patch \
+            file://CVE-2022-32292.patch \
++           file://0001-gdhcp-Verify-and-sanitize-packet-length-first.pat=
+ch \
+            "
+=20
+ SRC_URI:append:libc-musl =3D " file://0002-resolve-musl-does-not-impleme=
+nt-res_ninit.patch"
+--=20
 2.34.1
 
 
