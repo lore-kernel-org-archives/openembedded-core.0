@@ -1,329 +1,221 @@
-Return-Path: <kubiznak@2n.com>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93DC2C77B61
-	for <webhook@archiver.kernel.org>; Mon, 24 Apr 2023 08:48:40 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web10.46349.1682326115532777681
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB906C7618E
+	for <webhook@archiver.kernel.org>; Mon, 24 Apr 2023 09:16:10 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.46482.1682327765466552180
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Apr 2023 01:48:36 -0700
+ Mon, 24 Apr 2023 02:16:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail, err=mail: missing word in phrase: charset not supported: "iso-8859-2";
- spf=pass (domain: 2n.com, ip: 195.60.68.18, mailfrom: kubiznak@2n.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eHPmbmCO/jQn+ipfMLPWgyt2Xie9Fb1DUsiGlGrg/+UBbfHGcCIpvxUYI9oy1cD06tvi3knD/AZEL5bXUZ+CoJzNQ9SWw1Z0DDILO7yaUi0R7trLjN/D7zH0szNXw8Azq16iAfBoQVzvS1Rof5UFwgqGH0nTkhLX78n0Vdm4ARWXy+5DPWSeYpS2781hDVuwAGmcrzAG4Vpx/lwJv41YxirN39NTdKZpXNq3Zuqzqc2RkwK6JSG91xtN448k22BIAyuEdilkEYn6SwfckaKak1kXQxs2PFuMOpMBlS9cxnlEBgSoA6PJXqCvR6ip2e6rxrYPwFHI2fyoddUBl6KitQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NDsU6A4EJEd668YgjzVbqjb0jA0HkWSWy2RUJfSHhhQ=;
- b=nlYUK6PS+w/rTT3PlSmnYHbThadKR/XJqc8lp6H1vd0B34DhI2zMQbSc2taO735UdVUFlKRDjn/3V+zaA5Y5URGYVhhzeuj53YgCXUKnlKhuUfBwcpL6QzTrdE06iJ/Mkz+lJKbpJK+9+18lBVGXQiN/uu1I9kfoLYVcz+psA5QjGhoH/AHx0tyCtQ5JE+VED0uQH7+Y507tMiMf0RQ9ziQUjazaUllV+R5trYE47bsLJsXz0lRR+G/6wETrSACiDCTlQ59OSy2jQZluO3SHat9KjMKPqd6xdxDEAYH098LsHbpfXONikrSezFTTYNjKvdu9BNXmZws77tbHSsmocA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=2n.com; dmarc=pass action=none header.from=2n.com; dkim=pass
- header.d=2n.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=axis365.onmicrosoft.com; s=selector2-axis365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NDsU6A4EJEd668YgjzVbqjb0jA0HkWSWy2RUJfSHhhQ=;
- b=Qom5n1D5xjaC/T4MBiqA327AwO/FCi0noDl2Z/NBaua87UqjZN6DsZSp4TRGL2Yeikk8WgC81X/Yh23PO/IqHKTk1nbjp/zNJhE0wjkJxbZeD4qbg0J3snRx5rzRpxG78p2bTOSTsoL9nC8Qfqm1u/sHBLQ9RLkkBwFXmdc/+kc=
-From: =?iso-8859-2?Q?Petr_Kubiz=F2=E1k_-_2N?= <Kubiznak@2n.com>
-To: Denys Dmytriyenko <denis@denix.org>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][PATCH v3] devicetree.bbclass: Allow selection of dts
- files to build
-Thread-Topic: [OE-core][PATCH v3] devicetree.bbclass: Allow selection of dts
- files to build
-Thread-Index: AQHZdGVkBFd0mGlDoEyhyvVXubTn/a835LyAgAIzArg=
-Date: Mon, 24 Apr 2023 08:48:24 +0000
-Message-ID: <DB4PR02MB10030466D2D61356D80758E22E2679@DB4PR02MB10030.eurprd02.prod.outlook.com>
-References: <20230421152325.3327461-1-kubiznak@2n.com>
- <20230422220701.GD9226@denix.org>
-In-Reply-To: <20230422220701.GD9226@denix.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=2n.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB4PR02MB10030:EE_|AS8PR02MB6551:EE_
-x-ms-office365-filtering-correlation-id: aa53dc23-129e-4c5a-67ef-08db44a0aa32
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: c4wXrS6CZbAZNajQgJnJEM7lgHN2UlMMCJFOJa8qoPth6XhW6Vh0cxrOJL/GGEc7Ab8OYaYh1Jq58GMF/vOJWAtRZvu1HaAahEMBGh9D3u1d6+6jHJZ+61IxRxUPvVo/oHJEBs6g5az0MzaF6BjZK5VF7ARgSluanCBVy8qLYkOxWyP+PCzUpH11nFwWfHa2dUAAG/IB1zxg19TO3CvOY+4UZ5XyPDmpwFm03q+NZr4WXH+5gKJ5gd0Q/XTaIfFy+nWkHH90A5Hh17URFOKaRz0baI7/isOddK7ZvqqAMIS+ps6xRd/2jMlSAuZKk0NQTXyPmsAz33nec7wZD/WZm/0Hc9N/oMMgdBCBjlxZWGQJfcnN5JgqJ73fXaCm5PJZmXZPokv61NaHRlTKRmXvVPXdvKKHKBzhJKjtfvy0Fqg97EwIckrKkaNHFsUafAwrhm0a5ZaAQfGXk/dgrjTLC60lFdJLNybIW+xnVzxqul8PJsbPpcetfQ3ksnzQdzjtP/UZx/p1WyB6cJEk5jkjn7qw62YZP0Vfl0ELCumn0PVHwfpUu+hVKymRx6kItbC4la3LjUnjo4/uVo56oYxHj/Kn9jnrZ406tSy+I9fDIPFLZc7GBVTtn1ushgZRQHlp
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB4PR02MB10030.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(376002)(346002)(39860400002)(136003)(396003)(451199021)(478600001)(86362001)(186003)(53546011)(7696005)(26005)(9686003)(6506007)(55016003)(33656002)(71200400001)(4326008)(6916009)(64756008)(66446008)(66476007)(66556008)(316002)(83380400001)(91956017)(66946007)(76116006)(2906002)(38100700002)(19627405001)(122000001)(41300700001)(8676002)(8936002)(38070700005)(5660300002)(52536014);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-2?Q?XHNs7GfGlHgpCEgVx7i2lv6oiBkNhCxf3VYqnZyBbL9XWF3mu+6CiEkokV?=
- =?iso-8859-2?Q?vSHjs3cwQ5lfuic+wlswD0xKo4HJC2i/AqhOjgJrQe1A7YpaZyauAnm6Ri?=
- =?iso-8859-2?Q?cSPBUYZhlSt2vaqisa3+RWgAB27l7gDAO+JFvrhobJRmVHoGEGPJr4sGzM?=
- =?iso-8859-2?Q?us+USwL6rWODXY1BKgHkoTFPhBo7cBPXrvEJ1yseHcv/t9Gk+e2T8OwwEq?=
- =?iso-8859-2?Q?yxrHSwv/S5g+OISiSKSmxouT4G52POAMG6oh0J3nk8HA+3k5rjNxePPl/z?=
- =?iso-8859-2?Q?uBeoyIprS8HGz6SZjSbNo0e70ZI3+gQD8VxrvOIEIcJfMgkBUGvkBWxnZ3?=
- =?iso-8859-2?Q?HdEpme3evw+qzQNvn5spgx+rEnY5vtIB7MRt10hwzE7jTOZvdAMyY80sOB?=
- =?iso-8859-2?Q?rpNTJbEO1Qo6wa1vBmHjHlQWenrnriWa/36DD8xFRILDWxKoVyz9WFCm9J?=
- =?iso-8859-2?Q?SGDwX0vCjjLIXoU5tFOkmH1oYDrxpuZxijjFYnbU5QTLZF1sOU5QMltVAC?=
- =?iso-8859-2?Q?WwT7BmQ7H0bdR5pKj+o+Hz8++fC52CJtB7A1+L7Zwnx8CGNss68xuQMB5A?=
- =?iso-8859-2?Q?tATYAzN8zYxn2Pq/yAA1hno3FrXdA8CLg/F1NPwFtlj15B3iBA38WSOmhh?=
- =?iso-8859-2?Q?NSuvQ8UVd6s74jhomAa+IeNPQnTwJXgwHuOOPgTE3a+Gq1OEnu+y4QwXT3?=
- =?iso-8859-2?Q?vkyogCoqqZR70S+HpIQX8HnuV/tKfoCgm4vYlE5SMVaJh3l++h44wMQ6bd?=
- =?iso-8859-2?Q?biIVj0EcPgMD7Ry19oq6WYuJGJOO+fSp4XCFn4dLbAS558TIYUbeQBzmo7?=
- =?iso-8859-2?Q?7K23kK/HJPa66PlEyWqylmmfOk4FpMbn5B/yV35BndwW5CmBWzPYJ5yTjK?=
- =?iso-8859-2?Q?v6bLuL8i6yTsJuQ16ekydL83lRSOOh6Az3BW92iXq4JVG8fUR/gp9F4X5s?=
- =?iso-8859-2?Q?gfN6vKqq4nfcGS1036bnB9tBqOQnO8DyXOW8+t8x+iGYpCg85OmVrLS5cp?=
- =?iso-8859-2?Q?G6Ez/EjMZN2riLu8D/Hg5bD6H4VxK5/jtQGejS+HuwCWE1/JAAfquvcu5X?=
- =?iso-8859-2?Q?psBiTTSU2P8zV2kqjfsL2giQFarshgXsToVW6+8B8B8IRENXdNl2Y8xWcF?=
- =?iso-8859-2?Q?AW3jYjZx24th8ALGZFxETSuw7leJckj4XlITrOStGrmPQNXqan77xNAKjE?=
- =?iso-8859-2?Q?f9fnBHtPbXyIiUKu1WY2NQ3yXf2Pi2dzN0jndTKSoHfEy8kVwEx+vNH+PR?=
- =?iso-8859-2?Q?YFqzz/2Kk2haN3xTjKIxbOvkx4b0ngyQFh6AkTIupCVNntxN//r/sJ8Me2?=
- =?iso-8859-2?Q?YECdDbHb1LwJphLRGNcq6jsJCAe0RTga78qKpi+Dp4oLBBl4Xp2PA5dZOp?=
- =?iso-8859-2?Q?QUB9puPVcELe1l8HvLrAd0Imyd7SgoP+SWs1/ohYFIA3fq/fqosuv0XoYg?=
- =?iso-8859-2?Q?aQPCAS+h8mFWufIJmUvDJ5/BAnjd4QdtuzNiDqXM9W9mwf0lsoz2RUH+pE?=
- =?iso-8859-2?Q?tgs9CSx1+Fi8siJHu78+gzk3JnTW/UR3EbOkyQvLXiA0yrAQ79yP8vvPu+?=
- =?iso-8859-2?Q?ebD80P0c4hp+uPo1OBMfD/Gg9PurpNmh3iU2qWdZdcdcdaoOYAnZ1GPPLJ?=
- =?iso-8859-2?Q?mTkwWbyDP06kY=3D?=
-Content-Type: multipart/alternative;
-	boundary="_000_DB4PR02MB10030466D2D61356D80758E22E2679DB4PR02MB10030eu_"
+ dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=3478a72184=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33O8fhRC002187
+	for <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 09:16:04 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3q46jba47w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 09:16:04 +0000
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Mon, 24 Apr 2023 02:16:03 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.23 via Frontend Transport; Mon, 24 Apr 2023 02:16:02 -0700
+From: <mingli.yu@eng.windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [kirkstone][PATCH] ruby: Fix CVE-2023-28755
+Date: Mon, 24 Apr 2023 17:16:01 +0800
+Message-ID: <20230424091601.3982244-1-mingli.yu@eng.windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB4PR02MB10030.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa53dc23-129e-4c5a-67ef-08db44a0aa32
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Apr 2023 08:48:24.3620
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: p35JCDfLOXOFva1iyGpeFy7rFjbzyRiwX6oyDeChTwPDbv/87Ui/CuXmH7W1Ri76
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR02MB6551
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Proofpoint-GUID: PFGa0kOxDY_XYrHYQTOFCW3R3b7fiNX7
+X-Proofpoint-ORIG-GUID: PFGa0kOxDY_XYrHYQTOFCW3R3b7fiNX7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-24_06,2023-04-21_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 adultscore=0
+ malwarescore=0 lowpriorityscore=0 mlxscore=0 mlxlogscore=999
+ impostorscore=0 bulkscore=0 clxscore=1015 priorityscore=1501 spamscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304240082
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 08:48:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180344
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 09:16:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180345
 
---_000_DB4PR02MB10030466D2D61356D80758E22E2679DB4PR02MB10030eu_
-Content-Type: text/plain; charset="iso-8859-2"
-Content-Transfer-Encoding: quoted-printable
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Hi Denys,
+Backport patch [1] to fix CVE-2023-28755.
 
-> Any examples of this being used? Not really clear from the description wh=
-at's
-> this really used for...
+[1] https://github.com/ruby/ruby/commit/8ce4ab146498879b65e22f1be951b25eebb=
+79300
 
-I'm not sure what is unclear to you - just the commit message, or the patch=
- itself?
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ .../ruby/ruby/CVE-2023-28755.patch            | 68 +++++++++++++++++++
+ meta/recipes-devtools/ruby/ruby_3.1.3.bb      |  1 +
+ 2 files changed, 69 insertions(+)
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2023-28755.patch
 
-An example could be beaglebone-yocto.conf. If someone decides to move the d=
-evice tree files from kernel to a standalone repository, then it is enough =
-(e.g.) to rename KERNEL_DEVICETREE to EXTERNAL_DEVICETREE in the machine co=
-nf, and make an assignment DT_FILES =3D "${EXTERNAL_DEVICETREE}" in the dev=
-icetree recipe.
+diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2023-28755.patch b/meta/re=
+cipes-devtools/ruby/ruby/CVE-2023-28755.patch
+new file mode 100644
+index 0000000000..d611c41dcc
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/CVE-2023-28755.patch
+@@ -0,0 +1,68 @@
++From db4bb57d4af6d097a0c29490536793d95f1d8983 Mon Sep 17 00:00:00 2001
++From: Hiroshi SHIBATA <hsbt@ruby-lang.org>
++Date: Mon, 24 Apr 2023 08:27:24 +0000
++Subject: [PATCH] Merge URI-0.12.1
++
++CVE: CVE-2023-28755
++
++Upstream-Status: Backport [https://github.com/ruby/ruby/commit/8ce4ab14649=
+8879b65e22f1be951b25eebb79300]
++
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ lib/uri/rfc3986_parser.rb |  4 ++--
++ lib/uri/version.rb        |  2 +-
++ test/uri/test_common.rb   | 11 +++++++++++
++ 3 files changed, 14 insertions(+), 3 deletions(-)
++
++diff --git a/lib/uri/rfc3986_parser.rb b/lib/uri/rfc3986_parser.rb
++index 3e07de4..3c89311 100644
++--- a/lib/uri/rfc3986_parser.rb
+++++ b/lib/uri/rfc3986_parser.rb
++@@ -3,8 +3,8 @@ module URI
++   class RFC3986_Parser # :nodoc:
++     # URI defined in RFC3986
++     # this regexp is modified not to host is not empty string
++-    RFC3986_URI =3D /\A(?<URI>(?<scheme>[A-Za-z][+\-.0-9A-Za-z]*):(?<hier=
+-part>\/\/(?<authority>(?:(?<userinfo>(?:%\h\h|[!$&-.0-;=3DA-Z_a-z~])*)@)?(=
+?<host>(?<IP-literal>\[(?:(?<IPv6address>(?:\h{1,4}:){6}(?<ls32>\h{1,4}:\h{=
+1,4}|(?<IPv4address>(?<dec-octet>[1-9]\d|1\d{2}|2[0-4]\d|25[0-5]|\d)\.\g<de=
+c-octet>\.\g<dec-octet>\.\g<dec-octet>))|::(?:\h{1,4}:){5}\g<ls32>|\h{1,4}?=
+::(?:\h{1,4}:){4}\g<ls32>|(?:(?:\h{1,4}:)?\h{1,4})?::(?:\h{1,4}:){3}\g<ls32=
+>|(?:(?:\h{1,4}:){,2}\h{1,4})?::(?:\h{1,4}:){2}\g<ls32>|(?:(?:\h{1,4}:){,3}=
+\h{1,4})?::\h{1,4}:\g<ls32>|(?:(?:\h{1,4}:){,4}\h{1,4})?::\g<ls32>|(?:(?:\h=
+{1,4}:){,5}\h{1,4})?::\h{1,4}|(?:(?:\h{1,4}:){,6}\h{1,4})?::)|(?<IPvFuture>=
+v\h+\.[!$&-.0-;=3DA-Z_a-z~]+))\])|\g<IPv4address>|(?<reg-name>(?:%\h\h|[!$&=
+-.0-9;=3DA-Z_a-z~])+))?(?::(?<port>\d*))?)(?<path-abempty>(?:\/(?<segment>(=
+?:%\h\h|[!$&-.0-;=3D@-Z_a-z~])*))*)|(?<path-absolute>\/(?:(?<segment-nz>(?:=
+%\h\h|[!$&-.0-;=3D@-Z_a-z~])+)(?:\/\g<segment>)*)?)|(?<path-rootless>\g<seg=
+ment-nz>(?:\/\g<segment>)*)|(?<path-empty>))(?:\?(?<query>[^#]*))?(?:\#(?<f=
+ragment>(?:%\h\h|[!$&-.0-;=3D@-Z_a-z~\/?])*))?)\z/
++-    RFC3986_relative_ref =3D /\A(?<relative-ref>(?<relative-part>\/\/(?<a=
+uthority>(?:(?<userinfo>(?:%\h\h|[!$&-.0-;=3DA-Z_a-z~])*)@)?(?<host>(?<IP-l=
+iteral>\[(?<IPv6address>(?:\h{1,4}:){6}(?<ls32>\h{1,4}:\h{1,4}|(?<IPv4addre=
+ss>(?<dec-octet>[1-9]\d|1\d{2}|2[0-4]\d|25[0-5]|\d)\.\g<dec-octet>\.\g<dec-=
+octet>\.\g<dec-octet>))|::(?:\h{1,4}:){5}\g<ls32>|\h{1,4}?::(?:\h{1,4}:){4}=
+\g<ls32>|(?:(?:\h{1,4}:){,1}\h{1,4})?::(?:\h{1,4}:){3}\g<ls32>|(?:(?:\h{1,4=
+}:){,2}\h{1,4})?::(?:\h{1,4}:){2}\g<ls32>|(?:(?:\h{1,4}:){,3}\h{1,4})?::\h{=
+1,4}:\g<ls32>|(?:(?:\h{1,4}:){,4}\h{1,4})?::\g<ls32>|(?:(?:\h{1,4}:){,5}\h{=
+1,4})?::\h{1,4}|(?:(?:\h{1,4}:){,6}\h{1,4})?::)|(?<IPvFuture>v\h+\.[!$&-.0-=
+;=3DA-Z_a-z~]+)\])|\g<IPv4address>|(?<reg-name>(?:%\h\h|[!$&-.0-9;=3DA-Z_a-=
+z~])+))?(?::(?<port>\d*))?)(?<path-abempty>(?:\/(?<segment>(?:%\h\h|[!$&-.0=
+-;=3D@-Z_a-z~])*))*)|(?<path-absolute>\/(?:(?<segment-nz>(?:%\h\h|[!$&-.0-;=
+=3D@-Z_a-z~])+)(?:\/\g<segment>)*)?)|(?<path-noscheme>(?<segment-nz-nc>(?:%=
+\h\h|[!$&-.0-9;=3D@-Z_a-z~])+)(?:\/\g<segment>)*)|(?<path-empty>))(?:\?(?<q=
+uery>[^#]*))?(?:\#(?<fragment>(?:%\h\h|[!$&-.0-;=3D@-Z_a-z~\/?])*))?)\z/
+++    RFC3986_URI =3D /\A(?<URI>(?<scheme>[A-Za-z][+\-.0-9A-Za-z]*+):(?<hie=
+r-part>\/\/(?<authority>(?:(?<userinfo>(?:%\h\h|[!$&-.0-;=3DA-Z_a-z~])*+)@)=
+?(?<host>(?<IP-literal>\[(?:(?<IPv6address>(?:\h{1,4}:){6}(?<ls32>\h{1,4}:\=
+h{1,4}|(?<IPv4address>(?<dec-octet>[1-9]\d|1\d{2}|2[0-4]\d|25[0-5]|\d)\.\g<=
+dec-octet>\.\g<dec-octet>\.\g<dec-octet>))|::(?:\h{1,4}:){5}\g<ls32>|\h{1,4=
+}?::(?:\h{1,4}:){4}\g<ls32>|(?:(?:\h{1,4}:)?\h{1,4})?::(?:\h{1,4}:){3}\g<ls=
+32>|(?:(?:\h{1,4}:){,2}\h{1,4})?::(?:\h{1,4}:){2}\g<ls32>|(?:(?:\h{1,4}:){,=
+3}\h{1,4})?::\h{1,4}:\g<ls32>|(?:(?:\h{1,4}:){,4}\h{1,4})?::\g<ls32>|(?:(?:=
+\h{1,4}:){,5}\h{1,4})?::\h{1,4}|(?:(?:\h{1,4}:){,6}\h{1,4})?::)|(?<IPvFutur=
+e>v\h++\.[!$&-.0-;=3DA-Z_a-z~]++))\])|\g<IPv4address>|(?<reg-name>(?:%\h\h|=
+[!$&-.0-9;=3DA-Z_a-z~])*+))(?::(?<port>\d*+))?)(?<path-abempty>(?:\/(?<segm=
+ent>(?:%\h\h|[!$&-.0-;=3D@-Z_a-z~])*+))*+)|(?<path-absolute>\/(?:(?<segment=
+-nz>(?:%\h\h|[!$&-.0-;=3D@-Z_a-z~])++)(?:\/\g<segment>)*+)?)|(?<path-rootle=
+ss>\g<segment-nz>(?:\/\g<segment>)*+)|(?<path-empty>))(?:\?(?<query>[^#]*+)=
+)?(?:\#(?<fragment>(?:%\h\h|[!$&-.0-;=3D@-Z_a-z~\/?])*+))?)\z/
+++    RFC3986_relative_ref =3D /\A(?<relative-ref>(?<relative-part>\/\/(?<a=
+uthority>(?:(?<userinfo>(?:%\h\h|[!$&-.0-;=3DA-Z_a-z~])*+)@)?(?<host>(?<IP-=
+literal>\[(?:(?<IPv6address>(?:\h{1,4}:){6}(?<ls32>\h{1,4}:\h{1,4}|(?<IPv4a=
+ddress>(?<dec-octet>[1-9]\d|1\d{2}|2[0-4]\d|25[0-5]|\d)\.\g<dec-octet>\.\g<=
+dec-octet>\.\g<dec-octet>))|::(?:\h{1,4}:){5}\g<ls32>|\h{1,4}?::(?:\h{1,4}:=
+){4}\g<ls32>|(?:(?:\h{1,4}:){,1}\h{1,4})?::(?:\h{1,4}:){3}\g<ls32>|(?:(?:\h=
+{1,4}:){,2}\h{1,4})?::(?:\h{1,4}:){2}\g<ls32>|(?:(?:\h{1,4}:){,3}\h{1,4})?:=
+:\h{1,4}:\g<ls32>|(?:(?:\h{1,4}:){,4}\h{1,4})?::\g<ls32>|(?:(?:\h{1,4}:){,5=
+}\h{1,4})?::\h{1,4}|(?:(?:\h{1,4}:){,6}\h{1,4})?::)|(?<IPvFuture>v\h++\.[!$=
+&-.0-;=3DA-Z_a-z~]++))\])|\g<IPv4address>|(?<reg-name>(?:%\h\h|[!$&-.0-9;=
+=3DA-Z_a-z~])++))?(?::(?<port>\d*+))?)(?<path-abempty>(?:\/(?<segment>(?:%\=
+h\h|[!$&-.0-;=3D@-Z_a-z~])*+))*+)|(?<path-absolute>\/(?:(?<segment-nz>(?:%\=
+h\h|[!$&-.0-;=3D@-Z_a-z~])++)(?:\/\g<segment>)*+)?)|(?<path-noscheme>(?<seg=
+ment-nz-nc>(?:%\h\h|[!$&-.0-9;=3D@-Z_a-z~])++)(?:\/\g<segment>)*+)|(?<path-=
+empty>))(?:\?(?<query>[^#]*+))?(?:\#(?<fragment>(?:%\h\h|[!$&-.0-;=3D@-Z_a-=
+z~\/?])*+))?)\z/
++     attr_reader :regexp
++=20
++     def initialize
++diff --git a/lib/uri/version.rb b/lib/uri/version.rb
++index 82188e2..7497a7d 100644
++--- a/lib/uri/version.rb
+++++ b/lib/uri/version.rb
++@@ -1,6 +1,6 @@
++ module URI
++   # :stopdoc:
++-  VERSION_CODE =3D '001100'.freeze
+++  VERSION_CODE =3D '001201'.freeze
++   VERSION =3D VERSION_CODE.scan(/../).collect{|n| n.to_i}.join('.').freeze
++   # :startdoc:
++ end
++diff --git a/test/uri/test_common.rb b/test/uri/test_common.rb
++index 5e30cda..1d34783 100644
++--- a/test/uri/test_common.rb
+++++ b/test/uri/test_common.rb
++@@ -78,6 +78,17 @@ class TestCommon < Test::Unit::TestCase
++     assert_raise(NoMethodError) { Object.new.URI("http://www.ruby-lang.or=
+g/") }
++   end
++=20
+++  def test_parse_timeout
+++    pre =3D ->(n) {
+++      'https://example.com/dir/' + 'a' * (n * 100) + '/##.jpg'
+++    }
+++    assert_linear_performance((1..10).map {|i| i * 100}, rehearsal: 1000,=
+ pre: pre) do |uri|
+++      assert_raise(URI::InvalidURIError) do
+++        URI.parse(uri)
+++      end
+++    end
+++  end
+++
++   def test_encode_www_form_component
++     assert_equal("%00+%21%22%23%24%25%26%27%28%29*%2B%2C-.%2F09%3A%3B%3C%=
+3D%3E%3F%40" \
++                  "AZ%5B%5C%5D%5E_%60az%7B%7C%7D%7E",
++--=20
++2.35.5
++
+diff --git a/meta/recipes-devtools/ruby/ruby_3.1.3.bb b/meta/recipes-devtoo=
+ls/ruby/ruby_3.1.3.bb
+index c8454da3a9..320de83c34 100644
+--- a/meta/recipes-devtools/ruby/ruby_3.1.3.bb
++++ b/meta/recipes-devtools/ruby/ruby_3.1.3.bb
+@@ -29,6 +29,7 @@ SRC_URI =3D "http://cache.ruby-lang.org/pub/ruby/${SHRT_V=
+ER}/ruby-${PV}.tar.gz \
+            file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.=
+patch \
+            file://0006-Make-gemspecs-reproducible.patch \
+            file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.p=
+atch \
++           file://CVE-2023-28755.patch \
+            "
+ UPSTREAM_CHECK_URI =3D "https://www.ruby-lang.org/en/downloads/"
+=20
+--=20
+2.25.1
 
-So how about to replace the unclear sentence by:
-To make DT_FILES consistent with KERNEL_DEVICETREE, the list works with bot=
-h dts and dtb files.
-
-Would that make more sense to you? Or do you think the example should be pa=
-rt of that commit message, too?
-
-Cheers,
-Petr
-
-________________________________________
-From: Denys Dmytriyenko <denis@denix.org>
-Sent: Sunday, April 23, 2023 12:07 AM
-To: Petr Kubiz=F2=E1k - 2N
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core][PATCH v3] devicetree.bbclass: Allow selection of dts=
- files to build
-
-On Fri, Apr 21, 2023 at 05:23:25PM +0200, Petr Kubiz=F2=E1k wrote:
-> Add DT_FILES variable to allow the user of the class to select specific
-> dts files to build. This is useful for packages featuring dts files
-> for multiple machines.
->
-> Since many machine configs contain a list of dtb files
-> (e.g. KERNEL_DEVICETREE), DT_FILES works with both dts and dtb files.
-
-Any examples of this being used? Not really clear from the description what=
-'s
-this really used for...
-
-
-> Signed-off-by: Petr Kubiz=F2=E1k <kubiznak@2n.com>
-> ---
->  meta/classes-recipe/devicetree.bbclass | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes-recipe/devicetree.bbclass b/meta/classes-recipe=
-/devicetree.bbclass
-> index ed2a92e447..bd50d7fa1d 100644
-> --- a/meta/classes-recipe/devicetree.bbclass
-> +++ b/meta/classes-recipe/devicetree.bbclass
-> @@ -53,8 +53,10 @@ KERNEL_INCLUDE ??=3D " \
->
->  DT_INCLUDE[doc] =3D "Search paths to be made available to both the devic=
-e tree compiler and preprocessor for inclusion."
->  DT_INCLUDE ?=3D "${DT_FILES_PATH} ${KERNEL_INCLUDE}"
-> -DT_FILES_PATH[doc] =3D "Defaults to source directory, can be used to sel=
-ect dts files that are not in source (e.g. generated)."
-> +DT_FILES_PATH[doc] =3D "Path to the directory containing dts files to bu=
-ild. Defaults to source directory."
->  DT_FILES_PATH ?=3D "${S}"
-> +DT_FILES[doc] =3D "Space-separated list of dts or dtb files (relative to=
- DT_FILES_PATH) to build. If empty, all dts files are built."
-> +DT_FILES ?=3D ""
->
->  DT_PADDING_SIZE[doc] =3D "Size of padding on the device tree blob, used =
-as extra space typically for additional properties during boot."
->  DT_PADDING_SIZE ??=3D "0x3000"
-> @@ -125,9 +127,12 @@ def devicetree_compile(dtspath, includes, d):
->      subprocess.run(dtcargs, check =3D True, stdout=3Dsubprocess.PIPE, st=
-derr=3Dsubprocess.STDOUT)
->
->  python devicetree_do_compile() {
-> +    import re
->      includes =3D expand_includes("DT_INCLUDE", d)
-> +    dtfiles =3D d.getVar("DT_FILES").split()
-> +    dtfiles =3D [ re.sub(r"\.dtbo?$", ".dts", dtfile) for dtfile in dtfi=
-les ]
->      listpath =3D d.getVar("DT_FILES_PATH")
-> -    for dts in os.listdir(listpath):
-> +    for dts in dtfiles or os.listdir(listpath):
->          dtspath =3D os.path.join(listpath, dts)
->          try:
->              if not(os.path.isfile(dtspath)) or not(dts.endswith(".dts") =
-or devicetree_source_is_overlay(dtspath)):
-> --
-> 2.30.2
-
---_000_DB4PR02MB10030466D2D61356D80758E22E2679DB4PR02MB10030eu_
-Content-Type: text/html; charset="iso-8859-2"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-2">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<font size=3D"2"><span style=3D"font-size:11pt">
-<div class=3D"PlainText">Hi Denys,<br>
-</div>
-<div class=3D"PlainText elementToProof"><br>
-&gt; Any examples of this being used? Not really clear from the description=
- what's<br>
-&gt; this really used for...<br>
-<br>
-I'm not sure what is unclear to you - just the commit message, or the patch=
- itself?<br>
-<br>
-An example could be beaglebone-yocto.conf. If someone decides to move the d=
-evice tree files from kernel to a standalone repository, then it is enough =
-(e.g.) to rename KERNEL_DEVICETREE to EXTERNAL_DEVICETREE in the machine co=
-nf, and make an assignment DT_FILES
- =3D &quot;${EXTERNAL_DEVICETREE}&quot; in the devicetree recipe.<br>
-<br>
-So how about to replace the unclear sentence by:<br>
-To make DT_FILES consistent with KERNEL_DEVICETREE, the list works with bot=
-h dts and dtb files.</div>
-<div class=3D"PlainText elementToProof"><br>
-</div>
-<div class=3D"PlainText elementToProof">Would that make more sense to you? =
-Or do you think the example should be part of that commit message, too?</di=
-v>
-<div class=3D"PlainText elementToProof"><br>
-</div>
-<div class=3D"PlainText elementToProof">Cheers,</div>
-<div class=3D"PlainText elementToProof">Petr<br>
-<br>
-________________________________________<br>
-From: Denys Dmytriyenko &lt;denis@denix.org&gt;<br>
-Sent: Sunday, April 23, 2023 12:07 AM<br>
-To: Petr Kubiz=F2=E1k - 2N<br>
-Cc: openembedded-core@lists.openembedded.org<br>
-Subject: Re: [OE-core][PATCH v3] devicetree.bbclass: Allow selection of dts=
- files to build<br>
-<br>
-On Fri, Apr 21, 2023 at 05:23:25PM +0200, Petr Kubiz=F2=E1k wrote:<br>
-&gt; Add DT_FILES variable to allow the user of the class to select specifi=
-c<br>
-&gt; dts files to build. This is useful for packages featuring dts files<br=
->
-&gt; for multiple machines.<br>
-&gt;<br>
-&gt; Since many machine configs contain a list of dtb files<br>
-&gt; (e.g. KERNEL_DEVICETREE), DT_FILES works with both dts and dtb files.<=
-br>
-<br>
-Any examples of this being used? Not really clear from the description what=
-'s<br>
-this really used for...<br>
-<br>
-<br>
-&gt; Signed-off-by: Petr Kubiz=F2=E1k &lt;kubiznak@2n.com&gt;<br>
-&gt; ---<br>
-&gt;&nbsp; meta/classes-recipe/devicetree.bbclass | 9 +++++++--<br>
-&gt;&nbsp; 1 file changed, 7 insertions(+), 2 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/classes-recipe/devicetree.bbclass b/meta/classes-rec=
-ipe/devicetree.bbclass<br>
-&gt; index ed2a92e447..bd50d7fa1d 100644<br>
-&gt; --- a/meta/classes-recipe/devicetree.bbclass<br>
-&gt; +++ b/meta/classes-recipe/devicetree.bbclass<br>
-&gt; @@ -53,8 +53,10 @@ KERNEL_INCLUDE ??=3D &quot; \<br>
-&gt;<br>
-&gt;&nbsp; DT_INCLUDE[doc] =3D &quot;Search paths to be made available to b=
-oth the device tree compiler and preprocessor for inclusion.&quot;<br>
-&gt;&nbsp; DT_INCLUDE ?=3D &quot;${DT_FILES_PATH} ${KERNEL_INCLUDE}&quot;<b=
-r>
-&gt; -DT_FILES_PATH[doc] =3D &quot;Defaults to source directory, can be use=
-d to select dts files that are not in source (e.g. generated).&quot;<br>
-&gt; +DT_FILES_PATH[doc] =3D &quot;Path to the directory containing dts fil=
-es to build. Defaults to source directory.&quot;<br>
-&gt;&nbsp; DT_FILES_PATH ?=3D &quot;${S}&quot;<br>
-&gt; +DT_FILES[doc] =3D &quot;Space-separated list of dts or dtb files (rel=
-ative to DT_FILES_PATH) to build. If empty, all dts files are built.&quot;<=
-br>
-&gt; +DT_FILES ?=3D &quot;&quot;<br>
-&gt;<br>
-&gt;&nbsp; DT_PADDING_SIZE[doc] =3D &quot;Size of padding on the device tre=
-e blob, used as extra space typically for additional properties during boot=
-.&quot;<br>
-&gt;&nbsp; DT_PADDING_SIZE ??=3D &quot;0x3000&quot;<br>
-&gt; @@ -125,9 +127,12 @@ def devicetree_compile(dtspath, includes, d):<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; subprocess.run(dtcargs, check =3D True, =
-stdout=3Dsubprocess.PIPE, stderr=3Dsubprocess.STDOUT)<br>
-&gt;<br>
-&gt;&nbsp; python devicetree_do_compile() {<br>
-&gt; +&nbsp;&nbsp;&nbsp; import re<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; includes =3D expand_includes(&quot;DT_IN=
-CLUDE&quot;, d)<br>
-&gt; +&nbsp;&nbsp;&nbsp; dtfiles =3D d.getVar(&quot;DT_FILES&quot;).split()=
-<br>
-&gt; +&nbsp;&nbsp;&nbsp; dtfiles =3D [ re.sub(r&quot;\.dtbo?$&quot;, &quot;=
-.dts&quot;, dtfile) for dtfile in dtfiles ]<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; listpath =3D d.getVar(&quot;DT_FILES_PAT=
-H&quot;)<br>
-&gt; -&nbsp;&nbsp;&nbsp; for dts in os.listdir(listpath):<br>
-&gt; +&nbsp;&nbsp;&nbsp; for dts in dtfiles or os.listdir(listpath):<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dtspath =3D os.p=
-ath.join(listpath, dts)<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try:<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; if not(os.path.isfile(dtspath)) or not(dts.endswith(&quot;.dts&quot=
-;) or devicetree_source_is_overlay(dtspath)):<br>
-&gt; --<br>
-&gt; 2.30.2<br>
-</div>
-</span></font>
-</body>
-</html>
-
---_000_DB4PR02MB10030466D2D61356D80758E22E2679DB4PR02MB10030eu_--
 
