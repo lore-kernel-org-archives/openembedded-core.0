@@ -2,34 +2,34 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16110C77B61
-	for <webhook@archiver.kernel.org>; Mon, 24 Apr 2023 14:02:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3624C77B61
+	for <webhook@archiver.kernel.org>; Mon, 24 Apr 2023 14:03:11 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.51822.1682344953972072615
+ by mx.groups.io with SMTP id smtpd.web11.51837.1682344984393795910
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Apr 2023 07:02:34 -0700
+ Mon, 24 Apr 2023 07:03:04 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 735B31FB;
-	Mon, 24 Apr 2023 07:03:17 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 59E701FB;
+	Mon, 24 Apr 2023 07:03:47 -0700 (PDT)
 Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 14BDD3F64C;
-	Mon, 24 Apr 2023 07:02:32 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id F0AEE3F64C;
+	Mon, 24 Apr 2023 07:03:02 -0700 (PDT)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
 Cc: nd@arm.com
-Subject: [PATCH] connman: backport fix for CVE-2023-28488
-Date: Mon, 24 Apr 2023 15:02:31 +0100
-Message-Id: <20230424140231.350204-1-ross.burton@arm.com>
+Subject: [PATCH][mickledore] connman: backport fix for CVE-2023-28488
+Date: Mon, 24 Apr 2023 15:02:57 +0100
+Message-Id: <20230424140257.350315-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 14:02:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180355
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 14:03:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180356
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
