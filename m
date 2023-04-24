@@ -1,135 +1,93 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3624C77B61
-	for <webhook@archiver.kernel.org>; Mon, 24 Apr 2023 14:03:11 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.51837.1682344984393795910
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67746C77B73
+	for <webhook@archiver.kernel.org>; Mon, 24 Apr 2023 15:16:02 +0000 (UTC)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+ by mx.groups.io with SMTP id smtpd.web10.54432.1682349358249745868
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Apr 2023 07:03:04 -0700
+ Mon, 24 Apr 2023 08:15:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 59E701FB;
-	Mon, 24 Apr 2023 07:03:47 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id F0AEE3F64C;
-	Mon, 24 Apr 2023 07:03:02 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Subject: [PATCH][mickledore] connman: backport fix for CVE-2023-28488
-Date: Mon, 24 Apr 2023 15:02:57 +0100
-Message-Id: <20230424140257.350315-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: ejo@pengutronix.de)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
+	by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1pqxv2-0000vW-4H; Mon, 24 Apr 2023 17:15:56 +0200
+Message-ID: <2940736fc3607415a0d241c8735c899dd95eff47.camel@pengutronix.de>
+Subject: Re: [PATCH v2 3/9] barebox: set default BAREBOX_CONFIG for qemu
+ machines
+From: Enrico =?ISO-8859-1?Q?J=F6rns?= <ejo@pengutronix.de>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, yocto@pengutronix.de, Richard
+ Purdie <richard.purdie@linuxfoundation.org>, alexandre.belloni@bootlin.com,
+ afa <afa@pengutronix.de>
+Date: Mon, 24 Apr 2023 17:15:54 +0200
+In-Reply-To: <CANNYZj84_aCYbEZ3kOQRYZqgE-Q_LQ9mmJZH7euN5YEYX0vH2g@mail.gmail.com>
+References: <20230331104025.1478393-1-ejo@pengutronix.de>
+	 <20230331104025.1478393-4-ejo@pengutronix.de>
+	 <CANNYZj8qDFMKa5HhnK=k7+Le=h_rhmV2Mm_WreLwjfbYWxiUcA@mail.gmail.com>
+	 <5edb0cbe55f0b194b89b75a2c34b74b2f343f2c9.camel@pengutronix.de>
+	 <CANNYZj84_aCYbEZ3kOQRYZqgE-Q_LQ9mmJZH7euN5YEYX0vH2g@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1+deb11u1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 14:03:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180356
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 15:16:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180357
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- ...ify-and-sanitize-packet-length-first.patch | 63 +++++++++++++++++++
- .../connman/connman_1.41.bb                   |  1 +
- 2 files changed, 64 insertions(+)
- create mode 100644 meta/recipes-connectivity/connman/connman/0001-gdhcp-=
-Verify-and-sanitize-packet-length-first.patch
+Am Dienstag, dem 11.04.2023 um 16:16 +0200 schrieb Alexander Kanavin:
+> On Mon, 3 Apr 2023 at 13:42, Enrico Jörns <ejo@pengutronix.de> wrote:
+> > > > +# set defaults for oe-core MACHINEs to allow building barebox
+> > > > +BAREBOX_CONFIG:qemuarm = "vexpress_defconfig"
+> > > > +BAREBOX_CONFIG:qemuarm64 = "qemu_virt64_defconfig"
+> > > > +BAREBOX_CONFIG:qemux86-64 = "efi_defconfig"
+> > > 
+> > > As all three are different perhaps there could be commentary in the
+> > > recipe explaining why that and how they differ? Note that there's also
+> > > a qemuall override if there's a single configuration that works for
+> > > all qemu targets.
+> > 
+> > as these three are different archs/machines, I do not find it surprising that they require
+> > different
+> > configs. I assumed that this was self-explaining.
+> 
+> Not at all. What is this 'vexpress' thingy? What does 'express' mean?
+> Why does it apply to arm, but not arm64? Why arm64 is using
+> 'qemu_virt64', but not any other targets, if that config does not seem
+> arm-specific? Why is x86 using 'efi' but not the arm targets?
+> 
+> The choices you made here should be explained.
 
-diff --git a/meta/recipes-connectivity/connman/connman/0001-gdhcp-Verify-=
-and-sanitize-packet-length-first.patch b/meta/recipes-connectivity/connma=
-n/connman/0001-gdhcp-Verify-and-sanitize-packet-length-first.patch
-new file mode 100644
-index 00000000000..8e2f47a1d55
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/0001-gdhcp-Verify-and-san=
-itize-packet-length-first.patch
-@@ -0,0 +1,63 @@
-+From 99e2c16ea1cced34a5dc450d76287a1c3e762138 Mon Sep 17 00:00:00 2001
-+From: Daniel Wagner <wagi@monom.org>
-+Date: Tue, 11 Apr 2023 08:12:56 +0200
-+Subject: [PATCH] gdhcp: Verify and sanitize packet length first
-+
-+Avoid overwriting the read packet length after the initial test. Thus
-+move all the length checks which depends on the total length first
-+and do not use the total lenght from the IP packet afterwards.
-+
-+Fixes CVE-2023-28488
-+
-+Reported by Polina Smirnova <moe.hwr@gmail.com>
-+
-+CVE: CVE-2023-28488
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+---
-+ gdhcp/client.c | 16 +++++++++-------
-+ 1 file changed, 9 insertions(+), 7 deletions(-)
-+
-+diff --git a/gdhcp/client.c b/gdhcp/client.c
-+index 7efa7e45..82017692 100644
-+--- a/gdhcp/client.c
-++++ b/gdhcp/client.c
-+@@ -1319,9 +1319,9 @@ static bool sanity_check(struct ip_udp_dhcp_packet=
- *packet, int bytes)
-+ static int dhcp_recv_l2_packet(struct dhcp_packet *dhcp_pkt, int fd,
-+ 				struct sockaddr_in *dst_addr)
-+ {
-+-	int bytes;
-+ 	struct ip_udp_dhcp_packet packet;
-+ 	uint16_t check;
-++	int bytes, tot_len;
-+=20
-+ 	memset(&packet, 0, sizeof(packet));
-+=20
-+@@ -1329,15 +1329,17 @@ static int dhcp_recv_l2_packet(struct dhcp_packe=
-t *dhcp_pkt, int fd,
-+ 	if (bytes < 0)
-+ 		return -1;
-+=20
-+-	if (bytes < (int) (sizeof(packet.ip) + sizeof(packet.udp)))
-+-		return -1;
-+-
-+-	if (bytes < ntohs(packet.ip.tot_len))
-++	tot_len =3D ntohs(packet.ip.tot_len);
-++	if (bytes > tot_len) {
-++		/* ignore any extra garbage bytes */
-++		bytes =3D tot_len;
-++	} else if (bytes < tot_len) {
-+ 		/* packet is bigger than sizeof(packet), we did partial read */
-+ 		return -1;
-++	}
-+=20
-+-	/* ignore any extra garbage bytes */
-+-	bytes =3D ntohs(packet.ip.tot_len);
-++	if (bytes < (int) (sizeof(packet.ip) + sizeof(packet.udp)))
-++		return -1;
-+=20
-+ 	if (!sanity_check(&packet, bytes))
-+ 		return -1;
-+--=20
-+2.34.1
-+
-diff --git a/meta/recipes-connectivity/connman/connman_1.41.bb b/meta/rec=
-ipes-connectivity/connman/connman_1.41.bb
-index 79542b2175d..3f2e29820f8 100644
---- a/meta/recipes-connectivity/connman/connman_1.41.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.41.bb
-@@ -8,6 +8,7 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/network/${BPN}/${B=
-P}.tar.xz \
-            file://CVE-2022-32293_p1.patch \
-            file://CVE-2022-32293_p2.patch \
-            file://CVE-2022-32292.patch \
-+           file://0001-gdhcp-Verify-and-sanitize-packet-length-first.pat=
-ch \
-            "
-=20
- SRC_URI:append:libc-musl =3D " file://0002-resolve-musl-does-not-impleme=
-nt-res_ninit.patch"
---=20
-2.34.1
+Vexpress is "Versatile Express" which once was the ARMv7 reference platform and is one of the
+platforms emulated in QEMU (when using "-machine vexpress-a9" or "-machine vexpress-a15").
+
+virt, or virt64 are the generic QEMU ARM platform. For historical reasons, there is only a dedicated
+vexpress defconfig in barebox.
+
+EFI is used for x86 only, since on ARM barebox is normally used as the primary loader only.
+
+
+However, since barebox builds are multi-platform builds by default, it should be possible to use the
+standard multi_v7_defconfig and multi_v8_defconfig instead (for arm). I'll give it a try.
+
+Regards, Enrico
+
+> 
+> Alex
+> 
+
+-- 
+Pengutronix e.K.                           | Enrico Jörns                |
+Embedded Linux Consulting & Support        | https://www.pengutronix.de/ |
+Steuerwalder Str. 21                       | Phone: +49-5121-206917-180  |
+31137 Hildesheim, Germany                  | Fax:   +49-5121-206917-9    |
 
 
