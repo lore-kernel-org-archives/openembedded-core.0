@@ -1,221 +1,278 @@
-Return-Path: <mingli.yu@eng.windriver.com>
+Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB906C7618E
-	for <webhook@archiver.kernel.org>; Mon, 24 Apr 2023 09:16:10 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.46482.1682327765466552180
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7661C77B7E
+	for <webhook@archiver.kernel.org>; Mon, 24 Apr 2023 09:44:40 +0000 (UTC)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web11.46824.1682329474791976532
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Apr 2023 02:16:05 -0700
+ Mon, 24 Apr 2023 02:44:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=3478a72184=mingli.yu@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33O8fhRC002187
-	for <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 09:16:04 GMT
-Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3q46jba47w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 09:16:04 +0000
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Mon, 24 Apr 2023 02:16:03 -0700
-Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.23 via Frontend Transport; Mon, 24 Apr 2023 02:16:02 -0700
-From: <mingli.yu@eng.windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [kirkstone][PATCH] ruby: Fix CVE-2023-28755
-Date: Mon, 24 Apr 2023 17:16:01 +0800
-Message-ID: <20230424091601.3982244-1-mingli.yu@eng.windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=oPpMOogb;
+ spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-4edcdfa8638so4453767e87.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 02:44:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682329473; x=1684921473;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GqRCwxGEEVBvHhIDEgawQlen/WETHs//esSDawsTdys=;
+        b=oPpMOogbrFJKfm3TnJzPuXakRhyqZbRk5qn/aEEfA/3VBJDK16klutXaIUQk4CkBNJ
+         UKW54UB/r7kCxeU8UgcPqWG/7wAWO5LUmm2+YMv3I+JBPL95L8CC83nk7rpzAz1Kp8ON
+         zr4HmvBGzvpPGZhjm382GXbbCb8KYB03S/+mqdLLnb+zxELV4RyOEPj8Fwx4RdgUSFb9
+         MAQPIayJ/8tqk4OO2KbRd39mVf3K/IrgrVXuvQlrn/xLOrnfMKwXZP0nsAVl3o14DDC2
+         ZkfE3KehPGsSIg8Hkv/2cWgBCyryvV0IRtGesAmQIVxfMmr3Kbd31kDh7DsloZPH0VfV
+         DBFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682329473; x=1684921473;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GqRCwxGEEVBvHhIDEgawQlen/WETHs//esSDawsTdys=;
+        b=MHIyqvL2L79rBZab3nD8vstj013/knRWt+M2h/I87j8QWqRIWD3VMFEc6mdAAnwYXF
+         KOXPnYaZFQS481RqlzHpSdl0p4HnzuPVZHwpPKBXvovYWT2C54kWbjZDO+7eWtKxHpxl
+         e1H7mSScN9clRfC0ihEDxi7JIcRwKQl0OaDiXXG6ltxgx80escJ/ytYnZ7JlrbGRWKFS
+         h4oH/O32NWrX2AW+Uja2s1Sj/ek8fKI/Dir8Aeg4uNPShSlKSwiATC2V96X42BbeJevp
+         Om5LFGOUkmBY9CawYgBrX9v1g5dWXm+JuT0GVblXngSW4Z3Ym43oQQu6rpbKDFxJNnUY
+         ie0A==
+X-Gm-Message-State: AAQBX9cmrDq5LTASEvBQinKRGkBPzdJ4monFZ9H6gXte1qBhEWf+2Fef
+	Hf3gBHLR3eGw05YBty46v7F2mOjBFh9jR/yeY2g=
+X-Google-Smtp-Source: AKy350bizF2/xA+qfukN/i9QsR2azo0I+0/KyLMYRK3Slx0CNYHPjIVndcCCtkWK2FjXsVA3FJ638XWXx6oUczwCy+w=
+X-Received: by 2002:a19:ac43:0:b0:4ee:d799:eca with SMTP id
+ r3-20020a19ac43000000b004eed7990ecamr2886347lfc.40.1682329472758; Mon, 24 Apr
+ 2023 02:44:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-Proofpoint-GUID: PFGa0kOxDY_XYrHYQTOFCW3R3b7fiNX7
-X-Proofpoint-ORIG-GUID: PFGa0kOxDY_XYrHYQTOFCW3R3b7fiNX7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-24_06,2023-04-21_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 adultscore=0
- malwarescore=0 lowpriorityscore=0 mlxscore=0 mlxlogscore=999
- impostorscore=0 bulkscore=0 clxscore=1015 priorityscore=1501 spamscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304240082
+References: <cover.1682178812.git.frederic.martinsons@gmail.com>
+ <CANNYZj-z_nV55eatamXDzGh5Y0TzPX3=yOJ1UnL9qtOHgtpKbA@mail.gmail.com> <1758D12BE8A5C7D7.10313@lists.openembedded.org>
+In-Reply-To: <1758D12BE8A5C7D7.10313@lists.openembedded.org>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
+Date: Mon, 24 Apr 2023 11:44:21 +0200
+Message-ID: <CA+cAker=3c7CYdq8WRnaVmr45n-Ja2Tt7p-0iMWKmDeAcZJUqQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 0/3] Create class for building rust unit test
+To: frederic.martinsons@gmail.com
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000009e79c605fa11da65"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 09:16:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180345
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 09:44:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180346
 
-From: Mingli Yu <mingli.yu@windriver.com>
+--0000000000009e79c605fa11da65
+Content-Type: text/plain; charset="UTF-8"
 
-Backport patch [1] to fix CVE-2023-28755.
+On Mon, 24 Apr 2023 at 10:20, Frederic Martinsons via lists.openembedded.org
+<frederic.martinsons=gmail.com@lists.openembedded.org> wrote:
 
-[1] https://github.com/ruby/ruby/commit/8ce4ab146498879b65e22f1be951b25eebb=
-79300
+>
+> On Mon, 24 Apr 2023 at 09:51, Alexander Kanavin <alex.kanavin@gmail.com>
+> wrote:
+>
+>> If you add ptests, please also add them to appropriate lists in
+>> meta/conf/distro/include/ptest-packagelists.inc, so they will be
+>> actually built and executed in yocto CI.
+>>
+>> Can you include a sample output of the tests you added into commit
+>> messages?
+>>
+>> Alex
+>>
+>
+> Ok I will issue a V2 with the modifications asked.
+>
+>
+I looked again and python3-bcrypt is already in PTESTS_FAST , for zvariant
+, the recipe is in meta-selftest
+so this layer is not always included, is this will be a problem to add
+zvariant into PTESTS_FAST ?
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- .../ruby/ruby/CVE-2023-28755.patch            | 68 +++++++++++++++++++
- meta/recipes-devtools/ruby/ruby_3.1.3.bb      |  1 +
- 2 files changed, 69 insertions(+)
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2023-28755.patch
+On Sat, 22 Apr 2023 at 17:59, Frederic Martinsons
+>> <frederic.martinsons@gmail.com> wrote:
+>> >
+>> > From: Frederic Martinsons <frederic.martinsons@gmail.com>
+>> >
+>> > This brings the possibility to use this class to build and ship
+>> > unit tests of rust projects, the class also create (or modified)
+>> > standard run-ptest script to run the generated rust test suite.
+>> >
+>> > It has been tested successfully with core-image-sato under qemu
+>> > for zvariant-ptest and python3-bcrypt-ptest (though the last one
+>> > didn't define any unit tests).
+>> >
+>> > Note that I tried to do the same with python3-cryptography but fail
+>> > to build the test suite and I don't know how to do it with the rust
+>> > extension module build by python setuptools. There must be some kind
+>> > of way for doing that so maybe someone will put some work in it (
+>> > because python3-cryptography rust extension do have unit tests).
+>> >
+>> > Moreover, in the class, I didn't manage to share data between
+>> > do_compile_ptest_base and do_install_ptest_base cleanly (I tried
+>> > to d.setVar in compile and d.getVar in install but it seems that
+>> > the data store doens't recognize my new variable) so I used a file
+>> > for that. I'm sure there is a clever way for doing that, so feel
+>> > free to tell me.
+>> >
+>> > The following changes since commit
+>> 45a8bb6e4676899d40525e7d5ad1c1ddefee3185:
+>> >
+>> >   apt-util: Fix ptest on musl (2023-04-20 11:56:03 +0100)
+>> >
+>> > are available in the Git repository at:
+>> >
+>> >   https://gitlab.com/fmartinsons/openembedded-core cargo-add-ptest
+>> >
+>> > Frederic Martinsons (3):
+>> >   ptest-cargo.bbclass: create class
+>> >   python3-bcrypt: enable build of unit tests
+>> >   zvariant: add ptest feature for zvariant test suite
+>> >
+>> >  .../zvariant/zvariant_3.12.0.bb               |  11 +-
+>> >  meta/classes-recipe/ptest-cargo.bbclass       | 108 ++++++++++++++++++
+>> >  .../python/python3-bcrypt_4.0.1.bb            |   4 +-
+>> >  3 files changed, 121 insertions(+), 2 deletions(-)
+>> >  create mode 100644 meta/classes-recipe/ptest-cargo.bbclass
+>> >
+>> > --
+>> > 2.34.1
+>> >
+>> >
+>> >
+>> >
+>>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#180341):
+> https://lists.openembedded.org/g/openembedded-core/message/180341
+> Mute This Topic: https://lists.openembedded.org/mt/98436057/6213388
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> frederic.martinsons@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
 
-diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2023-28755.patch b/meta/re=
-cipes-devtools/ruby/ruby/CVE-2023-28755.patch
-new file mode 100644
-index 0000000000..d611c41dcc
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/CVE-2023-28755.patch
-@@ -0,0 +1,68 @@
-+From db4bb57d4af6d097a0c29490536793d95f1d8983 Mon Sep 17 00:00:00 2001
-+From: Hiroshi SHIBATA <hsbt@ruby-lang.org>
-+Date: Mon, 24 Apr 2023 08:27:24 +0000
-+Subject: [PATCH] Merge URI-0.12.1
-+
-+CVE: CVE-2023-28755
-+
-+Upstream-Status: Backport [https://github.com/ruby/ruby/commit/8ce4ab14649=
-8879b65e22f1be951b25eebb79300]
-+
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ lib/uri/rfc3986_parser.rb |  4 ++--
-+ lib/uri/version.rb        |  2 +-
-+ test/uri/test_common.rb   | 11 +++++++++++
-+ 3 files changed, 14 insertions(+), 3 deletions(-)
-+
-+diff --git a/lib/uri/rfc3986_parser.rb b/lib/uri/rfc3986_parser.rb
-+index 3e07de4..3c89311 100644
-+--- a/lib/uri/rfc3986_parser.rb
-++++ b/lib/uri/rfc3986_parser.rb
-+@@ -3,8 +3,8 @@ module URI
-+   class RFC3986_Parser # :nodoc:
-+     # URI defined in RFC3986
-+     # this regexp is modified not to host is not empty string
-+-    RFC3986_URI =3D /\A(?<URI>(?<scheme>[A-Za-z][+\-.0-9A-Za-z]*):(?<hier=
--part>\/\/(?<authority>(?:(?<userinfo>(?:%\h\h|[!$&-.0-;=3DA-Z_a-z~])*)@)?(=
-?<host>(?<IP-literal>\[(?:(?<IPv6address>(?:\h{1,4}:){6}(?<ls32>\h{1,4}:\h{=
-1,4}|(?<IPv4address>(?<dec-octet>[1-9]\d|1\d{2}|2[0-4]\d|25[0-5]|\d)\.\g<de=
-c-octet>\.\g<dec-octet>\.\g<dec-octet>))|::(?:\h{1,4}:){5}\g<ls32>|\h{1,4}?=
-::(?:\h{1,4}:){4}\g<ls32>|(?:(?:\h{1,4}:)?\h{1,4})?::(?:\h{1,4}:){3}\g<ls32=
->|(?:(?:\h{1,4}:){,2}\h{1,4})?::(?:\h{1,4}:){2}\g<ls32>|(?:(?:\h{1,4}:){,3}=
-\h{1,4})?::\h{1,4}:\g<ls32>|(?:(?:\h{1,4}:){,4}\h{1,4})?::\g<ls32>|(?:(?:\h=
-{1,4}:){,5}\h{1,4})?::\h{1,4}|(?:(?:\h{1,4}:){,6}\h{1,4})?::)|(?<IPvFuture>=
-v\h+\.[!$&-.0-;=3DA-Z_a-z~]+))\])|\g<IPv4address>|(?<reg-name>(?:%\h\h|[!$&=
--.0-9;=3DA-Z_a-z~])+))?(?::(?<port>\d*))?)(?<path-abempty>(?:\/(?<segment>(=
-?:%\h\h|[!$&-.0-;=3D@-Z_a-z~])*))*)|(?<path-absolute>\/(?:(?<segment-nz>(?:=
-%\h\h|[!$&-.0-;=3D@-Z_a-z~])+)(?:\/\g<segment>)*)?)|(?<path-rootless>\g<seg=
-ment-nz>(?:\/\g<segment>)*)|(?<path-empty>))(?:\?(?<query>[^#]*))?(?:\#(?<f=
-ragment>(?:%\h\h|[!$&-.0-;=3D@-Z_a-z~\/?])*))?)\z/
-+-    RFC3986_relative_ref =3D /\A(?<relative-ref>(?<relative-part>\/\/(?<a=
-uthority>(?:(?<userinfo>(?:%\h\h|[!$&-.0-;=3DA-Z_a-z~])*)@)?(?<host>(?<IP-l=
-iteral>\[(?<IPv6address>(?:\h{1,4}:){6}(?<ls32>\h{1,4}:\h{1,4}|(?<IPv4addre=
-ss>(?<dec-octet>[1-9]\d|1\d{2}|2[0-4]\d|25[0-5]|\d)\.\g<dec-octet>\.\g<dec-=
-octet>\.\g<dec-octet>))|::(?:\h{1,4}:){5}\g<ls32>|\h{1,4}?::(?:\h{1,4}:){4}=
-\g<ls32>|(?:(?:\h{1,4}:){,1}\h{1,4})?::(?:\h{1,4}:){3}\g<ls32>|(?:(?:\h{1,4=
-}:){,2}\h{1,4})?::(?:\h{1,4}:){2}\g<ls32>|(?:(?:\h{1,4}:){,3}\h{1,4})?::\h{=
-1,4}:\g<ls32>|(?:(?:\h{1,4}:){,4}\h{1,4})?::\g<ls32>|(?:(?:\h{1,4}:){,5}\h{=
-1,4})?::\h{1,4}|(?:(?:\h{1,4}:){,6}\h{1,4})?::)|(?<IPvFuture>v\h+\.[!$&-.0-=
-;=3DA-Z_a-z~]+)\])|\g<IPv4address>|(?<reg-name>(?:%\h\h|[!$&-.0-9;=3DA-Z_a-=
-z~])+))?(?::(?<port>\d*))?)(?<path-abempty>(?:\/(?<segment>(?:%\h\h|[!$&-.0=
--;=3D@-Z_a-z~])*))*)|(?<path-absolute>\/(?:(?<segment-nz>(?:%\h\h|[!$&-.0-;=
-=3D@-Z_a-z~])+)(?:\/\g<segment>)*)?)|(?<path-noscheme>(?<segment-nz-nc>(?:%=
-\h\h|[!$&-.0-9;=3D@-Z_a-z~])+)(?:\/\g<segment>)*)|(?<path-empty>))(?:\?(?<q=
-uery>[^#]*))?(?:\#(?<fragment>(?:%\h\h|[!$&-.0-;=3D@-Z_a-z~\/?])*))?)\z/
-++    RFC3986_URI =3D /\A(?<URI>(?<scheme>[A-Za-z][+\-.0-9A-Za-z]*+):(?<hie=
-r-part>\/\/(?<authority>(?:(?<userinfo>(?:%\h\h|[!$&-.0-;=3DA-Z_a-z~])*+)@)=
-?(?<host>(?<IP-literal>\[(?:(?<IPv6address>(?:\h{1,4}:){6}(?<ls32>\h{1,4}:\=
-h{1,4}|(?<IPv4address>(?<dec-octet>[1-9]\d|1\d{2}|2[0-4]\d|25[0-5]|\d)\.\g<=
-dec-octet>\.\g<dec-octet>\.\g<dec-octet>))|::(?:\h{1,4}:){5}\g<ls32>|\h{1,4=
-}?::(?:\h{1,4}:){4}\g<ls32>|(?:(?:\h{1,4}:)?\h{1,4})?::(?:\h{1,4}:){3}\g<ls=
-32>|(?:(?:\h{1,4}:){,2}\h{1,4})?::(?:\h{1,4}:){2}\g<ls32>|(?:(?:\h{1,4}:){,=
-3}\h{1,4})?::\h{1,4}:\g<ls32>|(?:(?:\h{1,4}:){,4}\h{1,4})?::\g<ls32>|(?:(?:=
-\h{1,4}:){,5}\h{1,4})?::\h{1,4}|(?:(?:\h{1,4}:){,6}\h{1,4})?::)|(?<IPvFutur=
-e>v\h++\.[!$&-.0-;=3DA-Z_a-z~]++))\])|\g<IPv4address>|(?<reg-name>(?:%\h\h|=
-[!$&-.0-9;=3DA-Z_a-z~])*+))(?::(?<port>\d*+))?)(?<path-abempty>(?:\/(?<segm=
-ent>(?:%\h\h|[!$&-.0-;=3D@-Z_a-z~])*+))*+)|(?<path-absolute>\/(?:(?<segment=
--nz>(?:%\h\h|[!$&-.0-;=3D@-Z_a-z~])++)(?:\/\g<segment>)*+)?)|(?<path-rootle=
-ss>\g<segment-nz>(?:\/\g<segment>)*+)|(?<path-empty>))(?:\?(?<query>[^#]*+)=
-)?(?:\#(?<fragment>(?:%\h\h|[!$&-.0-;=3D@-Z_a-z~\/?])*+))?)\z/
-++    RFC3986_relative_ref =3D /\A(?<relative-ref>(?<relative-part>\/\/(?<a=
-uthority>(?:(?<userinfo>(?:%\h\h|[!$&-.0-;=3DA-Z_a-z~])*+)@)?(?<host>(?<IP-=
-literal>\[(?:(?<IPv6address>(?:\h{1,4}:){6}(?<ls32>\h{1,4}:\h{1,4}|(?<IPv4a=
-ddress>(?<dec-octet>[1-9]\d|1\d{2}|2[0-4]\d|25[0-5]|\d)\.\g<dec-octet>\.\g<=
-dec-octet>\.\g<dec-octet>))|::(?:\h{1,4}:){5}\g<ls32>|\h{1,4}?::(?:\h{1,4}:=
-){4}\g<ls32>|(?:(?:\h{1,4}:){,1}\h{1,4})?::(?:\h{1,4}:){3}\g<ls32>|(?:(?:\h=
-{1,4}:){,2}\h{1,4})?::(?:\h{1,4}:){2}\g<ls32>|(?:(?:\h{1,4}:){,3}\h{1,4})?:=
-:\h{1,4}:\g<ls32>|(?:(?:\h{1,4}:){,4}\h{1,4})?::\g<ls32>|(?:(?:\h{1,4}:){,5=
-}\h{1,4})?::\h{1,4}|(?:(?:\h{1,4}:){,6}\h{1,4})?::)|(?<IPvFuture>v\h++\.[!$=
-&-.0-;=3DA-Z_a-z~]++))\])|\g<IPv4address>|(?<reg-name>(?:%\h\h|[!$&-.0-9;=
-=3DA-Z_a-z~])++))?(?::(?<port>\d*+))?)(?<path-abempty>(?:\/(?<segment>(?:%\=
-h\h|[!$&-.0-;=3D@-Z_a-z~])*+))*+)|(?<path-absolute>\/(?:(?<segment-nz>(?:%\=
-h\h|[!$&-.0-;=3D@-Z_a-z~])++)(?:\/\g<segment>)*+)?)|(?<path-noscheme>(?<seg=
-ment-nz-nc>(?:%\h\h|[!$&-.0-9;=3D@-Z_a-z~])++)(?:\/\g<segment>)*+)|(?<path-=
-empty>))(?:\?(?<query>[^#]*+))?(?:\#(?<fragment>(?:%\h\h|[!$&-.0-;=3D@-Z_a-=
-z~\/?])*+))?)\z/
-+     attr_reader :regexp
-+=20
-+     def initialize
-+diff --git a/lib/uri/version.rb b/lib/uri/version.rb
-+index 82188e2..7497a7d 100644
-+--- a/lib/uri/version.rb
-++++ b/lib/uri/version.rb
-+@@ -1,6 +1,6 @@
-+ module URI
-+   # :stopdoc:
-+-  VERSION_CODE =3D '001100'.freeze
-++  VERSION_CODE =3D '001201'.freeze
-+   VERSION =3D VERSION_CODE.scan(/../).collect{|n| n.to_i}.join('.').freeze
-+   # :startdoc:
-+ end
-+diff --git a/test/uri/test_common.rb b/test/uri/test_common.rb
-+index 5e30cda..1d34783 100644
-+--- a/test/uri/test_common.rb
-++++ b/test/uri/test_common.rb
-+@@ -78,6 +78,17 @@ class TestCommon < Test::Unit::TestCase
-+     assert_raise(NoMethodError) { Object.new.URI("http://www.ruby-lang.or=
-g/") }
-+   end
-+=20
-++  def test_parse_timeout
-++    pre =3D ->(n) {
-++      'https://example.com/dir/' + 'a' * (n * 100) + '/##.jpg'
-++    }
-++    assert_linear_performance((1..10).map {|i| i * 100}, rehearsal: 1000,=
- pre: pre) do |uri|
-++      assert_raise(URI::InvalidURIError) do
-++        URI.parse(uri)
-++      end
-++    end
-++  end
-++
-+   def test_encode_www_form_component
-+     assert_equal("%00+%21%22%23%24%25%26%27%28%29*%2B%2C-.%2F09%3A%3B%3C%=
-3D%3E%3F%40" \
-+                  "AZ%5B%5C%5D%5E_%60az%7B%7C%7D%7E",
-+--=20
-+2.35.5
-+
-diff --git a/meta/recipes-devtools/ruby/ruby_3.1.3.bb b/meta/recipes-devtoo=
-ls/ruby/ruby_3.1.3.bb
-index c8454da3a9..320de83c34 100644
---- a/meta/recipes-devtools/ruby/ruby_3.1.3.bb
-+++ b/meta/recipes-devtools/ruby/ruby_3.1.3.bb
-@@ -29,6 +29,7 @@ SRC_URI =3D "http://cache.ruby-lang.org/pub/ruby/${SHRT_V=
-ER}/ruby-${PV}.tar.gz \
-            file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.=
-patch \
-            file://0006-Make-gemspecs-reproducible.patch \
-            file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.p=
-atch \
-+           file://CVE-2023-28755.patch \
-            "
- UPSTREAM_CHECK_URI =3D "https://www.ruby-lang.org/en/downloads/"
-=20
---=20
-2.25.1
+--0000000000009e79c605fa11da65
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, 24 Apr 2023 at 10:20, Frederi=
+c Martinsons via <a href=3D"http://lists.openembedded.org">lists.openembedd=
+ed.org</a> &lt;frederic.martinsons=3D<a href=3D"mailto:gmail.com@lists.open=
+embedded.org">gmail.com@lists.openembedded.org</a>&gt; wrote:<br></div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"=
+ltr"><br></div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_a=
+ttr">On Mon, 24 Apr 2023 at 09:51, Alexander Kanavin &lt;<a href=3D"mailto:=
+alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt; wr=
+ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">If you add =
+ptests, please also add them to appropriate lists in<br>
+meta/conf/distro/include/ptest-packagelists.inc, so they will be<br>
+actually built and executed in yocto CI.<br>
+<br>
+Can you include a sample output of the tests you added into commit messages=
+?<br>
+<br>
+Alex<br></blockquote><div><br></div>Ok I will issue a V2 with the modificat=
+ions=C2=A0asked.<br><div><br></div></div></div></blockquote><div><br></div>=
+<div>I looked again and python3-bcrypt is already in PTESTS_FAST , for zvar=
+iant , the recipe is in meta-selftest</div><div>so this layer is not always=
+ included, is this will be a problem to add zvariant into PTESTS_FAST ?</di=
+v><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
+=3D"ltr"><div class=3D"gmail_quote"><div></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">
+On Sat, 22 Apr 2023 at 17:59, Frederic Martinsons<br>
+&lt;<a href=3D"mailto:frederic.martinsons@gmail.com" target=3D"_blank">fred=
+eric.martinsons@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; From: Frederic Martinsons &lt;<a href=3D"mailto:frederic.martinsons@gm=
+ail.com" target=3D"_blank">frederic.martinsons@gmail.com</a>&gt;<br>
+&gt;<br>
+&gt; This brings the possibility to use this class to build and ship<br>
+&gt; unit tests of rust projects, the class also create (or modified)<br>
+&gt; standard run-ptest script to run the generated rust test suite.<br>
+&gt;<br>
+&gt; It has been tested successfully with core-image-sato under qemu<br>
+&gt; for zvariant-ptest and python3-bcrypt-ptest (though the last one<br>
+&gt; didn&#39;t define any unit tests).<br>
+&gt;<br>
+&gt; Note that I tried to do the same with python3-cryptography but fail<br=
+>
+&gt; to build the test suite and I don&#39;t know how to do it with the rus=
+t<br>
+&gt; extension module build by python setuptools. There must be some kind<b=
+r>
+&gt; of way for doing that so maybe someone will put some work in it (<br>
+&gt; because python3-cryptography rust extension do have unit tests).<br>
+&gt;<br>
+&gt; Moreover, in the class, I didn&#39;t manage to share data between<br>
+&gt; do_compile_ptest_base and do_install_ptest_base cleanly (I tried<br>
+&gt; to d.setVar in compile and d.getVar in install but it seems that<br>
+&gt; the data store doens&#39;t recognize my new variable) so I used a file=
+<br>
+&gt; for that. I&#39;m sure there is a clever way for doing that, so feel<b=
+r>
+&gt; free to tell me.<br>
+&gt;<br>
+&gt; The following changes since commit 45a8bb6e4676899d40525e7d5ad1c1ddefe=
+e3185:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0apt-util: Fix ptest on musl (2023-04-20 11:56:03 +0100)<br=
+>
+&gt;<br>
+&gt; are available in the Git repository at:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0<a href=3D"https://gitlab.com/fmartinsons/openembedded-cor=
+e" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/fmartinsons/open=
+embedded-core</a> cargo-add-ptest<br>
+&gt;<br>
+&gt; Frederic Martinsons (3):<br>
+&gt;=C2=A0 =C2=A0ptest-cargo.bbclass: create class<br>
+&gt;=C2=A0 =C2=A0python3-bcrypt: enable build of unit tests<br>
+&gt;=C2=A0 =C2=A0zvariant: add ptest feature for zvariant test suite<br>
+&gt;<br>
+&gt;=C2=A0 .../zvariant/<a href=3D"http://zvariant_3.12.0.bb" rel=3D"norefe=
+rrer" target=3D"_blank">zvariant_3.12.0.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 11 +-<br>
+&gt;=C2=A0 meta/classes-recipe/ptest-cargo.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0| 108 ++++++++++++++++++<br>
+&gt;=C2=A0 .../python/<a href=3D"http://python3-bcrypt_4.0.1.bb" rel=3D"nor=
+eferrer" target=3D"_blank">python3-bcrypt_4.0.1.bb</a>=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A04 +-<br>
+&gt;=C2=A0 3 files changed, 121 insertions(+), 2 deletions(-)<br>
+&gt;=C2=A0 create mode 100644 meta/classes-recipe/ptest-cargo.bbclass<br>
+&gt;<br>
+&gt; --<br>
+&gt; 2.34.1<br>
+&gt;<br>
+&gt;<br>
+&gt; <br>
+&gt;<br>
+</blockquote></div></div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#180341): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/180341" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/180341</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/98436057/6213=
+388" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/98436057/6213388</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:frederic.martinsons@gmail.=
+com" target=3D"_blank">frederic.martinsons@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--0000000000009e79c605fa11da65--
 
