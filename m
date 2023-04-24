@@ -1,93 +1,90 @@
-Return-Path: <ejo@pengutronix.de>
+Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67746C77B73
-	for <webhook@archiver.kernel.org>; Mon, 24 Apr 2023 15:16:02 +0000 (UTC)
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
- by mx.groups.io with SMTP id smtpd.web10.54432.1682349358249745868
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 793C7C7618E
+	for <webhook@archiver.kernel.org>; Mon, 24 Apr 2023 15:32:52 +0000 (UTC)
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by mx.groups.io with SMTP id smtpd.web10.54912.1682350362801853465
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Apr 2023 08:15:59 -0700
+ Mon, 24 Apr 2023 08:32:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: ejo@pengutronix.de)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
-	by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1pqxv2-0000vW-4H; Mon, 24 Apr 2023 17:15:56 +0200
-Message-ID: <2940736fc3607415a0d241c8735c899dd95eff47.camel@pengutronix.de>
-Subject: Re: [PATCH v2 3/9] barebox: set default BAREBOX_CONFIG for qemu
- machines
-From: Enrico =?ISO-8859-1?Q?J=F6rns?= <ejo@pengutronix.de>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, yocto@pengutronix.de, Richard
- Purdie <richard.purdie@linuxfoundation.org>, alexandre.belloni@bootlin.com,
- afa <afa@pengutronix.de>
-Date: Mon, 24 Apr 2023 17:15:54 +0200
-In-Reply-To: <CANNYZj84_aCYbEZ3kOQRYZqgE-Q_LQ9mmJZH7euN5YEYX0vH2g@mail.gmail.com>
-References: <20230331104025.1478393-1-ejo@pengutronix.de>
-	 <20230331104025.1478393-4-ejo@pengutronix.de>
-	 <CANNYZj8qDFMKa5HhnK=k7+Le=h_rhmV2Mm_WreLwjfbYWxiUcA@mail.gmail.com>
-	 <5edb0cbe55f0b194b89b75a2c34b74b2f343f2c9.camel@pengutronix.de>
-	 <CANNYZj84_aCYbEZ3kOQRYZqgE-Q_LQ9mmJZH7euN5YEYX0vH2g@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1+deb11u1 
+ dkim=pass header.i=@ti.com header.s=ti-com-17q1 header.b=m32UII2W;
+ spf=pass (domain: ti.com, ip: 198.47.23.249, mailfrom: rs@ti.com)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 33OFWYwj008552;
+	Mon, 24 Apr 2023 10:32:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1682350354;
+	bh=uhikrs+ZD2hp3Drx74+m6IBMl2TojV0VOXBU25TIl0Q=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=m32UII2WaKTcQXvq1TQ9J5Gdzbp0b3Avf7BW0LASD0/FXP3WqjwpDnGJtIfzt9w7o
+	 gKD4o6OnXjm4gVSqCgl/pgSs5zancjSn/yYYPQjk4O5GdAIiYuA6lgXL0WQBldWO1z
+	 iuNwRj/jdwCDTBuWZjN+vbuNwPPlg4YFGxszTrOU=
+Received: from DFLE107.ent.ti.com (dfle107.ent.ti.com [10.64.6.28])
+	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 33OFWYij117219
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 24 Apr 2023 10:32:34 -0500
+Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Mon, 24
+ Apr 2023 10:32:33 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
+ Frontend Transport; Mon, 24 Apr 2023 10:32:33 -0500
+Received: from [128.247.81.144] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+	by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 33OFWX2p021373;
+	Mon, 24 Apr 2023 10:32:33 -0500
+Message-ID: <51022390-b911-5b8c-36bf-3ddb13263826@ti.com>
+Date: Mon, 24 Apr 2023 10:32:33 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: ejo@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [EXTERNAL] Re: [OE-core] [PATCH v2] wic/bootimg-efi: if
+ fixed-size is set then use that for mkdosfs
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        "Randolph Sapp via
+ lists.openembedded.org" <rs=ti.com@lists.openembedded.org>
+CC: <zarkakareem@gmail.com>, <reatmon@ti.com>, <denis@denix.org>, <afd@ti.com>,
+        <openembedded-core@lists.openembedded.org>
+References: <20230421212613.3660730-1-rs@ti.com>
+ <20230424104813.79ddd2bc@booty>
+Content-Language: en-US, en-US-large
+From: Randolph Sapp <rs@ti.com>
+In-Reply-To: <20230424104813.79ddd2bc@booty>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 15:16:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180357
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 15:32:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180358
 
-Am Dienstag, dem 11.04.2023 um 16:16 +0200 schrieb Alexander Kanavin:
-> On Mon, 3 Apr 2023 at 13:42, Enrico Jörns <ejo@pengutronix.de> wrote:
-> > > > +# set defaults for oe-core MACHINEs to allow building barebox
-> > > > +BAREBOX_CONFIG:qemuarm = "vexpress_defconfig"
-> > > > +BAREBOX_CONFIG:qemuarm64 = "qemu_virt64_defconfig"
-> > > > +BAREBOX_CONFIG:qemux86-64 = "efi_defconfig"
-> > > 
-> > > As all three are different perhaps there could be commentary in the
-> > > recipe explaining why that and how they differ? Note that there's also
-> > > a qemuall override if there's a single configuration that works for
-> > > all qemu targets.
-> > 
-> > as these three are different archs/machines, I do not find it surprising that they require
-> > different
-> > configs. I assumed that this was self-explaining.
+On 4/24/23 03:48, Luca Ceresoli wrote:
+> Hello Randolph,
 > 
-> Not at all. What is this 'vexpress' thingy? What does 'express' mean?
-> Why does it apply to arm, but not arm64? Why arm64 is using
-> 'qemu_virt64', but not any other targets, if that config does not seem
-> arm-specific? Why is x86 using 'efi' but not the arm targets?
+> On Fri, 21 Apr 2023 16:26:13 -0500
+> "Randolph Sapp via lists.openembedded.org"
+> <rs=ti.com@lists.openembedded.org> wrote:
+>   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 > 
-> The choices you made here should be explained.
-
-Vexpress is "Versatile Express" which once was the ARMv7 reference platform and is one of the
-platforms emulated in QEMU (when using "-machine vexpress-a9" or "-machine vexpress-a15").
-
-virt, or virt64 are the generic QEMU ARM platform. For historical reasons, there is only a dedicated
-vexpress defconfig in barebox.
-
-EFI is used for x86 only, since on ARM barebox is normally used as the primary loader only.
-
-
-However, since barebox builds are multi-platform builds by default, it should be possible to use the
-standard multi_v7_defconfig and multi_v8_defconfig instead (for arm). I'll give it a try.
-
-Regards, Enrico
-
+> As you can see your sender address has been mangled, and as a result
+> the patch is rejected by the the openembedded git server. This is not
+> your fault, but we need you to modify your git configuration to prevent
+> this from happening in the future. Have a look at the wiki for more
+> info and how to solve that:
 > 
-> Alex
+Ah! Thanks for the heads up. I've just adjust my configs.
+
+> https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded#Fixing_your_From_identity
 > 
-
--- 
-Pengutronix e.K.                           | Enrico Jörns                |
-Embedded Linux Consulting & Support        | https://www.pengutronix.de/ |
-Steuerwalder Str. 21                       | Phone: +49-5121-206917-180  |
-31137 Hildesheim, Germany                  | Fax:   +49-5121-206917-9    |
-
+> I'm taking your patch for testing on the autobuilders, fixing it
+> manually so you don't need to resend your patch this time.
+> 
+> Best regards,
+> Luca
+> 
+Cool, thanks!
 
