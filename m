@@ -2,105 +2,220 @@ Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A870EC77B73
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADD47C7618E
 	for <webhook@archiver.kernel.org>; Mon, 24 Apr 2023 13:04:21 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web10.50608.1682341459190195519
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web11.50232.1682341460013543982
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Apr 2023 06:04:19 -0700
+ Mon, 24 Apr 2023 06:04:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=i+zoxW6D;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3f1950f569eso19797535e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 06:04:18 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=UBufwuv+;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3f178da21b5so29394345e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 06:04:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682341457; x=1684933457;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eCUD0AkOq9WIyBM3sHWrWPn6GYxhl8VPi/Iy4h97t5k=;
-        b=i+zoxW6DmaCqrfu5y1xZiDq6sE4aqzu8wQmUv9lFw2amoRiqydS6XtsV09aHveRqAM
-         MnMo7E+dg3/BMEE3SQW01q8u056zlo6xfHyymHhw50vzPqG8eD0bfdSoIdGRDBncrWeW
-         7RpUcGNyz3lIfuv+eRvSL+xtu5+SNIW5hYBDbd1ogPSmUguF9M7Bre9rXy5Kebm4bkpd
-         lMxeF31f+Dj4iUumSSFPP0epdYhQG2IiQJKBQyb0JojC+5JCqvXsOIL/AY3k6bCKlAhy
-         X4LdlA8W4zSnv+hPYj4yLJvF3K7ocsRsGlJ1ay20Qq+TD2pnZ4Rpt9fX3T+yhouxT9nQ
-         0KNw==
+        d=gmail.com; s=20221208; t=1682341458; x=1684933458;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nd5jaosxCYQ6baIAK1XchMU81zt9Q0R7k1dPJ7dfW8Q=;
+        b=UBufwuv+wnNReeTkDTckXp/vtwjGo+rtvVZyhT6naw9FmbRWD9kBXE/IhMm1Eu2tZC
+         dv3KVUdrXf/jroVKwDAcwTy/f7s6BRxGA0heTjS5gWbhXKRLlBwsX26LY2uRcRnsYG73
+         /zqxQhJXJ+HppsS2RN80/2+bOX2pv3zlIYX4jJzH9GFOWIfcJInZuIRwCgi/E/W7JEJp
+         kfT5+LsPadBMvfH2cN01GVFDos2mcxRvsLIBm5bb//Ws5aii/Eb2Q+AyUvBib5fFBhy7
+         bGuGZhM2rDvtzHx++Zl3l9vrbxK0ppnc5xVUeeaoxC5bzRelir0uJE/VZsCPyaX202Uy
+         BRLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682341457; x=1684933457;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eCUD0AkOq9WIyBM3sHWrWPn6GYxhl8VPi/Iy4h97t5k=;
-        b=Mv7jch+nRSnMr6RATdLF+8YLPrJpCWJypo4kDbFzTgs+kNAsdNiFukBNCMbsoOl6pT
-         L6skLRfHq3rcmanF7Kr9zA/TMucsdMns3sZlHMwX0Me/ZJJXwt1U9QZ56KlDLz+adD0G
-         OU8HYvuwxY5/v0zeAOKSv7vJi5EP4ULCpW9SdOnUqVbLAgzpsxHEuytt2XNNGT2rEIcF
-         tTEv/iKKLk8TJNh7TJSnTZ0C0Vqr4WvP4Q1Vb8bjlvHAY7vyai+hCcY0MD6H9uPSPM4x
-         3r/ACoQXxIAykS2FkriNBdPJorXBqvorcnB5wli0m2Oe9ywExNyRejjdicUTK2cF3VTp
-         EXeA==
-X-Gm-Message-State: AAQBX9dpRxOiXZbQ9GER4KkpxU4jpXFo6IPNa3QE2s6xDQvydUH40Dls
-	uY7yhCF9OBfhzOlfVw36ZhxV1rWM25o=
-X-Google-Smtp-Source: AKy350ZI//kihVkgD/yfxceEAxJbVSNk2U86X+ljs2iuiKPPocT44EjMpqk/3OMxR+rkplmfaAOe2A==
-X-Received: by 2002:a1c:f601:0:b0:3f1:7331:38b1 with SMTP id w1-20020a1cf601000000b003f1733138b1mr7533098wmc.14.1682341456945;
-        Mon, 24 Apr 2023 06:04:16 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1682341458; x=1684933458;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nd5jaosxCYQ6baIAK1XchMU81zt9Q0R7k1dPJ7dfW8Q=;
+        b=RSG1j3XZ4VeMsRq7YLBL6zswprRkC9S5J+yRTmkSurtcWSgY741moYEK2ZdakDDOJ/
+         2+DVQPylqVvbaHux3CdPTTmKrtr4W7chOL3fBjCKY6CbzbR/4zdZaIoeBOnFWsHd6S6v
+         iM4Bn8tq/3JrKCDnw8qllDdlTfoUGFXffGSo3LylzhWn3LVeyPaaXYfB8SLRZegHGWbm
+         U9G7WsGEerLwZtpUs+AEYw47x/jCXk7WheDfxOYn3+iQY4mbAkPcbxeSQujfHXEUOLtW
+         IWWQMm8wlDH2u/aoBezHAXSxOI9S7WK2uSYa9jyDliPJ6rtgjOEwxjUbn11Ig+6tsYzg
+         e/Hw==
+X-Gm-Message-State: AAQBX9fsiT4JhESu7n88TornecDNjF2L+Xfnhp+Vz8tn1Y8ycgECVa5w
+	NA8IpL2ao8Eg7LrUPLNPiIPx7AsYO6Y=
+X-Google-Smtp-Source: AKy350aSgpUYplSA2G3wezVvqrIQHMzAEPp+S1Znh0y8BGMpECy/qWQXDigw0LgCCBlkz65PgcqoOQ==
+X-Received: by 2002:adf:eac5:0:b0:303:c151:8e69 with SMTP id o5-20020adfeac5000000b00303c1518e69mr6898415wrn.40.1682341457609;
+        Mon, 24 Apr 2023 06:04:17 -0700 (PDT)
 Received: from work-pc.core.sigfox.net ([2a01:e0a:8d5:c6c0:d7e1:16f4:c5d8:fb02])
-        by smtp.gmail.com with ESMTPSA id eo9-20020a05600c82c900b003f0ad8d1c69sm9170508wmb.25.2023.04.24.06.04.15
+        by smtp.gmail.com with ESMTPSA id eo9-20020a05600c82c900b003f0ad8d1c69sm9170508wmb.25.2023.04.24.06.04.17
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Apr 2023 06:04:16 -0700 (PDT)
+        Mon, 24 Apr 2023 06:04:17 -0700 (PDT)
 From: frederic.martinsons@gmail.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCHV2 0/3]  Create class for building and installing rust tests
-Date: Mon, 24 Apr 2023 15:04:10 +0200
-Message-Id: <cover.1682341336.git.frederic.martinsons@gmail.com>
+Subject: [PATCHV2 1/3] ptest-cargo.bbclass: create class
+Date: Mon, 24 Apr 2023 15:04:11 +0200
+Message-Id: <55d311e26e8c3eff765d71f4c1aa439459708812.1682341336.git.frederic.martinsons@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1682341336.git.frederic.martinsons@gmail.com>
+References: <cover.1682341336.git.frederic.martinsons@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 24 Apr 2023 13:04:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180351
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180352
 
 From: Frederic Martinsons <frederic.martinsons@gmail.com>
 
-This brings the possibility to use this class to build and ship
-unit tests of rust projects, the class also create (or modified)
-standard run-ptest script to run the generated rust test suite.
+This new class offer the capbility to build rust tests and
+find them correctly.
+Due to non deterministic name of generated binaries, a custom
+parsing of build result must be performed.
+See https://github.com/rust-lang/cargo/issues/1924
 
-It has been tested successfully with core-image-sato under qemu
-for zvariant-ptest and python3-bcrypt-ptest (though the last one
-didn't define any unit tests).
+All rust project will generate a test binary even if there are
+not test defined in source code (the binary will just output
+that it ran 0 tests)
 
-Note that I tried to do the same with python3-cryptography but fail
-to build the test suite and I don't know how to do it with the rust
-extension module build by python setuptools. There must be some kind
-of way for doing that so maybe someone will put some work in it (
-because python3-cryptography rust extension do have unit tests).
-
-Moreover, in the class, I didn't manage to share data between
-do_compile_ptest_base and do_install_ptest_base cleanly (I tried
-to d.setVar in compile and d.getVar in install but it seems that
-the data store doens't recognize my new variable) so I used a file
-for that. I'm sure there is a clever way for doing that, so feel
-free to tell me.
-
-The following changes since commit 45a8bb6e4676899d40525e7d5ad1c1ddefee3185:
-
-  apt-util: Fix ptest on musl (2023-04-20 11:56:03 +0100)
-
-are available in the Git repository at:
-
-  https://gitlab.com/fmartinsons/openembedded-core cargo-add-ptest
-
-Frederic Martinsons (3):
-  ptest-cargo.bbclass: create class
-  python3-bcrypt: enable build of unit tests
-  zvariant: add ptest feature for zvariant test suite
-
- .../zvariant/zvariant_3.12.0.bb               |   9 +-
- meta/classes-recipe/ptest-cargo.bbclass       | 129 ++++++++++++++++++
- .../python/python3-bcrypt_4.0.1.bb            |   4 +-
- 3 files changed, 140 insertions(+), 2 deletions(-)
+Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
+---
+ meta/classes-recipe/ptest-cargo.bbclass | 129 ++++++++++++++++++++++++
+ 1 file changed, 129 insertions(+)
  create mode 100644 meta/classes-recipe/ptest-cargo.bbclass
 
+diff --git a/meta/classes-recipe/ptest-cargo.bbclass b/meta/classes-recipe/ptest-cargo.bbclass
+new file mode 100644
+index 0000000000..f26d4225d3
+--- /dev/null
++++ b/meta/classes-recipe/ptest-cargo.bbclass
+@@ -0,0 +1,129 @@
++inherit cargo ptest
++
++CARGO_TEST_BINARIES_FILES ?= "${B}/test_binaries_list"
++
++# sadly generated test binary have no deterministic names (https://github.com/rust-lang/cargo/issues/1924)
++# which force us to parse the cargo output in json format to find those test binaries
++python do_compile_ptest_cargo() {
++    import subprocess
++    import json
++
++    cargo = bb.utils.which(d.getVar("PATH"), d.getVar("CARGO", True))
++    cargo_build_flags = d.getVar("CARGO_BUILD_FLAGS", True)
++    rust_flags = d.getVar("RUSTFLAGS", True)
++    manifest_path = d.getVar("MANIFEST_PATH", True)
++
++    env = os.environ.copy()
++    env['RUSTFLAGS'] = rust_flags
++    cmd = f"{cargo} build --tests --message-format json {cargo_build_flags}"
++    bb.note(f"Building tests with cargo ({cmd})")
++
++    try:
++        proc = subprocess.Popen(cmd, shell=True, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
++    except subprocess.CalledProcessError as e:
++        bb.fatal(f"Cannot build test with cargo: {e}")
++
++    lines = []
++    for line in proc.stdout:
++        data = line.decode('utf-8').strip('\n')
++        lines.append(data)
++        bb.note(data)
++    proc.communicate()
++    if proc.returncode != 0:
++        bb.fatal(f"Unable to compile test with cargo, '{cmd}' failed")
++
++    # Definition of the format: https://doc.rust-lang.org/cargo/reference/external-tools.html#json-messages
++    test_bins = []
++    for line in lines:
++        try:
++            data = json.loads(line)
++        except json.JSONDecodeError:
++            # skip lines that are not a json
++            pass
++        else:
++            try:
++                # Filter the test packages coming from the current manifest
++                current_manifest_path = os.path.normpath(data['manifest_path'])
++                project_manifest_path = os.path.normpath(manifest_path)
++                if current_manifest_path == project_manifest_path:
++                    if data['target']['test'] or data['target']['doctest'] and data['executable']:
++                        test_bins.append(data['executable'])
++            except KeyError as e:
++                # skip lines that do not meet the requirements
++                pass
++
++    # All rust project will genrate at least one unit test binary
++    # It will just run a test suite with 0 tests if the project didn't define some
++    # So it is not expected to have an empty list here
++    if not test_bins:
++        bb.fatal("Unable to find any test binaries")
++
++    cargo_test_binaries_file = d.getVar('CARGO_TEST_BINARIES_FILES', True)
++    bb.note(f"Found {len(test_bins)} tests, write their path into {cargo_test_binaries_file}")
++    with open(cargo_test_binaries_file, "w") as f:
++        for test_bin in test_bins:
++            f.write(f"{test_bin}\n")
++
++}
++
++python do_install_ptest_cargo() {
++    import shutil
++
++    dest_dir = d.getVar("D", True)
++    pn = d.getVar("PN", True)
++    ptest_path = d.getVar("PTEST_PATH", True)
++    cargo_test_binaries_file = d.getVar('CARGO_TEST_BINARIES_FILES', True)
++
++    ptest_dir = os.path.join(dest_dir, ptest_path.lstrip('/'))
++    os.makedirs(ptest_dir, exist_ok=True)
++
++    test_bins = []
++    with open(cargo_test_binaries_file, "r") as f:
++        for line in f.readlines():
++            test_bins.append(line.strip('\n'))
++
++    test_paths = []
++    for test_bin in test_bins:
++        shutil.copy2(test_bin, ptest_dir)
++        test_paths.append(os.path.join(ptest_path, os.path.basename(test_bin)))
++
++    ptest_script = os.path.join(ptest_dir, "run-ptest")
++    if os.path.exists(ptest_script):
++        with open(ptest_script, "a") as f:
++            f.write(f"\necho \"\"\n")
++            f.write(f"echo \"## starting to run rust tests ##\"\n")
++            for test_path in test_paths:
++                f.write(f"{test_path}\n")
++    else:
++        with open(ptest_script, "a") as f:
++            f.write("#!/bin/sh\n")
++            for test_path in test_paths:
++                f.write(f"{test_path}\n")
++        os.chmod(ptest_script, 0o755)
++
++    # this is chown -R root:root ${D}${PTEST_PATH}
++    for root, dirs, files in os.walk(ptest_dir):
++        for d in dirs:
++            shutil.chown(os.path.join(root, d), "root", "root")
++        for f in files:
++            shutil.chown(os.path.join(root, f), "root", "root")
++}
++
++do_install_ptest_cargo[dirs] = "${B}"
++do_install_ptest_cargo[doc] = "Create or update the run-ptest script with rust test binaries generated"
++do_compile_ptest_cargo[dirs] = "${B}"
++do_compile_ptest_cargo[doc] = "Generate rust test binaries through cargo"
++
++addtask compile_ptest_cargo after do_compile            before do_compile_ptest_base
++addtask install_ptest_cargo after do_install_ptest_base before do_package
++
++python () {
++    if not bb.data.inherits_class('native', d) and not bb.data.inherits_class('cross', d):
++        d.setVarFlag('do_install_ptest_cargo', 'fakeroot', '1')
++        d.setVarFlag('do_install_ptest_cargp', 'umask', '022')
++
++    # Remove all '*ptest_cargo' tasks when ptest is not enabled
++    if not(d.getVar('PTEST_ENABLED') == "1"):
++        for i in ['do_compile_ptest_cargo', 'do_install_ptest_cargo']:
++            bb.build.deltask(i, d)
++}
 -- 
 2.34.1
 
