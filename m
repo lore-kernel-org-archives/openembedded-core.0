@@ -1,110 +1,58 @@
-Return-Path: <ejo@pengutronix.de>
+Return-Path: <denis@denix.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3003CC7EE25
-	for <webhook@archiver.kernel.org>; Tue, 25 Apr 2023 18:48:20 +0000 (UTC)
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
- by mx.groups.io with SMTP id smtpd.web11.88092.1682448497710209759
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63C06C6FD18
+	for <webhook@archiver.kernel.org>; Tue, 25 Apr 2023 19:17:10 +0000 (UTC)
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web10.89415.1682450229417089860
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Apr 2023 11:48:18 -0700
+ Tue, 25 Apr 2023 12:17:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: ejo@pengutronix.de)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1prNi3-0003kK-2o; Tue, 25 Apr 2023 20:48:15 +0200
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1prNi2-00Dl5o-Cs; Tue, 25 Apr 2023 20:48:14 +0200
-Received: from ejo by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1prNi0-00209b-CW; Tue, 25 Apr 2023 20:48:12 +0200
-From: Enrico Jorns <ejo@pengutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: yocto@pengutronix.de,
-	ejo@pengutronix.de,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Alexander Kanavin <alex.kanavin@gmail.com>,
-	alexandre.belloni@bootlin.com
-Subject: [PATCH v3 5/9] oeqa/utils/qemurunner: simplify output parsing and make crlf-compatible
-Date: Tue, 25 Apr 2023 20:47:16 +0200
-Message-Id: <20230425184720.456896-6-ejo@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230425184720.456896-1-ejo@pengutronix.de>
-References: <20230425184720.456896-1-ejo@pengutronix.de>
+ dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 5786D40C56;
+	Tue, 25 Apr 2023 19:17:08 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id s6luyezdrPo1; Tue, 25 Apr 2023 19:17:08 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-88-116.washdc.fios.verizon.net [100.15.88.116])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 2A4CB406B5;
+	Tue, 25 Apr 2023 19:17:05 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 6D1AC163840; Tue, 25 Apr 2023 15:16:24 -0400 (EDT)
+Date: Tue, 25 Apr 2023 15:16:24 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: "openembedded-devel@lists.openembedded.org" <openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	Yocto Project <yocto@lists.yoctoproject.org>,
+	openembedded-members@lists.openembedded.org
+Subject: OpenEmbedded Happy Hour April 26 9pm/2100 UTC
+Message-ID: <20230425191624.GI9226@denix.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ejo@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.20 (2009-06-14)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Apr 2023 18:48:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180400
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Apr 2023 19:17:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180401
 
-Reduces the nesting depth and replaces the manual newline matching by
-built-in splitlines() method.
+All,
 
-This makes it compatible with shells that use windows-compatible line
-breaks, e.g. for EFI loaders.
+You are cordially invited to the next OpenEmbedded Happy Hour on April 26 
+for Asia/Pacific timezones @ 2100/9pm UTC (5pm ET / 2pm PT):
 
-More comments and an early return handling should make the code a bit
-more readable.
+https://www.openembedded.org/wiki/Calendar
+https://www.openembedded.org/wiki/Happy_Hours
+https://www.timeanddate.com/worldclock/fixedtime.html?msg=OpenEmbedded+Happy+Hour+April+26&iso=20230426T21
 
-Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
----
- meta/lib/oeqa/utils/qemurunner.py | 32 +++++++++++++++----------------
- 1 file changed, 15 insertions(+), 17 deletions(-)
-
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index c3d8e9e815..b08226f05a 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -673,23 +673,21 @@ class QemuRunner:
-                         return (1, "")
-                     raise Exception("No data on serial console socket, connection closed?")
- 
--        if data:
--            if raw:
--                status = 1
--            else:
--                # Remove first line (command line) and last line (prompt)
--                data = data[data.find('$?\r\n')+4:data.rfind('\r\n')]
--                index = data.rfind('\r\n')
--                if index == -1:
--                    status_cmd = data
--                    data = ""
--                else:
--                    status_cmd = data[index+2:]
--                    data = data[:index]
--                if (status_cmd == "0"):
--                    status = 1
--        return (status, str(data))
--
-+        # If we got no data, we assume something went wrong and return 0
-+        if not data:
-+            return (0, str(None))
-+
-+        # in raw mode, we cannot check exit status output and thus assume success
-+        if raw:
-+            return (1, str(data))
-+
-+        # Split lines into array and remove first line (command line) and last line (prompt)
-+        # Also remove empty lines to ease catching results
-+        outlines = list(filter(None, data.splitlines()[1:-1]))
-+        # Remaining last line contains exit code output
-+        if (outlines[-1] == "0"):
-+            status = 1
-+        return (status, "\n".join(outlines[0:-1]))
- 
-     def _dump_host(self):
-         self.host_dumper.create_dir("qemu")
 -- 
-2.39.2
-
+Regards,
+Denys Dmytriyenko <denis@denix.org>
+PGP: 0x420902729A92C964 - https://denix.org/0x420902729A92C964
+Fingerprint: 25FC E4A5 8A72 2F69 1186  6D76 4209 0272 9A92 C964
 
