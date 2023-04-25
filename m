@@ -2,10 +2,10 @@ Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C804C7EE21
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19F97C77B78
 	for <webhook@archiver.kernel.org>; Tue, 25 Apr 2023 18:48:20 +0000 (UTC)
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
- by mx.groups.io with SMTP id smtpd.web10.88570.1682448497543406069
+ by mx.groups.io with SMTP id smtpd.web10.88567.1682448497406163574
  for <openembedded-core@lists.openembedded.org>;
  Tue, 25 Apr 2023 11:48:17 -0700
 Authentication-Results: mx.groups.io;
@@ -14,14 +14,14 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1prNi2-0003kH-W2; Tue, 25 Apr 2023 20:48:15 +0200
+	id 1prNi2-0003kE-W3; Tue, 25 Apr 2023 20:48:15 +0200
 Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1prNi2-00Dl5f-11; Tue, 25 Apr 2023 20:48:14 +0200
+	id 1prNi1-00Dl5W-Ou; Tue, 25 Apr 2023 20:48:13 +0200
 Received: from ejo by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1prNi0-00209j-DB; Tue, 25 Apr 2023 20:48:12 +0200
+	id 1prNi0-00209T-Bi; Tue, 25 Apr 2023 20:48:12 +0200
 From: Enrico Jorns <ejo@pengutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: yocto@pengutronix.de,
@@ -29,9 +29,9 @@ Cc: yocto@pengutronix.de,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Alexander Kanavin <alex.kanavin@gmail.com>,
 	alexandre.belloni@bootlin.com
-Subject: [PATCH v3 7/9] oeqa: support passing custom boot patterns to runqemu
-Date: Tue, 25 Apr 2023 20:47:18 +0200
-Message-Id: <20230425184720.456896-8-ejo@pengutronix.de>
+Subject: [PATCH v3 3/9] barebox: set default BAREBOX_CONFIG for qemu machines
+Date: Tue, 25 Apr 2023 20:47:14 +0200
+Message-Id: <20230425184720.456896-4-ejo@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230425184720.456896-1-ejo@pengutronix.de>
 References: <20230425184720.456896-1-ejo@pengutronix.de>
@@ -45,87 +45,85 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 25 Apr 2023 18:48:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180396
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180395
 
-This allows defining non-standard patterns from QEMU tests just as they
-are already supported by the testimage.bbclass.
+These are set in the barebox recipe rather in the corresponding machines
+(where they would belong otherwise) to keep the impact of barebox to
+oe-core minimal for now.
 
-Will allow testing non-Linux shells in QEMU, too, e.g. a U-Boot or other
-bootloader shell.
+"multi_v7_defconfig" is used for qemuarm since this is the default
+barebox armv7 config that just enables all platforms.
+
+"qemu_virt64_defconfig" is used for qemuarm64 sine this is a dedicated
+config for the standard QEMU armv8 'virt64' machine.
+
+"efi_defconfig" is used for qemux86-64 which is the primary platform
+where barebox will not be the first stage bootloader but an EFI payload.
+
+Since these changes make barebox a provider for virtual/bootloader,
+explicitly default to u-boot in the corresponding MACHINE configs to not
+unnecessarily surprise users.
 
 Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
 ---
- meta/lib/oeqa/targetcontrol.py    | 5 +++--
- meta/lib/oeqa/utils/commands.py   | 5 +++--
- meta/lib/oeqa/utils/qemurunner.py | 2 +-
- 3 files changed, 7 insertions(+), 5 deletions(-)
+ meta/conf/machine/qemuarm.conf       | 1 +
+ meta/conf/machine/qemuarm64.conf     | 1 +
+ meta/conf/machine/qemux86-64.conf    | 1 +
+ meta/recipes-bsp/barebox/barebox.inc | 5 +++++
+ 4 files changed, 8 insertions(+)
 
-diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index d686fe07ec..842a16624f 100644
---- a/meta/lib/oeqa/targetcontrol.py
-+++ b/meta/lib/oeqa/targetcontrol.py
-@@ -88,7 +88,7 @@ class QemuTarget(BaseTarget):
+diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
+index aa9ce88203..1394cce9ef 100644
+--- a/meta/conf/machine/qemuarm.conf
++++ b/meta/conf/machine/qemuarm.conf
+@@ -7,6 +7,7 @@ require conf/machine/include/qemu.inc
  
-     supported_image_fstypes = ['ext3', 'ext4', 'cpio.gz', 'wic']
+ KERNEL_IMAGETYPE = "zImage"
  
--    def __init__(self, d, logger, image_fstype=None):
-+    def __init__(self, d, logger, image_fstype=None, boot_patterns=None):
++PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot"
+ UBOOT_MACHINE ?= "qemu_arm_defconfig"
  
-         import oe.types
+ SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;hvc0"
+diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
+index 2f0f0e4f84..f289f7aa7d 100644
+--- a/meta/conf/machine/qemuarm64.conf
++++ b/meta/conf/machine/qemuarm64.conf
+@@ -7,6 +7,7 @@ require conf/machine/include/qemu.inc
  
-@@ -144,7 +144,8 @@ class QemuTarget(BaseTarget):
-                             dump_host_cmds = dump_host_cmds,
-                             logger = logger,
-                             tmpfsdir = d.getVar("RUNQEMU_TMPFS_DIR"),
--                            serial_ports = len(d.getVar("SERIAL_CONSOLES").split()))
-+                            serial_ports = len(d.getVar("SERIAL_CONSOLES").split()),
-+                            boot_patterns = boot_patterns)
+ KERNEL_IMAGETYPE = "Image"
  
-         self.target_dumper = TargetDumper(dump_target_cmds, dump_dir, self.runner)
-         self.monitor_dumper = MonitorDumper(dump_monitor_cmds, dump_dir, self.runner)
-diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
-index 21e0265c9d..ad61a035e2 100644
---- a/meta/lib/oeqa/utils/commands.py
-+++ b/meta/lib/oeqa/utils/commands.py
-@@ -310,7 +310,7 @@ def create_temp_layer(templayerdir, templayername, priority=999, recipepathspec=
-         f.write('LAYERSERIES_COMPAT_%s = "%s"\n' % (templayername, corenames))
++PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot"
+ UBOOT_MACHINE ?= "qemu_arm64_defconfig"
  
- @contextlib.contextmanager
--def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None, qemuparams=None, overrides={}, discard_writes=True):
-+def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None, qemuparams=None, overrides={}, boot_patterns = {}, discard_writes=True):
-     """
-     Starts a context manager for a 'oeqa.targetcontrol.QemuTarget' resource.
-     The underlying Qemu will be booted into a shell when the generator yields.
-@@ -327,6 +327,7 @@ def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None,
-         image_fstype (str): IMAGE_FSTYPE to use
-         launch_cmd (str): directly run this command and bypass automatic runqemu parameter generation
-         overrides (dict): dict of "'<bitbake-variable>': value" pairs that allows overriding bitbake variables
-+        boot_patterns (dict): dict of "'<pattern-name>': value" pairs to override default boot patterns, e.g. when not booting Linux
-         discard_writes (boolean): enables qemu -snapshot feature to prevent modifying original image
-     """
+ SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;hvc0"
+diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
+index 14873a3b4f..4a9c6d364b 100644
+--- a/meta/conf/machine/qemux86-64.conf
++++ b/meta/conf/machine/qemux86-64.conf
+@@ -13,6 +13,7 @@ DEFAULTTUNE ?= "core2-64"
+ require conf/machine/include/x86/tune-x86-64-v3.inc
+ require conf/machine/include/x86/qemuboot-x86.inc
  
-@@ -358,7 +359,7 @@ def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None,
++PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot"
+ UBOOT_MACHINE ?= "qemu-x86_64_defconfig"
  
-         logdir = recipedata.getVar("TEST_LOG_DIR")
+ KERNEL_IMAGETYPE = "bzImage"
+diff --git a/meta/recipes-bsp/barebox/barebox.inc b/meta/recipes-bsp/barebox/barebox.inc
+index 5609980a64..c5afb75f49 100644
+--- a/meta/recipes-bsp/barebox/barebox.inc
++++ b/meta/recipes-bsp/barebox/barebox.inc
+@@ -48,6 +48,11 @@ EXTRA_OEMAKE = " \
+ BAREBOX_CONFIG[doc] = "The barebox kconfig defconfig file. Not used if a file called defconfig is added to the SRC_URI."
+ BAREBOX_CONFIG ?= ""
  
--        qemu = oeqa.targetcontrol.QemuTarget(recipedata, targetlogger, image_fstype)
-+        qemu = oeqa.targetcontrol.QemuTarget(recipedata, targetlogger, image_fstype, boot_patterns=boot_patterns)
-     finally:
-         # We need to shut down tinfoil early here in case we actually want
-         # to run tinfoil-using utilities with the running QEMU instance.
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index b08226f05a..b60166ca80 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -94,7 +94,7 @@ class QemuRunner:
- 
-         # Only override patterns that were set e.g. login user TESTIMAGE_BOOT_PATTERNS[send_login_user] = "webserver\n"
-         for pattern in accepted_patterns:
--            if not self.boot_patterns[pattern]:
-+            if pattern not in self.boot_patterns or not self.boot_patterns[pattern]:
-                 self.boot_patterns[pattern] = default_boot_patterns[pattern]
- 
-     def create_socket(self):
++# set sensible default configs for some of oe-core's QEMU MACHINEs
++BAREBOX_CONFIG:qemuarm = "multi_v7_defconfig"
++BAREBOX_CONFIG:qemuarm64 = "qemu_virt64_defconfig"
++BAREBOX_CONFIG:qemux86-64 = "efi_defconfig"
++
+ # prevent from acting as non-buildable provider
+ python () {
+     bareboxconfig = d.getVar('BAREBOX_CONFIG')
 -- 
 2.39.2
 
