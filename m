@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A76B1C77B76
-	for <webhook@archiver.kernel.org>; Tue, 25 Apr 2023 13:58:08 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web10.80357.1682431080800771002
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D3B0C77B7C
+	for <webhook@archiver.kernel.org>; Tue, 25 Apr 2023 13:58:18 +0000 (UTC)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web10.80364.1682431092362068506
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Apr 2023 06:58:00 -0700
+ Tue, 25 Apr 2023 06:58:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=BxooMaFa;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-63b5fca48bcso4874873b3a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Apr 2023 06:58:00 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=VqPC/51C;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-63b50a02bffso4858585b3a.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Apr 2023 06:58:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1682431080; x=1685023080;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1682431091; x=1685023091;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nKpb5bsnBjs6C7VqGr9AURaYvzHAWsOVK5Zv6puQESA=;
-        b=BxooMaFa25ZoLy9sKQxEmoPnUlYNDAhC81aU3xj4OqCkbCRrCZU+w39sFNvTTokjVo
-         OXUotYTbUOG1wTL7uvzVBSgy/fGr/T3y88EcPEgAm6r5cfZFuFEC7xsu4trDSRWEtMj/
-         gm3YrkZf73ZhiuzJ9G5IIBllprVrnIJrUMfgUN8h4U+Wml7ZZ2X2X0EmCwF78bSviZ5i
-         YUiuq/ul1FdFOVkJ+dAA6a7IuGfPAUf+/IBv4Z5arGQ7Ls1OJDPAPOd5yFCabQwrfRzF
-         dQImE+/yLd9FJRRWFoN6LW4auzHsael6nkwAouuS6rbFwa/6CBiDicMdqtXEyGIiktB/
-         WAHQ==
+        bh=OCxg+qDwu4wIOFgIIv++y9hFfyOJTtTcIlFA0FcZWQc=;
+        b=VqPC/51Ct2dj2GlyQvN7nRtKt6VWZLIy4YmTpuPCxVLrSmr7tOzP1ejlE1vc0jmRG5
+         qIqLaruA6uL9m/sDGDnCuqEjEdoSZMaNMiyQbcdlXx1zj+/ouE94vtTJN+nuoEDFgpZa
+         XLt61QInv6DFYqdsgJ6gBq7RiHqFYhso8hDG4P1JsPtJtJMS1hbJKDeuQGP/tcwYPSbB
+         PJccIK2ZE5zBqHwNBZwcysbLENnd1tGyDd4HDsrimkctIDwivdt5RMEt6TjCkGwr7uFN
+         7EVNm19x9GhuDAgbYWnCOlnYAcBNHD7uESdMxJ6vhq8p3FUULxZXU9+d5UAvI8NXo9on
+         Pc3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682431080; x=1685023080;
+        d=1e100.net; s=20221208; t=1682431091; x=1685023091;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nKpb5bsnBjs6C7VqGr9AURaYvzHAWsOVK5Zv6puQESA=;
-        b=lfsvRC760gQ3NW5qzgM6/dPas2v45ap90x2l0noWbVq+kJ01hg0jSvaXTw2S7KpjZS
-         PGyNP1vUVtVBanfAugqHxRReTdBPKHsA4tz/xQdrvgrXIMDHTmPxoY6kn0G7VPuWfWi7
-         Rt4O41ST4iAX2/b9JUmUc/6Dxs5w34hzpfxVsWn4ipv2t2WFFQBXR9mTJIecl9mFbZdY
-         uFK71ZUg5Uxwx6XEf4flEn3rX+YsqdNMXnMJt/PgRKBOER3u/plQT1wN+ScDuP48nIws
-         PRjD+7S8vJuTx7mzBIT4VfugtChX586CbMK8qolcScInBkIO7RiafRu9XxSd83mA5saR
-         mDRA==
-X-Gm-Message-State: AAQBX9djMs3SLziJeUR/bXnrufm552q90ZfBAzPdopnIJ1oW2+u/LC1q
-	1EIVBikcoEpjYPiA0skicbq/gJulC2ktVV6ISG4=
-X-Google-Smtp-Source: AKy350YPoT8Xott/jWIgH737YuMxL7ku1WlIV31VGI7fNBRnJfi/US04oXPkueUWUdawab/CzJ2s1g==
-X-Received: by 2002:a05:6a20:1443:b0:f0:827f:4aff with SMTP id a3-20020a056a20144300b000f0827f4affmr23559263pzi.0.1682431079646;
-        Tue, 25 Apr 2023 06:57:59 -0700 (PDT)
+        bh=OCxg+qDwu4wIOFgIIv++y9hFfyOJTtTcIlFA0FcZWQc=;
+        b=Kh8PQjv7nv5kx1cQ36tpEbtQksusmv75bjwN0IGmAMTHQSRBdbccXCKeCguSRkUyxr
+         UFPjoel7/XlAWQVKOurMaS8FwmgVhQ52zN3RHeVwqu6Gu3md6hKypXM6e9UaZNCBsdII
+         FbwCsTHSbPL761owXotvZBClZrV7VMuAcQtYA8jouSYmldYGw4ko0VcDd26cVvr0KABI
+         wHhczO2GvEv7kKuM2NPNbqT0hWzAjl137E6lFkFXpFIh8sCvz34IEGaIoss9UMpJknYv
+         2I8+6kjyJEF1ca9pHPrScB0gH4Lps/lmPyWQTATJEcasokdFaY5H07JJQF2pN4Pczb5/
+         JFHQ==
+X-Gm-Message-State: AAQBX9ftU0YvtRR8y30kTTGxaepcCT4HMlnCvubptZdpGcKchIZMcw5O
+	89gMnjh/fcXKAzWiWwdD/efdql02w/1mwj8eYCk=
+X-Google-Smtp-Source: AKy350aSW56DvcvzHs6QMZQy5Gjpxj41oej3pnklsr7JezBAG0P3kFdvxSaAbNcwpKyuu9JM/2rFNw==
+X-Received: by 2002:a05:6a21:1518:b0:ef:53b5:fa01 with SMTP id nq24-20020a056a21151800b000ef53b5fa01mr18717714pzb.49.1682431091474;
+        Tue, 25 Apr 2023 06:58:11 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id s14-20020a65644e000000b0051b930b2b49sm8229117pgv.72.2023.04.25.06.57.58
+        by smtp.gmail.com with ESMTPSA id s14-20020a65644e000000b0051b930b2b49sm8229117pgv.72.2023.04.25.06.58.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Apr 2023 06:57:59 -0700 (PDT)
+        Tue, 25 Apr 2023 06:58:11 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 02/10] screen: backport fix for CVE-2023-24626
-Date: Tue, 25 Apr 2023 03:57:34 -1000
-Message-Id: <c72eb91464b1a0792f87e6321bbdd02f0012ffd7.1682430831.git.steve@sakoman.com>
+Subject: [OE-core][langdale 08/10] oeqa ping.py: fail test if target IP address has not been set
+Date: Tue, 25 Apr 2023 03:57:40 -1000
+Message-Id: <b14b8f38da9195852e9a2fd6b2e446ed8a1fa0b8.1682430831.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1682430831.git.steve@sakoman.com>
 References: <cover.1682430831.git.steve@sakoman.com>
@@ -60,79 +60,35 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Apr 2023 13:58:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180378
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Apr 2023 13:58:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180384
 
-From: Ross Burton <ross.burton@arm.com>
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-(cherry picked from commit 05c7f446ca790f3695d04665aad118e42b7a52be)
+It is possible to call exported tests with --target-ip set to ":22"
+where IP address is not set at all. Detect this case and fail the test
+instead of calling ping without an IP address.
+
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 17c995c53775b8cee279ca4ced916092067e1195)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../screen/screen/signal-permission.patch     | 40 +++++++++++++++++++
- meta/recipes-extended/screen/screen_4.9.0.bb  |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-extended/screen/screen/signal-permission.patch
+ meta/lib/oeqa/runtime/cases/ping.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-extended/screen/screen/signal-permission.patch b/meta/recipes-extended/screen/screen/signal-permission.patch
-new file mode 100644
-index 0000000000..77dc649090
---- /dev/null
-+++ b/meta/recipes-extended/screen/screen/signal-permission.patch
-@@ -0,0 +1,40 @@
-+From e9ad41bfedb4537a6f0de20f00b27c7739f168f7 Mon Sep 17 00:00:00 2001
-+From: Alexander Naumov <alexander_naumov@opensuse.org>
-+Date: Mon, 30 Jan 2023 17:22:25 +0200
-+Subject: fix: missing signal sending permission check on failed query messages
-+
-+Signed-off-by: Alexander Naumov <alexander_naumov@opensuse.org>
-+
-+CVE: CVE-2023-24626
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ src/socket.c | 9 +++++++--
-+ 1 file changed, 7 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/socket.c b/src/socket.c
-+index 147dc54..54d8cb8 100644
-+--- a/socket.c
-++++ b/socket.c
-+@@ -1285,11 +1285,16 @@ ReceiveMsg()
-+           else
-+             queryflag = -1;
-+ 
-+-          Kill(m.m.command.apid,
-++          if (CheckPid(m.m.command.apid)) {
-++            Msg(0, "Query attempt with bad pid(%d)!", m.m.command.apid);
-++          }
-++          else {
-++            Kill(m.m.command.apid,
-+                (queryflag >= 0)
-+                    ? SIGCONT
-+                    : SIG_BYE); /* Send SIG_BYE if an error happened */
-+-          queryflag = -1;
-++            queryflag = -1;
-++          }
-+         }
-+         break;
-+       case MSG_COMMAND:
-+-- 
-+cgit v1.1
-+
-diff --git a/meta/recipes-extended/screen/screen_4.9.0.bb b/meta/recipes-extended/screen/screen_4.9.0.bb
-index 77e8000bf3..235cd8c6cf 100644
---- a/meta/recipes-extended/screen/screen_4.9.0.bb
-+++ b/meta/recipes-extended/screen/screen_4.9.0.bb
-@@ -22,6 +22,7 @@ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
-            file://0001-fix-for-multijob-build.patch \
-            file://0001-Remove-more-compatibility-stuff.patch \
-            file://0001-configure-Add-needed-system-headers-in-checks.patch \
-+           file://signal-permission.patch \
-            "
- 
- SRC_URI[sha256sum] = "f9335281bb4d1538ed078df78a20c2f39d3af9a4e91c57d084271e0289c730f4"
+diff --git a/meta/lib/oeqa/runtime/cases/ping.py b/meta/lib/oeqa/runtime/cases/ping.py
+index fcb72d4543..f72460e7f3 100644
+--- a/meta/lib/oeqa/runtime/cases/ping.py
++++ b/meta/lib/oeqa/runtime/cases/ping.py
+@@ -17,6 +17,7 @@ class PingTest(OERuntimeTestCase):
+     def test_ping(self):
+         output = ''
+         count = 0
++        self.assertNotEqual(len(self.target.ip), 0, msg="No target IP address set")
+         try:
+             while count < 5:
+                 cmd = 'ping -c 1 %s' % self.target.ip
 -- 
 2.34.1
 
