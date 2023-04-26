@@ -1,182 +1,151 @@
-Return-Path: <rwmacleod@gmail.com>
+Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FE38C77B60
-	for <webhook@archiver.kernel.org>; Wed, 26 Apr 2023 13:51:59 +0000 (UTC)
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
- by mx.groups.io with SMTP id smtpd.web11.8517.1682517111572669570
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E464C7618E
+	for <webhook@archiver.kernel.org>; Wed, 26 Apr 2023 13:56:09 +0000 (UTC)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+ by mx.groups.io with SMTP id smtpd.web10.8642.1682517361157074934
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Apr 2023 06:51:51 -0700
+ Wed, 26 Apr 2023 06:56:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=D+m6sYdo;
- spf=pass (domain: gmail.com, ip: 209.85.217.53, mailfrom: rwmacleod@gmail.com)
-Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-42e3ceafd7cso5465627137.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 06:51:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682517110; x=1685109110;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=pfujHpTSr8wqwfsg1d80kTvHYu+uoCx+nMvX14Idrw8=;
-        b=D+m6sYdoT5v3wPAn/AOh5J1hIac0Hqk9ZcjDKKJEEmeYcEG5WUWdzrpr8XTxpvxfoj
-         PNFc27Ano9C4KNTk5BPzIDOHcObHabdvIpt2HbRXSp7ByCKuspBFeNWS7O1HI57dWzB0
-         /h/QsY1ugUXD4KGrg7iNlMbjGvwKJqYhD0TgikNi2M2X4oViOkEH3JUI4pXBFdgina8E
-         FHJHYyVBg1p+ERuxmJoNzMOB3ADCxwNj+qHF3WIP1BVYytkXDSrqokA/dGNH4o2GW1Xe
-         Jjun41CXVJZUaFUFURcG2qk/ZIFTUIF+v9QPpLj8V6KO07fxKMJCIepkg5//kzbXMQKU
-         R5kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682517110; x=1685109110;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pfujHpTSr8wqwfsg1d80kTvHYu+uoCx+nMvX14Idrw8=;
-        b=Stpk/K9mg8HMN8c/xFkb7HMT94l+0Ev37b5Lpk8lGZx67NU4YSsxNgYbNR/3s98bcn
-         w/8iRUQ/T7iaGb3B0RIbrNGl3p5fgSNQTMaKDH/hJP05zqxdTCVp7KJIalRD2dgva7WV
-         lVlL+7SiK1LIgVJGr01xzQVr3DAlXXHUl7CdRS9IHzDMF+vjBMPA7mJjdUPY14kK+PJW
-         pboDS7CMMz4Jn3F96THk7NfuwGk47+/e3HYZhY3VyZDuQ8Ik8SUgouhkv81GyGEH5Rw7
-         AqjYW/VCwrd6x4F9ZbFqrx6bcEX6vj2ynfK+YFZQS8aLkqMd8vte+0H72PL95Z72Q4nc
-         zl8g==
-X-Gm-Message-State: AAQBX9cMEcJX3dFQxwXwbcbyRL+ZsNrRws9b6GuGV+S2is0+ZvgkZ3y9
-	ta6mtc5sHI6uEe6NGo3Yq4RWNuf5af7Q/1VBZac=
-X-Google-Smtp-Source: AKy350bbKcG39NIujBRbydgZRe70LH9cwV7410C5Aak1ZHVuoxv+okkp8aAuNq8H/f738OHjcbM5Tm2QzvCW0NLf/cs=
-X-Received: by 2002:a1f:60c3:0:b0:440:35af:c812 with SMTP id
- u186-20020a1f60c3000000b0044035afc812mr6205560vkb.12.1682517110259; Wed, 26
- Apr 2023 06:51:50 -0700 (PDT)
+ dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: ejo@pengutronix.de)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
+	by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1prfcl-00019t-6U; Wed, 26 Apr 2023 15:55:59 +0200
+Message-ID: <1679ac7d473423d90fdff3967ecf98163a9c7803.camel@pengutronix.de>
+Subject: Re: [OE-core] [PATCH v3 0/9] Add barebox bootloader support (and
+ testing)
+From: Enrico =?ISO-8859-1?Q?J=F6rns?= <ejo@pengutronix.de>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org, yocto@pengutronix.de, Richard
+ Purdie <richard.purdie@linuxfoundation.org>, Alexander Kanavin
+ <alex.kanavin@gmail.com>,  alexandre.belloni@bootlin.com
+Date: Wed, 26 Apr 2023 15:55:58 +0200
+In-Reply-To: <20230426141241.3a5d7a29@booty>
+References: <20230425184720.456896-1-ejo@pengutronix.de>
+	 <20230426141241.3a5d7a29@booty>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1+deb11u1 
 MIME-Version: 1.0
-References: <20230426113135.2740310-1-deepadeepthi98@gmail.com> <17864.1682508868187918015@lists.openembedded.org>
-In-Reply-To: <17864.1682508868187918015@lists.openembedded.org>
-From: Randy MacLeod <rwmacleod@gmail.com>
-Date: Wed, 26 Apr 2023 09:51:33 -0400
-Message-ID: <CAK6=ix7=eGeh8pEWHfezRNKh4R2DcRwiDWCh4zT0xW702irYPQ@mail.gmail.com>
-Subject: Re: [OE-core] [mickledore][PATCH V2] glibc: stable 2.37 branch updates.
-To: Deepthi Hemraj <deepadeepthi98@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000af84ee05fa3d8a3a"
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 13:51:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180443
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 13:56:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180444
 
---000000000000af84ee05fa3d8a3a
-Content-Type: text/plain; charset="UTF-8"
+Hello Luca,
 
-On Wed., Apr. 26, 2023, 07:34 Deepthi Hemraj, <deepadeepthi98@gmail.com>
-wrote:
+Am Mittwoch, dem 26.04.2023 um 14:12 +0200 schrieb Luca Ceresoli:
+> Hello Enrico,
+> 
+> On Tue, 25 Apr 2023 20:47:11 +0200
+> Enrico Jörns <ejo@pengutronix.de> wrote:
+> 
+> > This adds support for the barebox bootloader (and tools) to oe-core.
+> > 
+> > In order to have proper testing, this extends oe-selftest to allow
+> > basic testing of bootloaders. While at it, cover both barebox and u-boot.
+> 
+> Some tests are failing with this series applied. Logs looking like:
 
-> Regression tests are performed and below is test summary.
-> Test summary after glibc updates:
-> 193 FAIL
->    4399 PASS
->      38 UNSUPPORTED
->      16 XFAIL
->       2 XPASS
->
-> Test summary before glibc updates:
->      247 FAIL
->     4382 PASS
->       38 UNSUPPORTED
->       16 XFAIL
->        2 XPASS
->
+thank you for the test results.
+
+> --------------------------------8<--------------------------------
+> 
+> 2023-04-26 02:45:38,232 - oe-selftest - INFO - barebox.BareboxTest.test_boot_barebox
+> (subunit.RemotedTestCase)
+> 2023-04-26 02:45:38,232 - oe-selftest - INFO -  ... skipped 'Test skipped on x86_64\n'
+> 2023-04-26 02:45:38,232 - oe-selftest - INFO - 1: 1/47 2/530 (0.00s) (0 failed)
+> (barebox.BareboxTest.test_boot_barebox)
+> 2023-04-26 02:45:38,232 - oe-selftest - INFO - Test skipped on x86_64
+> 2023-04-26 02:46:47,829 - oe-selftest - INFO - fetch.Dependencies.test_dependencies
+> (subunit.RemotedTestCase)
+> 2023-04-26 02:46:47,829 - oe-selftest - INFO -  ... ok
+> 2023-04-26 02:46:47,829 - oe-selftest - INFO - 12: 2/20 3/530 (70.93s) (0 failed)
+> (fetch.Dependencies.test_dependencies)
+> 2023-04-26 02:46:54,605 - oe-selftest - INFO - barebox.BareboxTest.test_boot_barebox_efi
+> (subunit.RemotedTestCase)
+> 2023-04-26 02:46:54,605 - oe-selftest - INFO -  ... FAIL
+> Stderr:
+> 2023-04-26 02:45:38,230 - oe-selftest - INFO - Adding: "include selftest.inc" in
+> /home/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3126928/conf/local.conf
+> 2023-04-26 02:45:38,231 - oe-selftest - INFO - Adding: "include bblayers.inc" in bblayers.conf
+> 2023-04-26 02:46:54,606 - oe-selftest - INFO - 1: 2/47 4/530 (76.37s) (0 failed)
+> (barebox.BareboxTest.test_boot_barebox_efi)
+> 2023-04-26 02:46:54,606 - oe-selftest - INFO - testtools.testresult.real._StringException:
+> Traceback (most recent call last):
+>   File "/home/pokybuild/yocto-worker/oe-selftest-
+> debian/build/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+>     return func(*args, **kwargs)
+>   File "/home/pokybuild/yocto-worker/oe-selftest-
+> debian/build/meta/lib/oeqa/selftest/cases/barebox.py", line 63, in test_boot_barebox_efi
+>     bitbake(image)
+>   File "/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/utils/commands.py",
+> line 234, in bitbake
+>     return runCmd(cmd, ignore_status, timeout, output_log=output_log, **options)
+>   File "/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/utils/commands.py",
+> line 212, in runCmd
+>     raise AssertionError("Command '%s' returned non-zero exit status %d:\n%s" % (command,
+> result.status, exc_output))
+> AssertionError: Command 'bitbake  core-image-minimal' returned non-zero exit status 1:
+> Loading cache...done.
+> Loaded 0 entries from dependency cache.
+> Parsing recipes...done.
+> Parsing of 955 .bb files complete (0 cached, 955 parsed). 1872 targets, 55 skipped, 0 masked, 0
+> errors.
+> NOTE: Resolving any missing task queue dependencies
+> ERROR: Nothing RPROVIDES 'barebox' (but /home/pokybuild/yocto-worker/oe-selftest-
+> debian/build/meta/recipes-core/images/core-image-minimal.bb, /home/pokybuild/yocto-worker/oe-
+> selftest-debian/build/meta/recipes-core/packagegroups/packagegroup-core-boot.bb RDEPENDS on or
+> otherwise requires it)
+> barebox was skipped: PREFERRED_PROVIDER_virtual/bootloader set to u-boot, not barebox
+> NOTE: Runtime target 'barebox' is unbuildable, removing...
+> Missing or unbuildable dependency chain was: ['barebox']
+> ERROR: Required build target 'core-image-minimal' has no buildable providers.
+> Missing or unbuildable dependency chain was: ['core-image-minimal', 'barebox']
+> Summary: There were 2 ERROR messages, returning a non-zero exit code.
+> 
+> --------------------------------8<--------------------------------
+
+It seems as if I did not re-test the EFI test after having set PREFERRED_PROVIDER_virtual/bootloader
+to "u-boot" in the machine conf. I will add a PREFERRED_PROVIDER_virtual/bootloader = "barebox" to
+the test case.
+> 
+> Some logs are here:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/5054/steps/14/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5096/steps/14/logs/stdio
+
+There are some wic failures where I am not sure yet if these are caused by my patchset or not.
+
+> FYI I had to manually solve a trivial conflict on patch 5 due to
+> another patch in my branch that is touching the same file:
+> https://lore.kernel.org/openembedded-core/20230411150503.2105880-2-lrannou@baylibre.com/
+
+I am not really unconvinced that this patch set should be applied as-is.
+It copies most of the run_serial() method 'just' to change the return value.
+It would also require to duplicate my adaptions.
 
 
-Thanks Deepthi.
+Thanks and regards
 
-Next time, please do the arithmetic for everyone:
+Enrico
 
-Diff:
+> Best regards,
+> Luca
+> 
 
--54 FAIL
-+17 PASS
-    0 UNSUPPORTED
-     0 XFAIL
-     0 XPASS
+-- 
+Pengutronix e.K.                           | Enrico Jörns                |
+Embedded Linux Consulting & Support        | https://www.pengutronix.de/ |
+Steuerwalder Str. 21                       | Phone: +49-5121-206917-180  |
+31137 Hildesheim, Germany                  | Fax:   +49-5121-206917-9    |
 
-
-It looks like some of the failing tests were removed. Please confirm and
-provide brief context about why they were removed.
-
-
-Regardless, the test results are better so we're in good shape.
-
-Randy
-
-
-
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#180432):
-> https://lists.openembedded.org/g/openembedded-core/message/180432
-> Mute This Topic: https://lists.openembedded.org/mt/98512594/953399
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> rwmacleod@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---000000000000af84ee05fa3d8a3a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Wed., Apr. 26, 2023, 07:34 Deepthi Hemraj, &lt;<a h=
-ref=3D"mailto:deepadeepthi98@gmail.com">deepadeepthi98@gmail.com</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div>Regression tests are perf=
-ormed and below is test summary.</div>
-<div>Test summary after glibc updates:</div>
-<div><span style=3D"white-space:pre-wrap"> </span>193 FAIL</div>
-<div>=C2=A0 =C2=A04399 PASS</div>
-<div>=C2=A0 =C2=A0 =C2=A038 UNSUPPORTED</div>
-<div>=C2=A0 =C2=A0 =C2=A016 XFAIL</div>
-<div>=C2=A0 =C2=A0 =C2=A0 2 XPASS</div>
-<div>=C2=A0</div>
-<div>Test summary before glibc updates:</div>
-<div>=C2=A0 =C2=A0 =C2=A0247 FAIL</div>
-<div>=C2=A0 =C2=A0 4382 PASS</div>
-<div>=C2=A0 =C2=A0 =C2=A0 38 UNSUPPORTED</div>
-<div>=C2=A0 =C2=A0 =C2=A0 16 XFAIL</div>
-<div>=C2=A0 =C2=A0 =C2=A0 =C2=A02 XPASS</div><div dir=3D"auto"></div></bloc=
-kquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div>=
-<div dir=3D"auto">Thanks Deepthi.</div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">Next time, please do the arithmetic for everyone:</div><div dir=
-=3D"auto"><br></div><div dir=3D"auto">Diff:</div><div dir=3D"auto"><br></di=
-v><div dir=3D"auto">-54 FAIL</div><div dir=3D"auto">+17 PASS<br></div><div =
-dir=3D"auto"><div dir=3D"auto">=C2=A0 =C2=A0 0 UNSUPPORTED</div><div dir=3D=
-"auto">=C2=A0 =C2=A0 =C2=A00 XFAIL</div><div dir=3D"auto">=C2=A0 =C2=A0 =C2=
-=A00 XPASS</div></div><div dir=3D"auto"><br></div><div dir=3D"auto"><br></d=
-iv><div dir=3D"auto">It looks like some of the failing tests were removed. =
-Please confirm and provide brief context about why they were removed.=C2=A0=
-</div><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div><div dir=3D"a=
-uto">Regardless, the test results are better so we&#39;re in good shape.</d=
-iv><div dir=3D"auto"><br></div><div dir=3D"auto">Randy</div><div dir=3D"aut=
-o"><br></div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gm=
-ail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><div dir=3D"auto"><br><br></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#180432): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/180432" rel=3D"noreferrer noreferrer" target=3D"_bl=
-ank">https://lists.openembedded.org/g/openembedded-core/message/180432</a><=
-br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/98512594/9533=
-99" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openembed=
-ded.org/mt/98512594/953399</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lists.op=
-enembedded.org</a><br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openem=
-bedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:rwmacleod@gmail=
-.com" target=3D"_blank" rel=3D"noreferrer">rwmacleod@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div></div>
-
---000000000000af84ee05fa3d8a3a--
 
