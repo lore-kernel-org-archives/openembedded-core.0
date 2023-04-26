@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C58A6C77B60
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C58DCC77B78
 	for <webhook@archiver.kernel.org>; Wed, 26 Apr 2023 09:50:57 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web11.3970.1682502649438201476
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web10.4087.1682502647888946156
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Apr 2023 02:50:49 -0700
+ Wed, 26 Apr 2023 02:50:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=YP8Yv4aA;
- spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-2f7c281a015so4219985f8f.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 02:50:49 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=heRi7H0/;
+ spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-3f19b9d5358so46006345e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 02:50:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682502648; x=1685094648;
+        d=gmail.com; s=20221208; t=1682502646; x=1685094646;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9jHIMz8o25cNaD07lYa5F+G7CROl0X33hps2nLl3h40=;
-        b=YP8Yv4aAAjkzEyHGblSNL/M9DljcmOqfAd0C199VWve+EIBE99noxLzo403I3dALzU
-         5StNsoAnCai6B+7VQuTBzNObYRn+VWG73NgnPKr18Zx1Qo3vFvoi2kdkuj+8XmavEjkL
-         sifNEnEYF67Sa90zfv0EyHU5/vdWK/+M0Kfka45jYapM3ZBGSlFwfWVZi4LiSd9rtP/y
-         YYPmX9mtX8VtYBMjMX0O31nAwhNRnBZmKNWaje3EM3TNico0bYugbT31S5To+6rc2toX
-         vDdzimyiU10ZoNlE7LTPSBpapooAAIMWhi1aE7XouFrJfuDQkCCAADCodXYz8aPpkdqr
-         5FLA==
+        bh=YAXbg3MVnG6H9wvPvWvHabwB/Rg6I3XYIT6SwZY6+7w=;
+        b=heRi7H0/gpo/w3sf+9Igf9WRth8Qr8b/mXEHxBzQsjM6DPUZmtyObtykIz4RIBh7a9
+         Wu8ZBzIe7kQ/Y4ymF00dnU6YzZGwds7XUH5W36dQOQUbcSNf33c8BnIC8BevQaqDm6BV
+         hCisUH4UIIeuYSWOMRHbee4tr9fdWeAvVS63EylBVHMLOExMdIPpesrnnO1HvSUhfJpl
+         l9Qx29BV87fI5mDjoIrn5bl8yp45yo3wL4e0WtP0cf5CJTAcT0jjfCzq+K+4gvPjCcsD
+         Pf654BO3574nCG/uAAMC++Q1xWfyhkcUmhFlld7qt1oJR27i/uMRSoml7Lbo3B7Sxn90
+         YUcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682502648; x=1685094648;
+        d=1e100.net; s=20221208; t=1682502646; x=1685094646;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9jHIMz8o25cNaD07lYa5F+G7CROl0X33hps2nLl3h40=;
-        b=bCfXS8aoqqecOxCUd3ku0iRx/AEgipr2+/G2EoI2QtViALVmxohHoYFLY20SQCvhKh
-         QzboflHrAUtngzftCdmw9qV2pdSBCl8SZIASL8ebH6LuhSsfANmzb7wi7oD0b0PcjKka
-         FWqH8CDykI+FZ8CECo+ELhWM1Ut2zd5alvHgoCEc1g9GpXPoQoZpaj02kgf9M6tWQz33
-         95lq3ccPnSh3lnMA9gwGf1nMfV6Q+paQZpakOIV+kccDohq5weo98MNtd7PTQM4Q3e3D
-         dmO3CFCaWObSBfWuoF5o4zscyRn370AUg3UPMwQqu/zC+DrqnooRF100GDC1ZREmbGBE
-         RwmQ==
-X-Gm-Message-State: AAQBX9emEm9DypeQ30ZKX15WUJkPNcK+sigTyWCfWHYobvqhuyGHzZ3a
-	WiKfchUcyho+hqrHWeub5/Tubp5XHKI=
-X-Google-Smtp-Source: AKy350bypQKNKPB7JQuFfVSGMiU4yeFgHjht83NHTgy/RywdH1esMSaOxOdVGbquozX758+ojfsTLA==
-X-Received: by 2002:a5d:4d52:0:b0:2f2:8de9:f744 with SMTP id a18-20020a5d4d52000000b002f28de9f744mr13617575wru.31.1682502647986;
-        Wed, 26 Apr 2023 02:50:47 -0700 (PDT)
+        bh=YAXbg3MVnG6H9wvPvWvHabwB/Rg6I3XYIT6SwZY6+7w=;
+        b=UjV3dsnDFQ+LNS3li504FA4SEZAG2r5ITDNaT/n3u/GrOa1iiui2EiXNkwLJJYLpGv
+         Xf6FxnL68AGJTJhiueZOxObLMRVhyQqYmj2SMfy3NK/Ezj3mWLQ15r+nfnUpMw62fDLz
+         cnkrRgP9MfOFaz4mApxoGT6BclZGa+nbaP+mP0/YGdze8NvlrNycjZ+ivqzuLbFuHcNX
+         PNv2jBTIMGs16a1CUgEknevcnSEe/roGe5ivnqF0rVWhzRitecORc+03GV4sDVM5yEi1
+         iSuh0Ph9pIqU14NdJBmArPvWRa3SRhXbfpvNdt5pP6T+27PKwDXXzWE78vqFfbwknAY8
+         s8Sw==
+X-Gm-Message-State: AAQBX9dnNWOjbKN6cTCdqQlgsUujNmD1weJ0nPPmlND3hRXN8wgm6ISd
+	MaWwzRQiA7xTbXuxMcsSKlJPyDD19xg=
+X-Google-Smtp-Source: AKy350Y4vSFOZLdUN3NUvdHuRnzJQ3W6Agjpg4tlcTeDqA4BAPQWpkAcCLGrUjf35bSAgfysTm9QDA==
+X-Received: by 2002:a7b:ce01:0:b0:3f1:91ba:feb2 with SMTP id m1-20020a7bce01000000b003f191bafeb2mr12318361wmc.2.1682502646251;
+        Wed, 26 Apr 2023 02:50:46 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id o22-20020a1c7516000000b003f18372d540sm17242867wmc.14.2023.04.26.02.50.47
+        by smtp.gmail.com with ESMTPSA id o22-20020a1c7516000000b003f18372d540sm17242867wmc.14.2023.04.26.02.50.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Apr 2023 02:50:47 -0700 (PDT)
+        Wed, 26 Apr 2023 02:50:46 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 10/11] insane.bbclass: simplify exceptions for 32 bit time API check
-Date: Wed, 26 Apr 2023 11:50:35 +0200
-Message-Id: <20230426095036.2632847-10-alex@linutronix.de>
+Subject: [PATCH 07/11] time64.inc: add a comment about how to simulate Y2038
+Date: Wed, 26 Apr 2023 11:50:32 +0200
+Message-Id: <20230426095036.2632847-7-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230426095036.2632847-1-alex@linutronix.de>
 References: <20230426095036.2632847-1-alex@linutronix.de>
@@ -62,79 +62,153 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 09:50:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180428
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180425
 
-Existing implementation required to list both specific problematic apis, and files that
-use them: neither is necessary as both are seen in package_qa error messages, and
-can cause excessive amount of exception lines, if there are too many files, or
-they are installed in arch-specific locations. Also, the value of INSANE_SKIP
-should be the test that needs to be skipped, and in this case it wasn't.
+Setting clock to 2040 causes the following ptest failures on qemux86:
 
-Also, all problematic recipes are now correctly listed.
+{'perl': ['t/op/magic', 'lib/File/stat', 'ext/POSIX/t/time']}
+{'python3': ['test_create_server_ssl_verified',
+             'test_create_unix_server_ssl_verified',
+             'test_local_good_hostname']}
+{'dbus': ['dbus/test-relay_with_config.test',
+          'dbus/test-misc-internals.test',
+          'dbus/test-corrupt.test',
+          'dbus/test-loopback_with_config.test',
+          'dbus/test-relay.test',
+          'dbus/test-misc-internals_with_config.test',
+          'dbus/test-loopback.test',
+          'dbus/test-fdpass_with_config.test',
+          'dbus/test-corrupt_with_config.test',
+          'dbus/test-fdpass.test']}
+{'openssl': ['Dubious,_test_returned_5', 'Dubious,_test_returned_1']}
+{'glibc-tests': ['/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-utimes',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-utimensat',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-utime',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-timespec_get',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-timer4',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-stat',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-sigtimedwait',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-settimeofday',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-sem5',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-select',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-scm_rights',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-rwlock14',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-ppoll',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-ntp_gettimex',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-ntp_gettime',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-ntp_adjtime',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-mtx-timedlock',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-mqueue8',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-mqueue2',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-mqueue10',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-mqueue1',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-lutimes',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-lchmod',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-futimesat',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-futimes',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-futimens',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-fts',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-fcntl',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-cond11',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-cnd-timedwait',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-clock_settime',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-clock_adjtime',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-clock',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-aio6',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-adjtimex',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/ftwtest',
+                 '/usr/lib/glibc-tests/ptest/tests/glibc-ptest/tst-lchmod-time64']}
+{'openssh': ['key_options']}
+{'curl': ['test_0031',
+          'test_0046',
+          'test_0053',
+          'test_0061',
+          'test_0062',
+          'test_0172',
+          'test_0179',
+          'test_0327',
+          'test_0329',
+          'test_0420',
+          'test_1104',
+          'test_1216',
+          'test_1415']}
+{'glib-2.0': ['glib/asyncqueue.test',
+              'glib/module-test-plugin.test',
+              'glib/file.test',
+              'glib/fileutils.test',
+              'glib/module-test-library.test']}
+{'gstreamer1.0': ['gstreamer/elements_multiqueue.test']} (may be flaky)
+{'tcl': ['cmdAH.test', 'interp.test']}
+{'libmodule-build-perl': ['t/compat']}
+
+Some ptests fail on qemux86-64 as well:
+{'curl': ['test_0031',
+          'test_0046',
+          'test_0053',
+          'test_0061',
+          'test_0062',
+          'test_0172',
+          'test_0179',
+          'test_0327',
+          'test_0329',
+          'test_0420',
+          'test_1104',
+          'test_1216',
+          'test_1415']}
+{'python3': ['test_create_server_ssl_verified',
+             'test_create_unix_server_ssl_verified',
+             'test_local_good_hostname']}
+{'openssh': ['key_options']}
+{'openssl': ['Dubious,_test_returned_5', 'Dubious,_test_returned_1']}
+{'tcl': ['interp.test']}
+{'python3-cryptography': ['tests/hazmat/primitives/test_pkcs7.py:TestPKCS7Builder.test_smime_sign_detached',
+                          'tests/hazmat/primitives/test_pkcs7.py:TestPKCS7Builder.test_sign_pem',
+                          'tests/hazmat/primitives/test_pkcs7.py:TestPKCS7Builder.test_sign_alternate_digests_der[hash_alg0-\\x06\\t`\\x86H\\x01e\\x03\\x04\\x02\\x01]',
+                          'tests/hazmat/primitives/test_pkcs7.py:TestPKCS7Builder.test_sign_alternate_digests_der[hash_alg1-\\x06\\t`\\x86H\\x01e\\x03\\x04\\x02\\x02]',
+                          'tests/hazmat/primitives/test_pkcs7.py:TestPKCS7Builder.test_sign_alternate_digests_der[hash_alg2-\\x06\\t`\\x86H\\x01e\\x03\\x04\\x02\\x03]',
+                          'tests/hazmat/primitives/test_pkcs7.py:TestPKCS7Builder.test_sign_attached',
+                          'tests/hazmat/primitives/test_pkcs7.py:TestPKCS7Builder.test_sign_binary',
+                          'tests/hazmat/primitives/test_pkcs7.py:TestPKCS7Builder.test_sign_smime_canonicalization',
+                          'tests/hazmat/primitives/test_pkcs7.py:TestPKCS7Builder.test_sign_text',
+                          'tests/hazmat/primitives/test_pkcs7.py:TestPKCS7Builder.test_sign_no_capabilities',
+                          'tests/hazmat/primitives/test_pkcs7.py:TestPKCS7Builder.test_sign_no_attributes',
+                          'tests/hazmat/primitives/test_pkcs7.py:TestPKCS7Builder.test_multiple_signers',
+                          'tests/hazmat/primitives/test_pkcs7.py:TestPKCS7Builder.test_multiple_signers_different_hash_algs']}
+
+Note that setting the year to 2035 resolves almost all of the above,
+as onl the following then fail:
+
+qemux86:
+{'python3': ['test_local_good_hostname']}
+{'curl': ['test_0420']}
+
+qemux86-64:
+{'python3': ['test_local_good_hostname']}
+{'curl': ['test_0420']}
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/classes-global/insane.bbclass  | 14 +++-----------
- meta/conf/distro/include/time64.inc | 18 ++++++++++++------
- 2 files changed, 15 insertions(+), 17 deletions(-)
+ meta/conf/distro/include/time64.inc | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
-index ee34d5208d1..8788f58fc5b 100644
---- a/meta/classes-global/insane.bbclass
-+++ b/meta/classes-global/insane.bbclass
-@@ -617,22 +617,14 @@ def check_32bit_symbols(path, packagename, d, elf, messages):
-             # At this point, any symbol information is stripped into the debug
-             # package, so that is the only place we will find them.
-             elfpath = elfpath.replace('.debug/', '')
--            allowed = (
--                d.getVarFlag(
--                    'INSANE_SKIP:' + d.getVar('PN'), elfpath.replace('/', '_')
--                ) or ''
--            ).split()
--            usedapis -= set(allowed)
--            if usedapis:
-+            allowed = "32bit-time" in (d.getVar('INSANE_SKIP') or '').split()
-+            if not allowed:
-                 msgformat = elfpath + " uses 32-bit api '%s'"
-                 for sym in usedapis:
-                     oe.qa.add_message(messages, '32bit-time', msgformat % sym)
-                 oe.qa.add_message(
-                     messages, '32bit-time',
--                    'Suppress with INSANE_SKIP:%s[%s] = "%s"' % (
--                        d.getVar('PN'), elfpath.replace('/', '_'),
--                        ' '.join(usedapis)
--                    )
-+                    'Suppress with INSANE_SKIP = "32bit-time"'
-                 )
- 
- # Check license variables
 diff --git a/meta/conf/distro/include/time64.inc b/meta/conf/distro/include/time64.inc
-index f3bdfba4acf..1a3399bc5e6 100644
+index 73adebd39db..f3bdfba4acf 100644
 --- a/meta/conf/distro/include/time64.inc
 +++ b/meta/conf/distro/include/time64.inc
-@@ -30,10 +30,16 @@ GLIBC_64BIT_TIME_FLAGS:pn-pipewire = ""
- GLIBC_64BIT_TIME_FLAGS:pn-pulseaudio = ""
- GLIBC_64BIT_TIME_FLAGS:pn-gcc-sanitizers = ""
+@@ -1,3 +1,13 @@
++# To simulate Y2038 occurring, add to your build configuration:
++# QB_OPT_APPEND:append = " -rtc base=2040-02-02"
++#
++# Note that this does result in ptest failures on qemux86:
++# perl python3 dbus openssl glibc-tests openssh curl glib-2.0 tcl libmodule-build-perl
++# and a subset of those occurs in qemux86-64 as well:
++# curl python3 openssl openssl tcl python3-cryptography
++#
++# Working to address those (before Y2038 rolls in) will be appreciated.
++
+ GLIBC_64BIT_TIME_FLAGS = " -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64"
  
--INSANE_SKIP:libstd-rs[_usr_lib_rustlib_armv7-poky-linux-gnueabihf_lib_libstd.so] = "clock_gettime gettime fcntl fstat64 fstatat64 getsockopt ioctl lstat64 nanosleep prctl recvmsg sendmsg setsockopt stat64"
--INSANE_SKIP:librsvg[_usr_bin_rsvg-convert] = "fcntl fstat64 prctl stat64 clock_gettime"
--INSANE_SKIP:librsvg[_usr_lib_librsvg-2.so.2.48.0] = "fcntl lstat64 setsockopt sendmsg fstat64 getsockopt ioctl nanosleep timegm fstatat64 prctl mktime gmtime_r recvmsg stat64 clock_gettime localtime_r"
--
--# libpulsedsp.so is a preload-library that hooks libc functions
--INSANE_SKIP:pulseaudio[_usr_lib_pulseaudio_libpulsedsp.so] = "setsockopt fcntl"
-+INSANE_SKIP:append:pn-cargo = " 32bit-time"
-+INSANE_SKIP:append:pn-gcc-sanitizers = " 32bit-time"
-+INSANE_SKIP:append:pn-glibc = " 32bit-time"
-+INSANE_SKIP:append:pn-glibc-tests = " 32bit-time"
-+INSANE_SKIP:append:pn-librsvg = " 32bit-time"
-+INSANE_SKIP:append:pn-libstd-rs = " 32bit-time"
-+INSANE_SKIP:append:pn-pulseaudio = " 32bit-time"
-+INSANE_SKIP:append:pn-python3-bcrypt = " 32bit-time"
-+INSANE_SKIP:append:pn-python3-cryptography = " 32bit-time"
-+INSANE_SKIP:append:pn-rust = " 32bit-time"
-+INSANE_SKIP:append:pn-rust-hello-world = " 32bit-time"
-+INSANE_SKIP:append:pn-strace = " 32bit-time"
- 
+ # Only needed for some 32-bit architectures, some relatively newer
 -- 
 2.30.2
 
