@@ -1,95 +1,130 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EFFFC7618E
-	for <webhook@archiver.kernel.org>; Wed, 26 Apr 2023 16:24:45 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web10.369.1682526280675105408
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 791F6C7618E
+	for <webhook@archiver.kernel.org>; Wed, 26 Apr 2023 17:02:45 +0000 (UTC)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web10.1568.1682528559831987982
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Apr 2023 09:24:40 -0700
+ Wed, 26 Apr 2023 10:02:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=T7lNiMOF;
- spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-63d4595d60fso44498551b3a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 09:24:40 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=caNxZ36g;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.47, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-507bdc5ca2aso13050255a12.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 10:02:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682526280; x=1685118280;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1CpMGSXryOd2vmEKc1ljM5QeiDvALO0qNm26xyveDFM=;
-        b=T7lNiMOFwmau/Re0XkNIUs95q9LEGcTPy98LodSMlPnyFpZ948zbrZIt3ySN1+T4td
-         pTR9rhm/H0X3Ls+cjECMiWa9xtULKlReuZ8Hk2/pPZKXEI2NrFgKWSRGAXtO4mg25/uX
-         4IohyJ6okybZsLCoQaIPdzM2b/YRIQ2S5m84e/cOxTtBVaPdut6/IYLC7X03R/fnvO4s
-         1O1fL0MqDmwPanYewEIWKF0J2sXBNCoO8yDkdeUYgYOfpu6Q4+szflCFoAK8ULZkUhAv
-         BQG2vURioXqwDpeLYkAUDlgOBdFeptXLJqn6d/WBQDLIfaw6jZ8Lh9gfDDvia7T6M8GY
-         Ce/g==
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1682528558; x=1685120558;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W2b/3x4S8BLgnMMajYbGmaZlEMX3XZa9PYr1uButf3A=;
+        b=caNxZ36g/jgdjRcCk4oJNCs79s1L52pGTjH/oD5nC2jnMQuSH9kQ9NdWJBrOLqMYfu
+         jLa7aaXC+EwDzFfqD/nR2/OTrzXbCF0nlkjRZvUrnqTnpjcn1Syp7jvCfVj0PHgbcFki
+         ThE1QYIYO1oKdpvIfDq/OAMyThY3U7KiUDqvLyCOYCNQIBl+QNADKSqKi/GEP0hgvK9z
+         Gr7P+e6ARTgrosnzkJEgLtnded6cDXp7dcm+1xugyiW8Ou5fVclZXL0QQf21ITl204ad
+         I8gbu8VLxo0EtJoY4UO7F8kp1RtFQ9QQPY8gQjpmzG33YZLRfSCx4hWmlFPgEqcZBzGF
+         VO9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682526280; x=1685118280;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1CpMGSXryOd2vmEKc1ljM5QeiDvALO0qNm26xyveDFM=;
-        b=bjjejGKmpVN/FnspJ8e/d3OkbpbTh0nfRU3qAh4T+teUPyoYOhSwDxpks9LtdZVuBC
-         yKeCJbLaeYz7HGoH641BQtC+Fj6qX3yHLEr0dva9ER65FTUDENBC4w//ljx9AEVtw/ft
-         4UW6y81Y2jSRI/JmXZFds9mFSrr1g+FIOYOyF5uU85ki7mXAxzB0LeqqHoRJVYjdwWXz
-         twfD2gJT2OSMUG47DMFq4g+9Mi2DPp1HRQDazO+1APLBhugPDMuXYfVk1R2gsOPeAzEP
-         1XUXjY18XmTjcr34FTUIyQsIFIqSsrTio8Srv4XAz3h77QoOf4RnMbA3bc/HJaRj7F6f
-         toXA==
-X-Gm-Message-State: AC+VfDy6evyHyVWHq/jl0NN/o6EpAZWzaPKHli25XK2lelID05j6kiEe
-	T7rbnvsknu1kJ3l/97ffFHLGyqun2utnaw==
-X-Google-Smtp-Source: ACHHUZ54+juXeqa6wxkP1VyOWAsugIkmhUeXd+atMG+J0/F4X1Qsm9JxXOAN5Huzh5mj/LulfQOl5g==
-X-Received: by 2002:a17:90a:5585:b0:247:4fe5:f09c with SMTP id c5-20020a17090a558500b002474fe5f09cmr3661103pji.15.1682526279295;
-        Wed, 26 Apr 2023 09:24:39 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:d380::5002])
-        by smtp.gmail.com with ESMTPSA id l6-20020a17090ad10600b00244938da9b9sm3621103pju.31.2023.04.26.09.24.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Apr 2023 09:24:38 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] musl: Update to latest master
-Date: Wed, 26 Apr 2023 09:24:36 -0700
-Message-Id: <20230426162436.1510056-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.40.1
+        d=1e100.net; s=20221208; t=1682528558; x=1685120558;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=W2b/3x4S8BLgnMMajYbGmaZlEMX3XZa9PYr1uButf3A=;
+        b=i5T285JSKbN9j4A3CEHlmwVYafJLcTo2Ln3NG2sR4Z5gx6nHbg1eKbvqh+ApK7+QrM
+         O0x9TRyybTMbe8VsS9rdAw+jViclfvWr7q1qnBLJP0MLHWmStJCh+xAmiFn/NbSB+A6U
+         JNF8/nUc75UVqlZScnFqVNn+uRJdNl7uenrwI++3e67d7jssRd+0mtzml4oD5aF6QVtx
+         OzunbupKeD8+v0WhqQZML5XOB4VX90LLdVeu02vFXyyH24B9H0xVUGX0wN7fq34V04sa
+         ovbA8z+A3xQuOU9CMuZ/bft5NUV5TQskaYHqtur2r1mMAeKeGMgVIHkK+XCnpd3UkOXi
+         n35Q==
+X-Gm-Message-State: AAQBX9c+bXLf11XD0jKUSC6hSM45/jSoY1TCpw6vFF36HgybEwtIgNQE
+	4EnHHHtWcB9J2HQFih4a3du3kuVYR2xerc4D3p0eWA==
+X-Google-Smtp-Source: AKy350YpFBPypSafrW7ghoFbTgZKbAgAVUO90rSojPEhN7fGMcvsFz0f06KbhvSDfw5I1OKzX6oaFyYJns9EgpAThVA=
+X-Received: by 2002:aa7:c984:0:b0:506:9ed3:b470 with SMTP id
+ c4-20020aa7c984000000b005069ed3b470mr19311212edt.21.1682528558071; Wed, 26
+ Apr 2023 10:02:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230426111915.2740079-1-deepadeepthi98@gmail.com>
+In-Reply-To: <20230426111915.2740079-1-deepadeepthi98@gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Wed, 26 Apr 2023 07:02:27 -1000
+Message-ID: <CAOSpxdZWcCVPg0P2y_vtL1homkyGa_xRy7tQjXXjT8iWfoT=TA@mail.gmail.com>
+Subject: Re: [OE-core] [mickledore][PATCH] glibc: stable 2.37 branch updates.
+To: Deepthi Hemraj <deepadeepthi98@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, randy.macleod@windriver.com, 
+	linux@blackfigtech.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 16:24:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180448
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 17:02:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180449
 
-Brings the following changes
+Since master is still on 2.37 I think this needs to be submitted for
+master first before I can take it for mickledore.
 
-* b928c723 fix return value of wmemcmp for extreme wchar_t values
-* 4724793f fix wide printf numbered argument buffer overflow
-* c1b42c4a wait4: fix missing rusage on x32 due to wrong success condition
-* 9b12982d semtimedop: fix timespec kernel ABI mismatch for 32-bit timeouts on x32
-* 6d322159 getopt: fix null pointer arithmetic ub
-* 35e98311 nftw: fix use of uninitialized struct stat
-* 7c410472 fix inadvertently static local var in dynlink get_lfs64
-* 77327ed0 dns: check length field in tcp response message
+Thanks!
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/musl/musl_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Steve
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 531f337e82..036ac948b2 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -4,7 +4,7 @@
- require musl.inc
- inherit linuxloader
- 
--SRCREV = "1d5750b95c06913a1f18a995481276d698d20fae"
-+SRCREV = "b928c7234f62c35a9b4927586ff4c3cbf6e513b5"
- 
- BASEVER = "1.2.3"
- 
--- 
-2.40.1
-
+On Wed, Apr 26, 2023 at 1:20=E2=80=AFAM Deepthi Hemraj <deepadeepthi98@gmai=
+l.com> wrote:
+>
+> Below commits on glibc-2.37 stable branch are updated.
+> 1d63573f81 stdio-common: tests: don't double-define _FORTIFY_SOURCE
+> 590d0e089b elf: Restore ldconfig libc6 implicit soname logic [BZ #30125]
+> 790e504a17 stdlib: Undo post review change to 16adc58e73f3 [BZ #27749]
+>
+> Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+> ---
+>  meta/conf/distro/include/security_flags.inc | 2 +-
+>  meta/recipes-core/glibc/glibc-version.inc   | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/dist=
+ro/include/security_flags.inc
+> index 2972f05b4e..e950e06ca7 100644
+> --- a/meta/conf/distro/include/security_flags.inc
+> +++ b/meta/conf/distro/include/security_flags.inc
+> @@ -15,7 +15,7 @@ OPTLEVEL =3D "${@bb.utils.filter('SELECTED_OPTIMIZATION=
+', '-O0 -O1 -O2 -O3 -Ofast
+>  lcl_maybe_fortify ?=3D "${@oe.utils.conditional('OPTLEVEL','-O0','','${O=
+PTLEVEL} -D_FORTIFY_SOURCE=3D2',d)}"
+>
+>  # Error on use of format strings that represent possible security proble=
+ms
+> -SECURITY_STRINGFORMAT ?=3D "-Wformat -Wformat-security -Werror=3Dformat-=
+security"
+> +SECURITY_STRINGFORMAT ?=3D "-Wformat -Wformat-security"
+>
+>  # Inject pie flags into compiler flags if not configured with gcc itself
+>  # especially useful with external toolchains
+> diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-cor=
+e/glibc/glibc-version.inc
+> index 1b8665a9d8..4e0b82f1de 100644
+> --- a/meta/recipes-core/glibc/glibc-version.inc
+> +++ b/meta/recipes-core/glibc/glibc-version.inc
+> @@ -1,6 +1,6 @@
+>  SRCBRANCH ?=3D "release/2.37/master"
+>  PV =3D "2.37"
+> -SRCREV_glibc ?=3D "d8e1a7590d375159fb5aac07ad8111ab4699e994"
+> +SRCREV_glibc ?=3D "1d63573f81945a489ea169636fa11850bc74716b"
+>  SRCREV_localedef ?=3D "794da69788cbf9bf57b59a852f9f11307663fa87"
+>
+>  GLIBC_GIT_URI ?=3D "git://sourceware.org/git/glibc.git"
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#180430): https://lists.openembedded.org/g/openembedde=
+d-core/message/180430
+> Mute This Topic: https://lists.openembedded.org/mt/98512433/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
