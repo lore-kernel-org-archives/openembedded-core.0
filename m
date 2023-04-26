@@ -1,93 +1,114 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <deepadeepthi98@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BB78C77B60
-	for <webhook@archiver.kernel.org>; Wed, 26 Apr 2023 12:24:38 +0000 (UTC)
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
- by mx.groups.io with SMTP id smtpd.web11.6376.1682511872943372795
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B229DC77B60
+	for <webhook@archiver.kernel.org>; Wed, 26 Apr 2023 12:48:18 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web10.6896.1682513289904583781
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Apr 2023 05:24:33 -0700
+ Wed, 26 Apr 2023 05:48:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=PfwYggs0;
- spf=pass (domain: gmail.com, ip: 209.85.166.41, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-763c343b716so84719239f.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 05:24:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=XoNaJThA;
+ spf=pass (domain: gmail.com, ip: 209.85.210.179, mailfrom: deepadeepthi98@gmail.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-63b70f0b320so9061878b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 05:48:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682511872; x=1685103872;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NLu6B7X3YhcBTCd4Ve1nyKInw2aJSz29cAF4kj8PQ1Y=;
-        b=PfwYggs0if2+UuRGoOwfZG90lXZDH81N4gFANTT4XYh1LgTgpexVJx+x6Frb9whjAY
-         gU+9sh+fQfUYmemFSx85Bri63uItrGOU0Z5JJY80nJZbUHLZxSD0my5KMcipUQWuy10Y
-         /kyAe6HYFkQMU2IzztjY7BkuLGEDIJ195Tw+RUjah4aJMtpH3Vn6cKYyeEMjagSf01LF
-         kRu/Yi/uO1r+CQcmptjkTMZ2TLxb20+/yfO7Ca3Sw2A2j/Tk49PezNyR/cTa6jhpQDN8
-         Vb10d5uGJg12icjeMFUNbQ6zMS769ywTAODgcnKEGZC6RyjG1stQ+1y3lp2+dC646mGa
-         09Nw==
+        d=gmail.com; s=20221208; t=1682513289; x=1685105289;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kc8ED+cbxSggFFtY9R1LPaxU/UwKHWHxKEgPfiCvi8A=;
+        b=XoNaJThAmN+pLRR5H6qp7OlEkM9/7q+ba7wOXcYwZeyibFikDD2nFTgLjcc8pnCsGb
+         +HwnBQK/J8/1GWCrSCDjr6aAdTwQu1haN1OODDuTJ1jEpP51BmEHu69C2n5O7nkTTdpH
+         +n0fCmvO78b/uqVkHU+iEh9cHgjcNcHL8/9EzuJZ7jarCWFRxPHJgLGOWb9FcY7z7vzc
+         hkj2MaXCYuh43FwOO8Ebcdp1qzDAvC8Kr0amPqGjspGgYvmSK6QqfEG3p5YJVjiHx4J2
+         UBzgOIWljyaEq/Oy+zwWnEz1LvEg9g0Iy+qCVShzoFCS70Uz9yQBa+PAINmTW4U384tH
+         cW7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682511872; x=1685103872;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NLu6B7X3YhcBTCd4Ve1nyKInw2aJSz29cAF4kj8PQ1Y=;
-        b=lo+PbzOnLyeVN3Zor50DsxAk3fn87MguQMVor+Hx0TkkKN5HgP89AUSf6alezJ2FtP
-         dmFPSZ3nYlEwNKJfP4OvWWlEV6hQ6baE63V1SLlnyOnTMtavR2+oa6OECiKSVjPiLmMm
-         S3mQbrOOBrb6pVv2OXKAIzeWyUj9oaFuEH2SN2+yVs2MD3SOF1n68hO3d1YMkuAWoBlU
-         FuBWJ/8RTHKxBecEaeRBOeNSWlRTC2kxcgUQUsIZ6ohPuuP79zUcUoUWtSQ46pVTn+B0
-         ACgrGz/7OSeetf0YvSdldr13PGNUtBVQ3KteLyzpTXtrl+MYNZyCkCUJUsr4Ux+W0JrM
-         D0ag==
-X-Gm-Message-State: AAQBX9eCLr0LoxHpcnJsiKpSJE1VZR4Fg0/IsdqGrEkxX5NWa+R36LcT
-	iJBldkaTgfxcqmo6hK8yPablNVTLHmXDcdlI4bM=
-X-Google-Smtp-Source: AKy350YGcuutM4AUN9linniPr+bsn/T3LEtzdDKDrYqXPRRphfLnF0TJAieS+jn00Olu8/G9EHzm82ff1B1F1mL+8EM=
-X-Received: by 2002:a92:b06:0:b0:326:2d5b:afef with SMTP id
- b6-20020a920b06000000b003262d5bafefmr9117038ilf.16.1682511871907; Wed, 26 Apr
- 2023 05:24:31 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1682513289; x=1685105289;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kc8ED+cbxSggFFtY9R1LPaxU/UwKHWHxKEgPfiCvi8A=;
+        b=IW/rY0hrKumohiefACaVgN/9aR/TMRT3pQTsCpVFJhptKl30hqJVLJrQLAMyfOvVUS
+         NIxNGyZQl/FieMg2vtmJgnM426eBBj7N1MDL/g+8ptCRURllhfCrKZ9BPVVQ2LQbzeM0
+         gPcF740rBtRuKI+sPy1OfKVBgcafCIddr5F5CTCdIKB3LIEk/acl2nHtwBjGXSrPuXUF
+         uTaGOTLePh31xCFdFRxypyMzMdBVPsjTDjU+y5XYBNj/AQawLesHPUZ1rtu+cTo6Ce21
+         kXwHFJW/9zdbDaHcE6UUN75oXztr+HtE0W8f1UWOm3Q+zY7XbVMAY2TdwVQTQtx08zhn
+         oJ6w==
+X-Gm-Message-State: AAQBX9cLz0RpE/6gMwT7fg5ljFwV0s/2bqjDk7E3TpZghcpoRtT9jOay
+	ZfXH3D/pKs5l6AQnYdZryfdMwSWmdDFz8HdJ
+X-Google-Smtp-Source: AKy350YYbvSYFQhFLv3oGUJhnZehAN4E4fJrkBdwwLkgzwV7gS+8O4kIP9vJxH2wgVcXc1RE+0VTHw==
+X-Received: by 2002:a05:6a00:1796:b0:634:7ba3:d140 with SMTP id s22-20020a056a00179600b006347ba3d140mr30376051pfg.15.1682513288983;
+        Wed, 26 Apr 2023 05:48:08 -0700 (PDT)
+Received: from bft-2.. ([49.204.85.206])
+        by smtp.gmail.com with ESMTPSA id r78-20020a632b51000000b00520f316ebe3sm9577631pgr.62.2023.04.26.05.48.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Apr 2023 05:48:08 -0700 (PDT)
+From: Deepthi Hemraj <deepadeepthi98@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: rwmacleod@gmail.com,
+	umesh.kalappa0@gmail.com,
+	pgowda.cve@gmail.com,
+	shivams@gmail.com,
+	sundeep.kokkonda@gmail.com
+Subject: [mickledore][PATCH V2] binutils: stable 2.40 branch updates
+Date: Wed, 26 Apr 2023 18:17:47 +0530
+Message-Id: <20230426124747.2326016-1-deepadeepthi98@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230425203116.12981-1-alex.kiernan@gmail.com> <20230426142016.710804e3@booty>
-In-Reply-To: <20230426142016.710804e3@booty>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Wed, 26 Apr 2023 13:24:20 +0100
-Message-ID: <CAO5Uq5QVmuZWK75=uugcG+0CGrx1XF1CWizRVqPxZbZQrZSQfg@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH] rust: Upgrade 1.68.2 -> 1.69.0
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 12:24:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180440
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 12:48:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180441
 
-On Wed, Apr 26, 2023 at 1:20=E2=80=AFPM Luca Ceresoli <luca.ceresoli@bootli=
-n.com> wrote:
->
-> Hello Alex,
->
-> On Tue, 25 Apr 2023 21:31:15 +0100
-> "Alex Kiernan" <alex.kiernan@gmail.com> wrote:
->
-> > Rebase patches, drop crossbeam_atomic is this fully merged upstream.
-> >
-> > https://blog.rust-lang.org/2023/04/20/Rust-1.69.0.html
-> >
-> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
->
-> musl-qemu AB tests fail with this patch:
->
-> ERROR: rust-1.69.0-r0 do_install: ExecutionError('/home/pokybuild/yocto-w=
-orker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/rust/1.69.=
-0-r0/temp/run.do_install.498791', 1, None, None)
-> | error: unused import: `libc::fstatat64`
-> | error: could not compile `std` due to previous error
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/7013/st=
-eps/11/logs/stdio
->
+Below commits on binutils-2.40 stable branch are updated.
+4671be001eb Updated Hungarian translation for the gprof directory
+ded035f913e lto: Don't add indirect symbols for versioned aliases in IR
+74cb2ddeabc gas: arm: Change warning message to not reference specific A-class architecture revision
+570b9c09bbf gas: arm: Fix a further IT-predicated vcvt issue in the presense of MVE vcvtn
+bddd62e188c libctf: get the offsets of fields of unnamed structs/unions right
+7aa47eafcce libctf: fix assertion failure with no system qsort_r
+165accf0752 coff_get_normalized_symtab bfd_release
+af35798e957 PR30217, dynamic relocations using local dynamic symbols
+18bb604f1e1 PR30198, Assertion and segfault when linking x86_64 elf and coff
+34a2b4a0e21 PR30155, ld segfault in _bfd_nearby_section
+3d0046f39aa PR30046, power cmpi leads to unknown architecture
+5c87fb1d59b ppc32 and "LOAD segment with RWX permissions"
+11f5c1ebf14 Updated Serbian translations for gold, gprof and opcodes sub-directories
+38e455b1d9a Updated translations for the bfd and gprof directories.
+b2bc62b7b4e gas: correct symbol name comparison in .startof./.sizeof. handling
+17294931e3e configure: remove dependencies on gmp and mpfr when gdb is disabled
+1fc096a4c59 Regen config files
+e1815414077 Pass $JANSSON_LIBS and $ZSTD_LIBS to ld-bootstrap/bootrap.exp
+3e888977f16 bpf: fix error conversion from long unsigned int to unsigned int [-Werror=overflow]
+65dbb942145 Updated Swedish translation for the binutils sub-directory
+27f59ec47a1 RISC-V: make C-extension JAL available again for (32-bit) assembly
+edd36b26f35 gprofng: PR30043 libgprofng.so.* are installed to a wrong location
+c6e269febbc gprofng: PR29521 [docs] man pages are not in the release tarball
+bcea253f5fa toplevel: Makefile.def: add install-strip dependency on libsframe
 
-Thanks, will have a look.
+Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+---
+ meta/recipes-devtools/binutils/binutils-2.40.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---=20
-Alex Kiernan
+diff --git a/meta/recipes-devtools/binutils/binutils-2.40.inc b/meta/recipes-devtools/binutils/binutils-2.40.inc
+index 93631ca3d7..5c0df06208 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.40.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.40.inc
+@@ -18,7 +18,7 @@ SRCBRANCH ?= "binutils-2_40-branch"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
+ 
+-SRCREV ?= "ffb83e32fc11f36b7b82b876c14888f82cd983b3"
++SRCREV ?= "4671be001eb5a899ecac3e2686a92934000f8262"
+ BINUTILS_GIT_URI ?= "git://sourceware.org/git/binutils-gdb.git;branch=${SRCBRANCH};protocol=git"
+ SRC_URI = "\
+      ${BINUTILS_GIT_URI} \
+-- 
+2.34.1
+
 
