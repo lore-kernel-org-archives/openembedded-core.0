@@ -2,71 +2,74 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A30A5C77B78
-	for <webhook@archiver.kernel.org>; Wed, 26 Apr 2023 17:07:55 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web11.1736.1682528868382113079
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95E8CC77B78
+	for <webhook@archiver.kernel.org>; Wed, 26 Apr 2023 17:18:35 +0000 (UTC)
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web11.2007.1682529507337373364
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Apr 2023 10:07:48 -0700
+ Wed, 26 Apr 2023 10:18:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=HnrUs4vC;
- spf=pass (domain: gmail.com, ip: 209.85.210.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-63d4595d60fso47298b3a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 10:07:48 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=cXFgZLTD;
+ spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-63b5fca48bcso6103404b3a.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 10:18:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682528867; x=1685120867;
+        d=gmail.com; s=20221208; t=1682529506; x=1685121506;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5qFt105UIHF+qt2r3/vD1Sa1ELeRBY9md/+2WzYZd/w=;
-        b=HnrUs4vC+R0mcyI4c1AfIBODSWb/dr3o1HVwHYy09slkHW95iYEopPN1AWr6Q3kaKG
-         QNJVHyeJxhE44uQ2bYe+8Ph6YohnqoKLhnX4LSG2ZbnB9gp0x4uNtKbOLI2bK/8z9T56
-         pzWI9VheqvZOw29SuiGxCRBBly0rKr8GktTWIjXfB/rIkppFk4+yjvm/az6OP9m5JxnA
-         4SXFsLUKgA6+uCsDTTc2yJ9Ge4SdfIauDmZ9fy2Mvhmkfj38FGHXrqZS3e/7sPziDTlq
-         kS+lR7IAeL6iLo8MkIYOZFx6TEHzKMkNS2Fsh8leRUazV+E0LxpZ8Wcuv+pc0Dn5NICW
-         fqMg==
+        bh=07XBm0NN0gtUT8h90FFCLoauQMYV94AaJJKAd764wYA=;
+        b=cXFgZLTDWq90ZMZKp5MB5/1m+r4tpeanAzVMC7MEmio6dlhdtA3oyrhAph1IXU4ReV
+         vord12xNXdqDzD2PHA13V15AQM0DQSf6INO8nXcBFLUZDSp4UMnE1QOMCCXu0tod9EBC
+         cxETxWNVYtpxyZkUf2CxEujLBpbXtF6K6nQs5uZLK1QEiotf4qwr5eGWRQYkQ5UaMS6W
+         UleDWPhm8IsoHftuhCpfx6UFteCkNEBfEXGVZPiHVl+dV9q0ANuIitD3XVtLNhlNusem
+         yZNqDAq4BHpKPlblGzN2W4TtJgngwX9tytDw9Clf/fdrU8DRr/MHo12+S283BrZFAbtC
+         Y7Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682528867; x=1685120867;
+        d=1e100.net; s=20221208; t=1682529506; x=1685121506;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5qFt105UIHF+qt2r3/vD1Sa1ELeRBY9md/+2WzYZd/w=;
-        b=ZdE8q5mxsoKqR1JosSIedDOJsB2+3AKYMayI1O/eIeYHdcgPVrZGGQ50FkxMSkgGXQ
-         rVaVW4/OJVWGx/0X42UJI2OUeUWhiOmx+tsDtTYWZsdRD/OdGf6biSFTSNcULjQ0jiBL
-         7S8mRGo7qUXnKVp00LK0DRJNVypgJicv6yNmgzmImRcY/PWIYrKWJJkLIs7NQstSq61k
-         3MICoUNnNzKYJ4eQqZCDDpvkNhrWvmW2ybQzw+kkk3BBpsTuaCTKas5MsgphKxU/gG8P
-         qzvDLj3PY4DgcX63lFkwL/CPkwt0UOcIrhD0OKAzZH+dO+ZyYWxmCBpDaejEdc901PlV
-         +RFw==
-X-Gm-Message-State: AC+VfDwWbVEu9uStP1aC8JemWpejtroP7lIfr83v7703bz0tYnm50/2S
-	zKR+djqLeC44DfGT87DKdfJFWN693L/DsA==
-X-Google-Smtp-Source: ACHHUZ45JpTsga8jl5ZKYaTYqQ0XNvHk/8uk4tunaPcwkS4McZhOlurBDGIpF/JCDf1aaXnBZGB+lg==
-X-Received: by 2002:a05:6a20:1588:b0:f4:c0d6:87c with SMTP id h8-20020a056a20158800b000f4c0d6087cmr3957266pzj.14.1682528866949;
-        Wed, 26 Apr 2023 10:07:46 -0700 (PDT)
+        bh=07XBm0NN0gtUT8h90FFCLoauQMYV94AaJJKAd764wYA=;
+        b=GbRwNYX5K4nGrbS2cduBOn5S3WuSpSOF1hBUQcIiuqzUU3PbaN8nEjaAoPK6f/wg0G
+         chfGiqfrD/mkfAuxg86qR0c+691Ul5Zrg0m1I4VU01vBsKVloAOgKIoPi8UJKkUACQoY
+         4WSxA62lxoiHRgmSNf94/vjeswBWL+Nxkb0gavs9Kn9brbpwuFeHl56vDRmWOAKBmzHR
+         UXcElJucRCZrJECjvLjBMJSP9+fSPQbH+VTZOOvqP7mwBZjSuGWzBQ5XeApeHVPOHPFf
+         6rvLG26ZVgSgBtxxtl4Ja/LrYtlak2+pqXaAayvqcDeso3S+62zE7+mq4kvCFkB5uNvG
+         hEQg==
+X-Gm-Message-State: AAQBX9e5tdKSo4bZ6C8QVM11csmNEqfOTe7MEPZdspLqCkQ7+4J74AY/
+	WUfa1ZJzsYgjd1Ty8O7HERv2DqOWG+9I6Q==
+X-Google-Smtp-Source: AKy350YY803YbN/UjWhzFj0uHlDWSbB70giO3VDvFoInSiZKMhqF/G9Wg23siTYSXnvWVaWMtAuDlQ==
+X-Received: by 2002:a05:6a00:1150:b0:63d:23dc:7760 with SMTP id b16-20020a056a00115000b0063d23dc7760mr28018159pfm.2.1682529505733;
+        Wed, 26 Apr 2023 10:18:25 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:d380::5002])
-        by smtp.gmail.com with ESMTPSA id f195-20020a6238cc000000b0063b8428b0d8sm11438876pfa.152.2023.04.26.10.07.45
+        by smtp.gmail.com with ESMTPSA id p14-20020aa79e8e000000b006258dd63a3fsm11547513pfq.56.2023.04.26.10.18.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Apr 2023 10:07:46 -0700 (PDT)
+        Wed, 26 Apr 2023 10:18:25 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Deepthi Hemraj <deepadeepthi98@gmail.com>,
 	Deepthi Hemraj <Deepthi.Hemraj@windriver.com>,
 	Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] binutils: stable 2.40 branch updates
-Date: Wed, 26 Apr 2023 10:07:43 -0700
-Message-Id: <20230426170743.1691794-1-raj.khem@gmail.com>
+Subject: [PATCH v3] binutils: stable 2.40 branch updates
+Date: Wed, 26 Apr 2023 10:18:23 -0700
+Message-Id: <20230426171823.1931953-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 17:07:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180450
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 17:18:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180451
 
 From: Deepthi Hemraj <deepadeepthi98@gmail.com>
 
-Rebase existing patches
+- Rebase existing patches
+- Drop 0014-configure-remove-dependencies-on-gmp-and-mpfr-when-g.patch
+  which is already in
 
-Below commits on binutils-2.40 stable branch are updated.
+- Below commits on binutils-2.40 stable branch are updated.
+
 4671be001eb Updated Hungarian translation for the gprof directory
 ded035f913e lto: Don't add indirect symbols for versioned aliases in IR
 74cb2ddeabc gas: arm: Change warning message to not reference specific A-class architecture revision
@@ -96,8 +99,9 @@ Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
 v2: Rebase existing patches to apply on top
+v3: Drop upstreamed patch
 
- .../binutils/binutils-2.40.inc                |   2 +-
+ .../binutils/binutils-2.40.inc                |   3 +-
  ...s-crosssdk-Generate-relocatable-SDKs.patch |   2 +-
  ...o-not-generate-linker-script-directo.patch |   2 +-
  ...dk-Search-for-alternative-ld.so.conf.patch |   8 +-
@@ -111,10 +115,12 @@ v2: Rebase existing patches to apply on top
  ...or-clang-before-checking-gcc-version.patch |   6 +-
  ...-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch |   2 +-
  ...sing-_Alignof-when-using-C11-or-newe.patch |   2 +-
- 14 files changed, 149 insertions(+), 149 deletions(-)
+ ...-dependencies-on-gmp-and-mpfr-when-g.patch |  56 ----
+ 15 files changed, 149 insertions(+), 206 deletions(-)
+ delete mode 100644 meta/recipes-devtools/binutils/binutils/0014-configure-remove-dependencies-on-gmp-and-mpfr-when-g.patch
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.40.inc b/meta/recipes-devtools/binutils/binutils-2.40.inc
-index ad2c9f9da1..924cc95669 100644
+index ad2c9f9da1..e925a182ad 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.40.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.40.inc
 @@ -18,7 +18,7 @@ SRCBRANCH ?= "binutils-2_40-branch"
@@ -126,6 +132,14 @@ index ad2c9f9da1..924cc95669 100644
  BINUTILS_GIT_URI ?= "git://sourceware.org/git/binutils-gdb.git;branch=${SRCBRANCH};protocol=git"
  SRC_URI = "\
       ${BINUTILS_GIT_URI} \
+@@ -32,7 +32,6 @@ SRC_URI = "\
+      file://0011-Check-for-clang-before-checking-gcc-version.patch \
+      file://0012-Only-generate-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch \
+      file://0013-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch \
+-     file://0014-configure-remove-dependencies-on-gmp-and-mpfr-when-g.patch \
+      file://0015-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patch \
+      file://0016-CVE-2023-25586.patch \
+      file://fix-time64.patch \
 diff --git a/meta/recipes-devtools/binutils/binutils/0001-binutils-crosssdk-Generate-relocatable-SDKs.patch b/meta/recipes-devtools/binutils/binutils/0001-binutils-crosssdk-Generate-relocatable-SDKs.patch
 index 7fffa81724..ca249834ea 100644
 --- a/meta/recipes-devtools/binutils/binutils/0001-binutils-crosssdk-Generate-relocatable-SDKs.patch
@@ -1447,6 +1461,68 @@ index 91ac606f78..9cdc7e219d 100644
  From: Khem Raj <raj.khem@gmail.com>
  Date: Sun, 15 Jan 2023 00:16:25 -0800
  Subject: [PATCH] Define alignof using _Alignof when using C11 or newer
+diff --git a/meta/recipes-devtools/binutils/binutils/0014-configure-remove-dependencies-on-gmp-and-mpfr-when-g.patch b/meta/recipes-devtools/binutils/binutils/0014-configure-remove-dependencies-on-gmp-and-mpfr-when-g.patch
+deleted file mode 100644
+index 04c1310cbe..0000000000
+--- a/meta/recipes-devtools/binutils/binutils/0014-configure-remove-dependencies-on-gmp-and-mpfr-when-g.patch
++++ /dev/null
+@@ -1,56 +0,0 @@
+-From 518c167116ab7aa6bb84a97200aeda2c4289e064 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Cl=C3=A9ment=20Chigot?= <chigot@adacore.com>
+-Date: Tue, 3 Jan 2023 14:24:43 +0100
+-Subject: [PATCH] configure: remove dependencies on gmp and mpfr when gdb is
+- disabled
+-
+-Since 991180627851801f1999d1ebbc0e569a17e47c74, the configure checks
+-about GMP and MPFR for gdb builds have been moved to the toplevel
+-configure.
+-However, it doesn't take into account the --disable-gdb option. Meaning
+-that a build without gdb will require these libraries even if not
+-needed.
+-
+-ChangeLog:
+-
+-	* configure.ac: Skip GMP and MPFR when --disable-gdb is
+-	provided.
+-	* configure: Regenerate.
+-
+-Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=5fb0e308577143ceb313fde5538dc9ecb038f29f]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- configure    | 4 +++-
+- configure.ac | 4 +++-
+- 2 files changed, 6 insertions(+), 2 deletions(-)
+-
+-diff --git a/configure b/configure
+-index bdc3583215f..b63b5cd3de0 100755
+---- a/configure
+-+++ b/configure
+-@@ -8032,7 +8032,9 @@ if test -d ${srcdir}/gcc ; then
+-   require_mpc=yes
+- fi
+- if test -d ${srcdir}/gdb ; then
+--  require_gmp=yes
+-+  if test "x$enable_gdb" != xno; then
+-+   require_gmp=yes
+-+  fi
+- fi
+- 
+- gmplibs="-lmpfr -lgmp"
+-diff --git a/configure.ac b/configure.ac
+-index 1c00b9aec42..2df870b86af 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -1585,7 +1585,9 @@ if test -d ${srcdir}/gcc ; then
+-   require_mpc=yes
+- fi
+- if test -d ${srcdir}/gdb ; then
+--  require_gmp=yes
+-+  if test "x$enable_gdb" != xno; then
+-+   require_gmp=yes
+-+  fi
+- fi
+- 
+- gmplibs="-lmpfr -lgmp"
 -- 
 2.40.1
 
