@@ -2,155 +2,125 @@ Return-Path: <qiutt@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 847B4C77B73
-	for <webhook@archiver.kernel.org>; Thu, 27 Apr 2023 08:23:01 +0000 (UTC)
-Subject: [PATCH V2] Fix error SRCDIR when using usrmerge DISTRO_FEATURES
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3473C77B73
+	for <webhook@archiver.kernel.org>; Thu, 27 Apr 2023 08:26:31 +0000 (UTC)
+Subject: [PATCH V1] e2fsprogs: fix ptest bug for second running
 To: openembedded-core@lists.openembedded.org
 From: "qiutt@fujitsu.com" <qiutt@fujitsu.com>
 X-Originating-Location: CN (223.111.68.150)
 X-Originating-Platform: Windows Chrome 112
 User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Date: Thu, 27 Apr 2023 01:22:58 -0700
-Message-ID: <Wnqs.1682583778394705301.Jj4z@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="ceksEIbZACoXDp9cs4po"
+Date: Thu, 27 Apr 2023 01:26:26 -0700
+Message-ID: <72Qn.1682583986150981484.FBVe@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="ofAZALZb67SiOaJvA47b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Apr 2023 08:23:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180486
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Apr 2023 08:26:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180487
 
---ceksEIbZACoXDp9cs4po
+--ofAZALZb67SiOaJvA47b
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-From 3b1c081d4efffe83f3a63184450cc79bf16356dc Mon Sep 17 00:00:00 2001
+From db4b5e31703e4143450b1e7239b2502a89ed042a Mon Sep 17 00:00:00 2001
 From: Qiu Tingting <qiutt@fujitsu.com>
-Date: Thu, 27 Apr 2023 15:24:35 +0800
-Subject: [PATCH V2] Fix error SRCDIR when using usrmerge DISTRO_FEATURES
+Date: Thu, 27 Apr 2023 15:29:14 +0800
+Subject: [PATCH V1] e2fsprogs: fix ptest bug for second running
 
-When build e2fsprogs ptest with usrmerge DISTRO_FEATURES,
-in test_script and test_one scripts, value of SRCDIR has problem.
-SRCDIR=3D/usr/usr/lib/e2fsprogs/ptest/test
+At second running, there are four new failed case:
+d_loaddump f_bigalloc_badinode f_bigalloc_orphan_list f_dup_resize
 
-ptest log
-# ptest-runner e2fsprogs
-START: ptest-runner
-2022-12-17T11:08
-BEGIN: /usr/lib/e2fsprogs/ptest
-ls: cannot access '/usr/usr/lib/e2fsprogs/ptest/test/[a-zA-Z]_*': No such f=
-ile or directory
-./test_script: line 54: /usr/usr/lib/e2fsprogs/ptest/test/test_post: No suc=
-h file or directory
-DURATION: 0
-END: /usr/lib/e2fsprogs/ptest
-2022-12-17T11:08
-STOP: ptest-runner
-TOTAL: 1 FAIL: 0
-
-Reason
-In Makefile.in, SRCDIR is set by prefix and libdir.
-@echo "SRCDIR=3D${prefix}${libdir}/e2fsprogs/ptest/test" >> test_one
-@echo "SRCDIR=3D${prefix}${libdir}/e2fsprogs/ptest/test" >> test_script
-prefix=3D/usr
-libdir=3D/usr/lib (when usrmerge is set)
-
-solution
-After ptest compiling, check and modify SRCDIR in test_script and test_one.
+The test_data.tmp is necessary, but it is deleted by run-ptest.
+So it should be restored after testing.
 
 Signed-off-by: Qiu Tingting <qiutt@fujitsu.com>
 ---
+meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest | 1 +
 meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb | 3 +++
-1 file changed, 3 insertions(+)
+2 files changed, 4 insertions(+)
 
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest b/meta/rec=
+ipes-devtools/e2fsprogs/e2fsprogs/run-ptest
+index c97c0377e9..279923db8e 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
+@@ -8,3 +8,4 @@ rm -f *.tmp
+rm -f *.ok
+rm -f *.failed
+rm -f *.log
++cp ../data/test_data.tmp ./
 diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb b/meta/rec=
 ipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
-index 2620610903..a2eb4f8f8f 100644
+index a2eb4f8f8f..87e13d744b 100644
 --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
 +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
-@@ -122,6 +122,9 @@ RDEPENDS:${PN}-ptest +=3D "e2fsprogs-badblocks e2fsprog=
-s-dumpe2fs e2fsprogs-e2fsck
+@@ -143,4 +143,7 @@ do_install_ptest() {
 
-do_compile_ptest() {
-oe_runmake -C ${B}/tests
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i 's,/usr/usr,/usr,g' \
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${B}/tests/test_one \
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${B}/tests/test_script
+install -d ${D}${PTEST_PATH}/lib
+install -m 0644 ${B}/lib/config.h=C2=A0 ${D}${PTEST_PATH}/lib/
++
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d ${D}${PTEST_PATH}/data
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0644 ${B}/tests/test_data.tmp ${D}$=
+{PTEST_PATH}/data/
 }
-
-do_install_ptest() {
 --
 2.25.1
 
---ceksEIbZACoXDp9cs4po
+--ofAZALZb67SiOaJvA47b
 Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div>From 3b1c081d4efffe83f3a63184450cc79bf16356dc Mon Sep 17 00:00:00 2001=
+<div>From db4b5e31703e4143450b1e7239b2502a89ed042a Mon Sep 17 00:00:00 2001=
 </div>
 <div>From: Qiu Tingting &lt;qiutt@fujitsu.com&gt;</div>
-<div>Date: Thu, 27 Apr 2023 15:24:35 +0800</div>
-<div>Subject: [PATCH V2] Fix error SRCDIR when using usrmerge DISTRO_FEATUR=
-ES</div>
+<div>Date: Thu, 27 Apr 2023 15:29:14 +0800</div>
+<div>Subject: [PATCH V1] e2fsprogs: fix ptest bug for second running</div>
 <div>&nbsp;</div>
-<div>When build e2fsprogs ptest with usrmerge DISTRO_FEATURES,</div>
-<div>in test_script and test_one scripts, value of SRCDIR has problem.</div=
->
-<div>&nbsp; SRCDIR=3D/usr/usr/lib/e2fsprogs/ptest/test</div>
+<div>At second running, there are four new failed case:</div>
+<div>&nbsp; d_loaddump f_bigalloc_badinode f_bigalloc_orphan_list f_dup_res=
+ize</div>
 <div>&nbsp;</div>
-<div>ptest log</div>
-<div>&nbsp; # ptest-runner e2fsprogs</div>
-<div>&nbsp; START: ptest-runner</div>
-<div>&nbsp; 2022-12-17T11:08</div>
-<div>&nbsp; BEGIN: /usr/lib/e2fsprogs/ptest</div>
-<div>&nbsp; ls: cannot access '/usr/usr/lib/e2fsprogs/ptest/test/[a-zA-Z]_*=
-': No such file or directory</div>
-<div>&nbsp; ./test_script: line 54: /usr/usr/lib/e2fsprogs/ptest/test/test_=
-post: No such file or directory</div>
-<div>&nbsp; DURATION: 0</div>
-<div>&nbsp; END: /usr/lib/e2fsprogs/ptest</div>
-<div>&nbsp; 2022-12-17T11:08</div>
-<div>&nbsp; STOP: ptest-runner</div>
-<div>&nbsp; TOTAL: 1 FAIL: 0</div>
-<div>&nbsp;</div>
-<div>Reason</div>
-<div>&nbsp; In Makefile.in, SRCDIR is set by prefix and libdir.</div>
-<div>&nbsp; &nbsp; @echo "SRCDIR=3D${prefix}${libdir}/e2fsprogs/ptest/test"=
- &gt;&gt; test_one</div>
-<div>&nbsp; &nbsp; @echo "SRCDIR=3D${prefix}${libdir}/e2fsprogs/ptest/test"=
- &gt;&gt; test_script</div>
-<div>&nbsp; prefix=3D/usr</div>
-<div>&nbsp; libdir=3D/usr/lib (when usrmerge is set)</div>
-<div>&nbsp;</div>
-<div>solution</div>
-<div>&nbsp; After ptest compiling, check and modify SRCDIR in test_script a=
-nd test_one.</div>
+<div>The test_data.tmp is necessary, but it is deleted by run-ptest.</div>
+<div>So it should be restored after testing.</div>
 <div>&nbsp;</div>
 <div>Signed-off-by: Qiu Tingting &lt;qiutt@fujitsu.com&gt;</div>
 <div>---</div>
+<div>&nbsp;meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest | 1 +</div>
 <div>&nbsp;meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb | 3 +++</div=
 >
-<div>&nbsp;1 file changed, 3 insertions(+)</div>
+<div>&nbsp;2 files changed, 4 insertions(+)</div>
 <div>&nbsp;</div>
+<div>diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest b/met=
+a/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest</div>
+<div>index c97c0377e9..279923db8e 100644</div>
+<div>--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest</div>
+<div>+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest</div>
+<div>@@ -8,3 +8,4 @@ rm -f *.tmp</div>
+<div>&nbsp;rm -f *.ok</div>
+<div>&nbsp;rm -f *.failed</div>
+<div>&nbsp;rm -f *.log</div>
+<div>+cp ../data/test_data.tmp ./</div>
 <div>diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb b/met=
 a/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb</div>
-<div>index 2620610903..a2eb4f8f8f 100644</div>
+<div>index a2eb4f8f8f..87e13d744b 100644</div>
 <div>--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb</div>
 <div>+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb</div>
-<div>@@ -122,6 +122,9 @@ RDEPENDS:${PN}-ptest +=3D "e2fsprogs-badblocks e2f=
-sprogs-dumpe2fs e2fsprogs-e2fsck</div>
+<div>@@ -143,4 +143,7 @@ do_install_ptest() {</div>
 <div>&nbsp;</div>
-<div>&nbsp;do_compile_ptest() {</div>
-<div>&nbsp; &nbsp; &nbsp; &nbsp; oe_runmake -C ${B}/tests</div>
-<div>+&nbsp; &nbsp; &nbsp; &nbsp;sed -i 's,/usr/usr,/usr,g' \</div>
-<div>+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;${B}/tests/test_one \</div>
-<div>+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;${B}/tests/test_script</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;install -d ${D}${PTEST_PATH}/lib</di=
+v>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;install -m 0644 ${B}/lib/config.h&nb=
+sp; ${D}${PTEST_PATH}/lib/</div>
+<div>+</div>
+<div>+&nbsp; &nbsp; &nbsp; &nbsp; install -d ${D}${PTEST_PATH}/data</div>
+<div>+&nbsp; &nbsp; &nbsp; &nbsp; install -m 0644 ${B}/tests/test_data.tmp =
+${D}${PTEST_PATH}/data/</div>
 <div>&nbsp;}</div>
-<div>&nbsp;</div>
-<div>&nbsp;do_install_ptest() {</div>
 <div>--</div>
 <div>2.25.1</div>
 <div>&nbsp;</div>
 
---ceksEIbZACoXDp9cs4po--
+--ofAZALZb67SiOaJvA47b--
 
