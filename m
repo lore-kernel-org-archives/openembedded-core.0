@@ -1,191 +1,639 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B8DEC7618E
-	for <webhook@archiver.kernel.org>; Thu, 27 Apr 2023 02:19:30 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.11259.1682561962472075511
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01F82C7618E
+	for <webhook@archiver.kernel.org>; Thu, 27 Apr 2023 02:28:09 +0000 (UTC)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web10.11413.1682562488570945837
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Apr 2023 19:19:22 -0700
+ Wed, 26 Apr 2023 19:28:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=kB8NNJ3i;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=34817e955c=qi.chen@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33R1Qrjm011779
-	for <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 19:19:22 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=PPS06212021;
- bh=W2FhehC5xisN56O5sCQJDeTGsJ1OKnawcIxj1/XT3Ts=;
- b=kB8NNJ3i5LyosB0s8cy4P2x7LmA9/hsnguVUe4kPkyf6bijyAFa4wotL8ixbCt7aI/b4
- E347to6WD1UoALib76lI+sNEl1HejA+ljMc8b4wRGs8bR7UORm3LbaVsXZ+C8EnrFaIb
- UHM79bym0QwVz9UJ1hKxpU5UbIbyF50vBXI3QwrgEolPAtMmjED741Q/zBvjT75qPkn/
- vjoczaWT+a2Eq0OMxFYWJYqt/DZ1cPL1jCECpww6R025FVMunObNbbdt4/QFmfPmtASN
- wvh94C9cJ6Bcqa+AvrEevZfkFRZZa94xv4FUbXVKCgDkIxVx8Rs1sZaxT3ONFMIWv8YI uw== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3q4f3mmpjt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 19:19:21 -0700
-Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33R2JLm4001082
-	for <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 19:19:21 -0700
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2169.outbound.protection.outlook.com [104.47.59.169])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3q4f3mmpjs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 26 Apr 2023 19:19:21 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kT6GZLYGp8sIUh7YXPkeoFdl8i3vUjrku82Mai2j5LO9p5pY1kbxkwzBPhEfVxb42iBU5panvPSWn7Q3K+1O/uRMMFNAx2KgLP4rVoOUkxHiVXH5NPb46QaUrohn8r/ZHf6IM7ZJokG6R6HFeZ6RmdbbavDUSN4SkJ/75AFC+g55G7VFg78Sdy9ixfhDOwTW+8TccYLo2UK+/NfBwNTkdlItDnO6lApsjlvL0xKc+ilf2YlonnaEZYLUaR5lTuh9NM07wGEHo4THZgROkD+tWi9qeHIk60WSl8FzFR+nEnrNU07j4ENQKLyO9PRah1mtuocP1yfnN3LJ5K4fn3xY/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W2FhehC5xisN56O5sCQJDeTGsJ1OKnawcIxj1/XT3Ts=;
- b=JS7tPW5/3bOCEo7WW7+Cvxzme4iAmvLIPK5q0hbL4EQY47z0PnGQI5IHpCSHuImKI0Z/mKKM9EbCAmKlat4/ZiWRlzO3AFi2NRLt7qR3zagB5tflcj9JU7wS2QzOstJaYGyFjuVoOEJhfI+DpMNc4IZtXhopHPX3JEtRiK87fzq88JVZEGlqSf4nfnbti7wuLBaRnB3sIJwmg55j5PxflRVq9zNlsEaxnO79P7I8sJbsBPj2QhOdArn1ZipLQjNriRWODPkFVXXodbU623XXvOvR7O8bIcFQboR8mYXhP0bjFN+HMjzdO5G3QmZpO8b1DjFTjY5DaVCk7tkwi3lBaQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by CY5PR11MB6233.namprd11.prod.outlook.com (2603:10b6:930:26::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.22; Thu, 27 Apr
- 2023 02:19:19 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::fa8:8cc5:a5da:7e07]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::fa8:8cc5:a5da:7e07%5]) with mapi id 15.20.6319.034; Thu, 27 Apr 2023
- 02:19:19 +0000
-From: "Chen, Qi" <Qi.Chen@windriver.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core][PATCH] unfs3: fix symlink time setting issue
-Thread-Topic: [OE-core][PATCH] unfs3: fix symlink time setting issue
-Thread-Index: AQHZdzONSD1g4neNpkKn9OXpReiblq89VQgAgAEY7RA=
-Date: Thu, 27 Apr 2023 02:19:19 +0000
-Message-ID: 
- <CO6PR11MB560213B32BEAB9F7EA1AFF9BED6A9@CO6PR11MB5602.namprd11.prod.outlook.com>
-References: <20230425050517.2562368-1-Qi.Chen@windriver.com>
- <20230426113020.5576e563@booty>
-In-Reply-To: <20230426113020.5576e563@booty>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CO6PR11MB5602:EE_|CY5PR11MB6233:EE_
-x-ms-office365-filtering-correlation-id: 3d7a0fd0-60db-465c-0146-08db46c5cead
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- CqvYcA/gOsq6HTSNOll64iEPnLHSOOjptNcHZUYyPU+VwWedcz3m7WmosK2kvSKKRbYQgvfhhEqItHCv/qoAzmhFwDaMTm+rzYxWu5ZzmT0VYc7PLLEjFA3sgAXw7dUWSZHb2xci20GNvuaTb+3oG4bql5cdBp1ZdxVx2PaXruniat9NOTpcVmdm7CRSO1dDXvN+LEMi7priwnr/7fc0DRh3qbue7d4Az+uS2HhWmnZb5soMZ2ZsPAJj2dMuqRRndD62Ai7QtWDlhFuh1xleEqNC4OtttVgs+kTLcjuZZOSX9VUSDMEhNaUD08nxTM/LPoQWfVl3dfkNbNDW4UYlAEQBYO1T8mn2+jq9KVGGwLLe9nWitTgudYtXextmR1oFhAu6Jr34NhUi8jjUx2qJoT/SB1Eok4xwmfY3MAXNDjCjpy3LRT9O4fICmnfpcI8AWDHBwG77hor93sP8IZWBnFslW78VAnxG3mZtjuxc0Mbx4DGjhrIAcLiIsInNqu/hUOD/U35WfINyCpQMenUF1X6zXhuemjNcTqtxTeiap857i6lD2GR4eh/G0MAnzGDPImkkEt/VTn9acadhqdMcO5qRXU/mDSI53aSCSek4MrrueocTGcr9Y5cmP65nPklkL1nQ8bStTGBXBkfF1lKWyA==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(136003)(39850400004)(366004)(396003)(346002)(451199021)(55016003)(66946007)(66556008)(66476007)(66446008)(64756008)(6916009)(4326008)(76116006)(478600001)(8676002)(8936002)(52536014)(41300700001)(5660300002)(316002)(38100700002)(122000001)(186003)(83380400001)(53546011)(7696005)(71200400001)(966005)(9686003)(6506007)(26005)(86362001)(2906002)(33656002)(38070700005);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?Z37x1+6udWsgR45iyWBLnAzrHR7Jhy9RP0SKnEhz/a6NDyiX+fcFn3m0gMoj?=
- =?us-ascii?Q?Dm5lzSQCd9X3Kg0PZZa+zMpGNA3lDDfFmNUARHEHaRLkuTsApnVaR92rLxjT?=
- =?us-ascii?Q?SfhaSDcIUOUdwfuhVo8RoxanF73X76oK2O5jXb0SvVmhVf+7BYvWDhJkFsUF?=
- =?us-ascii?Q?waB7Id6F6W/zuARrZd2kxDkp9GLH6iY6hRLqL5mnLKll6n9395lwh/ntEkuX?=
- =?us-ascii?Q?h+amlJSu01u9i5t/kpKSMD8x89L9vOpUr25t8Y0+j0gN3PG+8pJAfeoxtH+f?=
- =?us-ascii?Q?bbq/52iUooYfPyK1jaaoWjEAxcHuIyPdxdB1MqEa4Ocxhpv5ps5Lolz68d/K?=
- =?us-ascii?Q?li5lPsIUBksGfIwzNcT1Pg7KtrQfyGFNTNahQDxvM2lenCqVEFHknbNy74gi?=
- =?us-ascii?Q?RIgXkDwtz3LAha1bh+rhz4+er7jI0DL6fmz+mMpzo/6lO0/JF44sTb3jtvEs?=
- =?us-ascii?Q?rvi1X2zSQUVlvemMIAy6/hWhYrP+eVKaqauJ4GvOOvzDZsERYz+CA9VLOhs5?=
- =?us-ascii?Q?98Avx1MywxJoK0odv4w7crdC6lQZaSNHDXK790X7r7cTyZRzmM2sRTju37ff?=
- =?us-ascii?Q?qgL4De2aD0Q4gg3Xs2mNOcPcsW1gsfxqx2vZzzQ1a4HvYoYueoroUkHpBdsW?=
- =?us-ascii?Q?a//3tcKVOUQsKXD5OgCcZrG0URyZVAM37D1Y3SbkuaNTNBSg4a5+qaIG8NWu?=
- =?us-ascii?Q?nFE+aTKXVyphMD50NDDS66UQVeiKdL5ZrLXrKTkplHC/4Mqhd2fhfRoC8fv9?=
- =?us-ascii?Q?uyGPOZaSYB1L8aK8ROb9uttPxj651P3LYZApOtTR0fRJt5JhdxlU5Vyp9vNa?=
- =?us-ascii?Q?36Bg1aNDic/7B+K9hvOTMwH8tJph5RvZkiTQZusVw0GUg8Z1gYKHaIvUpOq0?=
- =?us-ascii?Q?gMlod/THLAO4HnutW9trETNB4zzb5c5pvKIxcUBAj9bnR/QqqkNJ0CYDucMQ?=
- =?us-ascii?Q?P5L988H4kfl7N13A97qa5TMcmqfiBWxBfMoATjgyVWKSCN5WvFlF6AiqIOsq?=
- =?us-ascii?Q?8jKovTJTR8fkXeSgw2hSP8eCrRIQ35dC1nCgjXF1L2Vy5p/y6gYUCtXd/Pzd?=
- =?us-ascii?Q?3k0kx+3TX/rAKry43zUGPzN1vRW6JHLyLRlhi/IY1OrGm+4YE31fzmNzua1g?=
- =?us-ascii?Q?gEZzoBZVD+uFWqJxa+qvaV2cEgFADlLC8ui7NU1zNyGZRwAAmfHcc/yh3RWS?=
- =?us-ascii?Q?0+BWYzKCJn8sI90VXjDQ24VG+cHfO74jBf5L7U4tQtw0LUJsQOgSN9rMFjVZ?=
- =?us-ascii?Q?TpHC5rEgkY4eNUvnhn+TIajIwDIiDmGRSwQbWlqUyH4aEC0/qvW2c8f9U+06?=
- =?us-ascii?Q?CmO+TV+ZpFAi8GLWPMrr0q5C2P45glQozqxOKritF81D8SSYl+0f0idLOlq4?=
- =?us-ascii?Q?jXvxd0gKHgMWYgJXvN7cD75C+ZrXEXfqu59SONhuPTZEXLajY4s045Wtq0OT?=
- =?us-ascii?Q?VrH1iu2nHF7lJmRVLRR4wWUdrINLbX9c9GgGtPkbJOLCSAoq3+pe2S1xLOtO?=
- =?us-ascii?Q?vN0ePjiiVi6C3lZrMyWe1HnPHZB10t04kD0gIsO61ARy6gn0BBASxQXY0XMX?=
- =?us-ascii?Q?5jaL5Z/+3oTEL3yiiCIaG4IPIhqUlflXGv0Eynux?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=TKIYYYtr;
+ spf=pass (domain: mvista.com, ip: 209.85.210.171, mailfrom: vanusuri@mvista.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-63b62d2f729so6238046b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 19:28:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1682562487; x=1685154487;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2+UTKXTco/frQP99D0UgHen8izMRkVnwc9igLZh3Tx0=;
+        b=TKIYYYtr/5ko82TsH+5oz8ML9yM+odf0QjjYc2d7A6GGXsIzmCDUSjVS5UPuwCHTj/
+         cKTT+06j+jrN7Kay/uUsTE2alw49AvUtmqCvrhXPjk31T9R/g8o3t/LQZFkQ+zYZ2MAE
+         gF4jt8xDgr4PT6tVSFBLMNYtUX0ujfBj5klmg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682562487; x=1685154487;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2+UTKXTco/frQP99D0UgHen8izMRkVnwc9igLZh3Tx0=;
+        b=Pxx1nbsUUjDGN1r5hk4JpI9t33Gefbk+jiuwhRRPSvBBaCDoZGQkp9mSy2sSGrxi67
+         dib6qINZ8SBehPciEt7jR9dK6P50W9SIzmwu7YyeiZP1xYl0pvbveiQqGTfMtIqHneiM
+         9UInAOjgLG5xeocAow7Vu+eG80MdSE1O5jqhZC1MeG9rOJEbLTsr1QWmmtuRC3P7icS4
+         tbg3zNgXdJzWBZTe/cM4N3cO6sktfQiuLodQ7jT3dOEyl1qQFfnYuDWXr7NwH4BB2+nG
+         zKzVsaMVUKzIVfMkTX5cbygaJM7PLSAJM4kIvFR29UWtkonOcwwUdLIBKRhCaB36QvOG
+         TeGA==
+X-Gm-Message-State: AAQBX9e975xVDSMuKKRHyXE8VTgHLBVA2f71IO3fTaJG8n8sdRL3/w1e
+	qxz4+WVdt3aexdtixnTLCIFJeAZ+nOdXpYla3J8=
+X-Google-Smtp-Source: AKy350YY+/3Zo0rcPt4bM+i8sv1rG5TdEQ9iHe9ArqM+k03TLDB02cgTFf2LzR3B29482v58LVrXVA==
+X-Received: by 2002:a05:6a20:1610:b0:f5:ff1c:f6a8 with SMTP id l16-20020a056a20161000b000f5ff1cf6a8mr11465310pzj.20.1682562487167;
+        Wed, 26 Apr 2023 19:28:07 -0700 (PDT)
+Received: from MVIN00020.mvista.com ([106.201.70.155])
+        by smtp.gmail.com with ESMTPSA id p5-20020a63c145000000b0051ba9d772f9sm10423792pgi.59.2023.04.26.19.28.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Apr 2023 19:28:06 -0700 (PDT)
+From: vanusuri@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][dunfell][PATCH v2] curl: Security fix CVE-2023-27533, CVE-2023-27535 and CVE-2023-27536
+Date: Thu, 27 Apr 2023 07:55:55 +0530
+Message-Id: <20230427022555.63362-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3d7a0fd0-60db-465c-0146-08db46c5cead
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Apr 2023 02:19:19.2679
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: GudUP7XojQvMIYSlRs5KUCyyx3tDD4DWXoEO2sAZ0u0s5yrbbuUobZ++6Qtmt4vPtKUSsJsxFGEizqBgbklE1Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6233
-X-Proofpoint-ORIG-GUID: p1PvVHRUijdxatXya4HdqfkjX8xOh_c2
-X-Proofpoint-GUID: mMcRnbeCCz8xsz4ObhXseXYKi3GF8UbQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-27_01,2023-04-26_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 phishscore=0
- mlxscore=0 priorityscore=1501 adultscore=0 spamscore=0 suspectscore=0
- mlxlogscore=802 impostorscore=0 malwarescore=0 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304270019
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Apr 2023 02:19:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180461
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Apr 2023 02:28:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180462
 
-Thanks Luca.
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-I found my .gitconfig setting is:
-from =3D Chen Qi <Qi.Chen@windriver.com>
+Upstream-Status: Backport [https://git.launchpad.net/ubuntu/+source/curl/tree/debian/patches?h=ubuntu/focal-security & https://github.com/curl/curl/commit/538b1e79a6e7b0bb829ab4cecc828d32105d0684 & https://github.com/curl/curl/commit/ed5095ed94281989e103c72e032200b83be37878 & https://github.com/curl/curl/commit/f18af4f874cecab82a9797e8c7541e0990c7a64c & https://github.com/curl/curl/commit/8f4608468b890dce2dad9f91d5607ee7e9c1aba1 & https://github.com/curl/curl/commit/cb49e67303dbafbab1cebf4086e3ec15b7d56ee5]
 
-I've now changed it to:
-From =3D Qi.Chen@windriver.com
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+---
+ .../curl/curl/CVE-2023-27533.patch            |  59 +++++
+ .../curl/curl/CVE-2023-27535-pre1.patch       | 236 ++++++++++++++++++
+ .../curl/curl/CVE-2023-27535.patch            | 170 +++++++++++++
+ .../curl/curl/CVE-2023-27536.patch            |  55 ++++
+ meta/recipes-support/curl/curl_7.69.1.bb      |   4 +
+ 5 files changed, 524 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2023-27533.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2023-27535-pre1.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2023-27535.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2023-27536.patch
 
-Hope this would solve the problem.
+diff --git a/meta/recipes-support/curl/curl/CVE-2023-27533.patch b/meta/recipes-support/curl/curl/CVE-2023-27533.patch
+new file mode 100644
+index 0000000000..64ba135056
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2023-27533.patch
+@@ -0,0 +1,59 @@
++Backport of:
++
++From 538b1e79a6e7b0bb829ab4cecc828d32105d0684 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Mon, 6 Mar 2023 12:07:33 +0100
++Subject: [PATCH] telnet: only accept option arguments in ascii
++
++To avoid embedded telnet negotiation commands etc.
++
++Reported-by: Harry Sintonen
++Closes #10728
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/curl/tree/debian/patches/CVE-2023-27533.patch?h=ubuntu/focal-security
++Upstream commit https://github.com/curl/curl/commit/538b1e79a6e7b0bb829ab4cecc828d32105d0684]
++CVE: CVE-2023-27533
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ lib/telnet.c | 15 +++++++++++++++
++ 1 file changed, 15 insertions(+)
++
++--- a/lib/telnet.c
+++++ b/lib/telnet.c
++@@ -815,6 +815,17 @@ static void printsub(struct Curl_easy *d
++   }
++ }
++ 
+++static bool str_is_nonascii(const char *str)
+++{
+++  size_t len = strlen(str);
+++  while(len--) {
+++    if(*str & 0x80)
+++      return TRUE;
+++    str++;
+++  }
+++  return FALSE;
+++}
+++
++ static CURLcode check_telnet_options(struct connectdata *conn)
++ {
++   struct curl_slist *head;
++@@ -829,6 +840,8 @@ static CURLcode check_telnet_options(str
++   /* Add the user name as an environment variable if it
++      was given on the command line */
++   if(conn->bits.user_passwd) {
+++    if(str_is_nonascii(data->conn->user))
+++      return CURLE_BAD_FUNCTION_ARGUMENT;
++     msnprintf(option_arg, sizeof(option_arg), "USER,%s", conn->user);
++     beg = curl_slist_append(tn->telnet_vars, option_arg);
++     if(!beg) {
++@@ -844,6 +857,9 @@ static CURLcode check_telnet_options(str
++     if(sscanf(head->data, "%127[^= ]%*[ =]%255s",
++               option_keyword, option_arg) == 2) {
++ 
+++      if(str_is_nonascii(option_arg))
+++        continue;
+++
++       /* Terminal type */
++       if(strcasecompare(option_keyword, "TTYPE")) {
++         strncpy(tn->subopt_ttype, option_arg, 31);
+diff --git a/meta/recipes-support/curl/curl/CVE-2023-27535-pre1.patch b/meta/recipes-support/curl/curl/CVE-2023-27535-pre1.patch
+new file mode 100644
+index 0000000000..034b72f7e6
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2023-27535-pre1.patch
+@@ -0,0 +1,236 @@
++From ed5095ed94281989e103c72e032200b83be37878 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Thu, 6 Oct 2022 00:49:10 +0200
++Subject: [PATCH] strcase: add and use Curl_timestrcmp
++
++This is a strcmp() alternative function for comparing "secrets",
++designed to take the same time no matter the content to not leak
++match/non-match info to observers based on how fast it is.
++
++The time this function takes is only a function of the shortest input
++string.
++
++Reported-by: Trail of Bits
++
++Closes #9658
++
++Upstream-Status: Backport from [https://github.com/curl/curl/commit/ed5095ed94281989e103c72e032200b83be37878 & https://github.com/curl/curl/commit/f18af4f874cecab82a9797e8c7541e0990c7a64c]
++Comment: to backport fix for CVE-2023-27535, add function Curl_timestrcmp.
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ lib/netrc.c             |  6 +++---
++ lib/strcase.c           | 22 ++++++++++++++++++++++
++ lib/strcase.h           |  1 +
++ lib/url.c               | 33 +++++++++++++--------------------
++ lib/vauth/digest_sspi.c |  4 ++--
++ lib/vtls/vtls.c         | 21 ++++++++++++++++++++-
++ 6 files changed, 61 insertions(+), 26 deletions(-)
++
++diff --git a/lib/netrc.c b/lib/netrc.c
++index 9323913..fe3fd1e 100644
++--- a/lib/netrc.c
+++++ b/lib/netrc.c
++@@ -124,9 +124,9 @@ static int parsenetrc(const char *host,
++           /* we are now parsing sub-keywords concerning "our" host */
++           if(state_login) {
++             if(specific_login) {
++-              state_our_login = strcasecompare(login, tok);
+++              state_our_login = !Curl_timestrcmp(login, tok);
++             }
++-            else if(!login || strcmp(login, tok)) {
+++            else if(!login || Curl_timestrcmp(login, tok)) {
++               if(login_alloc) {
++                 free(login);
++                 login_alloc = FALSE;
++@@ -142,7 +142,7 @@ static int parsenetrc(const char *host,
++           }
++           else if(state_password) {
++             if((state_our_login || !specific_login)
++-                && (!password || strcmp(password, tok))) {
+++               && (!password || Curl_timestrcmp(password, tok))) {
++               if(password_alloc) {
++                 free(password);
++                 password_alloc = FALSE;
++diff --git a/lib/strcase.c b/lib/strcase.c
++index 70bf21c..ec776b3 100644
++--- a/lib/strcase.c
+++++ b/lib/strcase.c
++@@ -261,6 +261,28 @@ bool Curl_safecmp(char *a, char *b)
++   return !a && !b;
++ }
++ 
+++/*
+++ * Curl_timestrcmp() returns 0 if the two strings are identical. The time this
+++ * function spends is a function of the shortest string, not of the contents.
+++ */
+++int Curl_timestrcmp(const char *a, const char *b)
+++{
+++  int match = 0;
+++  int i = 0;
+++
+++  if(a && b) {
+++    while(1) {
+++      match |= a[i]^b[i];
+++      if(!a[i] || !b[i])
+++        break;
+++      i++;
+++    }
+++  }
+++  else
+++    return a || b;
+++  return match;
+++}
+++
++ /* --- public functions --- */
++ 
++ int curl_strequal(const char *first, const char *second)
++diff --git a/lib/strcase.h b/lib/strcase.h
++index 8929a53..8077108 100644
++--- a/lib/strcase.h
+++++ b/lib/strcase.h
++@@ -49,5 +49,6 @@ void Curl_strntoupper(char *dest, const char *src, size_t n);
++ void Curl_strntolower(char *dest, const char *src, size_t n);
++ 
++ bool Curl_safecmp(char *a, char *b);
+++int Curl_timestrcmp(const char *first, const char *second);
++ 
++ #endif /* HEADER_CURL_STRCASE_H */
++diff --git a/lib/url.c b/lib/url.c
++index 9f14a7b..dfbde3b 100644
++--- a/lib/url.c
+++++ b/lib/url.c
++@@ -886,19 +886,10 @@ socks_proxy_info_matches(const struct proxy_info* data,
++   /* the user information is case-sensitive
++      or at least it is not defined as case-insensitive
++      see https://tools.ietf.org/html/rfc3986#section-3.2.1 */
++-  if((data->user == NULL) != (needle->user == NULL))
++-    return FALSE;
++-  /* curl_strequal does a case insentive comparison, so do not use it here! */
++-  if(data->user &&
++-     needle->user &&
++-     strcmp(data->user, needle->user) != 0)
++-    return FALSE;
++-  if((data->passwd == NULL) != (needle->passwd == NULL))
++-    return FALSE;
+++
++   /* curl_strequal does a case insentive comparison, so do not use it here! */
++-  if(data->passwd &&
++-     needle->passwd &&
++-     strcmp(data->passwd, needle->passwd) != 0)
+++  if(Curl_timestrcmp(data->user, needle->user) ||
+++     Curl_timestrcmp(data->passwd, needle->passwd))
++     return FALSE;
++   return TRUE;
++ }
++@@ -1257,10 +1248,10 @@ ConnectionExists(struct Curl_easy *data,
++       if(!(needle->handler->flags & PROTOPT_CREDSPERREQUEST)) {
++         /* This protocol requires credentials per connection,
++            so verify that we're using the same name and password as well */
++-        if(strcmp(needle->user, check->user) ||
++-           strcmp(needle->passwd, check->passwd) ||
++-           !Curl_safecmp(needle->sasl_authzid, check->sasl_authzid) ||
++-           !Curl_safecmp(needle->oauth_bearer, check->oauth_bearer)) {			
+++        if(Curl_timestrcmp(needle->user, check->user) ||
+++           Curl_timestrcmp(needle->passwd, check->passwd) ||
+++           Curl_timestrcmp(needle->sasl_authzid, check->sasl_authzid) ||
+++           Curl_timestrcmp(needle->oauth_bearer, check->oauth_bearer)) {			
++           /* one of them was different */
++           continue;
++         }
++@@ -1326,8 +1317,8 @@ ConnectionExists(struct Curl_easy *data,
++            possible. (Especially we must not reuse the same connection if
++            partway through a handshake!) */
++         if(wantNTLMhttp) {
++-          if(strcmp(needle->user, check->user) ||
++-             strcmp(needle->passwd, check->passwd)) {
+++          if(Curl_timestrcmp(needle->user, check->user) ||
+++             Curl_timestrcmp(needle->passwd, check->passwd)) {
++ 
++             /* we prefer a credential match, but this is at least a connection
++                that can be reused and "upgraded" to NTLM */
++@@ -1348,8 +1339,10 @@ ConnectionExists(struct Curl_easy *data,
++           if(!check->http_proxy.user || !check->http_proxy.passwd)
++             continue;
++ 
++-          if(strcmp(needle->http_proxy.user, check->http_proxy.user) ||
++-             strcmp(needle->http_proxy.passwd, check->http_proxy.passwd))
+++          if(Curl_timestrcmp(needle->http_proxy.user,
+++                             check->http_proxy.user) ||
+++             Curl_timestrcmp(needle->http_proxy.passwd,
+++                             check->http_proxy.passwd))
++             continue;
++         }
++         else if(check->proxy_ntlm_state != NTLMSTATE_NONE) {
++diff --git a/lib/vauth/digest_sspi.c b/lib/vauth/digest_sspi.c
++index a109056..3986386 100644
++--- a/lib/vauth/digest_sspi.c
+++++ b/lib/vauth/digest_sspi.c
++@@ -450,8 +450,8 @@ CURLcode Curl_auth_create_digest_http_message(struct Curl_easy *data,
++      has changed then delete that context. */
++   if((userp && !digest->user) || (!userp && digest->user) ||
++      (passwdp && !digest->passwd) || (!passwdp && digest->passwd) ||
++-     (userp && digest->user && strcmp(userp, digest->user)) ||
++-     (passwdp && digest->passwd && strcmp(passwdp, digest->passwd))) {
+++     (userp && digest->user && Curl_timestrcmp(userp, digest->user)) ||
+++     (passwdp && digest->passwd && Curl_timestrcmp(passwdp, digest->passwd))) {
++     if(digest->http_context) {
++       s_pSecFn->DeleteSecurityContext(digest->http_context);
++       Curl_safefree(digest->http_context);
++diff --git a/lib/vtls/vtls.c b/lib/vtls/vtls.c
++index e8cb70f..70a9391 100644
++--- a/lib/vtls/vtls.c
+++++ b/lib/vtls/vtls.c
++@@ -98,9 +98,15 @@ Curl_ssl_config_matches(struct ssl_primary_config* data,
++      Curl_safecmp(data->issuercert, needle->issuercert) &&
++      Curl_safecmp(data->clientcert, needle->clientcert) &&
++      Curl_safecmp(data->random_file, needle->random_file) &&
++-     Curl_safecmp(data->egdsocket, needle->egdsocket) &&     
+++     Curl_safecmp(data->egdsocket, needle->egdsocket) &&    
+++#ifdef USE_TLS_SRP 
+++     !Curl_timestrcmp(data->username, needle->username) &&    
+++     !Curl_timestrcmp(data->password, needle->password) &&    
+++     (data->authtype == needle->authtype) &&   
+++#endif 
++      Curl_safe_strcasecompare(data->cipher_list, needle->cipher_list) &&
++      Curl_safe_strcasecompare(data->cipher_list13, needle->cipher_list13) &&
+++     Curl_safe_strcasecompare(data->CRLfile, needle->CRLfile) &&
++      Curl_safe_strcasecompare(data->pinned_key, needle->pinned_key))
++     return TRUE;
++ 
++@@ -117,6 +123,9 @@ Curl_clone_primary_ssl_config(struct ssl_primary_config *source,
++   dest->verifyhost = source->verifyhost;
++   dest->verifystatus = source->verifystatus;
++   dest->sessionid = source->sessionid;
+++#ifdef USE_TLS_SRP
+++  dest->authtype = source->authtype;
+++#endif
++ 
++   CLONE_STRING(CApath);
++   CLONE_STRING(CAfile);
++@@ -127,6 +136,11 @@ Curl_clone_primary_ssl_config(struct ssl_primary_config *source,
++   CLONE_STRING(cipher_list);
++   CLONE_STRING(cipher_list13);
++   CLONE_STRING(pinned_key);
+++  CLONE_STRING(CRLfile);
+++#ifdef USE_TLS_SRP
+++  CLONE_STRING(username);
+++  CLONE_STRING(password);
+++#endif
++ 
++   return TRUE;
++ }
++@@ -142,6 +156,11 @@ void Curl_free_primary_ssl_config(struct ssl_primary_config* sslc)
++   Curl_safefree(sslc->cipher_list);
++   Curl_safefree(sslc->cipher_list13);
++   Curl_safefree(sslc->pinned_key);
+++  Curl_safefree(sslc->CRLfile);
+++#ifdef USE_TLS_SRP
+++  Curl_safefree(sslc->username);
+++  Curl_safefree(sslc->password);
+++#endif
++ }
++ 
++ #ifdef USE_SSL
++-- 
++2.25.1
++
+diff --git a/meta/recipes-support/curl/curl/CVE-2023-27535.patch b/meta/recipes-support/curl/curl/CVE-2023-27535.patch
+new file mode 100644
+index 0000000000..e38390a57c
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2023-27535.patch
+@@ -0,0 +1,170 @@
++From 8f4608468b890dce2dad9f91d5607ee7e9c1aba1 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Thu, 9 Mar 2023 17:47:06 +0100
++Subject: [PATCH] ftp: add more conditions for connection reuse
++
++Reported-by: Harry Sintonen
++Closes #10730
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/curl/tree/debian/patches/CVE-2023-27535.patch?h=ubuntu/focal-security
++Upstream commit https://github.com/curl/curl/commit/8f4608468b890dce2dad9f91d5607ee7e9c1aba1]
++CVE: CVE-2023-27535
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ lib/ftp.c     | 30 ++++++++++++++++++++++++++++--
++ lib/ftp.h     |  5 +++++
++ lib/setopt.c  |  2 +-
++ lib/url.c     | 16 +++++++++++++++-
++ lib/urldata.h |  4 ++--
++ 5 files changed, 51 insertions(+), 6 deletions(-)
++
++diff --git a/lib/ftp.c b/lib/ftp.c
++index 31a34e8..7a82a74 100644
++--- a/lib/ftp.c
+++++ b/lib/ftp.c
++@@ -4059,6 +4059,10 @@ static CURLcode ftp_disconnect(struct connectdata *conn, bool dead_connection)
++   }
++ 
++   freedirs(ftpc);
+++  free(ftpc->account);
+++  ftpc->account = NULL;
+++  free(ftpc->alternative_to_user);
+++  ftpc->alternative_to_user = NULL;
++   free(ftpc->prevpath);
++   ftpc->prevpath = NULL;
++   free(ftpc->server_os);
++@@ -4326,11 +4330,31 @@ static CURLcode ftp_setup_connection(struct connectdata *conn)
++   struct Curl_easy *data = conn->data;
++   char *type;
++   struct FTP *ftp;
+++  struct ftp_conn *ftpc = &conn->proto.ftpc;
++ 
++-  conn->data->req.protop = ftp = calloc(sizeof(struct FTP), 1);
+++  ftp = calloc(sizeof(struct FTP), 1);
++   if(NULL == ftp)
++     return CURLE_OUT_OF_MEMORY;
++ 
+++  /* clone connection related data that is FTP specific */
+++  if(data->set.str[STRING_FTP_ACCOUNT]) {
+++    ftpc->account = strdup(data->set.str[STRING_FTP_ACCOUNT]);
+++    if(!ftpc->account) {
+++      free(ftp);
+++      return CURLE_OUT_OF_MEMORY;
+++    }
+++  }
+++  if(data->set.str[STRING_FTP_ALTERNATIVE_TO_USER]) {
+++    ftpc->alternative_to_user =
+++      strdup(data->set.str[STRING_FTP_ALTERNATIVE_TO_USER]);
+++    if(!ftpc->alternative_to_user) {
+++      Curl_safefree(ftpc->account);
+++      free(ftp);
+++      return CURLE_OUT_OF_MEMORY;
+++    }
+++  }
+++  conn->data->req.protop = ftp;
+++
++   ftp->path = &data->state.up.path[1]; /* don't include the initial slash */
++ 
++   /* FTP URLs support an extension like ";type=<typecode>" that
++@@ -4366,7 +4390,9 @@ static CURLcode ftp_setup_connection(struct connectdata *conn)
++   /* get some initial data into the ftp struct */
++   ftp->transfer = FTPTRANSFER_BODY;
++   ftp->downloadsize = 0;
++-  conn->proto.ftpc.known_filesize = -1; /* unknown size for now */
+++  ftpc->known_filesize = -1; /* unknown size for now */
+++  ftpc->use_ssl = data->set.use_ssl;
+++  ftpc->ccc = data->set.ftp_ccc;
++ 
++   return CURLE_OK;
++ }
++diff --git a/lib/ftp.h b/lib/ftp.h
++index 984347f..163dcb3 100644
++--- a/lib/ftp.h
+++++ b/lib/ftp.h
++@@ -116,6 +116,8 @@ struct FTP {
++    struct */
++ struct ftp_conn {
++   struct pingpong pp;
+++  char *account;
+++  char *alternative_to_user;
++   char *entrypath; /* the PWD reply when we logged on */
++   char **dirs;   /* realloc()ed array for path components */
++   int dirdepth;  /* number of entries used in the 'dirs' array */
++@@ -141,6 +143,9 @@ struct ftp_conn {
++   ftpstate state; /* always use ftp.c:state() to change state! */
++   ftpstate state_saved; /* transfer type saved to be reloaded after
++                            data connection is established */
+++  unsigned char use_ssl;   /* if AUTH TLS is to be attempted etc, for FTP or
+++                              IMAP or POP3 or others! (type: curl_usessl)*/
+++  unsigned char ccc;       /* ccc level for this connection */
++   curl_off_t retr_size_saved; /* Size of retrieved file saved */
++   char *server_os;     /* The target server operating system. */
++   curl_off_t known_filesize; /* file size is different from -1, if wildcard
++diff --git a/lib/setopt.c b/lib/setopt.c
++index 4d96f6b..a91bb70 100644
++--- a/lib/setopt.c
+++++ b/lib/setopt.c
++@@ -2126,7 +2126,7 @@ CURLcode Curl_vsetopt(struct Curl_easy *data, CURLoption option, va_list param)
++     arg = va_arg(param, long);
++     if((arg < CURLUSESSL_NONE) || (arg >= CURLUSESSL_LAST))
++       return CURLE_BAD_FUNCTION_ARGUMENT;
++-    data->set.use_ssl = (curl_usessl)arg;
+++    data->set.use_ssl = (unsigned char)arg;
++     break;
++ 
++   case CURLOPT_SSL_OPTIONS:
++diff --git a/lib/url.c b/lib/url.c
++index dfbde3b..f84375c 100644
++--- a/lib/url.c
+++++ b/lib/url.c
++@@ -1257,10 +1257,24 @@ ConnectionExists(struct Curl_easy *data,
++         }
++       }
++ 
++-      if(get_protocol_family(needle->handler->protocol) & PROTO_FAMILY_SSH) {
+++#ifdef USE_SSH
+++      else if(get_protocol_family(needle->handler->protocol) & PROTO_FAMILY_SSH) {
++         if(!ssh_config_matches(needle, check))
++           continue;
++       }
+++#endif
+++#ifndef CURL_DISABLE_FTP
+++      else if(get_protocol_family(needle->handler->protocol) & PROTO_FAMILY_FTP) {
+++        /* Also match ACCOUNT, ALTERNATIVE-TO-USER, USE_SSL and CCC options */
+++        if(Curl_timestrcmp(needle->proto.ftpc.account,
+++                           check->proto.ftpc.account) ||
+++           Curl_timestrcmp(needle->proto.ftpc.alternative_to_user,
+++                           check->proto.ftpc.alternative_to_user) ||
+++           (needle->proto.ftpc.use_ssl != check->proto.ftpc.use_ssl) ||
+++           (needle->proto.ftpc.ccc != check->proto.ftpc.ccc))
+++          continue;
+++      }
+++#endif
++ 
++       if(!needle->bits.httpproxy || (needle->handler->flags&PROTOPT_SSL) ||
++          needle->bits.tunnel_proxy) {
++diff --git a/lib/urldata.h b/lib/urldata.h
++index 168f874..51b793b 100644
++--- a/lib/urldata.h
+++++ b/lib/urldata.h
++@@ -1730,8 +1730,6 @@ struct UserDefined {
++   void *ssh_keyfunc_userp;         /* custom pointer to callback */
++   enum CURL_NETRC_OPTION
++        use_netrc;        /* defined in include/curl.h */
++-  curl_usessl use_ssl;   /* if AUTH TLS is to be attempted etc, for FTP or
++-                            IMAP or POP3 or others! */
++   long new_file_perms;    /* Permissions to use when creating remote files */
++   long new_directory_perms; /* Permissions to use when creating remote dirs */
++   long ssh_auth_types;   /* allowed SSH auth types */
++@@ -1851,6 +1849,8 @@ struct UserDefined {
++   BIT(http09_allowed); /* allow HTTP/0.9 responses */
++   BIT(mail_rcpt_allowfails); /* allow RCPT TO command to fail for some
++                                 recipients */
+++  unsigned char use_ssl;   /* if AUTH TLS is to be attempted etc, for FTP or
+++                              IMAP or POP3 or others! (type: curl_usessl)*/
++ };
++ 
++ struct Names {
++-- 
++2.25.1
++
+diff --git a/meta/recipes-support/curl/curl/CVE-2023-27536.patch b/meta/recipes-support/curl/curl/CVE-2023-27536.patch
+new file mode 100644
+index 0000000000..b04a77de25
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2023-27536.patch
+@@ -0,0 +1,55 @@
++From cb49e67303dbafbab1cebf4086e3ec15b7d56ee5 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Fri, 10 Mar 2023 09:22:43 +0100
++Subject: [PATCH] url: only reuse connections with same GSS delegation
++
++Reported-by: Harry Sintonen
++Closes #10731
++
++Upstream-Status: Backport [https://github.com/curl/curl/commit/cb49e67303dbafbab1cebf4086e3ec15b7d56ee5]
++CVE: CVE-2023-27536
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ lib/url.c     | 6 ++++++
++ lib/urldata.h | 1 +
++ 2 files changed, 7 insertions(+)
++
++diff --git a/lib/url.c b/lib/url.c
++index f84375c..87f4eb0 100644
++--- a/lib/url.c
+++++ b/lib/url.c
++@@ -1257,6 +1257,11 @@ ConnectionExists(struct Curl_easy *data,
++         }
++       }
++ 
+++      /* GSS delegation differences do not actually affect every connection
+++         and auth method, but this check takes precaution before efficiency */
+++      if(needle->gssapi_delegation != check->gssapi_delegation)
+++	continue;
+++
++ #ifdef USE_SSH
++       else if(get_protocol_family(needle->handler->protocol) & PROTO_FAMILY_SSH) {
++         if(!ssh_config_matches(needle, check))
++@@ -1708,6 +1713,7 @@ static struct connectdata *allocate_conn(struct Curl_easy *data)
++   conn->fclosesocket = data->set.fclosesocket;
++   conn->closesocket_client = data->set.closesocket_client;
++   conn->lastused = Curl_now(); /* used now */
+++  conn->gssapi_delegation = data->set.gssapi_delegation;
++ 
++   return conn;
++   error:
++diff --git a/lib/urldata.h b/lib/urldata.h
++index 51b793b..b8a611b 100644
++--- a/lib/urldata.h
+++++ b/lib/urldata.h
++@@ -1118,6 +1118,7 @@ struct connectdata {
++                               handle */
++   BIT(sock_accepted); /* TRUE if the SECONDARYSOCKET was created with
++                          accept() */
+++  long gssapi_delegation; /* inherited from set.gssapi_delegation */
++ };
++ 
++ /* The end of connectdata. */
++-- 
++2.25.1
++
+diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.69.1.bb
+index 46ee25da3a..32d18ddb3a 100644
+--- a/meta/recipes-support/curl/curl_7.69.1.bb
++++ b/meta/recipes-support/curl/curl_7.69.1.bb
+@@ -45,6 +45,10 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://CVE-2023-23916.patch \
+            file://CVE-2023-27534.patch \
+            file://CVE-2023-27538.patch \
++           file://CVE-2023-27533.patch \
++           file://CVE-2023-27535-pre1.patch \
++           file://CVE-2023-27535.patch \
++           file://CVE-2023-27536.patch \
+ "
+ 
+ SRC_URI[md5sum] = "ec5fc263f898a3dfef08e805f1ecca42"
+-- 
+2.25.1
 
-Regards,
-Qi
-
------Original Message-----
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>=20
-Sent: Wednesday, April 26, 2023 5:30 PM
-To: Chen Qi via lists.openembedded.org <Qi.Chen=3Dwindriver.com@lists.opene=
-mbedded.org>
-Cc: Chen, Qi <Qi.Chen@windriver.com>; openembedded-core@lists.openembedded.=
-org
-Subject: Re: [OE-core][PATCH] unfs3: fix symlink time setting issue
-
-Hello Chen,
-
-On Mon, 24 Apr 2023 22:05:17 -0700
-"Chen Qi via lists.openembedded.org"
-<Qi.Chen=3Dwindriver.com@lists.openembedded.org> wrote:
- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-
-As you can see your sender address has been mangled, and as a result the pa=
-tch is rejected by the the openembedded git server. This is not your fault,=
- but we need you to modify your git configuration to prevent this from happ=
-ening in the future. Have a look at the wiki for more info and how to solve=
- that:
-
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded#Fix=
-ing_your_From_identity
-
-I'm taking your patch for testing on the autobuilders, fixing it manually s=
-o you don't need to resend your patch this time.
-
-Best regards,
-Luca
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
