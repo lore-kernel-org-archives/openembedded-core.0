@@ -1,222 +1,122 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCA02C77B7E
-	for <webhook@archiver.kernel.org>; Thu, 27 Apr 2023 05:21:10 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.13548.1682572862588974129
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 468DCC77B73
+	for <webhook@archiver.kernel.org>; Thu, 27 Apr 2023 07:04:31 +0000 (UTC)
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+ by mx.groups.io with SMTP id smtpd.web11.14475.1682579061597734892
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Apr 2023 22:21:02 -0700
+ Thu, 27 Apr 2023 00:04:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=ISpkaiTQ;
- spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-2f7a7f9667bso4982655f8f.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 22:21:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=hKABS8OV;
+ spf=pass (domain: gmail.com, ip: 209.85.167.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-38e3228d120so4884724b6e.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Apr 2023 00:04:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682572860; x=1685164860;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nd5jaosxCYQ6baIAK1XchMU81zt9Q0R7k1dPJ7dfW8Q=;
-        b=ISpkaiTQ9ghi2vVnf3kp8XjMxFGkVDxl93HtUlL3lU8PNbrTdMCIQMqoph3etghhdK
-         ZoHkHol1jUJW46E8aXAdyPlUiLomhrKDzxmPE9ClKqf3B4ImS6afHm9P7GL/vbeLHEWB
-         acZ9sCq8UjfaXCE63oOKxedkC//mlYD8AazJEgDsUeq9w4A6c0/OwW13iubk3yuvG/sw
-         ccrfT90hHGf5f5sOrED7sN2OlbgSzNK75lBpWYFHHMdB9LlN4DDnSmyIYxOYww3b01MR
-         Nuxuja1RBEwPAWVBsKamlPseQ+2SljUcAQZquVeWI3WultKa6UWrJbIVOZUNwGwvT4Ff
-         U5Cg==
+        d=gmail.com; s=20221208; t=1682579061; x=1685171061;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=phfzHrNWKSK6W0hiEx8ZEEDyYvRIcxIG/1cCAmJBg0g=;
+        b=hKABS8OVSYQ5WVfu/B3xqkAy3OPIEsftd3aRgZ6qssQY6kDDuA8PO6iYpP1aBgeFO2
+         mattM99u0S+QFFWI38lVYBV+B/S5BcQ9qsto0gCSbSwf6ipSGDbc41LvJXCfh0ZiHQdB
+         NgdHo5NrI0coUWoVXIZAcKEMMgvIXGZ2cxDrsui/pVLwBG1bUa2EgmmRmzev1YRYsqDI
+         0fHYcSxvB2b/pE+lmmFOw+RfAd0Ck0rjDqFoXptdeC6aiv57nwm1Mo5/r0oBZOrTk3sJ
+         fNJE65bRa2MaSdw60DZt1aBGFNbjPIOAEuFzcGSlRweppE83U07PB8BAlDpZBxpTFiOL
+         QwIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682572860; x=1685164860;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1682579061; x=1685171061;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nd5jaosxCYQ6baIAK1XchMU81zt9Q0R7k1dPJ7dfW8Q=;
-        b=VVG1BubvKPlFHvYMd6DoyM31FzsIc2KRH15O3VaHApX3iqkG32Wf5L+x4FS8fCJdCe
-         QOoW/C1iPaAiCcxHPGikbKn+gxsQOLGmQLprtWIU7w+dm/mReO6sBEQLPv1Ofqwla967
-         WRcPMMrOuf3hEkX14zyILaqkiwc0vubWMrM+omufQ9adID0F4fNDVgCq1WMaEZfbCrm4
-         rgQ5afwqwgabjt4yVcdDJLazGKx6j8oibzdSUwsS6GKzAPiFiRk9Kt56qJFXl3J5ZUmW
-         nJD+VqEfkD4sotL7ZazLF7lw3B/SE8deeTv+B9QRgJrdti0KmEuImAUoMXHHXsm9emVc
-         gehA==
-X-Gm-Message-State: AC+VfDxkPUGTDOCKDX9QIKua+vd6iLd+oBOWPNtazMfbP44CEG8fQCyC
-	c2ZHzHu1BEPz6A29dYFjpIgykfbtuD0=
-X-Google-Smtp-Source: ACHHUZ5qixJryqN0VYHYyVvoOuR/RKB5BtV6TfjyZKSnzDPNu8jUFRenrpKBTuvHnLlhg5paPQVWbQ==
-X-Received: by 2002:a5d:460f:0:b0:2d8:47c7:7b50 with SMTP id t15-20020a5d460f000000b002d847c77b50mr229326wrq.1.1682572860492;
-        Wed, 26 Apr 2023 22:21:00 -0700 (PDT)
-Received: from work-pc.. ([2a01:e0a:8d5:c6c0:e2ba:a159:c9f4:28dc])
-        by smtp.gmail.com with ESMTPSA id jb12-20020a05600c54ec00b003f17003e26esm23240809wmb.15.2023.04.26.22.20.59
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Apr 2023 22:21:00 -0700 (PDT)
-From: frederic.martinsons@gmail.com
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCHV3 1/3] ptest-cargo.bbclass: create class
-Date: Thu, 27 Apr 2023 07:20:54 +0200
-Message-Id: <55d311e26e8c3eff765d71f4c1aa439459708812.1682572703.git.frederic.martinsons@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1682572703.git.frederic.martinsons@gmail.com>
-References: <cover.1682572703.git.frederic.martinsons@gmail.com>
+        bh=phfzHrNWKSK6W0hiEx8ZEEDyYvRIcxIG/1cCAmJBg0g=;
+        b=PMQS50z8UuQw73lq6jGd/83NbyK/VyUWvb0rJC4R9bVuWuff1IDMzRzWFBB+zjtrNc
+         0xNqCluk0ATS3KvHsrJAJUMEifreTA6b+5WRKwPVC45lue2OxGwyYIRuIoiNceC91p8E
+         d5M6EilTnavl4dxKurChZ5wvOjFdD+uXTnIb9LWJwvCoTwBvbStuCsBJOkUVCRbAlgf6
+         C0aRahFDc4AyW7X3+hba4IHWkMiI3MOfkalQMEDOP4xqgIjO1Dsa5fnFv6I6J8nzW9ik
+         /aJy5hHQJolZGPrmhMv5zZdDmkykTIW3Sn2Xorz/1MnvzdVYvGt9/l8ub3GfLrblirXe
+         rT3A==
+X-Gm-Message-State: AC+VfDz4GzjKGeDeNs+Ode/O/uvTKR5qHWPmB38o0hWam/6+wFNhYIrb
+	jK85pDRJHIcYpgwgJq1hb5qXphkf60ER+F30tdw=
+X-Google-Smtp-Source: ACHHUZ7ILe/7BxzgJkobspeDXHeHZeSveRnsfbT95MPS7+qQPnqKd9UbzJRmXflnGziTCV26sc2hTKdxkT6cBcklVBQ=
+X-Received: by 2002:a05:6808:b39:b0:38e:4a8e:d7e0 with SMTP id
+ t25-20020a0568080b3900b0038e4a8ed7e0mr259923oij.21.1682579060635; Thu, 27 Apr
+ 2023 00:04:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230426095036.2632847-1-alex@linutronix.de> <20230426095036.2632847-5-alex@linutronix.de>
+In-Reply-To: <20230426095036.2632847-5-alex@linutronix.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 27 Apr 2023 00:03:54 -0700
+Message-ID: <CAMKF1sqsu_F4JS6f+=TfzJmv_Eq7VKpTFDd5OeBXjzRez76P8w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 05/11] bitbake.conf: set minimum required kernel
+ to 5.15
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Apr 2023 05:21:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180467
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Apr 2023 07:04:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180470
 
-From: Frederic Martinsons <frederic.martinsons@gmail.com>
+On Wed, Apr 26, 2023 at 2:50=E2=80=AFAM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> In particular this enables a number of useful features in glibc, such
+> as actually using 64 bit time_t versions of kernel syscalls:
+>
+> https://sourceware.org/git/?p=3Dglibc.git;a=3Dblob;f=3Dsysdeps/unix/sysv/=
+linux/kernel-features.h;h=3D07b440f4eea364b05fa49bf71ceebf78f80efe13;hb=3DH=
+EAD#l164
+>
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  meta/conf/bitbake.conf | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+>
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index afd9e2f5527..2db84a46eed 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -469,12 +469,7 @@ SDKPATHINSTALL =3D "/usr/local/${SDK_NAME_PREFIX}-${=
+SDK_ARCH}"
+>  # Kernel info.
+>  ##################################################################
+>
+> -OLDEST_KERNEL =3D "3.2.0"
+> -OLDEST_KERNEL:aarch64 =3D "3.14"
+> -OLDEST_KERNEL:nios2 =3D "3.19"
+> -OLDEST_KERNEL:powerpc64le =3D "3.10.0"
+> -OLDEST_KERNEL:riscv32 =3D "5.4"
+> -OLDEST_KERNEL:riscv64 =3D "4.15"
+> +OLDEST_KERNEL =3D "5.15"
+>
 
-This new class offer the capbility to build rust tests and
-find them correctly.
-Due to non deterministic name of generated binaries, a custom
-parsing of build result must be performed.
-See https://github.com/rust-lang/cargo/issues/1924
+While this might be good, does this fix anything specific for enabling
+64bit time_t.
+This change means we are implying that yocto wont work with kernels
+older than 5.15  and maybe SDK would also need
+5.15 on SDK hosts and similar need for build hosts might be imposed
+too. Perhaps it would be good to do some due diligence before
+applying this.
 
-All rust project will generate a test binary even if there are
-not test defined in source code (the binary will just output
-that it ran 0 tests)
-
-Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
----
- meta/classes-recipe/ptest-cargo.bbclass | 129 ++++++++++++++++++++++++
- 1 file changed, 129 insertions(+)
- create mode 100644 meta/classes-recipe/ptest-cargo.bbclass
-
-diff --git a/meta/classes-recipe/ptest-cargo.bbclass b/meta/classes-recipe/ptest-cargo.bbclass
-new file mode 100644
-index 0000000000..f26d4225d3
---- /dev/null
-+++ b/meta/classes-recipe/ptest-cargo.bbclass
-@@ -0,0 +1,129 @@
-+inherit cargo ptest
-+
-+CARGO_TEST_BINARIES_FILES ?= "${B}/test_binaries_list"
-+
-+# sadly generated test binary have no deterministic names (https://github.com/rust-lang/cargo/issues/1924)
-+# which force us to parse the cargo output in json format to find those test binaries
-+python do_compile_ptest_cargo() {
-+    import subprocess
-+    import json
-+
-+    cargo = bb.utils.which(d.getVar("PATH"), d.getVar("CARGO", True))
-+    cargo_build_flags = d.getVar("CARGO_BUILD_FLAGS", True)
-+    rust_flags = d.getVar("RUSTFLAGS", True)
-+    manifest_path = d.getVar("MANIFEST_PATH", True)
-+
-+    env = os.environ.copy()
-+    env['RUSTFLAGS'] = rust_flags
-+    cmd = f"{cargo} build --tests --message-format json {cargo_build_flags}"
-+    bb.note(f"Building tests with cargo ({cmd})")
-+
-+    try:
-+        proc = subprocess.Popen(cmd, shell=True, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-+    except subprocess.CalledProcessError as e:
-+        bb.fatal(f"Cannot build test with cargo: {e}")
-+
-+    lines = []
-+    for line in proc.stdout:
-+        data = line.decode('utf-8').strip('\n')
-+        lines.append(data)
-+        bb.note(data)
-+    proc.communicate()
-+    if proc.returncode != 0:
-+        bb.fatal(f"Unable to compile test with cargo, '{cmd}' failed")
-+
-+    # Definition of the format: https://doc.rust-lang.org/cargo/reference/external-tools.html#json-messages
-+    test_bins = []
-+    for line in lines:
-+        try:
-+            data = json.loads(line)
-+        except json.JSONDecodeError:
-+            # skip lines that are not a json
-+            pass
-+        else:
-+            try:
-+                # Filter the test packages coming from the current manifest
-+                current_manifest_path = os.path.normpath(data['manifest_path'])
-+                project_manifest_path = os.path.normpath(manifest_path)
-+                if current_manifest_path == project_manifest_path:
-+                    if data['target']['test'] or data['target']['doctest'] and data['executable']:
-+                        test_bins.append(data['executable'])
-+            except KeyError as e:
-+                # skip lines that do not meet the requirements
-+                pass
-+
-+    # All rust project will genrate at least one unit test binary
-+    # It will just run a test suite with 0 tests if the project didn't define some
-+    # So it is not expected to have an empty list here
-+    if not test_bins:
-+        bb.fatal("Unable to find any test binaries")
-+
-+    cargo_test_binaries_file = d.getVar('CARGO_TEST_BINARIES_FILES', True)
-+    bb.note(f"Found {len(test_bins)} tests, write their path into {cargo_test_binaries_file}")
-+    with open(cargo_test_binaries_file, "w") as f:
-+        for test_bin in test_bins:
-+            f.write(f"{test_bin}\n")
-+
-+}
-+
-+python do_install_ptest_cargo() {
-+    import shutil
-+
-+    dest_dir = d.getVar("D", True)
-+    pn = d.getVar("PN", True)
-+    ptest_path = d.getVar("PTEST_PATH", True)
-+    cargo_test_binaries_file = d.getVar('CARGO_TEST_BINARIES_FILES', True)
-+
-+    ptest_dir = os.path.join(dest_dir, ptest_path.lstrip('/'))
-+    os.makedirs(ptest_dir, exist_ok=True)
-+
-+    test_bins = []
-+    with open(cargo_test_binaries_file, "r") as f:
-+        for line in f.readlines():
-+            test_bins.append(line.strip('\n'))
-+
-+    test_paths = []
-+    for test_bin in test_bins:
-+        shutil.copy2(test_bin, ptest_dir)
-+        test_paths.append(os.path.join(ptest_path, os.path.basename(test_bin)))
-+
-+    ptest_script = os.path.join(ptest_dir, "run-ptest")
-+    if os.path.exists(ptest_script):
-+        with open(ptest_script, "a") as f:
-+            f.write(f"\necho \"\"\n")
-+            f.write(f"echo \"## starting to run rust tests ##\"\n")
-+            for test_path in test_paths:
-+                f.write(f"{test_path}\n")
-+    else:
-+        with open(ptest_script, "a") as f:
-+            f.write("#!/bin/sh\n")
-+            for test_path in test_paths:
-+                f.write(f"{test_path}\n")
-+        os.chmod(ptest_script, 0o755)
-+
-+    # this is chown -R root:root ${D}${PTEST_PATH}
-+    for root, dirs, files in os.walk(ptest_dir):
-+        for d in dirs:
-+            shutil.chown(os.path.join(root, d), "root", "root")
-+        for f in files:
-+            shutil.chown(os.path.join(root, f), "root", "root")
-+}
-+
-+do_install_ptest_cargo[dirs] = "${B}"
-+do_install_ptest_cargo[doc] = "Create or update the run-ptest script with rust test binaries generated"
-+do_compile_ptest_cargo[dirs] = "${B}"
-+do_compile_ptest_cargo[doc] = "Generate rust test binaries through cargo"
-+
-+addtask compile_ptest_cargo after do_compile            before do_compile_ptest_base
-+addtask install_ptest_cargo after do_install_ptest_base before do_package
-+
-+python () {
-+    if not bb.data.inherits_class('native', d) and not bb.data.inherits_class('cross', d):
-+        d.setVarFlag('do_install_ptest_cargo', 'fakeroot', '1')
-+        d.setVarFlag('do_install_ptest_cargp', 'umask', '022')
-+
-+    # Remove all '*ptest_cargo' tasks when ptest is not enabled
-+    if not(d.getVar('PTEST_ENABLED') == "1"):
-+        for i in ['do_compile_ptest_cargo', 'do_install_ptest_cargo']:
-+            bb.build.deltask(i, d)
-+}
--- 
-2.34.1
-
+>  # SDK_OLDEST_KERNEL can't be set using overrides since there are
+>  # none for the SDK architecture. Best to set it from a machine-sdk
+> --
+> 2.30.2
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#180423): https://lists.openembedded.org/g/openembedde=
+d-core/message/180423
+> Mute This Topic: https://lists.openembedded.org/mt/98511406/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
