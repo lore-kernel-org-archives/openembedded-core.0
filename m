@@ -1,108 +1,1436 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DDA2C77B7E
-	for <webhook@archiver.kernel.org>; Thu, 27 Apr 2023 15:13:03 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web10.23459.1682608374994207084
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 981B0C77B61
+	for <webhook@archiver.kernel.org>; Thu, 27 Apr 2023 15:15:43 +0000 (UTC)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web11.23387.1682608537676859846
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Apr 2023 08:12:55 -0700
+ Thu, 27 Apr 2023 08:15:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=lWG6SMih;
- spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-3f173af665fso57574435e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Apr 2023 08:12:54 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=SbONelQ4;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.49, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-504eccc8fc8so12557789a12.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Apr 2023 08:15:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682608373; x=1685200373;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IT2Hkge3oaXCDczP1o9awltEQe8fD1BDPvNmWM3yHos=;
-        b=lWG6SMihEAPL/84S9HJyAQD83PHCjV6G2v7AmOCQmcr4YOVH6l1JaH3SKVDdbCv0pe
-         BhqGxmrlq8COpBr2wkl5J3z3h6uZYaNR2Q71CrS/2B2s2Q4NGqV8ACp69R5Qu+EKz+go
-         8B3k2ojHqgK2VluwI93/tRDZLYFw3Q8mgsGQjSsWEcSLdhvuid9SjvJneIjFRnTCon+V
-         ewC9vlHQJtqAsR6KLq8SIasjORfYcwMWio7V/0fWxCr88iDgoAgk72fAVPLDPQqHyYC5
-         5pD/KkYG5hMvbunQ3bHP1yc5fGwJZZrRUghkfhyMCP49XJLLpOY+Y7y8ECxrnruepxps
-         k1pQ==
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1682608536; x=1685200536;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s8emMDumMdE3Qr+NyGWOXrWIcmEpK0BiK2yL2UMLse0=;
+        b=SbONelQ4UB8b9zvIob3jHLdyFRlDONz7VYQ4EsLC4n0uOmXkN0PwdHYsNOQBStmioG
+         vNNaUVs3XKRh+Mnsq7kmlalniIgi6EAfOdM1MQYBUT7r1HGMgjGQNNxSNA23LLD9Yx/V
+         c7CVUrnfGiQBqHoNQdKCppi1bUQU8CI3Pnwaef8hrjFvm3FaW/UlsYiYnHbZTVsZbu9T
+         Z/kWEyuT4Efe8+QrdowZt7BMA/tSxop0Y9RFbRN/w+J1VzH8tfARmQikybxaOPKosmKa
+         pZbnBtPmxe/rpKboanOdfXnmbBH/zqDEQ2CmeOqKQ+GdmzK3YTloQK/JD7yUgxvZGKV3
+         A0RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682608373; x=1685200373;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IT2Hkge3oaXCDczP1o9awltEQe8fD1BDPvNmWM3yHos=;
-        b=RqPSOZESqKMv+d5g5x8R8uAIb9YpDVNSJiTJYB9GYtS6DXQt2NeynShLLuCgN0Svx9
-         ZyxdRvMzPzOYnuLZ7US1+vDbvggSwPU0BtUFc6IUM35x15KawNcwAq3E/kMhsIphJMLv
-         fxG3aoWRKrDOwOgdk1onkEp/aKql8X6nL7EUY1AIZrqLRBTqHtA67FOm2i3WCUFa0f22
-         s4RoL5xxCnB7Ij5MTROJDs9/fXrD4dxKFe2FFc0sRKi/ONBsvfMznT3YoJ80m1/HAURV
-         AuPMO3kj0DqzFiyRTNWsvVFa2NnbKMjwXY1B+FsUZdFE4al6dRDYTdcd2OIXmMvHl5hA
-         85IA==
-X-Gm-Message-State: AC+VfDwpacarOMkECB//yY3WPhJugD+c7UvhMJj1ffNHemjvjOWcQhDb
-	n6f/SEYX2xLPTKwv8uSZ1xuaDD317Qo=
-X-Google-Smtp-Source: ACHHUZ7Z1MRQVDUDUNwJufCd1qi+5VC9hZY/zxoRiQfia0xZir09UQi2lrl+/miv8LSMc1NE8ATIRg==
-X-Received: by 2002:a5d:664a:0:b0:2fa:e2a0:808f with SMTP id f10-20020a5d664a000000b002fae2a0808fmr1675398wrw.23.1682608372728;
-        Thu, 27 Apr 2023 08:12:52 -0700 (PDT)
-Received: from work-pc.core.sigfox.net ([2a01:e0a:8d5:c6c0:e2ba:a159:c9f4:28dc])
-        by smtp.gmail.com with ESMTPSA id v19-20020a05600c215300b003ee20b4b2dasm21655529wml.46.2023.04.27.08.12.51
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Apr 2023 08:12:52 -0700 (PDT)
-From: frederic.martinsons@gmail.com
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCHV4 0/3] Create class for building rust unit test
-Date: Thu, 27 Apr 2023 17:12:47 +0200
-Message-Id: <cover.1682608254.git.frederic.martinsons@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20221208; t=1682608536; x=1685200536;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=s8emMDumMdE3Qr+NyGWOXrWIcmEpK0BiK2yL2UMLse0=;
+        b=Uuws6n5gy+EBeYGYTdA0z9BoMgFd/xKKVea2qd5wUxHg2ubPJUQLQzBaZn8KqfMBBB
+         MCO/lnVSiut3GmxAQL/coCQtuHxPj4/XExkZGyETsyJE+lfwWsPZPLnpIZa8upzB+Q2F
+         jwKOx/d8ZJ0JLnvRzeuBBnHH1xePeDGjCk4JxMDdMw57TtuyWhG2/vQ2swO8yuBJVso/
+         b8t1STQlJi1pM157Kk0jRn1s+VdVXw5zmlOrGaFc0JOS+Il3/oqUodvDLy4BZdZ4LtZc
+         jCEvMEHgd99wVfEgByQch+qLDLTMNhABbsR8HyMlMmK/DvnTT2wwAyNKoCdv9hAgxad3
+         bS4g==
+X-Gm-Message-State: AC+VfDxcdSv7SP36rhckLggofaXw81qHuRGn3+R7Ccwp+jjNyo5ELK4p
+	nJ0pE6F+GJK+YnibfYK1PcXDUVShAG2IZxjN1bw7Ag==
+X-Google-Smtp-Source: ACHHUZ4x4djDwnWiOVQuZ4DYZHu2PR02MvbtZp7eYZEDlPDQDFo+znuVCRVTLsC6V/RI5Fo5RxYKd1/nx8niAKIGxgk=
+X-Received: by 2002:a05:6402:325:b0:508:4414:f648 with SMTP id
+ q5-20020a056402032500b005084414f648mr1954572edw.32.1682608535590; Thu, 27 Apr
+ 2023 08:15:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230426180550.22949-1-alexyao1@meraki.com> <20230426180550.22949-2-alexyao1@meraki.com>
+ <1759904D1BF41954.32698@lists.openembedded.org>
+In-Reply-To: <1759904D1BF41954.32698@lists.openembedded.org>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Thu, 27 Apr 2023 05:15:24 -1000
+Message-ID: <CAOSpxdb9Tvn=RzsMRAew_12mOE5-9H_01oG4PjczNbp2AFakmg@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell][PATCH 2/3] lcov: Upgrade 1.14 -> 1.16
+To: steve@sakoman.com
+Cc: alexyao1@meraki.com, openembedded-core@lists.openembedded.org, 
+	raj.khem@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Apr 2023 15:13:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180493
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Apr 2023 15:15:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180497
 
-From: Frederic Martinsons <frederic.martinsons@gmail.com>
+On Wed, Apr 26, 2023 at 8:43=E2=80=AFAM Steve Sakoman via
+lists.openembedded.org <steve=3Dsakoman.com@lists.openembedded.org>
+wrote:
+>
+> I can take version updates in an LTS branch if they contain only bug
+> and security fixes.
 
-This brings the possibility to use this class to build and ship
-unit tests of rust projects, the class also create (or modified)
-standard run-ptest script to run the generated rust test suite.
+I just noticed that this is a patch for meta-oe not oe-core.
 
-It has been tested successfully with core-image-sato under qemu
-for zvariant-ptest and python3-bcrypt-ptest (though the last one
-didn't define any unit tests).
+My comment on version bump policy still applies, but you should be
+sending meta-oe patches to the correct list:
+openembedded-devel@lists.openembedded.org
 
-Note that I tried to do the same with python3-cryptography but fail
-to build the test suite and I don't know how to do it with the rust
-extension module build by python setuptools. There must be some kind
-of way for doing that so maybe someone will put some work in it (
-because python3-cryptography rust extension do have unit tests).
+Steve
 
-Moreover, in the ptest-cargo class, I didn't manage to share data between
-do_compile_ptest_cargo and do_install_ptest_cargo cleanly (I tried
-to d.setVar in compile and d.getVar in install but it seems that
-the data store doens't recognize my new variable) so I used a file
-for that. I'm sure there is a clever way for doing that, so feel
-free to tell me.
 
-The following changes since commit 45a8bb6e4676899d40525e7d5ad1c1ddefee3185:
-
-  apt-util: Fix ptest on musl (2023-04-20 11:56:03 +0100)
-
-are available in the Git repository at:
-
-  https://gitlab.com/fmartinsons/openembedded-core cargo-add-ptest
-
-Frederic Martinsons (3):
-  ptest-cargo.bbclass: create class
-  python3-bcrypt: enable build of unit tests
-  zvariant: add ptest feature for zvariant test suite
-
- .../zvariant/zvariant_3.12.0.bb               |   9 +-
- meta/classes-recipe/ptest-cargo.bbclass       | 130 ++++++++++++++++++
- meta/lib/oeqa/selftest/cases/devtool.py       |   2 +-
- .../python/python3-bcrypt_4.0.1.bb            |   4 +-
- 4 files changed, 142 insertions(+), 3 deletions(-)
- create mode 100644 meta/classes-recipe/ptest-cargo.bbclass
-
--- 
-2.34.1
-
+> Can you confirm that this is the case for the 1.14 -> 1.15 -> 1.16
+> version bumps?
+>
+> In the future including this information in the commit message will
+> speed things along!
+>
+> Thanks!
+>
+> Steve
+>
+> On Wed, Apr 26, 2023 at 8:06=E2=80=AFAM alexyao1 via lists.openembedded.o=
+rg
+> <alexyao1=3Dmeraki.com@lists.openembedded.org> wrote:
+> >
+> > From: Alex Yao <alexyao1@meraki.com>
+> >
+> > This upgrades lcov to 1.16 and removes backported patches which are
+> > now included since 1.15. This also removes dependencies added from
+> > backported patches since the new version removes the need for these
+> > dependencies.
+> >
+> > Signed-off-by: Alex Yao <alexyao1@meraki.com>
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  ...Add-intermediate-text-format-support.patch | 898 ------------------
+> >  ...Add-intermediate-JSON-format-support.patch | 247 -----
+> >  .../lcov/{lcov_1.14.bb =3D> lcov_1.16.bb}       |  16 +-
+> >  3 files changed, 4 insertions(+), 1157 deletions(-)
+> >  delete mode 100644 meta-oe/recipes-support/lcov/files/0001-geninfo-Add=
+-intermediate-text-format-support.patch
+> >  delete mode 100644 meta-oe/recipes-support/lcov/files/0002-geninfo-Add=
+-intermediate-JSON-format-support.patch
+> >  rename meta-oe/recipes-support/lcov/{lcov_1.14.bb =3D> lcov_1.16.bb} (=
+78%)
+> >
+> > diff --git a/meta-oe/recipes-support/lcov/files/0001-geninfo-Add-interm=
+ediate-text-format-support.patch b/meta-oe/recipes-support/lcov/files/0001-=
+geninfo-Add-intermediate-text-format-support.patch
+> > deleted file mode 100644
+> > index 9ac0770f96..0000000000
+> > --- a/meta-oe/recipes-support/lcov/files/0001-geninfo-Add-intermediate-=
+text-format-support.patch
+> > +++ /dev/null
+> > @@ -1,898 +0,0 @@
+> > -From ec3e1f411c332cbc2f2bc7ab7e2175ebf918b37a Mon Sep 17 00:00:00 2001
+> > -From: Peter Oberparleiter <oberpar@linux.ibm.com>
+> > -Date: Fri, 24 May 2019 16:56:52 +0200
+> > -Subject: [PATCH 1/2] geninfo: Add intermediate text format support
+> > -
+> > -This change adds support for parsing the output of gcov's intermediate
+> > -text file format as implemented by GCC versions 5 to 8.  The use of th=
+e
+> > -gcov intermediate format should increase processing speed. It also
+> > -provides branch coverage data when using the --initial command line
+> > -option.
+> > -
+> > -Users can control whether geninfo uses the intermediate format via the
+> > -geninfo_intermediate configuration file option. Valid values are:
+> > -
+> > -     0: Use normal text format
+> > -     1: Use intermediate format
+> > -  auto: Use intermediate format if available. This is the default.
+> > -
+> > -Signed-off-by: Peter Oberparleiter <oberpar@linux.ibm.com>
+> > ----
+> > - bin/geninfo  | 567 ++++++++++++++++++++++++++++++++++++++++++++------=
+-
+> > - lcovrc       |   3 +
+> > - man/lcovrc.5 |  24 +++
+> > - 3 files changed, 521 insertions(+), 73 deletions(-)
+> > -
+> > -Upstream-Status: Backport
+> > -Download URL: https://github.com/linux-test-project/lcov/commit/ebfeb3=
+e179e450c69c3532f98cd5ea1fbf6ccba7
+> > -
+> > -diff --git a/bin/geninfo b/bin/geninfo
+> > -index f41eaec..0276666 100755
+> > ---- a/bin/geninfo
+> > -+++ b/bin/geninfo
+> > -@@ -54,6 +54,8 @@ use warnings;
+> > - use File::Basename;
+> > - use File::Spec::Functions qw /abs2rel catdir file_name_is_absolute sp=
+litdir
+> > -                             splitpath catpath/;
+> > -+use File::Temp qw(tempfile tempdir);
+> > -+use File::Copy qw(copy);
+> > - use Getopt::Long;
+> > - use Digest::MD5 qw(md5_base64);
+> > - use Cwd qw/abs_path/;
+> > -@@ -163,13 +165,13 @@ sub solve_relative_path($$);
+> > - sub read_gcov_header($);
+> > - sub read_gcov_file($);
+> > - sub info(@);
+> > -+sub process_intermediate($$$);
+> > - sub map_llvm_version($);
+> > - sub version_to_str($);
+> > - sub get_gcov_version();
+> > - sub system_no_output($@);
+> > - sub read_config($);
+> > - sub apply_config($);
+> > --sub get_exclusion_data($);
+> > - sub apply_exclusion_data($$);
+> > - sub process_graphfile($$);
+> > - sub filter_fn_name($);
+> > -@@ -264,6 +266,8 @@ our $gcno_split_crc;
+> > - our $func_coverage =3D 1;
+> > - our $br_coverage =3D 0;
+> > - our $rc_auto_base =3D 1;
+> > -+our $rc_intermediate =3D "auto";
+> > -+our $intermediate;
+> > - our $excl_line =3D "LCOV_EXCL_LINE";
+> > - our $excl_br_line =3D "LCOV_EXCL_BR_LINE";
+> > -
+> > -@@ -331,6 +335,7 @@ if ($config || %opt_rc)
+> > -               "geninfo_compat"                =3D> \$opt_compat,
+> > -               "geninfo_adjust_src_path"       =3D> \$rc_adjust_src_pa=
+th,
+> > -               "geninfo_auto_base"             =3D> \$rc_auto_base,
+> > -+              "geninfo_intermediate"          =3D> \$rc_intermediate,
+> > -               "lcov_function_coverage"        =3D> \$func_coverage,
+> > -               "lcov_branch_coverage"          =3D> \$br_coverage,
+> > -               "lcov_excl_line"                =3D> \$excl_line,
+> > -@@ -460,15 +465,38 @@ if (system_no_output(3, $gcov_tool, "--help") =
+=3D=3D -1)
+> > - }
+> > -
+> > - ($gcov_version, $gcov_version_string) =3D get_gcov_version();
+> > -+$gcov_caps =3D get_gcov_capabilities();
+> > -+
+> > -+# Determine intermediate mode
+> > -+if ($rc_intermediate eq "0") {
+> > -+      $intermediate =3D 0;
+> > -+} elsif ($rc_intermediate eq "1") {
+> > -+      $intermediate =3D 1;
+> > -+} elsif (lc($rc_intermediate) eq "auto") {
+> > -+      # Use intermediate format if supported by gcov
+> > -+      $intermediate =3D $gcov_caps->{'intermediate-format'} ? 1 : 0;
+> > -+} else {
+> > -+      die("ERROR: invalid value for geninfo_intermediate: ".
+> > -+          "'$rc_intermediate'\n");
+> > -+}
+> > -+
+> > -+if ($intermediate) {
+> > -+      info("Using intermediate gcov format\n");
+> > -+      if ($opt_derive_func_data) {
+> > -+              warn("WARNING: --derive-func-data is not compatible wit=
+h ".
+> > -+                   "intermediate format - ignoring\n");
+> > -+              $opt_derive_func_data =3D 0;
+> > -+      }
+> > -+}
+> > -
+> > - # Determine gcov options
+> > --$gcov_caps =3D get_gcov_capabilities();
+> > - push(@gcov_options, "-b") if ($gcov_caps->{'branch-probabilities'} &&
+> > -                             ($br_coverage || $func_coverage));
+> > - push(@gcov_options, "-c") if ($gcov_caps->{'branch-counts'} &&
+> > -                             $br_coverage);
+> > - push(@gcov_options, "-a") if ($gcov_caps->{'all-blocks'} &&
+> > --                            $opt_gcov_all_blocks && $br_coverage);
+> > -+                            $opt_gcov_all_blocks && $br_coverage &&
+> > -+                            !$intermediate);
+> > - if ($gcov_caps->{'hash-filenames'})
+> > - {
+> > -       push(@gcov_options, "-x");
+> > -@@ -599,7 +627,7 @@ foreach my $entry (@data_directory) {
+> > -       gen_info($entry);
+> > - }
+> > -
+> > --if ($initial && $br_coverage) {
+> > -+if ($initial && $br_coverage && !$intermediate) {
+> > -       warn("Note: --initial does not generate branch coverage ".
+> > -            "data\n");
+> > - }
+> > -@@ -768,6 +796,7 @@ sub gen_info($)
+> > -       my $prefix;
+> > -       my $type;
+> > -       my $ext;
+> > -+      my $tempdir;
+> > -
+> > -       if ($initial) {
+> > -               $type =3D "graph";
+> > -@@ -798,16 +827,22 @@ sub gen_info($)
+> > -               $prefix =3D "";
+> > -       }
+> > -
+> > -+      $tempdir =3D tempdir(CLEANUP =3D> 1);
+> > -+
+> > -       # Process all files in list
+> > -       foreach $file (@file_list) {
+> > -               # Process file
+> > --              if ($initial) {
+> > -+              if ($intermediate) {
+> > -+                      process_intermediate($file, $prefix, $tempdir);
+> > -+              } elsif ($initial) {
+> > -                       process_graphfile($file, $prefix);
+> > -               } else {
+> > -                       process_dafile($file, $prefix);
+> > -               }
+> > -       }
+> > -
+> > -+      unlink($tempdir);
+> > -+
+> > -       # Report whether files were excluded.
+> > -       if (%excluded_files) {
+> > -               info("Excluded data for %d files due to include/exclude=
+ options\n",
+> > -@@ -1058,10 +1093,12 @@ sub process_dafile($$)
+> > -
+> > -       # Try to find base directory automatically if requested by user
+> > -       if ($rc_auto_base) {
+> > --              $base_dir =3D find_base_from_graph($base_dir, $instr, $=
+graph);
+> > -+              $base_dir =3D find_base_from_source($base_dir,
+> > -+                      [ keys(%{$instr}), keys(%{$graph}) ]);
+> > -       }
+> > -
+> > --      ($instr, $graph) =3D adjust_graph_filenames($base_dir, $instr, =
+$graph);
+> > -+      adjust_source_filenames($instr, $base_dir);
+> > -+      adjust_source_filenames($graph, $base_dir);
+> > -
+> > -       # Set $object_dir to real location of object files. This may di=
+ffer
+> > -       # from $da_dir if the graph file is just a link to the "real" o=
+bject
+> > -@@ -2017,6 +2054,299 @@ sub read_gcov_file($)
+> > - }
+> > -
+> > -
+> > -+#
+> > -+# read_intermediate_text(gcov_filename, data)
+> > -+#
+> > -+# Read gcov intermediate text format in GCOV_FILENAME and add the res=
+ulting
+> > -+# data to DATA in the following format:
+> > -+#
+> > -+# data:      source_filename -> file_data
+> > -+# file_data: concatenated lines of intermediate text data
+> > -+#
+> > -+
+> > -+sub read_intermediate_text($$)
+> > -+{
+> > -+      my ($gcov_filename, $data) =3D @_;
+> > -+      my $fd;
+> > -+      my $filename;
+> > -+
+> > -+      open($fd, "<", $gcov_filename) or
+> > -+              die("ERROR: Could not read $gcov_filename: $!\n");
+> > -+      while (my $line =3D <$fd>) {
+> > -+              if ($line =3D~ /^file:(.*)$/) {
+> > -+                      $filename =3D $1;
+> > -+                      chomp($filename);
+> > -+              } elsif (defined($filename)) {
+> > -+                      $data->{$filename} .=3D $line;
+> > -+              }
+> > -+      }
+> > -+      close($fd);
+> > -+}
+> > -+
+> > -+
+> > -+#
+> > -+# intermediate_text_to_info(fd, data, srcdata)
+> > -+#
+> > -+# Write DATA in info format to file descriptor FD.
+> > -+#
+> > -+# data:      filename -> file_data:
+> > -+# file_data: concatenated lines of intermediate text data
+> > -+#
+> > -+# srcdata:   filename -> [ excl, brexcl, checksums ]
+> > -+# excl:      lineno -> 1 for all lines for which to exclude all data
+> > -+# brexcl:    lineno -> 1 for all lines for which to exclude branch da=
+ta
+> > -+# checksums: lineno -> source code checksum
+> > -+#
+> > -+# Note: To simplify processing, gcov data is not combined here, that =
+is counts
+> > -+#       that appear multiple times for the same lines/branches are no=
+t added.
+> > -+#       This is done by lcov/genhtml when reading the data files.
+> > -+#
+> > -+
+> > -+sub intermediate_text_to_info($$$)
+> > -+{
+> > -+      my ($fd, $data, $srcdata) =3D @_;
+> > -+      my $branch_num =3D 0;
+> > -+      my $c;
+> > -+
+> > -+      return if (!%{$data});
+> > -+
+> > -+      print($fd "TN:$test_name\n");
+> > -+      for my $filename (keys(%{$data})) {
+> > -+              my ($excl, $brexcl, $checksums);
+> > -+
+> > -+              if (defined($srcdata->{$filename})) {
+> > -+                      ($excl, $brexcl, $checksums) =3D @{$srcdata->{$=
+filename}};
+> > -+              }
+> > -+
+> > -+              print($fd "SF:$filename\n");
+> > -+              for my $line (split(/\n/, $data->{$filename})) {
+> > -+                      if ($line =3D~ /^lcount:(\d+),(\d+),?/) {
+> > -+                              # lcount:<line>,<count>
+> > -+                              # lcount:<line>,<count>,<has_unexecuted=
+_blocks>
+> > -+                              if ($checksum && exists($checksums->{$1=
+})) {
+> > -+                                      $c =3D ",".$checksums->{$1};
+> > -+                              } else {
+> > -+                                      $c =3D "";
+> > -+                              }
+> > -+                              print($fd "DA:$1,$2$c\n") if (!$excl->{=
+$1});
+> > -+
+> > -+                              # Intermediate text format does not pro=
+vide
+> > -+                              # branch numbers, and the same branch m=
+ay appear
+> > -+                              # multiple times on the same line (e.g.=
+ in
+> > -+                              # template instances). Synthesize a bra=
+nch
+> > -+                              # number based on the assumptions:
+> > -+                              # a) the order of branches is fixed acr=
+oss
+> > -+                              #    instances
+> > -+                              # b) an instance starts with an lcount =
+line
+> > -+                              $branch_num =3D 0;
+> > -+                      } elsif ($line =3D~ /^function:(\d+),(\d+),([^,=
+]+)$/) {
+> > -+                              next if (!$func_coverage || $excl->{$1}=
+);
+> > -+
+> > -+                              # function:<line>,<count>,<name>
+> > -+                              print($fd "FN:$1,$3\n");
+> > -+                              print($fd "FNDA:$2,$3\n");
+> > -+                      } elsif ($line =3D~ /^function:(\d+),\d+,(\d+),=
+([^,]+)$/) {
+> > -+                              next if (!$func_coverage || $excl->{$1}=
+);
+> > -+
+> > -+                              # function:<start_line>,<end_line>,<cou=
+nt>,
+> > -+                              #          <name>
+> > -+                              print($fd "FN:$1,$3\n");
+> > -+                              print($fd "FNDA:$2,$3\n");
+> > -+                      } elsif ($line =3D~ /^branch:(\d+),(taken|notta=
+ken|notexec)/) {
+> > -+                              next if (!$br_coverage || $excl->{$1} |=
+|
+> > -+                                       $brexcl->{$1});
+> > -+
+> > -+                              # branch:<line>,taken|nottaken|notexec
+> > -+                              if ($2 eq "taken") {
+> > -+                                      $c =3D 1;
+> > -+                              } elsif ($2 eq "nottaken") {
+> > -+                                      $c =3D 0;
+> > -+                              } else {
+> > -+                                      $c =3D "-";
+> > -+                              }
+> > -+                              print($fd "BRDA:$1,0,$branch_num,$c\n")=
+;
+> > -+                              $branch_num++;
+> > -+                      }
+> > -+              }
+> > -+              print($fd "end_of_record\n");
+> > -+      }
+> > -+}
+> > -+
+> > -+
+> > -+sub get_output_fd($$)
+> > -+{
+> > -+      my ($outfile, $file) =3D @_;
+> > -+      my $fd;
+> > -+
+> > -+      if (!defined($outfile)) {
+> > -+              open($fd, ">", "$file.info") or
+> > -+                      die("ERROR: Cannot create file $file.info: $!\n=
+");
+> > -+      } elsif ($outfile eq "-") {
+> > -+              open($fd, ">&STDOUT") or
+> > -+                      die("ERROR: Cannot duplicate stdout: $!\n");
+> > -+      } else {
+> > -+              open($fd, ">>", $outfile) or
+> > -+                      die("ERROR: Cannot write to file $outfile: $!\n=
+");
+> > -+      }
+> > -+
+> > -+      return $fd;
+> > -+}
+> > -+
+> > -+
+> > -+#
+> > -+# print_gcov_warnings(stderr_file, is_graph, map)
+> > -+#
+> > -+# Print GCOV warnings in file STDERR_FILE to STDERR. If IS_GRAPH is n=
+on-zero,
+> > -+# suppress warnings about missing as these are expected. Replace keys=
+ found
+> > -+# in MAP with their values.
+> > -+#
+> > -+
+> > -+sub print_gcov_warnings($$$)
+> > -+{
+> > -+      my ($stderr_file, $is_graph, $map) =3D @_;
+> > -+      my $fd;
+> > -+
+> > -+      if (!open($fd, "<", $stderr_file)) {
+> > -+              warn("WARNING: Could not open GCOV stderr file ".
+> > -+                   "$stderr_file: $!\n");
+> > -+              return;
+> > -+      }
+> > -+      while (my $line =3D <$fd>) {
+> > -+              next if ($is_graph && $line =3D~ /cannot open data file=
+/);
+> > -+
+> > -+              for my $key (keys(%{$map})) {
+> > -+                      $line =3D~ s/\Q$key\E/$map->{$key}/g;
+> > -+              }
+> > -+
+> > -+              print(STDERR $line);
+> > -+      }
+> > -+      close($fd);
+> > -+}
+> > -+
+> > -+
+> > -+#
+> > -+# process_intermediate(file, dir, tempdir)
+> > -+#
+> > -+# Create output for a single file (either a data file or a graph file=
+) using
+> > -+# gcov's intermediate option.
+> > -+#
+> > -+
+> > -+sub process_intermediate($$$)
+> > -+{
+> > -+      my ($file, $dir, $tempdir) =3D @_;
+> > -+      my ($fdir, $fbase, $fext);
+> > -+      my $data_file;
+> > -+      my $errmsg;
+> > -+      my %data;
+> > -+      my $fd;
+> > -+      my $base;
+> > -+      my $srcdata;
+> > -+      my $is_graph =3D 0;
+> > -+      my ($out, $err, $rc);
+> > -+
+> > -+      info("Processing %s\n", abs2rel($file, $dir));
+> > -+
+> > -+      $file =3D solve_relative_path($cwd, $file);
+> > -+      ($fdir, $fbase, $fext) =3D split_filename($file);
+> > -+
+> > -+      $is_graph =3D 1 if (".$fext" eq $graph_file_extension);
+> > -+
+> > -+      if ($is_graph) {
+> > -+              # Process graph file - copy to temp directory to preven=
+t
+> > -+              # accidental processing of associated data file
+> > -+              $data_file =3D "$tempdir/$fbase$graph_file_extension";
+> > -+              if (!copy($file, $data_file)) {
+> > -+                      $errmsg =3D "ERROR: Could not copy file $file";
+> > -+                      goto err;
+> > -+              }
+> > -+      } else {
+> > -+              # Process data file in place
+> > -+              $data_file =3D $file;
+> > -+      }
+> > -+
+> > -+      # Change directory
+> > -+      if (!chdir($tempdir)) {
+> > -+              $errmsg =3D "Could not change to directory $tempdir: $!=
+";
+> > -+              goto err;
+> > -+      }
+> > -+
+> > -+      # Run gcov on data file
+> > -+      ($out, $err, $rc) =3D system_no_output(1 + 2 + 4, $gcov_tool,
+> > -+                                           $data_file, @gcov_options,=
+ "-i");
+> > -+      defined($out) && unlink($out);
+> > -+      if (defined($err)) {
+> > -+              print_gcov_warnings($err, $is_graph, {
+> > -+                      $data_file =3D> $file,
+> > -+              });
+> > -+              unlink($err);
+> > -+      }
+> > -+      if ($rc) {
+> > -+              $errmsg =3D "GCOV failed for $file";
+> > -+              goto err;
+> > -+      }
+> > -+
+> > -+      if ($is_graph) {
+> > -+              # Remove graph file copy
+> > -+              unlink($data_file);
+> > -+      }
+> > -+
+> > -+      # Parse resulting file(s)
+> > -+      for my $gcov_filename (glob("*.gcov")) {
+> > -+              read_intermediate_text($gcov_filename, \%data);
+> > -+              unlink($gcov_filename);
+> > -+      }
+> > -+
+> > -+      if (!%data) {
+> > -+              warn("WARNING: GCOV did not produce any data for $file\=
+n");
+> > -+              return;
+> > -+      }
+> > -+
+> > -+      # Determine base directory
+> > -+      if (defined($base_directory)) {
+> > -+              $base =3D $base_directory;
+> > -+      } else {
+> > -+              $base =3D $fdir;
+> > -+
+> > -+              if (is_compat($COMPAT_MODE_LIBTOOL)) {
+> > -+                      # Avoid files from .libs dirs
+> > -+                      $base =3D~ s/\.libs$//;
+> > -+              }
+> > -+
+> > -+              # Try to find base directory automatically if requested=
+ by user
+> > -+              if ($rc_auto_base) {
+> > -+                      $base =3D find_base_from_source($base, [ keys(%=
+data) ]);
+> > -+              }
+> > -+      }
+> > -+
+> > -+      # Apply base file name to relative source files
+> > -+      adjust_source_filenames(\%data, $base);
+> > -+
+> > -+      # Remove excluded source files
+> > -+      filter_source_files(\%data);
+> > -+
+> > -+      # Get data on exclusion markers and checksums if requested
+> > -+      if (!$no_markers || $checksum) {
+> > -+              $srcdata =3D get_all_source_data(keys(%data));
+> > -+      }
+> > -+
+> > -+      # Generate output
+> > -+      $fd =3D get_output_fd($output_filename, $file);
+> > -+      intermediate_text_to_info($fd, \%data, $srcdata);
+> > -+      close($fd);
+> > -+
+> > -+      chdir($cwd);
+> > -+
+> > -+      return;
+> > -+
+> > -+err:
+> > -+      if ($ignore[$ERROR_GCOV]) {
+> > -+              warn("WARNING: $errmsg!\n");
+> > -+      } else {
+> > -+              die("ERROR: $errmsg!\n")
+> > -+      }
+> > -+}
+> > -+
+> > -+
+> > - # Map LLVM versions to the version of GCC gcov which they emulate.
+> > -
+> > - sub map_llvm_version($)
+> > -@@ -2151,8 +2481,12 @@ sub int_handler()
+> > - #
+> > - #   MODE & 1: suppress STDOUT
+> > - #   MODE & 2: suppress STDERR
+> > -+#   MODE & 4: redirect to temporary files instead of suppressing
+> > - #
+> > --# Return 0 on success, non-zero otherwise.
+> > -+# Return (stdout, stderr, rc):
+> > -+#    stdout: path to tempfile containing stdout or undef
+> > -+#    stderr: path to tempfile containing stderr or undef
+> > -+#    0 on success, non-zero otherwise
+> > - #
+> > -
+> > - sub system_no_output($@)
+> > -@@ -2161,14 +2495,31 @@ sub system_no_output($@)
+> > -       my $result;
+> > -       local *OLD_STDERR;
+> > -       local *OLD_STDOUT;
+> > -+      my $stdout_file;
+> > -+      my $stderr_file;
+> > -+      my $fd;
+> > -
+> > -       # Save old stdout and stderr handles
+> > -       ($mode & 1) && open(OLD_STDOUT, ">>&", "STDOUT");
+> > -       ($mode & 2) && open(OLD_STDERR, ">>&", "STDERR");
+> > -
+> > --      # Redirect to /dev/null
+> > --      ($mode & 1) && open(STDOUT, ">", "/dev/null");
+> > --      ($mode & 2) && open(STDERR, ">", "/dev/null");
+> > -+      if ($mode & 4) {
+> > -+              # Redirect to temporary files
+> > -+              if ($mode & 1) {
+> > -+                      ($fd, $stdout_file) =3D tempfile(UNLINK =3D> 1)=
+;
+> > -+                      open(STDOUT, ">", $stdout_file) || warn("$!\n")=
+;
+> > -+                      close($fd);
+> > -+              }
+> > -+              if ($mode & 2) {
+> > -+                      ($fd, $stderr_file) =3D tempfile(UNLINK =3D> 1)=
+;
+> > -+                      open(STDERR, ">", $stderr_file) || warn("$!\n")=
+;
+> > -+                      close($fd);
+> > -+              }
+> > -+      } else {
+> > -+              # Redirect to /dev/null
+> > -+              ($mode & 1) && open(STDOUT, ">", "/dev/null");
+> > -+              ($mode & 2) && open(STDERR, ">", "/dev/null");
+> > -+      }
+> > -
+> > -       debug("system(".join(' ', @_).")\n");
+> > -       system(@_);
+> > -@@ -2181,8 +2532,18 @@ sub system_no_output($@)
+> > -       # Restore old handles
+> > -       ($mode & 1) && open(STDOUT, ">>&", "OLD_STDOUT");
+> > -       ($mode & 2) && open(STDERR, ">>&", "OLD_STDERR");
+> > -+
+> > -+      # Remove empty output files
+> > -+      if (defined($stdout_file) && -z $stdout_file) {
+> > -+              unlink($stdout_file);
+> > -+              $stdout_file =3D undef;
+> > -+      }
+> > -+      if (defined($stderr_file) && -z $stderr_file) {
+> > -+              unlink($stderr_file);
+> > -+              $stderr_file =3D undef;
+> > -+      }
+> > -
+> > --      return $result;
+> > -+      return ($stdout_file, $stderr_file, $result);
+> > - }
+> > -
+> > -
+> > -@@ -2260,23 +2621,28 @@ sub apply_config($)
+> > -
+> > -
+> > - #
+> > --# get_exclusion_data(filename)
+> > -+# get_source_data(filename)
+> > - #
+> > --# Scan specified source code file for exclusion markers and return
+> > --#   linenumber -> 1
+> > --# for all lines which should be excluded.
+> > -+# Scan specified source code file for exclusion markers and checksums=
+. Return
+> > -+#   ( excl, brexcl, checksums ) where
+> > -+#   excl:      lineno -> 1 for all lines for which to exclude all dat=
+a
+> > -+#   brexcl:    lineno -> 1 for all lines for which to exclude branch =
+data
+> > -+#   checksums: lineno -> source code checksum
+> > - #
+> > -
+> > --sub get_exclusion_data($)
+> > -+sub get_source_data($)
+> > - {
+> > -       my ($filename) =3D @_;
+> > -       my %list;
+> > -       my $flag =3D 0;
+> > -+      my %brdata;
+> > -+      my $brflag =3D 0;
+> > -+      my %checksums;
+> > -       local *HANDLE;
+> > -
+> > -       if (!open(HANDLE, "<", $filename)) {
+> > -               warn("WARNING: could not open $filename\n");
+> > --              return undef;
+> > -+              return;
+> > -       }
+> > -       while (<HANDLE>) {
+> > -               if (/$EXCL_STOP/) {
+> > -@@ -2287,14 +2653,62 @@ sub get_exclusion_data($)
+> > -               if (/$excl_line/ || $flag) {
+> > -                       $list{$.} =3D 1;
+> > -               }
+> > -+              if (/$EXCL_BR_STOP/) {
+> > -+                      $brflag =3D 0;
+> > -+              } elsif (/$EXCL_BR_START/) {
+> > -+                      $brflag =3D 1;
+> > -+              }
+> > -+              if (/$excl_br_line/ || $brflag) {
+> > -+                      $brdata{$.} =3D 1;
+> > -+              }
+> > -+              if ($checksum) {
+> > -+                      chomp();
+> > -+                      $checksums{$.} =3D md5_base64($_);
+> > -+              }
+> > -       }
+> > -       close(HANDLE);
+> > -
+> > --      if ($flag) {
+> > -+      if ($flag || $brflag) {
+> > -               warn("WARNING: unterminated exclusion section in $filen=
+ame\n");
+> > -       }
+> > -
+> > --      return \%list;
+> > -+      return (\%list, \%brdata, \%checksums);
+> > -+}
+> > -+
+> > -+
+> > -+#
+> > -+# get_all_source_data(filenames)
+> > -+#
+> > -+# Scan specified source code files for exclusion markers and return
+> > -+#   filename -> [ excl, brexcl, checksums ]
+> > -+#   excl:      lineno -> 1 for all lines for which to exclude all dat=
+a
+> > -+#   brexcl:    lineno -> 1 for all lines for which to exclude branch =
+data
+> > -+#   checksums: lineno -> source code checksum
+> > -+#
+> > -+
+> > -+sub get_all_source_data(@)
+> > -+{
+> > -+      my @filenames =3D @_;
+> > -+      my %data;
+> > -+      my $failed =3D 0;
+> > -+
+> > -+      for my $filename (@filenames) {
+> > -+              my @d;
+> > -+              next if (exists($data{$filename}));
+> > -+
+> > -+              @d =3D get_source_data($filename);
+> > -+              if (@d) {
+> > -+                      $data{$filename} =3D [ @d ];
+> > -+              } else {
+> > -+                      $failed =3D 1;
+> > -+              }
+> > -+      }
+> > -+
+> > -+      if ($failed) {
+> > -+              warn("WARNING: some exclusion markers may be ignored\n"=
+);
+> > -+      }
+> > -+
+> > -+      return \%data;
+> > - }
+> > -
+> > -
+> > -@@ -2318,35 +2732,17 @@ sub apply_exclusion_data($$)
+> > - {
+> > -       my ($instr, $graph) =3D @_;
+> > -       my $filename;
+> > --      my %excl_data;
+> > --      my $excl_read_failed =3D 0;
+> > -+      my $excl_data;
+> > -
+> > --      # Collect exclusion marker data
+> > --      foreach $filename (sort_uniq_lex(keys(%{$graph}), keys(%{$instr=
+}))) {
+> > --              my $excl =3D get_exclusion_data($filename);
+> > --
+> > --              # Skip and note if file could not be read
+> > --              if (!defined($excl)) {
+> > --                      $excl_read_failed =3D 1;
+> > --                      next;
+> > --              }
+> > --
+> > --              # Add to collection if there are markers
+> > --              $excl_data{$filename} =3D $excl if (keys(%{$excl}) > 0)=
+;
+> > --      }
+> > --
+> > --      # Warn if not all source files could be read
+> > --      if ($excl_read_failed) {
+> > --              warn("WARNING: some exclusion markers may be ignored\n"=
+);
+> > --      }
+> > -+      ($excl_data) =3D get_all_source_data(keys(%{$graph}), keys(%{$i=
+nstr}));
+> > -
+> > -       # Skip if no markers were found
+> > --      return ($instr, $graph) if (keys(%excl_data) =3D=3D 0);
+> > -+      return ($instr, $graph) if (!%$excl_data);
+> > -
+> > -       # Apply exclusion marker data to graph
+> > --      foreach $filename (keys(%excl_data)) {
+> > -+      foreach $filename (keys(%$excl_data)) {
+> > -               my $function_data =3D $graph->{$filename};
+> > --              my $excl =3D $excl_data{$filename};
+> > -+              my $excl =3D $excl_data->{$filename}->[0];
+> > -               my $function;
+> > -
+> > -               next if (!defined($function_data));
+> > -@@ -2384,9 +2780,9 @@ sub apply_exclusion_data($$)
+> > -       }
+> > -
+> > -       # Apply exclusion marker data to instr
+> > --      foreach $filename (keys(%excl_data)) {
+> > -+      foreach $filename (keys(%$excl_data)) {
+> > -               my $line_data =3D $instr->{$filename};
+> > --              my $excl =3D $excl_data{$filename};
+> > -+              my $excl =3D $excl_data->{$filename}->[0];
+> > -               my $line;
+> > -               my @new_data;
+> > -
+> > -@@ -2468,10 +2864,12 @@ sub process_graphfile($$)
+> > -
+> > -       # Try to find base directory automatically if requested by user
+> > -       if ($rc_auto_base) {
+> > --              $base_dir =3D find_base_from_graph($base_dir, $instr, $=
+graph);
+> > -+              $base_dir =3D find_base_from_source($base_dir,
+> > -+                      [ keys(%{$instr}), keys(%{$graph}) ]);
+> > -       }
+> > -
+> > --      ($instr, $graph) =3D adjust_graph_filenames($base_dir, $instr, =
+$graph);
+> > -+      adjust_source_filenames($instr, $base_dir);
+> > -+      adjust_source_filenames($graph, $base_dir);
+> > -
+> > -       if (!$no_markers) {
+> > -               # Apply exclusion marker data to graph file data
+> > -@@ -2767,11 +3165,11 @@ sub parent_dir($)
+> > - }
+> > -
+> > - #
+> > --# find_base_from_graph(base_dir, instr, graph)
+> > -+# find_base_from_source(base_dir, source_files)
+> > - #
+> > --# Try to determine the base directory of the graph file specified by =
+INSTR
+> > --# and GRAPH. The base directory is the base for all relative filename=
+s in
+> > --# the graph file. It is defined by the current working directory at t=
+ime
+> > -+# Try to determine the base directory of the object file built from
+> > -+# SOURCE_FILES. The base directory is the base for all relative filen=
+ames in
+> > -+# the gcov data. It is defined by the current working directory at ti=
+me
+> > - # of compiling the source file.
+> > - #
+> > - # This function implements a heuristic which relies on the following
+> > -@@ -2781,16 +3179,16 @@ sub parent_dir($)
+> > - # - files by the same name are not present in multiple parent directo=
+ries
+> > - #
+> > -
+> > --sub find_base_from_graph($$$)
+> > -+sub find_base_from_source($$)
+> > - {
+> > --      my ($base_dir, $instr, $graph) =3D @_;
+> > -+      my ($base_dir, $source_files) =3D @_;
+> > -       my $old_base;
+> > -       my $best_miss;
+> > -       my $best_base;
+> > -       my %rel_files;
+> > -
+> > -       # Determine list of relative paths
+> > --      foreach my $filename (keys(%{$instr}), keys(%{$graph})) {
+> > -+      foreach my $filename (@$source_files) {
+> > -               next if (file_name_is_absolute($filename));
+> > -
+> > -               $rel_files{$filename} =3D 1;
+> > -@@ -2829,17 +3227,17 @@ sub find_base_from_graph($$$)
+> > - }
+> > -
+> > - #
+> > --# adjust_graph_filenames(base_dir, instr, graph)
+> > -+# adjust_source_filenames(hash, base_dir)
+> > - #
+> > --# Make relative paths in INSTR and GRAPH absolute and apply
+> > --# geninfo_adjust_src_path setting to graph file data.
+> > -+# Transform all keys of HASH to absolute form and apply requested
+> > -+# transformations.
+> > - #
+> > -
+> > --sub adjust_graph_filenames($$$)
+> > -+sub adjust_source_filenames($$$)
+> > - {
+> > --      my ($base_dir, $instr, $graph) =3D @_;
+> > -+      my ($hash, $base_dir) =3D @_;
+> > -
+> > --      foreach my $filename (keys(%{$instr})) {
+> > -+      foreach my $filename (keys(%{$hash})) {
+> > -               my $old_filename =3D $filename;
+> > -
+> > -               # Convert to absolute canonical form
+> > -@@ -2851,28 +3249,50 @@ sub adjust_graph_filenames($$$)
+> > -               }
+> > -
+> > -               if ($filename ne $old_filename) {
+> > --                      $instr->{$filename} =3D delete($instr->{$old_fi=
+lename});
+> > -+                      $hash->{$filename} =3D delete($hash->{$old_file=
+name});
+> > -               }
+> > -       }
+> > -+}
+> > -
+> > --      foreach my $filename (keys(%{$graph})) {
+> > --              my $old_filename =3D $filename;
+> > -
+> > --              # Make absolute
+> > --              # Convert to absolute canonical form
+> > --              $filename =3D solve_relative_path($base_dir, $filename)=
+;
+> > -+#
+> > -+# filter_source_files(hash)
+> > -+#
+> > -+# Remove unwanted source file data from HASH.
+> > -+#
+> > -
+> > --              # Apply adjustment
+> > --              if (defined($adjust_src_pattern)) {
+> > --                      $filename =3D~ s/$adjust_src_pattern/$adjust_sr=
+c_replace/g;
+> > -+sub filter_source_files($)
+> > -+{
+> > -+      my ($hash) =3D @_;
+> > -+
+> > -+      foreach my $filename (keys(%{$hash})) {
+> > -+              # Skip external files if requested
+> > -+              goto del if (!$opt_external && is_external($filename));
+> > -+
+> > -+              # Apply include patterns
+> > -+              if (@include_patterns) {
+> > -+                      my $keep;
+> > -+
+> > -+                      foreach my $pattern (@include_patterns) {
+> > -+                              if ($filename =3D~ (/^$pattern$/)) {
+> > -+                                      $keep =3D 1;
+> > -+                                      last;
+> > -+                              }
+> > -+                      }
+> > -+                      goto del if (!$keep);
+> > -               }
+> > -
+> > --              if ($filename ne $old_filename) {
+> > --                      $graph->{$filename} =3D delete($graph->{$old_fi=
+lename});
+> > -+              # Apply exclude patterns
+> > -+              foreach my $pattern (@exclude_patterns) {
+> > -+                      goto del if ($filename =3D~ (/^$pattern$/));
+> > -               }
+> > --      }
+> > -+              next;
+> > -
+> > --      return ($instr, $graph);
+> > -+del:
+> > -+              # Remove file data
+> > -+              delete($hash->{$filename});
+> > -+              $excluded_files{$filename} =3D 1;
+> > -+      }
+> > - }
+> > -
+> > - #
+> > -@@ -3784,6 +4204,7 @@ sub get_gcov_capabilities()
+> > -               'c' =3D> 'branch-counts',
+> > -               'f' =3D> 'function-summaries',
+> > -               'h' =3D> 'help',
+> > -+              'i' =3D> 'intermediate-format',
+> > -               'l' =3D> 'long-file-names',
+> > -               'n' =3D> 'no-output',
+> > -               'o' =3D> 'object-directory',
+> > -diff --git a/lcovrc b/lcovrc
+> > -index 40f364f..bd4bc3b 100644
+> > ---- a/lcovrc
+> > -+++ b/lcovrc
+> > -@@ -134,6 +134,9 @@ genhtml_desc_html=3D0
+> > - # when collecting coverage data.
+> > - geninfo_auto_base =3D 1
+> > -
+> > -+# Use gcov intermediate format? Valid values are 0, 1, auto
+> > -+geninfo_intermediate =3D auto
+> > -+
+> > - # Directory containing gcov kernel files
+> > - # lcov_gcov_dir =3D /proc/gcov
+> > -
+> > -diff --git a/man/lcovrc.5 b/man/lcovrc.5
+> > -index f20d273..bf0ce7a 100644
+> > ---- a/man/lcovrc.5
+> > -+++ b/man/lcovrc.5
+> > -@@ -223,6 +223,11 @@ geninfo_compat_libtool =3D 0
+> > - geninfo_auto_base =3D 1
+> > - .br
+> > -
+> > -+# Use gcov intermediate format? Valid values are 0, 1, auto
+> > -+.br
+> > -+geninfo_intermediate =3D auto
+> > -+.br
+> > -+
+> > - # Directory containing gcov kernel files
+> > - .br
+> > - lcov_gcov_dir =3D /proc/gcov
+> > -@@ -789,6 +794,25 @@ located, and in addition, is different between fi=
+les of the same project.
+> > - Default is 1.
+> > - .PP
+> > -
+> > -+.BR geninfo_intermediate " =3D"
+> > -+.IR 0 | 1 | auto
+> > -+.IP
+> > -+Specify whether to use gcov intermediate format
+> > -+.br
+> > -+
+> > -+Use this option to control whether geninfo should use the gcov interm=
+ediate
+> > -+format while collecting coverage data. The use of the gcov intermedia=
+te format
+> > -+should increase processing speed. It also provides branch coverage da=
+ta when
+> > -+using the \-\-initial command line option.
+> > -+.br
+> > -+
+> > -+Valid values are 0 for off, 1 for on, and "auto" to let geninfo autom=
+atically
+> > -+use immediate format when supported by gcov.
+> > -+.br
+> > -+
+> > -+Default is "auto".
+> > -+.PP
+> > -+
+> > - .BR lcov_gcov_dir " =3D"
+> > - .I path_to_kernel_coverage_data
+> > - .IP
+> > ---
+> > -2.17.1
+> > -
+> > diff --git a/meta-oe/recipes-support/lcov/files/0002-geninfo-Add-interm=
+ediate-JSON-format-support.patch b/meta-oe/recipes-support/lcov/files/0002-=
+geninfo-Add-intermediate-JSON-format-support.patch
+> > deleted file mode 100644
+> > index 7b180635cd..0000000000
+> > --- a/meta-oe/recipes-support/lcov/files/0002-geninfo-Add-intermediate-=
+JSON-format-support.patch
+> > +++ /dev/null
+> > @@ -1,247 +0,0 @@
+> > -From e13b2b6f8443da660cafa0679c3b16240843ce9f Mon Sep 17 00:00:00 2001
+> > -From: Peter Oberparleiter <oberpar@linux.ibm.com>
+> > -Date: Fri, 24 May 2019 17:16:56 +0200
+> > -Subject: [PATCH 2/2] geninfo: Add intermediate JSON format support
+> > -
+> > -This change adds support for parsing the output of gcov's intermediate
+> > -JSON file format as implemented by GCC version 9.
+> > -
+> > -Note: The way that the intermediate file format support is implemented
+> > -in geninfo removes the need to parse .gcno files directly. Since genin=
+fo
+> > -does not include support for parsing GCC 9 .gcno files, using the
+> > -intermediate format is the only option for geninfo to collect coverage
+> > -data generated by GCC version 9.
+> > -
+> > -Signed-off-by: Peter Oberparleiter <oberpar@linux.ibm.com>
+> > ----
+> > - bin/geninfo | 162 +++++++++++++++++++++++++++++++++++++++++++++++++++=
+-
+> > - 1 file changed, 160 insertions(+), 2 deletions(-)
+> > -
+> > -Upstream-Status: Backport
+> > -Download URL: https://github.com/linux-test-project/lcov/commit/75fbae=
+1cfc5027f818a0bb865bf6f96fab3202da
+> > -
+> > -diff --git a/bin/geninfo b/bin/geninfo
+> > -index 0276666..cceb782 100755
+> > ---- a/bin/geninfo
+> > -+++ b/bin/geninfo
+> > -@@ -59,6 +59,9 @@ use File::Copy qw(copy);
+> > - use Getopt::Long;
+> > - use Digest::MD5 qw(md5_base64);
+> > - use Cwd qw/abs_path/;
+> > -+use PerlIO::gzip;
+> > -+use JSON qw(decode_json);
+> > -+
+> > - if( $^O eq "msys" )
+> > - {
+> > -       require File::Spec::Win32;
+> > -@@ -474,7 +477,8 @@ if ($rc_intermediate eq "0") {
+> > -       $intermediate =3D 1;
+> > - } elsif (lc($rc_intermediate) eq "auto") {
+> > -       # Use intermediate format if supported by gcov
+> > --      $intermediate =3D $gcov_caps->{'intermediate-format'} ? 1 : 0;
+> > -+      $intermediate =3D ($gcov_caps->{'intermediate-format'} ||
+> > -+                       $gcov_caps->{'json-format'}) ? 1 : 0;
+> > - } else {
+> > -       die("ERROR: invalid value for geninfo_intermediate: ".
+> > -           "'$rc_intermediate'\n");
+> > -@@ -2084,6 +2088,48 @@ sub read_intermediate_text($$)
+> > - }
+> > -
+> > -
+> > -+#
+> > -+# read_intermediate_json(gcov_filename, data, basedir_ref)
+> > -+#
+> > -+# Read gcov intermediate JSON format in GCOV_FILENAME and add the res=
+ulting
+> > -+# data to DATA in the following format:
+> > -+#
+> > -+# data:      source_filename -> file_data
+> > -+# file_data: GCOV JSON data for file
+> > -+#
+> > -+# Also store the value for current_working_directory to BASEDIR_REF.
+> > -+#
+> > -+
+> > -+sub read_intermediate_json($$$)
+> > -+{
+> > -+      my ($gcov_filename, $data, $basedir_ref) =3D @_;
+> > -+      my $fd;
+> > -+      my $text;
+> > -+      my $json;
+> > -+
+> > -+      open($fd, "<:gzip", $gcov_filename) or
+> > -+              die("ERROR: Could not read $gcov_filename: $!\n");
+> > -+      local $/;
+> > -+      $text =3D <$fd>;
+> > -+      close($fd);
+> > -+
+> > -+      $json =3D decode_json($text);
+> > -+      if (!defined($json) || !exists($json->{"files"}) ||
+> > -+          ref($json->{"files"} ne "ARRAY")) {
+> > -+              die("ERROR: Unrecognized JSON output format in ".
+> > -+                  "$gcov_filename\n");
+> > -+      }
+> > -+
+> > -+      $$basedir_ref =3D $json->{"current_working_directory"};
+> > -+
+> > -+      for my $file (@{$json->{"files"}}) {
+> > -+              my $filename =3D $file->{"file"};
+> > -+
+> > -+              $data->{$filename} =3D $file;
+> > -+      }
+> > -+}
+> > -+
+> > -+
+> > - #
+> > - # intermediate_text_to_info(fd, data, srcdata)
+> > - #
+> > -@@ -2173,6 +2219,104 @@ sub intermediate_text_to_info($$$)
+> > - }
+> > -
+> > -
+> > -+#
+> > -+# intermediate_json_to_info(fd, data, srcdata)
+> > -+#
+> > -+# Write DATA in info format to file descriptor FD.
+> > -+#
+> > -+# data:      filename -> file_data:
+> > -+# file_data: GCOV JSON data for file
+> > -+#
+> > -+# srcdata:   filename -> [ excl, brexcl, checksums ]
+> > -+# excl:      lineno -> 1 for all lines for which to exclude all data
+> > -+# brexcl:    lineno -> 1 for all lines for which to exclude branch da=
+ta
+> > -+# checksums: lineno -> source code checksum
+> > -+#
+> > -+# Note: To simplify processing, gcov data is not combined here, that =
+is counts
+> > -+#       that appear multiple times for the same lines/branches are no=
+t added.
+> > -+#       This is done by lcov/genhtml when reading the data files.
+> > -+#
+> > -+
+> > -+sub intermediate_json_to_info($$$)
+> > -+{
+> > -+      my ($fd, $data, $srcdata) =3D @_;
+> > -+      my $branch_num =3D 0;
+> > -+
+> > -+      return if (!%{$data});
+> > -+
+> > -+      print($fd "TN:$test_name\n");
+> > -+      for my $filename (keys(%{$data})) {
+> > -+              my ($excl, $brexcl, $checksums);
+> > -+              my $file_data =3D $data->{$filename};
+> > -+
+> > -+              if (defined($srcdata->{$filename})) {
+> > -+                      ($excl, $brexcl, $checksums) =3D @{$srcdata->{$=
+filename}};
+> > -+              }
+> > -+
+> > -+              print($fd "SF:$filename\n");
+> > -+
+> > -+              # Function data
+> > -+              if ($func_coverage) {
+> > -+                      for my $d (@{$file_data->{"functions"}}) {
+> > -+                              my $line =3D $d->{"start_line"};
+> > -+                              my $count =3D $d->{"execution_count"};
+> > -+                              my $name =3D $d->{"name"};
+> > -+
+> > -+                              next if (!defined($line) || !defined($c=
+ount) ||
+> > -+                                       !defined($name) || $excl->{$li=
+ne});
+> > -+
+> > -+                              print($fd "FN:$line,$name\n");
+> > -+                              print($fd "FNDA:$count,$name\n");
+> > -+                      }
+> > -+              }
+> > -+
+> > -+              # Line data
+> > -+              for my $d (@{$file_data->{"lines"}}) {
+> > -+                      my $line =3D $d->{"line_number"};
+> > -+                      my $count =3D $d->{"count"};
+> > -+                      my $c;
+> > -+                      my $branches =3D $d->{"branches"};
+> > -+                      my $unexec =3D $d->{"unexecuted_block"};
+> > -+
+> > -+                      next if (!defined($line) || !defined($count) ||
+> > -+                               $excl->{$line});
+> > -+
+> > -+                      if (defined($unexec) && $unexec && $count =3D=
+=3D 0) {
+> > -+                              $unexec =3D 1;
+> > -+                      } else {
+> > -+                              $unexec =3D 0;
+> > -+                      }
+> > -+
+> > -+                      if ($checksum && exists($checksums->{$line})) {
+> > -+                              $c =3D ",".$checksums->{$line};
+> > -+                      } else {
+> > -+                              $c =3D "";
+> > -+                      }
+> > -+                      print($fd "DA:$line,$count$c\n");
+> > -+
+> > -+                      $branch_num =3D 0;
+> > -+                      # Branch data
+> > -+                      if ($br_coverage && !$brexcl->{$line}) {
+> > -+                              for my $b (@$branches) {
+> > -+                                      my $brcount =3D $b->{"count"};
+> > -+
+> > -+                                      if (!defined($brcount) || $unex=
+ec) {
+> > -+                                              $brcount =3D "-";
+> > -+                                      }
+> > -+                                      print($fd "BRDA:$line,0,$branch=
+_num,".
+> > -+                                            "$brcount\n");
+> > -+
+> > -+                                      $branch_num++;
+> > -+                              }
+> > -+                      }
+> > -+
+> > -+              }
+> > -+
+> > -+              print($fd "end_of_record\n");
+> > -+      }
+> > -+}
+> > -+
+> > -+
+> > - sub get_output_fd($$)
+> > - {
+> > -       my ($outfile, $file) =3D @_;
+> > -@@ -2243,6 +2387,8 @@ sub process_intermediate($$$)
+> > -       my $srcdata;
+> > -       my $is_graph =3D 0;
+> > -       my ($out, $err, $rc);
+> > -+      my $json_basedir;
+> > -+      my $json_format;
+> > -
+> > -       info("Processing %s\n", abs2rel($file, $dir));
+> > -
+> > -@@ -2296,6 +2442,12 @@ sub process_intermediate($$$)
+> > -               unlink($gcov_filename);
+> > -       }
+> > -
+> > -+      for my $gcov_filename (glob("*.gcov.json.gz")) {
+> > -+              read_intermediate_json($gcov_filename, \%data, \$json_b=
+asedir);
+> > -+              unlink($gcov_filename);
+> > -+              $json_format =3D 1;
+> > -+      }
+> > -+
+> > -       if (!%data) {
+> > -               warn("WARNING: GCOV did not produce any data for $file\=
+n");
+> > -               return;
+> > -@@ -2304,6 +2456,8 @@ sub process_intermediate($$$)
+> > -       # Determine base directory
+> > -       if (defined($base_directory)) {
+> > -               $base =3D $base_directory;
+> > -+      } elsif (defined($json_basedir)) {
+> > -+              $base =3D $json_basedir;
+> > -       } else {
+> > -               $base =3D $fdir;
+> > -
+> > -@@ -2331,7 +2485,11 @@ sub process_intermediate($$$)
+> > -
+> > -       # Generate output
+> > -       $fd =3D get_output_fd($output_filename, $file);
+> > --      intermediate_text_to_info($fd, \%data, $srcdata);
+> > -+      if ($json_format) {
+> > -+              intermediate_json_to_info($fd, \%data, $srcdata);
+> > -+      } else {
+> > -+              intermediate_text_to_info($fd, \%data, $srcdata);
+> > -+      }
+> > -       close($fd);
+> > -
+> > -       chdir($cwd);
+> > ---
+> > -2.17.1
+> > -
+> > diff --git a/meta-oe/recipes-support/lcov/lcov_1.14.bb b/meta-oe/recipe=
+s-support/lcov/lcov_1.16.bb
+> > similarity index 78%
+> > rename from meta-oe/recipes-support/lcov/lcov_1.14.bb
+> > rename to meta-oe/recipes-support/lcov/lcov_1.16.bb
+> > index 5e8fb938cf..3c09161dee 100755
+> > --- a/meta-oe/recipes-support/lcov/lcov_1.14.bb
+> > +++ b/meta-oe/recipes-support/lcov/lcov_1.16.bb
+> > @@ -8,9 +8,7 @@ LCOV supports statement, function and branch coverage m=
+easurement."
+> >  LICENSE =3D "GPL-2.0"
+> >  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D751419260aa954499f7abaabaa8=
+82bbe"
+> >
+> > -RDEPENDS_${PN} +=3D " \
+> > -    libjson-perl \
+> > -    libperlio-gzip-perl \
+> > +RDEPENDS:${PN} +=3D " \
+> >      perl \
+> >      perl-module-filehandle \
+> >      perl-module-getopt-std \
+> > @@ -48,15 +46,9 @@ RDEPENDS_${PN}_append_class-target =3D " \
+> >      gcov \
+> >      gcov-symlinks \
+> >  "
+> > -
+> > -SRC_URI =3D " \
+> > -           http://downloads.sourceforge.net/ltp/${BP}.tar.gz \
+> > -           file://0001-geninfo-Add-intermediate-text-format-support.pa=
+tch \
+> > -           file://0002-geninfo-Add-intermediate-JSON-format-support.pa=
+tch \
+> > -          "
+> > -
+> > -SRC_URI[md5sum] =3D "0220d01753469f83921f8f41ae5054c1"
+> > -SRC_URI[sha256sum] =3D "14995699187440e0ae4da57fe3a64adc0a3c5cf14feab9=
+71f8db38fb7d8f071a"
+> > +SRC_URI =3D "https://github.com/linux-test-project/lcov/releases/downl=
+oad/v${PV}/lcov-${PV}.tar.gz"
+> > +SRC_URI[md5sum] =3D "bfee0cef50d7b7bd1df03bfadf68dcef"
+> > +SRC_URI[sha256sum] =3D "987031ad5528c8a746d4b52b380bc1bffe412de1f2b9c2=
+ba5224995668e3240b"
+> >
+> >  do_install() {
+> >      oe_runmake install PREFIX=3D${D}${prefix} CFG_DIR=3D${D}${sysconfd=
+ir} LCOV_PERL_PATH=3D"/usr/bin/env perl"
+> > --
+> > 2.40.1
+> >
+> >
+> >
+> >
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#180455): https://lists.openembedded.org/g/openembedde=
+d-core/message/180455
+> Mute This Topic: https://lists.openembedded.org/mt/98520789/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
