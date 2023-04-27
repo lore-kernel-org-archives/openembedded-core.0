@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85BAEC7EE22
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72A63C77B61
 	for <webhook@archiver.kernel.org>; Thu, 27 Apr 2023 07:35:41 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.14808.1682580937717752169
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web10.14866.1682580936782471914
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Apr 2023 00:35:38 -0700
+ Thu, 27 Apr 2023 00:35:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=Wat/VfpQ;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-304935cc79bso2586654f8f.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Apr 2023 00:35:37 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=GkVvJ2d0;
+ spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-2f4214b430aso5064918f8f.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Apr 2023 00:35:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682580936; x=1685172936;
+        d=gmail.com; s=20221208; t=1682580935; x=1685172935;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=A6m+FhGGlEwpf0aqPOhZ4hnLtuTn7FKXifaglrOzU5M=;
-        b=Wat/VfpQiwGfXEcORy/bbMtxD4Qh1LgmS3Dcbv6qu6p6FhuZg2gWROQrupCEVjODrE
-         /vthp/NZ4FMn5/RYfrTQuOZ1MxLkXz9tvxmpJ1QYMLog5FDR5syoAG6K1/KSLGwsl/GR
-         Dog1d6a50rMtoqZVHP0MAXiVgHe3w8fMfriU4FI4gLcrTY4k2a7JK1p9AdtC/IE3r7ws
-         Y7qxVPWXCN6dJHItqTTr/hsxVGv5iD5fz0jjRHzjIp4bv9i9ohgO5Mnn6Zrvq9iZULIt
-         3YIaJ3O+aoptCXIcT7G6O7P7Q2Mk7vjxc2H4ALKTIzqHsSvxILlmyFCbyYn8vtakWKPn
-         StPw==
+        bh=83n04SOHuZEp1nNmaQVjQvrdyN8elF/dTdwG8GljROA=;
+        b=GkVvJ2d0otVIJbLBpfVyaNfLrYJEzZOpit4S6y++HxfRBawuYoKjg5BmzvZCKBiB8t
+         xSHFOnyDv1aaC0cE7qDh5Rly02styi2M6RYOGxApeVfVHHvh9enbLqJFPs/14bWvU24u
+         J8hpwFy42Z5EyC+AY897Cd5sJhdwMC9KRqb1bPxF6CBJvLPWyiN7fCxbZ53YHSE+YYjl
+         Yx7o3T8PMJ6joUELS24Ic6Z/3HhaxjcSgmcPfFzotSNUrQLVtKsWHPa8WjRs4rWKbF8W
+         wqv+5ZIVfcW/ePwluoQLzXxlhPOQJeoDnzjTIHe91DOX4KZ0XCMm4VQosBLGozZkd5VH
+         Q/uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682580936; x=1685172936;
+        d=1e100.net; s=20221208; t=1682580935; x=1685172935;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=A6m+FhGGlEwpf0aqPOhZ4hnLtuTn7FKXifaglrOzU5M=;
-        b=brri9vgMVWg0p80l6IMN+XCD/jFQNekoJfu8qeF8I8sUD/f1xKpI1xsKdJ/UkV/hiy
-         hbC0ZDugiYdvGW9YtM694xEsihnw9Th5FX7QVtix3bHGlNajcjV8NNNFidhylaoPTcQY
-         hLUDvUfGLLS6Ct4G6pcHkwNpYOWnwdeXhCEEWBgFO+Oh2T+eP9K5xOiW02DA/JPmIg/k
-         UKA3tIkr07TTt760DjM5qyPim6kJG6/7wC/ZkUQZBMp040WU10vR4JiFsqOPT8a1ZDAl
-         CaRP6EQqtNfKqsez5/wcXmtll8zSgJAUEVagVBSReMXRrcduRS7lHEu9M61HtFhLZsZi
-         HGPw==
-X-Gm-Message-State: AC+VfDwn4RBq7lllzeTYNdwLVGfylZif9rE13Vgyi6SVq6URfnvy9TJj
-	4U7WvsLKnOodhVFyzDobNo4vT9hWeVw=
-X-Google-Smtp-Source: ACHHUZ4IDklXVKZ9QcRtmrvm6bXk1PjHpXuCbI0c0jh7K8f/YndEKk3Oo4xLttlxPnD9jLnwfKAv4g==
-X-Received: by 2002:a5d:5543:0:b0:301:5615:26e4 with SMTP id g3-20020a5d5543000000b00301561526e4mr609832wrw.32.1682580936150;
-        Thu, 27 Apr 2023 00:35:36 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id r4-20020adfdc84000000b002f598008d50sm17678411wrj.34.2023.04.27.00.35.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        bh=83n04SOHuZEp1nNmaQVjQvrdyN8elF/dTdwG8GljROA=;
+        b=InSceB6xAtqrCn9hWRFq2chlxcPfXx7nU8P0udHd0as4kA9vmOGhnfIN6Tetsww6GU
+         9d3HLQa/Fbe9DGs0k4MB1NHwCgSuD3jD1hp98LX1IkMlwurl81QUCNmqmOZ8/0dh1tbz
+         U3MvzCbpERiO75wNCEe7hj3v/+er47kcQMt3f/+CntI61NgEtaWwiYxtS3lcEhL6Ae/7
+         U7xLAWYqx9UJ7qb0WapbsGkYWOemT1ggaix/aJNA94CFnzIU8Sd5S5+RSrjBn4B433lR
+         oevvOZy5JqQil+wZTNwDWmThv6eOb4tKWewYeoWKrz6ZVoGpoVOc/sb/er9gHBYiiE49
+         b6Ng==
+X-Gm-Message-State: AC+VfDyL3M556LI0cbydSd5NaFWoMq3rZ0+rY39Q9PLDzd39bLkDeOGt
+	n+j+zL+Zs8ZdE3obl4k6NYkg67f+fjE=
+X-Google-Smtp-Source: ACHHUZ727lRmRJBL4hDDyLvVD32+IVkaEjMHJgP3sAa8ShB/R+2DKhrJfzpdHxUiNb3FJuhCm8WLkg==
+X-Received: by 2002:a5d:6884:0:b0:2f2:b71a:40cb with SMTP id h4-20020a5d6884000000b002f2b71a40cbmr506729wru.56.1682580935095;
         Thu, 27 Apr 2023 00:35:35 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id r4-20020adfdc84000000b002f598008d50sm17678411wrj.34.2023.04.27.00.35.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Apr 2023 00:35:34 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 4/5] dhcpcd: use git instead of tarballs
-Date: Thu, 27 Apr 2023 09:35:27 +0200
-Message-Id: <20230427073528.3956414-4-alex@linutronix.de>
+Subject: [PATCH 2/5] selftest/distrodata: clean up exception lists in recipe maintainers test
+Date: Thu, 27 Apr 2023 09:35:25 +0200
+Message-Id: <20230427073528.3956414-2-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230427073528.3956414-1-alex@linutronix.de>
 References: <20230427073528.3956414-1-alex@linutronix.de>
@@ -62,41 +62,92 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 27 Apr 2023 07:35:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180478
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180476
 
-As announced here:
-https://roy.marples.name/downloads/dhcpcd/
+Specifically:
+- add missing maintainer.inc entries for initramfs-module-*, systemd-machine-units and
+target-sdk-provides-dummy and drop them from exception list.
+
+- remove rust from exception list for unbuildable-by-default recipes as it is now buildable.
+
+- add missing maintainer.inc entry for libx11-compose-data and cve-update-nvd2-native;
+as they are also unbuildable by default, they needs to be in exception list as well.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ meta/conf/distro/include/maintainers.inc   | 7 +++++++
+ meta/lib/oeqa/selftest/cases/distrodata.py | 6 +++---
+ 2 files changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb
-index 579fa95df70..21b2eebbd8a 100644
---- a/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb
-+++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb
-@@ -9,9 +9,7 @@ HOMEPAGE = "http://roy.marples.name/projects/dhcpcd/"
- LICENSE = "BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=d148485768fe85b9f1072b186a7e9b4d"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 682ec2cfdfb..66f8eb6af3e 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -129,6 +129,7 @@ RECIPE_MAINTAINER:pn-cryptodev-tests = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER:pn-cups = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER:pn-curl = "Robert Joslyn <robert.joslyn@redrectangle.org>"
+ RECIPE_MAINTAINER:pn-cve-update-db-native = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER:pn-cve-update-nvd2-native = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-cwautomacros = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-db = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-dbus = "Chen Qi <Qi.Chen@windriver.com>"
+@@ -278,6 +279,9 @@ RECIPE_MAINTAINER:pn-initramfs-live-install = "Anuj Mittal <anuj.mittal@intel.co
+ RECIPE_MAINTAINER:pn-initramfs-live-install-efi = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-initramfs-live-install-efi-testfs = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-initramfs-live-install-testfs = "Anuj Mittal <anuj.mittal@intel.com>"
++RECIPE_MAINTAINER:pn-initramfs-module-install = "Anuj Mittal <anuj.mittal@intel.com>"
++RECIPE_MAINTAINER:pn-initramfs-module-install-efi = "Anuj Mittal <anuj.mittal@intel.com>"
++RECIPE_MAINTAINER:pn-initramfs-module-setup-live = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-initscripts = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-intltool = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-iproute2 = "Changhyeok Bae <changhyeok.bae@gmail.com>"
+@@ -419,6 +423,7 @@ RECIPE_MAINTAINER:pn-libvorbis = "Zang Ruochen <zangruochen@loongson.cn>"
+ RECIPE_MAINTAINER:pn-libwebp = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-libwpe = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-libx11 = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER:pn-libx11-compose-data = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-libxau = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-libxcb = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-libxcvt = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+@@ -774,6 +779,7 @@ RECIPE_MAINTAINER:pn-systemd-bootchart = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER:pn-systemd-bootconf = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER:pn-systemd-conf = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER:pn-systemd-compat-units = "Chen Qi <Qi.Chen@windriver.com>"
++RECIPE_MAINTAINER:pn-systemd-machine-units = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER:pn-systemd-serialgetty = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER:pn-systemd-systemctl-native = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER:pn-systemtap = "Victor Kamensky <victor.kamensky7@gmail.com>"
+@@ -783,6 +789,7 @@ RECIPE_MAINTAINER:pn-sysvinit = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-sysvinit-inittab = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-taglib = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-tar = "Chen Qi <Qi.Chen@windriver.com>"
++RECIPE_MAINTAINER:pn-target-sdk-provides-dummy = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER:pn-tcf-agent = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-tcl = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER:pn-tcp-wrappers = "Robert Yang <liezhi.yang@windriver.com>"
+diff --git a/meta/lib/oeqa/selftest/cases/distrodata.py b/meta/lib/oeqa/selftest/cases/distrodata.py
+index b443f2d3af6..fd262fe3c9e 100644
+--- a/meta/lib/oeqa/selftest/cases/distrodata.py
++++ b/meta/lib/oeqa/selftest/cases/distrodata.py
+@@ -48,15 +48,15 @@ but their recipes claim otherwise by setting UPSTREAM_VERSION_UNKNOWN. Please re
+         Author:      Alexander Kanavin <alex.kanavin@gmail.com>
+         """
+         def is_exception(pkg):
+-            exceptions = ["packagegroup-", "initramfs-", "systemd-machine-units", "target-sdk-provides-dummy"]
++            exceptions = ["packagegroup-",]
+             for i in exceptions:
+                  if i in pkg:
+                      return True
+             return False
  
--UPSTREAM_CHECK_URI = "https://roy.marples.name/downloads/dhcpcd/"
--
--SRC_URI = "https://roy.marples.name/downloads/${BPN}/${BPN}-${PV}.tar.xz \
-+SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=dhcpcd-9 \
-            file://0001-remove-INCLUDEDIR-to-prevent-build-issues.patch \
-            file://0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch \
-            file://0001-privsep-Allow-getrandom-sysctl-for-newer-glibc.patch \
-@@ -22,7 +20,8 @@ SRC_URI = "https://roy.marples.name/downloads/${BPN}/${BPN}-${PV}.tar.xz \
-            file://0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch \
-            "
- 
--SRC_URI[sha256sum] = "819357634efed1ea5cf44ec01b24d3d3f8852fec8b4249925dcc5667c54e376c"
-+SRCREV = "3c458fc7fa4146029a1e4f9e98cd7e7adf03081a"
-+S = "${WORKDIR}/git"
- 
- inherit pkgconfig autotools-brokensep systemd useradd
- 
+         def is_maintainer_exception(entry):
+-            exceptions = ["musl", "newlib", "linux-yocto", "linux-dummy", "mesa-gl", "libgfortran",
+-                          "cve-update-db-native", "rust"]
++            exceptions = ["musl", "newlib", "linux-yocto", "linux-dummy", "mesa-gl", "libgfortran", "libx11-compose-data",
++                          "cve-update-db-native","cve-update-nvd2-native",]
+             for i in exceptions:
+                  if i in entry:
+                      return True
 -- 
 2.30.2
 
