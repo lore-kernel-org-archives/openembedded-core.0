@@ -1,122 +1,93 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 468DCC77B73
-	for <webhook@archiver.kernel.org>; Thu, 27 Apr 2023 07:04:31 +0000 (UTC)
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
- by mx.groups.io with SMTP id smtpd.web11.14475.1682579061597734892
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E768C77B73
+	for <webhook@archiver.kernel.org>; Thu, 27 Apr 2023 07:20:31 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web11.14662.1682580028769612213
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Apr 2023 00:04:21 -0700
+ Thu, 27 Apr 2023 00:20:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=hKABS8OV;
- spf=pass (domain: gmail.com, ip: 209.85.167.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-38e3228d120so4884724b6e.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Apr 2023 00:04:21 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=Ex+5p0KC;
+ spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-4f00d41df22so2205976e87.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Apr 2023 00:20:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682579061; x=1685171061;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=phfzHrNWKSK6W0hiEx8ZEEDyYvRIcxIG/1cCAmJBg0g=;
-        b=hKABS8OVSYQ5WVfu/B3xqkAy3OPIEsftd3aRgZ6qssQY6kDDuA8PO6iYpP1aBgeFO2
-         mattM99u0S+QFFWI38lVYBV+B/S5BcQ9qsto0gCSbSwf6ipSGDbc41LvJXCfh0ZiHQdB
-         NgdHo5NrI0coUWoVXIZAcKEMMgvIXGZ2cxDrsui/pVLwBG1bUa2EgmmRmzev1YRYsqDI
-         0fHYcSxvB2b/pE+lmmFOw+RfAd0Ck0rjDqFoXptdeC6aiv57nwm1Mo5/r0oBZOrTk3sJ
-         fNJE65bRa2MaSdw60DZt1aBGFNbjPIOAEuFzcGSlRweppE83U07PB8BAlDpZBxpTFiOL
-         QwIQ==
+        d=gmail.com; s=20221208; t=1682580027; x=1685172027;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=SzXezBsskA7zgG7bG5qKf8TgStYsT7rThXyU2mHj6oM=;
+        b=Ex+5p0KC9c8lSIucgvxoX9dfJ+7Q5MXaWBNeJ88kZsfLrb/wNTIucQk5nmxDFnK601
+         N2J0dCgw6I+sBiwLMoDYyUMT6eQCdeb2KmKyiduIgeiLGGVwoog2g/j8cOSqIfKfthTl
+         wm5WeEQlkCJkubcpA6j3E75Lj15UxmEHe4ETz2FwoQMpywo3yY/vaQlkoxwL7XqLjTUR
+         9oLt5+AAGypyPuKDWNX6X8UMog7QVlY6zica40YwSEMCif+scHpIGOjc0rF6ckD5lIJT
+         wkom/jn7ZDl8u2LPRly4fEXsVyZGm2yJM9cNwYPK6idzPvDNAjzyqt6EGy5zt6+R7J55
+         fmtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682579061; x=1685171061;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=phfzHrNWKSK6W0hiEx8ZEEDyYvRIcxIG/1cCAmJBg0g=;
-        b=PMQS50z8UuQw73lq6jGd/83NbyK/VyUWvb0rJC4R9bVuWuff1IDMzRzWFBB+zjtrNc
-         0xNqCluk0ATS3KvHsrJAJUMEifreTA6b+5WRKwPVC45lue2OxGwyYIRuIoiNceC91p8E
-         d5M6EilTnavl4dxKurChZ5wvOjFdD+uXTnIb9LWJwvCoTwBvbStuCsBJOkUVCRbAlgf6
-         C0aRahFDc4AyW7X3+hba4IHWkMiI3MOfkalQMEDOP4xqgIjO1Dsa5fnFv6I6J8nzW9ik
-         /aJy5hHQJolZGPrmhMv5zZdDmkykTIW3Sn2Xorz/1MnvzdVYvGt9/l8ub3GfLrblirXe
-         rT3A==
-X-Gm-Message-State: AC+VfDz4GzjKGeDeNs+Ode/O/uvTKR5qHWPmB38o0hWam/6+wFNhYIrb
-	jK85pDRJHIcYpgwgJq1hb5qXphkf60ER+F30tdw=
-X-Google-Smtp-Source: ACHHUZ7ILe/7BxzgJkobspeDXHeHZeSveRnsfbT95MPS7+qQPnqKd9UbzJRmXflnGziTCV26sc2hTKdxkT6cBcklVBQ=
-X-Received: by 2002:a05:6808:b39:b0:38e:4a8e:d7e0 with SMTP id
- t25-20020a0568080b3900b0038e4a8ed7e0mr259923oij.21.1682579060635; Thu, 27 Apr
- 2023 00:04:20 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1682580027; x=1685172027;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SzXezBsskA7zgG7bG5qKf8TgStYsT7rThXyU2mHj6oM=;
+        b=CbCMbzflkYtMekzRd8+zG2aFkdevI2eWNbUWN+M3Q3rbCRKB4JPX42LEAzqP7PTSlo
+         Sx0JRNO9qnR71yOuGbeKpJ6KHPu1MzPfMk5zPAOhu9aBEbwLVEW5UQkvDy6lzvGiEZhu
+         48S34t0VJY53xh9tHO0lYaP275NDAeCyCTWANVSoV7zVGndw48tjy0HGMU6EFHrc3KMl
+         NAOueqdalrO1t0gjuY/D1gSO8GruwL8OVKQsvjQNNE+rnkhDW6bv68DZ1Q6wOiAYy7F3
+         RqdLPqhg7vOD8Q9DCYTantXGbZMfus6zZ2iYTFBvJtDis8wLHJZ0q8HRbCnYkWa1m3//
+         3jSw==
+X-Gm-Message-State: AC+VfDySe0i/brP+oAGSUdfE2C3G2GYGG5JAAI/roEaYMH5KbWBUBk1z
+	73F0f8ZVZ95C/qoLJZ6etgfAWix2c4PvCjLYKuU=
+X-Google-Smtp-Source: ACHHUZ5IgSEJvUnEkbxi5G7iTYsspfS/eX0BijiPM6+nDbWMhRTQ+Jiz84Afj3kzYLCwtw7pGnZDaKCcJq54jsGui0o=
+X-Received: by 2002:a05:6512:a84:b0:4ef:840a:ba71 with SMTP id
+ m4-20020a0565120a8400b004ef840aba71mr1481286lfu.12.1682580026413; Thu, 27 Apr
+ 2023 00:20:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230426095036.2632847-1-alex@linutronix.de> <20230426095036.2632847-5-alex@linutronix.de>
-In-Reply-To: <20230426095036.2632847-5-alex@linutronix.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 27 Apr 2023 00:03:54 -0700
-Message-ID: <CAMKF1sqsu_F4JS6f+=TfzJmv_Eq7VKpTFDd5OeBXjzRez76P8w@mail.gmail.com>
+ <CAMKF1sqsu_F4JS6f+=TfzJmv_Eq7VKpTFDd5OeBXjzRez76P8w@mail.gmail.com>
+In-Reply-To: <CAMKF1sqsu_F4JS6f+=TfzJmv_Eq7VKpTFDd5OeBXjzRez76P8w@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 27 Apr 2023 09:20:15 +0200
+Message-ID: <CANNYZj992xUKdM6pLka6wUGDNyXcc+p5ZaL62E6i_7s_RLPRmw@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH 05/11] bitbake.conf: set minimum required kernel
  to 5.15
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org, 
 	Alexander Kanavin <alex@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Apr 2023 07:04:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180470
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Apr 2023 07:20:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180471
 
-On Wed, Apr 26, 2023 at 2:50=E2=80=AFAM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> In particular this enables a number of useful features in glibc, such
-> as actually using 64 bit time_t versions of kernel syscalls:
->
-> https://sourceware.org/git/?p=3Dglibc.git;a=3Dblob;f=3Dsysdeps/unix/sysv/=
-linux/kernel-features.h;h=3D07b440f4eea364b05fa49bf71ceebf78f80efe13;hb=3DH=
-EAD#l164
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  meta/conf/bitbake.conf | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
->
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index afd9e2f5527..2db84a46eed 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -469,12 +469,7 @@ SDKPATHINSTALL =3D "/usr/local/${SDK_NAME_PREFIX}-${=
-SDK_ARCH}"
->  # Kernel info.
->  ##################################################################
->
-> -OLDEST_KERNEL =3D "3.2.0"
-> -OLDEST_KERNEL:aarch64 =3D "3.14"
-> -OLDEST_KERNEL:nios2 =3D "3.19"
-> -OLDEST_KERNEL:powerpc64le =3D "3.10.0"
-> -OLDEST_KERNEL:riscv32 =3D "5.4"
-> -OLDEST_KERNEL:riscv64 =3D "4.15"
-> +OLDEST_KERNEL =3D "5.15"
->
+On Thu, 27 Apr 2023 at 09:04, Khem Raj <raj.khem@gmail.com> wrote:
+> While this might be good, does this fix anything specific for enabling
+> 64bit time_t.
 
-While this might be good, does this fix anything specific for enabling
-64bit time_t.
-This change means we are implying that yocto wont work with kernels
-older than 5.15  and maybe SDK would also need
-5.15 on SDK hosts and similar need for build hosts might be imposed
-too. Perhaps it would be good to do some due diligence before
-applying this.
+Yes; please see the link.
 
->  # SDK_OLDEST_KERNEL can't be set using overrides since there are
->  # none for the SDK architecture. Best to set it from a machine-sdk
-> --
-> 2.30.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#180423): https://lists.openembedded.org/g/openembedde=
-d-core/message/180423
-> Mute This Topic: https://lists.openembedded.org/mt/98511406/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> This change means we are implying that yocto wont work with kernels
+> older than 5.15  and maybe SDK would also need
+> 5.15 on SDK hosts and similar need for build hosts might be imposed
+> too. Perhaps it would be good to do some due diligence before
+> applying this.
+
+I was waiting for someone to say something like this. :)
+
+SDKs are not affected. There's a separate setting for them,
+SDK_OLDEST_KERNEL which stays as it was, at 3.2.0. Kernels versions on
+build hosts don't have a setting or check, and that never causes
+trouble. The focus here is specifically on removing all uses of 32 bit
+time on 32 bit targets, and as a bonus, enabling other optimized paths
+in glibc that are only supported with newer kernels.
+
+The implication is not that yocto won't work with < 5.15, it's that it
+is not tested with such kernels. Which is fair enough, isn't it? If
+someone does need an older kernel (and yes, I'm waiting for the
+'outdated vendor kernels' squad to come out and lynch me for this
+change), they can reset OLDEST_KERNEL locally, which would confirm
+that they should be doing their own testing.
+
+Alex
 
