@@ -2,106 +2,165 @@ Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD70FC7EE21
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBACAC77B73
 	for <webhook@archiver.kernel.org>; Thu, 27 Apr 2023 05:21:10 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web10.13594.1682572862073067390
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web10.13597.1682572864762254734
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Apr 2023 22:21:02 -0700
+ Wed, 26 Apr 2023 22:21:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=IKePB1/v;
- spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-3f086770a50so53659445e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 22:21:01 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=Dj5ynNAt;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3f19a80a330so36700685e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Apr 2023 22:21:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682572860; x=1685164860;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kA58UZ9UV5hsDUl6CoC3D02XRBBEw1BGyOQzbwEHAAw=;
-        b=IKePB1/v3aVqSrZybgf5XyGLHtZ4N1oIr+Dn9BS6RdcpQ0bi9/GHR9Oitbl7I+l+xV
-         fJBio1aDe8PamlTPWN6EUsQuuANCPPsYzz2R6vwVOZcKq06llbrewXLWLbbT+QeS51MU
-         KF85Y/x29bFgN0XDGVSzTGRSETlPYGO+upWthEvfzvRAqRlzKbywVQ3WF/HvhcYn+0O2
-         qFoXefGyLaAGoXP0g2U2PFykIL4Pownv8SOpfKJzg+7VtbXmY/VjOrJWA3/0Bu4GFXlD
-         9vyw9rBXEww2f/hWgHbyR0lZcig3y3YY7A04FXl0pooiNVwP6GyqLCkSWGVjFeLh9nd9
-         2hsw==
+        d=gmail.com; s=20221208; t=1682572862; x=1685164862;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bk4FGaQ1qHPI0pSp0DX3CnD/gxd6F+KGAcORYd6+4Dw=;
+        b=Dj5ynNAtm+tf+8B9X6EVY92otnfG7EEDMNGFI9J4BgJIPAWNaNUARV0Ios9k+vR7nV
+         TkLOzjl+rGRf4Cqz7j8tWx2TGAKrJ+tpMrfeM4eHLTRPGvfe6elT4pTTeZNvoI3Ch8to
+         qoPNntNV4ltAxda2gWC5wSQRMq30MKicZkJbs/ZVjf4+5GVZu0btu5C8OOnU3WU0s0C6
+         JJP98mpIdAQHy/ior+xZMzl+l2uabvBIq2RfOT5TZvzzCzzE4JoWBCXDfxm7gWlcKneX
+         9lCiDUcbgxbLh2ku1J2pOuRcSiJmKEFSVzqVbAXSJkRjx0XcW+4cu0otQ0hjB1TBWSre
+         TbxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682572860; x=1685164860;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kA58UZ9UV5hsDUl6CoC3D02XRBBEw1BGyOQzbwEHAAw=;
-        b=EA7Gj+36NkCUZ9N8S8kBhVObzZGpCYI4PHjPgNPBItWOHTZ3vuVJ21Qf5bDcG/XRGF
-         KqhmGtbs9trMBjulQF4VW0mmW9BZeC3z95QcC9l57pv8bt6+MFhwiTevxe78wRf4xr/G
-         r8yXxISJ70STi4oZ0x4KWyjbUwBhWk4K3UdYf0fw41CCPOpPOyMHfBTUs87ZBIBlWALV
-         Wk+Rs1Qhl1NKB6XferXywtK4q3odS6SjGAyT7bWhT6K+ezK9d0CAZrFFtG54uhG4nDrD
-         SvvmD2VUVF1ikzelJydEAqe089uNG6ipQ4qhjiXGPVqSRLEAiJ04s43vUgpCwJ2nl5uL
-         NNOA==
-X-Gm-Message-State: AC+VfDwY86ik7JgAk7w0DJXvY2c9M5gonLR+VnipMFOsuzqBNlXROwID
-	YjUC6Zqp60O9X5JVuQzGAEdHrNJ+ItY=
-X-Google-Smtp-Source: ACHHUZ7w6+z4WFA2NyDyGGU/1yRxNLh53nkTsPZEquw4rhFQ0vnbiege9AXalaC63XdMQYvt77ZBuA==
-X-Received: by 2002:a7b:c408:0:b0:3f1:75b6:8c7 with SMTP id k8-20020a7bc408000000b003f175b608c7mr375574wmi.37.1682572859721;
-        Wed, 26 Apr 2023 22:20:59 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1682572862; x=1685164862;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bk4FGaQ1qHPI0pSp0DX3CnD/gxd6F+KGAcORYd6+4Dw=;
+        b=EhvMBPoZg2BoO0NkEgnAxenrtLB9VN0Ui/AstNgMHa/HY+BXZOjzH2fLkReShoit11
+         9/2IuiIFXKnCK0Ztj3rG0MwOFoQ6hVM51bXXFv6iA2c5CnYlIoG+63vP3PIPeZdTAuE2
+         E7ztMsDlR1UkPUgiw249QaryyeDxYR+AdYwhpKf1H+UgmngNDTa8S3M3GYX0vN8GevPd
+         40TVf19C0A1r54vFlrZlXcjnLjsuMGcIV5hLOoMA4hQDFw8IxWOsweSCy46iUHS1lpnV
+         +69xeq6hKFiYn6JYO2wwMlJti3HyJNA/iwsBU2ZQGRmedWPKAs8ZhEGOWvVoq+eeUyxl
+         wEJA==
+X-Gm-Message-State: AC+VfDzXMTa5n4DqtJlZFHHAquoyn7APl4EL7agEljhykdUJNw3iSC8N
+	Ka9stAalk7RyPfenUi+eBwQnuznSWc0=
+X-Google-Smtp-Source: ACHHUZ7VtS+GHPAor+puEZPLWUBN9NpION1IbJZLyPT5FkJXDddhEil470ts1ewt4dpxy3KSmvd5Aw==
+X-Received: by 2002:a1c:ed0e:0:b0:3f1:800f:cc61 with SMTP id l14-20020a1ced0e000000b003f1800fcc61mr379216wmh.13.1682572862375;
+        Wed, 26 Apr 2023 22:21:02 -0700 (PDT)
 Received: from work-pc.. ([2a01:e0a:8d5:c6c0:e2ba:a159:c9f4:28dc])
-        by smtp.gmail.com with ESMTPSA id jb12-20020a05600c54ec00b003f17003e26esm23240809wmb.15.2023.04.26.22.20.59
+        by smtp.gmail.com with ESMTPSA id jb12-20020a05600c54ec00b003f17003e26esm23240809wmb.15.2023.04.26.22.21.01
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Apr 2023 22:20:59 -0700 (PDT)
+        Wed, 26 Apr 2023 22:21:01 -0700 (PDT)
 From: frederic.martinsons@gmail.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCHV3 0/3] Create class for building rust unit test
-Date: Thu, 27 Apr 2023 07:20:53 +0200
-Message-Id: <cover.1682572703.git.frederic.martinsons@gmail.com>
+Subject: [PATCHV3 3/3] zvariant: add ptest feature for zvariant test suite
+Date: Thu, 27 Apr 2023 07:20:56 +0200
+Message-Id: <330dc3272eb6abf476642f87ea8dc4780e12445c.1682572703.git.frederic.martinsons@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1682572703.git.frederic.martinsons@gmail.com>
+References: <cover.1682572703.git.frederic.martinsons@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 27 Apr 2023 05:21:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180466
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180469
 
 From: Frederic Martinsons <frederic.martinsons@gmail.com>
 
-This brings the possibility to use this class to build and ship
-unit tests of rust projects, the class also create (or modified)
-standard run-ptest script to run the generated rust test suite.
+Below is the output of run-ptest script under qemu
 
-It has been tested successfully with core-image-sato under qemu
-for zvariant-ptest and python3-bcrypt-ptest (though the last one
-didn't define any unit tests).
+root@qemux86-64:~# /usr/lib/zvariant/ptest/run-ptest
 
-Note that I tried to do the same with python3-cryptography but fail
-to build the test suite and I don't know how to do it with the rust
-extension module build by python setuptools. There must be some kind
-of way for doing that so maybe someone will put some work in it (
-because python3-cryptography rust extension do have unit tests).
+running 37 tests
+test framing_offset_size::tests::framing_offset_size_bump ... ok$<2>
+test owned_value::tests::from_value ... ok$<2>
+test object_path::unit::owned_from_reader ... ok$<2>
+test str::tests::from_string ... ok$<2>
+test signature::tests::signature_slicing ... ok$<2>
+test str::tests::test_ordering ... ok$<2>
+test owned_value::tests::map_conversion ... ok$<2>
+test owned_value::tests::serde ... ok$<2>
+test tests::enums ... ok$<2>
+test tests::derive ... ok$<2>
+test tests::f64_value ... ok$<2>
+test tests::i16_value ... ok$<2>
+test tests::fd_value ... ok$<2>
+test tests::i32_value ... ok$<2>
+test tests::i8_value ... ok$<2>
+test tests::i64_value ... ok$<2>
+test tests::ip_addr ... ok$<2>
+test tests::issue_59 ... ok$<2>
+test tests::issue_99 ... ok$<2>
+test tests::array_value ... ok$<2>
+test tests::object_path_value ... ok$<2>
+test tests::dict_value ... ok$<2>
+test tests::signature_value ... ok$<2>
+test tests::serialized_size ... ok$<2>
+test tests::struct_byte_array ... ok$<2>
+test tests::struct_ref ... ok$<2>
+test tests::str_value ... ok$<2>
+test tests::option_value ... ok$<2>
+test tests::struct_value ... ok$<2>
+test tests::struct_with_hashmap ... ok$<2>
+test tests::u16_value ... ok$<2>
+test tests::u32_value ... ok$<2>
+test tests::unit ... ok$<2>
+test tests::u8_value ... ok$<2>
+test tests::unit_fds ... ok$<2>
+test tests::value_value ... ok$<2>
+test tests::recursion_limits ... ok$<2>
 
-Moreover, in the class, I didn't manage to share data between
-do_compile_ptest_base and do_install_ptest_base cleanly (I tried
-to d.setVar in compile and d.getVar in install but it seems that
-the data store doens't recognize my new variable) so I used a file
-for that. I'm sure there is a clever way for doing that, so feel
-free to tell me.
+test result: ok$<2>. 37 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.21s
 
-The following changes since commit 45a8bb6e4676899d40525e7d5ad1c1ddefee3185:
+root@qemux86-64:~#
 
-  apt-util: Fix ptest on musl (2023-04-20 11:56:03 +0100)
+Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
+---
+ .../recipes-extended/zvariant/zvariant_3.12.0.bb         | 9 ++++++++-
+ meta/lib/oeqa/selftest/cases/devtool.py                  | 2 +-
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
-are available in the Git repository at:
-
-  https://gitlab.com/fmartinsons/openembedded-core cargo-add-ptest
-
-Frederic Martinsons (3):
-  ptest-cargo.bbclass: create class
-  python3-bcrypt: enable build of unit tests
-  zvariant: add ptest feature for zvariant test suite
-
- .../zvariant/zvariant_3.12.0.bb               |   9 +-
- meta/classes-recipe/ptest-cargo.bbclass       | 129 ++++++++++++++++++
- meta/lib/oeqa/selftest/cases/devtool.py       |   2 +-
- .../python/python3-bcrypt_4.0.1.bb            |   4 +-
- 4 files changed, 141 insertions(+), 3 deletions(-)
- create mode 100644 meta/classes-recipe/ptest-cargo.bbclass
-
+diff --git a/meta-selftest/recipes-extended/zvariant/zvariant_3.12.0.bb b/meta-selftest/recipes-extended/zvariant/zvariant_3.12.0.bb
+index 4285d11b72..36f2a07ecf 100644
+--- a/meta-selftest/recipes-extended/zvariant/zvariant_3.12.0.bb
++++ b/meta-selftest/recipes-extended/zvariant/zvariant_3.12.0.bb
+@@ -7,6 +7,8 @@ HOMEPAGE = "https://gitlab.freedesktop.org/dbus/zbus/"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=b377b220f43d747efdec40d69fcaa69d"
+ 
++DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'glib-2.0', '', d)}"
++
+ SRC_URI = " \
+     git://gitlab.freedesktop.org/dbus/zbus;protocol=https;branch=main;subpath=zvariant \
+     file://0001-Tweak-zvariant-crate-config.patch;striplevel=2 \
+@@ -21,10 +23,15 @@ python do_clean_lic_file_symlink() {
+ 
+ addtask clean_lic_file_symlink after do_unpack before do_patch
+ 
+-inherit cargo cargo-update-recipe-crates
++inherit ptest-cargo pkgconfig cargo-update-recipe-crates
+ 
+ # Remove this when the recipe is reproducible
+ EXCLUDE_FROM_WORLD = "1"
+ 
+ require ${BPN}-crates.inc
+ require ${BPN}-git-crates.inc
++
++# zvariant is an indermediate product for the zbus project
++# and so, it provided only a static lib (rlib) which fall only
++# in -dev package
++ALLOW_EMPTY:${PN} = "1"
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 94873fd19f..1896944250 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -876,7 +876,7 @@ class DevtoolModifyTests(DevtoolBase):
+         self.assertTrue(any([uri.startswith('file://') and '.patch' in uri for uri in src_uri]),
+                         'This test expects the %s recipe to have a patch in its src uris' % testrecipe)
+ 
+-        self._test_recipe_contents(recipefile, {}, ['cargo'])
++        self._test_recipe_contents(recipefile, {}, ['ptest-cargo'])
+ 
+         # Clean up anything in the workdir/sysroot/sstate cache
+         bitbake('%s -c cleansstate' % testrecipe)
 -- 
 2.34.1
 
