@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60D4EC7EE29
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 634F9C7EE26
 	for <webhook@archiver.kernel.org>; Fri, 28 Apr 2023 08:48:37 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web11.14758.1682671709483134719
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web11.14761.1682671711801435561
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Apr 2023 01:48:29 -0700
+ Fri, 28 Apr 2023 01:48:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=OLuBMiqs;
- spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3f195b164c4so53617165e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 Apr 2023 01:48:29 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=TermSWDg;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-2f4214b430aso5985412f8f.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Apr 2023 01:48:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682671708; x=1685263708;
+        d=gmail.com; s=20221208; t=1682671710; x=1685263710;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OHZfHLmsYtvAY+N7U+CR30dcvB38iFTzZ4YDYun4JeM=;
-        b=OLuBMiqszznJmYJrn1suMdyMIxPefrJmGu9g4IcQRv7lsP00Fwd+jdcNVdm3L3uHlf
-         9s176nQ+/SqkePXhSYPDG3j40CH6cR2UslDSmi3hBFhDu5Y/FUFQNf8I/sLMtB6hA/H9
-         xYbRLWKTsn1AUDWb4b0J09bFKT/mVjf5MkiT3leQnz6xtLJ6npxsmJrzoFYqYuHXiQDG
-         FnppuKilnfpBX3fkROXB0lU0bMjSrsKZMnuUyEAFS8guSY2Ouirj9bUtg1wjX4BElSsq
-         fJE6rKT5+uQ9oudJKPdHDxCnvhoNxhXyliNy5D4fGa/ijIdLlAUL+6Q1WtVmZWDZTzlI
-         Le1Q==
+        bh=9O+wDU/fL0m2dm7FNEuNswV/O2rbclHrIFfEPHGT918=;
+        b=TermSWDgp7HngJwnNZTFi7q+Yfyy2wqFG2tvoaFVF3fSQ2f19xxAr9OeR6mId0j4fs
+         kp+DOqgp347sdVeC0nf50/0EBt9CIHT6GAbVsDMLNnQrbOIfwq8dve5PwGlUp8AlLJiC
+         BClsBYgyxf/xIzH9nnrGbbsTknF6wYkwIW1qdItutWEs2qOuvXE+u5+9w0oSXUifwpEF
+         aLZ5WUsC76m0kxxNH5jl89tkZDkXhU9ZyIJm8M1ljzZCUIWUmvoF6CwUTDBShPM37iwx
+         f3pZiSIUptGta7kpoMujdpRTNPTBL+LcxdSlZ2ttgxWiJYBlqgXTg2BYrmSK26MttcyW
+         lJOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682671708; x=1685263708;
+        d=1e100.net; s=20221208; t=1682671710; x=1685263710;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OHZfHLmsYtvAY+N7U+CR30dcvB38iFTzZ4YDYun4JeM=;
-        b=em10vil9pPJYaWPu58ypXKH6s6w4FK+vlnYCh/jl0vFm07dMBLBhejdi+uKo1EziqQ
-         MAGLV85iFGoJYm5IBwe/GM38q6bxTPOdS6zbp5FnQrXXhSPSsewW1d/dEDQIwrC1WB68
-         zbauoFkXp4HLtPgZHhLL5qyVOjMx5Ml2vdnqTNS9Xmpn7wA508xCyDl8fa5DbMEwKYR/
-         Mkx/WP3+cV2MvwDwy6l9/b5MyqOw2C+fq4j+r+c08x3snobm4mO63bM+J/DCrychJWai
-         QT1SxOD6RJVGnZdl/KDeV2lE0cl9kWd4zMd9ft8EJT7MFg4xetM+L3ZulHOG2tXgm3HJ
-         cCiw==
-X-Gm-Message-State: AC+VfDxG5G78eQ9V1Iy+HWV9saiM045OFEVpuSrQLSihkR2/4o56xTT1
-	IZn0MfmpSo1Ne1xbSo15iQTrCjoKp+c=
-X-Google-Smtp-Source: ACHHUZ5ANdC0J1+izbK4tIm2T5X3/jjFIwEaIP9Ze6H8VneLxZxyDd1XLKlybBGt9Awpwk7vEA6w6g==
-X-Received: by 2002:a7b:c015:0:b0:3f1:662a:93d0 with SMTP id c21-20020a7bc015000000b003f1662a93d0mr3521310wmb.15.1682671707844;
-        Fri, 28 Apr 2023 01:48:27 -0700 (PDT)
+        bh=9O+wDU/fL0m2dm7FNEuNswV/O2rbclHrIFfEPHGT918=;
+        b=CkM4Nx6+UOQC/qPE+cRwEdIkTBqfVYVPRdRH4yy6c3ciwCxm0BaK8AJU86DSXjfIBo
+         Qvrt4ONKRYiCeWvA0Kr4ZXEcQsSI0VmX1yJpT4QEf4O+7AN36ESOAoYvsnHUwzAavZti
+         6MDqXNscU4MUgCzuSaXJEIG+H/4ke40KyKaFFhn/t6GOkywCkC1bh9/OZVK8RrUpZ9YI
+         tGSldY04jg0kE8XQt0oZ+bFmB0ezqBobIIo7nYhq20WeIrgudnlW98uONWzeagw5AXVt
+         wP0LqN8g7q3r9GVway/dErFBOUUFjae6eu1QD21oaQZZIJjFccEaWZFL0tsfE8zgkvzA
+         612A==
+X-Gm-Message-State: AC+VfDyyzViJxtXzhktP/Lm/sm1wy0i2vaG3rHt3fJX//u+7BGOMrg2Q
+	qjnLnA1NQ9jxzWt+tiUyJO1o/1XVgN0=
+X-Google-Smtp-Source: ACHHUZ4ius0nLiWRoT0UIEXj/1nLzcO9LV2veeBmX/aL44H37PB42V4M1U2IGnglvlb5zKBy4eGX/A==
+X-Received: by 2002:a5d:4907:0:b0:2fa:f8c2:45f4 with SMTP id x7-20020a5d4907000000b002faf8c245f4mr2814255wrq.0.1682671710252;
+        Fri, 28 Apr 2023 01:48:30 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id j8-20020adff008000000b002f6176cc6desm20563375wro.110.2023.04.28.01.48.27
+        by smtp.gmail.com with ESMTPSA id j8-20020adff008000000b002f6176cc6desm20563375wro.110.2023.04.28.01.48.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Apr 2023 01:48:27 -0700 (PDT)
+        Fri, 28 Apr 2023 01:48:29 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH v2 02/11] time64.inc: add glibc-testsuite to 'special cases'
-Date: Fri, 28 Apr 2023 10:43:43 +0200
-Message-Id: <20230428084352.836515-2-alex@linutronix.de>
+Subject: [PATCH v2 06/11] python3-pytest: add missing tomllib runtime dependency
+Date: Fri, 28 Apr 2023 10:43:47 +0200
+Message-Id: <20230428084352.836515-6-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230428084352.836515-1-alex@linutronix.de>
 References: <20230428084352.836515-1-alex@linutronix.de>
@@ -62,28 +62,25 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 28 Apr 2023 08:48:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180513
-
-It builds glibc source like other glibc recipes do,
-and so the same problems occur.
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180517
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/conf/distro/include/time64.inc | 1 +
+ meta/recipes-devtools/python/python3-pytest_7.3.1.bb | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/conf/distro/include/time64.inc b/meta/conf/distro/include/time64.inc
-index 2e7278292c6..73adebd39db 100644
---- a/meta/conf/distro/include/time64.inc
-+++ b/meta/conf/distro/include/time64.inc
-@@ -10,6 +10,7 @@ TARGET_CC_ARCH:append:x86 = "${@bb.utils.contains('TUNE_FEATURES', 'm32', '${GLI
+diff --git a/meta/recipes-devtools/python/python3-pytest_7.3.1.bb b/meta/recipes-devtools/python/python3-pytest_7.3.1.bb
+index 9965844d1ad..914ea553464 100644
+--- a/meta/recipes-devtools/python/python3-pytest_7.3.1.bb
++++ b/meta/recipes-devtools/python/python3-pytest_7.3.1.bb
+@@ -26,6 +26,7 @@ RDEPENDS:${PN} += " \
+     ${PYTHON_PN}-py \
+     ${PYTHON_PN}-setuptools \
+     ${PYTHON_PN}-six \
++    ${PYTHON_PN}-tomllib \
+     ${PYTHON_PN}-wcwidth \
+ "
  
- GLIBC_64BIT_TIME_FLAGS:pn-glibc = ""
- GLIBC_64BIT_TIME_FLAGS:pn-glibc-tests = ""
-+GLIBC_64BIT_TIME_FLAGS:pn-glibc-testsuite = ""
- # pipewire-v4l2 explicitly sets _FILE_OFFSET_BITS=32 to get access to
- # both 32 and 64 bit file APIs.  But it does not handle the time side?
- # Needs further investigation
 -- 
 2.30.2
 
