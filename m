@@ -2,123 +2,91 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF8C7C77B61
-	for <webhook@archiver.kernel.org>; Fri, 28 Apr 2023 03:20:35 +0000 (UTC)
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
- by mx.groups.io with SMTP id smtpd.web10.11226.1682652033550312284
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE69EC77B60
+	for <webhook@archiver.kernel.org>; Fri, 28 Apr 2023 03:26:05 +0000 (UTC)
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+ by mx.groups.io with SMTP id smtpd.web11.11338.1682652361910351011
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Apr 2023 20:20:33 -0700
+ Thu, 27 Apr 2023 20:26:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=eKRBYNev;
- spf=pass (domain: gmail.com, ip: 209.85.160.42, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-18ef8e9ab4fso1914000fac.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Apr 2023 20:20:33 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=PwaIN7o9;
+ spf=pass (domain: gmail.com, ip: 209.85.160.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-187ef4d7863so3584534fac.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Apr 2023 20:26:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682652033; x=1685244033;
+        d=gmail.com; s=20221208; t=1682652361; x=1685244361;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BZcAjWj3lqovy6rhu7ojoGutCUpjyTmHKI0ILOCOeL0=;
-        b=eKRBYNeviD2H03eelfK6scQIAdfQbLZU/kC47okvcj1Kfn8wo/wr2quWHQljSC5Thl
-         s/7zc8tOQ3jBmbWpMR24Uw/n2EX/3+cqaq8tRPkR6PI6Uh4nkDvC5e5F58PF4YS5fJtw
-         DawuCWLiNwFQDAC5EfyaD39ZPIrF+V4gXhLBdpWwmzTRPZMTWeemik1eBBj/7UKzkWlD
-         Smp8Ys7kKEAjSkP/g7sI7YL/xa83QaFYYFLWppDFd6LTwSiSy0HPw6v+n0LVqpxmzbhy
-         QCuuBdl0SituH/cSfX7fSJx0ELBbxiRimU2jMqlZOHQNf3WQc6r2JkCHIiGhaifW8oCg
-         uYyA==
+        bh=xgaiCOf9bXC05LvhuzR7ZpgDZ5hzh77dA65RhdZYH8M=;
+        b=PwaIN7o9Iqpu7n6OS+FoH9Xjfk0qCcIECHWOvS5Y7rmdH29JRmmNyoHLrOtxdITOXf
+         BuxvGURyjBOsILMkWEx9Tcmq4+a+S8WqVKQg9blaIa9CcHUSlN55cFEpj3dYVuOBtXyx
+         FMDnGHXeJS/t+Nt/WfbX53rRfLkfH6oKCknwJH/FkDM6I7QgTfb8PaK0qdvuA/6Hfu+H
+         aeywHSjTw6t+clCEpJMyTfwCv7uS22mOVhQo4O+D+TtjxSftmnmX0zVcR3SHE7Ta2WhP
+         EFFguI0dZms6vlBue9t1m77AdjEhjk4+abbhBvsjcPJ9sLtvggxGv0WvKbKhD0cQJ+hY
+         dhZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682652033; x=1685244033;
+        d=1e100.net; s=20221208; t=1682652361; x=1685244361;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BZcAjWj3lqovy6rhu7ojoGutCUpjyTmHKI0ILOCOeL0=;
-        b=YXhogUFxys4N1PAX1vKM2z+p+ta6tuT/Yb6oXah8ySJ/M+2DXyLWX89W78Vdl89UsW
-         1FWRJAK1KnrLaK9HlWjwiyP9WL50terCVKo9JifydQ9W5vOgjZFqQwPK1t7bRRJLKfaQ
-         mJMpjUnSeaqTRHFRRNHHXyu3Ep9r7wFn7YCEtnIYDjEhm1Kp+UdnY3bkqsKhYpAHVkwJ
-         e+wmbtknOEtWcP790RTPfYvZn12dDJK+xpVT5MYi4MnLarVCwfy6JE5BiaQJvJuxHeG0
-         9JPp8cGmWD2xkVKII3EsY/JlU0Fn9AaZ22oGQ+8VB+3mQCYvWdyN5LEE21EdSpBO44+6
-         BW7g==
-X-Gm-Message-State: AC+VfDz1FJXjhaTjxPG1mB+njQ7fYr8gXkJXW9l/IZe37Lo26jjKXgU4
-	CQxMfq5/oXIHhP75uYc2+JZ47p6xBIRfnjLNpu4=
-X-Google-Smtp-Source: ACHHUZ4PhjH6A/SuWgZ6L+6fweQlWECKzwST49p3wI4tWyYrdzVmdzHwxbdCtiXPsnMEgwKgPt31R6Nvo6RDlN1J3IA=
-X-Received: by 2002:a05:6808:ab9:b0:38c:4c09:562b with SMTP id
- r25-20020a0568080ab900b0038c4c09562bmr1751556oij.13.1682652032527; Thu, 27
- Apr 2023 20:20:32 -0700 (PDT)
+        bh=xgaiCOf9bXC05LvhuzR7ZpgDZ5hzh77dA65RhdZYH8M=;
+        b=F9SE8mMp2/sKPiwILkPJWQkHvK2pTclbIQ3w7KqVk8609usH92YmRaP1n1CbRO7bsR
+         1KLqoRraRLQ7SBJBYkwBdFez64hvGbV1fVNQu7MFniclGd6LXV4vncw4c3H6/2bblGed
+         tiN4czmmpUcWXYf5/dY8lnkBimTkqJ70Y8UPPTTiOTAeZ6Kkk2T0H8zPdhxXKQlg1g8o
+         9q9H/ltIkhZvWljU/Frk3XiEyNFq2ab4JMlQVXuKxFGzgBzV912G7KWnXwjBt3N31vVS
+         5poTBnAEbGODniEK5UeVM57LPMRue6XsRlzNZo/Hkoo6sqvjz8Bv3H0tuIE36OdwThGj
+         nLaw==
+X-Gm-Message-State: AC+VfDyhMrcV0LN2IZ+oVUcyjpzjv3ps7v74gPmfqyVuHKc+qyY81zyI
+	zyGMFJNE3vYfIP8XmDU3yUee9wE8OydND4P9+jfkLtvFjJg=
+X-Google-Smtp-Source: ACHHUZ5m38IKmQPgqWZ3lAWjTq2Bp9XS6vh7j93K4qqflRxIFIKXAV80PCHM7CaForR2ier5MZluTpn6lIG6D5aOGVg=
+X-Received: by 2002:a05:6870:85c4:b0:177:c2bd:3f6d with SMTP id
+ g4-20020a05687085c400b00177c2bd3f6dmr1816768oal.45.1682652360965; Thu, 27 Apr
+ 2023 20:26:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230426095036.2632847-1-alex@linutronix.de> <20230426095036.2632847-11-alex@linutronix.de>
-In-Reply-To: <20230426095036.2632847-11-alex@linutronix.de>
+References: <20230427185253.1519194-1-raj.khem@gmail.com> <50b96d45802a0cc846396b661795fd6915ca137c.camel@linuxfoundation.org>
+In-Reply-To: <50b96d45802a0cc846396b661795fd6915ca137c.camel@linuxfoundation.org>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 27 Apr 2023 20:20:06 -0700
-Message-ID: <CAMKF1sqY5MDSWV9WDbeFa=O4fA8a7-SzST8ji_jGZEd2GHoQAg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 11/11] insane.bbclass: enable 32 bit time API
- check on affected architectures
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
+Date: Thu, 27 Apr 2023 20:25:34 -0700
+Message-ID: <CAMKF1so7Qir6WTH-CG9wsiwFjtTR8rwUzWydukq=CXPBh38sPg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gcc: Upgrade to GCC 13.1 release
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Apr 2023 03:20:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180503
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Apr 2023 03:26:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180505
 
-I see this error triggering for meta-openembedded builds
+On Thu, Apr 27, 2023 at 2:45=E2=80=AFPM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Thu, 2023-04-27 at 11:52 -0700, Khem Raj wrote:
+> > > - Package libhwasan_preinit.o, its available on some arches e.g. x86_=
+64 on
+> > >   gcc13+
+> > > - GCC 13 Porting guide [1] and major changes [2] and detailed documen=
+tation [3]
+> > > - Fix aarch64 cross build when S !=3D B
+> > >
+> > > [1] https://www.gnu.org/software/gcc/gcc-13/porting_to.html
+> > > [2] https://www.gnu.org/software/gcc/gcc-13/changes.html
+> > > [3] https://gcc.gnu.org/onlinedocs/13.1.0/
+> > >
+> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>
+> Doesn't this need the prefix mapping parameter changes to bitbake.conf
+> since one of the patches did merge but was altered by upstream?
+>
 
-qemuarm - https://errors.yoctoproject.org/Errors/Build/163136/
+Right you are. I have sent a separate for to enable -fcanon-prefix-map glob=
+ally.
 
-On Wed, Apr 26, 2023 at 2:50=E2=80=AFAM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
+> Cheers,
 >
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  meta/classes-global/insane.bbclass | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+> Richard
 >
-> diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/ins=
-ane.bbclass
-> index 8788f58fc5b..38126d89a58 100644
-> --- a/meta/classes-global/insane.bbclass
-> +++ b/meta/classes-global/insane.bbclass
-> @@ -44,7 +44,7 @@ ERROR_QA ?=3D "dev-so debug-deps dev-deps debug-files a=
-rch pkgconfig la \
->              already-stripped installed-vs-shipped ldflags compile-host-p=
-ath \
->              install-host-path pn-overrides unknown-configure-option \
->              useless-rpaths rpaths staticdev empty-dirs \
-> -            patch-fuzz patch-status-core\
-> +            patch-fuzz patch-status-core 32bit-time \
->              "
->  # Add usrmerge QA check based on distro feature
->  ERROR_QA:append =3D "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge',=
- ' usrmerge', '', d)}"
-> @@ -512,6 +512,11 @@ def check_32bit_symbols(path, packagename, d, elf, m=
-essages):
->      """
->      Check that ELF files do not use any 32 bit time APIs from glibc.
->      """
-> +    thirtytwo_bit_time_archs =3D set(('arm','armeb','mipsarcho32','power=
-pc','x86'))
-> +    overrides =3D set(d.getVar('OVERRIDES').split(':'))
-> +    if not(thirtytwo_bit_time_archs & overrides):
-> +        return
-> +
->      import re
->      # This list is manually constructed by searching the image folder of=
- the
->      # glibc recipe for __USE_TIME_BITS64.  There is no good way to do th=
-is
-> --
-> 2.30.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#180429): https://lists.openembedded.org/g/openembedde=
-d-core/message/180429
-> Mute This Topic: https://lists.openembedded.org/mt/98511413/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
