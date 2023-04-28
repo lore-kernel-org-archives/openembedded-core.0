@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 374B2C77B7E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46506C7EE24
 	for <webhook@archiver.kernel.org>; Fri, 28 Apr 2023 08:48:37 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web10.14787.1682671714702451387
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web11.14759.1682671710395592069
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Apr 2023 01:48:35 -0700
+ Fri, 28 Apr 2023 01:48:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=Vf+WPfd+;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-2f40b891420so9227479f8f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 Apr 2023 01:48:34 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=Wt8LLO3K;
+ spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3010889c6ebso5874509f8f.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Apr 2023 01:48:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682671713; x=1685263713;
+        d=gmail.com; s=20221208; t=1682671709; x=1685263709;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=P+Fw8TUijwc1bcCjGIGvLGAQHmGWPKU7z2E7BmQoj/Q=;
-        b=Vf+WPfd+nJY65TSiAcBhbZtxCoEkmhSdTDH6XDIuBG6iAMEhBPOTe5s05A8Lk6R0c8
-         M9+tLhib/BaAzkom4CEm7IBvOKRNq6lmGbHFJhkZOO5VsUbnzAo3GYTJwVoZK4uW3Wb6
-         /MeMp++ua2ibw7IzhIiE+e0PecRz8PeE/9yR2K0WdJMYrBvqdR11WyqdkguM/fSp/7HK
-         H8u3Gs8vd3sLpl+y97lCjwLGQteHn4jhUrG+JfsZsd+FbX7NNqYDaBUL/Q7EAM3OLgDY
-         6dteAuawOVMH1V8mg/dIHVMP9aVqOZ4hiVqr2hUhy6WYvLgVQZkXiBOrSH29uy48hKCL
-         kmdA==
+        bh=rJfxJ4X9sfCiwlmRnxJkW2b8NRPnZdXK3+fJN+/OZOg=;
+        b=Wt8LLO3KQPhU3jDu6J54wiYuctpRsDj1baUffdcAl6AXdsek1O9A9/NEiZ/LxoDB7W
+         kfsnrO+S749sXX/mBu7AvMvdEYzlioDmuQV0lh0F1MJNO8FQ2qP4xUSrtomQZFD+DWf5
+         PC7GS6KZlvsw6LewMj/nVg1TVdHdTYs58R2z6tn+qAGoyVfzjFIjt527Lv4ykOhafgWg
+         Cugq2wn5FelVP8+SUrOpc/Qt5yh2e4MgtwCm7xViTYGRTdkPmmewS87RpFzN7DyzWLqA
+         Xi+EepfKEvNJWUeIiGnoL+Qbgz19lCKDcYBfh9/tbWw6r21PSY9VBjVDBCTjCdSICJj1
+         CN7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682671713; x=1685263713;
+        d=1e100.net; s=20221208; t=1682671709; x=1685263709;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=P+Fw8TUijwc1bcCjGIGvLGAQHmGWPKU7z2E7BmQoj/Q=;
-        b=TdMPN+thuwUG8QPWkQ8JdJXXLWnFo7smNe54rYCoYUOp6lfUoawS7xoVnZ/a1rXret
-         ewQjaEqs6+DgSix1lJ6Ii2rGuzbQK/eKyq6hZUIacBiyQfat2/5k0QaAGw28VKFFHdWM
-         Kv+oKBTfTFQoVnsFs9CjTWJ0XIJ0XXYBeSvHIR9+ykUMvjiCBlRW5jKYkwRXDGTWzx7H
-         VXa9IY6MLZBjHF8SKENNUCxwKRPeNocY3/PYFAJQFX4gL/zWkUUz3rHrCOXUH9J8Z5BC
-         LOragirrwNt7HaAtkJ9kFYLtHuX1hBqdahZk7CLN4GWoDa7bJqZYv0bZMFfEByQKMVNp
-         22Eg==
-X-Gm-Message-State: AC+VfDy3phzfEx8Vh2ADGplWT7yJsVS04MeKBSUFwZzHzYBBljxvh3RT
-	YrUCFnGcHQcK4AdDgzy0mlg/+HkQWK4=
-X-Google-Smtp-Source: ACHHUZ6+WkHLPjc8IY8l2xPDUwoCfZsvOYOm+Cbk2hD/4zfgZzFO79yB+3mfhdooqLWtYZMgUCuLRg==
-X-Received: by 2002:a5d:4b02:0:b0:2fa:26cc:71f0 with SMTP id v2-20020a5d4b02000000b002fa26cc71f0mr3396172wrq.10.1682671713113;
-        Fri, 28 Apr 2023 01:48:33 -0700 (PDT)
+        bh=rJfxJ4X9sfCiwlmRnxJkW2b8NRPnZdXK3+fJN+/OZOg=;
+        b=IYthACu5qJ6K7Y1+tw2o4Qifdl5I+8uE5Jz35Wj8gKibEtGguX1xGN5do+VRvn26Qj
+         wQgIe999k2Wfd/ylzYTSy3vtC6E/vXfu0UIvsGtjdILIUCG/AzgGKAdqkIyiD3Brnmgi
+         2kS7ATJN8N2OFkXfIQe3FhSHkBxcqGoBTiDvZ0elgif4O5jmXUx6rZ5tiMjYLfvahSf/
+         ZPk0o8XNEQb0u5N0BAvfJYRQpskVyFDfa+08fvQV1K/iFqXJ/81NjJuLG1GoLxn8YTxj
+         G32bK82f3jnlgIJ2BILuZ+S5/lP1m4OhkxDgniwgU82xc910rNA9otcl+08S8Rpu9Xrx
+         3p7g==
+X-Gm-Message-State: AC+VfDwIzUpHpM7c5GIZHz1e7jsUVPKywGXtIcbOrmIceKan52WM0M9x
+	yL4zLD/jvD4AzPsrIm/jkiDeL/tiRo0=
+X-Google-Smtp-Source: ACHHUZ46L830IvA94w0SgoDZdM5R+ruoGcjBLoOCd2QB+BqQi/heGs+h9ZefY9PFndKUDQnnYR0pzw==
+X-Received: by 2002:adf:f583:0:b0:2ce:a30d:f764 with SMTP id f3-20020adff583000000b002cea30df764mr3078654wro.21.1682671708924;
+        Fri, 28 Apr 2023 01:48:28 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id j8-20020adff008000000b002f6176cc6desm20563375wro.110.2023.04.28.01.48.32
+        by smtp.gmail.com with ESMTPSA id j8-20020adff008000000b002f6176cc6desm20563375wro.110.2023.04.28.01.48.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Apr 2023 01:48:32 -0700 (PDT)
+        Fri, 28 Apr 2023 01:48:28 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH v2 11/11] insane.bbclass: enable 32 bit time API check (as a warning) on affected architectures
-Date: Fri, 28 Apr 2023 10:43:52 +0200
-Message-Id: <20230428084352.836515-11-alex@linutronix.de>
+Subject: [PATCH v2 04/11] lttng-tools: exclude from x86 (32 bit) ptests
+Date: Fri, 28 Apr 2023 10:43:45 +0200
+Message-Id: <20230428084352.836515-4-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230428084352.836515-1-alex@linutronix.de>
 References: <20230428084352.836515-1-alex@linutronix.de>
@@ -62,49 +62,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 28 Apr 2023 08:48:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180522
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180515
+
+Please see the comment.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-
 ---
-v2: downgrade to a warning from an error
----
- meta/classes-global/insane.bbclass | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ meta/conf/distro/include/ptest-packagelists.inc | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
-index 8788f58fc5b..6479fc0964b 100644
---- a/meta/classes-global/insane.bbclass
-+++ b/meta/classes-global/insane.bbclass
-@@ -34,6 +34,7 @@ WARN_QA ?= " libdir xorg-driver-abi buildpaths \
-             missing-update-alternatives native-last missing-ptest \
-             license-exists license-no-generic license-syntax license-format \
-             license-incompatible license-file-missing obsolete-license \
-+            32bit-time \
-             "
- ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
-             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
-@@ -44,7 +45,7 @@ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
-             already-stripped installed-vs-shipped ldflags compile-host-path \
-             install-host-path pn-overrides unknown-configure-option \
-             useless-rpaths rpaths staticdev empty-dirs \
--            patch-fuzz patch-status-core\
-+            patch-fuzz patch-status-core \
-             "
- # Add usrmerge QA check based on distro feature
- ERROR_QA:append = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', ' usrmerge', '', d)}"
-@@ -512,6 +513,11 @@ def check_32bit_symbols(path, packagename, d, elf, messages):
-     """
-     Check that ELF files do not use any 32 bit time APIs from glibc.
-     """
-+    thirtytwo_bit_time_archs = set(('arm','armeb','mipsarcho32','powerpc','x86'))
-+    overrides = set(d.getVar('OVERRIDES').split(':'))
-+    if not(thirtytwo_bit_time_archs & overrides):
-+        return
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index 77d69c9fcd1..39b885066ce 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -118,6 +118,12 @@ PTESTS_PROBLEMS:append:x86 = " valgrind"
+ PTESTS_SLOW:remove:x86 = "strace"
+ PTESTS_PROBLEMS:append:x86 = " strace"
+ 
++# Needs support for 64 bit syscall versions
++# which was added in http://git.lttng.org/?p=lttng-modules.git;a=commitdiff;h=86040c9e2ff8a79633db34220e32bdda536b00e6
++# and should show up in lttng-modules 2.14.x
++PTESTS_SLOW:remove:x86 = "lttng-tools"
++PTESTS_PROBLEMS:append:x86 = " lttng-tools"
 +
-     import re
-     # This list is manually constructed by searching the image folder of the
-     # glibc recipe for __USE_TIME_BITS64.  There is no good way to do this
+ #    ruby \ # Timeout
+ #    lz4 \ # Needs a rewrite
+ #    rt-tests \ # Needs to be checked whether it runs at all
 -- 
 2.30.2
 
