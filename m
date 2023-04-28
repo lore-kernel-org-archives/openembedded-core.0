@@ -1,201 +1,315 @@
-Return-Path: <jing.hui.tham@intel.com>
+Return-Path: <vkumbhar@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78505C77B7C
-	for <webhook@archiver.kernel.org>; Fri, 28 Apr 2023 14:24:29 +0000 (UTC)
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by mx.groups.io with SMTP id smtpd.web11.21156.1682691861334764635
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3B73C77B61
+	for <webhook@archiver.kernel.org>; Fri, 28 Apr 2023 14:44:59 +0000 (UTC)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web11.21721.1682693087617842874
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Apr 2023 07:24:22 -0700
+ Fri, 28 Apr 2023 07:44:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=e3Gh23g+;
- spf=pass (domain: intel.com, ip: 192.55.52.136, mailfrom: jing.hui.tham@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682691861; x=1714227861;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=bTMqT3O39YOfNITYRXD8xZINCd4Xf8H9pInycR70u+0=;
-  b=e3Gh23g+5JdbePz1GuBirFSQRQPfVj8ZvZRyRMNY9hBaTsIeNLWIsEWK
-   hEYkl7qaGeEVKMKUyFng54alDiW49oVIrHp7rVIyaXeEWbGApLIGLpk4K
-   NwEjb5+RjPJbzshyMfFnNtHqk6eCb+2UaC3oWNcLInAukCBMTiFPySTWg
-   Vg+klfTbBaZPaONchHMbwaTkL4dTZsmjUJAimq2+oAJdSyqv6b2KssKmG
-   2I9bCknjuzjqPwIUlh09k4dhq5Yn4lCNR/vyhP8Flu/QljGCiFZg0BONY
-   s8SC0pByp2cU2Z74FuSwhTkQLFETR7njQzQlZeIdlz+wIHe1wvVGajAga
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="327383569"
-X-IronPort-AV: E=Sophos;i="5.99,234,1677571200"; 
-   d="scan'208";a="327383569"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 07:24:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="869213937"
-X-IronPort-AV: E=Sophos;i="5.99,234,1677571200"; 
-   d="scan'208";a="869213937"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orsmga005.jf.intel.com with ESMTP; 28 Apr 2023 07:24:20 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Fri, 28 Apr 2023 07:24:20 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Fri, 28 Apr 2023 07:24:20 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.102)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Fri, 28 Apr 2023 07:24:20 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BbXJTTq1BT4mK67oi8usNbXssexTAezgbv2UueuzEXhhRTJDzShIQjRzdq9soxpijKN4foyOtWlnbkOatHBvDMDsrfiY3ptkeOYGhZ4S4FkelEMoMubX01nwLOKh0w8iiXk/UijYSF6kt/EKZR/GZexfwlEPaKkZGKY/zVb2zDQV/waVPnfWerDWLLYsX7QkN7xJtHS/dhCoJ/hlur85qjGFEcCaaYBXsSaNd1nQZDvzhdAvhR5M7DUKRUI0GfFINCtO8opMSVpM+4Ll2Pa0BsLRSzWX2m/STAWI9ARuP/dY7lJwy9QP2qqjv0S66QjV7mJBWgmu1VJaMv4aGYz4Uw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=v32qdRC+eMVLuTHz59DCcqFMH804RBl7XFIzO30Fg0U=;
- b=nZkzkgRnElt2SXJim9IsYzZc/7daKlnfErWI8YSaS4Im1kjNX9x+anT63+S789xuybdhpll02sm6v9ZCXqIFM0gqdwwiGoIwgbC6eSlv1ziOZms+cJFbDBN84Y39a9c7uZnPyft4PL4apBnaNsKxKhTYFSTUMijKCEfV6MxvIUhjdmMNpYj2kKoSKBpNdrKzAEhA3O50DCBk5YpDhwEuGaVZPu1UpbzGprd3HQSh+YQmDsgLeo/0jmJWgQaHAtZ2zx3AisJ9um8AhgwN0fHZbzJHvYjVT3vzB/eXkKEzuf6+vi3ZOwGrJ9ML/+PNg+xbwUSVFnIpq/+hDwpnFWY4QA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BY5PR11MB4152.namprd11.prod.outlook.com (2603:10b6:a03:191::11)
- by CY8PR11MB6937.namprd11.prod.outlook.com (2603:10b6:930:5b::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.22; Fri, 28 Apr
- 2023 14:24:13 +0000
-Received: from BY5PR11MB4152.namprd11.prod.outlook.com
- ([fe80::cd9a:3c52:72e3:bcd4]) by BY5PR11MB4152.namprd11.prod.outlook.com
- ([fe80::cd9a:3c52:72e3:bcd4%3]) with mapi id 15.20.6340.024; Fri, 28 Apr 2023
- 14:24:13 +0000
-From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
-To: "yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
-	"qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [yocto] QA notification for completed autobuilder build
- (yocto-4.2.rc3)
-Thread-Topic: [yocto] QA notification for completed autobuilder build
- (yocto-4.2.rc3)
-Thread-Index: AQHZdT+DRJMyzdAcpUG4EwcENOj9ZK9Az28Q
-Date: Fri, 28 Apr 2023 14:24:13 +0000
-Message-ID: <BY5PR11MB41527D68601E56DBC43FBD20A16B9@BY5PR11MB4152.namprd11.prod.outlook.com>
-References: <01010187aa002f65-f0534f17-03ad-4a95-8eaf-8222db417800-000000@us-west-2.amazonses.com>
-In-Reply-To: <01010187aa002f65-f0534f17-03ad-4a95-8eaf-8222db417800-000000@us-west-2.amazonses.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BY5PR11MB4152:EE_|CY8PR11MB6937:EE_
-x-ms-office365-filtering-correlation-id: 3569839e-bbf6-43f9-0bb7-08db47f43da6
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: fisA+a+x0F37koyZPPOamcmX1GWK4eEgDMSbeab6zR+aZ6P2gdjwBg5kU/vErh2j1vfUaXImGfa8gQLrs4SUxCZDMRpZ9Raxwb4ZGYFpiLgQtWn2Gcv7eKqmuneey1CyusMdwesVVibMnxq7bn95OSEs2TCbcs1H2/k9h+rg4QyvVyMZBL2L3H1O6DWoeY3rOOamfa5GizM+MwqyyPj7ojtAydDE2ySAaMQQc/JA2iQc+vAwdTTUNXgHGfDoiFxx8r3LPiBlXyy44WzZ2KFVFFCMn6a1srPGPEGGf1sWmib40mVwsiq+wz/52e1hWfrIgntlven0rTLTm7v4t/DKBRd6i+D4Kuu+2vmAHsAYPKc3A8RbK1AlsfEw5lH/ZGhhTPttHrM1gWsS6mjv+euLFnlEUC/XuzsTX8OZDjT6Xq6JuxN8M7Q1AZUHB6ASARkqdyPQj9UBX0958L56OJEbm0z6eT+tMgxu83OPAMNGqPgxlh6G87guSIicK8Fvt5WI2Cgss1F3/Zt3oP7tTV6ODhViAubDvGFtfGTXpLMhHGTL7bEbgseexBJGM5i2U5Nj/zSu2w4ACoR+AKkCfUedXZuJcnitegk3CEUGo6i7smc=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4152.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(366004)(376002)(346002)(136003)(396003)(39860400002)(451199021)(38100700002)(71200400001)(82960400001)(83380400001)(478600001)(110136005)(186003)(7696005)(66946007)(76116006)(66556008)(64756008)(66476007)(316002)(66446008)(41300700001)(26005)(6506007)(9686003)(86362001)(53546011)(38070700005)(8936002)(8676002)(33656002)(122000001)(55016003)(2906002)(966005)(52536014)(5660300002)(15650500001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?14GsZYNW9bMOjDhfKG21dCeN247nkR1eol7F+Q3BMGzHzfp5F+oy+OXEi4Z/?=
- =?us-ascii?Q?HY8R+vDq9QWE4yIBXdwpdLzofM4n6S65ZrzcMYdoxovJ53DRVZAZ8VWCRLNo?=
- =?us-ascii?Q?BODbla5WNcC86em23KedHABgbzgqQGgHOyHEtyjI2dqbvNE9dJDUdSWC6euT?=
- =?us-ascii?Q?UGvmX0Fl4i7fzR4wIqSsAhqgiuJg/Tbdf2PQwuOjM8dZWou47K0j+uLDJNeo?=
- =?us-ascii?Q?DYsN/eGphmX9x+eNm5Vcl5Ae0uzZiSxMV0UEO/y6KZelEs1Bk4qz2o2h7M6N?=
- =?us-ascii?Q?kjzwAwP8mjvDwmtvzIvwenaKRt6Y69R0U9u5ht1gKWRuVdeCEap4lXYf6wD2?=
- =?us-ascii?Q?yDycHE3BHkQdCZVsiiht+Wb8AwH0dnlq+VgqX/4G6+eQDu/1NVzW3nfBgsIg?=
- =?us-ascii?Q?tqxA3cSGydR53D7QjSaVb0zmSbh7CMUutipv/cBrMubb/0G7VpW1eU5Sg7ON?=
- =?us-ascii?Q?7mQMnzyiMRjZ3PmXbtgFzqp6wppDnkxq+s+OJk3K5f3nsrT4n8pYU3HqnEsJ?=
- =?us-ascii?Q?Q5RFrr2WCSTvNUxLvOgI7s+mnjCDVPVtvfLtcSb2KrK6RtvFF/2aqVJVMscx?=
- =?us-ascii?Q?+Aeud7i5Pa+eeElGAOodx8PKR2UwxJyet6sJk6IWxbLwk9iIKk2ce5c2UCmF?=
- =?us-ascii?Q?ZdnnIu83HXPhkNjfaDSCehpXx5HLlBL5v4tuIxWvluzRzERatfqsm+MLWGQV?=
- =?us-ascii?Q?3IIG3yK98STSEVAcDuBLj/d4y8VC3b1bHpf7yNNVFdRv54EYrrqTYI2z6Fca?=
- =?us-ascii?Q?rG9624op+N5zd2MbaOX4lqp9oPaPa69EKilaMz25K9kmw3MGSrtLQ46MR5Mo?=
- =?us-ascii?Q?mKCy7F9KQPuVwBK7g+59UaF7n4CstwpKFrzPVWKOLtkU4swX1qlvS0y1HE9o?=
- =?us-ascii?Q?fPglBNoUvI8OUb6ucJ4jnN5NV+D+kZ3nxpA0l2bdjVjZQ5nGkRtqk4KbW1jr?=
- =?us-ascii?Q?cZ9aYhwPRSM8GtmqdTnlrcRo7T/s4VyJ94zIXM9K/BjAZFoWNBoO6H2T86bm?=
- =?us-ascii?Q?dqRf+DxJXQL7cWZG0pmAXRfoK6krgzES+3ejJqkeR2C/TEjZnMwOaoXmqLny?=
- =?us-ascii?Q?Fl7AZnoxBSlmd0oyHVr0bKtZ9a8VvocIEH+wLmYEe3IwHk+HHn6uI7f9zjDY?=
- =?us-ascii?Q?TdueDrikE0U/qSIuC8i0hTSk/WpUlL+07g59KTTwOlXSdvkPtSWhHkWH9rxU?=
- =?us-ascii?Q?uDW9AO+eNEGCXrXYltS7R5SyVb3hcFn8BkN67oUFBR6ZUrfsCnt9+22wGXtp?=
- =?us-ascii?Q?d+6pCmzaHVLYm6zKQl4OnisgUuWQerikxObcpkw1I5dBB2kt+YemBNF+BEBd?=
- =?us-ascii?Q?Kx15UoCq1KrHP1uhlQj+ZFJF/bGNjKZ6PvX2f7S396t31YjcOCJPrzvCJiGa?=
- =?us-ascii?Q?qq6ewGZF2fq84WDt8oxIKwmvqOqU1M3VsHQiDVhxFbeJsv4Vn+M9sncCiE9n?=
- =?us-ascii?Q?QhyG3r3SE7FBS9ieIxmc+3gfApWQL8TP0VCeSgADLxa+PIKO7OCdEoRPgfEO?=
- =?us-ascii?Q?YPBraND4qnaPvmd+Y1S39fzTu39BYrvR98M6FXrrKicmJRLizDPNvHzIivrs?=
- =?us-ascii?Q?z2a2NXsT8M9IB4p+bzgN0K2K2yqIluQB5G13+bW4?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=cv+mGRKL;
+ spf=pass (domain: mvista.com, ip: 209.85.210.171, mailfrom: vkumbhar@mvista.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-63b78b344d5so52121b3a.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Apr 2023 07:44:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1682693086; x=1685285086;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=m8i5B4G4/biYtEhpbj8dTM/N2pI3NGGbfmX833lk1TQ=;
+        b=cv+mGRKLsToKNwinL0LQ/O7sxoOoEcsEa1KYrre5lylGudvUQYziDj63wYx/e+1yO0
+         ebFdZzfTH1JtPeuuneeayTSZqo7JJ66p+g+1Lie7o6DJXhp3iFKNdylSxQOTPQJ/vQFT
+         ybShGRf3cQ1djwqAL5Bn8fzKkEO5BbhnF5Vx0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682693086; x=1685285086;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=m8i5B4G4/biYtEhpbj8dTM/N2pI3NGGbfmX833lk1TQ=;
+        b=b9mLQfo8OQSVnjvwAGWUEX0v032Mk7Tp6OFluK7Jq+Ok91bQj020vD/GNpYB+DzgD7
+         YeC5RZW4d3UpyFY6y3OYdotL01x0jrYGaI2/Vgb8WL9Vemw9TIyRogEoAYEqlzn8QZ0Z
+         l/0wO3CV2bOdSXeHhDBGJtPKbmUwSCy4lD2DU4XnPak2YSKOBPDnEYokPfVulnwc9g1y
+         VsgYynSlCJggSq6IO8b05aNyslxuKW+WymAgFllI4xxUbaeG8tCEFYbbL6KTjUTBJ7a9
+         5Gr9MLJDK3IT8j+CTzKmuVqMMQ6Wxx/AANoz6xBjTn19Mv5oUGM+kvSHpdhe9UJVgKI8
+         upSw==
+X-Gm-Message-State: AC+VfDwqIPqtZ/W9EtHMlkxvi+FgONfFq9SWAqXmiCdFcDMVZpGuOgHp
+	FgTLVYlVlqcKApFMWDZQaGziHCtxiiDV0abMRB0=
+X-Google-Smtp-Source: ACHHUZ5OstQyhWmGy4cmKSVP0Psmo99O/Et6xjHD6zRKnUGfiMncHEHoPqD6JfDPaT0XFjbVSMPfew==
+X-Received: by 2002:a05:6a20:12c3:b0:ef:f7a4:a67e with SMTP id v3-20020a056a2012c300b000eff7a4a67emr6953463pzg.0.1682693086464;
+        Fri, 28 Apr 2023 07:44:46 -0700 (PDT)
+Received: from localhost.localdomain ([116.74.155.26])
+        by smtp.googlemail.com with ESMTPSA id r78-20020a632b51000000b00520f316ebe3sm13087708pgr.62.2023.04.28.07.44.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Apr 2023 07:44:46 -0700 (PDT)
+From: vkumbhar@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Vivek Kumbhar <vkumbhar@mvista.com>
+Subject: [OE-core][dunfell][PATCH] go: fix CVE-2023-24534 denial of service from excessive memory allocation
+Date: Fri, 28 Apr 2023 20:14:30 +0530
+Message-Id: <20230428144430.630975-1-vkumbhar@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4152.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3569839e-bbf6-43f9-0bb7-08db47f43da6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Apr 2023 14:24:13.4414
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SUoGPMpQzjclLic7K7zAJlnJjtcbKzvwoae1nuBrwMqt3O4JNjTpSYq1B1hTWsLI9px2umjQyhwoudWRKvmjnQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB6937
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Apr 2023 14:24:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180530
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Apr 2023 14:44:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180531
 
-Hi All,
-=20
-QA for yocto-4.2.rc3 is completed. This is the full report for this release=
-: =20
-https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?=
-h=3Dintel-yocto-testresults
-=20
-=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
-No high milestone defects.
-=20
-No new issue found.=20
-=20
-Thanks,
-Jing Hui
+From: Vivek Kumbhar <vkumbhar@mvista.com>
 
+A parsed MIME header is a map[string][]string. In the common case,
+a header contains many one-element []string slices. To avoid
+allocating a separate slice for each key, ReadMIMEHeader looks
+ahead in the input to predict the number of keys that will be
+parsed, and allocates a single []string of that length.
+The individual slices are then allocated out of the larger one.
 
-> -----Original Message-----
-> From: yocto@lists.yoctoproject.org <yocto@lists.yoctoproject.org> On
-> Behalf Of Pokybuild User
-> Sent: Sunday, April 23, 2023 1:26 AM
-> To: yocto@lists.yoctoproject.org
-> Cc: qa-build-notification@lists.yoctoproject.org
-> Subject: [yocto] QA notification for completed autobuilder build (yocto-
-> 4.2.rc3)
->=20
->=20
->     A build flagged for QA (yocto-4.2.rc3) was completed on the autobuild=
-er
-> and is available at:
->=20
->=20
->         https://autobuilder.yocto.io/pub/releases/yocto-4.2.rc3
->=20
->=20
->     Build hash information:
->=20
->     bitbake: d97d62e2cbe4bae17f0886f3b4759e8f9ba6d38c
-> meta-agl: 09135164a21a216c6e3e75d7decce896b92962f0
-> meta-arm: ea407ce849f7f181f5b43a2495436a720a32cbef
-> meta-aws: cad4b8aabc9d2cde9fb3009ae902faa32bc8f1db
-> meta-intel: 48ddf2b0e6fa5450e63878e1fc31dfc91cf3fd94
-> meta-mingw: 250617ffa524c082b848487359b9d045703d59c2
-> meta-openembedded: afbc2234898088311c38d78997f63992e38aa08a
-> meta-virtualization: 50ceb5ad53ac721a25bbbce22eb1d881cc947764
-> oecore: c57d1a561db563ed2f521bbac5fc12d4ac8e11a7
-> poky: 21790e71d55f417f27cd51fae9dd47549758d4a0
->=20
->=20
->=20
-> This is an automated message from the Yocto Project Autobuilder
-> Git: git://git.yoctoproject.org/yocto-autobuilder2
-> Email: richard.purdie@linuxfoundation.org
->=20
->=20
->=20
+The prediction of the number of header keys was done by counting
+newlines in the input buffer, which does not take into account
+header continuation lines (where a header key/value spans multiple
+lines) or the end of the header block and the start of the body.
+This could lead to a substantial amount of overallocation, for
+example when the body consists of nothing but a large block of
+newlines.
+
+Fix header key count prediction to take into account the end of
+the headers (indicated by a blank line) and continuation lines
+(starting with whitespace).
+
+Thanks to Jakob Ackermann (@das7pad) for reporting this issue.
+
+Fixes CVE-2023-24534
+For #58975
+Fixes #59267
+
+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+---
+ meta/recipes-devtools/go/go-1.14.inc          |   1 +
+ .../go/go-1.14/CVE-2023-24534.patch           | 200 ++++++++++++++++++
+ 2 files changed, 201 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-24534.patch
+
+diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
+index b1d7bc155a..3b99b8fe7e 100644
+--- a/meta/recipes-devtools/go/go-1.14.inc
++++ b/meta/recipes-devtools/go/go-1.14.inc
+@@ -57,6 +57,7 @@ SRC_URI += "\
+     file://CVE-2022-41722-2.patch \
+     file://CVE-2020-29510.patch \
+     file://CVE-2023-24537.patch \
++    file://CVE-2023-24534.patch \
+ "
+ 
+ SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
+diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-24534.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-24534.patch
+new file mode 100644
+index 0000000000..d50db04bed
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.14/CVE-2023-24534.patch
+@@ -0,0 +1,200 @@
++From d6759e7a059f4208f07aa781402841d7ddaaef96 Mon Sep 17 00:00:00 2001
++From: Damien Neil <dneil@google.com>
++Date: Fri, 10 Mar 2023 14:21:05 -0800
++Subject: [PATCH] [release-branch.go1.19] net/textproto: avoid overpredicting
++ the number of MIME header keys
++
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1802452
++Run-TryBot: Damien Neil <dneil@google.com>
++Reviewed-by: Roland Shoemaker <bracewell@google.com>
++Reviewed-by: Julie Qiu <julieqiu@google.com>
++(cherry picked from commit f739f080a72fd5b06d35c8e244165159645e2ed6)
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1802393
++Reviewed-by: Damien Neil <dneil@google.com>
++Run-TryBot: Roland Shoemaker <bracewell@google.com>
++Change-Id: I675451438d619a9130360c56daf529559004903f
++Reviewed-on: https://go-review.googlesource.com/c/go/+/481982
++Run-TryBot: Michael Knyszek <mknyszek@google.com>
++TryBot-Result: Gopher Robot <gobot@golang.org>
++Reviewed-by: Matthew Dempsky <mdempsky@google.com>
++Auto-Submit: Michael Knyszek <mknyszek@google.com>
++
++Upstream-Status: Backport [https://github.com/golang/go/commit/d6759e7a059f4208f07aa781402841d7ddaaef96]
++CVE: CVE-2023-24534
++Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
++---
++ src/bytes/bytes.go               | 13 +++++++
++ src/net/textproto/reader.go      | 31 +++++++++++------
++ src/net/textproto/reader_test.go | 59 ++++++++++++++++++++++++++++++++
++ 3 files changed, 92 insertions(+), 11 deletions(-)
++
++diff --git a/src/bytes/bytes.go b/src/bytes/bytes.go
++index e872cc2..1f0d760 100644
++--- a/src/bytes/bytes.go
+++++ b/src/bytes/bytes.go
++@@ -1078,6 +1078,19 @@ func Index(s, sep []byte) int {
++	return -1
++ }
++
+++// Cut slices s around the first instance of sep,
+++// returning the text before and after sep.
+++// The found result reports whether sep appears in s.
+++// If sep does not appear in s, cut returns s, nil, false.
+++//
+++// Cut returns slices of the original slice s, not copies.
+++func Cut(s, sep []byte) (before, after []byte, found bool) {
+++	if i := Index(s, sep); i >= 0 {
+++		return s[:i], s[i+len(sep):], true
+++	}
+++	return s, nil, false
+++}
+++
++ func indexRabinKarp(s, sep []byte) int {
++	// Rabin-Karp search
++	hashsep, pow := hashStr(sep)
++diff --git a/src/net/textproto/reader.go b/src/net/textproto/reader.go
++index a505da9..8d547fe 100644
++--- a/src/net/textproto/reader.go
+++++ b/src/net/textproto/reader.go
++@@ -486,8 +487,11 @@ func (r *Reader) ReadMIMEHeader() (MIMEHeader, error) {
++	// large one ahead of time which we'll cut up into smaller
++	// slices. If this isn't big enough later, we allocate small ones.
++	var strs []string
++-	hint := r.upcomingHeaderNewlines()
+++	hint := r.upcomingHeaderKeys()
++	if hint > 0 {
+++		if hint > 1000 {
+++			hint = 1000 // set a cap to avoid overallocation
+++		}
++		strs = make([]string, hint)
++	}
++
++@@ -562,9 +566,11 @@ func mustHaveFieldNameColon(line []byte) error {
++	return nil
++ }
++
++-// upcomingHeaderNewlines returns an approximation of the number of newlines
+++var nl = []byte("\n")
+++
+++// upcomingHeaderKeys returns an approximation of the number of keys
++ // that will be in this header. If it gets confused, it returns 0.
++-func (r *Reader) upcomingHeaderNewlines() (n int) {
+++func (r *Reader) upcomingHeaderKeys() (n int) {
++	// Try to determine the 'hint' size.
++	r.R.Peek(1) // force a buffer load if empty
++	s := r.R.Buffered()
++@@ -572,17 +578,20 @@ func (r *Reader) upcomingHeaderNewlines() (n int) {
++		return
++	}
++	peek, _ := r.R.Peek(s)
++-	for len(peek) > 0 {
++-		i := bytes.IndexByte(peek, '\n')
++-		if i < 3 {
++-			// Not present (-1) or found within the next few bytes,
++-			// implying we're at the end ("\r\n\r\n" or "\n\n")
++-			return
+++	for len(peek) > 0 && n < 1000 {
+++		var line []byte
+++		line, peek, _ = bytes.Cut(peek, nl)
+++		if len(line) == 0 || (len(line) == 1 && line[0] == '\r') {
+++			// Blank line separating headers from the body.
+++			break
+++		}
+++		if line[0] == ' ' || line[0] == '\t' {
+++			// Folded continuation of the previous line.
+++			continue
++		}
++		n++
++-		peek = peek[i+1:]
++	}
++-	return
+++	return n
++ }
++
++ // CanonicalMIMEHeaderKey returns the canonical format of the
++diff --git a/src/net/textproto/reader_test.go b/src/net/textproto/reader_test.go
++index 3124d43..3ae0de1 100644
++--- a/src/net/textproto/reader_test.go
+++++ b/src/net/textproto/reader_test.go
++@@ -9,6 +9,7 @@ import (
++	"bytes"
++	"io"
++	"reflect"
+++	"runtime"
++	"strings"
++	"testing"
++ )
++@@ -127,6 +128,42 @@ func TestReadMIMEHeaderSingle(t *testing.T) {
++	}
++ }
++
+++// TestReaderUpcomingHeaderKeys is testing an internal function, but it's very
+++// difficult to test well via the external API.
+++func TestReaderUpcomingHeaderKeys(t *testing.T) {
+++	for _, test := range []struct {
+++		input string
+++		want  int
+++	}{{
+++		input: "",
+++		want:  0,
+++	}, {
+++		input: "A: v",
+++		want:  1,
+++	}, {
+++		input: "A: v\r\nB: v\r\n",
+++		want:  2,
+++	}, {
+++		input: "A: v\nB: v\n",
+++		want:  2,
+++	}, {
+++		input: "A: v\r\n  continued\r\n  still continued\r\nB: v\r\n\r\n",
+++		want:  2,
+++	}, {
+++		input: "A: v\r\n\r\nB: v\r\nC: v\r\n",
+++		want:  1,
+++	}, {
+++		input: "A: v" + strings.Repeat("\n", 1000),
+++		want:  1,
+++	}} {
+++		r := reader(test.input)
+++		got := r.upcomingHeaderKeys()
+++		if test.want != got {
+++			t.Fatalf("upcomingHeaderKeys(%q): %v; want %v", test.input, got, test.want)
+++		}
+++	}
+++}
+++
++ func TestReadMIMEHeaderNoKey(t *testing.T) {
++	r := reader(": bar\ntest-1: 1\n\n")
++	m, err := r.ReadMIMEHeader()
++@@ -223,6 +260,28 @@ func TestReadMIMEHeaderTrimContinued(t *testing.T) {
++	}
++ }
++
+++// Test that reading a header doesn't overallocate. Issue 58975.
+++func TestReadMIMEHeaderAllocations(t *testing.T) {
+++	var totalAlloc uint64
+++	const count = 200
+++	for i := 0; i < count; i++ {
+++		r := reader("A: b\r\n\r\n" + strings.Repeat("\n", 4096))
+++		var m1, m2 runtime.MemStats
+++		runtime.ReadMemStats(&m1)
+++		_, err := r.ReadMIMEHeader()
+++		if err != nil {
+++			t.Fatalf("ReadMIMEHeader: %v", err)
+++		}
+++		runtime.ReadMemStats(&m2)
+++		totalAlloc += m2.TotalAlloc - m1.TotalAlloc
+++	}
+++	// 32k is large and we actually allocate substantially less,
+++	// but prior to the fix for #58975 we allocated ~400k in this case.
+++	if got, want := totalAlloc/count, uint64(32768); got > want {
+++		t.Fatalf("ReadMIMEHeader allocated %v bytes, want < %v", got, want)
+++	}
+++}
+++
++ type readResponseTest struct {
++	in       string
++	inCode   int
++--
++2.25.1
+-- 
+2.25.1
+
 
