@@ -1,118 +1,88 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <changhyeok.bae@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 390B1C77B60
-	for <webhook@archiver.kernel.org>; Sat, 29 Apr 2023 19:28:07 +0000 (UTC)
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
- by mx.groups.io with SMTP id smtpd.web11.54626.1682796482453711340
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26FBFC77B7C
+	for <webhook@archiver.kernel.org>; Sat, 29 Apr 2023 22:30:38 +0000 (UTC)
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+ by mx.groups.io with SMTP id smtpd.web11.58244.1682807430205079970
  for <openembedded-core@lists.openembedded.org>;
- Sat, 29 Apr 2023 12:28:02 -0700
+ Sat, 29 Apr 2023 15:30:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=hrYamS2J;
- spf=pass (domain: gmail.com, ip: 209.85.161.52, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-541fb831026so420915eaf.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 29 Apr 2023 12:28:02 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=iDrJ0iro;
+ spf=pass (domain: gmail.com, ip: 209.85.208.43, mailfrom: changhyeok.bae@gmail.com)
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-506bcf9aa50so176797a12.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 29 Apr 2023 15:30:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682796482; x=1685388482;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OTIMerquhcsiX3BJhcPGrOVaLqG14EH8VsL0LrXzriE=;
-        b=hrYamS2JjEqbwFFqjZLSbv+kELMfFPitEISB7RlqWgK++3QIBYKC+aGlrQU6i+5t61
-         nJ1R/WvB7HPD9EBVhoXBEpZ1UOH6CAbk0bCWEF0cS5rXke3HOFLCFDYXym3TSAcLp5rS
-         P3/4gjcP4V665gv1P1F0NxRCpO+bCE8MLXFeBjhBrmaHxzc777/UjUSzLRhHyw0mGKz+
-         cmNcWl3yIX0l0Tk4CH6mOtsqv/1VZmo7PR6GkCzRGptHEE0RhjaQ7B8eevIJosx95kxV
-         zdoNdh89Qi4p3yiyHVSjltSTIvkWCEWq+wV3i6Ymr173fLwVTd6L+lal+gx2CMx1ylg+
-         1lLg==
+        d=gmail.com; s=20221208; t=1682807428; x=1685399428;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vJZ2eMbTP9swYunC1rB8fHs1RTvl9ZbLG6h8GD9G69I=;
+        b=iDrJ0iroDGtBsUshGbOo4US/QGNJOl/pAdcIBclXZMpdCUFjKiL1WtdalZivgCVRzy
+         P/vJ13w8IopVUlnVV0kyVR9OK0/HHry5qRtQwWPDKrZFXQnVEqdJAakZfCZyXuilAH+u
+         eFoSlya5x3MsL+Rc8a5WHzQ6JpCuyWGqYtCLIGi876fHLjPEdLkfdkLSrDyPP5xKk66m
+         /HUGXAthER8nAK13gYncS8R9r2Nt5EJCz0UCQ3iDISS2Enc+oOpH43Ztx6m0P+mCloLC
+         8jdkT0FpkX3Svbg7uuqFXNaCWcrcoADxTE2EozMo8wH2H/XzIh77fX4cZEDFLinElAUs
+         Salw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682796482; x=1685388482;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OTIMerquhcsiX3BJhcPGrOVaLqG14EH8VsL0LrXzriE=;
-        b=G/wZb0USivXJqZFeC64FZGuCpDO/RiLi6/eywiF+65S5Vld4oFZ5v80Hd8/u8ks+aX
-         ozXFsTTlO1/W1QUjhI8VJDAFACvbBHzh4XzeBt5xo3O434VCw5T8y4J5lCUZcMZUTZ/d
-         UWWcBQWvCtBDehCG2dRqzy8A4A8rooM33AuvNOXnQljP4Ofxx/G7ddVFzVnTiUFa8Ann
-         2cGckhRQ3LE18w9bKf6GGMzE9LGck97vZNmAhOgU0ZC045Oy+1GeTEjH/JUKtR7OhU0E
-         nTD4z7l7R9ul8P1q6wpVrt1a0PTqgjGXknCqvXspx39d+fdTOARypXE4FC9weGCK7QLm
-         bCBA==
-X-Gm-Message-State: AC+VfDzE1o4Xy2b+9HlkYIIlMrVBOkj3MrmZnksfxILwcQd6ZB+XQtXU
-	YAjYKBuWz4zXgA03ibLVGqbYe+UbcwDFJXx6xYY=
-X-Google-Smtp-Source: ACHHUZ4sYd8argNclT7JtfQ4+ukIGIiVD82CcPbIgN0xEC8hfgILgG6zhM/H3YOOGNI7iL+FeeyifmtCjVoFADapMCE=
-X-Received: by 2002:aca:3305:0:b0:392:116a:cce7 with SMTP id
- z5-20020aca3305000000b00392116acce7mr1092463oiz.33.1682796480689; Sat, 29 Apr
- 2023 12:28:00 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1682807428; x=1685399428;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vJZ2eMbTP9swYunC1rB8fHs1RTvl9ZbLG6h8GD9G69I=;
+        b=lLOJYDNQKJ1ztdea/a68AuwMb7r99VP1rYbFLdTc9t9QIVcWo8MiTNkXGHo94YzhHd
+         fS7ryIdMYDTOQbmvp/0QdGNFyJgQxGRjUTiMVAiZBcHBrBHrC37po9B7axaRoJVI5Ok9
+         zE9vwhZb+qZg+0Orgml2NlDYm+Ro8S1K6LoJe3vc6ygllOly7CJMBK3cjZhMBuXl4hxd
+         kVivnaSgYUUN/jwhV81dK4EBHdlHpEepEWjHAbmfiytJogt7DyXg2q3a2wrAi9p9lI+E
+         +RQKdLf962wzKPIx7jDIVPFp99rLLHup3o2X5Bn9rA3pot+13Dy8XHFglT6vQxsvN9q2
+         Gq5g==
+X-Gm-Message-State: AC+VfDwx8KPEohDnXB/RB3GCUw6brSXBhO5DmW/pyBnk9k13N0EnGXoB
+	NOeW9YJZok5Ub+bxhpIJMPK+G9n7gZA=
+X-Google-Smtp-Source: ACHHUZ5DnG/AcdLAk7O7w0AhfyoI6gjEzLt7SJ3/PaUxsHCzcGKLfgsz08gXl1+vB2qRNekdNCcLkQ==
+X-Received: by 2002:a05:6402:524e:b0:504:b68e:9676 with SMTP id t14-20020a056402524e00b00504b68e9676mr5360345edd.2.1682807428170;
+        Sat, 29 Apr 2023 15:30:28 -0700 (PDT)
+Received: from localhost.localdomain (ip5f5aec7a.dynamic.kabel-deutschland.de. [95.90.236.122])
+        by smtp.gmail.com with ESMTPSA id i17-20020a056402055100b0050685927971sm10600968edx.30.2023.04.29.15.30.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 29 Apr 2023 15:30:27 -0700 (PDT)
+From: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Changhyeok Bae <changhyeok.bae@gmail.com>
+Subject: [OE-core][PATCH 1/2] iproute2: upgrade 6.2.0 -> 6.3.0
+Date: Sat, 29 Apr 2023 22:30:06 +0000
+Message-Id: <20230429223007.86655-1-changhyeok.bae@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230426095036.2632847-1-alex@linutronix.de> <20230426095036.2632847-5-alex@linutronix.de>
- <CAMKF1sqsu_F4JS6f+=TfzJmv_Eq7VKpTFDd5OeBXjzRez76P8w@mail.gmail.com>
- <CANNYZj992xUKdM6pLka6wUGDNyXcc+p5ZaL62E6i_7s_RLPRmw@mail.gmail.com>
- <CAMKF1soV_hmE+f7ed0r=jo+rQcWyJ4SU1vG3T2YGAqZQsgReWw@mail.gmail.com> <CANNYZj9X+dTmBN=5WQdA9af5E7m+Ov9vO=bOjR0p=BeBADMEAg@mail.gmail.com>
-In-Reply-To: <CANNYZj9X+dTmBN=5WQdA9af5E7m+Ov9vO=bOjR0p=BeBADMEAg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 29 Apr 2023 12:27:34 -0700
-Message-ID: <CAMKF1sq=YOzoqyRzn1bhRwxqWSMV1SnzRKNDutBDiKqw+PjhXw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 05/11] bitbake.conf: set minimum required kernel
- to 5.15
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 29 Apr 2023 19:28:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180559
+ <openembedded-core@lists.openembedded.org>; Sat, 29 Apr 2023 22:30:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180560
 
-I am also seing some segfaults in qemu usermode runs
+Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
+---
+ .../iproute2/{iproute2_6.2.0.bb => iproute2_6.3.0.bb}           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/iproute2/{iproute2_6.2.0.bb => iproute2_6.3.0.bb} (97%)
 
-| /mnt/b/yoe/master/build/tmp/work/core2-64-yoe-linux-musl/libclc/16.0.1-r0=
-/qemuwrapper:
-line 2: 1592564 Segmentation fault      (core dumped) PSEUDO_UNLOAD=3D1
-qemu-x86_64 -r 5.15 -cpu core2duo -L
-/mnt/b/yoe/master/build/tmp/work/core2-64-yoe-linux-musl/libclc/16.0.1-r0/r=
-ecipe-sysroot
--E LD_LIBRARY_PATH=3D/mnt/b/yoe/master/build/tmp/work/core2-64-yoe-linux-mu=
-sl/libclc/16.0.1-r0/recipe-sysroot/usr/lib:/mnt/b/yoe/master/build/tmp/work=
-/core2-64-yoe-linux-musl/libclc/16.0.1-r0/recipe-sysroot/usr/lib
-"$@"
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_6.2.0.bb b/meta/recipes-connectivity/iproute2/iproute2_6.3.0.bb
+similarity index 97%
+rename from meta/recipes-connectivity/iproute2/iproute2_6.2.0.bb
+rename to meta/recipes-connectivity/iproute2/iproute2_6.3.0.bb
+index 65ddfa8223..892fa854da 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2_6.2.0.bb
++++ b/meta/recipes-connectivity/iproute2/iproute2_6.3.0.bb
+@@ -15,7 +15,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
+            file://0001-libc-compat.h-add-musl-workaround.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "4d72730200ec5b2aabaa1a2f20553c6748292f065d9a154c7d5e22559df9fd62"
++SRC_URI[sha256sum] = "dfb2a98db96e7a653cffc6693335a1a466e29a34b6ac528be48f35e1d2766732"
+ 
+ inherit update-alternatives bash-completion pkgconfig
+ 
+-- 
+2.34.1
 
-this happens when building libclc from meta-clang
-
-I also saw random build failures in qtbase which is perhaps unrelated
-but could be this one too
-
-Third issue is https://errors.yoctoproject.org/Errors/Details/701889/
-
-I wonder if uninative version of glibc should be first built with this
-change if we really want to pursue it.
-
-Also send a BIG warning to community on breaking this backward
-compatibility, for some it might be helpful to get this notification
-now than next year.
-
-On Thu, Apr 27, 2023 at 12:54=E2=80=AFAM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> On Thu, 27 Apr 2023 at 09:48, Khem Raj <raj.khem@gmail.com> wrote:
->
-> > It will break compatibility with older kernels because we are telling g=
-libc that
-> > we have 5.15 at minimum so it will assume system calls which are availa=
-ble
-> > upto and including 5.15 and some of these syscalls may not be
-> > available in older kernels
-> > by next LTS it might be that 5.15 is commonly used but it still
-> > remains a problem for
-> > precompiled binaries and libraries etc. sadly
->
-> Once again, this affects target kernels only. There are no new
-> restrictions on the build host or sdk host kernel versions.
->
-> If you are using an older target kernel, set OLDEST_KERNEL to match.
-> If you are using precompiled items, I'm not sure what the problem
-> would be for them?
->
-> Alex
 
