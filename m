@@ -1,113 +1,142 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9996AC77B61
-	for <webhook@archiver.kernel.org>; Fri, 28 Apr 2023 22:03:11 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web11.34579.1682719387212668695
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6173DC77B60
+	for <webhook@archiver.kernel.org>; Sat, 29 Apr 2023 01:29:12 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.38458.1682731744552820737
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Apr 2023 15:03:07 -0700
+ Fri, 28 Apr 2023 18:29:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=F5lecz2i;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id AE2771C0002;
-	Fri, 28 Apr 2023 22:03:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1682719384;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EUvXwO7fWc7xU1Mw/ZYM0MTrv1/4R8PPFXZ3icTWdjA=;
-	b=F5lecz2iGy18Bhs/tGvkxwAEj+CzuUu9cu6EwqDGLw+xvMfziKwKF3IX5gSXfymG8UVysa
-	qcqSgVxHYvqpufvb/2SOQA77lgghkB5sEHRjevCVl+desiOo2wf5ocAriLVSvk33n79THm
-	zdL7ME493tvNwn4u7fvTgW63eP3hP/gfhBZNzbKK0D7z+JiMdoCbciY8HJjYvQkYabuvaP
-	0+LrcF3AzZgibjcZ2SxIwTB6MAxXwrB8cJmmHgoXsM9xtwyU3uJ3cu1d/v81zhFL4D7CZh
-	E6+nzFBERX6XnT7BI5tUgkMAtVtVA0qEwubpqqj2SA5CD5sSiwOqTRFU+ZfaPw==
-Date: Sat, 29 Apr 2023 00:03:03 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Alexander Kanavin <alex@linutronix.de>
-Subject: Re: [OE-core] [PATCH v2 11/11] insane.bbclass: enable 32 bit time
- API check (as a warning) on affected architectures
-Message-ID: <2023042822030330c67128@mail.local>
-References: <20230428084352.836515-1-alex@linutronix.de>
- <20230428084352.836515-11-alex@linutronix.de>
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=ieOgdRJV;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1a66b9bd7dfso5934405ad.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Apr 2023 18:29:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682731743; x=1685323743;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PX+CrUFC33qkbcjceYtQGmA8vM1q6xyytEW7AiuoUOw=;
+        b=ieOgdRJV+KmZkANfi9CsfWOIhhh67hUZqqzVgIOE2dfhb7inLJUw0beui/y7mgZJGE
+         TrM0AcehgJE01m+dUwSWc1kcJ7zJmGxaDsi6ugo+yHIWdUcFMwMqp177wCN7xJvBjfMV
+         shnsaut3nu8PS+gCG4qS7FK4TQjiTAaGZMTMb3UL/LrP753xkys6dB40WM2AH7IiUY1j
+         icqNuESh0EnLzeUXfG7aBLbGzCxvLozZD8uQ8dwc7i+tlDqoEzpZYOSdvyXKIEVbj1gl
+         SJGsan4sZap6A8to19FFJFXzj4qbs4bPB2MwCR60hA0DQQUmpJghSAy7H/A0eDFh/LlX
+         +MJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682731743; x=1685323743;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PX+CrUFC33qkbcjceYtQGmA8vM1q6xyytEW7AiuoUOw=;
+        b=QAA7jIZZooBrE5YIP6REHMUeFggSKe1Lahm5RNUpMenjqHmWbtuzOsBe1hgMtwCYhz
+         eY/0wybMr+uEh3ua5MJLP7gU1jyX9vXRHd3F3GANzRYnRshoI9cBwB/37nKxPFzEMpeC
+         f7mJtUvL/P6geT/OwnHR0fgOh5G6l5FdIFLvi15BW+45DkMuZCTxBVUerNOILd/MDUTG
+         vgOo7YbqBxPjJ2NfPqAlZw3lc6Js6TEBJX1lBCJr8NLj5+0EW8wFU7zFgjmVkogngKaS
+         a+QPsu2N5UgufMF+spgjMOJfGME+gKSK1eqgf5ZdDg4tP0ulMEnvvgKUh+HjyczluDUB
+         SL9g==
+X-Gm-Message-State: AC+VfDz08tr1/vHtJAtEjBPn2co0zbk9nA5iLjOv80RHjOsC84lJklTl
+	Ueobo8OYr67AEbMIu0c+GEg3nlVMVynuCQ==
+X-Google-Smtp-Source: ACHHUZ7TDdQe521PghLFZCn1giXSfBltoot1s8m6PxFKP5Ivr9kc3gFfPnRT65pRDGZEINCklzOG6w==
+X-Received: by 2002:a17:902:cecc:b0:1a5:253f:ace7 with SMTP id d12-20020a170902cecc00b001a5253face7mr8796363plg.29.1682731743147;
+        Fri, 28 Apr 2023 18:29:03 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:9181:d380::f98d])
+        by smtp.gmail.com with ESMTPSA id x7-20020a17090a788700b002448f08b177sm10636303pjk.22.2023.04.28.18.29.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Apr 2023 18:29:02 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] cpio: Run ptests under ptest user
+Date: Fri, 28 Apr 2023 18:29:00 -0700
+Message-Id: <20230429012900.872374-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230428084352.836515-11-alex@linutronix.de>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Apr 2023 22:03:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180536
+ <openembedded-core@lists.openembedded.org>; Sat, 29 Apr 2023 01:29:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180537
 
-On 28/04/2023 10:43:52+0200, Alexander Kanavin wrote:
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> 
-> ---
-> v2: downgrade to a warning from an error
-> ---
->  meta/classes-global/insane.bbclass | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
-> index 8788f58fc5b..6479fc0964b 100644
-> --- a/meta/classes-global/insane.bbclass
-> +++ b/meta/classes-global/insane.bbclass
-> @@ -34,6 +34,7 @@ WARN_QA ?= " libdir xorg-driver-abi buildpaths \
->              missing-update-alternatives native-last missing-ptest \
->              license-exists license-no-generic license-syntax license-format \
->              license-incompatible license-file-missing obsolete-license \
-> +            32bit-time \
->              "
->  ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
->              perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
-> @@ -44,7 +45,7 @@ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
->              already-stripped installed-vs-shipped ldflags compile-host-path \
->              install-host-path pn-overrides unknown-configure-option \
->              useless-rpaths rpaths staticdev empty-dirs \
-> -            patch-fuzz patch-status-core\
-> +            patch-fuzz patch-status-core \
+Running these tests under root user on musl works ok but it emits
+additional diagnostic
 
-This unrelated change creates a conflict with your other series. Could
-you drop it if you need to respin?
+cpio: dir: Cannot change ownership to uid 0, gid 0: Not supported
 
->              "
->  # Add usrmerge QA check based on distro feature
->  ERROR_QA:append = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', ' usrmerge', '', d)}"
-> @@ -512,6 +513,11 @@ def check_32bit_symbols(path, packagename, d, elf, messages):
->      """
->      Check that ELF files do not use any 32 bit time APIs from glibc.
->      """
-> +    thirtytwo_bit_time_archs = set(('arm','armeb','mipsarcho32','powerpc','x86'))
-> +    overrides = set(d.getVar('OVERRIDES').split(':'))
-> +    if not(thirtytwo_bit_time_archs & overrides):
-> +        return
-> +
->      import re
->      # This list is manually constructed by searching the image folder of the
->      # glibc recipe for __USE_TIME_BITS64.  There is no good way to do this
-> -- 
-> 2.30.2
-> 
+Ideally its better to run this test suite under non-root user which
+is often how these are run. Moreover, tests work on musl as well.
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#180522): https://lists.openembedded.org/g/openembedded-core/message/180522
-> Mute This Topic: https://lists.openembedded.org/mt/98554692/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-extended/cpio/cpio-2.13/run-ptest   |  9 +--------
+ .../cpio/cpio-2.13/{run-ptest => test.sh}        |  0
+ meta/recipes-extended/cpio/cpio_2.13.bb          | 16 ++++++++++++++++
+ 3 files changed, 17 insertions(+), 8 deletions(-)
+ mode change 100644 => 100755 meta/recipes-extended/cpio/cpio-2.13/run-ptest
+ copy meta/recipes-extended/cpio/cpio-2.13/{run-ptest => test.sh} (100%)
 
-
+diff --git a/meta/recipes-extended/cpio/cpio-2.13/run-ptest b/meta/recipes-extended/cpio/cpio-2.13/run-ptest
+old mode 100644
+new mode 100755
+index f027574e86..f35a756d6b
+--- a/meta/recipes-extended/cpio/cpio-2.13/run-ptest
++++ b/meta/recipes-extended/cpio/cpio-2.13/run-ptest
+@@ -1,10 +1,3 @@
+ #!/bin/sh
+ 
+-# Define cpio test work dir
+-WORKDIR=@PTEST_PATH@/tests/
+-
+-# Run test
+-cd ${WORKDIR}
+-./atconfig ./atlocal ./testsuite
+-
+-./testsuite 2>&1 | grep -E '[0-9]{1,3}: ' | sed -e 's/^.....//' -e '/[ok]$/s/^/PASS: /;/FAILED (.*)/s/^/FAIL: /;/skipped (.*)/s/^/SKIP: /;/expected failure/ s/^/PASS: /;/UNEXPECTED PASS/s/^/FAIL: /' -e 's/ok$//g' -e 's/FAILED.*//g' -e 's/skipped.*//g' -e 's/expected failure.*//g' -e 's/UNEXPECTED PASS.*//g'
++su -c ./test.sh ptest
+diff --git a/meta/recipes-extended/cpio/cpio-2.13/run-ptest b/meta/recipes-extended/cpio/cpio-2.13/test.sh
+similarity index 100%
+copy from meta/recipes-extended/cpio/cpio-2.13/run-ptest
+copy to meta/recipes-extended/cpio/cpio-2.13/test.sh
+diff --git a/meta/recipes-extended/cpio/cpio_2.13.bb b/meta/recipes-extended/cpio/cpio_2.13.bb
+index df5e09cae8..943fa9b3ab 100644
+--- a/meta/recipes-extended/cpio/cpio_2.13.bb
++++ b/meta/recipes-extended/cpio/cpio_2.13.bb
+@@ -14,6 +14,7 @@ SRC_URI = "${GNU_MIRROR}/cpio/cpio-${PV}.tar.gz \
+            file://0001-Use-__alignof__-with-clang.patch \
+            file://0001-Wrong-CRC-with-ASCII-CRC-for-large-files.patch \
+            file://run-ptest \
++           file://test.sh \
+            "
+ 
+ SRC_URI[md5sum] = "389c5452d667c23b5eceb206f5000810"
+@@ -57,9 +58,24 @@ do_install_ptest() {
+     install --mode=755 ${B}/tests/atlocal ${D}${PTEST_PATH}/tests/
+     install --mode=755 ${B}/tests/genfile ${D}${PTEST_PATH}/tests/
+     install --mode=755 ${S}/tests/testsuite ${D}${PTEST_PATH}/tests/
++    install --mode=755 ${WORKDIR}/test.sh ${D}${PTEST_PATH}/test.sh
+     sed -i "s#@PTEST_PATH@#${PTEST_PATH}#g" ${D}${PTEST_PATH}/run-ptest
+ }
+ 
++# ptest.bbclass currently chowns the ptest directory explicitly, so we need to
++# change permission after that has happened so the ptest user can write a
++# temporary directory.
++do_install_ptest_base:append() {
++    chgrp -R ptest ${D}${PTEST_PATH}/
++    chmod -R g+w ${D}${PTEST_PATH}/
++}
++
++# The tests need to run as a non-root user, so pull in the ptest user
++DEPENDS:append:class-target = "${@bb.utils.contains('PTEST_ENABLED', '1', ' ptest-runner', '', d)}"
++PACKAGE_WRITE_DEPS += "ptest-runner"
++
++RDEPENDS:${PN}-ptest += "ptest-runner"
++
+ PACKAGES =+ "${PN}-rmt"
+ 
+ FILES:${PN}-rmt = "${sbindir}/rmt*"
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.40.1
+
 
