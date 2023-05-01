@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB49AC87FF1
-	for <webhook@archiver.kernel.org>; Mon,  1 May 2023 21:25:51 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.107419.1682976349488070178
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B22DC88C84
+	for <webhook@archiver.kernel.org>; Mon,  1 May 2023 21:25:52 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.107882.1682976348752815537
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 May 2023 14:25:49 -0700
+ Mon, 01 May 2023 14:25:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=MaM0ojk9;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010187d9351a24-64585c22-1702-4233-81ed-97baea7342c0-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=SH+O8T20;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010187d935143f-e51fa9ef-8f8c-4b29-b158-3c78e04f9e0a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1682976348;
+	t=1682976347;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=yjScz6PzLBdLe4bZ+mwFAlnjebxBsO9e1MXrIFCk3Tc=;
-	b=MaM0ojk9heYcEyaMNNv2e4oIQiZiXIl+NkusYQihtJzOXu0WbK7hqRVINz3SB8Fm
-	qGWq/LGn//Asy7ijmTgkRDBxW/ayJLsm727pwWfpSm2RNG/cc5zTP1FucfPlRvs0bOy
-	7IS4VZKW/AQW752rrA0vW1lR1a8hFGeA5pgiK8ek=
+	bh=P4aN3svLMumMWahrVA2mZBNPuObhwH+eaF7DW548twc=;
+	b=SH+O8T201g46UR5NSfy1ljDcPLL8uK1biwd/YNlbOPo3Hdt5fwBdxdxZO7tm56TD
+	UgbGiHtEOvYy5PR9rktLjYQlKpioWdKpTDUhR+PyFcXizJkQW1OnNofkDBtWQ1cn8yj
+	y0CMOjXU3NpbAxvn6DegKgyNE2U4/+erjf40wnXw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1682976348;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1682976347;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=yjScz6PzLBdLe4bZ+mwFAlnjebxBsO9e1MXrIFCk3Tc=;
-	b=L0H0PVcsKSu7dfuHuAEKyv2x5bX8khE7wGRseECwFdFOYwo1yCyLUnwIg4p6YLV6
-	KYV6LjrD+E/52cV5qVJOK7W4nVFRrdVaUgeD8EiVsIeBVPDdh7W93ZaRiVWiYoUHexM
-	T/8XDngJ+SigtSQcYH7IRViqNesGtVziDfMCNA/Y=
-Content-Type: multipart/mixed; boundary="===============4358634331253770966=="
+	bh=P4aN3svLMumMWahrVA2mZBNPuObhwH+eaF7DW548twc=;
+	b=OmrGdO9TOgC0HMscuyZqcIq+0GOToJqleNZlgUAUOiuXGAuE7/Q43z8XtVmAwhRy
+	tLs5/j7RNfpOJV2CORXt+ZxA2wDC3coQEU/z8dyTAkLMfx+H8PeOolpbpHEr4A3y6XX
+	8+xbTs0FEdFMt6kbDPL9IuQhJMmOEg7+m7zlyXa4=
+Content-Type: multipart/mixed; boundary="===============1061874900397343258=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Changhyeok Bae <changhyeok.bae@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxml2: upgrading to 2.11.1 FAILED
-Message-ID: <01010187d9351a24-64585c22-1702-4233-81ed-97baea7342c0-000000@us-west-2.amazonses.com>
-Date: Mon, 1 May 2023 21:25:48 +0000
+Subject: [AUH] iproute2: upgrading to 6.3.0 SUCCEEDED
+Message-ID: <01010187d935143f-e51fa9ef-8f8c-4b29-b158-3c78e04f9e0a-000000@us-west-2.amazonses.com>
+Date: Mon, 1 May 2023 21:25:47 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.05.01-54.240.27.193
+X-SES-Outgoing: 2023.05.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 May 2023 21:25:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180597
+ <openembedded-core@lists.openembedded.org>; Mon, 01 May 2023 21:25:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180591
 
---===============4358634331253770966==
+--===============1061874900397343258==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,129 +50,108 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libxml2* to *2.11.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *iproute2* to *6.3.0* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-iproute2-upgrade-6.2.0-6.3.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe libxml2 failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (07:53:31.174130)
-Loading cache...done.
-Loaded 1799 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:07fd493ed806833359268c6cac4fcf64e730f8cb"
-workspace            = "master:cce6db2a59d309f77c1f9ca173fc674c506062d0"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 22 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Loading cache...done.
-Loaded 1799 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 900 .bb files complete (898 cached, 2 parsed). 1800 targets, 39 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:07fd493ed806833359268c6cac4fcf64e730f8cb"
-workspace            = "master:cce6db2a59d309f77c1f9ca173fc674c506062d0"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 18 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   2% |                                    | ETA:  0:00:07
-Adding changed files:   5% |#                                   | ETA:  0:00:04
-Adding changed files:   7% |##                                  | ETA:  0:00:04
-Adding changed files:  10% |###                                 | ETA:  0:00:03
-Adding changed files:  12% |####                                | ETA:  0:00:03
-Adding changed files:  15% |#####                               | ETA:  0:00:02
-Adding changed files:  17% |######                              | ETA:  0:00:02
-Adding changed files:  20% |#######                             | ETA:  0:00:02
-Adding changed files:  22% |########                            | ETA:  0:00:02
-Adding changed files:  25% |#########                           | ETA:  0:00:02
-Adding changed files:  28% |##########                          | ETA:  0:00:01
-Adding changed files:  30% |###########                         | ETA:  0:00:01
-Adding changed files:  33% |###########                         | ETA:  0:00:01
-Adding changed files:  35% |############                        | ETA:  0:00:01
-Adding changed files:  38% |#############                       | ETA:  0:00:01
-Adding changed files:  40% |##############                      | ETA:  0:00:01
-Adding changed files:  43% |###############                     | ETA:  0:00:01
-Adding changed files:  45% |################                    | ETA:  0:00:01
-Adding changed files:  48% |#################                   | ETA:  0:00:01
-Adding changed files:  51% |##################                  | ETA:  0:00:01
-Adding changed files:  53% |###################                 | ETA:  0:00:01
-Adding changed files:  56% |####################                | ETA:  0:00:00
-Adding changed files:  58% |#####################               | ETA:  0:00:00
-Adding changed files:  61% |######################              | ETA:  0:00:00
-Adding changed files:  63% |######################              | ETA:  0:00:00
-Adding changed files:  66% |#######################             | ETA:  0:00:00
-Adding changed files:  68% |########################            | ETA:  0:00:00
-Adding changed files:  71% |#########################           | ETA:  0:00:00
-Adding changed files:  73% |##########################          | ETA:  0:00:00
-Adding changed files:  76% |###########################         | ETA:  0:00:00
-Adding changed files:  79% |############################        | ETA:  0:00:00
-Adding changed files:  81% |#############################       | ETA:  0:00:00
-Adding changed files:  84% |##############################      | ETA:  0:00:00
-Adding changed files:  86% |###############################     | ETA:  0:00:00
-Adding changed files:  89% |################################    | ETA:  0:00:00
-Adding changed files:  91% |#################################   | ETA:  0:00:00
-Adding changed files:  94% |#################################   | ETA:  0:00:00
-Adding changed files:  96% |##################################  | ETA:  0:00:00
-Adding changed files:  99% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:02
-INFO: Extracting current version source...
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://download.gnome.org/sources//libxml2/2.11/libxml2-2.11.1.tar.xz;name=archive...
-INFO: Rebasing devtool onto da693584b8248d698d3222f79dad1bf643a2a5ac
-WARNING: Command 'git rebase da693584b8248d698d3222f79dad1bf643a2a5ac' failed:
-Auto-merging libxml.h
-CONFLICT (content): Merge conflict in libxml.h
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/libxml2
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/libxml2/libxml2_2.11.1.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============4358634331253770966==--
+--===============1061874900397343258==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-iproute2-upgrade-6.2.0-6.3.0.patch"
+
+RnJvbSA0M2UzZjAyZDI2MjhlNGU5MzYyZGQ3ZDY5MTNjMGZkMGM3ZjFkM2U2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMSBNYXkgMjAyMyAwNjo1MToyNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGlw
+cm91dGUyOiB1cGdyYWRlIDYuMi4wIC0+IDYuMy4wCgotLS0KIC4uLi9pcHJvdXRlMi97aXByb3V0
+ZTJfNi4yLjAuYmIgPT4gaXByb3V0ZTJfNi4zLjAuYmJ9ICAgICAgICAgICB8IDIgKy0KIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1jb25uZWN0aXZpdHkvaXByb3V0ZTIve2lwcm91dGUyXzYuMi4wLmJiID0+IGlwcm91dGUy
+XzYuMy4wLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkv
+aXByb3V0ZTIvaXByb3V0ZTJfNi4yLjAuYmIgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2lw
+cm91dGUyL2lwcm91dGUyXzYuMy4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9t
+IG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaXByb3V0ZTIvaXByb3V0ZTJfNi4yLjAuYmIKcmVu
+YW1lIHRvIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaXByb3V0ZTIvaXByb3V0ZTJfNi4zLjAu
+YmIKaW5kZXggNjVkZGZhODIyMy4uODkyZmE4NTRkYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWNvbm5lY3Rpdml0eS9pcHJvdXRlMi9pcHJvdXRlMl82LjIuMC5iYgorKysgYi9tZXRhL3JlY2lw
+ZXMtY29ubmVjdGl2aXR5L2lwcm91dGUyL2lwcm91dGUyXzYuMy4wLmJiCkBAIC0xNSw3ICsxNSw3
+IEBAIFNSQ19VUkkgPSAiJHtLRVJORUxPUkdfTUlSUk9SfS9saW51eC91dGlscy9uZXQvJHtCUE59
+LyR7QlB9LnRhci54eiBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWxpYmMtY29tcGF0LmgtYWRk
+LW11c2wtd29ya2Fyb3VuZC5wYXRjaCBcCiAgICAgICAgICAgICIKIAotU1JDX1VSSVtzaGEyNTZz
+dW1dID0gIjRkNzI3MzAyMDBlYzViMmFhYmFhMWEyZjIwNTUzYzY3NDgyOTJmMDY1ZDlhMTU0Yzdk
+NWUyMjU1OWRmOWZkNjIiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZGZiMmE5OGRiOTZlN2E2NTNj
+ZmZjNjY5MzMzNWExYTQ2NmUyOWEzNGI2YWM1MjhiZTQ4ZjM1ZTFkMjc2NjczMiIKIAogaW5oZXJp
+dCB1cGRhdGUtYWx0ZXJuYXRpdmVzIGJhc2gtY29tcGxldGlvbiBwa2djb25maWcKIAotLSAKMi4z
+OS4yCgo=
+
+--===============1061874900397343258==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/iproute2/iproute2-bash-completion: PV changed from "6.2.0" to "6.3.0"
+packages/core2-32-poky-linux/iproute2/iproute2-bash-completion: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-dbg: PV changed from "6.2.0" to "6.3.0"
+packages/core2-32-poky-linux/iproute2/iproute2-dbg: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-dbg: PKGSIZE changed from 6723724 to 6733092 (+0%)
+packages/core2-32-poky-linux/iproute2/iproute2-dev: PV changed from "6.2.0" to "6.3.0"
+packages/core2-32-poky-linux/iproute2/iproute2-dev: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-devlink: PV changed from "6.2.0" to "6.3.0"
+packages/core2-32-poky-linux/iproute2/iproute2-devlink: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-doc: PV changed from "6.2.0" to "6.3.0"
+packages/core2-32-poky-linux/iproute2/iproute2-doc: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-genl: PV changed from "6.2.0" to "6.3.0"
+packages/core2-32-poky-linux/iproute2/iproute2-genl: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-ifstat: PV changed from "6.2.0" to "6.3.0"
+packages/core2-32-poky-linux/iproute2/iproute2-ifstat: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-ip: PV changed from "6.2.0" to "6.3.0"
+packages/core2-32-poky-linux/iproute2/iproute2-ip: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-lnstat: PV changed from "6.2.0" to "6.3.0"
+packages/core2-32-poky-linux/iproute2/iproute2-lnstat: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-locale: PV changed from "6.2.0" to "6.3.0"
+packages/core2-32-poky-linux/iproute2/iproute2-locale: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-nstat: PV changed from "6.2.0" to "6.3.0"
+packages/core2-32-poky-linux/iproute2/iproute2-nstat: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-rdma: PV changed from "6.2.0" to "6.3.0"
+packages/core2-32-poky-linux/iproute2/iproute2-rdma: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-routel: PV changed from "6.2.0" to "6.3.0"
+packages/core2-32-poky-linux/iproute2/iproute2-routel: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-rtacct: PV changed from "6.2.0" to "6.3.0"
+packages/core2-32-poky-linux/iproute2/iproute2-rtacct: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-src: PV changed from "6.2.0" to "6.3.0"
+packages/core2-32-poky-linux/iproute2/iproute2-src: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-src: PKGSIZE changed from 3616687 to 3625705 (+0%)
+packages/core2-32-poky-linux/iproute2/iproute2-ss: PV changed from "6.2.0" to "6.3.0"
+packages/core2-32-poky-linux/iproute2/iproute2-ss: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-staticdev: PV changed from "6.2.0" to "6.3.0"
+packages/core2-32-poky-linux/iproute2/iproute2-staticdev: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-tc: PV changed from "6.2.0" to "6.3.0"
+packages/core2-32-poky-linux/iproute2/iproute2-tc: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-tipc: PV changed from "6.2.0" to "6.3.0"
+packages/core2-32-poky-linux/iproute2/iproute2-tipc: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2: PV changed from "6.2.0" to "6.3.0"
+packages/core2-32-poky-linux/iproute2/iproute2: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2: PKGSIZE changed from 291992 to 296088 (+1%)
+packages/core2-32-poky-linux/iproute2: PV changed from "6.2.0" to "6.3.0"
+packages/core2-32-poky-linux/iproute2: SRC_URI changed from "https://cdn.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.2.0.tar.xz file://0001-libc-compat.h-add-musl-workaround.patch" to "https://cdn.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.3.0.tar.xz file://0001-libc-compat.h-add-musl-workaround.patch"
+packages/core2-32-poky-linux/iproute2: PKGV changed from 6.2.0 [default] to 6.3.0 [default]
+
+--===============1061874900397343258==--
 
