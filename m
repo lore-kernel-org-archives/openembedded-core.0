@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8662BCA9EBC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E8DDCA9EC0
 	for <webhook@archiver.kernel.org>; Mon,  1 May 2023 21:26:04 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.107434.1682976351683100654
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.107432.1682976351329051761
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 May 2023 14:25:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=g1pepfcm;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010187d9352b71-10736026-7663-4d6d-ba20-e97c9bfbcae8-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=VYZPagVy;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010187d9352b78-2a4ca391-7c65-476a-9631-c492894d886d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1682976353;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ZYZWigyI1o0dpN7CR/7p0+nAfDVz2L9HqBVh3HvK5EI=;
-	b=g1pepfcmhNT12jqnaI8qhD9IxhXVZmxrC0/uw0ggGwNchmfZCxc02wIxSUVYJQ1v
-	vOOOXD/Eqcr+21YauqOreDRytNa3lRi2Z5i3gZUd3K9lxMgzQHP7T+t/+HQcaCFGJdi
-	SlnEurCrIa6NugLHzYpf/e2JZ8HflKJjcniwg49o=
+	bh=FScyhmLCwrTLmrj+2dtU8D3XtViqLHU0uWxBOD/9h0Y=;
+	b=VYZPagVyjnkn/Ur/iD4g8qGpLPTUHfKJJNfpY1HSmpQDeUsJsAwz2rkPF0vmdRp5
+	DRQnVm+9/XIPkGxmL8rju1eLo+fCF+KTNe0L2nDlM1RUAhf6Z18n/a2v7opLMjBrJ1Q
+	ypWeu1XNhOSbzyxp+phpWcFm+GVQTkH+vzOWgiEA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1682976353;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ZYZWigyI1o0dpN7CR/7p0+nAfDVz2L9HqBVh3HvK5EI=;
-	b=XXGTfTkxpjBEDrLvL3dLpEiuepb2H6jqfHezmemQYWAe9uXW/tUe6UMY0M8QXpjk
-	R14ENP2sRfyIGZxTIYatOz+YSyvgPttIR2snV5OfPpzZckjs9Wb3vzXZCp2Ny9jLUos
-	KyT9Xi8wIWVh71Raprkx93OhHx9nmR1rYwfQijd8=
-Content-Type: multipart/mixed; boundary="===============4527211265869125368=="
+	bh=FScyhmLCwrTLmrj+2dtU8D3XtViqLHU0uWxBOD/9h0Y=;
+	b=DESu6GGu6MS3LUvFwX61L7UlA1NM8imP8tzH4TXIXpHkD7jtkclKwSGRYBeDuZJs
+	3mjUyGnhCf/cI0q/QrDZEdKQYDSeluqCO2d75eXYJaUlRLKiBidePmd08w2P/DP/rE/
+	hB8aJCzFLQloy1x6WvK90oowLQzjcTIxT9eYf7R8=
+Content-Type: multipart/mixed; boundary="===============1711196787857031170=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Victor Kamensky <victor.kamensky7@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] systemtap: upgrading to 4.9 FAILED
-Message-ID: <01010187d9352b71-10736026-7663-4d6d-ba20-e97c9bfbcae8-000000@us-west-2.amazonses.com>
+Subject: [AUH] systemtap-uprobes: upgrading to 4.9 FAILED
+Message-ID: <01010187d9352b78-2a4ca391-7c65-476a-9631-c492894d886d-000000@us-west-2.amazonses.com>
 Date: Mon, 1 May 2023 21:25:53 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.05.01-54.240.27.45
+X-SES-Outgoing: 2023.05.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 May 2023 21:26:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180675
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180673
 
---===============4527211265869125368==
+--===============1711196787857031170==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,14 +50,14 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *systemtap* to *4.9* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *systemtap-uprobes* to *4.9* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade systemtap -V 4.9 -S ebb424eee5599fcc131901c0d82d0bfc0d2f57ab
+The following devtool command failed:  upgrade systemtap-uprobes -V 4.9 -S ebb424eee5599fcc131901c0d82d0bfc0d2f57ab
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (19:20:26.856256)
+NOTE: Retrying server connection (#1)... (19:19:38.994007)
 Loading cache...done.
 Loaded 1799 entries from dependency cache.
 NOTE: Resolving any missing task queue dependencies
@@ -96,5 +96,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============4527211265869125368==--
+--===============1711196787857031170==--
 
