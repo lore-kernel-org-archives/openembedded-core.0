@@ -2,37 +2,37 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AC34C88CBB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CD23C88CB8
 	for <webhook@archiver.kernel.org>; Mon,  1 May 2023 21:25:52 +0000 (UTC)
 Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.107900.1682976351921414507
+ by mx.groups.io with SMTP id smtpd.web11.107435.1682976351863576214
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 May 2023 14:25:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ZGJmyUQo;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010187d9352464-99901acb-165b-4e3e-aa3b-640706893117-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=S3Sg29D1;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010187d93523a5-b59094ad-be14-4150-8615-77958a28cc3a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1682976351;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=bJdxr6bdo8zcfgmOHZ6cS6cDddIdQVY1hXbsOfKZgjU=;
-	b=ZGJmyUQovSlehGYhexzNvO1JmzGPhW27zvoHSzxt9igQ4tdNGC/yczcPmH312cP7
-	EhUWUemMWNvOo8iFwxfeeiJ5fRWe15tB0WvN3I5zsW/iSgtLLHcr4J31XnLVEQofWXT
-	/XiK13aGaQPJQfYW9qyS13WBcPlMpe/6X5jas68s=
+	bh=Sc99VtBtUM8nOXMRYuyndZEhM53XfGUdgVnx7tUZzjo=;
+	b=S3Sg29D1xbu9243/qn/IxeuvhxW+qGRvZq5RPP5RcusU9bWrfGcKf462XAY+d9R+
+	TU7E1a0fbP0r1QV9dpbwUktZs8gFbYy/yUm3j+U8qr/TAAtU25qmFvMU4cNN2A9nmC5
+	Tyot9Cgeh5NFIKvdzgHZ4POWCeLLe9Tvmhu1GUjI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1682976351;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=bJdxr6bdo8zcfgmOHZ6cS6cDddIdQVY1hXbsOfKZgjU=;
-	b=HdRWDVAUTxbIpRIw9YpdQa1YrUlxjjRm2TERF/lc6kQECMt7jOF+VWsblO50g0Sc
-	7QbgTN5hfrBOhLZdkYXrjgZVeoCnR9ZNCb+dCRs8333hebyHJL6D8QJHtDkJYpcjNAh
-	7FaWYewiHfQbwkLxLuRjWmzWYiCygUZ5tJQFRdC4=
-Content-Type: multipart/mixed; boundary="===============8289604290867851316=="
+	bh=Sc99VtBtUM8nOXMRYuyndZEhM53XfGUdgVnx7tUZzjo=;
+	b=DTEReoiIqLNTbtxR5TPOsALEQZll+Cqs2hos6Omd4aXVEwN4pW2KXYOLx+xIg9ck
+	joD9cIwkrIbDo+x8HCl9cqgP3FJouen8QiqM8lhgQSqj16PI2ClY3+zA4+papKrcWR4
+	u1+g97l0ugZlNAfDixjqEZbW8XkNra62eJnYhwhE=
+Content-Type: multipart/mixed; boundary="===============6580374674744981212=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Randy MacLeod <Randy.MacLeod@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] valgrind: upgrading to 3.21.0 FAILED
-Message-ID: <01010187d9352464-99901acb-165b-4e3e-aa3b-640706893117-000000@us-west-2.amazonses.com>
+Subject: [AUH] rust: upgrading to 1.69.0 FAILED
+Message-ID: <01010187d93523a5-b59094ad-be14-4150-8615-77958a28cc3a-000000@us-west-2.amazonses.com>
 Date: Mon, 1 May 2023 21:25:51 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2023.05.01-54.240.27.33
@@ -40,9 +40,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 May 2023 21:25:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180642
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180641
 
---===============8289604290867851316==
+--===============6580374674744981212==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,16 +50,17 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *valgrind* to *3.21.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *rust* to *1.69.0* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe valgrind failed.
+The following devtool command failed:  upgrade rust -V 1.69.0
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (14:28:32.865751)
+NOTE: Retrying server connection (#1)... (14:02:48.244299)
 Loading cache...done.
 Loaded 1799 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -74,13 +75,13 @@ TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:9b687c81ee5247f727b936dcbad15c6b15c9e939"
+meta-yocto-bsp       = "tmp-auh-upgrades:c08f5fabc6f19121f285caaed7c99e1ba459baab"
 workspace            = "master:cce6db2a59d309f77c1f9ca173fc674c506062d0"
 
 Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% complete)
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 22 (0% match, 100% complete)
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 Loading cache...done.
@@ -101,42 +102,130 @@ TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:9b687c81ee5247f727b936dcbad15c6b15c9e939"
+meta-yocto-bsp       = "tmp-auh-upgrades:c08f5fabc6f19121f285caaed7c99e1ba459baab"
 workspace            = "master:cce6db2a59d309f77c1f9ca173fc674c506062d0"
 
 Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 18 (0% match, 100% complete)
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 DEBUG 5 [Errno 25] Inappropriate ioctl for device
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  16% |#####                               | ETA:  0:00:00
-Adding changed files:  32% |###########                         | ETA:  0:00:00
-Adding changed files:  49% |#################                   | ETA:  0:00:00
-Adding changed files:  65% |#######################             | ETA:  0:00:00
-Adding changed files:  82% |#############################       | ETA:  0:00:00
+Adding changed files:   1% |                                    | ETA:  0:01:03
+Adding changed files:   2% |                                    | ETA:  0:00:45
+Adding changed files:   3% |#                                   | ETA:  0:00:40
+Adding changed files:   4% |#                                   | ETA:  0:00:36
+Adding changed files:   5% |#                                   | ETA:  0:00:34
+Adding changed files:   6% |##                                  | ETA:  0:00:33
+Adding changed files:   7% |##                                  | ETA:  0:00:32
+Adding changed files:   8% |##                                  | ETA:  0:00:31
+Adding changed files:   9% |###                                 | ETA:  0:00:30
+Adding changed files:  10% |###                                 | ETA:  0:00:30
+Adding changed files:  11% |####                                | ETA:  0:00:29
+Adding changed files:  12% |####                                | ETA:  0:00:29
+Adding changed files:  13% |####                                | ETA:  0:00:28
+Adding changed files:  14% |#####                               | ETA:  0:00:27
+Adding changed files:  15% |#####                               | ETA:  0:00:27
+Adding changed files:  16% |#####                               | ETA:  0:00:27
+Adding changed files:  17% |######                              | ETA:  0:00:26
+Adding changed files:  18% |######                              | ETA:  0:00:26
+Adding changed files:  19% |######                              | ETA:  0:00:25
+Adding changed files:  20% |#######                             | ETA:  0:00:25
+Adding changed files:  21% |#######                             | ETA:  0:00:25
+Adding changed files:  22% |########                            | ETA:  0:00:24
+Adding changed files:  23% |########                            | ETA:  0:00:24
+Adding changed files:  24% |########                            | ETA:  0:00:23
+Adding changed files:  25% |#########                           | ETA:  0:00:23
+Adding changed files:  26% |#########                           | ETA:  0:00:23
+Adding changed files:  27% |#########                           | ETA:  0:00:23
+Adding changed files:  28% |##########                          | ETA:  0:00:23
+Adding changed files:  29% |##########                          | ETA:  0:00:22
+Adding changed files:  30% |##########                          | ETA:  0:00:22
+Adding changed files:  31% |###########                         | ETA:  0:00:22
+Adding changed files:  32% |###########                         | ETA:  0:00:22
+Adding changed files:  33% |############                        | ETA:  0:00:21
+Adding changed files:  34% |############                        | ETA:  0:00:21
+Adding changed files:  35% |############                        | ETA:  0:00:21
+Adding changed files:  36% |#############                       | ETA:  0:00:21
+Adding changed files:  37% |#############                       | ETA:  0:00:20
+Adding changed files:  38% |#############                       | ETA:  0:00:20
+Adding changed files:  39% |##############                      | ETA:  0:00:20
+Adding changed files:  40% |##############                      | ETA:  0:00:20
+Adding changed files:  41% |##############                      | ETA:  0:00:19
+Adding changed files:  42% |###############                     | ETA:  0:00:19
+Adding changed files:  43% |###############                     | ETA:  0:00:19
+Adding changed files:  44% |################                    | ETA:  0:00:18
+Adding changed files:  45% |################                    | ETA:  0:00:18
+Adding changed files:  46% |################                    | ETA:  0:00:18
+Adding changed files:  47% |#################                   | ETA:  0:00:17
+Adding changed files:  48% |#################                   | ETA:  0:00:17
+Adding changed files:  49% |#################                   | ETA:  0:00:17
+Adding changed files:  50% |##################                  | ETA:  0:00:17
+Adding changed files:  51% |##################                  | ETA:  0:00:16
+Adding changed files:  52% |###################                 | ETA:  0:00:16
+Adding changed files:  53% |###################                 | ETA:  0:00:16
+Adding changed files:  54% |###################                 | ETA:  0:00:15
+Adding changed files:  55% |####################                | ETA:  0:00:15
+Adding changed files:  56% |####################                | ETA:  0:00:15
+Adding changed files:  57% |####################                | ETA:  0:00:14
+Adding changed files:  58% |#####################               | ETA:  0:00:14
+Adding changed files:  59% |#####################               | ETA:  0:00:14
+Adding changed files:  60% |#####################               | ETA:  0:00:13
+Adding changed files:  61% |######################              | ETA:  0:00:13
+Adding changed files:  63% |######################              | ETA:  0:00:13
+Adding changed files:  64% |#######################             | ETA:  0:00:12
+Adding changed files:  65% |#######################             | ETA:  0:00:12
+Adding changed files:  66% |#######################             | ETA:  0:00:12
+Adding changed files:  67% |########################            | ETA:  0:00:11
+Adding changed files:  68% |########################            | ETA:  0:00:11
+Adding changed files:  69% |########################            | ETA:  0:00:11
+Adding changed files:  70% |#########################           | ETA:  0:00:10
+Adding changed files:  71% |#########################           | ETA:  0:00:10
+Adding changed files:  72% |#########################           | ETA:  0:00:10
+Adding changed files:  73% |##########################          | ETA:  0:00:09
+Adding changed files:  74% |##########################          | ETA:  0:00:09
+Adding changed files:  75% |###########################         | ETA:  0:00:09
+Adding changed files:  76% |###########################         | ETA:  0:00:08
+Adding changed files:  77% |###########################         | ETA:  0:00:08
+Adding changed files:  78% |############################        | ETA:  0:00:07
+Adding changed files:  79% |############################        | ETA:  0:00:07
+Adding changed files:  80% |############################        | ETA:  0:00:07
+Adding changed files:  81% |#############################       | ETA:  0:00:06
+Adding changed files:  82% |#############################       | ETA:  0:00:06
+Adding changed files:  83% |#############################       | ETA:  0:00:06
+Adding changed files:  84% |##############################      | ETA:  0:00:05
+Adding changed files:  85% |##############################      | ETA:  0:00:05
+Adding changed files:  86% |###############################     | ETA:  0:00:05
+Adding changed files:  87% |###############################     | ETA:  0:00:04
+Adding changed files:  88% |###############################     | ETA:  0:00:04
+Adding changed files:  89% |################################    | ETA:  0:00:03
+Adding changed files:  90% |################################    | ETA:  0:00:03
+Adding changed files:  91% |################################    | ETA:  0:00:03
+Adding changed files:  92% |#################################   | ETA:  0:00:02
+Adding changed files:  93% |#################################   | ETA:  0:00:02
+Adding changed files:  94% |##################################  | ETA:  0:00:02
+Adding changed files:  95% |##################################  | ETA:  0:00:01
+Adding changed files:  96% |##################################  | ETA:  0:00:01
+Adding changed files:  97% |################################### | ETA:  0:00:00
 Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:01
-INFO: Extracting current version source...
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://sourceware.org/pub/valgrind/valgrind-3.21.0.tar.bz2...
-INFO: Rebasing devtool onto f44fff3ed37af7f1cfe1587e345eb9b5a83067fe
-WARNING: Command 'git rebase f44fff3ed37af7f1cfe1587e345eb9b5a83067fe' failed:
-Auto-merging cachegrind/cg_annotate.in
-CONFLICT (content): Merge conflict in cachegrind/cg_annotate.in
-Auto-merging cachegrind/cg_diff.in
-CONFLICT (content): Merge conflict in cachegrind/cg_diff.in
-Auto-merging tests/vg_regtest.in
+Adding changed files:  99% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:36
 
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Using source tree as build directory since recipe inherits autotools-brokensep
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/valgrind
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/valgrind/valgrind_3.21.0.bb
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://static.rust-lang.org/dist/rustc-1.69.0-src.tar.xz;name=rust...
+INFO: Rebasing devtool onto 501a8ba40bc5d3e5ab5ee81bf2819c527bc8f221
+WARNING: Command 'git rebase 501a8ba40bc5d3e5ab5ee81bf2819c527bc8f221' failed:
+CONFLICT (modify/delete): vendor/crossbeam-utils-0.8.12/.cargo-checksum.json deleted in HEAD and modified in 8ca3ec0aa (rust: Fix crossbeam-utils for arches without atomics).  Version 8ca3ec0aa (rust: Fix crossbeam-utils for arches without atomics) of vendor/crossbeam-utils-0.8.12/.cargo-checksum.json left in tree.
+CONFLICT (modify/delete): vendor/crossbeam-utils-0.8.12/build.rs deleted in HEAD and modified in 8ca3ec0aa (rust: Fix crossbeam-utils for arches without atomics).  Version 8ca3ec0aa (rust: Fix crossbeam-utils for arches without atomics) of vendor/crossbeam-utils-0.8.12/build.rs left in tree.
+
+ERROR: Execution of 'git checkout devtool' failed with exit code 1:
+error: you need to resolve your current index first
+vendor/crossbeam-utils-0.8.12/.cargo-checksum.json: needs merge
+vendor/crossbeam-utils-0.8.12/build.rs: needs merge
 
 
 
@@ -145,5 +234,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8289604290867851316==--
+--===============6580374674744981212==--
 
