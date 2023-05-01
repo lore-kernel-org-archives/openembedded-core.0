@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0F51C83003
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8780AC7EE43
 	for <webhook@archiver.kernel.org>; Mon,  1 May 2023 21:25:51 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.107429.1682976350436536020
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.107424.1682976349814297940
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 May 2023 14:25:50 -0700
+ Mon, 01 May 2023 14:25:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=aTRRlGwb;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010187d9351e6a-643a3143-16b7-4f47-b251-b54c247e7ca9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=TsMFp9H5;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010187d9351b8a-0df40bd6-02c9-46f8-888d-91c8fe5f1864-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1682976350;
+	t=1682976349;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=NFBR2m6CIWsDcE/oyz+WNQrrBVDtaFxdnfKT6NmbDh0=;
-	b=aTRRlGwbZ+6OHfqPBb6mCg0uJTkg1WhiyPLOQDMzHpsG38JNO+XKNlvUFAVqptG1
-	pWF89k5dDa+9jPdnzf7526+dS9PuGFKpIyd2g+YbLfUIJnIcPILdqu3BQHxQBs0qjwK
-	1U6Y/WAbOgEu8CsHoNV/XDPWgycVeaAA8n862/ao=
+	bh=XmZ6eFs7lf9bwkeU+W4EkjWxzpTSQq3SgTe+lSYQI/w=;
+	b=TsMFp9H5ckZzylNyomb8rRBxjgcLhfg95pSK4z9w9PbiTkSuizoqpAA3XGNMFYJ/
+	XatBTFcKqJnJo1hJjO0TO4EOnmjR/kb0xhgrrZJOUujE+xrFbNiH0YX/u/UCJYliR0b
+	ilAw8oOXC7S4qWrK9l+J7+pJB8ewJA4t+1IB4TdA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1682976350;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1682976349;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=NFBR2m6CIWsDcE/oyz+WNQrrBVDtaFxdnfKT6NmbDh0=;
-	b=dTvI5gtQPRJ4OZA165ympXVlofD2+RmiqJpH49X6GjyafuGfxHY/MyS/EQZbUz+i
-	I3emEmG5xpHn04WF8lfynEoZjUBddtlPNcDV8VDe+oG6lJLDFFJHEDPgnVClS9NBFzE
-	w6XzKld8NosCtYB621rdir1gvWYGOIhuCXhevPRU=
-Content-Type: multipart/mixed; boundary="===============5059781727994614808=="
+	bh=XmZ6eFs7lf9bwkeU+W4EkjWxzpTSQq3SgTe+lSYQI/w=;
+	b=VvK0JNU5QJJ5cDJTvQ3m4Zhqp6zqRi/xjpwjRdhxHyccIRBV5L/gFXXGO8l+y/5R
+	F3Mc18j80QZsPSFD8e9LX81c/Kkrx1mDGZUknMTI1ZakZ8mx/JQpYxdVe+zPAjBRxMT
+	hNV4Xph1LMqdzQuXZd9lfjhB3PTUkp4MiNosHzAE=
+Content-Type: multipart/mixed; boundary="===============3941179711842029687=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-dbusmock: upgrading to 0.29.0 SUCCEEDED
-Message-ID: <01010187d9351e6a-643a3143-16b7-4f47-b251-b54c247e7ca9-000000@us-west-2.amazonses.com>
+Subject: [AUH] dnf: upgrading to 4.15.0 SUCCEEDED
+Message-ID: <01010187d9351b8a-0df40bd6-02c9-46f8-888d-91c8fe5f1864-000000@us-west-2.amazonses.com>
 Date: Mon, 1 May 2023 21:25:49 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.05.01-54.240.27.33
+X-SES-Outgoing: 2023.05.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 May 2023 21:25:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180617
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180605
 
---===============5059781727994614808==
+--===============3941179711842029687==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-dbusmock* to *0.29.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *dnf* to *4.15.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-dbusmock-upgrade-0.28.7-0.29.0.patch
+    - apply the patch: git am 0001-dnf-upgrade-4.14.0-4.15.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,72 +69,173 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============5059781727994614808==
+--===============3941179711842029687==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-dbusmock: PKGV changed from 0.28.7 [default] to 0.29.0 [default]
-packages/core2-32-poky-linux/python3-dbusmock: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/python-dbusmock/python-dbusmock-0.28.7.tar.gz;downloadfilename=python-dbusmock-0.28.7.tar.gz" to "https://files.pythonhosted.org/packages/source/p/python-dbusmock/python-dbusmock-0.29.0.tar.gz;downloadfilename=python-dbusmock-0.29.0.tar.gz"
-packages/core2-32-poky-linux/python3-dbusmock: PV changed from "0.28.7" to "0.29.0"
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock-dbg: PKGV changed from 0.28.7 [default] to 0.29.0 [default]
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock-dbg: PV changed from "0.28.7" to "0.29.0"
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock-dev: PKGV changed from 0.28.7 [default] to 0.29.0 [default]
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock-dev: PV changed from "0.28.7" to "0.29.0"
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock-doc: PKGV changed from 0.28.7 [default] to 0.29.0 [default]
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock-doc: PV changed from "0.28.7" to "0.29.0"
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock-locale: PKGV changed from 0.28.7 [default] to 0.29.0 [default]
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock-locale: PV changed from "0.28.7" to "0.29.0"
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock-src: PKGV changed from 0.28.7 [default] to 0.29.0 [default]
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock-src: PV changed from "0.28.7" to "0.29.0"
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock-staticdev: PKGV changed from 0.28.7 [default] to 0.29.0 [default]
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock-staticdev: PV changed from "0.28.7" to "0.29.0"
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock: PKGV changed from 0.28.7 [default] to 0.29.0 [default]
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock: PV changed from "0.28.7" to "0.29.0"
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock: PKGSIZE changed from 454922 to 457628 (+1%)
-Changes to packages/core2-32-poky-linux/python3-dbusmock (sysroot):
-  /usr/lib/python3.11/site-packages/python_dbusmock-0.28.7.dist-info moved to /usr/lib/python3.11/site-packages/python_dbusmock-0.29.0.dist-info
+packages/core2-32-poky-linux/dnf/dnf-bash-completion: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-bash-completion: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-dbg: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-dbg: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-dev: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-dev: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-doc: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-doc: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-ar: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-ar: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-bg: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-bg: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-bn-in: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-bn-in: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-bn: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-bn: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-ca: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-ca: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-cs: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-cs: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-da: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-da: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-de: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-de: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-el: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-el: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-en-gb: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-en-gb: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-eo: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-eo: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-es: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-es: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-eu: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-eu: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-fa: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-fa: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-fi: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-fi: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-fil: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-fil: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-fr: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-fr: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-fur: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-fur: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-gd: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-gd: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-gu: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-gu: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-he: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-he: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-hi: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-hi: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-hr: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-hr: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-hu: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-hu: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-id: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-id: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-it: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-it: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-ja: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-ja: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-ka: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-ka: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-kk: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-kk: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-ko: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-ko: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-lt: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-lt: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-ml: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-ml: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-mr: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-mr: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-ms: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-ms: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-nb: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-nb: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-nl: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-nl: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-or: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-or: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-pa: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-pa: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-pl: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-pl: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-pt-br: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-pt-br: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-pt: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-pt: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-ru: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-ru: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-si: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-si: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-sk: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-sk: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-sq: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-sq: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-sr+latin: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-sr+latin: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-sr: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-sr: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-sv: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-sv: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-th: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-th: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-tr: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-tr: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-uk: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-uk: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-ur: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-ur: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-vi: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-vi: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-zh-cn: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-zh-cn: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-zh-hans: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-zh-hans: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-zh-tw: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-zh-tw: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-src: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-src: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-staticdev: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-staticdev: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-test-dep: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-test-dep: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf-test-main: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-test-main: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf/dnf: PV changed from "4.14.0" to "4.15.0"
+packages/core2-32-poky-linux/dnf/dnf: PKGSIZE changed from 950126 to 954061 (+0%)
+packages/core2-32-poky-linux/dnf: PKGV changed from 4.14.0 [default] to 4.15.0 [default]
+packages/core2-32-poky-linux/dnf: PV changed from "4.14.0" to "4.15.0"
 
---===============5059781727994614808==
+--===============3941179711842029687==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-dbusmock-upgrade-0.28.7-0.29.0.patch"
+ filename="0001-dnf-upgrade-4.14.0-4.15.0.patch"
 
-RnJvbSA5YmNlNzBiY2RmYzkyZDM2MmFiOTJjNTFkMTQwNDY1ZDhjOWFiMjNiIE1vbiBTZXAgMTcg
+RnJvbSBjZWI5NzRmZWM4ZWU4YTZiNmRmOGMxODJmMmM1NTI4OWVkOWRjYTM3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBNYXkgMjAyMyAxMDoyNDozNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtZGJ1c21vY2s6IHVwZ3JhZGUgMC4yOC43IC0+IDAuMjkuMAoKLS0tCiAuLi4ve3B5dGhv
-bjMtZGJ1c21vY2tfMC4yOC43LmJiID0+IHB5dGhvbjMtZGJ1c21vY2tfMC4yOS4wLmJifSAgfCAy
-ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWRidXNtb2NrXzAuMjguNy5i
-YiA9PiBweXRob24zLWRidXNtb2NrXzAuMjkuMC5iYn0gKDg1JSkKCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtZGJ1c21vY2tfMC4yOC43LmJiIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWRidXNtb2NrXzAuMjkuMC5iYgpzaW1p
-bGFyaXR5IGluZGV4IDg1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
-L3B5dGhvbjMtZGJ1c21vY2tfMC4yOC43LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbjMtZGJ1c21vY2tfMC4yOS4wLmJiCmluZGV4IDRlYTIxYTU2ZWEuLjMy
-YTQzZTAwYjkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
-My1kYnVzbW9ja18wLjI4LjcuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
-eXRob24zLWRidXNtb2NrXzAuMjkuMC5iYgpAQCAtNCw3ICs0LDcgQEAgSE9NRVBBR0UgPSAiaHR0
-cHM6Ly9weXBpLm9yZy9wcm9qZWN0L3B5dGhvbi1kYnVzbW9jay8iCiBMSUNFTlNFID0gIkdQTC0z
-LjAtb25seSIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PWU2YTYwMGZk
-NWUxZDljYmRlMmQ5ODM2ODAyMzNhZDAyIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMDc4Njk3
-Nzc1MGRiY2JkZTZlMjU1MzMzOWEyZTY2ZDlhOGQ0NDUzZDVjODQ4Yjk0NWU4ZmQxYmFkYjczNmZm
-ZCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIzZWZkYjNkODAwMzg2YjY1ZTg4NTRkOGVlNDUzODc2
-NDI0MTM4MmI0ZTY2NDQyM2FkN2Q5NTljOTAwOGRkNDA4IgogCiBQWVBJX1BBQ0tBR0UgPSAicHl0
-aG9uLWRidXNtb2NrIgogCi0tIAoyLjM5LjIKCg==
+CkRhdGU6IE1vbiwgMSBNYXkgMjAyMyAwODo0NToyNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGRu
+ZjogdXBncmFkZSA0LjE0LjAgLT4gNC4xNS4wCgotLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9k
+bmYve2RuZl80LjE0LjAuYmIgPT4gZG5mXzQuMTUuMC5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdl
+ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvZG5mL3tkbmZfNC4xNC4wLmJiID0+IGRuZl80LjE1LjAuYmJ9ICg5OCUpCgpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2RuZi9kbmZfNC4xNC4wLmJiIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL2RuZi9kbmZfNC4xNS4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTglCnJlbmFt
+ZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9kbmYvZG5mXzQuMTQuMC5iYgpyZW5hbWUgdG8g
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL2RuZi9kbmZfNC4xNS4wLmJiCmluZGV4IDYyZGY4YzRhY2Uu
+LjdiZjk1NDc0MjQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kbmYvZG5mXzQu
+MTQuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZG5mL2RuZl80LjE1LjAuYmIKQEAg
+LTE4LDcgKzE4LDcgQEAgU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL3JwbS1zb2Z0d2FyZS1t
+YW5hZ2VtZW50L2RuZi5naXQ7YnJhbmNoPW1hc3Rlcjtwcm90b2MKICAgICAgICAgICAgZmlsZTov
+LzAwMDEtZG5mLXdyaXRlLXRoZS1sb2ctbG9jay10by1yb290LnBhdGNoIFwKICAgICAgICAgICAg
+IgogCi1TUkNSRVYgPSAiZTUwODc1YjNmNTc5MGY3MDcyMGJkYjY3MGUxZGQyYmY0ZDgyODc0NCIK
+K1NSQ1JFViA9ICI1MzA2OTEwZDA2NjMxYmM5M2ZhM2VjZTBlNzBlZDI3ZWU1OTJiMGFhIgogVVBT
+VFJFQU1fQ0hFQ0tfR0lUVEFHUkVHRVggPSAiKD9QPHB2ZXI+XGQrKFwuXGQrKSspIgogCiBTID0g
+IiR7V09SS0RJUn0vZ2l0IgotLSAKMi4zOS4yCgo=
 
---===============5059781727994614808==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/python3-dbusmock (sysroot):
-  /usr/lib/python3.11/site-packages/python_dbusmock-0.28.7.dist-info moved to /usr/lib/python3.11/site-packages/python_dbusmock-0.29.0.dist-info
-
---===============5059781727994614808==--
+--===============3941179711842029687==--
 
