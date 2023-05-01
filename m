@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24C17C7EE29
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25F07C7EE2A
 	for <webhook@archiver.kernel.org>; Mon,  1 May 2023 21:25:51 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.107882.1682976348752815537
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.107416.1682976348797068934
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 May 2023 14:25:50 -0700
+ Mon, 01 May 2023 14:25:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=I1o0RBuX;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010187d9351ecc-64d7751c-84f5-47a1-91c3-ecd37da2596e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=BbtyccHg;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010187d9351726-50544ecc-f037-46fd-9c24-dbf0a7ed7f1d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1682976350;
+	t=1682976348;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=VIFKgpV0vxITZjcbzB0rcj91wgRl6MHNyyRDmaSYInM=;
-	b=I1o0RBuXXHLKisl8F218i+tbJAb7oZ24OXRIXzNGpBV5O574MKg8tJKxRK1wkL4u
-	8DvraE2lSsHSVfYFeKJtfJ9E+YZdjGeCaJ2moTojMVUdZLE5kwObyLvBTkPsQ1YWqdu
-	WcS54dWqWnWwpHn2WY7iDGmbi9bCnIt3yv7TqNSA=
+	bh=qh0hpzWR35o7emMqk2hgTX/DqWYAsLwc1e4grpWuSRI=;
+	b=BbtyccHg+o+taiY3UekAgu+Cj8uWhhy8ZRGudN/lzB4wFNKfHB0Ld6ydzHvKZvRi
+	c5157rk1p6euqN7LEGKmuoPDzZ73kQ2MFFH1MhjglFYjxjs+n3qVJ15lRpaCO/inHGp
+	f9fwm+XP8n00Ggqaif3ww09vO2J6kTjVWUeO0IW8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1682976350;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1682976348;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=VIFKgpV0vxITZjcbzB0rcj91wgRl6MHNyyRDmaSYInM=;
-	b=JJclyvU0R2xLsuKukYPfDbHfvua42hxl7CAtZ5Gc4JSNILIvmFczxBtVnQjB948r
-	letCzVbeJu6ncUmoUAgn0kuBAVgMwRMBzrbxlCBGhPe0vfFkE9EDzioz7lCr6WZHWKe
-	KZPDA8o9FtTlPEku3nl68RgX4WPqv+W1WiBTDUnY=
-Content-Type: multipart/mixed; boundary="===============4355687101964539112=="
+	bh=qh0hpzWR35o7emMqk2hgTX/DqWYAsLwc1e4grpWuSRI=;
+	b=FAQwBsana8eRkA26hGu0An/YdN7JPhTgb/uUvPuFF4/ulUGIkL/eGxIzsJNPw0+V
+	awtFXJM11I0jcTOnGBWOb78Yd6rsB73473AlKnApZG6KD5eeDDJLcYs6dj0sXYeooUy
+	V8YdGE7cJhKtTVU1pgQmgJPrIV263Bg5sg07jsLY=
+Content-Type: multipart/mixed; boundary="===============4824624925928892007=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-cryptography: upgrading to 40.0.2 FAILED
-Message-ID: <01010187d9351ecc-64d7751c-84f5-47a1-91c3-ecd37da2596e-000000@us-west-2.amazonses.com>
-Date: Mon, 1 May 2023 21:25:49 +0000
+Subject: [AUH] mobile-broadband-provider-info: upgrading to 20230416 SUCCEEDED
+Message-ID: <01010187d9351726-50544ecc-f037-46fd-9c24-dbf0a7ed7f1d-000000@us-west-2.amazonses.com>
+Date: Mon, 1 May 2023 21:25:48 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.05.01-54.240.27.191
+X-SES-Outgoing: 2023.05.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 May 2023 21:25:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180616
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180589
 
---===============4355687101964539112==
+--===============4824624925928892007==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,91 +50,77 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-cryptography* to *40.0.2* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *mobile-broadband-provider-info* to *20230416* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-mobile-broadband-provider-info-upgrade-20221107-2023.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe python3-cryptography failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (10:04:28.888083)
-Loading cache...done.
-Loaded 1799 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:650f46c0764f6c34a20e91e3e8ceb0387587b2a1"
-workspace            = "master:cce6db2a59d309f77c1f9ca173fc674c506062d0"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 1799 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 900 .bb files complete (898 cached, 2 parsed). 1800 targets, 39 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:650f46c0764f6c34a20e91e3e8ceb0387587b2a1"
-workspace            = "master:cce6db2a59d309f77c1f9ca173fc674c506062d0"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  56% |####################                | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://files.pythonhosted.org/packages/source/c/cryptography/cryptography-40.0.2.tar.gz;downloadfilename=cryptography-40.0.2.tar.gz...
-INFO: Rebasing devtool onto 2eff7fa78d48929165d394c1e91d1b7bbe3aab58
-WARNING: Command 'git rebase 2eff7fa78d48929165d394c1e91d1b7bbe3aab58' failed:
-Auto-merging pyproject.toml
-CONFLICT (content): Merge conflict in pyproject.toml
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/python3-cryptography
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/python3-cryptography/python3-cryptography_40.0.2.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============4355687101964539112==--
+--===============4824624925928892007==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/mobile-broadband-provider-info: PV changed from "20221107" to "20230416"
+packages/core2-32-poky-linux/mobile-broadband-provider-info: PKGV changed from 20221107 [default] to 20230416 [default]
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-dbg: PV changed from "20221107" to "20230416"
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-dbg: PKGV changed from 20221107 [default] to 20230416 [default]
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-dev: PV changed from "20221107" to "20230416"
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-dev: PKGV changed from 20221107 [default] to 20230416 [default]
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-doc: PV changed from "20221107" to "20230416"
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-doc: PKGV changed from 20221107 [default] to 20230416 [default]
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-locale: PV changed from "20221107" to "20230416"
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-locale: PKGV changed from 20221107 [default] to 20230416 [default]
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-src: PV changed from "20221107" to "20230416"
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-src: PKGV changed from 20221107 [default] to 20230416 [default]
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-staticdev: PV changed from "20221107" to "20230416"
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-staticdev: PKGV changed from 20221107 [default] to 20230416 [default]
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info: PKGSIZE changed from 518766 to 521960 (+1%)
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info: PV changed from "20221107" to "20230416"
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info: PKGV changed from 20221107 [default] to 20230416 [default]
+
+--===============4824624925928892007==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-mobile-broadband-provider-info-upgrade-20221107-2023.patch"
+
+RnJvbSA5YzRkYWFmOTg2NmJiNjljNjYyNjU4MzdmOGM5MmMxNDVjNzcyOGVlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMSBNYXkgMjAyMyAwNjo1NDo0MCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1v
+YmlsZS1icm9hZGJhbmQtcHJvdmlkZXItaW5mbzogdXBncmFkZSAyMDIyMTEwNyAtPiAyMDIzMDQx
+NgoKLS0tCiAuLi4vbW9iaWxlLWJyb2FkYmFuZC1wcm92aWRlci1pbmZvX2dpdC5iYiAgICAgICAg
+ICAgICAgICAgICAgIHwgNCArKy0tCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAy
+IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbW9i
+aWxlLWJyb2FkYmFuZC1wcm92aWRlci1pbmZvL21vYmlsZS1icm9hZGJhbmQtcHJvdmlkZXItaW5m
+b19naXQuYmIgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L21vYmlsZS1icm9hZGJhbmQtcHJv
+dmlkZXItaW5mby9tb2JpbGUtYnJvYWRiYW5kLXByb3ZpZGVyLWluZm9fZ2l0LmJiCmluZGV4IGU4
+MDJiY2VlMTguLmE0MDMwYjdiMzIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZp
+dHkvbW9iaWxlLWJyb2FkYmFuZC1wcm92aWRlci1pbmZvL21vYmlsZS1icm9hZGJhbmQtcHJvdmlk
+ZXItaW5mb19naXQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9tb2JpbGUtYnJv
+YWRiYW5kLXByb3ZpZGVyLWluZm8vbW9iaWxlLWJyb2FkYmFuZC1wcm92aWRlci1pbmZvX2dpdC5i
+YgpAQCAtNSw4ICs1LDggQEAgU0VDVElPTiA9ICJuZXR3b3JrIgogTElDRU5TRSA9ICJQRCIKIExJ
+Q19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTg3OTY0NTc5YjJhOGVjZTRiYzY3
+NDRkMmRjOWE4YjA0IgogCi1TUkNSRVYgPSAiMjJhNWRlM2VmNjM3OTkwY2UwMzE0MWY3ODZmYmRi
+MzI3ZTljNWEzZiIKLVBWID0gIjIwMjIxMTA3IgorU1JDUkVWID0gImFhZTdjNjg2NzFkMjI1ZTZk
+MzUyMjQ2MTNkNWI5ODE5MmI5YjJmZmUiCitQViA9ICIyMDIzMDQxNiIKIFBFID0gIjEiCiAKIFNS
+Q19VUkkgPSAiZ2l0Oi8vZ2l0bGFiLmdub21lLm9yZy9HTk9NRS9tb2JpbGUtYnJvYWRiYW5kLXBy
+b3ZpZGVyLWluZm8uZ2l0O3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYWluIgotLSAKMi4zOS4yCgo=
+
+--===============4824624925928892007==--
 
