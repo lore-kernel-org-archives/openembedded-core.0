@@ -2,37 +2,37 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E54AC88C8D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F046C88C8E
 	for <webhook@archiver.kernel.org>; Mon,  1 May 2023 21:25:52 +0000 (UTC)
 Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.107899.1682976351643455935
+ by mx.groups.io with SMTP id smtpd.web10.107898.1682976351613545561
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 May 2023 14:25:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=DxdxhS+c;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010187d935222d-bb680ef9-209d-4066-bb55-a6dc57c44efb-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=nF4x7duI;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010187d93522c9-f17802ce-63a8-4e2a-9580-0d95d858d2dd-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1682976350;
+	t=1682976351;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=59mk560fqq049PhuR7qfUJ/zWzm+mEvOFBEPTm3iBMs=;
-	b=DxdxhS+cGE94gkbuYFXmXQZN3LLXZB6l3ZU2b0qAgO3NK/ezHvLG8EEqSIADl6jg
-	VgEZvFi/aWQnbxckBcp/G6n96W/HseYeWRu+9SpycTCjZ09NGKONXo/PC5MOD4GSn3c
-	y08ZYvH3u7e34EPMfhmWmpY99XeWvk51V06E1nFY=
+	bh=0xd73E4io2cvDfYi1NvZ2tdJqQCCuUKmFVC2nk6WmpQ=;
+	b=nF4x7duIM7SRkMauOP3KhFViJsx7Sd6Y2l4H/IvGxV1LIi9jm/rlOvy/enQ0+851
+	yj4gKDjdEcrm7eQHeFJWNXBLWlCGn5r/XZWFuZG7qIiFrGh2EB1SO0aZyQ1ixUMQLDK
+	iBAvX0oIDzk9hmJ73WTrQ3zcSwGdCqM3KKKkYvG0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1682976350;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1682976351;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=59mk560fqq049PhuR7qfUJ/zWzm+mEvOFBEPTm3iBMs=;
-	b=FxmCLP8g3GbZOsaB9f6P3CWH0rQxDbwO6eOGAjqp+2AztbZHmHVbnQvxSfGpt2Xr
-	a15bO73EfpgKqjhtlcVezcnF1iO6Inpv6znlnyH2pOKcSy7uCmj2+5X1S/bMYYY7j8P
-	OdVDyGOBHSpUKln42wCEL90e1DQgcoWfd9AwXQNk=
-Content-Type: multipart/mixed; boundary="===============1001485618281788658=="
+	bh=0xd73E4io2cvDfYi1NvZ2tdJqQCCuUKmFVC2nk6WmpQ=;
+	b=FIQPHxmhNzPdhij8OAscd98SPdVKMorvj5RHlYMtGYXAT+PvWT58Rmsurc62lHjH
+	mj/iYUU2KTnQXB16Hty0kjwK020vr+20FMnYrbb/JJ2C2JBNvilj1Uo7xUTufLOrUoA
+	Sxl2LKX2pihogCH7S1wNPnFwd/+QqYGO7Y0N67HA=
+Content-Type: multipart/mixed; boundary="===============7915828237332097441=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Randy MacLeod <Randy.MacLeod@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-urllib3: upgrading to 2.0.1 FAILED
-Message-ID: <01010187d935222d-bb680ef9-209d-4066-bb55-a6dc57c44efb-000000@us-west-2.amazonses.com>
+Subject: [AUH] libstd-rs: upgrading to 1.69.0 FAILED
+Message-ID: <01010187d93522c9-f17802ce-63a8-4e2a-9580-0d95d858d2dd-000000@us-west-2.amazonses.com>
 Date: Mon, 1 May 2023 21:25:50 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2023.05.01-54.240.27.192
@@ -40,9 +40,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 May 2023 21:25:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180636
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180635
 
---===============1001485618281788658==
+--===============7915828237332097441==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,139 +50,186 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-urllib3* to *2.0.1* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *libstd-rs* to *1.69.0* has Failed (devtool error).
 
 Detailed error information:
 
-do_compile failed
-
-
-
-Next steps:
-    - apply the patch: git am 0001-python3-urllib3-upgrade-1.26.15-2.0.1.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
---===============1001485618281788658==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
-
+The following devtool command failed:  upgrade libstd-rs -V 1.69.0
+NOTE: Starting bitbake server...
 Loading cache...done.
-Loaded 1798 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 899 .bb files complete (898 cached, 1 parsed). 1798 targets, 40 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
+Loaded 1799 entries from dependency cache.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
 BB_VERSION           = "2.4.0"
 BUILD_SYS            = "x86_64-linux"
 NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
 DISTRO               = "poky"
 DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m32 core2"
+TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:b7a2f369223c6abb1880a312af6f5a782269c23c"
+meta-yocto-bsp       = "tmp-auh-upgrades:c08f5fabc6f19121f285caaed7c99e1ba459baab"
 workspace            = "master:cce6db2a59d309f77c1f9ca173fc674c506062d0"
 
 Initialising tasks...done.
-Sstate summary: Wanted 139 Local 132 Mirrors 0 Missed 7 Current 271 (94% match, 98% complete)
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 22 (0% match, 100% complete)
 NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1175 of 1560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.1.bb:do_fetch)
-NOTE: recipe python3-urllib3-2.0.1-r0: task do_fetch: Started
-NOTE: recipe python3-urllib3-2.0.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1547 of 1560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.1.bb:do_unpack)
-NOTE: Running task 1548 of 1560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-urllib3-2.0.1-r0: task do_unpack: Started
-NOTE: recipe python3-urllib3-2.0.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-urllib3-2.0.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1549 of 1560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.1.bb:do_patch)
-NOTE: recipe python3-urllib3-2.0.1-r0: task do_patch: Started
-NOTE: recipe python3-urllib3-2.0.1-r0: task do_patch: Succeeded
-NOTE: Running task 1550 of 1560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1551 of 1560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.1.bb:do_populate_lic)
-NOTE: recipe python3-urllib3-2.0.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-urllib3-2.0.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-urllib3-2.0.1-r0: task do_populate_lic: Started
-NOTE: recipe python3-urllib3-2.0.1-r0: task do_populate_lic: Succeeded
-NOTE: recipe python3-urllib3-2.0.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1552 of 1560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.1.bb:do_configure)
-NOTE: recipe python3-urllib3-2.0.1-r0: task do_configure: Started
-NOTE: recipe python3-urllib3-2.0.1-r0: task do_configure: Succeeded
-NOTE: Running task 1553 of 1560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.1.bb:do_compile)
-NOTE: recipe python3-urllib3-2.0.1-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-urllib3/2.0.1-r0/recipe-sysroot-native/usr/bin/python3-native/python3: can't open file '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-urllib3/2.0.1-r0/urllib3-2.0.1/setup.py': [Errno 2] No such file or directory
-| ERROR: 'python3 setup.py bdist_wheel ' execution failed.
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-urllib3/2.0.1-r0/temp/run.do_compile.3710150:180 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-urllib3/2.0.1-r0/temp/run.do_compile.3710150, line 180
-| 	#2: setuptools3_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-urllib3/2.0.1-r0/temp/run.do_compile.3710150, line 170
-| 	#3: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-urllib3/2.0.1-r0/temp/run.do_compile.3710150, line 152
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-urllib3/2.0.1-r0/temp/run.do_compile.3710150, line 184
-NOTE: recipe python3-urllib3-2.0.1-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 1553 tasks of which 1545 didn't need to be rerun and 1 failed.
+NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
+NOTE: Writing buildhistory took: 3 seconds
+Loading cache...done.
+Loaded 1799 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 900 .bb files complete (898 cached, 2 parsed). 1800 targets, 39 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.1.bb:do_compile
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: python3-urllib3-2.0.1-r0 do_compile: 'python3 setup.py bdist_wheel ' execution failed.
-ERROR: python3-urllib3-2.0.1-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-urllib3/2.0.1-r0/temp/run.do_compile.3710150', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-urllib3/2.0.1-r0/temp/log.do_compile.3710150
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.1.bb:do_compile) failed with exit code '1'
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:c08f5fabc6f19121f285caaed7c99e1ba459baab"
+workspace            = "master:cce6db2a59d309f77c1f9ca173fc674c506062d0"
 
---===============1001485618281788658==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-urllib3-upgrade-1.26.15-2.0.1.patch"
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 18 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   1% |                                    | ETA:  0:01:55
+Adding changed files:   2% |                                    | ETA:  0:01:23
+Adding changed files:   3% |#                                   | ETA:  0:01:12
+Adding changed files:   4% |#                                   | ETA:  0:01:05
+Adding changed files:   5% |#                                   | ETA:  0:01:00
+Adding changed files:   6% |##                                  | ETA:  0:00:57
+Adding changed files:   7% |##                                  | ETA:  0:00:56
+Adding changed files:   8% |##                                  | ETA:  0:00:54
+Adding changed files:   9% |###                                 | ETA:  0:00:53
+Adding changed files:  10% |###                                 | ETA:  0:00:52
+Adding changed files:  11% |####                                | ETA:  0:00:52
+Adding changed files:  12% |####                                | ETA:  0:00:51
+Adding changed files:  13% |####                                | ETA:  0:00:50
+Adding changed files:  14% |#####                               | ETA:  0:00:49
+Adding changed files:  15% |#####                               | ETA:  0:00:48
+Adding changed files:  16% |#####                               | ETA:  0:00:48
+Adding changed files:  17% |######                              | ETA:  0:00:47
+Adding changed files:  18% |######                              | ETA:  0:00:46
+Adding changed files:  19% |######                              | ETA:  0:00:45
+Adding changed files:  20% |#######                             | ETA:  0:00:45
+Adding changed files:  21% |#######                             | ETA:  0:00:44
+Adding changed files:  22% |########                            | ETA:  0:00:43
+Adding changed files:  23% |########                            | ETA:  0:00:42
+Adding changed files:  24% |########                            | ETA:  0:00:42
+Adding changed files:  25% |#########                           | ETA:  0:00:41
+Adding changed files:  26% |#########                           | ETA:  0:00:41
+Adding changed files:  27% |#########                           | ETA:  0:00:41
+Adding changed files:  28% |##########                          | ETA:  0:00:40
+Adding changed files:  29% |##########                          | ETA:  0:00:40
+Adding changed files:  30% |##########                          | ETA:  0:00:40
+Adding changed files:  31% |###########                         | ETA:  0:00:39
+Adding changed files:  32% |###########                         | ETA:  0:00:39
+Adding changed files:  33% |############                        | ETA:  0:00:38
+Adding changed files:  34% |############                        | ETA:  0:00:38
+Adding changed files:  35% |############                        | ETA:  0:00:38
+Adding changed files:  36% |#############                       | ETA:  0:00:37
+Adding changed files:  37% |#############                       | ETA:  0:00:36
+Adding changed files:  38% |#############                       | ETA:  0:00:36
+Adding changed files:  39% |##############                      | ETA:  0:00:36
+Adding changed files:  40% |##############                      | ETA:  0:00:35
+Adding changed files:  41% |##############                      | ETA:  0:00:35
+Adding changed files:  42% |###############                     | ETA:  0:00:34
+Adding changed files:  43% |###############                     | ETA:  0:00:33
+Adding changed files:  44% |################                    | ETA:  0:00:33
+Adding changed files:  45% |################                    | ETA:  0:00:32
+Adding changed files:  46% |################                    | ETA:  0:00:32
+Adding changed files:  47% |#################                   | ETA:  0:00:31
+Adding changed files:  48% |#################                   | ETA:  0:00:30
+Adding changed files:  49% |#################                   | ETA:  0:00:30
+Adding changed files:  50% |##################                  | ETA:  0:00:29
+Adding changed files:  51% |##################                  | ETA:  0:00:29
+Adding changed files:  52% |###################                 | ETA:  0:00:28
+Adding changed files:  53% |###################                 | ETA:  0:00:28
+Adding changed files:  54% |###################                 | ETA:  0:00:27
+Adding changed files:  55% |####################                | ETA:  0:00:26
+Adding changed files:  56% |####################                | ETA:  0:00:26
+Adding changed files:  57% |####################                | ETA:  0:00:25
+Adding changed files:  58% |#####################               | ETA:  0:00:25
+Adding changed files:  59% |#####################               | ETA:  0:00:24
+Adding changed files:  60% |#####################               | ETA:  0:00:24
+Adding changed files:  61% |######################              | ETA:  0:00:23
+Adding changed files:  63% |######################              | ETA:  0:00:22
+Adding changed files:  64% |#######################             | ETA:  0:00:22
+Adding changed files:  65% |#######################             | ETA:  0:00:21
+Adding changed files:  66% |#######################             | ETA:  0:00:21
+Adding changed files:  67% |########################            | ETA:  0:00:20
+Adding changed files:  68% |########################            | ETA:  0:00:19
+Adding changed files:  69% |########################            | ETA:  0:00:19
+Adding changed files:  70% |#########################           | ETA:  0:00:18
+Adding changed files:  71% |#########################           | ETA:  0:00:18
+Adding changed files:  72% |#########################           | ETA:  0:00:17
+Adding changed files:  73% |##########################          | ETA:  0:00:16
+Adding changed files:  74% |##########################          | ETA:  0:00:16
+Adding changed files:  75% |###########################         | ETA:  0:00:15
+Adding changed files:  76% |###########################         | ETA:  0:00:15
+Adding changed files:  77% |###########################         | ETA:  0:00:14
+Adding changed files:  78% |############################        | ETA:  0:00:13
+Adding changed files:  79% |############################        | ETA:  0:00:13
+Adding changed files:  80% |############################        | ETA:  0:00:12
+Adding changed files:  81% |#############################       | ETA:  0:00:11
+Adding changed files:  82% |#############################       | ETA:  0:00:11
+Adding changed files:  83% |#############################       | ETA:  0:00:10
+Adding changed files:  84% |##############################      | ETA:  0:00:10
+Adding changed files:  85% |##############################      | ETA:  0:00:09
+Adding changed files:  86% |###############################     | ETA:  0:00:08
+Adding changed files:  87% |###############################     | ETA:  0:00:08
+Adding changed files:  88% |###############################     | ETA:  0:00:07
+Adding changed files:  89% |################################    | ETA:  0:00:06
+Adding changed files:  90% |################################    | ETA:  0:00:06
+Adding changed files:  91% |################################    | ETA:  0:00:05
+Adding changed files:  92% |#################################   | ETA:  0:00:04
+Adding changed files:  93% |#################################   | ETA:  0:00:04
+Adding changed files:  94% |##################################  | ETA:  0:00:03
+Adding changed files:  95% |##################################  | ETA:  0:00:02
+Adding changed files:  96% |##################################  | ETA:  0:00:02
+Adding changed files:  97% |################################### | ETA:  0:00:01
+Adding changed files:  98% |################################### | ETA:  0:00:00
+Adding changed files:  99% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:01:04
 
-RnJvbSAzM2Q2NTBhZDg5ZTYyM2UzYzRjMDdhNWI1ZmY2MmE1Nzc3Mzk5OWM0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBNYXkgMjAyMyAxMTo1NDo1NiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtdXJsbGliMzogdXBncmFkZSAxLjI2LjE1IC0+IDIuMC4xCgotLS0KIC4uLi97cHl0aG9u
-My11cmxsaWIzXzEuMjYuMTUuYmIgPT4gcHl0aG9uMy11cmxsaWIzXzIuMC4xLmJifSAgICB8IDIg
-Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1l
-IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtdXJsbGliM18xLjI2LjE1LmJi
-ID0+IHB5dGhvbjMtdXJsbGliM18yLjAuMS5iYn0gKDg2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXJsbGliM18xLjI2LjE1LmJiIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVybGxpYjNfMi4wLjEuYmIKc2ltaWxhcml0
-eSBpbmRleCA4NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
-b24zLXVybGxpYjNfMS4yNi4xNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLXVybGxpYjNfMi4wLjEuYmIKaW5kZXggZDJkZTdjNGMwMi4uYzk3MTNjYWY4
-OSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVybGxp
-YjNfMS4yNi4xNS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
-dXJsbGliM18yLjAuMS5iYgpAQCAtMyw3ICszLDcgQEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRo
-dWIuY29tL3NoYXpvdy91cmxsaWIzIgogTElDRU5TRSA9ICJNSVQiCiBMSUNfRklMRVNfQ0hLU1VN
-ID0gImZpbGU6Ly9MSUNFTlNFLnR4dDttZDU9YzI4MjNjYjk5NTQzOWM5ODRmZDYyYTk3M2Q3OTgx
-NWMiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI4YTM4ODcxN2I5NDc2ZjkzNGEyMTQ4NGU4Yzhl
-NjE4NzVhYjYwNjQ0ZDI5YjliMzllMTFlNGI5ZGMxYzZiMzA1IgorU1JDX1VSSVtzaGEyNTZzdW1d
-ID0gIjJjZTY2YTY4MTM0YmU0NjlmNWRmNWQ0NmQ3MjQyMzc0ODliM2NkODViMmJiYTIyMjNkYmJl
-ZTE3NDY1NDg4MjYiCiAKIGluaGVyaXQgcHlwaSBzZXR1cHRvb2xzMwogCi0tIAoyLjM5LjIKCg==
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://static.rust-lang.org/dist/rustc-1.69.0-src.tar.xz;name=rust...
+INFO: Rebasing devtool onto 03bd8dfac0cd2cbe7f4eeb1701c33e8f7bf8054f
+WARNING: Command 'git rebase 03bd8dfac0cd2cbe7f4eeb1701c33e8f7bf8054f' failed:
+CONFLICT (modify/delete): vendor/crossbeam-utils-0.8.12/.cargo-checksum.json deleted in HEAD and modified in ca484251c (rust: Fix crossbeam-utils for arches without atomics).  Version ca484251c (rust: Fix crossbeam-utils for arches without atomics) of vendor/crossbeam-utils-0.8.12/.cargo-checksum.json left in tree.
+CONFLICT (modify/delete): vendor/crossbeam-utils-0.8.12/build.rs deleted in HEAD and modified in ca484251c (rust: Fix crossbeam-utils for arches without atomics).  Version ca484251c (rust: Fix crossbeam-utils for arches without atomics) of vendor/crossbeam-utils-0.8.12/build.rs left in tree.
 
---===============1001485618281788658==--
+ERROR: Execution of 'git checkout devtool' failed with exit code 1:
+error: you need to resolve your current index first
+vendor/crossbeam-utils-0.8.12/.cargo-checksum.json: needs merge
+vendor/crossbeam-utils-0.8.12/build.rs: needs merge
+
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============7915828237332097441==--
 
