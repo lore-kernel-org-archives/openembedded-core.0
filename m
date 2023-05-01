@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2B4BCA9ED6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4C86CA9ED7
 	for <webhook@archiver.kernel.org>; Mon,  1 May 2023 21:26:05 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.107435.1682976351863576214
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.107902.1682976352557771767
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 May 2023 14:25:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=TZGOyuWY;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010187d9352827-74dc65d1-2a0d-4d75-a32c-7b216e28be3f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=US5B3uE1;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010187d93526c6-cba7bce4-6a7b-4569-a65d-5cc3776c1d04-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1682976352;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=+qTTofaybSZYGaOTVdK4tmX8zDgGK0ZyFWUgjoCVabY=;
-	b=TZGOyuWY/qL+6uOoamHzxk+oijeLysd4/XUrEGXMGwoxs/a3jIrmOR2+xdStsg/p
-	HXqDxcQOaSajxfyFgYcGNtDXybyjbn9Fss4kPgSMitCwgqvOLu04PCk1jpnk49D2f1o
-	8nm1yv2/IFPcTNHl4G3nEuJ/Hb1JVYQAm4WTRXew=
+	bh=Q7lBH5hd1sn3HH5lOmSsNmjp5nJ7Gu3az6mkS06e01k=;
+	b=US5B3uE1pbuKSql07JF0phyFuGAgeXYcRzyvKPhuVnLytAuibdd+DRPhJvJqyoLx
+	eyyerxcrq5p+DnVQW7gx5t+B/kZIF6S5YPT50V5XeBXeWrrQGXrWecRJAHhWLWh0Afb
+	qlIGkWDLEo9f+9JEIWgDtgWPtm7eNs6tmPQMoN5M=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1682976352;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=+qTTofaybSZYGaOTVdK4tmX8zDgGK0ZyFWUgjoCVabY=;
-	b=mLf71r3J+t4pXtSvKMpNbx00eDZRqNvFD8EjgmXTbyhFS2ocIVf/WdRKSIEO7vd+
-	jOmClEWXfS2qA0jVpRDMaWxDV4dkOGzpjYd2fjWx++68x0eWwcduWUK0qDWYffWKQO/
-	fPg2DIg4ZeO5bBlWxgvMQ5Wpfj/24PHhhGXt3Mh8=
-Content-Type: multipart/mixed; boundary="===============1390286731260060959=="
+	bh=Q7lBH5hd1sn3HH5lOmSsNmjp5nJ7Gu3az6mkS06e01k=;
+	b=jky3C5SEWj4Dp4jqNkOAGtCx7WQCUC6SysDrXInHWWtNc/U/TPuM0augw0D0NZe3
+	V0RV4psv+JSEqQFfYSdT7NPox4MIF4Qfm5TZpMqFys4yv8V/fVplkjHArlU8+L5funl
+	bV0xYqjYdE2TdihBWAh0Lnq86aljCQsS5bA6apoo=
+Content-Type: multipart/mixed; boundary="===============4845911895223006534=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libva: upgrading to 2.18.0 SUCCEEDED
-Message-ID: <01010187d9352827-74dc65d1-2a0d-4d75-a32c-7b216e28be3f-000000@us-west-2.amazonses.com>
-Date: Mon, 1 May 2023 21:25:52 +0000
+Subject: [AUH] librsvg: upgrading to 2.56.0 FAILED
+Message-ID: <01010187d93526c6-cba7bce4-6a7b-4569-a65d-5cc3776c1d04-000000@us-west-2.amazonses.com>
+Date: Mon, 1 May 2023 21:25:51 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.05.01-54.240.27.33
+X-SES-Outgoing: 2023.05.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 May 2023 21:26:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180653
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180650
 
---===============1390286731260060959==
+--===============4845911895223006534==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,140 +50,219 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libva* to *2.18.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *librsvg* to *2.56.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-libva-upgrade-2.16.0-2.18.0.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade librsvg -V 2.56.0
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)... (16:52:58.978026)
+Loading cache...done.
+Loaded 1799 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:9b8aeefcf966baef90071ab24588df145772f9c8"
+workspace            = "master:cce6db2a59d309f77c1f9ca173fc674c506062d0"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 22 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+Loading cache...done.
+Loaded 1799 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 900 .bb files complete (898 cached, 2 parsed). 1800 targets, 39 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:9b8aeefcf966baef90071ab24588df145772f9c8"
+workspace            = "master:cce6db2a59d309f77c1f9ca173fc674c506062d0"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 18 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                    | ETA:  0:00:19
+Adding changed files:   1% |                                    | ETA:  0:00:15
+Adding changed files:   2% |                                    | ETA:  0:00:12
+Adding changed files:   3% |#                                   | ETA:  0:00:11
+Adding changed files:   3% |#                                   | ETA:  0:00:10
+Adding changed files:   4% |#                                   | ETA:  0:00:10
+Adding changed files:   5% |#                                   | ETA:  0:00:09
+Adding changed files:   6% |##                                  | ETA:  0:00:09
+Adding changed files:   7% |##                                  | ETA:  0:00:09
+Adding changed files:   7% |##                                  | ETA:  0:00:08
+Adding changed files:   8% |###                                 | ETA:  0:00:08
+Adding changed files:   9% |###                                 | ETA:  0:00:08
+Adding changed files:  10% |###                                 | ETA:  0:00:08
+Adding changed files:  10% |###                                 | ETA:  0:00:08
+Adding changed files:  11% |####                                | ETA:  0:00:08
+Adding changed files:  12% |####                                | ETA:  0:00:07
+Adding changed files:  13% |####                                | ETA:  0:00:07
+Adding changed files:  14% |#####                               | ETA:  0:00:07
+Adding changed files:  14% |#####                               | ETA:  0:00:07
+Adding changed files:  15% |#####                               | ETA:  0:00:07
+Adding changed files:  16% |#####                               | ETA:  0:00:07
+Adding changed files:  17% |######                              | ETA:  0:00:07
+Adding changed files:  17% |######                              | ETA:  0:00:07
+Adding changed files:  18% |######                              | ETA:  0:00:07
+Adding changed files:  19% |#######                             | ETA:  0:00:06
+Adding changed files:  20% |#######                             | ETA:  0:00:06
+Adding changed files:  21% |#######                             | ETA:  0:00:06
+Adding changed files:  21% |#######                             | ETA:  0:00:06
+Adding changed files:  22% |########                            | ETA:  0:00:06
+Adding changed files:  23% |########                            | ETA:  0:00:06
+Adding changed files:  24% |########                            | ETA:  0:00:06
+Adding changed files:  24% |########                            | ETA:  0:00:06
+Adding changed files:  25% |#########                           | ETA:  0:00:06
+Adding changed files:  26% |#########                           | ETA:  0:00:06
+Adding changed files:  27% |#########                           | ETA:  0:00:06
+Adding changed files:  28% |##########                          | ETA:  0:00:05
+Adding changed files:  28% |##########                          | ETA:  0:00:05
+Adding changed files:  29% |##########                          | ETA:  0:00:05
+Adding changed files:  30% |##########                          | ETA:  0:00:05
+Adding changed files:  31% |###########                         | ETA:  0:00:05
+Adding changed files:  31% |###########                         | ETA:  0:00:05
+Adding changed files:  32% |###########                         | ETA:  0:00:05
+Adding changed files:  33% |############                        | ETA:  0:00:05
+Adding changed files:  34% |############                        | ETA:  0:00:05
+Adding changed files:  35% |############                        | ETA:  0:00:05
+Adding changed files:  35% |############                        | ETA:  0:00:05
+Adding changed files:  36% |#############                       | ETA:  0:00:05
+Adding changed files:  37% |#############                       | ETA:  0:00:05
+Adding changed files:  38% |#############                       | ETA:  0:00:04
+Adding changed files:  38% |##############                      | ETA:  0:00:04
+Adding changed files:  39% |##############                      | ETA:  0:00:04
+Adding changed files:  40% |##############                      | ETA:  0:00:04
+Adding changed files:  41% |##############                      | ETA:  0:00:04
+Adding changed files:  42% |###############                     | ETA:  0:00:04
+Adding changed files:  42% |###############                     | ETA:  0:00:04
+Adding changed files:  43% |###############                     | ETA:  0:00:04
+Adding changed files:  44% |################                    | ETA:  0:00:04
+Adding changed files:  45% |################                    | ETA:  0:00:04
+Adding changed files:  46% |################                    | ETA:  0:00:04
+Adding changed files:  46% |################                    | ETA:  0:00:04
+Adding changed files:  47% |#################                   | ETA:  0:00:04
+Adding changed files:  48% |#################                   | ETA:  0:00:04
+Adding changed files:  49% |#################                   | ETA:  0:00:03
+Adding changed files:  49% |#################                   | ETA:  0:00:03
+Adding changed files:  50% |##################                  | ETA:  0:00:03
+Adding changed files:  51% |##################                  | ETA:  0:00:03
+Adding changed files:  52% |##################                  | ETA:  0:00:03
+Adding changed files:  53% |###################                 | ETA:  0:00:03
+Adding changed files:  53% |###################                 | ETA:  0:00:03
+Adding changed files:  54% |###################                 | ETA:  0:00:03
+Adding changed files:  55% |###################                 | ETA:  0:00:03
+Adding changed files:  56% |####################                | ETA:  0:00:03
+Adding changed files:  56% |####################                | ETA:  0:00:03
+Adding changed files:  57% |####################                | ETA:  0:00:03
+Adding changed files:  58% |#####################               | ETA:  0:00:03
+Adding changed files:  59% |#####################               | ETA:  0:00:03
+Adding changed files:  60% |#####################               | ETA:  0:00:03
+Adding changed files:  60% |#####################               | ETA:  0:00:02
+Adding changed files:  61% |######################              | ETA:  0:00:02
+Adding changed files:  62% |######################              | ETA:  0:00:02
+Adding changed files:  63% |######################              | ETA:  0:00:02
+Adding changed files:  63% |#######################             | ETA:  0:00:02
+Adding changed files:  64% |#######################             | ETA:  0:00:02
+Adding changed files:  65% |#######################             | ETA:  0:00:02
+Adding changed files:  66% |#######################             | ETA:  0:00:02
+Adding changed files:  67% |########################            | ETA:  0:00:02
+Adding changed files:  67% |########################            | ETA:  0:00:02
+Adding changed files:  68% |########################            | ETA:  0:00:02
+Adding changed files:  69% |########################            | ETA:  0:00:02
+Adding changed files:  70% |#########################           | ETA:  0:00:02
+Adding changed files:  70% |#########################           | ETA:  0:00:02
+Adding changed files:  71% |#########################           | ETA:  0:00:02
+Adding changed files:  72% |##########################          | ETA:  0:00:02
+Adding changed files:  73% |##########################          | ETA:  0:00:01
+Adding changed files:  74% |##########################          | ETA:  0:00:01
+Adding changed files:  74% |##########################          | ETA:  0:00:01
+Adding changed files:  75% |###########################         | ETA:  0:00:01
+Adding changed files:  76% |###########################         | ETA:  0:00:01
+Adding changed files:  77% |###########################         | ETA:  0:00:01
+Adding changed files:  77% |############################        | ETA:  0:00:01
+Adding changed files:  78% |############################        | ETA:  0:00:01
+Adding changed files:  79% |############################        | ETA:  0:00:01
+Adding changed files:  80% |############################        | ETA:  0:00:01
+Adding changed files:  81% |#############################       | ETA:  0:00:01
+Adding changed files:  81% |#############################       | ETA:  0:00:01
+Adding changed files:  82% |#############################       | ETA:  0:00:01
+Adding changed files:  83% |##############################      | ETA:  0:00:01
+Adding changed files:  84% |##############################      | ETA:  0:00:01
+Adding changed files:  84% |##############################      | ETA:  0:00:01
+Adding changed files:  85% |##############################      | ETA:  0:00:01
+Adding changed files:  86% |###############################     | ETA:  0:00:00
+Adding changed files:  87% |###############################     | ETA:  0:00:00
+Adding changed files:  88% |###############################     | ETA:  0:00:00
+Adding changed files:  88% |################################    | ETA:  0:00:00
+Adding changed files:  89% |################################    | ETA:  0:00:00
+Adding changed files:  90% |################################    | ETA:  0:00:00
+Adding changed files:  91% |################################    | ETA:  0:00:00
+Adding changed files:  92% |#################################   | ETA:  0:00:00
+Adding changed files:  92% |#################################   | ETA:  0:00:00
+Adding changed files:  93% |#################################   | ETA:  0:00:00
+Adding changed files:  94% |#################################   | ETA:  0:00:00
+Adding changed files:  95% |##################################  | ETA:  0:00:00
+Adding changed files:  95% |##################################  | ETA:  0:00:00
+Adding changed files:  96% |##################################  | ETA:  0:00:00
+Adding changed files:  97% |################################### | ETA:  0:00:00
+Adding changed files:  98% |################################### | ETA:  0:00:00
+Adding changed files:  99% |################################### | ETA:  0:00:00
+Adding changed files:  99% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:06
+
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://download.gnome.org/sources//librsvg/2.56/librsvg-2.56.0.tar.xz;name=archive...
+INFO: Rebasing devtool onto 1e0ee92fb439960c1cc863cd2ade95cc0b474001
+WARNING: Command 'git rebase 1e0ee92fb439960c1cc863cd2ade95cc0b474001' failed:
+CONFLICT (modify/delete): vendor/system-deps/.cargo-checksum.json deleted in HEAD and modified in c0a3702 (system-deps/src/lib.rs: do not probe into harcoded list of targets).  Version c0a3702 (system-deps/src/lib.rs: do not probe into harcoded list of targets) of vendor/system-deps/.cargo-checksum.json left in tree.
+CONFLICT (modify/delete): vendor/system-deps/src/lib.rs deleted in HEAD and modified in c0a3702 (system-deps/src/lib.rs: do not probe into harcoded list of targets).  Version c0a3702 (system-deps/src/lib.rs: do not probe into harcoded list of targets) of vendor/system-deps/src/lib.rs left in tree.
+
+ERROR: Execution of 'git checkout devtool' failed with exit code 1:
+error: you need to resolve your current index first
+vendor/system-deps/.cargo-checksum.json: needs merge
+vendor/system-deps/src/lib.rs: needs merge
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============1390286731260060959==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libva-upgrade-2.16.0-2.18.0.patch"
-
-RnJvbSA1M2NlMzc5M2E4OWE1YjdhMjNiYTg1MmZmNjgzMTA5Njg0NzEwMjQwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBNYXkgMjAyMyAxNzoxNDoxNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YnZhOiB1cGdyYWRlIDIuMTYuMCAtPiAyLjE4LjAKCi0tLQogbWV0YS9yZWNpcGVzLWdyYXBoaWNz
-L2xpYnZhL2xpYnZhLmluYyAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgMiArLQogLi4uL3Jl
-Y2lwZXMtZ3JhcGhpY3MvbGlidmEve2xpYnZhXzIuMTYuMC5iYiA9PiBsaWJ2YV8yLjE4LjAuYmJ9
-IHwgMAogMiBmaWxlcyBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJ2YS97bGlidmFfMi4xNi4wLmJiID0+IGxpYnZh
-XzIuMTguMC5iYn0gKDEwMCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xp
-YnZhL2xpYnZhLmluYyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJ2YS9saWJ2YS5pbmMKaW5k
-ZXggMGYxNmRhY2M5OC4uN2VkMGM5ZWQ4OSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBo
-aWNzL2xpYnZhL2xpYnZhLmluYworKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGli
-dmEuaW5jCkBAIC0xOCw3ICsxOCw3IEBAIExJQ0VOU0UgPSAiTUlUIgogCiBTUkNfVVJJID0gIiR7
-R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC8ke1BWfS9saWJ2YS0ke1BWfS50YXIuYnoyIgogTElD
-X0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9MmU0ODk0MGY5NGFjYjBhZjU4MmU1
-ZWYwMzUzNzgwMGYiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMTE1ZmFjYTBkYjJjNDE3YTM3ZGE0
-OTgzMDg3MGUyNjA0NTBmYTEzMDY2ZjVlMjRlMjUyYTIwYzM2ZDkyMGExYyIKK1NSQ19VUklbc2hh
-MjU2c3VtXSA9ICJhMzU3N2VlYmEwYzIzOTI0Njg2YzdlMmYyMDMwMDczNzM2YzgyODJhODBmMjdi
-NTQ3M2UzM2VhOTRjY2Q0OTgyIgogCiBTID0gIiR7V09SS0RJUn0vbGlidmEtJHtQVn0iCiAKZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJ2YS9saWJ2YV8yLjE2LjAuYmIgYi9t
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmFfMi4xOC4wLmJiCnNpbWlsYXJpdHkgaW5k
-ZXggMTAwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmFfMi4x
-Ni4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmFfMi4xOC4w
-LmJiCi0tIAoyLjM5LjIKCg==
-
---===============1390286731260060959==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/libva: PV changed from "2.16.0" to "2.18.0"
-packages/core2-32-poky-linux/libva: SRC_URI changed from "https://github.com/intel/libva/releases/download/2.16.0/libva-2.16.0.tar.bz2" to "https://github.com/intel/libva/releases/download/2.18.0/libva-2.18.0.tar.bz2"
-packages/core2-32-poky-linux/libva: PKGV changed from 2.16.0 [default] to 2.18.0 [default]
-packages/core2-32-poky-linux/libva/libva-dbg: PV changed from "2.16.0" to "2.18.0"
-packages/core2-32-poky-linux/libva/libva-dbg: FILELIST: removed "/usr/lib/.debug/libva-x11.so.2.1600.0 /usr/lib/.debug/libva-wayland.so.2.1600.0 /usr/lib/.debug/libva-drm.so.2.1600.0 /usr/lib/.debug/libva.so.2.1600.0 /usr/lib/.debug/libva-glx.so.2.1600.0", added "/usr/lib/.debug/libva-x11.so.2.1800.0 /usr/lib/.debug/libva-glx.so.2.1800.0 /usr/lib/.debug/libva-wayland.so.2.1800.0 /usr/lib/.debug/libva-drm.so.2.1800.0 /usr/lib/.debug/libva.so.2.1800.0"
-packages/core2-32-poky-linux/libva/libva-dbg: PKGV changed from 2.16.0 [default] to 2.18.0 [default]
-packages/core2-32-poky-linux/libva/libva-dbg: PKGSIZE changed from 730640 to 705620 (-3%)
-packages/core2-32-poky-linux/libva/libva-dbg: RRECOMMENDS: added "libxcb-dbg libxcb-dri3-dbg libx11-xcb-dbg"
-packages/core2-32-poky-linux/libva/libva-dev: PV changed from "2.16.0" to "2.18.0"
-packages/core2-32-poky-linux/libva/libva-dev: PKGV changed from 2.16.0 [default] to 2.18.0 [default]
-packages/core2-32-poky-linux/libva/libva-dev: PKGSIZE changed from 649531 to 649621 (+0%)
-packages/core2-32-poky-linux/libva/libva-dev: RRECOMMENDS: added "libx11-xcb-dev libxcb-dri3-dev libxcb-dev"
-packages/core2-32-poky-linux/libva/libva-doc: PV changed from "2.16.0" to "2.18.0"
-packages/core2-32-poky-linux/libva/libva-doc: PKGV changed from 2.16.0 [default] to 2.18.0 [default]
-packages/core2-32-poky-linux/libva/libva-glx: PV changed from "2.16.0" to "2.18.0"
-packages/core2-32-poky-linux/libva/libva-glx: FILELIST: removed "/usr/lib/libva-glx.so.2.1600.0", added "/usr/lib/libva-glx.so.2.1800.0"
-packages/core2-32-poky-linux/libva/libva-glx: PKGV changed from 2.16.0 [default] to 2.18.0 [default]
-packages/core2-32-poky-linux/libva/libva-locale: PV changed from "2.16.0" to "2.18.0"
-packages/core2-32-poky-linux/libva/libva-locale: PKGV changed from 2.16.0 [default] to 2.18.0 [default]
-packages/core2-32-poky-linux/libva/libva-src: PV changed from "2.16.0" to "2.18.0"
-packages/core2-32-poky-linux/libva/libva-src: FILELIST: directory renamed /usr/src/debug/libva/2.16.0-r0/va -> /usr/src/debug/libva/2.18.0-r0/va, directory renamed /usr/src/debug/libva/2.16.0-r0/va/drm -> /usr/src/debug/libva/2.18.0-r0/va/drm, directory renamed /usr/src/debug/libva/2.16.0-r0/va/glx -> /usr/src/debug/libva/2.18.0-r0/va/glx, removed "/usr/src/debug/libva/2.16.0-r0/va/wayland/va_backend_wayland.h /usr/src/debug/libva/2.16.0-r0/va/wayland/va_wayland_emgd.c /usr/src/debug/libva/2.16.0-r0/va/wayland/va_wayland_drm.c /usr/src/debug/libva/2.16.0-r0/va/wayland/va_wayland.c /usr/src/debug/libva/2.16.0-r0/va/x11/va_dricommon.c /usr/src/debug/libva/2.16.0-r0/va/wayland/va_wayland_drm.h /usr/src/debug/libva/2.16.0-r0/va/wayland/va_wayland_emgd.h /usr/src/debug/libva/2.16.0-r0/va/x11/va_nvctrl.h /usr/src/debug/libva/2.16.0-r0/va/wayland/va_wayland_private.h /usr/src/debug/libva/2.16.0-r0/va/x11/va_dricommon.h /usr/src/debug/libva/2.16.0-r0/va/x11/va_dri2.h /usr/src/debug/libva/2.1
- 6.0-r0/va/x11/va_fglrx.h /usr/src/debug/libva/2.16.0-r0/va/x11/va_nvctrl.c /usr/src/debug/libva/2.16.0-r0/va/x11/dri2_util.c /usr/src/debug/libva/2.16.0-r0/va/x11/va_x11.c /usr/src/debug/libva/2.16.0-r0/va/x11/va_fglrx.c /usr/src/debug/libva/2.16.0-r0/va/x11/va_dri2.c /usr/src/debug/libva/2.16.0-r0/va/x11/va_dri2str.h", added "/usr/src/debug/libva/2.18.0-r0/va/x11/va_dricommon.h /usr/src/debug/libva/2.18.0-r0/va/x11/va_dri3.h /usr/src/debug/libva/2.18.0-r0/va/x11/va_dri2.c /usr/src/debug/libva/2.18.0-r0/va/wayland/va_backend_wayland.h /usr/src/debug/libva/2.18.0-r0/va/wayland/va_wayland_drm.h /usr/src/debug/libva/2.18.0-r0/va/wayland/va_wayland_private.h /usr/src/debug/libva/2.18.0-r0/va/x11/va_dri3.c /usr/src/debug/libva/2.18.0-r0/va/x11/va_dricommon.c /usr/src/debug/libva/2.18.0-r0/va/wayland/va_wayland_drm.c /usr/src/debug/libva/2.18.0-r0/va/x11/va_dri2.h /usr/src/debug/libva/2.18.0-r0/va/wayland/va_wayland.c /usr/src/debug/libva/2.18.0-r0/va/x11/va_dri2str.h /usr/src/debug/libva
- /2.18.0-r0/va/x11/va_x11.c /usr/src/debug/libva/2.18.0-r0/va/x11/dri2_util.c"
-packages/core2-32-poky-linux/libva/libva-src: PKGV changed from 2.16.0 [default] to 2.18.0 [default]
-packages/core2-32-poky-linux/libva/libva-src: PKGSIZE changed from 1124659 to 1102368 (-2%)
-packages/core2-32-poky-linux/libva/libva-staticdev: PV changed from "2.16.0" to "2.18.0"
-packages/core2-32-poky-linux/libva/libva-staticdev: PKGV changed from 2.16.0 [default] to 2.18.0 [default]
-packages/core2-32-poky-linux/libva/libva-wayland: PV changed from "2.16.0" to "2.18.0"
-packages/core2-32-poky-linux/libva/libva-wayland: FILELIST: removed "/usr/lib/libva-wayland.so.2.1600.0", added "/usr/lib/libva-wayland.so.2.1800.0"
-packages/core2-32-poky-linux/libva/libva-wayland: PKGV changed from 2.16.0 [default] to 2.18.0 [default]
-packages/core2-32-poky-linux/libva/libva-wayland: PKGSIZE changed from 22017 to 17921 (-19%)
-packages/core2-32-poky-linux/libva/libva-x11: RDEPENDS: added "libxcb-dri3 (['>= 1.15']) libxcb (['>= 1.15']) libx11-xcb (['>= 1.8.4'])"
-packages/core2-32-poky-linux/libva/libva-x11: PV changed from "2.16.0" to "2.18.0"
-packages/core2-32-poky-linux/libva/libva-x11: FILELIST: removed "/usr/lib/libva-x11.so.2.1600.0", added "/usr/lib/libva-x11.so.2.1800.0"
-packages/core2-32-poky-linux/libva/libva-x11: PKGV changed from 2.16.0 [default] to 2.18.0 [default]
-packages/core2-32-poky-linux/libva/libva-x11: PKGSIZE changed from 26101 to 30133 (+15%)
-packages/core2-32-poky-linux/libva/libva: PV changed from "2.16.0" to "2.18.0"
-packages/core2-32-poky-linux/libva/libva: FILELIST: removed "/usr/lib/libva-drm.so.2.1600.0 /usr/lib/libva.so.2.1600.0", added "/usr/lib/libva-drm.so.2.1800.0 /usr/lib/libva.so.2.1800.0"
-packages/core2-32-poky-linux/libva/libva: PKGV changed from 2.16.0 [default] to 2.18.0 [default]
-Changes to packages/core2-32-poky-linux/libva (sysroot):
-  /usr/lib/libva-drm.so.2 changed symlink target from libva-drm.so.2.1600.0 to libva-drm.so.2.1800.0
-  /usr/lib/libva-glx.so.2 changed symlink target from libva-glx.so.2.1600.0 to libva-glx.so.2.1800.0
-  /usr/lib/libva.so.2 changed symlink target from libva.so.2.1600.0 to libva.so.2.1800.0
-  /usr/lib/libva-wayland.so.2 changed symlink target from libva-wayland.so.2.1600.0 to libva-wayland.so.2.1800.0
-  /usr/lib/libva-x11.so.2 changed symlink target from libva-x11.so.2.1600.0 to libva-x11.so.2.1800.0
-  /usr/lib/libva-drm.so.2.1600.0 moved to /usr/lib/libva-drm.so.2.1800.0
-  /usr/lib/libva-glx.so.2.1600.0 moved to /usr/lib/libva-glx.so.2.1800.0
-  /usr/lib/libva.so.2.1600.0 moved to /usr/lib/libva.so.2.1800.0
-  /usr/lib/libva-wayland.so.2.1600.0 moved to /usr/lib/libva-wayland.so.2.1800.0
-  /usr/lib/libva-x11.so.2.1600.0 moved to /usr/lib/libva-x11.so.2.1800.0
-
---===============1390286731260060959==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/libva/libva-dbg: RRECOMMENDS: added "libxcb-dri3-dbg libx11-xcb-dbg libxcb-dbg"
-packages/core2-32-poky-linux/libva/libva-dev: RRECOMMENDS: added "libx11-xcb-dev libxcb-dev libxcb-dri3-dev"
-packages/core2-32-poky-linux/libva/libva-glx: FILELIST: removed "/usr/lib/libva-glx.so.2.1600.0", added "/usr/lib/libva-glx.so.2.1800.0"
-packages/core2-32-poky-linux/libva/libva-wayland: PKGSIZE changed from 22017 to 17921 (-19%)
-packages/core2-32-poky-linux/libva/libva-wayland: FILELIST: removed "/usr/lib/libva-wayland.so.2.1600.0", added "/usr/lib/libva-wayland.so.2.1800.0"
-packages/core2-32-poky-linux/libva/libva-x11: PKGSIZE changed from 26101 to 30133 (+15%)
-packages/core2-32-poky-linux/libva/libva-x11: FILELIST: removed "/usr/lib/libva-x11.so.2.1600.0", added "/usr/lib/libva-x11.so.2.1800.0"
-packages/core2-32-poky-linux/libva/libva-x11: RDEPENDS: added "libxcb (['>= 1.15']) libx11-xcb (['>= 1.8.4']) libxcb-dri3 (['>= 1.15'])"
-packages/core2-32-poky-linux/libva/libva: FILELIST: removed "/usr/lib/libva.so.2.1600.0 /usr/lib/libva-drm.so.2.1600.0", added "/usr/lib/libva-drm.so.2.1800.0 /usr/lib/libva.so.2.1800.0"
-Changes to packages/core2-32-poky-linux/libva (sysroot):
-  /usr/lib/libva-drm.so.2 changed symlink target from libva-drm.so.2.1600.0 to libva-drm.so.2.1800.0
-  /usr/lib/libva-glx.so.2 changed symlink target from libva-glx.so.2.1600.0 to libva-glx.so.2.1800.0
-  /usr/lib/libva.so.2 changed symlink target from libva.so.2.1600.0 to libva.so.2.1800.0
-  /usr/lib/libva-wayland.so.2 changed symlink target from libva-wayland.so.2.1600.0 to libva-wayland.so.2.1800.0
-  /usr/lib/libva-x11.so.2 changed symlink target from libva-x11.so.2.1600.0 to libva-x11.so.2.1800.0
-  /usr/lib/libva-drm.so.2.1600.0 moved to /usr/lib/libva-drm.so.2.1800.0
-  /usr/lib/libva-glx.so.2.1600.0 moved to /usr/lib/libva-glx.so.2.1800.0
-  /usr/lib/libva.so.2.1600.0 moved to /usr/lib/libva.so.2.1800.0
-  /usr/lib/libva-wayland.so.2.1600.0 moved to /usr/lib/libva-wayland.so.2.1800.0
-  /usr/lib/libva-x11.so.2.1600.0 moved to /usr/lib/libva-x11.so.2.1800.0
-
---===============1390286731260060959==--
+--===============4845911895223006534==--
 
