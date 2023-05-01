@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 117C4C88C85
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4436AC88C99
 	for <webhook@archiver.kernel.org>; Mon,  1 May 2023 21:25:52 +0000 (UTC)
 Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.107883.1682976348773182789
+ by mx.groups.io with SMTP id smtpd.web10.107894.1682976350938683793
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 May 2023 14:25:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=naPcpVd/;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010187d9352420-8a47d5c0-edb8-4770-b104-733c9d992a0e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=RpDu4H23;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010187d9351fe7-38ef6cf4-046a-4404-a4bc-176ac7b6f07b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1682976351;
+	t=1682976350;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ivlBgeBLwUI4pbksopcbMgmrppDk0RDiAL+DjQQ+7F4=;
-	b=naPcpVd/f6Em+eZBLeiT63z79PLcTQBAW042fPW/uwZTiMleOepJVvEsjv+oUvyc
-	f2tBvYRvOPjK1jd9ZacuoiiXD8PzX8dJjj99J7V3MNYO9EuZFneXzaPRcx9QRE1sWCn
-	iNZ6K0oz04RufEalEmloRZ41Gs9IvtC8djehVsBw=
+	bh=J0MsZeSwXT19/b8/bP3Of8ZPIqeSaM+vI2kgmqL7aaI=;
+	b=RpDu4H23GzUS+h6zVYmn/dXN5hNFwHyHhl1WbUgJqzzRxU0PdRwfkKh8SOmann0S
+	F+kr9pliDt1HBocGF/0hGFt/tFSDwwQuB7JejMK6J6zv1YkTvM0VMHu1L90DquVZ91n
+	6mopC9ElQqr8epbnXVETP4GyH9QxhpCIXkvn67ww=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1682976351;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1682976350;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ivlBgeBLwUI4pbksopcbMgmrppDk0RDiAL+DjQQ+7F4=;
-	b=JSXcYEA4tAHZHLCgDPp51UN0PJ7PKEtCZxFt3LhR2/WoXp+QchPQFZvl2c3GwqJK
-	f+Qq4ZljcP9YCy3s6V9myWuQJI+NPGtmLtq5FHgP8dwuRy8X3QmvEcoGFdY2leoSNFT
-	y3RBBuTahAbUAoCUvvqivUvwdCMvBfxUptD4+33E=
-Content-Type: multipart/mixed; boundary="===============8270866539545165370=="
+	bh=J0MsZeSwXT19/b8/bP3Of8ZPIqeSaM+vI2kgmqL7aaI=;
+	b=HpDzrBG9IZS07D0akGUhZeieyTyvqTC1vFI4uq1At5WzkyqOtQmd70g1stfJpEZj
+	Yr8wQLZGZkxJHScMbW0zvhSqXRjkxpN3+au3ZmQ/qRJ1S7BurPnu5lKUfxADakLj2M6
+	el37f2UzfHIalbXQlJgjsZ7DlE6Sj67diXKsRYcw=
+Content-Type: multipart/mixed; boundary="===============7379995312817748697=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Robert Yang <liezhi.yang@windriver.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] squashfs-tools: upgrading to 4.6.1 SUCCEEDED
-Message-ID: <01010187d9352420-8a47d5c0-edb8-4770-b104-733c9d992a0e-000000@us-west-2.amazonses.com>
-Date: Mon, 1 May 2023 21:25:51 +0000
+Subject: [AUH] python3-psutil: upgrading to 5.9.5 SUCCEEDED
+Message-ID: <01010187d9351fe7-38ef6cf4-046a-4404-a4bc-176ac7b6f07b-000000@us-west-2.amazonses.com>
+Date: Mon, 1 May 2023 21:25:50 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2023.05.01-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 May 2023 21:25:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180638
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180628
 
---===============8270866539545165370==
+--===============7379995312817748697==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *squashfs-tools* to *4.6.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-psutil* to *5.9.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-squashfs-tools-upgrade-4.5.1-4.6.1.patch
+    - apply the patch: git am 0001-python3-psutil-upgrade-5.9.4-5.9.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,110 +69,91 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8270866539545165370==
+--===============7379995312817748697==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-squashfs-tools-upgrade-4.5.1-4.6.1.patch"
+ filename="0001-python3-psutil-upgrade-5.9.4-5.9.5.patch"
 
-RnJvbSAwZGVlMjE0ODI5MWUxZTdkMWNlNDNlOWEyYzg1NjJjOThiNjQ4ZDM5IE1vbiBTZXAgMTcg
+RnJvbSBhZWIyMjA1YjU3MzM4NjlkZDM0NjI2MTg5NzkxYzAwNjE3ZmE0NmViIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBNYXkgMjAyMyAxNDoxMjozNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHNx
-dWFzaGZzLXRvb2xzOiB1cGdyYWRlIDQuNS4xIC0+IDQuNi4xCgotLS0KIC4uLi5zaC1kby1ub3Qt
-d3JpdGUtb3JpZ2luYWwtdGltZXN0YW1wcy5wYXRjaCB8IDMwIC0tLS0tLS0tLS0tLS0tLS0tLS0K
-IC4uLi9zcXVhc2hmcy10b29scy9zcXVhc2hmcy10b29sc19naXQuYmIgICAgICB8ICA4ICsrLS0t
-CiAyIGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMzUgZGVsZXRpb25zKC0pCiBkZWxl
-dGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3NxdWFzaGZzLXRvb2xzL2ZpbGVz
-LzAwMDEtaW5zdGFsbC1tYW5wYWdlcy5zaC1kby1ub3Qtd3JpdGUtb3JpZ2luYWwtdGltZXN0YW1w
-cy5wYXRjaAoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zcXVhc2hmcy10b29s
-cy9maWxlcy8wMDAxLWluc3RhbGwtbWFucGFnZXMuc2gtZG8tbm90LXdyaXRlLW9yaWdpbmFsLXRp
-bWVzdGFtcHMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3F1YXNoZnMtdG9vbHMvZmls
-ZXMvMDAwMS1pbnN0YWxsLW1hbnBhZ2VzLnNoLWRvLW5vdC13cml0ZS1vcmlnaW5hbC10aW1lc3Rh
-bXBzLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCBlZDFkMmY1YjNiLi4wMDAw
-MDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zcXVhc2hmcy10b29scy9maWxlcy8w
-MDAxLWluc3RhbGwtbWFucGFnZXMuc2gtZG8tbm90LXdyaXRlLW9yaWdpbmFsLXRpbWVzdGFtcHMu
-cGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSwzMCArMCwwIEBACi1Gcm9tIGI0NGIwMGRhZTE5NWQ4
-NTg3ODU3YzdlODA1NGU5YmU0ZWFhMWY4YjMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1Gcm9t
-OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleEBsaW51dHJvbml4LmRlPgotRGF0ZTogVGh1LCA3IEFw
-ciAyMDIyIDA5OjI2OjA5ICswMjAwCi1TdWJqZWN0OiBbUEFUQ0hdIGluc3RhbGwtbWFucGFnZXMu
-c2g6IGRvIG5vdCB3cml0ZSBvcmlnaW5hbCB0aW1lc3RhbXBzIGludG8KLSAuZ3ogbWV0YWRhdGEK
-LQotVGhpcyBoZWxwcyBiaW5hcnkgcmVwcm9kdWNpYmlsaXR5LgotCi1VcHN0cmVhbS1TdGF0dXM6
-IFN1Ym1pdHRlZCBbaHR0cHM6Ly9naXRodWIuY29tL3Bsb3VnaGVyL3NxdWFzaGZzLXRvb2xzL3B1
-bGwvMTc3XQotU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25p
-eC5kZT4KLS0tLQotIGdlbmVyYXRlLW1hbnBhZ2VzL2luc3RhbGwtbWFucGFnZXMuc2ggfCAyICst
-Ci0gMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCi0KLWRpZmYg
-LS1naXQgYS9nZW5lcmF0ZS1tYW5wYWdlcy9pbnN0YWxsLW1hbnBhZ2VzLnNoIGIvZ2VuZXJhdGUt
-bWFucGFnZXMvaW5zdGFsbC1tYW5wYWdlcy5zaAotaW5kZXggZDRjOWU5MS4uNmE0M2I4OSAxMDA3
-NTUKLS0tLSBhL2dlbmVyYXRlLW1hbnBhZ2VzL2luc3RhbGwtbWFucGFnZXMuc2gKLSsrKyBiL2dl
-bmVyYXRlLW1hbnBhZ2VzL2luc3RhbGwtbWFucGFnZXMuc2gKLUBAIC01Niw3ICs1Niw3IEBAIGZv
-ciBpIGluIG1rc3F1YXNoZnMgdW5zcXVhc2hmcyBzcWZzdGFyIHNxZnNjYXQ7IGRvCi0gCQlleGl0
-IDEKLSAJZmkKLSAKLS0JaWYgISBnemlwIC1mOSAkMi8kaS4xOyB0aGVuCi0rCWlmICEgZ3ppcCAt
-biAtZjkgJDIvJGkuMTsgdGhlbgotIAkJZWNobyAiJDA6IENvbXByZXNzaW5nIGluc3RhbGxlZCBt
-YW5wYWdlIGZhaWxlZC4gIEFib3J0aW5nIiA+JjIKLSAJCWV4aXQgMQotIAlmaQotLS0gCi0yLjMw
-LjIKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3NxdWFzaGZzLXRvb2xzL3Nx
-dWFzaGZzLXRvb2xzX2dpdC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zcXVhc2hmcy10b29s
-cy9zcXVhc2hmcy10b29sc19naXQuYmIKaW5kZXggNGUwMDlkMjYyNS4uOTgyYTQzZjg4OSAxMDA2
-NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3NxdWFzaGZzLXRvb2xzL3NxdWFzaGZzLXRv
-b2xzX2dpdC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3F1YXNoZnMtdG9vbHMvc3F1
-YXNoZnMtdG9vbHNfZ2l0LmJiCkBAIC03LDExICs3LDkgQEAgU0VDVElPTiA9ICJiYXNlIgogTElD
-RU5TRSA9ICJHUEwtMi4wLW9ubHkiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5H
-O21kNT1iMjM0ZWU0ZDY5ZjVmY2U0NDg2YTgwZmRhZjRhNDI2MyIKIAotUFYgPSAiNC41LjEiCi1T
-UkNSRVYgPSAiYWZkZDYzZmMzODY5MTliNGFhNDBkNTczYjBhNjA2OTQxNGQxNDMxNyIKLVNSQ19V
-UkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9wbG91Z2hlci9zcXVhc2hmcy10b29scy5naXQ7cHJvdG9j
-b2w9aHR0cHM7YnJhbmNoPW1hc3RlciBcCi0gICAgICAgICAgIGZpbGU6Ly8wMDAxLWluc3RhbGwt
-bWFucGFnZXMuc2gtZG8tbm90LXdyaXRlLW9yaWdpbmFsLXRpbWVzdGFtcHMucGF0Y2ggXAotICAg
-ICAgICAgICAiCitQViA9ICI0LjYuMSIKK1NSQ1JFViA9ICJkOGNiODJkOTg0MDMzMGY5MzQ0ZWMz
-N2I5OTI1OTViNWQ3YjQ0MTg0IgorU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL3Bsb3VnaGVy
-L3NxdWFzaGZzLXRvb2xzLmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9djYuMS4xIgogVVBTVFJF
-QU1fQ0hFQ0tfR0lUVEFHUkVHRVggPSAiKD9QPHB2ZXI+KFxkKyhcLlxkKykrKSkiCiAKIFMgPSAi
-JHtXT1JLRElSfS9naXQiCi0tIAoyLjM5LjIKCg==
+CkRhdGU6IE1vbiwgMSBNYXkgMjAyMyAxMTozNDozOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtcHN1dGlsOiB1cGdyYWRlIDUuOS40IC0+IDUuOS41CgotLS0KIC4uLnN1dGlsXzUuOS40
+LmJiID0+IHB5dGhvbjMtcHN1dGlsXzUuOS41LmJifSB8IDI1ICsrKysrKysrKysrKysrKysrLS0K
+IDEgZmlsZSBjaGFuZ2VkLCAyMyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogcmVuYW1l
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHN1dGlsXzUuOS40LmJiID0+
+IHB5dGhvbjMtcHN1dGlsXzUuOS41LmJifSAoNDglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wc3V0aWxfNS45LjQuYmIgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHN1dGlsXzUuOS41LmJiCnNpbWlsYXJpdHkgaW5kZXgg
+NDglCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wc3V0
+aWxfNS45LjQuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+My1wc3V0aWxfNS45LjUuYmIKaW5kZXggYzA5NzdjNzRkMy4uYTc1Mzk3M2U4YSAxMDA2NDQKLS0t
+IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBzdXRpbF81LjkuNC5iYgor
+KysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHN1dGlsXzUuOS41LmJi
+CkBAIC0xLDkgKzEsMzAgQEAKKyMgRklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBo
+YXZlIGJlZW4gdXBkYXRlZCBieSAnZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBp
+cyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0
+LgorIyBQbGVhc2UgdXBkYXRlIHRoZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1h
+cml6ZSB0aGUgY2hhbmdlcyBpbgorIyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVw
+ZGF0ZTonIHRhZy4KKyMgKGV4YW1wbGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJz
+IHVwZGF0ZWQuJykKKyMKKyMgVGhlIGNoYW5nZXM6CisjCisjIC0tLSBMSUNFTlNFCisjICsrKyBM
+SUNFTlNFCisjIEBAIC0xLDYgKzEsNiBAQAorIyAgQlNEIDMtQ2xhdXNlIExpY2Vuc2UKKyMgIAor
+IyAtQ29weXJpZ2h0IChjKSAyMDA5LCBKYXkgTG9kZW4sIERhdmUgRGFlc2NobGVyLCBHaWFtcGFv
+bG8gUm9kb2xhJworIyArQ29weXJpZ2h0IChjKSAyMDA5LCBKYXkgTG9kZW4sIERhdmUgRGFlc2No
+bGVyLCBHaWFtcGFvbG8gUm9kb2xhCisjICBBbGwgcmlnaHRzIHJlc2VydmVkLgorIyAgCisjICBS
+ZWRpc3RyaWJ1dGlvbiBhbmQgdXNlIGluIHNvdXJjZSBhbmQgYmluYXJ5IGZvcm1zLCB3aXRoIG9y
+IHdpdGhvdXQgbW9kaWZpY2F0aW9uLAorIyAKKyMKKwogU1VNTUFSWSA9ICJBIGNyb3NzLXBsYXRm
+b3JtIHByb2Nlc3MgYW5kIHN5c3RlbSB1dGlsaXRpZXMgbW9kdWxlIGZvciBQeXRob24iCiBMSUNF
+TlNFID0gIkJTRC0zLUNsYXVzZSIKLUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7
+bWQ1PWUzNWZkOWYyNzFkMTlkNWY3NDJmMjBhOWQxZjhiYjhiIgorTElDX0ZJTEVTX0NIS1NVTSA9
+ICJmaWxlOi8vTElDRU5TRTttZDU9YTljNzIxMTNhODQzZDBkNzMyYTBhYzFjMjAwZDgxYjEiCiBI
+T01FUEFHRSA9ICJodHRwczovL3B5cGkub3JnL3Byb2plY3QvcHN1dGlsLyIKIAotU1JDX1VSSVtz
+aGEyNTZzdW1dID0gIjNkN2Y5NzM5ZWI0MzVkNGIxMzM4OTQ0YWJlMjNmNDk1ODRiZGU1Mzk1ZjI3
+NDg3ZDJlZTI1YWQ5YTg3NzRhNjIiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNTQxMDYzOGU0ZGYz
+OWM1NGQ5NTdmYzUxY2UwMzA0OGFjZDhlNmQ2MGFiYzBmNTEwN2FmNTFlNWZiNTY2ZWIzYyIKIAog
+aW5oZXJpdCBweXBpIHNldHVwdG9vbHMzCiAKLS0gCjIuMzkuMgoK
 
---===============8270866539545165370==
+--===============7379995312817748697==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/squashfs-tools: SRC_URI changed from "git://github.com/plougher/squashfs-tools.git;protocol=https;branch=master file://0001-install-manpages.sh-do-not-write-original-timestamps.patch" to "git://github.com/plougher/squashfs-tools.git;protocol=https;branch=v6.1.1"
-packages/core2-32-poky-linux/squashfs-tools: PKGV changed from 4.5.1 [default] to 4.6.1 [default]
-packages/core2-32-poky-linux/squashfs-tools: PV changed from "4.5.1" to "4.6.1"
-packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-dbg: PKGSIZE changed from 990368 to 1063808 (+7%)
-packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-dbg: PKGV changed from 4.5.1 [default] to 4.6.1 [default]
-packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-dbg: PV changed from "4.5.1" to "4.6.1"
-packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-dev: PKGSIZE changed from 13473 to 13487 (+0%)
-packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-dev: PKGV changed from 4.5.1 [default] to 4.6.1 [default]
-packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-dev: PV changed from "4.5.1" to "4.6.1"
-packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-doc: PKGSIZE changed from 14092 to 18027 (+28%)
-packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-doc: PKGV changed from 4.5.1 [default] to 4.6.1 [default]
-packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-doc: PV changed from "4.5.1" to "4.6.1"
-packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-locale: PKGV changed from 4.5.1 [default] to 4.6.1 [default]
-packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-locale: PV changed from "4.5.1" to "4.6.1"
-packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-src: PKGSIZE changed from 882898 to 958469 (+9%)
-packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-src: FILELIST: removed "/usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/process_fragments.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/mksquashfs.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/action.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/sort.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquash-1.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquash-2.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/action.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/mksquashfs.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/process_fragments.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/reader.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/squashfs_fs.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquashfs.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/sort.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools
- /unsquashfs_info.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/read_fs.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquash-123.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/compressor.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/read_fs.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/compressor.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/restore.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/zstd_wrapper.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/gzip_wrapper.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/zstd_wrapper.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/restore.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquash-12.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/gzip_wrapper.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/lz4_wrapper.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/lzo_wrapper.h /usr/src/debug/squashfs-tools/4.5.1-r0/
- squashfs-tools/progressbar.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/info.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/lzo_wrapper.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/progressbar.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/lz4_wrapper.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/info.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/pseudo.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/error.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/pseudo.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/read_xattrs.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquashfs_info.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquash-34.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/xz_wrapper.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/lzma_xz_wrapper.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/squashfs_compat.h /usr/src/debug/squashfs-tools/4.5.1
- -r0/squashfs-tools/xz_wrapper.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquash-3.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquash-4.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquashfs.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/mksquashfs_error.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/tar_xattr.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/caches-queues-lists.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquash-1234.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/xattr.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/caches-queues-lists.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/tar.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/unsquashfs_xattr.c /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/xattr.h /usr/src/debug/squashfs-tools/4.5.1-r0/squashfs-tools/tar.h", added "/usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/pseudo.c /usr/src/debug
- /squashfs-tools/4.6.1-r0/squashfs-tools/reader.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/lz4_wrapper.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/pseudo.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/lz4_wrapper.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/reader.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/error.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquashfs_info.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/lzo_wrapper.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/progressbar.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquash-1234.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/xz_wrapper.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/progressbar.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/lzo_wrapper.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquashfs_info.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/xz_wrapper.h /usr
- /src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/restore.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/sort.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/restore.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/sort.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/tar.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/info.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/pseudo_xattr.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquashfs_xattr.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/tar.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/info.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/lzma_xz_wrapper.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/squashfs_fs.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/process_fragments.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/mksquashfs.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquash-123.c /usr/src/debug/sq
- uashfs-tools/4.6.1-r0/squashfs-tools/squashfs_compat.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquashfs.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/signals.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/mksquashfs.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/process_fragments.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/compressor.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquash-1.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquash-2.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquash-3.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquash-4.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquashfs.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/compressor.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/action.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/read_fs.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/zstd_wrapper.c /usr/
- src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/gzip_wrapper.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/xattr.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquash-12.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/zstd_wrapper.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/action.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/read_fs.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/gzip_wrapper.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/read_xattrs.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/date.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/unsquash-34.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/caches-queues-lists.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/mksquashfs_error.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/xattr.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/caches-queues-lists.h /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/
- date.c /usr/src/debug/squashfs-tools/4.6.1-r0/squashfs-tools/tar_xattr.c"
-packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-src: PKGV changed from 4.5.1 [default] to 4.6.1 [default]
-packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-src: PV changed from "4.5.1" to "4.6.1"
-packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-staticdev: PKGV changed from 4.5.1 [default] to 4.6.1 [default]
-packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-staticdev: PV changed from "4.5.1" to "4.6.1"
-packages/core2-32-poky-linux/squashfs-tools/squashfs-tools: PKGSIZE changed from 486252 to 527340 (+8%)
-packages/core2-32-poky-linux/squashfs-tools/squashfs-tools: PKGV changed from 4.5.1 [default] to 4.6.1 [default]
-packages/core2-32-poky-linux/squashfs-tools/squashfs-tools: PV changed from "4.5.1" to "4.6.1"
+packages/core2-32-poky-linux/python3-psutil: PV changed from "5.9.4" to "5.9.5"
+packages/core2-32-poky-linux/python3-psutil: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/psutil/psutil-5.9.4.tar.gz;downloadfilename=psutil-5.9.4.tar.gz" to "https://files.pythonhosted.org/packages/source/p/psutil/psutil-5.9.5.tar.gz;downloadfilename=psutil-5.9.5.tar.gz"
+packages/core2-32-poky-linux/python3-psutil: PKGV changed from 5.9.4 [default] to 5.9.5 [default]
+packages/core2-32-poky-linux/python3-psutil/python3-psutil-dbg: PKGSIZE changed from 92332 to 92324 (-0%)
+packages/core2-32-poky-linux/python3-psutil/python3-psutil-dbg: PV changed from "5.9.4" to "5.9.5"
+packages/core2-32-poky-linux/python3-psutil/python3-psutil-dbg: PKGV changed from 5.9.4 [default] to 5.9.5 [default]
+packages/core2-32-poky-linux/python3-psutil/python3-psutil-dev: PV changed from "5.9.4" to "5.9.5"
+packages/core2-32-poky-linux/python3-psutil/python3-psutil-dev: PKGV changed from 5.9.4 [default] to 5.9.5 [default]
+packages/core2-32-poky-linux/python3-psutil/python3-psutil-doc: PV changed from "5.9.4" to "5.9.5"
+packages/core2-32-poky-linux/python3-psutil/python3-psutil-doc: PKGV changed from 5.9.4 [default] to 5.9.5 [default]
+packages/core2-32-poky-linux/python3-psutil/python3-psutil-locale: PV changed from "5.9.4" to "5.9.5"
+packages/core2-32-poky-linux/python3-psutil/python3-psutil-locale: PKGV changed from 5.9.4 [default] to 5.9.5 [default]
+packages/core2-32-poky-linux/python3-psutil/python3-psutil-src: PKGSIZE changed from 60876 to 61218 (+1%)
+packages/core2-32-poky-linux/python3-psutil/python3-psutil-src: PV changed from "5.9.4" to "5.9.5"
+packages/core2-32-poky-linux/python3-psutil/python3-psutil-src: PKGV changed from 5.9.4 [default] to 5.9.5 [default]
+packages/core2-32-poky-linux/python3-psutil/python3-psutil-staticdev: PV changed from "5.9.4" to "5.9.5"
+packages/core2-32-poky-linux/python3-psutil/python3-psutil-staticdev: PKGV changed from 5.9.4 [default] to 5.9.5 [default]
+packages/core2-32-poky-linux/python3-psutil/python3-psutil-tests: PKGSIZE changed from 1322696 to 1342645 (+2%)
+packages/core2-32-poky-linux/python3-psutil/python3-psutil-tests: PV changed from "5.9.4" to "5.9.5"
+packages/core2-32-poky-linux/python3-psutil/python3-psutil-tests: PKGV changed from 5.9.4 [default] to 5.9.5 [default]
+packages/core2-32-poky-linux/python3-psutil/python3-psutil: PKGSIZE changed from 865576 to 869047 (+0%)
+packages/core2-32-poky-linux/python3-psutil/python3-psutil: PV changed from "5.9.4" to "5.9.5"
+packages/core2-32-poky-linux/python3-psutil/python3-psutil: PKGV changed from 5.9.4 [default] to 5.9.5 [default]
+Changes to packages/core2-32-poky-linux/python3-psutil (sysroot):
+  /usr/lib/python3.11/site-packages/psutil-5.9.4.dist-info moved to /usr/lib/python3.11/site-packages/psutil-5.9.5.dist-info
 
---===============8270866539545165370==
+--===============7379995312817748697==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/squashfs-tools/squashfs-tools-doc: PKGSIZE changed from 14092 to 18027 (+28%)
+Changes to packages/core2-32-poky-linux/python3-psutil (sysroot):
+  /usr/lib/python3.11/site-packages/psutil-5.9.4.dist-info moved to /usr/lib/python3.11/site-packages/psutil-5.9.5.dist-info
 
---===============8270866539545165370==--
+--===============7379995312817748697==--
 
