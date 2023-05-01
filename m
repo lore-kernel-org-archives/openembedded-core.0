@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 604F7C88CB5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55624C88CB4
 	for <webhook@archiver.kernel.org>; Mon,  1 May 2023 21:25:52 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.107430.1682976350710893712
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.107895.1682976351373701328
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 May 2023 14:25:50 -0700
+ Mon, 01 May 2023 14:25:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=WHRVNCI1;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010187d9351df3-462df7d8-8584-4659-94fc-7e8f1cf0b547-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=McbonMYg;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010187d9351dab-d7702085-310a-44f7-9d9d-6d6699deb34a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1682976349;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=cinE82rjOTE31Zq8oX2TK/Hk53Jl1S9iqV5wZW4iuGU=;
-	b=WHRVNCI1d/rDtaqmAbdjA+t2XQtIk35AZsgrQxKvOdIX3xObYJmOuer0fSno0O82
-	QgPdti/Idz7j1I7vlSxq4sVePPAloTTJCDYVy+g5qPuaFCD646a2x0uA3nflUhPDjjS
-	rhsSBtSZ5UlxskoGTXY1UKviaWa1XDnuy1TI4SuU=
+	bh=Zo9eD+ndFsWPjBenIXuxgEXZ0GLN4VEkIZLZUGQtK3k=;
+	b=McbonMYg6WLylGi3uuwZMgD+msKEik98S4w1dJQH1HEBqDvD6glOif9CBsAoRIq7
+	ej3j++k6+l1Sf0eQF7Bg7DpFkaVAy39C5clU00d5baO1wOehSNUXmU2n18Ab/i48A2e
+	m7IkeMLgCEpT2DUGEaOoraZqm7om0aWUKVGzIDNo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1682976349;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=cinE82rjOTE31Zq8oX2TK/Hk53Jl1S9iqV5wZW4iuGU=;
-	b=GXe+OIwn7pT0f3kMEW4NZbCg2ct12yS05gXAL2Ov90qpQwAdey93it7O4SXP0fg9
-	z4ZvRU8R78QMR5UainmiAe2TXIJnnlXcYqeF8pOu34o7wJtVHEparaq/7cLdBX+41JQ
-	xE+au9XxPlS4LEfmuV5GIr27+yQVWeEYtl/ePsuI=
-Content-Type: multipart/mixed; boundary="===============1774269318127815702=="
+	bh=Zo9eD+ndFsWPjBenIXuxgEXZ0GLN4VEkIZLZUGQtK3k=;
+	b=rwMaVg97FKJcOQdTEJHFjCsMCRrogPs4t2F3bYJf0d5SOej++t/qeN7DMXwhWXwx
+	320t7hbQmYvdRnulI1EH464mSxK5XUnAf8b3T40bXcZyYUAlkghp9cISHR3/BUFkndr
+	/q3HpUFcO+00EwPLxLa37MwRGzwzOYv+mY0Jm8lA=
+Content-Type: multipart/mixed; boundary="===============2222212923483947110=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-attrs: upgrading to 23.1.0 FAILED
-Message-ID: <01010187d9351df3-462df7d8-8584-4659-94fc-7e8f1cf0b547-000000@us-west-2.amazonses.com>
+Subject: [AUH] libmodule-build-perl: upgrading to 0.4234 FAILED
+Message-ID: <01010187d9351dab-d7702085-310a-44f7-9d9d-6d6699deb34a-000000@us-west-2.amazonses.com>
 Date: Mon, 1 May 2023 21:25:49 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.05.01-54.240.27.31
+X-SES-Outgoing: 2023.05.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 May 2023 21:25:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180623
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180630
 
---===============1774269318127815702==
+--===============2222212923483947110==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,7 +50,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-attrs* to *23.1.0* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *libmodule-build-perl* to *0.4234* has Failed(do_compile).
 
 Detailed error information:
 
@@ -59,7 +59,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-python3-attrs-upgrade-22.2.0-23.1.0.patch
+    - apply the patch: git am 0001-libmodule-build-perl-upgrade-0.4232-0.4234.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,7 +75,65 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============1774269318127815702==
+--===============2222212923483947110==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libmodule-build-perl-upgrade-0.4232-0.4234.patch"
+
+RnJvbSBmZTM2OTEwYWY0ZDI5M2M4YmNlZWRkZDM5ODE3MmQ4YzI5NDA2ZGMzIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMSBNYXkgMjAyMyAwOToyNjozNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+Ym1vZHVsZS1idWlsZC1wZXJsOiB1cGdyYWRlIDAuNDIzMiAtPiAwLjQyMzQKCi0tLQogLi4uMDAx
+LUNvbW1pdHRpbmctY2hhbmdlcy1mcm9tLWRvX3BhdGNoLnBhdGNoIHwgMjIgKysrKysrKysrKysr
+KysrKysrKwogLi4uNDIzMi5iYiA9PiBsaWJtb2R1bGUtYnVpbGQtcGVybF8wLjQyMzQuYmJ9IHwg
+IDQgKysrLQogMiBmaWxlcyBjaGFuZ2VkLCAyNSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0p
+CiBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BlcmwvbGlibW9kdWxl
+LWJ1aWxkLXBlcmwvMDAwMS1Db21taXR0aW5nLWNoYW5nZXMtZnJvbS1kb19wYXRjaC5wYXRjaAog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9wZXJsL3tsaWJtb2R1bGUtYnVpbGQtcGVybF8w
+LjQyMzIuYmIgPT4gbGlibW9kdWxlLWJ1aWxkLXBlcmxfMC40MjM0LmJifSAoOTUlKQoKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wZXJsL2xpYm1vZHVsZS1idWlsZC1wZXJsLzAw
+MDEtQ29tbWl0dGluZy1jaGFuZ2VzLWZyb20tZG9fcGF0Y2gucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcGVybC9saWJtb2R1bGUtYnVpbGQtcGVybC8wMDAxLUNvbW1pdHRpbmctY2hhbmdl
+cy1mcm9tLWRvX3BhdGNoLnBhdGNoCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDAwMDAwMDAw
+MDAuLmJhNDBiZTJhOTkKLS0tIC9kZXYvbnVsbAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cGVybC9saWJtb2R1bGUtYnVpbGQtcGVybC8wMDAxLUNvbW1pdHRpbmctY2hhbmdlcy1mcm9tLWRv
+X3BhdGNoLnBhdGNoCkBAIC0wLDAgKzEsMjIgQEAKK0Zyb20gMWM0NzUwYTQ2NGY4ZGViMjMzZjNk
+YzFiMGMyMGY5YmQzOGEwNmZmZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb206IE9wZW5F
+bWJlZGRlZCA8b2UucGF0Y2hAb2U+CitEYXRlOiBNb24sIDEgTWF5IDIwMjMgMDk6MjY6MTIgKzAw
+MDAKK1N1YmplY3Q6IFtQQVRDSF0gQ29tbWl0dGluZyBjaGFuZ2VzIGZyb20gZG9fcGF0Y2gKKwor
+LS0tCisgbGliL01vZHVsZS9CdWlsZC9CYXNlLnBtIHwgMiArLQorIDEgZmlsZSBjaGFuZ2VkLCAx
+IGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQorCitkaWZmIC0tZ2l0IGEvbGliL01vZHVsZS9C
+dWlsZC9CYXNlLnBtIGIvbGliL01vZHVsZS9CdWlsZC9CYXNlLnBtCitpbmRleCAxMGI2NTNmLi4w
+N2RmMTMxIDEwMDY0NAorLS0tIGEvbGliL01vZHVsZS9CdWlsZC9CYXNlLnBtCisrKysgYi9saWIv
+TW9kdWxlL0J1aWxkL0Jhc2UucG0KK0BAIC0zMDkzLDcgKzMwOTMsNyBAQCBzdWIgZml4X3NoZWJh
+bmdfbGluZSB7ICMgQWRhcHRlZCBmcm9tIGZpeGluKCkgaW4gRXh0VXRpbHM6Ok1NX1VuaXggMS4z
+NQorIAorICAgICBteSAoJGNtZCwgJGFyZykgPSAoc3BsaXQoJyAnLCAkbGluZSwgMiksICcnKTsK
+KyAgICAgbmV4dCB1bmxlc3MgJGNtZCA9fiAvcGVybC9pOworLSAgICBteSAkaW50ZXJwcmV0ZXIg
+PSAkc2VsZi0+e3Byb3BlcnRpZXN9e3Blcmx9OworKyAgICBteSAkaW50ZXJwcmV0ZXIgPSAiL3Vz
+ci9iaW4vcGVybCI7CisgCisgICAgICRzZWxmLT5sb2dfdmVyYm9zZSgiQ2hhbmdpbmcgc2hhcnBi
+YW5nIGluICRmaWxlIHRvICRpbnRlcnByZXRlclxuIik7CisgICAgIG15ICRzaGIgPSAnJzsKZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wZXJsL2xpYm1vZHVsZS1idWlsZC1wZXJs
+XzAuNDIzMi5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wZXJsL2xpYm1vZHVsZS1idWlsZC1w
+ZXJsXzAuNDIzNC5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcGVybC9saWJtb2R1bGUtYnVpbGQtcGVybF8wLjQyMzIuYmIKcmVuYW1lIHRv
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9wZXJsL2xpYm1vZHVsZS1idWlsZC1wZXJsXzAuNDIzNC5i
+YgppbmRleCAwZWFkNjkwMDY3Li5iMjVjOWY3MTk1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcGVybC9saWJtb2R1bGUtYnVpbGQtcGVybF8wLjQyMzIuYmIKKysrIGIvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3BlcmwvbGlibW9kdWxlLWJ1aWxkLXBlcmxfMC40MjM0LmJiCkBAIC0x
+NSw4ICsxNSwxMCBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9SRUFETUU7YmVnaW5saW5l
+PTg4MTtlbmRsaW5lPTg4NjttZDU9MzAyN2Y1NmM2NjQ1NDVlNQogCiBTUkNfVVJJID0gIiR7Q1BB
+Tl9NSVJST1J9L2F1dGhvcnMvaWQvTC9MRS9MRU9OVC9Nb2R1bGUtQnVpbGQtJHtQVn0udGFyLmd6
+IFwKICAgICAgICAgICAgZmlsZTovL3J1bi1wdGVzdCBcCisgICAgICAgICAgIGZpbGU6Ly9wdGVz
+dC1wZXJsL3J1bi1wdGVzdCBcCisgICAgICAgICAgIGZpbGU6Ly8wMDAxLUNvbW1pdHRpbmctY2hh
+bmdlcy1mcm9tLWRvX3BhdGNoLnBhdGNoIFwKICAgICAgICAgICAgIgotU1JDX1VSSVtzaGEyNTZz
+dW1dID0gIjY3YzgyZWUyNDVkOTRiYTA2ZGVjZmEyNTU3MmFiNzVmZGNkMjZhOTAwOTA5NDI4OWQ4
+ZjQ1YmM1NDA0MTc3MWIiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNjZhZWFjNjEyNzQxOGJlNWU0
+NzFlYWQzNzQ0NjQ4Yzc2NmJkMDE0ODI4MjVjNWI2NjY1MjY3NWYyYmM4NmE4ZiIKIAogUyA9ICIk
+e1dPUktESVJ9L01vZHVsZS1CdWlsZC0ke1BWfSIKIAotLSAKMi4zOS4yCgo=
+
+--===============2222212923483947110==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -101,106 +159,38 @@ TUNE_FEATURES        = "m32 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:e0a65d4874e2a9bd2c473a84a78fca9982d5ec47"
+meta-yocto-bsp       = "tmp-auh-upgrades:8f3cfe9a98a160d7eb2a892a4cfca69abe9e352e"
 workspace            = "master:cce6db2a59d309f77c1f9ca173fc674c506062d0"
 
 Initialising tasks...done.
-Sstate summary: Wanted 85 Local 78 Mirrors 0 Missed 7 Current 224 (91% match, 97% complete)
+Sstate summary: Wanted 163 Local 156 Mirrors 0 Missed 7 Current 349 (95% match, 98% complete)
 NOTE: Executing Tasks
 NOTE: Setscene tasks completed
-NOTE: Running task 925 of 1166 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_fetch)
-NOTE: recipe python3-attrs-23.1.0-r0: task do_fetch: Started
-NOTE: recipe python3-attrs-23.1.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1153 of 1166 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_unpack)
-NOTE: Running task 1154 of 1166 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-attrs-23.1.0-r0: task do_unpack: Started
-NOTE: recipe python3-attrs-23.1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-attrs-23.1.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1155 of 1166 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_patch)
-NOTE: recipe python3-attrs-23.1.0-r0: task do_patch: Started
-NOTE: recipe python3-attrs-23.1.0-r0: task do_patch: Succeeded
-NOTE: Running task 1156 of 1166 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1157 of 1166 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_populate_lic)
-NOTE: recipe python3-attrs-23.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-attrs-23.1.0-r0: task do_populate_lic: Started
-NOTE: recipe python3-attrs-23.1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-attrs-23.1.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe python3-attrs-23.1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1158 of 1166 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_configure)
-NOTE: recipe python3-attrs-23.1.0-r0: task do_configure: Started
-NOTE: recipe python3-attrs-23.1.0-r0: task do_configure: Succeeded
-NOTE: Running task 1159 of 1166 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_compile)
-NOTE: recipe python3-attrs-23.1.0-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| * Getting build dependencies for wheel...
-| 
-| Traceback (most recent call last):
-|   File "/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-attrs/23.1.0-r0/recipe-sysroot-native/usr/lib/python3.11/site-packages/pyproject_hooks/_impl.py", line 321, in _call_hook
-|     raise BackendUnavailable(data.get('traceback', ''))
-| pyproject_hooks._impl.BackendUnavailable: Traceback (most recent call last):
-|   File "/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-attrs/23.1.0-r0/recipe-sysroot-native/usr/lib/python3.11/site-packages/pyproject_hooks/_in_process/_in_process.py", line 77, in _build_backend
-|     obj = import_module(mod_path)
-|           ^^^^^^^^^^^^^^^^^^^^^^^
-|   File "/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-attrs/23.1.0-r0/recipe-sysroot-native/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
-|     return _bootstrap._gcd_import(name[level:], package, level)
-|            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-|   File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
-|   File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
-|   File "<frozen importlib._bootstrap>", line 1128, in _find_and_load_unlocked
-|   File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
-|   File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
-|   File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
-|   File "<frozen importlib._bootstrap>", line 1142, in _find_and_load_unlocked
-| ModuleNotFoundError: No module named 'hatchling'
-| 
-| ERROR Backend 'hatchling.build' is not available.
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-attrs/23.1.0-r0/temp/run.do_compile.372584:157 exit 1 from 'nativepython3 -m build --no-isolation --wheel --outdir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-attrs/23.1.0-r0/dist /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-attrs/23.1.0-r0/attrs-23.1.0'
-| WARNING: Backtrace (BB generated script):
-| 	#1: python_pep517_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-attrs/23.1.0-r0/temp/run.do_compile.372584, line 157
-| 	#2: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-attrs/23.1.0-r0/temp/run.do_compile.372584, line 152
-| 	#3: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-attrs/23.1.0-r0/temp/run.do_compile.372584, line 168
-NOTE: recipe python3-attrs-23.1.0-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 1159 tasks of which 1151 didn't need to be rerun and 1 failed.
+NOTE: Running task 1142 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb:do_fetch)
+NOTE: recipe libmodule-build-perl-0.4234-r0: task do_fetch: Started
+NOTE: recipe libmodule-build-perl-0.4234-r0: task do_fetch: Succeeded
+NOTE: Running task 1687 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb:do_unpack)
+NOTE: Running task 1688 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libmodule-build-perl-0.4234-r0: task do_unpack: Started
+NOTE: recipe libmodule-build-perl-0.4234-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libmodule-build-perl-0.4234-r0: task do_unpack: Succeeded
+NOTE: Running task 1806 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb:do_patch)
+NOTE: recipe libmodule-build-perl-0.4234-r0: task do_patch: Started
+NOTE: recipe libmodule-build-perl-0.4234-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libmodule-build-perl-0.4234-r0: task do_patch: Failed
+NOTE: Tasks Summary: Attempted 1806 tasks of which 1802 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
 
 Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_compile
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: python3-attrs-23.1.0-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-attrs/23.1.0-r0/temp/run.do_compile.372584', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-attrs/23.1.0-r0/temp/log.do_compile.372584
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_compile) failed with exit code '1'
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb:do_patch
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: libmodule-build-perl-0.4234-r0 do_patch: QA Issue: Missing Upstream-Status in patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/libmodule-build-perl/0001-Committing-changes-from-do_patch.patch
+Please add according to https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommendations:_Upstream-Status . [patch-status-core]
+ERROR: libmodule-build-perl-0.4234-r0 do_patch: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libmodule-build-perl/0.4234-r0/temp/log.do_patch.359450
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb:do_patch) failed with exit code '1'
 
---===============1774269318127815702==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-attrs-upgrade-22.2.0-23.1.0.patch"
-
-RnJvbSAwNzg3MmI1MmE4YjE1NWU0OTFkM2Y3ZWJjYzI4MDEwMThjZTFkOTEwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBNYXkgMjAyMyAwOToyOTowOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtYXR0cnM6IHVwZ3JhZGUgMjIuMi4wIC0+IDIzLjEuMAoKLS0tCiAuLi4vcHl0aG9uL3tw
-eXRob24zLWF0dHJzXzIyLjIuMC5iYiA9PiBweXRob24zLWF0dHJzXzIzLjEuMC5iYn0gfCAyICst
-CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWF0dHJzXzIyLjIuMC5iYiA9PiBw
-eXRob24zLWF0dHJzXzIzLjEuMC5iYn0gKDgyJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtYXR0cnNfMjIuMi4wLmJiIGIvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3B5dGhvbi9weXRob24zLWF0dHJzXzIzLjEuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDgy
-JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtYXR0cnNf
-MjIuMi4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
-YXR0cnNfMjMuMS4wLmJiCmluZGV4IDhjMWZmMzMwZTcuLmFjNDdkMTBhZmQgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1hdHRyc18yMi4yLjAuYmIKKysr
-IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWF0dHJzXzIzLjEuMC5iYgpA
-QCAtMyw3ICszLDcgQEAgSE9NRVBBR0UgPSAiaHR0cDovL3d3dy5hdHRycy5vcmcvIgogTElDRU5T
-RSA9ICJNSVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT01ZTU1NzMx
-ODI0Y2Y5MjA1Y2ZhYmVhYjlhMDYwMDg4NyIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImM5MjI3
-YmZjMmYwMTk5M2MwM2Y2OGRiMzdkMWQxNWM5NjkwMTg4MzIzYzA2N2M2NDFmMWEzNWNhNTgxODVm
-OTkiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNjI3OTgzNmQ1ODE1MTNhMjZmMWJmMjM1ZjlhY2Qz
-MzNiYzkxMTU2ODNmMTRmN2U4ZmFlNDZjOThmYzUwZTAxNSIKIAogaW5oZXJpdCBweXBpIHB5dGhv
-bl9zZXR1cHRvb2xzX2J1aWxkX21ldGEKIAotLSAKMi4zOS4yCgo=
-
---===============1774269318127815702==--
+--===============2222212923483947110==--
 
