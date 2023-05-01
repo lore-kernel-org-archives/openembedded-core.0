@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11AAFC88C8B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E54AC88C8D
 	for <webhook@archiver.kernel.org>; Mon,  1 May 2023 21:25:52 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.107425.1682976349838626228
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.107899.1682976351643455935
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 May 2023 14:25:50 -0700
+ Mon, 01 May 2023 14:25:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=f5fnzqAx;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010187d9352026-ba572517-716a-4ada-bf46-290c58192116-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=DxdxhS+c;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010187d935222d-bb680ef9-209d-4066-bb55-a6dc57c44efb-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1682976350;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=vCm7IZsnSMp5YknSS4DU4iWp4L8y1qN6Pgd1ERabfF4=;
-	b=f5fnzqAxxY5ChPdtPDwocJzhUF3ljiXXn/N8lUX1Z8KhB7BSnn8OA3KPSZDT9dgf
-	Gt4M0LWaoyscRN88cVHM3RkwLk6hX0a4vtgABMSPaHBGGYOEv0mt67zTpzxJHj2RNPU
-	UuQ4hYuIjMUWsKqkd4djDDXHHLTPwxd4eLtpEVhk=
+	bh=59mk560fqq049PhuR7qfUJ/zWzm+mEvOFBEPTm3iBMs=;
+	b=DxdxhS+cGE94gkbuYFXmXQZN3LLXZB6l3ZU2b0qAgO3NK/ezHvLG8EEqSIADl6jg
+	VgEZvFi/aWQnbxckBcp/G6n96W/HseYeWRu+9SpycTCjZ09NGKONXo/PC5MOD4GSn3c
+	y08ZYvH3u7e34EPMfhmWmpY99XeWvk51V06E1nFY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1682976350;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=vCm7IZsnSMp5YknSS4DU4iWp4L8y1qN6Pgd1ERabfF4=;
-	b=Nlq01Rx3k6nGLFKkWG5ppigLmWjPE3kD8HQuDmcB3IENw1E3MIzUuCwOQsMSksCB
-	+zI76gobRGTPtFYa2PF7P82ou2UwR9sofcLoUYCx3AteZD1BsymcKQ+ULDR80qaAhLw
-	DtVspL8lBvEMTSsmlYucKDryBKUIbiVXZRkh91MU=
-Content-Type: multipart/mixed; boundary="===============8105421727110649595=="
+	bh=59mk560fqq049PhuR7qfUJ/zWzm+mEvOFBEPTm3iBMs=;
+	b=FxmCLP8g3GbZOsaB9f6P3CWH0rQxDbwO6eOGAjqp+2AztbZHmHVbnQvxSfGpt2Xr
+	a15bO73EfpgKqjhtlcVezcnF1iO6Inpv6znlnyH2pOKcSy7uCmj2+5X1S/bMYYY7j8P
+	OdVDyGOBHSpUKln42wCEL90e1DQgcoWfd9AwXQNk=
+Content-Type: multipart/mixed; boundary="===============1001485618281788658=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pyasn1: upgrading to 0.5.0 SUCCEEDED
-Message-ID: <01010187d9352026-ba572517-716a-4ada-bf46-290c58192116-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-urllib3: upgrading to 2.0.1 FAILED
+Message-ID: <01010187d935222d-bb680ef9-209d-4066-bb55-a6dc57c44efb-000000@us-west-2.amazonses.com>
 Date: Mon, 1 May 2023 21:25:50 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.05.01-54.240.27.30
+X-SES-Outgoing: 2023.05.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 May 2023 21:25:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180621
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180636
 
---===============8105421727110649595==
+--===============1001485618281788658==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-pyasn1* to *0.5.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-urllib3* to *2.0.1* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-python3-pyasn1-upgrade-0.4.8-0.5.0.patch
+    - apply the patch: git am 0001-python3-urllib3-upgrade-1.26.15-2.0.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,157 +75,114 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8105421727110649595==
+--===============1001485618281788658==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
-packages/core2-32-poky-linux/python3-pyasn1: PKGV changed from 0.4.8 [default] to 0.5.0 [default]
-packages/core2-32-poky-linux/python3-pyasn1: PV changed from "0.4.8" to "0.5.0"
-packages/core2-32-poky-linux/python3-pyasn1: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pyasn1/pyasn1-0.4.8.tar.gz;downloadfilename=pyasn1-0.4.8.tar.gz file://run-ptest file://0001-Fix-DeprecationWarning-__int__-returned-non-int-on-P.patch" to "https://files.pythonhosted.org/packages/source/p/pyasn1/pyasn1-0.5.0.tar.gz;downloadfilename=pyasn1-0.5.0.tar.gz https://files.pythonhosted.org/packages/source/p/pyasn1/pyasn1-0.5.0.tar.gz;downloadfilename=pyasn1-0.5.0.tar.gz file://run-ptest"
-packages/core2-32-poky-linux/python3-pyasn1/python3-pyasn1-dbg: PKGV changed from 0.4.8 [default] to 0.5.0 [default]
-packages/core2-32-poky-linux/python3-pyasn1/python3-pyasn1-dbg: PV changed from "0.4.8" to "0.5.0"
-packages/core2-32-poky-linux/python3-pyasn1/python3-pyasn1-dev: PKGV changed from 0.4.8 [default] to 0.5.0 [default]
-packages/core2-32-poky-linux/python3-pyasn1/python3-pyasn1-dev: PV changed from "0.4.8" to "0.5.0"
-packages/core2-32-poky-linux/python3-pyasn1/python3-pyasn1-doc: PKGV changed from 0.4.8 [default] to 0.5.0 [default]
-packages/core2-32-poky-linux/python3-pyasn1/python3-pyasn1-doc: PV changed from "0.4.8" to "0.5.0"
-packages/core2-32-poky-linux/python3-pyasn1/python3-pyasn1-locale: PKGV changed from 0.4.8 [default] to 0.5.0 [default]
-packages/core2-32-poky-linux/python3-pyasn1/python3-pyasn1-locale: PV changed from "0.4.8" to "0.5.0"
-packages/core2-32-poky-linux/python3-pyasn1/python3-pyasn1-ptest: FILELIST: removed "/usr/lib/python3-pyasn1/ptest/tests/compat/test_binary.py", added "/usr/lib/python3-pyasn1/ptest/tests/codec/test_streaming.py"
-packages/core2-32-poky-linux/python3-pyasn1/python3-pyasn1-ptest: PKGV changed from 0.4.8 [default] to 0.5.0 [default]
-packages/core2-32-poky-linux/python3-pyasn1/python3-pyasn1-ptest: PV changed from "0.4.8" to "0.5.0"
-packages/core2-32-poky-linux/python3-pyasn1/python3-pyasn1-ptest: PKGSIZE changed from 311524 to 319281 (+2%)
-packages/core2-32-poky-linux/python3-pyasn1/python3-pyasn1-src: PKGV changed from 0.4.8 [default] to 0.5.0 [default]
-packages/core2-32-poky-linux/python3-pyasn1/python3-pyasn1-src: PV changed from "0.4.8" to "0.5.0"
-packages/core2-32-poky-linux/python3-pyasn1/python3-pyasn1-staticdev: PKGV changed from 0.4.8 [default] to 0.5.0 [default]
-packages/core2-32-poky-linux/python3-pyasn1/python3-pyasn1-staticdev: PV changed from "0.4.8" to "0.5.0"
-packages/core2-32-poky-linux/python3-pyasn1/python3-pyasn1: FILELIST: directory renamed /usr/lib/python3.11/site-packages/pyasn1-0.4.8.dist-info -> /usr/lib/python3.11/site-packages/pyasn1-0.5.0.dist-info, removed "/usr/lib/python3.11/site-packages/pyasn1/compat/__pycache__/calling.cpython-311.pyc /usr/lib/python3.11/site-packages/pyasn1/compat/dateandtime.py /usr/lib/python3.11/site-packages/pyasn1/compat/calling.py /usr/lib/python3.11/site-packages/pyasn1/compat/binary.py /usr/lib/python3.11/site-packages/pyasn1/compat/__pycache__/binary.cpython-311.pyc /usr/lib/python3.11/site-packages/pyasn1/compat/string.py /usr/lib/python3.11/site-packages/pyasn1/compat/__pycache__/string.cpython-311.pyc /usr/lib/python3.11/site-packages/pyasn1/compat/__pycache__/dateandtime.cpython-311.pyc", added "/usr/lib/python3.11/site-packages/pyasn1/codec/__pycache__/streaming.cpython-311.pyc /usr/lib/python3.11/site-packages/pyasn1/codec/streaming.py"
-packages/core2-32-poky-linux/python3-pyasn1/python3-pyasn1: PKGV changed from 0.4.8 [default] to 0.5.0 [default]
-packages/core2-32-poky-linux/python3-pyasn1/python3-pyasn1: PV changed from "0.4.8" to "0.5.0"
-packages/core2-32-poky-linux/python3-pyasn1/python3-pyasn1: PKGSIZE changed from 786820 to 841150 (+7%)
-Changes to packages/core2-32-poky-linux/python3-pyasn1 (sysroot):
-  /usr/lib/python3.11/site-packages/pyasn1-0.4.8.dist-info moved to /usr/lib/python3.11/site-packages/pyasn1-0.5.0.dist-info
-  /usr/lib/python3.11/site-packages/pyasn1/codec/__pycache__/streaming.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/pyasn1/codec/streaming.py was added
-  /usr/lib/python3.11/site-packages/pyasn1/compat/binary.py was removed
-  /usr/lib/python3.11/site-packages/pyasn1/compat/calling.py was removed
-  /usr/lib/python3.11/site-packages/pyasn1/compat/dateandtime.py was removed
-  /usr/lib/python3.11/site-packages/pyasn1/compat/__pycache__/binary.cpython-311.pyc was removed
-  /usr/lib/python3.11/site-packages/pyasn1/compat/__pycache__/calling.cpython-311.pyc was removed
-  /usr/lib/python3.11/site-packages/pyasn1/compat/__pycache__/dateandtime.cpython-311.pyc was removed
-  /usr/lib/python3.11/site-packages/pyasn1/compat/__pycache__/string.cpython-311.pyc was removed
-  /usr/lib/python3.11/site-packages/pyasn1/compat/string.py was removed
+Loading cache...done.
+Loaded 1798 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 899 .bb files complete (898 cached, 1 parsed). 1798 targets, 40 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============8105421727110649595==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:b7a2f369223c6abb1880a312af6f5a782269c23c"
+workspace            = "master:cce6db2a59d309f77c1f9ca173fc674c506062d0"
 
-packages/core2-32-poky-linux/python3-pyasn1/python3-pyasn1-ptest: FILELIST: removed "/usr/lib/python3-pyasn1/ptest/tests/compat/test_binary.py", added "/usr/lib/python3-pyasn1/ptest/tests/codec/test_streaming.py"
-packages/core2-32-poky-linux/python3-pyasn1/python3-pyasn1: FILELIST: directory renamed /usr/lib/python3.11/site-packages/pyasn1-0.4.8.dist-info -> /usr/lib/python3.11/site-packages/pyasn1-0.5.0.dist-info, removed "/usr/lib/python3.11/site-packages/pyasn1/compat/string.py /usr/lib/python3.11/site-packages/pyasn1/compat/dateandtime.py /usr/lib/python3.11/site-packages/pyasn1/compat/__pycache__/string.cpython-311.pyc /usr/lib/python3.11/site-packages/pyasn1/compat/calling.py /usr/lib/python3.11/site-packages/pyasn1/compat/__pycache__/dateandtime.cpython-311.pyc /usr/lib/python3.11/site-packages/pyasn1/compat/__pycache__/binary.cpython-311.pyc /usr/lib/python3.11/site-packages/pyasn1/compat/binary.py /usr/lib/python3.11/site-packages/pyasn1/compat/__pycache__/calling.cpython-311.pyc", added "/usr/lib/python3.11/site-packages/pyasn1/codec/__pycache__/streaming.cpython-311.pyc /usr/lib/python3.11/site-packages/pyasn1/codec/streaming.py"
-Changes to packages/core2-32-poky-linux/python3-pyasn1 (sysroot):
-  /usr/lib/python3.11/site-packages/pyasn1-0.4.8.dist-info moved to /usr/lib/python3.11/site-packages/pyasn1-0.5.0.dist-info
-  /usr/lib/python3.11/site-packages/pyasn1/codec/__pycache__/streaming.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/pyasn1/codec/streaming.py was added
-  /usr/lib/python3.11/site-packages/pyasn1/compat/binary.py was removed
-  /usr/lib/python3.11/site-packages/pyasn1/compat/calling.py was removed
-  /usr/lib/python3.11/site-packages/pyasn1/compat/dateandtime.py was removed
-  /usr/lib/python3.11/site-packages/pyasn1/compat/__pycache__/binary.cpython-311.pyc was removed
-  /usr/lib/python3.11/site-packages/pyasn1/compat/__pycache__/calling.cpython-311.pyc was removed
-  /usr/lib/python3.11/site-packages/pyasn1/compat/__pycache__/dateandtime.cpython-311.pyc was removed
-  /usr/lib/python3.11/site-packages/pyasn1/compat/__pycache__/string.cpython-311.pyc was removed
-  /usr/lib/python3.11/site-packages/pyasn1/compat/string.py was removed
+Initialising tasks...done.
+Sstate summary: Wanted 139 Local 132 Mirrors 0 Missed 7 Current 271 (94% match, 98% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1175 of 1560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.1.bb:do_fetch)
+NOTE: recipe python3-urllib3-2.0.1-r0: task do_fetch: Started
+NOTE: recipe python3-urllib3-2.0.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1547 of 1560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.1.bb:do_unpack)
+NOTE: Running task 1548 of 1560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-urllib3-2.0.1-r0: task do_unpack: Started
+NOTE: recipe python3-urllib3-2.0.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-urllib3-2.0.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1549 of 1560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.1.bb:do_patch)
+NOTE: recipe python3-urllib3-2.0.1-r0: task do_patch: Started
+NOTE: recipe python3-urllib3-2.0.1-r0: task do_patch: Succeeded
+NOTE: Running task 1550 of 1560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1551 of 1560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.1.bb:do_populate_lic)
+NOTE: recipe python3-urllib3-2.0.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-urllib3-2.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-urllib3-2.0.1-r0: task do_populate_lic: Started
+NOTE: recipe python3-urllib3-2.0.1-r0: task do_populate_lic: Succeeded
+NOTE: recipe python3-urllib3-2.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1552 of 1560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.1.bb:do_configure)
+NOTE: recipe python3-urllib3-2.0.1-r0: task do_configure: Started
+NOTE: recipe python3-urllib3-2.0.1-r0: task do_configure: Succeeded
+NOTE: Running task 1553 of 1560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.1.bb:do_compile)
+NOTE: recipe python3-urllib3-2.0.1-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-urllib3/2.0.1-r0/recipe-sysroot-native/usr/bin/python3-native/python3: can't open file '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-urllib3/2.0.1-r0/urllib3-2.0.1/setup.py': [Errno 2] No such file or directory
+| ERROR: 'python3 setup.py bdist_wheel ' execution failed.
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-urllib3/2.0.1-r0/temp/run.do_compile.3710150:180 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-urllib3/2.0.1-r0/temp/run.do_compile.3710150, line 180
+| 	#2: setuptools3_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-urllib3/2.0.1-r0/temp/run.do_compile.3710150, line 170
+| 	#3: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-urllib3/2.0.1-r0/temp/run.do_compile.3710150, line 152
+| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-urllib3/2.0.1-r0/temp/run.do_compile.3710150, line 184
+NOTE: recipe python3-urllib3-2.0.1-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 1553 tasks of which 1545 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
 
---===============8105421727110649595==
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.1.bb:do_compile
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: python3-urllib3-2.0.1-r0 do_compile: 'python3 setup.py bdist_wheel ' execution failed.
+ERROR: python3-urllib3-2.0.1-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-urllib3/2.0.1-r0/temp/run.do_compile.3710150', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-urllib3/2.0.1-r0/temp/log.do_compile.3710150
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.1.bb:do_compile) failed with exit code '1'
+
+--===============1001485618281788658==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-pyasn1-upgrade-0.4.8-0.5.0.patch"
+ filename="0001-python3-urllib3-upgrade-1.26.15-2.0.1.patch"
 
-RnJvbSAyMTQ0MGU4MGE4MDIxN2VjMmNiNmUzMzcwZGM4ZmIzZTQ2MjI0OTQ2IE1vbiBTZXAgMTcg
+RnJvbSAzM2Q2NTBhZDg5ZTYyM2UzYzRjMDdhNWI1ZmY2MmE1Nzc3Mzk5OWM0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBNYXkgMjAyMyAxMTozODoxMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtcHlhc24xOiB1cGdyYWRlIDAuNC44IC0+IDAuNS4wCgotLS0KIC4uLi9yZWNpcGVzLWRl
-dnRvb2xzL3B5dGhvbi9weXRob24tcHlhc24xLmluYyB8IDEyICsrKystLS0tCiAuLi5hcm5pbmct
-X19pbnRfXy1yZXR1cm5lZC1ub24taW50LW9uLVAucGF0Y2ggfCAyOCAtLS0tLS0tLS0tLS0tLS0t
-LS0tCiAuLi4vcHl0aG9uL3B5dGhvbjMtcHlhc24xXzAuNC44LmJiICAgICAgICAgICAgfCAgMiAt
-LQogLi4uL3B5dGhvbi9weXRob24zLXB5YXNuMV8wLjUuMC5iYiAgICAgICAgICAgIHwgMjIgKysr
-KysrKysrKysrKysrCiA0IGZpbGVzIGNoYW5nZWQsIDI3IGluc2VydGlvbnMoKyksIDM3IGRlbGV0
-aW9ucygtKQogZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
-cHl0aG9uMy1weWFzbjEvMDAwMS1GaXgtRGVwcmVjYXRpb25XYXJuaW5nLV9faW50X18tcmV0dXJu
-ZWQtbm9uLWludC1vbi1QLnBhdGNoCiBkZWxldGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3B5dGhvbi9weXRob24zLXB5YXNuMV8wLjQuOC5iYgogY3JlYXRlIG1vZGUgMTAwNjQ0
-IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weWFzbjFfMC41LjAuYmIKCmRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbi1weWFzbjEuaW5j
-IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24tcHlhc24xLmluYwppbmRleCAx
-MjZkMDM4OGVmLi4wOTMxZTc3MzQxIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cHl0aG9uL3B5dGhvbi1weWFzbjEuaW5jCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
-b24vcHl0aG9uLXB5YXNuMS5pbmMKQEAgLTEsMTAgKzEsOSBAQAogU1VNTUFSWSA9ICJQeXRob24g
-bGlicmFyeSBpbXBsZW1lbnRpbmcgQVNOLjEgdHlwZXMuIgogSE9NRVBBR0UgPSAiaHR0cDovL3B5
-YXNuMS5zb3VyY2Vmb3JnZS5uZXQvIgogTElDRU5TRSA9ICJCU0QtMi1DbGF1c2UiCi1MSUNfRklM
-RVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLnJzdDttZDU9YTE0NDgyZDE1YzIyNDlkZTNiNmYw
-ZThhNDdlMDIxZmQiCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLnJzdDttZDU9
-MTkwZjc5MjUzOTA4Yzk4NmU2Y2FjZjM4MGMzYTVmNmQiCiAKLVNSQ19VUklbbWQ1c3VtXSA9ICJk
-ZmZhZTRmZjlmOTk3YTgzMzI0YjNmMzNmZTYyYmU1NCIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJh
-ZWY3N2M5ZmI5NGEzYWM1ODhlODc4NDEyMDhiZGVjNDY0NDcxZDk4NzFiZDUwNTBhMjg3Y2M5YTQ3
-NWNkMGJhIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjk3YjcyOTBjYTY4ZTYyYTgzMjU1OGVjMzk3
-NmYxNWNiZjkxMWJmNWQ3YzcwMzlkOGI4NjFjMmEwZWNlNjlmZGUiCiAKIFJERVBFTkRTOiR7UE59
-OmNsYXNzLXRhcmdldCArPSAiIFwKICAgICAke1BZVEhPTl9QTn0tY29kZWNzIFwKQEAgLTE3LDEw
-ICsxNiw5IEBAIEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKIAogaW5oZXJpdCBw
-dGVzdAogCi1TUkNfVVJJICs9ICIgXAotCWZpbGU6Ly9ydW4tcHRlc3QgXAotCWZpbGU6Ly8wMDAx
-LUZpeC1EZXByZWNhdGlvbldhcm5pbmctX19pbnRfXy1yZXR1cm5lZC1ub24taW50LW9uLVAucGF0
-Y2ggXAotIgorU1JDX1VSSSA9ICIke1BZUElfU1JDX1VSSX0gXAorICAgICAgICAgICBmaWxlOi8v
-cnVuLXB0ZXN0IFwKKyAgICAgICAgICAgIgogCiBSREVQRU5EUzoke1BOfS1wdGVzdCArPSAiIFwK
-IAkke1BZVEhPTl9QTn0tcHl0ZXN0IFwKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9weXRob24vcHl0aG9uMy1weWFzbjEvMDAwMS1GaXgtRGVwcmVjYXRpb25XYXJuaW5nLV9faW50
-X18tcmV0dXJuZWQtbm9uLWludC1vbi1QLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLXB5YXNuMS8wMDAxLUZpeC1EZXByZWNhdGlvbldhcm5pbmctX19pbnRfXy1y
-ZXR1cm5lZC1ub24taW50LW9uLVAucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4
-IDMwYWM5YTY2ODQuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLXB5YXNuMS8wMDAxLUZpeC1EZXByZWNhdGlvbldhcm5pbmctX19pbnRfXy1yZXR1
-cm5lZC1ub24taW50LW9uLVAucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSwyOCArMCwwIEBACi1G
-cm9tIGRiOGYxYTc5MzBjNmI1ODI2MzU3NjQ2NzQ2MzM3ZGFmYzk4M2Y5NTMgTW9uIFNlcCAxNyAw
-MDowMDowMCAyMDAxCi1Gcm9tOiBJbHlhIEV0aW5nb2YgPGV0aW5nb2ZAZ21haWwuY29tPgotRGF0
-ZTogU2F0LCAyMSBNYXIgMjAyMCAxOTowNTowMyArMDEwMAotU3ViamVjdDogW1BBVENIXSBGaXgg
-YERlcHJlY2F0aW9uV2FybmluZzogX19pbnRfXyByZXR1cm5lZCBub24taW50YCBvbiBQeTMKLQot
-SW4gYEJpdFN0cmluZy5fX2ludF9fKClgCi1VcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0Ci1TaWdu
-ZWQtb2ZmLWJ5OiBZdWxvbmcgTGl1IDx5dWxvbmcubGl1QHdpbmRyaXZlci5jb20+Ci0tLS0KLSBw
-eWFzbjEvdHlwZS91bml2LnB5IHwgMiArLQotIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigr
-KSwgMSBkZWxldGlvbigtKQotCi1kaWZmIC0tZ2l0IGEvcHlhc24xL3R5cGUvdW5pdi5weSBiL3B5
-YXNuMS90eXBlL3VuaXYucHkKLWluZGV4IDEwOTI0YzMuLjQ4ODI0MWYgMTAwNjQ0Ci0tLS0gYS9w
-eWFzbjEvdHlwZS91bml2LnB5Ci0rKysgYi9weWFzbjEvdHlwZS91bml2LnB5Ci1AQCAtNTUxLDcg
-KzU1MSw3IEBAIGNsYXNzIEJpdFN0cmluZyhiYXNlLlNpbXBsZUFzbjFUeXBlKToKLSAgICAgICAg
-IHJldHVybiBzZWxmLmNsb25lKFNpemVkSW50ZWdlcihzZWxmLl92YWx1ZSA+PiBjb3VudCkuc2V0
-Qml0TGVuZ3RoKG1heCgwLCBsZW4oc2VsZi5fdmFsdWUpIC0gY291bnQpKSkKLSAKLSAgICAgZGVm
-IF9faW50X18oc2VsZik6Ci0tICAgICAgICByZXR1cm4gc2VsZi5fdmFsdWUKLSsgICAgICAgIHJl
-dHVybiBpbnQoc2VsZi5fdmFsdWUpCi0gCi0gICAgIGRlZiBfX2Zsb2F0X18oc2VsZik6Ci0gICAg
-ICAgICByZXR1cm4gZmxvYXQoc2VsZi5fdmFsdWUpCi0tLSAKLTIuMjUuMQotCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlhc24xXzAuNC44LmJiIGIv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5YXNuMV8wLjQuOC5iYgpkZWxl
-dGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggYTVlMmE3MTM2Mi4uMDAwMDAwMDAwMAotLS0gYS9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlhc24xXzAuNC44LmJiCisrKyAv
-ZGV2L251bGwKQEAgLTEsMiArMCwwIEBACi1pbmhlcml0IHB5cGkgc2V0dXB0b29sczMKLXJlcXVp
-cmUgcHl0aG9uLXB5YXNuMS5pbmMKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
-eXRob24vcHl0aG9uMy1weWFzbjFfMC41LjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
-aG9uL3B5dGhvbjMtcHlhc24xXzAuNS4wLmJiCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDAw
-MDAwMDAwMDAuLjUxY2U0MzIyNjEKLS0tIC9kZXYvbnVsbAorKysgYi9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlhc24xXzAuNS4wLmJiCkBAIC0wLDAgKzEsMjIgQEAKKyMg
-RklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBieSAn
-ZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3
-ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRo
-ZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgor
-IyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1w
-bGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhl
-IGNoYW5nZXM6CisjCisjIC0tLSBMSUNFTlNFLnJzdAorIyArKysgTElDRU5TRS5yc3QKKyMgQEAg
-LTEsNCArMSw0IEBACisjIC1Db3B5cmlnaHQgKGMpIDIwMDUtMjAxOSwgSWx5YSBFdGluZ29mIDxl
-dGluZ29mQGdtYWlsLmNvbT4KKyMgK0NvcHlyaWdodCAoYykgMjAwNS0yMDIwLCBJbHlhIEV0aW5n
-b2YgPGV0aW5nb2ZAZ21haWwuY29tPgorIyAgQWxsIHJpZ2h0cyByZXNlcnZlZC4KKyMgIAorIyAg
-UmVkaXN0cmlidXRpb24gYW5kIHVzZSBpbiBzb3VyY2UgYW5kIGJpbmFyeSBmb3Jtcywgd2l0aCBv
-ciB3aXRob3V0CisjIAorIworCitpbmhlcml0IHB5cGkgc2V0dXB0b29sczMKK3JlcXVpcmUgcHl0
-aG9uLXB5YXNuMS5pbmMKKwotLSAKMi4zOS4yCgo=
+CkRhdGU6IE1vbiwgMSBNYXkgMjAyMyAxMTo1NDo1NiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtdXJsbGliMzogdXBncmFkZSAxLjI2LjE1IC0+IDIuMC4xCgotLS0KIC4uLi97cHl0aG9u
+My11cmxsaWIzXzEuMjYuMTUuYmIgPT4gcHl0aG9uMy11cmxsaWIzXzIuMC4xLmJifSAgICB8IDIg
+Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1l
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtdXJsbGliM18xLjI2LjE1LmJi
+ID0+IHB5dGhvbjMtdXJsbGliM18yLjAuMS5iYn0gKDg2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXJsbGliM18xLjI2LjE1LmJiIGIvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVybGxpYjNfMi4wLjEuYmIKc2ltaWxhcml0
+eSBpbmRleCA4NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
+b24zLXVybGxpYjNfMS4yNi4xNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24zLXVybGxpYjNfMi4wLjEuYmIKaW5kZXggZDJkZTdjNGMwMi4uYzk3MTNjYWY4
+OSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVybGxp
+YjNfMS4yNi4xNS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
+dXJsbGliM18yLjAuMS5iYgpAQCAtMyw3ICszLDcgQEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRo
+dWIuY29tL3NoYXpvdy91cmxsaWIzIgogTElDRU5TRSA9ICJNSVQiCiBMSUNfRklMRVNfQ0hLU1VN
+ID0gImZpbGU6Ly9MSUNFTlNFLnR4dDttZDU9YzI4MjNjYjk5NTQzOWM5ODRmZDYyYTk3M2Q3OTgx
+NWMiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI4YTM4ODcxN2I5NDc2ZjkzNGEyMTQ4NGU4Yzhl
+NjE4NzVhYjYwNjQ0ZDI5YjliMzllMTFlNGI5ZGMxYzZiMzA1IgorU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gIjJjZTY2YTY4MTM0YmU0NjlmNWRmNWQ0NmQ3MjQyMzc0ODliM2NkODViMmJiYTIyMjNkYmJl
+ZTE3NDY1NDg4MjYiCiAKIGluaGVyaXQgcHlwaSBzZXR1cHRvb2xzMwogCi0tIAoyLjM5LjIKCg==
 
---===============8105421727110649595==--
+--===============1001485618281788658==--
 
