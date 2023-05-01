@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5720FC88CBF
-	for <webhook@archiver.kernel.org>; Mon,  1 May 2023 21:26:03 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.107907.1682976353463098520
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C17B6C7EE2D
+	for <webhook@archiver.kernel.org>; Mon,  1 May 2023 21:26:02 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.107445.1682976355015450739
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 May 2023 14:25:54 -0700
+ Mon, 01 May 2023 14:25:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Hd7eqt34;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010187d9352f78-bd155b41-f17a-4c8e-a30c-f97ba985d1d0-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=BmN0zUc4;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010187d9352f10-6444e2d4-d256-48d7-b3be-463ee5844915-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1682976354;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=c7dih3eV7oXVPsRTXKfMfNK6IgqZSPzDD/1+DEkrgZ8=;
-	b=Hd7eqt34xuSPM2fQTVrG1UJXQrkkPu+9VYfwNfKPrbMsX5zpwo/mR0mGel43jAIT
-	4BBH9mUdRFc1fU6RHcz2ZcB31K6GCm9QPd0MpukxkYKM7dM6WdZ5QLe38gEVZxURP7r
-	rPljWnI6Akp7KYrMo9sSFVbaecaqSmhB2xDT/BM8=
+	bh=8OgqyYbiW+0/um6CWZIBdYhvQBDUhuFnu2YdTlS6vSE=;
+	b=BmN0zUc4Kqa4voKaTyB1C8xrdx1Xwmc95czfigYpQQPSonv+RXJFmMqlzj9bf0k8
+	Lps+6pUpb1zHVXdnVqxpnNSmAqw6Ws7L9LKeZmChcGeB6x77vhyxDxnDqDixvSLBeUh
+	hW+UqIZE/4lOterd/LrVyxSgp+YqEE0gchf6xyJ0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1682976354;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=c7dih3eV7oXVPsRTXKfMfNK6IgqZSPzDD/1+DEkrgZ8=;
-	b=YeQ+wZCS52VfNztkUlNbbca5PIdQX/SRBI+ekrtznsOZGWz1P75RCsjLt1vJET36
-	vKmRmhXChiuXrE2fIvDM32iT5mMlqdJ6wEIXeZW1rBdfYMgnxk01ETS/P1/2qZS6ZUl
-	GDrPAqz0yk4GOvEIXLlL/09GpKe2/0pFwLWQSRuI=
-Content-Type: multipart/mixed; boundary="===============7679844738960927780=="
+	bh=8OgqyYbiW+0/um6CWZIBdYhvQBDUhuFnu2YdTlS6vSE=;
+	b=bM9xLYsacNdiDxgl1MZWej3n5a50I/OeYXCEXLYLlT6LLyvs7fvA5trikCqVCW3n
+	+gYnvnbJjNR2U1bQ7x/9bK1vPx0a6wzLBpi0AWqIGOrPYbu5A3GOTaR+cN2KEztDN8k
+	0T+MgTa0bjucfKXSeqoe4TjI5WIqMdmK9zPUgp9s=
+Content-Type: multipart/mixed; boundary="===============1035368046320399083=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gpgme: upgrading to 1.20.0 FAILED
-Message-ID: <01010187d9352f78-bd155b41-f17a-4c8e-a30c-f97ba985d1d0-000000@us-west-2.amazonses.com>
+Subject: [AUH] gnupg: upgrading to 2.4.1 SUCCEEDED
+Message-ID: <01010187d9352f10-6444e2d4-d256-48d7-b3be-463ee5844915-000000@us-west-2.amazonses.com>
 Date: Mon, 1 May 2023 21:25:54 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.05.01-54.240.27.23
+X-SES-Outgoing: 2023.05.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 May 2023 21:26:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180697
+ <openembedded-core@lists.openembedded.org>; Mon, 01 May 2023 21:26:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180706
 
---===============7679844738960927780==
+--===============1035368046320399083==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,91 +50,225 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gpgme* to *1.20.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *gnupg* to *2.4.1* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-gnupg-upgrade-2.4.0-2.4.1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe gpgme failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (21:07:36.011100)
-Loading cache...done.
-Loaded 1799 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:78b0986a99be9cc72deee61c497da0f1326fbf06"
-workspace            = "master:cce6db2a59d309f77c1f9ca173fc674c506062d0"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 1799 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 900 .bb files complete (898 cached, 2 parsed). 1800 targets, 39 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:78b0986a99be9cc72deee61c497da0f1326fbf06"
-workspace            = "master:cce6db2a59d309f77c1f9ca173fc674c506062d0"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  41% |###############                     | ETA:  0:00:00
-Adding changed files:  83% |##############################      | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-1.20.0.tar.bz2...
-INFO: Rebasing devtool onto 34c2e2f57f5414e0e63bb9f28345c1dddee27a7b
-WARNING: Command 'git rebase 34c2e2f57f5414e0e63bb9f28345c1dddee27a7b' failed:
-Auto-merging src/gpgme.m4
-CONFLICT (content): Merge conflict in src/gpgme.m4
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/gpgme
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/gpgme/gpgme_1.20.0.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============7679844738960927780==--
+--===============1035368046320399083==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/gnupg/gnupg-dbg: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-dbg: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-dbg: PKGSIZE changed from 18050272 to 17446536 (-3%)
+packages/core2-32-poky-linux/gnupg/gnupg-dev: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-dev: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-doc: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-doc: FILELIST: removed "/usr/share/doc/gnupg/examples/systemd-user/gpg-agent-ssh.socket /usr/share/doc/gnupg/examples/systemd-user/gpg-agent-extra.socket /usr/share/doc/gnupg/examples/systemd-user/dirmngr.service /usr/share/doc/gnupg/examples/systemd-user/gpg-agent-browser.socket /usr/share/doc/gnupg/examples/systemd-user/gpg-agent.socket /usr/share/doc/gnupg/examples/Automatic.prf /usr/share/doc/gnupg/examples/systemd-user/gpg-agent.service /usr/share/doc/gnupg/examples/VS-NfD.prf /usr/share/doc/gnupg/examples/systemd-user/dirmngr.socket /usr/share/doc/gnupg/examples/debug.prf /usr/share/doc/gnupg/examples/systemd-user/README"
+packages/core2-32-poky-linux/gnupg/gnupg-doc: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-doc: PKGSIZE changed from 1163381 to 1181914 (+2%)
+packages/core2-32-poky-linux/gnupg/gnupg-gpg: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-gpg: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-gpg: PKGSIZE changed from 1844976 to 1832752 (-1%)
+packages/core2-32-poky-linux/gnupg/gnupg-locale-ca: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-ca: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-cs: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-cs: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-cs: PKGSIZE changed from 240512 to 240391 (-0%)
+packages/core2-32-poky-linux/gnupg/gnupg-locale-da: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-da: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-de: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-de: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-de: PKGSIZE changed from 244301 to 245501 (+0%)
+packages/core2-32-poky-linux/gnupg/gnupg-locale-el: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-el: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-en+boldquot: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-en+boldquot: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-en+boldquot: PKGSIZE changed from 222514 to 223710 (+1%)
+packages/core2-32-poky-linux/gnupg/gnupg-locale-en+quot: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-en+quot: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-en+quot: PKGSIZE changed from 220162 to 221334 (+1%)
+packages/core2-32-poky-linux/gnupg/gnupg-locale-eo: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-eo: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-es: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-es: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-et: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-et: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-fi: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-fi: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-fr: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-fr: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-gl: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-gl: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-hu: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-hu: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-id: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-id: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-it: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-it: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-ja: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-ja: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-ja: PKGSIZE changed from 250886 to 252729 (+1%)
+packages/core2-32-poky-linux/gnupg/gnupg-locale-nb: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-nb: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-pl: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-pl: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-pt: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-pt: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-ro: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-ro: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-ru: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-ru: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-sk: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-sk: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-sv: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-sv: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-tr: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-tr: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-tr: PKGSIZE changed from 238880 to 238752 (-0%)
+packages/core2-32-poky-linux/gnupg/gnupg-locale-uk: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-uk: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-zh-cn: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-zh-cn: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-locale-zh-cn: PKGSIZE changed from 220044 to 219889 (-0%)
+packages/core2-32-poky-linux/gnupg/gnupg-locale-zh-tw: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-locale-zh-tw: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-src: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-src: FILELIST: directory renamed /usr/src/debug/gnupg/2.4.0-r0/g10 -> /usr/src/debug/gnupg/2.4.1-r0/g10, directory renamed /usr/src/debug/gnupg/2.4.0-r0/agent -> /usr/src/debug/gnupg/2.4.1-r0/agent, directory renamed /usr/src/debug/gnupg/2.4.0-r0/common -> /usr/src/debug/gnupg/2.4.1-r0/common, directory renamed /usr/src/debug/gnupg/2.4.0-r0/tools -> /usr/src/debug/gnupg/2.4.1-r0/tools, directory renamed /usr/src/debug/gnupg/2.4.0-r0/kbx -> /usr/src/debug/gnupg/2.4.1-r0/kbx, directory renamed /usr/src/debug/gnupg/2.4.0-r0/sm -> /usr/src/debug/gnupg/2.4.1-r0/sm, directory renamed /usr/src/debug/gnupg/2.4.0-r0/scd -> /usr/src/debug/gnupg/2.4.1-r0/scd, directory renamed /usr/src/debug/gnupg/2.4.0-r0/regexp -> /usr/src/debug/gnupg/2.4.1-r0/regexp, directory renamed /usr/src/debug/gnupg/2.4.0-r0/tests/gpgscm -> /usr/src/debug/gnupg/2.4.1-r0/tests/gpgscm, removed "/usr/src/debug/gnupg/2.4.0-r0/dirmngr/http-common.h /usr/src/debug/gnupg/2.4.0-r0/dirmn
+ gr/http.h /usr/src/debug/gnupg/2.4.0-r0/dirmngr/http.c /usr/src/debug/gnupg/2.4.0-r0/dirmngr/http-common.c /usr/src/debug/gnupg/2.4.0-r0/dirmngr/dns-stuff.c /usr/src/debug/gnupg/2.4.0-r0/dirmngr/dns-stuff.h /usr/src/debug/gnupg/2.4.0-r0/dirmngr/dirmngr-client.c /usr/src/debug/gnupg/2.4.0-r0/dirmngr/ks-engine-finger.c /usr/src/debug/gnupg/2.4.0-r0/dirmngr/crlcache.h /usr/src/debug/gnupg/2.4.0-r0/dirmngr/ks-engine-http.c /usr/src/debug/gnupg/2.4.0-r0/dirmngr/ks-action.h /usr/src/debug/gnupg/2.4.0-r0/dirmngr/ks-engine.h /usr/src/debug/gnupg/2.4.0-r0/dirmngr/misc.h /usr/src/debug/gnupg/2.4.0-r0/dirmngr/validate.c /usr/src/debug/gnupg/2.4.0-r0/dirmngr/ks-action.c /usr/src/debug/gnupg/2.4.0-r0/dirmngr/misc.c /usr/src/debug/gnupg/2.4.0-r0/dirmngr/crlcache.c /usr/src/debug/gnupg/2.4.0-r0/dirmngr/validate.h /usr/src/debug/gnupg/2.4.0-r0/dirmngr/cdblib.c /usr/src/debug/gnupg/2.4.0-r0/dirmngr/dns.c /usr/src/debug/gnupg/2.4.0-r0/dirmngr/cdb.h /usr/src/debug/gnupg/2.4.0-r0/dirmngr/dns.h /usr/src
+ /debug/gnupg/2.4.0-r0/dirmngr/ks-engine-kdns.c /usr/src/debug/gnupg/2.4.0-r0/dirmngr/dirmngr-status.h /usr/src/debug/gnupg/2.4.0-r0/dirmngr/server.c /usr/src/debug/gnupg/2.4.0-r0/dirmngr/certcache.c /usr/src/debug/gnupg/2.4.0-r0/dirmngr/workqueue.c /usr/src/debug/gnupg/2.4.0-r0/dirmngr/http-ntbtls.c /usr/src/debug/gnupg/2.4.0-r0/dirmngr/ocsp.c /usr/src/debug/gnupg/2.4.0-r0/dirmngr/crlfetch.h /usr/src/debug/gnupg/2.4.0-r0/dirmngr/loadswdb.c /usr/src/debug/gnupg/2.4.0-r0/dirmngr/certcache.h /usr/src/debug/gnupg/2.4.0-r0/dirmngr/crlfetch.c /usr/src/debug/gnupg/2.4.0-r0/dirmngr/ocsp.h /usr/src/debug/gnupg/2.4.0-r0/dirmngr/dirmngr.h /usr/src/debug/gnupg/2.4.0-r0/dirmngr/ks-engine-hkp.c /usr/src/debug/gnupg/2.4.0-r0/dirmngr/dirmngr.c /usr/src/debug/gnupg/2.4.0-r0/dirmngr/domaininfo.c", added "/usr/src/debug/gnupg/2.4.1-r0/dirmngr/http-common.h /usr/src/debug/gnupg/2.4.1-r0/dirmngr/http.h /usr/src/debug/gnupg/2.4.1-r0/dirmngr/http.c /usr/src/debug/gnupg/2.4.1-r0/dirmngr/http-common.c /usr/
+ src/debug/gnupg/2.4.1-r0/dirmngr/dns-stuff.c /usr/src/debug/gnupg/2.4.1-r0/dirmngr/dns-stuff.h /usr/src/debug/gnupg/2.4.1-r0/dirmngr/dirmngr-client.c /usr/src/debug/gnupg/2.4.1-r0/dirmngr/ks-engine-finger.c /usr/src/debug/gnupg/2.4.1-r0/dirmngr/crlcache.h /usr/src/debug/gnupg/2.4.1-r0/dirmngr/ks-engine-http.c /usr/src/debug/gnupg/2.4.1-r0/dirmngr/ks-action.h /usr/src/debug/gnupg/2.4.1-r0/dirmngr/ks-engine.h /usr/src/debug/gnupg/2.4.1-r0/dirmngr/misc.h /usr/src/debug/gnupg/2.4.1-r0/dirmngr/validate.c /usr/src/debug/gnupg/2.4.1-r0/dirmngr/ks-action.c /usr/src/debug/gnupg/2.4.1-r0/dirmngr/fakecrl.c /usr/src/debug/gnupg/2.4.1-r0/dirmngr/validate.h /usr/src/debug/gnupg/2.4.1-r0/dirmngr/misc.c /usr/src/debug/gnupg/2.4.1-r0/dirmngr/crlcache.c /usr/src/debug/gnupg/2.4.1-r0/dirmngr/cdblib.c /usr/src/debug/gnupg/2.4.1-r0/dirmngr/dns.c /usr/src/debug/gnupg/2.4.1-r0/dirmngr/cdb.h /usr/src/debug/gnupg/2.4.1-r0/dirmngr/dns.h /usr/src/debug/gnupg/2.4.1-r0/dirmngr/ks-engine-kdns.c /usr/src/debug/gn
+ upg/2.4.1-r0/dirmngr/dirmngr-status.h /usr/src/debug/gnupg/2.4.1-r0/dirmngr/server.c /usr/src/debug/gnupg/2.4.1-r0/dirmngr/certcache.c /usr/src/debug/gnupg/2.4.1-r0/dirmngr/workqueue.c /usr/src/debug/gnupg/2.4.1-r0/dirmngr/http-ntbtls.c /usr/src/debug/gnupg/2.4.1-r0/dirmngr/ocsp.c /usr/src/debug/gnupg/2.4.1-r0/dirmngr/crlfetch.h /usr/src/debug/gnupg/2.4.1-r0/dirmngr/loadswdb.c /usr/src/debug/gnupg/2.4.1-r0/dirmngr/certcache.h /usr/src/debug/gnupg/2.4.1-r0/dirmngr/crlfetch.c /usr/src/debug/gnupg/2.4.1-r0/dirmngr/ocsp.h /usr/src/debug/gnupg/2.4.1-r0/dirmngr/dirmngr.h /usr/src/debug/gnupg/2.4.1-r0/dirmngr/ks-engine-hkp.c /usr/src/debug/gnupg/2.4.1-r0/dirmngr/dirmngr.c /usr/src/debug/gnupg/2.4.1-r0/dirmngr/domaininfo.c"
+packages/core2-32-poky-linux/gnupg/gnupg-src: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg-src: PKGSIZE changed from 8849198 to 8925750 (+1%)
+packages/core2-32-poky-linux/gnupg/gnupg-staticdev: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg-staticdev: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg/gnupg: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+packages/core2-32-poky-linux/gnupg/gnupg: PKGSIZE changed from 5653142 to 5370754 (-5%)
+packages/core2-32-poky-linux/gnupg: SRC_URI changed from "https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.4.0.tar.bz2 file://0002-use-pkgconfig-instead-of-npth-config.patch file://0004-autogen.sh-fix-find-version-for-beta-checking.patch file://0001-Woverride-init-is-not-needed-with-gcc-9.patch" to "https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.4.1.tar.bz2 file://0002-use-pkgconfig-instead-of-npth-config.patch file://0004-autogen.sh-fix-find-version-for-beta-checking.patch file://0001-Woverride-init-is-not-needed-with-gcc-9.patch"
+packages/core2-32-poky-linux/gnupg: PV changed from "2.4.0" to "2.4.1"
+packages/core2-32-poky-linux/gnupg: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
+
+--===============1035368046320399083==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/gnupg/gnupg-doc: FILELIST: removed "/usr/share/doc/gnupg/examples/debug.prf /usr/share/doc/gnupg/examples/systemd-user/gpg-agent-extra.socket /usr/share/doc/gnupg/examples/systemd-user/gpg-agent.service /usr/share/doc/gnupg/examples/systemd-user/gpg-agent-browser.socket /usr/share/doc/gnupg/examples/systemd-user/dirmngr.socket /usr/share/doc/gnupg/examples/systemd-user/gpg-agent-ssh.socket /usr/share/doc/gnupg/examples/Automatic.prf /usr/share/doc/gnupg/examples/systemd-user/README /usr/share/doc/gnupg/examples/systemd-user/dirmngr.service /usr/share/doc/gnupg/examples/systemd-user/gpg-agent.socket /usr/share/doc/gnupg/examples/VS-NfD.prf"
+
+--===============1035368046320399083==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gnupg-upgrade-2.4.0-2.4.1.patch"
+
+RnJvbSBjMjE2MjI5MDYyNGExNjkzYzYzNWRmNjIzZjVkMTgwOWVjNzY3Y2UyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMSBNYXkgMjAyMyAyMTowNjo0OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdu
+dXBnOiB1cGdyYWRlIDIuNC4wIC0+IDIuNC4xCgotLS0KIC4uLmUtYS1jdXN0b20tdmFsdWUtZm9y
+LXRoZS1sb2NhdGlvbi1vZi0ucGF0Y2ggfCAgNiArKystLS0KIC4uLi9yZWNpcGVzLXN1cHBvcnQv
+Z251cGcvZ251cGcvcmVsb2NhdGUucGF0Y2ggfCAxOCArKysrKysrKystLS0tLS0tLS0KIC4uLi9n
+bnVwZy97Z251cGdfMi40LjAuYmIgPT4gZ251cGdfMi40LjEuYmJ9ICAgfCAgMiArLQogMyBmaWxl
+cyBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspLCAxMyBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtc3VwcG9ydC9nbnVwZy97Z251cGdfMi40LjAuYmIgPT4gZ251cGdfMi40LjEuYmJ9
+ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGcvMDAw
+MS1jb25maWd1cmUuYWMtdXNlLWEtY3VzdG9tLXZhbHVlLWZvci10aGUtbG9jYXRpb24tb2YtLnBh
+dGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGcvMDAwMS1jb25maWd1cmUuYWMt
+dXNlLWEtY3VzdG9tLXZhbHVlLWZvci10aGUtbG9jYXRpb24tb2YtLnBhdGNoCmluZGV4IDBjZDRj
+NDU5MDcuLmFhMTE4MDM1MDcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBn
+L2dudXBnLzAwMDEtY29uZmlndXJlLmFjLXVzZS1hLWN1c3RvbS12YWx1ZS1mb3ItdGhlLWxvY2F0
+aW9uLW9mLS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZy8wMDAx
+LWNvbmZpZ3VyZS5hYy11c2UtYS1jdXN0b20tdmFsdWUtZm9yLXRoZS1sb2NhdGlvbi1vZi0ucGF0
+Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDM0NmE2YjE3YTA3YjY1ODk1NGRiNjVmODE0NDYxYjU5
+ODI0ZDlmY2QgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGNiZGY4NmVhZjFlOGY5NDRm
+MjYwZjM2MGZmMzNmNzE2ZWQwNzhlZjIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBB
+bGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KIERhdGU6IE1vbiwgMjIg
+SmFuIDIwMTggMTg6MDA6MjEgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gY29uZmlndXJlLmFjOiB1
+c2UgYSBjdXN0b20gdmFsdWUgZm9yIHRoZSBsb2NhdGlvbiBvZgpAQCAtMTQsMTAgKzE0LDEwIEBA
+IFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29t
+PgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZm
+IC0tZ2l0IGEvY29uZmlndXJlLmFjIGIvY29uZmlndXJlLmFjCi1pbmRleCAwOTljNmE4Li5lOGNm
+NDA4IDEwMDY0NAoraW5kZXggYzMxYWUwMi4uZTk0Mjk0NyAxMDA2NDQKIC0tLSBhL2NvbmZpZ3Vy
+ZS5hYwogKysrIGIvY29uZmlndXJlLmFjCi1AQCAtMTkzNSw3ICsxOTM1LDcgQEAgQUNfREVGSU5F
+X1VOUVVPVEVEKEdQR0NPTkZfRElTUF9OQU1FLCAiR1BHQ29uZiIsCitAQCAtMTkyMiw3ICsxOTIy
+LDcgQEAgQUNfREVGSU5FX1VOUVVPVEVEKEdQR0NPTkZfRElTUF9OQU1FLCAiR1BHQ29uZiIsCiAg
+CiAgQUNfREVGSU5FX1VOUVVPVEVEKEdQR1RBUl9OQU1FLCAiZ3BndGFyIiwgW1RoZSBuYW1lIG9m
+IHRoZSBncGd0YXIgdG9vbF0pCiAgCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9n
+bnVwZy9nbnVwZy9yZWxvY2F0ZS5wYXRjaCBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2du
+dXBnL3JlbG9jYXRlLnBhdGNoCmluZGV4IDA3MWRkOTNmZjUuLjhiNDBmYmRiMzMgMTAwNjQ0Ci0t
+LSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnL3JlbG9jYXRlLnBhdGNoCisrKyBi
+L21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnL3JlbG9jYXRlLnBhdGNoCkBAIC0xLDQg
+KzEsNCBAQAotRnJvbSBiMTExN2FkZWI0NzYzMDRjZTI3OTI4MTQ1MTZhNWI3Y2Q0NGQwZDM4IE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBmMjk4YTg0ZDk2YTU5NDY4OTg4MGFjNTQ4NzUw
+YWNlZTExNzcxZjRmIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUm9zcyBCdXJ0b24g
+PHJvc3MuYnVydG9uQGludGVsLmNvbT4KIERhdGU6IFdlZCwgMTkgU2VwIDIwMTggMTQ6NDQ6NDAg
+KzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gQWxsb3cgdGhlIGVudmlyb25tZW50IHRvIG92ZXJyaWRl
+IHdoZXJlIGdudXBnIGxvb2tzIGZvciBpdHMKQEAgLTE0LDEwICsxNCwxMCBAQCBTaWduZWQtb2Zm
+LWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleEBsaW51dHJvbml4LmRlPgogIDEgZmlsZSBjaGFu
+Z2VkLCA3IGluc2VydGlvbnMoKyksIDcgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9jb21t
+b24vaG9tZWRpci5jIGIvY29tbW9uL2hvbWVkaXIuYwotaW5kZXggNjdiYmRlOC4uN2YzNjBiYSAx
+MDA2NDQKK2luZGV4IDI4NjY4NWYuLjIxMmE5NDUgMTAwNjQ0CiAtLS0gYS9jb21tb24vaG9tZWRp
+ci5jCiArKysgYi9jb21tb24vaG9tZWRpci5jCi1AQCAtMTE3MSw3ICsxMTcxLDcgQEAgZ251cGdf
+c29ja2V0ZGlyICh2b2lkKQorQEAgLTEyMTMsNyArMTIxMyw3IEBAIGdudXBnX3NvY2tldGRpciAo
+dm9pZCkKICAgIGlmICghbmFtZSkKICAgICAgewogICAgICAgIHVuc2lnbmVkIGludCBkdW1teTsK
+QEAgLTI2LDcgKzI2LDcgQEAgaW5kZXggNjdiYmRlOC4uN2YzNjBiYSAxMDA2NDQKICAgICAgICBn
+cGdydF9hbm5vdGF0ZV9sZWFrZWRfb2JqZWN0IChuYW1lKTsKICAgICAgfQogIAotQEAgLTEyMDMs
+NyArMTIwMyw3IEBAIGdudXBnX3N5c2NvbmZkaXIgKHZvaWQpCitAQCAtMTI0NSw3ICsxMjQ1LDcg
+QEAgZ251cGdfc3lzY29uZmRpciAodm9pZCkKICAgIGlmIChkaXIpCiAgICAgIHJldHVybiBkaXI7
+CiAgICBlbHNlCkBAIC0zNSw3ICszNSw3IEBAIGluZGV4IDY3YmJkZTguLjdmMzYwYmEgMTAwNjQ0
+CiAgI2VuZGlmIC8qIUhBVkVfVzMyX1NZU1RFTSovCiAgfQogIAotQEAgLTEyMzksNyArMTIzOSw3
+IEBAIGdudXBnX2JpbmRpciAodm9pZCkKK0BAIC0xMjgxLDcgKzEyODEsNyBAQCBnbnVwZ19iaW5k
+aXIgKHZvaWQpCiAgICAgICAgcmV0dXJuIG5hbWU7CiAgICAgIH0KICAgIGVsc2UKQEAgLTQ0LDcg
+KzQ0LDcgQEAgaW5kZXggNjdiYmRlOC4uN2YzNjBiYSAxMDA2NDQKICAjZW5kaWYgLyohSEFWRV9X
+MzJfU1lTVEVNKi8KICB9CiAgCi1AQCAtMTI2Niw3ICsxMjY2LDcgQEAgZ251cGdfbGliZXhlY2Rp
+ciAodm9pZCkKK0BAIC0xMzA4LDcgKzEzMDgsNyBAQCBnbnVwZ19saWJleGVjZGlyICh2b2lkKQog
+ICAgICAgIHJldHVybiBuYW1lOwogICAgICB9CiAgICBlbHNlCkBAIC01Myw3ICs1Myw3IEBAIGlu
+ZGV4IDY3YmJkZTguLjdmMzYwYmEgMTAwNjQ0CiAgI2VuZGlmIC8qIUhBVkVfVzMyX1NZU1RFTSov
+CiAgfQogIAotQEAgLTEyOTYsNyArMTI5Niw3IEBAIGdudXBnX2xpYmRpciAodm9pZCkKK0BAIC0x
+MzM4LDcgKzEzMzgsNyBAQCBnbnVwZ19saWJkaXIgKHZvaWQpCiAgICAgICAgcmV0dXJuIG5hbWU7
+CiAgICAgIH0KICAgIGVsc2UKQEAgLTYyLDcgKzYyLDcgQEAgaW5kZXggNjdiYmRlOC4uN2YzNjBi
+YSAxMDA2NDQKICAjZW5kaWYgLyohSEFWRV9XMzJfU1lTVEVNKi8KICB9CiAgCi1AQCAtMTMyNyw3
+ICsxMzI3LDcgQEAgZ251cGdfZGF0YWRpciAodm9pZCkKK0BAIC0xMzY5LDcgKzEzNjksNyBAQCBn
+bnVwZ19kYXRhZGlyICh2b2lkKQogICAgICAgIHJldHVybiBuYW1lOwogICAgICB9CiAgICBlbHNl
+CkBAIC03MSw3ICs3MSw3IEBAIGluZGV4IDY3YmJkZTguLjdmMzYwYmEgMTAwNjQ0CiAgI2VuZGlm
+IC8qIUhBVkVfVzMyX1NZU1RFTSovCiAgfQogIAotQEAgLTEzNTksNyArMTM1OSw3IEBAIGdudXBn
+X2xvY2FsZWRpciAodm9pZCkKK0BAIC0xNDAxLDcgKzE0MDEsNyBAQCBnbnVwZ19sb2NhbGVkaXIg
+KHZvaWQpCiAgICAgICAgcmV0dXJuIG5hbWU7CiAgICAgIH0KICAgIGVsc2UKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnXzIuNC4wLmJiIGIvbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvZ251cGcvZ251cGdfMi40LjEuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1l
+IGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGdfMi40LjAuYmIKcmVuYW1lIHRv
+IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnXzIuNC4xLmJiCmluZGV4IDkwMGFhOGFk
+NzMuLjY2MTY1ZWQ2OTEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2du
+dXBnXzIuNC4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnXzIuNC4x
+LmJiCkBAIC0yMyw3ICsyMyw3IEBAIFNSQ19VUkk6YXBwZW5kOmNsYXNzLW5hdGl2ZSA9ICIgZmls
+ZTovLzAwMDEtY29uZmlndXJlLmFjLXVzZS1hLWN1c3RvbS12YWx1ZS1mb3ItCiAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9yZWxvY2F0ZS5wYXRjaCIKIFNSQ19VUkk6YXBw
+ZW5kOmNsYXNzLW5hdGl2ZXNkayA9ICIgZmlsZTovL3JlbG9jYXRlLnBhdGNoIgogCi1TUkNfVVJJ
+W3NoYTI1NnN1bV0gPSAiMWQ3OTE1OGRkMDFkOTkyNDMxZGQyZTNmYWNiODlmZGFjOTcxMjdmODk3
+ODRlYTJjYjYxMGM2MDBmYjBjMTQ4MyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI3NmI3MWU1YWVi
+NDQzYmZkOTEwY2U5Y2JjODI4MWI2MTdjODM0MTY4N2FmYjY3YmFlNDU1ODc3OTcyYjU5ZGU4Igog
+CiBFWFRSQV9PRUNPTkYgPSAiLS1kaXNhYmxlLWxkYXAgXAogCQktLWRpc2FibGUtY2NpZC1kcml2
+ZXIgXAotLSAKMi4zOS4yCgo=
+
+--===============1035368046320399083==--
 
