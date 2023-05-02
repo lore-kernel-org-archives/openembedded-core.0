@@ -1,136 +1,151 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F855C77B7E
-	for <webhook@archiver.kernel.org>; Tue,  2 May 2023 12:31:00 +0000 (UTC)
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
- by mx.groups.io with SMTP id smtpd.web11.127030.1683030656647511060
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BC43C77B7E
+	for <webhook@archiver.kernel.org>; Tue,  2 May 2023 12:38:40 +0000 (UTC)
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web11.127178.1683031110084065622
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 May 2023 05:30:56 -0700
+ Tue, 02 May 2023 05:38:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=j/qobRUT;
- spf=pass (domain: baylibre.com, ip: 209.85.160.174, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-3f1f1a7ecb7so33116181cf.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 05:30:56 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=B9QmSCNM;
+ spf=pass (domain: mvista.com, ip: 209.85.210.178, mailfrom: hprajapati@mvista.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-63b51fd2972so2654348b3a.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 05:38:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1683030655; x=1685622655;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4NOKkS4016Cd8cQBOP+q5g/a7fU75onSoL2lH/Hzzlc=;
-        b=j/qobRUT9QB9j8Ch8dQkHV5F1QeM2fYLQP1logMZZ+GeCJKD1oW1VJ+frrn6JLAu6m
-         4g2SdxOBsd2L97b1/gckatxiuGJd4KkzRiDeegYq2nlv7Dqrmu8CN9hvPdmZ1dLbpV0C
-         XPHcLk2vC9CkrCdp+NhloI43FubB1S6kxTOxPqTiyn8YBOr5wgSmN0+/dyrXjMiM/CsE
-         x9R7dS1xr7Dnfikl0M605rp+dDedf6LWzBjiJrFoYC1vHD7/fL6FedQNiznas16CkP7B
-         ExYZCweNWrxXo98WCpyjhgoDHGOFXHF63W7MBWDzxdtncVFLjQveLg7cREFc6+A92a5h
-         TOog==
+        d=mvista.com; s=google; t=1683031109; x=1685623109;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=N81+KTI6NW2GbG3g4bzjjsq8okVp2URED6Y2SMxu1AE=;
+        b=B9QmSCNMl6nCM7cnvMMwaG0B3HGyhKDLB+iNcCQsGLQ3Eka4S/SC0deuBAEvurbgGS
+         crm3dJ0W/Rk35p617u6wJKmdlaOCILi43yx/yi6SKTgtkOCgKWZpbBZmsekeJ692cLIF
+         ICZiadtvU7IXK51/Ql/h2tUxqI0gLkJPoogIc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683030655; x=1685622655;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4NOKkS4016Cd8cQBOP+q5g/a7fU75onSoL2lH/Hzzlc=;
-        b=F9RwYRhmVbUnbNhgzmE6tnmVCkbJ6iISBv7Yx7u9hERwpZjAStNAnruPReb7hlMQAU
-         tFxD/nfs52/K2S7eeEdZYlE8S3BgPElJ4YNjNIJD42Oc2ctloBa7TAoJL3VRyiDu8XK6
-         zTd+L56DHRl6FlPjbUKsuaBVbjL0XIDYVxicpbMMBsTTXADUPGCAVBq+kx0AZYK/J84u
-         WV7YHuHlOD0ZdZpTjqsn/FuqqEHh1zE5ucztxh4teNWqFYpzqfnRdickrgJm2bec+O0u
-         ++6yIGnRnDZ6AOe9i4KkH6TS1S7cZhJWBAXl3tx7af8oMVWw0fNXrsuvqOtxbAQPtIF1
-         rdfA==
-X-Gm-Message-State: AC+VfDwr+VpMYpLZvMQMaOKwiF1JII4+izJSVC4pTJ6aSp3VWiT05CNN
-	KlN08lReYEjquvas5DI74zFXd7WnLCX51EycEhs=
-X-Google-Smtp-Source: ACHHUZ5V/qT0DNpZM0bmUzkn0uD4dq1ehOdtjzJ/s651g6NpUgcpeLx8dUkqj4yhQRDJVQYc9y9yWg==
-X-Received: by 2002:ac8:5e4b:0:b0:3f0:abab:87ef with SMTP id i11-20020ac85e4b000000b003f0abab87efmr26727454qtx.10.1683030655577;
-        Tue, 02 May 2023 05:30:55 -0700 (PDT)
-Received: from megalith.ht.home (cpe64777de11593-cm64777de11590.cpe.net.cable.rogers.com. [174.115.224.47])
-        by smtp.gmail.com with ESMTPSA id h12-20020ac8548c000000b003e38c9a2a22sm10173876qtq.92.2023.05.02.05.30.55
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20221208; t=1683031109; x=1685623109;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=N81+KTI6NW2GbG3g4bzjjsq8okVp2URED6Y2SMxu1AE=;
+        b=fgKZKHByH5sfsztj5dD6PlcRsGCn9IF56JvnTgt1N9fxQWTgdZb24wdMLEUW6GlnTJ
+         C2yD4wCYrElib6RDx5+gHUJpnc+4jaC+RWMNWF9FSW0KHQmlOf6o7eJ8hQp/lVuCOldw
+         Ch9qsSnaA5UKQzzk67OHhmpRVephWPunnDsOLWPgf0v5TX2nwx/XUCG07k8+riTgG88L
+         FpSdRoT5zY6sorEiPqSBAGClwSs49Qnx9QJPc331R0gV+8zKsYI4K03/89vvcg1+bcxa
+         2wXvDNoMEZorPbKRgSv2GSVpYEPlUM1bOaOKUrYwKysyL2pwY2pQxVOv/Bnx1jE+hh+9
+         XFWA==
+X-Gm-Message-State: AC+VfDyzEuJu9JuQV9hOuauxxBUzXUYURLlK5X9kqoZG/78D4r8fciqK
+	o+6MkdlIW5nHnuW5ZKn8paCoa2TRpaTaHKHRu6U=
+X-Google-Smtp-Source: ACHHUZ7u8zEcJmXjW8dNATFH8YJUhGWe0AY134IrZnocr2hURiAOCZCeP3FE61VBG4Ig5Vrno/xINw==
+X-Received: by 2002:a05:6a00:2e91:b0:63c:6485:d5e5 with SMTP id fd17-20020a056a002e9100b0063c6485d5e5mr24987027pfb.22.1683031109327;
+        Tue, 02 May 2023 05:38:29 -0700 (PDT)
+Received: from MVIN00024 ([43.249.234.249])
+        by smtp.gmail.com with ESMTPSA id h17-20020a056a001a5100b005abc30d9445sm21625751pfv.180.2023.05.02.05.38.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 May 2023 05:30:55 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
+        Tue, 02 May 2023 05:38:28 -0700 (PDT)
+Received: by MVIN00024 (sSMTP sendmail emulation); Tue, 02 May 2023 18:08:22 +0530
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 2/3] python3-trove-classifiers: Add recipe
-Date: Tue,  2 May 2023 08:30:52 -0400
-Message-Id: <20230502123053.604642-2-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230502123053.604642-1-tgamblin@baylibre.com>
-References: <20230502123053.604642-1-tgamblin@baylibre.com>
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] connman: fix CVE-2023-28488 DoS in client.c
+Date: Tue,  2 May 2023 18:08:21 +0530
+Message-Id: <20230502123821.433098-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 12:31:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180725
+ <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 12:38:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180727
 
-python3-trove-classifiers is "Canonical source for classifiers on
-PyPI.". It is required to update python3-hatchling from the current
-version (1.13.0) in oe-core, and depends on python3-calver (another new
-recipe). Also add ptests.
+Upstream-Status: Backport from https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=99e2c16ea1cced34a5dc450d76287a1c3e762138
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- .../distro/include/ptest-packagelists.inc     |  1 +
- .../python3-trove-classifiers/run-ptest       |  3 +++
- .../python3-trove-classifiers_2023.4.29.bb    | 26 +++++++++++++++++++
- 3 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-trove-classifiers/run-ptest
- create mode 100644 meta/recipes-devtools/python/python3-trove-classifiers_2023.4.29.bb
+ .../connman/connman/CVE-2023-28488.patch      | 60 +++++++++++++++++++
+ .../connman/connman_1.41.bb                   |  1 +
+ 2 files changed, 61 insertions(+)
+ create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2023-28488.patch
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 78750a0d98..cbbf84f2d4 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -64,6 +64,7 @@ PTESTS_FAST = "\
-     python3-pluggy \
-     python3-pyasn1 \
-     python3-pytz \
-+    python3-trove-classifiers \
-     python3-wcwidth \
-     python3-webcolors \
-     qemu \
-diff --git a/meta/recipes-devtools/python/python3-trove-classifiers/run-ptest b/meta/recipes-devtools/python/python3-trove-classifiers/run-ptest
+diff --git a/meta/recipes-connectivity/connman/connman/CVE-2023-28488.patch b/meta/recipes-connectivity/connman/connman/CVE-2023-28488.patch
 new file mode 100644
-index 0000000000..8d2017d39c
+index 0000000000..a6cabdfb20
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-trove-classifiers/run-ptest
-@@ -0,0 +1,3 @@
-+#!/bin/sh
++++ b/meta/recipes-connectivity/connman/connman/CVE-2023-28488.patch
+@@ -0,0 +1,60 @@
++From 99e2c16ea1cced34a5dc450d76287a1c3e762138 Mon Sep 17 00:00:00 2001
++From: Daniel Wagner <wagi@monom.org>
++Date: Tue, 11 Apr 2023 08:12:56 +0200
++Subject: gdhcp: Verify and sanitize packet length first
 +
-+pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-trove-classifiers_2023.4.29.bb b/meta/recipes-devtools/python/python3-trove-classifiers_2023.4.29.bb
-new file mode 100644
-index 0000000000..4bbcea5489
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-trove-classifiers_2023.4.29.bb
-@@ -0,0 +1,26 @@
-+SUMMARY = "Canonical source for classifiers on PyPI (pypi.org)."
-+HOMEPAGE = "https://github.com/pypa/trove-classifiers"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
++Avoid overwriting the read packet length after the initial test. Thus
++move all the length checks which depends on the total length first
++and do not use the total lenght from the IP packet afterwards.
 +
-+SRC_URI[sha256sum] = "8adcc06f1eb7c495f0bdceb698bd9c044b3e57b0d5767d99ec4b6b17c9bbe957"
++Reported by Polina Smirnova <moe.hwr@gmail.com>
 +
-+inherit pypi python_setuptools_build_meta ptest
++CVE: CVE-2023-28488
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=99e2c16ea1cced34a5dc450d76287a1c3e762138]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ gdhcp/client.c | 16 +++++++++-------
++ 1 file changed, 9 insertions(+), 7 deletions(-)
 +
-+DEPENDS += " python3-calver-native"
++diff --git a/gdhcp/client.c b/gdhcp/client.c
++index 3016dfc..28fa606 100644
++--- a/gdhcp/client.c
+++++ b/gdhcp/client.c
++@@ -1319,9 +1319,9 @@ static bool sanity_check(struct ip_udp_dhcp_packet *packet, int bytes)
++ static int dhcp_recv_l2_packet(struct dhcp_packet *dhcp_pkt, int fd,
++ 				struct sockaddr_in *dst_addr)
++ {
++-	int bytes;
++ 	struct ip_udp_dhcp_packet packet;
++ 	uint16_t check;
+++	int bytes, tot_len;
++ 
++ 	memset(&packet, 0, sizeof(packet));
++ 
++@@ -1329,15 +1329,17 @@ static int dhcp_recv_l2_packet(struct dhcp_packet *dhcp_pkt, int fd,
++ 	if (bytes < 0)
++ 		return -1;
++ 
++-	if (bytes < (int) (sizeof(packet.ip) + sizeof(packet.udp)))
++-		return -1;
++-
++-	if (bytes < ntohs(packet.ip.tot_len))
+++	tot_len = ntohs(packet.ip.tot_len);
+++	if (bytes > tot_len) {
+++		/* ignore any extra garbage bytes */
+++		bytes = tot_len;
+++	} else if (bytes < tot_len) {
++ 		/* packet is bigger than sizeof(packet), we did partial read */
++ 		return -1;
+++	}
++ 
++-	/* ignore any extra garbage bytes */
++-	bytes = ntohs(packet.ip.tot_len);
+++	if (bytes < (int) (sizeof(packet.ip) + sizeof(packet.udp)))
+++		return -1;
++ 
++ 	if (!sanity_check(&packet, bytes))
++ 		return -1;
++-- 
++2.25.1
 +
-+SRC_URI += " \
-+        file://run-ptest \
-+"
-+
-+RDEPENDS:${PN}-ptest += " \
-+       ${PYTHON_PN}-pytest \
-+       ${PYTHON_PN}-unittest-automake-output \
-+"
-+
-+do_install_ptest() {
-+      install -d ${D}${PTEST_PATH}/tests
-+      cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
-+}
-+
-+BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-connectivity/connman/connman_1.41.bb b/meta/recipes-connectivity/connman/connman_1.41.bb
+index 79542b2175..27b28be41c 100644
+--- a/meta/recipes-connectivity/connman/connman_1.41.bb
++++ b/meta/recipes-connectivity/connman/connman_1.41.bb
+@@ -8,6 +8,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+            file://CVE-2022-32293_p1.patch \
+            file://CVE-2022-32293_p2.patch \
+            file://CVE-2022-32292.patch \
++           file://CVE-2023-28488.patch \
+            "
+ 
+ SRC_URI:append:libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch"
 -- 
-2.40.0
+2.25.1
 
 
