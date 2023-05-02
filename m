@@ -1,268 +1,290 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <sjolley.yp.pm@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46AC0C77B73
-	for <webhook@archiver.kernel.org>; Mon,  1 May 2023 22:08:06 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web11.108959.1682978879163975367
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01E84C77B7C
+	for <webhook@archiver.kernel.org>; Tue,  2 May 2023 00:44:17 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web11.112506.1682988255895499195
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 May 2023 15:07:59 -0700
+ Mon, 01 May 2023 17:44:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=GD1a6wJ/;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-3f196e8e2c6so29633525e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 May 2023 15:07:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=aR9iwN2q;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1aaec9ad820so19315055ad.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 May 2023 17:44:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1682978877; x=1685570877;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vVdHyqgnrNq8NrsZoFHTyRK+LjhYv9/Od99In+/SGAA=;
-        b=GD1a6wJ/lnd70KkTWYpzSNwXy1BByLxPsC+uMToXFsIsQYmPi8Mo1lJs/mYx9YB4At
-         nHtSvfvBf9W6MobsAsN4JbAa/yyri6ZaJnVqmHCVwXEizF2TjBzOixF5RPkKIW0N2A1n
-         GhhBTp5Pwu9JWvN+juOLu3FGbZzCTM/zJL344=
+        d=gmail.com; s=20221208; t=1682988255; x=1685580255;
+        h=thread-index:content-language:mime-version:message-id:date:subject
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rHYDw8+oV/1KUw9fgZhyK/Gy2KgNwZxdriogqN/koE4=;
+        b=aR9iwN2qoZfV1Uk5v4/ZrHPOufxbOt1D18LfcB2Q9TkBAYr/Y5ck6VYtO4KfggnTPA
+         K1wyTi+jgUdWGNyweXPlkSx+tOmTNj2HhinjgHym6G0jMfnSvtYG3ib8XHSCDHQwSAJs
+         nj0w4gN7is5VerPZCaCsHaQ3Ce+ZnF+YJ58ZzaygPD01QWB0ET2KAS0IXhs3Pc7EUSFC
+         BEujgo6ltUf7UL/jXdFcPxFyxI66Tfeb6etWzjitj8ciXEARy7f9R0JHGQy+sgRPQB3R
+         BVsRwAE1wTZCuYZ5RdI0DpNKUI7ap5pPwavShDN2/eEQBC+PDxYYnodmWJEJZJgZGxs4
+         o2aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682978877; x=1685570877;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vVdHyqgnrNq8NrsZoFHTyRK+LjhYv9/Od99In+/SGAA=;
-        b=bGohypgQLVRGesS57CKbbNJKv4DZM3SmpsWW0Ab0hwoYj3+N1ekI9Q8uMqxz1KWYru
-         3LeN3/UoSaXj3j+Qm2t0hyUbljeixU4bKjFzRZFmNyA0NA+tZwpiq5A/nb+ydB8s608/
-         zWwg5rW+MrQAfHRLoT64wMl3837FBk/J+x9LQ9VZVuPHYQPXLLxPFD3H+bDvqPewbV7Z
-         wokoBg8C683e66HBGiW+u7VHpJgqDJqrcNl682TDWMQdOlHLZJVp9PMEy0c+qcIPeQn7
-         tZn1b9E5e9EkzuNte2kDf2O3RKgEz55PgQSo2c53a1DhOJyTtLNvKAgUBoeH5t+Oba7V
-         drLA==
-X-Gm-Message-State: AC+VfDyTgpoqoU5feQKK9S2Red5LOV6YI7MCyjx+TjSq81o9VauoG/hy
-	9x3Lj0tv0+iE5QbqWsDjnhBmsTPylko7zaYaQAU=
-X-Google-Smtp-Source: ACHHUZ7b6my+O9EVNhPCGqoVgYOgG69zhPDJxJQ6Fvx9HooSRu/p5NErrVoCHr8CDGCy5uqJw4dF1Q==
-X-Received: by 2002:a7b:c414:0:b0:3f0:3a57:f01e with SMTP id k20-20020a7bc414000000b003f03a57f01emr10167882wmi.4.1682978877189;
-        Mon, 01 May 2023 15:07:57 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:9417:e142:e786:9868])
-        by smtp.gmail.com with ESMTPSA id 16-20020a05600c021000b003f339b2d06fsm5077648wmi.4.2023.05.01.15.07.56
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 May 2023 15:07:56 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] gcc/go: Drop crosssdk suffix from virtual provides to improve dependency handling
-Date: Mon,  1 May 2023 23:07:55 +0100
-Message-Id: <20230501220755.2781191-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230501220755.2781191-1-richard.purdie@linuxfoundation.org>
-References: <20230501220755.2781191-1-richard.purdie@linuxfoundation.org>
+        d=1e100.net; s=20221208; t=1682988255; x=1685580255;
+        h=thread-index:content-language:mime-version:message-id:date:subject
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rHYDw8+oV/1KUw9fgZhyK/Gy2KgNwZxdriogqN/koE4=;
+        b=VqZx/cEmOQN9/IE2dulU1BxDMtnhK42z+sAobk1BKcHr7Ia0Sr0ensM2F6vJX04MJo
+         8RXMKAlWn7JuKMDX0xtmKyKVjlWNOa85A91ok4hnLPWNFKq6hnbB9QXoK1DEgVMMh+5x
+         l6tM7EKWjRutqaesIcYVTtfEnQAn7X53cobgBXJiFnphYj3ELlfjqp9ED35TnMHIyXq0
+         QR4PGVVVeH4BqpKFkfgjYnT8Ib1b0d4ig3dxcTTKj7eR4R1dgsAgOgJjM6QzbwRAdZjy
+         IMm8Ft8d569ZK7pDkeDs4WMLsDh2YmzhUCyZGVBRwC+KDFzqSmrIQ6R69P+LsyQiKX+Q
+         cNHw==
+X-Gm-Message-State: AC+VfDxUtJn37SvxOA60GW9XEqgiVsccT9T0YBkklWKSawWxz5iye0Dk
+	CYtsFys/FHa7GUmGqPlMTSE0zeZCOQs=
+X-Google-Smtp-Source: ACHHUZ44NFdf4iwDGqx8a6LLyOW0scuGRl5fCe0zzRhDjvuqBMwYap5SjJ6zVDVk/MFN3gGyyZ+9zg==
+X-Received: by 2002:a17:902:c782:b0:1aa:f78d:93d7 with SMTP id w2-20020a170902c78200b001aaf78d93d7mr4040509pla.9.1682988254836;
+        Mon, 01 May 2023 17:44:14 -0700 (PDT)
+Received: from skjolley ([2600:1011:a110:fb5:3813:85e0:f5e9:8cd9])
+        by smtp.gmail.com with ESMTPSA id y1-20020a170902700100b0019a7ef5e9a8sm18457004plk.82.2023.05.01.17.44.13
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 01 May 2023 17:44:14 -0700 (PDT)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@lists.yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+Date: Mon, 1 May 2023 17:44:13 -0700
+Message-ID: <238701d97c8f$37d035e0$a770a1a0$@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_2388_01D97C54.8B722130"
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-us
+Thread-Index: AQKpmHEVecwpdVW5uC3NIv+wGs+fxg==
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 May 2023 22:08:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180712
+ <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 00:44:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180713
 
-There is little point in having "crosssdk" suffex added to the virtual provider within
-gcc/go since the TARGET_PREFIX or SDK_PREFIX already encapsulates this. Remove it
-allowing some of the special case overriding to be removed.
+This is a multipart message in MIME format.
 
-This also allows removal of some of the MLPREFIX usage since again, the triplet
-also covers this.
+------=_NextPart_000_2388_01D97C54.8B722130
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes-recipe/go.bbclass                             | 2 +-
- meta/lib/oe/classextend.py                                 | 7 +++----
- meta/recipes-devtools/binutils/binutils-cross-canadian.inc | 2 +-
- .../binutils/binutils-cross-testsuite_2.40.bb              | 2 +-
- meta/recipes-devtools/gcc/gcc-common.inc                   | 3 +--
- meta/recipes-devtools/gcc/gcc-cross-canadian.inc           | 2 +-
- meta/recipes-devtools/gcc/gcc-crosssdk.inc                 | 2 +-
- meta/recipes-devtools/gdb/gdb-cross-canadian.inc           | 2 +-
- meta/recipes-devtools/go/go-cross-canadian.inc             | 4 ++--
- meta/recipes-devtools/go/go-crosssdk.inc                   | 4 ++--
- meta/recipes-devtools/go/go-runtime.inc                    | 2 +-
- meta/recipes-devtools/go/go-target.inc                     | 2 +-
- meta/recipes-devtools/rust/rust-cross-canadian.inc         | 2 +-
- 13 files changed, 17 insertions(+), 19 deletions(-)
+All,
 
-diff --git a/meta/classes-recipe/go.bbclass b/meta/classes-recipe/go.bbclass
-index 6b9748406d8..b02a83a5610 100644
---- a/meta/classes-recipe/go.bbclass
-+++ b/meta/classes-recipe/go.bbclass
-@@ -37,7 +37,7 @@ GOMIPS:mips:class-target[export] = "1"
  
- DEPENDS_GOLANG:class-target = "virtual/${TUNE_PKGARCH}-go virtual/${TARGET_PREFIX}go-runtime"
- DEPENDS_GOLANG:class-native = "go-native"
--DEPENDS_GOLANG:class-nativesdk = "virtual/${TARGET_PREFIX}go-crosssdk virtual/${TARGET_PREFIX}go-runtime"
-+DEPENDS_GOLANG:class-nativesdk = "virtual/${TARGET_PREFIX}go virtual/${TARGET_PREFIX}go-runtime"
+
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
+
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
+review:
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
+how to create a bugzilla account at:
+<https://bugzilla.yoctoproject.org/createaccount.cgi>
+https://bugzilla.yoctoproject.org/createaccount.cgi
+
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
+
  
- DEPENDS:append = " ${DEPENDS_GOLANG}"
+
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 429
+unassigned or newcomer bugs.
+
  
-diff --git a/meta/lib/oe/classextend.py b/meta/lib/oe/classextend.py
-index 8d7e428d8a9..5161d33d2d2 100644
---- a/meta/lib/oe/classextend.py
-+++ b/meta/lib/oe/classextend.py
-@@ -32,7 +32,8 @@ class ClassExtender(object):
-         if name.endswith("-" + self.extname):
-             name = name.replace("-" + self.extname, "")
-         if name.startswith("virtual/"):
--            if "binutils" in name:
-+            # Assume large numbers of dashes means a triplet is present and we don't need to convert
-+            if name.count("-") >= 3 and name.endswith(("-go", "-binutils", "-gcc", "-g++")):
-                 return name
-             subs = name.split("/", 1)[1]
-             if not subs.startswith(self.extname):
-@@ -152,9 +153,7 @@ class NativesdkClassExtender(ClassExtender):
-     def map_depends(self, dep):
-         if dep.startswith(self.extname):
-             return dep
--        if dep.endswith(("-gcc", "-g++")):
--            return dep + "-crosssdk"
--        elif dep.endswith(("-native", "-native-runtime")) or ('nativesdk-' in dep) or ('-cross-' in dep) or ('-crosssdk-' in dep):
-+        if dep.endswith(("-native", "-native-runtime")) or ('nativesdk-' in dep) or ('-cross-' in dep) or ('-crosssdk-' in dep):
-             return dep
-         else:
-             return self.extend_name(dep)
-diff --git a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
-index 12e7d77d8d8..62ebb3f5bc4 100644
---- a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
-+++ b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
-@@ -4,7 +4,7 @@ SUMMARY = "GNU binary utilities (cross-canadian for ${TARGET_ARCH} target)"
- PN = "binutils-cross-canadian-${TRANSLATED_TARGET_ARCH}"
- BPN = "binutils"
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now,  "4.2", "4.3", "4.99" and "Future", the more pressing/urgent
+issues being in "4.2" and then "4.3".
+
  
--DEPENDS = "flex-native bison-native virtual/${HOST_PREFIX}gcc-crosssdk virtual/nativesdk-libc nativesdk-zlib nativesdk-gettext nativesdk-flex"
-+DEPENDS = "flex-native bison-native virtual/${HOST_PREFIX}gcc virtual/nativesdk-libc nativesdk-zlib nativesdk-gettext nativesdk-flex"
- EXTRA_OECONF += "--with-sysroot=${SDKPATH}/sysroots/${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS} \
-                 --enable-poison-system-directories \
-                 "
-diff --git a/meta/recipes-devtools/binutils/binutils-cross-testsuite_2.40.bb b/meta/recipes-devtools/binutils/binutils-cross-testsuite_2.40.bb
-index 4385343df67..14480785b4d 100644
---- a/meta/recipes-devtools/binutils/binutils-cross-testsuite_2.40.bb
-+++ b/meta/recipes-devtools/binutils/binutils-cross-testsuite_2.40.bb
-@@ -19,7 +19,7 @@ do_configure() {
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
+
  
- # target depends
- DEPENDS += "virtual/${TARGET_PREFIX}binutils"
--DEPENDS += "virtual/${MLPREFIX}${TARGET_PREFIX}gcc"
-+DEPENDS += "virtual/${TARGET_PREFIX}gcc"
- DEPENDS += "virtual/${MLPREFIX}${TARGET_PREFIX}compilerlibs"
- DEPENDS += "virtual/${MLPREFIX}libc"
+
+Thanks,
+
  
-diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
-index d3b36937bf4..5ac82b1b577 100644
---- a/meta/recipes-devtools/gcc/gcc-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-common.inc
-@@ -11,8 +11,7 @@ CVE_PRODUCT = "gcc"
- inherit autotools gettext texinfo
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
  
- BPN = "gcc"
--COMPILERDEP = "virtual/${MLPREFIX}${TARGET_PREFIX}gcc:do_gcc_stash_builddir"
--COMPILERDEP:class-nativesdk = "virtual/${TARGET_PREFIX}gcc-crosssdk:do_gcc_stash_builddir"
-+COMPILERDEP = "virtual/${TARGET_PREFIX}gcc:do_gcc_stash_builddir"
- 
- python extract_stashed_builddir () {
-     src = d.expand("${COMPONENTS_DIR}/${BUILD_ARCH}/gcc-stashed-builddir-${TARGET_SYS}")
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-index ebeee9f3512..ec87b462193 100644
---- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-@@ -3,7 +3,7 @@ inherit cross-canadian
- SUMMARY = "GNU cc and gcc C compilers (cross-canadian for ${TARGET_ARCH} target)"
- PN = "gcc-cross-canadian-${TRANSLATED_TARGET_ARCH}"
- 
--DEPENDS = "virtual/${TARGET_PREFIX}gcc virtual/${HOST_PREFIX}gcc-crosssdk virtual/${HOST_PREFIX}binutils virtual/nativesdk-libc nativesdk-gettext flex-native virtual/libc"
-+DEPENDS = "virtual/${TARGET_PREFIX}gcc virtual/${HOST_PREFIX}gcc virtual/${HOST_PREFIX}binutils virtual/nativesdk-libc nativesdk-gettext flex-native virtual/libc"
- 
- GCCMULTILIB = "--enable-multilib"
- 
-diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk.inc b/meta/recipes-devtools/gcc/gcc-crosssdk.inc
-index 4e99c220a45..bd65b1fed20 100644
---- a/meta/recipes-devtools/gcc/gcc-crosssdk.inc
-+++ b/meta/recipes-devtools/gcc/gcc-crosssdk.inc
-@@ -9,4 +9,4 @@ SYSTEMLIBS1 = "${SDKPATHNATIVE}${libdir_nativesdk}/"
- GCCMULTILIB = "--disable-multilib"
- 
- DEPENDS = "virtual/${TARGET_PREFIX}binutils gettext-native ${NATIVEDEPS}"
--PROVIDES = "virtual/${TARGET_PREFIX}gcc-crosssdk virtual/${TARGET_PREFIX}g++-crosssdk"
-+PROVIDES = "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}g++"
-diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-index 6bdfeae5a6f..81dc572be0d 100644
---- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-+++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-@@ -7,7 +7,7 @@ PN = "gdb-cross-canadian-${TRANSLATED_TARGET_ARCH}"
- BPN = "gdb"
- 
- DEPENDS = "nativesdk-ncurses nativesdk-expat nativesdk-gettext nativesdk-gmp \
--           virtual/${HOST_PREFIX}gcc-crosssdk virtual/${HOST_PREFIX}binutils virtual/nativesdk-libc"
-+           virtual/${HOST_PREFIX}gcc virtual/${HOST_PREFIX}binutils virtual/nativesdk-libc"
- 
- GDBPROPREFIX = "--program-prefix='${TARGET_PREFIX}'"
- 
-diff --git a/meta/recipes-devtools/go/go-cross-canadian.inc b/meta/recipes-devtools/go/go-cross-canadian.inc
-index 5a80ceffa38..45758f33615 100644
---- a/meta/recipes-devtools/go/go-cross-canadian.inc
-+++ b/meta/recipes-devtools/go/go-cross-canadian.inc
-@@ -1,7 +1,7 @@
- inherit cross-canadian
- 
--DEPENDS = "go-native virtual/${HOST_PREFIX}go-crosssdk virtual/nativesdk-${HOST_PREFIX}go-runtime \
--           virtual/${HOST_PREFIX}gcc-crosssdk virtual/nativesdk-libc \
-+DEPENDS = "go-native virtual/${HOST_PREFIX}go virtual/nativesdk-${HOST_PREFIX}go-runtime \
-+           virtual/${HOST_PREFIX}gcc virtual/nativesdk-libc \
-            virtual/nativesdk-${HOST_PREFIX}compilerlibs"
- PN = "go-cross-canadian-${TRANSLATED_TARGET_ARCH}"
- 
-diff --git a/meta/recipes-devtools/go/go-crosssdk.inc b/meta/recipes-devtools/go/go-crosssdk.inc
-index 7413acb7b39..12939005c06 100644
---- a/meta/recipes-devtools/go/go-crosssdk.inc
-+++ b/meta/recipes-devtools/go/go-crosssdk.inc
-@@ -1,8 +1,8 @@
- inherit crosssdk
- 
--DEPENDS = "go-native virtual/${TARGET_PREFIX}gcc-crosssdk virtual/nativesdk-${TARGET_PREFIX}compilerlibs virtual/${TARGET_PREFIX}binutils"
-+DEPENDS = "go-native virtual/${TARGET_PREFIX}gcc virtual/nativesdk-${TARGET_PREFIX}compilerlibs virtual/${TARGET_PREFIX}binutils"
- PN = "go-crosssdk-${SDK_SYS}"
--PROVIDES = "virtual/${TARGET_PREFIX}go-crosssdk"
-+PROVIDES = "virtual/${TARGET_PREFIX}go"
- 
- export GOCACHE = "${B}/.cache"
- 
-diff --git a/meta/recipes-devtools/go/go-runtime.inc b/meta/recipes-devtools/go/go-runtime.inc
-index 02601f79925..3f1e795dd9e 100644
---- a/meta/recipes-devtools/go/go-runtime.inc
-+++ b/meta/recipes-devtools/go/go-runtime.inc
-@@ -1,5 +1,5 @@
- DEPENDS = "virtual/${TUNE_PKGARCH}-go go-native"
--DEPENDS:class-nativesdk = "virtual/${TARGET_PREFIX}go-crosssdk"
-+DEPENDS:class-nativesdk = "virtual/${TARGET_PREFIX}go"
- PROVIDES = "virtual/${TARGET_PREFIX}go-runtime"
- 
- DEBUG_PREFIX_MAP = "\
-diff --git a/meta/recipes-devtools/go/go-target.inc b/meta/recipes-devtools/go/go-target.inc
-index ed09cfe8061..a4b55ad3d89 100644
---- a/meta/recipes-devtools/go/go-target.inc
-+++ b/meta/recipes-devtools/go/go-target.inc
-@@ -1,5 +1,5 @@
- DEPENDS = "virtual/${TUNE_PKGARCH}-go go-native"
--DEPENDS:class-nativesdk = "virtual/${TARGET_PREFIX}go-crosssdk go-native"
-+DEPENDS:class-nativesdk = "virtual/${TARGET_PREFIX}go go-native"
- 
- DEBUG_PREFIX_MAP = "\
-                      -fdebug-prefix-map=${STAGING_DIR_HOST}= \
-diff --git a/meta/recipes-devtools/rust/rust-cross-canadian.inc b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-index 8d0dc6a4e26..d569ac59f52 100644
---- a/meta/recipes-devtools/rust/rust-cross-canadian.inc
-+++ b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-@@ -8,7 +8,7 @@ LICENSE = "MIT"
- 
- MODIFYTOS = "0"
- 
--DEPENDS += "virtual/${SDK_PREFIX}gcc-crosssdk virtual/nativesdk-libc virtual/nativesdk-${SDK_PREFIX}compilerlibs"
-+DEPENDS += "virtual/${SDK_PREFIX}gcc virtual/nativesdk-libc virtual/nativesdk-${SDK_PREFIX}compilerlibs"
- 
- SRC_URI += "file://target-rust-ccld.c"
- LIC_FILES_CHKSUM = "file://target-rust-ccld.c;md5=af4e0e29f81a34cffe05aa07c89e93e9;endline=7"
--- 
-2.39.2
+
+
+------=_NextPart_000_2388_01D97C54.8B722130
+Content-Type: text/html;
+	boundary="----=_NextPart_000_1035_01D976A7.3AE5E060";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";
+	panose-1:0 0 0 0 0 0 0 0 0 0;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal =
+style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The triage team is starting to try and =
+collect up and classify bugs which a newcomer to the project would be =
+able to work on in a way which means people can find them. They're being =
+listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
+please review: <a =
+href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded</a> and how to create a bugzilla account at: <a =
+href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
+style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
+/span></a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 429 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &nbsp;&#8220;4.2&#8221;, =
+&#8220;4.3&#8221;, &quot;4.99&quot; and &quot;Future&quot;, the more =
+pressing/urgent issues being in &quot;4.2&quot; and then =
+&#8220;4.3&#8221;.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Please review this link and if a bug is =
+something you would be able to help with either take ownership of the =
+bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+------=_NextPart_000_2388_01D97C54.8B722130--
 
 
