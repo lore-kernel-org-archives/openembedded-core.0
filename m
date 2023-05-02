@@ -1,71 +1,57 @@
-Return-Path: <festevam@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FACDC7EE25
-	for <webhook@archiver.kernel.org>; Tue,  2 May 2023 15:24:58 +0000 (UTC)
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.web10.1075.1683041094439891653
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3686BC77B73
+	for <webhook@archiver.kernel.org>; Tue,  2 May 2023 15:25:58 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.1128.1683041149168193904
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 May 2023 08:24:54 -0700
+ Tue, 02 May 2023 08:25:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=GtduFChX;
- spf=pass (domain: gmail.com, ip: 209.85.215.176, mailfrom: festevam@gmail.com)
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-51f405ab061so138887a12.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 08:24:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683041094; x=1685633094;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ClJPM2ekwQJH0wtNNreMHqMbMol99w9w5ZbTDgqVgwg=;
-        b=GtduFChXGUAVp/GS66CCQg9KkxjsQdFZag9hWB370pjZD85qPFvZQ4HjMEt47RHzRw
-         FCKGUfHRXWEr22QFiLMOXoMf7XHi/7Dw2zmUPXNvNXqQ2sueRyySsZYw8I2vNv9yKHrv
-         CqlRPvqjNY1sc6A2ttUvYVdyrPcvlAA/NluUyscY1ulnhTDrHz0K5N4kWvqCc3NpuLKl
-         5cqB98JILqYFo1MoyEVVA1+zQ1Ur+OzyYp3y665oLrt0M15QudkW9gS/QD47vfPNuaGk
-         D/it+8ZFUchuUEd25GnDKlinYK2pE6Ch56ciqBQ2r8GywEhTW10whdc6NcJWPjebS+qq
-         l3AQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683041094; x=1685633094;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ClJPM2ekwQJH0wtNNreMHqMbMol99w9w5ZbTDgqVgwg=;
-        b=FeLvEoRRk1rUvwVcXgmR7mX0AXt0CsMZr5drTzEj+p+ECmE4uVpOL56B1Sk5lilC8y
-         SxYxvRdCgZwyRMPoiWLu9Ya20+HVf1KoZLz9LD0B7srba9eCavpGaoUoZMxu38L7Vfls
-         V1oVleEDHlxCFLW+KaPy/xqEbc4EwC6Vyzai5pBCfNj0HrGd3/Bcv3eS19luCw9XtIAQ
-         D9SXv9mrp3cW/T0sYUZvWJcKxdR0JAwamM9Qka9tTKnDg2JTeQBii9ZPIjwxDtA3Y3T4
-         yZKhfSuyRetLjCZQEVr0udSiwTVXvswsdXAeUDJYlIa2CadWip1tXuYBYFZjega3FVZG
-         doOg==
-X-Gm-Message-State: AC+VfDwl8tOiUuGwm5JZZLcUZNSFZmORgs7TjD3AmE3HtfAJGZT9puZU
-	BVBujc14TAIwmXQ8v7AaQw1Zmq1DoTycXQ+jXyJWufnxwY4=
-X-Google-Smtp-Source: ACHHUZ5IdTnkz0M5ev4jbTeWhcXeww/H8cFykWGP5AZwWs9rA/LHhGWv7kD1JEDOXImPd1ahypobGaNrkdJs5DcWpXE=
-X-Received: by 2002:a17:90a:1a12:b0:247:9e56:d895 with SMTP id
- 18-20020a17090a1a1200b002479e56d895mr2562091pjk.1.1683041093750; Tue, 02 May
- 2023 08:24:53 -0700 (PDT)
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 70326C14;
+	Tue,  2 May 2023 08:26:32 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id BAC8D3F5A1;
+	Tue,  2 May 2023 08:25:47 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: nd@arm.com
+Subject: [PATCH v2] piglit: upgrade to latest revision
+Date: Tue,  2 May 2023 16:25:44 +0100
+Message-Id: <20230502152544.1962685-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230502151344.1836838-1-ross.burton@arm.com>
-In-Reply-To: <20230502151344.1836838-1-ross.burton@arm.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Tue, 2 May 2023 12:24:42 -0300
-Message-ID: <CAOMZO5AzW5VqQL+yABjq83Jm2N8yCUHAJSNAGN-rJfxWtDA2ng@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] piglit: upgrade to latest revision
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org, nd@arm.com
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 15:24:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180747
+ <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 15:25:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180748
 
-On Tue, May 2, 2023 at 12:13=E2=80=AFPM Ross Burton <ross.burton@arm.com> w=
-rote:
->
-> From: Upgrade Helper <auh@yoctoproject.org>
->
-> ---
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/recipes-graphics/piglit/piglit_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Missing Signed-off-by tag.
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-gr=
+aphics/piglit/piglit_git.bb
+index 78b47985bcb..1daeb35b588 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -13,7 +13,7 @@ SRC_URI =3D "git://gitlab.freedesktop.org/mesa/piglit.g=
+it;protocol=3Dhttps;branch=3Dma
+            "
+ UPSTREAM_CHECK_COMMITS =3D "1"
+=20
+-SRCREV =3D "0f4a875b05feb44426a2d43146f5e3c6ea5f8038"
++SRCREV =3D "c39bc6062a373c371d9c8076a66acbb26c661471"
+ # (when PV goes above 1.0 remove the trailing r)
+ PV =3D "1.0+gitr${SRCPV}"
+=20
+--=20
+2.34.1
+
 
