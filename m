@@ -1,86 +1,92 @@
-Return-Path: <peter@berginkonsult.se>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B819AC77B7E
-	for <webhook@archiver.kernel.org>; Tue,  2 May 2023 10:37:39 +0000 (UTC)
-Received: from mailrelay5-2.pub.mailoutpod2-cph3.one.com (mailrelay5-2.pub.mailoutpod2-cph3.one.com [46.30.211.186])
- by mx.groups.io with SMTP id smtpd.web11.124945.1683023849486171091
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FD4CC77B73
+	for <webhook@archiver.kernel.org>; Tue,  2 May 2023 12:31:00 +0000 (UTC)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+ by mx.groups.io with SMTP id smtpd.web10.127638.1683030656115923618
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 May 2023 03:37:30 -0700
+ Tue, 02 May 2023 05:30:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@berginkonsult.se header.s=rsa2 header.b=sM38prUj;
- spf=none, err=permanent DNS error (domain: berginkonsult.se, ip: 46.30.211.186, mailfrom: peter@berginkonsult.se)
+ dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=2vIhc6uz;
+ spf=pass (domain: baylibre.com, ip: 209.85.160.171, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-3ef38864360so40642421cf.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 05:30:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=berginkonsult.se; s=rsa2;
-	h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
-	 from;
-	bh=kZa0uRG5JNHeGLFucjwRCxDzZyC0A1aMfIkCnyYJ2f0=;
-	b=sM38prUjgPbMClewOnv83oNWvC/swXJaen+mpy5pXLLEoghB2cf7tr6ajCVQAU7IIqMsCVOgeXdRN
-	 LFkHifQIo9zVM86iHqxEjTYJmmsmzJf7mWskwMi54bf1+TRm2jt2yrJxmdupBiPQupxlFsySCMJXuC
-	 Yl7WErlyPDaGGA4AFKaxSZl7yA3SFifzDzrYtXEKDrBJfE8KF4IVtJeUet+CIf9F/RNjSYNigddqWL
-	 NUPrPIOoEEQOD99X/eWA1la2sVUGd/mj4OsOhI87dUQlFKciPqxcoy+5IdgKWJ3Mlyw32wkS5iVJTW
-	 WDT5MZqzZYGwdiX+WAqxDy/JsHT4YHA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-	d=berginkonsult.se; s=ed2;
-	h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
-	 from;
-	bh=kZa0uRG5JNHeGLFucjwRCxDzZyC0A1aMfIkCnyYJ2f0=;
-	b=hNPa3yjNovACH7gstDvgzpH7lDmvxXB+sCnlkfrP1zbtYhBvm7YJteyntORTrZ7MwyN5LZ59j2Yng
-	 oxo0b8jDw==
-X-HalOne-ID: 520c51f1-e8d5-11ed-b6cd-231b2edd0ed2
-Received: from arn-pbergin-l1.. (c-799071d5.44006-0-69747578.bbcust.telenor.se [213.113.144.121])
-	by mailrelay5 (Halon) with ESMTPSA
-	id 520c51f1-e8d5-11ed-b6cd-231b2edd0ed2;
-	Tue, 02 May 2023 10:37:26 +0000 (UTC)
-From: peter@berginkonsult.se
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1683030655; x=1685622655;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FJOpxCWdWuxj7Zmq84M8PeUCOCN/2e1OCgYcDrHcQy0=;
+        b=2vIhc6uzkgTWgUIt76qBpPobxplSSp3d+agAWPoxHWWR8ygYR81sdPWZRwugmmA13W
+         CVRFe8iUuddxHCGXt24bZFleEajbeAqLd+2pfbZ77bbmYpHmKBQdZHNsIPSFS1rr/lY7
+         U+ktkt8rOlsgU2Xg4R3N8Bcfu4nQXgc+Lz9gcRROztCpjngThyNiZErxsOd3bbV6BGl2
+         ntPwfLfR/U1KKndVADDppETN1HeP9M6qPDJeD/ASumsA8yf+aE/pJ+A60VnvppDNvxb7
+         d+mDTn3EI0Fbf4wuduuvJHBruwS7CoVuG9rtO7AEOzXraC0jitswO32L2thEXTffVvRv
+         u23w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683030655; x=1685622655;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FJOpxCWdWuxj7Zmq84M8PeUCOCN/2e1OCgYcDrHcQy0=;
+        b=FX2uV4OHucE5a5+dDnanKAModo2aoy2rYMcunDeFyk8ItiRuidJSDsOjGuaUzpvDX3
+         Mlk+ufMO3iN1dy7lM/B0mrM5PpQ7CALT460xeBZRAmka4THSgvBX12C4VSe/AfuK5BCu
+         EO+UA0YoEELJqO2M6kWEo7w7BrZzXratesr3xyvXOphcgyeU2vM2IbuTwaabLTejEymq
+         1LxEHSgSEO4d+FJEfmw4vCKPnBp7HQZTljsKBARGxh8Ps6Gxu7pNIPXSX2lhVLwPSdop
+         2kWR9kwjkAQC7Clfax5Ef479M4h6mOyDvCzyXd9PD2R2eG58uzTGPX4aZLtzyE+REa6P
+         Hjwg==
+X-Gm-Message-State: AC+VfDwdoqS2a0m6drQkjaLxaxT3ew1hPg9LYOw5NCg05pW5dpyiomgY
+	RHlcYRkXLp+cz/uwv3Dnr7eH2Bi6K5h7AVgbSyY=
+X-Google-Smtp-Source: ACHHUZ54oCaRgedo4Vn0MvVYpfyG/vNJ29FdLcVONXzehh4TC3C0nOFdRZgdWxza6sZQ1oX/Khydug==
+X-Received: by 2002:ac8:5b04:0:b0:3ef:5587:9414 with SMTP id m4-20020ac85b04000000b003ef55879414mr22555604qtw.2.1683030654935;
+        Tue, 02 May 2023 05:30:54 -0700 (PDT)
+Received: from megalith.ht.home (cpe64777de11593-cm64777de11590.cpe.net.cable.rogers.com. [174.115.224.47])
+        by smtp.gmail.com with ESMTPSA id h12-20020ac8548c000000b003e38c9a2a22sm10173876qtq.92.2023.05.02.05.30.54
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 May 2023 05:30:54 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Bergin <peter.bergin@windriver.com>,
-	Peter Bergin <peter@berginkonsult.se>
-Subject: [PATCH] update-alternatives.bbclass: fix old override syntax
-Date: Tue,  2 May 2023 12:37:20 +0200
-Message-Id: <20230502103720.2536952-1-peter@berginkonsult.se>
-X-Mailer: git-send-email 2.34.1
+Subject: [OE-core][PATCH 1/3] python3-calver: Add recipe
+Date: Tue,  2 May 2023 08:30:51 -0400
+Message-Id: <20230502123053.604642-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 10:37:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180723
+ <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 12:31:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180724
 
-From: Peter Bergin <peter.bergin@windriver.com>
+calver is "a setuptools extension for automatically defining your Python
+package version as a calendar version." It is required for
+python3-trove-classifiers (another new recipe), which in turn is
+required for the upgrade of python3-hatchling from 1.13.0 to work.
 
-Function 'gen_updatealternativesvardeps' still used old override
-syntax when fetching variable flags. Update to use ':' instead to match
-recipe meta data. This was found by review and no real issue encountered
-but it is a bug that affects variable dependencies and can affect rebuilds
-as task hashes might not be accurate.
-
-Signed-off-by: Peter Bergin <peter.bergin@windriver.com>
-Signed-off-by: Peter Bergin <peter@berginkonsult.se>
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- meta/classes-recipe/update-alternatives.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../python/python3-calver_2022.6.26.bb                 | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-calver_2022.6.26.bb
 
-diff --git a/meta/classes-recipe/update-alternatives.bbclass b/meta/classes-recipe/update-alternatives.bbclass
-index 36a7497fec..b153e1b297 100644
---- a/meta/classes-recipe/update-alternatives.bbclass
-+++ b/meta/classes-recipe/update-alternatives.bbclass
-@@ -86,10 +86,10 @@ def gen_updatealternativesvardeps(d):
- 
-     for p in pkgs:
-         for v in vars:
--            for flag in sorted((d.getVarFlags("%s_%s" % (v,p)) or {}).keys()):
-+            for flag in sorted((d.getVarFlags("%s:%s" % (v,p)) or {}).keys()):
-                 if flag == "doc" or flag == "vardeps" or flag == "vardepsexp":
-                     continue
--                d.appendVar('%s_VARDEPS_%s' % (v,p), ' %s:%s' % (flag, d.getVarFlag('%s_%s' % (v,p), flag, False)))
-+                d.appendVar('%s_VARDEPS_%s' % (v,p), ' %s:%s' % (flag, d.getVarFlag('%s:%s' % (v,p), flag, False)))
- 
- def ua_extend_depends(d):
-     if not 'virtual/update-alternatives' in d.getVar('PROVIDES'):
+diff --git a/meta/recipes-devtools/python/python3-calver_2022.6.26.bb b/meta/recipes-devtools/python/python3-calver_2022.6.26.bb
+new file mode 100644
+index 0000000000..b4a7472ae3
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-calver_2022.6.26.bb
+@@ -0,0 +1,10 @@
++SUMMARY = "Setuptools extension for CalVer package versions"
++HOMEPAGE = "https://github.com/di/calver"
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
++
++SRC_URI[sha256sum] = "e05493a3b17517ef1748fbe610da11f10485faa7c416b9d33fd4a52d74894f8b"
++
++inherit pypi python_setuptools_build_meta
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
-2.34.1
+2.40.0
 
 
