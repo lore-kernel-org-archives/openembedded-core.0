@@ -1,146 +1,175 @@
-Return-Path: <otavio@ossystems.com.br>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81BA6C77B7E
-	for <webhook@archiver.kernel.org>; Tue,  2 May 2023 15:42:18 +0000 (UTC)
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
- by mx.groups.io with SMTP id smtpd.web10.1638.1683042129551158474
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C97AAC77B73
+	for <webhook@archiver.kernel.org>; Tue,  2 May 2023 15:57:14 +0000 (UTC)
+Received: from mailout11.t-online.de (mailout11.t-online.de [194.25.134.85])
+ by mx.groups.io with SMTP id smtpd.web10.204.1683043027790399186
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 May 2023 08:42:09 -0700
+ Tue, 02 May 2023 08:57:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.167.179, mailfrom: otavio.salvador@gmail.com)
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-38e27409542so2862364b6e.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 08:42:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683042128; x=1685634128;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0rHKai/7Ga0/yuGdvoKrabABM6UZASZQuIYKVnc25WQ=;
-        b=aYSRDJ5CW8g8k82Ps0BKFztw85jscAjLkYzgQNAo9Y8GLGKS7/OR8kzZBn86O0b9+Z
-         +qR1HL8a9zfMNckAWiXcRPG+Lscp00/cbKaJyBAP5Byp/9Qy6UZImRj/Ka3TUNHJt0FP
-         s02+Z5bG5M3o67F3sMTN22TrDo7vPBzdsNIqQxbICsuNCpc+PDGe1/WvcSgPPCGawKai
-         TvZZpAP70S11SRzTm5oRu05jPkruofGZZDv0mxXirp5Rl+RMpBTo3f9G2oRg9QNk/P3m
-         WBbqrDBL6+LMrJQU9ky6SF145DW+RKlclK0g9OY7y8NmXIhiSTJWr+ZkVcCiiDNz2/hB
-         AFKQ==
-X-Gm-Message-State: AC+VfDz1wZP1caF5G+fJWMbMjD2ZSsAAKcT+uxkAlWDK03C6OVRa6SNi
-	o/O1FjNeddMQ5JKYBiPvqXVH/l23dyxZmA==
-X-Google-Smtp-Source: ACHHUZ5TOJKoCOQ2N6IjTXoftHLnays3T71m2p3Z//VTIslwBpIzL4p7Lav7/48U53lQuOL9qilmuQ==
-X-Received: by 2002:a54:408b:0:b0:38d:eaf6:d93a with SMTP id i11-20020a54408b000000b0038deaf6d93amr8845770oii.40.1683042128516;
-        Tue, 02 May 2023 08:42:08 -0700 (PDT)
-Received: from localhost (201-35-128-44.user3p.brasiltelecom.net.br. [201.35.128.44])
-        by smtp.gmail.com with ESMTPSA id i25-20020a056808031900b0038bf8c6151fsm12569369oie.6.2023.05.02.08.42.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 May 2023 08:42:07 -0700 (PDT)
-From: Otavio Salvador <otavio@ossystems.com.br>
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.85, mailfrom: f_l_k@t-online.de)
+Received: from fwd87.dcpf.telekom.de (fwd87.aul.t-online.de [10.223.144.113])
+	by mailout11.t-online.de (Postfix) with SMTP id 6A6571D80
+	for <openembedded-core@lists.openembedded.org>; Tue,  2 May 2023 17:57:05 +0200 (CEST)
+Received: from flk-MS-7C91.fritz.box ([84.163.42.41]) by fwd87.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1ptsNE-0kVBnF0; Tue, 2 May 2023 17:57:04 +0200
+From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] glide: remove as 'go mod' has become standard
-Date: Tue,  2 May 2023 12:42:02 -0300
-Message-Id: <20230502154202.1771869-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.40.0
+Cc: Markus Volk <f_l_k@t-online.de>
+Subject: [oe-core][PATCHv2] gtk4: update 4.10.0 -> 4.10.3
+Date: Tue,  2 May 2023 17:56:57 +0200
+Message-Id: <20230502155657.380617-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1683043024-EEFFAC53-74146C43/0/0 CLEAN NORMAL
+X-TOI-MSGID: db37f47c-792a-47aa-94e8-ecf2f39e2d10
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 15:42:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180749
+ <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 15:57:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180750
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Overview of Changes in 4.10.3, 22-04-2023
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+* Fix a popover positioning regression in 4.10.2
+
+* Fix issues with slow loading files in the file chooser
+
+Overview of Changes in 4.10.2, 21-04-2023
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+* Fixed issues:
+ - Holding control to select multiple files broken in filechooser (#5669)
+ - Inspector crash (#5681)
+ - Listbase doesn't account for bottom padding in size_allocate_child (#5=
+380)
+ - Leaking AT contexts (#5690)
+ - OpenGL / Windows: Crash when closing gtk4-widget-factory (#5685)
+ - GTK apps crash on startup when setting cursor-size to 0 on Wayland (#5=
+700)
+ - Segmentation fault: gdk_wayland_toplevel_set_startup_id() needs to nul=
+l-check
+   display->xdg_activation before using it (#5701)
+ - Possible use-after-free under gtk_scrolled_window_update_use_indicator=
+s() (#5684)
+ - Wrong error message in `gtk_init` (#5704)
+ - Segfault when scrolling after changing ListView model (#5763)
+ - Bluetooth panel from the Settings app: clicking in the "Downloads" lin=
+k
+   no longer opens Nautilus (#5671)
+ - Broadway docs or code is broken (#5662)
+ - Disabled GtkPicture's are not properly themed (#5683)
+ - Setting CSS padding to a GtkTextView gives the context menu an offset =
+(#5695)
+ - A11y: the Showing state is used only for windows (#5194)
+ - Gtk4 expander: CSS nodes mismatch code vs. documentation (#5723)
+ - Invoking gtk inspector on a folder results in a crash (#5729)
+ - Double tap requires very precise touch input (#5580)
+ - Name autocompletion dropdown in the GTK4 FileChooser's Save dialog get=
+s
+   stuck, creates artifacts, jumps around (#5743)
+ - Links are not opened when xdg-desktop-portal OpenURI is not available =
+(#5733)
+ - GtkSnapshot generates no nodes appending whitespace-only layouts (#574=
+7)
+
+* Translation updates
+ British English
+ Bulgarian
+ Chinese (China)
+ French
+ Indonesian
+ Korean
+ Russian
+ Serbian
+ Slovenian
+ Turkish
+
+Overview of Changes in 4.10.1, 14-03-2023
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+* GtkFileChooser
+ - Improve search performance
+ - Be safe against pathless files
+ - Fix memory leaks
+ - Only show local files in recent files
+ - Show most recent files first
+ - Make files non-selectable in selet_folder mode
+
+* GtkListView / GtkColumnView / GtkGridView
+ - Fix scrolling problems
+ - Support CSS border-spacing
+
+* GtkComboBox
+ - Fix a size allocation problem
+
+* gtk
+ - Size allocation fixes
+
+* Accessibility
+ - Miscellaneous property fixes and improvements
+
+* Wayland
+ - Fix an ordering problem in surface disposal
+
+* Windows
+ - Fix Visual Studio build with older GLib
+
+* Translation updates
+ Basque
+ Bulgarian
+ Catalan
+ Czech
+ Danish
+ Finnish
+ Friulian
+ Galician
+ Georgian
+ Hungarian
+ Lithuanian
+ Polish
+ Portuguese
+ Swedish
+ Turkish
+ Ukrainian
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
+ meta/recipes-gnome/gtk+/{gtk4_4.10.0.bb =3D> gtk4_4.10.3.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-gnome/gtk+/{gtk4_4.10.0.bb =3D> gtk4_4.10.3.bb} (98%=
+)
 
- meta/classes-recipe/glide.bbclass           | 15 -------
- meta/conf/distro/include/maintainers.inc    |  1 -
- meta/recipes-devtools/glide/glide_0.13.3.bb | 43 ---------------------
- 3 files changed, 59 deletions(-)
- delete mode 100644 meta/classes-recipe/glide.bbclass
- delete mode 100644 meta/recipes-devtools/glide/glide_0.13.3.bb
-
-diff --git a/meta/classes-recipe/glide.bbclass b/meta/classes-recipe/glide.bbclass
-deleted file mode 100644
-index 21b48fa4e0..0000000000
---- a/meta/classes-recipe/glide.bbclass
-+++ /dev/null
-@@ -1,15 +0,0 @@
--#
--# Copyright OpenEmbedded Contributors
--#
--# SPDX-License-Identifier: MIT
--#
--
--# Handle Glide Vendor Package Management use
--#
--# Copyright 2018 (C) O.S. Systems Software LTDA.
--
--DEPENDS:append = " glide-native"
--
--do_compile:prepend() {
--    ( cd ${B}/src/${GO_IMPORT} && glide install )
--}
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 682ec2cfdf..6902019f3a 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -211,7 +211,6 @@ RECIPE_MAINTAINER:pn-glibc-mtrace = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-glibc-scripts = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-glibc-tests = "Lukasz Majewski <lukma@denx.de>"
- RECIPE_MAINTAINER:pn-glibc-testsuite = "Khem Raj <raj.khem@gmail.com>"
--RECIPE_MAINTAINER:pn-glide = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
- RECIPE_MAINTAINER:pn-gmp = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-glslang = "Jose Quaresma <quaresma.jose@gmail.com>"
- RECIPE_MAINTAINER:pn-gnome-desktop-testing = "Ross Burton <ross.burton@arm.com>"
-diff --git a/meta/recipes-devtools/glide/glide_0.13.3.bb b/meta/recipes-devtools/glide/glide_0.13.3.bb
-deleted file mode 100644
-index db703c2d21..0000000000
---- a/meta/recipes-devtools/glide/glide_0.13.3.bb
-+++ /dev/null
-@@ -1,43 +0,0 @@
--SUMMARY = "Vendor Package Management for Golang"
--HOMEPAGE = "https://github.com/Masterminds/glide"
--DESCRIPTION = "Glide is a Vendor Package Management for Golang"
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://src/${GO_IMPORT}/LICENSE;md5=54905cf894f8cc416a92f4fc350c35b2"
--
--GO_IMPORT = "github.com/Masterminds/glide"
--SRC_URI = "git://${GO_IMPORT};branch=master;protocol=https"
--SRCREV = "8ed5b9292379d86c39592a7e6a58eb9c903877cf"
--
--inherit go
--
--# New Go versions has Go modules support enabled by default and cause the Glide
--# tool build to fail.
--export GO111MODULE = "off"
--
--RDEPENDS:${PN}-dev += "bash"
--RDEPENDS:${PN}-ptest += "bash"
--
--BBCLASSEXTEND = "native nativesdk"
--
--# for x86 ends with textrel in ${PN}
--# http://errors.yoctoproject.org/Errors/Details/185631/
--# ERROR: QA Issue: ELF binary '/work/i586-oe-linux/glide/0.13.1-r0/packages-split/glide/usr/bin/glide' has relocations in .text [textrel]
--INSANE_SKIP:${PN} += "textrel"
--
--# for aarch64 ends with textrel in ${PN}-ptest
--# http://errors.yoctoproject.org/Errors/Details/185633/
--# ERROR: QA Issue: ELF binary '/work/aarch64-oe-linux/glide/0.13.1-r0/packages-split/glide-ptest/usr/lib/glide/ptest/github.com/Masterminds/glide/glide.test' has relocations in .text
--# ELF binary '/work/aarch64-oe-linux/glide/0.13.1-r0/packages-split/glide-ptest/usr/lib/glide/ptest/github.com/Masterminds/glide/dependency/dependency.test' has relocations in .text
--# ELF binary '/work/aarch64-oe-linux/glide/0.13.1-r0/packages-split/glide-ptest/usr/lib/glide/ptest/github.com/Masterminds/glide/repo/repo.test' has relocations in .text
--# ELF binary '/work/aarch64-oe-linux/glide/0.13.1-r0/packages-split/glide-ptest/usr/lib/glide/ptest/github.com/Masterminds/glide/mirrors/mirrors.test' has relocations in .text
--# ELF binary '/work/aarch64-oe-linux/glide/0.13.1-r0/packages-split/glide-ptest/usr/lib/glide/ptest/github.com/Masterminds/glide/cfg/cfg.test' has relocations in .text
--# ELF binary '/work/aarch64-oe-linux/glide/0.13.1-r0/packages-split/glide-ptest/usr/lib/glide/ptest/github.com/Masterminds/glide/godep/strip/strip.test' has relocations in .text
--# ELF binary '/work/aarch64-oe-linux/glide/0.13.1-r0/packages-split/glide-ptest/usr/lib/glide/ptest/github.com/Masterminds/glide/path/path.test' has relocations in .text
--# ELF binary '/work/aarch64-oe-linux/glide/0.13.1-r0/packages-split/glide-ptest/usr/lib/glide/ptest/github.com/Masterminds/glide/tree/tree.test' has relocations in .text
--# ELF binary '/work/aarch64-oe-linux/glide/0.13.1-r0/packages-split/glide-ptest/usr/lib/glide/ptest/github.com/Masterminds/glide/util/util.test' has relocations in .text
--# ELF binary '/work/aarch64-oe-linux/glide/0.13.1-r0/packages-split/glide-ptest/usr/lib/glide/ptest/github.com/Masterminds/glide/action/action.test' has relocations in .text
--# ELF binary '/work/aarch64-oe-linux/glide/0.13.1-r0/packages-split/glide-ptest/usr/lib/glide/ptest/github.com/Masterminds/glide/cache/cache.test' has relocations in .text [textrel]
--INSANE_SKIP:${PN}-ptest += "textrel"
--
--# fails to run task compile_ptest_base on mips
--PTEST_ENABLED:mipsarch = "0"
--- 
-2.40.0
+diff --git a/meta/recipes-gnome/gtk+/gtk4_4.10.0.bb b/meta/recipes-gnome/=
+gtk+/gtk4_4.10.3.bb
+similarity index 98%
+rename from meta/recipes-gnome/gtk+/gtk4_4.10.0.bb
+rename to meta/recipes-gnome/gtk+/gtk4_4.10.3.bb
+index d58fe149ec..9aa33e6851 100644
+--- a/meta/recipes-gnome/gtk+/gtk4_4.10.0.bb
++++ b/meta/recipes-gnome/gtk+/gtk4_4.10.3.bb
+@@ -37,7 +37,7 @@ MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
+ UPSTREAM_CHECK_REGEX =3D "gtk-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar.=
+xz"
+=20
+ SRC_URI =3D "http://ftp.gnome.org/pub/gnome/sources/gtk/${MAJ_VER}/gtk-$=
+{PV}.tar.xz"
+-SRC_URI[sha256sum] =3D "8dc1e7c3b3a46772f0fa416a8ca3fd21d0d0b3b03fb307d2=
+e7327ebee69626e4"
++SRC_URI[sha256sum] =3D "4545441ad79e377eb6e0a705026dc7a46886e46a1b034db4=
+0912909da801cea9"
+=20
+ S =3D "${WORKDIR}/gtk-${PV}"
+=20
+--=20
+2.34.1
 
 
