@@ -2,46 +2,46 @@ Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB820C77B7E
-	for <webhook@archiver.kernel.org>; Tue,  2 May 2023 16:56:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3EFEC77B7E
+	for <webhook@archiver.kernel.org>; Tue,  2 May 2023 16:58:54 +0000 (UTC)
 Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by mx.groups.io with SMTP id smtpd.web11.1482.1683046583434077031
+ by mx.groups.io with SMTP id smtpd.web11.1563.1683046732988081488
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 May 2023 09:56:23 -0700
+ Tue, 02 May 2023 09:58:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17q1 header.b=YPGAu31A;
+ dkim=pass header.i=@ti.com header.s=ti-com-17q1 header.b=F66s+KW5;
  spf=pass (domain: ti.com, ip: 198.47.23.249, mailfrom: rs@ti.com)
 Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 342GuJo0110900;
-	Tue, 2 May 2023 11:56:19 -0500
+	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 342GwoDB111395;
+	Tue, 2 May 2023 11:58:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1683046579;
-	bh=IEFLcmj7RH5HnWTN4b15TQqTM4iDI5wqDn4P53+cHP4=;
+	s=ti-com-17Q1; t=1683046730;
+	bh=+/3Nt/WwJge+6jCouAKWe68ULBSLPd+d6uoClPT/Dq0=;
 	h=From:To:CC:Subject:Date;
-	b=YPGAu31AfWpMu7peecGAv3A634Ej0uQaSa1yC3QFrA3G0pZO1DcP69Y/v0khKJLl3
-	 rhU0RF4xCCrZ+hHvBZcm1q2LEfC0NFae9s1BYajVh+B13bseCS4kIVXCNrmwJqBzQt
-	 FP+ndCvrDqzxLZGI20YzgFmzrGULmQFs0C8FYjKo=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 342GuI5m038937
+	b=F66s+KW5xy7ffkU+KheVj/cY/LDmNGB8lxt+uh7vSoDyA6OJDmbMCrbl/xdEnh2hL
+	 bm68qXE9/9ts8XanikVO6HVvLTks4SgeJwfl8rjDIAKKD4yRQy2vEoIpKxtIzSBw+8
+	 c73A9RbACtPbNGhNrmtPd8+w3rNflGj8plpKDyPY=
+Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 342GwoVK039912
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 2 May 2023 11:56:18 -0500
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+	Tue, 2 May 2023 11:58:50 -0500
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 2
- May 2023 11:56:18 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ May 2023 11:58:50 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 2 May 2023 11:56:18 -0500
+ Frontend Transport; Tue, 2 May 2023 11:58:50 -0500
 Received: from rs-desk.dhcp.ti.com (ileaxei01-snat2.itg.ti.com [10.180.69.6])
-	by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 342GuI2p119681;
-	Tue, 2 May 2023 11:56:18 -0500
+	by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 342GwoqH005516;
+	Tue, 2 May 2023 11:58:50 -0500
 From: <rs@ti.com>
 To: <afd@ti.com>, <detheridge@ti.com>, <reatmon@ti.com>, <denis@denix.org>
 CC: <openembedded-core@lists.openembedded.org>, Randolph Sapp <rs@ti.com>
-Subject: [PATCH] kernel-devicetree: allow specification of dtb directory
-Date: Tue, 2 May 2023 11:56:12 -0500
-Message-ID: <20230502165612.1697705-1-rs@ti.com>
+Subject: [OE-core][kirkstone][PATCHv2] kernel-devicetree: allow specification of dtb directory
+Date: Tue, 2 May 2023 11:58:44 -0500
+Message-ID: <20230502165844.1697871-1-rs@ti.com>
 X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -50,8 +50,8 @@ X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 16:56:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180753
+ <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 16:58:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180754
 
 From: Randolph Sapp <rs@ti.com>
 
@@ -79,6 +79,9 @@ This is currently being submitted against kirkstone because we're slow.
 Expect a rebased version for master if this is acceptable. Should be
 safe for kirkstone as it doesn't change the current behavior. It just
 allows for extra configuration.
+
+Ugh. Sorry about that. Send-email dropped my prefixes in the first
+email. This version just fixes that.
 
  meta/classes/kernel-devicetree.bbclass | 22 +++++++++++++++++-----
  meta/classes/kernel.bbclass            |  2 ++
