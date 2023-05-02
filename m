@@ -1,129 +1,86 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <peter@berginkonsult.se>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90121C77B7E
-	for <webhook@archiver.kernel.org>; Tue,  2 May 2023 10:12:39 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.124607.1683022352560197880
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B819AC77B7E
+	for <webhook@archiver.kernel.org>; Tue,  2 May 2023 10:37:39 +0000 (UTC)
+Received: from mailrelay5-2.pub.mailoutpod2-cph3.one.com (mailrelay5-2.pub.mailoutpod2-cph3.one.com [46.30.211.186])
+ by mx.groups.io with SMTP id smtpd.web11.124945.1683023849486171091
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 May 2023 03:12:32 -0700
+ Tue, 02 May 2023 03:37:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=Zep/3uHd;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3f19b9d5358so35363245e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 03:12:32 -0700 (PDT)
+ dkim=pass header.i=@berginkonsult.se header.s=rsa2 header.b=sM38prUj;
+ spf=none, err=permanent DNS error (domain: berginkonsult.se, ip: 46.30.211.186, mailfrom: peter@berginkonsult.se)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1683022351; x=1685614351;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IyaFdNJm2WvzA7wB3kJD182SGPE1wrKKnEaHPuiP6h4=;
-        b=Zep/3uHdc3om2rUSrGrpZgI6QOgOlTJAQGYf+ILJ+MaWRf0JIdeYKXCocdaMoqTQut
-         9LK3rqrEzERkD1rtqbj2IHL7/nLyvOeGF6xxzPecTKhLqtmoB7bAHAjzVa3aMAv5W9g6
-         auuNuimNIPIkq0hW/UG8bnei7ON3+5+MR5MuI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683022351; x=1685614351;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IyaFdNJm2WvzA7wB3kJD182SGPE1wrKKnEaHPuiP6h4=;
-        b=c653vid0KWiqceKIxEhet4NtURWEGTnCr+I0RDY+UIRrS1IhufpZsBEtHYS5D18VJn
-         YCU0JCLfrjlr2sgFNW5LY3J8x/BYkXMkKC5yRe8iABaYwqH0LK0R8VezMeAcARf0HB5Y
-         LPWRqsod/m2Z9EFydl8yuUkTX++Jgruf4MvESqSqnN21YrxHJjXQFFsW3MvNjtol/ZGF
-         l6zMD8JzJ4Eim6WUdFz6KBsaoupxqBM8fikI4px7n132pPsOzVAuyOovB0qBGWFOzQ5n
-         Ce24dr2wZogKz/oWf+4RZsV0z8uhfysSpTh+t1ftgHGbNXP15SWGFI+MBzF6SeF0VZnx
-         eI1g==
-X-Gm-Message-State: AC+VfDyHouGKWHy24A0WokTAXtHzQWCSCDMlvlC5klEJksazuK0yH+ez
-	9TOK67eJh+hbVm4RyTV+Wdg6/SpRCYqk+P29JpU=
-X-Google-Smtp-Source: ACHHUZ5qVL4rfw35xUOIg3BBWZ9yEihi3EsCVBktN4DkjJPg+v3xwAhxF4eM/PP17Z7N3XJDluwWhA==
-X-Received: by 2002:a05:600c:d7:b0:3f2:51e7:f110 with SMTP id u23-20020a05600c00d700b003f251e7f110mr11599461wmm.32.1683022350398;
-        Tue, 02 May 2023 03:12:30 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:cffc:b608:40fd:850d])
-        by smtp.gmail.com with ESMTPSA id s9-20020a1cf209000000b003f321e61c1asm13639135wmc.21.2023.05.02.03.12.29
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 May 2023 03:12:30 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	d=berginkonsult.se; s=rsa2;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+	 from;
+	bh=kZa0uRG5JNHeGLFucjwRCxDzZyC0A1aMfIkCnyYJ2f0=;
+	b=sM38prUjgPbMClewOnv83oNWvC/swXJaen+mpy5pXLLEoghB2cf7tr6ajCVQAU7IIqMsCVOgeXdRN
+	 LFkHifQIo9zVM86iHqxEjTYJmmsmzJf7mWskwMi54bf1+TRm2jt2yrJxmdupBiPQupxlFsySCMJXuC
+	 Yl7WErlyPDaGGA4AFKaxSZl7yA3SFifzDzrYtXEKDrBJfE8KF4IVtJeUet+CIf9F/RNjSYNigddqWL
+	 NUPrPIOoEEQOD99X/eWA1la2sVUGd/mj4OsOhI87dUQlFKciPqxcoy+5IdgKWJ3Mlyw32wkS5iVJTW
+	 WDT5MZqzZYGwdiX+WAqxDy/JsHT4YHA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+	d=berginkonsult.se; s=ed2;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+	 from;
+	bh=kZa0uRG5JNHeGLFucjwRCxDzZyC0A1aMfIkCnyYJ2f0=;
+	b=hNPa3yjNovACH7gstDvgzpH7lDmvxXB+sCnlkfrP1zbtYhBvm7YJteyntORTrZ7MwyN5LZ59j2Yng
+	 oxo0b8jDw==
+X-HalOne-ID: 520c51f1-e8d5-11ed-b6cd-231b2edd0ed2
+Received: from arn-pbergin-l1.. (c-799071d5.44006-0-69747578.bbcust.telenor.se [213.113.144.121])
+	by mailrelay5 (Halon) with ESMTPSA
+	id 520c51f1-e8d5-11ed-b6cd-231b2edd0ed2;
+	Tue, 02 May 2023 10:37:26 +0000 (UTC)
+From: peter@berginkonsult.se
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] oeqa/runtime/ptest: Make returning no test results a failure
-Date: Tue,  2 May 2023 11:12:29 +0100
-Message-Id: <20230502101229.2851652-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
+Cc: Peter Bergin <peter.bergin@windriver.com>,
+	Peter Bergin <peter@berginkonsult.se>
+Subject: [PATCH] update-alternatives.bbclass: fix old override syntax
+Date: Tue,  2 May 2023 12:37:20 +0200
+Message-Id: <20230502103720.2536952-1-peter@berginkonsult.se>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 10:12:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180722
+ <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 10:37:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180723
 
-Ensure that even if a ptests results section is empty, the log parser adds that
-empty section. Then ensure that empty sections trigger warnings.
+From: Peter Bergin <peter.bergin@windriver.com>
 
-This means if a ptest suddently stops returning any results, we notice and see
-warnings about it. This has gone unnoticed on the autobuilder far too many times
-so is very much worth highlighting as a regression. We shouldn't have empty ptests.
+Function 'gen_updatealternativesvardeps' still used old override
+syntax when fetching variable flags. Update to use ':' instead to match
+recipe meta data. This was found by review and no real issue encountered
+but it is a bug that affects variable dependencies and can affect rebuilds
+as task hashes might not be accurate.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Peter Bergin <peter.bergin@windriver.com>
+Signed-off-by: Peter Bergin <peter@berginkonsult.se>
 ---
- meta/lib/oeqa/runtime/cases/ptest.py | 8 +++++++-
- meta/lib/oeqa/utils/logparser.py     | 4 ++--
- 2 files changed, 9 insertions(+), 3 deletions(-)
+ meta/classes-recipe/update-alternatives.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
-index 3ef90221887..23a71ea064c 100644
---- a/meta/lib/oeqa/runtime/cases/ptest.py
-+++ b/meta/lib/oeqa/runtime/cases/ptest.py
-@@ -83,12 +83,15 @@ class PtestRunnerTest(OERuntimeTestCase):
+diff --git a/meta/classes-recipe/update-alternatives.bbclass b/meta/classes-recipe/update-alternatives.bbclass
+index 36a7497fec..b153e1b297 100644
+--- a/meta/classes-recipe/update-alternatives.bbclass
++++ b/meta/classes-recipe/update-alternatives.bbclass
+@@ -86,10 +86,10 @@ def gen_updatealternativesvardeps(d):
  
-         extras['ptestresult.sections'] = sections
- 
-+        zerolength = []
-         trans = str.maketrans("()", "__")
-         for section in results:
-             for test in results[section]:
-                 result = results[section][test]
-                 testname = "ptestresult." + (section or "No-section") + "." + "_".join(test.translate(trans).split())
-                 extras[testname] = {'status': result}
-+            if not results[section]:
-+                zerolength.append(section)
- 
-         failed_tests = {}
- 
-@@ -107,7 +110,10 @@ class PtestRunnerTest(OERuntimeTestCase):
-             failmsg = "ERROR: Processes were killed by the OOM Killer:\n%s\n" % output
- 
-         if failed_tests:
--            failmsg = failmsg + "Failed ptests:\n%s" % pprint.pformat(failed_tests)
-+            failmsg = failmsg + "\nFailed ptests:\n%s\n" % pprint.pformat(failed_tests)
-+
-+        if zerolength:
-+            failmsg = failmsg + "\nptests which had no test results:\n%s" % pprint.pformat(zerolength)
- 
-         if failmsg:
-             self.logger.warning("There were failing ptests.")
-diff --git a/meta/lib/oeqa/utils/logparser.py b/meta/lib/oeqa/utils/logparser.py
-index 7cb79a8402a..60df754b36f 100644
---- a/meta/lib/oeqa/utils/logparser.py
-+++ b/meta/lib/oeqa/utils/logparser.py
-@@ -44,6 +44,8 @@ class PtestParser(object):
-                 result = section_regex['begin'].search(line)
-                 if result:
-                     current_section['name'] = result.group(1)
-+                    if current_section['name'] not in self.results:
-+                        self.results[current_section['name']] = {}
+     for p in pkgs:
+         for v in vars:
+-            for flag in sorted((d.getVarFlags("%s_%s" % (v,p)) or {}).keys()):
++            for flag in sorted((d.getVarFlags("%s:%s" % (v,p)) or {}).keys()):
+                 if flag == "doc" or flag == "vardeps" or flag == "vardepsexp":
                      continue
+-                d.appendVar('%s_VARDEPS_%s' % (v,p), ' %s:%s' % (flag, d.getVarFlag('%s_%s' % (v,p), flag, False)))
++                d.appendVar('%s_VARDEPS_%s' % (v,p), ' %s:%s' % (flag, d.getVarFlag('%s:%s' % (v,p), flag, False)))
  
-                 result = section_regex['end'].search(line)
-@@ -75,8 +77,6 @@ class PtestParser(object):
-                 for t in test_regex:
-                     result = test_regex[t].search(line)
-                     if result:
--                        if current_section['name'] not in self.results:
--                            self.results[current_section['name']] = {}
-                         self.results[current_section['name']][result.group(1).strip()] = t
- 
-         # Python performance for repeatedly joining long strings is poor, do it all at once at the end.
+ def ua_extend_depends(d):
+     if not 'virtual/update-alternatives' in d.getVar('PROVIDES'):
 -- 
-2.39.2
+2.34.1
 
 
