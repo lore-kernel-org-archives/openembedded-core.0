@@ -1,91 +1,149 @@
-Return-Path: <paul.gortmaker@windriver.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB3B5C7EE21
-	for <webhook@archiver.kernel.org>; Wed,  3 May 2023 15:57:30 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.23843.1683129449838212843
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B799C77B78
+	for <webhook@archiver.kernel.org>; Wed,  3 May 2023 16:47:41 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.25182.1683132456638444642
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 May 2023 08:57:29 -0700
+ Wed, 03 May 2023 09:47:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=arD4nr7C;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=448749ae80=paul.gortmaker@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 343CSYop031070
-	for <openembedded-core@lists.openembedded.org>; Wed, 3 May 2023 08:57:29 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=PPS06212021;
- bh=pLVKkyEE5edAUKSLHUx35oKk9l/Mi43Wf4QfIALundg=;
- b=arD4nr7C/D1QQ0oLJxw9rUJ56vjw9qhv2qWUEY34qGcC2nVWZICnFyRL1VJMNjiwj4Dr
- uEHp6F8sZ2yOJpBC5bL1LUQ0knHMXXUeq7nAcMbVqduBEJT3E9aS1AlaGp2qHC3rZETR
- CEdk71OenZchL0dZs+Ic2XIXu5LUa+Fd4+5sQlHnwN9e3ngEmBkVnCVnrWz2fML2W9SA
- ch9fxDMGeKk4M6q/GF5gZFP4QoEDQFby1NT9iwPZ4cHEoigloABBOTsIWLqVZM1Qtkg0
- e5fFCoBBJxkGVYIfhErdfF08ov/XfgbuuvkNhpYxSTzQ2z6fx+flZjg1U5E9yr94k/jD Fg== 
-Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3q92rnbmt3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 08:57:29 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Wed, 3 May 2023 08:57:28 -0700
-Received: from yow-pgortmak-d3.corp.ad.wrs.com (128.224.56.59) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.23 via Frontend Transport; Wed, 3 May 2023 08:57:28 -0700
-From: Paul Gortmaker <paul.gortmaker@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Paul Gortmaker <paul.gortmaker@windriver.com>
-Subject: [PATCH] scripts: fix buildstats diff/summary hard bound to host python3
-Date: Wed, 3 May 2023 11:57:18 -0400
-Message-ID: <20230503155718.40698-1-paul.gortmaker@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CB1192F4;
+	Wed,  3 May 2023 09:48:19 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 219F33F64C;
+	Wed,  3 May 2023 09:47:35 -0700 (PDT)
+From: ross.burton@arm.com
+To: openembedded-core@lists.openembedded.org
+Cc: nd@arm.com
+Subject: [PATCH v2] ghostscript: upgrade to 10.01.1
+Date: Wed,  3 May 2023 17:47:29 +0100
+Message-Id: <20230503164729.1869687-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: LFKH1qF13Py2GG7ijSTtxkoq44mNFiwI
-X-Proofpoint-GUID: LFKH1qF13Py2GG7ijSTtxkoq44mNFiwI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-03_11,2023-05-03_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 malwarescore=0
- bulkscore=0 clxscore=1015 mlxlogscore=793 adultscore=0 lowpriorityscore=0
- mlxscore=0 suspectscore=0 phishscore=0 impostorscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2305030136
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 15:57:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180832
+ <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 16:47:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180833
 
-Somehow these two got left behind and hence on older hosts that
-are using buildtools for a newer python - they will still fail.
+From: Ross Burton <ross.burton@arm.com>
 
-Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+Fixes CVE-2023-28879.
 
-diff --git a/scripts/buildstats-diff b/scripts/buildstats-diff
-index 2f6498ab6743..c9aa76a8fafc 100755
---- a/scripts/buildstats-diff
-+++ b/scripts/buildstats-diff
-@@ -1,4 +1,4 @@
--#!/usr/bin/python3
-+#!/usr/bin/env python3
+Drop an upstreamed patch.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ .../ghostscript/cross-compile.patch           | 40 -------------------
+ ...cript_10.0.0.bb =3D> ghostscript_10.01.1.bb} |  3 +-
+ 2 files changed, 1 insertion(+), 42 deletions(-)
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/cross-c=
+ompile.patch
+ rename meta/recipes-extended/ghostscript/{ghostscript_10.0.0.bb =3D> gho=
+stscript_10.01.1.bb} (97%)
+
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/cross-compile.=
+patch b/meta/recipes-extended/ghostscript/ghostscript/cross-compile.patch
+deleted file mode 100644
+index ba62820df1e..00000000000
+--- a/meta/recipes-extended/ghostscript/ghostscript/cross-compile.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-From 4c3575346b9c7d394ebc73b4e5fabebadd8877ec Mon Sep 17 00:00:00 2001
+-From: Chris Liddell <chris.liddell@artifex.com>
+-Date: Thu, 24 Nov 2022 16:33:47 +0000
+-Subject: [PATCH] Fix a little bitrot in the cross-compiling logic
+-
+-Removing the option to disable FAPI meant configuring for cross compilin=
+g would
+-fail because the option being passed to the sub-call to configure would =
+include
+-an unknown command line option.
+-
+-Upstream-Status: Backport [https://git.ghostscript.com/?p=3Dghostpdl.git=
+;a=3Dpatch;f=3Dconfigure.ac;h=3D4c3575346b9c7d394ebc73b4e5fabebadd8877ec]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- configure.ac | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index d5c68c4b3..738eb10a9 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -138,7 +138,7 @@ if test x"$host" !=3D x"$build" ; then
+-   echo $AUXFLAGS_MAK_LINE07 >> $AUXFLAGS_MAK.in
+-=20
+-   AC_MSG_NOTICE([Begin recursive call to configure script (for auxiliar=
+y tools)])
+--  "$absolute_source_path/configure" CC=3D"$CCAUX" CFLAGS=3D"$CFLAGSAUX"=
+ CPPFLAGS=3D"$CPPFLAGSAUX" LDFLAGS=3D"$LDFLAGSAUX" CCAUX=3D CFLAGSAUX=3D =
+CFLAGSAUX=3D MAKEFILE=3D$AUXFLAGS_MAK --host=3D$build --build=3D$build --=
+enable-auxtools_only --disable-hidden-visibility --with-local-zlib --with=
+out-libtiff --disable-contrib --disable-fontconfig --disable-dbus --disab=
+le-freetype --disable-fapi --disable-cups --disable-openjpeg --disable-gt=
+k --with-libiconv=3Dno --without-libidn --without-libpaper --without-pdft=
+oraster --without-ijs --without-jbig2dec --without-x --with-drivers=3D""
+-+  "$absolute_source_path/configure" CC=3D"$CCAUX" CFLAGS=3D"$CFLAGSAUX"=
+ CPPFLAGS=3D"$CPPFLAGSAUX" LDFLAGS=3D"$LDFLAGSAUX" CCAUX=3D CFLAGSAUX=3D =
+CFLAGSAUX=3D MAKEFILE=3D$AUXFLAGS_MAK --host=3D$build --build=3D$build --=
+enable-auxtools_only --disable-hidden-visibility --with-local-zlib --with=
+out-libtiff --disable-contrib --disable-fontconfig --disable-dbus --disab=
+le-freetype --disable-cups --disable-openjpeg --disable-gtk --with-libico=
+nv=3Dno --without-libidn --without-libpaper --without-pdftoraster --witho=
+ut-ijs --without-jbig2dec --without-x --with-drivers=3D""
+-   status=3D$?
+-   cp config.log "$olddir/configaux.log"
+-   if test $status -eq 0 ; then
+-@@ -2530,7 +2530,7 @@ PDF=3D
+- PDF_MAK=3D"\$(GLSRCDIR)\$(D)stub.mak"
+- PDFROMFS_MAK=3D"\$(GLSRCDIR)\$(D)stub.mak"
+-=20
+--if test x"$with_pdf" !=3D x"no" ; then
+-+if test x"$with_pdf" !=3D x"no" -a x"$enable_auxtools_only" !=3D x"yes"=
+ ; then
+-=20
+-   if test x"$JBIG2_DECODER" =3D x""; then
+-       AC_MSG_ERROR([No JBIG2 decoder available, required for PDF suppor=
+t])
+---=20
+-2.25.1
+-
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb b/me=
+ta/recipes-extended/ghostscript/ghostscript_10.01.1.bb
+similarity index 97%
+rename from meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb
+rename to meta/recipes-extended/ghostscript/ghostscript_10.01.1.bb
+index 56a93632e29..5d4b8cdc913 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_10.01.1.bb
+@@ -33,7 +33,6 @@ SRC_URI_BASE =3D "https://github.com/ArtifexSoftware/gh=
+ostpdl-downloads/releases/d
+                 file://do-not-check-local-libpng-source.patch \
+                 file://avoid-host-contamination.patch \
+                 file://mkdir-p.patch \
+-                file://cross-compile.patch \
+ "
+=20
+ SRC_URI =3D "${SRC_URI_BASE} \
+@@ -45,7 +44,7 @@ SRC_URI:class-native =3D "${SRC_URI_BASE} \
+                         file://base-genht.c-add-a-preprocessor-define-to=
+-allow-fope.patch \
+                         "
+=20
+-SRC_URI[sha256sum] =3D "a57764d70caf85e2fc0b0f59b83b92e25775631714dcdb97=
+cc6e0cea414bb5a3"
++SRC_URI[sha256sum] =3D "4df18a808cd4369f25e02dbcec2f133cb6d674627b2c6b15=
+02020e58d43e32ce"
+=20
+ # Put something like
  #
- # Script for comparing buildstats from two different builds
- #
-diff --git a/scripts/buildstats-summary b/scripts/buildstats-summary
-index f521d78650b4..b10c671b29bd 100755
---- a/scripts/buildstats-summary
-+++ b/scripts/buildstats-summary
-@@ -1,4 +1,4 @@
--#! /usr/bin/python3
-+#!/usr/bin/env python3
- #
- # Dump a summary of the specified buildstats to the terminal, filtering and
- # sorting by walltime.
--- 
-2.37.3
+--=20
+2.34.1
 
 
