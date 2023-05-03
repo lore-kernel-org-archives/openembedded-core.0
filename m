@@ -1,104 +1,118 @@
-Return-Path: <jermain.horsman@nedap.com>
+Return-Path: <akuster808@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 537E1C77B75
-	for <webhook@archiver.kernel.org>; Wed,  3 May 2023 14:13:20 +0000 (UTC)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web11.20467.1683123193367947116
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B86CC77B7F
+	for <webhook@archiver.kernel.org>; Wed,  3 May 2023 14:31:30 +0000 (UTC)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+ by mx.groups.io with SMTP id smtpd.web10.21106.1683124282816392318
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 May 2023 07:13:13 -0700
+ Wed, 03 May 2023 07:31:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=B0XOMS9u;
- spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: jhatnedap@gmail.com)
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-50b8d2eed3dso7196291a12.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 07:13:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=oNutCOh4;
+ spf=pass (domain: gmail.com, ip: 209.85.128.181, mailfrom: akuster808@gmail.com)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-55a26b46003so58414877b3.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 07:31:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683123191; x=1685715191;
-        h=content-transfer-encoding:mime-version:reply-to:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mz5neMAlo4Mtrs7NiCc+tZHnvFyF1yfLDJCLI2lS5yA=;
-        b=B0XOMS9uVuWAvqBbyXzvUswH83puSXyU4G8N8Z+o15MnA0oyRN7Qu/0szr9O0N4BgR
-         kS0T6rJgRbfHThG8v9R4JQp4mF5XKEBVa6UYkQcSnJdxRp5u5hklocXXvkNa8ymmjPzl
-         ARVVVKxBOAJPxJylprK2lj+qs5gf2Hyk2d/KtUaBE9EXpYjXzk6qiqO9ggJOswKEVI6I
-         1hGz2KYLRf7xF1Lx7fvQWFybSXbE87UD8V87XmvZC9zNUdgA+yoVfgUP7ZL3yI6oBbeF
-         wb1nL0WncU9psBb9vvYlSApLhrLNoe5f2fb6fPYkLnpeH8wA8DJdHq2DDMG1pyCsuss0
-         UyxQ==
+        d=gmail.com; s=20221208; t=1683124282; x=1685716282;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iG8WAh3BR6OE4ClFZy2la7QXaeuiJ1KWbLQvf8ZRvzk=;
+        b=oNutCOh4okjgGay6EyHY7ESsCVkLSgXY6ALPSokAgGy4HNZArGLJ8YJmmW3iGh4hd/
+         4szmJd3n6ZGErDGvxggtcdCx2Yb7zbVmRwz3Gg63faktVf+b/lyOGtlC0xZpX8NMEMWN
+         15EGirn/eA9Obs27I7uVSnJR1hwI90lrLSPrqGpt9FEQkrNk+Xo37o//NrQNdgcJjLfI
+         t+m73uIthPQPTKZgU1JTJtnbKUIIBkZsJwf0UbLQLkS8hj+gMuvojPZlbnkgLaf5L7EI
+         B+nOCFcDHAcMa16dXAj28FFFl/jOCRpmfiGcNrgDHDucRsI4BGs1JhTWHSURTuLYQx39
+         SECA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683123191; x=1685715191;
-        h=content-transfer-encoding:mime-version:reply-to:message-id:date
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mz5neMAlo4Mtrs7NiCc+tZHnvFyF1yfLDJCLI2lS5yA=;
-        b=PUyekdOPBqlWo+5UR9dYqOgT/Psy4jPEjp9GouvA6FOva0hJz3eL84Oh2nGQnko/uM
-         r/dPbO9pcuDB8Sbn+Fa1zaUb6C7f7cxH13MhGth1cfFUaTsPjjqaqxgxYg7Gqxhdq0E6
-         0xvHG9l+yksb00eec73slXdkSi7m+2HugMMo29Kp1pu/aLKx4JmPMh4RmDM6q6v7rtF+
-         Eh/tf/6QlhQAIP8SZxlDXiCJ9f/y2lW5hvBIxwz8j14X3XOoTFv9nP82jc/bWgFwwlTM
-         ZqaHubLigUB2n7zmHhNeh+GzxqP/ebvWQ7H8Ys80GMVTQakNjXjLptf8TKMY8yeFrJbX
-         NQwQ==
-X-Gm-Message-State: AC+VfDzfabeLJfePCNmk6vc4qz62T+oOTCKIG49yKqx+v1SzY/W2L+ho
-	HevP5kakLvp5S5TIpE4o5RcMu+PmdnU=
-X-Google-Smtp-Source: ACHHUZ5cwy0O8q+Zo7a0R14BYN3Ere8v3Gi8S1YEI+0LzR+ECYysg4eNhCVKw89hLNFsB6spBwPiWw==
-X-Received: by 2002:a17:907:94c9:b0:932:ac6c:7ef9 with SMTP id dn9-20020a17090794c900b00932ac6c7ef9mr3708024ejc.22.1683123191583;
-        Wed, 03 May 2023 07:13:11 -0700 (PDT)
-Received: from NVC4181.nedap.local (smtp3.nedap.com. [87.249.123.12])
-        by smtp.gmail.com with ESMTPSA id l3-20020a170906230300b0094e7d196aa4sm17229677eja.160.2023.05.03.07.13.11
+        d=1e100.net; s=20221208; t=1683124282; x=1685716282;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iG8WAh3BR6OE4ClFZy2la7QXaeuiJ1KWbLQvf8ZRvzk=;
+        b=Oy1THYv/nT/5GXUU888HZ1ZwGMy6RoCBfqWcc7LSfNbSprRS+YALLSq99sQ7Us0Q68
+         nONoeVleoE+ykCmXyQQO7O5M3lkg40Vjr/jwxG/RCLfJcVInCYMQaQbKuAQ3x8iKRbZ+
+         bk+4QI4L8pzUraBZiSjrwQka9D3W7KMnlT1/5fh4Zk3yu3tKlgEA9EDndCnR90MajI3d
+         NeXSMG3fBHaQ8525ilG5DFtqvezClZZFhueMPU73w8sbtk56VNM4Fjku4t+RAuBCg5H8
+         7EJQKVx2Pmlge/2Fd0Vcb/VMmcuB/n2z1BIeZJo5n32Yvd7rWqgbjrcjJ3msu6/60q1d
+         4sSQ==
+X-Gm-Message-State: AC+VfDz0e+A9M3yM/rb9nofAHtutUgkJx74kqoB8u7zTPZ33zFQC+ry6
+	ArOnueFPfXcnML7TtMEo1x9ERDORi+YhMA==
+X-Google-Smtp-Source: ACHHUZ6o0LD++ouMFDyhfXFaHUO8INwWa/I9/9FtrIljwTYPtwan1BZHqw0aFfh6Mcu1+T6FaLLNpA==
+X-Received: by 2002:a0d:d4c7:0:b0:55a:501f:2a51 with SMTP id w190-20020a0dd4c7000000b0055a501f2a51mr10798098ywd.22.1683124281665;
+        Wed, 03 May 2023 07:31:21 -0700 (PDT)
+Received: from keaua.attlocal.net ([2600:1700:9190:ba10:6f7a:c057:293d:a9b7])
+        by smtp.gmail.com with ESMTPSA id m127-20020a0de385000000b0054f83731ad2sm8719691ywe.0.2023.05.03.07.31.21
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 May 2023 07:13:11 -0700 (PDT)
-From: jhatnedap@gmail.com
-X-Google-Original-From: jermain.horsman@nedap.com
+        Wed, 03 May 2023 07:31:21 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Arturo Buzarra <arturo.buzarra@digi.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Jermain Horsman <jermain.horsman@nedap.com>
-Subject: [kirkstone][PATCH] run-postinsts: Set dependency for ldconfig to avoid boot issues
-Date: Wed,  3 May 2023 16:12:46 +0200
-Message-Id: <20230503141246.2087-1-jermain.horsman@nedap.com>
-X-Mailer: git-send-email 2.39.2.windows.1
-Reply-To: jermain.horsman@nedap.com
+Subject: [v3][PATCH] os-release: Add CPE_NAME
+Date: Wed,  3 May 2023 10:31:18 -0400
+Message-Id: <20230503143118.1287997-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 14:13:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180828
+ <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 14:31:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180829
 
-From: Arturo Buzarra <arturo.buzarra@digi.com>
+Its time we add the CPE_NAME to os-release.
 
-If a package with a postsints script requires ldconfig, the package class adds
-a ldconfig postinst fragment to initialize it before. Systemd has its own
-ldconfig.service to initialize it and sometimes if both services are running
-at the same time in the first boot, the first one will work, but the second
-one will fail with the following error:
+The vendor field is hardcoded to "openembedded" as it is the base
+framework. We will use "DISTRO" to identify which variation of
+openembedded is being used.
 
-    ldconfig[141]: /sbin/ldconfig: Renaming of /etc/ld.so.cache~ to /etc/ld.so.cache failed: No such file or directory
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
 
-This commit adds a ordering dependency between them to make sure that only one
-service is running at the same time.
-
-Signed-off-by: Arturo Buzarra <arturo.buzarra@digi.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4e9d812e127dc6743f52f4881e509e8e2e833afe)
-Signed-off-by: Jermain Horsman <jermain.horsman@nedap.com>
 ---
- .../run-postinsts/run-postinsts/run-postinsts.service           | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+V2]
+Add CPE_DISTRO
+Improve usage text.
 
-diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service
-index 7f72f3388a..b6b81d5c1a 100644
---- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service
-+++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service
-@@ -1,7 +1,7 @@
- [Unit]
- Description=Run pending postinsts
- DefaultDependencies=no
--After=systemd-remount-fs.service systemd-tmpfiles-setup.service tmp.mount
-+After=systemd-remount-fs.service systemd-tmpfiles-setup.service tmp.mount ldconfig.service
- Before=sysinit.target
+v3]
+Improperly commented out text.
+Shipped without testing issue
+---
+ meta/recipes-core/os-release/os-release.bb | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/meta/recipes-core/os-release/os-release.bb b/meta/recipes-core/os-release/os-release.bb
+index 860ee97224..8906906bc3 100644
+--- a/meta/recipes-core/os-release/os-release.bb
++++ b/meta/recipes-core/os-release/os-release.bb
+@@ -16,6 +16,7 @@ do_configure[noexec] = "1"
+ #                     HOME_URL SUPPORT_URL BUG_REPORT_URL
+ OS_RELEASE_FIELDS = "\
+     ID ID_LIKE NAME VERSION VERSION_ID VERSION_CODENAME PRETTY_NAME \
++    CPE_NAME \
+ "
+ OS_RELEASE_UNQUOTED_FIELDS = "ID VERSION_ID VARIANT_ID"
  
- [Service]
+@@ -25,6 +26,20 @@ VERSION = "${DISTRO_VERSION}${@' (%s)' % DISTRO_CODENAME if 'DISTRO_CODENAME' in
+ VERSION_ID = "${DISTRO_VERSION}"
+ VERSION_CODENAME = "${DISTRO_CODENAME}"
+ PRETTY_NAME = "${DISTRO_NAME} ${VERSION}"
++
++# The vendor field is hardcoded to "openembedded" deliberately. We'd
++# advise developers leave it as this value to clearly identify the
++# underlying build environment from which the OS was constructed. We
++# understand people will want to identify themselves as the people who
++# built the image, we'd suggest using the DISTRO element to do this, so
++# that is customisable.
++# This end result combines to mean systems can be traced back to both who
++# built them and which system was used, which is ultimately the goal of
++# the CPE.
++
++CPE_DISTRO ??= "${DISTRO}"
++CPE_NAME="cpe:/o:openembedded:${CPE_DISTRO}:${VERSION_ID}"
++
+ BUILD_ID ?= "${DATETIME}"
+ BUILD_ID[vardepsexclude] = "DATETIME"
+ 
 -- 
-2.39.2.windows.1
+2.25.1
 
 
