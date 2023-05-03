@@ -1,147 +1,127 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <vkumbhar@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ADB2C77B75
-	for <webhook@archiver.kernel.org>; Wed,  3 May 2023 01:33:17 +0000 (UTC)
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
- by mx.groups.io with SMTP id smtpd.web10.8999.1683077588603554264
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2945EC77B78
+	for <webhook@archiver.kernel.org>; Wed,  3 May 2023 02:10:47 +0000 (UTC)
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+ by mx.groups.io with SMTP id smtpd.web11.9580.1683079841172691390
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 May 2023 18:33:08 -0700
+ Tue, 02 May 2023 19:10:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=sM5XVwHC;
- spf=pass (domain: gmail.com, ip: 209.85.210.42, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-6a5ef766282so3704437a34.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 18:33:08 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=fBmRgXs7;
+ spf=pass (domain: mvista.com, ip: 209.85.215.177, mailfrom: vkumbhar@mvista.com)
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-517c01edaaaso3057752a12.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 19:10:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683077587; x=1685669587;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=mvista.com; s=google; t=1683079840; x=1685671840;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=g24u6lClGeKB5yK/PANUXf3ybCpNJ/2Q+OoDbpMspfM=;
-        b=sM5XVwHCegdHV1UMtvryw9/jgmXj7mhwYYmrckoOyIsXLZXhSbw3psAm2fApCRc/DW
-         AYrmXyjqjqXBvPQLvlVWK+zmLVbEGwy6Z9FipR2S6TPduW+oXX86CuCi4FrnlEhS0fV7
-         cYLxMTgs+xdKqtbNyTgCcZ2OxsghHutsO0P+WBGcgDOl7b/Dm2Et0E+pS1PdS665908j
-         nBmr+u48rBMwLO4IznjYZwziujANVeOp2MPPTu3n4g4tcAULPAcXDLpCA5gDVFthxikQ
-         mF/KhHoylTGXg8mLKblkpuLwNXj/90GNv22Pg/3JBLeqEjNwh1bmoAVbDcRHrKji45Du
-         WArQ==
+        bh=943cWB0cUidY2jDPFJnpk/x3j7gbL5eF/1YU51f3g8Y=;
+        b=fBmRgXs7gyj/Drp+BZaqURRLrSQ/83CVwGwKniGpsQ2/KuwLCpD3zzLpvBpgbDLnYJ
+         OAzyNTgWO+qI6HRXvTCfbCgBsqfCHs41bD+q+OqhM7a0G35S8nAHW6XRJG9TtXckhyTe
+         xOM/ZqwWx3m9q0kxfwCpO59MYAQfCtwkJUClQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683077587; x=1685669587;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1683079840; x=1685671840;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=g24u6lClGeKB5yK/PANUXf3ybCpNJ/2Q+OoDbpMspfM=;
-        b=QWWGY1sz1pNxn8E71ffH0VkXanDLy8axRqYNcIxgVhbBnjk/wPqGRtbIApEjNpqzF0
-         dIYB2/izkUZzWr1RqhHWzGiEvocitktni2OY895awAiEGAbRbSsDAzOuKAAE3bC7JqDs
-         4OE5JWHg6I8Ot+Us/m6r4vX6eALwxjv8pyFKnGvAwiMz3a2iP8idWfSML4SEIz9vuD/v
-         iU1v10oOkrrXbWDIjbEzlu023jHmmY/0neTx88a634gY4SRP9aQjgERbypilD+ValLTq
-         LmsX3L7JT9YlwpFwnqh4AxRthraj2+nKiOBD+NYc/Da387WPacKOID2JRwFMz+QjEGef
-         JlRw==
-X-Gm-Message-State: AC+VfDwhK8O9hQe0zRnuiG33sVh0VuwwnbuV0HHikp8tIgpWSpJgU4ty
-	nm1Q/sdsGrui+gsuQFan+fZWz07zjsJEUbKv71UIX6GCcN4=
-X-Google-Smtp-Source: ACHHUZ7gPKNVm8qOI1a+xBThI1GdTVstAQhpz56ZZCKsFezgKtnWnBnv1OF4Hkzv5+p308VgObSmNfHrw8Wtwd48vHs=
-X-Received: by 2002:a05:6830:1042:b0:696:1583:642 with SMTP id
- b2-20020a056830104200b0069615830642mr10330378otp.21.1683077587556; Tue, 02
- May 2023 18:33:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230502174300.2261694-1-tgamblin@baylibre.com>
-In-Reply-To: <20230502174300.2261694-1-tgamblin@baylibre.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 2 May 2023 18:32:41 -0700
-Message-ID: <CAMKF1srR7Xoj8rFi6XPRvGZOqLzg0+RtZUayBqvQsvQLtSPs_w@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v2] python3-calver: Add recipe
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        bh=943cWB0cUidY2jDPFJnpk/x3j7gbL5eF/1YU51f3g8Y=;
+        b=TVAPWdGZFMTGWRUpH6BVEjU6iDPpe2EimrsCUPI3AjAc7NLo7zsbCLJxC2kMQDFZ8m
+         yXSvAHq0ZFvaKRIRXd9PPNwWN+90OF3W//l0SphIzN70g/pOejTfzF9exAgBEmmRqzOm
+         CuLx/0fwPPB1inP5ONhj0B8d3y5nkVea2Cbvy22j1yFLR6NqGicgH9oPuA/CRwjYKKL+
+         grWNBvINEq4RhT7bjeEBa5GPz6txZvTNSk2YcecfHvcSGVg+zwCDneVMiWsNahBIYZ9Q
+         oRX/tD3PMPzoVse61OHwt1JMiJ+kTlbCIjvJuZawPTMZO4axpWIgqejc1hn50j9c2Ycs
+         UcfA==
+X-Gm-Message-State: AC+VfDx6H1XuIqDS3jBQXcS/pCBcjKdGRn25oOvc/1GYFgQtcEQcZ0zX
+	88PiDRdl0TYV4XenFsJG3i8S/mH4V1+Jggr5Eaw=
+X-Google-Smtp-Source: ACHHUZ5MQCHNiQpjr995akMUHb+/UZ99VzPbOpxGD+ENDsV85f6PgrWXNDw+Iq6Gxu5GYB+Pi6WNog==
+X-Received: by 2002:a17:902:bb86:b0:1a9:433e:41e7 with SMTP id m6-20020a170902bb8600b001a9433e41e7mr535030pls.43.1683079840067;
+        Tue, 02 May 2023 19:10:40 -0700 (PDT)
+Received: from localhost.localdomain ([116.75.30.40])
+        by smtp.googlemail.com with ESMTPSA id h6-20020a170902f54600b001ab0083c6c9sm3512604plf.261.2023.05.02.19.10.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 May 2023 19:10:39 -0700 (PDT)
+From: Vivek Kumbhar <vkumbhar@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Vivek Kumbhar <vkumbhar@mvista.com>
+Subject: [OE-core][dunfell][PATCH] freetype: fix CVE-2023-2004 integer overflowin in tt_hvadvance_adjust() in src/truetype/ttgxvar.c
+Date: Wed,  3 May 2023 07:40:24 +0530
+Message-Id: <20230503021024.4809-1-vkumbhar@mvista.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 01:33:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180781
+ <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 02:10:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180782
 
-On Tue, May 2, 2023 at 10:43=E2=80=AFAM Trevor Gamblin <tgamblin@baylibre.c=
-om> wrote:
->
-> calver is "a setuptools extension for automatically defining your Python
-> package version as a calendar version." It is required for
-> python3-trove-classifiers (another new recipe), which in turn is
-> required for the upgrade of python3-hatchling from 1.13.0 to work.
->
-> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-> ---
->  .../distro/include/ptest-packagelists.inc     |  1 +
->  .../python/python3-calver_2022.6.26.bb        | 28 +++++++++++++++++++
->  2 files changed, 29 insertions(+)
->  create mode 100644 meta/recipes-devtools/python/python3-calver_2022.6.26=
-.bb
->
-> diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/=
-distro/include/ptest-packagelists.inc
-> index 2f83132aeb..bd95a13ff6 100644
-> --- a/meta/conf/distro/include/ptest-packagelists.inc
-> +++ b/meta/conf/distro/include/ptest-packagelists.inc
-> @@ -56,6 +56,7 @@ PTESTS_FAST =3D "\
->      popt \
->      python3-atomicwrites \
->      python3-bcrypt \
-> +    python3-calver \
->      python3-hypothesis \
->      python3-jinja2 \
->      python3-jsonpointer \
-> diff --git a/meta/recipes-devtools/python/python3-calver_2022.6.26.bb b/m=
-eta/recipes-devtools/python/python3-calver_2022.6.26.bb
-> new file mode 100644
-> index 0000000000..32b6cfbd42
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3-calver_2022.6.26.bb
-> @@ -0,0 +1,28 @@
-> +SUMMARY =3D "Setuptools extension for CalVer package versions"
-> +HOMEPAGE =3D "https://github.com/di/calver"
-> +LICENSE =3D "Apache-2.0"
-> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D3b83ef96387f14655fc854ddc3c6b=
-d57"
-> +
-> +SRC_URI =3D " \
-> +    git://github.com/di/calver;branch=3Dmaster;protocol=3Dhttps \
-> +    file://run-ptest \
+Fix An integer overflow vulnerability was discovered in Freetype in tt_hvadvance_adjust() function in src/truetype/ttgxvar.c
 
-run-ptest is in SRC_URI but I dont see it anywere added in patch
-series, perhaps it got missed in git add ?
+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+---
+ .../freetype/freetype/CVE-2023-2004.patch     | 40 +++++++++++++++++++
+ .../freetype/freetype_2.10.1.bb               |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-graphics/freetype/freetype/CVE-2023-2004.patch
 
-> +"
-> +SRC_URI[sha256sum] =3D "e05493a3b17517ef1748fbe610da11f10485faa7c416b9d3=
-3fd4a52d74894f8b"
-> +SRCREV ?=3D "3268d8acf2c345f32a1c5f08ba25dc67f76cca81"
-> +
-> +inherit python_setuptools_build_meta ptest
-> +
-> +S =3D "${WORKDIR}/git"
-> +
-> +RDEPENDS:${PN}-ptest +=3D " \
-> +    ${PYTHON_PN}-pretend \
-> +    ${PYTHON_PN}-pytest \
-> +    ${PYTHON_PN}-unittest-automake-output \
-> +"
-> +
-> +do_install_ptest() {
-> +    install -d ${D}${PTEST_PATH}/tests
-> +    cp -rf ${S}/tests ${D}${PTEST_PATH}/
-> +}
-> +
-> +BBCLASSEXTEND =3D "native nativesdk"
-> --
-> 2.40.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#180763): https://lists.openembedded.org/g/openembedde=
-d-core/message/180763
-> Mute This Topic: https://lists.openembedded.org/mt/98644392/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+diff --git a/meta/recipes-graphics/freetype/freetype/CVE-2023-2004.patch b/meta/recipes-graphics/freetype/freetype/CVE-2023-2004.patch
+new file mode 100644
+index 0000000000..800d77579e
+--- /dev/null
++++ b/meta/recipes-graphics/freetype/freetype/CVE-2023-2004.patch
+@@ -0,0 +1,40 @@
++From e6fda039ad638866b7a6a5d046f03278ba1b7611 Mon Sep 17 00:00:00 2001
++From: Werner Lemberg <wl@gnu.org>
++Date: Mon, 14 Nov 2022 19:18:19 +0100
++Subject: [PATCH] * src/truetype/ttgxvar.c (tt_hvadvance_adjust): Integer
++ overflow.
++
++Reported as
++
++  https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=50462
++
++Upstream-Status: Backport [https://github.com/freetype/freetype/commit/e6fda039ad638866b7a6a5d046f03278ba1b7611]
++CVE: CVE-2023-2004
++Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
++---
++ src/truetype/ttgxvar.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/src/truetype/ttgxvar.c b/src/truetype/ttgxvar.c
++index 78d87dc..258d701 100644
++--- a/src/truetype/ttgxvar.c
+++++ b/src/truetype/ttgxvar.c
++@@ -43,6 +43,7 @@
++ #include FT_INTERNAL_DEBUG_H
++ #include FT_CONFIG_CONFIG_H
++ #include FT_INTERNAL_STREAM_H
+++#include <freetype/internal/ftcalc.h>
++ #include FT_INTERNAL_SFNT_H
++ #include FT_TRUETYPE_TAGS_H
++ #include FT_TRUETYPE_IDS_H
++@@ -1065,7 +1066,7 @@
++                 delta == 1 ? "" : "s",
++                 vertical ? "VVAR" : "HVAR" ));
++
++-    *avalue += delta;
+++    *avalue = ADD_INT( *avalue, delta );
++
++   Exit:
++     return error;
++--
++2.17.1
+diff --git a/meta/recipes-graphics/freetype/freetype_2.10.1.bb b/meta/recipes-graphics/freetype/freetype_2.10.1.bb
+index 72001c529a..6af744b981 100644
+--- a/meta/recipes-graphics/freetype/freetype_2.10.1.bb
++++ b/meta/recipes-graphics/freetype/freetype_2.10.1.bb
+@@ -18,6 +18,7 @@ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/${BPN}/${BP}.tar.xz \
+            file://CVE-2022-27404.patch \
+            file://CVE-2022-27405.patch \
+            file://CVE-2022-27406.patch \
++           file://CVE-2023-2004.patch \
+           "
+ SRC_URI[md5sum] = "bd42e75127f8431923679480efb5ba8f"
+ SRC_URI[sha256sum] = "16dbfa488a21fe827dc27eaf708f42f7aa3bb997d745d31a19781628c36ba26f"
+-- 
+2.17.1
+
 
