@@ -1,120 +1,91 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <paul.gortmaker@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3CA1C77B7F
-	for <webhook@archiver.kernel.org>; Wed,  3 May 2023 15:39:40 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web10.23286.1683128377150702217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB3B5C7EE21
+	for <webhook@archiver.kernel.org>; Wed,  3 May 2023 15:57:30 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.23843.1683129449838212843
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 May 2023 08:39:37 -0700
+ Wed, 03 May 2023 08:57:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=Nxr3BYzl;
- spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: ticotimo@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1a5197f00e9so40139535ad.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 08:39:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683128376; x=1685720376;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8F4IQS/xavFJbJgOu1u4i9OcoBEOmya6FS7OEcpVHkk=;
-        b=Nxr3BYzlADzylKHqysU4nYhBv0rGWw/HabCVV/iJOPi/j3dUN0k/8zvVy8lTBkfvvF
-         PWLNnB04My3h/p1Rn4FFJlEQSEUnt7fbHTic3KA2LgTjOGqj4hz43FVQHuDQr2ZUiURa
-         JbdlYSYA97Hl8ZEUMwMGsnMi3rTsM4p+ar67UPDN/aC7WalOnjplopjd2TtuH4+GMcgF
-         mSOEsYwIvzI135NaV4Ag6QOFZSJqlmBV0tWmi7ZEWBCLm9JYVHnO1Vm5bhR8pwWxB65N
-         bTBBCWUpPema69Eh1pz58uQOocvz/w2nVlmngmWrLLfZM4Eo1XToJd0wzVFE4xyQDLR4
-         m7WQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683128376; x=1685720376;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8F4IQS/xavFJbJgOu1u4i9OcoBEOmya6FS7OEcpVHkk=;
-        b=gn1ptTLHSTradEzfqRvQqjEFFNlF9whEZhJCa4X2OlzUiprFCq7hRT9Ajxjl8RfYFe
-         hhbkPLXLqwiRFo4tNc4pZMdymNQqSYtdIU+aU0Z/lirS2x1s2tBHlhDJrDKqW+eNkre6
-         XLkf1aSiKdPHFHbk59FLFxc852p5rcxT2u5nKcXUewbppeTABL++bVdbf5Kd3sHPrLC/
-         FWr5kRlbQmtzrP9Uas414t/A45Ijep1XT83CoYSROi5eaypVD7aZwPgbB1ppUJxTYcok
-         u1G0NE3fqTobpoqcviFnuOtJzG01tu9V8JFYv7ePm15gAci7h8+l2VvfcjfVfLO5msnX
-         QvnQ==
-X-Gm-Message-State: AC+VfDyN86Sjos7wcS9Hx/VnVRj8OD525mnUjiqy7+fvfyWFh2GaHzJd
-	Hn43zgp88Z5Zly9tSzjlGjteEb0T4GQ=
-X-Google-Smtp-Source: ACHHUZ5n1ZDz2URrs/j+3Yjw6PxhC9512Dj540uQ9ACousghcaIHj7typgaCXGhP+9ZDsHSSLAcFVw==
-X-Received: by 2002:a17:902:9885:b0:1aa:fc97:feb3 with SMTP id s5-20020a170902988500b001aafc97feb3mr397651plp.50.1683128376085;
-        Wed, 03 May 2023 08:39:36 -0700 (PDT)
-Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:cc40:c941:a232:89b8])
-        by smtp.gmail.com with ESMTPSA id p19-20020a170902a41300b001a95928e9a5sm18939366plq.121.2023.05.03.08.39.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 May 2023 08:39:35 -0700 (PDT)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] libmodule-build-perl: upgrade 0.4232 -> 0.4234
-Date: Wed,  3 May 2023 08:39:14 -0700
-Message-Id: <20230503153914.2288725-1-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=arD4nr7C;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=448749ae80=paul.gortmaker@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 343CSYop031070
+	for <openembedded-core@lists.openembedded.org>; Wed, 3 May 2023 08:57:29 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=PPS06212021;
+ bh=pLVKkyEE5edAUKSLHUx35oKk9l/Mi43Wf4QfIALundg=;
+ b=arD4nr7C/D1QQ0oLJxw9rUJ56vjw9qhv2qWUEY34qGcC2nVWZICnFyRL1VJMNjiwj4Dr
+ uEHp6F8sZ2yOJpBC5bL1LUQ0knHMXXUeq7nAcMbVqduBEJT3E9aS1AlaGp2qHC3rZETR
+ CEdk71OenZchL0dZs+Ic2XIXu5LUa+Fd4+5sQlHnwN9e3ngEmBkVnCVnrWz2fML2W9SA
+ ch9fxDMGeKk4M6q/GF5gZFP4QoEDQFby1NT9iwPZ4cHEoigloABBOTsIWLqVZM1Qtkg0
+ e5fFCoBBJxkGVYIfhErdfF08ov/XfgbuuvkNhpYxSTzQ2z6fx+flZjg1U5E9yr94k/jD Fg== 
+Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3q92rnbmt3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 08:57:29 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Wed, 3 May 2023 08:57:28 -0700
+Received: from yow-pgortmak-d3.corp.ad.wrs.com (128.224.56.59) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.23 via Frontend Transport; Wed, 3 May 2023 08:57:28 -0700
+From: Paul Gortmaker <paul.gortmaker@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Paul Gortmaker <paul.gortmaker@windriver.com>
+Subject: [PATCH] scripts: fix buildstats diff/summary hard bound to host python3
+Date: Wed, 3 May 2023 11:57:18 -0400
+Message-ID: <20230503155718.40698-1-paul.gortmaker@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: LFKH1qF13Py2GG7ijSTtxkoq44mNFiwI
+X-Proofpoint-GUID: LFKH1qF13Py2GG7ijSTtxkoq44mNFiwI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-03_11,2023-05-03_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 malwarescore=0
+ bulkscore=0 clxscore=1015 mlxlogscore=793 adultscore=0 lowpriorityscore=0
+ mlxscore=0 suspectscore=0 phishscore=0 impostorscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
+ definitions=main-2305030136
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 15:39:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180831
+ <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 15:57:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180832
 
-* Skip t/pod_parser.t ptest since it is for testing
-  documentation and requires Pod::Parser for which
-  we do not have a recipe. Adding one does not make
-  much sense since Pod::Parser was dropped from
-  Perl > 5.31.1 in favor of Pod::Simple
-  https://metacpan.org/pod/Pod::Parser#DESCRIPTION
+Somehow these two got left behind and hence on older hosts that
+are using buildtools for a newer python - they will still fail.
 
-Changes:
+Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
 
-https://metacpan.org/dist/Module-Build/changes
-
-0.4234 - Fri 28 Apr 2023 10:46:26 CEST
-  - PodParser now respects =encoding directives
-  - Don't use libraries in t/bundled for Build.PL
-  - make_tarball: workaround for broken tar on Darwin
-  - Respect $Config{man1ext}/$Config{man3ext}
-  - Do not require a compiler if c_source is an empty list
-
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
----
- ...uild-perl_0.4232.bb => libmodule-build-perl_0.4234.bb} | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
- rename meta/recipes-devtools/perl/{libmodule-build-perl_0.4232.bb => libmodule-build-perl_0.4234.bb} (94%)
-
-diff --git a/meta/recipes-devtools/perl/libmodule-build-perl_0.4232.bb b/meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb
-similarity index 94%
-rename from meta/recipes-devtools/perl/libmodule-build-perl_0.4232.bb
-rename to meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb
-index 0ead690067b..b57618724d1 100644
---- a/meta/recipes-devtools/perl/libmodule-build-perl_0.4232.bb
-+++ b/meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb
-@@ -16,7 +16,7 @@ LIC_FILES_CHKSUM = "file://README;beginline=881;endline=886;md5=3027f56c664545e5
- SRC_URI = "${CPAN_MIRROR}/authors/id/L/LE/LEONT/Module-Build-${PV}.tar.gz \
-            file://run-ptest \
-            "
--SRC_URI[sha256sum] = "67c82ee245d94ba06decfa25572ab75fdcd26a9009094289d8f45bc54041771b"
-+SRC_URI[sha256sum] = "66aeac6127418be5e471ead3744648c766bd01482825c5b66652675f2bc86a8f"
- 
- S = "${WORKDIR}/Module-Build-${PV}"
- 
-@@ -34,6 +34,12 @@ do_patch[postfuncs] += "do_patch_module_build"
- 
- EXTRA_CPAN_BUILD_FLAGS = "--create_packlist=0"
- 
-+do_install:prepend () {
-+	# We do not have a recipe for libpod-parser-perl which is for
-+	# documentation (and is deprecated in favor of Pod::Simple)
-+	rm -rf ${B}/t/pod_parser.t
-+}
-+
- do_install:append () {
-         rm -rf ${D}${docdir}/perl/html
-         sed -i "s:^#!.*:#!/usr/bin/env perl:" ${D}${bindir}/config_data
+diff --git a/scripts/buildstats-diff b/scripts/buildstats-diff
+index 2f6498ab6743..c9aa76a8fafc 100755
+--- a/scripts/buildstats-diff
++++ b/scripts/buildstats-diff
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ #
+ # Script for comparing buildstats from two different builds
+ #
+diff --git a/scripts/buildstats-summary b/scripts/buildstats-summary
+index f521d78650b4..b10c671b29bd 100755
+--- a/scripts/buildstats-summary
++++ b/scripts/buildstats-summary
+@@ -1,4 +1,4 @@
+-#! /usr/bin/python3
++#!/usr/bin/env python3
+ #
+ # Dump a summary of the specified buildstats to the terminal, filtering and
+ # sorting by walltime.
 -- 
-2.34.1
+2.37.3
 
 
