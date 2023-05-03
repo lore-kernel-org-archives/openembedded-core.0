@@ -1,76 +1,157 @@
-Return-Path: <rs@ti.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F8F8C77B75
-	for <webhook@archiver.kernel.org>; Tue,  2 May 2023 23:54:16 +0000 (UTC)
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by mx.groups.io with SMTP id smtpd.web10.6889.1683071649768071899
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A50E1C77B78
+	for <webhook@archiver.kernel.org>; Wed,  3 May 2023 00:35:46 +0000 (UTC)
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+ by mx.groups.io with SMTP id smtpd.web11.7794.1683074144241926287
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 May 2023 16:54:09 -0700
+ Tue, 02 May 2023 17:35:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17q1 header.b=gBm5d4W9;
- spf=pass (domain: ti.com, ip: 198.47.19.142, mailfrom: rs@ti.com)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 342Ns6kb101011;
-	Tue, 2 May 2023 18:54:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1683071646;
-	bh=TMN2o0dliwi/j4j7b+6HeIydYGq82OZfeO3dmrUq8+I=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=gBm5d4W9pFhOM40WzLJKljGppcF5+oD8t+s/uZAII27hgw8/AHF3K6y6WjhkY+8NJ
-	 xNRNps0i2ICdYSgWBz685fVLWDcf+m4a/6YT2cuOjSWIZuliHxSWpjc4+7FmBQL63N
-	 otXcFBxpv4Z8OhN+mJcAHSK4VFcVJrF1T0HnT1D0=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 342Ns5WT020096
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 2 May 2023 18:54:06 -0500
-Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 2
- May 2023 18:54:05 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 2 May 2023 18:54:05 -0500
-Received: from [128.247.81.144] (ileaxei01-snat.itg.ti.com [10.180.69.5])
-	by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 342Ns5Bo080776;
-	Tue, 2 May 2023 18:54:05 -0500
-Message-ID: <71751fb5-f4e4-bd90-f104-12169245f36e@ti.com>
-Date: Tue, 2 May 2023 18:54:05 -0500
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=XoAQE1uF;
+ spf=pass (domain: gmail.com, ip: 209.85.161.45, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-54a009bf95bso1336022eaf.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 17:35:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683074143; x=1685666143;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/OY4zeL6wZzcRCqN7gVtY9b2+uefUh9RrWO9oD3HScs=;
+        b=XoAQE1uFiNRsmVY+HNYjujcPq+ykw3Z5OJ1sW4FNTuAs87vSkh2LKdyPxyxRh2dOcY
+         ZiC7QVaFbuJ3rgG74oh44FPFiVQh4b9GSSWpTtsIhakkR+BMwLuHQA8iU3a2vu90djmt
+         Eht0AgDpeqbTolOcd8Fu9NiLnlUOFqZRXcP/F0iR1ZzoUWmiyxVN7Ww+NZYQWRdyUdyP
+         KLUljoh4k4AuQbyAFEbY0JH7xkZB9/WjKFUZRjwdTbvpql9PONT252Z2ZnMpAbiMUGW9
+         WQnHgCFiIIe9N/kI0tqDN3pTDmlRHM4OVQtsv6yfmnBIqGCQxn7swB3RERDEyGFXgG+A
+         NXYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683074143; x=1685666143;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/OY4zeL6wZzcRCqN7gVtY9b2+uefUh9RrWO9oD3HScs=;
+        b=Ji4dRJrJ7hII/aGzxk91kzM8RCGmn8gpDqpA9SQNP3nzpgZgTJBu+2Z3BBjJwNXVV+
+         +muS47r7oawYLDBxfnRKGR5U0k1b38vxft9TKYmtAs6y8DGpTp6vZQHsInBm3be9Z65q
+         9KyFe2ltTDD7+KgUXAZUgu+QiUipFM9ba5R5+MdVnEF2IEyHVLBIvZjfYHM+pqgb3Fap
+         sVaLOJvKwGozd+uwweoRUPpcqRwKxEkkyLjr/W4664V98mWCIu1S1D8u9PKN29pa3mj/
+         amT3dQ6PrLzhfrmr7jom7pTFLjPVqolWyzFHtAxet9VwE2OW8yaTydIH50ujLl0bt5mZ
+         eU+Q==
+X-Gm-Message-State: AC+VfDwp2IsVVZ1QlyB9AyLGFUABA8WVhNFTqWZa3LtrCtOcWKu9O3+E
+	nACnUW0a1TRJ6uLvPBAyk8chZKVP8QT3aJcPfAo=
+X-Google-Smtp-Source: ACHHUZ4QUS2AHZHHceY6eEmH7V+7KxOjgJoUQbfhjOMw/gsW0ncsmpRTGJqVLz7nguQrTWXF5+7/CZGluUgK4t6wcgw=
+X-Received: by 2002:a54:4103:0:b0:38c:17a7:5b7b with SMTP id
+ l3-20020a544103000000b0038c17a75b7bmr9147289oic.19.1683074143280; Tue, 02 May
+ 2023 17:35:43 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [EXTERNAL] Re: [OE-core] [PATCH v2] wic/bootimg-efi: if
- fixed-size is set then use that for mkdosfs
-Content-Language: en-US, en-US-large
-To: Denys Dmytriyenko <denis@denix.org>, <p-bhagat@ti.com>
-CC: <openembedded-core@lists.openembedded.org>
-References: <51022390-b911-5b8c-36bf-3ddb13263826@ti.com>
- <17864.1682500019497210025@lists.openembedded.org>
- <20230502230233.GF9226@denix.org>
-From: Randolph Sapp <rs@ti.com>
-In-Reply-To: <20230502230233.GF9226@denix.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20230502123053.604642-1-tgamblin@baylibre.com> <20230502123053.604642-2-tgamblin@baylibre.com>
+In-Reply-To: <20230502123053.604642-2-tgamblin@baylibre.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 2 May 2023 17:35:16 -0700
+Message-ID: <CAMKF1soKLvKnWOygoYd_5LzAi1N97aRpQt+3e1-NAZQ38RtMRw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 2/3] python3-trove-classifiers: Add recipe
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 23:54:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180779
+ <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 00:35:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180780
 
-On 5/2/23 18:02, Denys Dmytriyenko wrote:
-> On Wed, Apr 26, 2023 at 02:06:59AM -0700, Paresh Bhagat via lists.openembedded.org wrote:
->> Hi Randolph
->>
->> I tested your patch in my local kirkstone build for am62x. SD Card boot is working.
->> Boot logs here: http://serenity.dal.design.ti.com:7777/ewakutoqom.yaml
-> 
-> This is an internal-only resource ^^^
-> Since you are both TI-ers, don't you think there's a better way to communicate
-> this information rather than using a public mailing list? :)
-> 
-I was hopping to get a tested-by tag here but I guess that was lost 
-somewhere in the communication chain. I already knew this patch worked :)
+it needs maintainer entry as well.
+
+On Tue, May 2, 2023 at 5:31=E2=80=AFAM Trevor Gamblin <tgamblin@baylibre.co=
+m> wrote:
+>
+> python3-trove-classifiers is "Canonical source for classifiers on
+> PyPI.". It is required to update python3-hatchling from the current
+> version (1.13.0) in oe-core, and depends on python3-calver (another new
+> recipe). Also add ptests.
+>
+> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+> ---
+>  .../distro/include/ptest-packagelists.inc     |  1 +
+>  .../python3-trove-classifiers/run-ptest       |  3 +++
+>  .../python3-trove-classifiers_2023.4.29.bb    | 26 +++++++++++++++++++
+>  3 files changed, 30 insertions(+)
+>  create mode 100644 meta/recipes-devtools/python/python3-trove-classifier=
+s/run-ptest
+>  create mode 100644 meta/recipes-devtools/python/python3-trove-classifier=
+s_2023.4.29.bb
+>
+> diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/=
+distro/include/ptest-packagelists.inc
+> index 78750a0d98..cbbf84f2d4 100644
+> --- a/meta/conf/distro/include/ptest-packagelists.inc
+> +++ b/meta/conf/distro/include/ptest-packagelists.inc
+> @@ -64,6 +64,7 @@ PTESTS_FAST =3D "\
+>      python3-pluggy \
+>      python3-pyasn1 \
+>      python3-pytz \
+> +    python3-trove-classifiers \
+>      python3-wcwidth \
+>      python3-webcolors \
+>      qemu \
+> diff --git a/meta/recipes-devtools/python/python3-trove-classifiers/run-p=
+test b/meta/recipes-devtools/python/python3-trove-classifiers/run-ptest
+> new file mode 100644
+> index 0000000000..8d2017d39c
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python3-trove-classifiers/run-ptest
+> @@ -0,0 +1,3 @@
+> +#!/bin/sh
+> +
+> +pytest --automake
+> diff --git a/meta/recipes-devtools/python/python3-trove-classifiers_2023.=
+4.29.bb b/meta/recipes-devtools/python/python3-trove-classifiers_2023.4.29.=
+bb
+> new file mode 100644
+> index 0000000000..4bbcea5489
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python3-trove-classifiers_2023.4.29.bb
+> @@ -0,0 +1,26 @@
+> +SUMMARY =3D "Canonical source for classifiers on PyPI (pypi.org)."
+> +HOMEPAGE =3D "https://github.com/pypa/trove-classifiers"
+> +LICENSE =3D "Apache-2.0"
+> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D86d3f3a95c324c9479bd8986968f4=
+327"
+> +
+> +SRC_URI[sha256sum] =3D "8adcc06f1eb7c495f0bdceb698bd9c044b3e57b0d5767d99=
+ec4b6b17c9bbe957"
+> +
+> +inherit pypi python_setuptools_build_meta ptest
+> +
+> +DEPENDS +=3D " python3-calver-native"
+> +
+> +SRC_URI +=3D " \
+> +        file://run-ptest \
+> +"
+> +
+> +RDEPENDS:${PN}-ptest +=3D " \
+> +       ${PYTHON_PN}-pytest \
+> +       ${PYTHON_PN}-unittest-automake-output \
+> +"
+> +
+> +do_install_ptest() {
+> +      install -d ${D}${PTEST_PATH}/tests
+> +      cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
+> +}
+> +
+> +BBCLASSEXTEND =3D "native nativesdk"
+> --
+> 2.40.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#180725): https://lists.openembedded.org/g/openembedde=
+d-core/message/180725
+> Mute This Topic: https://lists.openembedded.org/mt/98637420/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
