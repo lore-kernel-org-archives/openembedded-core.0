@@ -1,127 +1,101 @@
-Return-Path: <vkumbhar@mvista.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2945EC77B78
-	for <webhook@archiver.kernel.org>; Wed,  3 May 2023 02:10:47 +0000 (UTC)
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web11.9580.1683079841172691390
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 600EBC77B75
+	for <webhook@archiver.kernel.org>; Wed,  3 May 2023 06:03:08 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web10.12408.1683093785067320542
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 May 2023 19:10:41 -0700
+ Tue, 02 May 2023 23:03:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=fBmRgXs7;
- spf=pass (domain: mvista.com, ip: 209.85.215.177, mailfrom: vkumbhar@mvista.com)
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-517c01edaaaso3057752a12.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 19:10:41 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=J5MlM8HG;
+ spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1ab0c697c2bso15683395ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 May 2023 23:03:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1683079840; x=1685671840;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=943cWB0cUidY2jDPFJnpk/x3j7gbL5eF/1YU51f3g8Y=;
-        b=fBmRgXs7gyj/Drp+BZaqURRLrSQ/83CVwGwKniGpsQ2/KuwLCpD3zzLpvBpgbDLnYJ
-         OAzyNTgWO+qI6HRXvTCfbCgBsqfCHs41bD+q+OqhM7a0G35S8nAHW6XRJG9TtXckhyTe
-         xOM/ZqwWx3m9q0kxfwCpO59MYAQfCtwkJUClQ=
+        d=gmail.com; s=20221208; t=1683093784; x=1685685784;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=p+vv1mcK93YCnz7MlBZ1KqzI2+JXqXJCCnPVHD+FreE=;
+        b=J5MlM8HGfY8xrUmqaXqr6rncIb3CoiKlVS6spalCOj6ar2k7Ib66wP8ZvAqoAmzsyq
+         CQ6DL1Hr7Mu7k5F8enf5CLAggxpAHiLmCdnLbMBxPFWKbj4e0uMcWFfVk/rbCnX6N4EX
+         BK46dg4p5j0Mt3s+H9DUjWN991dDpLec61Fd19Rlvn+aO9POX0zjHQpm7qezGpLWYkxW
+         SaI3Satb0kXyrRxCL+JZeHM2xbShxPtPQtUtuiSt4O9NA6pm5u5IpZw3k5T2axMl8yAS
+         IsvMjNsoaVdRnVLljuZcUkDeNBHTLURzGJc6bANK13vTBPXo06m5N373+N7VkIfHQXgg
+         /Uzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683079840; x=1685671840;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=943cWB0cUidY2jDPFJnpk/x3j7gbL5eF/1YU51f3g8Y=;
-        b=TVAPWdGZFMTGWRUpH6BVEjU6iDPpe2EimrsCUPI3AjAc7NLo7zsbCLJxC2kMQDFZ8m
-         yXSvAHq0ZFvaKRIRXd9PPNwWN+90OF3W//l0SphIzN70g/pOejTfzF9exAgBEmmRqzOm
-         CuLx/0fwPPB1inP5ONhj0B8d3y5nkVea2Cbvy22j1yFLR6NqGicgH9oPuA/CRwjYKKL+
-         grWNBvINEq4RhT7bjeEBa5GPz6txZvTNSk2YcecfHvcSGVg+zwCDneVMiWsNahBIYZ9Q
-         oRX/tD3PMPzoVse61OHwt1JMiJ+kTlbCIjvJuZawPTMZO4axpWIgqejc1hn50j9c2Ycs
-         UcfA==
-X-Gm-Message-State: AC+VfDx6H1XuIqDS3jBQXcS/pCBcjKdGRn25oOvc/1GYFgQtcEQcZ0zX
-	88PiDRdl0TYV4XenFsJG3i8S/mH4V1+Jggr5Eaw=
-X-Google-Smtp-Source: ACHHUZ5MQCHNiQpjr995akMUHb+/UZ99VzPbOpxGD+ENDsV85f6PgrWXNDw+Iq6Gxu5GYB+Pi6WNog==
-X-Received: by 2002:a17:902:bb86:b0:1a9:433e:41e7 with SMTP id m6-20020a170902bb8600b001a9433e41e7mr535030pls.43.1683079840067;
-        Tue, 02 May 2023 19:10:40 -0700 (PDT)
-Received: from localhost.localdomain ([116.75.30.40])
-        by smtp.googlemail.com with ESMTPSA id h6-20020a170902f54600b001ab0083c6c9sm3512604plf.261.2023.05.02.19.10.38
+        d=1e100.net; s=20221208; t=1683093784; x=1685685784;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=p+vv1mcK93YCnz7MlBZ1KqzI2+JXqXJCCnPVHD+FreE=;
+        b=i61Ucq/zh80v6RpCfQJlz6CNX7WLT6h9zNHxYU2AaRsAoAVppmr7+FZAwlqe6WARd0
+         ykPhYw74sb8+ufKeKlNepssRP61VY+yAsVS3NqaeXPcwPfy6qU0hKYglCKAiDNWZ7C3d
+         2l7NmdBcwAtIuFB7vI3RtlkZqK6VWDNl93XF05HgzFSR4D+YAXMyzJ3iAHJATqROSRav
+         RvaMhErbmEa/OB2AVZgoQPnp/MVNaYYj1tel+KEQmPWjc5hsrNveLAf5GW9KgWkygAEB
+         DHJbQ/kt1g3HgmX9f5ZwmvVLle8KDMeQlefUCYr7MDdGsToKuDlRvdlMNAE+gr1hVaQi
+         KoIA==
+X-Gm-Message-State: AC+VfDzrhg099FemeDjPXtMg8YBukHnvYQso736B0OQLrKaAy8aphFem
+	BxjbyzyQuRdD/wwr+aiMHCqBhW0A09t9T45d
+X-Google-Smtp-Source: ACHHUZ6BDOEPRNLMJy1vh+J1Epsr6LqnFcV8kaUklPYO5ZkeqAHjkpV7BWt47QHfZKxpxE6FLgHtrA==
+X-Received: by 2002:a17:90a:8414:b0:24b:347b:2a0f with SMTP id j20-20020a17090a841400b0024b347b2a0fmr18777998pjn.40.1683093783771;
+        Tue, 02 May 2023 23:03:03 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:d380::ade2])
+        by smtp.gmail.com with ESMTPSA id cu19-20020a17090afa9300b0024df4cfc881sm510898pjb.10.2023.05.02.23.03.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 May 2023 19:10:39 -0700 (PDT)
-From: Vivek Kumbhar <vkumbhar@mvista.com>
+        Tue, 02 May 2023 23:03:03 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Vivek Kumbhar <vkumbhar@mvista.com>
-Subject: [OE-core][dunfell][PATCH] freetype: fix CVE-2023-2004 integer overflowin in tt_hvadvance_adjust() in src/truetype/ttgxvar.c
-Date: Wed,  3 May 2023 07:40:24 +0530
-Message-Id: <20230503021024.4809-1-vkumbhar@mvista.com>
-X-Mailer: git-send-email 2.17.1
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2] musl: Update to 1.2.4 release
+Date: Tue,  2 May 2023 23:03:01 -0700
+Message-Id: <20230503060301.69825-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.40.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 02:10:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180782
+ <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 06:03:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180783
 
-Fix An integer overflow vulnerability was discovered in Freetype in tt_hvadvance_adjust() function in src/truetype/ttgxvar.c
+Brings the following changes
 
-Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+* f5f55d65 release 1.2.4
+* b928c723 fix return value of wmemcmp for extreme wchar_t values
+* 4724793f fix wide printf numbered argument buffer overflow
+* c1b42c4a wait4: fix missing rusage on x32 due to wrong success condition
+* 9b12982d semtimedop: fix timespec kernel ABI mismatch for 32-bit timeouts on x32
+* 6d322159 getopt: fix null pointer arithmetic ub
+* 35e98311 nftw: fix use of uninitialized struct stat
+* 7c410472 fix inadvertently static local var in dynlink get_lfs64
+* 77327ed0 dns: check length field in tcp response message
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../freetype/freetype/CVE-2023-2004.patch     | 40 +++++++++++++++++++
- .../freetype/freetype_2.10.1.bb               |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-graphics/freetype/freetype/CVE-2023-2004.patch
+v2: Bring f5f55d65 commit which is marking 1.2.4 release
 
-diff --git a/meta/recipes-graphics/freetype/freetype/CVE-2023-2004.patch b/meta/recipes-graphics/freetype/freetype/CVE-2023-2004.patch
-new file mode 100644
-index 0000000000..800d77579e
---- /dev/null
-+++ b/meta/recipes-graphics/freetype/freetype/CVE-2023-2004.patch
-@@ -0,0 +1,40 @@
-+From e6fda039ad638866b7a6a5d046f03278ba1b7611 Mon Sep 17 00:00:00 2001
-+From: Werner Lemberg <wl@gnu.org>
-+Date: Mon, 14 Nov 2022 19:18:19 +0100
-+Subject: [PATCH] * src/truetype/ttgxvar.c (tt_hvadvance_adjust): Integer
-+ overflow.
-+
-+Reported as
-+
-+  https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=50462
-+
-+Upstream-Status: Backport [https://github.com/freetype/freetype/commit/e6fda039ad638866b7a6a5d046f03278ba1b7611]
-+CVE: CVE-2023-2004
-+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
-+---
-+ src/truetype/ttgxvar.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/truetype/ttgxvar.c b/src/truetype/ttgxvar.c
-+index 78d87dc..258d701 100644
-+--- a/src/truetype/ttgxvar.c
-++++ b/src/truetype/ttgxvar.c
-+@@ -43,6 +43,7 @@
-+ #include FT_INTERNAL_DEBUG_H
-+ #include FT_CONFIG_CONFIG_H
-+ #include FT_INTERNAL_STREAM_H
-++#include <freetype/internal/ftcalc.h>
-+ #include FT_INTERNAL_SFNT_H
-+ #include FT_TRUETYPE_TAGS_H
-+ #include FT_TRUETYPE_IDS_H
-+@@ -1065,7 +1066,7 @@
-+                 delta == 1 ? "" : "s",
-+                 vertical ? "VVAR" : "HVAR" ));
-+
-+-    *avalue += delta;
-++    *avalue = ADD_INT( *avalue, delta );
-+
-+   Exit:
-+     return error;
-+--
-+2.17.1
-diff --git a/meta/recipes-graphics/freetype/freetype_2.10.1.bb b/meta/recipes-graphics/freetype/freetype_2.10.1.bb
-index 72001c529a..6af744b981 100644
---- a/meta/recipes-graphics/freetype/freetype_2.10.1.bb
-+++ b/meta/recipes-graphics/freetype/freetype_2.10.1.bb
-@@ -18,6 +18,7 @@ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/${BPN}/${BP}.tar.xz \
-            file://CVE-2022-27404.patch \
-            file://CVE-2022-27405.patch \
-            file://CVE-2022-27406.patch \
-+           file://CVE-2023-2004.patch \
-           "
- SRC_URI[md5sum] = "bd42e75127f8431923679480efb5ba8f"
- SRC_URI[sha256sum] = "16dbfa488a21fe827dc27eaf708f42f7aa3bb997d745d31a19781628c36ba26f"
+ meta/recipes-core/musl/musl_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 531f337e82..4b21af8499 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -4,9 +4,9 @@
+ require musl.inc
+ inherit linuxloader
+ 
+-SRCREV = "1d5750b95c06913a1f18a995481276d698d20fae"
++SRCREV = "f5f55d6589940fd2c2188d76686efe3a530e64e0"
+ 
+-BASEVER = "1.2.3"
++BASEVER = "1.2.4"
+ 
+ PV = "${BASEVER}+git${SRCPV}"
+ 
 -- 
-2.17.1
+2.40.1
 
 
