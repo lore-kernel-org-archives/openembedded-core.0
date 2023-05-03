@@ -1,237 +1,407 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C820C77B7F
-	for <webhook@archiver.kernel.org>; Wed,  3 May 2023 17:31:11 +0000 (UTC)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
- by mx.groups.io with SMTP id smtpd.web10.26380.1683135064956422372
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE60FC77B78
+	for <webhook@archiver.kernel.org>; Wed,  3 May 2023 19:02:11 +0000 (UTC)
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
+ by mx.groups.io with SMTP id smtpd.web10.29134.1683140529793508616
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 May 2023 10:31:05 -0700
+ Wed, 03 May 2023 12:02:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=VRWPsDwB;
- spf=pass (domain: gmail.com, ip: 209.85.219.180, mailfrom: ticotimo@gmail.com)
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-b9ddcf0afb3so6153515276.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 10:31:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=bDQSSHCB;
+ spf=pass (domain: gmail.com, ip: 209.85.166.42, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-76355514e03so439711939f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 12:02:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683135064; x=1685727064;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=B9vFzMFD8XFGEUQbdVFHVcihr6WO8zkJLx4oU9nOo5M=;
-        b=VRWPsDwB2RmD1BaqaFBaQN8f1tiexcdoq7usH8YwJCPueYeYEuA97fLPUzvhCfD8YR
-         ItHmu7ns2J/o4INIRmJxv+6n7r46T50x8vc1Xs+CmU5cjzIyGzmPORLxEI65J4PyDf7b
-         xPuiDMIzJczTsnGAwYZOTJFNbD63O0PF5TxTfuQ1uHCGyKL5XY8Z23pd5FFc284LBwA9
-         kc5fOmAkpdMWcXM66NkCDq5hAHkEjaoueyG6v+EhOQ2RfNKjNyX1S2iAn0XEg1Gjj40p
-         t2Lf9KhftJgyuvxgVlcOtpiZtUYCmOaOLJ7RxudY4b3LshpX9u66iMGqHfbjFO+i0g+M
-         /9Rg==
+        d=gmail.com; s=20221208; t=1683140529; x=1685732529;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uCmtGkchceTMYa6Olj04SeN7374hx1nmUgQi1Bo7vyE=;
+        b=bDQSSHCBrgQBt5Pp3ZvTj/H++v/FKjW/avPATPH3VdSMpdNvIxctIOwrdL6C+qvR5l
+         9zw2+NA+dMgEn6VE1C2fumN466HieBuZOTnMaDvpDxi2DZcqZISY2eCqvKaaHXa8XqnR
+         0paeNGsrTmTunukNWtx3+vptquyfhp03woRD8EsjDuQ6EKBx5xurpCYmGBsFeBC1PKDF
+         cmbtuavwEjyPpAGV2NsieWc6jVpbKTyL6Rb79V6bI8FwerJWChOwCD7AdIGMDNiox9KV
+         T5FrNgaOcuW6yNuTEWUFnIUidav76O5KO7G/edw7+6jOs2vZHdqUi7ePF4Av667+I2R5
+         yYSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683135064; x=1685727064;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=B9vFzMFD8XFGEUQbdVFHVcihr6WO8zkJLx4oU9nOo5M=;
-        b=khFVHtdlSSQV2rxkLTmhDdh0siqbfJD0neVfaSJHcLNeTEXVNz05TRfoDDHQFRk47l
-         zfmXP52Y9fm21VLSmbZEOKAIvvrp60+0gpqiSGfzTCwkRBwfCusfa/q46s8JLVR4idSe
-         pU9A8e0zB5LINJ+oZuzhA0c9dhgCTBmmSpjWX20V2bBaPAMXWevUIWLVllRKc6jjR+x+
-         cUkWEApHVA1IvFZkfKv0j5JrBd+HaVD7o60BDhH5QVF3B6tXVODw6t+r5aFi2UrIIWHX
-         vL/hUaSSXjwMMiDDnqbN4apdfVIrCsC+3eT9KdA0ztRjh5CB/XQkqkjam6AZpWwFoWjV
-         IjkQ==
-X-Gm-Message-State: AC+VfDySWtCzX85NRJjGH/pH8d36LLz2TnXu5mUKHqEFAng2j4wTbwCO
-	5lShuO5Tz8LvhclF9MLRs2ybaPGpj2d4xdO5nu6hvVStBQ4=
-X-Google-Smtp-Source: ACHHUZ4QHe9bPwGm/ARe2BMcpdKDZ1DmnSv8oKN33yVBs5Us6tFU5HkfO6kX42KPg8uckAMD3Z8jqign2Fk0n05us1Y=
-X-Received: by 2002:a25:73cf:0:b0:b99:71dd:869 with SMTP id
- o198-20020a2573cf000000b00b9971dd0869mr20736383ybc.53.1683135063557; Wed, 03
- May 2023 10:31:03 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1683140529; x=1685732529;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uCmtGkchceTMYa6Olj04SeN7374hx1nmUgQi1Bo7vyE=;
+        b=aDjZnYKGU23qxjxE9ZyGGvMCfL4BbSBF8g2LfkaBBP2iJIlj2O0LD+QZnnL9F10YFi
+         Gb32AW2G+Hjd/cjZ3ackjFBlZxjMCtjt0viXNr5zKsiK3yVfpifcdRKKFL3CRRhx/ERa
+         FA7N96Pb0ZBVp2lo9+8Mg6lTGJDbkZFLWA1oPXOOlYJIxu+0KmcaVA6UiD0EGbh+S1dW
+         kbUhzqBTNaOcwSbTN8+qk+/+mA2vujYIesSoXjl4ajJPDpgFewzGNVWi4gO01eCxRGnm
+         DK67JXI7StLXlSqaDs3RZJFnqvaRIwCN8K7nsWK9pBquN0N3NiOLbZo9ItCw2Lvb4Jj9
+         I5uA==
+X-Gm-Message-State: AC+VfDwjbF+puc57whuBVjrbzqI+wObRS0QKdQiwRGMOwhlHwixajI1d
+	6BbMT7KBNiD8utgwASfGdxh7VmftSfwSZFukpo8=
+X-Google-Smtp-Source: ACHHUZ5bvm23Q7RfO7NuzvWcLnXjLTJKxBQTasEkVNoZsKpExrVOKUBP5La7Pd8sdhyE31RKbiytTxmH4oM7xHf3yeE=
+X-Received: by 2002:a6b:ee17:0:b0:763:8ad8:e2b0 with SMTP id
+ i23-20020a6bee17000000b007638ad8e2b0mr14549286ioh.7.1683140528831; Wed, 03
+ May 2023 12:02:08 -0700 (PDT)
 MIME-Version: 1.0
-From: Tim Orling <ticotimo@gmail.com>
-Date: Wed, 3 May 2023 10:30:52 -0700
-Message-ID: <CANx9H-B4seY487YwfvgW2ze_n6MWr73kJsOTc8spdou32qubKg@mail.gmail.com>
-Subject: [RFC] python3-cryptogaphy upgrade to 40.0.2 issues
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000009289a005facd6b05"
+References: <01010187d9352360-4eff0521-e848-4365-a203-ba8b516d3d8b-000000@us-west-2.amazonses.com>
+ <ad51e892-f8cb-adf9-b958-1e2cad618015@windriver.com> <CANNYZj-CWh2pc=GhqdEWmi+Nqd+Ur0K8UFvuQBuV72upHBYuAQ@mail.gmail.com>
+In-Reply-To: <CANNYZj-CWh2pc=GhqdEWmi+Nqd+Ur0K8UFvuQBuV72upHBYuAQ@mail.gmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Wed, 3 May 2023 20:01:57 +0100
+Message-ID: <CAO5Uq5SbpFvyOfFdZsWFBeOjya459pq2pVEWRY+5j5jzZeGURA@mail.gmail.com>
+Subject: Re: [AUH] rust: upgrading to 1.69.0 FAILED -> Sundeep to do the update.
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Randy MacLeod <randy.macleod@windriver.com>, 
+	"Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 17:31:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180834
+ <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 19:02:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180835
 
---0000000000009289a005facd6b05
-Content-Type: text/plain; charset="UTF-8"
+Yeah, I think it's made it through testing in master-next?
 
-I am working on an upgrade from 39.0.2 to 40.0.2 for python3-cryptography:
-https://git.yoctoproject.org/poky-contrib/log/?h=timo/python3-cryptography_40.0.2
+On Wed, May 3, 2023 at 8:39=E2=80=AFAM Alexander Kanavin <alex.kanavin@gmai=
+l.com> wrote:
+>
+> I think Alex Kiernan already sent an update here about a week ago?
+>
+> Alex
+>
+>
+> On Wed, 3 May 2023 at 01:29, Randy MacLeod <randy.macleod@windriver.com> =
+wrote:
+> >
+> > On 2023-05-01 17:25, auh@yoctoproject.org wrote:
+> >
+> > Hello,
+> >
+> > this email is a notification from the Auto Upgrade Helper
+> > that the automatic attempt to upgrade the recipe *rust* to *1.69.0* has=
+ Failed (devtool error).
+> >
+> > Detailed error information:
+> >
+> > The following devtool command failed:  upgrade rust -V 1.69.0
+> >
+> > Sundeep said that he will start working on this tomorrow unless someone=
+ else speaks up
+> > about having the update underway. 1.70 isn't due until June 1st or so.
+> >
+> > ../Randy
+> >
+> >
+> > NOTE: Starting bitbake server...
+> > NOTE: Reconnecting to bitbake server...
+> > NOTE: Retrying server connection (#1)... (14:02:48.244299)
+> > Loading cache...done.
+> > Loaded 1799 entries from dependency cache.
+> > Removing 1 recipes from the x86_64 sysroot...done.
+> > NOTE: Resolving any missing task queue dependencies
+> >
+> > Build Configuration:
+> > BB_VERSION           =3D "2.4.0"
+> > BUILD_SYS            =3D "x86_64-linux"
+> > NATIVELSBSTRING      =3D "universal"
+> > TARGET_SYS           =3D "x86_64-poky-linux"
+> > MACHINE              =3D "qemux86-64"
+> > DISTRO               =3D "poky"
+> > DISTRO_VERSION       =3D "4.2"
+> > TUNE_FEATURES        =3D "m64 core2"
+> > TARGET_FPU           =3D ""
+> > meta
+> > meta-poky
+> > meta-yocto-bsp       =3D "tmp-auh-upgrades:c08f5fabc6f19121f285caaed7c9=
+9e1ba459baab"
+> > workspace            =3D "master:cce6db2a59d309f77c1f9ca173fc674c506062=
+d0"
+> >
+> > Initialising tasks...done.
+> > Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 22 (0% matc=
+h, 100% complete)
+> > NOTE: Executing Tasks
+> > NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be =
+rerun and all succeeded.
+> > NOTE: Writing buildhistory
+> > NOTE: Writing buildhistory took: 2 seconds
+> > Loading cache...done.
+> > Loaded 1799 entries from dependency cache.
+> > Parsing recipes...done.
+> > Parsing of 900 .bb files complete (898 cached, 2 parsed). 1800 targets,=
+ 39 skipped, 0 masked, 0 errors.
+> > NOTE: Resolving any missing task queue dependencies
+> >
+> > Build Configuration:
+> > BB_VERSION           =3D "2.4.0"
+> > BUILD_SYS            =3D "x86_64-linux"
+> > NATIVELSBSTRING      =3D "universal"
+> > TARGET_SYS           =3D "x86_64-poky-linux"
+> > MACHINE              =3D "qemux86-64"
+> > DISTRO               =3D "poky"
+> > DISTRO_VERSION       =3D "4.2"
+> > TUNE_FEATURES        =3D "m64 core2"
+> > TARGET_FPU           =3D ""
+> > meta
+> > meta-poky
+> > meta-yocto-bsp       =3D "tmp-auh-upgrades:c08f5fabc6f19121f285caaed7c9=
+9e1ba459baab"
+> > workspace            =3D "master:cce6db2a59d309f77c1f9ca173fc674c506062=
+d0"
+> >
+> > Initialising tasks...done.
+> > Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 18 (0% matc=
+h, 100% complete)
+> > NOTE: Executing Tasks
+> > NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be r=
+erun and all succeeded.
+> > NOTE: Writing buildhistory
+> > NOTE: Writing buildhistory took: 2 seconds
+> > DEBUG 5 [Errno 25] Inappropriate ioctl for device
+> > Adding changed files:   0% |                                   | ETA:  =
+--:--:--
+> > Adding changed files:   0% |                                   | ETA:  =
+--:--:--
+> > Adding changed files:   1% |                                    | ETA: =
+ 0:01:03
+> > Adding changed files:   2% |                                    | ETA: =
+ 0:00:45
+> > Adding changed files:   3% |#                                   | ETA: =
+ 0:00:40
+> > Adding changed files:   4% |#                                   | ETA: =
+ 0:00:36
+> > Adding changed files:   5% |#                                   | ETA: =
+ 0:00:34
+> > Adding changed files:   6% |##                                  | ETA: =
+ 0:00:33
+> > Adding changed files:   7% |##                                  | ETA: =
+ 0:00:32
+> > Adding changed files:   8% |##                                  | ETA: =
+ 0:00:31
+> > Adding changed files:   9% |###                                 | ETA: =
+ 0:00:30
+> > Adding changed files:  10% |###                                 | ETA: =
+ 0:00:30
+> > Adding changed files:  11% |####                                | ETA: =
+ 0:00:29
+> > Adding changed files:  12% |####                                | ETA: =
+ 0:00:29
+> > Adding changed files:  13% |####                                | ETA: =
+ 0:00:28
+> > Adding changed files:  14% |#####                               | ETA: =
+ 0:00:27
+> > Adding changed files:  15% |#####                               | ETA: =
+ 0:00:27
+> > Adding changed files:  16% |#####                               | ETA: =
+ 0:00:27
+> > Adding changed files:  17% |######                              | ETA: =
+ 0:00:26
+> > Adding changed files:  18% |######                              | ETA: =
+ 0:00:26
+> > Adding changed files:  19% |######                              | ETA: =
+ 0:00:25
+> > Adding changed files:  20% |#######                             | ETA: =
+ 0:00:25
+> > Adding changed files:  21% |#######                             | ETA: =
+ 0:00:25
+> > Adding changed files:  22% |########                            | ETA: =
+ 0:00:24
+> > Adding changed files:  23% |########                            | ETA: =
+ 0:00:24
+> > Adding changed files:  24% |########                            | ETA: =
+ 0:00:23
+> > Adding changed files:  25% |#########                           | ETA: =
+ 0:00:23
+> > Adding changed files:  26% |#########                           | ETA: =
+ 0:00:23
+> > Adding changed files:  27% |#########                           | ETA: =
+ 0:00:23
+> > Adding changed files:  28% |##########                          | ETA: =
+ 0:00:23
+> > Adding changed files:  29% |##########                          | ETA: =
+ 0:00:22
+> > Adding changed files:  30% |##########                          | ETA: =
+ 0:00:22
+> > Adding changed files:  31% |###########                         | ETA: =
+ 0:00:22
+> > Adding changed files:  32% |###########                         | ETA: =
+ 0:00:22
+> > Adding changed files:  33% |############                        | ETA: =
+ 0:00:21
+> > Adding changed files:  34% |############                        | ETA: =
+ 0:00:21
+> > Adding changed files:  35% |############                        | ETA: =
+ 0:00:21
+> > Adding changed files:  36% |#############                       | ETA: =
+ 0:00:21
+> > Adding changed files:  37% |#############                       | ETA: =
+ 0:00:20
+> > Adding changed files:  38% |#############                       | ETA: =
+ 0:00:20
+> > Adding changed files:  39% |##############                      | ETA: =
+ 0:00:20
+> > Adding changed files:  40% |##############                      | ETA: =
+ 0:00:20
+> > Adding changed files:  41% |##############                      | ETA: =
+ 0:00:19
+> > Adding changed files:  42% |###############                     | ETA: =
+ 0:00:19
+> > Adding changed files:  43% |###############                     | ETA: =
+ 0:00:19
+> > Adding changed files:  44% |################                    | ETA: =
+ 0:00:18
+> > Adding changed files:  45% |################                    | ETA: =
+ 0:00:18
+> > Adding changed files:  46% |################                    | ETA: =
+ 0:00:18
+> > Adding changed files:  47% |#################                   | ETA: =
+ 0:00:17
+> > Adding changed files:  48% |#################                   | ETA: =
+ 0:00:17
+> > Adding changed files:  49% |#################                   | ETA: =
+ 0:00:17
+> > Adding changed files:  50% |##################                  | ETA: =
+ 0:00:17
+> > Adding changed files:  51% |##################                  | ETA: =
+ 0:00:16
+> > Adding changed files:  52% |###################                 | ETA: =
+ 0:00:16
+> > Adding changed files:  53% |###################                 | ETA: =
+ 0:00:16
+> > Adding changed files:  54% |###################                 | ETA: =
+ 0:00:15
+> > Adding changed files:  55% |####################                | ETA: =
+ 0:00:15
+> > Adding changed files:  56% |####################                | ETA: =
+ 0:00:15
+> > Adding changed files:  57% |####################                | ETA: =
+ 0:00:14
+> > Adding changed files:  58% |#####################               | ETA: =
+ 0:00:14
+> > Adding changed files:  59% |#####################               | ETA: =
+ 0:00:14
+> > Adding changed files:  60% |#####################               | ETA: =
+ 0:00:13
+> > Adding changed files:  61% |######################              | ETA: =
+ 0:00:13
+> > Adding changed files:  63% |######################              | ETA: =
+ 0:00:13
+> > Adding changed files:  64% |#######################             | ETA: =
+ 0:00:12
+> > Adding changed files:  65% |#######################             | ETA: =
+ 0:00:12
+> > Adding changed files:  66% |#######################             | ETA: =
+ 0:00:12
+> > Adding changed files:  67% |########################            | ETA: =
+ 0:00:11
+> > Adding changed files:  68% |########################            | ETA: =
+ 0:00:11
+> > Adding changed files:  69% |########################            | ETA: =
+ 0:00:11
+> > Adding changed files:  70% |#########################           | ETA: =
+ 0:00:10
+> > Adding changed files:  71% |#########################           | ETA: =
+ 0:00:10
+> > Adding changed files:  72% |#########################           | ETA: =
+ 0:00:10
+> > Adding changed files:  73% |##########################          | ETA: =
+ 0:00:09
+> > Adding changed files:  74% |##########################          | ETA: =
+ 0:00:09
+> > Adding changed files:  75% |###########################         | ETA: =
+ 0:00:09
+> > Adding changed files:  76% |###########################         | ETA: =
+ 0:00:08
+> > Adding changed files:  77% |###########################         | ETA: =
+ 0:00:08
+> > Adding changed files:  78% |############################        | ETA: =
+ 0:00:07
+> > Adding changed files:  79% |############################        | ETA: =
+ 0:00:07
+> > Adding changed files:  80% |############################        | ETA: =
+ 0:00:07
+> > Adding changed files:  81% |#############################       | ETA: =
+ 0:00:06
+> > Adding changed files:  82% |#############################       | ETA: =
+ 0:00:06
+> > Adding changed files:  83% |#############################       | ETA: =
+ 0:00:06
+> > Adding changed files:  84% |##############################      | ETA: =
+ 0:00:05
+> > Adding changed files:  85% |##############################      | ETA: =
+ 0:00:05
+> > Adding changed files:  86% |###############################     | ETA: =
+ 0:00:05
+> > Adding changed files:  87% |###############################     | ETA: =
+ 0:00:04
+> > Adding changed files:  88% |###############################     | ETA: =
+ 0:00:04
+> > Adding changed files:  89% |################################    | ETA: =
+ 0:00:03
+> > Adding changed files:  90% |################################    | ETA: =
+ 0:00:03
+> > Adding changed files:  91% |################################    | ETA: =
+ 0:00:03
+> > Adding changed files:  92% |#################################   | ETA: =
+ 0:00:02
+> > Adding changed files:  93% |#################################   | ETA: =
+ 0:00:02
+> > Adding changed files:  94% |##################################  | ETA: =
+ 0:00:02
+> > Adding changed files:  95% |##################################  | ETA: =
+ 0:00:01
+> > Adding changed files:  96% |##################################  | ETA: =
+ 0:00:01
+> > Adding changed files:  97% |################################### | ETA: =
+ 0:00:00
+> > Adding changed files:  98% |################################### | ETA: =
+ 0:00:00
+> > Adding changed files:  99% |################################### | ETA: =
+ 0:00:00
+> > Adding changed files: 100% |####################################| Time:=
+ 0:00:36
+> >
+> > INFO: Extracting current version source...
+> > INFO: Extracting upgraded version source...
+> > INFO: Fetching https://static.rust-lang.org/dist/rustc-1.69.0-src.tar.x=
+z;name=3Drust...
+> > INFO: Rebasing devtool onto 501a8ba40bc5d3e5ab5ee81bf2819c527bc8f221
+> > WARNING: Command 'git rebase 501a8ba40bc5d3e5ab5ee81bf2819c527bc8f221' =
+failed:
+> > CONFLICT (modify/delete): vendor/crossbeam-utils-0.8.12/.cargo-checksum=
+.json deleted in HEAD and modified in 8ca3ec0aa (rust: Fix crossbeam-utils =
+for arches without atomics).  Version 8ca3ec0aa (rust: Fix crossbeam-utils =
+for arches without atomics) of vendor/crossbeam-utils-0.8.12/.cargo-checksu=
+m.json left in tree.
+> > CONFLICT (modify/delete): vendor/crossbeam-utils-0.8.12/build.rs delete=
+d in HEAD and modified in 8ca3ec0aa (rust: Fix crossbeam-utils for arches w=
+ithout atomics).  Version 8ca3ec0aa (rust: Fix crossbeam-utils for arches w=
+ithout atomics) of vendor/crossbeam-utils-0.8.12/build.rs left in tree.
+> >
+> > ERROR: Execution of 'git checkout devtool' failed with exit code 1:
+> > error: you need to resolve your current index first
+> > vendor/crossbeam-utils-0.8.12/.cargo-checksum.json: needs merge
+> > vendor/crossbeam-utils-0.8.12/build.rs: needs merge
+> >
+> >
+> >
+> > Please review the attached files for further information and build/upda=
+te failures.
+> > Any problem please file a bug at https://bugzilla.yoctoproject.org/ente=
+r_bug.cgi?product=3DAutomated%20Update%20Handler
+> >
+> > Regards,
+> > The Upgrade Helper
+> >
+> >
+> > --
+> > # Randy MacLeod
+> > # Wind River Linux
 
-The patch at the tip of HEAD is perhaps not needed, as the compiling of
-`openssl-sys` was not the problem. We might need tweaks to not vendor
-OpenSSL, but I do not think this is the root of the problem right now.
 
-The issue I am struggling with is "Python.h" is not being found:
-|   cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
-|   CRATE_CC_NO_DEFAULTS = Some("1")
-|   Info: default compiler flags are disabled
-|   cargo:rerun-if-env-changed=CC_x86_64-poky-linux-gnu
-|   CC_x86_64-poky-linux-gnu = None
-|   cargo:rerun-if-env-changed=CC_x86_64_poky_linux_gnu
-|   CC_x86_64_poky_linux_gnu = None
-|   cargo:rerun-if-env-changed=TARGET_CC
-|   TARGET_CC = None
-|   cargo:rerun-if-env-changed=CC
-|   CC = Some("x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3
--mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat
--Wformat-security -Werror=format-security
---sysroot=/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot")
-|   cargo:rerun-if-env-changed=CFLAGS_x86_64-poky-linux-gnu
-|   CFLAGS_x86_64-poky-linux-gnu = None
-|   cargo:rerun-if-env-changed=CFLAGS_x86_64_poky_linux_gnu
-|   CFLAGS_x86_64_poky_linux_gnu = None
-|   cargo:rerun-if-env-changed=TARGET_CFLAGS
-|   TARGET_CFLAGS = None
-|   cargo:rerun-if-env-changed=CFLAGS
-|   CFLAGS = Some(" -O2 -pipe -g -feliminate-unused-debug-types
--fmacro-prefix-map=/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/cryptography-40.0.2=/usr/src/debug/python3-cryptography/40.0.2-r0
- -fdebug-prefix-map=/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/cryptography-40.0.2=/usr/src/debug/python3-cryptography/40.0.2-r0
- -fmacro-prefix-map=/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/build=/usr/src/debug/python3-cryptography/40.0.2-r0
- -fdebug-prefix-map=/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/build=/usr/src/debug/python3-cryptography/40.0.2-r0
- -fdebug-prefix-map=/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot=
- -fmacro-prefix-map=/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot=
- -fdebug-prefix-map=/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot-native=
-")
-|   cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
-|   CRATE_CC_NO_DEFAULTS = Some("1")
-|   Info: default compiler flags are disabled
-|   running: "x86_64-poky-linux-gcc" "-m64" "-march=core2" "-mtune=core2"
-"-msse3" "-mfpmath=sse" "-fstack-protector-strong" "-O2"
-"-D_FORTIFY_SOURCE=2" "-Wformat" "-Wformat-security"
-"-Werror=format-security"
-"--sysroot=/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot"
-"-O2" "-pipe" "-g" "-feliminate-unused-debug-types"
-"-fmacro-prefix-map=/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/cryptography-40.0.2=/usr/src/debug/python3-cryptography/40.0.2-r0"
-"-fdebug-prefix-map=/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/cryptography-40.0.2=/usr/src/debug/python3-cryptography/40.0.2-r0"
-"-fmacro-prefix-map=/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/build=/usr/src/debug/python3-cryptography/40.0.2-r0"
-"-fdebug-prefix-map=/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/build=/usr/src/debug/python3-cryptography/40.0.2-r0"
-"-fdebug-prefix-map=/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot="
-"-fmacro-prefix-map=/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot="
-"-fdebug-prefix-map=/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot-native="
-"-I" "/usr/include/python3.11" "-I"
-"/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot/usr/include"
-"-Wconversion" "-Wno-error=sign-conversion" "-Wno-unused-parameter"
-"-DPy_LIMITED_API=0x030600f0" "-o"
-"/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/build/target/x86_64-poky-linux-gnu/release/build/cryptography-rust-aa00e39a952c07ee/out/9f543b84f9f4dceb-_openssl.o"
-"-c"
-"/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/build/target/x86_64-poky-linux-gnu/release/build/cryptography-rust-aa00e39a952c07ee/out/_openssl.c"
-|
-cargo:warning=/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/build/target/x86_64-poky-linux-gnu/release/build/cryptography-rust-aa00e39a952c07ee/out/_openssl.c:57:10:
-fatal error: Python.h: No such file or directory
-|   cargo:warning=   57 | #include <Python.h>
-|   cargo:warning=      |          ^~~~~~~~~~
-|   cargo:warning=compilation terminated.
-|   exit status: 1
-|
-|   --- stderr
 
-which I believe is happening during:
-https://github.com/pyca/cryptography/blob/40.0.x/src/rust/build.rs#L74
-
-I would appreciate input from any crustaceans out there with a better
-understanding of what might be happening.
-
---Tim
-
---0000000000009289a005facd6b05
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">I am working=C2=A0on an upgrade from 39.0.2 to 40.0.2 for =
-python3-cryptography:<div><a href=3D"https://git.yoctoproject.org/poky-cont=
-rib/log/?h=3Dtimo/python3-cryptography_40.0.2">https://git.yoctoproject.org=
-/poky-contrib/log/?h=3Dtimo/python3-cryptography_40.0.2</a><br></div><div><=
-br></div><div>The patch at the tip of HEAD is perhaps not needed, as the co=
-mpiling of `openssl-sys` was not the problem. We might need tweaks to not v=
-endor OpenSSL, but I do not think this is the root of the problem right now=
-.</div><div><br></div><div>The issue I am struggling with is &quot;Python.h=
-&quot; is not being found:</div><div>| =C2=A0 cargo:rerun-if-env-changed=3D=
-CRATE_CC_NO_DEFAULTS<br>| =C2=A0 CRATE_CC_NO_DEFAULTS =3D Some(&quot;1&quot=
-;)<br>| =C2=A0 Info: default compiler flags are disabled<br>| =C2=A0 cargo:=
-rerun-if-env-changed=3DCC_x86_64-poky-linux-gnu<br>| =C2=A0 CC_x86_64-poky-=
-linux-gnu =3D None<br>| =C2=A0 cargo:rerun-if-env-changed=3DCC_x86_64_poky_=
-linux_gnu<br>| =C2=A0 CC_x86_64_poky_linux_gnu =3D None<br>| =C2=A0 cargo:r=
-erun-if-env-changed=3DTARGET_CC<br>| =C2=A0 TARGET_CC =3D None<br>| =C2=A0 =
-cargo:rerun-if-env-changed=3DCC<br>| =C2=A0 CC =3D Some(&quot;x86_64-poky-l=
-inux-gcc =C2=A0-m64 -march=3Dcore2 -mtune=3Dcore2 -msse3 -mfpmath=3Dsse -fs=
-tack-protector-strong =C2=A0-O2 -D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-sec=
-urity -Werror=3Dformat-security --sysroot=3D/srv/build/ttorling/build-upgra=
-des/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysr=
-oot&quot;)<br>| =C2=A0 cargo:rerun-if-env-changed=3DCFLAGS_x86_64-poky-linu=
-x-gnu<br>| =C2=A0 CFLAGS_x86_64-poky-linux-gnu =3D None<br>| =C2=A0 cargo:r=
-erun-if-env-changed=3DCFLAGS_x86_64_poky_linux_gnu<br>| =C2=A0 CFLAGS_x86_6=
-4_poky_linux_gnu =3D None<br>| =C2=A0 cargo:rerun-if-env-changed=3DTARGET_C=
-FLAGS<br>| =C2=A0 TARGET_CFLAGS =3D None<br>| =C2=A0 cargo:rerun-if-env-cha=
-nged=3DCFLAGS<br>| =C2=A0 CFLAGS =3D Some(&quot; -O2 -pipe -g -feliminate-u=
-nused-debug-types -fmacro-prefix-map=3D/srv/build/ttorling/build-upgrades/t=
-mp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/cryptography-40.=
-0.2=3D/usr/src/debug/python3-cryptography/40.0.2-r0 =C2=A0-fdebug-prefix-ma=
-p=3D/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3=
--cryptography/40.0.2-r0/cryptography-40.0.2=3D/usr/src/debug/python3-crypto=
-graphy/40.0.2-r0 =C2=A0-fmacro-prefix-map=3D/srv/build/ttorling/build-upgra=
-des/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/build=3D/us=
-r/src/debug/python3-cryptography/40.0.2-r0 =C2=A0-fdebug-prefix-map=3D/srv/=
-build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3-cryptogr=
-aphy/40.0.2-r0/build=3D/usr/src/debug/python3-cryptography/40.0.2-r0 =C2=A0=
--fdebug-prefix-map=3D/srv/build/ttorling/build-upgrades/tmp/work/core2-64-p=
-oky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot=3D =C2=A0-fmacro-pr=
-efix-map=3D/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/=
-python3-cryptography/40.0.2-r0/recipe-sysroot=3D =C2=A0-fdebug-prefix-map=
-=3D/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3-=
-cryptography/40.0.2-r0/recipe-sysroot-native=3D &quot;)<br>| =C2=A0 cargo:r=
-erun-if-env-changed=3DCRATE_CC_NO_DEFAULTS<br>| =C2=A0 CRATE_CC_NO_DEFAULTS=
- =3D Some(&quot;1&quot;)<br>| =C2=A0 Info: default compiler flags are disab=
-led<br>| =C2=A0 running: &quot;x86_64-poky-linux-gcc&quot; &quot;-m64&quot;=
- &quot;-march=3Dcore2&quot; &quot;-mtune=3Dcore2&quot; &quot;-msse3&quot; &=
-quot;-mfpmath=3Dsse&quot; &quot;-fstack-protector-strong&quot; &quot;-O2&qu=
-ot; &quot;-D_FORTIFY_SOURCE=3D2&quot; &quot;-Wformat&quot; &quot;-Wformat-s=
-ecurity&quot; &quot;-Werror=3Dformat-security&quot; &quot;--sysroot=3D/srv/=
-build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3-cryptogr=
-aphy/40.0.2-r0/recipe-sysroot&quot; &quot;-O2&quot; &quot;-pipe&quot; &quot=
-;-g&quot; &quot;-feliminate-unused-debug-types&quot; &quot;-fmacro-prefix-m=
-ap=3D/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python=
-3-cryptography/40.0.2-r0/cryptography-40.0.2=3D/usr/src/debug/python3-crypt=
-ography/40.0.2-r0&quot; &quot;-fdebug-prefix-map=3D/srv/build/ttorling/buil=
-d-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/cryp=
-tography-40.0.2=3D/usr/src/debug/python3-cryptography/40.0.2-r0&quot; &quot=
-;-fmacro-prefix-map=3D/srv/build/ttorling/build-upgrades/tmp/work/core2-64-=
-poky-linux/python3-cryptography/40.0.2-r0/build=3D/usr/src/debug/python3-cr=
-yptography/40.0.2-r0&quot; &quot;-fdebug-prefix-map=3D/srv/build/ttorling/b=
-uild-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/b=
-uild=3D/usr/src/debug/python3-cryptography/40.0.2-r0&quot; &quot;-fdebug-pr=
-efix-map=3D/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/=
-python3-cryptography/40.0.2-r0/recipe-sysroot=3D&quot; &quot;-fmacro-prefix=
--map=3D/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/pyth=
-on3-cryptography/40.0.2-r0/recipe-sysroot=3D&quot; &quot;-fdebug-prefix-map=
-=3D/srv/build/ttorling/build-upgrades/tmp/work/core2-64-poky-linux/python3-=
-cryptography/40.0.2-r0/recipe-sysroot-native=3D&quot; &quot;-I&quot; &quot;=
-/usr/include/python3.11&quot; &quot;-I&quot; &quot;/srv/build/ttorling/buil=
-d-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/reci=
-pe-sysroot/usr/include&quot; &quot;-Wconversion&quot; &quot;-Wno-error=3Dsi=
-gn-conversion&quot; &quot;-Wno-unused-parameter&quot; &quot;-DPy_LIMITED_AP=
-I=3D0x030600f0&quot; &quot;-o&quot; &quot;/srv/build/ttorling/build-upgrade=
-s/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/build/target/=
-x86_64-poky-linux-gnu/release/build/cryptography-rust-aa00e39a952c07ee/out/=
-9f543b84f9f4dceb-_openssl.o&quot; &quot;-c&quot; &quot;/srv/build/ttorling/=
-build-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/=
-build/target/x86_64-poky-linux-gnu/release/build/cryptography-rust-aa00e39a=
-952c07ee/out/_openssl.c&quot;<br>| =C2=A0 cargo:warning=3D/srv/build/ttorli=
-ng/build-upgrades/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-=
-r0/build/target/x86_64-poky-linux-gnu/release/build/cryptography-rust-aa00e=
-39a952c07ee/out/_openssl.c:57:10: fatal error: Python.h: No such file or di=
-rectory<br>| =C2=A0 cargo:warning=3D =C2=A0 57 | #include &lt;Python.h&gt;<=
-br>| =C2=A0 cargo:warning=3D =C2=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0^~~~~~~~~~<br>| =C2=A0 cargo:warning=3Dcompilation terminated.<br=
->| =C2=A0 exit status: 1<br>| <br>| =C2=A0 --- stderr<br></div><div><br></d=
-iv><div>which I believe=C2=A0is happening during:</div><div><a href=3D"http=
-s://github.com/pyca/cryptography/blob/40.0.x/src/rust/build.rs#L74">https:/=
-/github.com/pyca/cryptography/blob/40.0.x/src/rust/build.rs#L74</a></div><d=
-iv><br></div><div>I would appreciate input from any crustaceans out there w=
-ith a better understanding of what might be happening.</div><div><br></div>=
-<div>--Tim</div><div><br></div></div>
-
---0000000000009289a005facd6b05--
+--=20
+Alex Kiernan
 
