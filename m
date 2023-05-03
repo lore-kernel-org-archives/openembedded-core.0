@@ -1,101 +1,104 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <jermain.horsman@nedap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F02EAC77B78
-	for <webhook@archiver.kernel.org>; Wed,  3 May 2023 13:24:39 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web11.19105.1683120269766808224
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32C85C77B75
+	for <webhook@archiver.kernel.org>; Wed,  3 May 2023 14:09:10 +0000 (UTC)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web11.20350.1683122948611340875
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 May 2023 06:24:30 -0700
+ Wed, 03 May 2023 07:09:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=PS6J8nKr;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3f1cfed93e2so51709195e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 06:24:29 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=KKqMJfyS;
+ spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: jhatnedap@gmail.com)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-50b37f3e664so8719690a12.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 07:09:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1683120268; x=1685712268;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Xw8jDEpQb18vHITOll/c2M6hqUM94oVKAxM+5rTrmEE=;
-        b=PS6J8nKraqgODV7Fqzk6f6o0sC0pqcAx6egc/HGYGcUdD88s72ys9RFv97OiJ3h0RC
-         yJl1EP2c+C002p91a3LoT//Mo+MVLAjKTIv4Sz3GkKjDfbR1+Wc9rX1vhO0uF1UtD/0E
-         vrueZ6EJ9mT77jtvZ0E6NexbUnfzpY9wXfZnM=
+        d=gmail.com; s=20221208; t=1683122947; x=1685714947;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mz5neMAlo4Mtrs7NiCc+tZHnvFyF1yfLDJCLI2lS5yA=;
+        b=KKqMJfySR/buodjPUwcVXjdxwy/I+WvlmnB6R6yotR4dP4HBCWiWT88EJqinbGjPjM
+         8Uc6g3MBSxX/ok/SS6/Jzntb2iVw62EbTGUzOrLo5x9gdQNnz1QXsR/LmmKcacwB41Q9
+         ZLNlCKNMg+omEYU6fmZz++YAmSL728bSRDrHAAWmkK0L+oyjKxhz2k5ut39Gy4getD4Q
+         i/CQbjSMEWxEyC5Fe8+x67DxbgynAXOa5Y2G9qFC6Mdy5mj9ZccrYB7F/iMsGpRcmme2
+         JQSdaZdMYuYakf4LKVuvKKfamORn7iV8SHyRKXIBLDYxX1/OzAEDutqiSJYvu50p0G87
+         XJiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683120268; x=1685712268;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Xw8jDEpQb18vHITOll/c2M6hqUM94oVKAxM+5rTrmEE=;
-        b=Wl0to1YdOTSLuJG1VO3rkoUPSOL0PEDWKaP+xwjjdoq0/a7bOx4OodB3vG4yoWzwqC
-         nTGXO2djKt8nva6yE6x+SU14YSfYJaGnRHrn7gMAtfCPXH6XXjBX0QNGSG2LJct7a0bn
-         PBH106zUoSuwalUfCqPwh6B71SidBjMjPk+t3ncdHV3RWtQvuPhWB1kBKdzd4uAOo5FK
-         7ulnoTolzi5QPk9VtTU37zvzZ6I9Ze3qrJZz9PhE0pKCRqANjdSkxxowWRgjVhrw/kPi
-         Imp5Hjvd2IzSMKwAAB0VMBu+WaXw4paAeI+SAof+TSl+sq1NXboAon0ByZmknFkVj0EW
-         j4Nw==
-X-Gm-Message-State: AC+VfDxjH4c8GhDo0h5B3mOCBexm6Xbt06bpVdxEHBzPBv4MxFm4fX2f
-	D1VHczBcHhXLtahMWNI/cWoQdg==
-X-Google-Smtp-Source: ACHHUZ5RfrCnuReIwmLbOxMytpDIsMTfvwUuM1VYTjMEo0lIafdoJXxia6RMIco+tNhL992WCTtWbg==
-X-Received: by 2002:a05:600c:b41:b0:3f1:79ad:f3a8 with SMTP id k1-20020a05600c0b4100b003f179adf3a8mr15100245wmr.16.1683120268051;
-        Wed, 03 May 2023 06:24:28 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:7d60:21e0:c1e5:ef4b? ([2001:8b0:aba:5f3c:7d60:21e0:c1e5:ef4b])
-        by smtp.gmail.com with ESMTPSA id t15-20020a1c770f000000b003f17f9965a7sm1942802wmi.1.2023.05.03.06.24.27
+        d=1e100.net; s=20221208; t=1683122947; x=1685714947;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mz5neMAlo4Mtrs7NiCc+tZHnvFyF1yfLDJCLI2lS5yA=;
+        b=adB45R7W+ZPIeDDthtA6Yze5Kfrwc1cbozmFtPpJC7/w/XbRiiEe94Uj8TGW5Y7V95
+         ZeZA30VbmIcak+j2elfbiT39eUX+GNNr6/GqLOIMpUz4evgy953Iw+zN7KXJi76Vun2G
+         UrnCOlQBx4acWFko65g9LU9Oq9+Y0UiuKGIi30AY4r/tdSJS8KAeanMaBXa9ApOP1+OY
+         rJ59629DSFwg8HeiBKZ1b+sK0jtUICLBfqq6mbYo787uHkIjLtj8FIFVM48XL9Y02h1x
+         tXN6yITjeq3YAm12S0tMSEhR2OVQkGl1GslPfxACar6ST5OTBnRllN2sMbSeLLS+K4OL
+         xQ/Q==
+X-Gm-Message-State: AC+VfDzA1myd64Pk11J9HzpORHvmVL7Zk/DdVD30ortYsNoFP/ZTaGih
+	9CetoOuyvRO3k9UW73HhB6VArKiJJLc=
+X-Google-Smtp-Source: ACHHUZ4lvUa/gVJmftXTUr3n6ZPKJFUfaFlxtp0C9DoQ9cF4NZbxu1+VrXYM1EhMK5OcPjH92y1Bnw==
+X-Received: by 2002:aa7:cd75:0:b0:50b:df59:dbcf with SMTP id ca21-20020aa7cd75000000b0050bdf59dbcfmr2540865edb.12.1683122946858;
+        Wed, 03 May 2023 07:09:06 -0700 (PDT)
+Received: from NVC4181.nedap.local (smtp3.nedap.com. [87.249.123.12])
+        by smtp.gmail.com with ESMTPSA id bf26-20020a0564021a5a00b005027d31615dsm728317edb.62.2023.05.03.07.09.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 May 2023 06:24:27 -0700 (PDT)
-Message-ID: <50cb843b7f9399ea3b60f01681c3d808a54d557d.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] bitbake.conf: add "xz" to HOSTTOOLS
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	michael.opdenacker@bootlin.com
-Cc: openembedded-core@lists.openembedded.org
-Date: Wed, 03 May 2023 14:24:26 +0100
-In-Reply-To: <CANNYZj81SkyZ_vZmeR4xvOSBAMWihxpravM4LB5sO4Uauc+6iQ@mail.gmail.com>
-References: <20230503095239.2487980-1-michael.opdenacker@bootlin.com>
-	 <b8d70b39c6cfd3127a6871f6666e86de0eaecc77.camel@linuxfoundation.org>
-	 <fe25f670-5d6a-45a8-fdd8-301c44ee7e7f@bootlin.com>
-	 <CANNYZj81SkyZ_vZmeR4xvOSBAMWihxpravM4LB5sO4Uauc+6iQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.47.3-1 
+        Wed, 03 May 2023 07:09:06 -0700 (PDT)
+From: jhatnedap@gmail.com
+X-Google-Original-From: jermain.horsman@nedap.com
+To: openembedded-core@lists.openembedded.org
+Cc: Arturo Buzarra <arturo.buzarra@digi.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Jermain Horsman <jermain.horsman@nedap.com>
+Subject: [dunfell][PATCH] run-postinsts: Set dependency for ldconfig to avoid boot issues
+Date: Wed,  3 May 2023 16:08:13 +0200
+Message-Id: <20230503140813.1913-1-jermain.horsman@nedap.com>
+X-Mailer: git-send-email 2.39.2.windows.1
+Reply-To: jermain.horsman@nedap.com
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 13:24:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180825
+ <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 14:09:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180826
 
-On Wed, 2023-05-03 at 14:42 +0200, Alexander Kanavin wrote:
-> On Wed, 3 May 2023 at 14:39, Michael Opdenacker via
-> lists.openembedded.org
-> <michael.opdenacker=3Dbootlin.com@lists.openembedded.org> wrote:
-> > Then, we I ran my tests on a fresh Fedora container, bitbake didn't war=
-n
-> > me but "xz" was missing, but this prevented the uninative shim from
-> > being installed. It seems that at least on Fedora, "xz" isn't pulled by
-> > the other host tools we install.
-> >=20
-> > I guess most people has "xz" anyway, which could explain why this wasn'=
-t
-> > reported before.
->=20
-> HOSTTOOLS is used to filter tools from the host in $PATH, at least in
-> bitbake tasks, so is uninative extractor bypassing that somehow then?
+From: Arturo Buzarra <arturo.buzarra@digi.com>
 
-The uninative code calls tar from the host. It then probably depends
-upon how tar has been configured and whether it calls xz or uses a
-library?
+If a package with a postsints script requires ldconfig, the package class adds
+a ldconfig postinst fragment to initialize it before. Systemd has its own
+ldconfig.service to initialize it and sometimes if both services are running
+at the same time in the first boot, the first one will work, but the second
+one will fail with the following error:
 
-I'm guessing in the context of uninative, PATH hasn't been locked down
-yet.
+    ldconfig[141]: /sbin/ldconfig: Renaming of /etc/ld.so.cache~ to /etc/ld.so.cache failed: No such file or directory
 
-I think we probably should add xz to HOSTTOOLS at this point but it
-probably does also mean we should change ASSUME_PROVIDED and there are
-some things with an xz dependency which will need to use xz-
-replacement-native since they probably need library components and not
-just xz itself.
+This commit adds a ordering dependency between them to make sure that only one
+service is running at the same time.
 
-Cheers,
+Signed-off-by: Arturo Buzarra <arturo.buzarra@digi.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 4e9d812e127dc6743f52f4881e509e8e2e833afe)
+Signed-off-by: Jermain Horsman <jermain.horsman@nedap.com>
+---
+ .../run-postinsts/run-postinsts/run-postinsts.service           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Richard
+diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service
+index 7f72f3388a..b6b81d5c1a 100644
+--- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service
++++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service
+@@ -1,7 +1,7 @@
+ [Unit]
+ Description=Run pending postinsts
+ DefaultDependencies=no
+-After=systemd-remount-fs.service systemd-tmpfiles-setup.service tmp.mount
++After=systemd-remount-fs.service systemd-tmpfiles-setup.service tmp.mount ldconfig.service
+ Before=sysinit.target
+ 
+ [Service]
+-- 
+2.39.2.windows.1
+
 
