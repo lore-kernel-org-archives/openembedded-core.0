@@ -1,126 +1,155 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <peter@berginkonsult.se>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72C55C7EE21
-	for <webhook@archiver.kernel.org>; Thu,  4 May 2023 11:56:16 +0000 (UTC)
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
- by mx.groups.io with SMTP id smtpd.web10.47764.1683201369258322225
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FEFFC7EE26
+	for <webhook@archiver.kernel.org>; Thu,  4 May 2023 12:00:46 +0000 (UTC)
+Received: from mailrelay5-2.pub.mailoutpod2-cph3.one.com (mailrelay5-2.pub.mailoutpod2-cph3.one.com [46.30.211.186])
+ by mx.groups.io with SMTP id smtpd.web11.47508.1683201639646544505
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 May 2023 04:56:10 -0700
+ Thu, 04 May 2023 05:00:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=ZiVIJqMB;
- spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 8EFCB1BF205;
-	Thu,  4 May 2023 11:56:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1683201366;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4OWV9xqyLSf9tV94XNSQCW6h/j6qAC91gRTlMEz3QLI=;
-	b=ZiVIJqMBVVAzKix4zYr++3viQMUPOWspWvC25aOVBUHCftbGGKb9eBgsQz1vnKtSv8MGsy
-	N94gFYWYmUaL8wwReg+dyckgcwj+dw5ZLjcIClX5bkgY8ceFNYcJPlxKb9t1D+loT2l75P
-	UdGz+6i6Kc9//5GO6liN7GjVD6gUvwzZHdW8ADhakMXA6V6Xlo7tvH9oXsQQRpmQEGNNqH
-	zrk84oi2oE4TqJkJVw+iDDO15mwJGpsPzKou/1wQm/vCytxCfO7VW+LjUUvr9oy06anZly
-	kKCKnlURv6JGcpi+8wrW4oYs0A7ewStcPPCK5c0XTameJIifFzRBo6z8+KWylw==
-Date: Thu, 4 May 2023 13:56:06 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: "qiutt@fujitsu.com" <qiutt@fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH V2] Fix error SRCDIR when using usrmerge
- DISTRO_FEATURES
-Message-ID: <202305041156063b4bf3fa@mail.local>
-References: <Wnqs.1682583778394705301.Jj4z@lists.openembedded.org>
+ dkim=pass header.i=@berginkonsult.se header.s=rsa2 header.b=HnKoQehk;
+ spf=none, err=permanent DNS error (domain: berginkonsult.se, ip: 46.30.211.186, mailfrom: peter@berginkonsult.se)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=berginkonsult.se; s=rsa2;
+	h=content-transfer-encoding:content-type:in-reply-to:from:references:cc:to:
+	 subject:mime-version:date:message-id:from;
+	bh=WHTeQrxTMozvSH/5p32brpELh8uxMsT/jzTGCJKUwz4=;
+	b=HnKoQehkhQSdSRhTB/4z4SR9NiLyD1dsTJSO2dXw3lFt6gN9VEUsqY0PnMlxe2MWHcSHR3YyiIa72
+	 jehlQiYFes25JDED7ov35SkKLe/JBa6OO704r9wCkk50AS0FeYevqUTP7WUh0tb/m54tyQk9a9maZc
+	 J/keh/ldiudKH8GnyjEsm6+JQNVjmTVpX3XZilTwt9gNvTEeXlCq9IPvx7CDJho+VIjALBluSXutsn
+	 EEcvR0MU2hNU0D7Ajsd1bWDDJS0FkHx37PdB+tVcLVO5bIBz+/t90Ms7kl+BrAqLuzc2zEmlsVX5p9
+	 4z+7b0IAw/RpOHx2YpPJv/r3N5SXZ8A==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+	d=berginkonsult.se; s=ed2;
+	h=content-transfer-encoding:content-type:in-reply-to:from:references:cc:to:
+	 subject:mime-version:date:message-id:from;
+	bh=WHTeQrxTMozvSH/5p32brpELh8uxMsT/jzTGCJKUwz4=;
+	b=SyCDbViJp6RGKfE/3AiB9jKFfv0LOUcHoNh+J064FLehpSQv+sYFf4aOW62QO148m3NprtDt5PCZm
+	 2H6NcmcDA==
+X-HalOne-ID: 4781f162-ea73-11ed-a272-231b2edd0ed2
+Received: from [192.168.100.229] (c-799071d5.44006-0-69747578.bbcust.telenor.se [213.113.144.121])
+	by mailrelay5 (Halon) with ESMTPSA
+	id 4781f162-ea73-11ed-a272-231b2edd0ed2;
+	Thu, 04 May 2023 12:00:36 +0000 (UTC)
+Message-ID: <98af3b96-9d1c-3d6a-493f-c1d6a422f9e8@berginkonsult.se>
+Date: Thu, 4 May 2023 14:00:36 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [OE-core] [RFC] python3-cryptogaphy upgrade to 40.0.2 issues
+Content-Language: en-US
+To: Alexander Kanavin <alex.kanavin@gmail.com>, frederic.martinsons@gmail.com
+Cc: Tim Orling <ticotimo@gmail.com>,
+ openembedded-core <openembedded-core@lists.openembedded.org>
+References: <CANx9H-B4seY487YwfvgW2ze_n6MWr73kJsOTc8spdou32qubKg@mail.gmail.com>
+ <57f1224b-14c5-2ba4-c752-98dba8f57a21@berginkonsult.se>
+ <CANNYZj-uE2WUvfZpjq67wHyeFqQaN1L7HYp54Fm99J5UzS8cdw@mail.gmail.com>
+From: Peter Bergin <peter@berginkonsult.se>
+In-Reply-To: <CANNYZj-uE2WUvfZpjq67wHyeFqQaN1L7HYp54Fm99J5UzS8cdw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Wnqs.1682583778394705301.Jj4z@lists.openembedded.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 11:56:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180868
-
-Hello,
-
-I applied it to be able to test, however, your mailer is mangling your
-patches and they don't apply without heavily modifying them.
-
-On 27/04/2023 01:22:58-0700, qiutt@fujitsu.com wrote:
-> From 3b1c081d4efffe83f3a63184450cc79bf16356dc Mon Sep 17 00:00:00 2001
-> From: Qiu Tingting <qiutt@fujitsu.com>
-> Date: Thu, 27 Apr 2023 15:24:35 +0800
-> Subject: [PATCH V2] Fix error SRCDIR when using usrmerge DISTRO_FEATURES
-> 
-> When build e2fsprogs ptest with usrmerge DISTRO_FEATURES,
-> in test_script and test_one scripts, value of SRCDIR has problem.
-> SRCDIR=/usr/usr/lib/e2fsprogs/ptest/test
-> 
-> ptest log
-> # ptest-runner e2fsprogs
-> START: ptest-runner
-> 2022-12-17T11:08
-> BEGIN: /usr/lib/e2fsprogs/ptest
-> ls: cannot access '/usr/usr/lib/e2fsprogs/ptest/test/[a-zA-Z]_*': No such file or directory
-> ./test_script: line 54: /usr/usr/lib/e2fsprogs/ptest/test/test_post: No such file or directory
-> DURATION: 0
-> END: /usr/lib/e2fsprogs/ptest
-> 2022-12-17T11:08
-> STOP: ptest-runner
-> TOTAL: 1 FAIL: 0
-> 
-> Reason
-> In Makefile.in, SRCDIR is set by prefix and libdir.
-> @echo "SRCDIR=${prefix}${libdir}/e2fsprogs/ptest/test" >> test_one
-> @echo "SRCDIR=${prefix}${libdir}/e2fsprogs/ptest/test" >> test_script
-> prefix=/usr
-> libdir=/usr/lib (when usrmerge is set)
-> 
-> solution
-> After ptest compiling, check and modify SRCDIR in test_script and test_one.
-> 
-> Signed-off-by: Qiu Tingting <qiutt@fujitsu.com>
-> ---
-> meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb | 3 +++
-> 1 file changed, 3 insertions(+)
-> 
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
-> index 2620610903..a2eb4f8f8f 100644
-> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
-> @@ -122,6 +122,9 @@ RDEPENDS:${PN}-ptest += "e2fsprogs-badblocks e2fsprogs-dumpe2fs e2fsprogs-e2fsck
-> 
-> do_compile_ptest() {
-> oe_runmake -C ${B}/tests
-
-All the whitespaces are missing fro the beginning of those two lines
-
-> +� � � �sed -i 's,/usr/usr,/usr,g' \
-> +� � � � � �${B}/tests/test_one \
-> +� � � � � �${B}/tests/test_script
-> }
-> 
-> do_install_ptest() {
-> --
-> 2.25.1
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#180486): https://lists.openembedded.org/g/openembedded-core/message/180486
-> Mute This Topic: https://lists.openembedded.org/mt/98532823/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+ <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 12:00:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180869
 
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+On 2023-05-04 11:00, Alexander Kanavin wrote:
+> On Thu, 4 May 2023 at 10:41, Peter Bergin <peter@berginkonsult.se> wrote:
+>
+>> At
+>> https://github.com/pyca/cryptography/blob/f816b457494e010b655cd7fdcd30e3446f86a703/src/rust/build.rs#L46
+>> the path to python includes is defined by calling 'python3 -c "import
+>> sysconfig; print(sysconfig.get_path('include'))"' (but from inside
+>> rust). With print-debugging this seems to return the bad string
+>> '/usr/include/python3.11' which is then passed to cc::Build
+>>
+>> I executed this in recipe context:
+>>
+>> do_compile:prepend() {
+>>       which python3
+>>       python3 -c "import sysconfig; print(sysconfig.get_path('include'))"
+>> }
+>>
+>> and then I got the correct return value:
+>>
+>> |
+>> /work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot-native/usr/bin/python3-native/python3
+>> |
+>> /work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot-native/usr/include/python3.11
+> This is pointing to the native sysroot in a target build, so it is
+> most likely not actually correct. I believe 'inherit
+> python3targetconfig' may help, as it substitutes most places where
+> native python gets queried by components with target-specific values.
+>
+> Alex
+>
+The bad thing is that the build.rs script is running python script to 
+figure out the path to the headers. I'm not sure we can use target 
+python exe in the build steps without running qemu instance or something 
+which seems overkill in this case. We have the information about python 
+include path for the target in the variable PYTHON_INCLUDE_DIR.
+
+With this patch the compilation will find Python.h:
+
+$ git diff src/rust/build.rs
+diff --git a/src/rust/build.rs b/src/rust/build.rs
+index 01177ac..7dc13fe 100644
+--- a/src/rust/build.rs
++++ b/src/rust/build.rs
+@@ -43,11 +43,8 @@ fn main() {
+      )
+      .unwrap();
+      println!("cargo:rustc-cfg=python_implementation=\"{}\"", python_impl);
+-    let python_include = run_python_script(
+-        &python,
+-        "import sysconfig; print(sysconfig.get_path('include'), end='')",
+-    )
+-    .unwrap();
++    let python_include = env::var("PYTHON_INCLUDE_DIR").unwrap();
++
+      let openssl_include =
+          std::env::var_os("DEP_OPENSSL_INCLUDE").expect("unable to find 
+openssl include path");
+      let openssl_c = Path::new(&out_dir).join("_openssl.c");
+
+
+But it fails later in the linking step.
+
+.....linux/python3-cryptography/40.0.2-r0/recipe-sysroot/usr/lib/rustlib/x86_64-poky-linux-gnu/lib" 
+"-L" 
+"/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/python3-cryptography-40.0.2/target/x86_64-poky-linux-gnu/release/build/cryptography-rust-aa00e39a952c07ee/out" 
+"-L" 
+"/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot/usr/lib" 
+"-L" 
+"/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot-native/usr/lib/rustlib/x86_64-poky-linux-gnu/lib" 
+"-Wl,-Bstatic" "-l_openssl.a" 
+"/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot/usr/lib/rustlib/x86_64-poky-linux-gnu/lib/libcompiler_builtins-45df5d471f0d20d0.rlib" 
+"-Wl,-Bdynamic" "-lssl" "-lcrypto" "-lgcc_s" "-lutil" "-lrt" "-lpthread" 
+"-lm" "-ldl" "-lc" "-Wl,--eh-frame-hdr" "-Wl,-znoexecstack" "-L" 
+"/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot-native/usr/lib/rustlib/x86_64-poky-linux-gnu/lib" 
+"-o" 
+"/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/python3-cryptography-40.0.2/target/x86_64-poky-linux-gnu/release/deps/libcryptography_rust.so" 
+"-Wl,--gc-sections" "-shared" "-Wl,-O1" "-nodefaultlibs"
+   = note: 
+/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/12.2.0/ld: 
+/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/python3-cryptography-40.0.2/target/x86_64-poky-linux-gnu/release/build/cryptography-rust-aa00e39a952c07ee/out/lib_openssl.a.a(9bdf47a443b7a07f-_openssl.o): 
+warning: relocation against `_Py_NoneStruct' in read-only section `.text'
+/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/12.2.0/ld: 
+/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/python3-cryptography-40.0.2/target/x86_64-poky-linux-gnu/release/build/cryptography-rust-aa00e39a952c07ee/out/lib_openssl.a.a(9bdf47a443b7a07f-_openssl.o): 
+relocation R_X86_64_PC32 against undefined symbol `_Py_NoneStruct' can 
+not be used when making a shared object; recompile with -fPIC
+/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/12.2.0/ld: 
+final link failed: bad value
+           collect2: error: ld returned 1 exit status
+
+
+There are some '-L .../recipe-sysroot-native/usr/lib/rustlib/...' that 
+can probably causing this. Don't know if it helps us forward?
+
+/Peter
+
 
