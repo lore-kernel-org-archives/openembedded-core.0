@@ -1,166 +1,126 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <otavio.salvador@ossystems.com.br>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47B05C7EE21
-	for <webhook@archiver.kernel.org>; Thu,  4 May 2023 11:14:56 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web11.46722.1683198887936945569
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FFC2C7EE21
+	for <webhook@archiver.kernel.org>; Thu,  4 May 2023 11:21:16 +0000 (UTC)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+ by mx.groups.io with SMTP id smtpd.web11.46823.1683199273592758647
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 May 2023 04:14:48 -0700
+ Thu, 04 May 2023 04:21:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=AObPOHp1;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3f178da21afso2711065e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 04:14:47 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@ossystems-com-br.20221208.gappssmtp.com header.s=20221208 header.b=zb0EFUYE;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.219.170, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-b9a6eec8611so8233072276.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 04:21:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1683198886; x=1685790886;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+        d=ossystems-com-br.20221208.gappssmtp.com; s=20221208; t=1683199272; x=1685791272;
+        h=cc:to:subject:message-id:date:in-reply-to:references:mime-version
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZW2ltY7PwrdsY0qMdJ5jpLia9Nhc5X+FJ41Ei6l/ncM=;
-        b=AObPOHp1Zjm+hDN+KutTWeEL0pnG08QOsr8y6mcNQRKGzY5XsU0zkzjsxbLpRuyckE
-         KbKHpljoGddzgGT9TDK1b37LG8RLe65Qm7ygzuOfNje+zwK5mLuDneOkuQzn/5TeI4kN
-         V1cbY4uW5bPtorYlaBmjuX8I8jkNYlp8/w5Pg=
+        bh=3LliZvYkMthlbpmm1a+VAGLOGCiQWlMT5FOIiYVNpmc=;
+        b=zb0EFUYEdMvrPNww40rHUKoW5io/kaREyIpXXj4yWO5kHQai+tEM4vihp+ZFI0AEPV
+         1DCrhSs4taoW5jLr6g+LPbWTIxvlAFJ76EhwzOz5k9kcNZgplSljCo1sgOkODoh9/W1h
+         EipPJnT5dFIsP1x54SjG0/4dm8UIJV8SrnnmU+EckXStlLtTbd1gKxxLiVorA7zC8n9S
+         47H7b7f+ibDU3tmUf1x6qHurEIqJBP9HU4ypZtgYWSInyiGM1zihYQlA9O0yw4c3DJrF
+         JY6CXo4UA2DOF9VyZIW1jUcW2PZZW8ZchHbDIt93jh2T0s2lDva4+dnlGgZhqO2fY4jc
+         ezVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683198886; x=1685790886;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+        d=1e100.net; s=20221208; t=1683199272; x=1685791272;
+        h=cc:to:subject:message-id:date:in-reply-to:references:mime-version
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZW2ltY7PwrdsY0qMdJ5jpLia9Nhc5X+FJ41Ei6l/ncM=;
-        b=kk/zRUnq37rpTuZ5P5S4ahMErt2tj56FEqPZTQgdpZMJbHQrGadm/uTAYU9dHD9spK
-         tgaNFN+sw9Wgeo1cLqOf0PQnyoTRToA0CybWLEWeysbbsCkF+/Kz1dmFvFNKYWZBCdYl
-         G12wxogsjnASOjh2Se/BRXQYS9Pg00so+nu+81ylrtOuk6QTJ9FWHf0ZqdzkYg/Um+cT
-         N9IpOxk4jSPXQBHs4XFmeazlFnQYRPNmYGd6l7/v+Fxk75ZdfZIhFAF4SiM5TmTvU5Tr
-         V6KrTA437/HyvGFIS8Kg5DV55dQzYQABxP3czr0/lC1qAI3fWK1YAJN0axHF3iNEPggN
-         IbhA==
-X-Gm-Message-State: AC+VfDwNY6yT4QwO0XNwQer1HWw/PQM1qTHqH8157cuB/xlIfzid2i51
-	yUfyMCFXBJW2Q3e8VAFJiOl2vVWYT902Sm4R1AQ=
-X-Google-Smtp-Source: ACHHUZ5uUnE6zimrknnrjnminJ77Nw7xhYrs7oTb0ZM5bF1rSqNw82k1h0JuJn9OtQEXFDghMjcYiQ==
-X-Received: by 2002:a7b:c44e:0:b0:3f1:a71b:d46b with SMTP id l14-20020a7bc44e000000b003f1a71bd46bmr16447182wmi.41.1683198886127;
-        Thu, 04 May 2023 04:14:46 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:6749:5fda:5dc0:e535])
-        by smtp.gmail.com with ESMTPSA id a24-20020a05600c225800b003f349d14010sm4662610wmm.38.2023.05.04.04.14.45
+        bh=3LliZvYkMthlbpmm1a+VAGLOGCiQWlMT5FOIiYVNpmc=;
+        b=dgKXRQdPhET3oWfyWenUIGJ2qXYnChhGVYEyw21b/lCE/JTnvzqMVPbfJHwXeUQK8f
+         6b2wGpl+qNPahAWfuiQhEb42ZkH6WJl961EKAG2tcCK2NprLskBVbUi+j9Ux0q2ITIoW
+         0XEEiBNIcMrzobFaPG6SeqIdLzSG70rxN+DdopaxyD9UAoRerPE5dDg76Z4S2vvu7TPq
+         vxkGYvxLsDB+pFpi153UrVApWKprkng9iWwYAV88bj/k5jqrgxXfykQCFaUdrKA4HmoT
+         TLcHaxqbH00hEaMFYdvQJGvb3JZdu3l9yYylMlvtgihL34OwCWefY0vdOmpSY6uNHhYk
+         u5Yw==
+X-Gm-Message-State: AC+VfDzJPbgYFXT2jNbHGKNqQSCdt/qea4q8fmX4DDa0lbbjvMglVWfx
+	XeKsuQnS1RR2dzEHnorB4uqq7+HTTCD885FpFLfkgA==
+X-Google-Smtp-Source: ACHHUZ7Q9N+vmCcOnp3WSQqmPagn16p4RCaXKV7o307LFhJRq5X+CsUpr+exUo+CZA4ZVetSxBMMkw==
+X-Received: by 2002:a0d:ca0b:0:b0:559:d78f:db64 with SMTP id m11-20020a0dca0b000000b00559d78fdb64mr1637285ywd.3.1683199272249;
+        Thu, 04 May 2023 04:21:12 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id n4-20020a0de404000000b00556d4aac066sm5671917ywe.133.2023.05.04.04.21.11
         for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 May 2023 04:14:45 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] qemu: Add fix for powerpc instruction fallback issue
-Date: Thu,  4 May 2023 12:14:45 +0100
-Message-Id: <20230504111445.3046381-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 May 2023 04:21:11 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-b9a6f17f2b6so8151323276.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 04:21:11 -0700 (PDT)
+X-Received: by 2002:a25:d40b:0:b0:b99:4381:d955 with SMTP id
+ m11-20020a25d40b000000b00b994381d955mr6400190ybf.2.1683199271316; Thu, 04 May
+ 2023 04:21:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230504025102.1658227-1-raj.khem@gmail.com>
+In-Reply-To: <20230504025102.1658227-1-raj.khem@gmail.com>
+Date: Thu, 4 May 2023 08:20:59 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKqgxf6XqW+=KH_xHu1C2zKr9qzXKcpnxvCEySt-MeLCfA@mail.gmail.com>
+Message-ID: <CAP9ODKqgxf6XqW+=KH_xHu1C2zKr9qzXKcpnxvCEySt-MeLCfA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] cmake: Upgrade to 3.26.3
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000a733f305fadc5e27"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 11:14:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180862
+ <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 11:21:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180863
 
-See the patch for more details, fixes a regression in qemu causing
-illegal instructions in libm on powerpc, triggered by a libinput
-upgrade.
+--000000000000a733f305fadc5e27
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=f1c56cdff09f650ad721fae026eb6a3651631f3d
-was the glibc code generating the instruction and triggering the issue.
+Em qua., 3 de mai. de 2023 =C3=A0s 23:51, Khem Raj <raj.khem@gmail.com> esc=
+reveu:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/qemu/qemu.inc       |  1 +
- meta/recipes-devtools/qemu/qemu/ppc.patch | 70 +++++++++++++++++++++++
- 2 files changed, 71 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/ppc.patch
+> License-Update: Copyright year changed from 2022 -> 2023
+>
+> - Copyright 2000-2022 Kitware, Inc. and Contributors
+> + Copyright 2000-2023 Kitware, Inc. and Contributors
+>
+> Call bootstrap directly without wrapping it with configure
+> since all it does it find the sourcedir
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>
 
-v2 - add upstream status as submitted (failed to add to the index)
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index a373c9e5774..2a9aa13912b 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -30,6 +30,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://0001-tracetool-use-relative-paths-for-line-preprocessor-d.patch \
-            file://qemu-guest-agent.init \
-            file://qemu-guest-agent.udev \
-+           file://ppc.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/ppc.patch b/meta/recipes-devtools/qemu/qemu/ppc.patch
-new file mode 100644
-index 00000000000..ade1daf61ff
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/ppc.patch
-@@ -0,0 +1,70 @@
-+target/ppc: Fix fallback to MFSS for MFFSCRN, MFFSCRNI, MFFSCE and MFFSL
-+
-+The following commits changed the code such that these instructions became invalid
-+on pre 3.0 ISAs:
-+
-+  bf8adfd88b547680aa857c46098f3a1e94373160 - target/ppc: Move mffscrn[i] to decodetree 
-+  394c2e2fda70da722f20fb60412d6c0ca4bfaa03 - target/ppc: Move mffsce to decodetree
-+  3e5bce70efe6bd1f684efbb21fd2a316cbf0657e - target/ppc: Move mffsl to decodetree 
-+
-+The hardware will handle them as a MFFS instruction as the code did previously.
-+Restore that behaviour. This means applications that were segfaulting under qemu 
-+when encountering these instructions now operate correctly. The instruction
-+is used in glibc libm functions for example.
-+
-+Upstream-Status: Submitted [https://lore.kernel.org/qemu-devel/20230504110150.3044402-1-richard.purdie@linuxfoundation.org/]
-+
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+
-+Index: qemu-8.0.0/target/ppc/translate/fp-impl.c.inc
-+===================================================================
-+--- qemu-8.0.0.orig/target/ppc/translate/fp-impl.c.inc
-++++ qemu-8.0.0/target/ppc/translate/fp-impl.c.inc
-+@@ -584,7 +584,10 @@ static bool trans_MFFSCE(DisasContext *c
-+ {
-+     TCGv_i64 fpscr;
-+ 
-+-    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-++    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
-++        return trans_MFFS(ctx, a);
-++    }
-++
-+     REQUIRE_FPU(ctx);
-+ 
-+     gen_reset_fpstatus();
-+@@ -597,7 +600,10 @@ static bool trans_MFFSCRN(DisasContext *
-+ {
-+     TCGv_i64 t1, fpscr;
-+ 
-+-    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-++    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
-++        return trans_MFFS(ctx, a);
-++    }
-++
-+     REQUIRE_FPU(ctx);
-+ 
-+     t1 = tcg_temp_new_i64();
-+@@ -631,7 +637,10 @@ static bool trans_MFFSCRNI(DisasContext
-+ {
-+     TCGv_i64 t1, fpscr;
-+ 
-+-    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-++    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
-++        return trans_MFFS(ctx, a);
-++    }
-++
-+     REQUIRE_FPU(ctx);
-+ 
-+     t1 = tcg_temp_new_i64();
-+@@ -661,7 +670,10 @@ static bool trans_MFFSCDRNI(DisasContext
-+ 
-+ static bool trans_MFFSL(DisasContext *ctx, arg_X_t *a)
-+ {
-+-    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-++    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
-++        return trans_MFFS(ctx, a);
-++    }
-++
-+     REQUIRE_FPU(ctx);
-+ 
-+     gen_reset_fpstatus();
--- 
-2.39.2
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
+--000000000000a733f305fadc5e27
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Em qua., 3 de mai. de 2023 =C3=A0s 23=
+:51, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com<=
+/a>&gt; escreveu:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">License-Update: Copyright year changed from 2022 -&gt; 2023<br>
+<br>
+- Copyright 2000-2022 Kitware, Inc. and Contributors<br>
++ Copyright 2000-2023 Kitware, Inc. and Contributors<br>
+<br>
+Call bootstrap directly without wrapping it with configure<br>
+since all it does it find the sourcedir<br>
+<br>
+Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D=
+"_blank">raj.khem@gmail.com</a>&gt;<br></blockquote><div><br></div><div>Ack=
+ed-by: Otavio Salvador &lt;<a href=3D"mailto:otavio@ossystems.com.br">otavi=
+o@ossystems.com.br</a>&gt;</div><div>=C2=A0</div></div><span class=3D"gmail=
+_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"=
+>Otavio Salvador =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O.S. Systems<br><a href=3D"http:/=
+/www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com.br</a> =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://code.ossystems.com.br" target=
+=3D"_blank">http://code.ossystems.com.br</a><br>Mobile: +55 (53) 9 9981-785=
+4 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Mobile: +1 (347) 903-9750</div></div>
+
+--000000000000a733f305fadc5e27--
 
