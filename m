@@ -1,138 +1,98 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACB45C77B7C
-	for <webhook@archiver.kernel.org>; Thu,  4 May 2023 16:24:37 +0000 (UTC)
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
- by mx.groups.io with SMTP id smtpd.web10.55005.1683217476948712615
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF936C77B78
+	for <webhook@archiver.kernel.org>; Thu,  4 May 2023 16:40:17 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web11.54881.1683218412240088914
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 May 2023 09:24:37 -0700
+ Thu, 04 May 2023 09:40:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=anz8jENe;
- spf=pass (domain: gmail.com, ip: 209.85.161.41, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-546de76c23eso354561eaf.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 09:24:36 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=LFMbh00c;
+ spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-3f19afc4fd8so5458615e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 09:40:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683217476; x=1685809476;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JzNAxoylHg5WVMV3lnjf6CBOJsnaJD79lZbeGpIeepY=;
-        b=anz8jENe+81bAf6v08Ldaqqj0tryCCf1T5jRSZK/EN8psImcL6RYmqdWJtgkfzLbUw
-         lg8KKu2ML/prHGtRCMFl6D/c5WSsLbZZOuukNEIH7vUG4oVuhyGW0fZq4lVDI5qMfkby
-         91RH4flpRgUlIZp1W7F3yLT1s24DMaM9K6WQmppLRgIZGrzjWCNLGr5nQgR1nH4X/UmN
-         uaqf1lgmmWfaDFuEzkHBxa9UZTqdRrw26Pn6xbX5NkxSQRgI4lM0Bak2EdV6ODfE+gDE
-         wmeHmnPLsGWIbzyY1vldB1RHiKQC/7HGH95HRBLiv16Yg5QNWpvL95RqDMhplTfQEi2z
-         xcjQ==
+        d=gmail.com; s=20221208; t=1683218410; x=1685810410;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FAWFjJkVs66MO7HxfX6NKXMl1DuPlJDgYj8Lhnq8dB8=;
+        b=LFMbh00chzMpxHtq4hsiQwJDDDiCHalCz71IeHzUrVMbxsG2JPKNVF4HnXkh66rxMM
+         eyLXlZrxc6zuAdI3EQHb52k9kDWoMnrINHQeRuLm2ilGLHyRFpmH1Zofx0NCT9sGr8gQ
+         5shNflMrm4PnEQvatXw+t4r87vCLxfhzR6L9Qnu1pxIFhMRKuKFDDIqG5qsN5oDki/KS
+         kpZ98OnZ5Q7fx0VuQUVOLkIC6LELAweRUjwTHUA4FzwvV7NxhDy6mZWeoA9CRmJ7z3ap
+         KWc0HaHu9BrEkeTAGnD3278GwegsAi1JDyns7nKbrde1KaP9tQot+02a7NpPufThLxRf
+         YDRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683217476; x=1685809476;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JzNAxoylHg5WVMV3lnjf6CBOJsnaJD79lZbeGpIeepY=;
-        b=gjAOVSDrB4hsZkmRycQzRAYso+qSlpl25iIDXSAEdzXn+G4/BP+OhViWPnNn1xIGsn
-         jc+uYrw6YbM7tWFasDu3URWZLO9Cus0xeCbHgpNp9bgeMZXYJIDm7w782NJER36aOVjO
-         hijqx4ZmyKfvodLir3P5tvcH91NUDO+jvyDtmLFX8owxKb0lavHXQFYSzbHfKBsICxp0
-         HRbREo+v09mr9xfRlP2iKARwvEj7RMxsj+Dlw+hapSzxHBNYLjyg1sElKLLby+LWabX8
-         qyzfzm0pltgrCJVNh6f0EBBJ/Ght1izbtL0zTBk6vAz9ul98kOHFo5/9UAOdKsO6zDR+
-         gQwQ==
-X-Gm-Message-State: AC+VfDzAte4XQ0srbkjljFPXl0R2of5ttuduFwYXVLlO6o1Ly4jKitkw
-	LofFPVMIJZpXQaijJZ9YZy/FfAebQexwfQHgozW0YI3oeIs=
-X-Google-Smtp-Source: ACHHUZ5tAA3X8ApOCkqlNROOQXNTWQp32009V52f6CyVemKPg9mRAKfy3ZcGopSm6youTR06dol5gvJvtMhepidG5WM=
-X-Received: by 2002:a05:6820:502:b0:547:5593:d6 with SMTP id
- m2-20020a056820050200b00547559300d6mr15003144ooj.5.1683217476111; Thu, 04 May
- 2023 09:24:36 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1683218410; x=1685810410;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FAWFjJkVs66MO7HxfX6NKXMl1DuPlJDgYj8Lhnq8dB8=;
+        b=BBA0fNiR8GNLMy3DNDxTp0FktXR40G7n7ysvD9H+8KffR+9juF/YqKb4ysMLwNSVO0
+         jNkzxwcmm6WxyLlJ5ZZHr7zkwwyvb7H0//I4MBkJKj6Ek/F3NTLEFHBggEnvtXEtMtWQ
+         WyX+xF1rqAE4A9xUIgt2n8dmtnCY39Ro8r4sHN7Mapt5q61ZHalWC4QjDEiSn5YA582p
+         heTiDtNo6bXLdL6MVUxI+G/oldZjd+/KGzvh0Tb6CfesSCtv02x2ADpQPymmXM00KVg/
+         jZhfebZZdqRbaEszjWHvnKU/TlT5LO9OgyajXW2yoVrfMzS29dVoPfJSU3IMIQ5b8/ER
+         KtLg==
+X-Gm-Message-State: AC+VfDxZU/6NwPslPmDmV/fJiVxEJXKMUjJcEVVHjFSsey9ArcpHfMLS
+	z1ALYmgebl2reikts+Gjy6hoT3tntSk=
+X-Google-Smtp-Source: ACHHUZ7Ah6IDboV6Qj9h5W5prT4kPFeKT7595nAOnp4XrQ5xAUMTuNvZxcLQQ936RWmsIKslXYc7uw==
+X-Received: by 2002:a05:600c:231a:b0:3f3:481a:902e with SMTP id 26-20020a05600c231a00b003f3481a902emr236529wmo.15.1683218410354;
+        Thu, 04 May 2023 09:40:10 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id k22-20020a05600c0b5600b003f40049a65bsm4191402wmr.21.2023.05.04.09.40.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 May 2023 09:40:09 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCH] image_types_wic.bbclass: avoid dependency on unavailable virtual/lib32-arm-distromllib32-linux-gnueabi-binutils
+Date: Thu,  4 May 2023 18:40:02 +0200
+Message-Id: <20230504164002.3468716-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <72Qn.1682583986150981484.FBVe@lists.openembedded.org>
-In-Reply-To: <72Qn.1682583986150981484.FBVe@lists.openembedded.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 4 May 2023 09:24:10 -0700
-Message-ID: <CAMKF1soZiL82M5y14agXb=OBU4Y3EeqUp=nzpD-kWO95q_z+3Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH V1] e2fsprogs: fix ptest bug for second running
-To: "qiutt@fujitsu.com" <qiutt@fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 16:24:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180883
+ <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 16:40:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180884
 
-This seems to be problematic. See
+* MLPREFIX was dropped from other cases in:
+  https://git.openembedded.org/openembedded-core/commit/?id=6856fc5c848cc2564bebe03a007ef109f46d0adb
 
-Log data follows:
+* and this one was causing:
+  ERROR: Nothing PROVIDES 'virtual/lib32-arm-distromllib32-linux-gnueabi-binutils' (but virtual:multilib:lib32:oe-core/meta/recipes-core/images/core-image-minimal.bb DEPENDS on or otherwise requires it). Close matches:
+    virtual/arm-distromllib32-linux-gnueabi-binutils
+    virtual/lib32-arm-distromllib32-linux-gnueabi-compilerlibs
+    virtual/lib32-arm-distromllib32-linux-gnueabi-go-runtime
+  ERROR: Required build target 'lib32-core-image-minimal' has no buildable providers.
+  Missing or unbuildable dependency chain was: ['lib32-core-image-minimal', 'virtual/lib32-arm-distromllib32-linux-gnueabi-binutils']
 
+  in cases where multilib and WIC were enabled at the same time
 
-[265/1914]
-| DEBUG: Executing shell function do_install_ptest_base
-| /mnt/b/yoe/master/build/tmp/work/core2-64-yoe-linux-musl/e2fsprogs/1.47.0=
--r0/temp/run.do_install_ptest_base.2332727:
-line 192:  : command not found
-| WARNING: /mnt/b/yoe/master/build/tmp/work/core2-64-yoe-linux-musl/e2fspro=
-gs/1.47.0-r0/temp/run.do_install_ptest_base.2332727:192
-exit 127 from '  install -Dm 0644
-/mnt/b/yoe/master/build/tmp/work/core2-64-yoe-lin
-ux-musl/e2fsprogs/1.47.0-r0/build/tests/test_data.tmp
-/mnt/b/yoe/master/build/tmp/work/core2-64-yoe-linux-musl/e2fsprogs/1.47.0-r=
-0/image/usr/lib/e2fsprogs/ptest/data/test_data.tmp'
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes-recipe/image_types_wic.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Thu, Apr 27, 2023 at 1:26=E2=80=AFAM qiutt@fujitsu.com <qiutt@fujitsu.co=
-m> wrote:
->
-> From db4b5e31703e4143450b1e7239b2502a89ed042a Mon Sep 17 00:00:00 2001
-> From: Qiu Tingting <qiutt@fujitsu.com>
-> Date: Thu, 27 Apr 2023 15:29:14 +0800
-> Subject: [PATCH V1] e2fsprogs: fix ptest bug for second running
->
-> At second running, there are four new failed case:
->   d_loaddump f_bigalloc_badinode f_bigalloc_orphan_list f_dup_resize
->
-> The test_data.tmp is necessary, but it is deleted by run-ptest.
-> So it should be restored after testing.
->
-> Signed-off-by: Qiu Tingting <qiutt@fujitsu.com>
-> ---
->  meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest | 1 +
->  meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb | 3 +++
->  2 files changed, 4 insertions(+)
->
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest b/meta/r=
-ecipes-devtools/e2fsprogs/e2fsprogs/run-ptest
-> index c97c0377e9..279923db8e 100644
-> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
-> @@ -8,3 +8,4 @@ rm -f *.tmp
->  rm -f *.ok
->  rm -f *.failed
->  rm -f *.log
-> +cp ../data/test_data.tmp ./
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb b/meta/r=
-ecipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
-> index a2eb4f8f8f..87e13d744b 100644
-> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
-> @@ -143,4 +143,7 @@ do_install_ptest() {
->
->          install -d ${D}${PTEST_PATH}/lib
->          install -m 0644 ${B}/lib/config.h  ${D}${PTEST_PATH}/lib/
-> +
-> +        install -d ${D}${PTEST_PATH}/data
-> +        install -m 0644 ${B}/tests/test_data.tmp ${D}${PTEST_PATH}/data/
->  }
-> --
-> 2.25.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#180487): https://lists.openembedded.org/g/openembedde=
-d-core/message/180487
-> Mute This Topic: https://lists.openembedded.org/mt/98532860/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes-recipe/image_types_wic.bbclass
+index 528a91bf5e..669606da75 100644
+--- a/meta/classes-recipe/image_types_wic.bbclass
++++ b/meta/classes-recipe/image_types_wic.bbclass
+@@ -91,7 +91,7 @@ do_image_wic[deptask] += "do_image_complete"
+ WKS_FILE_DEPENDS_DEFAULT = '${@bb.utils.contains_any("BUILD_ARCH", [ 'x86_64', 'i686' ], "syslinux-native", "",d)}'
+ WKS_FILE_DEPENDS_DEFAULT += "bmap-tools-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native erofs-utils-native"
+ # Unified kernel images need objcopy
+-WKS_FILE_DEPENDS_DEFAULT += "virtual/${MLPREFIX}${TARGET_PREFIX}binutils"
++WKS_FILE_DEPENDS_DEFAULT += "virtual/${TARGET_PREFIX}binutils"
+ WKS_FILE_DEPENDS_BOOTLOADERS = ""
+ WKS_FILE_DEPENDS_BOOTLOADERS:x86 = "syslinux grub-efi systemd-boot os-release"
+ WKS_FILE_DEPENDS_BOOTLOADERS:x86-64 = "syslinux grub-efi systemd-boot os-release"
+-- 
+2.40.1
+
 
