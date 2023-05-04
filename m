@@ -1,251 +1,138 @@
-Return-Path: <rudolf.streif@ibeeto.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E523C7EE21
-	for <webhook@archiver.kernel.org>; Thu,  4 May 2023 16:23:17 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web11.54404.1683217395128473769
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACB45C77B7C
+	for <webhook@archiver.kernel.org>; Thu,  4 May 2023 16:24:37 +0000 (UTC)
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+ by mx.groups.io with SMTP id smtpd.web10.55005.1683217476948712615
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 May 2023 09:23:15 -0700
+ Thu, 04 May 2023 09:24:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@ibeeto-com.20221208.gappssmtp.com header.s=20221208 header.b=gmLlylgl;
- spf=neutral (domain: ibeeto.com, ip: 209.85.214.174, mailfrom: rudolf.streif@ibeeto.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1aae5c2423dso6399855ad.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 09:23:14 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=anz8jENe;
+ spf=pass (domain: gmail.com, ip: 209.85.161.41, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-546de76c23eso354561eaf.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 09:24:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ibeeto-com.20221208.gappssmtp.com; s=20221208; t=1683217394; x=1685809394;
-        h=in-reply-to:subject:from:references:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1683217476; x=1685809476;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Hm3nywPECtzsWyxIMJiosBkqHT53nwr1ZSe/G/bfOq0=;
-        b=gmLlylgl841zC/6EnQVWPQuNnOuIjr3Xj3ZCK6n3pEAl6BOHKdzy74mcfdgwdqVUf0
-         C5XHEepWcd7uSFwzGzlo1Ljb1xV/PP2c1l4wJ4iO+nYKtNanLEC/ljafj8zo0I1Y2TcB
-         akSFkvSG0TH7gLGoAMqhZJBqsGoAMwdnmb7WKaiBIRPUuwCDJpjDlmw25sDaPEUYe+tO
-         78u6YZTp1J3AblStCRG/xkG4hz/WE6FnxURLv0Nfbg+Nh5WX8jgMLesjX/OJEOy5aahg
-         XKtn3+5+kGVRRtWn8Nf4gcnTuk/VmZ0Hhh0NCxignu7nINT/bKmB6fU9bYr4TFPi7nzU
-         ijgw==
+        bh=JzNAxoylHg5WVMV3lnjf6CBOJsnaJD79lZbeGpIeepY=;
+        b=anz8jENe+81bAf6v08Ldaqqj0tryCCf1T5jRSZK/EN8psImcL6RYmqdWJtgkfzLbUw
+         lg8KKu2ML/prHGtRCMFl6D/c5WSsLbZZOuukNEIH7vUG4oVuhyGW0fZq4lVDI5qMfkby
+         91RH4flpRgUlIZp1W7F3yLT1s24DMaM9K6WQmppLRgIZGrzjWCNLGr5nQgR1nH4X/UmN
+         uaqf1lgmmWfaDFuEzkHBxa9UZTqdRrw26Pn6xbX5NkxSQRgI4lM0Bak2EdV6ODfE+gDE
+         wmeHmnPLsGWIbzyY1vldB1RHiKQC/7HGH95HRBLiv16Yg5QNWpvL95RqDMhplTfQEi2z
+         xcjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683217394; x=1685809394;
-        h=in-reply-to:subject:from:references:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Hm3nywPECtzsWyxIMJiosBkqHT53nwr1ZSe/G/bfOq0=;
-        b=Xo1QpIbFOd9n7nXW8uo0SOoeO/oAaDpnqZGNYKRFoNyOL1R4U7WpDP0AB4+2ASZuSf
-         vrAhXJuryL+TYIzA4He7lmoo4fQT+l910ZB7blJ5B73sDZ/xXEDWhPf6B0fBEg0hL4TA
-         tpAErKnZliCN/vP3FKVy3Qe1q/n4nJ+7fi4JrOaRF1wK6aK0ISrFwLRSnK2pUhV/olMn
-         vrm3SVeENsTwXvJaC2Qy4vDECknTSshmYi7S92MN9SZI9XBlvEmpRuIf8HcagG8/sp2D
-         9SrjWWh/FEN4Lq+XNDaA8KdLDG9wMH8Teizsbpa52niGysgBPTJeTZqJJvD1cWGSM2mm
-         o89Q==
-X-Gm-Message-State: AC+VfDw/46j/MTnQ7NU9nk5jUFElB0tkV6yD0cy9IEsUP+OonmHqUqv8
-	Eo4vkDUUCCzmTMjgrfZdNzTzHw==
-X-Google-Smtp-Source: ACHHUZ4Vw6T5eFkCK6Kjg/KgLHrYG8FCcDu2MI1kh16OkNyu/PUcxJsM3WYTYR32BB5zWKPv1JUpCg==
-X-Received: by 2002:a17:902:650f:b0:1a9:95fa:1fa8 with SMTP id b15-20020a170902650f00b001a995fa1fa8mr3772163plk.41.1683217394016;
-        Thu, 04 May 2023 09:23:14 -0700 (PDT)
-Received: from ?IPV6:2600:8801:8d00:2b14:7b2a:31ea:d7be:5c89? ([2600:8801:8d00:2b14:7b2a:31ea:d7be:5c89])
-        by smtp.gmail.com with ESMTPSA id p14-20020a170902b08e00b001aae909cfbbsm5200697plr.119.2023.05.04.09.23.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 May 2023 09:23:13 -0700 (PDT)
-Content-Type: multipart/alternative;
- boundary="------------C27t2OCNjkUiJfu4CdbnPFsb"
-Message-ID: <edddd660-eb32-8ce8-adbf-fb02e6e2ecb4@ibeeto.com>
-Date: Thu, 4 May 2023 09:23:12 -0700
+        d=1e100.net; s=20221208; t=1683217476; x=1685809476;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JzNAxoylHg5WVMV3lnjf6CBOJsnaJD79lZbeGpIeepY=;
+        b=gjAOVSDrB4hsZkmRycQzRAYso+qSlpl25iIDXSAEdzXn+G4/BP+OhViWPnNn1xIGsn
+         jc+uYrw6YbM7tWFasDu3URWZLO9Cus0xeCbHgpNp9bgeMZXYJIDm7w782NJER36aOVjO
+         hijqx4ZmyKfvodLir3P5tvcH91NUDO+jvyDtmLFX8owxKb0lavHXQFYSzbHfKBsICxp0
+         HRbREo+v09mr9xfRlP2iKARwvEj7RMxsj+Dlw+hapSzxHBNYLjyg1sElKLLby+LWabX8
+         qyzfzm0pltgrCJVNh6f0EBBJ/Ght1izbtL0zTBk6vAz9ul98kOHFo5/9UAOdKsO6zDR+
+         gQwQ==
+X-Gm-Message-State: AC+VfDzAte4XQ0srbkjljFPXl0R2of5ttuduFwYXVLlO6o1Ly4jKitkw
+	LofFPVMIJZpXQaijJZ9YZy/FfAebQexwfQHgozW0YI3oeIs=
+X-Google-Smtp-Source: ACHHUZ5tAA3X8ApOCkqlNROOQXNTWQp32009V52f6CyVemKPg9mRAKfy3ZcGopSm6youTR06dol5gvJvtMhepidG5WM=
+X-Received: by 2002:a05:6820:502:b0:547:5593:d6 with SMTP id
+ m2-20020a056820050200b00547559300d6mr15003144ooj.5.1683217476111; Thu, 04 May
+ 2023 09:24:36 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US
-To: Josef Holzmayr <jester@theyoctojester.info>,
- Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Nicolas Dechesne <ndec13@gmail.com>, yocto@lists.yoctoproject.org,
- yocto-advocacy@lists.yoctoproject.org,
- openembedded-core <openembedded-core@lists.openembedded.org>
-References: <CAOT3mi+DorC4uSqCwO7HmmFVuXX3BLFWJNp_o-NH4OmqP=6ZSg@mail.gmail.com>
- <de0cbb7c94bb9af021f090b684eee4c6b5bb187e.camel@linuxfoundation.org>
- <CAEt6NwpsS8omNHvWeQrLzuOAAaki7rt8oYrbgmyNCuG-k0qZyw@mail.gmail.com>
-From: Rudolf J Streif <rudolf.streif@ibeeto.com>
-Subject: Re: [Yocto-Advocacy] Yocto Project Community Manager updates
-In-Reply-To: <CAEt6NwpsS8omNHvWeQrLzuOAAaki7rt8oYrbgmyNCuG-k0qZyw@mail.gmail.com>
+References: <72Qn.1682583986150981484.FBVe@lists.openembedded.org>
+In-Reply-To: <72Qn.1682583986150981484.FBVe@lists.openembedded.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 4 May 2023 09:24:10 -0700
+Message-ID: <CAMKF1soZiL82M5y14agXb=OBU4Y3EeqUp=nzpD-kWO95q_z+3Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH V1] e2fsprogs: fix ptest bug for second running
+To: "qiutt@fujitsu.com" <qiutt@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 16:23:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180882
+ <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 16:24:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180883
 
-This is a multi-part message in MIME format.
---------------C27t2OCNjkUiJfu4CdbnPFsb
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+This seems to be problematic. See
 
-Let me chime in.
+Log data follows:
 
-Nico, thank you so much for your leadership as the Yocto community 
-manager and beyond. You certainly made sure that the community remained 
-welcoming and supportive to new and current members. I very much 
-appreciate all the effort you dedicated to the project and its community.
 
-Welcome Josef, as the new community manager.
+[265/1914]
+| DEBUG: Executing shell function do_install_ptest_base
+| /mnt/b/yoe/master/build/tmp/work/core2-64-yoe-linux-musl/e2fsprogs/1.47.0=
+-r0/temp/run.do_install_ptest_base.2332727:
+line 192:  : command not found
+| WARNING: /mnt/b/yoe/master/build/tmp/work/core2-64-yoe-linux-musl/e2fspro=
+gs/1.47.0-r0/temp/run.do_install_ptest_base.2332727:192
+exit 127 from '  install -Dm 0644
+/mnt/b/yoe/master/build/tmp/work/core2-64-yoe-lin
+ux-musl/e2fsprogs/1.47.0-r0/build/tests/test_data.tmp
+/mnt/b/yoe/master/build/tmp/work/core2-64-yoe-linux-musl/e2fsprogs/1.47.0-r=
+0/image/usr/lib/e2fsprogs/ptest/data/test_data.tmp'
 
-Cheers,
-Rudi
-
-On 5/4/23 08:13, Josef Holzmayr wrote:
-> Thank you Nico for the five years in which we had the pleasure of 
-> working together for the growth and future of the Yocto Project and 
-> OpenEmbedded. Your contributions and insight will be missed - but 
-> hopefully not you as a person. We will meet again, over a drink, and 
-> talk of the olde times...
+On Thu, Apr 27, 2023 at 1:26=E2=80=AFAM qiutt@fujitsu.com <qiutt@fujitsu.co=
+m> wrote:
 >
-> And on the same note, thank you Andy, Richard, and all of the 
-> leadership working group for the trust placed in me. Let us make this 
-> a change that keeps the good and adds more of it.
+> From db4b5e31703e4143450b1e7239b2502a89ed042a Mon Sep 17 00:00:00 2001
+> From: Qiu Tingting <qiutt@fujitsu.com>
+> Date: Thu, 27 Apr 2023 15:29:14 +0800
+> Subject: [PATCH V1] e2fsprogs: fix ptest bug for second running
 >
-> Greetz,
-> Josef
+> At second running, there are four new failed case:
+>   d_loaddump f_bigalloc_badinode f_bigalloc_orphan_list f_dup_resize
 >
-> On Thu, May 4, 2023 at 5:07 PM Richard Purdie 
-> <richard.purdie@linuxfoundation.org> wrote:
+> The test_data.tmp is necessary, but it is deleted by run-ptest.
+> So it should be restored after testing.
 >
->     On Thu, 2023-05-04 at 16:40 +0200, Nicolas Dechesne wrote:
->     > After five years, I have decided to resign from my position as the
->     > Yocto Project Community Manager. I joined the OpenEmbedded community
->     > around 2008. I have fond memories of my early days, and still
->     > remember some of my first interactions on IRC and mailing lists!
->     This
->     > is a very welcoming community, always helping new people with
->     > patience and kindness. Serving the project during the last five
->     years
->     > is something I am very proud of, and I will be forever grateful to
->     > all of you for accepting me!
+> Signed-off-by: Qiu Tingting <qiutt@fujitsu.com>
+> ---
+>  meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest | 1 +
+>  meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb | 3 +++
+>  2 files changed, 4 insertions(+)
 >
->     I know we've talked but I did want to publicly say thanks for
->     everything you've done in the role!
+> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest b/meta/r=
+ecipes-devtools/e2fsprogs/e2fsprogs/run-ptest
+> index c97c0377e9..279923db8e 100644
+> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
+> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
+> @@ -8,3 +8,4 @@ rm -f *.tmp
+>  rm -f *.ok
+>  rm -f *.failed
+>  rm -f *.log
+> +cp ../data/test_data.tmp ./
+> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb b/meta/r=
+ecipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
+> index a2eb4f8f8f..87e13d744b 100644
+> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
+> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
+> @@ -143,4 +143,7 @@ do_install_ptest() {
 >
->     We've had some good times and overcome some challenges in the last few
->     years, the project has definitely benefited from your involvement and
->     you'll be sorely missed.
+>          install -d ${D}${PTEST_PATH}/lib
+>          install -m 0644 ${B}/lib/config.h  ${D}${PTEST_PATH}/lib/
+> +
+> +        install -d ${D}${PTEST_PATH}/data
+> +        install -m 0644 ${B}/tests/test_data.tmp ${D}${PTEST_PATH}/data/
+>  }
+> --
+> 2.25.1
 >
->     Welcome to the role Josef, no pressure! :)
 >
->     Cheers,
->
->     Richard
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#1800):https://lists.yoctoproject.org/g/yocto-advocacy/message/1800
-> Mute This Topic:https://lists.yoctoproject.org/mt/98685139/3617932
-> Group Owner:yocto-advocacy+owner@lists.yoctoproject.org
-> Unsubscribe:https://lists.yoctoproject.org/g/yocto-advocacy/unsub  [rudolf.streif@ibeeto.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+> View/Reply Online (#180487): https://lists.openembedded.org/g/openembedde=
+d-core/message/180487
+> Mute This Topic: https://lists.openembedded.org/mt/98532860/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
--- 
-Rudolf J Streif
-CEO/CTO
-1.855.442.3386
-
---------------C27t2OCNjkUiJfu4CdbnPFsb
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>Let me chime in.</p>
-    <p>Nico, thank you so much for your leadership as the Yocto
-      community manager and beyond. You certainly made sure that the
-      community remained welcoming and supportive to new and current
-      members. I very much appreciate all the effort you dedicated to
-      the project and its community.</p>
-    <p>Welcome Josef, as the new community manager. <br>
-    </p>
-    <p>Cheers,<br>
-      Rudi<br>
-    </p>
-    <div class="moz-cite-prefix">On 5/4/23 08:13, Josef Holzmayr wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAEt6NwpsS8omNHvWeQrLzuOAAaki7rt8oYrbgmyNCuG-k0qZyw@mail.gmail.com">
-      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-      <div dir="ltr">Thank you Nico for the five years in which we had
-        the pleasure of working together for the growth and future of
-        the Yocto Project and OpenEmbedded. Your contributions and
-        insight will be missed - but hopefully not you as a person. We
-        will meet again, over a drink, and talk of the olde times...
-        <div><br>
-        </div>
-        <div>And on the same note, thank you Andy, Richard, and all of
-          the leadership working group for the trust placed in me. Let
-          us make this a change that keeps the good and adds more of it.</div>
-        <div><br>
-        </div>
-        <div>Greetz,</div>
-        <div>Josef</div>
-      </div>
-      <br>
-      <div class="gmail_quote">
-        <div dir="ltr" class="gmail_attr">On Thu, May 4, 2023 at 5:07 PM
-          Richard Purdie &lt;<a
-            href="mailto:richard.purdie@linuxfoundation.org"
-            moz-do-not-send="true" class="moz-txt-link-freetext">richard.purdie@linuxfoundation.org</a>&gt;
-          wrote:<br>
-        </div>
-        <blockquote class="gmail_quote" style="margin:0px 0px 0px
-          0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On
-          Thu, 2023-05-04 at 16:40 +0200, Nicolas Dechesne wrote:<br>
-          &gt; After five years, I have decided to resign from my
-          position as the<br>
-          &gt; Yocto Project Community Manager. I joined the
-          OpenEmbedded community<br>
-          &gt; around 2008. I have fond memories of my early days, and
-          still<br>
-          &gt; remember some of my first interactions on IRC and mailing
-          lists! This<br>
-          &gt; is a very welcoming community, always helping new people
-          with<br>
-          &gt; patience and kindness. Serving the project during the
-          last five years<br>
-          &gt; is something I am very proud of, and I will be forever
-          grateful to<br>
-          &gt; all of you for accepting me!<br>
-          <br>
-          I know we've talked but I did want to publicly say thanks for<br>
-          everything you've done in the role! <br>
-          <br>
-          We've had some good times and overcome some challenges in the
-          last few<br>
-          years, the project has definitely benefited from your
-          involvement and<br>
-          you'll be sorely missed.<br>
-          <br>
-          Welcome to the role Josef, no pressure! :)<br>
-          <br>
-          Cheers,<br>
-          <br>
-          Richard<br>
-        </blockquote>
-      </div>
-      <br>
-      <fieldset class="moz-mime-attachment-header"></fieldset>
-      <pre class="moz-quote-pre" wrap="">
--=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#1800): <a class="moz-txt-link-freetext" href="https://lists.yoctoproject.org/g/yocto-advocacy/message/1800">https://lists.yoctoproject.org/g/yocto-advocacy/message/1800</a>
-Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.yoctoproject.org/mt/98685139/3617932">https://lists.yoctoproject.org/mt/98685139/3617932</a>
-Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:yocto-advocacy+owner@lists.yoctoproject.org">yocto-advocacy+owner@lists.yoctoproject.org</a>
-Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.yoctoproject.org/g/yocto-advocacy/unsub">https://lists.yoctoproject.org/g/yocto-advocacy/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:rudolf.streif@ibeeto.com">rudolf.streif@ibeeto.com</a>]
--=-=-=-=-=-=-=-=-=-=-=-
-
-</pre>
-    </blockquote>
-    <pre class="moz-signature" cols="72">-- 
-Rudolf J Streif
-CEO/CTO
-1.855.442.3386</pre>
-  </body>
-</html>
-
---------------C27t2OCNjkUiJfu4CdbnPFsb--
 
