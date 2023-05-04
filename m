@@ -2,131 +2,129 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4005DC77B78
-	for <webhook@archiver.kernel.org>; Thu,  4 May 2023 00:13:03 +0000 (UTC)
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
- by mx.groups.io with SMTP id smtpd.web10.38292.1683159178781155501
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D299C77B75
+	for <webhook@archiver.kernel.org>; Thu,  4 May 2023 00:37:13 +0000 (UTC)
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+ by mx.groups.io with SMTP id smtpd.web10.38747.1683160630572651361
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 May 2023 17:12:58 -0700
+ Wed, 03 May 2023 17:37:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=g+B5hL+t;
- spf=pass (domain: gmail.com, ip: 209.85.210.43, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-6a5febde157so2157065a34.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 17:12:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=Z63dufdu;
+ spf=pass (domain: gmail.com, ip: 209.85.160.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-192798cf019so2621613fac.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 May 2023 17:37:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683159178; x=1685751178;
+        d=gmail.com; s=20221208; t=1683160630; x=1685752630;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SCH0ViN6UFmG7i2fXAYHS17/yMCRgpsJU8u4Kp/md4s=;
-        b=g+B5hL+tKCFXvleGvNrIq0Adjuu3VObVRj3tQtX72VefswJ+xlaw29nhE9rojocS/1
-         85VyxG4hC6LYK5CeXXj5/yYeoqvtNZax4iQ06gbEl5lm3V2r6SyzkHrBPZBgDtMMXXw/
-         Gwu06x4oUf9E3Zdtm3wkEGubfbbpwIBJm2PIkfmZjcMOMTgoifrXgMv8Ip8tkDNWLFzk
-         8zF3WrB38yOnFSRZZpQXvXB2w+3Zfa3Fpfovn7YD4+64LBfMRj7zX/c7fA3/vbimnIUA
-         DebJett0T5OFJ1eKzl9gqd/MrdZEiyvZ2JqDH6k638mCsOf75pQ78rtpij3cpfRT29MR
-         3a1w==
+        bh=m3l7w8MGdRgFzwzhjZeWQ/jnHc3uxEELPS5v3TRQFAw=;
+        b=Z63dufduVAz1xieLClb4PEBlgvzd0VfdtD/zSQbC+L7uGngsWomr3zxiCSIy2chIac
+         +fZTDoGoEbckirY0Xyv+LbbQBbbwfDtRSAF8fz8eDFpW/QkAhKNryf8W1n5EQddkn5k+
+         tBGi3lCgh/ytwwTazznSow3ZltaWTja78tb1hEzfNb3veIaYvfFBqMfcE3ZmSi1Pw3Dm
+         pVdsahc3tZ0U4XIQ+Y6rK/Ke1uxkXGo/2MlxxvtHuHS5vqGMpN4ZKOzGMr5zfBb5tpeF
+         NcsDG/XvyBDtViKdZ59EeNQHxsmKJ1QvHN5ceUmDAa4WZw0DRRVZyJY77aKNzGOrxlwq
+         yS2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683159178; x=1685751178;
+        d=1e100.net; s=20221208; t=1683160630; x=1685752630;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SCH0ViN6UFmG7i2fXAYHS17/yMCRgpsJU8u4Kp/md4s=;
-        b=D0F+NBExHl4SDt9DY+k/R7e69SGIUvGQkmF7B1SIDab1PyTskK0tvtu2xC7LpZj9xZ
-         WR61nZawe0oFB7Svx1JaXJ9kJn58X/81KmytJy0jjuTlB9jTlYW+1nkUM1eEgkUZfKTy
-         GZSdxfpq1rcK+1PW8Qk9DiaoSGHSLChff5h1Wz5FBYg8Yre7vdRDd8L1VSi+dFjL1bal
-         6IYhkhuHgQcLGq/BJSTW6fKuI5q0lLJ+YGgqwlW9MtoLuSrp5QVy5x85X4sPDFk/7gS/
-         5rIpE0mAB0agfD4QpPNM+5sHXbUlj/AtnBPJ5a5rh5zowl9WOP5NtjAqjp9jPPXjTtfp
-         Iy9w==
-X-Gm-Message-State: AC+VfDwYG6buTojRRfzAEb8+4wQi86dKR4U8hzqsl9fWF6UMr8nppRZT
-	P5eWRq2tjPIvGriNOY0oJlmpBylrUoDA+CZDvng=
-X-Google-Smtp-Source: ACHHUZ4hvTsDBs5p91PXEc6viMIboQXZROmoz2CPipx9kvS+e1d0HwdrHkhAsjg8dworbEqznFHGMgxxC3wROLVKl2k=
-X-Received: by 2002:a05:6808:abc:b0:384:de2c:663c with SMTP id
- r28-20020a0568080abc00b00384de2c663cmr789413oij.24.1683159177869; Wed, 03 May
- 2023 17:12:57 -0700 (PDT)
+        bh=m3l7w8MGdRgFzwzhjZeWQ/jnHc3uxEELPS5v3TRQFAw=;
+        b=CQVyxDz5bEOK16P3xJPP1E1NVtUVpanDrNMnT5Kk3/lPnAS9IDnLe5rY3i3QtT1pMP
+         BJVNyMveESzGHiG4kjYWpj5tAY1qAoCFKLnhrkbVBm94O4Qsl/kbkzsFTHr7hFwmdoKi
+         SAkkOsPir/38Dg8tzjaW88f47peU/em/DsoYIIWdzIq929nN7StyP1qBVFrB84o8TJaA
+         ANGYeNYbLoxencaPjY5tkcswbSEaWsD8sM3rvdVUCLIWv9kU4ywx39bnRGleHc9JG/7b
+         XheeMkvLkSM1hYtpCLSz/xocxj8veuDV+UlcLPzfFxOwpvhMRlHjoh/Q8C7dZJc2b2T/
+         WJww==
+X-Gm-Message-State: AC+VfDylHBn8+4phqNYAkU7vftz1n/Xst6GBkTlEgOtlrOuAgXd24z5P
+	k0gH0CoDV8k1+X1NAgxtX13vMqptbeu7Sh3OEFA=
+X-Google-Smtp-Source: ACHHUZ6g2Z2gyIJU2/rIr6lufWtVKkN4GibMhYP7FRF+833SMeygRVL4Tjz2eo6Bxi89yGTxFjJAujZkimK3Gey60yk=
+X-Received: by 2002:aca:3486:0:b0:38d:ef97:a2db with SMTP id
+ b128-20020aca3486000000b0038def97a2dbmr789143oia.5.1683160629580; Wed, 03 May
+ 2023 17:37:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230503141246.2087-1-jermain.horsman@nedap.com>
-In-Reply-To: <20230503141246.2087-1-jermain.horsman@nedap.com>
+References: <20230426095036.2632847-1-alex@linutronix.de> <20230426095036.2632847-5-alex@linutronix.de>
+ <CAMKF1sqsu_F4JS6f+=TfzJmv_Eq7VKpTFDd5OeBXjzRez76P8w@mail.gmail.com>
+ <CANNYZj992xUKdM6pLka6wUGDNyXcc+p5ZaL62E6i_7s_RLPRmw@mail.gmail.com>
+ <CAMKF1soV_hmE+f7ed0r=jo+rQcWyJ4SU1vG3T2YGAqZQsgReWw@mail.gmail.com>
+ <CANNYZj9X+dTmBN=5WQdA9af5E7m+Ov9vO=bOjR0p=BeBADMEAg@mail.gmail.com>
+ <CAMKF1sq=YOzoqyRzn1bhRwxqWSMV1SnzRKNDutBDiKqw+PjhXw@mail.gmail.com>
+ <CANNYZj-Kt+JMU1BfhqDnFv_S28=-K8ozPFP=3NBPwOYL-PZQ_A@mail.gmail.com> <CAMKF1spy_tx3T=HAAA0B8z4sc1vqkMtMSuLBhUCUObdew-drfg@mail.gmail.com>
+In-Reply-To: <CAMKF1spy_tx3T=HAAA0B8z4sc1vqkMtMSuLBhUCUObdew-drfg@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 3 May 2023 17:12:32 -0700
-Message-ID: <CAMKF1soAYAOWOfuQoejoKTqhxsa8NLShVe6osTyqnDvKzpEM2g@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH] run-postinsts: Set dependency for
- ldconfig to avoid boot issues
-To: jermain.horsman@nedap.com
+Date: Wed, 3 May 2023 17:36:43 -0700
+Message-ID: <CAMKF1sov+84T88Gkjfxs8b7Tp28CCgw2HLoCsmFimb9yw6NXZQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 05/11] bitbake.conf: set minimum required kernel
+ to 5.15
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org, 
-	Arturo Buzarra <arturo.buzarra@digi.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
+	Alexander Kanavin <alex@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 00:13:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180840
+ <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 00:37:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180841
 
-On Wed, May 3, 2023 at 7:13=E2=80=AFAM Jermain Horsman
-<jermain.horsman@nedap.com> wrote:
+On Tue, May 2, 2023 at 8:01=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wrote:
 >
-> From: Arturo Buzarra <arturo.buzarra@digi.com>
->
-> If a package with a postsints script requires ldconfig, the package class=
- adds
-> a ldconfig postinst fragment to initialize it before. Systemd has its own
-> ldconfig.service to initialize it and sometimes if both services are runn=
-ing
-> at the same time in the first boot, the first one will work, but the seco=
-nd
-> one will fail with the following error:
->
->     ldconfig[141]: /sbin/ldconfig: Renaming of /etc/ld.so.cache~ to /etc/=
-ld.so.cache failed: No such file or directory
->
-> This commit adds a ordering dependency between them to make sure that onl=
-y one
-> service is running at the same time.
->
-> Signed-off-by: Arturo Buzarra <arturo.buzarra@digi.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit 4e9d812e127dc6743f52f4881e509e8e2e833afe)
-> Signed-off-by: Jermain Horsman <jermain.horsman@nedap.com>
-> ---
->  .../run-postinsts/run-postinsts/run-postinsts.service           | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postin=
-sts.service b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postins=
-ts.service
-> index 7f72f3388a..b6b81d5c1a 100644
-> --- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.ser=
-vice
-> +++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.ser=
-vice
-> @@ -1,7 +1,7 @@
->  [Unit]
->  Description=3DRun pending postinsts
->  DefaultDependencies=3Dno
-> -After=3Dsystemd-remount-fs.service systemd-tmpfiles-setup.service tmp.mo=
-unt
-> +After=3Dsystemd-remount-fs.service systemd-tmpfiles-setup.service tmp.mo=
-unt ldconfig.service
+> On Tue, May 2, 2023 at 1:42=E2=80=AFAM Alexander Kanavin <alex.kanavin@gm=
+ail.com> wrote:
+> >
+> > On Sat, 29 Apr 2023 at 21:28, Khem Raj <raj.khem@gmail.com> wrote:
+> > > I am also seing some segfaults in qemu usermode runs
+> > >
+> > > | /mnt/b/yoe/master/build/tmp/work/core2-64-yoe-linux-musl/libclc/16.=
+0.1-r0/qemuwrapper:
+> > > line 2: 1592564 Segmentation fault      (core dumped) PSEUDO_UNLOAD=
+=3D1
+> > > qemu-x86_64 -r 5.15 -cpu core2duo -L
+> > > /mnt/b/yoe/master/build/tmp/work/core2-64-yoe-linux-musl/libclc/16.0.=
+1-r0/recipe-sysroot
+> > > -E LD_LIBRARY_PATH=3D/mnt/b/yoe/master/build/tmp/work/core2-64-yoe-li=
+nux-musl/libclc/16.0.1-r0/recipe-sysroot/usr/lib:/mnt/b/yoe/master/build/tm=
+p/work/core2-64-yoe-linux-musl/libclc/16.0.1-r0/recipe-sysroot/usr/lib
+> > > "$@"
+> > >
+> > > this happens when building libclc from meta-clang
+> >
+> > Does not reproduce here (qemux86-64/poky/musl/gcc/meta-clang master).
+> >
 
-should it depend on ldconfig being in distro features ? it may not be
-there on all systems.
+On to this one next. I think it will be good to understand this.
 
->  Before=3Dsysinit.target
+> > > I also saw random build failures in qtbase which is perhaps unrelated
+> > > but could be this one too
+> >
+> > This needs to be investigated on your side.
 >
->  [Service]
-> --
-> 2.39.2.windows.1
+> I see that it is host dependent, it works on debian bullseye but fails
+> with latest archlinux
+> since archlinux is rolling and uptodate it just a matter of time when
+> it starts showing up
+> with one of time based distro releases like fedora or others.
 >
+> >
+> > > Third issue is https://errors.yoctoproject.org/Errors/Details/701889/
+> >
+> > This is from a misconfigured CI on your side and the error is
+> >
+> > "clang-16: error: unable to execute command: Segmentation fault (core d=
+umped)
+> > clang-16: error: linker command failed due to signal (use -v to see inv=
+ocation)"
+> >
+
+This seems to be not related to this. which is good news.
+
+> > which may be unrelated. Is it still happening, and is it going away if
+> > this patchset is removed?
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#180828): https://lists.openembedded.org/g/openembedde=
-d-core/message/180828
-> Mute This Topic: https://lists.openembedded.org/mt/98662451/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> this have not been tried yet explicitly, I can give it a shot if its
+> not host specific
 >
+> >
+> > Alex
 
