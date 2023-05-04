@@ -2,59 +2,59 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53325C7EE21
-	for <webhook@archiver.kernel.org>; Thu,  4 May 2023 11:12:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47B05C7EE21
+	for <webhook@archiver.kernel.org>; Thu,  4 May 2023 11:14:56 +0000 (UTC)
 Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web11.46692.1683198770747478367
+ by mx.groups.io with SMTP id smtpd.web11.46722.1683198887936945569
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 May 2023 04:12:51 -0700
+ Thu, 04 May 2023 04:14:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=KKIK2aTk;
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=AObPOHp1;
  spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3f178da21b5so2579105e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 04:12:50 -0700 (PDT)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3f178da21afso2711065e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 04:14:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1683198769; x=1685790769;
+        d=linuxfoundation.org; s=google; t=1683198886; x=1685790886;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=950WPAe9FOpQGtm9wfZMnGUZaPX0p8i1S4SETkdS5j8=;
-        b=KKIK2aTkvMHaICL0aBUHk9rvNrI9KGNcVcueG2wWe0BFUQZcBtP+jCZXdttO5HLijt
-         c/i2mvLzQj/ZBehkL2CJE0vFDfukuQ5MoQVw26PcDIlyzsM4qQz8cCX8gWbUpsyNbc4+
-         TrdOGZdPkUs5Zv2U7+kwaDBn9lzmkPsOBNGKc=
+        bh=ZW2ltY7PwrdsY0qMdJ5jpLia9Nhc5X+FJ41Ei6l/ncM=;
+        b=AObPOHp1Zjm+hDN+KutTWeEL0pnG08QOsr8y6mcNQRKGzY5XsU0zkzjsxbLpRuyckE
+         KbKHpljoGddzgGT9TDK1b37LG8RLe65Qm7ygzuOfNje+zwK5mLuDneOkuQzn/5TeI4kN
+         V1cbY4uW5bPtorYlaBmjuX8I8jkNYlp8/w5Pg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683198769; x=1685790769;
+        d=1e100.net; s=20221208; t=1683198886; x=1685790886;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=950WPAe9FOpQGtm9wfZMnGUZaPX0p8i1S4SETkdS5j8=;
-        b=R7pW+jnOEer6j9rhHxbWgsp1vJL7eLd2JY3sGikrnsErSau/ovg0061V+B1pQ+ZApt
-         HSIVEf0Isn0UCbaLG2hMjGHwfOATOnfLSo2ccXmAC7Nur+1SWVCUr0pUJexInZVYWztA
-         OV9Q0EdFFK0mETYubVZkQ8oOkn7SDl4SovdmiNMMs/nD039EP+1MYQ4yjIZ8z1jCc2gs
-         tVRkaeR7IdCBbBSU1ynO+O6JAF9j6/ZPRUQfH/EDovk5DsgXfG7AahY+0fj9b6z+aX6v
-         ADB5E1oYuK3g755kXK2OlaNR+4m4GT2rmikkXzExG1ue95q3+7Hf2y1Zf6LlbzzSWORJ
-         iN0A==
-X-Gm-Message-State: AC+VfDw8es2QSdeWcxTAw5PHU+nW1kRjsS7prLKQn+6nwzHDeiaRUjTO
-	hMFE2xyeKbh7WnTqyy3wsE8TxCp+ExuPzRtbX0I=
-X-Google-Smtp-Source: ACHHUZ5DsaOUKKbuxcLsV6PJrk5jplIPgPBT6ltWOJDOLqMHchlbiBv0qbS5fzmDDD4KjycLH93MNw==
-X-Received: by 2002:a05:600c:3789:b0:3f2:4f24:5f61 with SMTP id o9-20020a05600c378900b003f24f245f61mr17026266wmr.38.1683198768748;
-        Thu, 04 May 2023 04:12:48 -0700 (PDT)
+        bh=ZW2ltY7PwrdsY0qMdJ5jpLia9Nhc5X+FJ41Ei6l/ncM=;
+        b=kk/zRUnq37rpTuZ5P5S4ahMErt2tj56FEqPZTQgdpZMJbHQrGadm/uTAYU9dHD9spK
+         tgaNFN+sw9Wgeo1cLqOf0PQnyoTRToA0CybWLEWeysbbsCkF+/Kz1dmFvFNKYWZBCdYl
+         G12wxogsjnASOjh2Se/BRXQYS9Pg00so+nu+81ylrtOuk6QTJ9FWHf0ZqdzkYg/Um+cT
+         N9IpOxk4jSPXQBHs4XFmeazlFnQYRPNmYGd6l7/v+Fxk75ZdfZIhFAF4SiM5TmTvU5Tr
+         V6KrTA437/HyvGFIS8Kg5DV55dQzYQABxP3czr0/lC1qAI3fWK1YAJN0axHF3iNEPggN
+         IbhA==
+X-Gm-Message-State: AC+VfDwNY6yT4QwO0XNwQer1HWw/PQM1qTHqH8157cuB/xlIfzid2i51
+	yUfyMCFXBJW2Q3e8VAFJiOl2vVWYT902Sm4R1AQ=
+X-Google-Smtp-Source: ACHHUZ5uUnE6zimrknnrjnminJ77Nw7xhYrs7oTb0ZM5bF1rSqNw82k1h0JuJn9OtQEXFDghMjcYiQ==
+X-Received: by 2002:a7b:c44e:0:b0:3f1:a71b:d46b with SMTP id l14-20020a7bc44e000000b003f1a71bd46bmr16447182wmi.41.1683198886127;
+        Thu, 04 May 2023 04:14:46 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:6749:5fda:5dc0:e535])
-        by smtp.gmail.com with ESMTPSA id q20-20020a1ce914000000b003edc4788fa0sm4596028wmc.2.2023.05.04.04.12.48
+        by smtp.gmail.com with ESMTPSA id a24-20020a05600c225800b003f349d14010sm4662610wmm.38.2023.05.04.04.14.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 May 2023 04:12:48 -0700 (PDT)
+        Thu, 04 May 2023 04:14:45 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] qemu: Add fix for powerpc instruction fallback issue
-Date: Thu,  4 May 2023 12:12:47 +0100
-Message-Id: <20230504111247.3046210-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH v2] qemu: Add fix for powerpc instruction fallback issue
+Date: Thu,  4 May 2023 12:14:45 +0100
+Message-Id: <20230504111445.3046381-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 11:12:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180861
+ <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 11:14:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180862
 
 See the patch for more details, fixes a regression in qemu causing
 illegal instructions in libm on powerpc, triggered by a libinput
@@ -70,6 +70,8 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
  2 files changed, 71 insertions(+)
  create mode 100644 meta/recipes-devtools/qemu/qemu/ppc.patch
 
+v2 - add upstream status as submitted (failed to add to the index)
+
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
 index a373c9e5774..2a9aa13912b 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
@@ -84,7 +86,7 @@ index a373c9e5774..2a9aa13912b 100644
  
 diff --git a/meta/recipes-devtools/qemu/qemu/ppc.patch b/meta/recipes-devtools/qemu/qemu/ppc.patch
 new file mode 100644
-index 00000000000..7749096c403
+index 00000000000..ade1daf61ff
 --- /dev/null
 +++ b/meta/recipes-devtools/qemu/qemu/ppc.patch
 @@ -0,0 +1,70 @@
@@ -102,7 +104,7 @@ index 00000000000..7749096c403
 +when encountering these instructions now operate correctly. The instruction
 +is used in glibc libm functions for example.
 +
-+Upstream-Status: Pending
++Upstream-Status: Submitted [https://lore.kernel.org/qemu-devel/20230504110150.3044402-1-richard.purdie@linuxfoundation.org/]
 +
 +Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 +
