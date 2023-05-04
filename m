@@ -1,137 +1,168 @@
-Return-Path: <deepadeepthi98@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5617CC7EE21
-	for <webhook@archiver.kernel.org>; Thu,  4 May 2023 12:01:26 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web11.47523.1683201681303294814
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 874CDC7EE21
+	for <webhook@archiver.kernel.org>; Thu,  4 May 2023 12:02:36 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web10.47875.1683201754885458398
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 May 2023 05:01:21 -0700
+ Thu, 04 May 2023 05:02:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=YCDeZ+rP;
- spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: deepadeepthi98@gmail.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1ab05018381so3189095ad.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 05:01:21 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=K6AL/KGU;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-4efe8991b8aso470945e87.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 05:02:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683201680; x=1685793680;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lP1zadPMQ7ImmLIrEMdiaVtEzZeKDFUhSVb1dsqDIYA=;
-        b=YCDeZ+rPAvz26X9WWAlq9rCFTYXC+GURIN7bfbbapKi96D4IBogA7CFCl41TBQRrOY
-         W0CYirb1JHFDoLr5jLLTmXEa4KswDegbZj42iTm1KO3OdsqDPGRx1TPmeTXYylAmCR7g
-         qkECmJegKl+jxNIuWhC0noUowbY8jM/3zgPkG7ZfLw6eF96BPXNVk+dzWXmdXEmUavul
-         oZK88sVOVNdHUhqWPmyffyGNqTylYeFIxU/e+VHVQ3NKxN9wy+w/iu4NQ1mPBLVEzQc7
-         CQ+MBnvwJDgIK+o3+9augmFhtEIMyXOxzbX3hTfNXZPPUkQakt6aoKobGkY5HJemQ+R1
-         DPjQ==
+        d=gmail.com; s=20221208; t=1683201753; x=1685793753;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wmik7lPZTRu1LRkfEcTJLVIz4WRAMOJyzNScP43i7rU=;
+        b=K6AL/KGUbLSJx6wZrLCRBCa6w/fxiiXTI/jPqj/+KZLMr0QzavKYqForD7G8mYE3YH
+         +MT2U5gjdFWAGdg31C8NF+BP0F8H1iEx7wT1s9tjs1GO8yJFmKoEX0eLI7lsbX5Lx8qa
+         r5psjkK9/gZoZbECd6299Z/hVTXqRKwthyEahtAfEytX7k/kbJ2mebgJ9msp9zzq0KVl
+         ofAz0EWVrgCjAFibIBPgyQdHYNBnBwKl3Wg1k49ESHTB3Kgac1nYy69H43KBm8jtoaPQ
+         z1tmRkUIASFWsPC3GRrxpOGOBSy2zBkkgjX70AI9/uUQ0PJGXQEzh7N6mdCpzmwnbldP
+         yd9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683201680; x=1685793680;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1683201753; x=1685793753;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lP1zadPMQ7ImmLIrEMdiaVtEzZeKDFUhSVb1dsqDIYA=;
-        b=dPJaDWkVijTqNUy17tomfmTbZr4nM1vBvK6kN4wWI5ORxW+oyCtMXPCC8t3/e9Ymit
-         hQ93FOkJ2lrPIKFkXxQjmGBk2mZrCQzPC/qgdP+AdzBCePnv+kCqthNMk0bwywJITC4Z
-         BF30K1R/QKLIjaGcla0DLOxKxFTjpHNOZ0g7cudrSXxPRybTlwdSUNOLwqwwjXG5X45c
-         6A8hLwpTHNpCv+FfFxDvU5ygRlSRLjrqlA6xa/iJ/BvWfPXnOeC0ugyFq57C/ECZg2SB
-         eVmp971MqTd7ZGh9g0TrGBfLdaoCNWnJSI3x8bPsB9cuaUphtf/jEK6i3VJVKThKfJZI
-         +P4w==
-X-Gm-Message-State: AC+VfDw8RH7vIA2DVScrhk5e53h1RRBiPc1OCIU/Ia7Yq+AEbGDKFV1T
-	MG9xVohC/22PFtlgNa885U6M2tm8Ftf/IW4u
-X-Google-Smtp-Source: ACHHUZ4rpxF1/zhiAh5xg/n2DH7O1dvxi00ZMWjhTtYCIBt0Lf4lb6M5LHpla/9ROrKrYbBGxVVczQ==
-X-Received: by 2002:a17:902:9342:b0:1aa:f78d:97b7 with SMTP id g2-20020a170902934200b001aaf78d97b7mr3350398plp.46.1683201680089;
-        Thu, 04 May 2023 05:01:20 -0700 (PDT)
-Received: from bft-PowerEdge-R620.. ([49.204.85.206])
-        by smtp.gmail.com with ESMTPSA id jm2-20020a17090304c200b001a96562642dsm623683plb.277.2023.05.04.05.01.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 May 2023 05:01:19 -0700 (PDT)
-From: Deepthi Hemraj <deepadeepthi98@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: rwmacleod@gmail.com,
-	umesh.kalappa0@gmail.com,
-	pgowda.cve@gmail.com,
-	shivams@gmail.com,
-	sundeep.kokkonda@gmail.com
-Subject: [kirkstone][PATCH] binutils : Fix CVE-2023-1972
-Date: Thu,  4 May 2023 17:31:09 +0530
-Message-Id: <20230504120109.1243653-1-deepadeepthi98@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        bh=Wmik7lPZTRu1LRkfEcTJLVIz4WRAMOJyzNScP43i7rU=;
+        b=OZmGbb+/qMaEb9rRkIyx60NVHeOh+YFpN5OIIPqDI6eMrPKhQ6Krc9hDGA74sfVSKD
+         45BgwvBnHiamo8NFUGH63puY///X9ZJPSA0HtrT7/2+59BDq20UlXaCmV68kCQw0BLbT
+         eT4KBdKXQ4/Xclo78G1ECRfA0fKa/nYkMe5BhKbV56Da7K8ol25gZi880h/fXpjC3FNG
+         DbPAqOpyc2ZbHAF3j8Y4De9aSi4rfxENyvx9hyNUwc59IJwQWvdX4pfXRIWNqUHNkVPm
+         kTcMi3Kx0iQPLkTZY1QzeEPMvN5LYIvo9Ld+0n/hLW7/QBcXqJot6Tde9RQQsjCytUQG
+         oeGA==
+X-Gm-Message-State: AC+VfDw+m5bXQO6rVreLVnOXWBC7QTf1cWIDFXe9x/y/EX447zj5xr8G
+	NxndeT6+M298IXbCSARZkcDeZKCUpHt3oAa/J8Y=
+X-Google-Smtp-Source: ACHHUZ6Vgw5d0Ekl6sTx2j63hOqx7yV1jwoTNlEfoVdKEGSyMEoexZnM8GmIimQeWxCZyql3+PhTP7suo6SQDWlXmAc=
+X-Received: by 2002:a05:6512:910:b0:4dd:9f86:859d with SMTP id
+ e16-20020a056512091000b004dd9f86859dmr1741830lft.13.1683201752866; Thu, 04
+ May 2023 05:02:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CANx9H-B4seY487YwfvgW2ze_n6MWr73kJsOTc8spdou32qubKg@mail.gmail.com>
+ <57f1224b-14c5-2ba4-c752-98dba8f57a21@berginkonsult.se> <CANNYZj-uE2WUvfZpjq67wHyeFqQaN1L7HYp54Fm99J5UzS8cdw@mail.gmail.com>
+ <98af3b96-9d1c-3d6a-493f-c1d6a422f9e8@berginkonsult.se>
+In-Reply-To: <98af3b96-9d1c-3d6a-493f-c1d6a422f9e8@berginkonsult.se>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 4 May 2023 14:02:20 +0200
+Message-ID: <CANNYZj--KsUCsAJz9qO6o2E-ByvRjAQ1KxCFK2=W07djtf4FFw@mail.gmail.com>
+Subject: Re: [OE-core] [RFC] python3-cryptogaphy upgrade to 40.0.2 issues
+To: Peter Bergin <peter@berginkonsult.se>
+Cc: frederic.martinsons@gmail.com, Tim Orling <ticotimo@gmail.com>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 12:01:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180870
+ <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 12:02:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180871
 
-Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff_plain;h=c22d38baefc5a7a1e1f5cdc9dbb556b1f0ec5c57]
+I think you should look at prior art - other recipes where this works
+correctly. For example rpm, a fairly simple component, is using
+python.h and linking with libpython. How is it working there?
 
-Signed-off-by: Deepthi Hemraj <deepadeepthi98@gmail.com>
----
- .../binutils/binutils-2.38.inc                |  1 +
- .../binutils/0026-CVE-2023-1972.patch         | 41 +++++++++++++++++++
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0026-CVE-2023-1972.patch
+Alex
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
-index bf44e6c762..ac4bf64e9a 100644
---- a/meta/recipes-devtools/binutils/binutils-2.38.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
-@@ -50,5 +50,6 @@ SRC_URI = "\
-      file://0021-CVE-2023-1579-2.patch \
-      file://0021-CVE-2023-1579-3.patch \
-      file://0021-CVE-2023-1579-4.patch \
-+     file://0026-CVE-2023-1972.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/0026-CVE-2023-1972.patch b/meta/recipes-devtools/binutils/binutils/0026-CVE-2023-1972.patch
-new file mode 100644
-index 0000000000..f86adad217
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0026-CVE-2023-1972.patch
-@@ -0,0 +1,41 @@
-+From: Nick Clifton <nickc@redhat.com>
-+Date: Thu, 30 Mar 2023 09:10:09 +0000 (+0100)
-+Subject: Fix an illegal memory access when an accessing a zer0-lengthverdef table.
-+X-Git-Url: https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff_plain;h=c22d38baefc5a7a1e1f5cdc9dbb556b1f0ec5c57
-+
-+Fix an illegal memory access when an accessing a zer0-lengthverdef table.
-+
-+  PR 30285
-+  * elf.c (_bfd_elf_slurp_version_tables): Fail if no version definitions are allocated.
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff_plain;h=c22d38baefc5a7a1e1f5cdc9dbb556b1f0ec5c57]
-+
-+CVE: CVE-2023-1972
-+
-+Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
-+
-+---
-+
-+diff --git a/bfd/elf.c b/bfd/elf.c
-+index 027d0143735..185028cbd97 100644
-+--- a/bfd/elf.c
-++++ b/bfd/elf.c
-+@@ -9030,6 +9030,9 @@ _bfd_elf_slurp_version_tables (bfd *abfd, bool default_imported_symver)
-+	  bfd_set_error (bfd_error_file_too_big);
-+	  goto error_return_verdef;
-+	}
-++
-++      if (amt == 0)
-++	goto error_return_verdef;
-+       elf_tdata (abfd)->verdef = (Elf_Internal_Verdef *) bfd_zalloc (abfd, amt);
-+       if (elf_tdata (abfd)->verdef == NULL)
-+	goto error_return_verdef;
-+@@ -9133,6 +9136,8 @@ _bfd_elf_slurp_version_tables (bfd *abfd, bool default_imported_symver)
-+	  bfd_set_error (bfd_error_file_too_big);
-+	  goto error_return;
-+	}
-++      if (amt == 0)
-++	goto error_return;
-+       elf_tdata (abfd)->verdef = (Elf_Internal_Verdef *) bfd_zalloc (abfd, amt);
-+       if (elf_tdata (abfd)->verdef == NULL)
-+	goto error_return;
--- 
-2.34.1
-
+On Thu, 4 May 2023 at 14:00, Peter Bergin <peter@berginkonsult.se> wrote:
+>
+>
+> On 2023-05-04 11:00, Alexander Kanavin wrote:
+> > On Thu, 4 May 2023 at 10:41, Peter Bergin <peter@berginkonsult.se> wrote:
+> >
+> >> At
+> >> https://github.com/pyca/cryptography/blob/f816b457494e010b655cd7fdcd30e3446f86a703/src/rust/build.rs#L46
+> >> the path to python includes is defined by calling 'python3 -c "import
+> >> sysconfig; print(sysconfig.get_path('include'))"' (but from inside
+> >> rust). With print-debugging this seems to return the bad string
+> >> '/usr/include/python3.11' which is then passed to cc::Build
+> >>
+> >> I executed this in recipe context:
+> >>
+> >> do_compile:prepend() {
+> >>       which python3
+> >>       python3 -c "import sysconfig; print(sysconfig.get_path('include'))"
+> >> }
+> >>
+> >> and then I got the correct return value:
+> >>
+> >> |
+> >> /work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot-native/usr/bin/python3-native/python3
+> >> |
+> >> /work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot-native/usr/include/python3.11
+> > This is pointing to the native sysroot in a target build, so it is
+> > most likely not actually correct. I believe 'inherit
+> > python3targetconfig' may help, as it substitutes most places where
+> > native python gets queried by components with target-specific values.
+> >
+> > Alex
+> >
+> The bad thing is that the build.rs script is running python script to
+> figure out the path to the headers. I'm not sure we can use target
+> python exe in the build steps without running qemu instance or something
+> which seems overkill in this case. We have the information about python
+> include path for the target in the variable PYTHON_INCLUDE_DIR.
+>
+> With this patch the compilation will find Python.h:
+>
+> $ git diff src/rust/build.rs
+> diff --git a/src/rust/build.rs b/src/rust/build.rs
+> index 01177ac..7dc13fe 100644
+> --- a/src/rust/build.rs
+> +++ b/src/rust/build.rs
+> @@ -43,11 +43,8 @@ fn main() {
+>       )
+>       .unwrap();
+>       println!("cargo:rustc-cfg=python_implementation=\"{}\"", python_impl);
+> -    let python_include = run_python_script(
+> -        &python,
+> -        "import sysconfig; print(sysconfig.get_path('include'), end='')",
+> -    )
+> -    .unwrap();
+> +    let python_include = env::var("PYTHON_INCLUDE_DIR").unwrap();
+> +
+>       let openssl_include =
+>           std::env::var_os("DEP_OPENSSL_INCLUDE").expect("unable to find
+> openssl include path");
+>       let openssl_c = Path::new(&out_dir).join("_openssl.c");
+>
+>
+> But it fails later in the linking step.
+>
+> .....linux/python3-cryptography/40.0.2-r0/recipe-sysroot/usr/lib/rustlib/x86_64-poky-linux-gnu/lib"
+> "-L"
+> "/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/python3-cryptography-40.0.2/target/x86_64-poky-linux-gnu/release/build/cryptography-rust-aa00e39a952c07ee/out"
+> "-L"
+> "/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot/usr/lib"
+> "-L"
+> "/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot-native/usr/lib/rustlib/x86_64-poky-linux-gnu/lib"
+> "-Wl,-Bstatic" "-l_openssl.a"
+> "/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot/usr/lib/rustlib/x86_64-poky-linux-gnu/lib/libcompiler_builtins-45df5d471f0d20d0.rlib"
+> "-Wl,-Bdynamic" "-lssl" "-lcrypto" "-lgcc_s" "-lutil" "-lrt" "-lpthread"
+> "-lm" "-ldl" "-lc" "-Wl,--eh-frame-hdr" "-Wl,-znoexecstack" "-L"
+> "/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot-native/usr/lib/rustlib/x86_64-poky-linux-gnu/lib"
+> "-o"
+> "/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/python3-cryptography-40.0.2/target/x86_64-poky-linux-gnu/release/deps/libcryptography_rust.so"
+> "-Wl,--gc-sections" "-shared" "-Wl,-O1" "-nodefaultlibs"
+>    = note:
+> /work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/12.2.0/ld:
+> /work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/python3-cryptography-40.0.2/target/x86_64-poky-linux-gnu/release/build/cryptography-rust-aa00e39a952c07ee/out/lib_openssl.a.a(9bdf47a443b7a07f-_openssl.o):
+> warning: relocation against `_Py_NoneStruct' in read-only section `.text'
+> /work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/12.2.0/ld:
+> /work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/python3-cryptography-40.0.2/target/x86_64-poky-linux-gnu/release/build/cryptography-rust-aa00e39a952c07ee/out/lib_openssl.a.a(9bdf47a443b7a07f-_openssl.o):
+> relocation R_X86_64_PC32 against undefined symbol `_Py_NoneStruct' can
+> not be used when making a shared object; recompile with -fPIC
+> /work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40.0.2-r0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/12.2.0/ld:
+> final link failed: bad value
+>            collect2: error: ld returned 1 exit status
+>
+>
+> There are some '-L .../recipe-sysroot-native/usr/lib/rustlib/...' that
+> can probably causing this. Don't know if it helps us forward?
+>
+> /Peter
+>
 
