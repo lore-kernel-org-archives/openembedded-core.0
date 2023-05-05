@@ -1,391 +1,156 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4AD3C77B75
-	for <webhook@archiver.kernel.org>; Fri,  5 May 2023 04:01:21 +0000 (UTC)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
- by mx.groups.io with SMTP id smtpd.web10.19567.1683259273605879479
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E79BDC77B7F
+	for <webhook@archiver.kernel.org>; Fri,  5 May 2023 04:17:41 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.19736.1683260259311728829
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 May 2023 21:01:13 -0700
+ Thu, 04 May 2023 21:17:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=kKMuYWR/;
- spf=pass (domain: gmail.com, ip: 209.85.128.179, mailfrom: ticotimo@gmail.com)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-559eae63801so18704747b3.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 21:01:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683259273; x=1685851273;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yzIAiX8rIluNDCgLPxG16X64H9WRvZeC+vA4w1NKh/4=;
-        b=kKMuYWR/o9dg0inN8BOylWk87M7bVSvCfXv9UVGcvN24yCZbtV3a3agbDpp42EbKlu
-         Eow+Cv5NJ83MkefveZmE6VNUYhghUiAUvtA0oEE1dyQnbp08ytYFdCb7h7J5EnRdw0FL
-         wzpp4h+GQ+OlgYu6fl3Z5NWBdIXZBdY6OwayW1vkfLMhYWPYlA3XpnNE9vMOlMgbuKGi
-         HfUuEItyh42W9mF5Ue7rYohOqLRpjdLHE1TlPfR2WPrUiKzbCvgiSTfIHdK25HGhYvb+
-         q1rTQLbmlHdE2qrjOoOwfaH1dh9qVV8XD35kifTo5qVLuzrp7DO4e3fz50ntqUCBkPy1
-         7yaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683259273; x=1685851273;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yzIAiX8rIluNDCgLPxG16X64H9WRvZeC+vA4w1NKh/4=;
-        b=RTNybbd4yWFBaunW/R6TMx9DN9Xm/C8rMfREQHEKPwithyzHa6SLPwrPpkvQkkyQFm
-         0ET6IUp2L7tFbPrN1KiNV79PJJF+uhFeGC+SRmvqz+4kGaL0IPeYEUUdjchkEVxW1nWl
-         aI5ukCQX9cSYP3hzrYCoxQe39EEbyn5GaLx77dGUH3aOnRMs6VzvJjDWP3RYl0QPDrXR
-         FYiVE0W/G8/QicpwIwoZym6+cP4HP+YzrlKMPXetdjMn4Xhk52vbHEr6F/6vfed9Ceky
-         stiuySjeneKkf5Nb9L/2eFpzkeV6NvD5IBsC+Qh1lIcXjw056rHsB/kTAmuxbSEMaiQP
-         xhDg==
-X-Gm-Message-State: AC+VfDxSDGbo6anqvlu16tZwu5NG2x4Xr2W0qJrQsj7v7NFpNtvtXcf7
-	/DCp0//Dap5/Yr05+rB1jOo0Rc3jQY/wG0p2xAw=
-X-Google-Smtp-Source: ACHHUZ6JE+MfPigcQpxdWPNKTzb+87eeH5gExKvFVcCi6YGu4OVmgwBGXa4BMNIBYC3Sh533c9pZj6vJyZO7jTY7iIY=
-X-Received: by 2002:a0d:d781:0:b0:55a:142e:b178 with SMTP id
- z123-20020a0dd781000000b0055a142eb178mr227172ywd.50.1683259272440; Thu, 04
- May 2023 21:01:12 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=l9M6XzXa;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4489daff9e=qi.chen@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3454HYK4005229
+	for <openembedded-core@lists.openembedded.org>; Thu, 4 May 2023 21:17:39 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=PPS06212021;
+ bh=ZpNTtMqaCzTUJtZNesrSyMlQXhBSbvN+yNDFlQB4Lrc=;
+ b=l9M6XzXaKQGJb6OO/gDjGCJS/DWgFjuLR0NpxefIOe0CyDlLoA4wHZxfDgLOZinApAKk
+ seRQ097RxVDLv40NXr7UseKVM+kJMz/Iaa0TR2Vn+6IkxWTKz/D3Z3cq5t2KM/g6UeFL
+ J6ydbjOIv1iDbW+Jx17sSewJ1l710gj0hXxNc8zN4VVI4qEztcnlzzpRe6GaumfeDDXr
+ kFM69jQz6NoQLZENxo7ib0N6xz2/bEYJp2Ke56fq2ubPTF3158ZWBpGjowBPCkuRkt6W
+ TvzPj2IuYq+tLqvlvV/HZAljn1amymPy1navLS/QyBk55JVDuQaDebjEA4lZ26RyA/c4 Aw== 
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2107.outbound.protection.outlook.com [104.47.58.107])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3q8xh5nbbc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 21:17:38 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aqPxnjQkso0k4qJLzrUZZtCdnt+KQUF4JVO821i3GINsS53gtcDfQ9Kc/z8tOvvtXiNsaccc7Ha/XOwO4HXNWyO/w/AyHPDSloXmVnXv099yS/moQzp+Xl8G9pPg7p+RP3RnSHEMmEQHfUjT+cHczZ/OLcrtkDh9fA4mdca/K6MZJjkhHSsXZC3qqthzrJ6lTahwfxFsPE+Ve1jR78FguaprzNB8rRnk7PRtYpz87S745CFwgHoLpCnAVpQIjYxbTIOqB+fE/9Q5pakNFZZ1wQrlHIm7nylc/9bkVbkFigw5V5Oah3GnYdAJzVt71sG7NYzxAgdVk9GjwBwb29U79g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZpNTtMqaCzTUJtZNesrSyMlQXhBSbvN+yNDFlQB4Lrc=;
+ b=EyHvC9YpHzlPVF/gb6avyu5WMytO1qp3mzwiA+u6w7xT2vt4cc9Bu7w+ctQwjZcXggf4s6RFwMB3Chqp5DruWMXf3Z3B740pEJadjgOrc1Yxwa3S2rPnLcsvrMT8Rxs44Z21EPXaR5RznzzyNrfPORVucl2385vmUNgrHCWKtnxt/uMiIBmkXeDPqYE9dB3M8LkHzx79BDt7hpCoLQWrYD1mQTEvQamHh3Xw2LE/ybzRH3EAuce3CIhfd21DkDFwLxVR/+MiDPQA+Xgt4n3d/5UMKCe7XQjxEPWcfN0GW7BEHbvDMtFQlOcuId1mQy2x5dfPCCX0o5wQrxkhMn122w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by BL1PR11MB5256.namprd11.prod.outlook.com (2603:10b6:208:30a::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.27; Fri, 5 May
+ 2023 04:17:35 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::fa8:8cc5:a5da:7e07]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::fa8:8cc5:a5da:7e07%5]) with mapi id 15.20.6363.027; Fri, 5 May 2023
+ 04:17:35 +0000
+From: Qi.Chen@windriver.com
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] image_types_wic.bbclass: remove MLPREFIX for binutils
+Date: Thu,  4 May 2023 21:17:25 -0700
+Message-Id: <20230505041725.3186569-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.40.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR08CA0009.namprd08.prod.outlook.com
+ (2603:10b6:a03:100::22) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
 MIME-Version: 1.0
-References: <CANx9H-B4seY487YwfvgW2ze_n6MWr73kJsOTc8spdou32qubKg@mail.gmail.com>
- <57f1224b-14c5-2ba4-c752-98dba8f57a21@berginkonsult.se> <CANNYZj-uE2WUvfZpjq67wHyeFqQaN1L7HYp54Fm99J5UzS8cdw@mail.gmail.com>
- <98af3b96-9d1c-3d6a-493f-c1d6a422f9e8@berginkonsult.se>
-In-Reply-To: <98af3b96-9d1c-3d6a-493f-c1d6a422f9e8@berginkonsult.se>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Thu, 4 May 2023 21:01:01 -0700
-Message-ID: <CANx9H-Cf6wTwVx40=Su=HSMJoydX4Ppe1CN+jo5fRWpfVaJkVA@mail.gmail.com>
-Subject: Re: [OE-core] [RFC] python3-cryptogaphy upgrade to 40.0.2 issues
-To: Peter Bergin <peter@berginkonsult.se>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, frederic.martinsons@gmail.com, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000ffb08f05faea566b"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|BL1PR11MB5256:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2a06c608-b328-458b-538a-08db4d1fa769
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	1TRN1ILyMAkChVjcopMCffyWH1xIYSBul03LnzGDzexVP+3vD65kQtdsOp91i0EmAlT+Z6IxclBz1fLOeflQ0drcXX8TA8J4InAy5ebm3h9Kyxzmyg2vrYJijKXYl8+3vlh/bcAZtfSmzBelBPLk1iZ3N1y3asN+xewVOjSbZfe0RZuxRdxElAP3DYSID7tndeY5qGbMGWhfY7NsvjQB21P2k9y9XqOyRj7I8dmWA+e0vydcJf2otHY4Nw2p8pD4TkzpSDVlKmcuOsDNoosCuEq1raX4wLw8MpzPzERlGoynBHu4l5wDPh88rm7izywdujGJqlX6uTYGcI+0Qi/G5tLeNhFGJPCMua4iFwNpyY12DOUOab9fPLWNZbfzKySRu2t7R1xUCCcmyVkNrtC2V6dmHtajR5c5KleuOIfNT481fiyjcCsgXkG5IyfgnJNwste6Z0mbkCUcdkIkExghr0XqPmqVdAVUk8ppbiiznshF20WsPMVfdjxt/FXklwzJ0k72ktbkGkXcSPxxrH2dxPw9fvQTqw9LLqokaSqdDWMbnTMzfO+5KzQqABLYV/G81upLFpHqCcQeGlSwACc3FTMWGVuNNtd0YXGHrPb0/m7DsCK+3JAwUbbfXyt4A5k1
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(366004)(39830400003)(346002)(136003)(376002)(451199021)(52116002)(66946007)(66556008)(66476007)(6916009)(6666004)(478600001)(6486002)(316002)(36756003)(86362001)(83380400001)(2616005)(6512007)(6506007)(1076003)(26005)(9686003)(8936002)(8676002)(5660300002)(2906002)(41300700001)(186003)(38100700002)(38350700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?Igvb0s2lISdF/7rEyb30D3ShxIGp74ylC/1jKCwi1Qo0syJ1QJk2JsQHQfDO?=
+ =?us-ascii?Q?IDwgW6YzdOfBz4hMzKk44lYzMqCUGq3s/JmGwUMagmQm+pacV+CeezZEui7U?=
+ =?us-ascii?Q?BtVFokrruJvXzgtRskQotiLkecvbzPV1NzIEgF6+TYQaT89vY1XIKTwX1A3q?=
+ =?us-ascii?Q?+t/t7YDl2W8mSFD9IrYw5ezvncl+UHAh4b+rBwf7jwpKnFS/V1VVTIcGTVYB?=
+ =?us-ascii?Q?ImLPpU/PojgUBw7gSgm7WX4bO8FFDRLntgDLN29zvkdh2UIdlCzuXOvWPf2O?=
+ =?us-ascii?Q?Qwf5sj7m8Cj1ocIEYdqYB/G2ytcEcuY/3tGhteIPuiGG2NIJO+bYI/rbMoOC?=
+ =?us-ascii?Q?S4h+N/n3axrV1plFdAREVgeu3B1saYAWwws3oAQEWka4nCjlZw6KyaNxjsQM?=
+ =?us-ascii?Q?lj19V4ED9ybEzi9TtITiiLbjNgi0NVXtK9KCS9C/2aXIWbLsiiv7/dG9V0F2?=
+ =?us-ascii?Q?8yNQ+yoSZNSDpq5TWzFsjAaIuoqew094cHWiGBhhGl9TGJPie6MwIRxWTAlJ?=
+ =?us-ascii?Q?RuQB5x7aFTP9ATdzqyC/nr18/iZzd6YQFfG5EbO8+02Sv2kj91sjSxrZs9yA?=
+ =?us-ascii?Q?j4sobmI/eA3y+M/1QcgrEdKyF4HjLUrfRjdJNTQlSRTeobSJIjIus24aZdHA?=
+ =?us-ascii?Q?42cK+W5eJHjgQl+Br7saTZkbDtCekAs0XMvgm53teUPiZ3LTRLVgnIKC/t+u?=
+ =?us-ascii?Q?nC/KXXVmm/9e1jXdwrdfowoXcyRZBvtRWS4t0ozfXOKzffXnC5lHOL5rmqkj?=
+ =?us-ascii?Q?FndCrw6/NL5ks22HIfSXtTyN8L0k4D3BUQEnjdNwaGKPuTqW6myQXjay9qPw?=
+ =?us-ascii?Q?wSaVNu2H0XcC88y3qKh97qfyGs+IUoGQXQzzxJ3mn6DXME0hzfJ4LHZhIHkh?=
+ =?us-ascii?Q?DAc8KlQP6v69iLJz+QiJg/QElFt2W+yM7BB5d4uQ/eN8ttva8Yvlk6snquLn?=
+ =?us-ascii?Q?0BsB1/KZS3vKJHaTAu/VtkKXwYOdzIRlImWjOIeV6a3qOOYMvxYnmgR0P62c?=
+ =?us-ascii?Q?bEmyUxSbzjmNdFt5Oe3Q/1sSfgy0yTgi4V9UZE2UfENJtYJ1xxMYMps/Ion6?=
+ =?us-ascii?Q?wYGQJ2eKMihaXFb513Bj6Kej2u12TRR8SvM1b06fbaGKzXGhmUL1ie/DUE/+?=
+ =?us-ascii?Q?XWMgIazBLlV1yHOe7Cy9TOBdMGH26DPyhfULk0vuaIR7JJfbdI2jDuCFHpMc?=
+ =?us-ascii?Q?sbE1XlrljPW0mKZgTNCu337SAU9C2XgoxxaArxFkvshes84IcAlkLal9/62J?=
+ =?us-ascii?Q?3HAIWAmuhbGglvmzaI/g8/A+eo2kZiWvdcGdDjT/rf13PHSYdmHCCkZrCW+m?=
+ =?us-ascii?Q?pOJWSGwD8NN1VV4bKHweBY/8KTdYH1MrPB2Af5pNkgRmKNuJy494UW1kCqCt?=
+ =?us-ascii?Q?OAu7BfW8qPaYo5q04VfOIlOciuaUzlKDh92leKAYYVE5pTHVX47vf2P7xoHu?=
+ =?us-ascii?Q?FUIGOlBCSxAAqIxwa7bRMOgr/qFoxgaav6z1Y/9DCzBfGM939dVBduICg0Lv?=
+ =?us-ascii?Q?0TCbI2D/rfRVGhMa91Yh0LNYop/2nzlwbUb4nOnSBZj8vS6t9evFu92SaCO6?=
+ =?us-ascii?Q?gGzKZxHnBk3zNET46r2xLILvze+QFPOmrUYWmtjW?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2a06c608-b328-458b-538a-08db4d1fa769
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2023 04:17:35.2995
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tJ+qpSks7Md3NoQZmNuZ5lIL2S3+Y8nHQursQHtAy8NAGV2IJsisP7BCR/RPcIyHr4MfMlhMwd/R/98fEvymRA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5256
+X-Proofpoint-ORIG-GUID: oMDKBhVrLeq1d-6AfSeDtF0CyDrHJXgC
+X-Proofpoint-GUID: oMDKBhVrLeq1d-6AfSeDtF0CyDrHJXgC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-04_15,2023-05-04_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ lowpriorityscore=0 spamscore=0 clxscore=1015 suspectscore=0 mlxscore=0
+ phishscore=0 priorityscore=1501 mlxlogscore=685 adultscore=0 bulkscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2305050036
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 04:01:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180900
+ <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 04:17:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180901
 
---000000000000ffb08f05faea566b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Chen Qi <Qi.Chen@windriver.com>
 
-On Thu, May 4, 2023 at 5:00=E2=80=AFAM Peter Bergin <peter@berginkonsult.se=
-> wrote:
+With the following two commits, the MLPREFIX needs to be removed
+to avoid the 'nothing provides' error.
 
->
-> On 2023-05-04 11:00, Alexander Kanavin wrote:
-> > On Thu, 4 May 2023 at 10:41, Peter Bergin <peter@berginkonsult.se>
-> wrote:
-> >
-> >> At
-> >>
-> https://github.com/pyca/cryptography/blob/f816b457494e010b655cd7fdcd30e34=
-46f86a703/src/rust/build.rs#L46
-> >> the path to python includes is defined by calling 'python3 -c "import
-> >> sysconfig; print(sysconfig.get_path('include'))"' (but from inside
-> >> rust). With print-debugging this seems to return the bad string
-> >> '/usr/include/python3.11' which is then passed to cc::Build
-> >>
-> >> I executed this in recipe context:
-> >>
-> >> do_compile:prepend() {
-> >>       which python3
-> >>       python3 -c "import sysconfig;
-> print(sysconfig.get_path('include'))"
-> >> }
-> >>
-> >> and then I got the correct return value:
-> >>
-> >> |
-> >>
-> /work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/=
-40.0.2-r0/recipe-sysroot-native/usr/bin/python3-native/python3
-> >> |
-> >>
-> /work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/=
-40.0.2-r0/recipe-sysroot-native/usr/include/python3.11
-> > This is pointing to the native sysroot in a target build, so it is
-> > most likely not actually correct. I believe 'inherit
-> > python3targetconfig' may help, as it substitutes most places where
-> > native python gets queried by components with target-specific values.
-> >
-> > Alex
-> >
-> The bad thing is that the build.rs script is running python script to
-> figure out the path to the headers. I'm not sure we can use target
-> python exe in the build steps without running qemu instance or something
-> which seems overkill in this case. We have the information about python
-> include path for the target in the variable PYTHON_INCLUDE_DIR.
->
-> With this patch the compilation will find Python.h:
->
-> $ git diff src/rust/build.rs
-> diff --git a/src/rust/build.rs b/src/rust/build.rs
-> index 01177ac..7dc13fe 100644
-> --- a/src/rust/build.rs
-> +++ b/src/rust/build.rs
-> @@ -43,11 +43,8 @@ fn main() {
->       )
->       .unwrap();
->       println!("cargo:rustc-cfg=3Dpython_implementation=3D\"{}\"",
-> python_impl);
-> -    let python_include =3D run_python_script(
-> -        &python,
-> -        "import sysconfig; print(sysconfig.get_path('include'), end=3D''=
-)",
-> -    )
-> -    .unwrap();
-> +    let python_include =3D env::var("PYTHON_INCLUDE_DIR").unwrap();
-> +
->       let openssl_include =3D
->           std::env::var_os("DEP_OPENSSL_INCLUDE").expect("unable to find
-> openssl include path");
->       let openssl_c =3D Path::new(&out_dir).join("_openssl.c");
->
->
-This patch at least got `python3-cryptography-native` to build to
-completion.
+  gcc/go: Drop crosssdk suffix from virtual provides to improve dependency handling
+  binutils: Drop crosssdk suffix from virtual provides to improve dependency handling
 
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/classes-recipe/image_types_wic.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
-> But it fails later in the linking step.
->
-> .....linux/python3-cryptography/40.0.2-r0/recipe-sysroot/usr/lib/rustlib/=
-x86_64-poky-linux-gnu/lib"
->
-> "-L"
-> "/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography=
-/40.0.2-r0/python3-cryptography-40.0.2/target/x86_64-poky-linux-gnu/release=
-/build/cryptography-rust-aa00e39a952c07ee/out"
->
-> "-L"
-> "/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography=
-/40.0.2-r0/recipe-sysroot/usr/lib"
->
-> "-L"
-> "/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography=
-/40.0.2-r0/recipe-sysroot-native/usr/lib/rustlib/x86_64-poky-linux-gnu/lib"
->
-> "-Wl,-Bstatic" "-l_openssl.a"
-> "/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography=
-/40.0.2-r0/recipe-sysroot/usr/lib/rustlib/x86_64-poky-linux-gnu/lib/libcomp=
-iler_builtins-45df5d471f0d20d0.rlib"
->
-> "-Wl,-Bdynamic" "-lssl" "-lcrypto" "-lgcc_s" "-lutil" "-lrt" "-lpthread"
-> "-lm" "-ldl" "-lc" "-Wl,--eh-frame-hdr" "-Wl,-znoexecstack" "-L"
-> "/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography=
-/40.0.2-r0/recipe-sysroot-native/usr/lib/rustlib/x86_64-poky-linux-gnu/lib"
->
-> "-o"
-> "/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography=
-/40.0.2-r0/python3-cryptography-40.0.2/target/x86_64-poky-linux-gnu/release=
-/deps/libcryptography_rust.so"
->
-> "-Wl,--gc-sections" "-shared" "-Wl,-O1" "-nodefaultlibs"
->    =3D note:
-> /work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/=
-40.0.2-r0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86=
-_64-poky-linux/gcc/x86_64-poky-linux/12.2.0/ld:
->
-> /work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/=
-40.0.2-r0/python3-cryptography-40.0.2/target/x86_64-poky-linux-gnu/release/=
-build/cryptography-rust-aa00e39a952c07ee/out/lib_openssl.a.a(9bdf47a443b7a0=
-7f-_openssl.o):
->
-> warning: relocation against `_Py_NoneStruct' in read-only section `.text'
-> /work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/=
-40.0.2-r0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86=
-_64-poky-linux/gcc/x86_64-poky-linux/12.2.0/ld:
->
-> /work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/=
-40.0.2-r0/python3-cryptography-40.0.2/target/x86_64-poky-linux-gnu/release/=
-build/cryptography-rust-aa00e39a952c07ee/out/lib_openssl.a.a(9bdf47a443b7a0=
-7f-_openssl.o):
->
-> relocation R_X86_64_PC32 against undefined symbol `_Py_NoneStruct' can
-> not be used when making a shared object; recompile with -fPIC
-> /work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/=
-40.0.2-r0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86=
-_64-poky-linux/gcc/x86_64-poky-linux/12.2.0/ld:
->
-> final link failed: bad value
->            collect2: error: ld returned 1 exit status
->
->
-> There are some '-L .../recipe-sysroot-native/usr/lib/rustlib/...' that
-> can probably causing this. Don't know if it helps us forward?
->
-> /Peter
->
->
+diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes-recipe/image_types_wic.bbclass
+index c339b9bdfb..be31fbf94f 100644
+--- a/meta/classes-recipe/image_types_wic.bbclass
++++ b/meta/classes-recipe/image_types_wic.bbclass
+@@ -91,7 +91,7 @@ do_image_wic[deptask] += "do_image_complete"
+ WKS_FILE_DEPENDS_DEFAULT = '${@bb.utils.contains_any("BUILD_ARCH", [ 'x86_64', 'i686' ], "syslinux-native", "",d)}'
+ WKS_FILE_DEPENDS_DEFAULT += "bmap-tools-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native erofs-utils-native"
+ # Unified kernel images need objcopy
+-WKS_FILE_DEPENDS_DEFAULT += "virtual/${MLPREFIX}${TARGET_PREFIX}binutils"
++WKS_FILE_DEPENDS_DEFAULT += "virtual/${TARGET_PREFIX}binutils"
+ WKS_FILE_DEPENDS_BOOTLOADERS = ""
+ WKS_FILE_DEPENDS_BOOTLOADERS:x86 = "syslinux grub-efi systemd-boot os-release"
+ WKS_FILE_DEPENDS_BOOTLOADERS:x86-64 = "syslinux grub-efi systemd-boot os-release"
+-- 
+2.40.0
 
---000000000000ffb08f05faea566b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_qu=
-ote"></div></div></div><div><div dir=3D"ltr"><div class=3D"gmail_quote"><di=
-v dir=3D"ltr" class=3D"gmail_attr">On Thu, May 4, 2023 at 5:00=E2=80=AFAM P=
-eter Bergin &lt;<a href=3D"mailto:peter@berginkonsult.se" target=3D"_blank"=
->peter@berginkonsult.se</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex"><br>
-On 2023-05-04 11:00, Alexander Kanavin wrote:<br>
-&gt; On Thu, 4 May 2023 at 10:41, Peter Bergin &lt;<a href=3D"mailto:peter@=
-berginkonsult.se" target=3D"_blank">peter@berginkonsult.se</a>&gt; wrote:<b=
-r>
-&gt;<br>
-&gt;&gt; At<br>
-&gt;&gt; <a href=3D"https://github.com/pyca/cryptography/blob/f816b457494e0=
-10b655cd7fdcd30e3446f86a703/src/rust/build.rs#L46" rel=3D"noreferrer" targe=
-t=3D"_blank">https://github.com/pyca/cryptography/blob/f816b457494e010b655c=
-d7fdcd30e3446f86a703/src/rust/build.rs#L46</a><br>
-&gt;&gt; the path to python includes is defined by calling &#39;python3 -c =
-&quot;import<br>
-&gt;&gt; sysconfig; print(sysconfig.get_path(&#39;include&#39;))&quot;&#39;=
- (but from inside<br>
-&gt;&gt; rust). With print-debugging this seems to return the bad string<br=
->
-&gt;&gt; &#39;/usr/include/python3.11&#39; which is then passed to cc::Buil=
-d<br>
-&gt;&gt;<br>
-&gt;&gt; I executed this in recipe context:<br>
-&gt;&gt;<br>
-&gt;&gt; do_compile:prepend() {<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0which python3<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0python3 -c &quot;import sysconfig; print=
-(sysconfig.get_path(&#39;include&#39;))&quot;<br>
-&gt;&gt; }<br>
-&gt;&gt;<br>
-&gt;&gt; and then I got the correct return value:<br>
-&gt;&gt;<br>
-&gt;&gt; |<br>
-&gt;&gt; /work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-crypto=
-graphy/40.0.2-r0/recipe-sysroot-native/usr/bin/python3-native/python3<br>
-&gt;&gt; |<br>
-&gt;&gt; /work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-crypto=
-graphy/40.0.2-r0/recipe-sysroot-native/usr/include/python3.11<br>
-&gt; This is pointing to the native sysroot in a target build, so it is<br>
-&gt; most likely not actually correct. I believe &#39;inherit<br>
-&gt; python3targetconfig&#39; may help, as it substitutes most places where=
-<br>
-&gt; native python gets queried by components with target-specific values.<=
-br>
-&gt;<br>
-&gt; Alex<br>
-&gt;<br>
-The bad thing is that the <a href=3D"http://build.rs" rel=3D"noreferrer" ta=
-rget=3D"_blank">build.rs</a> script is running python script to <br>
-figure out the path to the headers. I&#39;m not sure we can use target <br>
-python exe in the build steps without running qemu instance or something <b=
-r>
-which seems overkill in this case. We have the information about python <br=
->
-include path for the target in the variable PYTHON_INCLUDE_DIR.<br>
-<br>
-With this patch the compilation will find Python.h:<br>
-<br>
-$ git diff src/rust/<a href=3D"http://build.rs" rel=3D"noreferrer" target=
-=3D"_blank">build.rs</a><br>
-diff --git a/src/rust/<a href=3D"http://build.rs" rel=3D"noreferrer" target=
-=3D"_blank">build.rs</a> b/src/rust/<a href=3D"http://build.rs" rel=3D"nore=
-ferrer" target=3D"_blank">build.rs</a><br>
-index 01177ac..7dc13fe 100644<br>
---- a/src/rust/<a href=3D"http://build.rs" rel=3D"noreferrer" target=3D"_bl=
-ank">build.rs</a><br>
-+++ b/src/rust/<a href=3D"http://build.rs" rel=3D"noreferrer" target=3D"_bl=
-ank">build.rs</a><br>
-@@ -43,11 +43,8 @@ fn main() {<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 )<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .unwrap();<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 println!(&quot;cargo:rustc-cfg=3Dpython_impl=
-ementation=3D\&quot;{}\&quot;&quot;, python_impl);<br>
--=C2=A0=C2=A0=C2=A0 let python_include =3D run_python_script(<br>
--=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &amp;python,<br>
--=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &quot;import sysconfig; print(s=
-ysconfig.get_path(&#39;include&#39;), end=3D&#39;&#39;)&quot;,<br>
--=C2=A0=C2=A0=C2=A0 )<br>
--=C2=A0=C2=A0=C2=A0 .unwrap();<br>
-+=C2=A0=C2=A0=C2=A0 let python_include =3D env::var(&quot;PYTHON_INCLUDE_DI=
-R&quot;).unwrap();<br>
-+<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let openssl_include =3D<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 std::env::var_os(&qu=
-ot;DEP_OPENSSL_INCLUDE&quot;).expect(&quot;unable to find <br>
-openssl include path&quot;);<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let openssl_c =3D Path::new(&amp;out_dir).jo=
-in(&quot;_openssl.c&quot;);<br>
-<br></blockquote><div><br></div></div></div></div><div><div dir=3D"ltr"><di=
-v class=3D"gmail_quote"><div>This patch at least got `python3-cryptography-=
-native` to build to completion.</div></div></div></div><div><div dir=3D"ltr=
-"><div class=3D"gmail_quote"><div>=C2=A0</div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">
-<br>
-But it fails later in the linking step.<br>
-<br>
-.....linux/python3-cryptography/40.0.2-r0/recipe-sysroot/usr/lib/rustlib/x8=
-6_64-poky-linux-gnu/lib&quot; <br>
-&quot;-L&quot; <br>
-&quot;/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptogra=
-phy/40.0.2-r0/python3-cryptography-40.0.2/target/x86_64-poky-linux-gnu/rele=
-ase/build/cryptography-rust-aa00e39a952c07ee/out&quot; <br>
-&quot;-L&quot; <br>
-&quot;/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptogra=
-phy/40.0.2-r0/recipe-sysroot/usr/lib&quot; <br>
-&quot;-L&quot; <br>
-&quot;/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptogra=
-phy/40.0.2-r0/recipe-sysroot-native/usr/lib/rustlib/x86_64-poky-linux-gnu/l=
-ib&quot; <br>
-&quot;-Wl,-Bstatic&quot; &quot;-l_openssl.a&quot; <br>
-&quot;/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptogra=
-phy/40.0.2-r0/recipe-sysroot/usr/lib/rustlib/x86_64-poky-linux-gnu/lib/libc=
-ompiler_builtins-45df5d471f0d20d0.rlib&quot; <br>
-&quot;-Wl,-Bdynamic&quot; &quot;-lssl&quot; &quot;-lcrypto&quot; &quot;-lgc=
-c_s&quot; &quot;-lutil&quot; &quot;-lrt&quot; &quot;-lpthread&quot; <br>
-&quot;-lm&quot; &quot;-ldl&quot; &quot;-lc&quot; &quot;-Wl,--eh-frame-hdr&q=
-uot; &quot;-Wl,-znoexecstack&quot; &quot;-L&quot; <br>
-&quot;/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptogra=
-phy/40.0.2-r0/recipe-sysroot-native/usr/lib/rustlib/x86_64-poky-linux-gnu/l=
-ib&quot; <br>
-&quot;-o&quot; <br>
-&quot;/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptogra=
-phy/40.0.2-r0/python3-cryptography-40.0.2/target/x86_64-poky-linux-gnu/rele=
-ase/deps/libcryptography_rust.so&quot; <br>
-&quot;-Wl,--gc-sections&quot; &quot;-shared&quot; &quot;-Wl,-O1&quot; &quot=
-;-nodefaultlibs&quot;<br>
-=C2=A0=C2=A0 =3D note: <br>
-/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40=
-.0.2-r0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_6=
-4-poky-linux/gcc/x86_64-poky-linux/12.2.0/ld: <br>
-/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40=
-.0.2-r0/python3-cryptography-40.0.2/target/x86_64-poky-linux-gnu/release/bu=
-ild/cryptography-rust-aa00e39a952c07ee/out/lib_openssl.a.a(9bdf47a443b7a07f=
--_openssl.o): <br>
-warning: relocation against `_Py_NoneStruct&#39; in read-only section `.tex=
-t&#39;<br>
-/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40=
-.0.2-r0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_6=
-4-poky-linux/gcc/x86_64-poky-linux/12.2.0/ld: <br>
-/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40=
-.0.2-r0/python3-cryptography-40.0.2/target/x86_64-poky-linux-gnu/release/bu=
-ild/cryptography-rust-aa00e39a952c07ee/out/lib_openssl.a.a(9bdf47a443b7a07f=
--_openssl.o): <br>
-relocation R_X86_64_PC32 against undefined symbol `_Py_NoneStruct&#39; can =
-<br>
-not be used when making a shared object; recompile with -fPIC<br>
-/work/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-cryptography/40=
-.0.2-r0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_6=
-4-poky-linux/gcc/x86_64-poky-linux/12.2.0/ld: <br>
-final link failed: bad value<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 collect2: erro=
-r: ld returned 1 exit status<br>
-<br>
-<br>
-There are some &#39;-L .../recipe-sysroot-native/usr/lib/rustlib/...&#39; t=
-hat <br>
-can probably causing this. Don&#39;t know if it helps us forward?<br>
-<br>
-/Peter<br>
-<br>
-</blockquote></div></div>
-</div>
-
---000000000000ffb08f05faea566b--
 
