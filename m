@@ -1,579 +1,123 @@
-Return-Path: <kai.kang@eng.windriver.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFDE0C77B75
-	for <webhook@archiver.kernel.org>; Fri,  5 May 2023 07:00:42 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.21200.1683270033298525802
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 744B6C77B7F
+	for <webhook@archiver.kernel.org>; Fri,  5 May 2023 09:53:03 +0000 (UTC)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web10.23274.1683280379571653887
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 May 2023 00:00:33 -0700
+ Fri, 05 May 2023 02:52:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=gx9avO1N;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=448902684f=kai.kang@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34570EVg024900
-	for <openembedded-core@lists.openembedded.org>; Fri, 5 May 2023 07:00:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : mime-version : content-type; s=PPS06212021;
- bh=paWwibd6PXSf0+cNpRXgPJcg0Q9C5PGhITLdKowRYMo=;
- b=gx9avO1N+qPThgatXiLYlZaJo1yy+e9Ne4OEWT4bKgzsVMic2ihwyhG/dUr0ais60dis
- 6gTR6pZcHrmEpJLNiMmDMsFzcMLvtJUsOSQbam1Tj9VNvYl5yefoAAbYfeaABW6nVYjA
- OXDKjmue3OpbDq9yglbRL6AGLIkF2n9YIWzH7Ol7nsItZmQlMlVkowTLitl8kRtBFffO
- jIMCJXWOsX5R11FmlTPJcAFEmTjqwQTIuXHOFTihMzfdLmVSjVO4betJttmSsePXYxG3
- 3ovD41qB6asJ5q4m8NWJFq5dyQOebk+CXWQFk5G3lmjTsuXVpdsYKzg904BJa4DFCOGE YA== 
-Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3qaahubvnb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 07:00:32 +0000
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Fri, 5 May 2023 00:00:30 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.23 via Frontend Transport; Fri, 5 May 2023 00:00:30 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [kirkstone][PATCH] webkitgtk: fix CVE-2022-32888 & CVE-2022-32923
-Date: Fri, 5 May 2023 15:00:28 +0800
-Message-ID: <20230505070028.34476-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=gXqCh/KF;
+ spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-4f1394cb0d1so1769495e87.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 02:52:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683280378; x=1685872378;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DRrtlstU9VZiqheaZeVgNiAAZnH78h7gVpI84T7D3yc=;
+        b=gXqCh/KFzSIzQXSKg6k859mAo0ZzpoanvWAFQQvT+nmbDlgVZjjMRmmv68VAgmBSic
+         2qyyAanGyeyCNxlGmMk3XeufEZsywvN8Fn0TmJe27CjD30Mo1brcKHZQ8Uz2tYVMt/uQ
+         uhzoF3wxADiQ6FpaO1ExBG80GRX5abDc5SoO+aah0bQ7e2yrjrl53va1OxzrY/xfc67q
+         EQfg5z2TFCV4f8bUPVzTLZKP87bOuzLZhC2997VJvwZfzq30qoh536REeoA3m4r8/+dm
+         Sjz8g5qhRn8vRc8peOzu2pf656naPoY6o9m4PVndxArvDxziWXkX5vFmzi/tMXOnxfT9
+         F/gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683280378; x=1685872378;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DRrtlstU9VZiqheaZeVgNiAAZnH78h7gVpI84T7D3yc=;
+        b=d8bHuQxoJGjb6QtYMA+U5/1Bkua/Gy1ASm1fL0ojQ3vaNtHaulsbk3RB1TSrdrCOXp
+         CKPhp/OADhQsM3a1LiEK6qXNNDkDX+hroBFTFgYQCMg8NJUT6dsdrKE9voOSaxjq0Qei
+         eqNTEUqawDYUT6nR/U9whazXBHp97gmghrMsQKOHMCkmbyYOVNEZveAMCjUwGjGyBlD1
+         qZAJgBHTOhbO2hufEJiZZbU6xi8+V9gDW0DRxX7sWKHUTDdTNyFcT18sbHTbRT38xVHs
+         ZFXJNuOqoUMMl/fWycXFM3MbaX8cVD40wG+zdJQzUCGeaaBtTthK1+lGU+P44zCWRpcE
+         FL0Q==
+X-Gm-Message-State: AC+VfDw2OSXfjQETi5oP4VR6ZOgBB8PkNv7PI7hAPglWc8DOet1/Yojp
+	z1KEy/QMQrx5uKdGlh07UlZL6aCWaunEviXB43k=
+X-Google-Smtp-Source: ACHHUZ62YFXg2MlBb6bc9rVd0RL4yBwgO5CqnBbDF0NMUatT3d+tn9b7qHwfY36flZb1rHo9oCo/tkw9Dh3uLdzqnwY=
+X-Received: by 2002:a2e:2e06:0:b0:2ab:d1b:dcb2 with SMTP id
+ u6-20020a2e2e06000000b002ab0d1bdcb2mr260122lju.38.1683280377565; Fri, 05 May
+ 2023 02:52:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: kv_SkeLIt8Xiqtd_IDzx0FeeA2sIW6au
-X-Proofpoint-GUID: kv_SkeLIt8Xiqtd_IDzx0FeeA2sIW6au
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-04_15,2023-05-04_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
- priorityscore=1501 phishscore=0 bulkscore=0 impostorscore=0 malwarescore=0
- suspectscore=0 spamscore=0 lowpriorityscore=0 clxscore=1011 mlxscore=0
- mlxlogscore=627 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305050060
+References: <CAOT3mi+DorC4uSqCwO7HmmFVuXX3BLFWJNp_o-NH4OmqP=6ZSg@mail.gmail.com>
+In-Reply-To: <CAOT3mi+DorC4uSqCwO7HmmFVuXX3BLFWJNp_o-NH4OmqP=6ZSg@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 5 May 2023 11:52:46 +0200
+Message-ID: <CANNYZj-L2PFH=5M0RWEtGq9Xmrq79A9-yFKQEg4khmXap77dpg@mail.gmail.com>
+Subject: Re: [OE-core] Yocto Project Community Manager updates
+To: Nicolas Dechesne <ndec13@gmail.com>
+Cc: yocto@lists.yoctoproject.org, yocto-advocacy@lists.yoctoproject.org, 
+	openembedded-core <openembedded-core@lists.openembedded.org>, 
+	Josef Holzmayr <jester@theyoctojester.info>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 07:00:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180902
+ <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 09:53:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180903
 
-From: Kai Kang <kai.kang@windriver.com>
+Thank you for the work over the years Nico; it takes a lot of
+organizational effort for things to simply 'go right', and that effort
+isn't particularly visible most of the time, which only makes it more
+valuable from my POV.
 
-Backport patches to fix CVE-2022-32888 and CVE-2022-32923 for webkitgtk
-2.36.8. The bugzilla IDs of the CVEs are from https://support.apple.com
-which have been listed in patch headers.
+Alex
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../webkit/webkitgtk/CVE-2022-32888.patch     |  41 ++
- .../webkit/webkitgtk/CVE-2022-32923.patch     | 435 ++++++++++++++++++
- meta/recipes-sato/webkit/webkitgtk_2.36.8.bb  |   2 +
- 3 files changed, 478 insertions(+)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2022-32888.patch
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2022-32923.patch
-
-diff --git a/meta/recipes-sato/webkit/webkitgtk/CVE-2022-32888.patch b/meta/recipes-sato/webkit/webkitgtk/CVE-2022-32888.patch
-new file mode 100644
-index 0000000000..1a6b685450
---- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/CVE-2022-32888.patch
-@@ -0,0 +1,41 @@
-+CVE: CVE-2022-32888
-+Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/a3dd7dc]
-+
-+[1]: https://support.apple.com/en-us/HT213446
-+[2]: https://bugs.webkit.org/show_bug.cgi?id=242047
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+From a3dd7dc5f60b87a7cfd14c372e40ebd339076763 Mon Sep 17 00:00:00 2001
-+From: Yusuke Suzuki <ysuzuki@apple.com>
-+Date: Mon, 27 Jun 2022 21:34:55 -0700
-+Subject: [PATCH] [JSC] Drop wasm stale assertion
-+ https://bugs.webkit.org/show_bug.cgi?id=242047 rdar://95866655
-+
-+Reviewed by Mark Lam.
-+
-+This patch drops stale assertion in addDelegateToUnreachable.
-+
-+* Source/JavaScriptCore/wasm/WasmLLIntGenerator.cpp:
-+(JSC::Wasm::LLIntGenerator::addDelegateToUnreachable):
-+
-+Canonical link: https://commits.webkit.org/251902@main
-+---
-+ Source/JavaScriptCore/wasm/WasmLLIntGenerator.cpp | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/Source/JavaScriptCore/wasm/WasmLLIntGenerator.cpp b/Source/JavaScriptCore/wasm/WasmLLIntGenerator.cpp
-+index 39fb39b3331f..d0d2b9725991 100644
-+--- a/Source/JavaScriptCore/wasm/WasmLLIntGenerator.cpp
-++++ b/Source/JavaScriptCore/wasm/WasmLLIntGenerator.cpp
-+@@ -1182,7 +1182,6 @@ auto LLIntGenerator::addDelegateToUnreachable(ControlType& target, ControlType&
-+ 
-+     ControlTry& tryData = std::get<ControlTry>(data);
-+     m_codeBlock->addExceptionHandler({ HandlerType::Delegate, tryData.m_try->location(), delegateLabel->location(), 0, m_tryDepth, targetDepth });
-+-    checkConsistency();
-+     return { };
-+ }
-+ 
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-sato/webkit/webkitgtk/CVE-2022-32923.patch b/meta/recipes-sato/webkit/webkitgtk/CVE-2022-32923.patch
-new file mode 100644
-index 0000000000..60342a14f8
---- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/CVE-2022-32923.patch
-@@ -0,0 +1,435 @@
-+CVE: CVE-2022-32923
-+Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/ef76e31]
-+
-+[1]: https://support.apple.com/en-us/HT213495
-+[2]: https://bugs.webkit.org/show_bug.cgi?id=242964
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+From ef76e31a2a066c3d65a9c94a9e2cd88133260c1f Mon Sep 17 00:00:00 2001
-+From: Yusuke Suzuki <ysuzuki@apple.com>
-+Date: Wed, 20 Jul 2022 19:30:48 -0700
-+Subject: [PATCH] [JSC] BakcwardPropagationPhase should carry NaN / Infinity
-+ handling https://bugs.webkit.org/show_bug.cgi?id=242964 rdar://96791603
-+
-+Reviewed by Mark Lam.
-+
-+For correctness, we should carry NaN / Infinity handling to make it more clear in the code generation site.
-+
-+* Source/JavaScriptCore/dfg/DFGBackwardsPropagationPhase.cpp:
-+(JSC::DFG::BackwardsPropagationPhase::propagate):
-+* Source/JavaScriptCore/dfg/DFGFixupPhase.cpp:
-+(JSC::DFG::FixupPhase::fixupArithDivInt32):
-+(JSC::DFG::FixupPhase::fixupArithDiv):
-+* Source/JavaScriptCore/dfg/DFGGraph.h:
-+* Source/JavaScriptCore/dfg/DFGNode.h:
-+* Source/JavaScriptCore/dfg/DFGNodeFlags.cpp:
-+(JSC::DFG::dumpNodeFlags):
-+* Source/JavaScriptCore/dfg/DFGNodeFlags.h:
-+(JSC::DFG::bytecodeCanIgnoreNaNAndInfinity):
-+(JSC::DFG::nodeCanSpeculateInt32ForDiv):
-+* Source/JavaScriptCore/dfg/DFGNodeType.h:
-+
-+Canonical link: https://commits.webkit.org/252675@main
-+---
-+ .../dfg/DFGBackwardsPropagationPhase.cpp      | 51 +++++++++++--------
-+ Source/JavaScriptCore/dfg/DFGFixupPhase.cpp   |  6 ++-
-+ Source/JavaScriptCore/dfg/DFGGraph.h          | 11 ++++
-+ Source/JavaScriptCore/dfg/DFGNode.h           | 12 +++--
-+ Source/JavaScriptCore/dfg/DFGNodeFlags.cpp    | 10 ++--
-+ Source/JavaScriptCore/dfg/DFGNodeFlags.h      | 37 +++++++++++---
-+ Source/JavaScriptCore/dfg/DFGNodeType.h       |  3 +-
-+ 7 files changed, 91 insertions(+), 39 deletions(-)
-+
-+diff --git a/Source/JavaScriptCore/dfg/DFGBackwardsPropagationPhase.cpp b/Source/JavaScriptCore/dfg/DFGBackwardsPropagationPhase.cpp
-+index 306ea5d6b974..83a08aff7c20 100644
-+--- a/Source/JavaScriptCore/dfg/DFGBackwardsPropagationPhase.cpp
-++++ b/Source/JavaScriptCore/dfg/DFGBackwardsPropagationPhase.cpp
-+@@ -272,7 +272,7 @@ private:
-+         case ValueBitNot:
-+         case ArithBitNot: {
-+             flags |= NodeBytecodeUsesAsInt;
-+-            flags &= ~(NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeUsesAsOther);
-++            flags &= ~(NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeNeedsNaNOrInfinity | NodeBytecodeUsesAsOther);
-+             flags &= ~NodeBytecodeUsesAsArrayIndex;
-+             node->child1()->mergeFlags(flags);
-+             break;
-+@@ -291,7 +291,7 @@ private:
-+         case BitURShift:
-+         case ArithIMul: {
-+             flags |= NodeBytecodeUsesAsInt;
-+-            flags &= ~(NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeUsesAsOther);
-++            flags &= ~(NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeNeedsNaNOrInfinity | NodeBytecodeUsesAsOther);
-+             flags &= ~NodeBytecodeUsesAsArrayIndex;
-+             node->child1()->mergeFlags(flags);
-+             node->child2()->mergeFlags(flags);
-+@@ -308,9 +308,9 @@ private:
-+ 
-+         case StringSlice: {
-+             node->child1()->mergeFlags(NodeBytecodeUsesAsValue);
-+-            node->child2()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex);
-++            node->child2()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex | NodeBytecodeNeedsNaNOrInfinity);
-+             if (node->child3())
-+-                node->child3()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex);
-++                node->child3()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex | NodeBytecodeNeedsNaNOrInfinity);
-+             break;
-+         }
-+ 
-+@@ -320,11 +320,11 @@ private:
-+             if (node->numChildren() == 2)
-+                 m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsValue);
-+             else if (node->numChildren() == 3) {
-+-                m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex);
-++                m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex | NodeBytecodeNeedsNaNOrInfinity);
-+                 m_graph.varArgChild(node, 2)->mergeFlags(NodeBytecodeUsesAsValue);
-+             } else if (node->numChildren() == 4) {
-+-                m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex);
-+-                m_graph.varArgChild(node, 2)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex);
-++                m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex | NodeBytecodeNeedsNaNOrInfinity);
-++                m_graph.varArgChild(node, 2)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex | NodeBytecodeNeedsNaNOrInfinity);
-+                 m_graph.varArgChild(node, 3)->mergeFlags(NodeBytecodeUsesAsValue);
-+             }
-+             break;
-+@@ -345,6 +345,7 @@ private:
-+                 flags |= NodeBytecodeUsesAsNumber;
-+             if (!m_allowNestedOverflowingAdditions)
-+                 flags |= NodeBytecodeUsesAsNumber;
-++            flags |= NodeBytecodeNeedsNaNOrInfinity;
-+             
-+             node->child1()->mergeFlags(flags);
-+             node->child2()->mergeFlags(flags);
-+@@ -359,6 +360,7 @@ private:
-+                 flags |= NodeBytecodeUsesAsNumber;
-+             if (!m_allowNestedOverflowingAdditions)
-+                 flags |= NodeBytecodeUsesAsNumber;
-++            flags |= NodeBytecodeNeedsNaNOrInfinity;
-+             
-+             node->child1()->mergeFlags(flags);
-+             node->child2()->mergeFlags(flags);
-+@@ -366,7 +368,7 @@ private:
-+         }
-+ 
-+         case ArithClz32: {
-+-            flags &= ~(NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeUsesAsOther | ~NodeBytecodeUsesAsArrayIndex);
-++            flags &= ~(NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeNeedsNaNOrInfinity | NodeBytecodeUsesAsOther | ~NodeBytecodeUsesAsArrayIndex);
-+             flags |= NodeBytecodeUsesAsInt;
-+             node->child1()->mergeFlags(flags);
-+             break;
-+@@ -380,6 +382,7 @@ private:
-+                 flags |= NodeBytecodeUsesAsNumber;
-+             if (!m_allowNestedOverflowingAdditions)
-+                 flags |= NodeBytecodeUsesAsNumber;
-++            flags |= NodeBytecodeNeedsNaNOrInfinity;
-+             
-+             node->child1()->mergeFlags(flags);
-+             node->child2()->mergeFlags(flags);
-+@@ -387,6 +390,7 @@ private:
-+         }
-+             
-+         case ArithNegate: {
-++            // negation does not care about NaN, Infinity, -Infinity are converted into 0 if the result is evaluated under the integer context.
-+             flags &= ~NodeBytecodeUsesAsOther;
-+ 
-+             node->child1()->mergeFlags(flags);
-+@@ -401,6 +405,7 @@ private:
-+                 flags |= NodeBytecodeUsesAsNumber;
-+             if (!m_allowNestedOverflowingAdditions)
-+                 flags |= NodeBytecodeUsesAsNumber;
-++            flags |= NodeBytecodeNeedsNaNOrInfinity;
-+ 
-+             node->child1()->mergeFlags(flags);
-+             break;
-+@@ -421,7 +426,7 @@ private:
-+             
-+             node->mergeFlags(flags);
-+             
-+-            flags |= NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero;
-++            flags |= NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeNeedsNaNOrInfinity;
-+             flags &= ~NodeBytecodeUsesAsOther;
-+ 
-+             node->child1()->mergeFlags(flags);
-+@@ -431,7 +436,13 @@ private:
-+             
-+         case ValueDiv:
-+         case ArithDiv: {
-+-            flags |= NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero;
-++            // ArithDiv / ValueDiv need to have NodeBytecodeUsesAsNumber even if it is used in the context of integer.
-++            // For example,
-++            //     ((@x / @y) + @z) | 0
-++            // In this context, (@x / @y) can have integer context at first, but the result can be different if div
-++            // generates NaN. Div and Mod are operations that can produce NaN / Infinity though only taking binary Int32 operands.
-++            // Thus, we always need to check for overflow since it can affect downstream calculations.
-++            flags |= NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeNeedsNaNOrInfinity;
-+             flags &= ~NodeBytecodeUsesAsOther;
-+ 
-+             node->child1()->mergeFlags(flags);
-+@@ -441,7 +452,7 @@ private:
-+             
-+         case ValueMod:
-+         case ArithMod: {
-+-            flags |= NodeBytecodeUsesAsNumber;
-++            flags |= NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeNeedsNaNOrInfinity;
-+             flags &= ~NodeBytecodeUsesAsOther;
-+ 
-+             node->child1()->mergeFlags(flags);
-+@@ -452,7 +463,7 @@ private:
-+         case EnumeratorGetByVal:
-+         case GetByVal: {
-+             m_graph.varArgChild(node, 0)->mergeFlags(NodeBytecodeUsesAsValue);
-+-            m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex);
-++            m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeNeedsNaNOrInfinity | NodeBytecodeUsesAsArrayIndex);
-+             break;
-+         }
-+             
-+@@ -461,13 +472,13 @@ private:
-+             // Negative zero is not observable. NaN versus undefined are only observable
-+             // in that you would get a different exception message. So, like, whatever: we
-+             // claim here that NaN v. undefined is observable.
-+-            node->child1()->mergeFlags(NodeBytecodeUsesAsInt | NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsArrayIndex);
-++            node->child1()->mergeFlags(NodeBytecodeUsesAsInt | NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeNeedsNaNOrInfinity | NodeBytecodeUsesAsArrayIndex);
-+             break;
-+         }
-+             
-+         case ToString:
-+         case CallStringConstructor: {
-+-            node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther);
-++            node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeNeedsNaNOrInfinity);
-+             break;
-+         }
-+             
-+@@ -487,15 +498,15 @@ private:
-+         case CompareBelowEq:
-+         case CompareEq:
-+         case CompareStrictEq: {
-+-            node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther);
-+-            node->child2()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther);
-++            node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeNeedsNaNOrInfinity);
-++            node->child2()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeNeedsNaNOrInfinity);
-+             break;
-+         }
-+ 
-+         case PutByValDirect:
-+         case PutByVal: {
-+             m_graph.varArgChild(node, 0)->mergeFlags(NodeBytecodeUsesAsValue);
-+-            m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex);
-++            m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex | NodeBytecodeNeedsNaNOrInfinity);
-+             m_graph.varArgChild(node, 2)->mergeFlags(NodeBytecodeUsesAsValue);
-+             break;
-+         }
-+@@ -508,20 +519,20 @@ private:
-+                 // then -0 and 0 are treated the same.  We don't need NodeBytecodeUsesAsOther
-+                 // because if all of the cases are integers then NaN and undefined are
-+                 // treated the same (i.e. they will take default).
-+-                node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsInt);
-++                node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsInt | NodeBytecodeNeedsNaNOrInfinity);
-+                 break;
-+             case SwitchChar: {
-+                 // We don't need NodeBytecodeNeedsNegZero because if the cases are all strings
-+                 // then -0 and 0 are treated the same.  We don't need NodeBytecodeUsesAsOther
-+                 // because if all of the cases are single-character strings then NaN
-+                 // and undefined are treated the same (i.e. they will take default).
-+-                node->child1()->mergeFlags(NodeBytecodeUsesAsNumber);
-++                node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNaNOrInfinity);
-+                 break;
-+             }
-+             case SwitchString:
-+                 // We don't need NodeBytecodeNeedsNegZero because if the cases are all strings
-+                 // then -0 and 0 are treated the same.
-+-                node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther);
-++                node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeNeedsNaNOrInfinity);
-+                 break;
-+             case SwitchCell:
-+                 // There is currently no point to being clever here since this is used for switching
-+diff --git a/Source/JavaScriptCore/dfg/DFGFixupPhase.cpp b/Source/JavaScriptCore/dfg/DFGFixupPhase.cpp
-+index e8bee58ada15..b679539de2e6 100644
-+--- a/Source/JavaScriptCore/dfg/DFGFixupPhase.cpp
-++++ b/Source/JavaScriptCore/dfg/DFGFixupPhase.cpp
-+@@ -81,7 +81,9 @@ private:
-+         if (optimizeForX86() || optimizeForARM64() || optimizeForARMv7IDIVSupported()) {
-+             fixIntOrBooleanEdge(leftChild);
-+             fixIntOrBooleanEdge(rightChild);
-+-            if (bytecodeCanTruncateInteger(node->arithNodeFlags()))
-++            // We need to be careful about skipping overflow check because div / mod can generate non integer values
-++            // from (Int32, Int32) inputs. For now, we always check non-zero divisor.
-++            if (bytecodeCanTruncateInteger(node->arithNodeFlags()) && bytecodeCanIgnoreNaNAndInfinity(node->arithNodeFlags()) && bytecodeCanIgnoreNegativeZero(node->arithNodeFlags()))
-+                 node->setArithMode(Arith::Unchecked);
-+             else if (bytecodeCanIgnoreNegativeZero(node->arithNodeFlags()))
-+                 node->setArithMode(Arith::CheckOverflow);
-+@@ -122,7 +124,7 @@ private:
-+ 
-+     void fixupArithDiv(Node* node, Edge& leftChild, Edge& rightChild)
-+     {
-+-        if (m_graph.binaryArithShouldSpeculateInt32(node, FixupPass)) {
-++        if (m_graph.divShouldSpeculateInt32(node, FixupPass)) {
-+             fixupArithDivInt32(node, leftChild, rightChild);
-+             return;
-+         }
-+diff --git a/Source/JavaScriptCore/dfg/DFGGraph.h b/Source/JavaScriptCore/dfg/DFGGraph.h
-+index ca566d3a484e..284c87672849 100644
-+--- a/Source/JavaScriptCore/dfg/DFGGraph.h
-++++ b/Source/JavaScriptCore/dfg/DFGGraph.h
-+@@ -373,6 +373,17 @@ public:
-+ 
-+         return shouldSpeculateInt52ForAdd(left) && shouldSpeculateInt52ForAdd(right);
-+     }
-++
-++    bool divShouldSpeculateInt32(Node* node, PredictionPass pass)
-++    {
-++        // Even if inputs are Int32, div can generate NaN or Infinity.
-++        // Thus, Overflow in div can be caused by these non integer values as well as actual Int32 overflow.
-++        Node* left = node->child1().node();
-++        Node* right = node->child2().node();
-++
-++        return Node::shouldSpeculateInt32OrBooleanForArithmetic(left, right)
-++            && nodeCanSpeculateInt32ForDiv(node->arithNodeFlags(), node->sourceFor(pass));
-++    }
-+     
-+     bool binaryArithShouldSpeculateInt32(Node* node, PredictionPass pass)
-+     {
-+diff --git a/Source/JavaScriptCore/dfg/DFGNode.h b/Source/JavaScriptCore/dfg/DFGNode.h
-+index f9ff50658e93..04509a3846ca 100644
-+--- a/Source/JavaScriptCore/dfg/DFGNode.h
-++++ b/Source/JavaScriptCore/dfg/DFGNode.h
-+@@ -3308,21 +3308,25 @@ public:
-+         out.printf(", @%u", child3()->index());
-+     }
-+ 
-+-    NodeOrigin origin;
-++    NO_UNIQUE_ADDRESS NodeOrigin origin;
-+ 
-++private:
-++    NO_UNIQUE_ADDRESS NodeType m_op;
-++
-++    NO_UNIQUE_ADDRESS unsigned m_index { std::numeric_limits<unsigned>::max() };
-++
-++public:
-+     // References to up to 3 children, or links to a variable length set of children.
-+     AdjacencyList children;
-+ 
-+ private:
-+     friend class B3::SparseCollection<Node>;
-+ 
-+-    unsigned m_index { std::numeric_limits<unsigned>::max() };
-+-    unsigned m_op : 10; // real type is NodeType
-+-    unsigned m_flags : 21;
-+     // The virtual register number (spill location) associated with this .
-+     VirtualRegister m_virtualRegister;
-+     // The number of uses of the result of this operation (+1 for 'must generate' nodes, which have side-effects).
-+     unsigned m_refCount;
-++    NodeFlags m_flags;
-+     // The prediction ascribed to this node after propagation.
-+     SpeculatedType m_prediction { SpecNone };
-+     // Immediate values, accesses type-checked via accessors above.
-+diff --git a/Source/JavaScriptCore/dfg/DFGNodeFlags.cpp b/Source/JavaScriptCore/dfg/DFGNodeFlags.cpp
-+index 88242947f6ef..0c53cd976c5c 100644
-+--- a/Source/JavaScriptCore/dfg/DFGNodeFlags.cpp
-++++ b/Source/JavaScriptCore/dfg/DFGNodeFlags.cpp
-+@@ -74,12 +74,14 @@ void dumpNodeFlags(PrintStream& actualOut, NodeFlags flags)
-+         out.print(comma, "VarArgs");
-+     
-+     if (flags & NodeResultMask) {
-+-        if (!(flags & NodeBytecodeUsesAsNumber) && !(flags & NodeBytecodeNeedsNegZero))
-++        if (!(flags & NodeBytecodeUsesAsNumber))
-+             out.print(comma, "PureInt");
-+-        else if (!(flags & NodeBytecodeUsesAsNumber))
-+-            out.print(comma, "PureInt(w/ neg zero)");
-+-        else if (!(flags & NodeBytecodeNeedsNegZero))
-++        else
-+             out.print(comma, "PureNum");
-++        if (flags & NodeBytecodeNeedsNegZero)
-++            out.print(comma, "NeedsNegZero");
-++        if (flags & NodeBytecodeNeedsNaNOrInfinity)
-++            out.print(comma, "NeedsNaNOrInfinity");
-+         if (flags & NodeBytecodeUsesAsOther)
-+             out.print(comma, "UseAsOther");
-+     }
-+diff --git a/Source/JavaScriptCore/dfg/DFGNodeFlags.h b/Source/JavaScriptCore/dfg/DFGNodeFlags.h
-+index 2ebe3544f601..aa60db7e6ba0 100644
-+--- a/Source/JavaScriptCore/dfg/DFGNodeFlags.h
-++++ b/Source/JavaScriptCore/dfg/DFGNodeFlags.h
-+@@ -61,18 +61,19 @@ namespace JSC { namespace DFG {
-+ #define NodeBytecodeUseBottom            0x00000
-+ #define NodeBytecodeUsesAsNumber         0x04000 // The result of this computation may be used in a context that observes fractional, or bigger-than-int32, results.
-+ #define NodeBytecodeNeedsNegZero         0x08000 // The result of this computation may be used in a context that observes -0.
-+-#define NodeBytecodeUsesAsOther          0x10000 // The result of this computation may be used in a context that distinguishes between NaN and other things (like undefined).
-+-#define NodeBytecodeUsesAsInt            0x20000 // The result of this computation is known to be used in a context that prefers, but does not require, integer values.
-+-#define NodeBytecodeUsesAsArrayIndex     0x40000 // The result of this computation is known to be used in a context that strongly prefers integer values, to the point that we should avoid using doubles if at all possible.
-+-#define NodeBytecodeUsesAsValue          (NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeUsesAsOther)
-+-#define NodeBytecodeBackPropMask         (NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex)
-++#define NodeBytecodeNeedsNaNOrInfinity   0x10000 // The result of this computation may be used in a context that observes NaN or Infinity.
-++#define NodeBytecodeUsesAsOther          0x20000 // The result of this computation may be used in a context that distinguishes between NaN and other things (like undefined).
-++#define NodeBytecodeUsesAsInt            0x40000 // The result of this computation is known to be used in a context that prefers, but does not require, integer values.
-++#define NodeBytecodeUsesAsArrayIndex     0x80000 // The result of this computation is known to be used in a context that strongly prefers integer values, to the point that we should avoid using doubles if at all possible.
-++#define NodeBytecodeUsesAsValue          (NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeNeedsNaNOrInfinity | NodeBytecodeUsesAsOther)
-++#define NodeBytecodeBackPropMask         (NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeNeedsNaNOrInfinity | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex)
-+ 
-+ #define NodeArithFlagsMask               (NodeBehaviorMask | NodeBytecodeBackPropMask)
-+ 
-+-#define NodeIsFlushed                    0x80000 // Computed by CPSRethreadingPhase, will tell you which local nodes are backwards-reachable from a Flush.
-++#define NodeIsFlushed                   0x100000 // Computed by CPSRethreadingPhase, will tell you which local nodes are backwards-reachable from a Flush.
-+ 
-+-#define NodeMiscFlag1                   0x100000
-+-#define NodeMiscFlag2                   0x200000
-++#define NodeMiscFlag1                   0x200000
-++#define NodeMiscFlag2                   0x400000
-+ 
-+ typedef uint32_t NodeFlags;
-+ 
-+@@ -91,6 +92,11 @@ static inline bool bytecodeCanIgnoreNegativeZero(NodeFlags flags)
-+     return !(flags & NodeBytecodeNeedsNegZero);
-+ }
-+ 
-++static inline bool bytecodeCanIgnoreNaNAndInfinity(NodeFlags flags)
-++{
-++    return !(flags & NodeBytecodeNeedsNaNOrInfinity);
-++}
-++
-+ enum RareCaseProfilingSource {
-+     BaselineRareCase, // Comes from slow case counting in the baseline JIT.
-+     DFGRareCase, // Comes from OSR exit profiles.
-+@@ -147,6 +153,21 @@ static inline bool nodeCanSpeculateInt32(NodeFlags flags, RareCaseProfilingSourc
-+     return true;
-+ }
-+ 
-++static inline bool nodeCanSpeculateInt32ForDiv(NodeFlags flags, RareCaseProfilingSource source)
-++{
-++    if (nodeMayOverflowInt32(flags, source)) {
-++        if (bytecodeUsesAsNumber(flags))
-++            return false;
-++        if (!bytecodeCanIgnoreNaNAndInfinity(flags))
-++            return false;
-++    }
-++
-++    if (nodeMayNegZero(flags, source))
-++        return bytecodeCanIgnoreNegativeZero(flags);
-++
-++    return true;
-++}
-++
-+ static inline bool nodeCanSpeculateInt52(NodeFlags flags, RareCaseProfilingSource source)
-+ {
-+     if (nodeMayOverflowInt52(flags, source))
-+diff --git a/Source/JavaScriptCore/dfg/DFGNodeType.h b/Source/JavaScriptCore/dfg/DFGNodeType.h
-+index 8f885b570665..aad4d559ccf7 100644
-+--- a/Source/JavaScriptCore/dfg/DFGNodeType.h
-++++ b/Source/JavaScriptCore/dfg/DFGNodeType.h
-+@@ -567,7 +567,7 @@ namespace JSC { namespace DFG {
-+ 
-+ // This enum generates a monotonically increasing id for all Node types,
-+ // and is used by the subsequent enum to fill out the id (as accessed via the NodeIdMask).
-+-enum NodeType {
-++enum NodeType : uint16_t {
-+ #define DFG_OP_ENUM(opcode, flags) opcode,
-+     FOR_EACH_DFG_OP(DFG_OP_ENUM)
-+ #undef DFG_OP_ENUM
-+@@ -577,6 +577,7 @@ enum NodeType {
-+ #define DFG_OP_COUNT(opcode, flags) + 1
-+ constexpr unsigned numberOfNodeTypes = FOR_EACH_DFG_OP(DFG_OP_COUNT);
-+ #undef DFG_OP_COUNT
-++static_assert(numberOfNodeTypes <= UINT16_MAX);
-+ 
-+ // Specifies the default flags for each node.
-+ inline NodeFlags defaultFlags(NodeType op)
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
-index b3372e6760..25ecfc2973 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
-@@ -15,6 +15,8 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BP}.tar.xz \
-            file://0001-Fix-build-without-opengl-or-es.patch \
-            file://reproducibility.patch \
-            file://0001-When-building-introspection-files-do-not-quote-CFLAG.patch \
-+           file://CVE-2022-32888.patch \
-+           file://CVE-2022-32923.patch \
-            "
- SRC_URI[sha256sum] = "0ad9fb6bf28308fe3889faf184bd179d13ac1b46835d2136edbab2c133d00437"
- 
--- 
-2.17.1
-
+On Thu, 4 May 2023 at 16:40, Nicolas Dechesne <ndec13@gmail.com> wrote:
+>
+> Dear all,
+>
+> After five years, I have decided to resign from my position as the Yocto =
+Project Community Manager. I joined the OpenEmbedded community around 2008.=
+ I have fond memories of my early days, and still remember some of my first=
+ interactions on IRC and mailing lists! This is a very welcoming community,=
+ always helping new people with patience and kindness. Serving the project =
+during the last five years is something I am very proud of, and I will be f=
+orever grateful to all of you for accepting me!
+>
+> During these years, we have gone through a lot together, the pandemic gav=
+e us an opportunity to rethink how our community should come together. Sett=
+ing up our Virtual Summits has been a lot of work (and stress!) for a group=
+ of few people, but the never ending success of these events has been very =
+rewarding! Our online presence in social media has dramatically improved, a=
+nd allows us to reach out to and interact with our community faster than ev=
+er before!
+>
+> On the side of all the technical changes, and releases, we have also esta=
+blished the Yocto LTS process which was a recurring request from the commun=
+ity and has become a strength of the project! We also revamped the project =
+documentation to make it easier to maintain and contribute. The Yocto Proje=
+ct documentation is such a great resource for our community! I have spent s=
+o many hours on these PDFs in my early days!
+>
+> Anyway, let=E2=80=99s not focus on the past! The future looks bright and =
+I am really excited to announce that Josef Holzmayr has accepted to take ov=
+er the Community Manager role. Josef needs no introduction, he has been a k=
+ey member of this community for so many years. Thanks to Josef's relentless=
+ efforts, we have grown our social media presence on Youtube, Twitter, Link=
+edIn and Mastodon! His energy will be a great source of inspiration for thi=
+s community! I wish Josef and Yocto the best for the years to come, and I a=
+m convinced this community is in good hands and that Josef will be a great =
+community leader!
+>
+> Many thanks!
+> Nico
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#180877): https://lists.openembedded.org/g/openembedde=
+d-core/message/180877
+> Mute This Topic: https://lists.openembedded.org/mt/98685136/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
