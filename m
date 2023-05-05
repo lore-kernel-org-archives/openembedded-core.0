@@ -2,170 +2,131 @@ Return-Path: <qiutt@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78524C7EE21
-	for <webhook@archiver.kernel.org>; Fri,  5 May 2023 02:30:51 +0000 (UTC)
-Subject: Re: [PATCH V1] e2fsprogs: fix ptest bug for second running
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F522C7EE21
+	for <webhook@archiver.kernel.org>; Fri,  5 May 2023 02:34:11 +0000 (UTC)
+Subject: Re: [PATCH V2] Fix error SRCDIR when using usrmerge DISTRO_FEATURES
 To: openembedded-core@lists.openembedded.org
 From: "qiutt@fujitsu.com" <qiutt@fujitsu.com>
 X-Originating-Location: CN (223.111.68.150)
 X-Originating-Platform: Windows Chrome 112
 User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Date: Thu, 04 May 2023 19:30:42 -0700
-References: <CAMKF1soZiL82M5y14agXb=OBU4Y3EeqUp=nzpD-kWO95q_z+3Q@mail.gmail.com>
-In-Reply-To: <CAMKF1soZiL82M5y14agXb=OBU4Y3EeqUp=nzpD-kWO95q_z+3Q@mail.gmail.com>
-Message-ID: <5798.1683253842910945486@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="f8O91Sc3wV78P2B9BUQq"
+Date: Thu, 04 May 2023 19:34:03 -0700
+References: <202305041156063b4bf3fa@mail.local>
+In-Reply-To: <202305041156063b4bf3fa@mail.local>
+Message-ID: <6468.1683254043657162621@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="aoHuJaMGoY2DNDfNNMV8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 02:30:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180891
+ <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 02:34:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180892
 
---f8O91Sc3wV78P2B9BUQq
-Content-Type: multipart/alternative; boundary="8HDHmD64pxNqGtrDAq2G"
+--aoHuJaMGoY2DNDfNNMV8
+Content-Type: multipart/alternative; boundary="SnrRuqh6DkhZafFOZSL6"
 
---8HDHmD64pxNqGtrDAq2G
+--SnrRuqh6DkhZafFOZSL6
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi=EF=BC=8C Khem Raj
+On Thu, May 4, 2023 at 07:56 PM, Alexandre Belloni wrote:
 
-It may be mangled by my mailer.
+>=20
+> All the whitespaces are missing fro the beginning of those two lines
 
 Could you use the attachments and try again?
 
 Thanks,
 Qiu Tingting
 
---8HDHmD64pxNqGtrDAq2G
+--SnrRuqh6DkhZafFOZSL6
 Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div class=3D"elementToProof" style=3D"border: 0px; font-variant-numeric: i=
-nherit; font-variant-east-asian: inherit; font-variant-alternates: inherit;=
- font-stretch: inherit; font-size: 11pt; line-height: inherit; font-family:=
- Calibri, Arial, Helvetica, sans-serif; font-optical-sizing: inherit; font-=
-kerning: inherit; font-feature-settings: inherit; font-variation-settings: =
-inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: #00000=
-0;"><span class=3D"ContentPasted0" style=3D"border: 0px; font-style: inheri=
+On Thu, May 4, 2023 at 07:56 PM, Alexandre Belloni wrote:<br />
+<blockquote>All the whitespaces are missing fro the beginning of those two =
+lines</blockquote>
+<div class=3D"x_elementToProof" style=3D"border: 0px; font-variant-numeric:=
+ inherit; font-variant-east-asian: inherit; font-variant-alternates: inheri=
+t; font-stretch: inherit; font-size: 11pt; line-height: inherit; font-famil=
+y: Calibri, Arial, Helvetica, sans-serif; font-optical-sizing: inherit; fon=
+t-kerning: inherit; font-feature-settings: inherit; font-variation-settings=
+: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: #000=
+000;"><span class=3D"x_ContentPasted0 x_ContentPasted1" style=3D"border: 0p=
+x; font-style: inherit; font-variant: inherit; font-weight: inherit; font-s=
+tretch: inherit; font-size: medium; line-height: inherit; font-family: inhe=
+rit; font-optical-sizing: inherit; font-kerning: inherit; font-feature-sett=
+ings: inherit; font-variation-settings: inherit; margin: 0px; padding: 0px;=
+ vertical-align: baseline; color: inherit;">Could you use the attachments a=
+nd try again?</span></div>
+<div class=3D"x_elementToProof" style=3D"border: 0px; font-variant-numeric:=
+ inherit; font-variant-east-asian: inherit; font-variant-alternates: inheri=
+t; font-stretch: inherit; font-size: 11pt; line-height: inherit; font-famil=
+y: Calibri, Arial, Helvetica, sans-serif; font-optical-sizing: inherit; fon=
+t-kerning: inherit; font-feature-settings: inherit; font-variation-settings=
+: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: #000=
+000;" aria-hidden=3D"true">&nbsp;&nbsp;</div>
+<div class=3D"x_elementToProof" style=3D"border: 0px; font-variant-numeric:=
+ inherit; font-variant-east-asian: inherit; font-variant-alternates: inheri=
+t; font-stretch: inherit; font-size: 11pt; line-height: inherit; font-famil=
+y: Calibri, Arial, Helvetica, sans-serif; font-optical-sizing: inherit; fon=
+t-kerning: inherit; font-feature-settings: inherit; font-variation-settings=
+: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: #000=
+000;"><span class=3D"x_ContentPasted2" style=3D"border: 0px; font-style: in=
+herit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; =
+font-size: medium; line-height: inherit; font-family: inherit; font-optical=
+-sizing: inherit; font-kerning: inherit; font-feature-settings: inherit; fo=
+nt-variation-settings: inherit; margin: 0px; padding: 0px; vertical-align: =
+baseline; color: inherit; display: inline !important;">Thanks,</span><br cl=
+ass=3D"x_ContentPasted2" style=3D"font-size: medium;" aria-hidden=3D"true" =
+/><span class=3D"x_ContentPasted2" style=3D"border: 0px; font-style: inheri=
 t; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font=
--size: medium; line-height: inherit; font-family: 'Segoe UI Web (West Europ=
-ean)', 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Ne=
-ue', sans-serif; font-optical-sizing: inherit; font-kerning: inherit; font-=
-feature-settings: inherit; font-variation-settings: inherit; margin: 0px; p=
-adding: 0px; vertical-align: baseline; color: inherit; display: inline !imp=
-ortant;">Hi=EF=BC=8C</span><span class=3D"ContentPasted0" style=3D"border: =
-0px; font-style: inherit; font-variant: inherit; font-weight: inherit; font=
--stretch: inherit; font-size: medium; line-height: inherit; font-family: 'S=
-egoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont=
-, Roboto, 'Helvetica Neue', sans-serif; font-optical-sizing: inherit; font-=
-kerning: inherit; font-feature-settings: inherit; font-variation-settings: =
-inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: inheri=
-t;">Khem Raj</span></div>
-<div class=3D"elementToProof" style=3D"border: 0px; font-variant-numeric: i=
-nherit; font-variant-east-asian: inherit; font-variant-alternates: inherit;=
- font-stretch: inherit; line-height: inherit; font-optical-sizing: inherit;=
- font-kerning: inherit; font-feature-settings: inherit; font-variation-sett=
-ings: inherit; margin: 0px; padding: 0px; vertical-align: baseline;"><span =
-class=3D"ContentPasted0" style=3D"border: 0px; font-variant-alternates: inh=
-erit; font-variant-numeric: inherit; font-variant-east-asian: inherit; font=
--stretch: inherit; line-height: inherit; font-optical-sizing: inherit; font=
--kerning: inherit; font-feature-settings: inherit; font-variation-settings:=
- inherit; margin: 0px; padding: 0px; vertical-align: baseline;"><br /><span=
- style=3D"color: #000000; font-family: Segoe UI Web (West European), Segoe =
-UI, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif; =
-font-size: medium;">It may be mangled by my mailer.</span><br /></span></di=
-v>
-<div class=3D"elementToProof" style=3D"border: 0px; font-variant-numeric: i=
-nherit; font-variant-east-asian: inherit; font-variant-alternates: inherit;=
- font-stretch: inherit; font-size: 11pt; line-height: inherit; font-family:=
- Calibri, Arial, Helvetica, sans-serif; font-optical-sizing: inherit; font-=
-kerning: inherit; font-feature-settings: inherit; font-variation-settings: =
-inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: #00000=
-0;"><span class=3D"ContentPasted0 ContentPasted1" style=3D"border: 0px; fon=
-t-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch=
-: inherit; font-size: medium; line-height: inherit; font-family: 'Segoe UI =
-Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto=
-, 'Helvetica Neue', sans-serif; font-optical-sizing: inherit; font-kerning:=
- inherit; font-feature-settings: inherit; font-variation-settings: inherit;=
- margin: 0px; padding: 0px; vertical-align: baseline; color: inherit;">Coul=
-d you use the attachments and try again?</span></div>
-<div class=3D"elementToProof" style=3D"border: 0px; font-variant-numeric: i=
-nherit; font-variant-east-asian: inherit; font-variant-alternates: inherit;=
- font-stretch: inherit; font-size: 11pt; line-height: inherit; font-family:=
- Calibri, Arial, Helvetica, sans-serif; font-optical-sizing: inherit; font-=
-kerning: inherit; font-feature-settings: inherit; font-variation-settings: =
-inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: #00000=
-0;">&nbsp;</div>
-<div id=3D"appendonsend" style=3D"border: 0px; font-variant-numeric: inheri=
-t; font-variant-east-asian: inherit; font-variant-alternates: inherit; font=
--stretch: inherit; font-size: medium; line-height: inherit; font-family: 'S=
-egoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont=
-, Roboto, 'Helvetica Neue', sans-serif; font-optical-sizing: inherit; font-=
-kerning: inherit; font-feature-settings: inherit; font-variation-settings: =
-inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: #00000=
-0;">&nbsp;</div>
-<div class=3D"elementToProof" style=3D"border: 0px; font-variant-numeric: i=
-nherit; font-variant-east-asian: inherit; font-variant-alternates: inherit;=
- font-stretch: inherit; font-size: 11pt; line-height: inherit; font-family:=
- Calibri, Arial, Helvetica, sans-serif; font-optical-sizing: inherit; font-=
-kerning: inherit; font-feature-settings: inherit; font-variation-settings: =
-inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: #00000=
-0;"><span class=3D"ContentPasted2" style=3D"border: 0px; font-style: inheri=
-t; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font=
--size: medium; line-height: inherit; font-family: 'Segoe UI Web (West Europ=
-ean)', 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Ne=
-ue', sans-serif; font-optical-sizing: inherit; font-kerning: inherit; font-=
-feature-settings: inherit; font-variation-settings: inherit; margin: 0px; p=
-adding: 0px; vertical-align: baseline; color: inherit; display: inline !imp=
-ortant;">Thanks,</span><br class=3D"ContentPasted2" style=3D"font-family: '=
-Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFon=
-t, Roboto, 'Helvetica Neue', sans-serif; font-size: medium;" /><span class=
-=3D"ContentPasted2" style=3D"border: 0px; font-style: inherit; font-variant=
-: inherit; font-weight: inherit; font-stretch: inherit; font-size: medium; =
-line-height: inherit; font-family: 'Segoe UI Web (West European)', 'Segoe U=
-I', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif=
-; font-optical-sizing: inherit; font-kerning: inherit; font-feature-setting=
-s: inherit; font-variation-settings: inherit; margin: 0px; padding: 0px; ve=
-rtical-align: baseline; color: inherit; display: inline !important;">Qiu Ti=
-ngting</span></div>
+-size: medium; line-height: inherit; font-family: inherit; font-optical-siz=
+ing: inherit; font-kerning: inherit; font-feature-settings: inherit; font-v=
+ariation-settings: inherit; margin: 0px; padding: 0px; vertical-align: base=
+line; color: inherit; display: inline !important;">Qiu Tingting</span></div=
+>
 
---8HDHmD64pxNqGtrDAq2G--
+--SnrRuqh6DkhZafFOZSL6--
 
---f8O91Sc3wV78P2B9BUQq
-Content-Type: application/octet-stream; name="0001-e2fsprogs-fix-ptest-bug-for-second-running.patch"
+--aoHuJaMGoY2DNDfNNMV8
+Content-Type: application/octet-stream; name="0001-Fix-error-SRCDIR-when-using-usrmerge-DISTRO_FEATURES.patch"
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-e2fsprogs-fix-ptest-bug-for-second-running.patch"
+Content-Disposition: attachment; filename="0001-Fix-error-SRCDIR-when-using-usrmerge-DISTRO_FEATURES.patch"
 
-RnJvbSBkYjRiNWUzMTcwM2U0MTQzNDUwYjFlNzIzOWIyNTAyYTg5ZWQwNDJhIE1vbiBTZXAgMTcg
+RnJvbSAzYjFjMDgxZDRlZmZmZTgzZjNhNjMxODQ0NTBjYzc5YmYxNjM1NmRjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBRaXUgVGluZ3RpbmcgPHFpdXR0QGZ1aml0c3UuY29tPgpEYXRl
-OiBUaHUsIDI3IEFwciAyMDIzIDE1OjI5OjE0ICswODAwClN1YmplY3Q6IFtQQVRDSCBWMV0gZTJm
-c3Byb2dzOiBmaXggcHRlc3QgYnVnIGZvciBzZWNvbmQgcnVubmluZwoKQXQgc2Vjb25kIHJ1bm5p
-bmcsIHRoZXJlIGFyZSBmb3VyIG5ldyBmYWlsZWQgY2FzZToKICBkX2xvYWRkdW1wIGZfYmlnYWxs
-b2NfYmFkaW5vZGUgZl9iaWdhbGxvY19vcnBoYW5fbGlzdCBmX2R1cF9yZXNpemUKClRoZSB0ZXN0
-X2RhdGEudG1wIGlzIG5lY2Vzc2FyeSwgYnV0IGl0IGlzIGRlbGV0ZWQgYnkgcnVuLXB0ZXN0LgpT
-byBpdCBzaG91bGQgYmUgcmVzdG9yZWQgYWZ0ZXIgdGVzdGluZy4KClNpZ25lZC1vZmYtYnk6IFFp
-dSBUaW5ndGluZyA8cWl1dHRAZnVqaXRzdS5jb20+Ci0tLQogbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L2UyZnNwcm9ncy9lMmZzcHJvZ3MvcnVuLXB0ZXN0IHwgMSArCiBtZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvZTJmc3Byb2dzL2UyZnNwcm9nc18xLjQ3LjAuYmIgfCAzICsrKwogMiBmaWxlcyBjaGFuZ2Vk
-LCA0IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZTJm
-c3Byb2dzL2UyZnNwcm9ncy9ydW4tcHRlc3QgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZTJmc3By
-b2dzL2UyZnNwcm9ncy9ydW4tcHRlc3QKaW5kZXggYzk3YzAzNzdlOS4uMjc5OTIzZGI4ZSAxMDA2
-NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2UyZnNwcm9ncy9lMmZzcHJvZ3MvcnVuLXB0
-ZXN0CisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9lMmZzcHJvZ3MvZTJmc3Byb2dzL3J1bi1w
-dGVzdApAQCAtOCwzICs4LDQgQEAgcm0gLWYgKi50bXAKIHJtIC1mICoub2sKIHJtIC1mICouZmFp
-bGVkCiBybSAtZiAqLmxvZworY3AgLi4vZGF0YS90ZXN0X2RhdGEudG1wIC4vCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZTJmc3Byb2dzL2UyZnNwcm9nc18xLjQ3LjAuYmIgYi9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvZTJmc3Byb2dzL2UyZnNwcm9nc18xLjQ3LjAuYmIKaW5kZXgg
-YTJlYjRmOGY4Zi4uODdlMTNkNzQ0YiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L2UyZnNwcm9ncy9lMmZzcHJvZ3NfMS40Ny4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9lMmZzcHJvZ3MvZTJmc3Byb2dzXzEuNDcuMC5iYgpAQCAtMTQzLDQgKzE0Myw3IEBAIGRvX2lu
-c3RhbGxfcHRlc3QoKSB7CiAKICAgICAgICAgaW5zdGFsbCAtZCAke0R9JHtQVEVTVF9QQVRIfS9s
-aWIKICAgICAgICAgaW5zdGFsbCAtbSAwNjQ0ICR7Qn0vbGliL2NvbmZpZy5oICAke0R9JHtQVEVT
-VF9QQVRIfS9saWIvCisKKyAgICAgICAgaW5zdGFsbCAtZCAke0R9JHtQVEVTVF9QQVRIfS9kYXRh
-CisgICAgICAgIGluc3RhbGwgLW0gMDY0NCAke0J9L3Rlc3RzL3Rlc3RfZGF0YS50bXAgJHtEfSR7
-UFRFU1RfUEFUSH0vZGF0YS8KIH0KLS0gCjIuMjUuMQoK
+OiBUaHUsIDI3IEFwciAyMDIzIDE1OjI0OjM1ICswODAwClN1YmplY3Q6IFtQQVRDSCBWMl0gRml4
+IGVycm9yIFNSQ0RJUiB3aGVuIHVzaW5nIHVzcm1lcmdlIERJU1RST19GRUFUVVJFUwoKV2hlbiBi
+dWlsZCBlMmZzcHJvZ3MgcHRlc3Qgd2l0aCB1c3JtZXJnZSBESVNUUk9fRkVBVFVSRVMsCmluIHRl
+c3Rfc2NyaXB0IGFuZCB0ZXN0X29uZSBzY3JpcHRzLCB2YWx1ZSBvZiBTUkNESVIgaGFzIHByb2Js
+ZW0uCiAgU1JDRElSPS91c3IvdXNyL2xpYi9lMmZzcHJvZ3MvcHRlc3QvdGVzdAoKcHRlc3QgbG9n
+CiAgIyBwdGVzdC1ydW5uZXIgZTJmc3Byb2dzCiAgU1RBUlQ6IHB0ZXN0LXJ1bm5lcgogIDIwMjIt
+MTItMTdUMTE6MDgKICBCRUdJTjogL3Vzci9saWIvZTJmc3Byb2dzL3B0ZXN0CiAgbHM6IGNhbm5v
+dCBhY2Nlc3MgJy91c3IvdXNyL2xpYi9lMmZzcHJvZ3MvcHRlc3QvdGVzdC9bYS16QS1aXV8qJzog
+Tm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9yeQogIC4vdGVzdF9zY3JpcHQ6IGxpbmUgNTQ6IC91c3Iv
+dXNyL2xpYi9lMmZzcHJvZ3MvcHRlc3QvdGVzdC90ZXN0X3Bvc3Q6IE5vIHN1Y2ggZmlsZSBvciBk
+aXJlY3RvcnkKICBEVVJBVElPTjogMAogIEVORDogL3Vzci9saWIvZTJmc3Byb2dzL3B0ZXN0CiAg
+MjAyMi0xMi0xN1QxMTowOAogIFNUT1A6IHB0ZXN0LXJ1bm5lcgogIFRPVEFMOiAxIEZBSUw6IDAK
+ClJlYXNvbgogIEluIE1ha2VmaWxlLmluLCBTUkNESVIgaXMgc2V0IGJ5IHByZWZpeCBhbmQgbGli
+ZGlyLgogICAgQGVjaG8gIlNSQ0RJUj0ke3ByZWZpeH0ke2xpYmRpcn0vZTJmc3Byb2dzL3B0ZXN0
+L3Rlc3QiID4+IHRlc3Rfb25lCiAgICBAZWNobyAiU1JDRElSPSR7cHJlZml4fSR7bGliZGlyfS9l
+MmZzcHJvZ3MvcHRlc3QvdGVzdCIgPj4gdGVzdF9zY3JpcHQKICBwcmVmaXg9L3VzcgogIGxpYmRp
+cj0vdXNyL2xpYiAod2hlbiB1c3JtZXJnZSBpcyBzZXQpCgpzb2x1dGlvbgogIEFmdGVyIHB0ZXN0
+IGNvbXBpbGluZywgY2hlY2sgYW5kIG1vZGlmeSBTUkNESVIgaW4gdGVzdF9zY3JpcHQgYW5kIHRl
+c3Rfb25lLgoKU2lnbmVkLW9mZi1ieTogUWl1IFRpbmd0aW5nIDxxaXV0dEBmdWppdHN1LmNvbT4K
+LS0tCiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZTJmc3Byb2dzL2UyZnNwcm9nc18xLjQ3LjAuYmIg
+fCAzICsrKwogMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9lMmZzcHJvZ3MvZTJmc3Byb2dzXzEuNDcuMC5iYiBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9lMmZzcHJvZ3MvZTJmc3Byb2dzXzEuNDcuMC5iYgppbmRleCAyNjIw
+NjEwOTAzLi5hMmViNGY4ZjhmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZTJm
+c3Byb2dzL2UyZnNwcm9nc18xLjQ3LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Uy
+ZnNwcm9ncy9lMmZzcHJvZ3NfMS40Ny4wLmJiCkBAIC0xMjIsNiArMTIyLDkgQEAgUkRFUEVORFM6
+JHtQTn0tcHRlc3QgKz0gImUyZnNwcm9ncy1iYWRibG9ja3MgZTJmc3Byb2dzLWR1bXBlMmZzIGUy
+ZnNwcm9ncy1lMmZzY2sKIAogZG9fY29tcGlsZV9wdGVzdCgpIHsKIAlvZV9ydW5tYWtlIC1DICR7
+Qn0vdGVzdHMKKwlzZWQgLWkgJ3MsL3Vzci91c3IsL3VzcixnJyBcCisJICAgICR7Qn0vdGVzdHMv
+dGVzdF9vbmUgXAorCSAgICAke0J9L3Rlc3RzL3Rlc3Rfc2NyaXB0CiB9CiAKIGRvX2luc3RhbGxf
+cHRlc3QoKSB7Ci0tIAoyLjI1LjEKCg==
 
---f8O91Sc3wV78P2B9BUQq--
+--aoHuJaMGoY2DNDfNNMV8--
 
