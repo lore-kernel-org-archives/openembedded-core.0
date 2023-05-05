@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D108AC7EE22
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D04C9C77B7C
 	for <webhook@archiver.kernel.org>; Fri,  5 May 2023 15:20:24 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web10.30316.1683300022528878644
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web10.30311.1683300016327531134
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 May 2023 08:20:22 -0700
+ Fri, 05 May 2023 08:20:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=lH5THXhs;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6434e65d808so2127057b3a.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 08:20:22 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=vREOgivD;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.170, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-5144a9c11c7so1703825a12.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 08:20:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683300021; x=1685892021;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683300015; x=1685892015;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=KBo2fX7BxmismuM/SKCMSaueUzA0/wmhUC4Cu6TB278=;
-        b=lH5THXhsgRqEI1k0fKX+eL6eGh0MBAWUP1iDhdumAzoYg1XnV+N0skp+YV9meA/mgQ
-         P8b/7AU8Ef6KDSO15o/Ku+I2mvZfmTTu1T2TAIZU0Q70S8lpl8zLy+dMQCRLq6Y6hPih
-         WU6ODui1jIByLiN5/ZOFGHSdFWyFeHHFNfFg3UFIf7PRclGBl6U+hc5NTw2yl7wwuTjI
-         f3z9Lz6zdoe0ZGXr8b95Rq5ujiH1S8g3FCCZq/ZB9Aux1rwAdVLnwCGwduw9KRBgIVSE
-         mQG0RHc/RlFzsDA1WqhY+0FFFFyg5oBVlskKmFR5JQ+a2mkGZBhSazQGDEVP3Ct2AIFI
-         5d6A==
+        bh=SM0Vkl73P/jfe4UdQO77uBCydwNEhmyacy+MTCyTrAM=;
+        b=vREOgivDRyV71mZaYt69D7pitqvkw9lrEZfvf2t2OXnEZQqKOhSlYWqkv4kUqRBNmn
+         80YMqGrYREZC2C+uxKWOb77fRuwNWuu/PpIm9NOIHtx3XgoQuQB7lGhx6q0hU96kw5nC
+         BfrY1Dv8igWR1MI5XSMggZNrbhjt6KmhKqp1o23uK3+GTfPFLbY4KkqSNOSzuAC//tdU
+         zQEEl24GKFtl2awMN82umGRDzHeIk7ru4wzfsrxuIMPdXeLzdreb4P2hLL6nt1PlxdEM
+         /huvG/Yh03zou+ww7fIhR867mdZjZX22Deru7X5/AnXQZpyrG+1yemzwir/2yjb+eih6
+         9VIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683300021; x=1685892021;
+        d=1e100.net; s=20221208; t=1683300015; x=1685892015;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KBo2fX7BxmismuM/SKCMSaueUzA0/wmhUC4Cu6TB278=;
-        b=YXWw3pD0v9VZW3j2akaiUcnMbba8k+n2+yuwOPZmKDXwa0zywJ27hUAlEoU//qvk8w
-         ZQ3g1MBckwi6YqzpIp7Fmgqx9LRXlUTYscY53ohlfMikIy9T6d91JOuHfUjUW1SZiDid
-         JDbGgmqdxt9ThnGKvJX4VuaMrUCRbuy9jvsV3AQALtWkg8RTUygPXsAZt5ykWEgcvTB8
-         tD5WO2dKLL+XGi0y+NR3VRdnrPyUbS6pFLAtqBRMjI1/YImAvEyQBU5i1WMSzhcXqbRc
-         5jFZFQ6BBNxfoqDn/6JDfsIctaDKhImv44lx/CCe+l+y+PYGppEAO0Ekn5iiz8FT2IvZ
-         BNAw==
-X-Gm-Message-State: AC+VfDzEooXdTZNg+tT5MuuE1aIcpi2DpBiKlwbGVBla6cZeUm51Y0oE
-	5BEkDrwMOcIrl97HjXyNR1OKV1yZAPmcVUtS7/A=
-X-Google-Smtp-Source: ACHHUZ7YVQrXcqHzxd6MOY0o9UMoOEwhkEKtEYP/p/lLjzzt825l8URSN2Wgv44hwQIZhQfyo2vMYg==
-X-Received: by 2002:a05:6a21:1190:b0:ef:85a6:4654 with SMTP id oj16-20020a056a21119000b000ef85a64654mr1926996pzb.30.1683300021642;
-        Fri, 05 May 2023 08:20:21 -0700 (PDT)
+        bh=SM0Vkl73P/jfe4UdQO77uBCydwNEhmyacy+MTCyTrAM=;
+        b=Pc5wWLb2l6L96mOLKm4RS6mKxoElmpkHkvSxkgdw3nlkz1RgYG+Vpo5tu+sVVheQUa
+         3hQPN9NHq7C6zygZ8VMyqf5IDNn9J4JFyk4A8IA+YY113an2BcCUqY//Z2at6zhf7Dot
+         lHz9pOr2ocDilWUXlC9RgoI/9oXMdEuu5E8PxZbHeX3QEdJqnn13RTvRG7XS8l1d8Vy4
+         X2mrr9yO5GWgN7l6bZssxIn3PO3pjalSkB/vS+pdtwLf767b/3bm21/APYwDkBDUzDGv
+         6jaDxTtKbEbkkf4Q2fwFWcIFhAToDelaZqqoxBtV9/rApVdYesjJorvntMlqxddMw+Vb
+         qV5w==
+X-Gm-Message-State: AC+VfDzii1znefTH2K5bpoKxTrxtwow8qmLxVFVNSyKRqyJNRDAinefy
+	yMinvpGdRKfN1GJgElFxBjxc1GBH/90jR48J52s=
+X-Google-Smtp-Source: ACHHUZ6xYLl6rTzp9IJg6zrY2lIvF6F1DhqKqLGUGKDf9AUES9ccMd5rhBWItAx+JduEg+Kx5Gr2sw==
+X-Received: by 2002:a05:6a21:6317:b0:eb:6e43:8e1b with SMTP id wu23-20020a056a21631700b000eb6e438e1bmr1914778pzb.30.1683300015250;
+        Fri, 05 May 2023 08:20:15 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id c11-20020aa78c0b000000b00643864d03dfsm1831591pfd.171.2023.05.05.08.20.20
+        by smtp.gmail.com with ESMTPSA id c11-20020aa78c0b000000b00643864d03dfsm1831591pfd.171.2023.05.05.08.20.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 May 2023 08:20:21 -0700 (PDT)
+        Fri, 05 May 2023 08:20:14 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 11/35] libsdl2: upgrade 2.26.3 -> 2.26.5
-Date: Fri,  5 May 2023 05:19:22 -1000
-Message-Id: <c55f56ea3081f3b53c06e84fccffc289bac1f19e.1683299764.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 07/35] bind: upgrade 9.18.12 -> 9.18.13
+Date: Fri,  5 May 2023 05:19:18 -1000
+Message-Id: <29010c32f0e0f00b31e32a7c275a532688ddaf9d.1683299764.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1683299764.git.steve@sakoman.com>
 References: <cover.1683299764.git.steve@sakoman.com>
@@ -61,55 +61,142 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 15:20:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180931
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180927
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
-2.26.4
-This is a stable bugfix release, with the following changes:
+Changelog:
+==========
+[bug] Use two pairs of dns_db_t and dns_dbversion_t in a
+      catalog zone structure to avoid a race between the
+      dns__catz_update_cb() and dns_catz_dbupdate_callback()
+      functions. [GL #3907]
 
-Fixed relative mouse motion over remote desktop on Windows
-Fixed using older game controller mappings on Linux
+[bug] Make sure to revert the reconfigured zones to the
+      previous version of the view, when the new view
+      reconfiguration fails during the configuration of
+      one of the configured zones. [GL #3911]
 
-2.26.5
-This is a stable bugfix release, with the following changes:
+[bug] Fix error path cleanup issues in dns_catz_new_zones()
+      and dns_catz_new_zone() functions. [GL #3900]
 
-The minimum deployment target on macOS is now 10.11, due to changes in the latest Xcode update
-Fixed incorrect modifier keys handling on macOS
-Fixed occasional duplicate controller visible on macOS
-Fixed handling of third party PS4 controller input reports
-Added support for the trigger buttons on the Victrix Pro FS for PS5
-Added mapping for Flydigi Vader 2 with the latest firmware (6.0.4.9)
-Added mapping for DualSense Edge Wireless Controller on Linux
-Added mapping for Hori Pokken Tournament DX Pro Pad
-Improved the speed and quality of audio resampling
-Fixed crash on Linux if dbus can't be initialized
+[bug] Unregister db update notify callback before detaching
+      from the previous db inside the catz update notify
+      callback. [GL #3777]
+
+[func Run the catalog zone update process on the offload
+      threads. [GL #3881]
+
+[func Add shutdown signaling for catalog zones. [GL !7571]
+
+[func Add reference count tracing for dns_catz_zone_t and
+      dns_catz_zones_t. [GL !7570]
+
+[bug] Detach 'rpzs' and 'catzs' from the previous view in
+      configure_rpz() and configure_catz(), respectively,
+      just after attaching it to the new view. [GL #3880]
+
+[test Don't test HMAC-MD5 when not supported by libcrypto.
+      [GL #3871]
+
+[bug] Fix RPZ reference counting error on shutdown in
+      dns__rpz_timer_cb(). [GL #3866]
+
+[test Test various 'islands of trust' configurations when
+      using managed keys. [GL #3662]
+
+[bug] Building against (or running with) libuv versions
+      1.35.0 and 1.36.0 is now a fatal error.  The rules for
+      mixing and matching compile-time and run-time libuv
+      versions have been tightened for libuv versions between
+      1.35.0 and 1.40.0. [GL #3840]
+
+[bug] dnssec-cds failed to cleanup properly. [GL #3831]
+
+[bug] Source ports configured for query-source,
+      transfer-source, etc, were being ignored. (This
+      feature is deprecated, but it is not yet removed,
+      so the bug still needed fixing.) [GL #3790]
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 106cdae227775f8e3b32462ed68b99231595f075)
+(cherry picked from commit 51ab191224aa1320d622bf79184940afa3910d60)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libsdl2/{libsdl2_2.26.3.bb => libsdl2_2.26.5.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/libsdl2/{libsdl2_2.26.3.bb => libsdl2_2.26.5.bb} (97%)
+ .../0001-avoid-start-failure-with-bind-user.patch               | 0
+ .../0001-named-lwresd-V-and-start-log-hide-build-options.patch  | 0
+ .../bind-ensure-searching-for-json-headers-searches-sysr.patch  | 0
+ .../bind/{bind-9.18.12 => bind-9.18.13}/bind9                   | 0
+ .../bind/{bind-9.18.12 => bind-9.18.13}/conf.patch              | 0
+ .../bind/{bind-9.18.12 => bind-9.18.13}/generate-rndc-key.sh    | 0
+ .../init.d-add-support-for-read-only-rootfs.patch               | 0
+ .../make-etc-initd-bind-stop-work.patch                         | 0
+ .../bind/{bind-9.18.12 => bind-9.18.13}/named.service           | 0
+ .../bind/{bind_9.18.12.bb => bind_9.18.13.bb}                   | 2 +-
+ 10 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/bind/{bind-9.18.12 => bind-9.18.13}/0001-avoid-start-failure-with-bind-user.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.12 => bind-9.18.13}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.12 => bind-9.18.13}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.12 => bind-9.18.13}/bind9 (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.12 => bind-9.18.13}/conf.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.12 => bind-9.18.13}/generate-rndc-key.sh (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.12 => bind-9.18.13}/init.d-add-support-for-read-only-rootfs.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.12 => bind-9.18.13}/make-etc-initd-bind-stop-work.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.12 => bind-9.18.13}/named.service (100%)
+ rename meta/recipes-connectivity/bind/{bind_9.18.12.bb => bind_9.18.13.bb} (97%)
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.26.3.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.26.5.bb
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.12/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.18.13/0001-avoid-start-failure-with-bind-user.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.12/0001-avoid-start-failure-with-bind-user.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.13/0001-avoid-start-failure-with-bind-user.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.12/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.18.13/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.12/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.13/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.12/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.18.13/bind-ensure-searching-for-json-headers-searches-sysr.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.12/bind-ensure-searching-for-json-headers-searches-sysr.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.13/bind-ensure-searching-for-json-headers-searches-sysr.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.12/bind9 b/meta/recipes-connectivity/bind/bind-9.18.13/bind9
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.12/bind9
+rename to meta/recipes-connectivity/bind/bind-9.18.13/bind9
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.12/conf.patch b/meta/recipes-connectivity/bind/bind-9.18.13/conf.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.12/conf.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.13/conf.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.12/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.18.13/generate-rndc-key.sh
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.12/generate-rndc-key.sh
+rename to meta/recipes-connectivity/bind/bind-9.18.13/generate-rndc-key.sh
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.12/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.18.13/init.d-add-support-for-read-only-rootfs.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.12/init.d-add-support-for-read-only-rootfs.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.13/init.d-add-support-for-read-only-rootfs.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.12/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.18.13/make-etc-initd-bind-stop-work.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.12/make-etc-initd-bind-stop-work.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.13/make-etc-initd-bind-stop-work.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.12/named.service b/meta/recipes-connectivity/bind/bind-9.18.13/named.service
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.12/named.service
+rename to meta/recipes-connectivity/bind/bind-9.18.13/named.service
+diff --git a/meta/recipes-connectivity/bind/bind_9.18.12.bb b/meta/recipes-connectivity/bind/bind_9.18.13.bb
 similarity index 97%
-rename from meta/recipes-graphics/libsdl2/libsdl2_2.26.3.bb
-rename to meta/recipes-graphics/libsdl2/libsdl2_2.26.5.bb
-index 15054e1ea9..3274475da1 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.26.3.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.26.5.bb
-@@ -25,7 +25,7 @@ SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz"
+rename from meta/recipes-connectivity/bind/bind_9.18.12.bb
+rename to meta/recipes-connectivity/bind/bind_9.18.13.bb
+index 68dad77cdc..8617137e87 100644
+--- a/meta/recipes-connectivity/bind/bind_9.18.12.bb
++++ b/meta/recipes-connectivity/bind/bind_9.18.13.bb
+@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://0001-avoid-start-failure-with-bind-user.patch \
+            "
  
- S = "${WORKDIR}/SDL2-${PV}"
+-SRC_URI[sha256sum] = "47766bb7b063aabbad054386b190aa7f6c14524427afd427c30ec426512027e7"
++SRC_URI[sha256sum] = "3b06b6390c1012dd3956b1479c73b2097c0b22207817e2e8aae352fd20e578c7"
  
--SRC_URI[sha256sum] = "c661205a553b7d252425f4b751ff13209e5e020b876bbfa1598494af61790057"
-+SRC_URI[sha256sum] = "ad8fea3da1be64c83c45b1d363a6b4ba8fd60f5bde3b23ec73855709ec5eabf7"
- 
- inherit cmake lib_package binconfig-disabled pkgconfig upstream-version-is-even
- 
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # follow the ESV versions divisible by 2
 -- 
 2.34.1
 
