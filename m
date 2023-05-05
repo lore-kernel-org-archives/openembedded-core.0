@@ -2,60 +2,55 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3D90C77B75
-	for <webhook@archiver.kernel.org>; Fri,  5 May 2023 11:10:43 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web11.24252.1683285040932781854
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEA38C77B7F
+	for <webhook@archiver.kernel.org>; Fri,  5 May 2023 11:14:03 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web10.24426.1683285238728011269
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 May 2023 04:10:41 -0700
+ Fri, 05 May 2023 04:13:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=N9vc/CxK;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-3f19ab994ccso16381305e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 04:10:40 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=KZag4X9L;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3f18335a870so10795245e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 04:13:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1683285039; x=1685877039;
+        d=linuxfoundation.org; s=google; t=1683285237; x=1685877237;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Q7Ad9HQIt9fi0BuPItDrBIXtW+0ctIU00jPmwQUfZgY=;
-        b=N9vc/CxKklUsAlIJRqMpVBYw0pwheiA//v+1cw6INKHI63O47XpymDmjN/22EGis8a
-         j+G5RNWib5b1X751cKCBOOkK7CL80XlvbVTmrKC55KCkrhtffxz2mHPRqCaJycEstFJY
-         Nwh0M0xmnATJJc+sW2iuI5vVXXOqH+hTFaEfI=
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lgKrRPnkBrXTVQICN4mAqHS2HSAlLAcA8mVsnunoOEg=;
+        b=KZag4X9LU4Zz/B6Tij/pue9pBlyeRsLwylrR6wk7YlLh9a+9NXVmQ443UdMmFuHirH
+         MaYswxbNrZRaTSz2B1PrSuytDpPQYyQKIPx/3vcYNO4gRy4zndfJDGP1jQ1DUWpVNvJj
+         YfeXmbiPnIEloI61/a5MUM6pmOJG9ZM6BtArk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683285039; x=1685877039;
+        d=1e100.net; s=20221208; t=1683285237; x=1685877237;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Q7Ad9HQIt9fi0BuPItDrBIXtW+0ctIU00jPmwQUfZgY=;
-        b=RQHmQJvjnQFVKYCs9Oeg1V58fEwOGCIp0PIN69jAZ/e5d2L7Zhh/hlRAPWCzZ2l+TF
-         6s5YWQP1bX6Dui/mTl+ChQeeH+jeYC35zh83ARGPJEBqbxjHH6MNoDoGBYXVcUtCJi/e
-         AYnGsIAXRu2dz+Fy2b8dJVT3ELRg31OtJunjkHaZXCnjo70GTqN/HHstLraCR9LjMzlw
-         ucPEcDBabplvKxGnnaNtOjRpZczdB0L6eTVdVNjJEBUY1JYYWfqcGslhuuRk23hDYS3I
-         jRqo2NUBYZQ2xxbBy1emyVlNjDAbVVEmvJdHdCgwsuuvbKcaPJ8OZqpdx8dXMgpkDT10
-         n9tA==
-X-Gm-Message-State: AC+VfDw9dK5eiqTNAgWMUozZ0vEy0ovQmo35M7vDjKwW/kR0t7dq2mbY
-	AM0rDrYRwfz6SDwCoSVy8lIWdw==
-X-Google-Smtp-Source: ACHHUZ5i8C/CpNI8jYTOj+7Oyu3RNuUR3WBLfdH5BXqHiT/IoaoaAiFU5m7s0Gs3MdG29Unq5UeMjA==
-X-Received: by 2002:a7b:cd97:0:b0:3f2:5400:9d71 with SMTP id y23-20020a7bcd97000000b003f254009d71mr826217wmj.40.1683285039118;
-        Fri, 05 May 2023 04:10:39 -0700 (PDT)
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=lgKrRPnkBrXTVQICN4mAqHS2HSAlLAcA8mVsnunoOEg=;
+        b=PKfPxHMoyCPIqyxzgh0ScX2kNW0wkpwa2CX5eSPQ5PwcH3RWGSZbqD/T/TXcctxkSz
+         bToIjVTC4n3J7fMMYnNSnQJKWebwf70g5vjafwRNewLJA1vXF9AwMR3PmKGnvtYn7lZT
+         fMwuaJiy+bR2licQ1yXkBvQQaw1U+i9nt6ovz/8lVdefkelmskYFAB6aZS25zX8oq/pK
+         IyyjHzy4LcS+jZKGr8RHbM8mwjq39v3MdiZ7Ezyb3psBgqRxzgks7HUdTnlKNEHPhWrL
+         sYWdslRhm1NkDO8y+U4/T2gwUILvAJoyFAUpgyh0lV2BRBhNaWBr1afaEbKCTOK5X1Gc
+         SXWA==
+X-Gm-Message-State: AC+VfDxEaVZMaBtptmvR+otf2bQ9/40B+TkVBBsRSH0gpAKM0vYALtAq
+	BMUlndLikkKUNq77a9TF0jSBsaPctPuspxwmrpb9Tg==
+X-Google-Smtp-Source: ACHHUZ4J18ddH7p0DHhboJkcyVa4b5LJvb7yIGWcWqXFC8sazBd2vjT18GJIjihOuk9q36koqOXxIA==
+X-Received: by 2002:a05:600c:21cf:b0:3f1:987b:7a28 with SMTP id x15-20020a05600c21cf00b003f1987b7a28mr841662wmj.29.1683285237191;
+        Fri, 05 May 2023 04:13:57 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:aa1b:875d:4fc3:dd86? ([2001:8b0:aba:5f3c:aa1b:875d:4fc3:dd86])
-        by smtp.gmail.com with ESMTPSA id a14-20020a5d53ce000000b0030732d6e104sm2049007wrw.105.2023.05.05.04.10.38
+        by smtp.gmail.com with ESMTPSA id j37-20020a05600c1c2500b003f173be2ccfsm7794963wms.2.2023.05.05.04.13.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 May 2023 04:10:38 -0700 (PDT)
-Message-ID: <5256ecbe3a4fda1014bbe260740f529d90727943.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH v4] devicetree.bbclass: Allow selection of dts
- files to build
+        Fri, 05 May 2023 04:13:56 -0700 (PDT)
+Message-ID: <0bbf150c0005164134998c6c2e36d67a45f2084d.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] image_types_wic.bbclass: remove MLPREFIX for
+ binutils
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Petr =?UTF-8?Q?Kubiz=C5=88=C3=A1k?= - 2N <Kubiznak@2n.com>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Cc: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Date: Fri, 05 May 2023 12:10:38 +0100
-In-Reply-To: <DB4PR02MB10030398AE71DDC1E005F8848E2729@DB4PR02MB10030.eurprd02.prod.outlook.com>
-References: <20230426072204.3255437-1-kubiznak@2n.com>
-	 <2826abbfbfb636f23354faddf7d35def35a7dc13.camel@linuxfoundation.org>
-	 <DB4PR02MB10030398AE71DDC1E005F8848E2729@DB4PR02MB10030.eurprd02.prod.outlook.com>
+To: Qi.Chen@windriver.com, openembedded-core@lists.openembedded.org
+Date: Fri, 05 May 2023 12:13:56 +0100
+In-Reply-To: <20230505041725.3186569-1-Qi.Chen@windriver.com>
+References: <20230505041725.3186569-1-Qi.Chen@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.47.3-1 
@@ -63,24 +58,29 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 11:10:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180909
+ <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 11:14:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180910
 
-On Fri, 2023-05-05 at 10:59 +0000, Petr Kubiz=C5=88=C3=A1k - 2N wrote:
-> Thanks for accepting the patch.
+On Thu, 2023-05-04 at 21:17 -0700, Chen Qi via lists.openembedded.org
+wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
 >=20
-> I can for sure send a doc patch, just want to make sure it is desired
-> since the glossary does not list any DT_* variable at the moment, and
-> the devicetree class section in this respect only refers to the class
-> sources. So I think both DT_FILES and DT_FILES_PATH variables should
-> be documented at least, right?
+> With the following two commits, the MLPREFIX needs to be removed
+> to avoid the 'nothing provides' error.
+>=20
+>   gcc/go: Drop crosssdk suffix from virtual provides to improve dependenc=
+y handling
+>   binutils: Drop crosssdk suffix from virtual provides to improve depende=
+ncy handling
+>=20
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/classes-recipe/image_types_wic.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ideally all the variables in use would be documented in the manual.
-We're trying to fix and improve the docs so yes, adding docs for the
-ones you added would be great, bonus marks if there are others you can
-add at the same time!
+Thanks, Martin had sent this patch too and I've merged that one.
 
 Cheers,
 
-Richard
+Ricahrd
 
