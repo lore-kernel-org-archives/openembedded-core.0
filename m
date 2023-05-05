@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D63E0C77B7F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D168EC7EE22
 	for <webhook@archiver.kernel.org>; Fri,  5 May 2023 15:20:54 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web11.30243.1683300038409530588
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.web10.30342.1683300050268502844
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 May 2023 08:20:53 -0700
+ Fri, 05 May 2023 08:20:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=0QcJI9Ba;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6439b410679so923132b3a.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 08:20:53 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=2L6ucBLq;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.178, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-52c6f81193cso1334666a12.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 08:20:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683300053; x=1685892053;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683300049; x=1685892049;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cgcht4CpFvfu7FODQrU1jrTVV4C7ulIuQRYW+bPRAZE=;
-        b=0QcJI9BaP6e4BTBxZIKZohRy7LqE5CsnqhoxHT4deVO14wpv5+XFoCz0BuRj5P0uqk
-         t7sEVF8iTN0gHWxZTfhMuA/WcfGnryyUn7lp9BgWt1ZqD468zjooVw+jT55MBpXbOjYW
-         nksfZuzXbUzd3A5a4wBqRmo7zi+pAJQ/clEC62xWMM5Z9/Pjc+lDdW2NKXbl/mTzDR5K
-         tyvfFT37l6JYDIte9F9SA+gBEe4gFhtHpK9qFyyoBqKQpUOqKtxAJDbg2ubhsDoFwgzO
-         7rItP/6V1CJ9PP3y8f4ixivq88UGVkKflWfgi0VW87jc5iog4OQOA9BJ2Gm1X8vEKezn
-         gnIw==
+        bh=23a68kV3FOfk/Gv3ZeUmWVouy18wRnqQlwkTKg+3MvY=;
+        b=2L6ucBLqFqRA6AgbvwHLa+a++ZHza37vTiptZPh1lSQVn81joKPj6S1opy4/hDfhMl
+         IjLBFYiI89MLb8akN5GMQAmGtOHPXtcCmobrimkqhjFleSnULvZMIFgmWG3BdAfJWqcG
+         Q1fK501zySzBjUmIJqHOLesCuy06NjuFRZlAuWOTHhb8fiRDxzhz18CBeFnfXKdNe89Q
+         AdxNxXbyaWeh1CB2gh1QaI95CdtdA7TItLDfzw2/Npwi/k/NcVtVDDpME8vj0XI2kpfX
+         Br/zhUA2eSp0wf5X5HOV55GoNHBFrBRfkD/T0vrZhr618p9w08X9ffBJJFh+2/8J8jHL
+         N+xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683300053; x=1685892053;
+        d=1e100.net; s=20221208; t=1683300049; x=1685892049;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cgcht4CpFvfu7FODQrU1jrTVV4C7ulIuQRYW+bPRAZE=;
-        b=UY/6LATVfBz890yWdu3OlyyWXi4QPJgM4o1lX9NooSghbsUCfXzAWQkiKm1Prrvmab
-         rl/wcNKg5n+Qn1H5/mqmiea4xhBkAtTdB87bbjCXcddP1FK4GZbQbmnAla71OtR7RBrF
-         kpdmheY5M5I2BtUExaHUVXKhVeven+zGystI+AeI71doESu6pjjUlgvVVIU6jjXOndk9
-         jPElMOUklMabh1okLy1of0BRAyWKA2K7dIq1rco1UT0wGUdiT+1wU/kdUXwx0BcXtIFO
-         Jjgb31iXabS/PwC2DLL4nCt3b0JmNkoV5mAyHlmPLrJBFffl96AEPba2QxvZapdOeK1z
-         M7Sg==
-X-Gm-Message-State: AC+VfDyGpY2kLKW9ImMWEDROKkPhqL3SYoEUIoyOUnKSrTfxEnFT87QB
-	k1m8gplCjzhUW2WdohIRmEPU1Ys+rUol0hA5SNs=
-X-Google-Smtp-Source: ACHHUZ6jf90FVvLABnjZPy+kmeTDuGExdqK921g4T69ygwFjSDKyVYXFJQ8URwYOLwMVKUIC4HONlg==
-X-Received: by 2002:a05:6a00:1415:b0:641:558:8e2e with SMTP id l21-20020a056a00141500b0064105588e2emr2461604pfu.15.1683300052831;
-        Fri, 05 May 2023 08:20:52 -0700 (PDT)
+        bh=23a68kV3FOfk/Gv3ZeUmWVouy18wRnqQlwkTKg+3MvY=;
+        b=KC319nE65fhA2g/Q3Iw0JmGYYF+n2MqwGjb1u+4kYi1bBLX4PXZ+CjfyJb7Qh1xLZb
+         XvqOiJXW4R8YRABn1G450woZe/cymxHHElogTRXxpWN/I48Hyt8eVOkcNxZaEYqXk8Yg
+         35GvStktYpR+kNntWixbqeI7xMTeZXIO+mx7yzr7uqx+2dZLtrGydqVwIp5sTsqWLsXI
+         Z+AP1/AuPS9B+VfPbmuKxuA2LHMCf9QA4ewEWtzQEf7sQKQKJVOpIrV8Fa58sfV7gujM
+         o0VCmZCiMIBHq7ccP3iOZ6K03DeqPfIt+pDqqAhhviHfFE5wpWHGhZ0m+SXuVHgaFCNn
+         CKkg==
+X-Gm-Message-State: AC+VfDxhdG6LpoEISpGyM+8itXCjfT4lFHYJPQbRg/1A+3s607zHRcAw
+	KdlXUNz6x45Vb8PiAYG1oy/MbzATQg5vjmmlKjA=
+X-Google-Smtp-Source: ACHHUZ5y13C7+WPuUvhAfq+qoh0QgiyamBGprk1CREwUeuidoT6zRztYUbAYWQcr7gfF4xI9OX/hmQ==
+X-Received: by 2002:a05:6a21:99a1:b0:f2:f505:951 with SMTP id ve33-20020a056a2199a100b000f2f5050951mr2814699pzb.13.1683300049270;
+        Fri, 05 May 2023 08:20:49 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id c11-20020aa78c0b000000b00643864d03dfsm1831591pfd.171.2023.05.05.08.20.52
+        by smtp.gmail.com with ESMTPSA id c11-20020aa78c0b000000b00643864d03dfsm1831591pfd.171.2023.05.05.08.20.48
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 May 2023 08:20:52 -0700 (PDT)
+        Fri, 05 May 2023 08:20:48 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 24/35] linux-firmware: upgrade 20230210 -> 20230404
-Date: Fri,  5 May 2023 05:19:35 -1000
-Message-Id: <cd8f678044793c853d6b91c09f542e9a97e170b9.1683299764.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 22/35] vala: upgrade 0.56.4 -> 0.56.6
+Date: Fri,  5 May 2023 05:19:33 -1000
+Message-Id: <d87a885a5b1f57039cf715504f6caacfd2dad097.1683299764.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1683299764.git.steve@sakoman.com>
 References: <cover.1683299764.git.steve@sakoman.com>
@@ -61,58 +61,68 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 15:20:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180944
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180942
 
-From: Dmitry Baryshkov <dbaryshkov@gmail.com>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-The LICENCE.qat_firmware license file was updated to reflect Intel
-licensing (it removed a term regarding patent licenses).
+Changelog:
+===========
+ * Regression fix:
+  - vala: Improve initialization of namespace fields with compound
+    literal [#1424]
 
-License-Update: additional files
+ * Bindings:
+  - gio-2.0,glib-2.0,gobject-2.0: Update 2.74 symbols
+  - webkit2gtk-4.*: Update to 2.40.0
+  - webkitgtk-6.0: Update to 2.40.0
+  - gtk4: Update to 4.10.1~40b154bf from 0.58
+  - gtk4: Add sealed to all the final types
+  - gtk+-3.0: Fix ToolPalette.icon_size get-accessor type
+  - webkitgtk-6.0: Update to 2.39.90
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-(cherry picked from commit fd43b59ab32e2115fcda7ad63d3a5ccc2683c7d5)
+ * Various improvements and bug fixes:
+  - codegen:
+    + Consistently handle GLib.Error as boxed type [#1418]
+    + Add cast to accessor calls for generic property implementations
+    + Use g_object_class_override_property to implement generic interface
+      properties [#1419]
+    + Add declaration for register call of dynamic DBus interfaces [#1422]
+  - vala:
+    + Correctly handle pre/post-increment expression as index of element
+      access [#1417]
+    + Set proper value-type of unary ref/out expression in initializers [#1421]
+    + Allow assignment of namespace fields with inline allocated arrays
+  - gtkmodule: Improve error messages
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit e3eb6b4e6477dea953d4d93d2eadc5f430c160b1)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...inux-firmware_20230210.bb => linux-firmware_20230404.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20230210.bb => linux-firmware_20230404.bb} (99%)
+ meta/recipes-devtools/vala/vala_0.56.4.bb | 3 ---
+ meta/recipes-devtools/vala/vala_0.56.6.bb | 3 +++
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ delete mode 100644 meta/recipes-devtools/vala/vala_0.56.4.bb
+ create mode 100644 meta/recipes-devtools/vala/vala_0.56.6.bb
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20230210.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20230404.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20230210.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20230404.bb
-index bf5d4f54e6..7412c022ba 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20230210.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20230404.bb
-@@ -108,7 +108,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.OLPC;md5=5b917f9d8c061991be4f6f5f108719cd \
-                     file://LICENCE.open-ath9k-htc-firmware;md5=1b33c9f4d17bc4d457bdb23727046837 \
-                     file://LICENCE.phanfw;md5=954dcec0e051f9409812b561ea743bfa \
--                    file://LICENCE.qat_firmware;md5=9e7d8bea77612d7cc7d9e9b54b623062 \
-+                    file://LICENCE.qat_firmware;md5=72de83dfd9b87be7685ed099a39fbea4 \
-                     file://LICENSE.qcom;md5=164e3362a538eb11d3ac51e8e134294b \
-                     file://LICENSE.qcom_yamato;md5=d0de0eeccaf1843a850bf7a6777eec5c \
-                     file://LICENCE.qla1280;md5=d6895732e622d950609093223a2c4f5d \
-@@ -134,7 +134,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "aadb3cccbde1e53fc244a409e9bd5a22"
-+WHENCE_CHKSUM  = "0782deea054d4b1b7f10c92c3a245da4"
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
-@@ -212,7 +212,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
- # Pin this to the 20220509 release, override this in local.conf
- SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
- 
--SRC_URI[sha256sum] = "6e3d9e8d52cffc4ec0dbe8533a8445328e0524a20f159a5b61c2706f983ce38a"
-+SRC_URI[sha256sum] = "c3f9ad2bb5311cce2490f37a8052f836703d6936aabd840246b6576f1f71f607"
- 
- inherit allarch
- 
+diff --git a/meta/recipes-devtools/vala/vala_0.56.4.bb b/meta/recipes-devtools/vala/vala_0.56.4.bb
+deleted file mode 100644
+index 32fa81a08b..0000000000
+--- a/meta/recipes-devtools/vala/vala_0.56.4.bb
++++ /dev/null
+@@ -1,3 +0,0 @@
+-require ${BPN}.inc
+-
+-SRC_URI[sha256sum] = "862c41d938543ed3d8d86c8219a61087797193defee8da0c50caf49993c66b6a"
+diff --git a/meta/recipes-devtools/vala/vala_0.56.6.bb b/meta/recipes-devtools/vala/vala_0.56.6.bb
+new file mode 100644
+index 0000000000..bc5f5477d7
+--- /dev/null
++++ b/meta/recipes-devtools/vala/vala_0.56.6.bb
+@@ -0,0 +1,3 @@
++require ${BPN}.inc
++
++SRC_URI[sha256sum] = "050e841cbfe2b8e7d0fb350c9506bd7557be1cd86a90c896765f1a09a1870013"
 -- 
 2.34.1
 
