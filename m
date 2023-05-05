@@ -1,156 +1,579 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <kai.kang@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E79BDC77B7F
-	for <webhook@archiver.kernel.org>; Fri,  5 May 2023 04:17:41 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.19736.1683260259311728829
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFDE0C77B75
+	for <webhook@archiver.kernel.org>; Fri,  5 May 2023 07:00:42 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.21200.1683270033298525802
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 May 2023 21:17:39 -0700
+ Fri, 05 May 2023 00:00:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=l9M6XzXa;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4489daff9e=qi.chen@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3454HYK4005229
-	for <openembedded-core@lists.openembedded.org>; Thu, 4 May 2023 21:17:39 -0700
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=gx9avO1N;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=448902684f=kai.kang@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34570EVg024900
+	for <openembedded-core@lists.openembedded.org>; Fri, 5 May 2023 07:00:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=ZpNTtMqaCzTUJtZNesrSyMlQXhBSbvN+yNDFlQB4Lrc=;
- b=l9M6XzXaKQGJb6OO/gDjGCJS/DWgFjuLR0NpxefIOe0CyDlLoA4wHZxfDgLOZinApAKk
- seRQ097RxVDLv40NXr7UseKVM+kJMz/Iaa0TR2Vn+6IkxWTKz/D3Z3cq5t2KM/g6UeFL
- J6ydbjOIv1iDbW+Jx17sSewJ1l710gj0hXxNc8zN4VVI4qEztcnlzzpRe6GaumfeDDXr
- kFM69jQz6NoQLZENxo7ib0N6xz2/bEYJp2Ke56fq2ubPTF3158ZWBpGjowBPCkuRkt6W
- TvzPj2IuYq+tLqvlvV/HZAljn1amymPy1navLS/QyBk55JVDuQaDebjEA4lZ26RyA/c4 Aw== 
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2107.outbound.protection.outlook.com [104.47.58.107])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3q8xh5nbbc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 04 May 2023 21:17:38 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aqPxnjQkso0k4qJLzrUZZtCdnt+KQUF4JVO821i3GINsS53gtcDfQ9Kc/z8tOvvtXiNsaccc7Ha/XOwO4HXNWyO/w/AyHPDSloXmVnXv099yS/moQzp+Xl8G9pPg7p+RP3RnSHEMmEQHfUjT+cHczZ/OLcrtkDh9fA4mdca/K6MZJjkhHSsXZC3qqthzrJ6lTahwfxFsPE+Ve1jR78FguaprzNB8rRnk7PRtYpz87S745CFwgHoLpCnAVpQIjYxbTIOqB+fE/9Q5pakNFZZ1wQrlHIm7nylc/9bkVbkFigw5V5Oah3GnYdAJzVt71sG7NYzxAgdVk9GjwBwb29U79g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZpNTtMqaCzTUJtZNesrSyMlQXhBSbvN+yNDFlQB4Lrc=;
- b=EyHvC9YpHzlPVF/gb6avyu5WMytO1qp3mzwiA+u6w7xT2vt4cc9Bu7w+ctQwjZcXggf4s6RFwMB3Chqp5DruWMXf3Z3B740pEJadjgOrc1Yxwa3S2rPnLcsvrMT8Rxs44Z21EPXaR5RznzzyNrfPORVucl2385vmUNgrHCWKtnxt/uMiIBmkXeDPqYE9dB3M8LkHzx79BDt7hpCoLQWrYD1mQTEvQamHh3Xw2LE/ybzRH3EAuce3CIhfd21DkDFwLxVR/+MiDPQA+Xgt4n3d/5UMKCe7XQjxEPWcfN0GW7BEHbvDMtFQlOcuId1mQy2x5dfPCCX0o5wQrxkhMn122w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by BL1PR11MB5256.namprd11.prod.outlook.com (2603:10b6:208:30a::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.27; Fri, 5 May
- 2023 04:17:35 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::fa8:8cc5:a5da:7e07]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::fa8:8cc5:a5da:7e07%5]) with mapi id 15.20.6363.027; Fri, 5 May 2023
- 04:17:35 +0000
-From: Qi.Chen@windriver.com
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] image_types_wic.bbclass: remove MLPREFIX for binutils
-Date: Thu,  4 May 2023 21:17:25 -0700
-Message-Id: <20230505041725.3186569-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.40.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BYAPR08CA0009.namprd08.prod.outlook.com
- (2603:10b6:a03:100::22) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
+ subject : date : message-id : mime-version : content-type; s=PPS06212021;
+ bh=paWwibd6PXSf0+cNpRXgPJcg0Q9C5PGhITLdKowRYMo=;
+ b=gx9avO1N+qPThgatXiLYlZaJo1yy+e9Ne4OEWT4bKgzsVMic2ihwyhG/dUr0ais60dis
+ 6gTR6pZcHrmEpJLNiMmDMsFzcMLvtJUsOSQbam1Tj9VNvYl5yefoAAbYfeaABW6nVYjA
+ OXDKjmue3OpbDq9yglbRL6AGLIkF2n9YIWzH7Ol7nsItZmQlMlVkowTLitl8kRtBFffO
+ jIMCJXWOsX5R11FmlTPJcAFEmTjqwQTIuXHOFTihMzfdLmVSjVO4betJttmSsePXYxG3
+ 3ovD41qB6asJ5q4m8NWJFq5dyQOebk+CXWQFk5G3lmjTsuXVpdsYKzg904BJa4DFCOGE YA== 
+Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3qaahubvnb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 07:00:32 +0000
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Fri, 5 May 2023 00:00:30 -0700
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.23 via Frontend Transport; Fri, 5 May 2023 00:00:30 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [kirkstone][PATCH] webkitgtk: fix CVE-2022-32888 & CVE-2022-32923
+Date: Fri, 5 May 2023 15:00:28 +0800
+Message-ID: <20230505070028.34476-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|BL1PR11MB5256:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2a06c608-b328-458b-538a-08db4d1fa769
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	1TRN1ILyMAkChVjcopMCffyWH1xIYSBul03LnzGDzexVP+3vD65kQtdsOp91i0EmAlT+Z6IxclBz1fLOeflQ0drcXX8TA8J4InAy5ebm3h9Kyxzmyg2vrYJijKXYl8+3vlh/bcAZtfSmzBelBPLk1iZ3N1y3asN+xewVOjSbZfe0RZuxRdxElAP3DYSID7tndeY5qGbMGWhfY7NsvjQB21P2k9y9XqOyRj7I8dmWA+e0vydcJf2otHY4Nw2p8pD4TkzpSDVlKmcuOsDNoosCuEq1raX4wLw8MpzPzERlGoynBHu4l5wDPh88rm7izywdujGJqlX6uTYGcI+0Qi/G5tLeNhFGJPCMua4iFwNpyY12DOUOab9fPLWNZbfzKySRu2t7R1xUCCcmyVkNrtC2V6dmHtajR5c5KleuOIfNT481fiyjcCsgXkG5IyfgnJNwste6Z0mbkCUcdkIkExghr0XqPmqVdAVUk8ppbiiznshF20WsPMVfdjxt/FXklwzJ0k72ktbkGkXcSPxxrH2dxPw9fvQTqw9LLqokaSqdDWMbnTMzfO+5KzQqABLYV/G81upLFpHqCcQeGlSwACc3FTMWGVuNNtd0YXGHrPb0/m7DsCK+3JAwUbbfXyt4A5k1
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(366004)(39830400003)(346002)(136003)(376002)(451199021)(52116002)(66946007)(66556008)(66476007)(6916009)(6666004)(478600001)(6486002)(316002)(36756003)(86362001)(83380400001)(2616005)(6512007)(6506007)(1076003)(26005)(9686003)(8936002)(8676002)(5660300002)(2906002)(41300700001)(186003)(38100700002)(38350700002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Igvb0s2lISdF/7rEyb30D3ShxIGp74ylC/1jKCwi1Qo0syJ1QJk2JsQHQfDO?=
- =?us-ascii?Q?IDwgW6YzdOfBz4hMzKk44lYzMqCUGq3s/JmGwUMagmQm+pacV+CeezZEui7U?=
- =?us-ascii?Q?BtVFokrruJvXzgtRskQotiLkecvbzPV1NzIEgF6+TYQaT89vY1XIKTwX1A3q?=
- =?us-ascii?Q?+t/t7YDl2W8mSFD9IrYw5ezvncl+UHAh4b+rBwf7jwpKnFS/V1VVTIcGTVYB?=
- =?us-ascii?Q?ImLPpU/PojgUBw7gSgm7WX4bO8FFDRLntgDLN29zvkdh2UIdlCzuXOvWPf2O?=
- =?us-ascii?Q?Qwf5sj7m8Cj1ocIEYdqYB/G2ytcEcuY/3tGhteIPuiGG2NIJO+bYI/rbMoOC?=
- =?us-ascii?Q?S4h+N/n3axrV1plFdAREVgeu3B1saYAWwws3oAQEWka4nCjlZw6KyaNxjsQM?=
- =?us-ascii?Q?lj19V4ED9ybEzi9TtITiiLbjNgi0NVXtK9KCS9C/2aXIWbLsiiv7/dG9V0F2?=
- =?us-ascii?Q?8yNQ+yoSZNSDpq5TWzFsjAaIuoqew094cHWiGBhhGl9TGJPie6MwIRxWTAlJ?=
- =?us-ascii?Q?RuQB5x7aFTP9ATdzqyC/nr18/iZzd6YQFfG5EbO8+02Sv2kj91sjSxrZs9yA?=
- =?us-ascii?Q?j4sobmI/eA3y+M/1QcgrEdKyF4HjLUrfRjdJNTQlSRTeobSJIjIus24aZdHA?=
- =?us-ascii?Q?42cK+W5eJHjgQl+Br7saTZkbDtCekAs0XMvgm53teUPiZ3LTRLVgnIKC/t+u?=
- =?us-ascii?Q?nC/KXXVmm/9e1jXdwrdfowoXcyRZBvtRWS4t0ozfXOKzffXnC5lHOL5rmqkj?=
- =?us-ascii?Q?FndCrw6/NL5ks22HIfSXtTyN8L0k4D3BUQEnjdNwaGKPuTqW6myQXjay9qPw?=
- =?us-ascii?Q?wSaVNu2H0XcC88y3qKh97qfyGs+IUoGQXQzzxJ3mn6DXME0hzfJ4LHZhIHkh?=
- =?us-ascii?Q?DAc8KlQP6v69iLJz+QiJg/QElFt2W+yM7BB5d4uQ/eN8ttva8Yvlk6snquLn?=
- =?us-ascii?Q?0BsB1/KZS3vKJHaTAu/VtkKXwYOdzIRlImWjOIeV6a3qOOYMvxYnmgR0P62c?=
- =?us-ascii?Q?bEmyUxSbzjmNdFt5Oe3Q/1sSfgy0yTgi4V9UZE2UfENJtYJ1xxMYMps/Ion6?=
- =?us-ascii?Q?wYGQJ2eKMihaXFb513Bj6Kej2u12TRR8SvM1b06fbaGKzXGhmUL1ie/DUE/+?=
- =?us-ascii?Q?XWMgIazBLlV1yHOe7Cy9TOBdMGH26DPyhfULk0vuaIR7JJfbdI2jDuCFHpMc?=
- =?us-ascii?Q?sbE1XlrljPW0mKZgTNCu337SAU9C2XgoxxaArxFkvshes84IcAlkLal9/62J?=
- =?us-ascii?Q?3HAIWAmuhbGglvmzaI/g8/A+eo2kZiWvdcGdDjT/rf13PHSYdmHCCkZrCW+m?=
- =?us-ascii?Q?pOJWSGwD8NN1VV4bKHweBY/8KTdYH1MrPB2Af5pNkgRmKNuJy494UW1kCqCt?=
- =?us-ascii?Q?OAu7BfW8qPaYo5q04VfOIlOciuaUzlKDh92leKAYYVE5pTHVX47vf2P7xoHu?=
- =?us-ascii?Q?FUIGOlBCSxAAqIxwa7bRMOgr/qFoxgaav6z1Y/9DCzBfGM939dVBduICg0Lv?=
- =?us-ascii?Q?0TCbI2D/rfRVGhMa91Yh0LNYop/2nzlwbUb4nOnSBZj8vS6t9evFu92SaCO6?=
- =?us-ascii?Q?gGzKZxHnBk3zNET46r2xLILvze+QFPOmrUYWmtjW?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a06c608-b328-458b-538a-08db4d1fa769
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2023 04:17:35.2995
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tJ+qpSks7Md3NoQZmNuZ5lIL2S3+Y8nHQursQHtAy8NAGV2IJsisP7BCR/RPcIyHr4MfMlhMwd/R/98fEvymRA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5256
-X-Proofpoint-ORIG-GUID: oMDKBhVrLeq1d-6AfSeDtF0CyDrHJXgC
-X-Proofpoint-GUID: oMDKBhVrLeq1d-6AfSeDtF0CyDrHJXgC
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: kv_SkeLIt8Xiqtd_IDzx0FeeA2sIW6au
+X-Proofpoint-GUID: kv_SkeLIt8Xiqtd_IDzx0FeeA2sIW6au
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-05-04_15,2023-05-04_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- lowpriorityscore=0 spamscore=0 clxscore=1015 suspectscore=0 mlxscore=0
- phishscore=0 priorityscore=1501 mlxlogscore=685 adultscore=0 bulkscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305050036
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ priorityscore=1501 phishscore=0 bulkscore=0 impostorscore=0 malwarescore=0
+ suspectscore=0 spamscore=0 lowpriorityscore=0 clxscore=1011 mlxscore=0
+ mlxlogscore=627 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2305050060
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 04:17:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180901
+ <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 07:00:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180902
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Kai Kang <kai.kang@windriver.com>
 
-With the following two commits, the MLPREFIX needs to be removed
-to avoid the 'nothing provides' error.
+Backport patches to fix CVE-2022-32888 and CVE-2022-32923 for webkitgtk
+2.36.8. The bugzilla IDs of the CVEs are from https://support.apple.com
+which have been listed in patch headers.
 
-  gcc/go: Drop crosssdk suffix from virtual provides to improve dependency handling
-  binutils: Drop crosssdk suffix from virtual provides to improve dependency handling
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/classes-recipe/image_types_wic.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../webkit/webkitgtk/CVE-2022-32888.patch     |  41 ++
+ .../webkit/webkitgtk/CVE-2022-32923.patch     | 435 ++++++++++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.36.8.bb  |   2 +
+ 3 files changed, 478 insertions(+)
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2022-32888.patch
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2022-32923.patch
 
-diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes-recipe/image_types_wic.bbclass
-index c339b9bdfb..be31fbf94f 100644
---- a/meta/classes-recipe/image_types_wic.bbclass
-+++ b/meta/classes-recipe/image_types_wic.bbclass
-@@ -91,7 +91,7 @@ do_image_wic[deptask] += "do_image_complete"
- WKS_FILE_DEPENDS_DEFAULT = '${@bb.utils.contains_any("BUILD_ARCH", [ 'x86_64', 'i686' ], "syslinux-native", "",d)}'
- WKS_FILE_DEPENDS_DEFAULT += "bmap-tools-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native erofs-utils-native"
- # Unified kernel images need objcopy
--WKS_FILE_DEPENDS_DEFAULT += "virtual/${MLPREFIX}${TARGET_PREFIX}binutils"
-+WKS_FILE_DEPENDS_DEFAULT += "virtual/${TARGET_PREFIX}binutils"
- WKS_FILE_DEPENDS_BOOTLOADERS = ""
- WKS_FILE_DEPENDS_BOOTLOADERS:x86 = "syslinux grub-efi systemd-boot os-release"
- WKS_FILE_DEPENDS_BOOTLOADERS:x86-64 = "syslinux grub-efi systemd-boot os-release"
+diff --git a/meta/recipes-sato/webkit/webkitgtk/CVE-2022-32888.patch b/meta/recipes-sato/webkit/webkitgtk/CVE-2022-32888.patch
+new file mode 100644
+index 0000000000..1a6b685450
+--- /dev/null
++++ b/meta/recipes-sato/webkit/webkitgtk/CVE-2022-32888.patch
+@@ -0,0 +1,41 @@
++CVE: CVE-2022-32888
++Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/a3dd7dc]
++
++[1]: https://support.apple.com/en-us/HT213446
++[2]: https://bugs.webkit.org/show_bug.cgi?id=242047
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++
++From a3dd7dc5f60b87a7cfd14c372e40ebd339076763 Mon Sep 17 00:00:00 2001
++From: Yusuke Suzuki <ysuzuki@apple.com>
++Date: Mon, 27 Jun 2022 21:34:55 -0700
++Subject: [PATCH] [JSC] Drop wasm stale assertion
++ https://bugs.webkit.org/show_bug.cgi?id=242047 rdar://95866655
++
++Reviewed by Mark Lam.
++
++This patch drops stale assertion in addDelegateToUnreachable.
++
++* Source/JavaScriptCore/wasm/WasmLLIntGenerator.cpp:
++(JSC::Wasm::LLIntGenerator::addDelegateToUnreachable):
++
++Canonical link: https://commits.webkit.org/251902@main
++---
++ Source/JavaScriptCore/wasm/WasmLLIntGenerator.cpp | 1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/Source/JavaScriptCore/wasm/WasmLLIntGenerator.cpp b/Source/JavaScriptCore/wasm/WasmLLIntGenerator.cpp
++index 39fb39b3331f..d0d2b9725991 100644
++--- a/Source/JavaScriptCore/wasm/WasmLLIntGenerator.cpp
+++++ b/Source/JavaScriptCore/wasm/WasmLLIntGenerator.cpp
++@@ -1182,7 +1182,6 @@ auto LLIntGenerator::addDelegateToUnreachable(ControlType& target, ControlType&
++ 
++     ControlTry& tryData = std::get<ControlTry>(data);
++     m_codeBlock->addExceptionHandler({ HandlerType::Delegate, tryData.m_try->location(), delegateLabel->location(), 0, m_tryDepth, targetDepth });
++-    checkConsistency();
++     return { };
++ }
++ 
++-- 
++2.34.1
++
+diff --git a/meta/recipes-sato/webkit/webkitgtk/CVE-2022-32923.patch b/meta/recipes-sato/webkit/webkitgtk/CVE-2022-32923.patch
+new file mode 100644
+index 0000000000..60342a14f8
+--- /dev/null
++++ b/meta/recipes-sato/webkit/webkitgtk/CVE-2022-32923.patch
+@@ -0,0 +1,435 @@
++CVE: CVE-2022-32923
++Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/ef76e31]
++
++[1]: https://support.apple.com/en-us/HT213495
++[2]: https://bugs.webkit.org/show_bug.cgi?id=242964
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++
++From ef76e31a2a066c3d65a9c94a9e2cd88133260c1f Mon Sep 17 00:00:00 2001
++From: Yusuke Suzuki <ysuzuki@apple.com>
++Date: Wed, 20 Jul 2022 19:30:48 -0700
++Subject: [PATCH] [JSC] BakcwardPropagationPhase should carry NaN / Infinity
++ handling https://bugs.webkit.org/show_bug.cgi?id=242964 rdar://96791603
++
++Reviewed by Mark Lam.
++
++For correctness, we should carry NaN / Infinity handling to make it more clear in the code generation site.
++
++* Source/JavaScriptCore/dfg/DFGBackwardsPropagationPhase.cpp:
++(JSC::DFG::BackwardsPropagationPhase::propagate):
++* Source/JavaScriptCore/dfg/DFGFixupPhase.cpp:
++(JSC::DFG::FixupPhase::fixupArithDivInt32):
++(JSC::DFG::FixupPhase::fixupArithDiv):
++* Source/JavaScriptCore/dfg/DFGGraph.h:
++* Source/JavaScriptCore/dfg/DFGNode.h:
++* Source/JavaScriptCore/dfg/DFGNodeFlags.cpp:
++(JSC::DFG::dumpNodeFlags):
++* Source/JavaScriptCore/dfg/DFGNodeFlags.h:
++(JSC::DFG::bytecodeCanIgnoreNaNAndInfinity):
++(JSC::DFG::nodeCanSpeculateInt32ForDiv):
++* Source/JavaScriptCore/dfg/DFGNodeType.h:
++
++Canonical link: https://commits.webkit.org/252675@main
++---
++ .../dfg/DFGBackwardsPropagationPhase.cpp      | 51 +++++++++++--------
++ Source/JavaScriptCore/dfg/DFGFixupPhase.cpp   |  6 ++-
++ Source/JavaScriptCore/dfg/DFGGraph.h          | 11 ++++
++ Source/JavaScriptCore/dfg/DFGNode.h           | 12 +++--
++ Source/JavaScriptCore/dfg/DFGNodeFlags.cpp    | 10 ++--
++ Source/JavaScriptCore/dfg/DFGNodeFlags.h      | 37 +++++++++++---
++ Source/JavaScriptCore/dfg/DFGNodeType.h       |  3 +-
++ 7 files changed, 91 insertions(+), 39 deletions(-)
++
++diff --git a/Source/JavaScriptCore/dfg/DFGBackwardsPropagationPhase.cpp b/Source/JavaScriptCore/dfg/DFGBackwardsPropagationPhase.cpp
++index 306ea5d6b974..83a08aff7c20 100644
++--- a/Source/JavaScriptCore/dfg/DFGBackwardsPropagationPhase.cpp
+++++ b/Source/JavaScriptCore/dfg/DFGBackwardsPropagationPhase.cpp
++@@ -272,7 +272,7 @@ private:
++         case ValueBitNot:
++         case ArithBitNot: {
++             flags |= NodeBytecodeUsesAsInt;
++-            flags &= ~(NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeUsesAsOther);
+++            flags &= ~(NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeNeedsNaNOrInfinity | NodeBytecodeUsesAsOther);
++             flags &= ~NodeBytecodeUsesAsArrayIndex;
++             node->child1()->mergeFlags(flags);
++             break;
++@@ -291,7 +291,7 @@ private:
++         case BitURShift:
++         case ArithIMul: {
++             flags |= NodeBytecodeUsesAsInt;
++-            flags &= ~(NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeUsesAsOther);
+++            flags &= ~(NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeNeedsNaNOrInfinity | NodeBytecodeUsesAsOther);
++             flags &= ~NodeBytecodeUsesAsArrayIndex;
++             node->child1()->mergeFlags(flags);
++             node->child2()->mergeFlags(flags);
++@@ -308,9 +308,9 @@ private:
++ 
++         case StringSlice: {
++             node->child1()->mergeFlags(NodeBytecodeUsesAsValue);
++-            node->child2()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex);
+++            node->child2()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex | NodeBytecodeNeedsNaNOrInfinity);
++             if (node->child3())
++-                node->child3()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex);
+++                node->child3()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex | NodeBytecodeNeedsNaNOrInfinity);
++             break;
++         }
++ 
++@@ -320,11 +320,11 @@ private:
++             if (node->numChildren() == 2)
++                 m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsValue);
++             else if (node->numChildren() == 3) {
++-                m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex);
+++                m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex | NodeBytecodeNeedsNaNOrInfinity);
++                 m_graph.varArgChild(node, 2)->mergeFlags(NodeBytecodeUsesAsValue);
++             } else if (node->numChildren() == 4) {
++-                m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex);
++-                m_graph.varArgChild(node, 2)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex);
+++                m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex | NodeBytecodeNeedsNaNOrInfinity);
+++                m_graph.varArgChild(node, 2)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex | NodeBytecodeNeedsNaNOrInfinity);
++                 m_graph.varArgChild(node, 3)->mergeFlags(NodeBytecodeUsesAsValue);
++             }
++             break;
++@@ -345,6 +345,7 @@ private:
++                 flags |= NodeBytecodeUsesAsNumber;
++             if (!m_allowNestedOverflowingAdditions)
++                 flags |= NodeBytecodeUsesAsNumber;
+++            flags |= NodeBytecodeNeedsNaNOrInfinity;
++             
++             node->child1()->mergeFlags(flags);
++             node->child2()->mergeFlags(flags);
++@@ -359,6 +360,7 @@ private:
++                 flags |= NodeBytecodeUsesAsNumber;
++             if (!m_allowNestedOverflowingAdditions)
++                 flags |= NodeBytecodeUsesAsNumber;
+++            flags |= NodeBytecodeNeedsNaNOrInfinity;
++             
++             node->child1()->mergeFlags(flags);
++             node->child2()->mergeFlags(flags);
++@@ -366,7 +368,7 @@ private:
++         }
++ 
++         case ArithClz32: {
++-            flags &= ~(NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeUsesAsOther | ~NodeBytecodeUsesAsArrayIndex);
+++            flags &= ~(NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeNeedsNaNOrInfinity | NodeBytecodeUsesAsOther | ~NodeBytecodeUsesAsArrayIndex);
++             flags |= NodeBytecodeUsesAsInt;
++             node->child1()->mergeFlags(flags);
++             break;
++@@ -380,6 +382,7 @@ private:
++                 flags |= NodeBytecodeUsesAsNumber;
++             if (!m_allowNestedOverflowingAdditions)
++                 flags |= NodeBytecodeUsesAsNumber;
+++            flags |= NodeBytecodeNeedsNaNOrInfinity;
++             
++             node->child1()->mergeFlags(flags);
++             node->child2()->mergeFlags(flags);
++@@ -387,6 +390,7 @@ private:
++         }
++             
++         case ArithNegate: {
+++            // negation does not care about NaN, Infinity, -Infinity are converted into 0 if the result is evaluated under the integer context.
++             flags &= ~NodeBytecodeUsesAsOther;
++ 
++             node->child1()->mergeFlags(flags);
++@@ -401,6 +405,7 @@ private:
++                 flags |= NodeBytecodeUsesAsNumber;
++             if (!m_allowNestedOverflowingAdditions)
++                 flags |= NodeBytecodeUsesAsNumber;
+++            flags |= NodeBytecodeNeedsNaNOrInfinity;
++ 
++             node->child1()->mergeFlags(flags);
++             break;
++@@ -421,7 +426,7 @@ private:
++             
++             node->mergeFlags(flags);
++             
++-            flags |= NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero;
+++            flags |= NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeNeedsNaNOrInfinity;
++             flags &= ~NodeBytecodeUsesAsOther;
++ 
++             node->child1()->mergeFlags(flags);
++@@ -431,7 +436,13 @@ private:
++             
++         case ValueDiv:
++         case ArithDiv: {
++-            flags |= NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero;
+++            // ArithDiv / ValueDiv need to have NodeBytecodeUsesAsNumber even if it is used in the context of integer.
+++            // For example,
+++            //     ((@x / @y) + @z) | 0
+++            // In this context, (@x / @y) can have integer context at first, but the result can be different if div
+++            // generates NaN. Div and Mod are operations that can produce NaN / Infinity though only taking binary Int32 operands.
+++            // Thus, we always need to check for overflow since it can affect downstream calculations.
+++            flags |= NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeNeedsNaNOrInfinity;
++             flags &= ~NodeBytecodeUsesAsOther;
++ 
++             node->child1()->mergeFlags(flags);
++@@ -441,7 +452,7 @@ private:
++             
++         case ValueMod:
++         case ArithMod: {
++-            flags |= NodeBytecodeUsesAsNumber;
+++            flags |= NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeNeedsNaNOrInfinity;
++             flags &= ~NodeBytecodeUsesAsOther;
++ 
++             node->child1()->mergeFlags(flags);
++@@ -452,7 +463,7 @@ private:
++         case EnumeratorGetByVal:
++         case GetByVal: {
++             m_graph.varArgChild(node, 0)->mergeFlags(NodeBytecodeUsesAsValue);
++-            m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex);
+++            m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeNeedsNaNOrInfinity | NodeBytecodeUsesAsArrayIndex);
++             break;
++         }
++             
++@@ -461,13 +472,13 @@ private:
++             // Negative zero is not observable. NaN versus undefined are only observable
++             // in that you would get a different exception message. So, like, whatever: we
++             // claim here that NaN v. undefined is observable.
++-            node->child1()->mergeFlags(NodeBytecodeUsesAsInt | NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsArrayIndex);
+++            node->child1()->mergeFlags(NodeBytecodeUsesAsInt | NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeNeedsNaNOrInfinity | NodeBytecodeUsesAsArrayIndex);
++             break;
++         }
++             
++         case ToString:
++         case CallStringConstructor: {
++-            node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther);
+++            node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeNeedsNaNOrInfinity);
++             break;
++         }
++             
++@@ -487,15 +498,15 @@ private:
++         case CompareBelowEq:
++         case CompareEq:
++         case CompareStrictEq: {
++-            node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther);
++-            node->child2()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther);
+++            node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeNeedsNaNOrInfinity);
+++            node->child2()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeNeedsNaNOrInfinity);
++             break;
++         }
++ 
++         case PutByValDirect:
++         case PutByVal: {
++             m_graph.varArgChild(node, 0)->mergeFlags(NodeBytecodeUsesAsValue);
++-            m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex);
+++            m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex | NodeBytecodeNeedsNaNOrInfinity);
++             m_graph.varArgChild(node, 2)->mergeFlags(NodeBytecodeUsesAsValue);
++             break;
++         }
++@@ -508,20 +519,20 @@ private:
++                 // then -0 and 0 are treated the same.  We don't need NodeBytecodeUsesAsOther
++                 // because if all of the cases are integers then NaN and undefined are
++                 // treated the same (i.e. they will take default).
++-                node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsInt);
+++                node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsInt | NodeBytecodeNeedsNaNOrInfinity);
++                 break;
++             case SwitchChar: {
++                 // We don't need NodeBytecodeNeedsNegZero because if the cases are all strings
++                 // then -0 and 0 are treated the same.  We don't need NodeBytecodeUsesAsOther
++                 // because if all of the cases are single-character strings then NaN
++                 // and undefined are treated the same (i.e. they will take default).
++-                node->child1()->mergeFlags(NodeBytecodeUsesAsNumber);
+++                node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNaNOrInfinity);
++                 break;
++             }
++             case SwitchString:
++                 // We don't need NodeBytecodeNeedsNegZero because if the cases are all strings
++                 // then -0 and 0 are treated the same.
++-                node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther);
+++                node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeNeedsNaNOrInfinity);
++                 break;
++             case SwitchCell:
++                 // There is currently no point to being clever here since this is used for switching
++diff --git a/Source/JavaScriptCore/dfg/DFGFixupPhase.cpp b/Source/JavaScriptCore/dfg/DFGFixupPhase.cpp
++index e8bee58ada15..b679539de2e6 100644
++--- a/Source/JavaScriptCore/dfg/DFGFixupPhase.cpp
+++++ b/Source/JavaScriptCore/dfg/DFGFixupPhase.cpp
++@@ -81,7 +81,9 @@ private:
++         if (optimizeForX86() || optimizeForARM64() || optimizeForARMv7IDIVSupported()) {
++             fixIntOrBooleanEdge(leftChild);
++             fixIntOrBooleanEdge(rightChild);
++-            if (bytecodeCanTruncateInteger(node->arithNodeFlags()))
+++            // We need to be careful about skipping overflow check because div / mod can generate non integer values
+++            // from (Int32, Int32) inputs. For now, we always check non-zero divisor.
+++            if (bytecodeCanTruncateInteger(node->arithNodeFlags()) && bytecodeCanIgnoreNaNAndInfinity(node->arithNodeFlags()) && bytecodeCanIgnoreNegativeZero(node->arithNodeFlags()))
++                 node->setArithMode(Arith::Unchecked);
++             else if (bytecodeCanIgnoreNegativeZero(node->arithNodeFlags()))
++                 node->setArithMode(Arith::CheckOverflow);
++@@ -122,7 +124,7 @@ private:
++ 
++     void fixupArithDiv(Node* node, Edge& leftChild, Edge& rightChild)
++     {
++-        if (m_graph.binaryArithShouldSpeculateInt32(node, FixupPass)) {
+++        if (m_graph.divShouldSpeculateInt32(node, FixupPass)) {
++             fixupArithDivInt32(node, leftChild, rightChild);
++             return;
++         }
++diff --git a/Source/JavaScriptCore/dfg/DFGGraph.h b/Source/JavaScriptCore/dfg/DFGGraph.h
++index ca566d3a484e..284c87672849 100644
++--- a/Source/JavaScriptCore/dfg/DFGGraph.h
+++++ b/Source/JavaScriptCore/dfg/DFGGraph.h
++@@ -373,6 +373,17 @@ public:
++ 
++         return shouldSpeculateInt52ForAdd(left) && shouldSpeculateInt52ForAdd(right);
++     }
+++
+++    bool divShouldSpeculateInt32(Node* node, PredictionPass pass)
+++    {
+++        // Even if inputs are Int32, div can generate NaN or Infinity.
+++        // Thus, Overflow in div can be caused by these non integer values as well as actual Int32 overflow.
+++        Node* left = node->child1().node();
+++        Node* right = node->child2().node();
+++
+++        return Node::shouldSpeculateInt32OrBooleanForArithmetic(left, right)
+++            && nodeCanSpeculateInt32ForDiv(node->arithNodeFlags(), node->sourceFor(pass));
+++    }
++     
++     bool binaryArithShouldSpeculateInt32(Node* node, PredictionPass pass)
++     {
++diff --git a/Source/JavaScriptCore/dfg/DFGNode.h b/Source/JavaScriptCore/dfg/DFGNode.h
++index f9ff50658e93..04509a3846ca 100644
++--- a/Source/JavaScriptCore/dfg/DFGNode.h
+++++ b/Source/JavaScriptCore/dfg/DFGNode.h
++@@ -3308,21 +3308,25 @@ public:
++         out.printf(", @%u", child3()->index());
++     }
++ 
++-    NodeOrigin origin;
+++    NO_UNIQUE_ADDRESS NodeOrigin origin;
++ 
+++private:
+++    NO_UNIQUE_ADDRESS NodeType m_op;
+++
+++    NO_UNIQUE_ADDRESS unsigned m_index { std::numeric_limits<unsigned>::max() };
+++
+++public:
++     // References to up to 3 children, or links to a variable length set of children.
++     AdjacencyList children;
++ 
++ private:
++     friend class B3::SparseCollection<Node>;
++ 
++-    unsigned m_index { std::numeric_limits<unsigned>::max() };
++-    unsigned m_op : 10; // real type is NodeType
++-    unsigned m_flags : 21;
++     // The virtual register number (spill location) associated with this .
++     VirtualRegister m_virtualRegister;
++     // The number of uses of the result of this operation (+1 for 'must generate' nodes, which have side-effects).
++     unsigned m_refCount;
+++    NodeFlags m_flags;
++     // The prediction ascribed to this node after propagation.
++     SpeculatedType m_prediction { SpecNone };
++     // Immediate values, accesses type-checked via accessors above.
++diff --git a/Source/JavaScriptCore/dfg/DFGNodeFlags.cpp b/Source/JavaScriptCore/dfg/DFGNodeFlags.cpp
++index 88242947f6ef..0c53cd976c5c 100644
++--- a/Source/JavaScriptCore/dfg/DFGNodeFlags.cpp
+++++ b/Source/JavaScriptCore/dfg/DFGNodeFlags.cpp
++@@ -74,12 +74,14 @@ void dumpNodeFlags(PrintStream& actualOut, NodeFlags flags)
++         out.print(comma, "VarArgs");
++     
++     if (flags & NodeResultMask) {
++-        if (!(flags & NodeBytecodeUsesAsNumber) && !(flags & NodeBytecodeNeedsNegZero))
+++        if (!(flags & NodeBytecodeUsesAsNumber))
++             out.print(comma, "PureInt");
++-        else if (!(flags & NodeBytecodeUsesAsNumber))
++-            out.print(comma, "PureInt(w/ neg zero)");
++-        else if (!(flags & NodeBytecodeNeedsNegZero))
+++        else
++             out.print(comma, "PureNum");
+++        if (flags & NodeBytecodeNeedsNegZero)
+++            out.print(comma, "NeedsNegZero");
+++        if (flags & NodeBytecodeNeedsNaNOrInfinity)
+++            out.print(comma, "NeedsNaNOrInfinity");
++         if (flags & NodeBytecodeUsesAsOther)
++             out.print(comma, "UseAsOther");
++     }
++diff --git a/Source/JavaScriptCore/dfg/DFGNodeFlags.h b/Source/JavaScriptCore/dfg/DFGNodeFlags.h
++index 2ebe3544f601..aa60db7e6ba0 100644
++--- a/Source/JavaScriptCore/dfg/DFGNodeFlags.h
+++++ b/Source/JavaScriptCore/dfg/DFGNodeFlags.h
++@@ -61,18 +61,19 @@ namespace JSC { namespace DFG {
++ #define NodeBytecodeUseBottom            0x00000
++ #define NodeBytecodeUsesAsNumber         0x04000 // The result of this computation may be used in a context that observes fractional, or bigger-than-int32, results.
++ #define NodeBytecodeNeedsNegZero         0x08000 // The result of this computation may be used in a context that observes -0.
++-#define NodeBytecodeUsesAsOther          0x10000 // The result of this computation may be used in a context that distinguishes between NaN and other things (like undefined).
++-#define NodeBytecodeUsesAsInt            0x20000 // The result of this computation is known to be used in a context that prefers, but does not require, integer values.
++-#define NodeBytecodeUsesAsArrayIndex     0x40000 // The result of this computation is known to be used in a context that strongly prefers integer values, to the point that we should avoid using doubles if at all possible.
++-#define NodeBytecodeUsesAsValue          (NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeUsesAsOther)
++-#define NodeBytecodeBackPropMask         (NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex)
+++#define NodeBytecodeNeedsNaNOrInfinity   0x10000 // The result of this computation may be used in a context that observes NaN or Infinity.
+++#define NodeBytecodeUsesAsOther          0x20000 // The result of this computation may be used in a context that distinguishes between NaN and other things (like undefined).
+++#define NodeBytecodeUsesAsInt            0x40000 // The result of this computation is known to be used in a context that prefers, but does not require, integer values.
+++#define NodeBytecodeUsesAsArrayIndex     0x80000 // The result of this computation is known to be used in a context that strongly prefers integer values, to the point that we should avoid using doubles if at all possible.
+++#define NodeBytecodeUsesAsValue          (NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeNeedsNaNOrInfinity | NodeBytecodeUsesAsOther)
+++#define NodeBytecodeBackPropMask         (NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeNeedsNaNOrInfinity | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex)
++ 
++ #define NodeArithFlagsMask               (NodeBehaviorMask | NodeBytecodeBackPropMask)
++ 
++-#define NodeIsFlushed                    0x80000 // Computed by CPSRethreadingPhase, will tell you which local nodes are backwards-reachable from a Flush.
+++#define NodeIsFlushed                   0x100000 // Computed by CPSRethreadingPhase, will tell you which local nodes are backwards-reachable from a Flush.
++ 
++-#define NodeMiscFlag1                   0x100000
++-#define NodeMiscFlag2                   0x200000
+++#define NodeMiscFlag1                   0x200000
+++#define NodeMiscFlag2                   0x400000
++ 
++ typedef uint32_t NodeFlags;
++ 
++@@ -91,6 +92,11 @@ static inline bool bytecodeCanIgnoreNegativeZero(NodeFlags flags)
++     return !(flags & NodeBytecodeNeedsNegZero);
++ }
++ 
+++static inline bool bytecodeCanIgnoreNaNAndInfinity(NodeFlags flags)
+++{
+++    return !(flags & NodeBytecodeNeedsNaNOrInfinity);
+++}
+++
++ enum RareCaseProfilingSource {
++     BaselineRareCase, // Comes from slow case counting in the baseline JIT.
++     DFGRareCase, // Comes from OSR exit profiles.
++@@ -147,6 +153,21 @@ static inline bool nodeCanSpeculateInt32(NodeFlags flags, RareCaseProfilingSourc
++     return true;
++ }
++ 
+++static inline bool nodeCanSpeculateInt32ForDiv(NodeFlags flags, RareCaseProfilingSource source)
+++{
+++    if (nodeMayOverflowInt32(flags, source)) {
+++        if (bytecodeUsesAsNumber(flags))
+++            return false;
+++        if (!bytecodeCanIgnoreNaNAndInfinity(flags))
+++            return false;
+++    }
+++
+++    if (nodeMayNegZero(flags, source))
+++        return bytecodeCanIgnoreNegativeZero(flags);
+++
+++    return true;
+++}
+++
++ static inline bool nodeCanSpeculateInt52(NodeFlags flags, RareCaseProfilingSource source)
++ {
++     if (nodeMayOverflowInt52(flags, source))
++diff --git a/Source/JavaScriptCore/dfg/DFGNodeType.h b/Source/JavaScriptCore/dfg/DFGNodeType.h
++index 8f885b570665..aad4d559ccf7 100644
++--- a/Source/JavaScriptCore/dfg/DFGNodeType.h
+++++ b/Source/JavaScriptCore/dfg/DFGNodeType.h
++@@ -567,7 +567,7 @@ namespace JSC { namespace DFG {
++ 
++ // This enum generates a monotonically increasing id for all Node types,
++ // and is used by the subsequent enum to fill out the id (as accessed via the NodeIdMask).
++-enum NodeType {
+++enum NodeType : uint16_t {
++ #define DFG_OP_ENUM(opcode, flags) opcode,
++     FOR_EACH_DFG_OP(DFG_OP_ENUM)
++ #undef DFG_OP_ENUM
++@@ -577,6 +577,7 @@ enum NodeType {
++ #define DFG_OP_COUNT(opcode, flags) + 1
++ constexpr unsigned numberOfNodeTypes = FOR_EACH_DFG_OP(DFG_OP_COUNT);
++ #undef DFG_OP_COUNT
+++static_assert(numberOfNodeTypes <= UINT16_MAX);
++ 
++ // Specifies the default flags for each node.
++ inline NodeFlags defaultFlags(NodeType op)
++-- 
++2.34.1
++
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
+index b3372e6760..25ecfc2973 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
+@@ -15,6 +15,8 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BP}.tar.xz \
+            file://0001-Fix-build-without-opengl-or-es.patch \
+            file://reproducibility.patch \
+            file://0001-When-building-introspection-files-do-not-quote-CFLAG.patch \
++           file://CVE-2022-32888.patch \
++           file://CVE-2022-32923.patch \
+            "
+ SRC_URI[sha256sum] = "0ad9fb6bf28308fe3889faf184bd179d13ac1b46835d2136edbab2c133d00437"
+ 
 -- 
-2.40.0
+2.17.1
 
 
