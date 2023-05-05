@@ -2,105 +2,130 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D18A8C7EE24
-	for <webhook@archiver.kernel.org>; Fri,  5 May 2023 15:20:44 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web10.30327.1683300035093514769
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D165FC77B7C
+	for <webhook@archiver.kernel.org>; Fri,  5 May 2023 15:20:54 +0000 (UTC)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web10.30345.1683300052315105096
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 May 2023 08:20:35 -0700
+ Fri, 05 May 2023 08:20:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=L6T5B668;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6436e004954so2088647b3a.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 08:20:35 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=wycbQWLD;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6436dfa15b3so1335668b3a.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 08:20:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683300034; x=1685892034;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683300051; x=1685892051;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=27k/LZZYqkl8m/hRlYIg/LJxULAULUffuyxJAPQQxI4=;
-        b=L6T5B668N+RNQnJxaUuzkRid6lQN5FmWCwBiOqvALeyzaS8i8Mg5LbyX0fqXimcFwv
-         twYyAlLPsOS/lPj45LC6LK/LzSVo1f6pgKz6g+6dYoFE7CIvu0AumaAWdgKpdHAe892q
-         WZCI29ipFX4jBPRx5Ft/n9atHq+P4T4/U6vsy/L6QhKmPHWamoigfOTKYzXPNQTBADpU
-         0fygoSLPFH8d5k308Lst/6EPBBiG9ReoPuH05dTBiG4Ebp5/BYzh++3fO1QnQiHb2Ieh
-         3T82ht6879TC6rU+htzqDRjbpv3QbrOmd0yb3m6lemfqyfSnpjXVvYxpvy9QBZLzw1Wk
-         fNfA==
+        bh=ixlRf975kGM1hAT9m3J9dMVJvAfRpyJqioxDvySHkNQ=;
+        b=wycbQWLDnFJ2TcSw4krrPUlNOV/gDcSbdtU+gtusXmiDxv4OeWFXlpli/Vhr2d68X9
+         NkE+Ofd3ukuBklhKgBMuNysX9lyvZA7tR+X/fBE1zWRZq4iMrjEab03Z34Ni628nvqMs
+         W5fgYWHmjNEhyKgljmxucE1uXgUmMGuEJkCj5LuV8TdMaIXdzjWJhTcI6z/xtHDhd55S
+         ZSrOCzQqzju4xaXy8po19nbyU7QqXSdyU+YtJzourzH0OpDyGVeREUD3k1ie7twzHVhF
+         fhVbzhEbLMZ09mhRyuBksBi6cEjxhVgLfOXW6ddoRblXY4siDT1pZDDc3FhJoXdc+iuT
+         lpAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683300034; x=1685892034;
+        d=1e100.net; s=20221208; t=1683300051; x=1685892051;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=27k/LZZYqkl8m/hRlYIg/LJxULAULUffuyxJAPQQxI4=;
-        b=MoIeQ76K1lp5OSvwkWPE4mEYqEqdCjSreHofIaXoE10WuoWqcfUP7Hk+ROV6gx8PHA
-         nvXm87Cj/6pSqS33IbyD9PPv+7D0oB25FrWU9BqFtPE+EbIFN/3Aky+rNPzEVos3pB1L
-         RHrF7OhSv7+JMeLLB3CSVG9JUdnZ2YPs/AXWjqbCmXSzt+he7JTyGTX/wSpcL4stKXvN
-         7bseolHKbetKUC3ta/y9d+e7vhP9Y0VRTz/vp1aqLhrycOsIAJkivR/0up+ZkNu9KpzO
-         759IRvhBy/ZAHuY/gPNSuv4F8eJQAQkL8f2sEbcWewrHVi1tAb9E0hDG6ore5VO/8pXt
-         IH2Q==
-X-Gm-Message-State: AC+VfDwzVBcditjUBLe7rE5GEy2Q98Cudnd3i4NDfjXcumEmJESrtHwj
-	Z5oPK2P6iNHcfbl5vk21aYkyVo3BrXMeMH/SqJQ=
-X-Google-Smtp-Source: ACHHUZ4w5N3vR/HrDN5n7TLZiB6DHvZEiGq7r6HIbm3UI/WvUm/y8xcoMiAqeo7HIv9Q2Q/BUr2UOQ==
-X-Received: by 2002:a05:6a00:2352:b0:63d:3a18:4a03 with SMTP id j18-20020a056a00235200b0063d3a184a03mr2571295pfj.5.1683300034097;
-        Fri, 05 May 2023 08:20:34 -0700 (PDT)
+        bh=ixlRf975kGM1hAT9m3J9dMVJvAfRpyJqioxDvySHkNQ=;
+        b=UoRoByRqRhfiz1zSrf69FqnIhz976vJFChSG/5oLR2i2GaUKsB2e8EfD9Ky8wsXzyf
+         2xP//KUgRpivvwuQiEuE/i2NEgwlQpJL/svCQJHpRcWLrlXWALv9Epn0qhasmr66Cnyu
+         uykpotzRgZvMHgR3KItTqsUbd0fOAnpNXE+9nkJfr/2JltODusdMgZBCYX4noToj3Agl
+         /havdSmV/C7IUhlVgRSCrztKGlxKiI9j/6FvpGV+Iu3tKQWtIGMkkn7w5ralIwMOfo+3
+         LFxmjtC9CruRCYP0rLZOcLDrre85pmp4SoUdLi/iRmOwB6eVYilk38xcbnFAPWTPXrTq
+         gyoQ==
+X-Gm-Message-State: AC+VfDy/jM/6g3CbY8rQaaPRlbBqVKr6esMpv96hYkuqOpDWoN73xayK
+	/9ksS8KCVkkBfSSZDpwOEVPAVukJcJmfX+w9vJc=
+X-Google-Smtp-Source: ACHHUZ7YMDmMRrx97hMOuUuX18T2eR0lj/TYuxCWPhfzPBoyk79p+oZbaIjXmZ/zsUclaLkq6uEZaA==
+X-Received: by 2002:a05:6a00:1796:b0:63d:260d:f9dd with SMTP id s22-20020a056a00179600b0063d260df9ddmr3140552pfg.33.1683300051202;
+        Fri, 05 May 2023 08:20:51 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id c11-20020aa78c0b000000b00643864d03dfsm1831591pfd.171.2023.05.05.08.20.33
+        by smtp.gmail.com with ESMTPSA id c11-20020aa78c0b000000b00643864d03dfsm1831591pfd.171.2023.05.05.08.20.50
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 May 2023 08:20:33 -0700 (PDT)
+        Fri, 05 May 2023 08:20:50 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 18/35] wpebackend-fdo: upgrade 1.14.0 -> 1.14.2
-Date: Fri,  5 May 2023 05:19:29 -1000
-Message-Id: <f248513b4cf0b61a61e8586a3bcf2a7c83a3b538.1683299764.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 23/35] rust: Upgrade 1.68.1 -> 1.68.2
+Date: Fri,  5 May 2023 05:19:34 -1000
+Message-Id: <80ffaf90282a72276f6bf62e22976400fe7bb1f9.1683299764.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1683299764.git.steve@sakoman.com>
 References: <cover.1683299764.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 15:20:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180938
+ <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 15:20:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180943
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
 
-Changelog:
-==========
-- Reverted a change introduced in 1.14.1 which introduced crashes both
-  with WebKitGTK and WPE running under Wayland in some configurations.
-- Fix a crash caused by wrong assertion, which was typically triggered in
-  debug builds when using the NVidia drivers.
-- Fix WebKit no longer repainting after provisional navigation with
-  PSON enabled.
-- Fix graphics buffer leaks by always freeing them in buffer destroy
-  listener callbacks.
+Changes:
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+* Update the GitHub RSA host key bundled within Cargo. The key was
+  rotated by GitHub on 2023-03-24 after the old one leaked.
+* Mark the old GitHub RSA host key as revoked. This will prevent Cargo
+  from accepting the leaked key even when trusted by the system.
+* Add support for @revoked and a better error message for
+  @cert-authority in Cargo’s SSH host key verification
+
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit aa37e18a51714af3281b4127dceb40b38aa8ac3c)
+(cherry picked from commit 4563432b41026adc56c54452984b19ab64e7406e)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../{wpebackend-fdo_1.14.0.bb => wpebackend-fdo_1.14.2.bb}      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-sato/webkit/{wpebackend-fdo_1.14.0.bb => wpebackend-fdo_1.14.2.bb} (90%)
+ meta/recipes-devtools/rust/{cargo_1.68.1.bb => cargo_1.68.2.bb} | 0
+ .../rust/{libstd-rs_1.68.1.bb => libstd-rs_1.68.2.bb}           | 0
+ ...t-cross-canadian_1.68.1.bb => rust-cross-canadian_1.68.2.bb} | 0
+ .../rust/{rust-llvm_1.68.1.bb => rust-llvm_1.68.2.bb}           | 0
+ meta/recipes-devtools/rust/rust-source.inc                      | 2 +-
+ meta/recipes-devtools/rust/{rust_1.68.1.bb => rust_1.68.2.bb}   | 0
+ 6 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/rust/{cargo_1.68.1.bb => cargo_1.68.2.bb} (100%)
+ rename meta/recipes-devtools/rust/{libstd-rs_1.68.1.bb => libstd-rs_1.68.2.bb} (100%)
+ rename meta/recipes-devtools/rust/{rust-cross-canadian_1.68.1.bb => rust-cross-canadian_1.68.2.bb} (100%)
+ rename meta/recipes-devtools/rust/{rust-llvm_1.68.1.bb => rust-llvm_1.68.2.bb} (100%)
+ rename meta/recipes-devtools/rust/{rust_1.68.1.bb => rust_1.68.2.bb} (100%)
 
-diff --git a/meta/recipes-sato/webkit/wpebackend-fdo_1.14.0.bb b/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb
-similarity index 90%
-rename from meta/recipes-sato/webkit/wpebackend-fdo_1.14.0.bb
-rename to meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb
-index 708201043b..b3d7b229c8 100644
---- a/meta/recipes-sato/webkit/wpebackend-fdo_1.14.0.bb
-+++ b/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb
-@@ -13,7 +13,7 @@ inherit meson features_check pkgconfig
- REQUIRED_DISTRO_FEATURES = "opengl"
+diff --git a/meta/recipes-devtools/rust/cargo_1.68.1.bb b/meta/recipes-devtools/rust/cargo_1.68.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/rust/cargo_1.68.1.bb
+rename to meta/recipes-devtools/rust/cargo_1.68.2.bb
+diff --git a/meta/recipes-devtools/rust/libstd-rs_1.68.1.bb b/meta/recipes-devtools/rust/libstd-rs_1.68.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/rust/libstd-rs_1.68.1.bb
+rename to meta/recipes-devtools/rust/libstd-rs_1.68.2.bb
+diff --git a/meta/recipes-devtools/rust/rust-cross-canadian_1.68.1.bb b/meta/recipes-devtools/rust/rust-cross-canadian_1.68.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/rust/rust-cross-canadian_1.68.1.bb
+rename to meta/recipes-devtools/rust/rust-cross-canadian_1.68.2.bb
+diff --git a/meta/recipes-devtools/rust/rust-llvm_1.68.1.bb b/meta/recipes-devtools/rust/rust-llvm_1.68.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/rust/rust-llvm_1.68.1.bb
+rename to meta/recipes-devtools/rust/rust-llvm_1.68.2.bb
+diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
+index d48fcd5bc9..b25b5c17e8 100644
+--- a/meta/recipes-devtools/rust/rust-source.inc
++++ b/meta/recipes-devtools/rust/rust-source.inc
+@@ -8,7 +8,7 @@ SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
+             file://zlib-off64_t.patch;patchdir=${RUSTSRC} \
+             file://0001-musl-Define-SOCK_SEQPACKET-in-common-place.patch;patchdir=${RUSTSRC} \
+ "
+-SRC_URI[rust.sha256sum] = "5b8ea94085b65e75c1fa6310e2f90bd706fa80bfcb3544fe26f4037b911d9fb2"
++SRC_URI[rust.sha256sum] = "ce1a115f6aafa912b4622906a92b626354973afa9288e2c7750df4dcf3390fc0"
  
- SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "e75b0cb2c7145448416e8696013d8883f675c66c11ed750e06865efec5809155"
-+SRC_URI[sha256sum] = "93c9766ae9864eeaeaee2b0a74f22cbca08df42c1a1bdb55b086f2528e380d38"
+ RUSTSRC = "${WORKDIR}/rustc-${RUST_VERSION}-src"
  
- # Especially helps compiling with clang which enable this as error when
- # using c++11
+diff --git a/meta/recipes-devtools/rust/rust_1.68.1.bb b/meta/recipes-devtools/rust/rust_1.68.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/rust/rust_1.68.1.bb
+rename to meta/recipes-devtools/rust/rust_1.68.2.bb
 -- 
 2.34.1
 
