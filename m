@@ -2,113 +2,143 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFC08C77B7C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E202CC77B7F
 	for <webhook@archiver.kernel.org>; Fri,  5 May 2023 15:20:44 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web10.30325.1683300033434856161
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web10.30329.1683300036729928318
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 May 2023 08:20:40 -0700
+ Fri, 05 May 2023 08:20:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Prl7XDEw;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-64384274895so1448905b3a.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 08:20:40 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=fpmOfEBZ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-64384c6797eso1649830b3a.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 08:20:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683300039; x=1685892039;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683300036; x=1685892036;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8VLYXQe95cmNnehiDpcfRbPRieARe4w1GWQufuopgXE=;
-        b=Prl7XDEwBEmmc3T/Cg6VL93pfj+7G/5RMF11gvMKk5Elp84l9GdImKSWlBRgN0L+Zf
-         5VPODi/GDOv+uyDu3G5h1ivOKpBZQKAz7x6gah61Hy/XRQ2+s6M+VNhJQu8j2ZCBHY8v
-         HNIbNciMf/zzKNovty20AgHgMC49ZOU4AiD8Qy79KuL44bD5W/0V70OoXaUxXOIoWfUy
-         aOGk/aeuQO4kEhywUbmVfh4WDQwO4v8ZcJRHzojahVOJZVpuApr/jyt9fa55+Saz9Iel
-         PJdCfIGkOl2QoP8+PjrC5diyPD3HyuI2gtf1SOTfnX7zPdSELiWVZTuNQwQrOG0JI0JO
-         5u4g==
+        bh=PYDUdCebUJwftCDaU2Vyq5hMVqNdbUPBIagJnSnMw5o=;
+        b=fpmOfEBZnvIZSJPmR7TylZ7vYsfSNtdEshm6nTH5SOQF7A7bMmp6yXSKaEtFCUYfYp
+         6zfvNxs5CEKO3CIWn6/spoK3JISd7LsbcAG9L/Gg8XZgt/eBrB5SiPDQX2mscyoFZuFF
+         lGvN9liGgu5zzgzoqUIoQpKeucncluiT39HYrtVz3wUt2DBBdMiDZJNwN5eOG13j26Xr
+         ZUTbAkV46/+GRsgeCMwHhumQ8vNB7GDI9naxiejFrIdEv8na00u5ceLkcXA60e7eJA20
+         j6rh8vyHxdw16erM8hSVXo7Kc96WR38yADmrDMMgO225XrPcuhe7Sz5KV0boavJq6CTo
+         R6vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683300039; x=1685892039;
+        d=1e100.net; s=20221208; t=1683300036; x=1685892036;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8VLYXQe95cmNnehiDpcfRbPRieARe4w1GWQufuopgXE=;
-        b=iPL58v/e5EFDBO95GkTpQMOTcCmS/PXNWBlkl5Ty7SgCISzXlRq/jy4loVReX8jFDl
-         m4aIKnd9cjzKSnuunicyZL0oXPLeHBKaMoDU9o1hL+jN4OxCpu/JMleWb2e1jgkBaNuh
-         WPUiCkF4sqsuvmWKxEAJA2OLMQYEVJMwJB6V8pzwSNmMpGtq4a+FiLEzZF7EjQWAC5yg
-         Eerp4M8rLYth3Yh5AUiNN+O/AaocJwqwHMJQ4r1WuauSEhkCGEgMVxLSsWLXtz4SPy8Y
-         YuaBs/XoCDR69+fXao1gTA5FFyPd6YI7fQli9IFD3ON0oZLanugbUMNONfNEtKvwoB03
-         UQXg==
-X-Gm-Message-State: AC+VfDxWHEpGzZEypmq7GJxj/bsRj+yIA9QpymJU3kGvlNL6z75NQdXd
-	qZdQYmoe+8W9XWDjxegM+sRRCWWRa4OJ91yk8+s=
-X-Google-Smtp-Source: ACHHUZ5SR2fbcjq0ePSH45WfhbfmADBXiMbnFXWWz5jU1sIgcObf92IeYmBwPSfGo2W6Alqi8S/LrQ==
-X-Received: by 2002:a05:6a00:24d5:b0:63b:22e7:6ee6 with SMTP id d21-20020a056a0024d500b0063b22e76ee6mr2832164pfv.31.1683300039313;
-        Fri, 05 May 2023 08:20:39 -0700 (PDT)
+        bh=PYDUdCebUJwftCDaU2Vyq5hMVqNdbUPBIagJnSnMw5o=;
+        b=entiEeIz0gHwMAaImWZ559g+pvTKKjN6DzBdm0vBlKX0DH5INIQfFMMXDD/cFiHoQQ
+         qQobfD3ryItKxbTjAPYdZqMHLJ1RNjvXIzwykwiTg+Oe3YxDRygRVcwCQSiSWb19s+Xa
+         k0C5Cm/+STcHQF+NmHC5PiAipBBExj0Idf4JBP+9dIGbB/TO3p38AosWucHodd5CnPz0
+         GM1sCGULKe174iaWmakRHvv5CFl0lV8hjYLo8Zf0aukTIBTnNySbQYX01QT4jh1SknCG
+         pq9MA1q1eoeRzeHqvd665/HuhJAN4Lk+c04lCK9xh7tN1IgcxVXUGxYmoYf8iiuy1A4r
+         enaw==
+X-Gm-Message-State: AC+VfDyjyL4AHBrVY9U+HVvuwcMEEiwAudvhrNypeoknL2lsiV6slrd/
+	PJQ9ASP1d8ik4KEGLxKuqk26jpBjjmQQL7jcU5g=
+X-Google-Smtp-Source: ACHHUZ7uiQwGoeId2fdLR13N6/5is70w8/IkvD6CSAVEbV/g4Eg0c97bfuKvHHcr4FcvBqTF1V36OQ==
+X-Received: by 2002:a05:6a00:23c3:b0:643:64fb:3b6a with SMTP id g3-20020a056a0023c300b0064364fb3b6amr2825894pfc.13.1683300035662;
+        Fri, 05 May 2023 08:20:35 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id c11-20020aa78c0b000000b00643864d03dfsm1831591pfd.171.2023.05.05.08.20.38
+        by smtp.gmail.com with ESMTPSA id c11-20020aa78c0b000000b00643864d03dfsm1831591pfd.171.2023.05.05.08.20.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 May 2023 08:20:38 -0700 (PDT)
+        Fri, 05 May 2023 08:20:35 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 21/35] xwayland: upgrade 22.1.8 -> 23.1.1
-Date: Fri,  5 May 2023 05:19:32 -1000
-Message-Id: <a622fbb571d72c1a86ebf9ae01f61b4dbfe48c1d.1683299764.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 19/35] Revert "xserver-xorg: backport fix for CVE-2023-1393"
+Date: Fri,  5 May 2023 05:19:30 -1000
+Message-Id: <9bb0a416d03c3bcd3cf45fa7aa761ff948612eac.1683299764.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1683299764.git.steve@sakoman.com>
 References: <cover.1683299764.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 05 May 2023 15:20:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180941
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180939
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+Fixed with subsequent version bump
 
-This release contains the fix for CVE-2023-1393 in today's security
-advisory: https://lists.x.org/archives/xorg-announce/2023-March/003374.html
+This reverts commit 7828f7026b4cd3ae97ebe5d849c09fabbc17272d.
 
-Benno Schulenberg (1):
-       xkbUtils: use existing symbol names instead of deleted deprecated ones
-
-Joshua Ashton (1):
-       glamor: Don't glFlush/ctx switch unless any work has been performed
-
-Michel Dänzer (2):
-       xwayland: Refactor xwl_present_for_each_frame_callback helper
-       xwayland: Prevent nested xwl_present_for_each_frame_callback calls
-
-Olivier Fourdan (2):
-       composite: Fix use-after-free of the COW
-       Bump version to 23.1.1
-
-git tag: xwayland-23.1.1
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 35fdbd0ea81650a0421d50fb53989d96c5956331)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../xwayland/{xwayland_22.1.8.bb => xwayland_23.1.1.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xwayland/{xwayland_22.1.8.bb => xwayland_23.1.1.bb} (95%)
+ ...posite-Fix-use-after-free-of-the-COW.patch | 46 -------------------
+ .../xorg-xserver/xserver-xorg_21.1.7.bb       |  3 +-
+ 2 files changed, 1 insertion(+), 48 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-composite-Fix-use-after-free-of-the-COW.patch
 
-diff --git a/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb b/meta/recipes-graphics/xwayland/xwayland_23.1.1.bb
-similarity index 95%
-rename from meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
-rename to meta/recipes-graphics/xwayland/xwayland_23.1.1.bb
-index 6919ba421b..a065e92f01 100644
---- a/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
-+++ b/meta/recipes-graphics/xwayland/xwayland_23.1.1.bb
-@@ -10,7 +10,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=5df87950af51ac2c5822094553ea1880"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-composite-Fix-use-after-free-of-the-COW.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-composite-Fix-use-after-free-of-the-COW.patch
+deleted file mode 100644
+index fc426daba5..0000000000
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-composite-Fix-use-after-free-of-the-COW.patch
++++ /dev/null
+@@ -1,46 +0,0 @@
+-From 26ef545b3502f61ca722a7a3373507e88ef64110 Mon Sep 17 00:00:00 2001
+-From: Olivier Fourdan <ofourdan@redhat.com>
+-Date: Mon, 13 Mar 2023 11:08:47 +0100
+-Subject: [PATCH] composite: Fix use-after-free of the COW
+-
+-ZDI-CAN-19866/CVE-2023-1393
+-
+-If a client explicitly destroys the compositor overlay window (aka COW),
+-we would leave a dangling pointer to that window in the CompScreen
+-structure, which will trigger a use-after-free later.
+-
+-Make sure to clear the CompScreen pointer to the COW when the latter gets
+-destroyed explicitly by the client.
+-
+-This vulnerability was discovered by:
+-Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
+-
+-Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
+-Reviewed-by: Adam Jackson <ajax@redhat.com>
+-
+-CVE: CVE-2023-1393
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+----
+- composite/compwindow.c | 5 +++++
+- 1 file changed, 5 insertions(+)
+-
+-diff --git a/composite/compwindow.c b/composite/compwindow.c
+-index 4e2494b86..b30da589e 100644
+---- a/composite/compwindow.c
+-+++ b/composite/compwindow.c
+-@@ -620,6 +620,11 @@ compDestroyWindow(WindowPtr pWin)
+-     ret = (*pScreen->DestroyWindow) (pWin);
+-     cs->DestroyWindow = pScreen->DestroyWindow;
+-     pScreen->DestroyWindow = compDestroyWindow;
+-+
+-+    /* Did we just destroy the overlay window? */
+-+    if (pWin == cs->pOverlayWin)
+-+        cs->pOverlayWin = NULL;
+-+
+- /*    compCheckTree (pWin->drawable.pScreen); can't check -- tree isn't good*/
+-     return ret;
+- }
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.7.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.7.bb
+index f0771cc86e..212c7d39c2 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.7.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.7.bb
+@@ -1,8 +1,7 @@
+ require xserver-xorg.inc
  
- SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz"
--SRC_URI[sha256sum] = "d11eeee73290b88ea8da42a7d9350dedfaba856ce4ae44e58c045ad9ecaa2f73"
-+SRC_URI[sha256sum] = "fb9461f5cb9fea5e07e91882311b0c88b43e8843b017ebac05eb5af69aa34c15"
- 
- UPSTREAM_CHECK_REGEX = "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
+ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
+-            file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
+-            file://0001-composite-Fix-use-after-free-of-the-COW.patch \
++           file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
+            "
+ SRC_URI[sha256sum] = "d9c60b2dd0ec52326ca6ab20db0e490b1ff4f566f59ca742d6532e92795877bb"
  
 -- 
 2.34.1
