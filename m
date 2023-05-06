@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AE3EC77B73
-	for <webhook@archiver.kernel.org>; Sat,  6 May 2023 15:25:06 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web11.36190.1683386697206032535
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43D3FC7EE24
+	for <webhook@archiver.kernel.org>; Sat,  6 May 2023 15:25:16 +0000 (UTC)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web10.36190.1683386715299535090
  for <openembedded-core@lists.openembedded.org>;
- Sat, 06 May 2023 08:24:57 -0700
+ Sat, 06 May 2023 08:25:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=e5ZBygPy;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-643b60855c8so756089b3a.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 06 May 2023 08:24:57 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=bRaLt5G1;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6439e6f5a33so1223680b3a.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 06 May 2023 08:25:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683386696; x=1685978696;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683386714; x=1685978714;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xvxP4bOTQUh44dRgyu+xLzzfrquYLDej/GLC3ZUFRCo=;
-        b=e5ZBygPyPcGhh8rU1cg9yVtmIRUsWkEQm/mw+6/k92e8p7AcOoudyMtWuEnjJXSEml
-         uPody+asCuweiW8HFkMabUhe2s/N797yFwgmCEgnxZr+3xuuNfJLdvEFxjn0vp6bMeU3
-         44OMSRE21dOatIHixDcU9yDdqnkNCNaxbvwcYfQaI6BEDgB7RYOvtvpihSsdMd2B5J6k
-         hP8W+wB4mxKOUVegHhBLrDoDVOQN6PQIDV4Ydjoa9Zr9V92UKzXbK0eJZSDXDEVrh/rb
-         lt8/LYR2MwWcQ9HIbK2+O9B5/WLubfh96B8t1pFxqz2+BeEjJwxsVXSwzf10jCuRSUXN
-         pfFQ==
+        bh=xNmJ8rwR5q/FDTrbhYDyn1vCAUFgL+/6jDS7NxE8z8s=;
+        b=bRaLt5G1k99yDao0zikeb/kWL1CrmyCx1UzDpMJonzI/a88QDRHhn/rEtFsbkdm7i1
+         QN6isc7aXQtNsJy5FmWFoAHl7S7k1VH+WXyUQT7VGBIyQNUdGLr1Y4YR/Gg9mAE1HAv1
+         lKDad/awDBTnk8PBj39QLCIcSbl+k5a3XU2aRY1K8PhFNHCTVB6Et8OMy0WLxz74E3r+
+         Erp9UEY8jZ/BM1DbruFJ00u3qZyIp7tmrOlqmgy+tuUytjYs/a2sVzP9Y5lewlC9XYcK
+         BO0bBUKsnmLjH6P5C5EXHAgDPQuySViMLbGosdvSgj9wAaQlvh7mZz4x4O6qPLKbmCFl
+         qBaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683386696; x=1685978696;
+        d=1e100.net; s=20221208; t=1683386714; x=1685978714;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xvxP4bOTQUh44dRgyu+xLzzfrquYLDej/GLC3ZUFRCo=;
-        b=LyBvBH6Kv3yESLQfqmMpCRrbGtVgVHpjh73fxhg53xz8ASrbdbta9cpDPv5ko6Va4C
-         we01oCQGtHLPxCpXF3hK63il6SYTgexxR7hsmdODVH1z3HaUUVO+Z4boNfREVAZLlRmO
-         wvL5Iw1ypuwpdAp79o5ldgwG1qGGsb2Pn3eg9RBioZKygdU1LYCGr5dUqWctyDlk4oMF
-         nEbViQf0cVKm+TtXS2hpwg7TzXs1TzWdK23B4zZqL/re2FvurCiRLi4mE19dsWacPDzQ
-         lqR+NsJeTOpW2LL48b9KJu2iFVNcRR7ctKVSgXBHjX9zZvhJ8rAfVflYlXjv8v0TluRM
-         BVDQ==
-X-Gm-Message-State: AC+VfDwav3mQzhsu+JQVob3dDwc7s7QwiiaQaelQjJmmGEWZzRW5i4va
-	uUGsJ656aX3xVS+FmdHyPBX9NkohsX6PweslNgk=
-X-Google-Smtp-Source: ACHHUZ70EUmCa0BeBKTMrNb22Fxge4JmHc0bOJCskkSXtn//0VAJjHNODTMfnZsI9JrIW5XadbujMQ==
-X-Received: by 2002:a05:6a00:24c1:b0:637:f1ae:d47 with SMTP id d1-20020a056a0024c100b00637f1ae0d47mr6931230pfv.17.1683386695960;
-        Sat, 06 May 2023 08:24:55 -0700 (PDT)
+        bh=xNmJ8rwR5q/FDTrbhYDyn1vCAUFgL+/6jDS7NxE8z8s=;
+        b=azFIfZdjQUup7s8bRrnAu2RgZEwCEfKXFRmpE3itbzXVNnzF/3QBVBERk6o6Uim1P5
+         ekIqCJSJhEPdEe9Nw+8nUAuJFwvGItUMKz+j7v6okGZungAWlTXBY5Cw7TWTP4v3BB45
+         2QVmb2dm28LVGIVnVBPJxR2aMnINYUlPwH31qDn1RkvZM6GOF9z93jfMzPsi+T4zQojD
+         zj9RfYVPNfLWu/djGCUbkVixVVxwd7A+LxxXNLBWTM6pu44jLTtIOHnng/RuEhRDDxiY
+         6QY2eVTy3YbZjs8MzXx9wNuAqMZf2w72N/c6Ds5WoM3r/1+6MQ4D23oKzBzQBuheUHDM
+         5CZw==
+X-Gm-Message-State: AC+VfDwdEU+tmmcYUfBEfssNvAfqhLxXZURRZtxhvi7SCiXDbEkAN6WI
+	mLJogcBfge+BZnHvyjhjH0YubqPS/au9znBspB0=
+X-Google-Smtp-Source: ACHHUZ6SagUgYENvaB1YAcdBjn2znKd9mAw0YIYmlmjsUt3rZanE0GvsQ6EnqjMCR8pzAjZa730a9A==
+X-Received: by 2002:a05:6a00:2343:b0:644:d775:60bb with SMTP id j3-20020a056a00234300b00644d77560bbmr545103pfj.20.1683386714238;
+        Sat, 06 May 2023 08:25:14 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id c8-20020a62e808000000b0063b1b84d54csm3296718pfi.213.2023.05.06.08.24.55
+        by smtp.gmail.com with ESMTPSA id c8-20020a62e808000000b0063b1b84d54csm3296718pfi.213.2023.05.06.08.25.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 May 2023 08:24:55 -0700 (PDT)
+        Sat, 06 May 2023 08:25:13 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 01/15] ffmpeg: fix for CVE-2022-48434
-Date: Sat,  6 May 2023 05:24:31 -1000
-Message-Id: <392f984ffd95bcd3ce4c364b40425e7808ca7719.1683386547.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 11/15] python3-cryptography: fix for CVE-2023-23931
+Date: Sat,  6 May 2023 05:24:41 -1000
+Message-Id: <368e450c2d800790a05924519f34c579e28e9cbb.1683386547.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1683386547.git.steve@sakoman.com>
 References: <cover.1683386547.git.steve@sakoman.com>
@@ -60,175 +60,95 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 06 May 2023 15:25:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180984
+ <openembedded-core@lists.openembedded.org>; Sat, 06 May 2023 15:25:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180994
 
 From: Narpat Mali <narpat.mali@windriver.com>
 
-libavcodec/pthread_frame.c in FFmpeg before 5.1.2, as used in VLC and
-other products, leaves stale hwaccel state in worker threads, which
-allows attackers to trigger a use-after-free and execute arbitrary
-code in some circumstances (e.g., hardware re-initialization upon a
-mid-video SPS change when Direct3D11 is used).
+cryptography is a package designed to expose cryptographic primitives
+and recipes to Python developers. In affected versions `Cipher.update_into`
+would accept Python objects which implement the buffer protocol, but
+provide only immutable buffers. This would allow immutable objects
+(such as `bytes`) to be mutated, thus violating fundamental rules of
+Python and resulting in corrupted output. This now correctly raises
+an exception. This issue has been present since `update_into` was
+originally introduced in cryptography 1.8.
 
 Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../ffmpeg/ffmpeg/CVE-2022-48434.patch        | 130 ++++++++++++++++++
- .../recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb |   3 +-
- 2 files changed, 132 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-48434.patch
+ .../python3-cryptography/CVE-2023-23931.patch | 49 +++++++++++++++++++
+ .../python/python3-cryptography_36.0.2.bb     |  1 +
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-cryptography/CVE-2023-23931.patch
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-48434.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-48434.patch
+diff --git a/meta/recipes-devtools/python/python3-cryptography/CVE-2023-23931.patch b/meta/recipes-devtools/python/python3-cryptography/CVE-2023-23931.patch
 new file mode 100644
-index 0000000000..3cd374dc39
+index 0000000000..5fc4878978
 --- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-48434.patch
-@@ -0,0 +1,130 @@
-+From e40c964a0678908e2c756741343ed50d6a99ee12 Mon Sep 17 00:00:00 2001
-+From: Anton Khirnov <anton@khirnov.net>
-+Date: Fri, 28 Apr 2023 11:45:30 +0000
-+Subject: [PATCH] lavc/pthread_frame: avoid leaving stale hwaccel state in
-+ worker threads
++++ b/meta/recipes-devtools/python/python3-cryptography/CVE-2023-23931.patch
+@@ -0,0 +1,49 @@
++From 9fbf84efc861668755ab645530ec7be9cf3c6696 Mon Sep 17 00:00:00 2001
++From: Alex Gaynor <alex.gaynor@gmail.com>
++Date: Tue, 7 Feb 2023 11:34:18 -0500
++Subject: [PATCH] Don't allow update_into to mutate immutable objects (#8230)
 +
-+This state is not refcounted, so make sure it always has a well-defined
-+owner.
++CVE: CVE-2023-23931
 +
-+Remove the block added in 091341f, as
-+this commit also solves that issue in a more general way.
-+
-+CVE:CVE-2022-48434
-+
-+Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/cc867f2c09d2b69cee8a0eccd62aff002cbbfe11]
++Upstream-Status: Backport [https://github.com/pyca/cryptography/commit/9fbf84efc861668755ab645530ec7be9cf3c6696]
 +
 +Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
 +---
-+ libavcodec/pthread_frame.c | 46 +++++++++++++++++++++++++++++---------
-+ 1 file changed, 35 insertions(+), 11 deletions(-)
++ src/cryptography/hazmat/backends/openssl/ciphers.py | 2 +-
++ tests/hazmat/primitives/test_ciphers.py             | 8 ++++++++
++ 2 files changed, 9 insertions(+), 1 deletion(-)
 +
-+diff --git a/libavcodec/pthread_frame.c b/libavcodec/pthread_frame.c
-+index 85a6bc9..e40dced 100644
-+--- a/libavcodec/pthread_frame.c
-++++ b/libavcodec/pthread_frame.c
-+@@ -145,6 +145,12 @@ typedef struct FrameThreadContext {
-+                                     * Set for the first N packets, where N is the number of threads.
-+                                     * While it is set, ff_thread_en/decode_frame won't return any results.
-+                                     */
++diff --git a/src/cryptography/hazmat/backends/openssl/ciphers.py b/src/cryptography/hazmat/backends/openssl/ciphers.py
++index 286583f93..075d68fb9 100644
++--- a/src/cryptography/hazmat/backends/openssl/ciphers.py
+++++ b/src/cryptography/hazmat/backends/openssl/ciphers.py
++@@ -156,7 +156,7 @@ class _CipherContext:
++         data_processed = 0
++         total_out = 0
++         outlen = self._backend._ffi.new("int *")
++-        baseoutbuf = self._backend._ffi.from_buffer(buf)
+++        baseoutbuf = self._backend._ffi.from_buffer(buf, require_writable=True)
++         baseinbuf = self._backend._ffi.from_buffer(data)
++
++         while data_processed != total_data_len:
++diff --git a/tests/hazmat/primitives/test_ciphers.py b/tests/hazmat/primitives/test_ciphers.py
++index 02127dd9c..bf3b047de 100644
++--- a/tests/hazmat/primitives/test_ciphers.py
+++++ b/tests/hazmat/primitives/test_ciphers.py
++@@ -318,6 +318,14 @@ class TestCipherUpdateInto:
++         with pytest.raises(ValueError):
++             encryptor.update_into(b"testing", buf)
++
+++    def test_update_into_immutable(self, backend):
+++        key = b"\x00" * 16
+++        c = ciphers.Cipher(AES(key), modes.ECB(), backend)
+++        encryptor = c.encryptor()
+++        buf = b"\x00" * 32
+++        with pytest.raises((TypeError, BufferError)):
+++            encryptor.update_into(b"testing", buf)
 ++
-++    /* hwaccel state is temporarily stored here in order to transfer its ownership
-++     * to the next decoding thread without the need for extra synchronization */
-++    const AVHWAccel *stash_hwaccel;
-++    void            *stash_hwaccel_context;
-++    void            *stash_hwaccel_priv;
-+ } FrameThreadContext;
-+ 
-+ #if FF_API_THREAD_SAFE_CALLBACKS
-+@@ -229,9 +235,17 @@ FF_ENABLE_DEPRECATION_WARNINGS
-+             ff_thread_finish_setup(avctx);
-+ 
-+         if (p->hwaccel_serializing) {
-++            /* wipe hwaccel state to avoid stale pointers lying around;
-++             * the state was transferred to FrameThreadContext in
-++             * ff_thread_finish_setup(), so nothing is leaked */
-++            avctx->hwaccel                     = NULL;
-++            avctx->hwaccel_context             = NULL;
-++            avctx->internal->hwaccel_priv_data = NULL;
-++
-+             p->hwaccel_serializing = 0;
-+             pthread_mutex_unlock(&p->parent->hwaccel_mutex);
-+         }
-++        av_assert0(!avctx->hwaccel);
-+ 
-+         if (p->async_serializing) {
-+             p->async_serializing = 0;
-+@@ -294,14 +308,10 @@ static int update_context_from_thread(AVCodecContext *dst, AVCodecContext *src,
-+         dst->color_range = src->color_range;
-+         dst->chroma_sample_location = src->chroma_sample_location;
-+ 
-+-        dst->hwaccel = src->hwaccel;
-+-        dst->hwaccel_context = src->hwaccel_context;
-+-
-+         dst->channels       = src->channels;
-+         dst->sample_rate    = src->sample_rate;
-+         dst->sample_fmt     = src->sample_fmt;
-+         dst->channel_layout = src->channel_layout;
-+-        dst->internal->hwaccel_priv_data = src->internal->hwaccel_priv_data;
-+ 
-+         if (!!dst->hw_frames_ctx != !!src->hw_frames_ctx ||
-+             (dst->hw_frames_ctx && dst->hw_frames_ctx->data != src->hw_frames_ctx->data)) {
-+@@ -442,6 +452,12 @@ static int submit_packet(PerThreadContext *p, AVCodecContext *user_avctx,
-+             pthread_mutex_unlock(&p->mutex);
-+             return err;
-+         }
-++
-++        /* transfer hwaccel state stashed from previous thread, if any */
-++        av_assert0(!p->avctx->hwaccel);
-++        FFSWAP(const AVHWAccel*, p->avctx->hwaccel,                     fctx->stash_hwaccel);
-++        FFSWAP(void*,            p->avctx->hwaccel_context,             fctx->stash_hwaccel_context);
-++        FFSWAP(void*,            p->avctx->internal->hwaccel_priv_data, fctx->stash_hwaccel_priv);
-+     }
-+ 
-+     av_packet_unref(p->avpkt);
-+@@ -647,6 +663,14 @@ void ff_thread_finish_setup(AVCodecContext *avctx) {
-+         async_lock(p->parent);
-+     }
-+ 
-++    /* save hwaccel state for passing to the next thread;
-++     * this is done here so that this worker thread can wipe its own hwaccel
-++     * state after decoding, without requiring synchronization */
-++    av_assert0(!p->parent->stash_hwaccel);
-++    p->parent->stash_hwaccel         = avctx->hwaccel;
-++    p->parent->stash_hwaccel_context = avctx->hwaccel_context;
-++    p->parent->stash_hwaccel_priv    = avctx->internal->hwaccel_priv_data;
-++
-+     pthread_mutex_lock(&p->progress_mutex);
-+     if(atomic_load(&p->state) == STATE_SETUP_FINISHED){
-+         av_log(avctx, AV_LOG_WARNING, "Multiple ff_thread_finish_setup() calls\n");
-+@@ -700,13 +724,6 @@ void ff_frame_thread_free(AVCodecContext *avctx, int thread_count)
-+ 
-+     park_frame_worker_threads(fctx, thread_count);
-+ 
-+-    if (fctx->prev_thread && avctx->internal->hwaccel_priv_data !=
-+-                             fctx->prev_thread->avctx->internal->hwaccel_priv_data) {
-+-        if (update_context_from_thread(avctx, fctx->prev_thread->avctx, 1) < 0) {
-+-            av_log(avctx, AV_LOG_ERROR, "Failed to update user thread.\n");
-+-        }
-+-    }
-+-
-+     if (fctx->prev_thread && fctx->prev_thread != fctx->threads)
-+         if (update_context_from_thread(fctx->threads->avctx, fctx->prev_thread->avctx, 0) < 0) {
-+             av_log(avctx, AV_LOG_ERROR, "Final thread update failed\n");
-+@@ -760,6 +777,13 @@ void ff_frame_thread_free(AVCodecContext *avctx, int thread_count)
-+     av_freep(&fctx->threads);
-+     ff_pthread_free(fctx, thread_ctx_offsets);
-+ 
-++    /* if we have stashed hwaccel state, move it to the user-facing context,
-++     * so it will be freed in avcodec_close() */
-++    av_assert0(!avctx->hwaccel);
-++    FFSWAP(const AVHWAccel*, avctx->hwaccel,                     fctx->stash_hwaccel);
-++    FFSWAP(void*,            avctx->hwaccel_context,             fctx->stash_hwaccel_context);
-++    FFSWAP(void*,            avctx->internal->hwaccel_priv_data, fctx->stash_hwaccel_priv);
-++
-+     av_freep(&avctx->internal->thread_ctx);
-+ }
-+ 
-+-- 
++     @pytest.mark.supported(
++         only_if=lambda backend: backend.cipher_supported(
++             AES(b"\x00" * 16), modes.GCM(b"\x00" * 12)
++--
 +2.40.0
-+
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-index 4bcbda9976..6ece34fcfd 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-@@ -28,7 +28,8 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://0001-avcodec-smcenc-stop-accessing-out-of-bounds-frame.patch \
-            file://0001-avcodec-vp3-Add-missing-check-for-av_malloc.patch \
-            file://0001-avformat-nutdec-Add-check-for-avformat_new_stream.patch \
--           "
-+           file://CVE-2022-48434.patch \
-+          "
+diff --git a/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb b/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
+index 9ef5ff39c8..c3ae0c1ab9 100644
+--- a/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
++++ b/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
+@@ -17,6 +17,7 @@ SRC_URI += " \
+     file://0001-Cargo.toml-specify-pem-version.patch \
+     file://0002-Cargo.toml-edition-2018-2021.patch \
+     file://fix-leak-metric.patch \
++    file://CVE-2023-23931.patch \
+ "
  
- SRC_URI[sha256sum] = "ef2efae259ce80a240de48ec85ecb062cecca26e4352ffb3fda562c21a93007b"
- 
+ inherit pypi python_setuptools3_rust
 -- 
 2.34.1
 
