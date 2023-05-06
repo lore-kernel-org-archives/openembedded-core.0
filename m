@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FD3AC7EE2D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EE2EC77B7F
 	for <webhook@archiver.kernel.org>; Sat,  6 May 2023 15:25:16 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web11.36204.1683386711855894654
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web10.36189.1683386713764633572
  for <openembedded-core@lists.openembedded.org>;
- Sat, 06 May 2023 08:25:11 -0700
+ Sat, 06 May 2023 08:25:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=U8hym+TR;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6434e65d808so3182754b3a.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 06 May 2023 08:25:11 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=ZGd/R3o8;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-64395e2a715so2833924b3a.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 06 May 2023 08:25:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683386711; x=1685978711;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683386713; x=1685978713;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=h58Aj8A8IEGflESTBmV2xMmX8M/CxUn07+SEIT/clT4=;
-        b=U8hym+TRXldXwT/Cue7d4B3/u6p23yMYgLkiK/lNUSwZQTr7EMFkdO3MizbQBHHFBK
-         3ACoQAdZ8b9FeVggDCcRnGmiFij6BcfGHiliBEfi3q5geym+RLKobiF9HSZHsCpW5UOr
-         VYGxc5++FmGDwTChfkUZ2INaYHCYd0dqiO+ekPVVp7vmqiTS0ownVuSjors0MH/gHAu8
-         hcK/xa4t60umZ0rWMcDkEBPb2WxBp/KU4Gxc3yKTeECaMqJukJ7dA88rA8ReJJ/f1OnC
-         Vm678t8E2jweqloVJcDXKY3b8ec/WmS2OHzeshXm9kLfE4FODt6k5ktNDwnUGrGMqEuh
-         /kOQ==
+        bh=ZK7TRCj8kob3QzUI9OXtCvr5AW8KJ1QQRzJo3k2+z/g=;
+        b=ZGd/R3o8QVhj/OvM20BBFkoVkP3GKdvT0/SDIiP5g6JIl+7Ofvkip1bK0Tau/+Okof
+         5CNgNKamq0bfo7sMDMmXdoqvYYnRc+pr2ojlsbHTLoDrgrAhnhvFjHMdsj7t6vB+dIQP
+         ePK7yW7hUFIhZz3zaMjV15igVIVEdTHAzZK7+FtjmMn4lLad32avw7byKbNTqv7ogYaW
+         CyYzQvOTh43s9m6kYxL/o+cRUBE2ixESylNl4xZBu5H+doHWT3OsOXeYSfbfAQlvonw/
+         g96jcN/MtObudDFWtKu5maC072cIMTte62F+JEFN/5lvRngZPzBFutHCwLWTMxK6eNmy
+         0a+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683386711; x=1685978711;
+        d=1e100.net; s=20221208; t=1683386713; x=1685978713;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=h58Aj8A8IEGflESTBmV2xMmX8M/CxUn07+SEIT/clT4=;
-        b=GeCCJPCVVTZ6NFv743SnaehyqeBTK6mpDjSDhJAsv8orx4ejyYR/Cc29jlvlgcBIqH
-         uEI1XVZ50pDkZcEfiJY4wzsOVyYL/4o6K635+qlQ9bBVD34VenOp522KTUWVJHskEmNR
-         00IicztFQeP5wBIBipPEPyH/6MJsW3nIGrGkbsK1wmgnBvIFfzCK05ZHydgXvGMj6C0I
-         caXQB0oC5DObdCpdsxabixYgshuGn6eb7qTKPjVAqUysezFipQTVhn7EP1zWnz1FA67G
-         PhbcwG7hbQP0WgCaQ7ufHUuatkHHSV6kk0wkk/HLhPoDBOGY4vL6/eOlPea85vdnEPHd
-         cBRQ==
-X-Gm-Message-State: AC+VfDzBEdsLEsavMEseWPg/qiMMyN0NsKwH2vYir2q2DqfmGxBX1Omr
-	RyN8LOWm04bznIGQFE8lP6pPvs8ZjHTWUoY5uzI=
-X-Google-Smtp-Source: ACHHUZ6cN2jGhHOX1RHgkmmz8CNuFp/P9edNf6H8v6rZqb4XLEy6JYEAHpAvsotm6uPsLRgFduFaPA==
-X-Received: by 2002:a05:6a20:3942:b0:ec:707f:7dc7 with SMTP id r2-20020a056a20394200b000ec707f7dc7mr6640385pzg.33.1683386710711;
-        Sat, 06 May 2023 08:25:10 -0700 (PDT)
+        bh=ZK7TRCj8kob3QzUI9OXtCvr5AW8KJ1QQRzJo3k2+z/g=;
+        b=V0ri1BCjcG/SLfTSuM532prDfRlmAgRyjM8zOA2IONkDalHj+wVmkrRhexu2sZuYfR
+         cu3ur1ckviBhfSN68q4MGJX/NNKT700E1KI3UeLStuwAvIaIkn7y7pNkHNBAMPZK613l
+         60b+8XAiaBaOz5P+vAz5cYptQM8xVVQBurHkD8Jg6YSuiJWVL/E+xyQiSCcZ/J23yaj4
+         AiWiyTf9SrLAi69dYQIQTkCYdm7hdCh5ciDySb/oka72jvfaVDGMhxiFEbzq3ujI/n4E
+         V5OyS5vGCa5Q5b1BIKwWB5C55RkdOHSFjXNCt0g0+6tRPscLB64JCjXP8Cwk5GBydC1m
+         wa9w==
+X-Gm-Message-State: AC+VfDwJ2UsmpEEihnqghUhoDac79Jg+9hUvsNDyfgyzmgyPbjeehEwj
+	2VhFQMcemiK1JyVuC4T5k1fRifNeL3qCPQ3yxvs=
+X-Google-Smtp-Source: ACHHUZ6gmkWLz0aORnAmKJxDHkLt+Ed+mytKjKS07OetOqnQWTc0f2E1ycrJ9kuiEoGTvdKfAUsCvg==
+X-Received: by 2002:a05:6a00:16d3:b0:63d:3f74:9df7 with SMTP id l19-20020a056a0016d300b0063d3f749df7mr5652079pfc.34.1683386712466;
+        Sat, 06 May 2023 08:25:12 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id c8-20020a62e808000000b0063b1b84d54csm3296718pfi.213.2023.05.06.08.25.09
+        by smtp.gmail.com with ESMTPSA id c8-20020a62e808000000b0063b1b84d54csm3296718pfi.213.2023.05.06.08.25.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 May 2023 08:25:10 -0700 (PDT)
+        Sat, 06 May 2023 08:25:12 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 09/15] binutils : Fix CVE-2023-25588
-Date: Sat,  6 May 2023 05:24:39 -1000
-Message-Id: <fd0d01aca6f2aea51e9704e0ba48dc35dfd87b81.1683386547.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 10/15] webkitgtk: fix CVE-2022-32888 & CVE-2022-32923
+Date: Sat,  6 May 2023 05:24:40 -1000
+Message-Id: <e24e16974e81a0f62dd6f5862a465fc74ad751d3.1683386547.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1683386547.git.steve@sakoman.com>
 References: <cover.1683386547.git.steve@sakoman.com>
@@ -61,184 +61,525 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 06 May 2023 15:25:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180992
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180993
 
-From: Deepthi Hemraj <deepadeepthi98@gmail.com>
+From: Kai Kang <kai.kang@windriver.com>
 
-Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=d12f8998d2d086f0a6606589e5aedb7147e6f2f1]
+Backport patches to fix CVE-2022-32888 and CVE-2022-32923 for webkitgtk
+2.36.8. The bugzilla IDs of the CVEs are from https://support.apple.com
+which have been listed in patch headers.
 
-Signed-off-by: Deepthi Hemraj <deepadeepthi98@gmail.com>
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../binutils/binutils-2.38.inc                |   1 +
- .../binutils/0025-CVE-2023-25588.patch        | 147 ++++++++++++++++++
- 2 files changed, 148 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0025-CVE-2023-25588.patch
+ .../webkit/webkitgtk/CVE-2022-32888.patch     |  41 ++
+ .../webkit/webkitgtk/CVE-2022-32923.patch     | 435 ++++++++++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.36.8.bb  |   2 +
+ 3 files changed, 478 insertions(+)
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2022-32888.patch
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2022-32923.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
-index 1ea17990c8..5c3ff3d93a 100644
---- a/meta/recipes-devtools/binutils/binutils-2.38.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
-@@ -55,5 +55,6 @@ SRC_URI = "\
-      file://0022-CVE-2023-25584-3.patch \
-      file://0023-CVE-2023-25585.patch \
-      file://0026-CVE-2023-1972.patch \
-+     file://0025-CVE-2023-25588.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/0025-CVE-2023-25588.patch b/meta/recipes-devtools/binutils/binutils/0025-CVE-2023-25588.patch
+diff --git a/meta/recipes-sato/webkit/webkitgtk/CVE-2022-32888.patch b/meta/recipes-sato/webkit/webkitgtk/CVE-2022-32888.patch
 new file mode 100644
-index 0000000000..142d201c40
+index 0000000000..1a6b685450
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0025-CVE-2023-25588.patch
-@@ -0,0 +1,147 @@
-+From: Alan Modra <amodra@gmail.com>
-+Date: Fri, 14 Oct 2022 00:00:21 +0000 (+1030)
-+Subject: PR29677, Field `the_bfd` of `asymbol` is uninitialised
-+X-Git-Tag: gdb-13-branchpoint~871
-+X-Git-Url: https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff_plain;h=d12f8998d2d086f0a6606589e5aedb7147e6f2f1
++++ b/meta/recipes-sato/webkit/webkitgtk/CVE-2022-32888.patch
+@@ -0,0 +1,41 @@
++CVE: CVE-2022-32888
++Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/a3dd7dc]
 +
-+PR29677, Field `the_bfd` of `asymbol` is uninitialised
++[1]: https://support.apple.com/en-us/HT213446
++[2]: https://bugs.webkit.org/show_bug.cgi?id=242047
 +
-+Besides not initialising the_bfd of synthetic symbols, counting
-+symbols when sizing didn't match symbols created if there were any
-+dynsyms named "".  We don't want synthetic symbols without names
-+anyway, so get rid of them.  Also, simplify and correct sanity checks.
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
 +
-+	PR 29677
-+	* mach-o.c (bfd_mach_o_get_synthetic_symtab): Rewrite.
++From a3dd7dc5f60b87a7cfd14c372e40ebd339076763 Mon Sep 17 00:00:00 2001
++From: Yusuke Suzuki <ysuzuki@apple.com>
++Date: Mon, 27 Jun 2022 21:34:55 -0700
++Subject: [PATCH] [JSC] Drop wasm stale assertion
++ https://bugs.webkit.org/show_bug.cgi?id=242047 rdar://95866655
 +
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff_plain;h=d12f8998d2d086f0a6606589e5aedb7147e6f2f1]
++Reviewed by Mark Lam.
 +
-+CVE: CVE-2023-25588
++This patch drops stale assertion in addDelegateToUnreachable.
 +
-+Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
++* Source/JavaScriptCore/wasm/WasmLLIntGenerator.cpp:
++(JSC::Wasm::LLIntGenerator::addDelegateToUnreachable):
 +
++Canonical link: https://commits.webkit.org/251902@main
 +---
++ Source/JavaScriptCore/wasm/WasmLLIntGenerator.cpp | 1 -
++ 1 file changed, 1 deletion(-)
 +
-+diff --git a/bfd/mach-o.c b/bfd/mach-o.c
-+index acb35e7f0c6..5279343768c 100644
-+--- a/bfd/mach-o.c
-++++ b/bfd/mach-o.c
-+@@ -938,11 +938,9 @@ bfd_mach_o_get_synthetic_symtab (bfd *abfd,
-+   bfd_mach_o_symtab_command *symtab = mdata->symtab;
-+   asymbol *s;
-+   char * s_start;
-+-  char * s_end;
-+   unsigned long count, i, j, n;
-+   size_t size;
-+   char *names;
-+-  char *nul_name;
-+   const char stub [] = "$stub";
++diff --git a/Source/JavaScriptCore/wasm/WasmLLIntGenerator.cpp b/Source/JavaScriptCore/wasm/WasmLLIntGenerator.cpp
++index 39fb39b3331f..d0d2b9725991 100644
++--- a/Source/JavaScriptCore/wasm/WasmLLIntGenerator.cpp
+++++ b/Source/JavaScriptCore/wasm/WasmLLIntGenerator.cpp
++@@ -1182,7 +1182,6 @@ auto LLIntGenerator::addDelegateToUnreachable(ControlType& target, ControlType&
++ 
++     ControlTry& tryData = std::get<ControlTry>(data);
++     m_codeBlock->addExceptionHandler({ HandlerType::Delegate, tryData.m_try->location(), delegateLabel->location(), 0, m_tryDepth, targetDepth });
++-    checkConsistency();
++     return { };
++ }
++ 
++-- 
++2.34.1
 +
-+   *ret = NULL;
-+@@ -955,27 +953,27 @@ bfd_mach_o_get_synthetic_symtab (bfd *abfd,
-+   /* We need to allocate a bfd symbol for every indirect symbol and to
-+      allocate the memory for its name.  */
-+   count = dysymtab->nindirectsyms;
-+-  size = count * sizeof (asymbol) + 1;
-+-
-++  size = 0;
-+   for (j = 0; j < count; j++)
+diff --git a/meta/recipes-sato/webkit/webkitgtk/CVE-2022-32923.patch b/meta/recipes-sato/webkit/webkitgtk/CVE-2022-32923.patch
+new file mode 100644
+index 0000000000..60342a14f8
+--- /dev/null
++++ b/meta/recipes-sato/webkit/webkitgtk/CVE-2022-32923.patch
+@@ -0,0 +1,435 @@
++CVE: CVE-2022-32923
++Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/ef76e31]
++
++[1]: https://support.apple.com/en-us/HT213495
++[2]: https://bugs.webkit.org/show_bug.cgi?id=242964
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++
++From ef76e31a2a066c3d65a9c94a9e2cd88133260c1f Mon Sep 17 00:00:00 2001
++From: Yusuke Suzuki <ysuzuki@apple.com>
++Date: Wed, 20 Jul 2022 19:30:48 -0700
++Subject: [PATCH] [JSC] BakcwardPropagationPhase should carry NaN / Infinity
++ handling https://bugs.webkit.org/show_bug.cgi?id=242964 rdar://96791603
++
++Reviewed by Mark Lam.
++
++For correctness, we should carry NaN / Infinity handling to make it more clear in the code generation site.
++
++* Source/JavaScriptCore/dfg/DFGBackwardsPropagationPhase.cpp:
++(JSC::DFG::BackwardsPropagationPhase::propagate):
++* Source/JavaScriptCore/dfg/DFGFixupPhase.cpp:
++(JSC::DFG::FixupPhase::fixupArithDivInt32):
++(JSC::DFG::FixupPhase::fixupArithDiv):
++* Source/JavaScriptCore/dfg/DFGGraph.h:
++* Source/JavaScriptCore/dfg/DFGNode.h:
++* Source/JavaScriptCore/dfg/DFGNodeFlags.cpp:
++(JSC::DFG::dumpNodeFlags):
++* Source/JavaScriptCore/dfg/DFGNodeFlags.h:
++(JSC::DFG::bytecodeCanIgnoreNaNAndInfinity):
++(JSC::DFG::nodeCanSpeculateInt32ForDiv):
++* Source/JavaScriptCore/dfg/DFGNodeType.h:
++
++Canonical link: https://commits.webkit.org/252675@main
++---
++ .../dfg/DFGBackwardsPropagationPhase.cpp      | 51 +++++++++++--------
++ Source/JavaScriptCore/dfg/DFGFixupPhase.cpp   |  6 ++-
++ Source/JavaScriptCore/dfg/DFGGraph.h          | 11 ++++
++ Source/JavaScriptCore/dfg/DFGNode.h           | 12 +++--
++ Source/JavaScriptCore/dfg/DFGNodeFlags.cpp    | 10 ++--
++ Source/JavaScriptCore/dfg/DFGNodeFlags.h      | 37 +++++++++++---
++ Source/JavaScriptCore/dfg/DFGNodeType.h       |  3 +-
++ 7 files changed, 91 insertions(+), 39 deletions(-)
++
++diff --git a/Source/JavaScriptCore/dfg/DFGBackwardsPropagationPhase.cpp b/Source/JavaScriptCore/dfg/DFGBackwardsPropagationPhase.cpp
++index 306ea5d6b974..83a08aff7c20 100644
++--- a/Source/JavaScriptCore/dfg/DFGBackwardsPropagationPhase.cpp
+++++ b/Source/JavaScriptCore/dfg/DFGBackwardsPropagationPhase.cpp
++@@ -272,7 +272,7 @@ private:
++         case ValueBitNot:
++         case ArithBitNot: {
++             flags |= NodeBytecodeUsesAsInt;
++-            flags &= ~(NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeUsesAsOther);
+++            flags &= ~(NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeNeedsNaNOrInfinity | NodeBytecodeUsesAsOther);
++             flags &= ~NodeBytecodeUsesAsArrayIndex;
++             node->child1()->mergeFlags(flags);
++             break;
++@@ -291,7 +291,7 @@ private:
++         case BitURShift:
++         case ArithIMul: {
++             flags |= NodeBytecodeUsesAsInt;
++-            flags &= ~(NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeUsesAsOther);
+++            flags &= ~(NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeNeedsNaNOrInfinity | NodeBytecodeUsesAsOther);
++             flags &= ~NodeBytecodeUsesAsArrayIndex;
++             node->child1()->mergeFlags(flags);
++             node->child2()->mergeFlags(flags);
++@@ -308,9 +308,9 @@ private:
++ 
++         case StringSlice: {
++             node->child1()->mergeFlags(NodeBytecodeUsesAsValue);
++-            node->child2()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex);
+++            node->child2()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex | NodeBytecodeNeedsNaNOrInfinity);
++             if (node->child3())
++-                node->child3()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex);
+++                node->child3()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex | NodeBytecodeNeedsNaNOrInfinity);
++             break;
++         }
++ 
++@@ -320,11 +320,11 @@ private:
++             if (node->numChildren() == 2)
++                 m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsValue);
++             else if (node->numChildren() == 3) {
++-                m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex);
+++                m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex | NodeBytecodeNeedsNaNOrInfinity);
++                 m_graph.varArgChild(node, 2)->mergeFlags(NodeBytecodeUsesAsValue);
++             } else if (node->numChildren() == 4) {
++-                m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex);
++-                m_graph.varArgChild(node, 2)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex);
+++                m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex | NodeBytecodeNeedsNaNOrInfinity);
+++                m_graph.varArgChild(node, 2)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex | NodeBytecodeNeedsNaNOrInfinity);
++                 m_graph.varArgChild(node, 3)->mergeFlags(NodeBytecodeUsesAsValue);
++             }
++             break;
++@@ -345,6 +345,7 @@ private:
++                 flags |= NodeBytecodeUsesAsNumber;
++             if (!m_allowNestedOverflowingAdditions)
++                 flags |= NodeBytecodeUsesAsNumber;
+++            flags |= NodeBytecodeNeedsNaNOrInfinity;
++             
++             node->child1()->mergeFlags(flags);
++             node->child2()->mergeFlags(flags);
++@@ -359,6 +360,7 @@ private:
++                 flags |= NodeBytecodeUsesAsNumber;
++             if (!m_allowNestedOverflowingAdditions)
++                 flags |= NodeBytecodeUsesAsNumber;
+++            flags |= NodeBytecodeNeedsNaNOrInfinity;
++             
++             node->child1()->mergeFlags(flags);
++             node->child2()->mergeFlags(flags);
++@@ -366,7 +368,7 @@ private:
++         }
++ 
++         case ArithClz32: {
++-            flags &= ~(NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeUsesAsOther | ~NodeBytecodeUsesAsArrayIndex);
+++            flags &= ~(NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeNeedsNaNOrInfinity | NodeBytecodeUsesAsOther | ~NodeBytecodeUsesAsArrayIndex);
++             flags |= NodeBytecodeUsesAsInt;
++             node->child1()->mergeFlags(flags);
++             break;
++@@ -380,6 +382,7 @@ private:
++                 flags |= NodeBytecodeUsesAsNumber;
++             if (!m_allowNestedOverflowingAdditions)
++                 flags |= NodeBytecodeUsesAsNumber;
+++            flags |= NodeBytecodeNeedsNaNOrInfinity;
++             
++             node->child1()->mergeFlags(flags);
++             node->child2()->mergeFlags(flags);
++@@ -387,6 +390,7 @@ private:
++         }
++             
++         case ArithNegate: {
+++            // negation does not care about NaN, Infinity, -Infinity are converted into 0 if the result is evaluated under the integer context.
++             flags &= ~NodeBytecodeUsesAsOther;
++ 
++             node->child1()->mergeFlags(flags);
++@@ -401,6 +405,7 @@ private:
++                 flags |= NodeBytecodeUsesAsNumber;
++             if (!m_allowNestedOverflowingAdditions)
++                 flags |= NodeBytecodeUsesAsNumber;
+++            flags |= NodeBytecodeNeedsNaNOrInfinity;
++ 
++             node->child1()->mergeFlags(flags);
++             break;
++@@ -421,7 +426,7 @@ private:
++             
++             node->mergeFlags(flags);
++             
++-            flags |= NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero;
+++            flags |= NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeNeedsNaNOrInfinity;
++             flags &= ~NodeBytecodeUsesAsOther;
++ 
++             node->child1()->mergeFlags(flags);
++@@ -431,7 +436,13 @@ private:
++             
++         case ValueDiv:
++         case ArithDiv: {
++-            flags |= NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero;
+++            // ArithDiv / ValueDiv need to have NodeBytecodeUsesAsNumber even if it is used in the context of integer.
+++            // For example,
+++            //     ((@x / @y) + @z) | 0
+++            // In this context, (@x / @y) can have integer context at first, but the result can be different if div
+++            // generates NaN. Div and Mod are operations that can produce NaN / Infinity though only taking binary Int32 operands.
+++            // Thus, we always need to check for overflow since it can affect downstream calculations.
+++            flags |= NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeNeedsNaNOrInfinity;
++             flags &= ~NodeBytecodeUsesAsOther;
++ 
++             node->child1()->mergeFlags(flags);
++@@ -441,7 +452,7 @@ private:
++             
++         case ValueMod:
++         case ArithMod: {
++-            flags |= NodeBytecodeUsesAsNumber;
+++            flags |= NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeNeedsNaNOrInfinity;
++             flags &= ~NodeBytecodeUsesAsOther;
++ 
++             node->child1()->mergeFlags(flags);
++@@ -452,7 +463,7 @@ private:
++         case EnumeratorGetByVal:
++         case GetByVal: {
++             m_graph.varArgChild(node, 0)->mergeFlags(NodeBytecodeUsesAsValue);
++-            m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex);
+++            m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeNeedsNaNOrInfinity | NodeBytecodeUsesAsArrayIndex);
++             break;
++         }
++             
++@@ -461,13 +472,13 @@ private:
++             // Negative zero is not observable. NaN versus undefined are only observable
++             // in that you would get a different exception message. So, like, whatever: we
++             // claim here that NaN v. undefined is observable.
++-            node->child1()->mergeFlags(NodeBytecodeUsesAsInt | NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsArrayIndex);
+++            node->child1()->mergeFlags(NodeBytecodeUsesAsInt | NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeNeedsNaNOrInfinity | NodeBytecodeUsesAsArrayIndex);
++             break;
++         }
++             
++         case ToString:
++         case CallStringConstructor: {
++-            node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther);
+++            node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeNeedsNaNOrInfinity);
++             break;
++         }
++             
++@@ -487,15 +498,15 @@ private:
++         case CompareBelowEq:
++         case CompareEq:
++         case CompareStrictEq: {
++-            node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther);
++-            node->child2()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther);
+++            node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeNeedsNaNOrInfinity);
+++            node->child2()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeNeedsNaNOrInfinity);
++             break;
++         }
++ 
++         case PutByValDirect:
++         case PutByVal: {
++             m_graph.varArgChild(node, 0)->mergeFlags(NodeBytecodeUsesAsValue);
++-            m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex);
+++            m_graph.varArgChild(node, 1)->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex | NodeBytecodeNeedsNaNOrInfinity);
++             m_graph.varArgChild(node, 2)->mergeFlags(NodeBytecodeUsesAsValue);
++             break;
++         }
++@@ -508,20 +519,20 @@ private:
++                 // then -0 and 0 are treated the same.  We don't need NodeBytecodeUsesAsOther
++                 // because if all of the cases are integers then NaN and undefined are
++                 // treated the same (i.e. they will take default).
++-                node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsInt);
+++                node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsInt | NodeBytecodeNeedsNaNOrInfinity);
++                 break;
++             case SwitchChar: {
++                 // We don't need NodeBytecodeNeedsNegZero because if the cases are all strings
++                 // then -0 and 0 are treated the same.  We don't need NodeBytecodeUsesAsOther
++                 // because if all of the cases are single-character strings then NaN
++                 // and undefined are treated the same (i.e. they will take default).
++-                node->child1()->mergeFlags(NodeBytecodeUsesAsNumber);
+++                node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNaNOrInfinity);
++                 break;
++             }
++             case SwitchString:
++                 // We don't need NodeBytecodeNeedsNegZero because if the cases are all strings
++                 // then -0 and 0 are treated the same.
++-                node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther);
+++                node->child1()->mergeFlags(NodeBytecodeUsesAsNumber | NodeBytecodeUsesAsOther | NodeBytecodeNeedsNaNOrInfinity);
++                 break;
++             case SwitchCell:
++                 // There is currently no point to being clever here since this is used for switching
++diff --git a/Source/JavaScriptCore/dfg/DFGFixupPhase.cpp b/Source/JavaScriptCore/dfg/DFGFixupPhase.cpp
++index e8bee58ada15..b679539de2e6 100644
++--- a/Source/JavaScriptCore/dfg/DFGFixupPhase.cpp
+++++ b/Source/JavaScriptCore/dfg/DFGFixupPhase.cpp
++@@ -81,7 +81,9 @@ private:
++         if (optimizeForX86() || optimizeForARM64() || optimizeForARMv7IDIVSupported()) {
++             fixIntOrBooleanEdge(leftChild);
++             fixIntOrBooleanEdge(rightChild);
++-            if (bytecodeCanTruncateInteger(node->arithNodeFlags()))
+++            // We need to be careful about skipping overflow check because div / mod can generate non integer values
+++            // from (Int32, Int32) inputs. For now, we always check non-zero divisor.
+++            if (bytecodeCanTruncateInteger(node->arithNodeFlags()) && bytecodeCanIgnoreNaNAndInfinity(node->arithNodeFlags()) && bytecodeCanIgnoreNegativeZero(node->arithNodeFlags()))
++                 node->setArithMode(Arith::Unchecked);
++             else if (bytecodeCanIgnoreNegativeZero(node->arithNodeFlags()))
++                 node->setArithMode(Arith::CheckOverflow);
++@@ -122,7 +124,7 @@ private:
++ 
++     void fixupArithDiv(Node* node, Edge& leftChild, Edge& rightChild)
 +     {
-+-      const char * strng;
-+       unsigned int isym = dysymtab->indirect_syms[j];
-++      const char *str;
-+
-+       /* Some indirect symbols are anonymous.  */
-+-      if (isym < symtab->nsyms && (strng = symtab->symbols[isym].symbol.name))
-+-	/* PR 17512: file: f5b8eeba.  */
-+-	size += strnlen (strng, symtab->strsize - (strng - symtab->strtab)) + sizeof (stub);
-++      if (isym < symtab->nsyms
-++	  && (str = symtab->symbols[isym].symbol.name) != NULL)
-++	{
-++	  /* PR 17512: file: f5b8eeba.  */
-++	  size += strnlen (str, symtab->strsize - (str - symtab->strtab));
-++	  size += sizeof (stub);
-++	}
++-        if (m_graph.binaryArithShouldSpeculateInt32(node, FixupPass)) {
+++        if (m_graph.divShouldSpeculateInt32(node, FixupPass)) {
++             fixupArithDivInt32(node, leftChild, rightChild);
++             return;
++         }
++diff --git a/Source/JavaScriptCore/dfg/DFGGraph.h b/Source/JavaScriptCore/dfg/DFGGraph.h
++index ca566d3a484e..284c87672849 100644
++--- a/Source/JavaScriptCore/dfg/DFGGraph.h
+++++ b/Source/JavaScriptCore/dfg/DFGGraph.h
++@@ -373,6 +373,17 @@ public:
++ 
++         return shouldSpeculateInt52ForAdd(left) && shouldSpeculateInt52ForAdd(right);
 +     }
+++
+++    bool divShouldSpeculateInt32(Node* node, PredictionPass pass)
+++    {
+++        // Even if inputs are Int32, div can generate NaN or Infinity.
+++        // Thus, Overflow in div can be caused by these non integer values as well as actual Int32 overflow.
+++        Node* left = node->child1().node();
+++        Node* right = node->child2().node();
+++
+++        return Node::shouldSpeculateInt32OrBooleanForArithmetic(left, right)
+++            && nodeCanSpeculateInt32ForDiv(node->arithNodeFlags(), node->sourceFor(pass));
+++    }
++     
++     bool binaryArithShouldSpeculateInt32(Node* node, PredictionPass pass)
++     {
++diff --git a/Source/JavaScriptCore/dfg/DFGNode.h b/Source/JavaScriptCore/dfg/DFGNode.h
++index f9ff50658e93..04509a3846ca 100644
++--- a/Source/JavaScriptCore/dfg/DFGNode.h
+++++ b/Source/JavaScriptCore/dfg/DFGNode.h
++@@ -3308,21 +3308,25 @@ public:
++         out.printf(", @%u", child3()->index());
++     }
++ 
++-    NodeOrigin origin;
+++    NO_UNIQUE_ADDRESS NodeOrigin origin;
++ 
+++private:
+++    NO_UNIQUE_ADDRESS NodeType m_op;
+++
+++    NO_UNIQUE_ADDRESS unsigned m_index { std::numeric_limits<unsigned>::max() };
+++
+++public:
++     // References to up to 3 children, or links to a variable length set of children.
++     AdjacencyList children;
++ 
++ private:
++     friend class B3::SparseCollection<Node>;
++ 
++-    unsigned m_index { std::numeric_limits<unsigned>::max() };
++-    unsigned m_op : 10; // real type is NodeType
++-    unsigned m_flags : 21;
++     // The virtual register number (spill location) associated with this .
++     VirtualRegister m_virtualRegister;
++     // The number of uses of the result of this operation (+1 for 'must generate' nodes, which have side-effects).
++     unsigned m_refCount;
+++    NodeFlags m_flags;
++     // The prediction ascribed to this node after propagation.
++     SpeculatedType m_prediction { SpecNone };
++     // Immediate values, accesses type-checked via accessors above.
++diff --git a/Source/JavaScriptCore/dfg/DFGNodeFlags.cpp b/Source/JavaScriptCore/dfg/DFGNodeFlags.cpp
++index 88242947f6ef..0c53cd976c5c 100644
++--- a/Source/JavaScriptCore/dfg/DFGNodeFlags.cpp
+++++ b/Source/JavaScriptCore/dfg/DFGNodeFlags.cpp
++@@ -74,12 +74,14 @@ void dumpNodeFlags(PrintStream& actualOut, NodeFlags flags)
++         out.print(comma, "VarArgs");
++     
++     if (flags & NodeResultMask) {
++-        if (!(flags & NodeBytecodeUsesAsNumber) && !(flags & NodeBytecodeNeedsNegZero))
+++        if (!(flags & NodeBytecodeUsesAsNumber))
++             out.print(comma, "PureInt");
++-        else if (!(flags & NodeBytecodeUsesAsNumber))
++-            out.print(comma, "PureInt(w/ neg zero)");
++-        else if (!(flags & NodeBytecodeNeedsNegZero))
+++        else
++             out.print(comma, "PureNum");
+++        if (flags & NodeBytecodeNeedsNegZero)
+++            out.print(comma, "NeedsNegZero");
+++        if (flags & NodeBytecodeNeedsNaNOrInfinity)
+++            out.print(comma, "NeedsNaNOrInfinity");
++         if (flags & NodeBytecodeUsesAsOther)
++             out.print(comma, "UseAsOther");
++     }
++diff --git a/Source/JavaScriptCore/dfg/DFGNodeFlags.h b/Source/JavaScriptCore/dfg/DFGNodeFlags.h
++index 2ebe3544f601..aa60db7e6ba0 100644
++--- a/Source/JavaScriptCore/dfg/DFGNodeFlags.h
+++++ b/Source/JavaScriptCore/dfg/DFGNodeFlags.h
++@@ -61,18 +61,19 @@ namespace JSC { namespace DFG {
++ #define NodeBytecodeUseBottom            0x00000
++ #define NodeBytecodeUsesAsNumber         0x04000 // The result of this computation may be used in a context that observes fractional, or bigger-than-int32, results.
++ #define NodeBytecodeNeedsNegZero         0x08000 // The result of this computation may be used in a context that observes -0.
++-#define NodeBytecodeUsesAsOther          0x10000 // The result of this computation may be used in a context that distinguishes between NaN and other things (like undefined).
++-#define NodeBytecodeUsesAsInt            0x20000 // The result of this computation is known to be used in a context that prefers, but does not require, integer values.
++-#define NodeBytecodeUsesAsArrayIndex     0x40000 // The result of this computation is known to be used in a context that strongly prefers integer values, to the point that we should avoid using doubles if at all possible.
++-#define NodeBytecodeUsesAsValue          (NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeUsesAsOther)
++-#define NodeBytecodeBackPropMask         (NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex)
+++#define NodeBytecodeNeedsNaNOrInfinity   0x10000 // The result of this computation may be used in a context that observes NaN or Infinity.
+++#define NodeBytecodeUsesAsOther          0x20000 // The result of this computation may be used in a context that distinguishes between NaN and other things (like undefined).
+++#define NodeBytecodeUsesAsInt            0x40000 // The result of this computation is known to be used in a context that prefers, but does not require, integer values.
+++#define NodeBytecodeUsesAsArrayIndex     0x80000 // The result of this computation is known to be used in a context that strongly prefers integer values, to the point that we should avoid using doubles if at all possible.
+++#define NodeBytecodeUsesAsValue          (NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeNeedsNaNOrInfinity | NodeBytecodeUsesAsOther)
+++#define NodeBytecodeBackPropMask         (NodeBytecodeUsesAsNumber | NodeBytecodeNeedsNegZero | NodeBytecodeNeedsNaNOrInfinity | NodeBytecodeUsesAsOther | NodeBytecodeUsesAsInt | NodeBytecodeUsesAsArrayIndex)
++ 
++ #define NodeArithFlagsMask               (NodeBehaviorMask | NodeBytecodeBackPropMask)
++ 
++-#define NodeIsFlushed                    0x80000 // Computed by CPSRethreadingPhase, will tell you which local nodes are backwards-reachable from a Flush.
+++#define NodeIsFlushed                   0x100000 // Computed by CPSRethreadingPhase, will tell you which local nodes are backwards-reachable from a Flush.
++ 
++-#define NodeMiscFlag1                   0x100000
++-#define NodeMiscFlag2                   0x200000
+++#define NodeMiscFlag1                   0x200000
+++#define NodeMiscFlag2                   0x400000
++ 
++ typedef uint32_t NodeFlags;
++ 
++@@ -91,6 +92,11 @@ static inline bool bytecodeCanIgnoreNegativeZero(NodeFlags flags)
++     return !(flags & NodeBytecodeNeedsNegZero);
++ }
++ 
+++static inline bool bytecodeCanIgnoreNaNAndInfinity(NodeFlags flags)
+++{
+++    return !(flags & NodeBytecodeNeedsNaNOrInfinity);
+++}
+++
++ enum RareCaseProfilingSource {
++     BaselineRareCase, // Comes from slow case counting in the baseline JIT.
++     DFGRareCase, // Comes from OSR exit profiles.
++@@ -147,6 +153,21 @@ static inline bool nodeCanSpeculateInt32(NodeFlags flags, RareCaseProfilingSourc
++     return true;
++ }
++ 
+++static inline bool nodeCanSpeculateInt32ForDiv(NodeFlags flags, RareCaseProfilingSource source)
+++{
+++    if (nodeMayOverflowInt32(flags, source)) {
+++        if (bytecodeUsesAsNumber(flags))
+++            return false;
+++        if (!bytecodeCanIgnoreNaNAndInfinity(flags))
+++            return false;
+++    }
+++
+++    if (nodeMayNegZero(flags, source))
+++        return bytecodeCanIgnoreNegativeZero(flags);
+++
+++    return true;
+++}
+++
++ static inline bool nodeCanSpeculateInt52(NodeFlags flags, RareCaseProfilingSource source)
++ {
++     if (nodeMayOverflowInt52(flags, source))
++diff --git a/Source/JavaScriptCore/dfg/DFGNodeType.h b/Source/JavaScriptCore/dfg/DFGNodeType.h
++index 8f885b570665..aad4d559ccf7 100644
++--- a/Source/JavaScriptCore/dfg/DFGNodeType.h
+++++ b/Source/JavaScriptCore/dfg/DFGNodeType.h
++@@ -567,7 +567,7 @@ namespace JSC { namespace DFG {
++ 
++ // This enum generates a monotonically increasing id for all Node types,
++ // and is used by the subsequent enum to fill out the id (as accessed via the NodeIdMask).
++-enum NodeType {
+++enum NodeType : uint16_t {
++ #define DFG_OP_ENUM(opcode, flags) opcode,
++     FOR_EACH_DFG_OP(DFG_OP_ENUM)
++ #undef DFG_OP_ENUM
++@@ -577,6 +577,7 @@ enum NodeType {
++ #define DFG_OP_COUNT(opcode, flags) + 1
++ constexpr unsigned numberOfNodeTypes = FOR_EACH_DFG_OP(DFG_OP_COUNT);
++ #undef DFG_OP_COUNT
+++static_assert(numberOfNodeTypes <= UINT16_MAX);
++ 
++ // Specifies the default flags for each node.
++ inline NodeFlags defaultFlags(NodeType op)
++-- 
++2.34.1
 +
-+-  s_start = bfd_malloc (size);
-++  s_start = bfd_malloc (size + count * sizeof (asymbol));
-+   s = *ret = (asymbol *) s_start;
-+   if (s == NULL)
-+     return -1;
-+   names = (char *) (s + count);
-+-  nul_name = names;
-+-  *names++ = 0;
-+-  s_end = s_start + size;
-+
-+   n = 0;
-+   for (i = 0; i < mdata->nsects; i++)
-+@@ -997,47 +995,39 @@ bfd_mach_o_get_synthetic_symtab (bfd *abfd,
-+	  entry_size = bfd_mach_o_section_get_entry_size (abfd, sec);
-+
-+	  /* PR 17512: file: 08e15eec.  */
-+-	  if (first >= count || last >= count || first > last)
-++	  if (first >= count || last > count || first > last)
-+	    goto fail;
-+
-+	  for (j = first; j < last; j++)
-+	    {
-+	      unsigned int isym = dysymtab->indirect_syms[j];
-+-
-+-	      /* PR 17512: file: 04d64d9b.  */
-+-	      if (((char *) s) + sizeof (* s) > s_end)
-+-		goto fail;
-+-
-+-	      s->flags = BSF_GLOBAL | BSF_SYNTHETIC;
-+-	      s->section = sec->bfdsection;
-+-	      s->value = addr - sec->addr;
-+-	      s->udata.p = NULL;
-++	      const char *str;
-++	      size_t len;
-+
-+	      if (isym < symtab->nsyms
-+-		  && symtab->symbols[isym].symbol.name)
-++		  && (str = symtab->symbols[isym].symbol.name) != NULL)
-+		{
-+-		  const char *sym = symtab->symbols[isym].symbol.name;
-+-		  size_t len;
-+-
-+-		  s->name = names;
-+-		  len = strlen (sym);
-+-		  /* PR 17512: file: 47dfd4d2.  */
-+-		  if (names + len >= s_end)
-++		  /* PR 17512: file: 04d64d9b.  */
-++		  if (n >= count)
-+		    goto fail;
-+-		  memcpy (names, sym, len);
-+-		  names += len;
-+-		  /* PR 17512: file: 18f340a4.  */
-+-		  if (names + sizeof (stub) >= s_end)
-++		  len = strnlen (str, symtab->strsize - (str - symtab->strtab));
-++		  /* PR 17512: file: 47dfd4d2, 18f340a4.  */
-++		  if (size < len + sizeof (stub))
-+		    goto fail;
-+-		  memcpy (names, stub, sizeof (stub));
-+-		  names += sizeof (stub);
-++		  memcpy (names, str, len);
-++		  memcpy (names + len, stub, sizeof (stub));
-++		  s->name = names;
-++		  names += len + sizeof (stub);
-++		  size -= len + sizeof (stub);
-++		  s->the_bfd = symtab->symbols[isym].symbol.the_bfd;
-++		  s->flags = BSF_GLOBAL | BSF_SYNTHETIC;
-++		  s->section = sec->bfdsection;
-++		  s->value = addr - sec->addr;
-++		  s->udata.p = NULL;
-++		  s++;
-++		  n++;
-+		}
-+-	      else
-+-		s->name = nul_name;
-+-
-+	      addr += entry_size;
-+-	      s++;
-+-	      n++;
-+	    }
-+	  break;
-+	default:
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
+index 7b2c5c6e36..1dac4f5677 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
+@@ -15,6 +15,8 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BP}.tar.xz \
+            file://0001-Fix-build-without-opengl-or-es.patch \
+            file://reproducibility.patch \
+            file://0001-When-building-introspection-files-do-not-quote-CFLAG.patch \
++           file://CVE-2022-32888.patch \
++           file://CVE-2022-32923.patch \
+            "
+ SRC_URI[sha256sum] = "0ad9fb6bf28308fe3889faf184bd179d13ac1b46835d2136edbab2c133d00437"
+ 
 -- 
 2.34.1
 
