@@ -1,155 +1,268 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4265C77B7F
-	for <webhook@archiver.kernel.org>; Sat,  6 May 2023 08:43:14 +0000 (UTC)
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
- by mx.groups.io with SMTP id smtpd.web11.30428.1683362583814128999
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2DCDC77B75
+	for <webhook@archiver.kernel.org>; Sat,  6 May 2023 09:10:24 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web11.30685.1683364216710336437
  for <openembedded-core@lists.openembedded.org>;
- Sat, 06 May 2023 01:43:04 -0700
+ Sat, 06 May 2023 02:10:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=NoKjFev0;
- spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 7F0AD1BF206;
-	Sat,  6 May 2023 08:43:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1683362581;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=//2KSv1/zLOH+PihzXiKUAlOniq20nUcuMNSsbUZJ+w=;
-	b=NoKjFev0u895SX0iI0M4HnduylfPfc/HLL8uij+UMN8ML8ZGu7KvGjpFTNrbcBcV/4xKT0
-	YQ5eeix6A17f5Oayv9rvApWBSRV4VX2vg0fQ2zZqOdeqQhQ4zJH0T4QJo6WDgCuUUwTi9z
-	D9VqhuYTVCxHCJM+LMOxQD/AZLYA8oaYszIAmvDoCnLZVdRxu7Fto9hpNH3FlPvrhCDEJ4
-	JHmnitu3YCGsYQp0+9CjNkbr72NMpWY16T2q0QdKMWMZJa+A6RrludbPyDWCpRnEaaKGAh
-	AdfAJazEXcdkoRuNJYNpL7Bzbch9bUmuyNpqinHs2u2JAWMvRD7uWCOqD103Wg==
-Date: Sat, 6 May 2023 10:43:01 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org, nd@arm.com
-Subject: Re: [OE-core] [PATCH v2] ghostscript: upgrade to 10.01.1
-Message-ID: <20230506084301af2b30bb@mail.local>
-References: <20230503164729.1869687-1-ross.burton@arm.com>
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=NCYOpNMu;
+ spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-3f315712406so122011665e9.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 06 May 2023 02:10:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683364214; x=1685956214;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ghihj0Z6h8GWZtRlPnKUtI+Uz5mEIR5rVvRBQhsD6PQ=;
+        b=NCYOpNMugrbmRlIVibCSRssfu7Us1TH4mRdJYqlJ77G4N0Vq9mkhYlJ7vxR763LobX
+         kGtaRSPiYy4KHhxqOe6d7gA4wV1ofi5v3wmj2CY60sWAZN5uvHql6VopMHir0Lk4V18R
+         R20gfFcxlrYiFn+m6c1LiwovTlnyXDjdFhJZT+C4SMQqB/dlK0F3vXOi4Nyn2DGbYsfY
+         rq+9HdWlUhFo1K9gy95xz/zmjY+7TLpEQ6IsEdSR/xQ2lI+5qO5QUS7BfYaHeWmoPK46
+         czqA8xASHCWUaqpcNRfxHVGPwq1cP0fT5oF2HdRsIrMZiGsTcKiXkTaksXB9N/PEokC1
+         ExxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683364214; x=1685956214;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ghihj0Z6h8GWZtRlPnKUtI+Uz5mEIR5rVvRBQhsD6PQ=;
+        b=EEihvEGmmq83cN/veVgDjreurbFmiKYv4ksq2hug2zkWcf7movEDXLFc267iRCJQt2
+         zaYbr2MRBZ6Sj5g0y4xTp9TlEep3bvKME8DQBCnHMrHV0JRGDBuVGXcYLOIX5bSJ7pg4
+         ub23NOtqObWmSBuZeuj0+urnQZlL2cWNVFe59vEdexyfDiFtBhzhHlQ10HmYgN4w9hR+
+         Gg6AQnssKlHaSZIN0tnJYJ6tFWgAczGqXkTAEzZnylCYKX5KIshOSV6SXptc0nXxS0lZ
+         0BSXDQ2i5SLEL5uH6HCYt57dink1IrWf4h4ADj3/VqUylkm+9Ib3R5Kd+q0de3dBfF4b
+         zEJg==
+X-Gm-Message-State: AC+VfDwf2pWytpb34xxq8n92bOmia6OsbIT+EmBlO5ph3HCJpa1YvvLX
+	KYtgm//4gsmc9UTUYRjyF7UT9FMGvrod4WxWDvE=
+X-Google-Smtp-Source: ACHHUZ4b2CX1B2BC4vK+IpiJsed25xcr27szBn9OE6+jBPBx5ic/POgRtYEvNWUTUH03ImsJeNst2bWmFxKge96gUpE=
+X-Received: by 2002:a5d:4b0f:0:b0:2cf:e313:2860 with SMTP id
+ v15-20020a5d4b0f000000b002cfe3132860mr2637237wrq.33.1683364214373; Sat, 06
+ May 2023 02:10:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230503164729.1869687-1-ross.burton@arm.com>
+References: <20230505163601.6708-1-rs@ti.com>
+In-Reply-To: <20230505163601.6708-1-rs@ti.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Sat, 6 May 2023 11:09:57 +0200
+Message-ID: <CA+chaQd0iy1pv1QBhueS1fbpu0=fPzOU9Unr7+ROnGntuOUOcA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] kernel-devicetree: allow specification of dtb directory
+To: rs@ti.com
+Cc: afd@ti.com, detheridge@ti.com, reatmon@ti.com, denis@denix.org, 
+	alexandre.belloni@bootlin.com, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000006828205fb02c6b7"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 06 May 2023 08:43:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180980
+ <openembedded-core@lists.openembedded.org>; Sat, 06 May 2023 09:10:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180981
 
-Hello Ross,
+--00000000000006828205fb02c6b7
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This doesn't apply because of 8a70d6935afa ghostscript: fix CVE-2023-28879
+On Fri, May 5, 2023 at 6:38=E2=80=AFPM Randolph Sapp via lists.openembedded=
+.org <rs=3D
+ti.com@lists.openembedded.org> wrote:
 
-From the commit message, I believe cve-2023-28879.patch is still needed.
-
-On 03/05/2023 17:47:29+0100, Ross Burton wrote:
-> From: Ross Burton <ross.burton@arm.com>
-> 
-> Fixes CVE-2023-28879.
-> 
-> Drop an upstreamed patch.
-> 
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> From: Randolph Sapp <rs@ti.com>
+>
+> Fedora/Redhat and Arch are somewhat standardized on their dtb directory
+> structure. Let's add some flags to configure yocto to mimic that
+> behavior.
+>
+> Add the following variables to the kernel class:
+>         - KERNEL_DTBDEST (controls the destination directory for dtbs)
+>         - KERNEL_DTBVENDORED (controls if vendor subdirectories are to
+>           be respected)
+>
+> Currently KERNEL_DTBDEST is expected to be a subdir of KERNEL_IMAGEDEST
+> and KERNEL_DTBVENDORED is expected to be "true"/"false". This only
+> applies to the package directory structure. The deploydir structure is
+> purposely left untouched for compatibility with existing recipes.
+>
+> By default this is configured to behave the same as the current recipe
+> and produce a flat dtb directory at KERNEL_IMAGEDEST.
+>
+> Signed-off-by: Randolph Sapp <rs@ti.com>
 > ---
->  .../ghostscript/cross-compile.patch           | 40 -------------------
->  ...cript_10.0.0.bb => ghostscript_10.01.1.bb} |  3 +-
->  2 files changed, 1 insertion(+), 42 deletions(-)
->  delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/cross-compile.patch
->  rename meta/recipes-extended/ghostscript/{ghostscript_10.0.0.bb => ghostscript_10.01.1.bb} (97%)
-> 
-> diff --git a/meta/recipes-extended/ghostscript/ghostscript/cross-compile.patch b/meta/recipes-extended/ghostscript/ghostscript/cross-compile.patch
-> deleted file mode 100644
-> index ba62820df1e..00000000000
-> --- a/meta/recipes-extended/ghostscript/ghostscript/cross-compile.patch
-> +++ /dev/null
-> @@ -1,40 +0,0 @@
-> -From 4c3575346b9c7d394ebc73b4e5fabebadd8877ec Mon Sep 17 00:00:00 2001
-> -From: Chris Liddell <chris.liddell@artifex.com>
-> -Date: Thu, 24 Nov 2022 16:33:47 +0000
-> -Subject: [PATCH] Fix a little bitrot in the cross-compiling logic
-> -
-> -Removing the option to disable FAPI meant configuring for cross compiling would
-> -fail because the option being passed to the sub-call to configure would include
-> -an unknown command line option.
-> -
-> -Upstream-Status: Backport [https://git.ghostscript.com/?p=ghostpdl.git;a=patch;f=configure.ac;h=4c3575346b9c7d394ebc73b4e5fabebadd8877ec]
-> -Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ----
-> - configure.ac | 4 ++--
-> - 1 file changed, 2 insertions(+), 2 deletions(-)
-> -
-> -diff --git a/configure.ac b/configure.ac
-> -index d5c68c4b3..738eb10a9 100644
-> ---- a/configure.ac
-> -+++ b/configure.ac
-> -@@ -138,7 +138,7 @@ if test x"$host" != x"$build" ; then
-> -   echo $AUXFLAGS_MAK_LINE07 >> $AUXFLAGS_MAK.in
-> - 
-> -   AC_MSG_NOTICE([Begin recursive call to configure script (for auxiliary tools)])
-> --  "$absolute_source_path/configure" CC="$CCAUX" CFLAGS="$CFLAGSAUX" CPPFLAGS="$CPPFLAGSAUX" LDFLAGS="$LDFLAGSAUX" CCAUX= CFLAGSAUX= CFLAGSAUX= MAKEFILE=$AUXFLAGS_MAK --host=$build --build=$build --enable-auxtools_only --disable-hidden-visibility --with-local-zlib --without-libtiff --disable-contrib --disable-fontconfig --disable-dbus --disable-freetype --disable-fapi --disable-cups --disable-openjpeg --disable-gtk --with-libiconv=no --without-libidn --without-libpaper --without-pdftoraster --without-ijs --without-jbig2dec --without-x --with-drivers=""
-> -+  "$absolute_source_path/configure" CC="$CCAUX" CFLAGS="$CFLAGSAUX" CPPFLAGS="$CPPFLAGSAUX" LDFLAGS="$LDFLAGSAUX" CCAUX= CFLAGSAUX= CFLAGSAUX= MAKEFILE=$AUXFLAGS_MAK --host=$build --build=$build --enable-auxtools_only --disable-hidden-visibility --with-local-zlib --without-libtiff --disable-contrib --disable-fontconfig --disable-dbus --disable-freetype --disable-cups --disable-openjpeg --disable-gtk --with-libiconv=no --without-libidn --without-libpaper --without-pdftoraster --without-ijs --without-jbig2dec --without-x --with-drivers=""
-> -   status=$?
-> -   cp config.log "$olddir/configaux.log"
-> -   if test $status -eq 0 ; then
-> -@@ -2530,7 +2530,7 @@ PDF=
-> - PDF_MAK="\$(GLSRCDIR)\$(D)stub.mak"
-> - PDFROMFS_MAK="\$(GLSRCDIR)\$(D)stub.mak"
-> - 
-> --if test x"$with_pdf" != x"no" ; then
-> -+if test x"$with_pdf" != x"no" -a x"$enable_auxtools_only" != x"yes" ; then
-> - 
-> -   if test x"$JBIG2_DECODER" = x""; then
-> -       AC_MSG_ERROR([No JBIG2 decoder available, required for PDF support])
-> --- 
-> -2.25.1
-> -
-> diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb b/meta/recipes-extended/ghostscript/ghostscript_10.01.1.bb
-> similarity index 97%
-> rename from meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb
-> rename to meta/recipes-extended/ghostscript/ghostscript_10.01.1.bb
-> index 56a93632e29..5d4b8cdc913 100644
-> --- a/meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb
-> +++ b/meta/recipes-extended/ghostscript/ghostscript_10.01.1.bb
-> @@ -33,7 +33,6 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
->                  file://do-not-check-local-libpng-source.patch \
->                  file://avoid-host-contamination.patch \
->                  file://mkdir-p.patch \
-> -                file://cross-compile.patch \
->  "
->  
->  SRC_URI = "${SRC_URI_BASE} \
-> @@ -45,7 +44,7 @@ SRC_URI:class-native = "${SRC_URI_BASE} \
->                          file://base-genht.c-add-a-preprocessor-define-to-allow-fope.patch \
->                          "
->  
-> -SRC_URI[sha256sum] = "a57764d70caf85e2fc0b0f59b83b92e25775631714dcdb97cc6e0cea414bb5a3"
-> +SRC_URI[sha256sum] = "4df18a808cd4369f25e02dbcec2f133cb6d674627b2c6b1502020e58d43e32ce"
->  
->  # Put something like
->  #
-> -- 
-> 2.34.1
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#180833): https://lists.openembedded.org/g/openembedded-core/message/180833
-> Mute This Topic: https://lists.openembedded.org/mt/98666289/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+>
+> Well, suppose I was breaking things by submitting this to kirkstone
+> first. This is just the master version of the following patchset:
+> https://lists.openembedded.org/g/openembedded-core/message/180754
+>
+> I'd love to get that series merged as well if this patch is acceptable.
+>
+>  meta/classes-recipe/kernel-devicetree.bbclass | 22 ++++++++++++++-----
+>  meta/classes-recipe/kernel.bbclass            |  2 ++
+>  2 files changed, 19 insertions(+), 5 deletions(-)
+>
+> diff --git a/meta/classes-recipe/kernel-devicetree.bbclass
+> b/meta/classes-recipe/kernel-devicetree.bbclass
+> index 4d0ecb1032..a6c6c5f227 100644
+> --- a/meta/classes-recipe/kernel-devicetree.bbclass
+> +++ b/meta/classes-recipe/kernel-devicetree.bbclass
+> ...
 
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+
+> -               dtb_base_name=3D`basename $dtb .$dtb_ext`
+>                 dtb_path=3D`get_real_dtb_path_in_kernel "$dtb"`
+> -               install -m 0644 $dtb_path
+> ${D}/${KERNEL_IMAGEDEST}/$dtb_base_name.$dtb_ext
+> +               if [ ${KERNEL_DTBVENDORED} =3D=3D "false" ]; then
+>
+
+dash doesn't like this:
+
+ /bin/dash -c "if [ false =3D=3D "false" ]; then echo foo; fi"
+
+add quotes or use single '=3D'.
+
++                       dtb_ext=3D${dtb##*.}
+> +                       dtb_base_name=3D`basename $dtb .$dtb_ext`
+> +                       dtb=3D$dtb_base_name.$dtb_ext
+> +               fi
+> +               install -Dm 0644 $dtb_path ${D}/${KERNEL_DTBDEST}/$dtb
+>         done
+>  }
+>
+> @@ -88,7 +97,10 @@ do_deploy:append() {
+>                 dtb_ext=3D${dtb##*.}
+>                 dtb_base_name=3D`basename $dtb .$dtb_ext`
+>                 install -d $deployDir
+> -               install -m 0644
+> ${D}/${KERNEL_IMAGEDEST}/$dtb_base_name.$dtb_ext
+> $deployDir/$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext
+> +               if [ ${KERNEL_DTBVENDORED} =3D=3D "false" ]; then
+>
+
+Same here
+
+
+> +                       dtb=3D$dtb_base_name.$dtb_ext
+> +               fi
+> +               install -m 0644 ${D}/${KERNEL_DTBDEST}/$dtb
+> $deployDir/$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext
+>                 if [ "${KERNEL_IMAGETYPE_SYMLINK}" =3D "1" ] ; then
+>                         ln -sf $dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext
+> $deployDir/$dtb_base_name.$dtb_ext
+>                 fi
+>
+
+--00000000000006828205fb02c6b7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Fri, May 5, 2023 at 6:38=E2=80=AFPM Ra=
+ndolph Sapp via <a href=3D"http://lists.openembedded.org">lists.openembedde=
+d.org</a> &lt;rs=3D<a href=3D"mailto:ti.com@lists.openembedded.org">ti.com@=
+lists.openembedded.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><=
+blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
+eft:1px solid rgb(204,204,204);padding-left:1ex">From: Randolph Sapp &lt;<a=
+ href=3D"mailto:rs@ti.com" target=3D"_blank">rs@ti.com</a>&gt;<br>
+<br>
+Fedora/Redhat and Arch are somewhat standardized on their dtb directory<br>
+structure. Let&#39;s add some flags to configure yocto to mimic that<br>
+behavior.<br>
+<br>
+Add the following variables to the kernel class:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 - KERNEL_DTBDEST (controls the destination dire=
+ctory for dtbs)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 - KERNEL_DTBVENDORED (controls if vendor subdir=
+ectories are to<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 be respected)<br>
+<br>
+Currently KERNEL_DTBDEST is expected to be a subdir of KERNEL_IMAGEDEST<br>
+and KERNEL_DTBVENDORED is expected to be &quot;true&quot;/&quot;false&quot;=
+. This only<br>
+applies to the package directory structure. The deploydir structure is<br>
+purposely left untouched for compatibility with existing recipes.<br>
+<br>
+By default this is configured to behave the same as the current recipe<br>
+and produce a flat dtb directory at KERNEL_IMAGEDEST.<br>
+<br>
+Signed-off-by: Randolph Sapp &lt;<a href=3D"mailto:rs@ti.com" target=3D"_bl=
+ank">rs@ti.com</a>&gt;<br>
+---<br>
+<br>
+Well, suppose I was breaking things by submitting this to kirkstone<br>
+first. This is just the master version of the following patchset:<br>
+<a href=3D"https://lists.openembedded.org/g/openembedded-core/message/18075=
+4" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/g/op=
+enembedded-core/message/180754</a><br>
+<br>
+I&#39;d love to get that series merged as well if this patch is acceptable.=
+<br>
+<br>
+=C2=A0meta/classes-recipe/kernel-devicetree.bbclass | 22 ++++++++++++++----=
+-<br>
+=C2=A0meta/classes-recipe/kernel.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 2 ++<br>
+=C2=A02 files changed, 19 insertions(+), 5 deletions(-)<br>
+<br>
+diff --git a/meta/classes-recipe/kernel-devicetree.bbclass b/meta/classes-r=
+ecipe/kernel-devicetree.bbclass<br>
+index 4d0ecb1032..a6c6c5f227 100644<br>
+--- a/meta/classes-recipe/kernel-devicetree.bbclass<br>
++++ b/meta/classes-recipe/kernel-devicetree.bbclass<br>...</blockquote><div=
+>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">-=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dtb_base_name=3D`basename $dtb=
+ .$dtb_ext`<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dtb_path=3D`get_rea=
+l_dtb_path_in_kernel &quot;$dtb&quot;`<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644 $dt=
+b_path ${D}/${KERNEL_IMAGEDEST}/$dtb_base_name.$dtb_ext<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ ${KERNEL_DTBVE=
+NDORED} =3D=3D &quot;false&quot; ]; then<br></blockquote><div><br></div><di=
+v>dash doesn&#39;t like this:</div><div><br></div><div>=C2=A0/bin/dash -c &=
+quot;if [ false =3D=3D &quot;false&quot; ]; then echo foo; fi&quot;</div><d=
+iv><br></div><div>add quotes or use single &#39;=3D&#39;.</div><div><br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0dtb_ext=3D${dtb##*.}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0dtb_base_name=3D`basename $dtb .$dtb_ext`<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0dtb=3D$dtb_base_name.$dtb_ext<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -Dm 0644 $d=
+tb_path ${D}/${KERNEL_DTBDEST}/$dtb<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 done<br>
+=C2=A0}<br>
+<br>
+@@ -88,7 +97,10 @@ do_deploy:append() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dtb_ext=3D${dtb##*.=
+}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dtb_base_name=3D`ba=
+sename $dtb .$dtb_ext`<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d $deployD=
+ir<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644 ${D=
+}/${KERNEL_IMAGEDEST}/$dtb_base_name.$dtb_ext $deployDir/$dtb_base_name-${K=
+ERNEL_DTB_NAME}.$dtb_ext<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ ${KERNEL_DTBVE=
+NDORED} =3D=3D &quot;false&quot; ]; then<br></blockquote><div><br></div><di=
+v>Same here</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0dtb=3D$dtb_base_name.$dtb_ext<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644 ${D=
+}/${KERNEL_DTBDEST}/$dtb $deployDir/$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_=
+ext<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ &quot;${KERNEL=
+_IMAGETYPE_SYMLINK}&quot; =3D &quot;1&quot; ] ; then<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 ln -sf $dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext $deployDir/$dt=
+b_base_name.$dtb_ext<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+</blockquote></div></div>
+
+--00000000000006828205fb02c6b7--
 
