@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FC24C7EE2C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50C39C7EE2E
 	for <webhook@archiver.kernel.org>; Sat,  6 May 2023 15:25:16 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web10.36182.1683386708154308771
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web10.36172.1683386698872850143
  for <openembedded-core@lists.openembedded.org>;
- Sat, 06 May 2023 08:25:08 -0700
+ Sat, 06 May 2023 08:25:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=iNSC/eIG;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-64384274895so2096793b3a.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 06 May 2023 08:25:08 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=3IWtBhDi;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-643a6f993a7so1082868b3a.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 06 May 2023 08:25:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683386707; x=1685978707;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683386709; x=1685978709;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cSFV3+EgRatZMO61DJPCk5NheOOqUVcq9KnTFKLZVM0=;
-        b=iNSC/eIGt1Pc/oSBSwqddby/pTd2eg5Yysqh+sq0mBpbiUCbrgCthoCGXABRdkIQgO
-         izs0N0HOySJ1DddA1r2hVZJ8j7kjYs756xFzcBLhSHsJ8/RMPG/wvHReFX3GP4koKRb8
-         +VPdbg8bJBV/159YaW61MUbukmpgxQfjySXuDW6bdKYitPo4W+n2fHmSL0jKReEKyb61
-         L54P7GmrxrU4Z8yrfp6ZiDa4H7sFhNmfd3tXajRN+37hZzOqmyKn29G+516JcswaFUBZ
-         l1JGUADpnQ7Ush7XdD0uu7CYGgFlvVsi23LSKYnqPZAI6Don2f/pFhj3nBi+G1lr88sH
-         ssNw==
+        bh=J5EgR9K+drCmyEoyukok0TF5f7PHUUanwP0yKejBCVA=;
+        b=3IWtBhDi53pghXaEQWDczWGL0URhtyjNfLO6op28MIpPwxbRXRoUG2bd6p7/UO3ly1
+         ItwhnFvOB9fKJ0gU2+1T6u1vtVhjLKnkHTrz8QEelC+oa7wRie67X5zkbsCSmhMrqDDf
+         Kq7uzqNPA7cGc2g8Qw+CDXAkY7l0z8bX0mxcY0oPxS7zugO4ctIbGTmJqcwIhP3yk6Gi
+         0SiGU+UD39Nj6p4allk/FJTDLJKXqZAuQnMJOhXzWGKBTtRG515tLRikbvKQRHZaAgAS
+         k0ZHNRjJPNcvGrjorWsbMM3lxLjjhveYjVW87ikXxCcnPAdr6HUKm1+NPiV0sCXxRxuV
+         b3Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683386707; x=1685978707;
+        d=1e100.net; s=20221208; t=1683386709; x=1685978709;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cSFV3+EgRatZMO61DJPCk5NheOOqUVcq9KnTFKLZVM0=;
-        b=BOdnmmKUbGSMwconY7tKAO3RqamYyEPqXfBY2gzgtmgBDEKd4JLdR5KqHYIMY8uCf0
-         u7VeaYB/+HMMKNkpnXU20tCnseNeCBVs/XByrYxqs0sVM/dzxivKBGO97oLSFZME/cNp
-         LwD7SCJ8z1+fjAKtVpUr0Wpt6d2EVsQ/NMc80SvCjKPvxgYvlD+ZnXalMz3dHRppRECK
-         buzsMt03udPtfBE37kS+Oskc6Psmc+gPbmFykumGBkosTofEIpxvRM/ZXWae+xstuSnk
-         MpiCouO0fjToW8QdrP4v25PIe0T3kZrl3TT1Fx8uYPJq1hl4xNP1YweffU0bILKksGqc
-         pMBw==
-X-Gm-Message-State: AC+VfDwQ7DVpnUuvlU33TS+N4ErNG2DH3/Ppe8GpZj3/OzhChRWLQ2G4
-	j1dw7I6Iv01YlCTxwnr9IM55finjxWmMv1kVxNM=
-X-Google-Smtp-Source: ACHHUZ4GqrGhYxgrLKp4oTh8jj1dhPM3ZupnI5FyCDSAuE7VFlDYVaRGdwBY29Vz8xXAyhAn60XvJQ==
-X-Received: by 2002:a05:6a00:1303:b0:63b:817f:664 with SMTP id j3-20020a056a00130300b0063b817f0664mr6526318pfu.22.1683386707167;
-        Sat, 06 May 2023 08:25:07 -0700 (PDT)
+        bh=J5EgR9K+drCmyEoyukok0TF5f7PHUUanwP0yKejBCVA=;
+        b=BGjGgKbu7uMJJ5OpKJiyqR9LkTcQuD9j83EIbJLpyKUHKMUzbjHHlT/M+ZltTg8oTA
+         DQN9crK12pI0mN4irxoEac8DwU3ckMVjNbT4JyN80oLTm7nvLaTFoBZ/Q2hr8mDqkeX6
+         SJrgZkNgWXO5UGOjRXwqwYW+ATEAu3SKJNV3Sy0AtFLp6Ox2IhP8juZfeHKFgqBugQ+l
+         3c0oolO8fmvO3NXhE2yMjCZgSCfyaP5vMH0vEooNjxBBV9DDYMviCmhdy35xsZSVx1+u
+         P3OzaNM99owE1wNoGqvEcWRaX/RXKf9tj5pug5ezHZVxnviNfD1Fe1FikN0gLc3F2SYZ
+         4Xnw==
+X-Gm-Message-State: AC+VfDwsuuFE0Ysvv7mD5k9Wm71+sgAwUkoEJN2ZSxzaWNTwdAlMFQ30
+	Y6uXpduRP1fCc1H0lejh3Xb2QMWewN47lDHHwnU=
+X-Google-Smtp-Source: ACHHUZ6ayIVj6vZPxsH/bST2iRw2ncfuIVmx9P3IFh2ag8kZs+O9nJeoaKo/REvhmOR5SuTpsXC0qQ==
+X-Received: by 2002:a05:6a00:2d12:b0:624:2e60:f21e with SMTP id fa18-20020a056a002d1200b006242e60f21emr7507669pfb.29.1683386708877;
+        Sat, 06 May 2023 08:25:08 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id c8-20020a62e808000000b0063b1b84d54csm3296718pfi.213.2023.05.06.08.25.06
+        by smtp.gmail.com with ESMTPSA id c8-20020a62e808000000b0063b1b84d54csm3296718pfi.213.2023.05.06.08.25.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 May 2023 08:25:06 -0700 (PDT)
+        Sat, 06 May 2023 08:25:08 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 07/15] binutils : Fix CVE-2023-25585
-Date: Sat,  6 May 2023 05:24:37 -1000
-Message-Id: <033db4876844b17de7673970860eb155d15c56e7.1683386547.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 08/15] binutils : Fix CVE-2023-1972
+Date: Sat,  6 May 2023 05:24:38 -1000
+Message-Id: <d46891efa23932a048f7cc4d82c6387e03262f76.1683386547.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1683386547.git.steve@sakoman.com>
 References: <cover.1683386547.git.steve@sakoman.com>
@@ -61,91 +61,78 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 06 May 2023 15:25:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180990
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180991
 
 From: Deepthi Hemraj <deepadeepthi98@gmail.com>
 
-Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=65cf035b8dc1df5d8020e0b1449514a3c42933e7]
+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff_plain;h=c22d38baefc5a7a1e1f5cdc9dbb556b1f0ec5c57]
 
 Signed-off-by: Deepthi Hemraj <deepadeepthi98@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
  .../binutils/binutils-2.38.inc                |  1 +
- .../binutils/0023-CVE-2023-25585.patch        | 54 +++++++++++++++++++
- 2 files changed, 55 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0023-CVE-2023-25585.patch
+ .../binutils/0026-CVE-2023-1972.patch         | 41 +++++++++++++++++++
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0026-CVE-2023-1972.patch
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
-index 69fb8539ba..408b503644 100644
+index 408b503644..1ea17990c8 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.38.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
-@@ -53,5 +53,6 @@ SRC_URI = "\
-      file://0022-CVE-2023-25584-1.patch \
+@@ -54,5 +54,6 @@ SRC_URI = "\
       file://0022-CVE-2023-25584-2.patch \
       file://0022-CVE-2023-25584-3.patch \
-+     file://0023-CVE-2023-25585.patch \
+      file://0023-CVE-2023-25585.patch \
++     file://0026-CVE-2023-1972.patch \
  "
  S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/0023-CVE-2023-25585.patch b/meta/recipes-devtools/binutils/binutils/0023-CVE-2023-25585.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/0026-CVE-2023-1972.patch b/meta/recipes-devtools/binutils/binutils/0026-CVE-2023-1972.patch
 new file mode 100644
-index 0000000000..e31a027b9f
+index 0000000000..f86adad217
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0023-CVE-2023-25585.patch
-@@ -0,0 +1,54 @@
-+From: Alan Modra <amodra@gmail.com>
-+Date: Mon, 12 Dec 2022 08:31:08 +0000 (+1030)
-+Subject: PR29892, Field file_table of struct module is uninitialized
-+X-Git-Tag: gdb-13-branchpoint~86
-+X-Git-Url: https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff_plain;h=65cf035b8dc1df5d8020e0b1449514a3c42933e7
++++ b/meta/recipes-devtools/binutils/binutils/0026-CVE-2023-1972.patch
+@@ -0,0 +1,41 @@
++From: Nick Clifton <nickc@redhat.com>
++Date: Thu, 30 Mar 2023 09:10:09 +0000 (+0100)
++Subject: Fix an illegal memory access when an accessing a zer0-lengthverdef table.
++X-Git-Url: https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff_plain;h=c22d38baefc5a7a1e1f5cdc9dbb556b1f0ec5c57
 +
-+PR29892, Field file_table of struct module is uninitialized
++Fix an illegal memory access when an accessing a zer0-lengthverdef table.
 +
-+	PR 29892
-+	* vms-alphs.c (new_module): Use bfd_zmalloc to alloc file_table.
-+	(parse_module): Rewrite file_table reallocation code and clear.
++  PR 30285
++  * elf.c (_bfd_elf_slurp_version_tables): Fail if no version definitions are allocated.
 +
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff_plain;h=65cf035b8dc1df5d8020e0b1449514a3c42933e7]
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff_plain;h=c22d38baefc5a7a1e1f5cdc9dbb556b1f0ec5c57]
 +
-+CVE: CVE-2023-25585
++CVE: CVE-2023-1972
 +
 +Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
 +
 +---
 +
-+diff --git a/bfd/vms-alpha.c b/bfd/vms-alpha.c
-+index 3b63259cc81..6ee7060b0b2 100644
-+--- a/bfd/vms-alpha.c
-++++ b/bfd/vms-alpha.c
-+@@ -4337,7 +4337,7 @@ new_module (bfd *abfd)
-+     = (struct module *) bfd_zalloc (abfd, sizeof (struct module));
-+   module->file_table_count = 16; /* Arbitrary.  */
-+   module->file_table
-+-    = bfd_malloc (module->file_table_count * sizeof (struct fileinfo));
-++    = bfd_zmalloc (module->file_table_count * sizeof (struct fileinfo));
-+   return module;
-+ }
-+
-+@@ -4520,15 +4520,18 @@ parse_module (bfd *abfd, struct module *module, unsigned char *ptr,
-+		       src_ptr + DST_S_B_SRC_DF_FILENAME,
-+		       ptr + rec_length - (src_ptr + DST_S_B_SRC_DF_FILENAME));
-+
-+-		    while (fileid >= module->file_table_count)
-++		    if (fileid >= module->file_table_count)
-+		      {
-+-			module->file_table_count *= 2;
-++			unsigned int old_count = module->file_table_count;
-++			module->file_table_count += fileid;
-+			module->file_table
-+			  = bfd_realloc_or_free (module->file_table,
-+						 module->file_table_count
-+						 * sizeof (struct fileinfo));
-+			if (module->file_table == NULL)
-+			  return false;
-++			memset (module->file_table + old_count, 0,
-++				fileid * sizeof (struct fileinfo));
-+		      }
-+
-+		    module->file_table [fileid].name = filename;
++diff --git a/bfd/elf.c b/bfd/elf.c
++index 027d0143735..185028cbd97 100644
++--- a/bfd/elf.c
+++++ b/bfd/elf.c
++@@ -9030,6 +9030,9 @@ _bfd_elf_slurp_version_tables (bfd *abfd, bool default_imported_symver)
++	  bfd_set_error (bfd_error_file_too_big);
++	  goto error_return_verdef;
++	}
+++
+++      if (amt == 0)
+++	goto error_return_verdef;
++       elf_tdata (abfd)->verdef = (Elf_Internal_Verdef *) bfd_zalloc (abfd, amt);
++       if (elf_tdata (abfd)->verdef == NULL)
++	goto error_return_verdef;
++@@ -9133,6 +9136,8 @@ _bfd_elf_slurp_version_tables (bfd *abfd, bool default_imported_symver)
++	  bfd_set_error (bfd_error_file_too_big);
++	  goto error_return;
++	}
+++      if (amt == 0)
+++	goto error_return;
++       elf_tdata (abfd)->verdef = (Elf_Internal_Verdef *) bfd_zalloc (abfd, amt);
++       if (elf_tdata (abfd)->verdef == NULL)
++	goto error_return;
 -- 
 2.34.1
 
