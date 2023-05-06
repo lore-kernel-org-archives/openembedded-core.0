@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D7B7C7EE24
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D8BFC7EE2A
 	for <webhook@archiver.kernel.org>; Sat,  6 May 2023 15:25:26 +0000 (UTC)
 Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
  by mx.groups.io with SMTP id smtpd.web10.36191.1683386717257417077
  for <openembedded-core@lists.openembedded.org>;
- Sat, 06 May 2023 08:25:17 -0700
+ Sat, 06 May 2023 08:25:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Pf7cXu8G;
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=OlnJnuVp;
  spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-64389a44895so2422487b3a.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 06 May 2023 08:25:17 -0700 (PDT)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-64389a44895so2422523b3a.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 06 May 2023 08:25:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683386716; x=1685978716;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683386720; x=1685978720;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=A72D5hmMCcTQY0+rCtB6DdDtDKVdcaPCVQarYMV/YD8=;
-        b=Pf7cXu8Gk0/3ROug9LoRDSJDNqaWSkUtOUji8LrtVODmfbD5jkatyBYhv4jVLVDFrz
-         kgEhHNQnqRGJEOFpXkZO7nFCGskbPJ0mRuLZot7WXnu8Wl68uDSfocbktEYCjV84u5E3
-         9LPgJCgWzle511an+MGZM/s9HcG0Xw8Ge/5mj7ynMgNjgvLCYHeRNuQjTKXwg+1KnSJv
-         lP+tmoEMTL3PHis5+MxLaDYKOrx0+VC3nwFMarEUoayfMxBXKkim/WU9A33zZ0/s+Tr9
-         Z+PszFRDbj4mwSoryZk8KGSUPPoq/vM/vjFJVZ/FE3BRPVSFN5Vy0vKKHh3qwyMkbV3g
-         Affw==
+        bh=8ffs4NYvPP67YwYlBG9ejGwN0Ed+zI2x2A70q3+WSjQ=;
+        b=OlnJnuVpnAX2iGOffH3Wj1/tmRhEk73QCngWRuPIMUYtaug2NsUoWzKiRkUTIaCc3h
+         Is3Sx/jbkBxCcnRq6zNaL3FaLsMaIU6/2zLuMJwRxCsWANW7M9iGeo+4m8GUp4jliY8f
+         da4a2ksWhrYnwiQSXrRhPoubC5XBo+nG0IJAWMf+FpwWfc3R5agLc2KL2pCjBz3ulxop
+         8yr8MvWOSqMBNBWcwlFBAQGkXVz37qsVo0zDeWUUPgQUe4q9h84LOsdjH8t7iZUtDqyN
+         Dzs4rutVmnWXkYLkDSmQzePBc4y3eCzCBu/SKl2GpPLduo7UgPu5951MlVdHIf7IhQUn
+         3N7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683386716; x=1685978716;
+        d=1e100.net; s=20221208; t=1683386720; x=1685978720;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=A72D5hmMCcTQY0+rCtB6DdDtDKVdcaPCVQarYMV/YD8=;
-        b=cUf9BXCwAJaPacfiUMoPLTQDPNrGMZK1GbwtM9qn5xGzc+WNB0ocNTsQEmSYWYJVAR
-         EDw9Of3QkOepC3+0VwMO5CoMYa9XUgdCqqXOTaknlLIXQyk36Bt6J72dlSnF6mbDCUz5
-         TflnB/fN9EdqSOHDaYoev5+gLPupjbrPFQ+GP1HtY5L2CD4zq8bTa3VQuoJNlWilHJKh
-         bVjosdap7cz5iVZJh6GLb/zzgDtngsYilAL6WegLk10a4+Sxe7reSM1HrWIW8UEj4ptr
-         rW0FKll/z2TzzIeKwVzSsuvAJEFsTqt77q2G2iHUBM5zdsgax1BXy2EKKvGcxLNnGvVG
-         UVLQ==
-X-Gm-Message-State: AC+VfDz138SNRvbCoLkffyt1E2bN4aoT/VNKpF/14eZd4lb3Jj1JgH5g
-	wdqH/vE3ISTKCnkT7WWa3a9TqtXaRDGh2HWKIRM=
-X-Google-Smtp-Source: ACHHUZ7fqrqCKOuRd7Fa44pSlVm+UbkXqJGx3mE324eXFGk37k0enn3s+Tjf5+oUoaHK/V7Enl1WJw==
-X-Received: by 2002:a05:6a20:549b:b0:ec:236b:2fce with SMTP id i27-20020a056a20549b00b000ec236b2fcemr6614047pzk.35.1683386716381;
-        Sat, 06 May 2023 08:25:16 -0700 (PDT)
+        bh=8ffs4NYvPP67YwYlBG9ejGwN0Ed+zI2x2A70q3+WSjQ=;
+        b=Ud0qvk39HeMittxGLAwEAWE+7Nh8LwbX/z6EgE0EgyxCNfvPnZXIgKKoSkO650deeL
+         9Dn8pcobDhneDn8ZEwxcEB1GDykzOK2sFLAL64c076KYn01wI4zmQNl0Af8YZKj7ls6J
+         CHuud1YkL4gk9HeUT+4xMDVhxWnBs+MAo+TbxZkjJUv8VGtYDaySqdZitm0Gb+kbUHea
+         os5Yw4tIIahGBLjGReIROGdpn5nIbwU6f5GMTPtyzjLjPBH0oLPjip6sgXbsUc2qdfZe
+         9clWiT/YMNLKc6A33w69eTCeJB9tuv+BY+BeWrxriXx6OlaED0As11PGNG1PzidgjaCh
+         J2bQ==
+X-Gm-Message-State: AC+VfDy3I7pCp7+BBQh7xP7uQu/JPaNVVsTxxXVYA4SamKU8GKAkvjhL
+	zCSRu77lIiB1LVDnP/Bx4+l/lvT/JlIsRnC3VNU=
+X-Google-Smtp-Source: ACHHUZ7BeqAKMT3Hfh2IJ90kSzURDDtRQP459i7XP/uRUuyaGUgGiGW5GbvYgO0h3paNOhGTAIMLmA==
+X-Received: by 2002:a05:6a00:c89:b0:63b:5609:3bb5 with SMTP id a9-20020a056a000c8900b0063b56093bb5mr7098639pfv.18.1683386720392;
+        Sat, 06 May 2023 08:25:20 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id c8-20020a62e808000000b0063b1b84d54csm3296718pfi.213.2023.05.06.08.25.15
+        by smtp.gmail.com with ESMTPSA id c8-20020a62e808000000b0063b1b84d54csm3296718pfi.213.2023.05.06.08.25.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 May 2023 08:25:16 -0700 (PDT)
+        Sat, 06 May 2023 08:25:20 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 12/15] wic/bootimg-efi: if fixed-size is set then use that for mkdosfs
-Date: Sat,  6 May 2023 05:24:42 -1000
-Message-Id: <d16301ccdfb97bf126738262eec594008c282df1.1683386547.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 14/15] libbsd: Add correct license for all packages
+Date: Sat,  6 May 2023 05:24:44 -1000
+Message-Id: <538bd24499acfc42ee592a8302b94e54035da178.1683386547.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1683386547.git.steve@sakoman.com>
 References: <cover.1683386547.git.steve@sakoman.com>
@@ -61,41 +61,49 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 06 May 2023 15:25:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180995
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/180997
 
-From: Randolph Sapp <rs@ti.com>
+From: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
 
-This is a bit of a compatibility issue more than anything. Some devices
-get upset if the FAT file system contains less blocks than the
-partition.
+BSD-4-Clause is only applicable to the {PN}-doc package as when I
+check for the source code I find below files which only uses the
+license BSD-4-Clause
 
-The fixed-size argument is currently respected by the partition creation
-step but not by the file system creation step. Let's make it so the file
-system respects this value as well.
+~/sources/libbsd$ grep -rl "All advertising materials mentioning features or use of this software" *|grep -v \.1|grep -v \.5|grep -v \.8 | sort
+COPYING
+man/arc4random.3bsd
+man/getprogname.3bsd
 
-Signed-off-by: Randolph Sapp <rs@ti.com>
+~/sources/libbsd$ grep -rnB5 "BSD-4"
+COPYING-9-Files:
+COPYING-10- man/arc4random.3bsd
+COPYING-11-Copyright:
+COPYING-12- Copyright 1997 Niels Provos <provos@physnet.uni-hamburg.de>
+COPYING-13- All rights reserved.
+COPYING:14:License: BSD-4-clause-Niels-Provos
+
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/wic/plugins/source/bootimg-efi.py | 7 +++++++
+ meta/recipes-support/libbsd/libbsd_0.11.5.bb | 7 +++++++
  1 file changed, 7 insertions(+)
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index a65a5b9780..c28d3917c2 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -390,6 +390,13 @@ class BootimgEFIPlugin(SourcePlugin):
-         logger.debug("Added %d extra blocks to %s to get to %d total blocks",
-                      extra_blocks, part.mountpoint, blocks)
- 
-+        # required for compatibility with certain devices expecting file system
-+        # block count to be equal to partition block count
-+        if blocks < part.fixed_size:
-+            blocks = part.fixed_size
-+            logger.debug("Overriding %s to %d total blocks for compatibility",
-+                     part.mountpoint, blocks)
+diff --git a/meta/recipes-support/libbsd/libbsd_0.11.5.bb b/meta/recipes-support/libbsd/libbsd_0.11.5.bb
+index bb8766a070..21af37882f 100644
+--- a/meta/recipes-support/libbsd/libbsd_0.11.5.bb
++++ b/meta/recipes-support/libbsd/libbsd_0.11.5.bb
+@@ -29,6 +29,13 @@ HOMEPAGE = "https://libbsd.freedesktop.org/wiki/"
+ # License: public-domain-Colin-Plumb
+ LICENSE = "BSD-3-Clause & BSD-4-Clause & ISC & PD"
+ LICENSE:${PN} = "BSD-3-Clause & ISC & PD"
++LICENSE:${PN}-dbg = "BSD-3-Clause & ISC & PD"
++LICENSE:${PN}-dev = "BSD-3-Clause & ISC & PD"
++LICENSE:${PN}-doc = "BSD-3-Clause & BSD-4-Clause & ISC & PD"
++LICENSE:${PN}-locale = "BSD-3-Clause & ISC & PD"
++LICENSE:${PN}-src = "BSD-3-Clause & ISC & PD"
++LICENSE:${PN}-staticdev = "BSD-3-Clause & ISC & PD"
 +
-         # dosfs image, created by mkdosfs
-         bootimg = "%s/boot.img" % cr_workdir
+ LIC_FILES_CHKSUM = "file://COPYING;md5=0b31944ca2c1075410a30f0c17379d3b"
+ SECTION = "libs"
  
 -- 
 2.34.1
