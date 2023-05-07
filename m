@@ -2,31 +2,31 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D81DDC77B75
-	for <webhook@archiver.kernel.org>; Sun,  7 May 2023 21:41:24 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.web10.93636.1683495677991009039
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B74B8C77B75
+	for <webhook@archiver.kernel.org>; Sun,  7 May 2023 21:42:04 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.web11.93589.1683495715006979260
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 May 2023 14:41:19 -0700
+ Sun, 07 May 2023 14:41:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=De/YtBoW;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-20230507214113d6376bdb35a8ccd681-v2fxgq@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20230507214113d6376bdb35a8ccd681
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=RGKxo2EJ;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-20230507214152793c1d61001793447a-prfulu@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20230507214152793c1d61001793447a
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 07 May 2023 23:41:14 +0200
+        Sun, 07 May 2023 23:41:52 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=h7OeXPdvFSxLgnMdS+/MeiPg+7ZlpNtMQNcMDdq2l90=;
- b=De/YtBoWUyvPIsevMHLA8sLS9Yx0IwsGlYRbPW/ueELP9y07UIcm2pSQvsFp5KF4rq6v8o
- AMfcPxO+An9kL+07vkBWvH8VlhIrVsVAvAvVboCA92cYQSQnbgLah8aA4QrVxAfoP0vuV+JH
- 9v1Xf25RGB8j8xUiK8q0nXNYrtlWc=;
+ bh=yFn2xpPRevDBrbVx6qg09hThEdQCbqKpTh8ndNH57XU=;
+ b=RGKxo2EJ64Yrck2cpuhzvONnifqyT4AkKCb3npndsbHHQK1bKt5y9ZH8OSJPcRkWILd9yk
+ VnXEYzkUWQjUGZJ3pI/6CnBmbnpaxNf91ewVph+b3w+GJvNMR58I+Jv5ilLpgJ42DKEu2lBG
+ iCchKRgvfqTzGOqg4j3vbi5zXsW+A=;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][dunfell][PATCH] libxml2: patch CVE-2023-28484 and CVE-2023-29469
-Date: Sun,  7 May 2023 23:40:12 +0200
-Message-Id: <20230507214012.2975263-1-peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH] libxml2: patch CVE-2023-28484 and CVE-2023-29469
+Date: Sun,  7 May 2023 23:40:39 +0200
+Message-Id: <20230507214039.2975311-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -34,8 +34,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 07 May 2023 21:41:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181009
+ <openembedded-core@lists.openembedded.org>; Sun, 07 May 2023 21:42:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181010
 
 Backports from:
 * https://gitlab.gnome.org/GNOME/libxml2/-/commit/e4f85f1bd2eb34d9b49da9154a4cc3a1bc284f68
@@ -45,7 +45,7 @@ Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
  .../libxml/libxml2/CVE-2023-28484.patch       | 79 +++++++++++++++++++
  .../libxml/libxml2/CVE-2023-29469.patch       | 42 ++++++++++
- meta/recipes-core/libxml/libxml2_2.9.10.bb    |  2 +
+ meta/recipes-core/libxml/libxml2_2.9.14.bb    |  2 +
  3 files changed, 123 insertions(+)
  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2023-28484.patch
  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2023-29469.patch
@@ -137,7 +137,7 @@ index 0000000000..907f2c4d47
 +
 diff --git a/meta/recipes-core/libxml/libxml2/CVE-2023-29469.patch b/meta/recipes-core/libxml/libxml2/CVE-2023-29469.patch
 new file mode 100644
-index 0000000000..1252668577
+index 0000000000..f60d160c49
 --- /dev/null
 +++ b/meta/recipes-core/libxml/libxml2/CVE-2023-29469.patch
 @@ -0,0 +1,42 @@
@@ -170,32 +170,32 @@ index 0000000000..1252668577
 +index 86c3f6d7..d7fd1a06 100644
 +--- a/dict.c
 ++++ b/dict.c
-+@@ -451,7 +451,8 @@ static unsigned long
++@@ -433,7 +433,8 @@ static unsigned long
 + xmlDictComputeFastKey(const xmlChar *name, int namelen, int seed) {
 +     unsigned long value = seed;
 + 
 +-    if (name == NULL) return(0);
 ++    if ((name == NULL) || (namelen <= 0))
 ++        return(value);
-+     value = *name;
++     value += *name;
 +     value <<= 5;
 +     if (namelen > 10) {
 +-- 
 +GitLab
 +
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.10.bb b/meta/recipes-core/libxml/libxml2_2.9.10.bb
-index 40e3434ead..034192d64e 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.10.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.10.bb
-@@ -36,6 +36,8 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;subdir=${BP};name=te
-            file://CVE-2016-3709.patch \
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.14.bb b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+index e15f8eb13f..9241b279e4 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.14.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+@@ -25,6 +25,8 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar;subdir=${BP};name=testt
+            file://0001-Port-gentest.py-to-Python-3.patch \
             file://CVE-2022-40303.patch \
             file://CVE-2022-40304.patch \
 +           file://CVE-2023-28484.patch \
 +           file://CVE-2023-29469.patch \
             "
  
- SRC_URI[archive.sha256sum] = "593b7b751dd18c2d6abcd0c4bcb29efc203d0b4373a6df98e3a455ea74ae2813"
+ SRC_URI[archive.sha256sum] = "60d74a257d1ccec0475e749cba2f21559e48139efba6ff28224357c7c798dfee"
 -- 
 2.30.2
 
