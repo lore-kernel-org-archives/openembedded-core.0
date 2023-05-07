@@ -1,248 +1,125 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A17EC77B7D
-	for <webhook@archiver.kernel.org>; Sun,  7 May 2023 08:37:51 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.62091.1683448668506986065
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5B52C77B7C
+	for <webhook@archiver.kernel.org>; Sun,  7 May 2023 11:22:21 +0000 (UTC)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web11.63597.1683458539861998790
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 May 2023 01:37:48 -0700
+ Sun, 07 May 2023 04:22:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=OeR/b8fq;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f4000ec74aso22352715e9.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 07 May 2023 01:37:48 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=2ghTxCnF;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-643ac91c51fso1441434b3a.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 07 May 2023 04:22:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1683448667; x=1686040667;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6j/B6xDrN22P/Qe+zrCtmIcjwRTXbfgTZ71PgbfslT0=;
-        b=OeR/b8fqESVDRmnxBoOI82fdDzJr/dbNx+rpedz86dzKKtIB5L/gmkDjitUxUOqxK6
-         Z5ht0452rNIZjsf4ltNva43f7en0CHJCO059siCQl3rx+RWzsjkDHyQh3WfERBfLf5G8
-         kGcagJ9hQJeszluavmyPP6/Era104cNeUIPPg=
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683458539; x=1686050539;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bDoQ44EENyGxmyF9LEYSVYkoMWfXRa9yVwFkqff/REk=;
+        b=2ghTxCnFS2OG7yKnOxFaAeU+KF7915qMCD761nFSyE5qJ51zbD8qwNoicTt+4kke1w
+         uQ/7+6UQZ2Fo+rkrhF+5Sm4L9EDk8eryNKcqf8NNKzysfbReQBx0dPKorgQ0TqqSp5b5
+         ocR5r6yWX7xe7hITmt24p4m+c8KUG7rYDr8UKSa0MdyCsaKy0RMeNPDQoaWpQxyKj2M3
+         5jIBjd51zMemWZIbQMfebs2Vi5cJh4vzbAJzLSwA7iWf6CANv5GVb7rq1aPaWyW8qYjw
+         ztE+TC8OoYI1FkLxfrCMFNL7sBUifNQ0wChIorgZI1u74JnhRb4oFmYplGzVtYBt30K2
+         QnIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683448667; x=1686040667;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6j/B6xDrN22P/Qe+zrCtmIcjwRTXbfgTZ71PgbfslT0=;
-        b=AdI1NOAI09hKSJBP06pFtuY+qXPSi/PZ3Vo6F8Koj3HagOo0Ez6mrJ3H/LxjU9hrB6
-         3LDSi1eeLaXdhHnWkfryYvQFKRTNLBmYGvvYFOClYcIZQpGMi8/iUAP2EfYbSognWSxd
-         I0UG64MWsIf9tJRAMOyrF9pa+W1psihBRkoResuy93kwbBvTikPb0tz5sQ7tpqW06ttT
-         PF+O+Sc/tygGoT98GBycQVonjBle1gp2X3pIyw5OjdR/pT9MDUDg3iMuK638c5DVoFG4
-         2yhDb4Y7s1XPMXUyKqnxJNpUg/+YpFsOavjrlDqYxWP6YIJpUMuf7fbFHkIGiE5R4IQ5
-         RWcw==
-X-Gm-Message-State: AC+VfDznlwb904ZRT643xBUf0R/676vzUOV5JSmoTdd2Pf7fGhcEWWkP
-	XhBaiR/j7wltf0OutYaXcFsOVM8kqNfwUJj+E8I=
-X-Google-Smtp-Source: ACHHUZ6i4rjq+e48W0hkjk0qsyFTKIntkn7q4uYTxTDsD3Eg6HrDwZ8cjAyzfU0PULAexMaaa/O6gg==
-X-Received: by 2002:a05:600c:2148:b0:3f1:75b6:8c7 with SMTP id v8-20020a05600c214800b003f175b608c7mr4795446wml.37.1683448666346;
-        Sun, 07 May 2023 01:37:46 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:4881:a654:eebf:9dd7])
-        by smtp.gmail.com with ESMTPSA id t13-20020adfeb8d000000b003063ec828a4sm7542348wrn.117.2023.05.07.01.37.45
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20221208; t=1683458539; x=1686050539;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=bDoQ44EENyGxmyF9LEYSVYkoMWfXRa9yVwFkqff/REk=;
+        b=Ync30psVVYUXuhnYfObhk4dJih1dJRT70ABwJMDUNDcybmoU0jlWR9YRrsyUjuy59J
+         DNlivkUhySHrnVHoNn31Zibh4mml1vxKGXSHRa8UMbiUUM00Thi/oVyinvTDNZ3SbAS0
+         oqdGy8Jv1pOrYyv6CDwiINLnGe5xnxrHEpRx7y8AxLHO4eHsSlvXamdQ+Giiw5F9bDis
+         +71hTqGeHBfUOb+F7hblyfciOE9ip22rIPZ2lcrUsHvmHztfbN285fP3dqTI6gojttpm
+         yeGmzi6X+BbhKCWBYep0dDEpOGGhH6LNQPmC9t7uInQ1FGh7XXYNqjRjyXfuEKGwXqB4
+         gheQ==
+X-Gm-Message-State: AC+VfDwqnWCgHGS5w1RVgRuTLPTTQ3ka7nYVbwcHEqftmKTLYpC7rViD
+	eiXZkviFvWjx6yPxq/rMDURpQ8AjKjqEPiPTqKk=
+X-Google-Smtp-Source: ACHHUZ4C2+hOA0O3Iic2Zt0Qs1dc0GyKOyJCGv2ISDM8WdpLiDH2DgohDqvax6Ynr5ADXaefdyIo5Q==
+X-Received: by 2002:a05:6a21:338e:b0:100:5851:d4ba with SMTP id yy14-20020a056a21338e00b001005851d4bamr467086pzb.54.1683458538573;
+        Sun, 07 May 2023 04:22:18 -0700 (PDT)
+Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id i24-20020aa78b58000000b0063d2dae6247sm4280467pfd.77.2023.05.07.04.22.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 May 2023 01:37:45 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] qemu: Update ppc instruction fix to match revised upstream version
-Date: Sun,  7 May 2023 09:37:44 +0100
-Message-Id: <20230507083744.3244029-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        Sun, 07 May 2023 04:22:18 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id 3C1F79604C2; Sun,  7 May 2023 01:22:16 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 07 May 2023 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun,  7 May 2023 01:22:16 -1000
+Message-Id: <20230507112216.3C1F79604C2@nuc.router0800d9.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 07 May 2023 08:37:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181003
+ <openembedded-core@lists.openembedded.org>; Sun, 07 May 2023 11:22:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181004
 
-Upstream asked for some changes, this updates our patch to match. The differences
-likely don't change our real world use.
+Branch: master
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/qemu/qemu/ppc.patch | 127 +++++++++++++++++-----
- 1 file changed, 102 insertions(+), 25 deletions(-)
+New this week: 7 CVEs
+CVE-2023-1255 (CVSS3: 5.9 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1255 *
+CVE-2023-1998 (CVSS3: 5.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1998 *
+CVE-2023-2235 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2235 *
+CVE-2023-2248 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2248 *
+CVE-2023-25652 (CVSS3: 7.5 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25652 *
+CVE-2023-29007 (CVSS3: 7.8 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29007 *
+CVE-2023-31436 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-31436 *
 
-diff --git a/meta/recipes-devtools/qemu/qemu/ppc.patch b/meta/recipes-devtools/qemu/qemu/ppc.patch
-index ade1daf61ff..1fe6a3b4139 100644
---- a/meta/recipes-devtools/qemu/qemu/ppc.patch
-+++ b/meta/recipes-devtools/qemu/qemu/ppc.patch
-@@ -1,70 +1,147 @@
--target/ppc: Fix fallback to MFSS for MFFSCRN, MFFSCRNI, MFFSCE and MFFSL
-+From d92b63b7d15d4fd202c5802dfe444a96f5d8109c Mon Sep 17 00:00:00 2001
-+From: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Date: Sat, 6 May 2023 07:42:35 +0100
-+Cc: Víctor Colombo <victor.colombo@eldorado.org.br>
-+Cc: Matheus Ferst <matheus.ferst@eldorado.org.br>
-+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>
-+Cc: Richard Henderson <richard.henderson@linaro.org>
-+Subject: [PATCH v2] target/ppc: Fix fallback to MFSS for MFFS* instructions on
-+ pre 3.0 ISAs
- 
--The following commits changed the code such that these instructions became invalid
--on pre 3.0 ISAs:
-+The following commits changed the code such that the fallback to MFSS for MFFSCRN,
-+MFFSCRNI, MFFSCE and MFFSL on pre 3.0 ISAs was removed and became an illegal instruction:
- 
--  bf8adfd88b547680aa857c46098f3a1e94373160 - target/ppc: Move mffscrn[i] to decodetree 
-+  bf8adfd88b547680aa857c46098f3a1e94373160 - target/ppc: Move mffscrn[i] to decodetree
-   394c2e2fda70da722f20fb60412d6c0ca4bfaa03 - target/ppc: Move mffsce to decodetree
--  3e5bce70efe6bd1f684efbb21fd2a316cbf0657e - target/ppc: Move mffsl to decodetree 
-+  3e5bce70efe6bd1f684efbb21fd2a316cbf0657e - target/ppc: Move mffsl to decodetree
- 
- The hardware will handle them as a MFFS instruction as the code did previously.
--Restore that behaviour. This means applications that were segfaulting under qemu 
--when encountering these instructions now operate correctly. The instruction
--is used in glibc libm functions for example.
-+This means applications that were segfaulting under qemu when encountering these
-+instructions which is used in glibc libm functions for example.
- 
--Upstream-Status: Submitted [https://lore.kernel.org/qemu-devel/20230504110150.3044402-1-richard.purdie@linuxfoundation.org/]
-+The fallback for MFFSCDRN and MFFSCDRNI added in a later patch was also missing.
-+
-+This patch restores the fallback to MFSS for these instructions on pre 3.0s ISAs
-+as the hardware decoder would, fixing the segfaulting libm code. It and also ensures
-+the MFSS instruction is used for currently reserved bits to handle other potential
-+ISA additions more correctly.
-+
-+Upstream-Status: Submitted [https://lore.kernel.org/qemu-devel/20230506065240.3177798-1-richard.purdie@linuxfoundation.org/]
- 
- Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+---
-+ target/ppc/insn32.decode           | 19 ++++++++++++-------
-+ target/ppc/translate/fp-impl.c.inc | 30 ++++++++++++++++++++++++------
-+ 2 files changed, 36 insertions(+), 13 deletions(-)
- 
--Index: qemu-8.0.0/target/ppc/translate/fp-impl.c.inc
--===================================================================
----- qemu-8.0.0.orig/target/ppc/translate/fp-impl.c.inc
--+++ qemu-8.0.0/target/ppc/translate/fp-impl.c.inc
--@@ -584,7 +584,10 @@ static bool trans_MFFSCE(DisasContext *c
-+v2 - switch to use decodetree pattern groups per feedback
-+
-+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-+index f8f589e9fd..3c4e2c2fc2 100644
-+--- a/target/ppc/insn32.decode
-++++ b/target/ppc/insn32.decode
-+@@ -390,13 +390,18 @@ SETNBCR         011111 ..... ..... ----- 0111100000 -   @X_bi
-+ 
-+ ### Move To/From FPSCR
-+ 
-+-MFFS            111111 ..... 00000 ----- 1001000111 .   @X_t_rc
-+-MFFSCE          111111 ..... 00001 ----- 1001000111 -   @X_t
-+-MFFSCRN         111111 ..... 10110 ..... 1001000111 -   @X_tb
-+-MFFSCDRN        111111 ..... 10100 ..... 1001000111 -   @X_tb
-+-MFFSCRNI        111111 ..... 10111 ---.. 1001000111 -   @X_imm2
-+-MFFSCDRNI       111111 ..... 10101 --... 1001000111 -   @X_imm3
-+-MFFSL           111111 ..... 11000 ----- 1001000111 -   @X_t
-++{ 
-++  # Before Power ISA v3.0, MFFS bits 11~15 were reserved and should be ignored
-++  [
-++    MFFSCE          111111 ..... 00001 ----- 1001000111 -   @X_t
-++    MFFSCRN         111111 ..... 10110 ..... 1001000111 -   @X_tb
-++    MFFSCDRN        111111 ..... 10100 ..... 1001000111 -   @X_tb
-++    MFFSCRNI        111111 ..... 10111 ---.. 1001000111 -   @X_imm2
-++    MFFSCDRNI       111111 ..... 10101 --... 1001000111 -   @X_imm3
-++    MFFSL           111111 ..... 11000 ----- 1001000111 -   @X_t
-++  ]
-++  MFFS            111111 ..... ----- ----- 1001000111 .   @X_t_rc
-++}
-+ 
-+ ### Decimal Floating-Point Arithmetic Instructions
-+ 
-+diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
-+index 57d8437851..10dfd91aa4 100644
-+--- a/target/ppc/translate/fp-impl.c.inc
-++++ b/target/ppc/translate/fp-impl.c.inc
-+@@ -584,7 +584,10 @@ static bool trans_MFFSCE(DisasContext *ctx, arg_X_t *a)
-  {
-      TCGv_i64 fpscr;
-  
- -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
--+    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
--+        return trans_MFFS(ctx, a);
-++    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
-++        return false;
- +    }
- +
-      REQUIRE_FPU(ctx);
-  
-      gen_reset_fpstatus();
--@@ -597,7 +600,10 @@ static bool trans_MFFSCRN(DisasContext *
-+@@ -597,7 +600,10 @@ static bool trans_MFFSCRN(DisasContext *ctx, arg_X_tb *a)
-+ {
-+     TCGv_i64 t1, fpscr;
-+ 
-+-    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-++    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
-++        return false;
-++    }
-++
-+     REQUIRE_FPU(ctx);
-+ 
-+     t1 = tcg_temp_new_i64();
-+@@ -614,7 +620,10 @@ static bool trans_MFFSCDRN(DisasContext *ctx, arg_X_tb *a)
-  {
-      TCGv_i64 t1, fpscr;
-  
- -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
--+    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
--+        return trans_MFFS(ctx, a);
-++    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
-++        return false;
- +    }
- +
-      REQUIRE_FPU(ctx);
-  
-      t1 = tcg_temp_new_i64();
--@@ -631,7 +637,10 @@ static bool trans_MFFSCRNI(DisasContext
-+@@ -631,7 +640,10 @@ static bool trans_MFFSCRNI(DisasContext *ctx, arg_X_imm2 *a)
-  {
-      TCGv_i64 t1, fpscr;
-  
- -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
--+    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
--+        return trans_MFFS(ctx, a);
-++    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
-++        return false;
- +    }
- +
-      REQUIRE_FPU(ctx);
-  
-      t1 = tcg_temp_new_i64();
--@@ -661,7 +670,10 @@ static bool trans_MFFSCDRNI(DisasContext
-+@@ -647,7 +659,10 @@ static bool trans_MFFSCDRNI(DisasContext *ctx, arg_X_imm3 *a)
-+ {
-+     TCGv_i64 t1, fpscr;
-+ 
-+-    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-++    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
-++        return false;
-++    }
-++
-+     REQUIRE_FPU(ctx);
-+ 
-+     t1 = tcg_temp_new_i64();
-+@@ -661,7 +676,10 @@ static bool trans_MFFSCDRNI(DisasContext *ctx, arg_X_imm3 *a)
-  
-  static bool trans_MFFSL(DisasContext *ctx, arg_X_t *a)
-  {
- -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
--+    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
--+        return trans_MFFS(ctx, a);
-++    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
-++        return false;
- +    }
- +
-      REQUIRE_FPU(ctx);
-  
-      gen_reset_fpstatus();
-+-- 
-+2.39.2
-+
--- 
-2.39.2
+Removed this week: 6 CVEs
+CVE-2023-0330 (CVSS3: 6.0 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0330 *
+CVE-2023-0664 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0664 *
+CVE-2023-1544 (CVSS3: 6.3 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1544 *
+CVE-2023-28488 (CVSS3: 6.5 MEDIUM): connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28488 *
+CVE-2023-28879 (CVSS3: 9.8 CRITICAL): ghostscript:ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28879 *
+CVE-2023-30630 (CVSS3: 7.8 HIGH): dmidecode https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-30630 *
 
+Full list:  Found 42 unpatched CVEs
+CVE-2021-3714 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-3219 (CVSS3: 5.5 MEDIUM): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
+CVE-2022-3533 (CVSS3: 5.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3533 *
+CVE-2022-3606 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3606 *
+CVE-2022-36402 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36402 *
+CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-44370 (CVSS3: 7.8 HIGH): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-44370 *
+CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2022-46456 (CVSS3: 6.1 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
+CVE-2022-48425 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48425 *
+CVE-2023-0465 (CVSS3: 5.3 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0465 *
+CVE-2023-0466 (CVSS3: 5.3 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0466 *
+CVE-2023-0615 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0615 *
+CVE-2023-1255 (CVSS3: 5.9 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1255 *
+CVE-2023-1380 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1380 *
+CVE-2023-1611 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1611 *
+CVE-2023-1855 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1855 *
+CVE-2023-1916 (CVSS3: 6.1 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1916 *
+CVE-2023-1989 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1989 *
+CVE-2023-1990 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1990 *
+CVE-2023-1998 (CVSS3: 5.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1998 *
+CVE-2023-2162 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2162 *
+CVE-2023-2194 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2194 *
+CVE-2023-2235 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2235 *
+CVE-2023-2248 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2248 *
+CVE-2023-23039 (CVSS3: 5.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-23039 *
+CVE-2023-24532 (CVSS3: 5.3 MEDIUM): go-binary-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24532 *
+CVE-2023-24534 (CVSS3: 7.5 HIGH): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24534 *
+CVE-2023-24536 (CVSS3: 7.5 HIGH): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24536 *
+CVE-2023-24537 (CVSS3: 7.5 HIGH): go-binary-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24537 *
+CVE-2023-24538 (CVSS3: 9.8 CRITICAL): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24538 *
+CVE-2023-25652 (CVSS3: 7.5 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25652 *
+CVE-2023-28328 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28328 *
+CVE-2023-28464 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28464 *
+CVE-2023-28866 (CVSS3: 5.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28866 *
+CVE-2023-29007 (CVSS3: 7.8 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29007 *
+CVE-2023-30456 (CVSS3: 6.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-30456 *
+CVE-2023-30772 (CVSS3: 6.4 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-30772 *
+CVE-2023-31436 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-31436 *
+
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
