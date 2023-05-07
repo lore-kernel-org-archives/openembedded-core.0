@@ -1,202 +1,462 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B74B8C77B75
-	for <webhook@archiver.kernel.org>; Sun,  7 May 2023 21:42:04 +0000 (UTC)
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.web11.93589.1683495715006979260
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10EE5C77B7C
+	for <webhook@archiver.kernel.org>; Sun,  7 May 2023 22:20:25 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web10.94373.1683498020784806790
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 May 2023 14:41:56 -0700
+ Sun, 07 May 2023 15:20:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=RGKxo2EJ;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-20230507214152793c1d61001793447a-prfulu@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20230507214152793c1d61001793447a
-        for <openembedded-core@lists.openembedded.org>;
-        Sun, 07 May 2023 23:41:52 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=yFn2xpPRevDBrbVx6qg09hThEdQCbqKpTh8ndNH57XU=;
- b=RGKxo2EJ64Yrck2cpuhzvONnifqyT4AkKCb3npndsbHHQK1bKt5y9ZH8OSJPcRkWILd9yk
- VnXEYzkUWQjUGZJ3pI/6CnBmbnpaxNf91ewVph+b3w+GJvNMR58I+Jv5ilLpgJ42DKEu2lBG
- iCchKRgvfqTzGOqg4j3vbi5zXsW+A=;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH] libxml2: patch CVE-2023-28484 and CVE-2023-29469
-Date: Sun,  7 May 2023 23:40:39 +0200
-Message-Id: <20230507214039.2975311-1-peter.marko@siemens.com>
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=qfwo/6SM;
+ spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-304935cc79bso3629540f8f.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 07 May 2023 15:20:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683498019; x=1686090019;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=PNCV4zRV/Jw1yuOavLrbsAfa+u4YuBMIlJbfYgsnJVE=;
+        b=qfwo/6SMhnbSKQGQrr9ZDaHR3rCMLE6Yo8W6pQlC+NhUqOhk7R38PVHSF/G8I7DDIr
+         lKZ+SY0FNVLT8o43CQPlQaztY5RMxTFnMU06cYVIt+hh/+0PLORWHB+/gcLdstb9oVL2
+         vzizA2uWzTMGdLTux6i+bM2Cmvf4ZpxLKsLz92QH0X7XqimwQVQN4y2XwJr2qE6QBZFw
+         KnuIcFNVm+8fHJJjIbsZ5sVagSKcRPPii9SuSyuVHpq7moGaBKCxMkPVmhrIu6lwTPDk
+         +xdkd9aYMsMTmnKQmsyb1/Gcz7woI53D80FmzVN+93tlRHeffPYBJJupmcpYK6TRFgtk
+         VQ4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683498019; x=1686090019;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PNCV4zRV/Jw1yuOavLrbsAfa+u4YuBMIlJbfYgsnJVE=;
+        b=Nuw6Y0gVPXhoo1BA3VmCdHz3juJk7u2uKlkcuWVVK1JFBxgdflNFzRY+97H+Fmmudu
+         l/kmrW03NUyclK2NZYndxG3lC/k7K5H5WTkI8xIWiBfrLW8CX4f/Osh58coXs4rO7IMB
+         Rqge852esY9Rsb2qxEdD7m9+0UvdFRmEzrkaJcspCxLuoEVWj5khWcHk/nuI6K2L0W48
+         PMmy+6KrWeW7A0L/9Ea8xxvtZFkGZmitgzhOE7NphqMTli4ofpm77lYOL4yrZDwOkjHI
+         JcUKNTcCGb0MT+MObwcR1iiZyNS3WDFaG81Qo9GiIQeGdy4/oiC0sL0upTDyMBh+s0qe
+         7RPw==
+X-Gm-Message-State: AC+VfDyJ3XAnxH2XLFdeKLY8t4cFXmX1AdGq8zp02QMqP/WCiTchisyB
+	BUF7BFdVj4mrfW2AFQfQM3IMhPU8FXImjq1iIRI=
+X-Google-Smtp-Source: ACHHUZ4Z5GLIyES+QasS3YERtvrfVWnyNu2U85ozL+KGaNn4nnYF1l2C++vG6GZ46KvymWNrUyO6fPy0blOXHshrCt4=
+X-Received: by 2002:a5d:560c:0:b0:306:3381:67fe with SMTP id
+ l12-20020a5d560c000000b00306338167femr5648943wrv.27.1683498018948; Sun, 07
+ May 2023 15:20:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+References: <20230505163601.6708-1-rs@ti.com> <CA+chaQd0iy1pv1QBhueS1fbpu0=fPzOU9Unr7+ROnGntuOUOcA@mail.gmail.com>
+ <DB5PR02MB10213095D76376494151E4B01EF709@DB5PR02MB10213.eurprd02.prod.outlook.com>
+In-Reply-To: <DB5PR02MB10213095D76376494151E4B01EF709@DB5PR02MB10213.eurprd02.prod.outlook.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 8 May 2023 00:19:59 +0200
+Message-ID: <CA+chaQfuTxjoqm8RJO6RARF031YEmBa2g3dZo_A0b5TX7XB9vA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] kernel-devicetree: allow specification of dtb directory
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: "rs@ti.com" <rs@ti.com>, "afd@ti.com" <afd@ti.com>, "detheridge@ti.com" <detheridge@ti.com>, 
+	"reatmon@ti.com" <reatmon@ti.com>, "denis@denix.org" <denis@denix.org>, 
+	"alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000006649b605fb21edb9"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 07 May 2023 21:42:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181010
+ <openembedded-core@lists.openembedded.org>; Sun, 07 May 2023 22:20:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181011
 
-Backports from:
-* https://gitlab.gnome.org/GNOME/libxml2/-/commit/e4f85f1bd2eb34d9b49da9154a4cc3a1bc284f68
-* https://gitlab.gnome.org/GNOME/libxml2/-/commit/547edbf1cbdccd46b2e8ff322a456eaa5931c5df
+--0000000000006649b605fb21edb9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- .../libxml/libxml2/CVE-2023-28484.patch       | 79 +++++++++++++++++++
- .../libxml/libxml2/CVE-2023-29469.patch       | 42 ++++++++++
- meta/recipes-core/libxml/libxml2_2.9.14.bb    |  2 +
- 3 files changed, 123 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2023-28484.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2023-29469.patch
+or
+if "${@'true' if oe.types.boolean(d.getVar('KERNEL_DTBVENDORED')) else
+'false'}"; then
+to avoid test as well (like systemd recipes is using) and I did here as
+well in:
+https://git.openembedded.org/openembedded-core-contrib/commit/?h=3Djansa/ma=
+ster&id=3De2a6da5202a6671113758f9746ddbd8141a75757
 
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2023-28484.patch b/meta/recipes-core/libxml/libxml2/CVE-2023-28484.patch
-new file mode 100644
-index 0000000000..907f2c4d47
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2023-28484.patch
-@@ -0,0 +1,79 @@
-+From e4f85f1bd2eb34d9b49da9154a4cc3a1bc284f68 Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Fri, 7 Apr 2023 11:46:35 +0200
-+Subject: [PATCH] [CVE-2023-28484] Fix null deref in xmlSchemaFixupComplexType
-+
-+Fix a null pointer dereference when parsing (invalid) XML schemas.
-+
-+Thanks to Robby Simpson for the report!
-+
-+Fixes #491.
-+
-+CVE: CVE-2023-28484
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/e4f85f1bd2eb34d9b49da9154a4cc3a1bc284f68]
-+
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ result/schemas/issue491_0_0.err |  1 +
-+ test/schemas/issue491_0.xml     |  1 +
-+ test/schemas/issue491_0.xsd     | 18 ++++++++++++++++++
-+ xmlschemas.c                    |  2 +-
-+ 4 files changed, 21 insertions(+), 1 deletion(-)
-+ create mode 100644 result/schemas/issue491_0_0.err
-+ create mode 100644 test/schemas/issue491_0.xml
-+ create mode 100644 test/schemas/issue491_0.xsd
-+
-+diff --git a/result/schemas/issue491_0_0.err b/result/schemas/issue491_0_0.err
-+new file mode 100644
-+index 00000000..9b2bb969
-+--- /dev/null
-++++ b/result/schemas/issue491_0_0.err
-+@@ -0,0 +1 @@
-++./test/schemas/issue491_0.xsd:8: element complexType: Schemas parser error : complex type 'ChildType': The content type of both, the type and its base type, must either 'mixed' or 'element-only'.
-+diff --git a/test/schemas/issue491_0.xml b/test/schemas/issue491_0.xml
-+new file mode 100644
-+index 00000000..e2b2fc2e
-+--- /dev/null
-++++ b/test/schemas/issue491_0.xml
-+@@ -0,0 +1 @@
-++<Child xmlns="http://www.test.com">5</Child>
-+diff --git a/test/schemas/issue491_0.xsd b/test/schemas/issue491_0.xsd
-+new file mode 100644
-+index 00000000..81702649
-+--- /dev/null
-++++ b/test/schemas/issue491_0.xsd
-+@@ -0,0 +1,18 @@
-++<?xml version='1.0' encoding='UTF-8'?>
-++<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.test.com" targetNamespace="http://www.test.com" elementFormDefault="qualified" attributeFormDefault="unqualified">
-++  <xs:complexType name="BaseType">
-++    <xs:simpleContent>
-++      <xs:extension base="xs:int" />
-++    </xs:simpleContent>
-++  </xs:complexType>
-++  <xs:complexType name="ChildType">
-++    <xs:complexContent>
-++      <xs:extension base="BaseType">
-++        <xs:sequence>
-++          <xs:element name="bad" type="xs:int" minOccurs="0" maxOccurs="1"/>
-++        </xs:sequence>
-++      </xs:extension>
-++    </xs:complexContent>
-++  </xs:complexType>
-++  <xs:element name="Child" type="ChildType" />
-++</xs:schema>
-+diff --git a/xmlschemas.c b/xmlschemas.c
-+index 6a353858..a4eaf591 100644
-+--- a/xmlschemas.c
-++++ b/xmlschemas.c
-+@@ -18632,7 +18632,7 @@ xmlSchemaFixupComplexType(xmlSchemaParserCtxtPtr pctxt,
-+ 			"allowed to appear inside other model groups",
-+ 			NULL, NULL);
-+ 
-+-		} else if (! dummySequence) {
-++		} else if ((!dummySequence) && (baseType->subtypes != NULL)) {
-+ 		    xmlSchemaTreeItemPtr effectiveContent =
-+ 			(xmlSchemaTreeItemPtr) type->subtypes;
-+ 		    /*
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2023-29469.patch b/meta/recipes-core/libxml/libxml2/CVE-2023-29469.patch
-new file mode 100644
-index 0000000000..f60d160c49
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2023-29469.patch
-@@ -0,0 +1,42 @@
-+From 547edbf1cbdccd46b2e8ff322a456eaa5931c5df Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Fri, 7 Apr 2023 11:49:27 +0200
-+Subject: [PATCH] [CVE-2023-29469] Hashing of empty dict strings isn't
-+ deterministic
-+
-+When hashing empty strings which aren't null-terminated,
-+xmlDictComputeFastKey could produce inconsistent results. This could
-+lead to various logic or memory errors, including double frees.
-+
-+For consistency the seed is also taken into account, but this shouldn't
-+have an impact on security.
-+
-+Found by OSS-Fuzz.
-+
-+Fixes #510.
-+
-+CVE: CVE-2023-29469
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/547edbf1cbdccd46b2e8ff322a456eaa5931c5df]
-+
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ dict.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/dict.c b/dict.c
-+index 86c3f6d7..d7fd1a06 100644
-+--- a/dict.c
-++++ b/dict.c
-+@@ -433,7 +433,8 @@ static unsigned long
-+ xmlDictComputeFastKey(const xmlChar *name, int namelen, int seed) {
-+     unsigned long value = seed;
-+ 
-+-    if (name == NULL) return(0);
-++    if ((name == NULL) || (namelen <= 0))
-++        return(value);
-+     value += *name;
-+     value <<= 5;
-+     if (namelen > 10) {
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.14.bb b/meta/recipes-core/libxml/libxml2_2.9.14.bb
-index e15f8eb13f..9241b279e4 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.14.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
-@@ -25,6 +25,8 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar;subdir=${BP};name=testt
-            file://0001-Port-gentest.py-to-Python-3.patch \
-            file://CVE-2022-40303.patch \
-            file://CVE-2022-40304.patch \
-+           file://CVE-2023-28484.patch \
-+           file://CVE-2023-29469.patch \
-            "
- 
- SRC_URI[archive.sha256sum] = "60d74a257d1ccec0475e749cba2f21559e48139efba6ff28224357c7c798dfee"
--- 
-2.30.2
+On Sun, May 7, 2023 at 10:49=E2=80=AFPM Peter Kjellerstedt <
+peter.kjellerstedt@axis.com> wrote:
 
+> [ Outlook does not support commenting inline for HTML mails, thus I=E2=80=
+=99m top
+> posting=E2=80=A6]
+>
+>
+>
+> The problem is `=3D=3D`, which is a bashism. POSIX shells (like dash) onl=
+y
+> support `=3D`. When it comes to quoting, you typically want to quote shel=
+l
+> variables in tests in case they are empty. OTOH, static strings without
+> whitespace or other special characters do not need quoting. So the correc=
+t
+> way to write the if statements is:
+>
+>
+>
+>                if [ "${KERNEL_DTBVENDORED}" =3D false ]; then
+>
+>
+>
+> (In this case it is actually a bitbake variable being quoted, but unless
+> you can guarantee it is not empty, the same rule applies.)
+>
+>
+>
+> //Peter
+>
+>
+>
+> *From:* openembedded-core@lists.openembedded.org <
+> openembedded-core@lists.openembedded.org> *On Behalf Of *Martin Jansa
+> *Sent:* den 6 maj 2023 11:10
+> *To:* rs@ti.com
+> *Cc:* afd@ti.com; detheridge@ti.com; reatmon@ti.com; denis@denix.org;
+> alexandre.belloni@bootlin.com; openembedded-core@lists.openembedded.org
+> *Subject:* Re: [OE-core][PATCH] kernel-devicetree: allow specification of
+> dtb directory
+>
+>
+>
+> On Fri, May 5, 2023 at 6:38=E2=80=AFPM Randolph Sapp via lists.openembedd=
+ed.org
+> <rs=3Dti.com@lists.openembedded.org> wrote:
+>
+> From: Randolph Sapp <rs@ti.com>
+>
+> Fedora/Redhat and Arch are somewhat standardized on their dtb directory
+> structure. Let's add some flags to configure yocto to mimic that
+> behavior.
+>
+> Add the following variables to the kernel class:
+>         - KERNEL_DTBDEST (controls the destination directory for dtbs)
+>         - KERNEL_DTBVENDORED (controls if vendor subdirectories are to
+>           be respected)
+>
+> Currently KERNEL_DTBDEST is expected to be a subdir of KERNEL_IMAGEDEST
+> and KERNEL_DTBVENDORED is expected to be "true"/"false". This only
+> applies to the package directory structure. The deploydir structure is
+> purposely left untouched for compatibility with existing recipes.
+>
+> By default this is configured to behave the same as the current recipe
+> and produce a flat dtb directory at KERNEL_IMAGEDEST.
+>
+> Signed-off-by: Randolph Sapp <rs@ti.com>
+> ---
+>
+> Well, suppose I was breaking things by submitting this to kirkstone
+> first. This is just the master version of the following patchset:
+> https://lists.openembedded.org/g/openembedded-core/message/180754
+>
+> I'd love to get that series merged as well if this patch is acceptable.
+>
+>  meta/classes-recipe/kernel-devicetree.bbclass | 22 ++++++++++++++-----
+>  meta/classes-recipe/kernel.bbclass            |  2 ++
+>  2 files changed, 19 insertions(+), 5 deletions(-)
+>
+> diff --git a/meta/classes-recipe/kernel-devicetree.bbclass
+> b/meta/classes-recipe/kernel-devicetree.bbclass
+> index 4d0ecb1032..a6c6c5f227 100644
+> --- a/meta/classes-recipe/kernel-devicetree.bbclass
+> +++ b/meta/classes-recipe/kernel-devicetree.bbclass
+> ...
+>
+>
+>
+> -               dtb_base_name=3D`basename $dtb .$dtb_ext`
+>                 dtb_path=3D`get_real_dtb_path_in_kernel "$dtb"`
+> -               install -m 0644 $dtb_path
+> ${D}/${KERNEL_IMAGEDEST}/$dtb_base_name.$dtb_ext
+> +               if [ ${KERNEL_DTBVENDORED} =3D=3D "false" ]; then
+>
+>
+>
+> dash doesn't like this:
+>
+>
+>
+>  /bin/dash -c "if [ false =3D=3D "false" ]; then echo foo; fi"
+>
+>
+>
+> add quotes or use single '=3D'.
+>
+>
+>
+> +                       dtb_ext=3D${dtb##*.}
+> +                       dtb_base_name=3D`basename $dtb .$dtb_ext`
+> +                       dtb=3D$dtb_base_name.$dtb_ext
+> +               fi
+> +               install -Dm 0644 $dtb_path ${D}/${KERNEL_DTBDEST}/$dtb
+>         done
+>  }
+>
+> @@ -88,7 +97,10 @@ do_deploy:append() {
+>                 dtb_ext=3D${dtb##*.}
+>                 dtb_base_name=3D`basename $dtb .$dtb_ext`
+>                 install -d $deployDir
+> -               install -m 0644
+> ${D}/${KERNEL_IMAGEDEST}/$dtb_base_name.$dtb_ext
+> $deployDir/$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext
+> +               if [ ${KERNEL_DTBVENDORED} =3D=3D "false" ]; then
+>
+>
+>
+> Same here
+>
+>
+>
+> +                       dtb=3D$dtb_base_name.$dtb_ext
+> +               fi
+> +               install -m 0644 ${D}/${KERNEL_DTBDEST}/$dtb
+> $deployDir/$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext
+>                 if [ "${KERNEL_IMAGETYPE_SYMLINK}" =3D "1" ] ; then
+>                         ln -sf $dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext
+> $deployDir/$dtb_base_name.$dtb_ext
+>                 fi
+>
+>
+
+--0000000000006649b605fb21edb9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">or<div>if &quot;${@&#39;true&#39; if oe.types.boolean(d.ge=
+tVar(&#39;KERNEL_DTBVENDORED&#39;)) else &#39;false&#39;}&quot;; then<br></=
+div><div>to avoid test as well (like systemd recipes is using) and I did he=
+re as well in:</div><div><a href=3D"https://git.openembedded.org/openembedd=
+ed-core-contrib/commit/?h=3Djansa/master&amp;id=3De2a6da5202a6671113758f974=
+6ddbd8141a75757">https://git.openembedded.org/openembedded-core-contrib/com=
+mit/?h=3Djansa/master&amp;id=3De2a6da5202a6671113758f9746ddbd8141a75757</a>=
+</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_=
+attr">On Sun, May 7, 2023 at 10:49=E2=80=AFPM Peter Kjellerstedt &lt;<a hre=
+f=3D"mailto:peter.kjellerstedt@axis.com">peter.kjellerstedt@axis.com</a>&gt=
+; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div cl=
+ass=3D"msg-8168117611292164359">
+
+
+
+
+
+<div lang=3D"SV" style=3D"overflow-wrap: break-word;">
+<div class=3D"m_-8168117611292164359WordSection1">
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
+[ Outlook does not support commenting inline for HTML mails, thus I=E2=80=
+=99m top posting=E2=80=A6]<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
+<u></u>=C2=A0<u></u></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
+The problem is `=3D=3D`, which is a bashism. POSIX shells (like dash) only =
+support `=3D`. When it comes to quoting, you typically want to quote shell =
+variables in tests in case
+ they are empty. OTOH, static strings without whitespace or other special c=
+haracters do not need quoting. So the correct way to write the if statement=
+s is:<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
+<u></u>=C2=A0<u></u></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family:Consolas;c=
+olor:rgb(148,54,52)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if [ &quot;${KERNEL_DTBVENDORED}&quot; =3D f=
+alse ]; then<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
+<u></u>=C2=A0<u></u></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
+(In this case it is actually a bitbake variable being quoted, but unless yo=
+u can guarantee it is not empty, the same rule applies.)<u></u><u></u></spa=
+n></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
+<u></u>=C2=A0<u></u></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
+//Peter<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
+<u></u>=C2=A0<u></u></span></p>
+<div style=3D"border-top:none;border-right:none;border-bottom:none;border-l=
+eft:1.5pt solid blue;padding:0cm 0cm 0cm 4pt">
+<div>
+<div style=3D"border-right:none;border-bottom:none;border-left:none;border-=
+top:1pt solid rgb(225,225,225);padding:3pt 0cm 0cm">
+<p class=3D"MsoNormal"><b><span lang=3D"EN-US">From:</span></b><span lang=
+=3D"EN-US"> <a href=3D"mailto:openembedded-core@lists.openembedded.org" tar=
+get=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;<a href=3D"=
+mailto:openembedded-core@lists.openembedded.org" target=3D"_blank">openembe=
+dded-core@lists.openembedded.org</a>&gt;
+<b>On Behalf Of </b>Martin Jansa<br>
+<b>Sent:</b> den 6 maj 2023 11:10<br>
+<b>To:</b> <a href=3D"mailto:rs@ti.com" target=3D"_blank">rs@ti.com</a><br>
+<b>Cc:</b> <a href=3D"mailto:afd@ti.com" target=3D"_blank">afd@ti.com</a>; =
+<a href=3D"mailto:detheridge@ti.com" target=3D"_blank">detheridge@ti.com</a=
+>; <a href=3D"mailto:reatmon@ti.com" target=3D"_blank">reatmon@ti.com</a>; =
+<a href=3D"mailto:denis@denix.org" target=3D"_blank">denis@denix.org</a>; <=
+a href=3D"mailto:alexandre.belloni@bootlin.com" target=3D"_blank">alexandre=
+.belloni@bootlin.com</a>; <a href=3D"mailto:openembedded-core@lists.openemb=
+edded.org" target=3D"_blank">openembedded-core@lists.openembedded.org</a><b=
+r>
+<b>Subject:</b> Re: [OE-core][PATCH] kernel-devicetree: allow specification=
+ of dtb directory<u></u><u></u></span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal">On Fri, May 5, 2023 at 6:38=E2=80=AFPM Randolph Sapp=
+ via <a href=3D"http://lists.openembedded.org" target=3D"_blank">
+lists.openembedded.org</a> &lt;rs=3D<a href=3D"mailto:ti.com@lists.openembe=
+dded.org" target=3D"_blank">ti.com@lists.openembedded.org</a>&gt; wrote:<u>=
+</u><u></u></p>
+</div>
+<div>
+<blockquote style=3D"border-top:none;border-right:none;border-bottom:none;b=
+order-left:1pt solid rgb(204,204,204);padding:0cm 0cm 0cm 6pt;margin-left:4=
+.8pt;margin-right:0cm">
+<p class=3D"MsoNormal">From: Randolph Sapp &lt;<a href=3D"mailto:rs@ti.com"=
+ target=3D"_blank">rs@ti.com</a>&gt;<br>
+<br>
+Fedora/Redhat and Arch are somewhat standardized on their dtb directory<br>
+structure. Let&#39;s add some flags to configure yocto to mimic that<br>
+behavior.<br>
+<br>
+Add the following variables to the kernel class:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 - KERNEL_DTBDEST (controls the destination dire=
+ctory for dtbs)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 - KERNEL_DTBVENDORED (controls if vendor subdir=
+ectories are to<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 be respected)<br>
+<br>
+Currently KERNEL_DTBDEST is expected to be a subdir of KERNEL_IMAGEDEST<br>
+and KERNEL_DTBVENDORED is expected to be &quot;true&quot;/&quot;false&quot;=
+. This only<br>
+applies to the package directory structure. The deploydir structure is<br>
+purposely left untouched for compatibility with existing recipes.<br>
+<br>
+By default this is configured to behave the same as the current recipe<br>
+and produce a flat dtb directory at KERNEL_IMAGEDEST.<br>
+<br>
+Signed-off-by: Randolph Sapp &lt;<a href=3D"mailto:rs@ti.com" target=3D"_bl=
+ank">rs@ti.com</a>&gt;<br>
+---<br>
+<br>
+Well, suppose I was breaking things by submitting this to kirkstone<br>
+first. This is just the master version of the following patchset:<br>
+<a href=3D"https://lists.openembedded.org/g/openembedded-core/message/18075=
+4" target=3D"_blank">https://lists.openembedded.org/g/openembedded-core/mes=
+sage/180754</a><br>
+<br>
+I&#39;d love to get that series merged as well if this patch is acceptable.=
+<br>
+<br>
+=C2=A0meta/classes-recipe/kernel-devicetree.bbclass | 22 ++++++++++++++----=
+-<br>
+=C2=A0meta/classes-recipe/kernel.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 2 ++<br>
+=C2=A02 files changed, 19 insertions(+), 5 deletions(-)<br>
+<br>
+diff --git a/meta/classes-recipe/kernel-devicetree.bbclass b/meta/classes-r=
+ecipe/kernel-devicetree.bbclass<br>
+index 4d0ecb1032..a6c6c5f227 100644<br>
+--- a/meta/classes-recipe/kernel-devicetree.bbclass<br>
++++ b/meta/classes-recipe/kernel-devicetree.bbclass<br>
+...<u></u><u></u></p>
+</blockquote>
+<div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+</div>
+<blockquote style=3D"border-top:none;border-right:none;border-bottom:none;b=
+order-left:1pt solid rgb(204,204,204);padding:0cm 0cm 0cm 6pt;margin-left:4=
+.8pt;margin-right:0cm">
+<p class=3D"MsoNormal">-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0dtb_base_name=3D`basename $dtb .$dtb_ext`<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dtb_path=3D`get_rea=
+l_dtb_path_in_kernel &quot;$dtb&quot;`<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644 $dt=
+b_path ${D}/${KERNEL_IMAGEDEST}/$dtb_base_name.$dtb_ext<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ ${KERNEL_DTBVE=
+NDORED} =3D=3D &quot;false&quot; ]; then<u></u><u></u></p>
+</blockquote>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">dash doesn&#39;t like this:<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0/bin/dash -c &quot;if [ false =3D=3D &quot;fal=
+se&quot; ]; then echo foo; fi&quot;<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">add quotes or use single &#39;=3D&#39;.<u></u><u></u=
+></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<blockquote style=3D"border-top:none;border-right:none;border-bottom:none;b=
+order-left:1pt solid rgb(204,204,204);padding:0cm 0cm 0cm 6pt;margin-left:4=
+.8pt;margin-right:0cm">
+<p class=3D"MsoNormal">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dtb_ext=3D${dtb##*.}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0dtb_base_name=3D`basename $dtb .$dtb_ext`<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0dtb=3D$dtb_base_name.$dtb_ext<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -Dm 0644 $d=
+tb_path ${D}/${KERNEL_DTBDEST}/$dtb<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 done<br>
+=C2=A0}<br>
+<br>
+@@ -88,7 +97,10 @@ do_deploy:append() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dtb_ext=3D${dtb##*.=
+}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dtb_base_name=3D`ba=
+sename $dtb .$dtb_ext`<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d $deployD=
+ir<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644 ${D=
+}/${KERNEL_IMAGEDEST}/$dtb_base_name.$dtb_ext $deployDir/$dtb_base_name-${K=
+ERNEL_DTB_NAME}.$dtb_ext<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ ${KERNEL_DTBVE=
+NDORED} =3D=3D &quot;false&quot; ]; then<u></u><u></u></p>
+</blockquote>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">Same here<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+</div>
+<blockquote style=3D"border-top:none;border-right:none;border-bottom:none;b=
+order-left:1pt solid rgb(204,204,204);padding:0cm 0cm 0cm 6pt;margin-left:4=
+.8pt;margin-right:0cm">
+<p class=3D"MsoNormal">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dtb=3D$dtb_base_name.$dtb_ext<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644 ${D=
+}/${KERNEL_DTBDEST}/$dtb $deployDir/$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_=
+ext<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ &quot;${KERNEL=
+_IMAGETYPE_SYMLINK}&quot; =3D &quot;1&quot; ] ; then<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 ln -sf $dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext $deployDir/$dt=
+b_base_name.$dtb_ext<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<u></u><u></u></p=
+>
+</blockquote>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div></blockquote></div>
+
+--0000000000006649b605fb21edb9--
 
