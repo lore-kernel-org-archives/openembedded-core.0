@@ -1,202 +1,248 @@
-Return-Path: <archana.polampalli@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D73A3C77B75
-	for <webhook@archiver.kernel.org>; Sun,  7 May 2023 08:09:30 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.61829.1683446968652371845
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A17EC77B7D
+	for <webhook@archiver.kernel.org>; Sun,  7 May 2023 08:37:51 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web11.62091.1683448668506986065
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 May 2023 01:09:28 -0700
+ Sun, 07 May 2023 01:37:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=o44g9QQC;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4491ccad2f=archana.polampalli@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 347896Ff024610
-	for <openembedded-core@lists.openembedded.org>; Sun, 7 May 2023 08:09:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=PPS06212021;
- bh=NMXukfby2G9VBcPRPj/eViWpa4tCVs6W30l0298QU3c=;
- b=o44g9QQClNEFx/ghhgBxgXsAc5uTORpp7BYvt87RDfYnA13uYuf9lJ7mekA1TUk9g6Vx
- Q5IO0bvlCTcAVMQTB1q4eSf5aRAISLPIXw8G+tdgpWaWEavQhd9SB0RWibmXYK53XdA+
- zvta4/LXtVP1PtnVeK43kZwzVPT2YPGq8dOEpnXGlpn7uf2hS7oyr0+ZkzqoiUn+L4qN
- mSW6LRqfTY4NH8q81lnFcSmXLoWD4r2rrLqaj2W3KTQHnysj+zoQvWfVxyGdsXpm6gPC
- OXOb8pEfmU65f2UyxCSuFOX3Fg6HNZgFrA1ece1DHlp88BvaxAoN61gBgEEnNuQGzfVe /A== 
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3qddvc0u3v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sun, 07 May 2023 08:09:27 +0000
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Sun, 7 May 2023 01:09:24 -0700
-From: Archana Polampalli <archana.polampalli@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <Hari.GPillai@windriver.com>, <archana.polampalli@windriver.com>
-Subject: [oe-core][kirkstone][PATCH 1/1] git: fix CVE-2023-25652
-Date: Sun, 7 May 2023 08:09:11 +0000
-Message-ID: <20230507080911.2810655-1-archana.polampalli@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=OeR/b8fq;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f4000ec74aso22352715e9.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 07 May 2023 01:37:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1683448667; x=1686040667;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6j/B6xDrN22P/Qe+zrCtmIcjwRTXbfgTZ71PgbfslT0=;
+        b=OeR/b8fqESVDRmnxBoOI82fdDzJr/dbNx+rpedz86dzKKtIB5L/gmkDjitUxUOqxK6
+         Z5ht0452rNIZjsf4ltNva43f7en0CHJCO059siCQl3rx+RWzsjkDHyQh3WfERBfLf5G8
+         kGcagJ9hQJeszluavmyPP6/Era104cNeUIPPg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683448667; x=1686040667;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6j/B6xDrN22P/Qe+zrCtmIcjwRTXbfgTZ71PgbfslT0=;
+        b=AdI1NOAI09hKSJBP06pFtuY+qXPSi/PZ3Vo6F8Koj3HagOo0Ez6mrJ3H/LxjU9hrB6
+         3LDSi1eeLaXdhHnWkfryYvQFKRTNLBmYGvvYFOClYcIZQpGMi8/iUAP2EfYbSognWSxd
+         I0UG64MWsIf9tJRAMOyrF9pa+W1psihBRkoResuy93kwbBvTikPb0tz5sQ7tpqW06ttT
+         PF+O+Sc/tygGoT98GBycQVonjBle1gp2X3pIyw5OjdR/pT9MDUDg3iMuK638c5DVoFG4
+         2yhDb4Y7s1XPMXUyKqnxJNpUg/+YpFsOavjrlDqYxWP6YIJpUMuf7fbFHkIGiE5R4IQ5
+         RWcw==
+X-Gm-Message-State: AC+VfDznlwb904ZRT643xBUf0R/676vzUOV5JSmoTdd2Pf7fGhcEWWkP
+	XhBaiR/j7wltf0OutYaXcFsOVM8kqNfwUJj+E8I=
+X-Google-Smtp-Source: ACHHUZ6i4rjq+e48W0hkjk0qsyFTKIntkn7q4uYTxTDsD3Eg6HrDwZ8cjAyzfU0PULAexMaaa/O6gg==
+X-Received: by 2002:a05:600c:2148:b0:3f1:75b6:8c7 with SMTP id v8-20020a05600c214800b003f175b608c7mr4795446wml.37.1683448666346;
+        Sun, 07 May 2023 01:37:46 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:4881:a654:eebf:9dd7])
+        by smtp.gmail.com with ESMTPSA id t13-20020adfeb8d000000b003063ec828a4sm7542348wrn.117.2023.05.07.01.37.45
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 07 May 2023 01:37:45 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] qemu: Update ppc instruction fix to match revised upstream version
+Date: Sun,  7 May 2023 09:37:44 +0100
+Message-Id: <20230507083744.3244029-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-GUID: 35OaOiT7eqk2VGR7rrxB5Ryu5m50A71H
-X-Proofpoint-ORIG-GUID: 35OaOiT7eqk2VGR7rrxB5Ryu5m50A71H
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-07_04,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 phishscore=0
- clxscore=1015 impostorscore=0 priorityscore=1501 mlxscore=0 suspectscore=0
- lowpriorityscore=0 adultscore=0 spamscore=0 malwarescore=0 mlxlogscore=996
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2305070062
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 07 May 2023 08:09:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181002
+ <openembedded-core@lists.openembedded.org>; Sun, 07 May 2023 08:37:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181003
 
-Git is a revision control system. Prior to versions 2.30.9, 2.31.8, 2.32.7,
-2.33.8, 2.34.8, 2.35.8, 2.36.6, 2.37.7, 2.38.5, 2.39.3, and 2.40.1, by feeding
-specially crafted input to `git apply --reject`, a path outside the working
-tree can be overwritten with partially controlled contents (corresponding to
-the rejected hunk(s) from the given patch). A fix is available in versions
-2.30.9, 2.31.8, 2.32.7, 2.33.8, 2.34.8, 2.35.8, 2.36.6, 2.37.7, 2.38.5, 2.39.3,
-and 2.40.1. As a workaround, avoid using `git apply` with `--reject` when applying
-patches from an untrusted source. Use `git apply --stat` to inspect a patch before
-applying; avoid applying one that create a conflict where a link corresponding to
-the `*.rej` file exists.
+Upstream asked for some changes, this updates our patch to match. The differences
+likely don't change our real world use.
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2023-25652
-
-Upstream patches:
-https://github.com/git/git/commit/9db05711c98efc14f414d4c87135a34c13586e0b
-
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../git/git/CVE-2023-25652.patch              | 94 +++++++++++++++++++
- meta/recipes-devtools/git/git_2.35.7.bb       |  1 +
- 2 files changed, 95 insertions(+)
- create mode 100644 meta/recipes-devtools/git/git/CVE-2023-25652.patch
+ meta/recipes-devtools/qemu/qemu/ppc.patch | 127 +++++++++++++++++-----
+ 1 file changed, 102 insertions(+), 25 deletions(-)
 
-diff --git a/meta/recipes-devtools/git/git/CVE-2023-25652.patch b/meta/recipes-devtools/git/git/CVE-2023-25652.patch
-new file mode 100644
-index 0000000000..825701eaff
---- /dev/null
-+++ b/meta/recipes-devtools/git/git/CVE-2023-25652.patch
-@@ -0,0 +1,94 @@
-+From 9db05711c98efc14f414d4c87135a34c13586e0b Mon Sep 17 00:00:00 2001
-+From: Johannes Schindelin <Johannes.Schindelin@gmx.de>
-+Date: Thu Mar 9 16:02:54 2023 +0100
-+Subject: [PATCH] apply --reject: overwrite existing `.rej` symlink if it
-+ exists
-+
-+   The `git apply --reject` is expected to write out `.rej` files in case
-+   one or more hunks fail to apply cleanly. Historically, the command
-+   overwrites any existing `.rej` files. The idea being that
-+   apply/reject/edit cycles are relatively common, and the generated `.rej`
-+   files are not considered precious.
-+
-+    But the command does not overwrite existing `.rej` symbolic links, and
-+    instead follows them. This is unsafe because the same patch could
-+    potentially create such a symbolic link and point at arbitrary paths
-+    outside the current worktree, and `git apply` would write the contents
-+    of the `.rej` file into that location.
-+
-+    Therefore, let's make sure that any existing `.rej` file or symbolic
-+    link is removed before writing it.
-+
-+    Reported-by: RyotaK <ryotak.mail@gmail.com>
-+    Helped-by: Taylor Blau <me@ttaylorr.com>
-+    Helped-by: Junio C Hamano <gitster@pobox.com>
-+    Helped-by: Linus Torvalds <torvalds@linuxfoundation.org>
-+    Signed-off-by: Johannes Schindelin <johannes.schindelin@gmx.de>
-+
-+CVE: CVE-2023-25652
-+Upstream-Status: Backport [https://github.com/git/git/commit/9db05711c98efc14f414d4c87135a34c13586e0b]
-+
-+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-+---
-+ apply.c                  | 14 ++++++++++++--
-+ t/t4115-apply-symlink.sh | 15 +++++++++++++++
-+ 2 files changed, 27 insertions(+), 2 deletions(-)
-+
-+diff --git a/apply.c b/apply.c
-+index fc6f484..47f2686 100644
-+--- a/apply.c
-++++ b/apply.c
-+@@ -4584,7 +4584,7 @@ static int write_out_one_reject(struct apply_state *state, struct patch *patch)
-+	FILE *rej;
-+	char namebuf[PATH_MAX];
-+	struct fragment *frag;
-+-	int cnt = 0;
-++	int fd, cnt = 0;
-+	struct strbuf sb = STRBUF_INIT;
-+
-+	for (cnt = 0, frag = patch->fragments; frag; frag = frag->next) {
-+@@ -4624,7 +4624,17 @@ static int write_out_one_reject(struct apply_state *state, struct patch *patch)
-+	memcpy(namebuf, patch->new_name, cnt);
-+	memcpy(namebuf + cnt, ".rej", 5);
-+
-+-	rej = fopen(namebuf, "w");
-++	fd = open(namebuf, O_CREAT | O_EXCL | O_WRONLY, 0666);
-++	if (fd < 0) {
-++		if (errno != EEXIST)
-++			return error_errno(_("cannot open %s"), namebuf);
-++		if (unlink(namebuf))
-++			return error_errno(_("cannot unlink '%s'"), namebuf);
-++		fd = open(namebuf, O_CREAT | O_EXCL | O_WRONLY, 0666);
-++		if (fd < 0)
-++			return error_errno(_("cannot open %s"), namebuf);
-++	}
-++	rej = fdopen(fd, "w");
-+	if (!rej)
-+		return error_errno(_("cannot open %s"), namebuf);
-+
-+diff --git a/t/t4115-apply-symlink.sh b/t/t4115-apply-symlink.sh
-+index 65ac7df..e95e6d4 100755
-+--- a/t/t4115-apply-symlink.sh
-++++ b/t/t4115-apply-symlink.sh
-+@@ -126,4 +126,19 @@ test_expect_success SYMLINKS 'symlink escape when deleting file' '
-+	test_path_is_file .git/delete-me
-+ '
-+
-++test_expect_success SYMLINKS '--reject removes .rej symlink if it exists' '
-++	test_when_finished "git reset --hard && git clean -dfx" &&
-++
-++	test_commit file &&
-++	echo modified >file.t &&
-++	git diff -- file.t >patch &&
-++	echo modified-again >file.t &&
-++
-++	ln -s foo file.t.rej &&
-++	test_must_fail git apply patch --reject 2>err &&
-++	test_i18ngrep "Rejected hunk" err &&
-++	test_path_is_missing foo &&
-++	test_path_is_file file.t.rej
-++'
-++
-+ test_done
-+--
-+2.40.0
-diff --git a/meta/recipes-devtools/git/git_2.35.7.bb b/meta/recipes-devtools/git/git_2.35.7.bb
-index faf0b67051..396a6261d1 100644
---- a/meta/recipes-devtools/git/git_2.35.7.bb
-+++ b/meta/recipes-devtools/git/git_2.35.7.bb
-@@ -10,6 +10,7 @@ PROVIDES:append:class-native = " git-replacement-native"
- SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
-            file://fixsort.patch \
-            file://0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch \
-+           file://CVE-2023-25652.patch \
-            "
+diff --git a/meta/recipes-devtools/qemu/qemu/ppc.patch b/meta/recipes-devtools/qemu/qemu/ppc.patch
+index ade1daf61ff..1fe6a3b4139 100644
+--- a/meta/recipes-devtools/qemu/qemu/ppc.patch
++++ b/meta/recipes-devtools/qemu/qemu/ppc.patch
+@@ -1,70 +1,147 @@
+-target/ppc: Fix fallback to MFSS for MFFSCRN, MFFSCRNI, MFFSCE and MFFSL
++From d92b63b7d15d4fd202c5802dfe444a96f5d8109c Mon Sep 17 00:00:00 2001
++From: Richard Purdie <richard.purdie@linuxfoundation.org>
++Date: Sat, 6 May 2023 07:42:35 +0100
++Cc: Víctor Colombo <victor.colombo@eldorado.org.br>
++Cc: Matheus Ferst <matheus.ferst@eldorado.org.br>
++Cc: Daniel Henrique Barboza <danielhb413@gmail.com>
++Cc: Richard Henderson <richard.henderson@linaro.org>
++Subject: [PATCH v2] target/ppc: Fix fallback to MFSS for MFFS* instructions on
++ pre 3.0 ISAs
  
- S = "${WORKDIR}/git-${PV}"
+-The following commits changed the code such that these instructions became invalid
+-on pre 3.0 ISAs:
++The following commits changed the code such that the fallback to MFSS for MFFSCRN,
++MFFSCRNI, MFFSCE and MFFSL on pre 3.0 ISAs was removed and became an illegal instruction:
+ 
+-  bf8adfd88b547680aa857c46098f3a1e94373160 - target/ppc: Move mffscrn[i] to decodetree 
++  bf8adfd88b547680aa857c46098f3a1e94373160 - target/ppc: Move mffscrn[i] to decodetree
+   394c2e2fda70da722f20fb60412d6c0ca4bfaa03 - target/ppc: Move mffsce to decodetree
+-  3e5bce70efe6bd1f684efbb21fd2a316cbf0657e - target/ppc: Move mffsl to decodetree 
++  3e5bce70efe6bd1f684efbb21fd2a316cbf0657e - target/ppc: Move mffsl to decodetree
+ 
+ The hardware will handle them as a MFFS instruction as the code did previously.
+-Restore that behaviour. This means applications that were segfaulting under qemu 
+-when encountering these instructions now operate correctly. The instruction
+-is used in glibc libm functions for example.
++This means applications that were segfaulting under qemu when encountering these
++instructions which is used in glibc libm functions for example.
+ 
+-Upstream-Status: Submitted [https://lore.kernel.org/qemu-devel/20230504110150.3044402-1-richard.purdie@linuxfoundation.org/]
++The fallback for MFFSCDRN and MFFSCDRNI added in a later patch was also missing.
++
++This patch restores the fallback to MFSS for these instructions on pre 3.0s ISAs
++as the hardware decoder would, fixing the segfaulting libm code. It and also ensures
++the MFSS instruction is used for currently reserved bits to handle other potential
++ISA additions more correctly.
++
++Upstream-Status: Submitted [https://lore.kernel.org/qemu-devel/20230506065240.3177798-1-richard.purdie@linuxfoundation.org/]
+ 
+ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++---
++ target/ppc/insn32.decode           | 19 ++++++++++++-------
++ target/ppc/translate/fp-impl.c.inc | 30 ++++++++++++++++++++++++------
++ 2 files changed, 36 insertions(+), 13 deletions(-)
+ 
+-Index: qemu-8.0.0/target/ppc/translate/fp-impl.c.inc
+-===================================================================
+---- qemu-8.0.0.orig/target/ppc/translate/fp-impl.c.inc
+-+++ qemu-8.0.0/target/ppc/translate/fp-impl.c.inc
+-@@ -584,7 +584,10 @@ static bool trans_MFFSCE(DisasContext *c
++v2 - switch to use decodetree pattern groups per feedback
++
++diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
++index f8f589e9fd..3c4e2c2fc2 100644
++--- a/target/ppc/insn32.decode
+++++ b/target/ppc/insn32.decode
++@@ -390,13 +390,18 @@ SETNBCR         011111 ..... ..... ----- 0111100000 -   @X_bi
++ 
++ ### Move To/From FPSCR
++ 
++-MFFS            111111 ..... 00000 ----- 1001000111 .   @X_t_rc
++-MFFSCE          111111 ..... 00001 ----- 1001000111 -   @X_t
++-MFFSCRN         111111 ..... 10110 ..... 1001000111 -   @X_tb
++-MFFSCDRN        111111 ..... 10100 ..... 1001000111 -   @X_tb
++-MFFSCRNI        111111 ..... 10111 ---.. 1001000111 -   @X_imm2
++-MFFSCDRNI       111111 ..... 10101 --... 1001000111 -   @X_imm3
++-MFFSL           111111 ..... 11000 ----- 1001000111 -   @X_t
+++{ 
+++  # Before Power ISA v3.0, MFFS bits 11~15 were reserved and should be ignored
+++  [
+++    MFFSCE          111111 ..... 00001 ----- 1001000111 -   @X_t
+++    MFFSCRN         111111 ..... 10110 ..... 1001000111 -   @X_tb
+++    MFFSCDRN        111111 ..... 10100 ..... 1001000111 -   @X_tb
+++    MFFSCRNI        111111 ..... 10111 ---.. 1001000111 -   @X_imm2
+++    MFFSCDRNI       111111 ..... 10101 --... 1001000111 -   @X_imm3
+++    MFFSL           111111 ..... 11000 ----- 1001000111 -   @X_t
+++  ]
+++  MFFS            111111 ..... ----- ----- 1001000111 .   @X_t_rc
+++}
++ 
++ ### Decimal Floating-Point Arithmetic Instructions
++ 
++diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
++index 57d8437851..10dfd91aa4 100644
++--- a/target/ppc/translate/fp-impl.c.inc
+++++ b/target/ppc/translate/fp-impl.c.inc
++@@ -584,7 +584,10 @@ static bool trans_MFFSCE(DisasContext *ctx, arg_X_t *a)
+  {
+      TCGv_i64 fpscr;
+  
+ -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+-+    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
+-+        return trans_MFFS(ctx, a);
+++    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
+++        return false;
+ +    }
+ +
+      REQUIRE_FPU(ctx);
+  
+      gen_reset_fpstatus();
+-@@ -597,7 +600,10 @@ static bool trans_MFFSCRN(DisasContext *
++@@ -597,7 +600,10 @@ static bool trans_MFFSCRN(DisasContext *ctx, arg_X_tb *a)
++ {
++     TCGv_i64 t1, fpscr;
++ 
++-    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+++    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
+++        return false;
+++    }
+++
++     REQUIRE_FPU(ctx);
++ 
++     t1 = tcg_temp_new_i64();
++@@ -614,7 +620,10 @@ static bool trans_MFFSCDRN(DisasContext *ctx, arg_X_tb *a)
+  {
+      TCGv_i64 t1, fpscr;
+  
+ -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+-+    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
+-+        return trans_MFFS(ctx, a);
+++    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
+++        return false;
+ +    }
+ +
+      REQUIRE_FPU(ctx);
+  
+      t1 = tcg_temp_new_i64();
+-@@ -631,7 +637,10 @@ static bool trans_MFFSCRNI(DisasContext
++@@ -631,7 +640,10 @@ static bool trans_MFFSCRNI(DisasContext *ctx, arg_X_imm2 *a)
+  {
+      TCGv_i64 t1, fpscr;
+  
+ -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+-+    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
+-+        return trans_MFFS(ctx, a);
+++    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
+++        return false;
+ +    }
+ +
+      REQUIRE_FPU(ctx);
+  
+      t1 = tcg_temp_new_i64();
+-@@ -661,7 +670,10 @@ static bool trans_MFFSCDRNI(DisasContext
++@@ -647,7 +659,10 @@ static bool trans_MFFSCDRNI(DisasContext *ctx, arg_X_imm3 *a)
++ {
++     TCGv_i64 t1, fpscr;
++ 
++-    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+++    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
+++        return false;
+++    }
+++
++     REQUIRE_FPU(ctx);
++ 
++     t1 = tcg_temp_new_i64();
++@@ -661,7 +676,10 @@ static bool trans_MFFSCDRNI(DisasContext *ctx, arg_X_imm3 *a)
+  
+  static bool trans_MFFSL(DisasContext *ctx, arg_X_t *a)
+  {
+ -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+-+    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
+-+        return trans_MFFS(ctx, a);
+++    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
+++        return false;
+ +    }
+ +
+      REQUIRE_FPU(ctx);
+  
+      gen_reset_fpstatus();
++-- 
++2.39.2
++
 -- 
-2.40.0
+2.39.2
 
 
