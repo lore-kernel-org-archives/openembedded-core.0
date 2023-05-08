@@ -1,154 +1,353 @@
-Return-Path: <xiangyu.chen@eng.windriver.com>
+Return-Path: <xmdy61@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C704C77B75
-	for <webhook@archiver.kernel.org>; Mon,  8 May 2023 01:33:46 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.97707.1683509620541778346
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67396C77B7D
+	for <webhook@archiver.kernel.org>; Mon,  8 May 2023 02:13:06 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.98499.1683511980098460768
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 May 2023 18:33:40 -0700
+ Sun, 07 May 2023 19:13:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4492aff766=xiangyu.chen@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3481UavZ025069
-	for <openembedded-core@lists.openembedded.org>; Sun, 7 May 2023 18:33:40 -0700
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3qdj65s518-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sun, 07 May 2023 18:33:40 -0700
-Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3481XdNl029472
-	for <openembedded-core@lists.openembedded.org>; Sun, 7 May 2023 18:33:39 -0700
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2169.outbound.protection.outlook.com [104.47.56.169])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3qdj65s516-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 07 May 2023 18:33:39 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N/5EMtx2G+/mD5kd/2p0O7ffIKrMI7GlasO5RWP5e4arjU3mQpC61tF3nBjXjHOiXUfPzTae4GbKTNsXTTNsdwZNaROMo/K2U/wvCnpqrEMvibV3Mhy/EE0oM9jycf1xWMhbCs8CmcuD6EBdA06p89TRhCm+1FAkfhAgP21Ftsr5pEIjO0uaiEkHLl2vt8wh23CTvMBKbUX41X61U3T5Y5ITuraSQjcg5NPMo+ljAVmRqeLZ8sAIBcSM9lkkFX7rTBZ9C66zU33X8ClFdAq0eFkTNhhpzJlMRfWZVCFZlDCUz9o3BHqsBVPoZ0EixWYgLrPvyiw6CWmXqvKWF6YKTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=crHdV1B2f11pDS2BSRyZzlRKfuiEKzCR8iDZfVme99E=;
- b=c6OAdT0rOivKfxalRZEGzgcxD/VZ3nVz6X0gKgebVv5+lCAd2TT8stJr35yNkP7FZnM4cSRkvdhnwSnmsLKBg4smchUKqJC5mVyvE2FDr+4T+KqLgkfWSqkGZhqQ3xGQBuOc715KZOp+h7jdYa1rvv8UaYsOO3s5MsnFJ7juwjK/gkPJHoSEOsefLwYTscOUEbXp6J9gaX0MJ//Fza5ypxSDCWGPTG2yHF/kIQQS6eMoChrwNXmS8OroFpda2B8ZtyMmK5Ob5yjOnCZbfmj7qhV//3WCvi+ebe2Wt43jH76oqgH6lTu7IcIuG8mfrOPXt2CqH0Ez3pgiqV+owBGfIg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
-Received: from PH7PR11MB5820.namprd11.prod.outlook.com (2603:10b6:510:133::17)
- by SJ0PR11MB5199.namprd11.prod.outlook.com (2603:10b6:a03:2dd::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.32; Mon, 8 May
- 2023 01:33:35 +0000
-Received: from PH7PR11MB5820.namprd11.prod.outlook.com
- ([fe80::84b2:b711:8939:b703]) by PH7PR11MB5820.namprd11.prod.outlook.com
- ([fe80::84b2:b711:8939:b703%6]) with mapi id 15.20.6363.029; Mon, 8 May 2023
- 01:33:35 +0000
-From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
-To: openembedded-core@lists.openembedded.org, bruce.ashfield@gmail.com
-Subject: [OE-core][PATCH] linux-yocto: fix missing pahole and elfutils when CONFIG_DEBUG_INFO_BTF enabled in devshell
-Date: Mon,  8 May 2023 09:33:17 +0800
-Message-Id: <20230508013317.3937457-1-xiangyu.chen@eng.windriver.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR02CA0020.apcprd02.prod.outlook.com
- (2603:1096:3:17::32) To PH7PR11MB5820.namprd11.prod.outlook.com
- (2603:10b6:510:133::17)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=AwRxuRVW;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: xmdy61@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1aaf7067647so26521015ad.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 07 May 2023 19:12:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683511979; x=1686103979;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MW2OzyNDU3DB2a+QXdmbMSJtwH1ZUpltoXWOsdE6gjg=;
+        b=AwRxuRVWFvpqBL3m+0qqbXIV78jhJE3zzeszmKwdx8xrfaQK2kwbObAOM2wx+WRkJD
+         DrOTm0iD+t7D5cvyNgQEVgM63itMVMwbmPCmBnyvoNxXraUYMHFv3Qg/9+x2xI8MWmX1
+         l8SiAIX8NMSUvigBWV1gUCvNjaB/KpQ9RRqfhpF61u6vb0Ms+aV8zXDIYCpsza2LbN4n
+         TVzWWLLqDMjba+VlQPKg7ZDS/FnnYF58Cq2hEcAZUbE7c0EuThVXf8YOPs7tso41WBE6
+         CP/HWQAqX0gVfeOfmuBvEP9xHVTyCF7KXi3fFEQ8jjSt7uMjoqoGJ8A7cT/8ewtwJ6Co
+         5DRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683511979; x=1686103979;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MW2OzyNDU3DB2a+QXdmbMSJtwH1ZUpltoXWOsdE6gjg=;
+        b=VGpHZsSaMZESwYqFmhe0nkYq98irqpvQ+7feIdsJ6UGdsWMZNHp+ItKbPgkWKGdPIs
+         SA9liI819OaoZUsL7Lo5pXwZcKsz7H7sx09F7mGz3t/E5Sy1FCDo6ft6i3v1ic/hw7yq
+         rlDudBia+rMUmBnaHLNfIjuQZBHFIorJs+s98LCjUKn3i7iQ64NuhkHlkMB/QQYuyYjz
+         L628gFQ1w9n9Fe0ltSw4VlSUALcmYpzXb/5U7UkEd9deqd+2dgPgZ17ZxsndoolucZew
+         VRHwRrfLNih0h2SIrF1Flmi7JpOk2snakyoK10sp5SoAPtHNPly3jRZq/grPzi2OnPh1
+         LA7A==
+X-Gm-Message-State: AC+VfDwC4q1WGVZrvcwk4Nj6EuaMKtk5hTyXC8EmVZVGZdUWa3L19cEB
+	2p31C9mG5ivZhquH7qgrk4YGUMX7oU32zboCxX4=
+X-Google-Smtp-Source: ACHHUZ5y8JNZ8G3nkXLIuCR4nKeD1L7xnkZTjKhZqAGoSIizEaUChtDSP3ZbkjX5MFUItPMx/mWWuA==
+X-Received: by 2002:a17:902:a516:b0:1a6:b971:faf6 with SMTP id s22-20020a170902a51600b001a6b971faf6mr7902263plq.35.1683511978880;
+        Sun, 07 May 2023 19:12:58 -0700 (PDT)
+Received: from zangrc-Virtual-Machine.mshome.net ([112.81.43.38])
+        by smtp.gmail.com with ESMTPSA id d4-20020a170903230400b001ac2be2639asm5824359plh.223.2023.05.07.19.12.57
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 07 May 2023 19:12:58 -0700 (PDT)
+From: Zang Ruochen <xmdy61@gmail.com>
+X-Google-Original-From: Zang Ruochen <zangruochen@loongson.cn>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core] [PATCH] elfutils: upgrade 0.188 -> 0.189
+Date: Mon,  8 May 2023 10:12:56 +0800
+Message-Id: <20230508021256.2662575-1-zangruochen@loongson.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB5820:EE_|SJ0PR11MB5199:EE_
-X-MS-Office365-Filtering-Correlation-Id: cf2ed467-1afb-4a7b-f7c1-08db4f643d86
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	qHwXcWy+bY+poocWuVB4dGRlM42bceqXmkRIfEghqYDrF2ivVBqdauCiTesuZt2alDK5OTf5Yly6HU0n+9Kb13kE06AkVpFEjGUZdapoLCLHTJMokGYKkBqNnWMySdFXYBz81yLqvYrdLFRwEW/3V/xAuVYlnKqpEl8jVOT3q9hfTLA1v8J3CT4+usxnU+beE4MlTbtS6nZ2FMDE3AAktzu97a7x02nz0EztHC95CGYUT++xzZV2QwzpCZFNokPGygsAyOMBCGB8VvoyjNKW76K98fLH4y01FREKPLum0oB21D6kfTEpmebuHaf9Mt2R4bJxyAdDpR6f2sZQRgfQvUasfHr6QZfMiS6dsmhQ7nZuQ3K21ElvhJHPD3Ghayv3t1PJr7/HXdItebPShZO7YaJeXiAt+FZ0O9gtV0tT5IucPzYz3oMEuFJt2yFcrKa5iSj/U5qeJxUHY9yPigh1p2jR4GTmaImMn9x1fhyR88qGSo0YKL//mWzNdVZoBnfHuPJIRYBzNwM/XCvDnj7Hy0eMP6nGW0/J5DKVXWJLhP31kwi4SPAAFkkYo7gsACN9G2IGd5UpvJDKrUCUCTD55HtBVpY35pLrClbWqQD2Sbh75nRNyf216QCWRzpUsKME
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB5820.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39840400004)(366004)(396003)(346002)(136003)(376002)(451199021)(1076003)(26005)(6506007)(6512007)(6486002)(52116002)(2616005)(38100700002)(38350700002)(83170400001)(186003)(478600001)(2906002)(5660300002)(66476007)(66556008)(316002)(8936002)(8676002)(41300700001)(44832011)(66946007)(6666004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?1iaBYtefGRj/Qarg5MB2o0b3VnTt4xtUgcOXoprT+UATF5tEDib7uanhyxU/?=
- =?us-ascii?Q?qkJsuKqRhJD0jZqhSZNLuvi5Q/UHiCniNZpSHBkw4BNl0N0efXJIiwK2KLw2?=
- =?us-ascii?Q?M/TVGOl86JxYFGJp5bgnYGOJKDo29CTLqLC0bA1PnaY8v4Zoxjd/rjmwhFrW?=
- =?us-ascii?Q?QMVl8nx/f+Pun0HmDray9lf9rwVwpsMxqaW0zVNDZx5a2lVFwiv3JLJM0neg?=
- =?us-ascii?Q?mu4CwdpApb+scpeNbM1rBX9QDBOklY5CPmXmecMUtjKuO4QfMkWG9MHRSuf9?=
- =?us-ascii?Q?Pm1SsFCRendd/HOmisbamIYhbnycDE6WF7rn1niHKcLH52Hdoo3yi9c7zgNm?=
- =?us-ascii?Q?fEfdthX2Hp/2Ok9An6Rg+lJ0MTUlPx37f7koypoaNz54ya2kZxF5hSVRjrzk?=
- =?us-ascii?Q?DMawGndl+s22BDY6kbTl9qZ/5feioJGQ5a51QFWpqle8xA7PKL2JJI6WYhLI?=
- =?us-ascii?Q?zcUcccKU7ktGqdELrjn5PvQ/hmMnlIB4lkG37clAoLbTTgokMt4/A1QHwSEW?=
- =?us-ascii?Q?7MvdMMJXMRFEiJI9sZEbcpAR0yJOYLBLRy4xcvt+aIG8BjQ8JFrX3avfyXfZ?=
- =?us-ascii?Q?m5dM3OjGU0Ea1PtN3T3wv2mksnOC/nbnyNB0kCLrGWVaQ8M2mCBHJE383UGj?=
- =?us-ascii?Q?A7XJeJ0szYzh64qpGFVqgrPWj+mEnzabKzoqP8PsPDmciBck0AaWbkDNfTee?=
- =?us-ascii?Q?MhEHypXzCCd6hjEcvQ5KmGTjD3HIF8pVaXq2v5MbZfBPCpUAej1weaiw2hfl?=
- =?us-ascii?Q?U1MvlHfiuKRg5GsVaH0R8dRgrZ3okW7oblJpXy0AcFZ+MNVzG8AvJMLlIoiI?=
- =?us-ascii?Q?h6mIIfYrIQtTO2AjmLnPDP/9BEJB0yUJJh0h+UsB0cDaoMifJoqb9sOI4QxA?=
- =?us-ascii?Q?a8vLJ2CtHZ8luPrWtgv+O0YG7xYuJTEi6PZkvAQ7+dQXxA3CDyBqlyWev1Ny?=
- =?us-ascii?Q?QjIVJ9x6Bq2OLikTdfTFuLCgf0Fs1USNbkcSI06v7iPznlGDhuuZp3E+7UKI?=
- =?us-ascii?Q?n+WVXEOY+Vg5dEKXye+4kTWNRQwmLqlnVYSg0gR7jMYoNBsQlHc/sPIJu92z?=
- =?us-ascii?Q?wxLQqbuuPVG5ZmzMyzwQxQSAfXI/Sy4eybqt/8vxQJ3zimSj/iuE3T+k7+d0?=
- =?us-ascii?Q?Tsp6jWKQ/xtN0i0tAXiKDF42Ob4uXmlcO3k/PkDjTlKbVy/06l01x42YdkBp?=
- =?us-ascii?Q?cJJCqnb4tNlGzNjDbN4F2BvWmz5rBod/ORaUVqlciM9VEbAY/iE7MQEJUU+/?=
- =?us-ascii?Q?8TfCsgRQSo+N8SpktuG9nAQBGmTGy6OSIYdC8AP1JPMt2EJs2j0O9wlRme/C?=
- =?us-ascii?Q?JNglF9bZJcv7Cph4MuhdloOdokSyqjnPe3I+A+sKFpd4Yet1zTF8tPdEk95P?=
- =?us-ascii?Q?KwvD5rjUk9KqRk2b6FuVcSnT5vanrR7sAdLEgp2ekOIwzc4hxyk5ImZTxWfS?=
- =?us-ascii?Q?E4jBnExMSWuG81/yv7AM3CGDdXWUGSlEj7w0qAn0NCWOBxJzmH3/zNOyK77j?=
- =?us-ascii?Q?jBGqCZrjRuKEHofwkU771X+Dw7PQ8PrVYD4v9CS4YjPdBnoQ+oyRkjk38TvD?=
- =?us-ascii?Q?jniLK9apwY6uK1OKQ65YexJbrG+a7QNBeuoz6Xp1fh8k7cSumDMKQyh/bC9Z?=
- =?us-ascii?Q?9Q=3D=3D?=
-X-OriginatorOrg: eng.windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf2ed467-1afb-4a7b-f7c1-08db4f643d86
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB5820.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2023 01:33:35.2824
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fF4iE48HtC+AzUKc5KC68Hi4bQ4SRIQ2GX0/qwH1fS5qzS7EOsbg/qhGkx+Tk6hyiLPSMr6iYaLqA/1vjSHFPv5I56tSHw+EFokj3tZWUVs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5199
-X-Proofpoint-GUID: dOw_n1SnlGeJRUzI6FwccCqY6kgpcBAv
-X-Proofpoint-ORIG-GUID: hiEDlf1MJGjLWhfS3uT6nE0J2YT1w0mE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-07_10,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 malwarescore=0
- spamscore=0 priorityscore=1501 mlxscore=0 bulkscore=0 clxscore=1015
- adultscore=0 suspectscore=0 mlxlogscore=999 impostorscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305080009
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 May 2023 01:33:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181013
+ <openembedded-core@lists.openembedded.org>; Mon, 08 May 2023 02:13:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181014
 
-From: Xiangyu Chen <xiangyu.chen@windriver.com>
+Refresh the following patch.
+0015-config-eu.am-do-not-use-Werror.patch
 
-after enable the kernel CONFIG_DEBUG_INFO_BTF in devshell, the make would report some
-errors due to pahole and elfuitls is missing, since this is a debug option, so conditionally
-add an option named "btf" in KERNEL_DEBUG_OPTIONS, if someone need enable CONFIG_DEBUG_INFO_BTF
-option in devshell, they can add KERNEL_DEBUG_OPTIONS += "btf" in local.conf to solve the pahole
-and elfutils dependency.
+Remove the following patches as they have been fixed in the new version.
+0001-PR29926-debuginfod-Fix-usage-of-deprecated-CURLINFO_.patch
+0002-debuginfod-client-Use-CURLOPT_PROTOCOLS_STR-for-libc.patch
 
-Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+changelog:
+Version 0.189 "Don't deflate!"
+
+configure: eu-nm, eu-addr2line and eu-stack can provide demangled symbols
+           when linked with libstdc++. Use --disable-demangler to disable.
+
+           A new option --enable-sanitize-memory has been added for msan
+           sanitizer support.
+
+libelf: elf_compress now supports ELFCOMPRESS_ZSTD when build against
+        libzstd
+
+libdwfl: dwfl_module_return_value_location now returns 0 (no return type)
+         for DIEs that point to a DW_TAG_unspecified_type.
+
+elfcompress: -t, --type= now support zstd if libelf has been build with
+             ELFCOMPRESS_ZSTD support.
+
+backends: Add support for LoongArch and Synopsys ARCv2 processors.
+
+Signed-off-by: Zang Ruochen <zangruochen@loongson.cn>
 ---
- meta/recipes-kernel/linux/linux-yocto.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ .../{elfutils_0.188.bb => elfutils_0.189.bb}  |  5 +-
+ ...od-Fix-usage-of-deprecated-CURLINFO_.patch | 49 -----------
+ ...t-Use-CURLOPT_PROTOCOLS_STR-for-libc.patch | 34 -------
+ .../0015-config-eu.am-do-not-use-Werror.patch | 10 +--
+ .../handle_DW_TAG_unspecified_type.patch      | 88 -------------------
+ 5 files changed, 6 insertions(+), 180 deletions(-)
+ rename meta/recipes-devtools/elfutils/{elfutils_0.188.bb => elfutils_0.189.bb} (96%)
+ delete mode 100644 meta/recipes-devtools/elfutils/files/0001-PR29926-debuginfod-Fix-usage-of-deprecated-CURLINFO_.patch
+ delete mode 100644 meta/recipes-devtools/elfutils/files/0002-debuginfod-client-Use-CURLOPT_PROTOCOLS_STR-for-libc.patch
+ delete mode 100644 meta/recipes-devtools/elfutils/files/handle_DW_TAG_unspecified_type.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-index 934591ff1c..67d72c8c21 100644
---- a/meta/recipes-kernel/linux/linux-yocto.inc
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc
-@@ -61,6 +61,8 @@ KERNEL_FEATURES:append:qemuall=" features/kernel-sample/kernel-sample.scc"
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.188.bb b/meta/recipes-devtools/elfutils/elfutils_0.189.bb
+similarity index 96%
+rename from meta/recipes-devtools/elfutils/elfutils_0.188.bb
+rename to meta/recipes-devtools/elfutils/elfutils_0.189.bb
+index 74271b2411..236f8cef92 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.188.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.189.bb
+@@ -21,15 +21,12 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+            file://0001-skip-the-test-when-gcc-not-deployed.patch \
+            file://ptest.patch \
+            file://0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch \
+-           file://0001-PR29926-debuginfod-Fix-usage-of-deprecated-CURLINFO_.patch \
+-           file://0002-debuginfod-client-Use-CURLOPT_PROTOCOLS_STR-for-libc.patch \
+-           file://handle_DW_TAG_unspecified_type.patch \
+            "
+ SRC_URI:append:libc-musl = " \
+            file://0003-musl-utils.patch \
+            file://0015-config-eu.am-do-not-use-Werror.patch \
+            "
+-SRC_URI[sha256sum] = "fb8b0e8d0802005b9a309c60c1d8de32dd2951b56f0c3a3cb56d21ce01595dff"
++SRC_URI[sha256sum] = "39bd8f1a338e2b7cd4abc3ff11a0eddc6e690f69578a57478d8179b4148708c8"
  
- KERNEL_DEBUG_OPTIONS ?= "stack"
- KERNEL_EXTRA_ARGS:append:x86-64 = " ${@bb.utils.contains('KERNEL_DEBUG_OPTIONS', 'stack', 'HOST_LIBELF_LIBS="-L${RECIPE_SYSROOT_NATIVE}/usr/lib/pkgconfig/../../../usr/lib/ -lelf"', '', d)}"
-+DEPENDS += "${@bb.utils.contains('KERNEL_DEBUG_OPTIONS', 'btf', 'pahole-native', '', d)}"
-+DEPENDS += "${@bb.utils.contains('KERNEL_DEBUG_OPTIONS', 'btf', 'elfutils-native', '', d)}"
+ inherit autotools gettext ptest pkgconfig
  
- do_devshell:prepend() {
-     # setup native pkg-config variables (kconfig scripts call pkg-config directly, cannot generically be overriden to pkg-config-native)
+diff --git a/meta/recipes-devtools/elfutils/files/0001-PR29926-debuginfod-Fix-usage-of-deprecated-CURLINFO_.patch b/meta/recipes-devtools/elfutils/files/0001-PR29926-debuginfod-Fix-usage-of-deprecated-CURLINFO_.patch
+deleted file mode 100644
+index ee192e3581..0000000000
+--- a/meta/recipes-devtools/elfutils/files/0001-PR29926-debuginfod-Fix-usage-of-deprecated-CURLINFO_.patch
++++ /dev/null
+@@ -1,49 +0,0 @@
+-From d2bf497b12fbd49b4996ccf0744303ffd67735b1 Mon Sep 17 00:00:00 2001
+-From: Andrew Paprocki <andrew@ishiboo.com>
+-Date: Wed, 21 Dec 2022 11:15:00 -0500
+-Subject: [PATCH] PR29926: debuginfod: Fix usage of deprecated CURLINFO_*
+-
+-The `CURLINFO_SIZE_DOWNLOAD_T` and `CURLINFO_CONTENT_LENGTH_DOWNLOAD_T`
+-identifiers are `enum`s, not pre-processor definitions, so the current
+-`#ifdef` logic is not selecting the newer API.  This results in the
+-older identifiers being used and they now generate errors when compiled
+-against Curl 7.87, which has silently deprecated them, causing GCC to
+-emit `-Werror=deprecated-declarations`.
+-
+-Instead, the newer identifiers were added in Curl 7.55, so explicitly
+-check for `CURL_AT_LEAST_VERSION(7, 55, 0)` instead of the current
+-logic.  This eliminates the error when compiling against Curl 7.87.
+-
+-Ref: https://github.com/curl/curl/pull/1511
+-
+-Upstream-Status: Backport [https://sourceware.org/git/?p=elfutils.git;a=commit;h=d2bf497b12fbd49b4996ccf0744303ffd67735b1]
+-Signed-off-by: Andrew Paprocki <andrew@ishiboo.com>
+----
+- debuginfod/debuginfod-client.c | 4 ++--
+- 2 files changed, 6 insertions(+), 2 deletions(-)
+-
+-diff --git a/debuginfod/debuginfod-client.c b/debuginfod/debuginfod-client.c
+-index 8873fcc8..692aecce 100644
+---- a/debuginfod/debuginfod-client.c
+-+++ b/debuginfod/debuginfod-client.c
+-@@ -1456,7 +1456,7 @@ debuginfod_query_server (debuginfod_client *c,
+-              deflate-compressing proxies, this number is likely to be
+-              unavailable, so -1 may show. */
+-           CURLcode curl_res;
+--#ifdef CURLINFO_CONTENT_LENGTH_DOWNLOAD_T
+-+#if CURL_AT_LEAST_VERSION(7, 55, 0)
+-           curl_off_t cl;
+-           curl_res = curl_easy_getinfo(target_handle,
+-                                        CURLINFO_CONTENT_LENGTH_DOWNLOAD_T,
+-@@ -1491,7 +1491,7 @@ debuginfod_query_server (debuginfod_client *c,
+-           if (target_handle) /* we've committed to a server; report its download progress */
+-             {
+-               CURLcode curl_res;
+--#ifdef CURLINFO_SIZE_DOWNLOAD_T
+-+#if CURL_AT_LEAST_VERSION(7, 55, 0)
+-               curl_off_t dl;
+-               curl_res = curl_easy_getinfo(target_handle,
+-                                            CURLINFO_SIZE_DOWNLOAD_T,
+--- 
+-2.39.1
+-
+diff --git a/meta/recipes-devtools/elfutils/files/0002-debuginfod-client-Use-CURLOPT_PROTOCOLS_STR-for-libc.patch b/meta/recipes-devtools/elfutils/files/0002-debuginfod-client-Use-CURLOPT_PROTOCOLS_STR-for-libc.patch
+deleted file mode 100644
+index 2d4c912e82..0000000000
+--- a/meta/recipes-devtools/elfutils/files/0002-debuginfod-client-Use-CURLOPT_PROTOCOLS_STR-for-libc.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From 6560fb26a62ef135a804357ef4f15a47de3e49b3 Mon Sep 17 00:00:00 2001
+-From: Mark Wielaard <mark@klomp.org>
+-Date: Tue, 10 Jan 2023 23:20:41 +0100
+-Subject: [PATCH] debuginfod-client: Use CURLOPT_PROTOCOLS_STR for libcurl >= 7.85.0
+-
+-https://sourceware.org/bugzilla/show_bug.cgi?id=29926
+-
+-Upstream-Status: Backport [https://sourceware.org/git/?p=elfutils.git;a=commit;h=6560fb26a62ef135a804357ef4f15a47de3e49b3]
+-Signed-off-by: Mark Wielaard <mark@klomp.org>
+----
+- debuginfod/debuginfod-client.c | 5 +++++
+- 2 files changed, 10 insertions(+)
+-
+-diff --git a/debuginfod/debuginfod-client.c b/debuginfod/debuginfod-client.c
+-index a16165bd..1ce45632 100644
+---- a/debuginfod/debuginfod-client.c
+-+++ b/debuginfod/debuginfod-client.c
+-@@ -1336,8 +1336,13 @@ debuginfod_query_server (debuginfod_client *c,
+- 
+-       /* Only allow http:// + https:// + file:// so we aren't being
+- 	 redirected to some unsupported protocol.  */
+-+#if CURL_AT_LEAST_VERSION(7, 85, 0)
+-+      curl_easy_setopt_ck(data[i].handle, CURLOPT_PROTOCOLS_STR,
+-+			  "http,https,file");
+-+#else
+-       curl_easy_setopt_ck(data[i].handle, CURLOPT_PROTOCOLS,
+- 			  (CURLPROTO_HTTP | CURLPROTO_HTTPS | CURLPROTO_FILE));
+-+#endif
+-       curl_easy_setopt_ck(data[i].handle, CURLOPT_URL, data[i].url);
+-       if (vfd >= 0)
+- 	curl_easy_setopt_ck(data[i].handle, CURLOPT_ERRORBUFFER,
+--- 
+-2.39.1
+-
+diff --git a/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch b/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
+index a7715587db..fd1ec010e5 100644
+--- a/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
++++ b/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
+@@ -14,20 +14,19 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ ---
+  config/eu.am | 2 --
+  1 file changed, 2 deletions(-)
+-
+ diff --git a/config/eu.am b/config/eu.am
+-index 58cd3c4..ac42390 100644
++index e6c241f..4136e7c 100644
+ --- a/config/eu.am
+ +++ b/config/eu.am
+-@@ -91,7 +91,6 @@ AM_CFLAGS = -std=gnu99 -Wall -Wshadow -Wformat=2 \
+- 	    -Wold-style-definition -Wstrict-prototypes $(TRAMPOLINES_WARNING) \
++@@ -99,7 +99,6 @@ AM_CFLAGS = -std=gnu99 -Wall -Wshadow -Wformat=2 \
+  	    $(LOGICAL_OP_WARNING) $(DUPLICATED_COND_WARNING) \
+  	    $(NULL_DEREFERENCE_WARNING) $(IMPLICIT_FALLTHROUGH_WARNING) \
++ 	    $(USE_AFTER_FREE3_WARNING) \
+ -	    $(if $($(*F)_no_Werror),,-Werror) \
+  	    $(if $($(*F)_no_Wunused),,-Wunused -Wextra) \
+  	    $(if $($(*F)_no_Wstack_usage),,$(STACK_USAGE_WARNING)) \
+  	    $(if $($(*F)_no_Wpacked_not_aligned),$(NO_PACKED_NOT_ALIGNED_WARNING),) \
+-@@ -101,7 +100,6 @@ AM_CXXFLAGS = -std=c++11 -Wall -Wshadow \
++@@ -109,7 +108,6 @@ AM_CXXFLAGS = -std=c++11 -Wall -Wshadow \
+  	   $(TRAMPOLINES_WARNING) \
+  	   $(LOGICAL_OP_WARNING) $(DUPLICATED_COND_WARNING) \
+  	   $(NULL_DEREFERENCE_WARNING) $(IMPLICIT_FALLTHROUGH_WARNING) \
+@@ -35,3 +34,4 @@ index 58cd3c4..ac42390 100644
+  	   $(if $($(*F)_no_Wunused),,-Wunused -Wextra) \
+  	   $(if $($(*F)_no_Wstack_usage),,$(STACK_USAGE_WARNING)) \
+  	   $(if $($(*F)_no_Wpacked_not_aligned),$(NO_PACKED_NOT_ALIGNED_WARNING),) \
++-- 
+diff --git a/meta/recipes-devtools/elfutils/files/handle_DW_TAG_unspecified_type.patch b/meta/recipes-devtools/elfutils/files/handle_DW_TAG_unspecified_type.patch
+deleted file mode 100644
+index 8cab01c29a..0000000000
+--- a/meta/recipes-devtools/elfutils/files/handle_DW_TAG_unspecified_type.patch
++++ /dev/null
+@@ -1,88 +0,0 @@
+-From: Mark Wielaard <mark@klomp.org>
+-Date: Thu, 26 Jan 2023 17:19:15 +0000 (+0100)
+-Subject: backends: Handle DW_TAG_unspecified_type in dwarf_peeled_die_type
+-X-Git-Url: https://sourceware.org/git/?p=elfutils.git;a=commitdiff_plain;h=f2c522567ad63ac293535fba9704895e685ab5bc;hp=3fa98a6f29b0f370e32549ead7eb897c839af980
+-
+-backends: Handle DW_TAG_unspecified_type in dwarf_peeled_die_type
+-
+-binutils 2.40 introduces DW_TAG_unspecified_type for assembly
+-functions with an unknown return type. This breaks the
+-run-funcretval.sh testcase because dwfl_module_return_value_location
+-returns an error for such functions because it cannot determine the
+-return value location. Fix that by treating DW_TAG_unspecified_type
+-as if the DIE doesn't have a DW_AT_type.
+-
+-Also update the testcase to explicitly checking for
+-DW_TAG_unspecified_type and printing "returns unspecified type".
+-
+-https://sourceware.org/bugzilla/show_bug.cgi?id=30047
+-
+-Upstream-Status: Backport [https://sourceware.org/git/?p=elfutils.git;a=commitdiff;h=f2c522567ad63ac293535fba9704895e685ab5bc;hp=3fa98a6f29b0f370e32549ead7eb897c839af980]
+-Signed-off-by: Mark Wielaard <mark@klomp.org>
+----
+-
+---- a/backends/libebl_CPU.h
+-+++ b/backends/libebl_CPU.h
+-@@ -1,5 +1,6 @@
+- /* Common interface for libebl modules.
+-    Copyright (C) 2000, 2001, 2002, 2003, 2005, 2013, 2014 Red Hat, Inc.
+-+   Copyright (C) 2023 Mark J. Wielaard <mark@klomp.org>
+-    This file is part of elfutils.
+- 
+-    This file is free software; you can redistribute it and/or modify
+-@@ -53,7 +54,9 @@ extern bool (*generic_debugscn_p) (const
+-      dwarf_tag (_die); })
+- 
+- /* Get a type die corresponding to DIE.  Peel CV qualifiers off
+--   it.  */
+-+   it.  Returns zero if the DIE doesn't have a type, or the type
+-+   is DW_TAG_unspecified_type.  Returns -1 on error.  Otherwise
+-+   returns the result tag DW_AT value.  */
+- static inline int
+- dwarf_peeled_die_type (Dwarf_Die *die, Dwarf_Die *result)
+- {
+-@@ -69,7 +72,14 @@ dwarf_peeled_die_type (Dwarf_Die *die, D
+-   if (dwarf_peel_type (result, result) != 0)
+-     return -1;
+- 
+--  return DWARF_TAG_OR_RETURN (result);
+-+  if (result == NULL)
+-+    return -1;
+-+
+-+  int tag = dwarf_tag (result);
+-+  if (tag == DW_TAG_unspecified_type)
+-+    return 0; /* Treat an unspecified type as if there was no type.  */
+-+
+-+  return tag;
+- }
+- 
+- #endif	/* libebl_CPU.h */
+---- a/tests/funcretval.c
+-+++ b/tests/funcretval.c
+-@@ -1,5 +1,6 @@
+- /* Test program for dwfl_module_return_value_location.
+-    Copyright (C) 2005 Red Hat, Inc.
+-+   Copyright (C) 2023 Mark J. Wielaard <mark@klomp.org>
+-    This file is part of elfutils.
+- 
+-    This file is free software; you can redistribute it and/or modify
+-@@ -67,7 +68,18 @@ handle_function (Dwarf_Die *funcdie, voi
+-     error (EXIT_FAILURE, 0, "dwfl_module_return_value_location: %s",
+- 	   dwfl_errmsg (-1));
+-   else if (nlocops == 0)
+--    puts ("returns no value");
+-+    {
+-+      // Check if this is the special unspecified type
+-+      // https://sourceware.org/bugzilla/show_bug.cgi?id=30047
+-+      Dwarf_Die die_mem, *typedie = &die_mem;
+-+      Dwarf_Attribute attr_mem, *attr;
+-+      attr = dwarf_attr_integrate (funcdie, DW_AT_type, &attr_mem);
+-+      if (dwarf_formref_die (attr, typedie) != NULL
+-+	  && dwarf_tag (typedie) == DW_TAG_unspecified_type)
+-+	puts ("returns unspecified type");
+-+      else
+-+	puts ("returns no value");
+-+    }
+-   else
+-     {
+-       printf ("return value location:");
 -- 
-2.34.1
+2.25.1
 
 
