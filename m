@@ -1,192 +1,153 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24901C77B7F
-	for <webhook@archiver.kernel.org>; Mon,  8 May 2023 08:57:28 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web11.102731.1683536240401298934
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FBE5C7EE22
+	for <webhook@archiver.kernel.org>; Mon,  8 May 2023 10:11:48 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.103624.1683540703988710052
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 May 2023 01:57:20 -0700
+ Mon, 08 May 2023 03:11:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=qTIQmXCn;
- spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-96652cb7673so156116666b.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 May 2023 01:57:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683536239; x=1686128239;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jghnDLGZfsOrPup+z+X9Y+MA3VH19I7G25VBvXoeKP8=;
-        b=qTIQmXCnBqlaz2a7C7piSMA5+MD76vhPn5h8689/adVBQ51aMTwIJPmZ1niW06fWC4
-         4GjoTh4GCwtHNSt6CuZntFz8ONbM6BsnAkOwVzaw2zTaM6Vxtl6y7qna17J0OL2ej8wL
-         LWjrl+/s3QN5MDL81vCCuIJKB3wvRstbEwFUne6d06mWt4nwkRPq6PNYyYMvz3opjoJw
-         chilPddlVMZtKacNnIpzWi+GJCCYkp/y6JJSRAdLiuOJ61ihPDGBCRLHrk3ohJP51Erb
-         pZVjsZICzesiT2OUXSKwMYluQyNom026xdMP8y6GjNNFJB6d+slcrIQR+ulT8u7dksYk
-         T4VA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683536239; x=1686128239;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=jghnDLGZfsOrPup+z+X9Y+MA3VH19I7G25VBvXoeKP8=;
-        b=TCywHy2PKgSkHGQ4cgPK5Mo5T5Rj25PWy2BR9CQVMplpCnk2eM2qulKni7dXHsVyTZ
-         g0r6UcsPnHNrjwsPKYy/xXiXmGRY1wlh1jql4PvuLiiFuZ0Xtz2MQtexWIKvC4QF1bJd
-         NM8V5ijT0QWWhOgk0+Iye2bOg0y1MEnKl+g2V8cYjHyJnugc4WjAitVVpVwcKjH7al2D
-         mbqgfiTacDOPZjnrTmdbSmNogkCwqXrLLTVTf9+SaEx98U/w2GGHidsocry9yBGXsVh2
-         J0aluEBUglUuyMyhUM6H0iJcRkAIGMN6cbwKaN5d4VololDeZB1EW5xcihUBqtz9N74A
-         uD3Q==
-X-Gm-Message-State: AC+VfDy3FPA0Xi/Laa+2eXNTAu3o/93tNIgmYqqVgK+/WJV4TIhB0ZdE
-	isRMsonW6VfAAQ9RqzGktk4=
-X-Google-Smtp-Source: ACHHUZ5NBpqAes0sEuQAgTqOG5pDx1jmyFpJtsn+OuuFIh49WXI5yXDWT89nCtSv2bwRLW71Q9giPA==
-X-Received: by 2002:a17:907:720d:b0:966:a691:55ed with SMTP id dr13-20020a170907720d00b00966a69155edmr2288982ejc.70.1683536238632;
-        Mon, 08 May 2023 01:57:18 -0700 (PDT)
-Received: from [127.0.0.1] ([165.225.94.219])
-        by smtp.gmail.com with ESMTPSA id a4-20020a1709063a4400b0094f58a85bc5sm4668604ejf.180.2023.05.08.01.57.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 May 2023 01:57:18 -0700 (PDT)
-Message-ID: <1a9baf9413cc3e405433806ec3e5f122e2a42793.camel@gmail.com>
-Subject: Re: [OE-core][PATCH] cve-check: add option to add additional
- patched CVEs
-From: adrian.freihofer@gmail.com
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, "Valek, Andrej"
-	 <andrej.valek@siemens.com>, "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Mon, 08 May 2023 10:57:17 +0200
-In-Reply-To: <e57e347e816ca3c355d594a95f2549af7dd86609.camel@linuxfoundation.org>
-References: <20230505111814.491483-1-andrej.valek@siemens.com>
-	 <6123792e2eee7767b4e6a377c15bdcc6ba266125.camel@linuxfoundation.org>
-	 <ac80d7e3b3eb739b86951ceeefe8b337b28144a8.camel@siemens.com>
-	 <e57e347e816ca3c355d594a95f2549af7dd86609.camel@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1 (3.48.1-1.fc38) 
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=V9Njew6A;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=44921be6e8=qi.chen@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3489pRWv003697
+	for <openembedded-core@lists.openembedded.org>; Mon, 8 May 2023 10:11:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=PPS06212021;
+ bh=KcGnfwH8pBV0Wt/sRJHE1F0Gg2JsLHn/L4UYwXR260k=;
+ b=V9Njew6ARF6aTpglp8BNP+p4jh3yc8GEkbJgyYfQp7aBYTXPx4/kqHEDy28tTUzBFlX9
+ iy1WR6N/tjg7/66KVqfs6Fs5UFV6wmbM3WTZ7YPAWslYlKcuypGPhcfs9ZUud9IACMJW
+ Hv4KguawoRMTPUkZPmE4DPpSPHOyTb9GrKePz/y5viQ7HlwVTOf18GnwHIMWBlZTxc6/
+ 3PiJn13dTy7gx0ryQU1H/eM2CLElyZIpkk96vi52hEiKTvW6vRKOnUkPdj/lfrwVl0It
+ KeZpL2oVdFmvjWyh4lOMX8FHP2pvP2Pgp4SBCPLoNyTdt4hZJAUBhZeO36p560B2PcCI jA== 
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2107.outbound.protection.outlook.com [104.47.70.107])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3qdc441n7g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 08 May 2023 10:11:43 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=feYgXCCpuapcjXW/eOd8U56OX4Tq+RhUgxKZ33DvwOg7u4vXzgQb0CMvoKo/aWaT9HrnipqlTtxJL8SJ9VknqLBIA0RmNx4ZQ8USEAdW5i0QiO8yoaxHC8LcoMhUX/JfpONgJ87ByMBqyI7Aj6D1bqKz7F4ao09qckppDNH/kiD5WQiVBgujpS4/1Nf14UbeF14wE6jCc51K2gEEx2LFsISPbqlIj2mK9RYOLQTpEjgEOKvnpok21sGp9UvnGf0S5sN09hZrll3VVkCIN6pH+U9y+/g50UbbtKqmUlVufLECL5RlTb6lPS0GDpLrlaTdiHcmp1IwJKdWQftiyRnVng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KcGnfwH8pBV0Wt/sRJHE1F0Gg2JsLHn/L4UYwXR260k=;
+ b=BIRevWXxyVR4FVvMZrtzGMhwdkqrWRjPMYYDN5tgDMa7LG6an03ndmi5kkv+3Z8N4MxiRztAITf/BKxGTN8szGB5hftfnxfFFZ8JIh5UgBu/BASN07bsFIHTFKk6nsMIcztyl7Schk96qkNFVtuDU3wQWsc8iFkBufMKXebBq+SvLCUbF/DXllKkMaFMcjW6TkFs0VJIMbvLRLPMh+ZzzC5Gd3hjpLxqKmcBbh2+ucYpoYrMgQo/JFbEQ8uWsRG4aslG44oby6KqiCo0jTXoiDagEHGqfYAReZDvs0VYiq0w9614adxbTSzFmu6sFiU05sUJSax1YGSb5D5pCpUmAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by CY5PR11MB6511.namprd11.prod.outlook.com (2603:10b6:930:41::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.32; Mon, 8 May
+ 2023 10:11:40 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::fa8:8cc5:a5da:7e07]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::fa8:8cc5:a5da:7e07%5]) with mapi id 15.20.6363.032; Mon, 8 May 2023
+ 10:11:40 +0000
+From: Qi.Chen@windriver.com
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] sqlite3: update CVE_PRODUCT
+Date: Mon,  8 May 2023 03:11:30 -0700
+Message-Id: <20230508101130.3682240-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.40.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0273.namprd03.prod.outlook.com
+ (2603:10b6:a03:39e::8) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|CY5PR11MB6511:EE_
+X-MS-Office365-Filtering-Correlation-Id: c51424ec-572a-4261-7df2-08db4fac9d70
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	p+P/O8G8snvH+liq8Hf+zctTdErl3NSuZ4C4ir86hGrxb+qt656FMzh6Ku580rN2isNCJ2YhHG6ja3ZoCUNByPFanu0DPknz1nJuQ7hd13L9s5iOfDqE7y9R/0ceT106t/BIu/AYF3p825H6qRxluQOQuk1b0Sks17tDt/x15f1mIdP8xeFjK4xFRpT/f7U2jE+zhhPA3LqrHmwOZj93sGREoC4VZvZDjTpP4xXEly6aASyKCK3QVlj9R+06fiR8kW1kr1j4TF+lfoMW+O5cC7itw8yjazN4Oy7ayR/8wSq1s64GNx77SBwoZ6CGSMqBfcbYdwWmucvHEKACpGzcQLBT0zpPRBhOWUxvOs060QNf9KclcjjEkQwvZ+56c/2hqk75fdYpaBB2TyQIK5t228LMFaghPOzhfzg949XUIJgTOD4O7FDAr5rdcXAxF31OX1enbJKDLpz1ROk78DquvjzChwWU7XZDi4aFcFQIvFhfLVTU42vS9kMtXKGKvexDUGyn0vfPwLzgl8JuIwlnJqSyPN5t8c6GT2ofXe6NNxGOJg1Bc23O2AERFg8on+dNx6eyr3zp6r8Ndb0MaWkZ1xSwBPjdwSSBQgatL1ewODI=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(346002)(376002)(39850400004)(136003)(366004)(451199021)(86362001)(36756003)(316002)(66946007)(66556008)(66476007)(6916009)(52116002)(6486002)(478600001)(8936002)(5660300002)(8676002)(2906002)(4744005)(41300700001)(186003)(38100700002)(38350700002)(2616005)(9686003)(1076003)(26005)(6512007)(6506007)(83380400001)(6666004);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?FnqDDDjJHijU4yc6PnQWUbJHDexm9tT43Qczpt+U7y/ucmojHjAYCil650fQ?=
+ =?us-ascii?Q?LKGU8T92B7auRKS+NqvFkZIP1KzfMAnV6XeFFCCxJn6GkRhgvh3fVtrJ1DJU?=
+ =?us-ascii?Q?/J39umo/FlA3rgSw51lJch4hHlZY/YNEewzoJ3Sf4GS1yBMC+Ds7k0rTU0nP?=
+ =?us-ascii?Q?f3kX713SVovYLe2+v5tNKT2u87atYqO4of87SuBH58EJAUwHjB2a29nDkr4h?=
+ =?us-ascii?Q?Q3SsOJIoI0kVb+4nKkO8ycOwvu6Rdl0P6mSJ8d9VwDEZGgDXaE74eXEBGU+W?=
+ =?us-ascii?Q?quTZOZfuGNX1p7EjFuw/CR8vWUrZMyJ7OELPGfR8vitUx/XHfM7B2jr+do5H?=
+ =?us-ascii?Q?LMQhI44KNJgK9o8hmblcvgXOs3Lihm4sR2NFXHlFp5bGwiX4fcc53hK1L/vi?=
+ =?us-ascii?Q?3Zd87TP48fZIazGsxKht28U2hv4PPR6t9AdqJJ3Qgeuc5N/ssEsMguY7cEbj?=
+ =?us-ascii?Q?goc3oNFlSrc+zkZcyaB012ohQj2Rv2dH/cu7Z7945Uz8rASGfW9LCkOqMK3S?=
+ =?us-ascii?Q?CO3CSUGYkloR+rjAhjxKurArDkcMkwZSFM2T/Vg5UYTm3zKHfM/sOxgdxg3c?=
+ =?us-ascii?Q?4XRQahiq+vTJufJhVgChDZkKBxAFTmSdEc11foqvq+lLV0EutTPBjRsdC8vP?=
+ =?us-ascii?Q?RAf92siZLCtY+fG7bXKi8ibkZyKaijLs6Cp937P7UN2TSj1lbEOWOwUrhWp7?=
+ =?us-ascii?Q?2ibt2cAg16HPwUy8a9vD6Lms+1WLs71ZzYK7ILMPCjQKaqOW72WaDKaYPZ0j?=
+ =?us-ascii?Q?EhnPaQfY1z8rE/jDhup7LdVbVhwTIqhvM1BUOE3Squw5SKiHVTfRl6gbbTZP?=
+ =?us-ascii?Q?ODWdy5n7AWEXRrx9j5Mw9wq3EUNhs5zXNxq4LsM1TDR5IdZrl85jxohtpOP0?=
+ =?us-ascii?Q?gXSA4xd6Q1i4uEZ7DiJhWROun6zSHAkfmLo1pGc6CFt2czBgtGuNe3ICyWJN?=
+ =?us-ascii?Q?8TfnYg6dQEL3sSJhDwAiCSjTOGS0aUtmTu+DT+eM2w3AwG4UBVaN0BGvAhBD?=
+ =?us-ascii?Q?WmZTtHqAcvdkHdTqdPnz9iORxDMZJP1BHe349vDUCDZEUvUK/TsMingFAvJJ?=
+ =?us-ascii?Q?gHRFrL8ssjlH8cQ/SoxKRhYgVEfFE/uHKDCaI5NwWPUHKA59/WIzeP65R3VB?=
+ =?us-ascii?Q?6JDbENYxDJLjRlfHJsgQeQUFwLY7SPeNbwK4dVeGWa485V69BOGQ23Hj9wBq?=
+ =?us-ascii?Q?1iWbz3ee4NzZtXH0EcKRNQ1q/hs/NoiN1v4xX1jX34anlYjDL5fLKwjidFKh?=
+ =?us-ascii?Q?k2qOVeNQGXogibZCheUmx1KKq+bLXctpZrNKQTwyNNWJOTQWP+54BR4xjOmJ?=
+ =?us-ascii?Q?E0VkLks3Jrvb7crF79ZOx7sAwvKbbnUl1r000clyKU2yvXUec6fAh+7AlY5w?=
+ =?us-ascii?Q?sZLU2nS/Ie1vnei+6BxN7+UC9UocHZzjet3pnF//BTSO6+1oFL5RLf0C+x2Z?=
+ =?us-ascii?Q?oO2UVBua0VscU6/78IG4Hm2bmgAyCtLwJjN9ug1FhwbL0FVzxQ49XnPLpmu0?=
+ =?us-ascii?Q?CUMYK3yYdoW3H/Asrbuao/JMUSc/ZC1c9jtyzp9fNNLCMe856rMjbHboQZJE?=
+ =?us-ascii?Q?unDvllI28iBqxGCcoRtJRubWI37nZP0XBdJbVWRYQj7Njp6Go9r0E5WWlSNq?=
+ =?us-ascii?Q?pQ=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c51424ec-572a-4261-7df2-08db4fac9d70
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2023 10:11:39.9482
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: iubFGP6kg3H4HOigZZOOOUZXcU12PLjHq9jchzYdd0MRdX02cbL1WABGJic+vCbec18Z8SOsoXdBElvzkpXeZQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6511
+X-Proofpoint-ORIG-GUID: ATlMcJP-N4l7jULZyOhpF8nRYZxPmJof
+X-Proofpoint-GUID: ATlMcJP-N4l7jULZyOhpF8nRYZxPmJof
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-08_05,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ mlxlogscore=646 mlxscore=0 suspectscore=0 clxscore=1015 adultscore=0
+ malwarescore=0 spamscore=0 bulkscore=0 lowpriorityscore=0 phishscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2305080068
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 May 2023 08:57:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181018
+ <openembedded-core@lists.openembedded.org>; Mon, 08 May 2023 10:11:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181019
 
-On Fri, 2023-05-05 at 12:59 +0100, Richard Purdie wrote:
-> > On Fri, 2023-05-05 at 11:36 +0000, Valek, Andrej wrote:
-> > > > On Fri, 2023-05-05 at 12:30 +0100, Richard Purdie wrote:
-> > > > > > On Fri, 2023-05-05 at 13:18 +0200, Andrej Valek via
-> > > > > > lists.openembedded.org wrote:
-> > > > > > > > CVE_CHECK_PATCHED - should contains an additional CVEs
-> > > > > > > > which
-> > > > > > > > have
-> > > > > > > > been
-> > > > > > > > fixed and shouldn't be mark as vulnerable nor ignored.
-> > > > > > > >=20
-> > > > > > > > Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-> > > > > > > > ---
-> > > > > > > > =C2=A0meta/classes/cve-check.bbclass | 8 ++++++++
-> > > > > > > > =C2=A01 file changed, 8 insertions(+)
-> > > > > > > >=20
-> > > > > > > > diff --git a/meta/classes/cve-check.bbclass
-> > > > > > > > b/meta/classes/cve-
-> > > > > > > > check.bbclass
-> > > > > > > > index bd9e7e7445c..957ea0130dc 100644
-> > > > > > > > --- a/meta/classes/cve-check.bbclass
-> > > > > > > > +++ b/meta/classes/cve-check.bbclass
-> > > > > > > > @@ -78,6 +78,11 @@ CVE_CHECK_SKIP_RECIPE ?=3D ""
-> > > > > > > > =C2=A0#
-> > > > > > > > =C2=A0CVE_CHECK_IGNORE ?=3D ""
-> > > > > > > > =C2=A0
-> > > > > > > > +# Usually a CVE gets treated as patched when a patch
-> > > > > > > > with the
-> > > > > > > > name
-> > > > > > > > of the CVE
-> > > > > > > > +# gets applied. Basically this variable should not be
-> > > > > > > > used.
-> > > > > > > > But if
-> > > > > > > > there are
-> > > > > > > > +# other reasons to mark a CVE as patched it can be
-> > > > > > > > added to
-> > > > > > > > this
-> > > > > > > > list.
-> > > > > > > > +CVE_CHECK_PATCHED ?=3D ""
-> > > > > >=20
-> > > > > > We're not adding variables which are documented as
-> > > > > > "Basically
-> > > > > > this
-> > > > > > variable should not be used.". If you shouldn't need/use
-> > > > > > it, we
-> > > > > > don't
-> > > > > > need it.
-> > > > Ok, maybe I should change the description a little bit. Do you
-> > > > have
-> > > > some other preference?
-> > > > > >=20
-> > > > > > Can't you just use the ignore variable for the same end
-> > > > > > result?
-> > > > Nope. If I use a ignore list, the output in the SBOM will be
-> > > > set to
-> > > > "ignored", which is wrong, because it has been fixed. And
-> > > > that's
-> > > > the
-> > > > reason.
-> > > >=20
-> >=20
-> > I suspect "ignored" is a bad way to describe things. Ignore might
-> > mean
-> > the issue doesn't apply, has been fixed in some way or we really
-> > are
-> > ignoring it. What does the SBOM spec say about different field
-> > values?
-> > Should we be providing more reasoning than just adding to an ignore
-> > list?
-> >=20
-> > I'm a bit worried we're not solving the real problem here by adding
-> > a
-> > new variable we tell people not to use.
+From: Chen Qi <Qi.Chen@windriver.com>
 
-The patch from Andrej tries to solves a real issue: The CVE checker
-distinguishes between two types of patches. Ignored (=3D not applicable)
-and patched. Patching is only supported by adding a real patch file to
-the SRC_URI. However, there are other ways a patch can be implemented.
-For example, a recipe that uses the git fetcher would update the git
-hash to a commit that contains a fix instead of applying a patch file
-to the recipe.
+Both 'sqlite' and 'sqlite3' are used in NVD database.
 
-But I fully agree that the comment (originally suggested by me when
-Andrej and I were discussing the solution) is bad. Maybe it should read
-as follows:
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-support/sqlite/sqlite3.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Normally, a CVE is treated as patched when a patch with the name of the
-CVE is applied. CVE_CHECK_PATCHED allows to extend the list of patched
-CVEs without adding a patch file to SRC_URI.
-
-Regarding the SBOM: It is important for customers that the CVEs of a
-product with SBOM can be correctly identified as repaired or as
-ignored. However, I'm not sure if the SBOM part is properly addressed
-by the patch. The create-spdx.bbclass uses the function
-oe.cve_check.get_patched_cves(d) which should probably handle the new
-variable as well. We will check that and come up with a V2.
-
-Thank you and regards,
-Adrian
-
-
-> >=20
-> > Cheers,
-> >=20
-> > Richard
-> >=20
-> >=20
-> >=20
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#180915):=20
-> > https://lists.openembedded.org/g/openembedded-core/message/180915
-> > Mute This Topic: https://lists.openembedded.org/mt/98703185/4454582
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe:
-> > https://lists.openembedded.org/g/openembedded-core/unsub
-> > =C2=A0[adrian.freihofer@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >=20
+diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
+index 9a0de08553..c246d42fdf 100644
+--- a/meta/recipes-support/sqlite/sqlite3.inc
++++ b/meta/recipes-support/sqlite/sqlite3.inc
+@@ -18,7 +18,7 @@ S = "${WORKDIR}/sqlite-autoconf-${SQLITE_PV}"
+ UPSTREAM_CHECK_URI = "http://www.sqlite.org/"
+ UPSTREAM_CHECK_REGEX = "releaselog/(?P<pver>(\d+[\.\-_]*)+)\.html"
+ 
+-CVE_PRODUCT = "sqlite"
++CVE_PRODUCT = "sqlite sqlite3"
+ 
+ inherit autotools pkgconfig siteinfo
+ 
+-- 
+2.40.0
 
 
