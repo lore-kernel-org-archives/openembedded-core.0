@@ -1,118 +1,202 @@
-Return-Path: <lrannou@baylibre.com>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DCA4C77B75
-	for <webhook@archiver.kernel.org>; Tue,  9 May 2023 12:22:42 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web10.30571.1683634955407113933
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DA11C7EE22
+	for <webhook@archiver.kernel.org>; Tue,  9 May 2023 13:04:12 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.31679.1683637444435966845
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 May 2023 05:22:35 -0700
+ Tue, 09 May 2023 06:04:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=N7zGhfKS;
- spf=pass (domain: baylibre.com, ip: 209.85.128.51, mailfrom: lrannou@baylibre.com)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3f423521b10so17881595e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 05:22:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1683634953; x=1686226953;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=c/q+SpePswmkwUBdU106Q1Q1F0XoNssmJClwMnOgcD8=;
-        b=N7zGhfKSk2wMujF+IEEgh7dc2Z2F/81vF8v1PM2c8OfdHPPggZkSLdVKXpmpvJDsgv
-         +t8pdWe6FgyUFniDjwfqIAA77xWW12/7wqaUEtCpUfeOiqsMsx+SqsqwWaknM48LWM3I
-         8fmEN0u4Eyzk89fH0GX5TvUTDH+I1EpiXghKe123gir9mAHzn/SfIcfaBt4gmPPRSdGI
-         LafwvwPdQaUUWHhBZtUOs38/tDVzKMTrQuh4Mxu0nALUueVau4jHHKuV+9aIR2uVhe8f
-         NVqvQg/0Dl8ShkQkDJaucFv1wsHRq4SOV6FoXRzKt6OOaV5nF04t0P9XCJDUnD9PsSH8
-         FtLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683634953; x=1686226953;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=c/q+SpePswmkwUBdU106Q1Q1F0XoNssmJClwMnOgcD8=;
-        b=WzIBMUkMxi0K3Vo0aLO5suMHgmX7ZYe4f9mANqfboyiLVJnNViMWc+kx2L8lhVsrbd
-         4K3xO7jzy2c7aar0a8NKrJtC45wLY2PFuzbLR3sdgcvYbuYggL4pnqRMDO8zCt8/0SW0
-         +sCRC78+ofjq3YI6S7DiZiwJRHZ9meNmb0WEdXztQTiIyoQdmfZCR+IKQhxipQzGA1pR
-         zCFIqJ2pTwnXQpkplC1IiWHzIFHmV1FxK0/vyFnntwacNuG3bCzMHpXwChxDYFcbs1Ny
-         rXs0m+mkkcLj+RyC0syizWpRAXW1TqV1ADTWr0dimXIgNYnpggPNAPv/fJNxJtWAdWxN
-         V3Hg==
-X-Gm-Message-State: AC+VfDycHxQChCTL8GhFPmxXB1LVclVDifTNyJ3waG6Ip6URe9tEYtul
-	35MDNiYNCYsWZ2sAup39MuCBLA==
-X-Google-Smtp-Source: ACHHUZ7ech1c+EXA4ygoenwlNxRF90h7z7IgyC/1aVJip/N0n1LR1WtoldY3pthgqEQewQs6A+/nmg==
-X-Received: by 2002:a1c:7702:0:b0:3f1:81c6:f59a with SMTP id t2-20020a1c7702000000b003f181c6f59amr9336035wmi.4.1683634953697;
-        Tue, 09 May 2023 05:22:33 -0700 (PDT)
-Received: from [172.30.105.10] (lmontsouris-658-1-109-35.w92-154.abo.wanadoo.fr. [92.154.6.35])
-        by smtp.gmail.com with ESMTPSA id u24-20020a7bc058000000b003f173987ec2sm19742200wmc.22.2023.05.09.05.22.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 May 2023 05:22:32 -0700 (PDT)
-Message-ID: <8bbd7d6c-370d-fc39-1457-f7bf44e8c50d@baylibre.com>
-Date: Tue, 9 May 2023 14:22:32 +0200
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=Tf19GWcq;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4493ca4c5f=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 349CS3Rl031947
+	for <openembedded-core@lists.openembedded.org>; Tue, 9 May 2023 06:04:04 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=PPS06212021;
+ bh=ppxiT+lFVMNWBaynuJ7WBHXLwdo1RZioweh3dlNzlcY=;
+ b=Tf19GWcqbjX74xyA/UBMJWgnfyJI50pOjcP3EzsPx1uZFW3W16Yldy1RpGql/WB3WSxz
+ KeCNlMy3INcgRYzOn/gLfzOX7bNj7rvPLD6IkholmofbqM2Y9oZXXMIDF9p4aCotRpVY
+ y9D1vAUr1EUctfK8rtbIzwcd+T8psmRR5eqT4M3vhBOyn/C+QJO5DR3DbquCp8SgWz6h
+ Vv7AzDax2wh338r7TeuCPYC0uUVdlSC2SVZ5xikbLkP4hNbSU85e32ca1tIhvnCFRCK9
+ +IpAtu0lUoXneaRL4FPKDztPNrJ9GBucA6Nr91JQSAM7gSGCWX7Wn7F5vzmwL0jX2Pq4 oA== 
+Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3qf7ucrmnm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 06:04:03 -0700
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Tue, 9 May 2023 06:04:01 -0700
+From: Archana Polampalli <archana.polampalli@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <Hari.GPillai@windriver.com>, <archana.polampalli@windriver.com>
+Subject: [oe-core][mickledore][PATCH 1/1] git: fix CVE-2023-25652
+Date: Tue, 9 May 2023 13:03:48 +0000
+Message-ID: <20230509130348.2936858-1-archana.polampalli@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [OE-core] [PATCH v4 1/2] oeqa/utils/qemurunner: change the serial
- runner
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Ross Burton <ross.burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>,
- "khilman@baylibre.com" <khilman@baylibre.com>
-References: <20230411150503.2105880-1-lrannou@baylibre.com>
- <20230411150503.2105880-2-lrannou@baylibre.com>
- <F625F79E-BD48-4A70-BA5F-D5BC13ED39D3@arm.com>
- <1b54d3066cc49b1598ebfc9e2ae287fe9558f869.camel@linuxfoundation.org>
-Content-Language: en-US
-From: Louis Rannou <lrannou@baylibre.com>
-In-Reply-To: <1b54d3066cc49b1598ebfc9e2ae287fe9558f869.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: 2l5hlYR4mRq2UupOjDe7AWsfiOGnmwEv
+X-Proofpoint-ORIG-GUID: 2l5hlYR4mRq2UupOjDe7AWsfiOGnmwEv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-09_08,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 impostorscore=0
+ clxscore=1015 lowpriorityscore=0 suspectscore=0 bulkscore=0 malwarescore=0
+ mlxscore=0 mlxlogscore=999 priorityscore=1501 spamscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
+ definitions=main-2305090106
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 12:22:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181039
+ <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 13:04:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181040
 
+Git is a revision control system. Prior to versions 2.30.9, 2.31.8, 2.32.7,
+2.33.8, 2.34.8, 2.35.8, 2.36.6, 2.37.7, 2.38.5, 2.39.3, and 2.40.1, by feeding
+specially crafted input to `git apply --reject`, a path outside the working
+tree can be overwritten with partially controlled contents (corresponding to
+the rejected hunk(s) from the given patch). A fix is available in versions
+2.30.9, 2.31.8, 2.32.7, 2.33.8, 2.34.8, 2.35.8, 2.36.6, 2.37.7, 2.38.5, 2.39.3,
+and 2.40.1. As a workaround, avoid using `git apply` with `--reject` when applying
+patches from an untrusted source. Use `git apply --stat` to inspect a patch before
+applying; avoid applying one that create a conflict where a link corresponding to
+the `*.rej` file exists.
 
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-25652
 
-On 05/05/2023 12:50, Richard Purdie wrote:
-> On Fri, 2023-05-05 at 10:32 +0000, Ross Burton wrote:
->> On 11 Apr 2023, at 16:05, Louis Rannou via lists.openembedded.org <lrannou=baylibre.com@lists.openembedded.org> wrote:
->>> Create a new runner run_serial_socket which usage matches the traditional ssh
->>> runner. Its return status is 0 when the command succeeded or 0 when it
->>> failed. If an error is encountered, it raises an Exception.
->>>
->>> The previous serial runner is maintained and marked as deprecated.
->>
->> I absolutely love this because the existing run_serial has the most
->> confusing behaviour. However, we’re now duplicating a large chunk of
->> code: can the old function be implemented such that it calls the new
->> function and adapts the return values?
-> 
-> This has hovered in the patch queue for that reason. I also love the
-> idea of it, it just doesn't feel quite ready.
-> 
-> I've been hoping we could convert the existing users and be able to
-> drop the old function but I'm not managed to see how much work is left
-> for that.
+Upstream patches:
+https://github.com/git/git/commit/9db05711c98efc14f414d4c87135a34c13586e0b
 
-My initial idea was indeed to change the former run_serial to use the 
-new run_serial_socket. The problem is that run_serial_socket can raise 
-exceptions which are not handled by run_serial. It's not possible to 
-catch them except if we create a very specific exception to this subject.
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+---
+ .../git/git/CVE-2023-25652.patch              | 94 +++++++++++++++++++
+ meta/recipes-devtools/git/git_2.39.2.bb       |  1 +
+ 2 files changed, 95 insertions(+)
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2023-25652.patch
 
-About the second question: how much work is left. serial_runner remains in:
-- selftest/cases/wic.py
-- selftest/cases/imagefeatures.py
-- selftest/cases/overlayfs.py
-- selftest/cases/runtime_test.py
-- utils/dump.py
+diff --git a/meta/recipes-devtools/git/git/CVE-2023-25652.patch b/meta/recipes-devtools/git/git/CVE-2023-25652.patch
+new file mode 100644
+index 0000000000..e8cedfcf27
+--- /dev/null
++++ b/meta/recipes-devtools/git/git/CVE-2023-25652.patch
+@@ -0,0 +1,94 @@
++From 9db05711c98efc14f414d4c87135a34c13586e0b  Mon Sep 17 00:00:00 2001
++From: Johannes Schindelin <Johannes.Schindelin@gmx.de>
++Date: Thu Mar 9 16:02:54 2023 +0100
++Subject: [PATCH] apply --reject: overwrite existing `.rej` symlink if it
++ exists
++
++    The `git apply --reject` is expected to write out `.rej` files in case
++    one or more hunks fail to apply cleanly. Historically, the command
++    overwrites any existing `.rej` files. The idea being that
++    apply/reject/edit cycles are relatively common, and the generated `.rej`
++    files are not considered precious.
++
++    But the command does not overwrite existing `.rej` symbolic links, and
++    instead follows them. This is unsafe because the same patch could
++    potentially create such a symbolic link and point at arbitrary paths
++    outside the current worktree, and `git apply` would write the contents
++    of the `.rej` file into that location.
++
++    Therefore, let's make sure that any existing `.rej` file or symbolic
++    link is removed before writing it.
++
++    Reported-by: RyotaK <ryotak.mail@gmail.com>
++    Helped-by: Taylor Blau <me@ttaylorr.com>
++    Helped-by: Junio C Hamano <gitster@pobox.com>
++    Helped-by: Linus Torvalds <torvalds@linuxfoundation.org>
++    Signed-off-by: Johannes Schindelin <johannes.schindelin@gmx.de>
++
++CVE: CVE-2023-25652
++Upstream-Status: Backport [https://github.com/git/git/commit/9db05711c98efc14f414d4c87135a34c13586e0b]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ apply.c                  | 14 ++++++++++++--
++ t/t4115-apply-symlink.sh | 15 +++++++++++++++
++ 2 files changed, 27 insertions(+), 2 deletions(-)
++
++diff --git a/apply.c b/apply.c
++index eec2da2..442cf28 100644
++--- a/apply.c
+++++ b/apply.c
++@@ -4576,7 +4576,7 @@ static int write_out_one_reject(struct apply_state *state, struct patch *patch)
++	FILE *rej;
++	char namebuf[PATH_MAX];
++	struct fragment *frag;
++-	int cnt = 0;
+++	int fd, cnt = 0;
++	struct strbuf sb = STRBUF_INIT;
++
++	for (cnt = 0, frag = patch->fragments; frag; frag = frag->next) {
++@@ -4616,7 +4616,17 @@ static int write_out_one_reject(struct apply_state *state, struct patch *patch)
++	memcpy(namebuf, patch->new_name, cnt);
++	memcpy(namebuf + cnt, ".rej", 5);
++
++-	rej = fopen(namebuf, "w");
+++	fd = open(namebuf, O_CREAT | O_EXCL | O_WRONLY, 0666);
+++	if (fd < 0) {
+++		if (errno != EEXIST)
+++			return error_errno(_("cannot open %s"), namebuf);
+++		if (unlink(namebuf))
+++			return error_errno(_("cannot unlink '%s'"), namebuf);
+++		fd = open(namebuf, O_CREAT | O_EXCL | O_WRONLY, 0666);
+++		if (fd < 0)
+++			return error_errno(_("cannot open %s"), namebuf);
+++	}
+++	rej = fdopen(fd, "w");
++	if (!rej)
++		return error_errno(_("cannot open %s"), namebuf);
++
++diff --git a/t/t4115-apply-symlink.sh b/t/t4115-apply-symlink.sh
++index 65ac7df..e95e6d4 100755
++--- a/t/t4115-apply-symlink.sh
+++++ b/t/t4115-apply-symlink.sh
++@@ -126,4 +126,19 @@ test_expect_success SYMLINKS 'symlink escape when deleting file' '
++	test_path_is_file .git/delete-me
++ '
++
+++test_expect_success SYMLINKS '--reject removes .rej symlink if it exists' '
+++	test_when_finished "git reset --hard && git clean -dfx" &&
+++
+++	test_commit file &&
+++	echo modified >file.t &&
+++	git diff -- file.t >patch &&
+++	echo modified-again >file.t &&
+++
+++	ln -s foo file.t.rej &&
+++	test_must_fail git apply patch --reject 2>err &&
+++	test_i18ngrep "Rejected hunk" err &&
+++	test_path_is_missing foo &&
+++	test_path_is_file file.t.rej
+++'
+++
++ test_done
++--
++2.40.0
+diff --git a/meta/recipes-devtools/git/git_2.39.2.bb b/meta/recipes-devtools/git/git_2.39.2.bb
+index 222e545f60..5865efada0 100644
+--- a/meta/recipes-devtools/git/git_2.39.2.bb
++++ b/meta/recipes-devtools/git/git_2.39.2.bb
+@@ -10,6 +10,7 @@ PROVIDES:append:class-native = " git-replacement-native"
+ SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
+            file://fixsort.patch \
+            file://0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch \
++           file://CVE-2023-25652.patch \
+            "
+ 
+ S = "${WORKDIR}/git-${PV}"
+-- 
+2.40.0
 
-It seemed to me that fixing those is nos as easy. Further investigation 
-is possible, but it would be much more comfortable for me to see the 
-first stage validated. I would say this is a pretty good checkpoint for 
-saving this work while I try to fix what can be.
-
-Thanks,
-Louis
 
