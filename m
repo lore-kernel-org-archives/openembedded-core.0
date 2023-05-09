@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DECAC7EE26
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92C75C77B75
 	for <webhook@archiver.kernel.org>; Tue,  9 May 2023 22:32:55 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web10.3051.1683671570184988800
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web10.3054.1683671573412115255
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 May 2023 15:32:50 -0700
+ Tue, 09 May 2023 15:32:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=5GYP2ISB;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6439bbc93b6so4334064b3a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 15:32:50 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Hp/o4PRq;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-643a1656b79so4266533b3a.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 15:32:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683671569; x=1686263569;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683671572; x=1686263572;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TciNgDxDqxwrKCzygVRi6uG3xwpr3U1O7Y5NvpuFoE0=;
-        b=5GYP2ISBsqh8pmKg7s35sVPtf6qeVmXmAJs3rrGkRQprA/GKwg3Y128YtN06FCUWDU
-         VYuQ5TBcLpW9bkLGeNLAai5kh+Na/wHeR8ISYrK6hAgowaBxb9wkwRbAFERV80dpwryN
-         9UKTegwNFNQIv7yI1Sna6YV9/6kNYVpNTgTpmIsqMH/zKbLQC5BcmzVoumryY3k9425y
-         LXQFOWawdugAuUzhYq6x0CSIbEY6FG0uf5ljGkyUaHD/Ds9uFdgQ1DVtpLdIMuM3C6pb
-         UHE3ixRnNGNCyKlN17D4qIcYYUyfjZOzNFxCVySYtdZFFs3Tk/2bqAjIf4coodpmywtD
-         m7GA==
+        bh=feHjBeToHJfaALxNwU2araMQ339rVDEdUH8gcvaSILk=;
+        b=Hp/o4PRqg+PE7ztLGfuZP5HkXSAKkfJam9tiD2MDKz9lc9vsBL9RIEfwGqTOQhgXw7
+         VEvH0j3MDUFMnF6chaUUhrJRqwF0/Xfq6nL/+cdoeSS1rLbRCZjmysL0hMAodeDiyBDg
+         H7wZVZ5C/Yk3Z8QiCac2BzwWg6xiusMzeWC1vmIrc25UMUs8KvJaNqb1jPDL9QRL9XOK
+         nCpnkfxCE/mj9M7D0RHiUZ3o6Pu5AFHlzbZVup/Ibhr7sOWX5SbOWUzO1uf+X//fmQLO
+         6M9bqVOBtD5pFpUu5q1SyJARHUiFfUg9C8bPPK+f5G+6sOuo8lpkTyvexQHziN3O5qG4
+         kywA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683671569; x=1686263569;
+        d=1e100.net; s=20221208; t=1683671572; x=1686263572;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TciNgDxDqxwrKCzygVRi6uG3xwpr3U1O7Y5NvpuFoE0=;
-        b=JCHJJacNo8sZLD7ugofBwgauiFs65E3x28A8RkMgiEfS9xklMmlbHr8xODI9miKqUl
-         d78hnlKSY15J9foFtkZ7XgdAnEoWrrOEwEz5NRzud+boB9oHzLaeLW/UmueUPDbW99zN
-         O8SK/N507UeoySOPhVNFs2T3BKQsdAof6G5oEoKpWEMD39Mtc82v/QK9q1EfUIyDJxoD
-         6pc38dJH8adVWvmL0GP/Bd2KtMDBbs+a1ZaNVAFb9Ez5jqWoMXMidVHOUrUplYEaoerx
-         YyfMQuU8psAjvDJR6yxWNfyUk5Ep1RMcVfx8y3/xX5b+nfUD7QkRwW13AJHIgz5TNvvt
-         kphQ==
-X-Gm-Message-State: AC+VfDwAZlp+6pKvW0dcUELCcPs03S6jMYu/ob9sG4PH3RTNryi+A/fj
-	Thb8C/poV/fzcT6wPttTlHSBL+HNqJNjavOeBlY=
-X-Google-Smtp-Source: ACHHUZ7xVD4748KUCDl6xyn5RcesuCEMP5kxYhxPLqbJmcxpwzlHaM5taN01D1USyAGHyB5Mm6q6uw==
-X-Received: by 2002:a05:6a20:1455:b0:f2:7dd:2753 with SMTP id a21-20020a056a20145500b000f207dd2753mr21042375pzi.33.1683671568912;
-        Tue, 09 May 2023 15:32:48 -0700 (PDT)
+        bh=feHjBeToHJfaALxNwU2araMQ339rVDEdUH8gcvaSILk=;
+        b=Zv1JFGsIAbrYzO9/KS8oSSM1AKjTcrNn6YzhZOGenb+uYwz0EtR/PI9py/WDxkRfBM
+         26TRWeTYQetxf4CjGaFzPYpnq32pmzjdFKMK02bypnZ7efJl6Iihz60W/OK3yvEqz/2i
+         C49FRiOLpdyY+qblon6S/nOxeXDGK6S2KGAtFGBxeSx3CPemAVgr+f0zq80DMxFh8Vgd
+         PK8RgOSf3jSCMUFyp7ZzFZBurUGujmcFXmWZ90uztrr+XpmB5/9T5jYtCQ1h3y6rR7gj
+         ThFxMyvS6QwlNkctEXQw4n9frNemvWXxt7MALJb9KKUe1tzjPn9EafTdmrRVCPU2MSB+
+         aD9g==
+X-Gm-Message-State: AC+VfDyI3R1vvB6Zt7fwrQIdICN/E8BLyfxanAVoGgkvYeuxHVkK/OU7
+	I9yIcJ7eDCMS/4G5hW0WDXZRfhhNLFYV/RvCcYM=
+X-Google-Smtp-Source: ACHHUZ4+q406hBGemIJgOtoUKJgqsbYX4RWcuFMGiTkb2+EiOC/HuO06nq2QFHqypKiAMWZNlQfSyg==
+X-Received: by 2002:a05:6a00:150b:b0:645:c730:f826 with SMTP id q11-20020a056a00150b00b00645c730f826mr13471772pfu.24.1683671572383;
+        Tue, 09 May 2023 15:32:52 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id u17-20020aa78491000000b0063d2dae6247sm2263125pfn.77.2023.05.09.15.32.48
+        by smtp.gmail.com with ESMTPSA id u17-20020aa78491000000b0063d2dae6247sm2263125pfn.77.2023.05.09.15.32.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 May 2023 15:32:48 -0700 (PDT)
+        Tue, 09 May 2023 15:32:52 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 01/15] git: fix CVE-2023-29007
-Date: Tue,  9 May 2023 12:32:27 -1000
-Message-Id: <1b55343b6346437b80b8a8180ae1bc9f480d92ef.1683671423.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 03/15] libxml2: patch CVE-2023-28484 and CVE-2023-29469
+Date: Tue,  9 May 2023 12:32:29 -1000
+Message-Id: <7d03d5dbc98aa701869c73c1c55a5868c70c5287.1683671423.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1683671423.git.steve@sakoman.com>
 References: <cover.1683671423.git.steve@sakoman.com>
@@ -61,221 +61,170 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 22:32:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181086
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181088
 
-From: Archana Polampalli <archana.polampalli@windriver.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Git is a revision control system. Prior to versions 2.30.9, 2.31.8, 2.32.7, 2.33.8,
-2.34.8, 2.35.8, 2.36.6, 2.37.7, 2.38.5, 2.39.3, and 2.40.1, a specially crafted
-`.gitmodules` file with submodule URLs that are longer than 1024 characters can used
-to exploit a bug in `config.c::git_config_copy_or_rename_section_in_file()`. This bug
-can be used to inject arbitrary configuration into a user's `$GIT_DIR/config` when
-attempting to remove the configuration section associated with that submodule. When the
-attacker injects configuration values which specify executables to run (such as
-`core.pager`, `core.editor`, `core.sshCommand`, etc.) this can lead to a remote code
-execution. A fix A fix is available in versions 2.30.9, 2.31.8, 2.32.7, 2.33.8, 2.34.8,
-2.35.8, 2.36.6, 2.37.7, 2.38.5, 2.39.3, and 2.40.1. As a workaround, avoid running
-`git submodule deinit` on untrusted repositories or without prior inspection of any
-submodule sections in `$GIT_DIR/config`.
+Backports from:
+* https://gitlab.gnome.org/GNOME/libxml2/-/commit/e4f85f1bd2eb34d9b49da9154a4cc3a1bc284f68
+* https://gitlab.gnome.org/GNOME/libxml2/-/commit/547edbf1cbdccd46b2e8ff322a456eaa5931c5df
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2023-29007
-
-Upstream patches:
-https://github.com/git/git/commit/528290f8c61222433a8cf02fb7cfffa8438432b4
-https://github.com/git/git/commit/29198213c9163c1d552ee2bdbf78d2b09ccc98b8
-https://github.com/git/git/commit/a5bb10fd5e74101e7c07da93e7c32bbe60f6173a
-https://github.com/git/git/commit/e91cfe6085c4a61372d1f800b473b73b8d225d0d
-https://github.com/git/git/commit/3bb3d6bac5f2b496dfa2862dc1a84cbfa9b4449a
-
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../git/git/CVE-2023-29007.patch              | 162 ++++++++++++++++++
- meta/recipes-devtools/git/git_2.35.7.bb       |   1 +
- 2 files changed, 163 insertions(+)
- create mode 100644 meta/recipes-devtools/git/git/CVE-2023-29007.patch
+ .../libxml/libxml2/CVE-2023-28484.patch       | 79 +++++++++++++++++++
+ .../libxml/libxml2/CVE-2023-29469.patch       | 42 ++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.14.bb    |  2 +
+ 3 files changed, 123 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2023-28484.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2023-29469.patch
 
-diff --git a/meta/recipes-devtools/git/git/CVE-2023-29007.patch b/meta/recipes-devtools/git/git/CVE-2023-29007.patch
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2023-28484.patch b/meta/recipes-core/libxml/libxml2/CVE-2023-28484.patch
 new file mode 100644
-index 0000000000..472f4022b2
+index 0000000000..907f2c4d47
 --- /dev/null
-+++ b/meta/recipes-devtools/git/git/CVE-2023-29007.patch
-@@ -0,0 +1,162 @@
-+From 057c07a7b1fae22fdeef26c243f4cfbe3afc90ce Mon Sep 17 00:00:00 2001
-+From: Taylor Blau <me@ttaylorr.com>
-+Date: Fri, 14 Apr 2023 11:46:59 -0400
-+Subject: [PATCH] Merge branch 'tb/config-copy-or-rename-in-file-injection'
++++ b/meta/recipes-core/libxml/libxml2/CVE-2023-28484.patch
+@@ -0,0 +1,79 @@
++From e4f85f1bd2eb34d9b49da9154a4cc3a1bc284f68 Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Fri, 7 Apr 2023 11:46:35 +0200
++Subject: [PATCH] [CVE-2023-28484] Fix null deref in xmlSchemaFixupComplexType
 +
-+Avoids issues with renaming or deleting sections with long lines, where
-+configuration values may be interpreted as sections, leading to
-+configuration injection. Addresses CVE-2023-29007.
++Fix a null pointer dereference when parsing (invalid) XML schemas.
 +
-+* tb/config-copy-or-rename-in-file-injection:
-+  config.c: disallow overly-long lines in `copy_or_rename_section_in_file()`
-+  config.c: avoid integer truncation in `copy_or_rename_section_in_file()`
-+  config: avoid fixed-sized buffer when renaming/deleting a section
-+  t1300: demonstrate failure when renaming sections with long lines
++Thanks to Robby Simpson for the report!
 +
-+Signed-off-by: Taylor Blau <me@ttaylorr.com>
++Fixes #491.
 +
-+Upstream-Status: Backport
-+CVE: CVE-2023-29007
++CVE: CVE-2023-28484
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/e4f85f1bd2eb34d9b49da9154a4cc3a1bc284f68]
 +
-+Reference to upstream patch:
-+https://github.com/git/git/commit/528290f8c61222433a8cf02fb7cfffa8438432b4
-+
-+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ config.c          | 36 +++++++++++++++++++++++++-----------
-+ t/t1300-config.sh | 30 ++++++++++++++++++++++++++++++
-+ 2 files changed, 55 insertions(+), 11 deletions(-)
++ result/schemas/issue491_0_0.err |  1 +
++ test/schemas/issue491_0.xml     |  1 +
++ test/schemas/issue491_0.xsd     | 18 ++++++++++++++++++
++ xmlschemas.c                    |  2 +-
++ 4 files changed, 21 insertions(+), 1 deletion(-)
++ create mode 100644 result/schemas/issue491_0_0.err
++ create mode 100644 test/schemas/issue491_0.xml
++ create mode 100644 test/schemas/issue491_0.xsd
 +
-+diff --git a/config.c b/config.c
-+index 2bffa8d..6a01938 100644
-+--- a/config.c
-++++ b/config.c
-+@@ -3192,9 +3192,10 @@ void git_config_set_multivar(const char *key, const char *value,
-+					flags);
-+ }
++diff --git a/result/schemas/issue491_0_0.err b/result/schemas/issue491_0_0.err
++new file mode 100644
++index 00000000..9b2bb969
++--- /dev/null
+++++ b/result/schemas/issue491_0_0.err
++@@ -0,0 +1 @@
+++./test/schemas/issue491_0.xsd:8: element complexType: Schemas parser error : complex type 'ChildType': The content type of both, the type and its base type, must either 'mixed' or 'element-only'.
++diff --git a/test/schemas/issue491_0.xml b/test/schemas/issue491_0.xml
++new file mode 100644
++index 00000000..e2b2fc2e
++--- /dev/null
+++++ b/test/schemas/issue491_0.xml
++@@ -0,0 +1 @@
+++<Child xmlns="http://www.test.com">5</Child>
++diff --git a/test/schemas/issue491_0.xsd b/test/schemas/issue491_0.xsd
++new file mode 100644
++index 00000000..81702649
++--- /dev/null
+++++ b/test/schemas/issue491_0.xsd
++@@ -0,0 +1,18 @@
+++<?xml version='1.0' encoding='UTF-8'?>
+++<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.test.com" targetNamespace="http://www.test.com" elementFormDefault="qualified" attributeFormDefault="unqualified">
+++  <xs:complexType name="BaseType">
+++    <xs:simpleContent>
+++      <xs:extension base="xs:int" />
+++    </xs:simpleContent>
+++  </xs:complexType>
+++  <xs:complexType name="ChildType">
+++    <xs:complexContent>
+++      <xs:extension base="BaseType">
+++        <xs:sequence>
+++          <xs:element name="bad" type="xs:int" minOccurs="0" maxOccurs="1"/>
+++        </xs:sequence>
+++      </xs:extension>
+++    </xs:complexContent>
+++  </xs:complexType>
+++  <xs:element name="Child" type="ChildType" />
+++</xs:schema>
++diff --git a/xmlschemas.c b/xmlschemas.c
++index 6a353858..a4eaf591 100644
++--- a/xmlschemas.c
+++++ b/xmlschemas.c
++@@ -18632,7 +18632,7 @@ xmlSchemaFixupComplexType(xmlSchemaParserCtxtPtr pctxt,
++ 			"allowed to appear inside other model groups",
++ 			NULL, NULL);
++ 
++-		} else if (! dummySequence) {
+++		} else if ((!dummySequence) && (baseType->subtypes != NULL)) {
++ 		    xmlSchemaTreeItemPtr effectiveContent =
++ 			(xmlSchemaTreeItemPtr) type->subtypes;
++ 		    /*
++-- 
++GitLab
 +
-+-static int section_name_match (const char *buf, const char *name)
-++static size_t section_name_match (const char *buf, const char *name)
-+ {
-+-	int i = 0, j = 0, dot = 0;
-++	size_t i = 0, j = 0;
-++	int dot = 0;
-+	if (buf[i] != '[')
-+		return 0;
-+	for (i = 1; buf[i] && buf[i] != ']'; i++) {
-+@@ -3247,6 +3248,8 @@ static int section_name_is_ok(const char *name)
-+	return 1;
-+ }
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2023-29469.patch b/meta/recipes-core/libxml/libxml2/CVE-2023-29469.patch
+new file mode 100644
+index 0000000000..f60d160c49
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/CVE-2023-29469.patch
+@@ -0,0 +1,42 @@
++From 547edbf1cbdccd46b2e8ff322a456eaa5931c5df Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Fri, 7 Apr 2023 11:49:27 +0200
++Subject: [PATCH] [CVE-2023-29469] Hashing of empty dict strings isn't
++ deterministic
 +
-++#define GIT_CONFIG_MAX_LINE_LEN (512 * 1024)
-++
-+ /* if new_name == NULL, the section is removed instead */
-+ static int git_config_copy_or_rename_section_in_file(const char *config_filename,
-+				      const char *old_name,
-+@@ -3256,11 +3259,12 @@ static int git_config_copy_or_rename_section_in_file(const char *config_filename
-+	char *filename_buf = NULL;
-+	struct lock_file lock = LOCK_INIT;
-+	int out_fd;
-+-	char buf[1024];
-++	struct strbuf buf = STRBUF_INIT;
-+	FILE *config_file = NULL;
-+	struct stat st;
-+	struct strbuf copystr = STRBUF_INIT;
-+	struct config_store_data store;
-++	uint32_t line_nr = 0;
++When hashing empty strings which aren't null-terminated,
++xmlDictComputeFastKey could produce inconsistent results. This could
++lead to various logic or memory errors, including double frees.
 +
-+	memset(&store, 0, sizeof(store));
++For consistency the seed is also taken into account, but this shouldn't
++have an impact on security.
 +
-+@@ -3297,16 +3301,25 @@ static int git_config_copy_or_rename_section_in_file(const char *config_filename
-+		goto out;
-+	}
++Found by OSS-Fuzz.
 +
-+-	while (fgets(buf, sizeof(buf), config_file)) {
-+-		unsigned i;
-+-		int length;
-++	while (!strbuf_getwholeline(&buf, config_file, '\n')) {
-++		size_t i, length;
-+		int is_section = 0;
-+-		char *output = buf;
-+-		for (i = 0; buf[i] && isspace(buf[i]); i++)
-++		char *output = buf.buf;
-++
-++		line_nr++;
-++
-++		if (buf.len >= GIT_CONFIG_MAX_LINE_LEN) {
-++			ret = error(_("refusing to work with overly long line "
-++				      "in '%s' on line %"PRIuMAX),
-++				    config_filename, (uintmax_t)line_nr);
-++			goto out;
-++		}
-++
-++		for (i = 0; buf.buf[i] && isspace(buf.buf[i]); i++)
-+			; /* do nothing */
-+-		if (buf[i] == '[') {
-++		if (buf.buf[i] == '[') {
-+			/* it's a section */
-+-			int offset;
-++			size_t offset;
-+			is_section = 1;
++Fixes #510.
 +
-+			/*
-+@@ -3323,7 +3336,7 @@ static int git_config_copy_or_rename_section_in_file(const char *config_filename
-+				strbuf_reset(&copystr);
-+			}
++CVE: CVE-2023-29469
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/547edbf1cbdccd46b2e8ff322a456eaa5931c5df]
 +
-+-			offset = section_name_match(&buf[i], old_name);
-++			offset = section_name_match(&buf.buf[i], old_name);
-+			if (offset > 0) {
-+				ret++;
-+				if (new_name == NULL) {
-+@@ -3398,6 +3411,7 @@ static int git_config_copy_or_rename_section_in_file(const char *config_filename
-+ out_no_rollback:
-+	free(filename_buf);
-+	config_store_data_clear(&store);
-++	strbuf_release(&buf);
-+	return ret;
-+ }
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ dict.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
 +
-+diff --git a/t/t1300-config.sh b/t/t1300-config.sh
-+index 78359f1..b07feb1 100755
-+--- a/t/t1300-config.sh
-++++ b/t/t1300-config.sh
-+@@ -617,6 +617,36 @@ test_expect_success 'renaming to bogus section is rejected' '
-+	test_must_fail git config --rename-section branch.zwei "bogus name"
-+ '
++diff --git a/dict.c b/dict.c
++index 86c3f6d7..d7fd1a06 100644
++--- a/dict.c
+++++ b/dict.c
++@@ -433,7 +433,8 @@ static unsigned long
++ xmlDictComputeFastKey(const xmlChar *name, int namelen, int seed) {
++     unsigned long value = seed;
++ 
++-    if (name == NULL) return(0);
+++    if ((name == NULL) || (namelen <= 0))
+++        return(value);
++     value += *name;
++     value <<= 5;
++     if (namelen > 10) {
++-- 
++GitLab
 +
-++test_expect_success 'renaming a section with a long line' '
-++	{
-++		printf "[b]\\n" &&
-++		printf "  c = d %1024s [a] e = f\\n" " " &&
-++		printf "[a] g = h\\n"
-++	} >y &&
-++	git config -f y --rename-section a xyz &&
-++	test_must_fail git config -f y b.e
-++'
-++
-++test_expect_success 'renaming an embedded section with a long line' '
-++	{
-++		printf "[b]\\n" &&
-++		printf "  c = d %1024s [a] [foo] e = f\\n" " " &&
-++		printf "[a] g = h\\n"
-++	} >y &&
-++	git config -f y --rename-section a xyz &&
-++	test_must_fail git config -f y foo.e
-++'
-++
-++test_expect_success 'renaming a section with an overly-long line' '
-++	{
-++		printf "[b]\\n" &&
-++		printf "  c = d %525000s e" " " &&
-++		printf "[a] g = h\\n"
-++	} >y &&
-++	test_must_fail git config -f y --rename-section a xyz 2>err &&
-++	test_i18ngrep "refusing to work with overly long line in .y. on line 2" err
-++'
-++
-+ cat >> .git/config << EOF
-+   [branch "zwei"] a = 1 [branch "vier"]
-+ EOF
-+--
-+2.40.0
-diff --git a/meta/recipes-devtools/git/git_2.35.7.bb b/meta/recipes-devtools/git/git_2.35.7.bb
-index faf0b67051..199ac950fa 100644
---- a/meta/recipes-devtools/git/git_2.35.7.bb
-+++ b/meta/recipes-devtools/git/git_2.35.7.bb
-@@ -10,6 +10,7 @@ PROVIDES:append:class-native = " git-replacement-native"
- SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
-            file://fixsort.patch \
-            file://0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch \
-+           file://CVE-2023-29007.patch \
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.14.bb b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+index e15f8eb13f..9241b279e4 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.14.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+@@ -25,6 +25,8 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar;subdir=${BP};name=testt
+            file://0001-Port-gentest.py-to-Python-3.patch \
+            file://CVE-2022-40303.patch \
+            file://CVE-2022-40304.patch \
++           file://CVE-2023-28484.patch \
++           file://CVE-2023-29469.patch \
             "
  
- S = "${WORKDIR}/git-${PV}"
+ SRC_URI[archive.sha256sum] = "60d74a257d1ccec0475e749cba2f21559e48139efba6ff28224357c7c798dfee"
 -- 
 2.34.1
 
