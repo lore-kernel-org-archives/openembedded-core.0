@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31D72C7EE3A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F736C7EE37
 	for <webhook@archiver.kernel.org>; Tue,  9 May 2023 17:24:04 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web10.39168.1683653043453750320
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web11.39303.1683653039418366187
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 May 2023 10:24:03 -0700
+ Tue, 09 May 2023 10:23:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=O+aCahgV;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-94a34a14a54so1221047666b.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 10:24:03 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=OQJ67Bl4;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-9659f452148so1083826566b.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 10:23:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683653042; x=1686245042;
+        d=gmail.com; s=20221208; t=1683653038; x=1686245038;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=a0fLJVWq54C5B5jf1TVk6M45QrhDFy9YNFc+AisTp3E=;
-        b=O+aCahgV9uayziI5SG8217lUwOOa2LoeW7zc9EB2Tp5/ZJtX19ecRpK5EknXirQn0K
-         mEKmIgjMu3yzt4x466t5vKde2dOCysoM3U7ezzNpFMjpikzbvG/UQOhSXAdAtfIm/l8U
-         eo/klNp1rSiBGE5JYFlyBskOZPBYZplyBN/5UWsrJ0191ReUeW1MZ9KD5u0FMBz3ryY/
-         O/FsY9Om3bKyM6RKLeRxeIpMqn3FfQoHf0exXRILMRI95Y2+VJQr0qJbLCBrrXwrnkPK
-         s1tc2rLH+r+WvvvK+HafR7bdeL2XraDFQ92w1HJdNlzzMS/tL9KMQq+8mPMDLmqOyX51
-         W3rw==
+        bh=uyrYJZZpnsXduv7he/FFI1WOUsK2wT9sZvMBpmDQa7w=;
+        b=OQJ67Bl4JAuIum42ZrvC2DrLHtHoOv3BCMMEOlD0DCEJRoFsmTU8ESquhIAN0iDB2c
+         PZB/0HoRi2cTyY93fQRa0bT/uOv2I3BZLkvNO/L/Sn0unfprsGxlOdmdVeNuk7VJrBOi
+         Dxg18XZCIac2z86wXwiwuB0O3GrHsLlyuzX89ISJXy8aKA2WbEZBqJDUMfbYdjdeyrhH
+         zkRBMEiTaT8co17vgtdKAmmat3EC0ob/e1QWi4U1Q7aJQfvOLHDezzVlS2wnHGGzG7od
+         fWiXvfZvpCrfZG5gdwI7CHUvSEo8z/p8RFRMC2qIahDiWGWybIH9tyH/UyIGQQZ41zjq
+         qImA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683653042; x=1686245042;
+        d=1e100.net; s=20221208; t=1683653038; x=1686245038;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=a0fLJVWq54C5B5jf1TVk6M45QrhDFy9YNFc+AisTp3E=;
-        b=AT8pthDvdv3O8AFsKRWedyqDTYKv6jfO6xo2epOsPlfHlTiwsrpXClwPNyMCmEiTPA
-         XJyz7oQ9Zv66rQjY22PEnNUF86kN3gs0WC/UMID2YJ/PaulSOixPrfQ55DvsAp2p33Pq
-         tdWHLNSzoknEH8U2R/U3oP4MHYVppuPnghCf9nxMo9kY4J11Y1nIZiECIpyKwpbKBZoD
-         OMONhQES3CJDYoy/iPTsFrUnlIfavltSLXtXb0k+DEMeRxpQOoVar4z5NNBp4dc8Kclt
-         eIABc4SFWUrKG2/ezyNBhVYiKaTXpC717YttiF4jm0KgKCkfSrJwx21i0M5n509cmi5N
-         sG1Q==
-X-Gm-Message-State: AC+VfDz2ganjcYIkQ8CxoEEOzae6MV24TdUsqdSrAAd6Mpx6jPis59ga
-	+zCaM3E0lcD25qYiVrU+P8Q6PtXKIBo=
-X-Google-Smtp-Source: ACHHUZ4SM/uypWpfHIyEKYgi1rKTDXO0G6w/rDb2YjQcj3f2oY0vqkUbJlXk+q4FUTjfjE/ECnTsxw==
-X-Received: by 2002:a17:907:a06:b0:94e:c97b:e3ba with SMTP id bb6-20020a1709070a0600b0094ec97be3bamr12281059ejc.37.1683653041891;
-        Tue, 09 May 2023 10:24:01 -0700 (PDT)
+        bh=uyrYJZZpnsXduv7he/FFI1WOUsK2wT9sZvMBpmDQa7w=;
+        b=k012cdb56eup/tFpATTCc0FuZKtPcSvZzjr6wYFfUCV/fUpfpWmM9gP0eXW7OVp2kZ
+         7UMvi5fuBsxCKwpGJWnHNVSzkqwlM6bsgAbUKhOpanD1ffvsU/cYOSn78rP0iEVzaWEb
+         2neeekV82QpxyRZa50I8Stg1j93X2ZfsWpmZN9yU6NyqRhd4Rgr8Xb+cpgUh6RkkCJDP
+         Oj5NV3cJacheWWce+Z7hThti5jAhnR8nxCkg81halhCwZ7eH6mKPK4p3RlUBSvah2V3j
+         bcDetBRvJdjjG9yORnzY5SV/gyTubQRmgFBQ3Vdjk+ODc+F6lnFbFS0GrbMJoZ96nFh+
+         Qlig==
+X-Gm-Message-State: AC+VfDx5nanoe9qOU9VdrASsparjpbONlorzgAJLlTFgQ4NhPw4MBxZZ
+	KKrYoiIKNrqwwT1KMlCgtH3+22KO+48=
+X-Google-Smtp-Source: ACHHUZ4/gMWugqxC562++m+0mjjPH22IhlU5O4EFlnIZE7eanYQLflApmkcUxFdp7IuoUItQT/WlFA==
+X-Received: by 2002:a17:907:e8b:b0:94f:764e:e310 with SMTP id ho11-20020a1709070e8b00b0094f764ee310mr14335966ejc.37.1683653037704;
+        Tue, 09 May 2023 10:23:57 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id jz24-20020a17090775f800b0096347ef816dsm1578252ejc.64.2023.05.09.10.24.01
+        by smtp.gmail.com with ESMTPSA id jz24-20020a17090775f800b0096347ef816dsm1578252ejc.64.2023.05.09.10.23.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 May 2023 10:24:01 -0700 (PDT)
+        Tue, 09 May 2023 10:23:57 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 20/27] gpgme: update 1.18.0 -> 1.20.0
-Date: Tue,  9 May 2023 19:23:37 +0200
-Message-Id: <20230509172344.1516743-20-alex@linutronix.de>
+Subject: [PATCH 15/27] valgrind: update 3.20.0 -> 3.21.0
+Date: Tue,  9 May 2023 19:23:32 +0200
+Message-Id: <20230509172344.1516743-15-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230509172344.1516743-1-alex@linutronix.de>
 References: <20230509172344.1516743-1-alex@linutronix.de>
@@ -62,419 +62,548 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 17:24:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181075
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181070
 
-Rebase patches.
+Drop patches merged upstream.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...e-gpgme.m4-use-gpgrt-config-with-.pc.patch | 40 +++------
- .../gpgme/gpgme/0001-pkgconfig.patch          | 81 ++++++++++---------
- ...n-gpg-error-config-should-not-be-use.patch | 34 +++-----
- .../0008-do-not-auto-check-var-PYTHON.patch   | 13 +--
- .../{gpgme_1.18.0.bb => gpgme_1.20.0.bb}      |  2 +-
- 5 files changed, 71 insertions(+), 99 deletions(-)
- rename meta/recipes-support/gpgme/{gpgme_1.18.0.bb => gpgme_1.20.0.bb} (97%)
+ ...01-drd-tests-Include-missing-cstdint.patch | 34 ----------
+ ...efine-__THROW-if-not-already-defined.patch | 32 ---------
+ ...inux-seg_override.c-add-missing-incl.patch | 30 ++++++++
+ ...ck-x86-Define-__THROW-if-not-defined.patch | 32 ---------
+ ...de-Replace-__modify_ldt-with-syscall.patch | 68 -------------------
+ ...est-wrapper-to-support-PTEST-formats.patch | 52 +++++++-------
+ .../valgrind/valgrind/fixed-perl-path.patch   | 38 ++---------
+ ...{valgrind_3.20.0.bb => valgrind_3.21.0.bb} | 14 +---
+ 8 files changed, 65 insertions(+), 235 deletions(-)
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-drd-tests-Include-missing-cstdint.patch
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-memcheck-arm64-Define-__THROW-if-not-already-defined.patch
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-none-tests-x86-linux-seg_override.c-add-missing-incl.patch
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/0002-memcheck-x86-Define-__THROW-if-not-defined.patch
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/0003-tests-seg_override-Replace-__modify_ldt-with-syscall.patch
+ rename meta/recipes-devtools/valgrind/{valgrind_3.20.0.bb => valgrind_3.21.0.bb} (92%)
 
-diff --git a/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch b/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch
-index 0c15cc7c38f..8ed39280cac 100644
---- a/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch
-@@ -1,4 +1,4 @@
--From a001b3c23bf80fd752044615b9bba6b926ff9666 Mon Sep 17 00:00:00 2001
-+From ee1421f7a7a9f31400ba992a5be52b88d20170c9 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Fri, 10 May 2019 14:18:04 +0800
- Subject: [PATCH] Revert "build: Make gpgme.m4 use gpgrt-config with *.pc."
-@@ -10,36 +10,21 @@ The oe-core does not support gpgrt-config, so revert it
- Upstream-Status: Inappropriate [oe-core specific]
- 
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+
- ---
-- src/gpgme.m4 | 58 +++++++++-------------------------------------------
-- 1 file changed, 10 insertions(+), 48 deletions(-)
-+ src/gpgme.m4 | 54 ++++++++--------------------------------------------
-+ 1 file changed, 8 insertions(+), 46 deletions(-)
- 
- diff --git a/src/gpgme.m4 b/src/gpgme.m4
--index c749a5d..8579146 100644
-+index f2906c1..8cc2898 100644
- --- a/src/gpgme.m4
- +++ b/src/gpgme.m4
--@@ -1,5 +1,5 @@
-- # gpgme.m4 - autoconf macro to detect GPGME.
---# Copyright (C) 2002, 2003, 2004, 2014, 2018 g10 Code GmbH
--+# Copyright (C) 2002, 2003, 2004, 2014 g10 Code GmbH
-- #
-- # This file is free software; as a special exception the author gives
-- # unlimited permission to copy and/or distribute it, with or without
--@@ -9,7 +9,7 @@
-- # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
-- # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-- #
---# Last-changed: 2020-11-20
--+# Last-changed: 2014-10-02
-- 
-- 
-- AC_DEFUN([_AM_PATH_GPGME_CONFIG],
--@@ -36,24 +36,10 @@ AC_DEFUN([_AM_PATH_GPGME_CONFIG],
-+@@ -125,24 +125,10 @@ AC_REQUIRE([_AM_PATH_GPGRT_CONFIG])dnl
-       fi
-    fi
-  
- -  use_gpgrt_config=""
---  if test x"${GPGME_CONFIG}" = x -a x"$GPGRT_CONFIG" != x -a "$GPGRT_CONFIG" != "no"; then
-+-  if test x"$GPGRT_CONFIG" != x -a "$GPGRT_CONFIG" != "no"; then
- -    if $GPGRT_CONFIG gpgme --exists; then
- -      GPGME_CONFIG="$GPGRT_CONFIG gpgme"
- -      AC_MSG_NOTICE([Use gpgrt-config as gpgme-config])
-@@ -61,7 +46,7 @@ index c749a5d..8579146 100644
-    fi
-    gpgme_version_major=`echo $gpgme_version | \
-                 sed 's/\([[0-9]]*\)\.\([[0-9]]*\)\.\([[0-9]]*\).*/\1/'`
--@@ -66,16 +52,12 @@ AC_DEFUN([_AM_PATH_GPGME_CONFIG],
-+@@ -155,16 +141,12 @@ AC_REQUIRE([_AM_PATH_GPGRT_CONFIG])dnl
-  
-  AC_DEFUN([_AM_PATH_GPGME_CONFIG_HOST_CHECK],
-  [
-@@ -80,7 +65,7 @@ index c749a5d..8579146 100644
-  *** built for $gpgme_config_host and thus may not match the
-  *** used host $host.
-  *** You may want to use the configure option --with-gpgme-prefix
--@@ -136,11 +118,7 @@ AC_DEFUN([AM_PATH_GPGME],
-+@@ -225,11 +207,7 @@ AC_DEFUN([AM_PATH_GPGME],
-       # If we have a recent GPGME, we should also check that the
-       # API is compatible.
-       if test "$req_gpgme_api" -gt 0 ; then
-@@ -93,7 +78,7 @@ index c749a5d..8579146 100644
-          if test "$tmp" -gt 0 ; then
-             if test "$req_gpgme_api" -ne "$tmp" ; then
-               ok=no
--@@ -280,11 +258,7 @@ AC_DEFUN([AM_PATH_GPGME_GLIB],
-+@@ -372,11 +350,7 @@ AC_DEFUN([AM_PATH_GPGME_GLIB],
-       # If we have a recent GPGME, we should also check that the
-       # API is compatible.
-       if test "$req_gpgme_api" -gt 0 ; then
-@@ -106,7 +91,7 @@ index c749a5d..8579146 100644
-          if test "$tmp" -gt 0 ; then
-             if test "$req_gpgme_api" -ne "$tmp" ; then
-               ok=no
--@@ -293,20 +267,8 @@ AC_DEFUN([AM_PATH_GPGME_GLIB],
-+@@ -385,20 +359,8 @@ AC_DEFUN([AM_PATH_GPGME_GLIB],
-       fi
-    fi
-    if test $ok = yes; then
-@@ -129,6 +114,3 @@ index c749a5d..8579146 100644
-      AC_MSG_RESULT(yes)
-      ifelse([$2], , :, [$2])
-      _AM_PATH_GPGME_CONFIG_HOST_CHECK
---- 
--2.25.1
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-drd-tests-Include-missing-cstdint.patch b/meta/recipes-devtools/valgrind/valgrind/0001-drd-tests-Include-missing-cstdint.patch
+deleted file mode 100644
+index fbee24a5389..00000000000
+--- a/meta/recipes-devtools/valgrind/valgrind/0001-drd-tests-Include-missing-cstdint.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From 687d9fb9e3de832379680e9d5268331011c92afa Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Thu, 26 Jan 2023 08:53:26 -0800
+-Subject: [PATCH] drd/tests: Include missing <cstdint>
 -
-diff --git a/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch b/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
-index 3b2f59c2fcf..738b23cd584 100644
---- a/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
-@@ -1,4 +1,4 @@
--From 0d7ec5b98dc6cbd35f56deaecec5ecfdaa944aee Mon Sep 17 00:00:00 2001
-+From f8221238d51066b7a1a5f2917cce2791876ea8b0 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Fri, 10 May 2019 14:23:55 +0800
- Subject: [PATCH] pkgconfig
-@@ -19,17 +19,17 @@ Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
- ---
-  configure.ac            |   1 +
-  src/Makefile.am         |   4 +-
-- src/gpgme-pthread.pc.in |  15 ++++++
-- src/gpgme.m4            | 114 +++-------------------------------------
-+ src/gpgme-pthread.pc.in |  15 +++++
-+ src/gpgme.m4            | 119 +++-------------------------------------
-  src/gpgme.pc.in         |   4 +-
-- 5 files changed, 28 insertions(+), 110 deletions(-)
-+ 5 files changed, 29 insertions(+), 114 deletions(-)
-  create mode 100644 src/gpgme-pthread.pc.in
- 
- diff --git a/configure.ac b/configure.ac
--index 9d696b9..5b4e730 100644
-+index d1b9aca..9c4f97c 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -926,6 +926,7 @@ AC_CONFIG_FILES(Makefile src/Makefile
-+@@ -1043,6 +1043,7 @@ AC_CONFIG_FILES(Makefile src/Makefile
-                  src/gpgme-glib.pc
-                  src/gpgme.h)
-  AC_CONFIG_FILES(src/gpgme-config, chmod +x src/gpgme-config)
-@@ -77,10 +77,10 @@ index 0000000..074bbf6
- +Cflags: -I${includedir}
- +Requires: libassuan gpg-error
- diff --git a/src/gpgme.m4 b/src/gpgme.m4
--index 71b0010..5821895 100644
-+index 8cc2898..0ff550e 100644
- --- a/src/gpgme.m4
- +++ b/src/gpgme.m4
--@@ -79,7 +79,7 @@ dnl config script does not match the host specification the script
-+@@ -168,7 +168,7 @@ dnl config script does not match the host specification the script
-  dnl is added to the gpg_config_script_warn variable.
-  dnl
-  AC_DEFUN([AM_PATH_GPGME],
-@@ -89,7 +89,7 @@ index 71b0010..5821895 100644
-    tmp=ifelse([$1], ,1:0.4.2,$1)
-    if echo "$tmp" | grep ':' >/dev/null 2>/dev/null ; then
-       req_gpgme_api=`echo "$tmp"     | sed 's/\(.*\):\(.*\)/\1/'`
--@@ -89,36 +89,12 @@ AC_DEFUN([AM_PATH_GPGME],
-+@@ -178,36 +178,12 @@ AC_DEFUN([AM_PATH_GPGME],
-       min_gpgme_version="$tmp"
-    fi
-  
-@@ -128,7 +128,7 @@ index 71b0010..5821895 100644
-          if test "$tmp" -gt 0 ; then
-             if test "$req_gpgme_api" -ne "$tmp" ; then
-               ok=no
--@@ -127,19 +103,11 @@ AC_DEFUN([AM_PATH_GPGME],
-+@@ -216,19 +192,11 @@ AC_DEFUN([AM_PATH_GPGME],
-       fi
-    fi
-    if test $ok = yes; then
-@@ -148,44 +148,45 @@ index 71b0010..5821895 100644
-  ])
-  
-  dnl AM_PATH_GPGME_PTHREAD([MINIMUM-VERSION,
--@@ -148,7 +116,7 @@ dnl Test for libgpgme and define GPGME_PTHREAD_CFLAGS
-+@@ -236,9 +204,8 @@ dnl                       [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND ]]])
-+ dnl Test for libgpgme and define GPGME_PTHREAD_CFLAGS
-  dnl  and GPGME_PTHREAD_LIBS.
-  dnl
-- AC_DEFUN([AM_PATH_GPGME_PTHREAD],
---[ AC_REQUIRE([_AM_PATH_GPGME_CONFIG])dnl
-+-AC_DEFUN([AM_PATH_GPGME_PTHREAD],[
-+-  AC_OBSOLETE([$0], [; use AM_PATH_GPGME instead to use GPGME_CFLAGS and GPGME_LIBS])dnl
-+-  AC_REQUIRE([_AM_PATH_GPGME_CONFIG])dnl
-++AC_DEFUN([AM_PATH_GPGME_PTHREAD],
- +[
-    tmp=ifelse([$1], ,1:0.4.2,$1)
-    if echo "$tmp" | grep ':' >/dev/null 2>/dev/null ; then
-       req_gpgme_api=`echo "$tmp"     | sed 's/\(.*\):\(.*\)/\1/'`
--@@ -158,38 +126,12 @@ AC_DEFUN([AM_PATH_GPGME_PTHREAD],
-+@@ -248,40 +215,12 @@ AC_DEFUN([AM_PATH_GPGME_PTHREAD],[
-       min_gpgme_version="$tmp"
-    fi
-  
- -  AC_MSG_CHECKING(for GPGME pthread - version >= $min_gpgme_version)
- -  ok=no
- -  if test "$GPGME_CONFIG" != "no" ; then
---    if `$GPGME_CONFIG --thread=pthread 2> /dev/null` ; then
---      req_major=`echo $min_gpgme_version | \
-+-    req_major=`echo $min_gpgme_version | \
- -               sed 's/\([[0-9]]*\)\.\([[0-9]]*\)\.\([[0-9]]*\)/\1/'`
---      req_minor=`echo $min_gpgme_version | \
-+-    req_minor=`echo $min_gpgme_version | \
- -               sed 's/\([[0-9]]*\)\.\([[0-9]]*\)\.\([[0-9]]*\)/\2/'`
---      req_micro=`echo $min_gpgme_version | \
-+-    req_micro=`echo $min_gpgme_version | \
- -               sed 's/\([[0-9]]*\)\.\([[0-9]]*\)\.\([[0-9]]*\)/\3/'`
---      if test "$gpgme_version_major" -gt "$req_major"; then
-+-    if test "$gpgme_version_major" -gt "$req_major"; then
- -        ok=yes
---      else
-+-    else
- -        if test "$gpgme_version_major" -eq "$req_major"; then
---          if test "$gpgme_version_minor" -gt "$req_minor"; then
---            ok=yes
---          else
---            if test "$gpgme_version_minor" -eq "$req_minor"; then
---              if test "$gpgme_version_micro" -ge "$req_micro"; then
---                ok=yes
---              fi
-+-            if test "$gpgme_version_minor" -gt "$req_minor"; then
-+-               ok=yes
-+-            else
-+-               if test "$gpgme_version_minor" -eq "$req_minor"; then
-+-                   if test "$gpgme_version_micro" -ge "$req_micro"; then
-+-                     ok=yes
-+-                   fi
-+-               fi
- -            fi
---          fi
- -        fi
---      fi
- -    fi
- -  fi
- +  PKG_CHECK_MODULES(GPGME_PTHREAD, [gpgme-pthread >= $min_gpgme_version], [ok=yes], [ok=no])
-@@ -193,17 +194,21 @@ index 71b0010..5821895 100644
-       # If we have a recent GPGME, we should also check that the
-       # API is compatible.
-       if test "$req_gpgme_api" -gt 0 ; then
---        tmp=`$GPGME_CONFIG --api-version 2>/dev/null || echo 0`
-+-        if test -z "$use_gpgrt_config"; then
-+-          tmp=`$GPGME_CONFIG --api-version 2>/dev/null || echo 0`
-+-        else
-+-          tmp=`$GPGME_CONFIG --variable=api_version 2>/dev/null || echo 0`
-+-        fi
- +        tmp=`$PKG_CONFIG --variable=api_version gpgme-pthread 2>/dev/null || echo 0`
-          if test "$tmp" -gt 0 ; then
-             if test "$req_gpgme_api" -ne "$tmp" ; then
-               ok=no
--@@ -198,19 +140,11 @@ AC_DEFUN([AM_PATH_GPGME_PTHREAD],
-+@@ -290,19 +229,11 @@ AC_DEFUN([AM_PATH_GPGME_PTHREAD],[
-       fi
-    fi
-    if test $ok = yes; then
---    GPGME_PTHREAD_CFLAGS=`$GPGME_CONFIG --thread=pthread --cflags`
---    GPGME_PTHREAD_LIBS=`$GPGME_CONFIG --thread=pthread --libs`
-+-    GPGME_PTHREAD_CFLAGS=`$GPGME_CONFIG --cflags`
-+-    GPGME_PTHREAD_LIBS=`$GPGME_CONFIG --libs`
- -    AC_MSG_RESULT(yes)
-      ifelse([$2], , :, [$2])
-      _AM_PATH_GPGME_CONFIG_HOST_CHECK
-@@ -218,7 +223,7 @@ index 71b0010..5821895 100644
-  ])
-  
-  
--@@ -229,36 +163,12 @@ AC_DEFUN([AM_PATH_GPGME_GLIB],
-+@@ -321,36 +252,12 @@ AC_DEFUN([AM_PATH_GPGME_GLIB],
-       min_gpgme_version="$tmp"
-    fi
-  
-@@ -257,7 +262,7 @@ index 71b0010..5821895 100644
-          if test "$tmp" -gt 0 ; then
-             if test "$req_gpgme_api" -ne "$tmp" ; then
-               ok=no
--@@ -267,17 +177,9 @@ AC_DEFUN([AM_PATH_GPGME_GLIB],
-+@@ -359,17 +266,9 @@ AC_DEFUN([AM_PATH_GPGME_GLIB],
-       fi
-    fi
-    if test $ok = yes; then
-@@ -276,15 +281,15 @@ index 71b0010..5821895 100644
- -  AC_SUBST(GPGME_GLIB_LIBS)
-  ])
- diff --git a/src/gpgme.pc.in b/src/gpgme.pc.in
--index 80d59de..932645b 100644
-+index 9ddef5c..932645b 100644
- --- a/src/gpgme.pc.in
- +++ b/src/gpgme.pc.in
- @@ -9,6 +9,6 @@ Name: gpgme
-  Description: GnuPG Made Easy to access GnuPG
-  Requires.private: gpg-error, libassuan
-  Version: @PACKAGE_VERSION@
---Cflags: -I${includedir} @GPGME_CONFIG_CFLAGS@
---Libs: -L${libdir} @GPGME_CONFIG_LIBS@
-+-Cflags: @GPGME_CONFIG_CFLAGS@
-+-Libs: @GPGME_CONFIG_LIBS@
- +Cflags: -I${includedir}
- +Libs: -L${libdir} -lgpgme
-  URL: https://www.gnupg.org/software/gpgme/index.html
-diff --git a/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch b/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch
-index ecd1793ab9c..0d2692912fd 100644
---- a/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch
+-gcc 13 moved some includes around and as a result <cstdint> is no longer
+-transitively included [1]. Explicitly include it for uint{32,64}_t.
+-
+-Fixes
+-tsan_thread_wrappers_pthread.h:91:9: error: 'int64_t' does not name a type
+-
+-[1] https://gcc.gnu.org/gcc-13/porting_to.html#header-dep-changes
+-
+-Upstream-Status: Submitted [https://bugs.kde.org/show_bug.cgi?id=464859]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- drd/tests/tsan_thread_wrappers_pthread.h | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/drd/tests/tsan_thread_wrappers_pthread.h b/drd/tests/tsan_thread_wrappers_pthread.h
+-index f15e6ad..4cc8062 100644
+---- a/drd/tests/tsan_thread_wrappers_pthread.h
+-+++ b/drd/tests/tsan_thread_wrappers_pthread.h
+-@@ -55,6 +55,7 @@
+- #define NO_TLS
+- #endif
+- 
+-+#include <cstdint>
+- #include <string>
+- using namespace std;
+- 
+--- 
+-2.39.1
+-
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-memcheck-arm64-Define-__THROW-if-not-already-defined.patch b/meta/recipes-devtools/valgrind/valgrind/0001-memcheck-arm64-Define-__THROW-if-not-already-defined.patch
+deleted file mode 100644
+index a48d7db070f..00000000000
+--- a/meta/recipes-devtools/valgrind/valgrind/0001-memcheck-arm64-Define-__THROW-if-not-already-defined.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From 3409dc35c15bb14c8a525239806322648e079ab1 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 5 Jul 2017 17:12:43 -0700
+-Subject: [PATCH 1/3] memcheck/arm64: Define __THROW if not already defined
+-
+-Helps compiling with musl where __THROW is not available
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+-Upstream-Status: Submitted
+-
+- memcheck/tests/arm64-linux/scalar.h | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/memcheck/tests/arm64-linux/scalar.h b/memcheck/tests/arm64-linux/scalar.h
+-index 9008816..8ef050f 100644
+---- a/memcheck/tests/arm64-linux/scalar.h
+-+++ b/memcheck/tests/arm64-linux/scalar.h
+-@@ -12,6 +12,10 @@
+- #include <sys/types.h>
+- #include <sys/mman.h>
+- 
+-+#ifndef __THROW
+-+#define __THROW
+-+#endif
+-+
+- // Since we use vki_unistd.h, we can't include <unistd.h>.  So we have to
+- // declare this ourselves.
+- extern long int syscall (long int __sysno, ...) __THROW;
+--- 
+-2.13.2
+-
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-x86-linux-seg_override.c-add-missing-incl.patch b/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-x86-linux-seg_override.c-add-missing-incl.patch
+new file mode 100644
+index 00000000000..5e36c28523e
+--- /dev/null
++++ b/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-x86-linux-seg_override.c-add-missing-incl.patch
+@@ -0,0 +1,30 @@
++From 978d9ed7f857f2cdcd2a8632f3c2feb56b99c825 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Mon, 8 May 2023 11:56:35 +0200
++Subject: [PATCH] none/tests/x86-linux/seg_override.c: add missing include for
++ musl builds
++
++Otherwise SYS_modify_ldt is undefined.
++
++Upstream-Status: Submitted [https://bugs.kde.org/show_bug.cgi?id=382034]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++
++---
++ none/tests/x86-linux/seg_override.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/none/tests/x86-linux/seg_override.c b/none/tests/x86-linux/seg_override.c
++index ca8fbfe..4ef4394 100644
++--- a/none/tests/x86-linux/seg_override.c
+++++ b/none/tests/x86-linux/seg_override.c
++@@ -3,6 +3,10 @@
++ #include <errno.h>
++ #include <string.h>
++ #include "../../../config.h"
+++#if defined(MUSL_LIBC)
+++#include <syscall.h>
+++#include <unistd.h>
+++#endif
++ 
++ 
++ /* Stuff from Wine. */
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0002-memcheck-x86-Define-__THROW-if-not-defined.patch b/meta/recipes-devtools/valgrind/valgrind/0002-memcheck-x86-Define-__THROW-if-not-defined.patch
+deleted file mode 100644
+index 5433472291e..00000000000
+--- a/meta/recipes-devtools/valgrind/valgrind/0002-memcheck-x86-Define-__THROW-if-not-defined.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From 67d199dbdcbb3feff5f8928f87725fc64c0307d7 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 5 Jul 2017 17:36:42 -0700
+-Subject: [PATCH 2/3] memcheck/x86: Define __THROW if not defined
+-
+-musl does not have __THROW, therefore make it null
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+-Upstream-Status: Submitted
+-
+- memcheck/tests/x86-linux/scalar.h | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/memcheck/tests/x86-linux/scalar.h b/memcheck/tests/x86-linux/scalar.h
+-index ef28b03..52f742e 100644
+---- a/memcheck/tests/x86-linux/scalar.h
+-+++ b/memcheck/tests/x86-linux/scalar.h
+-@@ -11,6 +11,10 @@
+- #include <sys/types.h>
+- #include <sys/mman.h>
+- 
+-+#ifndef __THROW
+-+#define __THROW
+-+#endif
+-+
+- // Since we use vki_unistd.h, we can't include <unistd.h>.  So we have to
+- // declare this ourselves.
+- extern long int syscall (long int __sysno, ...) __THROW;
+--- 
+-2.13.2
+-
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0003-tests-seg_override-Replace-__modify_ldt-with-syscall.patch b/meta/recipes-devtools/valgrind/valgrind/0003-tests-seg_override-Replace-__modify_ldt-with-syscall.patch
+deleted file mode 100644
+index fa1344c8539..00000000000
+--- a/meta/recipes-devtools/valgrind/valgrind/0003-tests-seg_override-Replace-__modify_ldt-with-syscall.patch
++++ /dev/null
+@@ -1,68 +0,0 @@
+-From d103475875858ab8a2e6b53ce178bb2f63883d4c Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 5 Jul 2017 17:37:56 -0700
+-Subject: [PATCH 3/3] tests/seg_override: Replace __modify_ldt() with syscall()
+-
+-__modify_ldt() is specific to glibc, replacing it with syscall()
+-makes it more portable.
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+-Upstream-Status: Submitted
+-
+- none/tests/x86-linux/seg_override.c | 15 ++++++---------
+- 1 file changed, 6 insertions(+), 9 deletions(-)
+-
+-diff --git a/none/tests/x86-linux/seg_override.c b/none/tests/x86-linux/seg_override.c
+-index b7619c9..c89874b 100644
+---- a/none/tests/x86-linux/seg_override.c
+-+++ b/none/tests/x86-linux/seg_override.c
+-@@ -2,6 +2,8 @@
+- #include <stdio.h>
+- #include <errno.h>
+- #include <string.h>
+-+#include <unistd.h>
+-+#include <syscall.h>
+- 
+- /* Stuff from Wine. */
+- 
+-@@ -52,14 +54,11 @@ inline static unsigned int wine_ldt_get_limit( const LDT_ENTRY *ent )
+- /* our copy of the ldt */
+- LDT_ENTRY ldt_copy[8192];
+- 
+--/* System call to set LDT entry.  */
+--//extern int __modify_ldt (int, struct modify_ldt_ldt_s *, size_t);
+--extern int __modify_ldt (int, void *, size_t);
+--
+- void print_ldt ( void )
+- {
+-    int res;
+--   res = __modify_ldt( 0, ldt_copy, 8192*sizeof(LDT_ENTRY) );
+-+   /* System call to set LDT entry.  */
+-+   res = syscall(SYS_modify_ldt, 0, ldt_copy, 8192*sizeof(LDT_ENTRY) );
+-    printf("got %d bytes\n", res );   
+-    perror("error is");
+- }
+-@@ -83,9 +82,6 @@ struct modify_ldt_ldt_s
+-   unsigned int empty:25;
+- };
+- 
+--/* System call to set LDT entry.  */
+--//extern int __modify_ldt (int, struct modify_ldt_ldt_s *, size_t);
+--
+- void set_ldt1 ( void* base )
+- {
+-   int stat;
+-@@ -102,7 +98,8 @@ void set_ldt1 ( void* base )
+-   ldt_entry.read_exec_only = 0;
+-   ldt_entry.limit_in_pages = 0;
+-   ldt_entry.seg_not_present = 0;
+--  stat = __modify_ldt (1, &ldt_entry, sizeof (ldt_entry));
+-+  /* System call to set LDT entry.  */
+-+  stat = syscall(SYS_modify_ldt, 1, &ldt_entry, sizeof (ldt_entry));
+-   printf("stat = %d\n", stat);
+- }
+- 
+--- 
+-2.13.2
+-
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0005-Modify-vg_test-wrapper-to-support-PTEST-formats.patch b/meta/recipes-devtools/valgrind/valgrind/0005-Modify-vg_test-wrapper-to-support-PTEST-formats.patch
+index a3637ea846e..fea3b00f62e 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/0005-Modify-vg_test-wrapper-to-support-PTEST-formats.patch
++++ b/meta/recipes-devtools/valgrind/valgrind/0005-Modify-vg_test-wrapper-to-support-PTEST-formats.patch
 @@ -1,7 +1,7 @@
--From 52f8fd2010b900c7d382a7c4e6c1a317d8160585 Mon Sep 17 00:00:00 2001
-+From 9fce0689bc04506e5758444efa24ea99fe1ff5ef Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Fri, 10 May 2019 14:30:36 +0800
--Subject: [PATCH 2/7] gpgme/lang/python: gpg-error-config should not be used
-+Subject: [PATCH] gpgme/lang/python: gpg-error-config should not be used
+-From f49f27f1bc67d07440b0ac9a7d767a8ea1589bfe Mon Sep 17 00:00:00 2001
++From e244a72c6f8803550f37e81f72bbae039651013b Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 15 Dec 2015 15:50:44 +0200
+-Subject: [PATCH 5/5] Modify vg_test wrapper to support PTEST formats
++Subject: [PATCH] Modify vg_test wrapper to support PTEST formats
  
- gpg-error-config was modified by OE to always return an error.
- So we want to find an alternative way to retrieve whatever it
-@@ -14,39 +14,23 @@ Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
- Rebase to 1.13.0
+ Change the valgrind regression test script vg_regtest to
+ support the yocto ptest stdout reporting format.  The commit adds
+@@ -25,11 +25,11 @@ Increase time limit to 90 s.
  
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+ Signed-off-by: Yi Fan Yu <yifan.yu@windriver.com>
+ ---
+- tests/vg_regtest.in | 75 +++++++++++++++++++++++++++++++++++++++--------------
++ tests/vg_regtest.in | 75 +++++++++++++++++++++++++++++++++------------
+  1 file changed, 55 insertions(+), 20 deletions(-)
+ 
+ diff --git a/tests/vg_regtest.in b/tests/vg_regtest.in
+-index a441f42..cb05b52 100755
++index ad18800..e4bd8cb 100755
+ --- a/tests/vg_regtest.in
+ +++ b/tests/vg_regtest.in
+ @@ -47,6 +47,7 @@
+@@ -49,7 +49,7 @@ index a441f42..cb05b52 100755
+       . "   Use EXTRA_REGTEST_OPTS to supply extra args for all tests\n"
+       . "\n";
+  
+-@@ -186,6 +187,7 @@ my $outer_args;
++@@ -187,6 +188,7 @@ my $run_outer_args = "";
+  my $valgrind_lib = "$tests_dir/.in_place";
+  my $keepunfiltered = 0;
+  my $looptillfail = 0;
+@@ -57,7 +57,7 @@ index a441f42..cb05b52 100755
+  
+  # default filter is the one named "filter_stderr" in the test's directory
+  my $default_stderr_filter = "filter_stderr";
+-@@ -244,6 +246,8 @@ sub process_command_line()
++@@ -245,6 +247,8 @@ sub process_command_line()
+                  $keepunfiltered = 1;
+              } elsif ($arg =~ /^--loop-till-fail$/) {
+                  $looptillfail = 1;
+@@ -66,7 +66,7 @@ index a441f42..cb05b52 100755
+              } else {
+                  die $usage;
+              }
+-@@ -365,13 +369,28 @@ sub read_vgtest_file($)
++@@ -376,13 +380,28 @@ sub read_vgtest_file($)
+  #----------------------------------------------------------------------------
+  # Since most of the program time is spent in system() calls, need this to
+  # propagate a Ctrl-C enabling us to quit.
+@@ -100,7 +100,7 @@ index a441f42..cb05b52 100755
+  # if $keepunfiltered, copies $1 to $1.unfiltered.out
+  # renames $0 tp $1
+  sub filtered_rename($$) 
+-@@ -419,23 +438,25 @@ sub do_diffs($$$$)
++@@ -430,23 +449,25 @@ sub do_diffs($$$$)
+                  # A match;  remove .out and any previously created .diff files.
+                  unlink("$name.$mid.out");
+                  unlink(<$name.$mid.diff*>);
+@@ -128,7 +128,7 @@ index a441f42..cb05b52 100755
+      $vgtest =~ /^(.*)\.vgtest/;
+      my $name = $1;
+      my $fullname = "$dir/$name"; 
+-@@ -454,7 +475,11 @@ sub do_one_test($$)
++@@ -465,7 +486,11 @@ sub do_one_test($$)
+          } elsif (256 == $prereq_res) {
+              # Nb: weird Perl-ism -- exit code of '1' is seen by Perl as 256...
+              # Prereq failed, skip.
+@@ -141,7 +141,7 @@ index a441f42..cb05b52 100755
+              return;
+          } else {
+              # Bad prereq; abort.
+-@@ -472,7 +497,7 @@ sub do_one_test($$)
++@@ -483,7 +508,7 @@ sub do_one_test($$)
+          }
+          # If there is a progB, let's start it in background:
+          printf("%-16s valgrind $extraopts $vgopts $prog $args (progB: $progB $argsB)\n",
+@@ -150,7 +150,7 @@ index a441f42..cb05b52 100755
+          # progB.done used to detect child has finished. See below.
+          # Note: redirection of stdout and stderr is before $progB to allow argsB
+          # to e.g. redirect stdoutB to stderrB
+-@@ -488,7 +513,8 @@ sub do_one_test($$)
++@@ -499,7 +524,8 @@ sub do_one_test($$)
+                       . "touch progB.done)  &");
+          }
+      } else {
+@@ -160,7 +160,7 @@ index a441f42..cb05b52 100755
+      }
+  
+      # Collect environment variables, if any.
+-@@ -529,7 +555,7 @@ sub do_one_test($$)
++@@ -540,7 +566,7 @@ sub do_one_test($$)
+      # Find all the .stdout.exp files.  If none, use /dev/null.
+      my @stdout_exps = <$name.stdout.exp*>;
+      @stdout_exps = ( "/dev/null" ) if (0 == scalar @stdout_exps);
+@@ -169,7 +169,7 @@ index a441f42..cb05b52 100755
+  
+      # Filter stderr
+      $stderr_filter_args = $name if (! defined $stderr_filter_args);
+-@@ -538,7 +564,7 @@ sub do_one_test($$)
++@@ -549,7 +575,7 @@ sub do_one_test($$)
+      # Find all the .stderr.exp files.  At least one must exist.
+      my @stderr_exps = <$name.stderr.exp*>;
+      (0 != scalar @stderr_exps) or die "Could not find `$name.stderr.exp*'\n";
+@@ -178,7 +178,7 @@ index a441f42..cb05b52 100755
+  
+      if (defined $progB) {
+          # wait for the child to be finished
+-@@ -562,7 +588,7 @@ sub do_one_test($$)
++@@ -573,7 +599,7 @@ sub do_one_test($$)
+          # Find all the .stdoutB.exp files.  If none, use /dev/null.
+          my @stdoutB_exps = <$name.stdoutB.exp*>;
+          @stdoutB_exps = ( "/dev/null" ) if (0 == scalar @stdoutB_exps);
+@@ -187,7 +187,7 @@ index a441f42..cb05b52 100755
+          
+          # Filter stderr
+          $stderrB_filter_args = $name if (! defined $stderrB_filter_args);
+-@@ -571,7 +597,7 @@ sub do_one_test($$)
++@@ -582,7 +608,7 @@ sub do_one_test($$)
+          # Find all the .stderrB.exp files.  At least one must exist.
+          my @stderrB_exps = <$name.stderrB.exp*>;
+          (0 != scalar @stderrB_exps) or die "Could not find `$name.stderrB.exp*'\n";
+@@ -196,7 +196,7 @@ index a441f42..cb05b52 100755
+      }
+  
+      # Maybe do post-test check
+-@@ -583,7 +609,7 @@ sub do_one_test($$)
++@@ -594,7 +620,7 @@ sub do_one_test($$)
+  	    # Find all the .post.exp files.  If none, use /dev/null.
+  	    my @post_exps = <$name.post.exp*>;
+  	    @post_exps = ( "/dev/null" ) if (0 == scalar @post_exps);
+@@ -205,7 +205,7 @@ index a441f42..cb05b52 100755
+  	}
+      }
+   
+-@@ -592,6 +618,13 @@ sub do_one_test($$)
++@@ -603,6 +629,13 @@ sub do_one_test($$)
+              print("(cleanup operation failed: $cleanup)\n");
+      }
+  
+@@ -219,25 +219,25 @@ index a441f42..cb05b52 100755
+      $num_tests_done++;
+  }
+  
+-@@ -631,7 +664,7 @@ sub test_one_dir($$)
+-     my $found_tests = (0 != (grep { $_ =~ /\.vgtest$/ } @fs));
++@@ -643,7 +676,7 @@ sub test_one_dir($$)
+  
++     my $tests_start_time = time;
+      if ($found_tests) {
+ -        print "-- Running  tests in $full_dir $dashes\n";
+ +        print "-- Running  tests in $full_dir $dashes\n" if ($yoctoptest == 0);
+      }
+      foreach my $f (@fs) {
+          if (-d $f) {
+-@@ -641,7 +674,7 @@ sub test_one_dir($$)
+-         }
+-     }
+-     if ($found_tests) {
+--        print "-- Finished tests in $full_dir $dashes\n";
++@@ -657,7 +690,7 @@ sub test_one_dir($$)
++         my $end_time = "(in $tests_cost_time sec)";
++         my $end_dashes = "-" x (50 - (length $full_dir)
++                                    - (length $end_time) - 1);
++-        print "-- Finished tests in $full_dir $end_time $end_dashes\n";
+ +        print "-- Finished tests in $full_dir $dashes\n" if ($yoctoptest == 0);
+      }
+  
+      chdir("..");
+-@@ -667,10 +700,12 @@ sub summarise_results
++@@ -683,10 +716,12 @@ sub summarise_results
+             $num_failures{"stdout"},   plural($num_failures{"stdout"}),
+             $num_failures{"stderrB"},  plural($num_failures{"stderrB"}),
+             $num_failures{"stdoutB"},  plural($num_failures{"stdoutB"}),
+@@ -253,5 +253,5 @@ index a441f42..cb05b52 100755
+      print "\n";
+  }
+ -- 
+-2.6.2
++2.30.2
+ 
+diff --git a/meta/recipes-devtools/valgrind/valgrind/fixed-perl-path.patch b/meta/recipes-devtools/valgrind/valgrind/fixed-perl-path.patch
+index db6867f6259..b9804e74516 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/fixed-perl-path.patch
++++ b/meta/recipes-devtools/valgrind/valgrind/fixed-perl-path.patch
+@@ -1,4 +1,4 @@
+-From d85cc45e0ddeda68adf594dead715964cb32d0e7 Mon Sep 17 00:00:00 2001
++From beaa5b64c60d501fa9cd59fdc563e5f5bccf6882 Mon Sep 17 00:00:00 2001
+ From: Qing He <qing.he@intel.com>
+ Date: Tue, 31 Aug 2010 22:51:58 +0800
+ Subject: [PATCH] valgrind: fix perl scripts
+@@ -17,34 +17,13 @@ a better fix would need:
+ Upstream-Status: Inappropriate [configuration]
+ 
+ Signed-off-by: Maxin B. John <maxin.john@intel.com>
 +
  ---
-- lang/python/setup.py.in | 9 +--------
-- 1 file changed, 1 insertion(+), 8 deletions(-)
-+ lang/python/setup.py.in | 3 +--
-+ 1 file changed, 1 insertion(+), 2 deletions(-)
+- cachegrind/cg_annotate.in | 2 +-
+- cachegrind/cg_diff.in     | 2 +-
+- massif/ms_print.in        | 2 +-
+- perf/vg_perf.in           | 2 +-
+- tests/vg_regtest.in       | 2 +-
+- 5 files changed, 5 insertions(+), 5 deletions(-)
++ massif/ms_print.in  | 2 +-
++ perf/vg_perf.in     | 2 +-
++ tests/vg_regtest.in | 2 +-
++ 3 files changed, 3 insertions(+), 3 deletions(-)
  
- diff --git a/lang/python/setup.py.in b/lang/python/setup.py.in
--index 9785a28..006216d 100755
-+index 6f36861..1d9058b 100755
- --- a/lang/python/setup.py.in
- +++ b/lang/python/setup.py.in
--@@ -30,7 +30,6 @@ import subprocess
-- import sys
+-diff --git a/cachegrind/cg_annotate.in b/cachegrind/cg_annotate.in
+-index fea114b..5e814fd 100644
+---- a/cachegrind/cg_annotate.in
+-+++ b/cachegrind/cg_annotate.in
+-@@ -1,4 +1,4 @@
+--#! @PERL@
+-+#! /usr/bin/perl
 - 
-- # Out-of-tree build of the gpg bindings.
---gpg_error_config = ['gpg-error-config']
-- gpgme_config_flags = ['--thread=pthread']
-- gpgme_config = ['gpgme-config'] + gpgme_config_flags
-- gpgme_h = ''
--@@ -182,15 +181,9 @@ class BuildExtFirstHack(build):
-+@@ -169,9 +169,8 @@ class BuildExtFirstHack(build):
-  
-      def _generate_errors_i(self):
-  
---        try:
---            subprocess.check_call(
---                gpg_error_config + ['--version'], stdout=devnull)
---        except:
---            sys.exit('Could not find gpg-error-config.  ' +
---                     'Please install the libgpg-error development package.')
+- ##--------------------------------------------------------------------##
+- ##--- Cachegrind's annotator.                       cg_annotate.in ---##
+-diff --git a/cachegrind/cg_diff.in b/cachegrind/cg_diff.in
+-index 9d9258e..d0f0ec7 100755
+---- a/cachegrind/cg_diff.in
+-+++ b/cachegrind/cg_diff.in
+-@@ -1,4 +1,4 @@
+--#! @PERL@
+-+#! /usr/bin/perl
 - 
-+-        ge_cflags='@GPG_ERROR_CFLAGS@'
-          gpg_error_content = self._read_header(
---            'gpg-error.h', getconfig('cflags', config=gpg_error_config))
-+-            'gpg-error.h', ge_cflags.split(' ') if ge_cflags else [])
- +            "gpg-error.h", os.environ.get('CFLAGS').split())
-  
-          filter_re = re.compile(r'GPG_ERR_[^ ]* =')
-          rewrite_re = re.compile(r' *(.*) = .*')
+- ##--------------------------------------------------------------------##
+- ##--- Cachegrind's differencer.                         cg_diff.in ---##
+ diff --git a/massif/ms_print.in b/massif/ms_print.in
+ index a206ce4..df1bc31 100755
+ --- a/massif/ms_print.in
+@@ -66,7 +45,7 @@ index 90ee1d2..c585096 100644
+  ##--- Valgrind performance testing script                  vg_perf ---##
+  ##--------------------------------------------------------------------##
+ diff --git a/tests/vg_regtest.in b/tests/vg_regtest.in
+-index 0fe6341..1b45eb7 100755
++index 7152765..ad18800 100755
+ --- a/tests/vg_regtest.in
+ +++ b/tests/vg_regtest.in
+ @@ -1,4 +1,4 @@
+@@ -75,6 +54,3 @@ index 0fe6341..1b45eb7 100755
+  ##--------------------------------------------------------------------##
+  ##--- Valgrind regression testing script                vg_regtest ---##
+  ##--------------------------------------------------------------------##
 --- 
--2.7.4
+-2.29.2
 -
-diff --git a/meta/recipes-support/gpgme/gpgme/0008-do-not-auto-check-var-PYTHON.patch b/meta/recipes-support/gpgme/gpgme/0008-do-not-auto-check-var-PYTHON.patch
-index dfea1bf78ab..214cf348e43 100644
---- a/meta/recipes-support/gpgme/gpgme/0008-do-not-auto-check-var-PYTHON.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0008-do-not-auto-check-var-PYTHON.patch
-@@ -1,4 +1,4 @@
--From 5bbf7a048b6d81d23186340e839f9f65b5b514b6 Mon Sep 17 00:00:00 2001
-+From 94cf9f8fc79c0d1d4529cebdd74328927fda36a2 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Fri, 10 May 2019 16:19:54 +0800
- Subject: [PATCH] do not auto check var-PYTHON
-@@ -14,18 +14,19 @@ Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
- 
- ---
-- configure.ac | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
-+ configure.ac | 5 ++---
-+ 1 file changed, 2 insertions(+), 3 deletions(-)
- 
- diff --git a/configure.ac b/configure.ac
--index 5ef00c0..bbcff93 100644
-+index df218ec..6a619ef 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -425,8 +425,8 @@ if test "$found_py" = "1"; then
-+@@ -521,9 +521,8 @@ if test "$found_py" = "1"; then
-  	if test "$found_py" = "1" -o "$found_py3" = "1"; then
-  	  # Reset everything, so that we can look for another Python.
-            m4_foreach([mym4pythonver],
---                     [[2.7],[3.4],[3.5],[3.6],[3.7],[3.8],[3.9],[all]],
-+-                     [[2.7],[3.4],[3.5],[3.6],[3.7],[3.8],[3.9],[3.10],
-+-                      [3.11],[3.12],[all]],
- -           [unset PYTHON
- +                     [[2.7],[3.7]],
- +           [
-diff --git a/meta/recipes-support/gpgme/gpgme_1.18.0.bb b/meta/recipes-support/gpgme/gpgme_1.20.0.bb
-similarity index 97%
-rename from meta/recipes-support/gpgme/gpgme_1.18.0.bb
-rename to meta/recipes-support/gpgme/gpgme_1.20.0.bb
-index deea6f3f7b0..dc5b58d7c33 100644
---- a/meta/recipes-support/gpgme/gpgme_1.18.0.bb
-+++ b/meta/recipes-support/gpgme/gpgme_1.20.0.bb
-@@ -25,7 +25,7 @@ SRC_URI = "${GNUPG_MIRROR}/gpgme/${BP}.tar.bz2 \
-            file://0001-autogen.sh-remove-unknown-in-version.patch \
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.20.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb
+similarity index 92%
+rename from meta/recipes-devtools/valgrind/valgrind_3.20.0.bb
+rename to meta/recipes-devtools/valgrind/valgrind_3.21.0.bb
+index 07e50426e44..717d82830e7 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.20.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb
+@@ -27,9 +27,6 @@ SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
+            file://0001-sigqueue-Rename-_sifields-to-__si_fields-on-musl.patch \
+            file://0002-context-APIs-are-not-available-on-musl.patch \
+            file://0003-correct-include-directive-path-for-config.h.patch \
+-           file://0001-memcheck-arm64-Define-__THROW-if-not-already-defined.patch \
+-           file://0002-memcheck-x86-Define-__THROW-if-not-defined.patch \
+-           file://0003-tests-seg_override-Replace-__modify_ldt-with-syscall.patch \
+            file://0001-fix-opcode-not-supported-on-mips32-linux.patch \
+            file://0001-Make-local-functions-static-to-avoid-assembler-error.patch \
+            file://0001-Return-a-valid-exit_code-from-vg_regtest.patch \
+@@ -39,9 +36,9 @@ SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
+            file://0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch \
+            file://0001-memcheck-tests-Fix-timerfd-syscall-test.patch \
+            file://0001-docs-Disable-manual-validation.patch \
+-           file://0001-drd-tests-Include-missing-cstdint.patch \
++           file://0001-none-tests-x86-linux-seg_override.c-add-missing-incl.patch \
             "
+-SRC_URI[sha256sum] = "8536c031dbe078d342f121fa881a9ecd205cb5a78e639005ad570011bdb9f3c6"
++SRC_URI[sha256sum] = "10ce1618bb3e33fad16eb79552b0a3e1211762448a0d7fce11c8a6243b9ac971"
+ UPSTREAM_CHECK_REGEX = "valgrind-(?P<pver>\d+(\.\d+)+)\.tar"
  
--SRC_URI[sha256sum] = "361d4eae47ce925dba0ea569af40e7b52c645c4ae2e65e5621bf1b6cdd8b0e9e"
-+SRC_URI[sha256sum] = "25a5785a5da356689001440926b94e967d02e13c49eb7743e35ef0cf22e42750"
+ COMPATIBLE_HOST = '(i.86|x86_64|arm|aarch64|mips|powerpc|powerpc64).*-linux'
+@@ -208,13 +205,6 @@ do_install_ptest() {
+ 	\) \
+         -exec rm {} \;
  
- PYTHON_DEPS = "${@bb.utils.contains('LANGUAGES', 'python', 'swig-native', '', d)}"
+-    # These files need to be newer so touch them.
+-    touch ${D}${PTEST_PATH}/cachegrind/tests/a.c -r ${D}${PTEST_PATH}/cachegrind/tests/cgout-test
+-
+-    # find *_annotate in ${bindir} for yocto build
+-    sed -i s:\.\./\.\./cachegrind/cg_annotate:${bindir}/cg_annotate: ${D}${PTEST_PATH}/cachegrind/tests/ann1.vgtest
+-    sed -i s:\.\./\.\./cachegrind/cg_annotate:${bindir}/cg_annotate: ${D}${PTEST_PATH}/cachegrind/tests/ann2.vgtest
+-
+     sed -i s:\.\./\.\./callgrind/callgrind_annotate:${bindir}/callgrind_annotate: ${D}${PTEST_PATH}/callgrind/tests/ann1.vgtest
+     sed -i s:\.\./\.\./callgrind/callgrind_annotate:${bindir}/callgrind_annotate: ${D}${PTEST_PATH}/callgrind/tests/ann2.vgtest
  
 -- 
 2.30.2
