@@ -1,225 +1,148 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <asharma@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29CDEC7EE25
-	for <webhook@archiver.kernel.org>; Tue,  9 May 2023 17:24:14 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web11.39310.1683653046043553192
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91032C77B75
+	for <webhook@archiver.kernel.org>; Tue,  9 May 2023 18:30:14 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web11.41029.1683657013564568994
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 May 2023 10:24:06 -0700
+ Tue, 09 May 2023 11:30:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=jOXQTN6W;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-969f90d71d4so137241366b.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 10:24:05 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=dHjqrHSR;
+ spf=pass (domain: mvista.com, ip: 209.85.214.170, mailfrom: asharma@mvista.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1aaf21bb42bso44366135ad.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 11:30:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683653044; x=1686245044;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=mvista.com; s=google; t=1683657013; x=1686249013;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VfUsAjEIfBSWrdDTrtKcIH8F01Ea62L+UOUojLo9QkQ=;
-        b=jOXQTN6Wi3uKeG/vLG39wIacr7F8UktgECJNIILYWlEiytprT0T3gdyMQClXoGp0to
-         Yh1SBUcKPIFnhAj1R5YafuliL8FAy07zDZNLL3yuhnVlyAGUUFpVF34ktOcPjyeBTWdp
-         y/QCslMh9S+m9W7Osz/ZNY23LypzIY3W5eHYmRfXlI0aM4xv3lZFqGTk95iUNSf7Xihj
-         GL07ludg9f4lB9IZAtUxyprDkRxUgcLaaInxH2vvbdIuxyoWKRJ+IlK2icdKzBAq7Bzw
-         Im9TuD3zEoduGLAP+49N0gBroMZ2KALghS73gXZI94iN2cBBfEfEkJxKRtrOr8vSplJv
-         uDiQ==
+        bh=C/n391ndG9XVwRreF4KGjY11XzkZRg3HYhiUHl/z27M=;
+        b=dHjqrHSRTU8Ez+04BDZ7OyOZZ/prCUZ5Yh1vVnuTTTUuroCpyZ4VaD9iQyHu2LKTr+
+         Q4bhLThWLcLwmfzVKhZns4hFzKmDJLtcb+CsBPBKyglZoHBBdE3ZfMAu9w5EjUaT05eO
+         cvXv8y9GfEVAnVH6q8Ku48/JTOPHRFYZ8mMXI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683653044; x=1686245044;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1683657013; x=1686249013;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VfUsAjEIfBSWrdDTrtKcIH8F01Ea62L+UOUojLo9QkQ=;
-        b=X5gBpXK2HffVAb5NYpGwJeJEzakQAamnDUGPYzk8ZMXEPTpzWElF1E1YLLt+rMW1Ij
-         ZlVMVjviP6Rs6c10RKHSc+ugCwQweIZzID/3r6LsoqJuPZUOFDKmd31gQ7H3OCdHpNkC
-         zO05PQ0hKpLnsCHn7nsirambnUGNF8zlWKmoQ8Y6hWp1tZj3uWupThuXh8MT95psO/Ew
-         WleSip+xvWul1zE2KfZiA1gHhChPQYZqAjFYnDhMDJJcbdX4wD9dEB3ScsjKu3C5Hqer
-         qMKX9muddANS+UZBOycK8Pit+uvSbhXF/TdaC/rQLj2BpSvS5rAaVrkiA1dyf0G2a98O
-         7vww==
-X-Gm-Message-State: AC+VfDwtt/w39a9ongYpS+8aH5NNXOejSBOc2ByMXyjwOFHI8ymDYpaG
-	UFKrCWJjA1vf0CFmQd+qICVsC0Gy/rA=
-X-Google-Smtp-Source: ACHHUZ451Hg0h7LxyVUxgGDDfdr5c0xeDGJSxs/hD/VMfI+KjtNyLEUTIIJN1TQqyqx01htsdV4COg==
-X-Received: by 2002:a17:907:60d6:b0:957:1df0:9cbf with SMTP id hv22-20020a17090760d600b009571df09cbfmr14373558ejc.19.1683653044511;
-        Tue, 09 May 2023 10:24:04 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id jz24-20020a17090775f800b0096347ef816dsm1578252ejc.64.2023.05.09.10.24.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 May 2023 10:24:04 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+        bh=C/n391ndG9XVwRreF4KGjY11XzkZRg3HYhiUHl/z27M=;
+        b=IzlvrEHl5zFR+7p2gYnZXfTvzVx1KtrUP/8402RF9yZujLca4SyllI4C87QbqdNLyt
+         zf2HLkjYCTtCJEefUplsnGlv/3+OTSZ3ttC3reCGrNhHlp7NGqg/e6i2O76JT0FQtXiR
+         4Itu+1q6xNwZVF2F7gWfJ5V34wyNkv4F7FgmH94hBXOyoLXttESwBqj1Tf+t0WaNBg/R
+         YzmPjnrNgzar6n2EjLVQz9Jb/ousg8DEWCMWn4e9kMk8O7BOc3ibigldjx3ZJ4d4s/B3
+         XFQ5+kMoO+Ei+JloycICm+DZQOir7teLQtvpELPn2So1AlXwgFlbhSZgvAP8IK71GP5C
+         sEOg==
+X-Gm-Message-State: AC+VfDwzX8bGidA4XVqF9qAQ7aPkFaDqmOtcz1jZ2O+mTHhUs2fv1SWu
+	cF97vkVBIjQOwFxPHwUcrdHJKcWHFzUoBMXMqQM=
+X-Google-Smtp-Source: ACHHUZ5+88dlC9K48TvyK21KEFXZIQsJ+8J9U8GW5j+hnRDqAzvlhYKZQ6NAIOuz7h7F/KIgaFCJsQ==
+X-Received: by 2002:a17:902:b08c:b0:1a1:ee8c:eef7 with SMTP id p12-20020a170902b08c00b001a1ee8ceef7mr15855580plr.48.1683657012690;
+        Tue, 09 May 2023 11:30:12 -0700 (PDT)
+Received: from asharma-Latitude-3400 ([122.161.87.195])
+        by smtp.gmail.com with ESMTPSA id y10-20020a170902864a00b001ab09f5ca61sm1921211plt.55.2023.05.09.11.30.09
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 09 May 2023 11:30:12 -0700 (PDT)
+Received: by asharma-Latitude-3400 (sSMTP sendmail emulation); Wed, 10 May 2023 00:00:06 +0530
+From: Ashish Sharma <asharma@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 23/27] libgpg-error: update 1.46 -> 1.47
-Date: Tue,  9 May 2023 19:23:40 +0200
-Message-Id: <20230509172344.1516743-23-alex@linutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230509172344.1516743-1-alex@linutronix.de>
-References: <20230509172344.1516743-1-alex@linutronix.de>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: Ashish Sharma <asharma@mvista.com>
+Subject: [OE-core][dunfell][PATCH] connman: Fix CVE-2023-28488 DoS in client.c
+Date: Wed, 10 May 2023 00:00:04 +0530
+Message-Id: <20230509183004.10338-1-asharma@mvista.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 17:24:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181079
+ <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 18:30:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181083
 
-License-Update: copyright years
+Avoid overwriting the read packet length after the initial test. Thus
+move all the length checks which depends on the total length first
+and do not use the total lenght from the IP packet afterwards.
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Fixes CVE-2023-28488
+
+Reported by Polina Smirnova <moe.hwr@gmail.com>
+
+Signed-off-by: Ashish Sharma <asharma@mvista.com>
 ---
- .../libgpg-error/libgpg-error/pkgconfig.patch | 59 ++++++++++++++-----
- ...gpg-error_1.46.bb => libgpg-error_1.47.bb} |  4 +-
- 2 files changed, 45 insertions(+), 18 deletions(-)
- rename meta/recipes-support/libgpg-error/{libgpg-error_1.46.bb => libgpg-error_1.47.bb} (92%)
+ .../connman/connman/CVE-2023-28488.patch      | 54 +++++++++++++++++++
+ .../connman/connman_1.37.bb                   |  1 +
+ 2 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2023-28488.patch
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch b/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
-index 75c1febc10f..3d886bcaa40 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
-+++ b/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
-@@ -1,4 +1,4 @@
--From e10f93167c76c477a7b97286cfac603795bf28d8 Mon Sep 17 00:00:00 2001
-+From b0df1cb468264a9bb9113524f0e1318c456b2348 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Thu, 29 Mar 2018 15:12:17 +0800
- Subject: [PATCH] support pkgconfig
-@@ -14,17 +14,19 @@ Signed-off-by: Armin Kuster <akuster808@gmail.com>
- Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
- 
- ---
-- src/gpg-error.m4 | 165 +----------------------------------------------
-- 1 file changed, 3 insertions(+), 162 deletions(-)
-+ src/gpg-error.m4 | 192 ++---------------------------------------------
-+ 1 file changed, 5 insertions(+), 187 deletions(-)
- 
- diff --git a/src/gpg-error.m4 b/src/gpg-error.m4
--index a975e53..af4bf2f 100644
-+index 7fa52b1..15a0859 100644
- --- a/src/gpg-error.m4
- +++ b/src/gpg-error.m4
--@@ -27,162 +27,12 @@ dnl is added to the gpg_config_script_warn variable.
-+@@ -15,187 +15,14 @@
-  dnl
-- AC_DEFUN([AM_PATH_GPG_ERROR],
-- [ AC_REQUIRE([AC_CANONICAL_HOST])
-+ dnl Find gpg-error-config, for backward compatibility
-+ dnl
-+-dnl _AM_PATH_POSSIBLE_GPG_ERROR_CONFIG
-+-AC_DEFUN([_AM_PATH_POSSIBLE_GPG_ERROR_CONFIG],[dnl
- -  gpg_error_config_prefix=""
- -  dnl --with-libgpg-error-prefix=PFX is the preferred name for this option,
- -  dnl since that is consistent with how our three siblings use the directory/
-@@ -60,9 +62,14 @@ index a975e53..af4bf2f 100644
- -  fi
- -
- -  AC_PATH_PROG(GPG_ERROR_CONFIG, gpg-error-config, no)
---  min_gpg_error_version=ifelse([$1], ,1.33,$1)
---  ok=no
-+-])
- -
-+-dnl
-+-dnl Find gpgrt-config, which uses .pc file
-+-dnl (minimum pkg-config functionality, supporting cross build)
-+-dnl
-+-dnl _AM_PATH_GPGRT_CONFIG
-+-AC_DEFUN([_AM_PATH_GPGRT_CONFIG],[dnl
- -  AC_PATH_PROG(GPGRT_CONFIG, gpgrt-config, no, [$prefix/bin:$PATH])
- -  if test "$GPGRT_CONFIG" != "no"; then
- -    # Determine gpgrt_libdir
-@@ -118,12 +125,9 @@ index a975e53..af4bf2f 100644
- -        fi
- -        if test -n "$gpgrt_libdir"; then break; fi
- -      done
---      if test -z "$libdir_candidates"; then
---        # No valid pkgconfig dir in any of the system directories, fallback
---        gpgrt_libdir=${possible_libdir1}
---      fi
---    else
---      # When we cannot determine system libdir-format, use this:
-+-    fi
-+-    if test -z "$gpgrt_libdir"; then
-+-      # No valid pkgconfig dir in any of the system directories, fallback
- -      gpgrt_libdir=${possible_libdir1}
- -    fi
- -  else
-@@ -137,12 +141,33 @@ index a975e53..af4bf2f 100644
- -      AC_MSG_NOTICE([Use gpgrt-config with $gpgrt_libdir as gpg-error-config])
- -      gpg_error_config_version=`$GPG_ERROR_CONFIG --modversion`
- -    else
-+-      gpg_error_config_version=`$GPG_ERROR_CONFIG --version`
- -      unset GPGRT_CONFIG
- -    fi
- -  elif test "$GPG_ERROR_CONFIG" != "no"; then
- -    gpg_error_config_version=`$GPG_ERROR_CONFIG --version`
- -    unset GPGRT_CONFIG
- -  fi
-+-])
+diff --git a/meta/recipes-connectivity/connman/connman/CVE-2023-28488.patch b/meta/recipes-connectivity/connman/connman/CVE-2023-28488.patch
+new file mode 100644
+index 0000000000..ea1601cc04
+--- /dev/null
++++ b/meta/recipes-connectivity/connman/connman/CVE-2023-28488.patch
+@@ -0,0 +1,54 @@
++From 99e2c16ea1cced34a5dc450d76287a1c3e762138 Mon Sep 17 00:00:00 2001
++From: Daniel Wagner <wagi@monom.org>
++Date: Tue, 11 Apr 2023 08:12:56 +0200
++Subject: gdhcp: Verify and sanitize packet length first
++
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/connman/connman.git/patch/?id=99e2c16ea1cced34a5dc450d76287a1c3e762138]
++CVE: CVE-2023-28488
++Signed-off-by: Ashish Sharma <asharma@mvista.com>
++
++ gdhcp/client.c | 16 +++++++++-------
++ 1 file changed, 9 insertions(+), 7 deletions(-)
++
++diff --git a/gdhcp/client.c b/gdhcp/client.c
++index 7efa7e45..82017692 100644
++--- a/gdhcp/client.c
+++++ b/gdhcp/client.c
++@@ -1319,9 +1319,9 @@ static bool sanity_check(struct ip_udp_dhcp_packet *packet, int bytes)
++ static int dhcp_recv_l2_packet(struct dhcp_packet *dhcp_pkt, int fd,
++ 				struct sockaddr_in *dst_addr)
++ {
++-	int bytes;
++ 	struct ip_udp_dhcp_packet packet;
++ 	uint16_t check;
+++	int bytes, tot_len;
++ 
++ 	memset(&packet, 0, sizeof(packet));
++ 
++@@ -1329,15 +1329,17 @@ static int dhcp_recv_l2_packet(struct dhcp_packet *dhcp_pkt, int fd,
++ 	if (bytes < 0)
++ 		return -1;
++ 
++-	if (bytes < (int) (sizeof(packet.ip) + sizeof(packet.udp)))
++-		return -1;
 +-
-+-dnl AM_PATH_GPG_ERROR([MINIMUM-VERSION,
-+-dnl                   [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND ]]])
-+-dnl
-+-dnl Test for libgpg-error and define GPG_ERROR_CFLAGS, GPG_ERROR_LIBS,
-+-dnl GPG_ERROR_MT_CFLAGS, and GPG_ERROR_MT_LIBS.  The _MT_ variants are
-+-dnl used for programs requireing real multi thread support.
-+-dnl
-+-dnl If a prefix option is not used, the config script is first
-+-dnl searched in $SYSROOT/bin and then along $PATH.  If the used
-+-dnl config script does not match the host specification the script
-+-dnl is added to the gpg_config_script_warn variable.
-+-dnl
-+-AC_DEFUN([AM_PATH_GPG_ERROR],[dnl
-+-AC_REQUIRE([AC_CANONICAL_HOST])dnl
-+-AC_REQUIRE([_AM_PATH_POSSIBLE_GPG_ERROR_CONFIG])dnl
-+-AC_REQUIRE([_AM_PATH_GPGRT_CONFIG])dnl
-+-  min_gpg_error_version=ifelse([$1], ,1.33,$1)
-+-  ok=no
- -  if test "$GPG_ERROR_CONFIG" != "no"; then
- -    req_major=`echo $min_gpg_error_version | \
- -               sed 's/\([[0-9]]*\)\.\([[0-9]]*\)/\1/'`
-@@ -163,6 +188,8 @@ index a975e53..af4bf2f 100644
- -    fi
- -  fi
- -  AC_MSG_CHECKING(for GPG Error - version >= $min_gpg_error_version)
-++AC_DEFUN([AM_PATH_GPG_ERROR],
-++[ AC_REQUIRE([AC_CANONICAL_HOST])
- +  min_gpg_error_version=ifelse([$1], ,0.0,$1)
- +  PKG_CHECK_MODULES(GPG_ERROR, [gpg-error >= $min_gpg_error_version], [ok=yes], [ok=no])
-    if test $ok = yes; then
-@@ -187,7 +214,7 @@ index a975e53..af4bf2f 100644
-      fi
-      if test x"$gpg_error_config_host" != xnone ; then
-        if test x"$gpg_error_config_host" != x"$host" ; then
--@@ -198,15 +48,6 @@ AC_DEFUN([AM_PATH_GPG_ERROR],
-+@@ -211,15 +38,6 @@ AC_REQUIRE([_AM_PATH_GPGRT_CONFIG])dnl
-        fi
-      fi
-    else
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.47.bb
-similarity index 92%
-rename from meta/recipes-support/libgpg-error/libgpg-error_1.46.bb
-rename to meta/recipes-support/libgpg-error/libgpg-error_1.47.bb
-index e0f2d86303e..0f35fd95b20 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.46.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.47.bb
-@@ -6,7 +6,7 @@ BUGTRACKER = "https://bugs.g10code.com/gnupg/index"
- LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                     file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
--                    file://src/gpg-error.h.in;beginline=2;endline=18;md5=d82591bc81561f617da71e00ff4a9d79 \
-+                    file://src/gpg-error.h.in;beginline=2;endline=18;md5=20f4cf5d81ea2fad18f6297500018654 \
-                     file://src/init.c;beginline=2;endline=17;md5=f01cdfcf747af5380590cfd9bbfeaaf7 \
-                     "
++-	if (bytes < ntohs(packet.ip.tot_len))
+++	tot_len = ntohs(packet.ip.tot_len);
+++	if (bytes > tot_len) {
+++		/* ignore any extra garbage bytes */
+++		bytes = tot_len;
+++	} else if (bytes < tot_len) {
++ 		/* packet is bigger than sizeof(packet), we did partial read */
++ 		return -1;
+++	}
++ 
++-	/* ignore any extra garbage bytes */
++-	bytes = ntohs(packet.ip.tot_len);
+++	if (bytes < (int) (sizeof(packet.ip) + sizeof(packet.udp)))
+++		return -1;
++ 
++ 	if (!sanity_check(&packet, bytes))
++ 		return -1;
++-- 
++cgit 
++
+diff --git a/meta/recipes-connectivity/connman/connman_1.37.bb b/meta/recipes-connectivity/connman/connman_1.37.bb
+index 73d7f7527e..8062a094d3 100644
+--- a/meta/recipes-connectivity/connman/connman_1.37.bb
++++ b/meta/recipes-connectivity/connman/connman_1.37.bb
+@@ -14,6 +14,7 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+             file://CVE-2022-23098.patch \
+             file://CVE-2022-32292.patch \
+ 	     file://CVE-2022-32293.patch \
++            file://CVE-2023-28488.patch \
+ "
  
-@@ -20,7 +20,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
-            file://run-ptest \
-            "
- 
--SRC_URI[sha256sum] = "b7e11a64246bbe5ef37748de43b245abd72cfcd53c9ae5e7fc5ca59f1c81268d"
-+SRC_URI[sha256sum] = "9e3c670966b96ecc746c28c2c419541e3bcb787d1a73930f5e5f5e1bcbbb9bdb"
- 
- BINCONFIG = "${bindir}/gpg-error-config"
- 
+ SRC_URI_append_libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch"
 -- 
-2.30.2
+2.17.1
 
 
