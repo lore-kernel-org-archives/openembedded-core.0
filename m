@@ -2,62 +2,62 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80759C77B7C
-	for <webhook@archiver.kernel.org>; Tue,  9 May 2023 15:49:53 +0000 (UTC)
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
- by mx.groups.io with SMTP id smtpd.web11.36562.1683647389582767631
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA52CC77B75
+	for <webhook@archiver.kernel.org>; Tue,  9 May 2023 15:52:43 +0000 (UTC)
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+ by mx.groups.io with SMTP id smtpd.web10.36610.1683647559886600687
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 May 2023 08:49:50 -0700
+ Tue, 09 May 2023 08:52:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=SLVUepPG;
- spf=pass (domain: baylibre.com, ip: 209.85.222.174, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7576516c81fso345984985a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 08:49:49 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=k4sTURgd;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.176, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-75131c2997bso2248553885a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 08:52:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1683647388; x=1686239388;
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1683647558; x=1686239558;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OGMd6vsJ/hVV9NvWbvf6a88YakvX6wGKi06cvLxg5NA=;
-        b=SLVUepPGbz4puRRkUrZhW9CxxB8L8p/fHASPBw/6q/axnu4OFAl4eDqJMJAhnU7UQL
-         CvMFaI/8hjDAiZnHyGsHgevdFu9LaYoJmv+xSo7fCHlRvzAmaDaiS2JJSo2D+lo1UI1J
-         IC47IXmnYXDfihfzWXfrQFj0+kmGFdJe2xb6mYs8Kd7aZYngO7V2Hu4Hmy1hD/UMcbg7
-         UH4kgnpuxk3XYgFlq9XSP2ul85XOQ2KNQS0X4BqSE4BiU6tKA1TjK1IHd71AKdRwzoDb
-         y1/HJ2f2C488/bYZr83uMcZca3P5e9lzfjFsc5LT4ouQLjgOVjs29lWpW2mVz5+FX5JD
-         3vBg==
+        bh=R2dGhOW9OBdCURfsxqG2YumshE5+r21NJxiFd4F5khM=;
+        b=k4sTURgdTmPXMDjxYQ6X1oHBk7gyNV4XstiHPqqbHpP7sRES10ec9VMjFIuPGNcEL+
+         UWMYcCRDILMc1o0L0U+wbOV5RdyQRVNNlL+ptGlrWLAv0SzIZKiOVB9+khC4HPNy4BIC
+         +2HVZ73yZ+SHj/X4wv/CG/sVVE0hEtxbhNRpoYs7fuSxZ7i4gHGhRsBQSD0deDj2fgdC
+         nRjRUe43Le5Z7B6ZzAz53cFZbUtquKKoAC9mCXaUdY/a9ezlj+htkITnPcPpuelDGrHW
+         iYRpuYlo6G2WFMMvMJlptXQGdiFP0eMzvfKbOjh8GDrOPypcdEYQ0Z7GSy8UHoIbhNwY
+         zQCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683647388; x=1686239388;
+        d=1e100.net; s=20221208; t=1683647558; x=1686239558;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OGMd6vsJ/hVV9NvWbvf6a88YakvX6wGKi06cvLxg5NA=;
-        b=CkY/t4OupT98a/bY7OJBjjHIf5q2HVTsHU8tYRwYAp1qUaND66iI5Y61hAsQBrYjYv
-         xsnviH/7cULtOWU5Ty1PKWUm5GyJD/SaRJW5fCWOtIo36vmH0St/eeUTZHhxNII5WF8a
-         qeqAcyZ1bjVinvg9VmV+NN+ixTfnujdsRW9wHIq484QpBZcu9DYUA9co7a72i0BCEtHA
-         Ns2Zu/aE9JXc09pI96wxMm0IyzXjEbkEt78MGOSg6XZTCm0+N79L8xj9OIrigGYOVv7C
-         4s4o/kc5mWWDXY1RvvoBi2epnV/FbtGKu7aY5VZB2UpP9t6S9WeIdVqbrw0vYqIvlexg
-         UI6A==
-X-Gm-Message-State: AC+VfDxaj1TGbGN6nNEk6e/Bh9P98rgApIwdbxAORFLSFDWa5QUgRy+e
-	I0rNR49dxD3Hq3kWza8nMNEoWk4gaDuUbVFG71Ii+Q==
-X-Google-Smtp-Source: ACHHUZ7ZnR7GVhPds3u/aebHwXe01TLMljZzV6dm0Bw3XacLsjSNpt0yAz1v2p/mx3Sflcnv8V5q7A==
-X-Received: by 2002:a05:622a:1441:b0:3ef:4b16:6df4 with SMTP id v1-20020a05622a144100b003ef4b166df4mr20443397qtx.29.1683647388056;
-        Tue, 09 May 2023 08:49:48 -0700 (PDT)
+        bh=R2dGhOW9OBdCURfsxqG2YumshE5+r21NJxiFd4F5khM=;
+        b=MOpa0l6+O7+lh2yBYDJ2NiguBzSVJ0mGXb2IsIC37VFg/9o04nBp+Z3qYViKWjQ5YC
+         j+vcwhBl/5pL5dW579k8EGeD6BNXPapRyPq4CmqbWqsSV2mH80hxz8eYwDE1Pz2kjhyZ
+         edbEmaS2f6wR/ty34rbOTMLVpBgn2D+/zIRnuyYdv744EaLJMjKeELDO02w3YxY/eGtV
+         TAvwoiithHwjMiKWIuRd+jmeSklAIUG3JfSPNnbE1T1oBr5fBpoqx4JSO2IBUc6m+31w
+         n1tv/aLkdDLDQgqSMxwDV4CvxnLoTB2IDBN5zKhYmcftDoiqX7VkPvdLVnYMYag9T+KT
+         kfVw==
+X-Gm-Message-State: AC+VfDwuBMTgB0K0O7+qkFewjyXLliIezOwc02GLD0RjoeVni0OQwO7E
+	eSW9Q8woAAKdf5z0CJvYZEoU/ZdU6DlhbW2IhmMPCw==
+X-Google-Smtp-Source: ACHHUZ5V3rcSItzHQxJoggBFtth9dMPdEAZCFjbHGiUlVc/YroMSnK0J1N1YRwWsYhxtx1eJ/RAO5w==
+X-Received: by 2002:a05:622a:148e:b0:3ef:319c:2894 with SMTP id t14-20020a05622a148e00b003ef319c2894mr21791035qtx.26.1683647558461;
+        Tue, 09 May 2023 08:52:38 -0700 (PDT)
 Received: from megalith.ht.home (cpe64777de11593-cm64777de11590.cpe.net.cable.rogers.com. [174.115.224.47])
-        by smtp.gmail.com with ESMTPSA id p19-20020ac87413000000b003e64303bd2dsm581837qtq.63.2023.05.09.08.49.47
+        by smtp.gmail.com with ESMTPSA id ca17-20020a05622a1f1100b003f383cdcf47sm585850qtb.61.2023.05.09.08.52.38
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 May 2023 08:49:47 -0700 (PDT)
+        Tue, 09 May 2023 08:52:38 -0700 (PDT)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v6] python3-calver: Add recipe
-Date: Tue,  9 May 2023 11:49:46 -0400
-Message-Id: <20230509154946.3090692-1-tgamblin@baylibre.com>
+Subject: [PATCH v7] python3-calver: Add recipe
+Date: Tue,  9 May 2023 11:52:37 -0400
+Message-Id: <20230509155237.3093359-1-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 15:49:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181045
+ <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 15:52:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181046
 
 calver is "a setuptools extension for automatically defining your Python
 package version as a calendar version." It is required for
@@ -66,19 +66,20 @@ required for the upgrade of python3-hatchling from 1.13.0 to work.
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 
-v6 addresses reproducibility by patching the source code, and fixes 
-issues with that were missed from previous reviews.
-v5 moves these revision notes to the correct place.
-v4 adds the run-ptest script and adds maintainer info.
-v3 clarifies that the recipe now includes ptests, where v2 didn't make
-this clear and v1 didn't have them at all.
+v7 removes the unnecessary sha256sum from the recipe.
+v6 addresses reproducibility by patching the source code, and fixes                                                                                                                                                                                                                                                           
+issues with that were missed from previous reviews.                                                                                                                                                                                                                                                                           
+v5 moves these revision notes to the correct place.                                                                                                                                                                                                                                                                           
+v4 adds the run-ptest script and adds maintainer info.                                                                                                                                                                                                                                                                        
+v3 clarifies that the recipe now includes ptests, where v2 didn't make                                                                                                                                                                                                                                                        
+this clear and v1 didn't have them at all.      
 ---
  meta/conf/distro/include/maintainers.inc      |  1 +
  .../distro/include/ptest-packagelists.inc     |  1 +
  .../0001-setup.py-hard-code-version.patch     | 32 +++++++++++++++++++
  .../python/python3-calver/run-ptest           |  3 ++
- .../python/python3-calver_2022.6.26.bb        | 29 +++++++++++++++++
- 5 files changed, 66 insertions(+)
+ .../python/python3-calver_2022.6.26.bb        | 28 ++++++++++++++++
+ 5 files changed, 65 insertions(+)
  create mode 100644 meta/recipes-devtools/python/python3-calver/0001-setup.py-hard-code-version.patch
  create mode 100644 meta/recipes-devtools/python/python3-calver/run-ptest
  create mode 100644 meta/recipes-devtools/python/python3-calver_2022.6.26.bb
@@ -156,10 +157,10 @@ index 0000000000..8d2017d39c
 +pytest --automake
 diff --git a/meta/recipes-devtools/python/python3-calver_2022.6.26.bb b/meta/recipes-devtools/python/python3-calver_2022.6.26.bb
 new file mode 100644
-index 0000000000..e564515176
+index 0000000000..58b33f19ff
 --- /dev/null
 +++ b/meta/recipes-devtools/python/python3-calver_2022.6.26.bb
-@@ -0,0 +1,29 @@
+@@ -0,0 +1,28 @@
 +SUMMARY = "Setuptools extension for CalVer package versions"
 +HOMEPAGE = "https://github.com/di/calver"
 +LICENSE = "Apache-2.0"
@@ -170,7 +171,6 @@ index 0000000000..e564515176
 +    file://run-ptest \
 +    file://0001-setup.py-hard-code-version.patch \
 +"
-+SRC_URI[sha256sum] = "e05493a3b17517ef1748fbe610da11f10485faa7c416b9d33fd4a52d74894f8b"
 +SRCREV = "3268d8acf2c345f32a1c5f08ba25dc67f76cca81"
 +
 +inherit python_setuptools_build_meta ptest
