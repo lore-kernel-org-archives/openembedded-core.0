@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18170C7EE2D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08313C7EE23
 	for <webhook@archiver.kernel.org>; Tue,  9 May 2023 17:23:54 +0000 (UTC)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web10.39154.1683653031827222728
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web11.39289.1683653031361427637
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 May 2023 10:23:52 -0700
+ Tue, 09 May 2023 10:23:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=Ogji8atM;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-9661a1ff1e9so568237266b.1
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=dSFoc0Bo;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-9659c5b14d8so1001384066b.3
         for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 10:23:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20221208; t=1683653030; x=1686245030;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RX8QW5/cMGoCSjfXJ+BHPgzn3sH1a4kHSLIXapjRU6A=;
-        b=Ogji8atM4ZJaL2QvdWJEwv+Y9E8wITpeVhtWVIjfUg5oakt9+WIY0cCUGk8mR0Iy+P
-         lyPJYr6bKcbPxPiWl4jORTAysH6rHKW9nwK9tEmHwWPbrcUD3Wv4YaFWMf4RphmryFtc
-         gNuEbR9Xi2Fr6MCmHVgPOqTJVls4RGXN2jTIYxJwBxelwzv4xmBplaY571K+gjIuJuDD
-         w5vyqhEsHTcNWJrMFxadVXdx9fAk+R+bpKbcJX7lDusZjkgcRO/msVYtO/pVFbc4Kwnm
-         Ekr+MgJHYOyexLbPBy1gJArErx36UoJ/DFeeBVU4WXEI4xksa5pT02Y0x5iKOOsXxLE1
-         QVbA==
+        bh=f5QFS8zF/+pNJ3eEurIX0fPnwjthTJRdXEQXEmE6YPU=;
+        b=dSFoc0BoQrOXLlFac4dz4nPUNW1oePt5LKhcFb1AjPXoHXiH8SxP/2JNFLmIUt/LB4
+         CCCYawY8DQLKOyKRsr0rsEAJLtXIX6Nc8NVpZ+cQnWXV5sZ0IhbtMEHc6MbYNLiaAJXb
+         mb99rCPmBP+HjkVKuEOpmxctaZ4F8EWOmYV/fE8iDIiNC31ml4w0tL4xoPEulLZ60Q5m
+         0tbAI9cLoexe3rXTaBToX7yOgMpzeCiNAd9YvX4YFk3WTavpjEYrsyhzCXd7XZXz9zoA
+         w15A97mjs/VOiLU9l7wC6riKEdfiZQerX7ARei9j8J2dNtgq9M/gibabZOoOFkRijo4m
+         lcFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20221208; t=1683653030; x=1686245030;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RX8QW5/cMGoCSjfXJ+BHPgzn3sH1a4kHSLIXapjRU6A=;
-        b=hpbo36WF66c2psilEhVedoSMRPbau94ZZPFJTeaKHn5RRDLHpA08Yaqh1DIdjCCWeD
-         +uoETn2cOL04KnsqtMT2F95J7OONr0pzVSIJUEIXCdNxGNvv0T1/Hy4hnMdrWhWP0Gdq
-         nYBQewImReTX4Fd7y0Qxvd0RZoo3V+xwodNkCqUu1piL8hlONqu1Nhg8u11alQX33Hr2
-         5aJiNivBrzmNQacvsYhhKln3Uh8c1wdMH4GZKlBDOyBt7aoAHIIMISybMJ4dxlPITPTe
-         P1x2eYgF3iK/mjkUtd5AWpCc5wXe/1Qq0N7z8KPe6QFh95zyjLX0dCMXJCi90U2dKNBn
-         i5EA==
-X-Gm-Message-State: AC+VfDw27r9QrCJjs+NaOqfPEA7E5iHqllcjHSlMYYhgWXKsAllelD2B
-	fWuY8ASxltW5BCjiDoHDoGyXrY7eJ18=
-X-Google-Smtp-Source: ACHHUZ7w0R+9yfk2EAhTdxLuJQc2CUBTHDr59B9nv4VKH4H6FRX4xuXTEGbcvMpkfmaftgtflesldw==
-X-Received: by 2002:a17:906:eec5:b0:94b:cd7c:59f4 with SMTP id wu5-20020a170906eec500b0094bcd7c59f4mr11914043ejb.16.1683653030167;
-        Tue, 09 May 2023 10:23:50 -0700 (PDT)
+        bh=f5QFS8zF/+pNJ3eEurIX0fPnwjthTJRdXEQXEmE6YPU=;
+        b=SxmOVZjlsGlyybWERYDXupBc800R81ooGImGaRdyrlP46FtCPlOOIp4ZW5l1gr7T74
+         StWHeg9XS5TGQEx61BH+WnUKz2Z3NTX9VaZSoxPbjgSkrDHz4KLrZ0+wxFl1AzkyaJYR
+         S3bWnZTexccKkQQWrqaUc5Oeu4wbi4INpz2fRvzk8zSafOsV9csUwGtnuzmCggfvp5xi
+         KZdc87k5KzcJdi/zQ8J4CotXRsnTnX8eAU4Ffw5EwBRfqlh+qvxXJZpWWTkjJrMCnJsW
+         iq9NBxNdiMdPyfrFOtD/xcCrMJpW97LZKmTfMroXgfeEv/N/E5+D0UhTr02THcxAxBmp
+         T5+A==
+X-Gm-Message-State: AC+VfDz5LzMm9UcimnS0sq54X/ya7O4EsjfZRYLUD6SAaT/N76HTxBfA
+	wrAe3K9kAiho+/+TzBY+7KhiJgoBLRo=
+X-Google-Smtp-Source: ACHHUZ5jV5tCBimBoHTr9TcO2/89GVw/uFRGO1IBn8XKDwuZ5pQYRzJV2hcuA2e95uD1aT0IV6SzDg==
+X-Received: by 2002:a17:906:fe45:b0:92f:33ca:c9a3 with SMTP id wz5-20020a170906fe4500b0092f33cac9a3mr12483046ejb.71.1683653029424;
+        Tue, 09 May 2023 10:23:49 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id jz24-20020a17090775f800b0096347ef816dsm1578252ejc.64.2023.05.09.10.23.49
+        by smtp.gmail.com with ESMTPSA id jz24-20020a17090775f800b0096347ef816dsm1578252ejc.64.2023.05.09.10.23.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 09 May 2023 10:23:49 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 04/27] glib-2.0: upgrade 2.74.6 -> 2.76.2
-Date: Tue,  9 May 2023 19:23:21 +0200
-Message-Id: <20230509172344.1516743-4-alex@linutronix.de>
+Subject: [PATCH 03/27] apmd: remove recipe and apm MACHINE_FEATURE
+Date: Tue,  9 May 2023 19:23:20 +0200
+Message-Id: <20230509172344.1516743-3-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230509172344.1516743-1-alex@linutronix.de>
 References: <20230509172344.1516743-1-alex@linutronix.de>
@@ -62,351 +62,746 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 17:23:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181059
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181058
 
-Drop backports.
-
-Refactor relocate-modules.patch; upstream has implemented the same
-logic, but made it os x only - we can simply drop those ifdef guards:
-https://gitlab.gnome.org/GNOME/glib/-/commit/af83c6571e47d06468b8162dd29ad57bcf4967a8
+APM has been obsolete for a very long time, and debian no longer
+packages it or carries the source tarball.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...-info-don-t-assume-million-in-one-ev.patch | 50 ------------
- ...build-do-not-use-can_run_host_binari.patch | 48 ------------
- .../glib-2.0/glib-2.0/cpp-null.patch          | 77 -------------------
- .../glib-2.0/glib-2.0/cpp-null2.patch         | 31 --------
- .../glib-2.0/glib-2.0/relocate-modules.patch  | 47 +++++------
- ...{glib-2.0_2.74.6.bb => glib-2.0_2.76.2.bb} |  6 +-
- 6 files changed, 22 insertions(+), 237 deletions(-)
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-g-file-info-don-t-assume-million-in-one-ev.patch
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-meson.build-do-not-use-can_run_host_binari.patch
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/cpp-null.patch
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/cpp-null2.patch
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.74.6.bb => glib-2.0_2.76.2.bb} (87%)
+ .../conf/distro/include/default-providers.inc |   1 -
+ meta/conf/distro/include/maintainers.inc      |   1 -
+ meta/recipes-bsp/apmd/apmd/apmd.service       |   7 -
+ meta/recipes-bsp/apmd/apmd/apmd_proxy         |  91 ------------
+ meta/recipes-bsp/apmd/apmd/apmd_proxy.conf    |  16 ---
+ meta/recipes-bsp/apmd/apmd/default            |   8 --
+ meta/recipes-bsp/apmd/apmd/init               |  51 -------
+ meta/recipes-bsp/apmd/apmd/legacy.patch       | 133 ------------------
+ meta/recipes-bsp/apmd/apmd/libtool.patch      |  41 ------
+ meta/recipes-bsp/apmd/apmd/linkage.patch      |  53 -------
+ meta/recipes-bsp/apmd/apmd/unlinux.patch      |  25 ----
+ meta/recipes-bsp/apmd/apmd/wexitcode.patch    |  26 ----
+ meta/recipes-bsp/apmd/apmd_3.2.2-15.bb        |  85 -----------
+ .../packagegroups/packagegroup-base.bb        |   7 -
+ .../matchbox-panel-2/matchbox-panel-2_2.12.bb |   2 -
+ .../matchbox-session-sato/session             |   1 -
+ .../matchbox-session-sato_0.1.bb              |   2 +-
+ 17 files changed, 1 insertion(+), 549 deletions(-)
+ delete mode 100644 meta/recipes-bsp/apmd/apmd/apmd.service
+ delete mode 100644 meta/recipes-bsp/apmd/apmd/apmd_proxy
+ delete mode 100644 meta/recipes-bsp/apmd/apmd/apmd_proxy.conf
+ delete mode 100644 meta/recipes-bsp/apmd/apmd/default
+ delete mode 100755 meta/recipes-bsp/apmd/apmd/init
+ delete mode 100644 meta/recipes-bsp/apmd/apmd/legacy.patch
+ delete mode 100644 meta/recipes-bsp/apmd/apmd/libtool.patch
+ delete mode 100644 meta/recipes-bsp/apmd/apmd/linkage.patch
+ delete mode 100644 meta/recipes-bsp/apmd/apmd/unlinux.patch
+ delete mode 100644 meta/recipes-bsp/apmd/apmd/wexitcode.patch
+ delete mode 100644 meta/recipes-bsp/apmd/apmd_3.2.2-15.bb
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-g-file-info-don-t-assume-million-in-one-ev.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-g-file-info-don-t-assume-million-in-one-ev.patch
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index 3a4e989c1f9..d18173c7449 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -24,7 +24,6 @@ PREFERRED_PROVIDER_virtual/make-native ?= "make-native"
+ # Default virtual runtime providers
+ #
+ VIRTUAL-RUNTIME_update-alternatives ?= "update-alternatives-opkg"
+-VIRTUAL-RUNTIME_apm ?= "apm"
+ VIRTUAL-RUNTIME_alsa-state ?= "alsa-state"
+ VIRTUAL-RUNTIME_getopt ?= "util-linux-getopt"
+ VIRTUAL-RUNTIME_base-utils ?= "busybox"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index e24d8545ba7..3c0362b5ff6 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -38,7 +38,6 @@ RECIPE_MAINTAINER:pn-alsa-tools = "Michael Opdenacker <michael.opdenacker@bootli
+ RECIPE_MAINTAINER:pn-alsa-topology-conf = "Michael Opdenacker <michael.opdenacker@bootlin.com>"
+ RECIPE_MAINTAINER:pn-alsa-ucm-conf = "Michael Opdenacker <michael.opdenacker@bootlin.com>"
+ RECIPE_MAINTAINER:pn-alsa-utils = "Michael Opdenacker <michael.opdenacker@bootlin.com>"
+-RECIPE_MAINTAINER:pn-apmd = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-apr = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER:pn-apr-util = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER:pn-apt = "Unassigned <unassigned@yoctoproject.org"
+diff --git a/meta/recipes-bsp/apmd/apmd/apmd.service b/meta/recipes-bsp/apmd/apmd/apmd.service
 deleted file mode 100644
-index 57ada66907e..00000000000
---- a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-g-file-info-don-t-assume-million-in-one-ev.patch
+index ffab82334f9..00000000000
+--- a/meta/recipes-bsp/apmd/apmd/apmd.service
 +++ /dev/null
-@@ -1,50 +0,0 @@
--From 3c56ff21b9a5fe18f9cec9b97ae1788fdf5d563e Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@arm.com>
--Date: Tue, 6 Jul 2021 19:26:03 +0100
--Subject: [PATCH] gio/tests/g-file-info: don't assume million-in-one events
+@@ -1,7 +0,0 @@
+-[Unit]
+-Description=Advanced Power Management daemon
+-After=remote-fs.target
 -
--Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/merge_requests/2990]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
+-[Service]
+-EnvironmentFile=-@SYSCONFDIR@/default/apmd
+-ExecStart=@SBINDIR@/apmd -P @SYSCONFDIR@/apm/apmd_proxy $APMD
+diff --git a/meta/recipes-bsp/apmd/apmd/apmd_proxy b/meta/recipes-bsp/apmd/apmd/apmd_proxy
+deleted file mode 100644
+index c48ee4e5d5f..00000000000
+--- a/meta/recipes-bsp/apmd/apmd/apmd_proxy
++++ /dev/null
+@@ -1,91 +0,0 @@
+-#!/bin/sh
+-# 
+-# apmd_proxy - program dispatcher for APM daemon
+-#
+-# Written by Craig Markwardt (craigm@lheamail.gsfc.nasa.gov) 21 May 1999
+-# Modified for Debian by Avery Pennarun
+-#
+-# This shell script is called by the APM daemon (apmd) when a power
+-# management event occurs.  Its first and second arguments describe the
+-# event.  For example, apmd will call "apmd_proxy suspend system" just
+-# before the system is suspended.
+-#
+-# Here are the possible arguments:
+-#
+-# start              - APM daemon has started
+-# stop               - APM daemon is shutting down
+-# suspend critical   - APM system indicates critical suspend (++)
+-# suspend system     - APM system has requested suspend mode
+-# suspend user       - User has requested suspend mode
+-# standby system     - APM system has requested standby mode 
+-# standby user       - User has requested standby mode
+-# resume suspend     - System has resumed from suspend mode
+-# resume standby     - System has resumed from standby mode
+-# resume critical    - System has resumed from critical suspend
+-# change battery     - APM system reported low battery
+-# change power       - APM system reported AC/battery change
+-# change time        - APM system reported time change (*)
+-# change capability  - APM system reported config. change (+)
+-#
+-# (*) - APM daemon may be configured to not call these sequences
+-# (+) - Available if APM kernel supports it.
+-# (++) - "suspend critical" is never passed to apmd from the kernel,
+-#   so we will never see it here.  Scripts that process "resume
+-#   critical" events need to take this into account.
+-#
+-# It is the proxy script's responsibility to examine the APM status
+-# (via /proc/apm) or other status and to take appropriate actions.
+-# For example, the script might unmount network drives before the
+-# machine is suspended.
+-#
+-# In Debian, the usual way of adding functionality to the proxy is to
+-# add a script to /etc/apm/event.d.  This script will be called by
+-# apmd_proxy (via run-parts) with the same arguments.
+-#
+-# If it is important that a certain set of script be run in a certain
+-# order on suspend and in a different order on resume, then put all
+-# the scripts in /etc/apm/scripts.d instead of /etc/apm/event.d and
+-# symlink to these from /etc/apm/suspend.d, /etc/apm/resume.d and
+-# /etc/apm/other.d using names whose lexicographical order is the same
+-# as the desired order of execution.
+-#
+-# If the kernel's APM driver supports it, apmd_proxy can return a non-zero
+-# exit status on suspend and standby events, indicating that the suspend
+-# or standby event should be rejected.
+-#
+-# *******************************************************************
 -
-- don't happen
+-set -e
 -
--The access and creation time tests create a file, gets the time in
--seconds, then gets the time in microseconds and assumes that the
--difference between the two has to be above 0.
+-# The following doesn't yet work, because current kernels (up to at least
+-# 2.4.20) do not support rejection of APM events.  Supporting this would
+-# require substantial modifications to the APM driver.  We will re-enable
+-# this feature if the driver is ever modified.       -- cph@debian.org
+-#
+-#SUSPEND_ON_AC=false
+-#[ -r /etc/apm/apmd_proxy.conf ] && . /etc/apm/apmd_proxy.conf
+-#
+-#if [ "${SUSPEND_ON_AC}" = "false" -a "${2}" = "system" ] \
+-#	&& on_ac_power >/dev/null; then
+-#    # Reject system suspends and standbys if we are on AC power
+-#    exit 1  # Reject (NOTE kernel support must be enabled)
+-#fi
 -
--As rare as this may be, it can happen:
+-if [ "${1}" = "suspend" -o "${1}" = "standby" ]; then
+-    run-parts -a "${1}" -a "${2}" /etc/apm/event.d
+-    if [ -d /etc/apm/suspend.d ]; then
+-        run-parts -a "${1}" -a "${2}" /etc/apm/suspend.d
+-    fi
+-elif [ "${1}" = "resume" ]; then
+-    if [ -d /etc/apm/resume.d ]; then
+-        run-parts -a "${1}" -a "${2}" /etc/apm/resume.d
+-    fi
+-    run-parts -a "${1}" -a "${2}" /etc/apm/event.d
+-else
+-    run-parts -a "${1}" -a "${2}" /etc/apm/event.d
+-    if [ -d /etc/apm/other.d ]; then
+-        run-parts -a "${1}" -a "${2}" /etc/apm/other.d
+-    fi
+-fi
 -
--$ stat g-file-info-test-50A450 -c %y
--2021-07-06 18:24:56.000000767 +0100
+-exit 0
+diff --git a/meta/recipes-bsp/apmd/apmd/apmd_proxy.conf b/meta/recipes-bsp/apmd/apmd/apmd_proxy.conf
+deleted file mode 100644
+index 751145c522c..00000000000
+--- a/meta/recipes-bsp/apmd/apmd/apmd_proxy.conf
++++ /dev/null
+@@ -1,16 +0,0 @@
+-# /etc/apm/apmd_proxy.conf: configuration file for apmd.
+-#
+-# This file is managed by debconf when installing or reconfiguring the
+-# package.  It is generated by merging the answers gathered by debconf
+-# into the template file "/usr/share/apmd/apmd_proxy.conf".
 -
--Change the test to simply assert that the difference not negative to
--handle this case.
+-# The following doesn't yet work, because current kernels (up to at least
+-# 2.4.20) do not support rejection of APM events.  Supporting this would
+-# require substantial modifications to the APM driver.  We will re-enable
+-# this feature if the driver is ever modified.       -- cph@debian.org
+-#
+-# Set the following to "false" if you want to reject system suspend or
+-# system standby requests when the computer is running on AC power.
+-# Otherwise set this to "true".  Such requests are never rejected when
+-# the computer is running on battery power.
+-#SUSPEND_ON_AC=true
+diff --git a/meta/recipes-bsp/apmd/apmd/default b/meta/recipes-bsp/apmd/apmd/default
+deleted file mode 100644
+index 4b7965abf85..00000000000
+--- a/meta/recipes-bsp/apmd/apmd/default
++++ /dev/null
+@@ -1,8 +0,0 @@
+-#
+-# Default for /etc/init.d/apmd
+-#
 -
--This is the same fix as 289f8b, but that was just modification time.
+-# As apmd can be called with arguments, we use the following variable
+-# to store them, e.g., APMD="-w 5 -p 2".
+-# See the manual page apmd(8) for details.
+-APMD="--proxy-timeout 30"
+diff --git a/meta/recipes-bsp/apmd/apmd/init b/meta/recipes-bsp/apmd/apmd/init
+deleted file mode 100755
+index c0b41aa9d17..00000000000
+--- a/meta/recipes-bsp/apmd/apmd/init
++++ /dev/null
+@@ -1,51 +0,0 @@
+-#!/bin/sh
+-### BEGIN INIT INFO
+-# Provides:          apmd
+-# Required-Start:    $remote_fs
+-# Required-Stop:     $remote_fs
+-# Default-Start:     2 3 4 5
+-# Default-Stop:      0 1 6
+-# Short-Description: Advanced Power Management daemon
+-### END INIT INFO
+-
+-# Source function library.
+-. /etc/init.d/functions
+-
+-PATH=/bin:/usr/bin:/sbin:/usr/sbin
+-
+-[ -f /etc/default/rcS ] && . /etc/default/rcS
+-[ -f /etc/default/apmd ] && . /etc/default/apmd
+-
+-case "$1" in
+-    start)
+-	echo -n "Starting advanced power management daemon: "
+-	start-stop-daemon -S -x /usr/sbin/apmd -- \
+-		-P /etc/apm/apmd_proxy $APMD
+-	if [ $? = 0 ]; then
+-	    echo "apmd."
+-	else
+-	    echo "(failed.)"
+-	fi
+-	;;
+-    stop)
+-	echo -n "Stopping advanced power management daemon: "
+-	start-stop-daemon -K \
+-		-x /usr/sbin/apmd
+-	echo "apmd."
+-	;;
+-    status)
+-	status /usr/sbin/apmd;
+-	exit $?
+-	;;
+-    restart|force-reload) 
+-	$0 stop
+-	$0 start
+-	exit
+-	;;
+-    *)
+-	echo "Usage: /etc/init.d/apmd {start|stop|status|restart|force-reload}"
+-	exit 1
+-	;;
+-esac
+-
+-exit 0
+diff --git a/meta/recipes-bsp/apmd/apmd/legacy.patch b/meta/recipes-bsp/apmd/apmd/legacy.patch
+deleted file mode 100644
+index 88713118057..00000000000
+--- a/meta/recipes-bsp/apmd/apmd/legacy.patch
++++ /dev/null
+@@ -1,133 +0,0 @@
+-From 3595933d221f0ba836917debc0776b8723972ec9 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Tue, 11 Aug 2015 17:40:50 +0300
+-Subject: [PATCH 1/3] Patch with fixes provided by Debian.
+-
+-This patch is taken from
+-ftp://ftp.debian.org/debian/pool/main/a/apmd/apmd_3.2.2-15.debian.tar.xz
+-
+-Upstream-Status: Inappropriate [upstream is dead]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 -
 ----
-- gio/tests/g-file-info.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
+- Makefile |  2 +-
+- apm.c    |  3 ++-
+- apm.h    |  9 +++++++++
+- apmd.c   | 15 ++++++++-------
+- 4 files changed, 20 insertions(+), 9 deletions(-)
 -
--diff --git a/gio/tests/g-file-info.c b/gio/tests/g-file-info.c
--index d9ad045..c9b12b0 100644
----- a/gio/tests/g-file-info.c
--+++ b/gio/tests/g-file-info.c
--@@ -307,7 +307,7 @@ test_g_file_info_access_time (void)
--   g_assert_nonnull (dt_usecs);
+-diff --git a/Makefile b/Makefile
+-index bf346d9..92fc0fd 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -43,7 +43,7 @@ DESTDIR=
 - 
--   ts = g_date_time_difference (dt_usecs, dt);
---  g_assert_cmpint (ts, >, 0);
--+  g_assert_cmpint (ts, >=, 0);
--   g_assert_cmpint (ts, <, G_USEC_PER_SEC);
-- 
--   /* Try again with nanosecond precision. */
--@@ -442,7 +442,7 @@ test_g_file_info_creation_time (void)
--   g_assert_nonnull (dt_usecs);
-- 
--   ts = g_date_time_difference (dt_usecs, dt);
---  g_assert_cmpint (ts, >, 0);
--+  g_assert_cmpint (ts, >=, 0);
--   g_assert_cmpint (ts, <, G_USEC_PER_SEC);
-- 
--   /* Try again with nanosecond precision. */
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-meson.build-do-not-use-can_run_host_binari.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-meson.build-do-not-use-can_run_host_binari.patch
-deleted file mode 100644
-index db08b5af555..00000000000
---- a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-meson.build-do-not-use-can_run_host_binari.patch
-+++ /dev/null
-@@ -1,48 +0,0 @@
--From fdbffaea2fa85c203cc6aacb5734acac65aeaa19 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Fri, 11 Nov 2022 13:12:42 +0100
--Subject: [PATCH] tests/meson.build: do not use can_run_host_binaries()
--
--can_run_host_binaries() returns true even when cross compiling,
--if there is an executable wrapper defined that can run
--cross-binaries under some kind of emulation.
--
--Unfortunately, custom_target() will not use the wrapper
--and will attempt to execute the command directly. Until
--this is addressed in meson upstream, we have to disable
--these targets in cross scenarios.
--
--Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/glib/-/merge_requests/3067]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
--
-----
-- gio/tests/meson.build  | 2 +-
-- glib/tests/meson.build | 2 +-
-- 2 files changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/gio/tests/meson.build b/gio/tests/meson.build
--index 49cfa25ce..ea59656f9 100644
----- a/gio/tests/meson.build
--+++ b/gio/tests/meson.build
--@@ -652,7 +652,7 @@ if installed_tests_enabled
--   endforeach
-- endif
-- 
---if meson.can_run_host_binaries()
--+if not meson.is_cross_build()
-- 
--   compiler_type = '--compiler=@0@'.format(cc.get_id())
-- 
--diff --git a/glib/tests/meson.build b/glib/tests/meson.build
--index 69508178e..e4f75f302 100644
----- a/glib/tests/meson.build
--+++ b/glib/tests/meson.build
--@@ -411,7 +411,7 @@ executable('testing-helper', 'testing-helper.c',
-- )
-- 
-- # some testing of gtester functionality
---if meson.can_run_host_binaries() and host_system != 'windows'
--+if not meson.is_cross_build() and host_system != 'windows'
--   xmllint = find_program('xmllint', required: false)
--   if xmllint.found()
--     tmpsample_xml = custom_target('tmpsample.xml',
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/cpp-null.patch b/meta/recipes-core/glib-2.0/glib-2.0/cpp-null.patch
-deleted file mode 100644
-index 63cbf90ab23..00000000000
---- a/meta/recipes-core/glib-2.0/glib-2.0/cpp-null.patch
-+++ /dev/null
-@@ -1,77 +0,0 @@
--From 0ca5254c5d92aec675b76b4bfa72a6885cde6066 Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Marco=20Trevisan=20=28Trevi=C3=B1o=29?= <mail@3v1n0.net>
--Date: Sat, 29 Oct 2022 04:30:52 +0200
--Subject: [PATCH] glib/gmacros: Always define NULL as nullptr in C++11 and
-- newer
--
--Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/0ca5254c5d92aec675b76b4bfa72a6885cde6066]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- glib/gmacros.h     |  9 ++++++++-
-- glib/tests/cxx.cpp | 13 -------------
-- 2 files changed, 8 insertions(+), 14 deletions(-)
--
--diff --git a/glib/gmacros.h b/glib/gmacros.h
--index 5302841105..9fe8270822 100644
----- a/glib/gmacros.h
--+++ b/glib/gmacros.h
--@@ -870,10 +870,17 @@
--  */
-- #ifndef NULL
-- #  ifdef __cplusplus
---#  define NULL        (0L)
--+#    if __cplusplus >= 201103L
--+#      define NULL (nullptr)
--+#    else
--+#      define NULL (0L)
--+#    endif /* __cplusplus >= 201103L */
-- #  else /* !__cplusplus */
-- #  define NULL        ((void*) 0)
-- #  endif /* !__cplusplus */
--+#elif defined (__cplusplus) && __cplusplus >= 201103L
--+#  undef NULL
--+#  define NULL (nullptr)
-- #endif
-- 
-- #ifndef	FALSE
--diff --git a/glib/tests/cxx.cpp b/glib/tests/cxx.cpp
--index 6ac60791c8..045457c6e2 100644
----- a/glib/tests/cxx.cpp
--+++ b/glib/tests/cxx.cpp
--@@ -34,21 +34,12 @@ test_typeof (void)
--   MyObject *obj3 = g_atomic_pointer_get (&obj2);
--   g_assert_true (obj3 == obj);
-- 
---#if __cplusplus >= 201103L
---  MyObject *obj4 = nullptr;
---#else
--   MyObject *obj4 = NULL;
---#endif
--   g_atomic_pointer_set (&obj4, obj3);
--   g_assert_true (obj4 == obj);
-- 
---#if __cplusplus >= 201103L
---  MyObject *obj5 = nullptr;
---  g_atomic_pointer_compare_and_exchange (&obj5, nullptr, obj4);
---#else
--   MyObject *obj5 = NULL;
--   g_atomic_pointer_compare_and_exchange (&obj5, NULL, obj4);
---#endif
--   g_assert_true (obj5 == obj);
-- 
--   MyObject *obj6 = g_steal_pointer (&obj5);
--@@ -195,11 +186,7 @@ test_steal_pointer (void)
-- int
-- main (int argc, char *argv[])
-- {
---#if __cplusplus >= 201103L
---  g_test_init (&argc, &argv, nullptr);
---#else
--   g_test_init (&argc, &argv, NULL);
---#endif
-- 
--   g_test_add_func ("/C++/typeof", test_typeof);
--   g_test_add_func ("/C++/atomic-pointer-compare-and-exchange", test_atomic_pointer_compare_and_exchange);
---- 
--GitLab
--
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/cpp-null2.patch b/meta/recipes-core/glib-2.0/glib-2.0/cpp-null2.patch
-deleted file mode 100644
-index 763d5ce539f..00000000000
---- a/meta/recipes-core/glib-2.0/glib-2.0/cpp-null2.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--From 7dc19632f3115e3f517c6bc80436fe72c1dcdeb4 Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Marco=20Trevisan=20=28Trevi=C3=B1o=29?= <mail@3v1n0.net>
--Date: Sat, 29 Oct 2022 04:16:00 +0200
--Subject: [PATCH] glib/tests/cxx: Ensure NULL is always casted to a pointer
-- type
--
--Otherwise it may not be recognized as valid sentinel
--Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/7dc19632f3115e3f517c6bc80436fe72c1dcdeb4]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- glib/tests/cxx.cpp | 4 ++++
-- 1 file changed, 4 insertions(+)
--
--diff --git a/glib/tests/cxx.cpp b/glib/tests/cxx.cpp
--index 045457c6e2..aa5e0cb576 100644
----- a/glib/tests/cxx.cpp
--+++ b/glib/tests/cxx.cpp
--@@ -186,7 +186,11 @@ test_steal_pointer (void)
-- int
-- main (int argc, char *argv[])
-- {
--+#if __cplusplus >= 201103L
--   g_test_init (&argc, &argv, NULL);
--+#else
--+  g_test_init (&argc, &argv, static_cast<void *>(NULL));
+- CC=gcc
+- CFLAGS=-O -g
+--XTRACFLAGS=-Wall -pipe -I. -I/usr/src/linux/include \
+-+XTRACFLAGS=-Wall -pipe -I. -I/usr/src/linux/include -I/usr/X11R6/include \
+- 		-I/usr/src/linux-2.2/include -I /usr/src/linux-2.0/include \
+- 		-DVERSION=\"$(VERSION)\" \
+- 		-DDEFAULT_PROXY_NAME=\"$(PROXY_DIR)/apmd_proxy\"
+-diff --git a/apm.c b/apm.c
+-index b21c057..0359b1c 100644
+---- a/apm.c
+-+++ b/apm.c
+-@@ -219,12 +219,13 @@ int main(int argc, char **argv)
+- 		}
+- 	}
+- 													    
+--
+-+#if 0
+-     if (!(i.apm_flags & APM_32_BIT_SUPPORT))
+-     {
+- 	fprintf(stderr, "32-bit APM interface not supported\n");
+- 	exit(1);
+-     }
 -+#endif
 - 
--   g_test_add_func ("/C++/typeof", test_typeof);
--   g_test_add_func ("/C++/atomic-pointer-compare-and-exchange", test_atomic_pointer_compare_and_exchange);
---- 
--GitLab
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-index ae6881b61e8..3dba599fc0b 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-@@ -1,4 +1,4 @@
--From a3cdf17643bf33d532ec269913974195e136b7fc Mon Sep 17 00:00:00 2001
-+From 38e401969a2ff8269919cbeacec733a67f041735 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Fri, 11 Mar 2016 15:35:55 +0000
- Subject: [PATCH] glib-2.0: relocate the GIO module directory for native builds
-@@ -13,38 +13,33 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
- 
- Port patch to 2.48
- Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
--
- ---
-- gio/giomodule.c | 12 +++++++++++-
-- 1 file changed, 11 insertions(+), 1 deletion(-)
-+ gio/giomodule.c | 5 -----
-+ 1 file changed, 5 deletions(-)
- 
- diff --git a/gio/giomodule.c b/gio/giomodule.c
--index f5dbb45..c926e77 100644
-+index 11ce7d8..cc27ecd 100644
- --- a/gio/giomodule.c
- +++ b/gio/giomodule.c
--@@ -58,6 +58,8 @@
-- #ifdef G_OS_WIN32
-- #include "gregistrysettingsbackend.h"
-- #include "giowin32-priv.h"
--+#else
--+#include <dlfcn.h>
-- #endif
-- #include <glib/gstdio.h>
-- 
--@@ -1261,7 +1263,15 @@ get_gio_module_dir (void)
--                                      NULL);
-+@@ -1271,9 +1271,6 @@ get_gio_module_dir (void)
-        g_free (install_dir);
-  #else
---      module_dir = g_strdup (GIO_MODULE_DIR);
--+      Dl_info info;
+-     if (verbose && (i.apm_flags & 0x10))
+- 	printf("APM BIOS Power Management is currently disabled\n");
+-diff --git a/apm.h b/apm.h
+-index fb24dfd..824cc06 100644
+---- a/apm.h
+-+++ b/apm.h
+-@@ -20,6 +20,13 @@
+-  * $Id: apm.h,v 1.7 1999/07/05 22:31:11 apenwarr Exp $
+-  * 
+-  */
+-+#ifndef _APM_H
+-+#define _APM_H 1
 -+
--+      if (dladdr (g_io_module_new, &info)) {
--+        char *libdir = g_path_get_dirname (info.dli_fname);
--+        module_dir = g_build_filename (libdir, "gio", "modules", NULL);
--+        g_free (libdir);
--+      } else {
--+        module_dir = g_strdup (GIO_MODULE_DIR);
--+      }
-+       module_dir = g_strdup (GIO_MODULE_DIR);
-+-#ifdef __APPLE__
-+-#include "TargetConditionals.h"
-+-#if TARGET_OS_OSX
-+ #include <dlfcn.h>
-+       {
-+         g_autofree gchar *path = NULL;
-+@@ -1292,8 +1289,6 @@ get_gio_module_dir (void)
-+               }
-+           }
-+       }
-+-#endif
-+-#endif
-  #endif
-      }
-  
-+-- 
-+2.30.2
-+
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.74.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb
-similarity index 87%
-rename from meta/recipes-core/glib-2.0/glib-2.0_2.74.6.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb
-index 5b79ae481c3..224f2c262e0 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.74.6.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb
-@@ -14,14 +14,10 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
-            file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
-            file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch \
--           file://0001-gio-tests-g-file-info-don-t-assume-million-in-one-ev.patch \
--           file://0001-gio-tests-meson.build-do-not-use-can_run_host_binari.patch \
--           file://cpp-null.patch \
--           file://cpp-null2.patch \
-            "
- SRC_URI:append:class-native = " file://relocate-modules.patch"
+-+#ifndef __KERNEL_STRICT_NAMES
+-+#define __KERNEL_STRICT_NAMES
+-+#endif
+-+
+- #include <linux/apm_bios.h>
+- #include <sys/types.h>
+- 
+-@@ -93,3 +100,5 @@ extern int apm_reject(int fd);
+- #else
+- #define apm_reject(fd)   (-EINVAL)
+- #endif
+-+
+-+#endif
+-diff --git a/apmd.c b/apmd.c
+-index 49ed3a1..560f536 100644
+---- a/apmd.c
+-+++ b/apmd.c
+-@@ -343,7 +343,7 @@ static int call_proxy(apm_event_t event)
+- 		/* parent */
+- 		int status, retval;
+- 		ssize_t len;
+--		time_t time_limit;
+-+		time_t countdown;
+- 
+- 		if (pid < 0) {
+- 			/* Couldn't fork */
+-@@ -356,8 +356,9 @@ static int call_proxy(apm_event_t event)
+- 		/* Capture the child's output, if any, but only until it terminates */
+- 		close(fds[1]);
+- 		fcntl(fds[0], F_SETFL, O_RDONLY|O_NONBLOCK);
+--		time_limit = time(0) + proxy_timeout;
+-+		countdown = proxy_timeout;
+- 		do {
+-+			countdown -= 1;
+- 			while ((len = read(fds[0], line, sizeof(line)-1)) > 0) {
+- 				line[len] = 0;
+- 				APMD_SYSLOG(LOG_INFO, "+ %s", line);
+-@@ -372,16 +373,16 @@ static int call_proxy(apm_event_t event)
+- 				goto proxy_done;
+- 			}
+- 				
+--			sleep(1);
+-+			while (sleep(1) > 0) ;
+- 		} while (
+--			(time(0) < time_limit)
+-+			(countdown >= 0)
+- 			|| (proxy_timeout < 0)
+- 		);
+- 
+- 		APMD_SYSLOG(LOG_NOTICE, "Proxy has been running more than %d seconds; killing it", proxy_timeout);
+- 
+- 		kill(pid, SIGTERM);
+--		time_limit = time(0) + 5;
+-+		countdown = 5;
+- 		do {
+- 			retval = waitpid(pid, &status, WNOHANG);
+- 			if (retval == pid)
+-@@ -392,9 +393,9 @@ static int call_proxy(apm_event_t event)
+- 				goto proxy_done;
+- 			}
+- 
+--			sleep(1);
+-+			while (sleep(1) > 0) ;
+- 
+--		} while (time(0) < time_limit);
+-+		} while (countdown >= 0);
+- 
+- 		kill(pid, SIGKILL);
+- 		status = __W_EXITCODE(0, SIGKILL);
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-bsp/apmd/apmd/libtool.patch b/meta/recipes-bsp/apmd/apmd/libtool.patch
+deleted file mode 100644
+index fd0a952890d..00000000000
+--- a/meta/recipes-bsp/apmd/apmd/libtool.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-From d5dde7ca91a5aed273d8fe269e1a5194e85c8c79 Mon Sep 17 00:00:00 2001
+-From: Scott Garman <scott.a.garman@intel.com>
+-Date: Tue, 13 Jul 2010 16:46:46 +0800
+-Subject: [PATCH] apmd: upgrade to 3.2.2-14
+-
+-Add by RP to address "unable to infer tagged configuration" error:
+-   commit 35de05e61b88c0808a5e885bb0efdf420555d5ad
+-   Author: Richard Purdie <rpurdie@rpsys.net>
+-   Date:   Sun Jun 1 16:13:38 2008 +0000
+-
+-   apmd: Use libtool --tag options to avoid problems with libtool 2.2.4 (from poky)
+-
+-However I didn't see same issue with current libtool-2.2.10. Also per my understanding,
+-the default tag, if not specified, falls back to CC. So disable it from patching, but
+-keep it here. If we encounter similar issue in the future, we could then push upstream
+-
+-Comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-16
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+----
+- Makefile | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/Makefile b/Makefile
+-index 92fc0fd..8e283dc 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -59,8 +59,8 @@ RANLIB=ranlib
+- #LDFLAGS=-s
+- 
+- LIBTOOL=libtool --quiet
+--LT_COMPILE = $(LIBTOOL) --mode=compile $(CC)
+--LT_LINK = $(LIBTOOL) --mode=link $(CC)
+-+LT_COMPILE = $(LIBTOOL) --tag=CC --mode=compile $(CC)
+-+LT_LINK = $(LIBTOOL)  --tag=CC --mode=link $(CC)
+- LT_INSTALL = $(LIBTOOL) --mode=install install
+- LT_CLEAN = $(LIBTOOL) --mode=clean rm
+- 
+diff --git a/meta/recipes-bsp/apmd/apmd/linkage.patch b/meta/recipes-bsp/apmd/apmd/linkage.patch
+deleted file mode 100644
+index 3d32c49cd27..00000000000
+--- a/meta/recipes-bsp/apmd/apmd/linkage.patch
++++ /dev/null
+@@ -1,53 +0,0 @@
+-When building use the libtool intermediate .lo files instead of explicitly using
+-the .o files. Under libtool foo.lo is the libtool intermediate wrapper, foo.o is
+-a static build, and .libs/foo.o is a shared build.
+-
+-If static libraries have been disabled globally then libtool won't generate them
+-and explicit references to foo.o won't be satisfied.
+-
+-Upstream-Status: Pending
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-diff --git a/Makefile b/Makefile
+-index bb695c6..5f60146 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -28,7 +28,7 @@ endif
+- 
+- .SUFFIXES:
+- 
+--OBJS=apmlib.o
+-+OBJS=apmlib.lo
+- EXES=apm apmd xapm apmsleep
+- HEADERS=apm.h
+- 
+-@@ -66,22 +66,22 @@ all: $(EXES)
+- 
+- $(OBJS): $(HEADERS)
+- 
+--%.o: %.c
+-+%.lo: %.c
+- 	$(LT_COMPILE) -c $(CPPFLAGS) $(CFLAGS) $(XTRACFLAGS) $<
+- 
+--%: %.o $(LIBAPM)
+-+%: %.lo $(LIBAPM)
+- 	$(LT_LINK) -o $@ $< $(LDFLAGS) $(LIBAPM)
+- 
+--xapm.o: xapm.c
+-+xapm.lo: xapm.c
+- 	$(LT_COMPILE) -c $(CPPFLAGS) $(CFLAGS) $(XTRACFLAGS) -DNARROWPROTO $<
+- 
+--apmd: apmd.o
+-+apmd: apmd.lo
+- 
+--apmsleep: apmsleep.o
+-+apmsleep: apmsleep.lo
+- 
+--apmexists: apmexists.o
+-+apmexists: apmexists.lo
+- 
+--xapm: xapm.o $(LIBAPM)
+-+xapm: xapm.lo $(LIBAPM)
+- 	$(LT_LINK) -o $@ $< $(LDFLAGS) $(LIBAPM) $(XLDFLAGS) $(XLIBS)
+- 
+- $(LIBAPM): apmlib.lo
+diff --git a/meta/recipes-bsp/apmd/apmd/unlinux.patch b/meta/recipes-bsp/apmd/apmd/unlinux.patch
+deleted file mode 100644
+index ec8206cf174..00000000000
+--- a/meta/recipes-bsp/apmd/apmd/unlinux.patch
++++ /dev/null
+@@ -1,25 +0,0 @@
+-copy OE commit message here:
+-   commit 9456cdc1cf43e3ba9e6d88c63560c1b6fdee4359
+-   Author: Michael Krelin <hacker@klever.net>
+-   Date:   Tue May 29 12:27:45 2007 +0000
+-
+-   apmd: prevent build from interferring with host kernel headers. Closes #1257
+-
+-comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-13
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+---- apmd-3.2.2.orig/Makefile
+-+++ apmd-3.2.2/Makefile
+-@@ -43,8 +43,7 @@
+- 
+- CC=gcc
+- CFLAGS=-O -g
+--XTRACFLAGS=-Wall -pipe -I. -I/usr/src/linux/include -I/usr/X11R6/include \
+--		-I/usr/src/linux-2.2/include -I /usr/src/linux-2.0/include \
+-+XTRACFLAGS=-Wall -pipe -I. \
+- 		-DVERSION=\"$(VERSION)\" \
+- 		-DDEFAULT_PROXY_NAME=\"$(PROXY_DIR)/apmd_proxy\"
+- LDFLAGS=
+diff --git a/meta/recipes-bsp/apmd/apmd/wexitcode.patch b/meta/recipes-bsp/apmd/apmd/wexitcode.patch
+deleted file mode 100644
+index c5faa85fa7f..00000000000
+--- a/meta/recipes-bsp/apmd/apmd/wexitcode.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-Define non-posix W* funcitons
+-
+-C libraries like musl dont define them
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Pending
+-
+-Index: apmd-3.2.2.orig/apmd.c
+-===================================================================
+---- apmd-3.2.2.orig.orig/apmd.c
+-+++ apmd-3.2.2.orig/apmd.c
+-@@ -55,6 +55,14 @@
+- #define MINIMUM_RATE_CALC_TIME  120
+- #endif
+- 
+-+#ifndef _POSIX_SOURCE
+-+
+-+#define	__WCOREFLAG  0200
+-+#define __WCOREDUMP(x)  (_W_INT(x) & __WCOREFLAG)
+-+#define	__W_EXITCODE(ret, sig) ((ret) << 8 | (sig))
+-+
+-+#endif
+-+
+- /*
+-  * For the verbosity level feature to be useful,
+-  * we rely on the fact that syslog.h assigns adjacent
+diff --git a/meta/recipes-bsp/apmd/apmd_3.2.2-15.bb b/meta/recipes-bsp/apmd/apmd_3.2.2-15.bb
+deleted file mode 100644
+index 92c35c98969..00000000000
+--- a/meta/recipes-bsp/apmd/apmd_3.2.2-15.bb
++++ /dev/null
+@@ -1,85 +0,0 @@
+-SUMMARY = "Utilities for Advanced Power Management"
+-DESCRIPTION = "The Advanced Power Management (APM) support provides \
+-access to battery status information and a set of tools for managing \
+-notebook power consumption."
+-HOMEPAGE = "http://apenwarr.ca/apmd/"
+-SECTION = "base"
+-LICENSE = "GPL-2.0-or-later"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+-                    file://apm.h;beginline=6;endline=18;md5=7d4acc1250910a89f84ce3cc6557c4c2"
+-DEPENDS = "libtool-cross"
+-
+-SRC_URI = "http://snapshot.debian.org/archive/debian/20160728T043443Z/pool/main/a/${BPN}/${BPN}_3.2.2.orig.tar.gz;name=tarball \
+-           file://legacy.patch \
+-           file://libtool.patch \
+-           file://unlinux.patch \
+-           file://wexitcode.patch \
+-           file://linkage.patch \
+-           file://init \
+-           file://default \
+-           file://apmd_proxy \
+-           file://apmd_proxy.conf \
+-           file://apmd.service"
+-
+-SRC_URI[tarball.md5sum] = "b1e6309e8331e0f4e6efd311c2d97fa8"
+-SRC_URI[tarball.sha256sum] = "7f7d9f60b7766b852881d40b8ff91d8e39fccb0d1d913102a5c75a2dbb52332d"
+-
+-# for this package we're mostly interested in tracking debian patches,
+-# and not in the upstream version where all development has effectively stopped
+-UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/a/apmd/"
+-UPSTREAM_CHECK_REGEX = "(?P<pver>((\d+\.*)+)-((\d+\.*)+))\.(diff|debian\.tar)\.(gz|xz)"
+-
+-S = "${WORKDIR}/apmd-3.2.2.orig"
+-
+-inherit update-rc.d systemd
+-
+-INITSCRIPT_NAME = "apmd"
+-INITSCRIPT_PARAMS = "defaults"
+-
+-SYSTEMD_SERVICE:${PN} = "apmd.service"
+-SYSTEMD_AUTO_ENABLE = "disable"
+-
+-EXTRA_OEMAKE = "-e MAKEFLAGS="
+-
+-do_compile() {
+-	# apmd doesn't use whole autotools. Just libtool for installation
+-	oe_runmake apm apmd
+-}
+-
+-do_install() {
+-	install -d ${D}${sysconfdir}
+-	install -d ${D}${sysconfdir}/apm
+-	install -d ${D}${sysconfdir}/apm/event.d
+-	install -d ${D}${sysconfdir}/apm/other.d
+-	install -d ${D}${sysconfdir}/apm/suspend.d
+-	install -d ${D}${sysconfdir}/apm/resume.d
+-	install -d ${D}${sysconfdir}/apm/scripts.d
+-	install -d ${D}${sysconfdir}/default
+-	install -d ${D}${sysconfdir}/init.d
+-	install -d ${D}${sbindir}
+-	install -d ${D}${bindir}
+-	install -d ${D}${libdir}
+-	install -d ${D}${datadir}/apmd
+-	install -d ${D}${includedir}
+-
+-	install -m 4755 ${S}/.libs/apm ${D}${bindir}/apm
+-	install -m 0755 ${S}/.libs/apmd ${D}${sbindir}/apmd
+-	install -m 0755 ${WORKDIR}/apmd_proxy ${D}${sysconfdir}/apm/
+-	install -m 0644 ${WORKDIR}/apmd_proxy.conf ${D}${datadir}/apmd/
+-	install -m 0644 ${WORKDIR}/default ${D}${sysconfdir}/default/apmd
+-	oe_libinstall -so libapm ${D}${libdir}
+-	install -m 0644 apm.h ${D}${includedir}
+-
+-	sed -e 's,/usr/sbin,${sbindir},g; s,/etc,${sysconfdir},g;' ${WORKDIR}/init > ${D}${sysconfdir}/init.d/apmd
+-	chmod 755 ${D}${sysconfdir}/init.d/apmd
+-
+-	install -d ${D}${systemd_system_unitdir}
+-	install -m 0644 ${WORKDIR}/apmd.service ${D}${systemd_system_unitdir}/
+-	sed -i -e 's,@SYSCONFDIR@,${sysconfdir},g' \
+-		-e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_system_unitdir}/apmd.service
+-}
+-
+-PACKAGES =+ "libapm apm"
+-
+-FILES:libapm = "${libdir}/libapm${SOLIBS}"
+-FILES:apm = "${bindir}/apm*"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
+index d60e1774712..eeb26ca5880 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-base.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
+@@ -16,7 +16,6 @@ PACKAGES = ' \
+             \
+             ${@bb.utils.contains("MACHINE_FEATURES", "acpi", "packagegroup-base-acpi", "",d)} \
+             ${@bb.utils.contains("MACHINE_FEATURES", "alsa", "packagegroup-base-alsa", "", d)} \
+-            ${@bb.utils.contains("MACHINE_FEATURES", "apm", "packagegroup-base-apm", "", d)} \
+             ${@bb.utils.contains("MACHINE_FEATURES", "ext2", "packagegroup-base-ext2", "", d)} \
+             ${@bb.utils.contains("MACHINE_FEATURES", "vfat", "packagegroup-base-vfat", "", d)} \
+             ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "packagegroup-base-keyboard", "", d)} \
+@@ -52,7 +51,6 @@ RDEPENDS:packagegroup-base = "\
+     packagegroup-machine-base \
+     \
+     module-init-tools \
+-    ${@bb.utils.contains('MACHINE_FEATURES', 'apm', 'packagegroup-base-apm', '',d)} \
+     ${@bb.utils.contains('MACHINE_FEATURES', 'acpi', 'packagegroup-base-acpi', '',d)} \
+     ${@bb.utils.contains('MACHINE_FEATURES', 'keyboard', 'packagegroup-base-keyboard', '',d)} \
+     ${@bb.utils.contains('MACHINE_FEATURES', 'phone', 'packagegroup-base-phone', '',d)} \
+@@ -149,11 +147,6 @@ SUMMARY:packagegroup-base-acpi = "ACPI support"
+ RDEPENDS:packagegroup-base-acpi = "\
+     acpid"
  
--SRC_URI[sha256sum] = "069cf7e51cd261eb163aaf06c8d1754c6835f31252180aff5814e5afc7757fbc"
-+SRC_URI[sha256sum] = "24f3847857b1d8674cdb0389a36edec0f13c666cd3ce727ecd340eb9da8aca9e"
+-SUMMARY:packagegroup-base-apm = "APM support"
+-RDEPENDS:packagegroup-base-apm = "\
+-    ${VIRTUAL-RUNTIME_apm} \
+-    apmd"
+-
+ SUMMARY:packagegroup-base-ext2 = "ext2 filesystem support"
+ RDEPENDS:packagegroup-base-ext2 = "\
+     e2fsprogs-e2fsck \
+diff --git a/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_2.12.bb b/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_2.12.bb
+index b71d1e5cd95..83425f60fe1 100644
+--- a/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_2.12.bb
++++ b/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_2.12.bb
+@@ -11,7 +11,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
  
- # Find any meson cross files in FILESPATH that are relevant for the current
- # build (using siteinfo) and add them to EXTRA_OEMESON.
+ DEPENDS = "gtk+3 startup-notification dbus dbus-glib dbus-glib-native"
+ DEPENDS += " ${@bb.utils.contains("MACHINE_FEATURES", "acpi", "libacpi", "",d)}"
+-DEPENDS += " ${@bb.utils.contains("MACHINE_FEATURES", "apm", "apmd", "",d)}"
+ 
+ # The startup-notification requires x11 in DISTRO_FEATURES
+ REQUIRED_DISTRO_FEATURES = "x11"
+@@ -28,7 +27,6 @@ SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=https;branch=master \
+ 
+ EXTRA_OECONF = "--enable-startup-notification --enable-dbus"
+ EXTRA_OECONF += " ${@bb.utils.contains("MACHINE_FEATURES", "acpi", "--with-battery=acpi", "",d)}"
+-EXTRA_OECONF += " ${@bb.utils.contains("MACHINE_FEATURES", "apm", "--with-battery=apm", "",d)}"
+ 
+ S = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session b/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session
+index 3a70574af9d..61fea510545 100644
+--- a/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session
++++ b/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session
+@@ -22,7 +22,6 @@ matchbox-desktop &
+ START_APPLETS=showdesktop,windowselector
+ END_APPLETS=$KEYBOARD_APPLET,systray,startup-notify,notify
+ END_APPLETS=battery,$END_APPLETS # feature-acpi
+-END_APPLETS=battery,$END_APPLETS # feature-apm
+ END_APPLETS=clock,$END_APPLETS
+ END_APPLETS=openmoko-panel-gsm,$END_APPLETS # feature-phone
+ 
+diff --git a/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb b/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
+index 020e211ea59..49bf30ee5ea 100644
+--- a/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
++++ b/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
+@@ -26,7 +26,7 @@ FILES:${PN} += "${datadir}/themes/Sato/index.theme"
+ 
+ do_install() {
+ 	# This is the set of machine features that the script has markers for
+-	FEATURES="acpi apm phone"
++	FEATURES="acpi phone"
+ 	SCRIPT="${S}/sedder"
+ 	rm -f $SCRIPT
+ 	touch $SCRIPT
 -- 
 2.30.2
 
