@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B023C7EE23
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79A01C7EE2D
 	for <webhook@archiver.kernel.org>; Tue,  9 May 2023 22:33:15 +0000 (UTC)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web10.3069.1683671594268274779
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web10.3065.1683671586011021361
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 May 2023 15:33:14 -0700
+ Tue, 09 May 2023 15:33:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=ZjQuz05R;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-643ac91c51fso3713340b3a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 15:33:14 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=YlA+Oyeg;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-64388cf3263so4640851b3a.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 15:33:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683671593; x=1686263593;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683671590; x=1686263590;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ejfJhB5UAiMkmWtC3VZ7peMDb6dCdHWxMK3LojUTNAM=;
-        b=ZjQuz05RZDOfFyickzWFc2Hot2kolP+qrzHmQYi7S9h/1Zr3X8aJ6Ts3Kq1B972iFM
-         d33wm0NdPq9sUSfAZXDxoEu+Tyk7zbgd7t17Yi/3jCqzMNWyGTYdC1xmaDj8xxDdb/++
-         CX/sQobN6s38atJ10mGNm438dkk1CL4esLO4pD7Tv9BFAV3cX+4EiJtndTox2PVurwJv
-         XGBfYlcDQvr4xHX2bCerKI8OmojItwc6emaT4onQfjnalZRgCDZxPLXF9FaaCrMwqO1n
-         lSVcJkMXQVnitFxVGqRreQIPDYjIQ2F2ENNDkduIlGllZfRPj4URGIKFcS0qZvaStawN
-         N/hw==
+        bh=QFO4vt0yutBSa/nNqk6LbdgHLTYKn2rU8CRS7nOFWBk=;
+        b=YlA+Oyeg9xgs2we0D2HSAkd2WeHyJD2O8nI0qwk5tjwN3mksdmCLjk5etRpD8bQAne
+         D4VS0vxIOdwWzlcNQ0x9kJ9z17a1y4jC3DSqruG7BeLgFKxK1Fh/G/7yCCm5k/EBSAxg
+         VVt5jKqchL4cSB5C/BgaChsCAjWGwT78Yuvw7Nwb2LLqIVweJAWf7rsvk/MD/LJ/6bwW
+         eXJNaLp3gB9tLDtq9ShdcdguRjl6O3EHuCsd4+vOnzkRxWmm4tqbdo6h74PUgr4peOAX
+         HpFbMPkWdo3jW86nif8y80WNUN7xogk6B8JGjyewKE07SdpU4CaFZ8Ni2jvZSsqiDuUS
+         Zc3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683671593; x=1686263593;
+        d=1e100.net; s=20221208; t=1683671590; x=1686263590;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ejfJhB5UAiMkmWtC3VZ7peMDb6dCdHWxMK3LojUTNAM=;
-        b=Cc0AfSuLFSwFoqSyCrMFFRqQMkheCU2aEzcBRVlv1me+hV163IGtX3tVNpyQsMcTzw
-         puS2OZ2BJXV7QDonbAV2gE15P+1G2XG558e/cC1nFnl36CpAHDN6o5HSMYlCs6+ynp2w
-         nWvx59vvU5pnUTJUqRQvVX9Bu8IKWgq2YPCQkQo1NZzebR8y4M1K7HY+FR2yC5v6lPJK
-         KkaryDK6IktaAMVcCkUMGXJc5xkwHcadCbabsFJiYcls8xPJvgl4ymw0v4IwTCQLrFT+
-         jBF2M8SSk/G7kfl4IAwdKyfeaF/Zk3n5I1B7raP6Y/NMbcfOvpDEuvRjeowShZyeDuU+
-         WW9A==
-X-Gm-Message-State: AC+VfDye9R5JuRFvrbOmHGmq/21q9n23U2PrJFyD5JWjbNSEOCcf2LXk
-	j0/O7jRTZEZR+mNupY+hM78Cq5ed0ReqYRNNG44=
-X-Google-Smtp-Source: ACHHUZ5IvHz2U6vbYrepzP+N2up+jYYVAwPhsZHhlfpEPuyZ0NtYTbVaG/m8u68IsoeivpJnDIeGyg==
-X-Received: by 2002:a05:6a00:17a5:b0:63b:1708:10aa with SMTP id s37-20020a056a0017a500b0063b170810aamr23060125pfg.34.1683671593383;
-        Tue, 09 May 2023 15:33:13 -0700 (PDT)
+        bh=QFO4vt0yutBSa/nNqk6LbdgHLTYKn2rU8CRS7nOFWBk=;
+        b=OBXdIFXjX4snbx3HxU5z1201gtFY/BqEmKfpoqPNA9ipjiAVo450OsFB0FnwknWFT0
+         At/O49eV4bzd3phtSzmvJZ2cqYe8j/oarjfOOq4RosaBLr4cX2EKXEZtYRMuZMD++hg0
+         +EDaRWJ23LRGHlpsflrd5XYot0oahRQpUnv8kD9FBMBZwNusU4CopvC/dpNepvixqvoH
+         FZg21SySYoPo99Px+e7sowA8AZMMOFVHhLjAHSAz7sqg0eayn2yPZCcZTXN3c52LtgIp
+         0AjdioDAZ4V1Epd8PXojlpd7a3DKz/Y0YEK+ZlwAWdMU/SG5deIzNC1boYCw3lcxS2Mj
+         yUEg==
+X-Gm-Message-State: AC+VfDykxpuZ/PbiwKTL6mRtDKgqd2rY4W5BNRYQRppU1gMs0oPhjyn/
+	vUakLwb6E9/D7d/RBIDYkOByDM6JGVTg43Gv/dY=
+X-Google-Smtp-Source: ACHHUZ4ihCCd2XToKvYwpjMC4Pcean/yISEBFSxLItyTjTHEes2WRM7n63PxGj4/xi4EZonGkF1SmQ==
+X-Received: by 2002:a05:6a00:138c:b0:646:1f13:7fce with SMTP id t12-20020a056a00138c00b006461f137fcemr11984607pfg.2.1683671589885;
+        Tue, 09 May 2023 15:33:09 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id u17-20020aa78491000000b0063d2dae6247sm2263125pfn.77.2023.05.09.15.33.12
+        by smtp.gmail.com with ESMTPSA id u17-20020aa78491000000b0063d2dae6247sm2263125pfn.77.2023.05.09.15.33.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 May 2023 15:33:13 -0700 (PDT)
+        Tue, 09 May 2023 15:33:09 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 15/15] update-alternatives.bbclass: fix old override syntax
-Date: Tue,  9 May 2023 12:32:41 -1000
-Message-Id: <5697ec9ebd8a94f9ec3d370fcfead332dcbe5afc.1683671424.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 13/15] oeqa/utils/metadata.py: Fix running oe-selftest running with no distro set
+Date: Tue,  9 May 2023 12:32:39 -1000
+Message-Id: <6e63c48ec31ebf640ea26d0328f4618bd13e625f.1683671424.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1683671423.git.steve@sakoman.com>
 References: <cover.1683671423.git.steve@sakoman.com>
@@ -61,42 +61,39 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 22:33:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181100
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181098
 
-From: Peter Bergin <peter.bergin@windriver.com>
+From: Thomas Roos <throos@amazon.de>
 
-Function 'gen_updatealternativesvardeps' still used old override
-syntax when fetching variable flags. Update to use ':' instead to match
-recipe meta data. This was found by review and no real issue encountered
-but it is a bug that affects variable dependencies and can affect rebuilds
-as task hashes might not be accurate.
+This will use default values when no distribution is set.
 
-Signed-off-by: Peter Bergin <peter.bergin@windriver.com>
-Signed-off-by: Peter Bergin <peter@berginkonsult.se>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 5691f554b2cd50f256a8cbb1d96781e9eb6b930e)
+[YOCTO #15086]
+
+Signed-off-by: Thomas Roos <throos@amazon.de>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+(cherry picked from commit 888fe63b46efceeff08dbe8c4f66fec33d06cb7a)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/update-alternatives.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/utils/metadata.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
-index 7581a70439..2804299fc4 100644
---- a/meta/classes/update-alternatives.bbclass
-+++ b/meta/classes/update-alternatives.bbclass
-@@ -80,10 +80,10 @@ def gen_updatealternativesvardeps(d):
+diff --git a/meta/lib/oeqa/utils/metadata.py b/meta/lib/oeqa/utils/metadata.py
+index 8013aa684d..15ec190c4a 100644
+--- a/meta/lib/oeqa/utils/metadata.py
++++ b/meta/lib/oeqa/utils/metadata.py
+@@ -27,9 +27,9 @@ def metadata_from_bb():
+     data_dict = get_bb_vars()
  
-     for p in pkgs:
-         for v in vars:
--            for flag in sorted((d.getVarFlags("%s_%s" % (v,p)) or {}).keys()):
-+            for flag in sorted((d.getVarFlags("%s:%s" % (v,p)) or {}).keys()):
-                 if flag == "doc" or flag == "vardeps" or flag == "vardepsexp":
-                     continue
--                d.appendVar('%s_VARDEPS_%s' % (v,p), ' %s:%s' % (flag, d.getVarFlag('%s_%s' % (v,p), flag, False)))
-+                d.appendVar('%s_VARDEPS_%s' % (v,p), ' %s:%s' % (flag, d.getVarFlag('%s:%s' % (v,p), flag, False)))
+     # Distro information
+-    info_dict['distro'] = {'id': data_dict['DISTRO'],
+-                           'version_id': data_dict['DISTRO_VERSION'],
+-                           'pretty_name': '%s %s' % (data_dict['DISTRO'], data_dict['DISTRO_VERSION'])}
++    info_dict['distro'] = {'id': data_dict.get('DISTRO', 'NODISTRO'),
++                                'version_id': data_dict.get('DISTRO_VERSION', 'NO_DISTRO_VERSION'),
++                                'pretty_name': '%s %s' % (data_dict.get('DISTRO', 'NODISTRO'), data_dict.get('DISTRO_VERSION', 'NO_DISTRO_VERSION'))}
  
- def ua_extend_depends(d):
-     if not 'virtual/update-alternatives' in d.getVar('PROVIDES'):
+     # Host distro information
+     os_release = get_os_release()
 -- 
 2.34.1
 
