@@ -1,197 +1,129 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <kweihmann@outlook.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A17DC77B75
-	for <webhook@archiver.kernel.org>; Tue,  9 May 2023 15:55:33 +0000 (UTC)
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
- by mx.groups.io with SMTP id smtpd.web10.36700.1683647728607906144
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5C6BC77B75
+	for <webhook@archiver.kernel.org>; Tue,  9 May 2023 16:03:23 +0000 (UTC)
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.92.73.59])
+ by mx.groups.io with SMTP id smtpd.web11.36976.1683648200264077779
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 May 2023 08:55:28 -0700
+ Tue, 09 May 2023 09:03:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=Tx2hRBKM;
- spf=pass (domain: baylibre.com, ip: 209.85.222.175, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7577f03e131so134206585a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 08:55:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1683647727; x=1686239727;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lGwtKjRS57SUJIKfaqtue5FZKCiRQ09gNH4VaeDy8Dg=;
-        b=Tx2hRBKMJx6TIcZGkwNpKwx88mnmg51gkc0hPpKAnwrWVE+gP9bYT2c18q06Z7iEo6
-         I1hHg/iAvwSA1+6/l2e7ycbYcf3lehxlXl7q3RJvacCJs4KDwyC5QsIrF6PIxjc3BaT7
-         0IPXvSlGhb0JCXn5X4aNKnfe0VmQI5QcxihCILknWhGWuXyB8i79MExD7q1FRyv5DRm5
-         RJCIElLlp6wTHUd7MHRk2gtxL54/YLcrhJDehRE89kAqc5wNP/ryecpQ/TIQOyFvq75L
-         nYp+ytCHTWl6R+cEY/Flz0E259cic1AtlwzArY50Rza4+eEB3y/8d1xEF+WsbMzmd//h
-         hbAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683647727; x=1686239727;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lGwtKjRS57SUJIKfaqtue5FZKCiRQ09gNH4VaeDy8Dg=;
-        b=LA70S1Y2YZ9Thl7ODxgS4/VoJ1xEl2LtpEZNPWH1DiAMqO/hmio7eVlpLjdDBcG9wj
-         XdpoUicxcndg5PkqLe1HouT//oNRNNqhPMPoevvKEO3kRyr/FWtpSQ6f5WPXAnN04QZ5
-         52vXET6g5L4/uvS0eqHaIigZGjJ+U6Accf4cenDiqzHLhX5eJ4PZcENkhPylYowmX7lY
-         /r6LqNK2SJm4svOo6ghNu9+EjeTNCB22fxvcBaB/qVNwtVOX71Jtf4jpo3hX7G+tAUNL
-         WwufrME3lSRYxLbAk83JkXKOUETQZuFSAxhhyNpgxakx1lm9U502lBpDW0qf92CvlPZc
-         0cjA==
-X-Gm-Message-State: AC+VfDzDxFWA/CnxHuarC4xdZfBMx75p2NAr13mwfmgIOTa1it8hrj+M
-	iIYJaBgsjPCfK+Cp6YvCANKiXKRHUhhpjEHnEbsvig==
-X-Google-Smtp-Source: ACHHUZ6Kgmh8zpBrp3eLkcKYT+1efenNclAHi/zVuXQiI0s2ugTsPTIv1hPjFvc7f+1qelqQTTDeIA==
-X-Received: by 2002:a05:6214:1c48:b0:5ef:8c79:fe99 with SMTP id if8-20020a0562141c4800b005ef8c79fe99mr25323876qvb.7.1683647727514;
-        Tue, 09 May 2023 08:55:27 -0700 (PDT)
-Received: from megalith.ht.home (cpe64777de11593-cm64777de11590.cpe.net.cable.rogers.com. [174.115.224.47])
-        by smtp.gmail.com with ESMTPSA id b6-20020a0cc986000000b0061b7b5eec9asm837948qvk.64.2023.05.09.08.55.27
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 May 2023 08:55:27 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v8] python3-calver: Add recipe
-Date: Tue,  9 May 2023 11:55:26 -0400
-Message-Id: <20230509155526.3094448-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@outlook.com header.s=selector1 header.b=aidcNX+L;
+ spf=pass (domain: outlook.com, ip: 40.92.73.59, mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mj6yLpdRy6bz9Ti9h3pa45G7u7gRMTjJL2Afj5Jp/DsgFTcxoObX4ZYJS6vEndBnRgAJ/LcXuiLsjzZjiVXxd2T+aE/XuLCw5Z3Q+q3q540FCc9Itp7OI572I/dqVr3uY1v4DotzlSqBDJGgDGekCsEDPjD4DS/rQXXjdvLkvagzEXN85xUeD86Ap2xXPeNKclihpBr9Aq8fs4Wuom9mh9UHzjJI5RngjE/FTBiRa9+ouq9vRYMV4IxRUQSDSx/cgnlsR37xXdULaEv5EWLz06pxwkVZc4zoa4EDWSECNB6IMSWtJPEpQ7psSMydd0u29wOlw75Wq8+SOJTZu3V3qg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JUqiFv2TzVMfPkotKFjleDbwyMcOilH1t91osKAzPyk=;
+ b=FY34H9UiA4zfnjIwPK3TTfUuD0r16TdZtWbMD+qcrM3+VkJ1z2wzf4vx/x4lQG00+o90/xr+RXuFM8oC5mTiW6uujvYuLWyC7lepT29NXOgwebEdkMlyF4CU1wd0/7e4DEEzCy8TACD1nP0/0tbG0CeJZgK/s/MAJp4NAJYYif1mDUaDU9OusFpm/9sa9MpccLS6Ni7aoCqheNaEWJr3ohyfFx6DG4KBswBfVd6i5GU9FkdoGhEIJ+lSq+b4ZGon522U7DRcpFMRlc9GnxPUidA2F8BkEtmIqna97zSbdL4nGxI30TgnBlwFOkRkeX9rktfFSUenOhGPxTsFh+Gyng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JUqiFv2TzVMfPkotKFjleDbwyMcOilH1t91osKAzPyk=;
+ b=aidcNX+LnrJo7w2TdZu7DNc9F/tljQ2Bsb+bRe3jcTqzVADcFIts2iO4glIA94fNvxvwUsxPFA6rQU1OpprbRO77atqQnu1uC5eOdlm8tY2uOCJqwMP/P873pTj+xtzKcsaL63LQbu/MLGyNjQJG+E/L4VGnq28zpMMNBuU68BEXbdf/9UUGZjRJRh3y0E3mJNnteKNXhjeKvP5wt3Tknk1QmfFj9+Bd4vKN7N+t2MGpZXYYYpRpTbHAG9mR5oD3CDilx0gJXI9hNBJYFUCtw+N3zTTzLU8OWz17Rcg7NKn5gsPM9+fZ6Vhs82CAF4gLjeV8sS4VMThb5m3YJIA/Yw==
+Received: from PR2PR09MB3100.eurprd09.prod.outlook.com (2603:10a6:101:1b::18)
+ by PAVPR09MB6332.eurprd09.prod.outlook.com (2603:10a6:102:30a::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.32; Tue, 9 May
+ 2023 16:03:17 +0000
+Received: from PR2PR09MB3100.eurprd09.prod.outlook.com
+ ([fe80::3636:cab7:8be0:b3d]) by PR2PR09MB3100.eurprd09.prod.outlook.com
+ ([fe80::3636:cab7:8be0:b3d%6]) with mapi id 15.20.6363.026; Tue, 9 May 2023
+ 16:03:17 +0000
+Message-ID: 
+ <PR2PR09MB31000C5F306D2D3B69099E23A8769@PR2PR09MB3100.eurprd09.prod.outlook.com>
+Date: Tue, 9 May 2023 18:03:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Content-Language: en-US
+To: OE-core <openembedded-core@lists.openembedded.org>
+Cc: Tim Orling <ticotimo@gmail.com>
+From: Konrad Weihmann <kweihmann@outlook.com>
+Subject: python3-requests broken after urlib3 update
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TMN: [+0SJGebJVS2rrcHCHAOzR3gmHRyZRm673g6/q19SEtetdTnzQvPHbxm9RAMIA4YJ]
+X-ClientProxiedBy: FR3P281CA0163.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a2::9) To PR2PR09MB3100.eurprd09.prod.outlook.com
+ (2603:10a6:101:1b::18)
+X-Microsoft-Original-Message-ID: 
+ <d082e2d0-6ef9-a28e-eb43-f8ffe48428d4@outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PR2PR09MB3100:EE_|PAVPR09MB6332:EE_
+X-MS-Office365-Filtering-Correlation-Id: 26114d21-dbb4-4f49-5bcc-08db50a6e695
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	HJewtNYgSO2hce6BEqvfnN65ufemh2RXpQDiIJyEvHKRDeYvfq20YBWO78c2MYYyO7LATSnnEIudIGZ4jnp87VLXXkjv57xotERNrHlWTsDPaCsWmwn62mnE1IZUpgLW6650YUbpfOre0lZIB7GbOGc4kd7tONtmGcH8dWTpTg3RCoeTgcwlxxZzFppewlbway8WqYniuWfpRo8WKy4DWb/LMsfv9cTYqGr/y9NwnZ6Ysh/dCCRAaHPC9segKGFEC8WkoxEsfucuY53aTnV0+/FyIhpixhXz8QFoC1GuYNF7YLt3OsqIWUYuh71w6DY4ZdoLOWW8J18eFVWNNkf8E8TEeQYjnbUO5DChespl8h0cCT0P41RKlSx5t+Hj1Q1SgV4S5GiJRXA8bF2PzI+37QHF5S1ZLi/UHimXFys29NI4YyKTy6cNW9d1Y8iwYAC1lHHDEGXEt63lWHMLicVcjZNzy72Vix/8/ezVNnuLYSA40KCNWKXoCO9AfzYg7nV/uO24VcLzosNQpvo4cZ4aqLoGWM99O7JmbC5Il4GFv65VjStIFFLtocNGx9oYkKrf
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?bHpETExmY0FzS3h2Y3NmdXFhcmFra1pzM09XdHZjUTVQZHM5aFZ0WVBReHZy?=
+ =?utf-8?B?RUpNdFZKVFNrNzdGMGJPdWhJQmE0bnl5bFdQRFBVN2tXdHFnRkRiTCt3bjMz?=
+ =?utf-8?B?dnZMTXh2aE1rUDN5c01mYkJ4bWJIVm12N3MvYWFPazE5NE1GbTljV09FSW9G?=
+ =?utf-8?B?K3RyYWsrNUNMT0tlYXhDTnNGME14dVNKZHNHQkd0WndKdU5GT0JTMkVrNkNX?=
+ =?utf-8?B?YWU2SVgwSk1sL3NiTVlaMzZ2L2diWnpJaUp2QVl4UGpmK1pvbU9VOEFtVGZ2?=
+ =?utf-8?B?OHBxMmNZcDJlWVlpOExGcGltczlEY3FRQ2IyRkpyOWt6SUUyUm9IK1o0MEda?=
+ =?utf-8?B?TXFoVnF6UXo3MVV4Nk1QSzA2V2xoeG9Hci9ZY2tUTTg2M0JCQXMxTjRLVm83?=
+ =?utf-8?B?dTNpK2ZDRktZNWlESkQvV3F0bEtGYVA0S2QvSmFpaTNwd21qcmtKdHBXM0ND?=
+ =?utf-8?B?T2JUckFEa2lDR3hEd2VrbmowditXaHZDU0xVY3dZQm11SFcxK2pGWktLWXBq?=
+ =?utf-8?B?bEpzL2hxdVBhOHFsNmE4V2JtN3pLSXE2d25JWnlUbTJIdjlidzZyZTBNZVNT?=
+ =?utf-8?B?dGpZZTdxZVpENEdIN1JEc3NzazFKbWNoNWV1ZjJwbmVjRFIxQTNHT3VHRGpp?=
+ =?utf-8?B?NWhsWWNUL0VwQm8ycndNOS81U29PRlBhQXFaMWpnbWNiU04zWVk0T2d4NlVU?=
+ =?utf-8?B?ZlZqTFN4MS82RVRRU3ZCc2RRMFdROEw5aklReEwxWmlyZUJzVFMvWWJaRVln?=
+ =?utf-8?B?ZEVlTVhnNFdGYVA5ZmxyK0RpTG1DSVU3bW1KbGFZOEhaVmViQlBvdXZ5Mjg2?=
+ =?utf-8?B?cFpLdUZaTW85ZFhrdmozWmFybXhFaXZ2YlpNaEh2UmpROEFSOTh6L2lzSW16?=
+ =?utf-8?B?WFhDUVJVWjFRLzl0SnVJSzNQang4MzBzdkx3K1UrbU5tZnB1VWJmRnVvNnda?=
+ =?utf-8?B?QXdRVXJldU4rTHRXUDduVjRMbXZXOVJoSHV5MUZFbG56YUdjNmlrUzE3ZWMy?=
+ =?utf-8?B?SmxqbzVBMjk5a1BCWW0wV2gvcytxb2FTNHJkczd2YnJKMjRxOGR6RkgzdXo3?=
+ =?utf-8?B?Tlh4MDNhVjQ0ZU0xVmtyNjFFd3Z5YWdkbVJDMXBpZDl0Y1VkbGI4N2U4aU9y?=
+ =?utf-8?B?QkhzZUR3dWpDL2dqQXFERnFEU1FYbHh6bXBHMTQ4Znp0QU1LT1g1RjhxQ09J?=
+ =?utf-8?B?WWsrczBMYTQ3OWVPTU1OQTc3azQ3Z2VITzRVc0czMDJ5c2FpTlFQSmVXUFFq?=
+ =?utf-8?B?THhvSGdUVGZXaEYzK0FMdmNoL2FkYTV1bU5ETk9YdkRiUlZmcVlGenVtSjJ6?=
+ =?utf-8?B?SVhhT3dJU1ZDRGw1Q1ZOcE9VQkpFcmFrdDV5aVhUcnJQSGZmRDlSSUZOejZF?=
+ =?utf-8?B?WkRSVE11VXlZTzcxMlZvYlIrOE9Rc3dvY1paRFJ0YmpsTmlMa0NibW1VZlA1?=
+ =?utf-8?B?MGZOUThNcENUdkhGS3FWUmZJSmJVUU1hMllxd0pmRS94NjdQMUZHUlBNMUtZ?=
+ =?utf-8?B?blBSU21JNHRjV0p6WUNVcWM3dUlGTGRvYU5iYzNyUmNZZHlHTGxzK0VtZEs5?=
+ =?utf-8?B?dFppQk1wUkk1cXVBUkJ6dVB4eDI1ZzRvU2xZeVdQK3Bpa3pickhQS09TRVFE?=
+ =?utf-8?B?RjRJcXZWcCtFY3dZZmJMQ1lVZEQ4aDdVMnRRQXV4K2I4SFpmTlM0VnJjdVZQ?=
+ =?utf-8?B?UVdiZ0M4Wk1PYlhhdXNMSzFBWlVoR3ZrWHdsOVZDWlpveXZoZS9HeXhXeTNx?=
+ =?utf-8?Q?SbEBCpq4myTUeJAfes=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 26114d21-dbb4-4f49-5bcc-08db50a6e695
+X-MS-Exchange-CrossTenant-AuthSource: PR2PR09MB3100.eurprd09.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2023 16:03:17.4206
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR09MB6332
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 15:55:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181047
+ <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 16:03:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181048
 
-calver is "a setuptools extension for automatically defining your Python
-package version as a calendar version." It is required for
-python3-trove-classifiers (another new recipe), which in turn is
-required for the upgrade of python3-hatchling from 1.13.0 to work.
+FYI: 
+https://git.yoctoproject.org/poky/commit/meta/recipes-devtools/python?h=master-next&id=4641605c794db6648311b931fb3a36fe9e5dea56 
+breaks building python3-requests (as of version 2.28.2 in master).
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+ > recipe-sysroot-native/usr/bin/python3-native/python3', '-m', 'pip', 
+'--disable-pip-version-check', 'wheel', '--no-deps', '-w', 
+'/tmp/tmptsmcl2c1', '--quiet', 'urllib3<1.27,>=1.21.1' --> exit code 1
 
----
-v8 moves the versioning info back to the right place :)
-v7 removes the unnecessary sha256sum from the recipe.                                                                                                                                                                                                                                                                         
-v6 addresses reproducibility by patching the source code, and fixes                                                                                                                                                                                                                                                           
-issues with that were missed from previous reviews.                                                                                                                                                                                                                                                                           
-v5 moves these revision notes to the correct place.                                                                                                                                                                                                                                                                           
-v4 adds the run-ptest script and adds maintainer info.                                                                                                                                                                                                                                                                        
-v3 clarifies that the recipe now includes ptests, where v2 didn't make                                                                                                                                                                                                                                                        
-this clear and v1 didn't have them at all.
+Tried with native variants.
 
- meta/conf/distro/include/maintainers.inc      |  1 +
- .../distro/include/ptest-packagelists.inc     |  1 +
- .../0001-setup.py-hard-code-version.patch     | 32 +++++++++++++++++++
- .../python/python3-calver/run-ptest           |  3 ++
- .../python/python3-calver_2022.6.26.bb        | 28 ++++++++++++++++
- 5 files changed, 65 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-calver/0001-setup.py-hard-code-version.patch
- create mode 100644 meta/recipes-devtools/python/python3-calver/run-ptest
- create mode 100644 meta/recipes-devtools/python/python3-calver_2022.6.26.bb
+An update to python3-requests 2.30.0 should fix the issue.
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index e24d8545ba..0ee465fe1f 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -607,6 +607,7 @@ RECIPE_MAINTAINER:pn-python3-attrs = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-babel = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-bcrypt = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-build = "Ross Burton <ross.burton@arm.com>"
-+RECIPE_MAINTAINER:pn-python3-calver = "Trevor Gamblin <tgamblin@baylibre.com>"
- RECIPE_MAINTAINER:pn-python3-certifi = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-cffi = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-chardet = "Tim Orling <tim.orling@konsulko.com>"
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 2f83132aeb..bd95a13ff6 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -56,6 +56,7 @@ PTESTS_FAST = "\
-     popt \
-     python3-atomicwrites \
-     python3-bcrypt \
-+    python3-calver \
-     python3-hypothesis \
-     python3-jinja2 \
-     python3-jsonpointer \
-diff --git a/meta/recipes-devtools/python/python3-calver/0001-setup.py-hard-code-version.patch b/meta/recipes-devtools/python/python3-calver/0001-setup.py-hard-code-version.patch
-new file mode 100644
-index 0000000000..43f8a78ef0
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-calver/0001-setup.py-hard-code-version.patch
-@@ -0,0 +1,32 @@
-+From 390a233ed969f82b2ef209b23bfb523e785603f9 Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Tue, 9 May 2023 10:19:41 -0400
-+Subject: [PATCH] setup.py: hard-code version
-+
-+setup.py is pulling the build version from the current date rather than
-+a release tag or other predictable method, causing reproducibility 
-+issues in builds. Patch this to make reproducible builds work while
-+discussing this with upstream maintainer (or developing a patch that can
-+make calver rely on a more standard pyproject.toml solution).
-+
-+Upstream-Status: Inappropriate (configuration)
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ setup.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/setup.py b/setup.py
-+index 73f6b10..2e27cf1 100644
-+--- a/setup.py
-++++ b/setup.py
-+@@ -42,5 +42,5 @@ setup(
-+             "use_calver = calver.integration:version",
-+         ],
-+     },
-+-    version=calver_version(True),
-++    version=calver_version("2022.6.26"),
-+ )
-+-- 
-+2.40.0
-+
-diff --git a/meta/recipes-devtools/python/python3-calver/run-ptest b/meta/recipes-devtools/python/python3-calver/run-ptest
-new file mode 100644
-index 0000000000..8d2017d39c
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-calver/run-ptest
-@@ -0,0 +1,3 @@
-+#!/bin/sh
-+
-+pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-calver_2022.6.26.bb b/meta/recipes-devtools/python/python3-calver_2022.6.26.bb
-new file mode 100644
-index 0000000000..58b33f19ff
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-calver_2022.6.26.bb
-@@ -0,0 +1,28 @@
-+SUMMARY = "Setuptools extension for CalVer package versions"
-+HOMEPAGE = "https://github.com/di/calver"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
-+
-+SRC_URI = " \
-+    git://github.com/di/calver;branch=master;protocol=https \
-+    file://run-ptest \
-+    file://0001-setup.py-hard-code-version.patch \
-+"
-+SRCREV = "3268d8acf2c345f32a1c5f08ba25dc67f76cca81"
-+
-+inherit python_setuptools_build_meta ptest
-+
-+S = "${WORKDIR}/git"
-+
-+RDEPENDS:${PN}-ptest += " \
-+    ${PYTHON_PN}-pretend \
-+    ${PYTHON_PN}-pytest \
-+    ${PYTHON_PN}-unittest-automake-output \
-+"
-+
-+do_install_ptest() {
-+        install -d ${D}${PTEST_PATH}/tests
-+        cp -rf ${S}/tests ${D}${PTEST_PATH}/
-+}
-+
-+BBCLASSEXTEND = "native nativesdk"
--- 
-2.40.0
+But I'm not sure how that could have passed CI - so someone with more 
+knowledge than me of the autobuilder might want to have a look.
 
+Regards
+Konrad
 
