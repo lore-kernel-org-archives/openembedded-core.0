@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DDA5C7EE32
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F1BAC7EE2F
 	for <webhook@archiver.kernel.org>; Tue,  9 May 2023 17:24:04 +0000 (UTC)
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.web11.39289.1683653031361427637
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web10.39160.1683653037523479817
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 May 2023 10:23:54 -0700
+ Tue, 09 May 2023 10:23:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=ULUvWiGR;
- spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-9659c5b14d8so1001397166b.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 10:23:53 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=rUXbwY8v;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-965c3f9af2aso901950866b.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 10:23:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683653033; x=1686245033;
+        d=gmail.com; s=20221208; t=1683653036; x=1686245036;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=S0d1aMhcNN5aaHGn+LLRwudCONysVNGffqF7WqQiAWg=;
-        b=ULUvWiGRCkYgij3DeFeDx2CcVF0qMaCHjHOW5+swpUlDN8/b1WRIoIc6sE7dZL/7Sb
-         zg9/fAriMH0FRGPyhTd9t75C2Fb0E6THECNlEXc2V3KRrFG5TuLS6PrM2VAOECV9cvJr
-         kUDGTvwmbuNDZShPL4WNIi9rZ4ru5h1mvj10cj/MQcFhJOj9rQ+h3qk/8NFQsei/dcbV
-         oLO/Bntsxn9kdq/BB/Hm2ZwjooPR+rark7zuHpqT/EfbfriZkCirazqpbDgy/+tFqHtb
-         EHo38bqir+jdjqnZWXv72XNDWlH9jYM/2yJn3UeHNLzUVsstbvHpO21E/cqzVh89jWqT
-         mlTQ==
+        bh=VEPZqopqScEe8Y2kwDMSB3eZ+7BGEZcukhYtgBsrspY=;
+        b=rUXbwY8vw03J9c0qLdaSQ1O0n8YwJaCGQ7cZPJ0aZ1XelIYVtWP2VbKfcFqg6WKvV+
+         2571M0GZ2EuAP0tm7PaTsGdIyaW9eY+PSVsGBf6HDwk4g9y1/z9oupwt7OSAZq7Hbg02
+         cOdx+GBmEfAdCd0B6cX6oxXcgPBLl4KM38unumB3A8n3OXKxqVU/Y25Cvh57NIhmIq54
+         Kyk/TcXxnDM0GwzxhmRuclXGQMSrGujrbxH3n+aZl6N3rXzJ/eK+p1QcokbezB0LtX5r
+         MglRTBBPRU8zaBP0lqWDCi8eaaTT2EpnMtzDwCJ/jGf2W8qDDJ5BA8rmphDxAcehOtl6
+         tbmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683653033; x=1686245033;
+        d=1e100.net; s=20221208; t=1683653036; x=1686245036;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=S0d1aMhcNN5aaHGn+LLRwudCONysVNGffqF7WqQiAWg=;
-        b=SllZZV20Ho4PzfRIHaSz+ViOcwJuR9sKizHKUvvKcqwxqOhUX5RBbSYOAPMLjyIEPF
-         4n7dxNJNOSFnq8sIfEMfUFK0RCnePW/DFF/Y0rBF2CB9AyNjv6Ni2AeA2Bzkujcjf8Bi
-         6+oESekmSdoPg7o1n3187a/D5/GZkganAoxccyhRstAGgcnNSIs6frfMiJ6g70VK4kwf
-         9WonQ16rFj1ZXV+qnB878HUP3QtVMm9OYsXruaCtoyb6yi9hA35gcavHcmXG5P4TxP5p
-         3Qgik9rfnbHlX06SPtHEkvj0SpNanfGOEV6AV2hBz3We0tSI6leO4I+K6hY5n1A2llo8
-         g+xw==
-X-Gm-Message-State: AC+VfDw5TSKa5HZdMgwML4DvgfVRvAzoAHOIIraFvovE99Vv5kBkDNMa
-	kliDy/JhgnA1af6CNrgjh5afPiIE7TQ=
-X-Google-Smtp-Source: ACHHUZ57MxevJ3pmPkVC+A9Gdtwz3c0nzEqbcR8W/aKj27JW/BwdXrCTA0o6Padx7+fjMUrX/3n1sg==
-X-Received: by 2002:a17:907:3f18:b0:966:31a1:8d6e with SMTP id hq24-20020a1709073f1800b0096631a18d6emr9251381ejc.57.1683653033149;
-        Tue, 09 May 2023 10:23:53 -0700 (PDT)
+        bh=VEPZqopqScEe8Y2kwDMSB3eZ+7BGEZcukhYtgBsrspY=;
+        b=RMdPJv8NlyNAGrtPthok18/9EuAyPPFRG/Cqv0SpdKgw5DFfD+X0/v1O8xNG1UsrjU
+         Paizf6QUZ/NDnNhxozIhNnhgSwOdczk/jfdrK5wBBBdYpEvoV5Plpg9sqKCkinrGo50p
+         +TwdvDaHiZmSzyuxPYaQihgukdwxMy2smRxWN9fwEZMw04WhCqvlCn4jAmbsFvK3ToEq
+         njCoPMbI5ZQJR+WxwRE19UcL43f9iCS+UWnB2dYVU/g4A+AgB7YDfd6M7jJ5kswxET+C
+         O3MOJfyqkABq3b1wTPzT0uDA9255PNf7+scOTDCSBC+pHngRlapLAxNnYErCKZP0GOyd
+         BLzw==
+X-Gm-Message-State: AC+VfDwAtLi79YCqlXxC3T2ba14ifjlK7k46AcP9EHm1aUH7O/O9uEV8
+	YesmF/Oncz4K7YogHMLVS769PPhdh9o=
+X-Google-Smtp-Source: ACHHUZ7gOUJgCeiFPPbcoA5jod9gQ83DobMI9wkBXO2vqVp/njE1rkxmm2jyZZfDpuKrUGBafAWT/A==
+X-Received: by 2002:a17:907:7dab:b0:967:a127:7e79 with SMTP id oz43-20020a1709077dab00b00967a1277e79mr6336545ejc.28.1683653035733;
+        Tue, 09 May 2023 10:23:55 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id jz24-20020a17090775f800b0096347ef816dsm1578252ejc.64.2023.05.09.10.23.52
+        by smtp.gmail.com with ESMTPSA id jz24-20020a17090775f800b0096347ef816dsm1578252ejc.64.2023.05.09.10.23.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 May 2023 10:23:52 -0700 (PDT)
+        Tue, 09 May 2023 10:23:55 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 08/27] elfutils: update 0.188 -> 0.189
-Date: Tue,  9 May 2023 19:23:25 +0200
-Message-Id: <20230509172344.1516743-8-alex@linutronix.de>
+Subject: [PATCH 12/27] perlcross: update 1.4 -> 1.4.1
+Date: Tue,  9 May 2023 19:23:29 +0200
+Message-Id: <20230509172344.1516743-12-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230509172344.1516743-1-alex@linutronix.de>
 References: <20230509172344.1516743-1-alex@linutronix.de>
@@ -62,324 +62,527 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 17:24:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181063
-
-Drop backports, rebase musl patches.
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181067
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../{elfutils_0.188.bb => elfutils_0.189.bb}  |  5 +-
- ...od-Fix-usage-of-deprecated-CURLINFO_.patch | 49 -----------
- ...t-Use-CURLOPT_PROTOCOLS_STR-for-libc.patch | 34 -------
- .../elfutils/files/0003-musl-utils.patch      | 14 +--
- .../0015-config-eu.am-do-not-use-Werror.patch | 10 +--
- .../handle_DW_TAG_unspecified_type.patch      | 88 -------------------
- 6 files changed, 13 insertions(+), 187 deletions(-)
- rename meta/recipes-devtools/elfutils/{elfutils_0.188.bb => elfutils_0.189.bb} (96%)
- delete mode 100644 meta/recipes-devtools/elfutils/files/0001-PR29926-debuginfod-Fix-usage-of-deprecated-CURLINFO_.patch
- delete mode 100644 meta/recipes-devtools/elfutils/files/0002-debuginfod-client-Use-CURLOPT_PROTOCOLS_STR-for-libc.patch
- delete mode 100644 meta/recipes-devtools/elfutils/files/handle_DW_TAG_unspecified_type.patch
+ ...h-Add-_GNU_SOURCE-define-and-functio.patch | 485 ------------------
+ .../{perlcross_1.4.bb => perlcross_1.4.1.bb}  |   3 +-
+ 2 files changed, 1 insertion(+), 487 deletions(-)
+ delete mode 100644 meta/recipes-devtools/perl-cross/files/0001-configure_func.sh-Add-_GNU_SOURCE-define-and-functio.patch
+ rename meta/recipes-devtools/perl-cross/{perlcross_1.4.bb => perlcross_1.4.1.bb} (86%)
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.188.bb b/meta/recipes-devtools/elfutils/elfutils_0.189.bb
-similarity index 96%
-rename from meta/recipes-devtools/elfutils/elfutils_0.188.bb
-rename to meta/recipes-devtools/elfutils/elfutils_0.189.bb
-index 74271b2411e..236f8cef92d 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.188.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.189.bb
-@@ -21,15 +21,12 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://0001-skip-the-test-when-gcc-not-deployed.patch \
-            file://ptest.patch \
-            file://0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch \
--           file://0001-PR29926-debuginfod-Fix-usage-of-deprecated-CURLINFO_.patch \
--           file://0002-debuginfod-client-Use-CURLOPT_PROTOCOLS_STR-for-libc.patch \
--           file://handle_DW_TAG_unspecified_type.patch \
+diff --git a/meta/recipes-devtools/perl-cross/files/0001-configure_func.sh-Add-_GNU_SOURCE-define-and-functio.patch b/meta/recipes-devtools/perl-cross/files/0001-configure_func.sh-Add-_GNU_SOURCE-define-and-functio.patch
+deleted file mode 100644
+index 893b55e5acd..00000000000
+--- a/meta/recipes-devtools/perl-cross/files/0001-configure_func.sh-Add-_GNU_SOURCE-define-and-functio.patch
++++ /dev/null
+@@ -1,485 +0,0 @@
+-From 65db86f0161c393fd5b082c10837b278adadbff2 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sun, 7 Aug 2022 23:57:20 -0700
+-Subject: [PATCH] configure_func.sh: Add _GNU_SOURCE define and function
+- signatures
+-
+-Modern compilers are getting stricter about include paths and function
+-signature being known duting compilation e.g. clang-15 now errors out if
+-a function signature is not found
+-
+-try.c:1:18: error: call to undeclared function 'getspnam'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+-
+-This causes the test of function to fail even though the function is
+-available in libc. Therefore try to add proper include headers which
+-define these functions and also define _GNU_SOURCE in every test
+-since some of GNU/Linux funtions e.g. accept4 are guarged by this define
+-
+-Upstream-Status: Submitted [https://github.com/arsv/perl-cross/pull/137]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- cnf/configure_func.sh | 41 +++++++++++++++++++++--------------------
+- 1 file changed, 21 insertions(+), 20 deletions(-)
+-
+---- a/cnf/configure_func.sh
+-+++ b/cnf/configure_func.sh
+-@@ -5,6 +5,7 @@ checkfunc() {
+- 	mstart "Checking for $2"
+- 	if not hinted $1 'found' 'missing'; then
+- 		try_start
+-+    try_add '#define _GNU_SOURCE'
+- 		funcincludes "$3" "$4" "$includes"
+- 		try_add "int main(void) { $2($3); return 0; }"
+- 		try_link -O0 -fno-builtin
+-@@ -42,115 +43,115 @@ checkfunc d_chroot 'chroot' "NULL" 'unis
+- checkfunc d_chsize 'chsize' "0,0"
+- checkfunc d_class 'class'
+- checkfunc d_clearenv 'clearenv' "" 'stdlib.h'
+--checkfunc d_closedir 'closedir' "NULL"
+--checkfunc d_crypt 'crypt'
+-+checkfunc d_closedir 'closedir' "NULL" 'dirent.h sys/types.h'
+-+checkfunc d_crypt 'crypt' "NULL,NULL" 'crypt.h'
+- checkfunc d_ctermid 'ctermid'
+- checkfunc d_ctime64 'ctime64'
+- checkfunc d_cuserid 'cuserid'
+--checkfunc d_difftime 'difftime' "0,0"
+-+checkfunc d_difftime 'difftime' "0,0" 'time.h'
+- checkfunc d_difftime64 'difftime64'
+--checkfunc d_dirfd 'dirfd'
+-+checkfunc d_dirfd 'dirfd' "NULL" 'dirent.h sys/types.h'
+- checkfunc d_dladdr 'dladdr' 'NULL, NULL' 'dlfcn.h'
+--checkfunc d_dlerror 'dlerror'
+--checkfunc d_dlopen 'dlopen'
+--checkfunc d_drand48 'drand48'
+-+checkfunc d_dlerror 'dlerror' "" 'dlfcn.h'
+-+checkfunc d_dlopen 'dlopen' "NULL,0" "dlfcn.h"
+-+checkfunc d_drand48 'drand48' "" 'stdlib.h'
+- checkfunc d_dup2 'dup2' "0,0" 'unistd.h'
+- checkfunc d_dup3 'dup3' "0,0,0" 'fcntl.h unistd.h'
+- checkfunc d_duplocale 'duplocale' '0' 'locale.h'
+--checkfunc d_eaccess 'eaccess'
+--checkfunc d_endgrent 'endgrent'
+--checkfunc d_endhent 'endhostent'
+--checkfunc d_endnent 'endnetent'
+--checkfunc d_endpent 'endprotoent'
+--checkfunc d_endpwent 'endpwent'
+--checkfunc d_endservent 'endservent'
+-+checkfunc d_eaccess 'eaccess' "NULL,0" 'unistd.h'
+-+checkfunc d_endgrent 'endgrent' '' 'grp.h sys/types.h'
+-+checkfunc d_endhent 'endhostent' "" 'netdb.h'
+-+checkfunc d_endnent 'endnetent' "" 'netdb.h'
+-+checkfunc d_endpent 'endprotoent' "" 'netdb.h'
+-+checkfunc d_endpwent 'endpwent' "" 'sys/types.h pwd.h'
+-+checkfunc d_endservent 'endservent' "" 'netdb.h'
+- checkfunc d_fchdir 'fchdir' "0" 'unistd.h'
+--checkfunc d_fchmod 'fchmod' "0,0" 'unistd.h'
+--checkfunc d_fchmodat 'fchmodat' "0,NULL,0,0" 'unistd.h'
+-+checkfunc d_fchmod 'fchmod' "0,0" 'unistd.h sys/stat.h'
+-+checkfunc d_fchmodat 'fchmodat' "0,NULL,0,0" 'unistd.h sys/stat.h'
+- checkfunc d_fchown 'fchown' "0,0,0" 'unistd.h'
+- checkfunc d_fcntl 'fcntl' "0,0" 'unistd.h fcntl.h'
+- checkfunc d_fdclose 'fdclose'
+--checkfunc d_ffs 'ffs' 'strings.h'
+--checkfunc d_ffsl 'ffsl' 'strings.h'
+-+checkfunc d_ffs 'ffs' "0" 'strings.h'
+-+checkfunc d_ffsl 'ffsl' "0" 'strings.h'
+- checkfunc d_fgetpos 'fgetpos' "NULL, 0" 'stdio.h'
+--checkfunc d_flock 'flock' "0,0" 'unistd.h'
+-+checkfunc d_flock 'flock' "0,0" 'sys/file.h'
+- checkfunc d_fork 'fork' "" 'unistd.h'
+- checkfunc d_fp_class 'fp_class'
+- checkfunc d_fpathconf 'fpathconf' "0,0" 'unistd.h'
+--checkfunc d_freelocale 'freelocale' '0' 'locale.h'
+--checkfunc d_fseeko 'fseeko' 'NULL,0,0'
+--checkfunc d_fsetpos 'fsetpos' 'NULL,0'
+--checkfunc d_fstatfs 'fstatfs'
+--checkfunc d_fstatvfs 'fstatvfs'
+--checkfunc d_fsync 'fsync'
+--checkfunc d_ftello 'ftello'
+--checkfunc d_futimes 'futimes'
+-+checkfunc d_freelocale 'freelocale' "0" 'locale.h'
+-+checkfunc d_fseeko 'fseeko' "NULL,0,0" 'stdio.h'
+-+checkfunc d_fsetpos 'fsetpos' "NULL,0" 'stdio.h'
+-+checkfunc d_fstatfs 'fstatfs' "0,NULL" 'sys/vfs.h'
+-+checkfunc d_fstatvfs 'fstatvfs' "0,NULL" 'sys/statvfs.h'
+-+checkfunc d_fsync 'fsync' "0" 'unistd.h'
+-+checkfunc d_ftello 'ftello' "NULL" 'stdio.h'
+-+checkfunc d_futimes 'futimes' '0,0' 'sys/time.h'
+- checkfunc d_gai_strerror 'gai_strerror' '0' 'sys/types.h sys/socket.h netdb.h'
+--checkfunc d_getaddrinfo 'getaddrinfo'
+--checkfunc d_get_current_dir_name 'get_current_dir_name'
+--checkfunc d_getcwd 'getcwd' 'NULL,0'
+-+checkfunc d_getaddrinfo 'getaddrinfo' "NULL,NULL,NULL,NULL" 'sys/types.h sys/socket.h netdb.h'
+-+checkfunc d_get_current_dir_name 'get_current_dir_name' "" 'unistd.h'
+-+checkfunc d_getcwd 'getcwd' 'NULL,0' 'unistd.h'
+- checkfunc d_getespwnam 'getespwnam'
+- checkfunc d_getfsstat 'getfsstat'
+--checkfunc d_getgrent 'getgrent'
+--checkfunc d_getgrps 'getgroups'
+--checkfunc d_gethbyaddr 'gethostbyaddr'
+--checkfunc d_gethbyname 'gethostbyname'
+-+checkfunc d_getgrent 'getgrent' "" 'sys/types.h grp.h'
+-+checkfunc d_getgrps 'getgroups' "0,NULL" 'unistd.h'
+-+checkfunc d_gethbyaddr 'gethostbyaddr' "NULL,0,0" 'netdb.h'
+-+checkfunc d_gethbyname 'gethostbyname' "NULL" 'netdb.h'
+- checkfunc d_getnbyaddr 'getnetbyaddr' '0,0' 'netdb.h'
+- checkfunc d_getnbyname 'getnetbyname' 'NULL' 'netdb.h'
+--checkfunc d_gethent 'gethostent'
+--checkfunc d_gethname 'gethostname'
+--checkfunc d_getitimer 'getitimer'
+--checkfunc d_getlogin 'getlogin'
+-+checkfunc d_gethent 'gethostent' "" 'netdb.h'
+-+checkfunc d_gethname 'gethostname' "NULL,0" 'unistd.h'
+-+checkfunc d_getitimer 'getitimer' "0,NULL" 'sys/time.h'
+-+checkfunc d_getlogin 'getlogin' "" 'unistd.h'
+- checkfunc d_getmnt 'getmnt'
+--checkfunc d_getmntent 'getmntent'
+--checkfunc d_getnameinfo 'getnameinfo'
+--checkfunc d_getnent 'getnetent'
+--checkfunc d_getnetbyaddr 'getnetbyaddr'
+--checkfunc d_getnetbyname 'getnetbyname'
+--checkfunc d_getpagsz 'getpagesize'
+-+checkfunc d_getmntent 'getmntent' "NULL" 'stdio.h mntent.h'
+-+checkfunc d_getnameinfo 'getnameinfo' "NULL,0,NULL,0,NULL,0,0" 'sys/socket.h netdb.h'
+-+checkfunc d_getnent 'getnetent' "" 'netdb.h'
+-+checkfunc d_getnetbyaddr 'getnetbyaddr' "0,0" 'netdb.h'
+-+checkfunc d_getnetbyname 'getnetbyname' "NULL" 'netdb.h'
+-+checkfunc d_getpagsz 'getpagesize' "" 'unistd.h'
+- checkfunc d_getpbyaddr 'getprotobyaddr'
+--checkfunc d_getpbyname 'getprotobyname'
+--checkfunc d_getpbynumber 'getprotobynumber'
+--checkfunc d_getpent 'getprotoent'
+--checkfunc d_getpgid 'getpgid'
+-+checkfunc d_getpbyname 'getprotobyname' "NULL" 'netdb.h'
+-+checkfunc d_getpbynumber 'getprotobynumber' "0" 'netdb.h'
+-+checkfunc d_getpent 'getprotoent' "" 'netdb.h'
+-+checkfunc d_getpgid 'getpgid' "0" 'unistd.h'
+- checkfunc d_getpgrp 'getpgrp' "" 'unistd.h'
+- checkfunc d_getpgrp2 'getpgrp2'
+--checkfunc d_getppid 'getppid'
+-+checkfunc d_getppid 'getppid' "" 'unistd.h'
+- checkfunc d_getprior 'getpriority' "0,0" 'sys/time.h sys/resource.h'
+- checkfunc d_getprpwnam 'getprpwnam'
+--checkfunc d_getpwent 'getpwent'
+-+checkfunc d_getpwent 'getpwent' "" 'sys/types.h pwd.h'
+- checkfunc d_getsbyaddr 'getservbyaddr'
+--checkfunc d_getsbyname 'getservbyname'
+--checkfunc d_getsbyport 'getservbyport'
+--checkfunc d_getsent 'getservent'
+--checkfunc d_setsent 'setservent'
+--checkfunc d_endsent 'endservent'
+--checkfunc d_getspnam 'getspnam'
+--checkfunc d_gettimeod 'gettimeofday' 'NULL,NULL'
+-+checkfunc d_getsbyname 'getservbyname' "NULL,NULL" 'netdb.h'
+-+checkfunc d_getsbyport 'getservbyport' "0,NULL" 'netdb.h'
+-+checkfunc d_getsent 'getservent' "" 'netdb.h'
+-+checkfunc d_setsent 'setservent' "0" 'netdb.h'
+-+checkfunc d_endsent 'endservent' "" 'netdb.h'
+-+checkfunc d_getspnam 'getspnam' "NULL" 'shadow.h'
+-+checkfunc d_gettimeod 'gettimeofday' 'NULL,NULL' 'sys/time.h'
+- checkfunc d_gmtime64 'gmtime64'
+--checkfunc d_hasmntopt 'hasmntopt'
+-+checkfunc d_hasmntopt 'hasmntopt' "NULL,NULL" 'stdio.h mntent.h'
+- checkfunc d_htonl 'htonl' "0" 'stdio.h sys/types.h netinet/in.h arpa/inet.h'
+--checkfunc d_ilogbl 'ilogbl'
+-+checkfunc d_ilogbl 'ilogbl' "0.0" 'math.h'
+- checkfunc d_index 'index' "NULL,0" 'string.h strings.h'
+--checkfunc d_inetaton 'inet_aton'
+--checkfunc d_inetntop 'inet_ntop'
+--checkfunc d_inetpton 'inet_pton'
+-+checkfunc d_inetaton 'inet_aton' "NULL,NULL" 'sys/socket.h netinet/in.h arpa/inet.h'
+-+checkfunc d_inetntop 'inet_ntop' "0,NULL,NULL,0" 'arpa/inet.h'
+-+checkfunc d_inetpton 'inet_pton' "0,NULL,NULL" 'arpa/inet.h'
+- checkfunc d_isascii 'isascii' "'A'" 'stdio.h ctype.h'
+- checkfunc d_isblank 'isblank' "' '" 'stdio.h ctype.h'
+--checkfunc d_killpg 'killpg'
+-+checkfunc d_killpg 'killpg' "0,0" 'signal.h'
+- checkfunc d_lchown 'lchown' "NULL, 0, 0" 'unistd.h'
+--checkfunc d_link 'link' 'NULL,NULL'
+--checkfunc d_linkat 'linkat' '0,NULL,0,NULL,0'
+-+checkfunc d_link 'link' 'NULL,NULL' 'unistd.h'
+-+checkfunc d_linkat 'linkat' '0,NULL,0,NULL,0' 'unistd.h'
+- checkfunc d_localtime64 'localtime64'
+- checkfunc d_localeconv_l 'localeconv_l' 'NULL' 'locale.h'
+--checkfunc d_locconv 'localeconv'
+--checkfunc d_lockf 'lockf'
+--checkfunc d_lstat 'lstat'
+--checkfunc d_madvise 'madvise'
+-+checkfunc d_locconv 'localeconv' "" 'locale.h'
+-+checkfunc d_lockf 'lockf' "0,0,0" 'unistd.h'
+-+checkfunc d_lstat 'lstat' "NULL, NULL" 'sys/stat.h'
+-+checkfunc d_madvise 'madvise' "NULL,0,0" 'sys/mman.h'
+- checkfunc d_malloc_good_size 'malloc_good_size'
+- checkfunc d_malloc_size 'malloc_size'
+- checkfunc d_mblen 'mblen' '"", 0' 'stdlib.h'
+--checkfunc d_mbstowcs 'mbstowcs'
+-+checkfunc d_mbstowcs 'mbstowcs' "NULL,NULL,0"
+- checkfunc d_mbtowc 'mbtowc' 'NULL, NULL, 0' 'stdlib.h'
+- checkfunc d_mbrlen 'mbrlen' 'NULL, 0, NULL' 'wchar.h'
+- checkfunc d_mbrtowc 'mbrtowc' 'NULL, NULL, 0, NULL' 'wchar.h'
+-@@ -161,152 +162,152 @@ checkfunc d_memmem 'memmem' "NULL, 0, NU
+- checkfunc d_memmove 'memmove' "NULL, NULL, 0" 'string.h'
+- checkfunc d_memrchr 'memrchr' "NULL, 0, 0" 'string.h'
+- checkfunc d_memset 'memset' "NULL, 0, 0" 'string.h'
+--checkfunc d_mkdir 'mkdir' 'NULL, 0'
+--checkfunc d_mkdtemp 'mkdtemp'
+--checkfunc d_mkfifo 'mkfifo'
+-+checkfunc d_mkdir 'mkdir' 'NULL, 0' 'sys/stat.h'
+-+checkfunc d_mkdtemp 'mkdtemp' 'NULL'
+-+checkfunc d_mkfifo 'mkfifo' 'NULL,0' 'sys/types.h sys/stat.h'
+- checkfunc d_mkostemp 'mkostemp' 'NULL,0' 'stdlib.h'
+- checkfunc d_mkstemp 'mkstemp' 'NULL'
+--checkfunc d_mkstemps 'mkstemps'
+--checkfunc d_mktime 'mktime' 'NULL'
+-+checkfunc d_mkstemps 'mkstemps' 'NULL,0'
+-+checkfunc d_mktime 'mktime' 'NULL' 'time.h'
+- checkfunc d_mktime64 'mktime64'
+--checkfunc d_mmap 'mmap'
+--checkfunc d_mprotect 'mprotect'
+--checkfunc d_msgctl 'msgctl'
+--checkfunc d_msgget 'msgget'
+--checkfunc d_msgrcv 'msgrcv'
+--checkfunc d_msgsnd 'msgsnd'
+--checkfunc d_msync 'msync'
+--checkfunc d_munmap 'munmap'
+-+checkfunc d_mmap 'mmap' 'NULL,0,0,0,0,0' 'sys/mman.h'
+-+checkfunc d_mprotect 'mprotect' 'NULL,0,0' 'sys/mman.h'
+-+checkfunc d_msgctl 'msgctl' '0,0,NULL' 'sys/msg.h'
+-+checkfunc d_msgget 'msgget' '0,0' 'sys/msg.h'
+-+checkfunc d_msgrcv 'msgrcv' '0,NULL,0,0,0' 'sys/msg.h'
+-+checkfunc d_msgsnd 'msgsnd' '0,NULL,0,0' 'sys/msg.h'
+-+checkfunc d_msync 'msync' 'NULL,0,0' 'sys/mman.h'
+-+checkfunc d_munmap 'munmap' 'NULL,0' 'sys/mman.h'
+- checkfunc d_newlocale 'newlocale' '0,NULL,0' 'locale.h'
+--checkfunc d_nice 'nice' '0'
+--checkfunc d_nl_langinfo 'nl_langinfo'
+--checkfunc d_nl_langinfo_l 'nl_langinfo_l'
+-+checkfunc d_nice 'nice' '0' 'unistd.h'
+-+checkfunc d_nl_langinfo 'nl_langinfo' '0' 'langinfo.h'
+-+checkfunc d_nl_langinfo_l 'nl_langinfo_l' '0,0' 'langinfo.h'
+- checkfunc d_open 'open' "NULL,0,0" 'sys/types.h sys/stat.h fcntl.h'
+- checkfunc d_openat 'openat' "0,NULL,0,0" 'sys/types.h sys/stat.h fcntl.h'
+--checkfunc d_pathconf 'pathconf'
+--checkfunc d_pause 'pause'
+-+checkfunc d_pathconf 'pathconf' 'NULL,0' 'unistd.h'
+-+checkfunc d_pause 'pause' '' 'unistd.h'
+- checkfunc d_pipe 'pipe' 'NULL' 'fcntl.h unistd.h'
+- checkfunc d_pipe2 'pipe' 'NULL,0' 'fcntl.h unistd.h'
+--checkfunc d_poll 'poll'
+--checkfunc d_prctl 'prctl'
+--checkfunc d_pthread_atfork 'pthread_atfork'
+--checkfunc d_pthread_attr_setscope 'pthread_attr_setscope'
+--checkfunc d_pthread_yield 'pthread_yield'
+-+checkfunc d_poll 'poll' 'NULL,0,0' 'poll.h'
+-+checkfunc d_prctl 'prctl' '0,0,0,0,0' 'sys/prctl.h'
+-+checkfunc d_pthread_atfork 'pthread_atfork' 'NULL,NULL,NULL' 'pthread.h'
+-+checkfunc d_pthread_attr_setscope 'pthread_attr_setscope' 'NULL,0' 'pthread.h'
+-+checkfunc d_pthread_yield 'pthread_yield' '' 'pthread.h'
+- checkfunc d_querylocale 'querylocale'
+- checkfunc d_qgcvt 'qgcvt' '1.0,1,NULL'
+--checkfunc d_rand 'rand'
+--checkfunc d_random 'random'
+--checkfunc d_re_comp 're_comp'
+--checkfunc d_readdir 'readdir' 'NULL'
+--checkfunc d_readlink 'readlink'
+--checkfunc d_realpath 'realpath'
+--checkfunc d_readv 'readv'
+--checkfunc d_recvmsg 'recvmsg'
+-+checkfunc d_rand 'rand' '' 'stdlib.h'
+-+checkfunc d_random 'random' '' 'stdlib.h'
+-+checkfunc d_re_comp 're_comp' 'NULL' 'sys/types.h regex.h'
+-+checkfunc d_readdir 'readdir' 'NULL' 'dirent.h'
+-+checkfunc d_readlink 'readlink' 'NULL,NULL,0' 'unistd.h'
+-+checkfunc d_realpath 'realpath' 'NULL,NULL' 'limits.h stdlib.h'
+-+checkfunc d_readv 'readv' '0,NULL,0' 'sys/uio.h'
+-+checkfunc d_recvmsg 'recvmsg' '0,NULL,0' 'sys/socket.h'
+- checkfunc d_regcmp 'regcmp'
+--checkfunc d_regcomp 'regcomp'
+--checkfunc d_rename 'rename' 'NULL,NULL'
+--checkfunc d_renameat 'renameat' '0,NULL,0,NULL'
+--checkfunc d_rewinddir 'rewinddir'
+--checkfunc d_rmdir 'rmdir' 'NULL'
+--checkfunc d_sched_yield 'sched_yield'
+--checkfunc d_seekdir 'seekdir'
+--checkfunc d_select 'select' '0,NULL,NULL,NULL,NULL'
+--checkfunc d_semctl 'semctl'
+--checkfunc d_semget 'semget'
+--checkfunc d_semop 'semop'
+--checkfunc d_sendmsg 'sendmsg'
+--checkfunc d_setegid 'setegid'
+--checkfunc d_setent 'setservent'
+--checkfunc d_setenv 'setenv'
+--checkfunc d_seteuid 'seteuid'
+--checkfunc d_setgrent 'setgrent'
+--checkfunc d_setgrps 'setgroups'
+--checkfunc d_sethent 'sethostent'
+--checkfunc d_setitimer 'setitimer'
+--checkfunc d_setlinebuf 'setlinebuf'
+-+checkfunc d_regcomp 'regcomp' 'NULL,NULL,0' 'regex.h'
+-+checkfunc d_rename 'rename' 'NULL,NULL' 'stdio.h'
+-+checkfunc d_renameat 'renameat' '0,NULL,0,NULL' 'fcntl.h stdio.h'
+-+checkfunc d_rewinddir 'rewinddir' 'NULL' 'sys/types.h dirent.h'
+-+checkfunc d_rmdir 'rmdir' 'NULL' 'unistd.h'
+-+checkfunc d_sched_yield 'sched_yield' '' 'sched.h'
+-+checkfunc d_seekdir 'seekdir' 'NULL,0' 'dirent.h'
+-+checkfunc d_select 'select' '0,NULL,NULL,NULL,NULL' 'sys/select.h'
+-+checkfunc d_semctl 'semctl' '0,0,0, NULL' 'sys/sem.h'
+-+checkfunc d_semget 'semget' '0,0,0' 'sys/sem.h'
+-+checkfunc d_semop 'semop' '0,NULL,0' 'sys/sem.h'
+-+checkfunc d_sendmsg 'sendmsg' '0,NULL,0' 'sys/socket.h'
+-+checkfunc d_setegid 'setegid' '0' 'unistd.h'
+-+checkfunc d_setent 'setservent' '0' 'netdb.h'
+-+checkfunc d_setenv 'setenv' 'NULL,NULL,0'
+-+checkfunc d_seteuid 'seteuid' '0' 'unistd.h'
+-+checkfunc d_setgrent 'setgrent' '' 'sys/types.h grp.h'
+-+checkfunc d_setgrps 'setgroups' '0,NULL' 'unistd.h grp.h'
+-+checkfunc d_sethent 'sethostent' '0' 'netdb.h'
+-+checkfunc d_setitimer 'setitimer' '0,NULL,NULL' 'sys/time.h'
+-+checkfunc d_setlinebuf 'setlinebuf' 'NULL' 'stdio.h'
+- checkfunc d_setlocale 'setlocale' "0,NULL" 'locale.h'
+--checkfunc d_setnent 'setnetent'
+--checkfunc d_setpent 'setprotoent'
+--checkfunc d_setpgid 'setpgid'
+--checkfunc d_setpgrp 'setpgrp'
+-+checkfunc d_setnent 'setnetent' '0' 'netdb.h'
+-+checkfunc d_setpent 'setprotoent' '0' 'netdb.h'
+-+checkfunc d_setpgid 'setpgid' '0,0' 'unistd.h'
+-+checkfunc d_setpgrp 'setpgrp' '' 'unistd.h'
+- checkfunc d_setpgrp2 'setpgrp2'
+--checkfunc d_setprior 'setpriority'
+--checkfunc d_setproctitle 'setproctitle'
+--checkfunc d_setpwent 'setpwent'
+--checkfunc d_setregid 'setregid'
+--checkfunc d_setresgid 'setresgid'
+--checkfunc d_setresuid 'setresuid'
+--checkfunc d_setreuid 'setreuid'
+--checkfunc d_setrgid 'setrgid'
+-+checkfunc d_setprior 'setpriority' '0,0,0' 'sys/resource.h'
+-+checkfunc d_setproctitle 'setproctitle' 'NULL,NULL' 'sys/types.h unistd.h'
+-+checkfunc d_setpwent 'setpwent' '' 'sys/types.h pwd.h'
+-+checkfunc d_setregid 'setregid' '0,0' 'unistd.h'
+-+checkfunc d_setresgid 'setresgid' '0,0,0' 'unistd.h'
+-+checkfunc d_setresuid 'setresuid' '0,0,0' 'unistd.h'
+-+checkfunc d_setreuid 'setreuid' '0,0' 'unistd.h'
+-+checkfunc d_setrgid 'setrgid' ''
+- checkfunc d_setruid 'setruid'
+--checkfunc d_setsid 'setsid'
+--checkfunc d_setvbuf 'setvbuf' 'NULL,NULL,0,0'
+-+checkfunc d_setsid 'setsid' '' 'unistd.h'
+-+checkfunc d_setvbuf 'setvbuf' 'NULL,NULL,0,0' 'stdio.h'
+- checkfunc d_sfreserve 'sfreserve' "" 'sfio.h'
+--checkfunc d_shmat 'shmat'
+--checkfunc d_shmctl 'shmctl'
+--checkfunc d_shmdt 'shmdt'
+--checkfunc d_shmget 'shmget'
+--checkfunc d_sigaction 'sigaction'
+--checkfunc d_sigprocmask 'sigprocmask'
+-+checkfunc d_shmat 'shmat' '0,NULL,0' 'sys/shm.h'
+-+checkfunc d_shmctl 'shmctl' '0,0,NULL' 'sys/shm.h'
+-+checkfunc d_shmdt 'shmdt' 'NULL' 'sys/shm.h'
+-+checkfunc d_shmget 'shmget' '0,0,0' 'sys/shm.h'
+-+checkfunc d_sigaction 'sigaction' '0,NULL,NULL' 'signal.h'
+-+checkfunc d_sigprocmask 'sigprocmask' '0,NULL,NULL' 'signal.h'
+- checkfunc d_sigsetjmp 'sigsetjmp' "NULL,0" 'setjmp.h'
+--checkfunc d_snprintf 'snprintf'
+--checkfunc d_sockatmark 'sockatmark'
+-+checkfunc d_snprintf 'snprintf' 'NULL,0,NULL' 'stdio.h'
+-+checkfunc d_sockatmark 'sockatmark' '0' 'sys/socket.h'
+- checkfunc d_socket 'socket' "0,0,0" 'sys/types.h sys/socket.h'
+--checkfunc d_sockpair 'socketpair'
+-+checkfunc d_sockpair 'socketpair' '0,0,0,NULL' 'sys/socket.h'
+- checkfunc d_socks5_init 'socks5_init'
+--checkfunc d_stat 'stat'
+--checkfunc d_statvfs 'statvfs'
+-+checkfunc d_stat 'stat' 'NULL,NULL' 'sys/stat.h'
+-+checkfunc d_statvfs 'statvfs' 'NULL,NULL' 'sys/statvfs.h'
+- checkfunc d_strchr 'strchr' "NULL,0" 'string.h strings.h'
+- checkfunc d_strcoll 'strcoll' "NULL,NULL" 'string.h'
+- checkfunc d_strerror 'strerror' "0" 'string.h stdlib.h'
+--checkfunc d_strerror_l 'strerror_l'
+-+checkfunc d_strerror_l 'strerror_l' '0,NULL' 'string.h'
+- checkfunc d_strftime 'strftime' "NULL,0,NULL,NULL" 'time.h'
+--checkfunc d_strlcat 'strlcat'
+--checkfunc d_strlcpy 'strlcpy'
+-+checkfunc d_strlcat 'strlcat' 'NULL,NULL,0' 'string.h'
+-+checkfunc d_strlcpy 'strlcpy' 'NULL,NULL,0' 'string.h'
+- checkfunc d_strnlen 'strnlen' '"",0' 'string.h'
+- checkfunc d_strtod 'strtod' 'NULL,NULL'
+- checkfunc d_strtod_l 'strtod_l'
+- checkfunc d_strtol 'strtol' 'NULL,NULL,0'
+--checkfunc d_strtold 'strtold'
+-+checkfunc d_strtold 'strtold' 'NULL,NULL'
+- checkfunc d_strtold_l 'strtold_l'
+--checkfunc d_strtoll 'strtoll'
+--checkfunc d_strtoq 'strtoq'
+-+checkfunc d_strtoll 'strtoll' 'NULL,NULL,0'
+-+checkfunc d_strtoq 'strtoq' 'NULL,NULL,0'
+- checkfunc d_strtoul 'strtoul' 'NULL,NULL,0'
+- checkfunc d_strtoull 'strtoull' 'NULL,NULL,0'
+--checkfunc d_strtouq 'strtouq'
+--checkfunc d_strxfrm 'strxfrm'
+--checkfunc d_strxfrm_l 'strxfrm_l'
+--checkfunc d_symlink 'symlink'
+--checkfunc d_syscall 'syscall'
+--checkfunc d_sysconf 'sysconf' '0'
+-+checkfunc d_strtouq 'strtouq' 'NULL,NULL,0'
+-+checkfunc d_strxfrm 'strxfrm' 'NULL,NULL,0' 'string.h'
+-+checkfunc d_strxfrm_l 'strxfrm_l' 'NULL,NULL,0,NULL' 'string.h'
+-+checkfunc d_symlink 'symlink' 'NULL,NULL' 'unistd.h'
+-+checkfunc d_syscall 'syscall' '0,NULL' 'sys/syscall.h unistd.h'
+-+checkfunc d_sysconf 'sysconf' '0' 'unistd.h'
+- checkfunc d_system 'system' 'NULL'
+--checkfunc d_tcgetpgrp 'tcgetpgrp'
+--checkfunc d_tcsetpgrp 'tcsetpgrp'
+--checkfunc d_telldir 'telldir'
+--checkfunc d_time 'time' 'NULL'
+--checkfunc d_timegm 'timegm'
+--checkfunc d_times 'times' 'NULL'
+-+checkfunc d_tcgetpgrp 'tcgetpgrp' '0' 'unistd.h'
+-+checkfunc d_tcsetpgrp 'tcsetpgrp' '0,0' 'unistd.h'
+-+checkfunc d_telldir 'telldir' 'NULL' 'dirent.h'
+-+checkfunc d_time 'time' 'NULL' 'time.h'
+-+checkfunc d_timegm 'timegm' 'NULL' 'time.h'
+-+checkfunc d_times 'times' 'NULL' 'sys/times.h'
+- checkfunc d_towlower 'towlower' '0' 'wctype.h'
+- checkfunc d_towupper 'towupper' '0' 'wctype.h'
+--checkfunc d_truncate 'truncate' 'NULL,0'
+--checkfunc d_ualarm 'ualarm'
+--checkfunc d_umask 'umask' '0'
+--checkfunc d_uname 'uname'
+--checkfunc d_unlinkat 'unlinkat' '0,NULL,0'
+-+checkfunc d_truncate 'truncate' 'NULL,0' 'unistd.h'
+-+checkfunc d_ualarm 'ualarm' 'NULL,NULL' 'unistd.h'
+-+checkfunc d_umask 'umask' '0' 'sys/stat.h'
+-+checkfunc d_uname 'uname' 'NULL' 'sys/utsname.h'
+-+checkfunc d_unlinkat 'unlinkat' '0,NULL,0' 'unistd.h fcntl.h'
+- checkfunc d_unordered 'unordered'
+--checkfunc d_unsetenv 'unsetenv'
+-+checkfunc d_unsetenv 'unsetenv' 'NULL'
+- checkfunc d_uselocale 'uselocale' '0' 'locale.h'
+--checkfunc d_usleep 'usleep'
+--checkfunc d_ustat 'ustat'
+-+checkfunc d_usleep 'usleep' '0' 'unistd.h'
+-+checkfunc d_ustat 'ustat' '0,NULL' 'sys/types.h unistd.h'
+- define d_vfork 'undef' # unnecessary
+--checkfunc d_vprintf 'vprintf' 'NULL,0'
+--checkfunc d_vsnprintf 'vsnprintf'
+--checkfunc d_wait4 'wait4'
+--checkfunc d_waitpid 'waitpid' '0,NULL,0'
+--checkfunc d_wcrtomb 'wcrtomb'
+--checkfunc d_wcscmp 'wcscmp'
+--checkfunc d_wcstombs 'wcstombs' 'NULL,NULL,0'
+--checkfunc d_wcsxfrm 'wcsxfrm'
+--checkfunc d_wctomb 'wctomb'
+--checkfunc d_writev 'writev'
+-+checkfunc d_vprintf 'vprintf' 'NULL,0' 'stdio.h'
+-+checkfunc d_vsnprintf 'vsnprintf' 'NULL,0,NULL,NULL' 'stdio.h'
+-+checkfunc d_wait4 'wait4' '0,NULL,0,NULL' 'sys/wait.h'
+-+checkfunc d_waitpid 'waitpid' '0,NULL,0' 'sys/wait.h'
+-+checkfunc d_wcrtomb 'wcrtomb' 'NULL,0,NULL' 'wchar.h'
+-+checkfunc d_wcscmp 'wcscmp' 'NULL,NULL' 'wchar.h'
+-+checkfunc d_wcstombs 'wcstombs' 'NULL,NULL,0' 'wchar.h'
+-+checkfunc d_wcsxfrm 'wcsxfrm' 'NULL,NULL,0' 'wchar.h'
+-+checkfunc d_wctomb 'wctomb' 'NULL,NULL' 'wchar.h'
+-+checkfunc d_writev 'writev' '0,NULL,0' 'sys/uio.h'
+- unset includes
+diff --git a/meta/recipes-devtools/perl-cross/perlcross_1.4.bb b/meta/recipes-devtools/perl-cross/perlcross_1.4.1.bb
+similarity index 86%
+rename from meta/recipes-devtools/perl-cross/perlcross_1.4.bb
+rename to meta/recipes-devtools/perl-cross/perlcross_1.4.1.bb
+index 98a8fa3f8a9..6bf056cc159 100644
+--- a/meta/recipes-devtools/perl-cross/perlcross_1.4.bb
++++ b/meta/recipes-devtools/perl-cross/perlcross_1.4.1.bb
+@@ -15,11 +15,10 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/perl-cross-${PV}.tar.gz;name=perl-c
+            file://0001-perl-cross-add-LDFLAGS-when-linking-libperl.patch \
+            file://determinism.patch \
+            file://0001-Makefile-check-the-file-if-patched-or-not.patch \
+-           file://0001-configure_func.sh-Add-_GNU_SOURCE-define-and-functio.patch \
             "
- SRC_URI:append:libc-musl = " \
-            file://0003-musl-utils.patch \
-            file://0015-config-eu.am-do-not-use-Werror.patch \
-            "
--SRC_URI[sha256sum] = "fb8b0e8d0802005b9a309c60c1d8de32dd2951b56f0c3a3cb56d21ce01595dff"
-+SRC_URI[sha256sum] = "39bd8f1a338e2b7cd4abc3ff11a0eddc6e690f69578a57478d8179b4148708c8"
+ GITHUB_BASE_URI = "https://github.com/arsv/perl-cross/releases/"
  
- inherit autotools gettext ptest pkgconfig
+-SRC_URI[perl-cross.sha256sum] = "be9d9f9f7148edff7a2f9695ba3cb7e3975eff6b25a9a81dd311725fd757aa91"
++SRC_URI[perl-cross.sha256sum] = "3e14bb4f28c83586c668c5f9f6b4e57b138b4ec2fae0271086e29d4e352670ca"
  
-diff --git a/meta/recipes-devtools/elfutils/files/0001-PR29926-debuginfod-Fix-usage-of-deprecated-CURLINFO_.patch b/meta/recipes-devtools/elfutils/files/0001-PR29926-debuginfod-Fix-usage-of-deprecated-CURLINFO_.patch
-deleted file mode 100644
-index ee192e35816..00000000000
---- a/meta/recipes-devtools/elfutils/files/0001-PR29926-debuginfod-Fix-usage-of-deprecated-CURLINFO_.patch
-+++ /dev/null
-@@ -1,49 +0,0 @@
--From d2bf497b12fbd49b4996ccf0744303ffd67735b1 Mon Sep 17 00:00:00 2001
--From: Andrew Paprocki <andrew@ishiboo.com>
--Date: Wed, 21 Dec 2022 11:15:00 -0500
--Subject: [PATCH] PR29926: debuginfod: Fix usage of deprecated CURLINFO_*
--
--The `CURLINFO_SIZE_DOWNLOAD_T` and `CURLINFO_CONTENT_LENGTH_DOWNLOAD_T`
--identifiers are `enum`s, not pre-processor definitions, so the current
--`#ifdef` logic is not selecting the newer API.  This results in the
--older identifiers being used and they now generate errors when compiled
--against Curl 7.87, which has silently deprecated them, causing GCC to
--emit `-Werror=deprecated-declarations`.
--
--Instead, the newer identifiers were added in Curl 7.55, so explicitly
--check for `CURL_AT_LEAST_VERSION(7, 55, 0)` instead of the current
--logic.  This eliminates the error when compiling against Curl 7.87.
--
--Ref: https://github.com/curl/curl/pull/1511
--
--Upstream-Status: Backport [https://sourceware.org/git/?p=elfutils.git;a=commit;h=d2bf497b12fbd49b4996ccf0744303ffd67735b1]
--Signed-off-by: Andrew Paprocki <andrew@ishiboo.com>
-----
-- debuginfod/debuginfod-client.c | 4 ++--
-- 2 files changed, 6 insertions(+), 2 deletions(-)
--
--diff --git a/debuginfod/debuginfod-client.c b/debuginfod/debuginfod-client.c
--index 8873fcc8..692aecce 100644
----- a/debuginfod/debuginfod-client.c
--+++ b/debuginfod/debuginfod-client.c
--@@ -1456,7 +1456,7 @@ debuginfod_query_server (debuginfod_client *c,
--              deflate-compressing proxies, this number is likely to be
--              unavailable, so -1 may show. */
--           CURLcode curl_res;
---#ifdef CURLINFO_CONTENT_LENGTH_DOWNLOAD_T
--+#if CURL_AT_LEAST_VERSION(7, 55, 0)
--           curl_off_t cl;
--           curl_res = curl_easy_getinfo(target_handle,
--                                        CURLINFO_CONTENT_LENGTH_DOWNLOAD_T,
--@@ -1491,7 +1491,7 @@ debuginfod_query_server (debuginfod_client *c,
--           if (target_handle) /* we've committed to a server; report its download progress */
--             {
--               CURLcode curl_res;
---#ifdef CURLINFO_SIZE_DOWNLOAD_T
--+#if CURL_AT_LEAST_VERSION(7, 55, 0)
--               curl_off_t dl;
--               curl_res = curl_easy_getinfo(target_handle,
--                                            CURLINFO_SIZE_DOWNLOAD_T,
---- 
--2.39.1
--
-diff --git a/meta/recipes-devtools/elfutils/files/0002-debuginfod-client-Use-CURLOPT_PROTOCOLS_STR-for-libc.patch b/meta/recipes-devtools/elfutils/files/0002-debuginfod-client-Use-CURLOPT_PROTOCOLS_STR-for-libc.patch
-deleted file mode 100644
-index 2d4c912e824..00000000000
---- a/meta/recipes-devtools/elfutils/files/0002-debuginfod-client-Use-CURLOPT_PROTOCOLS_STR-for-libc.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From 6560fb26a62ef135a804357ef4f15a47de3e49b3 Mon Sep 17 00:00:00 2001
--From: Mark Wielaard <mark@klomp.org>
--Date: Tue, 10 Jan 2023 23:20:41 +0100
--Subject: [PATCH] debuginfod-client: Use CURLOPT_PROTOCOLS_STR for libcurl >= 7.85.0
--
--https://sourceware.org/bugzilla/show_bug.cgi?id=29926
--
--Upstream-Status: Backport [https://sourceware.org/git/?p=elfutils.git;a=commit;h=6560fb26a62ef135a804357ef4f15a47de3e49b3]
--Signed-off-by: Mark Wielaard <mark@klomp.org>
-----
-- debuginfod/debuginfod-client.c | 5 +++++
-- 2 files changed, 10 insertions(+)
--
--diff --git a/debuginfod/debuginfod-client.c b/debuginfod/debuginfod-client.c
--index a16165bd..1ce45632 100644
----- a/debuginfod/debuginfod-client.c
--+++ b/debuginfod/debuginfod-client.c
--@@ -1336,8 +1336,13 @@ debuginfod_query_server (debuginfod_client *c,
-- 
--       /* Only allow http:// + https:// + file:// so we aren't being
-- 	 redirected to some unsupported protocol.  */
--+#if CURL_AT_LEAST_VERSION(7, 85, 0)
--+      curl_easy_setopt_ck(data[i].handle, CURLOPT_PROTOCOLS_STR,
--+			  "http,https,file");
--+#else
--       curl_easy_setopt_ck(data[i].handle, CURLOPT_PROTOCOLS,
-- 			  (CURLPROTO_HTTP | CURLPROTO_HTTPS | CURLPROTO_FILE));
--+#endif
--       curl_easy_setopt_ck(data[i].handle, CURLOPT_URL, data[i].url);
--       if (vfd >= 0)
-- 	curl_easy_setopt_ck(data[i].handle, CURLOPT_ERRORBUFFER,
---- 
--2.39.1
--
-diff --git a/meta/recipes-devtools/elfutils/files/0003-musl-utils.patch b/meta/recipes-devtools/elfutils/files/0003-musl-utils.patch
-index 1c7cde6d7dd..93f5bdcd00e 100644
---- a/meta/recipes-devtools/elfutils/files/0003-musl-utils.patch
-+++ b/meta/recipes-devtools/elfutils/files/0003-musl-utils.patch
-@@ -1,4 +1,4 @@
--From 81da32c3404b58cbad7b3af00854e0cf2dc3dbf1 Mon Sep 17 00:00:00 2001
-+From 262ac90394e36e0b4e86042d9c5385703f5b6536 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Fri, 23 Aug 2019 10:19:48 +0800
- Subject: [PATCH] musl-utils
-@@ -22,7 +22,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  4 files changed, 29 insertions(+)
+ S = "${WORKDIR}/perl-cross-${PV}"
  
- diff --git a/src/arlib.h b/src/arlib.h
--index e117166..8326f6c 100644
-+index d4a4221..f6336d9 100644
- --- a/src/arlib.h
- +++ b/src/arlib.h
- @@ -29,6 +29,12 @@
-@@ -39,7 +39,7 @@ index e117166..8326f6c 100644
-  /* State of -D/-U flags.  */
-  extern bool arlib_deterministic_output;
- diff --git a/src/elfcompress.c b/src/elfcompress.c
--index 92f2fac..0b037a5 100644
-+index 18ade66..a6ed4e1 100644
- --- a/src/elfcompress.c
- +++ b/src/elfcompress.c
- @@ -37,6 +37,13 @@
-@@ -57,10 +57,10 @@ index 92f2fac..0b037a5 100644
-  ARGP_PROGRAM_VERSION_HOOK_DEF = print_version;
-  
- diff --git a/src/strip.c b/src/strip.c
--index 30a1f9d..e89a7f0 100644
-+index 2a2cc80..8e9f773 100644
- --- a/src/strip.c
- +++ b/src/strip.c
--@@ -46,6 +46,13 @@
-+@@ -45,6 +45,13 @@
-  #include <system.h>
-  #include <printversion.h>
-  
-@@ -75,10 +75,10 @@ index 30a1f9d..e89a7f0 100644
-  
-  /* Name and version of program.  */
- diff --git a/src/unstrip.c b/src/unstrip.c
--index 3472637..40c73f3 100644
-+index d5bd182..d797823 100644
- --- a/src/unstrip.c
- +++ b/src/unstrip.c
--@@ -52,6 +52,15 @@
-+@@ -51,6 +51,15 @@
-  #include "libeu.h"
-  #include "printversion.h"
-  
-diff --git a/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch b/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
-index a7715587db7..bf8bd7bd958 100644
---- a/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
-+++ b/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
-@@ -1,4 +1,4 @@
--From ff6ab57ba5dd37947ef1ffe5de7af5dbebfeb4e9 Mon Sep 17 00:00:00 2001
-+From c209233857a73970d7a7dd8da664903570efc7ea Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 22 Jun 2020 21:35:16 +0000
- Subject: [PATCH] config/eu.am: do not use -Werror
-@@ -16,18 +16,18 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 2 deletions(-)
- 
- diff --git a/config/eu.am b/config/eu.am
--index 58cd3c4..ac42390 100644
-+index e6c241f..4136e7c 100644
- --- a/config/eu.am
- +++ b/config/eu.am
--@@ -91,7 +91,6 @@ AM_CFLAGS = -std=gnu99 -Wall -Wshadow -Wformat=2 \
-- 	    -Wold-style-definition -Wstrict-prototypes $(TRAMPOLINES_WARNING) \
-+@@ -99,7 +99,6 @@ AM_CFLAGS = -std=gnu99 -Wall -Wshadow -Wformat=2 \
-  	    $(LOGICAL_OP_WARNING) $(DUPLICATED_COND_WARNING) \
-  	    $(NULL_DEREFERENCE_WARNING) $(IMPLICIT_FALLTHROUGH_WARNING) \
-+ 	    $(USE_AFTER_FREE3_WARNING) \
- -	    $(if $($(*F)_no_Werror),,-Werror) \
-  	    $(if $($(*F)_no_Wunused),,-Wunused -Wextra) \
-  	    $(if $($(*F)_no_Wstack_usage),,$(STACK_USAGE_WARNING)) \
-  	    $(if $($(*F)_no_Wpacked_not_aligned),$(NO_PACKED_NOT_ALIGNED_WARNING),) \
--@@ -101,7 +100,6 @@ AM_CXXFLAGS = -std=c++11 -Wall -Wshadow \
-+@@ -109,7 +108,6 @@ AM_CXXFLAGS = -std=c++11 -Wall -Wshadow \
-  	   $(TRAMPOLINES_WARNING) \
-  	   $(LOGICAL_OP_WARNING) $(DUPLICATED_COND_WARNING) \
-  	   $(NULL_DEREFERENCE_WARNING) $(IMPLICIT_FALLTHROUGH_WARNING) \
-diff --git a/meta/recipes-devtools/elfutils/files/handle_DW_TAG_unspecified_type.patch b/meta/recipes-devtools/elfutils/files/handle_DW_TAG_unspecified_type.patch
-deleted file mode 100644
-index 8cab01c29a0..00000000000
---- a/meta/recipes-devtools/elfutils/files/handle_DW_TAG_unspecified_type.patch
-+++ /dev/null
-@@ -1,88 +0,0 @@
--From: Mark Wielaard <mark@klomp.org>
--Date: Thu, 26 Jan 2023 17:19:15 +0000 (+0100)
--Subject: backends: Handle DW_TAG_unspecified_type in dwarf_peeled_die_type
--X-Git-Url: https://sourceware.org/git/?p=elfutils.git;a=commitdiff_plain;h=f2c522567ad63ac293535fba9704895e685ab5bc;hp=3fa98a6f29b0f370e32549ead7eb897c839af980
--
--backends: Handle DW_TAG_unspecified_type in dwarf_peeled_die_type
--
--binutils 2.40 introduces DW_TAG_unspecified_type for assembly
--functions with an unknown return type. This breaks the
--run-funcretval.sh testcase because dwfl_module_return_value_location
--returns an error for such functions because it cannot determine the
--return value location. Fix that by treating DW_TAG_unspecified_type
--as if the DIE doesn't have a DW_AT_type.
--
--Also update the testcase to explicitly checking for
--DW_TAG_unspecified_type and printing "returns unspecified type".
--
--https://sourceware.org/bugzilla/show_bug.cgi?id=30047
--
--Upstream-Status: Backport [https://sourceware.org/git/?p=elfutils.git;a=commitdiff;h=f2c522567ad63ac293535fba9704895e685ab5bc;hp=3fa98a6f29b0f370e32549ead7eb897c839af980]
--Signed-off-by: Mark Wielaard <mark@klomp.org>
-----
--
----- a/backends/libebl_CPU.h
--+++ b/backends/libebl_CPU.h
--@@ -1,5 +1,6 @@
-- /* Common interface for libebl modules.
--    Copyright (C) 2000, 2001, 2002, 2003, 2005, 2013, 2014 Red Hat, Inc.
--+   Copyright (C) 2023 Mark J. Wielaard <mark@klomp.org>
--    This file is part of elfutils.
-- 
--    This file is free software; you can redistribute it and/or modify
--@@ -53,7 +54,9 @@ extern bool (*generic_debugscn_p) (const
--      dwarf_tag (_die); })
-- 
-- /* Get a type die corresponding to DIE.  Peel CV qualifiers off
---   it.  */
--+   it.  Returns zero if the DIE doesn't have a type, or the type
--+   is DW_TAG_unspecified_type.  Returns -1 on error.  Otherwise
--+   returns the result tag DW_AT value.  */
-- static inline int
-- dwarf_peeled_die_type (Dwarf_Die *die, Dwarf_Die *result)
-- {
--@@ -69,7 +72,14 @@ dwarf_peeled_die_type (Dwarf_Die *die, D
--   if (dwarf_peel_type (result, result) != 0)
--     return -1;
-- 
---  return DWARF_TAG_OR_RETURN (result);
--+  if (result == NULL)
--+    return -1;
--+
--+  int tag = dwarf_tag (result);
--+  if (tag == DW_TAG_unspecified_type)
--+    return 0; /* Treat an unspecified type as if there was no type.  */
--+
--+  return tag;
-- }
-- 
-- #endif	/* libebl_CPU.h */
----- a/tests/funcretval.c
--+++ b/tests/funcretval.c
--@@ -1,5 +1,6 @@
-- /* Test program for dwfl_module_return_value_location.
--    Copyright (C) 2005 Red Hat, Inc.
--+   Copyright (C) 2023 Mark J. Wielaard <mark@klomp.org>
--    This file is part of elfutils.
-- 
--    This file is free software; you can redistribute it and/or modify
--@@ -67,7 +68,18 @@ handle_function (Dwarf_Die *funcdie, voi
--     error (EXIT_FAILURE, 0, "dwfl_module_return_value_location: %s",
-- 	   dwfl_errmsg (-1));
--   else if (nlocops == 0)
---    puts ("returns no value");
--+    {
--+      // Check if this is the special unspecified type
--+      // https://sourceware.org/bugzilla/show_bug.cgi?id=30047
--+      Dwarf_Die die_mem, *typedie = &die_mem;
--+      Dwarf_Attribute attr_mem, *attr;
--+      attr = dwarf_attr_integrate (funcdie, DW_AT_type, &attr_mem);
--+      if (dwarf_formref_die (attr, typedie) != NULL
--+	  && dwarf_tag (typedie) == DW_TAG_unspecified_type)
--+	puts ("returns unspecified type");
--+      else
--+	puts ("returns no value");
--+    }
--   else
--     {
--       printf ("return value location:");
 -- 
 2.30.2
 
