@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DDC1C77B7C
-	for <webhook@archiver.kernel.org>; Tue,  9 May 2023 17:24:04 +0000 (UTC)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web11.39301.1683653038726499986
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF905C7EE23
+	for <webhook@archiver.kernel.org>; Tue,  9 May 2023 17:24:03 +0000 (UTC)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web10.39153.1683653030511985163
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 May 2023 10:23:59 -0700
+ Tue, 09 May 2023 10:23:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=JFs9pn3u;
- spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-9659e9bbff5so1113592466b.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 10:23:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=qom1RIZ0;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-965e4be7541so944405766b.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 10:23:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683653037; x=1686245037;
+        d=gmail.com; s=20221208; t=1683653033; x=1686245033;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ztZz4JM5QXgSlpXESpCuM/PQdaHMmttBuRZnJGjxyn8=;
-        b=JFs9pn3uYP/hZ2wiaC+oU18BRBKGxMu5rZZGM/ov79I0sNBjR2O/WbqIq1IuZQ2NTh
-         EfUqyBQGT8RYKDwjRlRKSnC0uwNbr9FvfYcL4ZXrRdl1XKO2H0V4lF1SpjLJmbtAjAn3
-         optfboMIRsTjXfy5lvQbJFpnAChsQBTH6NJVnuScfb4Hts0UbJokiIUn+K23Xb3bUIET
-         ullWjrP/9fnQl5WyLZpRau3ITgKpkQBLu1CYNmm1OXfz6C5ecIF5yVXe/IqtpCcof5Fi
-         E1VD0mbEASazVIMQSsAtRF3I7q+o8h2+HNdzwh0YOujv18JcOKfB26D45eIRJrWgbRee
-         t5yw==
+        bh=fagruRoDG1mQj7Dj9mL3RyBggKJlXDlx3plwCn5ih/s=;
+        b=qom1RIZ0iMhJsQ2AcqLbFipYEJdH5rF88iqV3I3fcgEnwv+k8nCKHHXE1pxm2TELTq
+         gRAD7BzvV0qn+13oq9NpUgyrxBsj/D5KnhSzwYxxkSKPKaYnznWZPUBCvw04FRNfTWUZ
+         elOdJY9TKuS9GtKq6kG2tPeMESIhEKtEiplO3nrZuCyszgm0InRegA31CmFHoLgKTS7/
+         h0AdYYqXmKeFKykaHtIqilulihiW6mU9ZZNhvCYi6IhXKJ9gHpYkRznX410qipIfyMRG
+         d9ZtZCPNDjCfUAGpjJcNGOtjq4agCznW+ELX1tLnGdebEBgC6pewufCCVXko25Ot5ZeH
+         tMzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683653037; x=1686245037;
+        d=1e100.net; s=20221208; t=1683653033; x=1686245033;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ztZz4JM5QXgSlpXESpCuM/PQdaHMmttBuRZnJGjxyn8=;
-        b=Qr+H9Ox8fFuzIurK5z6k9XdrO2hqZmhWfEnrDse45DzCdPw0d+wL9lGNANFhaFHUOE
-         4ynkGQ6bhBwwAiAzWkBQs04fyksnip0S93W2mC5GGNV2isT26O9Cxjk4xU60v08Bq0Sa
-         WkXYqKhsRSTcAc1AzEFSEzAmvW2OM9RS9boV36h4qlB2Q6PF3IJySX2+gbxsbIeOpG2g
-         FSuntnG1ZQH5dv1ClZoC6X4zE3aESncRkyR2IYPo3vkUOXjRwK/R3EOPWVuk7l5tCXbj
-         /ZdC5wxUB7rEVs4R3hop5gz8afsrh0Ko+lUARP3m4XYtsrrqeHagNM9OIfbuEXflMaam
-         N4nQ==
-X-Gm-Message-State: AC+VfDz/fo+B7/zhxk+fh+K/mKp/wg00tG4eSpOL7Y1iCGIU4zsF1fa3
-	JKzmn+6HFhPbqJixU/8kfBvYrPF+iyM=
-X-Google-Smtp-Source: ACHHUZ6wa4deH1lu6AmPcspqYot+AH2WicryKP5yui9ekNbr92jPGVk7w4Z3XONic3F623BPMeriRw==
-X-Received: by 2002:a17:907:5c7:b0:961:be96:b0e6 with SMTP id wg7-20020a17090705c700b00961be96b0e6mr11438215ejb.68.1683653037033;
-        Tue, 09 May 2023 10:23:57 -0700 (PDT)
+        bh=fagruRoDG1mQj7Dj9mL3RyBggKJlXDlx3plwCn5ih/s=;
+        b=W6n4ow4UdGrxK9tzz05ZFA6mC12d2FviTBmuDgSEUuYnu/3m2JU7fygvlfJ7eKrVRu
+         RNVnVvJa9Wn7uyL7GnpOqI0qHUN1fgyMtsvr2LebMBqh8JBPcqbGk9OwAapDXikfNWk6
+         xnU9TSY8d6WoceIgfgz+MHl3Z17dPMdPMgbVAZaulv559+sWvxWfL+xah8g8r433rQj3
+         5txMHVftzG4mN8MU2z2HH0ZUln39MTopLAkvgxnFJmgs1yEzb9wgeSG4RlqpNnF/NQAW
+         CEbJyJVw96SFBqdbKs04d6N1xbiwQy23SWlWpZWaTAYL6D86wBaJTkUoGdcNqhrQQ3Zi
+         tlPA==
+X-Gm-Message-State: AC+VfDy+1R+PSQs4Bpc/LCBF8eYKn4qc1vT2RCIt3OQsfo6o58hHbsdA
+	lck5nMY1db7I0lp2y2/lnYIk+T3Fcxc=
+X-Google-Smtp-Source: ACHHUZ6N/O7URAEHkWQbnbK3EBoPkW9eKBKV0JinFInTl96vIC616nFHTKz+6H3sVbzTIdhHcQ/W4g==
+X-Received: by 2002:a17:907:9718:b0:966:c09:1c57 with SMTP id jg24-20020a170907971800b009660c091c57mr11951325ejc.65.1683653032504;
+        Tue, 09 May 2023 10:23:52 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id jz24-20020a17090775f800b0096347ef816dsm1578252ejc.64.2023.05.09.10.23.56
+        by smtp.gmail.com with ESMTPSA id jz24-20020a17090775f800b0096347ef816dsm1578252ejc.64.2023.05.09.10.23.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 May 2023 10:23:56 -0700 (PDT)
+        Tue, 09 May 2023 10:23:52 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 14/27] rpm: update 4.18.0 -> 4.18.1
-Date: Tue,  9 May 2023 19:23:31 +0200
-Message-Id: <20230509172344.1516743-14-alex@linutronix.de>
+Subject: [PATCH 07/27] btrfs-tools: update 6.1.3 -> 6.3
+Date: Tue,  9 May 2023 19:23:24 +0200
+Message-Id: <20230509172344.1516743-7-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230509172344.1516743-1-alex@linutronix.de>
 References: <20230509172344.1516743-1-alex@linutronix.de>
@@ -61,283 +61,946 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 17:24:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181069
+ <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 17:24:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181062
 
-Drop:
-0001-docs-do-not-build-manpages-requires-pandoc.patch
-(pandoc is now detected from $PATH)
-fifofix.patch
-(upstream fixed the issue)
+Drop patch, as upstream fixed the issue separately.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...olor-setting-for-mips64_n32-binaries.patch | 26 ++++++-------
- ...lib-rpm-as-the-installation-path-for.patch | 30 +++++++-------
- ...o-not-build-manpages-requires-pandoc.patch | 23 -----------
- meta/recipes-devtools/rpm/files/fifofix.patch | 22 -----------
- .../rpm/files/fix-declaration.patch           | 39 +++++++++++++++++++
- .../rpm/{rpm_4.18.0.bb => rpm_4.18.1.bb}      |  7 ++--
- 6 files changed, 70 insertions(+), 77 deletions(-)
- delete mode 100644 meta/recipes-devtools/rpm/files/0001-docs-do-not-build-manpages-requires-pandoc.patch
- delete mode 100644 meta/recipes-devtools/rpm/files/fifofix.patch
- create mode 100644 meta/recipes-devtools/rpm/files/fix-declaration.patch
- rename meta/recipes-devtools/rpm/{rpm_4.18.0.bb => rpm_4.18.1.bb} (97%)
+ ...-ftruncate-stat-instead-of-64bit-equ.patch | 903 ------------------
+ ...trfs-tools_6.1.3.bb => btrfs-tools_6.3.bb} |   3 +-
+ 2 files changed, 1 insertion(+), 905 deletions(-)
+ delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Use-pread-pwrite-ftruncate-stat-instead-of-64bit-equ.patch
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_6.1.3.bb => btrfs-tools_6.3.bb} (95%)
 
-diff --git a/meta/recipes-devtools/rpm/files/0001-Add-a-color-setting-for-mips64_n32-binaries.patch b/meta/recipes-devtools/rpm/files/0001-Add-a-color-setting-for-mips64_n32-binaries.patch
-index 9f5dde07205..9fa486dfd3c 100644
---- a/meta/recipes-devtools/rpm/files/0001-Add-a-color-setting-for-mips64_n32-binaries.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-Add-a-color-setting-for-mips64_n32-binaries.patch
-@@ -1,4 +1,4 @@
--From 5492ac3c716020a27a25253bbffe810db43202bf Mon Sep 17 00:00:00 2001
-+From 93f219df68f3741ff63a294a16bcbe8deba1112f Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 9 Mar 2017 18:54:02 +0200
- Subject: [PATCH] Add a color setting for mips64_n32 binaries
-@@ -11,11 +11,11 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  rpmrc.in      | 2 ++
-  2 files changed, 6 insertions(+)
- 
--Index: git/build/rpmfc.c
--===================================================================
----- git.orig/build/rpmfc.c
--+++ git/build/rpmfc.c
--@@ -645,6 +645,7 @@ exit:
-+diff --git a/build/rpmfc.c b/build/rpmfc.c
-+index 26606378f..a16e3f4e9 100644
-+--- a/build/rpmfc.c
-++++ b/build/rpmfc.c
-+@@ -646,6 +646,7 @@ exit:
-  static const struct rpmfcTokens_s rpmfcTokens[] = {
-    { "directory",		RPMFC_INCLUDE },
-  
-@@ -23,20 +23,20 @@ Index: git/build/rpmfc.c
-    { "ELF 32-bit",		RPMFC_ELF32|RPMFC_INCLUDE },
-    { "ELF 64-bit",		RPMFC_ELF64|RPMFC_INCLUDE },
-  
--@@ -1150,6 +1151,9 @@ static uint32_t getElfColor(const char *
-+@@ -1151,6 +1152,9 @@ static uint32_t getElfColor(const char *fn)
-  		color = RPMFC_ELF32;
-  		break;
-  	    }
- +            if (ehdr.e_machine == EM_MIPS || ehdr.e_machine == EM_MIPS_RS3_LE)
- +                if (ehdr.e_flags & EF_MIPS_ABI2)
- +                    color = RPMFC_ELFMIPSN32;
-- 	    elf_end(elf);
-  	}
-- 	close(fd);
--Index: git/rpmrc.in
--===================================================================
----- git.orig/rpmrc.in
--+++ git/rpmrc.in
-+ 	if (elf)
-+ 	    elf_end(elf);
-+diff --git a/rpmrc.in b/rpmrc.in
-+index 2975a3a0e..c7232b48b 100644
-+--- a/rpmrc.in
-++++ b/rpmrc.in
- @@ -139,6 +139,8 @@ archcolor: mipsr6el 1
-  archcolor: mips64r6 2
-  archcolor: mips64r6el 2
-diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-index 6f613d0a7d8..8fdc5edb10b 100644
---- a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-@@ -1,4 +1,4 @@
--From 4ab6a4c5bbad65c3401016bb26b87214cdd0c59b Mon Sep 17 00:00:00 2001
-+From 5fc560aaf1184d35d161f7d50dbb6323c90cc02d Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 27 Feb 2017 09:43:30 +0200
- Subject: [PATCH] Do not hardcode "lib/rpm" as the installation path for
-@@ -13,10 +13,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  rpm.am       | 4 ++--
-  3 files changed, 4 insertions(+), 4 deletions(-)
- 
--Index: git/configure.ac
--===================================================================
----- git.orig/configure.ac
--+++ git/configure.ac
-+diff --git a/configure.ac b/configure.ac
-+index e6676c581..ec28db9b6 100644
-+--- a/configure.ac
-++++ b/configure.ac
- @@ -942,7 +942,7 @@ else
-      usrprefix=$prefix
-  fi
-@@ -26,11 +26,11 @@ Index: git/configure.ac
-  AC_SUBST(RPMCONFIGDIR)
-  
-  AC_SUBST(OBJDUMP)
--Index: git/macros.in
--===================================================================
----- git.orig/macros.in
--+++ git/macros.in
--@@ -911,7 +911,7 @@ package or when debugging this package.\
-+diff --git a/macros.in b/macros.in
-+index a2411d784..735b74d99 100644
-+--- a/macros.in
-++++ b/macros.in
-+@@ -930,7 +930,7 @@ package or when debugging this package.\
-  %_sharedstatedir	%{_prefix}/com
-  %_localstatedir		%{_prefix}/var
-  %_lib			lib
-@@ -39,10 +39,10 @@ Index: git/macros.in
-  %_includedir		%{_prefix}/include
-  %_infodir		%{_datadir}/info
-  %_mandir		%{_datadir}/man
--Index: git/rpm.am
--===================================================================
----- git.orig/rpm.am
--+++ git/rpm.am
-+diff --git a/rpm.am b/rpm.am
-+index 55b5b3935..5a51f102b 100644
-+--- a/rpm.am
-++++ b/rpm.am
- @@ -1,10 +1,10 @@
-  # Internal binaries
-  ## HACK: It probably should be $(libexecdir)/rpm or $(libdir)/rpm
-@@ -55,4 +55,4 @@ Index: git/rpm.am
- +rpmconfigdir = $(libdir)/rpm
-  
-  # Libtool version (current-revision-age) for all our libraries
-- rpm_version_info = 12:0:3
-+ rpm_version_info = 13:0:4
-diff --git a/meta/recipes-devtools/rpm/files/0001-docs-do-not-build-manpages-requires-pandoc.patch b/meta/recipes-devtools/rpm/files/0001-docs-do-not-build-manpages-requires-pandoc.patch
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Use-pread-pwrite-ftruncate-stat-instead-of-64bit-equ.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Use-pread-pwrite-ftruncate-stat-instead-of-64bit-equ.patch
 deleted file mode 100644
-index d7137f1d103..00000000000
---- a/meta/recipes-devtools/rpm/files/0001-docs-do-not-build-manpages-requires-pandoc.patch
+index 2618687088f..00000000000
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Use-pread-pwrite-ftruncate-stat-instead-of-64bit-equ.patch
 +++ /dev/null
-@@ -1,23 +0,0 @@
--From 9bf1693092385eba9841614613313010221ca01f Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Tue, 29 Jun 2021 20:11:26 +0200
--Subject: [PATCH] docs: do not build manpages (requires pandoc)
+@@ -1,903 +0,0 @@
+-From 37425f422e46003ed623f8e6387bed1aa5778b96 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Fri, 11 Nov 2022 11:26:05 -0800
+-Subject: [PATCH] Use pread/pwrite/ftruncate/stat instead of 64bit equivalents
 -
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-64bit functions are aliases to original functions when largefile feature
+-is enabled via autoconf or right macro is passed on compiler cmdline
+-
+--D_FILE_OFFSET_BITS=64
+-
+-Upstream-Status: Submitted [https://lore.kernel.org/linux-btrfs/20221215084046.122836-1-raj.khem@gmail.com/T/#u]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ----
-- docs/Makefile.am | 2 --
-- 1 file changed, 2 deletions(-)
+- cmds/rescue-chunk-recover.c |   4 +-
+- image/main.c                |  14 +--
+- kernel-shared/zoned.c       |   6 +-
+- kernel-shared/zoned.h       |   4 +-
+- mkfs/main.c                 |   4 +-
+- mkfs/rootdir.c              |  10 +-
+- tests/fsstress.c            | 192 ++++++++++++++++++------------------
+- tests/fssum.c               |   8 +-
+- 8 files changed, 121 insertions(+), 121 deletions(-)
 -
--Index: git/docs/Makefile.am
--===================================================================
----- git.orig/docs/Makefile.am
--+++ git/docs/Makefile.am
--@@ -1,7 +1,5 @@
-- ## Process this file with automake to produce Makefile.in
+---- a/cmds/rescue-chunk-recover.c
+-+++ b/cmds/rescue-chunk-recover.c
+-@@ -755,7 +755,7 @@ static int scan_one_device(void *dev_sca
+- 		if (is_super_block_address(bytenr))
+- 			bytenr += rc->sectorsize;
 - 
---SUBDIRS = man
---
-- EXTRA_DIST =
+--		if (pread64(fd, buf->data, rc->nodesize, bytenr) <
+-+		if (pread(fd, buf->data, rc->nodesize, bytenr) <
+- 		    rc->nodesize)
+- 			break;
 - 
-- EXTRA_DIST += \
-diff --git a/meta/recipes-devtools/rpm/files/fifofix.patch b/meta/recipes-devtools/rpm/files/fifofix.patch
-deleted file mode 100644
-index 71703d7f0c6..00000000000
---- a/meta/recipes-devtools/rpm/files/fifofix.patch
-+++ /dev/null
-@@ -1,22 +0,0 @@
--Calling openat() on a fifo causes a pseudo hang for us (e.g. the fifo in psplash).
--Avoid calling openat for fifos.
--
--Introduced upstream with:
--
--https://github.com/rpm-software-management/rpm/commit/96ec957e281220f8e137a2d5eb23b83a6377d556
--
--Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/issues/2195]
--
--Index: git/lib/fsm.c
--===================================================================
----- git.orig/lib/fsm.c
--+++ git/lib/fsm.c
--@@ -1010,7 +1010,7 @@ int rpmPackageFilesInstall(rpmts ts, rpm
--                     rc = RPMERR_UNKNOWN_FILETYPE;
--             }
+-@@ -1875,7 +1875,7 @@ static int check_one_csum(int fd, u64 st
+- 	data = malloc(len);
+- 	if (!data)
+- 		return -1;
+--	ret = pread64(fd, data, len, start);
+-+	ret = pread(fd, data, len, start);
+- 	if (ret < 0 || ret != len) {
+- 		ret = -1;
+- 		goto out;
+---- a/image/main.c
+-+++ b/image/main.c
+-@@ -691,7 +691,7 @@ static int flush_pending(struct metadump
+- 		if (start == BTRFS_SUPER_INFO_OFFSET) {
+- 			int fd = get_dev_fd(md->root);
 - 
---	    if (!rc && fd == -1 && !S_ISLNK(fp->sb.st_mode)) {
--+	    if (!rc && fd == -1 && !S_ISLNK(fp->sb.st_mode) && !S_ISFIFO(fp->sb.st_mode)) {
-- 		/* Only follow safe symlinks, and never on temporary files */
-- 		fd = fsmOpenat(di.dirfd, fp->fpath,
-- 				fp->suffix ? AT_SYMLINK_NOFOLLOW : 0, 0);
-diff --git a/meta/recipes-devtools/rpm/files/fix-declaration.patch b/meta/recipes-devtools/rpm/files/fix-declaration.patch
-new file mode 100644
-index 00000000000..e5c84ebd498
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/fix-declaration.patch
-@@ -0,0 +1,39 @@
-+From b960c0b43a080287a7c13533eeb2d9f288db1414 Mon Sep 17 00:00:00 2001
-+From: Florian Festi <ffesti@redhat.com>
-+Date: Thu, 16 Mar 2023 19:05:04 +0100
-+Subject: [PATCH] Fix compiler error on clang
-+
-+Turns out variable declarations are not allowed after a label, even in
-+C99. And while some compilers don't seem to care others do.
-+
-+Moving the declaration of mayopen to the start of the function to avoid
-+this problem.
-+
-+Resolves: #2435
-+Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/commit/b960c0b43a080287a7c13533eeb2d9f288db1414]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ lib/fsm.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/lib/fsm.c b/lib/fsm.c
-+index 5671ac642d..183293edb0 100644
-+--- a/lib/fsm.c
-++++ b/lib/fsm.c
-+@@ -879,6 +879,7 @@ int rpmPackageFilesInstall(rpmts ts, rpmte te, rpmfiles files,
-+     int nodigest = (rpmtsFlags(ts) & RPMTRANS_FLAG_NOFILEDIGEST) ? 1 : 0;
-+     int nofcaps = (rpmtsFlags(ts) & RPMTRANS_FLAG_NOCAPS) ? 1 : 0;
-+     int firstlinkfile = -1;
-++    int mayopen = 0;
-+     char *tid = NULL;
-+     struct filedata_s *fdata = xcalloc(fc, sizeof(*fdata));
-+     struct filedata_s *firstlink = NULL;
-+@@ -1016,7 +1017,7 @@ int rpmPackageFilesInstall(rpmts ts, rpmte te, rpmfiles files,
-+ 
-+ setmeta:
-+ 	    /* Special files require path-based ops */
-+-	    int mayopen = S_ISREG(fp->sb.st_mode) || S_ISDIR(fp->sb.st_mode);
-++	    mayopen = S_ISREG(fp->sb.st_mode) || S_ISDIR(fp->sb.st_mode);
-+ 	    if (!rc && fd == -1 && mayopen) {
-+ 		int flags = O_RDONLY;
-+ 		/* Only follow safe symlinks, and never on temporary files */
-diff --git a/meta/recipes-devtools/rpm/rpm_4.18.0.bb b/meta/recipes-devtools/rpm/rpm_4.18.1.bb
-similarity index 97%
-rename from meta/recipes-devtools/rpm/rpm_4.18.0.bb
-rename to meta/recipes-devtools/rpm/rpm_4.18.1.bb
-index 7790db8b5a0..6da2edddf34 100644
---- a/meta/recipes-devtools/rpm/rpm_4.18.0.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.18.1.bb
-@@ -35,15 +35,14 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.18.x;protoc
-            file://0001-perl-disable-auto-reqs.patch \
-            file://0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch \
-            file://0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch \
--           file://0001-docs-do-not-build-manpages-requires-pandoc.patch \
-            file://0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch \
-            file://0001-configure.ac-add-linux-gnux32-variant-to-triplet-han.patch \
--           file://fifofix.patch \
-            file://0001-python-Use-Py_hash_t-instead-of-long-in-hdr_hash.patch \
-+           file://fix-declaration.patch \
+--			ret = pread64(fd, async->buffer, size, start);
+-+			ret = pread(fd, async->buffer, size, start);
+- 			if (ret < size) {
+- 				free(async->buffer);
+- 				free(async);
+-@@ -1366,7 +1366,7 @@ static void write_backup_supers(int fd,
+- 			break;
+- 		btrfs_set_super_bytenr(super, bytenr);
+- 		csum_block(buf, BTRFS_SUPER_INFO_SIZE);
+--		ret = pwrite64(fd, buf, BTRFS_SUPER_INFO_SIZE, bytenr);
+-+		ret = pwrite(fd, buf, BTRFS_SUPER_INFO_SIZE, bytenr);
+- 		if (ret < BTRFS_SUPER_INFO_SIZE) {
+- 			if (ret < 0)
+- 				error(
+-@@ -1487,12 +1487,12 @@ static int restore_one_work(struct mdres
+- 				else
+- 					bytenr = logical;
+- 
+--				ret = pwrite64(outfd, buffer + offset, chunk_size, bytenr);
+-+				ret = pwrite(outfd, buffer + offset, chunk_size, bytenr);
+- 				if (ret != chunk_size)
+- 					goto write_error;
+- 
+- 				if (physical_dup)
+--					ret = pwrite64(outfd, buffer + offset,
+-+					ret = pwrite(outfd, buffer + offset,
+- 						       chunk_size, physical_dup);
+- 				if (ret != chunk_size)
+- 					goto write_error;
+-@@ -2454,7 +2454,7 @@ static int fixup_device_size(struct btrf
+- 	}
+- 	if (S_ISREG(buf.st_mode)) {
+- 		/* Don't forget to enlarge the real file */
+--		ret = ftruncate64(out_fd, dev_size);
+-+		ret = ftruncate(out_fd, dev_size);
+- 		if (ret < 0) {
+- 			error("failed to enlarge result image: %m");
+- 			return -errno;
+-@@ -2913,7 +2913,7 @@ static int restore_metadump(const char *
+- 			goto out;
+- 		}
+- 		if (S_ISREG(st.st_mode) && st.st_size < dev_size) {
+--			ret = ftruncate64(fileno(out), dev_size);
+-+			ret = ftruncate(fileno(out), dev_size);
+- 			if (ret < 0) {
+- 				error(
+- 		"failed to enlarge result image file from %llu to %llu: %m",
+-@@ -3010,7 +3010,7 @@ static int update_disk_super_on_device(s
+- 	memcpy(dev_item->fsid, fs_uuid, BTRFS_UUID_SIZE);
+- 	csum_block((u8 *)&disk_super, BTRFS_SUPER_INFO_SIZE);
+- 
+--	ret = pwrite64(fp, &disk_super, BTRFS_SUPER_INFO_SIZE, BTRFS_SUPER_INFO_OFFSET);
+-+	ret = pwrite(fp, &disk_super, BTRFS_SUPER_INFO_SIZE, BTRFS_SUPER_INFO_OFFSET);
+- 	if (ret != BTRFS_SUPER_INFO_SIZE) {
+- 		if (ret < 0) {
+- 			errno = ret;
+---- a/kernel-shared/zoned.c
+-+++ b/kernel-shared/zoned.c
+-@@ -194,7 +194,7 @@ static int sb_write_pointer(int fd, stru
+- 			bytenr = ((zones[i].start + zones[i].len)
+- 				   << SECTOR_SHIFT) - BTRFS_SUPER_INFO_SIZE;
+- 
+--			ret = pread64(fd, buf[i], BTRFS_SUPER_INFO_SIZE, bytenr);
+-+			ret = pread(fd, buf[i], BTRFS_SUPER_INFO_SIZE, bytenr);
+- 			if (ret != BTRFS_SUPER_INFO_SIZE)
+- 				return -EIO;
+- 			super[i] = (struct btrfs_super_block *)&buf[i];
+-@@ -515,8 +515,8 @@ size_t btrfs_sb_io(int fd, void *buf, of
+- 	/* We can call pread/pwrite if 'fd' is non-zoned device/file */
+- 	if (zone_size_sector == 0) {
+- 		if (rw == READ)
+--			return pread64(fd, buf, count, offset);
+--		return pwrite64(fd, buf, count, offset);
+-+			return pread(fd, buf, count, offset);
+-+		return pwrite(fd, buf, count, offset);
+- 	}
+- 
+- 	ASSERT(IS_ALIGNED(zone_size_sector, sb_size_sector));
+---- a/kernel-shared/zoned.h
+-+++ b/kernel-shared/zoned.h
+-@@ -150,9 +150,9 @@ int btrfs_wipe_temporary_sb(struct btrfs
+- #else
+- 
+- #define sbread(fd, buf, offset) \
+--	pread64(fd, buf, BTRFS_SUPER_INFO_SIZE, offset)
+-+	pread(fd, buf, BTRFS_SUPER_INFO_SIZE, offset)
+- #define sbwrite(fd, buf, offset) \
+--	pwrite64(fd, buf, BTRFS_SUPER_INFO_SIZE, offset)
+-+	pwrite(fd, buf, BTRFS_SUPER_INFO_SIZE, offset)
+- 
+- static inline int btrfs_reset_dev_zone(int fd, struct blk_zone *zone)
+- {
+---- a/mkfs/main.c
+-+++ b/mkfs/main.c
+-@@ -453,14 +453,14 @@ static int zero_output_file(int out_fd,
+- 	/* Only zero out the first 1M */
+- 	loop_num = SZ_1M / SZ_4K;
+- 	for (i = 0; i < loop_num; i++) {
+--		written = pwrite64(out_fd, buf, SZ_4K, location);
+-+		written = pwrite(out_fd, buf, SZ_4K, location);
+- 		if (written != SZ_4K)
+- 			ret = -EIO;
+- 		location += SZ_4K;
+- 	}
+- 
+- 	/* Then enlarge the file to size */
+--	written = pwrite64(out_fd, buf, 1, size - 1);
+-+	written = pwrite(out_fd, buf, 1, size - 1);
+- 	if (written < 1)
+- 		ret = -EIO;
+- 	return ret;
+---- a/mkfs/rootdir.c
+-+++ b/mkfs/rootdir.c
+-@@ -340,7 +340,7 @@ static int add_file_items(struct btrfs_t
+- 			goto end;
+- 		}
+- 
+--		ret_read = pread64(fd, buffer, st->st_size, bytes_read);
+-+		ret_read = pread(fd, buffer, st->st_size, bytes_read);
+- 		if (ret_read == -1) {
+- 			error("cannot read %s at offset %llu length %llu: %m",
+- 				path_name, bytes_read, (unsigned long long)st->st_size);
+-@@ -386,7 +386,7 @@ again:
+- 
+- 		memset(eb->data, 0, sectorsize);
+- 
+--		ret_read = pread64(fd, eb->data, sectorsize, file_pos +
+-+		ret_read = pread(fd, eb->data, sectorsize, file_pos +
+- 				   bytes_read);
+- 		if (ret_read == -1) {
+- 			error("cannot read %s at offset %llu length %u: %m",
+-@@ -929,7 +929,7 @@ int btrfs_mkfs_shrink_fs(struct btrfs_fs
+- 	u64 new_size;
+- 	struct btrfs_device *device;
+- 	struct list_head *cur;
+--	struct stat64 file_stat;
+-+	struct stat file_stat;
+- 	int nr_devs = 0;
+- 	int ret;
+- 
+-@@ -963,14 +963,14 @@ int btrfs_mkfs_shrink_fs(struct btrfs_fs
+- 		*new_size_ret = new_size;
+- 
+- 	if (shrink_file_size) {
+--		ret = fstat64(device->fd, &file_stat);
+-+		ret = fstat(device->fd, &file_stat);
+- 		if (ret < 0) {
+- 			error("failed to stat devid %llu: %m", device->devid);
+- 			return ret;
+- 		}
+- 		if (!S_ISREG(file_stat.st_mode))
+- 			return ret;
+--		ret = ftruncate64(device->fd, new_size);
+-+		ret = ftruncate(device->fd, new_size);
+- 		if (ret < 0) {
+- 			error("failed to truncate device file of devid %llu: %m",
+- 				device->devid);
+---- a/tests/fsstress.c
+-+++ b/tests/fsstress.c
+-@@ -458,7 +458,7 @@ int	get_fname(int, long, pathname_t *, f
+- void	init_pathname(pathname_t *);
+- int	lchown_path(pathname_t *, uid_t, gid_t);
+- int	link_path(pathname_t *, pathname_t *);
+--int	lstat64_path(pathname_t *, struct stat64 *);
+-+int	lstat_path(pathname_t *, struct stat *);
+- void	make_freq_table(void);
+- int	mkdir_path(pathname_t *, mode_t);
+- int	mknod_path(pathname_t *, mode_t, dev_t);
+-@@ -472,9 +472,9 @@ int	rename_path(pathname_t *, pathname_t
+- int	rmdir_path(pathname_t *);
+- void	separate_pathname(pathname_t *, char *, pathname_t *);
+- void	show_ops(int, char *);
+--int	stat64_path(pathname_t *, struct stat64 *);
+-+int	stat_path(pathname_t *, struct stat *);
+- int	symlink_path(const char *, pathname_t *);
+--int	truncate64_path(pathname_t *, off64_t);
+-+int	truncate_path(pathname_t *, off64_t);
+- int	unlink_path(pathname_t *);
+- void	usage(void);
+- void	write_freq(void);
+-@@ -998,12 +998,12 @@ void
+- check_cwd(void)
+- {
+- #ifdef DEBUG
+--	struct stat64	statbuf;
+-+	struct stat	statbuf;
+- 	int ret;
+- 
+--	ret = stat64(".", &statbuf);
+-+	ret = stat(".", &statbuf);
+- 	if (ret != 0) {
+--		fprintf(stderr, "fsstress: check_cwd stat64() returned %d with errno: %d (%m)\n",
+-+		fprintf(stderr, "fsstress: check_cwd stat() returned %d with errno: %d (%m)\n",
+- 			ret, errno);
+- 		goto out;
+- 	}
+-@@ -1171,7 +1171,7 @@ again:
+- void
+- doproc(void)
+- {
+--	struct stat64	statbuf;
+-+	struct stat	statbuf;
+- 	char		buf[10];
+- 	char		cmd[64];
+- 	opnum_t		opno;
+-@@ -1182,7 +1182,7 @@ doproc(void)
+- 	dividend = (operations + execute_freq) / (execute_freq + 1);
+- 	sprintf(buf, "p%x", procid);
+- 	(void)mkdir(buf, 0777);
+--	if (chdir(buf) < 0 || stat64(".", &statbuf) < 0) {
+-+	if (chdir(buf) < 0 || stat(".", &statbuf) < 0) {
+- 		perror(buf);
+- 		_exit(1);
+- 	}
+-@@ -1214,7 +1214,7 @@ doproc(void)
+- 		 * the forced shutdown happened.
+- 		 */
+- 		if (errtag != 0 && opno % 100 == 0)  {
+--			rval = stat64(".", &statbuf);
+-+			rval = stat(".", &statbuf);
+- 			if (rval == EIO)  {
+- 				fprintf(stderr, "Detected EIO\n");
+- 				goto errout;
+-@@ -1537,18 +1537,18 @@ link_path(pathname_t *name1, pathname_t
+- }
+- 
+- int
+--lstat64_path(pathname_t *name, struct stat64 *sbuf)
+-+lstat_path(pathname_t *name, struct stat *sbuf)
+- {
+- 	char		buf[NAME_MAX + 1];
+- 	pathname_t	newname;
+- 	int		rval;
+- 
+--	rval = lstat64(name->path, sbuf);
+-+	rval = lstat(name->path, sbuf);
+- 	if (rval >= 0 || errno != ENAMETOOLONG)
+- 		return rval;
+- 	separate_pathname(name, buf, &newname);
+- 	if (chdir(buf) == 0) {
+--		rval = lstat64_path(&newname, sbuf);
+-+		rval = lstat_path(&newname, sbuf);
+- 		assert(chdir("..") == 0);
+- 	}
+- 	free_pathname(&newname);
+-@@ -1870,18 +1870,18 @@ show_ops(int flag, char *lead_str)
+- }
+- 
+- int
+--stat64_path(pathname_t *name, struct stat64 *sbuf)
+-+stat_path(pathname_t *name, struct stat *sbuf)
+- {
+- 	char		buf[NAME_MAX + 1];
+- 	pathname_t	newname;
+- 	int		rval;
+- 
+--	rval = stat64(name->path, sbuf);
+-+	rval = stat(name->path, sbuf);
+- 	if (rval >= 0 || errno != ENAMETOOLONG)
+- 		return rval;
+- 	separate_pathname(name, buf, &newname);
+- 	if (chdir(buf) == 0) {
+--		rval = stat64_path(&newname, sbuf);
+-+		rval = stat_path(&newname, sbuf);
+- 		assert(chdir("..") == 0);
+- 	}
+- 	free_pathname(&newname);
+-@@ -1913,18 +1913,18 @@ symlink_path(const char *name1, pathname
+- }
+- 
+- int
+--truncate64_path(pathname_t *name, off64_t length)
+-+truncate_path(pathname_t *name, off64_t length)
+- {
+- 	char		buf[NAME_MAX + 1];
+- 	pathname_t	newname;
+- 	int		rval;
+- 
+--	rval = truncate64(name->path, length);
+-+	rval = truncate(name->path, length);
+- 	if (rval >= 0 || errno != ENAMETOOLONG)
+- 		return rval;
+- 	separate_pathname(name, buf, &newname);
+- 	if (chdir(buf) == 0) {
+--		rval = truncate64_path(&newname, length);
+-+		rval = truncate_path(&newname, length);
+- 		assert(chdir("..") == 0);
+- 	}
+- 	free_pathname(&newname);
+-@@ -2026,7 +2026,7 @@ non_btrfs_freq(const char *path)
+- 		ops[btrfs_ops[i]].freq = 0;
+- }
+- 
+--void inode_info(char *str, size_t sz, struct stat64 *s, int verbose)
+-+void inode_info(char *str, size_t sz, struct stat *s, int verbose)
+- {
+- 	if (verbose)
+- 		snprintf(str, sz, "[%ld %ld %d %d %lld %lld]",
+-@@ -2101,7 +2101,7 @@ allocsp_f(opnum_t opno, long r)
+- 	struct xfs_flock64	fl;
+- 	int64_t		lr;
+- 	off64_t		off;
+--	struct stat64	stb;
+-+	struct stat	stb;
+- 	int		v;
+- 	char		st[1024];
+- 
+-@@ -2122,9 +2122,9 @@ allocsp_f(opnum_t opno, long r)
+- 		free_pathname(&f);
+- 		return;
+- 	}
+--	if (fstat64(fd, &stb) < 0) {
+-+	if (fstat(fd, &stb) < 0) {
+- 		if (v)
+--			printf("%d/%lld: allocsp - fstat64 %s failed %d\n",
+-+			printf("%d/%lld: allocsp - fstat %s failed %d\n",
+- 				procid, opno, f.path, errno);
+- 		free_pathname(&f);
+- 		close(fd);
+-@@ -2160,7 +2160,7 @@ do_aio_rw(opnum_t opno, long r, int flag
+- 	size_t		len;
+- 	int64_t		lr;
+- 	off64_t		off;
+--	struct stat64	stb;
+-+	struct stat	stb;
+- 	int		v;
+- 	char		st[1024];
+- 	char		*dio_env;
+-@@ -2184,9 +2184,9 @@ do_aio_rw(opnum_t opno, long r, int flag
+- 			       procid, opno, f.path, e);
+- 		goto aio_out;
+- 	}
+--	if (fstat64(fd, &stb) < 0) {
+-+	if (fstat(fd, &stb) < 0) {
+- 		if (v)
+--			printf("%d/%lld: do_aio_rw - fstat64 %s failed %d\n",
+-+			printf("%d/%lld: do_aio_rw - fstat %s failed %d\n",
+- 			       procid, opno, f.path, errno);
+- 		goto aio_out;
+- 	}
+-@@ -2278,7 +2278,7 @@ do_uring_rw(opnum_t opno, long r, int fl
+- 	size_t		len;
+- 	int64_t		lr;
+- 	off64_t		off;
+--	struct stat64	stb;
+-+	struct stat	stb;
+- 	int		v;
+- 	char		st[1024];
+- 	struct io_uring_sqe	*sqe;
+-@@ -2304,9 +2304,9 @@ do_uring_rw(opnum_t opno, long r, int fl
+- 			       procid, opno, f.path, e);
+- 		goto uring_out;
+- 	}
+--	if (fstat64(fd, &stb) < 0) {
+-+	if (fstat(fd, &stb) < 0) {
+- 		if (v)
+--			printf("%d/%lld: do_uring_rw - fstat64 %s failed %d\n",
+-+			printf("%d/%lld: do_uring_rw - fstat %s failed %d\n",
+- 			       procid, opno, f.path, errno);
+- 		goto uring_out;
+- 	}
+-@@ -2522,7 +2522,7 @@ bulkstat1_f(opnum_t opno, long r)
+- 	int		fd;
+- 	int		good;
+- 	__u64		ino;
+--	struct stat64	s;
+-+	struct stat	s;
+- 	struct xfs_bstat	t;
+- 	int		v;
+- 	struct xfs_fsop_bulkreq bsr;
+-@@ -2534,7 +2534,7 @@ bulkstat1_f(opnum_t opno, long r)
+- 		init_pathname(&f);
+- 		if (!get_fname(FT_ANYm, r, &f, NULL, NULL, &v))
+- 			append_pathname(&f, ".");
+--		ino = stat64_path(&f, &s) < 0 ? (ino64_t)r : s.st_ino;
+-+		ino = stat_path(&f, &s) < 0 ? (ino64_t)r : s.st_ino;
+- 		check_cwd();
+- 		free_pathname(&f);
+- 	} else {
+-@@ -2605,8 +2605,8 @@ clonerange_f(
+- 	struct file_clone_range	fcr;
+- 	struct pathname		fpath1;
+- 	struct pathname		fpath2;
+--	struct stat64		stat1;
+--	struct stat64		stat2;
+-+	struct stat		stat1;
+-+	struct stat		stat2;
+- 	char			inoinfo1[1024];
+- 	char			inoinfo2[1024];
+- 	off64_t			lr;
+-@@ -2660,17 +2660,17 @@ clonerange_f(
+- 	}
+- 
+- 	/* Get file stats */
+--	if (fstat64(fd1, &stat1) < 0) {
+-+	if (fstat(fd1, &stat1) < 0) {
+- 		if (v1)
+--			printf("%d/%lld: clonerange read - fstat64 %s failed %d\n",
+-+			printf("%d/%lld: clonerange read - fstat %s failed %d\n",
+- 				procid, opno, fpath1.path, errno);
+- 		goto out_fd2;
+- 	}
+- 	inode_info(inoinfo1, sizeof(inoinfo1), &stat1, v1);
+- 
+--	if (fstat64(fd2, &stat2) < 0) {
+-+	if (fstat(fd2, &stat2) < 0) {
+- 		if (v2)
+--			printf("%d/%lld: clonerange write - fstat64 %s failed %d\n",
+-+			printf("%d/%lld: clonerange write - fstat %s failed %d\n",
+- 				procid, opno, fpath2.path, errno);
+- 		goto out_fd2;
+- 	}
+-@@ -2743,8 +2743,8 @@ copyrange_f(
+- #ifdef HAVE_COPY_FILE_RANGE
+- 	struct pathname		fpath1;
+- 	struct pathname		fpath2;
+--	struct stat64		stat1;
+--	struct stat64		stat2;
+-+	struct stat		stat1;
+-+	struct stat		stat2;
+- 	char			inoinfo1[1024];
+- 	char			inoinfo2[1024];
+- 	loff_t			lr;
+-@@ -2802,17 +2802,17 @@ copyrange_f(
+- 	}
+- 
+- 	/* Get file stats */
+--	if (fstat64(fd1, &stat1) < 0) {
+-+	if (fstat(fd1, &stat1) < 0) {
+- 		if (v1)
+--			printf("%d/%lld: copyrange read - fstat64 %s failed %d\n",
+-+			printf("%d/%lld: copyrange read - fstat %s failed %d\n",
+- 				procid, opno, fpath1.path, errno);
+- 		goto out_fd2;
+- 	}
+- 	inode_info(inoinfo1, sizeof(inoinfo1), &stat1, v1);
+- 
+--	if (fstat64(fd2, &stat2) < 0) {
+-+	if (fstat(fd2, &stat2) < 0) {
+- 		if (v2)
+--			printf("%d/%lld: copyrange write - fstat64 %s failed %d\n",
+-+			printf("%d/%lld: copyrange write - fstat %s failed %d\n",
+- 				procid, opno, fpath2.path, errno);
+- 		goto out_fd2;
+- 	}
+-@@ -2900,7 +2900,7 @@ deduperange_f(
+- #define INFO_SZ			1024
+- 	struct file_dedupe_range *fdr;
+- 	struct pathname		*fpath;
+--	struct stat64		*stat;
+-+	struct stat		*stat;
+- 	char			*info;
+- 	off64_t			*off;
+- 	int			*v;
+-@@ -2938,7 +2938,7 @@ deduperange_f(
+- 		goto out_fdr;
+- 	}
+- 
+--	stat = calloc(nr, sizeof(struct stat64));
+-+	stat = calloc(nr, sizeof(struct stat));
+- 	if (!stat) {
+- 		printf("%d/%lld: line %d error %d\n",
+- 			procid, opno, __LINE__, errno);
+-@@ -3017,9 +3017,9 @@ deduperange_f(
+- 	}
+- 
+- 	/* Get file stats */
+--	if (fstat64(fd[0], &stat[0]) < 0) {
+-+	if (fstat(fd[0], &stat[0]) < 0) {
+- 		if (v[0])
+--			printf("%d/%lld: deduperange read - fstat64 %s failed %d\n",
+-+			printf("%d/%lld: deduperange read - fstat %s failed %d\n",
+- 				procid, opno, fpath[0].path, errno);
+- 		goto out_fds;
+- 	}
+-@@ -3027,9 +3027,9 @@ deduperange_f(
+- 	inode_info(&info[0], INFO_SZ, &stat[0], v[0]);
+- 
+- 	for (i = 1; i < nr; i++) {
+--		if (fstat64(fd[i], &stat[i]) < 0) {
+-+		if (fstat(fd[i], &stat[i]) < 0) {
+- 			if (v[i])
+--				printf("%d/%lld: deduperange write - fstat64 %s failed %d\n",
+-+				printf("%d/%lld: deduperange write - fstat %s failed %d\n",
+- 					procid, opno, fpath[i].path, errno);
+- 			goto out_fds;
+- 		}
+-@@ -3179,8 +3179,8 @@ splice_f(opnum_t opno, long r)
+- {
+- 	struct pathname		fpath1;
+- 	struct pathname		fpath2;
+--	struct stat64		stat1;
+--	struct stat64		stat2;
+-+	struct stat		stat1;
+-+	struct stat		stat2;
+- 	char			inoinfo1[1024];
+- 	char			inoinfo2[1024];
+- 	loff_t			lr;
+-@@ -3237,17 +3237,17 @@ splice_f(opnum_t opno, long r)
+- 	}
+- 
+- 	/* Get file stats */
+--	if (fstat64(fd1, &stat1) < 0) {
+-+	if (fstat(fd1, &stat1) < 0) {
+- 		if (v1)
+--			printf("%d/%lld: splice read - fstat64 %s failed %d\n",
+-+			printf("%d/%lld: splice read - fstat %s failed %d\n",
+- 				procid, opno, fpath1.path, errno);
+- 		goto out_fd2;
+- 	}
+- 	inode_info(inoinfo1, sizeof(inoinfo1), &stat1, v1);
+- 
+--	if (fstat64(fd2, &stat2) < 0) {
+-+	if (fstat(fd2, &stat2) < 0) {
+- 		if (v2)
+--			printf("%d/%lld: splice write - fstat64 %s failed %d\n",
+-+			printf("%d/%lld: splice write - fstat %s failed %d\n",
+- 				procid, opno, fpath2.path, errno);
+- 		goto out_fd2;
+- 	}
+-@@ -3432,7 +3432,7 @@ dread_f(opnum_t opno, long r)
+- 	size_t		len;
+- 	int64_t		lr;
+- 	off64_t		off;
+--	struct stat64	stb;
+-+	struct stat	stb;
+- 	int		v;
+- 	char		st[1024];
+- 	char		*dio_env;
+-@@ -3454,9 +3454,9 @@ dread_f(opnum_t opno, long r)
+- 		free_pathname(&f);
+- 		return;
+- 	}
+--	if (fstat64(fd, &stb) < 0) {
+-+	if (fstat(fd, &stb) < 0) {
+- 		if (v)
+--			printf("%d/%lld: dread - fstat64 %s failed %d\n",
+-+			printf("%d/%lld: dread - fstat %s failed %d\n",
+- 			       procid, opno, f.path, errno);
+- 		free_pathname(&f);
+- 		close(fd);
+-@@ -3522,7 +3522,7 @@ dwrite_f(opnum_t opno, long r)
+- 	size_t		len;
+- 	int64_t		lr;
+- 	off64_t		off;
+--	struct stat64	stb;
+-+	struct stat	stb;
+- 	int		v;
+- 	char		st[1024];
+- 	char		*dio_env;
+-@@ -3544,9 +3544,9 @@ dwrite_f(opnum_t opno, long r)
+- 		free_pathname(&f);
+- 		return;
+- 	}
+--	if (fstat64(fd, &stb) < 0) {
+-+	if (fstat(fd, &stb) < 0) {
+- 		if (v)
+--			printf("%d/%lld: dwrite - fstat64 %s failed %d\n",
+-+			printf("%d/%lld: dwrite - fstat %s failed %d\n",
+- 				procid, opno, f.path, errno);
+- 		free_pathname(&f);
+- 		close(fd);
+-@@ -3620,7 +3620,7 @@ do_fallocate(opnum_t opno, long r, int m
+- 	int64_t		lr;
+- 	off64_t		off;
+- 	off64_t		len;
+--	struct stat64	stb;
+-+	struct stat	stb;
+- 	int		v;
+- 	char		st[1024];
+- 
+-@@ -3640,9 +3640,9 @@ do_fallocate(opnum_t opno, long r, int m
+- 		return;
+- 	}
+- 	check_cwd();
+--	if (fstat64(fd, &stb) < 0) {
+-+	if (fstat(fd, &stb) < 0) {
+- 		if (v)
+--			printf("%d/%lld: do_fallocate - fstat64 %s failed %d\n",
+-+			printf("%d/%lld: do_fallocate - fstat %s failed %d\n",
+- 				procid, opno, f.path, errno);
+- 		free_pathname(&f);
+- 		close(fd);
+-@@ -3734,7 +3734,7 @@ fiemap_f(opnum_t opno, long r)
+- 	int		fd;
+- 	int64_t		lr;
+- 	off64_t		off;
+--	struct stat64	stb;
+-+	struct stat	stb;
+- 	int		v;
+- 	char		st[1024];
+- 	int blocks_to_map;
+-@@ -3757,9 +3757,9 @@ fiemap_f(opnum_t opno, long r)
+- 		free_pathname(&f);
+- 		return;
+- 	}
+--	if (fstat64(fd, &stb) < 0) {
+-+	if (fstat(fd, &stb) < 0) {
+- 		if (v)
+--			printf("%d/%lld: fiemap - fstat64 %s failed %d\n",
+-+			printf("%d/%lld: fiemap - fstat %s failed %d\n",
+- 				procid, opno, f.path, errno);
+- 		free_pathname(&f);
+- 		close(fd);
+-@@ -3807,7 +3807,7 @@ freesp_f(opnum_t opno, long r)
+- 	struct xfs_flock64	fl;
+- 	int64_t		lr;
+- 	off64_t		off;
+--	struct stat64	stb;
+-+	struct stat	stb;
+- 	int		v;
+- 	char		st[1024];
+- 
+-@@ -3828,9 +3828,9 @@ freesp_f(opnum_t opno, long r)
+- 		free_pathname(&f);
+- 		return;
+- 	}
+--	if (fstat64(fd, &stb) < 0) {
+-+	if (fstat(fd, &stb) < 0) {
+- 		if (v)
+--			printf("%d/%lld: freesp - fstat64 %s failed %d\n",
+-+			printf("%d/%lld: freesp - fstat %s failed %d\n",
+- 				procid, opno, f.path, errno);
+- 		free_pathname(&f);
+- 		close(fd);
+-@@ -4226,7 +4226,7 @@ do_mmap(opnum_t opno, long r, int prot)
+- 	int64_t		lr;
+- 	off64_t		off;
+- 	int		flags;
+--	struct stat64	stb;
+-+	struct stat	stb;
+- 	int		v;
+- 	char		st[1024];
+- 	sigjmp_buf	sigbus_jmpbuf;
+-@@ -4248,9 +4248,9 @@ do_mmap(opnum_t opno, long r, int prot)
+- 		free_pathname(&f);
+- 		return;
+- 	}
+--	if (fstat64(fd, &stb) < 0) {
+-+	if (fstat(fd, &stb) < 0) {
+- 		if (v)
+--			printf("%d/%lld: do_mmap - fstat64 %s failed %d\n",
+-+			printf("%d/%lld: do_mmap - fstat %s failed %d\n",
+- 			       procid, opno, f.path, errno);
+- 		free_pathname(&f);
+- 		close(fd);
+-@@ -4370,7 +4370,7 @@ read_f(opnum_t opno, long r)
+- 	size_t		len;
+- 	int64_t		lr;
+- 	off64_t		off;
+--	struct stat64	stb;
+-+	struct stat	stb;
+- 	int		v;
+- 	char		st[1024];
+- 
+-@@ -4391,9 +4391,9 @@ read_f(opnum_t opno, long r)
+- 		free_pathname(&f);
+- 		return;
+- 	}
+--	if (fstat64(fd, &stb) < 0) {
+-+	if (fstat(fd, &stb) < 0) {
+- 		if (v)
+--			printf("%d/%lld: read - fstat64 %s failed %d\n",
+-+			printf("%d/%lld: read - fstat %s failed %d\n",
+- 				procid, opno, f.path, errno);
+- 		free_pathname(&f);
+- 		close(fd);
+-@@ -4454,7 +4454,7 @@ readv_f(opnum_t opno, long r)
+- 	size_t		len;
+- 	int64_t		lr;
+- 	off64_t		off;
+--	struct stat64	stb;
+-+	struct stat	stb;
+- 	int		v;
+- 	char		st[1024];
+- 	struct iovec	*iov = NULL;
+-@@ -4480,9 +4480,9 @@ readv_f(opnum_t opno, long r)
+- 		free_pathname(&f);
+- 		return;
+- 	}
+--	if (fstat64(fd, &stb) < 0) {
+-+	if (fstat(fd, &stb) < 0) {
+- 		if (v)
+--			printf("%d/%lld: readv - fstat64 %s failed %d\n",
+-+			printf("%d/%lld: readv - fstat %s failed %d\n",
+- 				procid, opno, f.path, errno);
+- 		free_pathname(&f);
+- 		close(fd);
+-@@ -4739,7 +4739,7 @@ resvsp_f(opnum_t opno, long r)
+- 	struct xfs_flock64	fl;
+- 	int64_t		lr;
+- 	off64_t		off;
+--	struct stat64	stb;
+-+	struct stat	stb;
+- 	int		v;
+- 	char		st[1024];
+- 
+-@@ -4760,9 +4760,9 @@ resvsp_f(opnum_t opno, long r)
+- 		free_pathname(&f);
+- 		return;
+- 	}
+--	if (fstat64(fd, &stb) < 0) {
+-+	if (fstat(fd, &stb) < 0) {
+- 		if (v)
+--			printf("%d/%lld: resvsp - fstat64 %s failed %d\n",
+-+			printf("%d/%lld: resvsp - fstat %s failed %d\n",
+- 				procid, opno, f.path, errno);
+- 		free_pathname(&f);
+- 		close(fd);
+-@@ -4971,7 +4971,7 @@ stat_f(opnum_t opno, long r)
+- {
+- 	int		e;
+- 	pathname_t	f;
+--	struct stat64	stb;
+-+	struct stat	stb;
+- 	int		v;
+- 
+- 	init_pathname(&f);
+-@@ -4981,7 +4981,7 @@ stat_f(opnum_t opno, long r)
+- 		free_pathname(&f);
+- 		return;
+- 	}
+--	e = lstat64_path(&f, &stb) < 0 ? errno : 0;
+-+	e = lstat_path(&f, &stb) < 0 ? errno : 0;
+- 	check_cwd();
+- 	if (v)
+- 		printf("%d/%lld: stat %s %d\n", procid, opno, f.path, e);
+-@@ -5133,7 +5133,7 @@ truncate_f(opnum_t opno, long r)
+- 	pathname_t	f;
+- 	int64_t		lr;
+- 	off64_t		off;
+--	struct stat64	stb;
+-+	struct stat	stb;
+- 	int		v;
+- 	char		st[1024];
+- 
+-@@ -5144,11 +5144,11 @@ truncate_f(opnum_t opno, long r)
+- 		free_pathname(&f);
+- 		return;
+- 	}
+--	e = stat64_path(&f, &stb) < 0 ? errno : 0;
+-+	e = stat_path(&f, &stb) < 0 ? errno : 0;
+- 	check_cwd();
+- 	if (e > 0) {
+- 		if (v)
+--			printf("%d/%lld: truncate - stat64 %s failed %d\n",
+-+			printf("%d/%lld: truncate - stat %s failed %d\n",
+- 				procid, opno, f.path, e);
+- 		free_pathname(&f);
+- 		return;
+-@@ -5157,7 +5157,7 @@ truncate_f(opnum_t opno, long r)
+- 	lr = ((int64_t)random() << 32) + random();
+- 	off = (off64_t)(lr % MIN(stb.st_size + (1024 * 1024), MAXFSIZE));
+- 	off %= maxfsize;
+--	e = truncate64_path(&f, off) < 0 ? errno : 0;
+-+	e = truncate_path(&f, off) < 0 ? errno : 0;
+- 	check_cwd();
+- 	if (v)
+- 		printf("%d/%lld: truncate %s%s %lld %d\n", procid, opno, f.path,
+-@@ -5209,7 +5209,7 @@ unresvsp_f(opnum_t opno, long r)
+- 	struct xfs_flock64	fl;
+- 	int64_t		lr;
+- 	off64_t		off;
+--	struct stat64	stb;
+-+	struct stat	stb;
+- 	int		v;
+- 	char		st[1024];
+- 
+-@@ -5230,9 +5230,9 @@ unresvsp_f(opnum_t opno, long r)
+- 		free_pathname(&f);
+- 		return;
+- 	}
+--	if (fstat64(fd, &stb) < 0) {
+-+	if (fstat(fd, &stb) < 0) {
+- 		if (v)
+--			printf("%d/%lld: unresvsp - fstat64 %s failed %d\n",
+-+			printf("%d/%lld: unresvsp - fstat %s failed %d\n",
+- 				procid, opno, f.path, errno);
+- 		free_pathname(&f);
+- 		close(fd);
+-@@ -5281,7 +5281,7 @@ write_f(opnum_t opno, long r)
+- 	size_t		len;
+- 	int64_t		lr;
+- 	off64_t		off;
+--	struct stat64	stb;
+-+	struct stat	stb;
+- 	int		v;
+- 	char		st[1024];
+- 
+-@@ -5302,9 +5302,9 @@ write_f(opnum_t opno, long r)
+- 		free_pathname(&f);
+- 		return;
+- 	}
+--	if (fstat64(fd, &stb) < 0) {
+-+	if (fstat(fd, &stb) < 0) {
+- 		if (v)
+--			printf("%d/%lld: write - fstat64 %s failed %d\n",
+-+			printf("%d/%lld: write - fstat %s failed %d\n",
+- 				procid, opno, f.path, errno);
+- 		free_pathname(&f);
+- 		close(fd);
+-@@ -5337,7 +5337,7 @@ writev_f(opnum_t opno, long r)
+- 	size_t		len;
+- 	int64_t		lr;
+- 	off64_t		off;
+--	struct stat64	stb;
+-+	struct stat	stb;
+- 	int		v;
+- 	char		st[1024];
+- 	struct iovec	*iov = NULL;
+-@@ -5363,9 +5363,9 @@ writev_f(opnum_t opno, long r)
+- 		free_pathname(&f);
+- 		return;
+- 	}
+--	if (fstat64(fd, &stb) < 0) {
+-+	if (fstat(fd, &stb) < 0) {
+- 		if (v)
+--			printf("%d/%lld: writev - fstat64 %s failed %d\n",
+-+			printf("%d/%lld: writev - fstat %s failed %d\n",
+- 				procid, opno, f.path, errno);
+- 		free_pathname(&f);
+- 		close(fd);
+---- a/tests/fssum.c
+-+++ b/tests/fssum.c
+-@@ -519,9 +519,9 @@ sum(int dirfd, int level, sum_t *dircs,
+- 	int excl;
+- 	sum_file_data_t sum_file_data = flags[FLAG_STRUCTURE] ?
+- 			sum_file_data_strict : sum_file_data_permissive;
+--	struct stat64 dir_st;
+-+	struct stat dir_st;
+- 
+--	if (fstat64(dirfd, &dir_st)) {
+-+	if (fstat(dirfd, &dir_st)) {
+- 		perror("fstat");
+- 		exit(-1);
+- 	}
+-@@ -552,7 +552,7 @@ sum(int dirfd, int level, sum_t *dircs,
+- 	}
+- 	qsort(namelist, entries, sizeof(*namelist), namecmp);
+- 	for (i = 0; i < entries; ++i) {
+--		struct stat64 st;
+-+		struct stat st;
+- 		sum_t cs;
+- 		sum_t meta;
+- 		char *path;
+-@@ -572,7 +572,7 @@ sum(int dirfd, int level, sum_t *dircs,
+- 			perror("fchdir");
+- 			exit(-1);
+- 		}
+--		ret = lstat64(namelist[i], &st);
+-+		ret = lstat(namelist[i], &st);
+- 		if (ret) {
+- 			fprintf(stderr, "stat failed for %s/%s: %m\n",
+- 				path_prefix, path);
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.1.3.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.3.bb
+similarity index 95%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_6.1.3.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_6.3.bb
+index 05e84defba5..5c43d951c48 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.1.3.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.3.bb
+@@ -17,9 +17,8 @@ DEPENDS = "util-linux zlib"
+ 
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;branch=master;protocol=https \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+-           file://0001-Use-pread-pwrite-ftruncate-stat-instead-of-64bit-equ.patch \
             "
- 
- PE = "1"
--SRCREV = "ea0d77c52e176e2876fdb1d07ad41e9e2635a93e"
-+SRCREV = "4588bc3f994338502d2770ad24cbfcdaa6c335ec"
- 
+-SRCREV = "908b4b4450320e30fdef693f09b42f4eb93702c3"
++SRCREV = "fba31d634e3bc658e7d42a6c00f31ebb60adf901"
  S = "${WORKDIR}/git"
  
-@@ -187,7 +186,7 @@ FILES:${PN}-archive = "\
- 
- PACKAGES += "python3-rpm"
- PROVIDES += "python3-rpm"
--FILES:python3-rpm = "${PYTHON_SITEPACKAGES_DIR}/rpm/*"
-+FILES:python3-rpm = "${PYTHON_SITEPACKAGES_DIR}/rpm/* ${PYTHON_SITEPACKAGES_DIR}/rpm-*.egg-info"
- 
- RDEPENDS:${PN}-build = "bash perl python3-core debugedit"
- 
+ PACKAGECONFIG ??= " \
 -- 
 2.30.2
 
