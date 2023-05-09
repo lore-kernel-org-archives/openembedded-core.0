@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F030AC7EE2D
-	for <webhook@archiver.kernel.org>; Tue,  9 May 2023 17:24:03 +0000 (UTC)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web10.39163.1683653040025173236
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E867C7EE30
+	for <webhook@archiver.kernel.org>; Tue,  9 May 2023 17:24:04 +0000 (UTC)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web11.39308.1683653042737769846
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 May 2023 10:24:00 -0700
+ Tue, 09 May 2023 10:24:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=LvJvHoem;
- spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-94ef0a8546fso1001247966b.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 10:23:59 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=GzxhJP1X;
+ spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-965ab8ed1fcso1111977866b.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 10:24:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683653038; x=1686245038;
+        d=gmail.com; s=20221208; t=1683653041; x=1686245041;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=N9oKjNA4Ro4g0+gkbvpLKkChBzWWTDHyn2K8lxThPZs=;
-        b=LvJvHoemvqsdfWAxNwJmQII5T9SkDoRXGbHQgDZ8t6GBoNeYYsbsoAO40TMNr1qxs3
-         le2QoHHAoRlsPjvtma9YkkqkX2cr7chYLy1PbAwkXDsfK0pQtcOS48UnIoG7q/LeJSs/
-         Tw9i0Qjw1K8zoIjzAjfP0+rv9DgUNbVv04JaUH7f0Fgt5ADBm5orLcJHIjiMkQutj787
-         2pY0/DTtSlJHmkp/HjslQCa3nxtBnBCtF9N+rbjva/job8imrOxaTxmUjgUWlWQejJor
-         uh/0XE40WheYr3/ruZe/B2zLDN6vHOY/g45ccOzSna7Pm6LnATsDQ4VBS3GwUVzFQpOR
-         E67A==
+        bh=uiMIM5KmCQl26wRAiZ2dwdbghtAZZeroSE8ZqinXVtA=;
+        b=GzxhJP1XU7DXzENs2Up1U6yq84fIeIrkO1pieTt3WVcSljxC+OyudiP3d86+juo+Te
+         9Z+vXjXo40K7uXFyn407EkA9e4cgVNm2RBTTHFSWJJnUnJ4oaG16ort8qNoDqdiMmPa6
+         xtGcwXwMd6iUR2sFs7y6tQgbTjfk2eQlZP1NXg0YGnd11haRRTFBfsBTnlIxFDX2bJDT
+         Ur4de7CG9xI72YiIDXq+z13HmArF0RcmuOHBWIBZiNa87/K7i4Ca8o3u6EI6xBKQlcKc
+         5MlFCmwigTb1X9pde1w0IYGMWv+aaMjROrjSVksghHLDekNN8EUkyFxti0UvC+9nMUeM
+         gNzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683653038; x=1686245038;
+        d=1e100.net; s=20221208; t=1683653041; x=1686245041;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=N9oKjNA4Ro4g0+gkbvpLKkChBzWWTDHyn2K8lxThPZs=;
-        b=kZeyPSKovxO1ddCi3VPJSuRTyiL6xgzKHn1qwLJO83NIpQAPkmBbzraApS6mmpuHoW
-         g+sP1LmeNK+nJuEuAi5kX2WMdaXC1TykRqZPTpxdeoOLN1fp6PbSgG2cTueP4GAIn2mk
-         M/pl3oyiwtan7pP3bmHQ5hnu+AFu/hqa9FlsJ+2jtVVezQr/tUgmrQ7orqbFokjwTpFj
-         bNtMPrnyxLfRMHxmdqzFLszDQObVChP72Xei28OltGsXKg9tjl46Y/n0UB1K+jYmwedc
-         Ncy0iXT3Aens96id05Aj5HyZwNy9fb83Hk8W6ruySLwwd4F9QpT9HRIlF3xi++ZfZ1kA
-         f4fA==
-X-Gm-Message-State: AC+VfDwffbMRjJ/Fy/GpIDjz08sTAbObmAsMB1vKp6slvbN+kuilqzcQ
-	VVjUKcazUchRiRmC9T0S8JBzk8O64Ns=
-X-Google-Smtp-Source: ACHHUZ6646ra+027atSqm1PbFt+RavJYm/puRYH6zrw6lzehNbcahVtcBx/EpTt5Y2GIej0evAapug==
-X-Received: by 2002:a17:907:d1e:b0:965:66dd:78f8 with SMTP id gn30-20020a1709070d1e00b0096566dd78f8mr14709349ejc.56.1683653038508;
-        Tue, 09 May 2023 10:23:58 -0700 (PDT)
+        bh=uiMIM5KmCQl26wRAiZ2dwdbghtAZZeroSE8ZqinXVtA=;
+        b=T3P9WRgPvLoudxr7xMmHF6mu0VXNxlzviA+YPnHC8laE3bjsUf+/aaMf2yzKNx0w1M
+         QuWqCENGBCNRETO2ittvFI2wzQFn5PpJ5PDw4CJnHXt1UFHgvPhEvWLn9HqIvycOCMbn
+         W+p0+h2APjlEC1i/x1+D2utTLZqoWycLk/qNnhv7bBBRdLK5f/hmosSAyYwGMG9TEVGq
+         GUXB37iS8WjorXXIibAGRN/Qo+aOzArhTI7Az7SjYrnuYQ3DtTPdyiBCxSha3GldBLKm
+         YzMaMnmdxC62JC2isAOMIOEAAnyP4a0nWoarRz5H3bJJX5+oNKHH8sqfymemot6ZJnA4
+         hQBg==
+X-Gm-Message-State: AC+VfDw8v5rM7CdJ6rhns8gp5LboBODOfjOi/Fz0jCn7lvfHQd2zawpB
+	ru8DjlYa8qrK7Y5j3/4f0R/HeMsUHcA=
+X-Google-Smtp-Source: ACHHUZ5xnXHwUBRWj7aSZVc6HiAA2E4h9f/AF+RZV/i3ae56PeYjEI39pyXssNA3ZsDx3jwMINIASA==
+X-Received: by 2002:a17:907:9345:b0:958:4870:8d09 with SMTP id bv5-20020a170907934500b0095848708d09mr13367244ejc.37.1683653041206;
+        Tue, 09 May 2023 10:24:01 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id jz24-20020a17090775f800b0096347ef816dsm1578252ejc.64.2023.05.09.10.23.57
+        by smtp.gmail.com with ESMTPSA id jz24-20020a17090775f800b0096347ef816dsm1578252ejc.64.2023.05.09.10.24.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 May 2023 10:23:58 -0700 (PDT)
+        Tue, 09 May 2023 10:24:00 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 16/27] less: update 608 -> 633
-Date: Tue,  9 May 2023 19:23:33 +0200
-Message-Id: <20230509172344.1516743-16-alex@linutronix.de>
+Subject: [PATCH 19/27] cryptodev: remove unneeded patch
+Date: Tue,  9 May 2023 19:23:36 +0200
+Message-Id: <20230509172344.1516743-19-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230509172344.1516743-1-alex@linutronix.de>
 References: <20230509172344.1516743-1-alex@linutronix.de>
@@ -61,81 +61,116 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 17:24:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181071
+ <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 17:24:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181074
 
-Drop backport.
+With 1.13 version the needed rules are available directly
+upstream. This wasn't noticed in 1.12->1.13 patch rebase.
 
-License-update: copyright years.
+I verified that installed files are exactly same with and
+without the patch.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../less/files/CVE-2022-46663.patch           | 28 -------------------
- .../less/{less_608.bb => less_633.bb}         |  8 ++----
- 2 files changed, 3 insertions(+), 33 deletions(-)
- delete mode 100644 meta/recipes-extended/less/files/CVE-2022-46663.patch
- rename meta/recipes-extended/less/{less_608.bb => less_633.bb} (84%)
+ .../cryptodev/cryptodev-tests_1.13.bb         |  7 +-
+ ...and-install-rules-for-cryptodev-test.patch | 66 -------------------
+ 2 files changed, 3 insertions(+), 70 deletions(-)
+ delete mode 100644 meta/recipes-kernel/cryptodev/files/0001-Add-the-compile-and-install-rules-for-cryptodev-test.patch
 
-diff --git a/meta/recipes-extended/less/files/CVE-2022-46663.patch b/meta/recipes-extended/less/files/CVE-2022-46663.patch
+diff --git a/meta/recipes-kernel/cryptodev/cryptodev-tests_1.13.bb b/meta/recipes-kernel/cryptodev/cryptodev-tests_1.13.bb
+index c5414787966..458ad8ecf2a 100644
+--- a/meta/recipes-kernel/cryptodev/cryptodev-tests_1.13.bb
++++ b/meta/recipes-kernel/cryptodev/cryptodev-tests_1.13.bb
+@@ -5,14 +5,13 @@ SUMMARY = "A test suite for /dev/crypto device driver"
+ DEPENDS += "openssl"
+ 
+ SRC_URI += " \
+-file://0001-Add-the-compile-and-install-rules-for-cryptodev-test.patch \
+-file://0001-tests-Makefile-do-not-use-Werror.patch \
+-"
++           file://0001-tests-Makefile-do-not-use-Werror.patch \
++           "
+ 
+ EXTRA_OEMAKE='KERNEL_DIR="${STAGING_EXECPREFIXDIR}" PREFIX="${D}"'
+ 
+ do_compile() {
+-	oe_runmake testprogs
++	oe_runmake tests
+ }
+ 
+ do_install() {
+diff --git a/meta/recipes-kernel/cryptodev/files/0001-Add-the-compile-and-install-rules-for-cryptodev-test.patch b/meta/recipes-kernel/cryptodev/files/0001-Add-the-compile-and-install-rules-for-cryptodev-test.patch
 deleted file mode 100644
-index 20f9d89ed86..00000000000
---- a/meta/recipes-extended/less/files/CVE-2022-46663.patch
+index 8c40e623890..00000000000
+--- a/meta/recipes-kernel/cryptodev/files/0001-Add-the-compile-and-install-rules-for-cryptodev-test.patch
 +++ /dev/null
-@@ -1,28 +0,0 @@
--CVE: CVE-2022-46663
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
+@@ -1,66 +0,0 @@
+-From 3ba8ba9410464d0986bc6cc5ddb1819745af1eb2 Mon Sep 17 00:00:00 2001
+-From: Yu Zongchun <b40527@freescale.com>
+-Date: Sun, 28 Apr 2013 14:39:22 +0800
+-Subject: [PATCH] Add the compile and install rules for cryptodev tests folder
 -
--From a78e1351113cef564d790a730d657a321624d79c Mon Sep 17 00:00:00 2001
--From: Mark Nudelman <markn@greenwoodsoftware.com>
--Date: Fri, 7 Oct 2022 19:25:46 -0700
--Subject: [PATCH] End OSC8 hyperlink on invalid embedded escape sequence.
+-This is required to install the cryptodev tests folder to rootfs
+-
+-Signed-off-by: Yu Zongchun <b40527@freescale.com>
+-
+-Upstream-Status: Pending
 -
 ----
-- line.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
+- Makefile       | 6 ++++++
+- tests/Makefile | 8 ++++++++
+- 2 files changed, 14 insertions(+)
 -
--diff --git a/line.c b/line.c
--index 236c49ae..cba7bdd1 100644
----- a/line.c
--+++ b/line.c
--@@ -633,8 +633,8 @@ ansi_step(pansi, ch)
-- 		/* Hyperlink ends with \7 or ESC-backslash. */
-- 		if (ch == '\7')
-- 			return ANSI_END;
---		if (pansi->prev_esc && ch == '\\')
---			return ANSI_END;
--+		if (pansi->prev_esc)
--+            return (ch == '\\') ? ANSI_END : ANSI_ERR;
-- 		pansi->prev_esc = (ch == ESC);
-- 		return ANSI_MID;
-- 	}
-diff --git a/meta/recipes-extended/less/less_608.bb b/meta/recipes-extended/less/less_633.bb
-similarity index 84%
-rename from meta/recipes-extended/less/less_608.bb
-rename to meta/recipes-extended/less/less_633.bb
-index f907a8159cc..2defb5ccb7a 100644
---- a/meta/recipes-extended/less/less_608.bb
-+++ b/meta/recipes-extended/less/less_633.bb
-@@ -21,15 +21,13 @@ SECTION = "console/utils"
- 
- LICENSE = "GPL-3.0-or-later | BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
--                    file://LICENSE;md5=38fc26d78ca8d284a2a5a4bbc263d29b \
-+                    file://LICENSE;md5=1b2446f5c8632bf63a97d7a49750e1c6 \
-                     "
- DEPENDS = "ncurses"
- 
--SRC_URI = "http://www.greenwoodsoftware.com/${BPN}/${BPN}-${PV}.tar.gz \
--           file://CVE-2022-46663.patch \
--	  "
-+SRC_URI = "http://www.greenwoodsoftware.com/${BPN}/${BPN}-${PV}.tar.gz"
- 
--SRC_URI[sha256sum] = "a69abe2e0a126777e021d3b73aa3222e1b261f10e64624d41ec079685a6ac209"
-+SRC_URI[sha256sum] = "2f201d64b828b88af36dfe6cfdba3e0819ece2e446ebe6224813209aaefed04f"
- 
- UPSTREAM_CHECK_URI = "http://www.greenwoodsoftware.com/less/download.html"
- 
+-diff --git a/Makefile b/Makefile
+-index d83aee6..3a750a1 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -41,6 +41,9 @@ modules_install:
+- install_tests: tests
+- 	$(MAKE) -C tests install DESTDIR=$(PREFIX)
+- 
+-+install_tests:
+-+	make -C tests install DESTDIR=$(PREFIX)
+-+
+- clean:
+- 	$(MAKE) $(KERNEL_MAKE_OPTS) clean
+- 	CFLAGS=$(CRYPTODEV_CFLAGS) KERNEL_DIR=$(KERNEL_DIR) $(MAKE) -C tests clean
+-@@ -54,6 +57,9 @@ tests:
+- 
+- .PHONY: install modules_install tests install_tests
+- 
+-+testprogs:
+-+	KERNEL_DIR=$(KERNEL_DIR) make -C tests testprogs
+-+
+- CPOPTS =
+- ifneq ($(SHOW_TYPES),)
+- CPOPTS += --show-types
+-diff --git a/tests/Makefile b/tests/Makefile
+-index 2502f32..2fb7a9a 100644
+---- a/tests/Makefile
+-+++ b/tests/Makefile
+-@@ -23,6 +23,12 @@ bindir = $(execprefix)/bin
+- 
+- all: $(hostprogs)
+- 
+-+install:
+-+	install -d  $(DESTDIR)/usr/bin/tests_cryptodev
+-+	for bin in $(hostprogs); do \
+-+		install -m 755 $${bin} $(DESTDIR)/usr/bin/tests_cryptodev/; \
+-+	done
+-+
+- check: $(hostprogs)
+- 	./cipher
+- 	./hmac
+-@@ -38,6 +44,8 @@ install:
+- 		install -m 755 $$prog $(DESTDIR)/$(bindir); \
+- 	done
+- 
+-+testprogs: $(hostprogs)
+-+
+- clean:
+- 	rm -f *.o *~ $(hostprogs)
+- 
 -- 
 2.30.2
 
