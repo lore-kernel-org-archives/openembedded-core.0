@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF905C7EE23
-	for <webhook@archiver.kernel.org>; Tue,  9 May 2023 17:24:03 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web10.39153.1683653030511985163
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14A05C7EE31
+	for <webhook@archiver.kernel.org>; Tue,  9 May 2023 17:24:04 +0000 (UTC)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web10.39159.1683653036680957568
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 May 2023 10:23:53 -0700
+ Tue, 09 May 2023 10:23:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=qom1RIZ0;
- spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-965e4be7541so944405766b.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 10:23:53 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=EZXcRuQy;
+ spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-50be17a1eceso11930678a12.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 10:23:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683653033; x=1686245033;
+        d=gmail.com; s=20221208; t=1683653035; x=1686245035;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fagruRoDG1mQj7Dj9mL3RyBggKJlXDlx3plwCn5ih/s=;
-        b=qom1RIZ0iMhJsQ2AcqLbFipYEJdH5rF88iqV3I3fcgEnwv+k8nCKHHXE1pxm2TELTq
-         gRAD7BzvV0qn+13oq9NpUgyrxBsj/D5KnhSzwYxxkSKPKaYnznWZPUBCvw04FRNfTWUZ
-         elOdJY9TKuS9GtKq6kG2tPeMESIhEKtEiplO3nrZuCyszgm0InRegA31CmFHoLgKTS7/
-         h0AdYYqXmKeFKykaHtIqilulihiW6mU9ZZNhvCYi6IhXKJ9gHpYkRznX410qipIfyMRG
-         d9ZtZCPNDjCfUAGpjJcNGOtjq4agCznW+ELX1tLnGdebEBgC6pewufCCVXko25Ot5ZeH
-         tMzw==
+        bh=WQhC1Qt3sCrlqtK76irsJwClLaiR4kAKAkR9RNxN49Q=;
+        b=EZXcRuQyfGmrFmuIm6XLxh0D/MPWZ+jvoVyBjED23n+4emXwVYt3+yTL+QpdbcEBlW
+         9B2U+AaeMfqC1qbQqEdmlqho0l0xz01n92EpnW8ULX1YYjkXGMQCiL4CSktY44GdTpVI
+         XBsh8kcdhCm8KvcGjMT7TZVCNxqlUyx91Yy+Dgd/pas/kxsF0pQGs1HB5x50GTISOuRP
+         9MCQhBo7qz4Vkt7P0lLiepq+UcNDA12cpA2wfcJyaCbhEPwvYZMNxVH+k7qMA4++Lw7p
+         2aQ5nCCoSLdcLoVvQNl2vEwahL58r+1fDJ2l0AjuR7KIGDtWS4Vce9IRcfJWlk4ebXYF
+         6oGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683653033; x=1686245033;
+        d=1e100.net; s=20221208; t=1683653035; x=1686245035;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fagruRoDG1mQj7Dj9mL3RyBggKJlXDlx3plwCn5ih/s=;
-        b=W6n4ow4UdGrxK9tzz05ZFA6mC12d2FviTBmuDgSEUuYnu/3m2JU7fygvlfJ7eKrVRu
-         RNVnVvJa9Wn7uyL7GnpOqI0qHUN1fgyMtsvr2LebMBqh8JBPcqbGk9OwAapDXikfNWk6
-         xnU9TSY8d6WoceIgfgz+MHl3Z17dPMdPMgbVAZaulv559+sWvxWfL+xah8g8r433rQj3
-         5txMHVftzG4mN8MU2z2HH0ZUln39MTopLAkvgxnFJmgs1yEzb9wgeSG4RlqpNnF/NQAW
-         CEbJyJVw96SFBqdbKs04d6N1xbiwQy23SWlWpZWaTAYL6D86wBaJTkUoGdcNqhrQQ3Zi
-         tlPA==
-X-Gm-Message-State: AC+VfDy+1R+PSQs4Bpc/LCBF8eYKn4qc1vT2RCIt3OQsfo6o58hHbsdA
-	lck5nMY1db7I0lp2y2/lnYIk+T3Fcxc=
-X-Google-Smtp-Source: ACHHUZ6N/O7URAEHkWQbnbK3EBoPkW9eKBKV0JinFInTl96vIC616nFHTKz+6H3sVbzTIdhHcQ/W4g==
-X-Received: by 2002:a17:907:9718:b0:966:c09:1c57 with SMTP id jg24-20020a170907971800b009660c091c57mr11951325ejc.65.1683653032504;
-        Tue, 09 May 2023 10:23:52 -0700 (PDT)
+        bh=WQhC1Qt3sCrlqtK76irsJwClLaiR4kAKAkR9RNxN49Q=;
+        b=Di6tiG2ZqHunKkUio0E1kluzhkWRP7Vg4vCuXO/H8p4YELHtOeQLE6gUv73RJpsTM8
+         pzLCRBZW6RYcKUMkzlQDLrvP+5JMs+EVDwkal8QYYN5Oi0bBakcWo9Ynbk+n4BzYDIz1
+         ZPsDK08Cf+xUCgowTYANXudtC+DyJpfcE1ox8NTKAv5Tn6fb29NtaRCLv1E4WVQB6vNZ
+         Iw+2elpjIIPTz5hpdcG/3AyvI33pH4eV8YweyHYPuGtgIpIO9kTQcny6C3O7UlKCY0ja
+         ZvMK8zRzKs+8/2MiFzBhlHN23wim0FJSfmji7HLUBfrvgrBcdw5R6qqtww0OJIB9tZje
+         nsBA==
+X-Gm-Message-State: AC+VfDwL3NLn1cQIyQl+hPq+kQ+Tiy4e1kn54ncmIj/MRBvMaEravhYg
+	mkW3mkM2EaIfPwFHcibjRLvHjrCSWNU=
+X-Google-Smtp-Source: ACHHUZ41eE3HHQTHZz5WRGSihP1VjdE18x+DrmCh9zdHGMG3lFXQb/aLkPFKSSUY1UR5cjH90o7RLQ==
+X-Received: by 2002:a17:907:8a29:b0:965:f8b7:b0cd with SMTP id sc41-20020a1709078a2900b00965f8b7b0cdmr16740758ejc.25.1683653035028;
+        Tue, 09 May 2023 10:23:55 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id jz24-20020a17090775f800b0096347ef816dsm1578252ejc.64.2023.05.09.10.23.51
+        by smtp.gmail.com with ESMTPSA id jz24-20020a17090775f800b0096347ef816dsm1578252ejc.64.2023.05.09.10.23.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 May 2023 10:23:52 -0700 (PDT)
+        Tue, 09 May 2023 10:23:54 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 07/27] btrfs-tools: update 6.1.3 -> 6.3
-Date: Tue,  9 May 2023 19:23:24 +0200
-Message-Id: <20230509172344.1516743-7-alex@linutronix.de>
+Subject: [PATCH 11/27] meson: update 1.0.1 ->1.1.0
+Date: Tue,  9 May 2023 19:23:28 +0200
+Message-Id: <20230509172344.1516743-11-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230509172344.1516743-1-alex@linutronix.de>
 References: <20230509172344.1516743-1-alex@linutronix.de>
@@ -61,946 +61,149 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 17:24:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181062
+ <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 17:24:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181066
 
-Drop patch, as upstream fixed the issue separately.
+Rebase two patches.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...-ftruncate-stat-instead-of-64bit-equ.patch | 903 ------------------
- ...trfs-tools_6.1.3.bb => btrfs-tools_6.3.bb} |   3 +-
- 2 files changed, 1 insertion(+), 905 deletions(-)
- delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Use-pread-pwrite-ftruncate-stat-instead-of-64bit-equ.patch
- rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_6.1.3.bb => btrfs-tools_6.3.bb} (95%)
+ ...for-clang-before-guessing-gcc-or-lcc.patch | 14 +++---
+ ...-not-manipulate-the-environment-when.patch | 48 +++++++++----------
+ .../meson/{meson_1.0.1.bb => meson_1.1.0.bb}  |  2 +-
+ 3 files changed, 31 insertions(+), 33 deletions(-)
+ rename meta/recipes-devtools/meson/{meson_1.0.1.bb => meson_1.1.0.bb} (98%)
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Use-pread-pwrite-ftruncate-stat-instead-of-64bit-equ.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Use-pread-pwrite-ftruncate-stat-instead-of-64bit-equ.patch
-deleted file mode 100644
-index 2618687088f..00000000000
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Use-pread-pwrite-ftruncate-stat-instead-of-64bit-equ.patch
-+++ /dev/null
-@@ -1,903 +0,0 @@
--From 37425f422e46003ed623f8e6387bed1aa5778b96 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 11 Nov 2022 11:26:05 -0800
--Subject: [PATCH] Use pread/pwrite/ftruncate/stat instead of 64bit equivalents
--
--64bit functions are aliases to original functions when largefile feature
--is enabled via autoconf or right macro is passed on compiler cmdline
--
---D_FILE_OFFSET_BITS=64
--
--Upstream-Status: Submitted [https://lore.kernel.org/linux-btrfs/20221215084046.122836-1-raj.khem@gmail.com/T/#u]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- cmds/rescue-chunk-recover.c |   4 +-
-- image/main.c                |  14 +--
-- kernel-shared/zoned.c       |   6 +-
-- kernel-shared/zoned.h       |   4 +-
-- mkfs/main.c                 |   4 +-
-- mkfs/rootdir.c              |  10 +-
-- tests/fsstress.c            | 192 ++++++++++++++++++------------------
-- tests/fssum.c               |   8 +-
-- 8 files changed, 121 insertions(+), 121 deletions(-)
--
----- a/cmds/rescue-chunk-recover.c
--+++ b/cmds/rescue-chunk-recover.c
--@@ -755,7 +755,7 @@ static int scan_one_device(void *dev_sca
-- 		if (is_super_block_address(bytenr))
-- 			bytenr += rc->sectorsize;
-- 
---		if (pread64(fd, buf->data, rc->nodesize, bytenr) <
--+		if (pread(fd, buf->data, rc->nodesize, bytenr) <
-- 		    rc->nodesize)
-- 			break;
-- 
--@@ -1875,7 +1875,7 @@ static int check_one_csum(int fd, u64 st
-- 	data = malloc(len);
-- 	if (!data)
-- 		return -1;
---	ret = pread64(fd, data, len, start);
--+	ret = pread(fd, data, len, start);
-- 	if (ret < 0 || ret != len) {
-- 		ret = -1;
-- 		goto out;
----- a/image/main.c
--+++ b/image/main.c
--@@ -691,7 +691,7 @@ static int flush_pending(struct metadump
-- 		if (start == BTRFS_SUPER_INFO_OFFSET) {
-- 			int fd = get_dev_fd(md->root);
-- 
---			ret = pread64(fd, async->buffer, size, start);
--+			ret = pread(fd, async->buffer, size, start);
-- 			if (ret < size) {
-- 				free(async->buffer);
-- 				free(async);
--@@ -1366,7 +1366,7 @@ static void write_backup_supers(int fd,
-- 			break;
-- 		btrfs_set_super_bytenr(super, bytenr);
-- 		csum_block(buf, BTRFS_SUPER_INFO_SIZE);
---		ret = pwrite64(fd, buf, BTRFS_SUPER_INFO_SIZE, bytenr);
--+		ret = pwrite(fd, buf, BTRFS_SUPER_INFO_SIZE, bytenr);
-- 		if (ret < BTRFS_SUPER_INFO_SIZE) {
-- 			if (ret < 0)
-- 				error(
--@@ -1487,12 +1487,12 @@ static int restore_one_work(struct mdres
-- 				else
-- 					bytenr = logical;
-- 
---				ret = pwrite64(outfd, buffer + offset, chunk_size, bytenr);
--+				ret = pwrite(outfd, buffer + offset, chunk_size, bytenr);
-- 				if (ret != chunk_size)
-- 					goto write_error;
-- 
-- 				if (physical_dup)
---					ret = pwrite64(outfd, buffer + offset,
--+					ret = pwrite(outfd, buffer + offset,
-- 						       chunk_size, physical_dup);
-- 				if (ret != chunk_size)
-- 					goto write_error;
--@@ -2454,7 +2454,7 @@ static int fixup_device_size(struct btrf
-- 	}
-- 	if (S_ISREG(buf.st_mode)) {
-- 		/* Don't forget to enlarge the real file */
---		ret = ftruncate64(out_fd, dev_size);
--+		ret = ftruncate(out_fd, dev_size);
-- 		if (ret < 0) {
-- 			error("failed to enlarge result image: %m");
-- 			return -errno;
--@@ -2913,7 +2913,7 @@ static int restore_metadump(const char *
-- 			goto out;
-- 		}
-- 		if (S_ISREG(st.st_mode) && st.st_size < dev_size) {
---			ret = ftruncate64(fileno(out), dev_size);
--+			ret = ftruncate(fileno(out), dev_size);
-- 			if (ret < 0) {
-- 				error(
-- 		"failed to enlarge result image file from %llu to %llu: %m",
--@@ -3010,7 +3010,7 @@ static int update_disk_super_on_device(s
-- 	memcpy(dev_item->fsid, fs_uuid, BTRFS_UUID_SIZE);
-- 	csum_block((u8 *)&disk_super, BTRFS_SUPER_INFO_SIZE);
-- 
---	ret = pwrite64(fp, &disk_super, BTRFS_SUPER_INFO_SIZE, BTRFS_SUPER_INFO_OFFSET);
--+	ret = pwrite(fp, &disk_super, BTRFS_SUPER_INFO_SIZE, BTRFS_SUPER_INFO_OFFSET);
-- 	if (ret != BTRFS_SUPER_INFO_SIZE) {
-- 		if (ret < 0) {
-- 			errno = ret;
----- a/kernel-shared/zoned.c
--+++ b/kernel-shared/zoned.c
--@@ -194,7 +194,7 @@ static int sb_write_pointer(int fd, stru
-- 			bytenr = ((zones[i].start + zones[i].len)
-- 				   << SECTOR_SHIFT) - BTRFS_SUPER_INFO_SIZE;
-- 
---			ret = pread64(fd, buf[i], BTRFS_SUPER_INFO_SIZE, bytenr);
--+			ret = pread(fd, buf[i], BTRFS_SUPER_INFO_SIZE, bytenr);
-- 			if (ret != BTRFS_SUPER_INFO_SIZE)
-- 				return -EIO;
-- 			super[i] = (struct btrfs_super_block *)&buf[i];
--@@ -515,8 +515,8 @@ size_t btrfs_sb_io(int fd, void *buf, of
-- 	/* We can call pread/pwrite if 'fd' is non-zoned device/file */
-- 	if (zone_size_sector == 0) {
-- 		if (rw == READ)
---			return pread64(fd, buf, count, offset);
---		return pwrite64(fd, buf, count, offset);
--+			return pread(fd, buf, count, offset);
--+		return pwrite(fd, buf, count, offset);
-- 	}
-- 
-- 	ASSERT(IS_ALIGNED(zone_size_sector, sb_size_sector));
----- a/kernel-shared/zoned.h
--+++ b/kernel-shared/zoned.h
--@@ -150,9 +150,9 @@ int btrfs_wipe_temporary_sb(struct btrfs
-- #else
-- 
-- #define sbread(fd, buf, offset) \
---	pread64(fd, buf, BTRFS_SUPER_INFO_SIZE, offset)
--+	pread(fd, buf, BTRFS_SUPER_INFO_SIZE, offset)
-- #define sbwrite(fd, buf, offset) \
---	pwrite64(fd, buf, BTRFS_SUPER_INFO_SIZE, offset)
--+	pwrite(fd, buf, BTRFS_SUPER_INFO_SIZE, offset)
-- 
-- static inline int btrfs_reset_dev_zone(int fd, struct blk_zone *zone)
-- {
----- a/mkfs/main.c
--+++ b/mkfs/main.c
--@@ -453,14 +453,14 @@ static int zero_output_file(int out_fd,
-- 	/* Only zero out the first 1M */
-- 	loop_num = SZ_1M / SZ_4K;
-- 	for (i = 0; i < loop_num; i++) {
---		written = pwrite64(out_fd, buf, SZ_4K, location);
--+		written = pwrite(out_fd, buf, SZ_4K, location);
-- 		if (written != SZ_4K)
-- 			ret = -EIO;
-- 		location += SZ_4K;
-- 	}
-- 
-- 	/* Then enlarge the file to size */
---	written = pwrite64(out_fd, buf, 1, size - 1);
--+	written = pwrite(out_fd, buf, 1, size - 1);
-- 	if (written < 1)
-- 		ret = -EIO;
-- 	return ret;
----- a/mkfs/rootdir.c
--+++ b/mkfs/rootdir.c
--@@ -340,7 +340,7 @@ static int add_file_items(struct btrfs_t
-- 			goto end;
-- 		}
-- 
---		ret_read = pread64(fd, buffer, st->st_size, bytes_read);
--+		ret_read = pread(fd, buffer, st->st_size, bytes_read);
-- 		if (ret_read == -1) {
-- 			error("cannot read %s at offset %llu length %llu: %m",
-- 				path_name, bytes_read, (unsigned long long)st->st_size);
--@@ -386,7 +386,7 @@ again:
-- 
-- 		memset(eb->data, 0, sectorsize);
-- 
---		ret_read = pread64(fd, eb->data, sectorsize, file_pos +
--+		ret_read = pread(fd, eb->data, sectorsize, file_pos +
-- 				   bytes_read);
-- 		if (ret_read == -1) {
-- 			error("cannot read %s at offset %llu length %u: %m",
--@@ -929,7 +929,7 @@ int btrfs_mkfs_shrink_fs(struct btrfs_fs
-- 	u64 new_size;
-- 	struct btrfs_device *device;
-- 	struct list_head *cur;
---	struct stat64 file_stat;
--+	struct stat file_stat;
-- 	int nr_devs = 0;
-- 	int ret;
-- 
--@@ -963,14 +963,14 @@ int btrfs_mkfs_shrink_fs(struct btrfs_fs
-- 		*new_size_ret = new_size;
-- 
-- 	if (shrink_file_size) {
---		ret = fstat64(device->fd, &file_stat);
--+		ret = fstat(device->fd, &file_stat);
-- 		if (ret < 0) {
-- 			error("failed to stat devid %llu: %m", device->devid);
-- 			return ret;
-- 		}
-- 		if (!S_ISREG(file_stat.st_mode))
-- 			return ret;
---		ret = ftruncate64(device->fd, new_size);
--+		ret = ftruncate(device->fd, new_size);
-- 		if (ret < 0) {
-- 			error("failed to truncate device file of devid %llu: %m",
-- 				device->devid);
----- a/tests/fsstress.c
--+++ b/tests/fsstress.c
--@@ -458,7 +458,7 @@ int	get_fname(int, long, pathname_t *, f
-- void	init_pathname(pathname_t *);
-- int	lchown_path(pathname_t *, uid_t, gid_t);
-- int	link_path(pathname_t *, pathname_t *);
---int	lstat64_path(pathname_t *, struct stat64 *);
--+int	lstat_path(pathname_t *, struct stat *);
-- void	make_freq_table(void);
-- int	mkdir_path(pathname_t *, mode_t);
-- int	mknod_path(pathname_t *, mode_t, dev_t);
--@@ -472,9 +472,9 @@ int	rename_path(pathname_t *, pathname_t
-- int	rmdir_path(pathname_t *);
-- void	separate_pathname(pathname_t *, char *, pathname_t *);
-- void	show_ops(int, char *);
---int	stat64_path(pathname_t *, struct stat64 *);
--+int	stat_path(pathname_t *, struct stat *);
-- int	symlink_path(const char *, pathname_t *);
---int	truncate64_path(pathname_t *, off64_t);
--+int	truncate_path(pathname_t *, off64_t);
-- int	unlink_path(pathname_t *);
-- void	usage(void);
-- void	write_freq(void);
--@@ -998,12 +998,12 @@ void
-- check_cwd(void)
-- {
-- #ifdef DEBUG
---	struct stat64	statbuf;
--+	struct stat	statbuf;
-- 	int ret;
-- 
---	ret = stat64(".", &statbuf);
--+	ret = stat(".", &statbuf);
-- 	if (ret != 0) {
---		fprintf(stderr, "fsstress: check_cwd stat64() returned %d with errno: %d (%m)\n",
--+		fprintf(stderr, "fsstress: check_cwd stat() returned %d with errno: %d (%m)\n",
-- 			ret, errno);
-- 		goto out;
-- 	}
--@@ -1171,7 +1171,7 @@ again:
-- void
-- doproc(void)
-- {
---	struct stat64	statbuf;
--+	struct stat	statbuf;
-- 	char		buf[10];
-- 	char		cmd[64];
-- 	opnum_t		opno;
--@@ -1182,7 +1182,7 @@ doproc(void)
-- 	dividend = (operations + execute_freq) / (execute_freq + 1);
-- 	sprintf(buf, "p%x", procid);
-- 	(void)mkdir(buf, 0777);
---	if (chdir(buf) < 0 || stat64(".", &statbuf) < 0) {
--+	if (chdir(buf) < 0 || stat(".", &statbuf) < 0) {
-- 		perror(buf);
-- 		_exit(1);
-- 	}
--@@ -1214,7 +1214,7 @@ doproc(void)
-- 		 * the forced shutdown happened.
-- 		 */
-- 		if (errtag != 0 && opno % 100 == 0)  {
---			rval = stat64(".", &statbuf);
--+			rval = stat(".", &statbuf);
-- 			if (rval == EIO)  {
-- 				fprintf(stderr, "Detected EIO\n");
-- 				goto errout;
--@@ -1537,18 +1537,18 @@ link_path(pathname_t *name1, pathname_t
-- }
-- 
-- int
---lstat64_path(pathname_t *name, struct stat64 *sbuf)
--+lstat_path(pathname_t *name, struct stat *sbuf)
-- {
-- 	char		buf[NAME_MAX + 1];
-- 	pathname_t	newname;
-- 	int		rval;
-- 
---	rval = lstat64(name->path, sbuf);
--+	rval = lstat(name->path, sbuf);
-- 	if (rval >= 0 || errno != ENAMETOOLONG)
-- 		return rval;
-- 	separate_pathname(name, buf, &newname);
-- 	if (chdir(buf) == 0) {
---		rval = lstat64_path(&newname, sbuf);
--+		rval = lstat_path(&newname, sbuf);
-- 		assert(chdir("..") == 0);
-- 	}
-- 	free_pathname(&newname);
--@@ -1870,18 +1870,18 @@ show_ops(int flag, char *lead_str)
-- }
-- 
-- int
---stat64_path(pathname_t *name, struct stat64 *sbuf)
--+stat_path(pathname_t *name, struct stat *sbuf)
-- {
-- 	char		buf[NAME_MAX + 1];
-- 	pathname_t	newname;
-- 	int		rval;
-- 
---	rval = stat64(name->path, sbuf);
--+	rval = stat(name->path, sbuf);
-- 	if (rval >= 0 || errno != ENAMETOOLONG)
-- 		return rval;
-- 	separate_pathname(name, buf, &newname);
-- 	if (chdir(buf) == 0) {
---		rval = stat64_path(&newname, sbuf);
--+		rval = stat_path(&newname, sbuf);
-- 		assert(chdir("..") == 0);
-- 	}
-- 	free_pathname(&newname);
--@@ -1913,18 +1913,18 @@ symlink_path(const char *name1, pathname
-- }
-- 
-- int
---truncate64_path(pathname_t *name, off64_t length)
--+truncate_path(pathname_t *name, off64_t length)
-- {
-- 	char		buf[NAME_MAX + 1];
-- 	pathname_t	newname;
-- 	int		rval;
-- 
---	rval = truncate64(name->path, length);
--+	rval = truncate(name->path, length);
-- 	if (rval >= 0 || errno != ENAMETOOLONG)
-- 		return rval;
-- 	separate_pathname(name, buf, &newname);
-- 	if (chdir(buf) == 0) {
---		rval = truncate64_path(&newname, length);
--+		rval = truncate_path(&newname, length);
-- 		assert(chdir("..") == 0);
-- 	}
-- 	free_pathname(&newname);
--@@ -2026,7 +2026,7 @@ non_btrfs_freq(const char *path)
-- 		ops[btrfs_ops[i]].freq = 0;
-- }
-- 
---void inode_info(char *str, size_t sz, struct stat64 *s, int verbose)
--+void inode_info(char *str, size_t sz, struct stat *s, int verbose)
-- {
-- 	if (verbose)
-- 		snprintf(str, sz, "[%ld %ld %d %d %lld %lld]",
--@@ -2101,7 +2101,7 @@ allocsp_f(opnum_t opno, long r)
-- 	struct xfs_flock64	fl;
-- 	int64_t		lr;
-- 	off64_t		off;
---	struct stat64	stb;
--+	struct stat	stb;
-- 	int		v;
-- 	char		st[1024];
-- 
--@@ -2122,9 +2122,9 @@ allocsp_f(opnum_t opno, long r)
-- 		free_pathname(&f);
-- 		return;
-- 	}
---	if (fstat64(fd, &stb) < 0) {
--+	if (fstat(fd, &stb) < 0) {
-- 		if (v)
---			printf("%d/%lld: allocsp - fstat64 %s failed %d\n",
--+			printf("%d/%lld: allocsp - fstat %s failed %d\n",
-- 				procid, opno, f.path, errno);
-- 		free_pathname(&f);
-- 		close(fd);
--@@ -2160,7 +2160,7 @@ do_aio_rw(opnum_t opno, long r, int flag
-- 	size_t		len;
-- 	int64_t		lr;
-- 	off64_t		off;
---	struct stat64	stb;
--+	struct stat	stb;
-- 	int		v;
-- 	char		st[1024];
-- 	char		*dio_env;
--@@ -2184,9 +2184,9 @@ do_aio_rw(opnum_t opno, long r, int flag
-- 			       procid, opno, f.path, e);
-- 		goto aio_out;
-- 	}
---	if (fstat64(fd, &stb) < 0) {
--+	if (fstat(fd, &stb) < 0) {
-- 		if (v)
---			printf("%d/%lld: do_aio_rw - fstat64 %s failed %d\n",
--+			printf("%d/%lld: do_aio_rw - fstat %s failed %d\n",
-- 			       procid, opno, f.path, errno);
-- 		goto aio_out;
-- 	}
--@@ -2278,7 +2278,7 @@ do_uring_rw(opnum_t opno, long r, int fl
-- 	size_t		len;
-- 	int64_t		lr;
-- 	off64_t		off;
---	struct stat64	stb;
--+	struct stat	stb;
-- 	int		v;
-- 	char		st[1024];
-- 	struct io_uring_sqe	*sqe;
--@@ -2304,9 +2304,9 @@ do_uring_rw(opnum_t opno, long r, int fl
-- 			       procid, opno, f.path, e);
-- 		goto uring_out;
-- 	}
---	if (fstat64(fd, &stb) < 0) {
--+	if (fstat(fd, &stb) < 0) {
-- 		if (v)
---			printf("%d/%lld: do_uring_rw - fstat64 %s failed %d\n",
--+			printf("%d/%lld: do_uring_rw - fstat %s failed %d\n",
-- 			       procid, opno, f.path, errno);
-- 		goto uring_out;
-- 	}
--@@ -2522,7 +2522,7 @@ bulkstat1_f(opnum_t opno, long r)
-- 	int		fd;
-- 	int		good;
-- 	__u64		ino;
---	struct stat64	s;
--+	struct stat	s;
-- 	struct xfs_bstat	t;
-- 	int		v;
-- 	struct xfs_fsop_bulkreq bsr;
--@@ -2534,7 +2534,7 @@ bulkstat1_f(opnum_t opno, long r)
-- 		init_pathname(&f);
-- 		if (!get_fname(FT_ANYm, r, &f, NULL, NULL, &v))
-- 			append_pathname(&f, ".");
---		ino = stat64_path(&f, &s) < 0 ? (ino64_t)r : s.st_ino;
--+		ino = stat_path(&f, &s) < 0 ? (ino64_t)r : s.st_ino;
-- 		check_cwd();
-- 		free_pathname(&f);
-- 	} else {
--@@ -2605,8 +2605,8 @@ clonerange_f(
-- 	struct file_clone_range	fcr;
-- 	struct pathname		fpath1;
-- 	struct pathname		fpath2;
---	struct stat64		stat1;
---	struct stat64		stat2;
--+	struct stat		stat1;
--+	struct stat		stat2;
-- 	char			inoinfo1[1024];
-- 	char			inoinfo2[1024];
-- 	off64_t			lr;
--@@ -2660,17 +2660,17 @@ clonerange_f(
-- 	}
-- 
-- 	/* Get file stats */
---	if (fstat64(fd1, &stat1) < 0) {
--+	if (fstat(fd1, &stat1) < 0) {
-- 		if (v1)
---			printf("%d/%lld: clonerange read - fstat64 %s failed %d\n",
--+			printf("%d/%lld: clonerange read - fstat %s failed %d\n",
-- 				procid, opno, fpath1.path, errno);
-- 		goto out_fd2;
-- 	}
-- 	inode_info(inoinfo1, sizeof(inoinfo1), &stat1, v1);
-- 
---	if (fstat64(fd2, &stat2) < 0) {
--+	if (fstat(fd2, &stat2) < 0) {
-- 		if (v2)
---			printf("%d/%lld: clonerange write - fstat64 %s failed %d\n",
--+			printf("%d/%lld: clonerange write - fstat %s failed %d\n",
-- 				procid, opno, fpath2.path, errno);
-- 		goto out_fd2;
-- 	}
--@@ -2743,8 +2743,8 @@ copyrange_f(
-- #ifdef HAVE_COPY_FILE_RANGE
-- 	struct pathname		fpath1;
-- 	struct pathname		fpath2;
---	struct stat64		stat1;
---	struct stat64		stat2;
--+	struct stat		stat1;
--+	struct stat		stat2;
-- 	char			inoinfo1[1024];
-- 	char			inoinfo2[1024];
-- 	loff_t			lr;
--@@ -2802,17 +2802,17 @@ copyrange_f(
-- 	}
-- 
-- 	/* Get file stats */
---	if (fstat64(fd1, &stat1) < 0) {
--+	if (fstat(fd1, &stat1) < 0) {
-- 		if (v1)
---			printf("%d/%lld: copyrange read - fstat64 %s failed %d\n",
--+			printf("%d/%lld: copyrange read - fstat %s failed %d\n",
-- 				procid, opno, fpath1.path, errno);
-- 		goto out_fd2;
-- 	}
-- 	inode_info(inoinfo1, sizeof(inoinfo1), &stat1, v1);
-- 
---	if (fstat64(fd2, &stat2) < 0) {
--+	if (fstat(fd2, &stat2) < 0) {
-- 		if (v2)
---			printf("%d/%lld: copyrange write - fstat64 %s failed %d\n",
--+			printf("%d/%lld: copyrange write - fstat %s failed %d\n",
-- 				procid, opno, fpath2.path, errno);
-- 		goto out_fd2;
-- 	}
--@@ -2900,7 +2900,7 @@ deduperange_f(
-- #define INFO_SZ			1024
-- 	struct file_dedupe_range *fdr;
-- 	struct pathname		*fpath;
---	struct stat64		*stat;
--+	struct stat		*stat;
-- 	char			*info;
-- 	off64_t			*off;
-- 	int			*v;
--@@ -2938,7 +2938,7 @@ deduperange_f(
-- 		goto out_fdr;
-- 	}
-- 
---	stat = calloc(nr, sizeof(struct stat64));
--+	stat = calloc(nr, sizeof(struct stat));
-- 	if (!stat) {
-- 		printf("%d/%lld: line %d error %d\n",
-- 			procid, opno, __LINE__, errno);
--@@ -3017,9 +3017,9 @@ deduperange_f(
-- 	}
-- 
-- 	/* Get file stats */
---	if (fstat64(fd[0], &stat[0]) < 0) {
--+	if (fstat(fd[0], &stat[0]) < 0) {
-- 		if (v[0])
---			printf("%d/%lld: deduperange read - fstat64 %s failed %d\n",
--+			printf("%d/%lld: deduperange read - fstat %s failed %d\n",
-- 				procid, opno, fpath[0].path, errno);
-- 		goto out_fds;
-- 	}
--@@ -3027,9 +3027,9 @@ deduperange_f(
-- 	inode_info(&info[0], INFO_SZ, &stat[0], v[0]);
-- 
-- 	for (i = 1; i < nr; i++) {
---		if (fstat64(fd[i], &stat[i]) < 0) {
--+		if (fstat(fd[i], &stat[i]) < 0) {
-- 			if (v[i])
---				printf("%d/%lld: deduperange write - fstat64 %s failed %d\n",
--+				printf("%d/%lld: deduperange write - fstat %s failed %d\n",
-- 					procid, opno, fpath[i].path, errno);
-- 			goto out_fds;
-- 		}
--@@ -3179,8 +3179,8 @@ splice_f(opnum_t opno, long r)
-- {
-- 	struct pathname		fpath1;
-- 	struct pathname		fpath2;
---	struct stat64		stat1;
---	struct stat64		stat2;
--+	struct stat		stat1;
--+	struct stat		stat2;
-- 	char			inoinfo1[1024];
-- 	char			inoinfo2[1024];
-- 	loff_t			lr;
--@@ -3237,17 +3237,17 @@ splice_f(opnum_t opno, long r)
-- 	}
-- 
-- 	/* Get file stats */
---	if (fstat64(fd1, &stat1) < 0) {
--+	if (fstat(fd1, &stat1) < 0) {
-- 		if (v1)
---			printf("%d/%lld: splice read - fstat64 %s failed %d\n",
--+			printf("%d/%lld: splice read - fstat %s failed %d\n",
-- 				procid, opno, fpath1.path, errno);
-- 		goto out_fd2;
-- 	}
-- 	inode_info(inoinfo1, sizeof(inoinfo1), &stat1, v1);
-- 
---	if (fstat64(fd2, &stat2) < 0) {
--+	if (fstat(fd2, &stat2) < 0) {
-- 		if (v2)
---			printf("%d/%lld: splice write - fstat64 %s failed %d\n",
--+			printf("%d/%lld: splice write - fstat %s failed %d\n",
-- 				procid, opno, fpath2.path, errno);
-- 		goto out_fd2;
-- 	}
--@@ -3432,7 +3432,7 @@ dread_f(opnum_t opno, long r)
-- 	size_t		len;
-- 	int64_t		lr;
-- 	off64_t		off;
---	struct stat64	stb;
--+	struct stat	stb;
-- 	int		v;
-- 	char		st[1024];
-- 	char		*dio_env;
--@@ -3454,9 +3454,9 @@ dread_f(opnum_t opno, long r)
-- 		free_pathname(&f);
-- 		return;
-- 	}
---	if (fstat64(fd, &stb) < 0) {
--+	if (fstat(fd, &stb) < 0) {
-- 		if (v)
---			printf("%d/%lld: dread - fstat64 %s failed %d\n",
--+			printf("%d/%lld: dread - fstat %s failed %d\n",
-- 			       procid, opno, f.path, errno);
-- 		free_pathname(&f);
-- 		close(fd);
--@@ -3522,7 +3522,7 @@ dwrite_f(opnum_t opno, long r)
-- 	size_t		len;
-- 	int64_t		lr;
-- 	off64_t		off;
---	struct stat64	stb;
--+	struct stat	stb;
-- 	int		v;
-- 	char		st[1024];
-- 	char		*dio_env;
--@@ -3544,9 +3544,9 @@ dwrite_f(opnum_t opno, long r)
-- 		free_pathname(&f);
-- 		return;
-- 	}
---	if (fstat64(fd, &stb) < 0) {
--+	if (fstat(fd, &stb) < 0) {
-- 		if (v)
---			printf("%d/%lld: dwrite - fstat64 %s failed %d\n",
--+			printf("%d/%lld: dwrite - fstat %s failed %d\n",
-- 				procid, opno, f.path, errno);
-- 		free_pathname(&f);
-- 		close(fd);
--@@ -3620,7 +3620,7 @@ do_fallocate(opnum_t opno, long r, int m
-- 	int64_t		lr;
-- 	off64_t		off;
-- 	off64_t		len;
---	struct stat64	stb;
--+	struct stat	stb;
-- 	int		v;
-- 	char		st[1024];
-- 
--@@ -3640,9 +3640,9 @@ do_fallocate(opnum_t opno, long r, int m
-- 		return;
-- 	}
-- 	check_cwd();
---	if (fstat64(fd, &stb) < 0) {
--+	if (fstat(fd, &stb) < 0) {
-- 		if (v)
---			printf("%d/%lld: do_fallocate - fstat64 %s failed %d\n",
--+			printf("%d/%lld: do_fallocate - fstat %s failed %d\n",
-- 				procid, opno, f.path, errno);
-- 		free_pathname(&f);
-- 		close(fd);
--@@ -3734,7 +3734,7 @@ fiemap_f(opnum_t opno, long r)
-- 	int		fd;
-- 	int64_t		lr;
-- 	off64_t		off;
---	struct stat64	stb;
--+	struct stat	stb;
-- 	int		v;
-- 	char		st[1024];
-- 	int blocks_to_map;
--@@ -3757,9 +3757,9 @@ fiemap_f(opnum_t opno, long r)
-- 		free_pathname(&f);
-- 		return;
-- 	}
---	if (fstat64(fd, &stb) < 0) {
--+	if (fstat(fd, &stb) < 0) {
-- 		if (v)
---			printf("%d/%lld: fiemap - fstat64 %s failed %d\n",
--+			printf("%d/%lld: fiemap - fstat %s failed %d\n",
-- 				procid, opno, f.path, errno);
-- 		free_pathname(&f);
-- 		close(fd);
--@@ -3807,7 +3807,7 @@ freesp_f(opnum_t opno, long r)
-- 	struct xfs_flock64	fl;
-- 	int64_t		lr;
-- 	off64_t		off;
---	struct stat64	stb;
--+	struct stat	stb;
-- 	int		v;
-- 	char		st[1024];
-- 
--@@ -3828,9 +3828,9 @@ freesp_f(opnum_t opno, long r)
-- 		free_pathname(&f);
-- 		return;
-- 	}
---	if (fstat64(fd, &stb) < 0) {
--+	if (fstat(fd, &stb) < 0) {
-- 		if (v)
---			printf("%d/%lld: freesp - fstat64 %s failed %d\n",
--+			printf("%d/%lld: freesp - fstat %s failed %d\n",
-- 				procid, opno, f.path, errno);
-- 		free_pathname(&f);
-- 		close(fd);
--@@ -4226,7 +4226,7 @@ do_mmap(opnum_t opno, long r, int prot)
-- 	int64_t		lr;
-- 	off64_t		off;
-- 	int		flags;
---	struct stat64	stb;
--+	struct stat	stb;
-- 	int		v;
-- 	char		st[1024];
-- 	sigjmp_buf	sigbus_jmpbuf;
--@@ -4248,9 +4248,9 @@ do_mmap(opnum_t opno, long r, int prot)
-- 		free_pathname(&f);
-- 		return;
-- 	}
---	if (fstat64(fd, &stb) < 0) {
--+	if (fstat(fd, &stb) < 0) {
-- 		if (v)
---			printf("%d/%lld: do_mmap - fstat64 %s failed %d\n",
--+			printf("%d/%lld: do_mmap - fstat %s failed %d\n",
-- 			       procid, opno, f.path, errno);
-- 		free_pathname(&f);
-- 		close(fd);
--@@ -4370,7 +4370,7 @@ read_f(opnum_t opno, long r)
-- 	size_t		len;
-- 	int64_t		lr;
-- 	off64_t		off;
---	struct stat64	stb;
--+	struct stat	stb;
-- 	int		v;
-- 	char		st[1024];
-- 
--@@ -4391,9 +4391,9 @@ read_f(opnum_t opno, long r)
-- 		free_pathname(&f);
-- 		return;
-- 	}
---	if (fstat64(fd, &stb) < 0) {
--+	if (fstat(fd, &stb) < 0) {
-- 		if (v)
---			printf("%d/%lld: read - fstat64 %s failed %d\n",
--+			printf("%d/%lld: read - fstat %s failed %d\n",
-- 				procid, opno, f.path, errno);
-- 		free_pathname(&f);
-- 		close(fd);
--@@ -4454,7 +4454,7 @@ readv_f(opnum_t opno, long r)
-- 	size_t		len;
-- 	int64_t		lr;
-- 	off64_t		off;
---	struct stat64	stb;
--+	struct stat	stb;
-- 	int		v;
-- 	char		st[1024];
-- 	struct iovec	*iov = NULL;
--@@ -4480,9 +4480,9 @@ readv_f(opnum_t opno, long r)
-- 		free_pathname(&f);
-- 		return;
-- 	}
---	if (fstat64(fd, &stb) < 0) {
--+	if (fstat(fd, &stb) < 0) {
-- 		if (v)
---			printf("%d/%lld: readv - fstat64 %s failed %d\n",
--+			printf("%d/%lld: readv - fstat %s failed %d\n",
-- 				procid, opno, f.path, errno);
-- 		free_pathname(&f);
-- 		close(fd);
--@@ -4739,7 +4739,7 @@ resvsp_f(opnum_t opno, long r)
-- 	struct xfs_flock64	fl;
-- 	int64_t		lr;
-- 	off64_t		off;
---	struct stat64	stb;
--+	struct stat	stb;
-- 	int		v;
-- 	char		st[1024];
-- 
--@@ -4760,9 +4760,9 @@ resvsp_f(opnum_t opno, long r)
-- 		free_pathname(&f);
-- 		return;
-- 	}
---	if (fstat64(fd, &stb) < 0) {
--+	if (fstat(fd, &stb) < 0) {
-- 		if (v)
---			printf("%d/%lld: resvsp - fstat64 %s failed %d\n",
--+			printf("%d/%lld: resvsp - fstat %s failed %d\n",
-- 				procid, opno, f.path, errno);
-- 		free_pathname(&f);
-- 		close(fd);
--@@ -4971,7 +4971,7 @@ stat_f(opnum_t opno, long r)
-- {
-- 	int		e;
-- 	pathname_t	f;
---	struct stat64	stb;
--+	struct stat	stb;
-- 	int		v;
-- 
-- 	init_pathname(&f);
--@@ -4981,7 +4981,7 @@ stat_f(opnum_t opno, long r)
-- 		free_pathname(&f);
-- 		return;
-- 	}
---	e = lstat64_path(&f, &stb) < 0 ? errno : 0;
--+	e = lstat_path(&f, &stb) < 0 ? errno : 0;
-- 	check_cwd();
-- 	if (v)
-- 		printf("%d/%lld: stat %s %d\n", procid, opno, f.path, e);
--@@ -5133,7 +5133,7 @@ truncate_f(opnum_t opno, long r)
-- 	pathname_t	f;
-- 	int64_t		lr;
-- 	off64_t		off;
---	struct stat64	stb;
--+	struct stat	stb;
-- 	int		v;
-- 	char		st[1024];
-- 
--@@ -5144,11 +5144,11 @@ truncate_f(opnum_t opno, long r)
-- 		free_pathname(&f);
-- 		return;
-- 	}
---	e = stat64_path(&f, &stb) < 0 ? errno : 0;
--+	e = stat_path(&f, &stb) < 0 ? errno : 0;
-- 	check_cwd();
-- 	if (e > 0) {
-- 		if (v)
---			printf("%d/%lld: truncate - stat64 %s failed %d\n",
--+			printf("%d/%lld: truncate - stat %s failed %d\n",
-- 				procid, opno, f.path, e);
-- 		free_pathname(&f);
-- 		return;
--@@ -5157,7 +5157,7 @@ truncate_f(opnum_t opno, long r)
-- 	lr = ((int64_t)random() << 32) + random();
-- 	off = (off64_t)(lr % MIN(stb.st_size + (1024 * 1024), MAXFSIZE));
-- 	off %= maxfsize;
---	e = truncate64_path(&f, off) < 0 ? errno : 0;
--+	e = truncate_path(&f, off) < 0 ? errno : 0;
-- 	check_cwd();
-- 	if (v)
-- 		printf("%d/%lld: truncate %s%s %lld %d\n", procid, opno, f.path,
--@@ -5209,7 +5209,7 @@ unresvsp_f(opnum_t opno, long r)
-- 	struct xfs_flock64	fl;
-- 	int64_t		lr;
-- 	off64_t		off;
---	struct stat64	stb;
--+	struct stat	stb;
-- 	int		v;
-- 	char		st[1024];
-- 
--@@ -5230,9 +5230,9 @@ unresvsp_f(opnum_t opno, long r)
-- 		free_pathname(&f);
-- 		return;
-- 	}
---	if (fstat64(fd, &stb) < 0) {
--+	if (fstat(fd, &stb) < 0) {
-- 		if (v)
---			printf("%d/%lld: unresvsp - fstat64 %s failed %d\n",
--+			printf("%d/%lld: unresvsp - fstat %s failed %d\n",
-- 				procid, opno, f.path, errno);
-- 		free_pathname(&f);
-- 		close(fd);
--@@ -5281,7 +5281,7 @@ write_f(opnum_t opno, long r)
-- 	size_t		len;
-- 	int64_t		lr;
-- 	off64_t		off;
---	struct stat64	stb;
--+	struct stat	stb;
-- 	int		v;
-- 	char		st[1024];
-- 
--@@ -5302,9 +5302,9 @@ write_f(opnum_t opno, long r)
-- 		free_pathname(&f);
-- 		return;
-- 	}
---	if (fstat64(fd, &stb) < 0) {
--+	if (fstat(fd, &stb) < 0) {
-- 		if (v)
---			printf("%d/%lld: write - fstat64 %s failed %d\n",
--+			printf("%d/%lld: write - fstat %s failed %d\n",
-- 				procid, opno, f.path, errno);
-- 		free_pathname(&f);
-- 		close(fd);
--@@ -5337,7 +5337,7 @@ writev_f(opnum_t opno, long r)
-- 	size_t		len;
-- 	int64_t		lr;
-- 	off64_t		off;
---	struct stat64	stb;
--+	struct stat	stb;
-- 	int		v;
-- 	char		st[1024];
-- 	struct iovec	*iov = NULL;
--@@ -5363,9 +5363,9 @@ writev_f(opnum_t opno, long r)
-- 		free_pathname(&f);
-- 		return;
-- 	}
---	if (fstat64(fd, &stb) < 0) {
--+	if (fstat(fd, &stb) < 0) {
-- 		if (v)
---			printf("%d/%lld: writev - fstat64 %s failed %d\n",
--+			printf("%d/%lld: writev - fstat %s failed %d\n",
-- 				procid, opno, f.path, errno);
-- 		free_pathname(&f);
-- 		close(fd);
----- a/tests/fssum.c
--+++ b/tests/fssum.c
--@@ -519,9 +519,9 @@ sum(int dirfd, int level, sum_t *dircs,
-- 	int excl;
-- 	sum_file_data_t sum_file_data = flags[FLAG_STRUCTURE] ?
-- 			sum_file_data_strict : sum_file_data_permissive;
---	struct stat64 dir_st;
--+	struct stat dir_st;
-- 
---	if (fstat64(dirfd, &dir_st)) {
--+	if (fstat(dirfd, &dir_st)) {
-- 		perror("fstat");
-- 		exit(-1);
-- 	}
--@@ -552,7 +552,7 @@ sum(int dirfd, int level, sum_t *dircs,
-- 	}
-- 	qsort(namelist, entries, sizeof(*namelist), namecmp);
-- 	for (i = 0; i < entries; ++i) {
---		struct stat64 st;
--+		struct stat st;
-- 		sum_t cs;
-- 		sum_t meta;
-- 		char *path;
--@@ -572,7 +572,7 @@ sum(int dirfd, int level, sum_t *dircs,
-- 			perror("fchdir");
-- 			exit(-1);
-- 		}
---		ret = lstat64(namelist[i], &st);
--+		ret = lstat(namelist[i], &st);
-- 		if (ret) {
-- 			fprintf(stderr, "stat failed for %s/%s: %m\n",
-- 				path_prefix, path);
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.1.3.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.3.bb
-similarity index 95%
-rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_6.1.3.bb
-rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_6.3.bb
-index 05e84defba5..5c43d951c48 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.1.3.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.3.bb
-@@ -17,9 +17,8 @@ DEPENDS = "util-linux zlib"
+diff --git a/meta/recipes-devtools/meson/meson/0001-Check-for-clang-before-guessing-gcc-or-lcc.patch b/meta/recipes-devtools/meson/meson/0001-Check-for-clang-before-guessing-gcc-or-lcc.patch
+index 58fa1194398..c449bf8cda4 100644
+--- a/meta/recipes-devtools/meson/meson/0001-Check-for-clang-before-guessing-gcc-or-lcc.patch
++++ b/meta/recipes-devtools/meson/meson/0001-Check-for-clang-before-guessing-gcc-or-lcc.patch
+@@ -1,4 +1,4 @@
+-From 8739e1c3bef653415ad4b9b9c318ccfa76c43da6 Mon Sep 17 00:00:00 2001
++From e3d1297c408b9b4d5d6a962aad5501e869287c98 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 31 Mar 2022 15:00:24 -0700
+ Subject: [PATCH] Check for clang before guessing gcc or lcc
+@@ -21,19 +21,20 @@ this check anyway.
  
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;branch=master;protocol=https \
-            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
--           file://0001-Use-pread-pwrite-ftruncate-stat-instead-of-64bit-equ.patch \
+ Upstream-Status: Submitted [https://github.com/mesonbuild/meson/pull/10218]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
+ ---
+  mesonbuild/compilers/detect.py | 15 ++++++++-------
+  1 file changed, 8 insertions(+), 7 deletions(-)
+ 
+ diff --git a/mesonbuild/compilers/detect.py b/mesonbuild/compilers/detect.py
+-index 53948b01a..ba335cf39 100644
++index 6eca155..2df241a 100644
+ --- a/mesonbuild/compilers/detect.py
+ +++ b/mesonbuild/compilers/detect.py
+-@@ -427,13 +427,14 @@ def _detect_c_or_cpp_compiler(env: 'Environment', lang: str, for_machine: Machin
++@@ -334,13 +334,14 @@ def _detect_c_or_cpp_compiler(env: 'Environment', lang: str, for_machine: Machin
+          version = search_version(out)
+  
+          guess_gcc_or_lcc: T.Optional[str] = None
+--        if 'Free Software Foundation' in out or 'xt-' in out:
++-        if 'Free Software Foundation' in out or out.startswith('xt-'):
+ -            guess_gcc_or_lcc = 'gcc'
+ -        if 'e2k' in out and 'lcc' in out:
+ -            guess_gcc_or_lcc = 'lcc'
+@@ -41,7 +42,7 @@ index 53948b01a..ba335cf39 100644
+ -            # this output has "Free Software Foundation" in its version
+ -            guess_gcc_or_lcc = None
+ +        if not 'clang' in compiler_name:
+-+            if 'Free Software Foundation' in out or 'xt-' in out:
+++            if 'Free Software Foundation' in out or out.startswith('xt-'):
+ +                guess_gcc_or_lcc = 'gcc'
+ +            if 'e2k' in out and 'lcc' in out:
+ +                guess_gcc_or_lcc = 'lcc'
+@@ -51,6 +52,3 @@ index 53948b01a..ba335cf39 100644
+  
+          if guess_gcc_or_lcc:
+              defines = _get_gnu_compiler_defines(compiler)
+--- 
+-2.35.1
+-
+diff --git a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch b/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch
+index f01a6678181..19502fa9cd8 100644
+--- a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch
++++ b/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch
+@@ -1,4 +1,4 @@
+-From 2e9582167bf9d3273004edb2637310531f0155ab Mon Sep 17 00:00:00 2001
++From a97dba12cff6c4c9181909141a1a9f38d7c900bf Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 19 Nov 2018 14:24:26 +0100
+ Subject: [PATCH] python module: do not manipulate the environment when calling
+@@ -8,30 +8,30 @@ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ 
+ ---
+- mesonbuild/modules/python.py | 6 +-----
++ mesonbuild/dependencies/python.py | 6 +-----
+  1 file changed, 1 insertion(+), 5 deletions(-)
+ 
+-diff --git a/mesonbuild/modules/python.py b/mesonbuild/modules/python.py
+-index 3bbccd1..fda7a25 100644
+---- a/mesonbuild/modules/python.py
+-+++ b/mesonbuild/modules/python.py
+-@@ -277,9 +277,6 @@ def python_factory(env: 'Environment', for_machine: 'MachineChoice',
+-                 # there is no LIBPC, so we can't search in it
+-                 return NotFoundDependency('python', env)
++diff --git a/mesonbuild/dependencies/python.py b/mesonbuild/dependencies/python.py
++index 14386f9..118a15f 100644
++--- a/mesonbuild/dependencies/python.py
+++++ b/mesonbuild/dependencies/python.py
++@@ -354,9 +354,6 @@ def python_factory(env: 'Environment', for_machine: 'MachineChoice',
++                     empty.name = 'python'
++                     return empty
+  
+--            old_pkg_libdir = os.environ.pop('PKG_CONFIG_LIBDIR', None)
+--            old_pkg_path = os.environ.pop('PKG_CONFIG_PATH', None)
+--            os.environ['PKG_CONFIG_LIBDIR'] = pkg_libdir
+-             try:
+-                 return PythonPkgConfigDependency(name, env, kwargs, installation, True)
+-             finally:
+-@@ -288,8 +285,7 @@ def python_factory(env: 'Environment', for_machine: 'MachineChoice',
+-                         os.environ[name] = value
+-                     elif name in os.environ:
+-                         del os.environ[name]
+--                set_env('PKG_CONFIG_LIBDIR', old_pkg_libdir)
+--                set_env('PKG_CONFIG_PATH', old_pkg_path)
+-+                pass
++-                old_pkg_libdir = os.environ.pop('PKG_CONFIG_LIBDIR', None)
++-                old_pkg_path = os.environ.pop('PKG_CONFIG_PATH', None)
++-                os.environ['PKG_CONFIG_LIBDIR'] = pkg_libdir
++                 try:
++                     return PythonPkgConfigDependency(name, env, kwargs, installation, True)
++                 finally:
++@@ -365,8 +362,7 @@ def python_factory(env: 'Environment', for_machine: 'MachineChoice',
++                             os.environ[name] = value
++                         elif name in os.environ:
++                             del os.environ[name]
++-                    set_env('PKG_CONFIG_LIBDIR', old_pkg_libdir)
++-                    set_env('PKG_CONFIG_PATH', old_pkg_path)
+++                    pass
+  
+-         candidates.append(functools.partial(wrap_in_pythons_pc_dir, pkg_name, env, kwargs, installation))
+-         # We only need to check both, if a python install has a LIBPC. It might point to the wrong location,
++             candidates.append(functools.partial(wrap_in_pythons_pc_dir, pkg_name, env, kwargs, installation))
++             # We only need to check both, if a python install has a LIBPC. It might point to the wrong location,
+diff --git a/meta/recipes-devtools/meson/meson_1.0.1.bb b/meta/recipes-devtools/meson/meson_1.1.0.bb
+similarity index 98%
+rename from meta/recipes-devtools/meson/meson_1.0.1.bb
+rename to meta/recipes-devtools/meson/meson_1.1.0.bb
+index fd478b21612..278f8e24c56 100644
+--- a/meta/recipes-devtools/meson/meson_1.0.1.bb
++++ b/meta/recipes-devtools/meson/meson_1.1.0.bb
+@@ -16,7 +16,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/meson-${PV}.tar.gz \
+            file://0002-Support-building-allarch-recipes-again.patch \
+            file://0001-Check-for-clang-before-guessing-gcc-or-lcc.patch \
             "
--SRCREV = "908b4b4450320e30fdef693f09b42f4eb93702c3"
-+SRCREV = "fba31d634e3bc658e7d42a6c00f31ebb60adf901"
- S = "${WORKDIR}/git"
+-SRC_URI[sha256sum] = "d926b730de6f518728cc7c57bc5e701667bae0c3522f9e369427b2cc7839d3c1"
++SRC_URI[sha256sum] = "d9616c44cd6c53689ff8f05fc6958a693f2e17c3472a8daf83cee55dabff829f"
  
- PACKAGECONFIG ??= " \
+ inherit python_setuptools_build_meta github-releases
+ 
 -- 
 2.30.2
 
