@@ -1,142 +1,154 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9456EC77B75
-	for <webhook@archiver.kernel.org>; Tue,  9 May 2023 09:16:51 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.27470.1683623805342516320
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99AF3C77B75
+	for <webhook@archiver.kernel.org>; Tue,  9 May 2023 09:32:21 +0000 (UTC)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web10.27655.1683624734034569323
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 May 2023 02:16:45 -0700
+ Tue, 09 May 2023 02:32:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=Mm4+y7ZM;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3f42711865eso12220715e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 02:16:45 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@linaro.org header.s=google header.b=N5QGPyzK;
+ spf=pass (domain: linaro.org, ip: 209.85.167.52, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-4f00d41df22so33698215e87.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 02:32:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1683623804; x=1686215804;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=jreMB1RtqyCBfZhrLKjzTkiWt8UGtb61KzUgyxoNlKA=;
-        b=Mm4+y7ZM2UNiyiU37Z8s24L5jg9SSzwlwc7dVCMzk7wEPw7vehRJ2s4RKQ0Cra+kN5
-         LvNObRHqEp7YSeLB34Vjm7GpgrpfkaqOghkE7jqRKKBqG/9CttGG1IX6q0pbxX8VT32K
-         YVlwTWFQVo2RaV6d9YUw+BvHDDlT0UCGfEsNs=
+        d=linaro.org; s=google; t=1683624732; x=1686216732;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ybD+0KFBsQY3gwoSwsd42s+DRcNdKz4WKdoCHuQaKos=;
+        b=N5QGPyzK09R2lS2rJUBsCgX7Z9QXesGqhMaO7N4kNMpLcbB99y1hn9xR1F5uI/uFv9
+         1nQmQ97dq/2Hhl8x1KOZ2i5qy7S+QpIpf6tcXUUEXPXr+leWPPIjP/ly+jOcLnKzOXzk
+         YneGDGH/Fnw0CCU+QoDwd4wHoq77CXDE4Tg5rSUwBRoK4oL9jrXhVEescZxC/v4NJUYw
+         vAe013CT10WmWPrG0RzQM+zHeqLZPJzg0H0zQrghW4Gyl7lsxza3/pTz0LnyU47W7diZ
+         hfHjLvNj4pyW6J3jw4abrvnsu2iDZ9nw+NHIU2cOXD9yWEcqNqgxE0CQ0JM8tYRY0xGV
+         ibfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683623804; x=1686215804;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jreMB1RtqyCBfZhrLKjzTkiWt8UGtb61KzUgyxoNlKA=;
-        b=AcqlwiHqeUUC8mrgWZ6em0tjxRqHK691zIZsivovOehyckc9v2VDPiCa48ULR36IuD
-         Q9O2kevuI1MFROfanM3J57Tsts2LvAvdCjgqOFY7Owk0wYe1wpZNOfLdYgBs4HyjmNXl
-         FZN5ZFv8FENpHsCVwqreQu8qcJBTv4O2jKaj5bVewP4cfkHxgGngvAOCYhsFhgtd23+a
-         3aSTxr7GVjGCMNSxjebMj/lTARbwnYoLKBFAATQtjCMqXnwVaAe9LDR9Z1LaWu6hOtMo
-         2tnZ5swUgGqzeah7/3Hmjuoxc3Uy1r4jFHSimdtCoI9UY1t4mED3UcQjOm7INZRj5x1B
-         hswg==
-X-Gm-Message-State: AC+VfDwESP0c1/+8LHRHtTaabUpH+pRJ+Wi96pZKTWgMowGO+3AO3tEA
-	e0twV39xf7haZlfXaSJJ7MoJvg==
-X-Google-Smtp-Source: ACHHUZ4xG0gmU6M/LH8burixBpSKJDgkOE96bb0RVxpcct37HctPW5TKweJpsJQJvQTonLvZHaZeFw==
-X-Received: by 2002:a1c:7507:0:b0:3f1:9acf:8682 with SMTP id o7-20020a1c7507000000b003f19acf8682mr8325836wmc.17.1683623803710;
-        Tue, 09 May 2023 02:16:43 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:3fe4:180c:477:99f? ([2001:8b0:aba:5f3c:3fe4:180c:477:99f])
-        by smtp.gmail.com with ESMTPSA id 16-20020a05600c021000b003f198dfbbfcsm19195371wmi.19.2023.05.09.02.16.43
+        d=1e100.net; s=20221208; t=1683624732; x=1686216732;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ybD+0KFBsQY3gwoSwsd42s+DRcNdKz4WKdoCHuQaKos=;
+        b=Pbk8npcvFmXs+ts3mrP7CJIF6VW2rmFvQu6RmZe7H3BRF9T9wZHEcmLOrQifMpfaon
+         w2vXveezMSrVb2cJK1t2o9zueVnNaBwfWUcGxZXkPm22szgOuFeBiJewiP+KUz2/MQue
+         PJpJHX1LT4KYcJHNxweAqd+lxAkEh3XmBsdkfX8cvtuY3Hhn2PPc5PRGofhtTeOj535N
+         7CZEC+gG/IXRZeEbMHW3ygl1PYb6wtuzeOHz6P9q/Z/hrTz40pOWlPzI+ojs0++fMBY9
+         bfNmruKLQd+mYDkNiEIv7pRuZl/0QVbqZHiqWgFNfU4u97ipH0bH2kuZ2YQ14ph+izJK
+         0PNg==
+X-Gm-Message-State: AC+VfDxWE/1E+x0ULf9tEjTt1Wp1wEme5OKPEimR4r7TS55BX15SHzGi
+	Q3N0c7b0Bh2zQ71/txJoYyY6eQ==
+X-Google-Smtp-Source: ACHHUZ7IyKDzd96dqEYbRix3HdIW/+a7FzW20QAIBpYX2GHH2rfNBTc6JF296CzXQCfDWqM2S0jGPA==
+X-Received: by 2002:ac2:4311:0:b0:4ac:b7bf:697a with SMTP id l17-20020ac24311000000b004acb7bf697amr598210lfh.4.1683624732230;
+        Tue, 09 May 2023 02:32:12 -0700 (PDT)
+Received: from nuoska (dsl-olubng11-54f814-94.dhcp.inet.fi. [84.248.20.94])
+        by smtp.gmail.com with ESMTPSA id u27-20020ac24c3b000000b004edd490cf77sm282887lfq.275.2023.05.09.02.32.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 May 2023 02:16:43 -0700 (PDT)
-Message-ID: <44ad00167f03b420a0c29df1996062a36ca56a38.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] cve-check: add option to add additional
- patched CVEs
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ross Burton <Ross.Burton@arm.com>, "adrian.freihofer@gmail.com"
-	 <adrian.freihofer@gmail.com>
-Cc: "Valek, Andrej" <andrej.valek@siemens.com>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 09 May 2023 10:16:42 +0100
-In-Reply-To: <A0C7DB9F-2B4E-4777-B233-694B7BCA3A73@arm.com>
+        Tue, 09 May 2023 02:32:11 -0700 (PDT)
+Date: Tue, 9 May 2023 12:32:09 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Ross Burton <ross.burton@arm.com>
+Cc: "adrian.freihofer@gmail.com" <adrian.freihofer@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"Valek, Andrej" <andrej.valek@siemens.com>,
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH] cve-check: add option to add additional patched
+ CVEs
+Message-ID: <ZFoTGY6DwttCmQ27@nuoska>
 References: <20230505111814.491483-1-andrej.valek@siemens.com>
-	 <6123792e2eee7767b4e6a377c15bdcc6ba266125.camel@linuxfoundation.org>
-	 <ac80d7e3b3eb739b86951ceeefe8b337b28144a8.camel@siemens.com>
-	 <e57e347e816ca3c355d594a95f2549af7dd86609.camel@linuxfoundation.org>
-	 <1a9baf9413cc3e405433806ec3e5f122e2a42793.camel@gmail.com>
-	 <A0C7DB9F-2B4E-4777-B233-694B7BCA3A73@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.0-1 
+ <6123792e2eee7767b4e6a377c15bdcc6ba266125.camel@linuxfoundation.org>
+ <ac80d7e3b3eb739b86951ceeefe8b337b28144a8.camel@siemens.com>
+ <e57e347e816ca3c355d594a95f2549af7dd86609.camel@linuxfoundation.org>
+ <1a9baf9413cc3e405433806ec3e5f122e2a42793.camel@gmail.com>
+ <A0C7DB9F-2B4E-4777-B233-694B7BCA3A73@arm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <A0C7DB9F-2B4E-4777-B233-694B7BCA3A73@arm.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 09:16:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181037
+ <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 09:32:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181038
 
-On Tue, 2023-05-09 at 09:02 +0000, Ross Burton wrote:
-> On 8 May 2023, at 09:57, Adrian Freihofer via lists.openembedded.org <adr=
-ian.freihofer=3Dgmail.com@lists.openembedded.org> wrote:
+Hi,
+
+On Tue, May 09, 2023 at 09:02:59AM +0000, Ross Burton wrote:
+> On 8 May 2023, at 09:57, Adrian Freihofer via lists.openembedded.org <adrian.freihofer=gmail.com@lists.openembedded.org> wrote:
 > > The patch from Andrej tries to solves a real issue: The CVE checker
-> > distinguishes between two types of patches. Ignored (=3D not applicable=
-)
+> > distinguishes between two types of patches. Ignored (= not applicable)
 > > and patched. Patching is only supported by adding a real patch file to
 > > the SRC_URI. However, there are other ways a patch can be implemented.
 > > For example, a recipe that uses the git fetcher would update the git
 > > hash to a commit that contains a fix instead of applying a patch file
 > > to the recipe.
-> >=20
+> > 
 > > But I fully agree that the comment (originally suggested by me when
 > > Andrej and I were discussing the solution) is bad. Maybe it should read
 > > as follows:
-> >=20
+> > 
 > > Normally, a CVE is treated as patched when a patch with the name of the
 > > CVE is applied. CVE_CHECK_PATCHED allows to extend the list of patched
 > > CVEs without adding a patch file to SRC_URI.
-> >=20
+> > 
 > > Regarding the SBOM: It is important for customers that the CVEs of a
 > > product with SBOM can be correctly identified as repaired or as
 > > ignored. However, I'm not sure if the SBOM part is properly addressed
 > > by the patch. The create-spdx.bbclass uses the function
 > > oe.cve_check.get_patched_cves(d) which should probably handle the new
 > > variable as well. We will check that and come up with a V2.
->=20
-> So I=E2=80=99d suggest we deprecate CVE_CHECK_IGNORE and add a new, more
-> flexible, variable instead.
->=20
-> How about a CVE_STATUS, which doesn=E2=80=99t have a direct value but has
-> flags for each CVE:
->=20
+> 
+> So I’d suggest we deprecate CVE_CHECK_IGNORE and add a new, more flexible, variable instead.
+
+Flexible but usefull and with clear definitions and checks which make
+sure that only those definitions are used.
+
+> How about a CVE_STATUS, which doesn’t have a direct value but has flags for each CVE:
+> 
 > # We moved to a git SHA that incorporates the fix
-> CVE_STATUS[CVE-1234=E2=80=930001] =3D =E2=80=9CPatched=E2=80=9D
->=20
+> CVE_STATUS[CVE-1234–0001] = “Patched”
+> 
 > # We disabled frobnicate
-> CVE_STATUS[CVE-1234-0002] =3D =E2=80=9CPatched=E2=80=9D
->=20
+> CVE_STATUS[CVE-1234-0002] = “Patched”
+> 
 > # This is Windows-specific
-> CVE_STATUS[CVE-1234-0003=E2=80=9D =3D =E2=80=9CNot Applicable=E2=80=9D
->=20
-> I=E2=80=99m not sure of the exact list of values the flags should accept
-> beyond =E2=80=9Cpatched=E2=80=9D and =E2=80=9Cnot applicable=E2=80=9D. Th=
-ere probably does need to be
-> a =E2=80=9Creviewed and don=E2=80=99t consider this a problem=E2=80=9D wh=
-ich feels like
-> =E2=80=98ignored=E2=80=99 but I=E2=80=99m not a fan of that precise word.
->=20
+> CVE_STATUS[CVE-1234-0003” = “Not Applicable”
+> 
+> I’m not sure of the exact list of values the flags should accept beyond “patched” and “not applicable”. There probably does need to be a “reviewed and don’t consider this a problem” which feels like ‘ignored’ but I’m not a fan of that precise word.
+
+Sounds ok as long as the output reports as easy to read as now.
+
 > Is there any defined language that we can simply adopt?
 
-The question is probably what actions might someone want to take? We
-might want to separate out "N/A - configuration disabled" from "N/A -
-OS mismatch" and "CPE incorrect" for example?
+Since a lot of people talk about SPDX solving these issues would be nice
+to know how that is going to work. I can't parse
+https://spdx.github.io/spdx-spec/v2.3/how-to-use/#k17-linking-to-a-code-fix-for-a-security-issue
+and figure out how to mark a CVE issue which has been ignored after
+analysis.
 
-The reason being that someone would then know to look at things more
-closely if they were changing configuration, or building windows
-binaries?
+Debian has a bit more complex state for each CVE (and also non-CVE
+security issues) which relates to package and distro versions.
+I did not find clear definition of the states but at least
+https://security-tracker.debian.org/tracker/data/json has the raw data
+available.
 
-Given we already put fairly robust reasoning in comments already,
-should we capture that in a variable too?
+Ubuntu seems to follow Debian a bit but then also adds more complex
+states in the (at least) public database at
+https://ubuntu.com/security/cves?q=CVE-2023-26117&package=&priority=&version=&status=
 
-CVS_STATUS_REASONING[[CVE-1234-0003] =3D "issue only applies on windows"
+I think the data coming from CVE checker needs to serve the needs of the
+distro maintainers so that their life is easier. SPDX and SBOM are
+supposed to help but I'm afraid that they don't unless they actually
+help with the maintenance and start to solve the problems there.
+
+I'm used to the CVE checker ignore list (previously whitelist) and know
+how to use it. Wether the data comes per CVE or as lists for each of the
+state as variables is a small detail, as long as the generated report is
+readable.
 
 Cheers,
 
-Richard (thinking out loud)
-
-
+-Mikko
 
