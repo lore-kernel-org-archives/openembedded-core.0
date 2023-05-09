@@ -1,185 +1,142 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83ED1C77B7C
-	for <webhook@archiver.kernel.org>; Tue,  9 May 2023 09:03:21 +0000 (UTC)
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com (EUR01-DB5-obe.outbound.protection.outlook.com [40.107.15.44])
- by mx.groups.io with SMTP id smtpd.web11.27177.1683622993372953387
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9456EC77B75
+	for <webhook@archiver.kernel.org>; Tue,  9 May 2023 09:16:51 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web10.27470.1683623805342516320
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 May 2023 02:03:14 -0700
+ Tue, 09 May 2023 02:16:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=zOd5+Fhj;
- spf=pass (domain: arm.com, ip: 40.107.15.44, mailfrom: ross.burton@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1WYDg81Ja/jmCOeTWfLd4EuSI9/+xLa2aelhLvs2sBk=;
- b=zOd5+FhjtpYoxxoThnCikHSkfifnYgoaxNRCjJGRQv/j3UDWccmgIf/924UJTN0gGKN24sMJU/qs8F5yfOi+TFj1N3YHYrF/EEKGmwvGFyGI//GiP+1x5f4W0F34PV5BPNuXHujqKb5QOonrZVAQvxJLZ6d2j8O129xNJ5aWNho=
-Received: from DUZPR01CA0038.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:468::12) by DB4PR08MB9334.eurprd08.prod.outlook.com
- (2603:10a6:10:3f5::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.33; Tue, 9 May
- 2023 09:03:08 +0000
-Received: from DBAEUR03FT030.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:10:468:cafe::df) by DUZPR01CA0038.outlook.office365.com
- (2603:10a6:10:468::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.33 via Frontend
- Transport; Tue, 9 May 2023 09:03:08 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DBAEUR03FT030.mail.protection.outlook.com (100.127.142.197) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6387.18 via Frontend Transport; Tue, 9 May 2023 09:03:07 +0000
-Received: ("Tessian outbound 8b05220b4215:v136"); Tue, 09 May 2023 09:03:07 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 7fb44bc32c1b6f02
-X-CR-MTA-TID: 64aa7808
-Received: from 0e76bd906786.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 1CF11B9D-0C20-4AEA-8B88-875ABAFC740B.1;
-	Tue, 09 May 2023 09:03:00 +0000
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 0e76bd906786.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Tue, 09 May 2023 09:03:00 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QawjM46mmLrRTkhQ7S+n2F/JChIP89ZNwhl3Z6gGYdaDPyk2x8SzplenwakMbloV4eyX+J6r8KFCWvHGMnmHTwjUEuMxBvThPfFPqQ/3SXWjoJC3iLyxq6M95GqXdipWBfslQ9uRyGrBjTCLJli6Jd0AC2cl45789lIxLkCOWBmxqWOJGzulfE6aSNXYfLFsBoLWYvuBM8p6oOyvP+7VycjxW1nP/k7RT5tBjsbgLgC+edzbztOICtOtLH0NNRJY2o7ArzM+N7r8Gm8EgWkMATX3/4FYyCe6d5JV6SFKFzXQegXifcNayvyzuD/4t8gY3TtBlKDNJO/jhLGLayRTjQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1WYDg81Ja/jmCOeTWfLd4EuSI9/+xLa2aelhLvs2sBk=;
- b=ew95llMOXuTxEkI5XmhNoKXEDg5r+2Zp94hbSEg5d2zjBlbKZik+bH3KaoCntZtdKK5jD/7pvZ/tqrwmY25GMLrBB9ZdqlkuITk/ZMqHuX6fLHUECh139ANTTw5zlaIXXH2LOZ0H3x6Cf+dMe/ip85LyS8ftpNw3q1wz/YYA7sNBLMUPKz8mTrRz5+5i/GQcN88nTCdodSkXQ29NnugxII7HgLX+C1383G48xjIk7gJA1Z9aXKLaysmK0mq75X63tBvJI/7/HBID/bJN/k/x2DciXzsNY+Tt8fxpw15I9CAHqAuC9bvflY+KFwcVu0xlnSjgXv2I91fl8HytGa/MRg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1WYDg81Ja/jmCOeTWfLd4EuSI9/+xLa2aelhLvs2sBk=;
- b=zOd5+FhjtpYoxxoThnCikHSkfifnYgoaxNRCjJGRQv/j3UDWccmgIf/924UJTN0gGKN24sMJU/qs8F5yfOi+TFj1N3YHYrF/EEKGmwvGFyGI//GiP+1x5f4W0F34PV5BPNuXHujqKb5QOonrZVAQvxJLZ6d2j8O129xNJ5aWNho=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by AS8PR08MB7355.eurprd08.prod.outlook.com (2603:10a6:20b:446::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.33; Tue, 9 May
- 2023 09:02:59 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::eb3c:9b42:21c9:494e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::eb3c:9b42:21c9:494e%7]) with mapi id 15.20.6363.033; Tue, 9 May 2023
- 09:02:59 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "adrian.freihofer@gmail.com" <adrian.freihofer@gmail.com>
-CC: Richard Purdie <richard.purdie@linuxfoundation.org>, "Valek, Andrej"
-	<andrej.valek@siemens.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][PATCH] cve-check: add option to add additional patched
- CVEs
-Thread-Topic: [OE-core][PATCH] cve-check: add option to add additional patched
- CVEs
-Thread-Index: AQHZf0Ndj7ZvxASQqkCOBOTfw+qCvq9Li4uAgAABsQCAAAZTAIAEhBiAgAGT3wA=
-Date: Tue, 9 May 2023 09:02:59 +0000
-Message-ID: <A0C7DB9F-2B4E-4777-B233-694B7BCA3A73@arm.com>
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=Mm4+y7ZM;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3f42711865eso12220715e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 02:16:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1683623804; x=1686215804;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=jreMB1RtqyCBfZhrLKjzTkiWt8UGtb61KzUgyxoNlKA=;
+        b=Mm4+y7ZM2UNiyiU37Z8s24L5jg9SSzwlwc7dVCMzk7wEPw7vehRJ2s4RKQ0Cra+kN5
+         LvNObRHqEp7YSeLB34Vjm7GpgrpfkaqOghkE7jqRKKBqG/9CttGG1IX6q0pbxX8VT32K
+         YVlwTWFQVo2RaV6d9YUw+BvHDDlT0UCGfEsNs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683623804; x=1686215804;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jreMB1RtqyCBfZhrLKjzTkiWt8UGtb61KzUgyxoNlKA=;
+        b=AcqlwiHqeUUC8mrgWZ6em0tjxRqHK691zIZsivovOehyckc9v2VDPiCa48ULR36IuD
+         Q9O2kevuI1MFROfanM3J57Tsts2LvAvdCjgqOFY7Owk0wYe1wpZNOfLdYgBs4HyjmNXl
+         FZN5ZFv8FENpHsCVwqreQu8qcJBTv4O2jKaj5bVewP4cfkHxgGngvAOCYhsFhgtd23+a
+         3aSTxr7GVjGCMNSxjebMj/lTARbwnYoLKBFAATQtjCMqXnwVaAe9LDR9Z1LaWu6hOtMo
+         2tnZ5swUgGqzeah7/3Hmjuoxc3Uy1r4jFHSimdtCoI9UY1t4mED3UcQjOm7INZRj5x1B
+         hswg==
+X-Gm-Message-State: AC+VfDwESP0c1/+8LHRHtTaabUpH+pRJ+Wi96pZKTWgMowGO+3AO3tEA
+	e0twV39xf7haZlfXaSJJ7MoJvg==
+X-Google-Smtp-Source: ACHHUZ4xG0gmU6M/LH8burixBpSKJDgkOE96bb0RVxpcct37HctPW5TKweJpsJQJvQTonLvZHaZeFw==
+X-Received: by 2002:a1c:7507:0:b0:3f1:9acf:8682 with SMTP id o7-20020a1c7507000000b003f19acf8682mr8325836wmc.17.1683623803710;
+        Tue, 09 May 2023 02:16:43 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:3fe4:180c:477:99f? ([2001:8b0:aba:5f3c:3fe4:180c:477:99f])
+        by smtp.gmail.com with ESMTPSA id 16-20020a05600c021000b003f198dfbbfcsm19195371wmi.19.2023.05.09.02.16.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 May 2023 02:16:43 -0700 (PDT)
+Message-ID: <44ad00167f03b420a0c29df1996062a36ca56a38.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] cve-check: add option to add additional
+ patched CVEs
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ross Burton <Ross.Burton@arm.com>, "adrian.freihofer@gmail.com"
+	 <adrian.freihofer@gmail.com>
+Cc: "Valek, Andrej" <andrej.valek@siemens.com>, 
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Tue, 09 May 2023 10:16:42 +0100
+In-Reply-To: <A0C7DB9F-2B4E-4777-B233-694B7BCA3A73@arm.com>
 References: <20230505111814.491483-1-andrej.valek@siemens.com>
- <6123792e2eee7767b4e6a377c15bdcc6ba266125.camel@linuxfoundation.org>
- <ac80d7e3b3eb739b86951ceeefe8b337b28144a8.camel@siemens.com>
- <e57e347e816ca3c355d594a95f2549af7dd86609.camel@linuxfoundation.org>
- <1a9baf9413cc3e405433806ec3e5f122e2a42793.camel@gmail.com>
-In-Reply-To: <1a9baf9413cc3e405433806ec3e5f122e2a42793.camel@gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3731.500.231)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|AS8PR08MB7355:EE_|DBAEUR03FT030:EE_|DB4PR08MB9334:EE_
-X-MS-Office365-Filtering-Correlation-Id: 317f0a60-daa2-46bc-4d39-08db506c34e8
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- Mes4GkPVS9MYZUfl8ohl4eVUBmPThzXfALgretvkldRXolVIqcU3qI24/cIUCqkK+uU936Sg5l2TUYNcNzfOJTdzjP5dY5RPnolsyAmqvPeyGoEJXUDfb+a7mPcPurfhuY7Kdfg+v1Ubcm6m0T5imBEJJU3aFWRXWmA3oDkhZrGHr5nkio3ghcXvxJ9WUgh7stZYFXshQadRELWqx9tdjDcK1Gl0qoduIFt1SkHbp2KqB6N6pbmXRnhEQhH/Qe1tM9sb27MZH1oG+yySG7wTYKqXZ4CAPL0msTNqbdFBaO7DgWu9djEFQlXsQTl94L/ovxoFa1dLE8q9GCcYGDwaMx3MdEQ1iS9Aca2fUjc1Dy8ZY0ZefPj9Fla688XCpdSg0L0EmiBmPRoXW8OAPGZIFHwCa9Etq+OP3wv7EFY+jrO4NoEqAE0lMH4ENVJt9sk+ucTydmEHzaDOImhSAFY16c8LM2SFtuEg/61cg35j1jEUBKTNrBhdUxdvV2HVXXFYcjmICBd2LCr5o9TwhqXxeslxyF4a1vvNl1OFYMMEUl0/w2fbP9LoKjalrUZ6PsB8r5d3+s14ZvkpK7mSDjYmGvCteEOAu0Y4wC9wvgSVY6dxnmihTfuAje2XDs3ltP8z+1c/2Wrn1ksCXhyavJIXNg==
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(396003)(366004)(376002)(346002)(39860400002)(451199021)(86362001)(33656002)(36756003)(54906003)(316002)(91956017)(4326008)(76116006)(66556008)(6916009)(478600001)(66446008)(66946007)(66476007)(6486002)(64756008)(2906002)(8936002)(41300700001)(5660300002)(8676002)(2616005)(38100700002)(38070700005)(122000001)(186003)(53546011)(6512007)(6506007)(26005)(83380400001)(71200400001)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <904EC004369F14478205CC0AA6945677@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	 <6123792e2eee7767b4e6a377c15bdcc6ba266125.camel@linuxfoundation.org>
+	 <ac80d7e3b3eb739b86951ceeefe8b337b28144a8.camel@siemens.com>
+	 <e57e347e816ca3c355d594a95f2549af7dd86609.camel@linuxfoundation.org>
+	 <1a9baf9413cc3e405433806ec3e5f122e2a42793.camel@gmail.com>
+	 <A0C7DB9F-2B4E-4777-B233-694B7BCA3A73@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.0-1 
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB7355
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DBAEUR03FT030.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	1636309d-b3db-4ac4-b3d1-08db506c2fea
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	AizvByz6ohhOMTtmWjvcaKjQsA2HrNGQ4IGXp9B7W+rEPqr/YsZSahvvvxwAqbz2gSrT+sRI/0Kld0qfd8Jo/w2+pLGote85b8Y77wbUShXMJPjyJBCIETwQ+vHskXblHtadtUUvHwVMPs283bEM4VgTK9GJCN5FkMKk+Ebd8UWGAB+KevhdqXjgPyxD0Emd8PjZY6Rt9UI8W1mtawAP31ZmzvounEN8l8nuIgjmRIATRSLgDKHmnNUy8qhe4C0A+0J/kk6HHIldUIfc7lka94XitcpzQBAoAE16snZFqqKQlhSshG2+/W3WBwGV6DhnCBnkz1beKjSMulBS2MyuC+XteMiIyZ1/V1b5RaIa+7l+NWf3NvmFadKkqDqLQj5xOXSgTcF4YrKtYOSPc3l5zsITLGBs+AZiF+uI431vYFKr8RqOg5B/HQUbsA6K+dvrho0LdALIoPspMEK2btkIbV6OCbKybfdaJNVCxwLeGpwJeciA72aRg4bbO2kIrbouDrd2AwWsjo1eXdnm23iabwt3qIQqFu1H8v3F03PlgwPnEDCLk577o3RXcQK2Sy3HqjTI1VgzYI/GGS4L4iw7oOhewpxUpLPPytE28k967Vxu5fNOdLJlK2Hea9P//mhpxgm2u7V3zk60Tsjzm4H4DW/vxxZAybQqVmvPpuBqzBqC9NK7jpdnUtjordKOTfNHC8KAaqfqEQyk8F02WILFUw==
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(346002)(136003)(396003)(376002)(39850400004)(451199021)(46966006)(40470700004)(36840700001)(40460700003)(478600001)(5660300002)(82740400003)(8676002)(6862004)(8936002)(81166007)(6512007)(356005)(186003)(336012)(2616005)(26005)(6506007)(2906002)(36860700001)(83380400001)(47076005)(40480700001)(6486002)(70586007)(33656002)(316002)(70206006)(36756003)(4326008)(41300700001)(82310400005)(86362001)(54906003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2023 09:03:07.7230
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 317f0a60-daa2-46bc-4d39-08db506c34e8
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DBAEUR03FT030.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR08MB9334
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 09:03:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181036
+ <openembedded-core@lists.openembedded.org>; Tue, 09 May 2023 09:16:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181037
 
-T24gOCBNYXkgMjAyMywgYXQgMDk6NTcsIEFkcmlhbiBGcmVpaG9mZXIgdmlhIGxpc3RzLm9wZW5l
-bWJlZGRlZC5vcmcgPGFkcmlhbi5mcmVpaG9mZXI9Z21haWwuY29tQGxpc3RzLm9wZW5lbWJlZGRl
-ZC5vcmc+IHdyb3RlOg0KPiBUaGUgcGF0Y2ggZnJvbSBBbmRyZWogdHJpZXMgdG8gc29sdmVzIGEg
-cmVhbCBpc3N1ZTogVGhlIENWRSBjaGVja2VyDQo+IGRpc3Rpbmd1aXNoZXMgYmV0d2VlbiB0d28g
-dHlwZXMgb2YgcGF0Y2hlcy4gSWdub3JlZCAoPSBub3QgYXBwbGljYWJsZSkNCj4gYW5kIHBhdGNo
-ZWQuIFBhdGNoaW5nIGlzIG9ubHkgc3VwcG9ydGVkIGJ5IGFkZGluZyBhIHJlYWwgcGF0Y2ggZmls
-ZSB0bw0KPiB0aGUgU1JDX1VSSS4gSG93ZXZlciwgdGhlcmUgYXJlIG90aGVyIHdheXMgYSBwYXRj
-aCBjYW4gYmUgaW1wbGVtZW50ZWQuDQo+IEZvciBleGFtcGxlLCBhIHJlY2lwZSB0aGF0IHVzZXMg
-dGhlIGdpdCBmZXRjaGVyIHdvdWxkIHVwZGF0ZSB0aGUgZ2l0DQo+IGhhc2ggdG8gYSBjb21taXQg
-dGhhdCBjb250YWlucyBhIGZpeCBpbnN0ZWFkIG9mIGFwcGx5aW5nIGEgcGF0Y2ggZmlsZQ0KPiB0
-byB0aGUgcmVjaXBlLg0KPiANCj4gQnV0IEkgZnVsbHkgYWdyZWUgdGhhdCB0aGUgY29tbWVudCAo
-b3JpZ2luYWxseSBzdWdnZXN0ZWQgYnkgbWUgd2hlbg0KPiBBbmRyZWogYW5kIEkgd2VyZSBkaXNj
-dXNzaW5nIHRoZSBzb2x1dGlvbikgaXMgYmFkLiBNYXliZSBpdCBzaG91bGQgcmVhZA0KPiBhcyBm
-b2xsb3dzOg0KPiANCj4gTm9ybWFsbHksIGEgQ1ZFIGlzIHRyZWF0ZWQgYXMgcGF0Y2hlZCB3aGVu
-IGEgcGF0Y2ggd2l0aCB0aGUgbmFtZSBvZiB0aGUNCj4gQ1ZFIGlzIGFwcGxpZWQuIENWRV9DSEVD
-S19QQVRDSEVEIGFsbG93cyB0byBleHRlbmQgdGhlIGxpc3Qgb2YgcGF0Y2hlZA0KPiBDVkVzIHdp
-dGhvdXQgYWRkaW5nIGEgcGF0Y2ggZmlsZSB0byBTUkNfVVJJLg0KPiANCj4gUmVnYXJkaW5nIHRo
-ZSBTQk9NOiBJdCBpcyBpbXBvcnRhbnQgZm9yIGN1c3RvbWVycyB0aGF0IHRoZSBDVkVzIG9mIGEN
-Cj4gcHJvZHVjdCB3aXRoIFNCT00gY2FuIGJlIGNvcnJlY3RseSBpZGVudGlmaWVkIGFzIHJlcGFp
-cmVkIG9yIGFzDQo+IGlnbm9yZWQuIEhvd2V2ZXIsIEknbSBub3Qgc3VyZSBpZiB0aGUgU0JPTSBw
-YXJ0IGlzIHByb3Blcmx5IGFkZHJlc3NlZA0KPiBieSB0aGUgcGF0Y2guIFRoZSBjcmVhdGUtc3Bk
-eC5iYmNsYXNzIHVzZXMgdGhlIGZ1bmN0aW9uDQo+IG9lLmN2ZV9jaGVjay5nZXRfcGF0Y2hlZF9j
-dmVzKGQpIHdoaWNoIHNob3VsZCBwcm9iYWJseSBoYW5kbGUgdGhlIG5ldw0KPiB2YXJpYWJsZSBh
-cyB3ZWxsLiBXZSB3aWxsIGNoZWNrIHRoYXQgYW5kIGNvbWUgdXAgd2l0aCBhIFYyLg0KDQpTbyBJ
-4oCZZCBzdWdnZXN0IHdlIGRlcHJlY2F0ZSBDVkVfQ0hFQ0tfSUdOT1JFIGFuZCBhZGQgYSBuZXcs
-IG1vcmUgZmxleGlibGUsIHZhcmlhYmxlIGluc3RlYWQuDQoNCkhvdyBhYm91dCBhIENWRV9TVEFU
-VVMsIHdoaWNoIGRvZXNu4oCZdCBoYXZlIGEgZGlyZWN0IHZhbHVlIGJ1dCBoYXMgZmxhZ3MgZm9y
-IGVhY2ggQ1ZFOg0KDQojIFdlIG1vdmVkIHRvIGEgZ2l0IFNIQSB0aGF0IGluY29ycG9yYXRlcyB0
-aGUgZml4DQpDVkVfU1RBVFVTW0NWRS0xMjM04oCTMDAwMV0gPSDigJxQYXRjaGVk4oCdDQoNCiMg
-V2UgZGlzYWJsZWQgZnJvYm5pY2F0ZQ0KQ1ZFX1NUQVRVU1tDVkUtMTIzNC0wMDAyXSA9IOKAnFBh
-dGNoZWTigJ0NCg0KIyBUaGlzIGlzIFdpbmRvd3Mtc3BlY2lmaWMNCkNWRV9TVEFUVVNbQ1ZFLTEy
-MzQtMDAwM+KAnSA9IOKAnE5vdCBBcHBsaWNhYmxl4oCdDQoNCknigJltIG5vdCBzdXJlIG9mIHRo
-ZSBleGFjdCBsaXN0IG9mIHZhbHVlcyB0aGUgZmxhZ3Mgc2hvdWxkIGFjY2VwdCBiZXlvbmQg4oCc
-cGF0Y2hlZOKAnSBhbmQg4oCcbm90IGFwcGxpY2FibGXigJ0uIFRoZXJlIHByb2JhYmx5IGRvZXMg
-bmVlZCB0byBiZSBhIOKAnHJldmlld2VkIGFuZCBkb27igJl0IGNvbnNpZGVyIHRoaXMgYSBwcm9i
-bGVt4oCdIHdoaWNoIGZlZWxzIGxpa2Ug4oCYaWdub3JlZOKAmSBidXQgSeKAmW0gbm90IGEgZmFu
-IG9mIHRoYXQgcHJlY2lzZSB3b3JkLg0KDQpJcyB0aGVyZSBhbnkgZGVmaW5lZCBsYW5ndWFnZSB0
-aGF0IHdlIGNhbiBzaW1wbHkgYWRvcHQ/DQoNCkNoZWVycywNClJvc3M=
+On Tue, 2023-05-09 at 09:02 +0000, Ross Burton wrote:
+> On 8 May 2023, at 09:57, Adrian Freihofer via lists.openembedded.org <adr=
+ian.freihofer=3Dgmail.com@lists.openembedded.org> wrote:
+> > The patch from Andrej tries to solves a real issue: The CVE checker
+> > distinguishes between two types of patches. Ignored (=3D not applicable=
+)
+> > and patched. Patching is only supported by adding a real patch file to
+> > the SRC_URI. However, there are other ways a patch can be implemented.
+> > For example, a recipe that uses the git fetcher would update the git
+> > hash to a commit that contains a fix instead of applying a patch file
+> > to the recipe.
+> >=20
+> > But I fully agree that the comment (originally suggested by me when
+> > Andrej and I were discussing the solution) is bad. Maybe it should read
+> > as follows:
+> >=20
+> > Normally, a CVE is treated as patched when a patch with the name of the
+> > CVE is applied. CVE_CHECK_PATCHED allows to extend the list of patched
+> > CVEs without adding a patch file to SRC_URI.
+> >=20
+> > Regarding the SBOM: It is important for customers that the CVEs of a
+> > product with SBOM can be correctly identified as repaired or as
+> > ignored. However, I'm not sure if the SBOM part is properly addressed
+> > by the patch. The create-spdx.bbclass uses the function
+> > oe.cve_check.get_patched_cves(d) which should probably handle the new
+> > variable as well. We will check that and come up with a V2.
+>=20
+> So I=E2=80=99d suggest we deprecate CVE_CHECK_IGNORE and add a new, more
+> flexible, variable instead.
+>=20
+> How about a CVE_STATUS, which doesn=E2=80=99t have a direct value but has
+> flags for each CVE:
+>=20
+> # We moved to a git SHA that incorporates the fix
+> CVE_STATUS[CVE-1234=E2=80=930001] =3D =E2=80=9CPatched=E2=80=9D
+>=20
+> # We disabled frobnicate
+> CVE_STATUS[CVE-1234-0002] =3D =E2=80=9CPatched=E2=80=9D
+>=20
+> # This is Windows-specific
+> CVE_STATUS[CVE-1234-0003=E2=80=9D =3D =E2=80=9CNot Applicable=E2=80=9D
+>=20
+> I=E2=80=99m not sure of the exact list of values the flags should accept
+> beyond =E2=80=9Cpatched=E2=80=9D and =E2=80=9Cnot applicable=E2=80=9D. Th=
+ere probably does need to be
+> a =E2=80=9Creviewed and don=E2=80=99t consider this a problem=E2=80=9D wh=
+ich feels like
+> =E2=80=98ignored=E2=80=99 but I=E2=80=99m not a fan of that precise word.
+>=20
+> Is there any defined language that we can simply adopt?
+
+The question is probably what actions might someone want to take? We
+might want to separate out "N/A - configuration disabled" from "N/A -
+OS mismatch" and "CPE incorrect" for example?
+
+The reason being that someone would then know to look at things more
+closely if they were changing configuration, or building windows
+binaries?
+
+Given we already put fairly robust reasoning in comments already,
+should we capture that in a variable too?
+
+CVS_STATUS_REASONING[[CVE-1234-0003] =3D "issue only applies on windows"
+
+Cheers,
+
+Richard (thinking out loud)
+
+
 
