@@ -1,118 +1,76 @@
-Return-Path: <mns@gomspace.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E966C7EE22
-	for <webhook@archiver.kernel.org>; Wed, 10 May 2023 07:36:18 +0000 (UTC)
-Received: from webmail.gomspace.com (webmail.gomspace.com [79.171.149.170])
- by mx.groups.io with SMTP id smtpd.web11.10865.1683704176121493388
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78C76C77B7D
+	for <webhook@archiver.kernel.org>; Wed, 10 May 2023 09:17:18 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web10.12068.1683710232995390852
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 May 2023 00:36:16 -0700
+ Wed, 10 May 2023 02:17:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: gomspace.com, ip: 79.171.149.170, mailfrom: mns@gomspace.com)
-Received: from DK-AAL-EX02.gomspace.lan (10.0.1.86) by
- DK-AAL-EX02.gomspace.lan (10.0.1.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 10 May 2023 09:36:13 +0200
-Received: from mns-T460s.gomspace.lan (10.0.8.155) by DK-AAL-EX02.gomspace.lan
- (10.0.1.86) with Microsoft SMTP Server id 15.2.1118.26 via Frontend
- Transport; Wed, 10 May 2023 09:36:13 +0200
-From: Martin Siegumfeldt <mns@gomspace.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Martin Siegumfeldt <mns@gomspace.com>, Alexandre Belloni
-	<alexandre.belloni@bootlin.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-Subject: [oe-core][mickledore][PATCH] systemd-systemctl: fix instance template WantedBy symlink construction
-Date: Wed, 10 May 2023 09:35:56 +0200
-Message-ID: <20230510073556.1068684-1-mns@gomspace.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=awFgp8ZA;
+ spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-4f13d8f74abso7828082e87.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 May 2023 02:17:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683710231; x=1686302231;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=j02aIwDBrq/x+JwL9wvXHJt8+SSO6YWFRsoL3iav1NU=;
+        b=awFgp8ZA43Bl2xEuY2vj3W5r7gdOcN66wF+S0VD+uYSzUSYjZsiBxVRf/0mkiu88PA
+         BB34zQMRx7MmZnO4bhk9wNxxwmxfmVTGgXR8MP4EHEcnsJlvJAJe72PjnuZqI6hvGFNL
+         TfDPgqZ68Ykl5+cWgx73vQx6Ze2i2lQCuMlMlXGwa1J7IOYGLfQll75EglOeIIhrHGnu
+         Mwhx5+cms5Nb7SIJjVpbGI7BWokmoKl6YwxszeUp3fvRAVpMMAvcJJAlO1ClZhR/qRcu
+         YrLuxElYnO9GqJFk97D/WE+HTJCRig/I+uti/BaFdZkSlxDrg0Czq9k13soGNIUH8yEa
+         k5Pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683710231; x=1686302231;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=j02aIwDBrq/x+JwL9wvXHJt8+SSO6YWFRsoL3iav1NU=;
+        b=TfndhUNquaiZ166XxNkRaxOFtYKSgFoYcI1O66RDyMqcjsc95Udl8uQ6MUY3G0XZbQ
+         ybtbA+d2o2zOtqt6FTC4H4QNnhqvcMSomN74fvB/3FEOjRpsLdei6zvr7ZPSrp8xbT7Q
+         DbGhrMvMTRJDMOU7/+yvmTE6Vejgz0INluF+NjzIYJ/REA0jzmkhp2nDHvUCxdxsG5v4
+         +SGjhtJy6OuwnwEKzwdoL3PZZxOE3T1uBZMaG7DYTjAM05T6Jv7AwrFQI9ydvk33g5cY
+         LugG3sGt+nLgrw7CJdbdDBcXur6EfQVMcXsgYqrjf/nSSmnf3gAptCwiGrJlO8QgB4B2
+         Smsw==
+X-Gm-Message-State: AC+VfDy315QffXWPKZBMtCGX0s9Ej3iS/k+FIMLGmySA2jgqG2hcZWkT
+	yoX/RFKuy2s7xKuuI31RhiWEn3BEqvL+pChGOe4=
+X-Google-Smtp-Source: ACHHUZ7/nkKIzsJfva4XPTzcENeDeF509FWjY0+D8z9JMjJbudDjRN3cTKlQ6Qjz52UVMu90ZKPF9DxEwYKT6M2ZDGE=
+X-Received: by 2002:a05:6512:906:b0:4f0:6aa3:d860 with SMTP id
+ e6-20020a056512090600b004f06aa3d860mr1457522lft.39.1683710230948; Wed, 10 May
+ 2023 02:17:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EndpointSecurity-0xde81-EV: v:7.8.4.270, d:out, a:y, w:t, t:6, sv:1683686379, ts:1683704173
+References: <20230509172344.1516743-1-alex@linutronix.de> <20230509172344.1516743-11-alex@linutronix.de>
+ <b63586cd-f776-9e66-e617-4b1bdd62b270@gmail.com>
+In-Reply-To: <b63586cd-f776-9e66-e617-4b1bdd62b270@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 10 May 2023 11:16:59 +0200
+Message-ID: <CANNYZj8=p-ynYkWSCRMAHEB7NABGEppnWniit-37VaPyGxbn8Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 11/27] meson: update 1.0.1 ->1.1.0
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 May 2023 07:36:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181103
+ <openembedded-core@lists.openembedded.org>; Wed, 10 May 2023 09:17:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181104
 
-Fix issue of the below instance template systemd service dependency
+On Wed, 10 May 2023 at 02:55, Khem Raj <raj.khem@gmail.com> wrote:
+> >   Upstream-Status: Submitted [https://github.com/mesonbuild/meson/pull/10218]
+>
+> This is merged upstreamed with a slightly different fix see
+> https://github.com/mesonbuild/meson/commit/24ea1d3f1968bff52ccaaf33fcdd59e810459aa9
+>
+> If we have this fix already in 1.1.0 which seems to be the case. then
+> the full patch here can be dropped.
 
-[Install]
-WantedBy=3Dsvc-wants@%i.service
+Thanks, I've queued a followup patch that does this. So that v2 or a
+respin of the whole patchset can be avoided.
 
-creating the symlink (instance "a" example)
-
-/etc/systemd/system/svc-wants@%i.service.wants/svc-wanted-by@a.service
-
-which should be
-
-/etc/systemd/system/svc-wants@a.service.wants/svc-wanted-by@a.service
-
-as implemented by this change.
-
-The functionality appears regressed just after "thud" baseline when the
-logic was refactored from shell script into python (commit
-925e30cb104ece7bfa48b78144e758a46dc9ec3f)
-
-(From OE-Core rev: 308397f0bb3d6f3d4e9ec2c6a10823184049c9b5)
-
-Signed-off-by: Martin Siegumfeldt <mns@gomspace.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../systemd/systemd-systemctl/systemctl             | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-core/systemd/systemd-systemctl/systemctl b/meta/r=
-ecipes-core/systemd/systemd-systemctl/systemctl
-index cddae75a06..b45a2dc2f7 100755
---- a/meta/recipes-core/systemd/systemd-systemctl/systemctl
-+++ b/meta/recipes-core/systemd/systemd-systemctl/systemctl
-@@ -195,12 +195,19 @@ class SystemdUnit():
-=20
-         raise SystemdUnitNotFoundError(self.root, unit)
-=20
--    def _process_deps(self, config, service, location, prop, dirstem):
-+    def _process_deps(self, config, service, location, prop, dirstem, inst=
-ance):
-         systemdir =3D self.root / SYSCONFDIR / "systemd" / "system"
-=20
-         target =3D ROOT / location.relative_to(self.root)
-         try:
-             for dependent in config.get('Install', prop):
-+                # determine whether or not dependent is a template with an=
- actual
-+                # instance (i.e. a '@%i')
-+                dependent_is_template =3D re.match(r"[^@]+@(?P<instance>[^=
-\.]*)\.", dependent)
-+                if dependent_is_template:
-+                    # if so, replace with the actual instance to achieve
-+                    # svc-wants@a.service.wants/svc-wanted-by@a.service
-+                    dependent =3D re.sub(dependent_is_template.group('inst=
-ance'), instance, dependent, 1)
-                 wants =3D systemdir / "{}.{}".format(dependent, dirstem) /=
- service
-                 add_link(wants, target)
-=20
-@@ -240,8 +247,8 @@ class SystemdUnit():
-         else:
-             service =3D self.unit
-=20
--        self._process_deps(config, service, path, 'WantedBy', 'wants')
--        self._process_deps(config, service, path, 'RequiredBy', 'requires'=
-)
-+        self._process_deps(config, service, path, 'WantedBy', 'wants', ins=
-tance)
-+        self._process_deps(config, service, path, 'RequiredBy', 'requires'=
-, instance)
-=20
-         try:
-             for also in config.get('Install', 'Also'):
---=20
-2.25.1
-
-
-________________________
-This email was scanned by Bitdefender
+Alex
 
