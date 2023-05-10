@@ -1,141 +1,95 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62D86C7EE22
-	for <webhook@archiver.kernel.org>; Wed, 10 May 2023 12:59:59 +0000 (UTC)
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
- by mx.groups.io with SMTP id smtpd.web11.15752.1683723590555705637
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1238C7EE22
+	for <webhook@archiver.kernel.org>; Wed, 10 May 2023 14:21:29 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.18555.1683728483577402042
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 May 2023 05:59:51 -0700
+ Wed, 10 May 2023 07:21:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
-Received: from kapsi.fi ([91.232.154.11] helo=lakka.kapsi.fi)
-	by mail.kapsi.fi with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1pwjQ3-004OuZ-LD; Wed, 10 May 2023 15:59:47 +0300
-Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1pwjQ3-00HI1A-CZ; Wed, 10 May 2023 15:59:47 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=HSBg6vGe;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3f42ba32e24so14645865e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 May 2023 07:21:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683728482; x=1686320482;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iM2I1j1TwWmqjtMJc/71L4qlVN0ueG/U5O7TySoYPm4=;
+        b=HSBg6vGeVB2xtx/WnXw70o/y580JpqO03QO/1CYaMbeN2K+vDSrPDi021p7lUEycCB
+         YHfAhbHxlytMmYQFCbKgd1XnhjbgYysDqDskr7REKB7jd4yFTNgHdG1PnRwGatW5OX75
+         GCp/RpiJXqv6LlJHl+Ms/6HKetp9xrl/rTwwP1nyDiz95ujo5odFER9jdlbzsfXOeZRB
+         NWCA4Kwk0tNGZ0UGUNNEg9Qaa5wPLjZH2z7bRs0iOAFZrQnJECNz3+6XhQOybwuXiSGF
+         bPD8KTXMV3WkQyXl9O2O5dfb8YX6Potsl0+LOTJp+LLJcyieaCo3XvHovCktLbnCPsDb
+         DJrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683728482; x=1686320482;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iM2I1j1TwWmqjtMJc/71L4qlVN0ueG/U5O7TySoYPm4=;
+        b=Uqm5vvDdPjrUbfe/7mSqmZzu8rB8Qo9pAk6Wbdip1gguyeqBAhJ5xQ7wc4wgZDv36v
+         tAIyAUDVx6zpA0k6BZ8GqyroVBslek0pqa/EA5PBp9CeSteiy7D6PBhZieTIRnesuB21
+         Qsc8lA6btTtC3NqCfcgzYtCE7QgCnE6wAWfF7b3BJqId1ErR/PBDZU6+7AMe7jlVfDZa
+         VOGlit6Fzz7BVOf3wguStQ+bYYOTvwqc8e4kWupIfl2YTMXpic5DT9m8E8dUhTltr9QK
+         Xz9n3YfOHK2Q+X4+hwoGo1wqJsnNFCRfjox5r04xCepcggPagnsBLPNROJEBUj3SGBGN
+         TuBQ==
+X-Gm-Message-State: AC+VfDzOUL1Tuh9Csstu6Aj2z1m99XCb1RIkp2Ta66y7V0Tg04vmon6P
+	NNlok/jnpONGnAjhqrv4qUu8s9h8GTg=
+X-Google-Smtp-Source: ACHHUZ7dmJRkfIVK61IxtZs8jZuUJ4+TaN2DjcNMOidjPrV+Hr/DmtJrLJblFt9ZDMe4tnCqA3WaCA==
+X-Received: by 2002:a7b:cb89:0:b0:3f4:2174:b29b with SMTP id m9-20020a7bcb89000000b003f42174b29bmr8935494wmi.2.1683728481718;
+        Wed, 10 May 2023 07:21:21 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id d10-20020a1c730a000000b003f325f0e020sm22803074wmb.47.2023.05.10.07.21.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 May 2023 07:21:21 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH 1/3] qemurunner: support serial console login via qemu stdout
-Date: Wed, 10 May 2023 15:59:33 +0300
-Message-Id: <20230510125935.4120156-1-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.30.2
+Cc: Ross Burton <ross.burton@arm.com>,
+	Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCH] populate_sdk_base.bbclass: respect MLPREFIX for ptest-pkgs's ptest-runner
+Date: Wed, 10 May 2023 16:21:14 +0200
+Message-Id: <20230510142114.2244860-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspam-Score: -1.4 (-)
-X-Rspam-Report: Action: no action
- Symbol: ARC_NA(0.00)
- Symbol: DMARC_POLICY_SOFTFAIL(0.10)
- Symbol: FROM_HAS_DN(0.00)
- Symbol: TO_DN_SOME(0.00)
- Symbol: R_MISSING_CHARSET(0.50)
- Symbol: R_SPF_ALLOW(-0.20)
- Symbol: MIME_GOOD(-0.10)
- Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
- Symbol: RCVD_TLS_LAST(0.00)
- Symbol: RCPT_COUNT_TWO(0.00)
- Symbol: MID_CONTAINS_FROM(1.00)
- Symbol: FORGED_SENDER(0.30)
- Symbol: R_DKIM_NA(0.00)
- Symbol: MIME_TRACE(0.00)
- Symbol: ASN(0.00)
- Symbol: FROM_NEQ_ENVFROM(0.00)
- Symbol: BAYES_HAM(-3.00)
- Symbol: RCVD_COUNT_TWO(0.00)
- Message-ID: 20230510125935.4120156-1-mikko.rapeli@linaro.org
-X-SA-Exim-Connect-IP: 91.232.154.11
-X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 May 2023 12:59:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181108
+ <openembedded-core@lists.openembedded.org>; Wed, 10 May 2023 14:21:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181111
 
-runqemu script works with qemu machines which provide login
-and serial console to the qemu process stdout. Add the same support
-to qemurunner so that testing with testimage.bbclass is possible.
+* since "populate_sdk_base: ensure ptest-pkgs pulls in ptest-runner" change:
+  https://git.openembedded.org/openembedded-core/commit/?id=ecff0642be5781f7f6cca617158b04ac9a0e85f0
+  in multilib build when building lib32-foo-image it can pick wrong
+  ptest-runner package if it was built in the same TMPDIR before the
+  image, do_rootfs then fails to find it, if the package manager config
+  doesn't have 64-bit feed enabled:
 
-Default qemu machines provide serial console boot logs and login via
-socket to qemu process but I don't see a reason why qemu process stdout
-should not be supported too since they work with runqemu as well.
+  opkg_prepare_url_for_install: Couldn't find anything to satisfy 'ptest-runner'
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/lib/oeqa/utils/qemurunner.py | 30 +++++++++++++++++++-----------
- 1 file changed, 19 insertions(+), 11 deletions(-)
+ meta/classes-recipe/populate_sdk_base.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 6734cee48d..3b7398b872 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -451,7 +451,7 @@ class QemuRunner:
-         self.logger.debug("Waiting at most %d seconds for login banner (%s)" %
-                           (self.boottime, time.strftime("%D %H:%M:%S")))
-         endtime = time.time() + self.boottime
--        socklist = [self.server_socket]
-+        filelist = [self.server_socket, self.runqemu.stdout]
-         reachedlogin = False
-         stopread = False
-         qemusock = None
-@@ -459,24 +459,32 @@ class QemuRunner:
-         data = b''
-         while time.time() < endtime and not stopread:
-             try:
--                sread, swrite, serror = select.select(socklist, [], [], 5)
-+                sread, swrite, serror = select.select(filelist, [], [], 5)
-             except InterruptedError:
-                 continue
--            for sock in sread:
--                if sock is self.server_socket:
-+            for file in sread:
-+                if file is self.server_socket:
-                     qemusock, addr = self.server_socket.accept()
--                    qemusock.setblocking(0)
--                    socklist.append(qemusock)
--                    socklist.remove(self.server_socket)
-+                    qemusock.setblocking(False)
-+                    filelist.append(qemusock)
-+                    filelist.remove(self.server_socket)
-                     self.logger.debug("Connection from %s:%s" % addr)
-                 else:
-                     # try to avoid reading only a single character at a time
-                     time.sleep(0.1)
--                    data = data + sock.recv(1024)
-+                    if hasattr(file, 'read'):
-+                        read = file.read(1024)
-+                    elif hasattr(file, 'recv'):
-+                        read = file.recv(1024)
-+                    else:
-+                        self.logger.error('Invalid file type: %s\n%s' % (file))
-+                        read = b''
-+
-+                    data = data + read
-                     if data:
-                         bootlog += data
-                         if self.serial_ports < 2:
--                            # this socket has mixed console/kernel data, log it to logfile
-+                            # this file has mixed console/kernel data, log it to logfile
-                             self.log(data)
+diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-recipe/populate_sdk_base.bbclass
+index 1c619ef3cf..b23ea26d40 100644
+--- a/meta/classes-recipe/populate_sdk_base.bbclass
++++ b/meta/classes-recipe/populate_sdk_base.bbclass
+@@ -15,7 +15,7 @@ COMPLEMENTARY_GLOB[staticdev-pkgs] = '*-staticdev'
+ COMPLEMENTARY_GLOB[doc-pkgs] = '*-doc'
+ COMPLEMENTARY_GLOB[dbg-pkgs] = '*-dbg'
+ COMPLEMENTARY_GLOB[src-pkgs] = '*-src'
+-COMPLEMENTARY_GLOB[ptest-pkgs] = '*-ptest ptest-runner'
++COMPLEMENTARY_GLOB[ptest-pkgs] = '*-ptest ${MLPREFIX}ptest-runner'
+ COMPLEMENTARY_GLOB[bash-completion-pkgs] = '*-bash-completion'
  
-                         data = b''
-@@ -493,8 +501,8 @@ class QemuRunner:
-                         # no need to check if reachedlogin unless we support multiple connections
-                         self.logger.debug("QEMU socket disconnected before login banner reached. (%s)" %
-                                           time.strftime("%D %H:%M:%S"))
--                        socklist.remove(sock)
--                        sock.close()
-+                        filelist.remove(file)
-+                        file.close()
-                         stopread = True
- 
-         if not reachedlogin:
+ def complementary_globs(featurevar, d):
 -- 
-2.34.1
+2.40.1
 
 
