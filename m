@@ -1,132 +1,127 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1414CC7EE22
-	for <webhook@archiver.kernel.org>; Wed, 10 May 2023 15:32:20 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web10.20714.1683732730815423018
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39793C77B7D
+	for <webhook@archiver.kernel.org>; Wed, 10 May 2023 15:45:20 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web10.21170.1683733513039772885
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 May 2023 08:32:11 -0700
+ Wed, 10 May 2023 08:45:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@smile-fr.20221208.gappssmtp.com header.s=20221208 header.b=enqvYXAf;
- spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3078aa0b152so3264383f8f.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 May 2023 08:32:10 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=B4LKUyU3;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3f42d937d61so16670815e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 May 2023 08:45:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20221208.gappssmtp.com; s=20221208; t=1683732729; x=1686324729;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=D2TFZfHtzJMOUBk2n/2IYmYom1UTxFllG3QkjWJGLqw=;
-        b=enqvYXAfXRncBrExmfGa7NpwTvVDKM3AJ55O/zlTqwFOrSN994phUKMZSjh2beGR44
-         uu1Tb0gUTF7idcKgZKk1HZjUG/Wda3zDMiI4XbO34VQv5Djwik7ZgZgAjEZ1nyv9SY31
-         qQZvBVotAwCvZJECw3bHtVKT+V0uUbA1YyuymM0DvurpyRrzZGsSNKq5m1+B5Hj/burd
-         ofmdwZfO3nQ9Zv99APwf2bmt3xzowc2rgN5tl8uyX4r0T2+EykbxOsGbXTws/Cvjn2Ep
-         fVDRw6cA+UCZU7w+HKZJRERwZAQrxhpkEa8EA6Qb3E+FE9HnC0AyImGTrmex6XV4A7T2
-         nI1w==
+        d=linuxfoundation.org; s=google; t=1683733511; x=1686325511;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=j+eJPeFbPJZktgACnL4nzOF0+Atzco9zYns/+m1WaRU=;
+        b=B4LKUyU3t7jUfq2x8RHTaQKrQbVWAR2s2uXXEie/9QNdk+kid8+UepI/g3dWZ56i5p
+         kAc+t0SykoB2m6O3Shqc+BJl1a9yAeirVRS9im6PMKaj5v9iGU/k7bj5UYmUh6D2yY8i
+         YVg4vxwyQC6NVB+QHhLbr+09VUQPZ/v2IJ0lU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683732729; x=1686324729;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=D2TFZfHtzJMOUBk2n/2IYmYom1UTxFllG3QkjWJGLqw=;
-        b=ENB7gqyUK7CWPBvKJqNkNyj0ng8Qycwvh6uSYp93UlBJ4F3zdEYlkGKECC2yg71HZg
-         NQyKPIbifsvof2OGxjAsja4BoJKQvC6rgzYSYH+HFA1UIuwgeTMW6twsBVAZXv5XraFA
-         VU1+6UBq8B9Tibv7qoLgY/LLP9QY8it60ov/4SE4Hx3th1qbaNBRAvs6nD0K18z5pb6Y
-         3at7He1ifpzibJ/vtY6TdQik/JF8YkAl1SXC5ljqMp8JF06DaJvnkyJIS2xQ/ndOAgyE
-         zeHyrz8i4YQXXcEgP4lHId6Z4lJAaDOByjHiQCTMlS4pXF3Bp4rKxGUxnICIlXD/+K1L
-         D4CA==
-X-Gm-Message-State: AC+VfDyhxcYWbuZcfheXraURDXSULv5qaMDZ7ZKI5eVRP1wqvZHaOqSu
-	U4wy32x2Prw4iH/32k5JMK5VorTbkSoWoEapplqaew==
-X-Google-Smtp-Source: ACHHUZ6wEUDL4zrzJKCsC2FVO9DLAPWto/YVJ8UcydxM2KBHWv0esfhtnBPwFhrLiFc6Gi8fw2BfLA==
-X-Received: by 2002:a5d:6081:0:b0:306:29b6:b389 with SMTP id w1-20020a5d6081000000b0030629b6b389mr11698973wrt.64.1683732728342;
-        Wed, 10 May 2023 08:32:08 -0700 (PDT)
-Received: from [10.1.75.108] (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id n6-20020a7bcbc6000000b003f33f8f0a05sm23149213wmi.9.2023.05.10.08.32.08
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 May 2023 08:32:08 -0700 (PDT)
-Message-ID: <e9734fec-402d-63fb-bff0-8ab89306f599@smile.fr>
-Date: Wed, 10 May 2023 17:32:07 +0200
+        d=1e100.net; s=20221208; t=1683733511; x=1686325511;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=j+eJPeFbPJZktgACnL4nzOF0+Atzco9zYns/+m1WaRU=;
+        b=lgDZ9LdqrcvPqf4ZeZ9t/z9xQ2nddmZnhtKuQMIwc/S6BKaVtgGJJAZjNT+tMkDtJc
+         KTe5dTJBqbDc+tBxhI4Wo2IEAMgaBw5PvLm9nfnq30+RU5V69aOXjBUeIgb1Y5xdrx6r
+         CBpgL1uJvcdfD7mkcP9rwq3PnpqCG9QHpKdZ+/oFIhRjCSoCi/8o3jOb1YCNTqOvSJql
+         +sfzUzzsJbJfue1lXQ0WFD8SatzuiRJepxg8imxfX7ITDfJa5RV5Q0hHLLXPOJqFthJv
+         2MgKYGuPzx+GdudCrtzxiY9Cht+4Kqg7ckDkGjTXmuWtxnEdoSZaU9e1XqccAZGnfSbc
+         tBcA==
+X-Gm-Message-State: AC+VfDzJeOPaPrG45Sp1OMDO/gHJiI1zxIlP2RuKWbqDMKkXUYYJGgF9
+	qrmFnVxlckeKbmn0pPy92ff9/Q==
+X-Google-Smtp-Source: ACHHUZ4mr9sySskw6d63FE44W6wn9jweL6k7WwH6h/7hwthbQg2KZJB/30TEd34ZHZmmURkFuptZgQ==
+X-Received: by 2002:a7b:cd83:0:b0:3f4:2ae5:b35d with SMTP id y3-20020a7bcd83000000b003f42ae5b35dmr4981755wmj.40.1683733511467;
+        Wed, 10 May 2023 08:45:11 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:97c0:2f0a:108:d273? ([2001:8b0:aba:5f3c:97c0:2f0a:108:d273])
+        by smtp.gmail.com with ESMTPSA id p8-20020a056000018800b002f28de9f73bsm17961438wrx.55.2023.05.10.08.45.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 May 2023 08:45:11 -0700 (PDT)
+Message-ID: <7358419d11a14ede93b1185278d7449c703f824e.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] qemu: Further updates to the ppc patch after
+ upstream discussion
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Wed, 10 May 2023 16:45:10 +0100
+In-Reply-To: <CAMKF1soShQAh8LgR8juuRc1TXPUu-eyA0XCWH2Z2wj82yttMOA@mail.gmail.com>
+References: <20230510112603.1720223-1-richard.purdie@linuxfoundation.org>
+	 <CAMKF1soShQAh8LgR8juuRc1TXPUu-eyA0XCWH2Z2wj82yttMOA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.0-1 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [OE-core][kirkstone 04/15] linux-yocto: Exclude 121 CVEs already
- fixed upstream
-Content-Language: en-US
-To: openembedded-core@lists.openembedded.org
-References: <cover.1683671423.git.steve@sakoman.com>
- <5703fcbbede8ec438e36505d406e1f873b13a476.1683671423.git.steve@sakoman.com>
-From: Yoann Congal <yoann.congal@smile.fr>
-Organization: Smile ECS
-In-Reply-To: <5703fcbbede8ec438e36505d406e1f873b13a476.1683671423.git.steve@sakoman.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 May 2023 15:32:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181113
+ <openembedded-core@lists.openembedded.org>; Wed, 10 May 2023 15:45:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181114
 
-Hi Steve!
+On Wed, 2023-05-10 at 08:04 -0700, Khem Raj wrote:
+> On Wed, May 10, 2023 at 4:26=E2=80=AFAM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >=20
+> > After someone tested real hardware, the patch needs tweaks to match the=
+ 3.0 ISA
+> > behaviour. It won't change much from our perspective but may as well ke=
+ep the
+> > patch in sync.
+> >=20
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ---
+> >  meta/recipes-devtools/qemu/qemu/ppc.patch | 89 +++++++++++------------
+> >  1 file changed, 44 insertions(+), 45 deletions(-)
+> >=20
+> > diff --git a/meta/recipes-devtools/qemu/qemu/ppc.patch b/meta/recipes-d=
+evtools/qemu/qemu/ppc.patch
+> > index 1fe6a3b4139..22d26e23d9b 100644
+> > --- a/meta/recipes-devtools/qemu/qemu/ppc.patch
+> > +++ b/meta/recipes-devtools/qemu/qemu/ppc.patch
+> > @@ -1,11 +1,12 @@
+> > -From d92b63b7d15d4fd202c5802dfe444a96f5d8109c Mon Sep 17 00:00:00 2001
+> > +From 31f02021ac17442c514593f7b9ed750ea87c21b1 Mon Sep 17 00:00:00 2001
+> >  From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> >  Date: Sat, 6 May 2023 07:42:35 +0100
+> >  Cc: V=C3=ADctor Colombo <victor.colombo@eldorado.org.br>
+> >  Cc: Matheus Ferst <matheus.ferst@eldorado.org.br>
+> >  Cc: Daniel Henrique Barboza <danielhb413@gmail.com>
+> >  Cc: Richard Henderson <richard.henderson@linaro.org>
+> > -Subject: [PATCH v2] target/ppc: Fix fallback to MFSS for MFFS* instruc=
+tions on
+> > +Cc: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> > +Subject: [PATCH v3] target/ppc: Fix fallback to MFSS for MFFS* instruc=
+tions on
+> >   pre 3.0 ISAs
+> >=20
+> >  The following commits changed the code such that the fallback to MFSS =
+for MFFSCRN,
+> > @@ -22,25 +23,23 @@ instructions which is used in glibc libm functions =
+for example.
+> >  The fallback for MFFSCDRN and MFFSCDRNI added in a later patch was als=
+o missing.
+> >=20
+> >  This patch restores the fallback to MFSS for these instructions on pre=
+ 3.0s ISAs
+> > -as the hardware decoder would, fixing the segfaulting libm code. It an=
+d also ensures
+> > -the MFSS instruction is used for currently reserved bits to handle oth=
+er potential
+> > -ISA additions more correctly.
+> > -
+> > -Upstream-Status: Submitted [https://lore.kernel.org/qemu-devel/2023050=
+6065240.3177798-1-richard.purdie@linuxfoundation.org/]
+>=20
+> I think you dropped this line accidentally.
 
-On 5/10/23 00:32, Steve Sakoman wrote:
-> From: Yoann Congal <yoann.congal@smile.fr>
-> 
-> Exclude CVEs that are fixed in both current linux-yocto version
-> v5.10.175 and v5.15.108.
-> 
-> To get the commit fixing a CVE, I used the Debian kernel-sec repo [1].
-> 
-> [1]: https://salsa.debian.org/kernel-team/kernel-sec/-/commit/86d5040aee9275f9555458fcaf9cb43710dff398
-> 
-> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-> Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> ---
->  meta/recipes-kernel/linux/cve-exclusion.inc | 875 ++++++++++++++++++++
->  meta/recipes-kernel/linux/linux-yocto.inc   |   3 +
->  2 files changed, 878 insertions(+)
->  create mode 100644 meta/recipes-kernel/linux/cve-exclusion.inc
-> 
-> diff --git a/meta/recipes-kernel/linux/cve-exclusion.inc b/meta/recipes-kernel/linux/cve-exclusion.inc
-> new file mode 100644
-> index 0000000000..7fd362881a
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux/cve-exclusion.inc
-> @@ -0,0 +1,875 @@
-> +# Kernel CVE exclusion file
-> +
+Ah, yes. Patch merge issues, fixed in master-next.
 
-.../...
-> +
-> +# https://nvd.nist.gov/vuln/detail/CVE-2022-2503
-> +# Patched in kernel since v5.19 4caae58406f8ceb741603eee460d79bacca9b1b5
-> +# Backported in version v5.4.197 fd2f7e9984850a0162bfb6948b98ffac9fb5fa58
-> +# Backported in version v5.10.120 8df42bcd364cc3b41105215d841792aea787b133
-> +# Backported in version v5.15.45 69712b170237ec5979f168149cd31e851a465853
-> +CVE_CHECK_IGNORE += "CVE-2022-2503"
-> +
-> +# https://nvd.nist.gov/vuln/detail/CVE-2022-26365
-> +# Patched in kernel since v5.19 2f446ffe9d737e9a844b97887919c4fda18246e7
-> +# Backported in version v5.4.204 42112e8f94617d83943f8f3b8de2b66041905506
-> +# Backported in version v5.10.129 cfea428030be836d79a7690968232bb7fa4410f1
-> +# Backported in version v5.15.53 7ed65a4ad8fa9f40bc3979b32c54243d6a684ec9
-> +CVE_CHECK_IGNORE += "CVE-2022-26365"
-> +
-> +# https://nvd.nist.gov/vuln/detail/CVE-2022-2663
-> +# Patched in kernel since v6.0 e8d5dfd1d8747b56077d02664a8838c71ced948e
-> +# Backported in version v5.4.215 d0a24bc8e2aa703030d80affa3e5237fe3ad4dd2
-> +# Backported in version v5.10.146 9a5d7e0acb41bb2aac552f8eeb4b404177f3f66d
-> +# Backported in version v5.15.71 dc33ffbc361e2579a8f31b8724ef85d4117440e4
-> +# Backported in version v5.19.12 510ea9eae5ee45f4e443023556532bda99387351
-> +CVE_CHECK_IGNORE += "CVE-2022-2663"
+Cheers,
 
-I just noticed that the list in not sorted :(
-
-I'll send a V2 sorted (This will make the next iterations cleaner)
-
--- 
-Yoann Congal
-Smile ECS - Tech Expert
+Richard
 
