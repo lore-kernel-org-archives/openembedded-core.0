@@ -1,95 +1,305 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1238C7EE22
-	for <webhook@archiver.kernel.org>; Wed, 10 May 2023 14:21:29 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web11.18555.1683728483577402042
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8DBFC77B7D
+	for <webhook@archiver.kernel.org>; Wed, 10 May 2023 15:05:09 +0000 (UTC)
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+ by mx.groups.io with SMTP id smtpd.web11.19886.1683731106344736540
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 May 2023 07:21:23 -0700
+ Wed, 10 May 2023 08:05:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=HSBg6vGe;
- spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3f42ba32e24so14645865e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 May 2023 07:21:23 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=R8makKNa;
+ spf=pass (domain: gmail.com, ip: 209.85.167.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-38e3228d120so3685368b6e.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 May 2023 08:05:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683728482; x=1686320482;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iM2I1j1TwWmqjtMJc/71L4qlVN0ueG/U5O7TySoYPm4=;
-        b=HSBg6vGeVB2xtx/WnXw70o/y580JpqO03QO/1CYaMbeN2K+vDSrPDi021p7lUEycCB
-         YHfAhbHxlytMmYQFCbKgd1XnhjbgYysDqDskr7REKB7jd4yFTNgHdG1PnRwGatW5OX75
-         GCp/RpiJXqv6LlJHl+Ms/6HKetp9xrl/rTwwP1nyDiz95ujo5odFER9jdlbzsfXOeZRB
-         NWCA4Kwk0tNGZ0UGUNNEg9Qaa5wPLjZH2z7bRs0iOAFZrQnJECNz3+6XhQOybwuXiSGF
-         bPD8KTXMV3WkQyXl9O2O5dfb8YX6Potsl0+LOTJp+LLJcyieaCo3XvHovCktLbnCPsDb
-         DJrQ==
+        d=gmail.com; s=20221208; t=1683731105; x=1686323105;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ky5pjowIB5/JWJ9blxQtknxa+JqoaqX+TTWTa77JI2Q=;
+        b=R8makKNaX+dT7sIhWvhxHlxglwIEqZxadHxbvB8s68lG7FtkqxLFeAPxRMCXlA8V0a
+         UJmBSDt/64FoiAboArhpbjEMRoREM1aMxV827a0zfejTNbmd0CcRlvFfAN0Oq2Np0VH8
+         AOyYQLMqDT3rgLIt99WWXbMbm4KbV+Nu9F3aOTPszNavjLHcYP/kXWCU4VjWzR6cUPbV
+         FGP6bG/lfvj/gA6zOjcfWNB64Sk0/o6EQDZsDZYVifSZwjmI6MsK2w20qaFe5LBOiWch
+         4ogZnImEm6IeZ28achIHZMjcG5OvpSZKiU6CJ1Ypo/l+Z0xHuWJl9YwWsvWN2J9RrXFb
+         PGaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683728482; x=1686320482;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iM2I1j1TwWmqjtMJc/71L4qlVN0ueG/U5O7TySoYPm4=;
-        b=Uqm5vvDdPjrUbfe/7mSqmZzu8rB8Qo9pAk6Wbdip1gguyeqBAhJ5xQ7wc4wgZDv36v
-         tAIyAUDVx6zpA0k6BZ8GqyroVBslek0pqa/EA5PBp9CeSteiy7D6PBhZieTIRnesuB21
-         Qsc8lA6btTtC3NqCfcgzYtCE7QgCnE6wAWfF7b3BJqId1ErR/PBDZU6+7AMe7jlVfDZa
-         VOGlit6Fzz7BVOf3wguStQ+bYYOTvwqc8e4kWupIfl2YTMXpic5DT9m8E8dUhTltr9QK
-         Xz9n3YfOHK2Q+X4+hwoGo1wqJsnNFCRfjox5r04xCepcggPagnsBLPNROJEBUj3SGBGN
-         TuBQ==
-X-Gm-Message-State: AC+VfDzOUL1Tuh9Csstu6Aj2z1m99XCb1RIkp2Ta66y7V0Tg04vmon6P
-	NNlok/jnpONGnAjhqrv4qUu8s9h8GTg=
-X-Google-Smtp-Source: ACHHUZ7dmJRkfIVK61IxtZs8jZuUJ4+TaN2DjcNMOidjPrV+Hr/DmtJrLJblFt9ZDMe4tnCqA3WaCA==
-X-Received: by 2002:a7b:cb89:0:b0:3f4:2174:b29b with SMTP id m9-20020a7bcb89000000b003f42174b29bmr8935494wmi.2.1683728481718;
-        Wed, 10 May 2023 07:21:21 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id d10-20020a1c730a000000b003f325f0e020sm22803074wmb.47.2023.05.10.07.21.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 May 2023 07:21:21 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ross Burton <ross.burton@arm.com>,
-	Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH] populate_sdk_base.bbclass: respect MLPREFIX for ptest-pkgs's ptest-runner
-Date: Wed, 10 May 2023 16:21:14 +0200
-Message-Id: <20230510142114.2244860-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.40.1
+        d=1e100.net; s=20221208; t=1683731105; x=1686323105;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ky5pjowIB5/JWJ9blxQtknxa+JqoaqX+TTWTa77JI2Q=;
+        b=dUTMG6jR06w9cTmHZEXDi7n3qyb2B5aXxxHhS9x/IAKSE3ixzIek9kWJYY1nP9iBs5
+         v3gJRZno/32wi1U903NZRcLw4HqsRDi6450fx6/ZJ5EWBo9VHBIz1IgYkakJcH3E8Pwn
+         4gk3GJlmitjpEpSlLCk8y5C+XR0KVrCPtd1AFn7aMU8sv+KI17GbeVDjgh2NJlRBEygb
+         y7QkFSqRkA0mLHU71mrQrLh7Wm8XBRCXB0QjZMECv8aaJtUo6ncwcBdx/XYg1VDv6hD7
+         eDKUYNuYNvwBHZyRJRbVqpC23OiESJHQaqZzgcS4LOmLyLagN3+PlOKqwH5QrJGyCkp2
+         UXTg==
+X-Gm-Message-State: AC+VfDxPiTFFCM2zf4YrVaqeTtVW4xreYD0stjkstDWTtt1kGOLWGVC0
+	ZTkfPjGVPan3hSBh4oN5zpvB7thqO4ivgPNPVehdP/5r
+X-Google-Smtp-Source: ACHHUZ4Cpj86zeRj58yJY8hfkQZCc+63/VmOh5zd6b3DRsh5OJ3Jc8tXe9Txjz9iou2ZVjSk4d2LIyGv3RHa6/Rvl3Y=
+X-Received: by 2002:a05:6808:246:b0:37a:dc7a:9cb with SMTP id
+ m6-20020a056808024600b0037adc7a09cbmr3139194oie.27.1683731105494; Wed, 10 May
+ 2023 08:05:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230510112603.1720223-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20230510112603.1720223-1-richard.purdie@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 10 May 2023 08:04:39 -0700
+Message-ID: <CAMKF1soShQAh8LgR8juuRc1TXPUu-eyA0XCWH2Z2wj82yttMOA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] qemu: Further updates to the ppc patch after
+ upstream discussion
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 May 2023 14:21:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181111
+ <openembedded-core@lists.openembedded.org>; Wed, 10 May 2023 15:05:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181112
 
-* since "populate_sdk_base: ensure ptest-pkgs pulls in ptest-runner" change:
-  https://git.openembedded.org/openembedded-core/commit/?id=ecff0642be5781f7f6cca617158b04ac9a0e85f0
-  in multilib build when building lib32-foo-image it can pick wrong
-  ptest-runner package if it was built in the same TMPDIR before the
-  image, do_rootfs then fails to find it, if the package manager config
-  doesn't have 64-bit feed enabled:
+On Wed, May 10, 2023 at 4:26=E2=80=AFAM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> After someone tested real hardware, the patch needs tweaks to match the 3=
+.0 ISA
+> behaviour. It won't change much from our perspective but may as well keep=
+ the
+> patch in sync.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/recipes-devtools/qemu/qemu/ppc.patch | 89 +++++++++++------------
+>  1 file changed, 44 insertions(+), 45 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/qemu/qemu/ppc.patch b/meta/recipes-dev=
+tools/qemu/qemu/ppc.patch
+> index 1fe6a3b4139..22d26e23d9b 100644
+> --- a/meta/recipes-devtools/qemu/qemu/ppc.patch
+> +++ b/meta/recipes-devtools/qemu/qemu/ppc.patch
+> @@ -1,11 +1,12 @@
+> -From d92b63b7d15d4fd202c5802dfe444a96f5d8109c Mon Sep 17 00:00:00 2001
+> +From 31f02021ac17442c514593f7b9ed750ea87c21b1 Mon Sep 17 00:00:00 2001
+>  From: Richard Purdie <richard.purdie@linuxfoundation.org>
+>  Date: Sat, 6 May 2023 07:42:35 +0100
+>  Cc: V=C3=ADctor Colombo <victor.colombo@eldorado.org.br>
+>  Cc: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>  Cc: Daniel Henrique Barboza <danielhb413@gmail.com>
+>  Cc: Richard Henderson <richard.henderson@linaro.org>
+> -Subject: [PATCH v2] target/ppc: Fix fallback to MFSS for MFFS* instructi=
+ons on
+> +Cc: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> +Subject: [PATCH v3] target/ppc: Fix fallback to MFSS for MFFS* instructi=
+ons on
+>   pre 3.0 ISAs
+>
+>  The following commits changed the code such that the fallback to MFSS fo=
+r MFFSCRN,
+> @@ -22,25 +23,23 @@ instructions which is used in glibc libm functions fo=
+r example.
+>  The fallback for MFFSCDRN and MFFSCDRNI added in a later patch was also =
+missing.
+>
+>  This patch restores the fallback to MFSS for these instructions on pre 3=
+.0s ISAs
+> -as the hardware decoder would, fixing the segfaulting libm code. It and =
+also ensures
+> -the MFSS instruction is used for currently reserved bits to handle other=
+ potential
+> -ISA additions more correctly.
+> -
+> -Upstream-Status: Submitted [https://lore.kernel.org/qemu-devel/202305060=
+65240.3177798-1-richard.purdie@linuxfoundation.org/]
 
-  opkg_prepare_url_for_install: Couldn't find anything to satisfy 'ptest-runner'
+I think you dropped this line accidentally.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes-recipe/populate_sdk_base.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-recipe/populate_sdk_base.bbclass
-index 1c619ef3cf..b23ea26d40 100644
---- a/meta/classes-recipe/populate_sdk_base.bbclass
-+++ b/meta/classes-recipe/populate_sdk_base.bbclass
-@@ -15,7 +15,7 @@ COMPLEMENTARY_GLOB[staticdev-pkgs] = '*-staticdev'
- COMPLEMENTARY_GLOB[doc-pkgs] = '*-doc'
- COMPLEMENTARY_GLOB[dbg-pkgs] = '*-dbg'
- COMPLEMENTARY_GLOB[src-pkgs] = '*-src'
--COMPLEMENTARY_GLOB[ptest-pkgs] = '*-ptest ptest-runner'
-+COMPLEMENTARY_GLOB[ptest-pkgs] = '*-ptest ${MLPREFIX}ptest-runner'
- COMPLEMENTARY_GLOB[bash-completion-pkgs] = '*-bash-completion'
- 
- def complementary_globs(featurevar, d):
--- 
-2.40.1
-
+> +as the hardware decoder would, fixing the segfaulting libm code. It does=
+n't have
+> +the fallback for 3.0 onwards to match hardware behaviour.
+>
+>  Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>  ---
+> - target/ppc/insn32.decode           | 19 ++++++++++++-------
+> - target/ppc/translate/fp-impl.c.inc | 30 ++++++++++++++++++++++++------
+> - 2 files changed, 36 insertions(+), 13 deletions(-)
+> + target/ppc/insn32.decode           | 20 +++++++++++++-------
+> + target/ppc/translate/fp-impl.c.inc | 22 ++++++++++++++++------
+> + 2 files changed, 29 insertions(+), 13 deletions(-)
+>
+> +v3 - drop fallback to MFFS for 3.0 ISA to match hardware
+>  v2 - switch to use decodetree pattern groups per feedback
+>
+>  diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+> -index f8f589e9fd..3c4e2c2fc2 100644
+> +index f8f589e9fd..4fcf3af8d0 100644
+>  --- a/target/ppc/insn32.decode
+>  +++ b/target/ppc/insn32.decode
+> -@@ -390,13 +390,18 @@ SETNBCR         011111 ..... ..... ----- 011110000=
+0 -   @X_bi
+> +@@ -390,13 +390,19 @@ SETNBCR         011111 ..... ..... ----- 011110000=
+0 -   @X_bi
+>
+>   ### Move To/From FPSCR
+>
+> @@ -51,9 +50,11 @@ index f8f589e9fd..3c4e2c2fc2 100644
+>  -MFFSCRNI        111111 ..... 10111 ---.. 1001000111 -   @X_imm2
+>  -MFFSCDRNI       111111 ..... 10101 --... 1001000111 -   @X_imm3
+>  -MFFSL           111111 ..... 11000 ----- 1001000111 -   @X_t
+> -+{
+> ++{
+>  +  # Before Power ISA v3.0, MFFS bits 11~15 were reserved and should be =
+ignored
+> ++  MFFS_ISA207     111111 ..... ----- ----- 1001000111 .   @X_t_rc
+>  +  [
+> ++    MFFS            111111 ..... 00000 ----- 1001000111 .   @X_t_rc
+>  +    MFFSCE          111111 ..... 00001 ----- 1001000111 -   @X_t
+>  +    MFFSCRN         111111 ..... 10110 ..... 1001000111 -   @X_tb
+>  +    MFFSCDRN        111111 ..... 10100 ..... 1001000111 -   @X_tb
+> @@ -61,84 +62,82 @@ index f8f589e9fd..3c4e2c2fc2 100644
+>  +    MFFSCDRNI       111111 ..... 10101 --... 1001000111 -   @X_imm3
+>  +    MFFSL           111111 ..... 11000 ----- 1001000111 -   @X_t
+>  +  ]
+> -+  MFFS            111111 ..... ----- ----- 1001000111 .   @X_t_rc
+>  +}
+>
+>   ### Decimal Floating-Point Arithmetic Instructions
+>
+>  diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/f=
+p-impl.c.inc
+> -index 57d8437851..10dfd91aa4 100644
+> +index 57d8437851..874774eade 100644
+>  --- a/target/ppc/translate/fp-impl.c.inc
+>  +++ b/target/ppc/translate/fp-impl.c.inc
+> -@@ -584,7 +584,10 @@ static bool trans_MFFSCE(DisasContext *ctx, arg_X_t=
+ *a)
+> - {
+> -     TCGv_i64 fpscr;
+> +@@ -568,6 +568,22 @@ static void store_fpscr_masked(TCGv_i64 fpscr, uint=
+64_t clear_mask,
+> +     gen_helper_store_fpscr(cpu_env, fpscr_masked, st_mask);
+> + }
+>
+> --    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+> ++static bool trans_MFFS_ISA207(DisasContext *ctx, arg_X_t_rc *a)
+> ++{
+>  +    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
+> -+        return false;
+> ++        /*
+> ++         * Before Power ISA v3.0, MFFS bits 11~15 were reserved, any in=
+struction
+> ++         * with OPCD=3D63 and XO=3D583 should be decoded as MFFS.
+> ++         */
+> ++        return trans_MFFS(ctx, a);
+>  +    }
+> ++    /*
+> ++     * For Power ISA v3.0+, return false and let the pattern group
+> ++     * select the correct instruction.
+> ++     */
+> ++    return false;
+> ++}
+>  +
+> + static bool trans_MFFS(DisasContext *ctx, arg_X_t_rc *a)
+> + {
+> +     REQUIRE_FPU(ctx);
+> +@@ -584,7 +600,6 @@ static bool trans_MFFSCE(DisasContext *ctx, arg_X_t =
+*a)
+> + {
+> +     TCGv_i64 fpscr;
+> +
+> +-    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+>       REQUIRE_FPU(ctx);
+>
+>       gen_reset_fpstatus();
+> -@@ -597,7 +600,10 @@ static bool trans_MFFSCRN(DisasContext *ctx, arg_X_=
+tb *a)
+> +@@ -597,7 +612,6 @@ static bool trans_MFFSCRN(DisasContext *ctx, arg_X_t=
+b *a)
+>   {
+>       TCGv_i64 t1, fpscr;
+>
+>  -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+> -+    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
+> -+        return false;
+> -+    }
+> -+
+>       REQUIRE_FPU(ctx);
+>
+>       t1 =3D tcg_temp_new_i64();
+> -@@ -614,7 +620,10 @@ static bool trans_MFFSCDRN(DisasContext *ctx, arg_X=
+_tb *a)
+> +@@ -614,7 +628,6 @@ static bool trans_MFFSCDRN(DisasContext *ctx, arg_X_=
+tb *a)
+>   {
+>       TCGv_i64 t1, fpscr;
+>
+>  -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+> -+    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
+> -+        return false;
+> -+    }
+> -+
+>       REQUIRE_FPU(ctx);
+>
+>       t1 =3D tcg_temp_new_i64();
+> -@@ -631,7 +640,10 @@ static bool trans_MFFSCRNI(DisasContext *ctx, arg_X=
+_imm2 *a)
+> +@@ -631,7 +644,6 @@ static bool trans_MFFSCRNI(DisasContext *ctx, arg_X_=
+imm2 *a)
+>   {
+>       TCGv_i64 t1, fpscr;
+>
+>  -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+> -+    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
+> -+        return false;
+> -+    }
+> -+
+>       REQUIRE_FPU(ctx);
+>
+>       t1 =3D tcg_temp_new_i64();
+> -@@ -647,7 +659,10 @@ static bool trans_MFFSCDRNI(DisasContext *ctx, arg_=
+X_imm3 *a)
+> +@@ -647,7 +659,6 @@ static bool trans_MFFSCDRNI(DisasContext *ctx, arg_X=
+_imm3 *a)
+>   {
+>       TCGv_i64 t1, fpscr;
+>
+>  -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+> -+    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
+> -+        return false;
+> -+    }
+> -+
+>       REQUIRE_FPU(ctx);
+>
+>       t1 =3D tcg_temp_new_i64();
+> -@@ -661,7 +676,10 @@ static bool trans_MFFSCDRNI(DisasContext *ctx, arg_=
+X_imm3 *a)
+> +@@ -661,7 +672,6 @@ static bool trans_MFFSCDRNI(DisasContext *ctx, arg_X=
+_imm3 *a)
+>
+>   static bool trans_MFFSL(DisasContext *ctx, arg_X_t *a)
+>   {
+>  -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+> -+    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
+> -+        return false;
+> -+    }
+> -+
+>       REQUIRE_FPU(ctx);
+>
+>       gen_reset_fpstatus();
+> --
+> 2.39.2
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#181107): https://lists.openembedded.org/g/openembedde=
+d-core/message/181107
+> Mute This Topic: https://lists.openembedded.org/mt/98803453/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
