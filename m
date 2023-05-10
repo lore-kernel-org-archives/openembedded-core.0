@@ -2,158 +2,414 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 661EAC77B7C
-	for <webhook@archiver.kernel.org>; Wed, 10 May 2023 16:26:50 +0000 (UTC)
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.43])
- by mx.groups.io with SMTP id smtpd.web11.22131.1683736007337555106
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5995C77B7D
+	for <webhook@archiver.kernel.org>; Wed, 10 May 2023 17:00:40 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.23050.1683738039279579329
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 May 2023 09:26:48 -0700
+ Wed, 10 May 2023 10:00:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=FIllaXYr;
- spf=pass (domain: arm.com, ip: 40.107.7.43, mailfrom: ross.burton@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CLJET9s1dP4BeBWsKhfzi4wTvzqwcjUvSSAOFg+WiAA=;
- b=FIllaXYr9tRyCW/UM0QBDRgelbMabqofbxoa3hXT9RGOPfc+Uqz9PRVKokuIg5xL35eZVsUfwfqY58BFvtvcosYqKi1cdYhCnltUwGkI/K7bvtGPeqAa0FFZjrNlIQyJ59Z4pF37BXQwy9l7JZRj9tKBHT4MT2T166F30CljVV0=
-Received: from AM5PR0601CA0042.eurprd06.prod.outlook.com
- (2603:10a6:203:68::28) by PA4PR08MB6126.eurprd08.prod.outlook.com
- (2603:10a6:102:ea::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.20; Wed, 10 May
- 2023 16:26:42 +0000
-Received: from AM7EUR03FT027.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:203:68:cafe::ae) by AM5PR0601CA0042.outlook.office365.com
- (2603:10a6:203:68::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.20 via Frontend
- Transport; Wed, 10 May 2023 16:26:42 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AM7EUR03FT027.mail.protection.outlook.com (100.127.140.124) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6387.20 via Frontend Transport; Wed, 10 May 2023 16:26:42 +0000
-Received: ("Tessian outbound 8b05220b4215:v136"); Wed, 10 May 2023 16:26:42 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: dd46c6db3c0607c5
-X-CR-MTA-TID: 64aa7808
-Received: from 7f4bb0001cb3.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 5EE9D628-9132-4426-9228-8C842B979DF3.1;
-	Wed, 10 May 2023 16:26:36 +0000
-Received: from EUR02-VI1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 7f4bb0001cb3.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Wed, 10 May 2023 16:26:36 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZmX918MnVFdwldt0UPjXMe0Weta8PzMu+5h+gtGeXURO1LFGyqqFcFh0xKvqMoA4e9XNRsEftNneDcPVgVvTPDlzjo4fPxzUOx/Ak1D3Jyy310sjOj/HVj8C14JYZhholVvdKARyEZODE66VYBFXr5FRE3nZiCz0KgDRdVwgAxc5zgeHZQrw8BEBk+eG0P3rN3cHOZJ1b9R5YMGtGEaNEQEfEZxC3EdD8OwMrCJt+Txy7YS64X0OFTtX2HPyRd3gEcl45RSZ/H0+4p/BzPh5eMkir/X1NlpDvuTeWL4I5webAEieYJX55kDN6uN0Brho1IDmuzBjYVVF+Z+kECk55w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CLJET9s1dP4BeBWsKhfzi4wTvzqwcjUvSSAOFg+WiAA=;
- b=Zqs7KWxIEs0JS0EMQL0dGWtWGsoP6t5UHBx0nKxwzakA2RDG4JRVmwxG4IfUAwCyyYJ0v7N2DEbg3sBzTw4qlQqunSPKXqG6XxvH9rF4MCdH4Nk5PASMOsFUbJ9V8Lt8Oz9RLAvSZzk2XtII6TWpv24GK5D8v9X4BAR3r39TKZ0URecKxdoV/CYdZkm3DFAvbrbnczzCBCknmHO9KpjDNboReJvtLzrLBR6jj5M45EK7lOBqls8hrc1y6iAFDdq2bDEtYC+SuhhHwtp7yIbIdZGN74ErofeAhhCthmaYmDgj3HuZBqboGbUa38na/SujkS9lriaE1xm7U0C8LM6H3A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CLJET9s1dP4BeBWsKhfzi4wTvzqwcjUvSSAOFg+WiAA=;
- b=FIllaXYr9tRyCW/UM0QBDRgelbMabqofbxoa3hXT9RGOPfc+Uqz9PRVKokuIg5xL35eZVsUfwfqY58BFvtvcosYqKi1cdYhCnltUwGkI/K7bvtGPeqAa0FFZjrNlIQyJ59Z4pF37BXQwy9l7JZRj9tKBHT4MT2T166F30CljVV0=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by AS2PR08MB9127.eurprd08.prod.outlook.com (2603:10a6:20b:5fe::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.33; Wed, 10 May
- 2023 16:26:34 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::eb3c:9b42:21c9:494e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::eb3c:9b42:21c9:494e%7]) with mapi id 15.20.6363.033; Wed, 10 May 2023
- 16:26:34 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "qiutt@fujitsu.com" <qiutt@fujitsu.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH V2] Fix error SRCDIR when using usrmerge
- DISTRO_FEATURES
-Thread-Topic: [OE-core] [PATCH V2] Fix error SRCDIR when using usrmerge
- DISTRO_FEATURES
-Thread-Index: AQHZeQ80X5Mn/qDWYEuVe034UMpq/69TxjQA
-Date: Wed, 10 May 2023 16:26:34 +0000
-Message-ID: <41276F5A-2CEE-467F-A36C-9497847C8217@arm.com>
-References: <Wnqs.1682583778394705301.Jj4z@lists.openembedded.org>
-In-Reply-To: <Wnqs.1682583778394705301.Jj4z@lists.openembedded.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3731.500.231)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|AS2PR08MB9127:EE_|AM7EUR03FT027:EE_|PA4PR08MB6126:EE_
-X-MS-Office365-Filtering-Correlation-Id: 25712c8e-08df-45c0-50b0-08db51735708
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- zQN/MFRwDmlEmgY4R3R/ObYMd+zHIWksWLGT5Fhb8lzhnRVC8CKijTpiV+xHFAvYepsyG///yVfY6ExdP/G8RxAdcPIyX+Bpmq3Csqarvmp8ZLc+wiCOZWQtWEIR0BMhiYWxr9zhbFQYvxok1t3eWQc20cGgQxofelAK/b5ajP4LpOndycss8IAMWLjX5eDdWYGFa8ZuIZQ1ICDE7dQ/eLOPJXM/ZDejoaP2AhntIpXt/DnKHFlyO/+uTTvIODh2VJuTPid8LvMiTDVdapKn1/i6JFTjhjgt6BWENbd7EIPVB9xeEu4QcDem+s+fNhVJ928C9uUyLcZWcJTKW/hEaVzoyp0DCezdaCBa3/XtInsrba8wq6BaxUnQydWuuztW5tDVcgUe8cjsb0NPHvfbRxRz/7JV7fEEjn6JYOUCoj/4KkWsCo7zG8KXSltqHrpr0tubB8BRtceASTV2JvAZY68e+7atUTB0ZwRB81gk5GkU3N2Y/nzBW/YvhkFE+c5nP0uUUf8RJUSpfCRGfVgX17EEjfMwvt8amAr6oGDTQV2X5BbfcKd7Vmk6enw+UJpFYEgm+W/aDV2oMtarwUl4sodPbPdL54V0OwoQXzZTha9DjFh48h29HFzHZi2XVCyceRAnjiN/lhw6ANXeh6MdUw==
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(366004)(396003)(346002)(136003)(376002)(451199021)(36756003)(41300700001)(86362001)(2906002)(33656002)(122000001)(38100700002)(8676002)(8936002)(38070700005)(5660300002)(64756008)(4326008)(6916009)(6486002)(66946007)(478600001)(91956017)(66476007)(316002)(83380400001)(4744005)(66556008)(76116006)(186003)(66446008)(6512007)(6506007)(26005)(2616005)(71200400001)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <F12151A6B4783A45809DCC44FE9FEEEF@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 183471063;
+	Wed, 10 May 2023 10:01:23 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 21C8D3F5A1;
+	Wed, 10 May 2023 10:00:38 -0700 (PDT)
+From: ross.burton@arm.com
+To: openembedded-core@lists.openembedded.org
+Cc: nd@arm.com
+Subject: [PATCH][mickledore] cpio: fix appending to archives larger than 2GB
+Date: Wed, 10 May 2023 18:00:34 +0100
+Message-Id: <20230510170034.2747007-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB9127
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM7EUR03FT027.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	3a234099-281c-435c-fa30-08db51735249
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	kJA9leUWOdD1Q5oA/kVAYeNusW/xAGuJNAOdTYd/5Geq4rqn2cJYcFR5WU4BXqwDYDlWmB8oLdaVQ5nwUSk2EZvE/xP6hba0PKo0ojTlk8SgwTXJSuOTPJ6zplAGuTgagEdmpSAwHLtPkLg2qNo6jSKzUZh0l49psjNy6MuUv4VDWIb/tuuTL36lhOCBnl4QcJXcoxJwwFpCzptGAcEaP2MLvThy6p/v0Y4gpKARTDByuQzNkJgV+AWbKlvaMA2IfV4U5Mi9em+gGaA5nKP4d61VcTRXpdayV0al2VnGZ+Vs2uEPPLYuVgsL2g0StE4equYIcAXGEPSGbOH8CQy/0aBXrze8Ar75HFKvuAPAsNcGNtwLz62lBqaZptgbjBeSH6RtlFy9G4oKuN+4FrP671zGTkBwS1I6fUoP7v/Rj7A3yLXbBj5lO+1KiLxYKudkAimvG1qabx29bFFspQma1u54Rt5uRI+Sta+xhoPGpqsuz059KwGpBJFuISFwQhseq9RCwtpVeMtlg0QQeZiKiZbwtrL7LPTJ98Q6onn6sfnN8iPmdiqvNfZQYgzxQMjQqCKNo9voF6v2xW403WwcBHaB6iWYDDIRXzp0VrMPrFHnNEmWfFIsWG347VESTS8nD0HjCi1EM939A41iv2tcHklquhl9heMTSQzycthQnFVavrXixYQ2PKYC0umqnEbhImlh4Dj1qRTZWhycim1HsNSqc7DiEyoOzhswsTe2uGk9eDGgqtvcRaMMQyKh0NC+
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(396003)(376002)(39860400002)(346002)(136003)(451199021)(40470700004)(46966006)(36840700001)(2616005)(8936002)(8676002)(6862004)(26005)(6512007)(6506007)(33656002)(82310400005)(40460700003)(478600001)(186003)(40480700001)(5660300002)(36756003)(2906002)(4744005)(316002)(4326008)(81166007)(82740400003)(83380400001)(70206006)(70586007)(6486002)(356005)(86362001)(336012)(36860700001)(41300700001)(47076005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2023 16:26:42.5683
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 25712c8e-08df-45c0-50b0-08db51735708
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM7EUR03FT027.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB6126
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 May 2023 16:26:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181120
+ <openembedded-core@lists.openembedded.org>; Wed, 10 May 2023 17:00:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181121
 
-Rmlyc3QsIHBsZWFzZSB1c2UgdGhlIGNvbW1pdCBtZXNzYWdlIGNvbnZlbnRpb246IHRoZSBzaG9y
-dGxvZyBzaG91bGQgc3RhcnQgd2l0aCAiZTJmc3Byb2dzOuKAnS4NCg0KDQo+ICAgSW4gTWFrZWZp
-bGUuaW4sIFNSQ0RJUiBpcyBzZXQgYnkgcHJlZml4IGFuZCBsaWJkaXIuDQo+ICAgICBAZWNobyAi
-U1JDRElSPSR7cHJlZml4fSR7bGliZGlyfS9lMmZzcHJvZ3MvcHRlc3QvdGVzdCIgPj4gdGVzdF9v
-bmUNCj4gICAgIEBlY2hvICJTUkNESVI9JHtwcmVmaXh9JHtsaWJkaXJ9L2UyZnNwcm9ncy9wdGVz
-dC90ZXN0IiA+PiB0ZXN0X3NjcmlwdA0KPiAgIHByZWZpeD0vdXNyDQo+ICAgbGliZGlyPS91c3Iv
-bGliICh3aGVuIHVzcm1lcmdlIGlzIHNldCkNCj4gICBzb2x1dGlvbg0KPiAgIEFmdGVyIHB0ZXN0
-IGNvbXBpbGluZywgY2hlY2sgYW5kIG1vZGlmeSBTUkNESVIgaW4gdGVzdF9zY3JpcHQgYW5kIHRl
-c3Rfb25lLg0KDQpUaGUgcmVhc29uIGlzIGNvcnJlY3QsIGJ1dCB0aGUgZml4IGlzIHdyb25nLg0K
-DQokbGliZGlyICphbHdheXMqIGluY2x1ZGVzICRwcmVmaXguICBUaGlzIG9ubHkgd29ya3MgaW4g
-bm9uLXVzcm1lcmdlIGJ1aWxkcyBiZWNhdXNlIGZvciBoaXN0b3JpY2FsIHJlYXNvbnMgd2UgcGFz
-cyDigJRsaWJkaXI9JChiYXNlX2xpYmRpciksIHdoaWNoIHNldHMgbGliZGlyPS9saWIuICBUaGlz
-IGhhcHBlbnMgdG8gd29yayBiZWNhdXNlIC91c3IvbGliIGlzIGFjdHVhbGx5IHdoZXJlIHRoZSBw
-dGVzdCBmaWxlcyBhcmUgaW5zdGFsbGVkLCBidXQgdGhhdCBpcyBwdXJlIGNvaW5jaWRlbmNlLg0K
-DQpBbHNvLCB0aGlzIGJyb2tlbiBwYXJ0IG9mIHRoZSBNYWtlZmlsZSBpcyBhIHJ1bGUgdGhhdCAq
-d2UgcGF0Y2ggaW4qIChzZWUgcHRlc3QucGF0Y2gpLCBzbyBzaW1wbHkgZml4IHRoYXQgcGF0Y2gg
-aW5zdGVhZCBvZiB3b3JraW5nIGFyb3VuZCBpdCBpbiB3aXRoIGEgc2VkLg0KDQpSb3Nz
+From: Ross Burton <ross.burton@arm.com>
+
+Backport a patch to fix appending to archives larger than 2GB.
+
+[ YOCTO #11674 ]
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ ...appending-to-archives-bigger-than-2G.patch | 312 ++++++++++++++++++
+ meta/recipes-extended/cpio/cpio_2.13.bb       |   1 +
+ 2 files changed, 313 insertions(+)
+ create mode 100644 meta/recipes-extended/cpio/cpio-2.13/0001-Fix-appendi=
+ng-to-archives-bigger-than-2G.patch
+
+diff --git a/meta/recipes-extended/cpio/cpio-2.13/0001-Fix-appending-to-a=
+rchives-bigger-than-2G.patch b/meta/recipes-extended/cpio/cpio-2.13/0001-=
+Fix-appending-to-archives-bigger-than-2G.patch
+new file mode 100644
+index 00000000000..fefd5b2894e
+--- /dev/null
++++ b/meta/recipes-extended/cpio/cpio-2.13/0001-Fix-appending-to-archives=
+-bigger-than-2G.patch
+@@ -0,0 +1,312 @@
++From 0987d63384f0419b4b14aecdc6a61729b75ce86a Mon Sep 17 00:00:00 2001
++From: Sergey Poznyakoff <gray@gnu.org>
++Date: Fri, 28 Apr 2023 15:23:46 +0300
++Subject: [PATCH] Fix appending to archives bigger than 2G
++
++* src/extern.h (last_header_start): Change type to off_t.
++* src/global.c: Likewise.
++* src/util.c (prepare_append): Use off_t for file offsets.
++
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++---
++ src/extern.h | 11 ++++-----
++ src/global.c |  2 +-
++ src/util.c   | 66 ++++++++++++++++++++++++++--------------------------
++ 3 files changed, 39 insertions(+), 40 deletions(-)
++
++diff --git a/src/extern.h b/src/extern.h
++index df7d0ce..6afbdd2 100644
++--- a/src/extern.h
+++++ b/src/extern.h
++@@ -68,7 +68,7 @@ extern int ignore_dirnlink_option;
++=20
++ extern bool to_stdout_option;
++=20
++-extern int last_header_start;
+++extern off_t last_header_start;
++ extern int copy_matching_files;
++ extern int numeric_uid;
++ extern char *pattern_file_name;
++@@ -128,7 +128,7 @@ void field_width_error (const char *filename, const =
+char *fieldname,
++=20
++ /* copypass.c */
++ void process_copy_pass (void);
++-int link_to_maj_min_ino (char *file_name, int st_dev_maj,=20
+++int link_to_maj_min_ino (char *file_name, int st_dev_maj,
++ 			 int st_dev_min, ino_t st_ino);
++ int link_to_name (char const *link_name, char const *link_target);
++=20
++@@ -176,7 +176,7 @@ void copy_files_tape_to_disk (int in_des, int out_de=
+s, off_t num_bytes);
++ void copy_files_disk_to_tape (int in_des, int out_des, off_t num_bytes,=
+ char *filename);
++ void copy_files_disk_to_disk (int in_des, int out_des, off_t num_bytes,=
+ char *filename);
++ void warn_if_file_changed (char *file_name, off_t old_file_size,
++-                           time_t old_file_mtime);
+++			   time_t old_file_mtime);
++ void create_all_directories (char const *name);
++ void prepare_append (int out_file_des);
++ char *find_inode_file (ino_t node_num,
++@@ -190,7 +190,7 @@ void set_new_media_message (char *message);
++ #ifdef HPUX_CDF
++ char *add_cdf_double_slashes (char *filename);
++ #endif
++-void write_nuls_to_file (off_t num_bytes, int out_des,=20
+++void write_nuls_to_file (off_t num_bytes, int out_des,
++ 			 void (*writer) (char *in_buf,
++ 					 int out_des, off_t num_bytes));
++ #define DISK_IO_BLOCK_SIZE	512
++@@ -234,6 +234,5 @@ void delay_set_stat (char const *file_name, struct s=
+tat *st,
++ 		     mode_t invert_permissions);
++ int repair_delayed_set_stat (struct cpio_file_stat *file_hdr);
++ void apply_delayed_set_stat (void);
++-    =20
++-int arf_stores_inode_p (enum archive_format arf);
++=20
+++int arf_stores_inode_p (enum archive_format arf);
++diff --git a/src/global.c b/src/global.c
++index d33516f..7c4bca8 100644
++--- a/src/global.c
+++++ b/src/global.c
++@@ -113,7 +113,7 @@ int debug_flag =3D false;
++=20
++ /* File position of last header read.  Only used during -A to determine
++    where the old TRAILER!!! record started.  */
++-int last_header_start =3D 0;
+++off_t last_header_start =3D 0;
++=20
++ /* With -i; if true, copy only files that match any of the given patter=
+ns;
++    if false, copy only files that do not match any of the patterns. (-f=
+) */
++diff --git a/src/util.c b/src/util.c
++index a38333a..7415e10 100644
++--- a/src/util.c
+++++ b/src/util.c
++@@ -59,8 +59,8 @@ tape_empty_output_buffer (int out_des)
++   static long output_bytes_before_lseek =3D 0;
++=20
++   /* Some tape drivers seem to have a signed internal seek pointer and
++-     they lose if it overflows and becomes negative (e.g. when writing=20
++-     tapes > 2Gb).  Doing an lseek (des, 0, SEEK_SET) seems to reset th=
+e=20
+++     they lose if it overflows and becomes negative (e.g. when writing
+++     tapes > 2Gb).  Doing an lseek (des, 0, SEEK_SET) seems to reset th=
+e
++      seek pointer and prevent it from overflowing.  */
++   if (output_is_special
++      && ( (output_bytes_before_lseek +=3D output_size) >=3D 1073741824L=
+) )
++@@ -104,7 +104,7 @@ static ssize_t sparse_write (int fildes, char *buf, =
+size_t nbyte, bool flush);
++    descriptor OUT_DES and reset `output_size' and `out_buff'.
++    If `swapping_halfwords' or `swapping_bytes' is set,
++    do the appropriate swapping first.  Our callers have
++-   to make sure to only set these flags if `output_size'=20
+++   to make sure to only set these flags if `output_size'
++    is appropriate (a multiple of 4 for `swapping_halfwords',
++    2 for `swapping_bytes').  The fact that DISK_IO_BLOCK_SIZE
++    must always be a multiple of 4 helps us (and our callers)
++@@ -186,8 +186,8 @@ tape_fill_input_buffer (int in_des, int num_bytes)
++ {
++ #ifdef BROKEN_LONG_TAPE_DRIVER
++   /* Some tape drivers seem to have a signed internal seek pointer and
++-     they lose if it overflows and becomes negative (e.g. when writing=20
++-     tapes > 4Gb).  Doing an lseek (des, 0, SEEK_SET) seems to reset th=
+e=20
+++     they lose if it overflows and becomes negative (e.g. when writing
+++     tapes > 4Gb).  Doing an lseek (des, 0, SEEK_SET) seems to reset th=
+e
++      seek pointer and prevent it from overflowing.  */
++   if (input_is_special
++       && ( (input_bytes_before_lseek +=3D num_bytes) >=3D 1073741824L) =
+)
++@@ -330,8 +330,8 @@ tape_buffered_peek (char *peek_buf, int in_des, int =
+num_bytes)
++=20
++ #ifdef BROKEN_LONG_TAPE_DRIVER
++   /* Some tape drivers seem to have a signed internal seek pointer and
++-     they lose if it overflows and becomes negative (e.g. when writing=20
++-     tapes > 4Gb).  Doing an lseek (des, 0, SEEK_SET) seems to reset th=
+e=20
+++     they lose if it overflows and becomes negative (e.g. when writing
+++     tapes > 4Gb).  Doing an lseek (des, 0, SEEK_SET) seems to reset th=
+e
++      seek pointer and prevent it from overflowing.  */
++   if (input_is_special
++       && ( (input_bytes_before_lseek +=3D num_bytes) >=3D 1073741824L) =
+)
++@@ -402,7 +402,7 @@ tape_toss_input (int in_des, off_t num_bytes)
++=20
++       if (crc_i_flag && only_verify_crc_flag)
++ 	{
++- 	  int k;
+++	  int k;
++ 	  for (k =3D 0; k < space_left; ++k)
++ 	    crc +=3D in_buff[k] & 0xff;
++ 	}
++@@ -414,14 +414,14 @@ tape_toss_input (int in_des, off_t num_bytes)
++ }
++ =0C
++ void
++-write_nuls_to_file (off_t num_bytes, int out_des,=20
++-                    void (*writer) (char *in_buf, int out_des, off_t nu=
+m_bytes))
+++write_nuls_to_file (off_t num_bytes, int out_des,
+++		    void (*writer) (char *in_buf, int out_des, off_t num_bytes))
++ {
++   off_t	blocks;
++   off_t	extra_bytes;
++   off_t	i;
++   static char zeros_512[512];
++- =20
+++
++   blocks =3D num_bytes / sizeof zeros_512;
++   extra_bytes =3D num_bytes % sizeof zeros_512;
++   for (i =3D 0; i < blocks; ++i)
++@@ -601,7 +601,7 @@ create_all_directories (char const *name)
++   char *dir;
++=20
++   dir =3D dir_name (name);
++- =20
+++
++   if (dir =3D=3D NULL)
++     error (PAXEXIT_FAILURE, 0, _("virtual memory exhausted"));
++=20
++@@ -635,9 +635,9 @@ create_all_directories (char const *name)
++ void
++ prepare_append (int out_file_des)
++ {
++-  int start_of_header;
++-  int start_of_block;
++-  int useful_bytes_in_block;
+++  off_t start_of_header;
+++  off_t start_of_block;
+++  size_t useful_bytes_in_block;
++   char *tmp_buf;
++=20
++   start_of_header =3D last_header_start;
++@@ -695,8 +695,8 @@ inode_val_compare (const void *val1, const void *val=
+2)
++   const struct inode_val *ival1 =3D val1;
++   const struct inode_val *ival2 =3D val2;
++   return ival1->inode =3D=3D ival2->inode
++-         && ival1->major_num =3D=3D ival2->major_num
++-         && ival1->minor_num =3D=3D ival2->minor_num;
+++	 && ival1->major_num =3D=3D ival2->major_num
+++	 && ival1->minor_num =3D=3D ival2->minor_num;
++ }
++=20
++ static struct inode_val *
++@@ -704,10 +704,10 @@ find_inode_val (ino_t node_num, unsigned long majo=
+r_num,
++ 		 unsigned long minor_num)
++ {
++   struct inode_val sample;
++- =20
+++
++   if (!hash_table)
++     return NULL;
++- =20
+++
++   sample.inode =3D node_num;
++   sample.major_num =3D major_num;
++   sample.minor_num =3D minor_num;
++@@ -732,7 +732,7 @@ add_inode (ino_t node_num, char *file_name, unsigned=
+ long major_num,
++ {
++   struct inode_val *temp;
++   struct inode_val *e =3D NULL;
++- =20
+++
++   /* Create new inode record.  */
++   temp =3D (struct inode_val *) xmalloc (sizeof (struct inode_val));
++   temp->inode =3D node_num;
++@@ -1003,7 +1003,7 @@ buf_all_zeros (char *buf, int bufsize)
++=20
++ /* Write NBYTE bytes from BUF to file descriptor FILDES, trying to
++    create holes instead of writing blockfuls of zeros.
++-  =20
+++
++    Return the number of bytes written (including bytes in zero
++    regions) on success, -1 on error.
++=20
++@@ -1023,7 +1023,7 @@ sparse_write (int fildes, char *buf, size_t nbytes=
+, bool flush)
++=20
++   enum { begin, in_zeros, not_in_zeros } state =3D
++ 			   delayed_seek_count ? in_zeros : begin;
++- =20
+++
++   while (nbytes)
++     {
++       size_t rest =3D nbytes;
++@@ -1038,7 +1038,7 @@ sparse_write (int fildes, char *buf, size_t nbytes=
+, bool flush)
++ 	      if (state =3D=3D not_in_zeros)
++ 		{
++ 		  ssize_t bytes =3D buf - start_ptr + rest;
++-		 =20
+++
++ 		  n =3D write (fildes, start_ptr, bytes);
++ 		  if (n =3D=3D -1)
++ 		    return -1;
++@@ -1087,8 +1087,8 @@ sparse_write (int fildes, char *buf, size_t nbytes=
+, bool flush)
++       if (n !=3D 1)
++ 	return n;
++       delayed_seek_count =3D 0;
++-    }     =20
++- =20
+++    }
+++
++   return nwritten + seek_count;
++ }
++=20
++@@ -1226,7 +1226,7 @@ set_perms (int fd, struct cpio_file_stat *header)
++   if (!no_chown_flag)
++     {
++       uid_t uid =3D CPIO_UID (header->c_uid);
++-      gid_t gid =3D CPIO_GID (header->c_gid);=20
+++      gid_t gid =3D CPIO_GID (header->c_gid);
++       if ((fchown_or_chown (fd, header->c_name, uid, gid) < 0)
++ 	  && errno !=3D EPERM)
++ 	chown_error_details (header->c_name, uid, gid);
++@@ -1243,13 +1243,13 @@ set_file_times (int fd,
++ 		const char *name, unsigned long atime, unsigned long mtime)
++ {
++   struct timespec ts[2];
++- =20
+++
++   memset (&ts, 0, sizeof ts);
++=20
++   ts[0].tv_sec =3D atime;
++   ts[1].tv_sec =3D mtime;
++=20
++-  /* Silently ignore EROFS because reading the file won't have upset it=
+s=20
+++  /* Silently ignore EROFS because reading the file won't have upset it=
+s
++      timestamp if it's on a read-only filesystem. */
++   if (fdutimens (fd, name, ts) < 0 && errno !=3D EROFS)
++     utime_error (name);
++@@ -1301,7 +1301,7 @@ cpio_safer_name_suffix (char *name, bool link_targ=
+et, bool absolute_names,
++ =0C
++ /* This is a simplified form of delayed set_stat used by GNU tar.
++    With the time, both forms will merge and pass to paxutils
++-  =20
+++
++    List of directories whose statuses we need to extract after we've
++    finished extracting their subsidiary files.  If you consider each
++    contiguous subsequence of elements of the form [D]?[^D]*, where [D]
++@@ -1419,7 +1419,7 @@ cpio_mkdir (struct cpio_file_stat *file_hdr, int *=
+setstat_delayed)
++ {
++   int rc;
++   mode_t mode =3D file_hdr->c_mode;
++- =20
+++
++   if (!(file_hdr->c_mode & S_IWUSR))
++     {
++       rc =3D mkdir (file_hdr->c_name, mode | S_IWUSR);
++@@ -1442,10 +1442,10 @@ cpio_create_dir (struct cpio_file_stat *file_hdr=
+, int existing_dir)
++ {
++   int res;			/* Result of various function calls.  */
++   int setstat_delayed =3D 0;
++- =20
+++
++   if (to_stdout_option)
++     return 0;
++- =20
+++
++   /* Strip any trailing `/'s off the filename; tar puts
++      them on.  We might as well do it here in case anybody
++      else does too, since they cause strange things to happen.  */
++@@ -1534,7 +1534,7 @@ arf_stores_inode_p (enum archive_format arf)
++     }
++   return 1;
++ }
++- =20
+++
++ void
++ cpio_file_stat_init (struct cpio_file_stat *file_hdr)
++ {
++--=20
++2.34.1
++
+diff --git a/meta/recipes-extended/cpio/cpio_2.13.bb b/meta/recipes-exten=
+ded/cpio/cpio_2.13.bb
+index df5e09cae82..d48429b8ce7 100644
+--- a/meta/recipes-extended/cpio/cpio_2.13.bb
++++ b/meta/recipes-extended/cpio/cpio_2.13.bb
+@@ -13,6 +13,7 @@ SRC_URI =3D "${GNU_MIRROR}/cpio/cpio-${PV}.tar.gz \
+            file://CVE-2021-38185.patch \
+            file://0001-Use-__alignof__-with-clang.patch \
+            file://0001-Wrong-CRC-with-ASCII-CRC-for-large-files.patch \
++           file://0001-Fix-appending-to-archives-bigger-than-2G.patch \
+            file://run-ptest \
+            "
+=20
+--=20
+2.34.1
+
 
