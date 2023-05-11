@@ -1,352 +1,87 @@
-Return-Path: <nikhilar2410@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22BC6C77B7F
-	for <webhook@archiver.kernel.org>; Thu, 11 May 2023 05:49:34 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web11.52047.1683784172854943765
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 652E2C7EE22
+	for <webhook@archiver.kernel.org>; Thu, 11 May 2023 06:45:04 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.52597.1683787499268125982
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 May 2023 22:49:32 -0700
+ Wed, 10 May 2023 23:44:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=DCMhb5j+;
- spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: nikhilar2410@gmail.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1aad6f2be8eso76090825ad.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 May 2023 22:49:32 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=gSVGKDHW;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-30789a4c537so3730125f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 May 2023 23:44:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683784171; x=1686376171;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JAE/fMA2P+bl1yX6xRsKnelGNzWhX5mqCy9i0AoZcxE=;
-        b=DCMhb5j+ZdGjvvloWK7lDKP0U5UMxAfnBrAWINnXWLdZy7NFyCXOHE1Y4RLs1pE20E
-         sawzJLPx2t3kIUjYttUbl0s1mkUFL+kECWZ6N+eQzdAmPYiP3FDff1FViv6ap2HqJsgJ
-         QpGEd5URUclxta8vspqFp4tUrS5b0eW4ALfUAz3+vv2GPjyi1layvEhJatSyLwt+3QWk
-         MzQpHo6ZmU5l1nz6PwERM/7Mm51XFin1YWhuKQxTv8Fxq6MM/W0wE6MCoMFUzqDVXfwE
-         +JAfe/z8W6mndpBfr/PMCPlFjnE9MO2WZd+w8yxv+vPQmlx9zXnOppYMhM8ZHYIs/YKO
-         V2Bw==
+        d=linuxfoundation.org; s=google; t=1683787497; x=1686379497;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=soXk1ftjqks5ye8+sCoiyQMx5ySz5nFlFq3nQ2xHTm0=;
+        b=gSVGKDHWUW9Uf1z84I7mhgOxs0ACKqIkWroPhVbFtEvdqv8mSw81+f25e+f39LA0kN
+         sDl9ed0FQ5aFt8U2ugLsvvcg781HiMRS6ItRINIEBWNmUnPAa1KwNcSTQe+YL3dcM65z
+         P6C7ibibLYvWDTO1/mfRASZ3yJJWYw+qYxHIo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683784171; x=1686376171;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JAE/fMA2P+bl1yX6xRsKnelGNzWhX5mqCy9i0AoZcxE=;
-        b=JphVNZvrL3M6kQqYhTO2HwybHuwwY12VqqIki95PKnEXjnW1EeeCrYw4nkpR3Sy98l
-         Py0k1H5Ke1HK2W2ElBAlJt57T4ANLRGsiEGenfYIvCrurbbLD9BqC0uEv7FgLBh31jwY
-         D2Jx65dZoe+8+yQ02KPC5nrrMV1YSXU7WMsTKKtxPvmVeWGPzPRkwj+U/17cSY3ab616
-         FKP9h9y/yoX7jDRpf3RmnVNMtJouK4j0W98a4PKoigTR05fwfFtWZVxDKVwNfab0GSNm
-         TnB+0U8Iz19zw5OyRR9PG+MpI1MDyOlAf+Q61wHap4H/DU8Is/XYdwcBL6voH+EqhQ2b
-         5zQg==
-X-Gm-Message-State: AC+VfDx0bGYLlBh1FLQOXCrYLAN/GE7ey/Yun+IVdhR5Ow3Ounmyjttk
-	Y+xfrC7BxqaFP5adh3S3LmV3aW0D1YJ4
-X-Google-Smtp-Source: ACHHUZ43QkqAVjTRWKj96vtctQS5crEb640XcqKcunUTTa6Y5FzKqSuDetdbEDra/EW0ZkqFtDhbVg==
-X-Received: by 2002:a17:902:e850:b0:1a9:a554:c84 with SMTP id t16-20020a170902e85000b001a9a5540c84mr25839518plg.41.1683784171416;
-        Wed, 10 May 2023 22:49:31 -0700 (PDT)
-Received: from localhost.localdomain ([103.171.194.54])
-        by smtp.gmail.com with ESMTPSA id b9-20020a170902650900b001a6dc4f4a8csm4911694plk.73.2023.05.10.22.49.28
+        d=1e100.net; s=20221208; t=1683787497; x=1686379497;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=soXk1ftjqks5ye8+sCoiyQMx5ySz5nFlFq3nQ2xHTm0=;
+        b=E5C06vGTiYZrloocuKKQta8R9qhPb/a8nX16WC24iIi7eDHdRssOulKytlds/3M9Wr
+         L3WmHVFFTEI82Y2v5vb9ivBRca14d2h6Sn3Tu1HKw3UQExvRnPmvJ7fvlBA9wnzA7udg
+         I4aKW5Juv2urnnUeGqCM3kFaqxlnvwDUql6gPouguufvg+ViHDH/cbamy4NWVXuYAerr
+         3mC6sjNvdipX/YIuZ/sdHjsBfasMokhcm3ySCeEk9ywQGQNEalYpzUL7q5HfCO9oEbVM
+         E4JIiUqU2vmtgGiHVi/qc2/pnugC+KTVdBHqDjtozGOSRU+SGQ3ZS6agf+0NQiV24iUF
+         dnwg==
+X-Gm-Message-State: AC+VfDxGLPCDkYqXXAgFBX8GJU2rVAsqJUBPa4nOW6vN79yRRob+YNbp
+	G6OL7JwC8w9Vk1VKHv5mgbNBM3XGezSHwHfWfd4=
+X-Google-Smtp-Source: ACHHUZ7YilfjZ+3DjOQMRcef6lbyujWOXdptUcG8bbQh1HHW4JlJAJnejqk2pHoeLApsrLFhU0drZg==
+X-Received: by 2002:a5d:460c:0:b0:2f2:9198:f0f with SMTP id t12-20020a5d460c000000b002f291980f0fmr14742879wrq.10.1683787497406;
+        Wed, 10 May 2023 23:44:57 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:b4cd:cc57:565e:2ba8? ([2001:8b0:aba:5f3c:b4cd:cc57:565e:2ba8])
+        by smtp.gmail.com with ESMTPSA id f12-20020a7bcc0c000000b003f17848673fsm24825572wmh.27.2023.05.10.23.44.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 May 2023 22:49:30 -0700 (PDT)
-From: Nikhil R <nikhilar2410@gmail.com>
-X-Google-Original-From: Nikhil R <nikhil.r@kpit.com>
-To: openembedded-core@lists.openembedded.org,
-	nikhilar2410@gmail.com
-Cc: ranjitsinh.rathod@kpit.com,
-	Nikhil R <nikhil.r@kpit.com>
-Subject: [OE-core][master][PATCH] tiff: Remove unused patch from tiff
-Date: Thu, 11 May 2023 11:19:20 +0530
-Message-Id: <20230511054920.103458-1-nikhil.r@kpit.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 10 May 2023 23:44:57 -0700 (PDT)
+Message-ID: <5a540e27ff798ce1de3b5798698b135273943eb1.camel@linuxfoundation.org>
+Subject: Re: [qa-build-notification] [yocto] QA notification for completed
+ autobuilder build (yocto-4.1.4.rc1)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: qa-build-notification@lists.yoctoproject.org, 
+	"yocto@lists.yoctoproject.org"
+	 <yocto@lists.yoctoproject.org>, "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Thu, 11 May 2023 07:44:56 +0100
+In-Reply-To: <BY5PR11MB4152D2BB7102679D32A5D638A1719@BY5PR11MB4152.namprd11.prod.outlook.com>
+References: 
+	<01010187ce7c37c5-f4e60d10-4dab-47e5-be4e-3e4e6d4cf058-000000@us-west-2.amazonses.com>
+	 <BY5PR11MB4152D2BB7102679D32A5D638A1719@BY5PR11MB4152.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 May 2023 05:49:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181127
+ <openembedded-core@lists.openembedded.org>; Thu, 11 May 2023 06:45:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181128
 
-Remove 0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch
-file from tiff as it was removed while upgrading tiff from
-4.4.0 -> 4.5.0
+On Mon, 2023-05-08 at 02:55 +0000, Jing Hui Tham wrote:
+> Hi All,
+> =20
+> QA for yocto-4.1.4.rc1 is completed. This is the full report for this rel=
+ease: =20
+> https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree=
+/?h=3Dintel-yocto-testresults
+> =20
+> =3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
+> No high milestone defects.
+> =20
+> No new issue found.=20
 
-Signed-off-by: Nikhil R <nikhilar2410@gmail.com>
----
- ...-of-TIFFTAG_INKNAMES-and-related-TIF.patch | 267 ------------------
- 1 file changed, 267 deletions(-)
- delete mode 100644 meta/recipes-multimedia/libtiff/files/0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch
+Approved from the TSC, thanks!
 
-diff --git a/meta/recipes-multimedia/libtiff/files/0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch b/meta/recipes-multimedia/libtiff/files/0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch
-deleted file mode 100644
-index 17b37be041..0000000000
---- a/meta/recipes-multimedia/libtiff/files/0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch
-+++ /dev/null
-@@ -1,267 +0,0 @@
--From f00484b9519df933723deb38fff943dc291a793d Mon Sep 17 00:00:00 2001
--From: Su_Laus <sulau@freenet.de>
--Date: Tue, 30 Aug 2022 16:56:48 +0200
--Subject: [PATCH] Revised handling of TIFFTAG_INKNAMES and related
-- TIFFTAG_NUMBEROFINKS value
--
--In order to solve the buffer overflow issues related to TIFFTAG_INKNAMES and related TIFFTAG_NUMBEROFINKS value, a revised handling of those tags within LibTiff is proposed:
--
--Behaviour for writing:
--    `NumberOfInks`  MUST fit to the number of inks in the `InkNames` string.
--    `NumberOfInks` is automatically set when `InkNames` is set.
--    If `NumberOfInks` is different to the number of inks within `InkNames` string, that will be corrected and a warning is issued.
--    If `NumberOfInks` is not equal to samplesperpixel only a warning will be issued.
--
--Behaviour for reading:
--    When reading `InkNames` from a TIFF file, the `NumberOfInks` will be set automatically to the number of inks in `InkNames` string.
--    If `NumberOfInks` is different to the number of inks within `InkNames` string, that will be corrected and a warning is issued.
--    If  `NumberOfInks` is not equal to samplesperpixel only a warning will be issued.
--
--This allows the safe use of the NumberOfInks value to read out the InkNames without buffer overflow
--
--This MR will close the following issues:  #149, #150, #152, #168 (to be checked), #250, #269, #398 and #456.
--
--It also fixes the old bug at http://bugzilla.maptools.org/show_bug.cgi?id=2599, for which the limitation of `NumberOfInks = SPP` was introduced, which is in my opinion not necessary and does not solve the general issue.
--
--CVE: CVE-2022-3599 CVE-2022-4645
--Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/e813112545942107551433d61afd16ac094ff246.patch]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--Signed-off-by: Pawan Badganchi <Pawan.Badganchi@kpit.com>
-----
-- libtiff/tif_dir.c      | 119 ++++++++++++++++++++++++-----------------
-- libtiff/tif_dir.h      |   2 +
-- libtiff/tif_dirinfo.c  |   2 +-
-- libtiff/tif_dirwrite.c |   5 ++
-- libtiff/tif_print.c    |   4 ++
-- 5 files changed, 82 insertions(+), 50 deletions(-)
--
--diff --git a/libtiff/tif_dir.c b/libtiff/tif_dir.c
--index 793e8a79..816f7756 100644
----- a/libtiff/tif_dir.c
--+++ b/libtiff/tif_dir.c
--@@ -136,32 +136,30 @@ setExtraSamples(TIFF* tif, va_list ap, uint32_t* v)
-- }
-- 
-- /*
--- * Confirm we have "samplesperpixel" ink names separated by \0.  Returns 
--+ * Count ink names separated by \0.  Returns
--  * zero if the ink names are not as expected.
--  */
---static uint32_t
---checkInkNamesString(TIFF* tif, uint32_t slen, const char* s)
--+static uint16_t
--+countInkNamesString(TIFF *tif, uint32_t slen, const char *s)
-- {
---	TIFFDirectory* td = &tif->tif_dir;
---	uint16_t i = td->td_samplesperpixel;
--+	uint16_t i = 0;
--+	const char *ep = s + slen;
--+	const char *cp = s;
-- 
-- 	if (slen > 0) {
---		const char* ep = s+slen;
---		const char* cp = s;
---		for (; i > 0; i--) {
--+		do {
-- 			for (; cp < ep && *cp != '\0'; cp++) {}
-- 			if (cp >= ep)
-- 				goto bad;
-- 			cp++;				/* skip \0 */
---		}
---		return ((uint32_t)(cp - s));
--+			i++;
--+		} while (cp < ep);
--+		return (i);
-- 	}
-- bad:
-- 	TIFFErrorExt(tif->tif_clientdata, "TIFFSetField",
---	    "%s: Invalid InkNames value; expecting %"PRIu16" names, found %"PRIu16,
---	    tif->tif_name,
---	    td->td_samplesperpixel,
---	    (uint16_t)(td->td_samplesperpixel-i));
--+		"%s: Invalid InkNames value; no NUL at given buffer end location %"PRIu32", after %"PRIu16" ink",
--+		tif->tif_name, slen, i);
-- 	return (0);
-- }
-- 
--@@ -478,13 +476,61 @@ _TIFFVSetField(TIFF* tif, uint32_t tag, va_list ap)
-- 		_TIFFsetFloatArray(&td->td_refblackwhite, va_arg(ap, float*), 6);
-- 		break;
-- 	case TIFFTAG_INKNAMES:
---		v = (uint16_t) va_arg(ap, uint16_vap);
---		s = va_arg(ap, char*);
---		v = checkInkNamesString(tif, v, s);
---		status = v > 0;
---		if( v > 0 ) {
---			_TIFFsetNString(&td->td_inknames, s, v);
---			td->td_inknameslen = v;
--+		{
--+			v = (uint16_t) va_arg(ap, uint16_vap);
--+			s = va_arg(ap, char*);
--+			uint16_t ninksinstring;
--+			ninksinstring = countInkNamesString(tif, v, s);
--+			status = ninksinstring > 0;
--+			if(ninksinstring > 0 ) {
--+				_TIFFsetNString(&td->td_inknames, s, v);
--+				td->td_inknameslen = v;
--+				/* Set NumberOfInks to the value ninksinstring */
--+				if (TIFFFieldSet(tif, FIELD_NUMBEROFINKS))
--+				{
--+					if (td->td_numberofinks != ninksinstring) {
--+						TIFFErrorExt(tif->tif_clientdata, module,
--+							"Warning %s; Tag %s:\n  Value %"PRIu16" of NumberOfInks is different from the number of inks %"PRIu16".\n  -> NumberOfInks value adapted to %"PRIu16"",
--+							tif->tif_name, fip->field_name, td->td_numberofinks, ninksinstring, ninksinstring);
--+						td->td_numberofinks = ninksinstring;
--+					}
--+				} else {
--+					td->td_numberofinks = ninksinstring;
--+					TIFFSetFieldBit(tif, FIELD_NUMBEROFINKS);
--+				}
--+				if (TIFFFieldSet(tif, FIELD_SAMPLESPERPIXEL))
--+				{
--+					if (td->td_numberofinks != td->td_samplesperpixel) {
--+						TIFFErrorExt(tif->tif_clientdata, module,
--+							"Warning %s; Tag %s:\n  Value %"PRIu16" of NumberOfInks is different from the SamplesPerPixel value %"PRIu16"",
--+							tif->tif_name, fip->field_name, td->td_numberofinks, td->td_samplesperpixel);
--+					}
--+				}
--+			}
--+		}
--+		break;
--+	case TIFFTAG_NUMBEROFINKS:
--+		v = (uint16_t)va_arg(ap, uint16_vap);
--+		/* If InkNames already set also NumberOfInks is set accordingly and should be equal */
--+		if (TIFFFieldSet(tif, FIELD_INKNAMES))
--+		{
--+			if (v != td->td_numberofinks) {
--+				TIFFErrorExt(tif->tif_clientdata, module,
--+					"Error %s; Tag %s:\n  It is not possible to set the value %"PRIu32" for NumberOfInks\n  which is different from the number of inks in the InkNames tag (%"PRIu16")",
--+					tif->tif_name, fip->field_name, v, td->td_numberofinks);
--+				/* Do not set / overwrite number of inks already set by InkNames case accordingly. */
--+				status = 0;
--+			}
--+		} else {
--+			td->td_numberofinks = (uint16_t)v;
--+			if (TIFFFieldSet(tif, FIELD_SAMPLESPERPIXEL))
--+			{
--+				if (td->td_numberofinks != td->td_samplesperpixel) {
--+					TIFFErrorExt(tif->tif_clientdata, module,
--+						"Warning %s; Tag %s:\n  Value %"PRIu32" of NumberOfInks is different from the SamplesPerPixel value %"PRIu16"",
--+						tif->tif_name, fip->field_name, v, td->td_samplesperpixel);
--+				}
--+			}
-- 		}
-- 		break;
-- 	case TIFFTAG_PERSAMPLE:
--@@ -986,34 +1032,6 @@ _TIFFVGetField(TIFF* tif, uint32_t tag, va_list ap)
-- 	if (fip->field_bit == FIELD_CUSTOM) {
-- 		standard_tag = 0;
-- 	}
---	
---        if( standard_tag == TIFFTAG_NUMBEROFINKS )
---        {
---            int i;
---            for (i = 0; i < td->td_customValueCount; i++) {
---                uint16_t val;
---                TIFFTagValue *tv = td->td_customValues + i;
---                if (tv->info->field_tag != standard_tag)
---                    continue;
---                if( tv->value == NULL )
---                    return 0;
---                val = *(uint16_t *)tv->value;
---                /* Truncate to SamplesPerPixel, since the */
---                /* setting code for INKNAMES assume that there are SamplesPerPixel */
---                /* inknames. */
---                /* Fixes http://bugzilla.maptools.org/show_bug.cgi?id=2599 */
---                if( val > td->td_samplesperpixel )
---                {
---                    TIFFWarningExt(tif->tif_clientdata,"_TIFFVGetField",
---                                   "Truncating NumberOfInks from %u to %"PRIu16,
---                                   val, td->td_samplesperpixel);
---                    val = td->td_samplesperpixel;
---                }
---                *va_arg(ap, uint16_t*) = val;
---                return 1;
---            }
---            return 0;
---        }
-- 
-- 	switch (standard_tag) {
-- 		case TIFFTAG_SUBFILETYPE:
--@@ -1195,6 +1213,9 @@ _TIFFVGetField(TIFF* tif, uint32_t tag, va_list ap)
-- 		case TIFFTAG_INKNAMES:
-- 			*va_arg(ap, const char**) = td->td_inknames;
-- 			break;
--+		case TIFFTAG_NUMBEROFINKS:
--+			*va_arg(ap, uint16_t *) = td->td_numberofinks;
--+			break;
-- 		default:
-- 			{
-- 				int i;
--diff --git a/libtiff/tif_dir.h b/libtiff/tif_dir.h
--index 09065648..0c251c9e 100644
----- a/libtiff/tif_dir.h
--+++ b/libtiff/tif_dir.h
--@@ -117,6 +117,7 @@ typedef struct {
-- 	/* CMYK parameters */
-- 	int     td_inknameslen;
-- 	char*   td_inknames;
--+	uint16_t td_numberofinks;                 /* number of inks in InkNames string */
-- 
-- 	int     td_customValueCount;
--         TIFFTagValue *td_customValues;
--@@ -174,6 +175,7 @@ typedef struct {
-- #define FIELD_TRANSFERFUNCTION         44
-- #define FIELD_INKNAMES                 46
-- #define FIELD_SUBIFD                   49
--+#define FIELD_NUMBEROFINKS             50
-- /*      FIELD_CUSTOM (see tiffio.h)    65 */
-- /* end of support for well-known tags; codec-private tags follow */
-- #define FIELD_CODEC                    66  /* base of codec-private tags */
--diff --git a/libtiff/tif_dirinfo.c b/libtiff/tif_dirinfo.c
--index 3371cb5c..3b4bcd33 100644
----- a/libtiff/tif_dirinfo.c
--+++ b/libtiff/tif_dirinfo.c
--@@ -114,7 +114,7 @@ tiffFields[] = {
-- 	{ TIFFTAG_SUBIFD, -1, -1, TIFF_IFD8, 0, TIFF_SETGET_C16_IFD8, TIFF_SETGET_UNDEFINED, FIELD_SUBIFD, 1, 1, "SubIFD", (TIFFFieldArray*) &tiffFieldArray },
-- 	{ TIFFTAG_INKSET, 1, 1, TIFF_SHORT, 0, TIFF_SETGET_UINT16, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 0, 0, "InkSet", NULL },
-- 	{ TIFFTAG_INKNAMES, -1, -1, TIFF_ASCII, 0, TIFF_SETGET_C16_ASCII, TIFF_SETGET_UNDEFINED, FIELD_INKNAMES, 1, 1, "InkNames", NULL },
---	{ TIFFTAG_NUMBEROFINKS, 1, 1, TIFF_SHORT, 0, TIFF_SETGET_UINT16, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 0, "NumberOfInks", NULL },
--+	{ TIFFTAG_NUMBEROFINKS, 1, 1, TIFF_SHORT, 0, TIFF_SETGET_UINT16, TIFF_SETGET_UNDEFINED, FIELD_NUMBEROFINKS, 1, 0, "NumberOfInks", NULL },
-- 	{ TIFFTAG_DOTRANGE, 2, 2, TIFF_SHORT, 0, TIFF_SETGET_UINT16_PAIR, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 0, 0, "DotRange", NULL },
-- 	{ TIFFTAG_TARGETPRINTER, -1, -1, TIFF_ASCII, 0, TIFF_SETGET_ASCII, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 0, "TargetPrinter", NULL },
-- 	{ TIFFTAG_EXTRASAMPLES, -1, -1, TIFF_SHORT, 0, TIFF_SETGET_C16_UINT16, TIFF_SETGET_UNDEFINED, FIELD_EXTRASAMPLES, 0, 1, "ExtraSamples", NULL },
--diff --git a/libtiff/tif_dirwrite.c b/libtiff/tif_dirwrite.c
--index 6c86fdca..062e4610 100644
----- a/libtiff/tif_dirwrite.c
--+++ b/libtiff/tif_dirwrite.c
--@@ -626,6 +626,11 @@ TIFFWriteDirectorySec(TIFF* tif, int isimage, int imagedone, uint64_t* pdiroff)
-- 				if (!TIFFWriteDirectoryTagAscii(tif,&ndir,dir,TIFFTAG_INKNAMES,tif->tif_dir.td_inknameslen,tif->tif_dir.td_inknames))
-- 					goto bad;
-- 			}
--+			if (TIFFFieldSet(tif, FIELD_NUMBEROFINKS))
--+			{
--+				if (!TIFFWriteDirectoryTagShort(tif, &ndir, dir, TIFFTAG_NUMBEROFINKS, tif->tif_dir.td_numberofinks))
--+					goto bad;
--+			}
-- 			if (TIFFFieldSet(tif,FIELD_SUBIFD))
-- 			{
-- 				if (!TIFFWriteDirectoryTagSubifd(tif,&ndir,dir))
--diff --git a/libtiff/tif_print.c b/libtiff/tif_print.c
--index 16ce5780..a91b9e7b 100644
----- a/libtiff/tif_print.c
--+++ b/libtiff/tif_print.c
--@@ -397,6 +397,10 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
-- 		}
--                 fputs("\n", fd);
-- 	}
--+	if (TIFFFieldSet(tif, FIELD_NUMBEROFINKS)) {
--+		fprintf(fd, "  NumberOfInks: %d\n",
--+			td->td_numberofinks);
--+	}
-- 	if (TIFFFieldSet(tif,FIELD_THRESHHOLDING)) {
-- 		fprintf(fd, "  Thresholding: ");
-- 		switch (td->td_threshholding) {
---- 
--2.34.1
--
--- 
-2.25.1
+Cheers,
 
+Richard
 
