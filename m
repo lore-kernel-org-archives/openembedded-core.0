@@ -2,137 +2,647 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B408DC7EE25
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99466C77B7F
 	for <webhook@archiver.kernel.org>; Thu, 11 May 2023 21:28:28 +0000 (UTC)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web10.8916.1683840504546694170
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web10.8915.1683840503271107398
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 May 2023 14:28:24 -0700
+ Thu, 11 May 2023 14:28:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=VZjZs93c;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-643b7b8f8ceso4834683b3a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 May 2023 14:28:24 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=sGr6eaDF;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6436dfa15b3so6157779b3a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 May 2023 14:28:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683840504; x=1686432504;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683840502; x=1686432502;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=wyrLcPucnBHBRaMkn04Nndgq/W3fTr7WwnbzQOFNfY8=;
-        b=VZjZs93cKQA9mJBeOtUvXTcUBFNyXTWGnoBRv7DzraZLk4qndxCll/E23EEM7BbtVC
-         6AUPVuQT36KHAP0KE6lqzkm28gDLoESNdXkue4ncTGXzU0DPIAlW+etUJ4GW8h9OhHE4
-         Npdr9nmQCugqYL2JBZDhTOdzEzgwO2X80BBeHJtfualW7IMprcGaTIb/mbtBbZvyVI6z
-         c+ELtBA7GEw+5lSc7LnfQLI7zUbYbWVumedd7JhmCJkm4jhcovw94NMK8gxL3SE7FaPj
-         +LnYguIjRvoJ7p7S+IbjziEbsBdYSfi77GnRs50gG7giRvrrzoawn6veeJ1abWFa/dWA
-         cTuw==
+        bh=uxeDgBCYy5oAuQbd3QB29x0W3GOnDS4dKEwQUWamfx0=;
+        b=sGr6eaDFSOStBHB7aGgQak1VfTOuwFVi3UnuNpNR3qb7kvBVf6JHRrhyNlF4p8laN7
+         vWDqW+lmzDbLqFlMu3omlyn5weGH4w6T5MaVEzbyINQdeVSKOMh4fw6KO4Q52ap1E28D
+         Z3u//1URvF8enW7Cm/1c4hU4j6K+LpTxxclUBu2+jPCJYovtwewLJmAWk1we3Oz/1KXC
+         5m796Uz1KxBJfdXK6i+49G127DkVfWlUkMxfAPJg8DIoHw9esakuKVNUOM24DcwJGsN7
+         Kv56UWDoeoLx33iM7Mqc5WWqhZjOROLOsps/eNliPM0ILY5izyGbB/+79zQ2Q82hbpvr
+         mZsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683840504; x=1686432504;
+        d=1e100.net; s=20221208; t=1683840502; x=1686432502;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wyrLcPucnBHBRaMkn04Nndgq/W3fTr7WwnbzQOFNfY8=;
-        b=jJ5P8ibWft1t1Ke/j2unNIwL9XQ/NWZnbXQuRX0xZsLl0WxhAhcTzMM3BTNlq4lXDs
-         nGI3vbN30+nKjxmNllmEzgr4Mlu0bcEGqda1uH9Oz5A+9n+K/Ha5Orz85OadTSrJDaL0
-         0ngak+bSnasX88eoozOxHIVnr/irHFhCADWzNP69OGl6PvQvwMWoItTSU2aThuah7Io7
-         hldmxQcIkFoKpSwlD5gAQSidOhHSUgCfDEVUD8RqeAHx9T2FcF5oxIZXoR3ERrJ8l4Sv
-         Tdbc1dxScYMWtOTO6mbnRdg2UZujLOOXNT/nXJvUz/cfyaKscW8/AghLGG+sLfUs9H6I
-         q57A==
-X-Gm-Message-State: AC+VfDxMItb/y8rat1eb+gPk4BVjLK2W35x39AI07cBJYKNd8jvlSFbf
-	7o0Dc79a43jBzJDeR/Ycp3NgCrpvrkW+yAJnoHY=
-X-Google-Smtp-Source: ACHHUZ6+rgYxQA7+XO1WlQWce/SBU3froX/dxEPAAbCge2/sXD5FJeVp+i0OfdZ6VUysbAmrZHNb3A==
-X-Received: by 2002:aa7:88c8:0:b0:64a:2dd6:4f18 with SMTP id k8-20020aa788c8000000b0064a2dd64f18mr2918506pff.13.1683840503624;
-        Thu, 11 May 2023 14:28:23 -0700 (PDT)
+        bh=uxeDgBCYy5oAuQbd3QB29x0W3GOnDS4dKEwQUWamfx0=;
+        b=k3BRYvi5qLLOt82sZ3r/hYfIczSBcTw5ACdvpHFYwq6fqC+DElWgFCCiQzbXDqeLx4
+         KI+4s8Z+x0DHbCDBPVCkjxmk/Z0K40Ct80sXO7vmtfOa5XK+noOHMBxbxzHBpFTzzMXs
+         lk4VkJQPZtzcwYcFwT6LtxglNk7TTkxH1vqLWsahpTpaCODKNoYSkSaq3i/Majrlp3YX
+         r1KcbyRz2qsxVUAIjXxcJLxdmnuKtlgW7Z3izrjwo764HNcBbxySyTN1pcvQd0/wXoG0
+         owXYiIFALjqFf+B+dXJrs5aOqGWxRgUC0Nc1q4Bp3YQw/Ud8wjvAo+IgXys3sMQqhUhW
+         smHQ==
+X-Gm-Message-State: AC+VfDwALpG1THEXNz2pnREqZK1Qq9gAbvSLNr2TcZlfIKcFJ3bB1b2g
+	ocX3WUzpdDjokcWN5ITEiiOeVCTmlfdaq2Md81o=
+X-Google-Smtp-Source: ACHHUZ5x42dXXACmjErY7t0CfvDUeKxFt/NmVAzMpFoRmlpEyscm01nGa9oRfFtyDRlFyKla0zv9Eg==
+X-Received: by 2002:a05:6a00:23c3:b0:637:f1ae:d3e with SMTP id g3-20020a056a0023c300b00637f1ae0d3emr31106552pfc.25.1683840501806;
+        Thu, 11 May 2023 14:28:21 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id e5-20020aa78c45000000b00640defda6d2sm5671981pfd.207.2023.05.11.14.28.22
+        by smtp.gmail.com with ESMTPSA id e5-20020aa78c45000000b00640defda6d2sm5671981pfd.207.2023.05.11.14.28.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 May 2023 14:28:23 -0700 (PDT)
+        Thu, 11 May 2023 14:28:21 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 2/7] freetype: fix CVE-2023-2004 integer overflowin in tt_hvadvance_adjust() in src/truetype/ttgxvar.c
-Date: Thu, 11 May 2023 11:28:06 -1000
-Message-Id: <24c87e674db9c1d4a8922c3af78a0004c061e70f.1683840390.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 1/7] go: Security fix for CVE-2023-24538
+Date: Thu, 11 May 2023 11:28:05 -1000
+Message-Id: <c8a597b76505dab7649f4c9b18e1e14b0e3d57af.1683840390.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1683840390.git.steve@sakoman.com>
 References: <cover.1683840390.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 11 May 2023 21:28:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181148
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181147
 
-From: Vivek Kumbhar <vkumbhar@mvista.com>
+From: Shubham Kulkarni <skulkarni@mvista.com>
 
-Fix An integer overflow vulnerability was discovered in Freetype in tt_hvadvance_adjust() function in src/truetype/ttgxvar.c
+html/template: disallow actions in JS template literals
 
-Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+Backport from https://github.com/golang/go/commit/b1e3ecfa06b67014429a197ec5e134ce4303ad9b
+
+Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../freetype/freetype/CVE-2023-2004.patch     | 40 +++++++++++++++++++
- .../freetype/freetype_2.10.1.bb               |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-graphics/freetype/freetype/CVE-2023-2004.patch
+ meta/recipes-devtools/go/go-1.14.inc          |   3 +
+ .../go/go-1.14/CVE-2023-24538-1.patch         | 125 +++++++++++
+ .../go/go-1.14/CVE-2023-24538-2.patch         | 196 +++++++++++++++++
+ .../go/go-1.14/CVE-2023-24538-3.patch         | 208 ++++++++++++++++++
+ 4 files changed, 532 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-24538-1.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-24538-2.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-24538-3.patch
 
-diff --git a/meta/recipes-graphics/freetype/freetype/CVE-2023-2004.patch b/meta/recipes-graphics/freetype/freetype/CVE-2023-2004.patch
+diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
+index 3b99b8fe7e..f734fe1ac8 100644
+--- a/meta/recipes-devtools/go/go-1.14.inc
++++ b/meta/recipes-devtools/go/go-1.14.inc
+@@ -58,6 +58,9 @@ SRC_URI += "\
+     file://CVE-2020-29510.patch \
+     file://CVE-2023-24537.patch \
+     file://CVE-2023-24534.patch \
++    file://CVE-2023-24538-1.patch \
++    file://CVE-2023-24538-2.patch \
++    file://CVE-2023-24538-3.patch \
+ "
+ 
+ SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
+diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-24538-1.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-24538-1.patch
 new file mode 100644
-index 0000000000..800d77579e
+index 0000000000..eda26e5ff6
 --- /dev/null
-+++ b/meta/recipes-graphics/freetype/freetype/CVE-2023-2004.patch
-@@ -0,0 +1,40 @@
-+From e6fda039ad638866b7a6a5d046f03278ba1b7611 Mon Sep 17 00:00:00 2001
-+From: Werner Lemberg <wl@gnu.org>
-+Date: Mon, 14 Nov 2022 19:18:19 +0100
-+Subject: [PATCH] * src/truetype/ttgxvar.c (tt_hvadvance_adjust): Integer
-+ overflow.
++++ b/meta/recipes-devtools/go/go-1.14/CVE-2023-24538-1.patch
+@@ -0,0 +1,125 @@
++From 8acd01094d9ee17f6e763a61e49a8a808b3a9ddb Mon Sep 17 00:00:00 2001
++From: Brad Fitzpatrick <bradfitz@golang.org>
++Date: Mon, 2 Aug 2021 14:55:51 -0700
++Subject: [PATCH 1/3] net/netip: add new IP address package
 +
-+Reported as
++Co-authored-by: Alex Willmer <alex@moreati.org.uk> (GitHub @moreati)
++Co-authored-by: Alexander Yastrebov <yastrebov.alex@gmail.com>
++Co-authored-by: David Anderson <dave@natulte.net> (Tailscale CLA)
++Co-authored-by: David Crawshaw <crawshaw@tailscale.com> (Tailscale CLA)
++Co-authored-by: Dmytro Shynkevych <dmytro@tailscale.com> (Tailscale CLA)
++Co-authored-by: Elias Naur <mail@eliasnaur.com>
++Co-authored-by: Joe Tsai <joetsai@digital-static.net> (Tailscale CLA)
++Co-authored-by: Jonathan Yu <jawnsy@cpan.org> (GitHub @jawnsy)
++Co-authored-by: Josh Bleecher Snyder <josharian@gmail.com> (Tailscale CLA)
++Co-authored-by: Maisem Ali <maisem@tailscale.com> (Tailscale CLA)
++Co-authored-by: Manuel Mendez (Go AUTHORS mmendez534@...)
++Co-authored-by: Matt Layher <mdlayher@gmail.com>
++Co-authored-by: Noah Treuhaft <noah.treuhaft@gmail.com> (GitHub @nwt)
++Co-authored-by: Stefan Majer <stefan.majer@gmail.com>
++Co-authored-by: Terin Stock <terinjokes@gmail.com> (Cloudflare CLA)
++Co-authored-by: Tobias Klauser <tklauser@distanz.ch>
 +
-+  https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=50462
++Fixes #46518
 +
-+Upstream-Status: Backport [https://github.com/freetype/freetype/commit/e6fda039ad638866b7a6a5d046f03278ba1b7611]
-+CVE: CVE-2023-2004
-+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
++Change-Id: I0041f9e1115d61fa6e95fcf32b01d9faee708712
++Reviewed-on: https://go-review.googlesource.com/c/go/+/339309
++Run-TryBot: Brad Fitzpatrick <bradfitz@golang.org>
++TryBot-Result: Go Bot <gobot@golang.org>
++Reviewed-by: Russ Cox <rsc@golang.org>
++Trust: Brad Fitzpatrick <bradfitz@golang.org>
++
++Dependency Patch #1
++
++Upstream-Status: Backport [https://github.com/golang/go/commit/a59e33224e42d60a97fa720a45e1b74eb6aaa3d0]
++CVE: CVE-2023-24538
++Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
 +---
-+ src/truetype/ttgxvar.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
++ src/internal/godebug/godebug.go      | 34 ++++++++++++++++++++++++++++++++++
++ src/internal/godebug/godebug_test.go | 34 ++++++++++++++++++++++++++++++++++
++ 2 files changed, 68 insertions(+)
++ create mode 100644 src/internal/godebug/godebug.go
++ create mode 100644 src/internal/godebug/godebug_test.go
 +
-+diff --git a/src/truetype/ttgxvar.c b/src/truetype/ttgxvar.c
-+index 78d87dc..258d701 100644
-+--- a/src/truetype/ttgxvar.c
-++++ b/src/truetype/ttgxvar.c
-+@@ -43,6 +43,7 @@
-+ #include FT_INTERNAL_DEBUG_H
-+ #include FT_CONFIG_CONFIG_H
-+ #include FT_INTERNAL_STREAM_H
-++#include <freetype/internal/ftcalc.h>
-+ #include FT_INTERNAL_SFNT_H
-+ #include FT_TRUETYPE_TAGS_H
-+ #include FT_TRUETYPE_IDS_H
-+@@ -1065,7 +1066,7 @@
-+                 delta == 1 ? "" : "s",
-+                 vertical ? "VVAR" : "HVAR" ));
-+
-+-    *avalue += delta;
-++    *avalue = ADD_INT( *avalue, delta );
-+
-+   Exit:
-+     return error;
++diff --git a/src/internal/godebug/godebug.go b/src/internal/godebug/godebug.go
++new file mode 100644
++index 0000000..ac434e5
++--- /dev/null
+++++ b/src/internal/godebug/godebug.go
++@@ -0,0 +1,34 @@
+++// Copyright 2021 The Go Authors. All rights reserved.
+++// Use of this source code is governed by a BSD-style
+++// license that can be found in the LICENSE file.
+++
+++// Package godebug parses the GODEBUG environment variable.
+++package godebug
+++
+++import "os"
+++
+++// Get returns the value for the provided GODEBUG key.
+++func Get(key string) string {
+++	return get(os.Getenv("GODEBUG"), key)
+++}
+++
+++// get returns the value part of key=value in s (a GODEBUG value).
+++func get(s, key string) string {
+++	for i := 0; i < len(s)-len(key)-1; i++ {
+++		if i > 0 && s[i-1] != ',' {
+++			continue
+++		}
+++		afterKey := s[i+len(key):]
+++		if afterKey[0] != '=' || s[i:i+len(key)] != key {
+++			continue
+++		}
+++		val := afterKey[1:]
+++		for i, b := range val {
+++			if b == ',' {
+++				return val[:i]
+++			}
+++		}
+++		return val
+++	}
+++	return ""
+++}
++diff --git a/src/internal/godebug/godebug_test.go b/src/internal/godebug/godebug_test.go
++new file mode 100644
++index 0000000..41b9117
++--- /dev/null
+++++ b/src/internal/godebug/godebug_test.go
++@@ -0,0 +1,34 @@
+++// Copyright 2021 The Go Authors. All rights reserved.
+++// Use of this source code is governed by a BSD-style
+++// license that can be found in the LICENSE file.
+++
+++package godebug
+++
+++import "testing"
+++
+++func TestGet(t *testing.T) {
+++	tests := []struct {
+++		godebug string
+++		key     string
+++		want    string
+++	}{
+++		{"", "", ""},
+++		{"", "foo", ""},
+++		{"foo=bar", "foo", "bar"},
+++		{"foo=bar,after=x", "foo", "bar"},
+++		{"before=x,foo=bar,after=x", "foo", "bar"},
+++		{"before=x,foo=bar", "foo", "bar"},
+++		{",,,foo=bar,,,", "foo", "bar"},
+++		{"foodecoy=wrong,foo=bar", "foo", "bar"},
+++		{"foo=", "foo", ""},
+++		{"foo", "foo", ""},
+++		{",foo", "foo", ""},
+++		{"foo=bar,baz", "loooooooong", ""},
+++	}
+++	for _, tt := range tests {
+++		got := get(tt.godebug, tt.key)
+++		if got != tt.want {
+++			t.Errorf("get(%q, %q) = %q; want %q", tt.godebug, tt.key, got, tt.want)
+++		}
+++	}
+++}
 +--
-+2.17.1
-diff --git a/meta/recipes-graphics/freetype/freetype_2.10.1.bb b/meta/recipes-graphics/freetype/freetype_2.10.1.bb
-index 72001c529a..6af744b981 100644
---- a/meta/recipes-graphics/freetype/freetype_2.10.1.bb
-+++ b/meta/recipes-graphics/freetype/freetype_2.10.1.bb
-@@ -18,6 +18,7 @@ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/${BPN}/${BP}.tar.xz \
-            file://CVE-2022-27404.patch \
-            file://CVE-2022-27405.patch \
-            file://CVE-2022-27406.patch \
-+           file://CVE-2023-2004.patch \
-           "
- SRC_URI[md5sum] = "bd42e75127f8431923679480efb5ba8f"
- SRC_URI[sha256sum] = "16dbfa488a21fe827dc27eaf708f42f7aa3bb997d745d31a19781628c36ba26f"
++2.7.4
+diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-24538-2.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-24538-2.patch
+new file mode 100644
+index 0000000000..5036f2890b
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.14/CVE-2023-24538-2.patch
+@@ -0,0 +1,196 @@
++From 6fc21505614f36178df0dad7034b6b8e3f7588d5 Mon Sep 17 00:00:00 2001
++From: empijei <robclap8@gmail.com>
++Date: Fri, 27 Mar 2020 19:27:55 +0100
++Subject: [PATCH 2/3] html/template,text/template: switch to Unicode escapes
++ for JSON compatibility
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The existing implementation is not compatible with JSON
++escape as it uses hex escaping.
++Unicode escape, instead, is valid for both JSON and JS.
++This fix avoids creating a separate escaping context for
++scripts of type "application/ld+json" and it is more
++future-proof in case more JSON+JS contexts get added
++to the platform (e.g. import maps).
++
++Fixes #33671
++Fixes #37634
++
++Change-Id: Id6f6524b4abc52e81d9d744d46bbe5bf2e081543
++Reviewed-on: https://go-review.googlesource.com/c/go/+/226097
++Reviewed-by: Carl Johnson <me@carlmjohnson.net>
++Reviewed-by: Daniel Martí <mvdan@mvdan.cc>
++Run-TryBot: Daniel Martí <mvdan@mvdan.cc>
++TryBot-Result: Gobot Gobot <gobot@golang.org>
++
++Dependency Patch #2
++
++Upstream-Status: Backport from https://github.com/golang/go/commit/d4d298040d072ddacea0e0d6b55fb148fff18070
++CVE: CVE-2023-24538
++Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
++---
++ src/html/template/js.go    | 70 +++++++++++++++++++++++++++-------------------
++ src/text/template/funcs.go |  8 +++---
++ 2 files changed, 46 insertions(+), 32 deletions(-)
++
++diff --git a/src/html/template/js.go b/src/html/template/js.go
++index 0e91458..ea9c183 100644
++--- a/src/html/template/js.go
+++++ b/src/html/template/js.go
++@@ -163,7 +163,6 @@ func jsValEscaper(args ...interface{}) string {
++	}
++	// TODO: detect cycles before calling Marshal which loops infinitely on
++	// cyclic data. This may be an unacceptable DoS risk.
++-
++	b, err := json.Marshal(a)
++	if err != nil {
++		// Put a space before comment so that if it is flush against
++@@ -178,8 +177,8 @@ func jsValEscaper(args ...interface{}) string {
++	// TODO: maybe post-process output to prevent it from containing
++	// "<!--", "-->", "<![CDATA[", "]]>", or "</script"
++	// in case custom marshalers produce output containing those.
++-
++-	// TODO: Maybe abbreviate \u00ab to \xab to produce more compact output.
+++	// Note: Do not use \x escaping to save bytes because it is not JSON compatible and this escaper
+++	// supports ld+json content-type.
++	if len(b) == 0 {
++		// In, `x=y/{{.}}*z` a json.Marshaler that produces "" should
++		// not cause the output `x=y/*z`.
++@@ -260,6 +259,8 @@ func replace(s string, replacementTable []string) string {
++		r, w = utf8.DecodeRuneInString(s[i:])
++		var repl string
++		switch {
+++		case int(r) < len(lowUnicodeReplacementTable):
+++			repl = lowUnicodeReplacementTable[r]
++		case int(r) < len(replacementTable) && replacementTable[r] != "":
++			repl = replacementTable[r]
++		case r == '\u2028':
++@@ -283,67 +284,80 @@ func replace(s string, replacementTable []string) string {
++	return b.String()
++ }
++
+++var lowUnicodeReplacementTable = []string{
+++	0: `\u0000`, 1: `\u0001`, 2: `\u0002`, 3: `\u0003`, 4: `\u0004`, 5: `\u0005`, 6: `\u0006`,
+++	'\a': `\u0007`,
+++	'\b': `\u0008`,
+++	'\t': `\t`,
+++	'\n': `\n`,
+++	'\v': `\u000b`, // "\v" == "v" on IE 6.
+++	'\f': `\f`,
+++	'\r': `\r`,
+++	0xe:  `\u000e`, 0xf: `\u000f`, 0x10: `\u0010`, 0x11: `\u0011`, 0x12: `\u0012`, 0x13: `\u0013`,
+++	0x14: `\u0014`, 0x15: `\u0015`, 0x16: `\u0016`, 0x17: `\u0017`, 0x18: `\u0018`, 0x19: `\u0019`,
+++	0x1a: `\u001a`, 0x1b: `\u001b`, 0x1c: `\u001c`, 0x1d: `\u001d`, 0x1e: `\u001e`, 0x1f: `\u001f`,
+++}
+++
++ var jsStrReplacementTable = []string{
++-	0:    `\0`,
+++	0:    `\u0000`,
++	'\t': `\t`,
++	'\n': `\n`,
++-	'\v': `\x0b`, // "\v" == "v" on IE 6.
+++	'\v': `\u000b`, // "\v" == "v" on IE 6.
++	'\f': `\f`,
++	'\r': `\r`,
++	// Encode HTML specials as hex so the output can be embedded
++	// in HTML attributes without further encoding.
++-	'"':  `\x22`,
++-	'&':  `\x26`,
++-	'\'': `\x27`,
++-	'+':  `\x2b`,
+++	'"':  `\u0022`,
+++	'&':  `\u0026`,
+++	'\'': `\u0027`,
+++	'+':  `\u002b`,
++	'/':  `\/`,
++-	'<':  `\x3c`,
++-	'>':  `\x3e`,
+++	'<':  `\u003c`,
+++	'>':  `\u003e`,
++	'\\': `\\`,
++ }
++
++ // jsStrNormReplacementTable is like jsStrReplacementTable but does not
++ // overencode existing escapes since this table has no entry for `\`.
++ var jsStrNormReplacementTable = []string{
++-	0:    `\0`,
+++	0:    `\u0000`,
++	'\t': `\t`,
++	'\n': `\n`,
++-	'\v': `\x0b`, // "\v" == "v" on IE 6.
+++	'\v': `\u000b`, // "\v" == "v" on IE 6.
++	'\f': `\f`,
++	'\r': `\r`,
++	// Encode HTML specials as hex so the output can be embedded
++	// in HTML attributes without further encoding.
++-	'"':  `\x22`,
++-	'&':  `\x26`,
++-	'\'': `\x27`,
++-	'+':  `\x2b`,
+++	'"':  `\u0022`,
+++	'&':  `\u0026`,
+++	'\'': `\u0027`,
+++	'+':  `\u002b`,
++	'/':  `\/`,
++-	'<':  `\x3c`,
++-	'>':  `\x3e`,
+++	'<':  `\u003c`,
+++	'>':  `\u003e`,
++ }
++-
++ var jsRegexpReplacementTable = []string{
++-	0:    `\0`,
+++	0:    `\u0000`,
++	'\t': `\t`,
++	'\n': `\n`,
++-	'\v': `\x0b`, // "\v" == "v" on IE 6.
+++	'\v': `\u000b`, // "\v" == "v" on IE 6.
++	'\f': `\f`,
++	'\r': `\r`,
++	// Encode HTML specials as hex so the output can be embedded
++	// in HTML attributes without further encoding.
++-	'"':  `\x22`,
+++	'"':  `\u0022`,
++	'$':  `\$`,
++-	'&':  `\x26`,
++-	'\'': `\x27`,
+++	'&':  `\u0026`,
+++	'\'': `\u0027`,
++	'(':  `\(`,
++	')':  `\)`,
++	'*':  `\*`,
++-	'+':  `\x2b`,
+++	'+':  `\u002b`,
++	'-':  `\-`,
++	'.':  `\.`,
++	'/':  `\/`,
++-	'<':  `\x3c`,
++-	'>':  `\x3e`,
+++	'<':  `\u003c`,
+++	'>':  `\u003e`,
++	'?':  `\?`,
++	'[':  `\[`,
++	'\\': `\\`,
++diff --git a/src/text/template/funcs.go b/src/text/template/funcs.go
++index 46125bc..f3de9fb 100644
++--- a/src/text/template/funcs.go
+++++ b/src/text/template/funcs.go
++@@ -640,10 +640,10 @@ var (
++	jsBackslash = []byte(`\\`)
++	jsApos      = []byte(`\'`)
++	jsQuot      = []byte(`\"`)
++-	jsLt        = []byte(`\x3C`)
++-	jsGt        = []byte(`\x3E`)
++-	jsAmp       = []byte(`\x26`)
++-	jsEq        = []byte(`\x3D`)
+++	jsLt        = []byte(`\u003C`)
+++	jsGt        = []byte(`\u003E`)
+++	jsAmp       = []byte(`\u0026`)
+++	jsEq        = []byte(`\u003D`)
++ )
++
++ // JSEscape writes to w the escaped JavaScript equivalent of the plain text data b.
++--
++2.7.4
+diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-24538-3.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-24538-3.patch
+new file mode 100644
+index 0000000000..d5bb33e091
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.14/CVE-2023-24538-3.patch
+@@ -0,0 +1,208 @@
++From 16f4882984569f179d73967c9eee679bb9b098c5 Mon Sep 17 00:00:00 2001
++From: Roland Shoemaker <bracewell@google.com>
++Date: Mon, 20 Mar 2023 11:01:13 -0700
++Subject: [PATCH 3/3] html/template: disallow actions in JS template literals
++
++ECMAScript 6 introduced template literals[0][1] which are delimited with
++backticks. These need to be escaped in a similar fashion to the
++delimiters for other string literals. Additionally template literals can
++contain special syntax for string interpolation.
++
++There is no clear way to allow safe insertion of actions within JS
++template literals, as handling (JS) string interpolation inside of these
++literals is rather complex. As such we've chosen to simply disallow
++template actions within these template literals.
++
++A new error code is added for this parsing failure case, errJsTmplLit,
++but it is unexported as it is not backwards compatible with other minor
++release versions to introduce an API change in a minor release. We will
++export this code in the next major release.
++
++The previous behavior (with the cavet that backticks are now escaped
++properly) can be re-enabled with GODEBUG=jstmpllitinterp=1.
++
++This change subsumes CL471455.
++
++Thanks to Sohom Datta, Manipal Institute of Technology, for reporting
++this issue.
++
++Fixes CVE-2023-24538
++For #59234
++Fixes #59271
++
++[0] https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-template-literals
++[1] https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
++
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1802457
++Reviewed-by: Damien Neil <dneil@google.com>
++Run-TryBot: Damien Neil <dneil@google.com>
++Reviewed-by: Julie Qiu <julieqiu@google.com>
++Reviewed-by: Roland Shoemaker <bracewell@google.com>
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1802612
++Run-TryBot: Roland Shoemaker <bracewell@google.com>
++Change-Id: Ic7f10595615f2b2740d9c85ad7ef40dc0e78c04c
++Reviewed-on: https://go-review.googlesource.com/c/go/+/481987
++Auto-Submit: Michael Knyszek <mknyszek@google.com>
++TryBot-Result: Gopher Robot <gobot@golang.org>
++Run-TryBot: Michael Knyszek <mknyszek@google.com>
++Reviewed-by: Matthew Dempsky <mdempsky@google.com>
++
++Upstream-Status: Backport from https://github.com/golang/go/commit/b1e3ecfa06b67014429a197ec5e134ce4303ad9b
++CVE: CVE-2023-24538
++Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
++---
++ src/html/template/context.go      |  2 ++
++ src/html/template/error.go        | 13 +++++++++++++
++ src/html/template/escape.go       | 11 +++++++++++
++ src/html/template/js.go           |  2 ++
++ src/html/template/jsctx_string.go |  9 +++++++++
++ src/html/template/transition.go   |  7 ++++++-
++ 6 files changed, 43 insertions(+), 1 deletion(-)
++
++diff --git a/src/html/template/context.go b/src/html/template/context.go
++index f7d4849..0b65313 100644
++--- a/src/html/template/context.go
+++++ b/src/html/template/context.go
++@@ -116,6 +116,8 @@ const (
++	stateJSDqStr
++	// stateJSSqStr occurs inside a JavaScript single quoted string.
++	stateJSSqStr
+++	// stateJSBqStr occurs inside a JavaScript back quoted string.
+++	stateJSBqStr
++	// stateJSRegexp occurs inside a JavaScript regexp literal.
++	stateJSRegexp
++	// stateJSBlockCmt occurs inside a JavaScript /* block comment */.
++diff --git a/src/html/template/error.go b/src/html/template/error.go
++index 0e52706..fd26b64 100644
++--- a/src/html/template/error.go
+++++ b/src/html/template/error.go
++@@ -211,6 +211,19 @@ const (
++	//   pipeline occurs in an unquoted attribute value context, "html" is
++	//   disallowed. Avoid using "html" and "urlquery" entirely in new templates.
++	ErrPredefinedEscaper
+++
+++	// errJSTmplLit: "... appears in a JS template literal"
+++	// Example:
+++	//     <script>var tmpl = `{{.Interp}`</script>
+++	// Discussion:
+++	//   Package html/template does not support actions inside of JS template
+++	//   literals.
+++	//
+++	// TODO(rolandshoemaker): we cannot add this as an exported error in a minor
+++	// release, since it is backwards incompatible with the other minor
+++	// releases. As such we need to leave it unexported, and then we'll add it
+++	// in the next major release.
+++	errJSTmplLit
++ )
++
++ func (e *Error) Error() string {
++diff --git a/src/html/template/escape.go b/src/html/template/escape.go
++index f12dafa..29ca5b3 100644
++--- a/src/html/template/escape.go
+++++ b/src/html/template/escape.go
++@@ -8,6 +8,7 @@ import (
++	"bytes"
++	"fmt"
++	"html"
+++	"internal/godebug"
++	"io"
++	"text/template"
++	"text/template/parse"
++@@ -203,6 +204,16 @@ func (e *escaper) escapeAction(c context, n *parse.ActionNode) context {
++		c.jsCtx = jsCtxDivOp
++	case stateJSDqStr, stateJSSqStr:
++		s = append(s, "_html_template_jsstrescaper")
+++	case stateJSBqStr:
+++		debugAllowActionJSTmpl := godebug.Get("jstmpllitinterp")
+++		if debugAllowActionJSTmpl == "1" {
+++			s = append(s, "_html_template_jsstrescaper")
+++		} else {
+++			return context{
+++				state: stateError,
+++				err:   errorf(errJSTmplLit, n, n.Line, "%s appears in a JS template literal", n),
+++			}
+++		}
++	case stateJSRegexp:
++		s = append(s, "_html_template_jsregexpescaper")
++	case stateCSS:
++diff --git a/src/html/template/js.go b/src/html/template/js.go
++index ea9c183..b888eaf 100644
++--- a/src/html/template/js.go
+++++ b/src/html/template/js.go
++@@ -308,6 +308,7 @@ var jsStrReplacementTable = []string{
++	// Encode HTML specials as hex so the output can be embedded
++	// in HTML attributes without further encoding.
++	'"':  `\u0022`,
+++	'`':  `\u0060`,
++	'&':  `\u0026`,
++	'\'': `\u0027`,
++	'+':  `\u002b`,
++@@ -331,6 +332,7 @@ var jsStrNormReplacementTable = []string{
++	'"':  `\u0022`,
++	'&':  `\u0026`,
++	'\'': `\u0027`,
+++	'`':  `\u0060`,
++	'+':  `\u002b`,
++	'/':  `\/`,
++	'<':  `\u003c`,
++diff --git a/src/html/template/jsctx_string.go b/src/html/template/jsctx_string.go
++index dd1d87e..2394893 100644
++--- a/src/html/template/jsctx_string.go
+++++ b/src/html/template/jsctx_string.go
++@@ -4,6 +4,15 @@ package template
++
++ import "strconv"
++
+++func _() {
+++	// An "invalid array index" compiler error signifies that the constant values have changed.
+++	// Re-run the stringer command to generate them again.
+++	var x [1]struct{}
+++	_ = x[jsCtxRegexp-0]
+++	_ = x[jsCtxDivOp-1]
+++	_ = x[jsCtxUnknown-2]
+++}
+++
++ const _jsCtx_name = "jsCtxRegexpjsCtxDivOpjsCtxUnknown"
++
++ var _jsCtx_index = [...]uint8{0, 11, 21, 33}
++diff --git a/src/html/template/transition.go b/src/html/template/transition.go
++index 06df679..92eb351 100644
++--- a/src/html/template/transition.go
+++++ b/src/html/template/transition.go
++@@ -27,6 +27,7 @@ var transitionFunc = [...]func(context, []byte) (context, int){
++	stateJS:          tJS,
++	stateJSDqStr:     tJSDelimited,
++	stateJSSqStr:     tJSDelimited,
+++	stateJSBqStr:     tJSDelimited,
++	stateJSRegexp:    tJSDelimited,
++	stateJSBlockCmt:  tBlockCmt,
++	stateJSLineCmt:   tLineCmt,
++@@ -262,7 +263,7 @@ func tURL(c context, s []byte) (context, int) {
++
++ // tJS is the context transition function for the JS state.
++ func tJS(c context, s []byte) (context, int) {
++-	i := bytes.IndexAny(s, `"'/`)
+++	i := bytes.IndexAny(s, "\"`'/")
++	if i == -1 {
++		// Entire input is non string, comment, regexp tokens.
++		c.jsCtx = nextJSCtx(s, c.jsCtx)
++@@ -274,6 +275,8 @@ func tJS(c context, s []byte) (context, int) {
++		c.state, c.jsCtx = stateJSDqStr, jsCtxRegexp
++	case '\'':
++		c.state, c.jsCtx = stateJSSqStr, jsCtxRegexp
+++	case '`':
+++		c.state, c.jsCtx = stateJSBqStr, jsCtxRegexp
++	case '/':
++		switch {
++		case i+1 < len(s) && s[i+1] == '/':
++@@ -303,6 +306,8 @@ func tJSDelimited(c context, s []byte) (context, int) {
++	switch c.state {
++	case stateJSSqStr:
++		specials = `\'`
+++	case stateJSBqStr:
+++		specials = "`\\"
++	case stateJSRegexp:
++		specials = `\/[]`
++	}
++--
++2.7.4
 -- 
 2.34.1
 
