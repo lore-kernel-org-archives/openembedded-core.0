@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B53C5C7EE2A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B408DC7EE25
 	for <webhook@archiver.kernel.org>; Thu, 11 May 2023 21:28:28 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web11.8894.1683840506803282664
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web10.8916.1683840504546694170
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 May 2023 14:28:26 -0700
+ Thu, 11 May 2023 14:28:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Va7fIsd+;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-64ab2a37812so368063b3a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 May 2023 14:28:26 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=VZjZs93c;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-643b7b8f8ceso4834683b3a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 May 2023 14:28:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683840506; x=1686432506;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683840504; x=1686432504;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=m8vV9MkaTeJAXAbVaUpaWzznxG5o5jGtRLIk7kLvV70=;
-        b=Va7fIsd+TzEUQFoSBu1b8u+IRe7WimKxQtynE8n2EdRiDU2PVZN+1aL3+7jDWjEqPy
-         06sAUebQ5DFiEzAAqA1GGQ0EX2fGn+Ot9LOW85ofwBqUNmRStI7+IY+yPlXX6BaMmWIg
-         WikjNXmoIEqj2iu1D4l7VEbniUg/oOiQM1CipBQu1IyGxf2wPW+MJvQxPyelEqRfHEHc
-         3asfS4LTmVMOylTyYxKKXAVAHne82AhQ5wh4Ur+QYnZR24kAi8KZQUdDbaikWg0vWa/0
-         y46yOaVkUdumZzYHdZvrvafRae27dLw2OoBTB36d4mRiRV/8IqQ9ES6OgY/9Y9rSXo59
-         SPBg==
+        bh=wyrLcPucnBHBRaMkn04Nndgq/W3fTr7WwnbzQOFNfY8=;
+        b=VZjZs93cKQA9mJBeOtUvXTcUBFNyXTWGnoBRv7DzraZLk4qndxCll/E23EEM7BbtVC
+         6AUPVuQT36KHAP0KE6lqzkm28gDLoESNdXkue4ncTGXzU0DPIAlW+etUJ4GW8h9OhHE4
+         Npdr9nmQCugqYL2JBZDhTOdzEzgwO2X80BBeHJtfualW7IMprcGaTIb/mbtBbZvyVI6z
+         c+ELtBA7GEw+5lSc7LnfQLI7zUbYbWVumedd7JhmCJkm4jhcovw94NMK8gxL3SE7FaPj
+         +LnYguIjRvoJ7p7S+IbjziEbsBdYSfi77GnRs50gG7giRvrrzoawn6veeJ1abWFa/dWA
+         cTuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683840506; x=1686432506;
+        d=1e100.net; s=20221208; t=1683840504; x=1686432504;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=m8vV9MkaTeJAXAbVaUpaWzznxG5o5jGtRLIk7kLvV70=;
-        b=l2Mn8NDDLBHc2fbQRiHxcpBPiFiYLhYddGjYv9jZPJu0DDnI1cj5gRFL7+hWhHE+fi
-         sRyRTnCiemY0ie+E9SnyA1/5XjU+HDrtbGd3vqHcBoe5D1jVHhMCnukbKEazy1lhkKnk
-         E9Ry5U0+oIz3zuWOz2ccRq44InFQ8KdlCcf/lvoPG9Wz0VIOsCcSG8nxzKKwd3xW6C/i
-         gKo5xvc3RT+dq/G6py3eobtMSrJUhYcvCHA80Ik6A8bjtGAJqhgOlkRGFbjr5Wu4BQaV
-         +EgcNd4g0DGMzpOTmHntdWhUsOWrL2UtBMDzRfMGjUQd88gr33OKfzB7CBhrOlCUEnyg
-         xnzw==
-X-Gm-Message-State: AC+VfDwp51zgG/gSNs1CmMp3KjSlvyJyRpHYWg1wYcEPTZxnbtJ69vo4
-	NyEgDgKtFXrdOoSEc5mqMTxaQp7EPpY1ZtY2A5A=
-X-Google-Smtp-Source: ACHHUZ7eF+kzFmh/oiE8sr0iF0T/szEzs4NiCO7LxDLrCRBRgeNT8DVsr9ryFzXb1ZzAVdlLsy7qsA==
-X-Received: by 2002:a05:6a20:6a27:b0:101:7703:3376 with SMTP id p39-20020a056a206a2700b0010177033376mr11443374pzk.4.1683840505458;
-        Thu, 11 May 2023 14:28:25 -0700 (PDT)
+        bh=wyrLcPucnBHBRaMkn04Nndgq/W3fTr7WwnbzQOFNfY8=;
+        b=jJ5P8ibWft1t1Ke/j2unNIwL9XQ/NWZnbXQuRX0xZsLl0WxhAhcTzMM3BTNlq4lXDs
+         nGI3vbN30+nKjxmNllmEzgr4Mlu0bcEGqda1uH9Oz5A+9n+K/Ha5Orz85OadTSrJDaL0
+         0ngak+bSnasX88eoozOxHIVnr/irHFhCADWzNP69OGl6PvQvwMWoItTSU2aThuah7Io7
+         hldmxQcIkFoKpSwlD5gAQSidOhHSUgCfDEVUD8RqeAHx9T2FcF5oxIZXoR3ERrJ8l4Sv
+         Tdbc1dxScYMWtOTO6mbnRdg2UZujLOOXNT/nXJvUz/cfyaKscW8/AghLGG+sLfUs9H6I
+         q57A==
+X-Gm-Message-State: AC+VfDxMItb/y8rat1eb+gPk4BVjLK2W35x39AI07cBJYKNd8jvlSFbf
+	7o0Dc79a43jBzJDeR/Ycp3NgCrpvrkW+yAJnoHY=
+X-Google-Smtp-Source: ACHHUZ6+rgYxQA7+XO1WlQWce/SBU3froX/dxEPAAbCge2/sXD5FJeVp+i0OfdZ6VUysbAmrZHNb3A==
+X-Received: by 2002:aa7:88c8:0:b0:64a:2dd6:4f18 with SMTP id k8-20020aa788c8000000b0064a2dd64f18mr2918506pff.13.1683840503624;
+        Thu, 11 May 2023 14:28:23 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id e5-20020aa78c45000000b00640defda6d2sm5671981pfd.207.2023.05.11.14.28.24
+        by smtp.gmail.com with ESMTPSA id e5-20020aa78c45000000b00640defda6d2sm5671981pfd.207.2023.05.11.14.28.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 May 2023 14:28:25 -0700 (PDT)
+        Thu, 11 May 2023 14:28:23 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 3/7] libxml2: patch CVE-2023-28484 and CVE-2023-29469
-Date: Thu, 11 May 2023 11:28:07 -1000
-Message-Id: <c0cfcd3945257efd40745e0ebb84495441acb590.1683840390.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 2/7] freetype: fix CVE-2023-2004 integer overflowin in tt_hvadvance_adjust() in src/truetype/ttgxvar.c
+Date: Thu, 11 May 2023 11:28:06 -1000
+Message-Id: <24c87e674db9c1d4a8922c3af78a0004c061e70f.1683840390.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1683840390.git.steve@sakoman.com>
 References: <cover.1683840390.git.steve@sakoman.com>
@@ -61,170 +61,78 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 11 May 2023 21:28:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181149
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181148
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Vivek Kumbhar <vkumbhar@mvista.com>
 
-Backports from:
-* https://gitlab.gnome.org/GNOME/libxml2/-/commit/e4f85f1bd2eb34d9b49da9154a4cc3a1bc284f68
-* https://gitlab.gnome.org/GNOME/libxml2/-/commit/547edbf1cbdccd46b2e8ff322a456eaa5931c5df
+Fix An integer overflow vulnerability was discovered in Freetype in tt_hvadvance_adjust() function in src/truetype/ttgxvar.c
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libxml/libxml2/CVE-2023-28484.patch       | 79 +++++++++++++++++++
- .../libxml/libxml2/CVE-2023-29469.patch       | 42 ++++++++++
- meta/recipes-core/libxml/libxml2_2.9.10.bb    |  2 +
- 3 files changed, 123 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2023-28484.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2023-29469.patch
+ .../freetype/freetype/CVE-2023-2004.patch     | 40 +++++++++++++++++++
+ .../freetype/freetype_2.10.1.bb               |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-graphics/freetype/freetype/CVE-2023-2004.patch
 
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2023-28484.patch b/meta/recipes-core/libxml/libxml2/CVE-2023-28484.patch
+diff --git a/meta/recipes-graphics/freetype/freetype/CVE-2023-2004.patch b/meta/recipes-graphics/freetype/freetype/CVE-2023-2004.patch
 new file mode 100644
-index 0000000000..907f2c4d47
+index 0000000000..800d77579e
 --- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2023-28484.patch
-@@ -0,0 +1,79 @@
-+From e4f85f1bd2eb34d9b49da9154a4cc3a1bc284f68 Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Fri, 7 Apr 2023 11:46:35 +0200
-+Subject: [PATCH] [CVE-2023-28484] Fix null deref in xmlSchemaFixupComplexType
++++ b/meta/recipes-graphics/freetype/freetype/CVE-2023-2004.patch
+@@ -0,0 +1,40 @@
++From e6fda039ad638866b7a6a5d046f03278ba1b7611 Mon Sep 17 00:00:00 2001
++From: Werner Lemberg <wl@gnu.org>
++Date: Mon, 14 Nov 2022 19:18:19 +0100
++Subject: [PATCH] * src/truetype/ttgxvar.c (tt_hvadvance_adjust): Integer
++ overflow.
 +
-+Fix a null pointer dereference when parsing (invalid) XML schemas.
++Reported as
 +
-+Thanks to Robby Simpson for the report!
++  https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=50462
 +
-+Fixes #491.
-+
-+CVE: CVE-2023-28484
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/e4f85f1bd2eb34d9b49da9154a4cc3a1bc284f68]
-+
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
++Upstream-Status: Backport [https://github.com/freetype/freetype/commit/e6fda039ad638866b7a6a5d046f03278ba1b7611]
++CVE: CVE-2023-2004
++Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
 +---
-+ result/schemas/issue491_0_0.err |  1 +
-+ test/schemas/issue491_0.xml     |  1 +
-+ test/schemas/issue491_0.xsd     | 18 ++++++++++++++++++
-+ xmlschemas.c                    |  2 +-
-+ 4 files changed, 21 insertions(+), 1 deletion(-)
-+ create mode 100644 result/schemas/issue491_0_0.err
-+ create mode 100644 test/schemas/issue491_0.xml
-+ create mode 100644 test/schemas/issue491_0.xsd
-+
-+diff --git a/result/schemas/issue491_0_0.err b/result/schemas/issue491_0_0.err
-+new file mode 100644
-+index 00000000..9b2bb969
-+--- /dev/null
-++++ b/result/schemas/issue491_0_0.err
-+@@ -0,0 +1 @@
-++./test/schemas/issue491_0.xsd:8: element complexType: Schemas parser error : complex type 'ChildType': The content type of both, the type and its base type, must either 'mixed' or 'element-only'.
-+diff --git a/test/schemas/issue491_0.xml b/test/schemas/issue491_0.xml
-+new file mode 100644
-+index 00000000..e2b2fc2e
-+--- /dev/null
-++++ b/test/schemas/issue491_0.xml
-+@@ -0,0 +1 @@
-++<Child xmlns="http://www.test.com">5</Child>
-+diff --git a/test/schemas/issue491_0.xsd b/test/schemas/issue491_0.xsd
-+new file mode 100644
-+index 00000000..81702649
-+--- /dev/null
-++++ b/test/schemas/issue491_0.xsd
-+@@ -0,0 +1,18 @@
-++<?xml version='1.0' encoding='UTF-8'?>
-++<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.test.com" targetNamespace="http://www.test.com" elementFormDefault="qualified" attributeFormDefault="unqualified">
-++  <xs:complexType name="BaseType">
-++    <xs:simpleContent>
-++      <xs:extension base="xs:int" />
-++    </xs:simpleContent>
-++  </xs:complexType>
-++  <xs:complexType name="ChildType">
-++    <xs:complexContent>
-++      <xs:extension base="BaseType">
-++        <xs:sequence>
-++          <xs:element name="bad" type="xs:int" minOccurs="0" maxOccurs="1"/>
-++        </xs:sequence>
-++      </xs:extension>
-++    </xs:complexContent>
-++  </xs:complexType>
-++  <xs:element name="Child" type="ChildType" />
-++</xs:schema>
-+diff --git a/xmlschemas.c b/xmlschemas.c
-+index 6a353858..a4eaf591 100644
-+--- a/xmlschemas.c
-++++ b/xmlschemas.c
-+@@ -18632,7 +18632,7 @@ xmlSchemaFixupComplexType(xmlSchemaParserCtxtPtr pctxt,
-+ 			"allowed to appear inside other model groups",
-+ 			NULL, NULL);
-+ 
-+-		} else if (! dummySequence) {
-++		} else if ((!dummySequence) && (baseType->subtypes != NULL)) {
-+ 		    xmlSchemaTreeItemPtr effectiveContent =
-+ 			(xmlSchemaTreeItemPtr) type->subtypes;
-+ 		    /*
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2023-29469.patch b/meta/recipes-core/libxml/libxml2/CVE-2023-29469.patch
-new file mode 100644
-index 0000000000..1252668577
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2023-29469.patch
-@@ -0,0 +1,42 @@
-+From 547edbf1cbdccd46b2e8ff322a456eaa5931c5df Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Fri, 7 Apr 2023 11:49:27 +0200
-+Subject: [PATCH] [CVE-2023-29469] Hashing of empty dict strings isn't
-+ deterministic
-+
-+When hashing empty strings which aren't null-terminated,
-+xmlDictComputeFastKey could produce inconsistent results. This could
-+lead to various logic or memory errors, including double frees.
-+
-+For consistency the seed is also taken into account, but this shouldn't
-+have an impact on security.
-+
-+Found by OSS-Fuzz.
-+
-+Fixes #510.
-+
-+CVE: CVE-2023-29469
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/547edbf1cbdccd46b2e8ff322a456eaa5931c5df]
-+
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ dict.c | 3 ++-
++ src/truetype/ttgxvar.c | 3 ++-
 + 1 file changed, 2 insertions(+), 1 deletion(-)
 +
-+diff --git a/dict.c b/dict.c
-+index 86c3f6d7..d7fd1a06 100644
-+--- a/dict.c
-++++ b/dict.c
-+@@ -451,7 +451,8 @@ static unsigned long
-+ xmlDictComputeFastKey(const xmlChar *name, int namelen, int seed) {
-+     unsigned long value = seed;
-+ 
-+-    if (name == NULL) return(0);
-++    if ((name == NULL) || (namelen <= 0))
-++        return(value);
-+     value = *name;
-+     value <<= 5;
-+     if (namelen > 10) {
-+-- 
-+GitLab
++diff --git a/src/truetype/ttgxvar.c b/src/truetype/ttgxvar.c
++index 78d87dc..258d701 100644
++--- a/src/truetype/ttgxvar.c
+++++ b/src/truetype/ttgxvar.c
++@@ -43,6 +43,7 @@
++ #include FT_INTERNAL_DEBUG_H
++ #include FT_CONFIG_CONFIG_H
++ #include FT_INTERNAL_STREAM_H
+++#include <freetype/internal/ftcalc.h>
++ #include FT_INTERNAL_SFNT_H
++ #include FT_TRUETYPE_TAGS_H
++ #include FT_TRUETYPE_IDS_H
++@@ -1065,7 +1066,7 @@
++                 delta == 1 ? "" : "s",
++                 vertical ? "VVAR" : "HVAR" ));
 +
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.10.bb b/meta/recipes-core/libxml/libxml2_2.9.10.bb
-index 40e3434ead..034192d64e 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.10.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.10.bb
-@@ -36,6 +36,8 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;subdir=${BP};name=te
-            file://CVE-2016-3709.patch \
-            file://CVE-2022-40303.patch \
-            file://CVE-2022-40304.patch \
-+           file://CVE-2023-28484.patch \
-+           file://CVE-2023-29469.patch \
-            "
- 
- SRC_URI[archive.sha256sum] = "593b7b751dd18c2d6abcd0c4bcb29efc203d0b4373a6df98e3a455ea74ae2813"
++-    *avalue += delta;
+++    *avalue = ADD_INT( *avalue, delta );
++
++   Exit:
++     return error;
++--
++2.17.1
+diff --git a/meta/recipes-graphics/freetype/freetype_2.10.1.bb b/meta/recipes-graphics/freetype/freetype_2.10.1.bb
+index 72001c529a..6af744b981 100644
+--- a/meta/recipes-graphics/freetype/freetype_2.10.1.bb
++++ b/meta/recipes-graphics/freetype/freetype_2.10.1.bb
+@@ -18,6 +18,7 @@ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/${BPN}/${BP}.tar.xz \
+            file://CVE-2022-27404.patch \
+            file://CVE-2022-27405.patch \
+            file://CVE-2022-27406.patch \
++           file://CVE-2023-2004.patch \
+           "
+ SRC_URI[md5sum] = "bd42e75127f8431923679480efb5ba8f"
+ SRC_URI[sha256sum] = "16dbfa488a21fe827dc27eaf708f42f7aa3bb997d745d31a19781628c36ba26f"
 -- 
 2.34.1
 
