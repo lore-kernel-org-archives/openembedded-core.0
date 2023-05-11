@@ -2,157 +2,126 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98194C7EE24
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9704EC77B7C
 	for <webhook@archiver.kernel.org>; Thu, 11 May 2023 21:28:28 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web10.8920.1683840508245907245
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web11.8892.1683840501211302985
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 May 2023 14:28:28 -0700
+ Thu, 11 May 2023 14:28:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=2Ldpi8y7;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6439df6c268so5791638b3a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 May 2023 14:28:28 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=vsBRej8R;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6434e263962so6830402b3a.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 May 2023 14:28:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683840507; x=1686432507;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CkiqVJHXj4fthCS72tS/6hPIhrgbiuag3vC5cUSteU0=;
-        b=2Ldpi8y7PAI5eJDRRcz60tRCOKubJDCKgLxXxtTgpe2rcOpIeF6lhh75WnoDgZ7L5h
-         54siRaBL5s5PsKmlgLUeDnDYQRWcdOyhBtAMw/Z4nuTH9syWJt76VpIb/HLi7PG3pGjV
-         jQYXZZa9BOrJRbLlAtoBYN5hocLGUDEmqiNBcPIuoWUQxTjKo4VwoYfpcPGcvrjuItE3
-         K5CPOLquGL8s3YEzz0LJy+Q7JTnf5cVU01HhDZCIG9UB9mdiQdbVxtbZ8W6Y8YZki60o
-         MvlMp/6iQOXK/PfMzd8PqnUP6TNeGp3FzwfeG+3R6y9ita06DDRqXvFIgKvjAP2u1DN1
-         7nGQ==
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683840500; x=1686432500;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mb1xnzUAO7k7GAmRv1tqsQJqEA73bDkQXCF7pIGouUM=;
+        b=vsBRej8RbR7YyQssZfHhZ8b7j/oa2a/PYiev+yEH7RxM5tgn6moRDYWhLUq62CC4v4
+         wUs9vofDILyypqeqlE0/iMyBQCkJFA83ZWb+bpYF0u39V4Tcz+UUgYpuGcLcUdUW73JY
+         5qLcAssBXKJK3KDW66t91rmiQzVniBHvXy6nwzvGYhFffxM9nOvGvaJ2ZL1/grYZVbBK
+         gcrRO1Lc2uoJwMQ7Vfm8rHbS5VuIFzeP5g8osF006WvZuqpPZeH564q6CxSxhF0/ezzk
+         znBjR2OcpC+D+3fbShZTieJFaQo4jlj8b33cCORdZHRuPHGiXZvSVjFNiH39/0/HRnG4
+         5ZOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683840507; x=1686432507;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CkiqVJHXj4fthCS72tS/6hPIhrgbiuag3vC5cUSteU0=;
-        b=TL1nmqKwLPkDXTs/j8noZ5r0yXdeV5ZPiwqZoCdTfCsyZ6eKN5JUgNzfqRKTDPAgN/
-         lg2tPMP0Yb/rlFNJRnvWuMJazIL6R+MViPDdlChww25sOyyj+NcFWa3T2jTClVaR0tui
-         0nXbsnw83FCXk+9rvEHPUEOXgteAjdVSoD/KxZN+ER03g+oa017X8CebdUHvC+GcOQP/
-         c6bfR6WbjQLPd5jlXMRTPB7SrDkr+CUGuuqqS+ueTnmE6huEiKy3PrEiKqX7K53475lh
-         4+feDsCk6KCnyHTOgtZ0cek032jZphIwmFALMSl7maseeK5jqjIPmyNCHGBusWJZCa3a
-         vHOQ==
-X-Gm-Message-State: AC+VfDwk4ANh+GQ1PyuHdCoGhDsDtZpJxXV133zndu8TgjIY7v4kneI7
-	qrFsjgJVmD7wnEGfyf/LLJp96WdGUdAvIfHD1Bw=
-X-Google-Smtp-Source: ACHHUZ4gkQKCywXm+bmhAhIzAsnaBHjeecqEYHpR6s/ZgX4yHTYeqGuh10aGuLkrSOUbUtOcQj3H+Q==
-X-Received: by 2002:a05:6a20:7d86:b0:103:e3bc:5106 with SMTP id v6-20020a056a207d8600b00103e3bc5106mr4612884pzj.57.1683840507214;
-        Thu, 11 May 2023 14:28:27 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1683840500; x=1686432500;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mb1xnzUAO7k7GAmRv1tqsQJqEA73bDkQXCF7pIGouUM=;
+        b=Me+GRbfgSuceYVU4wDTQA2hnD0bfYyzSaZS/ugxF9EykGG1HsEzX2eI2edQnfxVaGG
+         eIQQ+NKH9/vAYNL1fq1igsT1U2bfc7myWxz6yC+ULtbX04DIyauVsYULBSflrcqAJ234
+         u4gLZ1DWJrcYRACpFDdlkyX3ht/BZEI603CAsDMX1sood4imKJWWMgSYLLweoKAIL+YS
+         x+nsm1p7eaThMiraZd1uYA0H0JSdAwOkJu3zpDdv3C0ukNBIKLHzbXH9CknReZ6+gcyn
+         Lu+G5+1WpeW0szMUQDUZLO6+cF4TJUGRtA4G7p8n90Yjqm4XvNA3MXBt/D7mRRuw5h2S
+         Tlsg==
+X-Gm-Message-State: AC+VfDzpuwSPHjND5LDlkWWQFgj1HwhYlmP6GaFnReAym7jk3G9DoM3W
+	hoaJb0yZfy7s0X67yCBMhPnGik/JDO80Cm4P5yE=
+X-Google-Smtp-Source: ACHHUZ4usqI3GrnLE7rIUAbGsOZbLeeM5OGu9AAhSLGbmuyoY6eo+g8kGsdGFMJ67KlJnHlTSo6P5w==
+X-Received: by 2002:a05:6a00:2d97:b0:636:f899:4696 with SMTP id fb23-20020a056a002d9700b00636f8994696mr30137275pfb.24.1683840499627;
+        Thu, 11 May 2023 14:28:19 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id e5-20020aa78c45000000b00640defda6d2sm5671981pfd.207.2023.05.11.14.28.26
+        by smtp.gmail.com with ESMTPSA id e5-20020aa78c45000000b00640defda6d2sm5671981pfd.207.2023.05.11.14.28.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 May 2023 14:28:26 -0700 (PDT)
+        Thu, 11 May 2023 14:28:19 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 4/7] connman: Fix CVE-2023-28488 DoS in client.c
-Date: Thu, 11 May 2023 11:28:08 -1000
-Message-Id: <47a9ae5592392bd10740e4571b06c8c739705058.1683840390.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 0/7] Patch review
+Date: Thu, 11 May 2023 11:28:04 -1000
+Message-Id: <cover.1683840390.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1683840390.git.steve@sakoman.com>
-References: <cover.1683840390.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 11 May 2023 21:28:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181150
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181146
 
-From: Ashish Sharma <asharma@mvista.com>
+Please review this set of patches for dunfell and have comments back by
+end of day Monday.
 
-Avoid overwriting the read packet length after the initial test. Thus
-move all the length checks which depends on the total length first
-and do not use the total lenght from the IP packet afterwards.
+Passed a-full on autobuilder:
 
-Fixes CVE-2023-28488
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5294
 
-Reported by Polina Smirnova <moe.hwr@gmail.com>
+The following changes since commit fd4cc8d7b5156c43d162a1a5a809fae507457ef4:
 
-Signed-off-by: Ashish Sharma <asharma@mvista.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../connman/connman/CVE-2023-28488.patch      | 54 +++++++++++++++++++
- .../connman/connman_1.37.bb                   |  1 +
- 2 files changed, 55 insertions(+)
+  build-appliance-image: Update to dunfell head revision (2023-05-03 12:29:24 -1000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Arturo Buzarra (1):
+  run-postinsts: Set dependency for ldconfig to avoid boot issues
+
+Ashish Sharma (1):
+  connman: Fix CVE-2023-28488 DoS in client.c
+
+Peter Marko (1):
+  libxml2: patch CVE-2023-28484 and CVE-2023-29469
+
+Ranjitsinh Rathod (1):
+  libbsd: Add correct license for all packages
+
+Shubham Kulkarni (1):
+  go: Security fix for CVE-2023-24538
+
+Vivek Kumbhar (1):
+  freetype: fix CVE-2023-2004 integer overflowin in
+    tt_hvadvance_adjust() in src/truetype/ttgxvar.c
+
+Yoann Congal (1):
+  linux-yocto: Exclude 294 CVEs already fixed upstream
+
+ .../connman/connman/CVE-2023-28488.patch      |   54 +
+ .../connman/connman_1.37.bb                   |    1 +
+ .../libxml/libxml2/CVE-2023-28484.patch       |   79 +
+ .../libxml/libxml2/CVE-2023-29469.patch       |   42 +
+ meta/recipes-core/libxml/libxml2_2.9.10.bb    |    2 +
+ meta/recipes-devtools/go/go-1.14.inc          |    3 +
+ .../go/go-1.14/CVE-2023-24538-1.patch         |  125 ++
+ .../go/go-1.14/CVE-2023-24538-2.patch         |  196 ++
+ .../go/go-1.14/CVE-2023-24538-3.patch         |  208 ++
+ .../run-postinsts/run-postinsts.service       |    2 +-
+ .../freetype/freetype/CVE-2023-2004.patch     |   40 +
+ .../freetype/freetype_2.10.1.bb               |    1 +
+ meta/recipes-kernel/linux/cve-exclusion.inc   | 1840 +++++++++++++++++
+ meta/recipes-kernel/linux/linux-yocto.inc     |    3 +
+ meta/recipes-support/libbsd/libbsd_0.10.0.bb  |    6 +
+ 15 files changed, 2601 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2023-28488.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2023-28484.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2023-29469.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-24538-1.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-24538-2.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-24538-3.patch
+ create mode 100644 meta/recipes-graphics/freetype/freetype/CVE-2023-2004.patch
+ create mode 100644 meta/recipes-kernel/linux/cve-exclusion.inc
 
-diff --git a/meta/recipes-connectivity/connman/connman/CVE-2023-28488.patch b/meta/recipes-connectivity/connman/connman/CVE-2023-28488.patch
-new file mode 100644
-index 0000000000..ea1601cc04
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/CVE-2023-28488.patch
-@@ -0,0 +1,54 @@
-+From 99e2c16ea1cced34a5dc450d76287a1c3e762138 Mon Sep 17 00:00:00 2001
-+From: Daniel Wagner <wagi@monom.org>
-+Date: Tue, 11 Apr 2023 08:12:56 +0200
-+Subject: gdhcp: Verify and sanitize packet length first
-+
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/connman/connman.git/patch/?id=99e2c16ea1cced34a5dc450d76287a1c3e762138]
-+CVE: CVE-2023-28488
-+Signed-off-by: Ashish Sharma <asharma@mvista.com>
-+
-+ gdhcp/client.c | 16 +++++++++-------
-+ 1 file changed, 9 insertions(+), 7 deletions(-)
-+
-+diff --git a/gdhcp/client.c b/gdhcp/client.c
-+index 7efa7e45..82017692 100644
-+--- a/gdhcp/client.c
-++++ b/gdhcp/client.c
-+@@ -1319,9 +1319,9 @@ static bool sanity_check(struct ip_udp_dhcp_packet *packet, int bytes)
-+ static int dhcp_recv_l2_packet(struct dhcp_packet *dhcp_pkt, int fd,
-+ 				struct sockaddr_in *dst_addr)
-+ {
-+-	int bytes;
-+ 	struct ip_udp_dhcp_packet packet;
-+ 	uint16_t check;
-++	int bytes, tot_len;
-+ 
-+ 	memset(&packet, 0, sizeof(packet));
-+ 
-+@@ -1329,15 +1329,17 @@ static int dhcp_recv_l2_packet(struct dhcp_packet *dhcp_pkt, int fd,
-+ 	if (bytes < 0)
-+ 		return -1;
-+ 
-+-	if (bytes < (int) (sizeof(packet.ip) + sizeof(packet.udp)))
-+-		return -1;
-+-
-+-	if (bytes < ntohs(packet.ip.tot_len))
-++	tot_len = ntohs(packet.ip.tot_len);
-++	if (bytes > tot_len) {
-++		/* ignore any extra garbage bytes */
-++		bytes = tot_len;
-++	} else if (bytes < tot_len) {
-+ 		/* packet is bigger than sizeof(packet), we did partial read */
-+ 		return -1;
-++	}
-+ 
-+-	/* ignore any extra garbage bytes */
-+-	bytes = ntohs(packet.ip.tot_len);
-++	if (bytes < (int) (sizeof(packet.ip) + sizeof(packet.udp)))
-++		return -1;
-+ 
-+ 	if (!sanity_check(&packet, bytes))
-+ 		return -1;
-+-- 
-+cgit 
-+
-diff --git a/meta/recipes-connectivity/connman/connman_1.37.bb b/meta/recipes-connectivity/connman/connman_1.37.bb
-index 73d7f7527e..8062a094d3 100644
---- a/meta/recipes-connectivity/connman/connman_1.37.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.37.bb
-@@ -14,6 +14,7 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-             file://CVE-2022-23098.patch \
-             file://CVE-2022-32292.patch \
- 	     file://CVE-2022-32293.patch \
-+            file://CVE-2023-28488.patch \
- "
- 
- SRC_URI_append_libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch"
 -- 
 2.34.1
 
