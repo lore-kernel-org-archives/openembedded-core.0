@@ -2,59 +2,59 @@ Return-Path: <max.oss.09@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BBD2C7EE23
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17B4FC7EE2A
 	for <webhook@archiver.kernel.org>; Thu, 11 May 2023 12:58:16 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web11.58074.1683809890624687212
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+ by mx.groups.io with SMTP id smtpd.web10.58381.1683809889854282729
  for <openembedded-core@lists.openembedded.org>;
  Thu, 11 May 2023 05:58:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=bABA/YE4;
- spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: max.oss.09@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-969f90d71d4so532459866b.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 May 2023 05:58:10 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=jDiGi+wT;
+ spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: max.oss.09@gmail.com)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-50bd2d7ba74so79037815a12.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 May 2023 05:58:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683809889; x=1686401889;
+        d=gmail.com; s=20221208; t=1683809888; x=1686401888;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=edcBmstFNHSQvZeoogrbXXz6RfKNvuTPWIDQX4qDR3g=;
-        b=bABA/YE4kS1SKFGzxc9+YrItfNfzf1VxwRNdrUjPk+7JZQDi/TzLZpAheSqETvmauZ
-         D5bdr7bWBygX2veNCd5P5Cuy+LRKIBYBwaekzI8UcnyFnn8SCL6+p7i9GPHpoI9iuKJW
-         QbY6LjusCkm7yiK7VR3oH73HgH+uXw9eCXUI9j69XHFiCPlGC1SFwqR/eLMbPr5FzyLB
-         ude6AjIe7qkftstkPM8JNOOn7KBp4E/yS0lpCNEfO4k2VcSt95truqRtXqcU9BIIJSpk
-         SrAF3Ctt0zF7GPjYCVMtmIbJsjsZi6FbuWpb8EtkRmoD3tcWoGSgZoYw6UAv67RS5HmU
-         Ff0A==
+        bh=AC2upMy89IOj399CB7oI9EnAqmWjl3TSQTL/GMNUeyU=;
+        b=jDiGi+wTaa+F5LohVU3rVYHgsytMcpfxM3VqEkUwDLItJ/gaOGLIvjg5Lq0MlDjeHj
+         sIYiVRIqVSKTa/m6l6e2SrKmq735F0XilVgqz2nPEk1oTT1+R5OqaNGhkqwUyjJJGRM6
+         ZCxbZ/hm26t24v+/pyScdb5gCwIc2V1lPwpd9FZoGiLBoVjMpGoOE//2Q+kwEXoPfWBl
+         JGqK8yU2RplHuq8/70E7Wy3GDyL5r+tCWxU0/zJf71M+xfUJlI8XQ7j7JjR0kw/rX7Nc
+         DazJa1Gcke/y1ih+9BNVRzlVAnNX/9v67h6uIs+ysNE8C9RBYg+kT6hLIYVXTQwEH5n4
+         3Z3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683809889; x=1686401889;
+        d=1e100.net; s=20221208; t=1683809888; x=1686401888;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=edcBmstFNHSQvZeoogrbXXz6RfKNvuTPWIDQX4qDR3g=;
-        b=S9DzUuHzi2OMi75AGSsxIKbJoAnVZTuCMIUh1FUcr3YAeB6xOHMfpoh1YmKNRTsM4L
-         f/UVpncnIn9ujuX32Uc2PGXxESP0kfpWwDwzX8bSuzdR0YcsUTl5Mm8O4ciKGWTr/Jee
-         1RS6lzbREGkgezqzHt/62dtz5edOFYpTSh9Aow1BPVGBJVmnWdfbqSWJO/hGoWBBpMc+
-         uMIEeNP7h8ctgtQLzuaejlIHBj4hEmZmAhdVRoum9w0LgrECvONlemjJKVXB5oxfQeMN
-         h2ZsAUFwezNRHvNcLwKDs0hgSkoLz4gcTp7f//ujdIlymFIDxKZRyxmyrbWUY9GvfynD
-         l7nw==
-X-Gm-Message-State: AC+VfDyygGUnwwKv1DsMbgQomk4pigrD198VtrChV+eCG7no3yF3tvdQ
-	kvvuqF4C0TAPLaQX3vi/qQaoqNmO1h8=
-X-Google-Smtp-Source: ACHHUZ5d35kv2QQ3yyr6S40bmagf9xDyVBe/CxqNk1SgsXH5QxDgeRqjRRh07mfNqbK+vFF2oVVTZQ==
-X-Received: by 2002:a17:907:7282:b0:96a:4654:9a49 with SMTP id dt2-20020a170907728200b0096a46549a49mr3009873ejc.67.1683809888863;
+        bh=AC2upMy89IOj399CB7oI9EnAqmWjl3TSQTL/GMNUeyU=;
+        b=A22yoRYiTK5Gj+UoMWY49w48w9+mD8YEAcTtB2LaDCjeA/sVH51f0mxhI8rUUqIzP/
+         ezaw9qrI69htTA9u4XgcJx9G6tosEPjx20B8xawvjK/5mGCAYGNRxMZv7DjflrdChtLZ
+         Q6B6m7ou+AbleruoYD3vueqHE8hOdRTx43j9QlnYNlIjHXEArrIGAI1pR18/yf0GXcEr
+         vJtSHCevXLceiQMbFtuzFv6OoxP1+LTAQ4brvvzUsGjDknK/HgKEzwdIxOOCmmdcqx7e
+         EsMzVU4vwFIg02OHD7v5Ekdvvtzw8JfMMeJ4fTm3tg59jW8j5w+CMiqETJ6G9Wa3a4qx
+         qZjA==
+X-Gm-Message-State: AC+VfDx2lOBYFCmtF0u1i1VAL6U4MZsZOmM6ucTFanatkwlwyHes9+Cz
+	VS3sHUC9HQ7sunzD9snieBMPRZJbw+w=
+X-Google-Smtp-Source: ACHHUZ7EVYI7PkeSvKSzqFIzCunnCJCvrvl+rY+Z2qRrQTeWSBaudZXdG2Egdt7Ht1TwS7mewZAh1w==
+X-Received: by 2002:a17:906:5d13:b0:960:6263:138f with SMTP id g19-20020a1709065d1300b009606263138fmr19990933ejt.27.1683809888067;
         Thu, 11 May 2023 05:58:08 -0700 (PDT)
 Received: from linuxdev2.toradex.int (31-10-206-125.static.upc.ch. [31.10.206.125])
-        by smtp.gmail.com with ESMTPSA id f7-20020a170906494700b00965bf86c00asm4047223ejt.143.2023.05.11.05.58.08
+        by smtp.gmail.com with ESMTPSA id f7-20020a170906494700b00965bf86c00asm4047223ejt.143.2023.05.11.05.58.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 May 2023 05:58:08 -0700 (PDT)
+        Thu, 11 May 2023 05:58:07 -0700 (PDT)
 From: Max Krummenacher <max.oss.09@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: bruce.ashfield@gmail.com,
 	raj.khem@gmail.com,
 	quaresma.jose@gmail.com,
 	Max Krummenacher <max.krummenacher@toradex.com>
-Subject: [OE-core][Patch v3 3/3] perf: add libtraceevent packageconfig
-Date: Thu, 11 May 2023 14:56:03 +0200
-Message-Id: <20230511125603.958144-4-max.oss.09@gmail.com>
+Subject: [OE-core][Patch v3 2/3] perf: make pkg-config available
+Date: Thu, 11 May 2023 14:56:02 +0200
+Message-Id: <20230511125603.958144-3-max.oss.09@gmail.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230511125603.958144-1-max.oss.09@gmail.com>
 References: <20230511125603.958144-1-max.oss.09@gmail.com>
@@ -64,49 +64,42 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 11 May 2023 12:58:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181135
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181134
 
 From: Max Krummenacher <max.krummenacher@toradex.com>
 
-With kernel 6.4-rc1 commit 6898e60f709b ("perf build: If libtraceevent
-isn't present error the build") having libtraceevent is a required
-dependency unless building it with 'NO_LIBTRACEEVENT=1'.
-
-Older kernels did build libtraceevent as provided by the kernel sources.
-(Unless LIBTRACEEVENT_DYNAMIC=1 was defined, then it tried to pickup
-an external provided libtraceevent and printed a warning if not found.)
-
-Add a libtraceevent packageconfig which adds the dependency on
-libtraceevent if set, otherwise builds with NO_LIBTRACEEVENT=1.
-For older kernels the old behaviour of building libtraceevent from
-the kernel sources isn't changed.
+Fixup the to be called pkg-config as $(CROSS_COMPILE)pkg-config doesn't
+exist.
+With kernels < 6.4 pkg-config is only used for the gtk+-2.0 integration
+which is disabled in the OE config. Thus the issue wasn't exposed so
+far. With kernel 6.4 pkg-config is additionally used for libtraceevent
+and libtracefs.
 
 Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
 ---
- meta/recipes-kernel/perf/perf.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-kernel/perf/perf.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 80199a4515..19f8aadaa0 100644
+index 2f28d16fba..80199a4515 100644
 --- a/meta/recipes-kernel/perf/perf.bb
 +++ b/meta/recipes-kernel/perf/perf.bb
-@@ -11,7 +11,7 @@ LICENSE = "GPL-2.0-only"
- 
- PR = "r9"
- 
--PACKAGECONFIG ??= "scripting tui libunwind"
-+PACKAGECONFIG ??= "scripting tui libunwind libtraceevent"
- PACKAGECONFIG[dwarf] = ",NO_DWARF=1"
- PACKAGECONFIG[scripting] = ",NO_LIBPERL=1 NO_LIBPYTHON=1,perl python3 python3-setuptools-native"
- # gui support was added with kernel 3.6.35
-@@ -27,6 +27,7 @@ PACKAGECONFIG[jvmti] = ",NO_JVMTI=1"
- PACKAGECONFIG[audit] = ",NO_LIBAUDIT=1,audit"
- PACKAGECONFIG[manpages] = ",,xmlto-native asciidoc-native"
- PACKAGECONFIG[cap] = ",,libcap"
-+PACKAGECONFIG[libtraceevent] = ",NO_LIBTRACEEVENT=1,libtraceevent"
- # Arm CoreSight
- PACKAGECONFIG[coresight] = "CORESIGHT=1,,opencsd"
- 
+@@ -87,6 +87,7 @@ EXTRA_OEMAKE = '\
+     perfexecdir=${libexecdir} \
+     NO_GTK2=1 \
+     ${PACKAGECONFIG_CONFARGS} \
++    PKG_CONFIG=pkg-config \
+     TMPDIR="${B}" \
+     LIBUNWIND_DIR=${STAGING_EXECPREFIXDIR} \
+ '
+@@ -287,6 +288,7 @@ do_configure:prepend () {
+         sed -i 's,CC = $(CROSS_COMPILE)gcc,#CC,' ${S}/tools/perf/Makefile.perf
+         sed -i 's,AR = $(CROSS_COMPILE)ar,#AR,' ${S}/tools/perf/Makefile.perf
+         sed -i 's,LD = $(CROSS_COMPILE)ld,#LD,' ${S}/tools/perf/Makefile.perf
++        sed -i 's,PKG_CONFIG = $(CROSS_COMPILE)pkg-config,#PKG_CONFIG,' ${S}/tools/perf/Makefile.perf
+     fi
+     if [ -e "${S}/tools/lib/api/Makefile" ]; then
+         sed -i 's,CC = $(CROSS_COMPILE)gcc,#CC,' ${S}/tools/lib/api/Makefile
 -- 
 2.35.3
 
