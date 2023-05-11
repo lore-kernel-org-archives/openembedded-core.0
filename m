@@ -1,178 +1,255 @@
-Return-Path: <max.oss.09@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17B84C7EE2D
-	for <webhook@archiver.kernel.org>; Thu, 11 May 2023 12:58:16 +0000 (UTC)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web11.58073.1683809889451348883
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8421DC7EE23
+	for <webhook@archiver.kernel.org>; Thu, 11 May 2023 14:45:16 +0000 (UTC)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web11.61046.1683816315301133007
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 May 2023 05:58:09 -0700
+ Thu, 11 May 2023 07:45:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=BwTiavHv;
- spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: max.oss.09@gmail.com)
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-50bd2d7ba74so79037714a12.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 May 2023 05:58:09 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Gbh17RS9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.52, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-965d73eb65fso1402376866b.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 May 2023 07:45:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683809887; x=1686401887;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1683816313; x=1686408313;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6h4ktFgu4anbaA8VVfvyjvqkFv/Bx72BwJ9qJEFj3Nc=;
-        b=BwTiavHv47PQ5B5oUEr+w4d79Csu681Wq1T64gMWmFt//nyfywQlFIsn59eFBGIiLR
-         6wyr9/A991Sc9PALGOFnIhydgKyhNygMCpG+TeiGsKBtuqguIiDcpoWWVl81uvJBuTFz
-         AuLEdeTuwvOTUlPvvO8ZnV60dBXOzcDgIPrr10i9t2DTnmttLeVhINkW8TiPFmrHLfHX
-         kQV6m1PPlHjd34qXE6SLBSBZtEtuKh07Ao/kSPoGIVj1UL2ydp/X89bQV+N1vpTtQQzV
-         FkcETpmYUNdIAmvlpCAuCSoQEsbabVOBb47PR4uID5wdR/M3pfou4TUsaGgemea3wAwS
-         jW9Q==
+        bh=PJ9MynowFfOvERj8u3YhGZKsTOmjXVnJln2oGMVWKfI=;
+        b=Gbh17RS9dAf8sl04Br99Sj+ZUAjwFUgFme+KASI6ZfVDkgzIWr1yB3D8WrCwn+kBiY
+         Lo0rSR6C3CfwgzCkGEeGExRmxR+MfLvv9c2wCXUR9jOGPcvjyTG9gidAHjORylxM2CbI
+         BmLaylqgKHMjIYKQ0/AaYkyu4tP5yyJJ00X/n/DOu1zXe3QzV3C8VR6NGYss1eJzolaV
+         F5GIv9+aWD8KPKSC54eSVATzHYPBPUbSMmP6RUf3ka2ZB0nqwjEXYDzSBZ1V0dCurPpF
+         9HRRU/kc7ZLHLnPB586iQiMJ0QdmMsRPOc+zX/SQYBroynja0qVBCHCTHb+WKu5iM4df
+         RiOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683809887; x=1686401887;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1683816313; x=1686408313;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6h4ktFgu4anbaA8VVfvyjvqkFv/Bx72BwJ9qJEFj3Nc=;
-        b=DH0WVx7XfoYZ6V0eBzuh7Jorr6V4j7PeE4i2zjKY2/UBdMGil3yRMk4Hj4/2C/tcst
-         /6EJs1L8iwxFKTuQkDmDxhH8BB5gFMJuUyy7vEfpX09XFVqzvbfc3xEW33x1eV+Jot8x
-         ocJRHAPPgQPoF1jwGLPvzMWmydsNdsAGHplnDRfPB8k43fgvVHmIIW01cFQHjfPpVDgp
-         ZRQpbPmAeNNFLj2s3ysvdAuh1BqSDbSSee09ptJSMa+3drst1WK8jOuAP3onc5XmfoFK
-         alIeyoxA+sGYoVAsePSQDi6T5IEoai3/NYQwz4vwXFdkckYoaH7Vn0OSLaW6E1XH2FLN
-         zUZg==
-X-Gm-Message-State: AC+VfDw5VakDH56gS0D61luDcHNEydBig+YdpI8+1vil84cEDaSaX1Ll
-	9wqDaBvQLmoEH4Xdss9C96K7V9uU6lc=
-X-Google-Smtp-Source: ACHHUZ6mLaCh0ZdFup752JAaswTgABzP3Uk/GMFND9/yzS5LIgCzGfkGYpqdNuX/7hYV1EsnM1w8uA==
-X-Received: by 2002:a17:907:1690:b0:94f:6316:ce8d with SMTP id hc16-20020a170907169000b0094f6316ce8dmr21234226ejc.34.1683809887348;
-        Thu, 11 May 2023 05:58:07 -0700 (PDT)
-Received: from linuxdev2.toradex.int (31-10-206-125.static.upc.ch. [31.10.206.125])
-        by smtp.gmail.com with ESMTPSA id f7-20020a170906494700b00965bf86c00asm4047223ejt.143.2023.05.11.05.58.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 May 2023 05:58:06 -0700 (PDT)
-From: Max Krummenacher <max.oss.09@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: bruce.ashfield@gmail.com,
-	raj.khem@gmail.com,
-	quaresma.jose@gmail.com,
-	Max Krummenacher <max.krummenacher@toradex.com>
-Subject: [OE-core][Patch v3 1/3] libtraceevent: import from meta-openembedded
-Date: Thu, 11 May 2023 14:56:01 +0200
-Message-Id: <20230511125603.958144-2-max.oss.09@gmail.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20230511125603.958144-1-max.oss.09@gmail.com>
-References: <20230511125603.958144-1-max.oss.09@gmail.com>
+        bh=PJ9MynowFfOvERj8u3YhGZKsTOmjXVnJln2oGMVWKfI=;
+        b=J3xj6pcygjZfa1Z6m+JNIsL+My/Iz8DPxuow8APwTkbDG/FSy2d0ulgFHfhJFs9jiY
+         ndMLDfT2nfb7TkHpGN99FFNmJ2QcnKXnxbSEMvKnK8zJcfhhMq1OTgE1pnK9DslZTTB8
+         Hs7toOLVIMbniPhKvJAAoiyr6OXzgZ/lL2Jm9/3dJjR4UjW38E69josx/vuqWZFo6dM/
+         2np5VXSf+O51otlBAhysHmacyXLXW1Y2RYLF7XIxLdI7gW7eeWnHT495Ij4kWxyd38+S
+         r+Ik5iY4aaAd0xMjTpt68pzB3ozzjDSEjrxFbKUz03qeIsCSc4gs1PP9zFv54gZdCglt
+         gZJA==
+X-Gm-Message-State: AC+VfDwWbPEVC+xn7gKjD5yiFAZz9eKsaIlPEWSEi5MTrGdyO6e2zCz6
+	A7fTQFWccBc6XL+J8806Yy4fLApbD9Z3vj0dVYfzP5BwvOUE/rqmNi4=
+X-Google-Smtp-Source: ACHHUZ5TLsuyoygWo15N1NTtgE8QcWMIuv8BwUhogjDmjeGG0KSsqpvH9tEPkjPCehuBohL65qgsjjvjrqLx9Ep0CV0=
+X-Received: by 2002:a17:907:9495:b0:96a:87d3:770e with SMTP id
+ dm21-20020a170907949500b0096a87d3770emr599537ejc.48.1683816313323; Thu, 11
+ May 2023 07:45:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230414105523.81661-1-hprajapati@mvista.com>
+In-Reply-To: <20230414105523.81661-1-hprajapati@mvista.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Thu, 11 May 2023 04:45:02 -1000
+Message-ID: <CAOSpxdZZ9=DEf-ehFjta-qU=NeDGbzh4puJO-H1=QpH+B3X7og@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell][PATCH] curl: CVE-2023-27534 SFTP path ~
+ resolving discrepancy
+To: Hitendra Prajapati <hprajapati@mvista.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 May 2023 12:58:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181133
+ <openembedded-core@lists.openembedded.org>; Thu, 11 May 2023 14:45:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181136
 
-From: Max Krummenacher <max.krummenacher@toradex.com>
+Hi Hitendra,
 
-Import from meta-openembedded at commit d250a0dc0 ("libtraceevent:
-upgrade 1.7.1 -> 1.7.2").
-Starting with kernel 6.4 libtraceevent is a dependency of perf. While
-one can still build perf without it by opting out one would loose its
-functionality compared with building perf from kernels before 6.4
+There's been a bug filed against this patch (build failure when when
+curl is configured with `libssh2` i.e. PACKAGECONFIG_append =3D "
+libssh2"):
 
-Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
----
- meta/conf/distro/include/maintainers.inc      |  1 +
- ...not-preserve-ownership-in-cp-command.patch | 40 +++++++++++++++++++
- .../libtraceevent/libtraceevent_1.7.2.bb      | 25 ++++++++++++
- 3 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-kernel/libtraceevent/libtraceevent/0001-makefile-Do-not-preserve-ownership-in-cp-command.patch
- create mode 100644 meta/recipes-kernel/libtraceevent/libtraceevent_1.7.2.bb
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15114
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index ec7ea90d16..3071671850 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -402,6 +402,7 @@ RECIPE_MAINTAINER:pn-libtirpc = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-libtool = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER:pn-libtool-cross = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER:pn-libtool-native = "Robert Yang <liezhi.yang@windriver.com>"
-+RECIPE_MAINTAINER:pn-libtraceevent = "Bruce Ashfield <bruce.ashfield@gmail.com>"
- RECIPE_MAINTAINER:pn-libtry-tiny-perl = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-libucontext = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-libunistring = "Anuj Mittal <anuj.mittal@intel.com>"
-diff --git a/meta/recipes-kernel/libtraceevent/libtraceevent/0001-makefile-Do-not-preserve-ownership-in-cp-command.patch b/meta/recipes-kernel/libtraceevent/libtraceevent/0001-makefile-Do-not-preserve-ownership-in-cp-command.patch
-new file mode 100644
-index 0000000000..5e88048817
---- /dev/null
-+++ b/meta/recipes-kernel/libtraceevent/libtraceevent/0001-makefile-Do-not-preserve-ownership-in-cp-command.patch
-@@ -0,0 +1,40 @@
-+From ed0a31000305d937abe47c44d705b5b52bb36f79 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 22 Dec 2022 18:32:17 -0800
-+Subject: [PATCH] makefile: Do not preserve ownership in cp command
-+
-+Fixes
-+
-+ERROR: libtraceevent-1.7.0-r0 do_package_qa: QA Issue: libtraceevent: /usr/lib/libtraceevent.a is owned by uid 1000, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ Makefile | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/Makefile b/Makefile
-+index 965ff47..0e782cb 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -287,7 +287,7 @@ $(BUILD_PREFIX): force
-+ 	$(Q)$(call build_prefix,$(prefix))
-+ 
-+ define do_make_pkgconfig_file
-+-	cp -f ${PKG_CONFIG_SOURCE_FILE}.template ${PKG_CONFIG_FILE};	\
-++	install -m 0644 ${PKG_CONFIG_SOURCE_FILE}.template ${PKG_CONFIG_FILE};	\
-+ 	sed -i "s|INSTALL_PREFIX|${1}|g" ${PKG_CONFIG_FILE}; 		\
-+ 	sed -i "s|LIB_VERSION|${EVENT_PARSE_VERSION}|g" ${PKG_CONFIG_FILE}; \
-+ 	sed -i "s|LIB_DIR|${libdir_relative}|g" ${PKG_CONFIG_FILE}; \
-+@@ -335,7 +335,7 @@ install: install_libs install_plugins
-+ 
-+ install_libs: libs install_headers install_pkgconfig
-+ 	$(Q)$(call do_install,$(LIBTRACEEVENT_SHARED),$(libdir_SQ)); \
-+-		cp -fpR $(LIB_INSTALL) $(DESTDIR)$(libdir_SQ)
-++		cp --no-preserve=ownership --recursive $(LIB_INSTALL) $(DESTDIR)$(libdir_SQ)
-+ 	$(Q)$(call install_ld_config)
-+ 
-+ install_pkgconfig: $(PKG_CONFIG_FILE)
-+-- 
-+2.39.0
-+
-diff --git a/meta/recipes-kernel/libtraceevent/libtraceevent_1.7.2.bb b/meta/recipes-kernel/libtraceevent/libtraceevent_1.7.2.bb
-new file mode 100644
-index 0000000000..089b6814c7
---- /dev/null
-+++ b/meta/recipes-kernel/libtraceevent/libtraceevent_1.7.2.bb
-@@ -0,0 +1,25 @@
-+# Copyright (C) 2022 Khem Raj <raj.khem@gmail.com>
-+# Released under the MIT license (see COPYING.MIT for the terms)
-+
-+SUMMARY = "API to access the kernel tracefs directory"
-+HOMEPAGE = "https://git.kernel.org/pub/scm/libs/libtrace/libtracefs.git/"
-+LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
-+LIC_FILES_CHKSUM = "file://LICENSES/GPL-2.0;md5=e6a75371ba4d16749254a51215d13f97 \
-+                    file://LICENSES/LGPL-2.1;md5=b370887980db5dd40659b50909238dbd"
-+SECTION = "libs"
-+
-+SRCREV = "1c6f0f3b2bb47571fc455dc565dc343152517d98"
-+SRC_URI = "git://git.kernel.org/pub/scm/libs/libtrace/libtraceevent.git;branch=${BPN};protocol=https \
-+           file://0001-makefile-Do-not-preserve-ownership-in-cp-command.patch"
-+
-+S = "${WORKDIR}/git"
-+
-+inherit pkgconfig
-+
-+do_install() {
-+    oe_runmake install DESTDIR=${D} pkgconfig_dir=${libdir}/pkgconfig
-+}
-+
-+PACKAGES += "${PN}-plugins"
-+
-+FILES:${PN}-plugins += "${libdir}/traceevent/plugins"
--- 
-2.35.3
+Could you investigate and advise whether there is an easy fix or
+whether we should revert?
 
+Thanks,
+
+Steve
+
+On Fri, Apr 14, 2023 at 12:55=E2=80=AFAM Hitendra Prajapati
+<hprajapati@mvista.com> wrote:
+>
+> Upstream-Status: Backport from https://github.com/curl/curl/commit/4e2b52=
+b5f7a3bf50a0f1494155717b02cc1df6d6
+>
+> Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> ---
+>  .../curl/curl/CVE-2023-27534.patch            | 123 ++++++++++++++++++
+>  meta/recipes-support/curl/curl_7.69.1.bb      |   1 +
+>  2 files changed, 124 insertions(+)
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2023-27534.patch
+>
+> diff --git a/meta/recipes-support/curl/curl/CVE-2023-27534.patch b/meta/r=
+ecipes-support/curl/curl/CVE-2023-27534.patch
+> new file mode 100644
+> index 0000000000..aeeffd5fea
+> --- /dev/null
+> +++ b/meta/recipes-support/curl/curl/CVE-2023-27534.patch
+> @@ -0,0 +1,123 @@
+> +From 4e2b52b5f7a3bf50a0f1494155717b02cc1df6d6 Mon Sep 17 00:00:00 2001
+> +From: Daniel Stenberg <daniel@haxx.se>
+> +Date: Thu, 9 Mar 2023 16:22:11 +0100
+> +Subject: [PATCH] curl_path: create the new path with dynbuf
+> +
+> +CVE: CVE-2023-27534
+> +Upstream-Status: Backport [https://github.com/curl/curl/commit/4e2b52b5f=
+7a3bf50a0f1494155717b02cc1df6d6]
+> +
+> +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> +---
+> + lib/curl_path.c | 71 ++++++++++++++++++++++++-------------------------
+> + 1 file changed, 35 insertions(+), 36 deletions(-)
+> +
+> +diff --git a/lib/curl_path.c b/lib/curl_path.c
+> +index f429634..e17db4b 100644
+> +--- a/lib/curl_path.c
+> ++++ b/lib/curl_path.c
+> +@@ -30,6 +30,8 @@
+> + #include "escape.h"
+> + #include "memdebug.h"
+> +
+> ++#define MAX_SSHPATH_LEN 100000 /* arbitrary */
+> ++
+> + /* figure out the path to work with in this particular request */
+> + CURLcode Curl_getworkingpath(struct connectdata *conn,
+> +                              char *homedir,  /* when SFTP is used */
+> +@@ -37,60 +39,57 @@ CURLcode Curl_getworkingpath(struct connectdata *con=
+n,
+> +                                              real path to work with */
+> + {
+> +   struct Curl_easy *data =3D conn->data;
+> +-  char *real_path =3D NULL;
+> +   char *working_path;
+> +   size_t working_path_len;
+> ++  struct dynbuf npath;
+> +   CURLcode result =3D
+> +     Curl_urldecode(data, data->state.up.path, 0, &working_path,
+> +                    &working_path_len, FALSE);
+> +   if(result)
+> +     return result;
+> +
+> ++  /* new path to switch to in case we need to */
+> ++  Curl_dyn_init(&npath, MAX_SSHPATH_LEN);
+> ++
+> +   /* Check for /~/, indicating relative to the user's home directory */
+> +-  if(conn->handler->protocol & CURLPROTO_SCP) {
+> +-    real_path =3D malloc(working_path_len + 1);
+> +-    if(real_path =3D=3D NULL) {
+> ++  if((data->conn->handler->protocol & CURLPROTO_SCP) &&
+> ++     (working_path_len > 3) && (!memcmp(working_path, "/~/", 3))) {
+> ++    /* It is referenced to the home directory, so strip the leading '/~=
+/' */
+> ++    if(Curl_dyn_addn(&npath, &working_path[3], working_path_len - 3)) {
+> +       free(working_path);
+> +       return CURLE_OUT_OF_MEMORY;
+> +     }
+> +-    if((working_path_len > 3) && (!memcmp(working_path, "/~/", 3)))
+> +-      /* It is referenced to the home directory, so strip the leading '=
+/~/' */
+> +-      memcpy(real_path, working_path + 3, working_path_len - 2);
+> +-    else
+> +-      memcpy(real_path, working_path, 1 + working_path_len);
+> +   }
+> +-  else if(conn->handler->protocol & CURLPROTO_SFTP) {
+> +-    if((working_path_len > 1) && (working_path[1] =3D=3D '~')) {
+> +-      size_t homelen =3D strlen(homedir);
+> +-      real_path =3D malloc(homelen + working_path_len + 1);
+> +-      if(real_path =3D=3D NULL) {
+> +-        free(working_path);
+> +-        return CURLE_OUT_OF_MEMORY;
+> +-      }
+> +-      /* It is referenced to the home directory, so strip the
+> +-         leading '/' */
+> +-      memcpy(real_path, homedir, homelen);
+> +-      real_path[homelen] =3D '/';
+> +-      real_path[homelen + 1] =3D '\0';
+> +-      if(working_path_len > 3) {
+> +-        memcpy(real_path + homelen + 1, working_path + 3,
+> +-               1 + working_path_len -3);
+> +-      }
+> ++  else if((data->conn->handler->protocol & CURLPROTO_SFTP) &&
+> ++          (working_path_len > 2) && !memcmp(working_path, "/~/", 3)) {
+> ++    size_t len;
+> ++    const char *p;
+> ++    int copyfrom =3D 3;
+> ++    if(Curl_dyn_add(&npath, homedir)) {
+> ++      free(working_path);
+> ++      return CURLE_OUT_OF_MEMORY;
+> +     }
+> +-    else {
+> +-      real_path =3D malloc(working_path_len + 1);
+> +-      if(real_path =3D=3D NULL) {
+> +-        free(working_path);
+> +-        return CURLE_OUT_OF_MEMORY;
+> +-      }
+> +-      memcpy(real_path, working_path, 1 + working_path_len);
+> ++    /* Copy a separating '/' if homedir does not end with one */
+> ++    len =3D Curl_dyn_len(&npath);
+> ++    p =3D Curl_dyn_ptr(&npath);
+> ++    if(len && (p[len-1] !=3D '/'))
+> ++      copyfrom =3D 2;
+> ++
+> ++    if(Curl_dyn_addn(&npath,
+> ++                     &working_path[copyfrom], working_path_len - copyfr=
+om)) {
+> ++      free(working_path);
+> ++      return CURLE_OUT_OF_MEMORY;
+> +     }
+> +   }
+> +
+> +-  free(working_path);
+> ++  if(Curl_dyn_len(&npath)) {
+> ++    free(working_path);
+> +
+> +-  /* store the pointer for the caller to receive */
+> +-  *path =3D real_path;
+> ++    /* store the pointer for the caller to receive */
+> ++    *path =3D Curl_dyn_ptr(&npath);
+> ++  }
+> ++  else
+> ++    *path =3D working_path;
+> +
+> +   return CURLE_OK;
+> + }
+> +--
+> +2.25.1
+> +
+> diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-supp=
+ort/curl/curl_7.69.1.bb
+> index 899daf8eac..fddf15e3ff 100644
+> --- a/meta/recipes-support/curl/curl_7.69.1.bb
+> +++ b/meta/recipes-support/curl/curl_7.69.1.bb
+> @@ -42,6 +42,7 @@ SRC_URI =3D "https://curl.haxx.se/download/curl-${PV}.t=
+ar.bz2 \
+>             file://CVE-2022-32221.patch \
+>             file://CVE-2022-35260.patch \
+>             file://CVE-2022-43552.patch \
+> +           file://CVE-2023-27534.patch \
+>  "
+>
+>  SRC_URI[md5sum] =3D "ec5fc263f898a3dfef08e805f1ecca42"
+> --
+> 2.25.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#179997): https://lists.openembedded.org/g/openembedde=
+d-core/message/179997
+> Mute This Topic: https://lists.openembedded.org/mt/98259554/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
