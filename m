@@ -1,201 +1,181 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E726C77B7C
-	for <webhook@archiver.kernel.org>; Thu, 11 May 2023 19:57:48 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.6798.1683835061636555595
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D89EC7EE22
+	for <webhook@archiver.kernel.org>; Thu, 11 May 2023 19:59:18 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web11.6835.1683835148974189073
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 May 2023 12:57:41 -0700
+ Thu, 11 May 2023 12:59:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=ho3WU44w;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4495d4136c=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34BJBNkT002340
-	for <openembedded-core@lists.openembedded.org>; Thu, 11 May 2023 19:57:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=content-type :
- message-id : date : subject : to : cc : references : from : in-reply-to :
- mime-version; s=PPS06212021;
- bh=Bn32bsluLkLRcsfezTi/n/2RRQ7G1jaaGPcR11vbrtA=;
- b=ho3WU44w8UiP2D5BUPLrOOogqYZysngNbp5g0uHfBjHnKOQM0NQIVnyxWETL2IdUboMH
- tWvHnp3dL+9wIgkmPTIfPcIWlCzL8nyq186bgbCOU+Q9ggxQIJqHBdzj5c1BYE8rUsyq
- nB51q/BtYOxBAShVTJBhn4BjLQqTNcwulZca1H1h1OBDUczJtEibnXKQQOA0hBpByddh
- JG5C4wctoqprOb4kFHcH6ATLa4CfgHZCYsXLytFx464PWBb8H1+Ov4jBNEE/H+YL4zNT
- knxyid0wTnpJBtOCtOFImd0OUXjdk3tavEkQGluOpxnxSan+H76FiLzW02TC3NqXL2Ey LQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3qf82x3327-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 11 May 2023 19:57:40 +0000
-Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34BJveF9026876
-	for <openembedded-core@lists.openembedded.org>; Thu, 11 May 2023 19:57:40 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2104.outbound.protection.outlook.com [104.47.55.104])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3qf82x3325-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 11 May 2023 19:57:40 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KYBOiZbihIgb+GRWzOPfcPgZnYDpKWsP+H2gMXd08HT6d2Fr/dIM3gZi+pWowXgjDpsxiE4yTxfW2C/I9HA1b+MU5KTllKFPKTbvDsVqfu/p1mRdUyHO6OIqvnxXVlRPeEb78P5y/1sTJgtKpuqKgwPYf2uzGHIRCmQkIRXD+XiNhL+e2dPBFk3rFjeybAvO+Dx2zQ3ypl0DOK7eJ4te3L1mQtO1WOBNcgpfiWzywUNlnCwF0/Nkla/2pgfNPVTqmUiOL1GBP3KJrNpHkJfNWz/LaIZp9LmW6de89EbGRhMQqP+bqPTOigqC3q2MP6RJi2Wa9C2/k3wETLUfQUcYOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Bn32bsluLkLRcsfezTi/n/2RRQ7G1jaaGPcR11vbrtA=;
- b=DiDXs7StoXIw0a9P7RjCIMF5Bc6zeO0zmntLU1D2B3dcTpTVbQ/mRsz7UhV7faRjMsf3V+VtlPo6xNIzWLxm+4pSMcrGeX85dZfbTditMTyOmghfPC31AjJnyNA2WHVvRb1hiEcdWrm5V//IrXkBRhyhR63TYJKeoHqXCGt5ih0H3zmoUfEQvVqEC3/rjHJmZ0v6HnDFwHm7IgVhZgiWNmmU268hI/xMR5HwD8E22SKEAL/CqI4ZkGgSz5d3t1Qb6KmmeeELa6ZTXp+gWZpRPFbdiAUTcwOQUNSE5EiVL7B9U19GL+kFXng/UOeklbJDkfJfOoosFjdIgD9DXnuELA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
- by IA1PR11MB7200.namprd11.prod.outlook.com (2603:10b6:208:42f::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.21; Thu, 11 May
- 2023 19:57:36 +0000
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::1450:e2a0:f220:b6eb]) by DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::1450:e2a0:f220:b6eb%5]) with mapi id 15.20.6363.032; Thu, 11 May 2023
- 19:57:36 +0000
-Content-Type: multipart/alternative;
- boundary="------------Uc0qvgGS8600sDrhZVs0ZFCe"
-Message-ID: <0b43f2f0-9c17-0922-face-4821511cf36f@windriver.com>
-Date: Thu, 11 May 2023 15:57:32 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [OE-core] [PATCH] vim: upgrade 9.0.1429 -> 9.0.1527
-Content-Language: en-CA
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-References: <20230511145915.2513006-1-Randy.MacLeod@windriver.com>
- <2023051118545060b3a027@mail.local>
-From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <2023051118545060b3a027@mail.local>
-X-ClientProxiedBy: SJ0PR03CA0036.namprd03.prod.outlook.com
- (2603:10b6:a03:33e::11) To DM6PR11MB3994.namprd11.prod.outlook.com
- (2603:10b6:5:193::19)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=GahBUa71;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 70DFC60005;
+	Thu, 11 May 2023 19:59:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1683835147;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MYgYW5mKNgF9iWEkB3ejqQwRqKDov7S76tMI8NKf+6c=;
+	b=GahBUa71RjfiqWW2yd4DgPO0qnffDkuVyIc/9l4WCB4cSp0IB1kO4z7vGuTw/SC5YRzYZF
+	R5hhzALs7fbSTbIB3SgbiebsA8rcylNM1ZnPyYcXHdzMNnf3PBATAhysvkmMNNz5ofMJt3
+	0Gn8LrE2V1a8r8J9zeYaXV5JoRZN31j9c13CpALh6Zwppgb5V6kI1lYNaEiDz1hB6nDgNL
+	mF8nTFUnQXqtclBlReN7OI23WweVCpI7GWyui28necK/ktp+L3I1xyvud077//UqeOU/mA
+	f4dWQvpo7I9PAuKkkS3orP/qevhkxMT7ufg7NWe3BIgXm5ZwKZPxwgzkHz6qBA==
+Date: Thu, 11 May 2023 21:59:05 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Max Krummenacher <max.oss.09@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, bruce.ashfield@gmail.com,
+	raj.khem@gmail.com, quaresma.jose@gmail.com,
+	Max Krummenacher <max.krummenacher@toradex.com>
+Subject: Re: [OE-core][Patch v3 1/3] libtraceevent: import from
+ meta-openembedded
+Message-ID: <2023051119590599c5f06d@mail.local>
+References: <20230511125603.958144-1-max.oss.09@gmail.com>
+ <20230511125603.958144-2-max.oss.09@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR11MB3994:EE_|IA1PR11MB7200:EE_
-X-MS-Office365-Filtering-Correlation-Id: b1f6fa52-4e37-4b29-1aa9-08db5259f769
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	DTxVJXctGGoTKqKrMcGjVqPNQEXThm2MxvH4jCozcAvl5UBtFETYVAVY7uV95LnPQOBUA7v4PioiXpaAi2f88tq8OlCi4y5uYPSjxd0qKHNWPx+7QqRvMZpv0oH4m9qn9RUW0IWfyBqqAmpYqiwuyb5/cZSZBrHkIUaSmxClF1YyOGmtS7M1mc3C9D1bCeWlEvcUiSBqoSPLQ5FTEypBK5BfiChP42uZ+cz0QI2KVLaj8A0qnvH+W1vt0J1dw+zWi0S/yAlQlBOSoesnv9wB/7O2wfhNISv86fNKk4nNvQm/oHgO3dyz7uvJSfZ1fqzB744b1O+2qqxJb7Irm8SOuDx/1WM4jtN7Cducv8aaZmtaxnB9SXqKUlN2GhJALYxtS06Lt5WFXJpjoq3TFhOn+mJcLcTWLmIJZto8YoTBoFNYIY14juWf0jEL6s6KxXevzPfGYS/2H1dmnDHRU0di2EIkL0MOEPFmBN2KJr1LGCZgX4knokYMAv0Bx7JGqGxWVx0LgSZ1tKj1JUMT5Cs07T2Hq4vTijFaWOcazPJgVUhdu5DkRGoI3bzdu6KyBF5gDE67cm+CDjzymxkLERqy7S6OTJ3I5KeYTsehUmTJW+T44SxaiwDZ6XjEcNJosKbmJmrvRUFBRoisFC49KP9WZw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(376002)(39850400004)(136003)(346002)(396003)(451199021)(6486002)(33964004)(41300700001)(6666004)(38100700002)(36756003)(53546011)(6512007)(26005)(6506007)(2906002)(5660300002)(31696002)(2616005)(83380400001)(86362001)(186003)(166002)(8676002)(966005)(66476007)(66946007)(66556008)(4326008)(6916009)(31686004)(478600001)(8936002)(316002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?WEtrSDU2elNSalhGRlppeTcvRVVJaG9tRFg1ejdEQWVUWUdCcUMwYnVYeE1v?=
- =?utf-8?B?YUhITzdLVmtweldoang4dmJtZk9GMnZjdThSY0k1cURUdFE0Y3NRR3ZvM0Vz?=
- =?utf-8?B?RFJ5My9NTjI3Nmlyd3JTK2oyR3BPcHl2V1JwOU9zVXIrRkZralVqa1F1U0s2?=
- =?utf-8?B?d2NXeHh5WmVKYUFhRFlMM3JsMDZlRkRrREVVU1B2eXRQc243a0J1S1NFWHNu?=
- =?utf-8?B?RHppR3g5aGZTQXdhYnRjSFBveWNzaDlZaGYzUHBpb1hLa1VRWG9rcGpINkkx?=
- =?utf-8?B?SjVjanY5ODdRbWZON0w5RE81M2RXRjdBekR5a3JkRjlGRzA3d3NVY0lHN0dP?=
- =?utf-8?B?VzhDRUhmWDV0UlRrQTFpME5lV21GZ0hxd0o3VENQeFduemVvcy8vUjZiclU2?=
- =?utf-8?B?blB2QmRFT3Z5eXJpSGtMb084UUtOR2x2UjhJSHFrQm85eG42eEs4WGRlK2Vi?=
- =?utf-8?B?U3NkVEhrZWFtQVFRWlFiQlpyL21jVEIwY3RXM0duYVdJMXFaUzNSU3Y5R2Yr?=
- =?utf-8?B?RHN1NG1SMklCZ05PUUxKZWcrYmgzMnRocTVaZ0ExNkNPL2lsZXF6ZnFiWG9m?=
- =?utf-8?B?S0RyL1hQT3h6Q2txVVRpTWRwQjhxdmpFNER1dmhQLzN6ZjJJWXExbDdPek0z?=
- =?utf-8?B?VUNmR3JXUkovNHQ1U2I5eW1vb0JmOCtIZTEwcjl0QnBLZi9yMncrUjJZbHVo?=
- =?utf-8?B?RmxJK1N4WG0rTWdLcFRWR3VRUTVwYXdiSkxmVUt6UTVQa1FOd2dnZE9mKzF6?=
- =?utf-8?B?b2c4Q3hHTVdvY2s4d05xOWdEMWs0b1ZUNnM5V1Y2Z0VyemJXMFgrdEtrSFB6?=
- =?utf-8?B?akdoWmJpK2hUblZOejFLUzhBOUtoMUZGQkpUcnUwdUFMY3pIcmoyOEJabHdq?=
- =?utf-8?B?Y0JVc2lYaFltZ0lJZkpsSXZza0hpZGxsSjg4Mng4RGRVdkZMU0NBVEl4UjY0?=
- =?utf-8?B?bHNUTHFaaTJoV2VvZDlyd2VoQ0xRUExkdWx6dVN0MEtjSHZsY1FGUkdCekJW?=
- =?utf-8?B?ZnJoSGZUWURHNWFFZGtJSzFrMEZMazlpdStpQ3Vsc1dnOU1UeExyendyWlh5?=
- =?utf-8?B?Q1p3RS9CSFhGeWNPTUo1RGZSTkM1VktNNnJ1VlBVV0xzaFl4dHl3OGFzTVkv?=
- =?utf-8?B?TExObTA2UXh3VVBvMW1CSjNyd2Nhd1BSU01ac3pFQ29nNmg4MStYQjhMZUdS?=
- =?utf-8?B?dURvd2xzOVQwUTJJS3VCNlZHMThZemJaYlppWC8yY3JaRGlBaTAyb2YxZUhV?=
- =?utf-8?B?VC9xTHF6Q3pJbnBYQXNrZmZodk9ZaTJSeW0rajZLWko4VUQvMDczVVNvb0Jq?=
- =?utf-8?B?N0hsUXBTMDY5cGVVL0FIaC9hNUFUcnMrSmhCdEhCL1VtNDdzQmZrYS9YcG9h?=
- =?utf-8?B?SFo4T1Zmb1MyeTk4T2pUc2RnK1VabjNudGRZazREdWI0QTdUUmg3anVoL2h5?=
- =?utf-8?B?NE4xc1ZiR2xXS0ttLzlPTFhoUWhBZ2dqWlpmQnBreXFWR3hNNG9oZnNoRC9Z?=
- =?utf-8?B?N3VHTGNKMU16MDk2RkkyS2ZoL1dsNjl2YmE4ZE5nTDEvWTNIdVFVQzVvTE1a?=
- =?utf-8?B?VUNDZUJWQSt5Wk9nb3JoN01mcUU3RlE5VmVoTXlsTjhKRW43S2pYWjdsOWFS?=
- =?utf-8?B?ZEJFSFQ2bE9WSzFDZ2ZBNHRsNGtOZVVMdytLRjZGUXBkRUM0b1UwbzY4dEQ2?=
- =?utf-8?B?Slk3YzJXZG5WOEhxeVFRbmtxamxaS3ZhNG13TCtJZlNYZGF0YmI3OGVDZjBO?=
- =?utf-8?B?VlRiSzhuNzVORHhReWcvYW5FVUd0SjdKdnBVTDQyeTUxa1h6d0dTdHNlSHF2?=
- =?utf-8?B?VGpNS3R3T2JBZzNKZW5kemcwc0pmM0czTm02SlI0dXduL0o0Z0ZWZzY4R0RK?=
- =?utf-8?B?aDRyc2JoOCtzeTVmOU9zTjJzdm8zS1JjcERGRHIyVDR6ZVdFd2dMYWtDOXR0?=
- =?utf-8?B?RnN6cG9lWGtaN0lCV095eUFtN1pFalM0bGRGNXNZME5CTmZCbDg5OXFBUXFG?=
- =?utf-8?B?UXoyQ3g5U25heFVpZnRxdjlkNGJYR3dDUlRRU0IyN1d2K01RSDlVVC92bklq?=
- =?utf-8?B?UnN3T2Z1Z2ptdWlYWUtJZ0Y2dVkxWVE1NEFRdnBjN1U5YkcwOFc5clhDWE4y?=
- =?utf-8?B?bVc4NXNSenhCVDM4ZlNpY1U3NFNGNHkyUUZYYVpTeWFSTk9aQng2Yzd6dFZy?=
- =?utf-8?B?d2c9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b1f6fa52-4e37-4b29-1aa9-08db5259f769
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2023 19:57:36.6013
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NRcKIGXOGZxadyTgrWB0nJNHCLc9JYic68wtmgZCIpGAB0XLIu+z1UYn5SSkilqfssp8WDpVwauRZUJgIZD5WEuGKrOARfb9y57Db8HnF3M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7200
-X-Proofpoint-ORIG-GUID: GlbUBeKFpB9jV5P64NZvJ-K6BcJ_6Ojy
-X-Proofpoint-GUID: 9cMTWv0hujiwadHOjXnpgIKkMFquHloC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-11_15,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- suspectscore=0 mlxlogscore=794 lowpriorityscore=0 adultscore=0 spamscore=0
- phishscore=0 mlxscore=0 clxscore=1015 impostorscore=0 bulkscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305110169
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230511125603.958144-2-max.oss.09@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 May 2023 19:57:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181143
+ <openembedded-core@lists.openembedded.org>; Thu, 11 May 2023 19:59:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181144
 
---------------Uc0qvgGS8600sDrhZVs0ZFCe
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Hello,
 
-On 2023-05-11 14:54, Alexandre Belloni wrote:
-> Hello Randy,
->
-> This patch is missing your From: ;)
-> See "Fixing your From identity" here:
-> https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
+On 11/05/2023 14:56:01+0200, Max Krummenacher wrote:
+> From: Max Krummenacher <max.krummenacher@toradex.com>
+> 
+> Import from meta-openembedded at commit d250a0dc0 ("libtraceevent:
+> upgrade 1.7.1 -> 1.7.2").
+> Starting with kernel 6.4 libtraceevent is a dependency of perf. While
+> one can still build perf without it by opting out one would loose its
+> functionality compared with building perf from kernels before 6.4
+> 
+> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+> ---
+>  meta/conf/distro/include/maintainers.inc      |  1 +
+>  ...not-preserve-ownership-in-cp-command.patch | 40 +++++++++++++++++++
+>  .../libtraceevent/libtraceevent_1.7.2.bb      | 25 ++++++++++++
+>  3 files changed, 66 insertions(+)
+>  create mode 100644 meta/recipes-kernel/libtraceevent/libtraceevent/0001-makefile-Do-not-preserve-ownership-in-cp-command.patch
+>  create mode 100644 meta/recipes-kernel/libtraceevent/libtraceevent_1.7.2.bb
+> 
 
-Fixed, sent v2,
+This causes:
+libtraceevent-1.7.2-r0 do_package_qa: QA Issue: File /usr/lib/.debug/libtraceevent.so.1.7.2 in package libtraceevent-dbg contains reference to TMPDIR [buildpaths]
 
-https://lists.openembedded.org/g/openembedded-core/message/181142
+> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+> index ec7ea90d16..3071671850 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -402,6 +402,7 @@ RECIPE_MAINTAINER:pn-libtirpc = "Anuj Mittal <anuj.mittal@intel.com>"
+>  RECIPE_MAINTAINER:pn-libtool = "Robert Yang <liezhi.yang@windriver.com>"
+>  RECIPE_MAINTAINER:pn-libtool-cross = "Robert Yang <liezhi.yang@windriver.com>"
+>  RECIPE_MAINTAINER:pn-libtool-native = "Robert Yang <liezhi.yang@windriver.com>"
+> +RECIPE_MAINTAINER:pn-libtraceevent = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+>  RECIPE_MAINTAINER:pn-libtry-tiny-perl = "Tim Orling <tim.orling@konsulko.com>"
+>  RECIPE_MAINTAINER:pn-libucontext = "Khem Raj <raj.khem@gmail.com>"
+>  RECIPE_MAINTAINER:pn-libunistring = "Anuj Mittal <anuj.mittal@intel.com>"
+> diff --git a/meta/recipes-kernel/libtraceevent/libtraceevent/0001-makefile-Do-not-preserve-ownership-in-cp-command.patch b/meta/recipes-kernel/libtraceevent/libtraceevent/0001-makefile-Do-not-preserve-ownership-in-cp-command.patch
+> new file mode 100644
+> index 0000000000..5e88048817
+> --- /dev/null
+> +++ b/meta/recipes-kernel/libtraceevent/libtraceevent/0001-makefile-Do-not-preserve-ownership-in-cp-command.patch
+> @@ -0,0 +1,40 @@
+> +From ed0a31000305d937abe47c44d705b5b52bb36f79 Mon Sep 17 00:00:00 2001
+> +From: Khem Raj <raj.khem@gmail.com>
+> +Date: Thu, 22 Dec 2022 18:32:17 -0800
+> +Subject: [PATCH] makefile: Do not preserve ownership in cp command
+> +
+> +Fixes
+> +
+> +ERROR: libtraceevent-1.7.0-r0 do_package_qa: QA Issue: libtraceevent: /usr/lib/libtraceevent.a is owned by uid 1000, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
+> +
+> +Upstream-Status: Pending
+> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +---
+> + Makefile | 4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/Makefile b/Makefile
+> +index 965ff47..0e782cb 100644
+> +--- a/Makefile
+> ++++ b/Makefile
+> +@@ -287,7 +287,7 @@ $(BUILD_PREFIX): force
+> + 	$(Q)$(call build_prefix,$(prefix))
+> + 
+> + define do_make_pkgconfig_file
+> +-	cp -f ${PKG_CONFIG_SOURCE_FILE}.template ${PKG_CONFIG_FILE};	\
+> ++	install -m 0644 ${PKG_CONFIG_SOURCE_FILE}.template ${PKG_CONFIG_FILE};	\
+> + 	sed -i "s|INSTALL_PREFIX|${1}|g" ${PKG_CONFIG_FILE}; 		\
+> + 	sed -i "s|LIB_VERSION|${EVENT_PARSE_VERSION}|g" ${PKG_CONFIG_FILE}; \
+> + 	sed -i "s|LIB_DIR|${libdir_relative}|g" ${PKG_CONFIG_FILE}; \
+> +@@ -335,7 +335,7 @@ install: install_libs install_plugins
+> + 
+> + install_libs: libs install_headers install_pkgconfig
+> + 	$(Q)$(call do_install,$(LIBTRACEEVENT_SHARED),$(libdir_SQ)); \
+> +-		cp -fpR $(LIB_INSTALL) $(DESTDIR)$(libdir_SQ)
+> ++		cp --no-preserve=ownership --recursive $(LIB_INSTALL) $(DESTDIR)$(libdir_SQ)
+> + 	$(Q)$(call install_ld_config)
+> + 
+> + install_pkgconfig: $(PKG_CONFIG_FILE)
+> +-- 
+> +2.39.0
+> +
+> diff --git a/meta/recipes-kernel/libtraceevent/libtraceevent_1.7.2.bb b/meta/recipes-kernel/libtraceevent/libtraceevent_1.7.2.bb
+> new file mode 100644
+> index 0000000000..089b6814c7
+> --- /dev/null
+> +++ b/meta/recipes-kernel/libtraceevent/libtraceevent_1.7.2.bb
+> @@ -0,0 +1,25 @@
+> +# Copyright (C) 2022 Khem Raj <raj.khem@gmail.com>
+> +# Released under the MIT license (see COPYING.MIT for the terms)
+> +
+> +SUMMARY = "API to access the kernel tracefs directory"
+> +HOMEPAGE = "https://git.kernel.org/pub/scm/libs/libtrace/libtracefs.git/"
+> +LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
+> +LIC_FILES_CHKSUM = "file://LICENSES/GPL-2.0;md5=e6a75371ba4d16749254a51215d13f97 \
+> +                    file://LICENSES/LGPL-2.1;md5=b370887980db5dd40659b50909238dbd"
+> +SECTION = "libs"
+> +
+> +SRCREV = "1c6f0f3b2bb47571fc455dc565dc343152517d98"
+> +SRC_URI = "git://git.kernel.org/pub/scm/libs/libtrace/libtraceevent.git;branch=${BPN};protocol=https \
+> +           file://0001-makefile-Do-not-preserve-ownership-in-cp-command.patch"
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +inherit pkgconfig
+> +
+> +do_install() {
+> +    oe_runmake install DESTDIR=${D} pkgconfig_dir=${libdir}/pkgconfig
+> +}
+> +
+> +PACKAGES += "${PN}-plugins"
+> +
+> +FILES:${PN}-plugins += "${libdir}/traceevent/plugins"
+> -- 
+> 2.35.3
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#181133): https://lists.openembedded.org/g/openembedded-core/message/181133
+> Mute This Topic: https://lists.openembedded.org/mt/98826712/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
-The from on the first line looks ugly but I guess we'll have to get used 
-to it.
-
-../Randy
-
---------------Uc0qvgGS8600sDrhZVs0ZFCe
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 2023-05-11 14:54, Alexandre Belloni
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:2023051118545060b3a027@mail.local">
-      <pre class="moz-quote-pre" wrap="">Hello Randy,
-
-This patch is missing your From: ;)
-See &quot;Fixing your From identity&quot; here:
-<a class="moz-txt-link-freetext" href="https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded</a></pre>
-    </blockquote>
-    <p>Fixed, sent v2,<br>
-    </p>
-    <p><a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/181142">https://lists.openembedded.org/g/openembedded-core/message/181142</a></p>
-    <p><br>
-    </p>
-    <p>The from on the first line looks ugly but I guess we'll have to
-      get used to it.</p>
-    <p>../Randy</p>
-  </body>
-</html>
-
---------------Uc0qvgGS8600sDrhZVs0ZFCe--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
