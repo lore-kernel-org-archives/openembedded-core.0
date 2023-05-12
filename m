@@ -1,167 +1,187 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <throos@amazon.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83DCAC77B7F
-	for <webhook@archiver.kernel.org>; Fri, 12 May 2023 11:50:42 +0000 (UTC)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web11.22855.1683892236505665076
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91CDCC77B75
+	for <webhook@archiver.kernel.org>; Fri, 12 May 2023 12:09:22 +0000 (UTC)
+Received: from smtp-fw-80007.amazon.com (smtp-fw-80007.amazon.com [99.78.197.218])
+ by mx.groups.io with SMTP id smtpd.web11.23190.1683893359501116260
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 May 2023 04:50:36 -0700
+ Fri, 12 May 2023 05:09:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=qI+wiA23;
- spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-4f13ef4ad91so11472187e87.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 May 2023 04:50:36 -0700 (PDT)
+ dkim=pass header.i=@amazon.de header.s=amazon201209 header.b=RWoLshr3;
+ spf=pass (domain: amazon.de, ip: 99.78.197.218, mailfrom: prvs=489aad6a3=throos@amazon.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683892235; x=1686484235;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=QsDYzyKDeE+UTTid9Kc58/0CQdNdqs4u3ey9y5gL7TE=;
-        b=qI+wiA235qdQnyV+mfZ5MFEuKMXvhkmjaahWMVMYOO/4nKEk9GnMUfe+TWnMSccc4O
-         tYIsm+We6hWjpHXNHTayaoXdL/HEXALdRj0VOa3l3c3yACeUgHGX/NH12Rr96w624KEE
-         nrJM1s9Wo9iDgKhmYlw2xzffr9V4HDv3EN41Ehzqx2ylFNQI4LZ0VIOOCbLtpejgOPfg
-         YfCFCjfyvtfavgsBEDpH7si3q1+kIcwUIzO67yl6CxwWylH/56w1+yjNH3Q+jBGNIi7G
-         mqBeK5lPa52w9wv5jHwZuyye+VrcUKUHiWUyaM6viMzzWy/DYBfeUM0nqcMSNqfXd1mi
-         40NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683892235; x=1686484235;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QsDYzyKDeE+UTTid9Kc58/0CQdNdqs4u3ey9y5gL7TE=;
-        b=NB3IOXpdr4sUEa3EZMJD6r3XuDgt5Vp56YK2ozgyg8B+/+h+e+SlLDbWGQllhgMr2c
-         8dommQZcxQPWH/ilsSCxLq3EN6n/sodKScv1fSz4vhlwSKfQEVTHnaLegB3xhU/RPuwx
-         tXLTT9zD4EHuTOrAW/tbNvfubypHs0LD3J9tXrj9Irs3hLzFOwaYFMQa5BYos+f21sbI
-         MNBxFGRAXyzXoA1Q8T7izeVQ5wB7avAXhUsmxYK/702nk9y7PqavcI1DoqCKvmYIukdZ
-         l8n8WRsFAggOG6xUuMRkCbGl2ewU6tBusGptSmSQch738qOy7SP4J2wsxonsG8G8fevT
-         c/Kg==
-X-Gm-Message-State: AC+VfDzGac6TAHJIpYM7DIaBHGZK21Hk4nli/nYsaOHQk5tvYSvJTHIS
-	mYMLkElgcFIG8TKIlT7EGvc+iV9ze/Iew9CZQ8Y=
-X-Google-Smtp-Source: ACHHUZ64YG0zQ5coYfWjVeObVf9HZrm6LrfZ1UVXhpL/fBSnDeJnIzHqK+aHjwngtSYLO2WkmrxGEldkoMQC6Ey4sNU=
-X-Received: by 2002:ac2:5212:0:b0:4e9:5f8e:315a with SMTP id
- a18-20020ac25212000000b004e95f8e315amr2707376lfl.65.1683892234332; Fri, 12
- May 2023 04:50:34 -0700 (PDT)
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+  t=1683893359; x=1715429359;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=FZQLZb9qYR+NE+GzB7vnG3riMI8BGusbggLesnRsU68=;
+  b=RWoLshr3GsZNaWfGMUtSbEybQN0m0Z6twd+q4PQwcQSFHNLXcvJtLPPg
+   bNA2vpadQ7ujzWBJXER8riTAGkO6VPIlamsKdEvylvYRLqiig0KvSUoWE
+   2M1ZAjUybQOVaokqv0an5zh1s7OkwwSjmnpDXDXxww/7BoFD5XZ4mtYH9
+   o=;
+X-IronPort-AV: E=Sophos;i="5.99,269,1677542400"; 
+   d="scan'208";a="213379664"
+Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO email-inbound-relay-iad-1e-m6i4x-3e1fab07.us-east-1.amazon.com) ([10.25.36.214])
+  by smtp-border-fw-80007.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 12:09:16 +0000
+Received: from EX19D016EUC001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
+	by email-inbound-relay-iad-1e-m6i4x-3e1fab07.us-east-1.amazon.com (Postfix) with ESMTPS id E237B81EB2
+	for <openembedded-core@lists.openembedded.org>; Fri, 12 May 2023 12:09:15 +0000 (UTC)
+Received: from u182adcbddbfb55.ant.amazon.com (10.85.94.99) by
+ EX19D016EUC001.ant.amazon.com (10.252.51.169) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 12 May 2023 12:09:13 +0000
+From: <throos@amazon.de>
+To: <openembedded-core@lists.openembedded.org>
+CC: Thomas Roos <throos@amazon.de>
+Subject: [PATCH] oeqa: adding selftest-hello and use it to speed up tests
+Date: Fri, 12 May 2023 14:09:02 +0200
+Message-ID: <20230512120902.251469-1-throos@amazon.de>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230512100845.1243349-1-m.otto@phytec.de> <20230512100845.1243349-2-m.otto@phytec.de>
-In-Reply-To: <20230512100845.1243349-2-m.otto@phytec.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 12 May 2023 13:50:23 +0200
-Message-ID: <CANNYZj_SwhhW5j5kipYdSqJSJw7xDQnRQwoZSYzE=MNu9DhsLw@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone 1/2] openssl: update from 3.0.8 to 3.1.0
-To: Maik Otto <m.otto@phytec.de>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [10.85.94.99]
+X-ClientProxiedBy: EX19D037UWC004.ant.amazon.com (10.13.139.254) To
+ EX19D016EUC001.ant.amazon.com (10.252.51.169)
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 May 2023 11:50:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181180
+ <openembedded-core@lists.openembedded.org>; Fri, 12 May 2023 12:09:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181181
 
-Yocto stable branch policy does not allow major component updates
-which introduce new features, it must be bugfixes only. Openssl 3.0.x
-is an LTS release and will be getting updates for a few more years.
-https://www.openssl.org/source/
+From: Thomas Roos <throos@amazon.de>
 
-Alex
+Adding a selftest version of hello world to run it in tests where no download is necessary.
+Also using this in several tests to speed them up.
+Using the -native version wherever possible will also speed up tests a lot.
 
-On Fri, 12 May 2023 at 12:09, Maik Otto <m.otto@phytec.de> wrote:
->
-> From: Randy MacLeod <randy.macleod@windriver.com>
->
-> >From the NEWS.md file:
->
->   ### Major changes between OpenSSL 3.0 and OpenSSL 3.1.0 [14 Mar 2023]
->
->   * SSL 3, TLS 1.0, TLS 1.1, and DTLS 1.0 only work at security level 0.
->   * Performance enhancements and new platform support including new
->     assembler code algorithm implementations.
->   * Deprecated LHASH statistics functions.
->   * FIPS 140-3 compliance changes.
->
-> Drop the upstreamed afalg.patch:
->    c425e365f4 Configure: don't try to be clever when configuring afalgeng
->
-> Signed-off-by: Randy MacLeod <randy.macleod@windriver.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  .../openssl/openssl/afalg.patch               | 31 -------------------
->  .../{openssl_3.0.8.bb => openssl_3.1.0.bb}    |  3 +-
->  2 files changed, 1 insertion(+), 33 deletions(-)
->  delete mode 100644 meta/recipes-connectivity/openssl/openssl/afalg.patch
->  rename meta/recipes-connectivity/openssl/{openssl_3.0.8.bb => openssl_3.1.0.bb} (98%)
->
-> diff --git a/meta/recipes-connectivity/openssl/openssl/afalg.patch b/meta/recipes-connectivity/openssl/openssl/afalg.patch
-> deleted file mode 100644
-> index cf77e873a2..0000000000
-> --- a/meta/recipes-connectivity/openssl/openssl/afalg.patch
-> +++ /dev/null
-> @@ -1,31 +0,0 @@
-> -Don't refuse to build afalgeng if cross-compiling or the host kernel is too old.
-> -
-> -Upstream-Status: Submitted [hhttps://github.com/openssl/openssl/pull/7688]
-> -Signed-off-by: Ross Burton <ross.burton@intel.com>
-> -
-> -Index: openssl-3.0.4/Configure
-> -===================================================================
-> ---- openssl-3.0.4.orig/Configure
-> -+++ openssl-3.0.4/Configure
-> -@@ -1681,20 +1681,7 @@ $config{CFLAGS} = [ map { $_ eq '--ossl-
-> - unless ($disabled{afalgeng}) {
-> -     $config{afalgeng}="";
-> -     if (grep { $_ eq 'afalgeng' } @{$target{enable}}) {
-> --        my $minver = 4*10000 + 1*100 + 0;
-> --        if ($config{CROSS_COMPILE} eq "") {
-> --            my $verstr = `uname -r`;
-> --            my ($ma, $mi1, $mi2) = split("\\.", $verstr);
-> --            ($mi2) = $mi2 =~ /(\d+)/;
-> --            my $ver = $ma*10000 + $mi1*100 + $mi2;
-> --            if ($ver < $minver) {
-> --                disable('too-old-kernel', 'afalgeng');
-> --            } else {
-> --                push @{$config{engdirs}}, "afalg";
-> --            }
-> --        } else {
-> --            disable('cross-compiling', 'afalgeng');
-> --        }
-> -+        push @{$config{engdirs}}, "afalg";
-> -     } else {
-> -         disable('not-linux', 'afalgeng');
-> -     }
-> diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.8.bb b/meta/recipes-connectivity/openssl/openssl_3.1.0.bb
-> similarity index 98%
-> rename from meta/recipes-connectivity/openssl/openssl_3.0.8.bb
-> rename to meta/recipes-connectivity/openssl/openssl_3.1.0.bb
-> index 82f3e18dd7..b7251cb68e 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_3.0.8.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_3.1.0.bb
-> @@ -10,7 +10,6 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=c75985e733726beaba57bc5253e96d04"
->  SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
->             file://run-ptest \
->             file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
-> -           file://afalg.patch \
->             file://0001-Configure-do-not-tweak-mips-cflags.patch \
->             file://CVE-2023-0464.patch \
->             file://CVE-2023-0465.patch \
-> @@ -21,7 +20,7 @@ SRC_URI:append:class-nativesdk = " \
->             file://environment.d-openssl.sh \
->             "
->
-> -SRC_URI[sha256sum] = "6c13d2bf38fdf31eac3ce2a347073673f5d63263398f1f69d0df4a41253e4b3e"
-> +SRC_URI[sha256sum] = "aaa925ad9828745c4cad9d9efeb273deca820f2cdcf2c3ac7d7c1212b7c497b4"
->
->  inherit lib_package multilib_header multilib_script ptest perlnative
->  MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
-> --
-> 2.25.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#181175): https://lists.openembedded.org/g/openembedded-core/message/181175
-> Mute This Topic: https://lists.openembedded.org/mt/98846329/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+[YOCTO #11142]
+
+Signed-off-by: Thomas Roos <throos@amazon.de>
+---
+ .../selftest-hello/files/helloworld.c         |  8 ++++++++
+ .../selftest-hello/selftest-hello_1.0.bb      | 19 +++++++++++++++++++
+ meta/lib/oeqa/selftest/cases/bbtests.py       | 18 +++++++++---------
+ 3 files changed, 36 insertions(+), 9 deletions(-)
+ create mode 100644 meta-selftest/recipes-test/selftest-hello/files/helloworld.c
+ create mode 100644 meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
+
+diff --git a/meta-selftest/recipes-test/selftest-hello/files/helloworld.c b/meta-selftest/recipes-test/selftest-hello/files/helloworld.c
+new file mode 100644
+index 0000000000..fc7169b7b8
+--- /dev/null
++++ b/meta-selftest/recipes-test/selftest-hello/files/helloworld.c
+@@ -0,0 +1,8 @@
++#include <stdio.h>
++
++int main(void)
++{
++	printf("Hello world!\n");
++
++	return 0;
++}
+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
+new file mode 100644
+index 0000000000..a39d47efba
+--- /dev/null
++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
+@@ -0,0 +1,19 @@
++DESCRIPTION = "Simple helloworld application -- selftest variant"
++SECTION = "examples"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
++
++SRC_URI = "file://helloworld.c"
++
++S = "${WORKDIR}"
++
++do_compile() {
++	${CC} ${LDFLAGS} helloworld.c -o helloworld
++}
++
++do_install() {
++	install -d ${D}${bindir}
++	install -m 0755 helloworld ${D}${bindir}
++}
++
++BBCLASSEXTEND = "native nativesdk"
+\ No newline at end of file
+diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/selftest/cases/bbtests.py
+index d97bda13c2..1dd2839c8d 100644
+--- a/meta/lib/oeqa/selftest/cases/bbtests.py
++++ b/meta/lib/oeqa/selftest/cases/bbtests.py
+@@ -41,7 +41,7 @@ class BitbakeTests(OESelftestTestCase):
+ 
+     def test_event_handler(self):
+         self.write_config("INHERIT += \"test_events\"")
+-        result = bitbake('m4-native')
++        result = bitbake('selftest-hello-native')
+         find_build_started = re.search(r"NOTE: Test for bb\.event\.BuildStarted(\n.*)*NOTE: Executing.*Tasks", result.output)
+         find_build_completed = re.search(r"Tasks Summary:.*(\n.*)*NOTE: Test for bb\.event\.BuildCompleted", result.output)
+         self.assertTrue(find_build_started, msg = "Match failed in:\n%s"  % result.output)
+@@ -49,11 +49,11 @@ class BitbakeTests(OESelftestTestCase):
+         self.assertNotIn('Test for bb.event.InvalidEvent', result.output)
+ 
+     def test_local_sstate(self):
+-        bitbake('m4-native')
+-        bitbake('m4-native -cclean')
+-        result = bitbake('m4-native')
+-        find_setscene = re.search("m4-native.*do_.*_setscene", result.output)
+-        self.assertTrue(find_setscene, msg = "No \"m4-native.*do_.*_setscene\" message found during bitbake m4-native. bitbake output: %s" % result.output )
++        bitbake('selftest-hello-native')
++        bitbake('selftest-hello-native -cclean')
++        result = bitbake('selftest-hello-native')
++        find_setscene = re.search("selftest-hello-native.*do_.*_setscene", result.output)
++        self.assertTrue(find_setscene, msg = "No \"selftest-hello-native.*do_.*_setscene\" message found during bitbake selftest-hello-native. bitbake output: %s" % result.output )
+ 
+     def test_bitbake_invalid_recipe(self):
+         result = bitbake('-b asdf', ignore_status=True)
+@@ -175,7 +175,7 @@ SSTATE_DIR = \"${TOPDIR}/download-selftest\"
+         self.assertIn('localconf', result.output)
+ 
+     def test_dry_run(self):
+-        result = runCmd('bitbake -n m4-native')
++        result = runCmd('bitbake -n selftest-hello-native')
+         self.assertEqual(0, result.status, "bitbake dry run didn't run as expected. %s" % result.output)
+ 
+     def test_just_parse(self):
+@@ -233,7 +233,7 @@ INHERIT:remove = \"report-error\"
+ 
+     def test_setscene_only(self):
+         """ Bitbake option to restore from sstate only within a build (i.e. execute no real tasks, only setscene)"""
+-        test_recipe = 'ed'
++        test_recipe = 'selftest-hello-native'
+ 
+         bitbake(test_recipe)
+         bitbake('-c clean %s' % test_recipe)
+@@ -246,7 +246,7 @@ INHERIT:remove = \"report-error\"
+                                              'Executed tasks were: %s' % (task, str(tasks)))
+ 
+     def test_skip_setscene(self):
+-        test_recipe = 'ed'
++        test_recipe = 'selftest-hello-native'
+ 
+         bitbake(test_recipe)
+         bitbake('-c clean %s' % test_recipe)
+-- 
+2.34.1
+
+
+
+
+Amazon Web Services EMEA SARL
+38 avenue John F. Kennedy, L-1855 Luxembourg
+Sitz der Gesellschaft: L-1855 Luxemburg
+eingetragen im Luxemburgischen Handelsregister unter R.C.S. B186284
+
+Amazon Web Services EMEA SARL, Niederlassung Deutschland
+Marcel-Breuer-Str. 12, D-80807 Muenchen
+Sitz der Zweigniederlassung: Muenchen
+eingetragen im Handelsregister des Amtsgerichts Muenchen unter HRB 242240, USt-ID DE317013094
+
+
+
+
 
