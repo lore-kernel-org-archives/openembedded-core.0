@@ -2,257 +2,119 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AE69C7EE2D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AD5FC7EE26
 	for <webhook@archiver.kernel.org>; Sun, 14 May 2023 16:31:57 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web10.70162.1684081909105383373
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web10.70163.1684081910710761650
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 May 2023 09:31:52 -0700
+ Sun, 14 May 2023 09:31:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=fzt2OZqo;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-64ab2a37812so14508835b3a.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 May 2023 09:31:52 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=nTWMAwqv;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-643465067d1so8685496b3a.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 May 2023 09:31:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1684081912; x=1686673912;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1684081910; x=1686673910;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Xzc3zvi7lSAdmEbxNYQswOLQezEEOPnwEEB+h098cvg=;
-        b=fzt2OZqoYjoLm46M6a2KZe4a5ticrJ2fFoVboYx9zzG2162suBFufHiozbe2bI9XZE
-         vBrsK61VScFepEh9iWBWygnE2CSGpx4cM7E4ET8V9CQto7K6pDR/LoEqNeOQ/ip5UgqZ
-         Yk4mXtB/PLD4JbiEvYTOHq3P/3ys+u3iYpZnVy7RwWFptCfi0DwULDyQ8cYuFGu6I/z8
-         gFU8Ax77R+crFmlPxGwMJ5Xhw6vISZyVYiXGths+DuNOqdl0TY8vgVAiEElI6ff+yyEI
-         gvfW0h7XnHJ0kYL9gVfnuEWLwjA4+GtGfJCvEu/PfpLpfUAEtz8zuSj4kZIJKkQ790s1
-         XpXA==
+        bh=jdDuhepV8745iW233k9U7cT1HQ7Mq4TzKlXaDxsqnhY=;
+        b=nTWMAwqvyNvDDoGFw78WLQbmXpHJIyW96tu2qjV4OB7/GJfLBb+OFi8Wyb6R/g4Rvt
+         Njucf/rAB1UTFCALzFO1KWRi2SlFrMS8p2GF+CEdlSE4oU58zwiqKyRdtin01vqtSeDK
+         OeEbnv3JYlCYu2sM3ezju3Ekm009DUdXp95K0dhGzcXCalIXriPsCXF0M3915TuTSzZZ
+         lTwP/SECM2k59J5Tr1TG3eKzZnTTFu3bMTEMO5nFArIIlqJsVOs0r0WugkZjj5HtR1vv
+         GX02FEcXLrRWM4CTALQ71IXolXoZegvJeSj/Xiie1onBeqkdYweFHQ6+zkuGDF56HXxR
+         snCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684081912; x=1686673912;
+        d=1e100.net; s=20221208; t=1684081910; x=1686673910;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Xzc3zvi7lSAdmEbxNYQswOLQezEEOPnwEEB+h098cvg=;
-        b=jOZ71CwFEE5k47UoYBBxn8ZbK0dLt8SHuvfCIea6bPN+BV4nOfigBNOCXJPQ+9sMzO
-         4xFybr4GZVtxyr3Oa/hli4v0uribKtLRerafoxEAIvMW3RIunwzF86L+6UQMIuv48/9K
-         I62mX6xeh7YJnuCK5pjZ+RLBcw9ywX6xCXb/CyagzXHtoOkbVKOoWZtJQJacW3wQq8bz
-         0PaTAXTkLWshj6iPIVv8yANimk4KfETp/5vrE+dBMfvPHcT2LCKpVhZ66Fha4OoULV5M
-         vEQwSggxsFb0TtQxVrSahZFWM5yQpKs60JxNI9iMKiQvUKdHlEWS5tUx0unJxAfD5M3e
-         WREw==
-X-Gm-Message-State: AC+VfDxgle//OBVPqkqebD9wJD0jY4cEU6Z0IewjP3ux3xN0L9Od4Y6d
-	EqLKj58k4WEmCJ4/KTZaAEGTSJptBR3m3yo1JP4=
-X-Google-Smtp-Source: ACHHUZ4UX/d3EpilZ1pdlUDM8USUDaf2b985ANIrQ2lr0b7oU16Oec2U5JVoRD5B/WMltKBz7LQplQ==
-X-Received: by 2002:a05:6a00:3028:b0:643:a841:887a with SMTP id ay40-20020a056a00302800b00643a841887amr35448126pfb.4.1684081911511;
-        Sun, 14 May 2023 09:31:51 -0700 (PDT)
+        bh=jdDuhepV8745iW233k9U7cT1HQ7Mq4TzKlXaDxsqnhY=;
+        b=f5CgiqLMGljV2ribJq4gYmkpVQTKfao/O3FLJq80vR3Lb5WiytrUJXdxdhjabin+Pc
+         1B0+TTT+/zECOK6cvWPin+IIsHDMWncb+zs35oLlFIxd9JdnACFE1+//GODoqpT9tl73
+         gPFhyzUohEBWCc6XpKyegCYhDUiZRa3jyVNY+vhs9L6ZUDegwO0XLXv+jQhEwFgN2C6b
+         +6eLJrWeKy0uJziPkeMAQ/518MHH4OyUoDuAVRaTBkPcomVQ8vEIDSXo9izFqh1NEqTK
+         CBcUvUMfB4vdoadnjHwSBbQ2ZmUrSL+7XvVjKnRB5CzXl0dAjiNrz1gce6+Ds98lYT8A
+         vBZg==
+X-Gm-Message-State: AC+VfDyXvmX3DHdD2LA6/xDL+hBN53M63hi/zIdFL6uG8jun7z9tXjcE
+	pF3/+E5YYO7VBSo99fKpNLsSXh3ACHRKKpLs6b4=
+X-Google-Smtp-Source: ACHHUZ4NPtHxCe4ahipwDmTaDdXiah5TBJOfPjaS+TvCHvjZcTqB6n6WxJNvJQvCgvkw+L03M+ff3w==
+X-Received: by 2002:a05:6a00:2289:b0:625:fe95:f120 with SMTP id f9-20020a056a00228900b00625fe95f120mr43557977pfe.8.1684081909704;
+        Sun, 14 May 2023 09:31:49 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id x14-20020aa784ce000000b006475f831838sm981877pfn.30.2023.05.14.09.31.50
+        by smtp.gmail.com with ESMTPSA id x14-20020aa784ce000000b006475f831838sm981877pfn.30.2023.05.14.09.31.48
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 May 2023 09:31:51 -0700 (PDT)
+        Sun, 14 May 2023 09:31:49 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 03/15] qemu: Update ppc instruction fix to match revised upstream version
-Date: Sun, 14 May 2023 06:31:28 -1000
-Message-Id: <411e3f76840c06580fa8d2e764ae504b8f0ad46b.1684081748.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 02/15] mesa: 23.0.2 -> 23.0.3
+Date: Sun, 14 May 2023 06:31:27 -1000
+Message-Id: <77d46f01147036c38c21d7c840144adda89bd894.1684081748.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1684081748.git.steve@sakoman.com>
 References: <cover.1684081748.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 14 May 2023 16:31:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181204
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181203
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Otavio Salvador <otavio@ossystems.com.br>
 
-Upstream asked for some changes, this updates our patch to match. The differences
-likely don't change our real world use.
+Update to 23.0.3 stable release. Release notes in:
 
+ - https://docs.mesa3d.org/relnotes/23.0.3.html
+
+New features
+
+None
+
+Bug fixes
+
+overlay layer: unable to launch titles on steam
+radv: possibly not setting state dirty bits correctly
+RADV: VRS attachment not working in specific scenario
+anv: zink ADL failures
+Vulkan loader `vk_common_GetPhysicalDeviceFormatProperties` fails to sanitize properties bits.
+Loading a model in PrusaSlicer 2.6.0-alpha5 crashes GNOME on radeonsi
+
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 42591e07a469cff881fa087d5251a8c783897634)
+(cherry picked from commit 0defbb5925e309799162e221285e4cfb2e2c2ca5)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/qemu/qemu/ppc.patch | 127 +++++++++++++++++-----
- 1 file changed, 102 insertions(+), 25 deletions(-)
+ .../mesa/{mesa-gl_23.0.2.bb => mesa-gl_23.0.3.bb}               | 0
+ meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
+ meta/recipes-graphics/mesa/{mesa_23.0.2.bb => mesa_23.0.3.bb}   | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_23.0.2.bb => mesa-gl_23.0.3.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_23.0.2.bb => mesa_23.0.3.bb} (100%)
 
-diff --git a/meta/recipes-devtools/qemu/qemu/ppc.patch b/meta/recipes-devtools/qemu/qemu/ppc.patch
-index 395cdb814f..4fce3c81ac 100644
---- a/meta/recipes-devtools/qemu/qemu/ppc.patch
-+++ b/meta/recipes-devtools/qemu/qemu/ppc.patch
-@@ -1,70 +1,147 @@
--target/ppc: Fix fallback to MFSS for MFFSCRN, MFFSCRNI, MFFSCE and MFFSL
-+From d92b63b7d15d4fd202c5802dfe444a96f5d8109c Mon Sep 17 00:00:00 2001
-+From: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Date: Sat, 6 May 2023 07:42:35 +0100
-+Cc: Víctor Colombo <victor.colombo@eldorado.org.br>
-+Cc: Matheus Ferst <matheus.ferst@eldorado.org.br>
-+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>
-+Cc: Richard Henderson <richard.henderson@linaro.org>
-+Subject: [PATCH v2] target/ppc: Fix fallback to MFSS for MFFS* instructions on
-+ pre 3.0 ISAs
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_23.0.2.bb b/meta/recipes-graphics/mesa/mesa-gl_23.0.3.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_23.0.2.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_23.0.3.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index babd10a855..10efff96f0 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -19,7 +19,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
+            "
  
--The following commits changed the code such that these instructions became invalid
--on pre 3.0 ISAs:
-+The following commits changed the code such that the fallback to MFSS for MFFSCRN,
-+MFFSCRNI, MFFSCE and MFFSL on pre 3.0 ISAs was removed and became an illegal instruction:
+-SRC_URI[sha256sum] = "1b7d3399fc6f16f030361f925d33ebc7600cbf98094582f54775b6a1180529e7"
++SRC_URI[sha256sum] = "386362a5d80df3b096636b67f340e1ce67b705b44767d5bdd11d2ed1037192d5"
  
--  bf8adfd88b547680aa857c46098f3a1e94373160 - target/ppc: Move mffscrn[i] to decodetree 
-+  bf8adfd88b547680aa857c46098f3a1e94373160 - target/ppc: Move mffscrn[i] to decodetree
-   394c2e2fda70da722f20fb60412d6c0ca4bfaa03 - target/ppc: Move mffsce to decodetree
--  3e5bce70efe6bd1f684efbb21fd2a316cbf0657e - target/ppc: Move mffsl to decodetree 
-+  3e5bce70efe6bd1f684efbb21fd2a316cbf0657e - target/ppc: Move mffsl to decodetree
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
  
- The hardware will handle them as a MFFS instruction as the code did previously.
--Restore that behaviour. This means applications that were segfaulting under qemu 
--when encountering these instructions now operate correctly. The instruction
--is used in glibc libm functions for example.
-+This means applications that were segfaulting under qemu when encountering these
-+instructions which is used in glibc libm functions for example.
- 
--Upstream-Status: Submitted [https://lore.kernel.org/qemu-devel/20230504110150.3044402-1-richard.purdie@linuxfoundation.org/]
-+The fallback for MFFSCDRN and MFFSCDRNI added in a later patch was also missing.
-+
-+This patch restores the fallback to MFSS for these instructions on pre 3.0s ISAs
-+as the hardware decoder would, fixing the segfaulting libm code. It and also ensures
-+the MFSS instruction is used for currently reserved bits to handle other potential
-+ISA additions more correctly.
-+
-+Upstream-Status: Submitted [https://lore.kernel.org/qemu-devel/20230506065240.3177798-1-richard.purdie@linuxfoundation.org/]
- 
- Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+---
-+ target/ppc/insn32.decode           | 19 ++++++++++++-------
-+ target/ppc/translate/fp-impl.c.inc | 30 ++++++++++++++++++++++++------
-+ 2 files changed, 36 insertions(+), 13 deletions(-)
- 
--Index: qemu-8.0.0/target/ppc/translate/fp-impl.c.inc
--===================================================================
----- qemu-8.0.0.orig/target/ppc/translate/fp-impl.c.inc
--+++ qemu-8.0.0/target/ppc/translate/fp-impl.c.inc
--@@ -584,7 +584,10 @@ static bool trans_MFFSCE(DisasContext *c
-+v2 - switch to use decodetree pattern groups per feedback
-+
-+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-+index f8f589e9fd..3c4e2c2fc2 100644
-+--- a/target/ppc/insn32.decode
-++++ b/target/ppc/insn32.decode
-+@@ -390,13 +390,18 @@ SETNBCR         011111 ..... ..... ----- 0111100000 -   @X_bi
-+ 
-+ ### Move To/From FPSCR
-+ 
-+-MFFS            111111 ..... 00000 ----- 1001000111 .   @X_t_rc
-+-MFFSCE          111111 ..... 00001 ----- 1001000111 -   @X_t
-+-MFFSCRN         111111 ..... 10110 ..... 1001000111 -   @X_tb
-+-MFFSCDRN        111111 ..... 10100 ..... 1001000111 -   @X_tb
-+-MFFSCRNI        111111 ..... 10111 ---.. 1001000111 -   @X_imm2
-+-MFFSCDRNI       111111 ..... 10101 --... 1001000111 -   @X_imm3
-+-MFFSL           111111 ..... 11000 ----- 1001000111 -   @X_t
-++{ 
-++  # Before Power ISA v3.0, MFFS bits 11~15 were reserved and should be ignored
-++  [
-++    MFFSCE          111111 ..... 00001 ----- 1001000111 -   @X_t
-++    MFFSCRN         111111 ..... 10110 ..... 1001000111 -   @X_tb
-++    MFFSCDRN        111111 ..... 10100 ..... 1001000111 -   @X_tb
-++    MFFSCRNI        111111 ..... 10111 ---.. 1001000111 -   @X_imm2
-++    MFFSCDRNI       111111 ..... 10101 --... 1001000111 -   @X_imm3
-++    MFFSL           111111 ..... 11000 ----- 1001000111 -   @X_t
-++  ]
-++  MFFS            111111 ..... ----- ----- 1001000111 .   @X_t_rc
-++}
-+ 
-+ ### Decimal Floating-Point Arithmetic Instructions
-+ 
-+diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
-+index 57d8437851..10dfd91aa4 100644
-+--- a/target/ppc/translate/fp-impl.c.inc
-++++ b/target/ppc/translate/fp-impl.c.inc
-+@@ -584,7 +584,10 @@ static bool trans_MFFSCE(DisasContext *ctx, arg_X_t *a)
-  {
-      TCGv_i64 fpscr;
-  
- -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
--+    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
--+        return trans_MFFS(ctx, a);
-++    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
-++        return false;
- +    }
- +
-      REQUIRE_FPU(ctx);
-  
-      gen_reset_fpstatus();
--@@ -597,7 +600,10 @@ static bool trans_MFFSCRN(DisasContext *
-+@@ -597,7 +600,10 @@ static bool trans_MFFSCRN(DisasContext *ctx, arg_X_tb *a)
-+ {
-+     TCGv_i64 t1, fpscr;
-+ 
-+-    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-++    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
-++        return false;
-++    }
-++
-+     REQUIRE_FPU(ctx);
-+ 
-+     t1 = tcg_temp_new_i64();
-+@@ -614,7 +620,10 @@ static bool trans_MFFSCDRN(DisasContext *ctx, arg_X_tb *a)
-  {
-      TCGv_i64 t1, fpscr;
-  
- -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
--+    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
--+        return trans_MFFS(ctx, a);
-++    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
-++        return false;
- +    }
- +
-      REQUIRE_FPU(ctx);
-  
-      t1 = tcg_temp_new_i64();
--@@ -631,7 +637,10 @@ static bool trans_MFFSCRNI(DisasContext
-+@@ -631,7 +640,10 @@ static bool trans_MFFSCRNI(DisasContext *ctx, arg_X_imm2 *a)
-  {
-      TCGv_i64 t1, fpscr;
-  
- -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
--+    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
--+        return trans_MFFS(ctx, a);
-++    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
-++        return false;
- +    }
- +
-      REQUIRE_FPU(ctx);
-  
-      t1 = tcg_temp_new_i64();
--@@ -661,7 +670,10 @@ static bool trans_MFFSCDRNI(DisasContext
-+@@ -647,7 +659,10 @@ static bool trans_MFFSCDRNI(DisasContext *ctx, arg_X_imm3 *a)
-+ {
-+     TCGv_i64 t1, fpscr;
-+ 
-+-    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-++    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
-++        return false;
-++    }
-++
-+     REQUIRE_FPU(ctx);
-+ 
-+     t1 = tcg_temp_new_i64();
-+@@ -661,7 +676,10 @@ static bool trans_MFFSCDRNI(DisasContext *ctx, arg_X_imm3 *a)
-  {
-      TCGv_i64 fpscr;
-  
- -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
--+    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
--+        return trans_MFFS(ctx, a);
-++    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
-++        return false;
- +    }
- +
-      REQUIRE_FPU(ctx);
-  
-      gen_reset_fpstatus();
-+-- 
-+2.39.2
-+
+diff --git a/meta/recipes-graphics/mesa/mesa_23.0.2.bb b/meta/recipes-graphics/mesa/mesa_23.0.3.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa_23.0.2.bb
+rename to meta/recipes-graphics/mesa/mesa_23.0.3.bb
 -- 
 2.34.1
 
