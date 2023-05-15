@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEE9AC88CB8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4BA4C88CBB
 	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 21:39:16 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.3698.1684186745512979806
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.3758.1684186747272379360
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 May 2023 14:39:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Sd1SeNFy;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010188215a599b-24962b7f-41af-467c-a104-22935cd7c16f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ZUma912v;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010188215a5925-ad715190-8585-47ae-9b19-3267a94c1003-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1684186749;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=9rA5cuObjwbJkb3qB2fKFNREHlcK8wZkdfhL47+lGrQ=;
-	b=Sd1SeNFy+KVCqwQ1zzz51bK063l1aDiyS9kra6+P8znWbKpgGAH+hf7uiohO1gdM
-	frrS1rkoZUc8kcXtvOni2K0MVgxrs8rNhwSkg0StuusSvc+zS/Uqi1mBXB81ES/owMl
-	SxZYUmURMmnDyySJpZz/ZGCSwqntbYsSY6yXoMgk=
+	bh=xWoB9QoaRbjp5iuATIVW8VXDhE7bJS1RL4buj2irBBs=;
+	b=ZUma912vqSkSU/wSIWYxfKBjpWjLB/v3VnNnbJDEsJv0M5esINW4rlVirSshek2H
+	e/cS19ttYgizB/p2OzRL1O/3uGQEs+0cywH0Hm4PlqCEwfN1ZRv4EAg9W1A0NTV7rod
+	CZR0lXqt4+UlK1+Yug3+AGPc8ELO56qui6as5yk0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1684186749;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=9rA5cuObjwbJkb3qB2fKFNREHlcK8wZkdfhL47+lGrQ=;
-	b=OlaL1d5VoHFcL0ZtrDuoiohU3dde0euNGR4uz7MXF1ddfYp34F4vuZRX9TowHhlh
-	4ptxJObGlOUB89B9dNrKkMcqicig1Wd0RT9VfrlyMf00hVkpZWU663ffjv5bXN3+jJN
-	pSkmML+ndspkMx3e+7JnPxQ8uKOySRWWjwQ1Vr64=
-Content-Type: multipart/mixed; boundary="===============1671896365804690556=="
+	bh=xWoB9QoaRbjp5iuATIVW8VXDhE7bJS1RL4buj2irBBs=;
+	b=cOgvScNXMktOTdW7ofGK/wZJMnbyDV1Z4bcAsxuPNBxxOTWhN6a3bIh3DUS3vXna
+	n6DHCO2GHuYMsIy3gl3E1qwItEzYLEmP1H0lHehfJa3gZFBT8mByt6uAurP1bBqlnFR
+	RddTA7wKDoY6Wp5hI909tSPfMp/gL5BA+gvfQByo=
+Content-Type: multipart/mixed; boundary="===============1961226610742193737=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] librsvg: upgrading to 2.56.0 FAILED
-Message-ID: <01010188215a599b-24962b7f-41af-467c-a104-22935cd7c16f-000000@us-west-2.amazonses.com>
+Subject: [AUH] gobject-introspection: upgrading to 1.76.1 FAILED
+Message-ID: <01010188215a5925-ad715190-8585-47ae-9b19-3267a94c1003-000000@us-west-2.amazonses.com>
 Date: Mon, 15 May 2023 21:39:09 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.05.15-54.240.27.193
+X-SES-Outgoing: 2023.05.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 21:39:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181342
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181341
 
---===============1671896365804690556==
+--===============1961226610742193737==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,219 +50,240 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *librsvg* to *2.56.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *gobject-introspection* to *1.76.1* has Failed(do_compile).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade librsvg -V 2.56.0
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (17:26:10.903735)
-Loading cache...done.
-Loaded 1804 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:f012770391ba9d7d57880fa24172ce3c49ac1e2d"
-workspace            = "master:35e5d29a7d654fc79bdb898d0f1fb277270dbfd5"
-
-Initialising tasks...done.
-Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 21 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 1804 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 901 .bb files complete (899 cached, 2 parsed). 1805 targets, 39 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:f012770391ba9d7d57880fa24172ce3c49ac1e2d"
-workspace            = "master:35e5d29a7d654fc79bdb898d0f1fb277270dbfd5"
-
-Initialising tasks...done.
-Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 17 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                    | ETA:  0:00:18
-Adding changed files:   1% |                                    | ETA:  0:00:14
-Adding changed files:   2% |                                    | ETA:  0:00:12
-Adding changed files:   3% |#                                   | ETA:  0:00:11
-Adding changed files:   3% |#                                   | ETA:  0:00:10
-Adding changed files:   4% |#                                   | ETA:  0:00:10
-Adding changed files:   5% |#                                   | ETA:  0:00:09
-Adding changed files:   6% |##                                  | ETA:  0:00:09
-Adding changed files:   7% |##                                  | ETA:  0:00:09
-Adding changed files:   7% |##                                  | ETA:  0:00:08
-Adding changed files:   8% |###                                 | ETA:  0:00:08
-Adding changed files:   9% |###                                 | ETA:  0:00:08
-Adding changed files:  10% |###                                 | ETA:  0:00:08
-Adding changed files:  10% |###                                 | ETA:  0:00:08
-Adding changed files:  11% |####                                | ETA:  0:00:08
-Adding changed files:  12% |####                                | ETA:  0:00:07
-Adding changed files:  13% |####                                | ETA:  0:00:07
-Adding changed files:  14% |#####                               | ETA:  0:00:07
-Adding changed files:  14% |#####                               | ETA:  0:00:07
-Adding changed files:  15% |#####                               | ETA:  0:00:07
-Adding changed files:  16% |#####                               | ETA:  0:00:07
-Adding changed files:  17% |######                              | ETA:  0:00:07
-Adding changed files:  17% |######                              | ETA:  0:00:07
-Adding changed files:  18% |######                              | ETA:  0:00:07
-Adding changed files:  19% |#######                             | ETA:  0:00:06
-Adding changed files:  20% |#######                             | ETA:  0:00:06
-Adding changed files:  21% |#######                             | ETA:  0:00:06
-Adding changed files:  21% |#######                             | ETA:  0:00:06
-Adding changed files:  22% |########                            | ETA:  0:00:06
-Adding changed files:  23% |########                            | ETA:  0:00:06
-Adding changed files:  24% |########                            | ETA:  0:00:06
-Adding changed files:  24% |########                            | ETA:  0:00:06
-Adding changed files:  25% |#########                           | ETA:  0:00:06
-Adding changed files:  26% |#########                           | ETA:  0:00:06
-Adding changed files:  27% |#########                           | ETA:  0:00:06
-Adding changed files:  28% |##########                          | ETA:  0:00:05
-Adding changed files:  28% |##########                          | ETA:  0:00:05
-Adding changed files:  29% |##########                          | ETA:  0:00:05
-Adding changed files:  30% |##########                          | ETA:  0:00:05
-Adding changed files:  31% |###########                         | ETA:  0:00:05
-Adding changed files:  31% |###########                         | ETA:  0:00:05
-Adding changed files:  32% |###########                         | ETA:  0:00:05
-Adding changed files:  33% |############                        | ETA:  0:00:05
-Adding changed files:  34% |############                        | ETA:  0:00:05
-Adding changed files:  35% |############                        | ETA:  0:00:05
-Adding changed files:  35% |############                        | ETA:  0:00:05
-Adding changed files:  36% |#############                       | ETA:  0:00:05
-Adding changed files:  37% |#############                       | ETA:  0:00:05
-Adding changed files:  38% |#############                       | ETA:  0:00:04
-Adding changed files:  38% |##############                      | ETA:  0:00:04
-Adding changed files:  39% |##############                      | ETA:  0:00:04
-Adding changed files:  40% |##############                      | ETA:  0:00:04
-Adding changed files:  41% |##############                      | ETA:  0:00:04
-Adding changed files:  42% |###############                     | ETA:  0:00:04
-Adding changed files:  42% |###############                     | ETA:  0:00:04
-Adding changed files:  43% |###############                     | ETA:  0:00:04
-Adding changed files:  44% |################                    | ETA:  0:00:04
-Adding changed files:  45% |################                    | ETA:  0:00:04
-Adding changed files:  46% |################                    | ETA:  0:00:04
-Adding changed files:  46% |################                    | ETA:  0:00:04
-Adding changed files:  47% |#################                   | ETA:  0:00:04
-Adding changed files:  48% |#################                   | ETA:  0:00:04
-Adding changed files:  49% |#################                   | ETA:  0:00:03
-Adding changed files:  49% |#################                   | ETA:  0:00:03
-Adding changed files:  50% |##################                  | ETA:  0:00:03
-Adding changed files:  51% |##################                  | ETA:  0:00:03
-Adding changed files:  52% |##################                  | ETA:  0:00:03
-Adding changed files:  53% |###################                 | ETA:  0:00:03
-Adding changed files:  53% |###################                 | ETA:  0:00:03
-Adding changed files:  54% |###################                 | ETA:  0:00:03
-Adding changed files:  55% |###################                 | ETA:  0:00:03
-Adding changed files:  56% |####################                | ETA:  0:00:03
-Adding changed files:  56% |####################                | ETA:  0:00:03
-Adding changed files:  57% |####################                | ETA:  0:00:03
-Adding changed files:  58% |#####################               | ETA:  0:00:03
-Adding changed files:  59% |#####################               | ETA:  0:00:03
-Adding changed files:  60% |#####################               | ETA:  0:00:03
-Adding changed files:  60% |#####################               | ETA:  0:00:02
-Adding changed files:  61% |######################              | ETA:  0:00:02
-Adding changed files:  62% |######################              | ETA:  0:00:02
-Adding changed files:  63% |######################              | ETA:  0:00:02
-Adding changed files:  63% |#######################             | ETA:  0:00:02
-Adding changed files:  64% |#######################             | ETA:  0:00:02
-Adding changed files:  65% |#######################             | ETA:  0:00:02
-Adding changed files:  66% |#######################             | ETA:  0:00:02
-Adding changed files:  67% |########################            | ETA:  0:00:02
-Adding changed files:  67% |########################            | ETA:  0:00:02
-Adding changed files:  68% |########################            | ETA:  0:00:02
-Adding changed files:  69% |########################            | ETA:  0:00:02
-Adding changed files:  70% |#########################           | ETA:  0:00:02
-Adding changed files:  70% |#########################           | ETA:  0:00:02
-Adding changed files:  71% |#########################           | ETA:  0:00:02
-Adding changed files:  72% |##########################          | ETA:  0:00:02
-Adding changed files:  73% |##########################          | ETA:  0:00:01
-Adding changed files:  74% |##########################          | ETA:  0:00:01
-Adding changed files:  74% |##########################          | ETA:  0:00:01
-Adding changed files:  75% |###########################         | ETA:  0:00:01
-Adding changed files:  76% |###########################         | ETA:  0:00:01
-Adding changed files:  77% |###########################         | ETA:  0:00:01
-Adding changed files:  77% |############################        | ETA:  0:00:01
-Adding changed files:  78% |############################        | ETA:  0:00:01
-Adding changed files:  79% |############################        | ETA:  0:00:01
-Adding changed files:  80% |############################        | ETA:  0:00:01
-Adding changed files:  81% |#############################       | ETA:  0:00:01
-Adding changed files:  81% |#############################       | ETA:  0:00:01
-Adding changed files:  82% |#############################       | ETA:  0:00:01
-Adding changed files:  83% |##############################      | ETA:  0:00:01
-Adding changed files:  84% |##############################      | ETA:  0:00:01
-Adding changed files:  84% |##############################      | ETA:  0:00:01
-Adding changed files:  85% |##############################      | ETA:  0:00:01
-Adding changed files:  86% |###############################     | ETA:  0:00:00
-Adding changed files:  87% |###############################     | ETA:  0:00:00
-Adding changed files:  88% |###############################     | ETA:  0:00:00
-Adding changed files:  88% |################################    | ETA:  0:00:00
-Adding changed files:  89% |################################    | ETA:  0:00:00
-Adding changed files:  90% |################################    | ETA:  0:00:00
-Adding changed files:  91% |################################    | ETA:  0:00:00
-Adding changed files:  92% |#################################   | ETA:  0:00:00
-Adding changed files:  92% |#################################   | ETA:  0:00:00
-Adding changed files:  93% |#################################   | ETA:  0:00:00
-Adding changed files:  94% |#################################   | ETA:  0:00:00
-Adding changed files:  95% |##################################  | ETA:  0:00:00
-Adding changed files:  95% |##################################  | ETA:  0:00:00
-Adding changed files:  96% |##################################  | ETA:  0:00:00
-Adding changed files:  97% |################################### | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files:  99% |################################### | ETA:  0:00:00
-Adding changed files:  99% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:06
-
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://download.gnome.org/sources//librsvg/2.56/librsvg-2.56.0.tar.xz;name=archive...
-INFO: Rebasing devtool onto c257959f395ca8dc6492665bd4ecc052c7351150
-WARNING: Command 'git rebase c257959f395ca8dc6492665bd4ecc052c7351150' failed:
-CONFLICT (modify/delete): vendor/system-deps/.cargo-checksum.json deleted in HEAD and modified in 9f36f15 (system-deps/src/lib.rs: do not probe into harcoded list of targets).  Version 9f36f15 (system-deps/src/lib.rs: do not probe into harcoded list of targets) of vendor/system-deps/.cargo-checksum.json left in tree.
-CONFLICT (modify/delete): vendor/system-deps/src/lib.rs deleted in HEAD and modified in 9f36f15 (system-deps/src/lib.rs: do not probe into harcoded list of targets).  Version 9f36f15 (system-deps/src/lib.rs: do not probe into harcoded list of targets) of vendor/system-deps/src/lib.rs left in tree.
-
-ERROR: Execution of 'git checkout devtool' failed with exit code 1:
-error: you need to resolve your current index first
-vendor/system-deps/.cargo-checksum.json: needs merge
-vendor/system-deps/src/lib.rs: needs merge
+do_compile failed
 
 
+
+Next steps:
+    - apply the patch: git am 0001-gobject-introspection-upgrade-1.74.0-1.76.1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============1671896365804690556==--
+--===============1961226610742193737==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+
+Loading cache...done.
+Loaded 1803 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 900 .bb files complete (899 cached, 1 parsed). 1803 targets, 40 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:8abd3c2356adcb576cb92f82d1869cbf4c5ee048"
+workspace            = "master:35e5d29a7d654fc79bdb898d0f1fb277270dbfd5"
+
+Initialising tasks...done.
+Sstate summary: Wanted 125 Local 116 Mirrors 0 Missed 9 Current 230 (92% match, 97% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 329 of 355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 874 of 1339 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_fetch)
+NOTE: Running task 875 of 1339 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_fetch)
+NOTE: Running task 892 of 1339 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_write_config)
+NOTE: Running task 899 of 1339 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_write_config)
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_fetch: Started
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_write_config: Started
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_fetch: Succeeded
+NOTE: Running task 979 of 1339 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_unpack)
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_fetch: Started
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_write_config: Started
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_fetch: Succeeded
+NOTE: Running task 980 of 1339 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_unpack)
+NOTE: Running task 981 of 1339 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_write_config: Succeeded
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_write_config: Succeeded
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_unpack: Started
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_unpack: Started
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_unpack: Succeeded
+NOTE: Running task 982 of 1339 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_patch)
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_patch: Started
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_unpack: Succeeded
+NOTE: Running task 983 of 1339 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_patch)
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_patch: Succeeded
+NOTE: Running task 984 of 1339 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 985 of 1339 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_populate_lic)
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_patch: Started
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_populate_lic: Started
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_patch: Succeeded
+NOTE: Running task 986 of 1339 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_populate_lic: Succeeded
+NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1326 of 1339 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_configure)
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_configure: Started
+Log data follows:
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/autoconf-archive/autoconf-archive_2023.02.20.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/bison/bison_3.8.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/meson/meson_1.0.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yo
+ cto-worker/auh/build/build/poky/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['quilt-native', 'glib-2.0-native', 'zlib-native', 'autoconf-archive-native', 'bison-native', 'flex-native', 'meson-native', 'ninja-native', 'pkgconfig-native', 'python3-native', 'xz-native', 'gtk-doc-native', 'libffi-native', 'python3-build-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-installer-native', 'libtool-native', 'gettext-minimal-native', 'm4-native', 'texinfo-dummy-native', 'libedit-native', 'gdbm-native', 'libnsl2-native', 'ncurses-native', 'util-linux-libuuid-native', 'expat-native', 'bzip2-native', 'sqlite3-native', 'openssl-native', 'libtirpc-native', 're2c-native', 'gettext-native', 'libpcre2-native', 'util-linux-native', 'python3-flit-core-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'gnu-config-native', 'cmake-native', 'perl-native', 'libcap-ng-native', 'unzip-native', 'zstd-native', 'make-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_configure
+| gtkdocize: neither configure.ac nor configure.in exist
+| NOTE: Executing meson -Dgtk_doc=false -Ddoctool=disabled...
+| The Meson build system
+| Version: 1.0.1
+| Source dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/gobject-introspection-1.76.1
+| Build dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/build
+| Build type: native build
+| Project name: gobject-introspection
+| Project version: 1.76.1
+| C compiler for the host machine: gcc (gcc 12.2.0 "gcc (GCC) 12.2.0")
+| C linker for the host machine: gcc ld.bfd 2.40.20230119
+| Host machine cpu family: x86_64
+| Host machine cpu: x86_64
+| Program python3 found: YES (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/recipe-sysroot-native/usr/bin/python3-native/python3)
+| Compiler for C supports arguments -Warray-bounds: YES
+| Compiler for C supports arguments -Wcast-align: YES
+| Compiler for C supports arguments -Wduplicated-branches: YES
+| Compiler for C supports arguments -Wformat=2: YES
+| Compiler for C supports arguments -Wformat-nonliteral: YES
+| Compiler for C supports arguments -Wformat-security: YES
+| Compiler for C supports arguments -Wimplicit-function-declaration: YES
+| Compiler for C supports arguments -Winit-self: YES
+| Compiler for C supports arguments -Wjump-misses-init: YES
+| Compiler for C supports arguments -Wlogical-op: YES
+| Compiler for C supports arguments -Wmissing-declarations: YES
+| Compiler for C supports arguments -Wmissing-format-attribute: YES
+| Compiler for C supports arguments -Wmissing-include-dirs: YES
+| Compiler for C supports arguments -Wmissing-noreturn: YES
+| Compiler for C supports arguments -Wmissing-prototypes: YES
+| Compiler for C supports arguments -Wnested-externs: YES
+| Compiler for C supports arguments -Wnull-dereference: YES
+| Compiler for C supports arguments -Wold-style-definition: YES
+| Compiler for C supports arguments -Wpacked: YES
+| Compiler for C supports arguments -Wpointer-arith: YES
+| Compiler for C supports arguments -Wrestrict: YES
+| Compiler for C supports arguments -Wreturn-type: YES
+| Compiler for C supports arguments -Wshadow: YES
+| Compiler for C supports arguments -Wsign-compare: YES
+| Compiler for C supports arguments -Wstrict-aliasing: YES
+| Compiler for C supports arguments -Wstrict-prototypes: YES
+| Compiler for C supports arguments -Wundef: YES
+| Compiler for C supports arguments -Wunused-but-set-variable: YES
+| Compiler for C supports arguments -Wwrite-strings: YES
+| Compiler for C supports arguments -fno-strict-aliasing: YES
+| Checking for size of "char" : 1
+| Checking for size of "short" : 2
+| Checking for size of "int" : 4
+| Checking for size of "long" : 8
+| Found pkg-config: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/recipe-sysroot-native/usr/bin/pkg-config-native (0.29.2)
+| Dependency glib-2.0 found: NO found 2.74.6 but need: '>=2.76.0'
+| Found CMake: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/recipe-sysroot-native/usr/bin/cmake (3.26.3)
+| Run-time dependency glib-2.0 found: NO (tried pkgconfig and cmake)
+| Looking for a fallback subproject for the dependency glib-2.0
+| 
+| ../gobject-introspection-1.76.1/meson.build:130:0: ERROR: Automatic wrap-based subproject downloading is disabled
+| 
+| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/build/meson-logs/meson-log.txt
+| ERROR: meson failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/temp/run.do_configure.3520846:183 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/temp/run.do_configure.3520846, line 183
+| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/temp/run.do_configure.3520846, line 172
+| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/temp/run.do_configure.3520846, line 158
+| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/temp/run.do_configure.3520846, line 196
+NOTE: recipe gobject-introspection-native-1.76.1-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 1326 tasks of which 1313 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: 1 task failed:
+  virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_configure
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: gobject-introspection-native-1.76.1-r0 do_configure: meson failed
+ERROR: gobject-introspection-native-1.76.1-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/temp/run.do_configure.3520846', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.76.1-r0/temp/log.do_configure.3520846
+ERROR: Task (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_configure) failed with exit code '1'
+
+--===============1961226610742193737==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gobject-introspection-upgrade-1.74.0-1.76.1.patch"
+
+RnJvbSBjNTlkMzQ5YzY2MmYxYjAwMDQwZmU2ZmM2OTc0OTEwNTVjOGQ4YjdmIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgTWF5IDIwMjMgMTc6MjA6MzMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+b2JqZWN0LWludHJvc3BlY3Rpb246IHVwZ3JhZGUgMS43NC4wIC0+IDEuNzYuMQoKLS0tCiAuLi4w
+MS1SZWxvY2F0ZS10aGUtcmVwb3NpdG9yeS1kaXJlY3RvcnktZm9yLW5hdGl2ZS1idWlsZHMucGF0
+Y2ggfCAyICstCiAuLi4taW50cm9zcGVjdGlvbl8xLjc0LjAuYmIgPT4gZ29iamVjdC1pbnRyb3Nw
+ZWN0aW9uXzEuNzYuMS5iYn0gfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygr
+KSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRy
+b3NwZWN0aW9uL3tnb2JqZWN0LWludHJvc3BlY3Rpb25fMS43NC4wLmJiID0+IGdvYmplY3QtaW50
+cm9zcGVjdGlvbl8xLjc2LjEuYmJ9ICg5OSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdu
+b21lL2dvYmplY3QtaW50cm9zcGVjdGlvbi9nb2JqZWN0LWludHJvc3BlY3Rpb24vMDAwMS1SZWxv
+Y2F0ZS10aGUtcmVwb3NpdG9yeS1kaXJlY3RvcnktZm9yLW5hdGl2ZS1idWlsZHMucGF0Y2ggYi9t
+ZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50cm9zcGVj
+dGlvbi8wMDAxLVJlbG9jYXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1
+aWxkcy5wYXRjaAppbmRleCAwMzBmZjE3NjAxLi41Njk5N2IzMWU2IDEwMDY0NAotLS0gYS9tZXRh
+L3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50cm9zcGVjdGlv
+bi8wMDAxLVJlbG9jYXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1aWxk
+cy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dv
+YmplY3QtaW50cm9zcGVjdGlvbi8wMDAxLVJlbG9jYXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9y
+eS1mb3ItbmF0aXZlLWJ1aWxkcy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZDM5NmU1MTI2
+NDYxNjMxZTJjNzNjZTk4YmEwMzRmMWU0NDU5OGY2YSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
+K0Zyb20gYTc2YjU5ZWY0NWJhMDBjZTJiMjBjNzBkYjhmZTY2MjkwODNlNWI4MyBNb24gU2VwIDE3
+IDAwOjAwOjAwIDIwMDEKIEZyb206IFNhc2NoYSBTaWxiZSA8eC15bzE3QHNlLXNpbGJlLmRlPgog
+RGF0ZTogRnJpLCA4IEp1biAyMDE4IDEzOjU1OjEwICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIFJl
+bG9jYXRlIHRoZSByZXBvc2l0b3J5IGRpcmVjdG9yeSBmb3IgbmF0aXZlIGJ1aWxkcwpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWdub21lL2dvYmplY3QtaW50cm9zcGVjdGlvbi9nb2JqZWN0LWlu
+dHJvc3BlY3Rpb25fMS43NC4wLmJiIGIvbWV0YS9yZWNpcGVzLWdub21lL2dvYmplY3QtaW50cm9z
+cGVjdGlvbi9nb2JqZWN0LWludHJvc3BlY3Rpb25fMS43Ni4xLmJiCnNpbWlsYXJpdHkgaW5kZXgg
+OTklCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24v
+Z29iamVjdC1pbnRyb3NwZWN0aW9uXzEuNzQuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdu
+b21lL2dvYmplY3QtaW50cm9zcGVjdGlvbi9nb2JqZWN0LWludHJvc3BlY3Rpb25fMS43Ni4xLmJi
+CmluZGV4IDc4MWVkNjVkYTMuLmRlZTNmNDA4YzEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1n
+bm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24vZ29iamVjdC1pbnRyb3NwZWN0aW9uXzEuNzQuMC5i
+YgorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3Qt
+aW50cm9zcGVjdGlvbl8xLjc2LjEuYmIKQEAgLTE3LDcgKzE3LDcgQEAgU1JDX1VSSSA9ICIke0dO
+T01FX01JUlJPUn0vJHtCUE59LyR7QG9lLnV0aWxzLnRyaW1fdmVyc2lvbigiJHtQVn0iLCAyKX0v
+JHtCUE59LSQKICAgICAgICAgICAgZmlsZTovLzAwMDEtZy1pci10b29sLXRlbXBsYXRlLmluLWZp
+eC1naXJkaXItcGF0aC5wYXRjaCBcCiAgICAgICAgICAgICIKIAotU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gIjM0N2IzYTcxOWU2OGJhNGM2OWZmMmQ1N2VlMjY4OTIzM2VhOGMwN2ZjNDkyMjA1ZTU3MzM4
+Njc3OWU0MmQ2NTMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMTk2MTc4YmY2NDM0NTUwMWRjZGM0
+ZDg0NjliMzZhYTZmZTgwNDg5MzU0ZWZlNzFjYjdjYjhhYjgyYTM3MzhiZiIKIAogU1JDX1VSSTph
+cHBlbmQ6Y2xhc3MtbmF0aXZlID0gIiBmaWxlOi8vMDAwMS1SZWxvY2F0ZS10aGUtcmVwb3NpdG9y
+eS1kaXJlY3RvcnktZm9yLW5hdGl2ZS1idWlsZHMucGF0Y2giCiAKLS0gCjIuMzkuMgoK
+
+--===============1961226610742193737==--
 
