@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9999FCA9EC6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 998ACCA9EC5
 	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 21:39:17 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.3707.1684186747201505461
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.3712.1684186747944154153
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 May 2023 14:39:07 -0700
+ Mon, 15 May 2023 14:39:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=RRSloHWS;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010188215a52ac-e6d696e4-9a47-4869-9a24-72a204958a07-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ObAjP5Vy;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010188215a5194-3f1eb7c1-9ff1-4525-9dd5-b1c980462e7d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1684186747;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ZIHBz9K0uTOYmXipDAMvAuMynlJ3TYgTg58lHt5gtso=;
-	b=RRSloHWSaPdKUU5VNSIpmVYp3HrKn77yzV+bmWjB9gQR0gjk6CHugdO3A3mPH0g9
-	+4YmZNQsCRSKT0LC1WriqQDxw4fKMq2BSu42AdYQ5L2wIGsScqF7j/2gXwOX3lrbQFQ
-	B790xhF0CxtN+BZkbX4kpl9OsDNx+PcIpoe9GkN4=
+	bh=dsw0V2Mm3fea2DmrIgi+FBaQrIiSLWaJUhosLMTrS/4=;
+	b=ObAjP5Vy8oIGwqbd9u2vdl6BN2PAKT8wqgrSaWy7qm1mik/TT37cguMooBprkgdC
+	6n0vITCoSzo7lLNpDnKcX2GZcPoBe7PHLf3okUjItYID8u0zkDWS6BcZK5YKLGX9PoG
+	vLAezbHZETivQIk/GNy1t06TwElSjhvn7e18bTVM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1684186747;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ZIHBz9K0uTOYmXipDAMvAuMynlJ3TYgTg58lHt5gtso=;
-	b=GU5FvBHm6P6J0BvnBSEGwBWvK6tLfLP/3kx2P+2JLzKZS6ktazmMpG7fwthzT9Gc
-	ClUKu9/LuDjglLujbh7gcd6+3KkUK02/PWHbZKKSNIyR1SnOdty51DEcKvFwdX5ihsE
-	WMDy9WGNU21S+4g/6Rdg01/qYSEynRqgJR+8x3p8=
-Content-Type: multipart/mixed; boundary="===============1407696685498790736=="
+	bh=dsw0V2Mm3fea2DmrIgi+FBaQrIiSLWaJUhosLMTrS/4=;
+	b=cxuGq5sGCipffQ662K2JAQJfj9IWlnOeQgLrLjkbkMItHETaU2bsd4yDO6fT7Pxv
+	tpJTqc6UDqjgQvYsafIJXb/KjUtofhjoHqHV3G9EcsvxoBkR3indj91FAsT7gI+XCcN
+	1b8AoqOel01BJpX90P/VcpABnRixsbip0SCBps2I=
+Content-Type: multipart/mixed; boundary="===============0840999663340008933=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-psutil: upgrading to 5.9.5 SUCCEEDED
-Message-ID: <01010188215a52ac-e6d696e4-9a47-4869-9a24-72a204958a07-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-hypothesis: upgrading to 6.75.3 SUCCEEDED
+Message-ID: <01010188215a5194-3f1eb7c1-9ff1-4525-9dd5-b1c980462e7d-000000@us-west-2.amazonses.com>
 Date: Mon, 15 May 2023 21:39:07 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.05.15-54.240.27.30
+X-SES-Outgoing: 2023.05.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 21:39:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181308
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181309
 
---===============1407696685498790736==
+--===============0840999663340008933==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-psutil* to *5.9.5* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-hypothesis* to *6.75.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-psutil-upgrade-5.9.4-5.9.5.patch
+    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.71.0-6.75.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,91 +69,79 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============1407696685498790736==
+--===============0840999663340008933==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-psutil-upgrade-5.9.4-5.9.5.patch"
+ filename="0001-python3-hypothesis-upgrade-6.71.0-6.75.3.patch"
 
-RnJvbSAxNzQ5NjAyZGFiMWFhNmVjODZlNTFiNDIxZGY3OWNhOGM1MjQ5ODEzIE1vbiBTZXAgMTcg
+RnJvbSBmN2RmMTlmOGU4MTBiYjc1NGRhN2E5YjAwY2RjOTc1N2I5YTczN2E1IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgTWF5IDIwMjMgMTI6MDg6NTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXBzdXRpbDogdXBncmFkZSA1LjkuNCAtPiA1LjkuNQoKLS0tCiAuLi5zdXRpbF81Ljku
-NC5iYiA9PiBweXRob24zLXBzdXRpbF81LjkuNS5iYn0gfCAyNSArKysrKysrKysrKysrKysrKy0t
-CiAxIGZpbGUgY2hhbmdlZCwgMjMgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXBzdXRpbF81LjkuNC5iYiA9
-PiBweXRob24zLXBzdXRpbF81LjkuNS5iYn0gKDQ3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHN1dGlsXzUuOS40LmJiIGIvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBzdXRpbF81LjkuNS5iYgpzaW1pbGFyaXR5IGluZGV4
-IDQ3JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHN1
-dGlsXzUuOS40LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
-bjMtcHN1dGlsXzUuOS41LmJiCmluZGV4IDAxOWVhMmRlYzEuLjc2YzdiN2VmNWEgMTAwNjQ0Ci0t
-LSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wc3V0aWxfNS45LjQuYmIK
-KysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBzdXRpbF81LjkuNS5i
-YgpAQCAtMSw5ICsxLDMwIEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMg
-aGF2ZSBiZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcg
-aXMgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4
-dC4KKyMgUGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1t
-YXJpemUgdGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1V
-cGRhdGU6JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFy
-cyB1cGRhdGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gTElDRU5TRQorIyArKysg
-TElDRU5TRQorIyBAQCAtMSw2ICsxLDYgQEAKKyMgIEJTRCAzLUNsYXVzZSBMaWNlbnNlCisjICAK
-KyMgLUNvcHlyaWdodCAoYykgMjAwOSwgSmF5IExvZGVuLCBEYXZlIERhZXNjaGxlciwgR2lhbXBh
-b2xvIFJvZG9sYScKKyMgK0NvcHlyaWdodCAoYykgMjAwOSwgSmF5IExvZGVuLCBEYXZlIERhZXNj
-aGxlciwgR2lhbXBhb2xvIFJvZG9sYQorIyAgQWxsIHJpZ2h0cyByZXNlcnZlZC4KKyMgIAorIyAg
-UmVkaXN0cmlidXRpb24gYW5kIHVzZSBpbiBzb3VyY2UgYW5kIGJpbmFyeSBmb3Jtcywgd2l0aCBv
-ciB3aXRob3V0IG1vZGlmaWNhdGlvbiwKKyMgCisjCisKIFNVTU1BUlkgPSAiQSBjcm9zcy1wbGF0
-Zm9ybSBwcm9jZXNzIGFuZCBzeXN0ZW0gdXRpbGl0aWVzIG1vZHVsZSBmb3IgUHl0aG9uIgogTElD
-RU5TRSA9ICJCU0QtMy1DbGF1c2UiCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNF
-O21kNT1lMzVmZDlmMjcxZDE5ZDVmNzQyZjIwYTlkMWY4YmI4YiIKK0xJQ19GSUxFU19DSEtTVU0g
-PSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWE5YzcyMTEzYTg0M2QwZDczMmEwYWMxYzIwMGQ4MWIxIgog
-SE9NRVBBR0UgPSAiaHR0cHM6Ly9weXBpLm9yZy9wcm9qZWN0L3BzdXRpbC8iCiAKLVNSQ19VUklb
-c2hhMjU2c3VtXSA9ICIzZDdmOTczOWViNDM1ZDRiMTMzODk0NGFiZTIzZjQ5NTg0YmRlNTM5NWYy
-NzQ4N2QyZWUyNWFkOWE4Nzc0YTYyIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjU0MTA2MzhlNGRm
-MzljNTRkOTU3ZmM1MWNlMDMwNDhhY2Q4ZTZkNjBhYmMwZjUxMDdhZjUxZTVmYjU2NmViM2MiCiAK
-IGluaGVyaXQgcHlwaSBzZXR1cHRvb2xzMwogCi0tIAoyLjM5LjIKCg==
+CkRhdGU6IE1vbiwgMTUgTWF5IDIwMjMgMTE6MDI6NDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWh5cG90aGVzaXM6IHVwZ3JhZGUgNi43MS4wIC0+IDYuNzUuMwoKLS0tCiAuLi55dGhv
+bjMtaHlwb3RoZXNpc182LjcxLjAuYmIgPT4gcHl0aG9uMy1oeXBvdGhlc2lzXzYuNzUuMy5iYn0g
+fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWh5cG90aGVzaXNfNi43
+MS4wLmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182Ljc1LjMuYmJ9ICg5MSUpCgpkaWZmIC0tZ2l0
+IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi43MS4w
+LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi43
+NS4zLmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0
+b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuNzEuMC5iYgpyZW5hbWUgdG8gbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi43NS4zLmJiCmluZGV4
+IDhlYzg4NWZhYmYuLjMzODZiMWJkOWUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuNzEuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182Ljc1LjMuYmIKQEAgLTEzLDcgKzEz
+LDcgQEAgU1JDX1VSSSArPSAiIFwKICAgICBmaWxlOi8vdGVzdF9ybGUucHkgXAogICAgICIKIAot
+U1JDX1VSSVtzaGEyNTZzdW1dID0gImIyYzNiYmVhZDcyMTg5YzBiYmE2ZTEyODQ4YjQ4NGNlYWZh
+ZGI2ZTg3MmFjMzFlNDAwMTMyMjgyMzkzNjYyMjEiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMTVj
+ZGFkYjgwYTdhYzU5MDg3NTgxNjI0ZDI2NmE0ZmI1ODViNWNjZTliN2Y4OGY1MDZjNDgxYTlmMGU1
+ODNmNiIKIAogUkRFUEVORFM6JHtQTn0gKz0gIiBcCiAgICAgcHl0aG9uMy1hdHRycyBcCi0tIAoy
+LjM5LjIKCg==
 
---===============1407696685498790736==
+--===============0840999663340008933==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-psutil: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/psutil/psutil-5.9.4.tar.gz;downloadfilename=psutil-5.9.4.tar.gz" to "https://files.pythonhosted.org/packages/source/p/psutil/psutil-5.9.5.tar.gz;downloadfilename=psutil-5.9.5.tar.gz"
-packages/core2-32-poky-linux/python3-psutil: PV changed from "5.9.4" to "5.9.5"
-packages/core2-32-poky-linux/python3-psutil: PKGV changed from 5.9.4 [default] to 5.9.5 [default]
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-dbg: PKGSIZE changed from 92332 to 92324 (-0%)
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-dbg: PV changed from "5.9.4" to "5.9.5"
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-dbg: PKGV changed from 5.9.4 [default] to 5.9.5 [default]
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-dev: PV changed from "5.9.4" to "5.9.5"
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-dev: PKGV changed from 5.9.4 [default] to 5.9.5 [default]
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-doc: PV changed from "5.9.4" to "5.9.5"
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-doc: PKGV changed from 5.9.4 [default] to 5.9.5 [default]
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-locale: PV changed from "5.9.4" to "5.9.5"
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-locale: PKGV changed from 5.9.4 [default] to 5.9.5 [default]
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-src: PKGSIZE changed from 60876 to 61218 (+1%)
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-src: PV changed from "5.9.4" to "5.9.5"
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-src: PKGV changed from 5.9.4 [default] to 5.9.5 [default]
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-staticdev: PV changed from "5.9.4" to "5.9.5"
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-staticdev: PKGV changed from 5.9.4 [default] to 5.9.5 [default]
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-tests: PKGSIZE changed from 1322696 to 1342645 (+2%)
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-tests: PV changed from "5.9.4" to "5.9.5"
-packages/core2-32-poky-linux/python3-psutil/python3-psutil-tests: PKGV changed from 5.9.4 [default] to 5.9.5 [default]
-packages/core2-32-poky-linux/python3-psutil/python3-psutil: PKGSIZE changed from 865576 to 869047 (+0%)
-packages/core2-32-poky-linux/python3-psutil/python3-psutil: PV changed from "5.9.4" to "5.9.5"
-packages/core2-32-poky-linux/python3-psutil/python3-psutil: PKGV changed from 5.9.4 [default] to 5.9.5 [default]
-Changes to packages/core2-32-poky-linux/python3-psutil (sysroot):
-  /usr/lib/python3.11/site-packages/psutil-5.9.4.dist-info moved to /usr/lib/python3.11/site-packages/psutil-5.9.5.dist-info
+packages/core2-32-poky-linux/python3-hypothesis: PKGV changed from 6.71.0 [default] to 6.75.3 [default]
+packages/core2-32-poky-linux/python3-hypothesis: PV changed from "6.71.0" to "6.75.3"
+packages/core2-32-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.71.0.tar.gz;downloadfilename=hypothesis-6.71.0.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.75.3.tar.gz;downloadfilename=hypothesis-6.75.3.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.71.0" to "6.75.3"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.71.0 [default] to 6.75.3 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.71.0" to "6.75.3"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.71.0 [default] to 6.75.3 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.71.0" to "6.75.3"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.71.0 [default] to 6.75.3 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.71.0" to "6.75.3"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.71.0 [default] to 6.75.3 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.71.0" to "6.75.3"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.71.0 [default] to 6.75.3 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.71.0" to "6.75.3"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.71.0 [default] to 6.75.3 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.71.0" to "6.75.3"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.71.0 [default] to 6.75.3 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.71.0" to "6.75.3"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 2806255 to 2858759 (+2%)
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.11/site-packages/hypothesis-6.71.0.dist-info -> /usr/lib/python3.11/site-packages/hypothesis-6.75.3.dist-info, added "/usr/lib/python3.11/site-packages/hypothesis/extra/_patching.py /usr/lib/python3.11/site-packages/hypothesis/extra/__pycache__/_patching.cpython-311.pyc"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.71.0 [default] to 6.75.3 [default]
+Changes to packages/core2-32-poky-linux/python3-hypothesis (sysroot):
+  /usr/lib/python3.11/site-packages/hypothesis-6.71.0.dist-info moved to /usr/lib/python3.11/site-packages/hypothesis-6.75.3.dist-info
+  /usr/lib/python3.11/site-packages/hypothesis/extra/_patching.py was added
+  /usr/lib/python3.11/site-packages/hypothesis/extra/__pycache__/_patching.cpython-311.pyc was added
 
---===============1407696685498790736==
+--===============0840999663340008933==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/python3-psutil (sysroot):
-  /usr/lib/python3.11/site-packages/psutil-5.9.4.dist-info moved to /usr/lib/python3.11/site-packages/psutil-5.9.5.dist-info
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.11/site-packages/hypothesis-6.71.0.dist-info -> /usr/lib/python3.11/site-packages/hypothesis-6.75.3.dist-info, added "/usr/lib/python3.11/site-packages/hypothesis/extra/_patching.py /usr/lib/python3.11/site-packages/hypothesis/extra/__pycache__/_patching.cpython-311.pyc"
+Changes to packages/core2-32-poky-linux/python3-hypothesis (sysroot):
+  /usr/lib/python3.11/site-packages/hypothesis-6.71.0.dist-info moved to /usr/lib/python3.11/site-packages/hypothesis-6.75.3.dist-info
+  /usr/lib/python3.11/site-packages/hypothesis/extra/_patching.py was added
+  /usr/lib/python3.11/site-packages/hypothesis/extra/__pycache__/_patching.cpython-311.pyc was added
 
---===============1407696685498790736==--
+--===============0840999663340008933==--
 
