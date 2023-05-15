@@ -1,192 +1,202 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BC24C77B75
-	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 11:24:42 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.67])
- by mx.groups.io with SMTP id smtpd.web10.86153.1684149880654973160
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1419EC77B7D
+	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 11:40:42 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web10.86391.1684150839784088781
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 May 2023 04:24:40 -0700
+ Mon, 15 May 2023 04:40:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=y9S+PaPF;
- spf=pass (domain: arm.com, ip: 40.107.22.67, mailfrom: ross.burton@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jqsQRHXk+uHXRWWI0EozjHYbepfka6h2fBDl68qervc=;
- b=y9S+PaPF1ZtMzWtgA+oPYgY1xXmtrT7+se+T3FuxhwYEop5GPq6dhYk4ZgfHJD/gQsUYRTYgSoytJMYbKQ2kSeBnbSoYVCE9UI71MvKiLGQVILZKkICt5e6spD7HVTbzUw9oIoXL2lS+cJNUHMGXe4FBnBHTjWkXF1B9RgnaENk=
-Received: from AM6P192CA0073.EURP192.PROD.OUTLOOK.COM (2603:10a6:209:8d::14)
- by PA4PR08MB5904.eurprd08.prod.outlook.com (2603:10a6:102:e5::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.30; Mon, 15 May
- 2023 11:24:33 +0000
-Received: from AM7EUR03FT060.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:209:8d:cafe::54) by AM6P192CA0073.outlook.office365.com
- (2603:10a6:209:8d::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.30 via Frontend
- Transport; Mon, 15 May 2023 11:24:33 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AM7EUR03FT060.mail.protection.outlook.com (100.127.140.216) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6411.14 via Frontend Transport; Mon, 15 May 2023 11:24:33 +0000
-Received: ("Tessian outbound 5154e9d36775:v136"); Mon, 15 May 2023 11:24:32 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 9996ef2ba83163d2
-X-CR-MTA-TID: 64aa7808
-Received: from 8545f7ac038f.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id BA11F476-4BB3-4815-B254-31E616184204.1;
-	Mon, 15 May 2023 11:07:39 +0000
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 8545f7ac038f.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Mon, 15 May 2023 11:07:39 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ibREiYBDrMpbSblfixILTPQQTjUgS4BgxRIsOXUzXrhXxcDsFIcvaSuThN1hD0GQr8j26QmahoiLLfnvq9KB1B+AEDWe//Q4V0VNT4rhyeSMKrb7jLB5ZAJ1RPdORHgvdV/+HR3/cKEZPIy7e4D5s/bFgRIJytnPuM1Pjj+kuE4+J53jbgq9cp3Or8jasdWo1wVMK5atEiCVBpPHJSARm8XCTAvplaR1BRci+Mi1uVKhGJDmo5WRZ26MfS+MvZXc1m4DaR0OSlFqMExuf/6K7GK9QNhGBKR3xPozhONuUg9cw5g6I47X/0x6p1E4AVV1W9CpMChRB2tqR/YFPJd0jA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jqsQRHXk+uHXRWWI0EozjHYbepfka6h2fBDl68qervc=;
- b=P5RtU8Oz3lvKAOvCkoxA0v9zkdS1dZxOZqRNrwdPjXkQZMHYEQMb24vnr66H24f8dsbQzheND1Q1GJ5ub8H2935yRHXohe75OZhluqLc7WnG6srOuIWY40s1KrZVcdJWE9iKp0WBWko5YkO9JI3Psm0RRx0IsamH18YooleWPEaYZq3vVra4pM6cCMXWn2QeHnVaDkYiAc7PQ0P6mzxwgOd4F0GvGhY/UZmI/zQOhzItbqauSan9V0w1oeX7heCaDENHjcW4rVfqWfEpqOXHguHXgNWGgguZc8RaWt3fyhWm0fZJfziMeTsI39IIUw2N9GGWT06c9yApLts3fbmqKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jqsQRHXk+uHXRWWI0EozjHYbepfka6h2fBDl68qervc=;
- b=y9S+PaPF1ZtMzWtgA+oPYgY1xXmtrT7+se+T3FuxhwYEop5GPq6dhYk4ZgfHJD/gQsUYRTYgSoytJMYbKQ2kSeBnbSoYVCE9UI71MvKiLGQVILZKkICt5e6spD7HVTbzUw9oIoXL2lS+cJNUHMGXe4FBnBHTjWkXF1B9RgnaENk=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by AS8PR08MB9118.eurprd08.prod.outlook.com (2603:10a6:20b:5b6::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.30; Mon, 15 May
- 2023 11:07:37 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::eb3c:9b42:21c9:494e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::eb3c:9b42:21c9:494e%7]) with mapi id 15.20.6387.029; Mon, 15 May 2023
- 11:07:37 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "schitrod@cisco.com" <schitrod@cisco.com>
-CC: OE-core <openembedded-core@lists.openembedded.org>, Yocto-mailing-list
-	<yocto@lists.yoctoproject.org>, Alex Kiernan <alex.kiernan@gmail.com>, Alex
- Kiernan <alexk@zuma.ai>, Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: Re: [yocto] [dunfell][PATCH] pypi.bbclass: Set CVE_PRODUCT to
- PYPI_PACKAGE
-Thread-Topic: [yocto] [dunfell][PATCH] pypi.bbclass: Set CVE_PRODUCT to
- PYPI_PACKAGE
-Thread-Index: AQHZhxvVOI1M5oeFjU6GPRRiZ2Qrvq9bLKUA
-Date: Mon, 15 May 2023 11:07:37 +0000
-Message-ID: <035854D2-4E6D-44B5-B840-DD6139759496@arm.com>
-References: <20230515105516.484857-1-schitrod@cisco.com>
-In-Reply-To: <20230515105516.484857-1-schitrod@cisco.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3731.500.231)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|AS8PR08MB9118:EE_|AM7EUR03FT060:EE_|PA4PR08MB5904:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7338c48a-2be4-46d5-6de8-08db5536f50b
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- H6m/lYJ1qXQVCjJQZ8bdbIJpqkdmn/62Zvv06Jtt2xoH+Jc/W4n4kgHt38rpv8kANW6h0amqBweQhiimVOsYUpBog4AXB3mNRmQCvt8fSbYEDCjXtY6MTVfszlBu6XR4Uz18XEK1fWIo5WUGcpi+IVchhPryRCkmonVc4X86tam7bWxdItPMHU32JFZR8yFWNm2PmuTw6VWsmrUqXyoY2z8A2oUVtpZDe0BFWFI5WFy02tVLKH24WMKNh0jXwnGyYpSNUBIvMqKu4+0z7nSJIueqANd5InosQP0NhmFCeo0YA0FgpwRZW/NavbqUIMuwXiw2qW4tdkCqmWxas+nY/6UwWSK/X92ODzBfrxobMctQj3r5IEXAfyWepXt3g0F2lkM5JbWThgHXrPSkaJD1KZthI58Cq/VQEukKpst8NCMiXUOcnUyA0Y7KyyA31T9rAbOsRW3nWR0ipZ5sSbBztJtkwcME+9iP+7ELF527NDRO2QwFyopHHNOKMTjixdsLfOy6RlPKzwCv+CGFqgAZK6AVyFtQH6F5K44rWM0oKIbZX3oiqkB/osORMZDPE+7jT+qc1TbY2JMQ53wxlMuckxXV/O8hEaKrlkXq3BPp/SmgnuJgVsQp3aMf+1r3qHUYNc6kE2RpnZFxOHij7ed2Hb+BUDnwTpHTcj/7bEqinjE=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(136003)(39860400002)(376002)(396003)(366004)(451199021)(83380400001)(66476007)(66556008)(64756008)(66946007)(66446008)(91956017)(76116006)(2616005)(6486002)(6512007)(26005)(6506007)(966005)(478600001)(54906003)(71200400001)(186003)(86362001)(8676002)(8936002)(5660300002)(2906002)(33656002)(36756003)(41300700001)(38070700005)(4326008)(6916009)(316002)(38100700002)(122000001)(66899021)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <DDB8F4A0477F0C49BC9EE2C3BC474E51@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=bXtNC1ZS;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-307d84f5ce4so3546058f8f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 04:40:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684150838; x=1686742838;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=sN4JMwTaT9kvrR4Z/k+AFT+kRtf+iYYz+PxU86HXiMY=;
+        b=bXtNC1ZSSbhskchb+/4QqBt5LmNDe4MBUv62+kqVC42YRvgoQ5S8LZXhStDR8GdMs7
+         cXzqbY3VP7MxxtLOkvqakffJ7rRZGwKdTUEApeo02XT5mafslLvMQ4jcGs0oaS/RB0kp
+         i/WZhoJuryiczTJ6jJxbvL1ft0G5w9B3ErVdMmZBHCLxmELefwnhcuoj5rUfGtJE2mZL
+         lVMaOfw0lxRGRM18sK61ZlIvCJPsr6jQCQ5UBvfrk3jtJ9JQzE7XF1F7huLs8taTb4Qf
+         zuGX13XHUofAfVLb8ZMrsZZRsv/xe0gl8rvMQew8apcmsWC7WuHM+K1XRbUM7+TheF8a
+         Z2ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684150838; x=1686742838;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sN4JMwTaT9kvrR4Z/k+AFT+kRtf+iYYz+PxU86HXiMY=;
+        b=fiWk4Gr+Ufoy8DUsiQq7M/U4Uq6DqR1kGF762WVPRwJ4azAdVni8Q8D8Qfs51WHRE9
+         u0PmPrgKTMxr3KXZ/wWIARfASKzD4vJTPiAD9DvGEfR4nmPFcoJbASlBjREFA8QsUINz
+         rgsuL8f52BLq3apWIN4szo+HcqvIsp1N+6vTDJn2iqvoiVeFooefYirH7LDA35QR8t82
+         ZD3xrFWdUg1fInFnUzTcur+X4NNvJBvEgKgWrMdBnmjc3MEt9WdtxKfjdC/wCRDvJhph
+         zIbS/E8GGBo3eFPoXNLxROJRd4QNE/JpGcvKMEPKdgAD598a/NP9I4THfmQj7JQejUF/
+         tbTg==
+X-Gm-Message-State: AC+VfDxpuaoqnWnyigx3z8fb79b7Z+bBYfszPVJKNCFwmqy6zR2sq36A
+	1PVt0X0zthHZa/3Zny9H76aN7ODJhJd+kp8L8pM=
+X-Google-Smtp-Source: ACHHUZ5JQPN6IMlMjMEV1tSbucCazPYAcRN+6ygdUUJr2ie0g9WaotlvfvF0W/UDmWP2285Q6SA9te/3d4R/4b0TCMY=
+X-Received: by 2002:a5d:4810:0:b0:2fa:ce3:9a0 with SMTP id l16-20020a5d4810000000b002fa0ce309a0mr23945610wrq.36.1684150838137;
+ Mon, 15 May 2023 04:40:38 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB9118
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM7EUR03FT060.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	a41a0cb7-0991-4250-0d68-08db5534978f
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	pbBjcL9J+BEmR3qsOEn3tLNDzokLGI9kYUonm8k+05bXIKAp00uo687k5O9/MyI3bo2/iW5CS2W4LnYp3IxnhZiBRBXECULhsI+HNtBHlamAgqafDjsKnwt9mQ/a4luSaqHEgsYYxWeCEfW66tNr//Hn8adct3oe/fk1WbZj+CIb/TiaV3PEBybG+rkbxPY55mqgCAsyR8p7I5sGOOGFIQmH1LYX9mR4g5SrUFd22ISEM7O8Dd/Welo9MSP+/TZBqb6othJ7uLMfiL6bUisbqUxNo9yOQowjvIeitO1adWFk1HcV1NkKZ2mqO7bu4l5N4WWEqnYBh9GL20vX4agmHR7P6oLfWv+rKZ/q+1wEI5QGf89GZYVHXjFJf6lDTKU7gf/IpbC/EyxisV42Pqq80t7HzD8Nx61AgYH2bqwPwQmhmGmKgmKcoz+Uz5gL2WFdENE/JIVLrWysxVGhBO82TwtX+rp1BLK+tmVJxx0wK5yf+cJRM9NKjX9avK00G0tOHHxCRPcPO/rqWtcnQtUV62ElWrGroNaO1iY08Xz7tO1fuphbqTJDnCXahRx2vH9dwyzAZTC9UXDhC4mzIzU5aJL4uN7mL1tXMbBzNbeWQdsosNNpyFhLHSY7qQS7hMGqyHQE8BPjqI8M9pkK6RG7Hyj42ayjK8zdtIWeLg4jN24Eu61jtxddkYUZFENaIHr9eFHUv/i/qwNqygqJ1OvHYhG9mJMwMGexv69bfatailE++s0eNEPoONGBn2IGMpPe7CaL5hTBnXJBJboidbXREg==
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(136003)(346002)(396003)(376002)(39860400002)(451199021)(36840700001)(40470700004)(46966006)(356005)(82740400003)(4326008)(8936002)(6862004)(8676002)(66899021)(316002)(40480700001)(41300700001)(70586007)(478600001)(70206006)(81166007)(54906003)(40460700003)(36756003)(186003)(82310400005)(2616005)(107886003)(6506007)(2906002)(26005)(83380400001)(47076005)(33656002)(6512007)(336012)(36860700001)(86362001)(966005)(5660300002)(6486002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2023 11:24:33.0037
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7338c48a-2be4-46d5-6de8-08db5536f50b
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM7EUR03FT060.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB5904
+References: <20230403110646.2555294-1-kubiznak@2n.com>
+In-Reply-To: <20230403110646.2555294-1-kubiznak@2n.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 15 May 2023 13:40:25 +0200
+Message-ID: <CA+chaQf7GPW=GZ4yYG+BjbBOYST2O7R7xwQSstRdC=chzaWU0A@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v5 1/6] gobject-introspection: reduce dependencies
+To: =?UTF-8?B?UGV0ciBLdWJpesWIw6Fr?= <kubiznak@2n.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000074977b05fbb9ecf2"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 11:24:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181242
+ <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 11:40:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181243
 
-This patch should go to openembedded-core@lists.openembedded.org <mailto:op=
-enembedded-core@lists.openembedded.org>.
+--00000000000074977b05fbb9ecf2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Ross
+On Mon, Apr 3, 2023 at 1:08=E2=80=AFPM Petr Kubiz=C5=88=C3=A1k <kubiznak@2n=
+.com> wrote:
 
-> On 15 May 2023, at 11:55, Sanjaykumar kantibhai Chitroda -X (schitrod - E=
--INFO CHIPS INC at Cisco) via lists.yoctoproject.org <schitrod=3Dcisco.com@=
-lists.yoctoproject.org> wrote:
->=20
-> From: Alex Kiernan <alex.kiernan@gmail.com>
->=20
-> The CVE product name for PyPI packages is (usually) the same as the PyPI
-> package name (and not our recipe name), so use that as the default.
->=20
-> Signed-off-by: Alex Kiernan <alexk@zuma.ai>
-> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit 61f6b0ad09bf87cdc2d3f08770b7c44cad1d0e58)
-> Signed-off-by: Sanjay Chitroda <schitrod@cisco.com>
+> When GI_DATA_ENABLED is 'False' (e.g. because
+> 'gobject-introspection-data' is not in DISTRO_FEATURES),
+> gobject-introspection, gobject-introspection-native and qemu-native
+> should not be added to DEPENDS. This is to reduce dependency chain
+> when g-i is disabled.
+>
+> Signed-off-by: Petr Kubiz=C5=88=C3=A1k <kubiznak@2n.com>
 > ---
-> meta/classes/pypi.bbclass | 2 ++
-> 1 file changed, 2 insertions(+)
->=20
-> diff --git a/meta/classes/pypi.bbclass b/meta/classes/pypi.bbclass
-> index 87b4c85fc0..c68367449a 100644
-> --- a/meta/classes/pypi.bbclass
-> +++ b/meta/classes/pypi.bbclass
-> @@ -24,3 +24,5 @@ S =3D "${WORKDIR}/${PYPI_PACKAGE}-${PV}"
->=20
-> UPSTREAM_CHECK_URI ?=3D "https://pypi.org/project/${PYPI_PACKAGE}/"
-> UPSTREAM_CHECK_REGEX ?=3D "/${PYPI_PACKAGE}/(?P<pver>(\d+[\.\-_]*)+)/"
-> +
-> +CVE_PRODUCT ?=3D "python:${PYPI_PACKAGE}"
-> --=20
-> 2.35.6
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#60025): https://lists.yoctoproject.org/g/yocto/messag=
-e/60025
-> Mute This Topic: https://lists.yoctoproject.org/mt/98900696/6875888
-> Group Owner: yocto+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/yocto/unsub [ross.burton@ar=
-m.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+>  meta/classes-recipe/gobject-introspection.bbclass | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+>
+> diff --git a/meta/classes-recipe/gobject-introspection.bbclass
+> b/meta/classes-recipe/gobject-introspection.bbclass
+> index 0c7b7d200a..98edb93761 100644
+> --- a/meta/classes-recipe/gobject-introspection.bbclass
+> +++ b/meta/classes-recipe/gobject-introspection.bbclass
+> @@ -35,7 +35,7 @@ EXTRA_OEMESON:prepend:class-nativesdk =3D "${@['',
+> '${GIRMESONBUILD}'][d.getVar('G
+>
+>  # Generating introspection data depends on a combination of native and
+> target
+>  # introspection tools, and qemu to run the target tools.
+> -DEPENDS:append:class-target =3D " gobject-introspection
+> gobject-introspection-native qemu-native"
+> +DEPENDS:append:class-target =3D " ${@bb.utils.contains('GI_DATA_ENABLED'=
+,
+> 'True', 'gobject-introspection gobject-introspection-native qemu-native',
+> '', d)}"
+>
+>  # Even though introspection is disabled on -native, gobject-introspectio=
+n
+> package is still
+>  # needed for m4 macros.
+> @@ -46,10 +46,12 @@ DEPENDS:append:class-nativesdk =3D "
+> gobject-introspection-native"
+>  export XDG_DATA_DIRS =3D "${STAGING_DATADIR}:${STAGING_LIBDIR}"
+>
+>  do_configure:prepend:class-target () {
+> -    # introspection.m4 pre-packaged with upstream tarballs does not yet
+> -    # have our fixes
+> -    mkdir -p ${S}/m4
+> -    cp ${STAGING_DIR_TARGET}/${datadir}/aclocal/introspection.m4 ${S}/m4
+> +    if [ "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '1', '0', d)}"
+> =3D "1" ] ; then
+> +        # introspection.m4 pre-packaged with upstream tarballs does not
+> yet
+> +        # have our fixes
+> +        mkdir -p ${S}/m4
+> +        cp ${STAGING_DIR_TARGET}/${datadir}/aclocal/introspection.m4
+> ${S}/m4
+> +    fi
+>
 
+Was this extra .m4 file causing issues in builds without
+gobject-introspection-data in DISTRO_FEATURES?
+
+I've noticed some maybe unexpected side-effects from this change, see:
+libblockdev:
+https://lists.openembedded.org/g/openembedded-devel/message/102599
+glade: https://lists.openembedded.org/g/openembedded-devel/message/102601
+
+--00000000000074977b05fbb9ecf2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Mon, Apr 3, 2023 at 1:08=E2=80=AFPM Pe=
+tr Kubiz=C5=88=C3=A1k &lt;<a href=3D"mailto:kubiznak@2n.com">kubiznak@2n.co=
+m</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">When GI_DATA_ENABLED is &#39;False&#39; (e.g. b=
+ecause<br>
+&#39;gobject-introspection-data&#39; is not in DISTRO_FEATURES),<br>
+gobject-introspection, gobject-introspection-native and qemu-native<br>
+should not be added to DEPENDS. This is to reduce dependency chain<br>
+when g-i is disabled.<br>
+<br>
+Signed-off-by: Petr Kubiz=C5=88=C3=A1k &lt;<a href=3D"mailto:kubiznak@2n.co=
+m" target=3D"_blank">kubiznak@2n.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes-recipe/gobject-introspection.bbclass | 12 +++++++-----<b=
+r>
+=C2=A01 file changed, 7 insertions(+), 5 deletions(-)<br>
+<br>
+diff --git a/meta/classes-recipe/gobject-introspection.bbclass b/meta/class=
+es-recipe/gobject-introspection.bbclass<br>
+index 0c7b7d200a..98edb93761 100644<br>
+--- a/meta/classes-recipe/gobject-introspection.bbclass<br>
++++ b/meta/classes-recipe/gobject-introspection.bbclass<br>
+@@ -35,7 +35,7 @@ EXTRA_OEMESON:prepend:class-nativesdk =3D &quot;${@[&#39;=
+&#39;, &#39;${GIRMESONBUILD}&#39;][d.getVar(&#39;G<br>
+<br>
+=C2=A0# Generating introspection data depends on a combination of native an=
+d target<br>
+=C2=A0# introspection tools, and qemu to run the target tools.<br>
+-DEPENDS:append:class-target =3D &quot; gobject-introspection gobject-intro=
+spection-native qemu-native&quot;<br>
++DEPENDS:append:class-target =3D &quot; ${@bb.utils.contains(&#39;GI_DATA_E=
+NABLED&#39;, &#39;True&#39;, &#39;gobject-introspection gobject-introspecti=
+on-native qemu-native&#39;, &#39;&#39;, d)}&quot;<br>
+<br>
+=C2=A0# Even though introspection is disabled on -native, gobject-introspec=
+tion package is still<br>
+=C2=A0# needed for m4 macros.<br>
+@@ -46,10 +46,12 @@ DEPENDS:append:class-nativesdk =3D &quot; gobject-intro=
+spection-native&quot;<br>
+=C2=A0export XDG_DATA_DIRS =3D &quot;${STAGING_DATADIR}:${STAGING_LIBDIR}&q=
+uot;<br>
+<br>
+=C2=A0do_configure:prepend:class-target () {<br>
+-=C2=A0 =C2=A0 # introspection.m4 pre-packaged with upstream tarballs does =
+not yet<br>
+-=C2=A0 =C2=A0 # have our fixes<br>
+-=C2=A0 =C2=A0 mkdir -p ${S}/m4<br>
+-=C2=A0 =C2=A0 cp ${STAGING_DIR_TARGET}/${datadir}/aclocal/introspection.m4=
+ ${S}/m4<br>
++=C2=A0 =C2=A0 if [ &quot;${@bb.utils.contains(&#39;GI_DATA_ENABLED&#39;, &=
+#39;True&#39;, &#39;1&#39;, &#39;0&#39;, d)}&quot; =3D &quot;1&quot; ] ; th=
+en<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # introspection.m4 pre-packaged with upstream =
+tarballs does not yet<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # have our fixes<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 mkdir -p ${S}/m4<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cp ${STAGING_DIR_TARGET}/${datadir}/aclocal/in=
+trospection.m4 ${S}/m4<br>
++=C2=A0 =C2=A0 fi<br></blockquote><div><br></div><div>Was this extra .m4 fi=
+le causing issues in builds without gobject-introspection-data in DISTRO_FE=
+ATURES?</div><div><br></div><div>I&#39;ve noticed some maybe unexpected sid=
+e-effects from this change, see:</div><div>libblockdev: <a href=3D"https://=
+lists.openembedded.org/g/openembedded-devel/message/102599">https://lists.o=
+penembedded.org/g/openembedded-devel/message/102599</a><br></div><div>glade=
+: <a href=3D"https://lists.openembedded.org/g/openembedded-devel/message/10=
+2601">https://lists.openembedded.org/g/openembedded-devel/message/102601</a=
+></div></div></div>
+
+--00000000000074977b05fbb9ecf2--
 
