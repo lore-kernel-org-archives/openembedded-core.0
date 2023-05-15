@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FD4ACA9EDB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F5F3CA9ED9
 	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 21:39:18 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.3754.1684186746882130345
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.3767.1684186747851624979
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 May 2023 14:39:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=PpA8iafE;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010188215a5022-11d42765-e9a9-483b-924f-1dfe50e5544f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=URyllXCF;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010188215a50d8-bfbbeda9-d4b2-46b6-9e15-c8fea41bbcaa-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1684186747;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=z2ESBQ7n8hwnEzxsfKYYb19XOrgHpoKjhAoZKoA/MxM=;
-	b=PpA8iafERbr/xf5kzPbczPSNgl2XQKi+IQAkyCvxHcIQVR1sM0/wBzFAjr00liPZ
-	yYO9Sapvu5KI6xbEfSKcy+0kVjM7dqkgHRiRrcCqn2XQymKnxVgDWHKyh28Uld9k1sy
-	vLAg9/0Ls1jRBEFAZxUF6qTPfokxcwriu2pMajF8=
+	bh=m3fAUNvfe8kDx4nOmivZNxcDyFTn2+N7sSl/Bsz9jZ4=;
+	b=URyllXCF0XH+NUgA3zEjVZ7BZ9QFW3gS9c+3L9rmGAbXRq9DhD0P4RQagoITQ5Ih
+	IFlRoSuBidUHCTNt1OZDnuV1ZL6pxTwrjpvzBIyUYjN9MiVB7BFQrVtmZ8iI1v4XLXH
+	UUqTsBvLlPhAiI46W/a6BvAaWYqAHTpFA58nM7rI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1684186747;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=z2ESBQ7n8hwnEzxsfKYYb19XOrgHpoKjhAoZKoA/MxM=;
-	b=OlocfbH0J9TQ9UeJ9aoTeq5zHd80RskzxxMoQ1WoEhTem9yekDE9e21AvbbW0DgO
-	pWV2HDun3xigQEknBPRj0LHNjFHUuK4HoQpNOKpE8xXsumvP5JXk3mFhn4A8WNeq6hN
-	eh0aFJXsBTaO+5y3UY+jC4Ft3bM1S3jQbY7JBqW0=
-Content-Type: multipart/mixed; boundary="===============2345444634944995004=="
+	bh=m3fAUNvfe8kDx4nOmivZNxcDyFTn2+N7sSl/Bsz9jZ4=;
+	b=HFZzJyVUtQ8pPxhv9PbruDCe/5TZYzImhBAnkr6qlnywRCc0ik5yyTUD58M3igJK
+	31CKPhIvXdy9P3l6318j/VN/bfWD2rP/kJkK96vDggfLyVxusK8VsNb/fjnfTIBPxpV
+	FT3tsFq/EbAnM8rIA7jywfK9BsDX4HIrLOB9TtVE=
+Content-Type: multipart/mixed; boundary="===============2941187903456351087=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-certifi: upgrading to 2023.5.7 SUCCEEDED
-Message-ID: <01010188215a5022-11d42765-e9a9-483b-924f-1dfe50e5544f-000000@us-west-2.amazonses.com>
-Date: Mon, 15 May 2023 21:39:06 +0000
+Subject: [AUH] python3-cryptography-vectors: upgrading to 40.0.2 SUCCEEDED
+Message-ID: <01010188215a50d8-bfbbeda9-d4b2-46b6-9e15-c8fea41bbcaa-000000@us-west-2.amazonses.com>
+Date: Mon, 15 May 2023 21:39:07 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.05.15-54.240.27.191
+X-SES-Outgoing: 2023.05.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 21:39:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181288
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181307
 
---===============2345444634944995004==
+--===============2941187903456351087==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-certifi* to *2023.5.7* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-cryptography-vectors* to *40.0.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-certifi-upgrade-2022.12.7-2023.5.7.patch
+    - apply the patch: git am 0001-python3-cryptography-vectors-upgrade-39.0.2-40.0.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,94 +69,117 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============2345444634944995004==
+--===============2941187903456351087==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-certifi: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/certifi/certifi-2022.12.7.tar.gz;downloadfilename=certifi-2022.12.7.tar.gz" to "https://files.pythonhosted.org/packages/source/c/certifi/certifi-2023.5.7.tar.gz;downloadfilename=certifi-2023.5.7.tar.gz"
-packages/core2-32-poky-linux/python3-certifi: PV changed from "2022.12.7" to "2023.5.7"
-packages/core2-32-poky-linux/python3-certifi: PKGV changed from 2022.12.7 [default] to 2023.5.7 [default]
-packages/core2-32-poky-linux/python3-certifi/python3-certifi-dbg: PV changed from "2022.12.7" to "2023.5.7"
-packages/core2-32-poky-linux/python3-certifi/python3-certifi-dbg: PKGV changed from 2022.12.7 [default] to 2023.5.7 [default]
-packages/core2-32-poky-linux/python3-certifi/python3-certifi-dev: PV changed from "2022.12.7" to "2023.5.7"
-packages/core2-32-poky-linux/python3-certifi/python3-certifi-dev: PKGV changed from 2022.12.7 [default] to 2023.5.7 [default]
-packages/core2-32-poky-linux/python3-certifi/python3-certifi-doc: PV changed from "2022.12.7" to "2023.5.7"
-packages/core2-32-poky-linux/python3-certifi/python3-certifi-doc: PKGV changed from 2022.12.7 [default] to 2023.5.7 [default]
-packages/core2-32-poky-linux/python3-certifi/python3-certifi-locale: PV changed from "2022.12.7" to "2023.5.7"
-packages/core2-32-poky-linux/python3-certifi/python3-certifi-locale: PKGV changed from 2022.12.7 [default] to 2023.5.7 [default]
-packages/core2-32-poky-linux/python3-certifi/python3-certifi-src: PV changed from "2022.12.7" to "2023.5.7"
-packages/core2-32-poky-linux/python3-certifi/python3-certifi-src: PKGV changed from 2022.12.7 [default] to 2023.5.7 [default]
-packages/core2-32-poky-linux/python3-certifi/python3-certifi-staticdev: PV changed from "2022.12.7" to "2023.5.7"
-packages/core2-32-poky-linux/python3-certifi/python3-certifi-staticdev: PKGV changed from 2022.12.7 [default] to 2023.5.7 [default]
-packages/core2-32-poky-linux/python3-certifi/python3-certifi: PV changed from "2022.12.7" to "2023.5.7"
-packages/core2-32-poky-linux/python3-certifi/python3-certifi: PKGSIZE changed from 288912 to 291905 (+1%)
-packages/core2-32-poky-linux/python3-certifi/python3-certifi: PKGV changed from 2022.12.7 [default] to 2023.5.7 [default]
-Changes to packages/core2-32-poky-linux/python3-certifi (sysroot):
-  /usr/lib/python3.11/site-packages/certifi-2023.5.7.dist-info was added
-  /usr/lib/python3.11/site-packages/certifi-2023.5.7.dist-info/LICENSE was added
-  /usr/lib/python3.11/site-packages/certifi-2023.5.7.dist-info/METADATA was added
-  /usr/lib/python3.11/site-packages/certifi-2023.5.7.dist-info/RECORD was added
-  /usr/lib/python3.11/site-packages/certifi-2023.5.7.dist-info/top_level.txt was added
-  /usr/lib/python3.11/site-packages/certifi-2023.5.7.dist-info/WHEEL was added
-  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info was removed
-  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/LICENSE was removed
-  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/METADATA was removed
-  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/RECORD was removed
-  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/top_level.txt was removed
-  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/WHEEL was removed
+packages/core2-32-poky-linux/python3-cryptography-vectors: PKGV changed from 39.0.2 [default] to 40.0.2 [default]
+packages/core2-32-poky-linux/python3-cryptography-vectors: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/cryptography_vectors/cryptography_vectors-39.0.2.tar.gz;downloadfilename=cryptography_vectors-39.0.2.tar.gz" to "https://files.pythonhosted.org/packages/source/c/cryptography_vectors/cryptography_vectors-40.0.2.tar.gz;downloadfilename=cryptography_vectors-40.0.2.tar.gz"
+packages/core2-32-poky-linux/python3-cryptography-vectors: PV changed from "39.0.2" to "40.0.2"
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dbg: PKGV changed from 39.0.2 [default] to 40.0.2 [default]
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dbg: PV changed from "39.0.2" to "40.0.2"
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dev: PKGV changed from 39.0.2 [default] to 40.0.2 [default]
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dev: PV changed from "39.0.2" to "40.0.2"
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-doc: PKGV changed from 39.0.2 [default] to 40.0.2 [default]
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-doc: PV changed from "39.0.2" to "40.0.2"
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-locale: PKGV changed from 39.0.2 [default] to 40.0.2 [default]
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-locale: PV changed from "39.0.2" to "40.0.2"
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-src: PKGV changed from 39.0.2 [default] to 40.0.2 [default]
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-src: PV changed from "39.0.2" to "40.0.2"
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-staticdev: PKGV changed from 39.0.2 [default] to 40.0.2 [default]
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-staticdev: PV changed from "39.0.2" to "40.0.2"
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: PKGV changed from 39.0.2 [default] to 40.0.2 [default]
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: FILELIST: directory renamed /usr/lib/python3.11/site-packages/cryptography_vectors-39.0.2.dist-info -> /usr/lib/python3.11/site-packages/cryptography_vectors-40.0.2.dist-info, added "/usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/dsa-p256.pub /usr/lib/python3.11/site-packages/cryptography_vectors/x509/cryptography.io.with_headers.pem /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-rsa-sha256.pub /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p521.pub /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-duplicate-extension.pub /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-empty-principals.pub /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p384.pub /usr/lib/python3.11/site-pac
+ kages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-dsa.pub /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-rsa-sha1.pub /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-invalid-cert-type.pub /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-non-lexical-extensions.pub /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-non-lexical-crit-opts.pub /usr/lib/python3.11/site-packages/cryptography_vectors/x509/custom/crl_inner_outer_mismatch.der /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-broken-signature-key-type.pub /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-rsa-sha512.pub /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-duplicate-crit-opts.pub /usr/lib/python3.11/site-packages/cryptography_vectors/x509
+ /custom/mismatch_inner_outer_sig_algorithm.der"
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: PV changed from "39.0.2" to "40.0.2"
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: PKGSIZE changed from 75079978 to 75099381 (+0%)
+Changes to packages/core2-32-poky-linux/python3-cryptography-vectors (sysroot):
+  /usr/lib/python3.11/site-packages/cryptography_vectors-39.0.2.dist-info moved to /usr/lib/python3.11/site-packages/cryptography_vectors-40.0.2.dist-info
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/dsa-p256.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-dsa.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-broken-signature-key-type.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-duplicate-crit-opts.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-duplicate-extension.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-empty-principals.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-invalid-cert-type.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-non-lexical-crit-opts.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-non-lexical-extensions.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p384.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p521.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-rsa-sha1.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-rsa-sha256.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-rsa-sha512.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/x509/cryptography.io.with_headers.pem was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/x509/custom/crl_inner_outer_mismatch.der was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/x509/custom/mismatch_inner_outer_sig_algorithm.der was added
 
---===============2345444634944995004==
+--===============2941187903456351087==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/python3-certifi (sysroot):
-  /usr/lib/python3.11/site-packages/certifi-2023.5.7.dist-info was added
-  /usr/lib/python3.11/site-packages/certifi-2023.5.7.dist-info/LICENSE was added
-  /usr/lib/python3.11/site-packages/certifi-2023.5.7.dist-info/METADATA was added
-  /usr/lib/python3.11/site-packages/certifi-2023.5.7.dist-info/RECORD was added
-  /usr/lib/python3.11/site-packages/certifi-2023.5.7.dist-info/top_level.txt was added
-  /usr/lib/python3.11/site-packages/certifi-2023.5.7.dist-info/WHEEL was added
-  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info was removed
-  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/LICENSE was removed
-  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/METADATA was removed
-  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/RECORD was removed
-  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/top_level.txt was removed
-  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/WHEEL was removed
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: FILELIST: directory renamed /usr/lib/python3.11/site-packages/cryptography_vectors-39.0.2.dist-info -> /usr/lib/python3.11/site-packages/cryptography_vectors-40.0.2.dist-info, added "/usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-broken-signature-key-type.pub /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-duplicate-crit-opts.pub /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-duplicate-extension.pub /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-non-lexical-crit-opts.pub /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-rsa-sha256.pub /usr/lib/python3.11/site-packages/cryptography_vectors/x509/custom/crl_inner_outer_mismatch.der /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/O
+ penSSH/certs/p256-p384.pub /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-rsa-sha512.pub /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-invalid-cert-type.pub /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p521.pub /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-rsa-sha1.pub /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-non-lexical-extensions.pub /usr/lib/python3.11/site-packages/cryptography_vectors/x509/cryptography.io.with_headers.pem /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-empty-principals.pub /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/dsa-p256.pub /usr/lib/python3.11/site-packages/cryptography_vectors/x509/custom/mismatch_inner_outer_sig_algorithm.der /usr/lib/python3.11/site-packages/cryptography
+ _vectors/asymmetric/OpenSSH/certs/p256-dsa.pub"
+Changes to packages/core2-32-poky-linux/python3-cryptography-vectors (sysroot):
+  /usr/lib/python3.11/site-packages/cryptography_vectors-39.0.2.dist-info moved to /usr/lib/python3.11/site-packages/cryptography_vectors-40.0.2.dist-info
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/dsa-p256.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-dsa.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-broken-signature-key-type.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-duplicate-crit-opts.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-duplicate-extension.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-empty-principals.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-invalid-cert-type.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-non-lexical-crit-opts.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p256-non-lexical-extensions.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p384.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-p521.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-rsa-sha1.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-rsa-sha256.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/asymmetric/OpenSSH/certs/p256-rsa-sha512.pub was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/x509/cryptography.io.with_headers.pem was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/x509/custom/crl_inner_outer_mismatch.der was added
+  /usr/lib/python3.11/site-packages/cryptography_vectors/x509/custom/mismatch_inner_outer_sig_algorithm.der was added
 
---===============2345444634944995004==
+--===============2941187903456351087==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-certifi-upgrade-2022.12.7-2023.5.7.patch"
+ filename="0001-python3-cryptography-vectors-upgrade-39.0.2-40.0.2.patch"
 
-RnJvbSA4Y2M5YzUwNDdhMjZiN2IwMTc5NTE2OWNjODQ0ZTM4ZDc1YTkzMGQ2IE1vbiBTZXAgMTcg
+RnJvbSA4OTFhNDcyNzIzMzEzMGY4MzcwOWRmNTM1NThjYjA4ZTI0NmU3NDhjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgTWF5IDIwMjMgMDk6NDg6MzQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWNlcnRpZmk6IHVwZ3JhZGUgMjAyMi4xMi43IC0+IDIwMjMuNS43CgotLS0KIC4uLnB5
-dGhvbjMtY2VydGlmaV8yMDIyLjEyLjcuYmIgPT4gcHl0aG9uMy1jZXJ0aWZpXzIwMjMuNS43LmJi
-fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtY2VydGlmaV8yMDIy
-LjEyLjcuYmIgPT4gcHl0aG9uMy1jZXJ0aWZpXzIwMjMuNS43LmJifSAoODYlKQoKZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jZXJ0aWZpXzIwMjIuMTIu
-Ny5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jZXJ0aWZpXzIwMjMu
-NS43LmJiCnNpbWlsYXJpdHkgaW5kZXggODYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0
-b29scy9weXRob24vcHl0aG9uMy1jZXJ0aWZpXzIwMjIuMTIuNy5iYgpyZW5hbWUgdG8gbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNlcnRpZmlfMjAyMy41LjcuYmIKaW5kZXgg
-ZGNhM2QyNjgxMS4uYWNkMDE1YmJiOSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3B5dGhvbi9weXRob24zLWNlcnRpZmlfMjAyMi4xMi43LmJiCisrKyBiL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy1jZXJ0aWZpXzIwMjMuNS43LmJiCkBAIC03LDcgKzcsNyBA
-QCBIT01FUEFHRSA9ICIgaHR0cDovL2NlcnRpZmkuaW8vIgogTElDRU5TRSA9ICJJU0MiCiBMSUNf
-RklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT0zYzJiNzQwNDM2OWM1ODdjMzU1OWFm
-YjYwNGZjZTJmMiIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjM1ODI0YjRjM2E5NzExNTk2NGI0
-MDg4NDRkNjRhYTE0ZGIxY2M1MThmNjU2MmU4ZDcyNjE2OTlkMTM1MGE5ZTMiCitTUkNfVVJJW3No
-YTI1NnN1bV0gPSAiMGYwZDU2ZGM1YTZhZDU2ZmQ0YmEzNjQ4NGQ2Y2MzNDQ1MWUxYzY1NDhjNjFk
-YWFkOGMzMjAxNjlmOTFlZGRjNyIKIAogaW5oZXJpdCBweXBpIHNldHVwdG9vbHMzCiAKLS0gCjIu
-MzkuMgoK
+CkRhdGU6IE1vbiwgMTUgTWF5IDIwMjMgMTA6MjI6MDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWNyeXB0b2dyYXBoeS12ZWN0b3JzOiB1cGdyYWRlIDM5LjAuMiAtPiA0MC4wLjIKCi0t
+LQogLi4udmVjdG9yc18zOS4wLjIuYmIgPT4gcHl0aG9uMy1jcnlwdG9ncmFwaHktdmVjdG9yc180
+MC4wLjIuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0
+aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1jcnlw
+dG9ncmFwaHktdmVjdG9yc18zOS4wLjIuYmIgPT4gcHl0aG9uMy1jcnlwdG9ncmFwaHktdmVjdG9y
+c180MC4wLjIuYmJ9ICg5MCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24zLWNyeXB0b2dyYXBoeS12ZWN0b3JzXzM5LjAuMi5iYiBiL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jcnlwdG9ncmFwaHktdmVjdG9yc180MC4wLjIuYmIK
+c2ltaWxhcml0eSBpbmRleCA5MCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24zLWNyeXB0b2dyYXBoeS12ZWN0b3JzXzM5LjAuMi5iYgpyZW5hbWUgdG8gbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNyeXB0b2dyYXBoeS12ZWN0b3JzXzQw
+LjAuMi5iYgppbmRleCA3OTVlMjdmNzViLi41ZDMyNmE0ZTI3IDEwMDY0NAotLS0gYS9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3J5cHRvZ3JhcGh5LXZlY3RvcnNfMzkuMC4y
+LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jcnlwdG9ncmFw
+aHktdmVjdG9yc180MC4wLjIuYmIKQEAgLTksNyArOSw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAi
+ZmlsZTovL0xJQ0VOU0U7bWQ1PThjMzYxN2RiNGZiNmZhZTAxZjFkMjUzYWI5MTUxMWU0IFwKICMg
+Tk9URTogTWFrZSBzdXJlIHRvIGtlZXAgdGhpcyByZWNpcGUgYXQgdGhlIHNhbWUgdmVyc2lvbiBh
+cyBweXRob24zLWNyeXB0b2dyYXBoeQogIyAgICAgICBVcGdyYWRlIGJvdGggcmVjaXBlcyBhdCB0
+aGUgc2FtZSB0aW1lCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJhNjhmMTA2ZjdhNDMyMmNmMWU3
+ZWQ1MWUzZmM2ZDVjMWUwYjExZDMzN2VkOTE4ZWM4NzllOGFmZTBjMmE1MjIwIgorU1JDX1VSSVtz
+aGEyNTZzdW1dID0gImE4MWI4Nzc5MDcyMzYyYTgyMzFkNWU3MTFiYzEwOTVmZGI2NTUyMTI1ZWRm
+MjgwN2NkYzJhNTkwNzhiZTBjOWEiCiAKIFBZUElfUEFDS0FHRSA9ICJjcnlwdG9ncmFwaHlfdmVj
+dG9ycyIKIAotLSAKMi4zOS4yCgo=
 
---===============2345444634944995004==--
+--===============2941187903456351087==--
 
