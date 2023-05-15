@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83582C7EE26
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A354DC7EE2E
 	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 21:39:15 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.3755.1684186747064100872
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.3776.1684186750882654436
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 May 2023 14:39:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=SazHxcPn;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010188215a6609-2e9a3c55-4158-404e-beb1-97660967e3fa-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=LYYDM1ez;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010188215a65f9-7cee6b52-50f8-4850-8bb6-c1141ed844df-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1684186752;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=YBSiKcsgVgMYurMuAejxHS0U6uDRz2UV0eAG/Wx/mok=;
-	b=SazHxcPnPgbmqphf6LWUSOn2GuleH8pEfIwyBBLK7DE0zZqXCMYO7Wv8AzUWFptP
-	Gyg4gI+u2Nuy2bPaPjlLCE7kYxDJvrM5FZPLc4F+NfMqfp7TZ/8tKJA7ma/x7svbZho
-	d3OERMom70A6cgWlpqpfn0Js41qTxaUc2yhYGX7o=
+	bh=xtrGK0IvmXkHEG+H/ImRkuHWWdrWu0gMjsf5kWZaOwU=;
+	b=LYYDM1ezXYB9RUax7OBCtjx4ymH8d7r99a6+adNlcxZC53ifBzesPsjo2+EAx8py
+	9q4RsJmYQw0MVvsua1ISSBsocbTFQGoB/fGCHWrAv4m060c63ORpLVDw2/oYRL5Z1Ld
+	eiceW0NK+E4jVE6Awv/Y2rildYdq1dJJzsYeE/3c=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1684186752;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=YBSiKcsgVgMYurMuAejxHS0U6uDRz2UV0eAG/Wx/mok=;
-	b=OKa0ywVLQalBccVhsixZ/UyGcfcKiPH7I3qupJc7938aieO1TD3jlPGKXQ4RbLWh
-	BmAJA9ln9pUq82vUVWQpPcLYouJCOiAv3pQ47524YYqrAxbPsc4k0JIVCsgw3Y/Oau6
-	aj9m5lrjllln53JgaNpUJE8540XtaAlU/LR1mHqI=
-Content-Type: multipart/mixed; boundary="===============3288897090997645472=="
+	bh=xtrGK0IvmXkHEG+H/ImRkuHWWdrWu0gMjsf5kWZaOwU=;
+	b=GK60XAWjzHb5ov/ukTb31KPgrxLalBb2SBIY9MgiOOMHHp0gXUNOwaW6xWmGiwQF
+	fjdlfsPD+/1hWG9AINVbaDl8dCvaX7Kwy0XH0rUiDWymcCqsyk7aRgYAHWsh/TGDvwM
+	HhwC+fwBTxt7n9Z+QfBetTUEk4yDqsFZw6TBzTxQ=
+Content-Type: multipart/mixed; boundary="===============0798932241841134909=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] nghttp2: upgrading to 1.53.0 SUCCEEDED
-Message-ID: <01010188215a6609-2e9a3c55-4158-404e-beb1-97660967e3fa-000000@us-west-2.amazonses.com>
+Subject: [AUH] libxslt: upgrading to 1.1.38 SUCCEEDED
+Message-ID: <01010188215a65f9-7cee6b52-50f8-4850-8bb6-c1141ed844df-000000@us-west-2.amazonses.com>
 Date: Mon, 15 May 2023 21:39:12 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.05.15-54.240.27.193
+X-SES-Outgoing: 2023.05.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 21:39:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181389
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181388
 
---===============3288897090997645472==
+--===============0798932241841134909==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *nghttp2* to *1.53.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *libxslt* to *1.1.38* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-nghttp2-upgrade-1.52.0-1.53.0.patch
+    - apply the patch: git am 0001-libxslt-upgrade-1.1.37-1.1.38.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,46 +69,73 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3288897090997645472==
+--===============0798932241841134909==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libxslt-upgrade-1.1.37-1.1.38.patch"
+
+RnJvbSA0NTFmYzFkODA0MTc2OGUxMjZlMzY3NjgxYjhmNWQ4MWNjYTRlYjdmIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgTWF5IDIwMjMgMjE6MDY6MjkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJ4c2x0OiB1cGdyYWRlIDEuMS4zNyAtPiAxLjEuMzgKCi0tLQogLi4uL2xpYnhzbHQve2xpYnhz
+bHRfMS4xLjM3LmJiID0+IGxpYnhzbHRfMS4xLjM4LmJifSAgICAgICAgICAgIHwgMiArLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvbGlieHNsdC97bGlieHNsdF8xLjEuMzcuYmIgPT4gbGlieHNsdF8xLjEu
+MzguYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlieHNsdC9s
+aWJ4c2x0XzEuMS4zNy5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnhzbHQvbGlieHNsdF8x
+LjEuMzguYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvbGlieHNsdC9saWJ4c2x0XzEuMS4zNy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvbGlieHNsdC9saWJ4c2x0XzEuMS4zOC5iYgppbmRleCAzNjFiYjBmOGRjLi5iZjM1YTk0
+YjdmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJ4c2x0L2xpYnhzbHRfMS4x
+LjM3LmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnhzbHQvbGlieHNsdF8xLjEuMzgu
+YmIKQEAgLTE1LDcgKzE1LDcgQEAgREVQRU5EUyA9ICJsaWJ4bWwyIgogCiBTUkNfVVJJID0gImh0
+dHBzOi8vZG93bmxvYWQuZ25vbWUub3JnL3NvdXJjZXMvbGlieHNsdC8xLjEvbGlieHNsdC0ke1BW
+fS50YXIueHoiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIzYTRiMjdkYzgwMjdjY2Q2MTQ2NzI1
+OTUwMzM2ZjFlYzUyMDkyOGYzMjBmMTQ0ZWI1ZmE3OTkwYWU2MTIzYWI0IgorU1JDX1VSSVtzaGEy
+NTZzdW1dID0gIjFmMzI0NTA0MjU4MTlhMDlhY2FmZjJhYjdhNWE3ZjhhMmVjNzk1NmU1MDVkN2Jl
+ZWI0NWU4NDNkMGUxZWNhYjEiCiAKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gImxpYnhzbHQtKD9Q
+PHB2ZXI+XGQrKFwuXGQrKSspXC50YXIiCiAKLS0gCjIuMzkuMgoK
+
+--===============0798932241841134909==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/nghttp2: PKGV changed from 1.52.0 [default] to 1.53.0 [default]
-packages/core2-32-poky-linux/nghttp2: PV changed from "1.52.0" to "1.53.0"
-packages/core2-32-poky-linux/nghttp2: SRC_URI changed from "https://github.com/nghttp2/nghttp2/releases//download/v1.52.0/nghttp2-1.52.0.tar.xz file://0001-fetch-ocsp-response-use-python3.patch" to "https://github.com/nghttp2/nghttp2/releases//download/v1.53.0/nghttp2-1.53.0.tar.xz file://0001-fetch-ocsp-response-use-python3.patch"
-packages/core2-32-poky-linux/nghttp2/libnghttp2: PKGV changed from 1.52.0 [default] to 1.53.0 [default]
-packages/core2-32-poky-linux/nghttp2/libnghttp2: PV changed from "1.52.0" to "1.53.0"
-packages/core2-32-poky-linux/nghttp2/libnghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.24.1", added "/usr/lib/libnghttp2.so.14.24.2"
-packages/core2-32-poky-linux/nghttp2/nghttp2-dbg: PKGV changed from 1.52.0 [default] to 1.53.0 [default]
-packages/core2-32-poky-linux/nghttp2/nghttp2-dbg: PV changed from "1.52.0" to "1.53.0"
-packages/core2-32-poky-linux/nghttp2/nghttp2-dbg: PKGSIZE changed from 464520 to 472472 (+2%)
-packages/core2-32-poky-linux/nghttp2/nghttp2-dbg: FILELIST: removed "/usr/lib/.debug/libnghttp2.so.14.24.1", added "/usr/lib/.debug/libnghttp2.so.14.24.2"
-packages/core2-32-poky-linux/nghttp2/nghttp2-dev: PKGV changed from 1.52.0 [default] to 1.53.0 [default]
-packages/core2-32-poky-linux/nghttp2/nghttp2-dev: PV changed from "1.52.0" to "1.53.0"
-packages/core2-32-poky-linux/nghttp2/nghttp2-doc: PKGV changed from 1.52.0 [default] to 1.53.0 [default]
-packages/core2-32-poky-linux/nghttp2/nghttp2-doc: PV changed from "1.52.0" to "1.53.0"
-packages/core2-32-poky-linux/nghttp2/nghttp2-doc: PKGSIZE changed from 173052 to 174361 (+1%)
-packages/core2-32-poky-linux/nghttp2/nghttp2-locale: PKGV changed from 1.52.0 [default] to 1.53.0 [default]
-packages/core2-32-poky-linux/nghttp2/nghttp2-locale: PV changed from "1.52.0" to "1.53.0"
-packages/core2-32-poky-linux/nghttp2/nghttp2-proxy: PKGV changed from 1.52.0 [default] to 1.53.0 [default]
-packages/core2-32-poky-linux/nghttp2/nghttp2-proxy: PV changed from "1.52.0" to "1.53.0"
-packages/core2-32-poky-linux/nghttp2/nghttp2-src: PKGV changed from 1.52.0 [default] to 1.53.0 [default]
-packages/core2-32-poky-linux/nghttp2/nghttp2-src: PV changed from "1.52.0" to "1.53.0"
-packages/core2-32-poky-linux/nghttp2/nghttp2-src: PKGSIZE changed from 1008307 to 1021807 (+1%)
-packages/core2-32-poky-linux/nghttp2/nghttp2-src: FILELIST: directory renamed /usr/src/debug/nghttp2/1.52.0-r0/lib/includes/nghttp2 -> /usr/src/debug/nghttp2/1.53.0-r0/lib/includes/nghttp2, removed "/usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_hd_huffman.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_hd.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_pq.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_callbacks.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_hd.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_pq.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_hd_huffman.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_callbacks.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_priority_spec.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_priority_spec.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_helper.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_queue.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_helper.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_queue.c /usr/src/debug/nghttp2/1.52.0-r0/
- lib/nghttp2_rcbuf.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_buf.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_map.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_frame.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_mem.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_npn.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_frame.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_int.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_buf.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_debug.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_map.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_mem.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_rcbuf.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_submit.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_option.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_hd_huffman_data.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_option.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_stream.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_stream.c /usr/src/debug/nghttp2/1
- .52.0-r0/lib/nghttp2_http.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_outbound_item.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_http.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_outbound_item.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_session.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_extpri.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_version.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_extpri.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_session.h", added "/usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_hd_huffman.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_hd.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_pq.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_callbacks.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_hd.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_pq.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_hd_huffman.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_callbacks.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_priority_spec.c /usr/src/debug/nghttp2
- /1.53.0-r0/lib/nghttp2_priority_spec.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_helper.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_queue.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_helper.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_queue.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_rcbuf.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_buf.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_map.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_frame.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_mem.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_npn.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_frame.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_int.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_buf.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_debug.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_map.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_mem.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_rcbuf.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_submit.c /usr/src/debug/ng
- http2/1.53.0-r0/lib/nghttp2_option.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_hd_huffman_data.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_option.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_stream.h /usr/src/debug/nghttp2/1.53.0-r0/lib/sfparse.h /usr/src/debug/nghttp2/1.53.0-r0/lib/sfparse.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_stream.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_http.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_outbound_item.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_http.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_outbound_item.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_session.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_extpri.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_version.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_extpri.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_session.h"
-packages/core2-32-poky-linux/nghttp2/nghttp2-staticdev: PKGV changed from 1.52.0 [default] to 1.53.0 [default]
-packages/core2-32-poky-linux/nghttp2/nghttp2-staticdev: PV changed from "1.52.0" to "1.53.0"
-packages/core2-32-poky-linux/nghttp2/nghttp2: PKGV changed from 1.52.0 [default] to 1.53.0 [default]
-packages/core2-32-poky-linux/nghttp2/nghttp2: PV changed from "1.52.0" to "1.53.0"
-Changes to packages/core2-32-poky-linux/nghttp2 (sysroot):
-  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.24.1 to libnghttp2.so.14.24.2
-  /usr/lib/libnghttp2.so.14.24.1 moved to /usr/lib/libnghttp2.so.14.24.2
+packages/core2-32-poky-linux/libxslt: PV changed from "1.1.37" to "1.1.38"
+packages/core2-32-poky-linux/libxslt: PKGV changed from 1.1.37 [default] to 1.1.38 [default]
+packages/core2-32-poky-linux/libxslt: SRC_URI changed from "https://download.gnome.org/sources/libxslt/1.1/libxslt-1.1.37.tar.xz" to "https://download.gnome.org/sources/libxslt/1.1/libxslt-1.1.38.tar.xz"
+packages/core2-32-poky-linux/libxslt/libxslt-bin: PV changed from "1.1.37" to "1.1.38"
+packages/core2-32-poky-linux/libxslt/libxslt-bin: PKGV changed from 1.1.37 [default] to 1.1.38 [default]
+packages/core2-32-poky-linux/libxslt/libxslt-dbg: PV changed from "1.1.37" to "1.1.38"
+packages/core2-32-poky-linux/libxslt/libxslt-dbg: PKGSIZE changed from 861716 to 857576 (-0%)
+packages/core2-32-poky-linux/libxslt/libxslt-dbg: PKGV changed from 1.1.37 [default] to 1.1.38 [default]
+packages/core2-32-poky-linux/libxslt/libxslt-dbg: FILELIST: removed "/usr/lib/.debug/libexslt.so.0.8.20 /usr/lib/.debug/libxslt.so.1.1.37", added "/usr/lib/.debug/libexslt.so.0.8.21 /usr/lib/.debug/libxslt.so.1.1.38"
+packages/core2-32-poky-linux/libxslt/libxslt-dev: PV changed from "1.1.37" to "1.1.38"
+packages/core2-32-poky-linux/libxslt/libxslt-dev: PKGSIZE changed from 133900 to 134366 (+0%)
+packages/core2-32-poky-linux/libxslt/libxslt-dev: PKGV changed from 1.1.37 [default] to 1.1.38 [default]
+packages/core2-32-poky-linux/libxslt/libxslt-doc: PV changed from "1.1.37" to "1.1.38"
+packages/core2-32-poky-linux/libxslt/libxslt-doc: PKGSIZE changed from 602412 to 605519 (+1%)
+packages/core2-32-poky-linux/libxslt/libxslt-doc: PKGV changed from 1.1.37 [default] to 1.1.38 [default]
+packages/core2-32-poky-linux/libxslt/libxslt-locale: PV changed from "1.1.37" to "1.1.38"
+packages/core2-32-poky-linux/libxslt/libxslt-locale: PKGV changed from 1.1.37 [default] to 1.1.38 [default]
+packages/core2-32-poky-linux/libxslt/libxslt-src: PV changed from "1.1.37" to "1.1.38"
+packages/core2-32-poky-linux/libxslt/libxslt-src: PKGSIZE changed from 1286109 to 1297537 (+1%)
+packages/core2-32-poky-linux/libxslt/libxslt-src: PKGV changed from 1.1.37 [default] to 1.1.38 [default]
+packages/core2-32-poky-linux/libxslt/libxslt-staticdev: PV changed from "1.1.37" to "1.1.38"
+packages/core2-32-poky-linux/libxslt/libxslt-staticdev: PKGV changed from 1.1.37 [default] to 1.1.38 [default]
+packages/core2-32-poky-linux/libxslt/libxslt: PV changed from "1.1.37" to "1.1.38"
+packages/core2-32-poky-linux/libxslt/libxslt: PKGV changed from 1.1.37 [default] to 1.1.38 [default]
+packages/core2-32-poky-linux/libxslt/libxslt: FILELIST: removed "/usr/lib/libxslt.so.1.1.37 /usr/lib/libexslt.so.0.8.20", added "/usr/lib/libexslt.so.0.8.21 /usr/lib/libxslt.so.1.1.38"
+Changes to packages/core2-32-poky-linux/libxslt (sysroot):
+  /usr/lib/libexslt.so.0 changed symlink target from libexslt.so.0.8.20 to libexslt.so.0.8.21
+  /usr/lib/libexslt.so changed symlink target from libexslt.so.0.8.20 to libexslt.so.0.8.21
+  /usr/lib/libxslt.so.1 changed symlink target from libxslt.so.1.1.37 to libxslt.so.1.1.38
+  /usr/lib/libxslt.so changed symlink target from libxslt.so.1.1.37 to libxslt.so.1.1.38
+  /usr/lib/libexslt.so.0.8.20 moved to /usr/lib/libexslt.so.0.8.21
+  /usr/lib/libxslt.so.1.1.37 moved to /usr/lib/libxslt.so.1.1.38
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1463,16 +1490,20 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
 
---===============3288897090997645472==
+--===============0798932241841134909==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/nghttp2/libnghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.24.1", added "/usr/lib/libnghttp2.so.14.24.2"
-Changes to packages/core2-32-poky-linux/nghttp2 (sysroot):
-  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.24.1 to libnghttp2.so.14.24.2
-  /usr/lib/libnghttp2.so.14.24.1 moved to /usr/lib/libnghttp2.so.14.24.2
+packages/core2-32-poky-linux/libxslt/libxslt: FILELIST: removed "/usr/lib/libxslt.so.1.1.37 /usr/lib/libexslt.so.0.8.20", added "/usr/lib/libexslt.so.0.8.21 /usr/lib/libxslt.so.1.1.38"
+Changes to packages/core2-32-poky-linux/libxslt (sysroot):
+  /usr/lib/libexslt.so.0 changed symlink target from libexslt.so.0.8.20 to libexslt.so.0.8.21
+  /usr/lib/libexslt.so changed symlink target from libexslt.so.0.8.20 to libexslt.so.0.8.21
+  /usr/lib/libxslt.so.1 changed symlink target from libxslt.so.1.1.37 to libxslt.so.1.1.38
+  /usr/lib/libxslt.so changed symlink target from libxslt.so.1.1.37 to libxslt.so.1.1.38
+  /usr/lib/libexslt.so.0.8.20 moved to /usr/lib/libexslt.so.0.8.21
+  /usr/lib/libxslt.so.1.1.37 moved to /usr/lib/libxslt.so.1.1.38
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2827,35 +2858,5 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
 
---===============3288897090997645472==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-nghttp2-upgrade-1.52.0-1.53.0.patch"
-
-RnJvbSAxZDM0Y2NiNGM5ZDg3MjAxYTU4MDIzOGRkMzdlYjFiMjFjNDFjNjRhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgTWF5IDIwMjMgMjE6MzQ6NTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBu
-Z2h0dHAyOiB1cGdyYWRlIDEuNTIuMCAtPiAxLjUzLjAKCi0tLQogLi4uL25naHR0cDIve25naHR0
-cDJfMS41Mi4wLmJiID0+IG5naHR0cDJfMS41My4wLmJifSAgICAgICAgICAgIHwgMiArLQogMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvbmdodHRwMi97bmdodHRwMl8xLjUyLjAuYmIgPT4gbmdodHRwMl8xLjUz
-LjAuYmJ9ICg5MSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRwMi9u
-Z2h0dHAyXzEuNTIuMC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8x
-LjUzLjAuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1
-cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEuNTIuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1
-cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEuNTMuMC5iYgppbmRleCBmNTdhMTU5NTRkLi44OGQ1ZjMx
-MDgzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9uZ2h0dHAyL25naHR0cDJfMS41
-Mi4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8xLjUzLjAu
-YmIKQEAgLTgsNyArOCw3IEBAIFNSQ19VUkkgPSAiXAogICAgICR7R0lUSFVCX0JBU0VfVVJJfS9k
-b3dubG9hZC92JHtQVn0vbmdodHRwMi0ke1BWfS50YXIueHogXAogICAgIGZpbGU6Ly8wMDAxLWZl
-dGNoLW9jc3AtcmVzcG9uc2UtdXNlLXB5dGhvbjMucGF0Y2ggXAogIgotU1JDX1VSSVtzaGEyNTZz
-dW1dID0gIjNlYTlmMDQzOWU2MDQ2OWFkNGQzOWNiMzQ5OTM4Njg0ZmZiOTI5ZGQ3ZThlMDZhN2Jm
-ZmU5ZjlkMjFmOGJhN2QiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYjg2NzE4NDI1NGU1YTI5YjBi
-YTY4NDEzYWExNGY4YjBjZTExNDJhMzcxNzYxMzc0NTk4ZGVjMDkyZGFiYjgwOSIKIAogaW5oZXJp
-dCBjbWFrZSBtYW5wYWdlcyBweXRob24zbmF0aXZlIGdpdGh1Yi1yZWxlYXNlcwogUEFDS0FHRUNP
-TkZJR1ttYW5wYWdlc10gPSAiIgotLSAKMi4zOS4yCgo=
-
---===============3288897090997645472==--
+--===============0798932241841134909==--
 
