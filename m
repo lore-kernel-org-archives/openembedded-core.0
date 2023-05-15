@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1B2ACA9ED6
-	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 21:39:17 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.3760.1684186747292497654
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D4CFCCA466
+	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 21:39:18 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.3701.1684186746187279668
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 May 2023 14:39:07 -0700
+ Mon, 15 May 2023 14:39:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=aydYFEkw;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010188215a4df0-2c9b4d27-ad55-4e0f-bda0-0df044237d00-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=SQYDXp9y;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010188215a49d2-0802928b-65a7-4ff7-b2bc-187ebd31244e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1684186746;
+	t=1684186745;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=3LSWDOBoWpvFzIlNFF+66FPsL0f4vNtYXlnBYln2ZUY=;
-	b=aydYFEkwvlRNwCHME45yw8pV4STpYkbh8ljGXWhoYDD/p0KYlnTlVjscYGAjtef0
-	qmfIwtNJo9dTNbso6k0+y8Hq0DTY7RaDEEfEDL6abCNAbfN6MEqLvBhnHBPnWiUfsi1
-	wLR/ha5vizbruRwHS85pDMICFxGTnOqNaffrZ8JE=
+	bh=6X1I6cWAQFWEmjF50t8DDrzsYUvmvHkV5AX2s/KZCZs=;
+	b=SQYDXp9yVbSoyG2PtKhUJghBrgIm1L/pjSdGp6YTcWLDdVms5j5ls33g9fNY/ZHv
+	7DSc0x6rBNo4E94Tq0FOpPYdakAn1Si+lHTYVrWuDGpjQQg6E1biVfd/8H2StWUjWUH
+	TiqitKMJwUSx4T2QqbUSHnkerC4esUFGTic7V+wE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1684186746;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1684186745;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=3LSWDOBoWpvFzIlNFF+66FPsL0f4vNtYXlnBYln2ZUY=;
-	b=j0vtvushdJZiJ/CQ4FaRwKx9OZI9UMMEt6pCurG2estb4C5okL8HY7zOuiyqtjJN
-	TcwCVOYxMlbUrmrv79NpkSOckMM+K1uZIRRgWBM3CuHDMubtZ5kbY78UwApo3YZlwkU
-	UeANObVf0YjqKQJAJL9lDZC4Exq8mPr2fBsweifM=
-Content-Type: multipart/mixed; boundary="===============1374944540395975771=="
+	bh=6X1I6cWAQFWEmjF50t8DDrzsYUvmvHkV5AX2s/KZCZs=;
+	b=o3eeZ4IdbT/yTlPJYxVpuEcqN2qOHRM9NOHZSrNHheb5hiv58hRmqUJpMqkJXIac
+	2PyHwUJAmGc+NtKqYytcfZwPV0OHcRol+YJS+bPXqY8svDXB16qzqvOibtbJV00aI5H
+	AibBAnEtY3Ji17QShskk8HdDeNpsNhN7w54r0jcU=
+Content-Type: multipart/mixed; boundary="===============0884786792345368198=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] createrepo-c: upgrading to 0.21.1 SUCCEEDED
-Message-ID: <01010188215a4df0-2c9b4d27-ad55-4e0f-bda0-0df044237d00-000000@us-west-2.amazonses.com>
-Date: Mon, 15 May 2023 21:39:06 +0000
+Subject: [AUH] coreutils: upgrading to 9.3 SUCCEEDED
+Message-ID: <01010188215a49d2-0802928b-65a7-4ff7-b2bc-187ebd31244e-000000@us-west-2.amazonses.com>
+Date: Mon, 15 May 2023 21:39:05 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.05.15-54.240.27.30
+X-SES-Outgoing: 2023.05.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 21:39:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181294
+ <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 21:39:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181276
 
---===============1374944540395975771==
+--===============0884786792345368198==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *createrepo-c* to *0.21.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *coreutils* to *9.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-createrepo-c-upgrade-0.20.1-0.21.1.patch
+    - apply the patch: git am 0001-coreutils-upgrade-9.1-9.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,1384 +69,293 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============1374944540395975771==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-createrepo-c-upgrade-0.20.1-0.21.1.patch"
-
-RnJvbSBlNTUzOTlhMzhiNjg3MzZmYWM0ZWFlOGFkYjU2ZmY3NDc1YTVjMjU5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgTWF5IDIwMjMgMDg6NTA6MjAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
-cmVhdGVyZXBvLWM6IHVwZ3JhZGUgMC4yMC4xIC0+IDAuMjEuMQoKLS0tCiAuLi4vY3JlYXRlcmVw
-by1jLzAwMDEtaW5jbHVkZS1ycG0tcnBtc3RyaW5nLmgucGF0Y2ggICAgICB8IDkgKysrKysrLS0t
-CiAuLi4ve2NyZWF0ZXJlcG8tY18wLjIwLjEuYmIgPT4gY3JlYXRlcmVwby1jXzAuMjEuMS5iYn0g
-ICB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygt
-KQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jcmVhdGVyZXBvLWMve2NyZWF0ZXJlcG8t
-Y18wLjIwLjEuYmIgPT4gY3JlYXRlcmVwby1jXzAuMjEuMS5iYn0gKDk2JSkKCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY3JlYXRlcmVwby1jL2NyZWF0ZXJlcG8tYy8wMDAxLWlu
-Y2x1ZGUtcnBtLXJwbXN0cmluZy5oLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NyZWF0
-ZXJlcG8tYy9jcmVhdGVyZXBvLWMvMDAwMS1pbmNsdWRlLXJwbS1ycG1zdHJpbmcuaC5wYXRjaApp
-bmRleCBhMjQ5ZWFmNWExLi44NjIyNGQxOWU4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvY3JlYXRlcmVwby1jL2NyZWF0ZXJlcG8tYy8wMDAxLWluY2x1ZGUtcnBtLXJwbXN0cmlu
-Zy5oLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jcmVhdGVyZXBvLWMvY3JlYXRl
-cmVwby1jLzAwMDEtaW5jbHVkZS1ycG0tcnBtc3RyaW5nLmgucGF0Y2gKQEAgLTEsNyArMSw3IEBA
-Ci1Gcm9tIDhkZWZlNmFhZjkxNjEzYzNmY2I1NDBkZjY1YTk0Y2Q1NmQzNzczNjcgTW9uIFNlcCAx
-NyAwMDowMDowMCAyMDAxCitGcm9tIDA4ZWVmZjYxMWExN2NmMzFjNWVjZGE5ZTNlN2ZhMGJjNDc5
-ODQ2MDEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1A
-Z21haWwuY29tPgogRGF0ZTogRnJpLCAxMyBKYW4gMjAyMyAxMzoyMTo1MSAtMDgwMAotU3ViamVj
-dDogW1BBVENIIDEvMl0gaW5jbHVkZSBycG0vcnBtc3RyaW5nLmgKK1N1YmplY3Q6IFtQQVRDSF0g
-aW5jbHVkZSBycG0vcnBtc3RyaW5nLmgKIAogSXRzIG5lZWRlZCBmb3IgcmFzcHJpbnRmIGRlY2xh
-cmF0aW9uCiAKQEAgLTExLDEwICsxMSwxMyBAQCBvbiAncmFzcHJpbnRmJzsgSVNPIEM5OSBhbmQg
-bGF0ZXIgZG8gbm90IHN1cHBvcnQgaW1wbGljaXQgZnVuY3Rpb24gZGVjbGFyYXRpb25zCiAKIFVw
-c3RyZWFtLVN0YXR1czogU3VibWl0dGVkIFtodHRwczovL2dpdGh1Yi5jb20vcnBtLXNvZnR3YXJl
-LW1hbmFnZW1lbnQvY3JlYXRlcmVwb19jL3B1bGwvMzQwXQogU2lnbmVkLW9mZi1ieTogS2hlbSBS
-YWogPHJhai5raGVtQGdtYWlsLmNvbT4KKwogLS0tCiAgc3JjL3htbF9maWxlLmMgfCAxICsKICAx
-IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKIAorZGlmZiAtLWdpdCBhL3NyYy94bWxfZmls
-ZS5jIGIvc3JjL3htbF9maWxlLmMKK2luZGV4IGQyNDAwYjguLjg3MTEwOWMgMTAwNjQ0CiAtLS0g
-YS9zcmMveG1sX2ZpbGUuYwogKysrIGIvc3JjL3htbF9maWxlLmMKIEBAIC0xOSw2ICsxOSw3IEBA
-CkBAIC0yMyw1ICsyNiw1IEBAIFNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFp
-bC5jb20+CiAgI2luY2x1ZGUgPGdsaWIvZ3N0ZGlvLmg+CiArI2luY2x1ZGUgPHJwbS9ycG1zdHJp
-bmcuaD4KICAjaW5jbHVkZSA8YXNzZXJ0Lmg+CisgI2luY2x1ZGUgPHJwbS9ycG1zdHJpbmcuaD4K
-ICAjaW5jbHVkZSAieG1sX2ZpbGUuaCIKLSAjaW5jbHVkZSA8ZXJybm8uaD4KZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9jcmVhdGVyZXBvLWMvY3JlYXRlcmVwby1jXzAuMjAuMS5i
-YiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jcmVhdGVyZXBvLWMvY3JlYXRlcmVwby1jXzAuMjEu
-MS5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvY3JlYXRlcmVwby1jL2NyZWF0ZXJlcG8tY18wLjIwLjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
-aXBlcy1kZXZ0b29scy9jcmVhdGVyZXBvLWMvY3JlYXRlcmVwby1jXzAuMjEuMS5iYgppbmRleCAx
-YzRjZGQ1ZTNjLi4wZjFmN2FhNmZhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-Y3JlYXRlcmVwby1jL2NyZWF0ZXJlcG8tY18wLjIwLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL2NyZWF0ZXJlcG8tYy9jcmVhdGVyZXBvLWNfMC4yMS4xLmJiCkBAIC05LDcgKzksNyBA
-QCBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vcnBtLXNvZnR3YXJlLW1hbmFnZW1lbnQvY3Jl
-YXRlcmVwb19jO2JyYW5jaD1tYXN0ZXI7cAogICAgICAgICAgICBmaWxlOi8vMDAwMS1pbmNsdWRl
-LXJwbS1ycG1zdHJpbmcuaC5wYXRjaCBcCiAgICAgICAgICAgICIKIAotU1JDUkVWID0gImFmMTRl
-MTY0YTNlNGFiOWRmYWVmMTIxMmU4NTJiOWVjZWJjMzI2YTIiCitTUkNSRVYgPSAiMDY1MmQ3MzAz
-Y2UyMzZlNTk2YzgzYzI5Y2NjOWJlZTc4NjhmY2U2ZSIKIAogUyA9ICIke1dPUktESVJ9L2dpdCIK
-IAotLSAKMi4zOS4yCgo=
-
---===============1374944540395975771==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 900 .bb files complete (0 cached, 900 parsed). 1804 targets, 73 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the ppc7400 sysroot...done.
-Removing 1 recipes from the qemuppc sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "powerpc-poky-linux"
-MACHINE              = "qemuppc"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:6e15ce7a672d11345bb66545edbd218527b3812a"
-workspace            = "master:35e5d29a7d654fc79bdb898d0f1fb277270dbfd5"
-
-Initialising tasks...done.
-Sstate summary: Wanted 29 Local 6 Mirrors 0 Missed 23 Current 493 (20% match, 95% complete)
-Removing 2 stale sstate objects for arch ppc7400...done.
-Removing 1 stale sstate objects for arch qemuppc...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 506 of 522 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 511 of 522 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe systemd-1_253.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe systemd-1_253.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe systemd-1_253.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 1289 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_fetch)
-NOTE: Running task 1291 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_fetch)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/systemd/1_253.3-r0/temp/log.do_packagedata_setscene.2426677
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 521 of 522 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_package_setscene)
-NOTE: recipe lua-5.4.4-r0: task do_fetch: Started
-NOTE: recipe popt-1.19-r0: task do_fetch: Started
-NOTE: recipe popt-1.19-r0: task do_fetch: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_fetch: Succeeded
-NOTE: Running task 1427 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_unpack)
-NOTE: Running task 1429 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_unpack)
-NOTE: Running task 1543 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1546 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1583 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_fetch)
-NOTE: Running task 1601 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_fetch)
-NOTE: recipe lua-5.4.4-r0: task do_unpack: Started
-NOTE: recipe popt-1.19-r0: task do_unpack: Started
-NOTE: recipe popt-1.19-r0: task do_unpack: Succeeded
-NOTE: Running task 1795 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_package_write_rpm)
-NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe popt-1.19-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_fetch: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Started
-NOTE: recipe lua-5.4.4-r0: task do_unpack: Succeeded
-NOTE: recipe createrepo-c-0.21.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1796 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_patch)
-NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1797 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_patch)
-NOTE: Running task 1798 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_unpack)
-NOTE: Running task 1799 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_unpack)
-NOTE: recipe popt-1.19-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe createrepo-c-0.21.1-r0: task do_unpack: Started
-NOTE: recipe lua-5.4.4-r0: task do_patch: Started
-NOTE: recipe popt-1.19-r0: task do_patch: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Started
-NOTE: recipe popt-1.19-r0: task do_patch: Succeeded
-NOTE: Running task 1800 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_deploy_source_date_epoch)
-NOTE: recipe systemd-1_253.3-r0: task do_package_setscene: Started
-NOTE: recipe python3-3.11.2-r0: task do_package_write_rpm: Started
-NOTE: recipe popt-1.19-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lua-5.4.4-r0: task do_patch: Succeeded
-NOTE: Running task 1801 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe popt-1.19-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1802 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_configure)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1803 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_patch)
-NOTE: recipe popt-1.19-r0: task do_configure: Started
-NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1804 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_patch: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1805 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_patch)
-NOTE: recipe lua-5.4.4-r0: task do_configure: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Started
-NOTE: recipe lua-5.4.4-r0: task do_configure: Succeeded
-NOTE: Running task 1806 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure_ptest_base)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_patch: Succeeded
-NOTE: Running task 1807 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1808 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_generate_toolchain_file)
-NOTE: Running task 1809 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_lic)
-NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_lic: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_generate_toolchain_file: Started
-NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1810 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_lic unihash changed to bde4f3e55b3b56944657ca6d5149dec0e63d02c2ec29b7858934d640cb587ff0
-NOTE: recipe lua-5.4.4-r0: task do_compile: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Succeeded
-NOTE: Running task 1811 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe systemd-1_253.3-r0: task do_package_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1823 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1825 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_packagedata)
-NOTE: recipe dbus-1.14.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe systemd-1_253.3-r0: task do_packagedata: Started
-NOTE: recipe dbus-1.14.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1826 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_configure)
-NOTE: recipe systemd-1_253.3-r0: task do_packagedata: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_compile: Succeeded
-NOTE: Running task 1827 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile_ptest_base)
-NOTE: recipe dbus-1.14.6-r0: task do_configure: Started
-NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Started
-NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1828 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install)
-NOTE: recipe lua-5.4.4-r0: task do_install: Started
-NOTE: recipe lua-5.4.4-r0: task do_install: Succeeded
-NOTE: Running task 1829 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install_ptest_base)
-NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Started
-NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1830 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_populate_sysroot)
-NOTE: Running task 1831 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_package)
-NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Started
-NOTE: recipe lua-5.4.4-r0: task do_package: Started
-NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_package: Succeeded
-NOTE: Running task 1832 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_packagedata)
-NOTE: recipe lua-5.4.4-r0: task do_packagedata: Started
-NOTE: recipe lua-5.4.4-r0: task do_packagedata: Succeeded
-NOTE: recipe popt-1.19-r0: task do_configure: Succeeded
-NOTE: Running task 1833 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_configure_ptest_base)
-NOTE: recipe popt-1.19-r0: task do_configure_ptest_base: Started
-NOTE: recipe popt-1.19-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1834 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_compile)
-NOTE: recipe popt-1.19-r0: task do_compile: Started
-NOTE: recipe popt-1.19-r0: task do_compile: Succeeded
-NOTE: Running task 1835 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_compile_ptest_base)
-NOTE: recipe popt-1.19-r0: task do_compile_ptest_base: Started
-NOTE: recipe popt-1.19-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1836 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_install)
-NOTE: recipe popt-1.19-r0: task do_install: Started
-NOTE: recipe popt-1.19-r0: task do_install: Succeeded
-NOTE: Running task 1837 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_install_ptest_base)
-NOTE: recipe popt-1.19-r0: task do_install_ptest_base: Started
-NOTE: recipe popt-1.19-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1838 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_populate_sysroot)
-NOTE: Running task 1839 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_package)
-NOTE: recipe popt-1.19-r0: task do_populate_sysroot: Started
-NOTE: recipe popt-1.19-r0: task do_package: Started
-NOTE: recipe popt-1.19-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe popt-1.19-r0: task do_package: Succeeded
-NOTE: Running task 1840 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_packagedata)
-NOTE: recipe popt-1.19-r0: task do_packagedata: Started
-NOTE: recipe popt-1.19-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-3.11.2-r0: task do_package_write_rpm: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_package_write_rpm unihash changed to 1055691b4e1b906090605ad3a18d5c1d4d25c3a177a85a641c4ffb2379acd553
-NOTE: recipe dbus-1.14.6-r0: task do_configure: Succeeded
-NOTE: Running task 1841 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_configure_ptest_base)
-NOTE: recipe dbus-1.14.6-r0: task do_configure_ptest_base: Started
-NOTE: recipe dbus-1.14.6-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1842 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_compile)
-NOTE: recipe dbus-1.14.6-r0: task do_compile: Started
-NOTE: recipe dbus-1.14.6-r0: task do_compile: Succeeded
-NOTE: Running task 1843 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_compile_ptest_base)
-NOTE: recipe dbus-1.14.6-r0: task do_compile_ptest_base: Started
-NOTE: recipe dbus-1.14.6-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1844 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_install)
-NOTE: recipe dbus-1.14.6-r0: task do_install: Started
-NOTE: recipe dbus-1.14.6-r0: task do_install: Succeeded
-NOTE: Running task 1845 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_install_ptest_base)
-NOTE: recipe dbus-1.14.6-r0: task do_install_ptest_base: Started
-NOTE: recipe dbus-1.14.6-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1846 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_populate_sysroot)
-NOTE: Running task 1847 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_package)
-NOTE: recipe dbus-1.14.6-r0: task do_populate_sysroot: Started
-NOTE: recipe dbus-1.14.6-r0: task do_package: Started
-NOTE: recipe dbus-1.14.6-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1848 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1849 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_configure)
-NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Started
-NOTE: recipe dbus-1.14.6-r0: task do_package: Succeeded
-NOTE: Running task 1850 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_packagedata)
-NOTE: recipe dbus-1.14.6-r0: task do_packagedata: Started
-NOTE: recipe dbus-1.14.6-r0: task do_packagedata: Succeeded
-NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Succeeded
-NOTE: Running task 1851 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_compile)
-NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Succeeded
-NOTE: Running task 1852 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_install)
-NOTE: recipe rpm-1_4.18.0-r0: task do_install: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_install: Succeeded
-NOTE: Running task 1853 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_populate_sysroot)
-NOTE: Running task 1854 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_package)
-NOTE: recipe rpm-1_4.18.0-r0: task do_populate_sysroot: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_package: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1855 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1856 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_configure)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_configure: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_configure: Succeeded
-NOTE: Running task 1857 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_compile)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_compile: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_compile: Succeeded
-NOTE: Running task 1858 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_install)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_install: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_install: Succeeded
-NOTE: Running task 1859 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_sysroot)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_sysroot: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe rpm-1_4.18.0-r0: task do_package: Succeeded
-NOTE: Running task 1860 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_packagedata)
-NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1861 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_package: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_package: Succeeded
-NOTE: Running task 1862 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_packagedata)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_packagedata: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 1863 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package_write_rpm)
-NOTE: Running task 1864 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package_qa)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_package_write_rpm: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_package_qa: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_package_qa: Succeeded
-NOTE: recipe createrepo-c-0.21.1-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1865 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_build)
-NOTE: Tasks Summary: Attempted 1865 tasks of which 1798 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There were 68 ERROR messages, returning a non-zero exit code.
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-src went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-dbg went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-staticdev went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-dev went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-doc went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-gui went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-vconsole-setup went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-initramfs went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-analyze went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-kernel-install went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-rpm-macros went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-binfmt went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-zsh-completion went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-container went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-journal-gatewayd went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-journal-upload went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-journal-remote went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-extra-utils went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-udev-rules went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libsystemd-shared went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package udev went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package udev-hwdb went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-bash-completion went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-be went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-be+latin went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-bg went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ca went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-cs went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-da went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-de went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-el went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-es went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-et went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-fi went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-fr went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-gl went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-hr went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-hu went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-id went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-it went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ja went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ka went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-kab went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ko went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-lt went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-nl went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pa went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pl went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pt went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pt-br went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ro went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ru went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-si went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-sk went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-sr went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-sv went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-tr went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-uk went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-zh-cn went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-zh-tw went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-myhostname went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-mymachines went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-resolve went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-systemd went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libsystemd went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libudev went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============1374944540395975771==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 900 .bb files complete (0 cached, 900 parsed). 1804 targets, 57 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the cortexa15t2hf-neon sysroot...done.
-Removing 1 recipes from the qemuarm sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "arm-poky-linux-gnueabi"
-MACHINE              = "qemuarm"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
-TARGET_FPU           = "hard"
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:6e15ce7a672d11345bb66545edbd218527b3812a"
-workspace            = "master:35e5d29a7d654fc79bdb898d0f1fb277270dbfd5"
-
-Initialising tasks...done.
-Sstate summary: Wanted 29 Local 6 Mirrors 0 Missed 23 Current 493 (20% match, 95% complete)
-Removing 2 stale sstate objects for arch cortexa15t2hf-neon...done.
-Removing 1 stale sstate objects for arch qemuarm...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 506 of 522 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 511 of 522 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe systemd-1_253.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe systemd-1_253.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 1289 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_fetch)
-NOTE: Running task 1290 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_fetch)
-NOTE: recipe systemd-1_253.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 1579 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_fetch)
-NOTE: Running task 1597 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_fetch)
-NOTE: recipe lua-5.4.4-r0: task do_fetch: Started
-NOTE: recipe popt-1.19-r0: task do_fetch: Started
-NOTE: recipe popt-1.19-r0: task do_fetch: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_fetch: Succeeded
-NOTE: Running task 1688 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_unpack)
-NOTE: Running task 1689 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1690 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_unpack)
-NOTE: Running task 1691 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1794 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_package_write_rpm)
-NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_fetch: Started
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/systemd/1_253.3-r0/temp/log.do_packagedata_setscene.2309737
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: recipe popt-1.19-r0: task do_unpack: Started
-NOTE: recipe popt-1.19-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lua-5.4.4-r0: task do_unpack: Started
-NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running setscene task 521 of 522 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_package_setscene)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_fetch: Succeeded
-NOTE: recipe popt-1.19-r0: task do_unpack: Succeeded
-NOTE: Running task 1795 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_unpack)
-NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_unpack: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe popt-1.19-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1796 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_patch)
-NOTE: Running task 1797 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_patch)
-NOTE: Running task 1798 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_unpack)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_unpack: Started
-NOTE: recipe popt-1.19-r0: task do_patch: Started
-NOTE: recipe lua-5.4.4-r0: task do_patch: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Started
-NOTE: recipe popt-1.19-r0: task do_patch: Succeeded
-NOTE: Running task 1800 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_deploy_source_date_epoch)
-NOTE: recipe systemd-1_253.3-r0: task do_package_setscene: Started
-NOTE: recipe python3-3.11.2-r0: task do_package_write_rpm: Started
-NOTE: recipe lua-5.4.4-r0: task do_patch: Succeeded
-NOTE: recipe popt-1.19-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 1801 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe popt-1.19-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1802 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_configure)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1803 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_patch)
-NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1804 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure)
-NOTE: recipe popt-1.19-r0: task do_configure: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_patch: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1805 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_patch)
-NOTE: recipe lua-5.4.4-r0: task do_configure: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Started
-NOTE: recipe lua-5.4.4-r0: task do_configure: Succeeded
-NOTE: recipe createrepo-c-0.21.1-r0: task do_patch: Succeeded
-NOTE: Running task 1806 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1807 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_generate_toolchain_file)
-NOTE: Running task 1808 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_lic)
-NOTE: Running task 1809 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure_ptest_base)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_generate_toolchain_file: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_lic: Started
-NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1810 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_lic unihash changed to bde4f3e55b3b56944657ca6d5149dec0e63d02c2ec29b7858934d640cb587ff0
-NOTE: recipe createrepo-c-0.21.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_compile: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Succeeded
-NOTE: Running task 1811 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe systemd-1_253.3-r0: task do_package_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1823 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1825 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_packagedata)
-NOTE: recipe dbus-1.14.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe systemd-1_253.3-r0: task do_packagedata: Started
-NOTE: recipe dbus-1.14.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1826 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_configure)
-NOTE: recipe systemd-1_253.3-r0: task do_packagedata: Succeeded
-NOTE: recipe dbus-1.14.6-r0: task do_configure: Started
-NOTE: recipe lua-5.4.4-r0: task do_compile: Succeeded
-NOTE: Running task 1827 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile_ptest_base)
-NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Started
-NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1828 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install)
-NOTE: recipe lua-5.4.4-r0: task do_install: Started
-NOTE: recipe lua-5.4.4-r0: task do_install: Succeeded
-NOTE: Running task 1829 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install_ptest_base)
-NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Started
-NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1830 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_populate_sysroot)
-NOTE: Running task 1831 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_package)
-NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Started
-NOTE: recipe lua-5.4.4-r0: task do_package: Started
-NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_package: Succeeded
-NOTE: Running task 1832 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_packagedata)
-NOTE: recipe lua-5.4.4-r0: task do_packagedata: Started
-NOTE: recipe lua-5.4.4-r0: task do_packagedata: Succeeded
-NOTE: recipe popt-1.19-r0: task do_configure: Succeeded
-NOTE: Running task 1833 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_configure_ptest_base)
-NOTE: recipe popt-1.19-r0: task do_configure_ptest_base: Started
-NOTE: recipe popt-1.19-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1834 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_compile)
-NOTE: recipe popt-1.19-r0: task do_compile: Started
-NOTE: recipe popt-1.19-r0: task do_compile: Succeeded
-NOTE: Running task 1835 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_compile_ptest_base)
-NOTE: recipe popt-1.19-r0: task do_compile_ptest_base: Started
-NOTE: recipe popt-1.19-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1836 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_install)
-NOTE: recipe popt-1.19-r0: task do_install: Started
-NOTE: recipe popt-1.19-r0: task do_install: Succeeded
-NOTE: Running task 1837 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_install_ptest_base)
-NOTE: recipe popt-1.19-r0: task do_install_ptest_base: Started
-NOTE: recipe popt-1.19-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1838 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_populate_sysroot)
-NOTE: Running task 1839 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_package)
-NOTE: recipe popt-1.19-r0: task do_populate_sysroot: Started
-NOTE: recipe popt-1.19-r0: task do_package: Started
-NOTE: recipe popt-1.19-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe popt-1.19-r0: task do_package: Succeeded
-NOTE: Running task 1840 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_packagedata)
-NOTE: recipe popt-1.19-r0: task do_packagedata: Started
-NOTE: recipe popt-1.19-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-3.11.2-r0: task do_package_write_rpm: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_package_write_rpm unihash changed to 07869bf03880ff922179648f23c984315e4b8eaeb445f555170309b95157aa01
-NOTE: recipe dbus-1.14.6-r0: task do_configure: Succeeded
-NOTE: Running task 1841 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_configure_ptest_base)
-NOTE: recipe dbus-1.14.6-r0: task do_configure_ptest_base: Started
-NOTE: recipe dbus-1.14.6-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1842 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_compile)
-NOTE: recipe dbus-1.14.6-r0: task do_compile: Started
-NOTE: recipe dbus-1.14.6-r0: task do_compile: Succeeded
-NOTE: Running task 1843 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_compile_ptest_base)
-NOTE: recipe dbus-1.14.6-r0: task do_compile_ptest_base: Started
-NOTE: recipe dbus-1.14.6-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1844 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_install)
-NOTE: recipe dbus-1.14.6-r0: task do_install: Started
-NOTE: recipe dbus-1.14.6-r0: task do_install: Succeeded
-NOTE: Running task 1845 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_install_ptest_base)
-NOTE: recipe dbus-1.14.6-r0: task do_install_ptest_base: Started
-NOTE: recipe dbus-1.14.6-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1846 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_populate_sysroot)
-NOTE: Running task 1847 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_package)
-NOTE: recipe dbus-1.14.6-r0: task do_populate_sysroot: Started
-NOTE: recipe dbus-1.14.6-r0: task do_package: Started
-NOTE: recipe dbus-1.14.6-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1848 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1849 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_configure)
-NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Started
-NOTE: recipe dbus-1.14.6-r0: task do_package: Succeeded
-NOTE: Running task 1850 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_packagedata)
-NOTE: recipe dbus-1.14.6-r0: task do_packagedata: Started
-NOTE: recipe dbus-1.14.6-r0: task do_packagedata: Succeeded
-NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Succeeded
-NOTE: Running task 1851 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_compile)
-NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Succeeded
-NOTE: Running task 1852 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_install)
-NOTE: recipe rpm-1_4.18.0-r0: task do_install: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_install: Succeeded
-NOTE: Running task 1853 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_populate_sysroot)
-NOTE: Running task 1854 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_package)
-NOTE: recipe rpm-1_4.18.0-r0: task do_populate_sysroot: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_package: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1855 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1856 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_configure)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_configure: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_configure: Succeeded
-NOTE: Running task 1857 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_compile)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_compile: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_compile: Succeeded
-NOTE: Running task 1858 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_install)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_install: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_install: Succeeded
-NOTE: Running task 1859 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_sysroot)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_sysroot: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe rpm-1_4.18.0-r0: task do_package: Succeeded
-NOTE: Running task 1860 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_packagedata)
-NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1861 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_package: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_package: Succeeded
-NOTE: Running task 1862 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_packagedata)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_packagedata: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 1863 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package_write_rpm)
-NOTE: Running task 1864 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package_qa)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_package_write_rpm: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_package_qa: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_package_qa: Succeeded
-NOTE: recipe createrepo-c-0.21.1-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1865 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_build)
-NOTE: Tasks Summary: Attempted 1865 tasks of which 1798 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There were 68 ERROR messages, returning a non-zero exit code.
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-src went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-dbg went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-staticdev went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-dev went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-doc went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-gui went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-vconsole-setup went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-initramfs went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-analyze went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-kernel-install went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-rpm-macros went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-binfmt went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-zsh-completion went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-container went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-journal-gatewayd went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-journal-upload went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-journal-remote went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-extra-utils went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-udev-rules went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libsystemd-shared went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package udev went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package udev-hwdb went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-bash-completion went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-be went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-be+latin went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-bg went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ca went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-cs went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-da went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-de went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-el went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-es went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-et went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-fi went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-fr went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-gl went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-hr went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-hu went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-id went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-it went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ja went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ka went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-kab went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ko went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-lt went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-nl went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pa went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pl went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pt went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pt-br went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ro went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ru went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-si went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-sk went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-sr went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-sv went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-tr went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-uk went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-zh-cn went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-zh-tw went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-myhostname went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-mymachines went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-resolve went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-systemd went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libsystemd went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libudev went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============1374944540395975771==
+--===============0884786792345368198==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-bash-completion: PV changed from "0.20.1" to "0.21.1"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-bash-completion: PKGV changed from 0.20.1 [default] to 0.21.1 [default]
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dbg: PV changed from "0.20.1" to "0.21.1"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dbg: FILELIST: removed "/usr/lib/.debug/libcreaterepo_c.so.0.20.1", added "/usr/lib/.debug/libcreaterepo_c.so.0.21.1"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dbg: PKGV changed from 0.20.1 [default] to 0.21.1 [default]
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dbg: PKGSIZE changed from 1158848 to 1213820 (+5%)
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dev: PV changed from "0.20.1" to "0.21.1"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dev: PKGV changed from 0.20.1 [default] to 0.21.1 [default]
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dev: PKGSIZE changed from 142602 to 146318 (+3%)
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-doc: PV changed from "0.20.1" to "0.21.1"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-doc: PKGV changed from 0.20.1 [default] to 0.21.1 [default]
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-locale: PV changed from "0.20.1" to "0.21.1"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-locale: PKGV changed from 0.20.1 [default] to 0.21.1 [default]
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-src: PV changed from "0.20.1" to "0.21.1"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-src: PKGV changed from 0.20.1 [default] to 0.21.1 [default]
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-src: PKGSIZE changed from 1222467 to 1271448 (+4%)
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-staticdev: PV changed from "0.20.1" to "0.21.1"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-staticdev: PKGV changed from 0.20.1 [default] to 0.21.1 [default]
-packages/core2-32-poky-linux/createrepo-c/createrepo-c: PV changed from "0.20.1" to "0.21.1"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c: FILELIST: removed "/usr/lib/libcreaterepo_c.so.0.20.1", added "/usr/lib/libcreaterepo_c.so.0.21.1"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c: PKGV changed from 0.20.1 [default] to 0.21.1 [default]
-packages/core2-32-poky-linux/createrepo-c/createrepo-c: PKGSIZE changed from 526215 to 534884 (+2%)
-packages/core2-32-poky-linux/createrepo-c: PV changed from "0.20.1" to "0.21.1"
-packages/core2-32-poky-linux/createrepo-c: PKGV changed from 0.20.1 [default] to 0.21.1 [default]
-Changes to packages/core2-32-poky-linux/createrepo-c (sysroot):
-  /usr/lib/libcreaterepo_c.so.0 changed symlink target from libcreaterepo_c.so.0.20.1 to libcreaterepo_c.so.0.21.1
-  /usr/lib/libcreaterepo_c.so.0.20.1 moved to /usr/lib/libcreaterepo_c.so.0.21.1
+packages/core2-32-poky-linux/coreutils/coreutils-dbg: FILELIST: added "/usr/lib/coreutils/ptest/src/.debug/iopoll.o"
+packages/core2-32-poky-linux/coreutils/coreutils-dbg: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-dbg: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-dbg: PKGSIZE changed from 46315704 to 48599972 (+5%)
+packages/core2-32-poky-linux/coreutils/coreutils-dev: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-dev: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-doc: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-doc: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-doc: PKGSIZE changed from 1250035 to 1267084 (+1%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-af: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-af: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-af: PKGSIZE changed from 27106 to 26881 (-1%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-be: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-be: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-be: PKGSIZE changed from 57857 to 56361 (-3%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-bg: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-bg: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-bg: PKGSIZE changed from 457298 to 503699 (+10%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ca: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ca: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ca: PKGSIZE changed from 341414 to 407706 (+19%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-cs: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-cs: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-cs: PKGSIZE changed from 352954 to 388831 (+10%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-da: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-da: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-da: PKGSIZE changed from 330646 to 341998 (+3%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-de: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-de: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-de: PKGSIZE changed from 385089 to 391128 (+2%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-el: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-el: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-eo: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-eo: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-eo: PKGSIZE changed from 157211 to 151886 (-3%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-es: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-es: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-es: PKGSIZE changed from 234056 to 227104 (-3%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-et: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-et: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-et: PKGSIZE changed from 353891 to 359051 (+1%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-eu: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-eu: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-eu: PKGSIZE changed from 27001 to 26898 (-0%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-fi: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-fi: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-fi: PKGSIZE changed from 116326 to 113205 (-3%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-fr: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-fr: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-fr: PKGSIZE changed from 394740 to 400082 (+1%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ga: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ga: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ga: PKGSIZE changed from 107251 to 105556 (-2%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-gl: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-gl: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-gl: PKGSIZE changed from 25708 to 25258 (-2%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-hr: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-hr: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-hr: PKGSIZE changed from 371002 to 376216 (+1%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-hu: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-hu: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-hu: PKGSIZE changed from 314433 to 305411 (-3%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ia: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ia: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-id: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-id: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-id: PKGSIZE changed from 134015 to 129252 (-4%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-it: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-it: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-it: PKGSIZE changed from 152835 to 148079 (-3%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ja: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ja: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ja: PKGSIZE changed from 380561 to 366915 (-4%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-kk: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-kk: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ko: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ko: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ko: PKGSIZE changed from 389958 to 395538 (+1%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-lg: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-lg: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-lg: PKGSIZE changed from 194347 to 187436 (-4%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-lt: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-lt: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-lt: PKGSIZE changed from 29968 to 29386 (-2%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ms: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ms: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ms: PKGSIZE changed from 21601 to 21458 (-1%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-nb: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-nb: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-nb: PKGSIZE changed from 310045 to 347232 (+12%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-nl: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-nl: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-nl: PKGSIZE changed from 338263 to 328244 (-3%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-pl: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-pl: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-pl: PKGSIZE changed from 352457 to 388240 (+10%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-pt-br: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-pt-br: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-pt-br: PKGSIZE changed from 323824 to 311494 (-4%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-pt: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-pt: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-pt: PKGSIZE changed from 336009 to 323751 (-4%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ro: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ro: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ro: PKGSIZE changed from 46287 to 402913 (+770%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ru: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ru: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ru: PKGSIZE changed from 452496 to 468266 (+3%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-sk: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-sk: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-sk: PKGSIZE changed from 67717 to 67187 (-1%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-sl: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-sl: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-sl: PKGSIZE changed from 274170 to 265702 (-3%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-sr: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-sr: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-sr: PKGSIZE changed from 431623 to 446180 (+3%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-sv: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-sv: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-sv: PKGSIZE changed from 334005 to 364386 (+9%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-tr: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-tr: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-tr: PKGSIZE changed from 369996 to 352848 (-5%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-uk: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-uk: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-uk: PKGSIZE changed from 483309 to 490241 (+1%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-vi: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-vi: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-vi: PKGSIZE changed from 328079 to 318363 (-3%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-zh-cn: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-zh-cn: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-zh-cn: PKGSIZE changed from 359638 to 364786 (+1%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-zh-tw: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-locale-zh-tw: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-locale-zh-tw: PKGSIZE changed from 283523 to 272425 (-4%)
+packages/core2-32-poky-linux/coreutils/coreutils-ptest: FILELIST: added "/usr/lib/coreutils/ptest/src/iopoll.c /usr/lib/coreutils/ptest/tests/mv/no-copy.sh /usr/lib/coreutils/ptest/tests/du/apparent.sh /usr/lib/coreutils/ptest/src/iopoll.o /usr/lib/coreutils/ptest/tests/misc/wc-total.sh /usr/lib/coreutils/ptest/tests/misc/cksum-raw.sh /usr/lib/coreutils/ptest/tests/misc/cksum-base64.pl /usr/lib/coreutils/ptest/tests/misc/runcon-compute.sh /usr/lib/coreutils/ptest/tests/misc/dircolors.sh /usr/lib/coreutils/ptest/tests/misc/date-f.sh /usr/lib/coreutils/ptest/tests/cp/debug.sh"
+packages/core2-32-poky-linux/coreutils/coreutils-ptest: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-ptest: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-ptest: PKGSIZE changed from 16315801 to 16647599 (+2%)
+packages/core2-32-poky-linux/coreutils/coreutils-src: FILELIST: directory renamed /usr/src/debug/coreutils/9.1-r0/src/blake2 -> /usr/src/debug/coreutils/9.3-r0/src/blake2, directory renamed /usr/src/debug/coreutils/9.1-r0/lib/unistr -> /usr/src/debug/coreutils/9.3-r0/lib/unistr, directory renamed /usr/src/debug/coreutils/9.1-r0/lib/sys -> /usr/src/debug/coreutils/9.3-r0/lib/sys, directory renamed /usr/src/debug/coreutils/9.1-r0/lib/selinux -> /usr/src/debug/coreutils/9.3-r0/lib/selinux, removed "/usr/src/debug/coreutils/9.1-r0/src/chown-core.h /usr/src/debug/coreutils/9.1-r0/lib/i-ring.c /usr/src/debug/coreutils/9.1-r0/lib/string.h /usr/src/debug/coreutils/9.1-r0/lib/c-strcaseeq.h /usr/src/debug/coreutils/9.1-r0/lib/i-ring.h /usr/src/debug/coreutils/9.1-r0/src/chown-core.c /usr/src/debug/coreutils/9.1-r0/src/mkfifo.c /usr/src/debug/coreutils/9.1-r0/src/printf.c /usr/src/debug/coreutils/9.1-r0/lib/file-has-acl.c /usr/src/debug/coreutils/9.1-r0/lib/xgetcwd.c /usr/src/debug/coreutils/9.
+ 1-r0/lib/sha1-stream.c /usr/src/debug/coreutils/9.1-r0/src/crctab.c /usr/src/debug/coreutils/9.1-r0/lib/xgetcwd.h /usr/src/debug/coreutils/9.1-r0/lib/fd-reopen.h /usr/src/debug/coreutils/9.1-r0/lib/modechange.c /usr/src/debug/coreutils/9.1-r0/lib/propername.h /usr/src/debug/coreutils/9.1-r0/lib/utimens.c /usr/src/debug/coreutils/9.1-r0/lib/modechange.h /usr/src/debug/coreutils/9.1-r0/lib/fd-reopen.c /usr/src/debug/coreutils/9.1-r0/lib/utimens.h /usr/src/debug/coreutils/9.1-r0/src/uname-arch.c /usr/src/debug/coreutils/9.1-r0/lib/propername.c /usr/src/debug/coreutils/9.1-r0/lib/backup-rename.c /usr/src/debug/coreutils/9.1-r0/lib/malloc/dynarray.h /usr/src/debug/coreutils/9.1-r0/src/cat.c /usr/src/debug/coreutils/9.1-r0/lib/regcomp.c /usr/src/debug/coreutils/9.1-r0/src/cut.c /usr/src/debug/coreutils/9.1-r0/src/env.c /usr/src/debug/coreutils/9.1-r0/src/fmt.c /usr/src/debug/coreutils/9.1-r0/src/dd.c /usr/src/debug/coreutils/9.1-r0/src/ptx.c /usr/src/debug/coreutils/9.1-r0/src/pwd.c /usr/
+ src/debug/coreutils/9.1-r0/src/seq.c /usr/src/debug/coreutils/9.1-r0/src/sum.c /usr/src/debug/coreutils/9.1-r0/src/sum.h /usr/src/debug/coreutils/9.1-r0/lib/areadlink-with-size.c /usr/src/debug/coreutils/9.1-r0/lib/buffer-lcm.h /usr/src/debug/coreutils/9.1-r0/lib/posixtm.c /usr/src/debug/coreutils/9.1-r0/lib/basename-lgpl.c /usr/src/debug/coreutils/9.1-r0/src/df.c /usr/src/debug/coreutils/9.1-r0/lib/posixtm.h /usr/src/debug/coreutils/9.1-r0/lib/buffer-lcm.c /usr/src/debug/coreutils/9.1-r0/lib/malloc/scratch_buffer_grow.c /usr/src/debug/coreutils/9.1-r0/lib/basename-lgpl.h /usr/src/debug/coreutils/9.1-r0/src/uname.h /usr/src/debug/coreutils/9.1-r0/src/paste.c /usr/src/debug/coreutils/9.1-r0/src/uname.c /usr/src/debug/coreutils/9.1-r0/lib/af_alg.h /usr/src/debug/coreutils/9.1-r0/lib/openat-die.c /usr/src/debug/coreutils/9.1-r0/src/realpath.c /usr/src/debug/coreutils/9.1-r0/lib/closein.c /usr/src/debug/coreutils/9.1-r0/lib/closein.h /usr/src/debug/coreutils/9.1-r0/lib/mbsstr.c /usr/src
+ /debug/coreutils/9.1-r0/lib/strstr.c /usr/src/debug/coreutils/9.1-r0/lib/fsusage.c /usr/src/debug/coreutils/9.1-r0/lib/fnmatch.h /usr/src/debug/coreutils/9.1-r0/lib/fseterr.h /usr/src/debug/coreutils/9.1-r0/lib/xmalloc.c /usr/src/debug/coreutils/9.1-r0/lib/fsusage.h /usr/src/debug/coreutils/9.1-r0/lib/unistr.h /usr/src/debug/coreutils/9.1-r0/src/pinky.c /usr/src/debug/coreutils/9.1-r0/lib/opendir-safer.c /usr/src/debug/coreutils/9.1-r0/lib/fnmatch.c /usr/src/debug/coreutils/9.1-r0/lib/fseterr.c /usr/src/debug/coreutils/9.1-r0/lib/dirname-lgpl.c /usr/src/debug/coreutils/9.1-r0/lib/mpsort.c /usr/src/debug/coreutils/9.1-r0/lib/mpsort.h /usr/src/debug/coreutils/9.1-r0/lib/userspec.c /usr/src/debug/coreutils/9.1-r0/lib/parse-datetime-gen.h /usr/src/debug/coreutils/9.1-r0/lib/userspec.h /usr/src/debug/coreutils/9.1-r0/lib/timespec.h /usr/src/debug/coreutils/9.1-r0/src/libstdbuf.c /usr/src/debug/coreutils/9.1-r0/lib/dup-safer.c /usr/src/debug/coreutils/9.1-r0/src/ioblksize.h /usr/src/debug
+ /coreutils/9.1-r0/src/factor.c /usr/src/debug/coreutils/9.1-r0/lib/xmemcoll.h /usr/src/debug/coreutils/9.1-r0/lib/getopt_int.h /usr/src/debug/coreutils/9.1-r0/lib/xmemcoll.c /usr/src/debug/coreutils/9.1-r0/src/operand2sig.c /usr/src/debug/coreutils/9.1-r0/lib/inttostr.h /usr/src/debug/coreutils/9.1-r0/src/uname-uname.c /usr/src/debug/coreutils/9.1-r0/lib/mkstemp-safer.c /usr/src/debug/coreutils/9.1-r0/lib/anytostr.c /usr/src/debug/coreutils/9.1-r0/src/operand2sig.h /usr/src/debug/coreutils/9.1-r0/lib/filevercmp.h /usr/src/debug/coreutils/9.1-r0/src/ls-dir.c /usr/src/debug/coreutils/9.1-r0/lib/filevercmp.c /usr/src/debug/coreutils/9.1-r0/lib/mbrlen.c /usr/src/debug/coreutils/9.1-r0/lib/mbslen.c /usr/src/debug/coreutils/9.1-r0/lib/xgethostname.h /usr/src/debug/coreutils/9.1-r0/lib/filenamecat.h /usr/src/debug/coreutils/9.1-r0/src/chroot.c /usr/src/debug/coreutils/9.1-r0/lib/filenamecat.c /usr/src/debug/coreutils/9.1-r0/lib/c-ctype.h /usr/src/debug/coreutils/9.1-r0/lib/mbchar.h /usr/sr
+ c/debug/coreutils/9.1-r0/lib/printf-parse.c /usr/src/debug/coreutils/9.1-r0/lib/malloc/dynarray_resize.c /usr/src/debug/coreutils/9.1-r0/src/selinux.h /usr/src/debug/coreutils/9.1-r0/lib/mbchar.c /usr/src/debug/coreutils/9.1-r0/lib/printf-parse.h /usr/src/debug/coreutils/9.1-r0/src/basenc.c /usr/src/debug/coreutils/9.1-r0/src/csplit.c /usr/src/debug/coreutils/9.1-r0/lib/openat-proc.c /usr/src/debug/coreutils/9.1-r0/lib/readtokens0.h /usr/src/debug/coreutils/9.1-r0/lib/openat-priv.h /usr/src/debug/coreutils/9.1-r0/lib/str-two-way.h /usr/src/debug/coreutils/9.1-r0/src/rm.c /usr/src/debug/coreutils/9.1-r0/src/numfmt.c /usr/src/debug/coreutils/9.1-r0/lib/readtokens0.c /usr/src/debug/coreutils/9.1-r0/lib/xstrtod.c /usr/src/debug/coreutils/9.1-r0/lib/xstrtod.h /usr/src/debug/coreutils/9.1-r0/src/hostid.c /usr/src/debug/coreutils/9.1-r0/lib/set-acl.c /usr/src/debug/coreutils/9.1-r0/lib/getndelim2.h /usr/src/debug/coreutils/9.1-r0/lib/malloc/scratch_buffer_grow_preserve.c /usr/src/debug/cor
+ eutils/9.1-r0/lib/vasnprintf.c /usr/src/debug/coreutils/9.1-r0/lib/xvasprintf.c /usr/src/debug/coreutils/9.1-r0/src/cp-hash.c /usr/src/debug/coreutils/9.1-r0/src/cp-hash.h /usr/src/debug/coreutils/9.1-r0/lib/vasnprintf.h /usr/src/debug/coreutils/9.1-r0/lib/getndelim2.c /usr/src/debug/coreutils/9.1-r0/lib/xvasprintf.h /usr/src/debug/coreutils/9.1-r0/lib/verror.c /usr/src/debug/coreutils/9.1-r0/lib/alignalloc.h /usr/src/debug/coreutils/9.1-r0/lib/stdlib-safer.h /usr/src/debug/coreutils/9.1-r0/src/mktemp.c /usr/src/debug/coreutils/9.1-r0/lib/fchmodat.c /usr/src/debug/coreutils/9.1-r0/lib/close-stream.c /usr/src/debug/coreutils/9.1-r0/lib/fcntl-safer.h /usr/src/debug/coreutils/9.1-r0/lib/verror.h /usr/src/debug/coreutils/9.1-r0/lib/cl-strtod.c /usr/src/debug/coreutils/9.1-r0/lib/time-internal.h /usr/src/debug/coreutils/9.1-r0/lib/xstrtol-error.h /usr/src/debug/coreutils/9.1-r0/lib/striconv.c /usr/src/debug/coreutils/9.1-r0/lib/cl-strtod.h /usr/src/debug/coreutils/9.1-r0/lib/close-stream
+ .h /usr/src/debug/coreutils/9.1-r0/lib/open-safer.c /usr/src/debug/coreutils/9.1-r0/lib/striconv.h /usr/src/debug/coreutils/9.1-r0/lib/xstrtol-error.c /usr/src/debug/coreutils/9.1-r0/lib/mkancesdirs.h /usr/src/debug/coreutils/9.1-r0/lib/xalignalloc.c /usr/src/debug/coreutils/9.1-r0/lib/mkancesdirs.c /usr/src/debug/coreutils/9.1-r0/lib/strnumcmp-in.h /usr/src/debug/coreutils/9.1-r0/lib/sys-limits.h /usr/src/debug/coreutils/9.1-r0/lib/xstrtol.h /usr/src/debug/coreutils/9.1-r0/lib/at-func.c /usr/src/debug/coreutils/9.1-r0/lib/openat.h /usr/src/debug/coreutils/9.1-r0/lib/mbrtowc.c /usr/src/debug/coreutils/9.1-r0/src/tee.c /usr/src/debug/coreutils/9.1-r0/src/tty.c /usr/src/debug/coreutils/9.1-r0/src/who.c /usr/src/debug/coreutils/9.1-r0/src/yes.c /usr/src/debug/coreutils/9.1-r0/src/runcon.c /usr/src/debug/coreutils/9.1-r0/src/tac.c /usr/src/debug/coreutils/9.1-r0/lib/xstrtol.c /usr/src/debug/coreutils/9.1-r0/lib/strnlen1.h /usr/src/debug/coreutils/9.1-r0/src/ls.h /usr/src/debug/coreutils
+ /9.1-r0/src/mv.c /usr/src/debug/coreutils/9.1-r0/src/getlimits.c /usr/src/debug/coreutils/9.1-r0/src/ls.c /usr/src/debug/coreutils/9.1-r0/lib/strnlen1.c /usr/src/debug/coreutils/9.1-r0/src/id.c /usr/src/debug/coreutils/9.1-r0/lib/xstriconv.h /usr/src/debug/coreutils/9.1-r0/lib/human.c /usr/src/debug/coreutils/9.1-r0/src/pathchk.c /usr/src/debug/coreutils/9.1-r0/lib/human.h /usr/src/debug/coreutils/9.1-r0/lib/time_rz.c /usr/src/debug/coreutils/9.1-r0/lib/xstriconv.c /usr/src/debug/coreutils/9.1-r0/lib/hash-pjw.h /usr/src/debug/coreutils/9.1-r0/lib/gettime.c /usr/src/debug/coreutils/9.1-r0/lib/settime.c /usr/src/debug/coreutils/9.1-r0/lib/hash-pjw.c /usr/src/debug/coreutils/9.1-r0/lib/freopen-safer.c /usr/src/debug/coreutils/9.1-r0/lib/nstrftime.c /usr/src/debug/coreutils/9.1-r0/lib/sha512-stream.c /usr/src/debug/coreutils/9.1-r0/lib/fnmatch_loop.c /usr/src/debug/coreutils/9.1-r0/src/force-link.c /usr/src/debug/coreutils/9.1-r0/src/force-link.h /usr/src/debug/coreutils/9.1-r0/src/stat
+ .c /usr/src/debug/coreutils/9.1-r0/src/stty.c /usr/src/debug/coreutils/9.1-r0/lib/fcntl.c /usr/src/debug/coreutils/9.1-r0/lib/mbuiter.h /usr/src/debug/coreutils/9.1-r0/src/install.c /usr/src/debug/coreutils/9.1-r0/lib/fcntl.h /usr/src/debug/coreutils/9.1-r0/src/digest.c /usr/src/debug/coreutils/9.1-r0/lib/savewd.h /usr/src/debug/coreutils/9.1-r0/lib/unicodeio.h /usr/src/debug/coreutils/9.1-r0/lib/ino-map.c /usr/src/debug/coreutils/9.1-r0/lib/printf-args.h /usr/src/debug/coreutils/9.1-r0/lib/getcwd.c /usr/src/debug/coreutils/9.1-r0/lib/savewd.c /usr/src/debug/coreutils/9.1-r0/lib/printf-args.c /usr/src/debug/coreutils/9.1-r0/lib/unicodeio.c /usr/src/debug/coreutils/9.1-r0/src/groups.c /usr/src/debug/coreutils/9.1-r0/lib/ino-map.h /usr/src/debug/coreutils/9.1-r0/src/basename.c /usr/src/debug/coreutils/9.1-r0/src/hostname.c /usr/src/debug/coreutils/9.1-r0/lib/file-set.c /usr/src/debug/coreutils/9.1-r0/src/group-list.h /usr/src/debug/coreutils/9.1-r0/lib/c-strcasecmp.c /usr/src/debug/co
+ reutils/9.1-r0/lib/md5-stream.c /usr/src/debug/coreutils/9.1-r0/lib/file-set.h /usr/src/debug/coreutils/9.1-r0/lib/priv-set.h /usr/src/debug/coreutils/9.1-r0/lib/sm3-stream.c /usr/src/debug/coreutils/9.1-r0/src/group-list.c /usr/src/debug/coreutils/9.1-r0/lib/malloc/scratch_buffer.gl.h /usr/src/debug/coreutils/9.1-r0/lib/randint.c /usr/src/debug/coreutils/9.1-r0/lib/readtokens.c /usr/src/debug/coreutils/9.1-r0/lib/c-strncasecmp.c /usr/src/debug/coreutils/9.1-r0/lib/randint.h /usr/src/debug/coreutils/9.1-r0/lib/readtokens.h /usr/src/debug/coreutils/9.1-r0/lib/freadahead.h /usr/src/debug/coreutils/9.1-r0/lib/freadahead.c /usr/src/debug/coreutils/9.1-r0/lib/nanosleep.c /usr/src/debug/coreutils/9.1-r0/src/dirname.c /usr/src/debug/coreutils/9.1-r0/src/logname.c /usr/src/debug/coreutils/9.1-r0/lib/regex_internal.c /usr/src/debug/coreutils/9.1-r0/lib/regex_internal.h /usr/src/debug/coreutils/9.1-r0/src/cp.c /usr/src/debug/coreutils/9.1-r0/lib/rand-isaac.h /usr/src/debug/coreutils/9.1-r0/li
+ b/xalloc-die.c /usr/src/debug/coreutils/9.1-r0/lib/rand-isaac.c /usr/src/debug/coreutils/9.1-r0/lib/fclose.c /usr/src/debug/coreutils/9.1-r0/lib/regex.h /usr/src/debug/coreutils/9.1-r0/lib/freadseek.c /usr/src/debug/coreutils/9.1-r0/lib/utimecmp.c /usr/src/debug/coreutils/9.1-r0/lib/stdio-safer.h /usr/src/debug/coreutils/9.1-r0/src/nproc.c /usr/src/debug/coreutils/9.1-r0/lib/utimecmp.h /usr/src/debug/coreutils/9.1-r0/lib/freadseek.h /usr/src/debug/coreutils/9.1-r0/lib/getopt.c /usr/src/debug/coreutils/9.1-r0/src/cksum.c /usr/src/debug/coreutils/9.1-r0/lib/idcache.h /usr/src/debug/coreutils/9.1-r0/lib/unistd.h /usr/src/debug/coreutils/9.1-r0/lib/idcache.c /usr/src/debug/coreutils/9.1-r0/src/cksum.h /usr/src/debug/coreutils/9.1-r0/lib/backup-internal.h /usr/src/debug/coreutils/9.1-r0/src/wc_avx2.c /usr/src/debug/coreutils/9.1-r0/lib/canonicalize.h /usr/src/debug/coreutils/9.1-r0/lib/regexec.c /usr/src/debug/coreutils/9.1-r0/lib/canonicalize.c /usr/src/debug/coreutils/9.1-r0/lib/hard-l
+ ocale.c /usr/src/debug/coreutils/9.1-r0/lib/hash-triple.c /usr/src/debug/coreutils/9.1-r0/lib/hard-locale.h /usr/src/debug/coreutils/9.1-r0/lib/hash-triple.h /usr/src/debug/coreutils/9.1-r0/lib/quotearg.c /usr/src/debug/coreutils/9.1-r0/lib/savedir.c /usr/src/debug/coreutils/9.1-r0/lib/savedir.h /usr/src/debug/coreutils/9.1-r0/lib/quotearg.h /usr/src/debug/coreutils/9.1-r0/src/prog-fprintf.h /usr/src/debug/coreutils/9.1-r0/lib/stripslash.c /usr/src/debug/coreutils/9.1-r0/lib/stdlib.h /usr/src/debug/coreutils/9.1-r0/src/prog-fprintf.c /usr/src/debug/coreutils/9.1-r0/lib/fadvise.c /usr/src/debug/coreutils/9.1-r0/lib/fadvise.h /usr/src/debug/coreutils/9.1-r0/lib/binary-io.h /usr/src/debug/coreutils/9.1-r0/src/ls-ls.c /usr/src/debug/coreutils/9.1-r0/src/users.c /usr/src/debug/coreutils/9.1-r0/lib/safe-read.c /usr/src/debug/coreutils/9.1-r0/lib/qcopy-acl.c /usr/src/debug/coreutils/9.1-r0/lib/error.h /usr/src/debug/coreutils/9.1-r0/lib/full-read.h /usr/src/debug/coreutils/9.1-r0/lib/safe-
+ read.h /usr/src/debug/coreutils/9.1-r0/lib/wchar.h /usr/src/debug/coreutils/9.1-r0/lib/careadlinkat.c /usr/src/debug/coreutils/9.1-r0/lib/openat-safer.c /usr/src/debug/coreutils/9.1-r0/lib/selinux-at.h /usr/src/debug/coreutils/9.1-r0/lib/careadlinkat.h /usr/src/debug/coreutils/9.1-r0/src/od.c /usr/src/debug/coreutils/9.1-r0/src/dircolors.c /usr/src/debug/coreutils/9.1-r0/lib/getopt1.c /usr/src/debug/coreutils/9.1-r0/src/dircolors.h /usr/src/debug/coreutils/9.1-r0/src/stdbuf.c /usr/src/debug/coreutils/9.1-r0/src/chmod.c /usr/src/debug/coreutils/9.1-r0/src/mknod.c /usr/src/debug/coreutils/9.1-r0/src/shred.c /usr/src/debug/coreutils/9.1-r0/lib/vasprintf.c /usr/src/debug/coreutils/9.1-r0/lib/xasprintf.c /usr/src/debug/coreutils/9.1-r0/lib/dirent.h /usr/src/debug/coreutils/9.1-r0/src/printenv.c /usr/src/debug/coreutils/9.1-r0/lib/count-leading-zeros.h /usr/src/debug/coreutils/9.1-r0/lib/argv-iter.c /usr/src/debug/coreutils/9.1-r0/lib/argv-iter.h /usr/src/debug/coreutils/9.1-r0/lib/filena
+ mecat-lgpl.c /usr/src/debug/coreutils/9.1-r0/lib/filemode.h /usr/src/debug/coreutils/9.1-r0/lib/root-dev-ino.h /usr/src/debug/coreutils/9.1-r0/lib/filemode.c /usr/src/debug/coreutils/9.1-r0/lib/root-dev-ino.c /usr/src/debug/coreutils/9.1-r0/lib/dup-safer-flag.c /usr/src/debug/coreutils/9.1-r0/lib/randperm.h /usr/src/debug/coreutils/9.1-r0/lib/randperm.c /usr/src/debug/coreutils/9.1-r0/src/truncate.c /usr/src/debug/coreutils/9.1-r0/lib/acl-errno-valid.c /usr/src/debug/coreutils/9.1-r0/src/statx.h /usr/src/debug/coreutils/9.1-r0/lib/linebuffer.h /usr/src/debug/coreutils/9.1-r0/lib/linebuffer.c /usr/src/debug/coreutils/9.1-r0/src/remove.h /usr/src/debug/coreutils/9.1-r0/src/remove.c /usr/src/debug/coreutils/9.1-r0/src/uptime.c /usr/src/debug/coreutils/9.1-r0/src/chown.c /usr/src/debug/coreutils/9.1-r0/src/chcon.c /usr/src/debug/coreutils/9.1-r0/lib/memchr.c /usr/src/debug/coreutils/9.1-r0/src/touch.c /usr/src/debug/coreutils/9.1-r0/lib/unitypes.h /usr/src/debug/coreutils/9.1-r0/lib/ver
+ sion-etc.h /usr/src/debug/coreutils/9.1-r0/lib/c-strtod.c /usr/src/debug/coreutils/9.1-r0/lib/version-etc.c /usr/src/debug/coreutils/9.1-r0/lib/c-strtod.h /usr/src/debug/coreutils/9.1-r0/lib/chdir-long.c /usr/src/debug/coreutils/9.1-r0/lib/memcasecmp.h /usr/src/debug/coreutils/9.1-r0/lib/chdir-long.h /usr/src/debug/coreutils/9.1-r0/lib/mbscasecmp.c /usr/src/debug/coreutils/9.1-r0/lib/memcasecmp.c /usr/src/debug/coreutils/9.1-r0/src/relpath.h /usr/src/debug/coreutils/9.1-r0/src/relpath.c /usr/src/debug/coreutils/9.1-r0/lib/sha256.c /usr/src/debug/coreutils/9.1-r0/src/readlink.c /usr/src/debug/coreutils/9.1-r0/lib/nproc.h /usr/src/debug/coreutils/9.1-r0/src/system.h /usr/src/debug/coreutils/9.1-r0/lib/malloc/dynarray-skeleton.c /usr/src/debug/coreutils/9.1-r0/lib/setlocale_null.h /usr/src/debug/coreutils/9.1-r0/lib/sha256.h /usr/src/debug/coreutils/9.1-r0/lib/setlocale_null.c /usr/src/debug/coreutils/9.1-r0/lib/nproc.c /usr/src/debug/coreutils/9.1-r0/lib/quote.h /usr/src/debug/coreuti
+ ls/9.1-r0/lib/xsize.h /usr/src/debug/coreutils/9.1-r0/lib/xtime.h /usr/src/debug/coreutils/9.1-r0/lib/sha256-stream.c /usr/src/debug/coreutils/9.1-r0/lib/renameatu.h /usr/src/debug/coreutils/9.1-r0/lib/strftime.h /usr/src/debug/coreutils/9.1-r0/src/wc.c /usr/src/debug/coreutils/9.1-r0/lib/getopt-ext.h /usr/src/debug/coreutils/9.1-r0/lib/renameatu.c /usr/src/debug/coreutils/9.1-r0/lib/closeout.c /usr/src/debug/coreutils/9.1-r0/lib/md5.h /usr/src/debug/coreutils/9.1-r0/lib/acl.h /usr/src/debug/coreutils/9.1-r0/lib/idx.h /usr/src/debug/coreutils/9.1-r0/lib/file-type.h /usr/src/debug/coreutils/9.1-r0/lib/mbsalign.c /usr/src/debug/coreutils/9.1-r0/lib/bitrotate.h /usr/src/debug/coreutils/9.1-r0/lib/closeout.h /usr/src/debug/coreutils/9.1-r0/lib/fts.c /usr/src/debug/coreutils/9.1-r0/lib/mbsalign.h /usr/src/debug/coreutils/9.1-r0/lib/md5.c /usr/src/debug/coreutils/9.1-r0/lib/file-type.c /usr/src/debug/coreutils/9.1-r0/lib/sm3.c /usr/src/debug/coreutils/9.1-r0/lib/hash.c /usr/src/debug/core
+ utils/9.1-r0/lib/heap.c /usr/src/debug/coreutils/9.1-r0/lib/same.c /usr/src/debug/coreutils/9.1-r0/lib/sha1.c /usr/src/debug/coreutils/9.1-r0/lib/trim.c /usr/src/debug/coreutils/9.1-r0/lib/xfts.c /usr/src/debug/coreutils/9.1-r0/src/expand.c /usr/src/debug/coreutils/9.1-r0/lib/fts_.h /usr/src/debug/coreutils/9.1-r0/lib/hash.h /usr/src/debug/coreutils/9.1-r0/lib/heap.h /usr/src/debug/coreutils/9.1-r0/lib/same.h /usr/src/debug/coreutils/9.1-r0/lib/sha1.h /usr/src/debug/coreutils/9.1-r0/lib/time.h /usr/src/debug/coreutils/9.1-r0/lib/mountlist.c /usr/src/debug/coreutils/9.1-r0/lib/trim.h /usr/src/debug/coreutils/9.1-r0/lib/xfts.h /usr/src/debug/coreutils/9.1-r0/lib/save-cwd.h /usr/src/debug/coreutils/9.1-r0/lib/mountlist.h /usr/src/debug/coreutils/9.1-r0/lib/save-cwd.c /usr/src/debug/coreutils/9.1-r0/lib/obstack.c /usr/src/debug/coreutils/9.1-r0/lib/freadptr.c /usr/src/debug/coreutils/9.1-r0/lib/obstack.h /usr/src/debug/coreutils/9.1-r0/lib/freadptr.h /usr/src/debug/coreutils/9.1-r0/lib/
+ asprintf.c /usr/src/debug/coreutils/9.1-r0/lib/vfprintf.c /usr/src/debug/coreutils/9.1-r0/lib/mkdir-p.h /usr/src/debug/coreutils/9.1-r0/lib/opendirat.h /usr/src/debug/coreutils/9.1-r0/lib/opendirat.c /usr/src/debug/coreutils/9.1-r0/lib/mkdir-p.c /usr/src/debug/coreutils/9.1-r0/lib/getugroups.h /usr/src/debug/coreutils/9.1-r0/lib/mgetgroups.h /usr/src/debug/coreutils/9.1-r0/lib/fopen-safer.c /usr/src/debug/coreutils/9.1-r0/lib/mgetgroups.c /usr/src/debug/coreutils/9.1-r0/lib/xgetgroups.c /usr/src/debug/coreutils/9.1-r0/lib/cycle-check.h /usr/src/debug/coreutils/9.1-r0/lib/dirname.c /usr/src/debug/coreutils/9.1-r0/lib/localcharset.h /usr/src/debug/coreutils/9.1-r0/lib/localcharset.c /usr/src/debug/coreutils/9.1-r0/lib/dirname.h /usr/src/debug/coreutils/9.1-r0/lib/cycle-check.c /usr/src/debug/coreutils/9.1-r0/lib/hash-triple-simple.c /usr/src/debug/coreutils/9.1-r0/src/pr.c /usr/src/debug/coreutils/9.1-r0/lib/xgetaname-impl.h /usr/src/debug/coreutils/9.1-r0/src/version.h /usr/src/debug
+ /coreutils/9.1-r0/src/version.c /usr/src/debug/coreutils/9.1-r0/lib/read-file.h /usr/src/debug/coreutils/9.1-r0/lib/set-permissions.c /usr/src/debug/coreutils/9.1-r0/lib/get-permissions.c /usr/src/debug/coreutils/9.1-r0/lib/posixver.c /usr/src/debug/coreutils/9.1-r0/lib/fflush.c /usr/src/debug/coreutils/9.1-r0/lib/read-file.c /usr/src/debug/coreutils/9.1-r0/lib/posixver.h /usr/src/debug/coreutils/9.1-r0/src/du.c /usr/src/debug/coreutils/9.1-r0/lib/futimens.c /usr/src/debug/coreutils/9.1-r0/lib/memcoll.c /usr/src/debug/coreutils/9.1-r0/lib/memcoll.h /usr/src/debug/coreutils/9.1-r0/lib/ialloc.h /usr/src/debug/coreutils/9.1-r0/lib/xalloc.h /usr/src/debug/coreutils/9.1-r0/src/tr.c /usr/src/debug/coreutils/9.1-r0/lib/exitfail.c /usr/src/debug/coreutils/9.1-r0/lib/acl-internal.h /usr/src/debug/coreutils/9.1-r0/lib/exitfail.h /usr/src/debug/coreutils/9.1-r0/lib/acl-internal.c /usr/src/debug/coreutils/9.1-r0/lib/copy-acl.c /usr/src/debug/coreutils/9.1-r0/lib/qset-acl.c /usr/src/debug/coreut
+ ils/9.1-r0/lib/write-any-file.h /usr/src/debug/coreutils/9.1-r0/src/find-mount-point.h /usr/src/debug/coreutils/9.1-r0/lib/write-any-file.c /usr/src/debug/coreutils/9.1-r0/src/find-mount-point.c /usr/src/debug/coreutils/9.1-r0/lib/pipe2.c /usr/src/debug/coreutils/9.1-r0/lib/areadlink.h /usr/src/debug/coreutils/9.1-r0/lib/xreadlink.h /usr/src/debug/coreutils/9.1-r0/lib/backupfile.h /usr/src/debug/coreutils/9.1-r0/src/whoami.c /usr/src/debug/coreutils/9.1-r0/lib/areadlink.c /usr/src/debug/coreutils/9.1-r0/lib/xreadlink.c /usr/src/debug/coreutils/9.1-r0/lib/backupfile.c /usr/src/debug/coreutils/9.1-r0/src/sync.c /usr/src/debug/coreutils/9.1-r0/src/tail.c /usr/src/debug/coreutils/9.1-r0/src/test.c /usr/src/debug/coreutils/9.1-r0/src/true.c /usr/src/debug/coreutils/9.1-r0/src/uniq.c /usr/src/debug/coreutils/9.1-r0/src/comm.c /usr/src/debug/coreutils/9.1-r0/src/copy.c /usr/src/debug/coreutils/9.1-r0/src/date.c /usr/src/debug/coreutils/9.1-r0/src/echo.c /usr/src/debug/coreutils/9.1-r0/src/
+ expr.c /usr/src/debug/coreutils/9.1-r0/src/copy.h /usr/src/debug/coreutils/9.1-r0/lib/di-set.c /usr/src/debug/coreutils/9.1-r0/lib/physmem.c /usr/src/debug/coreutils/9.1-r0/lib/physmem.h /usr/src/debug/coreutils/9.1-r0/lib/di-set.h /usr/src/debug/coreutils/9.1-r0/lib/mbiter.h /usr/src/debug/coreutils/9.1-r0/lib/dirent-safer.h /usr/src/debug/coreutils/9.1-r0/src/cksum_pclmul.c /usr/src/debug/coreutils/9.1-r0/lib/canon-host.c /usr/src/debug/coreutils/9.1-r0/lib/canon-host.h /usr/src/debug/coreutils/9.1-r0/lib/fprintftime.h /usr/src/debug/coreutils/9.1-r0/lib/backup-find.c /usr/src/debug/coreutils/9.1-r0/lib/version-etc-fsf.c /usr/src/debug/coreutils/9.1-r0/lib/gethrxtime.h /usr/src/debug/coreutils/9.1-r0/lib/freopen.c /usr/src/debug/coreutils/9.1-r0/lib/gethrxtime.c /usr/src/debug/coreutils/9.1-r0/src/set-fields.h /usr/src/debug/coreutils/9.1-r0/lib/dtotimespec.c /usr/src/debug/coreutils/9.1-r0/lib/fdutimensat.c /usr/src/debug/coreutils/9.1-r0/lib/gettime-res.c /usr/src/debug/coreutil
+ s/9.1-r0/src/set-fields.c /usr/src/debug/coreutils/9.1-r0/lib/mbswidth.h /usr/src/debug/coreutils/9.1-r0/src/unlink.c /usr/src/debug/coreutils/9.1-r0/lib/mbswidth.c /usr/src/debug/coreutils/9.1-r0/lib/xdectoint.c /usr/src/debug/coreutils/9.1-r0/lib/xdectoint.h /usr/src/debug/coreutils/9.1-r0/src/make-prime-list.c /usr/src/debug/coreutils/9.1-r0/lib/targetdir.c /usr/src/debug/coreutils/9.1-r0/lib/targetdir.h /usr/src/debug/coreutils/9.1-r0/lib/dirchownmod.h /usr/src/debug/coreutils/9.1-r0/lib/xbinary-io.h /usr/src/debug/coreutils/9.1-r0/lib/dirchownmod.c /usr/src/debug/coreutils/9.1-r0/lib/stat-time.h /usr/src/debug/coreutils/9.1-r0/lib/allocator.h /usr/src/debug/coreutils/9.1-r0/lib/exclude.h /usr/src/debug/coreutils/9.1-r0/lib/memchr2.c /usr/src/debug/coreutils/9.1-r0/lib/readutmp.h /usr/src/debug/coreutils/9.1-r0/lib/memchr2.h /usr/src/debug/coreutils/9.1-r0/lib/exclude.c /usr/src/debug/coreutils/9.1-r0/lib/allocator.c /usr/src/debug/coreutils/9.1-r0/lib/readutmp.c /usr/src/debug/
+ coreutils/9.1-r0/lib/dev-ino.h /usr/src/debug/coreutils/9.1-r0/lib/sm3.h /usr/src/debug/coreutils/9.1-r0/lib/u64.h /usr/src/debug/coreutils/9.1-r0/lib/ftoastr.h /usr/src/debug/coreutils/9.1-r0/lib/sig2str.h /usr/src/debug/coreutils/9.1-r0/src/unexpand.c /usr/src/debug/coreutils/9.1-r0/src/fold.c /usr/src/debug/coreutils/9.1-r0/src/head.c /usr/src/debug/coreutils/9.1-r0/src/join.c /usr/src/debug/coreutils/9.1-r0/src/kill.c /usr/src/debug/coreutils/9.1-r0/src/link.c /usr/src/debug/coreutils/9.1-r0/src/nice.c /usr/src/debug/coreutils/9.1-r0/src/shuf.c /usr/src/debug/coreutils/9.1-r0/src/sort.c /usr/src/debug/coreutils/9.1-r0/lib/ftoastr.c /usr/src/debug/coreutils/9.1-r0/lib/fpucw.h /usr/src/debug/coreutils/9.1-r0/lib/sig2str.c /usr/src/debug/coreutils/9.1-r0/lib/fd-safer-flag.c /usr/src/debug/coreutils/9.1-r0/lib/sha512.h /usr/src/debug/coreutils/9.1-r0/lib/memcmp2.h /usr/src/debug/coreutils/9.1-r0/lib/sha512.c /usr/src/debug/coreutils/9.1-r0/lib/memcmp2.c /usr/src/debug/coreutils/9.1-
+ r0/lib/malloca.c /usr/src/debug/coreutils/9.1-r0/lib/long-options.h /usr/src/debug/coreutils/9.1-r0/src/mkdir.c /usr/src/debug/coreutils/9.1-r0/src/rmdir.c /usr/src/debug/coreutils/9.1-r0/lib/long-options.c /usr/src/debug/coreutils/9.1-r0/lib/malloca.h /usr/src/debug/coreutils/9.1-r0/lib/strnumcmp.h /usr/src/debug/coreutils/9.1-r0/lib/strnumcmp.c /usr/src/debug/coreutils/9.1-r0/lib/base32.c /usr/src/debug/coreutils/9.1-r0/lib/fseeko.c /usr/src/debug/coreutils/9.1-r0/lib/malloc/scratch_buffer_dupfree.c /usr/src/debug/coreutils/9.1-r0/lib/base32.h /usr/src/debug/coreutils/9.1-r0/lib/progname.h /usr/src/debug/coreutils/9.1-r0/lib/tempname.h /usr/src/debug/coreutils/9.1-r0/src/split.c /usr/src/debug/coreutils/9.1-r0/src/tsort.c /usr/src/debug/coreutils/9.1-r0/lib/basename.c /usr/src/debug/coreutils/9.1-r0/lib/progname.c /usr/src/debug/coreutils/9.1-r0/lib/tempname.c /usr/src/debug/coreutils/9.1-r0/lib/parse-datetime.h /usr/src/debug/coreutils/9.1-r0/lib/unistd-safer.h /usr/src/debug/cor
+ eutils/9.1-r0/lib/randread.c /usr/src/debug/coreutils/9.1-r0/lib/base64.h /usr/src/debug/coreutils/9.1-r0/src/chgrp.c /usr/src/debug/coreutils/9.1-r0/src/nohup.c /usr/src/debug/coreutils/9.1-r0/src/sleep.c /usr/src/debug/coreutils/9.1-r0/lib/base64.c /usr/src/debug/coreutils/9.1-r0/lib/randread.h /usr/src/debug/coreutils/9.1-r0/lib/getopt-core.h /usr/src/debug/coreutils/9.1-r0/lib/fts-cycle.c /usr/src/debug/coreutils/9.1-r0/lib/full-write.h /usr/src/debug/coreutils/9.1-r0/lib/safe-write.h /usr/src/debug/coreutils/9.1-r0/src/ls-vdir.c /usr/src/debug/coreutils/9.1-r0/lib/full-write.c /usr/src/debug/coreutils/9.1-r0/lib/yesno.c /usr/src/debug/coreutils/9.1-r0/lib/strintcmp.c /usr/src/debug/coreutils/9.1-r0/lib/stdio.h /usr/src/debug/coreutils/9.1-r0/lib/yesno.h /usr/src/debug/coreutils/9.1-r0/lib/areadlinkat-with-size.c /usr/src/debug/coreutils/9.1-r0/src/nl.c /usr/src/debug/coreutils/9.1-r0/lib/fd-safer.c /usr/src/debug/coreutils/9.1-r0/lib/argmatch.h /usr/src/debug/coreutils/9.1-r0/l
+ ib/c-strcase.h /usr/src/debug/coreutils/9.1-r0/lib/argmatch.c /usr/src/debug/coreutils/9.1-r0/lib/xnanosleep.h /usr/src/debug/coreutils/9.1-r0/src/fs-is-local.h /usr/src/debug/coreutils/9.1-r0/src/ln.c /usr/src/debug/coreutils/9.1-r0/lib/xnanosleep.c /usr/src/debug/coreutils/9.1-r0/lib/vprintf.c /usr/src/debug/coreutils/9.1-r0/lib/xprintf.c /usr/src/debug/coreutils/9.1-r0/lib/xprintf.h /usr/src/debug/coreutils/9.1-r0/lib/smack.h /usr/src/debug/coreutils/9.1-r0/lib/str-kmp.h /usr/src/debug/coreutils/9.1-r0/src/expand-common.c /usr/src/debug/coreutils/9.1-r0/src/timeout.c /usr/src/debug/coreutils/9.1-r0/src/expand-common.h /usr/src/debug/coreutils/9.1-r0/lib/mbschr.c", added "/usr/src/debug/coreutils/9.3-r0/src/chown-core.h /usr/src/debug/coreutils/9.3-r0/lib/i-ring.c /usr/src/debug/coreutils/9.3-r0/lib/string.h /usr/src/debug/coreutils/9.3-r0/lib/c-strcaseeq.h /usr/src/debug/coreutils/9.3-r0/lib/i-ring.h /usr/src/debug/coreutils/9.3-r0/src/chown-core.c /usr/src/debug/coreutils/9.3-r0
+ /src/mkfifo.c /usr/src/debug/coreutils/9.3-r0/src/printf.c /usr/src/debug/coreutils/9.3-r0/lib/file-has-acl.c /usr/src/debug/coreutils/9.3-r0/lib/xgetcwd.c /usr/src/debug/coreutils/9.3-r0/lib/sha1-stream.c /usr/src/debug/coreutils/9.3-r0/src/crctab.c /usr/src/debug/coreutils/9.3-r0/lib/xgetcwd.h /usr/src/debug/coreutils/9.3-r0/lib/fd-reopen.h /usr/src/debug/coreutils/9.3-r0/lib/modechange.c /usr/src/debug/coreutils/9.3-r0/lib/propername.h /usr/src/debug/coreutils/9.3-r0/lib/utimens.c /usr/src/debug/coreutils/9.3-r0/lib/modechange.h /usr/src/debug/coreutils/9.3-r0/lib/fd-reopen.c /usr/src/debug/coreutils/9.3-r0/lib/utimens.h /usr/src/debug/coreutils/9.3-r0/src/uname-arch.c /usr/src/debug/coreutils/9.3-r0/lib/propername.c /usr/src/debug/coreutils/9.3-r0/lib/backup-rename.c /usr/src/debug/coreutils/9.3-r0/lib/malloc/dynarray.h /usr/src/debug/coreutils/9.3-r0/src/cat.c /usr/src/debug/coreutils/9.3-r0/lib/regcomp.c /usr/src/debug/coreutils/9.3-r0/src/cut.c /usr/src/debug/coreutils/9.3-r0
+ /src/env.c /usr/src/debug/coreutils/9.3-r0/src/fmt.c /usr/src/debug/coreutils/9.3-r0/src/dd.c /usr/src/debug/coreutils/9.3-r0/src/ptx.c /usr/src/debug/coreutils/9.3-r0/src/pwd.c /usr/src/debug/coreutils/9.3-r0/src/seq.c /usr/src/debug/coreutils/9.3-r0/src/sum.c /usr/src/debug/coreutils/9.3-r0/src/sum.h /usr/src/debug/coreutils/9.3-r0/lib/areadlink-with-size.c /usr/src/debug/coreutils/9.3-r0/lib/buffer-lcm.h /usr/src/debug/coreutils/9.3-r0/lib/posixtm.c /usr/src/debug/coreutils/9.3-r0/lib/basename-lgpl.c /usr/src/debug/coreutils/9.3-r0/src/df.c /usr/src/debug/coreutils/9.3-r0/lib/posixtm.h /usr/src/debug/coreutils/9.3-r0/lib/buffer-lcm.c /usr/src/debug/coreutils/9.3-r0/lib/malloc/scratch_buffer_grow.c /usr/src/debug/coreutils/9.3-r0/lib/basename-lgpl.h /usr/src/debug/coreutils/9.3-r0/src/uname.h /usr/src/debug/coreutils/9.3-r0/src/paste.c /usr/src/debug/coreutils/9.3-r0/src/uname.c /usr/src/debug/coreutils/9.3-r0/lib/af_alg.h /usr/src/debug/coreutils/9.3-r0/lib/openat-die.c /usr/src/
+ debug/coreutils/9.3-r0/src/realpath.c /usr/src/debug/coreutils/9.3-r0/lib/closein.c /usr/src/debug/coreutils/9.3-r0/lib/closein.h /usr/src/debug/coreutils/9.3-r0/lib/mbsstr.c /usr/src/debug/coreutils/9.3-r0/lib/strstr.c /usr/src/debug/coreutils/9.3-r0/lib/fsusage.c /usr/src/debug/coreutils/9.3-r0/lib/fnmatch.h /usr/src/debug/coreutils/9.3-r0/lib/fseterr.h /usr/src/debug/coreutils/9.3-r0/lib/xmalloc.c /usr/src/debug/coreutils/9.3-r0/lib/fsusage.h /usr/src/debug/coreutils/9.3-r0/lib/unistr.h /usr/src/debug/coreutils/9.3-r0/src/pinky.c /usr/src/debug/coreutils/9.3-r0/lib/opendir-safer.c /usr/src/debug/coreutils/9.3-r0/lib/fnmatch.c /usr/src/debug/coreutils/9.3-r0/lib/fseterr.c /usr/src/debug/coreutils/9.3-r0/lib/dirname-lgpl.c /usr/src/debug/coreutils/9.3-r0/lib/mpsort.c /usr/src/debug/coreutils/9.3-r0/lib/mpsort.h /usr/src/debug/coreutils/9.3-r0/lib/userspec.c /usr/src/debug/coreutils/9.3-r0/lib/parse-datetime-gen.h /usr/src/debug/coreutils/9.3-r0/lib/userspec.h /usr/src/debug/coreuti
+ ls/9.3-r0/lib/timespec.h /usr/src/debug/coreutils/9.3-r0/src/libstdbuf.c /usr/src/debug/coreutils/9.3-r0/lib/dup-safer.c /usr/src/debug/coreutils/9.3-r0/src/ioblksize.h /usr/src/debug/coreutils/9.3-r0/src/factor.c /usr/src/debug/coreutils/9.3-r0/lib/xmemcoll.h /usr/src/debug/coreutils/9.3-r0/lib/getopt_int.h /usr/src/debug/coreutils/9.3-r0/lib/xmemcoll.c /usr/src/debug/coreutils/9.3-r0/src/operand2sig.c /usr/src/debug/coreutils/9.3-r0/lib/inttostr.h /usr/src/debug/coreutils/9.3-r0/src/uname-uname.c /usr/src/debug/coreutils/9.3-r0/lib/mkstemp-safer.c /usr/src/debug/coreutils/9.3-r0/lib/mbsrtowcs.c /usr/src/debug/coreutils/9.3-r0/lib/anytostr.c /usr/src/debug/coreutils/9.3-r0/src/operand2sig.h /usr/src/debug/coreutils/9.3-r0/lib/filevercmp.h /usr/src/debug/coreutils/9.3-r0/src/ls-dir.c /usr/src/debug/coreutils/9.3-r0/lib/filevercmp.c /usr/src/debug/coreutils/9.3-r0/lib/mbrlen.c /usr/src/debug/coreutils/9.3-r0/lib/mbslen.c /usr/src/debug/coreutils/9.3-r0/lib/xgethostname.h /usr/src/deb
+ ug/coreutils/9.3-r0/lib/filenamecat.h /usr/src/debug/coreutils/9.3-r0/src/chroot.c /usr/src/debug/coreutils/9.3-r0/lib/filenamecat.c /usr/src/debug/coreutils/9.3-r0/lib/c-ctype.h /usr/src/debug/coreutils/9.3-r0/lib/mbchar.h /usr/src/debug/coreutils/9.3-r0/lib/printf-parse.c /usr/src/debug/coreutils/9.3-r0/lib/malloc/dynarray_resize.c /usr/src/debug/coreutils/9.3-r0/src/selinux.h /usr/src/debug/coreutils/9.3-r0/lib/mbchar.c /usr/src/debug/coreutils/9.3-r0/lib/printf-parse.h /usr/src/debug/coreutils/9.3-r0/src/basenc.c /usr/src/debug/coreutils/9.3-r0/src/csplit.c /usr/src/debug/coreutils/9.3-r0/lib/openat-proc.c /usr/src/debug/coreutils/9.3-r0/lib/readtokens0.h /usr/src/debug/coreutils/9.3-r0/lib/openat-priv.h /usr/src/debug/coreutils/9.3-r0/lib/str-two-way.h /usr/src/debug/coreutils/9.3-r0/src/rm.c /usr/src/debug/coreutils/9.3-r0/src/numfmt.c /usr/src/debug/coreutils/9.3-r0/lib/readtokens0.c /usr/src/debug/coreutils/9.3-r0/lib/xstrtod.c /usr/src/debug/coreutils/9.3-r0/lib/xstrtod.h /
+ usr/src/debug/coreutils/9.3-r0/src/hostid.c /usr/src/debug/coreutils/9.3-r0/lib/set-acl.c /usr/src/debug/coreutils/9.3-r0/lib/getndelim2.h /usr/src/debug/coreutils/9.3-r0/lib/malloc/scratch_buffer_grow_preserve.c /usr/src/debug/coreutils/9.3-r0/lib/vasnprintf.c /usr/src/debug/coreutils/9.3-r0/lib/xvasprintf.c /usr/src/debug/coreutils/9.3-r0/src/cp-hash.c /usr/src/debug/coreutils/9.3-r0/src/cp-hash.h /usr/src/debug/coreutils/9.3-r0/lib/vasnprintf.h /usr/src/debug/coreutils/9.3-r0/lib/getndelim2.c /usr/src/debug/coreutils/9.3-r0/lib/xvasprintf.h /usr/src/debug/coreutils/9.3-r0/lib/verror.c /usr/src/debug/coreutils/9.3-r0/lib/alignalloc.h /usr/src/debug/coreutils/9.3-r0/lib/stdlib-safer.h /usr/src/debug/coreutils/9.3-r0/src/mktemp.c /usr/src/debug/coreutils/9.3-r0/lib/fchmodat.c /usr/src/debug/coreutils/9.3-r0/lib/close-stream.c /usr/src/debug/coreutils/9.3-r0/lib/fcntl-safer.h /usr/src/debug/coreutils/9.3-r0/lib/verror.h /usr/src/debug/coreutils/9.3-r0/lib/cl-strtod.c /usr/src/debug/c
+ oreutils/9.3-r0/lib/time-internal.h /usr/src/debug/coreutils/9.3-r0/lib/xstrtol-error.h /usr/src/debug/coreutils/9.3-r0/lib/striconv.c /usr/src/debug/coreutils/9.3-r0/lib/cl-strtod.h /usr/src/debug/coreutils/9.3-r0/lib/close-stream.h /usr/src/debug/coreutils/9.3-r0/lib/open-safer.c /usr/src/debug/coreutils/9.3-r0/lib/striconv.h /usr/src/debug/coreutils/9.3-r0/lib/xstrtol-error.c /usr/src/debug/coreutils/9.3-r0/lib/mkancesdirs.h /usr/src/debug/coreutils/9.3-r0/lib/xalignalloc.c /usr/src/debug/coreutils/9.3-r0/lib/mkancesdirs.c /usr/src/debug/coreutils/9.3-r0/lib/strnumcmp-in.h /usr/src/debug/coreutils/9.3-r0/lib/sys-limits.h /usr/src/debug/coreutils/9.3-r0/lib/xstrtol.h /usr/src/debug/coreutils/9.3-r0/lib/at-func.c /usr/src/debug/coreutils/9.3-r0/lib/openat.h /usr/src/debug/coreutils/9.3-r0/lib/mbrtowc.c /usr/src/debug/coreutils/9.3-r0/src/tee.c /usr/src/debug/coreutils/9.3-r0/src/tty.c /usr/src/debug/coreutils/9.3-r0/src/who.c /usr/src/debug/coreutils/9.3-r0/src/yes.c /usr/src/debug
+ /coreutils/9.3-r0/src/runcon.c /usr/src/debug/coreutils/9.3-r0/src/tac.c /usr/src/debug/coreutils/9.3-r0/lib/xstrtol.c /usr/src/debug/coreutils/9.3-r0/lib/strnlen1.h /usr/src/debug/coreutils/9.3-r0/src/ls.h /usr/src/debug/coreutils/9.3-r0/src/mv.c /usr/src/debug/coreutils/9.3-r0/src/getlimits.c /usr/src/debug/coreutils/9.3-r0/src/ls.c /usr/src/debug/coreutils/9.3-r0/lib/strnlen1.c /usr/src/debug/coreutils/9.3-r0/src/id.c /usr/src/debug/coreutils/9.3-r0/lib/xstriconv.h /usr/src/debug/coreutils/9.3-r0/lib/human.c /usr/src/debug/coreutils/9.3-r0/src/pathchk.c /usr/src/debug/coreutils/9.3-r0/lib/human.h /usr/src/debug/coreutils/9.3-r0/lib/time_rz.c /usr/src/debug/coreutils/9.3-r0/lib/xstriconv.c /usr/src/debug/coreutils/9.3-r0/lib/hash-pjw.h /usr/src/debug/coreutils/9.3-r0/lib/gettime.c /usr/src/debug/coreutils/9.3-r0/lib/settime.c /usr/src/debug/coreutils/9.3-r0/lib/hash-pjw.c /usr/src/debug/coreutils/9.3-r0/lib/freopen-safer.c /usr/src/debug/coreutils/9.3-r0/lib/nstrftime.c /usr/src/d
+ ebug/coreutils/9.3-r0/lib/sha512-stream.c /usr/src/debug/coreutils/9.3-r0/lib/fnmatch_loop.c /usr/src/debug/coreutils/9.3-r0/src/force-link.c /usr/src/debug/coreutils/9.3-r0/src/force-link.h /usr/src/debug/coreutils/9.3-r0/src/stat.c /usr/src/debug/coreutils/9.3-r0/src/stty.c /usr/src/debug/coreutils/9.3-r0/lib/fcntl.c /usr/src/debug/coreutils/9.3-r0/lib/mbuiter.h /usr/src/debug/coreutils/9.3-r0/src/install.c /usr/src/debug/coreutils/9.3-r0/lib/fcntl.h /usr/src/debug/coreutils/9.3-r0/src/digest.c /usr/src/debug/coreutils/9.3-r0/lib/savewd.h /usr/src/debug/coreutils/9.3-r0/lib/unicodeio.h /usr/src/debug/coreutils/9.3-r0/lib/ino-map.c /usr/src/debug/coreutils/9.3-r0/lib/printf-args.h /usr/src/debug/coreutils/9.3-r0/lib/getcwd.c /usr/src/debug/coreutils/9.3-r0/lib/savewd.c /usr/src/debug/coreutils/9.3-r0/lib/printf-args.c /usr/src/debug/coreutils/9.3-r0/lib/unicodeio.c /usr/src/debug/coreutils/9.3-r0/src/groups.c /usr/src/debug/coreutils/9.3-r0/lib/ino-map.h /usr/src/debug/coreutils/9.
+ 3-r0/src/basename.c /usr/src/debug/coreutils/9.3-r0/src/hostname.c /usr/src/debug/coreutils/9.3-r0/lib/file-set.c /usr/src/debug/coreutils/9.3-r0/src/group-list.h /usr/src/debug/coreutils/9.3-r0/lib/c-strcasecmp.c /usr/src/debug/coreutils/9.3-r0/lib/md5-stream.c /usr/src/debug/coreutils/9.3-r0/lib/file-set.h /usr/src/debug/coreutils/9.3-r0/lib/priv-set.h /usr/src/debug/coreutils/9.3-r0/lib/sm3-stream.c /usr/src/debug/coreutils/9.3-r0/src/group-list.c /usr/src/debug/coreutils/9.3-r0/lib/malloc/scratch_buffer.gl.h /usr/src/debug/coreutils/9.3-r0/lib/randint.c /usr/src/debug/coreutils/9.3-r0/lib/readtokens.c /usr/src/debug/coreutils/9.3-r0/lib/c-strncasecmp.c /usr/src/debug/coreutils/9.3-r0/lib/randint.h /usr/src/debug/coreutils/9.3-r0/lib/readtokens.h /usr/src/debug/coreutils/9.3-r0/lib/freadahead.h /usr/src/debug/coreutils/9.3-r0/lib/freadahead.c /usr/src/debug/coreutils/9.3-r0/lib/nanosleep.c /usr/src/debug/coreutils/9.3-r0/src/dirname.c /usr/src/debug/coreutils/9.3-r0/src/logname.c
+  /usr/src/debug/coreutils/9.3-r0/lib/regex_internal.c /usr/src/debug/coreutils/9.3-r0/lib/regex_internal.h /usr/src/debug/coreutils/9.3-r0/src/cp.c /usr/src/debug/coreutils/9.3-r0/lib/rand-isaac.h /usr/src/debug/coreutils/9.3-r0/lib/xalloc-die.c /usr/src/debug/coreutils/9.3-r0/lib/rand-isaac.c /usr/src/debug/coreutils/9.3-r0/lib/fclose.c /usr/src/debug/coreutils/9.3-r0/lib/regex.h /usr/src/debug/coreutils/9.3-r0/lib/freadseek.c /usr/src/debug/coreutils/9.3-r0/lib/utimecmp.c /usr/src/debug/coreutils/9.3-r0/lib/stdio-safer.h /usr/src/debug/coreutils/9.3-r0/src/nproc.c /usr/src/debug/coreutils/9.3-r0/lib/utimecmp.h /usr/src/debug/coreutils/9.3-r0/lib/freadseek.h /usr/src/debug/coreutils/9.3-r0/lib/getopt.c /usr/src/debug/coreutils/9.3-r0/src/cksum.c /usr/src/debug/coreutils/9.3-r0/lib/idcache.h /usr/src/debug/coreutils/9.3-r0/lib/unistd.h /usr/src/debug/coreutils/9.3-r0/lib/idcache.c /usr/src/debug/coreutils/9.3-r0/src/cksum.h /usr/src/debug/coreutils/9.3-r0/lib/backup-internal.h /usr/
+ src/debug/coreutils/9.3-r0/src/wc_avx2.c /usr/src/debug/coreutils/9.3-r0/lib/canonicalize.h /usr/src/debug/coreutils/9.3-r0/lib/regexec.c /usr/src/debug/coreutils/9.3-r0/lib/canonicalize.c /usr/src/debug/coreutils/9.3-r0/lib/hard-locale.c /usr/src/debug/coreutils/9.3-r0/lib/hash-triple.c /usr/src/debug/coreutils/9.3-r0/lib/hard-locale.h /usr/src/debug/coreutils/9.3-r0/lib/hash-triple.h /usr/src/debug/coreutils/9.3-r0/lib/quotearg.c /usr/src/debug/coreutils/9.3-r0/lib/savedir.c /usr/src/debug/coreutils/9.3-r0/lib/savedir.h /usr/src/debug/coreutils/9.3-r0/lib/quotearg.h /usr/src/debug/coreutils/9.3-r0/src/prog-fprintf.h /usr/src/debug/coreutils/9.3-r0/lib/stripslash.c /usr/src/debug/coreutils/9.3-r0/lib/stdlib.h /usr/src/debug/coreutils/9.3-r0/src/prog-fprintf.c /usr/src/debug/coreutils/9.3-r0/lib/fadvise.c /usr/src/debug/coreutils/9.3-r0/lib/fadvise.h /usr/src/debug/coreutils/9.3-r0/lib/binary-io.h /usr/src/debug/coreutils/9.3-r0/src/ls-ls.c /usr/src/debug/coreutils/9.3-r0/src/users.
+ c /usr/src/debug/coreutils/9.3-r0/lib/safe-read.c /usr/src/debug/coreutils/9.3-r0/lib/qcopy-acl.c /usr/src/debug/coreutils/9.3-r0/lib/wchar.h /usr/src/debug/coreutils/9.3-r0/lib/full-read.h /usr/src/debug/coreutils/9.3-r0/lib/safe-read.h /usr/src/debug/coreutils/9.3-r0/lib/careadlinkat.c /usr/src/debug/coreutils/9.3-r0/lib/openat-safer.c /usr/src/debug/coreutils/9.3-r0/lib/selinux-at.h /usr/src/debug/coreutils/9.3-r0/lib/careadlinkat.h /usr/src/debug/coreutils/9.3-r0/src/od.c /usr/src/debug/coreutils/9.3-r0/src/dircolors.c /usr/src/debug/coreutils/9.3-r0/lib/getopt1.c /usr/src/debug/coreutils/9.3-r0/src/dircolors.h /usr/src/debug/coreutils/9.3-r0/src/stdbuf.c /usr/src/debug/coreutils/9.3-r0/src/chmod.c /usr/src/debug/coreutils/9.3-r0/src/mknod.c /usr/src/debug/coreutils/9.3-r0/src/shred.c /usr/src/debug/coreutils/9.3-r0/lib/vasprintf.c /usr/src/debug/coreutils/9.3-r0/lib/xasprintf.c /usr/src/debug/coreutils/9.3-r0/lib/dirent.h /usr/src/debug/coreutils/9.3-r0/src/printenv.c /usr/src/
+ debug/coreutils/9.3-r0/lib/count-leading-zeros.h /usr/src/debug/coreutils/9.3-r0/lib/argv-iter.c /usr/src/debug/coreutils/9.3-r0/lib/argv-iter.h /usr/src/debug/coreutils/9.3-r0/lib/filenamecat-lgpl.c /usr/src/debug/coreutils/9.3-r0/lib/filemode.h /usr/src/debug/coreutils/9.3-r0/lib/root-dev-ino.h /usr/src/debug/coreutils/9.3-r0/lib/filemode.c /usr/src/debug/coreutils/9.3-r0/lib/root-dev-ino.c /usr/src/debug/coreutils/9.3-r0/lib/dup-safer-flag.c /usr/src/debug/coreutils/9.3-r0/lib/randperm.h /usr/src/debug/coreutils/9.3-r0/lib/randperm.c /usr/src/debug/coreutils/9.3-r0/src/truncate.c /usr/src/debug/coreutils/9.3-r0/lib/acl-errno-valid.c /usr/src/debug/coreutils/9.3-r0/src/statx.h /usr/src/debug/coreutils/9.3-r0/lib/linebuffer.h /usr/src/debug/coreutils/9.3-r0/lib/linebuffer.c /usr/src/debug/coreutils/9.3-r0/src/remove.h /usr/src/debug/coreutils/9.3-r0/src/remove.c /usr/src/debug/coreutils/9.3-r0/src/uptime.c /usr/src/debug/coreutils/9.3-r0/src/chown.c /usr/src/debug/coreutils/9.3-r0/
+ src/chcon.c /usr/src/debug/coreutils/9.3-r0/lib/memset_explicit.c /usr/src/debug/coreutils/9.3-r0/lib/memchr.c /usr/src/debug/coreutils/9.3-r0/src/touch.c /usr/src/debug/coreutils/9.3-r0/lib/unitypes.h /usr/src/debug/coreutils/9.3-r0/lib/version-etc.h /usr/src/debug/coreutils/9.3-r0/lib/c-strtod.c /usr/src/debug/coreutils/9.3-r0/lib/version-etc.c /usr/src/debug/coreutils/9.3-r0/lib/c-strtod.h /usr/src/debug/coreutils/9.3-r0/lib/isapipe.h /usr/src/debug/coreutils/9.3-r0/lib/chdir-long.c /usr/src/debug/coreutils/9.3-r0/lib/memcasecmp.h /usr/src/debug/coreutils/9.3-r0/lib/chdir-long.h /usr/src/debug/coreutils/9.3-r0/lib/isapipe.c /usr/src/debug/coreutils/9.3-r0/lib/mbscasecmp.c /usr/src/debug/coreutils/9.3-r0/lib/memcasecmp.c /usr/src/debug/coreutils/9.3-r0/src/relpath.h /usr/src/debug/coreutils/9.3-r0/src/relpath.c /usr/src/debug/coreutils/9.3-r0/lib/sha256.c /usr/src/debug/coreutils/9.3-r0/src/readlink.c /usr/src/debug/coreutils/9.3-r0/lib/nproc.h /usr/src/debug/coreutils/9.3-r0/src/
+ system.h /usr/src/debug/coreutils/9.3-r0/lib/malloc/dynarray-skeleton.c /usr/src/debug/coreutils/9.3-r0/lib/setlocale_null.h /usr/src/debug/coreutils/9.3-r0/lib/sha256.h /usr/src/debug/coreutils/9.3-r0/lib/setlocale_null.c /usr/src/debug/coreutils/9.3-r0/lib/btowc.c /usr/src/debug/coreutils/9.3-r0/lib/nproc.c /usr/src/debug/coreutils/9.3-r0/lib/quote.h /usr/src/debug/coreutils/9.3-r0/lib/xsize.h /usr/src/debug/coreutils/9.3-r0/lib/xtime.h /usr/src/debug/coreutils/9.3-r0/lib/sha256-stream.c /usr/src/debug/coreutils/9.3-r0/lib/renameatu.h /usr/src/debug/coreutils/9.3-r0/lib/strftime.h /usr/src/debug/coreutils/9.3-r0/src/wc.c /usr/src/debug/coreutils/9.3-r0/lib/getopt-ext.h /usr/src/debug/coreutils/9.3-r0/lib/renameatu.c /usr/src/debug/coreutils/9.3-r0/lib/closeout.c /usr/src/debug/coreutils/9.3-r0/lib/md5.h /usr/src/debug/coreutils/9.3-r0/lib/acl.h /usr/src/debug/coreutils/9.3-r0/lib/idx.h /usr/src/debug/coreutils/9.3-r0/lib/file-type.h /usr/src/debug/coreutils/9.3-r0/lib/mbsalign.c /
+ usr/src/debug/coreutils/9.3-r0/lib/bitrotate.h /usr/src/debug/coreutils/9.3-r0/lib/closeout.h /usr/src/debug/coreutils/9.3-r0/lib/fts.c /usr/src/debug/coreutils/9.3-r0/lib/mbsalign.h /usr/src/debug/coreutils/9.3-r0/lib/md5.c /usr/src/debug/coreutils/9.3-r0/lib/file-type.c /usr/src/debug/coreutils/9.3-r0/lib/sm3.c /usr/src/debug/coreutils/9.3-r0/lib/hash.c /usr/src/debug/coreutils/9.3-r0/lib/heap.c /usr/src/debug/coreutils/9.3-r0/lib/same.c /usr/src/debug/coreutils/9.3-r0/lib/sha1.c /usr/src/debug/coreutils/9.3-r0/lib/time.c /usr/src/debug/coreutils/9.3-r0/lib/trim.c /usr/src/debug/coreutils/9.3-r0/lib/xfts.c /usr/src/debug/coreutils/9.3-r0/src/expand.c /usr/src/debug/coreutils/9.3-r0/src/iopoll.c /usr/src/debug/coreutils/9.3-r0/lib/fts_.h /usr/src/debug/coreutils/9.3-r0/lib/hash.h /usr/src/debug/coreutils/9.3-r0/lib/heap.h /usr/src/debug/coreutils/9.3-r0/lib/same.h /usr/src/debug/coreutils/9.3-r0/lib/sha1.h /usr/src/debug/coreutils/9.3-r0/lib/time.h /usr/src/debug/coreutils/9.3-r0/l
+ ib/mountlist.c /usr/src/debug/coreutils/9.3-r0/lib/trim.h /usr/src/debug/coreutils/9.3-r0/lib/xfts.h /usr/src/debug/coreutils/9.3-r0/src/iopoll.h /usr/src/debug/coreutils/9.3-r0/lib/save-cwd.h /usr/src/debug/coreutils/9.3-r0/lib/mountlist.h /usr/src/debug/coreutils/9.3-r0/lib/save-cwd.c /usr/src/debug/coreutils/9.3-r0/lib/obstack.c /usr/src/debug/coreutils/9.3-r0/lib/freadptr.c /usr/src/debug/coreutils/9.3-r0/lib/obstack.h /usr/src/debug/coreutils/9.3-r0/lib/freadptr.h /usr/src/debug/coreutils/9.3-r0/lib/asprintf.c /usr/src/debug/coreutils/9.3-r0/lib/vfprintf.c /usr/src/debug/coreutils/9.3-r0/lib/mkdir-p.h /usr/src/debug/coreutils/9.3-r0/lib/opendirat.h /usr/src/debug/coreutils/9.3-r0/lib/opendirat.c /usr/src/debug/coreutils/9.3-r0/lib/mkdir-p.c /usr/src/debug/coreutils/9.3-r0/lib/getugroups.h /usr/src/debug/coreutils/9.3-r0/lib/mgetgroups.h /usr/src/debug/coreutils/9.3-r0/lib/fopen-safer.c /usr/src/debug/coreutils/9.3-r0/lib/mgetgroups.c /usr/src/debug/coreutils/9.3-r0/lib/xgetgrou
+ ps.c /usr/src/debug/coreutils/9.3-r0/lib/cycle-check.h /usr/src/debug/coreutils/9.3-r0/lib/dirname.c /usr/src/debug/coreutils/9.3-r0/lib/localcharset.h /usr/src/debug/coreutils/9.3-r0/lib/localcharset.c /usr/src/debug/coreutils/9.3-r0/lib/dirname.h /usr/src/debug/coreutils/9.3-r0/lib/cycle-check.c /usr/src/debug/coreutils/9.3-r0/lib/hash-triple-simple.c /usr/src/debug/coreutils/9.3-r0/src/pr.c /usr/src/debug/coreutils/9.3-r0/lib/xgetaname-impl.h /usr/src/debug/coreutils/9.3-r0/src/version.h /usr/src/debug/coreutils/9.3-r0/src/version.c /usr/src/debug/coreutils/9.3-r0/lib/read-file.h /usr/src/debug/coreutils/9.3-r0/lib/set-permissions.c /usr/src/debug/coreutils/9.3-r0/lib/posixver.c /usr/src/debug/coreutils/9.3-r0/lib/fflush.c /usr/src/debug/coreutils/9.3-r0/lib/read-file.c /usr/src/debug/coreutils/9.3-r0/lib/posixver.h /usr/src/debug/coreutils/9.3-r0/src/du.c /usr/src/debug/coreutils/9.3-r0/lib/futimens.c /usr/src/debug/coreutils/9.3-r0/lib/memcoll.c /usr/src/debug/coreutils/9.3-r0/
+ lib/memcoll.h /usr/src/debug/coreutils/9.3-r0/lib/ialloc.h /usr/src/debug/coreutils/9.3-r0/lib/xalloc.h /usr/src/debug/coreutils/9.3-r0/src/tr.c /usr/src/debug/coreutils/9.3-r0/lib/exitfail.c /usr/src/debug/coreutils/9.3-r0/lib/acl-internal.h /usr/src/debug/coreutils/9.3-r0/lib/exitfail.h /usr/src/debug/coreutils/9.3-r0/lib/acl-internal.c /usr/src/debug/coreutils/9.3-r0/lib/copy-acl.c /usr/src/debug/coreutils/9.3-r0/lib/qset-acl.c /usr/src/debug/coreutils/9.3-r0/lib/write-any-file.h /usr/src/debug/coreutils/9.3-r0/src/find-mount-point.h /usr/src/debug/coreutils/9.3-r0/lib/write-any-file.c /usr/src/debug/coreutils/9.3-r0/src/find-mount-point.c /usr/src/debug/coreutils/9.3-r0/lib/pipe2.c /usr/src/debug/coreutils/9.3-r0/lib/areadlink.h /usr/src/debug/coreutils/9.3-r0/lib/xreadlink.h /usr/src/debug/coreutils/9.3-r0/lib/backupfile.h /usr/src/debug/coreutils/9.3-r0/src/whoami.c /usr/src/debug/coreutils/9.3-r0/lib/areadlink.c /usr/src/debug/coreutils/9.3-r0/lib/xreadlink.c /usr/src/debug/c
+ oreutils/9.3-r0/lib/backupfile.c /usr/src/debug/coreutils/9.3-r0/src/sync.c /usr/src/debug/coreutils/9.3-r0/src/tail.c /usr/src/debug/coreutils/9.3-r0/src/test.c /usr/src/debug/coreutils/9.3-r0/src/true.c /usr/src/debug/coreutils/9.3-r0/src/uniq.c /usr/src/debug/coreutils/9.3-r0/src/comm.c /usr/src/debug/coreutils/9.3-r0/src/copy.c /usr/src/debug/coreutils/9.3-r0/src/date.c /usr/src/debug/coreutils/9.3-r0/src/echo.c /usr/src/debug/coreutils/9.3-r0/src/expr.c /usr/src/debug/coreutils/9.3-r0/src/copy.h /usr/src/debug/coreutils/9.3-r0/lib/di-set.c /usr/src/debug/coreutils/9.3-r0/lib/physmem.c /usr/src/debug/coreutils/9.3-r0/lib/physmem.h /usr/src/debug/coreutils/9.3-r0/lib/di-set.h /usr/src/debug/coreutils/9.3-r0/lib/mbiter.h /usr/src/debug/coreutils/9.3-r0/lib/dirent-safer.h /usr/src/debug/coreutils/9.3-r0/src/cksum_pclmul.c /usr/src/debug/coreutils/9.3-r0/lib/canon-host.c /usr/src/debug/coreutils/9.3-r0/lib/canon-host.h /usr/src/debug/coreutils/9.3-r0/lib/mbsrtowcs-impl.h /usr/src/de
+ bug/coreutils/9.3-r0/lib/fprintftime.h /usr/src/debug/coreutils/9.3-r0/lib/backup-find.c /usr/src/debug/coreutils/9.3-r0/lib/version-etc-fsf.c /usr/src/debug/coreutils/9.3-r0/lib/gethrxtime.h /usr/src/debug/coreutils/9.3-r0/lib/freopen.c /usr/src/debug/coreutils/9.3-r0/lib/gethrxtime.c /usr/src/debug/coreutils/9.3-r0/src/set-fields.h /usr/src/debug/coreutils/9.3-r0/lib/mbsrtowcs-state.c /usr/src/debug/coreutils/9.3-r0/lib/dtotimespec.c /usr/src/debug/coreutils/9.3-r0/lib/fdutimensat.c /usr/src/debug/coreutils/9.3-r0/lib/gettime-res.c /usr/src/debug/coreutils/9.3-r0/src/set-fields.c /usr/src/debug/coreutils/9.3-r0/lib/mbswidth.h /usr/src/debug/coreutils/9.3-r0/src/unlink.c /usr/src/debug/coreutils/9.3-r0/lib/mbswidth.c /usr/src/debug/coreutils/9.3-r0/lib/xdectoint.c /usr/src/debug/coreutils/9.3-r0/lib/xdectoint.h /usr/src/debug/coreutils/9.3-r0/src/make-prime-list.c /usr/src/debug/coreutils/9.3-r0/lib/targetdir.c /usr/src/debug/coreutils/9.3-r0/lib/targetdir.h /usr/src/debug/coreutil
+ s/9.3-r0/lib/dirchownmod.h /usr/src/debug/coreutils/9.3-r0/lib/xbinary-io.h /usr/src/debug/coreutils/9.3-r0/lib/dirchownmod.c /usr/src/debug/coreutils/9.3-r0/lib/stat-time.h /usr/src/debug/coreutils/9.3-r0/lib/allocator.h /usr/src/debug/coreutils/9.3-r0/lib/exclude.h /usr/src/debug/coreutils/9.3-r0/lib/memchr2.c /usr/src/debug/coreutils/9.3-r0/lib/readutmp.h /usr/src/debug/coreutils/9.3-r0/lib/memchr2.h /usr/src/debug/coreutils/9.3-r0/lib/exclude.c /usr/src/debug/coreutils/9.3-r0/lib/allocator.c /usr/src/debug/coreutils/9.3-r0/lib/readutmp.c /usr/src/debug/coreutils/9.3-r0/lib/dev-ino.h /usr/src/debug/coreutils/9.3-r0/lib/sm3.h /usr/src/debug/coreutils/9.3-r0/lib/u64.h /usr/src/debug/coreutils/9.3-r0/lib/ftoastr.h /usr/src/debug/coreutils/9.3-r0/lib/sig2str.h /usr/src/debug/coreutils/9.3-r0/src/unexpand.c /usr/src/debug/coreutils/9.3-r0/src/fold.c /usr/src/debug/coreutils/9.3-r0/src/head.c /usr/src/debug/coreutils/9.3-r0/src/join.c /usr/src/debug/coreutils/9.3-r0/src/kill.c /usr/src
+ /debug/coreutils/9.3-r0/src/link.c /usr/src/debug/coreutils/9.3-r0/src/nice.c /usr/src/debug/coreutils/9.3-r0/src/shuf.c /usr/src/debug/coreutils/9.3-r0/src/sort.c /usr/src/debug/coreutils/9.3-r0/lib/ftoastr.c /usr/src/debug/coreutils/9.3-r0/lib/fpucw.h /usr/src/debug/coreutils/9.3-r0/lib/sig2str.c /usr/src/debug/coreutils/9.3-r0/lib/fd-safer-flag.c /usr/src/debug/coreutils/9.3-r0/lib/sha512.h /usr/src/debug/coreutils/9.3-r0/lib/memcmp2.h /usr/src/debug/coreutils/9.3-r0/lib/sha512.c /usr/src/debug/coreutils/9.3-r0/lib/memcmp2.c /usr/src/debug/coreutils/9.3-r0/lib/malloca.c /usr/src/debug/coreutils/9.3-r0/lib/long-options.h /usr/src/debug/coreutils/9.3-r0/src/mkdir.c /usr/src/debug/coreutils/9.3-r0/src/rmdir.c /usr/src/debug/coreutils/9.3-r0/lib/long-options.c /usr/src/debug/coreutils/9.3-r0/lib/malloca.h /usr/src/debug/coreutils/9.3-r0/lib/strnumcmp.h /usr/src/debug/coreutils/9.3-r0/lib/strnumcmp.c /usr/src/debug/coreutils/9.3-r0/lib/base32.c /usr/src/debug/coreutils/9.3-r0/lib/fsee
+ ko.c /usr/src/debug/coreutils/9.3-r0/lib/base32.h /usr/src/debug/coreutils/9.3-r0/lib/progname.h /usr/src/debug/coreutils/9.3-r0/lib/tempname.h /usr/src/debug/coreutils/9.3-r0/src/split.c /usr/src/debug/coreutils/9.3-r0/src/tsort.c /usr/src/debug/coreutils/9.3-r0/lib/basename.c /usr/src/debug/coreutils/9.3-r0/lib/progname.c /usr/src/debug/coreutils/9.3-r0/lib/tempname.c /usr/src/debug/coreutils/9.3-r0/lib/parse-datetime.h /usr/src/debug/coreutils/9.3-r0/lib/unistd-safer.h /usr/src/debug/coreutils/9.3-r0/lib/randread.c /usr/src/debug/coreutils/9.3-r0/lib/base64.h /usr/src/debug/coreutils/9.3-r0/src/chgrp.c /usr/src/debug/coreutils/9.3-r0/src/nohup.c /usr/src/debug/coreutils/9.3-r0/src/sleep.c /usr/src/debug/coreutils/9.3-r0/lib/base64.c /usr/src/debug/coreutils/9.3-r0/lib/randread.h /usr/src/debug/coreutils/9.3-r0/lib/getopt-core.h /usr/src/debug/coreutils/9.3-r0/lib/fts-cycle.c /usr/src/debug/coreutils/9.3-r0/lib/full-write.h /usr/src/debug/coreutils/9.3-r0/lib/safe-write.h /usr/src
+ /debug/coreutils/9.3-r0/src/ls-vdir.c /usr/src/debug/coreutils/9.3-r0/lib/full-write.c /usr/src/debug/coreutils/9.3-r0/lib/yesno.c /usr/src/debug/coreutils/9.3-r0/lib/strintcmp.c /usr/src/debug/coreutils/9.3-r0/lib/stdio.h /usr/src/debug/coreutils/9.3-r0/lib/yesno.h /usr/src/debug/coreutils/9.3-r0/lib/areadlinkat-with-size.c /usr/src/debug/coreutils/9.3-r0/src/nl.c /usr/src/debug/coreutils/9.3-r0/lib/fd-safer.c /usr/src/debug/coreutils/9.3-r0/lib/argmatch.h /usr/src/debug/coreutils/9.3-r0/lib/c-strcase.h /usr/src/debug/coreutils/9.3-r0/lib/argmatch.c /usr/src/debug/coreutils/9.3-r0/lib/xnanosleep.h /usr/src/debug/coreutils/9.3-r0/src/fs-is-local.h /usr/src/debug/coreutils/9.3-r0/src/ln.c /usr/src/debug/coreutils/9.3-r0/lib/xnanosleep.c /usr/src/debug/coreutils/9.3-r0/lib/vprintf.c /usr/src/debug/coreutils/9.3-r0/lib/xprintf.c /usr/src/debug/coreutils/9.3-r0/lib/xprintf.h /usr/src/debug/coreutils/9.3-r0/lib/smack.h /usr/src/debug/coreutils/9.3-r0/lib/str-kmp.h /usr/src/debug/coreutil
+ s/9.3-r0/src/expand-common.c /usr/src/debug/coreutils/9.3-r0/src/timeout.c /usr/src/debug/coreutils/9.3-r0/src/expand-common.h /usr/src/debug/coreutils/9.3-r0/lib/mbschr.c"
+packages/core2-32-poky-linux/coreutils/coreutils-src: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-src: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-src: PKGSIZE changed from 5679847 to 5803529 (+2%)
+packages/core2-32-poky-linux/coreutils/coreutils-staticdev: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-staticdev: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-stdbuf: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils-stdbuf: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils-stdbuf: PKGSIZE changed from 80672 to 92960 (+15%)
+packages/core2-32-poky-linux/coreutils/coreutils: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils/coreutils: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils/coreutils: PKGSIZE changed from 8145280 to 8374716 (+3%)
+packages/core2-32-poky-linux/coreutils: PKGV changed from 9.1 [default] to 9.3 [default]
+packages/core2-32-poky-linux/coreutils: SRC_URI changed from "https://ftp.gnu.org/gnu/coreutils/coreutils-9.1.tar.xz file://remove-usr-local-lib-from-m4.patch file://0001-local.mk-fix-cross-compiling-problem.patch file://run-ptest" to "https://ftp.gnu.org/gnu/coreutils/coreutils-9.3.tar.xz file://remove-usr-local-lib-from-m4.patch file://0001-local.mk-fix-cross-compiling-problem.patch file://run-ptest"
+packages/core2-32-poky-linux/coreutils: PV changed from "9.1" to "9.3"
+packages/core2-32-poky-linux/coreutils: PACKAGES: added "coreutils-locale-ka"
 
---===============1374944540395975771==
-Content-Type: text/plain; charset="us-ascii"
+--===============0884786792345368198==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-coreutils-upgrade-9.1-9.3.patch"
 
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 900 .bb files complete (0 cached, 900 parsed). 1804 targets, 67 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the mips32r2 sysroot...done.
-Removing 1 recipes from the qemumips sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+RnJvbSA0Njc3YTA1NzM2ZTdlNWJjNzZmNDU3OTgzNmM0NTc4ODU3ZDg5ZWJkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgTWF5IDIwMjMgMDc6Mjg6NTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
+b3JldXRpbHM6IHVwZ3JhZGUgOS4xIC0+IDkuMwoKLS0tCiAuLi4ve2NvcmV1dGlsc185LjEuYmIg
+PT4gY29yZXV0aWxzXzkuMy5iYn0gICAgfCAyNCArKysrKysrKysrKysrKysrKy0tCiAxIGZpbGUg
+Y2hhbmdlZCwgMjIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtY29yZS9jb3JldXRpbHMve2NvcmV1dGlsc185LjEuYmIgPT4gY29yZXV0aWxzXzkuMy5i
+Yn0gKDkxJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9jb3JldXRpbHMvY29yZXV0
+aWxzXzkuMS5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL2NvcmV1dGlscy9jb3JldXRpbHNfOS4zLmJi
+CnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb3JlL2NvcmV1
+dGlscy9jb3JldXRpbHNfOS4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtY29yZS9jb3JldXRp
+bHMvY29yZXV0aWxzXzkuMy5iYgppbmRleCBlMTJhNmQ2Nzk3Li5iZGNmOGU4OTI3IDEwMDY0NAot
+LS0gYS9tZXRhL3JlY2lwZXMtY29yZS9jb3JldXRpbHMvY29yZXV0aWxzXzkuMS5iYgorKysgYi9t
+ZXRhL3JlY2lwZXMtY29yZS9jb3JldXRpbHMvY29yZXV0aWxzXzkuMy5iYgpAQCAtMSwzICsxLDIz
+IEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0
+ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhlIGRpZmZlcmVu
+Y2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMgUGxlYXNlIHVw
+ZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUgdGhlIGNoYW5n
+ZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6JyB0YWcuCisj
+IChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRhdGVkLicpCisj
+CisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gc3JjL2xzLmMKKyMgKysrIHNyYy9scy5jCisjIEBA
+IC0xLDUgKzEsNSBAQAorIyAgLyogJ2RpcicsICd2ZGlyJyBhbmQgJ2xzJyBkaXJlY3RvcnkgbGlz
+dGluZyBwcm9ncmFtcyBmb3IgR05VLgorIyAtICAgQ29weXJpZ2h0IChDKSAxOTg1LTIwMjIgRnJl
+ZSBTb2Z0d2FyZSBGb3VuZGF0aW9uLCBJbmMuCisjICsgICBDb3B5cmlnaHQgKEMpIDE5ODUtMjAy
+MyBGcmVlIFNvZnR3YXJlIEZvdW5kYXRpb24sIEluYy4KKyMgIAorIyAgICAgVGhpcyBwcm9ncmFt
+IGlzIGZyZWUgc29mdHdhcmU6IHlvdSBjYW4gcmVkaXN0cmlidXRlIGl0IGFuZC9vciBtb2RpZnkK
+KyMgICAgIGl0IHVuZGVyIHRoZSB0ZXJtcyBvZiB0aGUgR05VIEdlbmVyYWwgUHVibGljIExpY2Vu
+c2UgYXMgcHVibGlzaGVkIGJ5CisjIAorIworCiBTVU1NQVJZID0gIlRoZSBiYXNpYyBmaWxlLCBz
+aGVsbCBhbmQgdGV4dCBtYW5pcHVsYXRpb24gdXRpbGl0aWVzIgogREVTQ1JJUFRJT04gPSAiVGhl
+IEdOVSBDb3JlIFV0aWxpdGllcyBwcm92aWRlIHRoZSBiYXNpYyBmaWxlLCBzaGVsbCBhbmQgdGV4
+dCBcCiBtYW5pcHVsYXRpb24gdXRpbGl0aWVzLiBUaGVzZSBhcmUgdGhlIGNvcmUgdXRpbGl0aWVz
+IHdoaWNoIGFyZSBleHBlY3RlZCB0byBleGlzdCBvbiBcCkBAIC02LDcgKzI2LDcgQEAgSE9NRVBB
+R0UgPSAiaHR0cDovL3d3dy5nbnUub3JnL3NvZnR3YXJlL2NvcmV1dGlscy8iCiBCVUdUUkFDS0VS
+ID0gImh0dHA6Ly9kZWJidWdzLmdudS5vcmcvY29yZXV0aWxzIgogTElDRU5TRSA9ICJHUEwtMy4w
+LW9yLWxhdGVyIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9MWViYmQz
+ZTM0MjM3YWYyNmRhNWRjMDhhNGU0NDA0NjQgXAotICAgICAgICAgICAgICAgICAgICBmaWxlOi8v
+c3JjL2xzLmM7YmVnaW5saW5lPTE7ZW5kbGluZT0xNTttZDU9MWZlODlmNjI2MTRiNWUxZjU0NzVl
+YzA0ZDU4OTliYzEgXAorICAgICAgICAgICAgICAgICAgICBmaWxlOi8vc3JjL2xzLmM7YmVnaW5s
+aW5lPTE7ZW5kbGluZT0xNTttZDU9YjcyMGE4YjMxNzAzNWQ2NmM1NTVmYzZkODllMzY3NGMgXAog
+ICAgICAgICAgICAgICAgICAgICAiCiBERVBFTkRTID0gImdtcCBsaWJjYXAiCiBERVBFTkRTOmNs
+YXNzLW5hdGl2ZSA9ICIiCkBAIC0xOSw3ICszOSw3IEBAIFNSQ19VUkkgPSAiJHtHTlVfTUlSUk9S
+fS9jb3JldXRpbHMvJHtCUH0udGFyLnh6IFwKICAgICAgICAgICAgZmlsZTovL3J1bi1wdGVzdCBc
+CiAgICAgICAgICAgICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjYxYTFmNDEwZDc4YmE3ZTdm
+MzdhNWE0ZjUwZTZkMTMyMGFjYTMzMzc1NDg0YTMyNTVlZGRmMTdhMzg1ODA0MjMiCitTUkNfVVJJ
+W3NoYTI1NnN1bV0gPSAiYWRiY2ZjZmU4OTkyMzViNzFlODc2OGRjZjA3Y2Q1MzI1MjBiN2Y1NGY5
+YTgwNjQ4NDNmOGQxOTlhOTA0YmJhYSIKIAogIyBodHRwOi8vZ2l0LnNhdmFubmFoLmdudS5vcmcv
+Y2dpdC9jb3JldXRpbHMuZ2l0L2NvbW1pdC8/aWQ9djguMjctMTAxLWdmNWQ3YzA4NDIKICMgcnVu
+Y29uIGlzIG5vdCByZWFsbHkgYSBzYW5kYm94IGNvbW1hbmQsIHVzZSBgcnVuY29uIC4uLiBzZXRz
+aWQgLi4uYCB0byBhdm9pZCB0aGlzIHBhcnRpY3VsYXIgaXNzdWUuCi0tIAoyLjM5LjIKCg==
 
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "mips-poky-linux"
-MACHINE              = "qemumips"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:6e15ce7a672d11345bb66545edbd218527b3812a"
-workspace            = "master:35e5d29a7d654fc79bdb898d0f1fb277270dbfd5"
-
-Initialising tasks...done.
-Sstate summary: Wanted 29 Local 6 Mirrors 0 Missed 23 Current 493 (20% match, 95% complete)
-Removing 2 stale sstate objects for arch mips32r2...done.
-Removing 1 stale sstate objects for arch qemumips...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 506 of 522 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 511 of 522 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe systemd-1_253.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe systemd-1_253.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe systemd-1_253.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 1289 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_fetch)
-NOTE: Running task 1290 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_fetch)
-NOTE: Running task 1579 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_fetch)
-NOTE: recipe lua-5.4.4-r0: task do_fetch: Started
-NOTE: recipe popt-1.19-r0: task do_fetch: Started
-NOTE: Running task 1597 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_fetch)
-NOTE: recipe popt-1.19-r0: task do_fetch: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_fetch: Succeeded
-NOTE: Running task 1678 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_unpack)
-NOTE: Running task 1679 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1690 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_unpack)
-NOTE: Running task 1691 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1794 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_package_write_rpm)
-NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_fetch: Started
-NOTE: recipe popt-1.19-r0: task do_unpack: Started
-NOTE: recipe popt-1.19-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lua-5.4.4-r0: task do_unpack: Started
-NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_fetch: Succeeded
-NOTE: recipe popt-1.19-r0: task do_unpack: Succeeded
-NOTE: Running task 1796 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_unpack)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/systemd/1_253.3-r0/temp/log.do_packagedata_setscene.2368052
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_unpack: Succeeded
-NOTE: Running setscene task 521 of 522 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_package_setscene)
-NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe popt-1.19-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1797 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_patch)
-NOTE: Running task 1798 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_patch)
-NOTE: Running task 1799 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_unpack)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_unpack: Started
-NOTE: recipe lua-5.4.4-r0: task do_patch: Started
-NOTE: recipe popt-1.19-r0: task do_patch: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Started
-NOTE: recipe popt-1.19-r0: task do_patch: Succeeded
-NOTE: Running task 1800 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_deploy_source_date_epoch)
-NOTE: recipe systemd-1_253.3-r0: task do_package_setscene: Started
-NOTE: recipe python3-3.11.2-r0: task do_package_write_rpm: Started
-NOTE: recipe popt-1.19-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lua-5.4.4-r0: task do_patch: Succeeded
-NOTE: Running task 1801 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe popt-1.19-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1802 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_configure)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1803 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_patch)
-NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe popt-1.19-r0: task do_configure: Started
-NOTE: Running task 1804 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_patch: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1805 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_patch)
-NOTE: recipe lua-5.4.4-r0: task do_configure: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Started
-NOTE: recipe lua-5.4.4-r0: task do_configure: Succeeded
-NOTE: Running task 1806 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure_ptest_base)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_patch: Succeeded
-NOTE: Running task 1807 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1808 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_generate_toolchain_file)
-NOTE: Running task 1809 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_lic)
-NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_lic: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_generate_toolchain_file: Started
-NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1810 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_lic unihash changed to bde4f3e55b3b56944657ca6d5149dec0e63d02c2ec29b7858934d640cb587ff0
-NOTE: recipe lua-5.4.4-r0: task do_compile: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Succeeded
-NOTE: Running task 1811 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe systemd-1_253.3-r0: task do_package_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1823 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1825 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_packagedata)
-NOTE: recipe dbus-1.14.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe systemd-1_253.3-r0: task do_packagedata: Started
-NOTE: recipe dbus-1.14.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1826 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_configure)
-NOTE: recipe lua-5.4.4-r0: task do_compile: Succeeded
-NOTE: Running task 1827 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile_ptest_base)
-NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Started
-NOTE: recipe dbus-1.14.6-r0: task do_configure: Started
-NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1828 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install)
-NOTE: recipe systemd-1_253.3-r0: task do_packagedata: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_install: Started
-NOTE: recipe lua-5.4.4-r0: task do_install: Succeeded
-NOTE: Running task 1829 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install_ptest_base)
-NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Started
-NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1830 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_populate_sysroot)
-NOTE: Running task 1831 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_package)
-NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Started
-NOTE: recipe lua-5.4.4-r0: task do_package: Started
-NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_package: Succeeded
-NOTE: Running task 1832 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_packagedata)
-NOTE: recipe lua-5.4.4-r0: task do_packagedata: Started
-NOTE: recipe lua-5.4.4-r0: task do_packagedata: Succeeded
-NOTE: recipe popt-1.19-r0: task do_configure: Succeeded
-NOTE: Running task 1833 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_configure_ptest_base)
-NOTE: recipe popt-1.19-r0: task do_configure_ptest_base: Started
-NOTE: recipe popt-1.19-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1834 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_compile)
-NOTE: recipe popt-1.19-r0: task do_compile: Started
-NOTE: recipe popt-1.19-r0: task do_compile: Succeeded
-NOTE: Running task 1835 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_compile_ptest_base)
-NOTE: recipe popt-1.19-r0: task do_compile_ptest_base: Started
-NOTE: recipe popt-1.19-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1836 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_install)
-NOTE: recipe popt-1.19-r0: task do_install: Started
-NOTE: recipe popt-1.19-r0: task do_install: Succeeded
-NOTE: Running task 1837 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_install_ptest_base)
-NOTE: recipe popt-1.19-r0: task do_install_ptest_base: Started
-NOTE: recipe popt-1.19-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1838 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_populate_sysroot)
-NOTE: Running task 1839 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_package)
-NOTE: recipe popt-1.19-r0: task do_populate_sysroot: Started
-NOTE: recipe popt-1.19-r0: task do_package: Started
-NOTE: recipe popt-1.19-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe popt-1.19-r0: task do_package: Succeeded
-NOTE: Running task 1840 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_packagedata)
-NOTE: recipe popt-1.19-r0: task do_packagedata: Started
-NOTE: recipe popt-1.19-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-3.11.2-r0: task do_package_write_rpm: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_package_write_rpm unihash changed to c370157396ccba4c0a9cd12ce3b54c69b57bd742afaee6a721088e9039e546e1
-NOTE: recipe dbus-1.14.6-r0: task do_configure: Succeeded
-NOTE: Running task 1841 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_configure_ptest_base)
-NOTE: recipe dbus-1.14.6-r0: task do_configure_ptest_base: Started
-NOTE: recipe dbus-1.14.6-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1842 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_compile)
-NOTE: recipe dbus-1.14.6-r0: task do_compile: Started
-NOTE: recipe dbus-1.14.6-r0: task do_compile: Succeeded
-NOTE: Running task 1843 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_compile_ptest_base)
-NOTE: recipe dbus-1.14.6-r0: task do_compile_ptest_base: Started
-NOTE: recipe dbus-1.14.6-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1844 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_install)
-NOTE: recipe dbus-1.14.6-r0: task do_install: Started
-NOTE: recipe dbus-1.14.6-r0: task do_install: Succeeded
-NOTE: Running task 1845 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_install_ptest_base)
-NOTE: recipe dbus-1.14.6-r0: task do_install_ptest_base: Started
-NOTE: recipe dbus-1.14.6-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1846 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_populate_sysroot)
-NOTE: Running task 1847 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_package)
-NOTE: recipe dbus-1.14.6-r0: task do_populate_sysroot: Started
-NOTE: recipe dbus-1.14.6-r0: task do_package: Started
-NOTE: recipe dbus-1.14.6-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1848 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1849 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_configure)
-NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Started
-NOTE: recipe dbus-1.14.6-r0: task do_package: Succeeded
-NOTE: Running task 1850 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_packagedata)
-NOTE: recipe dbus-1.14.6-r0: task do_packagedata: Started
-NOTE: recipe dbus-1.14.6-r0: task do_packagedata: Succeeded
-NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Succeeded
-NOTE: Running task 1851 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_compile)
-NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Succeeded
-NOTE: Running task 1852 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_install)
-NOTE: recipe rpm-1_4.18.0-r0: task do_install: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_install: Succeeded
-NOTE: Running task 1853 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_populate_sysroot)
-NOTE: Running task 1854 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_package)
-NOTE: recipe rpm-1_4.18.0-r0: task do_populate_sysroot: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_package: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1855 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1856 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_configure)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_configure: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_configure: Succeeded
-NOTE: Running task 1857 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_compile)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_compile: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_compile: Succeeded
-NOTE: Running task 1858 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_install)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_install: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_install: Succeeded
-NOTE: Running task 1859 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_sysroot)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_sysroot: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe rpm-1_4.18.0-r0: task do_package: Succeeded
-NOTE: Running task 1860 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_packagedata)
-NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1861 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_package: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_package: Succeeded
-NOTE: Running task 1862 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_packagedata)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_packagedata: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 1863 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package_write_rpm)
-NOTE: Running task 1864 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package_qa)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_package_write_rpm: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_package_qa: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_package_qa: Succeeded
-NOTE: recipe createrepo-c-0.21.1-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1865 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_build)
-NOTE: Tasks Summary: Attempted 1865 tasks of which 1798 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There were 68 ERROR messages, returning a non-zero exit code.
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-src went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-dbg went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-staticdev went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-dev went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-doc went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-gui went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-vconsole-setup went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-initramfs went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-analyze went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-kernel-install went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-rpm-macros went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-binfmt went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-zsh-completion went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-container went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-journal-gatewayd went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-journal-upload went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-journal-remote went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-extra-utils went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-udev-rules went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libsystemd-shared went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package udev went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package udev-hwdb went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-bash-completion went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-be went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-be+latin went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-bg went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ca went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-cs went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-da went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-de went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-el went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-es went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-et went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-fi went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-fr went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-gl went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-hr went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-hu went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-id went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-it went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ja went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ka went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-kab went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ko went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-lt went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-nl went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pa went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pl went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pt went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pt-br went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ro went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ru went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-si went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-sk went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-sr went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-sv went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-tr went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-uk went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-zh-cn went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-zh-tw went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-myhostname went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-mymachines went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-resolve went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-systemd went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libsystemd went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libudev went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============1374944540395975771==
+--===============0884786792345368198==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/createrepo-c/createrepo-c: FILELIST: removed "/usr/lib/libcreaterepo_c.so.0.20.1", added "/usr/lib/libcreaterepo_c.so.0.21.1"
-Changes to packages/core2-32-poky-linux/createrepo-c (sysroot):
-  /usr/lib/libcreaterepo_c.so.0 changed symlink target from libcreaterepo_c.so.0.20.1 to libcreaterepo_c.so.0.21.1
-  /usr/lib/libcreaterepo_c.so.0.20.1 moved to /usr/lib/libcreaterepo_c.so.0.21.1
+packages/core2-32-poky-linux/coreutils/coreutils-locale-bg: PKGSIZE changed from 457298 to 503699 (+10%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ca: PKGSIZE changed from 341414 to 407706 (+19%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-cs: PKGSIZE changed from 352954 to 388831 (+10%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-nb: PKGSIZE changed from 310045 to 347232 (+12%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-pl: PKGSIZE changed from 352457 to 388240 (+10%)
+packages/core2-32-poky-linux/coreutils/coreutils-locale-ro: PKGSIZE changed from 46287 to 402913 (+770%)
+packages/core2-32-poky-linux/coreutils/coreutils-ptest: FILELIST: added "/usr/lib/coreutils/ptest/src/iopoll.c /usr/lib/coreutils/ptest/tests/misc/cksum-raw.sh /usr/lib/coreutils/ptest/tests/misc/wc-total.sh /usr/lib/coreutils/ptest/src/iopoll.o /usr/lib/coreutils/ptest/tests/misc/cksum-base64.pl /usr/lib/coreutils/ptest/tests/misc/runcon-compute.sh /usr/lib/coreutils/ptest/tests/misc/date-f.sh /usr/lib/coreutils/ptest/tests/cp/debug.sh /usr/lib/coreutils/ptest/tests/misc/dircolors.sh /usr/lib/coreutils/ptest/tests/du/apparent.sh /usr/lib/coreutils/ptest/tests/mv/no-copy.sh"
+packages/core2-32-poky-linux/coreutils/coreutils-stdbuf: PKGSIZE changed from 80672 to 92960 (+15%)
+packages/core2-32-poky-linux/coreutils: PACKAGES: added "coreutils-locale-ka"
 
---===============1374944540395975771==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-Loading cache...done.
-Loaded 1806 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 900 .bb files complete (899 cached, 1 parsed). 1804 targets, 39 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:6e15ce7a672d11345bb66545edbd218527b3812a"
-workspace            = "master:35e5d29a7d654fc79bdb898d0f1fb277270dbfd5"
-
-Initialising tasks...done.
-Sstate summary: Wanted 29 Local 6 Mirrors 0 Missed 23 Current 493 (20% match, 95% complete)
-Removing 1 stale sstate objects for arch qemux86_64...done.
-Removing 2 stale sstate objects for arch core2-64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 506 of 522 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 511 of 522 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe systemd-1_253.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe systemd-1_253.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe systemd-1_253.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 1289 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_fetch)
-NOTE: Running task 1290 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_fetch)
-NOTE: Running task 1579 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_fetch)
-NOTE: Running task 1597 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_fetch)
-NOTE: recipe lua-5.4.4-r0: task do_fetch: Started
-NOTE: recipe popt-1.19-r0: task do_fetch: Started
-NOTE: recipe popt-1.19-r0: task do_fetch: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_fetch: Succeeded
-NOTE: Running task 1702 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_unpack)
-NOTE: Running task 1703 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1704 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_unpack)
-NOTE: Running task 1705 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_prepare_recipe_sysroot)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/systemd/1_253.3-r0/temp/log.do_packagedata_setscene.2251464
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 521 of 522 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_package_setscene)
-NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_fetch: Started
-NOTE: recipe popt-1.19-r0: task do_unpack: Started
-NOTE: recipe popt-1.19-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lua-5.4.4-r0: task do_unpack: Started
-NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_fetch: Succeeded
-NOTE: recipe popt-1.19-r0: task do_unpack: Succeeded
-NOTE: Running task 1734 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_patch)
-NOTE: recipe rpm-1_4.18.0-r0: task do_fetch: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_unpack: Succeeded
-NOTE: Running task 1735 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_patch)
-NOTE: Running task 1736 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_unpack)
-NOTE: Running task 1737 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_unpack)
-NOTE: Running task 1799 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_package_write_rpm)
-NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe createrepo-c-0.21.1-r0: task do_unpack: Started
-NOTE: recipe popt-1.19-r0: task do_patch: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Started
-NOTE: recipe lua-5.4.4-r0: task do_patch: Started
-NOTE: recipe popt-1.19-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe popt-1.19-r0: task do_patch: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_patch: Succeeded
-NOTE: Running task 1800 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1801 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1802 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_patch)
-NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe popt-1.19-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe systemd-1_253.3-r0: task do_package_setscene: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_patch: Started
-NOTE: recipe python3-3.11.2-r0: task do_package_write_rpm: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1803 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_patch)
-NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe popt-1.19-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1804 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure)
-NOTE: Running task 1805 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_configure)
-NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_patch: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_configure: Started
-NOTE: recipe popt-1.19-r0: task do_configure: Started
-NOTE: Running task 1806 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1807 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_generate_toolchain_file)
-NOTE: Running task 1808 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_lic)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_generate_toolchain_file: Started
-NOTE: recipe lua-5.4.4-r0: task do_configure: Succeeded
-NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_lic: Started
-NOTE: Running task 1809 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure_ptest_base)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_lic unihash changed to bde4f3e55b3b56944657ca6d5149dec0e63d02c2ec29b7858934d640cb587ff0
-NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1810 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_compile: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_patch: Succeeded
-NOTE: Running task 1811 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe systemd-1_253.3-r0: task do_package_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1823 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1825 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_packagedata)
-NOTE: recipe dbus-1.14.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe systemd-1_253.3-r0: task do_packagedata: Started
-NOTE: recipe lua-5.4.4-r0: task do_compile: Succeeded
-NOTE: Running task 1826 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile_ptest_base)
-NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Started
-NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1827 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install)
-NOTE: recipe dbus-1.14.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_install: Started
-NOTE: Running task 1828 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_configure)
-NOTE: recipe dbus-1.14.6-r0: task do_configure: Started
-NOTE: recipe systemd-1_253.3-r0: task do_packagedata: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_install: Succeeded
-NOTE: Running task 1829 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install_ptest_base)
-NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Started
-NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1830 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_populate_sysroot)
-NOTE: Running task 1831 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_package)
-NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Started
-NOTE: recipe lua-5.4.4-r0: task do_package: Started
-NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe lua-5.4.4-r0: task do_package: Succeeded
-NOTE: Running task 1832 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_packagedata)
-NOTE: recipe lua-5.4.4-r0: task do_packagedata: Started
-NOTE: recipe lua-5.4.4-r0: task do_packagedata: Succeeded
-NOTE: recipe popt-1.19-r0: task do_configure: Succeeded
-NOTE: Running task 1833 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_configure_ptest_base)
-NOTE: recipe popt-1.19-r0: task do_configure_ptest_base: Started
-NOTE: recipe popt-1.19-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1834 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_compile)
-NOTE: recipe popt-1.19-r0: task do_compile: Started
-NOTE: recipe popt-1.19-r0: task do_compile: Succeeded
-NOTE: Running task 1835 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_compile_ptest_base)
-NOTE: recipe popt-1.19-r0: task do_compile_ptest_base: Started
-NOTE: recipe popt-1.19-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1836 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_install)
-NOTE: recipe popt-1.19-r0: task do_install: Started
-NOTE: recipe popt-1.19-r0: task do_install: Succeeded
-NOTE: Running task 1837 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_install_ptest_base)
-NOTE: recipe popt-1.19-r0: task do_install_ptest_base: Started
-NOTE: recipe popt-1.19-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1838 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_populate_sysroot)
-NOTE: Running task 1839 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_package)
-NOTE: recipe popt-1.19-r0: task do_populate_sysroot: Started
-NOTE: recipe popt-1.19-r0: task do_package: Started
-NOTE: recipe popt-1.19-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe popt-1.19-r0: task do_package: Succeeded
-NOTE: Running task 1840 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.19.bb:do_packagedata)
-NOTE: recipe popt-1.19-r0: task do_packagedata: Started
-NOTE: recipe popt-1.19-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-3.11.2-r0: task do_package_write_rpm: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_package_write_rpm unihash changed to e4aa3e42b24bb6d8bcf3109297d70d976996c5f262fac092cacd5d1c3cb1d3e8
-NOTE: recipe dbus-1.14.6-r0: task do_configure: Succeeded
-NOTE: Running task 1841 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_configure_ptest_base)
-NOTE: recipe dbus-1.14.6-r0: task do_configure_ptest_base: Started
-NOTE: recipe dbus-1.14.6-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1842 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_compile)
-NOTE: recipe dbus-1.14.6-r0: task do_compile: Started
-NOTE: recipe dbus-1.14.6-r0: task do_compile: Succeeded
-NOTE: Running task 1843 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_compile_ptest_base)
-NOTE: recipe dbus-1.14.6-r0: task do_compile_ptest_base: Started
-NOTE: recipe dbus-1.14.6-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1844 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_install)
-NOTE: recipe dbus-1.14.6-r0: task do_install: Started
-NOTE: recipe dbus-1.14.6-r0: task do_install: Succeeded
-NOTE: Running task 1845 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_install_ptest_base)
-NOTE: recipe dbus-1.14.6-r0: task do_install_ptest_base: Started
-NOTE: recipe dbus-1.14.6-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1846 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_populate_sysroot)
-NOTE: Running task 1847 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_package)
-NOTE: recipe dbus-1.14.6-r0: task do_populate_sysroot: Started
-NOTE: recipe dbus-1.14.6-r0: task do_package: Started
-NOTE: recipe dbus-1.14.6-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1848 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1849 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_configure)
-NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Started
-NOTE: recipe dbus-1.14.6-r0: task do_package: Succeeded
-NOTE: Running task 1850 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_packagedata)
-NOTE: recipe dbus-1.14.6-r0: task do_packagedata: Started
-NOTE: recipe dbus-1.14.6-r0: task do_packagedata: Succeeded
-NOTE: recipe rpm-1_4.18.0-r0: task do_configure: Succeeded
-NOTE: Running task 1851 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_compile)
-NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_compile: Succeeded
-NOTE: Running task 1852 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_install)
-NOTE: recipe rpm-1_4.18.0-r0: task do_install: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_install: Succeeded
-NOTE: Running task 1853 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_populate_sysroot)
-NOTE: Running task 1854 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_package)
-NOTE: recipe rpm-1_4.18.0-r0: task do_populate_sysroot: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_package: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1855 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1856 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_configure)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_configure: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_configure: Succeeded
-NOTE: Running task 1857 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_compile)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_compile: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_compile: Succeeded
-NOTE: Running task 1858 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_install)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_install: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_install: Succeeded
-NOTE: Running task 1859 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_populate_sysroot)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_sysroot: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe rpm-1_4.18.0-r0: task do_package: Succeeded
-NOTE: Running task 1860 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.18.0.bb:do_packagedata)
-NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Started
-NOTE: recipe rpm-1_4.18.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1861 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_package: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_package: Succeeded
-NOTE: Running task 1862 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_packagedata)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_packagedata: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 1863 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package_write_rpm)
-NOTE: Running task 1864 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_package_qa)
-NOTE: recipe createrepo-c-0.21.1-r0: task do_package_write_rpm: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_package_qa: Started
-NOTE: recipe createrepo-c-0.21.1-r0: task do_package_qa: Succeeded
-NOTE: recipe createrepo-c-0.21.1-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1865 of 1865 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb:do_build)
-NOTE: Tasks Summary: Attempted 1865 tasks of which 1798 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: There were 68 ERROR messages, returning a non-zero exit code.
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-src went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-dbg went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-staticdev went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-dev went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-doc went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-gui went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-vconsole-setup went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-initramfs went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-analyze went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-kernel-install went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-rpm-macros went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-binfmt went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-zsh-completion went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-container went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-journal-gatewayd went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-journal-upload went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-journal-remote went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-extra-utils went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-udev-rules went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libsystemd-shared went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package udev went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package udev-hwdb went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-bash-completion went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-be went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-be+latin went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-bg went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ca went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-cs went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-da went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-de went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-el went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-es went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-et went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-fi went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-fr went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-gl went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-hr went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-hu went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-id went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-it went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ja went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ka went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-kab went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ko went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-lt went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-nl went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pa went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pl went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pt went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pt-br went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ro went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ru went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-si went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-sk went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-sr went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-sv went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-tr went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-uk went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-zh-cn went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-zh-tw went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-myhostname went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-mymachines went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-resolve went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-systemd went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libsystemd went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: QA Issue: Package version for package libudev went backwards which would break package feeds (from 1:253.4-r0 to 1:253.3-r0) [version-going-backwards]
-ERROR: systemd-1_253.3-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============1374944540395975771==--
+--===============0884786792345368198==--
 
