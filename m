@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC120CA9ECD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6ED5CA9ED5
 	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 21:39:17 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.3711.1684186747687203807
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.3709.1684186747327869018
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 May 2023 14:39:09 -0700
+ Mon, 15 May 2023 14:39:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=FBlXnkWF;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010188215a575f-6c05f595-c0fe-462f-a690-f3016ea7f8b3-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=hNVtrWjK;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010188215a4ec3-4cd9b079-0292-415d-952f-72109883da1e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1684186748;
+	t=1684186746;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=IHNZt4kQoCwHYGwjMJCvtu2LRWZg/CMRHfmrDC2Qhko=;
-	b=FBlXnkWFSEu9svmYesEfBoDlq11CVI5deqQjpRJWPki1JtFIh9HrzIpCjuG+/Jcs
-	00NF4JRZXCTfgVSwDjfDatByMR3eM6BwzjrEgnSF3wi8PS4ODrtRJGJhxYo/phkOtRG
-	alFcAvTxf8YfZlTSiRKGUEVARIk8sPQQ5BNX84wg=
+	bh=+BzUtIYulXrwoUC1GtLRC4AyfkyO56lzQFKU2EtEGPc=;
+	b=hNVtrWjKZdh/HKgld5MNi19nz00TIJWViggUi5Wl9KchI2HhKnrYm05gZKpfQ7ts
+	YHFMrIZIbywKyJO21fPtqrz1wG6Kqrs2fSgk1mnRFq7bPCjk74azDEjmZtZISzXmUPg
+	78RhrhptOkYjB/nuRCuEn+59A8+E3zh5zD7Usx0c=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1684186748;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1684186746;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=IHNZt4kQoCwHYGwjMJCvtu2LRWZg/CMRHfmrDC2Qhko=;
-	b=PerbT/aVHu21bbK4cvncaYQwePrZ/yrejTguGRKc7Vh43vElKplt9rafwXqnE4bN
-	oslaLZ6sWgQ73xm5zMmXnUjnHDifTVwX/iBqRo2gmpE8x+tNHkxmpzETC/SADfQu1ny
-	/H1nc6bsLYLg/v6FPw0S5nhP4360susP8Sxnxg3M=
-Content-Type: multipart/mixed; boundary="===============8043299488318983631=="
+	bh=+BzUtIYulXrwoUC1GtLRC4AyfkyO56lzQFKU2EtEGPc=;
+	b=rHhB15haNy3Jqj2t2SyyD5jBCppreSoxxiurp1sTlT4a/n3uoCmphYuyAg/w9rrS
+	geCq4w42dzKthhOl4Y3jm233RCrQ6JKigMtFmGLytew51nIMygfVVtm61imoEN/pzrp
+	tO4Z7TuWgBR7MWp9beHaaDkLvh4lOW/oQFN0MH2A=
+Content-Type: multipart/mixed; boundary="===============8930069603368422030=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Denys Dmytriyenko <denis@denix.org>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] grep: upgrading to 3.11 SUCCEEDED
-Message-ID: <01010188215a575f-6c05f595-c0fe-462f-a690-f3016ea7f8b3-000000@us-west-2.amazonses.com>
-Date: Mon, 15 May 2023 21:39:08 +0000
+Subject: [AUH] go: upgrading to 1.20.4 FAILED
+Message-ID: <01010188215a4ec3-4cd9b079-0292-415d-952f-72109883da1e-000000@us-west-2.amazonses.com>
+Date: Mon, 15 May 2023 21:39:06 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.05.15-54.240.27.191
+X-SES-Outgoing: 2023.05.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 21:39:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181333
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181293
 
---===============8043299488318983631==
+--===============8930069603368422030==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *grep* to *3.11* has Succeeded.
+that the automatic attempt to upgrade the recipe *go* to *1.20.4* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-grep-upgrade-3.10-3.11.patch
+    - apply the patch: git am 0001-go-upgrade-1.20.1-1.20.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,195 +75,366 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8043299488318983631==
+--===============8930069603368422030==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
-packages/core2-32-poky-linux/grep/grep-dbg: PKGSIZE changed from 802332 to 807096 (+1%)
-packages/core2-32-poky-linux/grep/grep-dbg: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-dbg: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-dev: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-dev: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-doc: PKGSIZE changed from 169744 to 169725 (-0%)
-packages/core2-32-poky-linux/grep/grep-doc: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-doc: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-af: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-af: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-be: PKGSIZE changed from 23299 to 23291 (-0%)
-packages/core2-32-poky-linux/grep/grep-locale-be: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-be: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-bg: PKGSIZE changed from 23919 to 23915 (-0%)
-packages/core2-32-poky-linux/grep/grep-locale-bg: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-bg: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-ca: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-ca: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-cs: PKGSIZE changed from 18837 to 18845 (+0%)
-packages/core2-32-poky-linux/grep/grep-locale-cs: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-cs: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-da: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-da: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-de: PKGSIZE changed from 19241 to 19248 (+0%)
-packages/core2-32-poky-linux/grep/grep-locale-de: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-de: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-el: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-el: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-eo: PKGSIZE changed from 17420 to 17359 (-0%)
-packages/core2-32-poky-linux/grep/grep-locale-eo: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-eo: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-es: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-es: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-et: PKGSIZE changed from 16990 to 16997 (+0%)
-packages/core2-32-poky-linux/grep/grep-locale-et: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-et: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-eu: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-eu: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-fi: PKGSIZE changed from 17838 to 17773 (-0%)
-packages/core2-32-poky-linux/grep/grep-locale-fi: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-fi: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-fr: PKGSIZE changed from 18120 to 18057 (-0%)
-packages/core2-32-poky-linux/grep/grep-locale-fr: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-fr: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-ga: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-ga: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-gl: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-gl: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-he: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-he: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-hr: PKGSIZE changed from 18215 to 18223 (+0%)
-packages/core2-32-poky-linux/grep/grep-locale-hr: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-hr: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-hu: PKGSIZE changed from 18582 to 18874 (+2%)
-packages/core2-32-poky-linux/grep/grep-locale-hu: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-hu: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-id: PKGSIZE changed from 17658 to 17660 (+0%)
-packages/core2-32-poky-linux/grep/grep-locale-id: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-id: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-it: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-it: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-ja: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-ja: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-ka: PKGSIZE changed from 27905 to 27898 (-0%)
-packages/core2-32-poky-linux/grep/grep-locale-ka: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-ka: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-ko: PKGSIZE changed from 19419 to 19452 (+0%)
-packages/core2-32-poky-linux/grep/grep-locale-ko: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-ko: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-ky: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-ky: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-lt: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-lt: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-nb: PKGSIZE changed from 17716 to 17727 (+0%)
-packages/core2-32-poky-linux/grep/grep-locale-nb: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-nb: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-nl: PKGSIZE changed from 18671 to 18595 (-0%)
-packages/core2-32-poky-linux/grep/grep-locale-nl: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-nl: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-pa: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-pa: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-pl: PKGSIZE changed from 18229 to 18580 (+2%)
-packages/core2-32-poky-linux/grep/grep-locale-pl: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-pl: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-pt-br: PKGSIZE changed from 16000 to 18629 (+16%)
-packages/core2-32-poky-linux/grep/grep-locale-pt-br: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-pt-br: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-pt: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-pt: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-ro: PKGSIZE changed from 18875 to 18888 (+0%)
-packages/core2-32-poky-linux/grep/grep-locale-ro: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-ro: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-ru: PKGSIZE changed from 22956 to 23405 (+2%)
-packages/core2-32-poky-linux/grep/grep-locale-ru: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-ru: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-sk: PKGSIZE changed from 17790 to 18143 (+2%)
-packages/core2-32-poky-linux/grep/grep-locale-sk: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-sk: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-sl: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-sl: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-sr: PKGSIZE changed from 21977 to 21895 (-0%)
-packages/core2-32-poky-linux/grep/grep-locale-sr: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-sr: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-sv: PKGSIZE changed from 17567 to 17578 (+0%)
-packages/core2-32-poky-linux/grep/grep-locale-sv: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-sv: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-ta: PKGSIZE changed from 24998 to 27372 (+9%)
-packages/core2-32-poky-linux/grep/grep-locale-ta: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-ta: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-th: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-th: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-tr: PKGSIZE changed from 17874 to 17815 (-0%)
-packages/core2-32-poky-linux/grep/grep-locale-tr: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-tr: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-uk: PKGSIZE changed from 23944 to 23948 (+0%)
-packages/core2-32-poky-linux/grep/grep-locale-uk: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-uk: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-vi: PKGSIZE changed from 18941 to 20096 (+6%)
-packages/core2-32-poky-linux/grep/grep-locale-vi: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-vi: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-zh-cn: PKGSIZE changed from 17361 to 17367 (+0%)
-packages/core2-32-poky-linux/grep/grep-locale-zh-cn: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-zh-cn: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-locale-zh-tw: PKGSIZE changed from 17114 to 17053 (-0%)
-packages/core2-32-poky-linux/grep/grep-locale-zh-tw: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-locale-zh-tw: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-src: PKGSIZE changed from 1888700 to 1916007 (+1%)
-packages/core2-32-poky-linux/grep/grep-src: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-src: FILELIST: directory renamed /usr/src/debug/grep/3.10-r0/src -> /usr/src/debug/grep/3.11-r0/src, directory renamed /usr/src/debug/grep/3.10-r0/lib/malloc -> /usr/src/debug/grep/3.11-r0/lib/malloc, removed "/usr/src/debug/grep/3.10-r0/lib/safe-read.c /usr/src/debug/grep/3.10-r0/lib/regex_internal.c /usr/src/debug/grep/3.10-r0/lib/ialloc.h /usr/src/debug/grep/3.10-r0/lib/safe-read.h /usr/src/debug/grep/3.10-r0/lib/regex_internal.h /usr/src/debug/grep/3.10-r0/lib/fcntl.c /usr/src/debug/grep/3.10-r0/lib/fcntl.h /usr/src/debug/grep/3.10-r0/lib/str-two-way.h /usr/src/debug/grep/3.10-r0/lib/fts_.h /usr/src/debug/grep/3.10-r0/lib/exclude.c /usr/src/debug/grep/3.10-r0/lib/xalloc-die.c /usr/src/debug/grep/3.10-r0/lib/exclude.h /usr/src/debug/grep/3.10-r0/lib/mbuiter.h /usr/src/debug/grep/3.10-r0/lib/colorize.h /usr/src/debug/grep/3.10-r0/lib/stripslash.c /usr/src/debug/grep/3.10-r0/lib/mbrtowc.c /usr/src/debug/grep/3.10-r0/lib/i-ring.h /usr/src/debug/
- grep/3.10-r0/lib/quote.h /usr/src/debug/grep/3.10-r0/lib/xbinary-io.h /usr/src/debug/grep/3.10-r0/lib/c-strcaseeq.h /usr/src/debug/grep/3.10-r0/lib/i-ring.c /usr/src/debug/grep/3.10-r0/lib/opendirat.c /usr/src/debug/grep/3.10-r0/lib/mbscasecmp.c /usr/src/debug/grep/3.10-r0/lib/opendirat.h /usr/src/debug/grep/3.10-r0/lib/string.h /usr/src/debug/grep/3.10-r0/lib/basename-lgpl.h /usr/src/debug/grep/3.10-r0/lib/localcharset.c /usr/src/debug/grep/3.10-r0/lib/basename-lgpl.c /usr/src/debug/grep/3.10-r0/lib/localcharset.h /usr/src/debug/grep/3.10-r0/lib/idx.h /usr/src/debug/grep/3.10-r0/lib/dfa.c /usr/src/debug/grep/3.10-r0/lib/c-strcasecmp.c /usr/src/debug/grep/3.10-r0/lib/dfa.h /usr/src/debug/grep/3.10-r0/lib/sys-limits.h /usr/src/debug/grep/3.10-r0/lib/getopt-core.h /usr/src/debug/grep/3.10-r0/lib/hash.c /usr/src/debug/grep/3.10-r0/lib/getprogname.c /usr/src/debug/grep/3.10-r0/lib/hash.h /usr/src/debug/grep/3.10-r0/lib/regex.h /usr/src/debug/grep/3.10-r0/lib/fd-safer.c /usr/src/debug/gr
- ep/3.10-r0/lib/exitfail.h /usr/src/debug/grep/3.10-r0/lib/exitfail.c /usr/src/debug/grep/3.10-r0/lib/getopt1.c /usr/src/debug/grep/3.10-r0/lib/openat-safer.c /usr/src/debug/grep/3.10-r0/lib/fts.c /usr/src/debug/grep/3.10-r0/lib/memchr.c /usr/src/debug/grep/3.10-r0/lib/unistd-safer.h /usr/src/debug/grep/3.10-r0/lib/fnmatch_loop.c /usr/src/debug/grep/3.10-r0/lib/xalloc.h /usr/src/debug/grep/3.10-r0/lib/quotearg.c /usr/src/debug/grep/3.10-r0/lib/strstr.c /usr/src/debug/grep/3.10-r0/lib/quotearg.h /usr/src/debug/grep/3.10-r0/lib/dev-ino.h /usr/src/debug/grep/3.10-r0/lib/dirname.h /usr/src/debug/grep/3.10-r0/lib/localeinfo.c /usr/src/debug/grep/3.10-r0/lib/mbchar.c /usr/src/debug/grep/3.10-r0/lib/dirent.h /usr/src/debug/grep/3.10-r0/lib/mbchar.h /usr/src/debug/grep/3.10-r0/lib/localeinfo.h /usr/src/debug/grep/3.10-r0/lib/bitrotate.h /usr/src/debug/grep/3.10-r0/lib/setlocale_null.h /usr/src/debug/grep/3.10-r0/lib/setlocale_null.c /usr/src/debug/grep/3.10-r0/lib/argmatch.c /usr/src/debug/g
- rep/3.10-r0/lib/regcomp.c /usr/src/debug/grep/3.10-r0/lib/regexec.c /usr/src/debug/grep/3.10-r0/lib/argmatch.h /usr/src/debug/grep/3.10-r0/lib/mbrlen.c /usr/src/debug/grep/3.10-r0/lib/closeout.c /usr/src/debug/grep/3.10-r0/lib/memchr2.h /usr/src/debug/grep/3.10-r0/lib/cycle-check.h /usr/src/debug/grep/3.10-r0/lib/closeout.h /usr/src/debug/grep/3.10-r0/lib/cycle-check.c /usr/src/debug/grep/3.10-r0/lib/memchr2.c /usr/src/debug/grep/3.10-r0/lib/getopt-ext.h /usr/src/debug/grep/3.10-r0/lib/version-etc.c /usr/src/debug/grep/3.10-r0/lib/open-safer.c /usr/src/debug/grep/3.10-r0/lib/version-etc.h /usr/src/debug/grep/3.10-r0/lib/binary-io.h /usr/src/debug/grep/3.10-r0/lib/stdio.h /usr/src/debug/grep/3.10-r0/lib/fnmatch.h /usr/src/debug/grep/3.10-r0/lib/fts-cycle.c /usr/src/debug/grep/3.10-r0/lib/fnmatch.c /usr/src/debug/grep/3.10-r0/lib/sigsegv.c /usr/src/debug/grep/3.10-r0/lib/sigsegv.h /usr/src/debug/grep/3.10-r0/lib/c-stack.c /usr/src/debug/grep/3.10-r0/lib/c-stack.h /usr/src/debug/grep/3
- .10-r0/lib/c-ctype.h /usr/src/debug/grep/3.10-r0/lib/close-stream.c /usr/src/debug/grep/3.10-r0/lib/fcntl-safer.h /usr/src/debug/grep/3.10-r0/lib/close-stream.h /usr/src/debug/grep/3.10-r0/lib/hard-locale.h /usr/src/debug/grep/3.10-r0/lib/obstack.h /usr/src/debug/grep/3.10-r0/lib/obstack.c /usr/src/debug/grep/3.10-r0/lib/hard-locale.c /usr/src/debug/grep/3.10-r0/lib/xmalloc.c /usr/src/debug/grep/3.10-r0/lib/xstrtol.c /usr/src/debug/grep/3.10-r0/lib/dup-safer.c /usr/src/debug/grep/3.10-r0/lib/xstrtol.h /usr/src/debug/grep/3.10-r0/lib/stdlib.h /usr/src/debug/grep/3.10-r0/lib/getopt.c /usr/src/debug/grep/3.10-r0/lib/wchar.h /usr/src/debug/grep/3.10-r0/lib/stackvma.c /usr/src/debug/grep/3.10-r0/lib/strnlen1.c /usr/src/debug/grep/3.10-r0/lib/colorize-posix.c /usr/src/debug/grep/3.10-r0/lib/stackvma.h /usr/src/debug/grep/3.10-r0/lib/strnlen1.h /usr/src/debug/grep/3.10-r0/lib/getopt_int.h /usr/src/debug/grep/3.10-r0/lib/version-etc-fsf.c /usr/src/debug/grep/3.10-r0/lib/c-strcase.h", added 
- "/usr/src/debug/grep/3.11-r0/lib/safe-read.c /usr/src/debug/grep/3.11-r0/lib/regex_internal.c /usr/src/debug/grep/3.11-r0/lib/ialloc.h /usr/src/debug/grep/3.11-r0/lib/safe-read.h /usr/src/debug/grep/3.11-r0/lib/regex_internal.h /usr/src/debug/grep/3.11-r0/lib/fcntl.c /usr/src/debug/grep/3.11-r0/lib/fcntl.h /usr/src/debug/grep/3.11-r0/lib/fopen.c /usr/src/debug/grep/3.11-r0/lib/str-two-way.h /usr/src/debug/grep/3.11-r0/lib/fts_.h /usr/src/debug/grep/3.11-r0/lib/exclude.c /usr/src/debug/grep/3.11-r0/lib/xalloc-die.c /usr/src/debug/grep/3.11-r0/lib/exclude.h /usr/src/debug/grep/3.11-r0/lib/mbuiter.h /usr/src/debug/grep/3.11-r0/lib/colorize.h /usr/src/debug/grep/3.11-r0/lib/stripslash.c /usr/src/debug/grep/3.11-r0/lib/mbrtowc.c /usr/src/debug/grep/3.11-r0/lib/i-ring.h /usr/src/debug/grep/3.11-r0/lib/quote.h /usr/src/debug/grep/3.11-r0/lib/xbinary-io.h /usr/src/debug/grep/3.11-r0/lib/c-strcaseeq.h /usr/src/debug/grep/3.11-r0/lib/i-ring.c /usr/src/debug/grep/3.11-r0/lib/opendirat.c /usr/s
- rc/debug/grep/3.11-r0/lib/mbsrtowcs.c /usr/src/debug/grep/3.11-r0/lib/mbscasecmp.c /usr/src/debug/grep/3.11-r0/lib/opendirat.h /usr/src/debug/grep/3.11-r0/lib/string.h /usr/src/debug/grep/3.11-r0/lib/basename-lgpl.h /usr/src/debug/grep/3.11-r0/lib/localcharset.c /usr/src/debug/grep/3.11-r0/lib/basename-lgpl.c /usr/src/debug/grep/3.11-r0/lib/localcharset.h /usr/src/debug/grep/3.11-r0/lib/mbsrtowcs-impl.h /usr/src/debug/grep/3.11-r0/lib/idx.h /usr/src/debug/grep/3.11-r0/lib/dfa.c /usr/src/debug/grep/3.11-r0/lib/c-strcasecmp.c /usr/src/debug/grep/3.11-r0/lib/dfa.h /usr/src/debug/grep/3.11-r0/lib/sys-limits.h /usr/src/debug/grep/3.11-r0/lib/getopt-core.h /usr/src/debug/grep/3.11-r0/lib/hash.c /usr/src/debug/grep/3.11-r0/lib/getprogname.c /usr/src/debug/grep/3.11-r0/lib/hash.h /usr/src/debug/grep/3.11-r0/lib/regex.h /usr/src/debug/grep/3.11-r0/lib/fd-safer.c /usr/src/debug/grep/3.11-r0/lib/exitfail.h /usr/src/debug/grep/3.11-r0/lib/btowc.c /usr/src/debug/grep/3.11-r0/lib/exitfail.c /usr/
- src/debug/grep/3.11-r0/lib/getopt1.c /usr/src/debug/grep/3.11-r0/lib/openat-safer.c /usr/src/debug/grep/3.11-r0/lib/fts.c /usr/src/debug/grep/3.11-r0/lib/memchr.c /usr/src/debug/grep/3.11-r0/lib/unistd-safer.h /usr/src/debug/grep/3.11-r0/lib/fnmatch_loop.c /usr/src/debug/grep/3.11-r0/lib/xalloc.h /usr/src/debug/grep/3.11-r0/lib/quotearg.c /usr/src/debug/grep/3.11-r0/lib/strstr.c /usr/src/debug/grep/3.11-r0/lib/quotearg.h /usr/src/debug/grep/3.11-r0/lib/dev-ino.h /usr/src/debug/grep/3.11-r0/lib/dirname.h /usr/src/debug/grep/3.11-r0/lib/localeinfo.c /usr/src/debug/grep/3.11-r0/lib/mbchar.c /usr/src/debug/grep/3.11-r0/lib/dirent.h /usr/src/debug/grep/3.11-r0/lib/mbchar.h /usr/src/debug/grep/3.11-r0/lib/localeinfo.h /usr/src/debug/grep/3.11-r0/lib/bitrotate.h /usr/src/debug/grep/3.11-r0/lib/setlocale_null.h /usr/src/debug/grep/3.11-r0/lib/setlocale_null.c /usr/src/debug/grep/3.11-r0/lib/argmatch.c /usr/src/debug/grep/3.11-r0/lib/regcomp.c /usr/src/debug/grep/3.11-r0/lib/regexec.c /usr/s
- rc/debug/grep/3.11-r0/lib/argmatch.h /usr/src/debug/grep/3.11-r0/lib/mbrlen.c /usr/src/debug/grep/3.11-r0/lib/closeout.c /usr/src/debug/grep/3.11-r0/lib/memchr2.h /usr/src/debug/grep/3.11-r0/lib/cycle-check.h /usr/src/debug/grep/3.11-r0/lib/closeout.h /usr/src/debug/grep/3.11-r0/lib/cycle-check.c /usr/src/debug/grep/3.11-r0/lib/mbsrtowcs-state.c /usr/src/debug/grep/3.11-r0/lib/memchr2.c /usr/src/debug/grep/3.11-r0/lib/getopt-ext.h /usr/src/debug/grep/3.11-r0/lib/version-etc.c /usr/src/debug/grep/3.11-r0/lib/open-safer.c /usr/src/debug/grep/3.11-r0/lib/version-etc.h /usr/src/debug/grep/3.11-r0/lib/binary-io.h /usr/src/debug/grep/3.11-r0/lib/stdio.h /usr/src/debug/grep/3.11-r0/lib/fnmatch.h /usr/src/debug/grep/3.11-r0/lib/fts-cycle.c /usr/src/debug/grep/3.11-r0/lib/fnmatch.c /usr/src/debug/grep/3.11-r0/lib/sigsegv.c /usr/src/debug/grep/3.11-r0/lib/sigsegv.h /usr/src/debug/grep/3.11-r0/lib/c-stack.c /usr/src/debug/grep/3.11-r0/lib/c-stack.h /usr/src/debug/grep/3.11-r0/lib/c-ctype.h /us
- r/src/debug/grep/3.11-r0/lib/close-stream.c /usr/src/debug/grep/3.11-r0/lib/fcntl-safer.h /usr/src/debug/grep/3.11-r0/lib/close-stream.h /usr/src/debug/grep/3.11-r0/lib/dirfd.c /usr/src/debug/grep/3.11-r0/lib/hard-locale.h /usr/src/debug/grep/3.11-r0/lib/obstack.h /usr/src/debug/grep/3.11-r0/lib/obstack.c /usr/src/debug/grep/3.11-r0/lib/hard-locale.c /usr/src/debug/grep/3.11-r0/lib/xmalloc.c /usr/src/debug/grep/3.11-r0/lib/xstrtol.c /usr/src/debug/grep/3.11-r0/lib/dup-safer.c /usr/src/debug/grep/3.11-r0/lib/xstrtol.h /usr/src/debug/grep/3.11-r0/lib/stdlib.h /usr/src/debug/grep/3.11-r0/lib/getopt.c /usr/src/debug/grep/3.11-r0/lib/wchar.h /usr/src/debug/grep/3.11-r0/lib/stackvma.c /usr/src/debug/grep/3.11-r0/lib/strnlen1.c /usr/src/debug/grep/3.11-r0/lib/colorize-posix.c /usr/src/debug/grep/3.11-r0/lib/stackvma.h /usr/src/debug/grep/3.11-r0/lib/strnlen1.h /usr/src/debug/grep/3.11-r0/lib/getopt_int.h /usr/src/debug/grep/3.11-r0/lib/version-etc-fsf.c /usr/src/debug/grep/3.11-r0/lib/c-st
- rcase.h"
-packages/core2-32-poky-linux/grep/grep-src: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep-staticdev: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep-staticdev: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep/grep: PKGSIZE changed from 276252 to 280348 (+1%)
-packages/core2-32-poky-linux/grep/grep: PKGV changed from 3.10 [default] to 3.11 [default]
-packages/core2-32-poky-linux/grep/grep: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep: SRC_URI changed from "https://ftp.gnu.org/gnu/grep/grep-3.10.tar.xz" to "https://ftp.gnu.org/gnu/grep/grep-3.11.tar.xz"
-packages/core2-32-poky-linux/grep: PV changed from "3.10" to "3.11"
-packages/core2-32-poky-linux/grep: PKGV changed from 3.10 [default] to 3.11 [default]
+Loading cache...done.
+Loaded 1803 entries from dependency cache.
+Parsing recipes...
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: ParseError at /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/go/go-runtime_1.20.1.bb:1: Could not include required file go-1.20.1.inc
+ERROR: Parsing halted due to errors, see error messages above
 
---===============8043299488318983631==
+--===============8930069603368422030==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-grep-upgrade-3.10-3.11.patch"
+Content-Disposition: attachment;
+ filename="0001-go-upgrade-1.20.1-1.20.4.patch"
 
-RnJvbSAzZGRiMzY3MWNmMzM2M2ZmZGI4ZTk2MDZiMmVkOWU2MDQzYzMzZmQzIE1vbiBTZXAgMTcg
+RnJvbSA1MTFhMDgzYWY5YjI2MDE3ZDZjNDYzZTI2NTYxNDcyOWNkNjA2NDcxIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgTWF5IDIwMjMgMTQ6Mjg6MjIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-cmVwOiB1cGdyYWRlIDMuMTAgLT4gMy4xMQoKLS0tCiBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ3Jl
-cC97Z3JlcF8zLjEwLmJiID0+IGdyZXBfMy4xMS5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwg
-MSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZXh0ZW5k
-ZWQvZ3JlcC97Z3JlcF8zLjEwLmJiID0+IGdyZXBfMy4xMS5iYn0gKDk0JSkKCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ3JlcC9ncmVwXzMuMTAuYmIgYi9tZXRhL3JlY2lwZXMt
-ZXh0ZW5kZWQvZ3JlcC9ncmVwXzMuMTEuYmIKc2ltaWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZy
-b20gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2dyZXAvZ3JlcF8zLjEwLmJiCnJlbmFtZSB0byBtZXRh
-L3JlY2lwZXMtZXh0ZW5kZWQvZ3JlcC9ncmVwXzMuMTEuYmIKaW5kZXggMzNmZDY0ZDI3ZS4uY2Iz
-MTA1ZGUwNCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2dyZXAvZ3JlcF8zLjEw
-LmJiCisrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9ncmVwL2dyZXBfMy4xMS5iYgpAQCAtOCw3
-ICs4LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9MWViYmQzZTM0
-MjM3YWYyNmRhNWRjMDhhNGU0NDA0NjQiCiAKIFNSQ19VUkkgPSAiJHtHTlVfTUlSUk9SfS9ncmVw
-L2dyZXAtJHtQVn0udGFyLnh6IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMjRlZmE1YjU5NWZi
-NWE3MTAwODc5YjUxYjg4NjhhMGJiODdhNzFjMTgzZDAyYzRjNjAyNjMzYjg4YWY2ODU1YiIKK1NS
-Q19VUklbc2hhMjU2c3VtXSA9ICIxZGIyYWVkZGU4OWQwZGVhNDJiMTZkOTUyOGY4OTRjOGQxNWRh
-ZTRlMTkwYjU5YWVjYzc4ZjVhOTUxMjc2ZWFiIgogCiBpbmhlcml0IGF1dG90b29scyBnZXR0ZXh0
-IHRleGluZm8gcGtnY29uZmlnCiAKLS0gCjIuMzkuMgoK
+CkRhdGU6IE1vbiwgMTUgTWF5IDIwMjMgMDk6MTg6MDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+bzogdXBncmFkZSAxLjIwLjEgLT4gMS4yMC40CgotLS0KIC4uLi9nby97Z28tMS4yMC4xLmluYyA9
+PiBnby0xLjIwLjQuaW5jfSAgICAgICB8ICAyNyArLS0KIC4uLm9tcGlsZS1pbnN0YW50aWF0ZWQt
+Z2VuZXJpYy1tZXRob2RzLS5wYXRjaCB8ICA5MCAtLS0tLS0tLQogLi4uL2dvL2dvL0NWRS0yMDIz
+LTI0NTMyLnBhdGNoICAgICAgICAgICAgICAgIHwgMjA4IC0tLS0tLS0tLS0tLS0tLS0tLQogLi4u
+L2dvL2dvL0NWRS0yMDIzLTI0NTM3LnBhdGNoICAgICAgICAgICAgICAgIHwgIDg5IC0tLS0tLS0t
+CiAuLi4vZ28ve2dvXzEuMjAuMS5iYiA9PiBnb18xLjIwLjQuYmJ9ICAgICAgICAgfCAgIDAKIDUg
+ZmlsZXMgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgNDAyIGRlbGV0aW9ucygtKQogcmVuYW1l
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9nby97Z28tMS4yMC4xLmluYyA9PiBnby0xLjIwLjQuaW5j
+fSAoMTQlKQogZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby8w
+MDEwLWNtZC1jb21waWxlLXJlLWNvbXBpbGUtaW5zdGFudGlhdGVkLWdlbmVyaWMtbWV0aG9kcy0u
+cGF0Y2gKIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ28vZ28vQ1ZF
+LTIwMjMtMjQ1MzIucGF0Y2gKIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvZ28vZ28vQ1ZFLTIwMjMtMjQ1MzcucGF0Y2gKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvZ28ve2dvXzEuMjAuMS5iYiA9PiBnb18xLjIwLjQuYmJ9ICgxMDAlKQoKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby0xLjIwLjEuaW5jIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL2dvL2dvLTEuMjAuNC5pbmMKc2ltaWxhcml0eSBpbmRleCAxNCUKcmVuYW1lIGZyb20g
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL2dvLTEuMjAuMS5pbmMKcmVuYW1lIHRvIG1ldGEvcmVj
+aXBlcy1kZXZ0b29scy9nby9nby0xLjIwLjQuaW5jCmluZGV4IDE3OWYwZTI5ZWIuLjZjNzQ5YzEx
+YmYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby0xLjIwLjEuaW5jCisr
+KyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby0xLjIwLjQuaW5jCkBAIC00LDE4ICs0LDE1
+IEBAIEZJTEVTRVhUUkFQQVRIUzpwcmVwZW5kIDo9ICIke0ZJTEVfRElSTkFNRX0vZ286IgogCiBM
+SUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT01ZDQ5NTBlY2I3YjI2ZDJjNWU0
+ZTdiNGUwZGQ3NDcwNyIKIAotU1JDX1VSSSArPSAiXAotICAgIGZpbGU6Ly8wMDAxLWNtZC1nby1t
+YWtlLWNvbnRlbnQtYmFzZWQtaGFzaC1nZW5lcmF0aW9uLWxlc3MtcGVkYW4ucGF0Y2ggXAotICAg
+IGZpbGU6Ly8wMDAyLWNtZC1nby1BbGxvdy1HT1RPT0xESVItdG8tYmUtb3ZlcnJpZGRlbi1pbi10
+aGUtZW52aXIucGF0Y2ggXAotICAgIGZpbGU6Ly8wMDAzLWxkLWFkZC1zb25hbWUtdG8tc2hhcmVh
+YmxlLW9iamVjdHMucGF0Y2ggXAotICAgIGZpbGU6Ly8wMDA0LW1ha2UuYmFzaC1vdmVycmlkZS1D
+Qy13aGVuLWJ1aWxkaW5nLWRpc3QtYW5kLWdvX2Jvb3QucGF0Y2ggXAotICAgIGZpbGU6Ly8wMDA1
+LWNtZC1kaXN0LXNlcGFyYXRlLWhvc3QtYW5kLXRhcmdldC1idWlsZHMucGF0Y2ggXAotICAgIGZp
+bGU6Ly8wMDA2LWNtZC1nby1tYWtlLUdPUk9PVC1wcmVjaW91cy1ieS1kZWZhdWx0LnBhdGNoIFwK
+LSAgICBmaWxlOi8vMDAwNy1leGVjLmdvLWRvLW5vdC13cml0ZS1saW5rZXItZmxhZ3MtaW50by1i
+dWlsZGlkcy5wYXRjaCBcCi0gICAgZmlsZTovLzAwMDgtc3JjLWNtZC1kaXN0LWJ1aWxkZ28uZ28t
+ZG8tbm90LWhhcmRjb2RlLWhvc3QtY29tcGlsZS5wYXRjaCBcCi0gICAgZmlsZTovLzAwMDktZ28t
+RmlsdGVyLWJ1aWxkLXBhdGhzLW9uLXN0YXRpY2x5LWxpbmtlZC1hcmNoZXMucGF0Y2ggXAotICAg
+IGZpbGU6Ly8wMDEwLWNtZC1jb21waWxlLXJlLWNvbXBpbGUtaW5zdGFudGlhdGVkLWdlbmVyaWMt
+bWV0aG9kcy0ucGF0Y2ggXAotICAgIGZpbGU6Ly9DVkUtMjAyMy0yNDUzMi5wYXRjaCBcCi0gICAg
+ZmlsZTovL0NWRS0yMDIzLTI0NTM3LnBhdGNoIFwKLSIKLVNSQ19VUklbbWFpbi5zaGEyNTZzdW1d
+ID0gImI1YzFhM2FmNTJjMzg1YTZkMWM3NmFlZDUzNjFjZjI2NDU5MDIzOTgwZDAzMjBkZTc2NThi
+YWUzOTE1ODMxYTIiCitTUkNfVVJJID0gImh0dHBzOi8vZ29sYW5nLm9yZy9kbC9nbyR7UFZ9LnNy
+Yy50YXIuZ3o7bmFtZT1tYWluIFwKKyAgICAgICAgICAgZmlsZTovLzAwMDEtY21kLWdvLW1ha2Ut
+Y29udGVudC1iYXNlZC1oYXNoLWdlbmVyYXRpb24tbGVzcy1wZWRhbi5wYXRjaCBcCisgICAgICAg
+ICAgIGZpbGU6Ly8wMDAyLWNtZC1nby1BbGxvdy1HT1RPT0xESVItdG8tYmUtb3ZlcnJpZGRlbi1p
+bi10aGUtZW52aXIucGF0Y2ggXAorICAgICAgICAgICBmaWxlOi8vMDAwMy1sZC1hZGQtc29uYW1l
+LXRvLXNoYXJlYWJsZS1vYmplY3RzLnBhdGNoIFwKKyAgICAgICAgICAgZmlsZTovLzAwMDQtbWFr
+ZS5iYXNoLW92ZXJyaWRlLUNDLXdoZW4tYnVpbGRpbmctZGlzdC1hbmQtZ29fYm9vdC5wYXRjaCBc
+CisgICAgICAgICAgIGZpbGU6Ly8wMDA1LWNtZC1kaXN0LXNlcGFyYXRlLWhvc3QtYW5kLXRhcmdl
+dC1idWlsZHMucGF0Y2ggXAorICAgICAgICAgICBmaWxlOi8vMDAwNi1jbWQtZ28tbWFrZS1HT1JP
+T1QtcHJlY2lvdXMtYnktZGVmYXVsdC5wYXRjaCBcCisgICAgICAgICAgIGZpbGU6Ly8wMDA3LWV4
+ZWMuZ28tZG8tbm90LXdyaXRlLWxpbmtlci1mbGFncy1pbnRvLWJ1aWxkaWRzLnBhdGNoIFwKKyAg
+ICAgICAgICAgZmlsZTovLzAwMDgtc3JjLWNtZC1kaXN0LWJ1aWxkZ28uZ28tZG8tbm90LWhhcmRj
+b2RlLWhvc3QtY29tcGlsZS5wYXRjaCBcCisgICAgICAgICAgIGZpbGU6Ly8wMDA5LWdvLUZpbHRl
+ci1idWlsZC1wYXRocy1vbi1zdGF0aWNseS1saW5rZWQtYXJjaGVzLnBhdGNoIFwKKyAgICAgICAg
+ICAgIgorU1JDX1VSSVttYWluLnNoYTI1NnN1bV0gPSAiOWYzNGFjZTEyODc2NGI3YTNhNGIyMzhi
+ODA1ODU2Y2MxYjIxODQzMDRkZjllNTY5MDgyNWIwNzEwZjQyMDJkNiIKZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby8wMDEwLWNtZC1jb21waWxlLXJlLWNvbXBpbGUtaW5z
+dGFudGlhdGVkLWdlbmVyaWMtbWV0aG9kcy0ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+Z28vZ28vMDAxMC1jbWQtY29tcGlsZS1yZS1jb21waWxlLWluc3RhbnRpYXRlZC1nZW5lcmljLW1l
+dGhvZHMtLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCBmOWFjMjAyNDIxLi4w
+MDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby8wMDEwLWNtZC1jb21w
+aWxlLXJlLWNvbXBpbGUtaW5zdGFudGlhdGVkLWdlbmVyaWMtbWV0aG9kcy0ucGF0Y2gKKysrIC9k
+ZXYvbnVsbApAQCAtMSw5MCArMCwwIEBACi1Gcm9tIDdhM2JiMTZiNDNlZmJhNzM2NzQ2MjllYWU0
+MzY5ZjkwMDRlMzdmMjIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1Gcm9tOiBDdW9uZyBNYW5o
+IExlIDxjdW9uZy5tYW5obGUudm5AZ21haWwuY29tPgotRGF0ZTogU2F0LCAxOCBNYXIgMjAyMyAw
+MDo1MzowNyArMDcwMAotU3ViamVjdDogW1BBVENIXSBjbWQvY29tcGlsZTogcmUtY29tcGlsZSBp
+bnN0YW50aWF0ZWQgZ2VuZXJpYyBtZXRob2RzIGluCi0gbGlua3NoYXJlZCBtb2RlCi0KLUZvciBH
+W1RdIHRoYXQgd2FzIHNlZW4gYW5kIGNvbXBpbGVkIGluIGltcG9ydGVkIHBhY2thZ2UsIGl0IGlz
+IG5vdCBhZGRlZAotdG8gdHlwZWNoZWNrLlRhcmdldC5EZWNscywgcHJldmVudCB3YXN0aW5nIGNv
+bXBpbGUgdGltZSByZS1jcmVhdGluZwotRFVQT0tTIHN5bWJvbHMuIEhvd2V2ZXIsIHRoZSBsaW5r
+ZXIgZG8gbm90IHN1cHBvcnQgYSB0eXBlIHN5bWJvbAotcmVmZXJlbmNpbmcgYSBtZXRob2Qgc3lt
+Ym9sIGFjcm9zcyBEU08gYm91bmRhcnkuIFRoYXQgY2F1c2VzIHVucmVhY2hhYmxlCi1zeW0gZXJy
+b3Igd2hlbiBidWlsZGluZyB1bmRlciAtbGlua3NoYXJlZCBtb2RlLgotCi1UbyBmaXggaXQsIGFs
+d2F5cyByZS1jb21waWxlIGdlbmVyaWMgbWV0aG9kcyBpbiBsaW5rc2hhcmVkIG1vZGUuCi0KLUZp
+eGVzICM1ODk2NgotCi1DaGFuZ2UtSWQ6IEk4OTRiNDE3Y2ZlODIzNGFlMWZlODA5Y2M5NzU4ODkz
+NDVkZjIyY2VmCi1SZXZpZXdlZC1vbjogaHR0cHM6Ly9nby1yZXZpZXcuZ29vZ2xlc291cmNlLmNv
+bS9jL2dvLysvNDc3Mzc1Ci1SdW4tVHJ5Qm90OiBDdW9uZyBNYW5oIExlIDxjdW9uZy5tYW5obGUu
+dm5AZ21haWwuY29tPgotUmV2aWV3ZWQtYnk6IENoZXJyeSBNdWkgPGNoZXJyeXl6QGdvb2dsZS5j
+b20+Ci1SZXZpZXdlZC1ieTogTWF0dGhldyBEZW1wc2t5IDxtZGVtcHNreUBnb29nbGUuY29tPgot
+VHJ5Qm90LVJlc3VsdDogR29waGVyIFJvYm90IDxnb2JvdEBnb2xhbmcub3JnPgotCi1VcHN0cmVh
+bS1TdGF0dXM6IEJhY2twb3J0IFtodHRwczovL2dpdGh1Yi5jb20vZ29sYW5nL2dvL2NvbW1pdC9i
+Y2Q4MjEyNWY4NWM3YzU1MjQ5M2U4NjNmYTFiYjE0ZTZjNDQ0NTU3XQotCi1TaWduZWQtb2ZmLWJ5
+OiBKb3NlIFF1YXJlc21hIDxqb3NlLnF1YXJlc21hQGZvdW5kcmllcy5pbz4KLS0tLQotIG1pc2Mv
+Y2dvL3Rlc3RzaGFyZWQvc2hhcmVkX3Rlc3QuZ28gICAgICAgICAgICAgIHwgIDcgKysrKysrLQot
+IG1pc2MvY2dvL3Rlc3RzaGFyZWQvdGVzdGRhdGEvaXNzdWU1ODk2Ni9tYWluLmdvIHwgMTUgKysr
+KysrKysrKysrKysrCi0gc3JjL2NtZC9jb21waWxlL2ludGVybmFsL25vZGVyL3VuaWZpZWQuZ28g
+ICAgICAgfCAgNiArKysrKy0KLSAzIGZpbGVzIGNoYW5nZWQsIDI2IGluc2VydGlvbnMoKyksIDIg
+ZGVsZXRpb25zKC0pCi0gY3JlYXRlIG1vZGUgMTAwNjQ0IG1pc2MvY2dvL3Rlc3RzaGFyZWQvdGVz
+dGRhdGEvaXNzdWU1ODk2Ni9tYWluLmdvCi0KLWRpZmYgLS1naXQgYS9taXNjL2Nnby90ZXN0c2hh
+cmVkL3NoYXJlZF90ZXN0LmdvIGIvbWlzYy9jZ28vdGVzdHNoYXJlZC9zaGFyZWRfdGVzdC5nbwot
+aW5kZXggYjE0ZmIxY2IzYS4uMDNkYThmOTQzNSAxMDA2NDQKLS0tLSBhL21pc2MvY2dvL3Rlc3Rz
+aGFyZWQvc2hhcmVkX3Rlc3QuZ28KLSsrKyBiL21pc2MvY2dvL3Rlc3RzaGFyZWQvc2hhcmVkX3Rl
+c3QuZ28KLUBAIC0xMTEyLDggKzExMTIsMTMgQEAgZnVuYyBUZXN0U3RkKHQgKnRlc3RpbmcuVCkg
+ewotIAkJdC5Ta2lwKCJza2lwIGluIHNob3J0IG1vZGUiKQotIAl9Ci0gCXQuUGFyYWxsZWwoKQot
+Kwl0bXBEaXIgOj0gdC5UZW1wRGlyKCkKLSAJLy8gVXNlIGEgdGVtcG9yYXJ5IHBrZ2RpciB0byBu
+b3QgaW50ZXJmZXJlIHdpdGggb3RoZXIgdGVzdHMsIGFuZCBub3Qgd3JpdGUgdG8gR09ST09ULgot
+IAkvLyBDYW5ub3QgdXNlIGdvQ21kIGFzIGl0IHJ1bnMgd2l0aCBjbG9uZWQgR09ST09UIHdoaWNo
+IGlzIGluY29tcGxldGUuCi0gCXJ1bldpdGhFbnYodCwgImJ1aWxkaW5nIHN0ZCIsIFtdc3RyaW5n
+eyJHT1JPT1Q9IiArIG9sZEdPUk9PVH0sCi0tCQlmaWxlcGF0aC5Kb2luKG9sZEdPUk9PVCwgImJp
+biIsICJnbyIpLCAiaW5zdGFsbCIsICItYnVpbGRtb2RlPXNoYXJlZCIsICItcGtnZGlyPSIrdC5U
+ZW1wRGlyKCksICJzdGQiKQotKwkJZmlsZXBhdGguSm9pbihvbGRHT1JPT1QsICJiaW4iLCAiZ28i
+KSwgImluc3RhbGwiLCAiLWJ1aWxkbW9kZT1zaGFyZWQiLCAiLXBrZ2Rpcj0iK3RtcERpciwgInN0
+ZCIpCi0rCi0rCS8vIElzc3VlICM1ODk2Ni4KLSsJcnVuV2l0aEVudih0LCAidGVzdGluZyBpc3N1
+ZSAjNTg5NjYiLCBbXXN0cmluZ3siR09ST09UPSIgKyBvbGRHT1JPT1R9LAotKwkJZmlsZXBhdGgu
+Sm9pbihvbGRHT1JPT1QsICJiaW4iLCAiZ28iKSwgInJ1biIsICItbGlua3NoYXJlZCIsICItcGtn
+ZGlyPSIrdG1wRGlyLCAiLi9pc3N1ZTU4OTY2L21haW4uZ28iKQotIH0KLWRpZmYgLS1naXQgYS9t
+aXNjL2Nnby90ZXN0c2hhcmVkL3Rlc3RkYXRhL2lzc3VlNTg5NjYvbWFpbi5nbyBiL21pc2MvY2dv
+L3Rlc3RzaGFyZWQvdGVzdGRhdGEvaXNzdWU1ODk2Ni9tYWluLmdvCi1uZXcgZmlsZSBtb2RlIDEw
+MDY0NAotaW5kZXggMDAwMDAwMDAwMC4uMmQ5MjNjMzYwNwotLS0tIC9kZXYvbnVsbAotKysrIGIv
+bWlzYy9jZ28vdGVzdHNoYXJlZC90ZXN0ZGF0YS9pc3N1ZTU4OTY2L21haW4uZ28KLUBAIC0wLDAg
+KzEsMTUgQEAKLSsvLyBDb3B5cmlnaHQgMjAyMyBUaGUgR28gQXV0aG9ycy4gQWxsIHJpZ2h0cyBy
+ZXNlcnZlZC4KLSsvLyBVc2Ugb2YgdGhpcyBzb3VyY2UgY29kZSBpcyBnb3Zlcm5lZCBieSBhIEJT
+RC1zdHlsZQotKy8vIGxpY2Vuc2UgdGhhdCBjYW4gYmUgZm91bmQgaW4gdGhlIExJQ0VOU0UgZmls
+ZS4KLSsKLStwYWNrYWdlIG1haW4KLSsKLStpbXBvcnQgImNyeXB0by9lbGxpcHRpYyIKLSsKLSt2
+YXIgY3VydmUgZWxsaXB0aWMuQ3VydmUKLSsKLStmdW5jIG1haW4oKSB7Ci0rCXN3aXRjaCBjdXJ2
+ZSB7Ci0rCWNhc2UgZWxsaXB0aWMuUDIyNCgpOgotKwl9Ci0rfQotZGlmZiAtLWdpdCBhL3NyYy9j
+bWQvY29tcGlsZS9pbnRlcm5hbC9ub2Rlci91bmlmaWVkLmdvIGIvc3JjL2NtZC9jb21waWxlL2lu
+dGVybmFsL25vZGVyL3VuaWZpZWQuZ28KLWluZGV4IGVkOTdhMDkzMDIuLjI1MTM2ZTZhYWQgMTAw
+NjQ0Ci0tLS0gYS9zcmMvY21kL2NvbXBpbGUvaW50ZXJuYWwvbm9kZXIvdW5pZmllZC5nbwotKysr
+IGIvc3JjL2NtZC9jb21waWxlL2ludGVybmFsL25vZGVyL3VuaWZpZWQuZ28KLUBAIC0xNTgsNyAr
+MTU4LDExIEBAIGZ1bmMgcmVhZEJvZGllcyh0YXJnZXQgKmlyLlBhY2thZ2UsIGR1cmluZ0lubGlu
+aW5nIGJvb2wpIHsKLSAJCQkvLyBJbnN0YW50aWF0ZWQgZ2VuZXJpYyBmdW5jdGlvbjogYWRkIHRv
+IERlY2xzIGZvciB0eXBlY2hlY2tpbmcKLSAJCQkvLyBhbmQgY29tcGlsYXRpb24uCi0gCQkJaWYg
+Zm4uT0Nsb3N1cmUgPT0gbmlsICYmIGxlbihwcmkuZGljdC50YXJncykgIT0gMCB7Ci0tCQkJCWlm
+IGR1cmluZ0lubGluaW5nIHsKLSsJCQkJLy8gY21kL2xpbmsgZG9lcyBub3Qgc3VwcG9ydCBhIHR5
+cGUgc3ltYm9sIHJlZmVyZW5jaW5nIGEgbWV0aG9kIHN5bWJvbAotKwkJCQkvLyBhY3Jvc3MgRFNP
+IGJvdW5kYXJ5LCBzbyBmb3JjZSByZS1jb21waWxpbmcgbWV0aG9kcyBvbiBhIGdlbmVyaWMgdHlw
+ZQotKwkJCQkvLyBldmVuIGl0IHdhcyBzZWVuIGZyb20gaW1wb3J0ZWQgcGFja2FnZSBpbiBsaW5r
+c2hhcmVkIG1vZGUsIHNlZSAjNTg5NjYuCi0rCQkJCWNhblNraXBOb25HZW5lcmljTWV0aG9kIDo9
+ICEoYmFzZS5DdHh0LkZsYWdfbGlua3NoYXJlZCAmJiBpci5Jc01ldGhvZChmbikpCi0rCQkJCWlm
+IGR1cmluZ0lubGluaW5nICYmIGNhblNraXBOb25HZW5lcmljTWV0aG9kIHsKLSAJCQkJCWlubERl
+Y2xzID0gYXBwZW5kKGlubERlY2xzLCBmbikKLSAJCQkJfSBlbHNlIHsKLSAJCQkJCXRhcmdldC5E
+ZWNscyA9IGFwcGVuZCh0YXJnZXQuRGVjbHMsIGZuKQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL2dvL2dvL0NWRS0yMDIzLTI0NTMyLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL2dvL2dvL0NWRS0yMDIzLTI0NTMyLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NApp
+bmRleCAyMmYwODBkYmQ0Li4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9n
+by9nby9DVkUtMjAyMy0yNDUzMi5wYXRjaAorKysgL2Rldi9udWxsCkBAIC0xLDIwOCArMCwwIEBA
+Ci1Gcm9tIDYwMmVlYWFiMzg3ZjI0YTRiMjhjNWVjY2JiNTBmYTkzNGYzYmMzYzQgTW9uIFNlcCAx
+NyAwMDowMDowMCAyMDAxCi1Gcm9tOiBGaWxpcHBvIFZhbHNvcmRhIDxmaWxpcHBvQGdvbGFuZy5v
+cmc+Ci1EYXRlOiBNb24sIDEzIEZlYiAyMDIzIDE1OjE2OjI3ICswMTAwCi1TdWJqZWN0OiBbUEFU
+Q0hdIFtyZWxlYXNlLWJyYW5jaC5nbzEuMjBdIGNyeXB0by9pbnRlcm5hbC9uaXN0ZWM6IHJlZHVj
+ZSBQLTI1NgotIHNjYWxhcgotCi1Vbmxpa2UgdGhlIHJlc3Qgb2YgbmlzdGVjLCB0aGUgUC0yNTYg
+YXNzZW1ibHkgZG9lc24ndCB1c2UgY29tcGxldGUKLWFkZGl0aW9uIGZvcm11bGFzLCBtZWFuaW5n
+IHRoYXQgcDI1NlBvaW50QWRkW0FmZmluZV1Bc20gd29uJ3QgcmV0dXJuIHRoZQotY29ycmVjdCB2
+YWx1ZSBpZiB0aGUgdHdvIGlucHV0cyBhcmUgZXF1YWwuCi0KLVRoaXMgd2FzICh1bmRvY3VtZW50
+ZWRseSkgaWdub3JlZCBpbiB0aGUgc2NhbGFyIG11bHRpcGxpY2F0aW9uIGxvb3BzCi1iZWNhdXNl
+IGFzIGxvbmcgYXMgdGhlIGlucHV0IHBvaW50IGlzIG5vdCB0aGUgaWRlbnRpdHkgYW5kIHRoZSBz
+Y2FsYXIgaXMKLWxvd2VyIHRoYW4gdGhlIG9yZGVyIG9mIHRoZSBncm91cCwgdGhlIGFkZGl0aW9u
+IGlucHV0cyBjYW4ndCBiZSB0aGUgc2FtZS4KLQotQXMgcGFydCBvZiB0aGUgbWF0aC9iaWcgcmV3
+cml0ZSwgd2Ugd2VudCBob3dldmVyIGZyb20gYWx3YXlzIHJlZHVjaW5nCi10aGUgc2NhbGFyIHRv
+IG9ubHkgY2hlY2tpbmcgaXRzIGxlbmd0aCwgdW5kZXIgdGhlIGluY29ycmVjdCBhc3N1bXB0aW9u
+Ci10aGF0IHRoZSBzY2FsYXIgbXVsdGlwbGljYXRpb24gbG9vcCBkaWRuJ3QgcmVxdWlyZSByZWR1
+Y3Rpb24uCi0KLUFkZGVkIGEgcmVkdWN0aW9uLCBhbmQgd2hpbGUgYXQgaXQgYWRkZWQgaXQgaW4g
+UDI1Nk9yZEludmVyc2UsIHRvbywgdG8KLWVuZm9yY2UgYSB1bml2ZXJzYWwgcmVkdWN0aW9uIGlu
+dmFyaWFudCBvbiBwMjU2T3JkRWxlbWVudCB2YWx1ZXMuCi0KLU5vdGUgdGhhdCBpZiB0aGUgaW5w
+dXQgcG9pbnQgaXMgdGhlIGluZmluaXR5LCB0aGUgY29kZSBjdXJyZW50bHkgc3RpbGwKLXJlbGll
+cyBvbiB1bmRlZmluZWQgYmVoYXZpb3IsIGJ1dCB0aGF0J3MgZWFzaWx5IHRlc3RlZCB0byBiZWhh
+dmUKLWFjY2VwdGFibHksIGFuZCB3aWxsIGJlIGFkZHJlc3NlZCBpbiBhIGZ1dHVyZSBDTC4KLQot
+VXBkYXRlcyAjNTg2NDcKLUZpeGVzICM1ODcyMAotRml4ZXMgQ1ZFLTIwMjMtMjQ1MzIKLQotKEZp
+bGVkIHdpdGggdGhlICJzYWZlIEFQSXMgbGlrZSBjb21wbGV0ZSBhZGRpdGlvbiBmb3JtdWxhcyBh
+cmUgZ29vZCIgZGVwdC4pCi0KLUNoYW5nZS1JZDogSTdiMmM3NTIzODQ0MGU2ODUyYmUyNzEwZmFk
+NjZmZjFmZGM0ZTJiMjQKLVJldmlld2VkLW9uOiBodHRwczovL2dvLXJldmlldy5nb29nbGVzb3Vy
+Y2UuY29tL2MvZ28vKy80NzEyNTUKLVRyeUJvdC1SZXN1bHQ6IEdvcGhlciBSb2JvdCA8Z29ib3RA
+Z29sYW5nLm9yZz4KLVJldmlld2VkLWJ5OiBSb2xhbmQgU2hvZW1ha2VyIDxyb2xhbmRAZ29sYW5n
+Lm9yZz4KLVJ1bi1UcnlCb3Q6IEZpbGlwcG8gVmFsc29yZGEgPGZpbGlwcG9AZ29sYW5nLm9yZz4K
+LUF1dG8tU3VibWl0OiBGaWxpcHBvIFZhbHNvcmRhIDxmaWxpcHBvQGdvbGFuZy5vcmc+Ci1SZXZp
+ZXdlZC1ieTogRGFtaWVuIE5laWwgPGRuZWlsQGdvb2dsZS5jb20+Ci0oY2hlcnJ5IHBpY2tlZCBm
+cm9tIGNvbW1pdCAyMDNlNTlhZDQxYmQyODhlMWQ5MmI2ZjYxN2MyZjU1ZTcwZDNjOGUzKQotUmV2
+aWV3ZWQtb246IGh0dHBzOi8vZ28tcmV2aWV3Lmdvb2dsZXNvdXJjZS5jb20vYy9nby8rLzQ3MTY5
+NQotUmV2aWV3ZWQtYnk6IERtaXRyaSBTaHVyYWx5b3YgPGRtaXRzaHVyQGdvb2dsZS5jb20+Ci1B
+dXRvLVN1Ym1pdDogRG1pdHJpIFNodXJhbHlvdiA8ZG1pdHNodXJAZ29vZ2xlLmNvbT4KLVJldmll
+d2VkLWJ5OiBGaWxpcHBvIFZhbHNvcmRhIDxmaWxpcHBvQGdvbGFuZy5vcmc+Ci1SdW4tVHJ5Qm90
+OiBSb2xhbmQgU2hvZW1ha2VyIDxyb2xhbmRAZ29sYW5nLm9yZz4KLQotQ1ZFOiBDVkUtMjAyMy0y
+NDUzMgotVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBbNjAyZWVhYWIzODdmMjRhNGIyOGM1ZWNj
+YmI1MGZhOTM0ZjNiYzNjNF0KLVNpZ25lZC1vZmYtYnk6IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRv
+bkBhcm0uY29tPgotCi0tLS0KLSBzcmMvY3J5cHRvL2ludGVybmFsL25pc3RlYy9uaXN0ZWNfdGVz
+dC5nbyB8IDgxICsrKysrKysrKysrKysrKysrKysrKysrCi0gc3JjL2NyeXB0by9pbnRlcm5hbC9u
+aXN0ZWMvcDI1Nl9hc20uZ28gICAgfCAxNyArKysrKwotIHNyYy9jcnlwdG8vaW50ZXJuYWwvbmlz
+dGVjL3AyNTZfb3JkaW52LmdvIHwgIDEgKwotIDMgZmlsZXMgY2hhbmdlZCwgOTkgaW5zZXJ0aW9u
+cygrKQotCi1kaWZmIC0tZ2l0IGEvc3JjL2NyeXB0by9pbnRlcm5hbC9uaXN0ZWMvbmlzdGVjX3Rl
+c3QuZ28gYi9zcmMvY3J5cHRvL2ludGVybmFsL25pc3RlYy9uaXN0ZWNfdGVzdC5nbwotaW5kZXgg
+MzA5ZjY4YmUxNmE5Zi4uOTEwMzYwOGMxOGEwZiAxMDA2NDQKLS0tLSBhL3NyYy9jcnlwdG8vaW50
+ZXJuYWwvbmlzdGVjL25pc3RlY190ZXN0LmdvCi0rKysgYi9zcmMvY3J5cHRvL2ludGVybmFsL25p
+c3RlYy9uaXN0ZWNfdGVzdC5nbwotQEAgLTgsNiArOCw3IEBAIGltcG9ydCAoCi0gCSJieXRlcyIK
+LSAJImNyeXB0by9lbGxpcHRpYyIKLSAJImNyeXB0by9pbnRlcm5hbC9uaXN0ZWMiCi0rCSJmbXQi
+Ci0gCSJpbnRlcm5hbC90ZXN0ZW52IgotIAkibWF0aC9iaWciCi0gCSJtYXRoL3JhbmQiCi1AQCAt
+MTY1LDYgKzE2Niw4NiBAQCBmdW5jIHRlc3RFcXVpdmFsZW50c1tQIG5pc3RQb2ludFtQXV0odCAq
+dGVzdGluZy5ULCBuZXdQb2ludCBmdW5jKCkgUCwgYyBlbGxpcHRpYwotIAl9Ci0gfQotIAotK2Z1
+bmMgVGVzdFNjYWxhck11bHQodCAqdGVzdGluZy5UKSB7Ci0rCXQuUnVuKCJQMjI0IiwgZnVuYyh0
+ICp0ZXN0aW5nLlQpIHsKLSsJCXRlc3RTY2FsYXJNdWx0KHQsIG5pc3RlYy5OZXdQMjI0UG9pbnQs
+IGVsbGlwdGljLlAyMjQoKSkKLSsJfSkKLSsJdC5SdW4oIlAyNTYiLCBmdW5jKHQgKnRlc3Rpbmcu
+VCkgewotKwkJdGVzdFNjYWxhck11bHQodCwgbmlzdGVjLk5ld1AyNTZQb2ludCwgZWxsaXB0aWMu
+UDI1NigpKQotKwl9KQotKwl0LlJ1bigiUDM4NCIsIGZ1bmModCAqdGVzdGluZy5UKSB7Ci0rCQl0
+ZXN0U2NhbGFyTXVsdCh0LCBuaXN0ZWMuTmV3UDM4NFBvaW50LCBlbGxpcHRpYy5QMzg0KCkpCi0r
+CX0pCi0rCXQuUnVuKCJQNTIxIiwgZnVuYyh0ICp0ZXN0aW5nLlQpIHsKLSsJCXRlc3RTY2FsYXJN
+dWx0KHQsIG5pc3RlYy5OZXdQNTIxUG9pbnQsIGVsbGlwdGljLlA1MjEoKSkKLSsJfSkKLSt9Ci0r
+Ci0rZnVuYyB0ZXN0U2NhbGFyTXVsdFtQIG5pc3RQb2ludFtQXV0odCAqdGVzdGluZy5ULCBuZXdQ
+b2ludCBmdW5jKCkgUCwgYyBlbGxpcHRpYy5DdXJ2ZSkgewotKwlHIDo9IG5ld1BvaW50KCkuU2V0
+R2VuZXJhdG9yKCkKLSsJY2hlY2tTY2FsYXIgOj0gZnVuYyh0ICp0ZXN0aW5nLlQsIHNjYWxhciBb
+XWJ5dGUpIHsKLSsJCXAxLCBlcnIgOj0gbmV3UG9pbnQoKS5TY2FsYXJCYXNlTXVsdChzY2FsYXIp
+Ci0rCQlmYXRhbElmRXJyKHQsIGVycikKLSsJCXAyLCBlcnIgOj0gbmV3UG9pbnQoKS5TY2FsYXJN
+dWx0KEcsIHNjYWxhcikKLSsJCWZhdGFsSWZFcnIodCwgZXJyKQotKwkJaWYgIWJ5dGVzLkVxdWFs
+KHAxLkJ5dGVzKCksIHAyLkJ5dGVzKCkpIHsKLSsJCQl0LkVycm9yKCJba11HICE9IFNjYWxhckJh
+c2VNdWx0KGspIikKLSsJCX0KLSsKLSsJCWQgOj0gbmV3KGJpZy5JbnQpLlNldEJ5dGVzKHNjYWxh
+cikKLSsJCWQuU3ViKGMuUGFyYW1zKCkuTiwgZCkKLSsJCWQuTW9kKGQsIGMuUGFyYW1zKCkuTikK
+LSsJCWcxLCBlcnIgOj0gbmV3UG9pbnQoKS5TY2FsYXJCYXNlTXVsdChkLkZpbGxCeXRlcyhtYWtl
+KFtdYnl0ZSwgbGVuKHNjYWxhcikpKSkKLSsJCWZhdGFsSWZFcnIodCwgZXJyKQotKwkJZzEuQWRk
+KGcxLCBwMSkKLSsJCWlmICFieXRlcy5FcXVhbChnMS5CeXRlcygpLCBuZXdQb2ludCgpLkJ5dGVz
+KCkpIHsKLSsJCQl0LkVycm9yKCJbTiAtIGtdRyArIFtrXUcgIT0g4oieIikKLSsJCX0KLSsJfQot
+KwotKwlieXRlTGVuIDo9IGxlbihjLlBhcmFtcygpLk4uQnl0ZXMoKSkKLSsJYml0TGVuIDo9IGMu
+UGFyYW1zKCkuTi5CaXRMZW4oKQotKwl0LlJ1bigiMCIsIGZ1bmModCAqdGVzdGluZy5UKSB7IGNo
+ZWNrU2NhbGFyKHQsIG1ha2UoW11ieXRlLCBieXRlTGVuKSkgfSkKLSsJdC5SdW4oIjEiLCBmdW5j
+KHQgKnRlc3RpbmcuVCkgewotKwkJY2hlY2tTY2FsYXIodCwgYmlnLk5ld0ludCgxKS5GaWxsQnl0
+ZXMobWFrZShbXWJ5dGUsIGJ5dGVMZW4pKSkKLSsJfSkKLSsJdC5SdW4oIk4tMSIsIGZ1bmModCAq
+dGVzdGluZy5UKSB7Ci0rCQljaGVja1NjYWxhcih0LCBuZXcoYmlnLkludCkuU3ViKGMuUGFyYW1z
+KCkuTiwgYmlnLk5ld0ludCgxKSkuQnl0ZXMoKSkKLSsJfSkKLSsJdC5SdW4oIk4iLCBmdW5jKHQg
+KnRlc3RpbmcuVCkgeyBjaGVja1NjYWxhcih0LCBjLlBhcmFtcygpLk4uQnl0ZXMoKSkgfSkKLSsJ
+dC5SdW4oIk4rMSIsIGZ1bmModCAqdGVzdGluZy5UKSB7Ci0rCQljaGVja1NjYWxhcih0LCBuZXco
+YmlnLkludCkuQWRkKGMuUGFyYW1zKCkuTiwgYmlnLk5ld0ludCgxKSkuQnl0ZXMoKSkKLSsJfSkK
+LSsJdC5SdW4oImFsbDFzIiwgZnVuYyh0ICp0ZXN0aW5nLlQpIHsKLSsJCXMgOj0gbmV3KGJpZy5J
+bnQpLkxzaChiaWcuTmV3SW50KDEpLCB1aW50KGJpdExlbikpCi0rCQlzLlN1YihzLCBiaWcuTmV3
+SW50KDEpKQotKwkJY2hlY2tTY2FsYXIodCwgcy5CeXRlcygpKQotKwl9KQotKwlpZiB0ZXN0aW5n
+LlNob3J0KCkgewotKwkJcmV0dXJuCi0rCX0KLSsJZm9yIGkgOj0gMDsgaSA8IGJpdExlbjsgaSsr
+IHsKLSsJCXQuUnVuKGZtdC5TcHJpbnRmKCIxPDwlZCIsIGkpLCBmdW5jKHQgKnRlc3RpbmcuVCkg
+ewotKwkJCXMgOj0gbmV3KGJpZy5JbnQpLkxzaChiaWcuTmV3SW50KDEpLCB1aW50KGkpKQotKwkJ
+CWNoZWNrU2NhbGFyKHQsIHMuRmlsbEJ5dGVzKG1ha2UoW11ieXRlLCBieXRlTGVuKSkpCi0rCQl9
+KQotKwl9Ci0rCS8vIFRlc3QgTisxLi4uTiszMiBzaW5jZSB0aGV5IHJpc2sgb3ZlcmxhcHBpbmcg
+d2l0aCBwcmVjb21wdXRlZCB0YWJsZSB2YWx1ZXMKLSsJLy8gaW4gdGhlIGZpbmFsIGFkZGl0aW9u
+cy4KLSsJZm9yIGkgOj0gaW50NjQoMik7IGkgPD0gMzI7IGkrKyB7Ci0rCQl0LlJ1bihmbXQuU3By
+aW50ZigiTislZCIsIGkpLCBmdW5jKHQgKnRlc3RpbmcuVCkgewotKwkJCWNoZWNrU2NhbGFyKHQs
+IG5ldyhiaWcuSW50KS5BZGQoYy5QYXJhbXMoKS5OLCBiaWcuTmV3SW50KGkpKS5CeXRlcygpKQot
+KwkJfSkKLSsJfQotK30KLSsKLStmdW5jIGZhdGFsSWZFcnIodCAqdGVzdGluZy5ULCBlcnIgZXJy
+b3IpIHsKLSsJdC5IZWxwZXIoKQotKwlpZiBlcnIgIT0gbmlsIHsKLSsJCXQuRmF0YWwoZXJyKQot
+Kwl9Ci0rfQotKwotIGZ1bmMgQmVuY2htYXJrU2NhbGFyTXVsdChiICp0ZXN0aW5nLkIpIHsKLSAJ
+Yi5SdW4oIlAyMjQiLCBmdW5jKGIgKnRlc3RpbmcuQikgewotIAkJYmVuY2htYXJrU2NhbGFyTXVs
+dChiLCBuaXN0ZWMuTmV3UDIyNFBvaW50KCkuU2V0R2VuZXJhdG9yKCksIDI4KQotZGlmZiAtLWdp
+dCBhL3NyYy9jcnlwdG8vaW50ZXJuYWwvbmlzdGVjL3AyNTZfYXNtLmdvIGIvc3JjL2NyeXB0by9p
+bnRlcm5hbC9uaXN0ZWMvcDI1Nl9hc20uZ28KLWluZGV4IDZlYTE2MWViNDk5NTMuLjk5YTIyYjgz
+M2YwMjggMTAwNjQ0Ci0tLS0gYS9zcmMvY3J5cHRvL2ludGVybmFsL25pc3RlYy9wMjU2X2FzbS5n
+bwotKysrIGIvc3JjL2NyeXB0by9pbnRlcm5hbC9uaXN0ZWMvcDI1Nl9hc20uZ28KLUBAIC0zNjQs
+NiArMzY0LDIxIEBAIGZ1bmMgcDI1NlBvaW50RG91YmxlQXNtKHJlcywgaW4gKlAyNTZQb2ludCkK
+LSAvLyBNb250Z29tZXJ5IGRvbWFpbiAod2l0aCBSIDLCsuKBteKBtikgYXMgZm91ciB1aW50NjQg
+bGltYnMgaW4gbGl0dGxlLWVuZGlhbiBvcmRlci4KLSB0eXBlIHAyNTZPcmRFbGVtZW50IFs0XXVp
+bnQ2NAotIAotKy8vIHAyNTZPcmRSZWR1Y2UgZW5zdXJlcyBzIGlzIGluIHRoZSByYW5nZSBbMCwg
+b3JkKEcpLTFdLgotK2Z1bmMgcDI1Nk9yZFJlZHVjZShzICpwMjU2T3JkRWxlbWVudCkgewotKwkv
+LyBTaW5jZSAyICogb3JkKEcpID4gMsKy4oG14oG2LCB3ZSBjYW4ganVzdCBjb25kaXRpb25hbGx5
+IHN1YnRyYWN0IG9yZChHKSwKLSsJLy8ga2VlcGluZyB0aGUgcmVzdWx0IGlmIGl0IGRvZXNuJ3Qg
+dW5kZXJmbG93LgotKwl0MCwgYiA6PSBiaXRzLlN1YjY0KHNbMF0sIDB4ZjNiOWNhYzJmYzYzMjU1
+MSwgMCkKLSsJdDEsIGIgOj0gYml0cy5TdWI2NChzWzFdLCAweGJjZTZmYWFkYTcxNzllODQsIGIp
+Ci0rCXQyLCBiIDo9IGJpdHMuU3ViNjQoc1syXSwgMHhmZmZmZmZmZmZmZmZmZmZmLCBiKQotKwl0
+MywgYiA6PSBiaXRzLlN1YjY0KHNbM10sIDB4ZmZmZmZmZmYwMDAwMDAwMCwgYikKLSsJdE1hc2sg
+Oj0gYiAtIDEgLy8gemVybyBpZiBzdWJ0cmFjdGlvbiB1bmRlcmZsb3dlZAotKwlzWzBdIF49ICh0
+MCBeIHNbMF0pICYgdE1hc2sKLSsJc1sxXSBePSAodDEgXiBzWzFdKSAmIHRNYXNrCi0rCXNbMl0g
+Xj0gKHQyIF4gc1syXSkgJiB0TWFzawotKwlzWzNdIF49ICh0MyBeIHNbM10pICYgdE1hc2sKLSt9
+Ci0rCi0gLy8gQWRkIHNldHMgcSA9IHAxICsgcDIsIGFuZCByZXR1cm5zIHEuIFRoZSBwb2ludHMg
+bWF5IG92ZXJsYXAuCi0gZnVuYyAocSAqUDI1NlBvaW50KSBBZGQocjEsIHIyICpQMjU2UG9pbnQp
+ICpQMjU2UG9pbnQgewotIAl2YXIgc3VtLCBkb3VibGUgUDI1NlBvaW50Ci1AQCAtMzkzLDYgKzQw
+OCw3IEBAIGZ1bmMgKHIgKlAyNTZQb2ludCkgU2NhbGFyQmFzZU11bHQoc2NhbGFyIFtdYnl0ZSkg
+KCpQMjU2UG9pbnQsIGVycm9yKSB7Ci0gCX0KLSAJc2NhbGFyUmV2ZXJzZWQgOj0gbmV3KHAyNTZP
+cmRFbGVtZW50KQotIAlwMjU2T3JkQmlnVG9MaXR0bGUoc2NhbGFyUmV2ZXJzZWQsICgqWzMyXWJ5
+dGUpKHNjYWxhcikpCi0rCXAyNTZPcmRSZWR1Y2Uoc2NhbGFyUmV2ZXJzZWQpCi0gCi0gCXIucDI1
+NkJhc2VNdWx0KHNjYWxhclJldmVyc2VkKQotIAlyZXR1cm4gciwgbmlsCi1AQCAtNDA3LDYgKzQy
+Myw3IEBAIGZ1bmMgKHIgKlAyNTZQb2ludCkgU2NhbGFyTXVsdChxICpQMjU2UG9pbnQsIHNjYWxh
+ciBbXWJ5dGUpICgqUDI1NlBvaW50LCBlcnJvcikKLSAJfQotIAlzY2FsYXJSZXZlcnNlZCA6PSBu
+ZXcocDI1Nk9yZEVsZW1lbnQpCi0gCXAyNTZPcmRCaWdUb0xpdHRsZShzY2FsYXJSZXZlcnNlZCwg
+KCpbMzJdYnl0ZSkoc2NhbGFyKSkKLSsJcDI1Nk9yZFJlZHVjZShzY2FsYXJSZXZlcnNlZCkKLSAK
+LSAJci5TZXQocSkucDI1NlNjYWxhck11bHQoc2NhbGFyUmV2ZXJzZWQpCi0gCXJldHVybiByLCBu
+aWwKLWRpZmYgLS1naXQgYS9zcmMvY3J5cHRvL2ludGVybmFsL25pc3RlYy9wMjU2X29yZGludi5n
+byBiL3NyYy9jcnlwdG8vaW50ZXJuYWwvbmlzdGVjL3AyNTZfb3JkaW52LmdvCi1pbmRleCA4NmE3
+YTIzMGJkY2U4Li4xMjc0ZmI3ZmQzZjVjIDEwMDY0NAotLS0tIGEvc3JjL2NyeXB0by9pbnRlcm5h
+bC9uaXN0ZWMvcDI1Nl9vcmRpbnYuZ28KLSsrKyBiL3NyYy9jcnlwdG8vaW50ZXJuYWwvbmlzdGVj
+L3AyNTZfb3JkaW52LmdvCi1AQCAtMjUsNiArMjUsNyBAQCBmdW5jIFAyNTZPcmRJbnZlcnNlKGsg
+W11ieXRlKSAoW11ieXRlLCBlcnJvcikgewotIAotIAl4IDo9IG5ldyhwMjU2T3JkRWxlbWVudCkK
+LSAJcDI1Nk9yZEJpZ1RvTGl0dGxlKHgsICgqWzMyXWJ5dGUpKGspKQotKwlwMjU2T3JkUmVkdWNl
+KHgpCi0gCi0gCS8vIEludmVyc2lvbiBpcyBpbXBsZW1lbnRlZCBhcyBleHBvbmVudGlhdGlvbiBi
+eSBuIC0gMiwgcGVyIEZlcm1hdCdzIGxpdHRsZSB0aGVvcmVtLgotIAkvLwpkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL2dvL0NWRS0yMDIzLTI0NTM3LnBhdGNoIGIvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL2dvL2dvL0NWRS0yMDIzLTI0NTM3LnBhdGNoCmRlbGV0ZWQgZmlsZSBt
+b2RlIDEwMDY0NAppbmRleCA2YjVkYzJjOGQ5Li4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9nby9nby9DVkUtMjAyMy0yNDUzNy5wYXRjaAorKysgL2Rldi9udWxsCkBAIC0x
+LDg5ICswLDAgQEAKLUZyb20gMTEwZTRmYjFjMmUzYTIxNjMxNzA0YmJmYWY2NzIyMzBiOWJhMjQ5
+MiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IERhbWllbiBOZWlsIDxkbmVpbEBnb29n
+bGUuY29tPgotRGF0ZTogV2VkLCAyMiBNYXIgMjAyMyAwOTozMzoyMiAtMDcwMAotU3ViamVjdDog
+W1BBVENIXSBnby9zY2FubmVyOiByZWplY3QgbGFyZ2UgbGluZSBhbmQgY29sdW1uIG51bWJlcnMg
+aW4gLy9saW5lCi0gZGlyZWN0aXZlcwotCi1TZXR0aW5nIGEgbGFyZ2UgbGluZSBvciBjb2x1bW4g
+bnVtYmVyIHVzaW5nIGEgLy9saW5lIGRpcmVjdGl2ZSBjYW4gY2F1c2UKLWludGVnZXIgb3ZlcmZs
+b3cgZXZlbiBpbiBzbWFsbCBzb3VyY2UgZmlsZXMuCi0KLUxpbWl0IGxpbmUgYW5kIGNvbHVtbiBu
+dW1iZXJzIGluIC8vbGluZSBkaXJlY3RpdmVzIHRvIDJeMzAtMSwgd2hpY2gKLWlzIHNtYWxsIGVu
+b3VnaCB0byBhdm9pZCBpbnQzMiBvdmVyZmxvdyBvbiBhbGwgcmVhc29uYmx5LXNpemVkIGZpbGVz
+LgotCi1Gb3IgIzU5MTgwCi1GaXhlcyBDVkUtMjAyMy0yNDUzNwotCi1SZXZpZXdlZC1vbjogaHR0
+cHM6Ly90ZWFtLXJldmlldy5naXQuY29ycC5nb29nbGUuY29tL2MvZ29sYW5nL2dvLXByaXZhdGUv
+Ky8xODAyNDU2Ci1SZXZpZXdlZC1ieTogSnVsaWUgUWl1IDxqdWxpZXFpdUBnb29nbGUuY29tPgot
+UmV2aWV3ZWQtYnk6IFJvbGFuZCBTaG9lbWFrZXIgPGJyYWNld2VsbEBnb29nbGUuY29tPgotUnVu
+LVRyeUJvdDogRGFtaWVuIE5laWwgPGRuZWlsQGdvb2dsZS5jb20+Ci1DaGFuZ2UtSWQ6IEkxNDli
+ZjM0ZGVjYTUzMmFmNzk5NDIwM2ZhMWU2YWNhM2M4OTBlYTE0Ci1SZXZpZXdlZC1vbjogaHR0cHM6
+Ly9nby1yZXZpZXcuZ29vZ2xlc291cmNlLmNvbS9jL2dvLysvNDgyMDc4Ci1SZXZpZXdlZC1ieTog
+TWF0dGhldyBEZW1wc2t5IDxtZGVtcHNreUBnb29nbGUuY29tPgotVHJ5Qm90LUJ5cGFzczogTWlj
+aGFlbCBLbnlzemVrIDxta255c3pla0Bnb29nbGUuY29tPgotUnVuLVRyeUJvdDogTWljaGFlbCBL
+bnlzemVrIDxta255c3pla0Bnb29nbGUuY29tPgotQXV0by1TdWJtaXQ6IE1pY2hhZWwgS255c3pl
+ayA8bWtueXN6ZWtAZ29vZ2xlLmNvbT4KLQotQ1ZFOiBDVkUtMjAyMy0yNDUzNwotVXBzdHJlYW0t
+U3RhdHVzOiBCYWNrcG9ydAotU2lnbmVkLW9mZi1ieTogUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9u
+QGFybS5jb20+Ci0tLS0KLSBzcmMvZ28vcGFyc2VyL3BhcnNlcl90ZXN0LmdvIHwgMTYgKysrKysr
+KysrKysrKysrKwotIHNyYy9nby9zY2FubmVyL3NjYW5uZXIuZ28gICAgfCAgNyArKysrKy0tCi0g
+MiBmaWxlcyBjaGFuZ2VkLCAyMSBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQotCi1kaWZm
+IC0tZ2l0IGEvc3JjL2dvL3BhcnNlci9wYXJzZXJfdGVzdC5nbyBiL3NyYy9nby9wYXJzZXIvcGFy
+c2VyX3Rlc3QuZ28KLWluZGV4IDE1MzU2MmRmNzUwNjguLjIyYjExYTBjYzQ1MzUgMTAwNjQ0Ci0t
+LS0gYS9zcmMvZ28vcGFyc2VyL3BhcnNlcl90ZXN0LmdvCi0rKysgYi9zcmMvZ28vcGFyc2VyL3Bh
+cnNlcl90ZXN0LmdvCi1AQCAtNzY0LDMgKzc2NCwxOSBAQCBmdW5jIFRlc3RSYW5nZVBvcyh0ICp0
+ZXN0aW5nLlQpIHsKLSAJCX0pCi0gCX0KLSB9Ci0rCi0rLy8gVGVzdElzc3VlNTkxODAgdGVzdHMg
+dGhhdCBsaW5lIG51bWJlciBvdmVyZmxvdyBkb2Vzbid0IGNhdXNlIGFuIGluZmluaXRlIGxvb3Au
+Ci0rZnVuYyBUZXN0SXNzdWU1OTE4MCh0ICp0ZXN0aW5nLlQpIHsKLSsJdGVzdGNhc2VzIDo9IFtd
+c3RyaW5newotKwkJInBhY2thZ2UgcFxuLy9saW5lIDo5MjIzMzcyMDM2ODU0Nzc1ODA2XG5cbi8v
+IiwKLSsJCSJwYWNrYWdlIHBcbi8vbGluZSA6MTo5MjIzMzcyMDM2ODU0Nzc1ODA2XG5cbi8vIiwK
+LSsJCSJwYWNrYWdlIHBcbi8vbGluZSBmaWxlOjkyMjMzNzIwMzY4NTQ3NzU4MDZcblxuLy8iLAot
+Kwl9Ci0rCi0rCWZvciBfLCBzcmMgOj0gcmFuZ2UgdGVzdGNhc2VzIHsKLSsJCV8sIGVyciA6PSBQ
+YXJzZUZpbGUodG9rZW4uTmV3RmlsZVNldCgpLCAiIiwgc3JjLCBQYXJzZUNvbW1lbnRzKQotKwkJ
+aWYgZXJyID09IG5pbCB7Ci0rCQkJdC5FcnJvcmYoIlBhcnNlRmlsZSglcykgc3VjY2VlZGVkIHVu
+ZXhwZWN0ZWRseSIsIHNyYykKLSsJCX0KLSsJfQotK30KLWRpZmYgLS1naXQgYS9zcmMvZ28vc2Nh
+bm5lci9zY2FubmVyLmdvIGIvc3JjL2dvL3NjYW5uZXIvc2Nhbm5lci5nbwotaW5kZXggMTY5NThk
+MjJjZTI5OS4uMGNkOWY1OTAxZDBiYiAxMDA2NDQKLS0tLSBhL3NyYy9nby9zY2FubmVyL3NjYW5u
+ZXIuZ28KLSsrKyBiL3NyYy9nby9zY2FubmVyL3NjYW5uZXIuZ28KLUBAIC0yNTMsMTMgKzI1Mywx
+NiBAQCBmdW5jIChzICpTY2FubmVyKSB1cGRhdGVMaW5lSW5mbyhuZXh0LCBvZmZzIGludCwgdGV4
+dCBbXWJ5dGUpIHsKLSAJCXJldHVybgotIAl9Ci0gCi0rCS8vIFB1dCBhIGNhcCBvbiB0aGUgbWF4
+aW11bSBzaXplIG9mIGxpbmUgYW5kIGNvbHVtbiBudW1iZXJzLgotKwkvLyAzMCBiaXRzIGFsbG93
+cyBmb3Igc29tZSBhZGRpdGlvbmFsIHNwYWNlIGJlZm9yZSB3cmFwcGluZyBhbiBpbnQzMi4KLSsJ
+Y29uc3QgbWF4TGluZUNvbCA9IDE8PDMwIC0gMQotIAl2YXIgbGluZSwgY29sIGludAotIAlpMiwg
+bjIsIG9rMiA6PSB0cmFpbGluZ0RpZ2l0cyh0ZXh0WzppLTFdKQotIAlpZiBvazIgewotIAkJLy9s
+aW5lIGZpbGVuYW1lOmxpbmU6Y29sCi0gCQlpLCBpMiA9IGkyLCBpCi0gCQlsaW5lLCBjb2wgPSBu
+MiwgbgotLQkJaWYgY29sID09IDAgewotKwkJaWYgY29sID09IDAgfHwgY29sID4gbWF4TGluZUNv
+bCB7Ci0gCQkJcy5lcnJvcihvZmZzK2kyLCAiaW52YWxpZCBjb2x1bW4gbnVtYmVyOiAiK3N0cmlu
+Zyh0ZXh0W2kyOl0pKQotIAkJCXJldHVybgotIAkJfQotQEAgLTI2OSw3ICsyNzIsNyBAQCBmdW5j
+IChzICpTY2FubmVyKSB1cGRhdGVMaW5lSW5mbyhuZXh0LCBvZmZzIGludCwgdGV4dCBbXWJ5dGUp
+IHsKLSAJCWxpbmUgPSBuCi0gCX0KLSAKLS0JaWYgbGluZSA9PSAwIHsKLSsJaWYgbGluZSA9PSAw
+IHx8IGxpbmUgPiBtYXhMaW5lQ29sIHsKLSAJCXMuZXJyb3Iob2ZmcytpLCAiaW52YWxpZCBsaW5l
+IG51bWJlcjogIitzdHJpbmcodGV4dFtpOl0pKQotIAkJcmV0dXJuCi0gCX0KZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nb18xLjIwLjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvZ28vZ29fMS4yMC40LmJiCnNpbWlsYXJpdHkgaW5kZXggMTAwJQpyZW5hbWUgZnJvbSBt
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ28vZ29fMS4yMC4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvZ28vZ29fMS4yMC40LmJiCi0tIAoyLjM5LjIKCg==
 
---===============8043299488318983631==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/grep/grep-locale-pt-br: PKGSIZE changed from 16000 to 18629 (+16%)
-
---===============8043299488318983631==--
+--===============8930069603368422030==--
 
