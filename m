@@ -1,213 +1,124 @@
-Return-Path: <jing.hui.tham@intel.com>
+Return-Path: <qiutt@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67091C7EE25
-	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 01:44:39 +0000 (UTC)
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by mx.groups.io with SMTP id smtpd.web10.79416.1684115076208215769
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A97D1C77B7D
+	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 02:45:59 +0000 (UTC)
+Received: from esa5.hc1455-7.c3s2.iphmx.com (esa5.hc1455-7.c3s2.iphmx.com [68.232.139.130])
+ by mx.groups.io with SMTP id smtpd.web11.79925.1684118752085950849
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 May 2023 18:44:36 -0700
+ Sun, 14 May 2023 19:45:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=kurUX/mV;
- spf=pass (domain: intel.com, ip: 192.55.52.43, mailfrom: jing.hui.tham@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684115076; x=1715651076;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=BFQX8Apw2AwMR6RW0tFLCHrB1kXJo0p1Cw/dJwBm+WY=;
-  b=kurUX/mV7mWR7BZRKfYRqv3zuMoyTZ9tb32wdZxC45Qb8plvsOTYy8oN
-   jVp6TPit4pIqkPbjVqKSY0HrhayOZNbm64ES7+76u/8ajK5F6BTloVUS8
-   o+42EMsFUgKLkEXCCGluVeARIpZMDGwiy/c8l5CrUJM2lpXL262eOUj9e
-   MxWllmRv3479flOHLlQS2EvXv2GtmH6hH2QqL10JkEbdaws4Zlxofttn2
-   uCqZ2X3733MN9q6u5fQE7DSp2rcB2LVE5XJj1HF2W/l+6H9k3/eL6ho8W
-   b6wtlRYh8ulp+8fo0TulfjijvqgiVmT2O3CzVgX/J2lACTexUsoabpSaX
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10710"; a="437424419"
-X-IronPort-AV: E=Sophos;i="5.99,275,1677571200"; 
-   d="scan'208";a="437424419"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2023 18:44:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10710"; a="770424808"
-X-IronPort-AV: E=Sophos;i="5.99,275,1677571200"; 
-   d="scan'208";a="770424808"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by fmsmga004.fm.intel.com with ESMTP; 14 May 2023 18:44:34 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Sun, 14 May 2023 18:44:34 -0700
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Sun, 14 May 2023 18:44:34 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Sun, 14 May 2023 18:44:34 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.176)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Sun, 14 May 2023 18:44:33 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VMl5P7DGZE6uBKMQHX/RpBklqy7qAVV3lc55Ia/IPLNcvS1nrg3df7enhn5oCGfyVJpgL5k5QnieRFTm62UdkAOSW7FI55OTqNhuzDlLbwSGLhCaSKvxTGbuIFwUmxAzvQt+jkjd8H6lHuxYdY06HRZ0P3xeJYZm8tKL1lyHoe7vnUsemxiuv/M+S6pXIg9dLVr940ORtjUlhnkdF/TMZwhDTsC4KDYodX817l9nWRYvJQJFLj358GtuoInH9FykUkbx9dWH9QoR0gocOSBBWqcgjcC8Ln90DAdtSUohzAHakoBfUiLSpc1nL/ig4zN/3xWZlLr1Hwre+q8rzE13Bg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Gbxzs3ld1/DRx0gnLyl34rCD1DpqZ9gbbeYpcqaqzqk=;
- b=kfonE8HnlgK8CsWffZ9PruQwwGx59jrgNNl9M8FWy3CU0eFAU3XoNJ8uiBbrcy8EizYfMjvXViGy9SmfWtpfJUDjoa3+muSm0tNx+MFT8etjcznv4CM5Hi8yZihQ7QgMBbtlexnIzPc9FDnjtlXg53nqC0+iuVhsw8kBZ/TEBlFfTNwcNmfH/iOnlmRRolm0qrIM5K9IvoNpPqoyxb97LU594m/aswjhSpiIcbGm+ElxNWPh9ZbO6BMhrh+hyI2NI71pqT70eWZ7cD83GT5gAuZdH6A8nz22Felzm0MvuFy7L4bkZeC0G0OJ8nf1vsQHIjKlZY0Y5IK/Un7M6Fb/Lw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BY5PR11MB4152.namprd11.prod.outlook.com (2603:10b6:a03:191::11)
- by DM8PR11MB5653.namprd11.prod.outlook.com (2603:10b6:8:25::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6387.30; Mon, 15 May 2023 01:44:30 +0000
-Received: from BY5PR11MB4152.namprd11.prod.outlook.com
- ([fe80::ab5f:f78b:f603:652d]) by BY5PR11MB4152.namprd11.prod.outlook.com
- ([fe80::ab5f:f78b:f603:652d%4]) with mapi id 15.20.6387.030; Mon, 15 May 2023
- 01:44:30 +0000
-From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
-To: Pokybuild User <pokybuild@yoctoproject.org>,
-	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>
-Subject: RE: [yocto] QA notification for completed autobuilder build
- (yocto-4.0.10.rc1)
-Thread-Topic: [yocto] QA notification for completed autobuilder build
- (yocto-4.0.10.rc1)
-Thread-Index: AQHZhSfP84BGA4iNTU6y7HPYqNdsL69akvLg
-Date: Mon, 15 May 2023 01:44:30 +0000
-Message-ID: <BY5PR11MB4152AA8CA070CD3B28C294F8A1789@BY5PR11MB4152.namprd11.prod.outlook.com>
-References: <0101018812405f57-8bc29844-a56c-472f-ab1b-b82329fa2ff2-000000@us-west-2.amazonses.com>
-In-Reply-To: <0101018812405f57-8bc29844-a56c-472f-ab1b-b82329fa2ff2-000000@us-west-2.amazonses.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BY5PR11MB4152:EE_|DM8PR11MB5653:EE_
-x-ms-office365-filtering-correlation-id: 1dedba5c-2716-455c-a3ab-08db54e5ecec
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: RKOiTrI5Gtwe1CrBIj9bRWKyj9UJDm1iufwVR6hWLbSMJOdnE/xQScQUsURuebuZTnAKqgeOXy9lZbfRQwKQyfqLKNfgvXUYOyMx6x8i4fErJvmWfD+04DOzAjhXD5jyWJG7KD8sxY9/T1MdGA8CbNiVyy49gipjzDKf936IQOugu1bUKQXy1IRUcoRbMjJp6DnvfNQQvqndgNRtK9+vs5d0ZVKTxVjF3wNPbc7oJvio1vpB1vDC7vtZu5Ozwj+7PbdifTp6MEeiByPJGl7gYsE3Z/YBelAjvgCBpf2cBXNi2MDJZWyi5XI9VNRS1RStqdU8ugSQb6CcrerR0NwnQkC98yj/KHffgvzv3zYQHU6LAmc2lPZHFdRhCae8AeEczpkfmhY3EuICguf666lL1JTldvYWSvLyBVhKYkxZRSTShYwBZU5IGPOh89KPOiKeWlqd8uVjfqmZfvd0pgUd7iNSlS9DMye6pAbMRVehQpB88XqEtj66hRj5XEkTCi77iPcx06ughigl8t7X162xeMfR+rtpU4SbM5C2KpGpq/4xKQunV6zeYhYJ5WWrfRanMUyYgMONKWeuug1u2vsRHENq/eGY3kICp4NeIG2Ggfk=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4152.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(366004)(136003)(396003)(39860400002)(376002)(346002)(451199021)(33656002)(86362001)(110136005)(316002)(76116006)(66556008)(66476007)(66446008)(64756008)(66946007)(966005)(478600001)(7696005)(71200400001)(55016003)(8936002)(8676002)(5660300002)(52536014)(41300700001)(2906002)(15650500001)(38070700005)(82960400001)(122000001)(38100700002)(26005)(186003)(53546011)(9686003)(6506007)(83380400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?5Mty9ZcNLC+UOTGxkC+mmVF51Mp4qllxd2okmDnf+VFVclwZS5HF7ljY6Yai?=
- =?us-ascii?Q?1t9mqC4XuprcLlizRlfoWw2dQ+eTgEOb3n6yJKq/4hQ5tFUbvKHipsYbF8bV?=
- =?us-ascii?Q?x9/w77K/b8U0iwAt9tNb+iScu75JgzBpdL9U/HIb3UpQv4cII666gUtghQRT?=
- =?us-ascii?Q?fuOeIIt5HPFLvOT8Jq2JlJsSRis2YIgSL193JqI5Thqli4lxTIRz2CZxpoww?=
- =?us-ascii?Q?cFqNeekMN6u7cj9+zvizzyyCWWCWP7vfwxMsw9ONJ7OMVd/68C0l2mXxa5yG?=
- =?us-ascii?Q?sWkuPDkoZyUXenqTlWufd4UFK6hQaau2bfwpyKA8OvZBvjheWCK4eSOlGKL1?=
- =?us-ascii?Q?ovTa/RtFBCRjZ4NNViVoiQY+iMJQZUlTVhy0OYwfEdXTB9Mrwt/7YV3I0stO?=
- =?us-ascii?Q?OhrGgunoN7+gHLfM/I2E/xGF3RFd+Ky1sCBeH7e3nI/WPfMmabh76wQVaqux?=
- =?us-ascii?Q?XiMQn+3atw/Ay3HZoBYeABO8ESDT3jfd0/50A1e7P9H+gVIcCJB8Dn9wmfmu?=
- =?us-ascii?Q?hQueSQxVO5qQ0iuTTx6QRkp5J/oeBNe3WGOLkhkYfOq5xSFlmHHmhef/rV9N?=
- =?us-ascii?Q?UxGKPzgC/3+wK7JJ39nBc0GZL2nBYcvfLRyqHcJhQf3vfvcJ7wC9WZl9hOHI?=
- =?us-ascii?Q?lpRDpKLvIyLwrRPpwc1gorFYF1U0YsR1/yaH8ovVVQFMfwpYrOXS8xCxeXpN?=
- =?us-ascii?Q?ABcEHnBZulWhwboDZ4YnCMqglZQp49dDU/MfgUkSuLiLiwBZ7wUBsIihBxov?=
- =?us-ascii?Q?4Xru+ptFH2wLkQkegIsKuiz8IgXEf/tgsvVWA1Opfy7Ij4r2ESwdVOtY+R4P?=
- =?us-ascii?Q?bFZ4H94VtZJs5AIsq74daUUoHtrWcNKIgEq52A4P3PX79OP/zkhKiycMb8n5?=
- =?us-ascii?Q?y94bseIHz4fvXJ4aGqJKqJ4CKo5uwTo2sYcmuh0SCjIU8N6RBPOl8tS5f1cO?=
- =?us-ascii?Q?AKEW3W+kAh/zRGuSoCAjpO8JI/ddzSaGPNVlsUIzBhgwuWQCjZpl3q3w1Jve?=
- =?us-ascii?Q?ALsVFqDN/dR1bftsIEJiFNlaA9aVGqopjYceMjSdGSGiDJZsLSNc5pO28w0g?=
- =?us-ascii?Q?1DdHzzzgSc1Gs+tKhIt/Lm/BLiTcJiWrG8EBQz+XFeNGmMFQpmlC1PSI/8zj?=
- =?us-ascii?Q?evqDAzX3ki+SMTqjjEF2DZ+X7CGPQiMmJ4i+7xR5YNFUTFLIJvQoNVmR74rt?=
- =?us-ascii?Q?aKVNEzz/rACV6nlOBn+5bLYQAKk+KKMnXO9lhwDT07KaEyOLc2a8G5lYxwOQ?=
- =?us-ascii?Q?kQqJ0Gf5AWwpMsbs8numGx9rc7fZ4cnEWcsP7lF76a3VO9NFK23Nppnr5MSm?=
- =?us-ascii?Q?qnJV4U0jNzp0uEqztIx3oWSaUpuScFi0Y0/11EUJ116ltbtu/SOi+XKBYaoo?=
- =?us-ascii?Q?FRrxvFV+DVYXMqTKwrIdtsMhK9R5MEukC2+tD3NafRLd+JrggdEnPdYfJnPH?=
- =?us-ascii?Q?JtAd3cCLvmXzVwGMAR9ZV87dbw9bqAdfR6igVJGKgBZl+S06qRZZjDat9Yyv?=
- =?us-ascii?Q?DaJxen+bZvQ6tcO3AQhSmPIuygm0GlaqX3wlgwaEWm7vn1lsuKQ/EMbt5VJc?=
- =?us-ascii?Q?Zpg4253c+R3/ZvsHdTP96APa9m3YoC4MdgfRtlpb?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4152.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1dedba5c-2716-455c-a3ab-08db54e5ecec
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 May 2023 01:44:30.2083
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: VpOp/tT9VvF8DLipIs8g4IVx5qBBa8Uv5kEvAGy+CAHU0oHpmaQcw8O9k0+A3ldwh48f0diWFDDkHDihuTL6+w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR11MB5653
-X-OriginatorOrg: intel.com
+ dkim=missing; spf=pass (domain: fujitsu.com, ip: 68.232.139.130, mailfrom: qiutt@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10710"; a="116148714"
+X-IronPort-AV: E=Sophos;i="5.99,275,1677510000"; 
+   d="scan'208";a="116148714"
+Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
+  by esa5.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2023 11:45:49 +0900
+Received: from yto-m3.gw.nic.fujitsu.com (yto-nat-yto-m3.gw.nic.fujitsu.com [192.168.83.66])
+	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 24D83AB46A
+	for <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 11:45:47 +0900 (JST)
+Received: from aks-ab2.gw.nic.fujitsu.com (aks-ab2.gw.nic.fujitsu.com [192.51.207.12])
+	by yto-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id 6A5E4D219F
+	for <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 11:45:46 +0900 (JST)
+Received: from centos.g08.fujitsu.local (unknown [10.167.219.96])
+	by aks-ab2.gw.nic.fujitsu.com (Postfix) with ESMTP id 8E9098855D;
+	Mon, 15 May 2023 11:45:45 +0900 (JST)
+From: qiutt@fujitsu.com
+To: openembedded-core@lists.openembedded.org
+Cc: Qiu Tingting <qiutt@fujitsu.com>
+Subject: [PATCH V3] e2fsprogs: Fix error SRCDIR when using usrmerge DISTRO_FEATURES
+Date: Mon, 15 May 2023 10:45:41 +0800
+Message-Id: <1684118741-3013-1-git-send-email-qiutt@fujitsu.com>
+X-Mailer: git-send-email 1.7.1
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1408-9.0.0.1002-27626.003
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1408-9.0.1002-27626.003
+X-TMASE-Result: 10--3.895900-10.000000
+X-TMASE-MatchedRID: 6SYb29c3rTQ5rof3b4z0VENF5tKVli5K3hng3KTHeTbWGFyc9XrxrY/r
+	0a3KJIPl/d5ANSJgPmA5mlnsU0gcglpCIuRr0RxKOjf3A4DTYuEJlr1xKkE5ucC5DTEMxpeQfiq
+	1gj2xET8RwT4s6Iq4i12WVzVdeoHbWqBRUQClrybjpxdo/JwVmxhH6ApagZfOmyiLZetSf8mfop
+	0ytGwvXiq2rl3dzGQ17n7gpf3o9UT6uZ12vQFnPvP3Iz+CWyibvlczs1OgMIT/bhwogWMb7YGVP
+	5K9OZTAL+DTkNTrPjFnE7CAxRvXdhvp6pE6B6d4Y4KPNbWjr8RTyZ1y9sjWHZLqPOO5dObQxMzM
+	gJrM/hR6Fi1pV3LGbw==
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 01:44:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181220
+ <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 02:45:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181221
 
-Hi all,
-=20
-Intel and WR YP QA is planning for QA execution for YP build yocto-4.0.10.r=
-c1. We are planning to execute following tests for this cycle:
-=20
-OEQA-manual tests for following module:
-1. OE-Core
-2. BSP-hw
-=20
-Runtime auto test for following platforms:
-1. MinnowTurbot 32-bit
-2. NUC 7
-3. ADL
-4. TGL NUC 11
-5. Edgerouter
-6. Beaglebone
-=20
-ETA for completion Thursday, May 18.
-=20
-Best regards,
-Jing Hui
+From: Qiu Tingting <qiutt@fujitsu.com>
 
+    When build e2fsprogs ptest with usrmerge DISTRO_FEATURES,
+    in test_script and test_one scripts, value of SRCDIR has problem.
+      SRCDIR=/usr/usr/lib/e2fsprogs/ptest/test
 
-> -----Original Message-----
-> From: yocto@lists.yoctoproject.org <yocto@lists.yoctoproject.org> On
-> Behalf Of Pokybuild User
-> Sent: Saturday, May 13, 2023 7:16 AM
-> To: yocto@lists.yoctoproject.org
-> Cc: qa-build-notification@lists.yoctoproject.org
-> Subject: [yocto] QA notification for completed autobuilder build (yocto-
-> 4.0.10.rc1)
->=20
->=20
-> A build flagged for QA (yocto-4.0.10.rc1) was completed on the autobuilde=
-r
-> and is available at:
->=20
->=20
->     https://autobuilder.yocto.io/pub/releases/yocto-4.0.10.rc1
->=20
->=20
-> Build hash information:
->=20
-> bitbake: 0c6f86b60cfba67c20733516957c0a654eb2b44c
-> meta-agl: 07c3fbfb7716c290bdcf3931f27bea1a36fb6520
-> meta-arm: 96aad3b29aa7a5ee4df5cf617a6336e5218fa9bd
-> meta-aws: 9eb2b598358cd0e1df29f6d347e3e62ff4161bb6
-> meta-gplv2: d2f8b5cdb285b72a4ed93450f6703ca27aa42e8a
-> meta-intel: f709b3f2b05e2ac73c6734dc2a213382b5eaf579
-> meta-mingw: a90614a6498c3345704e9611f2842eb933dc51c1
-> meta-openembedded: df452d9d98659b49888fa8a5428a0a8bd3e3aaec
-> meta-virtualization: dde0ff9eaa301ec5bd3daf667c7966cf55404d26
-> oecore: d2713785f9cd2d58731df877bc8b7bcc71b6c8e6
-> poky: f53ab3a2ff206a130cdc843839dd0ea5ec4ad02f
->=20
->=20
->=20
-> This is an automated message from the Yocto Project Autobuilder
-> Git: git://git.yoctoproject.org/yocto-autobuilder2
-> Email: richard.purdie@linuxfoundation.org
->=20
->=20
->=20
+    ptest log
+      # ptest-runner e2fsprogs
+      START: ptest-runner
+      2022-12-17T11:08
+      BEGIN: /usr/lib/e2fsprogs/ptest
+      ls: cannot access '/usr/usr/lib/e2fsprogs/ptest/test/[a-zA-Z]_*': No such file or directory
+      ./test_script: line 54: /usr/usr/lib/e2fsprogs/ptest/test/test_post: No such file or directory
+      DURATION: 0
+      END: /usr/lib/e2fsprogs/ptest
+      2022-12-17T11:08
+      STOP: ptest-runner
+      TOTAL: 1 FAIL: 0
+
+    Reason
+      In Makefile.in, SRCDIR is set by prefix and libdir.
+        @echo "SRCDIR=${prefix}${libdir}/e2fsprogs/ptest/test" >> test_one
+        @echo "SRCDIR=${prefix}${libdir}/e2fsprogs/ptest/test" >> test_script
+      prefix=/usr
+      libdir=/usr/lib (when usrmerge is set)
+
+    solution
+      Use PTEST_PATH to fix it.
+
+Signed-off-by: Qiu Tingting <qiutt@fujitsu.com>
+---
+ meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch | 4 ++--
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb   | 1 +
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
+index c3e46ce65f..20839b7286 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
+@@ -22,7 +22,7 @@ index 8c4d2048..e021af32 100644
+  	@echo "HTREE=y" >> test_one
+  	@echo "QUOTA=y" >> test_one
+ -	@echo "SRCDIR=@srcdir@" >> test_one
+-+	@echo "SRCDIR=${prefix}${libdir}/e2fsprogs/ptest/test" >> test_one
+++	@echo "SRCDIR=@PTEST_PATH@/test" >> test_one
+  	@echo "DIFF_OPTS=@UNI_DIFF_OPTS@" >> test_one
+  	@echo "SIZEOF_TIME_T=@SIZEOF_TIME_T@" >> test_one
+  	@echo "DD=@DD@" >>test_one
+@@ -31,7 +31,7 @@ index 8c4d2048..e021af32 100644
+  	@[ -f test_script ] && chmod u+w test_script || true
+  	@echo "#!/bin/sh" > test_script
+ -	@echo "SRCDIR=@srcdir@" >> test_script
+-+	@echo "SRCDIR=${prefix}${libdir}/e2fsprogs/ptest/test" >> test_script
+++	@echo "SRCDIR=@PTEST_PATH@/test" >> test_script
+  	@cat $(srcdir)/test_script.in >> test_script
+  	@chmod +x-w test_script
+  
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
+index 403995e9cf..761b6c1198 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
+@@ -132,6 +132,7 @@ do_install_ptest() {
+ 	sed -e 's!../e2fsck/e2fsck!e2fsck!g' \
+ 	    -e 's!../misc/tune2fs!tune2fs!g' -i ${D}${PTEST_PATH}/test/*/expect*
+ 	sed -e 's!../e2fsck/e2fsck!${base_sbindir}/e2fsck!g' -i ${D}${PTEST_PATH}/test/*/script
++	sed -i "s#@PTEST_PATH@#${PTEST_PATH}#g" ${D}${PTEST_PATH}/test/test_script ${D}${PTEST_PATH}/test/test_one
+ 
+ 	# Remove various files
+ 	find "${D}${PTEST_PATH}" -type f \
+-- 
+2.25.1
+
 
