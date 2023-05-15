@@ -1,124 +1,268 @@
-Return-Path: <qiutt@fujitsu.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A97D1C77B7D
-	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 02:45:59 +0000 (UTC)
-Received: from esa5.hc1455-7.c3s2.iphmx.com (esa5.hc1455-7.c3s2.iphmx.com [68.232.139.130])
- by mx.groups.io with SMTP id smtpd.web11.79925.1684118752085950849
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9EB7C77B7F
+	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 02:56:49 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web11.80032.1684119405447705246
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 May 2023 19:45:52 -0700
+ Sun, 14 May 2023 19:56:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: fujitsu.com, ip: 68.232.139.130, mailfrom: qiutt@fujitsu.com)
-X-IronPort-AV: E=McAfee;i="6600,9927,10710"; a="116148714"
-X-IronPort-AV: E=Sophos;i="5.99,275,1677510000"; 
-   d="scan'208";a="116148714"
-Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
-  by esa5.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2023 11:45:49 +0900
-Received: from yto-m3.gw.nic.fujitsu.com (yto-nat-yto-m3.gw.nic.fujitsu.com [192.168.83.66])
-	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 24D83AB46A
-	for <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 11:45:47 +0900 (JST)
-Received: from aks-ab2.gw.nic.fujitsu.com (aks-ab2.gw.nic.fujitsu.com [192.51.207.12])
-	by yto-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id 6A5E4D219F
-	for <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 11:45:46 +0900 (JST)
-Received: from centos.g08.fujitsu.local (unknown [10.167.219.96])
-	by aks-ab2.gw.nic.fujitsu.com (Postfix) with ESMTP id 8E9098855D;
-	Mon, 15 May 2023 11:45:45 +0900 (JST)
-From: qiutt@fujitsu.com
-To: openembedded-core@lists.openembedded.org
-Cc: Qiu Tingting <qiutt@fujitsu.com>
-Subject: [PATCH V3] e2fsprogs: Fix error SRCDIR when using usrmerge DISTRO_FEATURES
-Date: Mon, 15 May 2023 10:45:41 +0800
-Message-Id: <1684118741-3013-1-git-send-email-qiutt@fujitsu.com>
-X-Mailer: git-send-email 1.7.1
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1408-9.0.0.1002-27626.003
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1408-9.0.1002-27626.003
-X-TMASE-Result: 10--3.895900-10.000000
-X-TMASE-MatchedRID: 6SYb29c3rTQ5rof3b4z0VENF5tKVli5K3hng3KTHeTbWGFyc9XrxrY/r
-	0a3KJIPl/d5ANSJgPmA5mlnsU0gcglpCIuRr0RxKOjf3A4DTYuEJlr1xKkE5ucC5DTEMxpeQfiq
-	1gj2xET8RwT4s6Iq4i12WVzVdeoHbWqBRUQClrybjpxdo/JwVmxhH6ApagZfOmyiLZetSf8mfop
-	0ytGwvXiq2rl3dzGQ17n7gpf3o9UT6uZ12vQFnPvP3Iz+CWyibvlczs1OgMIT/bhwogWMb7YGVP
-	5K9OZTAL+DTkNTrPjFnE7CAxRvXdhvp6pE6B6d4Y4KPNbWjr8RTyZ1y9sjWHZLqPOO5dObQxMzM
-	gJrM/hR6Fi1pV3LGbw==
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=R9x9Dq2T;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id D340860003;
+	Mon, 15 May 2023 02:56:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1684119403;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SNfZe1K2u/b+UEd6eMANSgTr26k5qMlMw52R3JV1fLw=;
+	b=R9x9Dq2TyVm2NfNfGK7OKSWgvESjWkgrHEL+l9eNSy4sm2hKAdLe3OnfUv8NJ5YR3BafRJ
+	MxMoDM0P57IKZDGUi4tatKp8GMzcNCmvp3+PZkDu4N1zD9tGDnKYE5LuPmh6mFyPIFqsZD
+	Dbrpo/CLiO8gJ9WaFDoEE/0q2TiW4apQ8whFWdjKW4f9+x83a97jXRwVLWAT5iDUXZOuAx
+	fuXjsNblgpfXMFw3pxiyQ3rsu6QdO5tFBgtbNGwQfgmgjfF5ePUDxzeGQ5xSn7YNUX4v1W
+	2VUubNxf3634jTWqYT5qwAlLXdQhh6JWpWGzE2qJYP3U53jAiIQlyjjy31SJ6Q==
+Date: Mon, 15 May 2023 04:56:42 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: throos@amazon.de
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] testimage/oeqa: remove testimage_dump_host
+ function
+Message-ID: <2023051502564237816738@mail.local>
+References: <20230512134549.292759-1-throos@amazon.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230512134549.292759-1-throos@amazon.de>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 02:45:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181221
+ <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 02:56:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181222
 
-From: Qiu Tingting <qiutt@fujitsu.com>
+On 12/05/2023 15:45:49+0200, Thomas Roos via lists.openembedded.org wrote:
+> From: Thomas Roos <throos@amazon.de>
+> 
+> This function is not necessary.
+> 
+> [YOCTO #13872]
+> 
 
-    When build e2fsprogs ptest with usrmerge DISTRO_FEATURES,
-    in test_script and test_one scripts, value of SRCDIR has problem.
-      SRCDIR=/usr/usr/lib/e2fsprogs/ptest/test
+This fails on the AB:
 
-    ptest log
-      # ptest-runner e2fsprogs
-      START: ptest-runner
-      2022-12-17T11:08
-      BEGIN: /usr/lib/e2fsprogs/ptest
-      ls: cannot access '/usr/usr/lib/e2fsprogs/ptest/test/[a-zA-Z]_*': No such file or directory
-      ./test_script: line 54: /usr/usr/lib/e2fsprogs/ptest/test/test_post: No such file or directory
-      DURATION: 0
-      END: /usr/lib/e2fsprogs/ptest
-      2022-12-17T11:08
-      STOP: ptest-runner
-      TOTAL: 1 FAIL: 0
+https://autobuilder.yoctoproject.org/typhoon/#/builders/73/builds/7052/steps/13/logs/stdio
 
-    Reason
-      In Makefile.in, SRCDIR is set by prefix and libdir.
-        @echo "SRCDIR=${prefix}${libdir}/e2fsprogs/ptest/test" >> test_one
-        @echo "SRCDIR=${prefix}${libdir}/e2fsprogs/ptest/test" >> test_script
-      prefix=/usr
-      libdir=/usr/lib (when usrmerge is set)
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:do_testimage(d)
+     0003:
+File: '/home/pokybuild/yocto-worker/qemux86-64/build/meta/classes-recipe/testimage.bbclass', lineno: 125, function: do_testimage
+     0121:    dump-guest-memory {"paging":false,"protocol":"file:%s.img"}
+     0122:}
+     0123:
+     0124:python do_testimage() {
+ *** 0125:    testimage_main(d)
+     0126:}
+     0127:
+     0128:addtask testimage
+     0129:do_testimage[nostamp] = "1"
+File: '/home/pokybuild/yocto-worker/qemux86-64/build/meta/classes-recipe/testimage.bbclass', lineno: 331, function: testimage_main
+     0327:    # runtime use network for download projects for build
+     0328:    export_proxies(d)
+     0329:
+     0330:    # we need the host dumper in test context
+ *** 0331:    host_dumper = OERuntimeTestContextExecutor.getHostDumper(
+     0332:        d.getVar("TESTIMAGE_DUMP_DIR"))
+     0333:
+     0334:    # the robot dance
+     0335:    target = OERuntimeTestContextExecutor.getTarget(
+Exception: TypeError: OERuntimeTestContextExecutor.getHostDumper() missing 1 required positional argument: 'directory'
 
-    solution
-      Use PTEST_PATH to fix it.
+> Signed-off-by: Thomas Roos <throos@amazon.de>
+> ---
+>  meta/classes-recipe/testexport.bbclass |  3 +--
+>  meta/classes-recipe/testimage.bbclass  | 13 -------------
+>  meta/lib/oeqa/targetcontrol.py         |  2 --
+>  meta/lib/oeqa/utils/qemurunner.py      | 15 +--------------
+>  4 files changed, 2 insertions(+), 31 deletions(-)
+> 
+> diff --git a/meta/classes-recipe/testexport.bbclass b/meta/classes-recipe/testexport.bbclass
+> index 0f0c56107f..9888356158 100644
+> --- a/meta/classes-recipe/testexport.bbclass
+> +++ b/meta/classes-recipe/testexport.bbclass
+> @@ -61,8 +61,7 @@ def testexport_main(d):
+>          d.getVar("TEST_TARGET"), None, d.getVar("TEST_TARGET_IP"),
+>          d.getVar("TEST_SERVER_IP"))
+>  
+> -    host_dumper = OERuntimeTestContextExecutor.getHostDumper(
+> -        d.getVar("testimage_dump_host"), d.getVar("TESTIMAGE_DUMP_DIR"))
+> +    host_dumper = OERuntimeTestContextExecutor.getHostDumper(d.getVar("TESTIMAGE_DUMP_DIR"))
+>  
+>      image_manifest = "%s.manifest" % image_name
+>      image_packages = OERuntimeTestContextExecutor.readPackagesManifest(image_manifest)
+> diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
+> index b48cd96575..c1836cf20a 100644
+> --- a/meta/classes-recipe/testimage.bbclass
+> +++ b/meta/classes-recipe/testimage.bbclass
+> @@ -115,18 +115,6 @@ testimage_dump_target () {
+>      find /var/log/ -type f 2>/dev/null -exec echo "====================" \; -exec echo {} \; -exec echo "====================" \; -exec cat {} \; -exec echo "" \;
+>  }
+>  
+> -testimage_dump_host () {
+> -    top -bn1
+> -    iostat -x -z -N -d -p ALL 20 2
+> -    ps -ef
+> -    free
+> -    df
+> -    memstat
+> -    dmesg
+> -    ip -s link
+> -    netstat -an
+> -}
+> -
+>  testimage_dump_monitor () {
+>      query-status
+>      query-block
+> @@ -341,7 +329,6 @@ def testimage_main(d):
+>  
+>      # we need the host dumper in test context
+>      host_dumper = OERuntimeTestContextExecutor.getHostDumper(
+> -        d.getVar("testimage_dump_host"),
+>          d.getVar("TESTIMAGE_DUMP_DIR"))
+>  
+>      # the robot dance
+> diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
+> index d686fe07ec..e21655c979 100644
+> --- a/meta/lib/oeqa/targetcontrol.py
+> +++ b/meta/lib/oeqa/targetcontrol.py
+> @@ -104,7 +104,6 @@ class QemuTarget(BaseTarget):
+>              self.kernel = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"), d.getVar("KERNEL_IMAGETYPE", False) + '-' + d.getVar('MACHINE', False) + '.bin')
+>          self.qemulog = os.path.join(self.testdir, "qemu_boot_log.%s" % self.datetime)
+>          dump_target_cmds = d.getVar("testimage_dump_target")
+> -        dump_host_cmds = d.getVar("testimage_dump_host")
+>          dump_monitor_cmds = d.getVar("testimage_dump_monitor")
+>          dump_dir = d.getVar("TESTIMAGE_DUMP_DIR")
+>          if not dump_dir:
+> @@ -141,7 +140,6 @@ class QemuTarget(BaseTarget):
+>                              boottime = int(d.getVar("TEST_QEMUBOOT_TIMEOUT")),
+>                              use_kvm = use_kvm,
+>                              dump_dir = dump_dir,
+> -                            dump_host_cmds = dump_host_cmds,
+>                              logger = logger,
+>                              tmpfsdir = d.getVar("RUNQEMU_TMPFS_DIR"),
+>                              serial_ports = len(d.getVar("SERIAL_CONSOLES").split()))
+> diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+> index 6734cee48d..1f162a4e33 100644
+> --- a/meta/lib/oeqa/utils/qemurunner.py
+> +++ b/meta/lib/oeqa/utils/qemurunner.py
+> @@ -33,7 +33,7 @@ re_control_char = re.compile('[%s]' % re.escape("".join(control_chars)))
+>  
+>  class QemuRunner:
+>  
+> -    def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, boottime, dump_dir, dump_host_cmds,
+> +    def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, boottime, dump_dir,
+>                   use_kvm, logger, use_slirp=False, serial_ports=2, boot_patterns = defaultdict(str), use_ovmf=False, workdir=None, tmpfsdir=None):
+>  
+>          # Popen object for runqemu
+> @@ -69,7 +69,6 @@ class QemuRunner:
+>          if not workdir:
+>              workdir = os.getcwd()
+>          self.qemu_pidfile = workdir + '/pidfile_' + str(os.getpid())
+> -        self.host_dumper = HostDumper(dump_host_cmds, dump_dir)
+>          self.monitorpipe = None
+>  
+>          self.logger = logger
+> @@ -138,7 +137,6 @@ class QemuRunner:
+>                  self.logger.error('runqemu exited with code %d' % self.runqemu.returncode)
+>                  self.logger.error('Output from runqemu:\n%s' % self.getOutput(self.runqemu.stdout))
+>                  self.stop()
+> -                self._dump_host()
+>  
+>      def start(self, qemuparams = None, get_ip = True, extra_bootparams = None, runqemuparams='', launch_cmd=None, discard_writes=True):
+>          env = os.environ.copy()
+> @@ -286,7 +284,6 @@ class QemuRunner:
+>                  if self.runqemu.returncode:
+>                      # No point waiting any longer
+>                      self.logger.warning('runqemu exited with code %d' % self.runqemu.returncode)
+> -                    self._dump_host()
+>                      self.logger.warning("Output from runqemu:\n%s" % self.getOutput(output))
+>                      self.stop()
+>                      return False
+> @@ -314,7 +311,6 @@ class QemuRunner:
+>              ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,pri,ni,command '], stdout=subprocess.PIPE).communicate()[0]
+>              processes = ps.decode("utf-8")
+>              self.logger.debug("Running processes:\n%s" % processes)
+> -            self._dump_host()
+>              op = self.getOutput(output)
+>              self.stop()
+>              if op:
+> @@ -430,7 +426,6 @@ class QemuRunner:
+>                      self.logger.error("Couldn't get ip from qemu command line and runqemu output! "
+>                                   "Here is the qemu command line used:\n%s\n"
+>                                   "and output from runqemu:\n%s" % (cmdline, out))
+> -                    self._dump_host()
+>                      self.stop()
+>                      return False
+>  
+> @@ -507,7 +502,6 @@ class QemuRunner:
+>              lines = tail(bootlog if bootlog else self.msg)
+>              self.logger.warning("Last 25 lines of text (%d):\n%s" % (len(bootlog), lines))
+>              self.logger.warning("Check full boot log: %s" % self.logfile)
+> -            self._dump_host()
+>              self.stop()
+>              return False
+>  
+> @@ -688,13 +682,6 @@ class QemuRunner:
+>                      status = 1
+>          return (status, str(data))
+>  
+> -
+> -    def _dump_host(self):
+> -        self.host_dumper.create_dir("qemu")
+> -        self.logger.warning("Qemu ended unexpectedly, dump data from host"
+> -                " is in %s" % self.host_dumper.dump_dir)
+> -        self.host_dumper.dump_host()
+> -
+>  # This class is for reading data from a socket and passing it to logfunc
+>  # to be processed. It's completely event driven and has a straightforward
+>  # event loop. The mechanism for stopping the thread is a simple pipe which
+> -- 
+> 2.34.1
+> 
+> 
+> 
+> 
+> Amazon Web Services EMEA SARL
+> 38 avenue John F. Kennedy, L-1855 Luxembourg
+> Sitz der Gesellschaft: L-1855 Luxemburg
+> eingetragen im Luxemburgischen Handelsregister unter R.C.S. B186284
+> 
+> Amazon Web Services EMEA SARL, Niederlassung Deutschland
+> Marcel-Breuer-Str. 12, D-80807 Muenchen
+> Sitz der Zweigniederlassung: Muenchen
+> eingetragen im Handelsregister des Amtsgerichts Muenchen unter HRB 242240, USt-ID DE317013094
+> 
+> 
+> 
+> 
 
-Signed-off-by: Qiu Tingting <qiutt@fujitsu.com>
----
- meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch | 4 ++--
- meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb   | 1 +
- 2 files changed, 3 insertions(+), 2 deletions(-)
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#181183): https://lists.openembedded.org/g/openembedded-core/message/181183
+> Mute This Topic: https://lists.openembedded.org/mt/98849300/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
-index c3e46ce65f..20839b7286 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
-@@ -22,7 +22,7 @@ index 8c4d2048..e021af32 100644
-  	@echo "HTREE=y" >> test_one
-  	@echo "QUOTA=y" >> test_one
- -	@echo "SRCDIR=@srcdir@" >> test_one
--+	@echo "SRCDIR=${prefix}${libdir}/e2fsprogs/ptest/test" >> test_one
-++	@echo "SRCDIR=@PTEST_PATH@/test" >> test_one
-  	@echo "DIFF_OPTS=@UNI_DIFF_OPTS@" >> test_one
-  	@echo "SIZEOF_TIME_T=@SIZEOF_TIME_T@" >> test_one
-  	@echo "DD=@DD@" >>test_one
-@@ -31,7 +31,7 @@ index 8c4d2048..e021af32 100644
-  	@[ -f test_script ] && chmod u+w test_script || true
-  	@echo "#!/bin/sh" > test_script
- -	@echo "SRCDIR=@srcdir@" >> test_script
--+	@echo "SRCDIR=${prefix}${libdir}/e2fsprogs/ptest/test" >> test_script
-++	@echo "SRCDIR=@PTEST_PATH@/test" >> test_script
-  	@cat $(srcdir)/test_script.in >> test_script
-  	@chmod +x-w test_script
-  
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
-index 403995e9cf..761b6c1198 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
-@@ -132,6 +132,7 @@ do_install_ptest() {
- 	sed -e 's!../e2fsck/e2fsck!e2fsck!g' \
- 	    -e 's!../misc/tune2fs!tune2fs!g' -i ${D}${PTEST_PATH}/test/*/expect*
- 	sed -e 's!../e2fsck/e2fsck!${base_sbindir}/e2fsck!g' -i ${D}${PTEST_PATH}/test/*/script
-+	sed -i "s#@PTEST_PATH@#${PTEST_PATH}#g" ${D}${PTEST_PATH}/test/test_script ${D}${PTEST_PATH}/test/test_one
- 
- 	# Remove various files
- 	find "${D}${PTEST_PATH}" -type f \
+
 -- 
-2.25.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
