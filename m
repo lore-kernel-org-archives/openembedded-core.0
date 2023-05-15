@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00D20CA9ED7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F9E4CA9EDA
 	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 21:39:18 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.3757.1684186747226145534
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.3758.1684186747272379360
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 May 2023 14:39:08 -0700
+ Mon, 15 May 2023 14:39:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=bGC11NED;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010188215a534f-fb929d8e-5ae5-432a-8778-6a968c6400c2-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=e59MkyX1;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010188215a4c76-02c9a7fb-b7c4-4be2-b704-eba8db131c8c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1684186747;
+	t=1684186746;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=lInR0Ip6hxsGhJNH8U0E0KAVb/VN+BBj63jcr1vMSJ0=;
-	b=bGC11NEDjIBFNmKm/DvZURZ2RlaRcg5UAbW5Eow3oJvxORDNLA9ZciJ9QxRBIUFI
-	Snxgkiz1kr5s5TnvVMW3C7K1tD5UA0Pm8TjGXTV1hspXbWyTY3VFPG9NyG5z+4nPw82
-	EUeoAhwzSYQTakiWiUbxzLuxHOhw+5jSJRT+nHs4=
+	bh=TFwQ1Ls217xSFmAwdohi3dFsX03otvo4y4PH300PIxw=;
+	b=e59MkyX1KFv2rYQyo8QzmSDFSHL41O1x1w0G40IqQHYZSr8Ey1ImZ1w1uyXjksaT
+	zQCKvWkI6JK5LEFLK6UCv0ZZYI5uIoDOee1uy7l4jrh6dhat2fQiLKcEVDAaFVC+rs5
+	jlzPtFjj7Pr62tIThEj2ZZJZJXuemLLKfmHMBXm8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1684186747;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1684186746;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=lInR0Ip6hxsGhJNH8U0E0KAVb/VN+BBj63jcr1vMSJ0=;
-	b=WCGtflvv0EJyCifXNF5ccCT/K05cgjTkyysQ8Bq9m2SDrM9yV9Y1k/veW42LJJNm
-	l6UcWa7+0gp2d4+of7mg2p85mptuX8+7+VuHEEdM08ty+fGjKQXdEQnmmVauxHq0cOM
-	P1i21+DS6ke580oBBY+iGZ13UFUzuQTMpTuvc8tQ=
-Content-Type: multipart/mixed; boundary="===============8552617627241958435=="
+	bh=TFwQ1Ls217xSFmAwdohi3dFsX03otvo4y4PH300PIxw=;
+	b=dkJ4GudxO4tDD2lR+SsgcrOqq8RYRTWNROIa3NNWwHdpn6g6GgM5qL777KJVP0gf
+	O+OV2B3VY7AQav29qCAm4lYSy2yAgXkSt0OjEvyzD5r58292BawPboFlBx2sLOF4VOs
+	rpRNkHD8K+HpbWy9V0cZ2n7kZlx4QofnKjJIeMEE=
+Content-Type: multipart/mixed; boundary="===============2368162481024538680=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-setuptools: upgrading to 67.7.2 FAILED
-Message-ID: <01010188215a534f-fb929d8e-5ae5-432a-8778-6a968c6400c2-000000@us-west-2.amazonses.com>
-Date: Mon, 15 May 2023 21:39:07 +0000
+Subject: [AUH] systemd-boot: upgrading to 253.4 SUCCEEDED
+Message-ID: <01010188215a4c76-02c9a7fb-b7c4-4be2-b704-eba8db131c8c-000000@us-west-2.amazonses.com>
+Date: Mon, 15 May 2023 21:39:06 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.05.15-54.240.27.193
+X-SES-Outgoing: 2023.05.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 21:39:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181315
+ <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 21:39:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181289
 
---===============8552617627241958435==
+--===============2368162481024538680==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,16 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-setuptools* to *67.7.2* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *systemd-boot* to *253.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-setuptools-upgrade-67.6.1-67.7.2.patch
+    - apply the patch: git am 0001-systemd-boot-upgrade-253.3-253.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,138 +69,97 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8552617627241958435==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
-
-Loading cache...done.
-Loaded 1803 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 900 .bb files complete (899 cached, 1 parsed). 1803 targets, 40 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:facce1dadc42e7a5cf27ab15341d7f49b0cb1867"
-workspace            = "master:35e5d29a7d654fc79bdb898d0f1fb277270dbfd5"
-
-Initialising tasks...done.
-Sstate summary: Wanted 100 Local 91 Mirrors 0 Missed 9 Current 223 (91% match, 97% complete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 984 of 1227 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.7.2.bb:do_fetch)
-NOTE: Running task 986 of 1227 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.7.2.bb:do_fetch)
-NOTE: recipe python3-setuptools-67.7.2-r0: task do_fetch: Started
-NOTE: recipe python3-setuptools-67.7.2-r0: task do_fetch: Succeeded
-NOTE: recipe python3-setuptools-native-67.7.2-r0: task do_fetch: Started
-NOTE: Running task 1206 of 1227 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.7.2.bb:do_unpack)
-NOTE: recipe python3-setuptools-native-67.7.2-r0: task do_fetch: Succeeded
-NOTE: Running task 1207 of 1227 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.7.2.bb:do_unpack)
-NOTE: Running task 1208 of 1227 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.7.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-setuptools-67.7.2-r0: task do_unpack: Started
-NOTE: recipe python3-setuptools-native-67.7.2-r0: task do_unpack: Started
-NOTE: recipe python3-setuptools-native-67.7.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-setuptools-67.7.2-r0: task do_unpack: Succeeded
-NOTE: Running task 1209 of 1227 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.7.2.bb:do_patch)
-NOTE: recipe python3-setuptools-native-67.7.2-r0: task do_unpack: Succeeded
-NOTE: Running task 1210 of 1227 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.7.2.bb:do_patch)
-NOTE: recipe python3-setuptools-67.7.2-r0: task do_patch: Started
-NOTE: recipe python3-setuptools-native-67.7.2-r0: task do_patch: Started
-NOTE: recipe python3-setuptools-native-67.7.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-setuptools-67.7.2-r0: task do_patch: Succeeded
-NOTE: Running task 1211 of 1227 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.7.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1212 of 1227 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.7.2.bb:do_populate_lic)
-NOTE: recipe python3-setuptools-67.7.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-setuptools-67.7.2-r0: task do_populate_lic: Started
-NOTE: recipe python3-setuptools-native-67.7.2-r0: task do_patch: Failed
-NOTE: recipe python3-setuptools-67.7.2-r0: task do_populate_lic: Succeeded
-NOTE: recipe python3-setuptools-67.7.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Tasks Summary: Attempted 1212 tasks of which 1203 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: 1 task failed:
-  virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.7.2.bb:do_patch
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: python3-setuptools-native-67.7.2-r0 do_patch: QA Issue: Fuzz detected:
-
-Applying patch 0001-conditionally-do-not-fetch-code-by-easy_install.patch
-patching file setuptools/command/easy_install.py
-Hunk #1 succeeded at 644 with fuzz 1 (offset -4 lines).
-
-
-The context lines in the patches can be updated with devtool:
-
-    devtool modify python3-setuptools-native
-    devtool finish --force-patch-refresh python3-setuptools-native <layer_path>
-
-Don't forget to review changes done by devtool!
-
-Patch log indicates that patches do not apply cleanly. [patch-fuzz]
-ERROR: python3-setuptools-native-67.7.2-r0 do_patch: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/python3-setuptools-native/67.7.2-r0/temp/log.do_patch.1668111
-ERROR: Task (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_67.7.2.bb:do_patch) failed with exit code '1'
-
---===============8552617627241958435==
+--===============2368162481024538680==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-setuptools-upgrade-67.6.1-67.7.2.patch"
+ filename="0001-systemd-boot-upgrade-253.3-253.4.patch"
 
-RnJvbSBlMzI4YjRhOTU1YzM2MWFiYWI1ZjM1MWRmYzQyYmNiMTg0M2NhZjY1IE1vbiBTZXAgMTcg
+RnJvbSAzMzQ0MWM1M2NmNGQ1ZTNmZDI1OTNhZDNlMzY0ZWI4NzZkN2FiNjFjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgTWF5IDIwMjMgMTI6MjI6MDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXNldHVwdG9vbHM6IHVwZ3JhZGUgNjcuNi4xIC0+IDY3LjcuMgoKLS0tCiAuLi4vMDAw
-MS1jb25kaXRpb25hbGx5LWRvLW5vdC1mZXRjaC1jb2RlLWJ5LWVhc3lfaW5zdGFsbC5wYXRjaCAg
-fCAyICstCiAuLi55dGhvbjMtc2V0dXB0b29sc182Ny42LjEuYmIgPT4gcHl0aG9uMy1zZXR1cHRv
-b2xzXzY3LjcuMi5iYn0gfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwg
-MiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRo
-b24zLXNldHVwdG9vbHNfNjcuNi4xLmJiID0+IHB5dGhvbjMtc2V0dXB0b29sc182Ny43LjIuYmJ9
-ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
-LXNldHVwdG9vbHMvMDAwMS1jb25kaXRpb25hbGx5LWRvLW5vdC1mZXRjaC1jb2RlLWJ5LWVhc3lf
-aW5zdGFsbC5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1
-cHRvb2xzLzAwMDEtY29uZGl0aW9uYWxseS1kby1ub3QtZmV0Y2gtY29kZS1ieS1lYXN5X2luc3Rh
-bGwucGF0Y2gKaW5kZXggNGQ1NmRjODliYS4uNjViODVjNjllYSAxMDA2NDQKLS0tIGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHMvMDAwMS1jb25kaXRpb25h
-bGx5LWRvLW5vdC1mZXRjaC1jb2RlLWJ5LWVhc3lfaW5zdGFsbC5wYXRjaAorKysgYi9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29scy8wMDAxLWNvbmRpdGlvbmFs
-bHktZG8tbm90LWZldGNoLWNvZGUtYnktZWFzeV9pbnN0YWxsLnBhdGNoCkBAIC0xLDQgKzEsNCBA
-QAotRnJvbSAyYjA2Y2E3OTdkM2NjYzViMTk1YWFhMDRhMDg1YzQ0YmY2MWQ0ZGUzIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQorRnJvbSBhYjRlMTU3N2I3MWZhZjc1ZWUwM2Y2MTEzOWY5ZmI2ZWYx
-ZmFiYjNkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogSG9uZ3h1IEppYSA8aG9uZ3h1
-LmppYUB3aW5kcml2ZXIuY29tPgogRGF0ZTogVHVlLCAxNyBKdWwgMjAxOCAxMDoxMzozOCArMDgw
-MAogU3ViamVjdDogW1BBVENIXSBjb25kaXRpb25hbGx5IGRvIG5vdCBmZXRjaCBjb2RlIGJ5IGVh
-c3lfaW5zdGFsbApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
-b24zLXNldHVwdG9vbHNfNjcuNi4xLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
-eXRob24zLXNldHVwdG9vbHNfNjcuNy4yLmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBm
-cm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzXzY3LjYu
-MS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVw
-dG9vbHNfNjcuNy4yLmJiCmluZGV4IGFkMGQ3Y2M1MjcuLjU5NzhkZWFlMGUgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzXzY3LjYuMS5i
-YgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29sc182
-Ny43LjIuYmIKQEAgLTExLDcgKzExLDcgQEAgU1JDX1VSSTphcHBlbmQ6Y2xhc3MtbmF0aXZlID0g
-IiBmaWxlOi8vMDAwMS1jb25kaXRpb25hbGx5LWRvLW5vdC1mZXRjaC1jb2RlLWJ5LWUKIFNSQ19V
-UkkgKz0gIiBcCiAgICAgICAgICAgICBmaWxlOi8vMDAwMS1fZGlzdHV0aWxzLXN5c2NvbmZpZy5w
-eS1tYWtlLWl0LXBvc3NpYmxlLXRvLXN1YnN0aXRlLnBhdGNoIgogCi1TUkNfVVJJW3NoYTI1NnN1
-bV0gPSAiMjU3ZGU5MmE5ZDUwYTYwYjhlMjJhYmZjYmI3NzE1NzFmZGUwZGJmM2VjMjM0NDYzMjEy
-MDI3YTRlZWVjYmU5YSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJmMTA0ZmEwMzY5MmEyNjAyZmEw
-ZmVjNmM2YTllNjNiNmM4YTk2OGRlMTNlMTdjMDI2OTU3ZGQxZjUzZDgwOTkwIgogCiBERVBFTkRT
-ICs9ICIke1BZVEhPTl9QTn0iCiAKLS0gCjIuMzkuMgoK
+CkRhdGU6IE1vbiwgMTUgTWF5IDIwMjMgMDc6NTk6MjUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
+eXN0ZW1kLWJvb3Q6IHVwZ3JhZGUgMjUzLjMgLT4gMjUzLjQKCi0tLQogLi4uL3N5c3RlbWQve3N5
+c3RlbWQtYm9vdF8yNTMuMy5iYiA9PiBzeXN0ZW1kLWJvb3RfMjUzLjQuYmJ9ICAgIHwgMAogbWV0
+YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kLmluYyAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIHwgMiArLQogMiBmaWxlcyBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigt
+KQogcmVuYW1lIG1ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQve3N5c3RlbWQtYm9vdF8yNTMuMy5i
+YiA9PiBzeXN0ZW1kLWJvb3RfMjUzLjQuYmJ9ICgxMDAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC1ib290XzI1My4zLmJiIGIvbWV0YS9yZWNpcGVzLWNv
+cmUvc3lzdGVtZC9zeXN0ZW1kLWJvb3RfMjUzLjQuYmIKc2ltaWxhcml0eSBpbmRleCAxMDAlCnJl
+bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC1ib290XzI1My4zLmJi
+CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtY29yZS9zeXN0ZW1kL3N5c3RlbWQtYm9vdF8yNTMuNC5i
+YgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kLmluYyBiL21l
+dGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC5pbmMKaW5kZXggZDUwZjJjOWNiYS4uYTg5
+NzI0OWM3ZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kLmlu
+YworKysgYi9tZXRhL3JlY2lwZXMtY29yZS9zeXN0ZW1kL3N5c3RlbWQuaW5jCkBAIC0xNCw3ICsx
+NCw3IEBAIExJQ0VOU0UgPSAiR1BMLTIuMC1vbmx5ICYgTEdQTC0yLjEtb25seSIKIExJQ19GSUxF
+U19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0UuR1BMMjttZDU9NzUxNDE5MjYwYWE5NTQ0OTlmN2Fi
+YWFiYWE4ODJiYmUgXAogICAgICAgICAgICAgICAgICAgICBmaWxlOi8vTElDRU5TRS5MR1BMMi4x
+O21kNT00ZmJkNjUzODBjZGQyNTU5NTEwNzkwMDhiMzY0NTE2YyIKIAotU1JDUkVWID0gImVkMThj
+MmFiNzllOGI5NDE4MmQ1ZGNmMzFkNTg0NTc3NjNmM2UzZTEiCitTUkNSRVYgPSAiNWVkMDg3ZmE0
+NmRjMDRlZTkyZGExMjYzNTc3N2IyYjYyMjE4M2E1ZCIKIFNSQ0JSQU5DSCA9ICJ2MjUzLXN0YWJs
+ZSIKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9zeXN0ZW1kL3N5c3RlbWQtc3RhYmxlLmdp
+dDtwcm90b2NvbD1odHRwczticmFuY2g9JHtTUkNCUkFOQ0h9IFwKICAgICAgICAgICAgZmlsZTov
+LzAwMjYtc3JjLWJvb3QtZWZpLWVmaS1zdHJpbmcuYy1kZWZpbmUtd2NoYXJfdC1mcm9tLV9fV0NI
+QS5wYXRjaCBcCi0tIAoyLjM5LjIKCg==
 
---===============8552617627241958435==--
+--===============2368162481024538680==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 900 .bb files complete (0 cached, 900 parsed). 1804 targets, 73 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the ppc7400 sysroot...done.
+Removing 1 recipes from the qemuppc sysroot...done.
+
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: Nothing PROVIDES 'systemd-boot'
+systemd-boot was skipped: incompatible with host powerpc-poky-linux (not in COMPATIBLE_HOST)
+
+--===============2368162481024538680==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/systemd-boot: PKGV changed from 253.3 [default] to 253.4 [default]
+packages/core2-32-poky-linux/systemd-boot: PV changed from "253.3" to "253.4"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-dbg: PKGV changed from 253.3 [default] to 253.4 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-dbg: PV changed from "253.3" to "253.4"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-dev: PKGV changed from 253.3 [default] to 253.4 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-dev: PV changed from "253.3" to "253.4"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-doc: PKGV changed from 253.3 [default] to 253.4 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-doc: PV changed from "253.3" to "253.4"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-locale: PKGV changed from 253.3 [default] to 253.4 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-locale: PV changed from "253.3" to "253.4"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-src: PKGV changed from 253.3 [default] to 253.4 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-src: PV changed from "253.3" to "253.4"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-staticdev: PKGV changed from 253.3 [default] to 253.4 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-staticdev: PV changed from "253.3" to "253.4"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot: PKGV changed from 253.3 [default] to 253.4 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot: PV changed from "253.3" to "253.4"
+
+--===============2368162481024538680==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 900 .bb files complete (0 cached, 900 parsed). 1804 targets, 67 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the mips32r2 sysroot...done.
+Removing 1 recipes from the qemumips sysroot...done.
+
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: Nothing PROVIDES 'systemd-boot'
+systemd-boot was skipped: incompatible with host mips-poky-linux (not in COMPATIBLE_HOST)
+
+--===============2368162481024538680==--
 
