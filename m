@@ -2,26 +2,26 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4DF0C7EE2E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D81AFC7EE30
 	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 13:30:02 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.88630.1684157401472590806
+ by mx.groups.io with SMTP id smtpd.web11.88212.1684157399371808871
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 May 2023 06:30:01 -0700
+ Mon, 15 May 2023 06:29:59 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CA8B44B3;
-	Mon, 15 May 2023 06:30:45 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BEB322F4;
+	Mon, 15 May 2023 06:30:43 -0700 (PDT)
 Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A91633F67D;
-	Mon, 15 May 2023 06:30:00 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 9D6023F67D;
+	Mon, 15 May 2023 06:29:58 -0700 (PDT)
 From: ross.burton@arm.com
 To: openembedded-core@lists.openembedded.org
 Cc: nd@arm.com
-Subject: [PATCH 6/8] glib-networking: fix LICENSE statement
-Date: Mon, 15 May 2023 14:29:53 +0100
-Message-Id: <20230515132955.2231164-6-ross.burton@arm.com>
+Subject: [PATCH 3/8] gnutls: use system libtasn1
+Date: Mon, 15 May 2023 14:29:50 +0100
+Message-Id: <20230515132955.2231164-3-ross.burton@arm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230515132955.2231164-1-ross.burton@arm.com>
 References: <20230515132955.2231164-1-ross.burton@arm.com>
@@ -31,49 +31,46 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 13:30:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181256
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181253
 
 From: Ross Burton <ross.burton@arm.com>
 
-The glib-networking license is LGPLv2.1 _or later_ and also has an
-additional exception if OpenSSL is being used.
-
-Add source comments to the checksum, and extend LICENSE if the openssl
-PACKAGECONFIG has been enabled.
+Instead of using an internal ASN.1 parser, re-use libtasn1 from the
+system by default.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../glib-networking/glib-networking_2.74.0.bb            | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ meta/recipes-support/gnutls/gnutls_3.8.0.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/glib-networking/glib-networking_2.74.0.bb =
-b/meta/recipes-core/glib-networking/glib-networking_2.74.0.bb
-index b3a88aca8db..ebf9e260508 100644
---- a/meta/recipes-core/glib-networking/glib-networking_2.74.0.bb
-+++ b/meta/recipes-core/glib-networking/glib-networking_2.74.0.bb
-@@ -3,8 +3,13 @@ DESCRIPTION =3D "glib-networking contains the implementa=
-tions of certain GLib netw
- HOMEPAGE =3D "https://gitlab.gnome.org/GNOME/glib-networking/"
- BUGTRACKER =3D "http://bugzilla.gnome.org"
+diff --git a/meta/recipes-support/gnutls/gnutls_3.8.0.bb b/meta/recipes-s=
+upport/gnutls/gnutls_3.8.0.bb
+index 1e0f1f6912b..0758eb15a93 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.8.0.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.8.0.bb
+@@ -30,13 +30,13 @@ SRC_URI[sha256sum] =3D "0ea0d11a1660a1e63f960f157b197=
+abe6d0c8cb3255be24e1fb3815930
 =20
--LICENSE =3D "LGPL-2.1-only"
--LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd255951079008b3645=
-16c"
-+LICENSE =3D "LGPL-2.1-or-later"
-+LICENSE:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'openssl', ' &=
- Glib-Networking-OpenSSL-Exception', '', d)}"
-+NO_GENERIC_LICENSE[Glib-Networking-OpenSSL-Exception] =3D "LICENSE_EXCEP=
-TION"
-+
-+LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd255951079008b3645=
-16c \
-+                    file://LICENSE_EXCEPTION;md5=3D0f5be697951b5e71aff00=
-f4a4ce66be8 \
-+                    file://tls/base/gtlsconnection-base.c;beginline=3D7;=
-endline=3D22;md5=3Dab641ac307f3337811008ea9afe7059f"
+ inherit autotools texinfo pkgconfig gettext lib_package gtk-doc ptest
 =20
- SECTION =3D "libs"
- DEPENDS =3D "glib-2.0-native glib-2.0"
+-PACKAGECONFIG ??=3D "libidn  ${@bb.utils.filter('DISTRO_FEATURES', 'secc=
+omp', d)}"
++PACKAGECONFIG ??=3D "libidn libtasn1 ${@bb.utils.filter('DISTRO_FEATURES=
+', 'seccomp', d)}"
+=20
+ # You must also have CONFIG_SECCOMP enabled in the kernel for
+ # seccomp to work.
+ PACKAGECONFIG[seccomp] =3D "--with-libseccomp-prefix=3D${STAGING_EXECPRE=
+FIXDIR},ac_cv_libseccomp=3Dno,libseccomp"
+ PACKAGECONFIG[libidn] =3D "--with-idn,--without-idn,libidn2"
+-PACKAGECONFIG[libtasn1] =3D "--with-included-libtasn1=3Dno,--with-includ=
+ed-libtasn1,libtasn1"
++PACKAGECONFIG[libtasn1] =3D "--without-included-libtasn1,--with-included=
+-libtasn1,libtasn1"
+ PACKAGECONFIG[p11-kit] =3D "--with-p11-kit,--without-p11-kit,p11-kit"
+ PACKAGECONFIG[tpm] =3D "--with-tpm,--without-tpm,trousers"
+ PACKAGECONFIG[fips] =3D "--enable-fips140-mode --with-libdl-prefix=3D${S=
+TAGING_BASELIBDIR}"
 --=20
 2.34.1
 
