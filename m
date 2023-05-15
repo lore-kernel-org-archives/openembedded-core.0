@@ -2,47 +2,46 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 797D2C88C8B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A721C88C83
 	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 21:39:16 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.3716.1684186748382786239
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.3703.1684186746293284938
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 May 2023 14:39:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Upax0VMl;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010188215a59f2-fb601d09-d2d1-4100-b6e6-0d3d235983ae-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=VD7y+ZXo;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010188215a5d7b-5671aad5-930d-4715-91e7-2ea57fabda89-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1684186750;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=E1T6MUQmY1ZgfA8IUHVClgeThm8VjnMvz0ijqyQXmJw=;
-	b=Upax0VMlDmtGEONvUcmmh0gKn9AiARS4UmEKDgbIjmC0N8wgMFLuUMcudXCGpJIt
-	wAlrxWWKyiOCUkPEv7Xts5yozEBeB/SfuH+DqKfKiMJ3pp9siH3fZ5/4KYbu0q01+R7
-	k/Pe8SOrsBYIG4RME7TCKQ2oPy2c6tTlX4WCAOAk=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=dMM/Zt7BC0n8OtP3bq+HOvDmoD6D6W/7CqKyVEMbQb0=;
+	b=VD7y+ZXoI/F8DGWRiAF7UthVklre6QzLMXWfc8PBW7f7HZrjc6Ryu6LTY8rqmQ36
+	9O8JaH+WBD7iLLuXwiduTDRM3W02j6/DJzbKVX0FZA6ejG7Tk8hFeOSn3hD2Pe0ncO/
+	Fumsimr4BzafFv5Fv9DM3QI4gHiBnGPLvNuXXaFg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1684186750;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=E1T6MUQmY1ZgfA8IUHVClgeThm8VjnMvz0ijqyQXmJw=;
-	b=Xh+pvcR/5KdFEUaGUkxjyjCY0xWnKnxxa6mS6vwtMTfCRxTLj9gbTnC0xyaB2Odq
-	fqfYmknux2OdcurAift5HG0+QPCdLqZELORvi+XLhFmqfp8YuyYWNQJPEsQTYT23YBf
-	DQAfXwftKh8KEQ1Ftwtp6hPQET5bla0CDDkeAk50=
-Content-Type: multipart/mixed; boundary="===============7571671184718416271=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=dMM/Zt7BC0n8OtP3bq+HOvDmoD6D6W/7CqKyVEMbQb0=;
+	b=WdH8PREQCdg8stduGOebTDT5cyThWFVA0X6dqBoA+eQnd3ZmXD0Kzaob9WMxNn6k
+	GwVk+tDHqyat2WyIdK+bYC5/FE13GmSEBJ0oppnKR/avC+cxKzBrqN25YWHn0TMezXs
+	bAJ2q0wOvY4bMKahNXrgXQd3ACII9zyjoavCnn+k=
+Content-Type: multipart/mixed; boundary="===============2110284050233712855=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] zstd: upgrading to 1.5.5 SUCCEEDED
-Message-ID: <01010188215a59f2-fb601d09-d2d1-4100-b6e6-0d3d235983ae-000000@us-west-2.amazonses.com>
-Date: Mon, 15 May 2023 21:39:09 +0000
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] libxft: upgrading to 2.3.8 SUCCEEDED
+Message-ID: <01010188215a5d7b-5671aad5-930d-4715-91e7-2ea57fabda89-000000@us-west-2.amazonses.com>
+Date: Mon, 15 May 2023 21:39:10 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.05.15-54.240.27.23
+X-SES-Outgoing: 2023.05.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 21:39:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181360
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181365
 
---===============7571671184718416271==
+--===============2110284050233712855==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +49,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *zstd* to *1.5.5* has Succeeded.
+that the automatic attempt to upgrade the recipe *libxft* to *2.3.8* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-zstd-upgrade-1.5.4-1.5.5.patch
+    - apply the patch: git am 0001-libxft-upgrade-2.3.7-2.3.8.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,74 +68,64 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7571671184718416271==
+--===============2110284050233712855==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-zstd-upgrade-1.5.4-1.5.5.patch"
+ filename="0001-libxft-upgrade-2.3.7-2.3.8.patch"
 
-RnJvbSA0ZTk0N2MzNTRmNmIyZTNjYmZkYmFkYzI5OTYwOGE2ODc2MmU1MWQ2IE1vbiBTZXAgMTcg
+RnJvbSA4ZDNiNDc2Y2Y3MmVmM2E1YmZjMmQzYjE2ZmEzZDE1ZjgyNDNkZTZhIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgTWF5IDIwMjMgMTY6MzM6MjEgKzAwMDAKU3ViamVjdDogW1BBVENIXSB6
-c3RkOiB1cGdyYWRlIDEuNS40IC0+IDEuNS41CgotLS0KIG1ldGEvcmVjaXBlcy1leHRlbmRlZC96
-c3RkL3t6c3RkXzEuNS40LmJiID0+IHpzdGRfMS41LjUuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5n
-ZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWV4
-dGVuZGVkL3pzdGQve3pzdGRfMS41LjQuYmIgPT4genN0ZF8xLjUuNS5iYn0gKDk2JSkKCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvenN0ZC96c3RkXzEuNS40LmJiIGIvbWV0YS9y
-ZWNpcGVzLWV4dGVuZGVkL3pzdGQvenN0ZF8xLjUuNS5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpy
-ZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvenN0ZC96c3RkXzEuNS40LmJiCnJlbmFt
-ZSB0byBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvenN0ZC96c3RkXzEuNS41LmJiCmluZGV4IGMyZTk2
-MjI1ZTQuLjQ4NzQ2NWI2YzcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC96c3Rk
-L3pzdGRfMS41LjQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3pzdGQvenN0ZF8xLjUu
-NS5iYgpAQCAtMTIsNyArMTIsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNF
-O21kNT0wODIyYTMyZjdhY2RiZTAxMzYwNjc0NjY0MTc0NmVlOCBcCiAKIFNSQ19VUkkgPSAiZ2l0
-Oi8vZ2l0aHViLmNvbS9mYWNlYm9vay96c3RkLmdpdDticmFuY2g9cmVsZWFzZTtwcm90b2NvbD1o
-dHRwcyIKIAotU1JDUkVWID0gIjk0NWYyNzc1OGMwZmQ2N2I2MzYxMDNhMzhkYmYwNTAyNjZjNmI5
-MGEiCitTUkNSRVYgPSAiNjM3NzljNzk4MjM3MzQ2YzJiMjQ1YzU0NmM0MGI3MmE1YTU5MTNmZSIK
-IFVQU1RSRUFNX0NIRUNLX0dJVFRBR1JFR0VYID0gInYoP1A8cHZlcj5cZCsoXC5cZCspKykiCiAK
-IENWRV9QUk9EVUNUID0gInpzdGFuZGFyZCIKLS0gCjIuMzkuMgoK
+CkRhdGU6IE1vbiwgMTUgTWF5IDIwMjMgMTk6NDg6MjkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJ4ZnQ6IHVwZ3JhZGUgMi4zLjcgLT4gMi4zLjgKCi0tLQogLi4uL3hvcmctbGliL3tsaWJ4ZnRf
+Mi4zLjcuYmIgPT4gbGlieGZ0XzIuMy44LmJifSAgICAgICAgICAgICAgIHwgMiArLQogMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL3hvcmctbGliL3tsaWJ4ZnRfMi4zLjcuYmIgPT4gbGlieGZ0XzIuMy44LmJi
+fSAoOTIlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4
+ZnRfMi4zLjcuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlieGZ0XzIuMy44
+LmJiCnNpbWlsYXJpdHkgaW5kZXggOTIlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGlj
+cy94b3JnLWxpYi9saWJ4ZnRfMi4zLjcuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGlj
+cy94b3JnLWxpYi9saWJ4ZnRfMi4zLjguYmIKaW5kZXggYWQxMjZkMjA5Mi4uMjY5OWMxZGZkNyAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhmdF8yLjMuNy5i
+YgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlieGZ0XzIuMy44LmJiCkBA
+IC0yMCw3ICsyMCw3IEBAIFBST1ZJREVTID0gInhmdCIKIAogUEUgPSAiMSIKIAotU1JDX1VSSVtz
+aGEyNTZzdW1dID0gIjc5ZjBiMzdjNDUwMDczODFjMzcxYTc5MGMyNzU0NjQ0YWQ5NTUxNjZkYmYy
+YTQ4ZTM2MjUwMzJlOWJkZDRmNzEiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNWU4YzNjNGJjMmQ0
+YzBhNDBhZWY2YjRiMzhlZDJmYjc0MzAxNjQwZGEyOWY2NTI4MTU0YjUwMDliMWM2ZGQ0OSIKIAog
+WE9SR19QTiA9ICJsaWJYZnQiCiAKLS0gCjIuMzkuMgoK
 
---===============7571671184718416271==
+--===============2110284050233712855==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/zstd: PV changed from "1.5.4" to "1.5.5"
-packages/core2-32-poky-linux/zstd: PKGV changed from 1.5.4 [default] to 1.5.5 [default]
-packages/core2-32-poky-linux/zstd/libzstd: PKGSIZE changed from 763232 to 787808 (+3%)
-packages/core2-32-poky-linux/zstd/libzstd: PV changed from "1.5.4" to "1.5.5"
-packages/core2-32-poky-linux/zstd/libzstd: FILELIST: removed "/usr/lib/libzstd.so.1.5.4", added "/usr/lib/libzstd.so.1.5.5"
-packages/core2-32-poky-linux/zstd/libzstd: PKGV changed from 1.5.4 [default] to 1.5.5 [default]
-Changes to packages/core2-32-poky-linux/zstd (sysroot):
-  /usr/lib/libzstd.so.1 changed symlink target from libzstd.so.1.5.4 to libzstd.so.1.5.5
-  /usr/lib/libzstd.so changed symlink target from libzstd.so.1.5.4 to libzstd.so.1.5.5
-  /usr/lib/libzstd.so.1.5.4 moved to /usr/lib/libzstd.so.1.5.5
-packages/core2-32-poky-linux/zstd/zstd-dbg: PKGSIZE changed from 15041084 to 15328072 (+2%)
-packages/core2-32-poky-linux/zstd/zstd-dbg: PV changed from "1.5.4" to "1.5.5"
-packages/core2-32-poky-linux/zstd/zstd-dbg: FILELIST: removed "/usr/lib/.debug/libzstd.so.1.5.4", added "/usr/lib/.debug/libzstd.so.1.5.5"
-packages/core2-32-poky-linux/zstd/zstd-dbg: PKGV changed from 1.5.4 [default] to 1.5.5 [default]
-packages/core2-32-poky-linux/zstd/zstd-dev: PKGSIZE changed from 200334 to 202810 (+1%)
-packages/core2-32-poky-linux/zstd/zstd-dev: PV changed from "1.5.4" to "1.5.5"
-packages/core2-32-poky-linux/zstd/zstd-dev: PKGV changed from 1.5.4 [default] to 1.5.5 [default]
-packages/core2-32-poky-linux/zstd/zstd-doc: PKGSIZE changed from 34326 to 34400 (+0%)
-packages/core2-32-poky-linux/zstd/zstd-doc: PV changed from "1.5.4" to "1.5.5"
-packages/core2-32-poky-linux/zstd/zstd-doc: PKGV changed from 1.5.4 [default] to 1.5.5 [default]
-packages/core2-32-poky-linux/zstd/zstd-locale: PV changed from "1.5.4" to "1.5.5"
-packages/core2-32-poky-linux/zstd/zstd-locale: PKGV changed from 1.5.4 [default] to 1.5.5 [default]
-packages/core2-32-poky-linux/zstd/zstd-src: PKGSIZE changed from 3141229 to 3166313 (+1%)
-packages/core2-32-poky-linux/zstd/zstd-src: PV changed from "1.5.4" to "1.5.5"
-packages/core2-32-poky-linux/zstd/zstd-src: FILELIST: directory renamed /usr/src/debug/zstd/1.5.4-r0/contrib/pzstd -> /usr/src/debug/zstd/1.5.5-r0/contrib/pzstd, directory renamed /usr/src/debug/zstd/1.5.4-r0/lib -> /usr/src/debug/zstd/1.5.5-r0/lib, directory renamed /usr/src/debug/zstd/1.5.4-r0/contrib/pzstd/utils -> /usr/src/debug/zstd/1.5.5-r0/contrib/pzstd/utils, directory renamed /usr/src/debug/zstd/1.5.4-r0/lib/compress -> /usr/src/debug/zstd/1.5.5-r0/lib/compress, directory renamed /usr/src/debug/zstd/1.5.4-r0/lib/legacy -> /usr/src/debug/zstd/1.5.5-r0/lib/legacy, directory renamed /usr/src/debug/zstd/1.5.4-r0/programs -> /usr/src/debug/zstd/1.5.5-r0/programs, directory renamed /usr/src/debug/zstd/1.5.4-r0/lib/dictBuilder -> /usr/src/debug/zstd/1.5.5-r0/lib/dictBuilder, directory renamed /usr/src/debug/zstd/1.5.4-r0/lib/decompress -> /usr/src/debug/zstd/1.5.5-r0/lib/decompress, removed "/usr/src/debug/zstd/1.5.4-r0/lib/common/zstd_trace.h /usr/src/debug/zstd/1.5.4-r0/lib/commo
- n/entropy_common.c /usr/src/debug/zstd/1.5.4-r0/lib/common/debug.c /usr/src/debug/zstd/1.5.4-r0/lib/common/huf.h /usr/src/debug/zstd/1.5.4-r0/lib/common/pool.h /usr/src/debug/zstd/1.5.4-r0/lib/common/zstd_internal.h /usr/src/debug/zstd/1.5.4-r0/lib/common/bits.h /usr/src/debug/zstd/1.5.4-r0/lib/common/pool.c /usr/src/debug/zstd/1.5.4-r0/lib/common/bitstream.h /usr/src/debug/zstd/1.5.4-r0/lib/common/xxhash.h /usr/src/debug/zstd/1.5.4-r0/lib/common/cpu.h /usr/src/debug/zstd/1.5.4-r0/lib/common/mem.h /usr/src/debug/zstd/1.5.4-r0/lib/common/fse.h /usr/src/debug/zstd/1.5.4-r0/lib/common/threading.c /usr/src/debug/zstd/1.5.4-r0/lib/common/threading.h /usr/src/debug/zstd/1.5.4-r0/lib/common/error_private.c /usr/src/debug/zstd/1.5.4-r0/lib/common/error_private.h /usr/src/debug/zstd/1.5.4-r0/lib/common/fse_decompress.c /usr/src/debug/zstd/1.5.4-r0/lib/common/zstd_common.c", added "/usr/src/debug/zstd/1.5.5-r0/lib/common/mem.h /usr/src/debug/zstd/1.5.5-r0/lib/common/zstd_internal.h /usr/src/d
- ebug/zstd/1.5.5-r0/lib/common/cpu.h /usr/src/debug/zstd/1.5.5-r0/lib/common/pool.h /usr/src/debug/zstd/1.5.5-r0/lib/common/debug.c /usr/src/debug/zstd/1.5.5-r0/lib/common/error_private.h /usr/src/debug/zstd/1.5.5-r0/lib/common/pool.c /usr/src/debug/zstd/1.5.5-r0/lib/common/allocations.h /usr/src/debug/zstd/1.5.5-r0/lib/common/bitstream.h /usr/src/debug/zstd/1.5.5-r0/lib/common/error_private.c /usr/src/debug/zstd/1.5.5-r0/lib/common/threading.c /usr/src/debug/zstd/1.5.5-r0/lib/common/fse.h /usr/src/debug/zstd/1.5.5-r0/lib/common/fse_decompress.c /usr/src/debug/zstd/1.5.5-r0/lib/common/zstd_common.c /usr/src/debug/zstd/1.5.5-r0/lib/common/threading.h /usr/src/debug/zstd/1.5.5-r0/lib/common/zstd_trace.h /usr/src/debug/zstd/1.5.5-r0/lib/common/bits.h /usr/src/debug/zstd/1.5.5-r0/lib/common/entropy_common.c /usr/src/debug/zstd/1.5.5-r0/lib/common/xxhash.h /usr/src/debug/zstd/1.5.5-r0/lib/common/huf.h"
-packages/core2-32-poky-linux/zstd/zstd-src: PKGV changed from 1.5.4 [default] to 1.5.5 [default]
-packages/core2-32-poky-linux/zstd/zstd-staticdev: PKGSIZE changed from 4015874 to 4108952 (+2%)
-packages/core2-32-poky-linux/zstd/zstd-staticdev: PV changed from "1.5.4" to "1.5.5"
-packages/core2-32-poky-linux/zstd/zstd-staticdev: PKGV changed from 1.5.4 [default] to 1.5.5 [default]
-packages/core2-32-poky-linux/zstd/zstd: PKGSIZE changed from 1694746 to 1735706 (+2%)
-packages/core2-32-poky-linux/zstd/zstd: PV changed from "1.5.4" to "1.5.5"
-packages/core2-32-poky-linux/zstd/zstd: PKGV changed from 1.5.4 [default] to 1.5.5 [default]
+packages/core2-32-poky-linux/libxft: PKGV changed from 2.3.7 [default] to 2.3.8 [default]
+packages/core2-32-poky-linux/libxft: SRC_URI changed from "https://www.x.org/releases//individual/lib/libXft-2.3.7.tar.xz" to "https://www.x.org/releases//individual/lib/libXft-2.3.8.tar.xz"
+packages/core2-32-poky-linux/libxft: PV changed from "2.3.7" to "2.3.8"
+packages/core2-32-poky-linux/libxft/libxft-dbg: PKGV changed from 2.3.7 [default] to 2.3.8 [default]
+packages/core2-32-poky-linux/libxft/libxft-dbg: FILELIST: removed "/usr/lib/.debug/libXft.so.2.3.7", added "/usr/lib/.debug/libXft.so.2.3.8"
+packages/core2-32-poky-linux/libxft/libxft-dbg: PKGSIZE changed from 494036 to 494492 (+0%)
+packages/core2-32-poky-linux/libxft/libxft-dbg: PV changed from "2.3.7" to "2.3.8"
+packages/core2-32-poky-linux/libxft/libxft-dev: PKGV changed from 2.3.7 [default] to 2.3.8 [default]
+packages/core2-32-poky-linux/libxft/libxft-dev: PV changed from "2.3.7" to "2.3.8"
+packages/core2-32-poky-linux/libxft/libxft-doc: PKGV changed from 2.3.7 [default] to 2.3.8 [default]
+packages/core2-32-poky-linux/libxft/libxft-doc: PV changed from "2.3.7" to "2.3.8"
+packages/core2-32-poky-linux/libxft/libxft-locale: PKGV changed from 2.3.7 [default] to 2.3.8 [default]
+packages/core2-32-poky-linux/libxft/libxft-locale: PV changed from "2.3.7" to "2.3.8"
+packages/core2-32-poky-linux/libxft/libxft-src: PKGV changed from 2.3.7 [default] to 2.3.8 [default]
+packages/core2-32-poky-linux/libxft/libxft-src: PKGSIZE changed from 221468 to 221783 (+0%)
+packages/core2-32-poky-linux/libxft/libxft-src: PV changed from "2.3.7" to "2.3.8"
+packages/core2-32-poky-linux/libxft/libxft-staticdev: PKGV changed from 2.3.7 [default] to 2.3.8 [default]
+packages/core2-32-poky-linux/libxft/libxft-staticdev: PV changed from "2.3.7" to "2.3.8"
+packages/core2-32-poky-linux/libxft/libxft: PKGV changed from 2.3.7 [default] to 2.3.8 [default]
+packages/core2-32-poky-linux/libxft/libxft: FILELIST: removed "/usr/lib/libXft.so.2.3.7", added "/usr/lib/libXft.so.2.3.8"
+packages/core2-32-poky-linux/libxft/libxft: PV changed from "2.3.7" to "2.3.8"
+Changes to packages/core2-32-poky-linux/libxft (sysroot):
+  /usr/lib/libXft.so.2 changed symlink target from libXft.so.2.3.7 to libXft.so.2.3.8
+  /usr/lib/libXft.so changed symlink target from libXft.so.2.3.7 to libXft.so.2.3.8
+  /usr/lib/libXft.so.2.3.7 moved to /usr/lib/libXft.so.2.3.8
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1490,22 +1479,18 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
-Changes to packages/x86_64-linux/zstd-native (sysroot):
-  /usr/lib/libzstd.so.1 changed symlink target from libzstd.so.1.5.4 to libzstd.so.1.5.5
-  /usr/lib/libzstd.so changed symlink target from libzstd.so.1.5.4 to libzstd.so.1.5.5
-  /usr/lib/libzstd.so.1.5.4 moved to /usr/lib/libzstd.so.1.5.5
 
---===============7571671184718416271==
+--===============2110284050233712855==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/zstd/libzstd: FILELIST: removed "/usr/lib/libzstd.so.1.5.4", added "/usr/lib/libzstd.so.1.5.5"
-Changes to packages/core2-32-poky-linux/zstd (sysroot):
-  /usr/lib/libzstd.so.1 changed symlink target from libzstd.so.1.5.4 to libzstd.so.1.5.5
-  /usr/lib/libzstd.so changed symlink target from libzstd.so.1.5.4 to libzstd.so.1.5.5
-  /usr/lib/libzstd.so.1.5.4 moved to /usr/lib/libzstd.so.1.5.5
+packages/core2-32-poky-linux/libxft/libxft: FILELIST: removed "/usr/lib/libXft.so.2.3.7", added "/usr/lib/libXft.so.2.3.8"
+Changes to packages/core2-32-poky-linux/libxft (sysroot):
+  /usr/lib/libXft.so.2 changed symlink target from libXft.so.2.3.7 to libXft.so.2.3.8
+  /usr/lib/libXft.so changed symlink target from libXft.so.2.3.7 to libXft.so.2.3.8
+  /usr/lib/libXft.so.2.3.7 moved to /usr/lib/libXft.so.2.3.8
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2859,10 +2844,6 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
-Changes to packages/x86_64-linux/zstd-native (sysroot):
-  /usr/lib/libzstd.so.1 changed symlink target from libzstd.so.1.5.4 to libzstd.so.1.5.5
-  /usr/lib/libzstd.so changed symlink target from libzstd.so.1.5.4 to libzstd.so.1.5.5
-  /usr/lib/libzstd.so.1.5.4 moved to /usr/lib/libzstd.so.1.5.5
 
---===============7571671184718416271==--
+--===============2110284050233712855==--
 
