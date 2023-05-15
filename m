@@ -1,193 +1,200 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FBC9C77B75
-	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 04:54:00 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.81283.1684126436700733960
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71B37C7EE22
+	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 05:25:30 +0000 (UTC)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web10.81904.1684128325696037445
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 May 2023 21:53:56 -0700
+ Sun, 14 May 2023 22:25:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=P742R6Ts;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4499d06315=qi.chen@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34F4qCl7017244
-	for <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 04:53:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=ydpXJROQQubII5y4vces2GSMlxQ8nk4IXy+c1glhiN8=;
- b=P742R6TsWX+P+suaBKXzoZVRsx4kDt7u9UdEXliRA4JECHVz9lAO4X1Ucah4QxF6CiPp
- g3MXCFain/kQCenAF0SgA848sQSud+19UUrLZcSDYFfCflNlfbGkIBvFZeD2iuJK+6cU
- aEQFQY60gb/OruyLeMk0rt9Hyen7znaUcqAuzLjQuLhjoctpGSrs97ZNOaGFNEW30/ii
- FGsu+yZ3ipHt8AOlZCXwSRdTjzNfsrB9jUa2fIQKbGvvk0kOLhrcJC3qycMhgoV86r1j
- i/sD8tdqNKWvcmsWeLsJyaOHJazu7ZhHdl77exn6ASw6+iGNhh9apwTGdmIssz5VRYy8 PQ== 
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2175.outbound.protection.outlook.com [104.47.55.175])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3qhys01f8n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 04:53:55 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RSQDnvreY4ySipCR75Bd2zPv1DPSCkasZyFy0+3eEIfoLg9yBfXhupZGWOQLpvAcPayY3p5pdRgAHAp17F+70dK3PLeeSr5IUNFteufO9s8iNfFzGihZJ2bVJH+yiPgxpAjyTpUnhX4PInP3+DewUJBIflQzXyMocLmViNnfM58JmOGxPQ6ExZi0j2VoO0wNfU0vRJvdfbvsTLR6t0gZl8OhtQ23mqWiEi+0JTJljkxV4CWhvtYYDbcqNI/TfnCAkRxUUQBx/2E6dj9+omwLlSGpKYfJY8GPB6SbhVrwo3OhMCxLRsQbHapwvdGC4WUTnUeqSss+VbvxxWGG/PADLA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ydpXJROQQubII5y4vces2GSMlxQ8nk4IXy+c1glhiN8=;
- b=fY8hp9gpHDYpwUscG8uuXUvfgFHbb+tkFyM937MI7icsrh6g5BZL/w6wIXBMTuo2aKDHT3zPTBuZooNcsD639zKIcAHlJyEqSmwnMDs7sIHJ8Fg1G1qCBVt92MUFrE/4i8637ALK6SkfqpsUTe4+Zx7KM23YAgATuqNYyD3Af8NCfoUEvDg/Zx3ntMFaPOITe4wMMQKfGYQRnqEuEY1RsElmeAsx13pF3OMyeW/+tGajhK/PBL2iUknxLl97BN9qzY444imfTd1Fqyri0X8/4w3Wy26QKLPTJ4HPr+URglLVz07XLRbvJMHnqFuNJfvpTMjNEtgbneIIlM+uwA5mhQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by SA0PR11MB4591.namprd11.prod.outlook.com (2603:10b6:806:9c::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.30; Mon, 15 May
- 2023 04:53:54 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::fa8:8cc5:a5da:7e07]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::fa8:8cc5:a5da:7e07%5]) with mapi id 15.20.6387.030; Mon, 15 May 2023
- 04:53:54 +0000
-From: Qi.Chen@windriver.com
+ dkim=pass header.i=@mvista.com header.s=google header.b=DuMb5BFR;
+ spf=pass (domain: mvista.com, ip: 209.85.216.45, mailfrom: hprajapati@mvista.com)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2502346bea0so7645103a91.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 May 2023 22:25:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1684128325; x=1686720325;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3sVW6LYKaolwwEkOq9d3FY+zWQY3JQ6TJLgPV/hmZxQ=;
+        b=DuMb5BFRx3px288tWrqGOHeqMx74j0WT0J7gqT9ElZQsxs1sW/nm+T0hqzX3fL+BEd
+         w/T8od8qOOw+ugDjAAM46GAV9ZMT20dl7CJIAApUW1DjAmAABjNFr2PRjpA2EJnPl6Nk
+         XgAZZiqzgG7mAgiBz23ARbsvoZirvefKuwBqY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684128325; x=1686720325;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3sVW6LYKaolwwEkOq9d3FY+zWQY3JQ6TJLgPV/hmZxQ=;
+        b=d7m/y9ywgr5nzE22+nw5Gynk3GcU4v6R9tguMoyPrRXR/mrYe1yJ5VPgqX4Fu8ARFL
+         goJ0hpzEwVRO0qJwwgSoEhNwq5qSDqBLa71MaJdmWA+AUVeQUn5LCKzMc7BxESYRlZe4
+         UAmdHP4Pt+SPTwFFq12s8DmC7pczqYg96stodWymE2UvEvKH8N8lY6VAqOYz1g4Q/TFT
+         Nh8g/YOVIQ8aXIqjPhquP67k4FWfnZReWiLS1NeAGZ2JtzDHiUUzdAuXz0dItaPchO/y
+         WGpTU3I8MF9Iofs/JCGjykTCIfE6COrZ2/VOSE29w5/1GuVFjr/zbee5Q5p1C9GaHuGR
+         Vt6w==
+X-Gm-Message-State: AC+VfDwL3ST3N8br9JvKdmvgFbM0f1izgkwL5TVDtmodW9SR8CoPrzmu
+	cyjC3vX988Pd/pdQ/gnYkXBGqZ92FsAO0w8FFGE=
+X-Google-Smtp-Source: ACHHUZ42xFPihnrSlGrRJHksc+OHRRtlr2+W2P6YaKLIZBRr6DP6IF+IfLCvZoaT5IF+3USOrMSzJg==
+X-Received: by 2002:a17:90b:1992:b0:24e:55c3:89af with SMTP id mv18-20020a17090b199200b0024e55c389afmr33081202pjb.18.1684128324779;
+        Sun, 14 May 2023 22:25:24 -0700 (PDT)
+Received: from MVIN00024 ([150.129.170.137])
+        by smtp.gmail.com with ESMTPSA id qe15-20020a17090b4f8f00b00250e48c27cdsm8423780pjb.45.2023.05.14.22.25.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 May 2023 22:25:24 -0700 (PDT)
+Received: by MVIN00024 (sSMTP sendmail emulation); Mon, 15 May 2023 10:55:18 +0530
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH V3] oe-buildenv-internal: remove path from previous project
-Date: Mon, 15 May 2023 12:53:35 +0800
-Message-Id: <20230515045335.2025776-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYCP286CA0295.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:3c8::10) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [dunfell][PATCH] git: fix CVE-2023-25652
+Date: Mon, 15 May 2023 10:55:17 +0530
+Message-Id: <20230515052517.29549-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|SA0PR11MB4591:EE_
-X-MS-Office365-Filtering-Correlation-Id: d95ec04d-f787-45d9-e18c-08db5500627e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	gWRwkn3dx7COuviG2sQBSZnVLWVI84/NIAEqWbZOrmfgLCsm4Tw0Q3BPspb2yb9NCbMrevZhm4C+ozcWqfzuoHT59pwb0pmOvLXjc3ZP/uqH6SXVuuFduJbuh7Z8u3MZcuQ+ZmP7Tzd7V5AWTiwXxQGImfb4fP/V0U1RFj5JWbTjkX6C16gpLQvz7c8ZSeI1tauz/6GgRqr3WtKwIKdXhLVPERvLUuavlnXbP3mklnx8SCblBZM86DgCNXpzdsslAgPnEEHCJVa2LB80srraA0coXAd1Ttyrbwwsm3m+A6NoTurqR+7oU9G3Brkd0vTz/EliVXjCipV9c4sdmrsKYAFcP8xyNxrAJ7M8V8UQJ08upJ262PL7UfCJYhUSsqXUX9aFdmSTJBlUoAuUmRes/VdZsI5CZ3vfTuwm1VPdOzYwxfo5HA7T4ajaXDC8t/YtqaHAjDk4Ro3ifDQdxbw4vYt5CgNHzcNbWUrrXXPRjzRGogoLKUy1oGEZ4rV6uQJduibmJxrKt77y6eBE04JraUVb7sMEkDXs6+d8GsDuVHOWCKaZuwpM3gV9D8p7zMd6pDUAWVX6HDsSHSxTOahWEr/9B9VBg4jAjsipH4BvaK9EE10IAe+iSdF6aWQk8gci
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39850400004)(396003)(346002)(376002)(136003)(366004)(451199021)(83380400001)(36756003)(38350700002)(6916009)(38100700002)(2906002)(5660300002)(8676002)(8936002)(316002)(86362001)(66476007)(66556008)(66946007)(41300700001)(9686003)(186003)(6512007)(1076003)(26005)(6506007)(52116002)(6666004)(478600001)(6486002)(2616005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?fdtZEDB21dyImDzC6HNJ2nNp5kvlBjikKzuocslNiF028XLinOC7D0k1trkU?=
- =?us-ascii?Q?4JB3DL4kV1GUZv2Jy2zaaiGbSFnNykhZw5ryxvynnZRIyXC6N7kfmNjm5pdq?=
- =?us-ascii?Q?LHcRQGtUyXSfTO4lsb247nKAmbDHcUr3/k3/CpErW6fFHAW0+HPjK32tr99p?=
- =?us-ascii?Q?4e22/vK1TeGzSe1Ur25nF0sGmi0gvbbMwvRQKxOvWw04+O7JDlIIx0QrHZpc?=
- =?us-ascii?Q?GOSJjQs+NOO35cAwAl4sGZJT8mESauvQlNeq7JaOzNGW0qQUU2cN1rMcSzif?=
- =?us-ascii?Q?0QdE8Rp+m/tumLysxitMCRivI34njnboUI8/uwhUV/y384ATV+vSBBjJ6rtX?=
- =?us-ascii?Q?lVhOyvlGaz0Q2mCiZVJGqFCSfmkuFlKIrUqrqT0rXhkN07LYHTZpNHzW90qc?=
- =?us-ascii?Q?NYr2h5q6IX6ea4d1Xl8yzZFmRIN4KXOZr1qwmiuOTjrT9TG299AXr5nj+x6W?=
- =?us-ascii?Q?AgG4HNYcneXy94BYQ/QexoJM+R+997dSMuNx+6XgqtF9r7UR1X+kDmzIr437?=
- =?us-ascii?Q?pnCOB9XRmgc+WYRSRpq3w+MeWeZFPMH+siZCvl5WBy9u1i8oMPpnpHWCXm52?=
- =?us-ascii?Q?fXY/AfLT3ktJP/ldO8ShqgsNkSaevcpblz5JpleNyEXHgcRvV9ZW+5h4oyPc?=
- =?us-ascii?Q?oDzoyPeKZwBDouAnk2L6noYdgw9lZ4blAA3pc1/Nq6VQ9U6N3ikPI5jeuSlT?=
- =?us-ascii?Q?CNEIhzNyIqGl5racZez4VOSaxnk1kN6lVev2eJ/3+Eyk47un2gC4/q9Qr1Bw?=
- =?us-ascii?Q?syYpiIO3aYf3P2wkO+GQI207wA0naBaj1vJDsHmbkOaCgF3QD2fN26/y+BGZ?=
- =?us-ascii?Q?MYEf5P6OJ18Hbq2IJQ798ORfOWA7Wh1luUTzDkrkMsjzpiKRgnmzIe4pGBHt?=
- =?us-ascii?Q?GJLVVZPVxTWAzEPXYdYjH8p+ODUde8iOy2ndLYouWHcK4rTX8/6F9OIIwpIP?=
- =?us-ascii?Q?kMgw1gqiMWlDUzWuBindWNBf4g+qR+EOYB2Jv/eXxtTIUSkhIbZhwBqLwECF?=
- =?us-ascii?Q?8+GHb+cGvzhX+nqvpFuUgyGWVbrY/ucWfmhU5oWu3M+XEKxigcXQJOnRGY4X?=
- =?us-ascii?Q?RxWNKESJD5r2eDuguWWk5MkpoBS0Ta0jBXs10eJdJ0eDcQZcbYRbGLnO1bFl?=
- =?us-ascii?Q?PBIINi+PXQQsE+hIiHChnR1AAAh44pIMPODoKTXweQMMvbGJmPOrLX23B4WJ?=
- =?us-ascii?Q?pnP40dx037RNYE3wWWoEQtAYeHFaexot6bkUBREyspdAamI9avVbKPn2EzsE?=
- =?us-ascii?Q?UWyuGaQpIDd2G7SyOTQ8zjP9LqPppO7LTJCebPK94PEZqwCLMw5eA3igP796?=
- =?us-ascii?Q?YL5k68oJnePEWjrTq1ebhW1bRy/sRtkEBV/9bZynV2M/vRR4JL4oZqo2kear?=
- =?us-ascii?Q?cNnSQeWMwYmL6twZ2YTIWXOsmN6xvuCkfHZ+sN3cvgFTqZQE/xyAuVb2ErVF?=
- =?us-ascii?Q?aQH5eI5GD6esizabY0ikh/23gtuLRRqv/nZIy8N3IPZHHSUMp7YSeOwfVCKA?=
- =?us-ascii?Q?H6+F8Qp0fq5TEGgjTe2kUlfLORuthoMwrxUu7Tcrc9eHroMVqt0FnlnxYMJW?=
- =?us-ascii?Q?EaHVBylHFQX087J45vqLg4bekbaHj9gMmS65BkSU?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d95ec04d-f787-45d9-e18c-08db5500627e
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2023 04:53:54.5398
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9kxBQTknHE+uS7k9d8dOHL/GfvO8mW1xQJJqy8MoFVEeYVZtq6IIJTLpGoggN9dHugE4YC0CVCc1s4WHEOIVrg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4591
-X-Proofpoint-ORIG-GUID: 4SodvZbctGll6JAvYj8xt4u8_7t7Wok3
-X-Proofpoint-GUID: 4SodvZbctGll6JAvYj8xt4u8_7t7Wok3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-15_02,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
- lowpriorityscore=0 suspectscore=0 mlxscore=0 impostorscore=0 clxscore=1015
- priorityscore=1501 phishscore=0 adultscore=0 malwarescore=0
- mlxlogscore=999 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2304280000 definitions=main-2305150041
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 04:54:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181227
+ <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 05:25:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181228
 
-From: Chen Qi <Qi.Chen@windriver.com>
+Git is a revision control system. Prior to versions 2.30.9, 2.31.8, 2.32.7,
+2.33.8, 2.34.8, 2.35.8, 2.36.6, 2.37.7, 2.38.5, 2.39.3, and 2.40.1, by feeding
+specially crafted input to `git apply --reject`, a path outside the working
+tree can be overwritten with partially controlled contents (corresponding to
+the rejected hunk(s) from the given patch). A fix is available in versions
+2.30.9, 2.31.8, 2.32.7, 2.33.8, 2.34.8, 2.35.8, 2.36.6, 2.37.7, 2.38.5, 2.39.3,
+and 2.40.1. As a workaround, avoid using `git apply` with `--reject` when applying
+patches from an untrusted source. Use `git apply --stat` to inspect a patch before
+applying; avoid applying one that create a conflict where a link corresponding to
+the `*.rej` file exists.
 
-Util now, only paths added for current project are removed
-to avoid PATH growing unnecessarily. This is to handle the case
-of sourcing the init script into different build directories.
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-25652
 
-However, if we source the init script from different projects into
-different build directories, the paths added by previous projects
-are not cleaned up.
+Upstream-Status: Backport from https://github.com/git/git/commit/9db05711c98efc14f414d4c87135a34c13586e0b
 
-To avoid this, we record the paths added into OE_ADDED_PATHS, and
-remove it in the next sourcing.
-
-The OE_ADDED_PATHS variable is exported mainly for the two reasons:
-1. users can clearly see it in the `env' command's output.
-2. if the prefixed PATH is carried into the subprocess (e.g., a subshell),
-   so should this OE_ADDED_PATHS variable that prefixes it.
-
-Note that the paths, "$OEROOT/scripts:$BITBAKEDIR/bin:", are added
-as a whole. A previous commit, "oe-buildenv-internal: Add paths to $PATH individually",
-made the change to treat these two paths separately, the reason was
-not "assuming the path to the scripts directory always is in $PATH
-directly before the bitbake directory". But this is exactly the effect
-of the codes. I see no reason why we should complicate things.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- scripts/oe-buildenv-internal | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ .../git/files/CVE-2023-25652.patch            | 95 +++++++++++++++++++
+ meta/recipes-devtools/git/git.inc             |  1 +
+ 2 files changed, 96 insertions(+)
+ create mode 100644 meta/recipes-devtools/git/files/CVE-2023-25652.patch
 
-diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
-index 485d4c52e1..f856e618aa 100755
---- a/scripts/oe-buildenv-internal
-+++ b/scripts/oe-buildenv-internal
-@@ -92,19 +92,20 @@ fi
- PYTHONPATH=$BITBAKEDIR/lib:$PYTHONPATH
- export PYTHONPATH
- 
-+# Remove any paths added by sourcing this script before
-+[ -n "$OE_ADDED_PATHS" ] && PATH=$(echo $PATH | sed -e "s#$OE_ADDED_PATHS##") ||
-+    PATH=$(echo $PATH | sed -e "s#$OEROOT/scripts:$BITBAKEDIR/bin:##")
+diff --git a/meta/recipes-devtools/git/files/CVE-2023-25652.patch b/meta/recipes-devtools/git/files/CVE-2023-25652.patch
+new file mode 100644
+index 0000000000..9dde2626cc
+--- /dev/null
++++ b/meta/recipes-devtools/git/files/CVE-2023-25652.patch
+@@ -0,0 +1,95 @@
++From 9db05711c98efc14f414d4c87135a34c13586e0b Mon Sep 17 00:00:00 2001
++From: Johannes Schindelin <johannes.schindelin@gmx.de>
++Date: Thu, 9 Mar 2023 16:02:54 +0100
++Subject: [PATCH] apply --reject: overwrite existing `.rej` symlink if it
++ exists
 +
- # Make sure our paths are at the beginning of $PATH
--for newpath in "$BITBAKEDIR/bin" "$OEROOT/scripts"; do
--    # Remove any existences of $newpath from $PATH
--    PATH=$(echo $PATH | sed -re "s#(^|:)$newpath(:|$)#\2#g;s#^:##")
-+OE_ADDED_PATHS="$OEROOT/scripts:$BITBAKEDIR/bin:"
-+PATH="$OE_ADDED_PATHS$PATH"
-+export OE_ADDED_PATHS
++The `git apply --reject` is expected to write out `.rej` files in case
++one or more hunks fail to apply cleanly. Historically, the command
++overwrites any existing `.rej` files. The idea being that
++apply/reject/edit cycles are relatively common, and the generated `.rej`
++files are not considered precious.
++
++But the command does not overwrite existing `.rej` symbolic links, and
++instead follows them. This is unsafe because the same patch could
++potentially create such a symbolic link and point at arbitrary paths
++outside the current worktree, and `git apply` would write the contents
++of the `.rej` file into that location.
++
++Therefore, let's make sure that any existing `.rej` file or symbolic
++link is removed before writing it.
++
++Reported-by: RyotaK <ryotak.mail@gmail.com>
++Helped-by: Taylor Blau <me@ttaylorr.com>
++Helped-by: Junio C Hamano <gitster@pobox.com>
++Helped-by: Linus Torvalds <torvalds@linuxfoundation.org>
++Signed-off-by: Johannes Schindelin <johannes.schindelin@gmx.de>
++
++Upstream-Status: Backport [https://github.com/git/git/commit/9db05711c98efc14f414d4c87135a34c13586e0b]
++CVE: CVE-2023-25652
++
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ apply.c                  | 14 ++++++++++++--
++ t/t4115-apply-symlink.sh | 15 +++++++++++++++
++ 2 files changed, 27 insertions(+), 2 deletions(-)
++
++diff --git a/apply.c b/apply.c
++index f8a046a..8253173 100644
++--- a/apply.c
+++++ b/apply.c
++@@ -4504,7 +4504,7 @@ static int write_out_one_reject(struct apply_state *state, struct patch *patch)
++ 	FILE *rej;
++ 	char namebuf[PATH_MAX];
++ 	struct fragment *frag;
++-	int cnt = 0;
+++	int fd, cnt = 0;
++ 	struct strbuf sb = STRBUF_INIT;
++ 
++ 	for (cnt = 0, frag = patch->fragments; frag; frag = frag->next) {
++@@ -4544,7 +4544,17 @@ static int write_out_one_reject(struct apply_state *state, struct patch *patch)
++ 	memcpy(namebuf, patch->new_name, cnt);
++ 	memcpy(namebuf + cnt, ".rej", 5);
++ 
++-	rej = fopen(namebuf, "w");
+++	fd = open(namebuf, O_CREAT | O_EXCL | O_WRONLY, 0666);
+++	if (fd < 0) {
+++		if (errno != EEXIST)
+++			return error_errno(_("cannot open %s"), namebuf);
+++		if (unlink(namebuf))
+++			return error_errno(_("cannot unlink '%s'"), namebuf);
+++		fd = open(namebuf, O_CREAT | O_EXCL | O_WRONLY, 0666);
+++		if (fd < 0)
+++			return error_errno(_("cannot open %s"), namebuf);
+++	}
+++	rej = fdopen(fd, "w");
++ 	if (!rej)
++ 		return error_errno(_("cannot open %s"), namebuf);
++ 
++diff --git a/t/t4115-apply-symlink.sh b/t/t4115-apply-symlink.sh
++index 872fcda..1e9e006 100755
++--- a/t/t4115-apply-symlink.sh
+++++ b/t/t4115-apply-symlink.sh
++@@ -44,4 +44,19 @@ test_expect_success 'apply --index symlink patch' '
++ 
++ '
++ 
+++test_expect_success SYMLINKS '--reject removes .rej symlink if it exists' '
+++	test_when_finished "git reset --hard && git clean -dfx" &&
+++
+++	test_commit file &&
+++	echo modified >file.t &&
+++	git diff -- file.t >patch &&
+++	echo modified-again >file.t &&
+++
+++	ln -s foo file.t.rej &&
+++	test_must_fail git apply patch --reject 2>err &&
+++	test_i18ngrep "Rejected hunk" err &&
+++	test_path_is_missing foo &&
+++	test_path_is_file file.t.rej
+++'
+++
++ test_done
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index 36318eed20..33da20cd26 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -28,6 +28,7 @@ SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
+            file://CVE-2023-22490-2.patch \
+            file://CVE-2023-22490-3.patch \
+            file://CVE-2023-23946.patch \
++           file://CVE-2023-25652.patch \
+            "
+ S = "${WORKDIR}/git-${PV}"
  
--    # Add $newpath to $PATH
--    PATH="$newpath:$PATH"
--done
--unset BITBAKEDIR newpath
-+# This is not needed anymore
-+unset BITBAKEDIR
- 
- # Used by the runqemu script
- export BUILDDIR
--export PATH
- 
- BB_ENV_PASSTHROUGH_ADDITIONS_OE="MACHINE DISTRO TCMODE TCLIBC HTTP_PROXY http_proxy \
- HTTPS_PROXY https_proxy FTP_PROXY ftp_proxy FTPS_PROXY ftps_proxy ALL_PROXY \
 -- 
-2.34.1
+2.25.1
 
 
