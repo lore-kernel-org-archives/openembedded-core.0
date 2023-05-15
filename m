@@ -1,75 +1,96 @@
-Return-Path: <michael.opdenacker@bootlin.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E8E6C7EE22
-	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 08:17:51 +0000 (UTC)
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
- by mx.groups.io with SMTP id smtpd.web11.83244.1684138662231057533
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54CDFC77B7D
+	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 08:36:31 +0000 (UTC)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web11.83467.1684139783098519250
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 May 2023 01:17:42 -0700
+ Mon, 15 May 2023 01:36:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=UIjxzxqC;
- spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: michael.opdenacker@bootlin.com)
-Received: (Authenticated sender: michael.opdenacker@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id C3131C0006;
-	Mon, 15 May 2023 08:17:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1684138660;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m0fAEezkUo1nIwYcdh5KOnGFYTX7lVhkka1cbN6q9FQ=;
-	b=UIjxzxqCvcynlid3avJ3aPDLbNg/7+ddBQAQXzicudU8eU6tbhFpDdNH2TucSkOA5IKPl1
-	50drxFJ6xsmwlh6JhllnzSFJt4xoIH430Y9Lg93RS6TwjHdsluFa31JzrZXvktimxaarQ7
-	x4x7v37B+f6VbfQFWft4n29GXzjj+2mbixe/+4GDSVzJidbiO0KYpTYiSey8jEB9FsCZ4Y
-	pISzrt6eokMmIFo39dgbv1GeGjFr24z1n+6qqrrXwh71CI7DhkTtBozkjlWEl3byKUMH9k
-	o0lsvmWvoc0T84MrsHbHgZx7dke2noTxhPxq1FNnhZoEboCD41UYy9n9dTjWGw==
-Message-ID: <12aa7d8d-4207-46d1-e74e-58fb9942a701@bootlin.com>
-Date: Mon, 15 May 2023 10:17:39 +0200
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=YvBzd3SE;
+ spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-4f27977aed6so3718529e87.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 01:36:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684139781; x=1686731781;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=w2UAC6MHOIxDi7JvCXM3b47CDdvGwJaA22wafWutjfM=;
+        b=YvBzd3SEVcSFCMLDj1qqrKFAgfAH+nn/P0TS09J0+F+YZgc5QRIoGniznx2nlmUVo+
+         SU3cizWFixNDx+ohSuuPOWEj/i+1oIo7Qn0uctzvuqkCxAqrCMnxtsWaTUtgMe1VyBoa
+         duDQp8p1jYl3q/j0cwCIn6z4E+Vc+6V27AZBDg6R/ZHu/tg9OxqDxx5x9S7RTqECOYsA
+         tOz/pZbBy21ox4jJPaXoKM1k/cklQkma9PYgLOvZtOpuA4m7AaLMHPqyknS+bL09zT+O
+         kp+1MEtbJC+W2njdhl/59N81w13HIrSD/8MYloxYSfARpApJzlk2AtYtU9NdRVHVy1G/
+         rGPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684139781; x=1686731781;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w2UAC6MHOIxDi7JvCXM3b47CDdvGwJaA22wafWutjfM=;
+        b=ImXeTVl0QJK/QrzuND60XqAm015lAyq92UvIp++5Jv68ms6ql08AoIYURE8mhdMJkx
+         kdMLONOHhgfYrFTIKl4Uxkuvc7S1P1+KXjAdMIsK0Ldllhce+8WJOung6tyjQy86K5b5
+         AU17+SoPUYzFNIA96WBwdB0HmbOtTuoi9bUJYW+DxujIijxbDxOtrajVU0pHs9r8SC/M
+         SrGtRzrLVtsTi6k6UinbaKJ1i0eYvBzrkRlvZKGNG4MxKmNrq5CCr7zzQrYziXezsslW
+         9DwOO8NjOO3NZtaggqJf5xd/e9w/5vlZ+fZRTdcv5Q1OpAXTQNVaCH3iOhkofx3N6R9s
+         48WA==
+X-Gm-Message-State: AC+VfDwmKoEbIIOFb31EyziBkCNIwW+xddg+7oiZSTpZXcK0CnRzKeCl
+	l/VrpC79t9fNnYtPmeyW/coBS/IidPRr5bC0+io=
+X-Google-Smtp-Source: ACHHUZ7GyYdP1l7Jp6m5141ABmAF+ayqr0/6HjLA0rWVuls5Xe6WTdCfReQEWEsea3y63qBe6I9+D98lzTHhf/tHp0k=
+X-Received: by 2002:ac2:4573:0:b0:4ec:8615:303e with SMTP id
+ k19-20020ac24573000000b004ec8615303emr6178404lfm.33.1684139781067; Mon, 15
+ May 2023 01:36:21 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [OE-core] OE-core CVE metrics for master on Sun 14 May 2023
- 01:00:01 AM HST
-Content-Language: en-US
-To: Steve Sakoman <steve@sakoman.com>,
- openembedded-core@lists.openembedded.org,
- yocto-security@lists.yoctoproject.org
-References: <20230514112915.DBC579603D3@nuc.router0800d9.com>
-From: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Organization: Bootlin
-In-Reply-To: <20230514112915.DBC579603D3@nuc.router0800d9.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230512141135.308692-1-eero.aaltonen@vaisala.com>
+In-Reply-To: <20230512141135.308692-1-eero.aaltonen@vaisala.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 15 May 2023 10:36:09 +0200
+Message-ID: <CANNYZj_Qy6ZBiu0v4uJ7=8XDKR-4FUjg0pVRkWCsDB5eR-f7qw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] avahi: fix D-Bus introspection
+To: eero.aaltonen@vaisala.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 08:17:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181232
+ <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 08:36:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181233
 
-
-On 14.05.23 at 13:29, Steve Sakoman wrote:
-> Branch: master
+On Fri, 12 May 2023 at 16:11, Eero Aaltonen via lists.openembedded.org
+<eero.aaltonen=vaisala.com@lists.openembedded.org> wrote:
+> --- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
+> +++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
+> @@ -83,10 +83,13 @@ RRECOMMENDS:${PN}:append:libc-glibc = " libnss-mdns"
+>  do_install() {
+>         autotools_do_install
+>         rm -rf ${D}/run
+> -       rm -rf ${D}${datadir}/dbus-1/interfaces
+> -       test -d ${D}${datadir}/dbus-1 && rmdir --ignore-fail-on-non-empty ${D}${datadir}/dbus-1
+>         rm -rf ${D}${libdir}/avahi
 >
-> New this week: 3 CVEs
-> CVE-2022-21227 (CVSS3: 7.5 HIGH): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-21227 *
-> CVE-2023-2426 (CVSS3: 5.5 MEDIUM): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2426 *
-> CVE-2023-2610 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2610 *
+> +       if ${@bb.utils.contains('PACKAGECONFIG', 'dbus', 'false', 'true', d)}; then
+> +               rm -rf ${D}${datadir}/dbus-1/interfaces
+> +               test -d ${D}${datadir}/dbus-1 && rmdir --ignore-fail-on-non-empty ${D}${datadir}/dbus-1
+> +       fi
+> +
+>         # Move example service files out of /etc/avahi/services so we don't
+>         # advertise ssh & sftp-ssh by default
+>         install -d ${D}${docdir}/avahi
+> @@ -135,7 +138,7 @@ FILES:avahi-daemon = "${sbindir}/avahi-daemon \
+>                        ${sysconfdir}/avahi/services \
+>                        ${sysconfdir}/dbus-1 \
+>                        ${sysconfdir}/init.d/avahi-daemon \
+> -                      ${datadir}/avahi/introspection/*.introspect \
+> +                      ${@bb.utils.contains('PACKAGECONFIG', 'dbus', '${datadir}/dbus-1/interfaces', '', d)} \
+>                        ${datadir}/avahi/avahi-service.dtd \
+>                        ${datadir}/avahi/service-types \
+>                        ${datadir}/dbus-1/system-services"
 
+Why are these conditional? That packageconfig is defined as
+PACKAGECONFIG[dbus] = "--enable-dbus,--disable-dbus,dbus"
+so upstream should simply handle installing (or not) the needed files by itself?
 
-The number of vulnerabilities coming from vim week after week, year 
-after year, is always striking to me. Could it be because of lower code 
-quality compared to other projects of similar complexity? Could the 
-situation be better if we supported neovim instead?
-
-Cheers
-Michael.
-
--- 
-Michael Opdenacker, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+Alex
 
