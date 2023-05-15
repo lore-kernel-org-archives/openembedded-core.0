@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47C0ACCA461
-	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 21:39:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80F34CA9EBD
+	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 21:39:17 +0000 (UTC)
 Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.3757.1684186747226145534
+ by mx.groups.io with SMTP id smtpd.web10.3708.1684186747281789608
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 May 2023 14:39:07 -0700
+ Mon, 15 May 2023 14:39:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=dkdv3UlQ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010188215a4e9b-152fbc33-b114-4f01-b573-ee7b33241bc0-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=WhQFYfsG;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010188215a5cd5-7236a140-e50d-4446-987a-95593fcd519d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1684186746;
+	t=1684186750;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=qf5ikWDVR23nmWY7MwREL/kNtM7viVZ4xMN3ZACsEqI=;
-	b=dkdv3UlQw4rtG1krQmqQGTq+XSQ1glcBlIlZ3QOHwPC0sr7j6VZdbQDmpGIKiFjb
-	Yx0E6vx1mNeLjEvgFHf7U30R7MsVKB7Oi00B+PokzFaGZzVCNqlZRoeWVWMNdh5+uvW
-	AnVwH+VHzlwswNwThryRy9+IhPtZuwFQAv5brJek=
+	bh=5gmB4uUllCfceTmOuvqucNhRtLQKKHnUcpLSf9zum2Q=;
+	b=WhQFYfsG45Mf8oO2uSZy65VDrvofUl6ROPolER/1xx0VDGpGp7fLUEwoVp8jF2gT
+	Gbgq1nFMFKSqABb4t2NqWLZ2WwyHecxMHgWpoaudkrJj98NvKrQqvS5aavDVKZvnSsJ
+	Sh//PzLFPUMZROC/xQ+x45GQTvjGDX/c1m58nr+c=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1684186746;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1684186750;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=qf5ikWDVR23nmWY7MwREL/kNtM7viVZ4xMN3ZACsEqI=;
-	b=mnuGKuT4sqkjicLmxINht64edbzeBc0b+DE13D+6t2RwLJwHXcbwk7jMkT7dZOc1
-	vLma/Ke1gqPgw1aHhfNnzoBh5dxrwXl16N/BrcROnsCBLwGtUKQZ6/E6w4msBf98PNu
-	TVWlcoQWKoOo3AzE9SoMV5rmhiVzLBa3jutZE9Zk=
-Content-Type: multipart/mixed; boundary="===============3150719969447307245=="
+	bh=5gmB4uUllCfceTmOuvqucNhRtLQKKHnUcpLSf9zum2Q=;
+	b=mBK8Ttxm+dE+JIG1sOLLd3pBvkUcQ3EdXm913HTDe6gF8F1FDUes6rJs+byMWOro
+	oIm+iuIbOeDF5bsaTI+JmPDpDVXMre3q9tMOJR63RZOE+sOQYQgzdlvERmQ52K056Fp
+	rMT9nu8MSDWvyl839EPU4iEKUXkxgiOp4RiH2wJ0=
+Content-Type: multipart/mixed; boundary="===============4883187969369097472=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] lua: upgrading to 5.4.6 FAILED
-Message-ID: <01010188215a4e9b-152fbc33-b114-4f01-b573-ee7b33241bc0-000000@us-west-2.amazonses.com>
-Date: Mon, 15 May 2023 21:39:06 +0000
+Subject: [AUH] vulkan-loader: upgrading to 1.3.246.1 FAILED
+Message-ID: <01010188215a5cd5-7236a140-e50d-4446-987a-95593fcd519d-000000@us-west-2.amazonses.com>
+Date: Mon, 15 May 2023 21:39:10 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2023.05.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 21:39:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181287
+ <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 21:39:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181363
 
---===============3150719969447307245==
+--===============4883187969369097472==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,94 +50,774 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *lua* to *5.4.6* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *vulkan-loader* to *1.3.246.1* has Failed(do_compile).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe lua failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (09:37:55.185757)
-Loading cache...done.
-Loaded 1804 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:8150ae1beb5f79ae853af8d0710d9bc1102dd637"
-workspace            = "master:35e5d29a7d654fc79bdb898d0f1fb277270dbfd5"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 1804 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 901 .bb files complete (899 cached, 2 parsed). 1805 targets, 39 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:8150ae1beb5f79ae853af8d0710d9bc1102dd637"
-workspace            = "master:35e5d29a7d654fc79bdb898d0f1fb277270dbfd5"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Fetching http://www.lua.org/ftp/lua-5.4.6.tar.gz;name=tarballsrc...
-INFO: Rebasing devtool onto 598f73ab29dd89f4929bc625ceb3067026215877
-WARNING: Command 'git rebase 598f73ab29dd89f4929bc625ceb3067026215877' failed:
-Auto-merging src/ldebug.c
-CONFLICT (content): Merge conflict in src/ldebug.c
-Auto-merging src/lvm.c
-CONFLICT (content): Merge conflict in src/lvm.c
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Using source tree as build directory since that would be the default for this recipe
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/lua
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/lua/lua_5.4.6.bb
+do_compile failed
 
 
+
+Next steps:
+    - apply the patch: git am 0001-vulkan-loader-upgrade-1.3.243.0-1.3.246.1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============3150719969447307245==--
+--===============4883187969369097472==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+
+Loading cache...done.
+Loaded 1803 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 900 .bb files complete (899 cached, 1 parsed). 1803 targets, 40 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:53dd4712612d2b5ead74e13463dbf9c5eafd96b6"
+workspace            = "master:35e5d29a7d654fc79bdb898d0f1fb277270dbfd5"
+
+Initialising tasks...done.
+Sstate summary: Wanted 132 Local 122 Mirrors 0 Missed 10 Current 242 (92% match, 97% complete)
+Removing 1 stale sstate objects for arch core2-32...done.
+Removing 1 stale sstate objects for arch qemux86...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 288 of 374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.115.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 289 of 374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 298 of 374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 309 of 374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 320 of 374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 322 of 374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxshmfence-1.3.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libdrm-2.4.115-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe mesa-2_23.0.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running task 897 of 1378 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.246.1.bb:do_fetch)
+NOTE: Running task 977 of 1378 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.3.bb:do_write_config)
+NOTE: recipe mesa-2_23.0.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running task 978 of 1378 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.3.bb:do_fetch)
+NOTE: recipe vulkan-loader-1.3.246.1-r0: task do_fetch: Started
+NOTE: recipe xrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxshmfence-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 363 of 374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libdrm-2.4.115-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 366 of 374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.17.bb:do_populate_sysroot_setscene)
+NOTE: recipe mesa-2_23.0.3-r0: task do_write_config: Started
+NOTE: recipe vulkan-loader-1.3.246.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1000 of 1378 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.246.1.bb:do_unpack)
+NOTE: recipe mesa-2_23.0.3-r0: task do_fetch: Started
+NOTE: recipe mesa-2_23.0.3-r0: task do_write_config: Succeeded
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpciaccess-0.17-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe mesa-2_23.0.3-r0: task do_fetch: Succeeded
+NOTE: Running task 1001 of 1378 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.3.bb:do_unpack)
+NOTE: recipe vulkan-loader-1.3.246.1-r0: task do_unpack: Started
+NOTE: recipe mesa-2_23.0.3-r0: task do_unpack: Started
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpciaccess-0.17-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 369 of 374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-loader-1.3.246.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1014 of 1378 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.246.1.bb:do_patch)
+NOTE: recipe vulkan-loader-1.3.246.1-r0: task do_patch: Started
+NOTE: recipe vulkan-loader-1.3.246.1-r0: task do_patch: Succeeded
+NOTE: Running task 1015 of 1378 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.246.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1016 of 1378 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.246.1.bb:do_generate_toolchain_file)
+NOTE: Running task 1017 of 1378 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.246.1.bb:do_populate_lic)
+NOTE: recipe vulkan-loader-1.3.246.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe vulkan-loader-1.3.246.1-r0: task do_populate_lic: Started
+NOTE: recipe vulkan-loader-1.3.246.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe vulkan-loader-1.3.246.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe vulkan-loader-1.3.246.1-r0: task do_populate_lic: Succeeded
+NOTE: recipe vulkan-loader-1.3.246.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1318 of 1378 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.246.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe vulkan-loader-1.3.246.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mesa-2_23.0.3-r0: task do_unpack: Succeeded
+NOTE: Running task 1361 of 1378 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.3.bb:do_patch)
+NOTE: recipe mesa-2_23.0.3-r0: task do_patch: Started
+NOTE: recipe mesa-2_23.0.3-r0: task do_patch: Succeeded
+NOTE: recipe vulkan-loader-1.3.246.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1363 of 1378 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.246.1.bb:do_configure)
+NOTE: recipe vulkan-loader-1.3.246.1-r0: task do_configure: Started
+NOTE: recipe vulkan-loader-1.3.246.1-r0: task do_configure: Succeeded
+NOTE: Running task 1364 of 1378 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.246.1.bb:do_compile)
+NOTE: recipe vulkan-loader-1.3.246.1-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| NOTE: VERBOSE=1 cmake --build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build --target all --
+| [1/18] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/b
+ uild/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/allocation.c.o -MF loader/CMakeFiles/vulkan.dir/allocation.c.o.d -o loader/CMakeFiles/vulkan.dir/allocation.c.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp
+ /work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/allocation.c
+| FAILED: loader/CMakeFiles/vulkan.dir/allocation.c.o
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/
+ core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/allocation.c.o -MF loader/CMakeFiles/vulkan.dir/allocation.c.o.d -o loader/CMakeFiles/vulkan.dir/allocation.c.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/c
+ ore2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/allocation.c
+| In file included from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader_common.h:39,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/allocation.h:31,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/allocation.c:27:
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:627:5: error: unknown type name 'PFN_vkMapMemory2KHR'
+|   627 |     PFN_vkMapMemory2KHR MapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:628:5: error: unknown type name 'PFN_vkUnmapMemory2KHR'
+|   628 |     PFN_vkUnmapMemory2KHR UnmapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1030:5: error: unknown type name 'PFN_vkCreateShadersEXT'
+|  1030 |     PFN_vkCreateShadersEXT CreateShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1031:5: error: unknown type name 'PFN_vkDestroyShaderEXT'
+|  1031 |     PFN_vkDestroyShaderEXT DestroyShaderEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1032:5: error: unknown type name 'PFN_vkGetShaderBinaryDataEXT'
+|  1032 |     PFN_vkGetShaderBinaryDataEXT GetShaderBinaryDataEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1033:5: error: unknown type name 'PFN_vkCmdBindShadersEXT'
+|  1033 |     PFN_vkCmdBindShadersEXT CmdBindShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+| [2/18] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/b
+ uild/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/unknown_function_handling.c.o -MF loader/CMakeFiles/vulkan.dir/unknown_function_handling.c.o.d -o loader/CMakeFiles/vulkan.dir/unknown_function_handling.c.o -c /home/pok
+ ybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/unknown_function_handling.c
+| FAILED: loader/CMakeFiles/vulkan.dir/unknown_function_handling.c.o
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/
+ core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/unknown_function_handling.c.o -MF loader/CMakeFiles/vulkan.dir/unknown_function_handling.c.o.d -o loader/CMakeFiles/vulkan.dir/unknown_function_handling.c.o -c /home/pokybuild/
+ yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/unknown_function_handling.c
+| In file included from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader_common.h:39,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/unknown_function_handling.h:27,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/unknown_function_handling.c:25:
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:627:5: error: unknown type name 'PFN_vkMapMemory2KHR'
+|   627 |     PFN_vkMapMemory2KHR MapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:628:5: error: unknown type name 'PFN_vkUnmapMemory2KHR'
+|   628 |     PFN_vkUnmapMemory2KHR UnmapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1030:5: error: unknown type name 'PFN_vkCreateShadersEXT'
+|  1030 |     PFN_vkCreateShadersEXT CreateShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1031:5: error: unknown type name 'PFN_vkDestroyShaderEXT'
+|  1031 |     PFN_vkDestroyShaderEXT DestroyShaderEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1032:5: error: unknown type name 'PFN_vkGetShaderBinaryDataEXT'
+|  1032 |     PFN_vkGetShaderBinaryDataEXT GetShaderBinaryDataEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1033:5: error: unknown type name 'PFN_vkCmdBindShadersEXT'
+|  1033 |     PFN_vkCmdBindShadersEXT CmdBindShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+| [3/18] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/b
+ uild/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/loader_environment.c.o -MF loader/CMakeFiles/vulkan.dir/loader_environment.c.o.d -o loader/CMakeFiles/vulkan.dir/loader_environment.c.o -c /home/pokybuild/yocto-worker/a
+ uh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader_environment.c
+| FAILED: loader/CMakeFiles/vulkan.dir/loader_environment.c.o
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/
+ core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/loader_environment.c.o -MF loader/CMakeFiles/vulkan.dir/loader_environment.c.o.d -o loader/CMakeFiles/vulkan.dir/loader_environment.c.o -c /home/pokybuild/yocto-worker/auh/buil
+ d/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader_environment.c
+| In file included from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader_common.h:39,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader_environment.h:31,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader_environment.c:29:
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:627:5: error: unknown type name 'PFN_vkMapMemory2KHR'
+|   627 |     PFN_vkMapMemory2KHR MapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:628:5: error: unknown type name 'PFN_vkUnmapMemory2KHR'
+|   628 |     PFN_vkUnmapMemory2KHR UnmapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1030:5: error: unknown type name 'PFN_vkCreateShadersEXT'
+|  1030 |     PFN_vkCreateShadersEXT CreateShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1031:5: error: unknown type name 'PFN_vkDestroyShaderEXT'
+|  1031 |     PFN_vkDestroyShaderEXT DestroyShaderEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1032:5: error: unknown type name 'PFN_vkGetShaderBinaryDataEXT'
+|  1032 |     PFN_vkGetShaderBinaryDataEXT GetShaderBinaryDataEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1033:5: error: unknown type name 'PFN_vkCmdBindShadersEXT'
+|  1033 |     PFN_vkCmdBindShadersEXT CmdBindShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+| [4/18] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/b
+ uild/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/terminator.c.o -MF loader/CMakeFiles/vulkan.dir/terminator.c.o.d -o loader/CMakeFiles/vulkan.dir/terminator.c.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp
+ /work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/terminator.c
+| FAILED: loader/CMakeFiles/vulkan.dir/terminator.c.o
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/
+ core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/terminator.c.o -MF loader/CMakeFiles/vulkan.dir/terminator.c.o.d -o loader/CMakeFiles/vulkan.dir/terminator.c.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/c
+ ore2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/terminator.c
+| In file included from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader_common.h:39,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/allocation.h:31,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/terminator.c:32:
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:627:5: error: unknown type name 'PFN_vkMapMemory2KHR'
+|   627 |     PFN_vkMapMemory2KHR MapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:628:5: error: unknown type name 'PFN_vkUnmapMemory2KHR'
+|   628 |     PFN_vkUnmapMemory2KHR UnmapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1030:5: error: unknown type name 'PFN_vkCreateShadersEXT'
+|  1030 |     PFN_vkCreateShadersEXT CreateShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1031:5: error: unknown type name 'PFN_vkDestroyShaderEXT'
+|  1031 |     PFN_vkDestroyShaderEXT DestroyShaderEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1032:5: error: unknown type name 'PFN_vkGetShaderBinaryDataEXT'
+|  1032 |     PFN_vkGetShaderBinaryDataEXT GetShaderBinaryDataEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1033:5: error: unknown type name 'PFN_vkCmdBindShadersEXT'
+|  1033 |     PFN_vkCmdBindShadersEXT CmdBindShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+| [5/18] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/b
+ uild/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/dev_ext_trampoline.c.o -MF loader/CMakeFiles/vulkan.dir/dev_ext_trampoline.c.o.d -o loader/CMakeFiles/vulkan.dir/dev_ext_trampoline.c.o -c /home/pokybuild/yocto-worker/a
+ uh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/dev_ext_trampoline.c
+| FAILED: loader/CMakeFiles/vulkan.dir/dev_ext_trampoline.c.o
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/
+ core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/dev_ext_trampoline.c.o -MF loader/CMakeFiles/vulkan.dir/dev_ext_trampoline.c.o.d -o loader/CMakeFiles/vulkan.dir/dev_ext_trampoline.c.o -c /home/pokybuild/yocto-worker/auh/buil
+ d/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/dev_ext_trampoline.c
+| In file included from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader_common.h:39,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader.h:32,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/dev_ext_trampoline.c:22:
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:627:5: error: unknown type name 'PFN_vkMapMemory2KHR'
+|   627 |     PFN_vkMapMemory2KHR MapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:628:5: error: unknown type name 'PFN_vkUnmapMemory2KHR'
+|   628 |     PFN_vkUnmapMemory2KHR UnmapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1030:5: error: unknown type name 'PFN_vkCreateShadersEXT'
+|  1030 |     PFN_vkCreateShadersEXT CreateShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1031:5: error: unknown type name 'PFN_vkDestroyShaderEXT'
+|  1031 |     PFN_vkDestroyShaderEXT DestroyShaderEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1032:5: error: unknown type name 'PFN_vkGetShaderBinaryDataEXT'
+|  1032 |     PFN_vkGetShaderBinaryDataEXT GetShaderBinaryDataEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1033:5: error: unknown type name 'PFN_vkCmdBindShadersEXT'
+|  1033 |     PFN_vkCmdBindShadersEXT CmdBindShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+| [6/18] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/b
+ uild/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/gpa_helper.c.o -MF loader/CMakeFiles/vulkan.dir/gpa_helper.c.o.d -o loader/CMakeFiles/vulkan.dir/gpa_helper.c.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp
+ /work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/gpa_helper.c
+| FAILED: loader/CMakeFiles/vulkan.dir/gpa_helper.c.o
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/
+ core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/gpa_helper.c.o -MF loader/CMakeFiles/vulkan.dir/gpa_helper.c.o.d -o loader/CMakeFiles/vulkan.dir/gpa_helper.c.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/c
+ ore2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/gpa_helper.c
+| In file included from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader_common.h:39,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/gpa_helper.h:25,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/gpa_helper.c:23:
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:627:5: error: unknown type name 'PFN_vkMapMemory2KHR'
+|   627 |     PFN_vkMapMemory2KHR MapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:628:5: error: unknown type name 'PFN_vkUnmapMemory2KHR'
+|   628 |     PFN_vkUnmapMemory2KHR UnmapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1030:5: error: unknown type name 'PFN_vkCreateShadersEXT'
+|  1030 |     PFN_vkCreateShadersEXT CreateShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1031:5: error: unknown type name 'PFN_vkDestroyShaderEXT'
+|  1031 |     PFN_vkDestroyShaderEXT DestroyShaderEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1032:5: error: unknown type name 'PFN_vkGetShaderBinaryDataEXT'
+|  1032 |     PFN_vkGetShaderBinaryDataEXT GetShaderBinaryDataEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1033:5: error: unknown type name 'PFN_vkCmdBindShadersEXT'
+|  1033 |     PFN_vkCmdBindShadersEXT CmdBindShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+| [7/18] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/b
+ uild/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/log.c.o -MF loader/CMakeFiles/vulkan.dir/log.c.o.d -o loader/CMakeFiles/vulkan.dir/log.c.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-l
+ inux/vulkan-loader/1.3.246.1-r0/git/loader/log.c
+| FAILED: loader/CMakeFiles/vulkan.dir/log.c.o
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/
+ core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/log.c.o -MF loader/CMakeFiles/vulkan.dir/log.c.o.d -o loader/CMakeFiles/vulkan.dir/log.c.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vu
+ lkan-loader/1.3.246.1-r0/git/loader/log.c
+| In file included from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader_common.h:39,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/log.h:29,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/log.c:29:
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:627:5: error: unknown type name 'PFN_vkMapMemory2KHR'
+|   627 |     PFN_vkMapMemory2KHR MapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:628:5: error: unknown type name 'PFN_vkUnmapMemory2KHR'
+|   628 |     PFN_vkUnmapMemory2KHR UnmapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1030:5: error: unknown type name 'PFN_vkCreateShadersEXT'
+|  1030 |     PFN_vkCreateShadersEXT CreateShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1031:5: error: unknown type name 'PFN_vkDestroyShaderEXT'
+|  1031 |     PFN_vkDestroyShaderEXT DestroyShaderEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1032:5: error: unknown type name 'PFN_vkGetShaderBinaryDataEXT'
+|  1032 |     PFN_vkGetShaderBinaryDataEXT GetShaderBinaryDataEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1033:5: error: unknown type name 'PFN_vkCmdBindShadersEXT'
+|  1033 |     PFN_vkCmdBindShadersEXT CmdBindShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+| [8/18] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/b
+ uild/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/extension_manual.c.o -MF loader/CMakeFiles/vulkan.dir/extension_manual.c.o.d -o loader/CMakeFiles/vulkan.dir/extension_manual.c.o -c /home/pokybuild/yocto-worker/auh/bui
+ ld/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/extension_manual.c
+| FAILED: loader/CMakeFiles/vulkan.dir/extension_manual.c.o
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/
+ core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/extension_manual.c.o -MF loader/CMakeFiles/vulkan.dir/extension_manual.c.o.d -o loader/CMakeFiles/vulkan.dir/extension_manual.c.o -c /home/pokybuild/yocto-worker/auh/build/buil
+ d/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/extension_manual.c
+| In file included from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader_common.h:39,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/allocation.h:31,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/extension_manual.c:29:
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:627:5: error: unknown type name 'PFN_vkMapMemory2KHR'
+|   627 |     PFN_vkMapMemory2KHR MapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:628:5: error: unknown type name 'PFN_vkUnmapMemory2KHR'
+|   628 |     PFN_vkUnmapMemory2KHR UnmapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1030:5: error: unknown type name 'PFN_vkCreateShadersEXT'
+|  1030 |     PFN_vkCreateShadersEXT CreateShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1031:5: error: unknown type name 'PFN_vkDestroyShaderEXT'
+|  1031 |     PFN_vkDestroyShaderEXT DestroyShaderEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1032:5: error: unknown type name 'PFN_vkGetShaderBinaryDataEXT'
+|  1032 |     PFN_vkGetShaderBinaryDataEXT GetShaderBinaryDataEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1033:5: error: unknown type name 'PFN_vkCmdBindShadersEXT'
+|  1033 |     PFN_vkCmdBindShadersEXT CmdBindShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+| [9/18] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/b
+ uild/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/loader_linux.c.o -MF loader/CMakeFiles/vulkan.dir/loader_linux.c.o.d -o loader/CMakeFiles/vulkan.dir/loader_linux.c.o -c /home/pokybuild/yocto-worker/auh/build/build/bui
+ ld/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader_linux.c
+| FAILED: loader/CMakeFiles/vulkan.dir/loader_linux.c.o
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/
+ core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/loader_linux.c.o -MF loader/CMakeFiles/vulkan.dir/loader_linux.c.o.d -o loader/CMakeFiles/vulkan.dir/loader_linux.c.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/
+ work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader_linux.c
+| In file included from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader_common.h:39,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader_linux.h:27,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader_linux.c:30:
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:627:5: error: unknown type name 'PFN_vkMapMemory2KHR'
+|   627 |     PFN_vkMapMemory2KHR MapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:628:5: error: unknown type name 'PFN_vkUnmapMemory2KHR'
+|   628 |     PFN_vkUnmapMemory2KHR UnmapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1030:5: error: unknown type name 'PFN_vkCreateShadersEXT'
+|  1030 |     PFN_vkCreateShadersEXT CreateShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1031:5: error: unknown type name 'PFN_vkDestroyShaderEXT'
+|  1031 |     PFN_vkDestroyShaderEXT DestroyShaderEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1032:5: error: unknown type name 'PFN_vkGetShaderBinaryDataEXT'
+|  1032 |     PFN_vkGetShaderBinaryDataEXT GetShaderBinaryDataEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1033:5: error: unknown type name 'PFN_vkCmdBindShadersEXT'
+|  1033 |     PFN_vkCmdBindShadersEXT CmdBindShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+| [10/18] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/
+ build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/t
+ mp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/phys_dev_ext.c.o -MF loader/CMakeFiles/vulkan.dir/phys_dev_ext.c.o.d -o loader/CMakeFiles/vulkan.dir/phys_dev_ext.c.o -c /home/pokybuild/yocto-worker/auh/build/build/bu
+ ild/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/phys_dev_ext.c
+| FAILED: loader/CMakeFiles/vulkan.dir/phys_dev_ext.c.o
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/
+ core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/phys_dev_ext.c.o -MF loader/CMakeFiles/vulkan.dir/phys_dev_ext.c.o.d -o loader/CMakeFiles/vulkan.dir/phys_dev_ext.c.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/
+ work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/phys_dev_ext.c
+| In file included from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader_common.h:39,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader.h:32,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/phys_dev_ext.c:31:
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:627:5: error: unknown type name 'PFN_vkMapMemory2KHR'
+|   627 |     PFN_vkMapMemory2KHR MapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:628:5: error: unknown type name 'PFN_vkUnmapMemory2KHR'
+|   628 |     PFN_vkUnmapMemory2KHR UnmapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1030:5: error: unknown type name 'PFN_vkCreateShadersEXT'
+|  1030 |     PFN_vkCreateShadersEXT CreateShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1031:5: error: unknown type name 'PFN_vkDestroyShaderEXT'
+|  1031 |     PFN_vkDestroyShaderEXT DestroyShaderEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1032:5: error: unknown type name 'PFN_vkGetShaderBinaryDataEXT'
+|  1032 |     PFN_vkGetShaderBinaryDataEXT GetShaderBinaryDataEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1033:5: error: unknown type name 'PFN_vkCmdBindShadersEXT'
+|  1033 |     PFN_vkCmdBindShadersEXT CmdBindShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+| [11/18] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/
+ build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/t
+ mp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/wsi.c.o -MF loader/CMakeFiles/vulkan.dir/wsi.c.o.d -o loader/CMakeFiles/vulkan.dir/wsi.c.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-
+ linux/vulkan-loader/1.3.246.1-r0/git/loader/wsi.c
+| FAILED: loader/CMakeFiles/vulkan.dir/wsi.c.o
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/
+ core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/wsi.c.o -MF loader/CMakeFiles/vulkan.dir/wsi.c.o.d -o loader/CMakeFiles/vulkan.dir/wsi.c.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vu
+ lkan-loader/1.3.246.1-r0/git/loader/wsi.c
+| In file included from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader_common.h:39,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/allocation.h:31,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/wsi.c:31:
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:627:5: error: unknown type name 'PFN_vkMapMemory2KHR'
+|   627 |     PFN_vkMapMemory2KHR MapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:628:5: error: unknown type name 'PFN_vkUnmapMemory2KHR'
+|   628 |     PFN_vkUnmapMemory2KHR UnmapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1030:5: error: unknown type name 'PFN_vkCreateShadersEXT'
+|  1030 |     PFN_vkCreateShadersEXT CreateShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1031:5: error: unknown type name 'PFN_vkDestroyShaderEXT'
+|  1031 |     PFN_vkDestroyShaderEXT DestroyShaderEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1032:5: error: unknown type name 'PFN_vkGetShaderBinaryDataEXT'
+|  1032 |     PFN_vkGetShaderBinaryDataEXT GetShaderBinaryDataEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1033:5: error: unknown type name 'PFN_vkCmdBindShadersEXT'
+|  1033 |     PFN_vkCmdBindShadersEXT CmdBindShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+| [12/18] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/
+ build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/t
+ mp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/trampoline.c.o -MF loader/CMakeFiles/vulkan.dir/trampoline.c.o.d -o loader/CMakeFiles/vulkan.dir/trampoline.c.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/trampoline.c
+| FAILED: loader/CMakeFiles/vulkan.dir/trampoline.c.o
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/
+ core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/trampoline.c.o -MF loader/CMakeFiles/vulkan.dir/trampoline.c.o.d -o loader/CMakeFiles/vulkan.dir/trampoline.c.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/c
+ ore2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/trampoline.c
+| In file included from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader_common.h:39,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/allocation.h:31,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/trampoline.c:30:
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:627:5: error: unknown type name 'PFN_vkMapMemory2KHR'
+|   627 |     PFN_vkMapMemory2KHR MapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:628:5: error: unknown type name 'PFN_vkUnmapMemory2KHR'
+|   628 |     PFN_vkUnmapMemory2KHR UnmapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1030:5: error: unknown type name 'PFN_vkCreateShadersEXT'
+|  1030 |     PFN_vkCreateShadersEXT CreateShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1031:5: error: unknown type name 'PFN_vkDestroyShaderEXT'
+|  1031 |     PFN_vkDestroyShaderEXT DestroyShaderEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1032:5: error: unknown type name 'PFN_vkGetShaderBinaryDataEXT'
+|  1032 |     PFN_vkGetShaderBinaryDataEXT GetShaderBinaryDataEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1033:5: error: unknown type name 'PFN_vkCmdBindShadersEXT'
+|  1033 |     PFN_vkCmdBindShadersEXT CmdBindShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+| [13/18] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/
+ build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/t
+ mp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/debug_utils.c.o -MF loader/CMakeFiles/vulkan.dir/debug_utils.c.o.d -o loader/CMakeFiles/vulkan.dir/debug_utils.c.o -c /home/pokybuild/yocto-worker/auh/build/build/build
+ /tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/debug_utils.c
+| FAILED: loader/CMakeFiles/vulkan.dir/debug_utils.c.o
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/
+ core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/debug_utils.c.o -MF loader/CMakeFiles/vulkan.dir/debug_utils.c.o.d -o loader/CMakeFiles/vulkan.dir/debug_utils.c.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/wor
+ k/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/debug_utils.c
+| In file included from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/debug_utils.c:36:
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_object_types.h:251:5: error: 'VK_OBJECT_TYPE_SHADER_EXT' undeclared here (not in a function); did you mean 'VK_OBJECT_TYPE_SHADER_MODULE'?
+|   251 |     VK_OBJECT_TYPE_SHADER_EXT,   // kVulkanObjectTypeShaderEXT
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VK_OBJECT_TYPE_SHADER_MODULE
+| In file included from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader_common.h:39,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/allocation.h:31,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/debug_utils.c:38:
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:627:5: error: unknown type name 'PFN_vkMapMemory2KHR'
+|   627 |     PFN_vkMapMemory2KHR MapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:628:5: error: unknown type name 'PFN_vkUnmapMemory2KHR'
+|   628 |     PFN_vkUnmapMemory2KHR UnmapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1030:5: error: unknown type name 'PFN_vkCreateShadersEXT'
+|  1030 |     PFN_vkCreateShadersEXT CreateShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1031:5: error: unknown type name 'PFN_vkDestroyShaderEXT'
+|  1031 |     PFN_vkDestroyShaderEXT DestroyShaderEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1032:5: error: unknown type name 'PFN_vkGetShaderBinaryDataEXT'
+|  1032 |     PFN_vkGetShaderBinaryDataEXT GetShaderBinaryDataEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1033:5: error: unknown type name 'PFN_vkCmdBindShadersEXT'
+|  1033 |     PFN_vkCmdBindShadersEXT CmdBindShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+| [14/18] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/
+ build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/t
+ mp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/cJSON.c.o -MF loader/CMakeFiles/vulkan.dir/cJSON.c.o.d -o loader/CMakeFiles/vulkan.dir/cJSON.c.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32
+ -poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/cJSON.c
+| FAILED: loader/CMakeFiles/vulkan.dir/cJSON.c.o
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/
+ core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/cJSON.c.o -MF loader/CMakeFiles/vulkan.dir/cJSON.c.o.d -o loader/CMakeFiles/vulkan.dir/cJSON.c.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-li
+ nux/vulkan-loader/1.3.246.1-r0/git/loader/cJSON.c
+| In file included from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader_common.h:39,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/cJSON.h:28,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/cJSON.c:37:
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:627:5: error: unknown type name 'PFN_vkMapMemory2KHR'
+|   627 |     PFN_vkMapMemory2KHR MapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:628:5: error: unknown type name 'PFN_vkUnmapMemory2KHR'
+|   628 |     PFN_vkUnmapMemory2KHR UnmapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1030:5: error: unknown type name 'PFN_vkCreateShadersEXT'
+|  1030 |     PFN_vkCreateShadersEXT CreateShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1031:5: error: unknown type name 'PFN_vkDestroyShaderEXT'
+|  1031 |     PFN_vkDestroyShaderEXT DestroyShaderEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1032:5: error: unknown type name 'PFN_vkGetShaderBinaryDataEXT'
+|  1032 |     PFN_vkGetShaderBinaryDataEXT GetShaderBinaryDataEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1033:5: error: unknown type name 'PFN_vkCmdBindShadersEXT'
+|  1033 |     PFN_vkCmdBindShadersEXT CmdBindShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+| [15/18] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/
+ build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/t
+ mp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/unknown_ext_chain.c.o -MF loader/CMakeFiles/vulkan.dir/unknown_ext_chain.c.o.d -o loader/CMakeFiles/vulkan.dir/unknown_ext_chain.c.o -c /home/pokybuild/yocto-worker/auh
+ /build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/unknown_ext_chain.c
+| FAILED: loader/CMakeFiles/vulkan.dir/unknown_ext_chain.c.o
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/
+ core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/unknown_ext_chain.c.o -MF loader/CMakeFiles/vulkan.dir/unknown_ext_chain.c.o.d -o loader/CMakeFiles/vulkan.dir/unknown_ext_chain.c.o -c /home/pokybuild/yocto-worker/auh/build/b
+ uild/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/unknown_ext_chain.c
+| In file included from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader_common.h:39,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader.h:32,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/unknown_ext_chain.c:29:
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:627:5: error: unknown type name 'PFN_vkMapMemory2KHR'
+|   627 |     PFN_vkMapMemory2KHR MapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:628:5: error: unknown type name 'PFN_vkUnmapMemory2KHR'
+|   628 |     PFN_vkUnmapMemory2KHR UnmapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1030:5: error: unknown type name 'PFN_vkCreateShadersEXT'
+|  1030 |     PFN_vkCreateShadersEXT CreateShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1031:5: error: unknown type name 'PFN_vkDestroyShaderEXT'
+|  1031 |     PFN_vkDestroyShaderEXT DestroyShaderEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1032:5: error: unknown type name 'PFN_vkGetShaderBinaryDataEXT'
+|  1032 |     PFN_vkGetShaderBinaryDataEXT GetShaderBinaryDataEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1033:5: error: unknown type name 'PFN_vkCmdBindShadersEXT'
+|  1033 |     PFN_vkCmdBindShadersEXT CmdBindShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+| [16/18] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/
+ build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/t
+ mp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/loader.c.o -MF loader/CMakeFiles/vulkan.dir/loader.c.o.d -o loader/CMakeFiles/vulkan.dir/loader.c.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2
+ -32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader.c
+| FAILED: loader/CMakeFiles/vulkan.dir/loader.c.o
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot -DAPI_NAME=\"Vulkan\" -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated -I/home/pokybuild/yocto-worker/auh/build/build/build/tm
+ p/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build/loader -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/
+ core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build=/usr/src/debug/vulkan-loader/1.3.246.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/recipe-sysroot-native=  -std=c99 -fPIC -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-missing-field-initializers -fno-strict-aliasing -fno-builtin-memcmp -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -fvisibility=hidden -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/loader.c.o -MF loader/CMakeFiles/vulkan.dir/loader.c.o.d -o loader/CMakeFiles/vulkan.dir/loader.c.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky
+ -linux/vulkan-loader/1.3.246.1-r0/git/loader/loader.c
+| In file included from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader_common.h:39,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader.h:32,
+|                  from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader.c:29:
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:627:5: error: unknown type name 'PFN_vkMapMemory2KHR'
+|   627 |     PFN_vkMapMemory2KHR MapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:628:5: error: unknown type name 'PFN_vkUnmapMemory2KHR'
+|   628 |     PFN_vkUnmapMemory2KHR UnmapMemory2KHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1030:5: error: unknown type name 'PFN_vkCreateShadersEXT'
+|  1030 |     PFN_vkCreateShadersEXT CreateShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1031:5: error: unknown type name 'PFN_vkDestroyShaderEXT'
+|  1031 |     PFN_vkDestroyShaderEXT DestroyShaderEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1032:5: error: unknown type name 'PFN_vkGetShaderBinaryDataEXT'
+|  1032 |     PFN_vkGetShaderBinaryDataEXT GetShaderBinaryDataEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_layer_dispatch_table.h:1033:5: error: unknown type name 'PFN_vkCmdBindShadersEXT'
+|  1033 |     PFN_vkCmdBindShadersEXT CmdBindShadersEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+| In file included from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/loader.c:71:
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c: In function 'loader_init_device_extension_dispatch_table':
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:665:29: error: 'PFN_vkMapMemory2KHR' undeclared (first use in this function); did you mean 'PFN_vkMapMemory'?
+|   665 |     table->MapMemory2KHR = (PFN_vkMapMemory2KHR)gdpa(dev, "vkMapMemory2KHR");
+|       |                             ^~~~~~~~~~~~~~~~~~~
+|       |                             PFN_vkMapMemory
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:665:29: note: each undeclared identifier is reported only once for each function it appears in
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:665:49: error: expected ';' before 'gdpa'
+|   665 |     table->MapMemory2KHR = (PFN_vkMapMemory2KHR)gdpa(dev, "vkMapMemory2KHR");
+|       |                                                 ^~~~
+|       |                                                 ;
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:666:31: error: 'PFN_vkUnmapMemory2KHR' undeclared (first use in this function); did you mean 'PFN_vkUnmapMemory'?
+|   666 |     table->UnmapMemory2KHR = (PFN_vkUnmapMemory2KHR)gdpa(dev, "vkUnmapMemory2KHR");
+|       |                               ^~~~~~~~~~~~~~~~~~~~~
+|       |                               PFN_vkUnmapMemory
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:666:53: error: expected ';' before 'gdpa'
+|   666 |     table->UnmapMemory2KHR = (PFN_vkUnmapMemory2KHR)gdpa(dev, "vkUnmapMemory2KHR");
+|       |                                                     ^~~~
+|       |                                                     ;
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:1068:32: error: 'PFN_vkCreateShadersEXT' undeclared (first use in this function); did you mean 'PFN_vkCreateShaderModule'?
+|  1068 |     table->CreateShadersEXT = (PFN_vkCreateShadersEXT)gdpa(dev, "vkCreateShadersEXT");
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~
+|       |                                PFN_vkCreateShaderModule
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:1068:55: error: expected ';' before 'gdpa'
+|  1068 |     table->CreateShadersEXT = (PFN_vkCreateShadersEXT)gdpa(dev, "vkCreateShadersEXT");
+|       |                                                       ^~~~
+|       |                                                       ;
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:1069:32: error: 'PFN_vkDestroyShaderEXT' undeclared (first use in this function); did you mean 'PFN_vkDestroyShaderModule'?
+|  1069 |     table->DestroyShaderEXT = (PFN_vkDestroyShaderEXT)gdpa(dev, "vkDestroyShaderEXT");
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~
+|       |                                PFN_vkDestroyShaderModule
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:1069:55: error: expected ';' before 'gdpa'
+|  1069 |     table->DestroyShaderEXT = (PFN_vkDestroyShaderEXT)gdpa(dev, "vkDestroyShaderEXT");
+|       |                                                       ^~~~
+|       |                                                       ;
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:1070:38: error: 'PFN_vkGetShaderBinaryDataEXT' undeclared (first use in this function); did you mean 'PFN_vkGetPrivateDataEXT'?
+|  1070 |     table->GetShaderBinaryDataEXT = (PFN_vkGetShaderBinaryDataEXT)gdpa(dev, "vkGetShaderBinaryDataEXT");
+|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                      PFN_vkGetPrivateDataEXT
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:1070:67: error: expected ';' before 'gdpa'
+|  1070 |     table->GetShaderBinaryDataEXT = (PFN_vkGetShaderBinaryDataEXT)gdpa(dev, "vkGetShaderBinaryDataEXT");
+|       |                                                                   ^~~~
+|       |                                                                   ;
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:1071:33: error: 'PFN_vkCmdBindShadersEXT' undeclared (first use in this function)
+|  1071 |     table->CmdBindShadersEXT = (PFN_vkCmdBindShadersEXT)gdpa(dev, "vkCmdBindShadersEXT");
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:1071:57: error: expected ';' before 'gdpa'
+|  1071 |     table->CmdBindShadersEXT = (PFN_vkCmdBindShadersEXT)gdpa(dev, "vkCmdBindShadersEXT");
+|       |                                                         ^~~~
+|       |                                                         ;
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:3668:11: error: unknown type name 'VkMemoryMapInfoKHR'
+|  3668 |     const VkMemoryMapInfoKHR*                   pMemoryMapInfo,
+|       |           ^~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c: In function 'MapMemory2KHR':
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:3677:12: error: called object is not a function or function pointer
+|  3677 |     return disp->MapMemory2KHR(device, pMemoryMapInfo, ppData);
+|       |            ^~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:3682:11: error: unknown type name 'VkMemoryUnmapInfoKHR'
+|  3682 |     const VkMemoryUnmapInfoKHR*                 pMemoryUnmapInfo) {
+|       |           ^~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c: In function 'UnmapMemory2KHR':
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:3690:12: error: called object is not a function or function pointer
+|  3690 |     return disp->UnmapMemory2KHR(device, pMemoryUnmapInfo);
+|       |            ^~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:7790:11: error: unknown type name 'VkShaderCreateInfoEXT'
+|  7790 |     const VkShaderCreateInfoEXT*                pCreateInfos,
+|       |           ^~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:7792:5: error: unknown type name 'VkShaderEXT'
+|  7792 |     VkShaderEXT*                                pShaders) {
+|       |     ^~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:7805:5: error: unknown type name 'VkShaderEXT'
+|  7805 |     VkShaderEXT                                 shader,
+|       |     ^~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:7819:5: error: unknown type name 'VkShaderEXT'
+|  7819 |     VkShaderEXT                                 shader,
+|       |     ^~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:7836:11: error: unknown type name 'VkShaderEXT'
+|  7836 |     const VkShaderEXT*                          pShaders) {
+|       |           ^~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c: In function 'CmdBindShadersEXT':
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:7844:5: error: called object is not a function or function pointer
+|  7844 |     disp->CmdBindShadersEXT(commandBuffer, stageCount, pStages, pShaders);
+|       |     ^~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c: In function 'extension_instance_gpa':
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:9939:25: error: 'CreateShadersEXT' undeclared (first use in this function)
+|  9939 |         *addr = (void *)CreateShadersEXT;
+|       |                         ^~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:9943:25: error: 'DestroyShaderEXT' undeclared (first use in this function)
+|  9943 |         *addr = (void *)DestroyShaderEXT;
+|       |                         ^~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:9947:25: error: 'GetShaderBinaryDataEXT' undeclared (first use in this function)
+|  9947 |         *addr = (void *)GetShaderBinaryDataEXT;
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c: In function 'MapMemory2KHR':
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:3678:1: error: control reaches end of non-void function [-Werror=return-type]
+|  3678 | }
+|       | ^
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c: In function 'UnmapMemory2KHR':
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/git/loader/generated/vk_loader_extensions.c:3691:1: error: control reaches end of non-void function [-Werror=return-type]
+|  3691 | }
+|       | ^
+| cc1: all warnings being treated as errors
+| ninja: build stopped: subcommand failed.
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/temp/run.do_compile.358075:153 exit 1 from 'eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/build' "$@" -- ${EXTRA_OECMAKE_BUILD}'
+| WARNING: Backtrace (BB generated script):
+| 	#1: cmake_runcmake_build, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/temp/run.do_compile.358075, line 153
+| 	#2: cmake_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/temp/run.do_compile.358075, line 147
+| 	#3: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/temp/run.do_compile.358075, line 142
+| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/temp/run.do_compile.358075, line 166
+NOTE: recipe vulkan-loader-1.3.246.1-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 1364 tasks of which 1351 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.246.1.bb:do_compile
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: vulkan-loader-1.3.246.1-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/temp/run.do_compile.358075', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.246.1-r0/temp/log.do_compile.358075
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.246.1.bb:do_compile) failed with exit code '1'
+
+--===============4883187969369097472==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-vulkan-loader-upgrade-1.3.243.0-1.3.246.1.patch"
+
+RnJvbSAwOTJlMWYwMzFiNDk2MGJhZGM4MDE4NTMwYjkwYjhmYzUwMTBjMTVmIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgTWF5IDIwMjMgMTk6MjE6NTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSB2
+dWxrYW4tbG9hZGVyOiB1cGdyYWRlIDEuMy4yNDMuMCAtPiAxLjMuMjQ2LjEKCi0tLQogLi4ue3Z1
+bGthbi1sb2FkZXJfMS4zLjI0My4wLmJiID0+IHZ1bGthbi1sb2FkZXJfMS4zLjI0Ni4xLmJifSB8
+IDQgKystLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkK
+IHJlbmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3t2dWxrYW4tbG9hZGVyXzEuMy4y
+NDMuMC5iYiA9PiB2dWxrYW4tbG9hZGVyXzEuMy4yNDYuMS5iYn0gKDk1JSkKCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1sb2FkZXJfMS4zLjI0My4wLmJi
+IGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4tbG9hZGVyXzEuMy4yNDYuMS5i
+YgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
+dnVsa2FuL3Z1bGthbi1sb2FkZXJfMS4zLjI0My4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
+Z3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1sb2FkZXJfMS4zLjI0Ni4xLmJiCmluZGV4IDIwMTI4NjY3
+ZjEuLjM4ZDNiMjU2ZTIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4v
+dnVsa2FuLWxvYWRlcl8xLjMuMjQzLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1
+bGthbi92dWxrYW4tbG9hZGVyXzEuMy4yNDYuMS5iYgpAQCAtOSw4ICs5LDggQEAgU0VDVElPTiA9
+ICJsaWJzIgogCiBMSUNFTlNFID0gIkFwYWNoZS0yLjAiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZp
+bGU6Ly9MSUNFTlNFLnR4dDttZDU9N2RiZWZlZDIzMjQyNzYwYWEzNDc1ZWU0MjgwMWM1YWMiCi1T
+UkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL1Z1bGthbi1Mb2FkZXIuZ2l0
+O2JyYW5jaD1zZGstMS4zLjI0Mztwcm90b2NvbD1odHRwcyIKLVNSQ1JFViA9ICIyMjQwN2Q3ODA0
+ZjExMWZiYzBlMzFmYTBkYjU5MmQ2NThlMTlhZThiIgorU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIu
+Y29tL0tocm9ub3NHcm91cC9WdWxrYW4tTG9hZGVyLmdpdDticmFuY2g9c2RrLTEuMy4yNDY7cHJv
+dG9jb2w9aHR0cHMiCitTUkNSRVYgPSAiMTMzNmM2YTkzYTE3ODM5YzNhOTJiMTY2NzJmYjcxZmU0
+YzJiN2RhMyIKIAogUyA9ICIke1dPUktESVJ9L2dpdCIKIAotLSAKMi4zOS4yCgo=
+
+--===============4883187969369097472==--
 
