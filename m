@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE38EC88CBC
-	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 21:39:16 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.3762.1684186747387470666
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03B9FC88CBF
+	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 21:39:17 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.3766.1684186747757284046
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 May 2023 14:39:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=BYWcBLIB;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010188215a587a-d72331bd-03f3-42e1-9d54-7a9da4dabad5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=NrtHVLKg;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010188215a5774-39ec3c43-13fc-408f-8b56-ae6715d2bd6d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1684186749;
+	t=1684186748;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=AOVL7kqt6mey3sAqLv87e1DH4ygZtYs0GraXWr3RzHE=;
-	b=BYWcBLIBvFgPIA2dKvP8ke9yOQwIUdAzCX/B3wo9nvOgmMeWsxhlLJ368sOmbeLH
-	qWcdzqsn6FyyF8pdpAQ1YuMSFWqBIf13223jYV9FE4576F6DYtqsij5wxRac8nXhnOH
-	P7+Jl3q6236/L32n99ACupq9tUq4+pvfuDTOUQ7Y=
+	bh=3h78Xm6hcdO0mm7CN/EWoZJiIaHN0nuuwzKgtemj9zY=;
+	b=NrtHVLKgTzURMU1jXcDC1VyvPUXpGMyynIWJfDLpxFgnRPrsF8wgyTLIcN6f1z+P
+	385zdRX0Gbptv3oYstVT9BW1HX8H3Df+UB6OJHhucIM11XOtDtgPcVux5OP8vey7SxL
+	/+zXZuWL8gjd7r6QTOznucOlhRhMhTXDNKN86uz0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1684186749;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1684186748;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=AOVL7kqt6mey3sAqLv87e1DH4ygZtYs0GraXWr3RzHE=;
-	b=Z812ttjYKQsvBbGlVNmXDM80iZMPAS974YzDhcEMqHYgdF5a8c+cB3gR6bvRiSwx
-	Ms6lC8hVmmy/XCKWq8NNq3dKTJA+AF4V9txqQ1noBHLQ1QFy2YuHLEWdkgIk+Td6y15
-	XNp08Dh+XqZAHJQCqvpveGccng7Q48dTmtXE81nE=
-Content-Type: multipart/mixed; boundary="===============3310334065850524840=="
+	bh=3h78Xm6hcdO0mm7CN/EWoZJiIaHN0nuuwzKgtemj9zY=;
+	b=qOFPzeO7pRPaRUYaFdSGbarB7ZNwwCW7uWwI19F6Y5K4OoBOgDv4uKcT75ZgAXbj
+	mQI/tTNUgroiHa261w9rsvddC2fayWLAl0RJdpleV0iyG9oZ87Y8s2NN/gBNgs6cTAy
+	892z0eLkaq9BmMDjsWX+5YsEh3X9sVbvZYU70Ies=
+Content-Type: multipart/mixed; boundary="===============0391215845874200758=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] wget: upgrading to 1.21.4 SUCCEEDED
-Message-ID: <01010188215a587a-d72331bd-03f3-42e1-9d54-7a9da4dabad5-000000@us-west-2.amazonses.com>
-Date: Mon, 15 May 2023 21:39:09 +0000
+Subject: [AUH] lighttpd: upgrading to 1.4.70 SUCCEEDED
+Message-ID: <01010188215a5774-39ec3c43-13fc-408f-8b56-ae6715d2bd6d-000000@us-west-2.amazonses.com>
+Date: Mon, 15 May 2023 21:39:08 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.05.15-54.240.27.31
+X-SES-Outgoing: 2023.05.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 21:39:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181339
+ <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 21:39:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181337
 
---===============3310334065850524840==
+--===============0391215845874200758==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *wget* to *1.21.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *lighttpd* to *1.4.70* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-wget-upgrade-1.21.3-1.21.4.patch
+    - apply the patch: git am 0001-lighttpd-upgrade-1.4.69-1.4.70.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,225 +69,148 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3310334065850524840==
+--===============0391215845874200758==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/wget: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget: PACKAGES: added "wget-locale-ka"
-packages/core2-32-poky-linux/wget: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget: SRC_URI changed from "https://ftp.gnu.org/gnu/wget/wget-1.21.3.tar.gz file://0002-improve-reproducibility.patch" to "https://ftp.gnu.org/gnu/wget/wget-1.21.4.tar.gz file://0002-improve-reproducibility.patch"
-packages/core2-32-poky-linux/wget/wget-dbg: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-dbg: PKGSIZE changed from 1329472 to 1339332 (+1%)
-packages/core2-32-poky-linux/wget/wget-dbg: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-dev: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-dev: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-doc: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-doc: PKGSIZE changed from 233669 to 233677 (+0%)
-packages/core2-32-poky-linux/wget/wget-doc: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-af: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-af: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-be: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-be: PKGSIZE changed from 23843 to 98110 (+311%)
-packages/core2-32-poky-linux/wget/wget-locale-be: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-bg: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-bg: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-ca: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-ca: PKGSIZE changed from 34697 to 34625 (-0%)
-packages/core2-32-poky-linux/wget/wget-locale-ca: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-cs: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-cs: PKGSIZE changed from 87541 to 87863 (+0%)
-packages/core2-32-poky-linux/wget/wget-locale-cs: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-da: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-da: PKGSIZE changed from 27195 to 27130 (-0%)
-packages/core2-32-poky-linux/wget/wget-locale-da: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-de: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-de: PKGSIZE changed from 90321 to 90681 (+0%)
-packages/core2-32-poky-linux/wget/wget-locale-de: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-el: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-el: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-en-gb: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-en-gb: PKGSIZE changed from 8365 to 8427 (+1%)
-packages/core2-32-poky-linux/wget/wget-locale-en-gb: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-eo: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-eo: PKGSIZE changed from 80571 to 82274 (+2%)
-packages/core2-32-poky-linux/wget/wget-locale-eo: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-es: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-es: PKGSIZE changed from 84891 to 85775 (+1%)
-packages/core2-32-poky-linux/wget/wget-locale-es: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-et: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-et: PKGSIZE changed from 79250 to 79536 (+0%)
-packages/core2-32-poky-linux/wget/wget-locale-et: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-eu: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-eu: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-fi: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-fi: PKGSIZE changed from 71680 to 71623 (-0%)
-packages/core2-32-poky-linux/wget/wget-locale-fi: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-fr: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-fr: PKGSIZE changed from 88506 to 88786 (+0%)
-packages/core2-32-poky-linux/wget/wget-locale-fr: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-ga: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-ga: PKGSIZE changed from 76717 to 76654 (-0%)
-packages/core2-32-poky-linux/wget/wget-locale-ga: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-gl: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-gl: PKGSIZE changed from 24196 to 24131 (-0%)
-packages/core2-32-poky-linux/wget/wget-locale-gl: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-he: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-he: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-hr: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-hr: PKGSIZE changed from 81728 to 82185 (+1%)
-packages/core2-32-poky-linux/wget/wget-locale-hr: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-hu: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-hu: PKGSIZE changed from 82226 to 90495 (+10%)
-packages/core2-32-poky-linux/wget/wget-locale-hu: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-id: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-id: PKGSIZE changed from 30193 to 61467 (+104%)
-packages/core2-32-poky-linux/wget/wget-locale-id: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-it: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-it: PKGSIZE changed from 86629 to 86569 (-0%)
-packages/core2-32-poky-linux/wget/wget-locale-it: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-ja: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-ja: PKGSIZE changed from 92018 to 92245 (+0%)
-packages/core2-32-poky-linux/wget/wget-locale-ja: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-ko: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-ko: PKGSIZE changed from 82621 to 82916 (+0%)
-packages/core2-32-poky-linux/wget/wget-locale-ko: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-lt: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-lt: PKGSIZE changed from 15711 to 15765 (+0%)
-packages/core2-32-poky-linux/wget/wget-locale-lt: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-ms: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-ms: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-nb: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-nb: PKGSIZE changed from 78832 to 79149 (+0%)
-packages/core2-32-poky-linux/wget/wget-locale-nb: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-nl: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-nl: PKGSIZE changed from 65087 to 65020 (-0%)
-packages/core2-32-poky-linux/wget/wget-locale-nl: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-pl: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-pl: PKGSIZE changed from 85834 to 86113 (+0%)
-packages/core2-32-poky-linux/wget/wget-locale-pl: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-pt-br: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-pt-br: PKGSIZE changed from 85338 to 87209 (+2%)
-packages/core2-32-poky-linux/wget/wget-locale-pt-br: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-pt: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-pt: PKGSIZE changed from 83372 to 83308 (-0%)
-packages/core2-32-poky-linux/wget/wget-locale-pt: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-ro: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-ro: PKGSIZE changed from 84546 to 87795 (+4%)
-packages/core2-32-poky-linux/wget/wget-locale-ro: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-ru: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-ru: PKGSIZE changed from 105554 to 105837 (+0%)
-packages/core2-32-poky-linux/wget/wget-locale-ru: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-rw: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-rw: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-sk: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-sk: PKGSIZE changed from 80943 to 81233 (+0%)
-packages/core2-32-poky-linux/wget/wget-locale-sk: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-sl: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-sl: PKGSIZE changed from 28068 to 28011 (-0%)
-packages/core2-32-poky-linux/wget/wget-locale-sl: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-sr: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-sr: PKGSIZE changed from 105082 to 105410 (+0%)
-packages/core2-32-poky-linux/wget/wget-locale-sr: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-sv: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-sv: PKGSIZE changed from 83324 to 83640 (+0%)
-packages/core2-32-poky-linux/wget/wget-locale-sv: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-tr: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-tr: PKGSIZE changed from 73064 to 73002 (-0%)
-packages/core2-32-poky-linux/wget/wget-locale-tr: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-uk: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-uk: PKGSIZE changed from 106329 to 106628 (+0%)
-packages/core2-32-poky-linux/wget/wget-locale-uk: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-vi: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-vi: PKGSIZE changed from 82728 to 90469 (+9%)
-packages/core2-32-poky-linux/wget/wget-locale-vi: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-zh-cn: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-zh-cn: PKGSIZE changed from 77661 to 79391 (+2%)
-packages/core2-32-poky-linux/wget/wget-locale-zh-cn: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-locale-zh-tw: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-locale-zh-tw: PKGSIZE changed from 80432 to 80753 (+0%)
-packages/core2-32-poky-linux/wget/wget-locale-zh-tw: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-src: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-src: PKGSIZE changed from 2781944 to 2818203 (+1%)
-packages/core2-32-poky-linux/wget/wget-src: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget-src: FILELIST: directory renamed /usr/src/debug/wget/1.21.3-r0/lib/malloc -> /usr/src/debug/wget/1.21.4-r0/lib/malloc, directory renamed /usr/src/debug/wget/1.21.3-r0/lib/sys -> /usr/src/debug/wget/1.21.4-r0/lib/sys, directory renamed /usr/src/debug/wget/1.21.3-r0/src -> /usr/src/debug/wget/1.21.4-r0/src, removed "/usr/src/debug/wget/1.21.3-r0/lib/exitfail.h /usr/src/debug/wget/1.21.3-r0/lib/fnmatch.h /usr/src/debug/wget/1.21.3-r0/lib/exitfail.c /usr/src/debug/wget/1.21.3-r0/lib/xalloc-die.c /usr/src/debug/wget/1.21.3-r0/lib/fnmatch.c /usr/src/debug/wget/1.21.3-r0/lib/hard-locale.c /usr/src/debug/wget/1.21.3-r0/lib/hard-locale.h /usr/src/debug/wget/1.21.3-r0/lib/mbiter.h /usr/src/debug/wget/1.21.3-r0/lib/sha1.h /usr/src/debug/wget/1.21.3-r0/lib/xstrndup.c /usr/src/debug/wget/1.21.3-r0/lib/idx.h /usr/src/debug/wget/1.21.3-r0/lib/regex_internal.h /usr/src/debug/wget/1.21.3-r0/lib/xmemdup0.c /usr/src/debug/wget/1.21.3-r0/lib/base32.c /usr/src/debug
- /wget/1.21.3-r0/lib/fflush.c /usr/src/debug/wget/1.21.3-r0/lib/c-strcasecmp.c /usr/src/debug/wget/1.21.3-r0/lib/regex_internal.c /usr/src/debug/wget/1.21.3-r0/lib/xmemdup0.h /usr/src/debug/wget/1.21.3-r0/lib/xstrndup.h /usr/src/debug/wget/1.21.3-r0/lib/fseeko.c /usr/src/debug/wget/1.21.3-r0/lib/localcharset.c /usr/src/debug/wget/1.21.3-r0/lib/setlocale_null.c /usr/src/debug/wget/1.21.3-r0/lib/quotearg.h /usr/src/debug/wget/1.21.3-r0/lib/getopt-core.h /usr/src/debug/wget/1.21.3-r0/lib/getopt1.c /usr/src/debug/wget/1.21.3-r0/lib/wchar.h /usr/src/debug/wget/1.21.3-r0/lib/localcharset.h /usr/src/debug/wget/1.21.3-r0/lib/setlocale_null.h /usr/src/debug/wget/1.21.3-r0/lib/error.h /usr/src/debug/wget/1.21.3-r0/lib/quotearg.c /usr/src/debug/wget/1.21.3-r0/lib/fcntl.h /usr/src/debug/wget/1.21.3-r0/lib/getopt.c /usr/src/debug/wget/1.21.3-r0/lib/mbchar.c /usr/src/debug/wget/1.21.3-r0/lib/memchr.c /usr/src/debug/wget/1.21.3-r0/lib/strtol.c /usr/src/debug/wget/1.21.3-r0/lib/sha256.c /usr/src/deb
- ug/wget/1.21.3-r0/lib/tmpdir.c /usr/src/debug/wget/1.21.3-r0/lib/quote.h /usr/src/debug/wget/1.21.3-r0/lib/regex.h /usr/src/debug/wget/1.21.3-r0/lib/stdio.h /usr/src/debug/wget/1.21.3-r0/lib/sha256.h /usr/src/debug/wget/1.21.3-r0/lib/stdlib.h /usr/src/debug/wget/1.21.3-r0/lib/string.h /usr/src/debug/wget/1.21.3-r0/lib/fcntl.c /usr/src/debug/wget/1.21.3-r0/lib/fseek.c /usr/src/debug/wget/1.21.3-r0/lib/base32.h /usr/src/debug/wget/1.21.3-r0/lib/af_alg.h /usr/src/debug/wget/1.21.3-r0/lib/dirent.h /usr/src/debug/wget/1.21.3-r0/lib/basename.c /usr/src/debug/wget/1.21.3-r0/lib/ialloc.h /usr/src/debug/wget/1.21.3-r0/lib/basename-lgpl.c /usr/src/debug/wget/1.21.3-r0/lib/ioctl.c /usr/src/debug/wget/1.21.3-r0/lib/mbchar.h /usr/src/debug/wget/1.21.3-r0/lib/basename-lgpl.h /usr/src/debug/wget/1.21.3-r0/lib/getopt_int.h /usr/src/debug/wget/1.21.3-r0/lib/fnmatch_loop.c /usr/src/debug/wget/1.21.3-r0/lib/mbrtowc.c /usr/src/debug/wget/1.21.3-r0/lib/regexec.c /usr/src/debug/wget/1.21.3-r0/lib/sha1.c 
- /usr/src/debug/wget/1.21.3-r0/lib/c-ctype.h /usr/src/debug/wget/1.21.3-r0/lib/dirname.h /usr/src/debug/wget/1.21.3-r0/lib/xmalloc.c /usr/src/debug/wget/1.21.3-r0/lib/tmpdir.h /usr/src/debug/wget/1.21.3-r0/lib/xalloc.h /usr/src/debug/wget/1.21.3-r0/lib/getopt-ext.h /usr/src/debug/wget/1.21.3-r0/lib/md5.c /usr/src/debug/wget/1.21.3-r0/lib/md5.h /usr/src/debug/wget/1.21.3-r0/lib/c-strcase.h /usr/src/debug/wget/1.21.3-r0/lib/strerror.c /usr/src/debug/wget/1.21.3-r0/lib/regcomp.c /usr/src/debug/wget/1.21.3-r0/lib/sha1-stream.c /usr/src/debug/wget/1.21.3-r0/lib/c-strcaseeq.h /usr/src/debug/wget/1.21.3-r0/lib/c-strncasecmp.c", added "/usr/src/debug/wget/1.21.4-r0/lib/hard-locale.c /usr/src/debug/wget/1.21.4-r0/lib/hard-locale.h /usr/src/debug/wget/1.21.4-r0/lib/mbsrtowcs-state.c /usr/src/debug/wget/1.21.4-r0/lib/mbchar.c /usr/src/debug/wget/1.21.4-r0/lib/memchr.c /usr/src/debug/wget/1.21.4-r0/lib/md5.h /usr/src/debug/wget/1.21.4-r0/lib/sha256.c /usr/src/debug/wget/1.21.4-r0/lib/strtol.c /u
- sr/src/debug/wget/1.21.4-r0/lib/base32.c /usr/src/debug/wget/1.21.4-r0/lib/fflush.c /usr/src/debug/wget/1.21.4-r0/lib/fseeko.c /usr/src/debug/wget/1.21.4-r0/lib/getopt.c /usr/src/debug/wget/1.21.4-r0/lib/mbchar.h /usr/src/debug/wget/1.21.4-r0/lib/mbiter.h /usr/src/debug/wget/1.21.4-r0/lib/md5.c /usr/src/debug/wget/1.21.4-r0/lib/sha256.h /usr/src/debug/wget/1.21.4-r0/lib/stdlib.h /usr/src/debug/wget/1.21.4-r0/lib/string.h /usr/src/debug/wget/1.21.4-r0/lib/tmpdir.h /usr/src/debug/wget/1.21.4-r0/lib/xalloc.h /usr/src/debug/wget/1.21.4-r0/lib/base32.h /usr/src/debug/wget/1.21.4-r0/lib/strnlen1.c /usr/src/debug/wget/1.21.4-r0/lib/strnlen1.h /usr/src/debug/wget/1.21.4-r0/lib/mbsrtowcs.c /usr/src/debug/wget/1.21.4-r0/lib/sha1-stream.c /usr/src/debug/wget/1.21.4-r0/lib/quotearg.h /usr/src/debug/wget/1.21.4-r0/lib/getopt-core.h /usr/src/debug/wget/1.21.4-r0/lib/quotearg.c /usr/src/debug/wget/1.21.4-r0/lib/basename-lgpl.c /usr/src/debug/wget/1.21.4-r0/lib/basename-lgpl.h /usr/src/debug/wget/1
- .21.4-r0/lib/fnmatch_loop.c /usr/src/debug/wget/1.21.4-r0/lib/c-strcaseeq.h /usr/src/debug/wget/1.21.4-r0/lib/tmpdir.c /usr/src/debug/wget/1.21.4-r0/lib/exitfail.h /usr/src/debug/wget/1.21.4-r0/lib/exitfail.c /usr/src/debug/wget/1.21.4-r0/lib/xalloc-die.c /usr/src/debug/wget/1.21.4-r0/lib/idx.h /usr/src/debug/wget/1.21.4-r0/lib/regex_internal.h /usr/src/debug/wget/1.21.4-r0/lib/xmemdup0.c /usr/src/debug/wget/1.21.4-r0/lib/c-strcasecmp.c /usr/src/debug/wget/1.21.4-r0/lib/regex_internal.c /usr/src/debug/wget/1.21.4-r0/lib/xmemdup0.h /usr/src/debug/wget/1.21.4-r0/lib/af_alg.h /usr/src/debug/wget/1.21.4-r0/lib/dirent.h /usr/src/debug/wget/1.21.4-r0/lib/ialloc.h /usr/src/debug/wget/1.21.4-r0/lib/localcharset.c /usr/src/debug/wget/1.21.4-r0/lib/setlocale_null.c /usr/src/debug/wget/1.21.4-r0/lib/localcharset.h /usr/src/debug/wget/1.21.4-r0/lib/setlocale_null.h /usr/src/debug/wget/1.21.4-r0/lib/c-ctype.h /usr/src/debug/wget/1.21.4-r0/lib/dirname.h /usr/src/debug/wget/1.21.4-r0/lib/sha1.h /u
- sr/src/debug/wget/1.21.4-r0/lib/mbrtowc.c /usr/src/debug/wget/1.21.4-r0/lib/regexec.c /usr/src/debug/wget/1.21.4-r0/lib/sha1.c /usr/src/debug/wget/1.21.4-r0/lib/xmalloc.c /usr/src/debug/wget/1.21.4-r0/lib/getopt-ext.h /usr/src/debug/wget/1.21.4-r0/lib/c-strncasecmp.c /usr/src/debug/wget/1.21.4-r0/lib/mbsrtowcs-impl.h /usr/src/debug/wget/1.21.4-r0/lib/fnmatch.h /usr/src/debug/wget/1.21.4-r0/lib/fnmatch.c /usr/src/debug/wget/1.21.4-r0/lib/xstrndup.c /usr/src/debug/wget/1.21.4-r0/lib/xstrndup.h /usr/src/debug/wget/1.21.4-r0/lib/getopt1.c /usr/src/debug/wget/1.21.4-r0/lib/quote.h /usr/src/debug/wget/1.21.4-r0/lib/regex.h /usr/src/debug/wget/1.21.4-r0/lib/stdio.h /usr/src/debug/wget/1.21.4-r0/lib/wchar.h /usr/src/debug/wget/1.21.4-r0/lib/fcntl.h /usr/src/debug/wget/1.21.4-r0/lib/ioctl.c /usr/src/debug/wget/1.21.4-r0/lib/btowc.c /usr/src/debug/wget/1.21.4-r0/lib/fcntl.c /usr/src/debug/wget/1.21.4-r0/lib/fopen.c /usr/src/debug/wget/1.21.4-r0/lib/fseek.c /usr/src/debug/wget/1.21.4-r0/lib/ba
- sename.c /usr/src/debug/wget/1.21.4-r0/lib/getopt_int.h /usr/src/debug/wget/1.21.4-r0/lib/c-strcase.h /usr/src/debug/wget/1.21.4-r0/lib/strerror.c /usr/src/debug/wget/1.21.4-r0/lib/regcomp.c"
-packages/core2-32-poky-linux/wget/wget-staticdev: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget-staticdev: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
-packages/core2-32-poky-linux/wget/wget: PV changed from "1.21.3" to "1.21.4"
-packages/core2-32-poky-linux/wget/wget: PKGV changed from 1.21.3 [default] to 1.21.4 [default]
+packages/core2-32-poky-linux/lighttpd: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd: SRC_URI changed from "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.69.tar.xz file://index.html.lighttpd file://lighttpd.conf file://lighttpd" to "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.70.tar.xz file://index.html.lighttpd file://lighttpd.conf file://lighttpd"
+packages/core2-32-poky-linux/lighttpd: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd: PACKAGES: removed "lighttpd-module-simple-vhost lighttpd-module-access lighttpd-module-scgi lighttpd-module-rewrite lighttpd-module-staticfile lighttpd-module-alias lighttpd-module-expire lighttpd-module-indexfile lighttpd-module-redirect lighttpd-module-setenv lighttpd-module-fastcgi lighttpd-module-evhost", added "lighttpd-module-h2"
+packages/core2-32-poky-linux/lighttpd/lighttpd-dbg: PKGSIZE changed from 2406348 to 2426892 (+1%)
+packages/core2-32-poky-linux/lighttpd/lighttpd-dbg: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd-dbg: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-dbg: FILELIST: removed "/usr/lib/lighttpd/.debug/mod_evhost.so /usr/lib/lighttpd/.debug/mod_access.so /usr/lib/lighttpd/.debug/mod_staticfile.so /usr/lib/lighttpd/.debug/mod_expire.so /usr/lib/lighttpd/.debug/mod_scgi.so /usr/lib/lighttpd/.debug/mod_indexfile.so /usr/lib/lighttpd/.debug/mod_redirect.so /usr/lib/lighttpd/.debug/mod_fastcgi.so /usr/lib/lighttpd/.debug/mod_alias.so /usr/lib/lighttpd/.debug/mod_simple_vhost.so /usr/lib/lighttpd/.debug/mod_rewrite.so /usr/lib/lighttpd/.debug/mod_setenv.so", added "/usr/lib/lighttpd/.debug/mod_h2.so"
+packages/core2-32-poky-linux/lighttpd/lighttpd-dev: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd-dev: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-doc: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd-doc: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-locale: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd-locale: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-accesslog: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-accesslog: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-ajp13: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-ajp13: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-auth: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-auth: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-authn-file: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-authn-file: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-cgi: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-cgi: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-deflate: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-deflate: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-dirlisting: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-dirlisting: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-extforward: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-extforward: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-openssl: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-openssl: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-proxy: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-proxy: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-rrdtool: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-rrdtool: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-sockproxy: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-sockproxy: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-ssi: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-ssi: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-status: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-status: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-userdir: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-userdir: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-vhostdb: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-vhostdb: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-webdav: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-webdav: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-wstunnel: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-wstunnel: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-src: PKGSIZE changed from 2901711 to 2962725 (+2%)
+packages/core2-32-poky-linux/lighttpd/lighttpd-src: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd-src: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-src: FILELIST: directory renamed /usr/src/debug/lighttpd/1.4.69-r0/src/compat -> /usr/src/debug/lighttpd/1.4.70-r0/src/compat, directory renamed /usr/src/debug/lighttpd/1.4.69-r0/src/ls-hpack -> /usr/src/debug/lighttpd/1.4.70-r0/src/ls-hpack, removed "/usr/src/debug/lighttpd/1.4.69-r0/src/gw_backend.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_alias.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_ajp13.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_proxy.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_extforward.c /usr/src/debug/lighttpd/1.4.69-r0/src/configfile-glue.c /usr/src/debug/lighttpd/1.4.69-r0/src/gw_backend.h /usr/src/debug/lighttpd/1.4.69-r0/src/first.h /usr/src/debug/lighttpd/1.4.69-r0/src/plugin_config.h /usr/src/debug/lighttpd/1.4.69-r0/src/mod_vhostdb_api.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_auth.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_vhostdb_api.h /usr/src/debug/lighttpd/1.4.69-r0/src/mod_redirect.c /usr/src/debug/lighttp
+ d/1.4.69-r0/src/mod_ssi.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_indexfile.c /usr/src/debug/lighttpd/1.4.69-r0/src/sock_addr_cache.h /usr/src/debug/lighttpd/1.4.69-r0/src/sock_addr_cache.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_deflate.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_rewrite.c /usr/src/debug/lighttpd/1.4.69-r0/src/base64.c /usr/src/debug/lighttpd/1.4.69-r0/src/base64.h /usr/src/debug/lighttpd/1.4.69-r0/src/configparser.y /usr/src/debug/lighttpd/1.4.69-r0/src/fdlog_maint.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_openssl.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_rrdtool.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_fastcgi.c /usr/src/debug/lighttpd/1.4.69-r0/src/request.c /usr/src/debug/lighttpd/1.4.69-r0/src/rand.h /usr/src/debug/lighttpd/1.4.69-r0/src/configparser.c /usr/src/debug/lighttpd/1.4.69-r0/src/rand.c /usr/src/debug/lighttpd/1.4.69-r0/src/request.h /usr/src/debug/lighttpd/1.4.69-r0/src/fdevent_impl.h /usr/src/debug/lighttpd/1.4.69-r0/src/fdevent_impl.c /
+ usr/src/debug/lighttpd/1.4.69-r0/src/sys-crypto-md.h /usr/src/debug/lighttpd/1.4.69-r0/src/algo_splaytree.h /usr/src/debug/lighttpd/1.4.69-r0/src/ck.h /usr/src/debug/lighttpd/1.4.69-r0/src/h2.h /usr/src/debug/lighttpd/1.4.69-r0/src/mod_userdir.c /usr/src/debug/lighttpd/1.4.69-r0/src/ck.c /usr/src/debug/lighttpd/1.4.69-r0/src/algo_splaytree.c /usr/src/debug/lighttpd/1.4.69-r0/src/h2.c /usr/src/debug/lighttpd/1.4.69-r0/src/network_write.h /usr/src/debug/lighttpd/1.4.69-r0/src/array.h /usr/src/debug/lighttpd/1.4.69-r0/src/mod_vhostdb.c /usr/src/debug/lighttpd/1.4.69-r0/src/network_write.c /usr/src/debug/lighttpd/1.4.69-r0/src/array.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_cgi.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_simple_vhost.c /usr/src/debug/lighttpd/1.4.69-r0/src/connections.h /usr/src/debug/lighttpd/1.4.69-r0/src/http-header-glue.c /usr/src/debug/lighttpd/1.4.69-r0/src/connections.c /usr/src/debug/lighttpd/1.4.69-r0/src/plugins.h /usr/src/debug/lighttpd/1.4.69-r0/src/respon
+ se.c /usr/src/debug/lighttpd/1.4.69-r0/src/network.h /usr/src/debug/lighttpd/1.4.69-r0/src/mod_wstunnel.c /usr/src/debug/lighttpd/1.4.69-r0/src/network.c /usr/src/debug/lighttpd/1.4.69-r0/src/response.h /usr/src/debug/lighttpd/1.4.69-r0/src/burl.c /usr/src/debug/lighttpd/1.4.69-r0/src/burl.h /usr/src/debug/lighttpd/1.4.69-r0/src/mod_accesslog.c /usr/src/debug/lighttpd/1.4.69-r0/src/base.h /usr/src/debug/lighttpd/1.4.69-r0/src/mod_access.c /usr/src/debug/lighttpd/1.4.69-r0/src/http_kv.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_evhost.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_expire.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_setenv.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_status.c /usr/src/debug/lighttpd/1.4.69-r0/src/http_kv.h /usr/src/debug/lighttpd/1.4.69-r0/src/mod_webdav.c /usr/src/debug/lighttpd/1.4.69-r0/src/sock_addr.c /usr/src/debug/lighttpd/1.4.69-r0/src/sock_addr.h /usr/src/debug/lighttpd/1.4.69-r0/src/mod_sockproxy.c /usr/src/debug/lighttpd/1.4.69-r0/src/http_date.c
+  /usr/src/debug/lighttpd/1.4.69-r0/src/http_etag.c /usr/src/debug/lighttpd/1.4.69-r0/src/fdevent.h /usr/src/debug/lighttpd/1.4.69-r0/src/mod_scgi.c /usr/src/debug/lighttpd/1.4.69-r0/src/http_etag.h /usr/src/debug/lighttpd/1.4.69-r0/src/http_date.h /usr/src/debug/lighttpd/1.4.69-r0/src/fdevent.c /usr/src/debug/lighttpd/1.4.69-r0/src/sys-setjmp.c /usr/src/debug/lighttpd/1.4.69-r0/src/algo_md.h /usr/src/debug/lighttpd/1.4.69-r0/src/base_decls.h /usr/src/debug/lighttpd/1.4.69-r0/src/sys-setjmp.h /usr/src/debug/lighttpd/1.4.69-r0/src/http_chunk.c /usr/src/debug/lighttpd/1.4.69-r0/src/http_range.c /usr/src/debug/lighttpd/1.4.69-r0/src/http_chunk.h /usr/src/debug/lighttpd/1.4.69-r0/src/http_range.h /usr/src/debug/lighttpd/1.4.69-r0/src/fdevent_fdnode.c /usr/src/debug/lighttpd/1.4.69-r0/src/lighttpd-angel.c /usr/src/debug/lighttpd/1.4.69-r0/src/plugin.h /usr/src/debug/lighttpd/1.4.69-r0/src/algo_xxhash.h /usr/src/debug/lighttpd/1.4.69-r0/src/configfile.h /usr/src/debug/lighttpd/1.4.69-r0/sr
+ c/server.c /usr/src/debug/lighttpd/1.4.69-r0/src/configfile.c /usr/src/debug/lighttpd/1.4.69-r0/src/plugin.c /usr/src/debug/lighttpd/1.4.69-r0/src/keyvalue.h /usr/src/debug/lighttpd/1.4.69-r0/src/data_config.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_auth_api.h /usr/src/debug/lighttpd/1.4.69-r0/src/keyvalue.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_auth_api.c /usr/src/debug/lighttpd/1.4.69-r0/src/http_cgi.c /usr/src/debug/lighttpd/1.4.69-r0/src/fdlog.c /usr/src/debug/lighttpd/1.4.69-r0/src/buffer.h /usr/src/debug/lighttpd/1.4.69-r0/src/http_header.c /usr/src/debug/lighttpd/1.4.69-r0/src/fdlog.h /usr/src/debug/lighttpd/1.4.69-r0/src/mod_dirlisting.c /usr/src/debug/lighttpd/1.4.69-r0/src/http_cgi.h /usr/src/debug/lighttpd/1.4.69-r0/src/http_header.h /usr/src/debug/lighttpd/1.4.69-r0/src/buffer.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_authn_file.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_staticfile.c /usr/src/debug/lighttpd/1.4.69-r0/src/log.c /usr/src/debug/lighttpd/1.4.69-r0/s
+ rc/chunk.h /usr/src/debug/lighttpd/1.4.69-r0/src/reqpool.h /usr/src/debug/lighttpd/1.4.69-r0/src/stat_cache.c /usr/src/debug/lighttpd/1.4.69-r0/src/reqpool.c /usr/src/debug/lighttpd/1.4.69-r0/src/chunk.c /usr/src/debug/lighttpd/1.4.69-r0/src/log.h /usr/src/debug/lighttpd/1.4.69-r0/src/stat_cache.h", added "/usr/src/debug/lighttpd/1.4.70-r0/src/gw_backend.c /usr/src/debug/lighttpd/1.4.70-r0/src/mod_alias.c /usr/src/debug/lighttpd/1.4.70-r0/src/mod_ajp13.c /usr/src/debug/lighttpd/1.4.70-r0/src/mod_proxy.c /usr/src/debug/lighttpd/1.4.70-r0/src/mod_extforward.c /usr/src/debug/lighttpd/1.4.70-r0/src/configfile-glue.c /usr/src/debug/lighttpd/1.4.70-r0/src/gw_backend.h /usr/src/debug/lighttpd/1.4.70-r0/src/first.h /usr/src/debug/lighttpd/1.4.70-r0/src/plugin_config.h /usr/src/debug/lighttpd/1.4.70-r0/src/mod_vhostdb_api.c /usr/src/debug/lighttpd/1.4.70-r0/src/mod_auth.c /usr/src/debug/lighttpd/1.4.70-r0/src/mod_vhostdb_api.h /usr/src/debug/lighttpd/1.4.70-r0/src/mod_redirect.c /usr/src/deb
+ ug/lighttpd/1.4.70-r0/src/mod_ssi.c /usr/src/debug/lighttpd/1.4.70-r0/src/mod_indexfile.c /usr/src/debug/lighttpd/1.4.70-r0/src/sock_addr_cache.h /usr/src/debug/lighttpd/1.4.70-r0/src/sock_addr_cache.c /usr/src/debug/lighttpd/1.4.70-r0/src/mod_deflate.c /usr/src/debug/lighttpd/1.4.70-r0/src/mod_rewrite.c /usr/src/debug/lighttpd/1.4.70-r0/src/base64.c /usr/src/debug/lighttpd/1.4.70-r0/src/base64.h /usr/src/debug/lighttpd/1.4.70-r0/src/configparser.y /usr/src/debug/lighttpd/1.4.70-r0/src/fdlog_maint.c /usr/src/debug/lighttpd/1.4.70-r0/src/mod_openssl.c /usr/src/debug/lighttpd/1.4.70-r0/src/mod_rrdtool.c /usr/src/debug/lighttpd/1.4.70-r0/src/mod_fastcgi.c /usr/src/debug/lighttpd/1.4.70-r0/src/request.c /usr/src/debug/lighttpd/1.4.70-r0/src/rand.h /usr/src/debug/lighttpd/1.4.70-r0/src/configparser.c /usr/src/debug/lighttpd/1.4.70-r0/src/rand.c /usr/src/debug/lighttpd/1.4.70-r0/src/request.h /usr/src/debug/lighttpd/1.4.70-r0/src/fdevent_impl.h /usr/src/debug/lighttpd/1.4.70-r0/src/fdeven
+ t_impl.c /usr/src/debug/lighttpd/1.4.70-r0/src/sys-crypto-md.h /usr/src/debug/lighttpd/1.4.70-r0/src/algo_splaytree.h /usr/src/debug/lighttpd/1.4.70-r0/src/ck.h /usr/src/debug/lighttpd/1.4.70-r0/src/h1.h /usr/src/debug/lighttpd/1.4.70-r0/src/h2.h /usr/src/debug/lighttpd/1.4.70-r0/src/mod_userdir.c /usr/src/debug/lighttpd/1.4.70-r0/src/ck.c /usr/src/debug/lighttpd/1.4.70-r0/src/algo_splaytree.c /usr/src/debug/lighttpd/1.4.70-r0/src/h1.c /usr/src/debug/lighttpd/1.4.70-r0/src/h2.c /usr/src/debug/lighttpd/1.4.70-r0/src/network_write.h /usr/src/debug/lighttpd/1.4.70-r0/src/array.h /usr/src/debug/lighttpd/1.4.70-r0/src/mod_vhostdb.c /usr/src/debug/lighttpd/1.4.70-r0/src/network_write.c /usr/src/debug/lighttpd/1.4.70-r0/src/array.c /usr/src/debug/lighttpd/1.4.70-r0/src/mod_cgi.c /usr/src/debug/lighttpd/1.4.70-r0/src/mod_simple_vhost.c /usr/src/debug/lighttpd/1.4.70-r0/src/connections.h /usr/src/debug/lighttpd/1.4.70-r0/src/http-header-glue.c /usr/src/debug/lighttpd/1.4.70-r0/src/connection
+ s.c /usr/src/debug/lighttpd/1.4.70-r0/src/plugins.h /usr/src/debug/lighttpd/1.4.70-r0/src/response.c /usr/src/debug/lighttpd/1.4.70-r0/src/network.h /usr/src/debug/lighttpd/1.4.70-r0/src/mod_wstunnel.c /usr/src/debug/lighttpd/1.4.70-r0/src/network.c /usr/src/debug/lighttpd/1.4.70-r0/src/response.h /usr/src/debug/lighttpd/1.4.70-r0/src/burl.c /usr/src/debug/lighttpd/1.4.70-r0/src/burl.h /usr/src/debug/lighttpd/1.4.70-r0/src/mod_accesslog.c /usr/src/debug/lighttpd/1.4.70-r0/src/base.h /usr/src/debug/lighttpd/1.4.70-r0/src/mod_access.c /usr/src/debug/lighttpd/1.4.70-r0/src/http_kv.c /usr/src/debug/lighttpd/1.4.70-r0/src/mod_evhost.c /usr/src/debug/lighttpd/1.4.70-r0/src/mod_expire.c /usr/src/debug/lighttpd/1.4.70-r0/src/mod_setenv.c /usr/src/debug/lighttpd/1.4.70-r0/src/mod_status.c /usr/src/debug/lighttpd/1.4.70-r0/src/http_kv.h /usr/src/debug/lighttpd/1.4.70-r0/src/mod_webdav.c /usr/src/debug/lighttpd/1.4.70-r0/src/sock_addr.c /usr/src/debug/lighttpd/1.4.70-r0/src/sock_addr.h /usr/sr
+ c/debug/lighttpd/1.4.70-r0/src/mod_sockproxy.c /usr/src/debug/lighttpd/1.4.70-r0/src/http_date.c /usr/src/debug/lighttpd/1.4.70-r0/src/http_etag.c /usr/src/debug/lighttpd/1.4.70-r0/src/fdevent.h /usr/src/debug/lighttpd/1.4.70-r0/src/mod_scgi.c /usr/src/debug/lighttpd/1.4.70-r0/src/http_etag.h /usr/src/debug/lighttpd/1.4.70-r0/src/http_date.h /usr/src/debug/lighttpd/1.4.70-r0/src/fdevent.c /usr/src/debug/lighttpd/1.4.70-r0/src/sys-setjmp.c /usr/src/debug/lighttpd/1.4.70-r0/src/algo_md.h /usr/src/debug/lighttpd/1.4.70-r0/src/base_decls.h /usr/src/debug/lighttpd/1.4.70-r0/src/sys-setjmp.h /usr/src/debug/lighttpd/1.4.70-r0/src/http_chunk.c /usr/src/debug/lighttpd/1.4.70-r0/src/http_range.c /usr/src/debug/lighttpd/1.4.70-r0/src/http_chunk.h /usr/src/debug/lighttpd/1.4.70-r0/src/http_range.h /usr/src/debug/lighttpd/1.4.70-r0/src/fdevent_fdnode.c /usr/src/debug/lighttpd/1.4.70-r0/src/lighttpd-angel.c /usr/src/debug/lighttpd/1.4.70-r0/src/plugin.h /usr/src/debug/lighttpd/1.4.70-r0/src/algo_
+ xxhash.h /usr/src/debug/lighttpd/1.4.70-r0/src/configfile.h /usr/src/debug/lighttpd/1.4.70-r0/src/server.c /usr/src/debug/lighttpd/1.4.70-r0/src/configfile.c /usr/src/debug/lighttpd/1.4.70-r0/src/plugin.c /usr/src/debug/lighttpd/1.4.70-r0/src/keyvalue.h /usr/src/debug/lighttpd/1.4.70-r0/src/data_config.c /usr/src/debug/lighttpd/1.4.70-r0/src/mod_auth_api.h /usr/src/debug/lighttpd/1.4.70-r0/src/keyvalue.c /usr/src/debug/lighttpd/1.4.70-r0/src/mod_auth_api.c /usr/src/debug/lighttpd/1.4.70-r0/src/http_cgi.c /usr/src/debug/lighttpd/1.4.70-r0/src/fdlog.c /usr/src/debug/lighttpd/1.4.70-r0/src/buffer.h /usr/src/debug/lighttpd/1.4.70-r0/src/http_header.c /usr/src/debug/lighttpd/1.4.70-r0/src/fdlog.h /usr/src/debug/lighttpd/1.4.70-r0/src/mod_dirlisting.c /usr/src/debug/lighttpd/1.4.70-r0/src/http_cgi.h /usr/src/debug/lighttpd/1.4.70-r0/src/http_header.h /usr/src/debug/lighttpd/1.4.70-r0/src/buffer.c /usr/src/debug/lighttpd/1.4.70-r0/src/mod_authn_file.c /usr/src/debug/lighttpd/1.4.70-r0/src/
+ mod_staticfile.c /usr/src/debug/lighttpd/1.4.70-r0/src/log.c /usr/src/debug/lighttpd/1.4.70-r0/src/chunk.h /usr/src/debug/lighttpd/1.4.70-r0/src/reqpool.h /usr/src/debug/lighttpd/1.4.70-r0/src/stat_cache.c /usr/src/debug/lighttpd/1.4.70-r0/src/reqpool.c /usr/src/debug/lighttpd/1.4.70-r0/src/chunk.c /usr/src/debug/lighttpd/1.4.70-r0/src/log.h /usr/src/debug/lighttpd/1.4.70-r0/src/stat_cache.h"
+packages/core2-32-poky-linux/lighttpd/lighttpd-staticdev: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd-staticdev: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd: PKGSIZE changed from 449896 to 482664 (+7%)
+packages/core2-32-poky-linux/lighttpd/lighttpd: PV changed from "1.4.69" to "1.4.70"
+packages/core2-32-poky-linux/lighttpd/lighttpd: PKGV changed from 1.4.69 [default] to 1.4.70 [default]
+Changes to packages/core2-32-poky-linux/lighttpd (sysroot):
+  /usr/lib/lighttpd/mod_h2.so was added
+  /usr/lib/lighttpd/mod_access.so was removed
+  /usr/lib/lighttpd/mod_alias.so was removed
+  /usr/lib/lighttpd/mod_evhost.so was removed
+  /usr/lib/lighttpd/mod_expire.so was removed
+  /usr/lib/lighttpd/mod_fastcgi.so was removed
+  /usr/lib/lighttpd/mod_indexfile.so was removed
+  /usr/lib/lighttpd/mod_redirect.so was removed
+  /usr/lib/lighttpd/mod_rewrite.so was removed
+  /usr/lib/lighttpd/mod_scgi.so was removed
+  /usr/lib/lighttpd/mod_setenv.so was removed
+  /usr/lib/lighttpd/mod_simple_vhost.so was removed
+  /usr/lib/lighttpd/mod_staticfile.so was removed
 
---===============3310334065850524840==
+--===============0391215845874200758==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/wget: PACKAGES: added "wget-locale-ka"
-packages/core2-32-poky-linux/wget/wget-locale-be: PKGSIZE changed from 23843 to 98110 (+311%)
-packages/core2-32-poky-linux/wget/wget-locale-hu: PKGSIZE changed from 82226 to 90495 (+10%)
-packages/core2-32-poky-linux/wget/wget-locale-id: PKGSIZE changed from 30193 to 61467 (+104%)
+packages/core2-32-poky-linux/lighttpd: PACKAGES: removed "lighttpd-module-staticfile lighttpd-module-simple-vhost lighttpd-module-expire lighttpd-module-access lighttpd-module-redirect lighttpd-module-scgi lighttpd-module-alias lighttpd-module-rewrite lighttpd-module-setenv lighttpd-module-evhost lighttpd-module-fastcgi lighttpd-module-indexfile", added "lighttpd-module-h2"
+Changes to packages/core2-32-poky-linux/lighttpd (sysroot):
+  /usr/lib/lighttpd/mod_h2.so was added
+  /usr/lib/lighttpd/mod_access.so was removed
+  /usr/lib/lighttpd/mod_alias.so was removed
+  /usr/lib/lighttpd/mod_evhost.so was removed
+  /usr/lib/lighttpd/mod_expire.so was removed
+  /usr/lib/lighttpd/mod_fastcgi.so was removed
+  /usr/lib/lighttpd/mod_indexfile.so was removed
+  /usr/lib/lighttpd/mod_redirect.so was removed
+  /usr/lib/lighttpd/mod_rewrite.so was removed
+  /usr/lib/lighttpd/mod_scgi.so was removed
+  /usr/lib/lighttpd/mod_setenv.so was removed
+  /usr/lib/lighttpd/mod_simple_vhost.so was removed
+  /usr/lib/lighttpd/mod_staticfile.so was removed
 
---===============3310334065850524840==
+--===============0391215845874200758==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-wget-upgrade-1.21.3-1.21.4.patch"
+ filename="0001-lighttpd-upgrade-1.4.69-1.4.70.patch"
 
-RnJvbSAwYmZjMzMzMTRkMWNmNjZlM2IwNmU1YmRmOGIzZTQyZjljMzA2ZTY2IE1vbiBTZXAgMTcg
+RnJvbSBhMTA2Mzk2YjViMGYxYTg3OTQ1ODMzOThhZDA5ZTRjNTgzMDZiYWYxIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgTWF5IDIwMjMgMTU6MDE6MjYgKzAwMDAKU3ViamVjdDogW1BBVENIXSB3
-Z2V0OiB1cGdyYWRlIDEuMjEuMyAtPiAxLjIxLjQKCi0tLQogbWV0YS9yZWNpcGVzLWV4dGVuZGVk
-L3dnZXQvd2dldC5pbmMgICAgICAgICAgIHwgIDIgKy0KIC4uLi93Z2V0L3t3Z2V0XzEuMjEuMy5i
-YiA9PiB3Z2V0XzEuMjEuNC5iYn0gICB8IDI0ICsrKysrKysrKysrKysrKysrKy0KIDIgZmlsZXMg
-Y2hhbmdlZCwgMjQgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtZXh0ZW5kZWQvd2dldC97d2dldF8xLjIxLjMuYmIgPT4gd2dldF8xLjIxLjQuYmJ9ICgx
-MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3dnZXQvd2dldC5pbmMgYi9t
-ZXRhL3JlY2lwZXMtZXh0ZW5kZWQvd2dldC93Z2V0LmluYwppbmRleCA1OGNiNWNhNzNkLi4zMGFi
-YWZmN2I3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvd2dldC93Z2V0LmluYwor
-KysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvd2dldC93Z2V0LmluYwpAQCAtNyw3ICs3LDcgQEAg
-RlRQIHNpdGVzIgogSE9NRVBBR0UgPSAiaHR0cHM6Ly93d3cuZ251Lm9yZy9zb2Z0d2FyZS93Z2V0
-LyIKIFNFQ1RJT04gPSAiY29uc29sZS9uZXR3b3JrIgogTElDRU5TRSA9ICJHUEwtMy4wLW9ubHki
-Ci1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT1jNjc4OTU3YjBjOGU5NjRh
-YTZjNzBmZDc3NjQxYTcxZSIKK0xJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1
-PTZmNjUwMTJkMWRhZjk4Y2IwOWIzODZjZmI2OGRmMjZiIgogCiBpbmhlcml0IGF1dG90b29scyBn
-ZXR0ZXh0IHRleGluZm8gdXBkYXRlLWFsdGVybmF0aXZlcyBwa2djb25maWcKIApkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3dnZXQvd2dldF8xLjIxLjMuYmIgYi9tZXRhL3JlY2lw
-ZXMtZXh0ZW5kZWQvd2dldC93Z2V0XzEuMjEuNC5iYgpzaW1pbGFyaXR5IGluZGV4IDEzJQpyZW5h
-bWUgZnJvbSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvd2dldC93Z2V0XzEuMjEuMy5iYgpyZW5hbWUg
-dG8gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3dnZXQvd2dldF8xLjIxLjQuYmIKaW5kZXggZjE3NmEx
-NTQ2Yy4uNzQ1NWY3ZTA4ZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3dnZXQv
-d2dldF8xLjIxLjMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3dnZXQvd2dldF8xLjIx
-LjQuYmIKQEAgLTEsNyArMSwyOSBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFs
-dWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93
-aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNl
-IHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQg
-c3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vu
-c2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQg
-eWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIENPUFlJTkcKKyMg
-KysrIENPUFlJTkcKKyMgQEAgLTEsNyArMSw3IEBACisjICAgICAgICAgICAgICAgICAgICAgIEdO
-VSBHRU5FUkFMIFBVQkxJQyBMSUNFTlNFCisjICAgICAgICAgICAgICAgICAgICAgICAgIFZlcnNp
-b24gMywgMjkgSnVuZSAyMDA3CisjICAKKyMgLSBDb3B5cmlnaHQgKEMpIDIwMDcgRnJlZSBTb2Z0
-d2FyZSBGb3VuZGF0aW9uLCBJbmMuIDxodHRwczovL2ZzZi5vcmcvPgorIyArIENvcHlyaWdodCAo
-QykgMjAwNywgMjAyMyBGcmVlIFNvZnR3YXJlIEZvdW5kYXRpb24sIEluYy4gPGh0dHBzOi8vZnNm
-Lm9yZy8+CisjICAgRXZlcnlvbmUgaXMgcGVybWl0dGVkIHRvIGNvcHkgYW5kIGRpc3RyaWJ1dGUg
-dmVyYmF0aW0gY29waWVzCisjICAgb2YgdGhpcyBsaWNlbnNlIGRvY3VtZW50LCBidXQgY2hhbmdp
-bmcgaXQgaXMgbm90IGFsbG93ZWQuCisjICAKKyMgCisjCisKIFNSQ19VUkkgPSAiJHtHTlVfTUlS
-Uk9SfS93Z2V0L3dnZXQtJHtQVn0udGFyLmd6IFwKICAgICAgICAgICAgZmlsZTovLzAwMDItaW1w
-cm92ZS1yZXByb2R1Y2liaWxpdHkucGF0Y2ggXAogICAgICAgICAgICIKIAotU1JDX1VSSVtzaGEy
-NTZzdW1dID0gIjU3MjZiYjhiYzVjYTBmNmRjNzExMGY2NDE2ZTRiYjcwMTllMmQyZmY1YmY5M2Qx
-Y2EyZmZjYzY2NTZmMjIwZTUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiODE1NDJmNWNlZmI4ZmFh
-Y2MzOWJiYmM2YzgyZGVkODBlM2U0YTg4NTA1YWU3MmVhNTFkZjI3NTI1YmNkZTA0YyIKIAogcmVx
-dWlyZSB3Z2V0LmluYwotLSAKMi4zOS4yCgo=
+CkRhdGU6IE1vbiwgMTUgTWF5IDIwMjMgMTQ6MzM6MTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWdodHRwZDogdXBncmFkZSAxLjQuNjkgLT4gMS40LjcwCgotLS0KIC4uLi9saWdodHRwZC97bGln
+aHR0cGRfMS40LjY5LmJiID0+IGxpZ2h0dHBkXzEuNC43MC5iYn0gICAgICAgICB8IDIgKy0KIDEg
+ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
+cmVjaXBlcy1leHRlbmRlZC9saWdodHRwZC97bGlnaHR0cGRfMS40LjY5LmJiID0+IGxpZ2h0dHBk
+XzEuNC43MC5iYn0gKDk3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGln
+aHR0cGQvbGlnaHR0cGRfMS40LjY5LmJiIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpZ2h0dHBk
+L2xpZ2h0dHBkXzEuNC43MC5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJvbSBtZXRh
+L3JlY2lwZXMtZXh0ZW5kZWQvbGlnaHR0cGQvbGlnaHR0cGRfMS40LjY5LmJiCnJlbmFtZSB0byBt
+ZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGlnaHR0cGQvbGlnaHR0cGRfMS40LjcwLmJiCmluZGV4IDg1
+NzBkODVmNWUuLjM3ZThiZDI0NjUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9s
+aWdodHRwZC9saWdodHRwZF8xLjQuNjkuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xp
+Z2h0dHBkL2xpZ2h0dHBkXzEuNC43MC5iYgpAQCAtMTksNyArMTksNyBAQCBTUkNfVVJJID0gImh0
+dHA6Ly9kb3dubG9hZC5saWdodHRwZC5uZXQvbGlnaHR0cGQvcmVsZWFzZXMtMS40LngvbGlnaHR0
+cGQtJHtQVn0udAogICAgICAgICAgICBmaWxlOi8vbGlnaHR0cGQgXAogICAgICAgICAgICAiCiAK
+LVNSQ19VUklbc2hhMjU2c3VtXSA9ICIxNmFjOGRiOTVlNzE5NjI5YmE2MTk0OWI5OWY4YTI2ZmVi
+YTk0NmE4MWQxODUyMTViMjgzNzliYjQxMTZiMGI0IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjky
+MWViZTFjZjRiNmI5ODk3ZTAzNzc5YWI3YTIzYTMxZjRiYTQwYTFhYmUyMDY3NTI1YzMzY2QzY2U2
+MWZlODUiCiAKIERFUEVORFMgPSAidmlydHVhbC9jcnlwdCIKIAotLSAKMi4zOS4yCgo=
 
---===============3310334065850524840==--
+--===============0391215845874200758==--
 
