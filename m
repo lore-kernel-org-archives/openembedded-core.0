@@ -1,193 +1,281 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFD9EC77B7D
-	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 14:02:02 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.89004.1684159314706471089
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA7EBC7EE22
+	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 14:06:42 +0000 (UTC)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.web10.89564.1684159597522358325
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 May 2023 07:01:54 -0700
+ Mon, 15 May 2023 07:06:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=lot4vYtw;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4499d06315=qi.chen@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34FCKMwJ018657
-	for <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 07:01:54 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=PPS06212021;
- bh=i4emaL6oI6S1/aaIY03wLB91EDHBcMimVSW46lFDjds=;
- b=lot4vYtweUeLeUvlBeCt7IrSnOYUrX88lvo8kZHM7Jm9HVWcT/7lDKEyCXrEwbl2Tps3
- jmNu+cELLQt/+2XAE4uBkRigGV/KNhr+lUGlJslILhJLYe9omfGM9BFbI/cFLL97q2M7
- zK8NVh3bUzWX9fBEJF5I/TJdxBNJVWYkltJQfgtYlOLm9vj4DsuEBe4EvfDT6Ywq6DzZ
- FC73VB+Yn5B8MoxX3VLRsypxmA8E2V3R0CiMX2lId9o0y/q0ldb7HYyvBiUV8wXkMLSO
- 5SSMtEBwF6lmIkrxf1cjhDtNyaaUgrWDq5Wu7xfX6CwWxQ9nDgkSNYDxqo2l9QVBtdt4 Pg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3qja2j9gy4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 07:01:52 -0700
-Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34FE1NK7016199
-	for <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 07:01:52 -0700
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3qja2j9gy2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 15 May 2023 07:01:52 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I4Gn+JZ3MQtvn0cVAecvyGc/5eOsKh3nU3yVJ+MjwJMae5h+fIQnv4HUXfpt6kdiJrzoBAHlkT+BVH5ht4/PuM5RxnkszrJx+8s4eWasQI1oC4Zoiy0nqM/8Cxzu1gxBOOT6zWFr+wV3tozLFDsJqLGqtotMZ2amkXSGgQnoEJOHvBTFgsh/hIi0ufQcacktfZ1Z7DhCUtBHiFI3jQiLncZPvfQADFQ0PD15Ivmql2SeResgJssot+ZQj2h559hKplgxNrKJJxI4FDNAYJQOoWtMeUZtV787u5Wpszj3w6K2ABQpQnI0PpIgCgZ8TlWlVKNl0UkWJ3y1SBeHAGfmvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i4emaL6oI6S1/aaIY03wLB91EDHBcMimVSW46lFDjds=;
- b=nB1MKWdP1u1Cez9oLvZiRiWIWYaB4A+vVsQtjEe6vXpI3SxJc9M7RrBQVvVGwvOvbdTZzjDXhRqw835yEi9WKE89GcEvaBsi+1qyfIbP/e6TANtHesG1WCsYtwspnfW+nTiPhuFAwCO7rGK4W/slAxozxRRPQ4X18JU8GRvLf0ShB8ZvptAZaPSL8ySUaeK5gdUWBpvxlsOrDGIXH+EaXNCEqnSxk3MMBfdw+iXLO0GaLL5Q+fkp/bzYxg1+jk0euaB2T0VQeUNFtyjqB2/ib8Ati5id4+TTtfIhkNN7uKzPV9x11FClxuO8CLUj9yqUvFMomPaslSiKxTNqeDTWHg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by IA1PR11MB7295.namprd11.prod.outlook.com (2603:10b6:208:428::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.29; Mon, 15 May
- 2023 14:01:48 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::fa8:8cc5:a5da:7e07]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::fa8:8cc5:a5da:7e07%5]) with mapi id 15.20.6387.030; Mon, 15 May 2023
- 14:01:48 +0000
-From: "Chen, Qi" <Qi.Chen@windriver.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-        "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core][PATCH V2] oe-buildenv-internal: remove path from
- previous project
-Thread-Topic: [OE-core][PATCH V2] oe-buildenv-internal: remove path from
- previous project
-Thread-Index: AQHZhIAV2pFKBObdeUiRO8kyOsUWi69bPU4AgAAhWcA=
-Date: Mon, 15 May 2023 14:01:48 +0000
-Message-ID: 
- <CO6PR11MB560273BF680B0E795733F52DED789@CO6PR11MB5602.namprd11.prod.outlook.com>
-References: <20230512031550.1715288-1-Qi.Chen@windriver.com>
- <DB5PR02MB1021377099AD45EEFECFF51E6EF759@DB5PR02MB10213.eurprd02.prod.outlook.com>
- <f1f419aa-4c1c-8301-e61b-dcfa2e732c11@windriver.com>
- <DB5PR02MB102136ADA8C20F28E76BBF933EF789@DB5PR02MB10213.eurprd02.prod.outlook.com>
-In-Reply-To: 
- <DB5PR02MB102136ADA8C20F28E76BBF933EF789@DB5PR02MB10213.eurprd02.prod.outlook.com>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CO6PR11MB5602:EE_|IA1PR11MB7295:EE_
-x-ms-office365-filtering-correlation-id: 403a35b0-381f-431b-0513-08db554cecc7
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- cDkhmy5vYDB1rT+yriJbRFjf1wNrGDqc+VtjzM6yyZ3fJzR6JvHva/e9iD0+ABlcDOzOjpkrPg3rpnsuqY10zk5BM4iCOxQ8Gzs/qzqcp/1X/YfdVOw4gfeFTEgapout3ixN+oHNOQlHGlKMiDIt2ekmW7ezUeXar2N/9/25qrL3yIpnFY6JDmaOWrq/AaQ8EyEPs7drdkrxfwRVFFGWsM8tD4S8HW0zXqxzxYtMzO9dhqJRKiVhwtRX65YdzqUqGXiHvnl2WENbGPY03W9/KyT9NSkLv/6BxnS66iQn3GCkuqrAFBdFRlOJr4ldGodc0JzV/zanzuWC2xU9aK9wXXUD+hVROP5xmk48MZ+yk8KpTmhKseia9WBJryMcW1cg5kPY9i/mJ71RBXxe3LL9NbbAcAQTFe2xZMsMesbbjXbN+D3HhcUktft5tnBm4ZuepgkI810Gp61e2iJwu8VB89EvpEm3x2c3Tkk6/uhor/W23uENpJCp6mV6LOh7BIvz6r/FVIczaBdqgBL6oBxuMr3zfXGesHix2IOZYSdSNSrVIX8aEAIW0OgmZeH1J4XgKE6VxvoFLQR3Edd16HmanFJvxiD20L31b0F+L1u204h+2+uT1+fChXsdYPnmRDRR
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39850400004)(396003)(366004)(346002)(136003)(376002)(451199021)(33656002)(86362001)(110136005)(316002)(66946007)(66476007)(66556008)(64756008)(66446008)(76116006)(7696005)(478600001)(55016003)(52536014)(5660300002)(8676002)(41300700001)(2906002)(8936002)(38070700005)(38100700002)(122000001)(186003)(26005)(6506007)(53546011)(9686003)(83380400001)(71200400001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?aGNmaFhmaTBNVTZyQlorajZkMGJPTTFoRmNLcHJVaWxHSjRUUnBNK2t6WFJ6?=
- =?utf-8?B?ZVZjc3pSSWdyWitNMUZsOG4zalhndmRSRWlhMmNKaHk0SFFEYWYwelY0R0or?=
- =?utf-8?B?eGtYbW1HM1hPaXluVThLWUwybS9tQytpeE9qN2JicEI2NXZEVnpzS0hHaUxz?=
- =?utf-8?B?YUhmWkUxUWJ5cUowaWdxS2w2QVJKUUpVZytnWHd2MGpodkdHT2JFT0FrYmRR?=
- =?utf-8?B?WGFoWHBVNC9xM3RqY0g4NUJJMmtpU1NTdGhuNU1tc2RNdkZIVHdQT3dEcktF?=
- =?utf-8?B?WnlWVTJGQ3V3cXE3SERqQVQ1ZG5zSG1XRVhoNldmME5KSkNSR0FmYm5zMnBQ?=
- =?utf-8?B?QWZrMEhPWXVZNmpBSjhheC9YYU54YkhNd2QyblhGOUJFMnpNRHU0d3I1VmVD?=
- =?utf-8?B?UlY5RHp3cVIzSGpSa1oyVHo2d2xpcXlhMTFjcWVCcTRrRlQzZlpaWEVHQnVP?=
- =?utf-8?B?Tkp2SGJJVWw2Y2hEREVCenA0L29tMzMrQ3BxVTR2RTRQdXEwNTNIdEdObUVW?=
- =?utf-8?B?T1Vzd0NjLzAxTkZoM0x0Tm9uSkF2RW91Q0NjdWljci91dk1kT0pDb1RiK2gy?=
- =?utf-8?B?dEpoUnh2TDM1NUtLQU9HdnREZUxHY2xqZ0MwNGM1bndpRG8rSFN1RUFsQm8x?=
- =?utf-8?B?czQvU0dWNlZWaGJmckdWTFB0TFBNVnUxdWIvL016V01vcGJmTm1JVXlkeDds?=
- =?utf-8?B?T0lPSWJvVFo5amxKUzdJWVBNVXRtd3dKNENOY292aGVwVmFaN1g0aWo5K3JW?=
- =?utf-8?B?S1lFbHpOdjdzTktWK3E3YjhMTFJCU3dWa2h2NzVBZWErckxKQ3Y0VEVPNURs?=
- =?utf-8?B?RFdKQks3UGFPL2hyZ2RmNTRrMkV0dzN5QmNNNDQwY09nM3Z6N3k4VVBzRlc0?=
- =?utf-8?B?cWtmZnpScGx4LzRvQmpqWXFRaFdhNWUrNUtIRWFzYnRnb2ZSUUs4QVI5Y1E1?=
- =?utf-8?B?VlVTazV1R1pkNko2Z0trVzdkQkMvYXlDTklSWkVydEs0ZDhiclJzajF3KzNx?=
- =?utf-8?B?T3hNbEduSThCWjFCOVhrZlN5OGhGMzFkU1c2QU9KdDZxcytNNjNtNDNjelh1?=
- =?utf-8?B?K1N0a1R2RUNKRHNOQ04rMU02SUJOa1pSSno4RVhSMm1KNGhmUG5CWnpQZzNY?=
- =?utf-8?B?ZGxoQUxKaXZvMnBzVWZVQnNUNEVZTVRwLzVIdVQ1UGdsTXMvRjZGSnpEbjVK?=
- =?utf-8?B?SS9JSzJHVjB0dTQycEY3RFF5MUxQbnQrUW8wMmxWZUFlaDUyQzhGN09Eekdi?=
- =?utf-8?B?c3AwdnRPNkNUUWZLTGU1VjJQS1BKS1pIVGlzZm9CaXNpUUxtam5TV0RBU0Fp?=
- =?utf-8?B?cTRZZ3BnK1Q1UDJOM3V6dm1kRnRuU0VFUnVoa0VVM1NDRmlKNUN0QU8yRE1m?=
- =?utf-8?B?L1dqN0VNR1Z4RHJSZXZmN1BLWm9nRlZ6RytHWHFqVk5sRk1HK2pOTnN3V29L?=
- =?utf-8?B?V0MyMW4wZjJldU9vN0lIb1I3VkVMcHhBekpBRjN3UThMQURuTStxeFUyNjFR?=
- =?utf-8?B?VEgzT0lOMTRwL1lVdUlvNVdYSlRieUFRa1BIT2NjYXhQc01qWjRPZ0dlblF4?=
- =?utf-8?B?TWFiQmZsVGtsVVFoSTYyRkhhZTVDWXEzRlVtUHRkd1BVM0k2U1dWaGlJVnZE?=
- =?utf-8?B?REFjZFQ1WkRPRHF6c2VZVTZWbnFqSjRybHZYVmYybXJ3eHpKd1RrUWdzWEoz?=
- =?utf-8?B?Skh1dWRiU3FBMlR3cWJ1WFN4V3FpSVduaVh6WWgrZ2dhSW1SRTBPRDlTR3BE?=
- =?utf-8?B?Qll3YS9RVEdDR0IrQlIrcjRDTUlCN0p5bTd5NFhUbEZSTDlwZ21yM1hvWnAy?=
- =?utf-8?B?WVNhZldrQThka094TGF0ZDFBZHgwb0FreVp4dGR3dW1jRmdFbndxZjZ0NklX?=
- =?utf-8?B?RVFpbzM3dFRmcVNaZFk2NTR2QVk0K2xqVmdZYzZWZFR5bWx5L0lvcU5mWDhH?=
- =?utf-8?B?WXhKUDVjTVRQWW5MSUZCS0duWFFZMUpJYmVCRFVsMVBhbEVvVUtrVWtwLzVK?=
- =?utf-8?B?djR3SWxvOGZDNlJjZytzakJZTU5lbWN1ZHlhMnozMHgwRjNaQzZlejhZNVVl?=
- =?utf-8?B?bkZ5UzFTZ1B6VVY1MFE3UCsvblVoc2gyV05Yc29xT0l5K1g3QXcrSnljVE8y?=
- =?utf-8?Q?X1yehPlWhiLnsxA5pULhjq6I5?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=rM4NjZRo;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.54, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-953343581a4so2008687366b.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 07:06:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1684159596; x=1686751596;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=erdzZa3qefRuqZeIPK0fA4uwDl+pG74I+O0/1OqL1JM=;
+        b=rM4NjZRoZEhf5OcCUa1DE1eypv5Nkt6iyLVKW5I0K+fQnIfIfzzL9JXRlG/3PH49Td
+         44bjEAhWpF288XJZ0GDfvEfVjqQnAhJUzu/Bx4gFXkH2Pj55TARoaCWOBzmJZ+V8HFyI
+         F8fHrYMeSZimXA3/JCbbrqbww3OMQ4GW4zUlSt27EkqG7FRAg/7fNxqT77DmVMen8eNH
+         /WSkM0tKGnVgzm/n0+aYRcPrVdeNLrO8DGtUVgN1Z9w5hHqPtwo9Km1PnIMcrkQah55t
+         SGoZQpQ1SeAfzGKxBadloigf/jGO43qAcwMuZhWaif7lA7Qxtr+dsU9oaiK1vSPUbRaE
+         kv5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684159596; x=1686751596;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=erdzZa3qefRuqZeIPK0fA4uwDl+pG74I+O0/1OqL1JM=;
+        b=HJKkGTO4xGEswOahFN+z9p+LjVHaI3CCiJeP0IS9npw6bFVT1Znsh1cFTOUJ3AZPGr
+         KSNTJnwJpdgwssAw4x3f2fYHj1YUr0HL1shGbNJDsrBcIehlzdNtHHniUcIfk4DHLX0n
+         jKTHR/MqN+XVCsv953w/aeZLwPpwaQbTHQ1cQXBQVKVIb3V3jS4plWgvlyQgG9GTurnF
+         o5GuV+y/jMoOPsF7pn6rQxwgOmWD/tJOiGKXarq0pPEInA6iTawYrzt9vWDmbKipZ8u/
+         S4kmiTEgPTaGD1mfasUFTfLXR1La7XIwUaTGqHs9PFUWgOi4dxN3Otre9TKnhSEe5B1v
+         7oMg==
+X-Gm-Message-State: AC+VfDxD4nI2QirZiIGJr+OGTI2jtMUHsETkJa0hq9p/BzWZFb1cNaiJ
+	gVED10vHgr26RQbSRL/QPD9/2xWnKL9qI4O/g9YbLg==
+X-Google-Smtp-Source: ACHHUZ4b8M8/9c03PpjzDVE4GgVgfrSKeeoyTNKeqDo888BlTfs6RFZJIKnnpw10G7LSfty+r4XVzE6pUN937znaDQk=
+X-Received: by 2002:a17:907:a4b:b0:958:514f:d88a with SMTP id
+ be11-20020a1709070a4b00b00958514fd88amr27900630ejc.34.1684159595678; Mon, 15
+ May 2023 07:06:35 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 403a35b0-381f-431b-0513-08db554cecc7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 May 2023 14:01:48.0947
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pDVIiEpVPq/nVuPLTnE6SXWu64BKg9ZE8Hx9UoS7xB52w+Pw5VS63n8gLiSpirn+3srn6ZpI3M0b/BnQaaIzZw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7295
-X-Proofpoint-GUID: 4iwAgGd5ScLZNWciksQ50-NxYhVzdUZK
-X-Proofpoint-ORIG-GUID: kma6-KWns9Evf02VjvX4kMjJmhBWpPvC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-15_11,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxlogscore=884
- phishscore=0 malwarescore=0 lowpriorityscore=0 suspectscore=0 adultscore=0
- mlxscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305150120
+References: <20230515055805.1439114-1-deepadeepthi98@gmail.com>
+In-Reply-To: <20230515055805.1439114-1-deepadeepthi98@gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Mon, 15 May 2023 04:06:24 -1000
+Message-ID: <CAOSpxdbgUD0GTmkjgUkXM4oteQLtjSSESEx-+WxS6eh3dvqupg@mail.gmail.com>
+Subject: Re: [OE-core] [kirkstone][PATCH] binutils : Fix CVE-2023-25588
+To: Deepthi Hemraj <deepadeepthi98@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, rwmacleod@gmail.com, 
+	umesh.kalappa0@gmail.com, pgowda.cve@gmail.com, shivams@gmail.com, 
+	sundeep.kokkonda@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 14:02:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181260
+ <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 14:06:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181261
 
-SGkgUGV0ZXIsDQoNClNvcnJ5IEkgZGlkbid0IGV4cHJlc3MgbXkgcG9pbnQgY2xlYXJseS4NCg0K
-SSBrbm93IHRoYXQgc2hlbGwgdmFyaWFibGUgaXMgZXhwYW5kZWQgaW1tZWRpYXRlbHkuIFdoYXQg
-SSByZWFsbHkgbWVhbnQgaXMgdGhhdCBhcyB0aGUgcGF0aHMsICIkT0VST09UL3NjcmlwdHM6JEJJ
-VEJBS0VESVIvYmluOiIsIGhhdmUgYmVlbiBhZGRlZCB0byBQQVRILCBhbmQgUEFUSCBpcyBleHBv
-cnRlZCwgc29tZSB2YXJpYWJsZSB3b3VsZCBhbHNvIG5lZWQgdG8gYmUgZXhwb3J0ZWQgdG8gY2Fy
-cnkgdGhhdCBpbmZvcm1hdGlvbiBvZiB0aGUgYWRkZWQgcGF0aHMuIE90aGVyd2lzZSwgYSBzdWJw
-cm9jZXNzIChlLmcuLCBhIHN1YnNoZWxsKSB3aWxsIG5vdCBrbm93IGVub3VnaCBpbmZvcm1hdGlv
-biB0byBhY3QgYWNjb3JkaW5nbHkuDQoNCmUuZy4sDQoxKSAuIHBhdGgxL3RvL3Bva3kvb2UtaW5p
-dC1idWlsZC1lbnYgYnVpbGQtMQ0KMikgYmFzaA0KMykgLiBwYXRoMi90by9wb2t5L29lLWluaXQt
-YnVpbGQtZW52IGJ1aWxkLTINCg0KV2l0aCB0aGUgYWJvdmUgdGhyZWUgc3RlcHMsIHRoZSByZXN1
-bHRpbmcgUEFUSCBpcyBub3Qgd2hhdCB3ZSBleHBlY3QgaWYgT0VfQURERURfUEFUSFMgaXMgbm90
-IGV4cG9ydGVkLg0KDQpSZWdhcmRzLA0KUWkNCg0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0t
-LQ0KRnJvbTogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+
-IA0KU2VudDogTW9uZGF5LCBNYXkgMTUsIDIwMjMgNzo0OCBQTQ0KVG86IENoZW4sIFFpIDxRaS5D
-aGVuQHdpbmRyaXZlci5jb20+OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
-b3JnDQpTdWJqZWN0OiBSRTogW09FLWNvcmVdW1BBVENIIFYyXSBvZS1idWlsZGVudi1pbnRlcm5h
-bDogcmVtb3ZlIHBhdGggZnJvbSBwcmV2aW91cyBwcm9qZWN0DQoNCj4gLS0tLS1PcmlnaW5hbCBN
-ZXNzYWdlLS0tLS0NCj4gRnJvbTogQ2hlblFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+DQo+IFNl
-bnQ6IGRlbiAxNSBtYWogMjAyMyAwNjo1Mw0KPiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRl
-ci5ramVsbGVyc3RlZHRAYXhpcy5jb20+OyANCj4gb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdW1BBVENIIFYyXSBvZS1idWls
-ZGVudi1pbnRlcm5hbDogcmVtb3ZlIHBhdGggDQo+IGZyb20gcHJldmlvdXMgcHJvamVjdA0KPiAN
-Cj4gSGkgUGV0ZXIsDQo+IA0KPiBUaGFua3MgZm9yIHlvdXIgY2FyZWZ1bCByZXZpZXcuIEknbGwg
-c2VuZCBvdXQgVjMgYWNjb3JkaW5nIHRvIHlvdXIgDQo+IHN1Z2dlc3Rpb24uDQo+IA0KPiBKdXN0
-IG9uZSB0aGluZy4gSSB0aGluayB3ZSBuZWVkIHRvIGV4cG9ydCBPRV9BRERFRF9QQVRIUyBmb3Ig
-dHdvIHJlYXNvbjoNCj4gMS4gdXNlcnMgY2FuIGNsZWFybHkgc2VlIGl0IGluIHRoZSBgZW52JyBj
-b21tYW5kJ3Mgb3V0cHV0Lg0KDQpTdXJlLCBidXQgaXQgc2hvdWxkIHJlYWxseSBiZSBzZWVuIGFz
-IGFuIGludGVybmFsIHZhcmlhYmxlIGZvciB0aGlzIHNjcmlwdC4gVGhlIG9ubHkgcmVhc29uIGl0
-IGhhcyB0byBiZSBpbiB0aGUgZW52aXJvbm1lbnQgaXMgZm9yIGl0IHRvIGJlIGF2YWlsYWJsZSBm
-b3IgdGhlIG5leHQgcnVuIG9mIHRoaXMgc2NyaXB0LiBOb3RoaW5nIGVsc2Ugc2hvdWxkIGNhcmUg
-YWJvdXQgaXQuDQoNCj4gMi4gaWYgdGhlIHByZWZpeGVkIFBBVEggaXMgY2FycmllZCBpbnRvIHNv
-bWUgc3VicHJvY2VzcyAoZS5nLiwgYSANCj4gc3Vic2hlbGwpLA0KPiAgwqDCoMKgwqDCoMKgIHNv
-IHNob3VsZCB0aGlzIE9FX0FEREVEX1BBVEhTIHZhcmlhYmxlIHRoYXQgcHJlZml4ZXMgaXQuDQoN
-ClRoYXQgaXMgbm90IGhvdyB2YXJpYWJsZXMgaW4gc2hlbGwgd29ya3MuIFRoZXkgYXJlIGV4cGFu
-ZGVkIGltbWVkaWF0ZWx5LCBzbyBQQVRIIHdpbGwgYmUgc2V0IHRvIHdoYXRldmVyIHZhbHVlICRP
-RV9BRERFRF9QQVRIUyBleHBhbmRzIHRvIGFuZCB5b3Ugd2lsbCBub3Qgc2VlIGFueSByZWZlcmVu
-Y2UgdG8gaXQgYWZ0ZXIgUEFUSCBoYXMgYmVlbiBtb2RpZmllZC4NCg0KPiANCj4gUmVnYXJkcywN
-Cj4gUWkNCg0KLy9QZXRlcg0KDQo=
+On Sun, May 14, 2023 at 7:58=E2=80=AFPM Deepthi Hemraj <deepadeepthi98@gmai=
+l.com> wrote:
+>
+> Upstream-Status: Backport[https://sourceware.org/git/?p=3Dbinutils-gdb.gi=
+t;a=3Dcommitdiff_plain;h=3Dd12f8998d2d086f0a6606589e5aedb7147e6f2f1]
+>
+> CVE: CVE-2023-25588
+>
+> Signed-off-by: Deepthi Hemraj <deepadeepthi98@gmail.com>
+> ---
+>  .../binutils/binutils-2.38.inc                |   7 +-
+>  .../binutils/0028-CVE-2023-25588.patch        | 147 ++++++++++++++++++
+>  2 files changed, 148 insertions(+), 6 deletions(-)
+>  create mode 100644 meta/recipes-devtools/binutils/binutils/0028-CVE-2023=
+-25588.patch
+>
+> diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/reci=
+pes-devtools/binutils/binutils-2.38.inc
+> index 5c3ff3d93a..e51c65d638 100644
+> --- a/meta/recipes-devtools/binutils/binutils-2.38.inc
+> +++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
+> @@ -50,11 +50,6 @@ SRC_URI =3D "\
+>       file://0021-CVE-2023-1579-2.patch \
+>       file://0021-CVE-2023-1579-3.patch \
+>       file://0021-CVE-2023-1579-4.patch \
+> -     file://0022-CVE-2023-25584-1.patch \
+> -     file://0022-CVE-2023-25584-2.patch \
+> -     file://0022-CVE-2023-25584-3.patch \
+> -     file://0023-CVE-2023-25585.patch \
+> -     file://0026-CVE-2023-1972.patch \
+> -     file://0025-CVE-2023-25588.patch \
+> +     file://0028-CVE-2023-25588.patch \
+
+I can't make sense of what you are trying to accomplish with this
+patch!  We already have a patch for CVE-2023-25588.  And you don't
+explain why you are removing the patches for 3 other CVEs.
+
+Steve
+
+>  "
+>  S  =3D "${WORKDIR}/git"
+> diff --git a/meta/recipes-devtools/binutils/binutils/0028-CVE-2023-25588.=
+patch b/meta/recipes-devtools/binutils/binutils/0028-CVE-2023-25588.patch
+> new file mode 100644
+> index 0000000000..c019004a02
+> --- /dev/null
+> +++ b/meta/recipes-devtools/binutils/binutils/0028-CVE-2023-25588.patch
+> @@ -0,0 +1,147 @@
+> +From: Alan Modra <amodra@gmail.com>
+> +Date: Fri, 14 Oct 2022 00:00:21 +0000 (+1030)
+> +Subject: PR29677, Field `the_bfd` of `asymbol` is uninitialised
+> +X-Git-Tag: gdb-13-branchpoint~871
+> +X-Git-Url: https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dcommitdi=
+ff_plain;h=3Dd12f8998d2d086f0a6606589e5aedb7147e6f2f1
+> +
+> +PR29677, Field `the_bfd` of `asymbol` is uninitialised
+> +
+> +Besides not initialising the_bfd of synthetic symbols, counting
+> +symbols when sizing didn't match symbols created if there were any
+> +dynsyms named "".  We don't want synthetic symbols without names
+> +anyway, so get rid of them.  Also, simplify and correct sanity checks.
+> +
+> +       PR 29677
+> +       * mach-o.c (bfd_mach_o_get_synthetic_symtab): Rewrite.
+> +
+> +Upstream-Status: Backport [https://sourceware.org/git/?p=3Dbinutils-gdb.=
+git;a=3Dcommitdiff_plain;h=3Dd12f8998d2d086f0a6606589e5aedb7147e6f2f1]
+> +
+> +CVE: CVE-2023-25588
+> +
+> +Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+> +
+> +---
+> +
+> +diff --git a/bfd/mach-o.c b/bfd/mach-o.c
+> +index acb35e7f0c6..5279343768c 100644
+> +--- a/bfd/mach-o.c
+> ++++ b/bfd/mach-o.c
+> +@@ -938,11 +938,9 @@ bfd_mach_o_get_synthetic_symtab (bfd *abfd,
+> +   bfd_mach_o_symtab_command *symtab =3D mdata->symtab;
+> +   asymbol *s;
+> +   char * s_start;
+> +-  char * s_end;
+> +   unsigned long count, i, j, n;
+> +   size_t size;
+> +   char *names;
+> +-  char *nul_name;
+> +   const char stub [] =3D "$stub";
+> +
+> +   *ret =3D NULL;
+> +@@ -955,27 +953,27 @@ bfd_mach_o_get_synthetic_symtab (bfd *abfd,
+> +   /* We need to allocate a bfd symbol for every indirect symbol and to
+> +      allocate the memory for its name.  */
+> +   count =3D dysymtab->nindirectsyms;
+> +-  size =3D count * sizeof (asymbol) + 1;
+> +-
+> ++  size =3D 0;
+> +   for (j =3D 0; j < count; j++)
+> +     {
+> +-      const char * strng;
+> +       unsigned int isym =3D dysymtab->indirect_syms[j];
+> ++      const char *str;
+> +
+> +       /* Some indirect symbols are anonymous.  */
+> +-      if (isym < symtab->nsyms && (strng =3D symtab->symbols[isym].symb=
+ol.name))
+> +-      /* PR 17512: file: f5b8eeba.  */
+> +-      size +=3D strnlen (strng, symtab->strsize - (strng - symtab->strt=
+ab)) + sizeof (stub);
+> ++      if (isym < symtab->nsyms
+> ++        && (str =3D symtab->symbols[isym].symbol.name) !=3D NULL)
+> ++      {
+> ++        /* PR 17512: file: f5b8eeba.  */
+> ++        size +=3D strnlen (str, symtab->strsize - (str - symtab->strtab=
+));
+> ++        size +=3D sizeof (stub);
+> ++      }
+> +     }
+> +
+> +-  s_start =3D bfd_malloc (size);
+> ++  s_start =3D bfd_malloc (size + count * sizeof (asymbol));
+> +   s =3D *ret =3D (asymbol *) s_start;
+> +   if (s =3D=3D NULL)
+> +     return -1;
+> +   names =3D (char *) (s + count);
+> +-  nul_name =3D names;
+> +-  *names++ =3D 0;
+> +-  s_end =3D s_start + size;
+> +
+> +   n =3D 0;
+> +   for (i =3D 0; i < mdata->nsects; i++)
+> +@@ -997,47 +995,39 @@ bfd_mach_o_get_synthetic_symtab (bfd *abfd,
+> +         entry_size =3D bfd_mach_o_section_get_entry_size (abfd, sec);
+> +
+> +         /* PR 17512: file: 08e15eec.  */
+> +-        if (first >=3D count || last >=3D count || first > last)
+> ++        if (first >=3D count || last > count || first > last)
+> +           goto fail;
+> +
+> +         for (j =3D first; j < last; j++)
+> +           {
+> +             unsigned int isym =3D dysymtab->indirect_syms[j];
+> +-
+> +-            /* PR 17512: file: 04d64d9b.  */
+> +-            if (((char *) s) + sizeof (* s) > s_end)
+> +-              goto fail;
+> +-
+> +-            s->flags =3D BSF_GLOBAL | BSF_SYNTHETIC;
+> +-            s->section =3D sec->bfdsection;
+> +-            s->value =3D addr - sec->addr;
+> +-            s->udata.p =3D NULL;
+> ++            const char *str;
+> ++            size_t len;
+> +
+> +             if (isym < symtab->nsyms
+> +-                && symtab->symbols[isym].symbol.name)
+> ++                && (str =3D symtab->symbols[isym].symbol.name) !=3D NUL=
+L)
+> +               {
+> +-                const char *sym =3D symtab->symbols[isym].symbol.name;
+> +-                size_t len;
+> +-
+> +-                s->name =3D names;
+> +-                len =3D strlen (sym);
+> +-                /* PR 17512: file: 47dfd4d2.  */
+> +-                if (names + len >=3D s_end)
+> ++                /* PR 17512: file: 04d64d9b.  */
+> ++                if (n >=3D count)
+> +                   goto fail;
+> +-                memcpy (names, sym, len);
+> +-                names +=3D len;
+> +-                /* PR 17512: file: 18f340a4.  */
+> +-                if (names + sizeof (stub) >=3D s_end)
+> ++                len =3D strnlen (str, symtab->strsize - (str - symtab->=
+strtab));
+> ++                /* PR 17512: file: 47dfd4d2, 18f340a4.  */
+> ++                if (size < len + sizeof (stub))
+> +                   goto fail;
+> +-                memcpy (names, stub, sizeof (stub));
+> +-                names +=3D sizeof (stub);
+> ++                memcpy (names, str, len);
+> ++                memcpy (names + len, stub, sizeof (stub));
+> ++                s->name =3D names;
+> ++                names +=3D len + sizeof (stub);
+> ++                size -=3D len + sizeof (stub);
+> ++                s->the_bfd =3D symtab->symbols[isym].symbol.the_bfd;
+> ++                s->flags =3D BSF_GLOBAL | BSF_SYNTHETIC;
+> ++                s->section =3D sec->bfdsection;
+> ++                s->value =3D addr - sec->addr;
+> ++                s->udata.p =3D NULL;
+> ++                s++;
+> ++                n++;
+> +               }
+> +-            else
+> +-              s->name =3D nul_name;
+> +-
+> +             addr +=3D entry_size;
+> +-            s++;
+> +-            n++;
+> +           }
+> +         break;
+> +       default:
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#181229): https://lists.openembedded.org/g/openembedde=
+d-core/message/181229
+> Mute This Topic: https://lists.openembedded.org/mt/98897943/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
