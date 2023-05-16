@@ -1,66 +1,62 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1B46C7EE2E
-	for <webhook@archiver.kernel.org>; Tue, 16 May 2023 18:40:44 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.29901.1684262443282545693
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32DAAC77B75
+	for <webhook@archiver.kernel.org>; Tue, 16 May 2023 20:33:25 +0000 (UTC)
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+ by mx.groups.io with SMTP id smtpd.web11.25772.1684252606195292867
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 May 2023 11:40:43 -0700
+ Tue, 16 May 2023 08:56:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B10F22F4;
-	Tue, 16 May 2023 11:41:27 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5FAB33F793;
-	Tue, 16 May 2023 11:40:42 -0700 (PDT)
-From: ross.burton@arm.com
+ dkim=fail reason="signature has expired" header.i=@pm.me header.s=protonmail3 header.b=QOL1BRaI;
+ spf=pass (domain: pm.me, ip: 185.70.43.16, mailfrom: antoningodard@pm.me)
+Date: Tue, 16 May 2023 15:56:36 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1684252604; x=1684511804;
+	bh=l6qlh2oWDvhY4hQJ/Y5nzIF9QF3dfp43jTt4oD+w1js=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=QOL1BRaI+LvTouW9QVETD99cBwM23W7q6LfB/Hc6iZLPRPricn33ubYK8Q/0WUoql
+	 kz+qrZkBytrU1ITbvaXVT7KCR0hxjgpx2UfCqz2N7VQxHRsLmVizuIr68HHX96ku8+
+	 H8hKAZjQ0IsR2cPCQgHCQBK7drdO97TCh4Caf/OmyztgvXsdcZqH3fmS6swJPrIN24
+	 V7Z669XSLwaFJ4yFDGzRFqGif3h2RFRYja3UWfMQgglMIKXZ9wqWJXjuCAfcrBx/Rx
+	 7Xm0/G4e9+DESy15IgROdLgUfZmlV+Vc4gTbxwgoiSAnSrXImvfXEgDkxVK0+61LmK
+	 IeUJVdshzS7Cw==
 To: openembedded-core@lists.openembedded.org
-Cc: alex.kanavin@gmail.com,
-	kubiznak@2n.com
-Subject: [PATCH 7/7] gstreamer1.0-python: mandate gobject-introspection-data DISTRO_FEATURE
-Date: Tue, 16 May 2023 19:40:31 +0100
-Message-Id: <20230516184031.2255171-7-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230516184031.2255171-1-ross.burton@arm.com>
-References: <20230516184031.2255171-1-ross.burton@arm.com>
+From: "Antonin Godard" <antoningodard@pm.me>
+Cc: Antonin Godard <antoningodard@pm.me>
+Subject: [PATCH 0/1] archiver: move exclusion logic in a dedicated function
+Message-ID: <20230516155545.298359-1-antoningodard@pm.me>
+Feedback-ID: 17651652:user:proton
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 May 2023 18:40:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181420
+ <openembedded-core@lists.openembedded.org>; Tue, 16 May 2023 20:33:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181421
 
-From: Ross Burton <ross.burton@arm.com>
+While extending the archiver class to deploy licenses next to the other
+tarballs, I was forced to duplicate the logic in archiver's anonymous funct=
+ion
+in my own class. Instead move this logic in a separate function to avoid
+duplication.
 
-This layers on top of python3-pygobject, which needs
-gobject-introspection to work.
+If extending archiver to deploy the licenses of the packages in a tarball (=
+by
+reusing the license bbclass) seems appropriate in the archiver class, I can=
+ of
+course send another patch.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../gstreamer/gstreamer1.0-python_1.22.2.bb                   | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Antonin Godard (1):
+  archiver: move exclusion logic in a dedicated function
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.2=
-.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.2.bb
-index 52d987eee5a..ab1600db411 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.2.bb
-@@ -23,6 +23,8 @@ EXTRA_OEMESON +=3D "\
-     -Dlibpython-dir=3D${libdir} \
- "
-=20
--inherit meson pkgconfig setuptools3-base upstream-version-is-even
-+inherit meson pkgconfig setuptools3-base upstream-version-is-even featur=
-es_check
-=20
- FILES:${PN} +=3D "${libdir}/gstreamer-1.0"
-+
-+REQUIRED_DISTRO_FEATURES =3D "gobject-introspection-data"
---=20
-2.34.1
+ meta/classes/archiver.bbclass | 30 ++++++++++++++++++------------
+ 1 file changed, 18 insertions(+), 12 deletions(-)
+
+--
+2.25.1
 
 
