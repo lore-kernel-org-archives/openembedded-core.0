@@ -2,51 +2,51 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED9D5C77B7D
-	for <webhook@archiver.kernel.org>; Wed, 17 May 2023 06:04:37 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web11.43240.1684303474170525113
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBC33C77B7D
+	for <webhook@archiver.kernel.org>; Wed, 17 May 2023 06:12:37 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web11.43306.1684303953341176871
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 May 2023 23:04:34 -0700
+ Tue, 16 May 2023 23:12:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=B23DRGOI;
- spf=pass (domain: mvista.com, ip: 209.85.210.175, mailfrom: hprajapati@mvista.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-64a9335a8e7so10785009b3a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 May 2023 23:04:33 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=kgxLnb9z;
+ spf=pass (domain: mvista.com, ip: 209.85.210.179, mailfrom: hprajapati@mvista.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-643846c006fso326471b3a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 May 2023 23:12:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1684303473; x=1686895473;
+        d=mvista.com; s=google; t=1684303952; x=1686895952;
         h=in-reply-to:from:references:cc:to:content-language:subject
          :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=x5VNWTV+QwXV/siQ+xQEYufqz4lIRXb2scV1zJuY6uc=;
-        b=B23DRGOIvG53EjzLVh+lyE0caYBDTnGziqNKpulkhKAlKtFAkAA6dLcYVpXRO6A2ZV
-         tTx4xS/BIgk4fndptcsRCvmv2FkkDRdgHYwSlYzlsQ1H1bBDmfNkCm50LVMvjWp8BKVH
-         BaI+0LC+c5vihWiaL+kNZm9uDvXI0k86cep7c=
+        bh=aPtRaLapdbQv4kOFMkJRXvxPSUrHorIHoW+2DhA/yi0=;
+        b=kgxLnb9zGYUB4OKnorTlPWifystW6ixcdbjOSC9jsmav4M64dI2ZYKhFaKmtWyVs3D
+         ZHB/ySIM8eOz8r+GK7iAAIOg374DFsM56NVEWFNQZfrzDCWqBrHvMVaU1nggUylHoh3x
+         j9qYqqbwoT8cs1xsiEYuvUIcTNx8UB3cB3JF8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684303473; x=1686895473;
+        d=1e100.net; s=20221208; t=1684303952; x=1686895952;
         h=in-reply-to:from:references:cc:to:content-language:subject
          :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=x5VNWTV+QwXV/siQ+xQEYufqz4lIRXb2scV1zJuY6uc=;
-        b=Ghexn9moZRzpCy0NOSVoGE1vGzJY7Oo31/xpSqn4mBZLv6KcgrvHgHGqL53pFntMVy
-         wylBZ8qLnCSgtrHf1V1FzpRtpG7/bchqx0byZ7A9Rf71dRsSutksXqjplOqDqMb8iTfT
-         s3I7XC7ecXvmguiFw1sDd8Vf7EKI2IQ/BE3EPGxokyoOXDDr4rqHEuyJCz5ZBHIpCkDE
-         ewfGN2YSFeyegKasKe92ywqVGlLHSy/BH5WSgHK8ncgMi7eIdB1xSrwB+LK6WYDdKdAM
-         1PzMFaRzPJJ64l4Lo0jiZVXcHxxtWzJ09DVMZKmN076CFuptPrB73ig8v3aUMZ2dZRXo
-         hcqA==
-X-Gm-Message-State: AC+VfDxIWwbJZ5XDOXsGgCJI4lPagZwxixEkW9tyoq9uUByWPwEUWqoZ
-	pPtbL48226bYT0K0CYQCyPo3Kg==
-X-Google-Smtp-Source: ACHHUZ6AXAqmFf8E2MkW+4bfQN5qX/xnRUlWg8Skww9TjNtWVE9ssWbgnusQoYEf2AHgbDuHe5hHMw==
-X-Received: by 2002:a17:902:eccc:b0:1ac:76a6:a1f with SMTP id a12-20020a170902eccc00b001ac76a60a1fmr1336439plh.16.1684303473292;
-        Tue, 16 May 2023 23:04:33 -0700 (PDT)
+        bh=aPtRaLapdbQv4kOFMkJRXvxPSUrHorIHoW+2DhA/yi0=;
+        b=UGNq0e0RjAus0Wm9Ddk4PemWgZeAO5wCG5TS8xgdhl6/1Jv5QPpMciBoojRrgIP3DT
+         2OV6CJZM0lnNtFn/B5KLz+S3PxGBLhFhdpw89CdKLxsFon5ym60grhQNKZR2qYJg3e6u
+         Ya1l91ph02wuwVU/0OTygRsUOlwQVcXBRUekuEdnXeZzXHY2QWt3vrPMEXKlyACdXsge
+         hnBxVKWxsS/9aPpMEZTrjX6GGDVXkT+mBIJTK/VQuEDkzWm+nmZiQICdYvK+fUm20FGN
+         urr4uYSOOs+Du/TduADmYfg4E9HxfsD2uYAg4chr3XoQryTqP77K+iNOcFxN3Ag4XrYH
+         bWiA==
+X-Gm-Message-State: AC+VfDz1WGmum3aonoeT+5YSZTq3rABzbjud0ZXRrV1yK7y6UmdgoxzQ
+	B8JmiYxNTnWxSa3EVMFxmFD1WQ==
+X-Google-Smtp-Source: ACHHUZ6az1XyEOakqwNnK9xo3lCD1M++x04+urayVFZareJUhtXretHu3Q3A49tOg8BAwB6+hyZhZg==
+X-Received: by 2002:a05:6a00:168b:b0:63d:2d7d:b6f2 with SMTP id k11-20020a056a00168b00b0063d2d7db6f2mr51800483pfc.4.1684303952566;
+        Tue, 16 May 2023 23:12:32 -0700 (PDT)
 Received: from [192.168.0.119] ([43.249.234.155])
-        by smtp.gmail.com with ESMTPSA id jg17-20020a17090326d100b001ae57277a87sm294561plb.255.2023.05.16.23.04.31
+        by smtp.gmail.com with ESMTPSA id x41-20020a056a000be900b0064b03272707sm6676474pfu.81.2023.05.16.23.12.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 May 2023 23:04:32 -0700 (PDT)
+        Tue, 16 May 2023 23:12:32 -0700 (PDT)
 Content-Type: multipart/alternative;
- boundary="------------SEVLZ1E18A97fDl1aqGposPz"
-Message-ID: <e9b46e5a-8219-6f88-f39c-ba219b9fe8dc@mvista.com>
-Date: Wed, 17 May 2023 11:34:29 +0530
+ boundary="------------m8fWzhwMfCkvIXY91Q1eYPYe"
+Message-ID: <0bfbce33-a12b-ce43-1b92-465b177edba2@mvista.com>
+Date: Wed, 17 May 2023 11:42:27 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
@@ -56,7 +56,8 @@ Content-Language: en-US
 To: "Abdurrahman Hussain (fib)" <fib@cisco.com>,
  Steve Sakoman <steve@sakoman.com>
 Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
+ <openembedded-core@lists.openembedded.org>,
+ Siddharth Doshi <sdoshi@mvista.com>
 References: <20230414105523.81661-1-hprajapati@mvista.com>
  <CAOSpxdZZ9=DEf-ehFjta-qU=NeDGbzh4puJO-H1=QpH+B3X7og@mail.gmail.com>
  <ba598e31-fa5b-6e20-47de-f0acd9f8f649@mvista.com>
@@ -66,24 +67,30 @@ In-Reply-To: <BL1PR11MB60017A36FB0BE5D303293F9FAD799@BL1PR11MB6001.namprd11.prod
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 May 2023 06:04:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181445
+ <openembedded-core@lists.openembedded.org>; Wed, 17 May 2023 06:12:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181446
 
 This is a multi-part message in MIME format.
---------------SEVLZ1E18A97fDl1aqGposPz
+--------------m8fWzhwMfCkvIXY91Q1eYPYe
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 Hi Team,
 
-Please revert the changes of curl: CVE-2023-27534 SFTP path ~ resolving 
-discrepancy as of now.
+As my Team member Siddharth Doshi  already send the revised patch for that.
 
-My apologies for the delay in reply.
+Commit : 
+*https://git.openembedded.org/openembedded-core-contrib/commit/?h=stable/dunfell-nut&id=3e4520554cf8bd441f021f46f2e68eace5ca42e6 
+
+*
+
+Please look into that patch once and for any issue revert me or Siddharth.
+
+Thank you Siddharth.
 
 Regards,
 
-Hitendra
+Hitendra  Prajapati//
 
 On 17/05/23 00:08, Abdurrahman Hussain (fib) wrote:
 >
@@ -450,7 +457,7 @@ On 17/05/23 00:08, Abdurrahman Hussain (fib) wrote:
 Regards,
 Hitendra Prajapati
 MontaVista Software LLC
---------------SEVLZ1E18A97fDl1aqGposPz
+--------------m8fWzhwMfCkvIXY91Q1eYPYe
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -460,11 +467,17 @@ Content-Transfer-Encoding: 8bit
   </head>
   <body>
     <p>Hi Team,</p>
-    <p>Please revert the changes of curl: CVE-2023-27534 SFTP path ~
-      resolving discrepancy as of now.</p>
-    <p>My apologies for the delay in reply.</p>
+    <p>As my Team member Siddharth Doshi  already send the revised patch
+      for that.</p>
+    <p>Commit :  <b><a class="moz-txt-link-freetext" href="https://git.openembedded.org/openembedded-core-contrib/commit/?h=stable/dunfell-nut&amp;id=3e4520554cf8bd441f021f46f2e68eace5ca42e6">https://git.openembedded.org/openembedded-core-contrib/commit/?h=stable/dunfell-nut&amp;id=3e4520554cf8bd441f021f46f2e68eace5ca42e6</a>
+        <br>
+      </b></p>
+    <p>Please look into that patch once and for any issue revert me or
+      Siddharth.</p>
+    <p>Thank you Siddharth. <br>
+    </p>
     <p>Regards,</p>
-    <p>Hitendra  <br>
+    <p>Hitendra  Prajapati<i> </i><br>
     </p>
     <div class="moz-cite-prefix">On 17/05/23 00:08, Abdurrahman Hussain
       (fib) wrote:<br>
@@ -735,5 +748,5 @@ cite="mid:BL1PR11MB60017A36FB0BE5D303293F9FAD799@BL1PR11MB6001.namprd11.prod.out
   </body>
 </html>
 
---------------SEVLZ1E18A97fDl1aqGposPz--
+--------------m8fWzhwMfCkvIXY91Q1eYPYe--
 
