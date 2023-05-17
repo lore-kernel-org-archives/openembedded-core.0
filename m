@@ -1,127 +1,117 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F05AC77B7A
-	for <webhook@archiver.kernel.org>; Wed, 17 May 2023 15:21:50 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web10.53020.1684336901057015700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9FD2C77B7D
+	for <webhook@archiver.kernel.org>; Wed, 17 May 2023 16:15:40 +0000 (UTC)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+ by mx.groups.io with SMTP id smtpd.web10.54612.1684340139058300089
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 May 2023 08:21:41 -0700
+ Wed, 17 May 2023 09:15:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=48sIB8oU;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.45, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-96aa0cab88dso140794366b.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 May 2023 08:21:40 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=A5GRoDqv;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.52, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-623852980dfso4692686d6.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 May 2023 09:15:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1684336899; x=1686928899;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I+b9saLVQSzoGBSqx7jouiWgwRLWSt72PHRf7v/EdAY=;
-        b=48sIB8oUKccUiozyA0B5A/bR3nRWKQKc91+2qo60y+sYtwdPiunW4YF8xnVT+x6Qd8
-         JJ7ukCfkOR6IwUE9oJnfimHKmRsWoNvIJg+nAc2KiMjiVzbfnxjzTcCddH3QS5t+YZco
-         nILJ7SDsoVumqcI76yanREHq3D7xi9oUlM37y3hKG8ykg7PCPjvKV4wk9pesAFxMBnxz
-         sV4pjYA1dcP7tDCj7Dl0JqK1V7Lx/KN+1ugIifVHOdUyJWBDaEfA8VmZ7fhHjubrWpRc
-         7+IiT4CGpOlk8YnwGqE6HsVNXDu4pRrJZFxkPYA+bqqunm0vMwMCh2y8wlK4djO3RuMK
-         g4wQ==
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1684340138; x=1686932138;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WNBK6TL7HL95B2yOFzT1017do+c1L9JEUKkGpVbH+dM=;
+        b=A5GRoDqvwge6lw/8q2QCItxExYPbfE+8m7cXzhFHXhYcmKpbT0BoG5dtly4aeub88Y
+         fmGmQ50vo7G211LkjaH0JBeFuxlQ3nAujQfwNVYG1+w6j59t5gAz1/ntdR2pAW7UtI6g
+         cpMAqq5z3I3fd54l+wcQC1wHq6gJWSUaxIjZx0IoC3ORz8JkP1MrouHAwnrBwnT6s8dC
+         mHpFNtxCD8WAk0WEKxJEjCgM7ImW0r2yhyxMJW0YMtDM1H3YYeuRe8EcG8CjTNSAfyQb
+         atwy6r0Zc08EuWJApbCnL/tuHkM8AYw+uAEzOIZmJu5QEvuaQQMmebf1tklPr5LH1ibv
+         1xrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684336899; x=1686928899;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I+b9saLVQSzoGBSqx7jouiWgwRLWSt72PHRf7v/EdAY=;
-        b=CR3xp0M3d/ehhoNT8Gjl02jVrPqTvPcd0Head1VEY94NSCDaQmAqbciYVp3k/LmfBm
-         pKTpBqlh3mmnNCmKey6gk8uQYiN3UhNCMvliiriBHwmHgDPPuyWQT+Z/eYJ1xzH77IWu
-         IGqdq9h5CdSyA7xU0W6Go3BT4pci9c8F2wqSov6ze7rkIX+ke0NtEhxVjCIfg5g2FE0I
-         icmGKxGFeGIKZMz8vmG9pbPQsezPoWANqwar8HOZCZBjQdeJPDcFSTK2oYUmTrZ555RX
-         7YJoctuerMAJdN53tJUFR5Ml448pbDWf+ZI4fab12dImKfZSFrSsH1vAUaM/Emq73ySj
-         m3ng==
-X-Gm-Message-State: AC+VfDxilqCArXNVmjiexc0mK51RNeiLcsjnY2YphUCTkZKdAQZxrDLy
-	Sww8p/J/+R71k/YHho38154zmhYoldN4KvB56BfxAg==
-X-Google-Smtp-Source: ACHHUZ5cTKm76dSNywJQ2VHrzkHYwMR0cH/VFLe5y/zVcI/U003H3Ncxyg9AU1/hmBd91iBOIh8KY1MkNZEmfqZShsA=
-X-Received: by 2002:a17:907:2d12:b0:969:98eb:3fdd with SMTP id
- gs18-20020a1709072d1200b0096998eb3fddmr32859222ejc.3.1684336899240; Wed, 17
- May 2023 08:21:39 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1684340138; x=1686932138;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WNBK6TL7HL95B2yOFzT1017do+c1L9JEUKkGpVbH+dM=;
+        b=JcexZHdITYpKsONA5AT2l1BPqgtFGPpxwDN3j4Z8KOJpjR9biu4KTX2ZOYL4Vct0Ec
+         2H3BhJcyAmdtxS22IoJENjxHKeQrp0YXoGa1bNams5/3LQfLVuMOYhoPU7HD4NnNLu62
+         JTa15uT51Rij3Tie/4mkIg/vvDglZ5q217zKB2GZ3yjUWKAooCvo4D6Jw94VT5oIJ0Qv
+         hAAIi5pTviUxNjMnljtCxA1NbpGYZqGseiVFJBDdF5Qk/8sVsQucfNFWICX2TeF1XCMN
+         IphAtD9NUkSfN6GcQvCN82sa6jLDpXGtW1io827CJARI9L8XBW8DHPjBiSpVwBdpopWn
+         XLZw==
+X-Gm-Message-State: AC+VfDwMCryActEzPdRhgD/FvO5v+uSD/xL1HflgEb3SNbrSrMtt3tHS
+	W/3hA4zCj9nrm+Re/IgdOHwyNg==
+X-Google-Smtp-Source: ACHHUZ7JUwVeyU1w7fco57l+vsZz3g1rXROtMMJdFz/n84unfQZ1Iwc8Mnnn2I+BzzUsxqNf2vMJmQ==
+X-Received: by 2002:a05:6214:2462:b0:61f:1a72:6c7d with SMTP id im2-20020a056214246200b0061f1a726c7dmr335219qvb.27.1684340137482;
+        Wed, 17 May 2023 09:15:37 -0700 (PDT)
+Received: from [192.168.0.195] (cpe64777de11593-cm64777de11590.cpe.net.cable.rogers.com. [174.115.224.47])
+        by smtp.gmail.com with ESMTPSA id m16-20020ad45050000000b0061b62c15351sm743233qvq.90.2023.05.17.09.15.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 May 2023 09:15:37 -0700 (PDT)
+Message-ID: <b021da3e-d485-64db-a5b7-67e2cd4df372@baylibre.com>
+Date: Wed, 17 May 2023 12:15:35 -0400
 MIME-Version: 1.0
-References: <20230517100548.1431325-1-niko.mauno@vaisala.com>
-In-Reply-To: <20230517100548.1431325-1-niko.mauno@vaisala.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Wed, 17 May 2023 05:21:27 -1000
-Message-ID: <CAOSpxdYYTopMKiqESto5VsrS6yfYxU1dxRz9XvH3zXEAt-+mwA@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH] gcc-runtime: Use static dummy libstdc++
-To: niko.mauno@vaisala.com
-Cc: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [OE-core][PATCH 01/20] python3-async: add missing run-time
+ dependencies
+To: Bartosz Golaszewski <brgl@bgdev.pl>, Khem Raj <raj.khem@gmail.com>,
+ Bruce Ashfield <bruce.ashfield@gmail.com>,
+ openembedded-core@lists.openembedded.org
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+References: <20230517080639.9336-1-brgl@bgdev.pl>
+ <20230517080639.9336-2-brgl@bgdev.pl>
+Content-Language: en-US
+From: Trevor Gamblin <tgamblin@baylibre.com>
+In-Reply-To: <20230517080639.9336-2-brgl@bgdev.pl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 May 2023 15:21:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181493
+ <openembedded-core@lists.openembedded.org>; Wed, 17 May 2023 16:15:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181494
 
-This patch does not apply to current kirkstone HEAD:
 
-Applying: gcc-runtime: Use static dummy libstdc++
-Using index info to reconstruct a base tree...
-M meta/recipes-devtools/gcc/gcc-runtime.inc
-Falling back to patching base and 3-way merge...
-Auto-merging meta/recipes-devtools/gcc/gcc-runtime.inc
-CONFLICT (content): Merge conflict in meta/recipes-devtools/gcc/gcc-runtime=
-.inc
-error: Failed to merge in the changes.
-Patch failed at 0001 gcc-runtime: Use static dummy libstdc++
-
-Steve
-
-On Wed, May 17, 2023 at 12:06=E2=80=AFAM Niko Mauno via lists.openembedded.=
-org
-<niko.mauno=3Dvaisala.com@lists.openembedded.org> wrote:
+On 2023-05-17 04:06, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 >
-> From: Khem Raj <raj.khem@gmail.com>
+> Add missing RDEPENDS for this package.
 >
-> some standalone targets e.g. riscv64-elf disable shared linking for
-> baremetal ELF ABI in ld, therefore lets make it a static library
->
-> (From OE-Core rev: 3c6219dfcbcbde314648ba8cc54a90b32ea1c952)
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 > ---
->  meta/recipes-devtools/gcc/gcc-runtime.inc | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>   meta/recipes-devtools/python/python-async.inc | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
 >
-> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-dev=
-tools/gcc/gcc-runtime.inc
-> index 8074bf1025..d019b0790b 100644
-> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> @@ -68,7 +68,8 @@ do_configure () {
->         # libstdc++ isn't built yet so CXX would error not able to find i=
-t which breaks stdc++'s configure
->         # tests. Create a dummy empty lib for the purposes of configure.
->         mkdir -p ${WORKDIR}/dummylib
-> -       ${CC} -x c /dev/null -nostartfiles -shared -o ${WORKDIR}/dummylib=
-/libstdc++.so
-> +       ${CC} -x c /dev/null -c -o ${WORKDIR}/dummylib/dummylib.o
-> +       ${AR} rcs ${WORKDIR}/dummylib/libstdc++.a ${WORKDIR}/dummylib/dum=
-mylib.o
->         for d in libgcc ${RUNTIMETARGET}; do
->                 echo "Configuring $d"
->                 rm -rf ${B}/${TARGET_SYS}/$d/
-> --
-> 2.39.2
+> diff --git a/meta/recipes-devtools/python/python-async.inc b/meta/recipes-devtools/python/python-async.inc
+> index fde864601c..53f8d79361 100644
+> --- a/meta/recipes-devtools/python/python-async.inc
+> +++ b/meta/recipes-devtools/python/python-async.inc
+> @@ -9,6 +9,9 @@ inherit pypi
+>   SRC_URI[md5sum] = "9b06b5997de2154f3bc0273f80bcef6b"
+>   SRC_URI[sha256sum] = "ac6894d876e45878faae493b0cf61d0e28ec417334448ac0a6ea2229d8343051"
+>   
+> -RDEPENDS:${PN} += "${PYTHON_PN}-threading"
+> +RDEPENDS:${PN} += " \
+> +    python3-logging \
+> +    python3-threading \
+> +"
+>   
+>   BBCLASSEXTEND = "native nativesdk"
+
+This is an OK change, but the recipe should arguably be removed from 
+oe-core instead, given that it 1) hasn't been updated in 9 years and has 
+been abandoned in favor of alternatives by the maintainer, and 2) 
+doesn't appear to be a dependency for anything else in oe-core or 
+meta-openembedded.
+
+- Trevor
+
 >
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#181484): https://lists.openembedded.org/g/openembedde=
-d-core/message/181484
-> Mute This Topic: https://lists.openembedded.org/mt/98944818/3620601
+> View/Reply Online (#181450): https://lists.openembedded.org/g/openembedded-core/message/181450
+> Mute This Topic: https://lists.openembedded.org/mt/98943997/7611679
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [tgamblin@baylibre.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
 
