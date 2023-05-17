@@ -1,726 +1,369 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <throos@amazon.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75EC6C77B7A
-	for <webhook@archiver.kernel.org>; Wed, 17 May 2023 14:35:20 +0000 (UTC)
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
- by mx.groups.io with SMTP id smtpd.web11.51373.1684334116995489045
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C662C7EE2A
+	for <webhook@archiver.kernel.org>; Wed, 17 May 2023 14:36:40 +0000 (UTC)
+Received: from smtp-fw-6001.amazon.com (smtp-fw-6001.amazon.com [52.95.48.154])
+ by mx.groups.io with SMTP id smtpd.web11.51619.1684334190920072084
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 May 2023 07:35:17 -0700
+ Wed, 17 May 2023 07:36:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=Fob4xhXr;
- spf=pass (domain: gmail.com, ip: 209.85.166.177, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-3382dc7d50bso5582725ab.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 May 2023 07:35:16 -0700 (PDT)
+ dkim=pass header.i=@amazon.de header.s=amazon201209 header.b=CsWiWtQ2;
+ spf=pass (domain: amazon.de, ip: 52.95.48.154, mailfrom: prvs=494b7313b=throos@amazon.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684334116; x=1686926116;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=73KjkK1sgdHPi2jnlRHtKiUcu+tZ/1J2L1p1EI/7PX8=;
-        b=Fob4xhXrEEehUDPQS60JmNcpwDqWuse7XEX8D3Kx0A2OpJpNV364BS8RSnVRTOWPQf
-         sQQ+EIDBUH94ccoP8mgbKBIoLlnSNm5VvlACmtqqjIpSoNi6Amja5AKUjR5BBDcw6HU/
-         GhVLWUowtZMfMqY4/ZSigcEtiMM0eAvPESXOWnsMmVlUp6F7B+XPhwieXyHdUkVNtpHY
-         9qfAIpJextyjOWlJhOg9m546bmQqIeQdJabZ1bz9wlOKTt/Yp7+2nINBQbVCPdCXALdU
-         rG4YpSczj3BddBPpb1dp3fNi27tM7x0Ra7bkqfeOIG4CaJxZRZHF0iIkP7x6bz3hhpaH
-         DX2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684334116; x=1686926116;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=73KjkK1sgdHPi2jnlRHtKiUcu+tZ/1J2L1p1EI/7PX8=;
-        b=FV9ofAcSwgHZph5yHcM5U4hJg4tkVMMOlXtWZ4nQ85QUvBOi0caervnIQRpxHtB93G
-         /XxCFlQ6WkAZ5/9qSkinDDpaJ967ngShTyFG/AgYfUL7Y3ik5/ZBX3Z6KtYzDbSF/s9B
-         g9Gjg5dn1cLgD0V1gh9prb7AwsQ9uUxCAI9COBmODXE7vVYybQNid3AAeyA792R2Wxhz
-         jJAK03UgAg68mFnWX/BcqHYnD11mPiQjHlYp+Dsxi/K5TLaH6COr1OzvlROXQSXI2/qy
-         qc7SKABvmoVF3iJFrx/qcmhZRtBed0864UYqVDLOTFrwXrWvCnMCR2SO1dOEzaCddzhx
-         CePA==
-X-Gm-Message-State: AC+VfDwx0zP973xNW0l+RTf1jQuthsIFFLQvdOSzW3UqUMCI8C7dKRjw
-	9g1OsxzXUDLJ1mKftWDwM66rvi4A9eJ+gNnbg/U=
-X-Google-Smtp-Source: ACHHUZ7MRP/uLLiZ0+iutJi9P9DjP16nDtbToNvAd0UVWxvBR46uPXHe+YIKExiVvDANnZbzVcMkLLdnJxvUO89qhtw=
-X-Received: by 2002:a92:d247:0:b0:338:cb1:fda with SMTP id v7-20020a92d247000000b003380cb10fdamr2244549ilg.7.1684334115929;
- Wed, 17 May 2023 07:35:15 -0700 (PDT)
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+  t=1684334192; x=1715870192;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=MHeh/dXvYwXTLAMGwMygmt3PaUQYJn3bceDerODsOAQ=;
+  b=CsWiWtQ2B9Vl3fXMCqJhZ/VExvFwWkO+GWpvGwyy0ADWfVcSAtbqbX0D
+   UwEac7iMmt2Fr4mFtMwYuTUQeBAzSovwNfi4uwb49guUSXQNFi1PKXlRP
+   Q5CfxNDa+4sF8q1KtJcjKANWJnfXFQ58bVp711UNLCSnir09y5Qh3b9k3
+   4=;
+X-IronPort-AV: E=Sophos;i="5.99,282,1677542400"; 
+   d="scan'208";a="332787323"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-pdx-1box-2bm6-32cf6363.us-west-2.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-6001.iad6.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2023 14:36:29 +0000
+Received: from EX19D016EUC001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
+	by email-inbound-relay-pdx-1box-2bm6-32cf6363.us-west-2.amazon.com (Postfix) with ESMTPS id 3634080E9F
+	for <openembedded-core@lists.openembedded.org>; Wed, 17 May 2023 14:36:27 +0000 (UTC)
+Received: from u182adcbddbfb55.ant.amazon.com (10.85.99.98) by
+ EX19D016EUC001.ant.amazon.com (10.252.51.169) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 17 May 2023 14:36:24 +0000
+From: <throos@amazon.de>
+To: <openembedded-core@lists.openembedded.org>
+CC: Thomas Roos <throos@amazon.de>
+Subject: [PATCH v2] testimage/oeqa: remove testimage_dump_host function
+Date: Wed, 17 May 2023 16:36:13 +0200
+Message-ID: <20230517143613.3036825-1-throos@amazon.de>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230508013317.3937457-1-xiangyu.chen@eng.windriver.com>
- <015d196800fc8046575b7a6a9a1e38e893f2b1fa.camel@linuxfoundation.org>
- <CADkTA4OkMJOkA+JD1AOJOpt9pLwPJ0jFwpsg4gNZSC99zwPsmA@mail.gmail.com>
- <fa9f7858-af5c-7d48-d9b6-51ba874f25a1@windriver.com> <175E6CB55C617FA5.27409@lists.openembedded.org>
- <CADkTA4M5JnHLpea+EEWG9gD2SPEG_R9KDjr6zGVEvRHusV9upQ@mail.gmail.com>
- <312184e0-32cb-ab57-50c0-7a8c5519a0c7@windriver.com> <175F5136C3E93ABB.30531@lists.openembedded.org>
- <CADkTA4M5ZodLTjZ1EF0CFt4zzvywrg9rW-CZkexV_1pNgAdwgg@mail.gmail.com>
- <70bd8fc7-34b3-a435-cd88-2c39987cb547@windriver.com> <CADkTA4Pk5y-QHZ_d7UJwqn_Q6rCCt_y2EGpr7WpW-Lt+SByJNw@mail.gmail.com>
- <175FCA67A69FDE7A.26562@lists.openembedded.org> <ec56df62-485f-9814-bbec-6d58e272d822@windriver.com>
- <175FEE462A2C05DA.26562@lists.openembedded.org>
-In-Reply-To: <175FEE462A2C05DA.26562@lists.openembedded.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 17 May 2023 10:35:04 -0400
-Message-ID: <CADkTA4On1kDngpaGcMSdZN7Djmn5ZQXJFQmYF7oXBDVZ-=_Kgw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] linux-yocto: fix missing pahole and elfutils
- when CONFIG_DEBUG_INFO_BTF enabled in devshell
-To: bruce.ashfield@gmail.com
-Cc: Xiangyu Chen <xiangyu.chen@eng.windriver.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.85.99.98]
+X-ClientProxiedBy: EX19D038UWB004.ant.amazon.com (10.13.139.177) To
+ EX19D016EUC001.ant.amazon.com (10.252.51.169)
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 May 2023 14:35:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181490
+ <openembedded-core@lists.openembedded.org>; Wed, 17 May 2023 14:36:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181491
 
-On Wed, May 17, 2023 at 8:32=E2=80=AFAM Bruce Ashfield via
-lists.openembedded.org
-<bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
->
-> On Wed, May 17, 2023 at 1:24=E2=80=AFAM Xiangyu Chen
-> <xiangyu.chen@eng.windriver.com> wrote:
-> >
-> >
-> > On 5/17/23 09:35, Xiangyu Chen wrote:
-> > >
-> > > On 5/16/23 20:55, Bruce Ashfield wrote:
-> > >> CAUTION: This email comes from a non Wind River email account!
-> > >> Do not click links or open attachments unless you recognize the
-> > >> sender and know the content is safe.
-> > >>
-> > >> On Tue, May 16, 2023 at 4:56=E2=80=AFAM Xiangyu Chen
-> > >> <xiangyu.chen@eng.windriver.com> wrote:
-> > >>> Hi Bruce,
-> > >>>
-> > >>>
-> > >>> On 5/15/23 21:11, Bruce Ashfield wrote:
-> > >>>> CAUTION: This email comes from a non Wind River email account!
-> > >>>> Do not click links or open attachments unless you recognize the
-> > >>>> sender and know the content is safe.
-> > >>>>
-> > >>>> On Mon, May 15, 2023 at 8:34=E2=80=AFAM Bruce Ashfield via
-> > >>>> lists.openembedded.org
-> > >>>> <bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
-> > >>>>> On Mon, May 15, 2023 at 6:04=E2=80=AFAM Xiangyu Chen
-> > >>>>> <xiangyu.chen@eng.windriver.com> wrote:
-> > >>>>>> Hi Bruce,
-> > >>>>>>
-> > >>>>>>
-> > >>>>>> Sorry for being late..
-> > >>>>>>
-> > >>>>>>
-> > >>>>>> On 5/13/23 09:16, Bruce Ashfield wrote:
-> > >>>>>>
-> > >>>>>> CAUTION: This email comes from a non Wind River email account!
-> > >>>>>> Do not click links or open attachments unless you recognize the
-> > >>>>>> sender and know the content is safe.
-> > >>>>>>
-> > >>>>>> On Fri, May 12, 2023 at 10:47=E2=80=AFAM Bruce Ashfield via
-> > >>>>>> lists.openembedded.org
-> > >>>>>> <bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
-> > >>>>>>
-> > >>>>>> On Wed, May 10, 2023 at 10:23=E2=80=AFPM Xiangyu Chen
-> > >>>>>> <xiangyu.chen@eng.windriver.com> wrote:
-> > >>>>>>
-> > >>>>>> Hi Richard and Bruce,
-> > >>>>>>
-> > >>>>>>
-> > >>>>>> Thanks for your suggestion,
-> > >>>>>>
-> > >>>>>>
-> > >>>>>> On 5/11/23 00:25, Bruce Ashfield wrote:
-> > >>>>>>
-> > >>>>>> CAUTION: This email comes from a non Wind River email account!
-> > >>>>>> Do not click links or open attachments unless you recognize the
-> > >>>>>> sender and know the content is safe.
-> > >>>>>>
-> > >>>>>> On Wed, May 10, 2023 at 12:16=E2=80=AFPM Richard Purdie
-> > >>>>>> <richard.purdie@linuxfoundation.org> wrote:
-> > >>>>>>
-> > >>>>>> On Mon, 2023-05-08 at 09:33 +0800, Xiangyu Chen wrote:
-> > >>>>>>
-> > >>>>>> From: Xiangyu Chen <xiangyu.chen@windriver.com>
-> > >>>>>>
-> > >>>>>> after enable the kernel CONFIG_DEBUG_INFO_BTF in devshell, the
-> > >>>>>> make would report some
-> > >>>>>> errors due to pahole and elfuitls is missing, since this is a
-> > >>>>>> debug option, so conditionally
-> > >>>>>> add an option named "btf" in KERNEL_DEBUG_OPTIONS, if someone
-> > >>>>>> need enable CONFIG_DEBUG_INFO_BTF
-> > >>>>>> option in devshell, they can add KERNEL_DEBUG_OPTIONS +=3D "btf"=
- in
-> > >>>>>> local.conf to solve the pahole
-> > >>>>>> and elfutils dependency.
-> > >>>>>>
-> > >>>>>> Is this a defined workflow somewhere? Is KERNEL_DEBUG_OPTIONS
-> > >>>>>> with this
-> > >>>>>> option documented somewhere?
-> > >>>>>>
-> > >>>>>> I also think the mention of devshell in the commit message is
-> > >>>>>> misleading, this issue happens regardless of how you enable the
-> > >>>>>> option.
-> > >>>>>> There are also other ways of enabling this than local.conf, you'=
-d
-> > >>>>>> likely not want people doing that at the end of development.
-> > >>>>>>
-> > >>>>>> I'm curious on Bruce's opinion but to me this at the very least
-> > >>>>>> needs a
-> > >>>>>> commit message rewrite and I'd question whether the docs elsewhe=
-re
-> > >>>>>> would allow someone to discover this workflow anyway.
-> > >>>>>>
-> > >>>>>> I missed this entirely, thanks for replying to it, or I never wo=
-uld
-> > >>>>>> have noticed.
-> > >>>>>>
-> > >>>>>> This mechanism isn't appropriate for these dependencies. I only
-> > >>>>>> added
-> > >>>>>> it to work around pkgconfig issues (which we can more cleanly
-> > >>>>>> solve in
-> > >>>>>> newer kernels  (see what I've been doing with make-mod-scripts)
-> > >>>>>> .. so
-> > >>>>>> it can eventually be dropped).
-> > >>>>>>
-> > >>>>>> We are already enabling elfutils-native conditionally on a
-> > >>>>>> per-architecture basis (currently only x86-64).
-> > >>>>>>
-> > >>>>>> If we need it on more arches now, we should enable it in the ver=
-sion
-> > >>>>>> specific recipes, or actually, we have moved far enough into new=
-er
-> > >>>>>> kernel's that it could be in the .inc now.
-> > >>>>>>
-> > >>>>>> This commit's background was some kernel debug options needs
-> > >>>>>> elfutils
-> > >>>>>> and pahole native package, since the issue happens on enabling
-> > >>>>>> kernel
-> > >>>>>> debug options and not all people needs it, so I conditionally ad=
-d
-> > >>>>>> the
-> > >>>>>> dependency in KERNEL_DEBUG_OPTION.
-> > >>>>>>
-> > >>>>>> If possible we can enable it in .inc because newer kernel tools
-> > >>>>>> like btf
-> > >>>>>> are support using pkg-config to locate the libelf instead of
-> > >>>>>> finding it
-> > >>>>>> from /usr/ folder, so we can use elfutils-natvie instead of
-> > >>>>>> installing
-> > >>>>>> elfutils package on host PC.
-> > >>>>>>
-> > >>>>>> Similarly, we should enable the pahole-native dependency on a
-> > >>>>>> per-arch basis.
-> > >>>>>>
-> > >>>>>> As Richard mentioned, what's the reproducer to see the errors ? =
-it
-> > >>>>>> must be more than devshell.
-> > >>>>>>
-> > >>>>>> Yes, this happens on devshell and normal world if some kernel de=
-bug
-> > >>>>>> options are enabled. We can reproduce this issue with following
-> > >>>>>> steps(I
-> > >>>>>> have found the issue with kernel 5.15):
-> > >>>>>>
-> > >>>>>> 1. enable kernel option CONFIG_DEBUG_KERNEL CONFIG_DEBUG_INFO an=
-d
-> > >>>>>> CONFIG_DEBUG_INFO_BTF
-> > >>>>>>
-> > >>>>>> 2. build the kernel image, the compiler would report missing
-> > >>>>>> libelf.h
-> > >>>>>> and gelf.h which contains in elfutils-native(this step not
-> > >>>>>> happens on
-> > >>>>>> x86-64 due to it has been enabled).
-> > >>>>>>
-> > >>>>>> 3. enable elfutils-native by manual, the kernel source code can =
-be
-> > >>>>>> compiled successfully but failed in final step due to missing
-> > >>>>>> pahole.
-> > >>>>>>
-> > >>>>>>
-> > >>>>>> If you can follow up with the steps to reproduce, I can take on =
-the
-> > >>>>>> refactoring and broader dependency cleanup question, since I can
-> > >>>>>> test
-> > >>>>>> the wider matrix at the same time.
-> > >>>>>>
-> > >>>>>> Thanks, my local setup might missing some corner case, this is
-> > >>>>>> another
-> > >>>>>> reason I enable those native packages limit in
-> > >>>>>> KERNEL_DEBUG_OPTION :).
-> > >>>>>>
-> > >>>>>> I've been thinking about this, and I've come to the following
-> > >>>>>> suggestion:
-> > >>>>>>
-> > >>>>>> I plan on moving the elfutils-native to linux-yocto.inc, out of =
-the
-> > >>>>>> version specific
-> > >>>>>> recipes.  I'll also drop the architecture specific nature of the
-> > >>>>>> current DEPENDS.
-> > >>>>>> The need for this is much more common now, and all of the
-> > >>>>>> reference kernels
-> > >>>>>> in master are new enough. The elfutils-native build dependency i=
-s
-> > >>>>>> not
-> > >>>>>> significant
-> > >>>>>> enough to worry about adding it for all architectures. If it doe=
-s
-> > >>>>>> become a problem,
-> > >>>>>> there are options to make it conditional again.
-> > >>>>>>
-> > >>>>>> I can drop the HOST_LIBELF_LIBS work around in the
-> > >>>>>> linux-yocto.inc, as
-> > >>>>>> we can now properly detect libelf via pkg-config. I didn't need
-> > >>>>>> it in any of
-> > >>>>>> my testing. Again, if this proves to be wrong, I'd enable it in =
-a
-> > >>>>>> different way now
-> > >>>>>> (using what I've learned from fixing make-mod-scripts).
-> > >>>>>>
-> > >>>>>> As for the pahole-native dependency, there's been a "developer"
-> > >>>>>> kernel-type
-> > >>>>>> for quite some time. The design intention behind it was to enabl=
-e
-> > >>>>>> options like
-> > >>>>>> this, and not make the "standard" or "production" kernel's too
-> > >>>>>> large by default.
-> > >>>>>> So the dependency could be conditional on that kernel type ...
-> > >>>>>> but we don't
-> > >>>>>> want to break other kernels just because they've enabled that
-> > >>>>>> option. We also
-> > >>>>>> don't (and won't) get into the game of looking for individual
-> > >>>>>> options in the
-> > >>>>>> .config to enable something, since a) it is too late b) it is a
-> > >>>>>> moving target.
-> > >>>>>>
-> > >>>>>> So that leaves the following options: a) enable pahole-native
-> > >>>>>> unconditionally
-> > >>>>>> on the arches that support it (x86-64, aarch64) (and also move
-> > >>>>>> the pahole
-> > >>>>>> recipe into oe-core) b) make the KERNEL_DEBUG_OPTIONS less speci=
-fic,
-> > >>>>>> and simply call it KERNEL_DEBUG, when enabled, we could
-> > >>>>>> conditionally
-> > >>>>>> add pahole-native (I'd also submit documentation for the
-> > >>>>>> functionality
-> > >>>>>> c) something I haven't thought about ...
-> > >>>>>>
-> > >>>>>> I'm moving on the implementation now, but will adjust course if
-> > >>>>>> there's something
-> > >>>>>> I've missed.
-> > >>>>>>
-> > >>>>>> I have my implementation done, but I'm wondering what your
-> > >>>>>> configuration
-> > >>>>>> was for testing pahole ?
-> > >>>>>>
-> > >>>>> My reply will be hard to read, as plain text reply to the html
-> > >>>>> doesn't
-> > >>>>> give us proper
-> > >>>>> context indenting.
-> > >>>>>
-> > >>>>>> I have tested on a devshell, with oe-master branch, the kernel
-> > >>>>>> version using 5.15
-> > >>>>>>
-> > >>>>>> 1. enable pahole-native and elfutils-native in linux-yocto.inc a=
-s
-> > >>>>>> a dependency.
-> > >>>>>>
-> > >>>>>> 2. enable CONFIG_DEBUG_KERNEL  CONFIG_DEBUG_INFO and
-> > >>>>>> CONFIG_DEBUG_INFO_BTF under menuconfig
-> > >>>>>>
-> > >>>>>> 3. using "export PKG_CONFIG_SYSROOT_DIR=3D""" cleanning
-> > >>>>>> PKG_CONFIG_SYSROOT_DIR
-> > >>>>>>
-> > >>>>>> 4, make
-> > >>>>>>
-> > >>>>>>
-> > >>>>>> If the test environment using bitbake, then we need to remove
-> > >>>>>> PAHOLE=3Dfalse flag in kernel EXTRA_OEMAKE in
-> > >>>>>> classes-recipe/kernel.bbclass, otherwise, bitbake would report
-> > >>>>>> missing pahole error.
-> > >>>>>>
-> > >>>>> That's the same as my patch series (I've also changed PAHOLE=3Dfa=
-lse to
-> > >>>>> a conditional in my series).
-> > >>>>>
-> > >>>>>> I'm seeing the following in qemux86-64 at the end of the build:
-> > >>>>>>
-> > >>>>>> | Unsupported DW_TAG_unspecified_type(0x3b)
-> > >>>>>> | Encountered error while encoding BTF.
-> > >>>>>> |   LD      .tmp_vmlinux.kallsyms1
-> > >>>>>> |   NM      .tmp_vmlinux.kallsyms1.syms
-> > >>>>>> |   KSYMS   .tmp_vmlinux.kallsyms1.S
-> > >>>>>> |   AS      .tmp_vmlinux.kallsyms1.S
-> > >>>>>> |   LD      .tmp_vmlinux.kallsyms2
-> > >>>>>> |   NM      .tmp_vmlinux.kallsyms2.syms
-> > >>>>>> |   KSYMS   .tmp_vmlinux.kallsyms2.S
-> > >>>>>> |   AS      .tmp_vmlinux.kallsyms2.S
-> > >>>>>> |   LD      vmlinux
-> > >>>>>> |   BTFIDS  vmlinux
-> > >>>>>> | FAILED: load BTF from vmlinux: No such file or directory
-> > >>>>>> | make[1]: ***
-> > >>>>>> [/opt/poky/build/tmp/work-shared/qemux86-64/kernel-source/script=
-s/Makefile.vmlinux:34:
-> > >>>>>> vmlinux] Error 255
-> > >>>>>> | make[1]: *** Deleting file 'vmlinux'
-> > >>>>>> | make: ***
-> > >>>>>> [/opt/poky/build/tmp/work-shared/qemux86-64/kernel-source/Makefi=
-le:1255:
-> > >>>>>>
-> > >>>>>> vmlinux] Error 2
-> > >>>>>>
-> > >>>>>> I haven't looked into it at all yet (but will do so over the
-> > >>>>>> weekend)
-> > >>>>>> .. but I thought
-> > >>>>>>
-> > >>>>>> I haven't seen this problem yet(i'll pull the latest oe-core and
-> > >>>>>> meta-oe code and try again), if possible, could you share a patc=
-h
-> > >>>>>> with me so that we can test it together? thanks.
-> > >>>>>>
-> > >>>>> I'm on oe-core master, with qemux86-64.
-> > >>>>>
-> > >>>>> I'll do a bit more work on the patch today, and can share it if I
-> > >>>>> can't figure out where that unsupported tag is coming from.
-> > >>>> It seems like it is a known issue, I found both a lkml thread and
-> > >>>> debian bug from October 2022.
-> > >>>>
-> > >>>> Your 5.15 kernel wouldn't show the issue.
-> > >>> Yes, this should not happens on 5.15 kernel.
-> > >>>
-> > >>>
-> > >>> Today I synced the oe-core/poky to latest master version, removed t=
-he
-> > >>> build dir and run oe-init-build-env again and switched to use defau=
-lt
-> > >>> linux 6.1.25 instead of 5.15.
-> > >>>
-> > >>> Some kernel config has been updated, there is no CONFIG_DEBUG_INFO,=
- I
-> > >>> used CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT.
-> > >>>
-> > >>> So, currently my local setup kernel config is enabled
-> > >>> CONFIG_DEBUG_KERNEL CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT and
-> > >>> CONFIG_DEBUG_INFO_BTF, in order to make a easy test, I enabled
-> > >>> elfutils-native and pahole-native as DEPEND directly in linux-yocto=
-.in,
-> > >>> and remove the PAHOLE=3Dfalse in EXTRA_OEMAKE.
-> > >>>
-> > >>> my oe-core rev: 35e5d29a7d654fc79bdb898d0f1fb277270dbfd5
-> > >>>
-> > >>> my meta-oe rev:b7aa66d734b911737b61610c1c47778e14b15c55
-> > >>>
-> > >>>
-> > >>> When I ran bitbake linux-yocto -v -D, I have met the same issue,
-> > >>>
-> > >>> | Unsupported DW_TAG_unspecified_type(0x3b)
-> > >>> | Encountered error while encoding BTF.
-> > >>>
-> > >>> It's bit strange that the I removed my local OS(ubuntu)'s pahole an=
-d
-> > >>> the
-> > >>> code can be compiled without error:
-> > >>>
-> > >>>
-> > >>>     CC      init/version-timestamp.o
-> > >>>     LD      .tmp_vmlinux.btf
-> > >>>     BTF     .btf.vmlinux.bin.o
-> > >>>     LD      .tmp_vmlinux.kallsyms1
-> > >>>     NM      .tmp_vmlinux.kallsyms1.syms
-> > >>>     KSYMS   .tmp_vmlinux.kallsyms1.S
-> > >>>     AS      .tmp_vmlinux.kallsyms1.S
-> > >>>     LD      .tmp_vmlinux.kallsyms2
-> > >>>     NM      .tmp_vmlinux.kallsyms2.syms
-> > >>>     KSYMS   .tmp_vmlinux.kallsyms2.S
-> > >>>     AS      .tmp_vmlinux.kallsyms2.S
-> > >>>     LD      vmlinux
-> > >>>     BTFIDS  vmlinux
-> > >>>     NM      System.map
-> > >>>     SORTTAB vmlinux
-> > >>>
-> > >> Indeed!
-> > >>
-> > >> What's the toolchain version on your ubuntu install ?
-> > >
-> > > My local ubuntu's default pahole version is 1.22,seems some data
-> > > structure not line up with new kernel, the yocto pahole package is
-> > > 1.24 is working well.
-> > >
-> > > $ pahole --version
-> > > v1.22
-> > >
-> > >
-> > >> It is likely
-> > >> either our toolchain version or configuration in combination with th=
-e
-> > >> kernel version that is adding the section that pahole can't
-> > >> understand/decode.
-> > > Yes, perhaps this is a limitation, we have to use PAHOLE in
-> > > EXTRA_OEMAKE to tell the make using pahole from the yocto native-sdk
-> > > instead of local host OS's /usr/bin/pahole when building the kernel.
-> > >> If you want to work with my patches, you can find my branch here:
-> > >>
-> > >> https://git.yoctoproject.org/poky-contrib/log/?h=3Dzedd/kernel
-> > >>
-> > >> (you also need the linux-yocto bumps on that branch as they'll conta=
-in
-> > >> the kernel-cache SRCREV bumps to pick up the fragments for BTF, etc)=
-.
-> > >
-> > > Thanks, I will sync the branch today and feedback later :)
-> > >
-> > Hi Bruce,
-> >
-> >
-> > I used the zedd/kernel branch build a qmemux86-64 kernel image,
-> > everything goes well.
-> >
-> > Shall we set the PAHOLE to native-sdk in EXTRA_OEMAKE to make sure
-> > kernel make use pahole from yocto not from host pc?
->
-> We shouldn't have to explicitly pass pahole like that, as our SDK and
-> native-sysroot paths
-> should be found first.
->
-> But if you were able to have it succeed and mine didn't ... that could
-> be the issue.
->
-> Thanks for the suggestion, I'll test it today and if so, I'll update
-> the patch accordingly
-> and add your sign-off.
+From: Thomas Roos <throos@amazon.de>
 
-I instrumented the scripts to echo the pahole binary being used, and
-as expected, the build environment is setup to prefer our sysroot
-binaries (without that setup, we'd have all sorts of host
-contamination).
+This function is not necessary.
 
-|   GEN     Makefile
-|   DESCEND objtool
-|   DESCEND bpf/resolve_btfids
-|   CALL    /opt/poky/build/tmp/work-shared/qemux86-64/kernel-source/script=
-s/checksyscalls.sh
-| /opt/poky/build/tmp/work/qemux86_64-poky-linux/linux-yocto/6.1.28+gitAUTO=
-INC+a18c55d2fc_c5c0c7ccfe-r0/recipe-sysroot-native/usr/bin/pahole
-|   LD      .tmp_vmlinux.btf
-|   BTF     .btf.vmlinux.bin.o
-| Unsupported DW_TAG_unspecified_type(0x3b)
-| Encountered error while encoding BTF.
-| /opt/poky/build/tmp/work/qemux86_64-poky-linux/linux-yocto/6.1.28+gitAUTO=
-INC+a18c55d2fc_c5c0c7ccfe-r0/recipe-sysroot-native/usr/bin/pahole
-|   LD      .tmp_vmlinux.kallsyms1
-|   NM      .tmp_vmlinux.kallsyms1.syms
-|   KSYMS   .tmp_vmlinux.kallsyms1.S
-|   AS      .tmp_vmlinux.kallsyms1.S
-| /opt/poky/build/tmp/work/qemux86_64-poky-linux/linux-yocto/6.1.28+gitAUTO=
-INC+a18c55d2fc_c5c0c7ccfe-r0/recipe-sysroot-native/usr/bin/pahole
-|   LD      .tmp_vmlinux.kallsyms2
-|   NM      .tmp_vmlinux.kallsyms2.syms
-|   KSYMS   .tmp_vmlinux.kallsyms2.S
-|   AS      .tmp_vmlinux.kallsyms2.S
-| /opt/poky/build/tmp/work/qemux86_64-poky-linux/linux-yocto/6.1.28+gitAUTO=
-INC+a18c55d2fc_c5c0c7ccfe-r0/recipe-sysroot-native/usr/bin/pahole
-|   LD      vmlinux
-|   BTFIDS  vmlinux
-| FAILED: load BTF from vmlinux: No such file or directory
+[YOCTO #13872]
 
-But as you can see, I still get the DW_TAG issues.
+Signed-off-by: Thomas Roos <throos@amazon.de>
+---
+ meta/classes-recipe/testexport.bbclass |  6 +-----
+ meta/classes-recipe/testimage.bbclass  | 20 +-------------------
+ meta/lib/oeqa/core/target/qemu.py      |  5 ++---
+ meta/lib/oeqa/runtime/context.py       | 11 +----------
+ meta/lib/oeqa/targetcontrol.py         |  2 --
+ meta/lib/oeqa/utils/dump.py            | 20 +-------------------
+ meta/lib/oeqa/utils/qemurunner.py      | 18 ++----------------
+ 7 files changed, 8 insertions(+), 74 deletions(-)
 
-My fragments are setting CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT,
-and the required debug
-options.  Those are enabled by the following in local.conf:
-
-KERNEL_FEATURES:append =3D "ktypes/developer/developer.cfg
-features/debug/debug-stack.scc features/debug/debug-btf.scc"
-
-Can you confirm that your success run used both the yocto/bitbake
-build and my fragments for configuration ?
-
-There must still be something different that I'm missing.
-
-Bruce
-
->
-> Bruce
->
-> >
-> > I tried to attached a patch as below, it has been tested on my local
-> > setup, from log we can see the PAHOLE point to native-sdk:
-> >
-> > -O2 -pipe
-> > PAHOLE=3D/local/upstream/poky-contrib/build/tmp/work/qemux86_64-poky-li=
-nux/linux-yocto/6.1.28+gitAUTOINC+76f7fbdf33_c5c0c7ccfe-r0/recipe-sysroot-n=
-ative/usr/bin/pahole
-> > -j 20 bzImage
-> >
-> > and the image build without error:
-> >
-> >    LD      .tmp_vmlinux.btf
-> >    BTF     .btf.vmlinux.bin.o
-> >    LD      .tmp_vmlinux.kallsyms1
-> >    NM      .tmp_vmlinux.kallsyms1.syms
-> >    KSYMS   .tmp_vmlinux.kallsyms1.S
-> >    AS      .tmp_vmlinux.kallsyms1.S
-> >    LD      .tmp_vmlinux.kallsyms2
-> >    NM      .tmp_vmlinux.kallsyms2.syms
-> >    KSYMS   .tmp_vmlinux.kallsyms2.S
-> >    AS      .tmp_vmlinux.kallsyms2.S
-> >    LD      vmlinux
-> >    BTFIDS  vmlinux
-> >    NM      System.map
-> >
-> >
-> >  From da4cbdb517f28f1b4254376c4f1d091a5ebca76c Mon Sep 17 00:00:00 2001
-> > From: Xiangyu Chen <xiangyu.chen@windriver.com>
-> > Date: Wed, 17 May 2023 13:15:17 +0800
-> > Subject: [PATCH] set the PAHOLE to native-sdk when KERNEL_DEBUG =3D Tru=
-e
-> >
-> > Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-> > ---
-> >   meta/recipes-kernel/linux/linux-yocto.inc | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-kernel/linux/linux-yocto.inc
-> > b/meta/recipes-kernel/linux/linux-yocto.inc
-> > index 04a8105e17..90be616363 100644
-> > --- a/meta/recipes-kernel/linux/linux-yocto.inc
-> > +++ b/meta/recipes-kernel/linux/linux-yocto.inc
-> > @@ -66,7 +66,7 @@ DEPENDS +=3D '${@bb.utils.contains_any("ARCH", [ "x86=
-",
-> > "arm64" ], "elfutils-nativ
-> >   DEPENDS +=3D "openssl-native util-linux-native"
-> >   DEPENDS +=3D "gmp-native libmpc-native"
-> >   DEPENDS +=3D '${@bb.utils.contains("KERNEL_DEBUG", "True",
-> > "pahole-native", "", d)}'
-> > -EXTRA_OEMAKE +=3D '${@bb.utils.contains("KERNEL_DEBUG", "True", "",
-> > "PAHOLE=3Dfalse", d)}'
-> > +EXTRA_OEMAKE +=3D '${@bb.utils.contains("KERNEL_DEBUG", "True",
-> > "PAHOLE=3D${STAGING_DIR_NATIVE}/usr/bin/pahole", "PAHOLE=3Dfalse", d)}'
-> >
-> >   do_devshell:prepend() {
-> >       # setup native pkg-config variables (kconfig scripts call
-> > pkg-config directly, cannot generically be overriden to pkg-config-nati=
-ve)
-> > --
-> > 2.34.1
-> >
-> >
-> > Br,
-> >
-> > Xiangyu
-> >
-> > >
-> > > Br,
-> > >
-> > > Xiangyu
-> > >
-> > >> Bruce
-> > >>
-> > >>>
-> > >>>> You can find a link to the lkml thread from the debian bug:
-> > >>>> https://www.mail-archive.com/debian-bugs-dist@lists.debian.org/msg=
-1873553.html
-> > >>>>
-> > >>>> I'll clean up my patch, since this isn't something I can fix
-> > >>>> immediately.
-> > >>>>
-> > >>>> If you do track down patches in the latest kernel that haven't bee=
-n
-> > >>>> sent to -stable, we can backport them to fix the linux-yocto build=
-s
-> > >>>> with pahole.
-> > >>>>
-> > >>>> Bruce
-> > >>>>
-> > >>> Br,
-> > >>>
-> > >>> Xiangyu
-> > >>>
-> > >>>>> Bruce
-> > >>>>>
-> > >>>>>> I should check with you first to get the details on how you were
-> > >>>>>> testing pahole
-> > >>>>>> functionality.
-> > >>>>>>
-> > >>>>>> Bruce
-> > >>>>>>
-> > >>>>>>
-> > >>>>>> Br,
-> > >>>>>>
-> > >>>>>> Xiangyu
-> > >>>>>>
-> > >>>>>> Bruce
-> > >>>>>>
-> > >>>>>>
-> > >>>>>> Xiangyu
-> > >>>>>>
-> > >>>>>> Bruce
-> > >>>>>>
-> > >>>>>> Cheers,
-> > >>>>>>
-> > >>>>>> Richard
-> > >>>>>>
-> > >>>>>> --
-> > >>>>>> - Thou shalt not follow the NULL pointer, for chaos and madness
-> > >>>>>> await
-> > >>>>>> thee at its end
-> > >>>>>> - "Use the force Harry" - Gandalf, Star Trek II
-> > >>>>>>
-> > >>>>>> --
-> > >>>>>> - Thou shalt not follow the NULL pointer, for chaos and madness
-> > >>>>>> await
-> > >>>>>> thee at its end
-> > >>>>>> - "Use the force Harry" - Gandalf, Star Trek II
-> > >>>>>>
-> > >>>>>>
-> > >>>>>>
-> > >>>>>> --
-> > >>>>>> - Thou shalt not follow the NULL pointer, for chaos and madness
-> > >>>>>> await
-> > >>>>>> thee at its end
-> > >>>>>> - "Use the force Harry" - Gandalf, Star Trek II
-> > >>>>>
-> > >>>>> --
-> > >>>>> - Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait
-> > >>>>> thee at its end
-> > >>>>> - "Use the force Harry" - Gandalf, Star Trek II
-> > >>>>>
-> > >>>>>
-> > >>>>>
-> > >>>> --
-> > >>>> - Thou shalt not follow the NULL pointer, for chaos and madness aw=
-ait
-> > >>>> thee at its end
-> > >>>> - "Use the force Harry" - Gandalf, Star Trek II
-> > >>
-> > >>
-> > >> --
-> > >> - Thou shalt not follow the NULL pointer, for chaos and madness awai=
-t
-> > >> thee at its end
-> > >> - "Use the force Harry" - Gandalf, Star Trek II
-> > >
-> > >
-> > >
->
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#181487): https://lists.openembedded.org/g/openembedde=
-d-core/message/181487
-> Mute This Topic: https://lists.openembedded.org/mt/98753313/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [br=
-uce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+diff --git a/meta/classes-recipe/testexport.bbclass b/meta/classes-recipe/testexport.bbclass
+index 0f0c56107f..572f5d9e76 100644
+--- a/meta/classes-recipe/testexport.bbclass
++++ b/meta/classes-recipe/testexport.bbclass
+@@ -61,16 +61,12 @@ def testexport_main(d):
+         d.getVar("TEST_TARGET"), None, d.getVar("TEST_TARGET_IP"),
+         d.getVar("TEST_SERVER_IP"))
+ 
+-    host_dumper = OERuntimeTestContextExecutor.getHostDumper(
+-        d.getVar("testimage_dump_host"), d.getVar("TESTIMAGE_DUMP_DIR"))
+-
+     image_manifest = "%s.manifest" % image_name
+     image_packages = OERuntimeTestContextExecutor.readPackagesManifest(image_manifest)
+ 
+     extract_dir = d.getVar("TEST_EXTRACTED_DIR")
+ 
+-    tc = OERuntimeTestContext(td, logger, target, host_dumper,
+-                              image_packages, extract_dir)
++    tc = OERuntimeTestContext(td, logger, target, image_packages, extract_dir)
+ 
+     copy_needed_files(d, tc)
+ 
+diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
+index b48cd96575..cc3650ad42 100644
+--- a/meta/classes-recipe/testimage.bbclass
++++ b/meta/classes-recipe/testimage.bbclass
+@@ -115,18 +115,6 @@ testimage_dump_target () {
+     find /var/log/ -type f 2>/dev/null -exec echo "====================" \; -exec echo {} \; -exec echo "====================" \; -exec cat {} \; -exec echo "" \;
+ }
+ 
+-testimage_dump_host () {
+-    top -bn1
+-    iostat -x -z -N -d -p ALL 20 2
+-    ps -ef
+-    free
+-    df
+-    memstat
+-    dmesg
+-    ip -s link
+-    netstat -an
+-}
+-
+ testimage_dump_monitor () {
+     query-status
+     query-block
+@@ -339,19 +327,13 @@ def testimage_main(d):
+     # runtime use network for download projects for build
+     export_proxies(d)
+ 
+-    # we need the host dumper in test context
+-    host_dumper = OERuntimeTestContextExecutor.getHostDumper(
+-        d.getVar("testimage_dump_host"),
+-        d.getVar("TESTIMAGE_DUMP_DIR"))
+-
+     # the robot dance
+     target = OERuntimeTestContextExecutor.getTarget(
+         d.getVar("TEST_TARGET"), logger, d.getVar("TEST_TARGET_IP"),
+         d.getVar("TEST_SERVER_IP"), **target_kwargs)
+ 
+     # test context
+-    tc = OERuntimeTestContext(td, logger, target, host_dumper,
+-                              image_packages, extract_dir)
++    tc = OERuntimeTestContext(td, logger, target, image_packages, extract_dir)
+ 
+     # Load tests before starting the target
+     test_paths = get_runtime_paths(d)
+diff --git a/meta/lib/oeqa/core/target/qemu.py b/meta/lib/oeqa/core/target/qemu.py
+index 79fd724f7d..6893d10226 100644
+--- a/meta/lib/oeqa/core/target/qemu.py
++++ b/meta/lib/oeqa/core/target/qemu.py
+@@ -22,7 +22,7 @@ supported_fstypes = ['ext3', 'ext4', 'cpio.gz', 'wic']
+ class OEQemuTarget(OESSHTarget):
+     def __init__(self, logger, server_ip, timeout=300, user='root',
+             port=None, machine='', rootfs='', kernel='', kvm=False, slirp=False,
+-            dump_dir='', dump_host_cmds='', display='', bootlog='',
++            dump_dir='', display='', bootlog='',
+             tmpdir='', dir_image='', boottime=60, serial_ports=2,
+             boot_patterns = defaultdict(str), ovmf=False, tmpfsdir=None, **kwargs):
+ 
+@@ -44,8 +44,7 @@ class OEQemuTarget(OESSHTarget):
+         self.runner = QemuRunner(machine=machine, rootfs=rootfs, tmpdir=tmpdir,
+                                  deploy_dir_image=dir_image, display=display,
+                                  logfile=bootlog, boottime=boottime,
+-                                 use_kvm=kvm, use_slirp=slirp, dump_dir=dump_dir,
+-                                 dump_host_cmds=dump_host_cmds, logger=logger,
++                                 use_kvm=kvm, use_slirp=slirp, dump_dir=dump_dir, logger=logger,
+                                  serial_ports=serial_ports, boot_patterns = boot_patterns, 
+                                  use_ovmf=ovmf, tmpfsdir=tmpfsdir)
+         dump_monitor_cmds = kwargs.get("testimage_dump_monitor")
+diff --git a/meta/lib/oeqa/runtime/context.py b/meta/lib/oeqa/runtime/context.py
+index 0c5d1869ab..cb7227a8df 100644
+--- a/meta/lib/oeqa/runtime/context.py
++++ b/meta/lib/oeqa/runtime/context.py
+@@ -10,7 +10,6 @@ import sys
+ from oeqa.core.context import OETestContext, OETestContextExecutor
+ from oeqa.core.target.ssh import OESSHTarget
+ from oeqa.core.target.qemu import OEQemuTarget
+-from oeqa.utils.dump import HostDumper
+ 
+ from oeqa.runtime.loader import OERuntimeTestLoader
+ 
+@@ -20,12 +19,11 @@ class OERuntimeTestContext(OETestContext):
+                         os.path.dirname(os.path.abspath(__file__)), "files")
+ 
+     def __init__(self, td, logger, target,
+-                 host_dumper, image_packages, extract_dir):
++                 image_packages, extract_dir):
+         super(OERuntimeTestContext, self).__init__(td, logger)
+ 
+         self.target = target
+         self.image_packages = image_packages
+-        self.host_dumper = host_dumper
+         self.extract_dir = extract_dir
+         self._set_target_cmds()
+ 
+@@ -199,10 +197,6 @@ class OERuntimeTestContextExecutor(OETestContextExecutor):
+ 
+         return image_packages
+ 
+-    @staticmethod
+-    def getHostDumper(cmds, directory):
+-        return HostDumper(cmds, directory)
+-
+     def _process_args(self, logger, args):
+         if not args.packages_manifest:
+             raise TypeError('Manifest file not provided')
+@@ -215,9 +209,6 @@ class OERuntimeTestContextExecutor(OETestContextExecutor):
+         self.tc_kwargs['init']['target'] = \
+                 OERuntimeTestContextExecutor.getTarget(args.target_type,
+                         None, args.target_ip, args.server_ip, **target_kwargs)
+-        self.tc_kwargs['init']['host_dumper'] = \
+-                OERuntimeTestContextExecutor.getHostDumper(None,
+-                        args.host_dumper_dir)
+         self.tc_kwargs['init']['image_packages'] = \
+                 OERuntimeTestContextExecutor.readPackagesManifest(
+                         args.packages_manifest)
+diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
+index d686fe07ec..e21655c979 100644
+--- a/meta/lib/oeqa/targetcontrol.py
++++ b/meta/lib/oeqa/targetcontrol.py
+@@ -104,7 +104,6 @@ class QemuTarget(BaseTarget):
+             self.kernel = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"), d.getVar("KERNEL_IMAGETYPE", False) + '-' + d.getVar('MACHINE', False) + '.bin')
+         self.qemulog = os.path.join(self.testdir, "qemu_boot_log.%s" % self.datetime)
+         dump_target_cmds = d.getVar("testimage_dump_target")
+-        dump_host_cmds = d.getVar("testimage_dump_host")
+         dump_monitor_cmds = d.getVar("testimage_dump_monitor")
+         dump_dir = d.getVar("TESTIMAGE_DUMP_DIR")
+         if not dump_dir:
+@@ -141,7 +140,6 @@ class QemuTarget(BaseTarget):
+                             boottime = int(d.getVar("TEST_QEMUBOOT_TIMEOUT")),
+                             use_kvm = use_kvm,
+                             dump_dir = dump_dir,
+-                            dump_host_cmds = dump_host_cmds,
+                             logger = logger,
+                             tmpfsdir = d.getVar("RUNQEMU_TMPFS_DIR"),
+                             serial_ports = len(d.getVar("SERIAL_CONSOLES").split()))
+diff --git a/meta/lib/oeqa/utils/dump.py b/meta/lib/oeqa/utils/dump.py
+index d420b497f9..d4d271369f 100644
+--- a/meta/lib/oeqa/utils/dump.py
++++ b/meta/lib/oeqa/utils/dump.py
+@@ -51,9 +51,7 @@ class BaseDumper(object):
+         self.dump_dir = dump_dir
+ 
+     def _construct_filename(self, command):
+-        if isinstance(self, HostDumper):
+-            prefix = "host"
+-        elif isinstance(self, TargetDumper):
++        if isinstance(self, TargetDumper):
+             prefix = "target"
+         elif isinstance(self, MonitorDumper):
+             prefix = "qmp"
+@@ -76,22 +74,6 @@ class BaseDumper(object):
+             with open(fullname, 'w') as dump_file:
+                 dump_file.write(output)
+ 
+-class HostDumper(BaseDumper):
+-    """ Class to get dumps from the host running the tests """
+-
+-    def __init__(self, cmds, parent_dir):
+-        super(HostDumper, self).__init__(cmds, parent_dir)
+-
+-    def dump_host(self, dump_dir=""):
+-        if dump_dir:
+-            self.dump_dir = dump_dir
+-        env = os.environ.copy()
+-        env['PATH'] = '/usr/sbin:/sbin:/usr/bin:/bin'
+-        env['COLUMNS'] = '9999'
+-        for cmd in self.cmds:
+-            result = runCmd(cmd, ignore_status=True, env=env)
+-            self._write_dump(cmd.split()[0], result.output)
+-
+ class TargetDumper(BaseDumper):
+     """ Class to get dumps from target, it only works with QemuRunner.
+         Will give up permanently after 5 errors from running commands over
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 6734cee48d..0de975c53a 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -21,7 +21,6 @@ import threading
+ import codecs
+ import logging
+ import tempfile
+-from oeqa.utils.dump import HostDumper
+ from collections import defaultdict
+ import importlib
+ 
+@@ -33,8 +32,8 @@ re_control_char = re.compile('[%s]' % re.escape("".join(control_chars)))
+ 
+ class QemuRunner:
+ 
+-    def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, boottime, dump_dir, dump_host_cmds,
+-                 use_kvm, logger, use_slirp=False, serial_ports=2, boot_patterns = defaultdict(str), use_ovmf=False, workdir=None, tmpfsdir=None):
++    def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, boottime, dump_dir, use_kvm, logger, use_slirp=False,
++     serial_ports=2, boot_patterns = defaultdict(str), use_ovmf=False, workdir=None, tmpfsdir=None):
+ 
+         # Popen object for runqemu
+         self.runqemu = None
+@@ -69,7 +68,6 @@ class QemuRunner:
+         if not workdir:
+             workdir = os.getcwd()
+         self.qemu_pidfile = workdir + '/pidfile_' + str(os.getpid())
+-        self.host_dumper = HostDumper(dump_host_cmds, dump_dir)
+         self.monitorpipe = None
+ 
+         self.logger = logger
+@@ -138,7 +136,6 @@ class QemuRunner:
+                 self.logger.error('runqemu exited with code %d' % self.runqemu.returncode)
+                 self.logger.error('Output from runqemu:\n%s' % self.getOutput(self.runqemu.stdout))
+                 self.stop()
+-                self._dump_host()
+ 
+     def start(self, qemuparams = None, get_ip = True, extra_bootparams = None, runqemuparams='', launch_cmd=None, discard_writes=True):
+         env = os.environ.copy()
+@@ -286,7 +283,6 @@ class QemuRunner:
+                 if self.runqemu.returncode:
+                     # No point waiting any longer
+                     self.logger.warning('runqemu exited with code %d' % self.runqemu.returncode)
+-                    self._dump_host()
+                     self.logger.warning("Output from runqemu:\n%s" % self.getOutput(output))
+                     self.stop()
+                     return False
+@@ -314,7 +310,6 @@ class QemuRunner:
+             ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,pri,ni,command '], stdout=subprocess.PIPE).communicate()[0]
+             processes = ps.decode("utf-8")
+             self.logger.debug("Running processes:\n%s" % processes)
+-            self._dump_host()
+             op = self.getOutput(output)
+             self.stop()
+             if op:
+@@ -430,7 +425,6 @@ class QemuRunner:
+                     self.logger.error("Couldn't get ip from qemu command line and runqemu output! "
+                                  "Here is the qemu command line used:\n%s\n"
+                                  "and output from runqemu:\n%s" % (cmdline, out))
+-                    self._dump_host()
+                     self.stop()
+                     return False
+ 
+@@ -507,7 +501,6 @@ class QemuRunner:
+             lines = tail(bootlog if bootlog else self.msg)
+             self.logger.warning("Last 25 lines of text (%d):\n%s" % (len(bootlog), lines))
+             self.logger.warning("Check full boot log: %s" % self.logfile)
+-            self._dump_host()
+             self.stop()
+             return False
+ 
+@@ -688,13 +681,6 @@ class QemuRunner:
+                     status = 1
+         return (status, str(data))
+ 
+-
+-    def _dump_host(self):
+-        self.host_dumper.create_dir("qemu")
+-        self.logger.warning("Qemu ended unexpectedly, dump data from host"
+-                " is in %s" % self.host_dumper.dump_dir)
+-        self.host_dumper.dump_host()
+-
+ # This class is for reading data from a socket and passing it to logfunc
+ # to be processed. It's completely event driven and has a straightforward
+ # event loop. The mechanism for stopping the thread is a simple pipe which
+-- 
+2.34.1
 
 
---
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+
+
+Amazon Web Services EMEA SARL
+38 avenue John F. Kennedy, L-1855 Luxembourg
+Sitz der Gesellschaft: L-1855 Luxemburg
+eingetragen im Luxemburgischen Handelsregister unter R.C.S. B186284
+
+Amazon Web Services EMEA SARL, Niederlassung Deutschland
+Marcel-Breuer-Str. 12, D-80807 Muenchen
+Sitz der Zweigniederlassung: Muenchen
+eingetragen im Handelsregister des Amtsgerichts Muenchen unter HRB 242240, USt-ID DE317013094
+
+
+
+
 
