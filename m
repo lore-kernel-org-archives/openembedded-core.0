@@ -2,150 +2,106 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFC74C7EE2C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBD82C7EE24
 	for <webhook@archiver.kernel.org>; Wed, 17 May 2023 02:45:06 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web10.40950.1684291495323129481
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web11.40828.1684291504042460661
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 May 2023 19:44:57 -0700
+ Tue, 16 May 2023 19:45:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=d7dmy/vx;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-24dec03ad8fso295337a91.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 May 2023 19:44:57 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Qh1yRUwk;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1aaebed5bd6so2618825ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 May 2023 19:45:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1684291496; x=1686883496;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1684291503; x=1686883503;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5SGoQa6rJWN6+6RvCZmBAyYbous7H9ogVxg7AKlUlss=;
-        b=d7dmy/vxnWXjP8Da2mK3KsAfYwz2qdVTtwBKzQglgxUgPKOxI7y1xyxduU2fXp1Taw
-         YU2ne7NvLrvRg61ihNSFhZfN3/XcSFGwsG6mHxKPYMxCwgnRuf3Bcwhw6+LYDOS6bjUo
-         yw4IXmJUGVkAWnAYQoQLE3jBn5g3/Y/oBFtxJUgM/y89LqSxQ6SVBkIZ3NZQOhj1RhHe
-         gaz0cAY/KQ6Ar9NGkiknLB9ac9ieziibegqhPgshQhvoPX8eaX6uTCWPARNpybBZ2z0d
-         YrCwmo1mAkZgZ7WVdU+0Dcm6QZajksfbuLyjsv+q3CGJaR5X4pr2EDWj9XeCzj1nZvlP
-         Bq8w==
+        bh=UXXUNBd2GngUgZxH44nfQTR8eLYkA/8zBrM6tS3KqaI=;
+        b=Qh1yRUwkhaQs14L99Z0j73t7oVfbtydrzbPssstdOvReYamO4Sra200TVn0ohx0ku5
+         AvMa+7nPAxb5GwRAQuoKEk/H27obPDGSXd2dPDvSfsZqZ48zIweW2dZDwViHrf5J9o5r
+         /JDdOaZdsvI2tjYRgYdt/YYNlbl1dBCEHeGkwnFwamaHwJsZvgHfnMxrLkk3bYaszjAU
+         2RIh9VPRoVcuaCQb3WRwSClJX4gIuAdjwPmVJ6X03pO9glbgy5keu2XvqWnyB0oT/KLX
+         vfLOOclqQqCMAtP8UqBvgQcAQ1WmogAw+urIOsgHnUM62eo9F6AZPaOC/EiZY/E6jIVP
+         1Z+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684291496; x=1686883496;
+        d=1e100.net; s=20221208; t=1684291503; x=1686883503;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5SGoQa6rJWN6+6RvCZmBAyYbous7H9ogVxg7AKlUlss=;
-        b=ag877j8PudQ9r9JqdNecn9wmAA/FKSEn+QF0GSn2KMPLtdIvf7zU7042o1iiNbvH1O
-         WX4D6Ha5KOIAixNKgHnmhNQxmU1MSDhUuEiz5zVvEsIvEXAQdG2rJuY9zTxTUXMsB9Za
-         W5SBRtGNLlL7POWvHu6ZCPgeFXwiMIEagBOegIHO+OcdiS3oqNTnGijREs9MeSi7goTj
-         8DwX1M2+VN8O6xYJJxfKWMIPT/b+onlKeXXZT/8zqN+ClBFIyRido0zmCr3VBOa62VEE
-         IPXkjo5cIijXWG3QZcIR8/htfSAMIWgac8mWb9bUfAGMWAGm21wYMdCkoCR90q+dmIcu
-         B4Yw==
-X-Gm-Message-State: AC+VfDyJg3Efo0h0dJZFdzMXE4aw4GjtpEz7ryFMO5o2CGpAOK2v4jD/
-	4R2itB5jdcZGNZcN2xsgO5a5TAL1QXf6FIk2Xys=
-X-Google-Smtp-Source: ACHHUZ5B8uFf7rTFTZ8aFwhaQZrXk73vE+xpZ36VJfoH17lW2x1enO9kfiZlnw99n/nY6CEMP7bdvA==
-X-Received: by 2002:a17:903:1248:b0:1ab:224b:d1fc with SMTP id u8-20020a170903124800b001ab224bd1fcmr53659964plh.41.1684291496162;
-        Tue, 16 May 2023 19:44:56 -0700 (PDT)
+        bh=UXXUNBd2GngUgZxH44nfQTR8eLYkA/8zBrM6tS3KqaI=;
+        b=AayEdE34Jlfv1rWEpLWJuP9gpuFC/GYvxCpuv89+xrE8qZIRUC0eOS5PsDJ0a66JzE
+         PgL7NRXIPz4nfO82bJSxafyUEa02dnwvNyHUTs2iqy0irkB93aUL8oy3xpde5soNggfL
+         KaPo0vrnBBehET03NmPra8k/ARDmOiPPtfBt1Dl5kk3LrrEYelMNMPsa56VoByLsUEgP
+         q/Tkh4yCdkuUztdgCMK6QNTv6NThYEd2WxL46CzAmluSs/8LeeeQqpgpDMHWqI1VN139
+         D21p3nLoAAnxavqNF8aWq8tRRtjyioJc/PrxfTbPdXfM0Di4DMkuCHAUHw0vlDDf1xyc
+         tU1Q==
+X-Gm-Message-State: AC+VfDw35f13zTks284Z1X92/B/9HbemohHQDY9s79PQhKMarXkcQ+mF
+	H9HcZutxwey6slIvWNwS6hDDG7QLjgjDJh0KpPE=
+X-Google-Smtp-Source: ACHHUZ60uVSFgWkaAKbCvEJLYDoGqRG/MJ2cGfDjfoVeJIcabdzunv9GhE4yQet+55KhTByECXUnwQ==
+X-Received: by 2002:a17:903:246:b0:1ae:40ed:4b8 with SMTP id j6-20020a170903024600b001ae40ed04b8mr3318670plh.22.1684291503114;
+        Tue, 16 May 2023 19:45:03 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id bj11-20020a170902850b00b001a2135e7eabsm16282767plb.16.2023.05.16.19.44.55
+        by smtp.gmail.com with ESMTPSA id bj11-20020a170902850b00b001a2135e7eabsm16282767plb.16.2023.05.16.19.45.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 May 2023 19:44:55 -0700 (PDT)
+        Tue, 16 May 2023 19:45:02 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 06/13] quilt: Fix merge.test race condition
-Date: Tue, 16 May 2023 16:44:29 -1000
-Message-Id: <3be4c38b370fec42a569cb2cd22315efc860227b.1684291329.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 10/13] dhcpcd: use git instead of tarballs
+Date: Tue, 16 May 2023 16:44:33 -1000
+Message-Id: <6578d20898f68c0cc88eda7e0f56e6f5a557f17e.1684291329.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1684291329.git.steve@sakoman.com>
 References: <cover.1684291329.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 17 May 2023 02:45:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181435
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181439
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-This is consistently seen with musl and grep from busybox
-Therefore backport a patch from upstream to fix it
+As announced here:
+https://roy.marples.name/downloads/dhcpcd/
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 511bcd965af658e6bb0c61d9f2adb1af75af773b)
+(cherry picked from commit 6e317eaab45da2dea70d1485fdae93cfeea0db1d)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/quilt/quilt.inc         |  1 +
- ...t-Fix-a-race-condition-in-merge.test.patch | 48 +++++++++++++++++++
- 2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-devtools/quilt/quilt/0001-test-Fix-a-race-condition-in-merge.test.patch
+ meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtools/quilt/quilt.inc
-index c93c38b83c..3374f4dfbf 100644
---- a/meta/recipes-devtools/quilt/quilt.inc
-+++ b/meta/recipes-devtools/quilt/quilt.inc
-@@ -13,6 +13,7 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/quilt/quilt-${PV}.tar.gz \
-         file://0001-tests-Allow-different-output-from-mv.patch \
-         file://fix-grep-3.8.patch \
-         file://faildiff-order.patch \
-+        file://0001-test-Fix-a-race-condition-in-merge.test.patch \
- "
+diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb
+index 579fa95df7..21b2eebbd8 100644
+--- a/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb
++++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb
+@@ -9,9 +9,7 @@ HOMEPAGE = "http://roy.marples.name/projects/dhcpcd/"
+ LICENSE = "BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=d148485768fe85b9f1072b186a7e9b4d"
  
- SRC_URI:append:class-target = " file://gnu_patch_test_fix_target.patch"
-diff --git a/meta/recipes-devtools/quilt/quilt/0001-test-Fix-a-race-condition-in-merge.test.patch b/meta/recipes-devtools/quilt/quilt/0001-test-Fix-a-race-condition-in-merge.test.patch
-new file mode 100644
-index 0000000000..01d4c8befc
---- /dev/null
-+++ b/meta/recipes-devtools/quilt/quilt/0001-test-Fix-a-race-condition-in-merge.test.patch
-@@ -0,0 +1,48 @@
-+From c1ce964f3e9312100a60f03c1e1fdd601e1911f2 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?=C4=90o=C3=A0n=20Tr=E1=BA=A7n=20C=C3=B4ng=20Danh?=
-+ <congdanhqx@gmail.com>
-+Date: Tue, 28 Feb 2023 18:45:15 +0100
-+Subject: [PATCH] test: Fix a race condition in merge.test
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Just like commit 4dfe7f9, (test: Fix a race condition, 2023-01-20),
-+this fix a test race when stdout and stderr in any order.
-+
-+Upstream-Status: Backport [https://git.savannah.nongnu.org/cgit/quilt.git/commit/?id=c1ce964f3e9312100a60f03c1e1fdd601e1911f2]
-+Signed-off-by: Đoàn Trần Công Danh <congdanhqx@gmail.com>
-+Signed-off-by: Jean Delvare <jdelvare@suse.de>
-+---
-+ test/merge.test | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/test/merge.test b/test/merge.test
-+index c64b33d..2e67d4f 100644
-+--- a/test/merge.test
-++++ b/test/merge.test
-+@@ -39,8 +39,9 @@ Test the patch merging functionality of `quilt diff'.
-+ 	> Applying patch %{P}c.diff
-+ 	> Now at patch %{P}c.diff
-+ 
-+-	$ quilt diff -P b.diff | grep -v "^\\(---\\|+++\\)"
-++	$ quilt diff -P b.diff >/dev/null
-+ 	> Warning: more recent patches modify files in patch %{P}b.diff
-++	$ quilt diff -P b.diff 2>/dev/null | grep -v "^\\(---\\|+++\\)"
-+ 	>~ Index: [^/]+/abc\.txt
-+ 	> ===================================================================
-+ 	> @@ -1,3 +1,3 @@
-+@@ -49,8 +50,9 @@ Test the patch merging functionality of `quilt diff'.
-+ 	> +b+
-+ 	>  c
-+ 
-+-	$ quilt diff --combine a.diff -P b.diff | grep -v "^\\(---\\|+++\\)"
-++	$ quilt diff --combine a.diff -P b.diff >/dev/null
-+ 	> Warning: more recent patches modify files in patch %{P}b.diff
-++	$ quilt diff --combine a.diff -P b.diff 2>/dev/null | grep -v "^\\(---\\|+++\\)"
-+ 	>~ Index: [^/]+/abc\.txt
-+ 	> ===================================================================
-+ 	> @@ -1,3 +1,3 @@
-+-- 
-+2.40.0
-+
+-UPSTREAM_CHECK_URI = "https://roy.marples.name/downloads/dhcpcd/"
+-
+-SRC_URI = "https://roy.marples.name/downloads/${BPN}/${BPN}-${PV}.tar.xz \
++SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=dhcpcd-9 \
+            file://0001-remove-INCLUDEDIR-to-prevent-build-issues.patch \
+            file://0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch \
+            file://0001-privsep-Allow-getrandom-sysctl-for-newer-glibc.patch \
+@@ -22,7 +20,8 @@ SRC_URI = "https://roy.marples.name/downloads/${BPN}/${BPN}-${PV}.tar.xz \
+            file://0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "819357634efed1ea5cf44ec01b24d3d3f8852fec8b4249925dcc5667c54e376c"
++SRCREV = "3c458fc7fa4146029a1e4f9e98cd7e7adf03081a"
++S = "${WORKDIR}/git"
+ 
+ inherit pkgconfig autotools-brokensep systemd useradd
+ 
 -- 
 2.34.1
 
