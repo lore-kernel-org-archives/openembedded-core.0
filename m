@@ -2,114 +2,119 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9FD2C77B7D
-	for <webhook@archiver.kernel.org>; Wed, 17 May 2023 16:15:40 +0000 (UTC)
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
- by mx.groups.io with SMTP id smtpd.web10.54612.1684340139058300089
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5269C77B7D
+	for <webhook@archiver.kernel.org>; Wed, 17 May 2023 16:16:30 +0000 (UTC)
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+ by mx.groups.io with SMTP id smtpd.web11.54776.1684340183804186262
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 May 2023 09:15:39 -0700
+ Wed, 17 May 2023 09:16:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=A5GRoDqv;
- spf=pass (domain: baylibre.com, ip: 209.85.219.52, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-623852980dfso4692686d6.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 May 2023 09:15:38 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=xjt7pud9;
+ spf=pass (domain: baylibre.com, ip: 209.85.160.176, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-3f529239e4aso10821261cf.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 May 2023 09:16:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1684340138; x=1686932138;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1684340183; x=1686932183;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=WNBK6TL7HL95B2yOFzT1017do+c1L9JEUKkGpVbH+dM=;
-        b=A5GRoDqvwge6lw/8q2QCItxExYPbfE+8m7cXzhFHXhYcmKpbT0BoG5dtly4aeub88Y
-         fmGmQ50vo7G211LkjaH0JBeFuxlQ3nAujQfwNVYG1+w6j59t5gAz1/ntdR2pAW7UtI6g
-         cpMAqq5z3I3fd54l+wcQC1wHq6gJWSUaxIjZx0IoC3ORz8JkP1MrouHAwnrBwnT6s8dC
-         mHpFNtxCD8WAk0WEKxJEjCgM7ImW0r2yhyxMJW0YMtDM1H3YYeuRe8EcG8CjTNSAfyQb
-         atwy6r0Zc08EuWJApbCnL/tuHkM8AYw+uAEzOIZmJu5QEvuaQQMmebf1tklPr5LH1ibv
-         1xrw==
+        bh=BI1Hyjur6XdaOKZG8wtcaRegU83gbQ1AFc7op1i6gpA=;
+        b=xjt7pud9tKu49w3iX3gqvHIE4kIYjBsDbAa5TO1jnNLi0XdCkJRRogFV4jEqAjpQrw
+         iTVU8XfV5uwJipwpAJqc0rGF5uaC8roUJPjoDmsieWxNEyCaEXbDsiWQk1m5tQa65WnA
+         vs9X8Kj0yxFJjbKMMk0XYnzx4D7cW4Pj8pn+TYCnsdOqis5Itmz1m2RC2eI0HpvsjfDd
+         xQ496dilMPQkgZhD/iuY/XXMbsuCaHdWIhPLTmVzZNAS0R+bmGBomf61UulJ0lGrfnxa
+         mSq3ZfXwTu86ikVXUfw87NyKgjlv4B88v69hc2Z8aoG3ESchvvdxUfbhOVIFbdVFp7Oj
+         jUhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684340138; x=1686932138;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1684340183; x=1686932183;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WNBK6TL7HL95B2yOFzT1017do+c1L9JEUKkGpVbH+dM=;
-        b=JcexZHdITYpKsONA5AT2l1BPqgtFGPpxwDN3j4Z8KOJpjR9biu4KTX2ZOYL4Vct0Ec
-         2H3BhJcyAmdtxS22IoJENjxHKeQrp0YXoGa1bNams5/3LQfLVuMOYhoPU7HD4NnNLu62
-         JTa15uT51Rij3Tie/4mkIg/vvDglZ5q217zKB2GZ3yjUWKAooCvo4D6Jw94VT5oIJ0Qv
-         hAAIi5pTviUxNjMnljtCxA1NbpGYZqGseiVFJBDdF5Qk/8sVsQucfNFWICX2TeF1XCMN
-         IphAtD9NUkSfN6GcQvCN82sa6jLDpXGtW1io827CJARI9L8XBW8DHPjBiSpVwBdpopWn
-         XLZw==
-X-Gm-Message-State: AC+VfDwMCryActEzPdRhgD/FvO5v+uSD/xL1HflgEb3SNbrSrMtt3tHS
-	W/3hA4zCj9nrm+Re/IgdOHwyNg==
-X-Google-Smtp-Source: ACHHUZ7JUwVeyU1w7fco57l+vsZz3g1rXROtMMJdFz/n84unfQZ1Iwc8Mnnn2I+BzzUsxqNf2vMJmQ==
-X-Received: by 2002:a05:6214:2462:b0:61f:1a72:6c7d with SMTP id im2-20020a056214246200b0061f1a726c7dmr335219qvb.27.1684340137482;
-        Wed, 17 May 2023 09:15:37 -0700 (PDT)
+        bh=BI1Hyjur6XdaOKZG8wtcaRegU83gbQ1AFc7op1i6gpA=;
+        b=g+FaJAMeL82gy1CcAUSNIlsdkBZqE8rw8J5sHGeYoMT+DhR4MUD4PupnApe9OEw18T
+         K+NVok0pXg6AKvNJlxTtkXSCxyM9OB+dw1rUmf3GY/k6PYT1U2yJjHNUjeyRaHm2TO6L
+         EvK18CkbE882ruRwnHWW8SWHF24hLqymAcRvQG9a6P+U+m+CuJ2HAgP9YWvp1NOgynoW
+         /2nwGLYdxz4PZOiu8LoLdw2c/94jEEftT9Ptxu9PtiOKCEcN/fA6z7ZiFUr/EXKA7xD0
+         sE9W24fPLcOUkYlcegvdlAZJZ2sJfiVPk2/3gBNhTcchYqN1vnd3fprICgdpQSevCXRI
+         moyg==
+X-Gm-Message-State: AC+VfDx4DROcTF7z2bjOEgr9cfHsmrBTrJylEQ2KMhXHVc39C5GvPDlY
+	ug+9DrI6SPCQoRVkE4KNXtiOGw==
+X-Google-Smtp-Source: ACHHUZ5IChSBLx5JMBP8UW7Mz/zJgXm5DEMyOoRKXtI2taFf2NZeBHh3Gq6KPL7eGLEjyvNO256kUQ==
+X-Received: by 2002:a05:622a:1013:b0:3f4:fc61:983f with SMTP id d19-20020a05622a101300b003f4fc61983fmr388970qte.17.1684340182951;
+        Wed, 17 May 2023 09:16:22 -0700 (PDT)
 Received: from [192.168.0.195] (cpe64777de11593-cm64777de11590.cpe.net.cable.rogers.com. [174.115.224.47])
-        by smtp.gmail.com with ESMTPSA id m16-20020ad45050000000b0061b62c15351sm743233qvq.90.2023.05.17.09.15.36
+        by smtp.gmail.com with ESMTPSA id ey16-20020a05622a4c1000b003f3941ba4d9sm4568441qtb.32.2023.05.17.09.16.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 May 2023 09:15:37 -0700 (PDT)
-Message-ID: <b021da3e-d485-64db-a5b7-67e2cd4df372@baylibre.com>
-Date: Wed, 17 May 2023 12:15:35 -0400
+        Wed, 17 May 2023 09:16:22 -0700 (PDT)
+Message-ID: <6c6ca6c1-3052-5a3b-5173-df780d77a64b@baylibre.com>
+Date: Wed, 17 May 2023 12:16:21 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [OE-core][PATCH 01/20] python3-async: add missing run-time
- dependencies
+Subject: Re: [OE-core][PATCH 06/20] python3-libfdt: new package
+Content-Language: en-US
 To: Bartosz Golaszewski <brgl@bgdev.pl>, Khem Raj <raj.khem@gmail.com>,
  Bruce Ashfield <bruce.ashfield@gmail.com>,
  openembedded-core@lists.openembedded.org
 Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 References: <20230517080639.9336-1-brgl@bgdev.pl>
- <20230517080639.9336-2-brgl@bgdev.pl>
-Content-Language: en-US
+ <20230517080639.9336-7-brgl@bgdev.pl>
 From: Trevor Gamblin <tgamblin@baylibre.com>
-In-Reply-To: <20230517080639.9336-2-brgl@bgdev.pl>
+In-Reply-To: <20230517080639.9336-7-brgl@bgdev.pl>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 May 2023 16:15:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181494
+ <openembedded-core@lists.openembedded.org>; Wed, 17 May 2023 16:16:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181495
 
 
 On 2023-05-17 04:06, Bartosz Golaszewski wrote:
 > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 >
-> Add missing RDEPENDS for this package.
+> Add a recipe for python bindings for libfdt (spun out of upstream dtc)
+> fetched from pypi.
 >
 > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 > ---
->   meta/recipes-devtools/python/python-async.inc | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
+>   .../python/python3-libfdt_1.7.0.post1.bb      | 20 +++++++++++++++++++
+>   1 file changed, 20 insertions(+)
+>   create mode 100644 meta/recipes-devtools/python/python3-libfdt_1.7.0.post1.bb
 >
-> diff --git a/meta/recipes-devtools/python/python-async.inc b/meta/recipes-devtools/python/python-async.inc
-> index fde864601c..53f8d79361 100644
-> --- a/meta/recipes-devtools/python/python-async.inc
-> +++ b/meta/recipes-devtools/python/python-async.inc
-> @@ -9,6 +9,9 @@ inherit pypi
->   SRC_URI[md5sum] = "9b06b5997de2154f3bc0273f80bcef6b"
->   SRC_URI[sha256sum] = "ac6894d876e45878faae493b0cf61d0e28ec417334448ac0a6ea2229d8343051"
->   
-> -RDEPENDS:${PN} += "${PYTHON_PN}-threading"
-> +RDEPENDS:${PN} += " \
-> +    python3-logging \
-> +    python3-threading \
+> diff --git a/meta/recipes-devtools/python/python3-libfdt_1.7.0.post1.bb b/meta/recipes-devtools/python/python3-libfdt_1.7.0.post1.bb
+> new file mode 100644
+> index 0000000000..1ff3decbb9
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python3-libfdt_1.7.0.post1.bb
+> @@ -0,0 +1,20 @@
+> +SUMMARY = "Python bindings for libfdt."
+> +LICENSE = "GPL-2.0-only | BSD-2-Clause"
+> +LIC_FILES_CHKSUM = " \
+> +    file://BSD-2-Clause;md5=5d6306d1b08f8df623178dfd81880927 \
+> +    file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
 > +"
->   
->   BBCLASSEXTEND = "native nativesdk"
-
-This is an OK change, but the recipe should arguably be removed from 
-oe-core instead, given that it 1) hasn't been updated in 9 years and has 
-been abandoned in favor of alternatives by the maintainer, and 2) 
-doesn't appear to be a dependency for anything else in oe-core or 
-meta-openembedded.
-
-- Trevor
-
+> +
+> +inherit pypi setuptools3
+> +
+> +PYPI_PACKAGE = "pylibfdt"
+> +
+> +SRC_URI[sha256sum] = "2d048f9f8ce9a0527d497f423dea1f1135f9811c05b009cc5d5753771c1f9ba1"
+> +
+> +BBCLASSEXTEND = "native nativesdk"
+> +
+> +DEPENDS += " \
+> +    python3-pip-native \
+> +    python3-setuptools-scm-native \
+> +    swig-native \
+> +"
+Can you also add this recipe to the 
+meta/conf/distro/include/maintainers.inc file?
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#181450): https://lists.openembedded.org/g/openembedded-core/message/181450
-> Mute This Topic: https://lists.openembedded.org/mt/98943997/7611679
+> View/Reply Online (#181455): https://lists.openembedded.org/g/openembedded-core/message/181455
+> Mute This Topic: https://lists.openembedded.org/mt/98944002/7611679
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [tgamblin@baylibre.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
