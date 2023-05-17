@@ -1,206 +1,187 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <throos@amazon.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E15EC77B75
-	for <webhook@archiver.kernel.org>; Wed, 17 May 2023 11:08:39 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web10.46591.1684321708998251337
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5710C77B7F
+	for <webhook@archiver.kernel.org>; Wed, 17 May 2023 12:14:19 +0000 (UTC)
+Received: from smtp-fw-9102.amazon.com (smtp-fw-9102.amazon.com [207.171.184.29])
+ by mx.groups.io with SMTP id smtpd.web11.47676.1684325654581280893
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 May 2023 04:08:29 -0700
+ Wed, 17 May 2023 05:14:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linaro.org header.s=google header.b=FOBGVKey;
- spf=pass (domain: linaro.org, ip: 209.85.167.41, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-4f27b65bbf9so813522e87.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 May 2023 04:08:28 -0700 (PDT)
+ dkim=pass header.i=@amazon.de header.s=amazon201209 header.b=bf3+vvUZ;
+ spf=pass (domain: amazon.de, ip: 207.171.184.29, mailfrom: prvs=494b7313b=throos@amazon.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1684321707; x=1686913707;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hlkin0/qZn0jeMa/OYw/9nRI//9YYzBGmBsE0tbX5YY=;
-        b=FOBGVKeyYHsO/NOjqUapAHaR6nat6BBt7fmNLJ8G5XocNUjZdEC73O86BWhQyAXAne
-         vVci0SmIcJ/JfKbH8c/OvoC2LpBNiYnESjZSwdNeZND9lqDZyDK1AV861/S6joBaO6ln
-         xqXtCdUjL9sX7alGxZrtK9KvXoaaOY06Fqe8DU3+TbmKBXmn+WvmAdJT9A1i3Rb8fEUQ
-         7a+2xAVXcfsClCXSWWjNZqMmMRrMZNApeL+byF7n/syE82yAhF2zA4gYfN/TJBApVDhC
-         bYkHUHphWWl5WVuoVShciPkZ52QAdm5XW1YNBwpQXkRDRAunj/IIOEWMg+bo/7jlB0no
-         UIhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684321707; x=1686913707;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hlkin0/qZn0jeMa/OYw/9nRI//9YYzBGmBsE0tbX5YY=;
-        b=MhwnDpEvogHeKDdXbrvzPYjLbEMUBVfiNfcAvEwolEIQ+8/jJ9Cj4GNDhXXZWD18H5
-         F+ZkCm7cUNa3N5HamkTFUfYtW30k5IOqioB38tVmWWwIWWFXMQwJ2nG57Oj37vkc9eM1
-         p64pg4T7zFkxDHKszCZ19IAveuGPGyEM0uApsEovL9sb6mqZhO2n7kd3ZBSv7InY3xvn
-         i/rf2VP+tXZeKzcX9yhl+V9JBEALyxC+9YCTXAhih5TsKiG+EV/e3nm6gSaJ7EIic4T4
-         DiMtH24nTlYNkP+RIEfHLmaIT9fDOVD3ohA3wIqMu9qT1WTH1JA8w+F9T3kJumfVJyY5
-         1WCg==
-X-Gm-Message-State: AC+VfDzgSl5x2TfgkfVaAMd5BuvEZIZZ5YGzviT/O4NKE1TyIHI8xqOf
-	WhLtD+SiZTKhrh2R9jHopTh4gw==
-X-Google-Smtp-Source: ACHHUZ4gpVbCtVAqCFOANJCsn8+L5R93xiy0RA9ordIlS3N671ltdjJA7elcNhqoW7fjyU2gL5wjpg==
-X-Received: by 2002:ac2:48b4:0:b0:4eb:1527:e29d with SMTP id u20-20020ac248b4000000b004eb1527e29dmr86951lfg.52.1684321707053;
-        Wed, 17 May 2023 04:08:27 -0700 (PDT)
-Received: from nuoska (dsl-olubng11-54f814-94.dhcp.inet.fi. [84.248.20.94])
-        by smtp.gmail.com with ESMTPSA id p17-20020a05651211f100b004f155762085sm3330169lfs.122.2023.05.17.04.08.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 May 2023 04:08:26 -0700 (PDT)
-Date: Wed, 17 May 2023 14:08:24 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: andrej.valek@siemens.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core][PATCH v2] cve-check: add option to add additional
- patched CVEs
-Message-ID: <ZGS1qOBTMNAPFHv2@nuoska>
-References: <20230505111814.491483-1-andrej.valek@siemens.com>
- <20230517054138.33459-1-andrej.valek@siemens.com>
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+  t=1684325655; x=1715861655;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=zU6/snJvurCGla+fFmxIpZnjV+ymhDAArJ5GdlVLK8g=;
+  b=bf3+vvUZfHc5MyALiHfSHhkZ/cnOXeTtqJjOH40+HAWsNZf5mjRgrUXc
+   pUKQ3y73e7v30woV/3NBaZcBfghgNNlFqb+2MIX4dsZN/3EbNi5//iQXs
+   edP00mrHUD7vLbuvNttTLkJYND63/Y8PlwLyTG1Ttjc57DxDuJ2w0DovD
+   U=;
+X-IronPort-AV: E=Sophos;i="5.99,282,1677542400"; 
+   d="scan'208";a="339383044"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-iad-1a-m6i4x-edda28d4.us-east-1.amazon.com) ([10.25.36.210])
+  by smtp-border-fw-9102.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2023 12:14:09 +0000
+Received: from EX19D016EUC001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
+	by email-inbound-relay-iad-1a-m6i4x-edda28d4.us-east-1.amazon.com (Postfix) with ESMTPS id 11E2E80FC0
+	for <openembedded-core@lists.openembedded.org>; Wed, 17 May 2023 12:14:07 +0000 (UTC)
+Received: from u182adcbddbfb55.ant.amazon.com (10.85.99.98) by
+ EX19D016EUC001.ant.amazon.com (10.252.51.169) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 17 May 2023 12:14:05 +0000
+From: <throos@amazon.de>
+To: <openembedded-core@lists.openembedded.org>
+CC: Thomas Roos <throos@amazon.de>
+Subject: [PATCH v2] oeqa: adding selftest-hello and use it to speed up tests
+Date: Wed, 17 May 2023 14:13:53 +0200
+Message-ID: <20230517121354.2461138-1-throos@amazon.de>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230517054138.33459-1-andrej.valek@siemens.com>
+X-Originating-IP: [10.85.99.98]
+X-ClientProxiedBy: EX19D039UWA002.ant.amazon.com (10.13.139.32) To
+ EX19D016EUC001.ant.amazon.com (10.252.51.169)
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 May 2023 11:08:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181485
+ <openembedded-core@lists.openembedded.org>; Wed, 17 May 2023 12:14:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181486
 
-Hi,
+From: Thomas Roos <throos@amazon.de>
 
-On Wed, May 17, 2023 at 07:41:38AM +0200, Andrej Valek via lists.openembedded.org wrote:
-> - Replace CVE_CHECK_IGNORE with CVE_STATUS + [CVE_STATUS_REASONING] to be
-> more flexible. CVE_STATUS should contains flag for each CVE with accepted
-> values "Ignored" or "Not applicable". It allows to add a status for CVEs
-> which could be fixed externally.
-> - Optional CVE_STATUS_REASONING flag variable could contains a reason
-> why the CVE status was used. It will be added in csv/json report like
-> a new "reason" entry.
-> - All listed CVEs in CVE_CHECK_IGNORE are copied to CVE_STATUS with
-> value "Ignored" like a fallback.
-> 
-> Example of usage:
-> CVE_STATUS[CVE-1234-0001] = "Not applicable" or "Ignored"
-> CVE_STATUS[CVE-1234-0002] = "Not applicable"
-> CVE_STATUS_REASONING[CVE-1234-0002] = "Issue only applies on windows"
+Adding a selftest version of hello world to run it in tests where no download is necessary.
+Also using this in several tests to speed them up.
+Using the -native version wherever possible will also speed up tests a lot.
 
-Looks good to me but would you add testing into
-meta/lib/oeqa/selftest/cases/cve_check.py ?
+[YOCTO #11142]
 
-And once merged update documentation in
-documentation/dev-manual/vulnerabilities.rst,
-documentation/ref-manual/classes.rst and
-documentation/ref-manual/variables.rst ;)
+Signed-off-by: Thomas Roos <throos@amazon.de>
+---
+ .../selftest-hello/files/helloworld.c         |  8 ++++++++
+ .../selftest-hello/selftest-hello_1.0.bb      | 19 +++++++++++++++++++
+ meta/lib/oeqa/selftest/cases/bbtests.py       | 18 +++++++++---------
+ 3 files changed, 36 insertions(+), 9 deletions(-)
+ create mode 100644 meta-selftest/recipes-test/selftest-hello/files/helloworld.c
+ create mode 100644 meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
 
-Thanks,
+diff --git a/meta-selftest/recipes-test/selftest-hello/files/helloworld.c b/meta-selftest/recipes-test/selftest-hello/files/helloworld.c
+new file mode 100644
+index 0000000000..fc7169b7b8
+--- /dev/null
++++ b/meta-selftest/recipes-test/selftest-hello/files/helloworld.c
+@@ -0,0 +1,8 @@
++#include <stdio.h>
++
++int main(void)
++{
++	printf("Hello world!\n");
++
++	return 0;
++}
+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
+new file mode 100644
+index 0000000000..547587bef4
+--- /dev/null
++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
+@@ -0,0 +1,19 @@
++DESCRIPTION = "Simple helloworld application -- selftest variant"
++SECTION = "examples"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
++
++SRC_URI = "file://helloworld.c"
++
++S = "${WORKDIR}"
++
++do_compile() {
++	${CC} ${CFLAGS} ${LDFLAGS} helloworld.c -o helloworld
++}
++
++do_install() {
++	install -d ${D}${bindir}
++	install -m 0755 helloworld ${D}${bindir}
++}
++
++BBCLASSEXTEND = "native nativesdk"
+\ No newline at end of file
+diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/selftest/cases/bbtests.py
+index d97bda13c2..1dd2839c8d 100644
+--- a/meta/lib/oeqa/selftest/cases/bbtests.py
++++ b/meta/lib/oeqa/selftest/cases/bbtests.py
+@@ -41,7 +41,7 @@ class BitbakeTests(OESelftestTestCase):
+ 
+     def test_event_handler(self):
+         self.write_config("INHERIT += \"test_events\"")
+-        result = bitbake('m4-native')
++        result = bitbake('selftest-hello-native')
+         find_build_started = re.search(r"NOTE: Test for bb\.event\.BuildStarted(\n.*)*NOTE: Executing.*Tasks", result.output)
+         find_build_completed = re.search(r"Tasks Summary:.*(\n.*)*NOTE: Test for bb\.event\.BuildCompleted", result.output)
+         self.assertTrue(find_build_started, msg = "Match failed in:\n%s"  % result.output)
+@@ -49,11 +49,11 @@ class BitbakeTests(OESelftestTestCase):
+         self.assertNotIn('Test for bb.event.InvalidEvent', result.output)
+ 
+     def test_local_sstate(self):
+-        bitbake('m4-native')
+-        bitbake('m4-native -cclean')
+-        result = bitbake('m4-native')
+-        find_setscene = re.search("m4-native.*do_.*_setscene", result.output)
+-        self.assertTrue(find_setscene, msg = "No \"m4-native.*do_.*_setscene\" message found during bitbake m4-native. bitbake output: %s" % result.output )
++        bitbake('selftest-hello-native')
++        bitbake('selftest-hello-native -cclean')
++        result = bitbake('selftest-hello-native')
++        find_setscene = re.search("selftest-hello-native.*do_.*_setscene", result.output)
++        self.assertTrue(find_setscene, msg = "No \"selftest-hello-native.*do_.*_setscene\" message found during bitbake selftest-hello-native. bitbake output: %s" % result.output )
+ 
+     def test_bitbake_invalid_recipe(self):
+         result = bitbake('-b asdf', ignore_status=True)
+@@ -175,7 +175,7 @@ SSTATE_DIR = \"${TOPDIR}/download-selftest\"
+         self.assertIn('localconf', result.output)
+ 
+     def test_dry_run(self):
+-        result = runCmd('bitbake -n m4-native')
++        result = runCmd('bitbake -n selftest-hello-native')
+         self.assertEqual(0, result.status, "bitbake dry run didn't run as expected. %s" % result.output)
+ 
+     def test_just_parse(self):
+@@ -233,7 +233,7 @@ INHERIT:remove = \"report-error\"
+ 
+     def test_setscene_only(self):
+         """ Bitbake option to restore from sstate only within a build (i.e. execute no real tasks, only setscene)"""
+-        test_recipe = 'ed'
++        test_recipe = 'selftest-hello-native'
+ 
+         bitbake(test_recipe)
+         bitbake('-c clean %s' % test_recipe)
+@@ -246,7 +246,7 @@ INHERIT:remove = \"report-error\"
+                                              'Executed tasks were: %s' % (task, str(tasks)))
+ 
+     def test_skip_setscene(self):
+-        test_recipe = 'ed'
++        test_recipe = 'selftest-hello-native'
+ 
+         bitbake(test_recipe)
+         bitbake('-c clean %s' % test_recipe)
+-- 
+2.34.1
 
--Mikko
 
-> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-> ---
->  meta/classes/cve-check.bbclass | 30 +++++++++++++++++++++++++-----
->  meta/lib/oe/cve_check.py       |  6 ++++++
->  2 files changed, 31 insertions(+), 5 deletions(-)
-> 
-> diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-> index bd9e7e7445c..e081095037c 100644
-> --- a/meta/classes/cve-check.bbclass
-> +++ b/meta/classes/cve-check.bbclass
-> @@ -70,13 +70,17 @@ CVE_CHECK_COVERAGE ??= "1"
->  # Skip CVE Check for packages (PN)
->  CVE_CHECK_SKIP_RECIPE ?= ""
->  
-> -# Ingore the check for a given list of CVEs. If a CVE is found,
-> -# then it is considered patched. The value is a string containing
-> -# space separated CVE values:
-> +# Ignore the check for a given CVE. Each of CVE has to be mentioned
-> +# separately with optional reason, why it has to ignored.
->  #
-> -# CVE_CHECK_IGNORE = 'CVE-2014-2524 CVE-2018-1234'
-> +# CVE_STATUS[CVE-1234-0001] = "Not applicable" or "Ignored"
-> +# CVE_STATUS[CVE-1234-0002] = "Ignored"
-> +# CVE_STATUS_REASONING[CVE-1234-0002] = "Issue only applies on windows"
->  #
-> +# CVE_CHECK_IGNORE is depracated and CVE_STATUS has to be used instead.
-> +# Keep CVE_CHECK_IGNORE like a fallback.
->  CVE_CHECK_IGNORE ?= ""
-> +CVE_STATUS ?= ""
->  
->  # Layers to be excluded
->  CVE_CHECK_LAYER_EXCLUDELIST ??= ""
-> @@ -88,6 +92,12 @@ CVE_CHECK_LAYER_INCLUDELIST ??= ""
->  # set to "alphabetical" for version using single alphabetical character as increment release
->  CVE_VERSION_SUFFIX ??= ""
->  
-> +python () {
-> +    # Fallback all CVEs from CVE_CHECK_IGNORE to CVE_STATUS
-> +    for cve in d.getVar("CVE_CHECK_IGNORE").split():
-> +        d.setVarFlags("CVE_STATUS", {cve: "Ignored"})
-> +}
-> +
->  def generate_json_report(d, out_path, link_path):
->      if os.path.exists(d.getVar("CVE_CHECK_SUMMARY_INDEX_PATH")):
->          import json
-> @@ -282,7 +292,11 @@ def check_cves(d, patched_cves):
->          bb.note("Recipe has been skipped by cve-check")
->          return ([], [], [], [])
->  
-> -    cve_ignore = d.getVar("CVE_CHECK_IGNORE").split()
-> +    # Convert CVE_STATUS into ignored CVEs
-> +    cve_ignore = []
-> +    for cve, status in (d.getVarFlags("CVE_STATUS") or {}).items():
-> +        if status in ["Not applicable", "Ignored"]:
-> +            cve_ignore.append(cve)
->  
->      import sqlite3
->      db_file = d.expand("file:${CVE_CHECK_DB_FILE}?mode=ro")
-> @@ -455,6 +469,9 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
->          else:
->              unpatched_cves.append(cve)
->              write_string += "CVE STATUS: Unpatched\n"
-> +        has_reason = d.getVarFlag("CVE_STATUS_REASONING", cve)
-> +        if has_reason:
-> +            write_string += "CVE REASON: %s\n" % has_reason
->          write_string += "CVE SUMMARY: %s\n" % cve_data[cve]["summary"]
->          write_string += "CVSS v2 BASE SCORE: %s\n" % cve_data[cve]["scorev2"]
->          write_string += "CVSS v3 BASE SCORE: %s\n" % cve_data[cve]["scorev3"]
-> @@ -576,6 +593,9 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
->              "status" : status,
->              "link": issue_link
->          }
-> +        has_reason = d.getVarFlag("CVE_STATUS_REASONING", cve)
-> +        if has_reason:
-> +            cve_item["reason"] = has_reason
->          cve_list.append(cve_item)
->  
->      package_data["issue"] = cve_list
-> diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
-> index dbaa0b373a3..f47dd9920ef 100644
-> --- a/meta/lib/oe/cve_check.py
-> +++ b/meta/lib/oe/cve_check.py
-> @@ -130,6 +130,12 @@ def get_patched_cves(d):
->          if not fname_match and not text_match:
->              bb.debug(2, "Patch %s doesn't solve CVEs" % patch_file)
->  
-> +    # Search for additional patched CVEs
-> +    for cve, status in (d.getVarFlags("CVE_STATUS") or {}).items():
-> +        if status == "Patched":
-> +            bb.debug(2, "CVE %s is additionally patched" % cve)
-> +            patched_cves.add(cve)
-> +
->      return patched_cves
->  
->  
-> -- 
-> 2.40.1
-> 
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#181444): https://lists.openembedded.org/g/openembedded-core/message/181444
-> Mute This Topic: https://lists.openembedded.org/mt/98943046/7159507
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mikko.rapeli@linaro.org]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+
+Amazon Web Services EMEA SARL
+38 avenue John F. Kennedy, L-1855 Luxembourg
+Sitz der Gesellschaft: L-1855 Luxemburg
+eingetragen im Luxemburgischen Handelsregister unter R.C.S. B186284
+
+Amazon Web Services EMEA SARL, Niederlassung Deutschland
+Marcel-Breuer-Str. 12, D-80807 Muenchen
+Sitz der Zweigniederlassung: Muenchen
+eingetragen im Handelsregister des Amtsgerichts Muenchen unter HRB 242240, USt-ID DE317013094
+
+
+
 
 
