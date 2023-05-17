@@ -2,188 +2,161 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15447C7EE24
-	for <webhook@archiver.kernel.org>; Wed, 17 May 2023 02:44:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1D2DC7EE25
+	for <webhook@archiver.kernel.org>; Wed, 17 May 2023 02:44:56 +0000 (UTC)
 Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web10.40945.1684291486106506245
+ by mx.groups.io with SMTP id smtpd.web10.40946.1684291488041952612
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 May 2023 19:44:46 -0700
+ Tue, 16 May 2023 19:44:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=UagZVxJ7;
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=G3D99y0t;
  spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1ae454844edso2756585ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 May 2023 19:44:46 -0700 (PDT)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1ae408f4d1aso2931485ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 May 2023 19:44:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1684291485; x=1686883485;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NxnXKs+rQ1hOMxShJUmFgXqShv8MBqQDrORJNQpmQzs=;
-        b=UagZVxJ7JzSsO3FJdYOHiLJ+DN3UzoSPPkdq0CmxtA5NsBqai3yHlcG976JkuPpxN3
-         7Pf+DNF56DolJhHClfGglxQD+1ZLfGNF5eOW0ITnJPUZQcSItR0sjtbFVy7kTSRw7+mz
-         NGETvf1qXxGKKjgStUFUf7cZsbtPOqCN33SREPjLkCsu/xwt1NojwyyjN6kyeNontvC3
-         Jcb73LlureU7xiD31H0K36ePekWH1l2KJWzDBA0FDpLQr0r0NDiesfWXOIQR/u1M9hCw
-         QsxK46CrvqbTpPurJZlfBFmCLe7+qaJsl5HLjusFzJwlSVkgkgZNCgoBUlSfWarqu4N0
-         TzYA==
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1684291487; x=1686883487;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LTkfMAJ5N7DMoLAaaDOr18BBIgXWaQ7NoJSYP3b71/s=;
+        b=G3D99y0tV0JMpuzbUpWmkJOJ4Z1IZ//Q9Qin7HQLkkPrhSUrWHrqasRbQ4oFvfXB8R
+         /wutQd4Mbd71r65M/HQgnW3XmXa6KIZ6ZKqrt8sQd2uMi+jLs9ZD5BIt9Z0QODuXKiUJ
+         3VQdVVVSYsNhdH0QtevdDUuJYHEl+7wv+IQDiSjmwLK5FVnMwo8Yy9BldLREdSchcXK1
+         ObJMdTcrVtZSnXVSRMQ8+Sf9RNzRinfH5z4uw8Bn7xUvcLBKer81xuBQ+PndvVoxNlbV
+         lVppR1ieNBpMeZDKa+Sk7bIk83MHEz7iiI/kDtCa0437c+kS2C0dNYt9mgiP4vcoIQCr
+         w4YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684291485; x=1686883485;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NxnXKs+rQ1hOMxShJUmFgXqShv8MBqQDrORJNQpmQzs=;
-        b=XpK7soEkZjUa8BoPB2d3W2w3wLOIX7ru/PcY48+jytMGo1bNcgoTr2lmAca0tkZ0Mj
-         xAiebJU5Ib2kE9mnLYz6Zdza1/2ZwENeRTbHZi0lw0w7SY0/THh/mZFOzTi1+sp2/UB/
-         hQmx2B6Z2atEbChXrv8BgQZerYa6ZkVOXwXeHoBHl8IpTTySHnMWSYHRHMPZv3lA11KC
-         /rfLYQjPpvi/qhbzHYTkWKQOiC8Pl9BN5Ex/GgFe+GxcaHWyzncw2iu0uv08eIWPKkZv
-         zzUXGtR4bBXysv9a/0y4pBTJE9qLvrJPBoPT8+RP3D/udGFF+Edgt5+RX8PmKF+PODyR
-         2g0A==
-X-Gm-Message-State: AC+VfDzjFzZR+mXLhtgc4741yf10n1J9ruJRrI8PWz+qS+He0i4xh2+C
-	utdeszM2z5vspk7R28M925KrPT0DZ11xWt8wxmI=
-X-Google-Smtp-Source: ACHHUZ6xxRO9OyskmSyNI8Wq1NK69R3tJo2RkgexNAzNNLcmiwzgqDWmjl7y7NCdbbOgMz01R7AEdg==
-X-Received: by 2002:a17:902:f551:b0:1ae:ccf:6b40 with SMTP id h17-20020a170902f55100b001ae0ccf6b40mr14071427plf.13.1684291484901;
-        Tue, 16 May 2023 19:44:44 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1684291487; x=1686883487;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LTkfMAJ5N7DMoLAaaDOr18BBIgXWaQ7NoJSYP3b71/s=;
+        b=cYeLtp5/Er6YDZgumJJoavu0wRJHCsXRbfn27EoI/KMlMIIjHHr/D1PuA0zN8c5lcT
+         kriNC5zXjmiWX1rMXSCbTnEB3q8zJL7+eatZO7iXCuO3+HafoUr8ASOmN9OlpiC4AH/e
+         vo6kyU82blxZSoAAXb3HMWw0O5KdI3ViCJZcYWT5cwPm9oF0SDB8jRUmxFbFUEmdBqhF
+         c/ySsMYRP90/LsJLPT76GkIKhV6TiBLfiGU+TGitVXJvnN0iwbhibrFIoszmsEjw02Bx
+         UfYdVlIAJxhmpORVN94s0U3Mf2T2aJOYum+hW9DBfMqX/L6Lv68jZKVD7A/aMOE6yS9x
+         S6eQ==
+X-Gm-Message-State: AC+VfDy4BNEwY9W9SZpkuJKDFmXhlS0YDBcntsVoFnwS9HphebpCDDcb
+	RCbO5SRc2eutvyq0yIpHsWG0F2uW+lmiSfaQiJI=
+X-Google-Smtp-Source: ACHHUZ4DUCwP7u4hmaKOIyPNHnUP+iEnzp86q6foSlqAGDsm45bKqHh+fhei6LgIrywZntjYuuyYAA==
+X-Received: by 2002:a17:903:32cb:b0:1ab:7c4:eb24 with SMTP id i11-20020a17090332cb00b001ab07c4eb24mr48400143plr.22.1684291487020;
+        Tue, 16 May 2023 19:44:47 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id bj11-20020a170902850b00b001a2135e7eabsm16282767plb.16.2023.05.16.19.44.43
+        by smtp.gmail.com with ESMTPSA id bj11-20020a170902850b00b001a2135e7eabsm16282767plb.16.2023.05.16.19.44.46
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 May 2023 19:44:44 -0700 (PDT)
+        Tue, 16 May 2023 19:44:46 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 00/13] Patch review
-Date: Tue, 16 May 2023 16:44:23 -1000
-Message-Id: <cover.1684291329.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 01/13] ghostscript: fix CVE-2023-28879
+Date: Tue, 16 May 2023 16:44:24 -1000
+Message-Id: <5046578b09b0a83a961768824e47f34fb3de9eb1.1684291329.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1684291329.git.steve@sakoman.com>
+References: <cover.1684291329.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 May 2023 02:44:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181429
+ <openembedded-core@lists.openembedded.org>; Wed, 17 May 2023 02:44:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181430
 
-Please review this set of changes for mickledore and have comments back by
-end of day Thursday.
+From: Joe Slater <joe.slater@windriver.com>
 
-Passed a-full on autobuilder:
+Backport from tag ghostpdl-10.01.1-gse-10174 which is
+after 10.01.1.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5305
-
-The following changes since commit 2c5af07819b4a555737da9f07aa5236579300027:
-
-  machine/qemuarm*: don't explicitly set vmalloc (2023-05-12 05:31:11 -1000)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/mickledore-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/mickledore-nut
-
-Alexander Kanavin (3):
-  selftest/distrodata: clean up exception lists in recipe maintainers
-    test
-  dhcpcd: use git instead of tarballs
-  perl: patch out build paths from native binaries
-
-Enrico Jörns (1):
-  package_manager/ipk: fix config path generation in
-    _create_custom_config()
-
-Joe Slater (1):
-  ghostscript: fix CVE-2023-28879
-
-Johannes Schrimpf (1):
-  python3targetconfig.bbclass: Extend PYTHONPATH instead of overwriting
-
-Khem Raj (1):
-  quilt: Fix merge.test race condition
-
-Markus Volk (1):
-  gtk4: update 4.10.0 -> 4.10.3
-
-Ming Liu (1):
-  weston: add xwayland to DEPENDS for PACKAGECONFIG xwayland
-
-Peter Kjellerstedt (1):
-  license.bbclass: Include LICENSE in the output when it fails to parse
-
-Richard Purdie (1):
-  recipes: Default to https git protocol where possible
-
-Virendra Thakur (1):
-  qemu: Whitelist CVE-2023-0664
-
-hen Qi (1):
-  unfs3: fix symlink time setting issue
-
- meta/classes-global/license.bbclass           |  2 +-
- .../python3targetconfig.bbclass               |  2 +-
- meta/conf/distro/include/maintainers.inc      |  7 ++
- meta/lib/oe/package_manager/ipk/__init__.py   |  2 +-
- meta/lib/oeqa/selftest/cases/distrodata.py    |  6 +-
- meta/lib/oeqa/selftest/cases/fetch.py         |  2 +
- meta/lib/oeqa/selftest/cases/recipetool.py    |  8 +-
- .../dhcpcd/dhcpcd_9.4.1.bb                    |  7 +-
- meta/recipes-connectivity/neard/neard_0.18.bb |  2 +-
- meta/recipes-core/dbus-wait/dbus-wait_git.bb  |  2 +-
- meta/recipes-core/glibc/glibc-version.inc     |  2 +-
- .../images/build-appliance-image_15.0.0.bb    |  2 +-
- meta/recipes-core/musl/libc-test_git.bb       |  2 +-
- meta/recipes-core/musl/musl_git.bb            |  2 +-
- meta/recipes-core/psplash/psplash_git.bb      |  2 +-
- .../update-rc.d/update-rc.d_0.8.bb            |  2 +-
- .../binutils/binutils-2.40.inc                |  2 +-
- .../btrfs-tools/btrfs-tools_6.1.3.bb          |  2 +-
- meta/recipes-devtools/e2fsprogs/e2fsprogs.inc |  2 +-
- .../erofs-utils/erofs-utils_1.5.bb            |  2 +-
- meta/recipes-devtools/mmc/mmc-utils_git.bb    |  2 +-
- meta/recipes-devtools/perl/perl_5.36.0.bb     |  4 +
- meta/recipes-devtools/pseudo/pseudo_git.bb    |  2 +-
- meta/recipes-devtools/qemu/qemu.inc           |  5 ++
- meta/recipes-devtools/quilt/quilt.inc         |  1 +
- ...t-Fix-a-race-condition-in-merge.test.patch | 48 ++++++++++
- .../0001-attr-fix-utime-for-symlink.patch     | 88 +++++++++++++++++++
- meta/recipes-devtools/unfs3/unfs3_git.bb      |  1 +
- meta/recipes-extended/bzip2/bzip2_1.0.8.bb    |  2 +-
- .../ghostscript/cve-2023-28879.patch          | 60 +++++++++++++
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 8a70d6935afa38173dbf012b8e1c3d59228504df)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../ghostscript/cve-2023-28879.patch          | 60 +++++++++++++++++++
  .../ghostscript/ghostscript_10.0.0.bb         |  1 +
- .../gtk+/{gtk4_4.10.0.bb => gtk4_4.10.3.bb}   |  2 +-
- .../libfakekey/libfakekey_git.bb              |  2 +-
- .../libmatchbox/libmatchbox_1.12.bb           |  2 +-
- .../matchbox-wm/matchbox-wm_1.2.3.bb          |  2 +-
- .../recipes-graphics/wayland/weston_11.0.1.bb |  2 +-
- .../xcursor-transparent-theme_git.bb          |  2 +-
- meta/recipes-kernel/blktrace/blktrace_git.bb  |  2 +-
- meta/recipes-kernel/dtc/dtc_1.7.0.bb          |  2 +-
- .../kern-tools/kern-tools-native_git.bb       |  2 +-
- meta/recipes-kernel/kmod/kmod_30.bb           |  2 +-
- meta/recipes-kernel/linux/linux-yocto-dev.bb  |  4 +-
- .../linux/linux-yocto-rt_5.15.bb              |  4 +-
- .../linux/linux-yocto-rt_6.1.bb               |  4 +-
- .../linux/linux-yocto-tiny_5.15.bb            |  4 +-
- .../linux/linux-yocto-tiny_6.1.bb             |  4 +-
- meta/recipes-kernel/linux/linux-yocto_5.15.bb |  4 +-
- meta/recipes-kernel/linux/linux-yocto_6.1.bb  |  4 +-
- .../recipes-kernel/lttng/babeltrace2_2.0.4.bb |  2 +-
- .../recipes-kernel/lttng/babeltrace_1.5.11.bb |  2 +-
- .../lttng/lttng-modules_2.13.9.bb             |  2 +-
- .../systemtap/systemtap_git.inc               |  2 +-
- meta/recipes-rt/rt-tests/rt-tests.inc         |  2 +-
- .../matchbox-config-gtk_0.2.bb                |  2 +-
- .../matchbox-desktop/matchbox-desktop_2.3.bb  |  2 +-
- .../matchbox-keyboard_0.1.1.bb                |  2 +-
- .../matchbox-panel-2/matchbox-panel-2_2.12.bb |  2 +-
- .../matchbox-terminal_0.2.bb                  |  2 +-
- .../matchbox-theme-sato_0.2.bb                |  2 +-
- meta/recipes-sato/puzzles/puzzles_git.bb      |  2 +-
- .../sato-screenshot/sato-screenshot_0.3.bb    |  2 +-
- .../settings-daemon/settings-daemon_0.0.2.bb  |  2 +-
- .../dos2unix/dos2unix_7.4.4.bb                |  2 +-
- .../gnome-desktop-testing_2021.1.bb           |  2 +-
- .../ptest-runner/ptest-runner_2.4.2.bb        |  2 +-
- 65 files changed, 286 insertions(+), 70 deletions(-)
- create mode 100644 meta/recipes-devtools/quilt/quilt/0001-test-Fix-a-race-condition-in-merge.test.patch
- create mode 100644 meta/recipes-devtools/unfs3/unfs3/0001-attr-fix-utime-for-symlink.patch
+ 2 files changed, 61 insertions(+)
  create mode 100644 meta/recipes-extended/ghostscript/ghostscript/cve-2023-28879.patch
- rename meta/recipes-gnome/gtk+/{gtk4_4.10.0.bb => gtk4_4.10.3.bb} (98%)
 
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/cve-2023-28879.patch b/meta/recipes-extended/ghostscript/ghostscript/cve-2023-28879.patch
+new file mode 100644
+index 0000000000..604b927521
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/cve-2023-28879.patch
+@@ -0,0 +1,60 @@
++From 37ed5022cecd584de868933b5b60da2e995b3179 Mon Sep 17 00:00:00 2001
++From: Ken Sharp <ken.sharp@artifex.com>
++Date: Fri, 24 Mar 2023 13:19:57 +0000
++Subject: [PATCH] Graphics library - prevent buffer overrun in (T)BCP encoding
++
++Bug #706494 "Buffer Overflow in s_xBCPE_process"
++
++As described in detail in the bug report, if the write buffer is filled
++to one byte less than full, and we then try to write an escaped
++character, we overrun the buffer because we don't check before
++writing two bytes to it.
++
++This just checks if we have two bytes before starting to write an
++escaped character and exits if we don't (replacing the consumed byte
++of the input).
++
++Up for further discussion; why do we even permit a BCP encoding filter
++anyway ? I think we should remove this, at least when SAFER is true.
++---
++CVE: CVE-2023-28879
++
++Upstream-Status: Backport [see text]
++
++git://git.ghostscript.com/ghostpdl
++cherry-pick
++
++Signed-off-by: Joe Slater <joe.slater@windriver.com.
++
++---
++ base/sbcp.c | 10 +++++++++-
++ 1 file changed, 9 insertions(+), 1 deletion(-)
++
++diff --git a/base/sbcp.c b/base/sbcp.c
++index 979ae0992..47fc233ec 100644
++--- a/base/sbcp.c
+++++ b/base/sbcp.c
++@@ -1,4 +1,4 @@
++-/* Copyright (C) 2001-2021 Artifex Software, Inc.
+++/* Copyright (C) 2001-2023 Artifex Software, Inc.
++    All Rights Reserved.
++ 
++    This software is provided AS-IS with no warranty, either express or
++@@ -50,6 +50,14 @@ s_xBCPE_process(stream_state * st, stream_cursor_read * pr,
++         byte ch = *++p;
++ 
++         if (ch <= 31 && escaped[ch]) {
+++            /* Make sure we have space to store two characters in the write buffer,
+++             * if we don't then exit without consuming the input character, we'll process
+++             * that on the next time round.
+++             */
+++            if (pw->limit - q < 2) {
+++                p--;
+++                break;
+++            }
++             if (p == rlimit) {
++                 p--;
++                 break;
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb b/meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb
+index 56a93632e2..86ecdbe24a 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb
+@@ -34,6 +34,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+                 file://avoid-host-contamination.patch \
+                 file://mkdir-p.patch \
+                 file://cross-compile.patch \
++                file://cve-2023-28879.patch \
+ "
+ 
+ SRC_URI = "${SRC_URI_BASE} \
 -- 
 2.34.1
 
