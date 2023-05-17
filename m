@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBD82C7EE24
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0E9AC7EE2D
 	for <webhook@archiver.kernel.org>; Wed, 17 May 2023 02:45:06 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web11.40828.1684291504042460661
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.40945.1684291486106506245
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 May 2023 19:45:04 -0700
+ Tue, 16 May 2023 19:45:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Qh1yRUwk;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1aaebed5bd6so2618825ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 May 2023 19:45:03 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=ZPgPgMLA;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1ae454844edso2757745ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 May 2023 19:45:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1684291503; x=1686883503;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1684291505; x=1686883505;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UXXUNBd2GngUgZxH44nfQTR8eLYkA/8zBrM6tS3KqaI=;
-        b=Qh1yRUwkhaQs14L99Z0j73t7oVfbtydrzbPssstdOvReYamO4Sra200TVn0ohx0ku5
-         AvMa+7nPAxb5GwRAQuoKEk/H27obPDGSXd2dPDvSfsZqZ48zIweW2dZDwViHrf5J9o5r
-         /JDdOaZdsvI2tjYRgYdt/YYNlbl1dBCEHeGkwnFwamaHwJsZvgHfnMxrLkk3bYaszjAU
-         2RIh9VPRoVcuaCQb3WRwSClJX4gIuAdjwPmVJ6X03pO9glbgy5keu2XvqWnyB0oT/KLX
-         vfLOOclqQqCMAtP8UqBvgQcAQ1WmogAw+urIOsgHnUM62eo9F6AZPaOC/EiZY/E6jIVP
-         1Z+A==
+        bh=G3el6UnkDBDZ5Cw7CiAFOv+rg35Ycr+g9j2gv/CWbVc=;
+        b=ZPgPgMLAQ7Y6uy3LRwk+MznvSQjRQj5yEqR10LB/tLCie9K+2gAqwRtJz93rrxuchG
+         qUv2WUlJMvwZRY3PWTnGJzaItckDUWzknAZu78k3Ol3NF7LQga5I2X6eyJr+7FAF3h6j
+         jLaLTpQCaFm2qwAL9O4LFSyfFJGDf6nVGvzD22DPp4Y4tmT+tcWQKq4SpTXjRDC9BGfq
+         yQUAl9JBGNx7/b9A7beOl1blvkG9hRZxEyTx6MfmUtITo0a0WmaQLN58ElwDBswiKcDi
+         TPNGEFKZak4HaqCdsBuWHJIfA7d3TepSECuzlOj767E0neLhSSHDwZspn9w5cB5vI7Ff
+         Okbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684291503; x=1686883503;
+        d=1e100.net; s=20221208; t=1684291505; x=1686883505;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UXXUNBd2GngUgZxH44nfQTR8eLYkA/8zBrM6tS3KqaI=;
-        b=AayEdE34Jlfv1rWEpLWJuP9gpuFC/GYvxCpuv89+xrE8qZIRUC0eOS5PsDJ0a66JzE
-         PgL7NRXIPz4nfO82bJSxafyUEa02dnwvNyHUTs2iqy0irkB93aUL8oy3xpde5soNggfL
-         KaPo0vrnBBehET03NmPra8k/ARDmOiPPtfBt1Dl5kk3LrrEYelMNMPsa56VoByLsUEgP
-         q/Tkh4yCdkuUztdgCMK6QNTv6NThYEd2WxL46CzAmluSs/8LeeeQqpgpDMHWqI1VN139
-         D21p3nLoAAnxavqNF8aWq8tRRtjyioJc/PrxfTbPdXfM0Di4DMkuCHAUHw0vlDDf1xyc
-         tU1Q==
-X-Gm-Message-State: AC+VfDw35f13zTks284Z1X92/B/9HbemohHQDY9s79PQhKMarXkcQ+mF
-	H9HcZutxwey6slIvWNwS6hDDG7QLjgjDJh0KpPE=
-X-Google-Smtp-Source: ACHHUZ60uVSFgWkaAKbCvEJLYDoGqRG/MJ2cGfDjfoVeJIcabdzunv9GhE4yQet+55KhTByECXUnwQ==
-X-Received: by 2002:a17:903:246:b0:1ae:40ed:4b8 with SMTP id j6-20020a170903024600b001ae40ed04b8mr3318670plh.22.1684291503114;
-        Tue, 16 May 2023 19:45:03 -0700 (PDT)
+        bh=G3el6UnkDBDZ5Cw7CiAFOv+rg35Ycr+g9j2gv/CWbVc=;
+        b=EoY8rlFd4cJqsUVGNXKKO5LCseAB0gQD2cjMjtQNLM5xxKfwIezvCo1FzF+LBjZGyd
+         XEGu8YU8sh+UUzt2l2t/hrytLxOD6qDrSKf9adX8/9Vx2y3l1Yy5Lb61izPkonIFKHWh
+         6mwisl+TUIJrA7TEPW9cDDDYmW/AHo8IdMKASWCx5OgryViAvpT2Dqr0HGqgetVBD2+5
+         fccWwclzdZPVSaueTOWj7luBi+AMMvuZTDhS3CEci9Y86ZhZY9h1Q9mCaVf29eviteh/
+         LaWcpJalquM7Blh01VKnoThOYxdsXma/G/RIEXhMPJZneCx4mx9v1hOPxBkswKnMHFhc
+         TEqA==
+X-Gm-Message-State: AC+VfDwnwHnc5c3zyWAfH+Mr8xGUFL8zhCbtQqHRgkk3Pw0iB5Ofvktt
+	XUeSWN1IycxVcSI+YFQMp64+cRZLCYqnSb87mrg=
+X-Google-Smtp-Source: ACHHUZ7/o9+BdMG949m2l4JsUkymhmlEMJWQ8xZ8KdFEQNoUmrgNtPULc9wftUTWEADCMrRcxTsBZg==
+X-Received: by 2002:a17:902:e802:b0:19d:297:f30b with SMTP id u2-20020a170902e80200b0019d0297f30bmr51084974plg.19.1684291504809;
+        Tue, 16 May 2023 19:45:04 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id bj11-20020a170902850b00b001a2135e7eabsm16282767plb.16.2023.05.16.19.45.02
+        by smtp.gmail.com with ESMTPSA id bj11-20020a170902850b00b001a2135e7eabsm16282767plb.16.2023.05.16.19.45.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 May 2023 19:45:02 -0700 (PDT)
+        Tue, 16 May 2023 19:45:04 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 10/13] dhcpcd: use git instead of tarballs
-Date: Tue, 16 May 2023 16:44:33 -1000
-Message-Id: <6578d20898f68c0cc88eda7e0f56e6f5a557f17e.1684291329.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 11/13] perl: patch out build paths from native binaries
+Date: Tue, 16 May 2023 16:44:34 -1000
+Message-Id: <8f47d5cb79758d5b2a296759bd4806f85f739b90.1684291329.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1684291329.git.steve@sakoman.com>
 References: <cover.1684291329.git.steve@sakoman.com>
@@ -61,47 +61,34 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 17 May 2023 02:45:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181439
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181440
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-
-As announced here:
-https://roy.marples.name/downloads/dhcpcd/
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6e317eaab45da2dea70d1485fdae93cfeea0db1d)
+(cherry picked from commit 9ea0f850928b3e7d7a2eb280b8b3ed0c9f977cd6)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/perl/perl_5.36.0.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb
-index 579fa95df7..21b2eebbd8 100644
---- a/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb
-+++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb
-@@ -9,9 +9,7 @@ HOMEPAGE = "http://roy.marples.name/projects/dhcpcd/"
- LICENSE = "BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=d148485768fe85b9f1072b186a7e9b4d"
+diff --git a/meta/recipes-devtools/perl/perl_5.36.0.bb b/meta/recipes-devtools/perl/perl_5.36.0.bb
+index 4d8a919d1e..b8dba00f18 100644
+--- a/meta/recipes-devtools/perl/perl_5.36.0.bb
++++ b/meta/recipes-devtools/perl/perl_5.36.0.bb
+@@ -109,6 +109,10 @@ do_configure:class-native() {
+     -Ui_xlocale \
+     -Alddlflags=' ${LDFLAGS}' \
+     ${PACKAGECONFIG_CONFARGS}
++
++    # This prevents leakage of build paths into perl-native binaries, which
++    # causes non-deterministic troubles when those paths no longer exist or aren't accessible.
++    sed -i -e "s,${STAGING_LIBDIR},/completelyboguspath,g" config.h
+ }
  
--UPSTREAM_CHECK_URI = "https://roy.marples.name/downloads/dhcpcd/"
--
--SRC_URI = "https://roy.marples.name/downloads/${BPN}/${BPN}-${PV}.tar.xz \
-+SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=dhcpcd-9 \
-            file://0001-remove-INCLUDEDIR-to-prevent-build-issues.patch \
-            file://0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch \
-            file://0001-privsep-Allow-getrandom-sysctl-for-newer-glibc.patch \
-@@ -22,7 +20,8 @@ SRC_URI = "https://roy.marples.name/downloads/${BPN}/${BPN}-${PV}.tar.xz \
-            file://0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch \
-            "
- 
--SRC_URI[sha256sum] = "819357634efed1ea5cf44ec01b24d3d3f8852fec8b4249925dcc5667c54e376c"
-+SRCREV = "3c458fc7fa4146029a1e4f9e98cd7e7adf03081a"
-+S = "${WORKDIR}/git"
- 
- inherit pkgconfig autotools-brokensep systemd useradd
- 
+ do_configure:append() {
 -- 
 2.34.1
 
