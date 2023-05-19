@@ -2,130 +2,165 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26EBDC77B73
-	for <webhook@archiver.kernel.org>; Fri, 19 May 2023 00:03:05 +0000 (UTC)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
- by mx.groups.io with SMTP id smtpd.web11.7854.1684454577653150021
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2339DC77B7D
+	for <webhook@archiver.kernel.org>; Fri, 19 May 2023 00:07:15 +0000 (UTC)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+ by mx.groups.io with SMTP id smtpd.web10.7936.1684454831904052149
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 May 2023 17:02:57 -0700
+ Thu, 18 May 2023 17:07:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=hEukzB7I;
- spf=pass (domain: gmail.com, ip: 209.85.219.173, mailfrom: ticotimo@gmail.com)
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-ba94605bcd5so4587276.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 May 2023 17:02:57 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=KGDLqrLc;
+ spf=pass (domain: gmail.com, ip: 209.85.128.178, mailfrom: ticotimo@gmail.com)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-561d5a16be0so38202937b3.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 May 2023 17:07:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684454577; x=1687046577;
+        d=gmail.com; s=20221208; t=1684454831; x=1687046831;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=xI66z/AnU9ZQFx/c53ahTb1kqcGndRNPoJMGre3AW0A=;
-        b=hEukzB7IWWSBmBQ/42hBmF5ndWTcoZz/hJcEXs07SeQ68gqrXnsmG1n4R91mvotbAs
-         ZLRe+Na6MJAIGdKoF7dRGC18zNzzzPvACwP+Jmg7gF4+vAT78H2PTtwuVvk74O25apkB
-         4abF+Piz5SXirBHQZE86DYkr/QbBwQ8AKHDFIJH573XlTaVN+hotmdHzA3AAA+hRxBG/
-         AYxr+gggcbyE8W+jzcjLk8WFcWLdAf4zUwwt9giPBCgBLhrHpLxo3pUVXnJbhN5GXALc
-         YgakKRAfRbTcVSOUiT8yfh+BXcr9GoLQQB7Wgm0/qr8kQQA4E1Nn5WZ5W3kgaRYGxlLg
-         yjOQ==
+        bh=C4BYQxVxNOnPsPb6haFUijd9KFb103ObslBAqQteni8=;
+        b=KGDLqrLcZToSUs6kNY9MW6aKFPz0sFLZTs2uZ+hiDZFEr8Z7S7sgVzWC1596SldMk4
+         AiizRt9W3VMFqsfOdXJ0Z0AM0m4uC4/B24REO3B0gQ75ETiKNeeTqVO+PZnsvXoBojNn
+         kAfR+xd70gZJBA8f9rjUWgNZWjppeM2Qc70xznuzlkvJAaT+6+E8eiBc5P3JYkidZ/wJ
+         YFxAcxVhR4aSjfHU9701rY2Bnzi1AYQoUXZD/zk7lxAu1/lx4IYx257/Aexl9r0eVMtO
+         l770zBNbS2SKxY1CO2PDNBgRSagiOEvyjud0+3RTKNqrChCRkvQLjgKDvEofi+pdm7kp
+         H2mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684454577; x=1687046577;
+        d=1e100.net; s=20221208; t=1684454831; x=1687046831;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xI66z/AnU9ZQFx/c53ahTb1kqcGndRNPoJMGre3AW0A=;
-        b=LBC4TDFCZjvKSvhBwjNfLnvBaoABDz857VkRXKlOJ/mcnUuJ45wM7PQu1jfqNNliyM
-         StUaw5aoZhAOiUARvRhBC0nh5s58iCEpa3dXn++kml0SqB9QYVtZ0REBkBH2vdgMYusN
-         3gqXrg52enkBLp8PNiNO1LZ1VnHA0C3vum9ZIYzk+2Vso8X4fvKWHPWe/+ESDAM9NCyd
-         orWz+HOCUMmYhIsHLe9z7DGUWZg8vxcOqN9y1Lm+hV/4STyuVxg2JlKt5dZAA9Naunau
-         SN4czh6AwAk/jmUSIzmnWLp8vC3gGn/T7y+jy/pxeD+z1AD6t8VeUEZ2XzVdRny61fEM
-         bOPQ==
-X-Gm-Message-State: AC+VfDxBHBHxcgyBOPbpl/VQMCMvMF+6TbN0uTMZ+STcDy93HXPTIqC1
-	aKDwWnyXTlqjxiABMwnoPNVW/Jc2YaKmEKhP5mM=
-X-Google-Smtp-Source: ACHHUZ6INIAi/UiKoQi+gh5xuACdKVVBHQjMcNqk3cA1JNsguGgsoTR6FmDNnZon1JQKf1Ta5XzjUeU3nn88imAJoew=
-X-Received: by 2002:a25:c2:0:b0:ba8:7158:f0ac with SMTP id 185-20020a2500c2000000b00ba87158f0acmr744633yba.57.1684454575210;
- Thu, 18 May 2023 17:02:55 -0700 (PDT)
+        bh=C4BYQxVxNOnPsPb6haFUijd9KFb103ObslBAqQteni8=;
+        b=CSGbL9/x3huRHnhAn5F+fKD3Sa7afS9AmUcrOB+wCN45EE1/IvDWtD+P3E8wds0TfE
+         SPVRpySGLBopLHdJg3Su3v1op0/khfPSCZ7k+Wybf3ArYfNOAAUquEmIfS0yNsanFv97
+         9/fASrBrl4Th75FTm/AKXFJ5wHT1OCeM4a28y7SRsXjcBl4ZZso8gd/d1W68+Z77RdHX
+         J6m+EIqR/fwGtVGN7puh9pHyozC9tt0FCj4JjLzw7JbFnSQhdtgD13u0cX9HH4K6GN1v
+         Y87XBsKy3mcQ3lOONdo+SO/McME0amjXhfWChOvvsSfkDelclKkUjM7g2y4w3exVCjsi
+         A77g==
+X-Gm-Message-State: AC+VfDwy5IZHdY01CU2tToM8s3eer0wTijd1rAhD/wcRoBJwJLfdSCcP
+	Bm1rrrDIwcg8kI3q2KxNl7EF7JYZmCglz2A2kj4=
+X-Google-Smtp-Source: ACHHUZ57gdQzf6ahQDTVtzwEwJbQmhzwKboZPX4X/3cKDLJWbHp8f0BT8qyL70f68PblJS/BXTEIjkHRzGkmlRh70K4=
+X-Received: by 2002:a0d:cc48:0:b0:561:b26c:40c4 with SMTP id
+ o69-20020a0dcc48000000b00561b26c40c4mr111908ywd.51.1684454830864; Thu, 18 May
+ 2023 17:07:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230518160821.3661890-1-ross.burton@arm.com> <20230518160821.3661890-2-ross.burton@arm.com>
-In-Reply-To: <20230518160821.3661890-2-ross.burton@arm.com>
+References: <20230517080639.9336-1-brgl@bgdev.pl> <CANNYZj94a42E=_X-JkZqHHBO7c4TOWKmgp_MrLxhuLUzkdYK1w@mail.gmail.com>
+In-Reply-To: <CANNYZj94a42E=_X-JkZqHHBO7c4TOWKmgp_MrLxhuLUzkdYK1w@mail.gmail.com>
 From: Tim Orling <ticotimo@gmail.com>
-Date: Thu, 18 May 2023 17:02:44 -0700
-Message-ID: <CANx9H-DNwo-dpqONxqNqnwzAhRL6Fon+=a5ke5SVC7wb7pm+uA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] python3-async: remove recipe
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org, nd@arm.com
-Content-Type: multipart/alternative; boundary="000000000000988bc305fc00a44d"
+Date: Thu, 18 May 2023 17:06:59 -0700
+Message-ID: <CANx9H-CYp5GVzpvT2r=_TsgU3YW5Ao=+dXYmK-bQKepQnQAftw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 00/20] python3: fix run-time dependencies
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Khem Raj <raj.khem@gmail.com>, 
+	Bruce Ashfield <bruce.ashfield@gmail.com>, openembedded-core@lists.openembedded.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000d57e8905fc00b319"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 May 2023 00:03:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181528
+ <openembedded-core@lists.openembedded.org>; Fri, 19 May 2023 00:07:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181529
 
---000000000000988bc305fc00a44d
+--000000000000d57e8905fc00b319
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Thank you, Ross. Nice to see some cruft get jettisoned.
+Thank you, Bartosz. I didn't review in great depth, but others have done
+so. This series looks like a
+step in the right direction.
 
-On Thu, May 18, 2023 at 9:08=E2=80=AFAM Ross Burton <ross.burton@arm.com> w=
-rote:
+On Wed, May 17, 2023 at 1:39=E2=80=AFAM Alexander Kanavin <alex.kanavin@gma=
+il.com>
+wrote:
 
-> From: Ross Burton <ross.burton@arm.com>
+> Thanks for this work. Perhaps we could catch this easier if there are
+> runtime tests for those items, maybe in the shape of ptest.
 >
-> This is part of the same project as GitPython, but hasn't been used by
-> gitdb (the sole user) since 2014.
+> Sometimes recipes have no longer needed dependencies too, and trimming
+> those down is harder, but also appreciated.
 >
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
->
-Acknowledged-by: Tim Orling <tim.orling@konsulko.com>
+> One challenge has been the additional dependencies that come in for
+ptests. Another is that
+many PyPi packages do not include their /tests/ directory, meaning we would
+need to switch to
+the git fetcher in many cases. My intent has always been "full" ptest
+coverage, when practical.
 
-> ---
->  meta/recipes-devtools/python/python-async.inc      | 14 --------------
->  .../recipes-devtools/python/python3-async_0.6.2.bb |  2 --
->  2 files changed, 16 deletions(-)
->  delete mode 100644 meta/recipes-devtools/python/python-async.inc
->  delete mode 100644 meta/recipes-devtools/python/python3-async_0.6.2.bb
+Alex
 >
-> diff --git a/meta/recipes-devtools/python/python-async.inc
-> b/meta/recipes-devtools/python/python-async.inc
-> deleted file mode 100644
-> index fde864601c6..00000000000
-> --- a/meta/recipes-devtools/python/python-async.inc
-> +++ /dev/null
-> @@ -1,14 +0,0 @@
-> -SUMMARY =3D "Python framework to process interdependent tasks in a pool =
-of
-> workers"
-> -HOMEPAGE =3D "http://github.com/gitpython-developers/async"
-> -SECTION =3D "devel/python"
-> -LICENSE =3D "BSD-3-Clause"
-> -LIC_FILES_CHKSUM =3D
-> "file://PKG-INFO;beginline=3D8;endline=3D8;md5=3D88df8e78b9edfd7449538621=
-79f2d14e"
-> -
-> -inherit pypi
-> -
-> -SRC_URI[md5sum] =3D "9b06b5997de2154f3bc0273f80bcef6b"
-> -SRC_URI[sha256sum] =3D
-> "ac6894d876e45878faae493b0cf61d0e28ec417334448ac0a6ea2229d8343051"
-> -
-> -RDEPENDS:${PN} +=3D "${PYTHON_PN}-threading"
-> -
-> -BBCLASSEXTEND =3D "native nativesdk"
-> diff --git a/meta/recipes-devtools/python/python3-async_0.6.2.bb
-> b/meta/recipes-devtools/python/python3-async_0.6.2.bb
-> deleted file mode 100644
-> index 0da5fdecdc8..00000000000
-> --- a/meta/recipes-devtools/python/python3-async_0.6.2.bb
-> +++ /dev/null
-> @@ -1,2 +0,0 @@
-> -inherit setuptools3
-> -require python-async.inc
-> --
-> 2.34.1
->
+> On Wed, 17 May 2023 at 10:06, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+> >
+> > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> >
+> > I noticed that every now and then I import some python package into an
+> > image only to find out the recipe didn't pull in all required run-time
+> > dependencies. I would fix it whenever I noticed it but figured that I
+> > could right a script that would go over all python packages, build a
+> > minimal image and see that all its modules can be imported.
+> >
+> > The patches in this series are the result of that. Most simply add
+> > missing RDEPENDS, some are additional tweaks to recipes and the last
+> > three add new standard library packages to the manifest. These are the
+> > ones for which simply adding python3-misc would still be insufficient i=
+n
+> > terms of run-time dependencies.
+> >
+> > I plan to do the same for meta-python but this will take more time and =
+I
+> > need to think of some automated way of updating the recipes first.
+> >
+> > Bartosz Golaszewski (20):
+> >   python3-async: add missing run-time dependencies
+> >   python3-attrs: unify RDEPENDS
+> >   python3-attrs: don't use PYTHON_PN
+> >   python3-attrs: add missing run-time dependencies
+> >   python3-certifi: add missing run-time dependencies
+> >   python3-libfdt: new package
+> >   python3-dtschema: add missing run-time dependencies
+> >   python3-hypothesis: fix run-time dependencies
+> >   python3-tomli: add missing run-time dependencies
+> >   python3-pathspec: add missing run-time dependencies
+> >   python3-installer: add missing run-time dependencies
+> >   python3-sphinx-rtd-theme: add missing run-time dependencies
+> >   python3-setuptools-rust: fix RDEPENDS and allow target build
+> >   python3-pyproject-hooks: add missing run-time dependencies
+> >   python3-pycryptodome: don't use PYTHON_PN
+> >   python3-pycryptodome: add missing run-time dependencies
+> >   python3-pygobject: add missing run-time dependencies
+> >   python3-manifest: cgitb: new package
+> >   python3-manifest: zipapp: new package
+> >   python3-manifest: turtle: new package
+> >
+> >  meta/recipes-devtools/python/python-async.inc |  5 ++-
+> >  .../python/python-pycryptodome.inc            |  8 ++--
+> >  .../python/python3-attrs_23.1.0.bb            | 15 +++----
+> >  .../python/python3-certifi_2022.12.7.bb       |  2 +
+> >  .../python/python3-dtschema_2023.4.bb         |  7 +++-
+> >  .../python/python3-hypothesis_6.71.0.bb       |  2 +-
+> >  .../python/python3-installer_0.7.0.bb         |  6 +++
+> >  .../python/python3-libfdt_1.7.0.post1.bb      | 20 +++++++++
+> >  .../python/python3-pathspec_0.11.1.bb         |  2 +
+> >  .../python/python3-pygobject_3.44.1.bb        |  5 ++-
+> >  .../python/python3-pyproject-hooks_1.0.0.bb   |  5 ++-
+> >  .../python/python3-setuptools-rust_1.5.2.bb   | 17 ++++----
+> >  .../python/python3-sphinx-rtd-theme_1.2.0.bb  |  5 ++-
+> >  .../python/python3-tomli_2.0.1.bb             |  5 +++
+> >  .../python/python3/python3-manifest.json      | 42 +++++++++++++++++++
+> >  15 files changed, 121 insertions(+), 25 deletions(-)
+> >  create mode 100644 meta/recipes-devtools/python/
+> python3-libfdt_1.7.0.post1.bb
+> >
+> > --
+> > 2.39.2
+> >
+> >
+> >
+> >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#181526):
-> https://lists.openembedded.org/g/openembedded-core/message/181526
-> Mute This Topic: https://lists.openembedded.org/mt/98994591/924729
+> View/Reply Online (#181479):
+> https://lists.openembedded.org/g/openembedded-core/message/181479
+> Mute This Topic: https://lists.openembedded.org/mt/98943996/924729
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
 > ticotimo@gmail.com]
@@ -133,91 +168,147 @@ of
 >
 >
 
---000000000000988bc305fc00a44d
+--000000000000d57e8905fc00b319
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Thank you, Ross. Nice to see some cruft get jettisone=
-d.</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
-">On Thu, May 18, 2023 at 9:08=E2=80=AFAM Ross Burton &lt;<a href=3D"mailto=
-:ross.burton@arm.com">ross.burton@arm.com</a>&gt; wrote:<br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">From: Ross Burton &lt;<a href=3D"m=
-ailto:ross.burton@arm.com" target=3D"_blank">ross.burton@arm.com</a>&gt;<br=
->
+<div dir=3D"ltr"><div>Thank you, Bartosz. I didn&#39;t review in great dept=
+h, but others have done so. This series looks like a</div><div>step in the =
+right direction.</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Wed, May 17, 2023 at 1:39=E2=80=AFAM Alexander Kanavin &=
+lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Thanks f=
+or this work. Perhaps we could catch this easier if there are<br>
+runtime tests for those items, maybe in the shape of ptest.<br>
 <br>
-This is part of the same project as GitPython, but hasn&#39;t been used by<=
+Sometimes recipes have no longer needed dependencies too, and trimming<br>
+those down is harder, but also appreciated.<br>
+<br></blockquote><div>One challenge has been the additional dependencies th=
+at come in for ptests. Another is that</div><div>many PyPi packages do not =
+include their /tests/ directory,=C2=A0meaning we would need to switch to</d=
+iv><div>the git fetcher in many cases. My intent has always been &quot;full=
+&quot; ptest coverage, when practical.</div><div><br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex">
+Alex<br>
+<br>
+On Wed, 17 May 2023 at 10:06, Bartosz Golaszewski &lt;<a href=3D"mailto:brg=
+l@bgdev.pl" target=3D"_blank">brgl@bgdev.pl</a>&gt; wrote:<br>
+&gt;<br>
+&gt; From: Bartosz Golaszewski &lt;<a href=3D"mailto:bartosz.golaszewski@li=
+naro.org" target=3D"_blank">bartosz.golaszewski@linaro.org</a>&gt;<br>
+&gt;<br>
+&gt; I noticed that every now and then I import some python package into an=
+<br>
+&gt; image only to find out the recipe didn&#39;t pull in all required run-=
+time<br>
+&gt; dependencies. I would fix it whenever I noticed it but figured that I<=
 br>
-gitdb (the sole user) since 2014.<br>
+&gt; could right a script that would go over all python packages, build a<b=
+r>
+&gt; minimal image and see that all its modules can be imported.<br>
+&gt;<br>
+&gt; The patches in this series are the result of that. Most simply add<br>
+&gt; missing RDEPENDS, some are additional tweaks to recipes and the last<b=
+r>
+&gt; three add new standard library packages to the manifest. These are the=
 <br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targe=
-t=3D"_blank">ross.burton@arm.com</a>&gt;<br></blockquote><div>Acknowledged-=
-by: Tim Orling &lt;<a href=3D"mailto:tim.orling@konsulko.com">tim.orling@ko=
-nsulko.com</a>&gt;=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">
----<br>
-=C2=A0meta/recipes-devtools/python/python-async.inc=C2=A0 =C2=A0 =C2=A0 | 1=
-4 --------------<br>
-=C2=A0.../recipes-devtools/python/<a href=3D"http://python3-async_0.6.2.bb"=
- rel=3D"noreferrer" target=3D"_blank">python3-async_0.6.2.bb</a> |=C2=A0 2 =
---<br>
-=C2=A02 files changed, 16 deletions(-)<br>
-=C2=A0delete mode 100644 meta/recipes-devtools/python/python-async.inc<br>
-=C2=A0delete mode 100644 meta/recipes-devtools/python/<a href=3D"http://pyt=
-hon3-async_0.6.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-async_0.6=
-.2.bb</a><br>
+&gt; ones for which simply adding python3-misc would still be insufficient =
+in<br>
+&gt; terms of run-time dependencies.<br>
+&gt;<br>
+&gt; I plan to do the same for meta-python but this will take more time and=
+ I<br>
+&gt; need to think of some automated way of updating the recipes first.<br>
+&gt;<br>
+&gt; Bartosz Golaszewski (20):<br>
+&gt;=C2=A0 =C2=A0python3-async: add missing run-time dependencies<br>
+&gt;=C2=A0 =C2=A0python3-attrs: unify RDEPENDS<br>
+&gt;=C2=A0 =C2=A0python3-attrs: don&#39;t use PYTHON_PN<br>
+&gt;=C2=A0 =C2=A0python3-attrs: add missing run-time dependencies<br>
+&gt;=C2=A0 =C2=A0python3-certifi: add missing run-time dependencies<br>
+&gt;=C2=A0 =C2=A0python3-libfdt: new package<br>
+&gt;=C2=A0 =C2=A0python3-dtschema: add missing run-time dependencies<br>
+&gt;=C2=A0 =C2=A0python3-hypothesis: fix run-time dependencies<br>
+&gt;=C2=A0 =C2=A0python3-tomli: add missing run-time dependencies<br>
+&gt;=C2=A0 =C2=A0python3-pathspec: add missing run-time dependencies<br>
+&gt;=C2=A0 =C2=A0python3-installer: add missing run-time dependencies<br>
+&gt;=C2=A0 =C2=A0python3-sphinx-rtd-theme: add missing run-time dependencie=
+s<br>
+&gt;=C2=A0 =C2=A0python3-setuptools-rust: fix RDEPENDS and allow target bui=
+ld<br>
+&gt;=C2=A0 =C2=A0python3-pyproject-hooks: add missing run-time dependencies=
 <br>
-diff --git a/meta/recipes-devtools/python/python-async.inc b/meta/recipes-d=
-evtools/python/python-async.inc<br>
-deleted file mode 100644<br>
-index fde864601c6..00000000000<br>
---- a/meta/recipes-devtools/python/python-async.inc<br>
-+++ /dev/null<br>
-@@ -1,14 +0,0 @@<br>
--SUMMARY =3D &quot;Python framework to process interdependent tasks in a po=
-ol of workers&quot;<br>
--HOMEPAGE =3D &quot;<a href=3D"http://github.com/gitpython-developers/async=
-" rel=3D"noreferrer" target=3D"_blank">http://github.com/gitpython-develope=
-rs/async</a>&quot;<br>
--SECTION =3D &quot;devel/python&quot;<br>
--LICENSE =3D &quot;BSD-3-Clause&quot;<br>
--LIC_FILES_CHKSUM =3D &quot;file://PKG-INFO;beginline=3D8;endline=3D8;md5=
-=3D88df8e78b9edfd744953862179f2d14e&quot;<br>
--<br>
--inherit pypi<br>
--<br>
--SRC_URI[md5sum] =3D &quot;9b06b5997de2154f3bc0273f80bcef6b&quot;<br>
--SRC_URI[sha256sum] =3D &quot;ac6894d876e45878faae493b0cf61d0e28ec417334448=
-ac0a6ea2229d8343051&quot;<br>
--<br>
--RDEPENDS:${PN} +=3D &quot;${PYTHON_PN}-threading&quot;<br>
--<br>
--BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
-diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-async_0=
-.6.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-async_0.6.2.bb</a> b/=
-meta/recipes-devtools/python/<a href=3D"http://python3-async_0.6.2.bb" rel=
-=3D"noreferrer" target=3D"_blank">python3-async_0.6.2.bb</a><br>
-deleted file mode 100644<br>
-index 0da5fdecdc8..00000000000<br>
---- a/meta/recipes-devtools/python/<a href=3D"http://python3-async_0.6.2.bb=
-" rel=3D"noreferrer" target=3D"_blank">python3-async_0.6.2.bb</a><br>
-+++ /dev/null<br>
-@@ -1,2 +0,0 @@<br>
--inherit setuptools3<br>
--require python-async.inc<br>
--- <br>
-2.34.1<br>
-<br>
+&gt;=C2=A0 =C2=A0python3-pycryptodome: don&#39;t use PYTHON_PN<br>
+&gt;=C2=A0 =C2=A0python3-pycryptodome: add missing run-time dependencies<br=
+>
+&gt;=C2=A0 =C2=A0python3-pygobject: add missing run-time dependencies<br>
+&gt;=C2=A0 =C2=A0python3-manifest: cgitb: new package<br>
+&gt;=C2=A0 =C2=A0python3-manifest: zipapp: new package<br>
+&gt;=C2=A0 =C2=A0python3-manifest: turtle: new package<br>
+&gt;<br>
+&gt;=C2=A0 meta/recipes-devtools/python/python-async.inc |=C2=A0 5 ++-<br>
+&gt;=C2=A0 .../python/python-pycryptodome.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 8 ++--<br>
+&gt;=C2=A0 .../python/<a href=3D"http://python3-attrs_23.1.0.bb" rel=3D"nor=
+eferrer" target=3D"_blank">python3-attrs_23.1.0.bb</a>=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 | 15 +++----<br>
+&gt;=C2=A0 .../python/<a href=3D"http://python3-certifi_2022.12.7.bb" rel=
+=3D"noreferrer" target=3D"_blank">python3-certifi_2022.12.7.bb</a>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +<br>
+&gt;=C2=A0 .../python/<a href=3D"http://python3-dtschema_2023.4.bb" rel=3D"=
+noreferrer" target=3D"_blank">python3-dtschema_2023.4.bb</a>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0|=C2=A0 7 +++-<br>
+&gt;=C2=A0 .../python/<a href=3D"http://python3-hypothesis_6.71.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">python3-hypothesis_6.71.0.bb</a>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +-<br>
+&gt;=C2=A0 .../python/<a href=3D"http://python3-installer_0.7.0.bb" rel=3D"=
+noreferrer" target=3D"_blank">python3-installer_0.7.0.bb</a>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0|=C2=A0 6 +++<br>
+&gt;=C2=A0 .../python/<a href=3D"http://python3-libfdt_1.7.0.post1.bb" rel=
+=3D"noreferrer" target=3D"_blank">python3-libfdt_1.7.0.post1.bb</a>=C2=A0 =
+=C2=A0 =C2=A0 | 20 +++++++++<br>
+&gt;=C2=A0 .../python/<a href=3D"http://python3-pathspec_0.11.1.bb" rel=3D"=
+noreferrer" target=3D"_blank">python3-pathspec_0.11.1.bb</a>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +<br>
+&gt;=C2=A0 .../python/<a href=3D"http://python3-pygobject_3.44.1.bb" rel=3D=
+"noreferrer" target=3D"_blank">python3-pygobject_3.44.1.bb</a>=C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 |=C2=A0 5 ++-<br>
+&gt;=C2=A0 .../python/<a href=3D"http://python3-pyproject-hooks_1.0.0.bb" r=
+el=3D"noreferrer" target=3D"_blank">python3-pyproject-hooks_1.0.0.bb</a>=C2=
+=A0 =C2=A0|=C2=A0 5 ++-<br>
+&gt;=C2=A0 .../python/<a href=3D"http://python3-setuptools-rust_1.5.2.bb" r=
+el=3D"noreferrer" target=3D"_blank">python3-setuptools-rust_1.5.2.bb</a>=C2=
+=A0 =C2=A0| 17 ++++----<br>
+&gt;=C2=A0 .../python/<a href=3D"http://python3-sphinx-rtd-theme_1.2.0.bb" =
+rel=3D"noreferrer" target=3D"_blank">python3-sphinx-rtd-theme_1.2.0.bb</a>=
+=C2=A0 |=C2=A0 5 ++-<br>
+&gt;=C2=A0 .../python/<a href=3D"http://python3-tomli_2.0.1.bb" rel=3D"nore=
+ferrer" target=3D"_blank">python3-tomli_2.0.1.bb</a>=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 5 +++<br>
+&gt;=C2=A0 .../python/python3/python3-manifest.json=C2=A0 =C2=A0 =C2=A0 | 4=
+2 +++++++++++++++++++<br>
+&gt;=C2=A0 15 files changed, 121 insertions(+), 25 deletions(-)<br>
+&gt;=C2=A0 create mode 100644 meta/recipes-devtools/python/<a href=3D"http:=
+//python3-libfdt_1.7.0.post1.bb" rel=3D"noreferrer" target=3D"_blank">pytho=
+n3-libfdt_1.7.0.post1.bb</a><br>
+&gt;<br>
+&gt; --<br>
+&gt; 2.39.2<br>
+&gt;<br>
+&gt;<br>
+&gt; <br>
+&gt;<br>
 <br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 Links: You receive all messages sent to this group.<br>
-View/Reply Online (#181526): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/181526" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/181526</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/98994591/9247=
+View/Reply Online (#181479): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/181479" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/181479</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/98943996/9247=
 29" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt/=
-98994591/924729</a><br>
+98943996/924729</a><br>
 Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
 .org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
 br>
@@ -229,5 +320,5 @@ g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
 <br>
 </blockquote></div></div>
 
---000000000000988bc305fc00a44d--
+--000000000000d57e8905fc00b319--
 
