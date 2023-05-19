@@ -1,177 +1,187 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <andrej.valek@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69EBCC77B7D
-	for <webhook@archiver.kernel.org>; Fri, 19 May 2023 00:55:55 +0000 (UTC)
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by mx.groups.io with SMTP id smtpd.web10.8752.1684457748172723559
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C24D0C77B7F
+	for <webhook@archiver.kernel.org>; Fri, 19 May 2023 06:24:56 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.48])
+ by mx.groups.io with SMTP id smtpd.web10.19792.1684477495554200090
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 May 2023 17:55:48 -0700
+ Thu, 18 May 2023 23:24:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=GfTVjTy5;
- spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: anuj.mittal@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684457748; x=1715993748;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=JVG0hVEG6rrSNwD6Ve8IHVlOXBQlQKBWDrAZabiMn6U=;
-  b=GfTVjTy5JjMGkYt3Xcy+xk+Ly3YpdGQhwpL7D94n0vY60Ty8fNni+AyL
-   /OQZ03T/v8N+KXUGQ8faphhBcdwJJcDPbKR6x/OHOZ+xKrxR2xXQdEsFQ
-   NaseycHjBUeC9COwZleba1VFDbH6Ns6DGpRNGGQ6XQ09STi2KdclgNBTn
-   Z3DMAJbIH+IO41Qm7eAHpq0LOj71+Ci+W4oSrDfjgdZtX1zqYSxUavqXK
-   ML48VbmH5ub9R4RLAQ9lXFvaOJQdGdmDSu9pJ8ep1ieDoC4RQ0u69gCbI
-   ANM2gk8ghoHTnogEylxeprNhPq2Pou27kFgytYcw6IuaRRMMUOWUM05Ac
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="380448919"
-X-IronPort-AV: E=Sophos;i="6.00,175,1681196400"; 
-   d="scan'208";a="380448919"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2023 17:55:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="876646374"
-X-IronPort-AV: E=Sophos;i="6.00,175,1681196400"; 
-   d="scan'208";a="876646374"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orsmga005.jf.intel.com with ESMTP; 18 May 2023 17:55:45 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 18 May 2023 17:55:45 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 18 May 2023 17:55:44 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Thu, 18 May 2023 17:55:44 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.176)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Thu, 18 May 2023 17:55:44 -0700
+ dkim=fail reason="body hash did not verify" header.i=@siemens.com header.s=selector2 header.b=vwG9NsTE;
+ spf=pass (domain: siemens.com, ip: 40.107.22.48, mailfrom: andrej.valek@siemens.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZkN5Txrmu8tn6EH/N9uXGXFWxlsdpUqA3w4ww1llHAaUVfmSv32im6q2/yA7QX6jmoo22EBqTcE0OEb/qDwbHQpsGptMZLg6rKyQF91w8qg3Yei/ySwPLsRjbzb33/zgDbo0YNu2PFFVdrgxwezzfBc2zMwZFiu/aMIEJ8KCnJ5EzDVZgz/HVgSPcg6bBd77P3516d/phSzaume9Z9MR7gA9GQBp1SImVDHZjb3Y0Dzq8UgNeb72kMSIySybAgxCX4P13LdFBig3veJ81IXZuoPYL+qBofW693avmzPMCS6dcGgbOqaIJXI4Us0bu4OZmgRR/dXAueOpj6/pR4UhpA==
+ b=ISoC6xxont47fLVaUittK6ELE5oH1rin0q/nd4kskmP7xzh/6ouC968ihbPauBix83rP2e0TEJqyjAboMlzsKPSQ1u9xM/9uN1QmyIJTEJ9C1lHSR9YXKbX+q445xBVMYgWrBH75ApTMI+HMJK/zB1PoeGWMdjdJImplqf4VdP9duUCwHbw4NfEbEWCYs1bsD4IirMDnDhduxh8GI2ZG89uiP1z00QLcO+sUAZOB9lM68GnHx0bVfswIOqkbcm3W0ey846NqfRQgJiquPdwUI7CbvLd2nR8WNAaqZZ1pVzzJYRzMy4S6am2T4KYJncrM15Evo89EvLxbTS6KAmVHZg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JVG0hVEG6rrSNwD6Ve8IHVlOXBQlQKBWDrAZabiMn6U=;
- b=a7JUsCKaXSMTfYL3sWWvLDBVV+7widk2XD99K+2/aEUtPlwzgPJjf03LwLsZbsp2/RiFW3RSbUQF53daa8KkX6Uu7l+vNlBXyht29WCaqkqmNqiJZKZK48X/WGyVPUWqxJ1HH7lG6bC59jQk1KgVvxydpvAVlLU926wogLum52IsZpQ2e3VdZL2O42iS++19A9DqW+rqrPA226ako/QptWXqMu0JC5srB9zzSY86wF0glRe/5w7Y2m0PCy+3XXuYXOGHxjP1ZhGzcrqJtQzK1tX/8Q9sX9QZk6b8kYFZpX3rQioHE5FLPK2pbPEOUs36PperUqe2/gybw40ai1+nNw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA1PR11MB6418.namprd11.prod.outlook.com (2603:10b6:208:3aa::18)
- by SA1PR11MB5875.namprd11.prod.outlook.com (2603:10b6:806:238::20) with
+ bh=UWsiXAGKva0e4Q2+tCDT+9BxX7Y8FgxxTyngz3iNrD4=;
+ b=jTU3wYXQGvUm+up1WKCrtlVuL0jgLvs9+WS9RaZIhdbD87wa4jDkJTbpoTCj8jT39d7s21nVwd9ZwUizjXRlnmLJ8VjJdMujWvGKlXZNgCD680uI6CTc7aZSfkU20kXA7wPyUNmPrsXHfkr7dPJIIXbD+ZFdcbjb4F5fp1SZHUiKE2S7krQ1Vf3/jhDYc63gT/k6sIKFfBQGuLA0jxvuwZ7CuwatV3YLbNYDqxj8goM56PoYsYitNHhH1gXRbPOUAG/CWnWDM8ObqU9CxPmFjiSoROROEUBrsPCVc2gEQkDC3kinXwp0LVTEzev0to2tK4oeM0sIjPrEYl9q2Lyvdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 194.138.21.76) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=siemens.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=siemens.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UWsiXAGKva0e4Q2+tCDT+9BxX7Y8FgxxTyngz3iNrD4=;
+ b=vwG9NsTEvW0y4FZuBRXGiXRwibhhcm3eqrXW5P6RaP2AaTaSOhg+mQd2O5W4ckNzpQIoLMAqPkWx5TQG068TP7zDRPWBIjLxTdvPEphU8pg/yUueuFKNGcDwlvtLAsN2vgRRZFsHDGI1AYPHJcP85k2F1XZDlZXMEq0lwWdHAERJvJUUtQnNVfMEgFu6jDS8Nu69Rnd6BEpK4vuBvgZ7atEhE0MqO6KDEXTdDxKlTSsGxAGFoH2kq25ITjpsUsWAsp1ywUz5NkQhPtQH3YJ64kb5+qJh415CfZV2L0ZqLIwmq7J3tN+Dhtlg3yWGNYSLEeNkAHoAG4IcQITM78DZpw==
+Received: from DB6PR07CA0062.eurprd07.prod.outlook.com (2603:10a6:6:2a::24) by
+ AS1PR10MB5240.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:4a2::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.19; Fri, 19 May
- 2023 00:55:43 +0000
-Received: from IA1PR11MB6418.namprd11.prod.outlook.com
- ([fe80::d41f:ca52:857c:53a6]) by IA1PR11MB6418.namprd11.prod.outlook.com
- ([fe80::d41f:ca52:857c:53a6%7]) with mapi id 15.20.6387.033; Fri, 19 May 2023
- 00:55:42 +0000
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: "Ross.Burton@arm.com" <Ross.Burton@arm.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 5/5] glib-networking: upgrade 2.74.0 -> 2.76.0
-Thread-Topic: [OE-core] [PATCH 5/5] glib-networking: upgrade 2.74.0 -> 2.76.0
-Thread-Index: AQHZiYGicDB8NTJZEECJEAyybDF2P69gxkGA
-Date: Fri, 19 May 2023 00:55:42 +0000
-Message-ID: <90bcfb7f43f346b2f82bbe7af166b7b4f48f7bfa.camel@intel.com>
-References: <20230518023118.16406-1-anuj.mittal@intel.com>
-	 <20230518023118.16406-5-anuj.mittal@intel.com>
-	 <3110A7DF-18F5-45CF-A414-B14F1BC67F34@arm.com>
-In-Reply-To: <3110A7DF-18F5-45CF-A414-B14F1BC67F34@arm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.46.4 (3.46.4-1.fc37) 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA1PR11MB6418:EE_|SA1PR11MB5875:EE_
-x-ms-office365-filtering-correlation-id: 98947e42-b356-489b-3106-08db5803c5c0
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: YjMCt/x+seVTVX2U3+Z8juujj9UaCP2u53KdZDaUwidlCLrtV73IQgv3NyJy1146UExQvW5HJZ16N8M6mCVUneAp6eb/7CAujYyVP6WymxyDlVKQdPyckXdZ/BZqWrFhSgVQJ05XbjFCVmkgiub5ZL1FYZKKK/SPRJurpzAtA7ERzj8oxxUb8glAHoeX5FWxg3K1LUyMe4NyEBB9krtNuTaZA9DZo3J4UNMfJD2jwCiGbQNfzwRVK4yHzqwigheOntol+qLQERn5w98QS4gH7ZKKMb8dcegXIb7A8t2tWFtKC27igYPMH875SpTqN62Vz6aIWMAk6e8jDaKO3TQYPJ2izdvrQpPANZfqITwwPP7toqvdvnQC7YtgGRXvLNSR/TSPNR8NzwVytybjoKb/BGYSDapcrQaCgn8vq7jwGpnBFDT+6Z9MOCGhj+3dNYzEc7GWsTnC0d71Sp5Juq3Qib2+70nobJ7I5H43rKKVkcVuYZzfHMlMBeovyvzOL7TBcPfJ+PsGPn7pW4+pM/m2sXvb43it1AmL9JF/SWgBRw9++lT5JscSawjfVY6dhuOigrDUZNQNhMwc3RFREBpjJB6VIDvn+yODCKClED93dyg=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB6418.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(366004)(396003)(39860400002)(346002)(376002)(136003)(451199021)(966005)(6916009)(478600001)(66476007)(66556008)(4326008)(66446008)(76116006)(64756008)(66946007)(91956017)(316002)(38070700005)(86362001)(36756003)(83380400001)(6512007)(53546011)(186003)(6506007)(2616005)(26005)(71200400001)(41300700001)(8676002)(2906002)(5660300002)(6486002)(8936002)(4744005)(82960400001)(122000001)(38100700002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?K3NIQk5RZDkzdWRHWVNwaWEwR3ljMjRQZWdWQTFvdFlKT29mZG9oNnRyTzBj?=
- =?utf-8?B?ZmF0QkdMTUZoMU1VVlJiNzdPNjlDZlJYc1pEYzdCQ0dQYzAyOVhWbWVFZTdE?=
- =?utf-8?B?Rm45ai9NV0xYb2RiTzhBWTJPZjgvN1ViWG9tanU3QkdyL2w2a01GTFk3QVVi?=
- =?utf-8?B?NVFsWTF0Ky9meERzMEhoNnU4aENZZWloRzZFTml2WWxDSVJSRnFyQStrV21U?=
- =?utf-8?B?dDY1TCt6Z1VDaFJTT05PWTczOFp4WXYrTWVXcXB6M3A0VjUyMUdTNFRwMndE?=
- =?utf-8?B?TVRlaTBmdSsxQnJVYVRIeDR5bStaMVhyVjlPQWI1UExGdENRZ2djM242d21t?=
- =?utf-8?B?R1R2SUZIdzY2V3JTMVpxeTFGUmEyWklUNmNKcWVkZDNJNXhBd3h0Q1diWEVk?=
- =?utf-8?B?V2U0L1dhdmoxNGlvcnBMUXR2OGxjaUsyTmJqR0lWQTk2dFlPaTBMNkU5ODNn?=
- =?utf-8?B?ZkpEM1hqREdvR1F5eHhHV1VxZ1EzbFBOZStRM1hnTlVhMlVOdHBoNmdjQ29k?=
- =?utf-8?B?YlhTMEx5MFQ4eU5rcDBLYnhoZ1JRNzhIZ2t0VzdDdkNHa2phWWZkU2M1NGJW?=
- =?utf-8?B?QzVmdTRRc1VHRE5RaVEzWGRBYTlNMXJHOVp6YWUzRWRuMHFXcjZpb0pzb3JY?=
- =?utf-8?B?d3RKRXNmKzhKWnR0bUNrajlEdmh2SW44SCtyQWNRdmZHZ3hiQ3Nla0d0dWhM?=
- =?utf-8?B?Q2pQZE0yK1E0c3g2WHBMamZoYnJtdlBkQnhmTWtOdFdtTDViU2J1WFUvLzhy?=
- =?utf-8?B?WC82d0MvellqbG9sWW5XeVdMVjlKQ0cxNXhFVmZiVzJFY3p3bHNOQk8xS041?=
- =?utf-8?B?eXRpSUFWM2RuWDlnWG9jd1FPZGs5aG1ySXFRTWRONnQ5dkhET204UXErd2l0?=
- =?utf-8?B?blFSOWtkakZrUkNoY1VrU0draW56Q2IwTzlKbjNJbUJPOUJkTXZCUnBHY2JK?=
- =?utf-8?B?WkFwVnN0UEU3RmlyYk9qOFNScnc4L1plQkw0S1BjRHJxczZ4U3B1Tnl5bjZ0?=
- =?utf-8?B?L2M4TXVuZFVIOXB4V3B1QTR2STBpZkoxVTgyZGRnWU4wV3kzanc4S1pzQlM5?=
- =?utf-8?B?Z3RVTFA5U0ZRYlVHS0JvM3k2a0ZsQW1RZDJuT0FiUG5GZlBVYlB3NU1USlRo?=
- =?utf-8?B?T1AwbUNqUndZcXRjZ1UvaW55SXYxS0lLaWRVZ1JRWHdqSERObVZjc3h3RktF?=
- =?utf-8?B?cFluZVVpSExnZjV5eENXZmxFYU1NbDJraVVVaGxrVEhNdFpKSFpSZUVCQTg5?=
- =?utf-8?B?VGRqN0liejB1cC9jQzA3dDNibXo5N0dlYVcydmlBYyt4Tnp0SlIxZ3dIckpW?=
- =?utf-8?B?VHBuM1dVOTFkT0tHdzRVWVJWaWxjdENNL3p6YXBwcGxWS0I5Y2Y2aXdoV1hP?=
- =?utf-8?B?NjNMNTlGdHRrZ1FGczV0TjVDODRmR21ucHhFKzZFVGtKUWFqVEVWOEc5alRY?=
- =?utf-8?B?Q3pPK2IvTHoyYWcxblpFWmZhYnZpUnEzMTBqYmFlNnU3U3NSaHpDV2RseUpV?=
- =?utf-8?B?WGRmaE8ycmVNaFJDRTFGRERrQ1BPWnJadlpVVGR5WmlXZkJXU2daVDE1Q0pC?=
- =?utf-8?B?WVptbzFqZ09xVzQ1d0NIa044VHVwaThrRGQxNUJ4L0FJWldVSndSbWpCZUNT?=
- =?utf-8?B?UHdPNHFkS0pHQkJkZnlRTG1nZnQ4UFh3M0p0eUhEWnplNUxSL0loTDNXYVlz?=
- =?utf-8?B?NjF3OTdZZnYvVjJGV1Q4bUFIRFU3a1dBRklocjZFM2tCMFkwclVISXljVXBm?=
- =?utf-8?B?V2tieGZWWnpUL3lEbDNmYmJBUGQxMHFJektEdmhCWlp3WVJFT3lya1k4SXVW?=
- =?utf-8?B?YWhWa3BSaVYrdWg2WXFoY1ZMV1IyZ3Z5YUtlM3BkZkV4ZGEvaWxBMkY1ZVFQ?=
- =?utf-8?B?ekNXUjVQMHpkdTc3RjNnK2ZlOFJvMnJYZm1OQzUwQXcwYS82U1dWcnFUL3lB?=
- =?utf-8?B?WjA3K2pSZ1Vlb09VVmZRcWZyUzdWSm03aVY0eUpGUW9qR1VnWWZGeHVYRTNT?=
- =?utf-8?B?RWEyTUJFU0lwcFV1VExBWllEZm42cGRoT01GaUpPdnpNWXFOUkFNQkxTOVFr?=
- =?utf-8?B?eFo2RnZoU0pITENzcEJlVzBmVmEzb0Q1d0hlV1BGMnArYlB6emYrMEVjd1cr?=
- =?utf-8?B?SXNXUnQxRk9tMHpDdVMrNmdURGhFaUJOSnlZUThteXA3eFRCcTk0WFZIdkVZ?=
- =?utf-8?B?TlE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <5849959730B6A6409116756762CAAE9E@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ 2023 06:24:52 +0000
+Received: from DB5EUR01FT059.eop-EUR01.prod.protection.outlook.com
+ (2603:10a6:6:2a:cafe::1) by DB6PR07CA0062.outlook.office365.com
+ (2603:10a6:6:2a::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.6 via Frontend
+ Transport; Fri, 19 May 2023 06:24:52 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 194.138.21.76)
+ smtp.mailfrom=siemens.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=siemens.com;
+Received-SPF: Pass (protection.outlook.com: domain of siemens.com designates
+ 194.138.21.76 as permitted sender) receiver=protection.outlook.com;
+ client-ip=194.138.21.76; helo=hybrid.siemens.com; pr=C
+Received: from hybrid.siemens.com (194.138.21.76) by
+ DB5EUR01FT059.mail.protection.outlook.com (10.152.4.164) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6411.16 via Frontend Transport; Fri, 19 May 2023 06:24:52 +0000
+Received: from DEMCHDC8WBA.ad011.siemens.net (139.25.226.105) by
+ DEMCHDC8VSA.ad011.siemens.net (194.138.21.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.25; Fri, 19 May 2023 08:24:51 +0200
+Received: from md3hr6tc.ad001.siemens.net (139.22.107.140) by
+ DEMCHDC8WBA.ad011.siemens.net (139.25.226.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.25; Fri, 19 May 2023 08:24:50 +0200
+From: Andrej Valek <andrej.valek@siemens.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <mikko.rapeli@linaro.org>, Andrej Valek <andrej.valek@siemens.com>
+Subject: [OE-core][PATCH v3 2/3] oeqa/selftest/cve_check: add check for optional "reason" value
+Date: Fri, 19 May 2023 08:24:19 +0200
+Message-ID: <20230519062420.37015-2-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230505111814.491483-1-andrej.valek@siemens.com>
+References: <20230505111814.491483-1-andrej.valek@siemens.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB6418.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 98947e42-b356-489b-3106-08db5803c5c0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 May 2023 00:55:42.8775
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [139.22.107.140]
+X-ClientProxiedBy: DEMCHDC8WAA.ad011.siemens.net (139.25.226.104) To
+ DEMCHDC8WBA.ad011.siemens.net (139.25.226.105)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB5EUR01FT059:EE_|AS1PR10MB5240:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1a96bd67-6055-42d9-efff-08db5831c146
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	4f7btyKcy2S4BJjNthUbJILPsYggpyujFimVg3BRoLTaSx1CVFIC4QzekKTznR/L0ypOCdkAZ0891ULpmOeyqaKAdHtEGBkeUyrV1mKbW3WPuNyiEnHt/IdG16qxD7HxR7yGTo3UXHiwqjaBRIaEYNiUEzABzS2N6kdHLbCjFjGKyz7mkJSbZ8uQ9PePYteP6WBw1EJK7E2l8MyxxJHHqVsjmIbk+XwXnev1b7IhgaOLXDGVHJkxxJ0nt6vaQ9NgUBzPj/sOTpNUhJzE9uW204NdmD54cUcVduE39VWZA+lZpAwsxws/2pTP6aU1inXOsJMC8ZVSfy2yX9a+yq2RhCF1MiCU4xl1evNwSXYVt8v50X/BbtuNuEx0LdbiWa60j8uquClh4kTgm0dA0S7kFz1eHb2RnhLQIuiLaJTlk4YQWLXGyMv1Kb6/Z+rLmabjBgSt3MiLJA+Hn2zfH/Snk4kDQGTPR682qaqWi42s/5QcWGDO/JqaOAnrExn1GtPs4lxpbegYH2lzTnbVfR9+QrLd/lzgVBoGojLhyq+M0nZkvHmVxgG0wLO+P34M+vtUesasOfjnPKbWmLMCECA6dNrLRL+w1A+XGoxxfGMPj5evXSIdmkKv0zFh3Vn/8HT4BpJfDs3MtxN9mexElYgpOy6pD9oyv7VmwrvdeCUidLsoMWTfruuhtODytH0Yec6/K7EaW91qw82W+o2NFGN+SZSXtifxgTmwZsubuOAMIBiVDxmvEEiaJE2jsKtO2C+lt8/vhJm9Vor9+9GPBVflYA==
+X-Forefront-Antispam-Report: 
+	CIP:194.138.21.76;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hybrid.siemens.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(396003)(136003)(39860400002)(451199021)(36840700001)(46966006)(40470700004)(47076005)(41300700001)(36860700001)(8936002)(107886003)(2906002)(8676002)(26005)(40460700003)(6666004)(356005)(1076003)(6916009)(40480700001)(82960400001)(70586007)(83380400001)(82740400003)(54906003)(70206006)(16526019)(478600001)(186003)(44832011)(336012)(82310400005)(316002)(2616005)(4326008)(5660300002)(956004)(36756003)(86362001)(81166007)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2023 06:24:52.1616
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: n9OjE4DX10yFDmqmk94+i0bUz5UK8MG47wgNSbfqxuNVpM/CvgYVMqoNuQfxF2OuXJfd7SRbexYDqH6T+Zr6DQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB5875
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a96bd67-6055-42d9-efff-08db5831c146
+X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;Ip=[194.138.21.76];Helo=[hybrid.siemens.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5EUR01FT059.eop-EUR01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR10MB5240
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 May 2023 00:55:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181530
+ <openembedded-core@lists.openembedded.org>; Fri, 19 May 2023 06:24:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181532
 
-T24gVGh1LCAyMDIzLTA1LTE4IGF0IDEyOjA5ICswMDAwLCBSb3NzIEJ1cnRvbiB3cm90ZToNCj4g
-T24gMTggTWF5IDIwMjMsIGF0IDAzOjMxLCBBbnVqIE1pdHRhbCB2aWEgbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZw0KPiA8YW51ai5taXR0YWw9aW50ZWwuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+
-IHdyb3RlOg0KPiA+IHJlbmFtZSBtZXRhL3JlY2lwZXMtY29yZS9nbGliLW5ldHdvcmtpbmcve2ds
-aWItbmV0d29ya2luZ18yLjc0LjAuYmINCj4gPiA9PiBnbGliLW5ldHdvcmtpbmdfMi43Ni4wLmJi
-fSAoOTUlKQ0KPiANCj4gcGFja2FnZXMvY29ydGV4YTU3LXBva3ktbGludXgvZ2xpYi1uZXR3b3Jr
-aW5nL2dsaWItbmV0d29ya2luZzoNCj4gRklMRUxJU1Q6IHJlbW92ZWQgIi91c3IvbGliL2dpby9t
-b2R1bGVzL2xpYmdpb2Vudmlyb25tZW50cHJveHkuc2/igJ0NCj4gDQo+IFVwc3RyZWFtIGNoYW5n
-ZWQgdGhlIGZlYXR1cmVzIHF1aXRlIGRyYW1hdGljYWxseSwgbHVja2lseSBJIGhhdmUgYQ0KPiBz
-ZXJpZXMgdG8gaGFuZCB0byBmaXggdGhpcyB0aGF0IEkgY2FuIGZpbmlzaCB0b2RheS4NCj4gDQoN
-ClRoYW5rcyBhIGxvdCBSb3NzLiBJIGhhZCBub3RpY2VkIHRoaXMgaW4gYnVpbGRoaXN0b3J5LWRp
-ZmYgYW5kIHRob3VnaHQNCnRoYXQgeW91ciBjaGFuZ2VzIGluIG1hc3Rlci1uZXh0IHdvdWxkIGJl
-IHN1ZmZpY2llbnQgdG8gcmVzb2x2ZSB0aGlzLg0KDQpodHRwczovL2dpdC55b2N0b3Byb2plY3Qu
-b3JnL3Bva3ktY29udHJpYi9jb21taXQvP2g9YWJlbGxvbmkvbWFzdGVyLW5leHQmaWQ9NTM0NTgw
-YzFiMmZmNTE1NGIxMzk4ZTVhODE5ZTEzZTZjYmZlZjdkYw0KDQpEbyB5b3UgaGF2ZSBvdGhlciBj
-aGFuZ2VzIGFzIHdlbGw/DQoNClRoYW5rcywNCg0KQW51ag0K
+- After introducing the CVE_STATUS_REASONING flag variable, CVEs could
+contain a reason for assigned statuses.
+- Add an example conversion in logrotate recipe.
+
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+---
+ meta/lib/oeqa/selftest/cases/cve_check.py     | 20 ++++++++++++++-----
+ .../logrotate/logrotate_3.21.0.bb             |  6 ++++--
+ 2 files changed, 19 insertions(+), 7 deletions(-)
+
+diff --git a/meta/lib/oeqa/selftest/cases/cve_check.py b/meta/lib/oeqa/self=
+test/cases/cve_check.py
+index 9534c9775c8..ea37beba031 100644
+--- a/meta/lib/oeqa/selftest/cases/cve_check.py
++++ b/meta/lib/oeqa/selftest/cases/cve_check.py
+@@ -207,18 +207,28 @@ CVE_CHECK_REPORT_PATCHED =3D "1"
+             self.assertEqual(len(report["package"]), 1)
+             package =3D report["package"][0]
+             self.assertEqual(package["name"], "logrotate")
+-            found_cves =3D { issue["id"]: issue["status"] for issue in pac=
+kage["issue"]}
++            found_cves =3D {}
++            for issue in package["issue"]:
++                found_cves[issue["id"]] =3D {
++                    "status" : issue["status"],
++                    "reason" : issue["reason"] if "reason" in issue else "=
+"
++                }
+             # m4 CVE should not be in logrotate
+             self.assertNotIn("CVE-2008-1687", found_cves)
+             # logrotate has both Patched and Ignored CVEs
+             self.assertIn("CVE-2011-1098", found_cves)
+-            self.assertEqual(found_cves["CVE-2011-1098"], "Patched")
++            self.assertEqual(found_cves["CVE-2011-1098"]["status"], "Patch=
+ed")
++            self.assertEqual(len(found_cves["CVE-2011-1098"]["reason"]), 0=
+)
++            reason =3D "CVE is debian, gentoo or SUSE specific on the way =
+logrotate was installed/used"
+             self.assertIn("CVE-2011-1548", found_cves)
+-            self.assertEqual(found_cves["CVE-2011-1548"], "Ignored")
++            self.assertEqual(found_cves["CVE-2011-1548"]["status"], "Ignor=
+ed")
++            self.assertEqual(found_cves["CVE-2011-1548"]["reason"], reason=
+)
+             self.assertIn("CVE-2011-1549", found_cves)
+-            self.assertEqual(found_cves["CVE-2011-1549"], "Ignored")
++            self.assertEqual(found_cves["CVE-2011-1549"]["status"], "Ignor=
+ed")
++            self.assertEqual(found_cves["CVE-2011-1549"]["reason"], reason=
+)
+             self.assertIn("CVE-2011-1550", found_cves)
+-            self.assertEqual(found_cves["CVE-2011-1550"], "Ignored")
++            self.assertEqual(found_cves["CVE-2011-1550"]["status"], "Ignor=
+ed")
++            self.assertEqual(found_cves["CVE-2011-1550"]["reason"], reason=
+)
+=20
+         self.assertExists(summary_json)
+         check_m4_json(summary_json)
+diff --git a/meta/recipes-extended/logrotate/logrotate_3.21.0.bb b/meta/rec=
+ipes-extended/logrotate/logrotate_3.21.0.bb
+index 87c0d9ae60f..633987ceed6 100644
+--- a/meta/recipes-extended/logrotate/logrotate_3.21.0.bb
++++ b/meta/recipes-extended/logrotate/logrotate_3.21.0.bb
+@@ -16,8 +16,10 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar=
+.xz \
+=20
+ SRC_URI[sha256sum] =3D "8fa12015e3b8415c121fc9c0ca53aa872f7b0702f543afda7e=
+32b6c4900f6516"
+=20
+-# These CVEs are debian, gentoo or SUSE specific on the way logrotate was =
+installed/used
+-CVE_CHECK_IGNORE +=3D "CVE-2011-1548 CVE-2011-1549 CVE-2011-1550"
++CVE_STATUS_GROUPS =3D "CVE_STATUS_RECIPE"
++CVE_STATUS_RECIPE =3D "CVE-2011-1548 CVE-2011-1549 CVE-2011-1550"
++CVE_STATUS_RECIPE[status] =3D "Ignored"
++CVE_STATUS_RECIPE[reason] =3D "CVE is debian, gentoo or SUSE specific on t=
+he way logrotate was installed/used"
+=20
+ PACKAGECONFIG ?=3D "${@bb.utils.filter('DISTRO_FEATURES', 'acl selinux', d=
+)}"
+=20
+--=20
+2.40.1
+
 
