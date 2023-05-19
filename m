@@ -2,161 +2,171 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37190C7EE2A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33424C77B75
 	for <webhook@archiver.kernel.org>; Fri, 19 May 2023 14:38:59 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.28074.1684507128972907283
+ by mx.groups.io with SMTP id smtpd.web11.28013.1684507129319410394
  for <openembedded-core@lists.openembedded.org>;
  Fri, 19 May 2023 07:38:49 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EA72E1FB;
-	Fri, 19 May 2023 07:39:32 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 98FC82F4;
+	Fri, 19 May 2023 07:39:33 -0700 (PDT)
 Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 9D8873F793;
-	Fri, 19 May 2023 07:38:47 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 4D88A3F793;
+	Fri, 19 May 2023 07:38:48 -0700 (PDT)
 From: ross.burton@arm.com
 To: openembedded-core@lists.openembedded.org
 Cc: nd@arm.com
-Subject: [PATCH 1/3] libcheck: add ghetto automake output
-Date: Fri, 19 May 2023 15:38:44 +0100
-Message-Id: <20230519143846.378675-1-ross.burton@arm.com>
+Subject: [PATCH 2/3] libnl: clean up ptest
+Date: Fri, 19 May 2023 15:38:45 +0100
+Message-Id: <20230519143846.378675-2-ross.burton@arm.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230519143846.378675-1-ross.burton@arm.com>
+References: <20230519143846.378675-1-ross.burton@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 19 May 2023 14:38:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181553
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181554
 
 From: Ross Burton <ross.burton@arm.com>
 
----
- .../libcheck/libcheck/automake-output.patch   | 82 +++++++++++++++++++
- .../libcheck/libcheck_0.15.2.bb               |  2 +-
- 2 files changed, 83 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/libcheck/libcheck/automake-outpu=
-t.patch
+libnl builds lots of test-* binaries but these are for manual testing
+purposes.  Instead, the test suite is entirely contained in the
+check-all binary.
 
-diff --git a/meta/recipes-support/libcheck/libcheck/automake-output.patch=
- b/meta/recipes-support/libcheck/libcheck/automake-output.patch
-new file mode 100644
-index 00000000000..c860f0cc0f4
---- /dev/null
-+++ b/meta/recipes-support/libcheck/libcheck/automake-output.patch
-@@ -0,0 +1,82 @@
-+Add optional output in automake style, for integration with ptest.
-+Export CK_AUTOMAKE=3D1 when running a test suite and you'll get
-+PASS/FAIL lines on standard output.
-+
-+Marking this as Inappropriate right now as it's a little rough on the
-+edges. Filed https://github.com/libcheck/check/issues/349 to discuss
-+with upstream.
-+
-+Upstream-Status: Inappropriate
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+diff --git a/src/check_log.c b/src/check_log.c
-+index 0844661..ad23c65 100644
-+--- a/src/check_log.c
-++++ b/src/check_log.c
-+@@ -26,6 +26,7 @@
-+ #if ENABLE_SUBUNIT
-+ #include <subunit/child.h>
-+ #endif
-++#include <libgen.h>
-+=20
-+ #include "check_error.h"
-+ #include "check_list.h"
-+@@ -381,6 +382,34 @@ void tap_lfun(SRunner * sr CK_ATTRIBUTE_UNUSED, FIL=
-E * file,
-+     }
-+ }
-+=20
-++void am_lfun(SRunner * sr CK_ATTRIBUTE_UNUSED, FILE * file,
-++             enum print_output printmode CK_ATTRIBUTE_UNUSED, void *obj=
-,
-++             enum cl_event evt)
-++{
-++    TestResult *tr;
-++    const char* types[] =3D { "INVALID", "PASS", "FAIL", "ERROR"};
-++
-++    switch (evt)
-++    {
-++        case CLINITLOG_SR:
-++        case CLENDLOG_SR:
-++        case CLSTART_SR:
-++        case CLSTART_S:
-++        case CLEND_SR:
-++        case CLEND_S:
-++        case CLSTART_T:
-++            break;
-++        case CLEND_T:
-++            tr =3D (TestResult *)obj;
-++            fprintf(file, "%s: %s:%s:%s %s\n",
-++                    types[tr->rtype], basename(tr->file), tr->tcname, t=
-r->tname, tr->msg);
-++            fflush(file);
-++            break;
-++        default:
-++            eprintf("Bad event type received in am_lfun", __FILE__, __L=
-INE__);
-++    }
-++}
-++
-+ #if ENABLE_SUBUNIT
-+ void subunit_lfun(SRunner * sr, FILE * file, enum print_output printmod=
-e,
-+                   void *obj, enum cl_event evt)
-+@@ -527,6 +556,9 @@ void srunner_init_logging(SRunner * sr, enum print_o=
-utput print_mode)
-+     {
-+         srunner_register_lfun(sr, f, f !=3D stdout, tap_lfun, print_mod=
-e);
-+     }
-++    if (getenv("CK_AUTOMAKE"))
-++        srunner_register_lfun(sr, stdout, 0, am_lfun, print_mode);
-++
-+     srunner_send_evt(sr, NULL, CLINITLOG_SR);
-+ }
-+=20
-+diff --git a/src/check_log.h b/src/check_log.h
-+index 7223b98..bfe1de3 100644
-+--- a/src/check_log.h
-++++ b/src/check_log.h
-+@@ -40,6 +40,9 @@ void xml_lfun(SRunner * sr, FILE * file, enum print_ou=
-tput,
-+ void tap_lfun(SRunner * sr, FILE * file, enum print_output,
-+               void *obj, enum cl_event evt);
-+=20
-++void am_lfun(SRunner * sr, FILE * file, enum print_output,
-++             void *obj, enum cl_event evt);
-++
-+ void subunit_lfun(SRunner * sr, FILE * file, enum print_output,
-+                   void *obj, enum cl_event evt);
-+=20
-diff --git a/meta/recipes-support/libcheck/libcheck_0.15.2.bb b/meta/reci=
-pes-support/libcheck/libcheck_0.15.2.bb
-index 83f3c3f46ef..5ab67b87286 100644
---- a/meta/recipes-support/libcheck/libcheck_0.15.2.bb
-+++ b/meta/recipes-support/libcheck/libcheck_0.15.2.bb
-@@ -11,6 +11,7 @@ LICENSE  =3D "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM =3D "file://COPYING.LESSER;md5=3D2d5025d4aa3495befef8f1=
-7206a5b0a1"
-=20
- SRC_URI =3D "${GITHUB_BASE_URI}/download/${PV}/check-${PV}.tar.gz \
-+           file://automake-output.patch \
-            file://not-echo-compiler-info-to-check_stdint.h.patch"
- SRC_URI[sha256sum] =3D "a8de4e0bacfb4d76dd1c618ded263523b53b85d92a146d88=
-35eb1a52932fa20a"
- GITHUB_BASE_URI =3D "https://github.com/libcheck/check/releases/"
-@@ -33,4 +34,3 @@ PACKAGES =3D+ "checkmk"
- FILES:checkmk =3D "${bindir}/checkmk"
-=20
- RDEPENDS:checkmk =3D "gawk"
+Clean up the compilation by simply building check-all, and install it
+with libtool so the binary is installed correctly.
+
+There is no need to RDEPEND on libcheck as that happens automatically,
+and the rpath workaround appears to be obsolete.
+
+Finally rewrite run-ptest to invoke the test directly, and use the new
+automake-style output that has been added to libcheck.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ .../libnl/files/enable-serial-tests.patch     | 29 -------------------
+ meta/recipes-support/libnl/files/run-ptest    | 17 ++---------
+ meta/recipes-support/libnl/libnl_3.7.0.bb     | 20 +++----------
+ 3 files changed, 6 insertions(+), 60 deletions(-)
+ delete mode 100644 meta/recipes-support/libnl/files/enable-serial-tests.=
+patch
+
+diff --git a/meta/recipes-support/libnl/files/enable-serial-tests.patch b=
+/meta/recipes-support/libnl/files/enable-serial-tests.patch
+deleted file mode 100644
+index db774ad8217..00000000000
+--- a/meta/recipes-support/libnl/files/enable-serial-tests.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From b1476d89bf7a0bc6062438731ee4e9026696328b Mon Sep 17 00:00:00 2001
+-From: Eric Xu <chi.xu@windriver.com>
+-Date: Fri, 9 Mar 2018 03:38:49 +0000
+-Subject: [PATCH] Add ptest for libnl
 -
+-serial-tests is required to generate those targets.
+-
+-Upstream-Status: Inappropriate [oe-specific]
+-Signed-off-by: Eric Xu <chi.xu@windriver.com>
+----
+- configure.ac | 2 +-
+- 1 files changed, 1 insertion(+), 1 deletions(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index dfead98..2cc8257 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -46,7 +46,7 @@ AC_INIT(libnl, [libnl_version], [], [], [http://www.in=
+fradead.org/~tgr/libnl/])
+- AC_CONFIG_HEADERS([lib/defs.h])
+- AC_CONFIG_AUX_DIR([build-aux])
+- AC_CONFIG_MACRO_DIR([m4])
+--AM_INIT_AUTOMAKE([-Wall foreign subdir-objects])
+-+AM_INIT_AUTOMAKE([-Wall foreign subdir-objects serial-tests])
+- m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES(yes)], [])
+- m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
+-=20
+---=20
+-2.13.3
+-
+diff --git a/meta/recipes-support/libnl/files/run-ptest b/meta/recipes-su=
+pport/libnl/files/run-ptest
+index e5c9eb0a328..0d0c665cd22 100755
+--- a/meta/recipes-support/libnl/files/run-ptest
++++ b/meta/recipes-support/libnl/files/run-ptest
+@@ -1,16 +1,3 @@
+-#!/bin/sh
++#! /bin/sh
+=20
+-num_fail=3D0
+-
+-for test in check*
+-do
+-    ./"$test" \
+-         && echo "PASS: $test" \
+-         || {
+-            echo "FAIL: $test"
+-            num_fail=3D$(( ${num_fail} + 1))
+-         }
+-
+-done
+-
+-exit $num_fail
++CK_AUTOMAKE=3D1 ./check-all
+diff --git a/meta/recipes-support/libnl/libnl_3.7.0.bb b/meta/recipes-sup=
+port/libnl/libnl_3.7.0.bb
+index ef286a6429d..38d21ffe9c9 100644
+--- a/meta/recipes-support/libnl/libnl_3.7.0.bb
++++ b/meta/recipes-support/libnl/libnl_3.7.0.bb
+@@ -15,7 +15,6 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd=
+255951079008b364516c"
+ DEPENDS =3D "flex-native bison-native"
+=20
+ SRC_URI =3D "${GITHUB_BASE_URI}/download/${BPN}${@d.getVar('PV').replace=
+('.','_')}/${BP}.tar.gz \
+-           file://enable-serial-tests.patch \
+            file://run-ptest \
+            "
+=20
+@@ -51,26 +50,15 @@ FILES:${PN}-xfrm  =3D "${libdir}/libnl-xfrm-3.so.*"
+ RREPLACES:${PN}-genl =3D "libnl-genl2"
+ RCONFLICTS:${PN}-genl =3D "libnl-genl2"
+=20
+-RDEPENDS:${PN}-ptest +=3D "libcheck"
+-RRECOMMENDS:${PN}-ptest +=3D "kernel-module-dummy kernel-module-bonding"
+ DEPENDS +=3D "${@bb.utils.contains('PTEST_ENABLED', '1', 'libcheck', '',=
+ d)}"
+-
+-# make sure the tests don't link against wrong so file
+-EXTRA_OECONF +=3D "${@bb.utils.contains('PTEST_ENABLED', '1', '--disable=
+-rpath', '', d)}"
++RRECOMMENDS:${PN}-ptest +=3D "kernel-module-dummy kernel-module-bonding"
+=20
+ do_compile_ptest() {
+-    # hack to remove the call to `make runtest-TESTS`
+-    sed -i 's/$(MAKE) $(AM_MAKEFLAGS) runtest-TESTS//g' Makefile
+-    oe_runmake check
++    oe_runmake ./tests/check-all
+ }
+=20
+-do_install_ptest(){
+-    # legacy? tests are also installed, but ptest-runner will not run th=
+em
+-    # upstream are not running these tests in their CI pipeline
+-    # issue opened https://github.com/thom311/libnl/issues/270
+-    install -m 0755 tests/.libs/* ${D}${PTEST_PATH}/
+-    # contains build paths
+-    rm ${D}${PTEST_PATH}/*.la
++do_install_ptest() {
++    ./libtool install install ./tests/check-all ${D}${PTEST_PATH}/
+ }
+=20
+ BBCLASSEXTEND =3D "native nativesdk"
 --=20
 2.34.1
 
