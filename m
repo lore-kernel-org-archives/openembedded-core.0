@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52EE2C7EE26
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B0F8C7EE31
 	for <webhook@archiver.kernel.org>; Mon, 22 May 2023 17:26:45 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web11.1279.1684776402133031852
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web10.1201.1684776399263575333
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 May 2023 10:26:42 -0700
+ Mon, 22 May 2023 10:26:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=pzNCWnii;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-96f6e83e12fso551340566b.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 May 2023 10:26:41 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=U0/3c5Ya;
+ spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-50bcb4a81ceso11257851a12.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 May 2023 10:26:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684776400; x=1687368400;
+        d=gmail.com; s=20221208; t=1684776398; x=1687368398;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oA61auFlG2c9HtJY8ylwLtxxPOk92Nqhn77gfHhChjM=;
-        b=pzNCWniijw4eFVlXez9OY6cvts4OpkxHRSPCRzLfF0/eewEI7q42+VkxuparWF/Tt+
-         naUzWJzDwHQGRxljJ2xwVWT5r0TlCyhPSul1jSbbbId8uU+rrGGzunESRoEtsnERHykT
-         tmsZTNAQV0vh/tsHuIvS7dJzFy94fzOKr49c2i4p5K12gaIkjQl25c1DX3KmRAiwDl2M
-         z4S6Jvx2xEw8QfQNuOOqruTwHNgf5lBjn9SWrE8xz2Nez5+HG13qIfDdg9eUvAaTBDCx
-         YFmXyAgaL8IjtK2Ml1wztw11kThpeHa7e7Ou+jxxy/UEkX9f+0nWDeGHuXYtkyoFTqbk
-         xbeA==
+        bh=bTqGsmTLtPHRv3R2rzpMDI52TR/p9Tqrpmv/Y2tptrk=;
+        b=U0/3c5YaaQlI1RBOLz7UkDK0PzN4ACjFaTb+yJX0PPrLBOX0Bx9Tb4wHaOZV6wewME
+         YHW/T0ix56PBRtuqOvGAlt1WaNtHLYU2jdWGAG4//mhzNPjT7NAT0fepwM/xJgh6SCrh
+         G4J+dWKStpmIFOMGpG/7EZP9DZTmH/heNB4v0V7Al703htpZy+/OrHUsffjX68hFciiQ
+         1u/JGZ3p64s3vgy2VUVz5Qwn/P9CFQiJfVXMcMA86fJpu41eFhpjwZaS59NlsKk7ps2o
+         Cuf4+ZqOVCTOb2L3jzBLJKMyOAjUKagATX1Zsmjr26ZOdYt1/kHHPDRGaF90LbhaGfO6
+         1A2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684776400; x=1687368400;
+        d=1e100.net; s=20221208; t=1684776398; x=1687368398;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oA61auFlG2c9HtJY8ylwLtxxPOk92Nqhn77gfHhChjM=;
-        b=IlT1gzay/Gl4tJtvKWTZoGZnNMdUdlkITKuiC7Wy45kpCDy+KRTT3v1AcTliLc14uM
-         UzqVKz5YKjvE++5iEbLWS1vW4vb8YAm+kQVQc5GwVZt66TczliZyUJsinL8B2frPww6E
-         Tc7uu+hJ1lbGBnyQzSdyB1GafyPkxM6X+xvEsE9otbSPE9JBlgBYJKOUOl2+SaOXIJLd
-         PPiQb/83BVk9nTD3jklZ+JqctcyDjFqDMPGlktQk4QBIiTYSleAVGPnb7gK4ZTjeXsbp
-         tmngj8fWMtepZJdulntn6QA+Bn83HR7tNoLIIL0MsiKEuoSdzFCxTpz3nYR2osVi8kIk
-         TYtg==
-X-Gm-Message-State: AC+VfDz8/7GHlYJg4KVrWNUd6DmMFVV+wYUHJs80oImLOWZHBJLh/XDi
-	gnlBRh1BZTRrDaqh8nrchFGhcretou0=
-X-Google-Smtp-Source: ACHHUZ5SF31qr9ABPMCvO3whXksv0I5Z6T/RGQA7LVexU5ByTp+RGABYRHGJ9TGaaUl9C3OseILvfQ==
-X-Received: by 2002:a17:907:a42b:b0:96f:9cea:a346 with SMTP id sg43-20020a170907a42b00b0096f9ceaa346mr6511964ejc.1.1684776400180;
-        Mon, 22 May 2023 10:26:40 -0700 (PDT)
+        bh=bTqGsmTLtPHRv3R2rzpMDI52TR/p9Tqrpmv/Y2tptrk=;
+        b=Qz4z8Tf5mrYmyS+MruRTXb5WyiylwO3m+T0T83GQakfde/ng/puOS4+DZvGxuaPK6s
+         RhPM5LeHd3KAZql+c8hVqFj5BsNdyFLOuiU2iFo0tx7u+7hXcVYi7UyzeoGV9b44pdZM
+         e5D0IFBDT4dvS+ZhjZ3J2cgzonmTEFvNzKiyKxMQNdS8LN8eGDHWzDAOI9kxXmhvzF6/
+         1lsr7Ai9XHor/eFTHs16bRS94yK/NQWQc/Ci/IU/Yid2apPVPvyGbOVocNxiMiKxXyQc
+         zgbbhmHkkCX7ihohsmS/M9Xq9duHqUvdhLaBlYBSd49SW4PqxROw87Sgr41FboATTKuB
+         Ng6A==
+X-Gm-Message-State: AC+VfDwAa5YXf1FEdse51oNWIDTIZ3tCeKJzGfwqhP280LGI6Qo8U8AU
+	K1Wjc/zWaGIKzPeS4e87Wba8mRf+PU4=
+X-Google-Smtp-Source: ACHHUZ52upln6zKqI1U+1JgYhVW0sRy9cyScBhfhFPOE9zIQqic8xW7xrsDjTnNkvzM/PdDzJXHsWQ==
+X-Received: by 2002:a50:ee8f:0:b0:50c:646:cafd with SMTP id f15-20020a50ee8f000000b0050c0646cafdmr8637739edr.7.1684776397557;
+        Mon, 22 May 2023 10:26:37 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id c9-20020aa7c989000000b0050b2f588db6sm3124350edt.16.2023.05.22.10.26.39
+        by smtp.gmail.com with ESMTPSA id c9-20020aa7c989000000b0050b2f588db6sm3124350edt.16.2023.05.22.10.26.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 May 2023 10:26:39 -0700 (PDT)
+        Mon, 22 May 2023 10:26:37 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 8/8] valgrind: update 3.20.0 -> 3.21.0
-Date: Mon, 22 May 2023 19:25:03 +0200
-Message-Id: <20230522172503.1651374-8-alex@linutronix.de>
+Subject: [PATCH 3/8] apmd: remove recipe and apm MACHINE_FEATURE
+Date: Mon, 22 May 2023 19:24:58 +0200
+Message-Id: <20230522172503.1651374-3-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230522172503.1651374-1-alex@linutronix.de>
 References: <20230522172503.1651374-1-alex@linutronix.de>
@@ -62,549 +62,746 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 22 May 2023 17:26:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181608
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181603
 
-Drop patches merged upstream.
+APM has been obsolete for a very long time, and debian no longer
+packages it or carries the source tarball.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...01-drd-tests-Include-missing-cstdint.patch | 34 ----------
- ...efine-__THROW-if-not-already-defined.patch | 32 ---------
- ...inux-seg_override.c-add-missing-incl.patch | 30 ++++++++
- ...ck-x86-Define-__THROW-if-not-defined.patch | 32 ---------
- ...de-Replace-__modify_ldt-with-syscall.patch | 68 -------------------
- ...est-wrapper-to-support-PTEST-formats.patch | 52 +++++++-------
- .../valgrind/valgrind/fixed-perl-path.patch   | 38 ++---------
- ...{valgrind_3.20.0.bb => valgrind_3.21.0.bb} | 14 +---
- 8 files changed, 65 insertions(+), 235 deletions(-)
- delete mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-drd-tests-Include-missing-cstdint.patch
- delete mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-memcheck-arm64-Define-__THROW-if-not-already-defined.patch
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-none-tests-x86-linux-seg_override.c-add-missing-incl.patch
- delete mode 100644 meta/recipes-devtools/valgrind/valgrind/0002-memcheck-x86-Define-__THROW-if-not-defined.patch
- delete mode 100644 meta/recipes-devtools/valgrind/valgrind/0003-tests-seg_override-Replace-__modify_ldt-with-syscall.patch
- rename meta/recipes-devtools/valgrind/{valgrind_3.20.0.bb => valgrind_3.21.0.bb} (92%)
+ .../conf/distro/include/default-providers.inc |   1 -
+ meta/conf/distro/include/maintainers.inc      |   1 -
+ meta/recipes-bsp/apmd/apmd/apmd.service       |   7 -
+ meta/recipes-bsp/apmd/apmd/apmd_proxy         |  91 ------------
+ meta/recipes-bsp/apmd/apmd/apmd_proxy.conf    |  16 ---
+ meta/recipes-bsp/apmd/apmd/default            |   8 --
+ meta/recipes-bsp/apmd/apmd/init               |  51 -------
+ meta/recipes-bsp/apmd/apmd/legacy.patch       | 133 ------------------
+ meta/recipes-bsp/apmd/apmd/libtool.patch      |  41 ------
+ meta/recipes-bsp/apmd/apmd/linkage.patch      |  53 -------
+ meta/recipes-bsp/apmd/apmd/unlinux.patch      |  25 ----
+ meta/recipes-bsp/apmd/apmd/wexitcode.patch    |  26 ----
+ meta/recipes-bsp/apmd/apmd_3.2.2-15.bb        |  85 -----------
+ .../packagegroups/packagegroup-base.bb        |   7 -
+ .../matchbox-panel-2/matchbox-panel-2_2.12.bb |   2 -
+ .../matchbox-session-sato/session             |   1 -
+ .../matchbox-session-sato_0.1.bb              |   2 +-
+ 17 files changed, 1 insertion(+), 549 deletions(-)
+ delete mode 100644 meta/recipes-bsp/apmd/apmd/apmd.service
+ delete mode 100644 meta/recipes-bsp/apmd/apmd/apmd_proxy
+ delete mode 100644 meta/recipes-bsp/apmd/apmd/apmd_proxy.conf
+ delete mode 100644 meta/recipes-bsp/apmd/apmd/default
+ delete mode 100755 meta/recipes-bsp/apmd/apmd/init
+ delete mode 100644 meta/recipes-bsp/apmd/apmd/legacy.patch
+ delete mode 100644 meta/recipes-bsp/apmd/apmd/libtool.patch
+ delete mode 100644 meta/recipes-bsp/apmd/apmd/linkage.patch
+ delete mode 100644 meta/recipes-bsp/apmd/apmd/unlinux.patch
+ delete mode 100644 meta/recipes-bsp/apmd/apmd/wexitcode.patch
+ delete mode 100644 meta/recipes-bsp/apmd/apmd_3.2.2-15.bb
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-drd-tests-Include-missing-cstdint.patch b/meta/recipes-devtools/valgrind/valgrind/0001-drd-tests-Include-missing-cstdint.patch
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index 3a4e989c1f9..d18173c7449 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -24,7 +24,6 @@ PREFERRED_PROVIDER_virtual/make-native ?= "make-native"
+ # Default virtual runtime providers
+ #
+ VIRTUAL-RUNTIME_update-alternatives ?= "update-alternatives-opkg"
+-VIRTUAL-RUNTIME_apm ?= "apm"
+ VIRTUAL-RUNTIME_alsa-state ?= "alsa-state"
+ VIRTUAL-RUNTIME_getopt ?= "util-linux-getopt"
+ VIRTUAL-RUNTIME_base-utils ?= "busybox"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index e99fbe4aefb..30d211e4b08 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -38,7 +38,6 @@ RECIPE_MAINTAINER:pn-alsa-tools = "Michael Opdenacker <michael.opdenacker@bootli
+ RECIPE_MAINTAINER:pn-alsa-topology-conf = "Michael Opdenacker <michael.opdenacker@bootlin.com>"
+ RECIPE_MAINTAINER:pn-alsa-ucm-conf = "Michael Opdenacker <michael.opdenacker@bootlin.com>"
+ RECIPE_MAINTAINER:pn-alsa-utils = "Michael Opdenacker <michael.opdenacker@bootlin.com>"
+-RECIPE_MAINTAINER:pn-apmd = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-apr = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER:pn-apr-util = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER:pn-apt = "Unassigned <unassigned@yoctoproject.org"
+diff --git a/meta/recipes-bsp/apmd/apmd/apmd.service b/meta/recipes-bsp/apmd/apmd/apmd.service
 deleted file mode 100644
-index fbee24a5389..00000000000
---- a/meta/recipes-devtools/valgrind/valgrind/0001-drd-tests-Include-missing-cstdint.patch
+index ffab82334f9..00000000000
+--- a/meta/recipes-bsp/apmd/apmd/apmd.service
 +++ /dev/null
-@@ -1,34 +0,0 @@
--From 687d9fb9e3de832379680e9d5268331011c92afa Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Thu, 26 Jan 2023 08:53:26 -0800
--Subject: [PATCH] drd/tests: Include missing <cstdint>
+@@ -1,7 +0,0 @@
+-[Unit]
+-Description=Advanced Power Management daemon
+-After=remote-fs.target
 -
--gcc 13 moved some includes around and as a result <cstdint> is no longer
--transitively included [1]. Explicitly include it for uint{32,64}_t.
+-[Service]
+-EnvironmentFile=-@SYSCONFDIR@/default/apmd
+-ExecStart=@SBINDIR@/apmd -P @SYSCONFDIR@/apm/apmd_proxy $APMD
+diff --git a/meta/recipes-bsp/apmd/apmd/apmd_proxy b/meta/recipes-bsp/apmd/apmd/apmd_proxy
+deleted file mode 100644
+index c48ee4e5d5f..00000000000
+--- a/meta/recipes-bsp/apmd/apmd/apmd_proxy
++++ /dev/null
+@@ -1,91 +0,0 @@
+-#!/bin/sh
+-# 
+-# apmd_proxy - program dispatcher for APM daemon
+-#
+-# Written by Craig Markwardt (craigm@lheamail.gsfc.nasa.gov) 21 May 1999
+-# Modified for Debian by Avery Pennarun
+-#
+-# This shell script is called by the APM daemon (apmd) when a power
+-# management event occurs.  Its first and second arguments describe the
+-# event.  For example, apmd will call "apmd_proxy suspend system" just
+-# before the system is suspended.
+-#
+-# Here are the possible arguments:
+-#
+-# start              - APM daemon has started
+-# stop               - APM daemon is shutting down
+-# suspend critical   - APM system indicates critical suspend (++)
+-# suspend system     - APM system has requested suspend mode
+-# suspend user       - User has requested suspend mode
+-# standby system     - APM system has requested standby mode 
+-# standby user       - User has requested standby mode
+-# resume suspend     - System has resumed from suspend mode
+-# resume standby     - System has resumed from standby mode
+-# resume critical    - System has resumed from critical suspend
+-# change battery     - APM system reported low battery
+-# change power       - APM system reported AC/battery change
+-# change time        - APM system reported time change (*)
+-# change capability  - APM system reported config. change (+)
+-#
+-# (*) - APM daemon may be configured to not call these sequences
+-# (+) - Available if APM kernel supports it.
+-# (++) - "suspend critical" is never passed to apmd from the kernel,
+-#   so we will never see it here.  Scripts that process "resume
+-#   critical" events need to take this into account.
+-#
+-# It is the proxy script's responsibility to examine the APM status
+-# (via /proc/apm) or other status and to take appropriate actions.
+-# For example, the script might unmount network drives before the
+-# machine is suspended.
+-#
+-# In Debian, the usual way of adding functionality to the proxy is to
+-# add a script to /etc/apm/event.d.  This script will be called by
+-# apmd_proxy (via run-parts) with the same arguments.
+-#
+-# If it is important that a certain set of script be run in a certain
+-# order on suspend and in a different order on resume, then put all
+-# the scripts in /etc/apm/scripts.d instead of /etc/apm/event.d and
+-# symlink to these from /etc/apm/suspend.d, /etc/apm/resume.d and
+-# /etc/apm/other.d using names whose lexicographical order is the same
+-# as the desired order of execution.
+-#
+-# If the kernel's APM driver supports it, apmd_proxy can return a non-zero
+-# exit status on suspend and standby events, indicating that the suspend
+-# or standby event should be rejected.
+-#
+-# *******************************************************************
 -
--Fixes
--tsan_thread_wrappers_pthread.h:91:9: error: 'int64_t' does not name a type
+-set -e
 -
--[1] https://gcc.gnu.org/gcc-13/porting_to.html#header-dep-changes
+-# The following doesn't yet work, because current kernels (up to at least
+-# 2.4.20) do not support rejection of APM events.  Supporting this would
+-# require substantial modifications to the APM driver.  We will re-enable
+-# this feature if the driver is ever modified.       -- cph@debian.org
+-#
+-#SUSPEND_ON_AC=false
+-#[ -r /etc/apm/apmd_proxy.conf ] && . /etc/apm/apmd_proxy.conf
+-#
+-#if [ "${SUSPEND_ON_AC}" = "false" -a "${2}" = "system" ] \
+-#	&& on_ac_power >/dev/null; then
+-#    # Reject system suspends and standbys if we are on AC power
+-#    exit 1  # Reject (NOTE kernel support must be enabled)
+-#fi
 -
--Upstream-Status: Submitted [https://bugs.kde.org/show_bug.cgi?id=464859]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-if [ "${1}" = "suspend" -o "${1}" = "standby" ]; then
+-    run-parts -a "${1}" -a "${2}" /etc/apm/event.d
+-    if [ -d /etc/apm/suspend.d ]; then
+-        run-parts -a "${1}" -a "${2}" /etc/apm/suspend.d
+-    fi
+-elif [ "${1}" = "resume" ]; then
+-    if [ -d /etc/apm/resume.d ]; then
+-        run-parts -a "${1}" -a "${2}" /etc/apm/resume.d
+-    fi
+-    run-parts -a "${1}" -a "${2}" /etc/apm/event.d
+-else
+-    run-parts -a "${1}" -a "${2}" /etc/apm/event.d
+-    if [ -d /etc/apm/other.d ]; then
+-        run-parts -a "${1}" -a "${2}" /etc/apm/other.d
+-    fi
+-fi
+-
+-exit 0
+diff --git a/meta/recipes-bsp/apmd/apmd/apmd_proxy.conf b/meta/recipes-bsp/apmd/apmd/apmd_proxy.conf
+deleted file mode 100644
+index 751145c522c..00000000000
+--- a/meta/recipes-bsp/apmd/apmd/apmd_proxy.conf
++++ /dev/null
+@@ -1,16 +0,0 @@
+-# /etc/apm/apmd_proxy.conf: configuration file for apmd.
+-#
+-# This file is managed by debconf when installing or reconfiguring the
+-# package.  It is generated by merging the answers gathered by debconf
+-# into the template file "/usr/share/apmd/apmd_proxy.conf".
+-
+-# The following doesn't yet work, because current kernels (up to at least
+-# 2.4.20) do not support rejection of APM events.  Supporting this would
+-# require substantial modifications to the APM driver.  We will re-enable
+-# this feature if the driver is ever modified.       -- cph@debian.org
+-#
+-# Set the following to "false" if you want to reject system suspend or
+-# system standby requests when the computer is running on AC power.
+-# Otherwise set this to "true".  Such requests are never rejected when
+-# the computer is running on battery power.
+-#SUSPEND_ON_AC=true
+diff --git a/meta/recipes-bsp/apmd/apmd/default b/meta/recipes-bsp/apmd/apmd/default
+deleted file mode 100644
+index 4b7965abf85..00000000000
+--- a/meta/recipes-bsp/apmd/apmd/default
++++ /dev/null
+@@ -1,8 +0,0 @@
+-#
+-# Default for /etc/init.d/apmd
+-#
+-
+-# As apmd can be called with arguments, we use the following variable
+-# to store them, e.g., APMD="-w 5 -p 2".
+-# See the manual page apmd(8) for details.
+-APMD="--proxy-timeout 30"
+diff --git a/meta/recipes-bsp/apmd/apmd/init b/meta/recipes-bsp/apmd/apmd/init
+deleted file mode 100755
+index c0b41aa9d17..00000000000
+--- a/meta/recipes-bsp/apmd/apmd/init
++++ /dev/null
+@@ -1,51 +0,0 @@
+-#!/bin/sh
+-### BEGIN INIT INFO
+-# Provides:          apmd
+-# Required-Start:    $remote_fs
+-# Required-Stop:     $remote_fs
+-# Default-Start:     2 3 4 5
+-# Default-Stop:      0 1 6
+-# Short-Description: Advanced Power Management daemon
+-### END INIT INFO
+-
+-# Source function library.
+-. /etc/init.d/functions
+-
+-PATH=/bin:/usr/bin:/sbin:/usr/sbin
+-
+-[ -f /etc/default/rcS ] && . /etc/default/rcS
+-[ -f /etc/default/apmd ] && . /etc/default/apmd
+-
+-case "$1" in
+-    start)
+-	echo -n "Starting advanced power management daemon: "
+-	start-stop-daemon -S -x /usr/sbin/apmd -- \
+-		-P /etc/apm/apmd_proxy $APMD
+-	if [ $? = 0 ]; then
+-	    echo "apmd."
+-	else
+-	    echo "(failed.)"
+-	fi
+-	;;
+-    stop)
+-	echo -n "Stopping advanced power management daemon: "
+-	start-stop-daemon -K \
+-		-x /usr/sbin/apmd
+-	echo "apmd."
+-	;;
+-    status)
+-	status /usr/sbin/apmd;
+-	exit $?
+-	;;
+-    restart|force-reload) 
+-	$0 stop
+-	$0 start
+-	exit
+-	;;
+-    *)
+-	echo "Usage: /etc/init.d/apmd {start|stop|status|restart|force-reload}"
+-	exit 1
+-	;;
+-esac
+-
+-exit 0
+diff --git a/meta/recipes-bsp/apmd/apmd/legacy.patch b/meta/recipes-bsp/apmd/apmd/legacy.patch
+deleted file mode 100644
+index 88713118057..00000000000
+--- a/meta/recipes-bsp/apmd/apmd/legacy.patch
++++ /dev/null
+@@ -1,133 +0,0 @@
+-From 3595933d221f0ba836917debc0776b8723972ec9 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Tue, 11 Aug 2015 17:40:50 +0300
+-Subject: [PATCH 1/3] Patch with fixes provided by Debian.
+-
+-This patch is taken from
+-ftp://ftp.debian.org/debian/pool/main/a/apmd/apmd_3.2.2-15.debian.tar.xz
+-
+-Upstream-Status: Inappropriate [upstream is dead]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
 ----
-- drd/tests/tsan_thread_wrappers_pthread.h | 1 +
-- 1 file changed, 1 insertion(+)
+- Makefile |  2 +-
+- apm.c    |  3 ++-
+- apm.h    |  9 +++++++++
+- apmd.c   | 15 ++++++++-------
+- 4 files changed, 20 insertions(+), 9 deletions(-)
 -
--diff --git a/drd/tests/tsan_thread_wrappers_pthread.h b/drd/tests/tsan_thread_wrappers_pthread.h
--index f15e6ad..4cc8062 100644
----- a/drd/tests/tsan_thread_wrappers_pthread.h
--+++ b/drd/tests/tsan_thread_wrappers_pthread.h
--@@ -55,6 +55,7 @@
-- #define NO_TLS
+-diff --git a/Makefile b/Makefile
+-index bf346d9..92fc0fd 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -43,7 +43,7 @@ DESTDIR=
+- 
+- CC=gcc
+- CFLAGS=-O -g
+--XTRACFLAGS=-Wall -pipe -I. -I/usr/src/linux/include \
+-+XTRACFLAGS=-Wall -pipe -I. -I/usr/src/linux/include -I/usr/X11R6/include \
+- 		-I/usr/src/linux-2.2/include -I /usr/src/linux-2.0/include \
+- 		-DVERSION=\"$(VERSION)\" \
+- 		-DDEFAULT_PROXY_NAME=\"$(PROXY_DIR)/apmd_proxy\"
+-diff --git a/apm.c b/apm.c
+-index b21c057..0359b1c 100644
+---- a/apm.c
+-+++ b/apm.c
+-@@ -219,12 +219,13 @@ int main(int argc, char **argv)
+- 		}
+- 	}
+- 													    
+--
+-+#if 0
+-     if (!(i.apm_flags & APM_32_BIT_SUPPORT))
+-     {
+- 	fprintf(stderr, "32-bit APM interface not supported\n");
+- 	exit(1);
+-     }
+-+#endif
+- 
+-     if (verbose && (i.apm_flags & 0x10))
+- 	printf("APM BIOS Power Management is currently disabled\n");
+-diff --git a/apm.h b/apm.h
+-index fb24dfd..824cc06 100644
+---- a/apm.h
+-+++ b/apm.h
+-@@ -20,6 +20,13 @@
+-  * $Id: apm.h,v 1.7 1999/07/05 22:31:11 apenwarr Exp $
+-  * 
+-  */
+-+#ifndef _APM_H
+-+#define _APM_H 1
+-+
+-+#ifndef __KERNEL_STRICT_NAMES
+-+#define __KERNEL_STRICT_NAMES
+-+#endif
+-+
+- #include <linux/apm_bios.h>
+- #include <sys/types.h>
+- 
+-@@ -93,3 +100,5 @@ extern int apm_reject(int fd);
+- #else
+- #define apm_reject(fd)   (-EINVAL)
+- #endif
+-+
+-+#endif
+-diff --git a/apmd.c b/apmd.c
+-index 49ed3a1..560f536 100644
+---- a/apmd.c
+-+++ b/apmd.c
+-@@ -343,7 +343,7 @@ static int call_proxy(apm_event_t event)
+- 		/* parent */
+- 		int status, retval;
+- 		ssize_t len;
+--		time_t time_limit;
+-+		time_t countdown;
+- 
+- 		if (pid < 0) {
+- 			/* Couldn't fork */
+-@@ -356,8 +356,9 @@ static int call_proxy(apm_event_t event)
+- 		/* Capture the child's output, if any, but only until it terminates */
+- 		close(fds[1]);
+- 		fcntl(fds[0], F_SETFL, O_RDONLY|O_NONBLOCK);
+--		time_limit = time(0) + proxy_timeout;
+-+		countdown = proxy_timeout;
+- 		do {
+-+			countdown -= 1;
+- 			while ((len = read(fds[0], line, sizeof(line)-1)) > 0) {
+- 				line[len] = 0;
+- 				APMD_SYSLOG(LOG_INFO, "+ %s", line);
+-@@ -372,16 +373,16 @@ static int call_proxy(apm_event_t event)
+- 				goto proxy_done;
+- 			}
+- 				
+--			sleep(1);
+-+			while (sleep(1) > 0) ;
+- 		} while (
+--			(time(0) < time_limit)
+-+			(countdown >= 0)
+- 			|| (proxy_timeout < 0)
+- 		);
+- 
+- 		APMD_SYSLOG(LOG_NOTICE, "Proxy has been running more than %d seconds; killing it", proxy_timeout);
+- 
+- 		kill(pid, SIGTERM);
+--		time_limit = time(0) + 5;
+-+		countdown = 5;
+- 		do {
+- 			retval = waitpid(pid, &status, WNOHANG);
+- 			if (retval == pid)
+-@@ -392,9 +393,9 @@ static int call_proxy(apm_event_t event)
+- 				goto proxy_done;
+- 			}
+- 
+--			sleep(1);
+-+			while (sleep(1) > 0) ;
+- 
+--		} while (time(0) < time_limit);
+-+		} while (countdown >= 0);
+- 
+- 		kill(pid, SIGKILL);
+- 		status = __W_EXITCODE(0, SIGKILL);
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-bsp/apmd/apmd/libtool.patch b/meta/recipes-bsp/apmd/apmd/libtool.patch
+deleted file mode 100644
+index fd0a952890d..00000000000
+--- a/meta/recipes-bsp/apmd/apmd/libtool.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-From d5dde7ca91a5aed273d8fe269e1a5194e85c8c79 Mon Sep 17 00:00:00 2001
+-From: Scott Garman <scott.a.garman@intel.com>
+-Date: Tue, 13 Jul 2010 16:46:46 +0800
+-Subject: [PATCH] apmd: upgrade to 3.2.2-14
+-
+-Add by RP to address "unable to infer tagged configuration" error:
+-   commit 35de05e61b88c0808a5e885bb0efdf420555d5ad
+-   Author: Richard Purdie <rpurdie@rpsys.net>
+-   Date:   Sun Jun 1 16:13:38 2008 +0000
+-
+-   apmd: Use libtool --tag options to avoid problems with libtool 2.2.4 (from poky)
+-
+-However I didn't see same issue with current libtool-2.2.10. Also per my understanding,
+-the default tag, if not specified, falls back to CC. So disable it from patching, but
+-keep it here. If we encounter similar issue in the future, we could then push upstream
+-
+-Comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-16
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+----
+- Makefile | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/Makefile b/Makefile
+-index 92fc0fd..8e283dc 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -59,8 +59,8 @@ RANLIB=ranlib
+- #LDFLAGS=-s
+- 
+- LIBTOOL=libtool --quiet
+--LT_COMPILE = $(LIBTOOL) --mode=compile $(CC)
+--LT_LINK = $(LIBTOOL) --mode=link $(CC)
+-+LT_COMPILE = $(LIBTOOL) --tag=CC --mode=compile $(CC)
+-+LT_LINK = $(LIBTOOL)  --tag=CC --mode=link $(CC)
+- LT_INSTALL = $(LIBTOOL) --mode=install install
+- LT_CLEAN = $(LIBTOOL) --mode=clean rm
+- 
+diff --git a/meta/recipes-bsp/apmd/apmd/linkage.patch b/meta/recipes-bsp/apmd/apmd/linkage.patch
+deleted file mode 100644
+index 3d32c49cd27..00000000000
+--- a/meta/recipes-bsp/apmd/apmd/linkage.patch
++++ /dev/null
+@@ -1,53 +0,0 @@
+-When building use the libtool intermediate .lo files instead of explicitly using
+-the .o files. Under libtool foo.lo is the libtool intermediate wrapper, foo.o is
+-a static build, and .libs/foo.o is a shared build.
+-
+-If static libraries have been disabled globally then libtool won't generate them
+-and explicit references to foo.o won't be satisfied.
+-
+-Upstream-Status: Pending
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-diff --git a/Makefile b/Makefile
+-index bb695c6..5f60146 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -28,7 +28,7 @@ endif
+- 
+- .SUFFIXES:
+- 
+--OBJS=apmlib.o
+-+OBJS=apmlib.lo
+- EXES=apm apmd xapm apmsleep
+- HEADERS=apm.h
+- 
+-@@ -66,22 +66,22 @@ all: $(EXES)
+- 
+- $(OBJS): $(HEADERS)
+- 
+--%.o: %.c
+-+%.lo: %.c
+- 	$(LT_COMPILE) -c $(CPPFLAGS) $(CFLAGS) $(XTRACFLAGS) $<
+- 
+--%: %.o $(LIBAPM)
+-+%: %.lo $(LIBAPM)
+- 	$(LT_LINK) -o $@ $< $(LDFLAGS) $(LIBAPM)
+- 
+--xapm.o: xapm.c
+-+xapm.lo: xapm.c
+- 	$(LT_COMPILE) -c $(CPPFLAGS) $(CFLAGS) $(XTRACFLAGS) -DNARROWPROTO $<
+- 
+--apmd: apmd.o
+-+apmd: apmd.lo
+- 
+--apmsleep: apmsleep.o
+-+apmsleep: apmsleep.lo
+- 
+--apmexists: apmexists.o
+-+apmexists: apmexists.lo
+- 
+--xapm: xapm.o $(LIBAPM)
+-+xapm: xapm.lo $(LIBAPM)
+- 	$(LT_LINK) -o $@ $< $(LDFLAGS) $(LIBAPM) $(XLDFLAGS) $(XLIBS)
+- 
+- $(LIBAPM): apmlib.lo
+diff --git a/meta/recipes-bsp/apmd/apmd/unlinux.patch b/meta/recipes-bsp/apmd/apmd/unlinux.patch
+deleted file mode 100644
+index ec8206cf174..00000000000
+--- a/meta/recipes-bsp/apmd/apmd/unlinux.patch
++++ /dev/null
+@@ -1,25 +0,0 @@
+-copy OE commit message here:
+-   commit 9456cdc1cf43e3ba9e6d88c63560c1b6fdee4359
+-   Author: Michael Krelin <hacker@klever.net>
+-   Date:   Tue May 29 12:27:45 2007 +0000
+-
+-   apmd: prevent build from interferring with host kernel headers. Closes #1257
+-
+-comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-13
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+---- apmd-3.2.2.orig/Makefile
+-+++ apmd-3.2.2/Makefile
+-@@ -43,8 +43,7 @@
+- 
+- CC=gcc
+- CFLAGS=-O -g
+--XTRACFLAGS=-Wall -pipe -I. -I/usr/src/linux/include -I/usr/X11R6/include \
+--		-I/usr/src/linux-2.2/include -I /usr/src/linux-2.0/include \
+-+XTRACFLAGS=-Wall -pipe -I. \
+- 		-DVERSION=\"$(VERSION)\" \
+- 		-DDEFAULT_PROXY_NAME=\"$(PROXY_DIR)/apmd_proxy\"
+- LDFLAGS=
+diff --git a/meta/recipes-bsp/apmd/apmd/wexitcode.patch b/meta/recipes-bsp/apmd/apmd/wexitcode.patch
+deleted file mode 100644
+index c5faa85fa7f..00000000000
+--- a/meta/recipes-bsp/apmd/apmd/wexitcode.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-Define non-posix W* funcitons
+-
+-C libraries like musl dont define them
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Pending
+-
+-Index: apmd-3.2.2.orig/apmd.c
+-===================================================================
+---- apmd-3.2.2.orig.orig/apmd.c
+-+++ apmd-3.2.2.orig/apmd.c
+-@@ -55,6 +55,14 @@
+- #define MINIMUM_RATE_CALC_TIME  120
 - #endif
 - 
--+#include <cstdint>
-- #include <string>
-- using namespace std;
-- 
---- 
--2.39.1
--
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-memcheck-arm64-Define-__THROW-if-not-already-defined.patch b/meta/recipes-devtools/valgrind/valgrind/0001-memcheck-arm64-Define-__THROW-if-not-already-defined.patch
-deleted file mode 100644
-index a48d7db070f..00000000000
---- a/meta/recipes-devtools/valgrind/valgrind/0001-memcheck-arm64-Define-__THROW-if-not-already-defined.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From 3409dc35c15bb14c8a525239806322648e079ab1 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 5 Jul 2017 17:12:43 -0700
--Subject: [PATCH 1/3] memcheck/arm64: Define __THROW if not already defined
--
--Helps compiling with musl where __THROW is not available
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Submitted
--
-- memcheck/tests/arm64-linux/scalar.h | 4 ++++
-- 1 file changed, 4 insertions(+)
--
--diff --git a/memcheck/tests/arm64-linux/scalar.h b/memcheck/tests/arm64-linux/scalar.h
--index 9008816..8ef050f 100644
----- a/memcheck/tests/arm64-linux/scalar.h
--+++ b/memcheck/tests/arm64-linux/scalar.h
--@@ -12,6 +12,10 @@
-- #include <sys/types.h>
-- #include <sys/mman.h>
-- 
--+#ifndef __THROW
--+#define __THROW
+-+#ifndef _POSIX_SOURCE
+-+
+-+#define	__WCOREFLAG  0200
+-+#define __WCOREDUMP(x)  (_W_INT(x) & __WCOREFLAG)
+-+#define	__W_EXITCODE(ret, sig) ((ret) << 8 | (sig))
+-+
 -+#endif
 -+
-- // Since we use vki_unistd.h, we can't include <unistd.h>.  So we have to
-- // declare this ourselves.
-- extern long int syscall (long int __sysno, ...) __THROW;
---- 
--2.13.2
--
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-x86-linux-seg_override.c-add-missing-incl.patch b/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-x86-linux-seg_override.c-add-missing-incl.patch
-new file mode 100644
-index 00000000000..5e36c28523e
---- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-x86-linux-seg_override.c-add-missing-incl.patch
-@@ -0,0 +1,30 @@
-+From 978d9ed7f857f2cdcd2a8632f3c2feb56b99c825 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Mon, 8 May 2023 11:56:35 +0200
-+Subject: [PATCH] none/tests/x86-linux/seg_override.c: add missing include for
-+ musl builds
-+
-+Otherwise SYS_modify_ldt is undefined.
-+
-+Upstream-Status: Submitted [https://bugs.kde.org/show_bug.cgi?id=382034]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+
-+---
-+ none/tests/x86-linux/seg_override.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/none/tests/x86-linux/seg_override.c b/none/tests/x86-linux/seg_override.c
-+index ca8fbfe..4ef4394 100644
-+--- a/none/tests/x86-linux/seg_override.c
-++++ b/none/tests/x86-linux/seg_override.c
-+@@ -3,6 +3,10 @@
-+ #include <errno.h>
-+ #include <string.h>
-+ #include "../../../config.h"
-++#if defined(MUSL_LIBC)
-++#include <syscall.h>
-++#include <unistd.h>
-++#endif
-+ 
-+ 
-+ /* Stuff from Wine. */
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0002-memcheck-x86-Define-__THROW-if-not-defined.patch b/meta/recipes-devtools/valgrind/valgrind/0002-memcheck-x86-Define-__THROW-if-not-defined.patch
+- /*
+-  * For the verbosity level feature to be useful,
+-  * we rely on the fact that syslog.h assigns adjacent
+diff --git a/meta/recipes-bsp/apmd/apmd_3.2.2-15.bb b/meta/recipes-bsp/apmd/apmd_3.2.2-15.bb
 deleted file mode 100644
-index 5433472291e..00000000000
---- a/meta/recipes-devtools/valgrind/valgrind/0002-memcheck-x86-Define-__THROW-if-not-defined.patch
+index 92c35c98969..00000000000
+--- a/meta/recipes-bsp/apmd/apmd_3.2.2-15.bb
 +++ /dev/null
-@@ -1,32 +0,0 @@
--From 67d199dbdcbb3feff5f8928f87725fc64c0307d7 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 5 Jul 2017 17:36:42 -0700
--Subject: [PATCH 2/3] memcheck/x86: Define __THROW if not defined
+@@ -1,85 +0,0 @@
+-SUMMARY = "Utilities for Advanced Power Management"
+-DESCRIPTION = "The Advanced Power Management (APM) support provides \
+-access to battery status information and a set of tools for managing \
+-notebook power consumption."
+-HOMEPAGE = "http://apenwarr.ca/apmd/"
+-SECTION = "base"
+-LICENSE = "GPL-2.0-or-later"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+-                    file://apm.h;beginline=6;endline=18;md5=7d4acc1250910a89f84ce3cc6557c4c2"
+-DEPENDS = "libtool-cross"
 -
--musl does not have __THROW, therefore make it null
+-SRC_URI = "http://snapshot.debian.org/archive/debian/20160728T043443Z/pool/main/a/${BPN}/${BPN}_3.2.2.orig.tar.gz;name=tarball \
+-           file://legacy.patch \
+-           file://libtool.patch \
+-           file://unlinux.patch \
+-           file://wexitcode.patch \
+-           file://linkage.patch \
+-           file://init \
+-           file://default \
+-           file://apmd_proxy \
+-           file://apmd_proxy.conf \
+-           file://apmd.service"
 -
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Submitted
+-SRC_URI[tarball.md5sum] = "b1e6309e8331e0f4e6efd311c2d97fa8"
+-SRC_URI[tarball.sha256sum] = "7f7d9f60b7766b852881d40b8ff91d8e39fccb0d1d913102a5c75a2dbb52332d"
 -
-- memcheck/tests/x86-linux/scalar.h | 4 ++++
-- 1 file changed, 4 insertions(+)
+-# for this package we're mostly interested in tracking debian patches,
+-# and not in the upstream version where all development has effectively stopped
+-UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/a/apmd/"
+-UPSTREAM_CHECK_REGEX = "(?P<pver>((\d+\.*)+)-((\d+\.*)+))\.(diff|debian\.tar)\.(gz|xz)"
 -
--diff --git a/memcheck/tests/x86-linux/scalar.h b/memcheck/tests/x86-linux/scalar.h
--index ef28b03..52f742e 100644
----- a/memcheck/tests/x86-linux/scalar.h
--+++ b/memcheck/tests/x86-linux/scalar.h
--@@ -11,6 +11,10 @@
-- #include <sys/types.h>
-- #include <sys/mman.h>
-- 
--+#ifndef __THROW
--+#define __THROW
--+#endif
--+
-- // Since we use vki_unistd.h, we can't include <unistd.h>.  So we have to
-- // declare this ourselves.
-- extern long int syscall (long int __sysno, ...) __THROW;
---- 
--2.13.2
+-S = "${WORKDIR}/apmd-3.2.2.orig"
 -
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0003-tests-seg_override-Replace-__modify_ldt-with-syscall.patch b/meta/recipes-devtools/valgrind/valgrind/0003-tests-seg_override-Replace-__modify_ldt-with-syscall.patch
-deleted file mode 100644
-index fa1344c8539..00000000000
---- a/meta/recipes-devtools/valgrind/valgrind/0003-tests-seg_override-Replace-__modify_ldt-with-syscall.patch
-+++ /dev/null
-@@ -1,68 +0,0 @@
--From d103475875858ab8a2e6b53ce178bb2f63883d4c Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 5 Jul 2017 17:37:56 -0700
--Subject: [PATCH 3/3] tests/seg_override: Replace __modify_ldt() with syscall()
+-inherit update-rc.d systemd
 -
--__modify_ldt() is specific to glibc, replacing it with syscall()
--makes it more portable.
+-INITSCRIPT_NAME = "apmd"
+-INITSCRIPT_PARAMS = "defaults"
 -
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Submitted
+-SYSTEMD_SERVICE:${PN} = "apmd.service"
+-SYSTEMD_AUTO_ENABLE = "disable"
 -
-- none/tests/x86-linux/seg_override.c | 15 ++++++---------
-- 1 file changed, 6 insertions(+), 9 deletions(-)
+-EXTRA_OEMAKE = "-e MAKEFLAGS="
 -
--diff --git a/none/tests/x86-linux/seg_override.c b/none/tests/x86-linux/seg_override.c
--index b7619c9..c89874b 100644
----- a/none/tests/x86-linux/seg_override.c
--+++ b/none/tests/x86-linux/seg_override.c
--@@ -2,6 +2,8 @@
-- #include <stdio.h>
-- #include <errno.h>
-- #include <string.h>
--+#include <unistd.h>
--+#include <syscall.h>
-- 
-- /* Stuff from Wine. */
-- 
--@@ -52,14 +54,11 @@ inline static unsigned int wine_ldt_get_limit( const LDT_ENTRY *ent )
-- /* our copy of the ldt */
-- LDT_ENTRY ldt_copy[8192];
-- 
---/* System call to set LDT entry.  */
---//extern int __modify_ldt (int, struct modify_ldt_ldt_s *, size_t);
---extern int __modify_ldt (int, void *, size_t);
---
-- void print_ldt ( void )
-- {
--    int res;
---   res = __modify_ldt( 0, ldt_copy, 8192*sizeof(LDT_ENTRY) );
--+   /* System call to set LDT entry.  */
--+   res = syscall(SYS_modify_ldt, 0, ldt_copy, 8192*sizeof(LDT_ENTRY) );
--    printf("got %d bytes\n", res );   
--    perror("error is");
-- }
--@@ -83,9 +82,6 @@ struct modify_ldt_ldt_s
--   unsigned int empty:25;
-- };
-- 
---/* System call to set LDT entry.  */
---//extern int __modify_ldt (int, struct modify_ldt_ldt_s *, size_t);
---
-- void set_ldt1 ( void* base )
-- {
--   int stat;
--@@ -102,7 +98,8 @@ void set_ldt1 ( void* base )
--   ldt_entry.read_exec_only = 0;
--   ldt_entry.limit_in_pages = 0;
--   ldt_entry.seg_not_present = 0;
---  stat = __modify_ldt (1, &ldt_entry, sizeof (ldt_entry));
--+  /* System call to set LDT entry.  */
--+  stat = syscall(SYS_modify_ldt, 1, &ldt_entry, sizeof (ldt_entry));
--   printf("stat = %d\n", stat);
-- }
-- 
---- 
--2.13.2
+-do_compile() {
+-	# apmd doesn't use whole autotools. Just libtool for installation
+-	oe_runmake apm apmd
+-}
 -
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0005-Modify-vg_test-wrapper-to-support-PTEST-formats.patch b/meta/recipes-devtools/valgrind/valgrind/0005-Modify-vg_test-wrapper-to-support-PTEST-formats.patch
-index a3637ea846e..fea3b00f62e 100644
---- a/meta/recipes-devtools/valgrind/valgrind/0005-Modify-vg_test-wrapper-to-support-PTEST-formats.patch
-+++ b/meta/recipes-devtools/valgrind/valgrind/0005-Modify-vg_test-wrapper-to-support-PTEST-formats.patch
-@@ -1,7 +1,7 @@
--From f49f27f1bc67d07440b0ac9a7d767a8ea1589bfe Mon Sep 17 00:00:00 2001
-+From e244a72c6f8803550f37e81f72bbae039651013b Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Tue, 15 Dec 2015 15:50:44 +0200
--Subject: [PATCH 5/5] Modify vg_test wrapper to support PTEST formats
-+Subject: [PATCH] Modify vg_test wrapper to support PTEST formats
+-do_install() {
+-	install -d ${D}${sysconfdir}
+-	install -d ${D}${sysconfdir}/apm
+-	install -d ${D}${sysconfdir}/apm/event.d
+-	install -d ${D}${sysconfdir}/apm/other.d
+-	install -d ${D}${sysconfdir}/apm/suspend.d
+-	install -d ${D}${sysconfdir}/apm/resume.d
+-	install -d ${D}${sysconfdir}/apm/scripts.d
+-	install -d ${D}${sysconfdir}/default
+-	install -d ${D}${sysconfdir}/init.d
+-	install -d ${D}${sbindir}
+-	install -d ${D}${bindir}
+-	install -d ${D}${libdir}
+-	install -d ${D}${datadir}/apmd
+-	install -d ${D}${includedir}
+-
+-	install -m 4755 ${S}/.libs/apm ${D}${bindir}/apm
+-	install -m 0755 ${S}/.libs/apmd ${D}${sbindir}/apmd
+-	install -m 0755 ${WORKDIR}/apmd_proxy ${D}${sysconfdir}/apm/
+-	install -m 0644 ${WORKDIR}/apmd_proxy.conf ${D}${datadir}/apmd/
+-	install -m 0644 ${WORKDIR}/default ${D}${sysconfdir}/default/apmd
+-	oe_libinstall -so libapm ${D}${libdir}
+-	install -m 0644 apm.h ${D}${includedir}
+-
+-	sed -e 's,/usr/sbin,${sbindir},g; s,/etc,${sysconfdir},g;' ${WORKDIR}/init > ${D}${sysconfdir}/init.d/apmd
+-	chmod 755 ${D}${sysconfdir}/init.d/apmd
+-
+-	install -d ${D}${systemd_system_unitdir}
+-	install -m 0644 ${WORKDIR}/apmd.service ${D}${systemd_system_unitdir}/
+-	sed -i -e 's,@SYSCONFDIR@,${sysconfdir},g' \
+-		-e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_system_unitdir}/apmd.service
+-}
+-
+-PACKAGES =+ "libapm apm"
+-
+-FILES:libapm = "${libdir}/libapm${SOLIBS}"
+-FILES:apm = "${bindir}/apm*"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
+index d60e1774712..eeb26ca5880 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-base.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
+@@ -16,7 +16,6 @@ PACKAGES = ' \
+             \
+             ${@bb.utils.contains("MACHINE_FEATURES", "acpi", "packagegroup-base-acpi", "",d)} \
+             ${@bb.utils.contains("MACHINE_FEATURES", "alsa", "packagegroup-base-alsa", "", d)} \
+-            ${@bb.utils.contains("MACHINE_FEATURES", "apm", "packagegroup-base-apm", "", d)} \
+             ${@bb.utils.contains("MACHINE_FEATURES", "ext2", "packagegroup-base-ext2", "", d)} \
+             ${@bb.utils.contains("MACHINE_FEATURES", "vfat", "packagegroup-base-vfat", "", d)} \
+             ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "packagegroup-base-keyboard", "", d)} \
+@@ -52,7 +51,6 @@ RDEPENDS:packagegroup-base = "\
+     packagegroup-machine-base \
+     \
+     module-init-tools \
+-    ${@bb.utils.contains('MACHINE_FEATURES', 'apm', 'packagegroup-base-apm', '',d)} \
+     ${@bb.utils.contains('MACHINE_FEATURES', 'acpi', 'packagegroup-base-acpi', '',d)} \
+     ${@bb.utils.contains('MACHINE_FEATURES', 'keyboard', 'packagegroup-base-keyboard', '',d)} \
+     ${@bb.utils.contains('MACHINE_FEATURES', 'phone', 'packagegroup-base-phone', '',d)} \
+@@ -149,11 +147,6 @@ SUMMARY:packagegroup-base-acpi = "ACPI support"
+ RDEPENDS:packagegroup-base-acpi = "\
+     acpid"
  
- Change the valgrind regression test script vg_regtest to
- support the yocto ptest stdout reporting format.  The commit adds
-@@ -25,11 +25,11 @@ Increase time limit to 90 s.
- 
- Signed-off-by: Yi Fan Yu <yifan.yu@windriver.com>
- ---
-- tests/vg_regtest.in | 75 +++++++++++++++++++++++++++++++++++++++--------------
-+ tests/vg_regtest.in | 75 +++++++++++++++++++++++++++++++++------------
-  1 file changed, 55 insertions(+), 20 deletions(-)
- 
- diff --git a/tests/vg_regtest.in b/tests/vg_regtest.in
--index a441f42..cb05b52 100755
-+index ad18800..e4bd8cb 100755
- --- a/tests/vg_regtest.in
- +++ b/tests/vg_regtest.in
- @@ -47,6 +47,7 @@
-@@ -49,7 +49,7 @@ index a441f42..cb05b52 100755
-       . "   Use EXTRA_REGTEST_OPTS to supply extra args for all tests\n"
-       . "\n";
-  
--@@ -186,6 +187,7 @@ my $outer_args;
-+@@ -187,6 +188,7 @@ my $run_outer_args = "";
-  my $valgrind_lib = "$tests_dir/.in_place";
-  my $keepunfiltered = 0;
-  my $looptillfail = 0;
-@@ -57,7 +57,7 @@ index a441f42..cb05b52 100755
-  
-  # default filter is the one named "filter_stderr" in the test's directory
-  my $default_stderr_filter = "filter_stderr";
--@@ -244,6 +246,8 @@ sub process_command_line()
-+@@ -245,6 +247,8 @@ sub process_command_line()
-                  $keepunfiltered = 1;
-              } elsif ($arg =~ /^--loop-till-fail$/) {
-                  $looptillfail = 1;
-@@ -66,7 +66,7 @@ index a441f42..cb05b52 100755
-              } else {
-                  die $usage;
-              }
--@@ -365,13 +369,28 @@ sub read_vgtest_file($)
-+@@ -376,13 +380,28 @@ sub read_vgtest_file($)
-  #----------------------------------------------------------------------------
-  # Since most of the program time is spent in system() calls, need this to
-  # propagate a Ctrl-C enabling us to quit.
-@@ -100,7 +100,7 @@ index a441f42..cb05b52 100755
-  # if $keepunfiltered, copies $1 to $1.unfiltered.out
-  # renames $0 tp $1
-  sub filtered_rename($$) 
--@@ -419,23 +438,25 @@ sub do_diffs($$$$)
-+@@ -430,23 +449,25 @@ sub do_diffs($$$$)
-                  # A match;  remove .out and any previously created .diff files.
-                  unlink("$name.$mid.out");
-                  unlink(<$name.$mid.diff*>);
-@@ -128,7 +128,7 @@ index a441f42..cb05b52 100755
-      $vgtest =~ /^(.*)\.vgtest/;
-      my $name = $1;
-      my $fullname = "$dir/$name"; 
--@@ -454,7 +475,11 @@ sub do_one_test($$)
-+@@ -465,7 +486,11 @@ sub do_one_test($$)
-          } elsif (256 == $prereq_res) {
-              # Nb: weird Perl-ism -- exit code of '1' is seen by Perl as 256...
-              # Prereq failed, skip.
-@@ -141,7 +141,7 @@ index a441f42..cb05b52 100755
-              return;
-          } else {
-              # Bad prereq; abort.
--@@ -472,7 +497,7 @@ sub do_one_test($$)
-+@@ -483,7 +508,7 @@ sub do_one_test($$)
-          }
-          # If there is a progB, let's start it in background:
-          printf("%-16s valgrind $extraopts $vgopts $prog $args (progB: $progB $argsB)\n",
-@@ -150,7 +150,7 @@ index a441f42..cb05b52 100755
-          # progB.done used to detect child has finished. See below.
-          # Note: redirection of stdout and stderr is before $progB to allow argsB
-          # to e.g. redirect stdoutB to stderrB
--@@ -488,7 +513,8 @@ sub do_one_test($$)
-+@@ -499,7 +524,8 @@ sub do_one_test($$)
-                       . "touch progB.done)  &");
-          }
-      } else {
-@@ -160,7 +160,7 @@ index a441f42..cb05b52 100755
-      }
-  
-      # Collect environment variables, if any.
--@@ -529,7 +555,7 @@ sub do_one_test($$)
-+@@ -540,7 +566,7 @@ sub do_one_test($$)
-      # Find all the .stdout.exp files.  If none, use /dev/null.
-      my @stdout_exps = <$name.stdout.exp*>;
-      @stdout_exps = ( "/dev/null" ) if (0 == scalar @stdout_exps);
-@@ -169,7 +169,7 @@ index a441f42..cb05b52 100755
-  
-      # Filter stderr
-      $stderr_filter_args = $name if (! defined $stderr_filter_args);
--@@ -538,7 +564,7 @@ sub do_one_test($$)
-+@@ -549,7 +575,7 @@ sub do_one_test($$)
-      # Find all the .stderr.exp files.  At least one must exist.
-      my @stderr_exps = <$name.stderr.exp*>;
-      (0 != scalar @stderr_exps) or die "Could not find `$name.stderr.exp*'\n";
-@@ -178,7 +178,7 @@ index a441f42..cb05b52 100755
-  
-      if (defined $progB) {
-          # wait for the child to be finished
--@@ -562,7 +588,7 @@ sub do_one_test($$)
-+@@ -573,7 +599,7 @@ sub do_one_test($$)
-          # Find all the .stdoutB.exp files.  If none, use /dev/null.
-          my @stdoutB_exps = <$name.stdoutB.exp*>;
-          @stdoutB_exps = ( "/dev/null" ) if (0 == scalar @stdoutB_exps);
-@@ -187,7 +187,7 @@ index a441f42..cb05b52 100755
-          
-          # Filter stderr
-          $stderrB_filter_args = $name if (! defined $stderrB_filter_args);
--@@ -571,7 +597,7 @@ sub do_one_test($$)
-+@@ -582,7 +608,7 @@ sub do_one_test($$)
-          # Find all the .stderrB.exp files.  At least one must exist.
-          my @stderrB_exps = <$name.stderrB.exp*>;
-          (0 != scalar @stderrB_exps) or die "Could not find `$name.stderrB.exp*'\n";
-@@ -196,7 +196,7 @@ index a441f42..cb05b52 100755
-      }
-  
-      # Maybe do post-test check
--@@ -583,7 +609,7 @@ sub do_one_test($$)
-+@@ -594,7 +620,7 @@ sub do_one_test($$)
-  	    # Find all the .post.exp files.  If none, use /dev/null.
-  	    my @post_exps = <$name.post.exp*>;
-  	    @post_exps = ( "/dev/null" ) if (0 == scalar @post_exps);
-@@ -205,7 +205,7 @@ index a441f42..cb05b52 100755
-  	}
-      }
-   
--@@ -592,6 +618,13 @@ sub do_one_test($$)
-+@@ -603,6 +629,13 @@ sub do_one_test($$)
-              print("(cleanup operation failed: $cleanup)\n");
-      }
-  
-@@ -219,25 +219,25 @@ index a441f42..cb05b52 100755
-      $num_tests_done++;
-  }
-  
--@@ -631,7 +664,7 @@ sub test_one_dir($$)
--     my $found_tests = (0 != (grep { $_ =~ /\.vgtest$/ } @fs));
-+@@ -643,7 +676,7 @@ sub test_one_dir($$)
-  
-+     my $tests_start_time = time;
-      if ($found_tests) {
- -        print "-- Running  tests in $full_dir $dashes\n";
- +        print "-- Running  tests in $full_dir $dashes\n" if ($yoctoptest == 0);
-      }
-      foreach my $f (@fs) {
-          if (-d $f) {
--@@ -641,7 +674,7 @@ sub test_one_dir($$)
--         }
--     }
--     if ($found_tests) {
---        print "-- Finished tests in $full_dir $dashes\n";
-+@@ -657,7 +690,7 @@ sub test_one_dir($$)
-+         my $end_time = "(in $tests_cost_time sec)";
-+         my $end_dashes = "-" x (50 - (length $full_dir)
-+                                    - (length $end_time) - 1);
-+-        print "-- Finished tests in $full_dir $end_time $end_dashes\n";
- +        print "-- Finished tests in $full_dir $dashes\n" if ($yoctoptest == 0);
-      }
-  
-      chdir("..");
--@@ -667,10 +700,12 @@ sub summarise_results
-+@@ -683,10 +716,12 @@ sub summarise_results
-             $num_failures{"stdout"},   plural($num_failures{"stdout"}),
-             $num_failures{"stderrB"},  plural($num_failures{"stderrB"}),
-             $num_failures{"stdoutB"},  plural($num_failures{"stdoutB"}),
-@@ -253,5 +253,5 @@ index a441f42..cb05b52 100755
-      print "\n";
-  }
- -- 
--2.6.2
-+2.30.2
- 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/fixed-perl-path.patch b/meta/recipes-devtools/valgrind/valgrind/fixed-perl-path.patch
-index db6867f6259..b9804e74516 100644
---- a/meta/recipes-devtools/valgrind/valgrind/fixed-perl-path.patch
-+++ b/meta/recipes-devtools/valgrind/valgrind/fixed-perl-path.patch
-@@ -1,4 +1,4 @@
--From d85cc45e0ddeda68adf594dead715964cb32d0e7 Mon Sep 17 00:00:00 2001
-+From beaa5b64c60d501fa9cd59fdc563e5f5bccf6882 Mon Sep 17 00:00:00 2001
- From: Qing He <qing.he@intel.com>
- Date: Tue, 31 Aug 2010 22:51:58 +0800
- Subject: [PATCH] valgrind: fix perl scripts
-@@ -17,34 +17,13 @@ a better fix would need:
- Upstream-Status: Inappropriate [configuration]
- 
- Signed-off-by: Maxin B. John <maxin.john@intel.com>
-+
- ---
-- cachegrind/cg_annotate.in | 2 +-
-- cachegrind/cg_diff.in     | 2 +-
-- massif/ms_print.in        | 2 +-
-- perf/vg_perf.in           | 2 +-
-- tests/vg_regtest.in       | 2 +-
-- 5 files changed, 5 insertions(+), 5 deletions(-)
-+ massif/ms_print.in  | 2 +-
-+ perf/vg_perf.in     | 2 +-
-+ tests/vg_regtest.in | 2 +-
-+ 3 files changed, 3 insertions(+), 3 deletions(-)
- 
--diff --git a/cachegrind/cg_annotate.in b/cachegrind/cg_annotate.in
--index fea114b..5e814fd 100644
----- a/cachegrind/cg_annotate.in
--+++ b/cachegrind/cg_annotate.in
--@@ -1,4 +1,4 @@
---#! @PERL@
--+#! /usr/bin/perl
-- 
-- ##--------------------------------------------------------------------##
-- ##--- Cachegrind's annotator.                       cg_annotate.in ---##
--diff --git a/cachegrind/cg_diff.in b/cachegrind/cg_diff.in
--index 9d9258e..d0f0ec7 100755
----- a/cachegrind/cg_diff.in
--+++ b/cachegrind/cg_diff.in
--@@ -1,4 +1,4 @@
---#! @PERL@
--+#! /usr/bin/perl
-- 
-- ##--------------------------------------------------------------------##
-- ##--- Cachegrind's differencer.                         cg_diff.in ---##
- diff --git a/massif/ms_print.in b/massif/ms_print.in
- index a206ce4..df1bc31 100755
- --- a/massif/ms_print.in
-@@ -66,7 +45,7 @@ index 90ee1d2..c585096 100644
-  ##--- Valgrind performance testing script                  vg_perf ---##
-  ##--------------------------------------------------------------------##
- diff --git a/tests/vg_regtest.in b/tests/vg_regtest.in
--index 0fe6341..1b45eb7 100755
-+index 7152765..ad18800 100755
- --- a/tests/vg_regtest.in
- +++ b/tests/vg_regtest.in
- @@ -1,4 +1,4 @@
-@@ -75,6 +54,3 @@ index 0fe6341..1b45eb7 100755
-  ##--------------------------------------------------------------------##
-  ##--- Valgrind regression testing script                vg_regtest ---##
-  ##--------------------------------------------------------------------##
---- 
--2.29.2
+-SUMMARY:packagegroup-base-apm = "APM support"
+-RDEPENDS:packagegroup-base-apm = "\
+-    ${VIRTUAL-RUNTIME_apm} \
+-    apmd"
 -
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.20.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb
-similarity index 92%
-rename from meta/recipes-devtools/valgrind/valgrind_3.20.0.bb
-rename to meta/recipes-devtools/valgrind/valgrind_3.21.0.bb
-index 4ea173ba803..cf50a2a4386 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.20.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb
-@@ -27,9 +27,6 @@ SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
-            file://0001-sigqueue-Rename-_sifields-to-__si_fields-on-musl.patch \
-            file://0002-context-APIs-are-not-available-on-musl.patch \
-            file://0003-correct-include-directive-path-for-config.h.patch \
--           file://0001-memcheck-arm64-Define-__THROW-if-not-already-defined.patch \
--           file://0002-memcheck-x86-Define-__THROW-if-not-defined.patch \
--           file://0003-tests-seg_override-Replace-__modify_ldt-with-syscall.patch \
-            file://0001-fix-opcode-not-supported-on-mips32-linux.patch \
-            file://0001-Make-local-functions-static-to-avoid-assembler-error.patch \
-            file://0001-Return-a-valid-exit_code-from-vg_regtest.patch \
-@@ -38,9 +35,9 @@ SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
-            file://s390x_vec_op_t.patch \
-            file://0001-memcheck-tests-Fix-timerfd-syscall-test.patch \
-            file://0001-docs-Disable-manual-validation.patch \
--           file://0001-drd-tests-Include-missing-cstdint.patch \
-+           file://0001-none-tests-x86-linux-seg_override.c-add-missing-incl.patch \
-            "
--SRC_URI[sha256sum] = "8536c031dbe078d342f121fa881a9ecd205cb5a78e639005ad570011bdb9f3c6"
-+SRC_URI[sha256sum] = "10ce1618bb3e33fad16eb79552b0a3e1211762448a0d7fce11c8a6243b9ac971"
- UPSTREAM_CHECK_REGEX = "valgrind-(?P<pver>\d+(\.\d+)+)\.tar"
+ SUMMARY:packagegroup-base-ext2 = "ext2 filesystem support"
+ RDEPENDS:packagegroup-base-ext2 = "\
+     e2fsprogs-e2fsck \
+diff --git a/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_2.12.bb b/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_2.12.bb
+index b71d1e5cd95..83425f60fe1 100644
+--- a/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_2.12.bb
++++ b/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_2.12.bb
+@@ -11,7 +11,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
  
- COMPATIBLE_HOST = '(i.86|x86_64|arm|aarch64|mips|powerpc|powerpc64).*-linux'
-@@ -207,13 +204,6 @@ do_install_ptest() {
- 	\) \
-         -exec rm {} \;
+ DEPENDS = "gtk+3 startup-notification dbus dbus-glib dbus-glib-native"
+ DEPENDS += " ${@bb.utils.contains("MACHINE_FEATURES", "acpi", "libacpi", "",d)}"
+-DEPENDS += " ${@bb.utils.contains("MACHINE_FEATURES", "apm", "apmd", "",d)}"
  
--    # These files need to be newer so touch them.
--    touch ${D}${PTEST_PATH}/cachegrind/tests/a.c -r ${D}${PTEST_PATH}/cachegrind/tests/cgout-test
--
--    # find *_annotate in ${bindir} for yocto build
--    sed -i s:\.\./\.\./cachegrind/cg_annotate:${bindir}/cg_annotate: ${D}${PTEST_PATH}/cachegrind/tests/ann1.vgtest
--    sed -i s:\.\./\.\./cachegrind/cg_annotate:${bindir}/cg_annotate: ${D}${PTEST_PATH}/cachegrind/tests/ann2.vgtest
--
-     sed -i s:\.\./\.\./callgrind/callgrind_annotate:${bindir}/callgrind_annotate: ${D}${PTEST_PATH}/callgrind/tests/ann1.vgtest
-     sed -i s:\.\./\.\./callgrind/callgrind_annotate:${bindir}/callgrind_annotate: ${D}${PTEST_PATH}/callgrind/tests/ann2.vgtest
+ # The startup-notification requires x11 in DISTRO_FEATURES
+ REQUIRED_DISTRO_FEATURES = "x11"
+@@ -28,7 +27,6 @@ SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=https;branch=master \
  
+ EXTRA_OECONF = "--enable-startup-notification --enable-dbus"
+ EXTRA_OECONF += " ${@bb.utils.contains("MACHINE_FEATURES", "acpi", "--with-battery=acpi", "",d)}"
+-EXTRA_OECONF += " ${@bb.utils.contains("MACHINE_FEATURES", "apm", "--with-battery=apm", "",d)}"
+ 
+ S = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session b/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session
+index 3a70574af9d..61fea510545 100644
+--- a/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session
++++ b/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session
+@@ -22,7 +22,6 @@ matchbox-desktop &
+ START_APPLETS=showdesktop,windowselector
+ END_APPLETS=$KEYBOARD_APPLET,systray,startup-notify,notify
+ END_APPLETS=battery,$END_APPLETS # feature-acpi
+-END_APPLETS=battery,$END_APPLETS # feature-apm
+ END_APPLETS=clock,$END_APPLETS
+ END_APPLETS=openmoko-panel-gsm,$END_APPLETS # feature-phone
+ 
+diff --git a/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb b/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
+index 020e211ea59..49bf30ee5ea 100644
+--- a/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
++++ b/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
+@@ -26,7 +26,7 @@ FILES:${PN} += "${datadir}/themes/Sato/index.theme"
+ 
+ do_install() {
+ 	# This is the set of machine features that the script has markers for
+-	FEATURES="acpi apm phone"
++	FEATURES="acpi phone"
+ 	SCRIPT="${S}/sedder"
+ 	rm -f $SCRIPT
+ 	touch $SCRIPT
 -- 
 2.30.2
 
