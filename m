@@ -1,87 +1,82 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <deepadeepthi98@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26077C77B73
-	for <webhook@archiver.kernel.org>; Mon, 22 May 2023 11:15:09 +0000 (UTC)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web11.19175.1684754106804412988
- for <openembedded-core@lists.openembedded.org>;
- Mon, 22 May 2023 04:15:07 -0700
-Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=DTvnR0RI;
- spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-4efe8b3f3f7so6619159e87.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 May 2023 04:15:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684754105; x=1687346105;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wRvF7e7Stf2cj3ViZFHBoAf4erje3q6q62Iqq2YzMe4=;
-        b=DTvnR0RIHH0e931dWHy25Uj9dM9no7/VuduTAkZlxspQIPE2pS5p8AbZX2o+k6d3rd
-         1kBftpCPAedQMUCIs/1UaUJegDYxhbjy3laXjy0n3rRDFonbOFGuU7EVzAFwhvfUmJKH
-         TA3rQJNx91hRJD+6BpPdPeaJGU1rUxiR9zdX6clWdiCk5knoeaSztS+iwsdvvN5sVa+G
-         IssYsHrXqlsLLF0mNZ/yoc+RwceExKbJlsB0dXcNlhoY1birrrFkHNBoGVAfj2Sx8kCK
-         2gXRaH5BchV/PIt/HfoI65C3OEkNZwXnbBtpxbof5eX2+TAFunWSaef5mH6hwe57oIhU
-         rVIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684754105; x=1687346105;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wRvF7e7Stf2cj3ViZFHBoAf4erje3q6q62Iqq2YzMe4=;
-        b=F/hmV/ggIMcPpJcuc5molyCUTdOpyDcQLNVxzT68u5cWaa9a1lF//AnfE2I83yvWeC
-         NLZb3qu6EMjvr7Fh3Fu2DQZ+jnXnZ/DHfsh6IJ2+WqvDuQfSq56K0T9TuRUsYD7ZB+YN
-         wlgYiC96afyftndM+MhHA/ipkMYV+iRhahQFualRC+wbtAr73dV99vCcGNGvLNyZ9e5/
-         3ItWji7v6w70FU3ILtNHvOzFVh5NtMgaiFcU+ZoLsEv+cfEMFQIypIlw/y6Lshmug61V
-         FNyBrAV8lz6AdheZzT0YZOklBYOSYi5kBku2c+vVae8UVk4NFwgc1OkIwxTBZQuENH0e
-         MB0w==
-X-Gm-Message-State: AC+VfDxsEi8HXXvi4f3vf0YUIoMlrl4rd3uKWb6rwxdQ6JV3kJQ3u79Y
-	DeDuQ0LfUnQqONnNBiCFv5S323/eG42Or6TveFA=
-X-Google-Smtp-Source: ACHHUZ4CMSDuXyVYLSWh5JLiHeBLm9PcGrKJxGn8Vfsc3L5rK3fzr66gYsPeu4xSPEXDVfQxCAb36+gJASWVrJ3gxwQ=
-X-Received: by 2002:ac2:5973:0:b0:4f1:26f5:7814 with SMTP id
- h19-20020ac25973000000b004f126f57814mr3104342lfp.20.1684754104608; Mon, 22
- May 2023 04:15:04 -0700 (PDT)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B15FC77B75
+	for <webhook@archiver.kernel.org>; Mon, 22 May 2023 11:46:29 +0000 (UTC)
+Subject: Re: [kirkstone][PATCH] binutils : Fix CVE-2023-25584
+To: openembedded-core@lists.openembedded.org
+From: "Deepthi Hemraj" <deepadeepthi98@gmail.com>
+X-Originating-Location: Bengaluru, Karnataka, IN (202.131.135.104)
+X-Originating-Platform: Windows Chrome 113
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-References: <20230509172344.1516743-1-alex@linutronix.de> <20230509172344.1516743-25-alex@linutronix.de>
- <88BC9F83-117D-4E32-84A4-8AAAFFFC5C99@arm.com> <17608309E5862AE7.26337@lists.openembedded.org>
-In-Reply-To: <17608309E5862AE7.26337@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 22 May 2023 13:14:53 +0200
-Message-ID: <CANNYZj9V1BAL33ohmde1wZKC9gfmnxvzr0HJHXqT4iDx2+ZvZA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 25/27] gdb: enable python PACKAGECONFIG
-To: alex.kanavin@gmail.com
-Cc: Ross Burton <Ross.Burton@arm.com>, OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Mon, 22 May 2023 04:46:27 -0700
+References: <22447.1684240722531805724@lists.openembedded.org>
+In-Reply-To: <22447.1684240722531805724@lists.openembedded.org>
+Message-ID: <12401.1684755987421390458@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="Ncrh9uCsbVQ4VRwDbptd"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 May 2023 11:15:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181591
+ <openembedded-core@lists.openembedded.org>; Mon, 22 May 2023 11:46:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181592
 
-On Fri, 19 May 2023 at 11:59, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
-wrote:
->
-> On Thu, 18 May 2023 at 17:52, Ross Burton <Ross.Burton@arm.com> wrote:
-> > > -PACKAGECONFIG ??=3D "readline ${@bb.utils.filter('DISTRO_FEATURES', =
-'debuginfod', d)}"
-> > > +PACKAGECONFIG ??=3D "readline ${@bb.utils.filter('DISTRO_FEATURES', =
-'debuginfod', d)} python=E2=80=9D
-> >
-> > This means that gdb hard-depends on python, can we split that out into =
-a separate gdb-python package so we don=E2=80=99t pull the whole Python sta=
-ck in with gdb?
->
-> Yes, I just sent a revised patchset for this.
+--Ncrh9uCsbVQ4VRwDbptd
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-So splitting python modules and rdepends into a separate gdb-python
-package doesn't quite work, as /usr/bin/gdb directly links with
-libpython and then loads its own python modules on startup. But it's
-enough to rdepend only on python3-core/codecs, not the whole python3.
-I'll revise it once more.
+The given binutils patch is already taken to upstream mickledore branch via=
+ latest binutils 2.40 branch toolchain updates.
 
-Alex
+git branch -a --contains 77c225bdeb410cf60da804879ad41622f5f1aa44
+* binutils-2_40-branch
+master
+remotes/origin/HEAD -> origin/master
+remotes/origin/binutils-2_40-branch
+remotes/origin/gdb-13-branch
+remotes/origin/master
+
+commit ae2b71ca2c73111a21845c2e1329ff973558991a
+Author: Khem Raj <raj.khem@gmail.com>
+Date:=C2=A0 =C2=A0Wed Jan 18 20:27:22 2023 -0800=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+=C2=A0=C2=A0binutils: Upgrade to 2.40 release
+
+git branch -a --contains ae2b71ca2c73111a21845c2e1329ff973558991a
+*remotes/base/WRLINUX_10_23_BASE_UPDATE0000
+remotes/base/wr-10.23-20230423
+remotes/m/master -> base/wr-10.23-20230423
+
+--Ncrh9uCsbVQ4VRwDbptd
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+The given binutils patch is already taken to upstream mickledore branch via=
+&nbsp;<span class=3D"ui-provider gs b c d e f g h i j k l m n o p q r s t u=
+ v w x y z ab ac ae af ag ah ai aj ak" dir=3D"ltr"><span class=3D"ui-provid=
+er gs b c d e f g h i j k l m n o p q r s t u v w x y z ab ac ae af ag ah a=
+i aj ak" dir=3D"ltr"><span style=3D"color: #172b4d; font-family: -apple-sys=
+tem, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, 'Fira Sans', '=
+Droid Sans', 'Helvetica Neue', sans-serif;">latest binutils 2.40 branch too=
+lchain updates.<br /><br /></span>git branch -a --contains 77c225bdeb410cf6=
+0da804879ad41622f5f1aa44</span></span>
+<div>* binutils-2_40-branch</div>
+<div>&nbsp; master</div>
+<div>&nbsp; remotes/origin/HEAD -&gt; origin/master</div>
+<div>&nbsp; remotes/origin/binutils-2_40-branch</div>
+<div>&nbsp; remotes/origin/gdb-13-branch</div>
+<div>&nbsp; remotes/origin/master<br />
+<div><br />commit ae2b71ca2c73111a21845c2e1329ff973558991a</div>
+<div>Author: Khem Raj &lt;raj.khem@gmail.com&gt;</div>
+<div>Date:&nbsp; &nbsp;Wed Jan 18 20:27:22 2023 -0800&nbsp; &nbsp; &nbsp; &=
+nbsp;&nbsp;&nbsp;binutils: Upgrade to 2.40 release<br />
+<div><br />git branch -a --contains ae2b71ca2c73111a21845c2e1329ff973558991=
+a</div>
+<div>&nbsp;*remotes/base/WRLINUX_10_23_BASE_UPDATE0000</div>
+<div>&nbsp; remotes/base/wr-10.23-20230423</div>
+<div>&nbsp; remotes/m/master -&gt; base/wr-10.23-20230423<br /><br /></div>
+</div>
+</div>
+
+--Ncrh9uCsbVQ4VRwDbptd--
 
