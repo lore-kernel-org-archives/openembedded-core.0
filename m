@@ -2,14 +2,14 @@ Return-Path: <psaavedra@igalia.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C53C3C77B73
-	for <webhook@archiver.kernel.org>; Mon, 22 May 2023 18:39:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6F12C77B73
+	for <webhook@archiver.kernel.org>; Mon, 22 May 2023 18:42:15 +0000 (UTC)
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by mx.groups.io with SMTP id smtpd.web10.3173.1684780753985621698
+ by mx.groups.io with SMTP id smtpd.web10.3253.1684780931128474322
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 May 2023 11:39:15 -0700
+ Mon, 22 May 2023 11:42:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@igalia.com header.s=20170329 header.b=SYORaSiv;
+ dkim=pass header.i=@igalia.com header.s=20170329 header.b=ITo0pzMK;
  spf=pass (domain: igalia.com, ip: 213.97.179.56, mailfrom: psaavedra@igalia.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
 	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
@@ -17,333 +17,560 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=elKNcjU6fG9yBF1lU5RFa7ikMlRQi3jsy3U1iVIMVGs=; b=SYORaSivsXc4wslcWh+Rb5QuFT
-	avvZxrpTVtbPBOCWSXYsZv48F2TAcKCWNksOBXrNXwduSTZfRNOIsS3FrFX8eqQiW4kpz8hpYD/5o
-	TA1rQ+9GwW9zKKDv0DPfxqnFaozBHD4S3m9JwilopAZy0HKPLJGnO6IiSNSEH9AmetT/tvo6KShtK
-	Xx5STYPF2+0odgp579yHG3ggSsji+GN6HN5HKj53N74wY0HJUjzN+g+dAmPtrPUKjZGVmaHCTkd3h
-	4+0wYDEDiqgfVBOAUd2/19BIaBhRVyQWv/0j3N+Bt/Gpb8zvttonXSrSe+/cjA2LuJiozbh3HKSHh
-	KFbpVpPg==;
+	bh=Gt1kUOCtr81ev7nhSk9tIOdFFTngbjtr+JuBbzPRCE0=; b=ITo0pzMKoiXwgt1SRff6ykgmXr
+	K3ztMPeIhTIQqh//s4jAGFsJHb02eKJsHzBSEQ+7JBXdtKuIGsgQBZo9ioAg7UJtxXhLbgztANj9J
+	NMFk3iQWV5kxFVu1P81JdoTDyA6c95CDlRlRjYYHuXWu5OkVeE5+UkiC8jxd4w/10Uw6NFhLFSvnA
+	+XBrOVlT8JfTHlX1YiDJaSavF6/W4pSdY3eH/W4omrJ1RVRzKNrRgkNT522XUxFyxNDzpjvFqg1Qn
+	/EUffZvM/r610XMBbSN75SwQnJJkFGn07zEb6UEdpeVwDNxHoLGFr2z52G6KMVVEvGuHmQcMTIpSX
+	NB1Sy+AQ==;
 Received: from static-70-65-62-95.ipcom.comunitel.net ([95.62.65.70] helo=golpe.local.igalia.com)
 	by fanzine2.igalia.com with esmtpsa 
 	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1q1AR5-00GH2N-Ga; Mon, 22 May 2023 20:39:11 +0200
+	id 1q1ATw-00GH8s-W4; Mon, 22 May 2023 20:42:09 +0200
 From: Pablo Saavedra <psaavedra@igalia.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Pablo Saavedra <psaavedra@igalia.com>
-Subject: [OE-core][mickledore][PATCH] gstreamer1.0: upgrade 1.22.0 -> 1.22.2
-Date: Mon, 22 May 2023 20:39:01 +0200
-Message-Id: <20230522183901.1328550-1-psaavedra@igalia.com>
+Subject: [OE-core][kirkstone][PATCH] gstreamer1.0: upgrade 1.20.5 -> 1.20.6
+Date: Mon, 22 May 2023 20:40:39 +0200
+Message-Id: <20230522184039.1346552-1-psaavedra@igalia.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 May 2023 18:39:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181610
+ <openembedded-core@lists.openembedded.org>; Mon, 22 May 2023 18:42:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181611
 
 Changelog:
 ===========
-
-From 1.22.1:
-
-audio channel-mix: allow up to 64 channels (instead of up to 63 channels)
-avfvideosrc: Don't wait on main thread for permissions request
-avvidenc: avoid generating inaccurate output timestamps, especially with variable framerate streams
-AV1 video codec caps signalling improvements in various elements
-codectimestamper: Fix timestamping on sequence update
-d3d11overlaycompositor: fix texture width and height
-d3d11videosink: Fix rendering on external handle
-dashdemux2: fix seek operation taking a log time to finish for some streams
-nvencoder: Fix B-frame encoding on Linux and min buffers in auto GPU mode
-playbin3: fixing buffering for live pipelines
-playbin: fix potential deadlock when stopping stream with subtitles visible
-redenc: fix setting of extension ID for twcc
-rtspsrc: improved compatibility with more broken RTSP servers
+audio: channel-mix: allow up to 64 channels instead of up to 63 channels
+AOM AV1 encoder timestamp handling improvements
+AV1 video codec caps handling improvements in aom plugin, isomp4 and matroska muxers/demuxers.
+avvidenc: fix bitrate control and timestamps off FFmpeg-based video encoders
+h264parse: fix missing timestamps on outputs when splitting a frame
+rtspsrc: more workarounds for servers with broken control uri handling
+playbin3: fix issue with UDP streams, making sure there's enough buffering
+qmlglsrc: Fix deadlock when stopping and some other fixes
+qtmux: fix default timescale unit for N/1001 framerates
 v4l2h264dec: Fix Raspberry Pi4 will not play video in application
-vtdec: fix jittery playback of H.264 Level 4.1 movies in macOS
-vtdec: Fix non-deterministic frame output after flushing seeks
-vtenc: fix handling of interlaced ProRes on Apple M1 hardware
-vtenc: don't advertise ARGB/RGBA64 input caps on M1 Pro/Max with macOS <13
+vtdec: Fix non-deterministic frame output after seeks
 wasapi2src: Fix loopback capture on Windows 10 Anniversary Update
-tools: better handling of non-ASCII command line arguments on Windows
-gst-libav: fix build against newer ffmpeg versions
-gst-python: Use arch-specific install dir for gi overrides
+macOS, iOS: Fix Xcode 14 ABI breakage with older Xcode
+cerbero: Fix some regressions for CentOS in the 1.20 branch
 cerbero: Fix setuptools site.py breakage in Python 3.11
-macOS packages: Fix broken binaries on macos < 11.0
-various bug fixes, memory leak fixes, and other stability and reliability improvements
-
-From 1.22.2:
-
-avdec_h264: fix decoder deadlocks with FFmpeg 6.0
-rtspsrc: fix regression with URI protocols in OPTIONS requests for RTSP over TLS
-rtspsrc: improved control url handling compatibility for broken servers
-decklink: fix 10 bit RGB (r210) format auto detection for capture and fix playout if video caps are configured before audio caps
-d3d11videosink: Fix tearing in case of fullscreen mode
-playbin: fix deadlock when stopping stream with subtitles visible (even more)
-typefinding: fix regression not detecting application/dash+xml in some corner cases
-osxvideosink: fix broken aspect ratio and frame drawing region
-decodebin3, parsebin: Improve elementary stream handling when decoders are not present and fix hang when removing a failing stream
-urisourcebin: Propagate sticky events from parsebin, so that the STREAM_START event with the GstStream info is always available when pads get exposed
-v4l2: Add support for YVU420M format; mark JPEG content as parsed
-h264decoder, h265decoder: DPB bumping process and latency reporting fixes
-Opus: Fix reading of extended channel config in MPEG-TS and fix missing sample rate when remuxing from RTP to Matroska
-zxing: add support for building against zxing-c++ 2.0
-cerbero: Fix packaging of Rust plugins on Android; fix modern Gentoo distro detection
-various bug fixes, memory leak fixes, and other stability and reliability improvements
+Fix gst-libav build against FFmpeg from git
+gobject-introspection annotation fixes for bindings
+Miscellaneous bug fixes, memory leak fixes, and other stability and reliability improvements
+Performance improvements
 ---
- .../{gst-devtools_1.22.0.bb => gst-devtools_1.22.2.bb}   | 2 +-
- ...r1.0-libav_1.22.0.bb => gstreamer1.0-libav_1.22.2.bb} | 2 +-
- ...eamer1.0-omx_1.22.0.bb => gstreamer1.0-omx_1.22.2.bb} | 2 +-
- ...-bad_1.22.0.bb => gstreamer1.0-plugins-bad_1.22.2.bb} | 4 ++--
- ...ase_1.22.0.bb => gstreamer1.0-plugins-base_1.22.2.bb} | 4 ++--
- ...ood_1.22.0.bb => gstreamer1.0-plugins-good_1.22.2.bb} | 4 ++--
- ...gly_1.22.0.bb => gstreamer1.0-plugins-ugly_1.22.2.bb} | 4 ++--
- ....0-python_1.22.0.bb => gstreamer1.0-python_1.22.2.bb} | 6 ++++--
- ...rver_1.22.0.bb => gstreamer1.0-rtsp-server_1.22.2.bb} | 2 +-
- ...r1.0-vaapi_1.22.0.bb => gstreamer1.0-vaapi_1.22.2.bb} | 9 +--------
- .../{gstreamer1.0_1.22.0.bb => gstreamer1.0_1.22.2.bb}   | 2 +-
- 11 files changed, 18 insertions(+), 23 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.22.0.bb => gst-devtools_1.22.2.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.22.0.bb => gstreamer1.0-libav_1.22.2.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.22.0.bb => gstreamer1.0-omx_1.22.2.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.22.0.bb => gstreamer1.0-plugins-bad_1.22.2.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.22.0.bb => gstreamer1.0-plugins-base_1.22.2.bb} (96%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.22.0.bb => gstreamer1.0-plugins-good_1.22.2.bb} (96%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.22.0.bb => gstreamer1.0-plugins-ugly_1.22.2.bb} (92%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.22.0.bb => gstreamer1.0-python_1.22.2.bb} (83%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.22.0.bb => gstreamer1.0-rtsp-server_1.22.2.bb} (90%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.22.0.bb => gstreamer1.0-vaapi_1.22.2.bb} (86%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.22.0.bb => gstreamer1.0_1.22.2.bb} (97%)
+ ...tools_1.20.5.bb => gst-devtools_1.20.6.bb} |   2 +-
+ ...1.20.5.bb => gstreamer1.0-libav_1.20.6.bb} |   2 +-
+ ...x_1.20.5.bb => gstreamer1.0-omx_1.20.6.bb} |   2 +-
+ ....bb => gstreamer1.0-plugins-bad_1.20.6.bb} |   2 +-
+ ...bb => gstreamer1.0-plugins-base_1.20.6.bb} |   2 +-
+ ...bb => gstreamer1.0-plugins-good_1.20.6.bb} |   2 +-
+ ...bb => gstreamer1.0-plugins-ugly_1.20.6.bb} |   2 +-
+ ....20.5.bb => gstreamer1.0-python_1.20.6.bb} |   2 +-
+ ....bb => gstreamer1.0-rtsp-server_1.20.6.bb} |   2 +-
+ ...1.20.5.bb => gstreamer1.0-vaapi_1.20.6.bb} |   2 +-
+ ...005-bin-Fix-race-conditions-in-tests.patch | 300 ------------------
+ ...er1.0_1.20.5.bb => gstreamer1.0_1.20.6.bb} |   3 +-
+ 12 files changed, 11 insertions(+), 312 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.20.5.bb => gst-devtools_1.20.6.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.20.5.bb => gstreamer1.0-libav_1.20.6.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.20.5.bb => gstreamer1.0-omx_1.20.6.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.20.5.bb => gstreamer1.0-plugins-bad_1.20.6.bb} (98%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.20.5.bb => gstreamer1.0-plugins-base_1.20.6.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.20.5.bb => gstreamer1.0-plugins-good_1.20.6.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.20.5.bb => gstreamer1.0-plugins-ugly_1.20.6.bb} (94%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.20.5.bb => gstreamer1.0-python_1.20.6.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.20.5.bb => gstreamer1.0-rtsp-server_1.20.6.bb} (90%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.20.5.bb => gstreamer1.0-vaapi_1.20.6.bb} (95%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-bin-Fix-race-conditions-in-tests.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.20.5.bb => gstreamer1.0_1.20.6.bb} (95%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.0.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.2.bb
+diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.6.bb
 similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.22.0.bb
-rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.22.2.bb
-index 3e9a789d24..8b282bbb7b 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.2.bb
+rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.20.5.bb
+rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.20.6.bb
+index 9db31c18e4..2eee50e6d8 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.6.bb
 @@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
             file://0001-connect-has-a-different-signature-on-musl.patch \
             "
  
--SRC_URI[sha256sum] = "4d21fee5c15f2877c0b1f6c2da0cdba67ce7caab2c199ab27e91a1394d5ba195"
-+SRC_URI[sha256sum] = "eb62726d3e27a8782369a24fd6364a8885ed2462b3bbdab091dffc8139ee06d8"
+-SRC_URI[sha256sum] = "5684436121b8bae07fd00b74395f95e44b5f26323dce4fa045fa665676807bba"
++SRC_URI[sha256sum] = "2c64037c823fb88751a47dacf3d4752a52b7951190d6e05fc44855e912e81d71"
  
  DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
  RRECOMMENDS:${PN} = "git"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.2.bb
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.6.bb
 similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.0.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.2.bb
-index 625a52ea55..ed3dbaca22 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.2.bb
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.6.bb
+index e5925c6510..c54913e8a1 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.6.bb
 @@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
                      "
  
  SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
--SRC_URI[sha256sum] = "0e48407b4905227a260213dbda84cba3812f0530fc7a75b43829102ef82810f1"
-+SRC_URI[sha256sum] = "fcaaf9878fe8f3bc82317ef13a1558824cb68df1f8968c6797f556c5e33bcffd"
+-SRC_URI[sha256sum] = "b152e3cc49d014899f53c39d8a6224a44e1399b4cf76aa5f9a903fdf9793c3cc"
++SRC_URI[sha256sum] = "7d619a030542a4a5a11e0302742a3d9b05f8e5cfc453025683a0379bc50aa013"
  
  S = "${WORKDIR}/gst-libav-${PV}"
  
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.2.bb
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.6.bb
 similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.0.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.2.bb
-index ed4c44583e..d2d23050d9 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.2.bb
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.6.bb
+index ec5efcd408..b29d393bfe 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.6.bb
 @@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
  
  SRC_URI = "https://gstreamer.freedesktop.org/src/gst-omx/gst-omx-${PV}.tar.xz"
  
--SRC_URI[sha256sum] = "dbc951a99af532380e599aa8acd9e1385fdb299b46b5868cd2be4230ad888341"
-+SRC_URI[sha256sum] = "1b0c57f2cc4ddeec5e7f0c436e502f06665c4e93c73261855b94e04fc94337b2"
+-SRC_URI[sha256sum] = "bcccbc02548cdc123fd49944dd44a4f1adc5d107e36f010d320eb526e2107806"
++SRC_URI[sha256sum] = "48e82008a2a0ad5f4b525aba8a6c49c4ca2d7d25c6b1b14d107dd747e26d5a8e"
  
  S = "${WORKDIR}/gst-omx-${PV}"
  
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.2.bb
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.6.bb
 similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.0.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.2.bb
-index b9fc17f3e9..6260f9586b 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.2.bb
-@@ -1,7 +1,7 @@
- require gstreamer1.0-plugins-common.inc
- require gstreamer1.0-plugins-license.inc
- 
--DESCRIPTION = "'Bad' GStreamer plugins and helper libraries "
-+SUMMARY = "'Bad' GStreamer plugins and helper libraries "
- HOMEPAGE = "https://gstreamer.freedesktop.org/"
- BUGTRACKER = "https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/issues"
- 
-@@ -10,7 +10,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
-            file://0002-avoid-including-sys-poll.h-directly.patch \
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.6.bb
+index 80766b9166..fdb4509691 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.6.bb
+@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
+            file://0003-ensure-valid-sentinals-for-gst_structure_get-etc.patch \
             file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
             "
--SRC_URI[sha256sum] = "3c9d9300f5f4fb3e3d36009379d1fb6d9ecd79c1a135df742b8a68417dd663a1"
-+SRC_URI[sha256sum] = "3d8faf1ce3402c8535ce3a8c4e1a6c960e4b5655dbda6b55943db9ac79022d0f"
+-SRC_URI[sha256sum] = "f431214b0754d7037adcde93c3195106196588973e5b32dcb24938805f866363"
++SRC_URI[sha256sum] = "d98c73fa5cdddb372a91199464515cfc80c89bbe05e3d4387ea4381e4224483a"
  
  S = "${WORKDIR}/gst-plugins-bad-${PV}"
  
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.2.bb
-similarity index 96%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.2.bb
-index 01ef63c104..c1e5d0cd09 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.2.bb
-@@ -1,6 +1,6 @@
- require gstreamer1.0-plugins-common.inc
- 
--DESCRIPTION = "'Base' GStreamer plugins and helper libraries"
-+SUMMARY = "'Base' GStreamer plugins and helper libraries"
- HOMEPAGE = "https://gstreamer.freedesktop.org/"
- BUGTRACKER = "https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/-/issues"
- LICENSE = "LGPL-2.1-or-later"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.6.bb
+similarity index 97%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.6.bb
+index c37b542c57..8d1aef1fc8 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.6.bb
 @@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
             file://0003-viv-fb-Make-sure-config.h-is-included.patch \
             file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
             "
--SRC_URI[sha256sum] = "f53672294f3985d56355c8b1df8f6b49c8c8721106563e19f53be3507ff2229d"
-+SRC_URI[sha256sum] = "eb65120c4ee79b7a153c3c1972d5c0158c2151877cc51ec7725bba5749679d49"
+-SRC_URI[sha256sum] = "11f911ef65f3095d7cf698a1ad1fc5242ac3ad6c9270465fb5c9e7f4f9c19b35"
++SRC_URI[sha256sum] = "54eac357d6cd66f183b94a26e493bf4d5781bc76bc60cad122742626caf8f1a3"
  
  S = "${WORKDIR}/gst-plugins-base-${PV}"
  
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb
-similarity index 96%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.0.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb
-index ef4d82c598..a9352949b5 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.2.bb
-@@ -1,6 +1,6 @@
- require gstreamer1.0-plugins-common.inc
- 
--DESCRIPTION = "'Good' GStreamer plugins"
-+SUMMARY = "'Good' GStreamer plugins"
- HOMEPAGE = "https://gstreamer.freedesktop.org/"
- BUGTRACKER = "https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/issues"
- 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.6.bb
+similarity index 97%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.6.bb
+index 80aed01973..81f5dd0932 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.6.bb
 @@ -8,7 +8,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-go
             file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch \
-            file://0001-v4l2-Define-ioctl_req_t-for-posix-linux-case.patch"
+            "
  
--SRC_URI[sha256sum] = "582e617271e7f314d1a2211e3e3856ae2e4303c8c0d6114e9c4a5ea5719294b0"
-+SRC_URI[sha256sum] = "7c8cc59425f2b232f60ca7d13e56edd615da4f711e73dd01a7cffa46e6bc0cdd"
+-SRC_URI[sha256sum] = "e83ab4d12ca24959489bbb0ec4fac9b90e32f741d49cda357cb554b2cb8b97f9"
++SRC_URI[sha256sum] = "e51365cfa9b19bd736dafe2c8828254a55d66996a3c60550bb0d50041c381a44"
  
  S = "${WORKDIR}/gst-plugins-good-${PV}"
  
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.2.bb
-similarity index 92%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.0.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.2.bb
-index 9c384fea5c..dc81bf27f6 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.2.bb
-@@ -1,7 +1,7 @@
- require gstreamer1.0-plugins-common.inc
- require gstreamer1.0-plugins-license.inc
- 
--DESCRIPTION = "'Ugly GStreamer plugins"
-+SUMMARY = "'Ugly GStreamer plugins"
- HOMEPAGE = "https://gstreamer.freedesktop.org/"
- BUGTRACKER = "https://gitlab.freedesktop.org/gstreamer/gst-plugins-ugly/-/issues"
- 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.6.bb
+similarity index 94%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.6.bb
+index f765e626c9..e62e9e9815 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.6.bb
 @@ -14,7 +14,7 @@ LICENSE_FLAGS = "commercial"
  SRC_URI = " \
              https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
              "
--SRC_URI[sha256sum] = "a644dc981afa2d8d3a913f763ab9523c0620ee4e65a7ec73c7721c29da3c5a0c"
-+SRC_URI[sha256sum] = "8f30f44db0bd063709bf6fbe55138e3a98af0abcb61c360f35582bbe10e80691"
+-SRC_URI[sha256sum] = "af67d8ba7cab230f64d0594352112c2c443e2aa36a87c35f9f98a43d11430b87"
++SRC_URI[sha256sum] = "ca3fb6abc9f6e981d204a736c254e50cc1786a2f5038d83023e42ea009b10246"
  
  S = "${WORKDIR}/gst-plugins-ugly-${PV}"
  
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.2.bb
-similarity index 83%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.0.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.2.bb
-index c447f2cbe8..ab1600db41 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.2.bb
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.6.bb
+similarity index 91%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.6.bb
+index 05e9ace276..77745b8ba9 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.6.bb
 @@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
  LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
  
  SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "6c63ad364ca4617eb2cbb3975ab26c66760eb3c7a6adf5be69f99c11e21ef3a5"
-+SRC_URI[sha256sum] = "bef2b3d82ce4be46b775b1bb56305c1003ee01b535a53a82f9fe8924972153ad"
+-SRC_URI[sha256sum] = "27487652318659cfd7dc42784b713c78d29cc7a7df4fb397134c8c125f65e3b2"
++SRC_URI[sha256sum] = "aa619e08ddd9f92755f4bd24ba9577e81ae4c86bff170c3e574153ec3cdc80cc"
  
  DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
  RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
-@@ -23,6 +23,8 @@ EXTRA_OEMESON += "\
-     -Dlibpython-dir=${libdir} \
- "
- 
--inherit meson pkgconfig setuptools3-base upstream-version-is-even
-+inherit meson pkgconfig setuptools3-base upstream-version-is-even features_check
- 
- FILES:${PN} += "${libdir}/gstreamer-1.0"
-+
-+REQUIRED_DISTRO_FEATURES = "gobject-introspection-data"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.2.bb
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.6.bb
 similarity index 90%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.0.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.2.bb
-index f943c829c4..02c2badc2a 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.2.bb
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.6.bb
+index c9cf42903d..017edec426 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.6.bb
 @@ -10,7 +10,7 @@ PNREAL = "gst-rtsp-server"
  
  SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
  
--SRC_URI[sha256sum] = "aea24eeb59ee5fadfac355de2f7cecb51966c3e147e5ad7cfb4c314f1a4086ed"
-+SRC_URI[sha256sum] = "2be4aecfb88710100ea7115ed0216403e8094344ebf146094271b8d4d73828bf"
+-SRC_URI[sha256sum] = "ba398a7ddd559cce56ef4b91f448d174e0dccad98a493563d2d59c41a2ef39c5"
++SRC_URI[sha256sum] = "800122a798387bd4b18b558737d30a010d94154f41bd210d4c4cc2d80ecae90f"
  
  S = "${WORKDIR}/${PNREAL}-${PV}"
  
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.2.bb
-similarity index 86%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.0.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.2.bb
-index 8a703f533e..6111720976 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.2.bb
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.6.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.6.bb
+index 716f50ebe1..d67abf408c 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.6.bb
 @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
  
  SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz"
  
--SRC_URI[sha256sum] = "593ccad19f88e5fa29f40f98356c007806bd535828707b1406944d16a90bdff5"
-+SRC_URI[sha256sum] = "d2e642f9745f97d9f73a7f5085e7659a9a31fe209b774e6e45dae041b435df06"
+-SRC_URI[sha256sum] = "510c6fb4ff3f676d7946ce1800e04ccf5aabe5a586d4e164d1961808fab8c94b"
++SRC_URI[sha256sum] = "57028a2cdabb749eb38a53f45cfa36f02b4e5368fb6d8684ef31d9e73ddf653b"
  
  S = "${WORKDIR}/${REALPN}-${PV}"
  DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
-@@ -51,10 +51,3 @@ FILES:${PN} += "${libdir}/gstreamer-*/*.so"
- FILES:${PN}-dbg += "${libdir}/gstreamer-*/.debug"
- FILES:${PN}-dev += "${libdir}/gstreamer-*/*.a"
- FILES:${PN}-tests = "${bindir}/*"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-bin-Fix-race-conditions-in-tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-bin-Fix-race-conditions-in-tests.patch
+deleted file mode 100644
+index f1fac2df57..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-bin-Fix-race-conditions-in-tests.patch
++++ /dev/null
+@@ -1,300 +0,0 @@
+-From e1e2d8d58c1e09e065849cdb1f6466c0537a7c51 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
+-Date: Tue, 21 Jun 2022 11:51:35 +0300
+-Subject: [PATCH] bin: Fix race conditions in tests
 -
--# correct .pc install location - fixed in upstream trunk
--do_install:append() {
--    mkdir -p ${D}/${libdir}/pkgconfig
--    mv ${D}/${libdir}/gstreamer-1.0/pkgconfig/*.pc ${D}/${libdir}/pkgconfig
--    rmdir ${D}/${libdir}/gstreamer-1.0/pkgconfig/
--}
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.2.bb
-similarity index 97%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.0.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.2.bb
-index 11002e667d..f6dd2c168e 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.2.bb
-@@ -22,7 +22,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
+-The latency messages are non-deterministic and can arrive before/after
+-async-done or during state-changes as they are posted by e.g. sinks from
+-their streaming thread but bins are finishing asynchronous state changes
+-from a secondary helper thread.
+-
+-To solve this, expect latency messages at any time and assert that we
+-receive one at some point during the test.
+-
+-Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/2643>
+-
+-Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/2643]
+-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+----
+- .../gstreamer/tests/check/gst/gstbin.c        | 132 ++++++++++++------
+- 1 file changed, 92 insertions(+), 40 deletions(-)
+-
+-diff --git a/subprojects/gstreamer/tests/check/gst/gstbin.c b/subprojects/gstreamer/tests/check/gst/gstbin.c
+-index e366d5fe20f..88ff44db0c3 100644
+---- a/subprojects/gstreamer/tests/check/gst/gstbin.c
+-+++ b/subprojects/gstreamer/tests/check/gst/gstbin.c
+-@@ -27,50 +27,95 @@
+- #include <gst/base/gstbasesrc.h>
+- 
+- static void
+--pop_async_done (GstBus * bus)
+-+pop_async_done (GstBus * bus, gboolean * had_latency)
+- {
+-   GstMessage *message;
+-+  GstMessageType types = GST_MESSAGE_ASYNC_DONE;
+-+
+-+  if (!*had_latency)
+-+    types |= GST_MESSAGE_LATENCY;
+- 
+-   GST_DEBUG ("popping async-done message");
+--  message = gst_bus_poll (bus, GST_MESSAGE_ASYNC_DONE, -1);
+- 
+--  fail_unless (message && GST_MESSAGE_TYPE (message)
+--      == GST_MESSAGE_ASYNC_DONE, "did not get GST_MESSAGE_ASYNC_DONE");
+-+  do {
+-+    message = gst_bus_poll (bus, types, -1);
+- 
+--  gst_message_unref (message);
+--  GST_DEBUG ("popped message");
+-+    fail_unless (message);
+-+    GST_DEBUG ("popped message %s",
+-+        gst_message_type_get_name (GST_MESSAGE_TYPE (message)));
+-+
+-+    if (GST_MESSAGE_TYPE (message) == GST_MESSAGE_LATENCY) {
+-+      fail_unless (*had_latency == FALSE);
+-+      *had_latency = TRUE;
+-+      gst_clear_message (&message);
+-+      types &= ~GST_MESSAGE_LATENCY;
+-+      continue;
+-+    }
+-+
+-+    fail_unless (GST_MESSAGE_TYPE (message)
+-+        == GST_MESSAGE_ASYNC_DONE, "did not get GST_MESSAGE_ASYNC_DONE");
+-+
+-+    gst_clear_message (&message);
+-+    break;
+-+  } while (TRUE);
+- }
+- 
+- static void
+--pop_latency (GstBus * bus)
+-+pop_latency (GstBus * bus, gboolean * had_latency)
+- {
+-   GstMessage *message;
+- 
+--  GST_DEBUG ("popping async-done message");
+-+  if (*had_latency)
+-+    return;
+-+
+-+  GST_DEBUG ("popping latency message");
+-   message = gst_bus_poll (bus, GST_MESSAGE_LATENCY, -1);
+- 
+--  fail_unless (message && GST_MESSAGE_TYPE (message)
+-+  fail_unless (message);
+-+  fail_unless (GST_MESSAGE_TYPE (message)
+-       == GST_MESSAGE_LATENCY, "did not get GST_MESSAGE_LATENCY");
+- 
+--  gst_message_unref (message);
+--  GST_DEBUG ("popped message");
+-+  GST_DEBUG ("popped message %s",
+-+      gst_message_type_get_name (GST_MESSAGE_TYPE (message)));
+-+  gst_clear_message (&message);
+-+
+-+  *had_latency = TRUE;
+- }
+- 
+- static void
+--pop_state_changed (GstBus * bus, int count)
+-+pop_state_changed (GstBus * bus, int count, gboolean * had_latency)
+- {
+-   GstMessage *message;
+--
+-+  GstMessageType types = GST_MESSAGE_STATE_CHANGED;
+-   int i;
+- 
+-+  if (!*had_latency)
+-+    types |= GST_MESSAGE_LATENCY;
+-+
+-   GST_DEBUG ("popping %d messages", count);
+-   for (i = 0; i < count; ++i) {
+--    message = gst_bus_poll (bus, GST_MESSAGE_STATE_CHANGED, -1);
+--
+--    fail_unless (message && GST_MESSAGE_TYPE (message)
+--        == GST_MESSAGE_STATE_CHANGED, "did not get GST_MESSAGE_STATE_CHANGED");
+--
+--    gst_message_unref (message);
+-+    do {
+-+      message = gst_bus_poll (bus, types, -1);
+-+
+-+      fail_unless (message);
+-+      GST_DEBUG ("popped message %s",
+-+          gst_message_type_get_name (GST_MESSAGE_TYPE (message)));
+-+
+-+      if (GST_MESSAGE_TYPE (message) == GST_MESSAGE_LATENCY) {
+-+        fail_unless (*had_latency == FALSE);
+-+        *had_latency = TRUE;
+-+        gst_clear_message (&message);
+-+        types &= ~GST_MESSAGE_LATENCY;
+-+        continue;
+-+      }
+-+
+-+      fail_unless (GST_MESSAGE_TYPE (message)
+-+          == GST_MESSAGE_STATE_CHANGED,
+-+          "did not get GST_MESSAGE_STATE_CHANGED");
+-+
+-+      gst_message_unref (message);
+-+      break;
+-+    } while (TRUE);
+-   }
+-   GST_DEBUG ("popped %d messages", count);
+- }
+-@@ -538,6 +583,7 @@ GST_START_TEST (test_message_state_changed_children)
+-   GstBus *bus;
+-   GstStateChangeReturn ret;
+-   GstState current, pending;
+-+  gboolean had_latency = FALSE;
+- 
+-   pipeline = GST_PIPELINE (gst_pipeline_new (NULL));
+-   fail_unless (pipeline != NULL, "Could not create pipeline");
+-@@ -576,7 +622,7 @@ GST_START_TEST (test_message_state_changed_children)
+-   ASSERT_OBJECT_REFCOUNT (sink, "sink", 2);
+-   ASSERT_OBJECT_REFCOUNT (pipeline, "pipeline", 2);
+- 
+--  pop_state_changed (bus, 3);
+-+  pop_state_changed (bus, 3, &had_latency);
+-   fail_if (gst_bus_have_pending (bus), "unexpected pending messages");
+- 
+-   ASSERT_OBJECT_REFCOUNT (bus, "bus", 2);
+-@@ -619,9 +665,9 @@ GST_START_TEST (test_message_state_changed_children)
+-    * its state_change message */
+-   ASSERT_OBJECT_REFCOUNT_BETWEEN (pipeline, "pipeline", 3, 4);
+- 
+--  pop_state_changed (bus, 3);
+--  pop_async_done (bus);
+--  pop_latency (bus);
+-+  pop_state_changed (bus, 3, &had_latency);
+-+  pop_async_done (bus, &had_latency);
+-+  pop_latency (bus, &had_latency);
+-   fail_if ((gst_bus_pop (bus)) != NULL);
+- 
+-   ASSERT_OBJECT_REFCOUNT_BETWEEN (bus, "bus", 2, 3);
+-@@ -648,7 +694,7 @@ GST_START_TEST (test_message_state_changed_children)
+-   ASSERT_OBJECT_REFCOUNT_BETWEEN (sink, "sink", 2, 4);
+-   ASSERT_OBJECT_REFCOUNT (pipeline, "pipeline", 3);
+- 
+--  pop_state_changed (bus, 3);
+-+  pop_state_changed (bus, 3, &had_latency);
+-   fail_if ((gst_bus_pop (bus)) != NULL);
+- 
+-   ASSERT_OBJECT_REFCOUNT (bus, "bus", 2);
+-@@ -669,7 +715,7 @@ GST_START_TEST (test_message_state_changed_children)
+-   ASSERT_OBJECT_REFCOUNT_BETWEEN (sink, "sink", 3, 4);
+-   ASSERT_OBJECT_REFCOUNT (pipeline, "pipeline", 3);
+- 
+--  pop_state_changed (bus, 6);
+-+  pop_state_changed (bus, 6, &had_latency);
+-   fail_if ((gst_bus_pop (bus)) != NULL);
+- 
+-   ASSERT_OBJECT_REFCOUNT (src, "src", 1);
+-@@ -696,6 +742,7 @@ GST_START_TEST (test_watch_for_state_change)
+-   GstElement *src, *sink, *bin;
+-   GstBus *bus;
+-   GstStateChangeReturn ret;
+-+  gboolean had_latency = FALSE;
+- 
+-   bin = gst_element_factory_make ("bin", NULL);
+-   fail_unless (bin != NULL, "Could not create bin");
+-@@ -722,9 +769,9 @@ GST_START_TEST (test_watch_for_state_change)
+-       GST_CLOCK_TIME_NONE);
+-   fail_unless (ret == GST_STATE_CHANGE_SUCCESS);
+- 
+--  pop_state_changed (bus, 6);
+--  pop_async_done (bus);
+--  pop_latency (bus);
+-+  pop_state_changed (bus, 6, &had_latency);
+-+  pop_async_done (bus, &had_latency);
+-+  pop_latency (bus, &had_latency);
+- 
+-   fail_unless (gst_bus_have_pending (bus) == FALSE,
+-       "Unexpected messages on bus");
+-@@ -732,16 +779,17 @@ GST_START_TEST (test_watch_for_state_change)
+-   ret = gst_element_set_state (GST_ELEMENT (bin), GST_STATE_PLAYING);
+-   fail_unless (ret == GST_STATE_CHANGE_SUCCESS);
+- 
+--  pop_state_changed (bus, 3);
+-+  pop_state_changed (bus, 3, &had_latency);
+- 
+-+  had_latency = FALSE;
+-   /* this one might return either SUCCESS or ASYNC, likely SUCCESS */
+-   ret = gst_element_set_state (GST_ELEMENT (bin), GST_STATE_PAUSED);
+-   gst_element_get_state (GST_ELEMENT (bin), NULL, NULL, GST_CLOCK_TIME_NONE);
+- 
+--  pop_state_changed (bus, 3);
+-+  pop_state_changed (bus, 3, &had_latency);
+-   if (ret == GST_STATE_CHANGE_ASYNC) {
+--    pop_async_done (bus);
+--    pop_latency (bus);
+-+    pop_async_done (bus, &had_latency);
+-+    pop_latency (bus, &had_latency);
+-   }
+- 
+-   fail_unless (gst_bus_have_pending (bus) == FALSE,
+-@@ -898,6 +946,7 @@ GST_START_TEST (test_children_state_change_order_flagged_sink)
+-   GstStateChangeReturn ret;
+-   GstState current, pending;
+-   GstBus *bus;
+-+  gboolean had_latency = FALSE;
+- 
+-   pipeline = gst_pipeline_new (NULL);
+-   fail_unless (pipeline != NULL, "Could not create pipeline");
+-@@ -951,10 +1000,11 @@ GST_START_TEST (test_children_state_change_order_flagged_sink)
+-   ASSERT_STATE_CHANGE_MSG (bus, sink, GST_STATE_READY, GST_STATE_PAUSED, 107);
+- #else
+- 
+--  pop_state_changed (bus, 2);   /* pop remaining ready => paused messages off the bus */
+-+  pop_state_changed (bus, 2, &had_latency);     /* pop remaining ready => paused messages off the bus */
+-   ASSERT_STATE_CHANGE_MSG (bus, pipeline, GST_STATE_READY, GST_STATE_PAUSED,
+-       108);
+--  pop_async_done (bus);
+-+  pop_async_done (bus, &had_latency);
+-+  pop_latency (bus, &had_latency);
+- #endif
+-   /* PAUSED => PLAYING */
+-   GST_DEBUG ("popping PAUSED -> PLAYING messages");
+-@@ -972,8 +1022,8 @@ GST_START_TEST (test_children_state_change_order_flagged_sink)
+-   fail_if (ret != GST_STATE_CHANGE_SUCCESS, "State change to READY failed");
+- 
+-   /* TODO: do we need to check downwards state change order as well? */
+--  pop_state_changed (bus, 4);   /* pop playing => paused messages off the bus */
+--  pop_state_changed (bus, 4);   /* pop paused => ready messages off the bus */
+-+  pop_state_changed (bus, 4, &had_latency);     /* pop playing => paused messages off the bus */
+-+  pop_state_changed (bus, 4, &had_latency);     /* pop paused => ready messages off the bus */
+- 
+-   while (GST_OBJECT_REFCOUNT_VALUE (pipeline) > 1)
+-     THREAD_SWITCH ();
+-@@ -1002,6 +1052,7 @@ GST_START_TEST (test_children_state_change_order_semi_sink)
+-   GstStateChangeReturn ret;
+-   GstState current, pending;
+-   GstBus *bus;
+-+  gboolean had_latency = FALSE;
+- 
+-   /* (2) Now again, but check other code path where we don't have
+-    *     a proper sink correctly flagged as such, but a 'semi-sink' */
+-@@ -1056,10 +1107,11 @@ GST_START_TEST (test_children_state_change_order_semi_sink)
+-   ASSERT_STATE_CHANGE_MSG (bus, src, GST_STATE_READY, GST_STATE_PAUSED, 206);
+-   ASSERT_STATE_CHANGE_MSG (bus, sink, GST_STATE_READY, GST_STATE_PAUSED, 207);
+- #else
+--  pop_state_changed (bus, 2);   /* pop remaining ready => paused messages off the bus */
+-+  pop_state_changed (bus, 2, &had_latency);     /* pop remaining ready => paused messages off the bus */
+-   ASSERT_STATE_CHANGE_MSG (bus, pipeline, GST_STATE_READY, GST_STATE_PAUSED,
+-       208);
+--  pop_async_done (bus);
+-+  pop_async_done (bus, &had_latency);
+-+  pop_latency (bus, &had_latency);
+- 
+-   /* PAUSED => PLAYING */
+-   GST_DEBUG ("popping PAUSED -> PLAYING messages");
+-@@ -1076,8 +1128,8 @@ GST_START_TEST (test_children_state_change_order_semi_sink)
+-   fail_if (ret != GST_STATE_CHANGE_SUCCESS, "State change to READY failed");
+- 
+-   /* TODO: do we need to check downwards state change order as well? */
+--  pop_state_changed (bus, 4);   /* pop playing => paused messages off the bus */
+--  pop_state_changed (bus, 4);   /* pop paused => ready messages off the bus */
+-+  pop_state_changed (bus, 4, &had_latency);     /* pop playing => paused messages off the bus */
+-+  pop_state_changed (bus, 4, &had_latency);     /* pop paused => ready messages off the bus */
+- 
+-   GST_DEBUG ("waiting for pipeline to reach refcount 1");
+-   while (GST_OBJECT_REFCOUNT_VALUE (pipeline) > 1)
+--- 
+-GitLab
+-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.6.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.6.bb
+index ce9c1c116f..7ceb319d9b 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.6.bb
+@@ -21,9 +21,8 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
+            file://0002-tests-add-support-for-install-the-tests.patch;striplevel=3 \
             file://0003-tests-use-a-dictionaries-for-environment.patch;striplevel=3 \
             file://0004-tests-add-helper-script-to-run-the-installed_tests.patch;striplevel=3 \
+-           file://0005-bin-Fix-race-conditions-in-tests.patch;striplevel=3 \
             "
--SRC_URI[sha256sum] = "78d21b5469ac93edafc6d8ceb63bc82f6cbbee94d2f866cca6b9252157ee0a09"
-+SRC_URI[sha256sum] = "b2afe73603921c608ba48969dbb7d743776744bfe5d8059ece241137b7f88e21"
+-SRC_URI[sha256sum] = "5a19083faaf361d21fc391124f78ba6d609be55845a82fa8f658230e5fa03dff"
++SRC_URI[sha256sum] = "0545b030960680f71a95f9d39c95daae54b4d317d335e8f239d81138773c9b90"
  
  PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
                     check \
