@@ -1,808 +1,580 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <psaavedra@igalia.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B0F8C7EE31
-	for <webhook@archiver.kernel.org>; Mon, 22 May 2023 17:26:45 +0000 (UTC)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web10.1201.1684776399263575333
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8D3AC77B75
+	for <webhook@archiver.kernel.org>; Mon, 22 May 2023 18:16:35 +0000 (UTC)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by mx.groups.io with SMTP id smtpd.web11.2611.1684779390873255752
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 May 2023 10:26:39 -0700
+ Mon, 22 May 2023 11:16:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=U0/3c5Ya;
- spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-50bcb4a81ceso11257851a12.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 May 2023 10:26:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684776398; x=1687368398;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bTqGsmTLtPHRv3R2rzpMDI52TR/p9Tqrpmv/Y2tptrk=;
-        b=U0/3c5YaaQlI1RBOLz7UkDK0PzN4ACjFaTb+yJX0PPrLBOX0Bx9Tb4wHaOZV6wewME
-         YHW/T0ix56PBRtuqOvGAlt1WaNtHLYU2jdWGAG4//mhzNPjT7NAT0fepwM/xJgh6SCrh
-         G4J+dWKStpmIFOMGpG/7EZP9DZTmH/heNB4v0V7Al703htpZy+/OrHUsffjX68hFciiQ
-         1u/JGZ3p64s3vgy2VUVz5Qwn/P9CFQiJfVXMcMA86fJpu41eFhpjwZaS59NlsKk7ps2o
-         Cuf4+ZqOVCTOb2L3jzBLJKMyOAjUKagATX1Zsmjr26ZOdYt1/kHHPDRGaF90LbhaGfO6
-         1A2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684776398; x=1687368398;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bTqGsmTLtPHRv3R2rzpMDI52TR/p9Tqrpmv/Y2tptrk=;
-        b=Qz4z8Tf5mrYmyS+MruRTXb5WyiylwO3m+T0T83GQakfde/ng/puOS4+DZvGxuaPK6s
-         RhPM5LeHd3KAZql+c8hVqFj5BsNdyFLOuiU2iFo0tx7u+7hXcVYi7UyzeoGV9b44pdZM
-         e5D0IFBDT4dvS+ZhjZ3J2cgzonmTEFvNzKiyKxMQNdS8LN8eGDHWzDAOI9kxXmhvzF6/
-         1lsr7Ai9XHor/eFTHs16bRS94yK/NQWQc/Ci/IU/Yid2apPVPvyGbOVocNxiMiKxXyQc
-         zgbbhmHkkCX7ihohsmS/M9Xq9duHqUvdhLaBlYBSd49SW4PqxROw87Sgr41FboATTKuB
-         Ng6A==
-X-Gm-Message-State: AC+VfDwAa5YXf1FEdse51oNWIDTIZ3tCeKJzGfwqhP280LGI6Qo8U8AU
-	K1Wjc/zWaGIKzPeS4e87Wba8mRf+PU4=
-X-Google-Smtp-Source: ACHHUZ52upln6zKqI1U+1JgYhVW0sRy9cyScBhfhFPOE9zIQqic8xW7xrsDjTnNkvzM/PdDzJXHsWQ==
-X-Received: by 2002:a50:ee8f:0:b0:50c:646:cafd with SMTP id f15-20020a50ee8f000000b0050c0646cafdmr8637739edr.7.1684776397557;
-        Mon, 22 May 2023 10:26:37 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id c9-20020aa7c989000000b0050b2f588db6sm3124350edt.16.2023.05.22.10.26.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 May 2023 10:26:37 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+ dkim=pass header.i=@igalia.com header.s=20170329 header.b=aFddmZbq;
+ spf=pass (domain: igalia.com, ip: 213.97.179.56, mailfrom: psaavedra@igalia.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=Gt1kUOCtr81ev7nhSk9tIOdFFTngbjtr+JuBbzPRCE0=; b=aFddmZbq9rTqD7Mq3pasGhHyc8
+	Jeps9K34pQ0TfJAP6/fhtNrY6wz5mmEvPoucxl6NBTAbjbwCPD0CTQlrH670lfIPTVjcVFfNDAMh9
+	mvKYug4vHjyq9irRoFMZJPGhBjA+tRqNQJXaln5aMzx/etsnvUOKMle1os2djWYTkA+5gfUW6c8ij
+	Fmk7LV/smdev4usmEDsrg5x9bq61FQPWhdLTF96fGKgVEa2lAPXwbhUXcEV5ppawl0eVk8LPaTl/Y
+	3NuT/Vu5qVzK8zLUKmyBL8VvgGKON6n4CsfYFrGLPki2lljYIWoRtuL3RY3KHJbIUpoTmvNSZ8cbU
+	1ypLjnDQ==;
+Received: from static-70-65-62-95.ipcom.comunitel.net ([95.62.65.70] helo=golpe.local.igalia.com)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1q1A55-00GGHk-QW; Mon, 22 May 2023 20:16:27 +0200
+From: Pablo Saavedra <psaavedra@igalia.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 3/8] apmd: remove recipe and apm MACHINE_FEATURE
-Date: Mon, 22 May 2023 19:24:58 +0200
-Message-Id: <20230522172503.1651374-3-alex@linutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230522172503.1651374-1-alex@linutronix.de>
-References: <20230522172503.1651374-1-alex@linutronix.de>
+Cc: Pablo Saavedra <psaavedra@igalia.com>
+Subject: [meta-oe][kirkstone][PATCH] gstreamer1.0: upgrade 1.20.5 -> 1.20.6
+Date: Mon, 22 May 2023 20:16:04 +0200
+Message-Id: <20230522181603.1050569-1-psaavedra@igalia.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 May 2023 17:26:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181603
+ <openembedded-core@lists.openembedded.org>; Mon, 22 May 2023 18:16:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181609
 
-APM has been obsolete for a very long time, and debian no longer
-packages it or carries the source tarball.
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Changelog:
+===========
+audio: channel-mix: allow up to 64 channels instead of up to 63 channels
+AOM AV1 encoder timestamp handling improvements
+AV1 video codec caps handling improvements in aom plugin, isomp4 and matroska muxers/demuxers.
+avvidenc: fix bitrate control and timestamps off FFmpeg-based video encoders
+h264parse: fix missing timestamps on outputs when splitting a frame
+rtspsrc: more workarounds for servers with broken control uri handling
+playbin3: fix issue with UDP streams, making sure there's enough buffering
+qmlglsrc: Fix deadlock when stopping and some other fixes
+qtmux: fix default timescale unit for N/1001 framerates
+v4l2h264dec: Fix Raspberry Pi4 will not play video in application
+vtdec: Fix non-deterministic frame output after seeks
+wasapi2src: Fix loopback capture on Windows 10 Anniversary Update
+macOS, iOS: Fix Xcode 14 ABI breakage with older Xcode
+cerbero: Fix some regressions for CentOS in the 1.20 branch
+cerbero: Fix setuptools site.py breakage in Python 3.11
+Fix gst-libav build against FFmpeg from git
+gobject-introspection annotation fixes for bindings
+Miscellaneous bug fixes, memory leak fixes, and other stability and reliability improvements
+Performance improvements
 ---
- .../conf/distro/include/default-providers.inc |   1 -
- meta/conf/distro/include/maintainers.inc      |   1 -
- meta/recipes-bsp/apmd/apmd/apmd.service       |   7 -
- meta/recipes-bsp/apmd/apmd/apmd_proxy         |  91 ------------
- meta/recipes-bsp/apmd/apmd/apmd_proxy.conf    |  16 ---
- meta/recipes-bsp/apmd/apmd/default            |   8 --
- meta/recipes-bsp/apmd/apmd/init               |  51 -------
- meta/recipes-bsp/apmd/apmd/legacy.patch       | 133 ------------------
- meta/recipes-bsp/apmd/apmd/libtool.patch      |  41 ------
- meta/recipes-bsp/apmd/apmd/linkage.patch      |  53 -------
- meta/recipes-bsp/apmd/apmd/unlinux.patch      |  25 ----
- meta/recipes-bsp/apmd/apmd/wexitcode.patch    |  26 ----
- meta/recipes-bsp/apmd/apmd_3.2.2-15.bb        |  85 -----------
- .../packagegroups/packagegroup-base.bb        |   7 -
- .../matchbox-panel-2/matchbox-panel-2_2.12.bb |   2 -
- .../matchbox-session-sato/session             |   1 -
- .../matchbox-session-sato_0.1.bb              |   2 +-
- 17 files changed, 1 insertion(+), 549 deletions(-)
- delete mode 100644 meta/recipes-bsp/apmd/apmd/apmd.service
- delete mode 100644 meta/recipes-bsp/apmd/apmd/apmd_proxy
- delete mode 100644 meta/recipes-bsp/apmd/apmd/apmd_proxy.conf
- delete mode 100644 meta/recipes-bsp/apmd/apmd/default
- delete mode 100755 meta/recipes-bsp/apmd/apmd/init
- delete mode 100644 meta/recipes-bsp/apmd/apmd/legacy.patch
- delete mode 100644 meta/recipes-bsp/apmd/apmd/libtool.patch
- delete mode 100644 meta/recipes-bsp/apmd/apmd/linkage.patch
- delete mode 100644 meta/recipes-bsp/apmd/apmd/unlinux.patch
- delete mode 100644 meta/recipes-bsp/apmd/apmd/wexitcode.patch
- delete mode 100644 meta/recipes-bsp/apmd/apmd_3.2.2-15.bb
+ ...tools_1.20.5.bb => gst-devtools_1.20.6.bb} |   2 +-
+ ...1.20.5.bb => gstreamer1.0-libav_1.20.6.bb} |   2 +-
+ ...x_1.20.5.bb => gstreamer1.0-omx_1.20.6.bb} |   2 +-
+ ....bb => gstreamer1.0-plugins-bad_1.20.6.bb} |   2 +-
+ ...bb => gstreamer1.0-plugins-base_1.20.6.bb} |   2 +-
+ ...bb => gstreamer1.0-plugins-good_1.20.6.bb} |   2 +-
+ ...bb => gstreamer1.0-plugins-ugly_1.20.6.bb} |   2 +-
+ ....20.5.bb => gstreamer1.0-python_1.20.6.bb} |   2 +-
+ ....bb => gstreamer1.0-rtsp-server_1.20.6.bb} |   2 +-
+ ...1.20.5.bb => gstreamer1.0-vaapi_1.20.6.bb} |   2 +-
+ ...005-bin-Fix-race-conditions-in-tests.patch | 300 ------------------
+ ...er1.0_1.20.5.bb => gstreamer1.0_1.20.6.bb} |   3 +-
+ 12 files changed, 11 insertions(+), 312 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.20.5.bb => gst-devtools_1.20.6.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.20.5.bb => gstreamer1.0-libav_1.20.6.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.20.5.bb => gstreamer1.0-omx_1.20.6.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.20.5.bb => gstreamer1.0-plugins-bad_1.20.6.bb} (98%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.20.5.bb => gstreamer1.0-plugins-base_1.20.6.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.20.5.bb => gstreamer1.0-plugins-good_1.20.6.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.20.5.bb => gstreamer1.0-plugins-ugly_1.20.6.bb} (94%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.20.5.bb => gstreamer1.0-python_1.20.6.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.20.5.bb => gstreamer1.0-rtsp-server_1.20.6.bb} (90%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.20.5.bb => gstreamer1.0-vaapi_1.20.6.bb} (95%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-bin-Fix-race-conditions-in-tests.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.20.5.bb => gstreamer1.0_1.20.6.bb} (95%)
 
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-index 3a4e989c1f9..d18173c7449 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -24,7 +24,6 @@ PREFERRED_PROVIDER_virtual/make-native ?= "make-native"
- # Default virtual runtime providers
- #
- VIRTUAL-RUNTIME_update-alternatives ?= "update-alternatives-opkg"
--VIRTUAL-RUNTIME_apm ?= "apm"
- VIRTUAL-RUNTIME_alsa-state ?= "alsa-state"
- VIRTUAL-RUNTIME_getopt ?= "util-linux-getopt"
- VIRTUAL-RUNTIME_base-utils ?= "busybox"
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index e99fbe4aefb..30d211e4b08 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -38,7 +38,6 @@ RECIPE_MAINTAINER:pn-alsa-tools = "Michael Opdenacker <michael.opdenacker@bootli
- RECIPE_MAINTAINER:pn-alsa-topology-conf = "Michael Opdenacker <michael.opdenacker@bootlin.com>"
- RECIPE_MAINTAINER:pn-alsa-ucm-conf = "Michael Opdenacker <michael.opdenacker@bootlin.com>"
- RECIPE_MAINTAINER:pn-alsa-utils = "Michael Opdenacker <michael.opdenacker@bootlin.com>"
--RECIPE_MAINTAINER:pn-apmd = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-apr = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER:pn-apr-util = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER:pn-apt = "Unassigned <unassigned@yoctoproject.org"
-diff --git a/meta/recipes-bsp/apmd/apmd/apmd.service b/meta/recipes-bsp/apmd/apmd/apmd.service
+diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.6.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.20.5.bb
+rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.20.6.bb
+index 9db31c18e4..2eee50e6d8 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.6.bb
+@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
+            file://0001-connect-has-a-different-signature-on-musl.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "5684436121b8bae07fd00b74395f95e44b5f26323dce4fa045fa665676807bba"
++SRC_URI[sha256sum] = "2c64037c823fb88751a47dacf3d4752a52b7951190d6e05fc44855e912e81d71"
+ 
+ DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
+ RRECOMMENDS:${PN} = "git"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.6.bb
+similarity index 91%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.6.bb
+index e5925c6510..c54913e8a1 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.6.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
+                     "
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "b152e3cc49d014899f53c39d8a6224a44e1399b4cf76aa5f9a903fdf9793c3cc"
++SRC_URI[sha256sum] = "7d619a030542a4a5a11e0302742a3d9b05f8e5cfc453025683a0379bc50aa013"
+ 
+ S = "${WORKDIR}/gst-libav-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.6.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.6.bb
+index ec5efcd408..b29d393bfe 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.6.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-omx/gst-omx-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "bcccbc02548cdc123fd49944dd44a4f1adc5d107e36f010d320eb526e2107806"
++SRC_URI[sha256sum] = "48e82008a2a0ad5f4b525aba8a6c49c4ca2d7d25c6b1b14d107dd747e26d5a8e"
+ 
+ S = "${WORKDIR}/gst-omx-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.6.bb
+similarity index 98%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.6.bb
+index 80766b9166..fdb4509691 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.6.bb
+@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
+            file://0003-ensure-valid-sentinals-for-gst_structure_get-etc.patch \
+            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
+            "
+-SRC_URI[sha256sum] = "f431214b0754d7037adcde93c3195106196588973e5b32dcb24938805f866363"
++SRC_URI[sha256sum] = "d98c73fa5cdddb372a91199464515cfc80c89bbe05e3d4387ea4381e4224483a"
+ 
+ S = "${WORKDIR}/gst-plugins-bad-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.6.bb
+similarity index 97%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.6.bb
+index c37b542c57..8d1aef1fc8 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.6.bb
+@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
+            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
+            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
+            "
+-SRC_URI[sha256sum] = "11f911ef65f3095d7cf698a1ad1fc5242ac3ad6c9270465fb5c9e7f4f9c19b35"
++SRC_URI[sha256sum] = "54eac357d6cd66f183b94a26e493bf4d5781bc76bc60cad122742626caf8f1a3"
+ 
+ S = "${WORKDIR}/gst-plugins-base-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.6.bb
+similarity index 97%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.6.bb
+index 80aed01973..81f5dd0932 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.6.bb
+@@ -8,7 +8,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-go
+            file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "e83ab4d12ca24959489bbb0ec4fac9b90e32f741d49cda357cb554b2cb8b97f9"
++SRC_URI[sha256sum] = "e51365cfa9b19bd736dafe2c8828254a55d66996a3c60550bb0d50041c381a44"
+ 
+ S = "${WORKDIR}/gst-plugins-good-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.6.bb
+similarity index 94%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.6.bb
+index f765e626c9..e62e9e9815 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.6.bb
+@@ -14,7 +14,7 @@ LICENSE_FLAGS = "commercial"
+ SRC_URI = " \
+             https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
+             "
+-SRC_URI[sha256sum] = "af67d8ba7cab230f64d0594352112c2c443e2aa36a87c35f9f98a43d11430b87"
++SRC_URI[sha256sum] = "ca3fb6abc9f6e981d204a736c254e50cc1786a2f5038d83023e42ea009b10246"
+ 
+ S = "${WORKDIR}/gst-plugins-ugly-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.6.bb
+similarity index 91%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.6.bb
+index 05e9ace276..77745b8ba9 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.6.bb
+@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "27487652318659cfd7dc42784b713c78d29cc7a7df4fb397134c8c125f65e3b2"
++SRC_URI[sha256sum] = "aa619e08ddd9f92755f4bd24ba9577e81ae4c86bff170c3e574153ec3cdc80cc"
+ 
+ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
+ RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.6.bb
+similarity index 90%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.6.bb
+index c9cf42903d..017edec426 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.6.bb
+@@ -10,7 +10,7 @@ PNREAL = "gst-rtsp-server"
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "ba398a7ddd559cce56ef4b91f448d174e0dccad98a493563d2d59c41a2ef39c5"
++SRC_URI[sha256sum] = "800122a798387bd4b18b558737d30a010d94154f41bd210d4c4cc2d80ecae90f"
+ 
+ S = "${WORKDIR}/${PNREAL}-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.6.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.6.bb
+index 716f50ebe1..d67abf408c 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.6.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "510c6fb4ff3f676d7946ce1800e04ccf5aabe5a586d4e164d1961808fab8c94b"
++SRC_URI[sha256sum] = "57028a2cdabb749eb38a53f45cfa36f02b4e5368fb6d8684ef31d9e73ddf653b"
+ 
+ S = "${WORKDIR}/${REALPN}-${PV}"
+ DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-bin-Fix-race-conditions-in-tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-bin-Fix-race-conditions-in-tests.patch
 deleted file mode 100644
-index ffab82334f9..00000000000
---- a/meta/recipes-bsp/apmd/apmd/apmd.service
+index f1fac2df57..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-bin-Fix-race-conditions-in-tests.patch
 +++ /dev/null
-@@ -1,7 +0,0 @@
--[Unit]
--Description=Advanced Power Management daemon
--After=remote-fs.target
+@@ -1,300 +0,0 @@
+-From e1e2d8d58c1e09e065849cdb1f6466c0537a7c51 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
+-Date: Tue, 21 Jun 2022 11:51:35 +0300
+-Subject: [PATCH] bin: Fix race conditions in tests
 -
--[Service]
--EnvironmentFile=-@SYSCONFDIR@/default/apmd
--ExecStart=@SBINDIR@/apmd -P @SYSCONFDIR@/apm/apmd_proxy $APMD
-diff --git a/meta/recipes-bsp/apmd/apmd/apmd_proxy b/meta/recipes-bsp/apmd/apmd/apmd_proxy
-deleted file mode 100644
-index c48ee4e5d5f..00000000000
---- a/meta/recipes-bsp/apmd/apmd/apmd_proxy
-+++ /dev/null
-@@ -1,91 +0,0 @@
--#!/bin/sh
--# 
--# apmd_proxy - program dispatcher for APM daemon
--#
--# Written by Craig Markwardt (craigm@lheamail.gsfc.nasa.gov) 21 May 1999
--# Modified for Debian by Avery Pennarun
--#
--# This shell script is called by the APM daemon (apmd) when a power
--# management event occurs.  Its first and second arguments describe the
--# event.  For example, apmd will call "apmd_proxy suspend system" just
--# before the system is suspended.
--#
--# Here are the possible arguments:
--#
--# start              - APM daemon has started
--# stop               - APM daemon is shutting down
--# suspend critical   - APM system indicates critical suspend (++)
--# suspend system     - APM system has requested suspend mode
--# suspend user       - User has requested suspend mode
--# standby system     - APM system has requested standby mode 
--# standby user       - User has requested standby mode
--# resume suspend     - System has resumed from suspend mode
--# resume standby     - System has resumed from standby mode
--# resume critical    - System has resumed from critical suspend
--# change battery     - APM system reported low battery
--# change power       - APM system reported AC/battery change
--# change time        - APM system reported time change (*)
--# change capability  - APM system reported config. change (+)
--#
--# (*) - APM daemon may be configured to not call these sequences
--# (+) - Available if APM kernel supports it.
--# (++) - "suspend critical" is never passed to apmd from the kernel,
--#   so we will never see it here.  Scripts that process "resume
--#   critical" events need to take this into account.
--#
--# It is the proxy script's responsibility to examine the APM status
--# (via /proc/apm) or other status and to take appropriate actions.
--# For example, the script might unmount network drives before the
--# machine is suspended.
--#
--# In Debian, the usual way of adding functionality to the proxy is to
--# add a script to /etc/apm/event.d.  This script will be called by
--# apmd_proxy (via run-parts) with the same arguments.
--#
--# If it is important that a certain set of script be run in a certain
--# order on suspend and in a different order on resume, then put all
--# the scripts in /etc/apm/scripts.d instead of /etc/apm/event.d and
--# symlink to these from /etc/apm/suspend.d, /etc/apm/resume.d and
--# /etc/apm/other.d using names whose lexicographical order is the same
--# as the desired order of execution.
--#
--# If the kernel's APM driver supports it, apmd_proxy can return a non-zero
--# exit status on suspend and standby events, indicating that the suspend
--# or standby event should be rejected.
--#
--# *******************************************************************
+-The latency messages are non-deterministic and can arrive before/after
+-async-done or during state-changes as they are posted by e.g. sinks from
+-their streaming thread but bins are finishing asynchronous state changes
+-from a secondary helper thread.
 -
--set -e
+-To solve this, expect latency messages at any time and assert that we
+-receive one at some point during the test.
 -
--# The following doesn't yet work, because current kernels (up to at least
--# 2.4.20) do not support rejection of APM events.  Supporting this would
--# require substantial modifications to the APM driver.  We will re-enable
--# this feature if the driver is ever modified.       -- cph@debian.org
--#
--#SUSPEND_ON_AC=false
--#[ -r /etc/apm/apmd_proxy.conf ] && . /etc/apm/apmd_proxy.conf
--#
--#if [ "${SUSPEND_ON_AC}" = "false" -a "${2}" = "system" ] \
--#	&& on_ac_power >/dev/null; then
--#    # Reject system suspends and standbys if we are on AC power
--#    exit 1  # Reject (NOTE kernel support must be enabled)
--#fi
+-Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/2643>
 -
--if [ "${1}" = "suspend" -o "${1}" = "standby" ]; then
--    run-parts -a "${1}" -a "${2}" /etc/apm/event.d
--    if [ -d /etc/apm/suspend.d ]; then
--        run-parts -a "${1}" -a "${2}" /etc/apm/suspend.d
--    fi
--elif [ "${1}" = "resume" ]; then
--    if [ -d /etc/apm/resume.d ]; then
--        run-parts -a "${1}" -a "${2}" /etc/apm/resume.d
--    fi
--    run-parts -a "${1}" -a "${2}" /etc/apm/event.d
--else
--    run-parts -a "${1}" -a "${2}" /etc/apm/event.d
--    if [ -d /etc/apm/other.d ]; then
--        run-parts -a "${1}" -a "${2}" /etc/apm/other.d
--    fi
--fi
--
--exit 0
-diff --git a/meta/recipes-bsp/apmd/apmd/apmd_proxy.conf b/meta/recipes-bsp/apmd/apmd/apmd_proxy.conf
-deleted file mode 100644
-index 751145c522c..00000000000
---- a/meta/recipes-bsp/apmd/apmd/apmd_proxy.conf
-+++ /dev/null
-@@ -1,16 +0,0 @@
--# /etc/apm/apmd_proxy.conf: configuration file for apmd.
--#
--# This file is managed by debconf when installing or reconfiguring the
--# package.  It is generated by merging the answers gathered by debconf
--# into the template file "/usr/share/apmd/apmd_proxy.conf".
--
--# The following doesn't yet work, because current kernels (up to at least
--# 2.4.20) do not support rejection of APM events.  Supporting this would
--# require substantial modifications to the APM driver.  We will re-enable
--# this feature if the driver is ever modified.       -- cph@debian.org
--#
--# Set the following to "false" if you want to reject system suspend or
--# system standby requests when the computer is running on AC power.
--# Otherwise set this to "true".  Such requests are never rejected when
--# the computer is running on battery power.
--#SUSPEND_ON_AC=true
-diff --git a/meta/recipes-bsp/apmd/apmd/default b/meta/recipes-bsp/apmd/apmd/default
-deleted file mode 100644
-index 4b7965abf85..00000000000
---- a/meta/recipes-bsp/apmd/apmd/default
-+++ /dev/null
-@@ -1,8 +0,0 @@
--#
--# Default for /etc/init.d/apmd
--#
--
--# As apmd can be called with arguments, we use the following variable
--# to store them, e.g., APMD="-w 5 -p 2".
--# See the manual page apmd(8) for details.
--APMD="--proxy-timeout 30"
-diff --git a/meta/recipes-bsp/apmd/apmd/init b/meta/recipes-bsp/apmd/apmd/init
-deleted file mode 100755
-index c0b41aa9d17..00000000000
---- a/meta/recipes-bsp/apmd/apmd/init
-+++ /dev/null
-@@ -1,51 +0,0 @@
--#!/bin/sh
--### BEGIN INIT INFO
--# Provides:          apmd
--# Required-Start:    $remote_fs
--# Required-Stop:     $remote_fs
--# Default-Start:     2 3 4 5
--# Default-Stop:      0 1 6
--# Short-Description: Advanced Power Management daemon
--### END INIT INFO
--
--# Source function library.
--. /etc/init.d/functions
--
--PATH=/bin:/usr/bin:/sbin:/usr/sbin
--
--[ -f /etc/default/rcS ] && . /etc/default/rcS
--[ -f /etc/default/apmd ] && . /etc/default/apmd
--
--case "$1" in
--    start)
--	echo -n "Starting advanced power management daemon: "
--	start-stop-daemon -S -x /usr/sbin/apmd -- \
--		-P /etc/apm/apmd_proxy $APMD
--	if [ $? = 0 ]; then
--	    echo "apmd."
--	else
--	    echo "(failed.)"
--	fi
--	;;
--    stop)
--	echo -n "Stopping advanced power management daemon: "
--	start-stop-daemon -K \
--		-x /usr/sbin/apmd
--	echo "apmd."
--	;;
--    status)
--	status /usr/sbin/apmd;
--	exit $?
--	;;
--    restart|force-reload) 
--	$0 stop
--	$0 start
--	exit
--	;;
--    *)
--	echo "Usage: /etc/init.d/apmd {start|stop|status|restart|force-reload}"
--	exit 1
--	;;
--esac
--
--exit 0
-diff --git a/meta/recipes-bsp/apmd/apmd/legacy.patch b/meta/recipes-bsp/apmd/apmd/legacy.patch
-deleted file mode 100644
-index 88713118057..00000000000
---- a/meta/recipes-bsp/apmd/apmd/legacy.patch
-+++ /dev/null
-@@ -1,133 +0,0 @@
--From 3595933d221f0ba836917debc0776b8723972ec9 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Tue, 11 Aug 2015 17:40:50 +0300
--Subject: [PATCH 1/3] Patch with fixes provided by Debian.
--
--This patch is taken from
--ftp://ftp.debian.org/debian/pool/main/a/apmd/apmd_3.2.2-15.debian.tar.xz
--
--Upstream-Status: Inappropriate [upstream is dead]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
+-Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/2643]
+-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ----
-- Makefile |  2 +-
-- apm.c    |  3 ++-
-- apm.h    |  9 +++++++++
-- apmd.c   | 15 ++++++++-------
-- 4 files changed, 20 insertions(+), 9 deletions(-)
+- .../gstreamer/tests/check/gst/gstbin.c        | 132 ++++++++++++------
+- 1 file changed, 92 insertions(+), 40 deletions(-)
 -
--diff --git a/Makefile b/Makefile
--index bf346d9..92fc0fd 100644
----- a/Makefile
--+++ b/Makefile
--@@ -43,7 +43,7 @@ DESTDIR=
+-diff --git a/subprojects/gstreamer/tests/check/gst/gstbin.c b/subprojects/gstreamer/tests/check/gst/gstbin.c
+-index e366d5fe20f..88ff44db0c3 100644
+---- a/subprojects/gstreamer/tests/check/gst/gstbin.c
+-+++ b/subprojects/gstreamer/tests/check/gst/gstbin.c
+-@@ -27,50 +27,95 @@
+- #include <gst/base/gstbasesrc.h>
 - 
-- CC=gcc
-- CFLAGS=-O -g
---XTRACFLAGS=-Wall -pipe -I. -I/usr/src/linux/include \
--+XTRACFLAGS=-Wall -pipe -I. -I/usr/src/linux/include -I/usr/X11R6/include \
-- 		-I/usr/src/linux-2.2/include -I /usr/src/linux-2.0/include \
-- 		-DVERSION=\"$(VERSION)\" \
-- 		-DDEFAULT_PROXY_NAME=\"$(PROXY_DIR)/apmd_proxy\"
--diff --git a/apm.c b/apm.c
--index b21c057..0359b1c 100644
----- a/apm.c
--+++ b/apm.c
--@@ -219,12 +219,13 @@ int main(int argc, char **argv)
-- 		}
-- 	}
-- 													    
+- static void
+--pop_async_done (GstBus * bus)
+-+pop_async_done (GstBus * bus, gboolean * had_latency)
+- {
+-   GstMessage *message;
+-+  GstMessageType types = GST_MESSAGE_ASYNC_DONE;
+-+
+-+  if (!*had_latency)
+-+    types |= GST_MESSAGE_LATENCY;
+- 
+-   GST_DEBUG ("popping async-done message");
+--  message = gst_bus_poll (bus, GST_MESSAGE_ASYNC_DONE, -1);
+- 
+--  fail_unless (message && GST_MESSAGE_TYPE (message)
+--      == GST_MESSAGE_ASYNC_DONE, "did not get GST_MESSAGE_ASYNC_DONE");
+-+  do {
+-+    message = gst_bus_poll (bus, types, -1);
+- 
+--  gst_message_unref (message);
+--  GST_DEBUG ("popped message");
+-+    fail_unless (message);
+-+    GST_DEBUG ("popped message %s",
+-+        gst_message_type_get_name (GST_MESSAGE_TYPE (message)));
+-+
+-+    if (GST_MESSAGE_TYPE (message) == GST_MESSAGE_LATENCY) {
+-+      fail_unless (*had_latency == FALSE);
+-+      *had_latency = TRUE;
+-+      gst_clear_message (&message);
+-+      types &= ~GST_MESSAGE_LATENCY;
+-+      continue;
+-+    }
+-+
+-+    fail_unless (GST_MESSAGE_TYPE (message)
+-+        == GST_MESSAGE_ASYNC_DONE, "did not get GST_MESSAGE_ASYNC_DONE");
+-+
+-+    gst_clear_message (&message);
+-+    break;
+-+  } while (TRUE);
+- }
+- 
+- static void
+--pop_latency (GstBus * bus)
+-+pop_latency (GstBus * bus, gboolean * had_latency)
+- {
+-   GstMessage *message;
+- 
+--  GST_DEBUG ("popping async-done message");
+-+  if (*had_latency)
+-+    return;
+-+
+-+  GST_DEBUG ("popping latency message");
+-   message = gst_bus_poll (bus, GST_MESSAGE_LATENCY, -1);
+- 
+--  fail_unless (message && GST_MESSAGE_TYPE (message)
+-+  fail_unless (message);
+-+  fail_unless (GST_MESSAGE_TYPE (message)
+-       == GST_MESSAGE_LATENCY, "did not get GST_MESSAGE_LATENCY");
+- 
+--  gst_message_unref (message);
+--  GST_DEBUG ("popped message");
+-+  GST_DEBUG ("popped message %s",
+-+      gst_message_type_get_name (GST_MESSAGE_TYPE (message)));
+-+  gst_clear_message (&message);
+-+
+-+  *had_latency = TRUE;
+- }
+- 
+- static void
+--pop_state_changed (GstBus * bus, int count)
+-+pop_state_changed (GstBus * bus, int count, gboolean * had_latency)
+- {
+-   GstMessage *message;
 --
--+#if 0
--     if (!(i.apm_flags & APM_32_BIT_SUPPORT))
--     {
-- 	fprintf(stderr, "32-bit APM interface not supported\n");
-- 	exit(1);
--     }
--+#endif
+-+  GstMessageType types = GST_MESSAGE_STATE_CHANGED;
+-   int i;
 - 
--     if (verbose && (i.apm_flags & 0x10))
-- 	printf("APM BIOS Power Management is currently disabled\n");
--diff --git a/apm.h b/apm.h
--index fb24dfd..824cc06 100644
----- a/apm.h
--+++ b/apm.h
--@@ -20,6 +20,13 @@
--  * $Id: apm.h,v 1.7 1999/07/05 22:31:11 apenwarr Exp $
--  * 
--  */
--+#ifndef _APM_H
--+#define _APM_H 1
+-+  if (!*had_latency)
+-+    types |= GST_MESSAGE_LATENCY;
 -+
--+#ifndef __KERNEL_STRICT_NAMES
--+#define __KERNEL_STRICT_NAMES
--+#endif
+-   GST_DEBUG ("popping %d messages", count);
+-   for (i = 0; i < count; ++i) {
+--    message = gst_bus_poll (bus, GST_MESSAGE_STATE_CHANGED, -1);
+--
+--    fail_unless (message && GST_MESSAGE_TYPE (message)
+--        == GST_MESSAGE_STATE_CHANGED, "did not get GST_MESSAGE_STATE_CHANGED");
+--
+--    gst_message_unref (message);
+-+    do {
+-+      message = gst_bus_poll (bus, types, -1);
 -+
-- #include <linux/apm_bios.h>
-- #include <sys/types.h>
+-+      fail_unless (message);
+-+      GST_DEBUG ("popped message %s",
+-+          gst_message_type_get_name (GST_MESSAGE_TYPE (message)));
+-+
+-+      if (GST_MESSAGE_TYPE (message) == GST_MESSAGE_LATENCY) {
+-+        fail_unless (*had_latency == FALSE);
+-+        *had_latency = TRUE;
+-+        gst_clear_message (&message);
+-+        types &= ~GST_MESSAGE_LATENCY;
+-+        continue;
+-+      }
+-+
+-+      fail_unless (GST_MESSAGE_TYPE (message)
+-+          == GST_MESSAGE_STATE_CHANGED,
+-+          "did not get GST_MESSAGE_STATE_CHANGED");
+-+
+-+      gst_message_unref (message);
+-+      break;
+-+    } while (TRUE);
+-   }
+-   GST_DEBUG ("popped %d messages", count);
+- }
+-@@ -538,6 +583,7 @@ GST_START_TEST (test_message_state_changed_children)
+-   GstBus *bus;
+-   GstStateChangeReturn ret;
+-   GstState current, pending;
+-+  gboolean had_latency = FALSE;
 - 
--@@ -93,3 +100,5 @@ extern int apm_reject(int fd);
+-   pipeline = GST_PIPELINE (gst_pipeline_new (NULL));
+-   fail_unless (pipeline != NULL, "Could not create pipeline");
+-@@ -576,7 +622,7 @@ GST_START_TEST (test_message_state_changed_children)
+-   ASSERT_OBJECT_REFCOUNT (sink, "sink", 2);
+-   ASSERT_OBJECT_REFCOUNT (pipeline, "pipeline", 2);
+- 
+--  pop_state_changed (bus, 3);
+-+  pop_state_changed (bus, 3, &had_latency);
+-   fail_if (gst_bus_have_pending (bus), "unexpected pending messages");
+- 
+-   ASSERT_OBJECT_REFCOUNT (bus, "bus", 2);
+-@@ -619,9 +665,9 @@ GST_START_TEST (test_message_state_changed_children)
+-    * its state_change message */
+-   ASSERT_OBJECT_REFCOUNT_BETWEEN (pipeline, "pipeline", 3, 4);
+- 
+--  pop_state_changed (bus, 3);
+--  pop_async_done (bus);
+--  pop_latency (bus);
+-+  pop_state_changed (bus, 3, &had_latency);
+-+  pop_async_done (bus, &had_latency);
+-+  pop_latency (bus, &had_latency);
+-   fail_if ((gst_bus_pop (bus)) != NULL);
+- 
+-   ASSERT_OBJECT_REFCOUNT_BETWEEN (bus, "bus", 2, 3);
+-@@ -648,7 +694,7 @@ GST_START_TEST (test_message_state_changed_children)
+-   ASSERT_OBJECT_REFCOUNT_BETWEEN (sink, "sink", 2, 4);
+-   ASSERT_OBJECT_REFCOUNT (pipeline, "pipeline", 3);
+- 
+--  pop_state_changed (bus, 3);
+-+  pop_state_changed (bus, 3, &had_latency);
+-   fail_if ((gst_bus_pop (bus)) != NULL);
+- 
+-   ASSERT_OBJECT_REFCOUNT (bus, "bus", 2);
+-@@ -669,7 +715,7 @@ GST_START_TEST (test_message_state_changed_children)
+-   ASSERT_OBJECT_REFCOUNT_BETWEEN (sink, "sink", 3, 4);
+-   ASSERT_OBJECT_REFCOUNT (pipeline, "pipeline", 3);
+- 
+--  pop_state_changed (bus, 6);
+-+  pop_state_changed (bus, 6, &had_latency);
+-   fail_if ((gst_bus_pop (bus)) != NULL);
+- 
+-   ASSERT_OBJECT_REFCOUNT (src, "src", 1);
+-@@ -696,6 +742,7 @@ GST_START_TEST (test_watch_for_state_change)
+-   GstElement *src, *sink, *bin;
+-   GstBus *bus;
+-   GstStateChangeReturn ret;
+-+  gboolean had_latency = FALSE;
+- 
+-   bin = gst_element_factory_make ("bin", NULL);
+-   fail_unless (bin != NULL, "Could not create bin");
+-@@ -722,9 +769,9 @@ GST_START_TEST (test_watch_for_state_change)
+-       GST_CLOCK_TIME_NONE);
+-   fail_unless (ret == GST_STATE_CHANGE_SUCCESS);
+- 
+--  pop_state_changed (bus, 6);
+--  pop_async_done (bus);
+--  pop_latency (bus);
+-+  pop_state_changed (bus, 6, &had_latency);
+-+  pop_async_done (bus, &had_latency);
+-+  pop_latency (bus, &had_latency);
+- 
+-   fail_unless (gst_bus_have_pending (bus) == FALSE,
+-       "Unexpected messages on bus");
+-@@ -732,16 +779,17 @@ GST_START_TEST (test_watch_for_state_change)
+-   ret = gst_element_set_state (GST_ELEMENT (bin), GST_STATE_PLAYING);
+-   fail_unless (ret == GST_STATE_CHANGE_SUCCESS);
+- 
+--  pop_state_changed (bus, 3);
+-+  pop_state_changed (bus, 3, &had_latency);
+- 
+-+  had_latency = FALSE;
+-   /* this one might return either SUCCESS or ASYNC, likely SUCCESS */
+-   ret = gst_element_set_state (GST_ELEMENT (bin), GST_STATE_PAUSED);
+-   gst_element_get_state (GST_ELEMENT (bin), NULL, NULL, GST_CLOCK_TIME_NONE);
+- 
+--  pop_state_changed (bus, 3);
+-+  pop_state_changed (bus, 3, &had_latency);
+-   if (ret == GST_STATE_CHANGE_ASYNC) {
+--    pop_async_done (bus);
+--    pop_latency (bus);
+-+    pop_async_done (bus, &had_latency);
+-+    pop_latency (bus, &had_latency);
+-   }
+- 
+-   fail_unless (gst_bus_have_pending (bus) == FALSE,
+-@@ -898,6 +946,7 @@ GST_START_TEST (test_children_state_change_order_flagged_sink)
+-   GstStateChangeReturn ret;
+-   GstState current, pending;
+-   GstBus *bus;
+-+  gboolean had_latency = FALSE;
+- 
+-   pipeline = gst_pipeline_new (NULL);
+-   fail_unless (pipeline != NULL, "Could not create pipeline");
+-@@ -951,10 +1000,11 @@ GST_START_TEST (test_children_state_change_order_flagged_sink)
+-   ASSERT_STATE_CHANGE_MSG (bus, sink, GST_STATE_READY, GST_STATE_PAUSED, 107);
 - #else
-- #define apm_reject(fd)   (-EINVAL)
+- 
+--  pop_state_changed (bus, 2);   /* pop remaining ready => paused messages off the bus */
+-+  pop_state_changed (bus, 2, &had_latency);     /* pop remaining ready => paused messages off the bus */
+-   ASSERT_STATE_CHANGE_MSG (bus, pipeline, GST_STATE_READY, GST_STATE_PAUSED,
+-       108);
+--  pop_async_done (bus);
+-+  pop_async_done (bus, &had_latency);
+-+  pop_latency (bus, &had_latency);
 - #endif
--+
--+#endif
--diff --git a/apmd.c b/apmd.c
--index 49ed3a1..560f536 100644
----- a/apmd.c
--+++ b/apmd.c
--@@ -343,7 +343,7 @@ static int call_proxy(apm_event_t event)
-- 		/* parent */
-- 		int status, retval;
-- 		ssize_t len;
---		time_t time_limit;
--+		time_t countdown;
+-   /* PAUSED => PLAYING */
+-   GST_DEBUG ("popping PAUSED -> PLAYING messages");
+-@@ -972,8 +1022,8 @@ GST_START_TEST (test_children_state_change_order_flagged_sink)
+-   fail_if (ret != GST_STATE_CHANGE_SUCCESS, "State change to READY failed");
 - 
-- 		if (pid < 0) {
-- 			/* Couldn't fork */
--@@ -356,8 +356,9 @@ static int call_proxy(apm_event_t event)
-- 		/* Capture the child's output, if any, but only until it terminates */
-- 		close(fds[1]);
-- 		fcntl(fds[0], F_SETFL, O_RDONLY|O_NONBLOCK);
---		time_limit = time(0) + proxy_timeout;
--+		countdown = proxy_timeout;
-- 		do {
--+			countdown -= 1;
-- 			while ((len = read(fds[0], line, sizeof(line)-1)) > 0) {
-- 				line[len] = 0;
-- 				APMD_SYSLOG(LOG_INFO, "+ %s", line);
--@@ -372,16 +373,16 @@ static int call_proxy(apm_event_t event)
-- 				goto proxy_done;
-- 			}
-- 				
---			sleep(1);
--+			while (sleep(1) > 0) ;
-- 		} while (
---			(time(0) < time_limit)
--+			(countdown >= 0)
-- 			|| (proxy_timeout < 0)
-- 		);
+-   /* TODO: do we need to check downwards state change order as well? */
+--  pop_state_changed (bus, 4);   /* pop playing => paused messages off the bus */
+--  pop_state_changed (bus, 4);   /* pop paused => ready messages off the bus */
+-+  pop_state_changed (bus, 4, &had_latency);     /* pop playing => paused messages off the bus */
+-+  pop_state_changed (bus, 4, &had_latency);     /* pop paused => ready messages off the bus */
 - 
-- 		APMD_SYSLOG(LOG_NOTICE, "Proxy has been running more than %d seconds; killing it", proxy_timeout);
+-   while (GST_OBJECT_REFCOUNT_VALUE (pipeline) > 1)
+-     THREAD_SWITCH ();
+-@@ -1002,6 +1052,7 @@ GST_START_TEST (test_children_state_change_order_semi_sink)
+-   GstStateChangeReturn ret;
+-   GstState current, pending;
+-   GstBus *bus;
+-+  gboolean had_latency = FALSE;
 - 
-- 		kill(pid, SIGTERM);
---		time_limit = time(0) + 5;
--+		countdown = 5;
-- 		do {
-- 			retval = waitpid(pid, &status, WNOHANG);
-- 			if (retval == pid)
--@@ -392,9 +393,9 @@ static int call_proxy(apm_event_t event)
-- 				goto proxy_done;
-- 			}
+-   /* (2) Now again, but check other code path where we don't have
+-    *     a proper sink correctly flagged as such, but a 'semi-sink' */
+-@@ -1056,10 +1107,11 @@ GST_START_TEST (test_children_state_change_order_semi_sink)
+-   ASSERT_STATE_CHANGE_MSG (bus, src, GST_STATE_READY, GST_STATE_PAUSED, 206);
+-   ASSERT_STATE_CHANGE_MSG (bus, sink, GST_STATE_READY, GST_STATE_PAUSED, 207);
+- #else
+--  pop_state_changed (bus, 2);   /* pop remaining ready => paused messages off the bus */
+-+  pop_state_changed (bus, 2, &had_latency);     /* pop remaining ready => paused messages off the bus */
+-   ASSERT_STATE_CHANGE_MSG (bus, pipeline, GST_STATE_READY, GST_STATE_PAUSED,
+-       208);
+--  pop_async_done (bus);
+-+  pop_async_done (bus, &had_latency);
+-+  pop_latency (bus, &had_latency);
 - 
---			sleep(1);
--+			while (sleep(1) > 0) ;
+-   /* PAUSED => PLAYING */
+-   GST_DEBUG ("popping PAUSED -> PLAYING messages");
+-@@ -1076,8 +1128,8 @@ GST_START_TEST (test_children_state_change_order_semi_sink)
+-   fail_if (ret != GST_STATE_CHANGE_SUCCESS, "State change to READY failed");
 - 
---		} while (time(0) < time_limit);
--+		} while (countdown >= 0);
+-   /* TODO: do we need to check downwards state change order as well? */
+--  pop_state_changed (bus, 4);   /* pop playing => paused messages off the bus */
+--  pop_state_changed (bus, 4);   /* pop paused => ready messages off the bus */
+-+  pop_state_changed (bus, 4, &had_latency);     /* pop playing => paused messages off the bus */
+-+  pop_state_changed (bus, 4, &had_latency);     /* pop paused => ready messages off the bus */
 - 
-- 		kill(pid, SIGKILL);
-- 		status = __W_EXITCODE(0, SIGKILL);
+-   GST_DEBUG ("waiting for pipeline to reach refcount 1");
+-   while (GST_OBJECT_REFCOUNT_VALUE (pipeline) > 1)
 --- 
--2.1.4
+-GitLab
 -
-diff --git a/meta/recipes-bsp/apmd/apmd/libtool.patch b/meta/recipes-bsp/apmd/apmd/libtool.patch
-deleted file mode 100644
-index fd0a952890d..00000000000
---- a/meta/recipes-bsp/apmd/apmd/libtool.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--From d5dde7ca91a5aed273d8fe269e1a5194e85c8c79 Mon Sep 17 00:00:00 2001
--From: Scott Garman <scott.a.garman@intel.com>
--Date: Tue, 13 Jul 2010 16:46:46 +0800
--Subject: [PATCH] apmd: upgrade to 3.2.2-14
--
--Add by RP to address "unable to infer tagged configuration" error:
--   commit 35de05e61b88c0808a5e885bb0efdf420555d5ad
--   Author: Richard Purdie <rpurdie@rpsys.net>
--   Date:   Sun Jun 1 16:13:38 2008 +0000
--
--   apmd: Use libtool --tag options to avoid problems with libtool 2.2.4 (from poky)
--
--However I didn't see same issue with current libtool-2.2.10. Also per my understanding,
--the default tag, if not specified, falls back to CC. So disable it from patching, but
--keep it here. If we encounter similar issue in the future, we could then push upstream
--
--Comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-16
--
--Upstream-Status: Pending
--
--Signed-off-by: Scott Garman <scott.a.garman@intel.com>
--
-----
-- Makefile | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/Makefile b/Makefile
--index 92fc0fd..8e283dc 100644
----- a/Makefile
--+++ b/Makefile
--@@ -59,8 +59,8 @@ RANLIB=ranlib
-- #LDFLAGS=-s
-- 
-- LIBTOOL=libtool --quiet
---LT_COMPILE = $(LIBTOOL) --mode=compile $(CC)
---LT_LINK = $(LIBTOOL) --mode=link $(CC)
--+LT_COMPILE = $(LIBTOOL) --tag=CC --mode=compile $(CC)
--+LT_LINK = $(LIBTOOL)  --tag=CC --mode=link $(CC)
-- LT_INSTALL = $(LIBTOOL) --mode=install install
-- LT_CLEAN = $(LIBTOOL) --mode=clean rm
-- 
-diff --git a/meta/recipes-bsp/apmd/apmd/linkage.patch b/meta/recipes-bsp/apmd/apmd/linkage.patch
-deleted file mode 100644
-index 3d32c49cd27..00000000000
---- a/meta/recipes-bsp/apmd/apmd/linkage.patch
-+++ /dev/null
-@@ -1,53 +0,0 @@
--When building use the libtool intermediate .lo files instead of explicitly using
--the .o files. Under libtool foo.lo is the libtool intermediate wrapper, foo.o is
--a static build, and .libs/foo.o is a shared build.
--
--If static libraries have been disabled globally then libtool won't generate them
--and explicit references to foo.o won't be satisfied.
--
--Upstream-Status: Pending
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--diff --git a/Makefile b/Makefile
--index bb695c6..5f60146 100644
----- a/Makefile
--+++ b/Makefile
--@@ -28,7 +28,7 @@ endif
-- 
-- .SUFFIXES:
-- 
---OBJS=apmlib.o
--+OBJS=apmlib.lo
-- EXES=apm apmd xapm apmsleep
-- HEADERS=apm.h
-- 
--@@ -66,22 +66,22 @@ all: $(EXES)
-- 
-- $(OBJS): $(HEADERS)
-- 
---%.o: %.c
--+%.lo: %.c
-- 	$(LT_COMPILE) -c $(CPPFLAGS) $(CFLAGS) $(XTRACFLAGS) $<
-- 
---%: %.o $(LIBAPM)
--+%: %.lo $(LIBAPM)
-- 	$(LT_LINK) -o $@ $< $(LDFLAGS) $(LIBAPM)
-- 
---xapm.o: xapm.c
--+xapm.lo: xapm.c
-- 	$(LT_COMPILE) -c $(CPPFLAGS) $(CFLAGS) $(XTRACFLAGS) -DNARROWPROTO $<
-- 
---apmd: apmd.o
--+apmd: apmd.lo
-- 
---apmsleep: apmsleep.o
--+apmsleep: apmsleep.lo
-- 
---apmexists: apmexists.o
--+apmexists: apmexists.lo
-- 
---xapm: xapm.o $(LIBAPM)
--+xapm: xapm.lo $(LIBAPM)
-- 	$(LT_LINK) -o $@ $< $(LDFLAGS) $(LIBAPM) $(XLDFLAGS) $(XLIBS)
-- 
-- $(LIBAPM): apmlib.lo
-diff --git a/meta/recipes-bsp/apmd/apmd/unlinux.patch b/meta/recipes-bsp/apmd/apmd/unlinux.patch
-deleted file mode 100644
-index ec8206cf174..00000000000
---- a/meta/recipes-bsp/apmd/apmd/unlinux.patch
-+++ /dev/null
-@@ -1,25 +0,0 @@
--copy OE commit message here:
--   commit 9456cdc1cf43e3ba9e6d88c63560c1b6fdee4359
--   Author: Michael Krelin <hacker@klever.net>
--   Date:   Tue May 29 12:27:45 2007 +0000
--
--   apmd: prevent build from interferring with host kernel headers. Closes #1257
--
--comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-13
--
--Upstream-Status: Pending
--
--Signed-off-by: Scott Garman <scott.a.garman@intel.com>
--
----- apmd-3.2.2.orig/Makefile
--+++ apmd-3.2.2/Makefile
--@@ -43,8 +43,7 @@
-- 
-- CC=gcc
-- CFLAGS=-O -g
---XTRACFLAGS=-Wall -pipe -I. -I/usr/src/linux/include -I/usr/X11R6/include \
---		-I/usr/src/linux-2.2/include -I /usr/src/linux-2.0/include \
--+XTRACFLAGS=-Wall -pipe -I. \
-- 		-DVERSION=\"$(VERSION)\" \
-- 		-DDEFAULT_PROXY_NAME=\"$(PROXY_DIR)/apmd_proxy\"
-- LDFLAGS=
-diff --git a/meta/recipes-bsp/apmd/apmd/wexitcode.patch b/meta/recipes-bsp/apmd/apmd/wexitcode.patch
-deleted file mode 100644
-index c5faa85fa7f..00000000000
---- a/meta/recipes-bsp/apmd/apmd/wexitcode.patch
-+++ /dev/null
-@@ -1,26 +0,0 @@
--Define non-posix W* funcitons
--
--C libraries like musl dont define them
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Pending
--
--Index: apmd-3.2.2.orig/apmd.c
--===================================================================
----- apmd-3.2.2.orig.orig/apmd.c
--+++ apmd-3.2.2.orig/apmd.c
--@@ -55,6 +55,14 @@
-- #define MINIMUM_RATE_CALC_TIME  120
-- #endif
-- 
--+#ifndef _POSIX_SOURCE
--+
--+#define	__WCOREFLAG  0200
--+#define __WCOREDUMP(x)  (_W_INT(x) & __WCOREFLAG)
--+#define	__W_EXITCODE(ret, sig) ((ret) << 8 | (sig))
--+
--+#endif
--+
-- /*
--  * For the verbosity level feature to be useful,
--  * we rely on the fact that syslog.h assigns adjacent
-diff --git a/meta/recipes-bsp/apmd/apmd_3.2.2-15.bb b/meta/recipes-bsp/apmd/apmd_3.2.2-15.bb
-deleted file mode 100644
-index 92c35c98969..00000000000
---- a/meta/recipes-bsp/apmd/apmd_3.2.2-15.bb
-+++ /dev/null
-@@ -1,85 +0,0 @@
--SUMMARY = "Utilities for Advanced Power Management"
--DESCRIPTION = "The Advanced Power Management (APM) support provides \
--access to battery status information and a set of tools for managing \
--notebook power consumption."
--HOMEPAGE = "http://apenwarr.ca/apmd/"
--SECTION = "base"
--LICENSE = "GPL-2.0-or-later"
--LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
--                    file://apm.h;beginline=6;endline=18;md5=7d4acc1250910a89f84ce3cc6557c4c2"
--DEPENDS = "libtool-cross"
--
--SRC_URI = "http://snapshot.debian.org/archive/debian/20160728T043443Z/pool/main/a/${BPN}/${BPN}_3.2.2.orig.tar.gz;name=tarball \
--           file://legacy.patch \
--           file://libtool.patch \
--           file://unlinux.patch \
--           file://wexitcode.patch \
--           file://linkage.patch \
--           file://init \
--           file://default \
--           file://apmd_proxy \
--           file://apmd_proxy.conf \
--           file://apmd.service"
--
--SRC_URI[tarball.md5sum] = "b1e6309e8331e0f4e6efd311c2d97fa8"
--SRC_URI[tarball.sha256sum] = "7f7d9f60b7766b852881d40b8ff91d8e39fccb0d1d913102a5c75a2dbb52332d"
--
--# for this package we're mostly interested in tracking debian patches,
--# and not in the upstream version where all development has effectively stopped
--UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/a/apmd/"
--UPSTREAM_CHECK_REGEX = "(?P<pver>((\d+\.*)+)-((\d+\.*)+))\.(diff|debian\.tar)\.(gz|xz)"
--
--S = "${WORKDIR}/apmd-3.2.2.orig"
--
--inherit update-rc.d systemd
--
--INITSCRIPT_NAME = "apmd"
--INITSCRIPT_PARAMS = "defaults"
--
--SYSTEMD_SERVICE:${PN} = "apmd.service"
--SYSTEMD_AUTO_ENABLE = "disable"
--
--EXTRA_OEMAKE = "-e MAKEFLAGS="
--
--do_compile() {
--	# apmd doesn't use whole autotools. Just libtool for installation
--	oe_runmake apm apmd
--}
--
--do_install() {
--	install -d ${D}${sysconfdir}
--	install -d ${D}${sysconfdir}/apm
--	install -d ${D}${sysconfdir}/apm/event.d
--	install -d ${D}${sysconfdir}/apm/other.d
--	install -d ${D}${sysconfdir}/apm/suspend.d
--	install -d ${D}${sysconfdir}/apm/resume.d
--	install -d ${D}${sysconfdir}/apm/scripts.d
--	install -d ${D}${sysconfdir}/default
--	install -d ${D}${sysconfdir}/init.d
--	install -d ${D}${sbindir}
--	install -d ${D}${bindir}
--	install -d ${D}${libdir}
--	install -d ${D}${datadir}/apmd
--	install -d ${D}${includedir}
--
--	install -m 4755 ${S}/.libs/apm ${D}${bindir}/apm
--	install -m 0755 ${S}/.libs/apmd ${D}${sbindir}/apmd
--	install -m 0755 ${WORKDIR}/apmd_proxy ${D}${sysconfdir}/apm/
--	install -m 0644 ${WORKDIR}/apmd_proxy.conf ${D}${datadir}/apmd/
--	install -m 0644 ${WORKDIR}/default ${D}${sysconfdir}/default/apmd
--	oe_libinstall -so libapm ${D}${libdir}
--	install -m 0644 apm.h ${D}${includedir}
--
--	sed -e 's,/usr/sbin,${sbindir},g; s,/etc,${sysconfdir},g;' ${WORKDIR}/init > ${D}${sysconfdir}/init.d/apmd
--	chmod 755 ${D}${sysconfdir}/init.d/apmd
--
--	install -d ${D}${systemd_system_unitdir}
--	install -m 0644 ${WORKDIR}/apmd.service ${D}${systemd_system_unitdir}/
--	sed -i -e 's,@SYSCONFDIR@,${sysconfdir},g' \
--		-e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_system_unitdir}/apmd.service
--}
--
--PACKAGES =+ "libapm apm"
--
--FILES:libapm = "${libdir}/libapm${SOLIBS}"
--FILES:apm = "${bindir}/apm*"
-diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
-index d60e1774712..eeb26ca5880 100644
---- a/meta/recipes-core/packagegroups/packagegroup-base.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
-@@ -16,7 +16,6 @@ PACKAGES = ' \
-             \
-             ${@bb.utils.contains("MACHINE_FEATURES", "acpi", "packagegroup-base-acpi", "",d)} \
-             ${@bb.utils.contains("MACHINE_FEATURES", "alsa", "packagegroup-base-alsa", "", d)} \
--            ${@bb.utils.contains("MACHINE_FEATURES", "apm", "packagegroup-base-apm", "", d)} \
-             ${@bb.utils.contains("MACHINE_FEATURES", "ext2", "packagegroup-base-ext2", "", d)} \
-             ${@bb.utils.contains("MACHINE_FEATURES", "vfat", "packagegroup-base-vfat", "", d)} \
-             ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "packagegroup-base-keyboard", "", d)} \
-@@ -52,7 +51,6 @@ RDEPENDS:packagegroup-base = "\
-     packagegroup-machine-base \
-     \
-     module-init-tools \
--    ${@bb.utils.contains('MACHINE_FEATURES', 'apm', 'packagegroup-base-apm', '',d)} \
-     ${@bb.utils.contains('MACHINE_FEATURES', 'acpi', 'packagegroup-base-acpi', '',d)} \
-     ${@bb.utils.contains('MACHINE_FEATURES', 'keyboard', 'packagegroup-base-keyboard', '',d)} \
-     ${@bb.utils.contains('MACHINE_FEATURES', 'phone', 'packagegroup-base-phone', '',d)} \
-@@ -149,11 +147,6 @@ SUMMARY:packagegroup-base-acpi = "ACPI support"
- RDEPENDS:packagegroup-base-acpi = "\
-     acpid"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.6.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.6.bb
+index ce9c1c116f..7ceb319d9b 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.6.bb
+@@ -21,9 +21,8 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
+            file://0002-tests-add-support-for-install-the-tests.patch;striplevel=3 \
+            file://0003-tests-use-a-dictionaries-for-environment.patch;striplevel=3 \
+            file://0004-tests-add-helper-script-to-run-the-installed_tests.patch;striplevel=3 \
+-           file://0005-bin-Fix-race-conditions-in-tests.patch;striplevel=3 \
+            "
+-SRC_URI[sha256sum] = "5a19083faaf361d21fc391124f78ba6d609be55845a82fa8f658230e5fa03dff"
++SRC_URI[sha256sum] = "0545b030960680f71a95f9d39c95daae54b4d317d335e8f239d81138773c9b90"
  
--SUMMARY:packagegroup-base-apm = "APM support"
--RDEPENDS:packagegroup-base-apm = "\
--    ${VIRTUAL-RUNTIME_apm} \
--    apmd"
--
- SUMMARY:packagegroup-base-ext2 = "ext2 filesystem support"
- RDEPENDS:packagegroup-base-ext2 = "\
-     e2fsprogs-e2fsck \
-diff --git a/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_2.12.bb b/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_2.12.bb
-index b71d1e5cd95..83425f60fe1 100644
---- a/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_2.12.bb
-+++ b/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_2.12.bb
-@@ -11,7 +11,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- 
- DEPENDS = "gtk+3 startup-notification dbus dbus-glib dbus-glib-native"
- DEPENDS += " ${@bb.utils.contains("MACHINE_FEATURES", "acpi", "libacpi", "",d)}"
--DEPENDS += " ${@bb.utils.contains("MACHINE_FEATURES", "apm", "apmd", "",d)}"
- 
- # The startup-notification requires x11 in DISTRO_FEATURES
- REQUIRED_DISTRO_FEATURES = "x11"
-@@ -28,7 +27,6 @@ SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=https;branch=master \
- 
- EXTRA_OECONF = "--enable-startup-notification --enable-dbus"
- EXTRA_OECONF += " ${@bb.utils.contains("MACHINE_FEATURES", "acpi", "--with-battery=acpi", "",d)}"
--EXTRA_OECONF += " ${@bb.utils.contains("MACHINE_FEATURES", "apm", "--with-battery=apm", "",d)}"
- 
- S = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session b/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session
-index 3a70574af9d..61fea510545 100644
---- a/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session
-+++ b/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session
-@@ -22,7 +22,6 @@ matchbox-desktop &
- START_APPLETS=showdesktop,windowselector
- END_APPLETS=$KEYBOARD_APPLET,systray,startup-notify,notify
- END_APPLETS=battery,$END_APPLETS # feature-acpi
--END_APPLETS=battery,$END_APPLETS # feature-apm
- END_APPLETS=clock,$END_APPLETS
- END_APPLETS=openmoko-panel-gsm,$END_APPLETS # feature-phone
- 
-diff --git a/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb b/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
-index 020e211ea59..49bf30ee5ea 100644
---- a/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
-+++ b/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
-@@ -26,7 +26,7 @@ FILES:${PN} += "${datadir}/themes/Sato/index.theme"
- 
- do_install() {
- 	# This is the set of machine features that the script has markers for
--	FEATURES="acpi apm phone"
-+	FEATURES="acpi phone"
- 	SCRIPT="${S}/sedder"
- 	rm -f $SCRIPT
- 	touch $SCRIPT
+ PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
+                    check \
 -- 
-2.30.2
+2.34.1
 
 
