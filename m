@@ -1,147 +1,192 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFD4BC7EE23
-	for <webhook@archiver.kernel.org>; Tue, 23 May 2023 16:46:49 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.72])
- by mx.groups.io with SMTP id smtpd.web11.2368.1684860404719551148
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFD0CC77B75
+	for <webhook@archiver.kernel.org>; Tue, 23 May 2023 16:48:49 +0000 (UTC)
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+ by mx.groups.io with SMTP id smtpd.web11.2450.1684860526092449963
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 May 2023 09:46:45 -0700
+ Tue, 23 May 2023 09:48:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=lp5TLXC3;
- spf=pass (domain: arm.com, ip: 40.107.20.72, mailfrom: ross.burton@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2qzGZtdWCNzxjlf2cQ2Smh8Yxscdr0TP/Epax+JPDq0=;
- b=lp5TLXC3rq9XNTMnbOxhEMK2jsethHeBAsgO7Z/38SQJ2daZEJ8T3wCgU44sd4UVgLRHcSY84vE5TaMV9OEwHX/8+VUxuL2fLMVGDXQxR4tUs6oNS00JOIcSVIwNXHDkyBexh9hul4QHsC3ZCEl0f1MqZFOH62WxpZP0XdpJfuA=
-Received: from DB6PR07CA0186.eurprd07.prod.outlook.com (2603:10a6:6:42::16) by
- GV2PR08MB8049.eurprd08.prod.outlook.com (2603:10a6:150:ae::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6411.29; Tue, 23 May 2023 16:46:41 +0000
-Received: from DBAEUR03FT064.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:6:42:cafe::7) by DB6PR07CA0186.outlook.office365.com
- (2603:10a6:6:42::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.13 via Frontend
- Transport; Tue, 23 May 2023 16:46:40 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DBAEUR03FT064.mail.protection.outlook.com (100.127.143.3) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6433.14 via Frontend Transport; Tue, 23 May 2023 16:46:40 +0000
-Received: ("Tessian outbound 3a01b65b5aad:v136"); Tue, 23 May 2023 16:46:40 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: ffb3f0f73bde1c1e
-X-CR-MTA-TID: 64aa7808
-Received: from a66be2a0d9f1.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 9F7DD38E-0B93-4DC4-87FE-8C50E0D93E11.1;
-	Tue, 23 May 2023 16:46:33 +0000
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id a66be2a0d9f1.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Tue, 23 May 2023 16:46:33 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JpM5rfcqhVQTZN1H7AoxsRbtUcrPBkToSgeqO0ATAHrhsrUeT4ZXEGjk4c46KPOQToACKGwi6FbewtNXDhlxCv993XEp2F8UdNVUQ3t6ACpXb9x22Ig1xfLHK7Vrrqc2ucRaZ6MElSLVBcVEvBTX8DvN5BJoB47RV8sHML7/KKj5xejepnRJbfa4XKVvb1OMWTRT1+FbK4KhnTvKHHfRooT/zvvP2SG8B2c7sSrB5KbFvLRvdWznGISn3c/IoRLdSKHzFdGyg6ZuSLQTKYe6qe0J+iofd9jILL9WLg9Jycmkqxcda9oAnayLXeaVPEUiCqm6fVnWr40NP9MXnymlug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2qzGZtdWCNzxjlf2cQ2Smh8Yxscdr0TP/Epax+JPDq0=;
- b=eGGGcLbwbkjni8D7Luez47UML39xDejalxMz7lXVxo275f09Ef3cgk6wDcxylwhSVR0QcIQIgA39nDZ3oXXOH5AxCA+t04ItigkmBHC5vZty5EEb4zpaUYxkQvIW63WvTghgjbexnTVi8ngPLn7Zw5b52PvqirrmICY/g50KFDYzMwyBvX9rX8w6MLalnfS4DE8COQSdwXYzzkGphKxZTtdGR3GB0y2Qs5Vb0D+yitwoSOd+YLPg3NpXkc5Ic9S1920Fc8X11E7Ndozjl8xCN1gAzW2KyfI+fC0hbhnDm76p/dfiLh9AcBi64AVypbYUBCWLhNATvwJz9+HKfHr3og==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2qzGZtdWCNzxjlf2cQ2Smh8Yxscdr0TP/Epax+JPDq0=;
- b=lp5TLXC3rq9XNTMnbOxhEMK2jsethHeBAsgO7Z/38SQJ2daZEJ8T3wCgU44sd4UVgLRHcSY84vE5TaMV9OEwHX/8+VUxuL2fLMVGDXQxR4tUs6oNS00JOIcSVIwNXHDkyBexh9hul4QHsC3ZCEl0f1MqZFOH62WxpZP0XdpJfuA=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by DB9PR08MB7889.eurprd08.prod.outlook.com (2603:10a6:10:39c::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.28; Tue, 23 May
- 2023 16:46:29 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::eb3c:9b42:21c9:494e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::eb3c:9b42:21c9:494e%7]) with mapi id 15.20.6411.028; Tue, 23 May 2023
- 16:46:29 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "stefanb@linux.ibm.com" <stefanb@linux.ibm.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] attr: Package attr, getfattr, and setfattr into
- attr-tools
-Thread-Topic: [OE-core] [PATCH] attr: Package attr, getfattr, and setfattr
- into attr-tools
-Thread-Index: AQHZjYn2IfsVri/JyECEDMM26GtOEa9oER0A
-Date: Tue, 23 May 2023 16:46:29 +0000
-Message-ID: <1E3EE49B-CC70-4A0A-8371-D7902BD18B51@arm.com>
-References: <20230520022553.3768155-1-stefanb@linux.ibm.com>
-In-Reply-To: <20230520022553.3768155-1-stefanb@linux.ibm.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3731.500.231)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|DB9PR08MB7889:EE_|DBAEUR03FT064:EE_|GV2PR08MB8049:EE_
-X-MS-Office365-Filtering-Correlation-Id: bfa399fa-e0b2-4b63-9281-08db5bad48a5
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- SH2KiOwNfRQli6MbS4uzAwC2WhJADIipYz9Vl8dgzbM44pAQygZ5qwMrKTa8P6TPwbbaPnT3CzYAl/BGYFAFgMXxbd7N9zn1RAHBzr6V4EBa6Lly/tNi//3y92LdUWpHG0JS3nkyRCx7tmpqC/2bS/oYSKi+e5sgzYemhKmU8NRdH9joFlpnS9BRluHJQYGuziyYzwcSr/t6jejCyVeMfByS6EwMaUloLmsNh7fNpA6icx0ed0046gyGQcfLCdn2a0PjuQGnEMw53Gr4R2o/62kIR32DFklQ2ngB7tl4OthMif/cvWtZcsySNODHriK0m8LZ+0TWNQ0117zZhUpDdXm8D8Fkbw5lF8WEZzAZvD8k/y3sNi2X7h17SUhdY9TPYJzQD3shTMdzpTUpw7C4T5ecZ0bCIPNebGI/JgjOPV8tB0xkB8WpKiOpHXgoKGyDOrl/pujpjYbD9g40ocRtYAVkxmaHnxiDWAwo/oe9mTv0tqFL/I8+flGD8yWytGpJMuAcqJ9DsHzIB6u/Mod4jP+6kULbk7Z8duSc63Nvw2cxDLSU70C0rGI3b5cdojx7sTijFY8r3cQZPRJY1MqM9Y/y5xbhFH97URWtdbQmrK4Xv7uoTbbnHpSYWYSQREX9dhFYZ9UToh1+ozV2e5a1cg==
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(366004)(39860400002)(346002)(136003)(376002)(451199021)(6486002)(316002)(71200400001)(41300700001)(36756003)(4326008)(64756008)(66446008)(66476007)(66556008)(91956017)(6916009)(76116006)(66946007)(8676002)(8936002)(38100700002)(122000001)(5660300002)(4744005)(86362001)(38070700005)(186003)(2906002)(2616005)(6506007)(26005)(6512007)(33656002)(478600001)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <8D8EB008561E3447B6D3884E8AED54F9@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=MixldqeX;
+ spf=pass (domain: baylibre.com, ip: 209.85.166.175, mailfrom: tgamblin@baylibre.com)
+Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-335394455ecso7534015ab.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 May 2023 09:48:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1684860525; x=1687452525;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jdl2aooj0tO32+uk83B56o6HIg14ausdwsk79dwcMtk=;
+        b=MixldqeXaD+6a7FueA46ITcsIHpg4QFICmaPEFTV6crozl6l++al7xgKGRn9Le3ebj
+         fFIseR+wtKmdyVebxxo6eeBiqXOvoI01DRc55qFR4dwLklVuW7S891kY6Uk/v3mSnHQo
+         VeGNBFgA1iDrclJdXMT8eXzTPyARr1/d/P9NK+jyzVLDjbZAD2K4YhtiL9MTPFMPvkl4
+         7mv9lmAgc2guBnEkqmwYTOQjGw+WkcY56y2iF7A4/oWi6NnIUflq94TVFrdfVwG5t2Gr
+         LxepwTy3bQrCta0xHl9YiiXWwHttrtYeaa6yG/fydQbmWmd+ATaxda6wv/No0mcexmy3
+         2a9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684860525; x=1687452525;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jdl2aooj0tO32+uk83B56o6HIg14ausdwsk79dwcMtk=;
+        b=Xlq2XWkM0VgOrPr4KWM3tCNLm8hHxB/qhSmLKrcJYBOA00XHBZj0TyG/J+X7W4FZud
+         Dgo2WOZ6X29wR7Os8L/D7DfkL9asdHgRi2+7gRy7I1UY9mpUiJlXYoirH1sd9xx+KCyO
+         i9FNC5BlD0IzkPrHA9QbMVQJGS3mUTL/RkN31InkrUo/++BGMmgHi9HTTB2NU05QRT6v
+         s+PPAj8VzYrZDqfHKltfsRHRinw7gfQFirUa8KY2hWjW5/rC7tN0Ah0RXe32pd878d5P
+         H/P/5F345KzNS3kvmjI0j/VrDRxVMHFYJdAeoC12HOF0SbdHaF8eCSNLNVGy3AmltnVJ
+         tfww==
+X-Gm-Message-State: AC+VfDzLRveeDnURmN1KPThh50U2Ung+/HitRonnnLgScd0ugiKxGVXb
+	qXVqS+PM77S6LdgKCLKMvoe5RRC9mBx127N7yps=
+X-Google-Smtp-Source: ACHHUZ5R+Tu0Ymz78CeVAezXB15C/KRXzZIwSgXEhPj4t94O64vpaxY/KZOMZKboeWpZWHnY8HYTbw==
+X-Received: by 2002:a92:cc0b:0:b0:33a:7100:81ed with SMTP id s11-20020a92cc0b000000b0033a710081edmr996328ilp.12.1684860524893;
+        Tue, 23 May 2023 09:48:44 -0700 (PDT)
+Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:4839:d997:f6ce:5f02])
+        by smtp.gmail.com with ESMTPSA id c24-20020a5ea818000000b00769a9bad0bcsm2715234ioa.11.2023.05.23.09.48.44
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 May 2023 09:48:44 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH v2] b4: add recipe
+Date: Tue, 23 May 2023 12:48:43 -0400
+Message-Id: <20230523164843.1816160-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB7889
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DBAEUR03FT064.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	fdfc7ac2-16d5-4d40-6dc5-08db5bad419b
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	MLlFnxFHf6SrPDvmaK62AXLdGaVWXkLOTCK2XMDkJpm8OOSHSoExmI1j2zJ+9KyRcZsZRFghBRnhWobZHcEpyGrHBJZR9R4jhgLFCWILFdcEOHqORFe2lOH51DhG894/+5n1pSDJfnKr15V4DrCmQTsbhWq9vMkrbL/eV/VKOYQW7/nhTMwEGwHKHfmQGX1nNwwVFC0CPj3bxtYaAcpn+9IrAof8kZd4JpsxVniJLCMfELrzMI0n0/wWj5gGJrdgOydQfTrF1tmlWGlASz/Qw/2ui9w9n3J4RvxIz4gD/TNes6m0U/iqCQJOiAY2f39ZkVYmkMLhasgWCJuQQQfmMqmWoLCy/q4CIH001CL/Aynry2imqrYNMYAgd4c9T0R5Fud138rrfE7BU0rBcIKngGw0spGNRdQ+PCpKQ8RqY0/cJBztnZF4fyDU8WmCLDJj1KMWccOwX64z76KwIb9A7oBHKyowLoNOo/bmWBlRea2mRrlaXtDEiHEmcj4EHrc2FKXp1eaFr9EzkYJ8poWOZ8WM/k2LwVFQJfExyCN6Ru/y+tmlpNA5Wu3ntK4PLuA6SqUr+h4mq0X5TRxeSmFGcnHhpRZag8n6krBbgqzOVJZDbtwpu90Gk0Qqheb17x/9vqD9Z8UUerSQszYdkjpgp9PxWCAzF7vjiwf1QCOQu5AxCKqjuAFTh9bU0AEBNo43Xy7WXXzO8JZZoZLs0q0bdvW/DVgOJYXN/7UUH5vpmAROdYgLIZUHtzljREfN2PDo
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(346002)(396003)(136003)(39860400002)(376002)(451199021)(46966006)(36840700001)(40470700004)(40460700003)(6862004)(8676002)(8936002)(86362001)(5660300002)(47076005)(4744005)(40480700001)(2906002)(6506007)(26005)(6512007)(36756003)(2616005)(336012)(186003)(33656002)(36860700001)(70586007)(70206006)(4326008)(316002)(478600001)(81166007)(82740400003)(356005)(6486002)(82310400005)(41300700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2023 16:46:40.9337
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bfa399fa-e0b2-4b63-9281-08db5bad48a5
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DBAEUR03FT064.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB8049
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 May 2023 16:46:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181651
+ <openembedded-core@lists.openembedded.org>; Tue, 23 May 2023 16:48:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181652
 
-V2hhdOKAmXMgdGhlIHJhdGlvbmFsZSBmb3IgdGhpcz8NCg0KYXR0cjoNCgkvZXRjL3hhdHRyLmNv
-bmYNCgkvdXNyL2Jpbi9hdHRyDQoJL3Vzci9iaW4vZ2V0ZmF0dHINCgkvdXNyL2Jpbi9zZXRmYXR0
-ci5hdHRyDQoNCmxpYmF0dHI6DQoJL3Vzci9saWIvbGliYXR0ci5zby4xDQoJL3Vzci9saWIvbGli
-YXR0ci5zby4xLjEuMjUwMQ0KDQpUaGUgbGlicmFyeSBpcyBhbHJlYWR5IHNwbGl0IG91dCBzbyB3
-aGF0IGRvZXMgdGhpcyBnYWluPw0KDQpBbHNvLCB0aGUgaWRpb20gZm9yIGxpYnJhcnkgcGFja2Fn
-ZXMgd2hpY2ggaGF2ZSBiaW5hcmllcyBpcyB0byBpbmhlcml0IGxpYl9wYWNrYWdlLg0KDQpSb3Nz
+b4 is a tool for handling email-based patch workflows. It is being
+added to help modernize the patchtest tooling, but due to the state of
+meta-patchtest and the possibility that others may find it useful, add
+it to oe-core instead of that layer.
+
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+---
+ meta/conf/distro/include/maintainers.inc      |  1 +
+ .../distro/include/ptest-packagelists.inc     |  1 +
+ meta/recipes-devtools/b4/b4_0.12.2.bb         | 35 +++++++++++++++++++
+ ...skip-tests-requiring-git-filter-repo.patch | 30 ++++++++++++++++
+ meta/recipes-devtools/b4/files/run-ptest      |  3 ++
+ 5 files changed, 70 insertions(+)
+ create mode 100644 meta/recipes-devtools/b4/b4_0.12.2.bb
+ create mode 100644 meta/recipes-devtools/b4/files/0001-test_ez-skip-tests-requiring-git-filter-repo.patch
+ create mode 100644 meta/recipes-devtools/b4/files/run-ptest
+
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index e99fbe4aef..72145a0a38 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -52,6 +52,7 @@ RECIPE_MAINTAINER:pn-autoconf = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER:pn-autoconf-archive = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER:pn-automake = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER:pn-avahi = "Yi Zhao <yi.zhao@windriver.com>"
++RECIPE_MAINTAINER:pn-b4 = "Trevor Gamblin <tgamblin@baylibre.com>"
+ RECIPE_MAINTAINER:pn-babeltrace = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-babeltrace2 = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-baremetal-helloworld = "Alejandro Hernandez <alejandro@enedino.org>"
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index da9153b998..2c9fb3433d 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -7,6 +7,7 @@ PTESTS_FAST = "\
+     acl \
+     apr-util \
+     attr \
++    b4 \
+     babeltrace \
+     babeltrace2 \
+     bc \
+diff --git a/meta/recipes-devtools/b4/b4_0.12.2.bb b/meta/recipes-devtools/b4/b4_0.12.2.bb
+new file mode 100644
+index 0000000000..f222a8b2e5
+--- /dev/null
++++ b/meta/recipes-devtools/b4/b4_0.12.2.bb
+@@ -0,0 +1,35 @@
++SUMMARY = "B4 workflow tools"
++DESCRIPTION = "A tool to work with public-inbox and patch archives"
++HOMEPAGE = "https://git.kernel.org/pub/scm/utils/b4/b4.git/"
++LICENSE = "GPL-2.0-or-later"
++LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
++SRC_URI[sha256sum] = "b6f4afd78bf78a28055b389f0909792b1c7805fb3557f5d71efbda3682aabe6e"
++
++inherit python_setuptools_build_meta ptest
++
++SRC_URI += "git://git.kernel.org/pub/scm/utils/b4/b4.git;branch=stable-0.12.y;protocol=https \
++            file://run-ptest \
++            file://0001-test_ez-skip-tests-requiring-git-filter-repo.patch \
++"
++
++SRCREV = "0529d7ae380c46f8006892d8fffb563326e2d131"
++
++RDEPENDS:${PN} += " \
++        ${PYTHON_PN}-mailbox \
++        ${PYTHON_PN}-requests \
++"
++
++RDEPENDS:${PN}-ptest += " \
++        git \
++        ${PYTHON_PN}-pytest \
++        ${PYTHON_PN}-unittest-automake-output \
++"
++
++S = "${WORKDIR}/git"
++
++do_install_ptest() {
++      install -d ${D}${PTEST_PATH}/tests
++      cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
++}
++
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/b4/files/0001-test_ez-skip-tests-requiring-git-filter-repo.patch b/meta/recipes-devtools/b4/files/0001-test_ez-skip-tests-requiring-git-filter-repo.patch
+new file mode 100644
+index 0000000000..579c31d090
+--- /dev/null
++++ b/meta/recipes-devtools/b4/files/0001-test_ez-skip-tests-requiring-git-filter-repo.patch
+@@ -0,0 +1,30 @@
++From 5b77018e0d5648f519345a682752df91d99a6a09 Mon Sep 17 00:00:00 2001
++From: Trevor Gamblin <tgamblin@baylibre.com>
++Date: Tue, 23 May 2023 11:09:07 -0400
++Subject: [PATCH] test_ez: skip tests requiring git-filter-repo
++
++git-filter-repo isn't available and is difficult to properly add as a
++recipe, so skip b4 ptests that require it to be installed.
++
++Upstream-Status: Inappropriate (oe-specific)
++
++Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
++---
++ tests/test_ez.py | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/tests/test_ez.py b/tests/test_ez.py
++index 1b02e7b..059c84c 100644
++--- a/tests/test_ez.py
+++++ b/tests/test_ez.py
++@@ -32,6 +32,7 @@ def prepdir(gitdir):
++      ['log', '--format=%ae%n%s%n%b---', 'HEAD~4..'], 'trailers-thread-with-followups-and-tripledash',
++      None),
++ ])
+++@pytest.mark.skip(reason="no git-filter-repo")
++ def test_trailers(sampledir, prepdir, mboxf, bundlef, rep, trargs, compareargs, compareout, b4cfg):
++     if b4cfg:
++         b4.MAIN_CONFIG.update(b4cfg)
++-- 
++2.40.1
++
+diff --git a/meta/recipes-devtools/b4/files/run-ptest b/meta/recipes-devtools/b4/files/run-ptest
+new file mode 100644
+index 0000000000..b63c4de0d9
+--- /dev/null
++++ b/meta/recipes-devtools/b4/files/run-ptest
+@@ -0,0 +1,3 @@
++#!/bin/sh
++
++pytest -o log_cli=true -o log_cli_level=INFO | sed -e 's/\[...%\]//g'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'|sed -e 's/SKIPPED/SKIP/g'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS"){printf "%s: %s\n", $NF, $0}else{print}}'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS") {$NF="";print $0}else{print}}'
+-- 
+2.40.1
+
 
