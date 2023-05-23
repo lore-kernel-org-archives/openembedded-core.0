@@ -1,157 +1,171 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <chi.xu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 348AEC77B7A
-	for <webhook@archiver.kernel.org>; Tue, 23 May 2023 03:36:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F27E8C77B7A
+	for <webhook@archiver.kernel.org>; Tue, 23 May 2023 05:26:27 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.13217.1684812978459948876
+ by mx.groups.io with SMTP id smtpd.web11.14409.1684819578241852688
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 May 2023 20:36:18 -0700
+ Mon, 22 May 2023 22:26:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=SEMd1MX0;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4507380cc4=qi.chen@windriver.com)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=mNmjrDhA;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=45070f696f=chi.xu@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34N3KFsg001390
-	for <openembedded-core@lists.openembedded.org>; Mon, 22 May 2023 20:36:18 -0700
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34N5KEPH012598
+	for <openembedded-core@lists.openembedded.org>; Mon, 22 May 2023 22:26:18 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=D758bVbJDl9d5nCdAJ0F6KwcYiXS84yDecnEhh49ycw=;
- b=SEMd1MX0ck7ViwbRcL6IUj6jGq4i7yyuIZVjxijY8byUKT1ucQ1V+4Gx+SU1Q3JS64iw
- phALCKEykz+fiJre4bDpH9ku3ZUGe6/BJMPAihXGp7QmHDYLsZO5TaedxmnS3mpCujxL
- eVk01dwxal8cTbFK8DvAxmZFA6ZtjaOf8GVxmQ1Uc5hdeumwNuXTyF6LhuGq6FvRf2aN
- 7TXTxG98j/mtjJj6v0inry98Cd5B+enqYdPXMMn3Ai6HFrqvuY6ke8jpKCHUHCOpqToF
- 1GJoQ7ab0eDQwG08lQQHhCkAaF+7eauAkg4nqGWZIkideM7KqRxcg+zo6HkVuRMo/IOH dg== 
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2042.outbound.protection.outlook.com [104.47.66.42])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3qpwqha56g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 22 May 2023 20:36:17 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HN4OKiXNBmr33Dsmx/TWLjPVYGlCkSQXKrg6E3xb51e8KTPNRUAZwth+flQYXIvc5mP8RTW9eE7abVAU+bOpWyg2Gmj2kBFjnFQU00WTtuKKGzGIqAzha1Orpxi/mvGotlaFBkLEsRLhqEqDy9ZD5oSJWitmJU2DhKz4wqdYCz4wVR0AdY/o4+5pDjbG8qP+XNiltLkInUu7xeJitw1NyJG+QuFVXdcV8GzIwxcjAivW1gZJzDDB/YDbAX7jk6eY400huX+/ZvJsXJ4xAjacTyknkoNOZ/jqslJimOMAl7eyiylRzKiPwc/6BdLEwBcivPgzeYgSesTh6YTEj4TC2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D758bVbJDl9d5nCdAJ0F6KwcYiXS84yDecnEhh49ycw=;
- b=nn/ewQT5C6H6w5DmCFPhh7qPNoa6MmviWo0CaxccqJvMQZnorXikW7FxbjehTEIVfvq9pu+nPgF3wDFyE0/R74IbZ1gTQtEa9qj8tenhv5a2oOu33iBq+Kb/ooZey//9rbUdN9XdHP3kISjTFvmjC1TvXdIlkIAhkSJ0s+nMFnl0cNhYOIwTYCtF+XOsMWdSoWgHZnQ2GByEdyBDoJ8ZjdGPXmUx0DfR9RDhhyg1jHv0E+mTW+LD6gxhi4i8ouCh27QawC1tYGjSr2B84SkfYvxekuMyAMKIRUPHaPi7cS0IwWTZTPNIY0yiHZFPFmwaDuUq8xRVtSMbztkwsm0Yeg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from PH0PR11MB5611.namprd11.prod.outlook.com (2603:10b6:510:ed::9)
- by PH7PR11MB6794.namprd11.prod.outlook.com (2603:10b6:510:1b8::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.28; Tue, 23 May
- 2023 03:36:02 +0000
-Received: from PH0PR11MB5611.namprd11.prod.outlook.com
- ([fe80::b74b:9743:5e32:116a]) by PH0PR11MB5611.namprd11.prod.outlook.com
- ([fe80::b74b:9743:5e32:116a%7]) with mapi id 15.20.6411.028; Tue, 23 May 2023
- 03:36:01 +0000
-From: Qi.Chen@windriver.com
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] staging.bbclass: do not add extend_recipe_sysroot to prefuncs of prepare_recipe_sysroot
-Date: Mon, 22 May 2023 20:35:48 -0700
-Message-Id: <20230523033548.3590514-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=PPS06212021;
+ bh=HKh+z6S+E4ZxrnNBwPZ6GAIWGeVjDdyf+oyn/D42b7s=;
+ b=mNmjrDhAuxmlTBZcqVK9qF4+M80r3n/TobEvpt+XR8lXHIbGaYJ4Mso6bcP1ucZI7g40
+ q4Zd3VfshDFDiUQLHJ5iQwOyOqXvHMsax7Z6XmejegVgyBrzHQ3Uaax6g+kjjwmCSgDP
+ H+Di1glXuKT51Et89iTw6KcLlKCub0G5Z4v2kXnS0XV+Dfm51zUiHSmcqfs7bwNk3PzC
+ smH25L/uw9Tm9850ydKu0PxGI6fZb5S68j4FOsa9w+j0izFTQ5AXLrkYqSY2zZMI7AcF
+ mAlG5+F2WSkUXi+wSYFahSgYbyoJoV5UJ+bM+LPoL2b/6MCbPZYD0XtqqopTmWxC4XWN Yw== 
+Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3qpwqha7ah-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 22 May 2023 22:26:17 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Mon, 22 May 2023 22:26:13 -0700
+Received: from pek-lpgtest20.wrs.com (128.224.179.28) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.23 via Frontend Transport; Mon, 22 May 2023 22:26:12 -0700
+From: Chi Xu <chi.xu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [mickledore][PATCH] expect: Add ptest support
+Date: Tue, 23 May 2023 13:26:11 +0800
+Message-ID: <20230523052611.871292-1-chi.xu@windriver.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR05CA0121.namprd05.prod.outlook.com
- (2603:10b6:a03:33d::6) To PH0PR11MB5611.namprd11.prod.outlook.com
- (2603:10b6:510:ed::9)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5611:EE_|PH7PR11MB6794:EE_
-X-MS-Office365-Filtering-Correlation-Id: 011e0e17-c6ea-4d84-dc39-08db5b3ed473
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	l6tgxgDVXcfy5xtwt+wSry2RdKHgLgMM3NUDbFNDM8LYanH6bkoMu73QaRwJFacaFV2szjt0LOjYDGYfSfhQZeZCjTm38tmsTTiCRGLEsVGNy0aUuc4vWuEiX6Af7sTKmJ8lbdrnv5vM5FxWcQ4STAmyTu7U1HktBlFVJczHD3vMqU3wXTwaJb5/kgr7x401imoG0gJJAcaApBXWUZYpLOLJ8NHlZ6N79shfjZqeu4c/zoCYxQhDgGJ/JTA+eTmyKMSuFCy9d6yM3SmHIOvjPndwWhpCraJsfhzTqJXrYiNC22599DPaXqXdhTb37Ju3W7YPaSAyKuNU3SkMyL2xbPrZ3sxVc2/5Ly7udpaf1qWHDmR0Ck90nNIpPtwQLO3dQn+atSCW9kvfCfPC3VFU3iRqAPWkrZ1jfVVJQYxk6CstQjRE0IG1NXDKx7J3i8N2D9pqSyCm9jT/xKSqjU/G/28ZUbMT5hb/9EnDobAN5avv6HtUu+dN5TssqEpRsExqU83abp1LueIxv4a0N2jSfxz0NzoEMaxGFGhFIskBNofvLQHffwflq8ZapdiDiVOXI1WI3rM0dbGX6jDpInq/O7k1Or8m9Bj5OCtHrGI3ovnF/ValqcgbsYP0XDDCVOs0
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5611.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(346002)(39850400004)(366004)(396003)(376002)(451199021)(2906002)(5660300002)(8676002)(8936002)(6666004)(41300700001)(478600001)(316002)(66476007)(66556008)(66946007)(36756003)(6916009)(52116002)(6486002)(6512007)(6506007)(38350700002)(1076003)(26005)(38100700002)(2616005)(86362001)(9686003)(186003)(83380400001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?iHGaemTlezMwSx3kkBHHfwG2m9Joj8g+znpAWPPp496B6yHsMUhu6JUvore+?=
- =?us-ascii?Q?Y4b3bSPZ4FxvBfy+0WoXUQKc0T/EeukSQcqtftXCNQtkKhKlriCp9OhwIuGH?=
- =?us-ascii?Q?0MS7ssS8zvJB14AKEAPxWJtfKdDNIqPeYLF/FnIXazWhjASGxI7kNjmD0VIm?=
- =?us-ascii?Q?f5QXgr5u4njxjZygqznMXsiaHiKE2mldHyL0lvSD8jgBQw94hlvJHYnB/dc5?=
- =?us-ascii?Q?zgK1PLsE3FI5P9UN/42Y21ZFlB7/rrlyKZcOMf73Sc045232OPwQF80uKbBz?=
- =?us-ascii?Q?+YKWGDcbjlT7I9IlMlwHyPptGAvSibCRb7J3A0Gx157RatyqbN1VVYKaOsIP?=
- =?us-ascii?Q?ah64lxjNZPeWWFsd5MBt/uDeiZ/1HXguzcz626hcI8pJARjwRRuujjOoZu5n?=
- =?us-ascii?Q?wgj7FtvKJxM3JrykSlmKh+/pOF2Zi5NPTtHXQ+bjZVaqK0vj543sI5MrhK1A?=
- =?us-ascii?Q?TCHbs4aVl87BTodEMBBlQb+rQbnIAdQEKO+alb7nRPMT2nGuofQEWn/4H/QY?=
- =?us-ascii?Q?Yjv9DCE49NP1K9w67l6p3kQ5J058VdKzpBDswMbiNdLYbUkA6+2TUUdJWiDc?=
- =?us-ascii?Q?OIHFqj4Mq59fce5tiNvAgTu7Ecs+jXROnDRxfhucEayfw3rsRuV9LUBKO4g5?=
- =?us-ascii?Q?pb1olWDOPIj+9q73MBhrTtGGMkVYpwK18djfsTmOtui6booHx/jrtLmV2AbG?=
- =?us-ascii?Q?xRjH25phdSGHt4rERLm3uDflkKwHOL7nC6RUmPPMfX56zBuokRoQMUesaq3P?=
- =?us-ascii?Q?dB7zx39W1SftfRI+0Kirh8Qsp/LwKG90YKStlIsqEJY75U9J+kx2EghxEFW7?=
- =?us-ascii?Q?WEDud3t2cCM87Ii+irYvJH4qxW/5rFM4MjeHsAgNWZg+G5j3jZkUSv32DVLg?=
- =?us-ascii?Q?NvP5tDqrXxBeGu6KUZnCoKF5v5Pg699jL24vnlIWGacVdghJMBSXPFapN3fi?=
- =?us-ascii?Q?7gpt8bhTydssbzCJQoPGdq5Blb9h+ESdf5gBxl0ntFytW6sEmXXvdk//NW0r?=
- =?us-ascii?Q?PRAh0gJ8XAb8L8FKFjlxqLdPe8PCani0RifzZiPgO2+yRHhAMQNIdmyF73Ck?=
- =?us-ascii?Q?lqyAYSBdPp/hZ2oqke9oXULDSoxtDtVNG9h7n5+PasIzK0YkK1IxazZMQWa0?=
- =?us-ascii?Q?mVRVUHVQpo49CyxCxCYKOU5/j43tSAqYcFqgz01W0RLCCFvpgGJgsyGS/+gs?=
- =?us-ascii?Q?6H123fwVQn9XavsWcKnp4tMj5rWlSKSP33tl/GnFS4PTihWmt38AmJez3jG5?=
- =?us-ascii?Q?47eJ3IzzrmvzthzE71iucnRMq3szSGfDKan+gbR4Z+nD5QvIWgLTmzqva7KQ?=
- =?us-ascii?Q?sWzRWmtRNgh12X1OP8OhPpKNmcw3gh6Mc0mM0fJEUrz6cbFt3H4r5PNBkQQb?=
- =?us-ascii?Q?+FUTxNCi+llAmgZ+mPSNm1iINwwglOQRtExISF+A22v95+/o3krd5Q/1P1Mm?=
- =?us-ascii?Q?LhCke6luBXfZrirF8+/WtcZkjLysdA9D/JGsypFyrt9zoj6A7zAoOkABYo24?=
- =?us-ascii?Q?6byMAgsJmS/5oD4FNjD1QgzmKUFQ4MMEde4rBsoSmpqTbwCKWfjAVHpvZ0GD?=
- =?us-ascii?Q?LfM3vdEC38tp8UUPtTy3qWFxkOy6hbKNTvGayNbezGWSgzI04tOHiPq+1Ryx?=
- =?us-ascii?Q?6g=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 011e0e17-c6ea-4d84-dc39-08db5b3ed473
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5611.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2023 03:36:01.6559
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: t+TRg2qjyOOMec0OXlHALaxjnb+cy+lYHnDkWPoZqo3dKBZq59tf/5+liSj+7TVWqIphLGG1wjpHQ3gMVVcJfA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6794
-X-Proofpoint-GUID: hBib7AH5eV-m7QGzsopH8rQw4YOrgdFq
-X-Proofpoint-ORIG-GUID: hBib7AH5eV-m7QGzsopH8rQw4YOrgdFq
+X-Proofpoint-GUID: iSEdFGRZwAbLnmt52oEoZ4ZmWDzrA8Pa
+X-Proofpoint-ORIG-GUID: iSEdFGRZwAbLnmt52oEoZ4ZmWDzrA8Pa
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-23_01,2023-05-22_03,2023-05-22_02
+ definitions=2023-05-23_02,2023-05-22_03,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 mlxscore=0
- adultscore=0 spamscore=0 impostorscore=0 mlxlogscore=773
+ adultscore=48 spamscore=0 impostorscore=0 mlxlogscore=588
  lowpriorityscore=0 clxscore=1015 bulkscore=0 priorityscore=1501
  phishscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2304280000 definitions=main-2305230028
+ scancount=1 engine=8.12.0-2304280000 definitions=main-2305230044
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 May 2023 03:36:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181625
+ <openembedded-core@lists.openembedded.org>; Tue, 23 May 2023 05:26:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181626
 
-From: Chen Qi <Qi.Chen@windriver.com>
+Test results:
+root@qemux86-64:~# ptest-runner expect
+START: ptest-runner
+2023-05-23T05:17
+BEGIN: /usr/lib64/expect/ptest
+via send_stdout
+PASS: cat-1.1
+PASS: expect-1.1
+PASS: expect-1.2
+PASS: expect-1.3
+PASS: expect-1.4
+PASS: expect-1.5
+PASS: expect-1.6
+PASS: expect-1.7
+PASS: expect-1.10
+PASS: expect-1.11
+PASS: expect-1.12
+PASS: expect-1.13
+PASS: expect-1.8
+PASS: expect-1.8b
+PASS: expect-1.9
+PASS: logfile-1.1
+PASS: pid-1.2
+PASS: pid-1.3
+PASS: pid-1.4
+PASS: pid-1.5
+PASS: send-1.1
+PASS: send-1.2
+PASS: spawn-1.1
+PASS: spawn-1.2
+PASS: spawn-1.3
+PASS: spawn-1.4
+PASS: spawn-1.5
+PASS: stty-1.1
+PASS: stty-1.2
+DURATION: 17
+END: /usr/lib64/expect/ptest
+2023-05-23T05:17
+STOP: ptest-runner
+TOTAL: 1 FAIL: 0
 
-When running prepare_recipe_sysroot task, the extend_recipe_sysroot
-is run twice.
-
-What prepare_recipe_sysroot does is executing extend_recipe_sysroot,
-there's no need to add extend_recipe_sysroot to its prefuncs.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Chi Xu <chi.xu@windriver.com>
 ---
- meta/classes-global/staging.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/distro/include/ptest-packagelists.inc | 1 +
+ meta/recipes-devtools/expect/expect/run-ptest   | 6 ++++++
+ meta/recipes-devtools/expect/expect_5.45.4.bb   | 8 +++++++-
+ 3 files changed, 14 insertions(+), 1 deletion(-)
+ create mode 100755 meta/recipes-devtools/expect/expect/run-ptest
 
-diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/staging.bbclass
-index 6eefba4d73..3a300c32e7 100644
---- a/meta/classes-global/staging.bbclass
-+++ b/meta/classes-global/staging.bbclass
-@@ -654,7 +654,7 @@ python staging_taskhandler() {
-     bbtasks = e.tasklist
-     for task in bbtasks:
-         deps = d.getVarFlag(task, "depends")
--        if task == "do_configure" or (deps and "populate_sysroot" in deps):
-+        if task != 'do_prepare_recipe_sysroot' and (task == "do_configure" or (deps and "populate_sysroot" in deps)):
-             d.prependVarFlag(task, "prefuncs", "extend_recipe_sysroot ")
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index d60ebb38fc..003348906a 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -17,6 +17,7 @@ PTESTS_FAST = "\
+     diffutils \
+     ethtool \
+     expat \
++    expect \
+     findutils \
+     flex \
+     gawk \
+diff --git a/meta/recipes-devtools/expect/expect/run-ptest b/meta/recipes-devtools/expect/expect/run-ptest
+new file mode 100755
+index 0000000000..856c314eaf
+--- /dev/null
++++ b/meta/recipes-devtools/expect/expect/run-ptest
+@@ -0,0 +1,6 @@
++#!/bin/sh
++
++out_put=`tclsh tests/all.tcl -verbose bpse`
++echo
++echo "${out_put}" | awk '/PASSED|FAILED|SKIPPED/{gsub(/PASSED/,"PASS"); gsub(/FAILED/,"FAIL"); gsub(/SKIPPED/,"SKIP"); if ($NF=="PASS"){print $NF": "$(NF-1)}else{print $NF": "$2}}' | uniq
++
+diff --git a/meta/recipes-devtools/expect/expect_5.45.4.bb b/meta/recipes-devtools/expect/expect_5.45.4.bb
+index 6cb46f334c..7b610b1ff2 100644
+--- a/meta/recipes-devtools/expect/expect_5.45.4.bb
++++ b/meta/recipes-devtools/expect/expect_5.45.4.bb
+@@ -16,7 +16,7 @@ LIC_FILES_CHKSUM = "file://license.terms;md5=fbf2de7e9102505b1439db06fc36ce5c"
+ DEPENDS += "tcl"
+ RDEPENDS:${PN} = "tcl"
+ 
+-inherit autotools update-alternatives
++inherit autotools update-alternatives ptest
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/expect/Expect/${PV}/${BPN}${PV}.tar.gz \
+            file://0001-configure.in.patch \
+@@ -27,6 +27,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/expect/Expect/${PV}/${BPN}${PV}.tar.gz \
+            file://0001-exp_main_sub.c-Use-PATH_MAX-for-path.patch \
+            file://0001-fixline1-fix-line-1.patch \
+            file://0001-Add-prototype-to-function-definitions.patch \
++           file://run-ptest \
+            "
+ SRC_URI[md5sum] = "00fce8de158422f5ccd2666512329bd2"
+ SRC_URI[sha256sum] = "49a7da83b0bdd9f46d04a04deec19c7767bb9a323e40c4781f89caf760b92c34"
+@@ -44,6 +45,11 @@ do_install:append() {
+         sed -e 's|$dir|${libdir}|' -i ${D}${libdir}/expect${PV}/pkgIndex.tcl
  }
- staging_taskhandler[eventmask] = "bb.event.RecipeTaskPreProcess"
+ 
++do_install_ptest() {
++    install -d ${D}${PTEST_PATH}
++    cp -r ${S}/tests ${D}${PTEST_PATH}
++}
++
+ # Apparently the public Tcl headers are only in /usr/include/tcl8.6
+ # when building for the target and nativesdk.
+ TCL_INCLUDE_PATH = "--with-tclinclude=${STAGING_INCDIR}/tcl8.6"
 -- 
-2.40.0
+2.25.1
 
 
