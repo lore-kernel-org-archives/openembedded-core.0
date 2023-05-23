@@ -1,99 +1,89 @@
-Return-Path: <philip@balister.org>
+Return-Path: <frieder.schrempf@kontron.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41D62C7EE2D
-	for <webhook@archiver.kernel.org>; Tue, 23 May 2023 15:19:07 +0000 (UTC)
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
- by mx.groups.io with SMTP id smtpd.web10.24953.1684852937274331422
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35FC5C77B75
+	for <webhook@archiver.kernel.org>; Tue, 23 May 2023 15:37:07 +0000 (UTC)
+Received: from mail.fris.de (mail.fris.de [116.203.77.234])
+ by mx.groups.io with SMTP id smtpd.web10.1548.1684856219161875249
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 May 2023 07:42:17 -0700
+ Tue, 23 May 2023 08:37:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ibm.com header.s=pp1 header.b=BdYPHMMZ;
- spf=pass (domain: linux.ibm.com, ip: 148.163.158.5, mailfrom: stefanb@linux.ibm.com)
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34NEV0iD016449
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 May 2023 14:42:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=dw9DGHaMSRNjjrhHvdO09E3pzbMhsGFN4WuLvl9WmjY=;
- b=BdYPHMMZSiliQy8+2IrIywMdhrtrXC3RNwBdhjqV/RYSya6ZdD/VX+DyTbfHGoE02BV/
- LPH5r+bKAMBFScxF1+DncBoyWRPL5NHHlm4K3P1QiZS58cjG96NAwTw+qkhT8rFlAxIc
- kAAC43eIA2nu7Xd1HTbs/qwHhcqk6FNKtpOPiWP9J9zNFOQG0kCaZ/f8G/ex+zmSV6gn
- hC5O7AUO6jhcSnTe/c3kkQ9qeribMr6r6uxniPhx8vfBfof9SDh3k64VxZLL0MvvN1h6
- JBTwImwCaFc3mV9LXnF0VTWDXwx6C4t1NJmgNzl6rYFtFDmtrls40S+3EAsLmVhxDDHq Aw== 
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.10])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qryan0d09-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 May 2023 14:42:16 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
-	by ppma02dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34NEKhWs031369
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 May 2023 14:42:15 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([9.208.129.118])
-	by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3qppdpkeck-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 May 2023 14:42:15 +0000
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 34NEgDPq64028996
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 23 May 2023 14:42:13 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7460758055;
-	Tue, 23 May 2023 14:42:13 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3280058043;
-	Tue, 23 May 2023 14:42:13 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
-	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 23 May 2023 14:42:13 +0000 (GMT)
-From: "Stefan Berger" <stefanb@linux.ibm.com>
+ dkim=fail reason="body hash did not verify" header.i=@fris.de header.s=dkim header.b=j7E5Pm/l;
+ spf=pass (domain: fris.de, ip: 116.203.77.234, mailfrom: frieder@fris.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0DE64C02AE;
+	Tue, 23 May 2023 17:36:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fris.de; s=dkim;
+	t=1684856214; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=uhTQWYdDkYfkyBi5/fAF7xOFMVsbRCngGTM8QQ0unw4=;
+	b=j7E5Pm/lJDjMOx0kNGg6yi8duLkj2BLCkwYeLGTtxBFarF3I+b0Uq5qxvYlfaGnyraFAdp
+	4pLLRhnOLjAgYDmmbztLfN7tt7J6ql2+Nk3wzt8eG7SHMHtAJ4391vxxaUGdFPGjcJHNaK
+	dNd6khANzXWzVhhRwR/KCfKrjzllSQAiVd3doClUfleTMgpVezCYO2ao5YAj2IbNUChkxT
+	owRHmLJerU50tawYmVIA5HTRXABjoCT/mcA987D0/lJIvH+lTIqUpnr7wjIo7DW8napC6R
+	mwr8kpnFZpEDZsEgsLBuMvhCD9czBXTad0c9rtZ0q7T0CaeWvmRqytrYP8HYsA==
+From: Frieder Schrempf <frieder@fris.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Stefan Berger <stefanb@linux.ibm.com>
-Subject: [PATCH] attr: Package attr, getfattr, and setfattr into attr-tools
-Date: Tue, 23 May 2023 10:42:06 -0400
-Message-Id: <20230523144206.3878741-1-stefanb@linux.ibm.com>
-X-Mailer: git-send-email 2.39.1
+Cc: Frieder Schrempf <frieder.schrempf@kontron.de>
+Subject: [PATCH] psmisc: Set ALTERNATIVE for pstree to resolve conflict with busybox
+Date: Tue, 23 May 2023 17:36:08 +0200
+Message-Id: <20230523153608.119800-1-frieder@fris.de>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: agaGIyy9ntQABktDAL-xLrK9gZMNa8Lr
-X-Proofpoint-GUID: agaGIyy9ntQABktDAL-xLrK9gZMNa8Lr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-23_10,2023-05-23_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- lowpriorityscore=0 suspectscore=0 spamscore=0 bulkscore=0 adultscore=0
- malwarescore=0 mlxlogscore=613 clxscore=1015 mlxscore=0 phishscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305230114
-Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 May 2023 15:19:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181639
+ <openembedded-core@lists.openembedded.org>; Tue, 23 May 2023 15:37:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181640
 
-Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+From: Frieder Schrempf <frieder.schrempf@kontron.de>
+
+If pstree in busybox is enabled there is a conflict with pstree from
+psmisc resulting in:
+
+  do_rootfs: Postinstall scriptlets of ['busybox'] have failed. If
+  the intention is to defer them to first boot, then please place
+  them into pkg_postinst_ontarget:${PN} ().
+  Deferring to first boot via 'exit 1' is no longer supported.
+
+And more detailed in do_rootfs.log:
+
+  update-alternatives: Error: not linking [...]/rootfs/usr/bin/pstree to =
+/bin/busybox.nosuid since [...]/rootfs/usr/bin/pstree exists and is not a=
+ link
+
+On order to fix this set ALTERNATIVE:pstree accordingly.
+
+Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
 ---
- meta/recipes-support/attr/attr.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-extended/psmisc/psmisc.inc   | 2 ++
+ vscode-bitbake-build/executeBitBakeCmd.sh | 3 +++
+ 2 files changed, 5 insertions(+)
+ create mode 100755 vscode-bitbake-build/executeBitBakeCmd.sh
 
-diff --git a/meta/recipes-support/attr/attr.inc b/meta/recipes-support/attr/attr.inc
-index 8ba865a74a..2d2ff0912e 100644
---- a/meta/recipes-support/attr/attr.inc
-+++ b/meta/recipes-support/attr/attr.inc
-@@ -20,9 +20,10 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/attr/${BP}.tar.gz \
- 
- inherit ptest update-alternatives autotools gettext
- 
--PACKAGES =+ "lib${BPN}"
-+PACKAGES =+ "lib${BPN} ${BPN}-tools"
- 
- FILES:lib${BPN} = "${libdir}/lib*${SOLIBS}"
-+FILES:${BPN}-tools = "${bindir}/*attr*"
- 
- ALTERNATIVE_PRIORITY = "100"
- ALTERNATIVE:${PN} = "setfattr"
--- 
-2.34.1
+diff --git a/meta/recipes-extended/psmisc/psmisc.inc b/meta/recipes-exten=
+ded/psmisc/psmisc.inc
+index a429c2ee96..23e98d21be 100644
+--- a/meta/recipes-extended/psmisc/psmisc.inc
++++ b/meta/recipes-extended/psmisc/psmisc.inc
+@@ -55,3 +55,5 @@ ALTERNATIVE_PRIORITY =3D "90"
+ ALTERNATIVE:killall =3D "killall"
+=20
+ ALTERNATIVE:fuser =3D "fuser"
++
++ALTERNATIVE:pstree =3D "pstree"
+diff --git a/vscode-bitbake-build/executeBitBakeCmd.sh b/vscode-bitbake-b=
+uild/executeBitBakeCmd.sh
+new file mode 100755
+index 0000000000..d7a4c5a5aa
+--- /dev/null
++++ b/vscode-bitbake-build/executeBitBakeCmd.sh
+@@ -0,0 +1,3 @@
++#!/bin/bash
++. ./oe-init-build-env vscode-bitbake-build > /dev/null
++bitbake-layers show-layers
+\ No newline at end of file
+--=20
+2.40.1
 
 
