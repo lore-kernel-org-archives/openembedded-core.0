@@ -1,416 +1,449 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8154EC7EE26
-	for <webhook@archiver.kernel.org>; Tue, 23 May 2023 08:52:29 +0000 (UTC)
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.63])
- by mx.groups.io with SMTP id smtpd.web10.17144.1684831939534333146
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03E41C7EE26
+	for <webhook@archiver.kernel.org>; Tue, 23 May 2023 09:05:09 +0000 (UTC)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.web10.17334.1684832702579494810
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 May 2023 01:52:20 -0700
+ Tue, 23 May 2023 02:05:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=T/4x+QQ5;
- spf=pass (domain: arm.com, ip: 40.107.105.63, mailfrom: ross.burton@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MSu6Ec3EjMGimz13GDhSisRQKlrbjGXJqz6LJJCvXEs=;
- b=T/4x+QQ5Zwj6xfOJYdJLFLtjt+Dluv3gBsIVbpt+p9jVsdMa20/1q4ZbqAOo6+TRPB4xX3kuU7we2tR6MhdGhTbox1izag//3twqDXuCBmds/8wxPFJsjQTqaQi2WqHEddGy/MKwR231w4iD0ZPWqzx3iaYTVA5AT29U9XDccX0=
-Received: from AM0PR02CA0075.eurprd02.prod.outlook.com (2603:10a6:208:154::16)
- by AS2PR08MB10350.eurprd08.prod.outlook.com (2603:10a6:20b:57a::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.28; Tue, 23 May
- 2023 08:52:16 +0000
-Received: from AM7EUR03FT015.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:208:154:cafe::e7) by AM0PR02CA0075.outlook.office365.com
- (2603:10a6:208:154::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.29 via Frontend
- Transport; Tue, 23 May 2023 08:52:15 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AM7EUR03FT015.mail.protection.outlook.com (100.127.140.173) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6433.14 via Frontend Transport; Tue, 23 May 2023 08:52:15 +0000
-Received: ("Tessian outbound 3a01b65b5aad:v136"); Tue, 23 May 2023 08:52:15 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 5c30a7cb9703fb01
-X-CR-MTA-TID: 64aa7808
-Received: from cd4805842a44.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id B668077D-56D0-43BC-A5BB-8A3E6DBCF712.1;
-	Tue, 23 May 2023 08:52:08 +0000
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id cd4805842a44.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Tue, 23 May 2023 08:52:08 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ccGEi885fSEqRMNNrXlvAjaEmknwb8lTadThUCDmRsqVWCY1LzIiVwG6GqIeJR5mNgfgeKjvJM+UE4nP3ko42blApvgpiFvvbmAuwrRBqLqAeBvJnN/OBkrjOBEPqcPp8RYJjh4N0un4X25qLIvZ708Z8Set1isapfgy6Oy7qj8YzYjF2xdWs6EefSFVfUxcAR/6r/rb5Sn54CcAOxPROM+in5YjmSrQsd/GBKr4iNK4+78r0AZYTh9t0K7nZxkMMRl2T+KmE63jNO998Fiqpu2rlHr+3JxN32C2u2gsbXlEvnXI+aNeKV1No7AmawVJFwsveOoG8gAv0z7RLS6a+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MSu6Ec3EjMGimz13GDhSisRQKlrbjGXJqz6LJJCvXEs=;
- b=kLM10I/G9s7jOhYsk0dYD35Y5rUazjpjWLZYPblaGYUyuNDpDsVS3389u+20sAK+iLnDjgdGwo09OcshTOzNaHTTTKtoHg6/D320c8JQ2VmpVkEXto/gTajN+od+RFO5U0/gwBEeLsmlfVbPXS+kCOH5TKVgPuIT6mrcbpNv6o2ElKGg/XSlOtzMBOl6yMvCov3bEWbA7S+preBXoIuRlXUHgLxUBP9n3SdyCR+EnWqI09RXDZqqbtalz/TD/Mnq+0xd6vuOAJCpRg4rWTYOe1RVBRgYbsjJLFLz/0XB2lv+EAY8GEFE6/PxKKhNUpewlLT1Lw+JGoSnFf3HyOVAaQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MSu6Ec3EjMGimz13GDhSisRQKlrbjGXJqz6LJJCvXEs=;
- b=T/4x+QQ5Zwj6xfOJYdJLFLtjt+Dluv3gBsIVbpt+p9jVsdMa20/1q4ZbqAOo6+TRPB4xX3kuU7we2tR6MhdGhTbox1izag//3twqDXuCBmds/8wxPFJsjQTqaQi2WqHEddGy/MKwR231w4iD0ZPWqzx3iaYTVA5AT29U9XDccX0=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by AS2PR08MB9296.eurprd08.prod.outlook.com (2603:10a6:20b:598::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.28; Tue, 23 May
- 2023 08:52:06 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::eb3c:9b42:21c9:494e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::eb3c:9b42:21c9:494e%7]) with mapi id 15.20.6411.028; Tue, 23 May 2023
- 08:52:06 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>
-CC: OE-core <openembedded-core@lists.openembedded.org>, Markus Volk
-	<f_l_k@t-online.de>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 5/8] Remove usage of /var/volatile/tmp
-Thread-Topic: [OE-core] [PATCH 5/8] Remove usage of /var/volatile/tmp
-Thread-Index: AQHZjNKxgGfMqoMILUS67yDOTI9SJq9njgGA
-Date: Tue, 23 May 2023 08:52:06 +0000
-Message-ID: <CBE8C9FE-27D0-437F-8CCF-5F13C0DBFE3B@arm.com>
-References: <20230522172503.1651374-1-alex@linutronix.de>
- <20230522172503.1651374-5-alex@linutronix.de>
-In-Reply-To: <20230522172503.1651374-5-alex@linutronix.de>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3731.500.231)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|AS2PR08MB9296:EE_|AM7EUR03FT015:EE_|AS2PR08MB10350:EE_
-X-MS-Office365-Filtering-Correlation-Id: 70f9bf21-13bb-465b-cee3-08db5b6b0217
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- ZvmsbLs1RBmE8Bcv7Qgsu8cT1t6GP3wEihuz47z7WMI8nsX1PImWzE6yVJXPI2vY/Z2FwIlokuav15spUmz+arO+fZReCxHoeEqK9PaK7OX/wrKUp4ec0BL2/hWmb/vmLPhkuyYtW067nqvEx9XzQiuvHUCfnsLppwRecJVfjPNsJBP49HVpcaqdZbFxJsZu+Dvz8hGx7XLSWTf23CMS4aUjMAG3gPDwp2ImyG7Dq41Z3u/QLWR1L0NmLla3AmoHhlqLvmFF68CQiKeH+qhd+VI36cc+F+ZVylvHLCpI3U8siNw19JlbBz+C9Rnqs1qdNK4QPIyKlMMmLoQTRfxS1Mv3EEK4so2PPKlPXuq0OLEvzWrfdHsm+OP+lA+uKXZz6T+KgSHA4S0AIEQlWGZDI59sK5MfmJ2lQfpvQ1Pv6iyIUsJPHAP2dRxk6AgZoulDs1z1qSL7Jt4zrfZkgvj7yXQCwUuI1L4UEpiNl9n3X4bjs/hgl8swI6f9Qakjf6VBdCfs0ioa6fl5UGBJgtwhju6+gPP74xQ80B3gxwnngWnwAWSk8JwTGFCN6XjwYHJHQszfKVisWcxzgE3lNPeClb2zzs5gR9DOscmdIvUj90SU1oRbUGMOQWaF2AiduJJpKXQTbKFoMVGM4cyfajFGpg==
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(39860400002)(366004)(396003)(376002)(346002)(451199021)(316002)(54906003)(4326008)(91956017)(66476007)(64756008)(66556008)(66446008)(6916009)(71200400001)(66946007)(122000001)(76116006)(41300700001)(6486002)(66899021)(478600001)(38070700005)(38100700002)(966005)(86362001)(5660300002)(8936002)(8676002)(186003)(53546011)(30864003)(26005)(6506007)(6512007)(33656002)(36756003)(83380400001)(2906002)(2616005)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <208E35B60AF01D429ECAED501A00A11F@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=XXdmkm2F;
+ spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-4f3edc05aa5so2824279e87.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 May 2023 02:05:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684832701; x=1687424701;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MeqllQVBrd7sXxHOPtaFZqKfRVS5IWlunqjZixT/9BU=;
+        b=XXdmkm2FwPp4Pt9lg+hLZjHmg8b2/O2ovTpOIgLa0HAU+3p5VCkQ7fvG0vLysXWVsv
+         LCrVUqYSuH8ubjeKm/8WQlxE+1Vf9IS1MLUjfrxyX5D8nGP6zbO416s5C9trlRsAPnfE
+         yyC8ujiBb31o+MP/dO75iim3ci1grgHij3d2QV/Uzz2bJgbjS5AcpTP1gnb8K6SnSHjO
+         MxNxUIQbDMeylOD/VXCttVnc7qYvXaHRPB/22XibAlwjYGfb5ha7MAhbBzyE74HRwSNE
+         FMOxL/BgrCfAaRGbpCfmOB/PA3Om3dSYSdk1Sddkuse5xRuSSfQG25CqbT+SlU6YkzEh
+         eM3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684832701; x=1687424701;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MeqllQVBrd7sXxHOPtaFZqKfRVS5IWlunqjZixT/9BU=;
+        b=COdUSdzmY8uwL1BrBFoQQsR4d8LOEck/snftCt5SCzpRS8fPDCkQSELL+SjQolFO0x
+         svZ6VDwq3nY5yHjK8wQh78sEQphWyozZuu/I44FKkup2LFQau59VTs7Tbb3QkxqmOq55
+         hqLNxwKF9Eta3jmIcQ6y509rHsOn86VHmEJI99wIWookbALyKYIqWoQRuxUwdh6UtuIa
+         8xBkTY4aX9VuLUi0lDRr27wjyFyW1zzTS9S7IVXFvLh7mavXue270cXcOuwTvuuRN0fH
+         UD5x+eFT2YVQJQhyq0P6/P7BDmXmSMJChQWfZBVOQ0hZ7YnVNWTv/ktixf2xg+9TuedE
+         EBFw==
+X-Gm-Message-State: AC+VfDx3D8MPlHBTCH1i0+EFsDIluJwMssDUQ36UQQtANlkDdJcVm9ni
+	+2RWX3uDSFYdFug2n8ZO2JVqNmS9XPUVqKDg1l4=
+X-Google-Smtp-Source: ACHHUZ7l0vwL8c8Lwf1gpatY3F0g3j0s1eO2Gbqo8mWhRlAPAd2f0ple1V5VfUdjKIEaIepIgNKhuMGtME2o1HeR0dg=
+X-Received: by 2002:a2e:9008:0:b0:2a8:c8c5:c769 with SMTP id
+ h8-20020a2e9008000000b002a8c8c5c769mr4309539ljg.36.1684832700311; Tue, 23 May
+ 2023 02:05:00 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB9296
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM7EUR03FT015.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	9081416e-2c7d-489e-8341-08db5b6afc53
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	uwO7/ZMY5T/JSqxN84+XVwLl3o5WJKms3HRnWauYE+jCRfvGiH28BRqicGMAc9CGxjPVrVGueuukBO0d51ll4VrnuPrCJc0++/5X5J8y2r7HlGxA4bYlT+EpBnUjisk/uZm6KEST37yjAE0xPV50X6C03MQfWbR53pVBt74VVcVBYocSR16sZ2iYIsg3XpSfinRMBemZjY/loHXKz+OQAlLuEDve6FrBX5z8bGbXuOrKbe1uoX3igk3L0J8fkwMSMPGPkMOFm/TyjhbDB8X6Tpq7yHpXrPohNqNrkrHzwih2+SSrtgEI8X8RY38wqZ6j8XzO3/4jnVQ6QsVNErBKyvK67IOFPci1SBzwojmjEGXSvSx36j4CzHMc0HIgVSiV6x3Hppb8m2pbSMueViHbmAOkRcOpyI1HbB23+gGIJfVDiIvjOiHAhKtSoAhPjOeUkgotAKTMbY21Hp8pdwAWsdnMmYegggcJROMdKfPdnOseSLfYtygztPiUEEAjnanqFdYPoUmOhqnxwluAjojxdE/UI7owfBb2rwUISse5S65PzIxfdoaJU86anNFErBQyDSm1iZu77sXbYiSB4WYeiWwhzMmFBVNOyGNiymOgas8EQKW9hEc7lVG7ibyFSiPsWiV76c5HX0aSNoPgqswsnFGOAvp7mIdxmCwkEjXsLjZ5AEn7o11AO1jyMaczUWV5KugXRumLCnzxirYcs9yKlCoe6g8j2rxg8dBP5mN9X/g=
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(396003)(376002)(346002)(136003)(451199021)(40470700004)(36840700001)(46966006)(30864003)(2906002)(66899021)(5660300002)(83380400001)(47076005)(6862004)(8676002)(8936002)(70206006)(41300700001)(4326008)(70586007)(316002)(82310400005)(54906003)(36756003)(33656002)(40480700001)(6486002)(966005)(478600001)(336012)(2616005)(6506007)(356005)(86362001)(26005)(81166007)(186003)(6512007)(107886003)(53546011)(40460700003)(36860700001)(82740400003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2023 08:52:15.7019
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 70f9bf21-13bb-465b-cee3-08db5b6b0217
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM7EUR03FT015.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB10350
+References: <20230522172503.1651374-1-alex@linutronix.de> <20230522172503.1651374-5-alex@linutronix.de>
+ <CBE8C9FE-27D0-437F-8CCF-5F13C0DBFE3B@arm.com>
+In-Reply-To: <CBE8C9FE-27D0-437F-8CCF-5F13C0DBFE3B@arm.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 23 May 2023 11:04:48 +0200
+Message-ID: <CANNYZj9V73Dd0hTquGLNn1W_A0oDF52eMQE124D5UWZWMF_zDg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 5/8] Remove usage of /var/volatile/tmp
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	Markus Volk <f_l_k@t-online.de>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 May 2023 08:52:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181630
+ <openembedded-core@lists.openembedded.org>; Tue, 23 May 2023 09:05:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181631
 
-QXMgbXVjaCBhcyBJIGxpa2UgdGhlIGNvbmNlcHQgb2YgdGhpcyBwYXRjaCwgaXQgbmVlZHMgYSBn
-b29kIHJldmlldy4gIENhbiB5b3UgcmVtb3ZlIGl0IGZyb20gdGhpcyBzZXJpZXMgc28gdGhlIHJl
-c3QgaXNu4oCZdCBkZXBlbmRlbnQgb24gaXQ/DQoNClRoYW5rcywNClJvc3MNCg0KPiBPbiAyMiBN
-YXkgMjAyMywgYXQgMTg6MjUsIEFsZXhhbmRlciBLYW5hdmluIHZpYSBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnIDxhbGV4LmthbmF2aW49Z21haWwuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IHdy
-b3RlOg0KPiANCj4gRnJvbTogTWFya3VzIFZvbGsgPGZfbF9rQHQtb25saW5lLmRlPg0KPiANCj4g
-R2xpYi0yLjAgdXNlcyBwdGVzdCB0byBlbnN1cmUgdGhhdCAvdG1wIGlzIG5vdCBhIHN5bWxpbmsu
-DQo+IA0KPiBUaGlzIGNvbW1pdCB0cmllcyB0byBhbGlnbiB0bXBkaXIgdXNhZ2UuIFRoZSBzeW1s
-aW5rcyBmb3IgL3RtcCBhbmQgL3Zhci90bXAgYXJlDQo+IHJlcGxhY2VkIGJ5IGRpcmVjdG9yaWVz
-IGFuZCBieSBkZWZhdWx0IGEgdG1wZnMgaXMgbW91bnRlZCBpbiAvdG1wLg0KPiAvdmFyL3ZvbGF0
-aWxlL3RtcCBpcyByZW1vdmVkLg0KPiANCj4gKEZyb20gT0UtQ29yZSByZXY6IDM1NjNmMDVkZjI0
-NmY5ZmQyNGQ3YjIwYTY1Y2U3Nzc4N2VkNTA4YjYpDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBNYXJr
-dXMgVm9sayA8Zl9sX2tAdC1vbmxpbmUuZGU+DQo+IFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRyZSBC
-ZWxsb25pIDxhbGV4YW5kcmUuYmVsbG9uaUBib290bGluLmNvbT4NCj4gU2lnbmVkLW9mZi1ieTog
-UmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+DQo+IC0t
-LQ0KPiBtZXRhL2NvbmYvYml0YmFrZS5jb25mICAgICAgICAgICAgICAgICAgICAgICAgfCAgNCAt
-LS0NCj4gbWV0YS9maWxlcy9mcy1wZXJtcy1wZXJzaXN0ZW50LWxvZy50eHQgICAgICAgIHwgIDIg
-LS0NCj4gbWV0YS9maWxlcy9mcy1wZXJtcy50eHQgICAgICAgICAgICAgICAgICAgICAgIHwgIDIg
-LS0NCj4gLi4uL2xpYi9vZXFhL2ZpbGVzL2J1aWxkaGlzdG9yeV9maWxlbGlzdDEudHh0IHwgIDEg
-LQ0KPiAuLi4vbGliL29lcWEvZmlsZXMvYnVpbGRoaXN0b3J5X2ZpbGVsaXN0Mi50eHQgfCAgMSAt
-DQo+IG1ldGEvcmVjaXBlcy1jb3JlL2Jhc2UtZmlsZXMvYmFzZS1maWxlcy9mc3RhYiB8ICAxICsN
-Cj4gLi4uL2Jhc2UtZmlsZXMvYmFzZS1maWxlc18zLjAuMTQuYmIgICAgICAgICAgIHwgIDQgKy0t
-DQo+IC4uLi9pbml0c2NyaXB0cy0xLjAvcG9wdWxhdGUtdm9sYXRpbGUuc2ggICAgICB8ICAyICst
-DQo+IC4uLi9pbml0c2NyaXB0cy9pbml0c2NyaXB0cy0xLjAvdm9sYXRpbGVzICAgICB8ICA1ICsr
-LQ0KPiAuLi4vaW5pdHNjcmlwdHMvaW5pdHNjcmlwdHNfMS4wLmJiICAgICAgICAgICAgfCAgMyAt
-LQ0KPiAuLi4vc3lzdGVtZC9zeXN0ZW1kLzAwLWNyZWF0ZS12b2xhdGlsZS5jb25mICAgfCAgNCAr
-LS0NCj4gbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kXzI1My4zLmJiICAgIHwgIDcg
-LS0tLQ0KPiBtZXRhL3JlY2lwZXMtY29yZS91ZGV2L2V1ZGV2L2luaXQgICAgICAgICAgICAgfCAg
-NCAtLS0NCj4gLi4uL2UyZnNwcm9ncy9lMmZzcHJvZ3MvcnVuLXB0ZXN0ICAgICAgICAgICAgIHwg
-IDIgKy0NCj4gLi4uZWFrX2Ntc2cuc3RkZXJyLmV4cC1hZGp1c3QtdG1wLXBhdGhzLnBhdGNoIHwg
-MzQgLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiAuLi4vdmFsZ3JpbmQvdmFsZ3JpbmRfMy4yMC4wLmJi
-ICAgICAgICAgICAgICAgfCAgMSAtDQo+IDE2IGZpbGVzIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygr
-KSwgNjkgZGVsZXRpb25zKC0pDQo+IGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvdmFsZ3JpbmQvdmFsZ3JpbmQvMDAwMS1ub25lLXRlc3RzLWZkbGVha19jbXNnLnN0ZGVy
-ci5leHAtYWRqdXN0LXRtcC1wYXRocy5wYXRjaA0KPiANCj4gZGlmZiAtLWdpdCBhL21ldGEvY29u
-Zi9iaXRiYWtlLmNvbmYgYi9tZXRhL2NvbmYvYml0YmFrZS5jb25mDQo+IGluZGV4IDMxNGNjNDY2
-NjI1Li40OThiY2E0MmZiNiAxMDA2NDQNCj4gLS0tIGEvbWV0YS9jb25mL2JpdGJha2UuY29uZg0K
-PiArKysgYi9tZXRhL2NvbmYvYml0YmFrZS5jb25mDQo+IEBAIC05MCwxMCArOTAsNiBAQCBST09U
-X0hPTUUgPz89ICIvaG9tZS9yb290Ig0KPiAjIElmIHNldCB0byBib29sZWFuIGZhbHNlICgnbm8n
-LCAnbicsICdmYWxzZScsICdmJywgJzAnKSwgL3Zhci9sb2cgaXMgb24gcGVyc2lzdGVudCBzdG9y
-YWdlLg0KPiBWT0xBVElMRV9MT0dfRElSID89ICJ5ZXMiDQo+IA0KPiAtIyBpZiBzZXQgdG8gJ3ll
-cyc6IC90bXAgbGlua3MgdG8gL3Zhci90bXAgd2hpY2ggbGlua3MgdG8gL3Zhci92b2xhdGlsZS90
-bXANCj4gLSMgb3RoZXJ3aXNlOiAgICAgICAvdG1wIGlzIG9uIHBlcnNpc3RlbnQgc3RvcmFnZQ0K
-PiAtVk9MQVRJTEVfVE1QX0RJUiA/PSAieWVzIg0KPiAtDQo+IEJCX1JFTkFNRURfVkFSSUFCTEVT
-W1BOQkxBQ0tMSVNUXSA9ICJTS0lQX1JFQ0lQRSINCj4gQkJfUkVOQU1FRF9WQVJJQUJMRVNbQ1ZF
-X0NIRUNLX1BOX1dISVRFTElTVF0gPSAiQ1ZFX0NIRUNLX1NLSVBfUkVDSVBFIg0KPiBCQl9SRU5B
-TUVEX1ZBUklBQkxFU1tDVkVfQ0hFQ0tfV0hJVEVMSVNUXSA9ICJDVkVfQ0hFQ0tfSUdOT1JFIg0K
-PiBkaWZmIC0tZ2l0IGEvbWV0YS9maWxlcy9mcy1wZXJtcy1wZXJzaXN0ZW50LWxvZy50eHQgYi9t
-ZXRhL2ZpbGVzL2ZzLXBlcm1zLXBlcnNpc3RlbnQtbG9nLnR4dA0KPiBpbmRleCA1MThjMWJlM2M5
-My4uMzI2YzBlZDA5MjQgMTAwNjQ0DQo+IC0tLSBhL21ldGEvZmlsZXMvZnMtcGVybXMtcGVyc2lz
-dGVudC1sb2cudHh0DQo+ICsrKyBiL21ldGEvZmlsZXMvZnMtcGVybXMtcGVyc2lzdGVudC1sb2cu
-dHh0DQo+IEBAIC00Nyw3ICs0Nyw2IEBAICR7b2xkaW5jbHVkZWRpcn0gMDc1NSByb290IHJvb3Qg
-dHJ1ZSAwNjQ0IHJvb3Qgcm9vdA0KPiAjIExpbmtzDQo+ICR7bG9jYWxzdGF0ZWRpcn0vcnVuIGxp
-bmsgL3J1bg0KPiAke2xvY2Fsc3RhdGVkaXJ9L2xvY2sgbGluayAvcnVuL2xvY2sNCj4gLSR7bG9j
-YWxzdGF0ZWRpcn0vdG1wIGxpbmsgdm9sYXRpbGUvdG1wDQo+IA0KPiAvaG9tZSAwNzU1IHJvb3Qg
-cm9vdCBmYWxzZSAtIC0gLQ0KPiAvc3J2IDA3NTUgcm9vdCByb290IGZhbHNlIC0gLSAtDQo+IEBA
-IC01Nyw3ICs1Niw2IEBAICR7bG9jYWxzdGF0ZWRpcn0vbG9jYWwgMDc1NSByb290IHJvb3QgZmFs
-c2UgLSAtIC0NCj4gIyBTcGVjaWFsIHBlcm1pc3Npb25zIGZyb20gYmFzZS1maWxlcw0KPiAjIFNl
-dCAxNzc3DQo+IC90bXAgMDE3Nzcgcm9vdCByb290IGZhbHNlIC0gLSAtDQo+IC0ke2xvY2Fsc3Rh
-dGVkaXJ9L3ZvbGF0aWxlL3RtcCAwMTc3NyByb290IHJvb3QgZmFsc2UgLSAtIC0NCj4gDQo+ICMg
-U2V0IDA3MDANCj4gJHtST09UX0hPTUV9IDA3MDAgcm9vdCByb290IGZhbHNlIC0gLSAtDQo+IGRp
-ZmYgLS1naXQgYS9tZXRhL2ZpbGVzL2ZzLXBlcm1zLnR4dCBiL21ldGEvZmlsZXMvZnMtcGVybXMu
-dHh0DQo+IGluZGV4IGRhYTRhZWQ4NDBmLi5lZDU5MzExMDM1ZCAxMDA2NDQNCj4gLS0tIGEvbWV0
-YS9maWxlcy9mcy1wZXJtcy50eHQNCj4gKysrIGIvbWV0YS9maWxlcy9mcy1wZXJtcy50eHQNCj4g
-QEAgLTQ4LDcgKzQ4LDYgQEAgJHtvbGRpbmNsdWRlZGlyfSAwNzU1IHJvb3Qgcm9vdCB0cnVlIDA2
-NDQgcm9vdCByb290DQo+ICR7bG9jYWxzdGF0ZWRpcn0vcnVuIGxpbmsgL3J1bg0KPiAke2xvY2Fs
-c3RhdGVkaXJ9L2xvZyBsaW5rIHZvbGF0aWxlL2xvZw0KPiAke2xvY2Fsc3RhdGVkaXJ9L2xvY2sg
-bGluayAvcnVuL2xvY2sNCj4gLSR7bG9jYWxzdGF0ZWRpcn0vdG1wIGxpbmsgdm9sYXRpbGUvdG1w
-DQo+IA0KPiAvaG9tZSAwNzU1IHJvb3Qgcm9vdCBmYWxzZSAtIC0gLQ0KPiAvc3J2IDA3NTUgcm9v
-dCByb290IGZhbHNlIC0gLSAtDQo+IEBAIC01OCw3ICs1Nyw2IEBAICR7bG9jYWxzdGF0ZWRpcn0v
-bG9jYWwgMDc1NSByb290IHJvb3QgZmFsc2UgLSAtIC0NCj4gIyBTcGVjaWFsIHBlcm1pc3Npb25z
-IGZyb20gYmFzZS1maWxlcw0KPiAjIFNldCAxNzc3DQo+IC90bXAgMDE3Nzcgcm9vdCByb290IGZh
-bHNlIC0gLSAtDQo+IC0ke2xvY2Fsc3RhdGVkaXJ9L3ZvbGF0aWxlL3RtcCAwMTc3NyByb290IHJv
-b3QgZmFsc2UgLSAtIC0NCj4gDQo+ICMgU2V0IDA3MDANCj4gJHtST09UX0hPTUV9IDA3MDAgcm9v
-dCByb290IGZhbHNlIC0gLSAtDQo+IGRpZmYgLS1naXQgYS9tZXRhL2xpYi9vZXFhL2ZpbGVzL2J1
-aWxkaGlzdG9yeV9maWxlbGlzdDEudHh0IGIvbWV0YS9saWIvb2VxYS9maWxlcy9idWlsZGhpc3Rv
-cnlfZmlsZWxpc3QxLnR4dA0KPiBpbmRleCA4ZDg4Mjg5NWFkNS4uZWM1MDAxNzM4MzggMTAwNjQ0
-DQo+IC0tLSBhL21ldGEvbGliL29lcWEvZmlsZXMvYnVpbGRoaXN0b3J5X2ZpbGVsaXN0MS50eHQN
-Cj4gKysrIGIvbWV0YS9saWIvb2VxYS9maWxlcy9idWlsZGhpc3RvcnlfZmlsZWxpc3QxLnR4dA0K
-PiBAQCAtOTIxMCw1ICs5MjEwLDQgQEAgbHJ3eHJ3eHJ3eCByb290ICAgICAgIHJvb3QgICAgICAg
-ICAgICAgICAxMiAuL3Zhci9sb2cgLT4gdm9sYXRpbGUvbG9nDQo+IGxyd3hyd3hyd3ggcm9vdCAg
-ICAgICByb290ICAgICAgICAgICAgICAgIDYgLi92YXIvcnVuIC0+IC4uL3J1bg0KPiBkcnd4ci14
-ci14IHJvb3QgICAgICAgcm9vdCAgICAgICAgICAgICA0MDk2IC4vdmFyL3Nwb29sDQo+IGRyd3hy
-d3hyLXggcm9vdCAgICAgICBtYWlsICAgICAgICAgICAgIDQwOTYgLi92YXIvc3Bvb2wvbWFpbA0K
-PiAtbHJ3eHJ3eHJ3eCByb290ICAgICAgIHJvb3QgICAgICAgICAgICAgICAxMiAuL3Zhci90bXAg
-LT4gdm9sYXRpbGUvdG1wDQo+IGRyd3hyLXhyLXggcm9vdCAgICAgICByb290ICAgICAgICAgICAg
-IDQwOTYgLi92YXIvdm9sYXRpbGUNCj4gZGlmZiAtLWdpdCBhL21ldGEvbGliL29lcWEvZmlsZXMv
-YnVpbGRoaXN0b3J5X2ZpbGVsaXN0Mi50eHQgYi9tZXRhL2xpYi9vZXFhL2ZpbGVzL2J1aWxkaGlz
-dG9yeV9maWxlbGlzdDIudHh0DQo+IGluZGV4IGFjNjMwNzA2MGRmLi5jZWRlYzUxYzM4MiAxMDA2
-NDQNCj4gLS0tIGEvbWV0YS9saWIvb2VxYS9maWxlcy9idWlsZGhpc3RvcnlfZmlsZWxpc3QyLnR4
-dA0KPiArKysgYi9tZXRhL2xpYi9vZXFhL2ZpbGVzL2J1aWxkaGlzdG9yeV9maWxlbGlzdDIudHh0
-DQo+IEBAIC05MjEzLDUgKzkyMTMsNCBAQCBscnd4cnd4cnd4IHJvb3QgICAgICAgcm9vdCAgICAg
-ICAgICAgICAgIDEyIC4vdmFyL2xvZyAtPiB2b2xhdGlsZS9sb2cNCj4gbHJ3eHJ3eHJ3eCByb290
-ICAgICAgIHJvb3QgICAgICAgICAgICAgICAgNiAuL3Zhci9ydW4gLT4gLi4vcnVuDQo+IGRyd3hy
-LXhyLXggcm9vdCAgICAgICByb290ICAgICAgICAgICAgIDQwOTYgLi92YXIvc3Bvb2wNCj4gZHJ3
-eHJ3eHIteCByb290ICAgICAgIG1haWwgICAgICAgICAgICAgNDA5NiAuL3Zhci9zcG9vbC9tYWls
-DQo+IC1scnd4cnd4cnd4IHJvb3QgICAgICAgcm9vdCAgICAgICAgICAgICAgIDEyIC4vdmFyL3Rt
-cCAtPiB2b2xhdGlsZS90bXANCj4gZHJ3eHIteHIteCByb290ICAgICAgIHJvb3QgICAgICAgICAg
-ICAgNDA5NiAuL3Zhci92b2xhdGlsZQ0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUv
-YmFzZS1maWxlcy9iYXNlLWZpbGVzL2ZzdGFiIGIvbWV0YS9yZWNpcGVzLWNvcmUvYmFzZS1maWxl
-cy9iYXNlLWZpbGVzL2ZzdGFiDQo+IGluZGV4IDcwZTQwMGY1Njc0Li43MDY0NTczMTMwYiAxMDA2
-NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvYmFzZS1maWxlcy9iYXNlLWZpbGVzL2ZzdGFi
-DQo+ICsrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2UtZmlsZXMvYmFzZS1maWxlcy9mc3RhYg0K
-PiBAQCAtNSw2ICs1LDcgQEAgcHJvYyAgICAgICAgICAgICAgICAgL3Byb2MgICAgICAgICAgICAg
-ICAgcHJvYyAgICAgICBkZWZhdWx0cyAgICAgICAgICAgICAgMCAgMA0KPiBkZXZwdHMgICAgICAg
-ICAgICAgICAvZGV2L3B0cyAgICAgICAgICAgICBkZXZwdHMgICAgIG1vZGU9MDYyMCxwdG14bW9k
-ZT0wNjY2LGdpZD01ICAgICAgMCAgMA0KPiB0bXBmcyAgICAgICAgICAgICAgICAvcnVuICAgICAg
-ICAgICAgICAgICB0bXBmcyAgICAgIG1vZGU9MDc1NSxub2Rldixub3N1aWQsc3RyaWN0YXRpbWUg
-MCAgMA0KPiB0bXBmcyAgICAgICAgICAgICAgICAvdmFyL3ZvbGF0aWxlICAgICAgICB0bXBmcyAg
-ICAgIGRlZmF1bHRzICAgICAgICAgICAgICAwICAwDQo+ICt0bXBmcyAgICAgICAgICAgICAgICAv
-dG1wICAgICAgICAgICAgICAgICB0bXBmcyAgICAgIGRlZmF1bHRzICAgICAgICAgICAgICAwICAw
-DQo+IA0KPiAjIHVuY29tbWVudCB0aGlzIGlmIHlvdXIgZGV2aWNlIGhhcyBhIFNEL01NQy9UcmFu
-c2ZsYXNoIHNsb3QNCj4gIy9kZXYvbW1jYmxrMHAxICAgICAgIC9tZWRpYS9jYXJkICAgICAgICAg
-IGF1dG8gICAgICAgZGVmYXVsdHMsc3luYyxub2F1dG8gIDAgIDANCj4gZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1jb3JlL2Jhc2UtZmlsZXMvYmFzZS1maWxlc18zLjAuMTQuYmIgYi9tZXRhL3Jl
-Y2lwZXMtY29yZS9iYXNlLWZpbGVzL2Jhc2UtZmlsZXNfMy4wLjE0LmJiDQo+IGluZGV4IGZmODM1
-NjdiZDkxLi5jMmVjZWEwYTI1NyAxMDA2NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvYmFz
-ZS1maWxlcy9iYXNlLWZpbGVzXzMuMC4xNC5iYg0KPiArKysgYi9tZXRhL3JlY2lwZXMtY29yZS9i
-YXNlLWZpbGVzL2Jhc2UtZmlsZXNfMy4wLjE0LmJiDQo+IEBAIC0yOSw3ICsyOSw3IEBAIFMgPSAi
-JHtXT1JLRElSfSINCj4gSU5ISUJJVF9ERUZBVUxUX0RFUFMgPSAiMSINCj4gDQo+IGRvY2Rpcjph
-cHBlbmQgPSAiLyR7UH0iDQo+IC1kaXJzMTc3NyA9ICIvdG1wICR7bG9jYWxzdGF0ZWRpcn0vdm9s
-YXRpbGUvdG1wIg0KPiArZGlyczE3NzcgPSAiL3RtcCAvdmFyL3RtcCINCj4gZGlyczI3NzUgPSAi
-Ig0KPiBkaXJzNTU1ID0gIi9zeXMgL3Byb2MiDQo+IGRpcnM3NTUgPSAiL2Jvb3QgL2RldiAke2Jh
-c2VfYmluZGlyfSAke2Jhc2Vfc2JpbmRpcn0gJHtiYXNlX2xpYmRpcn0gXA0KPiBAQCAtNTMsNyAr
-NTMsNyBAQCBkaXJzNzU1LWxzYiA9ICIvc3J2ICBcDQo+ICAgICAgICAgICAgICAgICR7cHJlZml4
-fS9saWIvbG9jYWxlIg0KPiBkaXJzMjc3NS1sc2IgPSAiL3Zhci9tYWlsIg0KPiANCj4gLXZvbGF0
-aWxlcyA9ICIke0AnbG9nJyBpZiBvZS50eXBlcy5ib29sZWFuKCcke1ZPTEFUSUxFX0xPR19ESVJ9
-JykgZWxzZSAnJ30gdG1wIg0KPiArdm9sYXRpbGVzID0gIiR7QCdsb2cnIGlmIG9lLnR5cGVzLmJv
-b2xlYW4oJyR7Vk9MQVRJTEVfTE9HX0RJUn0nKSBlbHNlICcnfSINCj4gY29uZmZpbGVzID0gIiR7
-c3lzY29uZmRpcn0vZGViaWFuX3ZlcnNpb24gJHtzeXNjb25mZGlyfS9ob3N0LmNvbmYgXA0KPiAg
-ICAgICAgICAgICAgJHtzeXNjb25mZGlyfS9pc3N1ZSAvJHtzeXNjb25mZGlyfS9pc3N1ZS5uZXQg
-XA0KPiAgICAgICAgICAgICAgJHtzeXNjb25mZGlyfS9uc3N3aXRjaC5jb25mICR7c3lzY29uZmRp
-cn0vcHJvZmlsZSBcDQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9pbml0c2NyaXB0
-cy9pbml0c2NyaXB0cy0xLjAvcG9wdWxhdGUtdm9sYXRpbGUuc2ggYi9tZXRhL3JlY2lwZXMtY29y
-ZS9pbml0c2NyaXB0cy9pbml0c2NyaXB0cy0xLjAvcG9wdWxhdGUtdm9sYXRpbGUuc2gNCj4gaW5k
-ZXggYmM2MzBlODcxYzEuLmVjZmI2ZmRjMmI1IDEwMDc1NQ0KPiAtLS0gYS9tZXRhL3JlY2lwZXMt
-Y29yZS9pbml0c2NyaXB0cy9pbml0c2NyaXB0cy0xLjAvcG9wdWxhdGUtdm9sYXRpbGUuc2gNCj4g
-KysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvaW5pdHNjcmlwdHMvaW5pdHNjcmlwdHMtMS4wL3BvcHVs
-YXRlLXZvbGF0aWxlLnNoDQo+IEBAIC0yMyw3ICsyMyw3IEBAIFJPT1RfRElSPSIkKGVjaG8gIiRE
-SVJOQU1FIiB8IHNlZCAtbmUgJ3M6L2V0Yy8uKjo6cCcpIg0KPiBbICIkUk9PVEZTX1JFQURfT05M
-WSIgPSAieWVzIiBdICYmIFZPTEFUSUxFX0VOQUJMRV9DQUNIRT1ubw0KPiANCj4gQ0ZHRElSPSIk
-e1JPT1RfRElSfS9ldGMvZGVmYXVsdC92b2xhdGlsZXMiDQo+IC1UTVBST09UPSIke1JPT1RfRElS
-fS92YXIvdm9sYXRpbGUvdG1wIg0KPiArVE1QUk9PVD0iJHtST09UX0RJUn0vdG1wIg0KPiBDT1JF
-REVGPSIwMF9jb3JlIg0KPiANCj4gWyAiJHtWRVJCT1NFfSIgIT0gIm5vIiBdICYmIGVjaG8gIlBv
-cHVsYXRpbmcgdm9sYXRpbGUgRmlsZXN5c3RlbXMuIg0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
-cGVzLWNvcmUvaW5pdHNjcmlwdHMvaW5pdHNjcmlwdHMtMS4wL3ZvbGF0aWxlcyBiL21ldGEvcmVj
-aXBlcy1jb3JlL2luaXRzY3JpcHRzL2luaXRzY3JpcHRzLTEuMC92b2xhdGlsZXMNCj4gaW5kZXgg
-Y2Q4YTRiZTA1ZjIuLjcyMzJhOGVmOTAwIDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtY29y
-ZS9pbml0c2NyaXB0cy9pbml0c2NyaXB0cy0xLjAvdm9sYXRpbGVzDQo+ICsrKyBiL21ldGEvcmVj
-aXBlcy1jb3JlL2luaXRzY3JpcHRzL2luaXRzY3JpcHRzLTEuMC92b2xhdGlsZXMNCj4gQEAgLTI1
-LDExICsyNSwxMCBAQA0KPiAjIGxpbmsgdGhlIGZpbGUgZGVmaW5lZCBhcyAvdmFyL3Rlc3Qgd2ls
-bCBhY3R1YWxseSBiZSBjcmVhdGVkIGFzIC90bXAvdGVzdGZpbGUuDQo+IGQgcm9vdCByb290IDE3
-NzcgL3J1bi9sb2NrIG5vbmUNCj4gZCByb290IHJvb3QgMDc1NSAvdmFyL3ZvbGF0aWxlL2xvZyBu
-b25lDQo+IC1kIHJvb3Qgcm9vdCAxNzc3IC92YXIvdm9sYXRpbGUvdG1wIG5vbmUNCj4gbCByb290
-IHJvb3QgMTc3NyAvdmFyL2xvY2sgL3J1bi9sb2NrDQo+IGwgcm9vdCByb290IDA3NTUgL3Zhci9y
-dW4gL3J1bg0KPiAtbCByb290IHJvb3QgMTc3NyAvdmFyL3RtcCAvdmFyL3ZvbGF0aWxlL3RtcA0K
-PiAtbCByb290IHJvb3QgMTc3NyAvdG1wIC92YXIvdG1wDQo+ICtkIHJvb3Qgcm9vdCAxNzc3IC90
-bXANCj4gK2Qgcm9vdCByb290IDE3NzcgL3Zhci90bXANCj4gZCByb290IHJvb3QgMDc1NSAvdmFy
-L2xvY2svc3Vic3lzIG5vbmUNCj4gZiByb290IHJvb3QgMDY2NCAvdmFyL2xvZy93dG1wIG5vbmUN
-Cj4gZiByb290IHJvb3QgMDY2NCAvdmFyL3J1bi91dG1wIG5vbmUNCj4gZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1jb3JlL2luaXRzY3JpcHRzL2luaXRzY3JpcHRzXzEuMC5iYiBiL21ldGEvcmVj
-aXBlcy1jb3JlL2luaXRzY3JpcHRzL2luaXRzY3JpcHRzXzEuMC5iYg0KPiBpbmRleCA0ZGM0Nzdi
-YjhkNi4uN2M5ZDljYTRmMTAgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2luaXRz
-Y3JpcHRzL2luaXRzY3JpcHRzXzEuMC5iYg0KPiArKysgYi9tZXRhL3JlY2lwZXMtY29yZS9pbml0
-c2NyaXB0cy9pbml0c2NyaXB0c18xLjAuYmINCj4gQEAgLTEwOCw5ICsxMDgsNiBAQCBkb19pbnN0
-YWxsICgpIHsNCj4gc2VkIC1pIC1lICdcQF5kIHJvb3Qgcm9vdCAwNzU1IC92YXIvdm9sYXRpbGUv
-bG9nIG5vbmUkQCBhXGwgcm9vdCByb290IDA3NTUgL3Zhci9sb2cgL3Zhci92b2xhdGlsZS9sb2cn
-IFwNCj4gJHtEfSR7c3lzY29uZmRpcn0vZGVmYXVsdC92b2xhdGlsZXMvMDBfY29yZQ0KPiBmaQ0K
-PiAtIGlmIFsgIiR7Vk9MQVRJTEVfVE1QX0RJUn0iICE9ICJ5ZXMiIF07IHRoZW4NCj4gLSBzZWQg
-LWkgLWUgIi9cPHRtcFw+L2QiICR7RH0ke3N5c2NvbmZkaXJ9L2RlZmF1bHQvdm9sYXRpbGVzLzAw
-X2NvcmUNCj4gLSBmaQ0KPiBpbnN0YWxsIC1tIDA3NTUgICAgJHtXT1JLRElSfS9kbWVzZy5zaCAk
-e0R9JHtzeXNjb25mZGlyfS9pbml0LmQNCj4gaW5zdGFsbCAtbSAwNjQ0ICAgICR7V09SS0RJUn0v
-bG9ncm90YXRlLWRtZXNnLmNvbmYgJHtEfSR7c3lzY29uZmRpcn0vDQo+IA0KPiBkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kLzAwLWNyZWF0ZS12b2xhdGlsZS5j
-b25mIGIvbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kLzAwLWNyZWF0ZS12b2xhdGls
-ZS5jb25mDQo+IGluZGV4IGM0Mjc3MjIxYTIyLi4xYmE5YjgzNmNmMCAxMDA2NDQNCj4gLS0tIGEv
-bWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kLzAwLWNyZWF0ZS12b2xhdGlsZS5jb25m
-DQo+ICsrKyBiL21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC8wMC1jcmVhdGUtdm9s
-YXRpbGUuY29uZg0KPiBAQCAtMSw4ICsxLDYgQEANCj4gI1RoaXMgZ29lcyBoYW5kLWluLWhhbmQg
-d2l0aCB0aGUgYmFzZS1maWxlcyBvZiBPRS1Db3JlLiBUaGUgZmlsZSBtdXN0DQo+IC0jIGJlIHNv
-cnRlZCBiZWZvcmUgJ3N5c3RlbWQuY29uZicgYmVjdWFzZSB0aGlzIGF0dGVtcHRzIHRvIGNyZWF0
-ZSBhIGZpbGUNCj4gKyMgYmUgc29ydGVkIGJlZm9yZSAnc3lzdGVtZC5jb25mJyBiZWNhdXNlIHRo
-aXMgYXR0ZW1wdHMgdG8gY3JlYXRlIGEgZmlsZQ0KPiAjIGluc2lkZSAvdmFyL2xvZy4NCj4gDQo+
-IC0NCj4gZCAvcnVuL2xvY2sgMTc3NyAtIC0gLQ0KPiBkIC92YXIvdm9sYXRpbGUvbG9nIC0gLSAt
-IC0NCj4gLWQgL3Zhci92b2xhdGlsZS90bXAgMTc3NyAtIC0NCj4gZGlmZiAtLWdpdCBhL21ldGEv
-cmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZF8yNTMuMy5iYiBiL21ldGEvcmVjaXBlcy1jb3Jl
-L3N5c3RlbWQvc3lzdGVtZF8yNTMuMy5iYg0KPiBpbmRleCBhNzlkNmNiM2NhMC4uMDk0MzJmOTE5
-MjYgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZF8yNTMu
-My5iYg0KPiArKysgYi9tZXRhL3JlY2lwZXMtY29yZS9zeXN0ZW1kL3N5c3RlbWRfMjUzLjMuYmIN
-Cj4gQEAgLTI5MSwxMyArMjkxLDYgQEAgZG9faW5zdGFsbCgpIHsNCj4gcm0gLXJmICR7RH0ke2xv
-Y2Fsc3RhdGVkaXJ9L2xvZy9qb3VybmFsL3JlbW90ZQ0KPiBmaQ0KPiANCj4gLSAjIGlmIHRoZSB1
-c2VyIHJlcXVlc3RzIC90bXAgYmUgb24gcGVyc2lzdGVudCBzdG9yYWdlIChpLmUuIG5vdCB2b2xh
-dGlsZSkNCj4gLSAjIHRoZW4gZG9uJ3QgdXNlIGEgdG1wZnMgZm9yIC90bXANCj4gLSBpZiBbICIk
-e1ZPTEFUSUxFX1RNUF9ESVJ9IiAhPSAieWVzIiBdOyB0aGVuDQo+IC0gcm0gLWYgJHtEfSR7cm9v
-dGxpYmRpcn0vc3lzdGVtZC9zeXN0ZW0vdG1wLm1vdW50DQo+IC0gcm0gLWYgJHtEfSR7cm9vdGxp
-YmRpcn0vc3lzdGVtZC9zeXN0ZW0vbG9jYWwtZnMudGFyZ2V0LndhbnRzL3RtcC5tb3VudA0KPiAt
-IGZpDQo+IC0NCj4gaW5zdGFsbCAtZCAke0R9JHtzeXN0ZW1kX3N5c3RlbV91bml0ZGlyfS9ncmFw
-aGljYWwudGFyZ2V0LndhbnRzDQo+IGluc3RhbGwgLWQgJHtEfSR7c3lzdGVtZF9zeXN0ZW1fdW5p
-dGRpcn0vbXVsdGktdXNlci50YXJnZXQud2FudHMNCj4gaW5zdGFsbCAtZCAke0R9JHtzeXN0ZW1k
-X3N5c3RlbV91bml0ZGlyfS9wb3dlcm9mZi50YXJnZXQud2FudHMNCj4gZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1jb3JlL3VkZXYvZXVkZXYvaW5pdCBiL21ldGEvcmVjaXBlcy1jb3JlL3VkZXYv
-ZXVkZXYvaW5pdA0KPiBpbmRleCA0NzdhNTI1YjIxMi4uMjA4NGRlODNhZTMgMTAwNjQ0DQo+IC0t
-LSBhL21ldGEvcmVjaXBlcy1jb3JlL3VkZXYvZXVkZXYvaW5pdA0KPiArKysgYi9tZXRhL3JlY2lw
-ZXMtY29yZS91ZGV2L2V1ZGV2L2luaXQNCj4gQEAgLTc5LDEwICs3OSw2IEBAIGNhc2UgIiQxIiBp
-bg0KPiAgICAgfQ0KPiAgICAgWyAtZSAvZGV2L3B0cyBdIHx8IG1rZGlyIC1tIDA3NTUgL2Rldi9w
-dHMNCj4gICAgIFsgLWUgL2Rldi9zaG0gXSB8fCBta2RpciAtbSAxNzc3IC9kZXYvc2htDQo+IC0g
-ICAgIyB0aGUgYXV0b21vdW50IHJ1bGUgZm9yIHVkZXYgbmVlZHMgL3RtcCBkaXJlY3RvcnkgYXZh
-aWxhYmxlLCBhcyAvdG1wIGlzIGEgc3ltbGluaw0KPiAtICAgICMgdG8gL3Zhci90bXAgd2hpY2gg
-aW4gdHVybiBpcyBhIHN5bWxpbmsgdG8gL3Zhci92b2xhdGlsZS90bXAsIHdlIG5lZWQgdG8gbWFr
-ZSBzdXJlDQo+IC0gICAgIyAvdmFyL3ZvbGF0aWxlL3RtcCBkaXJlY3RvcnkgdG8gYmUgYXZhaWxh
-YmxlLg0KPiAtICAgIG1rZGlyIC1tIDE3NzcgLXAgL3Zhci92b2xhdGlsZS90bXANCj4gDQo+ICAg
-ICAjIG1ha2VfZXh0cmFfbm9kZXMNCj4gICAgIGtpbGxfdWRldmQgPiAiL2Rldi9udWxsIiAyPiYx
-DQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZTJmc3Byb2dzL2UyZnNwcm9n
-cy9ydW4tcHRlc3QgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZTJmc3Byb2dzL2UyZnNwcm9ncy9y
-dW4tcHRlc3QNCj4gaW5kZXggMjc5OTIzZGI4ZWYuLjAyMGJiNjliMTY4IDEwMDY0NA0KPiAtLS0g
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZTJmc3Byb2dzL2UyZnNwcm9ncy9ydW4tcHRlc3QNCj4g
-KysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2UyZnNwcm9ncy9lMmZzcHJvZ3MvcnVuLXB0ZXN0
-DQo+IEBAIC0yLDcgKzIsNyBAQA0KPiANCj4gY2QgLi90ZXN0DQo+IFNLSVBfU0xPV19URVNUUz15
-ZXMgLi90ZXN0X3NjcmlwdCB8IHNlZCAtdSAtZSAnLzpbWzpzcGFjZTpdXW9rL3MvXi9QQVNTOiAv
-JyAtZSAnLzpbWzpzcGFjZTpdXWZhaWxlZC9zL14vRkFJTDogLycgLWUgJy86W1s6c3BhY2U6XV1z
-a2lwcGVkL3MvXi9TS0lQOiAvJw0KPiAtcm0gLXJmIC92YXIvdm9sYXRpbGUvdG1wLyplMmZzcHJv
-Z3MqDQo+ICtybSAtcmYgL3RtcC8qZTJmc3Byb2dzKg0KPiBybSAtZiB0bXAtKg0KPiBybSAtZiAq
-LnRtcA0KPiBybSAtZiAqLm9rDQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-dmFsZ3JpbmQvdmFsZ3JpbmQvMDAwMS1ub25lLXRlc3RzLWZkbGVha19jbXNnLnN0ZGVyci5leHAt
-YWRqdXN0LXRtcC1wYXRocy5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy92YWxncmluZC92
-YWxncmluZC8wMDAxLW5vbmUtdGVzdHMtZmRsZWFrX2Ntc2cuc3RkZXJyLmV4cC1hZGp1c3QtdG1w
-LXBhdGhzLnBhdGNoDQo+IGRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCBlNDIxYWM2
-YzgwMS4uMDAwMDAwMDAwMDANCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3ZhbGdyaW5k
-L3ZhbGdyaW5kLzAwMDEtbm9uZS10ZXN0cy1mZGxlYWtfY21zZy5zdGRlcnIuZXhwLWFkanVzdC10
-bXAtcGF0aHMucGF0Y2gNCj4gKysrIC9kZXYvbnVsbA0KPiBAQCAtMSwzNCArMCwwIEBADQo+IC1G
-cm9tIGY0MDUyOTdkMzM4MmNkOTgzOTFkMDJmMzk3ZTIzODdkYTFmNDI4NzkgTW9uIFNlcCAxNyAw
-MDowMDowMCAyMDAxDQo+IC1Gcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdt
-YWlsLmNvbT4NCj4gLURhdGU6IEZyaSwgMjQgSmFuIDIwMjAgMTc6NTU6MzkgKzAxMDANCj4gLVN1
-YmplY3Q6IFtQQVRDSF0gbm9uZS90ZXN0cy9mZGxlYWtfY21zZy5zdGRlcnIuZXhwOiBhZGp1c3Qg
-L3RtcCBwYXRocw0KPiAtDQo+IC1JbiBvZS1jb3JlLCAvdG1wIGlzIGxpbmtlZCB0byAvdmFyL3Zv
-bGF0aWxlL3RtcCBhbmQNCj4gLXZhbGdyaW5kIG91dHB1dCBjaGFuZ2VzIGFjY29yZGluZ2x5DQo+
-IC0NCj4gLVVwc3RyZWFtLVN0YXR1czogSW5hcHByb3ByaWF0ZSBbb2UtY29yZSBzcGVjaWZpY10N
-Cj4gLVNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwu
-Y29tPg0KPiAtLS0tDQo+IC0gbm9uZS90ZXN0cy9mZGxlYWtfY21zZy5zdGRlcnIuZXhwIHwgNCAr
-Ky0tDQo+IC0gMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkN
-Cj4gLQ0KPiAtZGlmZiAtLWdpdCBhL25vbmUvdGVzdHMvZmRsZWFrX2Ntc2cuc3RkZXJyLmV4cCBi
-L25vbmUvdGVzdHMvZmRsZWFrX2Ntc2cuc3RkZXJyLmV4cA0KPiAtaW5kZXggNmU1YTc5N2I5Li4w
-ZWRlMWFiMTggMTAwNjQ0DQo+IC0tLS0gYS9ub25lL3Rlc3RzL2ZkbGVha19jbXNnLnN0ZGVyci5l
-eHANCj4gLSsrKyBiL25vbmUvdGVzdHMvZmRsZWFrX2Ntc2cuc3RkZXJyLmV4cA0KPiAtQEAgLTI1
-LDEwICsyNSwxMCBAQCBPcGVuIGZpbGUgZGVzY3JpcHRvciAuLi46IC9kZXYvbnVsbA0KPiAtIA0K
-PiAtIA0KPiAtIEZJTEUgREVTQ1JJUFRPUlM6IDYgb3BlbiAoMyBzdGQpIGF0IGV4aXQuDQo+IC0t
-T3BlbiBmaWxlIGRlc2NyaXB0b3IgLi4uOiAvdG1wL2RhdGEyDQo+IC0rT3BlbiBmaWxlIGRlc2Ny
-aXB0b3IgLi4uOiAuLi4NCj4gLSAgICAuLi4NCj4gLSANCj4gLS1PcGVuIGZpbGUgZGVzY3JpcHRv
-ciAuLi46IC90bXAvZGF0YTENCj4gLStPcGVuIGZpbGUgZGVzY3JpcHRvciAuLi46IC4uLg0KPiAt
-ICAgIC4uLg0KPiAtIA0KPiAtIE9wZW4gQUZfVU5JWCBzb2NrZXQgLi4uOiA8dW5rbm93bj4NCj4g
-LS0tIA0KPiAtMi4xNy4xDQo+IC0NCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy92YWxncmluZC92YWxncmluZF8zLjIwLjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdmFs
-Z3JpbmQvdmFsZ3JpbmRfMy4yMC4wLmJiDQo+IGluZGV4IDA3ZTUwNDI2ZTQ0Li40ZWExNzNiYTgw
-MyAxMDA2NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3ZhbGdyaW5kL3ZhbGdyaW5k
-XzMuMjAuMC5iYg0KPiArKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdmFsZ3JpbmQvdmFsZ3Jp
-bmRfMy4yMC4wLmJiDQo+IEBAIC0zNiw3ICszNiw2IEBAIFNSQ19VUkkgPSAiaHR0cHM6Ly9zb3Vy
-Y2V3YXJlLm9yZy9wdWIvdmFsZ3JpbmQvdmFsZ3JpbmQtJHtQVn0udGFyLmJ6MiBcDQo+ICAgICAg
-ICAgICAgZmlsZTovLzAwMDEtdmFsZ3JpbmQtZmlsdGVyX3htbF9mcmFtZXMtZG8tbm90LWZpbHRl
-ci11c3IucGF0Y2ggXA0KPiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLW1lbWNoZWNrLXZndGVzdHMt
-cmVtb3ZlLWZ1bGxwYXRoLWFmdGVyLWZsYWdzLnBhdGNoIFwNCj4gICAgICAgICAgICBmaWxlOi8v
-czM5MHhfdmVjX29wX3QucGF0Y2ggXA0KPiAtICAgICAgICAgICBmaWxlOi8vMDAwMS1ub25lLXRl
-c3RzLWZkbGVha19jbXNnLnN0ZGVyci5leHAtYWRqdXN0LXRtcC1wYXRocy5wYXRjaCBcDQo+ICAg
-ICAgICAgICAgZmlsZTovLzAwMDEtbWVtY2hlY2stdGVzdHMtRml4LXRpbWVyZmQtc3lzY2FsbC10
-ZXN0LnBhdGNoIFwNCj4gICAgICAgICAgICBmaWxlOi8vMDAwMS1kb2NzLURpc2FibGUtbWFudWFs
-LXZhbGlkYXRpb24ucGF0Y2ggXA0KPiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWRyZC10ZXN0cy1J
-bmNsdWRlLW1pc3NpbmctY3N0ZGludC5wYXRjaCBcDQo+IC0tIA0KPiAyLjMwLjINCj4gDQo+IA0K
-PiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0KPiBMaW5rczogWW91IHJlY2VpdmUgYWxsIG1lc3Nh
-Z2VzIHNlbnQgdG8gdGhpcyBncm91cC4NCj4gVmlldy9SZXBseSBPbmxpbmUgKCMxODE2MDUpOiBo
-dHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9tZXNzYWdl
-LzE4MTYwNQ0KPiBNdXRlIFRoaXMgVG9waWM6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9y
-Zy9tdC85OTA2OTgwOS82ODc1ODg4DQo+IEdyb3VwIE93bmVyOiBvcGVuZW1iZWRkZWQtY29yZStv
-d25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFVuc3Vic2NyaWJlOiBodHRwczovL2xpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS91bnN1YiBbcm9zcy5idXJ0b25A
-YXJtLmNvbV0NCj4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0NCj4gDQoNCg==
+Nothing depends on this patch and it can be dropped for testing or
+merging. I pulled it in because otherwise glib update to 2.76 would
+start failing its ptest, but I see that glib update landed in master
+but this patch did not. Not sure how that happened, are ptests passing
+as of current master?
+
+Alex
+
+On Tue, 23 May 2023 at 10:52, Ross Burton <Ross.Burton@arm.com> wrote:
+>
+> As much as I like the concept of this patch, it needs a good review.  Can=
+ you remove it from this series so the rest isn=E2=80=99t dependent on it?
+>
+> Thanks,
+> Ross
+>
+> > On 22 May 2023, at 18:25, Alexander Kanavin via lists.openembedded.org =
+<alex.kanavin=3Dgmail.com@lists.openembedded.org> wrote:
+> >
+> > From: Markus Volk <f_l_k@t-online.de>
+> >
+> > Glib-2.0 uses ptest to ensure that /tmp is not a symlink.
+> >
+> > This commit tries to align tmpdir usage. The symlinks for /tmp and /var=
+/tmp are
+> > replaced by directories and by default a tmpfs is mounted in /tmp.
+> > /var/volatile/tmp is removed.
+> >
+> > (From OE-Core rev: 3563f05df246f9fd24d7b20a65ce77787ed508b6)
+> >
+> > Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> > Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ---
+> > meta/conf/bitbake.conf                        |  4 ---
+> > meta/files/fs-perms-persistent-log.txt        |  2 --
+> > meta/files/fs-perms.txt                       |  2 --
+> > .../lib/oeqa/files/buildhistory_filelist1.txt |  1 -
+> > .../lib/oeqa/files/buildhistory_filelist2.txt |  1 -
+> > meta/recipes-core/base-files/base-files/fstab |  1 +
+> > .../base-files/base-files_3.0.14.bb           |  4 +--
+> > .../initscripts-1.0/populate-volatile.sh      |  2 +-
+> > .../initscripts/initscripts-1.0/volatiles     |  5 ++-
+> > .../initscripts/initscripts_1.0.bb            |  3 --
+> > .../systemd/systemd/00-create-volatile.conf   |  4 +--
+> > meta/recipes-core/systemd/systemd_253.3.bb    |  7 ----
+> > meta/recipes-core/udev/eudev/init             |  4 ---
+> > .../e2fsprogs/e2fsprogs/run-ptest             |  2 +-
+> > ...eak_cmsg.stderr.exp-adjust-tmp-paths.patch | 34 -------------------
+> > .../valgrind/valgrind_3.20.0.bb               |  1 -
+> > 16 files changed, 8 insertions(+), 69 deletions(-)
+> > delete mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-none-te=
+sts-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch
+> >
+> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> > index 314cc466625..498bca42fb6 100644
+> > --- a/meta/conf/bitbake.conf
+> > +++ b/meta/conf/bitbake.conf
+> > @@ -90,10 +90,6 @@ ROOT_HOME ??=3D "/home/root"
+> > # If set to boolean false ('no', 'n', 'false', 'f', '0'), /var/log is o=
+n persistent storage.
+> > VOLATILE_LOG_DIR ?=3D "yes"
+> >
+> > -# if set to 'yes': /tmp links to /var/tmp which links to /var/volatile=
+/tmp
+> > -# otherwise:       /tmp is on persistent storage
+> > -VOLATILE_TMP_DIR ?=3D "yes"
+> > -
+> > BB_RENAMED_VARIABLES[PNBLACKLIST] =3D "SKIP_RECIPE"
+> > BB_RENAMED_VARIABLES[CVE_CHECK_PN_WHITELIST] =3D "CVE_CHECK_SKIP_RECIPE=
+"
+> > BB_RENAMED_VARIABLES[CVE_CHECK_WHITELIST] =3D "CVE_CHECK_IGNORE"
+> > diff --git a/meta/files/fs-perms-persistent-log.txt b/meta/files/fs-per=
+ms-persistent-log.txt
+> > index 518c1be3c93..326c0ed0924 100644
+> > --- a/meta/files/fs-perms-persistent-log.txt
+> > +++ b/meta/files/fs-perms-persistent-log.txt
+> > @@ -47,7 +47,6 @@ ${oldincludedir} 0755 root root true 0644 root root
+> > # Links
+> > ${localstatedir}/run link /run
+> > ${localstatedir}/lock link /run/lock
+> > -${localstatedir}/tmp link volatile/tmp
+> >
+> > /home 0755 root root false - - -
+> > /srv 0755 root root false - - -
+> > @@ -57,7 +56,6 @@ ${localstatedir}/local 0755 root root false - - -
+> > # Special permissions from base-files
+> > # Set 1777
+> > /tmp 01777 root root false - - -
+> > -${localstatedir}/volatile/tmp 01777 root root false - - -
+> >
+> > # Set 0700
+> > ${ROOT_HOME} 0700 root root false - - -
+> > diff --git a/meta/files/fs-perms.txt b/meta/files/fs-perms.txt
+> > index daa4aed840f..ed59311035d 100644
+> > --- a/meta/files/fs-perms.txt
+> > +++ b/meta/files/fs-perms.txt
+> > @@ -48,7 +48,6 @@ ${oldincludedir} 0755 root root true 0644 root root
+> > ${localstatedir}/run link /run
+> > ${localstatedir}/log link volatile/log
+> > ${localstatedir}/lock link /run/lock
+> > -${localstatedir}/tmp link volatile/tmp
+> >
+> > /home 0755 root root false - - -
+> > /srv 0755 root root false - - -
+> > @@ -58,7 +57,6 @@ ${localstatedir}/local 0755 root root false - - -
+> > # Special permissions from base-files
+> > # Set 1777
+> > /tmp 01777 root root false - - -
+> > -${localstatedir}/volatile/tmp 01777 root root false - - -
+> >
+> > # Set 0700
+> > ${ROOT_HOME} 0700 root root false - - -
+> > diff --git a/meta/lib/oeqa/files/buildhistory_filelist1.txt b/meta/lib/=
+oeqa/files/buildhistory_filelist1.txt
+> > index 8d882895ad5..ec500173838 100644
+> > --- a/meta/lib/oeqa/files/buildhistory_filelist1.txt
+> > +++ b/meta/lib/oeqa/files/buildhistory_filelist1.txt
+> > @@ -9210,5 +9210,4 @@ lrwxrwxrwx root       root               12 ./var=
+/log -> volatile/log
+> > lrwxrwxrwx root       root                6 ./var/run -> ../run
+> > drwxr-xr-x root       root             4096 ./var/spool
+> > drwxrwxr-x root       mail             4096 ./var/spool/mail
+> > -lrwxrwxrwx root       root               12 ./var/tmp -> volatile/tmp
+> > drwxr-xr-x root       root             4096 ./var/volatile
+> > diff --git a/meta/lib/oeqa/files/buildhistory_filelist2.txt b/meta/lib/=
+oeqa/files/buildhistory_filelist2.txt
+> > index ac6307060df..cedec51c382 100644
+> > --- a/meta/lib/oeqa/files/buildhistory_filelist2.txt
+> > +++ b/meta/lib/oeqa/files/buildhistory_filelist2.txt
+> > @@ -9213,5 +9213,4 @@ lrwxrwxrwx root       root               12 ./var=
+/log -> volatile/log
+> > lrwxrwxrwx root       root                6 ./var/run -> ../run
+> > drwxr-xr-x root       root             4096 ./var/spool
+> > drwxrwxr-x root       mail             4096 ./var/spool/mail
+> > -lrwxrwxrwx root       root               12 ./var/tmp -> volatile/tmp
+> > drwxr-xr-x root       root             4096 ./var/volatile
+> > diff --git a/meta/recipes-core/base-files/base-files/fstab b/meta/recip=
+es-core/base-files/base-files/fstab
+> > index 70e400f5674..7064573130b 100644
+> > --- a/meta/recipes-core/base-files/base-files/fstab
+> > +++ b/meta/recipes-core/base-files/base-files/fstab
+> > @@ -5,6 +5,7 @@ proc                 /proc                proc       de=
+faults              0  0
+> > devpts               /dev/pts             devpts     mode=3D0620,ptmxmo=
+de=3D0666,gid=3D5      0  0
+> > tmpfs                /run                 tmpfs      mode=3D0755,nodev,=
+nosuid,strictatime 0  0
+> > tmpfs                /var/volatile        tmpfs      defaults          =
+    0  0
+> > +tmpfs                /tmp                 tmpfs      defaults         =
+     0  0
+> >
+> > # uncomment this if your device has a SD/MMC/Transflash slot
+> > #/dev/mmcblk0p1       /media/card          auto       defaults,sync,noa=
+uto  0  0
+> > diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/r=
+ecipes-core/base-files/base-files_3.0.14.bb
+> > index ff83567bd91..c2ecea0a257 100644
+> > --- a/meta/recipes-core/base-files/base-files_3.0.14.bb
+> > +++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+> > @@ -29,7 +29,7 @@ S =3D "${WORKDIR}"
+> > INHIBIT_DEFAULT_DEPS =3D "1"
+> >
+> > docdir:append =3D "/${P}"
+> > -dirs1777 =3D "/tmp ${localstatedir}/volatile/tmp"
+> > +dirs1777 =3D "/tmp /var/tmp"
+> > dirs2775 =3D ""
+> > dirs555 =3D "/sys /proc"
+> > dirs755 =3D "/boot /dev ${base_bindir} ${base_sbindir} ${base_libdir} \
+> > @@ -53,7 +53,7 @@ dirs755-lsb =3D "/srv  \
+> >                ${prefix}/lib/locale"
+> > dirs2775-lsb =3D "/var/mail"
+> >
+> > -volatiles =3D "${@'log' if oe.types.boolean('${VOLATILE_LOG_DIR}') els=
+e ''} tmp"
+> > +volatiles =3D "${@'log' if oe.types.boolean('${VOLATILE_LOG_DIR}') els=
+e ''}"
+> > conffiles =3D "${sysconfdir}/debian_version ${sysconfdir}/host.conf \
+> >              ${sysconfdir}/issue /${sysconfdir}/issue.net \
+> >              ${sysconfdir}/nsswitch.conf ${sysconfdir}/profile \
+> > diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-vol=
+atile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.=
+sh
+> > index bc630e871c1..ecfb6fdc2b5 100755
+> > --- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.s=
+h
+> > +++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.s=
+h
+> > @@ -23,7 +23,7 @@ ROOT_DIR=3D"$(echo "$DIRNAME" | sed -ne 's:/etc/.*::p=
+')"
+> > [ "$ROOTFS_READ_ONLY" =3D "yes" ] && VOLATILE_ENABLE_CACHE=3Dno
+> >
+> > CFGDIR=3D"${ROOT_DIR}/etc/default/volatiles"
+> > -TMPROOT=3D"${ROOT_DIR}/var/volatile/tmp"
+> > +TMPROOT=3D"${ROOT_DIR}/tmp"
+> > COREDEF=3D"00_core"
+> >
+> > [ "${VERBOSE}" !=3D "no" ] && echo "Populating volatile Filesystems."
+> > diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles b/=
+meta/recipes-core/initscripts/initscripts-1.0/volatiles
+> > index cd8a4be05f2..7232a8ef900 100644
+> > --- a/meta/recipes-core/initscripts/initscripts-1.0/volatiles
+> > +++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
+> > @@ -25,11 +25,10 @@
+> > # link the file defined as /var/test will actually be created as /tmp/t=
+estfile.
+> > d root root 1777 /run/lock none
+> > d root root 0755 /var/volatile/log none
+> > -d root root 1777 /var/volatile/tmp none
+> > l root root 1777 /var/lock /run/lock
+> > l root root 0755 /var/run /run
+> > -l root root 1777 /var/tmp /var/volatile/tmp
+> > -l root root 1777 /tmp /var/tmp
+> > +d root root 1777 /tmp
+> > +d root root 1777 /var/tmp
+> > d root root 0755 /var/lock/subsys none
+> > f root root 0664 /var/log/wtmp none
+> > f root root 0664 /var/run/utmp none
+> > diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/re=
+cipes-core/initscripts/initscripts_1.0.bb
+> > index 4dc477bb8d6..7c9d9ca4f10 100644
+> > --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
+> > +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+> > @@ -108,9 +108,6 @@ do_install () {
+> > sed -i -e '\@^d root root 0755 /var/volatile/log none$@ a\l root root 0=
+755 /var/log /var/volatile/log' \
+> > ${D}${sysconfdir}/default/volatiles/00_core
+> > fi
+> > - if [ "${VOLATILE_TMP_DIR}" !=3D "yes" ]; then
+> > - sed -i -e "/\<tmp\>/d" ${D}${sysconfdir}/default/volatiles/00_core
+> > - fi
+> > install -m 0755    ${WORKDIR}/dmesg.sh ${D}${sysconfdir}/init.d
+> > install -m 0644    ${WORKDIR}/logrotate-dmesg.conf ${D}${sysconfdir}/
+> >
+> > diff --git a/meta/recipes-core/systemd/systemd/00-create-volatile.conf =
+b/meta/recipes-core/systemd/systemd/00-create-volatile.conf
+> > index c4277221a22..1ba9b836cf0 100644
+> > --- a/meta/recipes-core/systemd/systemd/00-create-volatile.conf
+> > +++ b/meta/recipes-core/systemd/systemd/00-create-volatile.conf
+> > @@ -1,8 +1,6 @@
+> > #This goes hand-in-hand with the base-files of OE-Core. The file must
+> > -# be sorted before 'systemd.conf' becuase this attempts to create a fi=
+le
+> > +# be sorted before 'systemd.conf' because this attempts to create a fi=
+le
+> > # inside /var/log.
+> >
+> > -
+> > d /run/lock 1777 - - -
+> > d /var/volatile/log - - - -
+> > -d /var/volatile/tmp 1777 - -
+> > diff --git a/meta/recipes-core/systemd/systemd_253.3.bb b/meta/recipes-=
+core/systemd/systemd_253.3.bb
+> > index a79d6cb3ca0..09432f91926 100644
+> > --- a/meta/recipes-core/systemd/systemd_253.3.bb
+> > +++ b/meta/recipes-core/systemd/systemd_253.3.bb
+> > @@ -291,13 +291,6 @@ do_install() {
+> > rm -rf ${D}${localstatedir}/log/journal/remote
+> > fi
+> >
+> > - # if the user requests /tmp be on persistent storage (i.e. not volati=
+le)
+> > - # then don't use a tmpfs for /tmp
+> > - if [ "${VOLATILE_TMP_DIR}" !=3D "yes" ]; then
+> > - rm -f ${D}${rootlibdir}/systemd/system/tmp.mount
+> > - rm -f ${D}${rootlibdir}/systemd/system/local-fs.target.wants/tmp.moun=
+t
+> > - fi
+> > -
+> > install -d ${D}${systemd_system_unitdir}/graphical.target.wants
+> > install -d ${D}${systemd_system_unitdir}/multi-user.target.wants
+> > install -d ${D}${systemd_system_unitdir}/poweroff.target.wants
+> > diff --git a/meta/recipes-core/udev/eudev/init b/meta/recipes-core/udev=
+/eudev/init
+> > index 477a525b212..2084de83ae3 100644
+> > --- a/meta/recipes-core/udev/eudev/init
+> > +++ b/meta/recipes-core/udev/eudev/init
+> > @@ -79,10 +79,6 @@ case "$1" in
+> >     }
+> >     [ -e /dev/pts ] || mkdir -m 0755 /dev/pts
+> >     [ -e /dev/shm ] || mkdir -m 1777 /dev/shm
+> > -    # the automount rule for udev needs /tmp directory available, as /=
+tmp is a symlink
+> > -    # to /var/tmp which in turn is a symlink to /var/volatile/tmp, we =
+need to make sure
+> > -    # /var/volatile/tmp directory to be available.
+> > -    mkdir -m 1777 -p /var/volatile/tmp
+> >
+> >     # make_extra_nodes
+> >     kill_udevd > "/dev/null" 2>&1
+> > diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest b/meta=
+/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
+> > index 279923db8ef..020bb69b168 100644
+> > --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
+> > +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
+> > @@ -2,7 +2,7 @@
+> >
+> > cd ./test
+> > SKIP_SLOW_TESTS=3Dyes ./test_script | sed -u -e '/:[[:space:]]ok/s/^/PA=
+SS: /' -e '/:[[:space:]]failed/s/^/FAIL: /' -e '/:[[:space:]]skipped/s/^/SK=
+IP: /'
+> > -rm -rf /var/volatile/tmp/*e2fsprogs*
+> > +rm -rf /tmp/*e2fsprogs*
+> > rm -f tmp-*
+> > rm -f *.tmp
+> > rm -f *.ok
+> > diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-fd=
+leak_cmsg.stderr.exp-adjust-tmp-paths.patch b/meta/recipes-devtools/valgrin=
+d/valgrind/0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch
+> > deleted file mode 100644
+> > index e421ac6c801..00000000000
+> > --- a/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-fdleak_cm=
+sg.stderr.exp-adjust-tmp-paths.patch
+> > +++ /dev/null
+> > @@ -1,34 +0,0 @@
+> > -From f405297d3382cd98391d02f397e2387da1f42879 Mon Sep 17 00:00:00 2001
+> > -From: Alexander Kanavin <alex.kanavin@gmail.com>
+> > -Date: Fri, 24 Jan 2020 17:55:39 +0100
+> > -Subject: [PATCH] none/tests/fdleak_cmsg.stderr.exp: adjust /tmp paths
+> > -
+> > -In oe-core, /tmp is linked to /var/volatile/tmp and
+> > -valgrind output changes accordingly
+> > -
+> > -Upstream-Status: Inappropriate [oe-core specific]
+> > -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> > ----
+> > - none/tests/fdleak_cmsg.stderr.exp | 4 ++--
+> > - 1 file changed, 2 insertions(+), 2 deletions(-)
+> > -
+> > -diff --git a/none/tests/fdleak_cmsg.stderr.exp b/none/tests/fdleak_cms=
+g.stderr.exp
+> > -index 6e5a797b9..0ede1ab18 100644
+> > ---- a/none/tests/fdleak_cmsg.stderr.exp
+> > -+++ b/none/tests/fdleak_cmsg.stderr.exp
+> > -@@ -25,10 +25,10 @@ Open file descriptor ...: /dev/null
+> > -
+> > -
+> > - FILE DESCRIPTORS: 6 open (3 std) at exit.
+> > --Open file descriptor ...: /tmp/data2
+> > -+Open file descriptor ...: ...
+> > -    ...
+> > -
+> > --Open file descriptor ...: /tmp/data1
+> > -+Open file descriptor ...: ...
+> > -    ...
+> > -
+> > - Open AF_UNIX socket ...: <unknown>
+> > ---
+> > -2.17.1
+> > -
+> > diff --git a/meta/recipes-devtools/valgrind/valgrind_3.20.0.bb b/meta/r=
+ecipes-devtools/valgrind/valgrind_3.20.0.bb
+> > index 07e50426e44..4ea173ba803 100644
+> > --- a/meta/recipes-devtools/valgrind/valgrind_3.20.0.bb
+> > +++ b/meta/recipes-devtools/valgrind/valgrind_3.20.0.bb
+> > @@ -36,7 +36,6 @@ SRC_URI =3D "https://sourceware.org/pub/valgrind/valg=
+rind-${PV}.tar.bz2 \
+> >            file://0001-valgrind-filter_xml_frames-do-not-filter-usr.pat=
+ch \
+> >            file://0001-memcheck-vgtests-remove-fullpath-after-flags.pat=
+ch \
+> >            file://s390x_vec_op_t.patch \
+> > -           file://0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-pa=
+ths.patch \
+> >            file://0001-memcheck-tests-Fix-timerfd-syscall-test.patch \
+> >            file://0001-docs-Disable-manual-validation.patch \
+> >            file://0001-drd-tests-Include-missing-cstdint.patch \
+> > --
+> > 2.30.2
+> >
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#181605): https://lists.openembedded.org/g/openembed=
+ded-core/message/181605
+> > Mute This Topic: https://lists.openembedded.org/mt/99069809/6875888
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+ross.burton@arm.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
 
