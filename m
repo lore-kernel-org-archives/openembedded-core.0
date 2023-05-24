@@ -1,164 +1,141 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EE29C77B7C
-	for <webhook@archiver.kernel.org>; Wed, 24 May 2023 17:34:33 +0000 (UTC)
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com (EUR01-VE1-obe.outbound.protection.outlook.com [40.107.14.79])
- by mx.groups.io with SMTP id smtpd.web11.298.1684949666110654451
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2169C77B7A
+	for <webhook@archiver.kernel.org>; Wed, 24 May 2023 18:34:03 +0000 (UTC)
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
+ by mx.groups.io with SMTP id smtpd.web10.1895.1684953242064099959
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 May 2023 10:34:26 -0700
+ Wed, 24 May 2023 11:34:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=QJuXzFWC;
- spf=pass (domain: arm.com, ip: 40.107.14.79, mailfrom: ross.burton@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kUBudAp3XI78ggOh58nDJIh2LPDNwCM45owt4aSsgdo=;
- b=QJuXzFWCcaZcu4YscACQMYzZmloDz0jZYFAkJKolDuPofi9v0owu9Kej/+kiDc6eXwMuWjhf3NVGBdRasnEnwNO31iAkbXnOAvwW0i86ZM44hnu7DVRuj3oCGGRtj9CXw4vUTdBjFKewDGfZL+UiYVMXxAJQ2QwhYrYty592k/I=
-Received: from AS9PR0301CA0007.eurprd03.prod.outlook.com
- (2603:10a6:20b:468::27) by AS8PR08MB6005.eurprd08.prod.outlook.com
- (2603:10a6:20b:298::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.27; Wed, 24 May
- 2023 17:34:22 +0000
-Received: from AM7EUR03FT063.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:20b:468:cafe::7a) by AS9PR0301CA0007.outlook.office365.com
- (2603:10a6:20b:468::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.15 via Frontend
- Transport; Wed, 24 May 2023 17:34:22 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AM7EUR03FT063.mail.protection.outlook.com (100.127.140.221) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6433.15 via Frontend Transport; Wed, 24 May 2023 17:34:22 +0000
-Received: ("Tessian outbound 3a01b65b5aad:v136"); Wed, 24 May 2023 17:34:22 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: b1687e8927718cfb
-X-CR-MTA-TID: 64aa7808
-Received: from 5d0dfebc5f70.2
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id CC8FB745-C778-4F87-9162-7301E1E10F7D.1;
-	Wed, 24 May 2023 17:34:10 +0000
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 5d0dfebc5f70.2
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Wed, 24 May 2023 17:34:10 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ICUWy5ihMw0zxwy6Yom4kdFBuMPngkBLdlGWl0rgvyKAaJq7qYMXSFy/MRxClIjV7H3TIL+Te+avb6+I0fTkvyBG5M2MOnyCSPeduCWNscvLMuNV56IdaLUUqjARfRsHodxBHbwVKApkUshK39/y7dwH8hk0XIOjxk/VAnG5kDgtX+/C3hdqBF7O5srLGqsoAlOZ7D0jlo4RpTcxP+nKN4gNoCi+TGN02EGXWStLtBP/YUTMHOIDi5l9Unp9u9wxXvkr16NL06a4mQn+lwUhz9hNF2xpG1Td8zQ4nnmNHYK4FE/1gzwAWm2H149ftu+e35hzddfElcjjXuA9AKvm4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kUBudAp3XI78ggOh58nDJIh2LPDNwCM45owt4aSsgdo=;
- b=juwXDaICLEWzNm4qYJ6XLgN+LwYXWMASPfI+Ars5KHxLpxP7eOVuB9fz/4Mhz9q2wgUFs1BSXyYKnppcpcgmtAWHwvr8nOx90VJyw6GSwYjvNzUyeHjLqy0skoTj8KJ25o+CBx48dW4DqPiXH9TeDrpyFDGTSmFIUaMcTD6Z4t0slE7IWAWMbX/4cIMWInndiSfHn0gd/KxpZukazPlApqjLa3EM0xNiCqoCYbHacyaoiV+3Z/BEZlxgDB+WdtUkTRxHZkTSX/zxJfLO3RGUgTpdmXwG6ImL0uMbuKVHo2drKF8lKRORjw7gPlAtFBB9f32nXqUVLz0tyyGBlRnqKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kUBudAp3XI78ggOh58nDJIh2LPDNwCM45owt4aSsgdo=;
- b=QJuXzFWCcaZcu4YscACQMYzZmloDz0jZYFAkJKolDuPofi9v0owu9Kej/+kiDc6eXwMuWjhf3NVGBdRasnEnwNO31iAkbXnOAvwW0i86ZM44hnu7DVRuj3oCGGRtj9CXw4vUTdBjFKewDGfZL+UiYVMXxAJQ2QwhYrYty592k/I=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by PAVPR08MB9748.eurprd08.prod.outlook.com (2603:10a6:102:31f::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.29; Wed, 24 May
- 2023 17:34:06 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::eb3c:9b42:21c9:494e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::eb3c:9b42:21c9:494e%7]) with mapi id 15.20.6411.028; Wed, 24 May 2023
- 17:34:06 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: Peter Hoyes <Peter.Hoyes@arm.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] rootfs-postcommands: Set vardeps for
- write_image_test_data
-Thread-Topic: [OE-core] [PATCH] rootfs-postcommands: Set vardeps for
- write_image_test_data
-Thread-Index: AQHZiNzM5otCvoyuyUS6G/cu21+4U69oIBaAgAGRAoCAAAj/gA==
-Date: Wed, 24 May 2023 17:34:03 +0000
-Message-ID: <7A137C75-0439-430E-9903-8DB0C65698AB@arm.com>
-References: <20230517162906.2395999-1-peter.hoyes@arm.com>
- <F3C8EF1B-E5EA-4357-8977-1FCC0F5E553D@arm.com>
- <5e29f9a6-c6cd-a33d-ecf2-03562ded28d6@arm.com>
-In-Reply-To: <5e29f9a6-c6cd-a33d-ecf2-03562ded28d6@arm.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3731.500.231)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|PAVPR08MB9748:EE_|AM7EUR03FT063:EE_|AS8PR08MB6005:EE_
-X-MS-Office365-Filtering-Correlation-Id: 354c73d2-1eab-49c5-0e94-08db5c7d1c9e
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- NbLLgm1UG2kP94YLbs+okwTOf185R3tPbjpmGBshOWOig84/H21ypCbllpHK430fig7/uMwMB4PDj/oHJ47/sNx8pDikpKWkQTH1uvxW+9q050BGGuD4UEkD9Q0y2CLJgOJ6EdvSUYPYldJiKC+vUhTXGt+GhsXnm5vM5ocI5LrqzsLGTEBkWlO1SYLlaUMP2ciu6ouYajQiuz4mQ4R67vOkcw4K5c21Dg2I4clsblR3l22iO18vz74UB4TDBJhGeGm5Hi0V+Lo5qCAlc1E0daZKha4t31oQT16eg47+ap3jZVGe+Xc2eVcxlP8Cp3WC0xfxY1XUr4gLxnIwThkUAMZRT0R/AuzIe8dUmWBXHwccsxRETaOux07dqjMnHrCXey8TZnaXwvTOLB65+OhXI8f9+Accuf5yA3xswiMj9toJv8v/P4M/Xr7ZPA4OpOZrgntKOQHfefwJOly70TfK3YJSXDovZ8n04mWxGfTkWhDxDMvfe+bCnIRM9irceMpi+gkYuYhLs9qp7B7wd+8IvGjOdIV7QdYaDkSfA/BmdZRGimdzvPz8tHN/fUfKtxWe1C/rZj4n8E/aJnU5rL5b3AyKtLnWSzIHRSW5kkLwOhxAR7wEAqOojxPOhdIK5/jTsXGQWOSDm9l92LAeK8onrA==
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(366004)(39860400002)(346002)(136003)(396003)(451199021)(86362001)(37006003)(41300700001)(6486002)(478600001)(316002)(91956017)(6636002)(4326008)(66476007)(76116006)(6666004)(66556008)(64756008)(71200400001)(66446008)(66946007)(5660300002)(38070700005)(8676002)(6862004)(8936002)(38100700002)(122000001)(26005)(33656002)(6512007)(6506007)(53546011)(2906002)(4744005)(2616005)(186003)(36756003)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <7746251A4FA6494F89A41983800D6EAB@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=5M8lLYIj;
+ spf=pass (domain: baylibre.com, ip: 209.85.166.171, mailfrom: tgamblin@baylibre.com)
+Received: by mail-il1-f171.google.com with SMTP id e9e14a558f8ab-333eb36e453so2673315ab.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 May 2023 11:34:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1684953241; x=1687545241;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rgnA5KvNOn3SEsyL7rovUNczmas0oLnMrNzltNXqv2E=;
+        b=5M8lLYIjjJX86Gu1e7nI6fa8kGifTrZNkim3MQLG6CbuOLDEMyvYa2X8b2MvVTOeeh
+         w6ZopBQB0VKmYT1u0HoHve4V9Kv20Qflmt3BFAmFemmMe9bxulQYIGTBXtFTh5bIimDv
+         +mVSnN0Vv/lGHTfn10agpJ8Yl6f1TyCn4yWC0X8fKQD30p1krFyXhTXft2LbuWJBvTFi
+         +YF4KMxE6esdixY+VYVwWlRHo/vwitFIPZ559/T/Hmh7DHqs2fDj0mZaX2uAHb3cTXwf
+         P5Mn20HwCSdOIwka2yDUwf+LqEteOrSqQlc8jV6zWHNJ9VyipL5EfhGJPaN4iIp7ejaq
+         J6WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684953241; x=1687545241;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rgnA5KvNOn3SEsyL7rovUNczmas0oLnMrNzltNXqv2E=;
+        b=bi3fdmsOB6U858LWLS2MB3FeXNTGI7OSeOmhHaU0e2Mj1cr+sDp3PilPYt1DPsEEJo
+         biuJSt1LMLMRXG0I7Gp2dIGHkSqyuVFwFfXyotSb7xWiohwwVx3fRgqelaGf9T4AIEM3
+         1fPgKWk8UatkY3PjzGxiJxxz9Zk8L3IiqpK2sZZwt14mc1op5HdOoQ6SgWewbWcMz4NG
+         Wqvpm+3lodrOrieHFUfpAkXVqJ8770nj/S8O6RgZQd6CLW/qlCXOe+EujJbx99yiwB/G
+         p0x6gfK6OzkwnaSINiX3KyrhHQX0kL7Sr7zC5DpSf9PgVQUGYYOseHcbJGhNU3rcDfdf
+         GhEw==
+X-Gm-Message-State: AC+VfDznyQ/fV0OoE8fgasg7si58nrvZjq2N3MqaXzJbVHTxZOTrrqLp
+	zY+XR2dXk+iZbABG1P+rMVxpU3ewRELD2/zRlUc=
+X-Google-Smtp-Source: ACHHUZ4rNk83urH595MLlwi+3Yn2TQZws1Wmj+LUqFeYFSxQOr2hOcLMAgLa5gL1h46kyFne/RYmnA==
+X-Received: by 2002:a05:6e02:151:b0:331:96e5:678b with SMTP id j17-20020a056e02015100b0033196e5678bmr12390644ilr.23.1684953240916;
+        Wed, 24 May 2023 11:34:00 -0700 (PDT)
+Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:4839:d997:f6ce:5f02])
+        by smtp.gmail.com with ESMTPSA id u13-20020a056e02080d00b00334f96ec4c2sm3124895ilm.88.2023.05.24.11.34.00
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 May 2023 11:34:00 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] bind: upgrade 9.18.13 -> 9.18.14
+Date: Wed, 24 May 2023 14:33:59 -0400
+Message-Id: <20230524183359.2999968-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR08MB9748
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM7EUR03FT063.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	1e15c836-7bb5-4dc4-ae4a-08db5c7d1176
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	suF538l2Txn1hHAolfbxqgrP9zQHa8HcQchquJYqv4YPtv1jEkK9mihamktP57V4a15ka78fbII6Pf151akRpgFRrWVWDcteCfDR+4qEC62zYKdtc6uhRDt70dwJSEXXBhEJkk9/e0ibC7UQ2sanEZoRuzxIUWtT50oE5kuzHvk3gw+w/aymxcYe/YW0A5Y71cfK9yhXTS5snlfl+gQ5IfO3N2RmtMRVvBo4/TNllX724OUXHdggzO5Ka2wGigAZRQ4dQyMJV1kUQwrmDVB/7if0V3rsnRRboi6F5HKICarSYy1Ziliv0AMApCgd7mACRzkyg4K5Kndv2uR/EBwC3HdN0cfiLTzCcUC/zz1Q1gDP6Tq10/+Akfq3OcQJ0elYW/BZK+b1v9VXc+z2hBWg2pqfksdOmLvgoYKxoRTiZsMjfaqj7B15hq6hT+slxrAhY9z5K108YN0wkG0vbvrpVxFpUC18IICZQI7BzTl8lLAqghZSbl1cEVO21dubyk+z/nQip1YVFle6yCbZ0QzD20vStW/gc26l638lzeLaSKlluLuuD50P14ia/zp665sl1VtzzWOtFDDfZLQZqobbri2iJ04GmgjtBeHKQ+4eYublwzZ43LUc9CGpMT9K+3x74kVMTTcOrwGECnVsULOFYyHtE42m7JBLumtiepL3Q1I0v2PyDzxrSaRQbLXqqHRiHb05pWpOQp8uzxzYySC5VjEU5NrozT7As3cjQhc++HjFc4X/FbnXo7KTjaizacZ2
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(396003)(346002)(376002)(136003)(39860400002)(451199021)(36840700001)(40470700004)(46966006)(8676002)(8936002)(6862004)(5660300002)(47076005)(36860700001)(82310400005)(186003)(53546011)(2616005)(26005)(356005)(81166007)(86362001)(6512007)(6506007)(336012)(82740400003)(40460700003)(41300700001)(70586007)(6666004)(40480700001)(6486002)(70206006)(478600001)(33656002)(36756003)(6636002)(4326008)(316002)(37006003)(2906002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2023 17:34:22.3376
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 354c73d2-1eab-49c5-0e94-08db5c7d1c9e
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM7EUR03FT063.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6005
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 May 2023 17:34:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181689
+ <openembedded-core@lists.openembedded.org>; Wed, 24 May 2023 18:34:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181690
 
-T24gMjQgTWF5IDIwMjMsIGF0IDE4OjAxLCBQZXRlciBIb3llcyA8UGV0ZXIuSG95ZXNAYXJtLmNv
-bT4gd3JvdGU6DQo+IFdoZW4gcnVubmluZyB0ZXN0aW1hZ2UgdW5kZXIgYml0YmFrZSwgd291bGQg
-aXQgbWFrZSBzZW5zZSB0byBzaW1wbHkgZG86DQo+IA0KPiAtLS0gYS9tZXRhL2NsYXNzZXMtcmVj
-aXBlL3Rlc3RpbWFnZS5iYmNsYXNzDQo+ICsrKyBiL21ldGEvY2xhc3Nlcy1yZWNpcGUvdGVzdGlt
-YWdlLmJiY2xhc3MNCj4gQEAgLTM1MCw3ICszNTAsNyBAQCBkZWYgdGVzdGltYWdlX21haW4oZCk6
-DQo+ICAgICAgICAgIGQuZ2V0VmFyKCJURVNUX1NFUlZFUl9JUCIpLCAqKnRhcmdldF9rd2FyZ3Mp
-DQo+IA0KPiAgICAgICMgdGVzdCBjb250ZXh0DQo+IC0gICAgdGMgPSBPRVJ1bnRpbWVUZXN0Q29u
-dGV4dCh0ZCwgbG9nZ2VyLCB0YXJnZXQsIGhvc3RfZHVtcGVyLA0KPiArICAgIHRjID0gT0VSdW50
-aW1lVGVzdENvbnRleHQoZCwgbG9nZ2VyLCB0YXJnZXQsIGhvc3RfZHVtcGVyLA0KPiAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgaW1hZ2VfcGFja2FnZXMsIGV4dHJhY3RfZGlyKQ0KPiAN
-Cj4gICAgICAjIExvYWQgdGVzdHMgYmVmb3JlIHN0YXJ0aW5nIHRoZSB0YXJnZXQNCj4gDQo+IChh
-bmQgYSBmZXcgb3RoZXIgYXNzb2NpYXRlZCB0aWR5LXVwcykNCg0KSeKAmWxsIGxldCBSaWNoYXJk
-IGNvcnJlY3QgbWUsIGJ1dCBJIF90aGlua18gdGhlIGludGVuZGVkIHVzZS1jYXNlIGhlcmUgaXMg
-dGhlIGFiaWxpdHkgdG8gcnVuIHRlc3RpbWFnZSBvbiBhIHByZWJ1aWxkIGltYWdlIHRoYXQgc29t
-ZW9uZSBlbHNlIGJ1aWxkLCB3aXRoIGp1c3QgYSBtaW5pbWFsIG9lLWNvcmUuICBTbyBzb21lb25l
-IGNhbiBnaXZlIHlvdSBhbiBpbWFnZSB0aGF0IHRoZXnigJl2ZSBidWlsdCwgeW91IHB1dCBpdCBp
-biB0aGUgcmlnaHQgcGxhY2UgYW5kIGNhbiB0ZXN0aW1hZ2UgaXQsIHdpdGhvdXQgaGF2aW5nIHRv
-IGhhdmUgdGhlaXIgY29uZmlndXJhdGlvbi9sYXllcnMvZXRjLg0KDQpIb25lc3RseSwgbm8gaWRl
-YSBpZiB0aGF0IGlzIGFjdHVhbGx5IHVzZWQgb3IgdGVzdGVkLiAgV291bGQgYmUgYW4gaW50ZXJl
-c3RpbmcgZXhwZXJpbWVudCENCg0KUm9zcw==
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+---
+ .../0001-avoid-start-failure-with-bind-user.patch               | 0
+ .../0001-named-lwresd-V-and-start-log-hide-build-options.patch  | 0
+ .../bind-ensure-searching-for-json-headers-searches-sysr.patch  | 0
+ .../bind/{bind-9.18.13 => bind-9.18.14}/bind9                   | 0
+ .../bind/{bind-9.18.13 => bind-9.18.14}/conf.patch              | 0
+ .../bind/{bind-9.18.13 => bind-9.18.14}/generate-rndc-key.sh    | 0
+ .../init.d-add-support-for-read-only-rootfs.patch               | 0
+ .../make-etc-initd-bind-stop-work.patch                         | 0
+ .../bind/{bind-9.18.13 => bind-9.18.14}/named.service           | 0
+ .../bind/{bind_9.18.13.bb => bind_9.18.14.bb}                   | 2 +-
+ 10 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/bind/{bind-9.18.13 => bind-9.18.14}/0001-avoid-start-failure-with-bind-user.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.13 => bind-9.18.14}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.13 => bind-9.18.14}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.13 => bind-9.18.14}/bind9 (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.13 => bind-9.18.14}/conf.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.13 => bind-9.18.14}/generate-rndc-key.sh (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.13 => bind-9.18.14}/init.d-add-support-for-read-only-rootfs.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.13 => bind-9.18.14}/make-etc-initd-bind-stop-work.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.13 => bind-9.18.14}/named.service (100%)
+ rename meta/recipes-connectivity/bind/{bind_9.18.13.bb => bind_9.18.14.bb} (97%)
+
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.13/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.18.14/0001-avoid-start-failure-with-bind-user.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.13/0001-avoid-start-failure-with-bind-user.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.14/0001-avoid-start-failure-with-bind-user.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.13/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.18.14/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.13/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.14/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.13/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.18.14/bind-ensure-searching-for-json-headers-searches-sysr.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.13/bind-ensure-searching-for-json-headers-searches-sysr.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.14/bind-ensure-searching-for-json-headers-searches-sysr.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.13/bind9 b/meta/recipes-connectivity/bind/bind-9.18.14/bind9
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.13/bind9
+rename to meta/recipes-connectivity/bind/bind-9.18.14/bind9
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.13/conf.patch b/meta/recipes-connectivity/bind/bind-9.18.14/conf.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.13/conf.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.14/conf.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.13/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.18.14/generate-rndc-key.sh
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.13/generate-rndc-key.sh
+rename to meta/recipes-connectivity/bind/bind-9.18.14/generate-rndc-key.sh
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.13/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.18.14/init.d-add-support-for-read-only-rootfs.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.13/init.d-add-support-for-read-only-rootfs.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.14/init.d-add-support-for-read-only-rootfs.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.13/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.18.14/make-etc-initd-bind-stop-work.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.13/make-etc-initd-bind-stop-work.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.14/make-etc-initd-bind-stop-work.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.13/named.service b/meta/recipes-connectivity/bind/bind-9.18.14/named.service
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.13/named.service
+rename to meta/recipes-connectivity/bind/bind-9.18.14/named.service
+diff --git a/meta/recipes-connectivity/bind/bind_9.18.13.bb b/meta/recipes-connectivity/bind/bind_9.18.14.bb
+similarity index 97%
+rename from meta/recipes-connectivity/bind/bind_9.18.13.bb
+rename to meta/recipes-connectivity/bind/bind_9.18.14.bb
+index 8617137e87..c513cbc8b6 100644
+--- a/meta/recipes-connectivity/bind/bind_9.18.13.bb
++++ b/meta/recipes-connectivity/bind/bind_9.18.14.bb
+@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://0001-avoid-start-failure-with-bind-user.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "3b06b6390c1012dd3956b1479c73b2097c0b22207817e2e8aae352fd20e578c7"
++SRC_URI[sha256sum] = "9ae12edf6ac3c430b33ecd1a7c0c0c60875d255185eb87850fa9a5e794a64a09"
+ 
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # follow the ESV versions divisible by 2
+-- 
+2.40.1
+
 
