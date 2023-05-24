@@ -2,174 +2,160 @@ Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1B6EC7EE23
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC7BEC77B7C
 	for <webhook@archiver.kernel.org>; Wed, 24 May 2023 07:53:33 +0000 (UTC)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.web11.3571.1684914781873941301
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web11.3587.1684914808146347967
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 May 2023 00:53:29 -0700
+ Wed, 24 May 2023 00:53:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=JqSxSG1b;
- spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-510db954476so1233071a12.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 May 2023 00:53:29 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=c30nkhV5;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-96aae59bbd6so91987666b.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 May 2023 00:53:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684914809; x=1687506809;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PSQF0qAeqcU3t4qUzbAtPN7anJ/TS4lvQG+LiQfI6bg=;
-        b=JqSxSG1bv5jJ3bU+O/vHJRXNPyj/yfMw1xR+52U3YpFh0N3OHtDkT8GTfPBHLLr1zV
-         f2n3dDOkC8xhf/FngZcDxvj2JpbCJBE61UNW9flERXhSZCymY1wfzLSXY/GI1QcJSMPh
-         lZMfY8o+2QlQSzAspqpfTNb1PplAntyZjCqXqPfWc/5b1qgIdrYRUM8wB0DGzqt/EGbt
-         0yrZo1vDl2Sw3PFsdGnCSpB55/SevPD/CSFoxY4vNzRlURmcNiyoab6A7318e2Nn3VXz
-         Wgdt+XEAkmyGLYIUukyxoeskpy3PblmLIk66WstdVInQIP+qrKXetIy4KKcfMDkfH8YF
-         5nkw==
+        d=gmail.com; s=20221208; t=1684914806; x=1687506806;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fw/uSy5Lpt85o2/EvpGnHxyVdjd/arw/yWIWTVHo2MI=;
+        b=c30nkhV5ssBU3CaRHCL8mrB4jdeTUleQbmpTYw/56Ku51fKSyFq2AYZLv/tsDQvHow
+         SQvERot4xIkKA8bKj+R1tBrEovq9WJ2sPvrBXlDL+Z9s84K0305u/jJeq89mWktmVmSP
+         hQs2rLIvK8D39kpzleRkerps0j8cAD8+bsp2gSMH6Jih6wIUdZdaxN/t8auZGlDOWWLC
+         qqpAvM/+bSYr4RKraFcrjLntWGitqNGlTAD2e3umbveKBtVoZkl3dOkmSbVV7H0DwKlT
+         F9dLOkH1SB0xCQqfus9G37Tz9yGrm/4ox/kGEzl/EsHhda89UuiC1UXuViMLHH89TrjU
+         K7XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684914809; x=1687506809;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PSQF0qAeqcU3t4qUzbAtPN7anJ/TS4lvQG+LiQfI6bg=;
-        b=XQq4GLRC4mHErbERDV1tQq3zFGOirWlIrrJWQOvd+4beQfC1AxNB+ln1QtcQXSVwKV
-         nnd7ZyjKIst9h2sRYdFIroRWEXPMcBJYAZbv6jo91QEmY44NQor9CE8liz1htOWWX79v
-         il4sYHTmPanyyKai+8tvGub6rA97awMhfQfYl8ZO4wWB1pwEQf9p44HY+tUZT40pLAsO
-         AOksfUXTR802lLHM/MEzL4XgU+yJ9iX/ctPJadoOFKeiYoMxdDYtpfBPS7s1jqV+njum
-         kuO1itV1ohvErUxyuNkrlbjEZxuEgKf0J3MhwRRFLa9UZLWbnE4qh0GfFpopAVi3oXxT
-         Howg==
-X-Gm-Message-State: AC+VfDyzJMtmo3CPgW7LVOMxQgb9HA0nhQ928lSHdxZ1XRMD0m/oyBN7
-	cuBbZ+TM9ltmQyXwVGtXviY5x4+8S7Y=
-X-Google-Smtp-Source: ACHHUZ6Zx6A2U7zW7Kb6BBWD/MCCuN3+gk50uixuGiZhR5rxoJWksK+jkiCZSSug7dsq66TBP+GZRg==
-X-Received: by 2002:a17:907:36c7:b0:96b:559d:ff19 with SMTP id bj7-20020a17090736c700b0096b559dff19mr15186317ejc.21.1684914808873;
-        Wed, 24 May 2023 00:53:28 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1684914806; x=1687506806;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Fw/uSy5Lpt85o2/EvpGnHxyVdjd/arw/yWIWTVHo2MI=;
+        b=GYvBTC+CklG98pPrkeLgps/wSR1OoiYEBGd0xqrPL27yBVjeP7VJDEXJ7Ow45LnAWL
+         15VxfWFhGH7G6YhPGU1XtgAWAltJMM/+mn1Fof3jcJlDcmlGdCXBfAIqA7I4k7UKtQ2H
+         dgzukieKpChS892aMZiqxTr/DvVanb8YJquJ2ghQnl8lYZdIyf/tVrZ1CJ2OLN7qMuex
+         PlGE3s+ttUupsgN+SKg7OLXkBkIkcVKORkd5dAxJ+Sm5L7nNSOZSElXQaCR+NKfVvbzU
+         KoIngq7EPKfOd8PkgVhS9xzUBNbx8ln2LwIiTntdFaUfOQWQOznbd8qIo8tVCzeRCKdQ
+         te9Q==
+X-Gm-Message-State: AC+VfDxIvqGYhFmi1YHR3DrKg5hUQQcy666fXyuXPMGAxvbo045QFQhb
+	Uw/rFHh9vl9rOP1HxaSUIu6RMcGxfWU=
+X-Google-Smtp-Source: ACHHUZ6yFMy6S+nE7m6JiSTxgwPrhp+SClF/CE0EsGkxRcFI8rI3q7z3sJjiAv3EWXPlNqH8IP51oQ==
+X-Received: by 2002:a17:906:ee88:b0:94e:4489:f24d with SMTP id wt8-20020a170906ee8800b0094e4489f24dmr14243980ejb.61.1684914806567;
+        Wed, 24 May 2023 00:53:26 -0700 (PDT)
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id b9-20020a170906490900b0093313f4fc3csm5461634ejq.70.2023.05.24.00.53.28
+        by smtp.gmail.com with ESMTPSA id rv25-20020a17090710d900b00965f6ad266bsm5408788ejb.119.2023.05.24.00.53.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 May 2023 00:53:28 -0700 (PDT)
+        Wed, 24 May 2023 00:53:26 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH 4/6] inetutils: remove unused patch files
-Date: Wed, 24 May 2023 09:53:18 +0200
-Message-Id: <20230524075320.1086358-4-Martin.Jansa@gmail.com>
+Subject: [PATCH 1/6] libx11: remove unused patch and FILESEXTRAPATHS
+Date: Wed, 24 May 2023 09:53:15 +0200
+Message-Id: <20230524075320.1086358-1-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230524075320.1086358-1-Martin.Jansa@gmail.com>
-References: <20230524075320.1086358-1-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 24 May 2023 07:53:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181663
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181661
 
-* they were removed from SRC_URI in:
-  https://git.openembedded.org/openembedded-core/commit/?id=a21e8fdf1b66961ddae5929d393daa08800bb748
+* 0001-fix-a-memory-leak-in-XRegisterIMInstantiateCallback.patch was removed
+  from SRC_URI in:
+  https://git.openembedded.org/openembedded-core/commit/?id=e13f651f73db0f26f4645447ab5fa17e36d1903b
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- ...-multiple-definitions-of-errcatch-an.patch | 58 -------------------
- .../inetutils/fix-buffer-fortify-tfpt.patch   | 25 --------
- 2 files changed, 83 deletions(-)
- delete mode 100644 meta/recipes-connectivity/inetutils/inetutils/0001-ftpd-telnetd-Fix-multiple-definitions-of-errcatch-an.patch
- delete mode 100644 meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
+ ...ak-in-XRegisterIMInstantiateCallback.patch | 57 -------------------
+ .../recipes-graphics/xorg-lib/libx11_1.8.4.bb |  6 +-
+ 2 files changed, 2 insertions(+), 61 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libx11/0001-fix-a-memory-leak-in-XRegisterIMInstantiateCallback.patch
 
-diff --git a/meta/recipes-connectivity/inetutils/inetutils/0001-ftpd-telnetd-Fix-multiple-definitions-of-errcatch-an.patch b/meta/recipes-connectivity/inetutils/inetutils/0001-ftpd-telnetd-Fix-multiple-definitions-of-errcatch-an.patch
+diff --git a/meta/recipes-graphics/xorg-lib/libx11/0001-fix-a-memory-leak-in-XRegisterIMInstantiateCallback.patch b/meta/recipes-graphics/xorg-lib/libx11/0001-fix-a-memory-leak-in-XRegisterIMInstantiateCallback.patch
 deleted file mode 100644
-index 49d319f59d..0000000000
---- a/meta/recipes-connectivity/inetutils/inetutils/0001-ftpd-telnetd-Fix-multiple-definitions-of-errcatch-an.patch
+index 722116c07e..0000000000
+--- a/meta/recipes-graphics/xorg-lib/libx11/0001-fix-a-memory-leak-in-XRegisterIMInstantiateCallback.patch
 +++ /dev/null
-@@ -1,58 +0,0 @@
--From 7d39930468e272c740b0eed3c7e5b7fb3abf29e8 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 5 Aug 2020 10:36:22 -0700
--Subject: [PATCH] ftpd,telnetd: Fix multiple definitions of errcatch and not42
+@@ -1,57 +0,0 @@
+-CVE: CVE-2022-3554
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
 -
--This helps fix build failures when -fno-common option is used
+-From 1d11822601fd24a396b354fa616b04ed3df8b4ef Mon Sep 17 00:00:00 2001
+-From: "Thomas E. Dickey" <dickey@invisible-island.net>
+-Date: Tue, 4 Oct 2022 18:26:17 -0400
+-Subject: [PATCH] fix a memory leak in XRegisterIMInstantiateCallback
 -
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Analysis:
 -
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-    _XimRegisterIMInstantiateCallback() opens an XIM and closes it using
+-    the internal function pointers, but the internal close function does
+-    not free the pointer to the XIM (this would be done in XCloseIM()).
+-
+-Report/patch:
+-
+-    Date: Mon, 03 Oct 2022 18:47:32 +0800
+-    From: Po Lu <luangruo@yahoo.com>
+-    To: xorg-devel@lists.x.org
+-    Subject: Re: Yet another leak in Xlib
+-
+-    For reference, here's how I'm calling XRegisterIMInstantiateCallback:
+-
+-    XSetLocaleModifiers ("");
+-    XRegisterIMInstantiateCallback (compositor.display,
+-                                    XrmGetDatabase (compositor.display),
+-                                    (char *) compositor.resource_name,
+-                                    (char *) compositor.app_name,
+-                                    IMInstantiateCallback, NULL);
+-
+-    and XMODIFIERS is:
+-
+-        @im=ibus
+-
+-Signed-off-by: Thomas E. Dickey <dickey@invisible-island.net>
 ----
-- ftpd/extern.h     | 2 +-
-- ftpd/ftpcmd.c     | 1 +
-- telnetd/utility.c | 2 +-
-- 3 files changed, 3 insertions(+), 2 deletions(-)
+- modules/im/ximcp/imInsClbk.c | 3 +++
+- 1 file changed, 3 insertions(+)
 -
--diff --git a/ftpd/extern.h b/ftpd/extern.h
--index ab33cf3..91dbbee 100644
----- a/ftpd/extern.h
--+++ b/ftpd/extern.h
--@@ -90,7 +90,7 @@ extern void user (const char *);
-- extern char *sgetsave (const char *);
-- 
-- /* Exported from ftpd.c.  */
---jmp_buf errcatch;
--+extern jmp_buf errcatch;
-- extern struct sockaddr_storage data_dest;
-- extern socklen_t data_dest_len;
-- extern struct sockaddr_storage his_addr;
--diff --git a/ftpd/ftpcmd.c b/ftpd/ftpcmd.c
--index beb1f06..d272e9d 100644
----- a/ftpd/ftpcmd.c
--+++ b/ftpd/ftpcmd.c
--@@ -106,6 +106,7 @@
-- #endif
-- 
-- off_t restart_point;
--+jmp_buf errcatch;
-- 
-- static char cbuf[512];           /* Command Buffer.  */
-- static char *fromname;
--diff --git a/telnetd/utility.c b/telnetd/utility.c
--index e7ffb8e..46bf91e 100644
----- a/telnetd/utility.c
--+++ b/telnetd/utility.c
--@@ -63,7 +63,7 @@ static int ncc;
-- static char ptyibuf[BUFSIZ], *ptyip;
-- static int pcc;
-- 
---int not42;
--+extern int not42;
-- 
-- static int
-- readstream (int p, char *ibuf, int bufsize)
+-diff --git a/modules/im/ximcp/imInsClbk.c b/modules/im/ximcp/imInsClbk.c
+-index 95b379cb..c10e347f 100644
+---- a/modules/im/ximcp/imInsClbk.c
+-+++ b/modules/im/ximcp/imInsClbk.c
+-@@ -212,6 +212,9 @@ _XimRegisterIMInstantiateCallback(
+-     if( xim ) {
+- 	lock = True;
+- 	xim->methods->close( (XIM)xim );
+-+	/* XIMs must be freed manually after being opened; close just
+-+	   does the protocol to deinitialize the IM.  */
+-+	XFree( xim );
+- 	lock = False;
+- 	icb->call = True;
+- 	callback( display, client_data, NULL );
 --- 
--2.28.0
+-2.34.1
 -
-diff --git a/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch b/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
-deleted file mode 100644
-index a91913cb51..0000000000
---- a/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
-+++ /dev/null
-@@ -1,25 +0,0 @@
--tftpd: Fix abort on error path
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb b/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb
+index 7831b4986a..9058c1844e 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb
+@@ -18,14 +18,12 @@ DEPENDS += "xorgproto \
+ 
+ PROVIDES = "virtual/libx11"
+ 
+-FILESEXTRAPATHS =. "${FILE_DIRNAME}/libx11:"
 -
--When trying to fetch a non existent file, the app crashes with:
--
--*** buffer overflow detected ***: 
--Aborted
--
--
--Upstream-Status: Submitted [https://www.mail-archive.com/bug-inetutils@gnu.org/msg03036.html https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91205]
--Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
--diff --git a/src/tftpd.c b/src/tftpd.c
--index 56002a0..144012f 100644
----- a/src/tftpd.c
--+++ b/src/tftpd.c
--@@ -864,9 +864,8 @@ nak (int error)
--       pe->e_msg = strerror (error - 100);
--       tp->th_code = EUNDEF;	/* set 'undef' errorcode */
--     }
---  strcpy (tp->th_msg, pe->e_msg);
--   length = strlen (pe->e_msg);
---  tp->th_msg[length] = '\0';
--+  memcpy(tp->th_msg, pe->e_msg, length + 1);
--   length += 5;
--   if (sendto (peer, buf, length, 0, (struct sockaddr *) &from, fromlen) != length)
--     syslog (LOG_ERR, "nak: %m\n");
+ PE = "1"
+ 
+ XORG_PN = "libX11"
+ 
+-SRC_URI += "file://disable_tests.patch \
+-            "
++SRC_URI += "file://disable_tests.patch"
++
+ SRC_URI[sha256sum] = "c9a287a5aefa9804ce3cfafcf516fe96ed3f7e8e45c0e2ee59e84c86757df518"
+ 
+ inherit gettext
 -- 
 2.40.1
 
