@@ -2,57 +2,57 @@ Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8986C7EE32
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1B6EC7EE23
 	for <webhook@archiver.kernel.org>; Wed, 24 May 2023 07:53:33 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web11.3588.1684914810011698390
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web11.3571.1684914781873941301
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 May 2023 00:53:30 -0700
+ Wed, 24 May 2023 00:53:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=Dq5eTOgg;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-94a342f7c4cso104245066b.0
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=JqSxSG1b;
+ spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-510db954476so1233071a12.0
         for <openembedded-core@lists.openembedded.org>; Wed, 24 May 2023 00:53:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684914808; x=1687506808;
+        d=gmail.com; s=20221208; t=1684914809; x=1687506809;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aXoVOpmQ8WA49nFEcNg/M5FuNmnrNJhBGg8BPksj89w=;
-        b=Dq5eTOggWPQCKUA+0ZyH0vA4lscFsr0+mTMZnkeUehZDtMxpKDePB9TI79VMMOuYFU
-         0/Liu/NM35BqCzWvj9wBihKk60ZGvvRjLtgfWO0bk4zgr1ms5RIMKJ5n7j9S/cB9qveV
-         Yzi3khVlABu1HBl7mPBe7DY0v2n9Ibk4B6QfB5DokzVHGvNiG/lOKFC0RFFcv4Q6MfjW
-         WtWPh7r4TLGLulaK8e43VIByQASkRPTmzkk74+Hxq/p7GXwoG5fMPclO2duci5ixqM7F
-         pUpdKtbSuQ3nKFoMvDlGP8lIZfRahXcsRCjTOtQ68Fb9Yvzu16tLQH7dWRIs0MNV7obh
-         RyDw==
+        bh=PSQF0qAeqcU3t4qUzbAtPN7anJ/TS4lvQG+LiQfI6bg=;
+        b=JqSxSG1bv5jJ3bU+O/vHJRXNPyj/yfMw1xR+52U3YpFh0N3OHtDkT8GTfPBHLLr1zV
+         f2n3dDOkC8xhf/FngZcDxvj2JpbCJBE61UNW9flERXhSZCymY1wfzLSXY/GI1QcJSMPh
+         lZMfY8o+2QlQSzAspqpfTNb1PplAntyZjCqXqPfWc/5b1qgIdrYRUM8wB0DGzqt/EGbt
+         0yrZo1vDl2Sw3PFsdGnCSpB55/SevPD/CSFoxY4vNzRlURmcNiyoab6A7318e2Nn3VXz
+         Wgdt+XEAkmyGLYIUukyxoeskpy3PblmLIk66WstdVInQIP+qrKXetIy4KKcfMDkfH8YF
+         5nkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684914808; x=1687506808;
+        d=1e100.net; s=20221208; t=1684914809; x=1687506809;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=aXoVOpmQ8WA49nFEcNg/M5FuNmnrNJhBGg8BPksj89w=;
-        b=TFhUktkzo2BN1jhhKogQAVByNREcOBKiCTkp+qSuof5PE8cRcGe3CSLL2YKypgpDhy
-         9QvoXuQzyrd+xi1/6WXDCj8sJJq3sM9PngQjUG2E/bYS3CnaFvNAMAi4SAT+HXvGiavq
-         14CsNkGtLaLzr/rGcqwVHjmOYl4P86/fpSPhvHU66DZoYcEIDFp6coXqDzgusUgJWjsd
-         UblUtN0ThjMIhMXd1KdcTwo3tCZ8nHtsN4/wnPSCBm/xU7WBSGeqmXOG5KGZtjv+euHU
-         GcOYm5Lvg0PDzlX4bGn7cfyg83kAig4aj0LMoAJc1dLt2Svxi/Qdt0CF8OqffVo33aIK
-         Syxg==
-X-Gm-Message-State: AC+VfDzgvFqfOy+I9LPySOoU0u5KBTJVP4AlF7upv286Je7QrSGcW6VH
-	SOn1tR+kkb0EYE3GzijZN8QnvxUjbKI=
-X-Google-Smtp-Source: ACHHUZ4VgFgUunhO+fClj825xJKnXWzs1bXgfpKbTgG0qjsM9jyvKNBRQJsTUDUDFwbS4HmPuSqlrw==
-X-Received: by 2002:a17:907:1608:b0:973:8198:bbfb with SMTP id hb8-20020a170907160800b009738198bbfbmr1518699ejc.31.1684914808158;
+        bh=PSQF0qAeqcU3t4qUzbAtPN7anJ/TS4lvQG+LiQfI6bg=;
+        b=XQq4GLRC4mHErbERDV1tQq3zFGOirWlIrrJWQOvd+4beQfC1AxNB+ln1QtcQXSVwKV
+         nnd7ZyjKIst9h2sRYdFIroRWEXPMcBJYAZbv6jo91QEmY44NQor9CE8liz1htOWWX79v
+         il4sYHTmPanyyKai+8tvGub6rA97awMhfQfYl8ZO4wWB1pwEQf9p44HY+tUZT40pLAsO
+         AOksfUXTR802lLHM/MEzL4XgU+yJ9iX/ctPJadoOFKeiYoMxdDYtpfBPS7s1jqV+njum
+         kuO1itV1ohvErUxyuNkrlbjEZxuEgKf0J3MhwRRFLa9UZLWbnE4qh0GfFpopAVi3oXxT
+         Howg==
+X-Gm-Message-State: AC+VfDyzJMtmo3CPgW7LVOMxQgb9HA0nhQ928lSHdxZ1XRMD0m/oyBN7
+	cuBbZ+TM9ltmQyXwVGtXviY5x4+8S7Y=
+X-Google-Smtp-Source: ACHHUZ6Zx6A2U7zW7Kb6BBWD/MCCuN3+gk50uixuGiZhR5rxoJWksK+jkiCZSSug7dsq66TBP+GZRg==
+X-Received: by 2002:a17:907:36c7:b0:96b:559d:ff19 with SMTP id bj7-20020a17090736c700b0096b559dff19mr15186317ejc.21.1684914808873;
         Wed, 24 May 2023 00:53:28 -0700 (PDT)
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id w12-20020a170906130c00b00965b0eb7b0csm5396422ejb.103.2023.05.24.00.53.27
+        by smtp.gmail.com with ESMTPSA id b9-20020a170906490900b0093313f4fc3csm5461634ejq.70.2023.05.24.00.53.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 May 2023 00:53:27 -0700 (PDT)
+        Wed, 24 May 2023 00:53:28 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH 3/6] minicom: remove unused patch files
-Date: Wed, 24 May 2023 09:53:17 +0200
-Message-Id: <20230524075320.1086358-3-Martin.Jansa@gmail.com>
+Subject: [PATCH 4/6] inetutils: remove unused patch files
+Date: Wed, 24 May 2023 09:53:18 +0200
+Message-Id: <20230524075320.1086358-4-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230524075320.1086358-1-Martin.Jansa@gmail.com>
 References: <20230524075320.1086358-1-Martin.Jansa@gmail.com>
@@ -62,153 +62,114 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 24 May 2023 07:53:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181664
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181663
 
 * they were removed from SRC_URI in:
-  https://git.openembedded.org/openembedded-core/commit/?id=41f8760dd8a8ac388389bc17dbc5e0ae0f64bf57
+  https://git.openembedded.org/openembedded-core/commit/?id=a21e8fdf1b66961ddae5929d393daa08800bb748
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- ...erfluous-global-variable-definitions.patch | 35 ----------------
- ...erfluous-global-variable-definitions.patch | 37 ----------------
- ...erfluous-global-variable-definitions.patch | 42 -------------------
- 3 files changed, 114 deletions(-)
- delete mode 100644 meta/recipes-extended/minicom/minicom/0001-Drop-superfluous-global-variable-definitions.patch
- delete mode 100644 meta/recipes-extended/minicom/minicom/0002-Drop-superfluous-global-variable-definitions.patch
- delete mode 100644 meta/recipes-extended/minicom/minicom/0003-Drop-superfluous-global-variable-definitions.patch
+ ...-multiple-definitions-of-errcatch-an.patch | 58 -------------------
+ .../inetutils/fix-buffer-fortify-tfpt.patch   | 25 --------
+ 2 files changed, 83 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/inetutils/inetutils/0001-ftpd-telnetd-Fix-multiple-definitions-of-errcatch-an.patch
+ delete mode 100644 meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
 
-diff --git a/meta/recipes-extended/minicom/minicom/0001-Drop-superfluous-global-variable-definitions.patch b/meta/recipes-extended/minicom/minicom/0001-Drop-superfluous-global-variable-definitions.patch
+diff --git a/meta/recipes-connectivity/inetutils/inetutils/0001-ftpd-telnetd-Fix-multiple-definitions-of-errcatch-an.patch b/meta/recipes-connectivity/inetutils/inetutils/0001-ftpd-telnetd-Fix-multiple-definitions-of-errcatch-an.patch
 deleted file mode 100644
-index 01b23898e7..0000000000
---- a/meta/recipes-extended/minicom/minicom/0001-Drop-superfluous-global-variable-definitions.patch
+index 49d319f59d..0000000000
+--- a/meta/recipes-connectivity/inetutils/inetutils/0001-ftpd-telnetd-Fix-multiple-definitions-of-errcatch-an.patch
 +++ /dev/null
-@@ -1,35 +0,0 @@
--From b65152ebc03832972115e6d98e50cb6190d01793 Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Ond=C5=99ej=20Lyson=C4=9Bk?= <olysonek@redhat.com>
--Date: Mon, 3 Feb 2020 13:18:13 +0100
--Subject: [PATCH 1/3] Drop superfluous global variable definitions
+@@ -1,58 +0,0 @@
+-From 7d39930468e272c740b0eed3c7e5b7fb3abf29e8 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 5 Aug 2020 10:36:22 -0700
+-Subject: [PATCH] ftpd,telnetd: Fix multiple definitions of errcatch and not42
 -
--The file minicom.c, by including the minicom.h header, already defines
--the global variables 'dial_user' and 'dial_pass'. The object file
--minicom.o is always linked to dial.o. Thus the definitions in dial.c
--can be dropped.
+-This helps fix build failures when -fno-common option is used
 -
--This fixes linking with gcc 10 which uses -fno-common by default,
--disallowing multiple global variable definitions.
+-Upstream-Status: Pending
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
 -
--Upstream-Status: Backport [https://salsa.debian.org/minicom-team/minicom/-/commit/db269bba2a68fde03f5df45ac8372a8f1248ca96]
 -Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ----
-- src/dial.c | 2 --
-- 1 file changed, 2 deletions(-)
+- ftpd/extern.h     | 2 +-
+- ftpd/ftpcmd.c     | 1 +
+- telnetd/utility.c | 2 +-
+- 3 files changed, 3 insertions(+), 2 deletions(-)
 -
--diff --git a/src/dial.c b/src/dial.c
--index eada5ee..d9d481f 100644
----- a/src/dial.c
--+++ b/src/dial.c
--@@ -146,8 +146,6 @@ static int newtype;
-- /* Access to ".dialdir" denied? */
-- static int dendd = 0;
-- static char *tagged;
---char *dial_user;
---char *dial_pass;
+-diff --git a/ftpd/extern.h b/ftpd/extern.h
+-index ab33cf3..91dbbee 100644
+---- a/ftpd/extern.h
+-+++ b/ftpd/extern.h
+-@@ -90,7 +90,7 @@ extern void user (const char *);
+- extern char *sgetsave (const char *);
 - 
-- /* Change the baud rate.  Treat all characters in the given array as if
--  * they were key presses within the comm parameters dialog (C-A P) and
+- /* Exported from ftpd.c.  */
+--jmp_buf errcatch;
+-+extern jmp_buf errcatch;
+- extern struct sockaddr_storage data_dest;
+- extern socklen_t data_dest_len;
+- extern struct sockaddr_storage his_addr;
+-diff --git a/ftpd/ftpcmd.c b/ftpd/ftpcmd.c
+-index beb1f06..d272e9d 100644
+---- a/ftpd/ftpcmd.c
+-+++ b/ftpd/ftpcmd.c
+-@@ -106,6 +106,7 @@
+- #endif
+- 
+- off_t restart_point;
+-+jmp_buf errcatch;
+- 
+- static char cbuf[512];           /* Command Buffer.  */
+- static char *fromname;
+-diff --git a/telnetd/utility.c b/telnetd/utility.c
+-index e7ffb8e..46bf91e 100644
+---- a/telnetd/utility.c
+-+++ b/telnetd/utility.c
+-@@ -63,7 +63,7 @@ static int ncc;
+- static char ptyibuf[BUFSIZ], *ptyip;
+- static int pcc;
+- 
+--int not42;
+-+extern int not42;
+- 
+- static int
+- readstream (int p, char *ibuf, int bufsize)
 --- 
--2.24.1
+-2.28.0
 -
-diff --git a/meta/recipes-extended/minicom/minicom/0002-Drop-superfluous-global-variable-definitions.patch b/meta/recipes-extended/minicom/minicom/0002-Drop-superfluous-global-variable-definitions.patch
+diff --git a/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch b/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
 deleted file mode 100644
-index e86b470b7e..0000000000
---- a/meta/recipes-extended/minicom/minicom/0002-Drop-superfluous-global-variable-definitions.patch
+index a91913cb51..0000000000
+--- a/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
 +++ /dev/null
-@@ -1,37 +0,0 @@
--From 924bd2da3a00e030e29d82b74ef82900bd50b475 Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Ond=C5=99ej=20Lyson=C4=9Bk?= <olysonek@redhat.com>
--Date: Mon, 3 Feb 2020 13:18:33 +0100
--Subject: [PATCH 2/3] Drop superfluous global variable definitions
+@@ -1,25 +0,0 @@
+-tftpd: Fix abort on error path
 -
--The only place where the EXTERN macro mechanism is used to define the
--global variables 'vt_outmap' and 'vt_inmap' is minicom.c (by defining
--an empty EXTERN macro and including the minicom.h header). The file
--vt100.c already defines these variables. The vt100.o object file is
--always linked to minicom.o. Thus it is safe not to define the
--variables in minicom.c and only declare them in the minicom.h header.
+-When trying to fetch a non existent file, the app crashes with:
 -
--This fixes linking with gcc 10 which uses -fno-common by default,
--disallowing multiple global variable definitions.
+-*** buffer overflow detected ***: 
+-Aborted
 -
--Upstream-Status: Backport [https://salsa.debian.org/minicom-team/minicom/-/commit/c69cad5b5dda85d361a3a0c1fddc65e933f26d11]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- src/minicom.h | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
 -
--diff --git a/src/minicom.h b/src/minicom.h
--index 061c013..0f9693b 100644
----- a/src/minicom.h
--+++ b/src/minicom.h
--@@ -141,7 +141,7 @@ EXTERN int sbcolor;     /* Status Bar Background Color */
-- EXTERN int st_attr;	/* Status Bar attributes. */
-- 
-- /* jl 04.09.97 conversion tables */
---EXTERN unsigned char vt_outmap[256], vt_inmap[256];
--+extern unsigned char vt_outmap[256], vt_inmap[256];
-- 
-- /* MARK updated 02/17/95 - history buffer */
-- EXTERN int num_hist_lines;  /* History buffer size */
---- 
--2.24.1
--
-diff --git a/meta/recipes-extended/minicom/minicom/0003-Drop-superfluous-global-variable-definitions.patch b/meta/recipes-extended/minicom/minicom/0003-Drop-superfluous-global-variable-definitions.patch
-deleted file mode 100644
-index 3225a0c32a..0000000000
---- a/meta/recipes-extended/minicom/minicom/0003-Drop-superfluous-global-variable-definitions.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--From a4fc603b3641d2efe31479116eb7ba66932901c7 Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Ond=C5=99ej=20Lyson=C4=9Bk?= <olysonek@redhat.com>
--Date: Mon, 3 Feb 2020 13:21:41 +0100
--Subject: [PATCH 3/3] Drop superfluous global variable definitions
--
--The only place where the EXTERN macro mechanism is used to define the
--global variables 'portfd_is_socket', 'portfd_is_connected' and
--'portfd_sock_addr' is minicom.c (by defining an empty EXTERN macro and
--including the minicom.h header). The source file sysdep1_s.c already
--defines these variables. The sysdep1_s.o object file is always linked
--to minicom.o. Thus it is safe to drop the definitions from minicom.c
--and only declare the variables in the minicom.h header.
--
--This fixes linking with gcc 10 which uses -fno-common by default,
--disallowing multiple global variable definitions.
--
--Upstream-Status: Backport [https://salsa.debian.org/minicom-team/minicom/-/commit/c8382374c5d340aa4115d527aed76e876ee5456b]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- src/minicom.h | 6 +++---
-- 1 file changed, 3 insertions(+), 3 deletions(-)
--
--diff --git a/src/minicom.h b/src/minicom.h
--index 0f9693b..1e7cb8c 100644
----- a/src/minicom.h
--+++ b/src/minicom.h
--@@ -113,9 +113,9 @@ EXTERN char *dial_user;     /* Our username there */
-- EXTERN char *dial_pass;     /* Our password */
-- 
-- #ifdef USE_SOCKET
---EXTERN int portfd_is_socket;	/* File descriptor is a unix socket */
---EXTERN int portfd_is_connected;	/* 1 if the socket is connected */
---EXTERN struct sockaddr_un portfd_sock_addr;	/* the unix socket address */
--+extern int portfd_is_socket;	/* File descriptor is a unix socket */
--+extern int portfd_is_connected;	/* 1 if the socket is connected */
--+extern struct sockaddr_un portfd_sock_addr;	/* the unix socket address */
-- #define portfd_connected ((portfd_is_socket && !portfd_is_connected) \
--                            ? -1 : portfd)
-- #else
---- 
--2.24.1
--
+-Upstream-Status: Submitted [https://www.mail-archive.com/bug-inetutils@gnu.org/msg03036.html https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91205]
+-Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+-diff --git a/src/tftpd.c b/src/tftpd.c
+-index 56002a0..144012f 100644
+---- a/src/tftpd.c
+-+++ b/src/tftpd.c
+-@@ -864,9 +864,8 @@ nak (int error)
+-       pe->e_msg = strerror (error - 100);
+-       tp->th_code = EUNDEF;	/* set 'undef' errorcode */
+-     }
+--  strcpy (tp->th_msg, pe->e_msg);
+-   length = strlen (pe->e_msg);
+--  tp->th_msg[length] = '\0';
+-+  memcpy(tp->th_msg, pe->e_msg, length + 1);
+-   length += 5;
+-   if (sendto (peer, buf, length, 0, (struct sockaddr *) &from, fromlen) != length)
+-     syslog (LOG_ERR, "nak: %m\n");
 -- 
 2.40.1
 
