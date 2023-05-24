@@ -1,109 +1,103 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB09CC7EE23
-	for <webhook@archiver.kernel.org>; Wed, 24 May 2023 14:23:45 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web11.10206.1684938217496824326
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0175C77B73
+	for <webhook@archiver.kernel.org>; Wed, 24 May 2023 14:56:05 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web10.11150.1684940162117999673
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 May 2023 07:23:37 -0700
+ Wed, 24 May 2023 07:56:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Ss4DYhRo;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.44, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-96f7bf3cf9eso184400166b.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 May 2023 07:23:37 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=QN4U8G3q;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-30a1fdde3d6so919497f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 May 2023 07:56:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1684938216; x=1687530216;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=linuxfoundation.org; s=google; t=1684940160; x=1687532160;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=F6NDMAnLwwHaOCY/NgppOUd9VH1lVyg1i0IEpa/S5F0=;
-        b=Ss4DYhRo1yiIUpo6ZytZqfEdMYZ2VJypbEtFqF+MF5u6jzse2Z2gWMpqST6TZf/GLY
-         7E6oAjcx9IXPbJUbi9HRymnotzhfk1LyDe0WrelnOQh/soNynii1cR10SCgaycrzoGex
-         Lf3P2gDAvQI6gxqFewPz8/htGvIIMhdEiuP0MyojRERwjE7+WE97pp24LxMYbzdxT9rk
-         6DFia4uWCTlnXkaiJqlI978yW0q4+PkAsWMR0PZ3Ce0c1FG86U6Z/okz+ecl27seaHd+
-         PoWRkpT329OL8bjxVcj22LfFBRidCYHQWnyJJSK/m+YPy+tPrccNoC0pdQ8vMAfP03J9
-         8gRw==
+        bh=S3RkjdWourbP5ibSUHjwrqBXEroemXguZ9UQdLyKWTk=;
+        b=QN4U8G3qwLttBUvkIRH07NNFVceSMCQ7f8SDMMlOidzNPeXaCnGJ/ULQwCVEdEke7w
+         HyoatgmL6EH1ISG2grrBlNrzVdnHcX756TMfeV1AfE1GY8fssT8IZVidEFeRVux3vfF5
+         p819plI2HEFrEzJn/8QAehQ8pO3QNZsRUWJxQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684938216; x=1687530216;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=F6NDMAnLwwHaOCY/NgppOUd9VH1lVyg1i0IEpa/S5F0=;
-        b=Y0ZOu9/ezNZq+rhHz1nUn1mcBZQ6tVr/hh1UH0QsHb2JqqDoXOnXRoqEaGIzZ/2q77
-         ybqYVHc4e4rcCpT6L9iUp4wrNaUNpHfhyKqNNh8rmypEmUzkxD0HieUhhbLKIHVit0wg
-         r4jeVrYwFb1WDMMFKs+3FvVoOihCDxjzfiTA1q7/kz7U+l2qm6GHihDvSKH3seAegn3c
-         EqJhI1j1dDlTz4ElaySqiofRuJKtM2J50tBwN+S4kENdVDmnuJwchc9iM7i+Qi0hONaT
-         c9IpEqsSn5F1YPaL6uS95c5SJv4wmDmM6AvHK5qLV2BmL2IZuoafsUUFw/yiCbbYLiB3
-         tQZQ==
-X-Gm-Message-State: AC+VfDwESVnV1dkLCCkxFakJGNglrJDiWcit6IEUEXiBmvmB3g/+1q21
-	mAktt9h2jqFoflBBN6lpOf/jYC+ngwVRmyuICyV/3w==
-X-Google-Smtp-Source: ACHHUZ7vybnZpLqMDkUPf/OTj/q1DzsyKpBvL0o0LbEode/UB9eQxl3IdF81RVpmnWLIziaAJUWHsRUhBfqU5SduKrI=
-X-Received: by 2002:a17:906:b188:b0:96a:4ea0:a1e7 with SMTP id
- w8-20020a170906b18800b0096a4ea0a1e7mr15522303ejy.50.1684938215766; Wed, 24
- May 2023 07:23:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230126064612.3803320-1-jlu@pengutronix.de> <8f1d515d-0eb3-c9de-65df-1034c61154e2@windriver.com>
-In-Reply-To: <8f1d515d-0eb3-c9de-65df-1034c61154e2@windriver.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Wed, 24 May 2023 04:23:23 -1000
-Message-ID: <CAOSpxdaCCSE3uQiO14Q0sD2u3pQRc_B2MiEb3En5BjmYuZThDg@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] p11-kit: add native to BBCLASSEXTEND -> kirkstone
-To: randy.macleod@windriver.com
-Cc: jlu@pengutronix.de, openembedded-core@lists.openembedded.org
+        d=1e100.net; s=20221208; t=1684940160; x=1687532160;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=S3RkjdWourbP5ibSUHjwrqBXEroemXguZ9UQdLyKWTk=;
+        b=gNRdyOucw/vvgvO3Lf7URlHJNuSepjtVt271dGk1KhajhQnb86GSWCnbdoCLrmNnOX
+         bYoSCtvAdhsc/HPcoMtDV6ocSTjmZjQXh2YPAI3VfEcx9Ir0ngGJBp7rAOx5VY2wVS3S
+         OU+EWKsWQQ4akHONci8YWU3CgKXZ2W97I+FINqlDLbx5vs+McS5c6hK/4i8Xql5ZnD1/
+         OlJWk8y2pvmUiqFZ7ouMLJMxLv4sHPeBB03p8fucpAvp/Ww+JkcSi+kZ+4PcVGFIM4hp
+         J+virlZcKoFqOrhctrVVBOQcFEOKzvdjeOCSEUZIIXPwSerJah+AWOlIJepw92qe2qY6
+         FDwA==
+X-Gm-Message-State: AC+VfDwfdpgvzSk0q1z+gbpPMJVwmaCI/a1RNFegfcnc26osw44fXsRU
+	ykCPNgbAgYOI8z73EE5wmhHQQg==
+X-Google-Smtp-Source: ACHHUZ4xKZKjfl6YUsAEVoNes+AhcToqhQMAEaR2RP7yrgiFK+DkLTf3p9mzLWAR4RNWPcmeZCVnog==
+X-Received: by 2002:adf:cd89:0:b0:307:a52c:26b4 with SMTP id q9-20020adfcd89000000b00307a52c26b4mr29636wrj.66.1684940160404;
+        Wed, 24 May 2023 07:56:00 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e50f:20dd:d0e2:cad5? ([2001:8b0:aba:5f3c:e50f:20dd:d0e2:cad5])
+        by smtp.gmail.com with ESMTPSA id x2-20020adfdcc2000000b003077f3dfcc8sm14635474wrm.32.2023.05.24.07.55.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 May 2023 07:56:00 -0700 (PDT)
+Message-ID: <1bf7c08ac92b3ddb011ee28c0517bb983c6b579a.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] cpio: respect MLPREFIX for PACKAGE_WRITE_DEPS
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <Martin.Jansa@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 24 May 2023 15:55:59 +0100
+In-Reply-To: <20230524105631.517832-1-Martin.Jansa@gmail.com>
+References: <20230524105631.517832-1-Martin.Jansa@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 May 2023 14:23:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181675
+ <openembedded-core@lists.openembedded.org>; Wed, 24 May 2023 14:56:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181676
 
-On Wed, May 24, 2023 at 2:57=E2=80=AFAM Randy MacLeod via
-lists.openembedded.org
-<randy.macleod=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> On 2023-01-26 01:46, Jan Luebbe via lists.openembedded.org wrote:
->
-> This recipe is needed to build softhsm (in meta-oe) in with p11-kit
-> support, which is useful when multiple PKCS#11 modules need to be used.
->
-> Signed-off-by: Jan Luebbe <jlu@pengutronix.de>
+On Wed, 2023-05-24 at 12:56 +0200, Martin Jansa wrote:
+> * unlike DEPENDS/RDEPENDS the PACKAGE_WRITE_DEPS dependency isn't automat=
+ically
+>   extended with MLPREFIX, causing lib32-cpio to depend on 64bit ptest-run=
+ner (and
+>   all its deps)
+>=20
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 > ---
->  meta/recipes-support/p11-kit/p11-kit_0.24.1.bb | 2 +-
+>  meta/recipes-extended/cpio/cpio_2.14.bb | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-support/p11-kit/p11-kit_0.24.1.bb b/meta/recipe=
-s-support/p11-kit/p11-kit_0.24.1.bb
-> index 59cbb67961ac..72b446204a1c 100644
-> --- a/meta/recipes-support/p11-kit/p11-kit_0.24.1.bb
-> +++ b/meta/recipes-support/p11-kit/p11-kit_0.24.1.bb
-> @@ -29,4 +29,4 @@ FILES:${PN} +=3D " \
->  # PN contains p11-kit-proxy.so, a symlink to a loadable module
->  INSANE_SKIP:${PN} =3D "dev-so"
->
-> -BBCLASSEXTEND =3D "nativesdk"
-> +BBCLASSEXTEND =3D "native nativesdk"
->
-> Steve, could this change be back-ported to kirkstone?
+>=20
+> diff --git a/meta/recipes-extended/cpio/cpio_2.14.bb b/meta/recipes-exten=
+ded/cpio/cpio_2.14.bb
+> index e55fb70cb1..d6473dc08d 100644
+> --- a/meta/recipes-extended/cpio/cpio_2.14.bb
+> +++ b/meta/recipes-extended/cpio/cpio_2.14.bb
+> @@ -66,7 +66,7 @@ do_install_ptest_base:append() {
+> =20
+>  # The tests need to run as a non-root user, so pull in the ptest user
+>  DEPENDS:append:class-target =3D "${@bb.utils.contains('PTEST_ENABLED', '=
+1', ' ptest-runner', '', d)}"
+> -PACKAGE_WRITE_DEPS +=3D "ptest-runner"
+> +PACKAGE_WRITE_DEPS +=3D "${MLPREFIX}ptest-runner"
+> =20
+>  RDEPENDS:${PN}-ptest +=3D "ptest-runner"
+> =20
 
-Certainly!
+This triggers warnings:
 
-Steve
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5336/step=
+s/13/logs/warnings
 
-> # Randy MacLeod
-> # Wind River Linux
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#181672): https://lists.openembedded.org/g/openembedde=
-d-core/message/181672
-> Mute This Topic: https://lists.openembedded.org/mt/99107763/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+although that does raise some questions about what is going on with
+nativesdk...
+
+Cheers,
+
+Richard
 
