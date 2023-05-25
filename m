@@ -1,204 +1,111 @@
-Return-Path: <charlie.johnston@ni.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C9BBC77B7E
-	for <webhook@archiver.kernel.org>; Thu, 25 May 2023 16:00:00 +0000 (UTC)
-Subject: Re: [PATCH 1/2] package-index: Convert package-index into a bbclass.
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A6AFC77B7A
+	for <webhook@archiver.kernel.org>; Thu, 25 May 2023 16:08:00 +0000 (UTC)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web11.15738.1685030872533543427
+ for <openembedded-core@lists.openembedded.org>;
+ Thu, 25 May 2023 09:07:52 -0700
+Authentication-Results: mx.groups.io;
+ dkim=fail reason="signature has expired" header.i=@linaro.org header.s=google header.b=o8Xk1eRW;
+ spf=pass (domain: linaro.org, ip: 209.85.167.41, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-4f4d6aee530so951554e87.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 May 2023 09:07:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1685030870; x=1687622870;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tHBcIPr67+jL6JDL7NGj5YxfdEhTxDg7BN2ZHQ1JjRE=;
+        b=o8Xk1eRWYOhNYSp/3Jbj9skhabhJf4uELfVJ9X6HonrCmeMZsbnBLUyKdRPAmOrRnV
+         xvJQo5B1b3N9/ya+pcBHTqX74jUxs9tFdi3wHGJkBx2xFhpybzgeggiXE4dhvwI2d0Hr
+         mNkUTgQFXNE+UILP9kFypErP+j7YiJPIk7H1F7QEaJAbflBNs/+iTRL3hO1Cw0V5s7bX
+         UZGRQNeaS3GnEENw7KoWcMSST0WV/roB8zwJDxWe77RXWPfEKIqTnxDd1HGhkRQBz1Gb
+         Y2QxFp3Gu+wUPxsXh7WMY1sg6YCqdZeb3P2po+g/rV+FHAYFBf4VG+SuPgi5aDU+PbDK
+         lyhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685030870; x=1687622870;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tHBcIPr67+jL6JDL7NGj5YxfdEhTxDg7BN2ZHQ1JjRE=;
+        b=j2eVOVHjr7wVkWzTWf6yudIQqYTMbQtw5hpicaq/xb6zOj5U06EqI4/Ec3laRZpwoZ
+         tAdtsamlMyu0Ld2z10aOMXVS4d9x2QSY2sPyDOZUhiSU3eBKpVpYQ2swb42HLY4mb/VV
+         b8zmkwjOHRpboo6DzMQoVbtyi92xSn3b4Q/u/XKq64UlukSTNNnLnCgnOUqgTVs9A3uX
+         RzCb2cR9HV8/XrY/0LoocklKASNleWLYSNmXmMJW4N32VuOg586ircHbW7g5zpN1C9MD
+         2PvOq7x5wfrtS8TiD+81KrOFmpo4VlYVKhfpa+mYnPzdw/CYAMp7p6xxZQh/cw/BYqK2
+         qSVg==
+X-Gm-Message-State: AC+VfDydYSOcVux0poXL4alw3ZY7TgKYLb5kSiGoxxeeTIIMNbE3nR28
+	K284T0bB4E7YwmkDTJcmq7JRXpplcIqnJFcxKIM=
+X-Google-Smtp-Source: ACHHUZ4WKCgKuF3yN9cJ530SDui9KQMsTm1q3vc4AmQCDi8oA9yHIGuGKQ7q4MO1h7tG+sA8W/sASA==
+X-Received: by 2002:a19:7003:0:b0:4e8:5576:98f4 with SMTP id h3-20020a197003000000b004e8557698f4mr6313464lfc.45.1685030870463;
+        Thu, 25 May 2023 09:07:50 -0700 (PDT)
+Received: from nuoska (dsl-olubng11-54f814-94.dhcp.inet.fi. [84.248.20.94])
+        by smtp.gmail.com with ESMTPSA id t17-20020ac25491000000b004f3b6e71eb1sm253001lfk.291.2023.05.25.09.07.49
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 May 2023 09:07:49 -0700 (PDT)
+Date: Thu, 25 May 2023 19:07:48 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
-From: "Charlie Johnston" <charlie.johnston@ni.com>
-X-Originating-Location: Austin, Texas, US (162.237.205.80)
-X-Originating-Platform: Windows Chrome 113
-User-Agent: GROUPS.IO Web Poster
+Subject: Re: [PATCH 3/3] qemurunner: add boot logs to do_testimage task logs
+ in real time
+Message-ID: <ZG+H1K3Pe/oTKFz1@nuoska>
+References: <20230510125935.4120156-1-mikko.rapeli@linaro.org>
+ <20230510125935.4120156-3-mikko.rapeli@linaro.org>
 MIME-Version: 1.0
-Date: Thu, 25 May 2023 08:59:52 -0700
-References: <303bdaddd7f8bd6f4655395bf977323c83211133.camel@linuxfoundation.org>
-In-Reply-To: <303bdaddd7f8bd6f4655395bf977323c83211133.camel@linuxfoundation.org>
-Message-ID: <2625.1685030392048662114@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="ppZaMgXYfP9aNkf1W3dO"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230510125935.4120156-3-mikko.rapeli@linaro.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 May 2023 16:00:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181717
+ <openembedded-core@lists.openembedded.org>; Thu, 25 May 2023 16:08:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181718
 
---ppZaMgXYfP9aNkf1W3dO
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Richard,
 
-Thanks for the feedback. Are there concerns on this specific patch you have=
- other than the commit message?
+Could you accept this with some conditional flag in testimage.bbclass maybe?
 
-Thanks,
-Charlie
+I really feel the need for this when debugging issues with boot sequence.
 
-On Wed, May 24, 2023 at 06:26 PM, Richard Purdie wrote:
+Cheers,
 
->=20
-> On Wed, 2023-05-24 at 16:55 -0500, Charlie Johnston wrote:
->=20
->> Currently, package-index is a bit strange because it's a
->> bitbake recipe that implements a task.
->=20
-> That isn't strange at all, it is perfectly fine for a recipe to add a
-> task.
->=20
->=20
->> That task is
->> already used elsewhere and could be leveraged further
->> for BUILD_IMAGES_FROM_FEEDS.
->>=20
->> This change moves the logic for do_package_index into its
->> own bbclass and has package-index.bb inherit from there.
->=20
-> The description here does not match what this patch actually does.=C2=A0T=
-he
-> patch changes the behaviour of the code considerably and this isn't
-> even mentioned.
->=20
->=20
->>=20
->> Signed-off-by: Charlie Johnston <charlie.johnston@ni.com>
->> ---
->> meta/classes/package_index.bbclass | 21 +++++++++++++++++++++
->> meta/recipes-core/meta/package-index.bb | 10 +---------
->> 2 files changed, 22 insertions(+), 9 deletions(-)
->> create mode 100644 meta/classes/package_index.bbclass
->>=20
->> diff --git a/meta/classes/package_index.bbclass
->> b/meta/classes/package_index.bbclass
->> new file mode 100644
->> index 0000000000..fdd10f6dd0
->> --- /dev/null
->> +++ b/meta/classes/package_index.bbclass
->> @@ -0,0 +1,21 @@
->> +#
->> +# Creates package indices for the IMAGE_PKGTYPE
->> +#
->> +
->> +do_package_index[nostamp] =3D "1"
->> +do_package_index[depends] +=3D "${PACKAGEINDEXDEPS}"
->> +do_package_index[recrdeptask] +=3D 'do_package_write_deb'
->> +do_package_index[recrdeptask] +=3D 'do_package_write_ipk'
->> +do_package_index[recrdeptask] +=3D 'do_package_write_rpm'
->=20
-> Adding recrdeptask isn't mentioned in the commit message. "package-
-> index" deliberately just indexes what is in the packages directory with
-> no dependencies. This is therefore a significant change in behaviour.
->=20
->=20
->> +
->> +python do_package_index() {
->> + from oe.rootfs import generate_index_files
->> + generate_index_files(d)
->> +}
->> +
->> +# Package indexes are required for the dummy SDK architectures
->> +# to support scenarios where SDK images are built from feeds.
->> +PACKAGE_ARCHS:append:task-package-index =3D " sdk-provides-dummy-target=
-"
->> +SDK_PACKAGE_ARCHS:append:task-package-index =3D "
->> sdk-provides-dummy-${SDKPKGSUFFIX}"
->=20
-> This is also a change in behaviour, again unmentioned.
->=20
-> Cheers,
->=20
-> Richard
->=20
->=20
->> +
->> +addtask do_package_index before do_build
->> diff --git a/meta/recipes-core/meta/package-index.bb
->> b/meta/recipes-core/meta/package-index.bb
->> index 98c5bcb372..3fc18865b7 100644
->> --- a/meta/recipes-core/meta/package-index.bb
->> +++ b/meta/recipes-core/meta/package-index.bb
->> @@ -4,7 +4,7 @@ LICENSE =3D "MIT"
->> INHIBIT_DEFAULT_DEPS =3D "1"
->> PACKAGES =3D ""
->>=20
->> -inherit nopackages
->> +inherit nopackages package_index
->>=20
->> deltask do_fetch
->> deltask do_unpack
->> @@ -15,12 +15,4 @@ deltask do_install
->> deltask do_populate_lic
->> deltask do_populate_sysroot
->>=20
->> -do_package_index[nostamp] =3D "1"
->> -do_package_index[depends] +=3D "${PACKAGEINDEXDEPS}"
->> -
->> -python do_package_index() {
->> - from oe.rootfs import generate_index_files
->> - generate_index_files(d)
->> -}
->> -addtask do_package_index before do_build
->> EXCLUDE_FROM_WORLD =3D "1"
->=20
->
+-Mikko
 
---ppZaMgXYfP9aNkf1W3dO
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-Thanks for the feedback. Are there concerns on this specific patch you have=
- other than the commit message?<br /><br />Thanks,<br />Charlie<br /><br />=
-On Wed, May 24, 2023 at 06:26 PM, Richard Purdie wrote:<br />
-<blockquote>On Wed, 2023-05-24 at 16:55 -0500, Charlie Johnston wrote:<br /=
->
-<blockquote>Currently, package-index is a bit strange because it's a<br />b=
-itbake recipe that implements a task.</blockquote>
-That isn't strange at all, it is perfectly fine for a recipe to add a<br />=
-task.<br /><br />
-<blockquote>That task is<br />already used elsewhere and could be leveraged=
- further<br />for BUILD_IMAGES_FROM_FEEDS.<br /><br />This change moves the=
- logic for do_package_index into its<br />own bbclass and has package-index=
-.bb inherit from there.</blockquote>
-The description here does not match what this patch actually does.&nbsp;The=
-<br />patch changes the behaviour of the code considerably and this isn't<b=
-r />even mentioned.<br /><br />
-<blockquote><br />Signed-off-by: Charlie Johnston &lt;charlie.johnston@ni.c=
-om&gt;<br />---<br />meta/classes/package_index.bbclass | 21 ++++++++++++++=
-+++++++<br />meta/recipes-core/meta/package-index.bb | 10 +---------<br />2=
- files changed, 22 insertions(+), 9 deletions(-)<br />create mode 100644 me=
-ta/classes/package_index.bbclass<br /><br />diff --git a/meta/classes/packa=
-ge_index.bbclass b/meta/classes/package_index.bbclass<br />new file mode 10=
-0644<br />index 0000000000..fdd10f6dd0<br />--- /dev/null<br />+++ b/meta/c=
-lasses/package_index.bbclass<br />@@ -0,0 +1,21 @@<br />+#<br />+# Creates =
-package indices for the IMAGE_PKGTYPE<br />+#<br />+<br />+do_package_index=
-[nostamp] =3D "1"<br />+do_package_index[depends] +=3D "${PACKAGEINDEXDEPS}=
-"<br />+do_package_index[recrdeptask] +=3D 'do_package_write_deb'<br />+do_=
-package_index[recrdeptask] +=3D 'do_package_write_ipk'<br />+do_package_ind=
-ex[recrdeptask] +=3D 'do_package_write_rpm'</blockquote>
-Adding recrdeptask isn't mentioned in the commit message. "package-<br />in=
-dex" deliberately just indexes what is in the packages directory with<br />=
-no dependencies. This is therefore a significant change in behaviour.<br />=
-<br />
-<blockquote>+<br />+python do_package_index() {<br />+ from oe.rootfs impor=
-t generate_index_files<br />+ generate_index_files(d)<br />+}<br />+<br />+=
-# Package indexes are required for the dummy SDK architectures<br />+# to s=
-upport scenarios where SDK images are built from feeds.<br />+PACKAGE_ARCHS=
-:append:task-package-index =3D " sdk-provides-dummy-target"<br />+SDK_PACKA=
-GE_ARCHS:append:task-package-index =3D " sdk-provides-dummy-${SDKPKGSUFFIX}=
-"</blockquote>
-This is also a change in behaviour, again unmentioned.<br /><br />Cheers,<b=
-r /><br />Richard<br /><br />
-<blockquote>+<br />+addtask do_package_index before do_build<br />diff --gi=
-t a/meta/recipes-core/meta/package-index.bb b/meta/recipes-core/meta/packag=
-e-index.bb<br />index 98c5bcb372..3fc18865b7 100644<br />--- a/meta/recipes=
--core/meta/package-index.bb<br />+++ b/meta/recipes-core/meta/package-index=
-.bb<br />@@ -4,7 +4,7 @@ LICENSE =3D "MIT"<br />INHIBIT_DEFAULT_DEPS =3D "1=
-"<br />PACKAGES =3D ""<br /><br />-inherit nopackages<br />+inherit nopacka=
-ges package_index<br /><br />deltask do_fetch<br />deltask do_unpack<br />@=
-@ -15,12 +15,4 @@ deltask do_install<br />deltask do_populate_lic<br />delt=
-ask do_populate_sysroot<br /><br />-do_package_index[nostamp] =3D "1"<br />=
--do_package_index[depends] +=3D "${PACKAGEINDEXDEPS}"<br />-<br />-python d=
-o_package_index() {<br />- from oe.rootfs import generate_index_files<br />=
-- generate_index_files(d)<br />-}<br />-addtask do_package_index before do_=
-build<br />EXCLUDE_FROM_WORLD =3D "1"</blockquote>
-</blockquote>
-
---ppZaMgXYfP9aNkf1W3dO--
+On Wed, May 10, 2023 at 03:59:35PM +0300, Mikko Rapeli wrote:
+> Complex boot sequences take a lot of time to reach serial console login.
+> In our case boot involves multiple bootloaders like u-boot and grub,
+> then hypervisors like xen, then initramfs images which do things like
+> validating secure boot and encrypting the main rootfs. All these happen
+> before main rootfs serial console login prompt is reached and thus many
+> things can go wrong, including race conditions, hangs and deadlocks, and
+> thus logging the details is important for development.
+> 
+> This change adds the qemu serial console logs to do_testimage task logs while
+> they are being read out. The logs are not added to bitbake output. This
+> enables debugging and tracing the do_testimage via task log file while the boot
+> and tests are running.
+> 
+> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> ---
+>  meta/lib/oeqa/utils/qemurunner.py | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+> index c06268f5bc..7f520d47c3 100644
+> --- a/meta/lib/oeqa/utils/qemurunner.py
+> +++ b/meta/lib/oeqa/utils/qemurunner.py
+> @@ -480,6 +480,7 @@ class QemuRunner:
+>                          self.logger.error('Invalid file type: %s\n%s' % (file))
+>                          read = b''
+>  
+> +                    self.logger.debug2('Partial boot log:\n%s' % (read.decode('utf-8', errors='ignore')))
+>                      data = data + read
+>                      if data:
+>                          bootlog += data
+> -- 
+> 2.34.1
+> 
 
