@@ -1,138 +1,116 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73ABBC7EE29
-	for <webhook@archiver.kernel.org>; Thu, 25 May 2023 16:11:30 +0000 (UTC)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
- by mx.groups.io with SMTP id smtpd.web11.15818.1685031081404921455
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66330C7EE29
+	for <webhook@archiver.kernel.org>; Thu, 25 May 2023 16:13:30 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+ by mx.groups.io with SMTP id smtpd.web11.15884.1685031205392560917
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 May 2023 09:11:21 -0700
+ Thu, 25 May 2023 09:13:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=pYf9IwlL;
- spf=pass (domain: gmail.com, ip: 209.85.167.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-4f4db9987f8so538933e87.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 May 2023 09:11:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685031079; x=1687623079;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=nsopF0OQ0yi3whjPDmcYdIAnVPaJbi6LogxVCP1HKjs=;
-        b=pYf9IwlLFReL3Hy2B1p04T2sF+KGqQ07IxDWsVIGwOThE3AINHIE7nFSXpoaEP5Y69
-         2VlPziQcvU1DH8TnCENuTpkDZdH2/6ZbZ2M4kKHW9n/paDsMgNOGBOTvdwK6SYLYk7ev
-         Hcz+A8RrevMalG2XBPoOkMejgsACIquIRmNGTEJWIw1TXZmtsUs0MCWKjlDm/YM3pzQS
-         icA4DhCPEu/jlQ5jfuFKGGnQMVKxDWTct7OCGpt0dwyD/YeIwFFZD2/AkbTYJObh7hZB
-         3galM/Y8mIll0rFqk5euntaeyXkyzM/qXX9mOD3Bbw0kbzwzmOGB/jkyJeMdJrBIcri1
-         OutA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685031079; x=1687623079;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nsopF0OQ0yi3whjPDmcYdIAnVPaJbi6LogxVCP1HKjs=;
-        b=covDqsARZ2jI3gZZvR6fZYv4Bo1FpmiAGLV6j/OogWC/R4Hj0poImuV4+sVfd8n4y0
-         hWNNJsKstoVy7GULOXVcww+ildFc+nfso5wGa55JLqqsJgCxJ79wQzPkJk4NsI+NihZ3
-         H4DVcnrLk76gOve4k4dOnAhRVpsjxagoIHMMehDmACVgXYgJNnUs4/pYCg77OvDk5Lr+
-         hZ5UOJRFaTxDYtYkGJYGg8sbF37m22HEmRnU9zE3afpLBnwogTtuntvXTnaOw5QaPhFt
-         Ce9xBpus3W3XXs6gf8g9QyusikHovF5bbNug6QOEhs3CZiBP1mwAF9UtOLKmk8M8PZ/j
-         CkaA==
-X-Gm-Message-State: AC+VfDxo1GTnYXOXiM16kpq84qTj3jH6nRv2oVg4KJBT95zoo5fuDVDC
-	qDvRmWKZB12h5kdMEXdOegj0U/8lpfTxxHaJXcQ=
-X-Google-Smtp-Source: ACHHUZ4xDxsrVDJWr+kXu21UjBQQryGSN6xfPclpU4511nWIGL7X44gtqAN5wpMpJ3Ufo9iOYRX9go9qQXnO7/RKW0E=
-X-Received: by 2002:ac2:4a8e:0:b0:4eb:e8e:4139 with SMTP id
- l14-20020ac24a8e000000b004eb0e8e4139mr1108216lfp.2.1685031079279; Thu, 25 May
- 2023 09:11:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <CANNYZj9qufy5ryo0xT3fV1YKWS+1Ue1+L019kaWHD7t2SB53-g@mail.gmail.com>
- <2625.1685030135012218547@lists.openembedded.org>
-In-Reply-To: <2625.1685030135012218547@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 25 May 2023 18:11:07 +0200
-Message-ID: <CANNYZj_zqGXU_v8SFzNK7uDrUXn-979-GiYcPsS6Sd2EWEWytA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] classes: Add new packagefeed class.
-To: Charlie Johnston <charlie.johnston@ni.com>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=A/DNWCuP;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: alexandre.belloni@bootlin.com)
+X-GND-Sasl: alexandre.belloni@bootlin.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1685031203;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zcPux0vM8s89RlAqS3ZhEsIuIpODL3lFFkJvO1owzEs=;
+	b=A/DNWCuPeNXe0ymQQaQa2ElJwBN1HNDyYcQ4cPy80+1GL1eD3XewGyV7zEjD9Jqv/v5zLW
+	Rib5lLMJgreSgbsjX1E51XOV/D6m4XdOphd7phTcOVKqEs0cQvLUXxKTH5kQ0LUHVbA+D7
+	g8cgyOi9BzMXjOl7p/TKjfOzvbD7uJ5q9HyhiQtlSlMQHoLK2D7uO9A9y/ZkgKDqFd9xXG
+	Nq29xh6LAmcSJy4bMi3aoHzT3qmLQuW2f6r5+aWRA0rO0v1sdbCT3vyupE7wsO20fDKgws
+	5D6/m5TQnCBR7MvYM1pcw5VVJPHZg/vqoXXaSMKQCPmbcVX41UmD2wgBmjLLFQ==
+X-GND-Sasl: alexandre.belloni@bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E605FC0002;
+	Thu, 25 May 2023 16:13:22 +0000 (UTC)
+Date: Thu, 25 May 2023 18:13:22 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: andrej.valek@siemens.com
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [OE-core][PATCH] busybox: 1.36.0 -> 1.36.1
+Message-ID: <20230525161322adee6d2f@mail.local>
+References: <20230525084328.77920-1-andrej.valek@siemens.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230525084328.77920-1-andrej.valek@siemens.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 May 2023 16:11:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181719
+ <openembedded-core@lists.openembedded.org>; Thu, 25 May 2023 16:13:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181720
 
-It would not be the same thing done twice. It is not clear how the
-rpm/dep/opkg-specific tooling would behave if there's two or more
-instances of it indexing the files at the same time, or one starts
-earlier than the other, and the later ones see incomplete index files
-or half-deployed packages etc. It's well possible such situations are
-not handled well, and you still need to somehow ensure the indexing
-indeed runs once, and only after everything else. How would you ensure
-that? I worry this change opens the door to misuse, and cryptic, hard
-to reproduce or diagnose errors.
+Hello,
 
-The output would also be non-deterministic: it would contain
-everything from the packagegroup and an unknown amount of additional
-packages, depending on what else happened to be in deploy directory at
-the time.
+On the autobuilders, this causes:
 
-Alex
+WARNING: busybox-1.36.1-r0 do_package_qa: QA Issue: busybox: ELF binary /bin/busybox.nosuid has relocations in .text [textrel]
 
-On Thu, 25 May 2023 at 17:55, Charlie Johnston <charlie.johnston@ni.com> wrote:
->
-> Yes, having two recipes that inherit this running at the same time would potentially write the same index files. I'm not sure that's actually a problem other than the same thing being done twice.
-> As long as at least one of the package index steps runs after all packages have been written, the index files will be up-to-date. Since I've made the task recursively depend on the tasks that create packages, I think it's fine.
->
-> That being said, if there's a way to both add it to recipes and ensure that the task only runs once per bitbake command I would be open to moving towards that. Is there anything like that?
->
-> Thanks,
-> Charlie
->
-> On Thu, May 25, 2023 at 03:47 AM, Alexander Kanavin wrote:
->
-> What happens if several recipes inherit this class, and are processed
-> at the same time? Won't they step on each other, writing the same
-> index files into the deploy directory? I think package-index recipe is
-> deliberately standalone for that reason: you have to build it in a
-> separate step.
->
-> Alex
->
-> On Wed, 24 May 2023 at 23:55, Charlie Johnston <charlie.johnston@ni.com> wrote:
->
->
-> Added a new packagefeed class that contains both a
-> packagegroup and the package index builds. This allows a
-> one-line bitbake for a packagegroup that defines a feed
-> without explicitly needing to run the package-index recipe.
->
-> Signed-off-by: Charlie Johnston <charlie.johnston@ni.com>
+https://autobuilder.yoctoproject.org/typhoon/#/builders/15/builds/7460/steps/11/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/103/builds/6057/steps/11/logs/stdio
+
+
+On 25/05/2023 10:43:28+0200, Andrej Valek via lists.openembedded.org wrote:
+> - regresion has been fixed, re-enable SHA*HWACCEL on x86
+>   - 8d198665a0d09c3f22f3a12234809f46b1c2b04a
+> 
+> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
 > ---
-> meta/classes/packagefeed.bbclass | 5 +++++
-> 1 file changed, 5 insertions(+)
-> create mode 100644 meta/classes/packagefeed.bbclass
->
-> diff --git a/meta/classes/packagefeed.bbclass b/meta/classes/packagefeed.bbclass
-> new file mode 100644
-> index 0000000000..b83ac54f21
-> --- /dev/null
-> +++ b/meta/classes/packagefeed.bbclass
-> @@ -0,0 +1,5 @@
-> +#
-> +# Special case of packagegroup that includes package index builds.
-> +#
-> +
-> +inherit packagegroup package_index
-> --
-> 2.30.2
->
->
->
->
+>  .../{busybox-inittab_1.36.0.bb => busybox-inittab_1.36.1.bb}  | 0
+>  meta/recipes-core/busybox/busybox/sha_accel.cfg               | 2 --
+>  .../busybox/{busybox_1.36.0.bb => busybox_1.36.1.bb}          | 4 +---
+>  3 files changed, 1 insertion(+), 5 deletions(-)
+>  rename meta/recipes-core/busybox/{busybox-inittab_1.36.0.bb => busybox-inittab_1.36.1.bb} (100%)
+>  delete mode 100644 meta/recipes-core/busybox/busybox/sha_accel.cfg
+>  rename meta/recipes-core/busybox/{busybox_1.36.0.bb => busybox_1.36.1.bb} (91%)
+> 
+> diff --git a/meta/recipes-core/busybox/busybox-inittab_1.36.0.bb b/meta/recipes-core/busybox/busybox-inittab_1.36.1.bb
+> similarity index 100%
+> rename from meta/recipes-core/busybox/busybox-inittab_1.36.0.bb
+> rename to meta/recipes-core/busybox/busybox-inittab_1.36.1.bb
+> diff --git a/meta/recipes-core/busybox/busybox/sha_accel.cfg b/meta/recipes-core/busybox/busybox/sha_accel.cfg
+> deleted file mode 100644
+> index 8900305a11..0000000000
+> --- a/meta/recipes-core/busybox/busybox/sha_accel.cfg
+> +++ /dev/null
+> @@ -1,2 +0,0 @@
+> -# CONFIG_SHA256_HWACCEL is not set
+> -# CONFIG_SHA1_HWACCEL is not set
+> diff --git a/meta/recipes-core/busybox/busybox_1.36.0.bb b/meta/recipes-core/busybox/busybox_1.36.1.bb
+> similarity index 91%
+> rename from meta/recipes-core/busybox/busybox_1.36.0.bb
+> rename to meta/recipes-core/busybox/busybox_1.36.1.bb
+> index 8014a5c7bf..b34d60cded 100644
+> --- a/meta/recipes-core/busybox/busybox_1.36.0.bb
+> +++ b/meta/recipes-core/busybox/busybox_1.36.1.bb
+> @@ -51,6 +51,4 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+>             file://0002-nslookup-sanitize-all-printed-strings-with-printable.patch \
+>             "
+>  SRC_URI:append:libc-musl = " file://musl.cfg "
+> -# TODO http://lists.busybox.net/pipermail/busybox/2023-January/090078.html
+> -SRC_URI:append:x86 = " file://sha_accel.cfg"
+> -SRC_URI[tarball.sha256sum] = "542750c8af7cb2630e201780b4f99f3dcceeb06f505b479ec68241c1e6af61a5"
+> +SRC_URI[tarball.sha256sum] = "b8cc24c9574d809e7279c3be349795c5d5ceb6fdf19ca709f80cde50e47de314"
+> -- 
+> 2.40.1
+> 
+
+> 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#181715): https://lists.openembedded.org/g/openembedded-core/message/181715
-> Mute This Topic: https://lists.openembedded.org/mt/99118888/1686489
+> View/Reply Online (#181704): https://lists.openembedded.org/g/openembedded-core/message/181704
+> Mute This Topic: https://lists.openembedded.org/mt/99126049/3617179
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
->
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
