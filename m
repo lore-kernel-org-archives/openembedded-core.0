@@ -1,162 +1,234 @@
-Return-Path: <rs@ti.com>
+Return-Path: <qiutt@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99C74C77B73
-	for <webhook@archiver.kernel.org>; Thu, 25 May 2023 01:45:05 +0000 (UTC)
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by mx.groups.io with SMTP id smtpd.web10.2791.1684979099141665532
- for <openembedded-core@lists.openembedded.org>;
- Wed, 24 May 2023 18:44:59 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17q1 header.b=ABoVwR3r;
- spf=pass (domain: ti.com, ip: 198.47.19.141, mailfrom: rs@ti.com)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 34P1iqS0128629;
-	Wed, 24 May 2023 20:44:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1684979092;
-	bh=wddUng7qOPybtrbsq1iIoKLH2oy1f6yAL4Co7RCbvq0=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=ABoVwR3r4HzE5syDZZVJ+Ysz1YgeQc+yMgOtkIvwgSWe0ey2lZ2IDH+MU00yQZd14
-	 FlevgrX7Tm7+Ff5VFn94+SKxzyMxNO99j8UTkJ+06kOyUJ/c2bBLwIZxNYYwBImU4n
-	 l6cAyAzLmE7zvdUFvMSSpLHH35Pk7v0GVxrstVJg=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 34P1iq8v030605
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 24 May 2023 20:44:52 -0500
-Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 24
- May 2023 20:44:51 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 24 May 2023 20:44:51 -0500
-Received: from rs-desk.dhcp.ti.com (ileaxei01-snat2.itg.ti.com [10.180.69.6])
-	by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 34P1ipg1030323;
-	Wed, 24 May 2023 20:44:51 -0500
-From: <rs@ti.com>
-To: <steve@sakoman.com>, <reatmon@ti.com>, <denis@denix.org>
-CC: <openembedded-core@lists.openembedded.org>,
-        Tom Hochstein
-	<tom.hochstein@nxp.com>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Richard
- Purdie <richard.purdie@linuxfoundation.org>
-Subject: [OE-core][kirkstone][PATCH 1/3] piglit: Add PACKAGECONFIG for glx and opencl
-Date: Wed, 24 May 2023 20:44:46 -0500
-Message-ID: <20230525014448.486619-2-rs@ti.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230525014448.486619-1-rs@ti.com>
-References: <20230525014448.486619-1-rs@ti.com>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B91A8C77B7C
+	for <webhook@archiver.kernel.org>; Thu, 25 May 2023 02:16:05 +0000 (UTC)
+Subject: Re: [PATCH V2] kbd: Add ptest support
+To: openembedded-core@lists.openembedded.org
+From: "qiutt@fujitsu.com" <qiutt@fujitsu.com>
+X-Originating-Location: CN (223.111.68.150)
+X-Originating-Platform: Windows Chrome 113
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Date: Wed, 24 May 2023 19:16:00 -0700
+References: <CAMKF1spsN31-Cz9kJZ5FFEnj8naj5FGO7hvrY=tzCfZxgZhdYA@mail.gmail.com>
+In-Reply-To: <CAMKF1spsN31-Cz9kJZ5FFEnj8naj5FGO7hvrY=tzCfZxgZhdYA@mail.gmail.com>
+Message-ID: <2625.1684980960246183159@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="J7Jv3ERKhIhaMMU1Vmua"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 May 2023 01:45:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181699
+ <openembedded-core@lists.openembedded.org>; Thu, 25 May 2023 02:16:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181701
 
-From: Tom Hochstein <tom.hochstein@nxp.com>
+--J7Jv3ERKhIhaMMU1Vmua
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-- Allow GLX tests to be disabled for systems that don't support it.
+I tried to build it with
 
-- Allow OpenCL tests to be enabled.
+>=20
+> TARGET_SYS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D "i686-oe-linux"
+> MACHINE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D "qemux86"
+>=20
 
-Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- ...roper-WAYLAND_INCLUDE_DIRS-variable.patch} |  0
- ...-shader.c-do-not-hardcode-build-pat.patch} |  0
- ...n-t-enable-GLX-if-tests-are-disabled.patch | 32 +++++++++++++++++++
- meta/recipes-graphics/piglit/piglit_git.bb    | 11 ++++---
- 4 files changed, 39 insertions(+), 4 deletions(-)
- rename meta/recipes-graphics/piglit/piglit/{0001-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch => 0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch} (100%)
- rename meta/recipes-graphics/piglit/piglit/{0002-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch => 0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch} (100%)
- create mode 100644 meta/recipes-graphics/piglit/piglit/0005-cmake-Don-t-enable-GLX-if-tests-are-disabled.patch
+but there is no error in=C2=A0do_compile_ptest_base.
 
-diff --git a/meta/recipes-graphics/piglit/piglit/0001-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch b/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
-similarity index 100%
-rename from meta/recipes-graphics/piglit/piglit/0001-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
-rename to meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
-diff --git a/meta/recipes-graphics/piglit/piglit/0002-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch b/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
-similarity index 100%
-rename from meta/recipes-graphics/piglit/piglit/0002-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
-rename to meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
-diff --git a/meta/recipes-graphics/piglit/piglit/0005-cmake-Don-t-enable-GLX-if-tests-are-disabled.patch b/meta/recipes-graphics/piglit/piglit/0005-cmake-Don-t-enable-GLX-if-tests-are-disabled.patch
-new file mode 100644
-index 00000000000..ef6fda0f4ed
---- /dev/null
-+++ b/meta/recipes-graphics/piglit/piglit/0005-cmake-Don-t-enable-GLX-if-tests-are-disabled.patch
-@@ -0,0 +1,32 @@
-+From 13ff43fe760ac343b33d8e8c84b89886aac07116 Mon Sep 17 00:00:00 2001
-+From: Tom Hochstein <tom.hochstein@nxp.com>
-+Date: Fri, 3 Jun 2022 10:44:29 -0500
-+Subject: [PATCH] cmake: Don't enable GLX if tests are disabled
-+
-+Allow building for systems that don't support GLX.
-+
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/piglit/-/merge_requests/720]
-+Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
-+---
-+ CMakeLists.txt | 5 +----
-+ 1 file changed, 1 insertion(+), 4 deletions(-)
-+
-+diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index e1aeb5ddf..85e171aba 100644
-+--- a/CMakeLists.txt
-++++ b/CMakeLists.txt
-+@@ -134,10 +134,7 @@ if(PIGLIT_BUILD_CL_TESTS)
-+ endif(PIGLIT_BUILD_CL_TESTS)
-+ 
-+ IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-+-	if(X11_FOUND AND OPENGL_gl_LIBRARY)
-+-		# Assume the system has GLX. In the future, systems may exist
-+-		# with libGL and libX11 but no GLX, but that world hasn't
-+-		# arrived yet.
-++	if(X11_FOUND AND OPENGL_gl_LIBRARY AND PIGLIT_BUILD_GLX_TESTS)
-+ 		set(PIGLIT_HAS_GLX True)
-+ 		add_definitions(-DPIGLIT_HAS_GLX)
-+ 	endif()
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index 3ae7a14e465..5b7a206247c 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -8,10 +8,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b2beded7103a3d8a442a2a0391d607b0"
- 
- SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=main \
-            file://0001-cmake-install-bash-completions-in-the-right-place.patch \
--           file://0001-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch \
-            file://0001-Add-a-missing-include-for-htobe32-definition.patch \
--           file://0002-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch \
--           "
-+           file://0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch \
-+           file://0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch \
-+           file://0005-cmake-Don-t-enable-GLX-if-tests-are-disabled.patch"
-+
- UPSTREAM_CHECK_COMMITS = "1"
- 
- SRCREV = "2f80c7cc9c02d37574dc8ba3140b7dd8eb3cbf82"
-@@ -36,8 +37,10 @@ REQUIRED_DISTRO_FEATURES += "opengl"
- export TEMP = "${B}/temp/"
- do_compile[dirs] =+ "${B}/temp/"
- 
--PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}"
-+PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 glx', '', d)}"
- PACKAGECONFIG[freeglut] = "-DPIGLIT_USE_GLUT=1,-DPIGLIT_USE_GLUT=0,freeglut,"
-+PACKAGECONFIG[glx] = "-DPIGLIT_BUILD_GLX_TESTS=ON,-DPIGLIT_BUILD_GLX_TESTS=OFF"
-+PACKAGECONFIG[opencl] = "-DPIGLIT_BUILD_CL_TESTS=ON,-DPIGLIT_BUILD_CL_TESTS=OFF,opencl-icd-loader"
- PACKAGECONFIG[x11] = "-DPIGLIT_BUILD_GL_TESTS=ON,-DPIGLIT_BUILD_GL_TESTS=OFF,${X11_DEPS}, ${X11_RDEPS}"
- PACKAGECONFIG[vulkan] = "-DPIGLIT_BUILD_VK_TESTS=ON,-DPIGLIT_BUILD_VK_TESTS=OFF,vulkan-loader"
- 
--- 
-2.40.1
+>=20
+> make[1]: Entering directory
+> '/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/work/core2-32-oe-linu=
+x/kbd/2.5.1-r0/build/tests/helpers'
+>=20
+> i686-oe-linux-gcc=C2=A0 -m32 -march=3Dcore2 -mtune=3Dcore2 -msse3 -mfpmat=
+h=3Dsse
+> --sysroot=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/work/core2=
+-32-oe-linux/kbd/2.5.1-r0/recipe-sysroot
+> -DHAVE_CONFIG_H -I. -I../../../kbd-2.5.1/tests/helpers -I../..=C2=A0=20
+> -I../../../kbd-2.5.1/src/libcommon -I../../../kbd-2.5.1/src/libkeymap
+> -I../../../kbd-2.5.1/src/libkbdfile -DDATADIR=3D\"/usr/lib/kbd/ptest/test=
+s\"
+> -DBUILDDIR=3D\"/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/work/co=
+re2-32-oe-linux/kbd/2.5.1-r0/build/tests/helpers\"
+> -O2 -D_FORTIFY_SOURCE=3D2=C2=A0 -O2 -pipe -g -feliminate-unused-debug-typ=
+es
+> -fmacro-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/w=
+ork/core2-32-oe-linux/kbd/2.5.1-r0/kbd-2.5.1=3D/usr/src/debug/kbd/2.5.1-r0
+> -fdebug-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/w=
+ork/core2-32-oe-linux/kbd/2.5.1-r0/kbd-2.5.1=3D/usr/src/debug/kbd/2.5.1-r0
+> -fmacro-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/w=
+ork/core2-32-oe-linux/kbd/2.5.1-r0/build=3D/usr/src/debug/kbd/2.5.1-r0
+> -fdebug-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/w=
+ork/core2-32-oe-linux/kbd/2.5.1-r0/build=3D/usr/src/debug/kbd/2.5.1-r0
+> -fdebug-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/w=
+ork/core2-32-oe-linux/kbd/2.5.1-r0/recipe-sysroot=3D
+> -fmacro-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/w=
+ork/core2-32-oe-linux/kbd/2.5.1-r0/recipe-sysroot=3D
+> -fdebug-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/w=
+ork/core2-32-oe-linux/kbd/2.5.1-r0/recipe-sysroot-native=3D
+> -Waggregate-return -Wall -Wcast-align -Wconversion -Wdisabled-optimizatio=
+n
+> -Wextra -Wmissing-declarations -Wmissing-format-attribute
+> -Wmissing-noreturn -Wmissing-prototypes -Wpointer-arith -Wredundant-decls
+> -Wshadow -Wstrict-prototypes -Wwrite-strings -c -o libkeymap-bkeymap.o
+> ../../../kbd-2.5.1/tests/helpers/libkeymap-bkeymap.c
+> ...
+> libtool: link:=C2=A0 echo "local: *; };" >> .libs/libtswrap.ver
+> libtool: link:=C2=A0 i686-oe-linux-gcc=C2=A0 -m32 -march=3Dcore2 -mtune=
+=3Dcore2 -msse3
+> -mfpmath=3Dsse
+> --sysroot=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/work/core2=
+-32-oe-linux/kbd/2.5.1-r0/recipe-sysroot
+> -shared=C2=A0 -fPIC -DPIC=C2=A0 .libs/ioctl.o=C2=A0 =C2=A0-ldl=C2=A0 -m32=
+ -march=3Dcore2 -mtune=3Dcore2
+> -msse3 -mfpmath=3Dsse
+> --sysroot=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/work/core2=
+-32-oe-linux/kbd/2.5.1-r0/recipe-sysroot
+> -g -O0 -O2 -O2 -g
+> -fmacro-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/w=
+ork/core2-32-oe-linux/kbd/2.5.1-r0/kbd-2.5.1=3D/usr/src/debug/kbd/2.5.1-r0
+> -fdebug-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/w=
+ork/core2-32-oe-linux/kbd/2.5.1-r0/kbd-2.5.1=3D/usr/src/debug/kbd/2.5.1-r0
+> -fmacro-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/w=
+ork/core2-32-oe-linux/kbd/2.5.1-r0/build=3D/usr/src/debug/kbd/2.5.1-r0
+> -fdebug-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/w=
+ork/core2-32-oe-linux/kbd/2.5.1-r0/build=3D/usr/src/debug/kbd/2.5.1-r0
+> -fdebug-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/w=
+ork/core2-32-oe-linux/kbd/2.5.1-r0/recipe-sysroot=3D
+> -fmacro-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/w=
+ork/core2-32-oe-linux/kbd/2.5.1-r0/recipe-sysroot=3D
+> -fdebug-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/w=
+ork/core2-32-oe-linux/kbd/2.5.1-r0/recipe-sysroot-native=3D
+> -Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed
+> -fmacro-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/w=
+ork/core2-32-oe-linux/kbd/2.5.1-r0/kbd-2.5.1=3D/usr/src/debug/kbd/2.5.1-r0
+> -fdebug-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/w=
+ork/core2-32-oe-linux/kbd/2.5.1-r0/kbd-2.5.1=3D/usr/src/debug/kbd/2.5.1-r0
+> -fmacro-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/w=
+ork/core2-32-oe-linux/kbd/2.5.1-r0/build=3D/usr/src/debug/kbd/2.5.1-r0
+> -fdebug-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/w=
+ork/core2-32-oe-linux/kbd/2.5.1-r0/build=3D/usr/src/debug/kbd/2.5.1-r0
+> -fdebug-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/w=
+ork/core2-32-oe-linux/kbd/2.5.1-r0/recipe-sysroot=3D
+> -fmacro-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/w=
+ork/core2-32-oe-linux/kbd/2.5.1-r0/recipe-sysroot=3D
+> -fdebug-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/w=
+ork/core2-32-oe-linux/kbd/2.5.1-r0/recipe-sysroot-native=3D
+> -Wl,-soname -Wl,libtswrap.so.1 -Wl,-version-script -Wl,.libs/libtswrap.ve=
+r
+> -o .libs/libtswrap.so.1.0.0
+> libtool: link: (cd ".libs" && rm -f "libtswrap.so.1" && ln -s
+> "libtswrap.so.1.0.0" "libtswrap.so.1")
+> libtool: link: (cd ".libs" && rm -f "libtswrap.so" && ln -s
+> "libtswrap.so.1.0.0" "libtswrap.so")
+> libtool: link: i686-oe-linux-gcc-ar cr .libs/libtswrap.a=C2=A0 ioctl.o
+> libtool: link: i686-oe-linux-gcc-ranlib .libs/libtswrap.a
+> libtool: link: ( cd ".libs" && rm -f "libtswrap.la" && ln -s
+> "../libtswrap.la" "libtswrap.la" )
+> make[1]: Leaving directory
+> '/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/work/core2-32-oe-linu=
+x/kbd/2.5.1-r0/build/tests/libtswrap'
+>=20
+>=20
 
+Maybe the gcc is different.
+Could you share your build steps?
+
+--J7Jv3ERKhIhaMMU1Vmua
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+I tried to build it with&nbsp;<br /><br />
+<blockquote>
+<div>TARGET_SYS&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=3D "i686-oe-linux"=
+</div>
+<div>MACHINE&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =3D "qemux86"<=
+/div>
+</blockquote>
+<div>but there is no error in&nbsp;do_compile_ptest_base.&nbsp;&nbsp;</div>
+<br />
+<blockquote>
+<div>make[1]: Entering directory '/AGL-WORK/Yocto/oe-core/build-genericx86/=
+tmp-glibc/work/core2-32-oe-linux/kbd/2.5.1-r0/build/tests/helpers'</div>
+<div>i686-oe-linux-gcc&nbsp; -m32 -march=3Dcore2 -mtune=3Dcore2 -msse3 -mfp=
+math=3Dsse --sysroot=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/w=
+ork/core2-32-oe-linux/kbd/2.5.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../=
+../../kbd-2.5.1/tests/helpers -I../..&nbsp; &nbsp;-I../../../kbd-2.5.1/src/=
+libcommon -I../../../kbd-2.5.1/src/libkeymap -I../../../kbd-2.5.1/src/libkb=
+dfile -DDATADIR=3D\"/usr/lib/kbd/ptest/tests\" -DBUILDDIR=3D\"/AGL-WORK/Yoc=
+to/oe-core/build-genericx86/tmp-glibc/work/core2-32-oe-linux/kbd/2.5.1-r0/b=
+uild/tests/helpers\"&nbsp; &nbsp; -O2 -D_FORTIFY_SOURCE=3D2&nbsp; -O2 -pipe=
+ -g -feliminate-unused-debug-types -fmacro-prefix-map=3D/AGL-WORK/Yocto/oe-=
+core/build-genericx86/tmp-glibc/work/core2-32-oe-linux/kbd/2.5.1-r0/kbd-2.5=
+.1=3D/usr/src/debug/kbd/2.5.1-r0&nbsp; -fdebug-prefix-map=3D/AGL-WORK/Yocto=
+/oe-core/build-genericx86/tmp-glibc/work/core2-32-oe-linux/kbd/2.5.1-r0/kbd=
+-2.5.1=3D/usr/src/debug/kbd/2.5.1-r0&nbsp; -fmacro-prefix-map=3D/AGL-WORK/Y=
+octo/oe-core/build-genericx86/tmp-glibc/work/core2-32-oe-linux/kbd/2.5.1-r0=
+/build=3D/usr/src/debug/kbd/2.5.1-r0&nbsp; -fdebug-prefix-map=3D/AGL-WORK/Y=
+octo/oe-core/build-genericx86/tmp-glibc/work/core2-32-oe-linux/kbd/2.5.1-r0=
+/build=3D/usr/src/debug/kbd/2.5.1-r0&nbsp; -fdebug-prefix-map=3D/AGL-WORK/Y=
+octo/oe-core/build-genericx86/tmp-glibc/work/core2-32-oe-linux/kbd/2.5.1-r0=
+/recipe-sysroot=3D&nbsp; -fmacro-prefix-map=3D/AGL-WORK/Yocto/oe-core/build=
+-genericx86/tmp-glibc/work/core2-32-oe-linux/kbd/2.5.1-r0/recipe-sysroot=3D=
+&nbsp; -fdebug-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-gl=
+ibc/work/core2-32-oe-linux/kbd/2.5.1-r0/recipe-sysroot-native=3D&nbsp; -Wag=
+gregate-return -Wall -Wcast-align -Wconversion -Wdisabled-optimization -Wex=
+tra -Wmissing-declarations -Wmissing-format-attribute -Wmissing-noreturn -W=
+missing-prototypes -Wpointer-arith -Wredundant-decls -Wshadow -Wstrict-prot=
+otypes -Wwrite-strings -c -o libkeymap-bkeymap.o ../../../kbd-2.5.1/tests/h=
+elpers/libkeymap-bkeymap.c</div>
+...
+<div>libtool: link:&nbsp; echo "local: *; };" &gt;&gt; .libs/libtswrap.ver<=
+/div>
+<div>libtool: link:&nbsp; i686-oe-linux-gcc&nbsp; -m32 -march=3Dcore2 -mtun=
+e=3Dcore2 -msse3 -mfpmath=3Dsse --sysroot=3D/AGL-WORK/Yocto/oe-core/build-g=
+enericx86/tmp-glibc/work/core2-32-oe-linux/kbd/2.5.1-r0/recipe-sysroot -sha=
+red&nbsp; -fPIC -DPIC&nbsp; .libs/ioctl.o&nbsp; &nbsp;-ldl&nbsp; -m32 -marc=
+h=3Dcore2 -mtune=3Dcore2 -msse3 -mfpmath=3Dsse --sysroot=3D/AGL-WORK/Yocto/=
+oe-core/build-genericx86/tmp-glibc/work/core2-32-oe-linux/kbd/2.5.1-r0/reci=
+pe-sysroot -g -O0 -O2 -O2 -g -fmacro-prefix-map=3D/AGL-WORK/Yocto/oe-core/b=
+uild-genericx86/tmp-glibc/work/core2-32-oe-linux/kbd/2.5.1-r0/kbd-2.5.1=3D/=
+usr/src/debug/kbd/2.5.1-r0 -fdebug-prefix-map=3D/AGL-WORK/Yocto/oe-core/bui=
+ld-genericx86/tmp-glibc/work/core2-32-oe-linux/kbd/2.5.1-r0/kbd-2.5.1=3D/us=
+r/src/debug/kbd/2.5.1-r0 -fmacro-prefix-map=3D/AGL-WORK/Yocto/oe-core/build=
+-genericx86/tmp-glibc/work/core2-32-oe-linux/kbd/2.5.1-r0/build=3D/usr/src/=
+debug/kbd/2.5.1-r0 -fdebug-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-gener=
+icx86/tmp-glibc/work/core2-32-oe-linux/kbd/2.5.1-r0/build=3D/usr/src/debug/=
+kbd/2.5.1-r0 -fdebug-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/=
+tmp-glibc/work/core2-32-oe-linux/kbd/2.5.1-r0/recipe-sysroot=3D -fmacro-pre=
+fix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/work/core2-32-=
+oe-linux/kbd/2.5.1-r0/recipe-sysroot=3D -fdebug-prefix-map=3D/AGL-WORK/Yoct=
+o/oe-core/build-genericx86/tmp-glibc/work/core2-32-oe-linux/kbd/2.5.1-r0/re=
+cipe-sysroot-native=3D -Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed -fmac=
+ro-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/work/cor=
+e2-32-oe-linux/kbd/2.5.1-r0/kbd-2.5.1=3D/usr/src/debug/kbd/2.5.1-r0 -fdebug=
+-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/work/core2=
+-32-oe-linux/kbd/2.5.1-r0/kbd-2.5.1=3D/usr/src/debug/kbd/2.5.1-r0 -fmacro-p=
+refix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/work/core2-3=
+2-oe-linux/kbd/2.5.1-r0/build=3D/usr/src/debug/kbd/2.5.1-r0 -fdebug-prefix-=
+map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/work/core2-32-oe-l=
+inux/kbd/2.5.1-r0/build=3D/usr/src/debug/kbd/2.5.1-r0 -fdebug-prefix-map=3D=
+/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-glibc/work/core2-32-oe-linux/k=
+bd/2.5.1-r0/recipe-sysroot=3D -fmacro-prefix-map=3D/AGL-WORK/Yocto/oe-core/=
+build-genericx86/tmp-glibc/work/core2-32-oe-linux/kbd/2.5.1-r0/recipe-sysro=
+ot=3D -fdebug-prefix-map=3D/AGL-WORK/Yocto/oe-core/build-genericx86/tmp-gli=
+bc/work/core2-32-oe-linux/kbd/2.5.1-r0/recipe-sysroot-native=3D&nbsp; &nbsp=
+;-Wl,-soname -Wl,libtswrap.so.1 -Wl,-version-script -Wl,.libs/libtswrap.ver=
+ -o .libs/libtswrap.so.1.0.0</div>
+<div>libtool: link: (cd ".libs" &amp;&amp; rm -f "libtswrap.so.1" &amp;&amp=
+; ln -s "libtswrap.so.1.0.0" "libtswrap.so.1")</div>
+<div>libtool: link: (cd ".libs" &amp;&amp; rm -f "libtswrap.so" &amp;&amp; =
+ln -s "libtswrap.so.1.0.0" "libtswrap.so")</div>
+<div>libtool: link: i686-oe-linux-gcc-ar cr .libs/libtswrap.a&nbsp; ioctl.o=
+</div>
+<div>libtool: link: i686-oe-linux-gcc-ranlib .libs/libtswrap.a</div>
+<div>libtool: link: ( cd ".libs" &amp;&amp; rm -f "libtswrap.la" &amp;&amp;=
+ ln -s "../libtswrap.la" "libtswrap.la" )</div>
+<div>make[1]: Leaving directory '/AGL-WORK/Yocto/oe-core/build-genericx86/t=
+mp-glibc/work/core2-32-oe-linux/kbd/2.5.1-r0/build/tests/libtswrap'</div>
+</blockquote>
+<div>Maybe the gcc is different.<br />Could you share your build steps?<br =
+/><br /></div>
+
+--J7Jv3ERKhIhaMMU1Vmua--
 
