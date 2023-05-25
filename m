@@ -1,111 +1,138 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A6AFC77B7A
-	for <webhook@archiver.kernel.org>; Thu, 25 May 2023 16:08:00 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web11.15738.1685030872533543427
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73ABBC7EE29
+	for <webhook@archiver.kernel.org>; Thu, 25 May 2023 16:11:30 +0000 (UTC)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web11.15818.1685031081404921455
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 May 2023 09:07:52 -0700
+ Thu, 25 May 2023 09:11:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linaro.org header.s=google header.b=o8Xk1eRW;
- spf=pass (domain: linaro.org, ip: 209.85.167.41, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-4f4d6aee530so951554e87.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 May 2023 09:07:52 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=pYf9IwlL;
+ spf=pass (domain: gmail.com, ip: 209.85.167.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-4f4db9987f8so538933e87.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 May 2023 09:11:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685030870; x=1687622870;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tHBcIPr67+jL6JDL7NGj5YxfdEhTxDg7BN2ZHQ1JjRE=;
-        b=o8Xk1eRWYOhNYSp/3Jbj9skhabhJf4uELfVJ9X6HonrCmeMZsbnBLUyKdRPAmOrRnV
-         xvJQo5B1b3N9/ya+pcBHTqX74jUxs9tFdi3wHGJkBx2xFhpybzgeggiXE4dhvwI2d0Hr
-         mNkUTgQFXNE+UILP9kFypErP+j7YiJPIk7H1F7QEaJAbflBNs/+iTRL3hO1Cw0V5s7bX
-         UZGRQNeaS3GnEENw7KoWcMSST0WV/roB8zwJDxWe77RXWPfEKIqTnxDd1HGhkRQBz1Gb
-         Y2QxFp3Gu+wUPxsXh7WMY1sg6YCqdZeb3P2po+g/rV+FHAYFBf4VG+SuPgi5aDU+PbDK
-         lyhg==
+        d=gmail.com; s=20221208; t=1685031079; x=1687623079;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=nsopF0OQ0yi3whjPDmcYdIAnVPaJbi6LogxVCP1HKjs=;
+        b=pYf9IwlLFReL3Hy2B1p04T2sF+KGqQ07IxDWsVIGwOThE3AINHIE7nFSXpoaEP5Y69
+         2VlPziQcvU1DH8TnCENuTpkDZdH2/6ZbZ2M4kKHW9n/paDsMgNOGBOTvdwK6SYLYk7ev
+         Hcz+A8RrevMalG2XBPoOkMejgsACIquIRmNGTEJWIw1TXZmtsUs0MCWKjlDm/YM3pzQS
+         icA4DhCPEu/jlQ5jfuFKGGnQMVKxDWTct7OCGpt0dwyD/YeIwFFZD2/AkbTYJObh7hZB
+         3galM/Y8mIll0rFqk5euntaeyXkyzM/qXX9mOD3Bbw0kbzwzmOGB/jkyJeMdJrBIcri1
+         OutA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685030870; x=1687622870;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tHBcIPr67+jL6JDL7NGj5YxfdEhTxDg7BN2ZHQ1JjRE=;
-        b=j2eVOVHjr7wVkWzTWf6yudIQqYTMbQtw5hpicaq/xb6zOj5U06EqI4/Ec3laRZpwoZ
-         tAdtsamlMyu0Ld2z10aOMXVS4d9x2QSY2sPyDOZUhiSU3eBKpVpYQ2swb42HLY4mb/VV
-         b8zmkwjOHRpboo6DzMQoVbtyi92xSn3b4Q/u/XKq64UlukSTNNnLnCgnOUqgTVs9A3uX
-         RzCb2cR9HV8/XrY/0LoocklKASNleWLYSNmXmMJW4N32VuOg586ircHbW7g5zpN1C9MD
-         2PvOq7x5wfrtS8TiD+81KrOFmpo4VlYVKhfpa+mYnPzdw/CYAMp7p6xxZQh/cw/BYqK2
-         qSVg==
-X-Gm-Message-State: AC+VfDydYSOcVux0poXL4alw3ZY7TgKYLb5kSiGoxxeeTIIMNbE3nR28
-	K284T0bB4E7YwmkDTJcmq7JRXpplcIqnJFcxKIM=
-X-Google-Smtp-Source: ACHHUZ4WKCgKuF3yN9cJ530SDui9KQMsTm1q3vc4AmQCDi8oA9yHIGuGKQ7q4MO1h7tG+sA8W/sASA==
-X-Received: by 2002:a19:7003:0:b0:4e8:5576:98f4 with SMTP id h3-20020a197003000000b004e8557698f4mr6313464lfc.45.1685030870463;
-        Thu, 25 May 2023 09:07:50 -0700 (PDT)
-Received: from nuoska (dsl-olubng11-54f814-94.dhcp.inet.fi. [84.248.20.94])
-        by smtp.gmail.com with ESMTPSA id t17-20020ac25491000000b004f3b6e71eb1sm253001lfk.291.2023.05.25.09.07.49
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 May 2023 09:07:49 -0700 (PDT)
-Date: Thu, 25 May 2023 19:07:48 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] qemurunner: add boot logs to do_testimage task logs
- in real time
-Message-ID: <ZG+H1K3Pe/oTKFz1@nuoska>
-References: <20230510125935.4120156-1-mikko.rapeli@linaro.org>
- <20230510125935.4120156-3-mikko.rapeli@linaro.org>
+        d=1e100.net; s=20221208; t=1685031079; x=1687623079;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nsopF0OQ0yi3whjPDmcYdIAnVPaJbi6LogxVCP1HKjs=;
+        b=covDqsARZ2jI3gZZvR6fZYv4Bo1FpmiAGLV6j/OogWC/R4Hj0poImuV4+sVfd8n4y0
+         hWNNJsKstoVy7GULOXVcww+ildFc+nfso5wGa55JLqqsJgCxJ79wQzPkJk4NsI+NihZ3
+         H4DVcnrLk76gOve4k4dOnAhRVpsjxagoIHMMehDmACVgXYgJNnUs4/pYCg77OvDk5Lr+
+         hZ5UOJRFaTxDYtYkGJYGg8sbF37m22HEmRnU9zE3afpLBnwogTtuntvXTnaOw5QaPhFt
+         Ce9xBpus3W3XXs6gf8g9QyusikHovF5bbNug6QOEhs3CZiBP1mwAF9UtOLKmk8M8PZ/j
+         CkaA==
+X-Gm-Message-State: AC+VfDxo1GTnYXOXiM16kpq84qTj3jH6nRv2oVg4KJBT95zoo5fuDVDC
+	qDvRmWKZB12h5kdMEXdOegj0U/8lpfTxxHaJXcQ=
+X-Google-Smtp-Source: ACHHUZ4xDxsrVDJWr+kXu21UjBQQryGSN6xfPclpU4511nWIGL7X44gtqAN5wpMpJ3Ufo9iOYRX9go9qQXnO7/RKW0E=
+X-Received: by 2002:ac2:4a8e:0:b0:4eb:e8e:4139 with SMTP id
+ l14-20020ac24a8e000000b004eb0e8e4139mr1108216lfp.2.1685031079279; Thu, 25 May
+ 2023 09:11:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230510125935.4120156-3-mikko.rapeli@linaro.org>
+References: <CANNYZj9qufy5ryo0xT3fV1YKWS+1Ue1+L019kaWHD7t2SB53-g@mail.gmail.com>
+ <2625.1685030135012218547@lists.openembedded.org>
+In-Reply-To: <2625.1685030135012218547@lists.openembedded.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 25 May 2023 18:11:07 +0200
+Message-ID: <CANNYZj_zqGXU_v8SFzNK7uDrUXn-979-GiYcPsS6Sd2EWEWytA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] classes: Add new packagefeed class.
+To: Charlie Johnston <charlie.johnston@ni.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 May 2023 16:08:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181718
+ <openembedded-core@lists.openembedded.org>; Thu, 25 May 2023 16:11:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181719
 
-Hi Richard,
+It would not be the same thing done twice. It is not clear how the
+rpm/dep/opkg-specific tooling would behave if there's two or more
+instances of it indexing the files at the same time, or one starts
+earlier than the other, and the later ones see incomplete index files
+or half-deployed packages etc. It's well possible such situations are
+not handled well, and you still need to somehow ensure the indexing
+indeed runs once, and only after everything else. How would you ensure
+that? I worry this change opens the door to misuse, and cryptic, hard
+to reproduce or diagnose errors.
 
-Could you accept this with some conditional flag in testimage.bbclass maybe?
+The output would also be non-deterministic: it would contain
+everything from the packagegroup and an unknown amount of additional
+packages, depending on what else happened to be in deploy directory at
+the time.
 
-I really feel the need for this when debugging issues with boot sequence.
+Alex
 
-Cheers,
-
--Mikko
-
-On Wed, May 10, 2023 at 03:59:35PM +0300, Mikko Rapeli wrote:
-> Complex boot sequences take a lot of time to reach serial console login.
-> In our case boot involves multiple bootloaders like u-boot and grub,
-> then hypervisors like xen, then initramfs images which do things like
-> validating secure boot and encrypting the main rootfs. All these happen
-> before main rootfs serial console login prompt is reached and thus many
-> things can go wrong, including race conditions, hangs and deadlocks, and
-> thus logging the details is important for development.
-> 
-> This change adds the qemu serial console logs to do_testimage task logs while
-> they are being read out. The logs are not added to bitbake output. This
-> enables debugging and tracing the do_testimage via task log file while the boot
-> and tests are running.
-> 
-> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+On Thu, 25 May 2023 at 17:55, Charlie Johnston <charlie.johnston@ni.com> wrote:
+>
+> Yes, having two recipes that inherit this running at the same time would potentially write the same index files. I'm not sure that's actually a problem other than the same thing being done twice.
+> As long as at least one of the package index steps runs after all packages have been written, the index files will be up-to-date. Since I've made the task recursively depend on the tasks that create packages, I think it's fine.
+>
+> That being said, if there's a way to both add it to recipes and ensure that the task only runs once per bitbake command I would be open to moving towards that. Is there anything like that?
+>
+> Thanks,
+> Charlie
+>
+> On Thu, May 25, 2023 at 03:47 AM, Alexander Kanavin wrote:
+>
+> What happens if several recipes inherit this class, and are processed
+> at the same time? Won't they step on each other, writing the same
+> index files into the deploy directory? I think package-index recipe is
+> deliberately standalone for that reason: you have to build it in a
+> separate step.
+>
+> Alex
+>
+> On Wed, 24 May 2023 at 23:55, Charlie Johnston <charlie.johnston@ni.com> wrote:
+>
+>
+> Added a new packagefeed class that contains both a
+> packagegroup and the package index builds. This allows a
+> one-line bitbake for a packagegroup that defines a feed
+> without explicitly needing to run the package-index recipe.
+>
+> Signed-off-by: Charlie Johnston <charlie.johnston@ni.com>
 > ---
->  meta/lib/oeqa/utils/qemurunner.py | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-> index c06268f5bc..7f520d47c3 100644
-> --- a/meta/lib/oeqa/utils/qemurunner.py
-> +++ b/meta/lib/oeqa/utils/qemurunner.py
-> @@ -480,6 +480,7 @@ class QemuRunner:
->                          self.logger.error('Invalid file type: %s\n%s' % (file))
->                          read = b''
->  
-> +                    self.logger.debug2('Partial boot log:\n%s' % (read.decode('utf-8', errors='ignore')))
->                      data = data + read
->                      if data:
->                          bootlog += data
-> -- 
-> 2.34.1
-> 
+> meta/classes/packagefeed.bbclass | 5 +++++
+> 1 file changed, 5 insertions(+)
+> create mode 100644 meta/classes/packagefeed.bbclass
+>
+> diff --git a/meta/classes/packagefeed.bbclass b/meta/classes/packagefeed.bbclass
+> new file mode 100644
+> index 0000000000..b83ac54f21
+> --- /dev/null
+> +++ b/meta/classes/packagefeed.bbclass
+> @@ -0,0 +1,5 @@
+> +#
+> +# Special case of packagegroup that includes package index builds.
+> +#
+> +
+> +inherit packagegroup package_index
+> --
+> 2.30.2
+>
+>
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#181715): https://lists.openembedded.org/g/openembedded-core/message/181715
+> Mute This Topic: https://lists.openembedded.org/mt/99118888/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
