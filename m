@@ -2,95 +2,161 @@ Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B72FAC7EE2E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99C74C77B73
 	for <webhook@archiver.kernel.org>; Thu, 25 May 2023 01:45:05 +0000 (UTC)
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by mx.groups.io with SMTP id smtpd.web10.2792.1684979099175987005
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by mx.groups.io with SMTP id smtpd.web10.2791.1684979099141665532
  for <openembedded-core@lists.openembedded.org>;
  Wed, 24 May 2023 18:44:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@ti.com header.s=ti-com-17q1 header.b=sSLnHVcK;
- spf=pass (domain: ti.com, ip: 198.47.19.142, mailfrom: rs@ti.com)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 34P1iq9L117641;
+ dkim=pass header.i=@ti.com header.s=ti-com-17q1 header.b=ABoVwR3r;
+ spf=pass (domain: ti.com, ip: 198.47.19.141, mailfrom: rs@ti.com)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 34P1iqS0128629;
 	Wed, 24 May 2023 20:44:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
 	s=ti-com-17Q1; t=1684979092;
-	bh=+ogIzqDelfQxL0QQJv19hMC5pyDKyRTPD6iC9D9yIno=;
+	bh=wddUng7qOPybtrbsq1iIoKLH2oy1f6yAL4Co7RCbvq0=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=sSLnHVcKoet5d+Be0m/YAYW357yYjGhSwbO/V8+FpDiRvR6LOYbq/xDsVVhHMJuLO
-	 tryBqMoxnk71LQGojftMZm1ht6SPj+V/kiZwoGcGfGF3AEvY99GGlRp/5Geq76Q+V0
-	 Mz3Y21TzocBg7aJS7VNvEpBNxyGULYLvKkfsdWqo=
-Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 34P1iqlN121277
+	b=ABoVwR3r4HzE5syDZZVJ+Ysz1YgeQc+yMgOtkIvwgSWe0ey2lZ2IDH+MU00yQZd14
+	 FlevgrX7Tm7+Ff5VFn94+SKxzyMxNO99j8UTkJ+06kOyUJ/c2bBLwIZxNYYwBImU4n
+	 l6cAyAzLmE7zvdUFvMSSpLHH35Pk7v0GVxrstVJg=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 34P1iq8v030605
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
 	Wed, 24 May 2023 20:44:52 -0500
-Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 24
  May 2023 20:44:51 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
  Frontend Transport; Wed, 24 May 2023 20:44:51 -0500
 Received: from rs-desk.dhcp.ti.com (ileaxei01-snat2.itg.ti.com [10.180.69.6])
-	by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 34P1ipg2030323;
+	by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 34P1ipg1030323;
 	Wed, 24 May 2023 20:44:51 -0500
 From: <rs@ti.com>
 To: <steve@sakoman.com>, <reatmon@ti.com>, <denis@denix.org>
 CC: <openembedded-core@lists.openembedded.org>,
-        Zoltan Boszormenyi
-	<zboszor@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [OE-core][kirkstone][PATCH 2/3] piglit: Fix build time dependency
-Date: Wed, 24 May 2023 20:44:47 -0500
-Message-ID: <20230525014448.486619-3-rs@ti.com>
+        Tom Hochstein
+	<tom.hochstein@nxp.com>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Richard
+ Purdie <richard.purdie@linuxfoundation.org>
+Subject: [OE-core][kirkstone][PATCH 1/3] piglit: Add PACKAGECONFIG for glx and opencl
+Date: Wed, 24 May 2023 20:44:46 -0500
+Message-ID: <20230525014448.486619-2-rs@ti.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230525014448.486619-1-rs@ti.com>
 References: <20230525014448.486619-1-rs@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by fllv0016.ext.ti.com id 34P1iq9L117641
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 25 May 2023 01:45:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181700
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181699
 
-From: Zoltan Boszormenyi <zboszor@gmail.com>
+From: Tom Hochstein <tom.hochstein@nxp.com>
 
-Replace explicit opencl-icd-loader with virtual/opencl-icd.
+- Allow GLX tests to be disabled for systems that don't support it.
 
-Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+- Allow OpenCL tests to be enabled.
+
+Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-graphics/piglit/piglit_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...roper-WAYLAND_INCLUDE_DIRS-variable.patch} |  0
+ ...-shader.c-do-not-hardcode-build-pat.patch} |  0
+ ...n-t-enable-GLX-if-tests-are-disabled.patch | 32 +++++++++++++++++++
+ meta/recipes-graphics/piglit/piglit_git.bb    | 11 ++++---
+ 4 files changed, 39 insertions(+), 4 deletions(-)
+ rename meta/recipes-graphics/piglit/piglit/{0001-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch => 0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch} (100%)
+ rename meta/recipes-graphics/piglit/piglit/{0002-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch => 0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch} (100%)
+ create mode 100644 meta/recipes-graphics/piglit/piglit/0005-cmake-Don-t-enable-GLX-if-tests-are-disabled.patch
 
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-gr=
-aphics/piglit/piglit_git.bb
-index 5b7a206247c..a3c9c5e2e09 100644
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch b/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
+similarity index 100%
+rename from meta/recipes-graphics/piglit/piglit/0001-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
+rename to meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
+diff --git a/meta/recipes-graphics/piglit/piglit/0002-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch b/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
+similarity index 100%
+rename from meta/recipes-graphics/piglit/piglit/0002-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
+rename to meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
+diff --git a/meta/recipes-graphics/piglit/piglit/0005-cmake-Don-t-enable-GLX-if-tests-are-disabled.patch b/meta/recipes-graphics/piglit/piglit/0005-cmake-Don-t-enable-GLX-if-tests-are-disabled.patch
+new file mode 100644
+index 00000000000..ef6fda0f4ed
+--- /dev/null
++++ b/meta/recipes-graphics/piglit/piglit/0005-cmake-Don-t-enable-GLX-if-tests-are-disabled.patch
+@@ -0,0 +1,32 @@
++From 13ff43fe760ac343b33d8e8c84b89886aac07116 Mon Sep 17 00:00:00 2001
++From: Tom Hochstein <tom.hochstein@nxp.com>
++Date: Fri, 3 Jun 2022 10:44:29 -0500
++Subject: [PATCH] cmake: Don't enable GLX if tests are disabled
++
++Allow building for systems that don't support GLX.
++
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/piglit/-/merge_requests/720]
++Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
++---
++ CMakeLists.txt | 5 +----
++ 1 file changed, 1 insertion(+), 4 deletions(-)
++
++diff --git a/CMakeLists.txt b/CMakeLists.txt
++index e1aeb5ddf..85e171aba 100644
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -134,10 +134,7 @@ if(PIGLIT_BUILD_CL_TESTS)
++ endif(PIGLIT_BUILD_CL_TESTS)
++ 
++ IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
++-	if(X11_FOUND AND OPENGL_gl_LIBRARY)
++-		# Assume the system has GLX. In the future, systems may exist
++-		# with libGL and libX11 but no GLX, but that world hasn't
++-		# arrived yet.
+++	if(X11_FOUND AND OPENGL_gl_LIBRARY AND PIGLIT_BUILD_GLX_TESTS)
++ 		set(PIGLIT_HAS_GLX True)
++ 		add_definitions(-DPIGLIT_HAS_GLX)
++ 	endif()
++-- 
++2.17.1
++
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index 3ae7a14e465..5b7a206247c 100644
 --- a/meta/recipes-graphics/piglit/piglit_git.bb
 +++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -40,7 +40,7 @@ do_compile[dirs] =3D+ "${B}/temp/"
- PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11=
- glx', '', d)}"
- PACKAGECONFIG[freeglut] =3D "-DPIGLIT_USE_GLUT=3D1,-DPIGLIT_USE_GLUT=3D0=
-,freeglut,"
- PACKAGECONFIG[glx] =3D "-DPIGLIT_BUILD_GLX_TESTS=3DON,-DPIGLIT_BUILD_GLX=
-_TESTS=3DOFF"
--PACKAGECONFIG[opencl] =3D "-DPIGLIT_BUILD_CL_TESTS=3DON,-DPIGLIT_BUILD_C=
-L_TESTS=3DOFF,opencl-icd-loader"
-+PACKAGECONFIG[opencl] =3D "-DPIGLIT_BUILD_CL_TESTS=3DON,-DPIGLIT_BUILD_C=
-L_TESTS=3DOFF,virtual/opencl-icd"
- PACKAGECONFIG[x11] =3D "-DPIGLIT_BUILD_GL_TESTS=3DON,-DPIGLIT_BUILD_GL_T=
-ESTS=3DOFF,${X11_DEPS}, ${X11_RDEPS}"
- PACKAGECONFIG[vulkan] =3D "-DPIGLIT_BUILD_VK_TESTS=3DON,-DPIGLIT_BUILD_V=
-K_TESTS=3DOFF,vulkan-loader"
-=20
---=20
+@@ -8,10 +8,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b2beded7103a3d8a442a2a0391d607b0"
+ 
+ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=main \
+            file://0001-cmake-install-bash-completions-in-the-right-place.patch \
+-           file://0001-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch \
+            file://0001-Add-a-missing-include-for-htobe32-definition.patch \
+-           file://0002-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch \
+-           "
++           file://0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch \
++           file://0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch \
++           file://0005-cmake-Don-t-enable-GLX-if-tests-are-disabled.patch"
++
+ UPSTREAM_CHECK_COMMITS = "1"
+ 
+ SRCREV = "2f80c7cc9c02d37574dc8ba3140b7dd8eb3cbf82"
+@@ -36,8 +37,10 @@ REQUIRED_DISTRO_FEATURES += "opengl"
+ export TEMP = "${B}/temp/"
+ do_compile[dirs] =+ "${B}/temp/"
+ 
+-PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}"
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 glx', '', d)}"
+ PACKAGECONFIG[freeglut] = "-DPIGLIT_USE_GLUT=1,-DPIGLIT_USE_GLUT=0,freeglut,"
++PACKAGECONFIG[glx] = "-DPIGLIT_BUILD_GLX_TESTS=ON,-DPIGLIT_BUILD_GLX_TESTS=OFF"
++PACKAGECONFIG[opencl] = "-DPIGLIT_BUILD_CL_TESTS=ON,-DPIGLIT_BUILD_CL_TESTS=OFF,opencl-icd-loader"
+ PACKAGECONFIG[x11] = "-DPIGLIT_BUILD_GL_TESTS=ON,-DPIGLIT_BUILD_GL_TESTS=OFF,${X11_DEPS}, ${X11_RDEPS}"
+ PACKAGECONFIG[vulkan] = "-DPIGLIT_BUILD_VK_TESTS=ON,-DPIGLIT_BUILD_VK_TESTS=OFF,vulkan-loader"
+ 
+-- 
 2.40.1
 
 
