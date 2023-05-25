@@ -1,376 +1,150 @@
-Return-Path: <max.oss.09@gmail.com>
+Return-Path: <andrej.valek@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AACDFC77B7A
-	for <webhook@archiver.kernel.org>; Thu, 25 May 2023 07:14:47 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web10.6437.1684998885367501783
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 223D8C77B7E
+	for <webhook@archiver.kernel.org>; Thu, 25 May 2023 08:44:08 +0000 (UTC)
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.77])
+ by mx.groups.io with SMTP id smtpd.web11.7333.1685004241132298759
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 May 2023 00:14:45 -0700
+ Thu, 25 May 2023 01:44:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=qdTT7nrF;
- spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: max.oss.09@gmail.com)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-3f6dbe3c230so734615e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 May 2023 00:14:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684998884; x=1687590884;
-        h=cc:to:subject:message-id:date:from:references:in-reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gMrkyud2B+LyEBvZ3fX7EBTFr5OqDBeNkdYUF/cf4Ww=;
-        b=qdTT7nrFrHvUjWuj192QeCl86gq55nPqPLqJ/odCVz96XGwYpNaNfRJIoYVyeA39YH
-         UhA4l3KSVlEvOPdVoQInbFrhRi0fSMJao856JhCozaZh9037uREPVBrcxE1RcjjDvxKL
-         urDVOeCSih9xApejVRYE49f0ouPcuqfJilpIwdJENZvCCsyvhROLCXYH3l+TJ7ZWUZjb
-         wcqMXfV+7czK2S8g60CICiFEcjJimOqZrZMZHBR9aqWsMiko4fpOLoG+y1A2a0NRRslv
-         NTXfY7lzPu2xYDmigYbB7cCY0w559X2dtZAG4SJBATAkG/LFSS20wBIyupIF2nwHIcct
-         I/7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684998884; x=1687590884;
-        h=cc:to:subject:message-id:date:from:references:in-reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gMrkyud2B+LyEBvZ3fX7EBTFr5OqDBeNkdYUF/cf4Ww=;
-        b=YfNhZD1uA4oJ9z9qebXSeC0YaeiuvgHqd41ToJBxHPoRLO8KN98Ouww/4a0hcsGSVd
-         5xYWYDEospR6Mu84RZPpUCLhkt4IJdMv2yh6TlgD83gmmi2nNL8ULxJ/PekzC48ZeiC8
-         z+zERTZKL2BjfvqG8U1J7SZyNtt3cfwtag0xLq8PmvLLX8X8LnVwVWMNK3H/jAFd/fzN
-         IDYwDzqK8eiUvUUWsmUkEwbDAgC1fWrw68T5JdUrq0Jny4idPYhh8TpHrkhclS8Ba3Im
-         f4yNzTu+B3IosFx3MBKa0JXQl5gLyQIBJfyxKn0qC8f7/EZ/Io1m+OzyFqf3B0tC583t
-         n1aA==
-X-Gm-Message-State: AC+VfDwpPoJzypoMCNd9EJy0tbx5hNnN3xo+O/OT4vOhSvmm9JlpTt7n
-	8rqyGBS8Yh3JOZndhfiw7/c52mxtPqkGrVuqzwY=
-X-Google-Smtp-Source: ACHHUZ6SxsrsXcOf1jB72DWOtmYKTq8+g82OEuKUE6qXmIJ1WtDIWID44QPEKS4ehg1Rlymq0KgB/wsgShdrXr1grSI=
-X-Received: by 2002:a7b:c7ce:0:b0:3f4:27db:d with SMTP id z14-20020a7bc7ce000000b003f427db000dmr1549999wmk.17.1684998883605;
- Thu, 25 May 2023 00:14:43 -0700 (PDT)
+ dkim=fail reason="body hash did not verify" header.i=@siemens.com header.s=selector2 header.b=R8EZqt5J;
+ spf=pass (domain: siemens.com, ip: 40.107.8.77, mailfrom: andrej.valek@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TMIoUBuodwIQTJG0+Ckjdpvz5N5Nps2EuzzNay1DhCKVT0wDMvUNmHEhLjEPP87mzdbIQ97vBRwRL5YCfdk1yYjWoYkiLAABc/eEq1HKc7AQMjab1FVH8SL+u+lIgSSLTOIw05vGgs3hT2UX5iFpPbd/gYWZk+pTpTevo6RA3+amKVOL9fn24mWFXDB1pVwYi7oEAkTszqYIIYWyIqZLPZduy94dlMcxHp7Uw7RQWt5Z3zfpHKIjjWtg+gS6Eg+1p2jyed/iea93a7YRVnRp3dyWSHGIPd/Pbuti3qMmEdGNGZ1+PD0YXEM8n+9qidSOXLdXEAE4B3opn+p+Ij4p9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=02ERdncNGBwKypylQRirKLFJX1HoqpsVPoUFYduUPGY=;
+ b=gOGszVs43YONlJFoqBzGxhTAe2XQpP0mEygCT36OCBZLsK1mtX+c9t3Kh6atHsCRDcVnlK745ixlyFsYWUb6+2k+m/SB16L5BebHWi1GVYDB8AC11Klj/+pjjajsviTCJ/RBd1V/4PWa6P4eL02CsuJhn0MSKFkMEwY1Y9e98PR7IFqHlOzqt9+oqPPwhyZyyui+uMG7W4aNctrzL3ObM9q9dRA91zcoEJ8ECJAjX7Av7ea8ne679KmemWmPT8cncfP7bqN8hUUIqF2xzicDFmWWsEz7kapdRAQsVJS6FlA4Yy1/Ql7UYEKOJnn46Mv8L5iKF9nrQNWKa/cnWDnQPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 194.138.21.76) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=siemens.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=siemens.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=02ERdncNGBwKypylQRirKLFJX1HoqpsVPoUFYduUPGY=;
+ b=R8EZqt5JqqNNls28ltWhgkoUEIVS3E9QTRAcKUfR7IFCmP3fLT88ARX0TdifubWrk5UqXwHMv0sSaf9fs8OqWRjTQB7dv2XN5ReJrskaYjWX3rBtrCAqAKcSiGLL5NEDnQkHZVv+QTZUb2zqV260mUsnVMnxjdiol0zZHHXRqoxTDkboATx1mUR5eHze5zkt1hVhoBKongYTA5fS8n0pVrx+VsDdt3YvaKMxFUZ/bYhfJD12MDWAe2UBMfdpMOyS1arqPzY8sm8+IeQewDbXjwa36qKcG7Nav0f/vWdonXU2SZ67uMZK44wQxSs7p3QgwSI/7JSvuNl8rkuzdHWCHw==
+Received: from DB3PR06CA0001.eurprd06.prod.outlook.com (2603:10a6:8:1::14) by
+ DU0PR10MB5220.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:348::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6433.16; Thu, 25 May 2023 08:43:57 +0000
+Received: from DB5EUR01FT043.eop-EUR01.prod.protection.outlook.com
+ (2603:10a6:8:1:cafe::26) by DB3PR06CA0001.outlook.office365.com
+ (2603:10a6:8:1::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.15 via Frontend
+ Transport; Thu, 25 May 2023 08:43:57 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 194.138.21.76)
+ smtp.mailfrom=siemens.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=siemens.com;
+Received-SPF: Pass (protection.outlook.com: domain of siemens.com designates
+ 194.138.21.76 as permitted sender) receiver=protection.outlook.com;
+ client-ip=194.138.21.76; helo=hybrid.siemens.com; pr=C
+Received: from hybrid.siemens.com (194.138.21.76) by
+ DB5EUR01FT043.mail.protection.outlook.com (10.152.5.103) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6433.15 via Frontend Transport; Thu, 25 May 2023 08:43:57 +0000
+Received: from DEMCHDC8WAA.ad011.siemens.net (139.25.226.104) by
+ DEMCHDC8VSA.ad011.siemens.net (194.138.21.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.25; Thu, 25 May 2023 10:43:56 +0200
+Received: from md3hr6tc.ad001.siemens.net (139.22.37.138) by
+ DEMCHDC8WAA.ad011.siemens.net (139.25.226.104) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.25; Thu, 25 May 2023 10:43:56 +0200
+From: Andrej Valek <andrej.valek@siemens.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Andrej Valek <andrej.valek@siemens.com>
+Subject: [OE-core][PATCH] busybox: 1.36.0 -> 1.36.1
+Date: Thu, 25 May 2023 10:43:28 +0200
+Message-ID: <20230525084328.77920-1-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Received: by 2002:adf:ec4e:0:b0:309:59d8:d065 with HTTP; Thu, 25 May 2023
- 00:14:43 -0700 (PDT)
-In-Reply-To: <CAMKF1sro1exZADTnwjuTPXsU8otXuk86ZThF4uU6DePFQ0AP6w@mail.gmail.com>
-References: <20230511232214.993328-1-max.oss.09@gmail.com> <20230511232214.993328-2-max.oss.09@gmail.com>
- <CAMKF1sro1exZADTnwjuTPXsU8otXuk86ZThF4uU6DePFQ0AP6w@mail.gmail.com>
-From: Max Krummenacher <max.oss.09@gmail.com>
-Date: Thu, 25 May 2023 09:14:43 +0200
-Message-ID: <CAEHkU3X+sXAa-dgvDfgbS0ChSiQ74V8JG80ucX+xX-ft3hJKYw@mail.gmail.com>
-Subject: Re: [OE-core][Patch v4 1/4] libtraceevent: import from meta-openembedded
-To: Khem Raj <raj.khem@gmail.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"bruce.ashfield@gmail.com" <bruce.ashfield@gmail.com>, 
-	"alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>, 
-	"quaresma.jose@gmail.com" <quaresma.jose@gmail.com>, Max Krummenacher <max.krummenacher@toradex.com>
-Content-Type: multipart/alternative; boundary="000000000000e7813405fc7f5fa3"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [139.22.37.138]
+X-ClientProxiedBy: DEMCHDC8WBA.ad011.siemens.net (139.25.226.105) To
+ DEMCHDC8WAA.ad011.siemens.net (139.25.226.104)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB5EUR01FT043:EE_|DU0PR10MB5220:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0e6fe6ac-b1e9-4ad4-350e-08db5cfc2dd3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	9eWgP+GIby2IOXj1GHC6lOh4UZ+Wa3hYSVBVPANA+RUm9J+M4+Tu4Zis/aqXJY926+sy0oyJbyHONhrMgNQzTYcSzhnmtp3GuLIu1gAoXf6hiLynF//hPLh5SmDbTIjFJzhZVbM5RuiSnbvzTjfp/IUS6AJ7qUO3JhxyNjFjKQvSswOSOEyVQUpFyvXtthzitZMn52aHQ0TAYmZsEG3Ez6w15VcMz6QCYjyCxoubHrqOC4Q7nIcsS81UX4H9/jAYUA9mf332Xy0QoFnz4cE87dZvBKYYIqbM2JwWlBfK2BtcrDemJHQTB28Qe4sjmzcDlO52XleHhcgxttv8lAL8s/VcTdVBIO2orCtFl2TPJa/LDMLBNhGlBPoI7enD1y7rPvESwilJOu8YQ+YuoaiX9UDBQPz0LXh7u7b2SSunQMOSbnIG6LFVE9bWKIk40NWykSFYeo5BCe6ebQL3HIg5qKwxPshP5A/VovGwH3EuRJLzMGi3ebzdzFgUv1R4++7ZAb2juQFr6heqr+yhtcw4KX/ns/YgunuEW0+zfo5NklA5w8f28+qOHjpnqlDSEF752GhejlOvj3fOoIczzVHSOBoiLi/n7liNthgtbAsdseqL4EhGPGMwCDlPTeK5t553oELaLMBcN+pzuQH8FHoG9mvAwRg9BS4Yo7uluGli2eJBuekA3fF0L7WGHjyeloB7Pd88APH0c/rC2StzJ7TS0FSaF44EkPbvACEIyoG4j3q0gpd1iCN+HQzNdgbpGTbr
+X-Forefront-Antispam-Report: 
+	CIP:194.138.21.76;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hybrid.siemens.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(396003)(136003)(376002)(346002)(451199021)(40470700004)(46966006)(36840700001)(70206006)(70586007)(5660300002)(4326008)(6916009)(8676002)(8936002)(966005)(26005)(1076003)(44832011)(107886003)(316002)(6666004)(41300700001)(478600001)(16526019)(186003)(47076005)(83380400001)(40460700003)(956004)(2616005)(2906002)(336012)(40480700001)(36860700001)(81166007)(82740400003)(356005)(82960400001)(86362001)(82310400005)(36756003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2023 08:43:57.2606
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0e6fe6ac-b1e9-4ad4-350e-08db5cfc2dd3
+X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;Ip=[194.138.21.76];Helo=[hybrid.siemens.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5EUR01FT043.eop-EUR01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB5220
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 May 2023 07:14:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181703
+ <openembedded-core@lists.openembedded.org>; Thu, 25 May 2023 08:44:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181704
 
---000000000000e7813405fc7f5fa3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+- regresion has been fixed, re-enable SHA*HWACCEL on x86
+  - 8d198665a0d09c3f22f3a12234809f46b1c2b04a
 
-Hi Khem
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+---
+ .../{busybox-inittab_1.36.0.bb =3D> busybox-inittab_1.36.1.bb}  | 0
+ meta/recipes-core/busybox/busybox/sha_accel.cfg               | 2 --
+ .../busybox/{busybox_1.36.0.bb =3D> busybox_1.36.1.bb}          | 4 +---
+ 3 files changed, 1 insertion(+), 5 deletions(-)
+ rename meta/recipes-core/busybox/{busybox-inittab_1.36.0.bb =3D> busybox-i=
+nittab_1.36.1.bb} (100%)
+ delete mode 100644 meta/recipes-core/busybox/busybox/sha_accel.cfg
+ rename meta/recipes-core/busybox/{busybox_1.36.0.bb =3D> busybox_1.36.1.bb=
+} (91%)
 
-On Thursday, May 25, 2023, Khem Raj <raj.khem@gmail.com> wrote:
-> Hi Max
->
-> I am seeing
->
-> The file /usr/lib/traceevent/plugins/plugin_cfg80211.so is installed
-> by both perf and libtraceevent, aborting
->
-> When building sdk with both libtraceevent and perf added to image.
+diff --git a/meta/recipes-core/busybox/busybox-inittab_1.36.0.bb b/meta/rec=
+ipes-core/busybox/busybox-inittab_1.36.1.bb
+similarity index 100%
+rename from meta/recipes-core/busybox/busybox-inittab_1.36.0.bb
+rename to meta/recipes-core/busybox/busybox-inittab_1.36.1.bb
+diff --git a/meta/recipes-core/busybox/busybox/sha_accel.cfg b/meta/recipes=
+-core/busybox/busybox/sha_accel.cfg
+deleted file mode 100644
+index 8900305a11..0000000000
+--- a/meta/recipes-core/busybox/busybox/sha_accel.cfg
++++ /dev/null
+@@ -1,2 +0,0 @@
+-# CONFIG_SHA256_HWACCEL is not set
+-# CONFIG_SHA1_HWACCEL is not set
+diff --git a/meta/recipes-core/busybox/busybox_1.36.0.bb b/meta/recipes-cor=
+e/busybox/busybox_1.36.1.bb
+similarity index 91%
+rename from meta/recipes-core/busybox/busybox_1.36.0.bb
+rename to meta/recipes-core/busybox/busybox_1.36.1.bb
+index 8014a5c7bf..b34d60cded 100644
+--- a/meta/recipes-core/busybox/busybox_1.36.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.36.1.bb
+@@ -51,6 +51,4 @@ SRC_URI =3D "https://busybox.net/downloads/busybox-${PV}.=
+tar.bz2;name=3Dtarball \
+            file://0002-nslookup-sanitize-all-printed-strings-with-printabl=
+e.patch \
+            "
+ SRC_URI:append:libc-musl =3D " file://musl.cfg "
+-# TODO http://lists.busybox.net/pipermail/busybox/2023-January/090078.html
+-SRC_URI:append:x86 =3D " file://sha_accel.cfg"
+-SRC_URI[tarball.sha256sum] =3D "542750c8af7cb2630e201780b4f99f3dcceeb06f50=
+5b479ec68241c1e6af61a5"
++SRC_URI[tarball.sha256sum] =3D "b8cc24c9574d809e7279c3be349795c5d5ceb6fdf1=
+9ca709f80cde50e47de314"
+--=20
+2.40.1
 
-
-I didn't test anything SDK with this patchset. Sorry.
-
-I'm currently on vacation and not able to do real OE work.
-
-I guess the quickest way out would be to remove in perf.bb libtraceevent
-from the enabled packageconfigs.
-
-I expect perf from kernels before 6.4 to work as before the patchset and
-perf at 6.4 to not fail to build, albeit without traceevent support.
-
-Does this sound like a plan?
-Max
->
-> On Thu, May 11, 2023 at 4:22=E2=80=AFPM Max Krummenacher <max.oss.09@gmai=
-l.com>
-wrote:
->>
->> From: Max Krummenacher <max.krummenacher@toradex.com>
->>
->> Import from meta-openembedded at commit d250a0dc0 ("libtraceevent:
->> upgrade 1.7.1 -> 1.7.2").
->> Starting with kernel 6.4 libtraceevent is a dependency of perf. While
->> one can still build perf without it by opting out one would loose its
->> functionality compared with building perf from kernels before 6.4
->>
->> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
->> ---
->>  meta/conf/distro/include/maintainers.inc      |  1 +
->>  ...not-preserve-ownership-in-cp-command.patch | 40 +++++++++++++++++++
->>  .../libtraceevent/libtraceevent_1.7.2.bb      | 25 ++++++++++++
->>  3 files changed, 66 insertions(+)
->>  create mode 100644
-meta/recipes-kernel/libtraceevent/libtraceevent/0001-makefile-Do-not-preser=
-ve-ownership-in-cp-command.patch
->>  create mode 100644 meta/recipes-kernel/libtraceevent/
-libtraceevent_1.7.2.bb
->>
->> diff --git a/meta/conf/distro/include/maintainers.inc
-b/meta/conf/distro/include/maintainers.inc
->> index ec7ea90d16..3071671850 100644
->> --- a/meta/conf/distro/include/maintainers.inc
->> +++ b/meta/conf/distro/include/maintainers.inc
->> @@ -402,6 +402,7 @@ RECIPE_MAINTAINER:pn-libtirpc =3D "Anuj Mittal <
-anuj.mittal@intel.com>"
->>  RECIPE_MAINTAINER:pn-libtool =3D "Robert Yang <liezhi.yang@windriver.co=
-m>"
->>  RECIPE_MAINTAINER:pn-libtool-cross =3D "Robert Yang <
-liezhi.yang@windriver.com>"
->>  RECIPE_MAINTAINER:pn-libtool-native =3D "Robert Yang <
-liezhi.yang@windriver.com>"
->> +RECIPE_MAINTAINER:pn-libtraceevent =3D "Bruce Ashfield <
-bruce.ashfield@gmail.com>"
->>  RECIPE_MAINTAINER:pn-libtry-tiny-perl =3D "Tim Orling <
-tim.orling@konsulko.com>"
->>  RECIPE_MAINTAINER:pn-libucontext =3D "Khem Raj <raj.khem@gmail.com>"
->>  RECIPE_MAINTAINER:pn-libunistring =3D "Anuj Mittal <anuj.mittal@intel.c=
-om
->"
->> diff --git
-a/meta/recipes-kernel/libtraceevent/libtraceevent/0001-makefile-Do-not-pres=
-erve-ownership-in-cp-command.patch
-b/meta/recipes-kernel/libtraceevent/libtraceevent/0001-makefile-Do-not-pres=
-erve-ownership-in-cp-command.patch
->> new file mode 100644
->> index 0000000000..5e88048817
->> --- /dev/null
->> +++
-b/meta/recipes-kernel/libtraceevent/libtraceevent/0001-makefile-Do-not-pres=
-erve-ownership-in-cp-command.patch
->> @@ -0,0 +1,40 @@
->> +From ed0a31000305d937abe47c44d705b5b52bb36f79 Mon Sep 17 00:00:00 2001
->> +From: Khem Raj <raj.khem@gmail.com>
->> +Date: Thu, 22 Dec 2022 18:32:17 -0800
->> +Subject: [PATCH] makefile: Do not preserve ownership in cp command
->> +
->> +Fixes
->> +
->> +ERROR: libtraceevent-1.7.0-r0 do_package_qa: QA Issue: libtraceevent:
-/usr/lib/libtraceevent.a is owned by uid 1000, which is the same as the
-user running bitbake. This may be due to host contamination
-[host-user-contaminated]
->> +
->> +Upstream-Status: Pending
->> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> +---
->> + Makefile | 4 ++--
->> + 1 file changed, 2 insertions(+), 2 deletions(-)
->> +
->> +diff --git a/Makefile b/Makefile
->> +index 965ff47..0e782cb 100644
->> +--- a/Makefile
->> ++++ b/Makefile
->> +@@ -287,7 +287,7 @@ $(BUILD_PREFIX): force
->> +       $(Q)$(call build_prefix,$(prefix))
->> +
->> + define do_make_pkgconfig_file
->> +-      cp -f ${PKG_CONFIG_SOURCE_FILE}.template ${PKG_CONFIG_FILE};    =
-\
->> ++      install -m 0644 ${PKG_CONFIG_SOURCE_FILE}.template
-${PKG_CONFIG_FILE};  \
->> +       sed -i "s|INSTALL_PREFIX|${1}|g" ${PKG_CONFIG_FILE};            =
-\
->> +       sed -i "s|LIB_VERSION|${EVENT_PARSE_VERSION}|g"
-${PKG_CONFIG_FILE}; \
->> +       sed -i "s|LIB_DIR|${libdir_relative}|g" ${PKG_CONFIG_FILE}; \
->> +@@ -335,7 +335,7 @@ install: install_libs install_plugins
->> +
->> + install_libs: libs install_headers install_pkgconfig
->> +       $(Q)$(call do_install,$(LIBTRACEEVENT_SHARED),$(libdir_SQ)); \
->> +-              cp -fpR $(LIB_INSTALL) $(DESTDIR)$(libdir_SQ)
->> ++              cp --no-preserve=3Downership --recursive $(LIB_INSTALL)
-$(DESTDIR)$(libdir_SQ)
->> +       $(Q)$(call install_ld_config)
->> +
->> + install_pkgconfig: $(PKG_CONFIG_FILE)
->> +--
->> +2.39.0
->> +
->> diff --git a/meta/recipes-kernel/libtraceevent/libtraceevent_1.7.2.bb
-b/meta/recipes-kernel/libtraceevent/libtraceevent_1.7.2.bb
->> new file mode 100644
->> index 0000000000..089b6814c7
->> --- /dev/null
->> +++ b/meta/recipes-kernel/libtraceevent/libtraceevent_1.7.2.bb
->> @@ -0,0 +1,25 @@
->> +# Copyright (C) 2022 Khem Raj <raj.khem@gmail.com>
->> +# Released under the MIT license (see COPYING.MIT for the terms)
->> +
->> +SUMMARY =3D "API to access the kernel tracefs directory"
->> +HOMEPAGE =3D "https://git.kernel.org/pub/scm/libs/libtrace/libtracefs.g=
-it/
-"
->> +LICENSE =3D "GPL-2.0-or-later & LGPL-2.1-or-later"
->> +LIC_FILES_CHKSUM =3D
-"file://LICENSES/GPL-2.0;md5=3De6a75371ba4d16749254a51215d13f97 \
->> +
-file://LICENSES/LGPL-2.1;md5=3Db370887980db5dd40659b50909238dbd"
->> +SECTION =3D "libs"
->> +
->> +SRCREV =3D "1c6f0f3b2bb47571fc455dc565dc343152517d98"
->> +SRC_URI =3D "git://
-git.kernel.org/pub/scm/libs/libtrace/libtraceevent.git;branch=3D${BPN};prot=
-ocol=3Dhttps
-\
->> +
- file://0001-makefile-Do-not-preserve-ownership-in-cp-command.patch"
->> +
->> +S =3D "${WORKDIR}/git"
->> +
->> +inherit pkgconfig
->> +
->> +do_install() {
->> +    oe_runmake install DESTDIR=3D${D} pkgconfig_dir=3D${libdir}/pkgconf=
-ig
->> +}
->> +
->> +PACKAGES +=3D "${PN}-plugins"
->> +
->> +FILES:${PN}-plugins +=3D "${libdir}/traceevent/plugins"
->> --
->> 2.35.3
->>
->
-
---000000000000e7813405fc7f5fa3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Khem<br><br>On Thursday, May 25, 2023, Khem Raj &lt;<a href=3D"mailto:ra=
-j.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br>&gt; Hi Max<br>&gt;<=
-br>&gt; I am seeing<br>&gt;<br>&gt; The file /usr/lib/traceevent/plugins/pl=
-ugin_cfg80211.so is installed<br>&gt; by both perf and libtraceevent, abort=
-ing<br>&gt;<br>&gt; When building sdk with both libtraceevent and perf adde=
-d to image.<br><br><br>I didn&#39;t test anything SDK with this patchset. S=
-orry.<br><br>I&#39;m currently on vacation and not able to do real OE work.=
- <br><br>I guess the quickest way out would be to remove in <a href=3D"http=
-://perf.bb">perf.bb</a> libtraceevent from the enabled packageconfigs.<br><=
-br>I expect perf from kernels before 6.4 to work as before the patchset and=
- perf at 6.4 to not fail to build, albeit without traceevent support.<br><b=
-r>Does this sound like a plan? <br>Max<br>&gt;<br>&gt; On Thu, May 11, 2023=
- at 4:22=E2=80=AFPM Max Krummenacher &lt;<a href=3D"mailto:max.oss.09@gmail=
-.com">max.oss.09@gmail.com</a>&gt; wrote:<br>&gt;&gt;<br>&gt;&gt; From: Max=
- Krummenacher &lt;<a href=3D"mailto:max.krummenacher@toradex.com">max.krumm=
-enacher@toradex.com</a>&gt;<br>&gt;&gt;<br>&gt;&gt; Import from meta-openem=
-bedded at commit d250a0dc0 (&quot;libtraceevent:<br>&gt;&gt; upgrade 1.7.1 =
--&gt; 1.7.2&quot;).<br>&gt;&gt; Starting with kernel 6.4 libtraceevent is a=
- dependency of perf. While<br>&gt;&gt; one can still build perf without it =
-by opting out one would loose its<br>&gt;&gt; functionality compared with b=
-uilding perf from kernels before 6.4<br>&gt;&gt;<br>&gt;&gt; Signed-off-by:=
- Max Krummenacher &lt;<a href=3D"mailto:max.krummenacher@toradex.com">max.k=
-rummenacher@toradex.com</a>&gt;<br>&gt;&gt; ---<br>&gt;&gt;=C2=A0 meta/conf=
-/distro/include/maintainers.inc=C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>&gt;&gt;=
-=C2=A0 ...not-preserve-ownership-in-cp-command.patch | 40 +++++++++++++++++=
-++<br>&gt;&gt;=C2=A0 .../libtraceevent/<a href=3D"http://libtraceevent_1.7.=
-2.bb">libtraceevent_1.7.2.bb</a>=C2=A0 =C2=A0 =C2=A0 | 25 ++++++++++++<br>&=
-gt;&gt;=C2=A0 3 files changed, 66 insertions(+)<br>&gt;&gt;=C2=A0 create mo=
-de 100644 meta/recipes-kernel/libtraceevent/libtraceevent/0001-makefile-Do-=
-not-preserve-ownership-in-cp-command.patch<br>&gt;&gt;=C2=A0 create mode 10=
-0644 meta/recipes-kernel/libtraceevent/<a href=3D"http://libtraceevent_1.7.=
-2.bb">libtraceevent_1.7.2.bb</a><br>&gt;&gt;<br>&gt;&gt; diff --git a/meta/=
-conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.=
-inc<br>&gt;&gt; index ec7ea90d16..3071671850 100644<br>&gt;&gt; --- a/meta/=
-conf/distro/include/maintainers.inc<br>&gt;&gt; +++ b/meta/conf/distro/incl=
-ude/maintainers.inc<br>&gt;&gt; @@ -402,6 +402,7 @@ RECIPE_MAINTAINER:pn-li=
-btirpc =3D &quot;Anuj Mittal &lt;<a href=3D"mailto:anuj.mittal@intel.com">a=
-nuj.mittal@intel.com</a>&gt;&quot;<br>&gt;&gt;=C2=A0 RECIPE_MAINTAINER:pn-l=
-ibtool =3D &quot;Robert Yang &lt;<a href=3D"mailto:liezhi.yang@windriver.co=
-m">liezhi.yang@windriver.com</a>&gt;&quot;<br>&gt;&gt;=C2=A0 RECIPE_MAINTAI=
-NER:pn-libtool-cross =3D &quot;Robert Yang &lt;<a href=3D"mailto:liezhi.yan=
-g@windriver.com">liezhi.yang@windriver.com</a>&gt;&quot;<br>&gt;&gt;=C2=A0 =
-RECIPE_MAINTAINER:pn-libtool-native =3D &quot;Robert Yang &lt;<a href=3D"ma=
-ilto:liezhi.yang@windriver.com">liezhi.yang@windriver.com</a>&gt;&quot;<br>=
-&gt;&gt; +RECIPE_MAINTAINER:pn-libtraceevent =3D &quot;Bruce Ashfield &lt;<=
-a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail.com</a>&gt;=
-&quot;<br>&gt;&gt;=C2=A0 RECIPE_MAINTAINER:pn-libtry-tiny-perl =3D &quot;Ti=
-m Orling &lt;<a href=3D"mailto:tim.orling@konsulko.com">tim.orling@konsulko=
-.com</a>&gt;&quot;<br>&gt;&gt;=C2=A0 RECIPE_MAINTAINER:pn-libucontext =3D &=
-quot;Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com<=
-/a>&gt;&quot;<br>&gt;&gt;=C2=A0 RECIPE_MAINTAINER:pn-libunistring =3D &quot=
-;Anuj Mittal &lt;<a href=3D"mailto:anuj.mittal@intel.com">anuj.mittal@intel=
-.com</a>&gt;&quot;<br>&gt;&gt; diff --git a/meta/recipes-kernel/libtraceeve=
-nt/libtraceevent/0001-makefile-Do-not-preserve-ownership-in-cp-command.patc=
-h b/meta/recipes-kernel/libtraceevent/libtraceevent/0001-makefile-Do-not-pr=
-eserve-ownership-in-cp-command.patch<br>&gt;&gt; new file mode 100644<br>&g=
-t;&gt; index 0000000000..5e88048817<br>&gt;&gt; --- /dev/null<br>&gt;&gt; +=
-++ b/meta/recipes-kernel/libtraceevent/libtraceevent/0001-makefile-Do-not-p=
-reserve-ownership-in-cp-command.patch<br>&gt;&gt; @@ -0,0 +1,40 @@<br>&gt;&=
-gt; +From ed0a31000305d937abe47c44d705b5b52bb36f79 Mon Sep 17 00:00:00 2001=
-<br>&gt;&gt; +From: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.=
-khem@gmail.com</a>&gt;<br>&gt;&gt; +Date: Thu, 22 Dec 2022 18:32:17 -0800<b=
-r>&gt;&gt; +Subject: [PATCH] makefile: Do not preserve ownership in cp comm=
-and<br>&gt;&gt; +<br>&gt;&gt; +Fixes<br>&gt;&gt; +<br>&gt;&gt; +ERROR: libt=
-raceevent-1.7.0-r0 do_package_qa: QA Issue: libtraceevent: /usr/lib/libtrac=
-eevent.a is owned by uid 1000, which is the same as the user running bitbak=
-e. This may be due to host contamination [host-user-contaminated]<br>&gt;&g=
-t; +<br>&gt;&gt; +Upstream-Status: Pending<br>&gt;&gt; +Signed-off-by: Khem=
- Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt;<b=
-r>&gt;&gt; +---<br>&gt;&gt; + Makefile | 4 ++--<br>&gt;&gt; + 1 file change=
-d, 2 insertions(+), 2 deletions(-)<br>&gt;&gt; +<br>&gt;&gt; +diff --git a/=
-Makefile b/Makefile<br>&gt;&gt; +index 965ff47..0e782cb 100644<br>&gt;&gt; =
-+--- a/Makefile<br>&gt;&gt; ++++ b/Makefile<br>&gt;&gt; +@@ -287,7 +287,7 @=
-@ $(BUILD_PREFIX): force<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0$(Q)$(call=
- build_prefix,$(prefix))<br>&gt;&gt; +<br>&gt;&gt; + define do_make_pkgconf=
-ig_file<br>&gt;&gt; +-=C2=A0 =C2=A0 =C2=A0 cp -f ${PKG_CONFIG_SOURCE_FILE}.=
-template ${PKG_CONFIG_FILE};=C2=A0 =C2=A0 \<br>&gt;&gt; ++=C2=A0 =C2=A0 =C2=
-=A0 install -m 0644 ${PKG_CONFIG_SOURCE_FILE}.template ${PKG_CONFIG_FILE};=
-=C2=A0 \<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i &quot;s|INSTALL_PRE=
-FIX|${1}|g&quot; ${PKG_CONFIG_FILE};=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 \<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i &quot;s|LIB_VERSION|${=
-EVENT_PARSE_VERSION}|g&quot; ${PKG_CONFIG_FILE}; \<br>&gt;&gt; +=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0sed -i &quot;s|LIB_DIR|${libdir_relative}|g&quot; ${PKG_CO=
-NFIG_FILE}; \<br>&gt;&gt; +@@ -335,7 +335,7 @@ install: install_libs instal=
-l_plugins<br>&gt;&gt; +<br>&gt;&gt; + install_libs: libs install_headers in=
-stall_pkgconfig<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0$(Q)$(call do_insta=
-ll,$(LIBTRACEEVENT_SHARED),$(libdir_SQ)); \<br>&gt;&gt; +-=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cp -fpR $(LIB_INSTALL) $(DESTDIR)$(libdir_S=
-Q)<br>&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cp --no-p=
-reserve=3Downership --recursive $(LIB_INSTALL) $(DESTDIR)$(libdir_SQ)<br>&g=
-t;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0$(Q)$(call install_ld_config)<br>&gt;&gt=
-; +<br>&gt;&gt; + install_pkgconfig: $(PKG_CONFIG_FILE)<br>&gt;&gt; +--<br>=
-&gt;&gt; +2.39.0<br>&gt;&gt; +<br>&gt;&gt; diff --git a/meta/recipes-kernel=
-/libtraceevent/<a href=3D"http://libtraceevent_1.7.2.bb">libtraceevent_1.7.=
-2.bb</a> b/meta/recipes-kernel/libtraceevent/<a href=3D"http://libtraceeven=
-t_1.7.2.bb">libtraceevent_1.7.2.bb</a><br>&gt;&gt; new file mode 100644<br>=
-&gt;&gt; index 0000000000..089b6814c7<br>&gt;&gt; --- /dev/null<br>&gt;&gt;=
- +++ b/meta/recipes-kernel/libtraceevent/<a href=3D"http://libtraceevent_1.=
-7.2.bb">libtraceevent_1.7.2.bb</a><br>&gt;&gt; @@ -0,0 +1,25 @@<br>&gt;&gt;=
- +# Copyright (C) 2022 Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">r=
-aj.khem@gmail.com</a>&gt;<br>&gt;&gt; +# Released under the MIT license (se=
-e COPYING.MIT for the terms)<br>&gt;&gt; +<br>&gt;&gt; +SUMMARY =3D &quot;A=
-PI to access the kernel tracefs directory&quot;<br>&gt;&gt; +HOMEPAGE =3D &=
-quot;<a href=3D"https://git.kernel.org/pub/scm/libs/libtrace/libtracefs.git=
-/">https://git.kernel.org/pub/scm/libs/libtrace/libtracefs.git/</a>&quot;<b=
-r>&gt;&gt; +LICENSE =3D &quot;GPL-2.0-or-later &amp; LGPL-2.1-or-later&quot=
-;<br>&gt;&gt; +LIC_FILES_CHKSUM =3D &quot;file://LICENSES/GPL-2.0;md5=3De6a=
-75371ba4d16749254a51215d13f97 \<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://LICENSES/LGPL-2.1;md5=3Db3=
-70887980db5dd40659b50909238dbd&quot;<br>&gt;&gt; +SECTION =3D &quot;libs&qu=
-ot;<br>&gt;&gt; +<br>&gt;&gt; +SRCREV =3D &quot;1c6f0f3b2bb47571fc455dc565d=
-c343152517d98&quot;<br>&gt;&gt; +SRC_URI =3D &quot;git://<a href=3D"http://=
-git.kernel.org/pub/scm/libs/libtrace/libtraceevent.git;branch=3D${BPN};prot=
-ocol=3Dhttps">git.kernel.org/pub/scm/libs/libtrace/libtraceevent.git;branch=
-=3D${BPN};protocol=3Dhttps</a> \<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0file://0001-makefile-Do-not-preserve-ownership-in-cp-command.p=
-atch&quot;<br>&gt;&gt; +<br>&gt;&gt; +S =3D &quot;${WORKDIR}/git&quot;<br>&=
-gt;&gt; +<br>&gt;&gt; +inherit pkgconfig<br>&gt;&gt; +<br>&gt;&gt; +do_inst=
-all() {<br>&gt;&gt; +=C2=A0 =C2=A0 oe_runmake install DESTDIR=3D${D} pkgcon=
-fig_dir=3D${libdir}/pkgconfig<br>&gt;&gt; +}<br>&gt;&gt; +<br>&gt;&gt; +PAC=
-KAGES +=3D &quot;${PN}-plugins&quot;<br>&gt;&gt; +<br>&gt;&gt; +FILES:${PN}=
--plugins +=3D &quot;${libdir}/traceevent/plugins&quot;<br>&gt;&gt; --<br>&g=
-t;&gt; 2.35.3<br>&gt;&gt;<br>&gt;
-
---000000000000e7813405fc7f5fa3--
 
