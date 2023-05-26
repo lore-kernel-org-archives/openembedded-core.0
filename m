@@ -1,138 +1,215 @@
-Return-Path: <andrej.valek@siemens.com>
+Return-Path: <max.oss.09@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05F2FC77B7A
-	for <webhook@archiver.kernel.org>; Fri, 26 May 2023 04:38:12 +0000 (UTC)
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com (EUR01-HE1-obe.outbound.protection.outlook.com [40.107.13.58])
- by mx.groups.io with SMTP id smtpd.web11.1567.1685075888994056448
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13A1EC77B7C
+	for <webhook@archiver.kernel.org>; Fri, 26 May 2023 05:09:12 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web11.1862.1685077746146316566
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 May 2023 21:38:09 -0700
+ Thu, 25 May 2023 22:09:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@siemens.com header.s=selector2 header.b=srzzK9Z4;
- spf=pass (domain: siemens.com, ip: 40.107.13.58, mailfrom: andrej.valek@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZHifN+bSbTte3RCdUGwvBKd426C8F7lj+XehP4P6HPK4gTqIZTQGwDFxtAsWdVN0SBy5JiKOM3ZpGFherrbtRL2DQLcLJZkwvu+xcs8jxRd67EqzI0DEQeKhWVpOWr6IDO4yzS8tPBMLPiKlj30ttqqyXvcurXdLMYBVsVkWaljJO7+rk73s4hVYmMpWAJ+dLuhXYzdI4J0kzCcY5uZovToL1PcoE0ah6uPZ4absAVba+ZXXb51sZW16WBtS5mv+8Bw+Z6cBd9JZOi4xisuS85PNV70wCUKs1r/wvMKbhq6kH5VOh21Ll5aRy4Q/0XXUesvBkzzJpbBQ427Wn+iAdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iKV/A3l294mB7s9KrkPPwpsu4KLlBQsoHOfyWB3bCrc=;
- b=Nsj1ZwYWhImBVmZSRqlL/VhvI/9UVoaxPe4QgvFT1eigo7TCrZBOC/7N/F7Q2MSHduQhWzSwa7JNOjWcToUrF9MzgDvsig/wvy9ldiDWCCziBfsypSfr1uqOLGTx6GpQTEFX2AVqoujFWttdd8BhPszXQN3ngXcFSfaKcZOhO/hcWLIxLYGhxtahWE+ouMFC3rSD7ejyKl7PHP0GzacAg4KlrIpfFs3EZKqqab5H+dfqk+XCeBmUGbBctTigHdvoQT/rLUfKzJG9lRnoaXzTLNoy1Vn4hO4WofAG0AtprGcqljEysjsYE5eB8wirhi2kamlp0qo+SbSNazLM6dqtvA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 194.138.21.74) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=siemens.com; dmarc=pass (p=reject sp=reject pct=100)
- action=none header.from=siemens.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iKV/A3l294mB7s9KrkPPwpsu4KLlBQsoHOfyWB3bCrc=;
- b=srzzK9Z4OvP8u3sklJIksEBelxNnhIlvaEG9G9IEdhd8sbpZKQtMoXoJB9Qkr0kpKWGyN9uxZTRLSWS9vKxfQaEZ07u4htXGVr2y1n6Jx84EfLdH3vyrOp6NammpOZt8gEyX23qbGGZat+gp3mzmGzWH9uRV9yddzFwDv7/mrwVPeCnS60EsHdSIJtPb9Wc/lwKspF+0U6eKr6rNoIVvSKOmlqY5i14bxRuizEijhggn1PYseVmRoRabaFBNlRPrBo2MnsR2eQvTGyZ3Tb8QHAmNJ0YtRE4Iswr1ynBc44lahEaYKuLVBoufEhPHFNn4ScgUAXu3GR5TuxgzUWfokA==
-Received: from FR2P281CA0040.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:92::7) by
- PA4PR10MB5585.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:273::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.15; Fri, 26 May
- 2023 04:38:05 +0000
-Received: from VE1EUR01FT013.eop-EUR01.prod.protection.outlook.com
- (2603:10a6:d10:92:cafe::11) by FR2P281CA0040.outlook.office365.com
- (2603:10a6:d10:92::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.16 via Frontend
- Transport; Fri, 26 May 2023 04:38:05 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 194.138.21.74)
- smtp.mailfrom=siemens.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=siemens.com;
-Received-SPF: Pass (protection.outlook.com: domain of siemens.com designates
- 194.138.21.74 as permitted sender) receiver=protection.outlook.com;
- client-ip=194.138.21.74; helo=hybrid.siemens.com; pr=C
-Received: from hybrid.siemens.com (194.138.21.74) by
- VE1EUR01FT013.mail.protection.outlook.com (10.152.2.215) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6433.16 via Frontend Transport; Fri, 26 May 2023 04:38:04 +0000
-Received: from DEMCHDC8WAA.ad011.siemens.net (139.25.226.104) by
- DEMCHDC8VQA.ad011.siemens.net (194.138.21.74) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Fri, 26 May 2023 06:38:04 +0200
-Received: from md3hr6tc.ad001.siemens.net (139.22.37.138) by
- DEMCHDC8WAA.ad011.siemens.net (139.25.226.104) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Fri, 26 May 2023 06:38:03 +0200
-From: Andrej Valek <andrej.valek@siemens.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Andrej Valek <andrej.valek@siemens.com>
-Subject: [OE-core][PATCH v2] busybox: 1.36.0 -> 1.36.1
-Date: Fri, 26 May 2023 06:37:42 +0200
-Message-ID: <20230526043742.13619-1-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230525084328.77920-1-andrej.valek@siemens.com>
-References: <20230525084328.77920-1-andrej.valek@siemens.com>
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=K+8ONpNn;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: max.oss.09@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3f601c57d8dso2985145e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 May 2023 22:09:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685077744; x=1687669744;
+        h=cc:to:subject:message-id:date:from:references:in-reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=H9LiTdpnqt17sZ30WvfzLwkO2Ag5VEKbFcOIUlOwXOM=;
+        b=K+8ONpNnwVC+H8igsWgrgkDtV91Doxk1aUVRZ1aO8zRmGrldlQ4OcZK+b16h5pvoJK
+         pYd1E4o2e10685BvGdlDGNIOEptDS8EVsaxDazd2By6sYGMzCAyGbCQM6Dml4aA3qchB
+         n6Ei1azdZGtLqyBXowupZHfP8gQdkZ0Ckj/cJB/rK7Mvi5vpnAryXSV0gF93Jmb/AenB
+         DPYlp15EPFwfwDcQONdFzyz9i8/BS3XZhIdg6f1mYyXC5mCagXNVv3VyIsVL7hW7TXzR
+         ZfPWdqpWPxz369ufMg+6tUlicZw7I2KpXcKHEkZ9JZV9CVZ3d/seAPbbP3suuxT+DmlL
+         a+LQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685077744; x=1687669744;
+        h=cc:to:subject:message-id:date:from:references:in-reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=H9LiTdpnqt17sZ30WvfzLwkO2Ag5VEKbFcOIUlOwXOM=;
+        b=XQWe+/MU4k4dwCOjcexd6aBfQxMY9omE9YVfiy/49yRpETt6qNxynO6iyqtid09rQR
+         e4wuKCDYKGnKCApmf05E0d/05OXS35m1a46kHAQSLPyXzrhQoY2oDcI8kpge16IUFeZM
+         ZD7CaXZc0QyL62dlzHZUHM/U7Dtl7WXwupSd8E5FT/IuqW1qYWAWG172hLMiZlKFP66D
+         tqKyFUeAZgcy9Z0D++Fci8rmrkmyiMp2+r0VGBctfZGLLVgy/Aa9VE8l6hFX9hnPqonW
+         iHq/Zl2hZFzZXCrl25Vuz691lvI3FBAUM1PrfMgOu65VnIdeLnk5zSIan0NPPPcfp2Bv
+         AO/Q==
+X-Gm-Message-State: AC+VfDybBIAuGPaDbDg49aBGfPFIEGU2eofZmy0Pthr7IncBPh7fPn5v
+	ZfzN/6mG7/Dbaa2GqfcHdv3PTjBaT2+3zOGTey0=
+X-Google-Smtp-Source: ACHHUZ7L5UJ5xrQy0UHsdJiD/9D5FNPbUP187eA4ewRX7IW3GgdjF8gW0nlsIWA84PPh+XrgOdmFlFqxvl2gMp6ULBg=
+X-Received: by 2002:a05:600c:4181:b0:3f4:e432:7589 with SMTP id
+ p1-20020a05600c418100b003f4e4327589mr4002803wmh.10.1685077744099; Thu, 25 May
+ 2023 22:09:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-Originating-IP: [139.22.37.138]
-X-ClientProxiedBy: DEMCHDC8WAA.ad011.siemens.net (139.25.226.104) To
- DEMCHDC8WAA.ad011.siemens.net (139.25.226.104)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VE1EUR01FT013:EE_|PA4PR10MB5585:EE_
-X-MS-Office365-Filtering-Correlation-Id: 051b9d3b-14dc-4395-1f61-08db5da2ff08
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	kNrkDENWLcf61k2JueO5rBx1B9A2qxMQzWPtX0iQ6zP2cnXmMvUWba4mmf/KlimBfwlILy2i6T2w1orUuPBRri9VabUngQR51Qy6udz1KMOmUyzHJNFyk+qu4n3t1Cz9ZYZrHLcbf/sn9uAInniG9s8VbFV4lhedN50Z83+aLPyfacoVMURpddAHvNARt+t9RgqOmVwQKiEV4PWrcwxyYou3rkkoEVLMlCrq/HGnchDMOUIiPrI1k99OImZc/ob/JGTDj98D6fOi1mjl88P91wBffnQ9dkXhr71gZV5TSROfseQS7vDER6FPy4ICa658lwQM+J3Vqx9cXronS1Gszy9f6kBcGn+PpuNwfQswwxzTlLG0mfnuBwro/Md+IpIKAkU9Pfl3UtRmtMRhopaTXMNT2N5JBU26HvK8rB0uOoPOGDu2ScmoJnDPTk05lGUOwwHRZH0Q/YdbsrMcecyjwmpk4mZF49/H/Y30tnKVeXR0FGjgIq1gQv8B2XfO6WGgFvIOf5Aavshc6JOD08gCXTYfaOLIPOK1CH3BoCxrTfa0GEN5h5rGZ3DECAz7aDIhV+gaikQbruatF2B+1TKv1kmoQm7f2omcG1MsIPsF0UrCvJeELfuuUxVY2TwQ/sn3aB0e00oRNcnbfi+Wo+5N1AwQAmeZKnFD7LlNeN+CT3/LF+pszJwoo5pTsJR0Kmavi90cJeXhZntgn6JfPLs94WKBlMYnpiUNhX3BnujClco=
-X-Forefront-Antispam-Report: 
-	CIP:194.138.21.74;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hybrid.siemens.com;PTR:hybrid.siemens.com;CAT:NONE;SFS:(13230028)(4636009)(346002)(136003)(376002)(396003)(39860400002)(451199021)(40470700004)(46966006)(36840700001)(8936002)(44832011)(5660300002)(47076005)(82310400005)(36860700001)(107886003)(186003)(16526019)(26005)(83380400001)(7596003)(2616005)(7636003)(82960400001)(4326008)(86362001)(956004)(336012)(82740400003)(356005)(1076003)(70586007)(40460700003)(6666004)(41300700001)(70206006)(966005)(40480700001)(8676002)(36756003)(478600001)(316002)(6916009)(2906002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2023 04:38:04.7310
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 051b9d3b-14dc-4395-1f61-08db5da2ff08
-X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;Ip=[194.138.21.74];Helo=[hybrid.siemens.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	VE1EUR01FT013.eop-EUR01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR10MB5585
+Received: by 2002:adf:ec4e:0:b0:309:59d8:d065 with HTTP; Thu, 25 May 2023
+ 22:09:03 -0700 (PDT)
+In-Reply-To: <CAMKF1sp9KXzt7Phfm6pNdXeCi-VD2KGwfGErOE8Ga7JMdWENMg@mail.gmail.com>
+References: <20230526012356.175746-1-raj.khem@gmail.com> <CAEHkU3U5vcCOgDz6qAhGDtHMXnzq+Gv89uageghdYLKoh+smgg@mail.gmail.com>
+ <CAMKF1sp9KXzt7Phfm6pNdXeCi-VD2KGwfGErOE8Ga7JMdWENMg@mail.gmail.com>
+From: Max Krummenacher <max.oss.09@gmail.com>
+Date: Fri, 26 May 2023 07:09:03 +0200
+Message-ID: <CAEHkU3W0RL2buVxpsqHnYZoB+OOYgKof40-tZ14CV0P5Go+ETA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] perf: Make built-in libtraceevent plugins
+ cohabit with external libtraceevent
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Max Krummenacher <max.krummenacher@toradex.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000005b24e905fc91bcaf"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 May 2023 04:38:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181757
+ <openembedded-core@lists.openembedded.org>; Fri, 26 May 2023 05:09:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181758
 
-- regression on x86 is still in place
+--0000000000005b24e905fc91bcaf
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
----
- .../{busybox-inittab_1.36.0.bb =3D> busybox-inittab_1.36.1.bb}    | 0
- .../busybox/{busybox_1.36.0.bb =3D> busybox_1.36.1.bb}            | 2 +-
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/busybox/{busybox-inittab_1.36.0.bb =3D> busybox-i=
-nittab_1.36.1.bb} (100%)
- rename meta/recipes-core/busybox/{busybox_1.36.0.bb =3D> busybox_1.36.1.bb=
-} (96%)
+On Friday, May 26, 2023, Khem Raj <raj.khem@gmail.com> wrote:
+>
+>
+> On Thu, May 25, 2023 at 7:44 PM Max Krummenacher <max.oss.09@gmail.com>
+wrote:
+>>
+>> Hi Khem
+>>
+>> On Friday, May 26, 2023, Khem Raj <raj.khem@gmail.com> wrote:
+>> > This will package the plugins built by perf into kernel specific dir
+>> > under libdir, so it does not conflict with plugins from newly added
+>> > libtraceevent recipe
+>> >
+>> > Fixes
+>> > do_sdk_depends: The file
+/usr/lib/traceevent/plugins/plugin_cfg80211.so is installed by both perf
+and libtraceevent, aborting
+>>
+>> Starting with kernel version 6.4 libtraceevent is removed from the
+kernel sources and perf depends of an externally provided libtraceevent
+unless explicitely opted out.
+>>
+>> perf.bb with this patch will fail when built with a 6.4 kernel.
+>
+> Why will it fail ?
 
-diff --git a/meta/recipes-core/busybox/busybox-inittab_1.36.0.bb b/meta/rec=
-ipes-core/busybox/busybox-inittab_1.36.1.bb
-similarity index 100%
-rename from meta/recipes-core/busybox/busybox-inittab_1.36.0.bb
-rename to meta/recipes-core/busybox/busybox-inittab_1.36.1.bb
-diff --git a/meta/recipes-core/busybox/busybox_1.36.0.bb b/meta/recipes-cor=
-e/busybox/busybox_1.36.1.bb
-similarity index 96%
-rename from meta/recipes-core/busybox/busybox_1.36.0.bb
-rename to meta/recipes-core/busybox/busybox_1.36.1.bb
-index 8014a5c7bf..968dce65e4 100644
---- a/meta/recipes-core/busybox/busybox_1.36.0.bb
-+++ b/meta/recipes-core/busybox/busybox_1.36.1.bb
-@@ -53,4 +53,4 @@ SRC_URI =3D "https://busybox.net/downloads/busybox-${PV}.=
-tar.bz2;name=3Dtarball \
- SRC_URI:append:libc-musl =3D " file://musl.cfg "
- # TODO http://lists.busybox.net/pipermail/busybox/2023-January/090078.html
- SRC_URI:append:x86 =3D " file://sha_accel.cfg"
--SRC_URI[tarball.sha256sum] =3D "542750c8af7cb2630e201780b4f99f3dcceeb06f50=
-5b479ec68241c1e6af61a5"
-+SRC_URI[tarball.sha256sum] =3D "b8cc24c9574d809e7279c3be349795c5d5ceb6fdf1=
-9ca709f80cde50e47de314"
---=20
-2.40.1
+The file which sed works on, ${S}/tools/lib/traceevent/plugins/Makefile, no
+longer exists.
 
+>>
+>> I guess as an interim solution building perf on 6.4 without traceevent
+would fix the SDK issue you see with older kernels.
+>> I could then try out how to build perf with an external libtraceevent
+also for older kernels (LIBTRACEEVENT_DYNAMIC) so that it would work for
+all kernel/perf versions.
+>>
+>> Regards
+>> Max
+>> >
+>> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> > Cc: Max Krummenacher <max.krummenacher@toradex.com>
+>> > ---
+>> >  meta/recipes-kernel/perf/perf.bb | 4 +++-
+>> >  1 file changed, 3 insertions(+), 1 deletion(-)
+>> >
+>> > diff --git a/meta/recipes-kernel/perf/perf.bb
+b/meta/recipes-kernel/perf/perf.bb
+>> > index 67b01a7f65a..d31f59f460b 100644
+>> > --- a/meta/recipes-kernel/perf/perf.bb
+>> > +++ b/meta/recipes-kernel/perf/perf.bb
+>> > @@ -137,6 +137,8 @@ PERF_EXTRA_LDFLAGS:mipsarchn64el = "-m elf64ltsmip"
+>> >  do_compile() {
+>> >         # Linux kernel build system is expected to do the right thing
+>> >         unset CFLAGS
+>> > +       sed -i -e
+'s|\$(libdir)/traceevent/plugins|\$(libdir)/traceevent_${KERNEL_VERSION}/plugins|g'
+${S}/tools/lib/traceevent/plugins/Makefile
+>> > +       sed -i -e
+'s|\$(libdir)/traceevent/plugins|\$(libdir)/traceevent_${KERNEL_VERSION}/plugins|g'
+${S}/tools/perf/Makefile.config
+>> >         oe_runmake all
+>> >  }
+>> >
+>> > @@ -364,7 +366,7 @@ RSUGGESTS_SCRIPTING =
+"${@bb.utils.contains('PACKAGECONFIG', 'scripting', '${PN}
+>> >  RSUGGESTS:${PN} += "${PN}-archive ${PN}-tests ${RSUGGESTS_SCRIPTING}"
+>> >
+>> >  FILES_SOLIBSDEV = ""
+>> > -FILES:${PN} += "${libexecdir}/perf-core
+${exec_prefix}/libexec/perf-core ${libdir}/traceevent
+${libdir}/libperf-jvmti.so"
+>> > +FILES:${PN} += "${libexecdir}/perf-core
+${exec_prefix}/libexec/perf-core ${libdir}/traceevent*
+${libdir}/libperf-jvmti.so"
+>> >  FILES:${PN}-archive = "${libdir}/perf/perf-core/perf-archive"
+>> >  FILES:${PN}-tests = "${libdir}/perf/perf-core/tests
+${libexecdir}/perf-core/tests"
+>> >  FILES:${PN}-python = " \
+>> > --
+>> > 2.40.1
+>> >
+>> >
+
+--0000000000005b24e905fc91bcaf
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<br><br>On Friday, May 26, 2023, Khem Raj &lt;<a href=3D"mailto:raj.khem@gm=
+ail.com">raj.khem@gmail.com</a>&gt; wrote:<br>&gt;<br>&gt;<br>&gt; On Thu, =
+May 25, 2023 at 7:44 PM Max Krummenacher &lt;<a href=3D"mailto:max.oss.09@g=
+mail.com">max.oss.09@gmail.com</a>&gt; wrote:<br>&gt;&gt;<br>&gt;&gt; Hi Kh=
+em<br>&gt;&gt;<br>&gt;&gt; On Friday, May 26, 2023, Khem Raj &lt;<a href=3D=
+"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br>&gt;&gt; &=
+gt; This will package the plugins built by perf into kernel specific dir<br=
+>&gt;&gt; &gt; under libdir, so it does not conflict with plugins from newl=
+y added<br>&gt;&gt; &gt; libtraceevent recipe<br>&gt;&gt; &gt;<br>&gt;&gt; =
+&gt; Fixes<br>&gt;&gt; &gt; do_sdk_depends: The file /usr/lib/traceevent/pl=
+ugins/plugin_cfg80211.so is installed by both perf and libtraceevent, abort=
+ing<br>&gt;&gt;<br>&gt;&gt; Starting with kernel version 6.4 libtraceevent =
+is removed from the kernel sources and perf depends of an externally provid=
+ed libtraceevent unless explicitely opted out.<br>&gt;&gt;<br>&gt;&gt; <a h=
+ref=3D"http://perf.bb">perf.bb</a> with this patch will fail when built wit=
+h a 6.4 kernel.<br>&gt;<br>&gt; Why will it fail ?<br><br>The file which se=
+d works on, ${S}/tools/lib/traceevent/plugins/Makefile, no longer exists. <=
+br><br>&gt;&gt;<br>&gt;&gt; I guess as an interim solution building perf on=
+ 6.4 without traceevent would fix the SDK issue you see with older kernels.=
+<br>&gt;&gt; I could then try out how to build perf with an external libtra=
+ceevent also for older kernels (LIBTRACEEVENT_DYNAMIC) so that it would wor=
+k for all kernel/perf versions.<br>&gt;&gt;<br>&gt;&gt; Regards<br>&gt;&gt;=
+ Max<br>&gt;&gt; &gt;<br>&gt;&gt; &gt; Signed-off-by: Khem Raj &lt;<a href=
+=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt;<br>&gt;&gt; &gt; =
+Cc: Max Krummenacher &lt;<a href=3D"mailto:max.krummenacher@toradex.com">ma=
+x.krummenacher@toradex.com</a>&gt;<br>&gt;&gt; &gt; ---<br>&gt;&gt; &gt; =
+=C2=A0meta/recipes-kernel/perf/<a href=3D"http://perf.bb">perf.bb</a> | 4 +=
+++-<br>&gt;&gt; &gt; =C2=A01 file changed, 3 insertions(+), 1 deletion(-)<b=
+r>&gt;&gt; &gt;<br>&gt;&gt; &gt; diff --git a/meta/recipes-kernel/perf/<a h=
+ref=3D"http://perf.bb">perf.bb</a> b/meta/recipes-kernel/perf/<a href=3D"ht=
+tp://perf.bb">perf.bb</a><br>&gt;&gt; &gt; index 67b01a7f65a..d31f59f460b 1=
+00644<br>&gt;&gt; &gt; --- a/meta/recipes-kernel/perf/<a href=3D"http://per=
+f.bb">perf.bb</a><br>&gt;&gt; &gt; +++ b/meta/recipes-kernel/perf/<a href=
+=3D"http://perf.bb">perf.bb</a><br>&gt;&gt; &gt; @@ -137,6 +137,8 @@ PERF_E=
+XTRA_LDFLAGS:mipsarchn64el =3D &quot;-m elf64ltsmip&quot;<br>&gt;&gt; &gt; =
+=C2=A0do_compile() {<br>&gt;&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Linux k=
+ernel build system is expected to do the right thing<br>&gt;&gt; &gt; =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 unset CFLAGS<br>&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0sed -i -e &#39;s|\$(libdir)/traceevent/plugins|\$(libdir)/traceev=
+ent_${KERNEL_VERSION}/plugins|g&#39; ${S}/tools/lib/traceevent/plugins/Make=
+file<br>&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i -e &#39;s|\$(libdi=
+r)/traceevent/plugins|\$(libdir)/traceevent_${KERNEL_VERSION}/plugins|g&#39=
+; ${S}/tools/perf/Makefile.config<br>&gt;&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 oe_runmake all<br>&gt;&gt; &gt; =C2=A0}<br>&gt;&gt; &gt;<br>&gt;&gt; &g=
+t; @@ -364,7 +366,7 @@ RSUGGESTS_SCRIPTING =3D &quot;${@bb.utils.contains(&=
+#39;PACKAGECONFIG&#39;, &#39;scripting&#39;, &#39;${PN}<br>&gt;&gt; &gt; =
+=C2=A0RSUGGESTS:${PN} +=3D &quot;${PN}-archive ${PN}-tests ${RSUGGESTS_SCRI=
+PTING}&quot;<br>&gt;&gt; &gt;<br>&gt;&gt; &gt; =C2=A0FILES_SOLIBSDEV =3D &q=
+uot;&quot;<br>&gt;&gt; &gt; -FILES:${PN} +=3D &quot;${libexecdir}/perf-core=
+ ${exec_prefix}/libexec/perf-core ${libdir}/traceevent ${libdir}/libperf-jv=
+mti.so&quot;<br>&gt;&gt; &gt; +FILES:${PN} +=3D &quot;${libexecdir}/perf-co=
+re ${exec_prefix}/libexec/perf-core ${libdir}/traceevent* ${libdir}/libperf=
+-jvmti.so&quot;<br>&gt;&gt; &gt; =C2=A0FILES:${PN}-archive =3D &quot;${libd=
+ir}/perf/perf-core/perf-archive&quot;<br>&gt;&gt; &gt; =C2=A0FILES:${PN}-te=
+sts =3D &quot;${libdir}/perf/perf-core/tests ${libexecdir}/perf-core/tests&=
+quot;<br>&gt;&gt; &gt; =C2=A0FILES:${PN}-python =3D &quot; \<br>&gt;&gt; &g=
+t; --<br>&gt;&gt; &gt; 2.40.1<br>&gt;&gt; &gt;<br>&gt;&gt; &gt;
+
+--0000000000005b24e905fc91bcaf--
 
