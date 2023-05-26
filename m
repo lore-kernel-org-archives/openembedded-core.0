@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47631C7EE31
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55E11C7EE32
 	for <webhook@archiver.kernel.org>; Fri, 26 May 2023 02:30:01 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.89.1685068194552783066
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web11.112.1685068192901850013
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 May 2023 19:29:54 -0700
+ Thu, 25 May 2023 19:29:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=kEhLiYPO;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1ae4e49727eso2607725ad.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 May 2023 19:29:54 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=rnKCWk4X;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-528cdc9576cso159531a12.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 May 2023 19:29:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1685068194; x=1687660194;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1685068192; x=1687660192;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=r2Fd7dD0Cnq2V+d7ErnLRFl63IiuYcAmI+C/YDXdWk8=;
-        b=kEhLiYPO0hoGGao1gBBG5aLLle9w+MGt+Cel/ZFYERkgcHiayQTLqb3Bun/AIgY/WR
-         Wn2sdIdnctzIG75PPsWaBjihndW3WFvE0lf4TPfJYt9oOW4B556MdN5RvQABJkv1DAVn
-         LLEh00eOgfLc+4eQowO3lmPSeLxy83n8T3um1MhyICocGh2YGORsckcRmmDI5XG/9OMQ
-         QDe0uC6MEU+wPTPoJ4h4vBTL6YYYPa7KiRFE51kRVLSdssF9zrezhnkzHR22S7gREwVH
-         ygH09wUQjNuE4QyCVyBJU2YEpo+dTCAVoinxZ+UmWJIkwPNUbBMUtOIQlyQr648BCvZT
-         ujJw==
+        bh=Wpim3eOEUGnzdi1RPm+k6td6BedGmHR8k6Z/+nASxe8=;
+        b=rnKCWk4X6tT08gs8JrnlpByNj+RI9tbHsy8FseZ0birPz83sKl97PKmdqYkVpFveM+
+         Bfl9bqW2o6I5PCwWnH+Yvq+LcM3UDXTKKtuOSco9LbdetqTCuMfOrEB3JlE22ZAct3GP
+         zoA/DHIR6ScnhLck8Yu8pe3HMVVFzC0QipNfeREc0xQaBjkoJdcCF9wTKFuBt5iOilZ0
+         p1R09I8AtykCBwTxoRuRsKCv3pRabMOy1MOPw/VqxluBuD5if2+3F8whUrnzZXUEICRk
+         d5rd088+u4bXJ3N8EuHnUL1c5YWnWqvcUrPPCd97uWV9sU1BKj7SXJnR8fdpLzhqdg3M
+         0owQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685068194; x=1687660194;
+        d=1e100.net; s=20221208; t=1685068192; x=1687660192;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=r2Fd7dD0Cnq2V+d7ErnLRFl63IiuYcAmI+C/YDXdWk8=;
-        b=N+2p2tMJbHlXfanTM8dbDCHKueMin5FQdxT/M58LBODdpOGrtOlet8C4DlZEn18V0v
-         b9SMTWT/hWPkksy438vEXTXAQ3TUdeioZkIf6QLFmP6p5HgTgbYczuyw706Cb5r2etsU
-         tl8MhP5PCRdTX2l69mtHWpD7eoaR56Jk1G2sQUCwANmeHlyj4hkJIb4xdt2/fQLEyCKk
-         QQ4A86S5NWt0xP8s05ZpXTaUQUJZtLPS61TFzD1vp+WijqSb8ynCkz9AQL5FEtUNfppe
-         iVtaFfszRAFsnbkoZfC99y1K2Ai8g4R8CcNncEQ/7g281b32UNdjAq5LiB+cvLq4L9qa
-         lS0Q==
-X-Gm-Message-State: AC+VfDz+jVaZSdPFwA+VzQw+gjzxukJiKfuBRHbdXZ2ubx/bhF0KmN9r
-	boQtaIs7Eyzq/+5HvdlTscMfKAFLTQ8+oHJ3jnI=
-X-Google-Smtp-Source: ACHHUZ7gnvSzf8WrQgpMjJI0W75JU5Gu8mRClhi+60ycCrGTrfGNHgjZGm92yvEqMOev5luwDD83iQ==
-X-Received: by 2002:a17:902:7c05:b0:1af:bb99:d590 with SMTP id x5-20020a1709027c0500b001afbb99d590mr796396pll.7.1685068193652;
-        Thu, 25 May 2023 19:29:53 -0700 (PDT)
+        bh=Wpim3eOEUGnzdi1RPm+k6td6BedGmHR8k6Z/+nASxe8=;
+        b=irq9ctiAQ/em8gPhHMeY9n4bw7omCreAKvWGnKylE4FW10Bnd65J8vIO+ILEaxwKE5
+         Jabsi0N+lmNMXUosbqyv5s6+jTH18CEZrDqvQANJpZ84jStk+R2mPuwFX0IjdV1vX+LZ
+         CxjCJHfLKqakdaBJi1CC5wR5ZPbffLrYgg43iQN2WcfuJRDISzRH15DfLrjaf4Z8gEmI
+         KEm95qsw2WVx5Si2BmV9r9+SCKlg3LNH5QKwGT+/HHH3zPakVQcQ+rCwC3zt59u/fLKt
+         dbSRgXOlFT8AWH0+rY0xZMTtFXS6l2QYxvybzDtI+4DHYYIAP5hKCCEd73xlxUJ5DGg9
+         wIxw==
+X-Gm-Message-State: AC+VfDz1i/uXMbZeabSAW0wjSSVZ6mI3jlLUAzvfBbWgPULUCE9U1n2L
+	JNJsaTHLxExUWUkC7VcJkh+cv+hHG3oeEyhVVQA=
+X-Google-Smtp-Source: ACHHUZ7y/DB5BO/iqOtVw/1UxbZ/G6ffP147XKPet63IIOLVhnXyTtgO3PmkYIeKk3cs/HfqBw70xA==
+X-Received: by 2002:a17:902:e541:b0:1af:cbb1:837 with SMTP id n1-20020a170902e54100b001afcbb10837mr1035776plf.65.1685068192097;
+        Thu, 25 May 2023 19:29:52 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id t13-20020a170902b20d00b0019ee045a2b3sm2023794plr.308.2023.05.25.19.29.52
+        by smtp.gmail.com with ESMTPSA id t13-20020a170902b20d00b0019ee045a2b3sm2023794plr.308.2023.05.25.19.29.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 May 2023 19:29:53 -0700 (PDT)
+        Thu, 25 May 2023 19:29:51 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 18/21] weston: add xwayland to DEPENDS for PACKAGECONFIG xwayland
-Date: Thu, 25 May 2023 16:29:06 -1000
-Message-Id: <4e42196754b19926b2219c6ffda47bd389e9d9fb.1685068004.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 17/21] license.bbclass: Include LICENSE in the output when it fails to parse
+Date: Thu, 25 May 2023 16:29:05 -1000
+Message-Id: <1dd008511cc62bd32f85b529f8d6031bd57e4cd2.1685068004.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1685068004.git.steve@sakoman.com>
 References: <cover.1685068004.git.steve@sakoman.com>
@@ -61,35 +61,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 26 May 2023 02:30:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181750
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181749
 
-From: Ming Liu <liu.ming50@gmail.com>
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-Otherwise xwayland.pc would not be present in sysroot, this leads to
-some xwayland configs missing like have_listenfd, have_glamor.
-
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7f1932cb5a408320a5b542e20ba2807718349e8f)
+(cherry picked from commit 1a5197760da3890cc80ac7da8d589766612d9051)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-graphics/wayland/weston_10.0.2.bb | 2 +-
+ meta/classes/license.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/wayland/weston_10.0.2.bb b/meta/recipes-graphics/wayland/weston_10.0.2.bb
-index f81a33fd1e..e09f94d9bb 100644
---- a/meta/recipes-graphics/wayland/weston_10.0.2.bb
-+++ b/meta/recipes-graphics/wayland/weston_10.0.2.bb
-@@ -74,7 +74,7 @@ PACKAGECONFIG[webp] = "-Dimage-webp=true,-Dimage-webp=false,libwebp"
- # Weston with systemd-login support
- PACKAGECONFIG[systemd] = "-Dsystemd=true -Dlauncher-logind=true,-Dsystemd=false -Dlauncher-logind=false,systemd dbus"
- # Weston with Xwayland support (requires X11 and Wayland)
--PACKAGECONFIG[xwayland] = "-Dxwayland=true,-Dxwayland=false"
-+PACKAGECONFIG[xwayland] = "-Dxwayland=true,-Dxwayland=false,xwayland"
- # colord CMS support
- PACKAGECONFIG[colord] = "-Dcolor-management-colord=true,-Dcolor-management-colord=false,colord"
- # Clients support
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 4ebfc4fb92..b92838c030 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -223,7 +223,7 @@ def find_license_files(d):
+         bb.fatal('%s: %s' % (d.getVar('PF'), exc))
+     except SyntaxError:
+         oe.qa.handle_error("license-syntax",
+-            "%s: Failed to parse it's LICENSE field." % (d.getVar('PF')), d)
++            "%s: Failed to parse LICENSE: %s" % (d.getVar('PF'), d.getVar('LICENSE')), d)
+     # Add files from LIC_FILES_CHKSUM to list of license files
+     lic_chksum_paths = defaultdict(OrderedDict)
+     for path, data in sorted(lic_chksums.items()):
 -- 
 2.34.1
 
