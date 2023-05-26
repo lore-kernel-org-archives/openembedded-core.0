@@ -1,87 +1,138 @@
-Return-Path: <michael.opdenacker@bootlin.com>
+Return-Path: <aplanas@suse.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B721C77B73
-	for <webhook@archiver.kernel.org>; Fri, 26 May 2023 13:41:54 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web11.8314.1685108512614813788
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0F1CC77B73
+	for <webhook@archiver.kernel.org>; Fri, 26 May 2023 14:06:54 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by mx.groups.io with SMTP id smtpd.web11.8881.1685110009240090021
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 May 2023 06:41:52 -0700
+ Fri, 26 May 2023 07:06:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=MWbhFcx0;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: michael.opdenacker@bootlin.com)
-X-GND-Sasl: michael.opdenacker@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1685108510;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZHa3sg/C3I8vmFkLh12zNqGT1hBq6KfavlXpeB9tzx4=;
-	b=MWbhFcx0JAnljPRGy5smZb2Y0jtuZycwvl0BOeEdVcDO9sX9/emB7yqfy+kvYY9xkGj2AO
-	mGXQIqWrx0QsWTRO8tCfelQaS4ULMuLO5cMFI4jezFT9pfxraDNX4Z3MFHsYAhgi7/sOI8
-	RxsoV8HKJ4xAKEHDiGhjUdEgEvGZAkRUqUesHFUSUwhoqwsCnb1cPRq+/Ay8hOtPi5Q2ui
-	p3Q6XGM3z6HRF5DLyCp2SHxNrlBmzHtfO0SCdfEe+UZpwbgyupic9v99mmshYCwQPRpawE
-	2QVhQOnU9639kGewqyVPf8s8ncESLtyBsgbYhiglRRf8IA6Wg88a3ytzp0xggw==
-X-GND-Sasl: michael.opdenacker@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2ACD7E000D;
-	Fri, 26 May 2023 13:41:50 +0000 (UTC)
-Message-ID: <819d4b56-b575-a665-2d01-d237d345ddd3@bootlin.com>
-Date: Fri, 26 May 2023 15:41:49 +0200
+ dkim=fail reason="body hash did not verify" header.i=@suse.com header.s=susede1 header.b=hLLV3zwn;
+ spf=pass (domain: suse.com, ip: 195.135.220.29, mailfrom: aplanas@suse.com)
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 355771F86C;
+	Fri, 26 May 2023 14:06:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1685110007; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=1GoE4uyur5H94SmOGCHSoI23+dKxrCulOme4LNl9VNU=;
+	b=hLLV3zwneUqnfonkx7Eh8L5NM4+KCbMNC6rWxYrvl2lTUYMdXtGT1L3lSXkaa1kjq8BApZ
+	+qlWq0/xoeHUbMWI0zCmZgjxKkiy8y199ZskKZmlNF6lAlR7fc//ubnWFPeSY2MfYOCFqN
+	vRmIy44Jocpzu8zH8LamOg4rkDBJGgE=
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id DD41C134AB;
+	Fri, 26 May 2023 14:06:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap1.suse-dmz.suse.de with ESMTPSA
+	id EIH5Mfa8cGSAcwAAGKfGzw
+	(envelope-from <aplanas@suse.com>); Fri, 26 May 2023 14:06:46 +0000
+From: aplanas@suse.com
+To: openembedded-core@lists.openembedded.org
+Cc: Alberto Planas <aplanas@suse.com>
+Subject: [PATCH] rpm2cpio.sh: update to the last 4.x version
+Date: Fri, 26 May 2023 16:06:40 +0200
+Message-Id: <20230526140640.30724-1-aplanas@suse.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 1/1] rpm2cpio.sh: update to the last 4.x version
-Content-Language: en-US
-To: aplanas@suse.com
-References: <20230526123926.27308-1-aplanas@suse.com>
-From: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Organization: Bootlin
-In-Reply-To: <20230526123926.27308-1-aplanas@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 May 2023 13:41:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181771
+ <openembedded-core@lists.openembedded.org>; Fri, 26 May 2023 14:06:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181772
 
-Hi Alberto,
+From: Alberto Planas <aplanas@suse.com>
 
-On 26.05.23 at 14:39, Alberto Planas via lists.openembedded.org wrote:
-> openSUSE RPMs are compressing the RPM payload using zstd, that
-> correspond to the magic ID 0x28, 0xb5, 0x2f.
->
-> This patch update the script to the last version from the rpm project,
-> and add support to this compression format, and extract the cpio payload
-> using the "unzstd" binary.
->
-> Signed-off-by: Alberto Planas <aplanas@suse.com>
-> ---
->   scripts/rpm2cpio.sh | 30 ++++++++++++++++++++----------
->   1 file changed, 20 insertions(+), 10 deletions(-)
->   mode change 100755 => 100644 scripts/rpm2cpio.sh
+openSUSE RPMs are compressing the RPM payload using zstd, that
+correspond to the magic ID 0x28, 0xb5, 0x2f.
 
+This patch update the script to the last version from the rpm project,
+and add support to this compression format, and extract the cpio payload
+using the "unzstd" binary.
 
-Many thanks for your contributions to the project!
+Signed-off-by: Alberto Planas <aplanas@suse.com>
+---
+ scripts/rpm2cpio.sh | 30 ++++++++++++++++++++----------
+ 1 file changed, 20 insertions(+), 10 deletions(-)
+ mode change 100755 =3D> 100644 scripts/rpm2cpio.sh
 
-However, since your patches are received through "Your Name via 
-lists.openembedded.org" or "Your Name via lists.yoctoproject.org", we'd 
-need you to do add one thing to your git configuration, so that your 
-patches are given an "Author" field which matches your "Signed-off-by" 
-information. See 
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded#Fixing_your_From_identity 
-for details.
-
-Don't hesitate to send a patch test directly to me, if you wish.
-Thanks in advance
-Michael.
-
--- 
-Michael Opdenacker, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/scripts/rpm2cpio.sh b/scripts/rpm2cpio.sh
+old mode 100755
+new mode 100644
+index 2034373fe4..8199b43784
+--- a/scripts/rpm2cpio.sh
++++ b/scripts/rpm2cpio.sh
+@@ -7,7 +7,7 @@ fatal() {
+ }
+=20
+ pkg=3D"$1"
+-[ -n "$pkg" -a -e "$pkg" ] ||
++[ -n "$pkg" ] && [ -e "$pkg" ] ||
+ 	fatal "No package supplied"
+=20
+ _dd() {
+@@ -16,14 +16,23 @@ _dd() {
+ }
+=20
+ calcsize() {
++
++	case "$(_dd $1 bs=3D4 count=3D1 | tr -d '\0')" in
++		"$(printf '\216\255\350')"*) ;; # '\x8e\xad\xe8'
++		*) fatal "File doesn't look like rpm: $pkg" ;;
++	esac
++
+ 	offset=3D$(($1 + 8))
+=20
+ 	local i b b0 b1 b2 b3 b4 b5 b6 b7
+=20
+ 	i=3D0
+ 	while [ $i -lt 8 ]; do
+- 		b=3D$(_dd $(($offset + $i)) bs=3D1 count=3D1; echo X)
+- 		b=3D${b%X}
++		# add . to not loose \n
++		# strip \0 as it gets dropped with warning otherwise
++		b=3D"$(_dd $(($offset + $i)) bs=3D1 count=3D1 | tr -d '\0' ; echo .)"
++		b=3D${b%.}    # strip . again
++
+ 		[ -z "$b" ] &&
+ 			b=3D"0" ||
+ 			b=3D"$(exec printf '%u\n' "'$b")"
+@@ -35,7 +44,7 @@ calcsize() {
+ 	offset=3D$(($offset + $rsize))
+ }
+=20
+-case "$(_dd 0 bs=3D8 count=3D1)" in
++case "$(_dd 0 bs=3D4 count=3D1 | tr -d '\0')" in
+ 	"$(printf '\355\253\356\333')"*) ;; # '\xed\xab\xee\xdb'
+ 	*) fatal "File doesn't look like rpm: $pkg" ;;
+ esac
+@@ -46,10 +55,11 @@ sigsize=3D$rsize
+ calcsize $(($offset + (8 - ($sigsize % 8)) % 8))
+ hdrsize=3D$rsize
+=20
+-case "$(_dd $offset bs=3D3 count=3D1)" in
+-	"$(printf '\102\132')"*) _dd $offset | bzip2 -d ;; # '\x42\x5a'
+-	"$(printf '\037\213')"*) _dd $offset | gunzip  ;; # '\x1f\x8b'
+-	"$(printf '\375\067')"*) _dd $offset | xzcat   ;; # '\xfd\x37'
+-	"$(printf '\135\000')"*) _dd $offset | unlzma  ;; # '\x5d\x00'
+-	*) fatal "Unrecognized rpm file: $pkg" ;;
++case "$(_dd $offset bs=3D2 count=3D1 | tr -d '\0')" in
++	"$(printf '\102\132')") _dd $offset | bunzip2 ;; # '\x42\x5a'
++	"$(printf '\037\213')") _dd $offset | gunzip  ;; # '\x1f\x8b'
++	"$(printf '\375\067')") _dd $offset | xzcat   ;; # '\xfd\x37'
++	"$(printf '\135')") _dd $offset | unlzma      ;; # '\x5d\x00'
++	"$(printf '\050\265')") _dd $offset | unzstd  ;; # '\x28\xb5'
++	*) fatal "Unrecognized payload compression format in rpm file: $pkg" ;;
+ esac
+--=20
+2.40.1
 
 
