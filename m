@@ -1,142 +1,164 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E854C7EE23
-	for <webhook@archiver.kernel.org>; Fri, 26 May 2023 14:40:04 +0000 (UTC)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web10.9682.1685112000899341926
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2E8EC77B7A
+	for <webhook@archiver.kernel.org>; Fri, 26 May 2023 15:26:07 +0000 (UTC)
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+ by mx.groups.io with SMTP id smtpd.web11.115.1685114757854799071
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 May 2023 07:40:01 -0700
+ Fri, 26 May 2023 08:25:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=V+9qthA1;
- spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2af2db78b38so8568041fa.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 May 2023 07:40:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=iIVx1J1+;
+ spf=pass (domain: gmail.com, ip: 209.85.161.41, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-554f951e658so450155eaf.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 May 2023 08:25:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685111999; x=1687703999;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yRzxag+CnYZ53sTHd3IV8PW1Rn3hAvnsjL+KyibK/dc=;
-        b=V+9qthA13OG7OdFed9db25WSw0e803Qh1KfZ+44eAtJETGmMV7u0SrEqRlHJNxH4er
-         IEAA9CiFP0LuiOGJgGZYBBLLvt10bHL2Ie28jeOZJr/h3ws52npkSzom4v9Qy5JM0J/I
-         u6XX1wRHgQxKg75QkNMRqkpkoC2GAgn8mplhErKeLHOy6v3sxV2aYEhXzYTCzwg+QHlt
-         7ubzd/Fivtxhyk/qrQYbe+PUI/sadu8nm+Aomhu4R/59Z3R44csgFgH5d/VGAEdG8yZQ
-         BCkGGQDuwMXlJONruIOm+jN9WISOxdPkr5015o6Kmkxfqdr7WGB15O6GXvsMStmaSf1O
-         kg6g==
+        d=gmail.com; s=20221208; t=1685114757; x=1687706757;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3L7aGScxSA5NLFKhdolL+hc39pqJaiL77zBnXaASStA=;
+        b=iIVx1J1+t8U5M0Y8Wkfz8eIhjstLxH7eJQRIRKcUqhQ1c+WmF6DkYSUrhumt34VEDP
+         wtPEQtt7pZSVxH8oC9L8sbw4OJQiOiruW125OZJ/LgCWVaLAtnxQPNsYJcQgcSiNQQwg
+         v5nSeQFiN0trw36Mq00aykgLMFiaNWTuVvk6gmhhCOj23HHUIIEmZlejCLw7VuAOxTtv
+         ZHTEErXRlJgeC2Y2E60S6vH/O0ikZJDabke7sZqdEhqPZiIYZ/EmBEAQN5nQDZoi3fKl
+         TN8VTaIlIEYD9jSsaf3rtd5BsQuD+JbiXMklXpooGH9plV3ZngBWlSllslZRa3W5qnkN
+         Y/iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685111999; x=1687703999;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yRzxag+CnYZ53sTHd3IV8PW1Rn3hAvnsjL+KyibK/dc=;
-        b=G88K1oGM6gLyhp6TgFUCYbZ5SDUYYu0nTvj68cqXBb89qCglYR9v79B9u4edHy/YIV
-         kIH5LhXPF871eQAC08NgO1FPWDDukNdr5njYNplHBhuW5IFcbSeKksJSCr6YI7DhiKU9
-         yUPn2tnHWjyQc5FBJaMpM7t8/fJiSo5H41PTQalShrP3hV135MaO2hNq8aUMW8moQPpw
-         baXVgvsncrVvMbNsRichXL/yD0aFnmmb99CHjjE/jWw5dXCKTzcvIZ2RUxZa0qTmyJlI
-         bcBOG1fRHfjuz3gyY1vhPx6BVc2eUR13bD3ZJ2gwNleh52z6Lj7l0gAnOf7W9tuMi0mW
-         FkMQ==
-X-Gm-Message-State: AC+VfDzTRCF4RJPTl+r9N2eXBP+yldQMddbwOLS40OaBQi0JgwgBmLKY
-	D1w0lcKLrLQArDbgHtghxwo1rAMI2+26TNqynwY=
-X-Google-Smtp-Source: ACHHUZ5B8VMrRMKCa5X30NPOcq2cMxV+hCXwYnoAwfJ9V7t0I6usFrEhP75/hNz5Ta+uBqk1nUY39KJYELPqOkFa9+4=
-X-Received: by 2002:a2e:9b5a:0:b0:2ad:d2d1:bbae with SMTP id
- o26-20020a2e9b5a000000b002add2d1bbaemr652553ljj.45.1685111998500; Fri, 26 May
- 2023 07:39:58 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1685114757; x=1687706757;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3L7aGScxSA5NLFKhdolL+hc39pqJaiL77zBnXaASStA=;
+        b=VULzpbCx2tjWObomiSzVw2bRxQQ4LOeYPYgpdngQ/9+NXL3MFIz+FIVnduUCfnIMZa
+         8ojPp9jfXZdt2VByMtGO022WGh05cLDYW/D5NAEh4oajAja5Tzu32FtGPCY9xietqd6J
+         D8qdQW28NBtmmSl8iWiqaeI5b2DeVjA0ay+8RINzlWbxkxkQB3kv7rtmonHxeb9B1XYV
+         DAQ9STO0Jf7byh/h3lJZGxdjdWMK7oBLmVp08fx4fhHZuNEIbwevJFq2n474uavamsQ4
+         kmzljZ1d9xYiTZYsIu2r0FUIvBBr6iuL/PFwXyQA5zmb8bAThmiY/jlfKR0EY+QcHsqK
+         vJ+A==
+X-Gm-Message-State: AC+VfDyRfARQYx883OUZ9PUxVGAAr/BNgBoZQApeOp3YuNbcubt0lIQD
+	GeLGNTY2+3YJPBC0SsiHrcdzcMwMxY+r2KuwFuk=
+X-Google-Smtp-Source: ACHHUZ7CIiQFxzjs/2omBKcvTxnI3g/A/dM5cg9iA0kQk9CYIolSmMWZ4lNJwOoQ5lhejjo/zx99VsJ5CA1gzmRH8xM=
+X-Received: by 2002:a54:450a:0:b0:398:5172:ef31 with SMTP id
+ l10-20020a54450a000000b003985172ef31mr1105100oil.32.1685114756850; Fri, 26
+ May 2023 08:25:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230526142746.3220960-1-mingli.yu@eng.windriver.com>
-In-Reply-To: <20230526142746.3220960-1-mingli.yu@eng.windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 26 May 2023 16:39:47 +0200
-Message-ID: <CANNYZj98ng9p+RZqwSGj2rUF=FmHpNZu8HfNHJUDdPSe8EUUoA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] qemu: Restrict the built qemu targets
-To: "Yu, Mingli" <mingli.yu@eng.windriver.com>
-Cc: openembedded-core@lists.openembedded.org
+References: <20230525084328.77920-1-andrej.valek@siemens.com> <20230525161322adee6d2f@mail.local>
+In-Reply-To: <20230525161322adee6d2f@mail.local>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 26 May 2023 08:25:30 -0700
+Message-ID: <CAMKF1sodLnNaBZ2BiuPGhTtOK3vvE47a6F6ZrGx09wgETweFUw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] busybox: 1.36.0 -> 1.36.1
+To: alexandre.belloni@bootlin.com
+Cc: andrej.valek@siemens.com, openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 May 2023 14:40:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181774
+ <openembedded-core@lists.openembedded.org>; Fri, 26 May 2023 15:26:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181775
 
-I can't agree with this. The whole point of qemu is that it can
-emulate any target on any other target. If you would like to trim it
-down, can this be configured via PACKAGECONFIG, and off by default?
+clang also results in same error
 
-Alex
+ERROR: QA Issue: busybox: ELF binary /usr/bin/busybox.nosuid has
+relocations in .text [textrel]
 
-On Fri, 26 May 2023 at 16:27, Yu, Mingli <mingli.yu@eng.windriver.com> wrote:
+see https://errors.yoctoproject.org/Errors/Details/705055/
+
+On Thu, May 25, 2023 at 9:13=E2=80=AFAM Alexandre Belloni via
+lists.openembedded.org
+<alexandre.belloni=3Dbootlin.com@lists.openembedded.org> wrote:
 >
-> From: Mingli Yu <mingli.yu@windriver.com>
+> Hello,
 >
-> Now the QEMU_TARGETS used to set the supported built qemu targets
-> both for "bitbake qemu-native" and "bitbake qemu".
+> On the autobuilders, this causes:
 >
-> After the qemu package installed on the target, it will take up
-> 464M which includes not only the one matches the arch of the target
-> but aslo all available built qemu targets which set by QEMU_TARGETS.
+> WARNING: busybox-1.36.1-r0 do_package_qa: QA Issue: busybox: ELF binary /=
+bin/busybox.nosuid has relocations in .text [textrel]
 >
-> Making "bitbake qemu" to only build the arch matches the target should
-> satisfy our usual need and ease the concerns who cares much about the
-> size in embedded device as it decreases the qemu rpm size from about 65M
-> to about 17M and the size of the extracted qemu RPM decreased from
-> about 464M to about 248M.
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/15/builds/7460/st=
+eps/11/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/103/builds/6057/s=
+teps/11/logs/stdio
 >
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> ---
->  meta/recipes-devtools/qemu/qemu-targets.inc | 15 +++++++++++++--
->  meta/recipes-devtools/qemu/qemu_8.0.0.bb    |  2 +-
->  2 files changed, 14 insertions(+), 3 deletions(-)
 >
-> diff --git a/meta/recipes-devtools/qemu/qemu-targets.inc b/meta/recipes-devtools/qemu/qemu-targets.inc
-> index 24f9a03948..bd0b47a4e7 100644
-> --- a/meta/recipes-devtools/qemu/qemu-targets.inc
-> +++ b/meta/recipes-devtools/qemu/qemu-targets.inc
-> @@ -3,9 +3,20 @@
->  #    mips mipsel mips64 mips64el ppc ppc64 ppc64abi32 ppcemb
->  #    riscv32 riscv64 sparc sparc32 sparc32plus
+> On 25/05/2023 10:43:28+0200, Andrej Valek via lists.openembedded.org wrot=
+e:
+> > - regresion has been fixed, re-enable SHA*HWACCEL on x86
+> >   - 8d198665a0d09c3f22f3a12234809f46b1c2b04a
+> >
+> > Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> > ---
+> >  .../{busybox-inittab_1.36.0.bb =3D> busybox-inittab_1.36.1.bb}  | 0
+> >  meta/recipes-core/busybox/busybox/sha_accel.cfg               | 2 --
+> >  .../busybox/{busybox_1.36.0.bb =3D> busybox_1.36.1.bb}          | 4 +-=
+--
+> >  3 files changed, 1 insertion(+), 5 deletions(-)
+> >  rename meta/recipes-core/busybox/{busybox-inittab_1.36.0.bb =3D> busyb=
+ox-inittab_1.36.1.bb} (100%)
+> >  delete mode 100644 meta/recipes-core/busybox/busybox/sha_accel.cfg
+> >  rename meta/recipes-core/busybox/{busybox_1.36.0.bb =3D> busybox_1.36.=
+1.bb} (91%)
+> >
+> > diff --git a/meta/recipes-core/busybox/busybox-inittab_1.36.0.bb b/meta=
+/recipes-core/busybox/busybox-inittab_1.36.1.bb
+> > similarity index 100%
+> > rename from meta/recipes-core/busybox/busybox-inittab_1.36.0.bb
+> > rename to meta/recipes-core/busybox/busybox-inittab_1.36.1.bb
+> > diff --git a/meta/recipes-core/busybox/busybox/sha_accel.cfg b/meta/rec=
+ipes-core/busybox/busybox/sha_accel.cfg
+> > deleted file mode 100644
+> > index 8900305a11..0000000000
+> > --- a/meta/recipes-core/busybox/busybox/sha_accel.cfg
+> > +++ /dev/null
+> > @@ -1,2 +0,0 @@
+> > -# CONFIG_SHA256_HWACCEL is not set
+> > -# CONFIG_SHA1_HWACCEL is not set
+> > diff --git a/meta/recipes-core/busybox/busybox_1.36.0.bb b/meta/recipes=
+-core/busybox/busybox_1.36.1.bb
+> > similarity index 91%
+> > rename from meta/recipes-core/busybox/busybox_1.36.0.bb
+> > rename to meta/recipes-core/busybox/busybox_1.36.1.bb
+> > index 8014a5c7bf..b34d60cded 100644
+> > --- a/meta/recipes-core/busybox/busybox_1.36.0.bb
+> > +++ b/meta/recipes-core/busybox/busybox_1.36.1.bb
+> > @@ -51,6 +51,4 @@ SRC_URI =3D "https://busybox.net/downloads/busybox-${=
+PV}.tar.bz2;name=3Dtarball \
+> >             file://0002-nslookup-sanitize-all-printed-strings-with-prin=
+table.patch \
+> >             "
+> >  SRC_URI:append:libc-musl =3D " file://musl.cfg "
+> > -# TODO http://lists.busybox.net/pipermail/busybox/2023-January/090078.=
+html
+> > -SRC_URI:append:x86 =3D " file://sha_accel.cfg"
+> > -SRC_URI[tarball.sha256sum] =3D "542750c8af7cb2630e201780b4f99f3dcceeb0=
+6f505b479ec68241c1e6af61a5"
+> > +SRC_URI[tarball.sha256sum] =3D "b8cc24c9574d809e7279c3be349795c5d5ceb6=
+fdf19ca709f80cde50e47de314"
+> > --
+> > 2.40.1
+> >
 >
-> -def get_qemu_target_list(d):
-> +def get_qemu_target_list(d, target=False):
->      import bb
-> -    archs = d.getVar('QEMU_TARGETS').split()
-> +    if target:
-> +        archs = []
-> +        allarchs = d.getVar('QEMU_TARGETS').split()
-> +        if d.getVar("TARGET_ARCH") in ["x86", "i486", "i586", "i686"]:
-> +            machine_arch = "i386"
-> +        else:
-> +            machine_arch = d.getVar("TARGET_ARCH")
-> +        for arch in allarchs:
-> +            if arch in machine_arch:
-> +                archs.append(arch)
-> +    else:
-> +        archs = d.getVar('QEMU_TARGETS').split()
->      tos = d.getVar('HOST_OS')
->      softmmuonly = ""
->      for arch in ['ppcemb', 'lm32']:
-> diff --git a/meta/recipes-devtools/qemu/qemu_8.0.0.bb b/meta/recipes-devtools/qemu/qemu_8.0.0.bb
-> index 42e133967e..6c25d99ade 100644
-> --- a/meta/recipes-devtools/qemu/qemu_8.0.0.bb
-> +++ b/meta/recipes-devtools/qemu/qemu_8.0.0.bb
-> @@ -10,7 +10,7 @@ CFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', '-DEGL_NO_X11=1',
+> >
+> >
+> >
 >
->  RDEPENDS:${PN}:class-target += "bash"
->
-> -EXTRA_OECONF:append:class-target = " --target-list=${@get_qemu_target_list(d)}"
-> +EXTRA_OECONF:append:class-target = " --target-list=${@get_qemu_target_list(d, target=True)}"
->  EXTRA_OECONF:append:class-target:mipsarcho32 = "${@bb.utils.contains('BBEXTENDCURR', 'multilib', ' --disable-capstone', '', d)}"
->  EXTRA_OECONF:append:class-nativesdk = " --target-list=${@get_qemu_target_list(d)}"
 >
 > --
-> 2.25.1
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 >
->
-> -=-=-=-=-=-=-=-=-=-=-=-
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#181773): https://lists.openembedded.org/g/openembedded-core/message/181773
-> Mute This Topic: https://lists.openembedded.org/mt/99150807/1686489
+> View/Reply Online (#181720): https://lists.openembedded.org/g/openembedde=
+d-core/message/181720
+> Mute This Topic: https://lists.openembedded.org/mt/99126049/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
