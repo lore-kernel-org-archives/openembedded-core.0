@@ -1,90 +1,84 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BBB3C77B7C
-	for <webhook@archiver.kernel.org>; Fri, 26 May 2023 06:52:32 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web10.2757.1685083948105878678
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8357C7EE23
+	for <webhook@archiver.kernel.org>; Fri, 26 May 2023 07:58:22 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web10.3366.1685087892314517192
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 May 2023 23:52:28 -0700
+ Fri, 26 May 2023 00:58:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=MYwkKp9j;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3f60dfc6028so4190925e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 May 2023 23:52:27 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=aWfePsV+;
+ spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-4f3a166f8e9so723562e87.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 May 2023 00:58:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1685083946; x=1687675946;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4Pp4QuYzBYQTo0PnSmumaBPX491/iHUmClnjvEbQ7Ag=;
-        b=MYwkKp9jTfJ6fgpO7DOf5hG6/GGdTv/Ry+wAwaV7nK2gAPFPr0hf44rw/9y6ujwxms
-         qpVcpCashOg/4y8OTrIEtw8vELJ/07bw53Z4GoqSsnsiMYt5ZptJhN2JA3R3Xl6jwt9o
-         tnohAc+vwav26uEG9Y8BfxByzofzUv5n/bjns=
+        d=gmail.com; s=20221208; t=1685087890; x=1687679890;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8gWHIR0RY1BhUoEN6e/bmv+mfst0SDweXqEg8BMHv/A=;
+        b=aWfePsV+SCkx1rOwXLWByMaRqszbK2HJ+0Vw4XYzpMzAO7ZZ3+5bNF0ZQS+K+CXqT0
+         6NnBrsxf62sDS2V9jRR1NQGB0Rabi4w8jDElRSmkdzCM22n/pJFmKKVzV7cXM+Ktj7Jf
+         kC+Y8VesQNwyZI7sjgAYE9NpIimSoGy2cv0Yr1d+buptD5u5MBDD53e+TNZz0/CyZAaw
+         XJpKmVSIY8QSux/HwB6RlE/PJ9KLPPXseNDPExpcMi2lwGNf65gaFBFlH4tr8pUG0QBa
+         OT8YfsJwA980J6UnW0ziShKUzO5ZHju+9zWoYuavMHBX+B40e5YkLCCDghFATWE5SDVa
+         9Ypg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685083946; x=1687675946;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4Pp4QuYzBYQTo0PnSmumaBPX491/iHUmClnjvEbQ7Ag=;
-        b=L/rZGEK04aYvmjiKd1MKhXA90ukk2iZR6V84Xq2kN8U3lTUT6LNY6QshLlgTLCjhe4
-         0nfHeBhjvE7K+taxv6GZs5ZcOomThqnvc4GnTxelZ3azE002F0fbUF7igrTUmSMEs48F
-         zjUe02hfEDbIjB9xL1aN0mXRMnJX1P/UXdcwA0SJzJcU+3Wl2hssou0RAjnBug5zrGGX
-         O0fzKK2FXosTeKrnKxxRLLH22qOjKCxFvw47pE/dcC5VbgeGPzrIStqAoe03jdkqhzrC
-         eqspu6pkB9wUwWc4kdVyyQhkl8IELzoGz78QLf3FOty1MXBIeMvcZB7CIFfZKWuUqGD/
-         RDBA==
-X-Gm-Message-State: AC+VfDxTvNENG4wYbm/GA34xT6jNn3iPult2U4ZAfBYqCFKbctywo+72
-	DL4G7Mg66jb6OkzHaUD4RBViu6UBSWHkRcWSeDs=
-X-Google-Smtp-Source: ACHHUZ6OXG8EEPyADxGnGgwhNmUHafIA0ri3A9CPjLvB8Nh8e6npzf60s6t5ymz/dInozHG4hqvG9A==
-X-Received: by 2002:a1c:7407:0:b0:3f6:766:f76f with SMTP id p7-20020a1c7407000000b003f60766f76fmr604538wmc.36.1685083946293;
-        Thu, 25 May 2023 23:52:26 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:fb7f:e528:bcc3:c3ef])
-        by smtp.gmail.com with ESMTPSA id c3-20020a05600c0ac300b003f50e88ffc1sm7895589wmr.0.2023.05.25.23.52.25
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 May 2023 23:52:26 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] glib-2.0: Fix TMPDIR mismatch test failures
-Date: Fri, 26 May 2023 07:52:25 +0100
-Message-Id: <20230526065225.2817347-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
+        d=1e100.net; s=20221208; t=1685087890; x=1687679890;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8gWHIR0RY1BhUoEN6e/bmv+mfst0SDweXqEg8BMHv/A=;
+        b=CNXYTQjnvqhFxf70vnFIerAceFsPzMOsss6hEI84XY8xNQwnmkjQrZOlJFqYbty3MD
+         ScrEYyoQic7gT2KESiPRUgleKqZQqVWgH7p408usLddkbymJ+JwWI3+hPAfBm2spNwnl
+         KYTGgl1hqfnDZjsw3JlCzZFaa6f5ejjQGqORyS9Sxx7ohQthINfGaB1rwDj/KcqBgcXL
+         YIt/sVBXi5EEckr3Gy0+pKTJBPidzWnTAyeRoCygkC83lkcKE1p68EL1wUM06GyhhjhD
+         BClpw1o4L9lecojcEpS3RmH6UsE/8Ogw7oQf7uJStSbigpaRgW9ILs3QjXL4ouCXuNuG
+         k/4A==
+X-Gm-Message-State: AC+VfDyV8fysMXMajtEKa98It7HILPKpyKapfGRfu0rzi4sE+6yFrDZ1
+	XkmLA5qt6qEsBY0Qu7gRATBXkv/6drx+aURp/JM=
+X-Google-Smtp-Source: ACHHUZ7aXoYaQb2hYWU/M0yvsMNNnPoOBCIxMpDnmq6btMuinRXi9HmEeoL+guU7AP6mG4xi/KvRZ4rUWoJz3lNBlQ8=
+X-Received: by 2002:a05:6512:b08:b0:4f4:7a5:e800 with SMTP id
+ w8-20020a0565120b0800b004f407a5e800mr1385334lfu.10.1685087890044; Fri, 26 May
+ 2023 00:58:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CANNYZj_zqGXU_v8SFzNK7uDrUXn-979-GiYcPsS6Sd2EWEWytA@mail.gmail.com>
+ <6010.1685051696220462053@lists.openembedded.org>
+In-Reply-To: <6010.1685051696220462053@lists.openembedded.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 26 May 2023 09:57:58 +0200
+Message-ID: <CANNYZj9Gkz2nAbsrB06iQv9dQKo57vj+oQ8pQj2HUvmr6dUGvA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] classes: Add new packagefeed class.
+To: Charlie Johnston <charlie.johnston@ni.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 May 2023 06:52:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181762
+ <openembedded-core@lists.openembedded.org>; Fri, 26 May 2023 07:58:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181763
 
-gcc 13 appears to trigger TMPDIR changes in glib which causes ptest failures:
+On Thu, 25 May 2023 at 23:54, Charlie Johnston <charlie.johnston@ni.com> wr=
+ote:
+> I can see a couple of potential options:
+>
+> 1. Come up with a way to ensure that the do_package_index task is only ru=
+n once per bitbake invocation after all other packaging tasks. As far as I =
+can tell, there's not a way to enforce this with my current design. It also=
+ doesn't address the problem of packages already in the deploy directories.
+> 2. Add more scaffolding to create a packagefeed class with potentially it=
+s own deploy directory and which only includes index files for its dependen=
+cies. That seems like a lot more effort than my change but might address th=
+e concerns more completely.
+> Any feedback or thoughts on those ideas?
 
-FAIL: glib/utils-c-90.test (Child process killed by signal 6)
-FAIL: glib/utils.test (Child process killed by signal 6)
-FAIL: glib/utils-c-99.test (Child process killed by signal 6)
-FAIL: glib/utils-c-17.test (Child process killed by signal 6)
-FAIL: glib/utils-c-11.test (Child process killed by signal 6)
+You could try doing something like what buildhistory and similar
+classes do, that is, hook into bb.event.BuildCompleted:
+https://docs.yoctoproject.org/bitbake/bitbake-user-manual/bitbake-user-manu=
+al-metadata.html#events
 
-The issue is caused by our symlinks between tmp directories which
-cause the tests to get confused. We can set G_TEST_TMPDIR to
-a resolved path using readlink to avoid the failures.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-core/glib-2.0/glib-2.0/run-ptest | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/run-ptest b/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
-index c476d67310d..831bc3b91f1 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
-@@ -6,5 +6,5 @@ if id -u glib2-test; then
- fi
- useradd glib2-test
- cd /tmp
--su glib2-test -c 'gnome-desktop-testing-runner glib'
-+su glib2-test -c 'G_TEST_TMPDIR=`readlink -f /tmp` gnome-desktop-testing-runner glib'
- userdel glib2-test
--- 
-2.39.2
-
+Alex
 
