@@ -1,182 +1,138 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <andrej.valek@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA1FCC7EE23
-	for <webhook@archiver.kernel.org>; Fri, 26 May 2023 03:41:31 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web10.1009.1685072480167999913
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05F2FC77B7A
+	for <webhook@archiver.kernel.org>; Fri, 26 May 2023 04:38:12 +0000 (UTC)
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com (EUR01-HE1-obe.outbound.protection.outlook.com [40.107.13.58])
+ by mx.groups.io with SMTP id smtpd.web11.1567.1685075888994056448
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 May 2023 20:41:22 -0700
+ Thu, 25 May 2023 21:38:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=cImDbYuG;
- spf=pass (domain: mvista.com, ip: 209.85.210.178, mailfrom: vanusuri@mvista.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-64d5f65a2f7so353475b3a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 May 2023 20:41:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1685072479; x=1687664479;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3IvMPpMshrTeTUyeS5QJo+6N5vKJMiqEeF0w+sDNpGU=;
-        b=cImDbYuG6m/x76oYKCOlT9vlpxuKsaOmA5YH+1zPoxFl/LEEr4+Md8sAq1Of8teHZQ
-         6TR1coEB9vOC0E62t8zMeJA53ggonyFQCIuIbwFHDXR+6KgvmwgamI92ZHrqJV6hwF2U
-         xmAsszxOEvTw092YX4XtlgL5c9kfshN4yr/hI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685072479; x=1687664479;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3IvMPpMshrTeTUyeS5QJo+6N5vKJMiqEeF0w+sDNpGU=;
-        b=WBjXIyFr0yKGgXP96n/TcERDr1vwmmzKigezA7XbQazGWvhWCJ+vUvcYEHIF498GlT
-         wUeV7CY1XpQNC7zjyOg0WLWmE8vSQQn9WbS+74wgS0QBKFDDEWRakUGIqVsdWbJT1Wzi
-         702ahx6JqdLtZiMK9FddK8sLI2n8a8RKgOMr+9Qc2acOQE8fQpZtpcB9AVFWK5yQ/YuM
-         X8LpVf/IkLMs733ByAd5kQclYdv/jOhnErvNCE5A6+SAbY/PXZoKl8Osa/cdgPh3BSUs
-         7CurROwdPjgPu57eVpcFcba3378rbbJ3WutVZ7PBiWB3lZj8gjJnqw0hAAZ33Yeg5KzW
-         LkTw==
-X-Gm-Message-State: AC+VfDwQEwQL/X3tdPSvmQafrXV3ce3BpPrM+1HTzlczeyt866jBROeK
-	Zfu4ssfflSMLGDWFb8lfOsPKJZt8JWbk0RhXNrU=
-X-Google-Smtp-Source: ACHHUZ6vCPZp1hZHpqy+lsNialVC4nR6wPmqs/IXcmuxml1+9xQPJtgnFsiz4WcnPiem8N+U0jriEQ==
-X-Received: by 2002:a05:6a00:1a12:b0:64d:742f:f590 with SMTP id g18-20020a056a001a1200b0064d742ff590mr1466637pfv.8.1685072479100;
-        Thu, 25 May 2023 20:41:19 -0700 (PDT)
-Received: from MVIN00020.mvista.com ([117.98.129.187])
-        by smtp.gmail.com with ESMTPSA id u5-20020aa78385000000b0064305676b61sm1785969pfm.203.2023.05.25.20.41.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 May 2023 20:41:18 -0700 (PDT)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][dunfell][PATCH] go: Security fix CVE-2023-24540
-Date: Fri, 26 May 2023 09:09:02 +0530
-Message-Id: <20230526033902.178105-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=fail reason="body hash did not verify" header.i=@siemens.com header.s=selector2 header.b=srzzK9Z4;
+ spf=pass (domain: siemens.com, ip: 40.107.13.58, mailfrom: andrej.valek@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZHifN+bSbTte3RCdUGwvBKd426C8F7lj+XehP4P6HPK4gTqIZTQGwDFxtAsWdVN0SBy5JiKOM3ZpGFherrbtRL2DQLcLJZkwvu+xcs8jxRd67EqzI0DEQeKhWVpOWr6IDO4yzS8tPBMLPiKlj30ttqqyXvcurXdLMYBVsVkWaljJO7+rk73s4hVYmMpWAJ+dLuhXYzdI4J0kzCcY5uZovToL1PcoE0ah6uPZ4absAVba+ZXXb51sZW16WBtS5mv+8Bw+Z6cBd9JZOi4xisuS85PNV70wCUKs1r/wvMKbhq6kH5VOh21Ll5aRy4Q/0XXUesvBkzzJpbBQ427Wn+iAdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iKV/A3l294mB7s9KrkPPwpsu4KLlBQsoHOfyWB3bCrc=;
+ b=Nsj1ZwYWhImBVmZSRqlL/VhvI/9UVoaxPe4QgvFT1eigo7TCrZBOC/7N/F7Q2MSHduQhWzSwa7JNOjWcToUrF9MzgDvsig/wvy9ldiDWCCziBfsypSfr1uqOLGTx6GpQTEFX2AVqoujFWttdd8BhPszXQN3ngXcFSfaKcZOhO/hcWLIxLYGhxtahWE+ouMFC3rSD7ejyKl7PHP0GzacAg4KlrIpfFs3EZKqqab5H+dfqk+XCeBmUGbBctTigHdvoQT/rLUfKzJG9lRnoaXzTLNoy1Vn4hO4WofAG0AtprGcqljEysjsYE5eB8wirhi2kamlp0qo+SbSNazLM6dqtvA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 194.138.21.74) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=siemens.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=siemens.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iKV/A3l294mB7s9KrkPPwpsu4KLlBQsoHOfyWB3bCrc=;
+ b=srzzK9Z4OvP8u3sklJIksEBelxNnhIlvaEG9G9IEdhd8sbpZKQtMoXoJB9Qkr0kpKWGyN9uxZTRLSWS9vKxfQaEZ07u4htXGVr2y1n6Jx84EfLdH3vyrOp6NammpOZt8gEyX23qbGGZat+gp3mzmGzWH9uRV9yddzFwDv7/mrwVPeCnS60EsHdSIJtPb9Wc/lwKspF+0U6eKr6rNoIVvSKOmlqY5i14bxRuizEijhggn1PYseVmRoRabaFBNlRPrBo2MnsR2eQvTGyZ3Tb8QHAmNJ0YtRE4Iswr1ynBc44lahEaYKuLVBoufEhPHFNn4ScgUAXu3GR5TuxgzUWfokA==
+Received: from FR2P281CA0040.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:92::7) by
+ PA4PR10MB5585.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:273::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.15; Fri, 26 May
+ 2023 04:38:05 +0000
+Received: from VE1EUR01FT013.eop-EUR01.prod.protection.outlook.com
+ (2603:10a6:d10:92:cafe::11) by FR2P281CA0040.outlook.office365.com
+ (2603:10a6:d10:92::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.16 via Frontend
+ Transport; Fri, 26 May 2023 04:38:05 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 194.138.21.74)
+ smtp.mailfrom=siemens.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=siemens.com;
+Received-SPF: Pass (protection.outlook.com: domain of siemens.com designates
+ 194.138.21.74 as permitted sender) receiver=protection.outlook.com;
+ client-ip=194.138.21.74; helo=hybrid.siemens.com; pr=C
+Received: from hybrid.siemens.com (194.138.21.74) by
+ VE1EUR01FT013.mail.protection.outlook.com (10.152.2.215) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6433.16 via Frontend Transport; Fri, 26 May 2023 04:38:04 +0000
+Received: from DEMCHDC8WAA.ad011.siemens.net (139.25.226.104) by
+ DEMCHDC8VQA.ad011.siemens.net (194.138.21.74) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.25; Fri, 26 May 2023 06:38:04 +0200
+Received: from md3hr6tc.ad001.siemens.net (139.22.37.138) by
+ DEMCHDC8WAA.ad011.siemens.net (139.25.226.104) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.25; Fri, 26 May 2023 06:38:03 +0200
+From: Andrej Valek <andrej.valek@siemens.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Andrej Valek <andrej.valek@siemens.com>
+Subject: [OE-core][PATCH v2] busybox: 1.36.0 -> 1.36.1
+Date: Fri, 26 May 2023 06:37:42 +0200
+Message-ID: <20230526043742.13619-1-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230525084328.77920-1-andrej.valek@siemens.com>
+References: <20230525084328.77920-1-andrej.valek@siemens.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [139.22.37.138]
+X-ClientProxiedBy: DEMCHDC8WAA.ad011.siemens.net (139.25.226.104) To
+ DEMCHDC8WAA.ad011.siemens.net (139.25.226.104)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VE1EUR01FT013:EE_|PA4PR10MB5585:EE_
+X-MS-Office365-Filtering-Correlation-Id: 051b9d3b-14dc-4395-1f61-08db5da2ff08
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	kNrkDENWLcf61k2JueO5rBx1B9A2qxMQzWPtX0iQ6zP2cnXmMvUWba4mmf/KlimBfwlILy2i6T2w1orUuPBRri9VabUngQR51Qy6udz1KMOmUyzHJNFyk+qu4n3t1Cz9ZYZrHLcbf/sn9uAInniG9s8VbFV4lhedN50Z83+aLPyfacoVMURpddAHvNARt+t9RgqOmVwQKiEV4PWrcwxyYou3rkkoEVLMlCrq/HGnchDMOUIiPrI1k99OImZc/ob/JGTDj98D6fOi1mjl88P91wBffnQ9dkXhr71gZV5TSROfseQS7vDER6FPy4ICa658lwQM+J3Vqx9cXronS1Gszy9f6kBcGn+PpuNwfQswwxzTlLG0mfnuBwro/Md+IpIKAkU9Pfl3UtRmtMRhopaTXMNT2N5JBU26HvK8rB0uOoPOGDu2ScmoJnDPTk05lGUOwwHRZH0Q/YdbsrMcecyjwmpk4mZF49/H/Y30tnKVeXR0FGjgIq1gQv8B2XfO6WGgFvIOf5Aavshc6JOD08gCXTYfaOLIPOK1CH3BoCxrTfa0GEN5h5rGZ3DECAz7aDIhV+gaikQbruatF2B+1TKv1kmoQm7f2omcG1MsIPsF0UrCvJeELfuuUxVY2TwQ/sn3aB0e00oRNcnbfi+Wo+5N1AwQAmeZKnFD7LlNeN+CT3/LF+pszJwoo5pTsJR0Kmavi90cJeXhZntgn6JfPLs94WKBlMYnpiUNhX3BnujClco=
+X-Forefront-Antispam-Report: 
+	CIP:194.138.21.74;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hybrid.siemens.com;PTR:hybrid.siemens.com;CAT:NONE;SFS:(13230028)(4636009)(346002)(136003)(376002)(396003)(39860400002)(451199021)(40470700004)(46966006)(36840700001)(8936002)(44832011)(5660300002)(47076005)(82310400005)(36860700001)(107886003)(186003)(16526019)(26005)(83380400001)(7596003)(2616005)(7636003)(82960400001)(4326008)(86362001)(956004)(336012)(82740400003)(356005)(1076003)(70586007)(40460700003)(6666004)(41300700001)(70206006)(966005)(40480700001)(8676002)(36756003)(478600001)(316002)(6916009)(2906002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2023 04:38:04.7310
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 051b9d3b-14dc-4395-1f61-08db5da2ff08
+X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;Ip=[194.138.21.74];Helo=[hybrid.siemens.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	VE1EUR01FT013.eop-EUR01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR10MB5585
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 May 2023 03:41:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181756
+ <openembedded-core@lists.openembedded.org>; Fri, 26 May 2023 04:38:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181757
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+- regression on x86 is still in place
 
-Upstream-Status: Backport [https://github.com/golang/go/commit/ce7bd33345416e6d8cac901792060591cafc2797]
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
 ---
- meta/recipes-devtools/go/go-1.14.inc          |  1 +
- .../go/go-1.14/CVE-2023-24540.patch           | 90 +++++++++++++++++++
- 2 files changed, 91 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-24540.patch
+ .../{busybox-inittab_1.36.0.bb =3D> busybox-inittab_1.36.1.bb}    | 0
+ .../busybox/{busybox_1.36.0.bb =3D> busybox_1.36.1.bb}            | 2 +-
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/busybox/{busybox-inittab_1.36.0.bb =3D> busybox-i=
+nittab_1.36.1.bb} (100%)
+ rename meta/recipes-core/busybox/{busybox_1.36.0.bb =3D> busybox_1.36.1.bb=
+} (96%)
 
-diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
-index f734fe1ac8..43590278c8 100644
---- a/meta/recipes-devtools/go/go-1.14.inc
-+++ b/meta/recipes-devtools/go/go-1.14.inc
-@@ -61,6 +61,7 @@ SRC_URI += "\
-     file://CVE-2023-24538-1.patch \
-     file://CVE-2023-24538-2.patch \
-     file://CVE-2023-24538-3.patch \
-+    file://CVE-2023-24540.patch \
- "
- 
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
-diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-24540.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-24540.patch
-new file mode 100644
-index 0000000000..799a0dfcda
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.14/CVE-2023-24540.patch
-@@ -0,0 +1,90 @@
-+From ce7bd33345416e6d8cac901792060591cafc2797 Mon Sep 17 00:00:00 2001
-+From: Roland Shoemaker <bracewell@google.com>
-+Date: Tue, 11 Apr 2023 16:27:43 +0100
-+Subject: [PATCH] [release-branch.go1.19] html/template: handle all JS
-+ whitespace characters
-+
-+Rather than just a small set. Character class as defined by \s [0].
-+
-+Thanks to Juho Nurminen of Mattermost for reporting this.
-+
-+For #59721
-+Fixes  #59813
-+Fixes CVE-2023-24540
-+
-+[0] https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Character_Classes
-+
-+Change-Id: I56d4fa1ef08125b417106ee7dbfb5b0923b901ba
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1821459
-+Reviewed-by: Julie Qiu <julieqiu@google.com>
-+Run-TryBot: Roland Shoemaker <bracewell@google.com>
-+Reviewed-by: Damien Neil <dneil@google.com>
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1851497
-+Run-TryBot: Damien Neil <dneil@google.com>
-+Reviewed-by: Roland Shoemaker <bracewell@google.com>
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/491355
-+Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
-+Reviewed-by: Carlos Amedee <carlos@golang.org>
-+TryBot-Bypass: Carlos Amedee <carlos@golang.org>
-+Run-TryBot: Carlos Amedee <carlos@golang.org>
-+
-+Upstream-Status: Backport [https://github.com/golang/go/commit/ce7bd33345416e6d8cac901792060591cafc2797]
-+CVE: CVE-2023-24540
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ src/html/template/js.go      |  8 +++++++-
-+ src/html/template/js_test.go | 11 +++++++----
-+ 2 files changed, 14 insertions(+), 5 deletions(-)
-+
-+diff --git a/src/html/template/js.go b/src/html/template/js.go
-+index fe7054efe5cd8..4e05c1455723f 100644
-+--- a/src/html/template/js.go
-++++ b/src/html/template/js.go
-+@@ -13,6 +13,11 @@ import (
-+ 	"unicode/utf8"
-+ )
-+ 
-++// jsWhitespace contains all of the JS whitespace characters, as defined
-++// by the \s character class.
-++// See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Character_classes.
-++const jsWhitespace = "\f\n\r\t\v\u0020\u00a0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u2028\u2029\u202f\u205f\u3000\ufeff"
-++
-+ // nextJSCtx returns the context that determines whether a slash after the
-+ // given run of tokens starts a regular expression instead of a division
-+ // operator: / or /=.
-+@@ -26,7 +31,8 @@ import (
-+ // JavaScript 2.0 lexical grammar and requires one token of lookbehind:
-+ // https://www.mozilla.org/js/language/js20-2000-07/rationale/syntax.html
-+ func nextJSCtx(s []byte, preceding jsCtx) jsCtx {
-+-	s = bytes.TrimRight(s, "\t\n\f\r \u2028\u2029")
-++	// Trim all JS whitespace characters
-++	s = bytes.TrimRight(s, jsWhitespace)
-+ 	if len(s) == 0 {
-+ 		return preceding
-+ 	}
-+diff --git a/src/html/template/js_test.go b/src/html/template/js_test.go
-+index e07c695f7a77d..e52180cc113b5 100644
-+--- a/src/html/template/js_test.go
-++++ b/src/html/template/js_test.go
-+@@ -81,14 +81,17 @@ func TestNextJsCtx(t *testing.T) {
-+ 		{jsCtxDivOp, "0"},
-+ 		// Dots that are part of a number are div preceders.
-+ 		{jsCtxDivOp, "0."},
-++		// Some JS interpreters treat NBSP as a normal space, so
-++		// we must too in order to properly escape things.
-++		{jsCtxRegexp, "=\u00A0"},
-+ 	}
-+ 
-+ 	for _, test := range tests {
-+-		if nextJSCtx([]byte(test.s), jsCtxRegexp) != test.jsCtx {
-+-			t.Errorf("want %s got %q", test.jsCtx, test.s)
-++		if ctx := nextJSCtx([]byte(test.s), jsCtxRegexp); ctx != test.jsCtx {
-++			t.Errorf("%q: want %s got %s", test.s, test.jsCtx, ctx)
-+ 		}
-+-		if nextJSCtx([]byte(test.s), jsCtxDivOp) != test.jsCtx {
-+-			t.Errorf("want %s got %q", test.jsCtx, test.s)
-++		if ctx := nextJSCtx([]byte(test.s), jsCtxDivOp); ctx != test.jsCtx {
-++			t.Errorf("%q: want %s got %s", test.s, test.jsCtx, ctx)
-+ 		}
-+ 	}
-+ 
--- 
-2.25.1
+diff --git a/meta/recipes-core/busybox/busybox-inittab_1.36.0.bb b/meta/rec=
+ipes-core/busybox/busybox-inittab_1.36.1.bb
+similarity index 100%
+rename from meta/recipes-core/busybox/busybox-inittab_1.36.0.bb
+rename to meta/recipes-core/busybox/busybox-inittab_1.36.1.bb
+diff --git a/meta/recipes-core/busybox/busybox_1.36.0.bb b/meta/recipes-cor=
+e/busybox/busybox_1.36.1.bb
+similarity index 96%
+rename from meta/recipes-core/busybox/busybox_1.36.0.bb
+rename to meta/recipes-core/busybox/busybox_1.36.1.bb
+index 8014a5c7bf..968dce65e4 100644
+--- a/meta/recipes-core/busybox/busybox_1.36.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.36.1.bb
+@@ -53,4 +53,4 @@ SRC_URI =3D "https://busybox.net/downloads/busybox-${PV}.=
+tar.bz2;name=3Dtarball \
+ SRC_URI:append:libc-musl =3D " file://musl.cfg "
+ # TODO http://lists.busybox.net/pipermail/busybox/2023-January/090078.html
+ SRC_URI:append:x86 =3D " file://sha_accel.cfg"
+-SRC_URI[tarball.sha256sum] =3D "542750c8af7cb2630e201780b4f99f3dcceeb06f50=
+5b479ec68241c1e6af61a5"
++SRC_URI[tarball.sha256sum] =3D "b8cc24c9574d809e7279c3be349795c5d5ceb6fdf1=
+9ca709f80cde50e47de314"
+--=20
+2.40.1
 
 
