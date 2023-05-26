@@ -2,50 +2,49 @@ Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21F46C77B7A
-	for <webhook@archiver.kernel.org>; Fri, 26 May 2023 23:36:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2909EC77B7A
+	for <webhook@archiver.kernel.org>; Fri, 26 May 2023 23:36:47 +0000 (UTC)
 Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by mx.groups.io with SMTP id smtpd.web11.1589.1685144186748755908
+ by mx.groups.io with SMTP id smtpd.web10.1519.1685144200346778256
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 May 2023 16:36:27 -0700
+ Fri, 26 May 2023 16:36:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17q1 header.b=vo7xqqeE;
+ dkim=pass header.i=@ti.com header.s=ti-com-17q1 header.b=PaYNKcA2;
  spf=pass (domain: ti.com, ip: 198.47.19.141, mailfrom: rs@ti.com)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 34QNaJ62081727;
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 34QNaJwI081731;
 	Fri, 26 May 2023 18:36:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
 	s=ti-com-17Q1; t=1685144179;
-	bh=Vnb9KOYlK+6LSgHR7Phs7zRvgcusa9MKyQWSqWSmEts=;
+	bh=3FuUtoFE771bz9CEImiLIJpyBPlTxGQlS0oZzYc0xFM=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=vo7xqqeErJgQl7ODP+WLUAeKVy80gUl9p2DPcG5t06/2bv9O14N4265k/qkPkwCdu
-	 P/5E3pMP2NrsDqM+osvOPOVT4v2+Akg+g2a9grqOUfJG4FVfQJY4EE4anDgMFlbkJB
-	 C9vGCteOp/K7K3Bt8R5UZZn3lA8hqhJC9u+8dOaM=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 34QNaJnA023330
+	b=PaYNKcA22RObN0clhH7pFSZ7wAUYJsY7Xq0zURpgR7J45ti2tek2/dVy8o2Twwn0T
+	 JVw6geiC90+BtSr9+h1SDqVoCExu+VKK+waSA8a3d8e8ZRHOKbKR6mq1J/hVM2dauB
+	 lLZ+KMfP7uBsvTF3iuQyFGqdNkfaNI9rl9bRH9sA=
+Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 34QNaJBW002081
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
 	Fri, 26 May 2023 18:36:19 -0500
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE111.ent.ti.com
+ (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 26
  May 2023 18:36:19 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
  Frontend Transport; Fri, 26 May 2023 18:36:19 -0500
 Received: from rs-desk.dhcp.ti.com (ileaxei01-snat2.itg.ti.com [10.180.69.6])
-	by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 34QNaJ4J013670;
+	by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 34QNaJ4K013670;
 	Fri, 26 May 2023 18:36:19 -0500
 From: <rs@ti.com>
 To: <steve@sakoman.com>, <reatmon@ti.com>, <denis@denix.org>
-CC: <openembedded-core@lists.openembedded.org>,
-        Martin Jansa
-	<Martin.Jansa@gmail.com>, Randolph Sapp <rs@ti.com>,
-        Alexandre Belloni
-	<alexandre.belloni@bootlin.com>
-Subject: [OE-core][kirkstone][PATCH 2/4] kernel-devicetree: make shell scripts posix compliant
-Date: Fri, 26 May 2023 18:36:14 -0500
-Message-ID: <20230526233616.3623368-3-rs@ti.com>
+CC: <openembedded-core@lists.openembedded.org>, Randolph Sapp <rs@ti.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+Subject: [OE-core][kirkstone][PATCH 3/4] package: enable recursion on file globs
+Date: Fri, 26 May 2023 18:36:15 -0500
+Message-ID: <20230526233616.3623368-4-rs@ti.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230526233616.3623368-1-rs@ti.com>
 References: <20230526233616.3623368-1-rs@ti.com>
@@ -56,61 +55,37 @@ X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 May 2023 23:36:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181782
+ <openembedded-core@lists.openembedded.org>; Fri, 26 May 2023 23:36:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181784
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+From: Randolph Sapp <rs@ti.com>
 
-Use the notation suggested by Martin Jansa to avoid a bashism. Also
-switch KERNEL_DTBVENDORED to the more common 0/1 notation instead of
-true/false.
+Enable recursion of file globs. This just allows the use of '**' in file
+globs to match 0 or more subdirectories, it should not make all current
+globs recursive [1].
 
-Fixes: 04ab57d200 (kernel-devicetree: allow specification of dtb
-directory, 2023-05-02)
+[1] https://docs.python.org/3.6/library/glob.html#glob.glob
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Randolph Sapp <rs@ti.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/kernel-devicetree.bbclass | 4 ++--
- meta/classes/kernel.bbclass            | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ meta/classes/package.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/kernel-devicetree.bbclass b/meta/classes/kernel-devicetree.bbclass
-index 11b57adc92c..e1e67cbc56c 100644
---- a/meta/classes/kernel-devicetree.bbclass
-+++ b/meta/classes/kernel-devicetree.bbclass
-@@ -76,7 +76,7 @@ do_install:append() {
- 	for dtbf in ${KERNEL_DEVICETREE}; do
- 		dtb=`normalize_dtb "$dtbf"`
- 		dtb_path=`get_real_dtb_path_in_kernel "$dtb"`
--		if [ ${KERNEL_DTBVENDORED} == "false" ]; then
-+		if "${@'false' if oe.types.boolean(d.getVar('KERNEL_DTBVENDORED')) else 'true'}"; then
- 			dtb_ext=${dtb##*.}
- 			dtb_base_name=`basename $dtb .$dtb_ext`
- 			dtb=$dtb_base_name.$dtb_ext
-@@ -91,7 +91,7 @@ do_deploy:append() {
- 		dtb_ext=${dtb##*.}
- 		dtb_base_name=`basename $dtb .$dtb_ext`
- 		install -d $deployDir
--		if [ ${KERNEL_DTBVENDORED} == "false" ]; then
-+		if "${@'false' if oe.types.boolean(d.getVar('KERNEL_DTBVENDORED')) else 'true'}"; then
- 			dtb=$dtb_base_name.$dtb_ext
- 		fi
- 		install -m 0644 ${D}/${KERNEL_DTBDEST}/$dtb $deployDir/$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 87dd46e6fa3..3d5422b09ed 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -211,7 +211,7 @@ KERNEL_RELEASE ?= "${KERNEL_VERSION}"
- KERNEL_OUTPUT_DIR ?= "arch/${ARCH}/boot"
- KERNEL_IMAGEDEST ?= "boot"
- KERNEL_DTBDEST ?= "${KERNEL_IMAGEDEST}"
--KERNEL_DTBVENDORED ?= "false"
-+KERNEL_DTBVENDORED ?= "0"
- 
- #
- # configuration
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 67acc278d13..fed2f5531d3 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -262,7 +262,7 @@ def files_from_filevars(filevars):
+             f = '.' + f
+         if not f.startswith("./"):
+             f = './' + f
+-        globbed = glob.glob(f)
++        globbed = glob.glob(f, recursive=True)
+         if globbed:
+             if [ f ] != globbed:
+                 files += globbed
 -- 
 2.40.1
 
