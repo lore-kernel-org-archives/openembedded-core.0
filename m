@@ -1,136 +1,93 @@
-Return-Path: <aplanas@suse.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29005C77B73
-	for <webhook@archiver.kernel.org>; Fri, 26 May 2023 13:07:54 +0000 (UTC)
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by mx.groups.io with SMTP id smtpd.web10.7456.1685106468044951854
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55150C77B73
+	for <webhook@archiver.kernel.org>; Fri, 26 May 2023 13:27:44 +0000 (UTC)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.web11.6090.1685101924754348730
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 May 2023 06:07:48 -0700
+ Fri, 26 May 2023 04:52:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@suse.com header.s=susede1 header.b=lebouY9a;
- spf=pass (domain: suse.com, ip: 195.135.220.29, mailfrom: aplanas@suse.com)
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1471B1F74A;
-	Fri, 26 May 2023 13:07:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1685106466; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=KbKMxOyfk2SWwt61c6ZCGw1x7w3c/6x4vsNBaYKkBNk=;
-	b=lebouY9aBzXA6b/j+gg90TKKj3d4+zaOvwPjUvObS1L3JuqbBO2lKKpIUNdloez53beWwE
-	2N6qkIeugC1mYnYLdQjj0xdnocKiqJREnhjl8iI7Dl8OCeqaIo/7ZQcr1plvHREbUAiSpc
-	pkwrcJrWU/SecdKrTfn0Nqxp3lXpECc=
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id C0C0213684;
-	Fri, 26 May 2023 13:07:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap1.suse-dmz.suse.de with ESMTPSA
-	id BP6CKyGvcGQgYgAAGKfGzw
-	(envelope-from <aplanas@suse.com>); Fri, 26 May 2023 13:07:45 +0000
-From: Alberto Planas <aplanas@suse.com>
+ dkim=fail reason="signature has expired" header.i=@snap.com header.s=google header.b=UFxNOEBr;
+ spf=pass (domain: snapchat.com, ip: 209.85.208.46, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-51440706e59so875667a12.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 May 2023 04:52:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=snap.com; s=google; t=1685101922; x=1687693922;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nOJbxsfanwBNa7HyOF5fD74aszcpSWNeTxYLQ53gXMc=;
+        b=UFxNOEBryFPoARqtTm/o/YL6VKtp5fcuyXwm764Txts8Gk3HshaWGcNaba0QarzNkI
+         pJxop1p6bPS0h+Dpd+fyrjodka3TcQ+7jrLa5R3qage6CjY3FAmveDdagci1eyDp5fww
+         Og5erYsCaoP+/RaAZNV+beXKgTutY5zAuI3pw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685101922; x=1687693922;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nOJbxsfanwBNa7HyOF5fD74aszcpSWNeTxYLQ53gXMc=;
+        b=fiDjctNFAizsVz9P+YNdgbRDCR6Oped8hVhou3Uwlsfs3zGUJyHEreEf9S+hElMgeB
+         UOBdsIKenSydTzPV6djl/y2L75m266cWdyNcN/dnA+XMGF2LMUmsxPOTMc5K6/Pn1sj6
+         VwUpgShCC5XdI1BDMuciRS3DbGiz3QuKuvlSsvXpotO4KYeCvn+4H8TxLPoPRIPnfD7y
+         P5MRHV/LL3pq45YEJtWCiUngoU/WORV36/ekz5tSFqzSeeQucSUc/t0+kALmvsqS5LFE
+         sXT1twnDMDsjiJ1nlMg51YBNhfip1MhjGYbfx77li9yOR6LK6GmwSqIk1yGnYdhIOURZ
+         EkiQ==
+X-Gm-Message-State: AC+VfDzbinNaUqHYnA5jyndUq1JoJsFJDFsuBtOR0NnalSlYlunjARR9
+	uRXDpzzCSR2SXAoL5U0u9rVHdT3IEqGz6sMNgaI=
+X-Google-Smtp-Source: ACHHUZ6SIvuLlFHjaYkV+A1E/cL33tQBs3HLe2aWMsf+Yt9soaymMPxTl7/upI7uSfeEP/WmMDJrUw==
+X-Received: by 2002:a17:907:1c01:b0:969:7739:2eb7 with SMTP id nc1-20020a1709071c0100b0096977392eb7mr1692255ejc.4.1685101922355;
+        Fri, 26 May 2023 04:52:02 -0700 (PDT)
+Received: from lj8k2dq3.sc-core.net ([85.237.126.22])
+        by smtp.gmail.com with ESMTPSA id j13-20020a170906474d00b0096a5d341b50sm2055369ejs.111.2023.05.26.04.52.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 May 2023 04:52:02 -0700 (PDT)
+From: "Etienne Cordonnier" <ecordonnier@snap.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alberto Planas <aplanas@suse.com>
-Subject: [PATCH 1/1] rpm2cpio.sh: update to the last 4.x version
-Date: Fri, 26 May 2023 15:07:42 +0200
-Message-Id: <20230526130742.28754-1-aplanas@suse.com>
-X-Mailer: git-send-email 2.40.1
+Cc: Etienne Cordonnier <ecordonnier@snap.com>
+Subject: [PATCH] libxcrypt: fix hard-coded ".so" extension
+Date: Fri, 26 May 2023 13:51:55 +0200
+Message-Id: <20230526115155.1953481-1-ecordonnier@snap.com>
+X-Mailer: git-send-email 2.36.1.vfs.0.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 May 2023 13:07:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181767
+ <openembedded-core@lists.openembedded.org>; Fri, 26 May 2023 13:27:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181769
 
-openSUSE RPMs are compressing the RPM payload using zstd, that
-correspond to the magic ID 0x28, 0xb5, 0x2f.
+From: Etienne Cordonnier <ecordonnier@snap.com>
 
-This patch update the script to the last version from the rpm project,
-and add support to this compression format, and extract the cpio payload
-using the "unzstd" binary.
+2 issues:
+- the .so extension is hard-coded, and therefore the libxcryt package compiled with
+  meta-darwin is empty, because the dylib files are not contained in FILES_${PN}
+- nothing actually produces a file libcrypt-*.so (the symlink file is libcrypt.so, without dash), thus
+  defining FILES:${PN} manually to contain libcrypt-*.so has no effect.
 
-Signed-off-by: Alberto Planas <aplanas@suse.com>
+Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
 ---
- scripts/rpm2cpio.sh | 30 ++++++++++++++++++++----------
- 1 file changed, 20 insertions(+), 10 deletions(-)
- mode change 100755 =3D> 100644 scripts/rpm2cpio.sh
+ meta/recipes-core/libxcrypt/libxcrypt.inc | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/scripts/rpm2cpio.sh b/scripts/rpm2cpio.sh
-old mode 100755
-new mode 100644
-index 2034373fe4..8199b43784
---- a/scripts/rpm2cpio.sh
-+++ b/scripts/rpm2cpio.sh
-@@ -7,7 +7,7 @@ fatal() {
- }
-=20
- pkg=3D"$1"
--[ -n "$pkg" -a -e "$pkg" ] ||
-+[ -n "$pkg" ] && [ -e "$pkg" ] ||
- 	fatal "No package supplied"
-=20
- _dd() {
-@@ -16,14 +16,23 @@ _dd() {
- }
-=20
- calcsize() {
-+
-+	case "$(_dd $1 bs=3D4 count=3D1 | tr -d '\0')" in
-+		"$(printf '\216\255\350')"*) ;; # '\x8e\xad\xe8'
-+		*) fatal "File doesn't look like rpm: $pkg" ;;
-+	esac
-+
- 	offset=3D$(($1 + 8))
-=20
- 	local i b b0 b1 b2 b3 b4 b5 b6 b7
-=20
- 	i=3D0
- 	while [ $i -lt 8 ]; do
-- 		b=3D$(_dd $(($offset + $i)) bs=3D1 count=3D1; echo X)
-- 		b=3D${b%X}
-+		# add . to not loose \n
-+		# strip \0 as it gets dropped with warning otherwise
-+		b=3D"$(_dd $(($offset + $i)) bs=3D1 count=3D1 | tr -d '\0' ; echo .)"
-+		b=3D${b%.}    # strip . again
-+
- 		[ -z "$b" ] &&
- 			b=3D"0" ||
- 			b=3D"$(exec printf '%u\n' "'$b")"
-@@ -35,7 +44,7 @@ calcsize() {
- 	offset=3D$(($offset + $rsize))
- }
-=20
--case "$(_dd 0 bs=3D8 count=3D1)" in
-+case "$(_dd 0 bs=3D4 count=3D1 | tr -d '\0')" in
- 	"$(printf '\355\253\356\333')"*) ;; # '\xed\xab\xee\xdb'
- 	*) fatal "File doesn't look like rpm: $pkg" ;;
- esac
-@@ -46,10 +55,11 @@ sigsize=3D$rsize
- calcsize $(($offset + (8 - ($sigsize % 8)) % 8))
- hdrsize=3D$rsize
-=20
--case "$(_dd $offset bs=3D3 count=3D1)" in
--	"$(printf '\102\132')"*) _dd $offset | bzip2 -d ;; # '\x42\x5a'
--	"$(printf '\037\213')"*) _dd $offset | gunzip  ;; # '\x1f\x8b'
--	"$(printf '\375\067')"*) _dd $offset | xzcat   ;; # '\xfd\x37'
--	"$(printf '\135\000')"*) _dd $offset | unlzma  ;; # '\x5d\x00'
--	*) fatal "Unrecognized rpm file: $pkg" ;;
-+case "$(_dd $offset bs=3D2 count=3D1 | tr -d '\0')" in
-+	"$(printf '\102\132')") _dd $offset | bunzip2 ;; # '\x42\x5a'
-+	"$(printf '\037\213')") _dd $offset | gunzip  ;; # '\x1f\x8b'
-+	"$(printf '\375\067')") _dd $offset | xzcat   ;; # '\xfd\x37'
-+	"$(printf '\135')") _dd $offset | unlzma      ;; # '\x5d\x00'
-+	"$(printf '\050\265')") _dd $offset | unzstd  ;; # '\x28\xb5'
-+	*) fatal "Unrecognized payload compression format in rpm file: $pkg" ;;
- esac
---=20
-2.40.1
+diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core/libxcrypt/libxcrypt.inc
+index 61b0381076..454a55d73d 100644
+--- a/meta/recipes-core/libxcrypt/libxcrypt.inc
++++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
+@@ -17,12 +17,6 @@ SRC_URI += "file://fix_cflags_handling.patch"
+ 
+ PROVIDES = "virtual/crypt"
+ 
+-FILES:${PN} = "${libdir}/libcrypt*.so.* \
+-               ${libdir}/libcrypt-*.so \
+-               ${libdir}/libowcrypt*.so.* \
+-               ${libdir}/libowcrypt-*.so \
+-"
+-
+ S = "${WORKDIR}/git"
+ 
+ BUILD_CPPFLAGS = "-I${STAGING_INCDIR_NATIVE}"
+-- 
+2.36.1.vfs.0.0
 
 
