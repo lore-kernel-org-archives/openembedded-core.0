@@ -1,110 +1,104 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <pramanik.souravkumar@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5236C7EE23
-	for <webhook@archiver.kernel.org>; Fri, 26 May 2023 08:06:42 +0000 (UTC)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web10.3460.1685088401115028595
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1AC5C7EE2D
+	for <webhook@archiver.kernel.org>; Fri, 26 May 2023 08:39:02 +0000 (UTC)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web11.3809.1685090336498859324
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 May 2023 01:06:41 -0700
+ Fri, 26 May 2023 01:38:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=KmgJ3GkC;
- spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-4f3a611b3ddso2273392e87.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 May 2023 01:06:40 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=LoZBXFud;
+ spf=pass (domain: gmail.com, ip: 209.85.215.170, mailfrom: pramanik.souravkumar@gmail.com)
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-5346d150972so450548a12.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 May 2023 01:38:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685088399; x=1687680399;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fQS/kBTrSc+vj/y6EttqaLOzrkn+7EBE8jD8AstbPn4=;
-        b=KmgJ3GkCEEn0PMGoQrWynkedC0p9Q2Wim5xq+Z+aGvOGnMsoISLFV9Sovu8+AV2H7J
-         qMLA/cHZpvtPRGjZWZo5xGddzvs0D5CszHxyrlyFl42i/SRMJEaW8Zjyy8u6BSfNy9ZJ
-         vh4350fyFdTXs3mQ0MPLR0f+Gv2YwtjBhM1v0aSjl7si7hCvfUetkw39nA5D+u+RBJtv
-         bBo3AUsPvhc8NI/MnBmbrt5xSz9+Eij8ULdwUWm/RKaAJVa81cIuMpDy0C+yIVumP/2o
-         VnnKiuTuwJMAtpETazvtFxm2tVqaCE/UG6QV5Uzp3s9Y4+5kujUdUx6ST7PODqn1E2Uf
-         KtFw==
+        d=gmail.com; s=20221208; t=1685090335; x=1687682335;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5/Y3h6m0H27Cc0gz66SWgllqJeJbsBPtQsVvR8egP4s=;
+        b=LoZBXFudSHpdSQjM+WkXLmkx3XRAx6KOZBgkdAZDn88GlfxwGebIgpBf5ykS4tfnSe
+         oTQPOU8hMi3XWcvRDUGFySW1peSK6gG54y1AGqSDKkUHpQT7tDmK4kIGAFZL1NpDDMiQ
+         8y95mcL6qkkyORvnoxiqaJZMedO+AfhPeOxdQ/UKivF9YJipGhnLSL1+KPZfTF1UuFqc
+         0ySu9729w6UsDh/BH0hTQBkSu1BU3cduhEq0ncm73NpL1/ht7JniaRmyqSbO8a+UaCeg
+         d3soKESiK38yHO6WIceZXxcqB2/yT180/jUu2j/qjHY7v2FmZwLe9gjXD6Klw25H+Pef
+         1A6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685088399; x=1687680399;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fQS/kBTrSc+vj/y6EttqaLOzrkn+7EBE8jD8AstbPn4=;
-        b=hH0dSNP8edsdrtdmJGdezGVpj9137Ibksv7mBL0cW/TIvZbaqvWcgEjhfZSfdNUblF
-         C6VtplwFt/j9YgVv3l+IPFtEd8uKbcueU7l7veaiq2THCmdvG6Xj4KjIgpDhgAYhzc81
-         +Daj3psMc/kByt6NIyABDp9EFipOXOS02rWCzkuCmirZqtRAAetGvfBzrP5B4YY1Gxut
-         m9NqvQGBByhog2V72+fguyucAtLhy2ERRK1w76p5hmA0DUf0mUJ2rSkxZEAo4cUNYvpj
-         HYfOpO+MaZ7+y/9zu7dOVeKXIARXIpXlXw1VexKpznPsv2rnaG/AzPbKSPsZ5sDv41ZS
-         5TCQ==
-X-Gm-Message-State: AC+VfDzSIE10Jdkmr7qf6Jb2uMZaH9H61eTdR62YCC7OUnI29dcyoxHA
-	kpQwUcLZZJfEnEnm0PlpYc51OC4qFe95zJLdm0W4cOftzDQ=
-X-Google-Smtp-Source: ACHHUZ5OYtfKBNw021nYzR09NNm+IiSgbYqwN6ohKJ8JhuCYq+Nu+vgRnQNmszS0DMCgDBKc8hsuBYIeutK+ev14sCY=
-X-Received: by 2002:a05:651c:118b:b0:2a8:bd1d:bfb6 with SMTP id
- w11-20020a05651c118b00b002a8bd1dbfb6mr1529741ljo.13.1685088399105; Fri, 26
- May 2023 01:06:39 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1685090335; x=1687682335;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5/Y3h6m0H27Cc0gz66SWgllqJeJbsBPtQsVvR8egP4s=;
+        b=h7+47NI/ca/sg+FVerdJsZEdwxrF3mqwAd4vuARmG7YWJJqLSO1x8Zn3xJLD3VT0ge
+         QADtDdmVvLSKCPDOZb7joS9QcNIculOipe9zfSZTtzUkGdz8CzIMFAZgil+eQXwB7Tb1
+         tYk6LvaSD0e5N1GMyC2U0kZb0c3os1fHy2jkOhvaUJ85AkZOrnOjYxDvcLIpBx3q1uv2
+         C/KJ61eNxpuaC9tXcNu4dmgOhQeO2xnQy8ZPm4baO3lQfe2bWtEL9NoQKWNs/uK0C113
+         pQqEkoU3xaoOVIUm6gx/S9MqqRiDo+y530UO8HcTIvAg7L+5GWpvfbCv2L4oobjqndsF
+         gGPQ==
+X-Gm-Message-State: AC+VfDz2OnzjhKOfOpIUtyUNuf3gDzaDWVkv6KMVji1Tj+Ly4bPdjKbV
+	IDbsGid7KdSIvzPvH+YYNmQ0iIeKvzI=
+X-Google-Smtp-Source: ACHHUZ5hOglTLSyOGPsEUeAiNSf3vDtLS0ZEPNptiknWFPUZHnakIIGBLvU6FjSjQ/6H57Zmrd13gw==
+X-Received: by 2002:a17:903:245:b0:1aa:ebaa:51ce with SMTP id j5-20020a170903024500b001aaebaa51cemr2303009plh.14.1685090335505;
+        Fri, 26 May 2023 01:38:55 -0700 (PDT)
+Received: from localhost.localdomain ([103.53.233.89])
+        by smtp.gmail.com with ESMTPSA id w8-20020a170902e88800b001ac55a5e5eesm2715763plg.121.2023.05.26.01.38.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 May 2023 01:38:55 -0700 (PDT)
+From: Sourav Kumar Pramanik <pramanik.souravkumar@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	pramanik.souravkumar@gmail.com
+Cc: ranjitsinh.rathod@kpit.com,
+	Omkar Patil <omkar.patil@kpit.com>
+Subject: [OE-core][kirkstone][PATCH] curl: Correction for CVE-2023-27536
+Date: Fri, 26 May 2023 14:08:31 +0530
+Message-Id: <20230526083831.33336-1-pramanik.souravkumar@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <CANNYZj_zqGXU_v8SFzNK7uDrUXn-979-GiYcPsS6Sd2EWEWytA@mail.gmail.com>
- <6010.1685051696220462053@lists.openembedded.org> <1762A282AFEEF8F2.16338@lists.openembedded.org>
-In-Reply-To: <1762A282AFEEF8F2.16338@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 26 May 2023 10:06:27 +0200
-Message-ID: <CANNYZj9O7LOCsvvGtS4OOjG=KreD200S=GBVTC_OFFcfW9HRQg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] classes: Add new packagefeed class.
-To: alex.kanavin@gmail.com
-Cc: Charlie Johnston <charlie.johnston@ni.com>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 May 2023 08:06:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181764
+ <openembedded-core@lists.openembedded.org>; Fri, 26 May 2023 08:39:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181765
 
-By the way, image recipes already do something like point 2 (copy only
-the needed packages out of global deploy into recipe's $WORKDIR, and
-then run an indexer only on that prior to composing the rootfs from
-those private feeds), so you could as well reuse that code. See
-create_packages_dir() in lib/oe/package_manager/__init__.py
+From: Omkar Patil <omkar.patil@kpit.com>
 
-I think that's a better option than option 1.
+Correction of backport link inside the patch with correct commit link as
+below
+Link: https://github.com/curl/curl/commit/cb49e67303dbafbab1cebf4086e3ec15b7d56ee5
 
-Alex
+Variable type change from long to unsigned char as per the original
+patch
 
-On Fri, 26 May 2023 at 09:58, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
-wrote:
->
-> On Thu, 25 May 2023 at 23:54, Charlie Johnston <charlie.johnston@ni.com> =
-wrote:
-> > I can see a couple of potential options:
-> >
-> > 1. Come up with a way to ensure that the do_package_index task is only =
-run once per bitbake invocation after all other packaging tasks. As far as =
-I can tell, there's not a way to enforce this with my current design. It al=
-so doesn't address the problem of packages already in the deploy directorie=
-s.
-> > 2. Add more scaffolding to create a packagefeed class with potentially =
-its own deploy directory and which only includes index files for its depend=
-encies. That seems like a lot more effort than my change but might address =
-the concerns more completely.
-> > Any feedback or thoughts on those ideas?
->
-> You could try doing something like what buildhistory and similar
-> classes do, that is, hook into bb.event.BuildCompleted:
-> https://docs.yoctoproject.org/bitbake/bitbake-user-manual/bitbake-user-ma=
-nual-metadata.html#events
->
-> Alex
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#181763): https://lists.openembedded.org/g/openembedde=
-d-core/message/181763
-> Mute This Topic: https://lists.openembedded.org/mt/99118888/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Signed-off-by: Sourav Kumar Pramanik <pramanik.souravkumar@gmail.com>
+---
+ meta/recipes-support/curl/curl/CVE-2023-27536.patch | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-support/curl/curl/CVE-2023-27536.patch b/meta/recipes-support/curl/curl/CVE-2023-27536.patch
+index fb3ee6a14d..51a5c0eef1 100644
+--- a/meta/recipes-support/curl/curl/CVE-2023-27536.patch
++++ b/meta/recipes-support/curl/curl/CVE-2023-27536.patch
+@@ -3,7 +3,7 @@ From: Daniel Stenberg <daniel@haxx.se>
+ Date: Fri, 10 Mar 2023 09:22:43 +0100
+ Subject: [PATCH] url: only reuse connections with same GSS delegation
+ 
+-Upstream-Status: Backport from [https://github.com/curl/curl/commit/af369db4d3833272b8ed443f7fcc2e757a0872eb]
++Upstream-Status: Backport from [https://github.com/curl/curl/commit/cb49e67303dbafbab1cebf4086e3ec15b7d56ee5]
+ CVE: CVE-2023-27536
+ Signed-off-by: Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+ Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+@@ -44,7 +44,7 @@ index 6e6122a..602c735 100644
+    int socks5_gssapi_enctype;
+  #endif
+    unsigned short localport;
+-+  long gssapi_delegation; /* inherited from set.gssapi_delegation */
+++  unsigned char gssapi_delegation; /* inherited from set.gssapi_delegation */
+  };
+  
+  /* The end of connectdata. */
+-- 
+2.25.1
+
 
