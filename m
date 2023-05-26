@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47727C7EE33
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47631C7EE31
 	for <webhook@archiver.kernel.org>; Fri, 26 May 2023 02:30:01 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web11.115.1685068200385630141
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web10.89.1685068194552783066
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 May 2023 19:30:00 -0700
+ Thu, 25 May 2023 19:29:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=yCtNt2Q1;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1ae87bdc452so1493405ad.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 May 2023 19:30:00 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=kEhLiYPO;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1ae4e49727eso2607725ad.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 May 2023 19:29:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1685068199; x=1687660199;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1685068194; x=1687660194;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uLeAkHfKixzfTHZmPtFMOUnO9s/yqoZxNgCuG8ChUzs=;
-        b=yCtNt2Q1iWElucJHim/0O9gqSxxxvPEadY44Qu9bzYXHNR2+eebnI+AoruHTjdanFI
-         uuAArMv9vnLw5OMmCVCu+7yXxQrVB4LJdVbaWamnD610jMcEWSIb+7/cGQjIOAHubz48
-         pwbLbaJr6KshsGDu94LFiVxg6kLkJ87RV1PtWVxCIt4TYNPqDxc55nnBhaX0sZ7HDhKZ
-         Dr+8TETRJ2gTdc146ZRekEQi/UiKnBA7fW2ZgpndVWw55M/VEkd5cN3AXFM4RwgHgnU5
-         28ENobq/ovk4/WgD3vrArl8xkvn3CHWz5G2lMw0hmGESAhZi7UBWbMw31RNIrqPUU4fu
-         CF+A==
+        bh=r2Fd7dD0Cnq2V+d7ErnLRFl63IiuYcAmI+C/YDXdWk8=;
+        b=kEhLiYPO0hoGGao1gBBG5aLLle9w+MGt+Cel/ZFYERkgcHiayQTLqb3Bun/AIgY/WR
+         Wn2sdIdnctzIG75PPsWaBjihndW3WFvE0lf4TPfJYt9oOW4B556MdN5RvQABJkv1DAVn
+         LLEh00eOgfLc+4eQowO3lmPSeLxy83n8T3um1MhyICocGh2YGORsckcRmmDI5XG/9OMQ
+         QDe0uC6MEU+wPTPoJ4h4vBTL6YYYPa7KiRFE51kRVLSdssF9zrezhnkzHR22S7gREwVH
+         ygH09wUQjNuE4QyCVyBJU2YEpo+dTCAVoinxZ+UmWJIkwPNUbBMUtOIQlyQr648BCvZT
+         ujJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685068199; x=1687660199;
+        d=1e100.net; s=20221208; t=1685068194; x=1687660194;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uLeAkHfKixzfTHZmPtFMOUnO9s/yqoZxNgCuG8ChUzs=;
-        b=h55j2g/rb3lTNH+8HlwjizD0MB4UdiVTjuNhUJMhPQgvLMzl9VzZRA1Cb8cOXr9hO0
-         in0HhZ4pGGMjHrRLBNorsG33ErxjUoACtGtG4AcAPBnzJEJB9s57S9VslJK77xIbwGll
-         ETZl+FqLJsZYRtUD2tgLKRZ6orWdpTshUfeejvaN7Ei+4yGlgI13eTDwCz8AEMGGK8tO
-         XlhtVKxk5jAw3IlBzU2zns4N6nTVwLzVHWB4h6L5Ma+RZzSgHE7slQ0ad30TlZKBdCUq
-         LaDf+eby2gKWg1Q4zKRu4bA/LYXSIx3u7QlOosY+keCDzOzLwse6dbyNOZQUzWohJ1wr
-         s1Uw==
-X-Gm-Message-State: AC+VfDy4XBMFLyBurYLF22d9YNznpvMvMF2TLFK1rm4mUZ/Gwtd0Z5Cm
-	h9gHEod1GZGhvaWxnK8ZhXRns/4AK2FRW+4gKlk=
-X-Google-Smtp-Source: ACHHUZ7xctN3lC96NmeaS2rjT7qbQ3v927HyQVCFoAZ/7dCmparD9NC5jvNLv8EHOX/3F3G7m2kCcw==
-X-Received: by 2002:a17:903:2094:b0:1ae:3dcd:30fc with SMTP id d20-20020a170903209400b001ae3dcd30fcmr828045plc.11.1685068199533;
-        Thu, 25 May 2023 19:29:59 -0700 (PDT)
+        bh=r2Fd7dD0Cnq2V+d7ErnLRFl63IiuYcAmI+C/YDXdWk8=;
+        b=N+2p2tMJbHlXfanTM8dbDCHKueMin5FQdxT/M58LBODdpOGrtOlet8C4DlZEn18V0v
+         b9SMTWT/hWPkksy438vEXTXAQ3TUdeioZkIf6QLFmP6p5HgTgbYczuyw706Cb5r2etsU
+         tl8MhP5PCRdTX2l69mtHWpD7eoaR56Jk1G2sQUCwANmeHlyj4hkJIb4xdt2/fQLEyCKk
+         QQ4A86S5NWt0xP8s05ZpXTaUQUJZtLPS61TFzD1vp+WijqSb8ynCkz9AQL5FEtUNfppe
+         iVtaFfszRAFsnbkoZfC99y1K2Ai8g4R8CcNncEQ/7g281b32UNdjAq5LiB+cvLq4L9qa
+         lS0Q==
+X-Gm-Message-State: AC+VfDz+jVaZSdPFwA+VzQw+gjzxukJiKfuBRHbdXZ2ubx/bhF0KmN9r
+	boQtaIs7Eyzq/+5HvdlTscMfKAFLTQ8+oHJ3jnI=
+X-Google-Smtp-Source: ACHHUZ7gnvSzf8WrQgpMjJI0W75JU5Gu8mRClhi+60ycCrGTrfGNHgjZGm92yvEqMOev5luwDD83iQ==
+X-Received: by 2002:a17:902:7c05:b0:1af:bb99:d590 with SMTP id x5-20020a1709027c0500b001afbb99d590mr796396pll.7.1685068193652;
+        Thu, 25 May 2023 19:29:53 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id t13-20020a170902b20d00b0019ee045a2b3sm2023794plr.308.2023.05.25.19.29.58
+        by smtp.gmail.com with ESMTPSA id t13-20020a170902b20d00b0019ee045a2b3sm2023794plr.308.2023.05.25.19.29.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 May 2023 19:29:59 -0700 (PDT)
+        Thu, 25 May 2023 19:29:53 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 21/21] piglit: Add missing glslang dependencies
-Date: Thu, 25 May 2023 16:29:09 -1000
-Message-Id: <5e26ead1ca016d1691dccba1b58060ac853bf0d2.1685068004.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 18/21] weston: add xwayland to DEPENDS for PACKAGECONFIG xwayland
+Date: Thu, 25 May 2023 16:29:06 -1000
+Message-Id: <4e42196754b19926b2219c6ffda47bd389e9d9fb.1685068004.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1685068004.git.steve@sakoman.com>
 References: <cover.1685068004.git.steve@sakoman.com>
@@ -61,49 +61,35 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 26 May 2023 02:30:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181753
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181750
 
-From: Tom Hochstein <tom.hochstein@nxp.com>
+From: Ming Liu <liu.ming50@gmail.com>
 
-The vulkan configuration requires glslangValidator for build and
-runtime.
+Otherwise xwayland.pc would not be present in sysroot, this leads to
+some xwayland configs missing like have_listenfd, have_glamor.
 
-Fixes configure error:
-```
-| CMake Error at CMakeLists.txt:191 (message):
-|   glslangValidator required by vulkan tests not found
-```
-
-Fixes runtime error:
-```
-name: vulkan@shaders@fs-large-local-array
-    result: fail
-    returncode: 1
-    out:
-    err: glslangValidator: No such file or directory
-glslangValidator failed
-```
-
-Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 7f1932cb5a408320a5b542e20ba2807718349e8f)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-graphics/piglit/piglit_git.bb | 2 +-
+ meta/recipes-graphics/wayland/weston_10.0.2.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index a3c9c5e2e0..78a5d6248a 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -42,7 +42,7 @@ PACKAGECONFIG[freeglut] = "-DPIGLIT_USE_GLUT=1,-DPIGLIT_USE_GLUT=0,freeglut,"
- PACKAGECONFIG[glx] = "-DPIGLIT_BUILD_GLX_TESTS=ON,-DPIGLIT_BUILD_GLX_TESTS=OFF"
- PACKAGECONFIG[opencl] = "-DPIGLIT_BUILD_CL_TESTS=ON,-DPIGLIT_BUILD_CL_TESTS=OFF,virtual/opencl-icd"
- PACKAGECONFIG[x11] = "-DPIGLIT_BUILD_GL_TESTS=ON,-DPIGLIT_BUILD_GL_TESTS=OFF,${X11_DEPS}, ${X11_RDEPS}"
--PACKAGECONFIG[vulkan] = "-DPIGLIT_BUILD_VK_TESTS=ON,-DPIGLIT_BUILD_VK_TESTS=OFF,vulkan-loader"
-+PACKAGECONFIG[vulkan] = "-DPIGLIT_BUILD_VK_TESTS=ON,-DPIGLIT_BUILD_VK_TESTS=OFF,glslang-native vulkan-loader,glslang"
- 
- export PIGLIT_BUILD_DIR = "../../../../git"
- 
+diff --git a/meta/recipes-graphics/wayland/weston_10.0.2.bb b/meta/recipes-graphics/wayland/weston_10.0.2.bb
+index f81a33fd1e..e09f94d9bb 100644
+--- a/meta/recipes-graphics/wayland/weston_10.0.2.bb
++++ b/meta/recipes-graphics/wayland/weston_10.0.2.bb
+@@ -74,7 +74,7 @@ PACKAGECONFIG[webp] = "-Dimage-webp=true,-Dimage-webp=false,libwebp"
+ # Weston with systemd-login support
+ PACKAGECONFIG[systemd] = "-Dsystemd=true -Dlauncher-logind=true,-Dsystemd=false -Dlauncher-logind=false,systemd dbus"
+ # Weston with Xwayland support (requires X11 and Wayland)
+-PACKAGECONFIG[xwayland] = "-Dxwayland=true,-Dxwayland=false"
++PACKAGECONFIG[xwayland] = "-Dxwayland=true,-Dxwayland=false,xwayland"
+ # colord CMS support
+ PACKAGECONFIG[colord] = "-Dcolor-management-colord=true,-Dcolor-management-colord=false,colord"
+ # Clients support
 -- 
 2.34.1
 
