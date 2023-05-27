@@ -2,102 +2,271 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C2D6C77B73
-	for <webhook@archiver.kernel.org>; Sat, 27 May 2023 15:00:41 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web10.11594.1685199631009790885
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CEAFC77B73
+	for <webhook@archiver.kernel.org>; Sat, 27 May 2023 15:13:01 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web11.11964.1685200371589466853
  for <openembedded-core@lists.openembedded.org>;
- Sat, 27 May 2023 08:00:31 -0700
+ Sat, 27 May 2023 08:12:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=QdCuV5Og;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-30a1fdde3d6so1730393f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 27 May 2023 08:00:30 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=hoVHcnfJ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3095557dd99so1733044f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 27 May 2023 08:12:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1685199629; x=1687791629;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=utHjw7T7YCzhlbec0MwJlW5GTQUstUsorkreoqRu+N4=;
-        b=QdCuV5Og15vxXQht6lWJYu5qCUCYHRAoJc3pev6504LK/BVGWN6zTCMZiSeflR4sHM
-         WmlSGIctOEyA2FnFe0gJ28JrDIwgDg16vUw/pCI6o5WivMjF1XZp9Pa7AK04PGulGcMs
-         7AOq8BYV0oBDYND99YVnugCRM5O1F5RpVo9gA=
+        d=linuxfoundation.org; s=google; t=1685200370; x=1687792370;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bYeNrvGjHpNXWchzKv4Q4Fqdp1kDCt93yI1u+yLMeGg=;
+        b=hoVHcnfJkwU7ruXKcRZyzuAp4LdYEqxG2+ehrEBaYZvJ+vmd/6kidLW+Wvov0wInhQ
+         ET4idgkT3n21V1Y3Jn6DOPGCpib4+9mRhciULboToLGaf98znlRquLV4mnUWjZ7g2mpa
+         2T42J6s9kcZBkZ5ucXmrw9OJv43OS2cXW2JiY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685199629; x=1687791629;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=utHjw7T7YCzhlbec0MwJlW5GTQUstUsorkreoqRu+N4=;
-        b=aN+ZEAG6X1tguwkjBtt55b0lscdclvFihqyUtvioGDtL+8p7pAYCazV5WdRP2UZsZw
-         uSbuA01Y0EgM8NSS2pyXwM4PiVMp5kkil0R1f1UAMvGZ6Bct6wDIYUNxf2p0A0F263cB
-         YfQGd8iOHST8bTD8eV8WTXc/8AC5WRnG+zIegJj2GXHN4rbbmUq5XgFcKuA21eMG0Cuk
-         1vltTbHL3G1eMXwFaKefq7m9fOgGDPgIMCPeXEiFP3KqG00WGbCCEHZNQoSVIyzkZO4N
-         mUC5ydXLyxW3KlD/ZWjgpU+Ohv0oRd+bje4EK0QolIN8ZfG6HRUMIdtTLrlMWbDOUOpO
-         kFHg==
-X-Gm-Message-State: AC+VfDzoy/zXZOuReWJqqhBMI4FvjWi6k4GEC97AFXDB87P7TzmK0QLK
-	b/halYICeGE6oNBP7UoVwXUNAA==
-X-Google-Smtp-Source: ACHHUZ7G4VO2EcKizr8Xy/DJXnISoP6+mGpcp6e+x9j1hfTxximhYIe0tQAA0otOnrn/CGptQ9WZaA==
-X-Received: by 2002:adf:e851:0:b0:30a:b46a:a443 with SMTP id d17-20020adfe851000000b0030ab46aa443mr3751284wrn.51.1685199629238;
-        Sat, 27 May 2023 08:00:29 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:7d24:65e6:bc0:7a3? ([2001:8b0:aba:5f3c:7d24:65e6:bc0:7a3])
-        by smtp.gmail.com with ESMTPSA id b14-20020a5d45ce000000b0030ae54e575csm1238323wrs.59.2023.05.27.08.00.28
+        d=1e100.net; s=20221208; t=1685200370; x=1687792370;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bYeNrvGjHpNXWchzKv4Q4Fqdp1kDCt93yI1u+yLMeGg=;
+        b=gRBNlTGNVtqVEaWrhFakeivxMRzezljPzLW8TT8XMkIEXMnXd6aOGVGuuqIuZ7K3Yf
+         +ZyiIv9co14rFVHTAGkkdlZ0E5eT6fg4iAyqNvTVM2XavhKNUTUm3JaajsHV1BZiE2dX
+         OsnaBn77W3VtkLb9cgEDNQePuhWy8TZxEkqF0XRl/iE17aImOhR4v2cak8uPDxjvX+ma
+         yjyaOHQU0c5Um92EqsGDE2j6txMnbH9JwQb5IPEjSv9/Etr2AVOldwhWoms+zc9f9rQ+
+         T7IHBnemJ0DMy1KdkaHkHQKFKzUd1YheazlfEysN+uD3EhAtPd0ttewdjQz8NhJM990y
+         Xlhg==
+X-Gm-Message-State: AC+VfDym3aFXM77CRnR9+Dco3awMz88oxMTPb1mLqSBjSfwoVPRsbwDc
+	sQr5e3l0WDVWsnRBspkPOdrsJBD8DfWZ1dqah/k=
+X-Google-Smtp-Source: ACHHUZ7tHCkwCyAuuX+ehmZymI7fJCCT4bbij7BEG7gsegQW1uWrNPmvb31IueKIMZPRF0NpopD/eA==
+X-Received: by 2002:adf:ee0d:0:b0:309:3828:2bde with SMTP id y13-20020adfee0d000000b0030938282bdemr4169492wrn.60.1685200369706;
+        Sat, 27 May 2023 08:12:49 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:7d24:65e6:bc0:7a3])
+        by smtp.gmail.com with ESMTPSA id v1-20020a5d6781000000b002fae7408544sm8252839wru.108.2023.05.27.08.12.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 May 2023 08:00:28 -0700 (PDT)
-Message-ID: <cf01812048cf651b022875996442e5d2ead18e95.camel@linuxfoundation.org>
-Subject: Re: gcc 13 merged, meta-arm, meta-intel and meta-virt issues
+        Sat, 27 May 2023 08:12:49 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jon Mason <jdmason@kudzu.us>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>, Jon Mason
- <Jon.Mason@arm.com>, "Mittal, Anuj" <anuj.mittal@intel.com>, Bruce Ashfield
- <bruce.ashfield@gmail.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>
-Date: Sat, 27 May 2023 16:00:27 +0100
-In-Reply-To: <ZHEhlRXG8GHFCeaS@kudzu.us>
-References: 
-	<f7d8cdc485e3d75304bd41931292f0cb76083e14.camel@linuxfoundation.org>
-	 <ZHEhlRXG8GHFCeaS@kudzu.us>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+To: openembedded-core@lists.openembedded.org
+Cc: Emmanuele Bassi <ebassi@gmail.com>,
+	Ross Burton <ross@burtonini.com>
+Subject: [PATCH] glib: Fix ptest race issue
+Date: Sat, 27 May 2023 16:12:48 +0100
+Message-Id: <20230527151248.2943421-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 27 May 2023 15:00:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181807
+ <openembedded-core@lists.openembedded.org>; Sat, 27 May 2023 15:13:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181808
 
-On Fri, 2023-05-26 at 17:16 -0400, Jon Mason wrote:
-> On Fri, May 26, 2023 at 05:28:21PM +0100, Richard Purdie wrote:
-> > I just wanted to let people know I merged gcc 13 since I think we'd got
-> > as far as we were going to without the patches landing. I dropped the
-> > 5.15 kernel and found ways to fix lttng-tools and glib-2.0 ptest
-> > issues.
-> >=20
-> > This leaves a few failures on the autobuilder in other layers:
-> >=20
-> > meta-arm 5.15 kernel bbappend:
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/113/builds/4038=
-/steps/12/logs/stdio
->=20
-> Sorry, I meant to push the fix yesterday.  It's in there now.
+gio/tests/portal: Fix test ordering race
 
-Thanks, that resolved that issue but allowed another to show through:
+When the gnome test runner executes the tests, the test appear to execute in disk
+order. This means it sometimes works and we sometimes see breakage in portal-support-snap
+and portal-support-snap-classic.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/113/builds/4040/ste=
-ps/12/logs/stdio
+The issue is that some tests create config files but some don't. If they run
+in the wrong order, tests see config files they shouldn't and break.
 
-in the 6.1 kernel.
+Fix this by deleting the files after each test run, properly cleaning up after
+themselves. There are probably better ways to handle this but this patch should
+at least let us check this is the issue.
 
-Which might be fixed with:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/s=
-cripts/gcc-plugins?id=3De6a71160cc145e18ab45195abf89884112e02dfb
-or perhaps:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/s=
-cripts/gcc-plugins?id=3D5a6b64adc18d9adfb497a529ff004d59b6df151f
+I've tried to report upstream but their issue tracker account creation is struggling
+and I can't get my account to work.
 
-Are you using up to date SRCREVs for 6.1?
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../glib-2.0/glib-2.0/fix-ptest.patch         | 166 ++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb |   1 +
+ 2 files changed, 167 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/fix-ptest.patch
 
-Cheers,
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/fix-ptest.patch b/meta/recipes-core/glib-2.0/glib-2.0/fix-ptest.patch
+new file mode 100644
+index 00000000000..1ae98be7076
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/fix-ptest.patch
+@@ -0,0 +1,166 @@
++gio/tests/portal: Fix test ordering race
++
++When the gnome test runner executes the tests, the test appear to execute in disk 
++order. This means it sometimes works and we sometimes see breakage in portal-support-snap
++and portal-support-snap-classic.
++
++The issue is that some tests create config files but some don't. If they run
++in the wrong order, tests see config files they shouldn't and break.
++
++Fix this by deleting the files after each test run, properly cleaning up after 
++themselves. There are probably better ways to handle this but this patch should
++at least let us check this is the issue.
++
++I've tried to report upstream but their issue tracker account creation is struggling
++and I can't get my account to work.
++
++Upstream-Status: Pending
++
++Index: glib-2.76.2/gio/tests/portal-support-snap-classic.c
++===================================================================
++--- glib-2.76.2.orig/gio/tests/portal-support-snap-classic.c
+++++ glib-2.76.2/gio/tests/portal-support-snap-classic.c
++@@ -89,6 +89,9 @@ test_portal_support_snap_none (SetupData
++   g_assert_false (glib_should_use_portal ());
++   g_assert_true (glib_network_available_in_sandbox ());
++   g_assert_true (glib_has_dconf_access_in_sandbox ());
+++
+++  cleanup_snapfiles (setup->snap_path);
+++  cleanup_snapfiles (setup->bin_path);
++ }
++ 
++ static void
++@@ -101,6 +104,9 @@ test_portal_support_snap_all (SetupData
++   g_assert_false (glib_should_use_portal ());
++   g_assert_true (glib_network_available_in_sandbox ());
++   g_assert_true (glib_has_dconf_access_in_sandbox ());
+++
+++  cleanup_snapfiles (setup->snap_path);
+++  cleanup_snapfiles (setup->bin_path);
++ }
++ 
++ int
++Index: glib-2.76.2/gio/tests/portal-support-snap.c
++===================================================================
++--- glib-2.76.2.orig/gio/tests/portal-support-snap.c
+++++ glib-2.76.2/gio/tests/portal-support-snap.c
++@@ -80,6 +80,8 @@ test_portal_support_snap_no_snapctl (Set
++   g_assert_false (glib_should_use_portal ());
++   g_assert_false (glib_network_available_in_sandbox ());
++   g_assert_false (glib_has_dconf_access_in_sandbox ());
+++
+++  cleanup_snapfiles (setup->snap_path);
++ }
++ 
++ static void
++@@ -92,6 +94,9 @@ test_portal_support_snap_none (SetupData
++   g_assert_false (glib_should_use_portal ());
++   g_assert_false (glib_network_available_in_sandbox ());
++   g_assert_false (glib_has_dconf_access_in_sandbox ());
+++
+++  cleanup_snapfiles (setup->snap_path);
+++  cleanup_snapfiles (setup->bin_path);
++ }
++ 
++ static void
++@@ -104,6 +109,9 @@ test_portal_support_snap_all (SetupData
++   g_assert_true (glib_should_use_portal ());
++   g_assert_true (glib_network_available_in_sandbox ());
++   g_assert_true (glib_has_dconf_access_in_sandbox ());
+++
+++  cleanup_snapfiles (setup->snap_path);
+++  cleanup_snapfiles (setup->bin_path);
++ }
++ 
++ static void
++@@ -116,6 +124,9 @@ test_portal_support_snap_desktop_only (S
++   g_assert_true (glib_should_use_portal ());
++   g_assert_true (glib_network_available_in_sandbox ());
++   g_assert_false (glib_has_dconf_access_in_sandbox ());
+++
+++  cleanup_snapfiles (setup->snap_path);
+++  cleanup_snapfiles (setup->bin_path);
++ }
++ 
++ static void
++@@ -128,6 +139,9 @@ test_portal_support_snap_network_only (S
++   g_assert_false (glib_should_use_portal ());
++   g_assert_true (glib_network_available_in_sandbox ());
++   g_assert_false (glib_has_dconf_access_in_sandbox ());
+++
+++  cleanup_snapfiles (setup->snap_path);
+++  cleanup_snapfiles (setup->bin_path);
++ }
++ 
++ static void
++@@ -140,6 +154,9 @@ test_portal_support_snap_gsettings_only
++   g_assert_false (glib_should_use_portal ());
++   g_assert_false (glib_network_available_in_sandbox ());
++   g_assert_true (glib_has_dconf_access_in_sandbox ());
+++
+++  cleanup_snapfiles (setup->snap_path);
+++  cleanup_snapfiles (setup->bin_path);
++ }
++ 
++ static void
++@@ -182,6 +199,9 @@ test_portal_support_snap_updates_dynamic
++   g_assert_false (glib_should_use_portal ());
++   g_assert_false (glib_network_available_in_sandbox ());
++   g_assert_false (glib_has_dconf_access_in_sandbox ());
+++
+++  cleanup_snapfiles (setup->snap_path);
+++  cleanup_snapfiles (setup->bin_path);
++ }
++ 
++ int
++Index: glib-2.76.2/gio/tests/portal-support-utils.c
++===================================================================
++--- glib-2.76.2.orig/gio/tests/portal-support-utils.c
+++++ glib-2.76.2/gio/tests/portal-support-utils.c
++@@ -26,6 +26,33 @@
++ #include <glib.h>
++ #include <glib/gstdio.h>
++ 
+++
+++void
+++cleanup_snapfiles (const gchar *path)
+++{
+++  GDir *dir = NULL;
+++  const gchar *entry;
+++
+++  dir = g_dir_open (path, 0, NULL);
+++  if (dir == NULL)
+++    {
+++      /* Assume it’s a file. Ignore failure. */
+++      (void) g_remove (path);
+++      return;
+++    }
+++
+++  while ((entry = g_dir_read_name (dir)) != NULL)
+++    {
+++      gchar *sub_path = g_build_filename (path, entry, NULL);
+++      cleanup_snapfiles (sub_path);
+++      g_free (sub_path);
+++    }
+++
+++  g_dir_close (dir);
+++
+++  g_rmdir (path);
+++}
+++
++ void
++ create_fake_snapctl (const char *path,
++                      const char *supported_op)
++Index: glib-2.76.2/gio/tests/portal-support-utils.h
++===================================================================
++--- glib-2.76.2.orig/gio/tests/portal-support-utils.h
+++++ glib-2.76.2/gio/tests/portal-support-utils.h
++@@ -23,6 +23,8 @@
++ 
++ #include <glib.h>
++ 
+++void cleanup_snapfiles (const gchar *path);
+++
++ void create_fake_snap_yaml (const char *snap_path,
++                             gboolean is_classic);
++ 
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb
+index f3a716eb9d7..7a0ed6b6036 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb
+@@ -15,6 +15,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
+            file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch \
+            file://0001-Avoid-having-g_futex_simple-inadvertently-modify-err.patch \
++           file://fix-ptest.patch \
+            "
+ SRC_URI:append:class-native = " file://relocate-modules.patch"
+ 
+-- 
+2.39.2
 
-Richard
 
