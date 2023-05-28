@@ -2,72 +2,74 @@ Return-Path: <schitrod@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A647C77B7C
-	for <webhook@archiver.kernel.org>; Sun, 28 May 2023 05:53:35 +0000 (UTC)
-Received: from rcdn-iport-4.cisco.com (rcdn-iport-4.cisco.com [173.37.86.75])
- by mx.groups.io with SMTP id smtpd.web10.24121.1685253209392603414
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3961C77B7C
+	for <webhook@archiver.kernel.org>; Sun, 28 May 2023 06:47:45 +0000 (UTC)
+Received: from rcdn-iport-8.cisco.com (rcdn-iport-8.cisco.com [173.37.86.79])
+ by mx.groups.io with SMTP id smtpd.web11.24666.1685256457039929883
  for <openembedded-core@lists.openembedded.org>;
- Sat, 27 May 2023 22:53:30 -0700
+ Sat, 27 May 2023 23:47:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cisco.com header.s=iport header.b=QchT4Cmj;
- spf=pass (domain: cisco.com, ip: 173.37.86.75, mailfrom: schitrod@cisco.com)
+ dkim=pass header.i=@cisco.com header.s=iport header.b=dV7/vdBx;
+ spf=pass (domain: cisco.com, ip: 173.37.86.79, mailfrom: schitrod@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=933; q=dns/txt; s=iport;
-  t=1685253209; x=1686462809;
+  d=cisco.com; i=@cisco.com; l=886; q=dns/txt; s=iport;
+  t=1685256457; x=1686466057;
   h=from:to:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=te/PL33H7yQGvAUtwLidm6I2varZHnHxLfP5SOWfqeA=;
-  b=QchT4CmjdlsA2hteGBAqOG+KhrqXbFj0crWL97m4T2QO+1DFSvVE/IDR
-   uTsVv6c9ttNQkkh88hkKKA+OmTxWMBsfrbn1eDIVMfLHkaHPiCGbLSOuI
-   AkbegEjiodUH87U/KZF60hqJ0N6BK0tg+v/HgiTiL/u6zsIpfUqXf6oFL
-   I=;
+  bh=NhDDDI/5Ap1E89aXOfP3DEgJikF9g1n0lkCAoVx1NRQ=;
+  b=dV7/vdBxQRtAv04TYezAiGeZ0Ssz0CQsbpOCEQR3iOI6p8HyILheSDSR
+   HmzSix7x3xhFB52BAHq4AUbE03LeaVszU5OLiYeQ4vMWZCgSSnCoBPJOv
+   u4l2656WLa/8l4s0GkyXznqKb/ihSLqGsUlkuAVdDjCi8IyviAd01OovB
+   A=;
 X-IronPort-AV: E=Sophos;i="6.00,198,1681171200"; 
-   d="scan'208";a="63846568"
-Received: from rcdn-core-11.cisco.com ([173.37.93.147])
-  by rcdn-iport-4.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 28 May 2023 05:53:28 +0000
+   d="scan'208";a="55659266"
+Received: from rcdn-core-1.cisco.com ([173.37.93.152])
+  by rcdn-iport-8.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 28 May 2023 06:47:37 +0000
 Received: from sjc-ads-7441.cisco.com (sjc-ads-7441.cisco.com [10.30.220.226])
-	by rcdn-core-11.cisco.com (8.15.2/8.15.2) with ESMTPS id 34S5rRjm010104
+	by rcdn-core-1.cisco.com (8.15.2/8.15.2) with ESMTPS id 34S6lZx5019716
 	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Sun, 28 May 2023 05:53:28 GMT
+	Sun, 28 May 2023 06:47:36 GMT
 Received: by sjc-ads-7441.cisco.com (Postfix, from userid 1812315)
-	id 741BFCC1293; Sat, 27 May 2023 22:53:27 -0700 (PDT)
+	id 7251DCC1293; Sat, 27 May 2023 23:47:35 -0700 (PDT)
 From: Sanjay Chitroda <schitrod@cisco.com>
 To: openembedded-core@lists.openembedded.org, schitrod@cisco.com
-Subject: [OE-core][PATCH] sqlite3: Whitelist CVE-2022-21227
-Date: Sat, 27 May 2023 22:52:52 -0700
-Message-Id: <20230528055252.3869703-1-schitrod@cisco.com>
+Subject: [OE-core][PATCH] Revert "sqlite3: update CVE_PRODUCT"
+Date: Sat, 27 May 2023 23:47:32 -0700
+Message-Id: <20230528064732.3890226-1-schitrod@cisco.com>
 X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-SMTP-Client: 10.30.220.226, sjc-ads-7441.cisco.com
-X-Outbound-Node: rcdn-core-11.cisco.com
+X-Outbound-Node: rcdn-core-1.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 28 May 2023 05:53:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181812
+ <openembedded-core@lists.openembedded.org>; Sun, 28 May 2023 06:47:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181813
 
-This CVE is applicable to "SQLite3 bindings for Node.js" only.
+This reverts commit 8800976e79d65956218ab462d9644d0661579301.
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2022-21227
+As per NVD database "ghost:sqlite3" product is specific to "node.js"
+CVEs reported against above products are not applicable to us.
 
 Signed-off-by: Sanjay Chitroda <schitrod@cisco.com>
 ---
- meta/recipes-support/sqlite/sqlite3_3.41.2.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-support/sqlite/sqlite3.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.41.2.bb b/meta/recipes-support/sqlite/sqlite3_3.41.2.bb
-index b09e8e7f55..11bc8bb4c0 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.41.2.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.41.2.bb
-@@ -12,3 +12,6 @@ CVE_CHECK_IGNORE += "CVE-2019-19242"
- CVE_CHECK_IGNORE += "CVE-2015-3717"
- # Issue in an experimental extension we don't have/use. Fixed by https://sqlite.org/src/info/b1e0c22ec981cf5f
- CVE_CHECK_IGNORE += "CVE-2021-36690"
-+# As per https://nvd.nist.gov/vuln/detail/CVE-2022-21227
-+# this bug is applicable to SQLite3 Node.js
-+CVE_CHECK_IGNORE += "CVE-2022-21227"
+diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
+index c246d42fdf..9a0de08553 100644
+--- a/meta/recipes-support/sqlite/sqlite3.inc
++++ b/meta/recipes-support/sqlite/sqlite3.inc
+@@ -18,7 +18,7 @@ S = "${WORKDIR}/sqlite-autoconf-${SQLITE_PV}"
+ UPSTREAM_CHECK_URI = "http://www.sqlite.org/"
+ UPSTREAM_CHECK_REGEX = "releaselog/(?P<pver>(\d+[\.\-_]*)+)\.html"
+ 
+-CVE_PRODUCT = "sqlite sqlite3"
++CVE_PRODUCT = "sqlite"
+ 
+ inherit autotools pkgconfig siteinfo
+ 
 -- 
 2.35.6
 
