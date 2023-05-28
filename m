@@ -1,116 +1,172 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC60FC7EE23
-	for <webhook@archiver.kernel.org>; Sun, 28 May 2023 13:41:27 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web10.29005.1685281283801071539
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5B7AC77B7E
+	for <webhook@archiver.kernel.org>; Sun, 28 May 2023 13:56:17 +0000 (UTC)
+Received: from mailout08.t-online.de (mailout08.t-online.de [194.25.134.20])
+ by mx.groups.io with SMTP id smtpd.web11.29362.1685282172088605521
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 May 2023 06:41:24 -0700
+ Sun, 28 May 2023 06:56:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=J83Wt95r;
- spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-4f004cc54f4so2693798e87.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 May 2023 06:41:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685281282; x=1687873282;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zSklaegKMNg5e5b0EgRAbMf+QmQk3P35nICrNeYmsVg=;
-        b=J83Wt95rWFPEfu5x69t48gJR8MzoHFRRpbQnoR3KNSlorieS9G4w+ahEdCXuZc4dzu
-         xPgFiHU24tPPrSDiuZbwkaU7eYr0WMQYKLBZIUgiwjxCCWU/tg071kmgZSD3lt0KBITP
-         N++tGoTWG0L+vGxI2MPtW2Kh2urovQ5OTKNvKJdtxJre/i+D6xxRmtfMVWRyM+2lG/ir
-         45UNB3eo4r3AYhUrFbNYriy1CjKAEs9xFVqd1c+0ntx/fyrcWkiEdhVapk6mUQbbbnk6
-         UWZ475i2sjI1rrW2Yq+fVp2q9o8J9KjpLBQyAsIQ2MbZSghoqa+op3vy2bO2VTyekCaH
-         kHFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685281282; x=1687873282;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zSklaegKMNg5e5b0EgRAbMf+QmQk3P35nICrNeYmsVg=;
-        b=fMKX/aAWLXpwPR7FHhH5SiJuEGANJQ6Ov1GccKsF+elCCeUVpgZEocxnJXuymNWXbQ
-         yVPAJzbpVXlZMD/MiMm5xAdExKP+4LCESwH4hETD6KcUKhDVcGPlqPoe6d3GMUGBnKHQ
-         /mimttYzXpnHb3myum9IeIFABjRrIKlqr6yteqRWn+dQFZg1ascAShrwIdXlMm7mi+ah
-         fl6iuokW8HySMjAD5pvx0MrdvDmBIyGYSQ9O7clXbsZd6xssntLKGUvXp9s/vVe85KWE
-         tItyr4A+Dk254sv8eLEV47DbRwBSe9m5m9F4SRva/ZG44NwFOcseFLrHVmpyywFdIZbf
-         Xv6Q==
-X-Gm-Message-State: AC+VfDyTy4X7bfjzWK8pmijfQvSAxGgwOdy40m6Mw4c43rLGUqYZ6kQW
-	4dVz3GtR65/dofPF5TQ+eWfW41YgXVVlya+Ymi8=
-X-Google-Smtp-Source: ACHHUZ6UEEdhmgar/vJRODiCaqJAsxEtV0+O1p8V8/XVlK4G2JdvjEcvgqlI+uS9Hccz7KKQH52bEB+o4Azcg4XkoOA=
-X-Received: by 2002:ac2:4c85:0:b0:4ea:f526:5bef with SMTP id
- d5-20020ac24c85000000b004eaf5265befmr3410981lfl.28.1685281281907; Sun, 28 May
- 2023 06:41:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230527133252.284132-1-f_l_k@t-online.de> <20230527133252.284132-2-f_l_k@t-online.de>
- <17635252DFD4EDDE.6918@lists.openembedded.org>
-In-Reply-To: <17635252DFD4EDDE.6918@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 28 May 2023 15:41:10 +0200
-Message-ID: <CANNYZj_jz-SCh4kq33fe7_uiVRAvL+15i4kQ=U9Dkv84W2s+xw@mail.gmail.com>
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.20, mailfrom: f_l_k@t-online.de)
+Received: from fwd84.dcpf.telekom.de (fwd84.aul.t-online.de [10.223.144.110])
+	by mailout08.t-online.de (Postfix) with SMTP id 06897174E5;
+	Sun, 28 May 2023 15:56:10 +0200 (CEST)
+Received: from [192.168.178.156] ([79.219.225.43]) by fwd84.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1q3GsS-2Kzzvc0; Sun, 28 May 2023 15:56:08 +0200
+Date: Sun, 28 May 2023 15:56:03 +0200
+From: Markus Volk <f_l_k@t-online.de>
 Subject: Re: [oe-core][PATCH 2/4] python3: add libxcrypt-native dependency
-To: alex.kanavin@gmail.com
-Cc: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Message-Id: <F1GDVR.2NNB0NO3B75X1@t-online.de>
+In-Reply-To: 
+	<CANNYZj8Mx-o8=L7N_hrC71c-4urBgXJx1gM1nERUjQL-87Kmyw@mail.gmail.com>
+References: <20230527133252.284132-1-f_l_k@t-online.de>
+	<20230527133252.284132-2-f_l_k@t-online.de>
+	<CANNYZj8Mx-o8=L7N_hrC71c-4urBgXJx1gM1nERUjQL-87Kmyw@mail.gmail.com>
+X-Mailer: geary/40.0
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="=-ubQkjXoa7TQZnG6nANEo"
+X-TOI-EXPURGATEID: 150726::1685282168-5AE6F570-1475A32B/0/0 CLEAN NORMAL
+X-TOI-MSGID: 88169861-871e-41bd-9732-5e474979b47b
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 28 May 2023 13:41:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181825
+ <openembedded-core@lists.openembedded.org>; Sun, 28 May 2023 13:56:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181826
 
-Also, how is the native header used in the target build? Isn't that
-incorrect in itself?
+--=-ubQkjXoa7TQZnG6nANEo
+Content-Type: text/plain; charset=us-ascii; format=flowed
 
-Alex
+I noticed this because I was trying to see if my image could reproduce 
+itself. To do this I installed some build tools, perl and python 
+modules and tried if a core-image-minimal can be built in this 
+environment.
 
-On Sun, 28 May 2023 at 15:40, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-wrote:
->
+This failed for some packages because crypt() was missing. I did not 
+have any dev packages installed, so my guess was that it was because my 
+image was missing crypt.h.
+
+To reproduce this on my host machine (Ubuntu 22.04), I ran
+sudo mv /usr/include/crypt.h /usr/include/crypt.h.old
+sudo rm -r tmp sstate-cache
+
+Now I also had errors on my host system
+
+Am So, 28. Mai 2023 um 15:39:47 +0200 schrieb Alexander Kanavin 
+<alex.kanavin@gmail.com>:
 > Can you please show how it looks like? We do have a test for host
 > contamination via headers, so I'd like to see what happens exactly and
 > where the test isn't catching it.
->
+> 
 > Same for patches 3/4, 4/4.
->
+> 
 > Alex
->
-> On Sat, 27 May 2023 at 15:33, Markus Volk <f_l_k@t-online.de> wrote:
-> >
-> > crypt.h is otherwise taken from the host machine
-> >
-> > Signed-off-by: Markus Volk <f_l_k@t-online.de>
-> > ---
-> >  meta/recipes-devtools/python/python3_3.11.2.bb | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-devtools/python/python3_3.11.2.bb b/meta/recipes-devtools/python/python3_3.11.2.bb
-> > index 421a305e22..1ca4ad35be 100644
-> > --- a/meta/recipes-devtools/python/python3_3.11.2.bb
-> > +++ b/meta/recipes-devtools/python/python3_3.11.2.bb
-> > @@ -72,7 +72,7 @@ ALTERNATIVE_LINK_NAME[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config
-> >  ALTERNATIVE_TARGET[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config-${MULTILIB_SUFFIX}"
-> >
-> >
-> > -DEPENDS = "bzip2-replacement-native expat libffi bzip2 openssl sqlite3 zlib virtual/libintl xz virtual/crypt util-linux-libuuid libtirpc libnsl2 autoconf-archive-native ncurses"
-> > +DEPENDS = "bzip2-replacement-native expat libffi bzip2 openssl sqlite3 zlib virtual/libintl xz virtual/crypt util-linux-libuuid libtirpc libnsl2 autoconf-archive-native ncurses libxcrypt-native"
-> >  DEPENDS:append:class-target = " python3-native"
-> >  DEPENDS:append:class-nativesdk = " python3-native"
-> >
-> > --
-> > 2.34.1
-> >
-> >
-> >
-> >
->
+> 
+> On Sat, 27 May 2023 at 15:33, Markus Volk <f_l_k@t-online.de 
+> <mailto:f_l_k@t-online.de>> wrote:
+>> 
+>>  crypt.h is otherwise taken from the host machine
+>> 
+>>  Signed-off-by: Markus Volk <f_l_k@t-online.de 
+>> <mailto:f_l_k@t-online.de>>
+>>  ---
+>>   meta/recipes-devtools/python/python3_3.11.2.bb | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>> 
+>>  diff --git a/meta/recipes-devtools/python/python3_3.11.2.bb 
+>> b/meta/recipes-devtools/python/python3_3.11.2.bb
+>>  index 421a305e22..1ca4ad35be 100644
+>>  --- a/meta/recipes-devtools/python/python3_3.11.2.bb
+>>  +++ b/meta/recipes-devtools/python/python3_3.11.2.bb
+>>  @@ -72,7 +72,7 @@ ALTERNATIVE_LINK_NAME[python3-config] = 
+>> "${bindir}/python${PYTHON_MAJMIN}-config
+>>   ALTERNATIVE_TARGET[python3-config] = 
+>> "${bindir}/python${PYTHON_MAJMIN}-config-${MULTILIB_SUFFIX}"
+>> 
+>> 
+>>  -DEPENDS = "bzip2-replacement-native expat libffi bzip2 openssl 
+>> sqlite3 zlib virtual/libintl xz virtual/crypt util-linux-libuuid 
+>> libtirpc libnsl2 autoconf-archive-native ncurses"
+>>  +DEPENDS = "bzip2-replacement-native expat libffi bzip2 openssl 
+>> sqlite3 zlib virtual/libintl xz virtual/crypt util-linux-libuuid 
+>> libtirpc libnsl2 autoconf-archive-native ncurses libxcrypt-native"
+>>   DEPENDS:append:class-target = " python3-native"
+>>   DEPENDS:append:class-nativesdk = " python3-native"
+>> 
+>>  --
+>>  2.34.1
+>> 
+>> 
+>> 
+>> 
+> 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#181824): https://lists.openembedded.org/g/openembedded-core/message/181824
-> Mute This Topic: https://lists.openembedded.org/mt/99167320/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> View/Reply Online (#181824): 
+> <https://lists.openembedded.org/g/openembedded-core/message/181824>
+> Mute This Topic: <https://lists.openembedded.org/mt/99167320/3618223>
+> Group Owner: openembedded-core+owner@lists.openembedded.org 
+> <mailto:openembedded-core+owner@lists.openembedded.org>
+> Unsubscribe: 
+> <https://lists.openembedded.org/g/openembedded-core/unsub> 
+> [f_l_k@t-online.de <mailto:f_l_k@t-online.de>]
 > -=-=-=-=-=-=-=-=-=-=-=-
->
+> 
+
+
+--=-ubQkjXoa7TQZnG6nANEo
+Content-Type: text/html; charset=us-ascii
+
+<div id="geary-body" dir="auto"><div>I noticed this because I was trying to see if my image could reproduce itself. To do this I installed some build tools, perl and python modules and tried if a core-image-minimal can be built in this environment.</div><div><br></div><div>This failed for some packages because crypt() was missing. I did not have any dev packages installed, so my guess was that it was because my image was missing crypt.h.</div><div><br></div><div>To reproduce this on my host machine (Ubuntu 22.04), I ran</div><div>sudo mv /usr/include/crypt.h /usr/include/crypt.h.old</div><div>sudo rm -r tmp sstate-cache</div><div><br></div><div>Now I also had errors on my host system</div></div><div id="geary-quote" dir="auto"><br>Am So, 28. Mai 2023 um 15:39:47 +0200 schrieb Alexander Kanavin &lt;alex.kanavin@gmail.com&gt;:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">Can you please show how it looks like? We do have a test for host
+contamination via headers, so I'd like to see what happens exactly and
+where the test isn't catching it.
+
+Same for patches 3/4, 4/4.
+
+Alex
+
+On Sat, 27 May 2023 at 15:33, Markus Volk &lt;<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>&gt; wrote:
+<blockquote>
+ crypt.h is otherwise taken from the host machine
+
+ Signed-off-by: Markus Volk &lt;<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>&gt;
+ ---
+  meta/recipes-devtools/python/python3_3.11.2.bb | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+
+ diff --git a/meta/recipes-devtools/python/python3_3.11.2.bb b/meta/recipes-devtools/python/python3_3.11.2.bb
+ index 421a305e22..1ca4ad35be 100644
+ --- a/meta/recipes-devtools/python/python3_3.11.2.bb
+ +++ b/meta/recipes-devtools/python/python3_3.11.2.bb
+ @@ -72,7 +72,7 @@ ALTERNATIVE_LINK_NAME[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config
+  ALTERNATIVE_TARGET[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config-${MULTILIB_SUFFIX}"
+
+
+ -DEPENDS = "bzip2-replacement-native expat libffi bzip2 openssl sqlite3 zlib virtual/libintl xz virtual/crypt util-linux-libuuid libtirpc libnsl2 autoconf-archive-native ncurses"
+ +DEPENDS = "bzip2-replacement-native expat libffi bzip2 openssl sqlite3 zlib virtual/libintl xz virtual/crypt util-linux-libuuid libtirpc libnsl2 autoconf-archive-native ncurses libxcrypt-native"
+  DEPENDS:append:class-target = " python3-native"
+  DEPENDS:append:class-nativesdk = " python3-native"
+
+ --
+ 2.34.1
+
+
+ 
+
+</blockquote></div><div class="plaintext" style="white-space: break-spaces;">
+-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#181824): <a href="https://lists.openembedded.org/g/openembedded-core/message/181824">https://lists.openembedded.org/g/openembedded-core/message/181824</a>
+Mute This Topic: <a href="https://lists.openembedded.org/mt/99167320/3618223">https://lists.openembedded.org/mt/99167320/3618223</a>
+Group Owner: <a href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
+
+</div></blockquote></div>
+--=-ubQkjXoa7TQZnG6nANEo--
+
 
