@@ -1,62 +1,80 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35A2FC7EE23
-	for <webhook@archiver.kernel.org>; Sun, 28 May 2023 15:09:08 +0000 (UTC)
-Received: from mailout11.t-online.de (mailout11.t-online.de [194.25.134.85])
- by mx.groups.io with SMTP id smtpd.web10.30522.1685286541555417240
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CC72C77B7C
+	for <webhook@archiver.kernel.org>; Sun, 28 May 2023 15:16:38 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web11.30831.1685286989646479546
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 May 2023 08:09:02 -0700
+ Sun, 28 May 2023 08:16:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.85, mailfrom: f_l_k@t-online.de)
-Received: from fwd81.dcpf.telekom.de (fwd81.aul.t-online.de [10.223.144.107])
-	by mailout11.t-online.de (Postfix) with SMTP id 5B9DB5862;
-	Sun, 28 May 2023 17:08:58 +0200 (CEST)
-Received: from [192.168.178.156] ([79.219.225.43]) by fwd81.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1q3I0p-2uVmWu0; Sun, 28 May 2023 17:08:51 +0200
-Date: Sun, 28 May 2023 17:08:46 +0200
-From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [oe-core][PATCH 2/4] python3: add libxcrypt-native dependency
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Message-Id: <MEJDVR.WDZW7MFB3W9N1@t-online.de>
-In-Reply-To: 
-	<CANNYZj-megU_4p_eR84XiSt7YvwWu57tWBEZDKoBFkjRj8ZKVQ@mail.gmail.com>
-References: <20230527133252.284132-1-f_l_k@t-online.de>
-	<20230527133252.284132-2-f_l_k@t-online.de>
-	<17635252DFD4EDDE.6918@lists.openembedded.org>
-	<CANNYZj_jz-SCh4kq33fe7_uiVRAvL+15i4kQ=U9Dkv84W2s+xw@mail.gmail.com>
-	<VDGDVR.YBUKQ953M2TP3@t-online.de>
-	<CANNYZj_0ASF5ERsCgrB3W3qYgGJFwJzXn35cgc6ojQf0fi1Yxg@mail.gmail.com>
-	<POIDVR.URDIMNIKV0SE3@t-online.de>
-	<CANNYZj-megU_4p_eR84XiSt7YvwWu57tWBEZDKoBFkjRj8ZKVQ@mail.gmail.com>
-X-Mailer: geary/40.0
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=QvCLhXAE;
+ spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2af29b37bd7so25258181fa.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 May 2023 08:16:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685286988; x=1687878988;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ywlBbeROJyQHaOt6lG0OUq5Bq7+HFMzgOAkHUAITANM=;
+        b=QvCLhXAEqyf7R2T3FreLNQDvmo2fJIWEdqzTm/cDmqHDwyv/Lj3c5M11RbhgZRGlFq
+         40GiSlUbZ/9TPpRESrXn8KlMqLljpapho0t2zmxwhDmgMTQ0EQnWarJG4dnnrbl8/xtl
+         Ppb/eb4e/xxGQmrX7T21fPKib21j1yoIaV2iKszvTKm6m6H9moe1Ie8p9ZqiXQduVE2H
+         Mj2vyYyqK7+VJ0GwyVlzXDw0z0YwIrRuRDLq80B6cwxavNHV80hMtQToNxKMNmMgQk4c
+         5pB9I5PsFrLAwmI7Nv73hwXwBtqeOsT84qypJY63DlyHRtEUis3OFb7OWrV/W06yj6vP
+         vvxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685286988; x=1687878988;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ywlBbeROJyQHaOt6lG0OUq5Bq7+HFMzgOAkHUAITANM=;
+        b=HUVnsMdJmmOpM1oVj7zXmOQ8VePMvVReQi/7odQox3+5Pch6KsPGEnBEHZKd2WOvdC
+         x9hSj0voJoX9E32kJC0cRDsYJ76PtOErdvXX0zugZbHZFvD1XYFxSHX5nmuGv2wucNlU
+         cVI4HTiuCqiOTStRMKRcrj6ZnopN3gNxcjR6kF0oKUvu4lyvslWvL59F2d7Pt+0kQxNx
+         5rb+iu5kQoSo7MWlERZhlBIU4ytVHqRBBfdMXN/3v9luv7UKXiiEx18vg5jVGNmZXJW+
+         dxG2kfK70mGaGfEVBzSConvBvxEP4Qoxo5zZ+DafqKZwB7icP01DOwHW7BygeCjh9Mud
+         m2VQ==
+X-Gm-Message-State: AC+VfDyd5zrxjRrjBz/qqcE7v1fXzeiOyEf7iUjerSYy5er0oRKeFi0B
+	ZpGzpqKYeGgfEu6ALm5eR1mCx0Z3jcgtrlC8eQk=
+X-Google-Smtp-Source: ACHHUZ5f4wHmbr682o+FtJgV9WmZRBwtKFJfDwzIhd0FqtOpeghOOqT6H6LUkm+9rh1odvvbnXCxtv3Letf+fJ1Pi2Y=
+X-Received: by 2002:a2e:960f:0:b0:2b0:47a3:51e3 with SMTP id
+ v15-20020a2e960f000000b002b047a351e3mr3427652ljh.49.1685286987514; Sun, 28
+ May 2023 08:16:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-LqYJFo8tbVepLtS8mUA+"
-X-TOI-EXPURGATEID: 150726::1685286532-DA7FADA8-9C11666C/0/0 CLEAN NORMAL
-X-TOI-MSGID: 5ee1ee76-62d2-4dde-89fa-1876407e7945
+References: <20230527133252.284132-1-f_l_k@t-online.de> <20230527133252.284132-2-f_l_k@t-online.de>
+ <17635252DFD4EDDE.6918@lists.openembedded.org> <CANNYZj_jz-SCh4kq33fe7_uiVRAvL+15i4kQ=U9Dkv84W2s+xw@mail.gmail.com>
+ <VDGDVR.YBUKQ953M2TP3@t-online.de> <CANNYZj_0ASF5ERsCgrB3W3qYgGJFwJzXn35cgc6ojQf0fi1Yxg@mail.gmail.com>
+ <POIDVR.URDIMNIKV0SE3@t-online.de> <CANNYZj-megU_4p_eR84XiSt7YvwWu57tWBEZDKoBFkjRj8ZKVQ@mail.gmail.com>
+ <MEJDVR.WDZW7MFB3W9N1@t-online.de>
+In-Reply-To: <MEJDVR.WDZW7MFB3W9N1@t-online.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sun, 28 May 2023 17:16:16 +0200
+Message-ID: <CANNYZj_-ptiJqvmf+cU0qV7VkKG0ds=guN9aTU1VirjcG8WjQA@mail.gmail.com>
+Subject: Re: [oe-core][PATCH 2/4] python3: add libxcrypt-native dependency
+To: Markus Volk <f_l_k@t-online.de>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 28 May 2023 15:09:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181833
+ <openembedded-core@lists.openembedded.org>; Sun, 28 May 2023 15:16:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181834
 
---=-LqYJFo8tbVepLtS8mUA+
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Adding libxcrypt-native to DEPENDS definitely isn't correct, so you
+could check why virtual/crypt dependency isn't working properly for
+adding the needed headers into native variant's sysroot. If all fails,
+adjust DEPENDS:append:class-native.
 
-Am So, 28. Mai 2023 um 17:01:44 +0200 schrieb Alexander Kanavin 
-<alex.kanavin@gmail.com>:
+Alex
+
+On Sun, 28 May 2023 at 17:08, Markus Volk <f_l_k@t-online.de> wrote:
+>
+> Am So, 28. Mai 2023 um 17:01:44 +0200 schrieb Alexander Kanavin <alex.kanavin@gmail.com>:
+>
 > Thanks, then all three recipes should add libxcrypt to DEPENDS
-
-But wouldn't that lead to multiple virtual/crypt providers on musl ?
-
-
---=-LqYJFo8tbVepLtS8mUA+
-Content-Type: text/html; charset=us-ascii
-
-<div id="geary-body" dir="auto">Am So, 28. Mai 2023 um 17:01:44 +0200 schrieb Alexander Kanavin &lt;alex.kanavin@gmail.com&gt;:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">Thanks, then all three recipes should add libxcrypt to DEPENDS</div></blockquote><div><br></div><div>But wouldn't that lead to multiple virtual/crypt providers on musl ?</div></div>
---=-LqYJFo8tbVepLtS8mUA+--
-
+>
+>
+> But wouldn't that lead to multiple virtual/crypt providers on musl ?
 
