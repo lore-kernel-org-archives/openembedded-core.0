@@ -1,173 +1,217 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45565C7EE23
-	for <webhook@archiver.kernel.org>; Sun, 28 May 2023 12:05:27 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web11.27699.1685275522206863109
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E64AC77B7C
+	for <webhook@archiver.kernel.org>; Sun, 28 May 2023 12:52:07 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.28272.1685278326668875857
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 May 2023 05:05:22 -0700
+ Sun, 28 May 2023 05:52:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=1hlrDuPw;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-64d5b4c3ffeso1729681b3a.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 May 2023 05:05:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1685275521; x=1687867521;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=S5B3xQODuw8h3Y6+A6kZ7bwLYGivtyOpM/KzxHBJAsM=;
-        b=1hlrDuPwxFPvBppOpFHWbFs3I2JsMqELbAfH5K7lMIbJkBK4URj3iCFQZ7Jiydw6/U
-         lDnvzKMqu+2omQ8/arW34hHs7j30lpB8RMRqJWhsKgNJ+awiGDwCb5ywvG/vEPfNCd/G
-         4ndmmOH1kYZzMf3Axl7xufwEbWxr9K+rL7ljJfH6RfY/m9qYLU+VIr7osfqNewsbd6jB
-         zjWnDevdviElDJ/PdU7gc+TzAYRmWOaFBDOWMBjTyJCq0X39C0PpLtCa+1y3pDSz1WnI
-         uUUYznA28N7togrcIEkteMH61OXNG9+0t54lGhe/JGJUIhhjSzZtTpl5AD9gUKjI2MKU
-         CwWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685275521; x=1687867521;
-        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=S5B3xQODuw8h3Y6+A6kZ7bwLYGivtyOpM/KzxHBJAsM=;
-        b=h7Hzz4cRugOeEmWWRpdtoURIuHEmhL+Sg3CPVHo6kHJ7wQKafMt1S66FmZlLYo5zom
-         g53vNGYH8VJorpNRma/gafnrtPWrByEecoSVFZAIh5oxfuM6PEsvyKrFReOOIIl2lm5D
-         4rD6WEEc+ggyLglTobMUQcmpzrQk6ND/g4D0sJ70gLlzqmZ03KWZRlG5MZ52ainuJSLF
-         ORjO/fIQcDxYvefo7Ubr8muazCfYX71ddjd9jy50RJ3y8pE3ima2GJrucHFk8C8hotKg
-         LDGgYFkl+vr/f3Ac+nyycKAWC9iclUBom8BWZ8wLeW79hEWlYQ9Dlp/R+QisK46Q5Zc5
-         uX6A==
-X-Gm-Message-State: AC+VfDxZ9bJayHYZXcLD6vWGLpQzXll5pHQyyzkuTLNGCYw15cqfJ3ns
-	7QvKNqbL3fAfaulDxSPbMnhxVbJYy3QDEP3XUfA=
-X-Google-Smtp-Source: ACHHUZ6vDwB1Hx7Orf6UZUY822AN4Ao+ranoPQCNOf52/aB9Z8CE/gN3CtVa/rlh/Q3pm4UqdHzdBA==
-X-Received: by 2002:a05:6a00:c85:b0:64d:2487:5b20 with SMTP id a5-20020a056a000c8500b0064d24875b20mr12318725pfv.9.1685275520828;
-        Sun, 28 May 2023 05:05:20 -0700 (PDT)
-Received: from nuc.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id i25-20020aa78d99000000b0064fd8b3dd14sm492226pfr.124.2023.05.28.05.05.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 May 2023 05:05:20 -0700 (PDT)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 81AA49603FE; Sun, 28 May 2023 02:05:18 -1000 (HST)
-Subject: OE-core CVE metrics for dunfell on Sun 28 May 2023 02:00:01 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun, 28 May 2023 02:05:18 -1000
-Message-Id: <20230528120518.81AA49603FE@nuc.router0800d9.com>
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=aUwNEDsI;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=55120cdcbe=qi.chen@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34SCop1S017490
+	for <openembedded-core@lists.openembedded.org>; Sun, 28 May 2023 05:52:06 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=PPS06212021;
+ bh=PlL4ALsWi19He6wzSdqdnznLq8HRh43CK3PA6UOtuyM=;
+ b=aUwNEDsI5o2m3WBhGI6dXM4mskH1bk6ar+p64R3eZbSp3h3rlDzcno0mjgpVzm9cFzLZ
+ ufqScH1qqPbtFKtNfbbL3fO1VS12QhvhSqw5yZ/OPhweXblmhaUOhhAjz1tOPjeLqyW9
+ 1rbPI/3nKmds0CyuTbe8pj4R0KDYca+Sr43WgrFkljifWvT1ZCGZ8w0lR5gvkFNC8Z4b
+ a51GZFsE8+lXvYB6Kjl8l1ILR3rVAIkX4bPKHMn/XAF3jadRK4YmxsdtHetq2RnZhlS2
+ aDujTWiAxrIkx7938j4D+1RowLnmANfUiK+voy7qlHgClJ8tZQ0qOFEdtWuqV3IxSQTl 2w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3quhcj8pr3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 28 May 2023 05:52:06 -0700
+Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34SCq50i018914
+	for <openembedded-core@lists.openembedded.org>; Sun, 28 May 2023 05:52:05 -0700
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2170.outbound.protection.outlook.com [104.47.57.170])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3quhcj8pr2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 28 May 2023 05:52:05 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I/vhr8qNPoUWhWviQ9y8sek16gZLP9eH8ROVNfwI2FN8u3fw90EahFpsgae7H5ybNj4Bs1gZEnu2D/E1Uv38mzLjFWRiit8GHCXgitE95lgvjV/hFKtKK2LkRfxCkGd+4NAGXTLhs/5HWMCl0mig6EDVX6H/JvUS27mgKnpvvy/pdCjczdKiAEuzN/VSqic7a6IG9Y/L534zWCMrr4ww6VDLBNGvfcb06Lupj2ZEjL07bqelmSUYYPhK64Kg00+p4pHUxMiD4UpW4eIY2VDd35NbBFwRIIhOWVBaeFBpjZHuklWRTAhwq6wLX2Um5Bf35JW9HjR3U7L50RKgthxrUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PlL4ALsWi19He6wzSdqdnznLq8HRh43CK3PA6UOtuyM=;
+ b=jkHBDnWTJikGP6qAVhnUEqYT/+Mb9JdwzVi3vBQ0YXy/4VnfN1H2531Q0/7T7ap+HtcLiAg8I4S38WQCnRGfPywkQ+b/jd50DEAPE15o1EX4BOpPCxlCY5e4FQ0etMflrVvEepXpc6Q8k2tYRy2gjhq/NqyK2Mmm5dO5EP5W9TYRraMyXxqn82w2jamm4Hsab4KJEp91LAKYkIbDSRd8acLQTCHxgb6xyeqTjMuxqVnGe9t9rad+DgwrUXeo75wSENXlrg0U5GAmp8oXuvsCy3PSBf14ARfWEmxMU8+3VtnQI7rv1HHI94spGFzwKqEodzZRHSQBErW6cOJ6VXbz6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by DM4PR11MB6067.namprd11.prod.outlook.com (2603:10b6:8:63::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.21; Sun, 28 May
+ 2023 12:52:01 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::b504:c7a0:9ce8:6f17]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::b504:c7a0:9ce8:6f17%3]) with mapi id 15.20.6433.022; Sun, 28 May 2023
+ 12:52:01 +0000
+From: "Chen, Qi" <Qi.Chen@windriver.com>
+To: "schitrod@cisco.com" <schitrod@cisco.com>,
+        "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+        "alexandre.belloni@bootlin.com"
+	<alexandre.belloni@bootlin.com>
+Subject: RE: [OE-core][PATCH] Revert "sqlite3: update CVE_PRODUCT"
+Thread-Topic: [OE-core][PATCH] Revert "sqlite3: update CVE_PRODUCT"
+Thread-Index: AQHZkTBOVmroIWwMLUm3v6XydG2/ca9vQcwggABgykA=
+Date: Sun, 28 May 2023 12:52:00 +0000
+Message-ID: 
+ <CO6PR11MB5602E50D7AEA18519A55F239ED459@CO6PR11MB5602.namprd11.prod.outlook.com>
+References: <17633BD1C0C1B26D.6918@lists.openembedded.org>
+ <SJ0PR11MB6717FDF0FA29DCBA25329983DC459@SJ0PR11MB6717.namprd11.prod.outlook.com>
+In-Reply-To: 
+ <SJ0PR11MB6717FDF0FA29DCBA25329983DC459@SJ0PR11MB6717.namprd11.prod.outlook.com>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CO6PR11MB5602:EE_|DM4PR11MB6067:EE_
+x-ms-office365-filtering-correlation-id: a63af54a-0ec4-49b3-a2be-08db5f7a547d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ OkiaBEnKNjHPUbJaabTHdG+cCM2UH780Lz6h+9L5x8u0URHDNyALIJgQmUU/RMxhjYZ+85AFTPR6y+D8JmMoBXBjjJqpYQSxZ7UDQqt0rAnO5VI9AQDpi1t4gBKcoSaKtcYas9Onx+gpCL/sLOq0pbFjy5vZpS6ozKR7kDCYftqM198ZFaXED6EIisMOgf8u6B1OaBCHcGaWTaZV0ZrdWSd2vKPF10Srku4RKVLA/R5etQ0+v3yoC6Psis2dPZHINd0LrLw9I66lDNPdRkaPX6KrYwhhsap1/ZfeIAVgBr+UvE1ndqgAs7/ZINx6q4UOSOM4jznKb5aaZcq4kTXFvY4PbxBY8SK2wyEAJoiIHvT90jOGtWSwHTcuvn9ChEHwkGB8b9exMz4xiraEiJsi+7G144Y7lnBG+hKNMzoeIfxxd3/iqQGvUyxQzHu3CuIlDIW+ESXTECQi0STgmi8O9bmQaPngCFk8QfgcdX0z9a9cUZJsLYWGzmedfAv4+ZdQPueD5csJW9axqduX6ykrcfD+7J/Sq3QTx2cV9cQcrjkQ6/v1oNxASln7eCUQOz22kJJyBOg6pZwFtNVUQvTZaOjRCNZMItd3tgAVDnXgnpQ1qLDw8yfwvIJBSu0Z/oz+YlawsmBeJdhWvoKX87OhLQ==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(376002)(346002)(39830400003)(396003)(366004)(451199021)(83380400001)(33656002)(71200400001)(5660300002)(316002)(66946007)(76116006)(64756008)(66446008)(66476007)(66556008)(52536014)(966005)(122000001)(8676002)(8936002)(41300700001)(38100700002)(7696005)(86362001)(55016003)(110136005)(2906002)(6506007)(38070700005)(9686003)(186003)(15650500001)(478600001)(66899021)(26005);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?9JPSl29l7U+7c6lOTx2j0oU6pzEk8LgXUIZ5pB5Q0ayrByEWTCnoreldUuR1?=
+ =?us-ascii?Q?ukx71+QtKfQFNjxbGw5cSem000UsU/f4RB41jGPI1MtDGvHuP6R0hcHp4c5i?=
+ =?us-ascii?Q?3g5ML9sy30ErmXBGyU5iIWE0pWzsGW6uxYbJ+y2QsVhACGA0i7vQ5DzAcwG7?=
+ =?us-ascii?Q?MG/vY/1ZigU0b92KoTb8jyJW1N//bpv29ISQq3HWoqneUUDF6O9/3QyjNjy+?=
+ =?us-ascii?Q?rWnbZaGmriapu+s/+dqQRD55GtkKQaDN9hYFp2cdbymaTOjcZlOpw58hiK/c?=
+ =?us-ascii?Q?OHaZNVD0x2NtwjlLsvLoBtcTvAkfwLeDEGPn95HsaxBgb/7rVTgPfpilA+Ir?=
+ =?us-ascii?Q?IvVjxbn0xBQssJLQrqMYDBCM4Sb7pR1GI1Awpws2XuOjp+3QXTse2fMekNCQ?=
+ =?us-ascii?Q?M6BX/LskXBAL4R5CUYF6GbxZWoLDogEADMo7NmQt3rjF4rbz2RDGS4/T6LC8?=
+ =?us-ascii?Q?w4g+9gqfgU8FhDmc8rVRYjdSfMqPdughy3ji0pL9+7J+BwigUAg72ZJ5LNhV?=
+ =?us-ascii?Q?c1SQiZGYFBNvNAra4h15/112hijyWHmykT/zDSltj9fFrU+Bdbcy6oHpv8ld?=
+ =?us-ascii?Q?CZ1yzdjBfAqNEeZMlNS0YzmDByyozTUI2itkS6rIlCglQAvPVVK0Uy4Xcs1U?=
+ =?us-ascii?Q?JcSUx7akUjvFF/MRtK45jvEk1Qp4BXw7IIXtQ/quyI8XhDea4n+++tlSelc1?=
+ =?us-ascii?Q?JD5Na7QDOkz8J0msyCN8g8210ujYaqIzO74kKOT80rfYIkK9DNqVg0Dm+ETf?=
+ =?us-ascii?Q?ct9/JokBw7q26d27stB08SYHC/nhCiK8x917MWOblWhMdpz3AgNHuhU08viY?=
+ =?us-ascii?Q?p8TL8KnKLxL7FrKz1dM3H0TRbnGJqH5+G8jTXPRSCwJ9oSlOHAhYk19R7a2E?=
+ =?us-ascii?Q?Ui+Lq7Wpr22ZEQM/fjkKuDiCIfJetpn3bREleeEJbrEhMsUYhqZBURK23odw?=
+ =?us-ascii?Q?WB6YDz0SNniMrBqelAnbtAigaOrqvIK2Xh9vZfzNargVXmKKtyQkLp350tG6?=
+ =?us-ascii?Q?M2l2KylJwAYpveWmtiyHHxkgpyuyq4rnSdVtEdYMsaf3AkH0MEbdnQ/x0IOi?=
+ =?us-ascii?Q?SAgDF5jXd4tPHzDmM3+aWR6qdE6UHWx4FQ10N4DrcHgr0fmIzNtbvbJQfB9z?=
+ =?us-ascii?Q?WXL7il+LnKXM7gvn/+KiJkQKYja8mPIGdgDwsS0XH3K1FOgmCIG8s3KZdoNR?=
+ =?us-ascii?Q?+MyDHd62x2VW6Ax9wiaMs47xw3OeyCBka5BjRFmcTG5VqmaCJLle4Ohu7+Ch?=
+ =?us-ascii?Q?wl+MHBCgXLpyjigb1NXwDsgvWqOfOPCUytHVHwxTapwK4gyCcRjbWJZlj85p?=
+ =?us-ascii?Q?VzHlF/7IBanVlaemmztuj4JHKaLAR+E0HMgnqzs6w+5Ildl23fuXT2OKfJAw?=
+ =?us-ascii?Q?tuJArIYoPj3Ko6tPWV03ZOBC04Hd1uKkqTEbhHZQfnd4jHsc88emm1uBJT2g?=
+ =?us-ascii?Q?UhH7pY0SZl1jmuJg9mwY+mI9zMHrH4Sp7J4xXFEGoIxWuJ56KXsELMB3QrPH?=
+ =?us-ascii?Q?onjlNUGXq5C42AMQ9rogHrtKXgcC/8vG5JF+xtjB4bh5oGQokh7oXV9CpEy2?=
+ =?us-ascii?Q?gelzTSHk14S4Vpiw2hCyemu2rl14R1o9ECybGsyw?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a63af54a-0ec4-49b3-a2be-08db5f7a547d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 May 2023 12:52:01.0784
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: XElJjJOapUgLtfiEkiYaDsPXq8FvaEH7UaLVs/tTIo5fyacspxy9ZVVQGvnoDcb9uRsVmPj0m4ntJ3WPpbEXEg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6067
+X-Proofpoint-GUID: PHL7oNN7Qi87gu5tAyfiChvthbAVBHO_
+X-Proofpoint-ORIG-GUID: Fv8L3smD90niSgN1ztNef2gXS5XvbNCv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-28_09,2023-05-25_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ suspectscore=0 malwarescore=0 bulkscore=0 clxscore=1015 lowpriorityscore=0
+ phishscore=0 adultscore=0 priorityscore=1501 spamscore=0 mlxlogscore=999
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305280110
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 28 May 2023 12:05:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181817
+ <openembedded-core@lists.openembedded.org>; Sun, 28 May 2023 12:52:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181818
 
-Branch: dunfell
+Thanks for the patch. I did check the NVD database before I sent out the pa=
+tch. But when I checked it just now, I can see that there's really no 'sqli=
+te3' for this recipe. All 'sqlite3' refer to the node js package.
 
-New this week: 7 CVEs
-CVE-2022-40897 (CVSS3: 5.9 MEDIUM): python3-setuptools:python3-setuptools-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40897 *
-CVE-2023-1972 (CVSS3: 6.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1972 *
-CVE-2023-24539 (CVSS3: 7.3 HIGH): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24539 *
-CVE-2023-24540 (CVSS3: 9.8 CRITICAL): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24540 *
-CVE-2023-2731 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2731 *
-CVE-2023-29400 (CVSS3: 7.3 HIGH): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29400 *
-CVE-2023-33204 (CVSS3: 7.8 HIGH): sysstat https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-33204 *
+Acked-by: Chen Qi <Qi.Chen@windriver.com>
 
-Removed this week: 2 CVEs
-CVE-2023-25652 (CVSS3: 7.5 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25652 *
-CVE-2023-29007 (CVSS3: 7.8 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29007 *
+-----Original Message-----
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> On Behalf Of Sanjaykumar kantibhai Chitroda -X (schitrod - E=
+-INFO CHIPS INC at Cisco) via lists.openembedded.org
+Sent: Sunday, May 28, 2023 3:10 PM
+To: Sanjaykumar kantibhai Chitroda -X (schitrod - E-INFO CHIPS INC at Cisco=
+) <schitrod@cisco.com>; openembedded-core@lists.openembedded.org; alexandre=
+.belloni@bootlin.com
+Subject: Re: [OE-core][PATCH] Revert "sqlite3: update CVE_PRODUCT"
 
-Full list:  Found 94 unpatched CVEs
-CVE-2020-15705 (CVSS3: 6.4 MEDIUM): grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
-CVE-2020-25742 (CVSS3: 3.2 LOW): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
-CVE-2020-25743 (CVSS3: 3.2 LOW): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
-CVE-2020-27749 (CVSS3: 6.7 MEDIUM): grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27749 *
-CVE-2020-27918 (CVSS3: 7.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27918 *
-CVE-2020-29623 (CVSS3: 3.3 LOW): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29623 *
-CVE-2020-35503 (CVSS3: 6.0 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35503 *
-CVE-2020-35506 (CVSS3: 6.7 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35506 *
-CVE-2020-9948 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-9948 *
-CVE-2020-9951 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-9951 *
-CVE-2020-9952 (CVSS3: 7.1 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-9952 *
-CVE-2021-1765 (CVSS3: 6.5 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1765 *
-CVE-2021-1789 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1789 *
-CVE-2021-1799 (CVSS3: 6.5 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1799 *
-CVE-2021-1801 (CVSS3: 6.5 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1801 *
-CVE-2021-1870 (CVSS3: 9.8 CRITICAL): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1870 *
-CVE-2021-20225 (CVSS3: 6.7 MEDIUM): grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20225 *
-CVE-2021-20233 (CVSS3: 8.2 HIGH): grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20233 *
-CVE-2021-20269 (CVSS3: 5.5 MEDIUM): kexec-tools https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20269 *
-CVE-2021-20295 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20295 *
-CVE-2021-27097 (CVSS3: 7.8 HIGH): u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27097 *
-CVE-2021-27138 (CVSS3: 7.8 HIGH): u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27138 *
-CVE-2021-31879 (CVSS3: 6.1 MEDIUM): wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
-CVE-2021-33621 (CVSS3: 8.8 HIGH): ruby:ruby-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33621 *
-CVE-2021-3418 (CVSS3: 6.4 MEDIUM): grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3418 *
-CVE-2021-3445 (CVSS3: 7.5 HIGH): libdnf https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3445 *
-CVE-2021-35937 (CVSS3: 6.4 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35937 *
-CVE-2021-35938 (CVSS3: 6.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35938 *
-CVE-2021-35939 (CVSS3: 6.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35939 *
-CVE-2021-3611 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3611 *
-CVE-2021-3782 (CVSS3: 9.8 CRITICAL): wayland:wayland-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3782 *
-CVE-2021-3947 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3947 *
-CVE-2021-42762 (CVSS3: 5.3 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-42762 *
-CVE-2021-45085 (CVSS3: 6.1 MEDIUM): epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45085 *
-CVE-2021-45086 (CVSS3: 6.1 MEDIUM): epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45086 *
-CVE-2021-45087 (CVSS3: 6.1 MEDIUM): epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45087 *
-CVE-2021-45088 (CVSS3: 6.1 MEDIUM): epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45088 *
-CVE-2021-45481 (CVSS3: 6.5 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45481 *
-CVE-2021-45482 (CVSS3: 6.5 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45482 *
-CVE-2021-45483 (CVSS3: 6.5 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45483 *
-CVE-2022-0358 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0358 *
-CVE-2022-2294 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2294 *
-CVE-2022-2347 (CVSS3: 7.1 HIGH): u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2347 *
-CVE-2022-23773 (CVSS3: 7.5 HIGH): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23773 *
-CVE-2022-24765 (CVSS3: 7.8 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-24765 *
-CVE-2022-2953 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2953 *
-CVE-2022-29536 (CVSS3: 7.5 HIGH): epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-29536 *
-CVE-2022-2962 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2962 *
-CVE-2022-30293 (CVSS3: 7.5 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-30293 *
-CVE-2022-30767 (CVSS3: 9.8 CRITICAL): u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-30767 *
-CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
-CVE-2022-32893 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32893 *
-CVE-2022-34835 (CVSS3: 9.8 CRITICAL): u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-34835 *
-CVE-2022-3515 (CVSS3: 9.8 CRITICAL): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3515 *
-CVE-2022-3872 (CVSS3: 8.6 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3872 *
-CVE-2022-39253 (CVSS3: 5.5 MEDIUM): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39253 *
-CVE-2022-39260 (CVSS3: 8.8 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39260 *
-CVE-2022-4055 (CVSS3: 7.4 HIGH): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4055 *
-CVE-2022-40897 (CVSS3: 5.9 MEDIUM): python3-setuptools:python3-setuptools-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40897 *
-CVE-2022-41720 (CVSS3: 7.5 HIGH): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41720 *
-CVE-2022-41724 (CVSS3: 7.5 HIGH): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41724 *
-CVE-2022-41725 (CVSS3: 7.5 HIGH): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41725 *
-CVE-2022-42919 (CVSS3: 7.8 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42919 *
-CVE-2022-44370 (CVSS3: 7.8 HIGH): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-44370 *
-CVE-2022-44617 (CVSS3: 7.5 HIGH): libxpm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-44617 *
-CVE-2022-46285 (CVSS3: 7.5 HIGH): libxpm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46285 *
-CVE-2022-4645 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4645 *
-CVE-2022-4883 (CVSS3: 8.8 HIGH): libxpm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4883 *
-CVE-2023-0494 (CVSS3: 7.8 HIGH): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0494 *
-CVE-2023-1393 (CVSS3: 7.8 HIGH): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1393 *
-CVE-2023-1544 (CVSS3: 6.3 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1544 *
-CVE-2023-1916 (CVSS3: 6.1 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1916 *
-CVE-2023-1972 (CVSS3: 6.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1972 *
-CVE-2023-2426 (CVSS3: 5.5 MEDIUM): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2426 *
-CVE-2023-24329 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24329 *
-CVE-2023-24532 (CVSS3: 5.3 MEDIUM): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24532 *
-CVE-2023-24536 (CVSS3: 7.5 HIGH): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24536 *
-CVE-2023-24539 (CVSS3: 7.3 HIGH): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24539 *
-CVE-2023-24540 (CVSS3: 9.8 CRITICAL): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24540 *
-CVE-2023-25358 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25358 *
-CVE-2023-25360 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25360 *
-CVE-2023-25361 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25361 *
-CVE-2023-25362 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25362 *
-CVE-2023-25363 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25363 *
-CVE-2023-26081 (CVSS3: 7.5 HIGH): epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-26081 *
-CVE-2023-2609 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2609 *
-CVE-2023-2610 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2610 *
-CVE-2023-27043 (CVSS3: 5.3 MEDIUM): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-27043 *
-CVE-2023-2731 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2731 *
-CVE-2023-28879 (CVSS3: 9.8 CRITICAL): ghostscript:ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28879 *
-CVE-2023-29400 (CVSS3: 7.3 HIGH): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29400 *
-CVE-2023-29491 (CVSS3: 7.8 HIGH): ncurses:ncurses-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29491 *
-CVE-2023-30630 (CVSS3: 7.8 HIGH): dmidecode https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-30630 *
-CVE-2023-33204 (CVSS3: 7.8 HIGH): sysstat https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-33204 *
+Hi Alex,
 
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
+It looks that due to https://github.com/openembedded/openembedded-core/comm=
+it/8800976e79d65956218ab462d9644d0661579301 commit.
+
+"CVE-2022-21227: sqlite3-native:sqlite3 https://web.nvd.nist.gov/view/vuln/=
+detail?vulnId=3DCVE-2022-21227 " is wrongly reported on master branch:
+https://autobuilder.yocto.io/pub/non-release/patchmetrics/cve-status-master=
+.txt
+
+Ideally CVE-2022-21227 CVE is applicable to https://github.com/TryGhost/nod=
+e-sqlite3 which is " SQLite3 bindings for Node.js".
+"https://github.com/sqlite/sqlite" is "Official Git mirror of the SQLite so=
+urce tree".
+
+Please review the case and share your comment.
+
+Thanks,
+Sanjay
+
+-----Original Message-----
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> On Behalf Of Sanjaykumar kantibhai Chitroda -X (schitrod - E=
+-INFO CHIPS INC at Cisco) via lists.openembedded.org
+Sent: Sunday, May 28, 2023 12:18 PM
+To: openembedded-core@lists.openembedded.org; Sanjaykumar kantibhai Chitrod=
+a -X (schitrod - E-INFO CHIPS INC at Cisco) <schitrod@cisco.com>
+Subject: [OE-core][PATCH] Revert "sqlite3: update CVE_PRODUCT"
+
+This reverts commit 8800976e79d65956218ab462d9644d0661579301.
+
+As per NVD database "ghost:sqlite3" product is specific to "node.js"
+CVEs reported against above products are not applicable to us.
+
+Signed-off-by: Sanjay Chitroda <schitrod@cisco.com>
+---
+ meta/recipes-support/sqlite/sqlite3.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support=
+/sqlite/sqlite3.inc
+index c246d42fdf..9a0de08553 100644
+--- a/meta/recipes-support/sqlite/sqlite3.inc
++++ b/meta/recipes-support/sqlite/sqlite3.inc
+@@ -18,7 +18,7 @@ S =3D "${WORKDIR}/sqlite-autoconf-${SQLITE_PV}"
+ UPSTREAM_CHECK_URI =3D "http://www.sqlite.org/"
+ UPSTREAM_CHECK_REGEX =3D "releaselog/(?P<pver>(\d+[\.\-_]*)+)\.html"
+=20
+-CVE_PRODUCT =3D "sqlite sqlite3"
++CVE_PRODUCT =3D "sqlite"
+=20
+ inherit autotools pkgconfig siteinfo
+=20
+--=20
+2.35.6
+
 
