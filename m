@@ -2,67 +2,59 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09087C7EE2E
-	for <webhook@archiver.kernel.org>; Mon, 29 May 2023 12:34:44 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.48432.1685363683173215863
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02B26C77B7E
+	for <webhook@archiver.kernel.org>; Mon, 29 May 2023 12:38:24 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web11.48649.1685363899147724702
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 May 2023 05:34:43 -0700
+ Mon, 29 May 2023 05:38:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=P1zL46rS;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3f61530506aso33992415e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 05:34:42 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=dv2TMHZ8;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3078cc99232so3021044f8f.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 05:38:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1685363681; x=1687955681;
+        d=linuxfoundation.org; s=google; t=1685363897; x=1687955897;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=Zo2Ou1qE7Du9M0uDvJ6XrLS5drNIuFlrlr0/DKGjCrE=;
-        b=P1zL46rSn7xV2nD3arc+VeppjLkSVPTa1Uo15IER2bPh4vBlu2ILIoHQ/UHE2sjMv0
-         rfHp/7gY5Kc7vOvI0j2xVifaAaJPqZq6wvtIvfVcHwckZ2lFJ2DIiP1oiIhShJrUgh9e
-         kYjiS+H8qBsYxVy2+u3tZFpMnvC55R2Cir2Y8=
+        bh=z9mHd2EOT8+YPg4gL04p6LDbt+x78sKXJ2rTSj3V1Eo=;
+        b=dv2TMHZ8YAWsK8QjUuL3fnYVWm02lEgWkFCy2hvtC1QAIzxSRXrQO2eUWhRLcvYcUK
+         oroidfpxGVH0R4N9zXxP4C8oJkC+zlIy6pdbAvKc2uBxrkcftBnrR3QGmRvt7VU0Mldn
+         sd3r5gsfFY+ja1C21xe83fNZoQ8+tmUy4h1No=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685363681; x=1687955681;
+        d=1e100.net; s=20221208; t=1685363897; x=1687955897;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Zo2Ou1qE7Du9M0uDvJ6XrLS5drNIuFlrlr0/DKGjCrE=;
-        b=ZDxMEv3gK2twoC2WKedpZCRTNAksJWgNqq63wjayOuAapFf+cCEoJBwGOQ4Bd+FGCf
-         rpmI1RgwBSfvkAGVg5AbMrGIYVEKMhT47mn8+keCoOL4aKPqeuSOyJrTuDwI/kp4YXs2
-         JuWrplRnun4O++Qqek37GPXSLh3vt7GeWQ/6KmWrJBfgc8CwqFikxfxKP9w+Mf3kfov1
-         B1LYqmJwLyxjISZBYDt6QWahK+LyJH14sS0qekK4iu3Ma33sjs8OjKluh4YfIbqGS/Eg
-         PFL4CZWKcPtTNR993EuKizN3ELQLHrHLKLR8cisHaHsZRSgjXDOl5ngFjhcbAh70rVKg
-         6G+Q==
-X-Gm-Message-State: AC+VfDwpJhwrGVoMPOkh3KRvLgnSxUEu+Ham1uHCkQz8vpUXlztTC1am
-	2LsNarxNFolR83tlt59wUHSkVQTx8MFRFCcHOLs=
-X-Google-Smtp-Source: ACHHUZ4wv5prXwsELnJKzr2SWObIU3ZhbR9tq05+zv61fCSz6SZy3jEsP6XHZkJo04i7ZiOj52cZmA==
-X-Received: by 2002:a1c:f709:0:b0:3f6:179:4506 with SMTP id v9-20020a1cf709000000b003f601794506mr9467049wmh.38.1685363681677;
-        Mon, 29 May 2023 05:34:41 -0700 (PDT)
+        bh=z9mHd2EOT8+YPg4gL04p6LDbt+x78sKXJ2rTSj3V1Eo=;
+        b=bGPo4mbM7RyGw4SgZr8I0rlPCcW30qxWSFVhWaJWk6HQ7HThBlM/Pj3MIIpbenP2JA
+         9blpkMVYnxRsQU7eTTXW5vnHr9lpFCvry/nIVT0CNZHL5cLqxuISQuio+i0yAsbpJKCy
+         Dmy8sty6vBu/uJ5oGBZUvj4RyrScJ/LzZxiV3HoGtCnqv8faON5tv0+vrVlFYafNYHqd
+         b/M07cW36opa1lq5lnfr9FbbyMtagsXBsEnDuCPPuSwlj1Nl85JniUXNNRJO8bCaXA7L
+         8U6jbBChGcWo4vTlT8TqkU2mED0dwYBLZmYmu/KgwJdIo78IgvRi2e9Nc/DqETGiJOPf
+         wIBw==
+X-Gm-Message-State: AC+VfDxgeTsc7c1l9KNG96yBVsVgEL41muUmTtSQ0Pzd/UHIjV6IjUHI
+	A9OkirRk9z6kCq8uozWsHsoNJA==
+X-Google-Smtp-Source: ACHHUZ5cmN84ZiECAX8M1Tj6//vS93ZKON3SMh800kgw3M+cqG065LhL4oFEljvy4+nAlTrP1eCxGg==
+X-Received: by 2002:a5d:6b86:0:b0:30a:d867:da29 with SMTP id n6-20020a5d6b86000000b0030ad867da29mr7867542wrx.33.1685363897451;
+        Mon, 29 May 2023 05:38:17 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:ec8d:e49e:8d5e:e7d5? ([2001:8b0:aba:5f3c:ec8d:e49e:8d5e:e7d5])
-        by smtp.gmail.com with ESMTPSA id i7-20020a05600c290700b003f42d8dd7ffsm14146373wmd.19.2023.05.29.05.34.40
+        by smtp.gmail.com with ESMTPSA id g12-20020a5d488c000000b003090cb7a9e6sm13632050wrq.31.2023.05.29.05.38.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 May 2023 05:34:41 -0700 (PDT)
-Message-ID: <0718565165c8175882355d0674588f71c36b8bb7.camel@linuxfoundation.org>
-Subject: Re: [oe-core][PATCH 2/4] python3: add libxcrypt-native dependency
+        Mon, 29 May 2023 05:38:17 -0700 (PDT)
+Message-ID: <435dba03674dadc42184c498673863f7b0e4cf4c.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] Cargo: build failure on 32-bit machine when
+ DEBUG enabled
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Markus Volk <mrksvolk@googlemail.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, Markus Volk
- <f_l_k@t-online.de>,  openembedded-core@lists.openembedded.org
-Date: Mon, 29 May 2023 13:34:40 +0100
-In-Reply-To: <ZG5FVR.L4YKBKAES08S3@googlemail.com>
-References: <20230527133252.284132-1-f_l_k@t-online.de>
-	 <20230527133252.284132-2-f_l_k@t-online.de>
-	 <17635252DFD4EDDE.6918@lists.openembedded.org>
-	 <CANNYZj_jz-SCh4kq33fe7_uiVRAvL+15i4kQ=U9Dkv84W2s+xw@mail.gmail.com>
-	 <VDGDVR.YBUKQ953M2TP3@t-online.de>
-	 <CANNYZj_0ASF5ERsCgrB3W3qYgGJFwJzXn35cgc6ojQf0fi1Yxg@mail.gmail.com>
-	 <POIDVR.URDIMNIKV0SE3@t-online.de>
-	 <CANNYZj-megU_4p_eR84XiSt7YvwWu57tWBEZDKoBFkjRj8ZKVQ@mail.gmail.com>
-	 <MEJDVR.WDZW7MFB3W9N1@t-online.de>
-	 <CANNYZj_-ptiJqvmf+cU0qV7VkKG0ds=guN9aTU1VirjcG8WjQA@mail.gmail.com>
-	 <7bb5f101af77af3a051a1b049206800aec542ccd.camel@linuxfoundation.org>
-	 <ZG5FVR.L4YKBKAES08S3@googlemail.com>
+To: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: randy.macleod@windriver.com, naveen.gowda@windriver.com, 
+	shivaprasad.moodalappa@windriver.com, yash.shinde@windriver.com, 
+	deepthi.hemraj@windriver.com, umesh.kalappa0@gmail.com
+Date: Mon, 29 May 2023 13:38:16 +0100
+In-Reply-To: <20230529094211.756085-1-sundeep.kokkonda@gmail.com>
+References: <20230529094211.756085-1-sundeep.kokkonda@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.1-0ubuntu1 
@@ -70,36 +62,50 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 12:34:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181870
+ <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 12:38:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181871
 
-On Mon, 2023-05-29 at 14:02 +0200, Markus Volk wrote:
-> Am Mo, 29. Mai 2023 um 08:08:09 +0100 schrieb Richard Purdie
-> <richard.purdie@linuxfoundation.org>:
-> > Alex is right and I should have spotted this, the -native
-> > dependency
-> > definitely isn't right. We'll either need to fix things or revert
-> > them
-> > and wait for the right fix...
+On Mon, 2023-05-29 at 15:12 +0530, Sundeep KOKKONDA wrote:
+> Cargo build is failing on 32-bit machines with a 'signal: 11, SIGSEGV: in=
+valid memory reference error'.
+> This is a workaround to disable the Debug builds for 32-bit machines.
 >=20
+> Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
+> ---
+>  meta/classes-recipe/cargo.bbclass | 5 +++++
+>  1 file changed, 5 insertions(+)
 >=20
-> Absolutely. I had a quick look at native.bbclass yesterday, but
-> haven't found a nice way to deal with this yet. =C2=A0This week I'm on
-> night shift and therefore have rather little time to deal with the
-> problem. I can send v2 patches which just add
+> diff --git a/meta/classes-recipe/cargo.bbclass b/meta/classes-recipe/carg=
+o.bbclass
+> index 7a8cc1e751..bc5ca4fdc6 100644
+> --- a/meta/classes-recipe/cargo.bbclass
+> +++ b/meta/classes-recipe/cargo.bbclass
+> @@ -38,6 +38,11 @@ CARGO_SRC_DIR ??=3D ""
+>  MANIFEST_PATH ??=3D "${S}/${CARGO_SRC_DIR}/Cargo.toml"
+> =20
+>  RUSTFLAGS ??=3D ""
+> +DEBUG_BUILD:qemuarm =3D '0'
+> +DEBUG_BUILD:qemuppc =3D '0'
+> +DEBUG_BUILD:qemumips =3D '0'
+> +DEBUG_BUILD:qemux86 =3D '0'
+> +DEBUG_BUILD:virtclass-multilib-lib32 =3D '0'
+>  BUILD_MODE =3D "${@['--release', ''][d.getVar('DEBUG_BUILD') =3D=3D '1']=
+}"
+>  CARGO_BUILD_FLAGS =3D "-v --offline --target ${RUST_HOST_SYS} ${BUILD_MO=
+DE} --manifest-path=3D${MANIFEST_PATH}"
 >=20
-> DEPENDS:append:class-native =3D " libxcrypt-native"
->=20
-> But revert would also be fine for me, as this is more of a niche
-> problem
 
-I'm going to revert those changes and then we can work out the correct
-fix without any time pressures (and then I won't need to keep this on
-my 'need to do something about' mental checklist!).
+Whilst I understand the intent here, I'm not sure this is a good idea,
+The reasons coming to mind are:
+
+a) We don't set DEBUG_BUILD in OE-Core or do testing of that afaik
+b) We should really be fixing cargo, not hacking around it
+c) This "fixes" those machines but not any other 32 bit machine. Should
+it be target-arch specific if we do want to do it?
+
+Do we know why this is breaking?
 
 Cheers,
 
 Richard
-
-
 
