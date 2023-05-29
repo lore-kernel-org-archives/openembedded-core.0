@@ -2,194 +2,200 @@ Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70FAFC77B7E
-	for <webhook@archiver.kernel.org>; Mon, 29 May 2023 07:22:02 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web10.44630.1685344917139022290
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D676C77B7E
+	for <webhook@archiver.kernel.org>; Mon, 29 May 2023 07:24:22 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web10.44659.1685345055434220624
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 May 2023 00:21:57 -0700
+ Mon, 29 May 2023 00:24:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=JDNLExjH;
- spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-30ae141785bso1964084f8f.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 00:21:56 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=cnqL4VNA;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-30ae95c4e75so862561f8f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 00:24:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685344915; x=1687936915;
+        d=gmail.com; s=20221208; t=1685345054; x=1687937054;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=peFv4xB0CcYLeYf21aJG5a4y2qmDykbRskr0QHLj31I=;
-        b=JDNLExjHuD/YUZDtFzfL2vZ/HYSu/R+gc/BIUELIqYsmHWAgamWwylOIkbk16+O6gp
-         mLdApjSeeyHAY6+y5CJAG/Lj3SWA4slG55gfgdjl3tQSwMhxr4UWFLfcB/meJ4XhedK3
-         +7pdRQmj5J5Vq+vC+4+AB6qS2vq/8SRIdv+MEXGAlhmEzxjh6i7GdcE4nfSjSl/7MEeD
-         7V7eXiwH86lF/wVok6DIGStJXDwlUcRZj+sNC2EMjZnBY/lyAYVbWztotwQhIcDY3Ayo
-         OUt22q5/oLGgwf00xrOhJEPxwC5zahQniq9Y/zzNWEOw4wXQcojMk5gP27psm942hItT
-         7wiw==
+        bh=ebIgsC4R8No5oLLgfS+CIsRk0LBZhJI58qj1+OnjUpc=;
+        b=cnqL4VNAy8HwoKMPD6kvz6ajuXHTjuGQthf4ElGx6gxC9dLgMAAsl2UHCqOAdsJ/Qi
+         IDSqBZyVa2M6nlblrMQRWbhIKhdwE8ji3OSfocYXZAOxcQqgrZUzahMjCfQAv7Z8QCoo
+         JeBTR9rvHRvTeOtgov8wLP7Ca5ALwO7p/VLhWI8/NGmaKs0ei2KGNTz+d6mTfZ7xMb1G
+         4Ut+CSnhl+FvNXoo/Zg7nGAGOz6WLAFrwAdGPDIYUtHom6sVIKhMZMUnILZm9dtMs2IC
+         If0njyZVJFVEMOA76DZMVtYCUo3m2H4GPZwYi8nN3Przy1pKqIPdBfd6v8K68rDLLsXp
+         WlBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685344915; x=1687936915;
+        d=1e100.net; s=20221208; t=1685345054; x=1687937054;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=peFv4xB0CcYLeYf21aJG5a4y2qmDykbRskr0QHLj31I=;
-        b=NCVOq4U2OnRYKAcdvkkPEILxrmcs1rgCBeKIrzPDzxjCdw4khNFyF8x6LAhCyDc42g
-         M/DpTMtrvReGS5qBK5vtNftK9z/2hapvcqA/YOFzEcfoHHqHFyI/AlbkxgOscMiD88eQ
-         3l/j/VvFL2kSzSNcGbI/3sDJ3nHVMeesr0fOVPXbLBM49+l23g7yVQtMgeheJg88e/uB
-         59mpU4DfWzkGy4X6QWFWvcATJKiOiwq2wq6Ny48qO7GDNe24IFkxetkQ6V1QzlNs1Dl/
-         6FCdDTlLcpaYkt4MAKU6tZ12kPgJe7lbtAU44mVObezwK0Dj4xFXmEA+toMgeBTaIVTl
-         7l6w==
-X-Gm-Message-State: AC+VfDxGxJEALhXKWU/K2M4rQU1jyOceDDr0T9Xm76VtDHn1qval5QfC
-	sfavZXIUsCcCuZ8X11q5tnyhktNh1j77jD4Jl60=
-X-Google-Smtp-Source: ACHHUZ4Geb+1SWdigfvDqzfxb2fndQcxJQmZebJPuKhjkfWs0pcHblJosUE073DwA2PrPH2kzAubC44ieezcsiHhwKI=
-X-Received: by 2002:a5d:44c8:0:b0:309:49e3:efaa with SMTP id
- z8-20020a5d44c8000000b0030949e3efaamr8231423wrr.29.1685344915196; Mon, 29 May
- 2023 00:21:55 -0700 (PDT)
+        bh=ebIgsC4R8No5oLLgfS+CIsRk0LBZhJI58qj1+OnjUpc=;
+        b=Er7fJw1HX1wlBr3aM4nNyXpRs1yhEbEdNAOQtkV6D5StGxTF83kRaYeZq11QtJK7q3
+         4jrjcr8RihkMhKAOIRMOdo4C0O4PUAtVbYmMYbUERC7/GfE1G4UX6GnYBt9DVQohmdUG
+         yeFYOOdSuSt1/I6HurzuKQi03xXA+lUhG3htoA+cOfY0HDS1EMMJRfVB2xB14CKf93oF
+         vZn9OadBtE3DSemWLVHojRhnApcdd1I0YiaqwCy3qbTn5Y1DEZRmYG/ROjoDYS6bF6eb
+         hPJv0cpGuQgj/LUY5+mOUMnQVK8M7xdH94gHl8LMcgCY6rQf635ez7Kv+Fsol1Yp59ao
+         z+wQ==
+X-Gm-Message-State: AC+VfDzMWOHJgtdAyOyXOm8IgS/fbKi21Kv8A9kzBn9yblC8JDBKWm8t
+	z9B0yU4h7vU4hGFPjz8/sQMtc2+U7A8N3lv6/JIrcM9Xy4A=
+X-Google-Smtp-Source: ACHHUZ4BJJKOZF3T9wukHDl/oyJAD+1Htet6DUklXsfI+ipfHdwTKTKMEmyYpw33lJpdDbPgPv2/rKa74V2aLyFvHnI=
+X-Received: by 2002:adf:f5c2:0:b0:307:a7c6:7875 with SMTP id
+ k2-20020adff5c2000000b00307a7c67875mr8602463wrp.56.1685345053753; Mon, 29 May
+ 2023 00:24:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230528055252.3869703-1-schitrod@cisco.com>
-In-Reply-To: <20230528055252.3869703-1-schitrod@cisco.com>
+References: <20230528230347.915443-1-mhalstead@linuxfoundation.org>
+In-Reply-To: <20230528230347.915443-1-mhalstead@linuxfoundation.org>
 From: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 29 May 2023 09:21:34 +0200
-Message-ID: <CA+chaQeCpJ-70Je8non8KADuDk8SZzysN7KiDFNFDd3-dVY6sA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] sqlite3: Whitelist CVE-2022-21227
-To: schitrod@cisco.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000fe8fc705fccff045"
+Date: Mon, 29 May 2023 09:23:53 +0200
+Message-ID: <CA+chaQfoY9SnFex4PSjEup6jBbhsPSi_CqX+zdiXRX5tLNvMMA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] uninative: Upgrade to 4.0 to include latest gcc 13.1.1
+To: Michael Halstead <mhalstead@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	richard.purdie@linuxfoundation.org
+Content-Type: multipart/alternative; boundary="00000000000040c3a105fccff9e3"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 07:22:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181852
+ <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 07:24:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181853
 
---000000000000fe8fc705fccff045
+--00000000000040c3a105fccff9e3
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-The patch author seems a bit mangled by ML, see:
-author schitrod=3Dcisco.com@lists.openembedded.org <schitrod=3D
-cisco.com@lists.openembedded.org> 2023-05-27 22:52:52 -0700
-https://git.openembedded.org/openembedded-core/commit/?h=3Dmaster-next&id=
-=3D5f15caa526bb57070b9abb9ba2f488ee1bfb5372
+Works on gentoo with 13.1.1_p20230520 which was failing before and seems to
+work with 13.1.1_p20230527 as well (I did only a few builds since upgrade
+this morning).
 
-Is it correct?
+Thanks
 
-On Sun, May 28, 2023 at 7:53=E2=80=AFAM Sanjaykumar kantibhai Chitroda -X (=
-schitrod
-- E-INFO CHIPS INC at Cisco) via lists.openembedded.org <schitrod=3D
-cisco.com@lists.openembedded.org> wrote:
+Tested-By: Martin Jansa <Martin.Jansa@gmail.com>
 
-> This CVE is applicable to "SQLite3 bindings for Node.js" only.
->
-> References:
-> https://nvd.nist.gov/vuln/detail/CVE-2022-21227
->
-> Signed-off-by: Sanjay Chitroda <schitrod@cisco.com>
+On Mon, May 29, 2023 at 1:04=E2=80=AFAM Michael Halstead <
+mhalstead@linuxfoundation.org> wrote:
+
+> Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
 > ---
->  meta/recipes-support/sqlite/sqlite3_3.41.2.bb | 3 +++
->  1 file changed, 3 insertions(+)
+>  meta/conf/distro/include/yocto-uninative.inc | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 >
-> diff --git a/meta/recipes-support/sqlite/sqlite3_3.41.2.bb
-> b/meta/recipes-support/sqlite/sqlite3_3.41.2.bb
-> index b09e8e7f55..11bc8bb4c0 100644
-> --- a/meta/recipes-support/sqlite/sqlite3_3.41.2.bb
-> +++ b/meta/recipes-support/sqlite/sqlite3_3.41.2.bb
-> @@ -12,3 +12,6 @@ CVE_CHECK_IGNORE +=3D "CVE-2019-19242"
->  CVE_CHECK_IGNORE +=3D "CVE-2015-3717"
->  # Issue in an experimental extension we don't have/use. Fixed by
-> https://sqlite.org/src/info/b1e0c22ec981cf5f
->  CVE_CHECK_IGNORE +=3D "CVE-2021-36690"
-> +# As per https://nvd.nist.gov/vuln/detail/CVE-2022-21227
-> +# this bug is applicable to SQLite3 Node.js
-> +CVE_CHECK_IGNORE +=3D "CVE-2022-21227"
+> diff --git a/meta/conf/distro/include/yocto-uninative.inc
+> b/meta/conf/distro/include/yocto-uninative.inc
+> index f3c05b7e20..ad4816a1f3 100644
+> --- a/meta/conf/distro/include/yocto-uninative.inc
+> +++ b/meta/conf/distro/include/yocto-uninative.inc
+> @@ -7,9 +7,9 @@
+>  #
+>
+>  UNINATIVE_MAXGLIBCVERSION =3D "2.37"
+> -UNINATIVE_VERSION =3D "3.10"
+> +UNINATIVE_VERSION =3D "4.0"
+>
+>  UNINATIVE_URL ?=3D "
+> http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}=
+/
+> "
+> -UNINATIVE_CHECKSUM[aarch64] ?=3D
+> "b11f7dff0ff5e3c971f22e89a105efb0f8d2006fd71d1ea3e5da771e416b0e01"
+> -UNINATIVE_CHECKSUM[i686] ?=3D
+> "ad7daa7fca7693ca07eea5279f830333530171d357759b380954a25254edd8dd"
+> -UNINATIVE_CHECKSUM[x86_64] ?=3D
+> "ce8ff7e3247da312fbf84008f415bc1b4d113ac9fe4ec91581e4a20cd8b475d3"
+> +UNINATIVE_CHECKSUM[aarch64] ?=3D
+> "7baa8418a302df52e00916193b0a04f318356d9d2670c9a2bce3e966efefd738"
+> +UNINATIVE_CHECKSUM[i686] ?=3D
+> "83114d36883d43a521e280742b9849bf85d039b2f83d8e21d480659babe75ee8"
+> +UNINATIVE_CHECKSUM[x86_64] ?=3D
+> "fd75b2a1a67a10f6b7d65afb7d0f3e71a63b0038e428f34dfe420bb37716558a"
 > --
-> 2.35.6
+> 2.34.1
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#181812):
-> https://lists.openembedded.org/g/openembedded-core/message/181812
-> Mute This Topic: https://lists.openembedded.org/mt/99178473/3617156
+> View/Reply Online (#181850):
+> https://lists.openembedded.org/g/openembedded-core/message/181850
+> Mute This Topic: https://lists.openembedded.org/mt/99190723/3617156
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> Martin.Jansa@gmail.com]
+> Unsubscribe:
+> https://lists.openembedded.org/g/openembedded-core/leave/8023125/3617156/=
+1382001340/xyzzy
+> [Martin.Jansa@gmail.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 >
 
---000000000000fe8fc705fccff045
+--00000000000040c3a105fccff9e3
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">The patch author seems a bit mangled by ML, see:<div>autho=
-r	schitrod=3D<a href=3D"mailto:cisco.com@lists.openembedded.org">cisco.com@=
-lists.openembedded.org</a> &lt;schitrod=3D<a href=3D"mailto:cisco.com@lists=
-.openembedded.org">cisco.com@lists.openembedded.org</a>&gt;	2023-05-27 22:5=
-2:52 -0700<br><div><a href=3D"https://git.openembedded.org/openembedded-cor=
-e/commit/?h=3Dmaster-next&amp;id=3D5f15caa526bb57070b9abb9ba2f488ee1bfb5372=
-">https://git.openembedded.org/openembedded-core/commit/?h=3Dmaster-next&am=
-p;id=3D5f15caa526bb57070b9abb9ba2f488ee1bfb5372</a><br></div></div><div><br=
-></div><div>Is it correct?</div></div><br><div class=3D"gmail_quote"><div d=
-ir=3D"ltr" class=3D"gmail_attr">On Sun, May 28, 2023 at 7:53=E2=80=AFAM San=
-jaykumar kantibhai Chitroda -X (schitrod - E-INFO CHIPS INC at Cisco) via <=
-a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;sch=
-itrod=3D<a href=3D"mailto:cisco.com@lists.openembedded.org">cisco.com@lists=
-.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">This CVE is applicable to &quot;SQLite3 bindings for Node.=
-js&quot; only.<br>
-<br>
-References:<br>
-<a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-21227" rel=3D"noreferr=
-er" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-2022-21227</a><b=
-r>
-<br>
-Signed-off-by: Sanjay Chitroda &lt;<a href=3D"mailto:schitrod@cisco.com" ta=
-rget=3D"_blank">schitrod@cisco.com</a>&gt;<br>
+<div dir=3D"ltr"><div>Works on gentoo with=C2=A013.1.1_p20230520 which was =
+failing before and seems to work with=C2=A013.1.1_p20230527 as well (I did =
+only a few builds since upgrade this morning).</div><div><br></div><div>Tha=
+nks</div><div><br></div>Tested-By:=C2=A0Martin Jansa &lt;<a href=3D"mailto:=
+Martin.Jansa@gmail.com">Martin.Jansa@gmail.com</a>&gt;</div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, May 29, 2023=
+ at 1:04=E2=80=AFAM Michael Halstead &lt;<a href=3D"mailto:mhalstead@linuxf=
+oundation.org">mhalstead@linuxfoundation.org</a>&gt; wrote:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">Signed-off-by: Michael Halstead=
+ &lt;<a href=3D"mailto:mhalstead@linuxfoundation.org" target=3D"_blank">mha=
+lstead@linuxfoundation.org</a>&gt;<br>
 ---<br>
-=C2=A0meta/recipes-support/sqlite/<a href=3D"http://sqlite3_3.41.2.bb" rel=
-=3D"noreferrer" target=3D"_blank">sqlite3_3.41.2.bb</a> | 3 +++<br>
-=C2=A01 file changed, 3 insertions(+)<br>
+=C2=A0meta/conf/distro/include/yocto-uninative.inc | 8 ++++----<br>
+=C2=A01 file changed, 4 insertions(+), 4 deletions(-)<br>
 <br>
-diff --git a/meta/recipes-support/sqlite/<a href=3D"http://sqlite3_3.41.2.b=
-b" rel=3D"noreferrer" target=3D"_blank">sqlite3_3.41.2.bb</a> b/meta/recipe=
-s-support/sqlite/<a href=3D"http://sqlite3_3.41.2.bb" rel=3D"noreferrer" ta=
-rget=3D"_blank">sqlite3_3.41.2.bb</a><br>
-index b09e8e7f55..11bc8bb4c0 100644<br>
---- a/meta/recipes-support/sqlite/<a href=3D"http://sqlite3_3.41.2.bb" rel=
-=3D"noreferrer" target=3D"_blank">sqlite3_3.41.2.bb</a><br>
-+++ b/meta/recipes-support/sqlite/<a href=3D"http://sqlite3_3.41.2.bb" rel=
-=3D"noreferrer" target=3D"_blank">sqlite3_3.41.2.bb</a><br>
-@@ -12,3 +12,6 @@ CVE_CHECK_IGNORE +=3D &quot;CVE-2019-19242&quot;<br>
-=C2=A0CVE_CHECK_IGNORE +=3D &quot;CVE-2015-3717&quot;<br>
-=C2=A0# Issue in an experimental extension we don&#39;t have/use. Fixed by =
-<a href=3D"https://sqlite.org/src/info/b1e0c22ec981cf5f" rel=3D"noreferrer"=
- target=3D"_blank">https://sqlite.org/src/info/b1e0c22ec981cf5f</a><br>
-=C2=A0CVE_CHECK_IGNORE +=3D &quot;CVE-2021-36690&quot;<br>
-+# As per <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-21227" rel=
-=3D"noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-2022=
--21227</a><br>
-+# this bug is applicable to SQLite3 Node.js<br>
-+CVE_CHECK_IGNORE +=3D &quot;CVE-2022-21227&quot;<br>
+diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distr=
+o/include/yocto-uninative.inc<br>
+index f3c05b7e20..ad4816a1f3 100644<br>
+--- a/meta/conf/distro/include/yocto-uninative.inc<br>
++++ b/meta/conf/distro/include/yocto-uninative.inc<br>
+@@ -7,9 +7,9 @@<br>
+=C2=A0#<br>
+<br>
+=C2=A0UNINATIVE_MAXGLIBCVERSION =3D &quot;2.37&quot;<br>
+-UNINATIVE_VERSION =3D &quot;3.10&quot;<br>
++UNINATIVE_VERSION =3D &quot;4.0&quot;<br>
+<br>
+=C2=A0UNINATIVE_URL ?=3D &quot;<a href=3D"http://downloads.yoctoproject.org=
+/releases/uninative/$%7BUNINATIVE_VERSION%7D/" rel=3D"noreferrer" target=3D=
+"_blank">http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_V=
+ERSION}/</a>&quot;<br>
+-UNINATIVE_CHECKSUM[aarch64] ?=3D &quot;b11f7dff0ff5e3c971f22e89a105efb0f8d=
+2006fd71d1ea3e5da771e416b0e01&quot;<br>
+-UNINATIVE_CHECKSUM[i686] ?=3D &quot;ad7daa7fca7693ca07eea5279f830333530171=
+d357759b380954a25254edd8dd&quot;<br>
+-UNINATIVE_CHECKSUM[x86_64] ?=3D &quot;ce8ff7e3247da312fbf84008f415bc1b4d11=
+3ac9fe4ec91581e4a20cd8b475d3&quot;<br>
++UNINATIVE_CHECKSUM[aarch64] ?=3D &quot;7baa8418a302df52e00916193b0a04f3183=
+56d9d2670c9a2bce3e966efefd738&quot;<br>
++UNINATIVE_CHECKSUM[i686] ?=3D &quot;83114d36883d43a521e280742b9849bf85d039=
+b2f83d8e21d480659babe75ee8&quot;<br>
++UNINATIVE_CHECKSUM[x86_64] ?=3D &quot;fd75b2a1a67a10f6b7d65afb7d0f3e71a63b=
+0038e428f34dfe420bb37716558a&quot;<br>
 -- <br>
-2.35.6<br>
+2.34.1<br>
 <br>
 <br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 Links: You receive all messages sent to this group.<br>
-View/Reply Online (#181812): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/181812" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/181812</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/99178473/3617=
+View/Reply Online (#181850): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/181850" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/181850</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/99190723/3617=
 156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/99178473/3617156</a><br>
+/99190723/3617156</a><br>
 Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
 .org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
 br>
 Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" ta=
-rget=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
+leave/8023125/3617156/1382001340/xyzzy" rel=3D"noreferrer" target=3D"_blank=
+">https://lists.openembedded.org/g/openembedded-core/leave/8023125/3617156/=
+1382001340/xyzzy</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" target=3D"_=
+blank">Martin.Jansa@gmail.com</a>]<br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 <br>
 </blockquote></div>
 
---000000000000fe8fc705fccff045--
+--00000000000040c3a105fccff9e3--
 
