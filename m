@@ -1,1216 +1,224 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15940C77B7E
-	for <webhook@archiver.kernel.org>; Mon, 29 May 2023 16:36:45 +0000 (UTC)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web11.53719.1685378197728338736
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CD7FC7EE23
+	for <webhook@archiver.kernel.org>; Mon, 29 May 2023 16:47:25 +0000 (UTC)
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+ by mx.groups.io with SMTP id smtpd.web10.53940.1685378838665975402
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 May 2023 09:36:38 -0700
+ Mon, 29 May 2023 09:47:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=QF1fccoO;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.45, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-51494659d49so3263827a12.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 09:36:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=NgVHJ7j/;
+ spf=pass (domain: gmail.com, ip: 209.85.222.173, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-75b0b5c9eb8so189342485a.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 09:47:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1685378196; x=1687970196;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SxK4ixpTmuYqYq1PZGNuO3H25eELbQaGSwfiUpWZK/I=;
-        b=QF1fccoOc1P81KRyrmF+1voBoK68SgXSqUPZ5GOmyTOo79qkms7lLbQB9rEIzaa0Ty
-         UdHxSWoz7zRJfkW58Ol9bXlFBwibN5PJCpHbntlToLT69CkmtXGSFMhsvk48NEFglzsn
-         P3f/BYCrAmAInXv/Zj1r9bTpb41ejEIwL+tIjCmv81/z4aJLU+TcStUjFC1sDQ6V0Zri
-         DPuruh8+Dnjd2OcjWLuTAGqQB8crzvCh/AyobVdV6kyu6xpFGzqcO0/4RpG3ZqqxSx8c
-         dQh9cDL4pljZG6HoTliUXnZYitpzyBQUMexBssn7Zs0A8sfPs29vtPS28yN8D79DhuUB
-         72Jw==
+        d=gmail.com; s=20221208; t=1685378838; x=1687970838;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jf1fcpDGYMlPecP359596sHkXjRahVMrZd0T3SYLa/s=;
+        b=NgVHJ7j/z1DVMUvGPcddMkjlWK8pIeWt7lTolaLNyZUaIdgLcEZqgIrr/NzZ0CT0Yg
+         PtsfHU+hx1h5VeVHKi3QjExV8CkH03p36DbuXQw5P2n4+reGC7HO+0rP12ysl30p55/w
+         5mEHKUKV7aiAk3S3DoavTT7Qgpbbjv/4xlH4X5UPi4JCCmG/E50ykT7Kr/6U4FSaUvt5
+         AXc7ceIwW16wweObxzgMAmDTqRFwbaY5OdpOH+C6iGy6sYJMOoDq2RgSvdZmUUBlqoto
+         xN2QNpSQfZEZKJtyc1kSXeyv/oQ2DH4vL+Wy0J7njoLS8E2QFCMmnJ5knr6AJr9BY4yO
+         qS2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685378196; x=1687970196;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SxK4ixpTmuYqYq1PZGNuO3H25eELbQaGSwfiUpWZK/I=;
-        b=D0RbHDMKucDtFn+UnlPB+Jh+hd1pwyIm9SQDejpMMcQW9mlBuEU59p/FSgZQ2q226t
-         Tp5a/0DKxDKu0Z8fZVSyHLlXKFTD/V7yDuzHJ5F1/5tadCAEvCME0Mys82JNtbsxw4TK
-         dyjvIoDWJWbnPoL64U7xsch1Jk7jk3Ap3f/DiWRuJlgEYnGRLsP7kXjD74ujMMMTKm3F
-         q3YpAX265p7KVttNOW3fHeuxCGYsP4gz4CvZzYnRGZjDIQauIUtXL46QYPht9k44o1Z5
-         zRdglDqNWbgmOfzq1LvM4UZBXqVVSQ1gz2e3WsxtOkrr6h4UdTF04rbXxu94P6bNXjYe
-         sEbA==
-X-Gm-Message-State: AC+VfDwzua0gbJo25Sg7+4weq9I1+drw+hZRrrCnEs3b+mregrY0cPBV
-	VLobwzTKKU7srCnqwE56+l2hviPD9SiUFRB/8FD/yQ==
-X-Google-Smtp-Source: ACHHUZ58+fIBZQeIoG47KJr5BGXmY5PPll1gPaCROdQt7BQ8+rwcR8wABmMIutvEIVybM07RSulpkkbdGaaLkNA5jfU=
-X-Received: by 2002:a17:907:3f0d:b0:895:58be:957 with SMTP id
- hq13-20020a1709073f0d00b0089558be0957mr11558568ejc.2.1685378195656; Mon, 29
- May 2023 09:36:35 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1685378838; x=1687970838;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jf1fcpDGYMlPecP359596sHkXjRahVMrZd0T3SYLa/s=;
+        b=f+LRLu6wTLPM2HVZJRET+C8G6DBu+QvQIJqVr4/5Fa/d6r+tG54ZOWitj/mLLvArvF
+         CoxmBjqSHTGZynf+FllL16Apon6h0aq8I4zPvNzglORmwpTFZN1K0+oJ3dcAC7uXPtkU
+         6HxnNbBXA9udUhMRIlDpyY5IaedhESRFA9w+ku+SKcCUf1d/SUNdqwldHGNDgPlX8yd2
+         P5D11gq9j0JIjs0weFOeDkySF+xmJAG5A62RHGQw0rgU/VosfHsqjW3a+SRGPBnWXJaZ
+         SZiq9wrlWAs70Te86KhbXDpj2FrYBFAA4B1Q3UHDO4qzsXjBOfA92BqXZL97t2rHStMJ
+         1YgQ==
+X-Gm-Message-State: AC+VfDzuePGEVL1T2ItYptubBFaSmxgxiVpxZnOZJzLAP7dQ9eaQJ6Ii
+	+jdQ/CnS3eq/5R2QHOyMWdVZbM8QZ62a1g==
+X-Google-Smtp-Source: ACHHUZ7uYpTMqmnbdABCWcEVwT1sKsDMv+TzbuKDFH5iPVQudhfTlLG8mS3OWQbdGx/0QrNO/3/RkA==
+X-Received: by 2002:a37:ea16:0:b0:75b:23a0:e7cb with SMTP id t22-20020a37ea16000000b0075b23a0e7cbmr7468682qkj.44.1685378837506;
+        Mon, 29 May 2023 09:47:17 -0700 (PDT)
+Received: from localhost.localdomain ([174.112.183.231])
+        by smtp.gmail.com with ESMTPSA id o15-20020ae9f50f000000b0074a6c29df4dsm3461394qkg.119.2023.05.29.09.47.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 May 2023 09:47:17 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: steve@sakoman.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: [dunfell 1/5] linux-yocto/5.4: update to v5.4.238
+Date: Mon, 29 May 2023 12:47:10 -0400
+Message-Id: <20230529164715.3511175-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230529101550.21677-1-Riyaz.Khan@kpit.com>
-In-Reply-To: <20230529101550.21677-1-Riyaz.Khan@kpit.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 29 May 2023 06:36:24 -1000
-Message-ID: <CAOSpxdY4ZYPUwZ4ukWNTsK0BGw2EyQJSq=QuDXJVEC5mm776iA@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone][PATCH v2] openssh: Remove BSD-4-clause
- contents completely from codebase
-To: Riyaz Ahmed Khan <rak3033@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, ranjitsinh.rathod@kpit.com, 
-	riyaz.khan@kpit.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 16:36:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181875
+ <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 16:47:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181876
 
-On Mon, May 29, 2023 at 12:16=E2=80=AFAM Riyaz Ahmed Khan <rak3033@gmail.co=
-m> wrote:
->
-> As upstream removed this BSD-4-clause license, there are still some files
-> has this license. Below file affected by this BSD-4-clause contents when
-> below command is executed
-> grep -rl "All advertising materials mentioning features or use of this so=
-ftware"
-> *|grep -v \.1|grep -v \.5|grep -v \.8 | sort openbsd-compat/libressl-api-=
-compat.c
->
-> All advertising materials mentioning features or use of this software
->
-> Openssh upstream removes the bsd-4 license compeletely from this commit
-> https://github.com/openssh/openssh-portable/commit/7280401bdd77ca54be6867=
-a154cc01e0d72612e0
-> Hence, Remove and backport this commit completely to remove license of BS=
-D-4-clause
-> contents from codebase. Hunks are refreshed, removed couple of hunks from
-> configure.ac and openbsd-compat/libressl-api-compat.c as hunk code
-> is not prasent.
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-I'm getting fuzz errors with this patch:
+Updating  to the latest korg -stable release that comprises
+the following commits:
 
-WARNING: openssh-8.9p1-r0 do_patch: Fuzz detected:
+    6849d8c4a61a Linux 5.4.238
+    eb7716a054a6 HID: uhid: Over-ride the default maximum data buffer value with our own
+    b687ac70e66a HID: core: Provide new max_buffer_size attribute to over-ride the default
+    144019e81396 PCI: Unify delay handling for reset and resume
+    d2130f37a4a0 s390/ipl: add missing intersection check to ipl_report handling
+    3f5a833dca66 serial: 8250_em: Fix UART port type
+    c5afb97d1b51 drm/i915: Don't use stolen memory for ring buffers with LLC
+    8d26a4fecce5 x86/mm: Fix use of uninitialized buffer in sme_enable()
+    a976ff743eb1 fbdev: stifb: Provide valid pixelclock and add fb_check_var() checks
+    ac58b88ccbbb ftrace: Fix invalid address access in lookup_rec() when index is 0
+    65e4c9a6d0c9 KVM: nVMX: add missing consistency checks for CR0 and CR4
+    6fe55dce9dd6 tracing: Make tracepoint lockdep check actually test something
+    780f69a2685b tracing: Check field value in hist_field_name()
+    f1e3a20c6019 interconnect: fix mem leak when freeing nodes
+    325608ab60fa tty: serial: fsl_lpuart: skip waiting for transmission complete when UARTCTRL_SBK is asserted
+    c16cbd8233d6 ext4: fix possible double unlock when moving a directory
+    6a1bd14d5e34 sh: intc: Avoid spurious sizeof-pointer-div warning
+    bbf5eada4334 drm/amdkfd: Fix an illegal memory access
+    2c96c52aeaa6 ext4: fix task hung in ext4_xattr_delete_inode
+    20ba6f8a8073 ext4: fail ext4_iget if special inode unallocated
+    ab519e29891d jffs2: correct logic when creating a hole in jffs2_write_begin
+    00bfc67c65a1 mmc: atmel-mci: fix race between stop command and start of next command
+    75f6faae2de6 media: m5mols: fix off-by-one loop termination error
+    9eb394919c97 hwmon: (ina3221) return prober error code
+    26c176ce9028 hwmon: (xgene) Fix use after free bug in xgene_hwmon_remove due to race condition
+    13efd488d398 hwmon: (adt7475) Fix masking of hysteresis registers
+    0d3095e958f0 hwmon: (adt7475) Display smoothing attributes in correct order
+    674fce59d61d ethernet: sun: add check for the mdesc_grab()
+    71da5991b643 net/iucv: Fix size of interrupt data
+    e0d07a3203c3 net: usb: smsc75xx: Move packet length check to prevent kernel panic in skb_pull
+    5c06bd3de134 ipv4: Fix incorrect table ID in IOCTL path
+    c4fcfbf80c3c block: sunvdc: add check for mdesc_grab() returning NULL
+    04c394208831 nvmet: avoid potential UAF in nvmet_req_complete()
+    9fabdd79051a net: usb: smsc75xx: Limit packet length to skb->len
+    b0c202a8dc63 nfc: st-nci: Fix use after free bug in ndlc_remove due to race condition
+    668de67d4110 net: phy: smsc: bail out in lan87xx_read_status if genphy_read_status fails
+    5aaab217c8f5 net: tunnels: annotate lockless accesses to dev->needed_headroom
+    cba20ade78ef qed/qed_dev: guard against a possible division by zero
+    6e18f66b704b i40e: Fix kernel crash during reboot when adapter is in recovery mode
+    f0216046aeb8 ipvlan: Make skb->skb_iif track skb->dev for l3s mode
+    0f9c1f26d434 nfc: pn533: initialize struct pn533_out_arg properly
+    442aa78ed701 tcp: tcp_make_synack() can be called from process context
+    88c3d3bb6469 scsi: core: Fix a procfs host directory removal regression
+    4b4f5e34f08b scsi: core: Fix a comment in function scsi_host_dev_release()
+    0d59732f2a5b netfilter: nft_redir: correct value of inet type `.maxattrs`
+    90279211e96b ALSA: hda: Match only Intel devices with CONTROLLER_IN_GPU()
+    0b7057c52377 ALSA: hda: Add Intel DG2 PCI ID and HDMI codec vid
+    5bb9fcaadb8c ALSA: hda: Add Alderlake-S PCI ID and HDMI codec vid
+    9efbdc743ded ALSA: hda - controller is in GPU on the DG1
+    fc52e51c2c30 ALSA: hda - add Intel DG1 PCI and HDMI ids
+    090305c36185 scsi: mpt3sas: Fix NULL pointer access in mpt3sas_transport_port_add()
+    b8849e31a056 docs: Correct missing "d_" prefix for dentry_operations member d_weak_revalidate
+    9e45e4571576 clk: HI655X: select REGMAP instead of depending on it
+    dac08e46f0ad drm/meson: fix 1px pink line on GXM when scaling video overlay
+    d7e48aa17a81 cifs: Move the in_send statistic to __smb_send_rqst()
+    06c208002d0d drm/panfrost: Don't sync rpm suspension after mmu flushing
+    c9900d1d86f0 xfrm: Allow transport-mode states with AF_UNSPEC selector
+    4008fb9ad474 ext4: fix cgroup writeback accounting with fs-layer encryption
 
-Applying patch 7280401bdd77ca54be6867a154cc01e0d72612e0.patch
-patching file .github/workflows/c-cpp.yml
-patching file INSTALL
-Hunk #1 succeeded at 20 (offset -1 lines).
-patching file cipher-aes.c
-patching file configure.ac
-Hunk #2 succeeded at 2781 with fuzz 2 (offset -64 lines).
-Hunk #3 succeeded at 2804 (offset -73 lines).
-Hunk #4 succeeded at 2878 (offset -72 lines).
-Hunk #5 succeeded at 3006 with fuzz 2 (offset -8 lines).
-patching file openbsd-compat/libressl-api-compat.c
-patching file openbsd-compat/openssl-compat.h
-Hunk #2 succeeded at 80 (offset 25 lines).
-Hunk #3 succeeded at 94 (offset 25 lines).
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
+ 3 files changed, 18 insertions(+), 18 deletions(-)
 
-Please correct and send v3
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+index e0967223b9..46a1d77778 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+@@ -11,13 +11,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "f064f6017b7ce09ade0f365e1b7d776dc9e2e168"
+-SRCREV_meta ?= "c7e2e528893abbebd14447510d38ded1ef98dcd2"
++SRCREV_machine ?= "bdf5848b4aedd93895b490c65b52edc488c383b2"
++SRCREV_meta ?= "8a7a83b45c543cd7b05fce9ff09abe21ea92f193"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+ 
+-LINUX_VERSION ?= "5.4.237"
++LINUX_VERSION ?= "5.4.238"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+index 6cdf00763b..64c81e7f4f 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "5.4.237"
++LINUX_VERSION ?= "5.4.238"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine_qemuarm ?= "00c3a33c0f772ff1fa8902e8fe8856131c27a9b5"
+-SRCREV_machine ?= "0693cbc007cf6a7b335edb5f78542d77b048d5dd"
+-SRCREV_meta ?= "c7e2e528893abbebd14447510d38ded1ef98dcd2"
++SRCREV_machine_qemuarm ?= "63e8209e8066ca7d6b3075af199875d77c4596d0"
++SRCREV_machine ?= "2a1e69d2aa0fabdecb015972c5824590a70b8225"
++SRCREV_meta ?= "8a7a83b45c543cd7b05fce9ff09abe21ea92f193"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+index e95a044099..42fc71f7b2 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
+ KBRANCH_qemux86-64 ?= "v5.4/standard/base"
+ KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "981be716d817e38d2d67269aab3caaa095bd2bdd"
+-SRCREV_machine_qemuarm64 ?= "32083245f7eb993b85a33a8d30bd9f41128b6147"
+-SRCREV_machine_qemumips ?= "4d002b5ac3b434b21ae58ac15cd73be3ae5ef5a8"
+-SRCREV_machine_qemuppc ?= "82b4b51143a6beeb49efa548494bdb5c01f336b2"
+-SRCREV_machine_qemuriscv64 ?= "936721bc390034d774b28393bf61808de8899718"
+-SRCREV_machine_qemux86 ?= "936721bc390034d774b28393bf61808de8899718"
+-SRCREV_machine_qemux86-64 ?= "936721bc390034d774b28393bf61808de8899718"
+-SRCREV_machine_qemumips64 ?= "d662d749c441de5a09bfd8870cd10e41b1e27b6b"
+-SRCREV_machine ?= "936721bc390034d774b28393bf61808de8899718"
+-SRCREV_meta ?= "c7e2e528893abbebd14447510d38ded1ef98dcd2"
++SRCREV_machine_qemuarm ?= "db8e7ac090eb96b687edbb988c3fb7d9a9d83973"
++SRCREV_machine_qemuarm64 ?= "01fe45561dc40cc40b057ee40d722388174733ed"
++SRCREV_machine_qemumips ?= "9bf85e111f1a77b41b39fa1b45a8439fa66e8c4d"
++SRCREV_machine_qemuppc ?= "5743a4eef97e79e05c6780714ffc559fbedea0bb"
++SRCREV_machine_qemuriscv64 ?= "f2e879840d91250606ae3c2fd177c310df11fde0"
++SRCREV_machine_qemux86 ?= "f2e879840d91250606ae3c2fd177c310df11fde0"
++SRCREV_machine_qemux86-64 ?= "f2e879840d91250606ae3c2fd177c310df11fde0"
++SRCREV_machine_qemumips64 ?= "41ecd49609ac6164d8022065e5028984fa5c84ce"
++SRCREV_machine ?= "f2e879840d91250606ae3c2fd177c310df11fde0"
++SRCREV_meta ?= "8a7a83b45c543cd7b05fce9ff09abe21ea92f193"
+ 
+ # remap qemuarm to qemuarma15 for the 5.4 kernel
+ # KMACHINE_qemuarm ?= "qemuarma15"
+@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+-LINUX_VERSION ?= "5.4.237"
++LINUX_VERSION ?= "5.4.238"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+ DEPENDS += "openssl-native util-linux-native"
+-- 
+2.34.1
 
-Steve
-> Signed-off-by: Riyaz Khan <Riyaz.Khan@kpit.com>
-> ---
->  ...401bdd77ca54be6867a154cc01e0d72612e0.patch | 986 ++++++++++++++++++
->  .../openssh/openssh_8.9p1.bb                  |   1 +
->  2 files changed, 987 insertions(+)
->  create mode 100644 meta/recipes-connectivity/openssh/openssh/7280401bdd7=
-7ca54be6867a154cc01e0d72612e0.patch
->
-> diff --git a/meta/recipes-connectivity/openssh/openssh/7280401bdd77ca54be=
-6867a154cc01e0d72612e0.patch b/meta/recipes-connectivity/openssh/openssh/72=
-80401bdd77ca54be6867a154cc01e0d72612e0.patch
-> new file mode 100644
-> index 0000000000..d9c023e6b6
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/openssh/openssh/7280401bdd77ca54be6867a15=
-4cc01e0d72612e0.patch
-> @@ -0,0 +1,986 @@
-> +
-> +
-> +From 7280401bdd77ca54be6867a154cc01e0d72612e0 Mon Sep 17 00:00:00 2001
-> +From: Damien Miller <djm@mindrot.org>
-> +Date: Fri, 24 Mar 2023 13:56:25 +1100
-> +Subject: [PATCH] remove support for old libcrypto
-> +
-> +OpenSSH now requires LibreSSL 3.1.0 or greater or
-> +OpenSSL 1.1.1 or greater
-> +
-> +with/ok dtucker@
-> +
-> +Upstream-Status: Backport [https://github.com/openssh/openssh-portable/c=
-ommit/7280401bdd77ca54be6867a154cc01e0d72612e0]
-> +Comment: Hunk are refreshed, removed couple of hunks from configure.ac a=
-s hunk code is not prasent
-> +and backported to the existing code.
-> +Signed-off-by: Riyaz Khan <Riyaz.Khan@kpit.com>
-> +
-> +---
-> + .github/workflows/c-cpp.yml          |   7 -
-> + INSTALL                              |   8 +-
-> + cipher-aes.c                         |   2 +-
-> + configure.ac                         |  96 ++---
-> + openbsd-compat/libressl-api-compat.c | 556 +--------------------------
-> + openbsd-compat/openssl-compat.h      | 151 +-------
-> + 6 files changed, 40 insertions(+), 780 deletions(-)
-> +
-> +diff --git a/.github/workflows/c-cpp.yml b/.github/workflows/c-cpp.yml
-> +index 3d9aa22dba5..d299a32468d 100644
-> +--- a/.github/workflows/c-cpp.yml
-> ++++ b/.github/workflows/c-cpp.yml
-> +@@ -40,18 +40,11 @@
-> +           - { os: ubuntu-20.04, configs: tcmalloc }
-> +           - { os: ubuntu-20.04, configs: musl }
-> +           - { os: ubuntu-latest, configs: libressl-master }
-> +-          - { os: ubuntu-latest, configs: libressl-2.2.9 }
-> +-          - { os: ubuntu-latest, configs: libressl-2.8.3 }
-> +-          - { os: ubuntu-latest, configs: libressl-3.0.2 }
-> +           - { os: ubuntu-latest, configs: libressl-3.2.6 }
-> +           - { os: ubuntu-latest, configs: libressl-3.3.4 }
-> +           - { os: ubuntu-latest, configs: libressl-3.4.1 }
-> +           - { os: ubuntu-latest, configs: openssl-master }
-> +           - { os: ubuntu-latest, configs: openssl-noec }
-> +-          - { os: ubuntu-latest, configs: openssl-1.0.1 }
-> +-          - { os: ubuntu-latest, configs: openssl-1.0.1u }
-> +-          - { os: ubuntu-latest, configs: openssl-1.0.2u }
-> +-          - { os: ubuntu-latest, configs: openssl-1.1.0h }
-> +           - { os: ubuntu-latest, configs: openssl-1.1.1 }
-> +           - { os: ubuntu-latest, configs: openssl-1.1.1k }
-> +           - { os: ubuntu-latest, configs: openssl-3.0.0 }
-> +diff --git a/INSTALL b/INSTALL
-> +index 68b15e13190..f99d1e2a809 100644
-> +--- a/INSTALL
-> ++++ b/INSTALL
-> +@@ -21,12 +21,8 @@ https://zlib.net/
-> +
-> + libcrypto from either of LibreSSL or OpenSSL.  Building without libcryp=
-to
-> + is supported but severely restricts the available ciphers and algorithm=
-s.
-> +- - LibreSSL (https://www.libressl.org/)
-> +- - OpenSSL (https://www.openssl.org) with any of the following versions=
-:
-> +-   - 1.0.x >=3D 1.0.1 or 1.1.0 >=3D 1.1.0g or any 1.1.1
-> +-
-> +-Note that due to a bug in EVP_CipherInit OpenSSL 1.1 versions prior to
-> +-1.1.0g can't be used.
-> ++ - LibreSSL (https://www.libressl.org/) 3.1.0 or greater
-> ++ - OpenSSL (https://www.openssl.org) 1.1.1 or greater
-> +
-> + LibreSSL/OpenSSL should be compiled as a position-independent library
-> + (i.e. -fPIC, eg by configuring OpenSSL as "./config [options] -fPIC"
-> +diff --git a/cipher-aes.c b/cipher-aes.c
-> +index 8b101727284..87c763353d8 100644
-> +--- a/cipher-aes.c
-> ++++ b/cipher-aes.c
-> +@@ -69,7 +69,7 @@ ssh_rijndael_init(EVP_CIPHER_CTX *ctx, const u_char *k=
-ey, const u_char *iv,
-> +
-> + static int
-> + ssh_rijndael_cbc(EVP_CIPHER_CTX *ctx, u_char *dest, const u_char *src,
-> +-    LIBCRYPTO_EVP_INL_TYPE len)
-> ++    size_t len)
-> + {
-> +       struct ssh_rijndael_ctx *c;
-> +       u_char buf[RIJNDAEL_BLOCKSIZE];
-> +diff --git a/configure.ac b/configure.ac
-> +index 22fee70f604..1c0ccdf19c5 100644
-> +--- a/configure.ac
-> ++++ b/configure.ac
-> +@@ -2744,42 +2744,40 @@
-> +       #include <openssl/crypto.h>
-> +       #define DATA "conftest.ssllibver"
-> +               ]], [[
-> +-              FILE *fd;
-> +-              int rc;
-> ++              FILE *f;
-> +
-> +-              fd =3D fopen(DATA,"w");
-> +-              if(fd =3D=3D NULL)
-> ++              if ((f =3D fopen(DATA, "w")) =3D=3D NULL)
-> +                       exit(1);
-> +-#ifndef OPENSSL_VERSION
-> +-# define OPENSSL_VERSION SSLEAY_VERSION
-> +-#endif
-> +-#ifndef HAVE_OPENSSL_VERSION
-> +-# define OpenSSL_version      SSLeay_version
-> +-#endif
-> +-#ifndef HAVE_OPENSSL_VERSION_NUM
-> +-# define OpenSSL_version_num  SSLeay
-> +-#endif
-> +-              if ((rc =3D fprintf(fd, "%08lx (%s)\n",
-> ++              if (fprintf(f, "%08lx (%s)",
-> +                   (unsigned long)OpenSSL_version_num(),
-> +-                  OpenSSL_version(OPENSSL_VERSION))) < 0)
-> ++                  OpenSSL_version(OPENSSL_VERSION)) < 0)
-> ++                      exit(1);
-> ++#ifdef LIBRESSL_VERSION_NUMBER
-> ++              if (fprintf(f, " libressl-%08lx", LIBRESSL_VERSION_NUMBER=
-) < 0)
-> ++                      exit(1);
-> ++#endif
-> ++              if (fputc('\n', f) =3D=3D EOF || fclose(f) =3D=3D EOF)
-> +                       exit(1);
-> +-
-> +               exit(0);
-> +               ]])],
-> +               [
-> +-                      ssl_library_ver=3D`cat conftest.ssllibver`
-> ++                      sslver=3D`cat conftest.ssllibver`
-> ++                      ssl_showver=3D`echo "$sslver" | sed 's/ libressl-=
-.*//'`
-> +                       # Check version is supported.
-> +-                      case "$ssl_library_ver" in
-> +-                      10000*|0*)
-> +-                              AC_MSG_ERROR([OpenSSL >=3D 1.0.1 required=
- (have "$ssl_library_ver")])
-> +-                              ;;
-> +-                      100*)   ;; # 1.0.x
-> +-                      101000[[0123456]]*)
-> +-                              # https://github.com/openssl/openssl/pull=
-/4613
-> +-                              AC_MSG_ERROR([OpenSSL 1.1.x versions prio=
-r to 1.1.0g have a bug that breaks their use with OpenSSH (have "$ssl_libra=
-ry_ver")])
-> ++                      case "$sslver" in
-> ++                      100*|10100*) # 1.0.x, 1.1.0x
-> ++                              AC_MSG_ERROR([OpenSSL >=3D 1.1.1 required=
- (have "$ssl_showver")])
-> +                               ;;
-> +                       101*)   ;; # 1.1.x
-> +-                      200*)   ;; # LibreSSL
-> ++                      200*)   # LibreSSL
-> ++                              lver=3D`echo "$sslver" | sed 's/.*libress=
-l-//'`
-> ++                              case "$lver" in
-> ++                              2*|300*) # 2.x, 3.0.0
-> ++                                      AC_MSG_ERROR([LibreSSL >=3D 3.1.0=
- required (have "$ssl_showver")])
-> ++                                      ;;
-> ++                              *) ;;   # Assume all other versions are g=
-ood.
-> ++                              esac
-> ++                              ;;
-> +                       300*)   ;; # OpenSSL 3
-> +                       301*)   ;; # OpenSSL development branch.
-> +                       *)
-> +@@ -2847,10 +2845,10 @@ if test "x$openssl" =3D "xyes" ; then
-> +                               CPPFLAGS=3D"$CPPFLAGS -DOPENSSL_API_COMPA=
-T=3D0x10100000L"
-> +                               ;;
-> +                       *)
-> +-                              AC_MSG_ERROR([Unknown/unsupported OpenSSL=
- version ("$ssl_library_ver")])
-> ++                              AC_MSG_ERROR([Unknown/unsupported OpenSSL=
- version ("$ssl_showver")])
-> +                               ;;
-> +                       esac
-> +-                      AC_MSG_RESULT([$ssl_library_ver])
-> ++                      AC_MSG_RESULT([$ssl_showver])
-> +               ],
-> +               [
-> +                       AC_MSG_RESULT([not found])
-> +@@ -2879,9 +2877,6 @@ if test "x$openssl" =3D "xyes" ; then
-> +       #include <openssl/opensslv.h>
-> +       #include <openssl/crypto.h>
-> +               ]], [[
-> +-#ifndef HAVE_OPENSSL_VERSION_NUM
-> +-# define OpenSSL_version_num  SSLeay
-> +-#endif
-> +               exit(OpenSSL_version_num() =3D=3D OPENSSL_VERSION_NUMBER =
-? 0 : 1);
-> +               ]])],
-> +               [
-> +@@ -2955,44 +2950,13 @@ if test "x$openssl" =3D "xyes" ; then
-> +           )
-> +       )
-> +
-> +-      # LibreSSL/OpenSSL 1.1x API
-> ++      # LibreSSL/OpenSSL API differences
-> +       AC_CHECK_FUNCS([ \
-> +-              OPENSSL_init_crypto \
-> +-              DH_get0_key \
-> +-              DH_get0_pqg \
-> +-              DH_set0_key \
-> +-              DH_set_length \
-> +-              DH_set0_pqg \
-> +-              DSA_get0_key \
-> +-              DSA_get0_pqg \
-> +-              DSA_set0_key \
-> +-              DSA_set0_pqg \
-> +-              DSA_SIG_get0 \
-> +-              DSA_SIG_set0 \
-> +-              ECDSA_SIG_get0 \
-> +-              ECDSA_SIG_set0 \
-> +               EVP_CIPHER_CTX_iv \
-> +               EVP_CIPHER_CTX_iv_noconst \
-> +               EVP_CIPHER_CTX_get_iv \
-> +               EVP_CIPHER_CTX_get_updated_iv \
-> +               EVP_CIPHER_CTX_set_iv \
-> +-              RSA_get0_crt_params \
-> +-              RSA_get0_factors \
-> +-              RSA_get0_key \
-> +-              RSA_set0_crt_params \
-> +-              RSA_set0_factors \
-> +-              RSA_set0_key \
-> +-              RSA_meth_free \
-> +-              RSA_meth_dup \
-> +-              RSA_meth_set1_name \
-> +-              RSA_meth_get_finish \
-> +-              RSA_meth_set_priv_enc \
-> +-              RSA_meth_set_priv_dec \
-> +-              RSA_meth_set_finish \
-> +-              EVP_PKEY_get0_RSA \
-> +-              EVP_MD_CTX_new \
-> +-              EVP_MD_CTX_free \
-> +-              EVP_chacha20 \
-> +       ])
-> +
-> +       if test "x$openssl_engine" =3D "xyes" ; then
-> +@@ -3050,8 +3014,8 @@ if test "x$openssl" =3D "xyes" ; then
-> +               ]
-> +       )
-> +
-> +-      # Check for SHA256, SHA384 and SHA512 support in OpenSSL
-> +-      AC_CHECK_FUNCS([EVP_sha256 EVP_sha384 EVP_sha512])
-> ++      # Check for various EVP support in OpenSSL
-> ++      AC_CHECK_FUNCS([EVP_sha256 EVP_sha384 EVP_sha512 EVP_chacha20])
-> +
-> +       # Check complete ECC support in OpenSSL
-> +       AC_MSG_CHECKING([whether OpenSSL has NID_X9_62_prime256v1])
-> +diff --git a/openbsd-compat/libressl-api-compat.c b/openbsd-compat/libre=
-ssl-api-compat.c
-> +index 498180dc894..59be17397c5 100644
-> +--- a/openbsd-compat/libressl-api-compat.c
-> ++++ b/openbsd-compat/libressl-api-compat.c
-> +@@ -1,129 +1,5 @@
-> +-/* $OpenBSD: dsa_lib.c,v 1.29 2018/04/14 07:09:21 tb Exp $ */
-> +-/* $OpenBSD: rsa_lib.c,v 1.37 2018/04/14 07:09:21 tb Exp $ */
-> +-/* $OpenBSD: evp_lib.c,v 1.17 2018/09/12 06:35:38 djm Exp $ */
-> +-/* $OpenBSD: dh_lib.c,v 1.32 2018/05/02 15:48:38 tb Exp $ */
-> +-/* $OpenBSD: p_lib.c,v 1.24 2018/05/30 15:40:50 tb Exp $ */
-> +-/* $OpenBSD: digest.c,v 1.30 2018/04/14 07:09:21 tb Exp $ */
-> +-/* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
-> +- * All rights reserved.
-> +- *
-> +- * This package is an SSL implementation written
-> +- * by Eric Young (eay@cryptsoft.com).
-> +- * The implementation was written so as to conform with Netscapes SSL.
-> +- *
-> +- * This library is free for commercial and non-commercial use as long a=
-s
-> +- * the following conditions are aheared to.  The following conditions
-> +- * apply to all code found in this distribution, be it the RC4, RSA,
-> +- * lhash, DES, etc., code; not just the SSL code.  The SSL documentatio=
-n
-> +- * included with this distribution is covered by the same copyright ter=
-ms
-> +- * except that the holder is Tim Hudson (tjh@cryptsoft.com).
-> +- *
-> +- * Copyright remains Eric Young's, and as such any Copyright notices in
-> +- * the code are not to be removed.
-> +- * If this package is used in a product, Eric Young should be given att=
-ribution
-> +- * as the author of the parts of the library used.
-> +- * This can be in the form of a textual message at program startup or
-> +- * in documentation (online or textual) provided with the package.
-> +- *
-> +- * Redistribution and use in source and binary forms, with or without
-> +- * modification, are permitted provided that the following conditions
-> +- * are met:
-> +- * 1. Redistributions of source code must retain the copyright
-> +- *    notice, this list of conditions and the following disclaimer.
-> +- * 2. Redistributions in binary form must reproduce the above copyright
-> +- *    notice, this list of conditions and the following disclaimer in t=
-he
-> +- *    documentation and/or other materials provided with the distributi=
-on.
-> +- * 3. All advertising materials mentioning features or use of this soft=
-ware
-> +- *    must display the following acknowledgement:
-> +- *    "This product includes cryptographic software written by
-> +- *     Eric Young (eay@cryptsoft.com)"
-> +- *    The word 'cryptographic' can be left out if the rouines from the =
-library
-> +- *    being used are not cryptographic related :-).
-> +- * 4. If you include any Windows specific code (or a derivative thereof=
-) from
-> +- *    the apps directory (application code) you must include an acknowl=
-edgement:
-> +- *    "This product includes software written by Tim Hudson (tjh@crypts=
-oft.com)"
-> +- *
-> +- * THIS SOFTWARE IS PROVIDED BY ERIC YOUNG ``AS IS'' AND
-> +- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, TH=
-E
-> +- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR P=
-URPOSE
-> +- * ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIA=
-BLE
-> +- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQU=
-ENTIAL
-> +- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GO=
-ODS
-> +- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION=
-)
-> +- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, =
-STRICT
-> +- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN AN=
-Y WAY
-> +- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY =
-OF
-> +- * SUCH DAMAGE.
-> +- *
-> +- * The licence and distribution terms for any publically available vers=
-ion or
-> +- * derivative of this code cannot be changed.  i.e. this code cannot si=
-mply be
-> +- * copied and put under another distribution licence
-> +- * [including the GNU Public Licence.]
-> +- */
-> +-
-> +-/* $OpenBSD: dsa_asn1.c,v 1.22 2018/06/14 17:03:19 jsing Exp $ */
-> +-/* $OpenBSD: ecs_asn1.c,v 1.9 2018/03/17 15:24:44 tb Exp $ */
-> +-/* $OpenBSD: digest.c,v 1.30 2018/04/14 07:09:21 tb Exp $ */
-> +-/* Written by Dr Stephen N Henson (steve@openssl.org) for the OpenSSL
-> +- * project 2000.
-> +- */
-> +-/* =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +- * Copyright (c) 2000-2005 The OpenSSL Project.  All rights reserved.
-> +- *
-> +- * Redistribution and use in source and binary forms, with or without
-> +- * modification, are permitted provided that the following conditions
-> +- * are met:
-> +- *
-> +- * 1. Redistributions of source code must retain the above copyright
-> +- *    notice, this list of conditions and the following disclaimer.
-> +- *
-> +- * 2. Redistributions in binary form must reproduce the above copyright
-> +- *    notice, this list of conditions and the following disclaimer in
-> +- *    the documentation and/or other materials provided with the
-> +- *    distribution.
-> +- *
-> +- * 3. All advertising materials mentioning features or use of this
-> +- *    software must display the following acknowledgment:
-> +- *    "This product includes software developed by the OpenSSL Project
-> +- *    for use in the OpenSSL Toolkit. (http://www.OpenSSL.org/)"
-> +- *
-> +- * 4. The names "OpenSSL Toolkit" and "OpenSSL Project" must not be use=
-d to
-> +- *    endorse or promote products derived from this software without
-> +- *    prior written permission. For written permission, please contact
-> +- *    licensing@OpenSSL.org.
-> +- *
-> +- * 5. Products derived from this software may not be called "OpenSSL"
-> +- *    nor may "OpenSSL" appear in their names without prior written
-> +- *    permission of the OpenSSL Project.
-> +- *
-> +- * 6. Redistributions of any form whatsoever must retain the following
-> +- *    acknowledgment:
-> +- *    "This product includes software developed by the OpenSSL Project
-> +- *    for use in the OpenSSL Toolkit (http://www.OpenSSL.org/)"
-> +- *
-> +- * THIS SOFTWARE IS PROVIDED BY THE OpenSSL PROJECT ``AS IS'' AND ANY
-> +- * EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-> +- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-> +- * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE OpenSSL PROJECT OR
-> +- * ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-> +- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
-> +- * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-> +- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-> +- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-> +- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-> +- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
-> +- * OF THE POSSIBILITY OF SUCH DAMAGE.
-> +- * =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +- *
-> +- * This product includes cryptographic software written by Eric Young
-> +- * (eay@cryptsoft.com).  This product includes software written by Tim
-> +- * Hudson (tjh@cryptsoft.com).
-> +- *
-> +- */
-> +-
-> +-/*    $OpenBSD: rsa_meth.c,v 1.2 2018/09/12 06:35:38 djm Exp $        *=
-/
-> + /*
-> +- * Copyright (c) 2018 Theo Buehler <tb@openbsd.org>
-> ++ * Copyright (c) 2018 Damien Miller <djm@mindrot.org>
-> +  *
-> +  * Permission to use, copy, modify, and distribute this software for an=
-y
-> +  * purpose with or without fee is hereby granted, provided that the abo=
-ve
-> +@@ -147,192 +23,7 @@
-> + #include <stdlib.h>
-> + #include <string.h>
-> +
-> +-#include <openssl/err.h>
-> +-#include <openssl/bn.h>
-> +-#include <openssl/dsa.h>
-> +-#include <openssl/rsa.h>
-> + #include <openssl/evp.h>
-> +-#ifdef OPENSSL_HAS_ECC
-> +-#include <openssl/ecdsa.h>
-> +-#endif
-> +-#include <openssl/dh.h>
-> +-
-> +-#ifndef HAVE_DSA_GET0_PQG
-> +-void
-> +-DSA_get0_pqg(const DSA *d, const BIGNUM **p, const BIGNUM **q, const BI=
-GNUM **g)
-> +-{
-> +-      if (p !=3D NULL)
-> +-              *p =3D d->p;
-> +-      if (q !=3D NULL)
-> +-              *q =3D d->q;
-> +-      if (g !=3D NULL)
-> +-              *g =3D d->g;
-> +-}
-> +-#endif /* HAVE_DSA_GET0_PQG */
-> +-
-> +-#ifndef HAVE_DSA_SET0_PQG
-> +-int
-> +-DSA_set0_pqg(DSA *d, BIGNUM *p, BIGNUM *q, BIGNUM *g)
-> +-{
-> +-      if ((d->p =3D=3D NULL && p =3D=3D NULL) || (d->q =3D=3D NULL && q=
- =3D=3D NULL) ||
-> +-          (d->g =3D=3D NULL && g =3D=3D NULL))
-> +-              return 0;
-> +-
-> +-      if (p !=3D NULL) {
-> +-              BN_free(d->p);
-> +-              d->p =3D p;
-> +-      }
-> +-      if (q !=3D NULL) {
-> +-              BN_free(d->q);
-> +-              d->q =3D q;
-> +-      }
-> +-      if (g !=3D NULL) {
-> +-              BN_free(d->g);
-> +-              d->g =3D g;
-> +-      }
-> +-
-> +-      return 1;
-> +-}
-> +-#endif /* HAVE_DSA_SET0_PQG */
-> +-
-> +-#ifndef HAVE_DSA_GET0_KEY
-> +-void
-> +-DSA_get0_key(const DSA *d, const BIGNUM **pub_key, const BIGNUM **priv_=
-key)
-> +-{
-> +-      if (pub_key !=3D NULL)
-> +-              *pub_key =3D d->pub_key;
-> +-      if (priv_key !=3D NULL)
-> +-              *priv_key =3D d->priv_key;
-> +-}
-> +-#endif /* HAVE_DSA_GET0_KEY */
-> +-
-> +-#ifndef HAVE_DSA_SET0_KEY
-> +-int
-> +-DSA_set0_key(DSA *d, BIGNUM *pub_key, BIGNUM *priv_key)
-> +-{
-> +-      if (d->pub_key =3D=3D NULL && pub_key =3D=3D NULL)
-> +-              return 0;
-> +-
-> +-      if (pub_key !=3D NULL) {
-> +-              BN_free(d->pub_key);
-> +-              d->pub_key =3D pub_key;
-> +-      }
-> +-      if (priv_key !=3D NULL) {
-> +-              BN_free(d->priv_key);
-> +-              d->priv_key =3D priv_key;
-> +-      }
-> +-
-> +-      return 1;
-> +-}
-> +-#endif /* HAVE_DSA_SET0_KEY */
-> +-
-> +-#ifndef HAVE_RSA_GET0_KEY
-> +-void
-> +-RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e, const BI=
-GNUM **d)
-> +-{
-> +-      if (n !=3D NULL)
-> +-              *n =3D r->n;
-> +-      if (e !=3D NULL)
-> +-              *e =3D r->e;
-> +-      if (d !=3D NULL)
-> +-              *d =3D r->d;
-> +-}
-> +-#endif /* HAVE_RSA_GET0_KEY */
-> +-
-> +-#ifndef HAVE_RSA_SET0_KEY
-> +-int
-> +-RSA_set0_key(RSA *r, BIGNUM *n, BIGNUM *e, BIGNUM *d)
-> +-{
-> +-      if ((r->n =3D=3D NULL && n =3D=3D NULL) || (r->e =3D=3D NULL && e=
- =3D=3D NULL))
-> +-              return 0;
-> +-
-> +-      if (n !=3D NULL) {
-> +-              BN_free(r->n);
-> +-              r->n =3D n;
-> +-      }
-> +-      if (e !=3D NULL) {
-> +-              BN_free(r->e);
-> +-              r->e =3D e;
-> +-      }
-> +-      if (d !=3D NULL) {
-> +-              BN_free(r->d);
-> +-              r->d =3D d;
-> +-      }
-> +-
-> +-      return 1;
-> +-}
-> +-#endif /* HAVE_RSA_SET0_KEY */
-> +-
-> +-#ifndef HAVE_RSA_GET0_CRT_PARAMS
-> +-void
-> +-RSA_get0_crt_params(const RSA *r, const BIGNUM **dmp1, const BIGNUM **d=
-mq1,
-> +-    const BIGNUM **iqmp)
-> +-{
-> +-      if (dmp1 !=3D NULL)
-> +-              *dmp1 =3D r->dmp1;
-> +-      if (dmq1 !=3D NULL)
-> +-              *dmq1 =3D r->dmq1;
-> +-      if (iqmp !=3D NULL)
-> +-              *iqmp =3D r->iqmp;
-> +-}
-> +-#endif /* HAVE_RSA_GET0_CRT_PARAMS */
-> +-
-> +-#ifndef HAVE_RSA_SET0_CRT_PARAMS
-> +-int
-> +-RSA_set0_crt_params(RSA *r, BIGNUM *dmp1, BIGNUM *dmq1, BIGNUM *iqmp)
-> +-{
-> +-      if ((r->dmp1 =3D=3D NULL && dmp1 =3D=3D NULL) ||
-> +-          (r->dmq1 =3D=3D NULL && dmq1 =3D=3D NULL) ||
-> +-          (r->iqmp =3D=3D NULL && iqmp =3D=3D NULL))
-> +-              return 0;
-> +-
-> +-      if (dmp1 !=3D NULL) {
-> +-              BN_free(r->dmp1);
-> +-              r->dmp1 =3D dmp1;
-> +-      }
-> +-      if (dmq1 !=3D NULL) {
-> +-              BN_free(r->dmq1);
-> +-              r->dmq1 =3D dmq1;
-> +-      }
-> +-      if (iqmp !=3D NULL) {
-> +-              BN_free(r->iqmp);
-> +-              r->iqmp =3D iqmp;
-> +-      }
-> +-
-> +-      return 1;
-> +-}
-> +-#endif /* HAVE_RSA_SET0_CRT_PARAMS */
-> +-
-> +-#ifndef HAVE_RSA_GET0_FACTORS
-> +-void
-> +-RSA_get0_factors(const RSA *r, const BIGNUM **p, const BIGNUM **q)
-> +-{
-> +-      if (p !=3D NULL)
-> +-              *p =3D r->p;
-> +-      if (q !=3D NULL)
-> +-              *q =3D r->q;
-> +-}
-> +-#endif /* HAVE_RSA_GET0_FACTORS */
-> +-
-> +-#ifndef HAVE_RSA_SET0_FACTORS
-> +-int
-> +-RSA_set0_factors(RSA *r, BIGNUM *p, BIGNUM *q)
-> +-{
-> +-      if ((r->p =3D=3D NULL && p =3D=3D NULL) || (r->q =3D=3D NULL && q=
- =3D=3D NULL))
-> +-              return 0;
-> +-
-> +-      if (p !=3D NULL) {
-> +-              BN_free(r->p);
-> +-              r->p =3D p;
-> +-      }
-> +-      if (q !=3D NULL) {
-> +-              BN_free(r->q);
-> +-              r->q =3D q;
-> +-      }
-> +-
-> +-      return 1;
-> +-}
-> +-#endif /* HAVE_RSA_SET0_FACTORS */
-> +
-> + #ifndef HAVE_EVP_CIPHER_CTX_GET_IV
-> + int
-> +@@ -392,249 +83,4 @@ EVP_CIPHER_CTX_set_iv(EVP_CIPHER_CTX *ctx, const un=
-signed char *iv, size_t len)
-> + }
-> + #endif /* HAVE_EVP_CIPHER_CTX_SET_IV */
-> +
-> +-#ifndef HAVE_DSA_SIG_GET0
-> +-void
-> +-DSA_SIG_get0(const DSA_SIG *sig, const BIGNUM **pr, const BIGNUM **ps)
-> +-{
-> +-      if (pr !=3D NULL)
-> +-              *pr =3D sig->r;
-> +-      if (ps !=3D NULL)
-> +-              *ps =3D sig->s;
-> +-}
-> +-#endif /* HAVE_DSA_SIG_GET0 */
-> +-
-> +-#ifndef HAVE_DSA_SIG_SET0
-> +-int
-> +-DSA_SIG_set0(DSA_SIG *sig, BIGNUM *r, BIGNUM *s)
-> +-{
-> +-      if (r =3D=3D NULL || s =3D=3D NULL)
-> +-              return 0;
-> +-
-> +-      BN_clear_free(sig->r);
-> +-      sig->r =3D r;
-> +-      BN_clear_free(sig->s);
-> +-      sig->s =3D s;
-> +-
-> +-      return 1;
-> +-}
-> +-#endif /* HAVE_DSA_SIG_SET0 */
-> +-
-> +-#ifdef OPENSSL_HAS_ECC
-> +-#ifndef HAVE_ECDSA_SIG_GET0
-> +-void
-> +-ECDSA_SIG_get0(const ECDSA_SIG *sig, const BIGNUM **pr, const BIGNUM **=
-ps)
-> +-{
-> +-      if (pr !=3D NULL)
-> +-              *pr =3D sig->r;
-> +-      if (ps !=3D NULL)
-> +-              *ps =3D sig->s;
-> +-}
-> +-#endif /* HAVE_ECDSA_SIG_GET0 */
-> +-
-> +-#ifndef HAVE_ECDSA_SIG_SET0
-> +-int
-> +-ECDSA_SIG_set0(ECDSA_SIG *sig, BIGNUM *r, BIGNUM *s)
-> +-{
-> +-      if (r =3D=3D NULL || s =3D=3D NULL)
-> +-              return 0;
-> +-
-> +-      BN_clear_free(sig->r);
-> +-      BN_clear_free(sig->s);
-> +-      sig->r =3D r;
-> +-      sig->s =3D s;
-> +-      return 1;
-> +-}
-> +-#endif /* HAVE_ECDSA_SIG_SET0 */
-> +-#endif /* OPENSSL_HAS_ECC */
-> +-
-> +-#ifndef HAVE_DH_GET0_PQG
-> +-void
-> +-DH_get0_pqg(const DH *dh, const BIGNUM **p, const BIGNUM **q, const BIG=
-NUM **g)
-> +-{
-> +-      if (p !=3D NULL)
-> +-              *p =3D dh->p;
-> +-      if (q !=3D NULL)
-> +-              *q =3D dh->q;
-> +-      if (g !=3D NULL)
-> +-              *g =3D dh->g;
-> +-}
-> +-#endif /* HAVE_DH_GET0_PQG */
-> +-
-> +-#ifndef HAVE_DH_SET0_PQG
-> +-int
-> +-DH_set0_pqg(DH *dh, BIGNUM *p, BIGNUM *q, BIGNUM *g)
-> +-{
-> +-      if ((dh->p =3D=3D NULL && p =3D=3D NULL) || (dh->g =3D=3D NULL &&=
- g =3D=3D NULL))
-> +-              return 0;
-> +-
-> +-      if (p !=3D NULL) {
-> +-              BN_free(dh->p);
-> +-              dh->p =3D p;
-> +-      }
-> +-      if (q !=3D NULL) {
-> +-              BN_free(dh->q);
-> +-              dh->q =3D q;
-> +-      }
-> +-      if (g !=3D NULL) {
-> +-              BN_free(dh->g);
-> +-              dh->g =3D g;
-> +-      }
-> +-
-> +-      return 1;
-> +-}
-> +-#endif /* HAVE_DH_SET0_PQG */
-> +-
-> +-#ifndef HAVE_DH_GET0_KEY
-> +-void
-> +-DH_get0_key(const DH *dh, const BIGNUM **pub_key, const BIGNUM **priv_k=
-ey)
-> +-{
-> +-      if (pub_key !=3D NULL)
-> +-              *pub_key =3D dh->pub_key;
-> +-      if (priv_key !=3D NULL)
-> +-              *priv_key =3D dh->priv_key;
-> +-}
-> +-#endif /* HAVE_DH_GET0_KEY */
-> +-
-> +-#ifndef HAVE_DH_SET0_KEY
-> +-int
-> +-DH_set0_key(DH *dh, BIGNUM *pub_key, BIGNUM *priv_key)
-> +-{
-> +-      if (pub_key !=3D NULL) {
-> +-              BN_free(dh->pub_key);
-> +-              dh->pub_key =3D pub_key;
-> +-      }
-> +-      if (priv_key !=3D NULL) {
-> +-              BN_free(dh->priv_key);
-> +-              dh->priv_key =3D priv_key;
-> +-      }
-> +-
-> +-      return 1;
-> +-}
-> +-#endif /* HAVE_DH_SET0_KEY */
-> +-
-> +-#ifndef HAVE_DH_SET_LENGTH
-> +-int
-> +-DH_set_length(DH *dh, long length)
-> +-{
-> +-      if (length < 0 || length > INT_MAX)
-> +-              return 0;
-> +-
-> +-      dh->length =3D length;
-> +-      return 1;
-> +-}
-> +-#endif /* HAVE_DH_SET_LENGTH */
-> +-
-> +-#ifndef HAVE_RSA_METH_FREE
-> +-void
-> +-RSA_meth_free(RSA_METHOD *meth)
-> +-{
-> +-      if (meth !=3D NULL) {
-> +-              free((char *)meth->name);
-> +-              free(meth);
-> +-      }
-> +-}
-> +-#endif /* HAVE_RSA_METH_FREE */
-> +-
-> +-#ifndef HAVE_RSA_METH_DUP
-> +-RSA_METHOD *
-> +-RSA_meth_dup(const RSA_METHOD *meth)
-> +-{
-> +-      RSA_METHOD *copy;
-> +-
-> +-      if ((copy =3D calloc(1, sizeof(*copy))) =3D=3D NULL)
-> +-              return NULL;
-> +-      memcpy(copy, meth, sizeof(*copy));
-> +-      if ((copy->name =3D strdup(meth->name)) =3D=3D NULL) {
-> +-              free(copy);
-> +-              return NULL;
-> +-      }
-> +-
-> +-      return copy;
-> +-}
-> +-#endif /* HAVE_RSA_METH_DUP */
-> +-
-> +-#ifndef HAVE_RSA_METH_SET1_NAME
-> +-int
-> +-RSA_meth_set1_name(RSA_METHOD *meth, const char *name)
-> +-{
-> +-      char *copy;
-> +-
-> +-      if ((copy =3D strdup(name)) =3D=3D NULL)
-> +-              return 0;
-> +-      free((char *)meth->name);
-> +-      meth->name =3D copy;
-> +-      return 1;
-> +-}
-> +-#endif /* HAVE_RSA_METH_SET1_NAME */
-> +-
-> +-#ifndef HAVE_RSA_METH_GET_FINISH
-> +-int
-> +-(*RSA_meth_get_finish(const RSA_METHOD *meth))(RSA *rsa)
-> +-{
-> +-      return meth->finish;
-> +-}
-> +-#endif /* HAVE_RSA_METH_GET_FINISH */
-> +-
-> +-#ifndef HAVE_RSA_METH_SET_PRIV_ENC
-> +-int
-> +-RSA_meth_set_priv_enc(RSA_METHOD *meth, int (*priv_enc)(int flen,
-> +-    const unsigned char *from, unsigned char *to, RSA *rsa, int padding=
-))
-> +-{
-> +-      meth->rsa_priv_enc =3D priv_enc;
-> +-      return 1;
-> +-}
-> +-#endif /* HAVE_RSA_METH_SET_PRIV_ENC */
-> +-
-> +-#ifndef HAVE_RSA_METH_SET_PRIV_DEC
-> +-int
-> +-RSA_meth_set_priv_dec(RSA_METHOD *meth, int (*priv_dec)(int flen,
-> +-    const unsigned char *from, unsigned char *to, RSA *rsa, int padding=
-))
-> +-{
-> +-      meth->rsa_priv_dec =3D priv_dec;
-> +-      return 1;
-> +-}
-> +-#endif /* HAVE_RSA_METH_SET_PRIV_DEC */
-> +-
-> +-#ifndef HAVE_RSA_METH_SET_FINISH
-> +-int
-> +-RSA_meth_set_finish(RSA_METHOD *meth, int (*finish)(RSA *rsa))
-> +-{
-> +-      meth->finish =3D finish;
-> +-      return 1;
-> +-}
-> +-#endif /* HAVE_RSA_METH_SET_FINISH */
-> +-
-> +-#ifndef HAVE_EVP_PKEY_GET0_RSA
-> +-RSA *
-> +-EVP_PKEY_get0_RSA(EVP_PKEY *pkey)
-> +-{
-> +-      if (pkey->type !=3D EVP_PKEY_RSA) {
-> +-              /* EVPerror(EVP_R_EXPECTING_AN_RSA_KEY); */
-> +-              return NULL;
-> +-      }
-> +-      return pkey->pkey.rsa;
-> +-}
-> +-#endif /* HAVE_EVP_PKEY_GET0_RSA */
-> +-
-> +-#ifndef HAVE_EVP_MD_CTX_NEW
-> +-EVP_MD_CTX *
-> +-EVP_MD_CTX_new(void)
-> +-{
-> +-      return calloc(1, sizeof(EVP_MD_CTX));
-> +-}
-> +-#endif /* HAVE_EVP_MD_CTX_NEW */
-> +-
-> +-#ifndef HAVE_EVP_MD_CTX_FREE
-> +-void
-> +-EVP_MD_CTX_free(EVP_MD_CTX *ctx)
-> +-{
-> +-      if (ctx =3D=3D NULL)
-> +-              return;
-> +-
-> +-      EVP_MD_CTX_cleanup(ctx);
-> +-
-> +-      free(ctx);
-> +-}
-> +-#endif /* HAVE_EVP_MD_CTX_FREE */
-> +-
-> + #endif /* WITH_OPENSSL */
-> +diff --git a/openbsd-compat/openssl-compat.h b/openbsd-compat/openssl-co=
-mpat.h
-> +index 61a69dd56eb..d0dd2c3450d 100644
-> +--- a/openbsd-compat/openssl-compat.h
-> ++++ b/openbsd-compat/openssl-compat.h
-> +@@ -33,26 +33,13 @@
-> + int ssh_compatible_openssl(long, long);
-> + void ssh_libcrypto_init(void);
-> +
-> +-#if (OPENSSL_VERSION_NUMBER < 0x1000100fL)
-> +-# error OpenSSL 1.0.1 or greater is required
-> ++#if (OPENSSL_VERSION_NUMBER < 0x10100000L)
-> ++# error OpenSSL 1.1.0 or greater is required
-> + #endif
-> +-
-> +-#ifndef OPENSSL_VERSION
-> +-# define OPENSSL_VERSION      SSLEAY_VERSION
-> +-#endif
-> +-
-> +-#ifndef HAVE_OPENSSL_VERSION
-> +-# define OpenSSL_version(x)   SSLeay_version(x)
-> +-#endif
-> +-
-> +-#ifndef HAVE_OPENSSL_VERSION_NUM
-> +-# define OpenSSL_version_num  SSLeay
-> +-#endif
-> +-
-> +-#if OPENSSL_VERSION_NUMBER < 0x10000001L
-> +-# define LIBCRYPTO_EVP_INL_TYPE unsigned int
-> +-#else
-> +-# define LIBCRYPTO_EVP_INL_TYPE size_t
-> ++#ifdef LIBRESSL_VERSION_NUMBER
-> ++# if LIBRESSL_VERSION_NUMBER < 0x3010000fL
-> ++#  error LibreSSL 3.1.0 or greater is required
-> ++# endif
-> + #endif
-> +
-> + #ifndef OPENSSL_RSA_MAX_MODULUS_BITS
-> +@@ -68,25 +55,6 @@ void ssh_libcrypto_init(void);
-> + # endif
-> + #endif
-> +
-> +-/* LibreSSL/OpenSSL 1.1x API compat */
-> +-#ifndef HAVE_DSA_GET0_PQG
-> +-void DSA_get0_pqg(const DSA *d, const BIGNUM **p, const BIGNUM **q,
-> +-    const BIGNUM **g);
-> +-#endif /* HAVE_DSA_GET0_PQG */
-> +-
-> +-#ifndef HAVE_DSA_SET0_PQG
-> +-int DSA_set0_pqg(DSA *d, BIGNUM *p, BIGNUM *q, BIGNUM *g);
-> +-#endif /* HAVE_DSA_SET0_PQG */
-> +-
-> +-#ifndef HAVE_DSA_GET0_KEY
-> +-void DSA_get0_key(const DSA *d, const BIGNUM **pub_key,
-> +-    const BIGNUM **priv_key);
-> +-#endif /* HAVE_DSA_GET0_KEY */
-> +-
-> +-#ifndef HAVE_DSA_SET0_KEY
-> +-int DSA_set0_key(DSA *d, BIGNUM *pub_key, BIGNUM *priv_key);
-> +-#endif /* HAVE_DSA_SET0_KEY */
-> +-
-> + #ifndef HAVE_EVP_CIPHER_CTX_GET_IV
-> + # ifdef HAVE_EVP_CIPHER_CTX_GET_UPDATED_IV
-> + #  define EVP_CIPHER_CTX_get_iv EVP_CIPHER_CTX_get_updated_iv
-> +@@ -101,112 +69,5 @@ int EVP_CIPHER_CTX_set_iv(EVP_CIPHER_CTX *ctx,
-> +     const unsigned char *iv, size_t len);
-> + #endif /* HAVE_EVP_CIPHER_CTX_SET_IV */
-> +
-> +-#ifndef HAVE_RSA_GET0_KEY
-> +-void RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e,
-> +-    const BIGNUM **d);
-> +-#endif /* HAVE_RSA_GET0_KEY */
-> +-
-> +-#ifndef HAVE_RSA_SET0_KEY
-> +-int RSA_set0_key(RSA *r, BIGNUM *n, BIGNUM *e, BIGNUM *d);
-> +-#endif /* HAVE_RSA_SET0_KEY */
-> +-
-> +-#ifndef HAVE_RSA_GET0_CRT_PARAMS
-> +-void RSA_get0_crt_params(const RSA *r, const BIGNUM **dmp1, const BIGNU=
-M **dmq1,
-> +-    const BIGNUM **iqmp);
-> +-#endif /* HAVE_RSA_GET0_CRT_PARAMS */
-> +-
-> +-#ifndef HAVE_RSA_SET0_CRT_PARAMS
-> +-int RSA_set0_crt_params(RSA *r, BIGNUM *dmp1, BIGNUM *dmq1, BIGNUM *iqm=
-p);
-> +-#endif /* HAVE_RSA_SET0_CRT_PARAMS */
-> +-
-> +-#ifndef HAVE_RSA_GET0_FACTORS
-> +-void RSA_get0_factors(const RSA *r, const BIGNUM **p, const BIGNUM **q)=
-;
-> +-#endif /* HAVE_RSA_GET0_FACTORS */
-> +-
-> +-#ifndef HAVE_RSA_SET0_FACTORS
-> +-int RSA_set0_factors(RSA *r, BIGNUM *p, BIGNUM *q);
-> +-#endif /* HAVE_RSA_SET0_FACTORS */
-> +-
-> +-#ifndef DSA_SIG_GET0
-> +-void DSA_SIG_get0(const DSA_SIG *sig, const BIGNUM **pr, const BIGNUM *=
-*ps);
-> +-#endif /* DSA_SIG_GET0 */
-> +-
-> +-#ifndef DSA_SIG_SET0
-> +-int DSA_SIG_set0(DSA_SIG *sig, BIGNUM *r, BIGNUM *s);
-> +-#endif /* DSA_SIG_SET0 */
-> +-
-> +-#ifdef OPENSSL_HAS_ECC
-> +-#ifndef HAVE_ECDSA_SIG_GET0
-> +-void ECDSA_SIG_get0(const ECDSA_SIG *sig, const BIGNUM **pr, const BIGN=
-UM **ps);
-> +-#endif /* HAVE_ECDSA_SIG_GET0 */
-> +-
-> +-#ifndef HAVE_ECDSA_SIG_SET0
-> +-int ECDSA_SIG_set0(ECDSA_SIG *sig, BIGNUM *r, BIGNUM *s);
-> +-#endif /* HAVE_ECDSA_SIG_SET0 */
-> +-#endif /* OPENSSL_HAS_ECC */
-> +-
-> +-#ifndef HAVE_DH_GET0_PQG
-> +-void DH_get0_pqg(const DH *dh, const BIGNUM **p, const BIGNUM **q,
-> +-    const BIGNUM **g);
-> +-#endif /* HAVE_DH_GET0_PQG */
-> +-
-> +-#ifndef HAVE_DH_SET0_PQG
-> +-int DH_set0_pqg(DH *dh, BIGNUM *p, BIGNUM *q, BIGNUM *g);
-> +-#endif /* HAVE_DH_SET0_PQG */
-> +-
-> +-#ifndef HAVE_DH_GET0_KEY
-> +-void DH_get0_key(const DH *dh, const BIGNUM **pub_key, const BIGNUM **p=
-riv_key);
-> +-#endif /* HAVE_DH_GET0_KEY */
-> +-
-> +-#ifndef HAVE_DH_SET0_KEY
-> +-int DH_set0_key(DH *dh, BIGNUM *pub_key, BIGNUM *priv_key);
-> +-#endif /* HAVE_DH_SET0_KEY */
-> +-
-> +-#ifndef HAVE_DH_SET_LENGTH
-> +-int DH_set_length(DH *dh, long length);
-> +-#endif /* HAVE_DH_SET_LENGTH */
-> +-
-> +-#ifndef HAVE_RSA_METH_FREE
-> +-void RSA_meth_free(RSA_METHOD *meth);
-> +-#endif /* HAVE_RSA_METH_FREE */
-> +-
-> +-#ifndef HAVE_RSA_METH_DUP
-> +-RSA_METHOD *RSA_meth_dup(const RSA_METHOD *meth);
-> +-#endif /* HAVE_RSA_METH_DUP */
-> +-
-> +-#ifndef HAVE_RSA_METH_SET1_NAME
-> +-int RSA_meth_set1_name(RSA_METHOD *meth, const char *name);
-> +-#endif /* HAVE_RSA_METH_SET1_NAME */
-> +-
-> +-#ifndef HAVE_RSA_METH_GET_FINISH
-> +-int (*RSA_meth_get_finish(const RSA_METHOD *meth))(RSA *rsa);
-> +-#endif /* HAVE_RSA_METH_GET_FINISH */
-> +-
-> +-#ifndef HAVE_RSA_METH_SET_PRIV_ENC
-> +-int RSA_meth_set_priv_enc(RSA_METHOD *meth, int (*priv_enc)(int flen,
-> +-    const unsigned char *from, unsigned char *to, RSA *rsa, int padding=
-));
-> +-#endif /* HAVE_RSA_METH_SET_PRIV_ENC */
-> +-
-> +-#ifndef HAVE_RSA_METH_SET_PRIV_DEC
-> +-int RSA_meth_set_priv_dec(RSA_METHOD *meth, int (*priv_dec)(int flen,
-> +-    const unsigned char *from, unsigned char *to, RSA *rsa, int padding=
-));
-> +-#endif /* HAVE_RSA_METH_SET_PRIV_DEC */
-> +-
-> +-#ifndef HAVE_RSA_METH_SET_FINISH
-> +-int RSA_meth_set_finish(RSA_METHOD *meth, int (*finish)(RSA *rsa));
-> +-#endif /* HAVE_RSA_METH_SET_FINISH */
-> +-
-> +-#ifndef HAVE_EVP_PKEY_GET0_RSA
-> +-RSA *EVP_PKEY_get0_RSA(EVP_PKEY *pkey);
-> +-#endif /* HAVE_EVP_PKEY_GET0_RSA */
-> +-
-> +-#ifndef HAVE_EVP_MD_CTX_new
-> +-EVP_MD_CTX *EVP_MD_CTX_new(void);
-> +-#endif /* HAVE_EVP_MD_CTX_new */
-> +-
-> +-#ifndef HAVE_EVP_MD_CTX_free
-> +-void EVP_MD_CTX_free(EVP_MD_CTX *ctx);
-> +-#endif /* HAVE_EVP_MD_CTX_free */
-> +-
-> + #endif /* WITH_OPENSSL */
-> + #endif /* _OPENSSL_COMPAT_H */
-> diff --git a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb b/meta/re=
-cipes-connectivity/openssh/openssh_8.9p1.bb
-> index 6057d055f4..1d53c2488b 100644
-> --- a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
-> +++ b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
-> @@ -26,6 +26,7 @@ SRC_URI =3D "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH=
-/portable/openssh-${PV}.tar
->             file://add-test-support-for-busybox.patch \
->             file://f107467179428a0e3ea9e4aa9738ac12ff02822d.patch \
->             file://0001-Default-to-not-using-sandbox-when-cross-compiling=
-.patch \
-> +           file://7280401bdd77ca54be6867a154cc01e0d72612e0.patch \
->             "
->  SRC_URI[sha256sum] =3D "fd497654b7ab1686dac672fb83dfb4ba4096e8b5ffcdaccd=
-262380ae58bec5e7"
->
-> --
-> 2.17.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#181864): https://lists.openembedded.org/g/openembedde=
-d-core/message/181864
-> Mute This Topic: https://lists.openembedded.org/mt/99197122/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
 
