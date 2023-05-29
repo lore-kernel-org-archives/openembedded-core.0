@@ -2,57 +2,57 @@ Return-Path: <bindudaniel1996@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA88AC77B7A
-	for <webhook@archiver.kernel.org>; Mon, 29 May 2023 11:33:13 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web11.47698.1685359989978681913
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A942BC77B7E
+	for <webhook@archiver.kernel.org>; Mon, 29 May 2023 11:33:23 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web11.47701.1685359993453794990
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 May 2023 04:33:10 -0700
+ Mon, 29 May 2023 04:33:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=dpeXipNC;
- spf=pass (domain: gmail.com, ip: 209.85.210.171, mailfrom: bindudaniel1996@gmail.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-64d2467d640so3794856b3a.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 04:33:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=nyFcOKAc;
+ spf=pass (domain: gmail.com, ip: 209.85.210.179, mailfrom: bindudaniel1996@gmail.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-64d3491609fso2360802b3a.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 04:33:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685359989; x=1687951989;
+        d=gmail.com; s=20221208; t=1685359993; x=1687951993;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OlF7mzllyV5N1chce3lFeNbbVC5Ae3O9NG1HQFE5beI=;
-        b=dpeXipNCXkSlGPYhmqq2lhHFO5MTkoxy14IQByRYxss/0BsN1NUCIpSLXnJQSXM6aY
-         TpgZDOPh3lsA0YxV28xdzv/lk50ntKO2StlFT4powfUOibB5C0HC7ivpbgtscWaiokRF
-         mZVDd+aVoKFSTmKgBN60GeXhdDOtAQweH9n5eVHBukQE2LD8Ytm8XETrHY0ub/dy7Mpn
-         hOJv1IhYHN3xqhDIL1cwRgRsXVpvFZo7qN+07mNwjXCCM/6AZdbhFPoj7zHFdeuklMOM
-         d4NrP/2ouM08ZI0GSKXzXzOZH0QeaOvR7U7r3svbAlM+gkZ3mPkV9MBhM3SwAfFBeIKB
-         lKbw==
+        bh=fag7s4Ah5zI/gu/QkeVfXIgWnSB0qH0CQ3DxogcWSCg=;
+        b=nyFcOKAcIkEGCtMSptaAyHY/6ZexOo/OAGkPMf0BH5/j3mD4FUehLj+3rAf1G3b8vD
+         /buMvptis8MSxYzdfCzEvd5yXoMfQec5TGmWaaiE0cIVCHOQpp9DtuXZ/w+RjKbJT8TA
+         YK1suisZINgzzXrpGF2Yfv+POxybb0I4UaLrOvVKY5FfEP+uvbnVnndJMPN1k4z9JwS9
+         5VNZzL/YI6kOu92Jhfyyu+CzNQ2CCLzS4QLHv8UqTgSh/byNA9Zkv9R55eQ58t77cEZp
+         o4GWqSWgHKstXbPOXJ55gf+8T2CL02QStUTGV4CBLXYlD33Q7zPcEy/9j5MOimrZJ1RP
+         xUww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685359989; x=1687951989;
+        d=1e100.net; s=20221208; t=1685359993; x=1687951993;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OlF7mzllyV5N1chce3lFeNbbVC5Ae3O9NG1HQFE5beI=;
-        b=gKgqfwoXlg5FplTEtA//sXIpo/1xAR9N8y0uPF/v6CX+8pKujhVchFAXq4cooqBXbS
-         Wcxuv9pvzfOviPgqtIuVqOYMd+bCq+p4V5svRuLfzHwjNWqRUu5d2F8gA860bkIjT8aw
-         sLAQnJoDUp23MXlJ8LFZe0HPZ7ldkz5QFmmcCBwEZEJyeJqrEe+Jp+ViY7MeAraH5jul
-         0QJqdWwkTtPuuLHdy443qER/GUiS12xdq0IqEf8KrNd1GQEOFRK9GxHoyliMFvNLyj/M
-         YmdWe35RLVdk8IGDy4o02I0dLiLyKga+pRkd9Od6fRGh3xQhfpGzT/IeiuFLTOED2RjJ
-         /RyQ==
-X-Gm-Message-State: AC+VfDzLDDft5UNozKi2PdFNp6yhmYsdUP1SxqZx+1AIgF5cSuixaN1e
-	+PFOgu3GFlJ0b3ld4X7WL/vlxoUdMVk=
-X-Google-Smtp-Source: ACHHUZ7M7f2SkPqDMCVgDZTUFIc5vn1a8aC2FITlWKVk/VZr0h9muohCehjXKnhwN07Vu98w8uKBaQ==
-X-Received: by 2002:a05:6a00:2e26:b0:643:4d69:efb8 with SMTP id fc38-20020a056a002e2600b006434d69efb8mr15668963pfb.6.1685359989048;
-        Mon, 29 May 2023 04:33:09 -0700 (PDT)
+        bh=fag7s4Ah5zI/gu/QkeVfXIgWnSB0qH0CQ3DxogcWSCg=;
+        b=IJLU047KEiEpZSKYPb9AfDKystGjvcDsOWqYvQXWyv0036jvRyBXCG3mMqvSE7xijG
+         BRWLEwUsOhZPJ6VGcmzAJvaS4daLueJQUFsTZ+i2hP66xAGXfRHU8Iu1fkdUYyJyvR/v
+         hc/hT0Jg3lTEHdAyBHSuymM6wIwpaRvIs9o1qo/EaozxNdeF7W80nTTZkCi9R73WhcAV
+         xtnf2FR6+COkbj41uJGtcCTS5HU5RK5eqxQw6JTonU3viygY1YjHLFwRsLQhr6aa8BLZ
+         Po5rX81iwvcq0YIxnwXs+D+o/6niEf3LM4Jk0qacfGlkCSc9CN4RTqliz0/2sL+mD0Oc
+         yaJw==
+X-Gm-Message-State: AC+VfDx0IfFPgs9i2HEnN8NlF0QNz0dqBwOyEoYvl3inb30XZmGs08cg
+	UUKnXMGPYv6z0pYkPrBJ0SMCSDnMVMY=
+X-Google-Smtp-Source: ACHHUZ6Dw5C8sanRjg/glF+qWhSDHWwNoquEMQKIRIMbXxbswY7zG02QwW3fjd65MHGupoN+T1yXWg==
+X-Received: by 2002:a05:6a00:1819:b0:643:98cb:ec1 with SMTP id y25-20020a056a00181900b0064398cb0ec1mr15370219pfa.0.1685359992446;
+        Mon, 29 May 2023 04:33:12 -0700 (PDT)
 Received: from localhost.localdomain ([2401:4900:1f26:2235:3507:cad8:e3af:bc2])
-        by smtp.gmail.com with ESMTPSA id a15-20020aa780cf000000b00640defda6d2sm6524228pfn.207.2023.05.29.04.33.07
+        by smtp.gmail.com with ESMTPSA id a15-20020aa780cf000000b00640defda6d2sm6524228pfn.207.2023.05.29.04.33.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 May 2023 04:33:08 -0700 (PDT)
+        Mon, 29 May 2023 04:33:12 -0700 (PDT)
 From: Bhabu Bindu <bindudaniel1996@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	bhabu.bindu@kpit.com
 Cc: ranjitsinh.rathod@kpit.com
-Subject: [OE-core][kirkstone][PATCH 3/4] curl: Fix CVE-2023-28321
-Date: Mon, 29 May 2023 17:02:45 +0530
-Message-Id: <20230529113246.1353022-3-bindudaniel1996@gmail.com>
+Subject: [OE-core][kirkstone][PATCH 4/4] curl: Fix CVE-2023-28322
+Date: Mon, 29 May 2023 17:02:46 +0530
+Message-Id: <20230529113246.1353022-4-bindudaniel1996@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230529113246.1353022-1-bindudaniel1996@gmail.com>
 References: <20230529113246.1353022-1-bindudaniel1996@gmail.com>
@@ -61,354 +61,581 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 11:33:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181867
+ <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 11:33:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181868
 
 From: Bhabu Bindu <bhabu.bindu@kpit.com>
 
-Add patch to fix CVE-2023-28321
+Add patches to fix CVE-2023-28322
 
-IDN wildcard match
+more POST-after-PUT confusion
 
-curl supports matching of wildcard patterns when listed as
-"Subject Alternative Name" in TLS server certificates. curl can be
-built to use its own name matching function for TLS rather than one
-provided by a TLS library. This private wildcard matching function
-would match IDN (International Domain Name)hosts incorrectly and
-could as a result accept patterns that otherwise should mismatch.
+When doing HTTP(S) transfers, libcurl might erroneously use the read
+callback (`CURLOPT_READFUNCTION`) to ask for data to send, even when
+the `CURLOPT_POSTFIELDS` option has been set, if the same handle
+previously was used to issue a `PUT` request which used that callback.
 
-IDN hostnames are converted to puny code before used for certificate
-checks. Puny coded names always start with `xn--` and should not be
-allowed to pattern match, but the wildcard check in curl could still
-check for `x*`,which would match even though the IDN name most likely
-contained nothing even resembling an `x`.
+This flaw may surprise the application and cause it to misbehave and
+either send off the wrong data or use memory after free or similar in
+the second transfer.The problem exists in the logic for a reused
+handle when it is (expected tobe) changed from a PUT to a POST.
 
-Link: https://curl.se/docs/CVE-2023-28321.html
+CVE-2023-28322-1.patch is a supporting patch to resolve hunk
+error in the actual patch file : CVE-2023-28322-2.patch
+
+Link: https://curl.se/docs/CVE-2023-28322.html
 
 Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
 ---
- .../curl/curl/CVE-2023-28321.patch            | 302 ++++++++++++++++++
- meta/recipes-support/curl/curl_7.82.0.bb      |   1 +
- 2 files changed, 303 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-28321.patch
+ .../curl/curl/CVE-2023-28322-1.patch          |  84 ++++
+ .../curl/curl/CVE-2023-28322-2.patch          | 436 ++++++++++++++++++
+ meta/recipes-support/curl/curl_7.82.0.bb      |   2 +
+ 3 files changed, 522 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2023-28322-1.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2023-28322-2.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2023-28321.patch b/meta/recipes-support/curl/curl/CVE-2023-28321.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2023-28322-1.patch b/meta/recipes-support/curl/curl/CVE-2023-28322-1.patch
 new file mode 100644
-index 0000000000..bcd8b112db
+index 0000000000..547127001d
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2023-28321.patch
-@@ -0,0 +1,302 @@
-+From 199f2d440d8659b42670c1b796220792b01a97bf Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/curl/curl/CVE-2023-28322-1.patch
+@@ -0,0 +1,84 @@
++From efbf02111aa66bda9288506b7d5cc0226bf5453e Mon Sep 17 00:00:00 2001
 +From: Daniel Stenberg <daniel@haxx.se>
-+Date: Mon, 24 Apr 2023 21:07:02 +0200
-+Subject: [PATCH] hostcheck: fix host name wildcard checking
++Date: Sun, 12 Feb 2023 13:24:08 +0100
++Subject: [PATCH] smb: return error on upload without size
 +
-+The leftmost "label" of the host name can now only match against single
-+'*'. Like the browsers have worked for a long time.
++The protocol needs to know the size ahead of time, this is now a known
++restriction and not a bug.
 +
-+- extended unit test 1397 for this
-+- move some SOURCE variables from unit/Makefile.am to unit/Makefile.inc
++Also output a clearer error if the URL path does not contain proper
++share.
 +
-+Reported-by: Hiroki Kurosawa
-+Closes #11018
++Ref: #7896
++Closes #10484
 +
-+CVE: CVE-2023-28321
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/199f2d440d8659b42]
-+Comments: Hunks removed as changes already exist
-+Removed hunks from files: 
-+tests/unit/Makefile.am 
-+tests/unit/Makefile.inc
++CVE: CVE-2023-28322
++Upstream-Status: Backport [https://github.com/curl/curl/commit/efbf02111aa66bda9288506b7d5cc0226bf5453e]
++Comments: Hunks refreshed
 +Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
 +---
-+ lib/vtls/hostcheck.c    |  50 +++++++--------
-+ tests/data/test1397     |  10 ++-
-+ tests/unit/Makefile.am  |  94 ----------------------------
-+ tests/unit/Makefile.inc |  94 ++++++++++++++++++++++++++++
-+ tests/unit/unit1397.c   | 134 ++++++++++++++++++++++++----------------
-+ 5 files changed, 202 insertions(+), 180 deletions(-)
++ docs/KNOWN_BUGS    | 5 -----
++ docs/URL-SYNTAX.md | 3 +++
++ lib/smb.c          | 6 ++++++
++ 3 files changed, 9 insertions(+), 5 deletions(-)
 +
-+diff --git a/lib/vtls/hostcheck.c b/lib/vtls/hostcheck.c
-+index e827dc58f378c..d061c6356f97f 100644
-+--- a/lib/vtls/hostcheck.c
-++++ b/lib/vtls/hostcheck.c
-+@@ -71,7 +71,12 @@ static bool pmatch(const char *hostname, size_t hostlen,
-+  * apparent distinction between a name and an IP. We need to detect the use of
-+  * an IP address and not wildcard match on such names.
-+  *
-++ * Only match on "*" being used for the leftmost label, not "a*", "a*b" nor
-++ * "*b".
-++ *
-+  * Return TRUE on a match. FALSE if not.
-++ *
-++ * @unittest: 1397
-+  */
++diff --git a/docs/KNOWN_BUGS b/docs/KNOWN_BUGS
++index cbf5be352a279..a515e7a59bdfd 100644
++--- a/docs/KNOWN_BUGS
+++++ b/docs/KNOWN_BUGS
++@@ -58,7 +58,6 @@
++  5.7 Visual Studio project gaps
++  5.8 configure finding libs in wrong directory
++  5.9 Utilize Requires.private directives in libcurl.pc
++- 5.10 curl hangs on SMB upload over stdin
++  5.11 configure --with-gssapi with Heimdal is ignored on macOS
++  5.12 flaky Windows CI builds
++
++@@ -332,10 +331,6 @@ problems may have been fixed or changed somewhat since this was written.
 + 
-+ static bool hostmatch(const char *hostname,
-+@@ -79,53 +84,42 @@ static bool hostmatch(const char *hostname,
-+                       const char *pattern,
-+                       size_t patternlen)
-+ {
-+-  const char *pattern_label_end, *wildcard, *hostname_label_end;
-+-  size_t prefixlen, suffixlen;
-++  const char *pattern_label_end;
++  https://github.com/curl/curl/issues/864
 + 
-+-  /* normalize pattern and hostname by stripping off trailing dots */
-++  DEBUGASSERT(pattern);
-+   DEBUGASSERT(patternlen);
-++  DEBUGASSERT(hostname);
-++  DEBUGASSERT(hostlen);
++-5.10 curl hangs on SMB upload over stdin
++-
++- See https://github.com/curl/curl/issues/7896
++-
++ 5.11 configure --with-gssapi with Heimdal is ignored on macOS
++ 
++  ... unless you also pass --with-gssapi-libs
++diff --git a/docs/URL-SYNTAX.md b/docs/URL-SYNTAX.md
++index 691fcceacd66c..802bbdef96979 100644
++--- a/docs/URL-SYNTAX.md
+++++ b/docs/URL-SYNTAX.md
++@@ -360,6 +360,9 @@ share and directory or the share to upload to and as such, may not be omitted.
++ If the user name is embedded in the URL then it must contain the domain name
++ and as such, the backslash must be URL encoded as %2f.
++ 
+++When uploading to SMB, the size of the file needs to be known ahead of time,
+++meaning that you can upload a file passed to curl over a pipe like stdin.
 ++
-++  /* normalize pattern and hostname by stripping off trailing dots */
-+   if(hostname[hostlen-1]=='.')
-+     hostlen--;
-+   if(pattern[patternlen-1]=='.')
-+     patternlen--;
++ curl supports SMB version 1 (only)
 + 
-+-  wildcard = memchr(pattern, '*', patternlen);
-+-  if(!wildcard)
-++  if(strncmp(pattern, "*.", 2))
-+     return pmatch(hostname, hostlen, pattern, patternlen);
++ ## SMTP
++diff --git a/lib/smb.c b/lib/smb.c
++index 8a76763c157ce..dc0abe784bcee 100644
++--- a/lib/smb.c
+++++ b/lib/smb.c
++@@ -763,6 +763,11 @@ static CURLcode smb_request_state(struct Curl_easy *data, bool *done)
++   void *msg = NULL;
++   const struct smb_nt_create_response *smb_m;
 + 
-+   /* detect IP address as hostname and fail the match if so */
-+-  if(Curl_host_is_ipnum(hostname))
-++  else if(Curl_host_is_ipnum(hostname))
-+     return FALSE;
-+ 
-+   /* We require at least 2 dots in the pattern to avoid too wide wildcard
-+      match. */
-+   pattern_label_end = memchr(pattern, '.', patternlen);
-+   if(!pattern_label_end ||
-+-     (memrchr(pattern, '.', patternlen) == pattern_label_end) ||
-+-     strncasecompare(pattern, "xn--", 4))
-++     (memrchr(pattern, '.', patternlen) == pattern_label_end))
-+     return pmatch(hostname, hostlen, pattern, patternlen);
-+-
-+-  hostname_label_end = memchr(hostname, '.', hostlen);
-+-  if(!hostname_label_end)
-+-    return FALSE;
-+   else {
-+-    size_t skiphost = hostname_label_end - hostname;
-+-    size_t skiplen = pattern_label_end - pattern;
-+-    if(!pmatch(hostname_label_end, hostlen - skiphost,
-+-               pattern_label_end, patternlen - skiplen))
-+-      return FALSE;
-++    const char *hostname_label_end = memchr(hostname, '.', hostlen);
-++    if(hostname_label_end) {
-++      size_t skiphost = hostname_label_end - hostname;
-++      size_t skiplen = pattern_label_end - pattern;
-++      return pmatch(hostname_label_end, hostlen - skiphost,
-++                    pattern_label_end, patternlen - skiplen);
-++    }
+++  if(data->set.upload && (data->state.infilesize < 0)) {
+++    failf(data, "SMB upload needs to know the size up front");
+++    return CURLE_SEND_ERROR;
+++  }
+++
++   /* Start the request */
++   if(req->state == SMB_REQUESTING) {
++     result = smb_send_tree_connect(data);
++@@ -993,6 +998,7 @@ static CURLcode smb_parse_url_path(struct Curl_easy *data,
++   /* The share must be present */
++   if(!slash) {
++     Curl_safefree(smbc->share);
+++    failf(data, "missing share in URL path for SMB");
++     return CURLE_URL_MALFORMAT;
 +   }
-+-  /* The wildcard must match at least one character, so the left-most
-+-     label of the hostname is at least as large as the left-most label
-+-     of the pattern. */
-+-  if(hostname_label_end - hostname < pattern_label_end - pattern)
-+-    return FALSE;
-+-
-+-  prefixlen = wildcard - pattern;
-+-  suffixlen = pattern_label_end - (wildcard + 1);
-+-  return strncasecompare(pattern, hostname, prefixlen) &&
-+-    strncasecompare(wildcard + 1, hostname_label_end - suffixlen,
-+-                    suffixlen) ? TRUE : FALSE;
-++  return FALSE;
+diff --git a/meta/recipes-support/curl/curl/CVE-2023-28322-2.patch b/meta/recipes-support/curl/curl/CVE-2023-28322-2.patch
+new file mode 100644
+index 0000000000..f2134dd1c3
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2023-28322-2.patch
+@@ -0,0 +1,436 @@
++From 7815647d6582c0a4900be2e1de6c5e61272c496b Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Tue, 25 Apr 2023 08:28:01 +0200
++Subject: [PATCH] lib: unify the upload/method handling
++
++By making sure we set state.upload based on the set.method value and not
++independently as set.upload, we reduce confusion and mixup risks, both
++internally and externally.
++
++Closes #11017
++
++CVE: CVE-2023-28322
++Upstream-Status: Backport [https://github.com/curl/curl/commit/7815647d6582c0a4900be2e1de]
++Comments: Hunks refreshed
++Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
++---
++ lib/curl_rtmp.c    | 4 ++--
++ lib/file.c         | 4 ++--
++ lib/ftp.c          | 8 ++++----
++ lib/http.c         | 4 ++--
++ lib/imap.c         | 6 +++---
++ lib/rtsp.c         | 4 ++--
++ lib/setopt.c       | 6 ++----
++ lib/smb.c          | 6 +++---
++ lib/smtp.c         | 4 ++--
++ lib/tftp.c         | 8 ++++----
++ lib/transfer.c     | 4 ++--
++ lib/urldata.h      | 2 +-
++ lib/vssh/libssh.c  | 6 +++---
++ lib/vssh/libssh2.c | 6 +++---
++ lib/vssh/wolfssh.c | 2 +-
++ 15 files changed, 36 insertions(+), 38 deletions(-)
++
++diff --git a/lib/curl_rtmp.c b/lib/curl_rtmp.c
++index 2679a2cdc1afe..406fb42ac0f44 100644
++--- a/lib/curl_rtmp.c
+++++ b/lib/curl_rtmp.c
++@@ -231,7 +231,7 @@ static CURLcode rtmp_connect(struct Curl_easy *data, bool *done)
++   /* We have to know if it's a write before we send the
++    * connect request packet
++    */
++-  if(data->set.upload)
+++  if(data->state.upload)
++     r->Link.protocol |= RTMP_FEATURE_WRITE;
++ 
++   /* For plain streams, use the buffer toggle trick to keep data flowing */
++@@ -263,7 +263,7 @@ static CURLcode rtmp_do(struct Curl_easy *data, bool *done)
++   if(!RTMP_ConnectStream(r, 0))
++     return CURLE_FAILED_INIT;
++ 
++-  if(data->set.upload) {
+++  if(data->state.upload) {
++     Curl_pgrsSetUploadSize(data, data->state.infilesize);
++     Curl_setup_transfer(data, -1, -1, FALSE, FIRSTSOCKET);
++   }
++diff --git a/lib/file.c b/lib/file.c
++index 51c5d07ce40ab..c751e8861a99b 100644
++--- a/lib/file.c
+++++ b/lib/file.c
++@@ -240,7 +240,7 @@ static CURLcode file_connect(struct Curl_easy *data, bool *done)
++   file->freepath = real_path; /* free this when done */
++ 
++   file->fd = fd;
++-  if(!data->set.upload && (fd == -1)) {
+++  if(!data->state.upload && (fd == -1)) {
++     failf(data, "Couldn't open file %s", data->state.up.path);
++     file_done(data, CURLE_FILE_COULDNT_READ_FILE, FALSE);
++     return CURLE_FILE_COULDNT_READ_FILE;
++@@ -422,7 +422,7 @@ static CURLcode file_do(struct Curl_easy *data, bool *done)
++ 
++   Curl_pgrsStartNow(data);
++ 
++-  if(data->set.upload)
+++  if(data->state.upload)
++     return file_upload(data);
++ 
++   file = data->req.p.file;
++diff --git a/lib/ftp.c b/lib/ftp.c
++index f50d7baf622f8..4ff68cc454cbc 100644
++--- a/lib/ftp.c
+++++ b/lib/ftp.c
++@@ -1348,7 +1348,7 @@ static CURLcode ftp_state_prepare_transfer(struct Curl_easy *data)
++                                data->set.str[STRING_CUSTOMREQUEST]?
++                                data->set.str[STRING_CUSTOMREQUEST]:
++                                (data->state.list_only?"NLST":"LIST"));
++-      else if(data->set.upload)
+++      else if(data->state.upload)
++         result = Curl_pp_sendf(data, &ftpc->pp, "PRET STOR %s",
++                                conn->proto.ftpc.file);
++       else
++@@ -3384,7 +3384,7 @@ static CURLcode ftp_done(struct Curl_easy *data, CURLcode status,
++     /* the response code from the transfer showed an error already so no
++        use checking further */
++     ;
++-  else if(data->set.upload) {
+++  else if(data->state.upload) {
++     if((-1 != data->state.infilesize) &&
++        (data->state.infilesize != data->req.writebytecount) &&
++        !data->set.crlf &&
++@@ -3640,7 +3640,7 @@ static CURLcode ftp_do_more(struct Curl_easy *data, int *completep)
++                            connected back to us */
++       }
++     }
++-    else if(data->set.upload) {
+++    else if(data->state.upload) {
++       result = ftp_nb_type(data, conn, data->state.prefer_ascii,
++                            FTP_STOR_TYPE);
++       if(result)
++@@ -4233,7 +4233,7 @@
++     ftpc->file = NULL; /* instead of point to a zero byte,
++                             we make it a NULL pointer */
++ 
++-  if(data->set.upload && !ftpc->file && (ftp->transfer == PPTRANSFER_BODY)) {
+++  if(data->state.upload && !ftpc->file && (ftp->transfer == PPTRANSFER_BODY)) {
++     /* We need a file name when uploading. Return error! */
++     failf(data, "Uploading to a URL without a file name!");
++     free(rawPath);
++diff --git a/lib/http.c b/lib/http.c
++index 80e43f6f361e8..bffdd3468536d 100644
++--- a/lib/http.c
+++++ b/lib/http.c
++@@ -2033,7 +2033,7 @@
++   Curl_HttpReq httpreq = data->state.httpreq;
++   const char *request;
++   if((conn->handler->protocol&(PROTO_FAMILY_HTTP|CURLPROTO_FTP)) &&
++-     data->set.upload)
+++     data->state.upload)
++     httpreq = HTTPREQ_PUT;
++ 
++   /* Now set the 'request' pointer to the proper request string */
++@@ -2423,7 +2423,7 @@ CURLcode Curl_http_body(struct Curl_easy *data, struct connectdata *conn,
++     if((conn->handler->protocol & PROTO_FAMILY_HTTP) &&
++        (((httpreq == HTTPREQ_POST_MIME || httpreq == HTTPREQ_POST_FORM) &&
++          http->postsize < 0) ||
++-        ((data->set.upload || httpreq == HTTPREQ_POST) &&
+++        ((data->state.upload || httpreq == HTTPREQ_POST) &&
++          data->state.infilesize == -1))) {
++       if(conn->bits.authneg)
++         /* don't enable chunked during auth neg */
++diff --git a/lib/imap.c b/lib/imap.c
++index c2f675d4b2618..1952e66a1efcd 100644
++--- a/lib/imap.c
+++++ b/lib/imap.c
++@@ -1511,11 +1511,11 @@ static CURLcode imap_done(struct Curl_easy *data, CURLcode status,
++     result = status;         /* use the already set error code */
++   }
++   else if(!data->set.connect_only && !imap->custom &&
++-          (imap->uid || imap->mindex || data->set.upload ||
+++          (imap->uid || imap->mindex || data->state.upload ||
++           data->set.mimepost.kind != MIMEKIND_NONE)) {
++     /* Handle responses after FETCH or APPEND transfer has finished */
++ 
++-    if(!data->set.upload && data->set.mimepost.kind == MIMEKIND_NONE)
+++    if(!data->state.upload && data->set.mimepost.kind == MIMEKIND_NONE)
++       state(data, IMAP_FETCH_FINAL);
++     else {
++       /* End the APPEND command first by sending an empty line */
++@@ -1581,7 +1581,7 @@ static CURLcode imap_perform(struct Curl_easy *data, bool *connected,
++     selected = TRUE;
++ 
++   /* Start the first command in the DO phase */
++-  if(data->set.upload || data->set.mimepost.kind != MIMEKIND_NONE)
+++  if(data->state.upload || data->set.mimepost.kind != MIMEKIND_NONE)
++     /* APPEND can be executed directly */
++     result = imap_perform_append(data);
++   else if(imap->custom && (selected || !imap->mailbox))
++diff --git a/lib/rtsp.c b/lib/rtsp.c
++index ea99d720ec4eb..ccd7264b00e74 100644
++--- a/lib/rtsp.c
+++++ b/lib/rtsp.c
++@@ -493,7 +493,7 @@ static CURLcode rtsp_do(struct Curl_easy *data, bool *done)
++      rtspreq == RTSPREQ_SET_PARAMETER ||
++      rtspreq == RTSPREQ_GET_PARAMETER) {
++ 
++-    if(data->set.upload) {
+++    if(data->state.upload) {
++       putsize = data->state.infilesize;
++       data->state.httpreq = HTTPREQ_PUT;
++ 
++@@ -512,7 +512,7 @@ static CURLcode rtsp_do(struct Curl_easy *data, bool *done)
++         result =
++           Curl_dyn_addf(&req_buffer,
++                         "Content-Length: %" CURL_FORMAT_CURL_OFF_T"\r\n",
++-                        (data->set.upload ? putsize : postsize));
+++                        (data->state.upload ? putsize : postsize));
++         if(result)
++           return result;
++       }
++diff --git a/lib/setopt.c b/lib/setopt.c
++index 38f5711e44191..0c3b9634d1192 100644
++--- a/lib/setopt.c
+++++ b/lib/setopt.c
++@@ -333,8 +333,8 @@ CURLcode Curl_vsetopt(struct Curl_easy *data, CURLoption option, va_list param)
++      * We want to sent data to the remote host. If this is HTTP, that equals
++      * using the PUT request.
++      */
++-    data->set.upload = (0 != va_arg(param, long)) ? TRUE : FALSE;
++-    if(data->set.upload) {
+++    arg = va_arg(param, long);
+++    if(arg) {
++       /* If this is HTTP, PUT is what's needed to "upload" */
++       data->set.method = HTTPREQ_PUT;
++       data->set.opt_no_body = FALSE; /* this is implied */
++@@ -625,7 +625,6 @@
++     }
++     else
++       data->set.method = HTTPREQ_GET;
++-    data->set.upload = FALSE;
++     break;
++ 
++   case CURLOPT_HTTPPOST:
++@@ -888,7 +887,6 @@ CURLcode Curl_vsetopt(struct Curl_easy *data, CURLoption option, va_list param)
++      */
++     if(va_arg(param, long)) {
++       data->set.method = HTTPREQ_GET;
++-      data->set.upload = FALSE; /* switch off upload */
++       data->set.opt_no_body = FALSE; /* this is implied */
++     }
++     break;
++diff --git a/lib/smb.c b/lib/smb.c
++index a1e444ee6b97e..d6822213529bc 100644
++--- a/lib/smb.c
+++++ b/lib/smb.c
++@@ -530,7 +530,7 @@ static CURLcode smb_send_open(struct Curl_easy *data)
++   byte_count = strlen(req->path);
++   msg.name_length = smb_swap16((unsigned short)byte_count);
++   msg.share_access = smb_swap32(SMB_FILE_SHARE_ALL);
++-  if(data->set.upload) {
+++  if(data->state.upload) {
++     msg.access = smb_swap32(SMB_GENERIC_READ | SMB_GENERIC_WRITE);
++     msg.create_disposition = smb_swap32(SMB_FILE_OVERWRITE_IF);
++   }
++@@ -762,7 +762,7 @@ static CURLcode smb_request_state(struct Curl_easy *data, bool *done)
++   void *msg = NULL;
++   const struct smb_nt_create_response *smb_m;
++ 
++-  if(data->set.upload && (data->state.infilesize < 0)) {
+++  if(data->state.upload && (data->state.infilesize < 0)) {
++     failf(data, "SMB upload needs to know the size up front");
++     return CURLE_SEND_ERROR;
++   }
++@@ -813,7 +813,7 @@ static CURLcode smb_request_state(struct Curl_easy *data, bool *done)
++     smb_m = (const struct smb_nt_create_response*) msg;
++     req->fid = smb_swap16(smb_m->fid);
++     data->req.offset = 0;
++-    if(data->set.upload) {
+++    if(data->state.upload) {
++       data->req.size = data->state.infilesize;
++       Curl_pgrsSetUploadSize(data, data->req.size);
++       next_state = SMB_UPLOAD;
++diff --git a/lib/smtp.c b/lib/smtp.c
++index 7a030308d4689..c182cace742d7 100644
++--- a/lib/smtp.c
+++++ b/lib/smtp.c
++@@ -1419,7 +1419,7 @@ static CURLcode smtp_done(struct Curl_easy *data, CURLcode status,
++     result = status;         /* use the already set error code */
++   }
++   else if(!data->set.connect_only && data->set.mail_rcpt &&
++-          (data->set.upload || data->set.mimepost.kind)) {
+++          (data->state.upload || data->set.mimepost.kind)) {
++     /* Calculate the EOB taking into account any terminating CRLF from the
++        previous line of the email or the CRLF of the DATA command when there
++        is "no mail data". RFC-5321, sect. 4.1.1.4.
++@@ -1511,7 +1511,7 @@ static CURLcode smtp_perform(struct Curl_easy *data, bool *connected,
++   smtp->eob = 2;
++ 
++   /* Start the first command in the DO phase */
++-  if((data->set.upload || data->set.mimepost.kind) && data->set.mail_rcpt)
+++  if((data->state.upload || data->set.mimepost.kind) && data->set.mail_rcpt)
++     /* MAIL transfer */
++     result = smtp_perform_mail(data);
++   else
++diff --git a/lib/tftp.c b/lib/tftp.c
++index 164d3c723c5b9..8ed1b887b4d21 100644
++--- a/lib/tftp.c
+++++ b/lib/tftp.c
++@@ -370,7 +370,7 @@ static CURLcode tftp_parse_option_ack(struct tftp_state_data *state,
++ 
++       /* tsize should be ignored on upload: Who cares about the size of the
++          remote file? */
++-      if(!data->set.upload) {
+++      if(!data->state.upload) {
++         if(!tsize) {
++           failf(data, "invalid tsize -:%s:- value in OACK packet", value);
++           return CURLE_TFTP_ILLEGAL;
++@@ -451,7 +451,7 @@ static CURLcode tftp_send_first(struct tftp_state_data *state,
++       return result;
++     }
++ 
++-    if(data->set.upload) {
+++    if(data->state.upload) {
++       /* If we are uploading, send an WRQ */
++       setpacketevent(&state->spacket, TFTP_EVENT_WRQ);
++       state->data->req.upload_fromhere =
++@@ -486,7 +486,7 @@ static CURLcode tftp_send_first(struct tftp_state_data *state,
++     if(!data->set.tftp_no_options) {
++       char buf[64];
++       /* add tsize option */
++-      if(data->set.upload && (data->state.infilesize != -1))
+++      if(data->state.upload && (data->state.infilesize != -1))
++         msnprintf(buf, sizeof(buf), "%" CURL_FORMAT_CURL_OFF_T,
++                   data->state.infilesize);
++       else
++@@ -540,7 +540,7 @@ static CURLcode tftp_send_first(struct tftp_state_data *state,
++     break;
++ 
++   case TFTP_EVENT_OACK:
++-    if(data->set.upload) {
+++    if(data->state.upload) {
++       result = tftp_connect_for_tx(state, event);
++     }
++     else {
++diff --git a/lib/transfer.c b/lib/transfer.c
++index e9ab8fbf09510..cb69f3365855a 100644
++--- a/lib/transfer.c
+++++ b/lib/transfer.c
++@@ -1293,6 +1293,7 @@ void Curl_init_CONNECT(struct Curl_easy *data)
++ {
++   data->state.fread_func = data->set.fread_func_set;
++   data->state.in = data->set.in_set;
+++  data->state.upload = (data->state.httpreq == HTTPREQ_PUT);
 + }
 + 
 + /*
-+diff --git a/tests/data/test1397 b/tests/data/test1397
-+index 84f962abebee3..f31b2c2a3f330 100644
-+--- a/tests/data/test1397
-++++ b/tests/data/test1397
-+@@ -2,8 +2,7 @@
-+ <info>
-+ <keywords>
-+ unittest
-+-ssl
-+-wildcard
-++Curl_cert_hostcheck
-+ </keywords>
-+ </info>
++@@ -1767,7 +1767,6 @@
++          data->state.httpreq != HTTPREQ_POST_MIME) ||
++         !(data->set.keep_post & CURL_REDIR_POST_303))) {
++       data->state.httpreq = HTTPREQ_GET;
++-      data->set.upload = false;
++       infof(data, "Switch to %s",
++             data->set.opt_no_body?"HEAD":"GET");
++     }
++@@ -1770,7 +1770,7 @@ CURLcode Curl_retry_request(struct Curl_easy *data, char **url)
 + 
-+@@ -16,9 +15,8 @@ none
-+ <features>
-+ unittest
-+ </features>
-+- <name>
-+-Check wildcard certificate matching function Curl_cert_hostcheck
-+- </name>
-++<name>
-++Curl_cert_hostcheck unit tests
-++</name>
-+ </client>
-+-
-+ </testcase>
-+diff --git a/tests/unit/unit1397.c b/tests/unit/unit1397.c
-+index 2f3d3aa4d09e1..3ae75618d5d10 100644
-+--- a/tests/unit/unit1397.c
-++++ b/tests/unit/unit1397.c
-+@@ -23,7 +23,6 @@
-+  ***************************************************************************/
-+ #include "curlcheck.h"
++   /* if we're talking upload, we can't do the checks below, unless the protocol
++      is HTTP as when uploading over HTTP we will still get a response */
++-  if(data->set.upload &&
+++  if(data->state.upload &&
++      !(conn->handler->protocol&(PROTO_FAMILY_HTTP|CURLPROTO_RTSP)))
++     return CURLE_OK;
 + 
-+-#include "vtls/hostcheck.h" /* from the lib dir */
++diff --git a/lib/urldata.h b/lib/urldata.h
++index cca992a0295aa..a8580bdb66fe8 100644
++--- a/lib/urldata.h
+++++ b/lib/urldata.h
++@@ -1487,6 +1487,7 @@
++   BIT(url_alloc);   /* URL string is malloc()'ed */
++   BIT(referer_alloc); /* referer string is malloc()ed */
++   BIT(wildcard_resolve); /* Set to true if any resolve change is a wildcard */
+++  BIT(upload);         /* upload request */
++ };
 + 
-+ static CURLcode unit_setup(void)
-+ {
-+@@ -32,63 +31,94 @@ static CURLcode unit_setup(void)
++ /*
++@@ -1838,7 +1839,6 @@ struct UserDefined {
++   BIT(http_auto_referer); /* set "correct" referer when following
++                              location: */
++   BIT(opt_no_body);    /* as set with CURLOPT_NOBODY */
++-  BIT(upload);         /* upload request */
++   BIT(verbose);        /* output verbosity */
++   BIT(krb);            /* Kerberos connection requested */
++   BIT(reuse_forbid);   /* forbidden to be reused, close after use */
++diff --git a/lib/vssh/libssh.c b/lib/vssh/libssh.c
++index b31f741ba9492..d60edaa303642 100644
++--- a/lib/vssh/libssh.c
+++++ b/lib/vssh/libssh.c
++@@ -1209,7 +1209,7 @@ static CURLcode myssh_statemach_act(struct Curl_easy *data, bool *block)
++     }
 + 
-+ static void unit_stop(void)
-+ {
-+-  /* done before shutting down and exiting */
-+ }
++     case SSH_SFTP_TRANS_INIT:
++-      if(data->set.upload)
+++      if(data->state.upload)
++         state(data, SSH_SFTP_UPLOAD_INIT);
++       else {
++         if(protop->path[strlen(protop->path)-1] == '/')
++@@ -1802,7 +1802,7 @@ static CURLcode myssh_statemach_act(struct Curl_easy *data, bool *block)
++       /* Functions from the SCP subsystem cannot handle/return SSH_AGAIN */
++       ssh_set_blocking(sshc->ssh_session, 1);
 + 
-+-UNITTEST_START
-+-
-+ /* only these backends define the tested functions */
-+-#if defined(USE_OPENSSL) || defined(USE_GSKIT)
-+-
-+-  /* here you start doing things and checking that the results are good */
-++#if defined(USE_OPENSSL) || defined(USE_GSKIT) || defined(USE_SCHANNEL)
-++#include "vtls/hostcheck.h"
-++struct testcase {
-++  const char *host;
-++  const char *pattern;
-++  bool match;
-++};
++-      if(data->set.upload) {
+++      if(data->state.upload) {
++         if(data->state.infilesize < 0) {
++           failf(data, "SCP requires a known file size for upload");
++           sshc->actualcode = CURLE_UPLOAD_FAILED;
++@@ -1907,7 +1907,7 @@ static CURLcode myssh_statemach_act(struct Curl_easy *data, bool *block)
++         break;
++       }
++     case SSH_SCP_DONE:
++-      if(data->set.upload)
+++      if(data->state.upload)
++         state(data, SSH_SCP_SEND_EOF);
++       else
++         state(data, SSH_SCP_CHANNEL_FREE);
++diff --git a/lib/vssh/libssh2.c b/lib/vssh/libssh2.c
++index f1154dc47a74e..f2e5352d1fd3a 100644
++--- a/lib/vssh/libssh2.c
+++++ b/lib/vssh/libssh2.c
++@@ -2019,7 +2019,7 @@ static CURLcode ssh_statemach_act(struct Curl_easy *data, bool *block)
++     }
 + 
-+-fail_unless(Curl_cert_hostcheck(STRCONST("www.example.com"),
-+-                                STRCONST("www.example.com")), "good 1");
-+-fail_unless(Curl_cert_hostcheck(STRCONST("*.example.com"),
-+-                                STRCONST("www.example.com")),
-+-            "good 2");
-+-fail_unless(Curl_cert_hostcheck(STRCONST("xxx*.example.com"),
-+-                                STRCONST("xxxwww.example.com")), "good 3");
-+-fail_unless(Curl_cert_hostcheck(STRCONST("f*.example.com"),
-+-                                STRCONST("foo.example.com")), "good 4");
-+-fail_unless(Curl_cert_hostcheck(STRCONST("192.168.0.0"),
-+-                                STRCONST("192.168.0.0")), "good 5");
-++static struct testcase tests[] = {
-++  {"", "", FALSE},
-++  {"a", "", FALSE},
-++  {"", "b", FALSE},
-++  {"a", "b", FALSE},
-++  {"aa", "bb", FALSE},
-++  {"\xff", "\xff", TRUE},
-++  {"aa.aa.aa", "aa.aa.bb", FALSE},
-++  {"aa.aa.aa", "aa.aa.aa", TRUE},
-++  {"aa.aa.aa", "*.aa.bb", FALSE},
-++  {"aa.aa.aa", "*.aa.aa", TRUE},
-++  {"192.168.0.1", "192.168.0.1", TRUE},
-++  {"192.168.0.1", "*.168.0.1", FALSE},
-++  {"192.168.0.1", "*.0.1", FALSE},
-++  {"h.ello", "*.ello", FALSE},
-++  {"h.ello.", "*.ello", FALSE},
-++  {"h.ello", "*.ello.", FALSE},
-++  {"h.e.llo", "*.e.llo", TRUE},
-++  {"h.e.llo", " *.e.llo", FALSE},
-++  {" h.e.llo", "*.e.llo", TRUE},
-++  {"h.e.llo.", "*.e.llo", TRUE},
-++  {"*.e.llo.", "*.e.llo", TRUE},
-++  {"************.e.llo.", "*.e.llo", TRUE},
-++  {"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-++   "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
-++   "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"
-++   "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"
-++   "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"
-++   ".e.llo.", "*.e.llo", TRUE},
-++  {"\xfe\xfe.e.llo.", "*.e.llo", TRUE},
-++  {"h.e.llo.", "*.e.llo.", TRUE},
-++  {"h.e.llo", "*.e.llo.", TRUE},
-++  {".h.e.llo", "*.e.llo.", FALSE},
-++  {"h.e.llo", "*.*.llo.", FALSE},
-++  {"h.e.llo", "h.*.llo", FALSE},
-++  {"h.e.llo", "h.e.*", FALSE},
-++  {"hello", "*.ello", FALSE},
-++  {"hello", "**llo", FALSE},
-++  {"bar.foo.example.com", "*.example.com", FALSE},
-++  {"foo.example.com", "*.example.com", TRUE},
-++  {"baz.example.net", "b*z.example.net", FALSE},
-++  {"foobaz.example.net", "*baz.example.net", FALSE},
-++  {"xn--l8j.example.local", "x*.example.local", FALSE},
-++  {"xn--l8j.example.net", "*.example.net", TRUE},
-++  {"xn--l8j.example.net", "*j.example.net", FALSE},
-++  {"xn--l8j.example.net", "xn--l8j.example.net", TRUE},
-++  {"xn--l8j.example.net", "xn--l8j.*.net", FALSE},
-++  {"xl8j.example.net", "*.example.net", TRUE},
-++  {"fe80::3285:a9ff:fe46:b619", "*::3285:a9ff:fe46:b619", FALSE},
-++  {"fe80::3285:a9ff:fe46:b619", "fe80::3285:a9ff:fe46:b619", TRUE},
-++  {NULL, NULL, FALSE}
-++};
++     case SSH_SFTP_TRANS_INIT:
++-      if(data->set.upload)
+++      if(data->state.upload)
++         state(data, SSH_SFTP_UPLOAD_INIT);
++       else {
++         if(sshp->path[strlen(sshp->path)-1] == '/')
++@@ -2691,7 +2691,7 @@ static CURLcode ssh_statemach_act(struct Curl_easy *data, bool *block)
++         break;
++       }
 + 
-+-fail_if(Curl_cert_hostcheck(STRCONST("xxx.example.com"),
-+-                            STRCONST("www.example.com")), "bad 1");
-+-fail_if(Curl_cert_hostcheck(STRCONST("*"),
-+-                            STRCONST("www.example.com")),"bad 2");
-+-fail_if(Curl_cert_hostcheck(STRCONST("*.*.com"),
-+-                            STRCONST("www.example.com")), "bad 3");
-+-fail_if(Curl_cert_hostcheck(STRCONST("*.example.com"),
-+-                            STRCONST("baa.foo.example.com")), "bad 4");
-+-fail_if(Curl_cert_hostcheck(STRCONST("f*.example.com"),
-+-                            STRCONST("baa.example.com")), "bad 5");
-+-fail_if(Curl_cert_hostcheck(STRCONST("*.com"),
-+-                            STRCONST("example.com")), "bad 6");
-+-fail_if(Curl_cert_hostcheck(STRCONST("*fail.com"),
-+-                            STRCONST("example.com")), "bad 7");
-+-fail_if(Curl_cert_hostcheck(STRCONST("*.example."),
-+-                            STRCONST("www.example.")), "bad 8");
-+-fail_if(Curl_cert_hostcheck(STRCONST("*.example."),
-+-                            STRCONST("www.example")), "bad 9");
-+-fail_if(Curl_cert_hostcheck(STRCONST(""), STRCONST("www")), "bad 10");
-+-fail_if(Curl_cert_hostcheck(STRCONST("*"), STRCONST("www")), "bad 11");
-+-fail_if(Curl_cert_hostcheck(STRCONST("*.168.0.0"),
-+-                            STRCONST("192.168.0.0")), "bad 12");
-+-fail_if(Curl_cert_hostcheck(STRCONST("www.example.com"),
-+-                            STRCONST("192.168.0.0")), "bad 13");
-+-
-+-#ifdef ENABLE_IPV6
-+-fail_if(Curl_cert_hostcheck(STRCONST("*::3285:a9ff:fe46:b619"),
-+-                            STRCONST("fe80::3285:a9ff:fe46:b619")), "bad 14");
-+-fail_unless(Curl_cert_hostcheck(STRCONST("fe80::3285:a9ff:fe46:b619"),
-+-                                STRCONST("fe80::3285:a9ff:fe46:b619")),
-+-            "good 6");
-+-#endif
-++UNITTEST_START
-++{
-++  int i;
-++  for(i = 0; tests[i].host; i++) {
-++    if(tests[i].match != Curl_cert_hostcheck(tests[i].pattern,
-++                                             strlen(tests[i].pattern),
-++                                             tests[i].host,
-++                                             strlen(tests[i].host))) {
-++      fprintf(stderr,
-++              "HOST: %s\n"
-++              "PTRN: %s\n"
-++              "did %sMATCH\n",
-++              tests[i].host,
-++              tests[i].pattern,
-++              tests[i].match ? "NOT ": "");
-++      unitfail++;
-++    }
-++  }
-++}
++-      if(data->set.upload) {
+++      if(data->state.upload) {
++         if(data->state.infilesize < 0) {
++           failf(data, "SCP requires a known file size for upload");
++           sshc->actualcode = CURLE_UPLOAD_FAILED;
++@@ -2831,7 +2831,7 @@ static CURLcode ssh_statemach_act(struct Curl_easy *data, bool *block)
++     break;
 + 
-+-#endif
-++UNITTEST_STOP
-++#else
-+ 
-+-  /* you end the test code like this: */
-++UNITTEST_START
-+ 
-+ UNITTEST_STOP
-++#endif
++     case SSH_SCP_DONE:
++-      if(data->set.upload)
+++      if(data->state.upload)
++         state(data, SSH_SCP_SEND_EOF);
++       else
++         state(data, SSH_SCP_CHANNEL_FREE);
++diff --git a/lib/vssh/wolfssh.c b/lib/vssh/wolfssh.c
++index 17d59ecd23bc8..2ca91b7363b1d 100644
++--- a/lib/vssh/wolfssh.c
+++++ b/lib/vssh/wolfssh.c
++@@ -557,7 +557,7 @@ static CURLcode wssh_statemach_act(struct Curl_easy *data, bool *block)
++       }
++       break;
++     case SSH_SFTP_TRANS_INIT:
++-      if(data->set.upload)
+++      if(data->state.upload)
++         state(data, SSH_SFTP_UPLOAD_INIT);
++       else {
++         if(sftp_scp->path[strlen(sftp_scp->path)-1] == '/')
 diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-index 422c2bec0f..3241867d7e 100644
+index 3241867d7e..96280b31b2 100644
 --- a/meta/recipes-support/curl/curl_7.82.0.bb
 +++ b/meta/recipes-support/curl/curl_7.82.0.bb
-@@ -47,6 +47,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2023-27536.patch \
+@@ -48,6 +48,8 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
             file://CVE-2023-28319.patch \
             file://CVE-2023-28320.patch \
-+           file://CVE-2023-28321.patch \
+            file://CVE-2023-28321.patch \
++           file://CVE-2023-28322-1.patch \
++           file://CVE-2023-28322-2.patch \
             "
  SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
  
