@@ -2,63 +2,63 @@ Return-Path: <rak3033@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E7E8C77B7E
-	for <webhook@archiver.kernel.org>; Mon, 29 May 2023 10:12:43 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web10.46433.1685355153740202291
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8645AC77B7E
+	for <webhook@archiver.kernel.org>; Mon, 29 May 2023 10:16:13 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web11.46657.1685355367076158174
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 May 2023 03:12:33 -0700
+ Mon, 29 May 2023 03:16:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=O93fjMyn;
- spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: rak3033@gmail.com)
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2566f66190dso1040410a91.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 03:12:33 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=l94997eT;
+ spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: rak3033@gmail.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1b01d912a76so16986745ad.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 03:16:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685355153; x=1687947153;
+        d=gmail.com; s=20221208; t=1685355366; x=1687947366;
         h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=llx7ddgI7gBkRjCmunPHy69MII1QO/Ww/bAgEPY1LT4=;
-        b=O93fjMynqEFB43Ggec62B0+XTEbUxvhn3eQP7ZoRQqHmoUw7NPhJxbqPe1y1Zqwv0j
-         JXG4nspz/q+rPvY09MJOb9/weZ4u846tB8+mOBNkWGR0S2AR61La0CnUmHX6DvjTQkYQ
-         iedM7uJigs15WonsgZPF76797J8wrdhV6G1xjjCmZhxuqNzwU+p1wAskhhufhjQURyiO
-         ptzPtIaNYvUAtpA2vD2AY/+U06s4TEds4OJEVMDk51eiLWXlGfe/V5Ft/QUdW4K+RW5j
-         FHKgubyxJ2zwENKoLnHA35XdP73iIg3e4AYli70BF80rtXsvG1czYCLpYMZF6PkzXYkO
-         O6hA==
+        bh=DrTGztpyLkY2/4YNcNiYMm8HDnTCMWBYmEMZodIz5pg=;
+        b=l94997eTnXVZ4HM4QgTq2BapCq5qr/9azFzrX08hRzCOrSi6SnUCD6yuKB2A6T76tw
+         +xGh7aoMXcts6spx2cUpaRU9Sf9jaW02k3QTvLxDKOhyXWfmdN4l1HlBh0z3hswpMO0Y
+         bg6QSKEHd7s4nnDFCxhV/BOoZncGpyr7BnCV8V3J+6AS+oOk1bYicS8bOyeRids8/o4s
+         uvhCZfVZPuvunuBL9TPXlOz6nQZecDNrCyncI9dQYaaabiob8y4e1mvCSLYCRtmJDlXL
+         7DY+x2pcEPucUJZIPtKDyJOweqF7o/yCebw9Tu7sm7heIj5kRqyTqzCADa5VxNK+X2pz
+         thxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685355153; x=1687947153;
+        d=1e100.net; s=20221208; t=1685355366; x=1687947366;
         h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=llx7ddgI7gBkRjCmunPHy69MII1QO/Ww/bAgEPY1LT4=;
-        b=JG9G0NKgc70TTDy0/yS9h6QbuQkJWgitwoZAt4yKQG2YqBAcO6Baxvz1qtUzW8jHu2
-         6LO93hGhhVfltQRfClJIhYP0a9NyMBnDdEEZ3x0EZMilSGfeqaoZip0INjzzvdgLNLRz
-         6+K/GmL0aFLbc0POwY5y/DQJVTY4x7IQnoZ6P+dq5YvUW2cCPA+ufdnnyaYlRI7Xdyry
-         K9LB8anL7O6uqycaZ3RnjXXL/INbadwI1qROOLjlV7pKdGD9SUw4UpbwA7YcDffc/NKg
-         CqaYyrTBukYIgToPVfGMYe5RLhL1vpLW5UodoewWu7B6+stehD/M8P9uHpTdml7nlSba
-         h9XQ==
-X-Gm-Message-State: AC+VfDxDUpHVLfNW6vGAJzDQWSnxrZ0a7nXOyvDWDUMvHwshMnZA3NY0
-	ewsyEZu7N/rEq26ZEEJGjFLi2aELk9M=
-X-Google-Smtp-Source: ACHHUZ6pZnHjgbYlspoIXVBtUA2d240kwY1fU5Jrd1CBZbmoFWBYmvokzfR/GuHYZgSYOKNJPEUR3A==
-X-Received: by 2002:a17:90a:840a:b0:253:340d:77d8 with SMTP id j10-20020a17090a840a00b00253340d77d8mr9948288pjn.33.1685355152350;
-        Mon, 29 May 2023 03:12:32 -0700 (PDT)
+        bh=DrTGztpyLkY2/4YNcNiYMm8HDnTCMWBYmEMZodIz5pg=;
+        b=ahcXOoVDn/sjci2zbsWHchvQTnuVB0QG+/ItYvAO5iJ9QdhUR2s8YWKd6SEJPEdV1E
+         kBEdGyI6jnYciPmauXRvJXlpM7mhQ6AistvKN0xWjTnxOXYZVAEhAQhtWL7p3lfx5jTh
+         K25EqgeQSkIyUAUvrWDI9/BfEBNWEi4eq+RvZU7fSCK2Y6wVJ17FZCLOpR2lIg7GaYta
+         gwMl2ILkHL6cAhBNWt2nDoF5tvkiTI7oxL50CB17x83VYGx8WG4b5OtIAg3rAasWFwxC
+         lHbcPuHzwgL4ECBeug3HzlGWzhjjvHZ1tpyJcmwXZNsrkvXT7IIDQUPnlDId4w1RHK7p
+         rkXA==
+X-Gm-Message-State: AC+VfDxNwW6yIsYCTyt0bErqXY719hk4DtQApMLVM079U/sD4RUGGQ4C
+	yxrNsesbk4iVWX3gJU4JccBVVfHdt8s=
+X-Google-Smtp-Source: ACHHUZ7W/gtZ9IwELak7RDEplciX+LPq0MlKg2jjdZkTMzUWezZEfsj8U2g3loYE3fFyqYUXnPnQYw==
+X-Received: by 2002:a17:902:d708:b0:1af:d4f0:1dbe with SMTP id w8-20020a170902d70800b001afd4f01dbemr9915400ply.23.1685355365548;
+        Mon, 29 May 2023 03:16:05 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:d00a:6040:317c:9f02:e67c:eef])
-        by smtp.gmail.com with ESMTPSA id s3-20020a63ff43000000b0053b92b26412sm6554372pgk.14.2023.05.29.03.12.29
+        by smtp.gmail.com with ESMTPSA id b10-20020a170902a9ca00b001affb590696sm7649609plr.216.2023.05.29.03.16.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 May 2023 03:12:31 -0700 (PDT)
+        Mon, 29 May 2023 03:16:05 -0700 (PDT)
 From: Riyaz Khan <rak3033@gmail.com>
 X-Google-Original-From: Riyaz Khan <Riyaz.Khan@kpit.com>
 To: openembedded-core@lists.openembedded.org,
 	rak3033@gmail.com
 Cc: ranjitsinh.rathod@kpit.com,
 	riyaz.khan@kpit.com
-Subject: [OE-core][kirkstone][PATCH] openssh: Remove BSD-4-clause contents completely from codebase
-Date: Mon, 29 May 2023 15:42:06 +0530
-Message-Id: <20230529101206.21013-1-Riyaz.Khan@kpit.com>
+Subject: [OE-core][kirkstone][PATCH v2] openssh: Remove BSD-4-clause contents completely from codebase
+Date: Mon, 29 May 2023 15:45:50 +0530
+Message-Id: <20230529101550.21677-1-Riyaz.Khan@kpit.com>
 X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 10:12:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181863
+ <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 10:16:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181864
 
 As upstream removed this BSD-4-clause license, there are still some files
 has this license. Below file affected by this BSD-4-clause contents when
@@ -74,10 +74,6 @@ Hence, Remove and backport this commit completely to remove license of BSD-4-cla
 contents from codebase. Hunks are refreshed, removed couple of hunks from
 configure.ac and openbsd-compat/libressl-api-compat.c as hunk code
 is not prasent.
-
-Upstream-Status: Pending
-
-Issue: MGUBSYS-7216, NODE0DEV-6619
 
 Signed-off-by: Riyaz Khan <Riyaz.Khan@kpit.com>
 ---
