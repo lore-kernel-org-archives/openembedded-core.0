@@ -1,87 +1,195 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D253C77B7E
-	for <webhook@archiver.kernel.org>; Mon, 29 May 2023 07:08:22 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web11.44561.1685344092204228063
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70FAFC77B7E
+	for <webhook@archiver.kernel.org>; Mon, 29 May 2023 07:22:02 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web10.44630.1685344917139022290
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 May 2023 00:08:12 -0700
+ Mon, 29 May 2023 00:21:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=IqxNQdqe;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3f606912ebaso30237635e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 00:08:11 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=JDNLExjH;
+ spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-30ae141785bso1964084f8f.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 00:21:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1685344090; x=1687936090;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=4k+XbTgXI/kCBgJxiLMW8tfaxX8bU8uVRPWPhLPQ56c=;
-        b=IqxNQdqeP/Ny3lhkoTTNktDquRGGWX7AeOOW2JSsSorjlOyXg+QyP3A6itV/2JcGJK
-         FDSAaGg10TKNfIe+CUXJJ0Ss8t58x5cOB3o3yFCvVLfGnyy+MnyPBm8c7AxPG9LcvnOU
-         nmMUSM9PHmjcFXsma28agdnesZ2HadYTRWEyc=
+        d=gmail.com; s=20221208; t=1685344915; x=1687936915;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=peFv4xB0CcYLeYf21aJG5a4y2qmDykbRskr0QHLj31I=;
+        b=JDNLExjHuD/YUZDtFzfL2vZ/HYSu/R+gc/BIUELIqYsmHWAgamWwylOIkbk16+O6gp
+         mLdApjSeeyHAY6+y5CJAG/Lj3SWA4slG55gfgdjl3tQSwMhxr4UWFLfcB/meJ4XhedK3
+         +7pdRQmj5J5Vq+vC+4+AB6qS2vq/8SRIdv+MEXGAlhmEzxjh6i7GdcE4nfSjSl/7MEeD
+         7V7eXiwH86lF/wVok6DIGStJXDwlUcRZj+sNC2EMjZnBY/lyAYVbWztotwQhIcDY3Ayo
+         OUt22q5/oLGgwf00xrOhJEPxwC5zahQniq9Y/zzNWEOw4wXQcojMk5gP27psm942hItT
+         7wiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685344090; x=1687936090;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4k+XbTgXI/kCBgJxiLMW8tfaxX8bU8uVRPWPhLPQ56c=;
-        b=WgXQCrjx/w0zRN6k4D26dVPW+p3FbHymr3OfOGvknuelFKHgLb9pCHFXIZ9dqjfyFl
-         elmCRxX+HST0wB6xFVNjM3q1FGxiXb0KURcw7x09hwodU+Ms95E/ViPmfdikXX0DNRwY
-         kxi3sjxrWHf8x5aTkVmQUuFT3BeezN93Hs58D4m/fnowatQW5T6Nuqk2NSxV1Yu26N+T
-         cDMjQgdysdKJ2IS9ZeWy8OIz0hym96sOnQmJdLQMlcO/eurbbLiz102tsQ5zsmC+CvKJ
-         H7Jq5jFDWdcHnFEs+XvXFgqvQcE2zGn8jS5+QcW5f8Re4KKJJFzhQrM+vmbMyHcohaZT
-         CX0g==
-X-Gm-Message-State: AC+VfDwCjW7jy2oPOJcunaoEhHbMsvfwgOhllIM+HUOcP6MHmL7Pp697
-	e9DzSE03SpzTHrsqLC8Tc2zlRA==
-X-Google-Smtp-Source: ACHHUZ5E0OQwNJmG2wuC8F4P0ZAEYB5BFxnDW3lS9wW9iwWyHLkeGLHk7/uOx1Mt3HnUGEs5md6xMg==
-X-Received: by 2002:a7b:ca4e:0:b0:3f6:7f0:c9a9 with SMTP id m14-20020a7bca4e000000b003f607f0c9a9mr7873965wml.33.1685344090430;
-        Mon, 29 May 2023 00:08:10 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:ec8d:e49e:8d5e:e7d5? ([2001:8b0:aba:5f3c:ec8d:e49e:8d5e:e7d5])
-        by smtp.gmail.com with ESMTPSA id z22-20020a7bc7d6000000b003f4fbd9cdb3sm13163198wmk.34.2023.05.29.00.08.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 May 2023 00:08:10 -0700 (PDT)
-Message-ID: <7bb5f101af77af3a051a1b049206800aec542ccd.camel@linuxfoundation.org>
-Subject: Re: [oe-core][PATCH 2/4] python3: add libxcrypt-native dependency
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Markus Volk
- <f_l_k@t-online.de>
-Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 29 May 2023 08:08:09 +0100
-In-Reply-To: <CANNYZj_-ptiJqvmf+cU0qV7VkKG0ds=guN9aTU1VirjcG8WjQA@mail.gmail.com>
-References: <20230527133252.284132-1-f_l_k@t-online.de>
-	 <20230527133252.284132-2-f_l_k@t-online.de>
-	 <17635252DFD4EDDE.6918@lists.openembedded.org>
-	 <CANNYZj_jz-SCh4kq33fe7_uiVRAvL+15i4kQ=U9Dkv84W2s+xw@mail.gmail.com>
-	 <VDGDVR.YBUKQ953M2TP3@t-online.de>
-	 <CANNYZj_0ASF5ERsCgrB3W3qYgGJFwJzXn35cgc6ojQf0fi1Yxg@mail.gmail.com>
-	 <POIDVR.URDIMNIKV0SE3@t-online.de>
-	 <CANNYZj-megU_4p_eR84XiSt7YvwWu57tWBEZDKoBFkjRj8ZKVQ@mail.gmail.com>
-	 <MEJDVR.WDZW7MFB3W9N1@t-online.de>
-	 <CANNYZj_-ptiJqvmf+cU0qV7VkKG0ds=guN9aTU1VirjcG8WjQA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        d=1e100.net; s=20221208; t=1685344915; x=1687936915;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=peFv4xB0CcYLeYf21aJG5a4y2qmDykbRskr0QHLj31I=;
+        b=NCVOq4U2OnRYKAcdvkkPEILxrmcs1rgCBeKIrzPDzxjCdw4khNFyF8x6LAhCyDc42g
+         M/DpTMtrvReGS5qBK5vtNftK9z/2hapvcqA/YOFzEcfoHHqHFyI/AlbkxgOscMiD88eQ
+         3l/j/VvFL2kSzSNcGbI/3sDJ3nHVMeesr0fOVPXbLBM49+l23g7yVQtMgeheJg88e/uB
+         59mpU4DfWzkGy4X6QWFWvcATJKiOiwq2wq6Ny48qO7GDNe24IFkxetkQ6V1QzlNs1Dl/
+         6FCdDTlLcpaYkt4MAKU6tZ12kPgJe7lbtAU44mVObezwK0Dj4xFXmEA+toMgeBTaIVTl
+         7l6w==
+X-Gm-Message-State: AC+VfDxGxJEALhXKWU/K2M4rQU1jyOceDDr0T9Xm76VtDHn1qval5QfC
+	sfavZXIUsCcCuZ8X11q5tnyhktNh1j77jD4Jl60=
+X-Google-Smtp-Source: ACHHUZ4Geb+1SWdigfvDqzfxb2fndQcxJQmZebJPuKhjkfWs0pcHblJosUE073DwA2PrPH2kzAubC44ieezcsiHhwKI=
+X-Received: by 2002:a5d:44c8:0:b0:309:49e3:efaa with SMTP id
+ z8-20020a5d44c8000000b0030949e3efaamr8231423wrr.29.1685344915196; Mon, 29 May
+ 2023 00:21:55 -0700 (PDT)
 MIME-Version: 1.0
+References: <20230528055252.3869703-1-schitrod@cisco.com>
+In-Reply-To: <20230528055252.3869703-1-schitrod@cisco.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 29 May 2023 09:21:34 +0200
+Message-ID: <CA+chaQeCpJ-70Je8non8KADuDk8SZzysN7KiDFNFDd3-dVY6sA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] sqlite3: Whitelist CVE-2022-21227
+To: schitrod@cisco.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000fe8fc705fccff045"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 07:08:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181851
+ <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 07:22:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181852
 
-On Sun, 2023-05-28 at 17:16 +0200, Alexander Kanavin wrote:
-> Adding libxcrypt-native to DEPENDS definitely isn't correct, so you
-> could check why virtual/crypt dependency isn't working properly for
-> adding the needed headers into native variant's sysroot. If all fails,
-> adjust DEPENDS:append:class-native.
+--000000000000fe8fc705fccff045
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Alex is right and I should have spotted this, the -native dependency
-definitely isn't right. We'll either need to fix things or revert them
-and wait for the right fix...
+The patch author seems a bit mangled by ML, see:
+author schitrod=3Dcisco.com@lists.openembedded.org <schitrod=3D
+cisco.com@lists.openembedded.org> 2023-05-27 22:52:52 -0700
+https://git.openembedded.org/openembedded-core/commit/?h=3Dmaster-next&id=
+=3D5f15caa526bb57070b9abb9ba2f488ee1bfb5372
 
-Cheers,
+Is it correct?
 
-Richard
+On Sun, May 28, 2023 at 7:53=E2=80=AFAM Sanjaykumar kantibhai Chitroda -X (=
+schitrod
+- E-INFO CHIPS INC at Cisco) via lists.openembedded.org <schitrod=3D
+cisco.com@lists.openembedded.org> wrote:
+
+> This CVE is applicable to "SQLite3 bindings for Node.js" only.
+>
+> References:
+> https://nvd.nist.gov/vuln/detail/CVE-2022-21227
+>
+> Signed-off-by: Sanjay Chitroda <schitrod@cisco.com>
+> ---
+>  meta/recipes-support/sqlite/sqlite3_3.41.2.bb | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/recipes-support/sqlite/sqlite3_3.41.2.bb
+> b/meta/recipes-support/sqlite/sqlite3_3.41.2.bb
+> index b09e8e7f55..11bc8bb4c0 100644
+> --- a/meta/recipes-support/sqlite/sqlite3_3.41.2.bb
+> +++ b/meta/recipes-support/sqlite/sqlite3_3.41.2.bb
+> @@ -12,3 +12,6 @@ CVE_CHECK_IGNORE +=3D "CVE-2019-19242"
+>  CVE_CHECK_IGNORE +=3D "CVE-2015-3717"
+>  # Issue in an experimental extension we don't have/use. Fixed by
+> https://sqlite.org/src/info/b1e0c22ec981cf5f
+>  CVE_CHECK_IGNORE +=3D "CVE-2021-36690"
+> +# As per https://nvd.nist.gov/vuln/detail/CVE-2022-21227
+> +# this bug is applicable to SQLite3 Node.js
+> +CVE_CHECK_IGNORE +=3D "CVE-2022-21227"
+> --
+> 2.35.6
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#181812):
+> https://lists.openembedded.org/g/openembedded-core/message/181812
+> Mute This Topic: https://lists.openembedded.org/mt/99178473/3617156
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> Martin.Jansa@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--000000000000fe8fc705fccff045
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">The patch author seems a bit mangled by ML, see:<div>autho=
+r	schitrod=3D<a href=3D"mailto:cisco.com@lists.openembedded.org">cisco.com@=
+lists.openembedded.org</a> &lt;schitrod=3D<a href=3D"mailto:cisco.com@lists=
+.openembedded.org">cisco.com@lists.openembedded.org</a>&gt;	2023-05-27 22:5=
+2:52 -0700<br><div><a href=3D"https://git.openembedded.org/openembedded-cor=
+e/commit/?h=3Dmaster-next&amp;id=3D5f15caa526bb57070b9abb9ba2f488ee1bfb5372=
+">https://git.openembedded.org/openembedded-core/commit/?h=3Dmaster-next&am=
+p;id=3D5f15caa526bb57070b9abb9ba2f488ee1bfb5372</a><br></div></div><div><br=
+></div><div>Is it correct?</div></div><br><div class=3D"gmail_quote"><div d=
+ir=3D"ltr" class=3D"gmail_attr">On Sun, May 28, 2023 at 7:53=E2=80=AFAM San=
+jaykumar kantibhai Chitroda -X (schitrod - E-INFO CHIPS INC at Cisco) via <=
+a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;sch=
+itrod=3D<a href=3D"mailto:cisco.com@lists.openembedded.org">cisco.com@lists=
+.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">This CVE is applicable to &quot;SQLite3 bindings for Node.=
+js&quot; only.<br>
+<br>
+References:<br>
+<a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-21227" rel=3D"noreferr=
+er" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-2022-21227</a><b=
+r>
+<br>
+Signed-off-by: Sanjay Chitroda &lt;<a href=3D"mailto:schitrod@cisco.com" ta=
+rget=3D"_blank">schitrod@cisco.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-support/sqlite/<a href=3D"http://sqlite3_3.41.2.bb" rel=
+=3D"noreferrer" target=3D"_blank">sqlite3_3.41.2.bb</a> | 3 +++<br>
+=C2=A01 file changed, 3 insertions(+)<br>
+<br>
+diff --git a/meta/recipes-support/sqlite/<a href=3D"http://sqlite3_3.41.2.b=
+b" rel=3D"noreferrer" target=3D"_blank">sqlite3_3.41.2.bb</a> b/meta/recipe=
+s-support/sqlite/<a href=3D"http://sqlite3_3.41.2.bb" rel=3D"noreferrer" ta=
+rget=3D"_blank">sqlite3_3.41.2.bb</a><br>
+index b09e8e7f55..11bc8bb4c0 100644<br>
+--- a/meta/recipes-support/sqlite/<a href=3D"http://sqlite3_3.41.2.bb" rel=
+=3D"noreferrer" target=3D"_blank">sqlite3_3.41.2.bb</a><br>
++++ b/meta/recipes-support/sqlite/<a href=3D"http://sqlite3_3.41.2.bb" rel=
+=3D"noreferrer" target=3D"_blank">sqlite3_3.41.2.bb</a><br>
+@@ -12,3 +12,6 @@ CVE_CHECK_IGNORE +=3D &quot;CVE-2019-19242&quot;<br>
+=C2=A0CVE_CHECK_IGNORE +=3D &quot;CVE-2015-3717&quot;<br>
+=C2=A0# Issue in an experimental extension we don&#39;t have/use. Fixed by =
+<a href=3D"https://sqlite.org/src/info/b1e0c22ec981cf5f" rel=3D"noreferrer"=
+ target=3D"_blank">https://sqlite.org/src/info/b1e0c22ec981cf5f</a><br>
+=C2=A0CVE_CHECK_IGNORE +=3D &quot;CVE-2021-36690&quot;<br>
++# As per <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-21227" rel=
+=3D"noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-2022=
+-21227</a><br>
++# this bug is applicable to SQLite3 Node.js<br>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-21227&quot;<br>
+-- <br>
+2.35.6<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#181812): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/181812" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/181812</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/99178473/3617=
+156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/99178473/3617156</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" ta=
+rget=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--000000000000fe8fc705fccff045--
 
