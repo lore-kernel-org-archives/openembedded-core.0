@@ -2,114 +2,104 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3E15C77B7A
-	for <webhook@archiver.kernel.org>; Mon, 29 May 2023 12:32:53 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web10.48410.1685363572506343567
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09087C7EE2E
+	for <webhook@archiver.kernel.org>; Mon, 29 May 2023 12:34:44 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web10.48432.1685363683173215863
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 May 2023 05:32:52 -0700
+ Mon, 29 May 2023 05:34:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=PTKcsJ0W;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-3f6dfc4dffaso21417685e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 05:32:52 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=P1zL46rS;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3f61530506aso33992415e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 05:34:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1685363570; x=1687955570;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BoWgyxGO2q6QFWq0h6cu00AS3nAd9rUR8hbedKixUp0=;
-        b=PTKcsJ0WGYl6tGQllLu3yip2YFgYyBnyx2/HaXLD2B58zWbuiPsz4qIKs6xqJIbXxH
-         1RAnTQCS77tUvN3CarNd5bJu+OF7/jYdOhkxIKnuEe/3sSMOM6JNhzrscUbFsI8Ayw9x
-         E86++Z0QDOkYVsE1W8WVGMNEqmz9NQz3Ei+nU=
+        d=linuxfoundation.org; s=google; t=1685363681; x=1687955681;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Zo2Ou1qE7Du9M0uDvJ6XrLS5drNIuFlrlr0/DKGjCrE=;
+        b=P1zL46rSn7xV2nD3arc+VeppjLkSVPTa1Uo15IER2bPh4vBlu2ILIoHQ/UHE2sjMv0
+         rfHp/7gY5Kc7vOvI0j2xVifaAaJPqZq6wvtIvfVcHwckZ2lFJ2DIiP1oiIhShJrUgh9e
+         kYjiS+H8qBsYxVy2+u3tZFpMnvC55R2Cir2Y8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685363570; x=1687955570;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BoWgyxGO2q6QFWq0h6cu00AS3nAd9rUR8hbedKixUp0=;
-        b=EPudJnJ13LaRxSalLNp1s94WVQg+oeuFZ2KzhyT2DP68TtPZksqoA6rMJGA8pDWQCI
-         r+Qm0+wtIuYJLP1oCmM7GTews/bpv1GzOgHwrJsZIKlli/aqNg/RKXgYK1hxc2WTRzcC
-         gGNpSdZVufvEdR98efITQqow3k0qygXFF2wXe499/kEMG4WD2XrzgnNBVMvLiiB0AE/F
-         /GEDlmRhCwe75nkpJVB2Q1xLETn/LOQAzHVLq83rPcjxxq5abYkJG4fFA/+EjGij+SWV
-         f9BojMLJ3d4XrLw8QN6VHU8IqJAIReA6n9weTlgS3k5JBfUDOFUlmOdCEem3Q8g/1Spf
-         6xzA==
-X-Gm-Message-State: AC+VfDxFTSN52SNTsLDUfy159qp943WVqtUcWTyl93zIwPTSpDk51cU9
-	WU0rNG2OYwsE8pl5rOwhH3gxh2dLTmHwKLsrbHA=
-X-Google-Smtp-Source: ACHHUZ4doMnmyaHwDgZ9ib5j/eeapLpeAvsjSu8xQGzq0r/tb8kBi6IoVhdEdfq5fRV6YrUKGae9CA==
-X-Received: by 2002:a7b:c3c7:0:b0:3f6:38f:aa07 with SMTP id t7-20020a7bc3c7000000b003f6038faa07mr10042559wmj.24.1685363570288;
-        Mon, 29 May 2023 05:32:50 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:ec8d:e49e:8d5e:e7d5])
-        by smtp.gmail.com with ESMTPSA id o11-20020a05600c378b00b003f195d540d9sm17801241wmr.14.2023.05.29.05.32.49
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20221208; t=1685363681; x=1687955681;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Zo2Ou1qE7Du9M0uDvJ6XrLS5drNIuFlrlr0/DKGjCrE=;
+        b=ZDxMEv3gK2twoC2WKedpZCRTNAksJWgNqq63wjayOuAapFf+cCEoJBwGOQ4Bd+FGCf
+         rpmI1RgwBSfvkAGVg5AbMrGIYVEKMhT47mn8+keCoOL4aKPqeuSOyJrTuDwI/kp4YXs2
+         JuWrplRnun4O++Qqek37GPXSLh3vt7GeWQ/6KmWrJBfgc8CwqFikxfxKP9w+Mf3kfov1
+         B1LYqmJwLyxjISZBYDt6QWahK+LyJH14sS0qekK4iu3Ma33sjs8OjKluh4YfIbqGS/Eg
+         PFL4CZWKcPtTNR993EuKizN3ELQLHrHLKLR8cisHaHsZRSgjXDOl5ngFjhcbAh70rVKg
+         6G+Q==
+X-Gm-Message-State: AC+VfDwpJhwrGVoMPOkh3KRvLgnSxUEu+Ham1uHCkQz8vpUXlztTC1am
+	2LsNarxNFolR83tlt59wUHSkVQTx8MFRFCcHOLs=
+X-Google-Smtp-Source: ACHHUZ4wv5prXwsELnJKzr2SWObIU3ZhbR9tq05+zv61fCSz6SZy3jEsP6XHZkJo04i7ZiOj52cZmA==
+X-Received: by 2002:a1c:f709:0:b0:3f6:179:4506 with SMTP id v9-20020a1cf709000000b003f601794506mr9467049wmh.38.1685363681677;
+        Mon, 29 May 2023 05:34:41 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:ec8d:e49e:8d5e:e7d5? ([2001:8b0:aba:5f3c:ec8d:e49e:8d5e:e7d5])
+        by smtp.gmail.com with ESMTPSA id i7-20020a05600c290700b003f42d8dd7ffsm14146373wmd.19.2023.05.29.05.34.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 May 2023 05:32:49 -0700 (PDT)
+        Mon, 29 May 2023 05:34:41 -0700 (PDT)
+Message-ID: <0718565165c8175882355d0674588f71c36b8bb7.camel@linuxfoundation.org>
+Subject: Re: [oe-core][PATCH 2/4] python3: add libxcrypt-native dependency
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] Revert "python3/ruby/shadow: Revert add libxcrypt-native dependency"
-Date: Mon, 29 May 2023 13:32:48 +0100
-Message-Id: <20230529123248.3128648-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
+To: Markus Volk <mrksvolk@googlemail.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, Markus Volk
+ <f_l_k@t-online.de>,  openembedded-core@lists.openembedded.org
+Date: Mon, 29 May 2023 13:34:40 +0100
+In-Reply-To: <ZG5FVR.L4YKBKAES08S3@googlemail.com>
+References: <20230527133252.284132-1-f_l_k@t-online.de>
+	 <20230527133252.284132-2-f_l_k@t-online.de>
+	 <17635252DFD4EDDE.6918@lists.openembedded.org>
+	 <CANNYZj_jz-SCh4kq33fe7_uiVRAvL+15i4kQ=U9Dkv84W2s+xw@mail.gmail.com>
+	 <VDGDVR.YBUKQ953M2TP3@t-online.de>
+	 <CANNYZj_0ASF5ERsCgrB3W3qYgGJFwJzXn35cgc6ojQf0fi1Yxg@mail.gmail.com>
+	 <POIDVR.URDIMNIKV0SE3@t-online.de>
+	 <CANNYZj-megU_4p_eR84XiSt7YvwWu57tWBEZDKoBFkjRj8ZKVQ@mail.gmail.com>
+	 <MEJDVR.WDZW7MFB3W9N1@t-online.de>
+	 <CANNYZj_-ptiJqvmf+cU0qV7VkKG0ds=guN9aTU1VirjcG8WjQA@mail.gmail.com>
+	 <7bb5f101af77af3a051a1b049206800aec542ccd.camel@linuxfoundation.org>
+	 <ZG5FVR.L4YKBKAES08S3@googlemail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 12:32:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181869
+ <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 12:34:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181870
 
-This reverts commit c6198e1b1c3e3a3413b6ff9f014b40114f1850db.
-This reverts commit 167c2c9f15c1bfe401c0512e420a76fa1379c012.
-This reverts commit 65532fc751dc00e5568e256166f7b259d3a3c06c.
+On Mon, 2023-05-29 at 14:02 +0200, Markus Volk wrote:
+> Am Mo, 29. Mai 2023 um 08:08:09 +0100 schrieb Richard Purdie
+> <richard.purdie@linuxfoundation.org>:
+> > Alex is right and I should have spotted this, the -native
+> > dependency
+> > definitely isn't right. We'll either need to fix things or revert
+> > them
+> > and wait for the right fix...
+>=20
+>=20
+> Absolutely. I had a quick look at native.bbclass yesterday, but
+> haven't found a nice way to deal with this yet. =C2=A0This week I'm on
+> night shift and therefore have rather little time to deal with the
+> problem. I can send v2 patches which just add
+>=20
+> DEPENDS:append:class-native =3D " libxcrypt-native"
+>=20
+> But revert would also be fine for me, as this is more of a niche
+> problem
 
-The dependencies should not be a -native in the target case. Revert
-these whilst the proper patch is worked out.
+I'm going to revert those changes and then we can work out the correct
+fix without any time pressures (and then I won't need to keep this on
+my 'need to do something about' mental checklist!).
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/python/python3_3.11.2.bb | 2 +-
- meta/recipes-devtools/ruby/ruby_3.2.2.bb       | 2 +-
- meta/recipes-extended/shadow/shadow.inc        | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+Cheers,
 
-diff --git a/meta/recipes-devtools/python/python3_3.11.2.bb b/meta/recipes-devtools/python/python3_3.11.2.bb
-index 1ca4ad35bea..421a305e22f 100644
---- a/meta/recipes-devtools/python/python3_3.11.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.11.2.bb
-@@ -72,7 +72,7 @@ ALTERNATIVE_LINK_NAME[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config
- ALTERNATIVE_TARGET[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config-${MULTILIB_SUFFIX}"
- 
- 
--DEPENDS = "bzip2-replacement-native expat libffi bzip2 openssl sqlite3 zlib virtual/libintl xz virtual/crypt util-linux-libuuid libtirpc libnsl2 autoconf-archive-native ncurses libxcrypt-native"
-+DEPENDS = "bzip2-replacement-native expat libffi bzip2 openssl sqlite3 zlib virtual/libintl xz virtual/crypt util-linux-libuuid libtirpc libnsl2 autoconf-archive-native ncurses"
- DEPENDS:append:class-target = " python3-native"
- DEPENDS:append:class-nativesdk = " python3-native"
- 
-diff --git a/meta/recipes-devtools/ruby/ruby_3.2.2.bb b/meta/recipes-devtools/ruby/ruby_3.2.2.bb
-index d1900bfa4bc..481fe7c23d8 100644
---- a/meta/recipes-devtools/ruby/ruby_3.2.2.bb
-+++ b/meta/recipes-devtools/ruby/ruby_3.2.2.bb
-@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5b8c87559868796979806100db3f3805 \
-                     file://LEGAL;md5=bcd74b47bbaf2051c5e49811a5faa97a \
-                     "
- 
--DEPENDS = "zlib openssl libyaml gdbm readline libffi libxcrypt-native"
-+DEPENDS = "zlib openssl libyaml gdbm readline libffi"
- DEPENDS:append:class-target = " ruby-native"
- DEPENDS:append:class-nativesdk = " ruby-native"
- 
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index 7206bfdf020..cf05a3af93c 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c9a450b7be84eac23e6353efecb60b5b \
-                     file://src/passwd.c;beginline=2;endline=30;md5=758c26751513b6795395275969dd3be1 \
-                     "
- 
--DEPENDS = "virtual/crypt libxcrypt-native"
-+DEPENDS = "virtual/crypt"
- 
- GITHUB_BASE_URI = "https://github.com/shadow-maint/shadow/releases"
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz \
--- 
-2.39.2
+Richard
+
 
 
