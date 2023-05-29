@@ -1,645 +1,115 @@
-Return-Path: <bindudaniel1996@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A942BC77B7E
-	for <webhook@archiver.kernel.org>; Mon, 29 May 2023 11:33:23 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web11.47701.1685359993453794990
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3E15C77B7A
+	for <webhook@archiver.kernel.org>; Mon, 29 May 2023 12:32:53 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web10.48410.1685363572506343567
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 May 2023 04:33:13 -0700
+ Mon, 29 May 2023 05:32:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=nyFcOKAc;
- spf=pass (domain: gmail.com, ip: 209.85.210.179, mailfrom: bindudaniel1996@gmail.com)
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-64d3491609fso2360802b3a.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 04:33:13 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=PTKcsJ0W;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-3f6dfc4dffaso21417685e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 05:32:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685359993; x=1687951993;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fag7s4Ah5zI/gu/QkeVfXIgWnSB0qH0CQ3DxogcWSCg=;
-        b=nyFcOKAcIkEGCtMSptaAyHY/6ZexOo/OAGkPMf0BH5/j3mD4FUehLj+3rAf1G3b8vD
-         /buMvptis8MSxYzdfCzEvd5yXoMfQec5TGmWaaiE0cIVCHOQpp9DtuXZ/w+RjKbJT8TA
-         YK1suisZINgzzXrpGF2Yfv+POxybb0I4UaLrOvVKY5FfEP+uvbnVnndJMPN1k4z9JwS9
-         5VNZzL/YI6kOu92Jhfyyu+CzNQ2CCLzS4QLHv8UqTgSh/byNA9Zkv9R55eQ58t77cEZp
-         o4GWqSWgHKstXbPOXJ55gf+8T2CL02QStUTGV4CBLXYlD33Q7zPcEy/9j5MOimrZJ1RP
-         xUww==
+        d=linuxfoundation.org; s=google; t=1685363570; x=1687955570;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BoWgyxGO2q6QFWq0h6cu00AS3nAd9rUR8hbedKixUp0=;
+        b=PTKcsJ0WGYl6tGQllLu3yip2YFgYyBnyx2/HaXLD2B58zWbuiPsz4qIKs6xqJIbXxH
+         1RAnTQCS77tUvN3CarNd5bJu+OF7/jYdOhkxIKnuEe/3sSMOM6JNhzrscUbFsI8Ayw9x
+         E86++Z0QDOkYVsE1W8WVGMNEqmz9NQz3Ei+nU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685359993; x=1687951993;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fag7s4Ah5zI/gu/QkeVfXIgWnSB0qH0CQ3DxogcWSCg=;
-        b=IJLU047KEiEpZSKYPb9AfDKystGjvcDsOWqYvQXWyv0036jvRyBXCG3mMqvSE7xijG
-         BRWLEwUsOhZPJ6VGcmzAJvaS4daLueJQUFsTZ+i2hP66xAGXfRHU8Iu1fkdUYyJyvR/v
-         hc/hT0Jg3lTEHdAyBHSuymM6wIwpaRvIs9o1qo/EaozxNdeF7W80nTTZkCi9R73WhcAV
-         xtnf2FR6+COkbj41uJGtcCTS5HU5RK5eqxQw6JTonU3viygY1YjHLFwRsLQhr6aa8BLZ
-         Po5rX81iwvcq0YIxnwXs+D+o/6niEf3LM4Jk0qacfGlkCSc9CN4RTqliz0/2sL+mD0Oc
-         yaJw==
-X-Gm-Message-State: AC+VfDx0IfFPgs9i2HEnN8NlF0QNz0dqBwOyEoYvl3inb30XZmGs08cg
-	UUKnXMGPYv6z0pYkPrBJ0SMCSDnMVMY=
-X-Google-Smtp-Source: ACHHUZ6Dw5C8sanRjg/glF+qWhSDHWwNoquEMQKIRIMbXxbswY7zG02QwW3fjd65MHGupoN+T1yXWg==
-X-Received: by 2002:a05:6a00:1819:b0:643:98cb:ec1 with SMTP id y25-20020a056a00181900b0064398cb0ec1mr15370219pfa.0.1685359992446;
-        Mon, 29 May 2023 04:33:12 -0700 (PDT)
-Received: from localhost.localdomain ([2401:4900:1f26:2235:3507:cad8:e3af:bc2])
-        by smtp.gmail.com with ESMTPSA id a15-20020aa780cf000000b00640defda6d2sm6524228pfn.207.2023.05.29.04.33.11
+        d=1e100.net; s=20221208; t=1685363570; x=1687955570;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BoWgyxGO2q6QFWq0h6cu00AS3nAd9rUR8hbedKixUp0=;
+        b=EPudJnJ13LaRxSalLNp1s94WVQg+oeuFZ2KzhyT2DP68TtPZksqoA6rMJGA8pDWQCI
+         r+Qm0+wtIuYJLP1oCmM7GTews/bpv1GzOgHwrJsZIKlli/aqNg/RKXgYK1hxc2WTRzcC
+         gGNpSdZVufvEdR98efITQqow3k0qygXFF2wXe499/kEMG4WD2XrzgnNBVMvLiiB0AE/F
+         /GEDlmRhCwe75nkpJVB2Q1xLETn/LOQAzHVLq83rPcjxxq5abYkJG4fFA/+EjGij+SWV
+         f9BojMLJ3d4XrLw8QN6VHU8IqJAIReA6n9weTlgS3k5JBfUDOFUlmOdCEem3Q8g/1Spf
+         6xzA==
+X-Gm-Message-State: AC+VfDxFTSN52SNTsLDUfy159qp943WVqtUcWTyl93zIwPTSpDk51cU9
+	WU0rNG2OYwsE8pl5rOwhH3gxh2dLTmHwKLsrbHA=
+X-Google-Smtp-Source: ACHHUZ4doMnmyaHwDgZ9ib5j/eeapLpeAvsjSu8xQGzq0r/tb8kBi6IoVhdEdfq5fRV6YrUKGae9CA==
+X-Received: by 2002:a7b:c3c7:0:b0:3f6:38f:aa07 with SMTP id t7-20020a7bc3c7000000b003f6038faa07mr10042559wmj.24.1685363570288;
+        Mon, 29 May 2023 05:32:50 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:ec8d:e49e:8d5e:e7d5])
+        by smtp.gmail.com with ESMTPSA id o11-20020a05600c378b00b003f195d540d9sm17801241wmr.14.2023.05.29.05.32.49
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 May 2023 04:33:12 -0700 (PDT)
-From: Bhabu Bindu <bindudaniel1996@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	bhabu.bindu@kpit.com
-Cc: ranjitsinh.rathod@kpit.com
-Subject: [OE-core][kirkstone][PATCH 4/4] curl: Fix CVE-2023-28322
-Date: Mon, 29 May 2023 17:02:46 +0530
-Message-Id: <20230529113246.1353022-4-bindudaniel1996@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230529113246.1353022-1-bindudaniel1996@gmail.com>
-References: <20230529113246.1353022-1-bindudaniel1996@gmail.com>
+        Mon, 29 May 2023 05:32:49 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] Revert "python3/ruby/shadow: Revert add libxcrypt-native dependency"
+Date: Mon, 29 May 2023 13:32:48 +0100
+Message-Id: <20230529123248.3128648-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 11:33:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181868
+ <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 12:32:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181869
 
-From: Bhabu Bindu <bhabu.bindu@kpit.com>
+This reverts commit c6198e1b1c3e3a3413b6ff9f014b40114f1850db.
+This reverts commit 167c2c9f15c1bfe401c0512e420a76fa1379c012.
+This reverts commit 65532fc751dc00e5568e256166f7b259d3a3c06c.
 
-Add patches to fix CVE-2023-28322
+The dependencies should not be a -native in the target case. Revert
+these whilst the proper patch is worked out.
 
-more POST-after-PUT confusion
-
-When doing HTTP(S) transfers, libcurl might erroneously use the read
-callback (`CURLOPT_READFUNCTION`) to ask for data to send, even when
-the `CURLOPT_POSTFIELDS` option has been set, if the same handle
-previously was used to issue a `PUT` request which used that callback.
-
-This flaw may surprise the application and cause it to misbehave and
-either send off the wrong data or use memory after free or similar in
-the second transfer.The problem exists in the logic for a reused
-handle when it is (expected tobe) changed from a PUT to a POST.
-
-CVE-2023-28322-1.patch is a supporting patch to resolve hunk
-error in the actual patch file : CVE-2023-28322-2.patch
-
-Link: https://curl.se/docs/CVE-2023-28322.html
-
-Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../curl/curl/CVE-2023-28322-1.patch          |  84 ++++
- .../curl/curl/CVE-2023-28322-2.patch          | 436 ++++++++++++++++++
- meta/recipes-support/curl/curl_7.82.0.bb      |   2 +
- 3 files changed, 522 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-28322-1.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-28322-2.patch
+ meta/recipes-devtools/python/python3_3.11.2.bb | 2 +-
+ meta/recipes-devtools/ruby/ruby_3.2.2.bb       | 2 +-
+ meta/recipes-extended/shadow/shadow.inc        | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2023-28322-1.patch b/meta/recipes-support/curl/curl/CVE-2023-28322-1.patch
-new file mode 100644
-index 0000000000..547127001d
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2023-28322-1.patch
-@@ -0,0 +1,84 @@
-+From efbf02111aa66bda9288506b7d5cc0226bf5453e Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Sun, 12 Feb 2023 13:24:08 +0100
-+Subject: [PATCH] smb: return error on upload without size
-+
-+The protocol needs to know the size ahead of time, this is now a known
-+restriction and not a bug.
-+
-+Also output a clearer error if the URL path does not contain proper
-+share.
-+
-+Ref: #7896
-+Closes #10484
-+
-+CVE: CVE-2023-28322
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/efbf02111aa66bda9288506b7d5cc0226bf5453e]
-+Comments: Hunks refreshed
-+Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
-+---
-+ docs/KNOWN_BUGS    | 5 -----
-+ docs/URL-SYNTAX.md | 3 +++
-+ lib/smb.c          | 6 ++++++
-+ 3 files changed, 9 insertions(+), 5 deletions(-)
-+
-+diff --git a/docs/KNOWN_BUGS b/docs/KNOWN_BUGS
-+index cbf5be352a279..a515e7a59bdfd 100644
-+--- a/docs/KNOWN_BUGS
-++++ b/docs/KNOWN_BUGS
-+@@ -58,7 +58,6 @@
-+  5.7 Visual Studio project gaps
-+  5.8 configure finding libs in wrong directory
-+  5.9 Utilize Requires.private directives in libcurl.pc
-+- 5.10 curl hangs on SMB upload over stdin
-+  5.11 configure --with-gssapi with Heimdal is ignored on macOS
-+  5.12 flaky Windows CI builds
-+
-+@@ -332,10 +331,6 @@ problems may have been fixed or changed somewhat since this was written.
-+ 
-+  https://github.com/curl/curl/issues/864
-+ 
-+-5.10 curl hangs on SMB upload over stdin
-+-
-+- See https://github.com/curl/curl/issues/7896
-+-
-+ 5.11 configure --with-gssapi with Heimdal is ignored on macOS
-+ 
-+  ... unless you also pass --with-gssapi-libs
-+diff --git a/docs/URL-SYNTAX.md b/docs/URL-SYNTAX.md
-+index 691fcceacd66c..802bbdef96979 100644
-+--- a/docs/URL-SYNTAX.md
-++++ b/docs/URL-SYNTAX.md
-+@@ -360,6 +360,9 @@ share and directory or the share to upload to and as such, may not be omitted.
-+ If the user name is embedded in the URL then it must contain the domain name
-+ and as such, the backslash must be URL encoded as %2f.
-+ 
-++When uploading to SMB, the size of the file needs to be known ahead of time,
-++meaning that you can upload a file passed to curl over a pipe like stdin.
-++
-+ curl supports SMB version 1 (only)
-+ 
-+ ## SMTP
-+diff --git a/lib/smb.c b/lib/smb.c
-+index 8a76763c157ce..dc0abe784bcee 100644
-+--- a/lib/smb.c
-++++ b/lib/smb.c
-+@@ -763,6 +763,11 @@ static CURLcode smb_request_state(struct Curl_easy *data, bool *done)
-+   void *msg = NULL;
-+   const struct smb_nt_create_response *smb_m;
-+ 
-++  if(data->set.upload && (data->state.infilesize < 0)) {
-++    failf(data, "SMB upload needs to know the size up front");
-++    return CURLE_SEND_ERROR;
-++  }
-++
-+   /* Start the request */
-+   if(req->state == SMB_REQUESTING) {
-+     result = smb_send_tree_connect(data);
-+@@ -993,6 +998,7 @@ static CURLcode smb_parse_url_path(struct Curl_easy *data,
-+   /* The share must be present */
-+   if(!slash) {
-+     Curl_safefree(smbc->share);
-++    failf(data, "missing share in URL path for SMB");
-+     return CURLE_URL_MALFORMAT;
-+   }
-diff --git a/meta/recipes-support/curl/curl/CVE-2023-28322-2.patch b/meta/recipes-support/curl/curl/CVE-2023-28322-2.patch
-new file mode 100644
-index 0000000000..f2134dd1c3
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2023-28322-2.patch
-@@ -0,0 +1,436 @@
-+From 7815647d6582c0a4900be2e1de6c5e61272c496b Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Tue, 25 Apr 2023 08:28:01 +0200
-+Subject: [PATCH] lib: unify the upload/method handling
-+
-+By making sure we set state.upload based on the set.method value and not
-+independently as set.upload, we reduce confusion and mixup risks, both
-+internally and externally.
-+
-+Closes #11017
-+
-+CVE: CVE-2023-28322
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/7815647d6582c0a4900be2e1de]
-+Comments: Hunks refreshed
-+Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
-+---
-+ lib/curl_rtmp.c    | 4 ++--
-+ lib/file.c         | 4 ++--
-+ lib/ftp.c          | 8 ++++----
-+ lib/http.c         | 4 ++--
-+ lib/imap.c         | 6 +++---
-+ lib/rtsp.c         | 4 ++--
-+ lib/setopt.c       | 6 ++----
-+ lib/smb.c          | 6 +++---
-+ lib/smtp.c         | 4 ++--
-+ lib/tftp.c         | 8 ++++----
-+ lib/transfer.c     | 4 ++--
-+ lib/urldata.h      | 2 +-
-+ lib/vssh/libssh.c  | 6 +++---
-+ lib/vssh/libssh2.c | 6 +++---
-+ lib/vssh/wolfssh.c | 2 +-
-+ 15 files changed, 36 insertions(+), 38 deletions(-)
-+
-+diff --git a/lib/curl_rtmp.c b/lib/curl_rtmp.c
-+index 2679a2cdc1afe..406fb42ac0f44 100644
-+--- a/lib/curl_rtmp.c
-++++ b/lib/curl_rtmp.c
-+@@ -231,7 +231,7 @@ static CURLcode rtmp_connect(struct Curl_easy *data, bool *done)
-+   /* We have to know if it's a write before we send the
-+    * connect request packet
-+    */
-+-  if(data->set.upload)
-++  if(data->state.upload)
-+     r->Link.protocol |= RTMP_FEATURE_WRITE;
-+ 
-+   /* For plain streams, use the buffer toggle trick to keep data flowing */
-+@@ -263,7 +263,7 @@ static CURLcode rtmp_do(struct Curl_easy *data, bool *done)
-+   if(!RTMP_ConnectStream(r, 0))
-+     return CURLE_FAILED_INIT;
-+ 
-+-  if(data->set.upload) {
-++  if(data->state.upload) {
-+     Curl_pgrsSetUploadSize(data, data->state.infilesize);
-+     Curl_setup_transfer(data, -1, -1, FALSE, FIRSTSOCKET);
-+   }
-+diff --git a/lib/file.c b/lib/file.c
-+index 51c5d07ce40ab..c751e8861a99b 100644
-+--- a/lib/file.c
-++++ b/lib/file.c
-+@@ -240,7 +240,7 @@ static CURLcode file_connect(struct Curl_easy *data, bool *done)
-+   file->freepath = real_path; /* free this when done */
-+ 
-+   file->fd = fd;
-+-  if(!data->set.upload && (fd == -1)) {
-++  if(!data->state.upload && (fd == -1)) {
-+     failf(data, "Couldn't open file %s", data->state.up.path);
-+     file_done(data, CURLE_FILE_COULDNT_READ_FILE, FALSE);
-+     return CURLE_FILE_COULDNT_READ_FILE;
-+@@ -422,7 +422,7 @@ static CURLcode file_do(struct Curl_easy *data, bool *done)
-+ 
-+   Curl_pgrsStartNow(data);
-+ 
-+-  if(data->set.upload)
-++  if(data->state.upload)
-+     return file_upload(data);
-+ 
-+   file = data->req.p.file;
-+diff --git a/lib/ftp.c b/lib/ftp.c
-+index f50d7baf622f8..4ff68cc454cbc 100644
-+--- a/lib/ftp.c
-++++ b/lib/ftp.c
-+@@ -1348,7 +1348,7 @@ static CURLcode ftp_state_prepare_transfer(struct Curl_easy *data)
-+                                data->set.str[STRING_CUSTOMREQUEST]?
-+                                data->set.str[STRING_CUSTOMREQUEST]:
-+                                (data->state.list_only?"NLST":"LIST"));
-+-      else if(data->set.upload)
-++      else if(data->state.upload)
-+         result = Curl_pp_sendf(data, &ftpc->pp, "PRET STOR %s",
-+                                conn->proto.ftpc.file);
-+       else
-+@@ -3384,7 +3384,7 @@ static CURLcode ftp_done(struct Curl_easy *data, CURLcode status,
-+     /* the response code from the transfer showed an error already so no
-+        use checking further */
-+     ;
-+-  else if(data->set.upload) {
-++  else if(data->state.upload) {
-+     if((-1 != data->state.infilesize) &&
-+        (data->state.infilesize != data->req.writebytecount) &&
-+        !data->set.crlf &&
-+@@ -3640,7 +3640,7 @@ static CURLcode ftp_do_more(struct Curl_easy *data, int *completep)
-+                            connected back to us */
-+       }
-+     }
-+-    else if(data->set.upload) {
-++    else if(data->state.upload) {
-+       result = ftp_nb_type(data, conn, data->state.prefer_ascii,
-+                            FTP_STOR_TYPE);
-+       if(result)
-+@@ -4233,7 +4233,7 @@
-+     ftpc->file = NULL; /* instead of point to a zero byte,
-+                             we make it a NULL pointer */
-+ 
-+-  if(data->set.upload && !ftpc->file && (ftp->transfer == PPTRANSFER_BODY)) {
-++  if(data->state.upload && !ftpc->file && (ftp->transfer == PPTRANSFER_BODY)) {
-+     /* We need a file name when uploading. Return error! */
-+     failf(data, "Uploading to a URL without a file name!");
-+     free(rawPath);
-+diff --git a/lib/http.c b/lib/http.c
-+index 80e43f6f361e8..bffdd3468536d 100644
-+--- a/lib/http.c
-++++ b/lib/http.c
-+@@ -2033,7 +2033,7 @@
-+   Curl_HttpReq httpreq = data->state.httpreq;
-+   const char *request;
-+   if((conn->handler->protocol&(PROTO_FAMILY_HTTP|CURLPROTO_FTP)) &&
-+-     data->set.upload)
-++     data->state.upload)
-+     httpreq = HTTPREQ_PUT;
-+ 
-+   /* Now set the 'request' pointer to the proper request string */
-+@@ -2423,7 +2423,7 @@ CURLcode Curl_http_body(struct Curl_easy *data, struct connectdata *conn,
-+     if((conn->handler->protocol & PROTO_FAMILY_HTTP) &&
-+        (((httpreq == HTTPREQ_POST_MIME || httpreq == HTTPREQ_POST_FORM) &&
-+          http->postsize < 0) ||
-+-        ((data->set.upload || httpreq == HTTPREQ_POST) &&
-++        ((data->state.upload || httpreq == HTTPREQ_POST) &&
-+          data->state.infilesize == -1))) {
-+       if(conn->bits.authneg)
-+         /* don't enable chunked during auth neg */
-+diff --git a/lib/imap.c b/lib/imap.c
-+index c2f675d4b2618..1952e66a1efcd 100644
-+--- a/lib/imap.c
-++++ b/lib/imap.c
-+@@ -1511,11 +1511,11 @@ static CURLcode imap_done(struct Curl_easy *data, CURLcode status,
-+     result = status;         /* use the already set error code */
-+   }
-+   else if(!data->set.connect_only && !imap->custom &&
-+-          (imap->uid || imap->mindex || data->set.upload ||
-++          (imap->uid || imap->mindex || data->state.upload ||
-+           data->set.mimepost.kind != MIMEKIND_NONE)) {
-+     /* Handle responses after FETCH or APPEND transfer has finished */
-+ 
-+-    if(!data->set.upload && data->set.mimepost.kind == MIMEKIND_NONE)
-++    if(!data->state.upload && data->set.mimepost.kind == MIMEKIND_NONE)
-+       state(data, IMAP_FETCH_FINAL);
-+     else {
-+       /* End the APPEND command first by sending an empty line */
-+@@ -1581,7 +1581,7 @@ static CURLcode imap_perform(struct Curl_easy *data, bool *connected,
-+     selected = TRUE;
-+ 
-+   /* Start the first command in the DO phase */
-+-  if(data->set.upload || data->set.mimepost.kind != MIMEKIND_NONE)
-++  if(data->state.upload || data->set.mimepost.kind != MIMEKIND_NONE)
-+     /* APPEND can be executed directly */
-+     result = imap_perform_append(data);
-+   else if(imap->custom && (selected || !imap->mailbox))
-+diff --git a/lib/rtsp.c b/lib/rtsp.c
-+index ea99d720ec4eb..ccd7264b00e74 100644
-+--- a/lib/rtsp.c
-++++ b/lib/rtsp.c
-+@@ -493,7 +493,7 @@ static CURLcode rtsp_do(struct Curl_easy *data, bool *done)
-+      rtspreq == RTSPREQ_SET_PARAMETER ||
-+      rtspreq == RTSPREQ_GET_PARAMETER) {
-+ 
-+-    if(data->set.upload) {
-++    if(data->state.upload) {
-+       putsize = data->state.infilesize;
-+       data->state.httpreq = HTTPREQ_PUT;
-+ 
-+@@ -512,7 +512,7 @@ static CURLcode rtsp_do(struct Curl_easy *data, bool *done)
-+         result =
-+           Curl_dyn_addf(&req_buffer,
-+                         "Content-Length: %" CURL_FORMAT_CURL_OFF_T"\r\n",
-+-                        (data->set.upload ? putsize : postsize));
-++                        (data->state.upload ? putsize : postsize));
-+         if(result)
-+           return result;
-+       }
-+diff --git a/lib/setopt.c b/lib/setopt.c
-+index 38f5711e44191..0c3b9634d1192 100644
-+--- a/lib/setopt.c
-++++ b/lib/setopt.c
-+@@ -333,8 +333,8 @@ CURLcode Curl_vsetopt(struct Curl_easy *data, CURLoption option, va_list param)
-+      * We want to sent data to the remote host. If this is HTTP, that equals
-+      * using the PUT request.
-+      */
-+-    data->set.upload = (0 != va_arg(param, long)) ? TRUE : FALSE;
-+-    if(data->set.upload) {
-++    arg = va_arg(param, long);
-++    if(arg) {
-+       /* If this is HTTP, PUT is what's needed to "upload" */
-+       data->set.method = HTTPREQ_PUT;
-+       data->set.opt_no_body = FALSE; /* this is implied */
-+@@ -625,7 +625,6 @@
-+     }
-+     else
-+       data->set.method = HTTPREQ_GET;
-+-    data->set.upload = FALSE;
-+     break;
-+ 
-+   case CURLOPT_HTTPPOST:
-+@@ -888,7 +887,6 @@ CURLcode Curl_vsetopt(struct Curl_easy *data, CURLoption option, va_list param)
-+      */
-+     if(va_arg(param, long)) {
-+       data->set.method = HTTPREQ_GET;
-+-      data->set.upload = FALSE; /* switch off upload */
-+       data->set.opt_no_body = FALSE; /* this is implied */
-+     }
-+     break;
-+diff --git a/lib/smb.c b/lib/smb.c
-+index a1e444ee6b97e..d6822213529bc 100644
-+--- a/lib/smb.c
-++++ b/lib/smb.c
-+@@ -530,7 +530,7 @@ static CURLcode smb_send_open(struct Curl_easy *data)
-+   byte_count = strlen(req->path);
-+   msg.name_length = smb_swap16((unsigned short)byte_count);
-+   msg.share_access = smb_swap32(SMB_FILE_SHARE_ALL);
-+-  if(data->set.upload) {
-++  if(data->state.upload) {
-+     msg.access = smb_swap32(SMB_GENERIC_READ | SMB_GENERIC_WRITE);
-+     msg.create_disposition = smb_swap32(SMB_FILE_OVERWRITE_IF);
-+   }
-+@@ -762,7 +762,7 @@ static CURLcode smb_request_state(struct Curl_easy *data, bool *done)
-+   void *msg = NULL;
-+   const struct smb_nt_create_response *smb_m;
-+ 
-+-  if(data->set.upload && (data->state.infilesize < 0)) {
-++  if(data->state.upload && (data->state.infilesize < 0)) {
-+     failf(data, "SMB upload needs to know the size up front");
-+     return CURLE_SEND_ERROR;
-+   }
-+@@ -813,7 +813,7 @@ static CURLcode smb_request_state(struct Curl_easy *data, bool *done)
-+     smb_m = (const struct smb_nt_create_response*) msg;
-+     req->fid = smb_swap16(smb_m->fid);
-+     data->req.offset = 0;
-+-    if(data->set.upload) {
-++    if(data->state.upload) {
-+       data->req.size = data->state.infilesize;
-+       Curl_pgrsSetUploadSize(data, data->req.size);
-+       next_state = SMB_UPLOAD;
-+diff --git a/lib/smtp.c b/lib/smtp.c
-+index 7a030308d4689..c182cace742d7 100644
-+--- a/lib/smtp.c
-++++ b/lib/smtp.c
-+@@ -1419,7 +1419,7 @@ static CURLcode smtp_done(struct Curl_easy *data, CURLcode status,
-+     result = status;         /* use the already set error code */
-+   }
-+   else if(!data->set.connect_only && data->set.mail_rcpt &&
-+-          (data->set.upload || data->set.mimepost.kind)) {
-++          (data->state.upload || data->set.mimepost.kind)) {
-+     /* Calculate the EOB taking into account any terminating CRLF from the
-+        previous line of the email or the CRLF of the DATA command when there
-+        is "no mail data". RFC-5321, sect. 4.1.1.4.
-+@@ -1511,7 +1511,7 @@ static CURLcode smtp_perform(struct Curl_easy *data, bool *connected,
-+   smtp->eob = 2;
-+ 
-+   /* Start the first command in the DO phase */
-+-  if((data->set.upload || data->set.mimepost.kind) && data->set.mail_rcpt)
-++  if((data->state.upload || data->set.mimepost.kind) && data->set.mail_rcpt)
-+     /* MAIL transfer */
-+     result = smtp_perform_mail(data);
-+   else
-+diff --git a/lib/tftp.c b/lib/tftp.c
-+index 164d3c723c5b9..8ed1b887b4d21 100644
-+--- a/lib/tftp.c
-++++ b/lib/tftp.c
-+@@ -370,7 +370,7 @@ static CURLcode tftp_parse_option_ack(struct tftp_state_data *state,
-+ 
-+       /* tsize should be ignored on upload: Who cares about the size of the
-+          remote file? */
-+-      if(!data->set.upload) {
-++      if(!data->state.upload) {
-+         if(!tsize) {
-+           failf(data, "invalid tsize -:%s:- value in OACK packet", value);
-+           return CURLE_TFTP_ILLEGAL;
-+@@ -451,7 +451,7 @@ static CURLcode tftp_send_first(struct tftp_state_data *state,
-+       return result;
-+     }
-+ 
-+-    if(data->set.upload) {
-++    if(data->state.upload) {
-+       /* If we are uploading, send an WRQ */
-+       setpacketevent(&state->spacket, TFTP_EVENT_WRQ);
-+       state->data->req.upload_fromhere =
-+@@ -486,7 +486,7 @@ static CURLcode tftp_send_first(struct tftp_state_data *state,
-+     if(!data->set.tftp_no_options) {
-+       char buf[64];
-+       /* add tsize option */
-+-      if(data->set.upload && (data->state.infilesize != -1))
-++      if(data->state.upload && (data->state.infilesize != -1))
-+         msnprintf(buf, sizeof(buf), "%" CURL_FORMAT_CURL_OFF_T,
-+                   data->state.infilesize);
-+       else
-+@@ -540,7 +540,7 @@ static CURLcode tftp_send_first(struct tftp_state_data *state,
-+     break;
-+ 
-+   case TFTP_EVENT_OACK:
-+-    if(data->set.upload) {
-++    if(data->state.upload) {
-+       result = tftp_connect_for_tx(state, event);
-+     }
-+     else {
-+diff --git a/lib/transfer.c b/lib/transfer.c
-+index e9ab8fbf09510..cb69f3365855a 100644
-+--- a/lib/transfer.c
-++++ b/lib/transfer.c
-+@@ -1293,6 +1293,7 @@ void Curl_init_CONNECT(struct Curl_easy *data)
-+ {
-+   data->state.fread_func = data->set.fread_func_set;
-+   data->state.in = data->set.in_set;
-++  data->state.upload = (data->state.httpreq == HTTPREQ_PUT);
-+ }
-+ 
-+ /*
-+@@ -1767,7 +1767,6 @@
-+          data->state.httpreq != HTTPREQ_POST_MIME) ||
-+         !(data->set.keep_post & CURL_REDIR_POST_303))) {
-+       data->state.httpreq = HTTPREQ_GET;
-+-      data->set.upload = false;
-+       infof(data, "Switch to %s",
-+             data->set.opt_no_body?"HEAD":"GET");
-+     }
-+@@ -1770,7 +1770,7 @@ CURLcode Curl_retry_request(struct Curl_easy *data, char **url)
-+ 
-+   /* if we're talking upload, we can't do the checks below, unless the protocol
-+      is HTTP as when uploading over HTTP we will still get a response */
-+-  if(data->set.upload &&
-++  if(data->state.upload &&
-+      !(conn->handler->protocol&(PROTO_FAMILY_HTTP|CURLPROTO_RTSP)))
-+     return CURLE_OK;
-+ 
-+diff --git a/lib/urldata.h b/lib/urldata.h
-+index cca992a0295aa..a8580bdb66fe8 100644
-+--- a/lib/urldata.h
-++++ b/lib/urldata.h
-+@@ -1487,6 +1487,7 @@
-+   BIT(url_alloc);   /* URL string is malloc()'ed */
-+   BIT(referer_alloc); /* referer string is malloc()ed */
-+   BIT(wildcard_resolve); /* Set to true if any resolve change is a wildcard */
-++  BIT(upload);         /* upload request */
-+ };
-+ 
-+ /*
-+@@ -1838,7 +1839,6 @@ struct UserDefined {
-+   BIT(http_auto_referer); /* set "correct" referer when following
-+                              location: */
-+   BIT(opt_no_body);    /* as set with CURLOPT_NOBODY */
-+-  BIT(upload);         /* upload request */
-+   BIT(verbose);        /* output verbosity */
-+   BIT(krb);            /* Kerberos connection requested */
-+   BIT(reuse_forbid);   /* forbidden to be reused, close after use */
-+diff --git a/lib/vssh/libssh.c b/lib/vssh/libssh.c
-+index b31f741ba9492..d60edaa303642 100644
-+--- a/lib/vssh/libssh.c
-++++ b/lib/vssh/libssh.c
-+@@ -1209,7 +1209,7 @@ static CURLcode myssh_statemach_act(struct Curl_easy *data, bool *block)
-+     }
-+ 
-+     case SSH_SFTP_TRANS_INIT:
-+-      if(data->set.upload)
-++      if(data->state.upload)
-+         state(data, SSH_SFTP_UPLOAD_INIT);
-+       else {
-+         if(protop->path[strlen(protop->path)-1] == '/')
-+@@ -1802,7 +1802,7 @@ static CURLcode myssh_statemach_act(struct Curl_easy *data, bool *block)
-+       /* Functions from the SCP subsystem cannot handle/return SSH_AGAIN */
-+       ssh_set_blocking(sshc->ssh_session, 1);
-+ 
-+-      if(data->set.upload) {
-++      if(data->state.upload) {
-+         if(data->state.infilesize < 0) {
-+           failf(data, "SCP requires a known file size for upload");
-+           sshc->actualcode = CURLE_UPLOAD_FAILED;
-+@@ -1907,7 +1907,7 @@ static CURLcode myssh_statemach_act(struct Curl_easy *data, bool *block)
-+         break;
-+       }
-+     case SSH_SCP_DONE:
-+-      if(data->set.upload)
-++      if(data->state.upload)
-+         state(data, SSH_SCP_SEND_EOF);
-+       else
-+         state(data, SSH_SCP_CHANNEL_FREE);
-+diff --git a/lib/vssh/libssh2.c b/lib/vssh/libssh2.c
-+index f1154dc47a74e..f2e5352d1fd3a 100644
-+--- a/lib/vssh/libssh2.c
-++++ b/lib/vssh/libssh2.c
-+@@ -2019,7 +2019,7 @@ static CURLcode ssh_statemach_act(struct Curl_easy *data, bool *block)
-+     }
-+ 
-+     case SSH_SFTP_TRANS_INIT:
-+-      if(data->set.upload)
-++      if(data->state.upload)
-+         state(data, SSH_SFTP_UPLOAD_INIT);
-+       else {
-+         if(sshp->path[strlen(sshp->path)-1] == '/')
-+@@ -2691,7 +2691,7 @@ static CURLcode ssh_statemach_act(struct Curl_easy *data, bool *block)
-+         break;
-+       }
-+ 
-+-      if(data->set.upload) {
-++      if(data->state.upload) {
-+         if(data->state.infilesize < 0) {
-+           failf(data, "SCP requires a known file size for upload");
-+           sshc->actualcode = CURLE_UPLOAD_FAILED;
-+@@ -2831,7 +2831,7 @@ static CURLcode ssh_statemach_act(struct Curl_easy *data, bool *block)
-+     break;
-+ 
-+     case SSH_SCP_DONE:
-+-      if(data->set.upload)
-++      if(data->state.upload)
-+         state(data, SSH_SCP_SEND_EOF);
-+       else
-+         state(data, SSH_SCP_CHANNEL_FREE);
-+diff --git a/lib/vssh/wolfssh.c b/lib/vssh/wolfssh.c
-+index 17d59ecd23bc8..2ca91b7363b1d 100644
-+--- a/lib/vssh/wolfssh.c
-++++ b/lib/vssh/wolfssh.c
-+@@ -557,7 +557,7 @@ static CURLcode wssh_statemach_act(struct Curl_easy *data, bool *block)
-+       }
-+       break;
-+     case SSH_SFTP_TRANS_INIT:
-+-      if(data->set.upload)
-++      if(data->state.upload)
-+         state(data, SSH_SFTP_UPLOAD_INIT);
-+       else {
-+         if(sftp_scp->path[strlen(sftp_scp->path)-1] == '/')
-diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-index 3241867d7e..96280b31b2 100644
---- a/meta/recipes-support/curl/curl_7.82.0.bb
-+++ b/meta/recipes-support/curl/curl_7.82.0.bb
-@@ -48,6 +48,8 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2023-28319.patch \
-            file://CVE-2023-28320.patch \
-            file://CVE-2023-28321.patch \
-+           file://CVE-2023-28322-1.patch \
-+           file://CVE-2023-28322-2.patch \
-            "
- SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
+diff --git a/meta/recipes-devtools/python/python3_3.11.2.bb b/meta/recipes-devtools/python/python3_3.11.2.bb
+index 1ca4ad35bea..421a305e22f 100644
+--- a/meta/recipes-devtools/python/python3_3.11.2.bb
++++ b/meta/recipes-devtools/python/python3_3.11.2.bb
+@@ -72,7 +72,7 @@ ALTERNATIVE_LINK_NAME[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config
+ ALTERNATIVE_TARGET[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config-${MULTILIB_SUFFIX}"
  
+ 
+-DEPENDS = "bzip2-replacement-native expat libffi bzip2 openssl sqlite3 zlib virtual/libintl xz virtual/crypt util-linux-libuuid libtirpc libnsl2 autoconf-archive-native ncurses libxcrypt-native"
++DEPENDS = "bzip2-replacement-native expat libffi bzip2 openssl sqlite3 zlib virtual/libintl xz virtual/crypt util-linux-libuuid libtirpc libnsl2 autoconf-archive-native ncurses"
+ DEPENDS:append:class-target = " python3-native"
+ DEPENDS:append:class-nativesdk = " python3-native"
+ 
+diff --git a/meta/recipes-devtools/ruby/ruby_3.2.2.bb b/meta/recipes-devtools/ruby/ruby_3.2.2.bb
+index d1900bfa4bc..481fe7c23d8 100644
+--- a/meta/recipes-devtools/ruby/ruby_3.2.2.bb
++++ b/meta/recipes-devtools/ruby/ruby_3.2.2.bb
+@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5b8c87559868796979806100db3f3805 \
+                     file://LEGAL;md5=bcd74b47bbaf2051c5e49811a5faa97a \
+                     "
+ 
+-DEPENDS = "zlib openssl libyaml gdbm readline libffi libxcrypt-native"
++DEPENDS = "zlib openssl libyaml gdbm readline libffi"
+ DEPENDS:append:class-target = " ruby-native"
+ DEPENDS:append:class-nativesdk = " ruby-native"
+ 
+diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
+index 7206bfdf020..cf05a3af93c 100644
+--- a/meta/recipes-extended/shadow/shadow.inc
++++ b/meta/recipes-extended/shadow/shadow.inc
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c9a450b7be84eac23e6353efecb60b5b \
+                     file://src/passwd.c;beginline=2;endline=30;md5=758c26751513b6795395275969dd3be1 \
+                     "
+ 
+-DEPENDS = "virtual/crypt libxcrypt-native"
++DEPENDS = "virtual/crypt"
+ 
+ GITHUB_BASE_URI = "https://github.com/shadow-maint/shadow/releases"
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz \
 -- 
-2.25.1
+2.39.2
 
 
