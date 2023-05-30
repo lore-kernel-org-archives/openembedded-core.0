@@ -1,651 +1,191 @@
-Return-Path: <zhangjialing@loongson.cn>
+Return-Path: <qiutt@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E7B4C77B7A
-	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 06:47:30 +0000 (UTC)
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by mx.groups.io with SMTP id smtpd.web10.4050.1685429241657986206
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68B02C77B73
+	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 07:06:00 +0000 (UTC)
+Received: from esa1.hc1455-7.c3s2.iphmx.com (esa1.hc1455-7.c3s2.iphmx.com [207.54.90.47])
+ by mx.groups.io with SMTP id smtpd.web10.4270.1685430350105079845
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 May 2023 23:47:22 -0700
+ Tue, 30 May 2023 00:05:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: loongson.cn, ip: 114.242.206.163, mailfrom: zhangjialing@loongson.cn)
-Received: from loongson.cn (unknown [192.168.100.1])
-	by gateway (Coremail) with SMTP id _____8DxDOv2m3VkgHgCAA--.1223S3;
-	Tue, 30 May 2023 14:47:19 +0800 (CST)
-Received: from localhost.localdomain (unknown [192.168.100.1])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8BxKL31m3VkLimAAA--.12188S4;
-	Tue, 30 May 2023 14:47:17 +0800 (CST)
-From: zhangjialing@loongson.cn
+ dkim=missing; spf=pass (domain: fujitsu.com, ip: 207.54.90.47, mailfrom: qiutt@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="118687894"
+X-IronPort-AV: E=Sophos;i="6.00,203,1681138800"; 
+   d="scan'208";a="118687894"
+Received: from unknown (HELO yto-r1.gw.nic.fujitsu.com) ([218.44.52.217])
+  by esa1.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 16:05:48 +0900
+Received: from yto-m3.gw.nic.fujitsu.com (yto-nat-yto-m3.gw.nic.fujitsu.com [192.168.83.66])
+	by yto-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 5F160D69D5
+	for <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 16:05:45 +0900 (JST)
+Received: from aks-ab2.gw.nic.fujitsu.com (aks-ab2.gw.nic.fujitsu.com [192.51.207.12])
+	by yto-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id 8B8F2D20B6
+	for <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 16:05:44 +0900 (JST)
+Received: from centos.g08.fujitsu.local (unknown [10.167.219.96])
+	by aks-ab2.gw.nic.fujitsu.com (Postfix) with ESMTP id 95B0786B44;
+	Tue, 30 May 2023 16:05:43 +0900 (JST)
+From: qiutt@fujitsu.com
 To: openembedded-core@lists.openembedded.org
-Cc: zhangjialing <zhangjialing@loongson.cn>
-Subject: [PATCH v2] Fixes pseudo build in loongarch64
-Date: Tue, 30 May 2023 14:47:00 +0800
-Message-Id: <20230530064659.1465477-1-zhangjialing@loongson.cn>
-X-Mailer: git-send-email 2.33.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxKL31m3VkLimAAA--.12188S4
-X-CM-SenderInfo: x2kd0wxmldzxtqj6z05rqj20fqof0/1tbiAQAGB2RzRH8E1gASss
-X-Coremail-Antispam: 1Uk129KBjvAXoW3ZryUuFyUuFyxtrWDKw4rKrg_yoW8WrWfuo
-	WSq3ZrXF4UZr4fAr10kFn8J3yxW34UCF18XFWkGr4kCFWfJF4Y9ry5tw4a934Uur9xGry3
-	CayrKF9IvF4fArnxn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXasCq-sGcSsGvf
-	J3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU0xBIdaVrnRJU
-	UUkKb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s
-	0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-	Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
-	ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS
-	0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0V
-	AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Gr0_Cr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4kE6xkIj40Ew7xC0wCF04k20x
-	vY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I
-	3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIx
-	AIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAI
-	cVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2js
-	IEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU88pnPUUUUU==
+Cc: Qiu Tingting <qiutt@fujitsu.com>
+Subject: [PATCH V3] kbd: Add ptest support
+Date: Tue, 30 May 2023 15:05:18 +0800
+Message-Id: <1685430318-27100-1-git-send-email-qiutt@fujitsu.com>
+X-Mailer: git-send-email 1.7.1
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1408-9.0.0.1002-27660.005
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1408-9.0.1002-27660.005
+X-TMASE-Result: 10--4.527700-10.000000
+X-TMASE-MatchedRID: SzbEz7SZt2tSuJfEWZSQfC9iVDu7EPf8YdZm+NnGVQffUZT83lbkEO79
+	DJRUi35pWwhqFGcExMuBUk0um/9nw4XrWsM9VUpTTuctSpiuWyU2ZWOmuJUS2VgLks93sG9t09D
+	6Rw2zIrMPNxz2EvpSIEej3sxQoy96oGg41PayguTTfU1/F+PbM/7KE7XIKgt8UJ52LFhfM6t5Gk
+	57g9BWKFslxAfd+6tXeTjw/FyRX6QfE8yM4pjsDwtuKBGekqUpnH7sbImOEBSnee7phlS0LO9oh
+	jPfezOk619Wo816uZV+68GFlZUgsxjaw878mQ4emB5QFmTvHa7SGjVYI19tXd/jiu6WV1fszrqf
+	a1WFGzjsfZ9V6Q6rCZgvUoiYqGrVm457vI8IG8B/Y4nFsBWAdD6Qrn3xh/cy
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 06:47:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181900
+ <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 07:06:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181901
 
-From: zhangjialing <zhangjialing@loongson.cn>
+From: Qiu Tingting <qiutt@fujitsu.com>
 
-Fixes [YOCTO #15110]
+Add a ptest for kbd
+- It is taking around 1s to execute with kvm, so added it to PTESTS_FAST
+- It contains libkeymap unit tests(27 cases) and libkbdfile unit tests(13 cases)
 
-Some functions used in the project have been removed from glibc. After the removal of these functions,
-the architecture in glibc will not include the removed functions.
-This patch resolves the usage and compilation issues on the loongarch64 architecture
-
-Signed-off-by: zhangjialing <zhangjialing@loongson.cn>
+Signed-off-by: Qiu Tingting <qiutt@fujitsu.com>
 ---
- ports/linux/guts/fopen64.c    |  8 ++++
- ports/linux/guts/freopen64.c  |  8 ++++
- ports/linux/guts/fstat.c      | 11 +++++-
- ports/linux/guts/fstat64.c    | 16 ++++++++
- ports/linux/guts/fstatat.c    |  8 +++-
- ports/linux/guts/fstatat64.c  | 43 +++++++++++++++++++++
- ports/linux/guts/lstat.c      |  5 ++-
- ports/linux/guts/lstat64.c    |  5 ++-
- ports/linux/guts/mknod.c      |  4 ++
- ports/linux/guts/mknodat.c    | 72 +++++++++++++++++++++++++++++++++++
- ports/linux/guts/mkostemp64.c |  4 ++
- ports/linux/guts/openat.c     | 36 ++++++++++++++++++
- ports/linux/guts/stat.c       |  5 ++-
- ports/linux/guts/stat64.c     |  5 ++-
- ports/linux/pseudo_wrappers.c | 32 ++++++++++++++++
- pseudo_client.h               |  8 ++++
- templates/wrapfuncs.c         |  2 +
- 17 files changed, 266 insertions(+), 6 deletions(-)
+ .../distro/include/ptest-packagelists.inc     |  1 +
+ meta/recipes-core/kbd/files/run-ptest         | 11 +++
+ meta/recipes-core/kbd/kbd_2.5.1.bb            | 71 ++++++++++++++++++-
+ 3 files changed, 82 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/kbd/files/run-ptest
 
-diff --git a/ports/linux/guts/fopen64.c b/ports/linux/guts/fopen64.c
-index e76da69..33df2b1 100644
---- a/ports/linux/guts/fopen64.c
-+++ b/ports/linux/guts/fopen64.c
-@@ -11,7 +11,11 @@
-  	struct stat64 buf;
- 	int save_errno;
- 
-+#ifdef __loongarch64
-+ 	int existed = (real_stat64(path, &buf) != -1);
-+#else
- 	int existed = (real___xstat64(_STAT_VER, path, &buf) != -1);
-+#endif
- 
- 	rc = real_fopen64(path, mode);
- 	save_errno = errno;
-@@ -20,7 +24,11 @@
- 		int fd = fileno(rc);
- 
- 		pseudo_debug(PDBGF_FILE, "fopen64 '%s': fd %d <FILE %p>\n", path, fd, (void *) rc);
-+#ifdef __loongarch64
-+		if (real_fstat64( fd, &buf) != -1) {
-+#else
- 		if (real___fxstat64(_STAT_VER, fd, &buf) != -1) {
-+#endif
- 			if (!existed) {
- 				real_fchmod(fd, PSEUDO_FS_MODE(0666 & ~pseudo_umask, 0));
- 				pseudo_client_op(OP_CREAT, 0, -1, -1, path, &buf);
-diff --git a/ports/linux/guts/freopen64.c b/ports/linux/guts/freopen64.c
-index 5fc9073..f249682 100644
---- a/ports/linux/guts/freopen64.c
-+++ b/ports/linux/guts/freopen64.c
-@@ -10,7 +10,11 @@
-  */
-  	struct stat64 buf;
- 	int save_errno;
-+#ifdef __loongarch64
-+	int existed = (real_stat64(path, &buf) != -1);
-+#else
- 	int existed = (real___xstat64(_STAT_VER, path, &buf) != -1);
-+#endif
- 
- 	rc = real_freopen64(path, mode, stream);
- 	save_errno = errno;
-@@ -19,7 +23,11 @@
- 		int fd = fileno(rc);
- 
- 		pseudo_debug(PDBGF_FILE, "freopen64 '%s': fd %d\n", path, fd);
-+#ifdef __loongarch64
-+		if (real_fstat64(fd, &buf) != -1) {
-+#else
- 		if (real___fxstat64(_STAT_VER, fd, &buf) != -1) {
-+#endif
- 			if (!existed) {
- 				real_fchmod(fd, PSEUDO_FS_MODE(0666 & ~pseudo_umask, 0));
- 				pseudo_client_op(OP_CREAT, 0, -1, -1, path, &buf);
-diff --git a/ports/linux/guts/fstat.c b/ports/linux/guts/fstat.c
-index b089b15..1ea4024 100644
---- a/ports/linux/guts/fstat.c
-+++ b/ports/linux/guts/fstat.c
-@@ -7,8 +7,17 @@
-  * int fstat(int fd, struct stat *buf)
-  *	int rc = -1;
-  */
--
-+#ifdef __loongarch64
-+	struct stat64 buf64;
-+        /* populate buffer with complete data */
-+        real_fstat(fd, buf);
-+        /* obtain fake data */
-+        rc = wrap_fstat64(fd, &buf64);
-+        /* overwrite */
-+        pseudo_stat32_from64(buf, &buf64);
-+#else
- 	rc = wrap___fxstat(_STAT_VER, fd, buf);
-+#endif
- 
- /*	return rc;
-  * }
-diff --git a/ports/linux/guts/fstat64.c b/ports/linux/guts/fstat64.c
-index 6dd97da..9f580e9 100644
---- a/ports/linux/guts/fstat64.c
-+++ b/ports/linux/guts/fstat64.c
-@@ -7,8 +7,24 @@
-  * int fstat64(int fd, struct stat *buf)
-  *	int rc = -1;
-  */
-+#ifdef __loongarch64
-+	pseudo_msg_t *msg;
-+        int save_errno;
- 
-+        rc = real_fstat64(fd, buf);
-+        save_errno = errno;
-+        if (rc == -1) {
-+                return rc;
-+        }
-+        msg = pseudo_client_op(OP_FSTAT, 0, fd, -1, 0, buf);
-+        if (msg && msg->result == RESULT_SUCCEED) {
-+                pseudo_stat_msg(buf, msg);
-+        }
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index faa9bd6983..366c048cc8 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -26,6 +26,7 @@ PTESTS_FAST = "\
+     gzip \
+     json-c \
+     json-glib \
++    kbd \
+     libconvert-asn1-perl \
+     liberror-perl \
+     libgpg-error\
+diff --git a/meta/recipes-core/kbd/files/run-ptest b/meta/recipes-core/kbd/files/run-ptest
+new file mode 100644
+index 0000000000..3b154c4d73
+--- /dev/null
++++ b/meta/recipes-core/kbd/files/run-ptest
+@@ -0,0 +1,11 @@
++#!/bin/sh
 +
-+        errno = save_errno;
-+#else
- 	rc = wrap___fxstat64(_STAT_VER, fd, buf);
-+#endif
- 
- /*	return rc;
-  * }
-diff --git a/ports/linux/guts/fstatat.c b/ports/linux/guts/fstatat.c
-index 3267641..de69662 100644
---- a/ports/linux/guts/fstatat.c
-+++ b/ports/linux/guts/fstatat.c
-@@ -7,8 +7,14 @@
-  * int fstatat(int dirfd, const char *path, struct stat *buf, int flags)
-  *	int rc = -1;
-  */
--
-+#ifdef __loongarch64
-+	struct stat64 buf64;
-+	real_fstatat(dirfd,path,buf,flags);
-+	rc = wrap_fstatat64(dirfd, path, &buf64, flags);
-+	pseudo_stat32_from64(buf, &buf64);
-+#else
- 	rc = wrap___fxstatat(_STAT_VER, dirfd, path, buf, flags);
-+#endif
- 
- /*	return rc;
-  * }
-diff --git a/ports/linux/guts/fstatat64.c b/ports/linux/guts/fstatat64.c
-index c981e14..8279f9c 100644
---- a/ports/linux/guts/fstatat64.c
-+++ b/ports/linux/guts/fstatat64.c
-@@ -8,7 +8,50 @@
-  *	int rc = -1;
-  */
- 
-+#ifdef __loongarch64
-+	pseudo_msg_t *msg;
-+        int save_errno;
++# Define test work dir
++WORKDIR=@PTEST_PATH@/tests/
 +
-+#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
-+        if (dirfd != AT_FDCWD) {
-+                errno = ENOSYS;
-+                return -1;
-+        }
-+#endif
-+        if (flags & AT_SYMLINK_NOFOLLOW) {
-+#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
-+                rc = real_lstat64(path, buf);
-+#else
-+                rc = real_fstatat64(dirfd, path, buf, flags);
-+#endif
-+                if (rc == -1) {
-+                        return rc;
-+                }
-+        } else {
-+#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
-+                rc = real_stat64( path, buf);
-+#else
-+                rc = real_fstatat64(dirfd, path, buf, flags);
-+#endif
-+                if (rc == -1) {
-+                        return rc;
-+                }
-+        }
-+        save_errno = errno;
++# Run test
++cd ${WORKDIR}
 +
-+          /* query database
-+         * note that symlink canonicalizing is now automatic, so we
-+         * don't need to check for a symlink on this end
-+         */
-+        msg = pseudo_client_op(OP_STAT, 0, -1, dirfd, path, buf);
-+        if (msg && msg->result == RESULT_SUCCEED) {
-+                pseudo_stat_msg(buf, msg);
-+        }
++./testsuite -k unittest | sed -e '/[0-9]:/s/://' \
++    -e '/ ok/s/^/PASS: /;/ FAILED/s/^/FAIL: /;/ skipped/s/^/SKIP: /' \
++    -e '/ ok/s/ ok.*//;/ skipped/s/ skipped.*//;/ FAILED/s/ FAILED.*//'
+diff --git a/meta/recipes-core/kbd/kbd_2.5.1.bb b/meta/recipes-core/kbd/kbd_2.5.1.bb
+index 7662b8f685..ba7236f67c 100644
+--- a/meta/recipes-core/kbd/kbd_2.5.1.bb
++++ b/meta/recipes-core/kbd/kbd_2.5.1.bb
+@@ -5,7 +5,7 @@ DESCRIPTION = "The kbd project contains tools for managing Linux console (Linux
+ LICENSE = "GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+-inherit autotools gettext pkgconfig
++inherit autotools gettext pkgconfig ptest
+ 
+ DEPENDS += "flex-native"
+ 
+@@ -14,6 +14,7 @@ RPROVIDES:${PN} = "console-tools"
+ RCONFLICTS:${PN} = "console-tools"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/${BP}.tar.xz \
++           file://run-ptest \
+            "
+ 
+ SRC_URI[sha256sum] = "ccdf452387a6380973d2927363e9cbb939fa2068915a6f937ff9d24522024683"
+@@ -45,3 +46,71 @@ ALTERNATIVE:${PN} = "chvt deallocvt fgconsole openvt showkey \
+ ALTERNATIVE_PRIORITY = "100"
+ 
+ BBCLASSEXTEND = "native"
 +
-+        errno = save_errno;
-+#else
- 	rc = wrap___fxstatat64(_STAT_VER, dirfd, path, buf, flags);
-+#endif
- 
- /*	return rc;
-  * }
-diff --git a/ports/linux/guts/lstat.c b/ports/linux/guts/lstat.c
-index d2c4d50..da88a9b 100644
---- a/ports/linux/guts/lstat.c
-+++ b/ports/linux/guts/lstat.c
-@@ -7,8 +7,11 @@
-  * int lstat(const char *path, struct stat *buf)
-  *	int rc = -1;
-  */
--
-+#ifdef __loongarch64
-+	rc = wrap_fstatat(AT_FDCWD, path, buf, AT_SYMLINK_NOFOLLOW);
-+#else
- 	rc = wrap___fxstatat(_STAT_VER, AT_FDCWD, path, buf, AT_SYMLINK_NOFOLLOW);
-+#endif
- 
- /*	return rc;
-  * }
-diff --git a/ports/linux/guts/lstat64.c b/ports/linux/guts/lstat64.c
-index 43d0ce1..fbbe727 100644
---- a/ports/linux/guts/lstat64.c
-+++ b/ports/linux/guts/lstat64.c
-@@ -7,8 +7,11 @@
-  * int lstat64(const char *path, struct stat *buf)
-  *	int rc = -1;
-  */
--
-+#ifdef __loongarch64
-+	rc = wrap_fstatat64( AT_FDCWD, path, buf, AT_SYMLINK_NOFOLLOW);
-+#else
- 	rc = wrap___fxstatat64(_STAT_VER, AT_FDCWD, path, buf, AT_SYMLINK_NOFOLLOW);
-+#endif
- 
- /*	return rc;
-  * }
-diff --git a/ports/linux/guts/mknod.c b/ports/linux/guts/mknod.c
-index 61fd320..512e5bb 100644
---- a/ports/linux/guts/mknod.c
-+++ b/ports/linux/guts/mknod.c
-@@ -8,7 +8,11 @@
-  *	int rc = -1;
-  */
- 
-+#ifdef __loongarch64
-+	rc = wrap_mknodat(AT_FDCWD, path, mode, dev);
-+#else
- 	rc = wrap___xmknod(_MKNOD_VER, path, mode, &dev);
-+#endif
- 
- /*	return rc;
-  * }
-diff --git a/ports/linux/guts/mknodat.c b/ports/linux/guts/mknodat.c
-index a7e4293..fb8c0c0 100644
---- a/ports/linux/guts/mknodat.c
-+++ b/ports/linux/guts/mknodat.c
-@@ -7,8 +7,80 @@
-  * int mknodat(int dirfd, const char *path, mode_t mode, dev_t dev)
-  *	int rc = -1;
-  */
-+#ifdef __loongarch64
-+        pseudo_msg_t *msg;
-+        struct stat64 buf;
- 
-+        /* mask out mode bits appropriately */
-+        mode = mode & ~pseudo_umask;
-+        /* if you don't specify a type, assume regular file */
-+        if (!(mode & S_IFMT)) {
-+                mode |= S_IFREG;
-+        }
-+        pseudo_debug(PDBGF_FILE, "mknodat creating '%s', mode 0%o\n",
-+                path ? path : "<no name>", (int) mode);
++do_compile_ptest() {
++    # update DATADIR in Makefile
++    sed -i 's,-DDATADIR=.*,-DDATADIR=\\\"${PTEST_PATH}/tests\\\" \\,g' ${B}/tests/libkeymap/Makefile
++    sed -i 's,-DDATADIR=.*,-DDATADIR=\\\"${PTEST_PATH}/tests\\\" \\,g' ${B}/tests/helpers/Makefile
++    sed -i 's,-DDATADIR=.*,-DDATADIR=\\\"${PTEST_PATH}/tests\\\" \\,g' ${B}/tests/libkbdfile/Makefile
 +
-+        /* we don't use underlying call, so _ver is irrelevant to us */
-+#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
-+        if (dirfd != AT_FDCWD) {
-+                errno = ENOSYS;
-+                return -1;
-+        }
-+        rc = real_stat64( path, &buf);
-+#else
-+        rc = real_fstatat64( dirfd, path, &buf, AT_SYMLINK_NOFOLLOW);
-+#endif
-+        if (rc != -1) {
-+                /* if we can stat the file, you can't mknod it */
-+                errno = EEXIST;
-+                return -1;
-+        }
-+        if (!dev) {
-+                errno = EINVAL;
-+                return -1;
-+        }
-+#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
-+        rc = real_open(path, O_CREAT | O_WRONLY | O_EXCL,
-+                PSEUDO_FS_MODE(mode, 0));
-+#else
-+        rc = real_openat(dirfd, path, O_CREAT | O_WRONLY | O_EXCL,
-+                PSEUDO_FS_MODE(mode, 0));
-+#endif
-+        if (rc == -1) {
-+                return -1;
-+        }
-+        real_fchmod(rc, PSEUDO_FS_MODE(mode, 0));
-+        real_fstat64( rc, &buf);
-+        /* mknod does not really open the file.  We don't have
-+         * to use wrap_close because we've never exposed this file
-+         * descriptor to the client code.
-+         */
-+        real_close(rc);
++    # recompile tests
++    oe_runmake -C ${B}/tests/ clean
++    oe_runmake -C ${B}/tests/
++}
 +
-+        /* mask in the mode type bits again */
-+        buf.st_mode = (PSEUDO_DB_MODE(buf.st_mode, mode) & 07777) |
-+                        (mode & ~07777);
-+        buf.st_rdev = dev;
-+        msg = pseudo_client_op(OP_MKNOD, 0, -1, dirfd, path, &buf);
-+        if (msg && msg->result != RESULT_SUCCEED) {
-+                errno = EPERM;
-+                rc = -1;
-+   } else {
-+                /* just pretend we worked */
-+                rc = 0;
-+        }
-+        if (rc == -1) {
-+                int save_errno = errno;
-+#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
-+                real_unlink(path);
-+#else
-+                real_unlinkat(dirfd, path, AT_SYMLINK_NOFOLLOW);
-+#endif
-+                errno = save_errno;
-+        }
-+#else
- 	rc = wrap___xmknodat(_MKNOD_VER, dirfd, path, mode, &dev);
-+#endif
- 
- /*	return rc;
-  * }
-diff --git a/ports/linux/guts/mkostemp64.c b/ports/linux/guts/mkostemp64.c
-index 502211b..41052c6 100644
---- a/ports/linux/guts/mkostemp64.c
-+++ b/ports/linux/guts/mkostemp64.c
-@@ -35,7 +35,11 @@
- 	if (rc != -1) {
- 		save_errno = errno;
- 
-+#ifdef __loongarch64
-+		if (real_fstat64(rc, &buf) != -1) {
-+#else
- 		if (real___fxstat64(_STAT_VER, rc, &buf) != -1) {
-+#endif
- 			real_fchmod(rc, PSEUDO_FS_MODE(0600, 0));
- 			pseudo_client_op(OP_CREAT, 0, -1, -1, tmp_template, &buf);
- 			pseudo_client_op(OP_OPEN, PSA_READ | PSA_WRITE, rc, -1, tmp_template, &buf);
-diff --git a/ports/linux/guts/openat.c b/ports/linux/guts/openat.c
-index 656ac2b..86ad5e9 100644
---- a/ports/linux/guts/openat.c
-+++ b/ports/linux/guts/openat.c
-@@ -56,12 +56,24 @@
- 		save_errno = errno;
- #ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
- 		if (flags & O_NOFOLLOW) {
-+#ifdef __loongarch64
-+			rc = real_lstat64(path,&buf);
-+#else
- 			rc = real___lxstat64(_STAT_VER, path, &buf);
-+#endif
- 		} else {
-+#ifdef __loongarch64
-+			rc = real_stat64(path,&buf);
-+#else
- 			rc = real___xstat64(_STAT_VER, path, &buf);
-+#endif
- 		}
-+#else
-+#ifdef __loongarch64
-+		rc = real_fstatat64(dirfd, path, &buf, (flags & O_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
- #else
- 		rc = real___fxstatat64(_STAT_VER, dirfd, path, &buf, (flags & O_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
-+#endif
- #endif
- 		existed = (rc != -1);
- 		if (!existed)
-@@ -77,12 +89,24 @@
- 		save_errno = errno;
- #ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
- 		if (flags & O_NOFOLLOW) {
-+#ifdef __loongarch64
-+			rc = real_lstat64(path, &buf);
-+#else
- 			rc = real___lxstat64(_STAT_VER, path, &buf);
-+#endif
- 		} else {
-+#ifdef __loongarch64
-+			rc = real_stat64(path, &buf);
-+#else
- 			rc = real___xstat64(_STAT_VER, path, &buf);
-+#endif
- 		}
-+#else
-+#ifdef __loongarch64
-+		rc = real_fstatat64(dirfd, path, &buf, (flags & O_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
- #else
- 		rc = real___fxstatat64(_STAT_VER, dirfd, path, &buf, (flags & O_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
-+#endif
- #endif
- 		if (rc != -1 && S_ISFIFO(buf.st_mode)) {
- 			overly_magic_nonblocking = 1;
-@@ -135,12 +159,24 @@
- #endif
- #ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
- 		if (flags & O_NOFOLLOW) {
-+#ifdef __loongarch64
-+			stat_rc = real_lstat64( path, &buf);
-+#else
- 			stat_rc = real___lxstat64(_STAT_VER, path, &buf);
-+#endif
- 		} else {
-+#ifdef __loongarch64
-+			stat_rc = real_stat64(path, &buf);
-+#else
- 			stat_rc = real___xstat64(_STAT_VER, path, &buf);
-+#endif
- 		}
-+#else
-+#ifdef __loongarch64
-+		stat_rc = real_fstatat64(dirfd, path, &buf, (flags & O_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
- #else
- 		stat_rc = real___fxstatat64(_STAT_VER, dirfd, path, &buf, (flags & O_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
-+#endif
- #endif
- 
- 		pseudo_debug(PDBGF_FILE, "openat(path %s), flags %o, stat rc %d, stat mode %o\n",
-diff --git a/ports/linux/guts/stat.c b/ports/linux/guts/stat.c
-index f8c73f7..5a7b57b 100644
---- a/ports/linux/guts/stat.c
-+++ b/ports/linux/guts/stat.c
-@@ -7,8 +7,11 @@
-  * int stat(const char *path, struct stat *buf)
-  *	int rc = -1;
-  */
--
-+#ifdef __loongarch64
-+	rc = wrap_fstatat(AT_FDCWD, path, buf, 0);
-+#else
- 	rc = wrap___fxstatat(_STAT_VER, AT_FDCWD, path, buf, 0);
-+#endif
- 
- /*	return rc;
-  * }
-diff --git a/ports/linux/guts/stat64.c b/ports/linux/guts/stat64.c
-index d8b3f36..ee0583c 100644
---- a/ports/linux/guts/stat64.c
-+++ b/ports/linux/guts/stat64.c
-@@ -7,8 +7,11 @@
-  * int stat64(const char *path, struct stat *buf)
-  *	int rc = -1;
-  */
--
-+#ifdef __loongarch64
-+	rc = wrap_fstatat64(AT_FDCWD, path, buf, 0);
-+#else
- 	rc = wrap___fxstatat64(_STAT_VER, AT_FDCWD, path, buf, 0);
-+#endif
- 
- /*	return rc;
-  * }
-diff --git a/ports/linux/pseudo_wrappers.c b/ports/linux/pseudo_wrappers.c
-index 7659897..c0775b9 100644
---- a/ports/linux/pseudo_wrappers.c
-+++ b/ports/linux/pseudo_wrappers.c
-@@ -8,43 +8,75 @@
-  */
- int
- pseudo_stat(const char *path, struct stat *buf) {
-+#ifdef __loongarch64
-+	return real_stat( path, buf);
-+#else
- 	return real___xstat(_STAT_VER, path, buf);
-+#endif
- }
- 
- int
- pseudo_lstat(const char *path, struct stat *buf) {
-+#ifdef __loongarch64
-+	return real_lstat(path,buf);
-+#else
- 	return real___lxstat(_STAT_VER, path, buf);
-+#endif
- }
- 
- int
- pseudo_fstat(int fd, struct stat *buf) {
-+#ifdef __loongarch64
-+	return real_fstat(fd,buf);
-+#else
- 	return real___fxstat(_STAT_VER, fd, buf);
-+#endif
- }
- 
- int
- pseudo_stat64(const char *path, struct stat64 *buf) {
-+#ifdef __loongarch64
-+	return real_stat64(path,buf);
-+#else
- 	return real___xstat64(_STAT_VER, path, buf);
-+#endif
- }
- 
- int
- pseudo_lstat64(const char *path, struct stat64 *buf) {
-+#ifdef __loongarch64
-+	return real_lstat64(path,buf);
-+#else
- 	return real___lxstat64(_STAT_VER, path, buf);
-+#endif
- }
- 
- int
- pseudo_fstat64(int fd, struct stat64 *buf) {
-+#ifdef __loongarch64
-+	return	real_fstat64(fd,buf);
-+#else
- 	return real___fxstat64(_STAT_VER, fd, buf);
-+#endif
- }
- 
- /* similar thing happens with mknod */
- int
- pseudo_mknod(const char *path, mode_t mode, dev_t dev) {
-+#ifdef __loongarch64
-+	return real_mknod(path,mode,dev);
-+#else
- 	return real___xmknod(_MKNOD_VER, path, mode, &dev);
-+#endif
- }
- 
- int
- pseudo_mknodat(int dirfd, const char *path, mode_t mode, dev_t dev) {
-+#ifdef __loongarch64
-+	return real_mknodat(dirfd,path,mode,dev);
-+#else
- 	return real___xmknodat(_MKNOD_VER, dirfd, path, mode, &dev);
-+#endif
- }
- 
- int pseudo_capset(cap_user_header_t hdrp, const cap_user_data_t datap) {
-diff --git a/pseudo_client.h b/pseudo_client.h
-index d7944ce..32dfe1a 100644
---- a/pseudo_client.h
-+++ b/pseudo_client.h
-@@ -14,13 +14,21 @@ extern void pseudo_client_linked_paths(const char *oldpath, const char *newpath)
- #define base_lstat real_lstat64
- #define base_fstat real_fstat64
- #define base_stat real_stat64
-+#ifdef __loongarch64
-+#define base_fstatat(dirfd, path, buf, flags) real_fstatat64( dirfd, path, buf, flags)
-+#else
- #define base_fstatat(dirfd, path, buf, flags) real___fxstatat64(_STAT_VER, dirfd, path, buf, flags)
-+#endif
- #else
- #define base_lstat real_lstat
- #define base_fstat real_fstat
- #define base_stat real_stat
-+#ifdef __loongarch64
-+#define base_fstatat(dirfd, path, buf, flags) real_fstatat( dirfd, path, buf, flags
-+#else
- #define base_fstatat(dirfd, path, buf, flags) real___fxstatat(_STAT_VER, dirfd, path, buf, flags)
- #endif
-+#endif
- extern void pseudo_antimagic(void);
- extern void pseudo_magic(void);
- extern void pseudo_client_touchuid(void);
-diff --git a/templates/wrapfuncs.c b/templates/wrapfuncs.c
-index 93bb671..14a42e2 100644
---- a/templates/wrapfuncs.c
-+++ b/templates/wrapfuncs.c
-@@ -13,7 +13,9 @@
-  * script if you want to modify this. */
- @body
- 
-+#ifndef __loongarch64
- static ${type} (*real_${name})(${decl_args}) = ${real_init};
-+#endif
- 
- ${maybe_skip}
- 
++do_install_ptest() {
++    # install files from build directory
++    install -d ${D}${PTEST_PATH}/tests/
++    install --mode=755 ${B}/tests/atconfig ${D}${PTEST_PATH}/tests/
++    install --mode=755 ${B}/tests/testsuite ${D}${PTEST_PATH}/tests/
++    install -d ${D}${PTEST_PATH}/tests/libkeymap/
++    find ${B}/tests/libkeymap/ -type f -not -name "*.o" -not -name "Makefile" \
++        -exec install --mode=755 {} ${D}${PTEST_PATH}/tests/libkeymap/ \;
++    install -d ${D}${PTEST_PATH}/tests/helpers/
++    find ${B}/tests/helpers/ -type f -not -name "*.o" -not -name "Makefile" \
++        -exec install --mode=755 {} ${D}${PTEST_PATH}/tests/helpers/ \;
++    install -d ${D}${PTEST_PATH}/tests/libkbdfile/
++    find ${B}/tests/libkbdfile/ -type f -not -name "*.o" -not -name "Makefile" \
++        -exec install --mode=755 {} ${D}${PTEST_PATH}/tests/libkbdfile/ \;
++    install -d ${D}${PTEST_PATH}/src/
++    install --mode=755 ${B}/src/loadkeys ${D}${PTEST_PATH}/src/
++
++    # install files from src/data directory
++    install -d ${D}${PTEST_PATH}/data/keymaps/i386/qwerty/
++    install ${S}/data/keymaps/i386/qwerty/defkeymap.map ${D}${PTEST_PATH}/data/keymaps/i386/qwerty/
++
++    # install files from src/tests/data directory
++    install -d ${D}${PTEST_PATH}/tests/data/
++    install -d ${D}${PTEST_PATH}/tests/data/libkeymap/
++    install ${S}/tests/data/libkeymap/* ${D}${PTEST_PATH}/tests/data/libkeymap/
++    install -d ${D}${PTEST_PATH}/tests/data/alt-is-meta/
++    install ${S}/tests/data/alt-is-meta/* ${D}${PTEST_PATH}/tests/data/alt-is-meta/
++    install -d ${D}${PTEST_PATH}/tests/data/bkeymap-2.0.4/
++    install ${S}/tests/data/bkeymap-2.0.4/* ${D}${PTEST_PATH}/tests/data/bkeymap-2.0.4/
++    install -d ${D}${PTEST_PATH}/tests/data/dumpkeys-mktable/
++    install ${S}/tests/data/dumpkeys-mktable/* ${D}${PTEST_PATH}/tests/data/dumpkeys-mktable/
++    install -d ${D}${PTEST_PATH}/tests/data/dumpkeys-fulltable/
++    install ${S}/tests/data/dumpkeys-fulltable/* ${D}${PTEST_PATH}/tests/data/dumpkeys-fulltable/
++    install -d ${D}${PTEST_PATH}/tests/data/findfile/test_1/consolefonts/
++    install ${S}/tests/data/findfile/test_1/consolefonts/* ${D}${PTEST_PATH}/tests/data/findfile/test_1/consolefonts/
++    install -d ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/include/
++    install ${S}/tests/data/findfile/test_0/keymaps/test0.map ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/
++    install ${S}/tests/data/findfile/test_0/keymaps/include/* ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/include/
++    install -d ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/i386/include/
++    install ${S}/tests/data/findfile/test_0/keymaps/i386/include/* ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/i386/include/
++    install -d ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/i386/qwerty/
++    install ${S}/tests/data/findfile/test_0/keymaps/i386/qwerty/* ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/i386/qwerty/
++    install -d ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/i386/qwertz/
++    install ${S}/tests/data/findfile/test_0/keymaps/i386/qwertz/* ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/i386/qwertz/
++    install -d ${D}${PTEST_PATH}/tests/data/keymaps/i386/qwerty/
++    install ${S}/tests/data/keymaps/i386/qwerty/* ${D}${PTEST_PATH}/tests/data/keymaps/i386/qwerty/
++    install -d ${D}${PTEST_PATH}/tests/data/keymaps/i386/include/
++    install ${S}/tests/data/keymaps/i386/include/* ${D}${PTEST_PATH}/tests/data/keymaps/i386/include/
++    install -d ${D}${PTEST_PATH}/tests/data/keymaps/include/
++    install ${S}/tests/data/keymaps/include/* ${D}${PTEST_PATH}/tests/data/keymaps/include/
++
++
++    # update PTEST_PATH in run-ptest and atconfig
++    sed -i "s#@PTEST_PATH@#${PTEST_PATH}#g" ${D}${PTEST_PATH}/run-ptest
++    sed -i -e 's,${B},${PTEST_PATH},g' -e 's,/\.\./kbd-2.5.1,,g' ${D}${PTEST_PATH}/tests/atconfig
++}
 -- 
-2.33.0
+2.25.1
 
 
