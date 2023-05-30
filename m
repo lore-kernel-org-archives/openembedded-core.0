@@ -1,127 +1,170 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B62AC77B7A
-	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 21:35:06 +0000 (UTC)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
- by mx.groups.io with SMTP id smtpd.web11.1036.1685482498964756067
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5331FC77B73
+	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 21:44:56 +0000 (UTC)
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+ by mx.groups.io with SMTP id smtpd.web10.1211.1685483089528619866
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 May 2023 14:34:59 -0700
+ Tue, 30 May 2023 14:44:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=pw8nggQZ;
- spf=pass (domain: gmail.com, ip: 209.85.208.181, mailfrom: jpewhacker@gmail.com)
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2af28303127so54153161fa.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 14:34:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685482497; x=1688074497;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=520x1KnnNzE2ZuhhzLPosvikC1KRcs3Fw0At9st1mS8=;
-        b=pw8nggQZ9zKk/qmGoV49HQ5WIT2jZEMjiRwijd0kCWBd6SUi5gdhdSW7f5NYO4hlIB
-         bxXh4X/S2EDYRyJP+ydIQkRvESPoLq1Ckcl5XT67TPq4m4wwaQfxZMN44cn/xnGekSBi
-         Zb/pj3P0coB0hzGM9DCuG+bhNA5YFqA+kJ6/PNeH9RrDWCWzZo9vEOdo33dPwe7ASn5Q
-         z5LVY83OdhQD8vo7gpFAPUj1i08nuCLNCWX5ktYLMIUMzE5vGxMQw2cCHjB2wm7PlJQZ
-         0VJeQpZE65Yf91f2YZkc+SzuNMelW5Yf4+iiJ9gRXcqoLRu8CdwSR+Y2HPoS+oKP3g/H
-         eyGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685482497; x=1688074497;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=520x1KnnNzE2ZuhhzLPosvikC1KRcs3Fw0At9st1mS8=;
-        b=AvXZtfTaa0lpHnCapoWlewPikNTa7vOPDbmatFnyzkaSz3vyda1QTQ7482j1o96ZIN
-         WR90JHdkOZOU/OaFqkxfyvC9tJm6MJk8s28+5v4dUYdmHb5mWQednUXmZwa14+GSOx3z
-         9S/MQZTk1Pjb+ujBvsjAGk9zL6NQ8JqeGqSIGMEX4XUgeN0oEwgdcp7Zqrecpz+lTsq4
-         Nos1mC9b8pd8E6o8/zC1CziQZx6E9H/Ao7x1ob9M590YCQ24KIl/OFjattUajbjtnfNL
-         eAMJBSktMBVlaFxZ2lRE46khKnUWnR9+sTf7wmqHo7QKud2fCNyb+NSyX95Qv9N8pPTk
-         kElA==
-X-Gm-Message-State: AC+VfDxsnZPojx1t6MtV/VON0e2HMtYZ8ud9plyfiseb6ZQKu0JHs4y5
-	wPlA4Ph54dcSc1MvKPiuxGCO50VMQkKKwvXYY2ZmlR5s
-X-Google-Smtp-Source: ACHHUZ5SY0xOO4uIKgDrc13l9drgf4JslxkkCm5iy3ExustNPAmVp4XB0juN5wAgN1AQFz9I5tKzIUlwlxgHMxzS20Y=
-X-Received: by 2002:a2e:a305:0:b0:2af:228a:8670 with SMTP id
- l5-20020a2ea305000000b002af228a8670mr1537322lje.2.1685482496961; Tue, 30 May
- 2023 14:34:56 -0700 (PDT)
+ dkim=missing; spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from [192.168.2.37] ([70.99.78.137])
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 34ULikTK021280;
+	Tue, 30 May 2023 16:44:47 -0500
+Message-ID: <40e7d2a3-2b45-323b-3986-2c6e89bf74ef@kernel.crashing.org>
+Date: Tue, 30 May 2023 16:44:45 -0500
 MIME-Version: 1.0
-References: <20230530204117.949199-1-JPEWhacker@gmail.com> <bf7d98b4ee31c416072db5437da44ce7a4c0f841.camel@linuxfoundation.org>
- <CAJdd5GbHuoJFe8BbvjUbG=iPmedYtJTgOx-fyNu86zms+gDeeQ@mail.gmail.com> <ef0bb20cfd481f73e5958233e487067b02da1e4b.camel@linuxfoundation.org>
-In-Reply-To: <ef0bb20cfd481f73e5958233e487067b02da1e4b.camel@linuxfoundation.org>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Tue, 30 May 2023 16:34:45 -0500
-Message-ID: <CAJdd5GYqz=iMD5Yf6UOLb5yrU5b-KxCOBacOFsWGQ195gJr9ew@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] classes/package: mark PKGDATA_VARS as a
- dependency of emit_pkgdata
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.0
+Subject: Re: [OE-core] [PATCH v4] Fixes pseudo build in loongarch64
+Content-Language: en-US
+To: Seebs <seebs@seebs.net>, zhangjialing@loongson.cn
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <20230530113302.1473632-1-zhangjialing@loongson.cn>
+ <20230530114341.15e9f79e@seebsdell>
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+In-Reply-To: <20230530114341.15e9f79e@seebsdell>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 21:35:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181956
+ <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 21:44:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181957
 
-On Tue, May 30, 2023 at 4:30=E2=80=AFPM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Tue, 2023-05-30 at 16:25 -0500, Joshua Watt wrote:
-> > On Tue, May 30, 2023 at 4:23=E2=80=AFPM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > >
-> > > On Tue, 2023-05-30 at 15:41 -0500, Joshua Watt wrote:
-> > > > emit_pkgdata needs to re-run when PKGDATA_VARS changes, but bitbake=
- is
-> > > > unaware of this because the code that uses it is in a python librar=
-y.
-> > > > Fix this by explicitly marking PKGDATA_VARS as a dependency
-> > > >
-> > > > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> > > > ---
-> > > >  meta/classes-global/package.bbclass | 1 +
-> > > >  1 file changed, 1 insertion(+)
-> > > >
-> > > > diff --git a/meta/classes-global/package.bbclass b/meta/classes-glo=
-bal/package.bbclass
-> > > > index e8055a9cdc5..c466601266e 100644
-> > > > --- a/meta/classes-global/package.bbclass
-> > > > +++ b/meta/classes-global/package.bbclass
-> > > > @@ -381,6 +381,7 @@ python emit_pkgdata() {
-> > > >      import oe.packagedata
-> > > >      oe.packagedata.emit_pkgdata(pkgfiles, d)
-> > > >  }
-> > > > +emit_pkgdata[vardeps] +=3D "PKGDATA_VARS"
-> > > >  emit_pkgdata[dirs] =3D "${PKGDESTWORK}/runtime ${PKGDESTWORK}/runt=
-ime-reverse ${PKGDESTWORK}/runtime-rprovides ${PKGDESTWORK}/extended"
-> > > >
-> > > >  ldconfig_postinst_fragment() {
-> > >
-> > > Is the auto dependency code somehow breaking for that function?
-> >
-> > It empirically seemed to not re-run the functions when I changed that
-> > variable as part of a (now abandoned) way to fix the SPDX builds.
-> >
-> > I thought the code scanner didn't go into library functions; or am I
-> > mistaken there?
->
-> That used to be the case but I added:
->
-> https://git.yoctoproject.org/poky/commit/bitbake/lib?id=3Df3bcd3c9a91f621=
-2c30b9c778c11f3c8a9f6f1d4
-> and then:
-> https://git.yoctoproject.org/poky/commit/bitbake/lib?id=3D2b406a3174b8142=
-b1ae00e6cff4af43317a78f94
->
-> so it should auto-detect dependencies.
->
-> It is certainly possible something isn't working but I'd like to
-> understand what...
+I am working on changing the v4 into a more generic implementation based on 
+Seebs' and others comments.  I'll likely be sending something to the list as an 
+RFC later today or tomorrow.
 
-Hmm, good point.... I'm not sure; it's very possible I did something
-else wrong, let me try again to see what happens
+--Mark
 
->
-> Cheers,
->
-> Richard
+On 5/30/23 11:43 AM, Seebs wrote:
+> On Tue, 30 May 2023 19:33:03 +0800
+> zhangjialing@loongson.cn wrote:
+> 
+>> +#ifdef __loongarch64
+> 
+> No.
+> 
+> Use the configuration mechanisms or whatever to determine the *actual
+> distinction you care about*, which is "does glibc have __xstat64", give
+> that a name, and use the name.
+> 
+> Some day, someone else will make a glibc that doesn't have __xstat64.
+> The change to adopt that should be one line in configure or the like,
+> not hundreds of changes scattered throughout the code.
+> 
+>> +        int existed = (real_stat64(path, &buf) != -1);
+>> +#else
+>>   	int existed = (real___xstat64(_STAT_VER, path, &buf) != -1);
+>> -
+>> +#endif
+> 
+> This looks suspiciously similar to the logic you introduce elsewhere
+> for base_stat, base_fstat, etcetera.
+> 
+> Reproducing that up here:
+> 
+>> +#ifdef __loongarch64
+>> +#define base_fstatat(dirfd, path, buf, flags) real_fstatat64( dirfd,
+>> path, buf, flags)
+>> +#else
+>>   #define base_fstatat(dirfd, path, buf, flags)
+>> real___fxstatat64(_STAT_VER, dirfd, path, buf, flags)
+>> +#endif
+> 
+> Again, shouldn't be using a specific arch flag, should be using a
+> symbolic flag, but: Given this, maybe we should just be using
+> base_fstatat, base_stat, etcetera, in these lines, rather than
+> calling a specific real___foo function directly. Or alternatively,
+> we should be using pseudo_stat, etcetera, which also exist, and
+> I honestly don't remember why there are two sets of those.
+> 
+> So the change should look something like
+> 
+> - int existed = ((real___xstat64(_STAT_VER, path, &buf) != -1);
+> + int existed = ((base_stat(path, &buf) != -1);
+> 
+> with suitable updates to the way we define the base_foo functions,
+> making them contingent on something like HAVE_XSTAT.
+> 
+> This would cover the vast majority of these changes, but not all of
+> them.
+> 
+>> --- a/ports/linux/guts/fstat.c
+>> +++ b/ports/linux/guts/fstat.c
+>> @@ -7,8 +7,17 @@
+>>    * int fstat(int fd, struct stat *buf)
+>>    *	int rc = -1;
+>>    */
+>> -
+>> +#ifdef __loongarch64
+>> +	struct stat64 buf64;
+>> +        /* populate buffer with complete data */
+>> +	real_fstat(fd, buf);
+>> +        /* obtain fake data */
+>> +	rc = wrap_fstat64(fd, &buf64);
+>> +        /* overwrite */
+>> +	pseudo_stat32_from64(buf, &buf64);
+>> +#else
+>>   	rc = wrap___fxstat(_STAT_VER, fd, buf);
+>> +#endif
+>>   
+>>   /*	return rc;
+>>    * }
+> 
+> Here, we really do have a meaningful change; in the standard linux port,
+> we know that we can just forward fstat to __fxstat.
+> 
+> Probably the best model for the canonical way to fix this is to look
+> at the oldclone/newclone subports. When you have changes this
+> substantive, we don't want to do them with large inline #ifdefs; we want
+> to describe these as distinct subports, which have a different set of
+> functions. So in the hypothetical new "xstat" port, we'd have the
+> existing fstat and __fxstat wrappers, and in the new "noxstat" port,
+> we'd just have an fstat wrapper that uses the same logic.
+> 
+>> diff --git a/templates/wrapfuncs.c b/templates/wrapfuncs.c
+>> index 93bb671..14a42e2 100644
+>> --- a/templates/wrapfuncs.c
+>> +++ b/templates/wrapfuncs.c
+>> @@ -13,7 +13,9 @@
+>>    * script if you want to modify this. */
+>>   @body
+>>   
+>> +#ifndef __loongarch64
+>>   static ${type} (*real_${name})(${decl_args}) = ${real_init};
+>> +#endif
+>>   
+>>   ${maybe_skip}
+> 
+> I don't understand how this part can work at all; I was under the
+> impression that we actually did in fact use these real_foo objects,
+> and this seems to remove them all, so I don't even get how this
+> is compiling or running, because after this, there's no real_foo
+> function pointers at all?
+> 
+> Unfortunately, it turns out bitrot has taken my laptop and I can't
+> build pseudo on it natively because _STAT_VER no longer exists. So
+> I think the hypothetical distant future in which we conceivably
+> care about a system on which the real___xstatat(_STAT_VER, ...) calls
+> fail and isn't __longarch64 actually happened over a year ago and
+> we just didn't notice.
+> 
+> "Oops."
+> 
+> -s
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#181938): https://lists.openembedded.org/g/openembedded-core/message/181938
+> Mute This Topic: https://lists.openembedded.org/mt/99217464/3616948
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mark.hatle@kernel.crashing.org]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
