@@ -2,50 +2,50 @@ Return-Path: <belouargamohamed@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46182C7EE23
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D2ACC77B7A
 	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 22:28:28 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web11.36.1685485700862219807
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web10.35.1685485702775091472
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 May 2023 15:28:21 -0700
+ Tue, 30 May 2023 15:28:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=geYqkVEe;
- spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: belouargamohamed@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3f611ccd06eso36948275e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 15:28:20 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=JZvusfXi;
+ spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: belouargamohamed@gmail.com)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f6042d610fso52230255e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 15:28:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685485699; x=1688077699;
+        d=gmail.com; s=20221208; t=1685485701; x=1688077701;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=O3WGXlnuP33E1ry0jo/DgUUKk31riL5yEjPdb4Y7jVQ=;
-        b=geYqkVEeqK4ktTWMcxukZUjHx1O2AvNjizL3bSXVb+xaH9lNaVvx7Bt6bJhO1Y6I9l
-         mnjDzpM0gdUI4PzvhTmYi193HfCHcZTEiZPwFbkW4MOgZRdP0h37c4EIszLQyGAt0aP0
-         2cIErQb6lcF8tGtCq5FbX7/SWlZRU1Jn4oofYepH3K/SXx8h091ZOXEIUJtnsWwWu3Bf
-         1WIgFkD8EY2xHe15OFvJkR6NBnlsiOynuIMwWMeQSAicfg6zXsufyGTNqmN9FWe1ChhO
-         dgPxKBVsehb+ym/dS07XFCa2HW1H3qbsHqurQuGIPKxtO1yyLMi7pp4Rr1UZsI/h8WT4
-         SZew==
+        bh=1i9z/PGc1Z1SXlUgJq8JK3J3Dhxd9BXF4iy1AuCHOO0=;
+        b=JZvusfXiD/7g97s47o601hWYF6vvc0dPl3ly5ahuqVinCVB8iqPMsYWfqO4kpxOoUY
+         lLOFBjhn/KeT34kqQDJmgpjDoS+1suhwcUT1WkyAW1gaCJlBnrJbg2yNXIWwiHhPY60x
+         KKz+narrTFZsefYlpI2C14o2utH9zqXRPdBg640z2wq+qNxmysu7bNpbWybrF/NFHlvV
+         oqqnTPuGXnKzECdHqOp+QvO0yx0v/tASUsXKR91uVcn0RQ6B4WiW3OApRPUolEGZjWdl
+         UhOYDlO9Ef/IBw0wJIp+FErLfho0+zfp3zUVpFZFVUCBE7gfNHFPX8uC2nLOLjeVVSci
+         mGHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685485699; x=1688077699;
+        d=1e100.net; s=20221208; t=1685485701; x=1688077701;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=O3WGXlnuP33E1ry0jo/DgUUKk31riL5yEjPdb4Y7jVQ=;
-        b=YvADH98viBdr1XhFiPheo69XYjacqs1QZJHuOZ8liyXEDcKxJ4JAlLtDMPwkbbfGfu
-         zwaAknAWedfIpuOtYSzQU1yvzs8Y4ydXQu2VTjV4EVYV+Feiu0L8dXu26qtPPmUBHJ90
-         jaLeeKArQRgYPyVMSxQ+sgJK9+25ou2+NrEawHGMeJxes3I4R7GmpZL1ODORUZrYuWCd
-         c7sdL46nXLCQsD2WOng9/FVCIC7oJsxHOR0eH3WbkAN1F5o9qe21zfgFzDw5k2tXD3Sg
-         L9UJZfvRME8sJ7V83WNvTrGmbCh7k6sTLlnfiObFEqoTJFRyYh32nc4vjI5+AwUsNw3Q
-         ZEqg==
-X-Gm-Message-State: AC+VfDzbWrmWlDAK5p4HXmniIiWivemcKYdCwpYrK+OCdNlQi9at8uae
-	BHF7SuV13YC7q3MRsKnSIx9nlRigUacAMDqL
-X-Google-Smtp-Source: ACHHUZ51WrFvxImOkDw47dnRyQ9oL/+FIj976MySp5Bm/Sz+mDaRagFJZGU6md3DWL3J6sYRd820QQ==
-X-Received: by 2002:a1c:4b09:0:b0:3f6:d09:5d46 with SMTP id y9-20020a1c4b09000000b003f60d095d46mr2665680wma.20.1685485698797;
-        Tue, 30 May 2023 15:28:18 -0700 (PDT)
+        bh=1i9z/PGc1Z1SXlUgJq8JK3J3Dhxd9BXF4iy1AuCHOO0=;
+        b=A1f4IqeZyM9dwo/7t2Sc0ZNUL5/QnYqPLLjqlWOeTV/Hs2GHB0YeDAZQNN3nO4BxCj
+         mRCeudNuYcJb8X6d9tYgJTUc5pQCHn5HkNa8vXzRCPUhqn9nX7ulHEiM1Z+lOT3/rnSr
+         eJ6tnyq55iBC7dMgV+1zh4psrtrCNwVAAT+sHrQnt8bbV7PTSoc1MLE7jg0pbK6e3B1W
+         E/b8BuPr9rOHeubDHblOEkoeX8bgs5Gilfr168T6FFQv71yH31C6OY8/2uUokU9W1pwj
+         UlPpaSuZtAdUWOHJdqSrbRc5uKHtivP4ipsRdTTntMWL7iBsWgzMLNLvbHNu7P2p/T9c
+         1Sow==
+X-Gm-Message-State: AC+VfDzwD9i4BuVu7IRXYU1YPZjKbhshGvti4OVwIevIWb86qxdoCam/
+	CrX+7u7mXrNUUFoWBGM9qIgUp9TK/Yg3Arbm
+X-Google-Smtp-Source: ACHHUZ7Pz2n0FU1v3J1iEqC5J1C9eBi15L+/IrD5JXFARbfj3Gt1CN4Kq+syyPeDos31M4bvZbkZPA==
+X-Received: by 2002:a1c:cc07:0:b0:3f1:93c2:4df7 with SMTP id h7-20020a1ccc07000000b003f193c24df7mr2550153wmb.5.1685485700780;
+        Tue, 30 May 2023 15:28:20 -0700 (PDT)
 Received: from localhost.localdomain (2a02-842a-002e-7001-af81-84f4-744a-71c9.rev.sfr.net. [2a02:842a:2e:7001:af81:84f4:744a:71c9])
-        by smtp.gmail.com with ESMTPSA id f16-20020a7bcc10000000b003f60fb2addbsm22515276wmh.44.2023.05.30.15.28.18
+        by smtp.gmail.com with ESMTPSA id f16-20020a7bcc10000000b003f60fb2addbsm22515276wmh.44.2023.05.30.15.28.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 May 2023 15:28:18 -0700 (PDT)
+        Tue, 30 May 2023 15:28:20 -0700 (PDT)
 From: belouargamohamed@gmail.com
 X-Google-Original-From: m.belouarga@technologyandstrategy.com
 To: openembedded-core@lists.openembedded.org
@@ -53,9 +53,9 @@ Cc: f.lahoudere@technologyandstrategy.com,
 	e.aubineau@technologyandstrategy.com,
 	j.guignard@technologyandstrategy.com,
 	BELOUARGA Mohamed <m.belouarga@technologyandstrategy.com>
-Subject: [master][PATCH 4/6] recipetool: create: npm: Add support to handle peer dependencies
-Date: Wed, 31 May 2023 00:27:50 +0200
-Message-Id: <20230530222752.42503-4-m.belouarga@technologyandstrategy.com>
+Subject: [master][PATCH 5/6] classes: npm: Add support for the new format of the shrinkwrap file
+Date: Wed, 31 May 2023 00:27:51 +0200
+Message-Id: <20230530222752.42503-5-m.belouarga@technologyandstrategy.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230530222752.42503-1-m.belouarga@technologyandstrategy.com>
 References: <20230530222752.42503-1-m.belouarga@technologyandstrategy.com>
@@ -65,62 +65,80 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 22:28:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181964
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181965
 
 From: BELOUARGA Mohamed <m.belouarga@technologyandstrategy.com>
 
-NPM changed its manner to handle peer dependencies over its versions.
-Before NPM 3: NPM installs automatically peer dependencies
-between NPM 3 and 7: NPM shows a warning about peer dependencies
-After NPM 3: NPM reworked its manner how to handle peer dependencies
+1 - Adapt do_configure to the new format of the shrinkwrap
 
-The shrinkwrap doesn't have the parameters of the peer dependencies, so we cannot
-fetch them. in the same time peer dependencies are not direct dependencies, they should
-be installed as run time dependencies.
+2 - Remove useless function _npmsw_dependency_dict because the dictionnary
+    is already given by npmsw:foreach_dependencies
+
+3 - Rename arguments of callback functions
 
 Signed-off-by: BELOUARGA Mohamed <m.belouarga@technologyandstrategy.com>
 ---
- scripts/lib/recipetool/create_npm.py | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ meta/classes-recipe/npm.bbclass | 27 ++++++---------------------
+ 1 file changed, 6 insertions(+), 21 deletions(-)
 
-diff --git a/scripts/lib/recipetool/create_npm.py b/scripts/lib/recipetool/create_npm.py
-index 25e7ddb472..113a89f6a6 100644
---- a/scripts/lib/recipetool/create_npm.py
-+++ b/scripts/lib/recipetool/create_npm.py
-@@ -146,6 +146,23 @@ class NpmRecipeHandler(RecipeHandler):
-         foreach_dependencies(shrinkwrap, _handle_dependency, dev)
+diff --git a/meta/classes-recipe/npm.bbclass b/meta/classes-recipe/npm.bbclass
+index 92e59fefce..c1944ca14e 100644
+--- a/meta/classes-recipe/npm.bbclass
++++ b/meta/classes-recipe/npm.bbclass
+@@ -130,22 +130,6 @@ python npm_do_configure() {
+         sha512 = bb.utils.sha512_file(tarball)
+         return "sha512-" + base64.b64encode(bytes.fromhex(sha512)).decode()
  
-         return licfiles, packages
-+    
-+    # Handle the peer dependencies   
-+    def _handle_peer_dependency(self, shrinkwrap_file):
-+        """Check if package has peer dependencies and show warning if it is the case"""
-+        with open(shrinkwrap_file, "r") as f:
-+            shrinkwrap = json.load(f)
-+        
-+        packages = shrinkwrap.get("packages", {})
-+        peer_deps = packages.get("", {}).get("peerDependencies", {})
-+        
-+        for peer_dep in peer_deps:
-+            peer_dep_yocto_name = npm_package(peer_dep)
-+            bb.warn(peer_dep + " is a peer dependencie of the actual package. " + 
-+            "Please add this peer dependencie to the RDEPENDS variable as %s and generate its recipe with devtool"
-+            % peer_dep_yocto_name)
-+
-+
+-    def _npmsw_dependency_dict(orig, deptree):
+-        """
+-        Return the sub dictionary in the 'orig' dictionary corresponding to the
+-        'deptree' dependency tree. This function follows the shrinkwrap file
+-        format.
+-        """
+-        ptr = orig
+-        for dep in deptree:
+-            if "dependencies" not in ptr:
+-                ptr["dependencies"] = {}
+-            ptr = ptr["dependencies"]
+-            if dep not in ptr:
+-                ptr[dep] = {}
+-            ptr = ptr[dep]
+-        return ptr
+-
+     # Manage the manifest file and shrinkwrap files
+     orig_manifest_file = d.expand("${S}/package.json")
+     orig_shrinkwrap_file = d.expand("${S}/npm-shrinkwrap.json")
+@@ -177,24 +161,25 @@ python npm_do_configure() {
+     progress_total = 1 # also count the main package
+     progress_done = 0
  
-     def process(self, srctree, classes, lines_before, lines_after, handled, extravalues):
-         """Handle the npm recipe creation"""
-@@ -283,6 +300,9 @@ class NpmRecipeHandler(RecipeHandler):
-         classes.append("npm")
-         handled.append("buildsystem")
+-    def _count_dependency(name, params, deptree):
++    def _count_dependency(name, params, destsuffix):
+         nonlocal progress_total
+         progress_total += 1
  
-+        # Check if package has peer dependencies and inform the user
-+        self._handle_peer_dependency(shrinkwrap_file)
-+
-         return True
- 
- def register_recipe_handlers(handlers):
+-    def _cache_dependency(name, params, deptree):
+-        destsubdirs = [os.path.join("node_modules", dep) for dep in deptree]
+-        destsuffix = os.path.join(*destsubdirs)
++    def _cache_dependency(name, params, destsuffix):
+         with tempfile.TemporaryDirectory() as tmpdir:
+             # Add the dependency to the npm cache
+             destdir = os.path.join(d.getVar("S"), destsuffix)
+             (tarball, pkg) = npm_pack(env, destdir, tmpdir)
+             _npm_cache_add(tarball, pkg)
+             # Add its signature to the cached shrinkwrap
+-            dep = _npmsw_dependency_dict(cached_shrinkwrap, deptree)
++            dep = params
+             dep["version"] = pkg['version']
+             dep["integrity"] = _npm_integrity(tarball)
+             if params.get("dev", False):
+                 dep["dev"] = True
++            if "dependencies" not in cached_shrinkwrap:
++                cached_shrinkwrap["dependencies"] = {}
++            cached_shrinkwrap["dependencies"][name] = dep
+             # Display progress
+             nonlocal progress_done
+             progress_done += 1
 -- 
 2.25.1
 
