@@ -2,63 +2,69 @@ Return-Path: <yashinde145@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93AE5C77B73
-	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 10:48:41 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web10.6769.1685443720070283626
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80C62C77B7A
+	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 10:52:01 +0000 (UTC)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web11.6835.1685443917982912751
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 May 2023 03:48:40 -0700
+ Tue, 30 May 2023 03:51:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=Ojjx0DjC;
- spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: yashinde145@gmail.com)
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2567b589d3bso1308681a91.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 03:48:40 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=DWbVUbsi;
+ spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: yashinde145@gmail.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-64d3bc502ddso5011312b3a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 03:51:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685443719; x=1688035719;
+        d=gmail.com; s=20221208; t=1685443917; x=1688035917;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=VOvLdNYZcv2jPxvD/HAvSf0n7A9NOlFpH8NQwrfGt7k=;
-        b=Ojjx0DjCbKV52+M1pvarqfTCOgQqr+0sSmHdR6TLF3/STxYtQ1mliyZ4ke5zu8BEDy
-         xnBBZSKVCwPG/kdKveVY4Q4af3HCluqjGSWJBKsCh8sX/puCdk1mX0IZLTnpyhc+CMUH
-         9HBuAEJiu7TRp6LnC5JTfpGqJIIJk2qwJIdaRVp5HdL+XzrmEgowPfvmIU31+rwLAore
-         UK37/8YCKW1LWPwAl6ftxn8ple8l8TK6lrbr440eLwL5OmiPXRGRmhMz9D7oet7NGyHW
-         d1zgrc4FbAKhVw7U5cWNeZl3Fce0GuvbDaXA8R54dRbLh+RchUxHDKt83av8iw5TGEBs
-         AHwQ==
+        b=DWbVUbsi4VO91xOMGz9e1So9BWkBI1rr+q1hqNcZ4ijfGbs2fgbFAayJILylOZo7gs
+         VZwzRKlmc9xUTE5b/wVtQwAuqf5ocSbrPmx+dS2X2FY3YVuc5iRQzwRr8Cj84WZu7mI6
+         01CmB7bpy+CeVK9JG02kexxBGRcc1kBJYhRgD3BGH+SR+cwCmmLFo38LvjX80dg+JYFM
+         Y3q3V6fzbxpUItqSlIdkH7MVlnXlztdkRwXPk32MjYiCE6FqZn/G/87BgrproW/90Qtp
+         s/YQyPcn13b8Uq19h+X2RTKm9iX/MblrvezBrY/EB6FRx9tDXq0LtBnl2B/rbfHvtZ8w
+         CseA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685443719; x=1688035719;
+        d=1e100.net; s=20221208; t=1685443917; x=1688035917;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=VOvLdNYZcv2jPxvD/HAvSf0n7A9NOlFpH8NQwrfGt7k=;
-        b=JfsSn/8EetdOnrCOfSr3ez+9vDLdTIVmVkKejKrjD5mc4sjCjp0DBBeFvG04e/5xTW
-         xMGh6Yy59vGcU3u9oR1rlbaiTichvW6uHxnxDKJnnRq+A+5yGflwA77mugAzBIDPTLWf
-         oc+bg06yduJD1fBtenm8F1EtqVHFIIm8PNKgGgvCMSs72+Kf/kkzyWIOlruLiEtI+LQJ
-         ZzTGDVzW/Nx+T2yxq0ZzzfPNukCTHe1qajk8hxAtttIQEUYyBuL2Ffcnmku1aaXzABws
-         20FGyyDiqON5MgfrtZ+Jf4Q2bsOo18+S5a/4cswWqII37dHiWGfXVJ28lpxdKUbSV86o
-         QhjA==
-X-Gm-Message-State: AC+VfDwUT731q/QZNiRnonN0Ty08R6IOR1m96CE3QKtvtSDsgMfcxWNY
-	OBZ2ld9C4d0wY+LkGwmApEZ/17zlu9w=
-X-Google-Smtp-Source: ACHHUZ5TdweDfVxumPCyrmZUdPqJda53S7U6+SrN1b1LrnwEeJTAU47JaHkwBNbLSnp9boongsec6w==
-X-Received: by 2002:a17:90a:a82:b0:255:2e48:70b1 with SMTP id 2-20020a17090a0a8200b002552e4870b1mr2131841pjw.26.1685443717475;
-        Tue, 30 May 2023 03:48:37 -0700 (PDT)
+        b=cA8CWaQE49OpRkBg5PAaycgNK6JaNTUZGDaRC6Ji8S28F9P2Uv2ZDEiWtTOv2pNkkT
+         CCXZeMC8IJPBZOwYWXKkkxRgr3IPghtKDpnOVbYyiJ0Jx5Qe+NnHMmwZeFDSHMd5Wgm/
+         SrSZUvQHEBMox9thHfGrAlzzdFusoiAPN4i5kcghvoW1s5zApneTo4gZCfak3taJW3rp
+         jri0DoK9gG7AGJQ1567sakUkcxpcE7cGNM2un+PN1E6ML90l8WeqkIhWqWa05n3PHmAl
+         XLDXD5/UGaOlpkRI1+Whz6jqesmVI8ORjwFRFQeOuLfv3sRb84VRhwkV5XwIfdDs4rkZ
+         2n4Q==
+X-Gm-Message-State: AC+VfDyqdjeV2ZAN3MUBNZhEVK2o3U1bjXPVmbHjZl9rE+wd+owBcH5R
+	3u0xMLwa4/N2EjuKmPYoEsDlEe7svmE=
+X-Google-Smtp-Source: ACHHUZ6YOZiT4JWZyHqBMNJEUKNSgHP11jVsULSnx+PlLV+Uk3Hm6bzMluYzO3U1SxiYfDz8FoLznA==
+X-Received: by 2002:a05:6a00:801:b0:64f:3fc8:5d1b with SMTP id m1-20020a056a00080100b0064f3fc85d1bmr2220464pfk.6.1685443915884;
+        Tue, 30 May 2023 03:51:55 -0700 (PDT)
 Received: from bft-2.. ([49.204.85.206])
-        by smtp.gmail.com with ESMTPSA id d5-20020a17090abf8500b002563e8a0225sm6022082pjs.48.2023.05.30.03.48.35
+        by smtp.gmail.com with ESMTPSA id j4-20020a62e904000000b0063d24fcc2b7sm1402262pfh.1.2023.05.30.03.51.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 May 2023 03:48:37 -0700 (PDT)
+        Tue, 30 May 2023 03:51:55 -0700 (PDT)
 From: Yash Shinde <yashinde145@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Yash.Shinde@windriver.com
+Cc: Randy.MacLeod@windriver.com,
+	richard.purdie@linuxfoundation.org,
+	Umesh.Kallapa@windriver.com,
+	Naveen.Gowda@windriver.com,
+	Sundeep.Kokkonda@windriver.com,
+	Shivaprasad.Moodalappa@windriver.com,
+	Yash.Shinde@windriver.com
 Subject: [PATCH v14] Rust Oe-Selftest implementation
-Date: Tue, 30 May 2023 16:18:22 +0530
-Message-Id: <20230530104823.445606-1-yashinde145@gmail.com>
+Date: Tue, 30 May 2023 16:21:25 +0530
+Message-Id: <20230530105125.445622-1-yashinde145@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 10:48:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181913
+ <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 10:52:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181914
 
 The patch implements Rust testing framework similar to other selftest,
 specifically the gcc selftest in OE. It uses the client and server
