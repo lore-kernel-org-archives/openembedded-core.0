@@ -1,188 +1,677 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <zhangjialing@loongson.cn>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29062C77B73
-	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 06:03:10 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web10.3577.1685426588352929304
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 396D9C7EE23
+	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 06:34:00 +0000 (UTC)
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by mx.groups.io with SMTP id smtpd.web10.3909.1685428430167525209
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 May 2023 23:03:08 -0700
+ Mon, 29 May 2023 23:33:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=UrM3U+Il;
- spf=pass (domain: mvista.com, ip: 209.85.210.170, mailfrom: vanusuri@mvista.com)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-64d24136685so2747934b3a.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 23:03:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1685426587; x=1688018587;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8WZ4k+nE6uc7fFdpRh35EyESa1VdT/6MmZbBimBMjc8=;
-        b=UrM3U+IlNaMN12nhsqfVFVMgxC4VpcJnETO/Re2LrFLDGf91+O0VLPg9a5nuHmLZBd
-         nhITTkZZ4N7WgKZdoaTmMu6kNg08PkzTni7ToqaFQ2xnmKvyO91rz7Fe7F4zC1cnRSNf
-         U9N9iijcGSGHF4LiKKkez9zIhCoLQVlgBS/lw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685426587; x=1688018587;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8WZ4k+nE6uc7fFdpRh35EyESa1VdT/6MmZbBimBMjc8=;
-        b=SLtjhge/Sc1NzIDmhCw6fRmqKzV5soYPvmxrPNqokNiXA91qaba0L9SrjWh5luonHR
-         DHJvockLko75G80KiK3O/bzSLDW4HQ4yNz5TpV5XC+JzvxgDKk2KKI1Rrp54ylpeLiO1
-         kDyhzNRxr455fHmoRNy/R7yZ6LTsck1t6LOoAorRTv0w9nRx4cuQGd2tNpPht0HgHjYF
-         zDtt+ufP958++v+SHuyZwkyPiCMhsEn3xkIaX+0PjDzkPEexcSOXx3kOKAWOAgBTOV+I
-         2SxD7ex+70ArNK7Bg/PQGTrSPIb8jofaQUnfTfZsbDPs7VbAHh1OoIYFcvXtjZsOdKiG
-         HtzQ==
-X-Gm-Message-State: AC+VfDyORiyuwkORhfny+p9zhSkVeMwQg1njymGe5RSKPxvmxPAnsrxg
-	JCgIYVl93Q9caSOcAX2xmHfzeM63WSaFPVEjXznvSA==
-X-Google-Smtp-Source: ACHHUZ664e43XGWBH2VX9MHDS+sMDpN9NmEXphBEd9FohfAUi6ZyqR02y9R5MHpH12lf84XyYGqWdA==
-X-Received: by 2002:a05:6a00:1896:b0:64c:a099:8924 with SMTP id x22-20020a056a00189600b0064ca0998924mr1382753pfh.10.1685426587193;
-        Mon, 29 May 2023 23:03:07 -0700 (PDT)
-Received: from localhost.localdomain ([2401:4900:4e42:bd7c:be91:bb55:8b63:c6a1])
-        by smtp.gmail.com with ESMTPSA id n23-20020a62e517000000b00625d84a0194sm847593pff.107.2023.05.29.23.03.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 May 2023 23:03:06 -0700 (PDT)
-From: vanusuri@mvista.com
+ dkim=missing; spf=pass (domain: loongson.cn, ip: 114.242.206.163, mailfrom: zhangjialing@loongson.cn)
+Received: from loongson.cn (unknown [192.168.100.1])
+	by gateway (Coremail) with SMTP id _____8BxGvLKmHVkq3cCAA--.5690S3;
+	Tue, 30 May 2023 14:33:47 +0800 (CST)
+Received: from localhost.localdomain (unknown [192.168.100.1])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8CxqrbJmHVkRSWAAA--.12746S4;
+	Tue, 30 May 2023 14:33:45 +0800 (CST)
+From: zhangjialing@loongson.cn
 To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][dunfell][PATCH] xserver-xorg: Security fix CVE-2023-0494 and CVE-2023-1393
-Date: Tue, 30 May 2023 11:32:48 +0530
-Message-Id: <20230530060248.15423-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+Cc: zhangjialing <zhangjialing@loongson.cn>
+Subject: [PATCH] Fixes pseudo build in loongarch64
+Date: Tue, 30 May 2023 14:33:43 +0800
+Message-Id: <20230530063343.1465068-1-zhangjialing@loongson.cn>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8CxqrbJmHVkRSWAAA--.12746S4
+X-CM-SenderInfo: x2kd0wxmldzxtqj6z05rqj20fqof0/1tbiAQAGB2RzRH8E1gAIs2
+X-Coremail-Antispam: 1Uk129KBjvAXoW3ZryUuFyUuFyxtrWDKw4rKrg_yoW8Ww48Jo
+	WSg3ZrXF4UZr4fCr10kFn8J3yxW34UCF18XFWkGr4kCFWfXF4Y9ry5tw4a934Uur9xGry3
+	CayrKF9IvF4fArnxn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXasCq-sGcSsGvf
+	J3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU0xBIdaVrnRJU
+	UUkEb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s
+	0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+	Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
+	8EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr0_GcWl
+	e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
+	IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwAKzVCY07xG64k0F24l42xK82
+	IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC2
+	0s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMI
+	IF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF
+	0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87
+	Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jn18PUUUUU=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 06:03:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181898
+ <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 06:34:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181899
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: zhangjialing <zhangjialing@loongson.cn>
 
-Upstream-Status: Backport
-[https://gitlab.freedesktop.org/xorg/xserver/-/commit/0ba6d8c37071131a49790243cdac55392ecf71ec
-&
-https://gitlab.freedesktop.org/xorg/xserver/-/commit/26ef545b3502f61ca722a7a3373507e88ef64110]
+Fixes [YOCTO #15110]
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Some functions used in the project have been removed from glibc. After the removal of these functions,
+the architecture in glibc will not include the removed functions.
+This patch resolves the usage and compilation issues on the loongarch64 architecture
+
+Signed-off-by: zhangjialing <zhangjialing@loongson.cn>
 ---
- .../xserver-xorg/CVE-2023-0494.patch          | 38 +++++++++++++++
- .../xserver-xorg/CVE-2023-1393.patch          | 46 +++++++++++++++++++
- .../xorg-xserver/xserver-xorg_1.20.14.bb      |  2 +
- 3 files changed, 86 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-0494.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-1393.patch
+ ports/linux/guts/fopen64.c    |  8 ++++
+ ports/linux/guts/freopen64.c  |  8 ++++
+ ports/linux/guts/fstat.c      | 11 +++++-
+ ports/linux/guts/fstat64.c    | 16 ++++++++
+ ports/linux/guts/fstatat.c    |  8 +++-
+ ports/linux/guts/fstatat64.c  | 43 +++++++++++++++++++++
+ ports/linux/guts/lstat.c      |  5 ++-
+ ports/linux/guts/lstat64.c    |  5 ++-
+ ports/linux/guts/mknod.c      |  4 ++
+ ports/linux/guts/mknodat.c    | 72 +++++++++++++++++++++++++++++++++++
+ ports/linux/guts/mkostemp64.c |  4 ++
+ ports/linux/guts/openat.c     | 36 ++++++++++++++++++
+ ports/linux/guts/prctl.c      | 18 +++++++++
+ ports/linux/guts/stat.c       |  5 ++-
+ ports/linux/guts/stat64.c     |  5 ++-
+ ports/linux/pseudo_wrappers.c | 32 ++++++++++++++++
+ pseudo_client.h               |  8 ++++
+ templates/wrapfuncs.c         |  2 +
+ 18 files changed, 284 insertions(+), 6 deletions(-)
+ create mode 100644 ports/linux/guts/prctl.c
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-0494.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-0494.patch
+diff --git a/ports/linux/guts/fopen64.c b/ports/linux/guts/fopen64.c
+index e76da69..33df2b1 100644
+--- a/ports/linux/guts/fopen64.c
++++ b/ports/linux/guts/fopen64.c
+@@ -11,7 +11,11 @@
+  	struct stat64 buf;
+ 	int save_errno;
+ 
++#ifdef __loongarch64
++ 	int existed = (real_stat64(path, &buf) != -1);
++#else
+ 	int existed = (real___xstat64(_STAT_VER, path, &buf) != -1);
++#endif
+ 
+ 	rc = real_fopen64(path, mode);
+ 	save_errno = errno;
+@@ -20,7 +24,11 @@
+ 		int fd = fileno(rc);
+ 
+ 		pseudo_debug(PDBGF_FILE, "fopen64 '%s': fd %d <FILE %p>\n", path, fd, (void *) rc);
++#ifdef __loongarch64
++		if (real_fstat64( fd, &buf) != -1) {
++#else
+ 		if (real___fxstat64(_STAT_VER, fd, &buf) != -1) {
++#endif
+ 			if (!existed) {
+ 				real_fchmod(fd, PSEUDO_FS_MODE(0666 & ~pseudo_umask, 0));
+ 				pseudo_client_op(OP_CREAT, 0, -1, -1, path, &buf);
+diff --git a/ports/linux/guts/freopen64.c b/ports/linux/guts/freopen64.c
+index 5fc9073..f249682 100644
+--- a/ports/linux/guts/freopen64.c
++++ b/ports/linux/guts/freopen64.c
+@@ -10,7 +10,11 @@
+  */
+  	struct stat64 buf;
+ 	int save_errno;
++#ifdef __loongarch64
++	int existed = (real_stat64(path, &buf) != -1);
++#else
+ 	int existed = (real___xstat64(_STAT_VER, path, &buf) != -1);
++#endif
+ 
+ 	rc = real_freopen64(path, mode, stream);
+ 	save_errno = errno;
+@@ -19,7 +23,11 @@
+ 		int fd = fileno(rc);
+ 
+ 		pseudo_debug(PDBGF_FILE, "freopen64 '%s': fd %d\n", path, fd);
++#ifdef __loongarch64
++		if (real_fstat64(fd, &buf) != -1) {
++#else
+ 		if (real___fxstat64(_STAT_VER, fd, &buf) != -1) {
++#endif
+ 			if (!existed) {
+ 				real_fchmod(fd, PSEUDO_FS_MODE(0666 & ~pseudo_umask, 0));
+ 				pseudo_client_op(OP_CREAT, 0, -1, -1, path, &buf);
+diff --git a/ports/linux/guts/fstat.c b/ports/linux/guts/fstat.c
+index b089b15..1ea4024 100644
+--- a/ports/linux/guts/fstat.c
++++ b/ports/linux/guts/fstat.c
+@@ -7,8 +7,17 @@
+  * int fstat(int fd, struct stat *buf)
+  *	int rc = -1;
+  */
+-
++#ifdef __loongarch64
++	struct stat64 buf64;
++        /* populate buffer with complete data */
++        real_fstat(fd, buf);
++        /* obtain fake data */
++        rc = wrap_fstat64(fd, &buf64);
++        /* overwrite */
++        pseudo_stat32_from64(buf, &buf64);
++#else
+ 	rc = wrap___fxstat(_STAT_VER, fd, buf);
++#endif
+ 
+ /*	return rc;
+  * }
+diff --git a/ports/linux/guts/fstat64.c b/ports/linux/guts/fstat64.c
+index 6dd97da..9f580e9 100644
+--- a/ports/linux/guts/fstat64.c
++++ b/ports/linux/guts/fstat64.c
+@@ -7,8 +7,24 @@
+  * int fstat64(int fd, struct stat *buf)
+  *	int rc = -1;
+  */
++#ifdef __loongarch64
++	pseudo_msg_t *msg;
++        int save_errno;
+ 
++        rc = real_fstat64(fd, buf);
++        save_errno = errno;
++        if (rc == -1) {
++                return rc;
++        }
++        msg = pseudo_client_op(OP_FSTAT, 0, fd, -1, 0, buf);
++        if (msg && msg->result == RESULT_SUCCEED) {
++                pseudo_stat_msg(buf, msg);
++        }
++
++        errno = save_errno;
++#else
+ 	rc = wrap___fxstat64(_STAT_VER, fd, buf);
++#endif
+ 
+ /*	return rc;
+  * }
+diff --git a/ports/linux/guts/fstatat.c b/ports/linux/guts/fstatat.c
+index 3267641..de69662 100644
+--- a/ports/linux/guts/fstatat.c
++++ b/ports/linux/guts/fstatat.c
+@@ -7,8 +7,14 @@
+  * int fstatat(int dirfd, const char *path, struct stat *buf, int flags)
+  *	int rc = -1;
+  */
+-
++#ifdef __loongarch64
++	struct stat64 buf64;
++	real_fstatat(dirfd,path,buf,flags);
++	rc = wrap_fstatat64(dirfd, path, &buf64, flags);
++	pseudo_stat32_from64(buf, &buf64);
++#else
+ 	rc = wrap___fxstatat(_STAT_VER, dirfd, path, buf, flags);
++#endif
+ 
+ /*	return rc;
+  * }
+diff --git a/ports/linux/guts/fstatat64.c b/ports/linux/guts/fstatat64.c
+index c981e14..8279f9c 100644
+--- a/ports/linux/guts/fstatat64.c
++++ b/ports/linux/guts/fstatat64.c
+@@ -8,7 +8,50 @@
+  *	int rc = -1;
+  */
+ 
++#ifdef __loongarch64
++	pseudo_msg_t *msg;
++        int save_errno;
++
++#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
++        if (dirfd != AT_FDCWD) {
++                errno = ENOSYS;
++                return -1;
++        }
++#endif
++        if (flags & AT_SYMLINK_NOFOLLOW) {
++#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
++                rc = real_lstat64(path, buf);
++#else
++                rc = real_fstatat64(dirfd, path, buf, flags);
++#endif
++                if (rc == -1) {
++                        return rc;
++                }
++        } else {
++#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
++                rc = real_stat64( path, buf);
++#else
++                rc = real_fstatat64(dirfd, path, buf, flags);
++#endif
++                if (rc == -1) {
++                        return rc;
++                }
++        }
++        save_errno = errno;
++
++          /* query database
++         * note that symlink canonicalizing is now automatic, so we
++         * don't need to check for a symlink on this end
++         */
++        msg = pseudo_client_op(OP_STAT, 0, -1, dirfd, path, buf);
++        if (msg && msg->result == RESULT_SUCCEED) {
++                pseudo_stat_msg(buf, msg);
++        }
++
++        errno = save_errno;
++#else
+ 	rc = wrap___fxstatat64(_STAT_VER, dirfd, path, buf, flags);
++#endif
+ 
+ /*	return rc;
+  * }
+diff --git a/ports/linux/guts/lstat.c b/ports/linux/guts/lstat.c
+index d2c4d50..da88a9b 100644
+--- a/ports/linux/guts/lstat.c
++++ b/ports/linux/guts/lstat.c
+@@ -7,8 +7,11 @@
+  * int lstat(const char *path, struct stat *buf)
+  *	int rc = -1;
+  */
+-
++#ifdef __loongarch64
++	rc = wrap_fstatat(AT_FDCWD, path, buf, AT_SYMLINK_NOFOLLOW);
++#else
+ 	rc = wrap___fxstatat(_STAT_VER, AT_FDCWD, path, buf, AT_SYMLINK_NOFOLLOW);
++#endif
+ 
+ /*	return rc;
+  * }
+diff --git a/ports/linux/guts/lstat64.c b/ports/linux/guts/lstat64.c
+index 43d0ce1..fbbe727 100644
+--- a/ports/linux/guts/lstat64.c
++++ b/ports/linux/guts/lstat64.c
+@@ -7,8 +7,11 @@
+  * int lstat64(const char *path, struct stat *buf)
+  *	int rc = -1;
+  */
+-
++#ifdef __loongarch64
++	rc = wrap_fstatat64( AT_FDCWD, path, buf, AT_SYMLINK_NOFOLLOW);
++#else
+ 	rc = wrap___fxstatat64(_STAT_VER, AT_FDCWD, path, buf, AT_SYMLINK_NOFOLLOW);
++#endif
+ 
+ /*	return rc;
+  * }
+diff --git a/ports/linux/guts/mknod.c b/ports/linux/guts/mknod.c
+index 61fd320..512e5bb 100644
+--- a/ports/linux/guts/mknod.c
++++ b/ports/linux/guts/mknod.c
+@@ -8,7 +8,11 @@
+  *	int rc = -1;
+  */
+ 
++#ifdef __loongarch64
++	rc = wrap_mknodat(AT_FDCWD, path, mode, dev);
++#else
+ 	rc = wrap___xmknod(_MKNOD_VER, path, mode, &dev);
++#endif
+ 
+ /*	return rc;
+  * }
+diff --git a/ports/linux/guts/mknodat.c b/ports/linux/guts/mknodat.c
+index a7e4293..fb8c0c0 100644
+--- a/ports/linux/guts/mknodat.c
++++ b/ports/linux/guts/mknodat.c
+@@ -7,8 +7,80 @@
+  * int mknodat(int dirfd, const char *path, mode_t mode, dev_t dev)
+  *	int rc = -1;
+  */
++#ifdef __loongarch64
++        pseudo_msg_t *msg;
++        struct stat64 buf;
+ 
++        /* mask out mode bits appropriately */
++        mode = mode & ~pseudo_umask;
++        /* if you don't specify a type, assume regular file */
++        if (!(mode & S_IFMT)) {
++                mode |= S_IFREG;
++        }
++        pseudo_debug(PDBGF_FILE, "mknodat creating '%s', mode 0%o\n",
++                path ? path : "<no name>", (int) mode);
++
++        /* we don't use underlying call, so _ver is irrelevant to us */
++#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
++        if (dirfd != AT_FDCWD) {
++                errno = ENOSYS;
++                return -1;
++        }
++        rc = real_stat64( path, &buf);
++#else
++        rc = real_fstatat64( dirfd, path, &buf, AT_SYMLINK_NOFOLLOW);
++#endif
++        if (rc != -1) {
++                /* if we can stat the file, you can't mknod it */
++                errno = EEXIST;
++                return -1;
++        }
++        if (!dev) {
++                errno = EINVAL;
++                return -1;
++        }
++#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
++        rc = real_open(path, O_CREAT | O_WRONLY | O_EXCL,
++                PSEUDO_FS_MODE(mode, 0));
++#else
++        rc = real_openat(dirfd, path, O_CREAT | O_WRONLY | O_EXCL,
++                PSEUDO_FS_MODE(mode, 0));
++#endif
++        if (rc == -1) {
++                return -1;
++        }
++        real_fchmod(rc, PSEUDO_FS_MODE(mode, 0));
++        real_fstat64( rc, &buf);
++        /* mknod does not really open the file.  We don't have
++         * to use wrap_close because we've never exposed this file
++         * descriptor to the client code.
++         */
++        real_close(rc);
++
++        /* mask in the mode type bits again */
++        buf.st_mode = (PSEUDO_DB_MODE(buf.st_mode, mode) & 07777) |
++                        (mode & ~07777);
++        buf.st_rdev = dev;
++        msg = pseudo_client_op(OP_MKNOD, 0, -1, dirfd, path, &buf);
++        if (msg && msg->result != RESULT_SUCCEED) {
++                errno = EPERM;
++                rc = -1;
++   } else {
++                /* just pretend we worked */
++                rc = 0;
++        }
++        if (rc == -1) {
++                int save_errno = errno;
++#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
++                real_unlink(path);
++#else
++                real_unlinkat(dirfd, path, AT_SYMLINK_NOFOLLOW);
++#endif
++                errno = save_errno;
++        }
++#else
+ 	rc = wrap___xmknodat(_MKNOD_VER, dirfd, path, mode, &dev);
++#endif
+ 
+ /*	return rc;
+  * }
+diff --git a/ports/linux/guts/mkostemp64.c b/ports/linux/guts/mkostemp64.c
+index 502211b..41052c6 100644
+--- a/ports/linux/guts/mkostemp64.c
++++ b/ports/linux/guts/mkostemp64.c
+@@ -35,7 +35,11 @@
+ 	if (rc != -1) {
+ 		save_errno = errno;
+ 
++#ifdef __loongarch64
++		if (real_fstat64(rc, &buf) != -1) {
++#else
+ 		if (real___fxstat64(_STAT_VER, rc, &buf) != -1) {
++#endif
+ 			real_fchmod(rc, PSEUDO_FS_MODE(0600, 0));
+ 			pseudo_client_op(OP_CREAT, 0, -1, -1, tmp_template, &buf);
+ 			pseudo_client_op(OP_OPEN, PSA_READ | PSA_WRITE, rc, -1, tmp_template, &buf);
+diff --git a/ports/linux/guts/openat.c b/ports/linux/guts/openat.c
+index 656ac2b..86ad5e9 100644
+--- a/ports/linux/guts/openat.c
++++ b/ports/linux/guts/openat.c
+@@ -56,12 +56,24 @@
+ 		save_errno = errno;
+ #ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
+ 		if (flags & O_NOFOLLOW) {
++#ifdef __loongarch64
++			rc = real_lstat64(path,&buf);
++#else
+ 			rc = real___lxstat64(_STAT_VER, path, &buf);
++#endif
+ 		} else {
++#ifdef __loongarch64
++			rc = real_stat64(path,&buf);
++#else
+ 			rc = real___xstat64(_STAT_VER, path, &buf);
++#endif
+ 		}
++#else
++#ifdef __loongarch64
++		rc = real_fstatat64(dirfd, path, &buf, (flags & O_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
+ #else
+ 		rc = real___fxstatat64(_STAT_VER, dirfd, path, &buf, (flags & O_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
++#endif
+ #endif
+ 		existed = (rc != -1);
+ 		if (!existed)
+@@ -77,12 +89,24 @@
+ 		save_errno = errno;
+ #ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
+ 		if (flags & O_NOFOLLOW) {
++#ifdef __loongarch64
++			rc = real_lstat64(path, &buf);
++#else
+ 			rc = real___lxstat64(_STAT_VER, path, &buf);
++#endif
+ 		} else {
++#ifdef __loongarch64
++			rc = real_stat64(path, &buf);
++#else
+ 			rc = real___xstat64(_STAT_VER, path, &buf);
++#endif
+ 		}
++#else
++#ifdef __loongarch64
++		rc = real_fstatat64(dirfd, path, &buf, (flags & O_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
+ #else
+ 		rc = real___fxstatat64(_STAT_VER, dirfd, path, &buf, (flags & O_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
++#endif
+ #endif
+ 		if (rc != -1 && S_ISFIFO(buf.st_mode)) {
+ 			overly_magic_nonblocking = 1;
+@@ -135,12 +159,24 @@
+ #endif
+ #ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
+ 		if (flags & O_NOFOLLOW) {
++#ifdef __loongarch64
++			stat_rc = real_lstat64( path, &buf);
++#else
+ 			stat_rc = real___lxstat64(_STAT_VER, path, &buf);
++#endif
+ 		} else {
++#ifdef __loongarch64
++			stat_rc = real_stat64(path, &buf);
++#else
+ 			stat_rc = real___xstat64(_STAT_VER, path, &buf);
++#endif
+ 		}
++#else
++#ifdef __loongarch64
++		stat_rc = real_fstatat64(dirfd, path, &buf, (flags & O_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
+ #else
+ 		stat_rc = real___fxstatat64(_STAT_VER, dirfd, path, &buf, (flags & O_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
++#endif
+ #endif
+ 
+ 		pseudo_debug(PDBGF_FILE, "openat(path %s), flags %o, stat rc %d, stat mode %o\n",
+diff --git a/ports/linux/guts/prctl.c b/ports/linux/guts/prctl.c
 new file mode 100644
-index 0000000000..ef2ee5d55e
+index 0000000..6727155
 --- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-0494.patch
-@@ -0,0 +1,38 @@
-+From 0ba6d8c37071131a49790243cdac55392ecf71ec Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Wed, 25 Jan 2023 11:41:40 +1000
-+Subject: [PATCH] Xi: fix potential use-after-free in DeepCopyPointerClasses
++++ b/ports/linux/guts/prctl.c
+@@ -0,0 +1,18 @@
++/*
++ * Copyright (c) 2023 Peter Seebach/Seebs <seebs@seebs.net>; see
++ * guts/COPYRIGHT for information.
++ *
++ * [Note: copyright added by code generator, may be
++ * incorrect. Remove this if you fix it.]
++ *
++ * SPDX-License-Identifier: LGPL-2.1-only
++ *
++ * int prctl(int option, va_list ap)
++ *	int rc = -1;
++ */
 +
-+CVE-2023-0494, ZDI-CAN-19596
++	rc = real_prctl(option, ap);
 +
-+This vulnerability was discovered by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
-+
-+Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/0ba6d8c37071131a49790243cdac55392ecf71ec]
-+CVE: CVE-2023-0494
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ Xi/exevents.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/Xi/exevents.c b/Xi/exevents.c
-+index 217baa9561..dcd4efb3bc 100644
-+--- a/Xi/exevents.c
-++++ b/Xi/exevents.c
-+@@ -619,8 +619,10 @@ DeepCopyPointerClasses(DeviceIntPtr from, DeviceIntPtr to)
-+             memcpy(to->button->xkb_acts, from->button->xkb_acts,
-+                    sizeof(XkbAction));
-+         }
-+-        else
-++        else {
-+             free(to->button->xkb_acts);
-++            to->button->xkb_acts = NULL;
-++        }
-+ 
-+         memcpy(to->button->labels, from->button->labels,
-+                from->button->numButtons * sizeof(Atom));
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-1393.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-1393.patch
-new file mode 100644
-index 0000000000..51d0e0cab6
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-1393.patch
-@@ -0,0 +1,46 @@
-+From 26ef545b3502f61ca722a7a3373507e88ef64110 Mon Sep 17 00:00:00 2001
-+From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Mon, 13 Mar 2023 11:08:47 +0100
-+Subject: [PATCH] composite: Fix use-after-free of the COW
-+
-+ZDI-CAN-19866/CVE-2023-1393
-+
-+If a client explicitly destroys the compositor overlay window (aka COW),
-+we would leave a dangling pointer to that window in the CompScreen
-+structure, which will trigger a use-after-free later.
-+
-+Make sure to clear the CompScreen pointer to the COW when the latter gets
-+destroyed explicitly by the client.
-+
-+This vulnerability was discovered by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
-+
-+Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-+Reviewed-by: Adam Jackson <ajax@redhat.com>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/26ef545b3502f61ca722a7a3373507e88ef64110]
-+CVE: CVE-2023-1393
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ composite/compwindow.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/composite/compwindow.c b/composite/compwindow.c
-+index 4e2494b86b..b30da589e9 100644
-+--- a/composite/compwindow.c
-++++ b/composite/compwindow.c
-+@@ -620,6 +620,11 @@ compDestroyWindow(WindowPtr pWin)
-+     ret = (*pScreen->DestroyWindow) (pWin);
-+     cs->DestroyWindow = pScreen->DestroyWindow;
-+     pScreen->DestroyWindow = compDestroyWindow;
-++
-++    /* Did we just destroy the overlay window? */
-++    if (pWin == cs->pOverlayWin)
-++        cs->pOverlayWin = NULL;
-++
-+ /*    compCheckTree (pWin->drawable.pScreen); can't check -- tree isn't good*/
-+     return ret;
-+ }
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.14.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.14.bb
-index ab18a87a3d..5c604fa86e 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.14.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.14.bb
-@@ -14,6 +14,8 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
-            file://CVE-2022-46342.patch \
-            file://CVE-2022-46343.patch \
-            file://CVE-2022-46344.patch \
-+           file://CVE-2023-0494.patch \
-+           file://CVE-2023-1393.patch \
- "
- SRC_URI[md5sum] = "453fc86aac8c629b3a5b77e8dcca30bf"
- SRC_URI[sha256sum] = "54b199c9280ff8bf0f73a54a759645bd0eeeda7255d1c99310d5b7595f3ac066"
++/*	return rc;
++ * }
++ */
+diff --git a/ports/linux/guts/stat.c b/ports/linux/guts/stat.c
+index f8c73f7..5a7b57b 100644
+--- a/ports/linux/guts/stat.c
++++ b/ports/linux/guts/stat.c
+@@ -7,8 +7,11 @@
+  * int stat(const char *path, struct stat *buf)
+  *	int rc = -1;
+  */
+-
++#ifdef __loongarch64
++	rc = wrap_fstatat(AT_FDCWD, path, buf, 0);
++#else
+ 	rc = wrap___fxstatat(_STAT_VER, AT_FDCWD, path, buf, 0);
++#endif
+ 
+ /*	return rc;
+  * }
+diff --git a/ports/linux/guts/stat64.c b/ports/linux/guts/stat64.c
+index d8b3f36..ee0583c 100644
+--- a/ports/linux/guts/stat64.c
++++ b/ports/linux/guts/stat64.c
+@@ -7,8 +7,11 @@
+  * int stat64(const char *path, struct stat *buf)
+  *	int rc = -1;
+  */
+-
++#ifdef __loongarch64
++	rc = wrap_fstatat64(AT_FDCWD, path, buf, 0);
++#else
+ 	rc = wrap___fxstatat64(_STAT_VER, AT_FDCWD, path, buf, 0);
++#endif
+ 
+ /*	return rc;
+  * }
+diff --git a/ports/linux/pseudo_wrappers.c b/ports/linux/pseudo_wrappers.c
+index 7659897..c0775b9 100644
+--- a/ports/linux/pseudo_wrappers.c
++++ b/ports/linux/pseudo_wrappers.c
+@@ -8,43 +8,75 @@
+  */
+ int
+ pseudo_stat(const char *path, struct stat *buf) {
++#ifdef __loongarch64
++	return real_stat( path, buf);
++#else
+ 	return real___xstat(_STAT_VER, path, buf);
++#endif
+ }
+ 
+ int
+ pseudo_lstat(const char *path, struct stat *buf) {
++#ifdef __loongarch64
++	return real_lstat(path,buf);
++#else
+ 	return real___lxstat(_STAT_VER, path, buf);
++#endif
+ }
+ 
+ int
+ pseudo_fstat(int fd, struct stat *buf) {
++#ifdef __loongarch64
++	return real_fstat(fd,buf);
++#else
+ 	return real___fxstat(_STAT_VER, fd, buf);
++#endif
+ }
+ 
+ int
+ pseudo_stat64(const char *path, struct stat64 *buf) {
++#ifdef __loongarch64
++	return real_stat64(path,buf);
++#else
+ 	return real___xstat64(_STAT_VER, path, buf);
++#endif
+ }
+ 
+ int
+ pseudo_lstat64(const char *path, struct stat64 *buf) {
++#ifdef __loongarch64
++	return real_lstat64(path,buf);
++#else
+ 	return real___lxstat64(_STAT_VER, path, buf);
++#endif
+ }
+ 
+ int
+ pseudo_fstat64(int fd, struct stat64 *buf) {
++#ifdef __loongarch64
++	return	real_fstat64(fd,buf);
++#else
+ 	return real___fxstat64(_STAT_VER, fd, buf);
++#endif
+ }
+ 
+ /* similar thing happens with mknod */
+ int
+ pseudo_mknod(const char *path, mode_t mode, dev_t dev) {
++#ifdef __loongarch64
++	return real_mknod(path,mode,dev);
++#else
+ 	return real___xmknod(_MKNOD_VER, path, mode, &dev);
++#endif
+ }
+ 
+ int
+ pseudo_mknodat(int dirfd, const char *path, mode_t mode, dev_t dev) {
++#ifdef __loongarch64
++	return real_mknodat(dirfd,path,mode,dev);
++#else
+ 	return real___xmknodat(_MKNOD_VER, dirfd, path, mode, &dev);
++#endif
+ }
+ 
+ int pseudo_capset(cap_user_header_t hdrp, const cap_user_data_t datap) {
+diff --git a/pseudo_client.h b/pseudo_client.h
+index d7944ce..32dfe1a 100644
+--- a/pseudo_client.h
++++ b/pseudo_client.h
+@@ -14,13 +14,21 @@ extern void pseudo_client_linked_paths(const char *oldpath, const char *newpath)
+ #define base_lstat real_lstat64
+ #define base_fstat real_fstat64
+ #define base_stat real_stat64
++#ifdef __loongarch64
++#define base_fstatat(dirfd, path, buf, flags) real_fstatat64( dirfd, path, buf, flags)
++#else
+ #define base_fstatat(dirfd, path, buf, flags) real___fxstatat64(_STAT_VER, dirfd, path, buf, flags)
++#endif
+ #else
+ #define base_lstat real_lstat
+ #define base_fstat real_fstat
+ #define base_stat real_stat
++#ifdef __loongarch64
++#define base_fstatat(dirfd, path, buf, flags) real_fstatat( dirfd, path, buf, flags
++#else
+ #define base_fstatat(dirfd, path, buf, flags) real___fxstatat(_STAT_VER, dirfd, path, buf, flags)
+ #endif
++#endif
+ extern void pseudo_antimagic(void);
+ extern void pseudo_magic(void);
+ extern void pseudo_client_touchuid(void);
+diff --git a/templates/wrapfuncs.c b/templates/wrapfuncs.c
+index 93bb671..14a42e2 100644
+--- a/templates/wrapfuncs.c
++++ b/templates/wrapfuncs.c
+@@ -13,7 +13,9 @@
+  * script if you want to modify this. */
+ @body
+ 
++#ifndef __loongarch64
+ static ${type} (*real_${name})(${decl_args}) = ${real_init};
++#endif
+ 
+ ${maybe_skip}
+ 
 -- 
-2.25.1
+2.33.0
 
 
