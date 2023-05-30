@@ -1,153 +1,188 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A2DCC7EE23
-	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 05:46:10 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.3525.1685425567812617355
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29062C77B73
+	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 06:03:10 +0000 (UTC)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web10.3577.1685426588352929304
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 May 2023 22:46:07 -0700
+ Mon, 29 May 2023 23:03:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=q8d+Rms4;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=5514bc5d66=qi.chen@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34U5fr9H013253
-	for <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 22:46:07 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=71QiASRhJgSSRrgMOr80823TgPrsCbDfDayD5CCZBsE=;
- b=q8d+Rms4Y7JKEyBmX8xKxFB4QtxdkQZmz2/1J7K/oAUFNOtuk1OeRcXwfGP5zEuKIMOe
- j9cfNjTXxO6jIQtRh2RVdLhvpyfsXGD0vzoFPbaQse5YzXj4oZ/GjErsGJHS5rePFzXE
- AWSkdiOjUQO5EtGOz1DyT9PGWT87Gfr0B49Ad3NeQ6LX5jWPS0BTq78IcYH3RjFAHXIh
- IjbbbJ1ak53pC8FQ3rV4PSHFEw7ak0xAEW9F1JQpM/uxOI5KxBKvbMVjo4NtMLoJZp2q
- FE9Pb1xHyU+UAR20jfvjqzDLUTQAlPK4ISKD5dQIJn40hvtAN+hEvK6EwVUX6aMjpmgK Bg== 
-Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam02lp2040.outbound.protection.outlook.com [104.47.51.40])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3quhcj9xys-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 22:46:07 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mcoEY/1COzL4cN/SyIYwDZKiuAvjw63BHdq3bcMFS/tAKXmmPPWHyyAxBVwxdfNc1mZihYqHmyjTEmZ8aRPX/LH2eaDMmYmPkqA+7oKsa6kFWoEbw1nW6zbgk/RXApF6IbQNjLXOkWMNDI3D2s15QjqABiCJpuH2KmIYTsPAV7BEheKAc3sCuHjsl7K8fnfwt8KQRwLmqbGr60pED5VATCmYFBXZWlMOLWMmZ/3NZexZF6ekPV7dBalzjngiNFWy1oSK6bQaT3hNCPr82lL4WTfAhncp8YFewaU7dMG/+jC8E0Kpy5gyrHSOmTS/j6NtLOieeh4wJiFD+hPjPqtkPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=71QiASRhJgSSRrgMOr80823TgPrsCbDfDayD5CCZBsE=;
- b=mO26Ou/YCGbiSly9phE9a3K83uxqVXPT/DQrUHXJNI26MuM9nGCWU4AqBOQjA/owJHUDPUF2BME6rXkXSPlCwwp+xOKrOBvcUNw2COG7G+APs6v1hIwsR4Ww+Ja2Ge2Dbq2TYWJ2/nf5djpESNzESXuYE3x806qYo3Pw4auS0YWGcvhlwxdFIwhP2uc43HuJZwZ490dh25jEFftrHxczaNeNR5unIwB7bNQ8TIP8jU78Fl0h5E+a5NL2cChXT68ASjIzPFlwR0rCy5bamV55DcBP54mS0NRe/rkUpq7S+ajJ36ZSXEKJ00rQo++2GQYk43C4JlZ93bAXG9sJVtMEjw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by CY8PR11MB6866.namprd11.prod.outlook.com (2603:10b6:930:5e::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.23; Tue, 30 May
- 2023 05:46:03 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::b504:c7a0:9ce8:6f17]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::b504:c7a0:9ce8:6f17%3]) with mapi id 15.20.6433.022; Tue, 30 May 2023
- 05:46:03 +0000
-From: Qi.Chen@windriver.com
+ dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=UrM3U+Il;
+ spf=pass (domain: mvista.com, ip: 209.85.210.170, mailfrom: vanusuri@mvista.com)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-64d24136685so2747934b3a.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 May 2023 23:03:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1685426587; x=1688018587;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8WZ4k+nE6uc7fFdpRh35EyESa1VdT/6MmZbBimBMjc8=;
+        b=UrM3U+IlNaMN12nhsqfVFVMgxC4VpcJnETO/Re2LrFLDGf91+O0VLPg9a5nuHmLZBd
+         nhITTkZZ4N7WgKZdoaTmMu6kNg08PkzTni7ToqaFQ2xnmKvyO91rz7Fe7F4zC1cnRSNf
+         U9N9iijcGSGHF4LiKKkez9zIhCoLQVlgBS/lw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685426587; x=1688018587;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8WZ4k+nE6uc7fFdpRh35EyESa1VdT/6MmZbBimBMjc8=;
+        b=SLtjhge/Sc1NzIDmhCw6fRmqKzV5soYPvmxrPNqokNiXA91qaba0L9SrjWh5luonHR
+         DHJvockLko75G80KiK3O/bzSLDW4HQ4yNz5TpV5XC+JzvxgDKk2KKI1Rrp54ylpeLiO1
+         kDyhzNRxr455fHmoRNy/R7yZ6LTsck1t6LOoAorRTv0w9nRx4cuQGd2tNpPht0HgHjYF
+         zDtt+ufP958++v+SHuyZwkyPiCMhsEn3xkIaX+0PjDzkPEexcSOXx3kOKAWOAgBTOV+I
+         2SxD7ex+70ArNK7Bg/PQGTrSPIb8jofaQUnfTfZsbDPs7VbAHh1OoIYFcvXtjZsOdKiG
+         HtzQ==
+X-Gm-Message-State: AC+VfDyORiyuwkORhfny+p9zhSkVeMwQg1njymGe5RSKPxvmxPAnsrxg
+	JCgIYVl93Q9caSOcAX2xmHfzeM63WSaFPVEjXznvSA==
+X-Google-Smtp-Source: ACHHUZ664e43XGWBH2VX9MHDS+sMDpN9NmEXphBEd9FohfAUi6ZyqR02y9R5MHpH12lf84XyYGqWdA==
+X-Received: by 2002:a05:6a00:1896:b0:64c:a099:8924 with SMTP id x22-20020a056a00189600b0064ca0998924mr1382753pfh.10.1685426587193;
+        Mon, 29 May 2023 23:03:07 -0700 (PDT)
+Received: from localhost.localdomain ([2401:4900:4e42:bd7c:be91:bb55:8b63:c6a1])
+        by smtp.gmail.com with ESMTPSA id n23-20020a62e517000000b00625d84a0194sm847593pff.107.2023.05.29.23.03.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 May 2023 23:03:06 -0700 (PDT)
+From: vanusuri@mvista.com
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] libsdl2: disable SDL's own ccache
-Date: Mon, 29 May 2023 22:45:53 -0700
-Message-Id: <20230530054553.2361595-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.40.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BYAPR01CA0002.prod.exchangelabs.com (2603:10b6:a02:80::15)
- To CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][dunfell][PATCH] xserver-xorg: Security fix CVE-2023-0494 and CVE-2023-1393
+Date: Tue, 30 May 2023 11:32:48 +0530
+Message-Id: <20230530060248.15423-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|CY8PR11MB6866:EE_
-X-MS-Office365-Filtering-Correlation-Id: 958537c3-58d7-43cf-91a0-08db60d127ae
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	X5EAW7HsDOEhKlpo2NFz4hJ1R3c3K6Pj/G8vM3nv/DI1d+wYIDTlLgMPYJRTXXIPgdjUGAj7XARJpsuSuLieDeWAk2gLlwrZztAqI489U7+ng0txEIVgVL3+6B7dJlSoNMQb5s0ILcPuW8pL6D1dgJOZZJHY/7FJ2L/GMcLBvnkOGJ3qSma6KjX0ecsYP/MjrvIHtZVzRZ/kRFdTGtec5Bq4XiwZX/4wAQAgWFXqmpYWvsDUzHCSXjSjsV+m1Dm9iUMd2/NtnyCQOKe3ZWEfM6095Hw4XxuuyAw7YRAmMpVZic4LNteCekRXF/uSYccKIhl9lh7gckUL9TCpmAEAFYRK/mISwmn6Upk9ttPkhtkapu1ULrsLt/tdgRXt9bASGMZz/3UlxA2r8clyaxibIdFXaOGBVm6YSxRcxXC2T205anh5FoVXQP97M4IpUun0p+By/l9cmgRI/3cQvataNpmYtJI5E1mHyyMfqGgQxet00PhFjzYXDA06oWTrI6UU6ZVP2fvN6wnp3cysRSii+ZPesQ8vXpaGDce3DxvO6t84plYZPCBY2j734Blqcid4EA0awHhsBtM4DjrvxwOxKNyQT0Pe5YCsTMPt6sq/vJlLlk51rDfRzbgNytzFuU2L
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(396003)(136003)(39850400004)(366004)(451199021)(52116002)(478600001)(6916009)(66946007)(66556008)(66476007)(316002)(86362001)(36756003)(9686003)(6512007)(6506007)(1076003)(26005)(186003)(5660300002)(41300700001)(8936002)(8676002)(4744005)(2906002)(6486002)(6666004)(38350700002)(38100700002)(2616005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?F0TaxRirFh6OyYVGaWKtvMVPp+VRx6vbOsEbEINVLJ9YNHqJMgQNfD/JFz02?=
- =?us-ascii?Q?opg2GSn+0VP4w+YkTzFiOJvgRugZcCDvGi3gu/2M9lhIJUe9wVktAa3/q+oO?=
- =?us-ascii?Q?b33m7ztKcywmB7HsrkihAS/TXLUojdZD5pQ3VkgtSUrqDs3gZo3jlkybIyK6?=
- =?us-ascii?Q?zxlog0AzkYcKdKQBkI1LFcm2ErhGC+zYmDlJ2KaTEWq9K79m7t0qQaHbHzcu?=
- =?us-ascii?Q?xh4ksNMUX/vlEBmX93guFrOtiTmjrh3k6yb8rG5wokPUlRIsF0RTLzlsYiXT?=
- =?us-ascii?Q?xm1HUZqLCMRO/ttPoW27xJbZe+l4kSSdiMb3nTvlnQpjSZMNdxHPNBtBYy1w?=
- =?us-ascii?Q?1ZnBcwFqJAVMDezb0EJemn16Zv34oP+Mu8+cX8mLWTdhy33DCnoCGXCTY+Sa?=
- =?us-ascii?Q?9H2HfnBSU7bwjT5AHJmaCGsuZrd5nFkvxsRrYB9L+tqXpLI5Md1FaZg8KC+r?=
- =?us-ascii?Q?ScqNcop0/xNyzpQ5ekVnW6915SX7BPxix8cOfpH/lKf+MZOVnaIs+x8K8Vjj?=
- =?us-ascii?Q?Oldqw+ULouiNaxFvLcpRD7d8JGKGFL4Vyrbc1kBgUS5UADKP/pQ6hctQ5RtK?=
- =?us-ascii?Q?A3AaTm9EIk+VB9bC79VOGpl98SWuB2YieBJ5AJws6f8mcdAeNGjzsWicgNYd?=
- =?us-ascii?Q?F4D15ZuEwei7TMZlSdUof4Bf5XqS35btiyh6BLoEhK0ihn//9hmX5wIbPbjw?=
- =?us-ascii?Q?herC1qOW4wMPP47Uqnsots53AVGQyEkGPOMlhEim8N+VqPKlUYWWI1RgPNE8?=
- =?us-ascii?Q?2lLT75azVMaBeiqxNBYp5zUc+N3r4Eql5/MfV3AO0HdW/yl0xonHyy6rqUnV?=
- =?us-ascii?Q?PbN2tq45cJQYgQe36RS3EuyP9+i1A/atbqcBiCkpJIZJq/EP0CCEOTm5ZNBq?=
- =?us-ascii?Q?MLw4/nPwD8M1KyHKqMLlI+G/4gDsKzO4uWZeSJ4orfjCJqZFcpzoFitVOjSR?=
- =?us-ascii?Q?/3uw4dF7QbujM9ZbzET7+NzMfbgIs1RcSidU7wKw0w7GCMWEr6qSSuiktFYP?=
- =?us-ascii?Q?AKaq3zA1YT7AAMNAyvhDoPpvSRKuf3UsjOayaVapfeOA3ifCU9KdJMre3n3O?=
- =?us-ascii?Q?OnN4sphiQEXV1mWcyTPtUmaocnOsQllg0kLvrJE5FPyywghEK88BCCuyU5Au?=
- =?us-ascii?Q?QXAkbmRLRbB3uLsUCnJYCjd4DPaLa0t5Qj+cQtjt2yZeRHJGR2r6r2PCZ11L?=
- =?us-ascii?Q?KEPOGN09u4koMo7RJbfrJK9NrYXu6C/MaO7WsDzHoanfNthycyQGgaA4S5A1?=
- =?us-ascii?Q?AO3EzL5V3RytXOsWStX7hBkAzlKITJI7jl91XJA7MVWb59D26S7b9qyUgCTs?=
- =?us-ascii?Q?LWNKZLq+iK0VaNzMxAKlsZaW4sCjWo2aOYzmajhPrrEdR4K4ltMwMZjNYVmg?=
- =?us-ascii?Q?OiJ9ZetFHAnXGVY67br+lv0ciAFPvLRzsYcsECZx6qISuEebOCx47A1OXRiJ?=
- =?us-ascii?Q?i7lNTycBWfwIHuykkFuuWc2Q628RxEFarVVychtCgwz8/VC+ExE4uznKrmWe?=
- =?us-ascii?Q?ewqLvx7bUoSCUTZ2DHUF6KSpFR7W845OlLN9U7oC1XADLY6ErLFIeg+kGbVx?=
- =?us-ascii?Q?dtbi4/JgcuSSPFeZMftdjQUzcVzxt6dTeCMXb5J0vfJqjFZ8Q9ANQZpkMMA4?=
- =?us-ascii?Q?Wg=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 958537c3-58d7-43cf-91a0-08db60d127ae
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2023 05:46:03.4833
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cioNkfh4inaWzljeB/BahemRZ0KXoIAQYx5RXcRxgGIAi50Zx8vFidboIskROei+37H4COlDSzGv4y0pZ5vIUQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB6866
-X-Proofpoint-GUID: 3tbI0Avvzs-aOuzRIvKqdgS5j_Vhvra4
-X-Proofpoint-ORIG-GUID: 3tbI0Avvzs-aOuzRIvKqdgS5j_Vhvra4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-30_02,2023-05-29_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- suspectscore=0 malwarescore=0 bulkscore=0 clxscore=1015 lowpriorityscore=0
- phishscore=0 adultscore=0 priorityscore=1501 spamscore=0 mlxlogscore=434
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305300047
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 05:46:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181897
+ <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 06:03:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181898
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-OE has its own ccache mechanism, disable libsdl2's own ccache
-searching/enabling mechanism. Otherwise, if ccache is installed
-on system, it will be used by default.
+Upstream-Status: Backport
+[https://gitlab.freedesktop.org/xorg/xserver/-/commit/0ba6d8c37071131a49790243cdac55392ecf71ec
+&
+https://gitlab.freedesktop.org/xorg/xserver/-/commit/26ef545b3502f61ca722a7a3373507e88ef64110]
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- meta/recipes-graphics/libsdl2/libsdl2_2.26.5.bb | 1 +
- 1 file changed, 1 insertion(+)
+ .../xserver-xorg/CVE-2023-0494.patch          | 38 +++++++++++++++
+ .../xserver-xorg/CVE-2023-1393.patch          | 46 +++++++++++++++++++
+ .../xorg-xserver/xserver-xorg_1.20.14.bb      |  2 +
+ 3 files changed, 86 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-0494.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-1393.patch
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.26.5.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.26.5.bb
-index 3274475da1..f8319a8f29 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.26.5.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.26.5.bb
-@@ -47,6 +47,7 @@ EXTRA_OECMAKE = "-DSDL_OSS=OFF -DSDL_ESD=OFF -DSDL_ARTS=OFF \
-                  -DSDL_X11_XRANDR=OFF \
-                  -DSDL_X11_XSCRNSAVER=OFF \
-                  -DSDL_X11_XSHAPE=OFF \
-+                 -DSDL_CCACHE=OFF \
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-0494.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-0494.patch
+new file mode 100644
+index 0000000000..ef2ee5d55e
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-0494.patch
+@@ -0,0 +1,38 @@
++From 0ba6d8c37071131a49790243cdac55392ecf71ec Mon Sep 17 00:00:00 2001
++From: Peter Hutterer <peter.hutterer@who-t.net>
++Date: Wed, 25 Jan 2023 11:41:40 +1000
++Subject: [PATCH] Xi: fix potential use-after-free in DeepCopyPointerClasses
++
++CVE-2023-0494, ZDI-CAN-19596
++
++This vulnerability was discovered by:
++Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
++
++Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/0ba6d8c37071131a49790243cdac55392ecf71ec]
++CVE: CVE-2023-0494
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ Xi/exevents.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/Xi/exevents.c b/Xi/exevents.c
++index 217baa9561..dcd4efb3bc 100644
++--- a/Xi/exevents.c
+++++ b/Xi/exevents.c
++@@ -619,8 +619,10 @@ DeepCopyPointerClasses(DeviceIntPtr from, DeviceIntPtr to)
++             memcpy(to->button->xkb_acts, from->button->xkb_acts,
++                    sizeof(XkbAction));
++         }
++-        else
+++        else {
++             free(to->button->xkb_acts);
+++            to->button->xkb_acts = NULL;
+++        }
++ 
++         memcpy(to->button->labels, from->button->labels,
++                from->button->numButtons * sizeof(Atom));
++-- 
++GitLab
++
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-1393.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-1393.patch
+new file mode 100644
+index 0000000000..51d0e0cab6
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-1393.patch
+@@ -0,0 +1,46 @@
++From 26ef545b3502f61ca722a7a3373507e88ef64110 Mon Sep 17 00:00:00 2001
++From: Olivier Fourdan <ofourdan@redhat.com>
++Date: Mon, 13 Mar 2023 11:08:47 +0100
++Subject: [PATCH] composite: Fix use-after-free of the COW
++
++ZDI-CAN-19866/CVE-2023-1393
++
++If a client explicitly destroys the compositor overlay window (aka COW),
++we would leave a dangling pointer to that window in the CompScreen
++structure, which will trigger a use-after-free later.
++
++Make sure to clear the CompScreen pointer to the COW when the latter gets
++destroyed explicitly by the client.
++
++This vulnerability was discovered by:
++Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
++
++Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
++Reviewed-by: Adam Jackson <ajax@redhat.com>
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/26ef545b3502f61ca722a7a3373507e88ef64110]
++CVE: CVE-2023-1393
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ composite/compwindow.c | 5 +++++
++ 1 file changed, 5 insertions(+)
++
++diff --git a/composite/compwindow.c b/composite/compwindow.c
++index 4e2494b86b..b30da589e9 100644
++--- a/composite/compwindow.c
+++++ b/composite/compwindow.c
++@@ -620,6 +620,11 @@ compDestroyWindow(WindowPtr pWin)
++     ret = (*pScreen->DestroyWindow) (pWin);
++     cs->DestroyWindow = pScreen->DestroyWindow;
++     pScreen->DestroyWindow = compDestroyWindow;
+++
+++    /* Did we just destroy the overlay window? */
+++    if (pWin == cs->pOverlayWin)
+++        cs->pOverlayWin = NULL;
+++
++ /*    compCheckTree (pWin->drawable.pScreen); can't check -- tree isn't good*/
++     return ret;
++ }
++-- 
++GitLab
++
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.14.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.14.bb
+index ab18a87a3d..5c604fa86e 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.14.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.14.bb
+@@ -14,6 +14,8 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
+            file://CVE-2022-46342.patch \
+            file://CVE-2022-46343.patch \
+            file://CVE-2022-46344.patch \
++           file://CVE-2023-0494.patch \
++           file://CVE-2023-1393.patch \
  "
- 
- # opengl packageconfig factored out to make it easy for distros
+ SRC_URI[md5sum] = "453fc86aac8c629b3a5b77e8dcca30bf"
+ SRC_URI[sha256sum] = "54b199c9280ff8bf0f73a54a759645bd0eeeda7255d1c99310d5b7595f3ac066"
 -- 
-2.40.0
+2.25.1
 
 
