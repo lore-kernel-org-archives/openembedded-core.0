@@ -1,126 +1,122 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ACC8C77B73
-	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 15:06:18 +0000 (UTC)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web10.101.1685459173832729836
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B789CC7EE23
+	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 15:10:08 +0000 (UTC)
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+ by mx.groups.io with SMTP id smtpd.web11.420.1685459407590950392
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 May 2023 08:06:14 -0700
+ Tue, 30 May 2023 08:10:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=ettFdbAG;
- spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2af2f4e719eso49816451fa.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 08:06:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=Wgl/2kuw;
+ spf=pass (domain: gmail.com, ip: 209.85.160.42, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-19f62a4924eso1629151fac.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 08:10:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685459172; x=1688051172;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ecnpc2fcdA47F65/RnWz650uzPtw0V7sOtTTSr4coLM=;
-        b=ettFdbAGos+u10GtNcrriejMI5OSY6cDMJqxZzblcApFBQCwYAFWhMWNsXVqFk1Oul
-         SXUV8AiIDlvmZuKVJypeHTiFkmi580eht7KQ4h20oEbNNsX+p9MnnOHWQ4DPv1DJRKP5
-         3N15sNhEwsrLOkMXSvPu8qB+Vt+qg5509susNTFOiNQh5TgUbaSz36RH2FNBD9j2ZIpW
-         kD4zme4ww+0xtQoCi6/x8/1wXC3hAq7p6D3Up2YSgvXqg8AWRzrIPTcdeeapI9KiwBnY
-         AHQaJaqS3Pa2CFca9hs+wWEj+6YRmCdKHXKYhtbtIfr7V3z+WnrSMu3/Bq85ixbw51Xi
-         yLxg==
+        d=gmail.com; s=20221208; t=1685459407; x=1688051407;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SexoqCDxWhCzv0fjWZpZx3T1hgpo6ryRH0Xshl9Br74=;
+        b=Wgl/2kuwIcnI+yVkf1gT1PfjKObsbneg/qtJsoevLQYL9bttkP14BYL0RTBwjdmTq7
+         yglqUNBp52eiXXt0G73406bWTH8nwbySQDh7v1lJgAsGXeHQTY0Y2MonCdOE2lSONQnw
+         TgYXqGKJSfdYKOkAErQ0HkzGlVbRfrOwH+PNGdnvkr0etqk5tTqaaF9rRSdjNQnI5wNQ
+         /uXrpqB89cCQgoAoXLLm8of7FhRZeIM2yothvHKVLUT7xxLNm6Ky2GhjQqcDfS6tPXF7
+         vU/GmKvBfB7ARqPjRqbtPOzf3F9X9gCY1ag8qcMOq0SJfcpqv+/dh/Eqhu9QO7IAkH9H
+         EbJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685459172; x=1688051172;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ecnpc2fcdA47F65/RnWz650uzPtw0V7sOtTTSr4coLM=;
-        b=jSjbq8actgUUcj9SQDJ6FVPwBG4l7/R1UVTV7OYm93FacWxTCy9LfukQv72raUV26o
-         oiHCSaw6shpqkKYjDskM3CRrv4DVKZS5+nHp1nLX+/PGgrubvyaDDPQRNMrBzadHCXPO
-         6z6JKwmGxUU4Yq0d6HLuUVK3BxYyRQ4fdRtSpxxUEG2gCKDYGt+osmWWriqMsa0i9yha
-         XpBF7yAPbBpYF8mADP17yFgzDTcyCD+nGetmqDMJka8UMoEe2u0lNRJ8cFfCR/7D7Ivn
-         Cjikf93E7q2LyUUsUm75WFSHlLRY/wT7Mpk+51zRAj4apEHtCb3+WegnaOvKLMIzdkPn
-         S4wA==
-X-Gm-Message-State: AC+VfDxBQfqWF7tiqw4e2t0ZfQfYwiaPcYgTxEdn2xcPuu4g0IGirZx8
-	7Jy/PxJuDW5dy+yMU5ayFdGa8RXwmY3+dyWr4zg=
-X-Google-Smtp-Source: ACHHUZ7qQ21pJcUR2ncA8CTt6QX1l6mjtweKqwdl0YxOK2a9fIB4aoi3bNuO796cSJLmv7MGD2lN8NXIH3qcSBu9dYs=
-X-Received: by 2002:a2e:9e15:0:b0:2ac:8c95:d42b with SMTP id
- e21-20020a2e9e15000000b002ac8c95d42bmr1013416ljk.4.1685459171772; Tue, 30 May
- 2023 08:06:11 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1685459407; x=1688051407;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SexoqCDxWhCzv0fjWZpZx3T1hgpo6ryRH0Xshl9Br74=;
+        b=VUiAIPf9YhMMUU5W6zJDf4dyngXs5tL8ativQ9/M/BMFjUW1SD3jH6IUi/gBwPuMms
+         srvFEfQTVTp1dEI4VjtaT9kjjWP39zy6gW+YJ37X2JOxm4OGR3WAKwppro1Qa0F+zGk6
+         M0wcprVRQZSYVvAQo4rK831FpWeeuwjhxt18okCXvVYs1fnutOZvLVhzes+qlW5BpqR2
+         VTULjKQmxkeycTjEXH2cUglxvSwgagHvnXciC5Gisxsvu1knlbO5R2FIkw16UuA/aCSX
+         bsQTt0o6Sa1/BSkkGCojiMc2Hh62fJVcfhckixZZXtgid3cyUrM6w86YMKUVP7lAVCrU
+         4vvA==
+X-Gm-Message-State: AC+VfDwt0+qWleJac5QBRgD6i8i2PLbKTQgki+Vx06bfPmcTriGgk76N
+	DEtijnGur/IaQCBpgMi6jiN1FbF3Zx2P15KHXP4=
+X-Google-Smtp-Source: ACHHUZ78bcvgxsuw+Qwi7PZ4NsE1QcA9A23xexIUod1de+WaxF1ATjTVpmC0wP09DkCcHYL3GeWjzhGcB2SmDmWOORA=
+X-Received: by 2002:a05:6808:1d5:b0:398:5235:34ca with SMTP id
+ x21-20020a05680801d500b00398523534camr1437587oic.50.1685459406792; Tue, 30
+ May 2023 08:10:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230530105125.445622-1-yashinde145@gmail.com>
- <7c9a0a78204958d84c4a3779da7c0f1b0e66dda8.camel@linuxfoundation.org>
- <CA+cAkeoEfQWbQkwYMhAUqQKQXyXcyCYJdoFewWkDKsVW=Mpyeg@mail.gmail.com> <c13fb9159ec84ab2bb4710a3e59190db61b54612.camel@linuxfoundation.org>
-In-Reply-To: <c13fb9159ec84ab2bb4710a3e59190db61b54612.camel@linuxfoundation.org>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Date: Tue, 30 May 2023 17:05:59 +0200
-Message-ID: <CA+cAkeqPd=5dodJ_mfEv_w-BsvfUCE1JQq1k1oSk+Paegrv3ZQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v14] Rust Oe-Selftest implementation
+References: <20230530131708.1916975-1-mingli.yu@eng.windriver.com>
+ <CADkTA4MLkWsaiLWJoj_7A+2uc4TP13Zyp=JASyZnraNZqrTwsA@mail.gmail.com>
+ <CANNYZj9xxEnyxEyWv9q4AY9Cj_zpw6fSyqc6uwLOwzkFYFnZvw@mail.gmail.com> <01fcd740217f9836f3d13deb15b77ea94910f62e.camel@linuxfoundation.org>
+In-Reply-To: <01fcd740217f9836f3d13deb15b77ea94910f62e.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 30 May 2023 11:09:57 -0400
+Message-ID: <CADkTA4O6q8sB3QCWMOWpuxNFLUoSbiwCGxFZDMzrYTSzAPjJwA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] qemu: Split the qemu package
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Yash Shinde <yashinde145@gmail.com>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>, Randy.MacLeod@windriver.com, 
-	Umesh.Kallapa@windriver.com, Naveen.Gowda@windriver.com, 
-	Sundeep.Kokkonda@windriver.com, Shivaprasad.Moodalappa@windriver.com, 
-	Yash.Shinde@windriver.com
-Content-Type: multipart/alternative; boundary="000000000000378cbc05fcea8b89"
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, "Yu, Mingli" <mingli.yu@eng.windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 15:06:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181934
+ <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 15:10:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181935
 
---000000000000378cbc05fcea8b89
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Oh okay, didn't try that personnaly.
-the class is currently tied to cargo behavior so for performing rust core
-tests, it will not be suitable (at least in its present form)
-
-Le mar. 30 mai 2023, 16:44, Richard Purdie <
-richard.purdie@linuxfoundation.org> a =C3=A9crit :
-
-> On Tue, 2023-05-30 at 16:35 +0200, Fr=C3=A9d=C3=A9ric Martinsons wrote:
-> > Beside the errors pointed by Richard, I'm wondering how it behave
-> > with the ptest-cargo class? Does this class still useful with this
-> > work? Is it some kind of complementary or did it concern a totally
-> > different matter/use case ?
+On Tue, May 30, 2023 at 10:54=E2=80=AFAM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> As I understand it, the intent in this change was to enable the core
-> rust tests to run as ptests.
+> On Tue, 2023-05-30 at 16:33 +0200, Alexander Kanavin wrote:
+> > I might be missing something here, but can the free-form, anonymous
+> > python code block be avoided? Don't we have PACKAGES_DYNAMIC for this
+> > purpose?
 >
-> Could we use ptest-cargo for that instead for the core rust recipe? If
-> so, has anyone tried it?
+> PACKAGES_DYNAMIC is for when we can't predict the packages a recipe
+> might generate. A good example might be kernel modules.
 >
+> You're right that we could add a do_split_packages() call to the qemu
+> recipe have have it generate these dynamically.
+>
+> The downside would be the namespacing as dynamic packages need to have
+> specific namespaces (e.g. kernel-module-XXX). This means qemu-mips
+> wouldn't be an option (conflicts with non dynamic packages like qemu-
+> dbg).
+>
+> We could use a more specific prefix like qemu-system-XXX and qemu-user-
+> XXX and use do_split_packages
+>
+> I did also wonder about using more specific inline python for some of
+> this, things along the lines of:
+>
+> PACKAGES +=3D '${@" ".join("qemu-system-" + x for x in d.getVar('QEMU_TAR=
+GETS').split())}'
+>
+> I'm also not a fan of the python code block.
+>
+> We do use do_split_packages() in other recipes like gstreamer to handle
+> things like this.
+>
+
+And in case anyone hasn't looked it up, this is the meta-virt solution:
+
+https://git.yoctoproject.org/meta-virtualization/tree/recipes-devtools/qemu=
+/qemu-package-split.inc
+
+Which I'll have to re-work once (if) something lands in core.
+
+It isn't suitable as-is, but it doesn't need any python code to suit
+the on-target system emulation needs of meta-virt.
+
+Bruce
+
 > Cheers,
 >
 > Richard
 >
 
---000000000000378cbc05fcea8b89
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">Oh okay, didn&#39;t try that personnaly.=C2=A0<div dir=3D=
-"auto">the class is currently tied to cargo behavior so for performing rust=
- core tests, it will not be suitable (at least in its present form)=C2=A0</=
-div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_at=
-tr">Le mar. 30 mai 2023, 16:44, Richard Purdie &lt;<a href=3D"mailto:richar=
-d.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; a =
-=C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Tue, 2023-05-3=
-0 at 16:35 +0200, Fr=C3=A9d=C3=A9ric Martinsons wrote:<br>
-&gt; Beside the errors pointed by Richard, I&#39;m wondering how it behave<=
-br>
-&gt; with the ptest-cargo class? Does this class still useful with this<br>
-&gt; work? Is it some kind of complementary or did it concern a totally<br>
-&gt; different matter/use case ?=C2=A0<br>
-<br>
-As I understand it, the intent in this change was to enable the core<br>
-rust tests to run as ptests.<br>
-<br>
-Could we use ptest-cargo for that instead for the core rust recipe? If<br>
-so, has anyone tried it?<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-</blockquote></div>
-
---000000000000378cbc05fcea8b89--
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
