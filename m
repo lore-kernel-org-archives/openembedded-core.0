@@ -1,657 +1,303 @@
-Return-Path: <zhangjialing@loongson.cn>
+Return-Path: <schitrod@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BA78C77B7A
-	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 11:33:31 +0000 (UTC)
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by mx.groups.io with SMTP id smtpd.web10.7404.1685446405153809131
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AABABC77B73
+	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 11:39:41 +0000 (UTC)
+Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
+ by mx.groups.io with SMTP id smtpd.web10.7500.1685446773588462721
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 May 2023 04:33:25 -0700
+ Tue, 30 May 2023 04:39:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: loongson.cn, ip: 114.242.206.163, mailfrom: zhangjialing@loongson.cn)
-Received: from loongson.cn (unknown [192.168.100.1])
-	by gateway (Coremail) with SMTP id _____8AxBvH_3nVkdJACAA--.5888S3;
-	Tue, 30 May 2023 19:33:21 +0800 (CST)
-Received: from localhost.localdomain (unknown [192.168.100.1])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8CxsOT_3nVk8YaAAA--.13378S4;
-	Tue, 30 May 2023 19:33:19 +0800 (CST)
-From: zhangjialing@loongson.cn
-To: openembedded-core@lists.openembedded.org
-Cc: JiaLing Zhang <zhangjialing@loongson.cn>
-Subject: [PATCH v4] Fixes pseudo build in loongarch64
-Date: Tue, 30 May 2023 19:33:03 +0800
-Message-Id: <20230530113302.1473632-1-zhangjialing@loongson.cn>
-X-Mailer: git-send-email 2.33.0
+ dkim=pass header.i=@cisco.com header.s=iport header.b=jg4Wughy;
+ spf=pass (domain: cisco.com, ip: 173.37.86.78, mailfrom: schitrod@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=cisco.com; i=@cisco.com; l=4139; q=dns/txt; s=iport;
+  t=1685446773; x=1686656373;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=4EkJwxtP2TWqR4zV/mxlsPgzrJnOwGLS1I4WqyXcJeU=;
+  b=jg4WughyryPxl0yr8LRWNFq8vNiq6dQKag9AbQXXIjZGxFwI1B2FdrMy
+   9VJvLZv4CbJr5LclR0mn6MvMifXav9FxjdP/px7oChv+F0MLx65YvqFSQ
+   rUABXMhvxb3wffD/HHtA57/am8vvrKloCj6L1YMFIEbLULSIpHt7qRPlk
+   w=;
+X-IPAS-Result: =?us-ascii?q?A0AQAABB33VkmJldJa1aHAEBAQEBAQcBARIBAQQEAQFAJ?=
+ =?us-ascii?q?YEWBwEBCwGBXFJzAlg9RwSIHIROhnyCJAOdZ4ElA1YPAQEBDQEBLg0JBAEBh?=
+ =?us-ascii?q?QYChVwCJTQJDgECAgIBAQEBAwIDAQEBAQEBAwEBBQEBAQIBBwQUAQEBAQEBA?=
+ =?us-ascii?q?QEeGQUOECeFaA2GBAEBAQEDAREoBgEBOAsEAgEIEQQBAR8QKAobAQEFAwIEA?=
+ =?us-ascii?q?RIIARmCXAGCXAMBEAahNgGBPwKKJHiBNIEBgggBAQYEBYFKAkOdFwmBQgGMe?=
+ =?us-ascii?q?hsghCgnG0CBTYFYeYFvPoJiAgIBF4ENFwEBIgWEDYIughqMJYNTM4kegS9wg?=
+ =?us-ascii?q?SGBJ4ECAgkCEWeBDghme3lAAg1VCwtlgSNVPYFHAgIRPhRNfA4BEQMHBAKBB?=
+ =?us-ascii?q?xAvBwQyCR8GCRgxJwZWBy0kCRMVQgSDbAMKgSM1NwNEHUADC3A9NQYOHwUEI?=
+ =?us-ascii?q?wFKgVkEL0KBEQJKnEIDgnYHAYENKgEBWDQMAzFHKiuSWx8NsQoKJ4Nhi3uNG?=
+ =?us-ascii?q?oggF4N/gVaLFJU6gy0ul2Aggi+INIJXmi8CBAIEBQIOAQeBYzpIYh8LB3AVg?=
+ =?us-ascii?q?m4BATIJCj8ZD44gDA0Jg1KBf2WCMIplQzICAQgwAgcLAQEDCYhsgloBAQ?=
+IronPort-PHdr: A9a23:npWNwh/pMAUYjP9uWO3oyV9kXcBvk6//MghQ7YIolPcXNK+i5J/le
+ kfY4KYlgFzIWNDD4ulfw6rNsq/mUHAd+5vJrn0YcZJNWhNEwcUblgAtGoiEXGXwLeXhaGoxG
+ 8ERHER98SSDOFNOUN37e0WUp3Sz6TAIHRCqLgF1J/jvHYL6hMWs3Of08JrWME1EgTOnauZqJ
+ Q6t5UXJ49ALiJFrLLowzBaBrnpTLuJRw24pbV7GlBfn7cD295lmmxk=
+IronPort-Data: A9a23:WIeK+KLUHPC6zgerFE+R1ZUlxSXFcZb7ZxGr2PjKsXjdYENShDwPy
+ 2UYCDyGO/uKYjTweo90YI608hkGuZHVy4NmSQUd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
+ 63yUvGZcIZsCCW0Si6FatANl1EkvU2zbuS6ULas1hxZH1c+E3980ko7wYbVv6Yx6TSHK1LV0
+ T/Ni5W31G+Ng1aY5UpNtspvADs21BjDkGtwUm4WPJinj3eC/5UhN6/zEInqR5fOria4KcbhL
+ wrL5OnREmo0ZH7BAPv9+lrwWhVirrI/oWFih1IOM5VOjCSuqQQO/p8QLNknaHt1kg6ioIBv1
+ PRk7rKZHFJB0q3kwIzxUjFCGC14eKZB4rKCez60sNeYyAvNdH6EL/dGVR5te9ZHvLcsRzgTr
+ pT0KxhVBvyHr/m9wLOnUO5grs8iN8LseogYvxmMyBmHUa57H8mYGM0m4/dDg2gN3+1/Ac+Fd
+ pBHZBxkQTvtOkFQbwJ/5JUWxbf02SaXnydjgFWNqKw65mLewAB83P3mN8DYUtiLXtlO2EGAq
+ 2TL+m70Dh0XOJqY0zXtz563rvXEkSW+U4UIGfjisPVrm1aUgGcUDXX6SGdXv9GFpneVQ/FkK
+ nA24xEFkvgs6G2CFffUCkjQTGG/gjYQXN9ZEusf4Q6Ly7bJ7wvxOoTiZmMdADDBnJJsLQHGx
+ mNljPuyWmMy6Oz9pWa1s+bL/WnraED5OEdbPXdcJTbp9eUPt23as/4iZsxoHKjwhdrvFHSqh
+ TuLtyM5wb4UiKbnNplXH3ia3lpARbCQHmbZAzk7uEr+vmuVg6b+O+SVBaDzt6ooEWpgZgDpU
+ II4s8af9vsSKpqGiTaARu4AdJnwuabYa22B2QU0QsF7n9hIx5JFVd0AiN2ZDBo2WvvohReyC
+ KMukVoLvcQKbCfCgVFfOtrrU6zGMpQM5fy8BqyLMbKik7B6dRSM+2l1dFWM0mX2+HXAYolhU
+ ap3hf2EVC5AYYw+lWLeb75EjdcDmHtkrUuNHs+T8vhS+efEDJJjYe1bYALmgyFQxP7snTg5B
+ P4EaZTSkEgDDrajCsQVmKZKRW03wbEALcmeg+Rcd/WIJUxtH2RJNhMb6epJl1BN90iNqtr1w
+ w==
+IronPort-HdrOrdr: A9a23:PW5hZ6wSrYWI7PbpMYQMKrPxiuskLtp133Aq2lEZdPULSKKlfp
+ GV88jziyWZtN9IYgBdpTnhAsO9qADnhOFICO4qTPuftWjdySaVxeRZjLcKrAeQYhEXeIRmpN
+ 9dmsRFeb/N5B1B/LvHCWqDYpkdKbu8gduVbI7lph8HLXAIV0gj1XYCNu/xKDwTeOAyP+teKH
+ Pq3Lshm9PPQwVzUi28PBQ4dtmGg+eOuIPtYBYACRJiwhKJlymU5LnzFAXd9gsCUhtUqI1SsF
+ Ttokjc3OGOovu7whjT2yv49JJNgubszdNFGYilltUVEDPxkQylDb4RG4Fq/QpF491H2mxa1e
+ UkkC1Qe/ibLEmhOV1dlCGdmTUIFgxerUMKh2Xo2EcL6vaJNQ7SQ/Ax9b5xQ1/85008vNd6ys
+ twrhykXtxsfF39dOCX3amSa/ms/XDE+UYKgKodiWdSXpAZb6IUpYsD/FlNGJNFBy7i7ps7ed
+ MeRP00ycwmB29yVUqp91VH0ZipRDA+Dx2GSk8Ntoic1CVXhmlwyw8dyNYElnkN+ZohQ90cjt
+ 60eJhAhfVLVIsbfKh9DOAOTY++DXHMWwvFNCaXLU78HK8KNnrRo9r84akz5uutZJsUpaFC06
+ jpQRddryo/akjuAcqB0NlC9Q3MWny0WXD3xsRX9/FCy8rBrXrQQFm+oXwV4r6dSq8kc77mst
+ 6ISeBrP8M=
+X-Talos-CUID: =?us-ascii?q?9a23=3AJKbfE2g73B68i82kEtHQcetH5DJuTlHk52/zGE6?=
+ =?us-ascii?q?EK39SY4LFV0Ox0fhKup87?=
+X-Talos-MUID: 9a23:/iKvWATeJY2qjodgRXT3225fbepZ/531GRpTnLMNluapbHBvbmI=
+X-IronPort-Anti-Spam-Filtered: true
+Received: from rcdn-core-2.cisco.com ([173.37.93.153])
+  by rcdn-iport-7.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 30 May 2023 11:39:32 +0000
+Received: from rcdn-opgw-1.cisco.com (rcdn-opgw-1.cisco.com [72.163.7.162])
+	by rcdn-core-2.cisco.com (8.15.2/8.15.2) with ESMTPS id 34UBdW0Q018218
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 11:39:32 GMT
+Authentication-Results: rcdn-opgw-1.cisco.com; dkim=pass (signature verified) header.i=@cisco.com; spf=Pass smtp.mailfrom=schitrod@cisco.com; dmarc=pass (p=quarantine dis=none) d=cisco.com
+X-IronPort-AV: E=Sophos;i="6.00,204,1681171200"; 
+   d="scan'";a="2138946"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gdzU462PS9HR+bUM0YS6YVygfy9w6WwazZ7uoVub5IolbQ4DJrRZ7zaZXR4McCYD7MfBVGygk5rqDNMIPjYYrtmM71FPLGScCT8wO5y4A1O5kiTYRGP5NtA6Aym7wRbvrf+chcNhgresLCyJ6hArBqaYJOiXGxeHn4K3tBF2e3ZgBZ2EbC3vVrgMRN1utVe4mSyXM/lWaywDu04+zll5jo3rUQ74LwEbADYa1hdWb5TzbtgJ4WZjDmp0Vmq9/6EW69btRHBY24BRsjpKN7/s0grLDQ1ZTBv41SWqEyKYeLOmyc3b8Z3D9nEG8SP3uLtm9vGJoXkmHj8mucn8Ei+dYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4EkJwxtP2TWqR4zV/mxlsPgzrJnOwGLS1I4WqyXcJeU=;
+ b=RhSiYfFH8hm6swqprPCDuzz1xjgw5EKIbABe95JDXKDI47+QEGFOk8jsnwqCmAm/Xh8OpcocAIGVH9Oe3TcGm4xzmI7xW7vAROaYq4Z1dJaG6AnIS7+SWecgdHJ8Jw60LP6JhRO7tho/fnqlwGMA2+mPALUiY/wiE02/+Ii/ogDK540wWuQqYt/n+rR/YgCQEjbl0cACFK8BXYljhKO7qcgIBTAOpe9ZeCmkweXL5FK6utTTW1tBTWOUMpV5iwT4yjgpgwSt+YqhqaDalDoGJfIlAzpSUF+KJWRTjtQORYqn6OPFVOawUX8qzVF57fX7To+BOEDLYDairVQZGh7ioQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
+ dkim=pass header.d=cisco.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cisco.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4EkJwxtP2TWqR4zV/mxlsPgzrJnOwGLS1I4WqyXcJeU=;
+ b=PbZc1L/FzbFa/Mk+ZfNlTVH5K6oYt7LDw1XiFzhpGMt1sduVFic9Z2KFvO/SEaUJuK8qex10GF8lxL+w1tWDEI3aIOYboi7AvwecEkH75aIb2x6m4DyKwPWBl7JWmwk/C8SGKXt0hUDBjsUupV9qSbq/r+m3B096v1S/WKCwpPI=
+Received: from SJ0PR11MB6717.namprd11.prod.outlook.com (2603:10b6:a03:44f::9)
+ by PH8PR11MB7967.namprd11.prod.outlook.com (2603:10b6:510:25e::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.22; Tue, 30 May
+ 2023 11:39:30 +0000
+Received: from SJ0PR11MB6717.namprd11.prod.outlook.com
+ ([fe80::2ddb:3ab6:484a:673a]) by SJ0PR11MB6717.namprd11.prod.outlook.com
+ ([fe80::2ddb:3ab6:484a:673a%6]) with mapi id 15.20.6433.022; Tue, 30 May 2023
+ 11:39:29 +0000
+From: "Sanjaykumar kantibhai Chitroda -X (schitrod - E-INFO CHIPS INC at
+ Cisco)" <schitrod@cisco.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+        Steve Sakoman
+	<steve@sakoman.com>,
+        "richard.purdie@linuxfoundation.org"
+	<richard.purdie@linuxfoundation.org>
+Subject: FW: [OE-core][PATCH] Revert "sqlite3: update CVE_PRODUCT"
+Thread-Topic: [OE-core][PATCH] Revert "sqlite3: update CVE_PRODUCT"
+Thread-Index: AQHZkTBOVmroIWwMLUm3v6XydG2/ca9vQcwggABgykCAAQ/bIIAB/+rA
+Date: Tue, 30 May 2023 11:39:07 +0000
+Deferred-Delivery: Tue, 30 May 2023 11:38:32 +0000
+Message-ID: 
+ <SJ0PR11MB6717FA035FCEDBFFD85254B0DC4B9@SJ0PR11MB6717.namprd11.prod.outlook.com>
+References: <17633BD1C0C1B26D.6918@lists.openembedded.org>
+ <SJ0PR11MB6717FDF0FA29DCBA25329983DC459@SJ0PR11MB6717.namprd11.prod.outlook.com>
+ <CO6PR11MB5602E50D7AEA18519A55F239ED459@CO6PR11MB5602.namprd11.prod.outlook.com>
+ <SJ0PR11MB6717A6C93932B85EE1CBAEA2DC4A9@SJ0PR11MB6717.namprd11.prod.outlook.com>
+In-Reply-To: 
+ <SJ0PR11MB6717A6C93932B85EE1CBAEA2DC4A9@SJ0PR11MB6717.namprd11.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-Mentions: steve@sakoman.com,richard.purdie@linuxfoundation.org
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ0PR11MB6717:EE_|PH8PR11MB7967:EE_
+x-ms-office365-filtering-correlation-id: 02662249-35e7-4dd8-a1ec-08db61028787
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ MOLJ1Em+PGI6Lq3kzJ7ZMf7sTV3i+Ybbl/H7sHxhtS/5EbWAYMqLkEleaMCv8gi2+y2FQQOkRhAcm+qm9r8n8clFRIrzklbUw6tj4zfbojuqUk2V2xxp4cZ/tvyPu+8sSLxxhtvCVuGP/O8vVZzQEUIp7lRJk4KwRrwcgsE0FbqyserSo1+2SIenLvbwlAq7ZlC0GsBXdUsAhFKmDBskyqMrzr6wjsp+2UjaWMmqmbgJeWrJX88OKdPh5x/Hv6g+83MyEz2X0hUZx9DVQRBt/S0bD5oQoVcbH2PkRF1niBMIP9oaqll6rAY6okNfGTkrr/ca3kYgKsLIGPKFSej485AiNBa1+ldHvoKIUCMXKSZoPnTCnLFexfagCNerD4wsaZbAhxvR47jxjdcm1HuQ625nqYI0mW4fZ0HOGpg+xFQDHQuaUXZfh1pIvrUSdXsExJwzbbKslGx8zKPTt+aUPECD8TnB06yyPwq2dBA8sW9HiH1EOcRfoIqNbwK89VxNopyM2TCn6ThStJpvBk9NQDHojWQok7xhIHOZ0wqZ4zyXJRnbg4o/g3xm+lm9xcEGpTdmbkyXk+XeNsnQmq4Rq0rnjPNGubkRNiCHpwcI7PKlosZmw84iPGqJqq5nG7jnNvJP4rgpTXvNE4pD83WQpA==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB6717.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(396003)(136003)(366004)(346002)(376002)(39860400002)(451199021)(316002)(66899021)(71200400001)(6666004)(966005)(38100700002)(55016003)(41300700001)(122000001)(38070700005)(7696005)(53546011)(52536014)(478600001)(86362001)(15650500001)(186003)(9686003)(66946007)(83380400001)(6506007)(55236004)(110136005)(26005)(5660300002)(2906002)(33656002)(66476007)(76116006)(64756008)(66556008)(66446008)(8676002)(8936002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?oz1B6PEy42c07Fo502iiEZ6j5bZ/CkwCN1h8J712+O9ZVnX4CagEDR1coLWA?=
+ =?us-ascii?Q?IUP9oM2YMNo6huqzGWFYdHuMA6QzKGKS34jbtjWBgCEwumXU9KsYRIhU+OPu?=
+ =?us-ascii?Q?vjJ2SPgnGQXw6Xx1zBT8SMkHuPi6O0OsDFNtQOXryieVYxc28w8NUEperzvn?=
+ =?us-ascii?Q?kD9BZqalm+clGpdMpCtqmRKAkrZ0zzjwt7Cij+87nmpHr1QW0jq2Kf/vwp4r?=
+ =?us-ascii?Q?5jckb6ohg9I+JuZkbnLtO10I8WTObyyOnnsKiHkryCVkXzoXor/LYQ3T+OH/?=
+ =?us-ascii?Q?ExXnSimsYKShv9q4UVAUnlaYhfERyX5SDJT+EIa/WONkM0zclo4XKXR2pG5A?=
+ =?us-ascii?Q?hlLL3qvweOrjvV9tBHE/3b6Hpg8I7yggn8qpLfAVEf+63Eq0+CUSI24hW2tI?=
+ =?us-ascii?Q?0Pl2XdHmw+EM9vc3GzxMIicLLVz/f+CLh/ujgTVQb5msESBzKdlt7UAl9TxM?=
+ =?us-ascii?Q?pOqJ2x+ikBkPAHwxr+T0Z4sY25LaoGrJSi1R/ITYBOFgUTAYWkDpK8Ddegrq?=
+ =?us-ascii?Q?EwzkVU0Bt9ya/Z2rdSQpUX2U8aD89IKxwuuUJ+hxKZ2/miqCM4WFjVrwFU95?=
+ =?us-ascii?Q?tH8Fy9ad//kohhZ0YtM/kQppAdbC8OJI2Fw0nMeAFJ683AyJX8tjDzEu1DDg?=
+ =?us-ascii?Q?IzwgljI7OoNSsyAa3gvDfxsiIbcQyk/pK0eDM2mX2vxdscMBs6QklhpeNQxZ?=
+ =?us-ascii?Q?UNkI58tmPqB6cpzNcK1Vlz7QDpWf8T1GUreefAdc/v/kROXB+0HNo/884PfF?=
+ =?us-ascii?Q?yFu5nCccqQRlPSyV0xYL/RzBKg2Y53DVVIESx1W0w+CMN3vqqm+IugGbcOaa?=
+ =?us-ascii?Q?HxB/BUz9Ap5hNPiLSdK/mHSkMl/GUHSdE8UqAqAzcjKDDAk3c60jf09MSqbx?=
+ =?us-ascii?Q?+1uz7NXAB9joXrYrpmZZlyVN1bvtPqjPq80XShd5KxZGekVdZOdrYysvnYEv?=
+ =?us-ascii?Q?NkKGj68M+sxARZ+Bchl9IH7vj0Cf8o/Pj7O+osuNSZw5yuAabIEuzuS0NkFI?=
+ =?us-ascii?Q?p/DB+bIEytiRbe9+FAemo2YJ3h4MU+Mlus4+Tg/zRi5KHMzN01N/EE7p3u+X?=
+ =?us-ascii?Q?F9JDbAT9eomtCsCK1HNPDBTnEFt4gaXKet9BMfDzuMPgTv2R1PDqcYOtYmVi?=
+ =?us-ascii?Q?2WigzEVSJUVlmrLxgJxSALmGgr0deMUXGNaTwWbs6UgO7xgtMu82jRZPS3X0?=
+ =?us-ascii?Q?Ecb6ybc92yIxORxVpZyWVM8xmoT/RPvTR9q/D5QeSIXhDOz0Jrzshg0dhy1x?=
+ =?us-ascii?Q?mj3PnGmAEctOdndIvhCdzJ6e36O0U/IuzJGElj6D98Ng385U9VKbrmxu5siy?=
+ =?us-ascii?Q?U6WzuDfhx1zsUSResKoM32QKOs+ZhdDDi4jGpLNR9fmkaKX326O7m7N0eyET?=
+ =?us-ascii?Q?9nVcPrDZcW81jdPE1XK9Ll5fVV6Tjru68lp8Q3iabbPZU6EEl4Ev83Eggftn?=
+ =?us-ascii?Q?TKmbZp98/T9H+rlI0jj5pgJ6RSHsKRVllMbPTuVwsmWpgmx4bSpIDG7+RBS0?=
+ =?us-ascii?Q?uUXzxCpX/gPlf9dIG2yzTmRp1HdZck8ISLbgGDiv+bHExIcuru1fQUIiC9pq?=
+ =?us-ascii?Q?/BnHidRKv4u4+wtd9GRb58/4Nxibm7wzwuHZ75kk?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxsOT_3nVk8YaAAA--.13378S4
-X-CM-SenderInfo: x2kd0wxmldzxtqj6z05rqj20fqof0/1tbiAQAHB2R0lf8PZQANsc
-X-Coremail-Antispam: 1Uk129KBjvAXoW3Kw4DGw17ArW3tF18XryDtrb_yoW8WF1fCo
-	WSq3ZrXF4UZr4fAr10kFn8J3yxW34UCF18XFWkGr4kCFWfXF4Y9ry5tw4a934Uur9xGry3
-	CayrKF9IvF4fArnxn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXasCq-sGcSsGvf
-	J3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU0xBIdaVrnRJU
-	UUkKb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s
-	0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-	Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l84
-	ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AI
-	xVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64
-	kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWxJVW8Jr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4kE6xkIj40Ew7xC0wCF04k20x
-	vY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I
-	3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIx
-	AIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAI
-	cVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2js
-	IEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU1asjUUUUUU==
+X-OriginatorOrg: cisco.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB6717.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 02662249-35e7-4dd8-a1ec-08db61028787
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 May 2023 11:39:29.4558
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: VeBbNAfalzc+6N4LBt0o3SNxJ466+0KyPZMSb3zdlMvCQh7MJCAoRaD6rKYdTzM3Kp5y7t/rKAuMEd9GrEFbEA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB7967
+X-Outbound-SMTP-Client: 72.163.7.162, rcdn-opgw-1.cisco.com
+X-Outbound-Node: rcdn-core-2.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 11:33:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181915
+ <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 11:39:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181916
 
-From: JiaLing Zhang <zhangjialing@loongson.cn>
+Hi team,
 
-Fixes [YOCTO #15110]
+I had discussion with Chen for this patch, but conversation is not availabl=
+e on OE-core patchwork.
+Anyone has any idea, why we can't see our conversation on website.
 
-Some functions used in the project have been removed from glibc. After the removal of these functions,
-the architecture in glibc will not include the removed functions.
-This patch resolves the usage and compilation issues on the loongarch64 architecture
+@Steve Sakoman @richard.purdie@linuxfoundation.org
+Please take this conversation in consideration, and help/guide us on how to=
+ proceed further.
 
-Signed-off-by: JiaLing Zhang <zhangjialing@loongson.cn>
+Thanks,
+Sanjay
+
+-----Original Message-----
+From: Sanjaykumar kantibhai Chitroda -X (schitrod - E-INFO CHIPS INC at Cis=
+co)=20
+Sent: Monday, May 29, 2023 10:35 AM
+To: Qi.Chen@windriver.com
+Subject: RE: [OE-core][PATCH] Revert "sqlite3: update CVE_PRODUCT"
+
+Hi Chen,
+
+I can't see our mail conversation on patchwork website.
+https://patchwork.yoctoproject.org/project/oe-core/patch/20230528064732.389=
+0226-1-schitrod@cisco.com/
+
+Any idea on this why so?
+
+Thanks,
+Sanjay
+
+-----Original Message-----
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> On Behalf Of Chen Qi via lists.openembedded.org
+Sent: Sunday, May 28, 2023 6:22 PM
+To: Sanjaykumar kantibhai Chitroda -X (schitrod - E-INFO CHIPS INC at Cisco=
+) <schitrod@cisco.com>; openembedded-core@lists.openembedded.org; alexandre=
+.belloni@bootlin.com
+Subject: Re: [OE-core][PATCH] Revert "sqlite3: update CVE_PRODUCT"
+
+Thanks for the patch. I did check the NVD database before I sent out the pa=
+tch. But when I checked it just now, I can see that there's really no 'sqli=
+te3' for this recipe. All 'sqlite3' refer to the node js package.
+
+Acked-by: Chen Qi <Qi.Chen@windriver.com>
+
+-----Original Message-----
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> On Behalf Of Sanjaykumar kantibhai Chitroda -X (schitrod - E=
+-INFO CHIPS INC at Cisco) via lists.openembedded.org
+Sent: Sunday, May 28, 2023 3:10 PM
+To: Sanjaykumar kantibhai Chitroda -X (schitrod - E-INFO CHIPS INC at Cisco=
+) <schitrod@cisco.com>; openembedded-core@lists.openembedded.org; alexandre=
+.belloni@bootlin.com
+Subject: Re: [OE-core][PATCH] Revert "sqlite3: update CVE_PRODUCT"
+
+Hi Alex,
+
+It looks that due to https://github.com/openembedded/openembedded-core/comm=
+it/8800976e79d65956218ab462d9644d0661579301 commit.
+
+"CVE-2022-21227: sqlite3-native:sqlite3 https://web.nvd.nist.gov/view/vuln/=
+detail?vulnId=3DCVE-2022-21227 " is wrongly reported on master branch:
+https://autobuilder.yocto.io/pub/non-release/patchmetrics/cve-status-master=
+.txt
+
+Ideally CVE-2022-21227 CVE is applicable to https://github.com/TryGhost/nod=
+e-sqlite3 which is " SQLite3 bindings for Node.js".
+"https://github.com/sqlite/sqlite" is "Official Git mirror of the SQLite so=
+urce tree".
+
+Please review the case and share your comment.
+
+Thanks,
+Sanjay
+
+-----Original Message-----
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> On Behalf Of Sanjaykumar kantibhai Chitroda -X (schitrod - E=
+-INFO CHIPS INC at Cisco) via lists.openembedded.org
+Sent: Sunday, May 28, 2023 12:18 PM
+To: openembedded-core@lists.openembedded.org; Sanjaykumar kantibhai Chitrod=
+a -X (schitrod - E-INFO CHIPS INC at Cisco) <schitrod@cisco.com>
+Subject: [OE-core][PATCH] Revert "sqlite3: update CVE_PRODUCT"
+
+This reverts commit 8800976e79d65956218ab462d9644d0661579301.
+
+As per NVD database "ghost:sqlite3" product is specific to "node.js"
+CVEs reported against above products are not applicable to us.
+
+Signed-off-by: Sanjay Chitroda <schitrod@cisco.com>
 ---
- ports/linux/guts/fopen64.c    | 14 +++++--
- ports/linux/guts/freopen64.c  |  8 ++++
- ports/linux/guts/fstat.c      | 11 +++++-
- ports/linux/guts/fstat64.c    | 16 ++++++++
- ports/linux/guts/fstatat.c    |  8 +++-
- ports/linux/guts/fstatat64.c  | 43 +++++++++++++++++++++
- ports/linux/guts/lstat.c      |  5 ++-
- ports/linux/guts/lstat64.c    |  5 ++-
- ports/linux/guts/mknod.c      |  4 ++
- ports/linux/guts/mknodat.c    | 72 +++++++++++++++++++++++++++++++++++
- ports/linux/guts/mkostemp64.c |  4 ++
- ports/linux/guts/openat.c     | 36 ++++++++++++++++++
- ports/linux/guts/stat.c       |  5 ++-
- ports/linux/guts/stat64.c     |  5 ++-
- ports/linux/pseudo_wrappers.c | 32 ++++++++++++++++
- pseudo_client.h               |  8 ++++
- templates/wrapfuncs.c         |  2 +
- 17 files changed, 268 insertions(+), 10 deletions(-)
+ meta/recipes-support/sqlite/sqlite3.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/ports/linux/guts/fopen64.c b/ports/linux/guts/fopen64.c
-index e76da69..db522a4 100644
---- a/ports/linux/guts/fopen64.c
-+++ b/ports/linux/guts/fopen64.c
-@@ -8,11 +8,13 @@
-  * wrap_fopen64(const char *path, const char *mode) {
-  *	FILE * rc = 0;
-  */
-- 	struct stat64 buf;
--	int save_errno;
--
-+        struct stat64 buf;
-+        int save_errno;
-+#ifdef __loongarch64
-+        int existed = (real_stat64(path, &buf) != -1);
-+#else
- 	int existed = (real___xstat64(_STAT_VER, path, &buf) != -1);
--
-+#endif
- 	rc = real_fopen64(path, mode);
- 	save_errno = errno;
- 
-@@ -20,7 +22,11 @@
- 		int fd = fileno(rc);
- 
- 		pseudo_debug(PDBGF_FILE, "fopen64 '%s': fd %d <FILE %p>\n", path, fd, (void *) rc);
-+#ifdef __loongarch64
-+		if (real_fstat64( fd, &buf) != -1) {
-+#else
- 		if (real___fxstat64(_STAT_VER, fd, &buf) != -1) {
-+#endif
- 			if (!existed) {
- 				real_fchmod(fd, PSEUDO_FS_MODE(0666 & ~pseudo_umask, 0));
- 				pseudo_client_op(OP_CREAT, 0, -1, -1, path, &buf);
-diff --git a/ports/linux/guts/freopen64.c b/ports/linux/guts/freopen64.c
-index 5fc9073..f249682 100644
---- a/ports/linux/guts/freopen64.c
-+++ b/ports/linux/guts/freopen64.c
-@@ -10,7 +10,11 @@
-  */
-  	struct stat64 buf;
- 	int save_errno;
-+#ifdef __loongarch64
-+	int existed = (real_stat64(path, &buf) != -1);
-+#else
- 	int existed = (real___xstat64(_STAT_VER, path, &buf) != -1);
-+#endif
- 
- 	rc = real_freopen64(path, mode, stream);
- 	save_errno = errno;
-@@ -19,7 +23,11 @@
- 		int fd = fileno(rc);
- 
- 		pseudo_debug(PDBGF_FILE, "freopen64 '%s': fd %d\n", path, fd);
-+#ifdef __loongarch64
-+		if (real_fstat64(fd, &buf) != -1) {
-+#else
- 		if (real___fxstat64(_STAT_VER, fd, &buf) != -1) {
-+#endif
- 			if (!existed) {
- 				real_fchmod(fd, PSEUDO_FS_MODE(0666 & ~pseudo_umask, 0));
- 				pseudo_client_op(OP_CREAT, 0, -1, -1, path, &buf);
-diff --git a/ports/linux/guts/fstat.c b/ports/linux/guts/fstat.c
-index b089b15..35ef0ad 100644
---- a/ports/linux/guts/fstat.c
-+++ b/ports/linux/guts/fstat.c
-@@ -7,8 +7,17 @@
-  * int fstat(int fd, struct stat *buf)
-  *	int rc = -1;
-  */
--
-+#ifdef __loongarch64
-+	struct stat64 buf64;
-+        /* populate buffer with complete data */
-+	real_fstat(fd, buf);
-+        /* obtain fake data */
-+	rc = wrap_fstat64(fd, &buf64);
-+        /* overwrite */
-+	pseudo_stat32_from64(buf, &buf64);
-+#else
- 	rc = wrap___fxstat(_STAT_VER, fd, buf);
-+#endif
- 
- /*	return rc;
-  * }
-diff --git a/ports/linux/guts/fstat64.c b/ports/linux/guts/fstat64.c
-index 6dd97da..77e1a00 100644
---- a/ports/linux/guts/fstat64.c
-+++ b/ports/linux/guts/fstat64.c
-@@ -7,8 +7,24 @@
-  * int fstat64(int fd, struct stat *buf)
-  *	int rc = -1;
-  */
-+#ifdef __loongarch64
-+        pseudo_msg_t *msg;
-+        int save_errno;
- 
-+        rc = real_fstat64(fd, buf);
-+        save_errno = errno;
-+        if (rc == -1) {
-+                return rc;
-+        }
-+        msg = pseudo_client_op(OP_FSTAT, 0, fd, -1, 0, buf);
-+        if (msg && msg->result == RESULT_SUCCEED) {
-+                pseudo_stat_msg(buf, msg);
-+        }
-+
-+        errno = save_errno;
-+#else
- 	rc = wrap___fxstat64(_STAT_VER, fd, buf);
-+#endif
- 
- /*	return rc;
-  * }
-diff --git a/ports/linux/guts/fstatat.c b/ports/linux/guts/fstatat.c
-index 3267641..de69662 100644
---- a/ports/linux/guts/fstatat.c
-+++ b/ports/linux/guts/fstatat.c
-@@ -7,8 +7,14 @@
-  * int fstatat(int dirfd, const char *path, struct stat *buf, int flags)
-  *	int rc = -1;
-  */
--
-+#ifdef __loongarch64
-+	struct stat64 buf64;
-+	real_fstatat(dirfd,path,buf,flags);
-+	rc = wrap_fstatat64(dirfd, path, &buf64, flags);
-+	pseudo_stat32_from64(buf, &buf64);
-+#else
- 	rc = wrap___fxstatat(_STAT_VER, dirfd, path, buf, flags);
-+#endif
- 
- /*	return rc;
-  * }
-diff --git a/ports/linux/guts/fstatat64.c b/ports/linux/guts/fstatat64.c
-index c981e14..f61d8aa 100644
---- a/ports/linux/guts/fstatat64.c
-+++ b/ports/linux/guts/fstatat64.c
-@@ -8,7 +8,50 @@
-  *	int rc = -1;
-  */
- 
-+#ifdef __loongarch64
-+        pseudo_msg_t *msg;
-+        int save_errno;
-+
-+#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
-+        if (dirfd != AT_FDCWD) {
-+                errno = ENOSYS;
-+                return -1;
-+        }
-+#endif
-+        if (flags & AT_SYMLINK_NOFOLLOW) {
-+#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
-+                rc = real_lstat64(path, buf);
-+#else
-+                rc = real_fstatat64(dirfd, path, buf, flags);
-+#endif
-+                if (rc == -1) {
-+                        return rc;
-+                }
-+        } else {
-+#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
-+                rc = real_stat64( path, buf);
-+#else
-+                rc = real_fstatat64(dirfd, path, buf, flags);
-+#endif
-+                if (rc == -1) {
-+                        return rc;
-+                }
-+        }
-+        save_errno = errno;
-+
-+          /* query database
-+         * note that symlink canonicalizing is now automatic, so we
-+         * don't need to check for a symlink on this end
-+         */
-+        msg = pseudo_client_op(OP_STAT, 0, -1, dirfd, path, buf);
-+        if (msg && msg->result == RESULT_SUCCEED) {
-+                pseudo_stat_msg(buf, msg);
-+        }
-+
-+        errno = save_errno;
-+#else
- 	rc = wrap___fxstatat64(_STAT_VER, dirfd, path, buf, flags);
-+#endif
- 
- /*	return rc;
-  * }
-diff --git a/ports/linux/guts/lstat.c b/ports/linux/guts/lstat.c
-index d2c4d50..da88a9b 100644
---- a/ports/linux/guts/lstat.c
-+++ b/ports/linux/guts/lstat.c
-@@ -7,8 +7,11 @@
-  * int lstat(const char *path, struct stat *buf)
-  *	int rc = -1;
-  */
--
-+#ifdef __loongarch64
-+	rc = wrap_fstatat(AT_FDCWD, path, buf, AT_SYMLINK_NOFOLLOW);
-+#else
- 	rc = wrap___fxstatat(_STAT_VER, AT_FDCWD, path, buf, AT_SYMLINK_NOFOLLOW);
-+#endif
- 
- /*	return rc;
-  * }
-diff --git a/ports/linux/guts/lstat64.c b/ports/linux/guts/lstat64.c
-index 43d0ce1..fbbe727 100644
---- a/ports/linux/guts/lstat64.c
-+++ b/ports/linux/guts/lstat64.c
-@@ -7,8 +7,11 @@
-  * int lstat64(const char *path, struct stat *buf)
-  *	int rc = -1;
-  */
--
-+#ifdef __loongarch64
-+	rc = wrap_fstatat64( AT_FDCWD, path, buf, AT_SYMLINK_NOFOLLOW);
-+#else
- 	rc = wrap___fxstatat64(_STAT_VER, AT_FDCWD, path, buf, AT_SYMLINK_NOFOLLOW);
-+#endif
- 
- /*	return rc;
-  * }
-diff --git a/ports/linux/guts/mknod.c b/ports/linux/guts/mknod.c
-index 61fd320..512e5bb 100644
---- a/ports/linux/guts/mknod.c
-+++ b/ports/linux/guts/mknod.c
-@@ -8,7 +8,11 @@
-  *	int rc = -1;
-  */
- 
-+#ifdef __loongarch64
-+	rc = wrap_mknodat(AT_FDCWD, path, mode, dev);
-+#else
- 	rc = wrap___xmknod(_MKNOD_VER, path, mode, &dev);
-+#endif
- 
- /*	return rc;
-  * }
-diff --git a/ports/linux/guts/mknodat.c b/ports/linux/guts/mknodat.c
-index a7e4293..fb8c0c0 100644
---- a/ports/linux/guts/mknodat.c
-+++ b/ports/linux/guts/mknodat.c
-@@ -7,8 +7,80 @@
-  * int mknodat(int dirfd, const char *path, mode_t mode, dev_t dev)
-  *	int rc = -1;
-  */
-+#ifdef __loongarch64
-+        pseudo_msg_t *msg;
-+        struct stat64 buf;
- 
-+        /* mask out mode bits appropriately */
-+        mode = mode & ~pseudo_umask;
-+        /* if you don't specify a type, assume regular file */
-+        if (!(mode & S_IFMT)) {
-+                mode |= S_IFREG;
-+        }
-+        pseudo_debug(PDBGF_FILE, "mknodat creating '%s', mode 0%o\n",
-+                path ? path : "<no name>", (int) mode);
-+
-+        /* we don't use underlying call, so _ver is irrelevant to us */
-+#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
-+        if (dirfd != AT_FDCWD) {
-+                errno = ENOSYS;
-+                return -1;
-+        }
-+        rc = real_stat64( path, &buf);
-+#else
-+        rc = real_fstatat64( dirfd, path, &buf, AT_SYMLINK_NOFOLLOW);
-+#endif
-+        if (rc != -1) {
-+                /* if we can stat the file, you can't mknod it */
-+                errno = EEXIST;
-+                return -1;
-+        }
-+        if (!dev) {
-+                errno = EINVAL;
-+                return -1;
-+        }
-+#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
-+        rc = real_open(path, O_CREAT | O_WRONLY | O_EXCL,
-+                PSEUDO_FS_MODE(mode, 0));
-+#else
-+        rc = real_openat(dirfd, path, O_CREAT | O_WRONLY | O_EXCL,
-+                PSEUDO_FS_MODE(mode, 0));
-+#endif
-+        if (rc == -1) {
-+                return -1;
-+        }
-+        real_fchmod(rc, PSEUDO_FS_MODE(mode, 0));
-+        real_fstat64( rc, &buf);
-+        /* mknod does not really open the file.  We don't have
-+         * to use wrap_close because we've never exposed this file
-+         * descriptor to the client code.
-+         */
-+        real_close(rc);
-+
-+        /* mask in the mode type bits again */
-+        buf.st_mode = (PSEUDO_DB_MODE(buf.st_mode, mode) & 07777) |
-+                        (mode & ~07777);
-+        buf.st_rdev = dev;
-+        msg = pseudo_client_op(OP_MKNOD, 0, -1, dirfd, path, &buf);
-+        if (msg && msg->result != RESULT_SUCCEED) {
-+                errno = EPERM;
-+                rc = -1;
-+   } else {
-+                /* just pretend we worked */
-+                rc = 0;
-+        }
-+        if (rc == -1) {
-+                int save_errno = errno;
-+#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
-+                real_unlink(path);
-+#else
-+                real_unlinkat(dirfd, path, AT_SYMLINK_NOFOLLOW);
-+#endif
-+                errno = save_errno;
-+        }
-+#else
- 	rc = wrap___xmknodat(_MKNOD_VER, dirfd, path, mode, &dev);
-+#endif
- 
- /*	return rc;
-  * }
-diff --git a/ports/linux/guts/mkostemp64.c b/ports/linux/guts/mkostemp64.c
-index 502211b..41052c6 100644
---- a/ports/linux/guts/mkostemp64.c
-+++ b/ports/linux/guts/mkostemp64.c
-@@ -35,7 +35,11 @@
- 	if (rc != -1) {
- 		save_errno = errno;
- 
-+#ifdef __loongarch64
-+		if (real_fstat64(rc, &buf) != -1) {
-+#else
- 		if (real___fxstat64(_STAT_VER, rc, &buf) != -1) {
-+#endif
- 			real_fchmod(rc, PSEUDO_FS_MODE(0600, 0));
- 			pseudo_client_op(OP_CREAT, 0, -1, -1, tmp_template, &buf);
- 			pseudo_client_op(OP_OPEN, PSA_READ | PSA_WRITE, rc, -1, tmp_template, &buf);
-diff --git a/ports/linux/guts/openat.c b/ports/linux/guts/openat.c
-index 656ac2b..86ad5e9 100644
---- a/ports/linux/guts/openat.c
-+++ b/ports/linux/guts/openat.c
-@@ -56,12 +56,24 @@
- 		save_errno = errno;
- #ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
- 		if (flags & O_NOFOLLOW) {
-+#ifdef __loongarch64
-+			rc = real_lstat64(path,&buf);
-+#else
- 			rc = real___lxstat64(_STAT_VER, path, &buf);
-+#endif
- 		} else {
-+#ifdef __loongarch64
-+			rc = real_stat64(path,&buf);
-+#else
- 			rc = real___xstat64(_STAT_VER, path, &buf);
-+#endif
- 		}
-+#else
-+#ifdef __loongarch64
-+		rc = real_fstatat64(dirfd, path, &buf, (flags & O_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
- #else
- 		rc = real___fxstatat64(_STAT_VER, dirfd, path, &buf, (flags & O_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
-+#endif
- #endif
- 		existed = (rc != -1);
- 		if (!existed)
-@@ -77,12 +89,24 @@
- 		save_errno = errno;
- #ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
- 		if (flags & O_NOFOLLOW) {
-+#ifdef __loongarch64
-+			rc = real_lstat64(path, &buf);
-+#else
- 			rc = real___lxstat64(_STAT_VER, path, &buf);
-+#endif
- 		} else {
-+#ifdef __loongarch64
-+			rc = real_stat64(path, &buf);
-+#else
- 			rc = real___xstat64(_STAT_VER, path, &buf);
-+#endif
- 		}
-+#else
-+#ifdef __loongarch64
-+		rc = real_fstatat64(dirfd, path, &buf, (flags & O_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
- #else
- 		rc = real___fxstatat64(_STAT_VER, dirfd, path, &buf, (flags & O_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
-+#endif
- #endif
- 		if (rc != -1 && S_ISFIFO(buf.st_mode)) {
- 			overly_magic_nonblocking = 1;
-@@ -135,12 +159,24 @@
- #endif
- #ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
- 		if (flags & O_NOFOLLOW) {
-+#ifdef __loongarch64
-+			stat_rc = real_lstat64( path, &buf);
-+#else
- 			stat_rc = real___lxstat64(_STAT_VER, path, &buf);
-+#endif
- 		} else {
-+#ifdef __loongarch64
-+			stat_rc = real_stat64(path, &buf);
-+#else
- 			stat_rc = real___xstat64(_STAT_VER, path, &buf);
-+#endif
- 		}
-+#else
-+#ifdef __loongarch64
-+		stat_rc = real_fstatat64(dirfd, path, &buf, (flags & O_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
- #else
- 		stat_rc = real___fxstatat64(_STAT_VER, dirfd, path, &buf, (flags & O_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
-+#endif
- #endif
- 
- 		pseudo_debug(PDBGF_FILE, "openat(path %s), flags %o, stat rc %d, stat mode %o\n",
-diff --git a/ports/linux/guts/stat.c b/ports/linux/guts/stat.c
-index f8c73f7..5a7b57b 100644
---- a/ports/linux/guts/stat.c
-+++ b/ports/linux/guts/stat.c
-@@ -7,8 +7,11 @@
-  * int stat(const char *path, struct stat *buf)
-  *	int rc = -1;
-  */
--
-+#ifdef __loongarch64
-+	rc = wrap_fstatat(AT_FDCWD, path, buf, 0);
-+#else
- 	rc = wrap___fxstatat(_STAT_VER, AT_FDCWD, path, buf, 0);
-+#endif
- 
- /*	return rc;
-  * }
-diff --git a/ports/linux/guts/stat64.c b/ports/linux/guts/stat64.c
-index d8b3f36..ee0583c 100644
---- a/ports/linux/guts/stat64.c
-+++ b/ports/linux/guts/stat64.c
-@@ -7,8 +7,11 @@
-  * int stat64(const char *path, struct stat *buf)
-  *	int rc = -1;
-  */
--
-+#ifdef __loongarch64
-+	rc = wrap_fstatat64(AT_FDCWD, path, buf, 0);
-+#else
- 	rc = wrap___fxstatat64(_STAT_VER, AT_FDCWD, path, buf, 0);
-+#endif
- 
- /*	return rc;
-  * }
-diff --git a/ports/linux/pseudo_wrappers.c b/ports/linux/pseudo_wrappers.c
-index 7659897..c0775b9 100644
---- a/ports/linux/pseudo_wrappers.c
-+++ b/ports/linux/pseudo_wrappers.c
-@@ -8,43 +8,75 @@
-  */
- int
- pseudo_stat(const char *path, struct stat *buf) {
-+#ifdef __loongarch64
-+	return real_stat( path, buf);
-+#else
- 	return real___xstat(_STAT_VER, path, buf);
-+#endif
- }
- 
- int
- pseudo_lstat(const char *path, struct stat *buf) {
-+#ifdef __loongarch64
-+	return real_lstat(path,buf);
-+#else
- 	return real___lxstat(_STAT_VER, path, buf);
-+#endif
- }
- 
- int
- pseudo_fstat(int fd, struct stat *buf) {
-+#ifdef __loongarch64
-+	return real_fstat(fd,buf);
-+#else
- 	return real___fxstat(_STAT_VER, fd, buf);
-+#endif
- }
- 
- int
- pseudo_stat64(const char *path, struct stat64 *buf) {
-+#ifdef __loongarch64
-+	return real_stat64(path,buf);
-+#else
- 	return real___xstat64(_STAT_VER, path, buf);
-+#endif
- }
- 
- int
- pseudo_lstat64(const char *path, struct stat64 *buf) {
-+#ifdef __loongarch64
-+	return real_lstat64(path,buf);
-+#else
- 	return real___lxstat64(_STAT_VER, path, buf);
-+#endif
- }
- 
- int
- pseudo_fstat64(int fd, struct stat64 *buf) {
-+#ifdef __loongarch64
-+	return	real_fstat64(fd,buf);
-+#else
- 	return real___fxstat64(_STAT_VER, fd, buf);
-+#endif
- }
- 
- /* similar thing happens with mknod */
- int
- pseudo_mknod(const char *path, mode_t mode, dev_t dev) {
-+#ifdef __loongarch64
-+	return real_mknod(path,mode,dev);
-+#else
- 	return real___xmknod(_MKNOD_VER, path, mode, &dev);
-+#endif
- }
- 
- int
- pseudo_mknodat(int dirfd, const char *path, mode_t mode, dev_t dev) {
-+#ifdef __loongarch64
-+	return real_mknodat(dirfd,path,mode,dev);
-+#else
- 	return real___xmknodat(_MKNOD_VER, dirfd, path, mode, &dev);
-+#endif
- }
- 
- int pseudo_capset(cap_user_header_t hdrp, const cap_user_data_t datap) {
-diff --git a/pseudo_client.h b/pseudo_client.h
-index d7944ce..32dfe1a 100644
---- a/pseudo_client.h
-+++ b/pseudo_client.h
-@@ -14,13 +14,21 @@ extern void pseudo_client_linked_paths(const char *oldpath, const char *newpath)
- #define base_lstat real_lstat64
- #define base_fstat real_fstat64
- #define base_stat real_stat64
-+#ifdef __loongarch64
-+#define base_fstatat(dirfd, path, buf, flags) real_fstatat64( dirfd, path, buf, flags)
-+#else
- #define base_fstatat(dirfd, path, buf, flags) real___fxstatat64(_STAT_VER, dirfd, path, buf, flags)
-+#endif
- #else
- #define base_lstat real_lstat
- #define base_fstat real_fstat
- #define base_stat real_stat
-+#ifdef __loongarch64
-+#define base_fstatat(dirfd, path, buf, flags) real_fstatat( dirfd, path, buf, flags
-+#else
- #define base_fstatat(dirfd, path, buf, flags) real___fxstatat(_STAT_VER, dirfd, path, buf, flags)
- #endif
-+#endif
- extern void pseudo_antimagic(void);
- extern void pseudo_magic(void);
- extern void pseudo_client_touchuid(void);
-diff --git a/templates/wrapfuncs.c b/templates/wrapfuncs.c
-index 93bb671..14a42e2 100644
---- a/templates/wrapfuncs.c
-+++ b/templates/wrapfuncs.c
-@@ -13,7 +13,9 @@
-  * script if you want to modify this. */
- @body
- 
-+#ifndef __loongarch64
- static ${type} (*real_${name})(${decl_args}) = ${real_init};
-+#endif
- 
- ${maybe_skip}
- 
--- 
-2.33.0
+diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support=
+/sqlite/sqlite3.inc
+index c246d42fdf..9a0de08553 100644
+--- a/meta/recipes-support/sqlite/sqlite3.inc
++++ b/meta/recipes-support/sqlite/sqlite3.inc
+@@ -18,7 +18,7 @@ S =3D "${WORKDIR}/sqlite-autoconf-${SQLITE_PV}"
+ UPSTREAM_CHECK_URI =3D "http://www.sqlite.org/"
+ UPSTREAM_CHECK_REGEX =3D "releaselog/(?P<pver>(\d+[\.\-_]*)+)\.html"
+=20
+-CVE_PRODUCT =3D "sqlite sqlite3"
++CVE_PRODUCT =3D "sqlite"
+=20
+ inherit autotools pkgconfig siteinfo
+=20
+--=20
+2.35.6
 
 
