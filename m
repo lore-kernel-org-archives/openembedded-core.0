@@ -2,52 +2,52 @@ Return-Path: <zhangjialing@loongson.cn>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 396D9C7EE23
-	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 06:34:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E7B4C77B7A
+	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 06:47:30 +0000 (UTC)
 Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by mx.groups.io with SMTP id smtpd.web10.3909.1685428430167525209
+ by mx.groups.io with SMTP id smtpd.web10.4050.1685429241657986206
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 May 2023 23:33:50 -0700
+ Mon, 29 May 2023 23:47:22 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: loongson.cn, ip: 114.242.206.163, mailfrom: zhangjialing@loongson.cn)
 Received: from loongson.cn (unknown [192.168.100.1])
-	by gateway (Coremail) with SMTP id _____8BxGvLKmHVkq3cCAA--.5690S3;
-	Tue, 30 May 2023 14:33:47 +0800 (CST)
+	by gateway (Coremail) with SMTP id _____8DxDOv2m3VkgHgCAA--.1223S3;
+	Tue, 30 May 2023 14:47:19 +0800 (CST)
 Received: from localhost.localdomain (unknown [192.168.100.1])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8CxqrbJmHVkRSWAAA--.12746S4;
-	Tue, 30 May 2023 14:33:45 +0800 (CST)
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8BxKL31m3VkLimAAA--.12188S4;
+	Tue, 30 May 2023 14:47:17 +0800 (CST)
 From: zhangjialing@loongson.cn
 To: openembedded-core@lists.openembedded.org
 Cc: zhangjialing <zhangjialing@loongson.cn>
-Subject: [PATCH] Fixes pseudo build in loongarch64
-Date: Tue, 30 May 2023 14:33:43 +0800
-Message-Id: <20230530063343.1465068-1-zhangjialing@loongson.cn>
+Subject: [PATCH v2] Fixes pseudo build in loongarch64
+Date: Tue, 30 May 2023 14:47:00 +0800
+Message-Id: <20230530064659.1465477-1-zhangjialing@loongson.cn>
 X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxqrbJmHVkRSWAAA--.12746S4
-X-CM-SenderInfo: x2kd0wxmldzxtqj6z05rqj20fqof0/1tbiAQAGB2RzRH8E1gAIs2
-X-Coremail-Antispam: 1Uk129KBjvAXoW3ZryUuFyUuFyxtrWDKw4rKrg_yoW8Ww48Jo
-	WSg3ZrXF4UZr4fCr10kFn8J3yxW34UCF18XFWkGr4kCFWfXF4Y9ry5tw4a934Uur9xGry3
-	CayrKF9IvF4fArnxn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXasCq-sGcSsGvf
+X-CM-TRANSID: AQAAf8BxKL31m3VkLimAAA--.12188S4
+X-CM-SenderInfo: x2kd0wxmldzxtqj6z05rqj20fqof0/1tbiAQAGB2RzRH8E1gASss
+X-Coremail-Antispam: 1Uk129KBjvAXoW3ZryUuFyUuFyxtrWDKw4rKrg_yoW8WrWfuo
+	WSq3ZrXF4UZr4fAr10kFn8J3yxW34UCF18XFWkGr4kCFWfJF4Y9ry5tw4a934Uur9xGry3
+	CayrKF9IvF4fArnxn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXasCq-sGcSsGvf
 	J3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU0xBIdaVrnRJU
-	UUkEb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s
+	UUkKb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s
 	0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-	Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
-	8EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr0_GcWl
-	e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
-	IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwAKzVCY07xG64k0F24l42xK82
-	IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC2
-	0s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMI
-	IF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF
-	0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87
-	Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jn18PUUUUU=
+	Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
+	ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS
+	0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0V
+	AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Gr0_Cr1l
+	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4kE6xkIj40Ew7xC0wCF04k20x
+	vY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I
+	3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIx
+	AIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAI
+	cVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2js
+	IEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU88pnPUUUUU==
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 06:34:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181899
+ <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 06:47:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181900
 
 From: zhangjialing <zhangjialing@loongson.cn>
 
@@ -71,14 +71,12 @@ Signed-off-by: zhangjialing <zhangjialing@loongson.cn>
  ports/linux/guts/mknodat.c    | 72 +++++++++++++++++++++++++++++++++++
  ports/linux/guts/mkostemp64.c |  4 ++
  ports/linux/guts/openat.c     | 36 ++++++++++++++++++
- ports/linux/guts/prctl.c      | 18 +++++++++
  ports/linux/guts/stat.c       |  5 ++-
  ports/linux/guts/stat64.c     |  5 ++-
  ports/linux/pseudo_wrappers.c | 32 ++++++++++++++++
  pseudo_client.h               |  8 ++++
  templates/wrapfuncs.c         |  2 +
- 18 files changed, 284 insertions(+), 6 deletions(-)
- create mode 100644 ports/linux/guts/prctl.c
+ 17 files changed, 266 insertions(+), 6 deletions(-)
 
 diff --git a/ports/linux/guts/fopen64.c b/ports/linux/guts/fopen64.c
 index e76da69..33df2b1 100644
@@ -493,30 +491,6 @@ index 656ac2b..86ad5e9 100644
  #endif
  
  		pseudo_debug(PDBGF_FILE, "openat(path %s), flags %o, stat rc %d, stat mode %o\n",
-diff --git a/ports/linux/guts/prctl.c b/ports/linux/guts/prctl.c
-new file mode 100644
-index 0000000..6727155
---- /dev/null
-+++ b/ports/linux/guts/prctl.c
-@@ -0,0 +1,18 @@
-+/*
-+ * Copyright (c) 2023 Peter Seebach/Seebs <seebs@seebs.net>; see
-+ * guts/COPYRIGHT for information.
-+ *
-+ * [Note: copyright added by code generator, may be
-+ * incorrect. Remove this if you fix it.]
-+ *
-+ * SPDX-License-Identifier: LGPL-2.1-only
-+ *
-+ * int prctl(int option, va_list ap)
-+ *	int rc = -1;
-+ */
-+
-+	rc = real_prctl(option, ap);
-+
-+/*	return rc;
-+ * }
-+ */
 diff --git a/ports/linux/guts/stat.c b/ports/linux/guts/stat.c
 index f8c73f7..5a7b57b 100644
 --- a/ports/linux/guts/stat.c
