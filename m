@@ -1,170 +1,126 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <denis@denix.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84D66C77B7A
-	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 19:10:18 +0000 (UTC)
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
- by mx.groups.io with SMTP id smtpd.web11.2992.1685473811447014339
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72741C7EE23
+	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 19:13:48 +0000 (UTC)
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web11.3066.1685474024060821615
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 May 2023 12:10:11 -0700
+ Tue, 30 May 2023 12:13:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=sUbPwzyU;
- spf=pass (domain: gmail.com, ip: 209.85.161.47, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5556e2bddf9so2446128eaf.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 12:10:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685473810; x=1688065810;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gJwDw+JkHj7Gw8e5Kqb6tv+4DeE1D8joCKGzAVkTPE4=;
-        b=sUbPwzyUVCLtSEjvf2913sw2nRtXPFkjQTnoXqTIURDVCBs5pNh4FfzHj7fJQhfwAY
-         qcCxAx5RU50d7qX3jnI/ziuwqErt1sSyTR4pQGGrNsYtYdZghPfSXvr36neJBep6snQ8
-         sBSdMtJLomY836q5W5+C1pHmgiTcrGN479dTkEUL97L96JPNFmI6zkd31CLI+qM1D0bM
-         za3CChFsXqojmJEsrddpxZo0yfw5XYdegPr+dpXHOwICjs7FZwm6PANPRjfel2zGgXqH
-         9mO6CQt6Kx+v3hhd8i65M0RiGUfSr3f2aaZfqFVxtC0yDLUeLAESyf5aILIslxKOsCC/
-         3RjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685473810; x=1688065810;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gJwDw+JkHj7Gw8e5Kqb6tv+4DeE1D8joCKGzAVkTPE4=;
-        b=UAVe5OsElMzEPp/b6nsAtc2hilIeI9HCARdWywPPtyHRb5pqi0ktxUC6r9kJhJCKPc
-         Wxf+joptjtuuTqILaCcoRNQFRlvm1O1evcU/T1qsCrx53zrhzgleGOCzGoV/xOWWCgiM
-         WTJqd8QK2ySC0aWrvBQpgZRqVNWHEDUd6ZkCJMoZtxpbBBopZmXPPsEvK8W/S5cPYnFS
-         davb0NAjV3OV7cAIGSYPtZ5JbrMh1iYNh27PgVLsr/uGnK186oYefTUB+E9LXlOVTIQA
-         75PoSoG7VlqG3khqOsH9qsRca36Suufygc4JV9Jw3ViFEUT57/Sd931WKSvXPp+PcBBT
-         iIkQ==
-X-Gm-Message-State: AC+VfDwgNORnzaPGH2k18Sdu3R4f5oXUh5S51KSPWboMmVH2EhoPRv8x
-	aw+J8S98k2i6F+xQOYti9AGgqhNph2u0buQIZuWCmJ3ay3g=
-X-Google-Smtp-Source: ACHHUZ4PjJ6mMazQ0wLxHDycojz3xxyEsxSdNFjaGDGC9EY9ANhhf0R4HV/SkEudJV0yOSS+HfqtOMc+ppklRTEAN4M=
-X-Received: by 2002:a05:6870:8702:b0:19b:8564:6aac with SMTP id
- k2-20020a056870870200b0019b85646aacmr1151708oam.28.1685473810414; Tue, 30 May
- 2023 12:10:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230526140640.30724-1-aplanas@suse.com>
-In-Reply-To: <20230526140640.30724-1-aplanas@suse.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 30 May 2023 12:09:44 -0700
-Message-ID: <CAMKF1soCro49AtknXyBRPind0-i2vom7KEvKXdoY73mz7FFFtw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] rpm2cpio.sh: update to the last 4.x version
-To: aplanas@suse.com
+ dkim=missing; spf=pass (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id ECF9240C2B;
+	Tue, 30 May 2023 19:13:42 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id czsFaTeoEfgp; Tue, 30 May 2023 19:13:42 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-88-116.washdc.fios.verizon.net [100.15.88.116])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id CDA1340C06;
+	Tue, 30 May 2023 19:13:41 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 1C26816392C; Tue, 30 May 2023 15:12:55 -0400 (EDT)
+Date: Tue, 30 May 2023 15:12:55 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [OE-core] [PATCH] u-boot: do_compile depends on the value of
+ UBOOT_LOCALVERSION
+Message-ID: <20230530191255.GH9226@denix.org>
+References: <20230528171515.832179-1-denis@denix.org>
+ <5e1bf6762dd751f6bf5c5e2463fb91da34efe563.camel@linuxfoundation.org>
+ <20230529160619.GG9226@denix.org>
+ <2e7a44299b2b66447024bd615cdaa938fc3d29c3.camel@linuxfoundation.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2e7a44299b2b66447024bd615cdaa938fc3d29c3.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 19:10:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181943
+ <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 19:13:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181944
 
-This seems to regress building ctapi-common recipe from meta-oe
+On Tue, May 30, 2023 at 03:47:07PM +0100, Richard Purdie wrote:
+> On Mon, 2023-05-29 at 12:06 -0400, Denys Dmytriyenko wrote:
+> > On Mon, May 29, 2023 at 01:41:00PM +0100, Richard Purdie wrote:
+> > > On Sun, 2023-05-28 at 17:15 +0000, Denys Dmytriyenko wrote:
+> > > > UBOOT_LOCALVERSION is often used to pass SCM commit SHA to the code
+> > > > via populating .scmversion file at the start of do_compile(). Let's
+> > > > explicitly mark do_compile() as depending on the the value of this
+> > > > variable to avoid errors like this:
+> > > > 
+> > > > $ echo 'UBOOT_LOCALVERSION = "${SRCPV}"' >> conf/local.conf
+> > > > $ bitbake u-boot
+> > 
+> > ^^^^^^^^
+> > 
+> > 
+> > > > Loading cache: 100%
+> > > > Loaded 0 entries from dependency cache.
+> > > > WARNING: /OE/poky-master/meta/recipes-bsp/u-boot/u-boot_2023.04.bb: Exception during build_dependencies for do_compile
+> > > > WARNING: /OE/poky-master/meta/recipes-bsp/u-boot/u-boot_2023.04.bb: Error during finalise of /OE/poky-master/meta/recipes-bsp/u-boot/u-boot_2023.04.bb
+> > > > ERROR: ExpansionError during parsing /OE/poky-master/meta/recipes-bsp/u-boot/u-boot_2023.04.bb
+> > > > Traceback (most recent call last):
+> > > >   File "Var <SRCPV>", line 1, in <module>
+> > > >   File "/OE/poky-master/bitbake/lib/bb/fetch2/__init__.py", line 784, in get_srcrev(d=<bb.data_smart.DataSmart object at 0x7fa0604a7100>, method_name='sortable_revision'):
+> > > >          if not scms:
+> > > >     >        raise FetchError("SRCREV was used yet no valid SCM was found in SRC_URI")
+> > > > 
+> > > > bb.data_smart.ExpansionError: Failure expanding variable SRCPV, expression was ${@bb.fetch2.get_srcrev(d)} which triggered exception FetchError: Fetcher failure: SRCREV was used yet no valid SCM was found in SRC_URI
+> > > > The variable dependency chain for the failure is: SRCPV -> UBOOT_LOCALVERSION -> do_compile
+> > > > 
+> > > > ERROR: Parsing halted due to errors, see error messages above
+> > > > 
+> > > > Signed-off-by: Denys Dmytriyenko <denis@denix.org>
+> > > > ---
+> > > >  meta/recipes-bsp/u-boot/u-boot.inc | 1 +
+> > > >  1 file changed, 1 insertion(+)
+> > > > 
+> > > > diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+> > > > index b3482dcef3..ec8108f5c9 100644
+> > > > --- a/meta/recipes-bsp/u-boot/u-boot.inc
+> > > > +++ b/meta/recipes-bsp/u-boot/u-boot.inc
+> > > > @@ -23,6 +23,7 @@ PACKAGECONFIG[openssl] = ",,openssl-native"
+> > > >  # u-boot build system and appended to the u-boot version.  If the .scmversion
+> > > >  # file already exists it will not be overwritten.
+> > > >  UBOOT_LOCALVERSION ?= ""
+> > > > +do_compile[vardepvalue] = "${UBOOT_LOCALVERSION}"
+> > > >  
+> > > >  require u-boot-configure.inc
+> > > >  
+> > > 
+> > > How would I reproduce this?
+> > 
+> > The instructions are in the description above.
+> 
+> Sorry, I'd assumed you'd need a specific target MACHINE so I somehow
+> didn't think they were complete.
 
-https://errors.yoctoproject.org/Errors/Details/705227/
+No, any qemu target should do.
 
-On Fri, May 26, 2023 at 7:06=E2=80=AFAM Alberto Planas via
-lists.openembedded.org <aplanas=3Dsuse.com@lists.openembedded.org>
-wrote:
->
-> From: Alberto Planas <aplanas@suse.com>
->
-> openSUSE RPMs are compressing the RPM payload using zstd, that
-> correspond to the magic ID 0x28, 0xb5, 0x2f.
->
-> This patch update the script to the last version from the rpm project,
-> and add support to this compression format, and extract the cpio payload
-> using the "unzstd" binary.
->
-> Signed-off-by: Alberto Planas <aplanas@suse.com>
-> ---
->  scripts/rpm2cpio.sh | 30 ++++++++++++++++++++----------
->  1 file changed, 20 insertions(+), 10 deletions(-)
->  mode change 100755 =3D> 100644 scripts/rpm2cpio.sh
->
-> diff --git a/scripts/rpm2cpio.sh b/scripts/rpm2cpio.sh
-> old mode 100755
-> new mode 100644
-> index 2034373fe4..8199b43784
-> --- a/scripts/rpm2cpio.sh
-> +++ b/scripts/rpm2cpio.sh
-> @@ -7,7 +7,7 @@ fatal() {
->  }
->
->  pkg=3D"$1"
-> -[ -n "$pkg" -a -e "$pkg" ] ||
-> +[ -n "$pkg" ] && [ -e "$pkg" ] ||
->         fatal "No package supplied"
->
->  _dd() {
-> @@ -16,14 +16,23 @@ _dd() {
->  }
->
->  calcsize() {
-> +
-> +       case "$(_dd $1 bs=3D4 count=3D1 | tr -d '\0')" in
-> +               "$(printf '\216\255\350')"*) ;; # '\x8e\xad\xe8'
-> +               *) fatal "File doesn't look like rpm: $pkg" ;;
-> +       esac
-> +
->         offset=3D$(($1 + 8))
->
->         local i b b0 b1 b2 b3 b4 b5 b6 b7
->
->         i=3D0
->         while [ $i -lt 8 ]; do
-> -               b=3D$(_dd $(($offset + $i)) bs=3D1 count=3D1; echo X)
-> -               b=3D${b%X}
-> +               # add . to not loose \n
-> +               # strip \0 as it gets dropped with warning otherwise
-> +               b=3D"$(_dd $(($offset + $i)) bs=3D1 count=3D1 | tr -d '\0=
-' ; echo .)"
-> +               b=3D${b%.}    # strip . again
-> +
->                 [ -z "$b" ] &&
->                         b=3D"0" ||
->                         b=3D"$(exec printf '%u\n' "'$b")"
-> @@ -35,7 +44,7 @@ calcsize() {
->         offset=3D$(($offset + $rsize))
->  }
->
-> -case "$(_dd 0 bs=3D8 count=3D1)" in
-> +case "$(_dd 0 bs=3D4 count=3D1 | tr -d '\0')" in
->         "$(printf '\355\253\356\333')"*) ;; # '\xed\xab\xee\xdb'
->         *) fatal "File doesn't look like rpm: $pkg" ;;
->  esac
-> @@ -46,10 +55,11 @@ sigsize=3D$rsize
->  calcsize $(($offset + (8 - ($sigsize % 8)) % 8))
->  hdrsize=3D$rsize
->
-> -case "$(_dd $offset bs=3D3 count=3D1)" in
-> -       "$(printf '\102\132')"*) _dd $offset | bzip2 -d ;; # '\x42\x5a'
-> -       "$(printf '\037\213')"*) _dd $offset | gunzip  ;; # '\x1f\x8b'
-> -       "$(printf '\375\067')"*) _dd $offset | xzcat   ;; # '\xfd\x37'
-> -       "$(printf '\135\000')"*) _dd $offset | unlzma  ;; # '\x5d\x00'
-> -       *) fatal "Unrecognized rpm file: $pkg" ;;
-> +case "$(_dd $offset bs=3D2 count=3D1 | tr -d '\0')" in
-> +       "$(printf '\102\132')") _dd $offset | bunzip2 ;; # '\x42\x5a'
-> +       "$(printf '\037\213')") _dd $offset | gunzip  ;; # '\x1f\x8b'
-> +       "$(printf '\375\067')") _dd $offset | xzcat   ;; # '\xfd\x37'
-> +       "$(printf '\135')") _dd $offset | unlzma      ;; # '\x5d\x00'
-> +       "$(printf '\050\265')") _dd $offset | unzstd  ;; # '\x28\xb5'
-> +       *) fatal "Unrecognized payload compression format in rpm file: $p=
-kg" ;;
->  esac
-> --
-> 2.40.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#181772): https://lists.openembedded.org/g/openembedde=
-d-core/message/181772
-> Mute This Topic: https://lists.openembedded.org/mt/99150379/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+
+> > > The fix looks a bit like a workaround and I'd like to understand what
+> > > is really going on here.
+> > 
+> > This started happening recently after your change that empties SRC_URI for 
+> > code parser cache handling in BB_HASH_CODEPARSER_VALS, as reported here:
+> > 
+> > https://lists.openembedded.org/g/openembedded-core/message/181726
+> 
+> It would be useful if the commit message had mentioned that!
+> 
+> I suspect the correct fix is to add SRCPV=xxx to
+> BB_HASH_CODEPARSER_VALS
+> 
+> Could you see if that works instead?
+
+Yes, it works. Do you need a patch?
+
+-- 
+Denys
 
