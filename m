@@ -1,156 +1,138 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50092C7EE23
-	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 13:51:52 +0000 (UTC)
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
- by mx.groups.io with SMTP id smtpd.web11.10431.1685454711642031213
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B0BBC77B7A
+	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 13:59:22 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web11.10657.1685455158829355787
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 May 2023 06:51:51 -0700
+ Tue, 30 May 2023 06:59:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=pr5o28RZ;
- spf=pass (domain: gmail.com, ip: 209.85.166.54, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f54.google.com with SMTP id ca18e2360f4ac-77700e9aae3so105251239f.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 06:51:51 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=fKlTpyXb;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-30ae95c4e75so2550605f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 06:59:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685454711; x=1688046711;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QoB9TUByOUD9aOvx4KDY42i/DSCi8K44V/SuLqdtYK4=;
-        b=pr5o28RZSjPZwnP67LGhJbIMGCAGQ78umHju92zMDLUPmpl5v6VRYKZNSLyrneut7o
-         MPOBq/Sj0Ibu9AXuVnyyNcPusyElGtW/XvawQrUJfSAzcHX9o3XAsF9gweSSC+YQb9Md
-         DyUvaKFKpYqvKL1eSLcxWBJ4ReuJQhYoDrEwstYVmZEOfAo/J6snXn6SAeTYZZ/tUW6p
-         nYYT5rexFQkZ0eU+xXrluBRg71m38WaKpNTPtJjv39uUsmVCBCwiMwy7w1aXYygJ77+N
-         AVRFpLM5TfOmBH1YrC3OqJFuW3zl3Dk/rRDgA6/z1eB/PQaQNY89GHLNXL+5Np16HwZ8
-         JkIw==
+        d=linuxfoundation.org; s=google; t=1685455157; x=1688047157;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=AAsEUSVcp7C+C/8qAyLkPgPRjRtjDbBQMjCwUwl7d0c=;
+        b=fKlTpyXbwaZQVTC1udLhxF8VdhdbB7JftyOchTBSFaxCvbtXn5geKtyDjMRFoh340D
+         Ij1gVbRI+5mkOAZvzUBQh2UinycYZ/4DM86GTAPM5hGxKQvLM5rjLVc669INoaNrZOb1
+         Zu6cE5xctQD1ruPg54HL0d4SOedamEEORrSQs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685454711; x=1688046711;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QoB9TUByOUD9aOvx4KDY42i/DSCi8K44V/SuLqdtYK4=;
-        b=f2CYJ1zPWvavxMejBLfPsKhAqEWA3qDr2HMr38ztcKhFmE80ZJFapTCgqAfV7EI6Lu
-         9zygbEIZpmQzA/ZP0ZqDTTVqpYDoLhock1UqOobUFn1DU/KrjCMYzqZMv1Uo2ixS8tuZ
-         ANnrs9ZSY8VVs2UHtpLvcP6aEnHAv8Jk7lI7zIWkZQ6zDW6SS+n9lh1N8Na2m5FCawBt
-         x0sIgmEU/sDrEJomanSmsLKN3pAJNPCkkjVRGrQZTNOiF9bP5ro+r52ogn47ecTteU4E
-         PxA52/CUgIa9r9zZMJxJ9d0tyG3L0j+OWdYKdme0jSeuMI67CrYpYvBtI5SZIaA6iMX6
-         MvcQ==
-X-Gm-Message-State: AC+VfDwj4cFYwPlzkL5npDWSz5TEW79aleSBe071yXFmKxvt8LJkBz9Y
-	JsSIytYQtOv41bl7Pet9c3AnfD6JFKJvtY1cPmA=
-X-Google-Smtp-Source: ACHHUZ6YNauD+t0a+kE6ew1JtEV7eoGGtFr9ITk2iqJLnngOXwH0s4hIEc/+KH6YSahjvO3DxMY8XeU6lwzoyXJgPPE=
-X-Received: by 2002:a05:6602:2dd3:b0:774:8d6c:9fe7 with SMTP id
- l19-20020a0566022dd300b007748d6c9fe7mr8297813iow.3.1685454710717; Tue, 30 May
- 2023 06:51:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230530131708.1916975-1-mingli.yu@eng.windriver.com>
-In-Reply-To: <20230530131708.1916975-1-mingli.yu@eng.windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 30 May 2023 09:51:39 -0400
-Message-ID: <CADkTA4MLkWsaiLWJoj_7A+2uc4TP13Zyp=JASyZnraNZqrTwsA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] qemu: Split the qemu package
-To: "Yu, Mingli" <mingli.yu@eng.windriver.com>
-Cc: openembedded-core@lists.openembedded.org
+        d=1e100.net; s=20221208; t=1685455157; x=1688047157;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=AAsEUSVcp7C+C/8qAyLkPgPRjRtjDbBQMjCwUwl7d0c=;
+        b=fdeoc0MKARprrQsIbClE+1iV5t1DAJIuMcSu81StHl3z+oAf1Yd0gBmuYZqiS425F2
+         WOUJlEn79y0cy1tsUs384oxHHIUhSqS5t/jQZacWEeewW5+Fcm6801dkeigbzWxmWD6s
+         oS0rxA+UvpIeMU+QFCZsg5PhjyIP/8xOC1dGOww+Q4MXGvUYRkYGbDuzjyjNYNSbOEBN
+         QJeJ+YG5s7ZwqPpMwwBXzPBe5qEcEIVc1CXaYHHbyzCVANdXkTNcEjBs8ABpEA7h3LAo
+         MHzxpHVOYQCpQ7fPBkYDM6zGnZV5Ky1FGkTgHVYEb1I2MRx71BHZLAELSIxgtmV7t/jw
+         zzBw==
+X-Gm-Message-State: AC+VfDwvA4rTDlIsCQbRd8l4Cwm4JXITUXrI2SL3qna+cH+/7tyBVO6E
+	kshpvg+dZvAtpNvFQz+KML9foA==
+X-Google-Smtp-Source: ACHHUZ6DfqVnaIW26NgEIZ3+2oBhadN9OJnn3WjWIG3riv9s0yEIH8XDGBoU6pwMqAhppWOMJRYZQA==
+X-Received: by 2002:a5d:4902:0:b0:30a:d517:2359 with SMTP id x2-20020a5d4902000000b0030ad5172359mr1699973wrq.64.1685455157203;
+        Tue, 30 May 2023 06:59:17 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:f1a1:bff7:58e4:eab3? ([2001:8b0:aba:5f3c:f1a1:bff7:58e4:eab3])
+        by smtp.gmail.com with ESMTPSA id x15-20020a1c7c0f000000b003f4266965fbsm21065263wmc.5.2023.05.30.06.59.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 May 2023 06:59:16 -0700 (PDT)
+Message-ID: <7c9a0a78204958d84c4a3779da7c0f1b0e66dda8.camel@linuxfoundation.org>
+Subject: Re: [PATCH v14] Rust Oe-Selftest implementation
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Yash Shinde <yashinde145@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Randy.MacLeod@windriver.com, Umesh.Kallapa@windriver.com, 
+	Naveen.Gowda@windriver.com, Sundeep.Kokkonda@windriver.com, 
+	Shivaprasad.Moodalappa@windriver.com, Yash.Shinde@windriver.com
+Date: Tue, 30 May 2023 14:59:16 +0100
+In-Reply-To: <20230530105125.445622-1-yashinde145@gmail.com>
+References: <20230530105125.445622-1-yashinde145@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 13:51:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181924
+ <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 13:59:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181925
 
-On Tue, May 30, 2023 at 9:17=E2=80=AFAM Yu, Mingli <mingli.yu@eng.windriver=
-.com> wrote:
->
-> From: Mingli Yu <mingli.yu@windriver.com>
->
-> Currently all files packaged into one package such as qemu-7.2.0-*.rpm.
-> After the qemu package installed on the target, it will take up 464M
-> which includes not only the one matches the arch of the target but aslo
-> all available built qemu targets which set by QEMU_TARGETS.
->
-> Split the qemu package into qemu-7.2.0-*.rpm, qemu-aarch64-7.2.0*.rpm,
-> qemu-arm-7.2.0*.rpm, qemu-x86_64-7.2.0*.rpm and etc. And let user can onl=
-y
-> choose the corresponding qemu arch package they want to install should ea=
-se
-> the concerns who cares much about the size in embedded device as it
-> decreases the qemu rpm(qemu-7.2.0*.rpm) size from about 65M to about 17M
-> and the size of the extracted qemu RPM decreased from about 464M to about
-> 248M.
-
-I've been splitting the qemu packages in meta-virtualization for years now.
-
-I find the python more difficult to read than just using overrides, as
-it is much more explicit.
-
-Is there a reason why that approach didn't work in this scenario ?
-
-As Richard mentioned, you should also pull in all the subpackages by
-default with the main qemu package, to avoid regressions.
-
-Also, in the experience of meta-virt, you only want this splitting on
-target builds, not native/host.
-
-Bruce
-
->
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+On Tue, 2023-05-30 at 16:21 +0530, Yash Shinde wrote:
+> The patch implements Rust testing framework similar to other selftest,
+> specifically the gcc selftest in OE. It uses the client and server
+> based method to test the binaries for cross-target on the image.
+> The test framework is a wrapper around the Rust build system as ./x.py
+> test. It tests many functionalities of Rust distribution like tools,
+> documentation, libraries, packages, tools, Cargo, Crater etc.
+> Please refer the following link for detailed description of Rust
+> testing:-
+> https://rustc-dev-guide.rust-lang.org/tests/intro.html#tool-tests
+>=20
+> To support the rust tests in oe-core, the following functions were
+> added:-
+> setup_cargo_environment(): Build bootstrap and some early stage tools.
+> do_rust_setup_snapshot(): Install the snapshot version of rust binaries.
+> do_configure(): To generate config.toml
+> do_compile(): To build "remote-test-server" for qemu target image.
+>=20
+> Approximate Number of Tests Run in the Rust Testsuite :- 18000
+> Approximate Number of Tests that FAIL in bitbake environment :- 100-150
+> Normally majority of the testcases are present in major folder "test/"
+> It contributes to more than 80% of the testcases present in Rust test
+> framework. These tests pass as expected on any Rust versions without
+> much fuss. The tests that fail are of less important and contribute to
+> less than 2% of the total testcases. These minor tests are observed to
+> work on some versions and fail on others. They have to be added, ignored
+> or excluded for different versions as per the behavior.
+> These tests have been ignored or excluded in the Rust selftest
+> environment to generate success of completing the testsuite.
+>=20
+> These tests work in parallel mode even in the skipped test mode as
+> expected. Although the patch to disable tests is large, it is very simple
+> in that it only disables tests. When updating to a newer version of Rust,
+> the patch can usually be ported in a day.
+>=20
+> Tested for X86, X86-64, ARM, ARM64 and MIPS64 on CentOS release 6.10
+>=20
+> Signed-off-by: pgowda <pgowda.cve@gmail.com>
+> Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
+> Signed-off-by: Yash Shinde <yashinde145@gmail.com>
 > ---
->  meta/recipes-devtools/qemu/qemu.inc | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
->
-> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
-qemu/qemu.inc
-> index a87dee5c99..7302d63747 100644
-> --- a/meta/recipes-devtools/qemu/qemu.inc
-> +++ b/meta/recipes-devtools/qemu/qemu.inc
-> @@ -230,6 +230,25 @@ INSANE_SKIP:${PN} =3D "arch"
->
->  FILES:${PN} +=3D "${datadir}/icons"
->
-> +python(){
-> +    allarchs =3D d.getVar('QEMU_TARGETS').split()
-> +    packages =3D d.getVar('PACKAGES').split()
-> +    pn =3D d.getVar('PN')
-> +
-> +    newpackages=3D[]
-> +    for arch in allarchs:
-> +        archpackage =3D 'qemu-' + arch
-> +        if archpackage not in packages:
-> +            newpackages.append(archpackage)
-> +        d.setVar('FILES:' + pn + "-" + arch, '${bindir}/qemu-' + arch)
-> +        d.appendVar('FILES:' + pn + "-" + arch, ' ' + '${bindir}/qemu-sy=
-stem-' + arch)
-> +        if arch =3D=3D "mips":
-> +            d.appendVar('RDEPENDS:' + pn + '-' + arch, ' ' + 'bash')
-> +    packages =3D newpackages + packages
-> +    d.setVar('PACKAGES', ' '.join(packages))
-> +}
-> +
-> +
->  # Put the guest agent in a separate package
->  PACKAGES =3D+ "${PN}-guest-agent"
->  SUMMARY:${PN}-guest-agent =3D "QEMU guest agent"
-> --
-> 2.25.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#181922): https://lists.openembedded.org/g/openembedde=
-d-core/message/181922
-> Mute This Topic: https://lists.openembedded.org/mt/99219254/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [br=
-uce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+>  meta/lib/oeqa/selftest/cases/rust.py          |   86 +
+>  .../rust/files/rust-oe-selftest.patch         | 2120 +++++++++++++++++
+>  meta/recipes-devtools/rust/rust-source.inc    |    1 +
+>  meta/recipes-devtools/rust/rust_1.69.0.bb     |    7 +
+>  4 files changed, 2214 insertions(+)
+>  create mode 100644 meta/lib/oeqa/selftest/cases/rust.py
+>  create mode 100644 meta/recipes-devtools/rust/files/rust-oe-selftest.pat=
+ch
 
+I did put this into a build for testing on the autobuilder. It hasn't
+been running long and I can already see build failures such as:
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+https://autobuilder.yoctoproject.org/typhoon/#/builders/103/builds/6077
+https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/7200
+https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/7190
+https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/2923
+https://autobuilder.yoctoproject.org/typhoon/#/builders/37/builds/7200
+https://autobuilder.yoctoproject.org/typhoon/#/builders/48/builds/7217
+https://autobuilder.yoctoproject.org/typhoon/#/builders/104/builds/6080
+https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/7146
+https://autobuilder.yoctoproject.org/typhoon/#/builders/61/builds/7184
+
+and there will likely be more.
+
+I'm finding this rather frustrating and am not sure how this was
+tested.
+
+Cheers,
+
+Richard
 
