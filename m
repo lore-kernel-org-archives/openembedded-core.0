@@ -1,83 +1,170 @@
-Return-Path: <marc.ferland@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36A3EC77B7A
-	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 18:58:58 +0000 (UTC)
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
- by mx.groups.io with SMTP id smtpd.web11.2683.1685473134367310160
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84D66C77B7A
+	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 19:10:18 +0000 (UTC)
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+ by mx.groups.io with SMTP id smtpd.web11.2992.1685473811447014339
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 May 2023 11:58:54 -0700
+ Tue, 30 May 2023 12:10:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: marc.ferland@gmail.com)
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-75b14216386so285360685a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 11:58:54 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=sUbPwzyU;
+ spf=pass (domain: gmail.com, ip: 209.85.161.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5556e2bddf9so2446128eaf.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 12:10:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685473810; x=1688065810;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gJwDw+JkHj7Gw8e5Kqb6tv+4DeE1D8joCKGzAVkTPE4=;
+        b=sUbPwzyUVCLtSEjvf2913sw2nRtXPFkjQTnoXqTIURDVCBs5pNh4FfzHj7fJQhfwAY
+         qcCxAx5RU50d7qX3jnI/ziuwqErt1sSyTR4pQGGrNsYtYdZghPfSXvr36neJBep6snQ8
+         sBSdMtJLomY836q5W5+C1pHmgiTcrGN479dTkEUL97L96JPNFmI6zkd31CLI+qM1D0bM
+         za3CChFsXqojmJEsrddpxZo0yfw5XYdegPr+dpXHOwICjs7FZwm6PANPRjfel2zGgXqH
+         9mO6CQt6Kx+v3hhd8i65M0RiGUfSr3f2aaZfqFVxtC0yDLUeLAESyf5aILIslxKOsCC/
+         3RjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685473133; x=1688065133;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SEndj2EzbVGYyUD1qKPswdIcsnS3cWD7h6xQs1b4gPk=;
-        b=avphItgw3xFL9PsY19b1sxMYd0DpmI+dJxP9wOlYDeSb4Yd4iOYqYuUC8I9JGlCWDV
-         a1b/mNFU4RrmYC5XVx+sSh1F4uJR+nDiPJ+vFa05Hwu6ESpKF0i0Ff0fY87JIp2CKD6C
-         kNjDtyV6elbD/cH+YVFQkOu3Pjp2KVWtYGdacF1uT/jXYf5oii+Vcx3MyyKD9Ah2KgmF
-         nPNnh4qlX5rRNfPjv46Y0ti3rtpsdFmVxUevHIvZk2b/8X3PQr3ob+KL71LgIwl+Mz6D
-         7MUhXSQjp0UkynDnfUurR4Tmb5LocQykkT+NISCNbidXzuOPx/EJLPUDGKsgJpy4JvQg
-         TFQA==
-X-Gm-Message-State: AC+VfDzEFFYUpdbMIupTWABW+iiyHoS7vktIzjZfw7WHIAPUW6+pO/j6
-	7n8cX2Kq8ykSvu0amVe5A/OTETrfUGk=
-X-Google-Smtp-Source: ACHHUZ61Cny5xZAIPePs0qsd/DPNoEKBGs8QT0dmIguEajkzD/fgWU79lOXfogjtcNJZF8LAgHECRw==
-X-Received: by 2002:a05:6214:1c48:b0:5f7:8b31:4522 with SMTP id if8-20020a0562141c4800b005f78b314522mr3511612qvb.5.1685473132861;
-        Tue, 30 May 2023 11:58:52 -0700 (PDT)
-Received: from mfe-desktop.dimonoffinc.intra (ipagstaticip-ad9375f2-382c-b511-8ac1-9541f69fe50f.sdsl.bell.ca. [142.116.33.166])
-        by smtp.googlemail.com with ESMTPSA id f16-20020a05621400d000b006262d158ab9sm1349729qvs.124.2023.05.30.11.58.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 May 2023 11:58:52 -0700 (PDT)
-From: ferlandm@amotus.ca
-To: openembedded-core@lists.openembedded.org
-Cc: Marc Ferland <ferlandm@amotus.ca>
-Subject: [PATCH] connman: fix warning by specifying runstatedir at configure time
-Date: Tue, 30 May 2023 14:58:48 -0400
-Message-Id: <20230530185848.1944634-1-ferlandm@amotus.ca>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20221208; t=1685473810; x=1688065810;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gJwDw+JkHj7Gw8e5Kqb6tv+4DeE1D8joCKGzAVkTPE4=;
+        b=UAVe5OsElMzEPp/b6nsAtc2hilIeI9HCARdWywPPtyHRb5pqi0ktxUC6r9kJhJCKPc
+         Wxf+joptjtuuTqILaCcoRNQFRlvm1O1evcU/T1qsCrx53zrhzgleGOCzGoV/xOWWCgiM
+         WTJqd8QK2ySC0aWrvBQpgZRqVNWHEDUd6ZkCJMoZtxpbBBopZmXPPsEvK8W/S5cPYnFS
+         davb0NAjV3OV7cAIGSYPtZ5JbrMh1iYNh27PgVLsr/uGnK186oYefTUB+E9LXlOVTIQA
+         75PoSoG7VlqG3khqOsH9qsRca36Suufygc4JV9Jw3ViFEUT57/Sd931WKSvXPp+PcBBT
+         iIkQ==
+X-Gm-Message-State: AC+VfDwgNORnzaPGH2k18Sdu3R4f5oXUh5S51KSPWboMmVH2EhoPRv8x
+	aw+J8S98k2i6F+xQOYti9AGgqhNph2u0buQIZuWCmJ3ay3g=
+X-Google-Smtp-Source: ACHHUZ4PjJ6mMazQ0wLxHDycojz3xxyEsxSdNFjaGDGC9EY9ANhhf0R4HV/SkEudJV0yOSS+HfqtOMc+ppklRTEAN4M=
+X-Received: by 2002:a05:6870:8702:b0:19b:8564:6aac with SMTP id
+ k2-20020a056870870200b0019b85646aacmr1151708oam.28.1685473810414; Tue, 30 May
+ 2023 12:10:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230526140640.30724-1-aplanas@suse.com>
+In-Reply-To: <20230526140640.30724-1-aplanas@suse.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 30 May 2023 12:09:44 -0700
+Message-ID: <CAMKF1soCro49AtknXyBRPind0-i2vom7KEvKXdoY73mz7FFFtw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] rpm2cpio.sh: update to the last 4.x version
+To: aplanas@suse.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 18:58:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181942
+ <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 19:10:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181943
 
-From: Marc Ferland <ferlandm@amotus.ca>
+This seems to regress building ctapi-common recipe from meta-oe
 
-Without this patch, systemd complains on startup with messages similar
-to:
+https://errors.yoctoproject.org/Errors/Details/705227/
 
-systemd-tmpfiles[128]: /etc/tmpfiles.d/connman_resolvconf.conf:1: Line references path below legacy directory /var/run/, updating /var/run/connman → /run/connman; please update the tmpfiles.d/ drop-in file accordingly.
-systemd-tmpfiles[172]: /etc/tmpfiles.d/connman_resolvconf.conf:1: Line references path below legacy directory /var/run/, updating /var/run/connman → /run/connman; please update the tmpfiles.d/ drop-in file accordingly.
-
-By default, connman will use "/var/run/connman" for runstatedir
-instead of the now recommended "/run/connman".
-
-Signed-off-by: Marc Ferland <ferlandm@amotus.ca>
----
- meta/recipes-connectivity/connman/connman.inc | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index d7af94f792..7487ca0d0c 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -27,6 +27,7 @@ EXTRA_OECONF += "\
-     --enable-ethernet \
-     --enable-tools \
-     --disable-polkit \
-+    --runstatedir=/run \
- "
- # For smooth operation it would be best to start only one wireless daemon at a time.
- # If wpa-supplicant is running, connman will use it preferentially.
--- 
-2.34.1
-
+On Fri, May 26, 2023 at 7:06=E2=80=AFAM Alberto Planas via
+lists.openembedded.org <aplanas=3Dsuse.com@lists.openembedded.org>
+wrote:
+>
+> From: Alberto Planas <aplanas@suse.com>
+>
+> openSUSE RPMs are compressing the RPM payload using zstd, that
+> correspond to the magic ID 0x28, 0xb5, 0x2f.
+>
+> This patch update the script to the last version from the rpm project,
+> and add support to this compression format, and extract the cpio payload
+> using the "unzstd" binary.
+>
+> Signed-off-by: Alberto Planas <aplanas@suse.com>
+> ---
+>  scripts/rpm2cpio.sh | 30 ++++++++++++++++++++----------
+>  1 file changed, 20 insertions(+), 10 deletions(-)
+>  mode change 100755 =3D> 100644 scripts/rpm2cpio.sh
+>
+> diff --git a/scripts/rpm2cpio.sh b/scripts/rpm2cpio.sh
+> old mode 100755
+> new mode 100644
+> index 2034373fe4..8199b43784
+> --- a/scripts/rpm2cpio.sh
+> +++ b/scripts/rpm2cpio.sh
+> @@ -7,7 +7,7 @@ fatal() {
+>  }
+>
+>  pkg=3D"$1"
+> -[ -n "$pkg" -a -e "$pkg" ] ||
+> +[ -n "$pkg" ] && [ -e "$pkg" ] ||
+>         fatal "No package supplied"
+>
+>  _dd() {
+> @@ -16,14 +16,23 @@ _dd() {
+>  }
+>
+>  calcsize() {
+> +
+> +       case "$(_dd $1 bs=3D4 count=3D1 | tr -d '\0')" in
+> +               "$(printf '\216\255\350')"*) ;; # '\x8e\xad\xe8'
+> +               *) fatal "File doesn't look like rpm: $pkg" ;;
+> +       esac
+> +
+>         offset=3D$(($1 + 8))
+>
+>         local i b b0 b1 b2 b3 b4 b5 b6 b7
+>
+>         i=3D0
+>         while [ $i -lt 8 ]; do
+> -               b=3D$(_dd $(($offset + $i)) bs=3D1 count=3D1; echo X)
+> -               b=3D${b%X}
+> +               # add . to not loose \n
+> +               # strip \0 as it gets dropped with warning otherwise
+> +               b=3D"$(_dd $(($offset + $i)) bs=3D1 count=3D1 | tr -d '\0=
+' ; echo .)"
+> +               b=3D${b%.}    # strip . again
+> +
+>                 [ -z "$b" ] &&
+>                         b=3D"0" ||
+>                         b=3D"$(exec printf '%u\n' "'$b")"
+> @@ -35,7 +44,7 @@ calcsize() {
+>         offset=3D$(($offset + $rsize))
+>  }
+>
+> -case "$(_dd 0 bs=3D8 count=3D1)" in
+> +case "$(_dd 0 bs=3D4 count=3D1 | tr -d '\0')" in
+>         "$(printf '\355\253\356\333')"*) ;; # '\xed\xab\xee\xdb'
+>         *) fatal "File doesn't look like rpm: $pkg" ;;
+>  esac
+> @@ -46,10 +55,11 @@ sigsize=3D$rsize
+>  calcsize $(($offset + (8 - ($sigsize % 8)) % 8))
+>  hdrsize=3D$rsize
+>
+> -case "$(_dd $offset bs=3D3 count=3D1)" in
+> -       "$(printf '\102\132')"*) _dd $offset | bzip2 -d ;; # '\x42\x5a'
+> -       "$(printf '\037\213')"*) _dd $offset | gunzip  ;; # '\x1f\x8b'
+> -       "$(printf '\375\067')"*) _dd $offset | xzcat   ;; # '\xfd\x37'
+> -       "$(printf '\135\000')"*) _dd $offset | unlzma  ;; # '\x5d\x00'
+> -       *) fatal "Unrecognized rpm file: $pkg" ;;
+> +case "$(_dd $offset bs=3D2 count=3D1 | tr -d '\0')" in
+> +       "$(printf '\102\132')") _dd $offset | bunzip2 ;; # '\x42\x5a'
+> +       "$(printf '\037\213')") _dd $offset | gunzip  ;; # '\x1f\x8b'
+> +       "$(printf '\375\067')") _dd $offset | xzcat   ;; # '\xfd\x37'
+> +       "$(printf '\135')") _dd $offset | unlzma      ;; # '\x5d\x00'
+> +       "$(printf '\050\265')") _dd $offset | unzstd  ;; # '\x28\xb5'
+> +       *) fatal "Unrecognized payload compression format in rpm file: $p=
+kg" ;;
+>  esac
+> --
+> 2.40.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#181772): https://lists.openembedded.org/g/openembedde=
+d-core/message/181772
+> Mute This Topic: https://lists.openembedded.org/mt/99150379/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
