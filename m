@@ -1,399 +1,340 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <liu.ming50@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 838CBC77B7A
-	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 19:22:08 +0000 (UTC)
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
- by mx.groups.io with SMTP id smtpd.web10.3235.1685474522013646605
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1DC7C77B73
+	for <webhook@archiver.kernel.org>; Tue, 30 May 2023 19:58:18 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web10.4098.1685476696943274138
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 May 2023 12:22:02 -0700
+ Tue, 30 May 2023 12:58:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=j02Tkb2C;
- spf=pass (domain: gmail.com, ip: 209.85.215.178, mailfrom: ticotimo@gmail.com)
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-51f6461af24so3107309a12.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 12:22:01 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=nGuqhuLa;
+ spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: liu.ming50@gmail.com)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2af28303127so52982201fa.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 12:58:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685474521; x=1688066521;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0ICyRedslbOCFtjLy/T5WJCVLk+G2eDW/pv7W8b98qo=;
-        b=j02Tkb2Cl1Edtm6MfyJtmQLXJBbwlGiJeS6J4AspeE7oOv3eoiVe0G09YtgH1TyNeo
-         sjjLMAq1I6Snb3fu8uDokPVG/AaPL3JTLrEh/OgNve1DFzAo8D6rY7WsGJGarxffXjcz
-         ZtkmSZTR9eIetkq6s9QpUlophjzO8iEjgwD387hXx5AUlD+fswBMXZIsxSJP7fQLzKs1
-         z85U9TiMu7dPMcH7V/NJ91AddOOP0pf1ItzW7qhoWvzL5yRzUaRdgKVVSG5aH3FZb9QN
-         vEZFs2kWERm8EcRCiH+Pp72Q87zprxyyURIRX/Ll56zpDpZSi+WNhOzvXaaNnmfYKohe
-         ljyg==
+        d=gmail.com; s=20221208; t=1685476695; x=1688068695;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=rI4V9uWS1OXPsj6tRpHeoeuynoYaRxfNgS+9ZgYumT4=;
+        b=nGuqhuLaRAaV6IY1vmbIRmjCLa7gWklbBJymj/TT7wXZpEadHNUwSgcMEqrk5x+Rww
+         XJbop0jO8g5LWIbiZI6pEGV+09SJ/q2bNGFZPfZMJyjC4RYQ92oOxQQfGfU09qFcIF1P
+         8pLIdvgnDGvST+eUgle0OtTqELHCBaNNmnMAaDTSVDtNwaWLq/zAjgNXHfm8t+VhG7EZ
+         qio+Opb9VtMcm1+/1paIyUsZ0aIKeAgfghiPh7klV/hI3wBl3GiNsRiMtU/uib6B3gCQ
+         ydgV3JJa2Q7E/ZYeToU1oP+1XiTvwVR966BRFy/GmnIw0ug9ZgjkwaQEaPmqZ2J4oYAa
+         SjjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685474521; x=1688066521;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1685476695; x=1688068695;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0ICyRedslbOCFtjLy/T5WJCVLk+G2eDW/pv7W8b98qo=;
-        b=fkUIq6sb5D2aGxEVS1k7ZdZAtJ66sLmRIWI4iXdsQswx5O+Fg8LxIeD3PCGOQbEVX2
-         KAXNYkNXC/XVY/l6KN4E8l9pvV6sb+EWDj2zjKAylMPv25P41gYSAyGs2dwCxNIvfD62
-         DuZlCxo+1KtjvVcnECsnoIq8GNbx+CfVlhyG0GEtSDwnfaqsY2ORuB02hYRXde2a91WT
-         1WPeN+vHhEERq5q11OiwMLGeAkm3X9M1vx9tsD1OOwV9xv171zBkVncEoaAQnmK7Khav
-         vDWGNCrUlB0JdAWS3xtZbjxM0ZnydXycpzK/Bqlq749BRZo8utCHH4znHBDoxvriiXsm
-         H4Ow==
-X-Gm-Message-State: AC+VfDzSO9SA7rCcC9Tmp1Eil2Q9YojHBcOQ+QADD/cY669g08FtQ2jG
-	/DOlzQKkW02WEC7GZtrb6adfBSP9BIE=
-X-Google-Smtp-Source: ACHHUZ76UFooEl3j+7ZzZQ/CAtvxxcdpfxq4CJ/Jl5C4CVo4ymrTIBJnAx0dCQje75Lswk84Wx6U2A==
-X-Received: by 2002:a17:903:120f:b0:1ae:1364:6079 with SMTP id l15-20020a170903120f00b001ae13646079mr3643492plh.44.1685474520827;
-        Tue, 30 May 2023 12:22:00 -0700 (PDT)
-Received: from nereus.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:70a6:d54e:4221:c620])
-        by smtp.gmail.com with ESMTPSA id c9-20020a170902c1c900b001b034faf49csm5746315plc.285.2023.05.30.12.22.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 May 2023 12:22:00 -0700 (PDT)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] openssl: upgrade 3.1.0 -> 3.1.1
-Date: Tue, 30 May 2023 12:20:39 -0700
-Message-Id: <20230530192038.1655284-1-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.30.2
+        bh=rI4V9uWS1OXPsj6tRpHeoeuynoYaRxfNgS+9ZgYumT4=;
+        b=a4XNpt+icRa/tAoJgB9eGx0hXsLsFMW5dsF+Xo/KQuFEWfTShazO+uAiIdYowvwa/H
+         i1xSF3iEMsihCzwAMcvMDdqb/zxJaQhN8k3jmQ0hSOEk4WGwMjiV3MgTF7rs1o2TGX62
+         Z4Ar1dBxptFMVRpyIigIq4ao6PcbkC2DKt+I0gPsxaz2vZZOqTh7TVzQ2UVRQ78ehYvw
+         9nDu3TB5rvSMaY7h5WzNOnhXaXpbwliWuN7Zdn5tlGbrNjxv6KNsvvU2WQCF1G3JFsPQ
+         X+Q5RmKqoyAOWnNxngsUVJjuZnEnJ8bYLeWbHXJSnjF9gaJ5fFnCFX5JxWcAhpac1vUR
+         3dMA==
+X-Gm-Message-State: AC+VfDxfQrnGrH/iBaCl75NgdnlpRt/Y3777lleU6jLYtQQKzMPTd7tZ
+	+0Wc7NILuH2HOyx0wELNgUeVEKPrseVwJIYP5bU=
+X-Google-Smtp-Source: ACHHUZ7Ig/Lz8YszoSfqBZgDivURHjqM/Z6ZDjN/45x8mZqXOgltVq2gVCfp115D8HbTrcolL2cdKRVZMbR1V/oih9c=
+X-Received: by 2002:a2e:6a17:0:b0:2ac:b63e:94a6 with SMTP id
+ f23-20020a2e6a17000000b002acb63e94a6mr1458206ljc.21.1685476694799; Tue, 30
+ May 2023 12:58:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230530170949.12045-1-liu.ming50@gmail.com> <CADkTA4M63mwkQeEeb_D-8uRkqtmt8sU5xJ1jvGCtdxV6GHZMeg@mail.gmail.com>
+In-Reply-To: <CADkTA4M63mwkQeEeb_D-8uRkqtmt8sU5xJ1jvGCtdxV6GHZMeg@mail.gmail.com>
+From: Ming Liu <liu.ming50@gmail.com>
+Date: Tue, 30 May 2023 21:58:03 +0200
+Message-ID: <CALatG=4TeChkii4ZKH8NqgDvfz=tupAG1a6na6ZVpGqjbYGP6g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] kernel.bbclass: introduce KERNEL_LOCALVERSION
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, francesco.dolcini@toradex.com, 
+	max.krummenacher@toradex.com
+Content-Type: multipart/alternative; boundary="000000000000abba2805fcee9fa7"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 19:22:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181945
+ <openembedded-core@lists.openembedded.org>; Tue, 30 May 2023 19:58:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181946
 
-* Drop CVE-2023-0464.patch (merged upstream).
-* Refresh 0001-Configure-do-not-tweak-mips-cflags.patch
+--000000000000abba2805fcee9fa7
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-https://github.com/openssl/openssl/blob/openssl-3.1.1/NEWS.md
+Hi, Bruce:
 
-Major changes between OpenSSL 3.1.0 and OpenSSL 3.1.1 [30 May 2023]
+Please see my answers as below:
 
-* Mitigate for very slow OBJ_obj2txt() performance with gigantic OBJECT IDENTIFIER sub-identities. (CVE-2023-2650)
-* Fixed buffer overread in AES-XTS decryption on ARM 64 bit platforms (CVE-2023-1255)
-* Fixed documentation of X509_VERIFY_PARAM_add0_policy() (CVE-2023-0466)
-* Fixed handling of invalid certificate policies in leaf certificates (CVE-2023-0465)
-* Limited the number of nodes created in a policy tree (CVE-2023-0464)
+> You've confirmed that the result is the same as the touches previously
+did when that variable isn't set ?
 
-Security Advisory:
-https://www.openssl.org/news/secadv/20230530.txt
+Yes, I have verified that on a qemuarm64 machine.
 
-CVE: CVE-2023-2650
-CVE: CVE-2023-1255
-CVE: CVE-2023-0466
-CVE: CVE-2023-0465
-CVE: CVE-2023-0464
+> Those comments are still valid
 
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
----
+I think after we introduce KERNEL_LOCALVERSION, then we generate
+the .scmversion on purpose, not as a workaround or fix so those comments
+not valid any more?
 
-All the usual ptests pass on qemux86_64 core-image-ptest-openssl
+the best,
+thank you
 
- ...1-Configure-do-not-tweak-mips-cflags.patch |  19 +-
- .../openssl/openssl/CVE-2023-0464.patch       | 226 ------------------
- .../{openssl_3.1.0.bb => openssl_3.1.1.bb}    |   3 +-
- 3 files changed, 12 insertions(+), 236 deletions(-)
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-0464.patch
- rename meta/recipes-connectivity/openssl/{openssl_3.1.0.bb => openssl_3.1.1.bb} (98%)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch b/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
-index 0b7abc3a112..502a7aaf321 100644
---- a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
-+++ b/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
-@@ -1,6 +1,6 @@
--From 326909baf81a638d51fa8be1d8227518784f5cc4 Mon Sep 17 00:00:00 2001
-+From 0377f0d5b5c1079e3b9a80881f4dcc891cbe9f9a Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
--Date: Tue, 14 Sep 2021 12:18:25 +0200
-+Date: Tue, 30 May 2023 09:11:27 -0700
- Subject: [PATCH] Configure: do not tweak mips cflags
- 
- This conflicts with mips machine definitons from yocto,
-@@ -9,20 +9,23 @@ e.g.
- 
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+
-+Refreshed for openssl-3.1.1
-+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
- ---
-  Configure | 10 ----------
-  1 file changed, 10 deletions(-)
- 
--Index: openssl-3.0.4/Configure
--===================================================================
----- openssl-3.0.4.orig/Configure
--+++ openssl-3.0.4/Configure
--@@ -1423,16 +1423,6 @@ if ($target =~ /^mingw/ && `$config{CC}
-+diff --git a/Configure b/Configure
-+index 4569952..adf019b 100755
-+--- a/Configure
-++++ b/Configure
-+@@ -1422,16 +1422,6 @@ if ($target =~ /^mingw/ && `$config{CC} --target-help 2>&1` =~ m/-mno-cygwin/m)
-          push @{$config{shared_ldflag}}, "-mno-cygwin";
-          }
-  
- -if ($target =~ /linux.*-mips/ && !$disabled{asm}
---        && !grep { $_ !~ /-m(ips|arch=)/ } (@{$config{CFLAGS}})) {
-+-        && !grep { $_ =~ /-m(ips|arch=)/ } (@{$config{CFLAGS}})) {
- -        # minimally required architecture flags for assembly modules
- -        my $value;
- -        $value = '-mips2' if ($target =~ /mips32/);
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-0464.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-0464.patch
-deleted file mode 100644
-index 33b0bb6c794..00000000000
---- a/meta/recipes-connectivity/openssl/openssl/CVE-2023-0464.patch
-+++ /dev/null
-@@ -1,226 +0,0 @@
--From 2017771e2db3e2b96f89bbe8766c3209f6a99545 Mon Sep 17 00:00:00 2001
--From: Pauli <pauli@openssl.org>
--Date: Wed, 8 Mar 2023 15:28:20 +1100
--Subject: [PATCH] x509: excessive resource use verifying policy constraints
--
--A security vulnerability has been identified in all supported versions
--of OpenSSL related to the verification of X.509 certificate chains
--that include policy constraints.  Attackers may be able to exploit this
--vulnerability by creating a malicious certificate chain that triggers
--exponential use of computational resources, leading to a denial-of-service
--(DoS) attack on affected systems.
--
--Fixes CVE-2023-0464
--
--Reviewed-by: Tomas Mraz <tomas@openssl.org>
--Reviewed-by: Shane Lontis <shane.lontis@oracle.com>
--(Merged from https://github.com/openssl/openssl/pull/20570)
--
--Upstream-Status: Backport from [https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=2017771e2db3e2b96f89bbe8766c3209f6a99545]
--CVE: CVE-2023-0464
--Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
--
-----
-- crypto/x509/pcy_local.h |  8 +++++++-
-- crypto/x509/pcy_node.c  | 12 +++++++++---
-- crypto/x509/pcy_tree.c  | 36 ++++++++++++++++++++++++++----------
-- 3 files changed, 42 insertions(+), 14 deletions(-)
--
--diff --git a/crypto/x509/pcy_local.h b/crypto/x509/pcy_local.h
--index 18b53cc..cba107c 100644
----- a/crypto/x509/pcy_local.h
--+++ b/crypto/x509/pcy_local.h
--@@ -111,6 +111,11 @@ struct X509_POLICY_LEVEL_st {
-- };
-- 
-- struct X509_POLICY_TREE_st {
--+    /* The number of nodes in the tree */
--+    size_t node_count;
--+    /* The maximum number of nodes in the tree */
--+    size_t node_maximum;
--+
--     /* This is the tree 'level' data */
--     X509_POLICY_LEVEL *levels;
--     int nlevel;
--@@ -157,7 +162,8 @@ X509_POLICY_NODE *ossl_policy_tree_find_sk(STACK_OF(X509_POLICY_NODE) *sk,
-- X509_POLICY_NODE *ossl_policy_level_add_node(X509_POLICY_LEVEL *level,
--                                              X509_POLICY_DATA *data,
--                                              X509_POLICY_NODE *parent,
---                                             X509_POLICY_TREE *tree);
--+                                             X509_POLICY_TREE *tree,
--+                                             int extra_data);
-- void ossl_policy_node_free(X509_POLICY_NODE *node);
-- int ossl_policy_node_match(const X509_POLICY_LEVEL *lvl,
--                            const X509_POLICY_NODE *node, const ASN1_OBJECT *oid);
--diff --git a/crypto/x509/pcy_node.c b/crypto/x509/pcy_node.c
--index 9d9a7ea..450f95a 100644
----- a/crypto/x509/pcy_node.c
--+++ b/crypto/x509/pcy_node.c
--@@ -59,10 +59,15 @@ X509_POLICY_NODE *ossl_policy_level_find_node(const X509_POLICY_LEVEL *level,
-- X509_POLICY_NODE *ossl_policy_level_add_node(X509_POLICY_LEVEL *level,
--                                              X509_POLICY_DATA *data,
--                                              X509_POLICY_NODE *parent,
---                                             X509_POLICY_TREE *tree)
--+                                             X509_POLICY_TREE *tree,
--+                                             int extra_data)
-- {
--     X509_POLICY_NODE *node;
-- 
--+    /* Verify that the tree isn't too large.  This mitigates CVE-2023-0464 */
--+    if (tree->node_maximum > 0 && tree->node_count >= tree->node_maximum)
--+        return NULL;
--+
--     node = OPENSSL_zalloc(sizeof(*node));
--     if (node == NULL) {
--         ERR_raise(ERR_LIB_X509V3, ERR_R_MALLOC_FAILURE);
--@@ -70,7 +75,7 @@ X509_POLICY_NODE *ossl_policy_level_add_node(X509_POLICY_LEVEL *level,
--     }
--     node->data = data;
--     node->parent = parent;
---    if (level) {
--+    if (level != NULL) {
--         if (OBJ_obj2nid(data->valid_policy) == NID_any_policy) {
--             if (level->anyPolicy)
--                 goto node_error;
--@@ -90,7 +95,7 @@ X509_POLICY_NODE *ossl_policy_level_add_node(X509_POLICY_LEVEL *level,
--         }
--     }
-- 
---    if (tree) {
--+    if (extra_data) {
--         if (tree->extra_data == NULL)
--             tree->extra_data = sk_X509_POLICY_DATA_new_null();
--         if (tree->extra_data == NULL){
--@@ -103,6 +108,7 @@ X509_POLICY_NODE *ossl_policy_level_add_node(X509_POLICY_LEVEL *level,
--         }
--     }
-- 
--+    tree->node_count++;
--     if (parent)
--         parent->nchild++;
-- 
--diff --git a/crypto/x509/pcy_tree.c b/crypto/x509/pcy_tree.c
--index fa45da5..f953a05 100644
----- a/crypto/x509/pcy_tree.c
--+++ b/crypto/x509/pcy_tree.c
--@@ -14,6 +14,17 @@
-- 
-- #include "pcy_local.h"
-- 
--+/*
--+ * If the maximum number of nodes in the policy tree isn't defined, set it to
--+ * a generous default of 1000 nodes.
--+ *
--+ * Defining this to be zero means unlimited policy tree growth which opens the
--+ * door on CVE-2023-0464.
--+ */
--+#ifndef OPENSSL_POLICY_TREE_NODES_MAX
--+# define OPENSSL_POLICY_TREE_NODES_MAX 1000
--+#endif
--+
-- static void expected_print(BIO *channel,
--                            X509_POLICY_LEVEL *lev, X509_POLICY_NODE *node,
--                            int indent)
--@@ -163,6 +174,9 @@ static int tree_init(X509_POLICY_TREE **ptree, STACK_OF(X509) *certs,
--         return X509_PCY_TREE_INTERNAL;
--     }
-- 
--+    /* Limit the growth of the tree to mitigate CVE-2023-0464 */
--+    tree->node_maximum = OPENSSL_POLICY_TREE_NODES_MAX;
--+
--     /*
--      * http://tools.ietf.org/html/rfc5280#section-6.1.2, figure 3.
--      *
--@@ -180,7 +194,7 @@ static int tree_init(X509_POLICY_TREE **ptree, STACK_OF(X509) *certs,
--     if ((data = ossl_policy_data_new(NULL,
--                                      OBJ_nid2obj(NID_any_policy), 0)) == NULL)
--         goto bad_tree;
---    if (ossl_policy_level_add_node(level, data, NULL, tree) == NULL) {
--+    if (ossl_policy_level_add_node(level, data, NULL, tree, 1) == NULL) {
--         ossl_policy_data_free(data);
--         goto bad_tree;
--     }
--@@ -239,7 +253,8 @@ static int tree_init(X509_POLICY_TREE **ptree, STACK_OF(X509) *certs,
--  * Return value: 1 on success, 0 otherwise
--  */
-- static int tree_link_matching_nodes(X509_POLICY_LEVEL *curr,
---                                    X509_POLICY_DATA *data)
--+                                    X509_POLICY_DATA *data,
--+                                    X509_POLICY_TREE *tree)
-- {
--     X509_POLICY_LEVEL *last = curr - 1;
--     int i, matched = 0;
--@@ -249,13 +264,13 @@ static int tree_link_matching_nodes(X509_POLICY_LEVEL *curr,
--         X509_POLICY_NODE *node = sk_X509_POLICY_NODE_value(last->nodes, i);
-- 
--         if (ossl_policy_node_match(last, node, data->valid_policy)) {
---            if (ossl_policy_level_add_node(curr, data, node, NULL) == NULL)
--+            if (ossl_policy_level_add_node(curr, data, node, tree, 0) == NULL)
--                 return 0;
--             matched = 1;
--         }
--     }
--     if (!matched && last->anyPolicy) {
---        if (ossl_policy_level_add_node(curr, data, last->anyPolicy, NULL) == NULL)
--+        if (ossl_policy_level_add_node(curr, data, last->anyPolicy, tree, 0) == NULL)
--             return 0;
--     }
--     return 1;
--@@ -268,7 +283,8 @@ static int tree_link_matching_nodes(X509_POLICY_LEVEL *curr,
--  * Return value: 1 on success, 0 otherwise.
--  */
-- static int tree_link_nodes(X509_POLICY_LEVEL *curr,
---                           const X509_POLICY_CACHE *cache)
--+                           const X509_POLICY_CACHE *cache,
--+                           X509_POLICY_TREE *tree)
-- {
--     int i;
-- 
--@@ -276,7 +292,7 @@ static int tree_link_nodes(X509_POLICY_LEVEL *curr,
--         X509_POLICY_DATA *data = sk_X509_POLICY_DATA_value(cache->data, i);
-- 
--         /* Look for matching nodes in previous level */
---        if (!tree_link_matching_nodes(curr, data))
--+        if (!tree_link_matching_nodes(curr, data, tree))
--             return 0;
--     }
--     return 1;
--@@ -307,7 +323,7 @@ static int tree_add_unmatched(X509_POLICY_LEVEL *curr,
--     /* Curr may not have anyPolicy */
--     data->qualifier_set = cache->anyPolicy->qualifier_set;
--     data->flags |= POLICY_DATA_FLAG_SHARED_QUALIFIERS;
---    if (ossl_policy_level_add_node(curr, data, node, tree) == NULL) {
--+    if (ossl_policy_level_add_node(curr, data, node, tree, 1) == NULL) {
--         ossl_policy_data_free(data);
--         return 0;
--     }
--@@ -370,7 +386,7 @@ static int tree_link_any(X509_POLICY_LEVEL *curr,
--     /* Finally add link to anyPolicy */
--     if (last->anyPolicy &&
--             ossl_policy_level_add_node(curr, cache->anyPolicy,
---                                       last->anyPolicy, NULL) == NULL)
--+                                       last->anyPolicy, tree, 0) == NULL)
--         return 0;
--     return 1;
-- }
--@@ -553,7 +569,7 @@ static int tree_calculate_user_set(X509_POLICY_TREE *tree,
--             extra->flags = POLICY_DATA_FLAG_SHARED_QUALIFIERS
--                 | POLICY_DATA_FLAG_EXTRA_NODE;
--             node = ossl_policy_level_add_node(NULL, extra, anyPolicy->parent,
---                                              tree);
--+                                              tree, 1);
--         }
--         if (!tree->user_policies) {
--             tree->user_policies = sk_X509_POLICY_NODE_new_null();
--@@ -580,7 +596,7 @@ static int tree_evaluate(X509_POLICY_TREE *tree)
-- 
--     for (i = 1; i < tree->nlevel; i++, curr++) {
--         cache = ossl_policy_cache_set(curr->cert);
---        if (!tree_link_nodes(curr, cache))
--+        if (!tree_link_nodes(curr, cache, tree))
--             return X509_PCY_TREE_INTERNAL;
-- 
--         if (!(curr->flags & X509_V_FLAG_INHIBIT_ANY)
---- 
--2.25.1
--
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.1.0.bb b/meta/recipes-connectivity/openssl/openssl_3.1.1.bb
-similarity index 98%
-rename from meta/recipes-connectivity/openssl/openssl_3.1.0.bb
-rename to meta/recipes-connectivity/openssl/openssl_3.1.1.bb
-index b319c660440..dca6f18e745 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.1.0.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.1.1.bb
-@@ -12,14 +12,13 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
-            file://0001-Configure-do-not-tweak-mips-cflags.patch \
-            file://fix_random_labels.patch \
--           file://CVE-2023-0464.patch \
-            "
- 
- SRC_URI:append:class-nativesdk = " \
-            file://environment.d-openssl.sh \
-            "
- 
--SRC_URI[sha256sum] = "aaa925ad9828745c4cad9d9efeb273deca820f2cdcf2c3ac7d7c1212b7c497b4"
-+SRC_URI[sha256sum] = "b3aa61334233b852b63ddb048df181177c2c659eb9d4376008118f9c08d07674"
- 
- inherit lib_package multilib_header multilib_script ptest perlnative
- MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
--- 
-2.30.2
+Bruce Ashfield <bruce.ashfield@gmail.com> =E6=96=BC 2023=E5=B9=B45=E6=9C=88=
+30=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=887:21=E5=AF=AB=E9=81=93=EF=
+=BC=9A
 
+> On Tue, May 30, 2023 at 1:10=E2=80=AFPM Ming Liu <liu.ming50@gmail.com> w=
+rote:
+> >
+> > From: Ming Liu <liu.ming50@gmail.com>
+> >
+> > Just like UBOOT_LOCALVERSION, an end user can set KERNEL_LOCALVERSION
+> > to append a string to the name of the local version of the kernel
+> > image.
+> >
+> > Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+> > ---
+> >  meta/classes-recipe/kernel.bbclass | 10 +++++-----
+> >  meta/conf/documentation.conf       |  1 +
+> >  2 files changed, 6 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/meta/classes-recipe/kernel.bbclass
+> b/meta/classes-recipe/kernel.bbclass
+> > index e634eabd49..3dd139eda9 100644
+> > --- a/meta/classes-recipe/kernel.bbclass
+> > +++ b/meta/classes-recipe/kernel.bbclass
+> > @@ -616,6 +616,7 @@ do_shared_workdir () {
+> >  # We don't need to stage anything, not the modules/firmware since thos=
+e
+> would clash with linux-firmware
+> >  SYSROOT_DIRS =3D ""
+> >
+> > +KERNEL_LOCALVERSION ??=3D ""
+> >  KERNEL_CONFIG_COMMAND ?=3D "oe_runmake_call -C ${S} O=3D${B} olddefcon=
+fig
+> || oe_runmake -C ${S} O=3D${B} oldnoconfig"
+> >
+> >  python check_oldest_kernel() {
+> > @@ -633,11 +634,10 @@ check_oldest_kernel[vardepsexclude] +=3D
+> "OLDEST_KERNEL KERNEL_VERSION"
+> >  do_configure[prefuncs] +=3D "check_oldest_kernel"
+> >
+> >  kernel_do_configure() {
+> > -       # fixes extra + in /lib/modules/2.6.37+
+> > -       # $ scripts/setlocalversion . =3D> +
+> > -       # $ make kernelversion =3D> 2.6.37
+> > -       # $ make kernelrelease =3D> 2.6.37+
+>
+> Those comments are still valid.
+>
+> > -       touch ${B}/.scmversion ${S}/.scmversion
+> > +       if [ ! -e ${B}/.scmversion -a ! -e ${S}/.scmversion ]; then
+> > +               echo ${KERNEL_LOCALVERSION} > ${B}/.scmversion
+> > +               echo ${KERNEL_LOCALVERSION} > ${S}/.scmversion
+> > +       fi
+>
+> You've confirmed that the result is the same as the touches previously
+> did when that variable isn't set ?
+>
+> Bruce
+>
+> >
+> >         if [ "${S}" !=3D "${B}" ] && [ -f "${S}/.config" ] && [ ! -f
+> "${B}/.config" ]; then
+> >                 mv "${S}/.config" "${B}/.config"
+> > diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.con=
+f
+> > index a27d7a53c3..66b8e2f24f 100644
+> > --- a/meta/conf/documentation.conf
+> > +++ b/meta/conf/documentation.conf
+> > @@ -253,6 +253,7 @@ KERNEL_MODULE_PROBECONF[doc] =3D "Lists kernel modu=
+les
+> for which the build system
+> >  KERNEL_PACKAGE_NAME[doc] =3D "Name prefix for kernel packages. Default=
+s
+> to 'kernel'."
+> >  KERNEL_PATH[doc] =3D "The location of the kernel sources. This variabl=
+e
+> is set to the value of the STAGING_KERNEL_DIR within the module class
+> (module.bbclass)."
+> >  KERNEL_SRC[doc] =3D "The location of the kernel sources. This variable=
+ is
+> set to the value of the STAGING_KERNEL_DIR within the module class
+> (module.bbclass)."
+> > +KERNEL_LOCALVERSION[doc] =3D "Appends a string to the name of the loca=
+l
+> version of the kernel image."
+> >  KFEATURE_DESCRIPTION[doc] =3D "Provides a short description of a
+> configuration fragment. You use this variable in the .scc file that
+> describes a configuration fragment file."
+> >  KMACHINE[doc] =3D "The machine as known by the kernel."
+> >  KTYPE[doc] =3D "Defines the kernel type to be used in assembling the
+> configuration."
+> > --
+> > 2.25.1
+> >
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#181939):
+> https://lists.openembedded.org/g/openembedded-core/message/181939
+> > Mute This Topic: https://lists.openembedded.org/mt/99224358/1050810
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> bruce.ashfield@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+>
+
+--000000000000abba2805fcee9fa7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi, Bruce:<div><br></div><div>Please see my answers as bel=
+ow:</div><div><br></div><div>&gt; You&#39;ve confirmed that the result is t=
+he same as the touches previously did when that variable isn&#39;t set ?<br=
+></div><div><br></div><div>Yes, I have verified that on a qemuarm64 machine=
+.</div><div><br></div><div>&gt; Those comments are still valid<br></div><di=
+v><br></div><div>I think after we introduce KERNEL_LOCALVERSION, then we ge=
+nerate the=C2=A0.scmversion on purpose, not as a workaround or fix so those=
+ comments not valid any more?</div><div><br></div><div>the best,</div><div>=
+thank you</div><div><br></div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">Bruce Ashfield &lt;<a href=3D"mailto:bruce.as=
+hfield@gmail.com">bruce.ashfield@gmail.com</a>&gt; =E6=96=BC 2023=E5=B9=B45=
+=E6=9C=8830=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=887:21=E5=AF=AB=E9=
+=81=93=EF=BC=9A<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
+On Tue, May 30, 2023 at 1:10=E2=80=AFPM Ming Liu &lt;<a href=3D"mailto:liu.=
+ming50@gmail.com" target=3D"_blank">liu.ming50@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; From: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" target=3D"_=
+blank">liu.ming50@gmail.com</a>&gt;<br>
+&gt;<br>
+&gt; Just like UBOOT_LOCALVERSION, an end user can set KERNEL_LOCALVERSION<=
+br>
+&gt; to append a string to the name of the local version of the kernel<br>
+&gt; image.<br>
+&gt;<br>
+&gt; Signed-off-by: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" ta=
+rget=3D"_blank">liu.ming50@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/classes-recipe/kernel.bbclass | 10 +++++-----<br>
+&gt;=C2=A0 meta/conf/documentation.conf=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1=
+ +<br>
+&gt;=C2=A0 2 files changed, 6 insertions(+), 5 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/=
+kernel.bbclass<br>
+&gt; index e634eabd49..3dd139eda9 100644<br>
+&gt; --- a/meta/classes-recipe/kernel.bbclass<br>
+&gt; +++ b/meta/classes-recipe/kernel.bbclass<br>
+&gt; @@ -616,6 +616,7 @@ do_shared_workdir () {<br>
+&gt;=C2=A0 # We don&#39;t need to stage anything, not the modules/firmware =
+since those would clash with linux-firmware<br>
+&gt;=C2=A0 SYSROOT_DIRS =3D &quot;&quot;<br>
+&gt;<br>
+&gt; +KERNEL_LOCALVERSION ??=3D &quot;&quot;<br>
+&gt;=C2=A0 KERNEL_CONFIG_COMMAND ?=3D &quot;oe_runmake_call -C ${S} O=3D${B=
+} olddefconfig || oe_runmake -C ${S} O=3D${B} oldnoconfig&quot;<br>
+&gt;<br>
+&gt;=C2=A0 python check_oldest_kernel() {<br>
+&gt; @@ -633,11 +634,10 @@ check_oldest_kernel[vardepsexclude] +=3D &quot;O=
+LDEST_KERNEL KERNEL_VERSION&quot;<br>
+&gt;=C2=A0 do_configure[prefuncs] +=3D &quot;check_oldest_kernel&quot;<br>
+&gt;<br>
+&gt;=C2=A0 kernel_do_configure() {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0# fixes extra + in /lib/modules/2.6.37+<br=
+>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0# $ scripts/setlocalversion . =3D&gt; +<br=
+>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0# $ make kernelversion =3D&gt; 2.6.37<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0# $ make kernelrelease =3D&gt; 2.6.37+<br>
+<br>
+Those comments are still valid.<br>
+<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0touch ${B}/.scmversion ${S}/.scmversion<br=
+>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ ! -e ${B}/.scmversion -a ! -e ${S}/.s=
+cmversion ]; then<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo ${KERNEL_=
+LOCALVERSION} &gt; ${B}/.scmversion<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo ${KERNEL_=
+LOCALVERSION} &gt; ${S}/.scmversion<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+<br>
+You&#39;ve confirmed that the result is the same as the touches previously<=
+br>
+did when that variable isn&#39;t set ?<br>
+<br>
+Bruce<br>
+<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;${S}&quot; !=3D &quot;${B}=
+&quot; ] &amp;&amp; [ -f &quot;${S}/.config&quot; ] &amp;&amp; [ ! -f &quot=
+;${B}/.config&quot; ]; then<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mv &quot;=
+${S}/.config&quot; &quot;${B}/.config&quot;<br>
+&gt; diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.co=
+nf<br>
+&gt; index a27d7a53c3..66b8e2f24f 100644<br>
+&gt; --- a/meta/conf/documentation.conf<br>
+&gt; +++ b/meta/conf/documentation.conf<br>
+&gt; @@ -253,6 +253,7 @@ KERNEL_MODULE_PROBECONF[doc] =3D &quot;Lists kerne=
+l modules for which the build system<br>
+&gt;=C2=A0 KERNEL_PACKAGE_NAME[doc] =3D &quot;Name prefix for kernel packag=
+es. Defaults to &#39;kernel&#39;.&quot;<br>
+&gt;=C2=A0 KERNEL_PATH[doc] =3D &quot;The location of the kernel sources. T=
+his variable is set to the value of the STAGING_KERNEL_DIR within the modul=
+e class (module.bbclass).&quot;<br>
+&gt;=C2=A0 KERNEL_SRC[doc] =3D &quot;The location of the kernel sources. Th=
+is variable is set to the value of the STAGING_KERNEL_DIR within the module=
+ class (module.bbclass).&quot;<br>
+&gt; +KERNEL_LOCALVERSION[doc] =3D &quot;Appends a string to the name of th=
+e local version of the kernel image.&quot;<br>
+&gt;=C2=A0 KFEATURE_DESCRIPTION[doc] =3D &quot;Provides a short description=
+ of a configuration fragment. You use this variable in the .scc file that d=
+escribes a configuration fragment file.&quot;<br>
+&gt;=C2=A0 KMACHINE[doc] =3D &quot;The machine as known by the kernel.&quot=
+;<br>
+&gt;=C2=A0 KTYPE[doc] =3D &quot;Defines the kernel type to be used in assem=
+bling the configuration.&quot;<br>
+&gt; --<br>
+&gt; 2.25.1<br>
+&gt;<br>
+&gt;<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#181939): <a href=3D"https://lists.openembedded.org=
+/g/openembedded-core/message/181939" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://lists.openembedded.org/g/openembedded-core/message/181939</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/99224358=
+/1050810" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.o=
+rg/mt/99224358/1050810</a><br>
+&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
+edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
+</a><br>
+&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
+core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
+.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.=
+com" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;<br>
+<br>
+<br>
+-- <br>
+- Thou shalt not follow the NULL pointer, for chaos and madness await<br>
+thee at its end<br>
+- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
+</blockquote></div>
+
+--000000000000abba2805fcee9fa7--
 
