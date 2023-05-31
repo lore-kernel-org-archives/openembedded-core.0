@@ -2,56 +2,56 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BD2EC7EE23
-	for <webhook@archiver.kernel.org>; Wed, 31 May 2023 18:49:08 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.web11.2515.1685558946139508166
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FFE1C7EE31
+	for <webhook@archiver.kernel.org>; Wed, 31 May 2023 18:49:18 +0000 (UTC)
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+ by mx.groups.io with SMTP id smtpd.web10.2599.1685558953770473004
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 May 2023 11:49:06 -0700
+ Wed, 31 May 2023 11:49:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=ag3K8EhO;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6260a9ef126so645316d6.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 31 May 2023 11:49:06 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=FJLNTuxU;
+ spf=pass (domain: gmail.com, ip: 209.85.222.170, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-75b08ceddd1so700717585a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 31 May 2023 11:49:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685558945; x=1688150945;
+        d=gmail.com; s=20221208; t=1685558953; x=1688150953;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RGEs4nE3oYDq+LJj6ui2ai38KMrF3aydZjCId6JNVso=;
-        b=ag3K8EhOePKQAF2cNV11StF01K35IPpbOTGSf+MrCfTVf5G7f91m+i6SdLAguNlPjd
-         ieARDomAIc2Sn9wMdXdc0HjnUY2I2ql3TtE8TeWUW74oIaozs7JZkA0DPXYoSo53QCF+
-         4MWaXD7RN8jkcXIccIJRvUKe4LBMymtvKmYU4itG2TfbQv0mr+nLt5cLMbLTDT648CBs
-         L13LrvEx9cyTVYW10y50bfVzZsf8Q1YVqffLY8H6OWBJ9DKYLeYz3tKkcSzCpUoxs2Di
-         mWvamXyw4XDaMA30aUo7HfquumlMvaoQ4kSrDoIuCug3zWjYFeqaRbhy8kMk27W1bU5n
-         jEHA==
+        bh=G1pLO0zalgFz9E56xuj1Lq6cJY3nh7M+qK8WbrWbv7M=;
+        b=FJLNTuxU414BtCbaZVNJe7Wg+4fIgmqZvvo13FSfbBqpK81QT2mlhk2Bfek05M2jEO
+         YaCzDdt+66u4bqixWT9/J9Kmrd1QPf3r40AsP8zyFyi52QKWvNk1T9lqS2MCBmPTyxZ8
+         FP1iJhDZMEmRBdD4B/BQoljtyfUnuysg9xjh+GMB5QCSaEqA2ASvVCFOkEyx1PGmt+6/
+         vA7LyJzdZ8v8s2lxrH8iEYFEKvmA5VpfP2Dg5i/hiLHhWoqIYpAbP4uBTgPCZ6mC1cuS
+         bcmoMKTpEXvtaLE2V1/QZicYI2vizIsa0yqLUciHw6NPsfcc+MMg4brK8qA2+QGOnhiZ
+         fL7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685558945; x=1688150945;
+        d=1e100.net; s=20221208; t=1685558953; x=1688150953;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RGEs4nE3oYDq+LJj6ui2ai38KMrF3aydZjCId6JNVso=;
-        b=KAvJjgr63msm3dSZZMPULmZYRCpwkf6IqzftmOaYGdoFWKoJx2Hp1GT9VMqAqU1rh+
-         S6BtJfXtR2ySI9vzuM2FVpvStfm8rda/Sn4f+HT5wm6fLkct8qo+DvOG8Gk+t1zOA1R+
-         1oCAu9oY0ab01jO7+rzsx50sAzNkjPGFzt1HOk3clmCTzquWxapvbfW5eicXyTvSLpLE
-         MIGO+17ZoDMtJysxDkgWNIIteFlwoQcfxsyIp/o63mBlynXw5S8BF7H5tNEYh3vxeC9Y
-         WmOv3TnE+kDbR/uinnx+1/+stffx2g8GXJw4MNOwNNr4bADHD6mvVOrU0nxpWEIqUc8S
-         6jcQ==
-X-Gm-Message-State: AC+VfDwe61xcaUaDUp9kxcZn9OhtfrxJm/Vzy9pJPm51n8AUiFJG4ePZ
-	pR3eTD6JB2Tf1krQriE5OY0=
-X-Google-Smtp-Source: ACHHUZ47Ii9BBfOHEnbJCQqk2q1AbbsJyBB9jDMGd86yJ99HOEmGec0MWTf+dEwM7gmX3dpP37RA9w==
-X-Received: by 2002:a05:6214:e48:b0:625:aa1a:b6db with SMTP id o8-20020a0562140e4800b00625aa1ab6dbmr6672873qvc.61.1685558945013;
-        Wed, 31 May 2023 11:49:05 -0700 (PDT)
+        bh=G1pLO0zalgFz9E56xuj1Lq6cJY3nh7M+qK8WbrWbv7M=;
+        b=jePj/xoPU8tEy3fYCPmRVXCxuWLdKNX5MIhg2GXSp38RWT3ljQmn7c+Hu+9l4PbORP
+         QD4OsbtRpBFdHzE+kn8yhsDRxbHowRvA6IwbPQ+FDctA9X5mr3cF4CwPpfqNtHOe7nj5
+         Zv3+MUnde6t4D9s3l/U1DC8BR06oN5gpGLoT2iJPLSv6PacCEJ9GcEgLRZQ78L12LNeG
+         1dzxOO3cIXCAVKujPy8ovraeAHnHIZ5j/83cuLW98GPammXNEic3dpovoLDzmUNnZ0WG
+         QBjaiq4eS9Zgx9GPfEsD7rfgC2e8VMnL7v/stgCigx/bNTtCcOnRBS7bpnh9Kf+M763s
+         JqKQ==
+X-Gm-Message-State: AC+VfDxIlADHeYpVFV515aU2mlFFEGamg4V9oXWtQZdN04W/WZtGDrgY
+	VEkth+HOxOoURkZvvkco4va1fSgtV2Aovg==
+X-Google-Smtp-Source: ACHHUZ4w9GpXdRmFucT2q2pjharHEcz1mFpE6tBH1qBEChSeHqbCrt1lq7Uj4zs6KJ02I9PbLQ/0NA==
+X-Received: by 2002:a05:6214:1c09:b0:625:aa49:c347 with SMTP id u9-20020a0562141c0900b00625aa49c347mr8181431qvc.59.1685558952590;
+        Wed, 31 May 2023 11:49:12 -0700 (PDT)
 Received: from localhost.localdomain ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id e16-20020a0cf750000000b006257e64474asm3926645qvo.113.2023.05.31.11.49.04
+        by smtp.gmail.com with ESMTPSA id e16-20020a0cf750000000b006257e64474asm3926645qvo.113.2023.05.31.11.49.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 May 2023 11:49:04 -0700 (PDT)
+        Wed, 31 May 2023 11:49:11 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/9] make-mod-scripts: force static linking and make dependencies explicit
-Date: Wed, 31 May 2023 14:48:53 -0400
-Message-Id: <2634b1693aace6d17e9bddb4596a67585d38fcfe.1685558432.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 8/9] linux-yocto/6.1: update to v6.1.29
+Date: Wed, 31 May 2023 14:49:00 -0400
+Message-Id: <a7b0e144b229782a87de15bca9bd140ab2a8f7e4.1685558432.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1685558432.git.bruce.ashfield@gmail.com>
 References: <cover.1685558432.git.bruce.ashfield@gmail.com>
@@ -60,105 +60,358 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 31 May 2023 18:49:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182024
+ <openembedded-core@lists.openembedded.org>; Wed, 31 May 2023 18:49:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182031
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-When the scripts are prepared from the kernel soure, there are some
-executables that can also be created (depending on kernel
-configuration). sign-file and objtool are two examples which are
-commonly created.
+Updating  to the latest korg -stable release that comprises
+the following commits:
 
-Due to the way that the kernel source is staged, and build artifacts
-are stored for reuse and performance we can end up in a scenario where
-the build artifacts based executable is linked against shared
-libraries in the recipe native sysroot (ssl or crypto).
-
-We could manipulate rpath, install the libraries to build-artifacts
-and arrange to have available when the host tools are used or even
-created a full native package from the tools generated out of scripts.
-
-Those approaches have drawbacks in complexity, relocatability and/or
-synchronization issues with the kernel source.
-
-The chosen approach here is to force static linking on the tools,
-which allows them to be placed into build artifacts without any
-references to the recipe native sysroot.
-
-kernel's newer than 5.15+ allow us to add the -static parameter
-to pkg-config, but older kernels do not have that flexiblity. As
-a result, we have two approaches to ensure that the libraries
-needed for static linking are detected (one via pkg-config and
-the other via host ldflags). In the future we can drop the ldflags
-approach (when the oldest supported kernels are > 5.15).
-
-There are also some potentially missing dependencies when tools
-like sign-file are built, so we add them explicitly to the recipe
-and avoid any races or implicit dependencies.
+    fa74641fb6b9 Linux 6.1.29
+    49f63bd0625a drm/amd/display: Fix hang when skipping modeset
+    7f6738e003b3 spi: fsl-cpm: Use 16 bit mode for large transfers with even size
+    441fa642995a spi: fsl-spi: Re-organise transfer bits_per_word adaptation
+    76ce32682635 x86: fix clear_user_rep_good() exception handling annotation
+    4ae066699dc0 x86/amd_nb: Add PCI ID for family 19h model 78h
+    514728ffc05b f2fs: inode: fix to do sanity check on extent cache correctly
+    85eb8b61dd4c f2fs: fix to do sanity check on extent cache correctly
+    18ecffd03626 drm/dsc: fix DP_DSC_MAX_BPP_DELTA_* macro values
+    c5fa4eedddd1 ext4: fix invalid free tracking in ext4_xattr_move_to_block()
+    d87a4e4094c9 ext4: remove a BUG_ON in ext4_mb_release_group_pa()
+    19fb73b8eaef ext4: fix lockdep warning when enabling MMP
+    6e7a97628f27 ext4: bail out of ext4_xattr_ibody_get() fails for any reason
+    1d2caddbeeee ext4: add bounds checking in get_max_inline_xattr_value_size()
+    665cc3ba5033 ext4: fix deadlock when converting an inline directory in nojournal mode
+    f68876aeef96 ext4: improve error handling from ext4_dirhash()
+    25c9fca7b71c ext4: improve error recovery code paths in __ext4_remount()
+    748e4bb27d2e ext4: check iomap type only if ext4_iomap_begin() does not fail
+    b006e2228503 ext4: fix data races when using cached status extents
+    1fffe4750500 ext4: avoid a potential slab-out-of-bounds in ext4_group_desc_csum
+    dba62fa84a8e ext4: fix WARNING in mb_find_extent
+    1b9c92432fdf locking/rwsem: Add __always_inline annotation to __down_read_common() and inlined callers
+    98643c991057 drm/dsc: fix drm_edp_dsc_sink_output_bpp() DPCD high byte usage
+    f95a60099dfd drm: Add missing DP DSC extended capability definitions.
+    4aba9ab6a007 ksmbd: fix racy issue from smb2 close and logoff with multichannel
+    502cf9709036 ksmbd: block asynchronous requests when making a delay on session setup
+    1fc8a2b14ef5 ksmbd: destroy expired sessions
+    f623f627ad2b ksmbd: fix racy issue from session setup and logoff
+    91bbf9cb2387 ksmbd: Implements sess->ksmbd_chann_list as xarray
+    3db734e4d95a drm/amd/display: Change default Z8 watermark values
+    a009acf68717 drm/amd/display: Update Z8 SR exit/enter latencies
+    e22ef1561085 drm/amd/display: Update Z8 watermarks for DCN314
+    cf49b2ff253f ASoC: codecs: wcd938x: fix accessing regmap on unattached devices
+    400950f66a8a ASoC: codecs: constify static sdw_slave_ops struct
+    5279ab199cbd ASoC: rt1318: Add RT1318 SDCA vendor-specific driver
+    1d383f9d6527 drm/amd/display: Lowering min Z8 residency time
+    e6332695d484 drm/amd/display: Update minimum stutter residency for DCN314 Z8
+    25f603624246 drm/amd/display: Add minimum Z8 residency debug option
+    97b3d8eed097 drm/amd/display: Fix Z8 support configurations
+    182251340884 drm/amd/display: Add debug option to skip PSR CRTC disable
+    bcde2c877993 drm/amd/display: Add Z8 allow states to z-state support list
+    83468820168a drm/amd/display: Refactor eDP PSR codes
+    74a03d3c8d89 drm/i915: Check pipe source size when using skl+ scalers
+    549ce5199d99 drm/i915/mtl: update scaler source and destination limits for MTL
+    20a1064a7598 wifi: rtw88: rtw8821c: Fix rfe_option field width
+    6578ae84e9ad irqchip/loongson-eiointc: Fix registration of syscore_ops
+    fa29d577e2fc irqchip/loongson-eiointc: Fix incorrect use of acpi_get_vec_parent
+    9e7f788dd74a irqchip/loongarch: Adjust acpi_cascade_irqdomain_init() and sub-routines
+    c5111be87376 drm/msm: fix missing wq allocation error handling
+    46062a1c0a01 drm/msm: Hangcheck progress detection
+    a7fdb37d93bc drm/msm/adreno: Simplify read64/write64 helpers
+    cba285695872 f2fs: factor out victim_entry usage from general rb_tree use
+    4377b1d3b19e f2fs: allocate the extent_cache by default
+    33112a0a17ef f2fs: refactor extent_cache to support for read and more
+    3af09dee7f9b f2fs: remove unnecessary __init_extent_tree
+    91b1554e66bc f2fs: move internal functions into extent_cache.c
+    155ff41cf28c f2fs: specify extent cache for read explicitly
+    77d2651cc8b5 drm/msm/adreno: adreno_gpu: Use suspend() instead of idle() on load error
+    b2bd08be1a64 fs/ntfs3: Refactoring of various minor issues
+    fb98336e23c1 HID: wacom: insert timestamp to packed Bluetooth (BT) events
+    fb2f0c00048b HID: wacom: Set a default resolution for older tablets
+    7a0731130425 drm/amd: Use `amdgpu_ucode_*` helpers for MES
+    a3e3a640d4fd drm/amd: Add a new helper for loading/validating microcode
+    3e1fa150e798 drm/amd: Load MES microcode during early_init
+    369b89184222 drm/amdgpu: remove deprecated MES version vars
+    506da05a5e0f drm/amd/pm: avoid potential UBSAN issue on legacy asics
+    2a179117a3b2 drm/amdgpu: disable sdma ecc irq only when sdma RAS is enabled in suspend
+    17a69415679c drm/amd/pm: parse pp_handle under appropriate conditions
+    348dcdf102a4 drm/amd/display: Enforce 60us prefetch for 200Mhz DCFCLK modes
+    7a8248317b32 drm/amdgpu: Fix vram recover doesn't work after whole GPU reset (v2)
+    6197fb331a6e drm/amdgpu: change gfx 11.0.4 external_id range
+    28c2e072fa13 drm/amdgpu/jpeg: Remove harvest checking for JPEG3
+    f661ad53658a drm/amdgpu/gfx: disable gfx9 cp_ecc_error_irq only when enabling legacy gfx ras
+    02e6cb9b3aef drm/amdgpu: fix amdgpu_irq_put call trace in gmc_v11_0_hw_fini
+    59cb2d46e177 drm/amdgpu: fix an amdgpu_irq_put() issue in gmc_v9_0_hw_fini()
+    59e2439111ac drm/amdgpu: fix amdgpu_irq_put call trace in gmc_v10_0_hw_fini
+    f2e43c98042c drm/amd/display: fix flickering caused by S/G mode
+    4c1e747ca61c drm/amd/display: filter out invalid bits in pipe_fuses
+    c2b2641ecb9a drm/amd/display: Fix 4to1 MPC black screen with DPP RCO
+    cc9942840afa drm/amd/display: Add NULL plane_state check for cursor disable logic
+    bfe56245f4f1 drm/panel: otm8009a: Set backlight parent to panel device
+    2e51d7c09d1f irqchip/loongson-eiointc: Fix returned value on parsing MADT
+    84c64fb57887 irqchip/loongson-pch-pic: Fix pch_pic_acpi_init calling
+    8a0b544b7cae f2fs: fix potential corruption when moving a directory
+    424f8cdc0ad2 f2fs: fix null pointer panic in tracepoint in __replace_atomic_write_block
+    aa0f98c5d196 drm/i915/dsi: Use unconditional msleep() instead of intel_dsi_msleep()
+    6e1476225ec0 drm/msm: fix workqueue leak on bind errors
+    544711591a67 drm/msm: fix vram leak on bind errors
+    0fad173f9cf2 drm/msm: fix drm device leak on bind errors
+    dd8ce825b165 drm/msm: fix NULL-deref on irq uninstall
+    16e0e6fb4511 drm/msm: fix NULL-deref on snapshot tear down
+    5b6b81decdf0 drm/i915/color: Fix typo for Plane CSC indexes
+    2b01534c8fa2 drm/bridge: lt8912b: Fix DSI Video Mode
+    47bfe1280456 drm/msm/adreno: fix runtime PM imbalance at gpu load
+    3d0fdfefb384 ARM: dts: aspeed: romed8hm3: Fix GPIO polarity of system-fault LED
+    f327c7443610 ARM: dts: s5pv210: correct MIPI CSIS clock name
+    5503ea70de6c ARM: dts: exynos: fix WM8960 clock name in Itop Elite
+    6efe88c34f5f ARM: dts: aspeed: asrock: Correct firmware flash SPI clocks
+    a64910ba868c sysctl: clarify register_sysctl_init() base directory order
+    c3c70209a991 remoteproc: rcar_rproc: Call of_node_put() on iteration error
+    948f81dac388 remoteproc: imx_rproc: Call of_node_put() on iteration error
+    fe3497c3bfcb remoteproc: imx_dsp_rproc: Call of_node_put() on iteration error
+    8a0fc842af1c remoteproc: st: Call of_node_put() on iteration error
+    0d6b66657c24 remoteproc: stm32: Call of_node_put() on iteration error
+    fde64a409bee proc_sysctl: enhance documentation
+    f4708645c144 proc_sysctl: update docs for __register_sysctl_table()
+    c93185ffd996 sh: nmi_debug: fix return value of __setup handler
+    2ebd0064352e sh: init: use OF_EARLY_FLATTREE for early init
+    ab2221dc3c76 sh: mcount.S: fix build error when PRINTK is not enabled
+    fdac282b3c17 sh: math-emu: fix macro redefined warning
+    6d103a576522 SMB3: force unmount was failing to close deferred close files
+    bb0091a5c97a smb3: fix problem remounting a share after shutdown
+    145f54ea336b inotify: Avoid reporting event with invalid wd
+    d759abeb273c platform/x86: thinkpad_acpi: Add profile force ability
+    66d4f7f327e4 platform/x86: touchscreen_dmi: Add info for the Dexp Ursus KX210i
+    e614c1de9e8d platform/x86: thinkpad_acpi: Fix platform profiles on T490
+    a02d29de79a4 platform/x86: touchscreen_dmi: Add upside-down quirk for GDIX1002 ts on the Juno Tablet
+    61549b7414b6 platform/x86/intel-uncore-freq: Return error on write frequency
+    b886ad6b6bfb cifs: release leases for deferred close handles when freezing
+    187f89cff775 cifs: fix pcchunk length type in smb2_copychunk_range
+    c5544c95ad3d btrfs: zoned: fix full zone super block reading on ZNS
+    4def3a0a8522 btrfs: zoned: zone finish data relocation BG with last IO
+    1e8de3223bd2 btrfs: fix space cache inconsistency after error loading it from disk
+    1689eabbc3d0 btrfs: print-tree: parent bytenr must be aligned to sector size
+    83ae0282f17d btrfs: make clear_cache mount option to rebuild FST without disabling it
+    dd5a21941f51 btrfs: zero the buffer before marking it dirty in btrfs_redirty_list_add
+    15e877e5923e btrfs: don't free qgroup space unless specified
+    44c52544b271 btrfs: fix encoded write i_size corruption with no-holes
+    17eaeee4c5f2 btrfs: fix assertion of exclop condition when starting balance
+    0a99cd08e236 btrfs: properly reject clear_cache and v1 cache for block-group-tree
+    8583cc10aad7 btrfs: zoned: fix wrong use of bitops API in btrfs_ensure_empty_zones
+    bcd7aa2963d3 btrfs: fix btrfs_prev_leaf() to not return the same key twice
+    000322b29c01 x86/retbleed: Fix return thunk alignment
+    2feac714c681 RISC-V: fix taking the text_mutex twice during sifive errata patching
+    0fad198fffda RISC-V: take text_mutex during alternative patching
+    13a0e212ddef perf stat: Separate bperf from bpf_profiler
+    602603baae5f perf tracepoint: Fix memory leak in is_valid_tracepoint()
+    3fb0d061dd0b perf symbols: Fix return incorrect build_id size in elf_read_build_id()
+    2dd641d78d44 crypto: engine - fix crypto_queue backlog handling
+    14a2259317f9 crypto: engine - Use crypto_request_complete
+    6ba620fc9164 crypto: api - Add scaffolding to change completion function signature
+    1055eddce776 crypto: sun8i-ss - Fix a test in sun8i_ss_setup_ivs()
+    267db6bff34b perf cs-etm: Fix timeless decode mode detection
+    b6671b7172a7 perf map: Delete two variable initialisations before null pointer checks in sort__sym_from_cmp()
+    d592598f4775 perf pmu: zfree() expects a pointer to a pointer to zero it after freeing its contents
+    36a840a86278 perf vendor events power9: Remove UTF-8 characters from JSON files
+    0dabe1ae74e9 perf ftrace: Make system wide the default target for latency subcommand
+    44060612613c perf tests record_offcpu.sh: Fix redirection of stderr to stdin
+    6d20672d52ef perf vendor events s390: Remove UTF-8 characters from JSON file
+    b2b916996042 perf scripts intel-pt-events.py: Fix IPC output for Python 2
+    f108cbc83641 perf record: Fix "read LOST count failed" msg with sample read
+    2424b456c37d net: enetc: check the index of the SFI rather than the handle
+    d86d42e4a9b6 virtio_net: suppress cpu stall when free_unused_bufs
+    4a61d7965611 ice: block LAN in case of VF to VF offload
+    2f80efc46b73 net: dsa: mt7530: fix network connectivity with multiple CPU ports
+    9d46edd93aa4 net: dsa: mt7530: split-off common parts from mt7531_setup
+    98fc75c172ba net: dsa: mt7530: fix corrupt frames using trgmii on 40 MHz XTAL MT7621
+    c6fafaa6f20a KVM: s390: fix race in gmap_make_secure()
+    4e875cf90d75 ALSA: caiaq: input: Add error handling for unsupported input methods in `snd_usb_caiaq_input_init`
+    7887397338a5 drm/amdgpu: add a missing lock for AMDGPU_SCHED
+    f2e8e338622b af_packet: Don't send zero-byte data in packet_sendmsg_spkt().
+    0d02efe7f251 ionic: catch failure from devlink_alloc
+    942a2a0184f7 ethtool: Fix uninitialized number of lanes
+    a05e5634c158 ionic: remove noise from ethtool rxnfc error msg
+    3cad35b62eaa octeontx2-vf: Detach LF resources on probe cleanup
+    401d11f274a5 octeontx2-pf: Disable packet I/O for graceful exit
+    d28f6ad8b1a0 octeontx2-af: Skip PFs if not enabled
+    ac613d0bd244 octeontx2-af: Fix issues with NPC field hash extract
+    ab0742bd5b43 octeontx2-af: Update/Fix NPC field hash extract feature
+    2b84d24d3ad1 octeontx2-pf: Add additional checks while configuring ucast/bcast/mcast rules
+    bd9234da97fd octeontx2-af: Allow mkex profile without DMAC and add L2M/L2B header extraction support
+    14504aaa8b55 octeontx2-pf: Increase the size of dmac filter flows
+    2376ca72b55c octeontx2-af: Fix depth of cam and mem table.
+    1c98271e0c23 octeontx2-af: Fix start and end bit for scan config
+    e92399f52744 octeontx2-af: Secure APR table update with the lock
+    419cc2c50761 selftests: netfilter: fix libmnl pkg-config usage
+    4b08cdd239e7 drm/i915/mtl: Add the missing CPU transcoder mask in intel_device_info
+    2bb120405ad3 riscv: compat_syscall_table: Fixup compile warning
+    40f8b3f5e679 rxrpc: Fix hard call timeout units
+    ab14de49e44f sfc: Fix module EEPROM reporting for QSFP modules
+    68b1614b3211 r8152: move setting r8153b_rx_agg_chg_indicate()
+    2642d7c136cd r8152: fix the poor throughput for 2.5G devices
+    fbdde7ef2564 r8152: fix flow control issue of RTL8156A
+    e2efb94966e7 net/sched: act_mirred: Add carrier check
+    3b3537d4a026 i2c: tegra: Fix PEC support for SMBUS block read
+    ffa97b59526e RISC-V: mm: Enable huge page support to kernel_page_present() function
+    1e8ad3e45b5d watchdog: dw_wdt: Fix the error handling path of dw_wdt_drv_probe()
+    c36975a654d4 block: Skip destroyed blkg when restart in blkg_destroy_all()
+    7c4c6e2a4075 writeback: fix call of incorrect macro
+    5ac2914f67c8 net: dsa: mv88e6xxx: add mv88e6321 rsvd2cpu
+    1f274d53165b net: ipv6: fix skb hash for some RST packets
+    686c70131e93 selftests: srv6: make srv6_end_dt46_l3vpn_test more robust
+    5a98019e96e1 sit: update dev->needed_headroom in ipip6_tunnel_bind_dev()
+    55866fe3fded net/sched: cls_api: remove block_cb from driver_list before freeing
+    7fa93e39fbb0 tcp: fix skb_copy_ubufs() vs BIG TCP
+    449280afaa05 net/ncsi: clear Tx enable mode when handling a Config required AEN
+    a78b922d1180 octeontx2-pf: mcs: Do not reset PN while updating secy
+    fd59ec145595 octeontx2-pf: mcs: Fix shared counters logic
+    a8ddb974f014 octeontx2-pf: mcs: Clear stats before freeing resource
+    c52ebecd89ae octeontx2-pf: mcs: Match macsec ethertype along with DMAC
+    a3dcc45eca01 octeontx2-pf: mcs: Fix NULL pointer dereferences
+    9ff806d07025 octeontx2-af: mcs: Fix MCS block interrupt
+    add6bdb8d603 octeontx2-af: mcs: Config parser to skip 8B header
+    39b436f0acfb octeontx2-af: mcs: Write TCAM_DATA and TCAM_MASK registers at once
+    06fdaf7711f3 octeonxt2-af: mcs: Fix per port bypass config
+    192445017534 ixgbe: Fix panic during XDP_TX with > 64 CPUs
+    80a791a19902 drm/amd/display: Update bounding box values for DCN321
+    7bba2e5e096e drm/amd/display: Do not clear GPINT register when releasing DMUB from reset
+    ccb0ad946adc drm/amd/display: Reset OUTBOX0 r/w pointer on DMUB reset
+    bb13726625e7 drm/amd/display: Fixes for dcn32_clk_mgr implementation
+    b7ae53dd0d29 drm/amd/display: Return error code on DSC atomic check failure
+    374f7fa01ae5 drm/amd/display: Add missing WA and MCLK validation
+    0b47019f544f drm/amd/display: Remove FPU guards from the DML folder
+    3738a230831e scsi: qedi: Fix use after free bug in qedi_remove()
+    e60e5d672248 ASoC: Intel: soc-acpi-byt: Fix "WM510205" match no longer working
+    1193a36f58c6 KVM: x86/mmu: Refresh CR0.WP prior to checking for emulated permission faults
+    71e848bac0a4 KVM: VMX: Make CR0.WP a guest owned bit
+    27ec4cbc1d51 KVM: x86: Make use of kvm_read_cr*_bits() when testing bits
+    956777b2538e KVM: x86: Do not unload MMU roots when only toggling CR0.WP with TDP enabled
+    d20a0195b3fe KVM: x86/mmu: Avoid indirect call for get_cr3
+    28d0f85aff34 drm/amd/display: Ext displays with dock can't recognized after resume
+    d69d5e2a81df fs/ntfs3: Fix null-ptr-deref on inode->i_op in ntfs_lookup()
+    93eb8dd4b4c1 mtd: spi-nor: spansion: Enable JFFS2 write buffer for Infineon s25hx SEMPER flash
+    50f54a48f678 mailbox: zynqmp: Fix counts of child nodes
+    e63a796b852f mailbox: zynq: Switch to flexible array to simplify code
+    b12078b67a6d soc: qcom: llcc: Do not create EDAC platform device on SDM845
+    bf9712195f5e qcom: llcc/edac: Support polling mode for ECC handling
+    4fdb257b2a4c mtd: spi-nor: spansion: Enable JFFS2 write buffer for Infineon s28hx SEMPER flash
+    8630dfcdab0d mtd: spi-nor: Add a RWW flag
+    897a40dbcf1e mtd: spi-nor: add SFDP fixups for Quad Page Program
+    de26d26f5519 mtd: spi-nor: spansion: Remove NO_SFDP_FLAGS from s28hs512t info
+    b951d4924c50 KVM: x86/pmu: Disallow legacy LBRs if architectural LBRs are available
+    189cdd8fe7c6 KVM: x86: Track supported PERF_CAPABILITIES in kvm_caps
+    0457b6d04fb7 perf/x86/core: Zero @lbr instead of returning -1 in x86_perf_get_lbr() stub
+    9239f895a854 crypto: ccp - Clear PSP interrupt status register before calling handler
+    add662775df4 drm/vmwgfx: Fix Legacy Display Unit atomic drm support
+    b3204cb3e0ad drm/vmwgfx: Remove explicit and broken vblank handling
+    c613c951e686 usb: dwc3: gadget: Execute gadget stop after halting the controller
+    065c3d4319c5 USB: dwc3: gadget: drop dead hibernation code
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- .../make-mod-scripts/make-mod-scripts_1.0.bb  | 30 +++++++++++++++++--
- 1 file changed, 27 insertions(+), 3 deletions(-)
+ .../linux/linux-yocto-rt_6.1.bb               |  6 ++--
+ .../linux/linux-yocto-tiny_6.1.bb             |  6 ++--
+ meta/recipes-kernel/linux/linux-yocto_6.1.bb  | 28 +++++++++----------
+ 3 files changed, 20 insertions(+), 20 deletions(-)
 
-diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-index 28e0807d1d..1c972f0d44 100644
---- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-+++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-@@ -10,25 +10,49 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
- S = "${WORKDIR}"
- 
--do_configure[depends] += "virtual/kernel:do_shared_workdir openssl-native:do_populate_sysroot"
-+# zlib is required when module signing is enabled
-+do_configure[depends] += "virtual/kernel:do_shared_workdir openssl-native:do_populate_sysroot zlib-native:do_populate_sysroot"
- do_compile[depends] += "virtual/kernel:do_compile_kernelmodules"
- 
- DEV_PKG_DEPENDENCY = ""
- 
- DEPENDS += "bc-native bison-native"
- DEPENDS += "gmp-native"
-+# required for module signing support
-+DEPENDS += "elfutils-native"
- 
--EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
--EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}" CROSS_COMPILE=${TARGET_PREFIX}"
-+# we are statically building the support tools, since the output of the build is
-+# stored in STAGING_KERNEL_BUILDDIR. We do not want any dynamic references to
-+# libraries that are only present in the recipe native sysroot
-+EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS} -static" HOSTCPP="${BUILD_CPP}""
-+EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS} -static" CROSS_COMPILE=${TARGET_PREFIX}"
- 
- # Build some host tools under work-shared.  CC, LD, and AR are probably
- # not used, but this is the historical way of invoking "make scripts".
- #
- do_configure() {
-+	# setup native pkg-config variables, HOSTPKG_CONFIG is available in newer kernels
-+	# but we keep these to support older kernels that may not have the variable to
-+	# abstract calls to pkg-config
-+	export PKG_CONFIG_DIR="${STAGING_DIR_NATIVE}${libdir_native}/pkgconfig"
-+	export PKG_CONFIG_PATH="$PKG_CONFIG_DIR:${STAGING_DATADIR_NATIVE}/pkgconfig"
-+	export PKG_CONFIG_LIBDIR="$PKG_CONFIG_DIR"
-+	export PKG_CONFIG_SYSROOT_DIR=""
-+
-+	# override CRYPTO_LIBS to support older kernels without HOSTPKG_CONFIG
-+	CRYPTO_LIBS="$(pkg-config --static --libs libcrypto 2>/dev/null || echo -lcrypto)"
-+
-+	# for pre-5.15 kernels
-+	LIBELF_LIBS=$(pkg-config --static libelf --libs 2>/dev/null || echo -lelf)
-+	export LIBELF_LIBS="$LIBELF_LIBS -lz"
-+	export HOSTLDFLAGS="-lz"
-+
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
- 	for t in prepare scripts_basic scripts; do
- 		oe_runmake CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
- 		AR="${KERNEL_AR}" OBJCOPY="${KERNEL_OBJCOPY}" \
-+		HOSTPKG_CONFIG="pkg-config --static" \
-+		CRYPTO_LIBS="${CRYPTO_LIBS}" \
- 		-C ${STAGING_KERNEL_DIR} O=${STAGING_KERNEL_BUILDDIR} $t
- 	done
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
+index 9ed118189f..4fbbfb1367 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
+@@ -14,13 +14,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
  }
+ 
+-SRCREV_machine ?= "085dd99c0bdc160daa3327cf4347d7850ae88e42"
+-SRCREV_meta ?= "76f7fbdf330d6a4b2aaa98085546030d7aec4a61"
++SRCREV_machine ?= "8b754025611eb94967a5b03aeaabe629ab4d1f03"
++SRCREV_meta ?= "8ad7b7906e93fe0deed70d93632299c5dc937258"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.1;destsuffix=${KMETA};protocol=https"
+ 
+-LINUX_VERSION ?= "6.1.28"
++LINUX_VERSION ?= "6.1.29"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
+index 8b90e6b7c2..3074420f4f 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
+@@ -8,7 +8,7 @@ require recipes-kernel/linux/linux-yocto.inc
+ # CVE exclusions
+ include recipes-kernel/linux/cve-exclusion_6.1.inc
+ 
+-LINUX_VERSION ?= "6.1.28"
++LINUX_VERSION ?= "6.1.29"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "c5c0c7ccfe672491795b3c926f70171dc380ced7"
+-SRCREV_meta ?= "76f7fbdf330d6a4b2aaa98085546030d7aec4a61"
++SRCREV_machine ?= "593e4f8f12aa24a3b24b0065b871441c9cc092bd"
++SRCREV_meta ?= "8ad7b7906e93fe0deed70d93632299c5dc937258"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.1.bb b/meta/recipes-kernel/linux/linux-yocto_6.1.bb
+index 138479bb70..014b502fce 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.1.bb
+@@ -17,25 +17,25 @@ KBRANCH:qemux86-64 ?= "v6.1/standard/base"
+ KBRANCH:qemuloongarch64  ?= "v6.1/standard/base"
+ KBRANCH:qemumips64 ?= "v6.1/standard/mti-malta64"
+ 
+-SRCREV_machine:qemuarm ?= "95289cb8222292127ee39078f54542395d839d64"
+-SRCREV_machine:qemuarm64 ?= "c5c0c7ccfe672491795b3c926f70171dc380ced7"
+-SRCREV_machine:qemuloongarch64 ?= "c5c0c7ccfe672491795b3c926f70171dc380ced7"
+-SRCREV_machine:qemumips ?= "15aab7123b475365095665030ec81fd54fbc8041"
+-SRCREV_machine:qemuppc ?= "c5c0c7ccfe672491795b3c926f70171dc380ced7"
+-SRCREV_machine:qemuriscv64 ?= "c5c0c7ccfe672491795b3c926f70171dc380ced7"
+-SRCREV_machine:qemuriscv32 ?= "c5c0c7ccfe672491795b3c926f70171dc380ced7"
+-SRCREV_machine:qemux86 ?= "c5c0c7ccfe672491795b3c926f70171dc380ced7"
+-SRCREV_machine:qemux86-64 ?= "c5c0c7ccfe672491795b3c926f70171dc380ced7"
+-SRCREV_machine:qemumips64 ?= "da9ecfb67170876bff1ca1d5547d438cbcb70671"
+-SRCREV_machine ?= "c5c0c7ccfe672491795b3c926f70171dc380ced7"
+-SRCREV_meta ?= "76f7fbdf330d6a4b2aaa98085546030d7aec4a61"
++SRCREV_machine:qemuarm ?= "6980804856a73a2c52e94bc6121c3d9d5caaed42"
++SRCREV_machine:qemuarm64 ?= "593e4f8f12aa24a3b24b0065b871441c9cc092bd"
++SRCREV_machine:qemuloongarch64 ?= "593e4f8f12aa24a3b24b0065b871441c9cc092bd"
++SRCREV_machine:qemumips ?= "9c44910d8c8dbb994ffd0b92d89d0842e754f37f"
++SRCREV_machine:qemuppc ?= "593e4f8f12aa24a3b24b0065b871441c9cc092bd"
++SRCREV_machine:qemuriscv64 ?= "593e4f8f12aa24a3b24b0065b871441c9cc092bd"
++SRCREV_machine:qemuriscv32 ?= "593e4f8f12aa24a3b24b0065b871441c9cc092bd"
++SRCREV_machine:qemux86 ?= "593e4f8f12aa24a3b24b0065b871441c9cc092bd"
++SRCREV_machine:qemux86-64 ?= "593e4f8f12aa24a3b24b0065b871441c9cc092bd"
++SRCREV_machine:qemumips64 ?= "18710460737428d230d146df6c84b803cd52d878"
++SRCREV_machine ?= "593e4f8f12aa24a3b24b0065b871441c9cc092bd"
++SRCREV_meta ?= "8ad7b7906e93fe0deed70d93632299c5dc937258"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
+ # meta SRCREV as the linux-yocto-standard builds. Select your version using the
+ # normal PREFERRED_VERSION settings.
+ BBCLASSEXTEND = "devupstream:target"
+-SRCREV_machine:class-devupstream ?= "bf4ad6fa4e5332e53913b073d0219319a4091619"
++SRCREV_machine:class-devupstream ?= "fa74641fb6b93a19ccb50579886ecc98320230f9"
+ PN:class-devupstream = "linux-yocto-upstream"
+ KBRANCH:class-devupstream = "v6.1/base"
+ 
+@@ -44,7 +44,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+ SRC_URI += "file://0001-perf-cpumap-Make-counter-as-unsigned-ints.patch"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+-LINUX_VERSION ?= "6.1.28"
++LINUX_VERSION ?= "6.1.29"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
 -- 
 2.34.1
 
