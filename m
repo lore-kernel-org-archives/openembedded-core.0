@@ -1,105 +1,133 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B36B6C77B73
-	for <webhook@archiver.kernel.org>; Wed, 31 May 2023 22:03:53 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.124.1685570628893703482
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8714C77B73
+	for <webhook@archiver.kernel.org>; Wed, 31 May 2023 22:18:55 +0000 (UTC)
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
+ by mx.groups.io with SMTP id smtpd.web10.40.1685571531055631751
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 May 2023 15:03:49 -0700
+ Wed, 31 May 2023 15:18:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=SWUz47cL;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3f603ff9c02so1641255e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 31 May 2023 15:03:48 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=NoArlkbq;
+ spf=pass (domain: gmail.com, ip: 209.85.166.41, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-7770c1570a6so10582139f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 31 May 2023 15:18:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1685570627; x=1688162627;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ZqIy+Pihq7AMGJjVLSYPaaEvQ53P/Oskm7GFyDzJ/H4=;
-        b=SWUz47cLAVfJRAwdauBWZf30kCGrr+FCbabiL5lCtinq5IMPNajl5vac4IdiSZE9Lk
-         RrlvLU7umHPBrMDcACIYuyuwaT2IMG0hbww27HBsA70HHqoO14sNpxInm1kX9Nyl2nO6
-         GBuEVP7ZNiMej4IZBMro1fQ68oKdBhj7VejuQ=
+        d=gmail.com; s=20221208; t=1685571530; x=1688163530;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=POiDNJx7XnzdgQP6QOfdOLHIsFG6qYjiElAZkBbMkzg=;
+        b=NoArlkbqaWkQUqBhK53NChIwP3WUXm96rt5N08Vhg7PzcgNXAjv8pv93F9WI0CQJAg
+         TaxawOvEoZp0B4oMrqdPs3qjE95ziW32MLTKBnJxGGRhTqjqvVYIJoCp91QyEnOneaA6
+         9t75xtz8Jo+UdbwM4dkq0pEcYR+XOc+wPscO8HwtprbpktufLJa7dc5KKJu/6gy4+8A/
+         bTjg4IVLW9QCiIT27aqQCxlev8LIZxRphVJVCxv1/ktc3h84zP2cwMzVxRQLM0/2zCf0
+         tqgJoAKzCiNv5NWFw6Gk9PxWOiHiZ1Pa+/y6pv2aYBX+09tw5UerEExwmWiDSlabsNEg
+         cX8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685570627; x=1688162627;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZqIy+Pihq7AMGJjVLSYPaaEvQ53P/Oskm7GFyDzJ/H4=;
-        b=dzg80pkhDuZx+3Ou/9FyEVJ7QTtsFX76QJJfMuUcAkO4J3cS/IS9xq6bLqNfgfnyLm
-         mTFyl/bNQ+06b25NQGHqj7AzaAoBohjUNVPljZ23I/Jd1ReYJmiXbpxev8ll/Vp2oe7G
-         iGkSSchM/dBaFRovF2gQ6h0FB/49DDUzRCpw1G0jFkfhiKq3EoMWPYQDot3t5dLf3mlW
-         lKFK9yf0JNNIn/ZpO5V1v4s1b1TykngmG9T0Wr4tSoFWb3VylcZ0hlW438b9TiPtrlU+
-         3cKm8fpYX53gmxNNl7LZKwaElmoyCAwhTkSroFOhZ49dWTr4vcufOsrP10RCDnS5qT3w
-         2TEA==
-X-Gm-Message-State: AC+VfDwgS6dBPN3niyELjWmzh2pEMmVo8r43bnAKc3v1YebUGn2RrT4O
-	SSAhfyN5u/InTX0S5FX6tc+Gow==
-X-Google-Smtp-Source: ACHHUZ6I76Y+aU5M5KTjiv6zD8QkaYSV31xE2L+GKE+2kC8eKCGAxzHccW2v++WUx6G3SO2fhFFs2Q==
-X-Received: by 2002:a05:600c:1182:b0:3f6:f56:9ad with SMTP id i2-20020a05600c118200b003f60f5609admr419015wmf.13.1685570627219;
-        Wed, 31 May 2023 15:03:47 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:5363:779f:9df8:62e7? ([2001:8b0:aba:5f3c:5363:779f:9df8:62e7])
-        by smtp.gmail.com with ESMTPSA id n10-20020a05600c294a00b003f6d564db48sm69537wmd.4.2023.05.31.15.03.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 May 2023 15:03:46 -0700 (PDT)
-Message-ID: <14b5ba3f7ba79aa1cfa5c50f8458596951adcfb1.camel@linuxfoundation.org>
+        d=1e100.net; s=20221208; t=1685571530; x=1688163530;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=POiDNJx7XnzdgQP6QOfdOLHIsFG6qYjiElAZkBbMkzg=;
+        b=Zk35DxZsR/kyIOnlj5uL/EYa8Y+B6W566LLPI9TP6Oo9gnGEuD9xq7nIBzH35W0HM4
+         9JER8qkxysns6iASPHQusU1mlzitALC4cI1MnfVPbP5769OPMhcCGReqtn0CAdMkkMN0
+         CORoo87cyz7bhV67eYDu2iGDbMC2Gf+ILVVjzbXxnLi8eb/jGILGTlBKTTqfCYAWYg7H
+         H7c+EE7+JisZMRhwVhgdKPpr0W3s3OCETHf5FpJPMED0ici3TQlIrQ0khFrHEW2VTwWs
+         nIP7dV/Fd2G4kRotZCINvNA1ux0rtC3Dbemnrgcwd9j2/MBiuOkb36HFm8wBDFireF3s
+         xa2Q==
+X-Gm-Message-State: AC+VfDwK/M0tHu0xWXYqdpD4bON/qSXIR/ydHSvADCFjxbJxTGLHSndY
+	higDb//XQUSZpw9IQ7HjknhoPLOZbwoL08dpIl8=
+X-Google-Smtp-Source: ACHHUZ5FPGX8x/kni64NT8FTeUj855egeXkhKOW3GFy8lnVNX/n1minXJU3cjnoHS+Wg1ch0Qvpw1zqsawOME+vSPlo=
+X-Received: by 2002:a6b:dd15:0:b0:770:8:caa0 with SMTP id f21-20020a6bdd15000000b007700008caa0mr4448691ioc.1.1685571530206;
+ Wed, 31 May 2023 15:18:50 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1685558432.git.bruce.ashfield@gmail.com> <14b5ba3f7ba79aa1cfa5c50f8458596951adcfb1.camel@linuxfoundation.org>
+In-Reply-To: <14b5ba3f7ba79aa1cfa5c50f8458596951adcfb1.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 31 May 2023 18:18:39 -0400
+Message-ID: <CADkTA4OTDrugNWkFYqDXZy7ruZ+6Qd2EGsQUx+JvSnskoHSCyw@mail.gmail.com>
 Subject: Re: [PATCH 0/9] kernel/linux-yocto: consolidated pull request
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: bruce.ashfield@gmail.com
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Date: Wed, 31 May 2023 23:03:45 +0100
-In-Reply-To: <cover.1685558432.git.bruce.ashfield@gmail.com>
-References: <cover.1685558432.git.bruce.ashfield@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 31 May 2023 22:03:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182038
+ <openembedded-core@lists.openembedded.org>; Wed, 31 May 2023 22:18:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182039
 
-Hi Bruce,
+On Wed, May 31, 2023 at 6:03=E2=80=AFPM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> Hi Bruce,
+>
+> On Wed, 2023-05-31 at 14:48 -0400, bruce.ashfield@gmail.com wrote:
+> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >
+> > Richard,
+> >
+> > Here's my consolidated queue. I've had some of these in testing for qui=
+te
+> > a while, as I didn't want to send them right before release or before m=
+y
+> > vacation last week.
+> >
+> > Most are -stable updates to 6.1 and finally bumping the -dev recipe to
+> > show that we've been testing 6.4 for quite some time.
+> >
+> > The make-mod-scripts rmwork fix was discussed at lenght on the list, an=
+d
+> > has been tested by myself and people seeing the issues. But with all th=
+e
+> > races and issues we've seen in that area for years, I'll keep a close e=
+ye
+> > out for AB issues.
+> >
+> > I've factored things a bit around enabling PAHOLE, I don't expect it
+> > to cause issues since it isn't on by default .. but you never know with
+> > these sorts of changes.
+> >
+> > I also have a bump for the refernece BSPs (sent to the appropriate
+> > list shortly) and a documentation commit for the PAHOLE tweaks (also
+> > sent to that list shortly, once we agree on the this change).
+>
+> Thanks for the updates!
+>
+> I put these in for testing (along with some other changes) and there
+> was an issue, probably the same thing showing up but I've not dug into
+> it:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/7159
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/61/builds/7197
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/104/builds/6093/s=
+teps/11/logs/stdio
+>
 
-On Wed, 2023-05-31 at 14:48 -0400, bruce.ashfield@gmail.com wrote:
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->=20
-> Richard,
->=20
-> Here's my consolidated queue. I've had some of these in testing for quite
-> a while, as I didn't want to send them right before release or before my
-> vacation last week.
->=20
-> Most are -stable updates to 6.1 and finally bumping the -dev recipe to
-> show that we've been testing 6.4 for quite some time.
->=20
-> The make-mod-scripts rmwork fix was discussed at lenght on the list, and
-> has been tested by myself and people seeing the issues. But with all the
-> races and issues we've seen in that area for years, I'll keep a close eye
-> out for AB issues.
->=20
-> I've factored things a bit around enabling PAHOLE, I don't expect it
-> to cause issues since it isn't on by default .. but you never know with
-> these sorts of changes.
->=20
-> I also have a bump for the refernece BSPs (sent to the appropriate
-> list shortly) and a documentation commit for the PAHOLE tweaks (also
-> sent to that list shortly, once we agree on the this change).
+That's odd:
 
-Thanks for the updates!
+ERROR: core-image-sato-sdk-1.0-r0 do_testimage: File
+/home/pokybuild/yocto-worker/pkgman-non-rpm/build/build/tmp/deploy/images/q=
+emux86/core-image-sato-sdk-qemux86.testdata.json
+not found ([Errno 2] No such file or directory:
+'/home/pokybuild/yocto-worker/pkgman-non-rpm/build/build/tmp/deploy/images/=
+qemux86/core-image-sato-sdk-qemux86.testdata.json').
 
-I put these in for testing (along with some other changes) and there
-was an issue, probably the same thing showing up but I've not dug into
-it:
+It shouldn't be the kernel updates, so I'm assuming something with
+make-mod-scripts. I'll have a look at it on Thursday.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/7159
-https://autobuilder.yoctoproject.org/typhoon/#/builders/61/builds/7197
-https://autobuilder.yoctoproject.org/typhoon/#/builders/104/builds/6093/ste=
-ps/11/logs/stdio
+Bruce
 
-Cheers,
+> Cheers,
+>
+> Richard
 
-Richard
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
