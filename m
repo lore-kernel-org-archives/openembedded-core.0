@@ -1,208 +1,113 @@
-Return-Path: <belouargamohamed@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BBE7C7EE23
-	for <webhook@archiver.kernel.org>; Wed, 31 May 2023 18:54:58 +0000 (UTC)
-Subject: Re: [master][PATCH 1/6] recipetool: create: npm: Remove duplicate function to not have future conflicts
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B79CC7EE23
+	for <webhook@archiver.kernel.org>; Wed, 31 May 2023 18:57:38 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.2730.1685559448045087304
+ for <openembedded-core@lists.openembedded.org>;
+ Wed, 31 May 2023 11:57:28 -0700
+Authentication-Results: mx.groups.io;
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=WRf5hX/Y;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-30ad458f085so1114348f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 31 May 2023 11:57:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1685559446; x=1688151446;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=U+LEIi9q7LArTeNHysUrTzsV3wcEzmTtAGzZ1t3nAmM=;
+        b=WRf5hX/Y6nFWlJHc5t7NqrWCwft16PWyfd5UB77FNIz4QinfWLHIhCc3Rq493SiHMS
+         HR5Z/FtvGGmmUAWZ0ew9SAW7+bNkV0k0W2nWkHAvZ177xprhQ9nyiQjml5Z5DPWQKaXO
+         6XGS2E5FAI5c+jZZQNISpUZPDRpx/WmTVgOGA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685559446; x=1688151446;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=U+LEIi9q7LArTeNHysUrTzsV3wcEzmTtAGzZ1t3nAmM=;
+        b=TQPMXhHMzcFmCWB1MGsvu7IYo9Vm7nuKvG9rJADs5v4yzo/wkgHmO8e1iCjIiVXUf2
+         rE+owWVxbzT42KO5tvlmhWunROH92G/ImwC3nGR4Uhl+z0EtUVxRRq+aF0ACVVQShjj6
+         1tWbWjBny0IIgYpWqOTBhaT+65KZgmrc4z7lx/BXElmqk8rqSVyIqLpjOQYCjm36tqRp
+         527EabUTZY34cVkqv4lroDgcPvXJRdUGw65NEYa/9zeS5kp7yx7XExeRgOC9b1Em4d6p
+         WwR1iTUFTBGRzXcJMBLw1Vg42xTEjrBjWrXmkJL+4Aqnfe0DxrWlDal0UB94YON5eZ7E
+         06yg==
+X-Gm-Message-State: AC+VfDw9qUO3Cyph6twAq3A4ia9dLkPUkJxxPjI8n8EfkSn+5AGoXTWz
+	X0xs4hpfqm2DI1hl8GImQ4AZVOsKi52AV2mhfMU=
+X-Google-Smtp-Source: ACHHUZ4XuzF7q6IuibluUL6xbjWgBWHGT+2jwEyuYZkCG+ZngJyIFpkXRrG3FcJ/hU5WGtWf9E3+Ng==
+X-Received: by 2002:adf:d4d0:0:b0:30a:e3bb:ba8b with SMTP id w16-20020adfd4d0000000b0030ae3bbba8bmr12609493wrk.29.1685559445760;
+        Wed, 31 May 2023 11:57:25 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:c24d:d0cb:1f56:b422])
+        by smtp.gmail.com with ESMTPSA id 17-20020a05600c231100b003f31d44f0cbsm25530209wmo.29.2023.05.31.11.57.24
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 May 2023 11:57:25 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-From: belouargamohamed@gmail.com
-X-Originating-Location: Cahors, Occitanie, FR (79.80.30.96)
-X-Originating-Platform: Linux Firefox 113
-User-Agent: GROUPS.IO Web Poster
+Subject: [PATCH] selftest/license: Exclude from world
+Date: Wed, 31 May 2023 19:57:24 +0100
+Message-Id: <20230531185724.78401-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Date: Wed, 31 May 2023 11:54:56 -0700
-References: <CANNYZj-1DyNYzct3DQmihoudLhAnLF5j=r0pyfJ-GN0zuBXuqg@mail.gmail.com>
-In-Reply-To: <CANNYZj-1DyNYzct3DQmihoudLhAnLF5j=r0pyfJ-GN0zuBXuqg@mail.gmail.com>
-Message-ID: <18872.1685559296647066649@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="pSonpRSA4NyKXuD0yE3F"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 31 May 2023 18:54:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182033
+ <openembedded-core@lists.openembedded.org>; Wed, 31 May 2023 18:57:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182034
 
---pSonpRSA4NyKXuD0yE3F
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+These test recipes shouldn't be built as part of world builds. Some recent
+changes are exposing issues from this so exclude them.
 
-Hey Alexander,
-Thanks for your answer.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../recipes-test/license/incompatible-license-alias.bb          | 2 ++
+ meta-selftest/recipes-test/license/incompatible-license.bb      | 2 ++
+ meta-selftest/recipes-test/license/incompatible-licenses.bb     | 2 ++
+ .../recipes-test/license/incompatible-nonspdx-license.bb        | 2 ++
+ 4 files changed, 8 insertions(+)
 
-In order that my changes work, Some patches on bitbake should be accepted:
-https://lists.openembedded.org/g/bitbake-devel/message/14815?p=3D%2C%2C%2C2=
-0%2C0%2C0%2C0%3A%3Arecentpostdate%2Fsticky%2C%2Cbelouarga%2C20%2C2%2C0%2C99=
-163598
-https://lists.openembedded.org/g/bitbake-devel/message/14819?p=3D%2C%2C%2C2=
-0%2C0%2C0%2C0%3A%3Arecentpostdate%2Fsticky%2C%2Cbelouarga%2C20%2C2%2C0%2C99=
-230772
-https://lists.openembedded.org/g/bitbake-devel/message/14820?p=3D%2C%2C%2C2=
-0%2C0%2C0%2C0%3A%3Arecentpostdate%2Fsticky%2C%2Cbelouarga%2C20%2C2%2C0%2C99=
-248868
+diff --git a/meta-selftest/recipes-test/license/incompatible-license-alias.bb b/meta-selftest/recipes-test/license/incompatible-license-alias.bb
+index e0b4e13c26a..1af99e78091 100644
+--- a/meta-selftest/recipes-test/license/incompatible-license-alias.bb
++++ b/meta-selftest/recipes-test/license/incompatible-license-alias.bb
+@@ -1,3 +1,5 @@
+ SUMMARY = "Recipe with an alias of an SPDX license"
+ DESCRIPTION = "Is licensed with an alias of an SPDX license to be used for testing"
+ LICENSE = "GPLv3"
++
++EXCLUDE_FROM_WORLD = "1"
+diff --git a/meta-selftest/recipes-test/license/incompatible-license.bb b/meta-selftest/recipes-test/license/incompatible-license.bb
+index 282f5c28751..6fdc58fd300 100644
+--- a/meta-selftest/recipes-test/license/incompatible-license.bb
++++ b/meta-selftest/recipes-test/license/incompatible-license.bb
+@@ -1,3 +1,5 @@
+ SUMMARY = "Recipe with an SPDX license"
+ DESCRIPTION = "Is licensed with an SPDX license to be used for testing"
+ LICENSE = "GPL-3.0-only"
++
++EXCLUDE_FROM_WORLD = "1"
+diff --git a/meta-selftest/recipes-test/license/incompatible-licenses.bb b/meta-selftest/recipes-test/license/incompatible-licenses.bb
+index 9709892644c..47bd8d7c00e 100644
+--- a/meta-selftest/recipes-test/license/incompatible-licenses.bb
++++ b/meta-selftest/recipes-test/license/incompatible-licenses.bb
+@@ -1,3 +1,5 @@
+ SUMMARY = "Recipe with multiple SPDX licenses"
+ DESCRIPTION = "Is licensed with multiple SPDX licenses to be used for testing"
+ LICENSE = "GPL-2.0-only & GPL-3.0-only & LGPL-3.0-only"
++
++EXCLUDE_FROM_WORLD = "1"
+diff --git a/meta-selftest/recipes-test/license/incompatible-nonspdx-license.bb b/meta-selftest/recipes-test/license/incompatible-nonspdx-license.bb
+index 35af0966efd..142d73158e6 100644
+--- a/meta-selftest/recipes-test/license/incompatible-nonspdx-license.bb
++++ b/meta-selftest/recipes-test/license/incompatible-nonspdx-license.bb
+@@ -1,3 +1,5 @@
+ SUMMARY = "Recipe with a non-SPDX license"
+ DESCRIPTION = "Is licensed with a non-SPDX license to be used for testing"
+ LICENSE = "FooLicense"
++
++EXCLUDE_FROM_WORLD = "1"
+-- 
+2.39.2
 
-and one patch that I just made on open embedded-core:
-https://lists.openembedded.org/g/openembedded-core/message/182022?p=3D%2C%2=
-C%2C20%2C0%2C0%2C0%3A%3Arecentpostdate%2Fsticky%2C%2Cbelouarga%2C20%2C2%2C0=
-%2C99248914
-
-I ran the tests that you asked me to do, you can find the results below.
-
-elf@container:~/workspace$ oe-selftest -r recipetool.RecipetoolCreateTests.=
-test_recipetool_create_npm
-2023-05-31 17:31:33,552 - oe-selftest - INFO - Changing cwd to /home/elf/wo=
-rkspace/build
-2023-05-31 17:31:33,552 - oe-selftest - WARNING - meta-selftest layer not f=
-ound in BBLAYERS, adding it
-2023-05-31 17:31:39,880 - oe-selftest - INFO - Adding layer libraries:
-2023-05-31 17:31:39,880 - oe-selftest - INFO -=C2=A0 /home/elf/workspace/la=
-yers/poky/meta/lib
-2023-05-31 17:31:39,880 - oe-selftest - INFO -=C2=A0 /home/elf/workspace/la=
-yers/poky/meta-yocto-bsp/lib
-2023-05-31 17:31:39,880 - oe-selftest - INFO -=C2=A0 /home/elf/workspace/la=
-yers/meta-openembedded/meta-oe/lib
-2023-05-31 17:31:39,880 - oe-selftest - INFO -=C2=A0 /home/elf/workspace/la=
-yers/poky/meta-selftest/lib
-2023-05-31 17:31:39,882 - oe-selftest - INFO - Running bitbake -e to test t=
-he configuration is valid/parsable
-NOTE: Starting bitbake server...
-2023-05-31 17:31:49,176 - oe-selftest - INFO - Adding: "include selftest.in=
-c" in /home/elf/workspace/build-st/conf/local.conf
-2023-05-31 17:31:49,178 - oe-selftest - INFO - Adding: "include bblayers.in=
-c" in bblayers.conf
-2023-05-31 17:31:49,179 - oe-selftest - INFO - test_recipetool_create_npm (=
-recipetool.RecipetoolCreateTests)
-2023-05-31 17:33:36,312 - oe-selftest - INFO -=C2=A0 ... ok
-2023-05-31 17:33:38,097 - oe-selftest - INFO - ----------------------------=
-------------------------------------------
-2023-05-31 17:33:38,097 - oe-selftest - INFO - Ran 1 test in 115.852s
-2023-05-31 17:33:38,097 - oe-selftest - INFO - OK
-2023-05-31 17:33:48,971 - oe-selftest - INFO - RESULTS:
-2023-05-31 17:33:48,971 - oe-selftest - INFO - RESULTS - recipetool.Recipet=
-oolCreateTests.test_recipetool_create_npm: PASSED (107.13s)
-2023-05-31 17:33:49,063 - oe-selftest - INFO - SUMMARY:
-2023-05-31 17:33:49,063 - oe-selftest - INFO - oe-selftest () - Ran 1 test =
-in 115.853s
-2023-05-31 17:33:49,064 - oe-selftest - INFO - oe-selftest - OK - All requi=
-red tests passed (successes=3D1, skipped=3D0, failures=3D0, errors=3D0)
-elf@container:~/workspace$ oe-selftest -r devtool.DevtoolAddTests.test_devt=
-ool_add_npm
-2023-05-31 17:34:03,550 - oe-selftest - INFO - Changing cwd to /home/elf/wo=
-rkspace/build
-2023-05-31 17:34:03,550 - oe-selftest - INFO - Adding layer libraries:
-2023-05-31 17:34:03,550 - oe-selftest - INFO -=C2=A0 /home/elf/workspace/la=
-yers/poky/meta/lib
-2023-05-31 17:34:03,551 - oe-selftest - INFO -=C2=A0 /home/elf/workspace/la=
-yers/poky/meta-yocto-bsp/lib
-2023-05-31 17:34:03,551 - oe-selftest - INFO -=C2=A0 /home/elf/workspace/la=
-yers/meta-openembedded/meta-oe/lib
-2023-05-31 17:34:03,551 - oe-selftest - INFO -=C2=A0 /home/elf/workspace/la=
-yers/poky/meta-selftest/lib
-2023-05-31 17:34:03,552 - oe-selftest - INFO - Running bitbake -e to test t=
-he configuration is valid/parsable
-NOTE: Starting bitbake server...
-2023-05-31 17:34:12,581 - oe-selftest - INFO - Adding: "include selftest.in=
-c" in /home/elf/workspace/build-st/conf/local.conf
-2023-05-31 17:34:12,582 - oe-selftest - INFO - Adding: "include bblayers.in=
-c" in bblayers.conf
-2023-05-31 17:34:15,320 - oe-selftest - INFO - test_devtool_add_npm (devtoo=
-l.DevtoolAddTests)
-2023-05-31 17:38:02,622 - oe-selftest - INFO -=C2=A0 ... ok
-2023-05-31 17:38:04,371 - oe-selftest - INFO - ----------------------------=
-------------------------------------------
-2023-05-31 17:38:04,371 - oe-selftest - INFO - Ran 1 test in 238.516s
-2023-05-31 17:38:04,371 - oe-selftest - INFO - OK
-2023-05-31 17:38:21,118 - oe-selftest - INFO - RESULTS:
-2023-05-31 17:38:21,118 - oe-selftest - INFO - RESULTS - devtool.DevtoolAdd=
-Tests.test_devtool_add_npm: PASSED (227.30s)
-2023-05-31 17:38:21,200 - oe-selftest - INFO - SUMMARY:
-2023-05-31 17:38:21,200 - oe-selftest - INFO - oe-selftest () - Ran 1 test =
-in 238.517s
-2023-05-31 17:38:21,201 - oe-selftest - INFO - oe-selftest - OK - All requi=
-red tests passed (successes=3D1, skipped=3D0, failures=3D0, errors=3D0)
-
---pSonpRSA4NyKXuD0yE3F
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hey Alexander,<br />Thanks for your answer.<br /><br />In order that my cha=
-nges work, Some patches on bitbake should be accepted:<br /><a href=3D"http=
-s://lists.openembedded.org/g/bitbake-devel/message/14815?p=3D%2C%2C%2C20%2C=
-0%2C0%2C0%3A%3Arecentpostdate%2Fsticky%2C%2Cbelouarga%2C20%2C2%2C0%2C991635=
-98" target=3D"_blank" rel=3D"noopener">https://lists.openembedded.org/g/bit=
-bake-devel/message/14815?p=3D%2C%2C%2C20%2C0%2C0%2C0%3A%3Arecentpostdate%2F=
-sticky%2C%2Cbelouarga%2C20%2C2%2C0%2C99163598</a><br /><a href=3D"https://l=
-ists.openembedded.org/g/bitbake-devel/message/14819?p=3D%2C%2C%2C20%2C0%2C0=
-%2C0%3A%3Arecentpostdate%2Fsticky%2C%2Cbelouarga%2C20%2C2%2C0%2C99230772" t=
-arget=3D"_blank" rel=3D"noopener">https://lists.openembedded.org/g/bitbake-=
-devel/message/14819?p=3D%2C%2C%2C20%2C0%2C0%2C0%3A%3Arecentpostdate%2Fstick=
-y%2C%2Cbelouarga%2C20%2C2%2C0%2C99230772</a><br /><a href=3D"https://lists.=
-openembedded.org/g/bitbake-devel/message/14820?p=3D%2C%2C%2C20%2C0%2C0%2C0%=
-3A%3Arecentpostdate%2Fsticky%2C%2Cbelouarga%2C20%2C2%2C0%2C99248868" target=
-=3D"_blank" rel=3D"noopener">https://lists.openembedded.org/g/bitbake-devel=
-/message/14820?p=3D%2C%2C%2C20%2C0%2C0%2C0%3A%3Arecentpostdate%2Fsticky%2C%=
-2Cbelouarga%2C20%2C2%2C0%2C99248868</a><br /><br />and one patch that I jus=
-t made on open embedded-core: <br /><a href=3D"https://lists.openembedded.o=
-rg/g/openembedded-core/message/182022?p=3D%2C%2C%2C20%2C0%2C0%2C0%3A%3Arece=
-ntpostdate%2Fsticky%2C%2Cbelouarga%2C20%2C2%2C0%2C99248914" target=3D"_blan=
-k" rel=3D"noopener">https://lists.openembedded.org/g/openembedded-core/mess=
-age/182022?p=3D%2C%2C%2C20%2C0%2C0%2C0%3A%3Arecentpostdate%2Fsticky%2C%2Cbe=
-louarga%2C20%2C2%2C0%2C99248914</a><br /><br />I ran the tests that you ask=
-ed me to do, you can find the results below.<br /><br />elf@container:~/wor=
-kspace$ oe-selftest -r recipetool.RecipetoolCreateTests.test_recipetool_cre=
-ate_npm<br />2023-05-31 17:31:33,552 - oe-selftest - INFO - Changing cwd to=
- /home/elf/workspace/build<br />2023-05-31 17:31:33,552 - oe-selftest - WAR=
-NING - meta-selftest layer not found in BBLAYERS, adding it<br />2023-05-31=
- 17:31:39,880 - oe-selftest - INFO - Adding layer libraries:<br />2023-05-3=
-1 17:31:39,880 - oe-selftest - INFO -&nbsp; /home/elf/workspace/layers/poky=
-/meta/lib<br />2023-05-31 17:31:39,880 - oe-selftest - INFO -&nbsp; /home/e=
-lf/workspace/layers/poky/meta-yocto-bsp/lib<br />2023-05-31 17:31:39,880 - =
-oe-selftest - INFO -&nbsp; /home/elf/workspace/layers/meta-openembedded/met=
-a-oe/lib<br />2023-05-31 17:31:39,880 - oe-selftest - INFO -&nbsp; /home/el=
-f/workspace/layers/poky/meta-selftest/lib<br />2023-05-31 17:31:39,882 - oe=
--selftest - INFO - Running bitbake -e to test the configuration is valid/pa=
-rsable<br />NOTE: Starting bitbake server...<br />2023-05-31 17:31:49,176 -=
- oe-selftest - INFO - Adding: "include selftest.inc" in /home/elf/workspace=
-/build-st/conf/local.conf<br />2023-05-31 17:31:49,178 - oe-selftest - INFO=
- - Adding: "include bblayers.inc" in bblayers.conf<br />2023-05-31 17:31:49=
-,179 - oe-selftest - INFO - test_recipetool_create_npm (recipetool.Recipeto=
-olCreateTests)<br />2023-05-31 17:33:36,312 - oe-selftest - INFO -&nbsp; ..=
-. ok<br />2023-05-31 17:33:38,097 - oe-selftest - INFO - ------------------=
-----------------------------------------------------<br />2023-05-31 17:33:=
-38,097 - oe-selftest - INFO - Ran 1 test in 115.852s<br />2023-05-31 17:33:=
-38,097 - oe-selftest - INFO - OK<br />2023-05-31 17:33:48,971 - oe-selftest=
- - INFO - RESULTS:<br />2023-05-31 17:33:48,971 - oe-selftest - INFO - RESU=
-LTS - recipetool.RecipetoolCreateTests.test_recipetool_create_npm: PASSED (=
-107.13s)<br />2023-05-31 17:33:49,063 - oe-selftest - INFO - SUMMARY:<br />=
-2023-05-31 17:33:49,063 - oe-selftest - INFO - oe-selftest () - Ran 1 test =
-in 115.853s<br />2023-05-31 17:33:49,064 - oe-selftest - INFO - oe-selftest=
- - OK - All required tests passed (successes=3D1, skipped=3D0, failures=3D0=
-, errors=3D0)<br />elf@container:~/workspace$ oe-selftest -r devtool.Devtoo=
-lAddTests.test_devtool_add_npm<br />2023-05-31 17:34:03,550 - oe-selftest -=
- INFO - Changing cwd to /home/elf/workspace/build<br />2023-05-31 17:34:03,=
-550 - oe-selftest - INFO - Adding layer libraries:<br />2023-05-31 17:34:03=
-,550 - oe-selftest - INFO -&nbsp; /home/elf/workspace/layers/poky/meta/lib<=
-br />2023-05-31 17:34:03,551 - oe-selftest - INFO -&nbsp; /home/elf/workspa=
-ce/layers/poky/meta-yocto-bsp/lib<br />2023-05-31 17:34:03,551 - oe-selftes=
-t - INFO -&nbsp; /home/elf/workspace/layers/meta-openembedded/meta-oe/lib<b=
-r />2023-05-31 17:34:03,551 - oe-selftest - INFO -&nbsp; /home/elf/workspac=
-e/layers/poky/meta-selftest/lib<br />2023-05-31 17:34:03,552 - oe-selftest =
-- INFO - Running bitbake -e to test the configuration is valid/parsable<br =
-/>NOTE: Starting bitbake server...<br />2023-05-31 17:34:12,581 - oe-selfte=
-st - INFO - Adding: "include selftest.inc" in /home/elf/workspace/build-st/=
-conf/local.conf<br />2023-05-31 17:34:12,582 - oe-selftest - INFO - Adding:=
- "include bblayers.inc" in bblayers.conf<br />2023-05-31 17:34:15,320 - oe-=
-selftest - INFO - test_devtool_add_npm (devtool.DevtoolAddTests)<br />2023-=
-05-31 17:38:02,622 - oe-selftest - INFO -&nbsp; ... ok<br />2023-05-31 17:3=
-8:04,371 - oe-selftest - INFO - -------------------------------------------=
----------------------------<br />2023-05-31 17:38:04,371 - oe-selftest - IN=
-FO - Ran 1 test in 238.516s<br />2023-05-31 17:38:04,371 - oe-selftest - IN=
-FO - OK<br />2023-05-31 17:38:21,118 - oe-selftest - INFO - RESULTS:<br />2=
-023-05-31 17:38:21,118 - oe-selftest - INFO - RESULTS - devtool.DevtoolAddT=
-ests.test_devtool_add_npm: PASSED (227.30s)<br />2023-05-31 17:38:21,200 - =
-oe-selftest - INFO - SUMMARY:<br />2023-05-31 17:38:21,200 - oe-selftest - =
-INFO - oe-selftest () - Ran 1 test in 238.517s<br />2023-05-31 17:38:21,201=
- - oe-selftest - INFO - oe-selftest - OK - All required tests passed (succe=
-sses=3D1, skipped=3D0, failures=3D0, errors=3D0)
-
---pSonpRSA4NyKXuD0yE3F--
 
