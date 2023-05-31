@@ -2,55 +2,55 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BED7FC7EE23
-	for <webhook@archiver.kernel.org>; Wed, 31 May 2023 22:25:15 +0000 (UTC)
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
- by mx.groups.io with SMTP id smtpd.web11.191.1685571909291473819
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11CF4C7EE23
+	for <webhook@archiver.kernel.org>; Wed, 31 May 2023 23:25:06 +0000 (UTC)
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
+ by mx.groups.io with SMTP id smtpd.web11.1351.1685575499914954137
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 May 2023 15:25:09 -0700
+ Wed, 31 May 2023 16:25:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=Vz6QdaM8;
- spf=pass (domain: gmail.com, ip: 209.85.166.49, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f49.google.com with SMTP id ca18e2360f4ac-77483f80522so11600039f.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 31 May 2023 15:25:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=nRlYpZvK;
+ spf=pass (domain: gmail.com, ip: 209.85.166.45, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-7749357e71cso14325739f.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 31 May 2023 16:24:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685571908; x=1688163908;
+        d=gmail.com; s=20221208; t=1685575499; x=1688167499;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wnTglm9Ga6yk73O6fnXpvdvnDcAttAhtxjX14w0oDqo=;
-        b=Vz6QdaM8CsopLE0Smt0qGl3NhhTOk67/AIvU2ZTE+mIHF5/YoftN191Asj4mNs6ZMB
-         uGarTnmtU5lhQ0fU24xVuHRhmpSxL7dsDqFi2RtiP3zt+jbwy/ZDvzjl+dvIobbiAxY4
-         TuyxK3rF70aW2SuOM3cOSLPKj6wQYXUoRe6+4GRQfYjG3kiL5/bsYcN9CAgZmkFBKzYs
-         Yg6ZfhrshyitW0s10ff8DOsYYsy2JY7BRLDWlyhu9IzwIm6cWVfx8RKyRLuoY/1BAlxw
-         85Z1VixLyb3/DeO3zPQIjiXMvDGyP0/0uimjVOnfwCR3UHJFHGzpB2bZPIzrO0nM06NP
-         qVPA==
+        bh=KFFP+uX/bZiUZSrh7/i1KZtB0pHoSZGAhWMSfipuo08=;
+        b=nRlYpZvKsecwVhyeioV1eRDdNTs7Q5zNJwzEYki4zfcxmsHF4YmqFXrnyfE2hM7mwY
+         GizM8PHmaGRx9yqJhKp6mXs0A6HqoDghnGRay94mXd+juXxk02tDmEftPNRZKmcvfmCT
+         /8VQbccmpgTBGkBkWlTTorMw/O95wLpA4wuVRrxpJ+Fq2Nu/2EvtE757CzyDnFXGwtcR
+         Ma6tHf554ST/8GACx3dgDPYuY1Ed7//5BYGNpDxUNPMei/OcUdDnAfxl+kfS2h8KvoQG
+         7kUUQX6xnj2LHmXSEvJGZHq5qTZkuQBRAPsqRAZkb0SbDWYZTQPD7jws7rbmyp+Rl0KH
+         4Crg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685571908; x=1688163908;
+        d=1e100.net; s=20221208; t=1685575499; x=1688167499;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wnTglm9Ga6yk73O6fnXpvdvnDcAttAhtxjX14w0oDqo=;
-        b=Ol/ZBvvgCdt+3b+2i9n0kAcunhG0RYdQNlncmxCEOsHfDs6Rb4jt7srPgI7aA8KNZ3
-         oOlN0tenNuvBHw5qvB+DoAqfD4jJvVey/XzlgYk40W9PB+5LPku0Wcf8ZWs3b14f4Whd
-         GSVE247JmEfRyBkATL5QEuP8lZ+99vms0ukz3T6R6LTW7de4XR3+TiiDDisS6GV9D98x
-         9qVJzcQtXzG/hgX5LqTw1GwBJYjrElwLIHNijfrx9EFwq3ys1tpCw+W1x0IoB96RrO4k
-         YQpda6QGFsfowAL2LL0paDnDot9yIhS4q/8ObHZguM+nlVwcIAqfVuW398K1BPkzhcui
-         ovEA==
-X-Gm-Message-State: AC+VfDyPgXZn4cUldlp/ZsT0dg9GfyxQM+p/H+SYQ90DGTsLhV+idrip
-	NkpufwnV2KTZ3pQ0pag0Y2oiErHX4mRy4u/6TAs=
-X-Google-Smtp-Source: ACHHUZ5nePWRMcJ9vmBGMBMOEwlJAEHJG5kDaHtq4l3gIlE+6JYrzdpzAbTjjXcNPp9Jnuu7F26+13jMRXP1rQJ5Y2k=
-X-Received: by 2002:a5d:9ccb:0:b0:774:9c64:e0ab with SMTP id
- w11-20020a5d9ccb000000b007749c64e0abmr5388540iow.17.1685571908338; Wed, 31
- May 2023 15:25:08 -0700 (PDT)
+        bh=KFFP+uX/bZiUZSrh7/i1KZtB0pHoSZGAhWMSfipuo08=;
+        b=kHecEgQzkIhTZcjrlRzKLW2+Yx9pfNok15e1k/2mZHI1qVvcU3F0qQhDYR8pJmuiY3
+         2U+mdvg/RZ35gk3H41Z/cfD5f9FwYz0g/yQU/mJot7QwJNA/vrcSd7DqRI04CjsU7vRD
+         cqJE1EcOHJY9nrH6h8U9yJYCkpGv7fE4qj/gbkaKz3ug2eWh+n4yvsYB/YjUmhBngkCK
+         2QNaEbrgAelSRAul8D6kdL9dmTcHSawkrKs9OoUaOdF6ZHOWxLu7DxNaUQMjZLmH0SVK
+         1GQAvs1gbcBOtBuzzVvFCTP/uWHfy3W7LSMyuDOGjMm8OI/s6cLvOGxcxKJZfSvu0bqM
+         NGCw==
+X-Gm-Message-State: AC+VfDygwkBE6/kL/gibYZZLdkZQmr68bDFt2KteMrTHKPH2WgS0mojH
+	0vS0BPHxcIxq9VA5Id4n17lVflh56lYFbPlg0lc=
+X-Google-Smtp-Source: ACHHUZ5e0mkjMFqwDEEUmmNLKbZa25dBA3clv6l8eRcjfWPUHQAzZa/6R6eJt/dORwCaqvguHv08p+nuSIt67MoBZpI=
+X-Received: by 2002:a5e:9416:0:b0:772:af3a:76b1 with SMTP id
+ q22-20020a5e9416000000b00772af3a76b1mr5179337ioj.21.1685575498784; Wed, 31
+ May 2023 16:24:58 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1685558432.git.bruce.ashfield@gmail.com>
  <14b5ba3f7ba79aa1cfa5c50f8458596951adcfb1.camel@linuxfoundation.org>
  <CADkTA4OTDrugNWkFYqDXZy7ruZ+6Qd2EGsQUx+JvSnskoHSCyw@mail.gmail.com> <a0868afea6ac27274253698a0ee9342dc4bca1fd.camel@linuxfoundation.org>
 In-Reply-To: <a0868afea6ac27274253698a0ee9342dc4bca1fd.camel@linuxfoundation.org>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 31 May 2023 18:24:57 -0400
-Message-ID: <CADkTA4NK26MdiA2jQ_LGg6LkFKwi8fUhqC_BXsECuU2N1iuPGA@mail.gmail.com>
+Date: Wed, 31 May 2023 19:24:47 -0400
+Message-ID: <CADkTA4MXVzuQmovAkmNsWhrD9SDeMV_F4RmVSmG-kUa7jUcpRA@mail.gmail.com>
 Subject: Re: [PATCH 0/9] kernel/linux-yocto: consolidated pull request
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
@@ -59,8 +59,8 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 31 May 2023 22:25:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182041
+ <openembedded-core@lists.openembedded.org>; Wed, 31 May 2023 23:25:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182042
 
 On Wed, May 31, 2023 at 6:22=E2=80=AFPM Richard Purdie
 <richard.purdie@linuxfoundation.org> wrote:
@@ -325,8 +325,13 @@ nfigure.169218, line 164
 >
 > Yes, it is make-mod-scripts, maybe missing static libraries?
 
-It could be. We tried to cover all the hosts and kernel versions
-during the development, but clearly something slipped through.
+I was able to build qemux86 on my ubuntu builder, and from the message
+it is looking for -lc and not finding it.
+
+It looks like that was alma linux, so no static c library ?
+
+I don't have access to anything alma based to test, but I guess a
+dependency on a static native glibc might help ?
 
 Bruce
 
