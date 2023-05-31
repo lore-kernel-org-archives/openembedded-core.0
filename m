@@ -1,1681 +1,1723 @@
-Return-Path: <ranjitsinh.rathod@kpit.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72AD9C77B73
-	for <webhook@archiver.kernel.org>; Wed, 31 May 2023 08:36:22 +0000 (UTC)
-Received: from IND01-MAX-obe.outbound.protection.outlook.com (IND01-MAX-obe.outbound.protection.outlook.com [40.107.222.53])
- by mx.groups.io with SMTP id smtpd.web11.9213.1685522172467106896
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DC62C77B73
+	for <webhook@archiver.kernel.org>; Wed, 31 May 2023 08:43:52 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web11.9314.1685522621891735684
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 May 2023 01:36:13 -0700
+ Wed, 31 May 2023 01:43:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kpit.com header.s=selector1 header.b=eQDrtV2r;
- spf=pass (domain: kpit.com, ip: 40.107.222.53, mailfrom: ranjitsinh.rathod@kpit.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BAZQtOPaQsleQr1HqP9qH9abBXWnDC4ho0JlS5ziXB6bcr1UfQ/u2TYGeJtWE3nM+g4gFAC45pf1Zlk2L370BprVzXe0Aw1Bb9hMTX0mv6SnhcCQ+ikjOKswsEkJfzqh+PEHlc7KoNHlE0LjX/CLVtpCWpu8GcyHWjqGQ5jKxgNeMW5or83Qt7y9RWrpjo9/NXxwi/PjGj8DF+CpDcQe9PBrKkeSFhCZFMqCT1wNH3gKoKfxNLmO4zqcddN2/uEhqe7XMedtqj6ZAyrPHJZyNTpTCAIs7VJxdGmQy3CUYG0iz+2M5aVFfT1MLORn+uDUvlansayyyl5zLaysissrlA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QULvPNHG3+PpRxId6QwX0xd65fIuL7D3+9ZlcWalrgM=;
- b=dcUP20j+ryzggKkNqgBbGh+MrEiDWRyEQj31qxDkl3H1nV3pUtsIvxAaeDVs29Tp1PQbc05Z/buBV8umTCgASjQ44amWBAp6TIeBz02ibMfsETPg39DQLx6ITarY8xR0EhFv8hpH+/EPzpJIhUlLwyhtX3szNscXZNi3J+L/5k0nPitY5N+DVwggRuibZuTkNvl/MJzdi2P40BkxQAJ99VS6SEV+aoWOALlSJJarauOzRCp4o0uxZDE/YdytyJofifbp0S6vT9lDtU/EgZY0+cOLVpzeyAhSzkA/MLJsHKHDcDaIwyKhVGzkBWbol+d2Ek/omyRSprOuDv4nFcZ/vQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
- dkim=pass header.d=kpit.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QULvPNHG3+PpRxId6QwX0xd65fIuL7D3+9ZlcWalrgM=;
- b=eQDrtV2reKOptLau8yZcxYLmjQbYjV/cp3w9MagVmgRg5fOfiOE4k3nH6btS6afZFv8kn4A5AHZcRXDJN5rIsq+MNDI3IWMvk6PdQyvL0Ioezqga+TDuwrjqLty4dw/kOmEN3bAxKplSuVyF4nXM4zipnd5ZmwoC1lSRK8jr2uA=
-Received: from PN3PR01MB7382.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:8d::14)
- by PN0PR01MB9883.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:13d::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.22; Wed, 31 May
- 2023 08:36:00 +0000
-Received: from PN3PR01MB7382.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::1308:4670:468d:6f95]) by PN3PR01MB7382.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::1308:4670:468d:6f95%5]) with mapi id 15.20.6433.024; Wed, 31 May 2023
- 08:35:59 +0000
-From: Ranjitsinh Rathod <Ranjitsinh.Rathod@kpit.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: Riyaz Ahmed Khan <rak3033@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Steve Sakoman
-	<steve@sakoman.com>, Riyaz Ahmed Khan <Riyaz.Khan@kpit.com>
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=msrV1cNn;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2af2c7f2883so58789361fa.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 31 May 2023 01:43:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685522620; x=1688114620;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=A+8eNfkT3o1DgboOkUTiCxd5GA5tGqTm82YOanao8QE=;
+        b=msrV1cNnsKKMav0c1r3IuAu+sPQt0kXncCc4lOiZxqCd0oVb4mE+LsNh2sW6JmSnsg
+         rZ3+2bNo8d/Trjt/Rl1co4Cpq69fTc7ZpgfXTHRx7S9kEeo59CUmHbgTi2Mo50PoChsW
+         zXfBfLjnTS4wcbjgLjq0wGRac4gf5D32f8zJ30YKjaVqyRxfUBEgm4T8dhn+z18Q85f7
+         AMoUstMCx4oSydWAFKweiV+8anwdAEHpNwBpK2nkvqjvB41nu11KL2iPkVGA/f3iu/Ht
+         ljvJ6LuV2OfzU+Y873rGX9Zgvcvmtvg3zlzKQ3t695/imAK51iGnD9MLEHG8WMzS7zNr
+         XhDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685522620; x=1688114620;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=A+8eNfkT3o1DgboOkUTiCxd5GA5tGqTm82YOanao8QE=;
+        b=I3Kp9qEXRy3NK+HdDiIBuICNhw2kJpOqUkgQKcw3V0Mq64VEtxqLDn70OAco1z7Oaq
+         EgILfUg61RTNew2MBQK1819YROenUoB3QfSYjKYwCuhIGgGvx/2FYg6hCcIZ67b5sm83
+         +4RrcelZfPKGtsom+Qx1YL79OeSc7h+OgyAHK4EMT88olPY5o8FwqH9MbHvddgDE2zTn
+         ca9lpSuPF5/DWDDQmZMSliogSVdf+HMb1UX8ioSlqDvUAk91vN/X01tblbrcQANmPEmM
+         JXig12gwmaAE8Ej5nhynvb5xpANCLAyP4JdrgVextqzcPNG8Z7qb9WVzCZqU+n9ECUfC
+         K0vQ==
+X-Gm-Message-State: AC+VfDxFjHruc3OEL8SDd/dYX+QEhCBEVSAi0hu+MKmR5JWXVrxV4Bf/
+	Ru3XAXDen/QRF5LSY4tKFgbAdB/yathmBTw/mwo=
+X-Google-Smtp-Source: ACHHUZ4mdgAevCYhSZJ20/B05W+yekLUtvcFysRsbZ1alYtuMwhu3WNA4u37tV4c0ImGxONWA9Z45aztSn4dPbXFEiU=
+X-Received: by 2002:a2e:88c5:0:b0:2ac:77e9:c7b0 with SMTP id
+ a5-20020a2e88c5000000b002ac77e9c7b0mr2474131ljk.9.1685522619638; Wed, 31 May
+ 2023 01:43:39 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230530070823.4010-1-Riyaz.Khan@kpit.com> <CANNYZj89h-+LVWxEQ45Qi2XNW8asOHOY8X-37BpcsyCmY2vQ3A@mail.gmail.com>
+ <BM1PR01MB3633DE4CABEC530FBEEFF376E8489@BM1PR01MB3633.INDPRD01.PROD.OUTLOOK.COM>
+ <CANNYZj8Zj13cX94vJv=6sNJo58vaaGQ7JpTqhZHoSqC1NZhODA@mail.gmail.com> <PN3PR01MB7382924C3BFAD78BF363EDF48F489@PN3PR01MB7382.INDPRD01.PROD.OUTLOOK.COM>
+In-Reply-To: <PN3PR01MB7382924C3BFAD78BF363EDF48F489@PN3PR01MB7382.INDPRD01.PROD.OUTLOOK.COM>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 31 May 2023 10:43:27 +0200
+Message-ID: <CANNYZj8jdgZJhrX9CsqR5MzY7A2owYjgOc=p82YH4iaJhpSn5w@mail.gmail.com>
 Subject: Re: [OE-core][kirkstone][PATCH v3] openssh: Remove BSD-4-clause
  contents completely from codebase
-Thread-Topic: [OE-core][kirkstone][PATCH v3] openssh: Remove BSD-4-clause
- contents completely from codebase
-Thread-Index: AQHZksWTWDnDxIN11k+LwLcIC1skq69ydkqAgAFrgACAAA5tAIAAHWMm
-Date: Wed, 31 May 2023 08:35:59 +0000
-Message-ID: 
- <PN3PR01MB7382924C3BFAD78BF363EDF48F489@PN3PR01MB7382.INDPRD01.PROD.OUTLOOK.COM>
-References: <20230530070823.4010-1-Riyaz.Khan@kpit.com>
- <CANNYZj89h-+LVWxEQ45Qi2XNW8asOHOY8X-37BpcsyCmY2vQ3A@mail.gmail.com>
- <BM1PR01MB3633DE4CABEC530FBEEFF376E8489@BM1PR01MB3633.INDPRD01.PROD.OUTLOOK.COM>
- <CANNYZj8Zj13cX94vJv=6sNJo58vaaGQ7JpTqhZHoSqC1NZhODA@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj8Zj13cX94vJv=6sNJo58vaaGQ7JpTqhZHoSqC1NZhODA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=kpit.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN3PR01MB7382:EE_|PN0PR01MB9883:EE_
-x-ms-office365-filtering-correlation-id: c30a09b8-4683-40e5-1e31-08db61b20f3a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- SV3T/xYfcnx3uOhvY2T1HEtmXnjqWX+hITSgoeOgUHfUKe9OcuAKjBNVm/vzjDQB9Mr2rM0PlypvMjqRfaXApWRGo2EDpcNn4SuaplQWCIpvoOW91CoUXUPVOoE0xee31hqDj0kL2cago2NEyQ1EvhqIkSEbKK16xgqf9ru7lBhGInXY0HLxEH9mPI5vL8WRLjjCAy597msS7fpEd/UOxCF4yAhwnoRAxV9i37QmECP9AZQ7lVypWQNU9ofMVH+gMx9gx2nisnpxwv1hzftrfhK6689U/E1N4zWkDdOI2qPzbxNnm2xLTlVz+2/MOXo9aMA1wGtgyNdFUz7+xJ05kq6imsNIdsCvN/XmKRzk9R5livd6N88XUj3iPNP/mCkWukYdXWOmWr/zUBSQNl1hPduPMkLZHiBBRYjFtutmIhWYzst4C4wM7KzhXZ0TGBVICqcaZy64A62MdpK8BdR3lA7/5tkc2GKwFraipAmHmKZFIH9sIhQ1E1pB3ebeWzzIB1W8vmdSRETxXLSAr0Shi3DRONwDLh3YorvvYYlqIEKo2Pd1Qz7cQEXZnEDG4m3RW/a4Lxm+R9w9o4bVjWUG+6V8n2ggUl4bcnykYTfHXT5KTYoFtLhoqHTzLUu/VVsp9qraLKgQgVhoFn10MaKqu4vkf8UG8C7JemmKjmNbVyY=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3PR01MB7382.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(376002)(346002)(366004)(39860400002)(396003)(451199021)(478600001)(66899021)(966005)(18265965005)(45080400002)(55016003)(66574015)(5660300002)(186003)(83380400001)(33656002)(71200400001)(6916009)(4326008)(30864003)(52536014)(7066003)(166002)(7696005)(86362001)(8676002)(2906002)(8936002)(41300700001)(122000001)(38100700002)(99936003)(38070700005)(19627405001)(316002)(6506007)(26005)(107886003)(76116006)(66946007)(54906003)(9686003)(64756008)(53546011)(55236004)(66556008)(66446008)(66476007)(559001)(579004);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?Uzlob3nGm8CCazZijMu3CB+mho902pfJCeX92ZhufGkd+SzalT5hO4lONOgK?=
- =?us-ascii?Q?G15V/GumvG4y5ZqjfiOCMkW+fmLmnIJUadxz0BJk+J/pwjxp+rg98Gqx7lTr?=
- =?us-ascii?Q?M5bih8W8aMwdttT7uMh89hzQK+au+m04i0uHkgC5TCKfdu3MZo4Dh1QDZuBr?=
- =?us-ascii?Q?wrFoicWPsmTym+/9WATDHl7nkDfmmhDBI7n4qN5e+Wm3JeMBMb+cgAHQ6Yix?=
- =?us-ascii?Q?jJyWFiq859o022SzPV4bhT4geJM/SuTUidXKe6dWLoAvOoVtCpx0C+cHdwcl?=
- =?us-ascii?Q?dIDhIB8ygYHpnStmhdHBHt3VsSQjNk9NWvg//ScQxDn4guyr7QXu2bTkpN9s?=
- =?us-ascii?Q?gQhFZVaZLEeSoNSPhIDmv8X7lteZaYqnfY5+kVH1vszfHpwl9tEJNeQjf9mN?=
- =?us-ascii?Q?dj7SgJBjekZcpPVR7rvmybqbGtCwY7izVZpiQQBvLnMv+ppOoHgGAfAy/O7v?=
- =?us-ascii?Q?C6EaRyZeUwDyjgD70RcxjWRrftPKOGmbIy6uSceTMorhJRCQE2n6Q0fo+lgt?=
- =?us-ascii?Q?V1puLlCVTfGhjG9Tiu4nQjB1jSX8039C+lqeKaSAKf8g6lzwtW9DbwGaPZNg?=
- =?us-ascii?Q?Pm1yF/r7gXYka+NSL9zp4DExTvdbgbifZVv2PWMMAspCi2pn9ALphaQdxdT0?=
- =?us-ascii?Q?nKbamygzHMjH0MQq2oR6DQB9l2X3VuIknVD7JmGNtYWfPHiZItQhww0IRrzW?=
- =?us-ascii?Q?2mi99spAUVEjNRzjS0DbCRLstoXcfcq+7hmJi0k8/LSMkcauprosXMmWejPe?=
- =?us-ascii?Q?89BUHOZBbXcN0f42NikYEmdAEaqoY39MRnZnn3bp7WKUMFoYLbJvtlF9Jme6?=
- =?us-ascii?Q?cfZt+3UaFZf26kOR30ddDKcXXgAcKcHaJaUkof/gbn25fsi4iQq8dMfy1WHX?=
- =?us-ascii?Q?UGf45NoaST6OhteZmI1BkVL9HC3vcs5Iex7mMxUgB9ajxmvMvbEI9Hh1YYnu?=
- =?us-ascii?Q?iso9NpzUBU6LD9ggXRcxnlAxnR+hbNJbVAoyiwto/cmKE5mbsXWeU2jiONFT?=
- =?us-ascii?Q?sv/4ENPww2l9MUjOFnhJu13r/QhnoMNorune+FLz5Vvdi06Smuk06VpHmBj1?=
- =?us-ascii?Q?I//vW22ScxIx6DbyiauIWPqZpxwT0/8u2Vx9G2oWQyy2uFqH3gEhU5y35xw3?=
- =?us-ascii?Q?R7kraeEdwGfEbUyAWWOnnuiBb2Tyswx3krlKXVdEU5JyHh0pbeEav3oxKy1r?=
- =?us-ascii?Q?Kxq2tHKnd+a9AurdiRr1XOsiEqGErvVMYRguP6Ty2eM58tC9Qn2GctzbK/FZ?=
- =?us-ascii?Q?UIXGABOroM+7YJkmZoxQN8KTPus4oXxhR180AR6oOHV1UiAqmGrgU9aF9UmR?=
- =?us-ascii?Q?Aa7W8bbGswng56rKxXrH+pgJEWCK5+0PiOhUzVkSHy631w+dgjo8/b2EvvuM?=
- =?us-ascii?Q?LqNgapmo2PAehZORo3+0XXe4SayENxmlHPUgiaUzbz8kqNIoaAaG1csj9oxP?=
- =?us-ascii?Q?e7XvIV4nPeTtk/LtASfP21vciKNRmDF2HvSnZJQ8K25+Q/eJLvTrtp3KYGP0?=
- =?us-ascii?Q?RoZR4koxqv5xOw0iQzB0F5n8RBBOpPamQpwvcxedTrVEYQXuNM8XLvPHn6ZQ?=
- =?us-ascii?Q?bnyFzS2+2Tm31OtJMl1bUP8hJkDLsmyNLHQqBE41?=
-Content-Type: multipart/related;
-	boundary="_004_PN3PR01MB7382924C3BFAD78BF363EDF48F489PN3PR01MB7382INDP_";
-	type="multipart/alternative"
-MIME-Version: 1.0
-X-OriginatorOrg: kpit.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB7382.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: c30a09b8-4683-40e5-1e31-08db61b20f3a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 May 2023 08:35:59.0199
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3539451e-b46e-4a26-a242-ff61502855c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: tgyxsuxsQAirfbF7fAqG4VM5Qu0RkV4SGdU5zOVxgNc5qdqWCEqaXhHS6ATEubNr3MH0rs1QrWTWXcNAxULtMQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0PR01MB9883
+To: Ranjitsinh Rathod <Ranjitsinh.Rathod@kpit.com>
+Cc: Riyaz Ahmed Khan <rak3033@gmail.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	Steve Sakoman <steve@sakoman.com>, Riyaz Ahmed Khan <Riyaz.Khan@kpit.com>
+Content-Type: multipart/related; boundary="0000000000000143df05fcf9518a"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 31 May 2023 08:36:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182001
+ <openembedded-core@lists.openembedded.org>; Wed, 31 May 2023 08:43:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182002
 
---_004_PN3PR01MB7382924C3BFAD78BF363EDF48F489PN3PR01MB7382INDP_
-Content-Type: multipart/alternative;
-	boundary="_000_PN3PR01MB7382924C3BFAD78BF363EDF48F489PN3PR01MB7382INDP_"
+--0000000000000143df05fcf9518a
+Content-Type: multipart/alternative; boundary="0000000000000143de05fcf95189"
 
---_000_PN3PR01MB7382924C3BFAD78BF363EDF48F489PN3PR01MB7382INDP_
-Content-Type: text/plain; charset="us-ascii"
+--0000000000000143de05fcf95189
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Alexander,
+Hello all,
 
-Let me explain a bit more here.
-
-Below upstream commit removed BSD-4-Clause from the LICENSE variable, But a=
-ctually if we check from the source code of the openssh for this version (8=
-.9p1), there are some files (openbsd-compat/libressl-api-compat.c) still af=
-fected and so this is wrong as per me.
-Link: https://git.yoctoproject.org/poky/commit/?id=3D2c86f586d55d0f6b99053e=
-3e4d14c9ee36fa8aa8
-
-~/sources/openssh-portable$ git branch
-* (HEAD detached at V_8_9_P1)
-  master
-~/sources/openssh-portable$ grep -rl "All advertising materials mentioning =
-features or use of this software" *|grep -v \.1|grep -v \.5|grep -v \.8 | s=
-ort
-openbsd-compat/libressl-api-compat.c
-When we checked in the master branch, it seems the below commit from the op=
-enssh is removing it and so to completely remove the BSD-4-Clause, below co=
-mmit from the openssh is required.
-Openssh commit: https://github.com/openssh/openssh-portable/commit/7280401b=
-dd77ca54be6867a154cc01e0d72612e0
-
-We can upstream this to both kirkstone as well as master branch. Please sug=
-gest. As the version is different in both the branches, same change would g=
-et not apply on both and so we need to send two different patches each for =
-master and kirkstone.
-
-So currently the v3 patch for kirkstone is correct and can be applied and f=
-or the master branch we can send another patch.
-
-
-Thanks,
-
-Best Regards,
-
-Ranjitsinh Rathod
-Technical Leader |  | KPIT Technologies Ltd.
-Cellphone: +91-84606 92403
-__________________________________________
-KPIT<http://www.kpit.com/> | Follow us on LinkedIn<http://www.kpit.com/link=
-edin>
-
-[cid:05645d6b-4632-440f-9da6-7e7c97e1b8fa]<https://www.kpit.com/TheNewBrand=
->
-
-________________________________
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Sent: Wednesday, May 31, 2023 12:11 PM
-To: Riyaz Ahmed Khan <Riyaz.Khan@kpit.com>
-Cc: Riyaz Ahmed Khan <rak3033@gmail.com>; openembedded-core@lists.openembed=
-ded.org <openembedded-core@lists.openembedded.org>; Ranjitsinh Rathod <Ranj=
-itsinh.Rathod@kpit.com>; Steve Sakoman <steve@sakoman.com>
-Subject: Re: [OE-core][kirkstone][PATCH v3] openssh: Remove BSD-4-clause co=
-ntents completely from codebase
-
-Caution: This email originated from outside of the KPIT. Do not click links=
- or open attachments unless you recognize the sender and know the content i=
-s safe.
-
-That is not how it works. If the issue exists in both master and
-kirkstone (which it does), it must be resolved in master first. Also
-'resolves BSD-5 clause license issue' does not explain what the issue
-is, and you need to provide a better explanation.
+Perhaps it would be easier to adjust the LICENSE entry in the openssh
+recipe for all affected oe-core branches, with appropriate comment next to
+that entry (because it would have to be again adjusted once new openssh is
+released)? Is your goal to avoid the license, or simply to ensure it is
+correctly specified?
 
 Alex
 
-On Wed, 31 May 2023 at 07:49, Riyaz Ahmed Khan <Riyaz.Khan@kpit.com> wrote:
+On Wed, 31 May 2023 at 10:36, Ranjitsinh Rathod <Ranjitsinh.Rathod@kpit.com=
 >
-> Hi Alex,
+wrote:
+
+> Hi Alexander,
 >
-> As openssh is pointing to LTS branch in kirkstone and openssh is still at=
- 8.9 the usage of BSD-4 can be limited. Hence, we need  this patch to be in=
-tegrated in kirkstone to resolve BSD-5 clause license issue for that the re=
-ason this patch has been created to backport and remove the BSD-4 clause li=
-cense. In the master branch it is closer to the latest version and can wait=
- for the official openssh release, but I hope there will not be a release t=
-o kirkstone from master for this reason we created this patch.
+> Let me explain a bit more here.
 >
-> Hi Steve,
+> Below upstream commit removed BSD-4-Clause from the LICENSE variable, But
+> actually if we check from the source code of the openssh for this version
+> (8.9p1), there are some files (*openbsd-compat/libressl-api-compat.c*)
+> still affected and so this is wrong as per me.
+> Link:
+> https://git.yoctoproject.org/poky/commit/?id=3D2c86f586d55d0f6b99053e3e4d=
+14c9ee36fa8aa8
 >
-> Please take this patch for kirkstone as it will resolve BSD-5 clause lice=
-nse issue.
+> ~/sources/openssh-portable$ git branch
+> * (HEAD detached at V_8_9_P1)
+>   master
+> ~/sources/openssh-portable$ grep -rl "All advertising materials mentionin=
+g
+> features or use of this software" *|grep -v \.1|grep -v \.5|grep -v \.8 |
+> sort
+> *openbsd-compat/libressl-api-compat.c*
 >
-> Regards,
-> Riyaz
+> When we checked in the master branch, it seems the below commit from the
+> openssh is removing it and so to completely remove the BSD-4-Clause, belo=
+w
+> commit from the openssh is required.
+> Openssh commit:
+> https://github.com/openssh/openssh-portable/commit/7280401bdd77ca54be6867=
+a154cc01e0d72612e0
 >
-> ________________________________
-> From: Alexander Kanavin <alex.kanavin@gmail.com>
-> Sent: Tuesday, May 30, 2023 13:38
-> To: Riyaz Ahmed Khan <rak3033@gmail.com>
-> Cc: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
-nembedded.org>; Ranjitsinh Rathod <Ranjitsinh.Rathod@kpit.com>; Riyaz Ahmed=
- Khan <Riyaz.Khan@kpit.com>
-> Subject: Re: [OE-core][kirkstone][PATCH v3] openssh: Remove BSD-4-clause =
-contents completely from codebase
+> We can upstream this to both kirkstone as well as master branch. Please
+> suggest. As the version is different in both the branches, same change
+> would get not apply on both and so we need to send two different patches
+> each for master and kirkstone.
 >
-> Caution: This email originated from outside of the KPIT. Do not click lin=
-ks or open attachments unless you recognize the sender and know the content=
- is safe.
+> So currently the v3 patch for kirkstone is correct and can be applied and
+> for the master branch we can send another patch.
 >
-> What is the rationale for adding this patch to oe-core? Why can't this
-> wait until openssh releases a version with this change?
+>
+> Thanks,
+>
+> Best Regards,
+>
+> *Ranjitsinh Rathod*
+> Technical Leader |  | KPIT Technologies Ltd.
+> Cellphone: +91-84606 92403
+>
+> *__________________________________________ *KPIT <http://www.kpit.com/> =
+|
+>  Follow us on LinkedIn <http://www.kpit.com/linkedin>
+>
+> <https://www.kpit.com/TheNewBrand>
+> ------------------------------
+> *From:* Alexander Kanavin <alex.kanavin@gmail.com>
+> *Sent:* Wednesday, May 31, 2023 12:11 PM
+> *To:* Riyaz Ahmed Khan <Riyaz.Khan@kpit.com>
+> *Cc:* Riyaz Ahmed Khan <rak3033@gmail.com>;
+> openembedded-core@lists.openembedded.org <
+> openembedded-core@lists.openembedded.org>; Ranjitsinh Rathod <
+> Ranjitsinh.Rathod@kpit.com>; Steve Sakoman <steve@sakoman.com>
+> *Subject:* Re: [OE-core][kirkstone][PATCH v3] openssh: Remove
+> BSD-4-clause contents completely from codebase
+>
+> Caution: This email originated from outside of the KPIT. Do not click
+> links or open attachments unless you recognize the sender and know the
+> content is safe.
+>
+> That is not how it works. If the issue exists in both master and
+> kirkstone (which it does), it must be resolved in master first. Also
+> 'resolves BSD-5 clause license issue' does not explain what the issue
+> is, and you need to provide a better explanation.
 >
 > Alex
 >
-> On Tue, 30 May 2023 at 09:08, Riyaz Ahmed Khan <rak3033@gmail.com> wrote:
+> On Wed, 31 May 2023 at 07:49, Riyaz Ahmed Khan <Riyaz.Khan@kpit.com>
+> wrote:
 > >
-> > As upstream removed this BSD-4-clause license, there are still some fil=
-es
-> > has this license. Below file affected by this BSD-4-clause contents whe=
-n
-> > below command is executed
-> > grep -rl "All advertising materials mentioning features or use of this =
-software"
-> > *|grep -v \.1|grep -v \.5|grep -v \.8 | sort openbsd-compat/libressl-ap=
-i-compat.c
+> > Hi Alex,
 > >
-> > All advertising materials mentioning features or use of this software
+> > As openssh is pointing to LTS branch in kirkstone and openssh is still
+> at 8.9 the usage of BSD-4 can be limited. Hence, we need  this patch to b=
+e
+> integrated in kirkstone to resolve BSD-5 clause license issue for that th=
+e
+> reason this patch has been created to backport and remove the BSD-4 claus=
+e
+> license. In the master branch it is closer to the latest version and can
+> wait for the official openssh release, but I hope there will not be a
+> release to kirkstone from master for this reason we created this patch.
 > >
-> > Openssh upstream removes the bsd-4 license compeletely from this commit
-> > https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgit=
-hub.com%2Fopenssh%2Fopenssh-portable%2Fcommit%2F7280401bdd77ca54be6867a154c=
-c01e0d72612e0&data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa15774=
+> > Hi Steve,
+> >
+> > Please take this patch for kirkstone as it will resolve BSD-5 clause
+> license issue.
+> >
+> > Regards,
+> > Riyaz
+> >
+> > ________________________________
+> > From: Alexander Kanavin <alex.kanavin@gmail.com>
+> > Sent: Tuesday, May 30, 2023 13:38
+> > To: Riyaz Ahmed Khan <rak3033@gmail.com>
+> > Cc: openembedded-core@lists.openembedded.org <
+> openembedded-core@lists.openembedded.org>; Ranjitsinh Rathod <
+> Ranjitsinh.Rathod@kpit.com>; Riyaz Ahmed Khan <Riyaz.Khan@kpit.com>
+> > Subject: Re: [OE-core][kirkstone][PATCH v3] openssh: Remove BSD-4-claus=
+e
+> contents completely from codebase
+> >
+> > Caution: This email originated from outside of the KPIT. Do not click
+> links or open attachments unless you recognize the sender and know the
+> content is safe.
+> >
+> > What is the rationale for adding this patch to oe-core? Why can't this
+> > wait until openssh releases a version with this change?
+> >
+> > Alex
+> >
+> > On Tue, 30 May 2023 at 09:08, Riyaz Ahmed Khan <rak3033@gmail.com>
+> wrote:
+> > >
+> > > As upstream removed this BSD-4-clause license, there are still some
+> files
+> > > has this license. Below file affected by this BSD-4-clause contents
+> when
+> > > below command is executed
+> > > grep -rl "All advertising materials mentioning features or use of thi=
+s
+> software"
+> > > *|grep -v \.1|grep -v \.5|grep -v \.8 | sort
+> openbsd-compat/libressl-api-compat.c
+> > >
+> > > All advertising materials mentioning features or use of this software
+> > >
+> > > Openssh upstream removes the bsd-4 license compeletely from this comm=
+it
+> > >
+> https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgithu=
+b.com%2Fopenssh%2Fopenssh-portable%2Fcommit%2F7280401bdd77ca54be6867a154cc0=
+1e0d72612e0&data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa157742d=
+facb008db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C638211120911=
+246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6=
+Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DAiOVMsuUKtG5WkExJNwIVaM9rqrH=
+XXMg0c8WziS9yHQ%3D&reserved=3D0
+> <https://github.com/openssh/openssh-portable/commit/7280401bdd77ca54be686=
+7a154cc01e0d72612e0>
+> > > Hence, Remove and backport this commit completely to remove license o=
+f
+> BSD-4-clause
+> > > contents from codebase. Hunks are refreshed, removed couple of hunks
+> from
+> > > configure.ac and openbsd-compat/libressl-api-compat.c as hunk code
+> > > is not prasent.
+> > >
+> > > Signed-off-by: Riyaz Khan <Riyaz.Khan@kpit.com>
+> > > ---
+> > >  ...401bdd77ca54be6867a154cc01e0d72612e0.patch | 984 ++++++++++++++++=
+++
+> > >  .../openssh/openssh_8.9p1.bb                  |   1 +
+> > >  2 files changed, 985 insertions(+)
+> > >  create mode 100644
+> meta/recipes-connectivity/openssh/openssh/7280401bdd77ca54be6867a154cc01e=
+0d72612e0.patch
+> > >
+> > > diff --git
+> a/meta/recipes-connectivity/openssh/openssh/7280401bdd77ca54be6867a154cc0=
+1e0d72612e0.patch
+> b/meta/recipes-connectivity/openssh/openssh/7280401bdd77ca54be6867a154cc0=
+1e0d72612e0.patch
+> > > new file mode 100644
+> > > index 0000000000..ebdff1ffe4
+> > > --- /dev/null
+> > > +++
+> b/meta/recipes-connectivity/openssh/openssh/7280401bdd77ca54be6867a154cc0=
+1e0d72612e0.patch
+> > > @@ -0,0 +1,984 @@
+> > > +From 7280401bdd77ca54be6867a154cc01e0d72612e0 Mon Sep 17 00:00:00 20=
+01
+> > > +From: Damien Miller <djm@mindrot.org>
+> > > +Date: Fri, 24 Mar 2023 13:56:25 +1100
+> > > +Subject: [PATCH] remove support for old libcrypto
+> > > +
+> > > +OpenSSH now requires LibreSSL 3.1.0 or greater or
+> > > +OpenSSL 1.1.1 or greater
+> > > +
+> > > +with/ok dtucker@
+> > > +
+> > > +Upstream-Status: Backport [
+> https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgithu=
+b.com%2Fopenssh%2Fopenssh-portable%2Fcommit%2F7280401bdd77ca54be6867a154cc0=
+1e0d72612e0&data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa157742d=
+facb008db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C638211120911=
+246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6=
+Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DAiOVMsuUKtG5WkExJNwIVaM9rqrH=
+XXMg0c8WziS9yHQ%3D&reserved=3D0
+> <https://github.com/openssh/openssh-portable/commit/7280401bdd77ca54be686=
+7a154cc01e0d72612e0>
+> ]
+> > > +Comment: Hunk are refreshed, removed couple of hunks from
+> configure.ac as hunk code is not prasent
+> > > +and backported to the existing code.
+> > > +Signed-off-by: Riyaz Khan <Riyaz.Khan@kpit.com>
+> > > +
+> > > +---
+> > > + .github/workflows/c-cpp.yml          |   7 -
+> > > + INSTALL                              |   8 +-
+> > > + cipher-aes.c                         |   2 +-
+> > > + configure.ac                         |  96 ++---
+> > > + openbsd-compat/libressl-api-compat.c | 556
+> +--------------------------
+> > > + openbsd-compat/openssl-compat.h      | 151 +-------
+> > > + 6 files changed, 40 insertions(+), 780 deletions(-)
+> > > +
+> > > +diff --git a/.github/workflows/c-cpp.yml b/.github/workflows/c-cpp.y=
+ml
+> > > +index 3d9aa22dba5..d299a32468d 100644
+> > > +--- a/.github/workflows/c-cpp.yml
+> > > ++++ b/.github/workflows/c-cpp.yml
+> > > +@@ -40,18 +40,11 @@
+> > > +           - { os: ubuntu-20.04, configs: tcmalloc }
+> > > +           - { os: ubuntu-20.04, configs: musl }
+> > > +           - { os: ubuntu-latest, configs: libressl-master }
+> > > +-          - { os: ubuntu-latest, configs: libressl-2.2.9 }
+> > > +-          - { os: ubuntu-latest, configs: libressl-2.8.3 }
+> > > +-          - { os: ubuntu-latest, configs: libressl-3.0.2 }
+> > > +           - { os: ubuntu-latest, configs: libressl-3.2.6 }
+> > > +           - { os: ubuntu-latest, configs: libressl-3.3.4 }
+> > > +           - { os: ubuntu-latest, configs: libressl-3.4.1 }
+> > > +           - { os: ubuntu-latest, configs: openssl-master }
+> > > +           - { os: ubuntu-latest, configs: openssl-noec }
+> > > +-          - { os: ubuntu-latest, configs: openssl-1.0.1 }
+> > > +-          - { os: ubuntu-latest, configs: openssl-1.0.1u }
+> > > +-          - { os: ubuntu-latest, configs: openssl-1.0.2u }
+> > > +-          - { os: ubuntu-latest, configs: openssl-1.1.0h }
+> > > +           - { os: ubuntu-latest, configs: openssl-1.1.1 }
+> > > +           - { os: ubuntu-latest, configs: openssl-1.1.1k }
+> > > +           - { os: ubuntu-latest, configs: openssl-3.0.0 }
+> > > +diff --git a/INSTALL b/INSTALL
+> > > +index 68b15e13190..f99d1e2a809 100644
+> > > +--- a/INSTALL
+> > > ++++ b/INSTALL
+> > > +@@ -21,12 +21,8 @@
+> https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fzlib.=
+net%2F&data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa157742dfacb0=
+08db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C63821112091124620=
+8%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1ha=
+WwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DgazTCzbsb8yEsXaj1Vn9FGK6t4V1Fop5t=
+8tPb%2BWqUns%3D&reserved=3D0
+> <https://zlib.net/>
+> > > +
+> > > + libcrypto from either of LibreSSL or OpenSSL.  Building without
+> libcrypto
+> > > + is supported but severely restricts the available ciphers and
+> algorithms.
+> > > +- - LibreSSL (
+> https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fwww.l=
+ibressl.org%2F&data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa1577=
+42dfacb008db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C638211120=
+911246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBT=
+iI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DCmw7m41lEsAw3CFeFKL1R8u%2=
+Bbu%2FWslzOq%2BhS%2FEkXohg%3D&reserved=3D0
+> <https://www.libressl.org/>)
+> > > +- - OpenSSL (
+> https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fwww.o=
+penssl.org%2F&data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa15774=
 2dfacb008db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C6382111209=
 11246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTi=
-I6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DAiOVMsuUKtG5WkExJNwIVaM9rq=
-rHXXMg0c8WziS9yHQ%3D&reserved=3D0<https://github.com/openssh/openssh-portab=
-le/commit/7280401bdd77ca54be6867a154cc01e0d72612e0>
-> > Hence, Remove and backport this commit completely to remove license of =
-BSD-4-clause
-> > contents from codebase. Hunks are refreshed, removed couple of hunks fr=
-om
-> > configure.ac and openbsd-compat/libressl-api-compat.c as hunk code
-> > is not prasent.
-> >
-> > Signed-off-by: Riyaz Khan <Riyaz.Khan@kpit.com>
-> > ---
-> >  ...401bdd77ca54be6867a154cc01e0d72612e0.patch | 984 ++++++++++++++++++
-> >  .../openssh/openssh_8.9p1.bb                  |   1 +
-> >  2 files changed, 985 insertions(+)
-> >  create mode 100644 meta/recipes-connectivity/openssh/openssh/7280401bd=
-d77ca54be6867a154cc01e0d72612e0.patch
-> >
-> > diff --git a/meta/recipes-connectivity/openssh/openssh/7280401bdd77ca54=
-be6867a154cc01e0d72612e0.patch b/meta/recipes-connectivity/openssh/openssh/=
-7280401bdd77ca54be6867a154cc01e0d72612e0.patch
-> > new file mode 100644
-> > index 0000000000..ebdff1ffe4
-> > --- /dev/null
-> > +++ b/meta/recipes-connectivity/openssh/openssh/7280401bdd77ca54be6867a=
-154cc01e0d72612e0.patch
-> > @@ -0,0 +1,984 @@
-> > +From 7280401bdd77ca54be6867a154cc01e0d72612e0 Mon Sep 17 00:00:00 2001
-> > +From: Damien Miller <djm@mindrot.org>
-> > +Date: Fri, 24 Mar 2023 13:56:25 +1100
-> > +Subject: [PATCH] remove support for old libcrypto
-> > +
-> > +OpenSSH now requires LibreSSL 3.1.0 or greater or
-> > +OpenSSL 1.1.1 or greater
-> > +
-> > +with/ok dtucker@
-> > +
-> > +Upstream-Status: Backport [https://apc01.safelinks.protection.outlook.=
-com/?url=3Dhttps%3A%2F%2Fgithub.com%2Fopenssh%2Fopenssh-portable%2Fcommit%2=
-F7280401bdd77ca54be6867a154cc01e0d72612e0&data=3D05%7C01%7CRanjitsinh.Ratho=
-d%40kpit.com%7Cd788d3aa157742dfacb008db61a20d08%7C3539451eb46e4a26a242ff615=
-02855c7%7C0%7C0%7C638211120911246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLj=
-AwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=
-=3DAiOVMsuUKtG5WkExJNwIVaM9rqrHXXMg0c8WziS9yHQ%3D&reserved=3D0<https://gith=
-ub.com/openssh/openssh-portable/commit/7280401bdd77ca54be6867a154cc01e0d726=
-12e0>]
-> > +Comment: Hunk are refreshed, removed couple of hunks from configure.ac=
- as hunk code is not prasent
-> > +and backported to the existing code.
-> > +Signed-off-by: Riyaz Khan <Riyaz.Khan@kpit.com>
-> > +
-> > +---
-> > + .github/workflows/c-cpp.yml          |   7 -
-> > + INSTALL                              |   8 +-
-> > + cipher-aes.c                         |   2 +-
-> > + configure.ac                         |  96 ++---
-> > + openbsd-compat/libressl-api-compat.c | 556 +-------------------------=
--
-> > + openbsd-compat/openssl-compat.h      | 151 +-------
-> > + 6 files changed, 40 insertions(+), 780 deletions(-)
-> > +
-> > +diff --git a/.github/workflows/c-cpp.yml b/.github/workflows/c-cpp.yml
-> > +index 3d9aa22dba5..d299a32468d 100644
-> > +--- a/.github/workflows/c-cpp.yml
-> > ++++ b/.github/workflows/c-cpp.yml
-> > +@@ -40,18 +40,11 @@
-> > +           - { os: ubuntu-20.04, configs: tcmalloc }
-> > +           - { os: ubuntu-20.04, configs: musl }
-> > +           - { os: ubuntu-latest, configs: libressl-master }
-> > +-          - { os: ubuntu-latest, configs: libressl-2.2.9 }
-> > +-          - { os: ubuntu-latest, configs: libressl-2.8.3 }
-> > +-          - { os: ubuntu-latest, configs: libressl-3.0.2 }
-> > +           - { os: ubuntu-latest, configs: libressl-3.2.6 }
-> > +           - { os: ubuntu-latest, configs: libressl-3.3.4 }
-> > +           - { os: ubuntu-latest, configs: libressl-3.4.1 }
-> > +           - { os: ubuntu-latest, configs: openssl-master }
-> > +           - { os: ubuntu-latest, configs: openssl-noec }
-> > +-          - { os: ubuntu-latest, configs: openssl-1.0.1 }
-> > +-          - { os: ubuntu-latest, configs: openssl-1.0.1u }
-> > +-          - { os: ubuntu-latest, configs: openssl-1.0.2u }
-> > +-          - { os: ubuntu-latest, configs: openssl-1.1.0h }
-> > +           - { os: ubuntu-latest, configs: openssl-1.1.1 }
-> > +           - { os: ubuntu-latest, configs: openssl-1.1.1k }
-> > +           - { os: ubuntu-latest, configs: openssl-3.0.0 }
-> > +diff --git a/INSTALL b/INSTALL
-> > +index 68b15e13190..f99d1e2a809 100644
-> > +--- a/INSTALL
-> > ++++ b/INSTALL
-> > +@@ -21,12 +21,8 @@ https://apc01.safelinks.protection.outlook.com/?url=
-=3Dhttps%3A%2F%2Fzlib.net%2F&data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%=
-7Cd788d3aa157742dfacb008db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7=
-C0%7C638211120911246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjo=
-iV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DgazTCzbsb8y=
-EsXaj1Vn9FGK6t4V1Fop5t8tPb%2BWqUns%3D&reserved=3D0<https://zlib.net/>
-> > +
-> > + libcrypto from either of LibreSSL or OpenSSL.  Building without libcr=
-ypto
-> > + is supported but severely restricts the available ciphers and algorit=
-hms.
-> > +- - LibreSSL (https://apc01.safelinks.protection.outlook.com/?url=3Dht=
-tps%3A%2F%2Fwww.libressl.org%2F&data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.c=
-om%7Cd788d3aa157742dfacb008db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C=
-0%7C0%7C638211120911246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQ=
-IjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DCmw7m41l=
-EsAw3CFeFKL1R8u%2Bbu%2FWslzOq%2BhS%2FEkXohg%3D&reserved=3D0<https://www.lib=
-ressl.org/>)
-> > +- - OpenSSL (https://apc01.safelinks.protection.outlook.com/?url=3Dhtt=
-ps%3A%2F%2Fwww.openssl.org%2F&data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com=
-%7Cd788d3aa157742dfacb008db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%=
-7C0%7C638211120911246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIj=
-oiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DJIzbanv8OP=
-CrZyGkB%2B%2BqyNgDfk72Qy2BmB9LAIS%2FTKk%3D&reserved=3D0<https://www.openssl=
-.org/>) with any of the following versions:
-> > +-   - 1.0.x >=3D 1.0.1 or 1.1.0 >=3D 1.1.0g or any 1.1.1
-> > +-
-> > +-Note that due to a bug in EVP_CipherInit OpenSSL 1.1 versions prior t=
-o
-> > +-1.1.0g can't be used.
-> > ++ - LibreSSL (https://apc01.safelinks.protection.outlook.com/?url=3Dht=
-tps%3A%2F%2Fwww.libressl.org%2F&data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.c=
-om%7Cd788d3aa157742dfacb008db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C=
-0%7C0%7C638211120911246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQ=
-IjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DCmw7m41l=
-EsAw3CFeFKL1R8u%2Bbu%2FWslzOq%2BhS%2FEkXohg%3D&reserved=3D0<https://www.lib=
-ressl.org/>) 3.1.0 or greater
-> > ++ - OpenSSL (https://apc01.safelinks.protection.outlook.com/?url=3Dhtt=
-ps%3A%2F%2Fwww.openssl.org%2F&data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com=
-%7Cd788d3aa157742dfacb008db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%=
-7C0%7C638211120911246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIj=
-oiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DJIzbanv8OP=
-CrZyGkB%2B%2BqyNgDfk72Qy2BmB9LAIS%2FTKk%3D&reserved=3D0<https://www.openssl=
-.org/>) 1.1.1 or greater
-> > +
-> > + LibreSSL/OpenSSL should be compiled as a position-independent library
-> > + (i.e. -fPIC, eg by configuring OpenSSL as "./config [options] -fPIC"
-> > +diff --git a/cipher-aes.c b/cipher-aes.c
-> > +index 8b101727284..87c763353d8 100644
-> > +--- a/cipher-aes.c
-> > ++++ b/cipher-aes.c
-> > +@@ -69,7 +69,7 @@ ssh_rijndael_init(EVP_CIPHER_CTX *ctx, const u_char =
-*key, const u_char *iv,
-> > +
-> > + static int
-> > + ssh_rijndael_cbc(EVP_CIPHER_CTX *ctx, u_char *dest, const u_char *src=
-,
-> > +-    LIBCRYPTO_EVP_INL_TYPE len)
-> > ++    size_t len)
-> > + {
-> > +       struct ssh_rijndael_ctx *c;
-> > +       u_char buf[RIJNDAEL_BLOCKSIZE];
-> > +diff --git a/configure.ac b/configure.ac
-> > +index 22fee70f604..1c0ccdf19c5 100644
-> > +--- a/configure.ac
-> > ++++ b/configure.ac
-> > +@@ -2744,42 +2744,40 @@
-> > +       #include <openssl/crypto.h>
-> > +       #define DATA "conftest.ssllibver"
-> > +               ]], [[
-> > +-              FILE *fd;
-> > +-              int rc;
-> > ++              FILE *f;
-> > +
-> > +-              fd =3D fopen(DATA,"w");
-> > +-              if(fd =3D=3D NULL)
-> > ++              if ((f =3D fopen(DATA, "w")) =3D=3D NULL)
-> > +                       exit(1);
-> > +-#ifndef OPENSSL_VERSION
-> > +-# define OPENSSL_VERSION SSLEAY_VERSION
-> > +-#endif
-> > +-#ifndef HAVE_OPENSSL_VERSION
-> > +-# define OpenSSL_version      SSLeay_version
-> > +-#endif
-> > +-#ifndef HAVE_OPENSSL_VERSION_NUM
-> > +-# define OpenSSL_version_num  SSLeay
-> > +-#endif
-> > +-              if ((rc =3D fprintf(fd, "%08lx (%s)\n",
-> > ++              if (fprintf(f, "%08lx (%s)",
-> > +                   (unsigned long)OpenSSL_version_num(),
-> > +-                  OpenSSL_version(OPENSSL_VERSION))) < 0)
-> > ++                  OpenSSL_version(OPENSSL_VERSION)) < 0)
-> > ++                      exit(1);
-> > ++#ifdef LIBRESSL_VERSION_NUMBER
-> > ++              if (fprintf(f, " libressl-%08lx", LIBRESSL_VERSION_NUMB=
-ER) < 0)
-> > ++                      exit(1);
-> > ++#endif
-> > ++              if (fputc('\n', f) =3D=3D EOF || fclose(f) =3D=3D EOF)
-> > +                       exit(1);
-> > +-
-> > +               exit(0);
-> > +               ]])],
-> > +               [
-> > +-                      ssl_library_ver=3D`cat conftest.ssllibver`
-> > ++                      sslver=3D`cat conftest.ssllibver`
-> > ++                      ssl_showver=3D`echo "$sslver" | sed 's/ libress=
-l-.*//'`
-> > +                       # Check version is supported.
-> > +-                      case "$ssl_library_ver" in
-> > +-                      10000*|0*)
-> > +-                              AC_MSG_ERROR([OpenSSL >=3D 1.0.1 requir=
-ed (have "$ssl_library_ver")])
-> > +-                              ;;
-> > +-                      100*)   ;; # 1.0.x
-> > +-                      101000[[0123456]]*)
-> > +-                              # https://apc01.safelinks.protection.ou=
-tlook.com/?url=3Dhttps%3A%2F%2Fgithub.com%2Fopenssl%2Fopenssl%2Fpull%2F4613=
-&data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa157742dfacb008db61=
-a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C638211120911246208%7CUn=
-known%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJ=
-XVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DdJwZf4dbh%2FT3T5kfAA4%2FAXjZEhsAx5Rzay3=
-Nq9Z0nK0%3D&reserved=3D0<https://github.com/openssl/openssl/pull/4613>
-> > +-                              AC_MSG_ERROR([OpenSSL 1.1.x versions pr=
-ior to 1.1.0g have a bug that breaks their use with OpenSSH (have "$ssl_lib=
-rary_ver")])
-> > ++                      case "$sslver" in
-> > ++                      100*|10100*) # 1.0.x, 1.1.0x
-> > ++                              AC_MSG_ERROR([OpenSSL >=3D 1.1.1 requir=
-ed (have "$ssl_showver")])
-> > +                               ;;
-> > +                       101*)   ;; # 1.1.x
-> > +-                      200*)   ;; # LibreSSL
-> > ++                      200*)   # LibreSSL
-> > ++                              lver=3D`echo "$sslver" | sed 's/.*libre=
-ssl-//'`
-> > ++                              case "$lver" in
-> > ++                              2*|300*) # 2.x, 3.0.0
-> > ++                                      AC_MSG_ERROR([LibreSSL >=3D 3.1=
-.0 required (have "$ssl_showver")])
-> > ++                                      ;;
-> > ++                              *) ;;   # Assume all other versions are=
- good.
-> > ++                              esac
-> > ++                              ;;
-> > +                       300*)   ;; # OpenSSL 3
-> > +                       301*)   ;; # OpenSSL development branch.
-> > +                       *)
-> > +@@ -2781,10 +2781,10 @@
-> > +                       300*)   ;; # OpenSSL 3
-> > +                       301*)   ;; # OpenSSL development branch.
-> > +                       *)
-> > +-                              AC_MSG_ERROR([Unknown/unsupported OpenS=
-SL version ("$ssl_library_ver")])
-> > ++                              AC_MSG_ERROR([Unknown/unsupported OpenS=
-SL version ("$ssl_showver")])
-> > +                               ;;
-> > +                       esac
-> > +-                      AC_MSG_RESULT([$ssl_library_ver])
-> > ++                      AC_MSG_RESULT([$ssl_showver])
-> > +               ],
-> > +               [
-> > +                       AC_MSG_RESULT([not found])
-> > +@@ -2804,9 +2804,6 @@
-> > +       #include <openssl/opensslv.h>
-> > +       #include <openssl/crypto.h>
-> > +               ]], [[
-> > +-#ifndef HAVE_OPENSSL_VERSION_NUM
-> > +-# define OpenSSL_version_num  SSLeay
-> > +-#endif
-> > +               exit(OpenSSL_version_num() =3D=3D OPENSSL_VERSION_NUMBE=
-R ? 0 : 1);
-> > +               ]])],
-> > +               [
-> > +@@ -2881,44 +2878,13 @@
-> > +           )
-> > +       )
-> > +
-> > +-      # LibreSSL/OpenSSL 1.1x API
-> > ++      # LibreSSL/OpenSSL API differences
-> > +       AC_CHECK_FUNCS([ \
-> > +-              OPENSSL_init_crypto \
-> > +-              DH_get0_key \
-> > +-              DH_get0_pqg \
-> > +-              DH_set0_key \
-> > +-              DH_set_length \
-> > +-              DH_set0_pqg \
-> > +-              DSA_get0_key \
-> > +-              DSA_get0_pqg \
-> > +-              DSA_set0_key \
-> > +-              DSA_set0_pqg \
-> > +-              DSA_SIG_get0 \
-> > +-              DSA_SIG_set0 \
-> > +-              ECDSA_SIG_get0 \
-> > +-              ECDSA_SIG_set0 \
-> > +               EVP_CIPHER_CTX_iv \
-> > +               EVP_CIPHER_CTX_iv_noconst \
-> > +               EVP_CIPHER_CTX_get_iv \
-> > +               EVP_CIPHER_CTX_get_updated_iv \
-> > +               EVP_CIPHER_CTX_set_iv \
-> > +-              RSA_get0_crt_params \
-> > +-              RSA_get0_factors \
-> > +-              RSA_get0_key \
-> > +-              RSA_set0_crt_params \
-> > +-              RSA_set0_factors \
-> > +-              RSA_set0_key \
-> > +-              RSA_meth_free \
-> > +-              RSA_meth_dup \
-> > +-              RSA_meth_set1_name \
-> > +-              RSA_meth_get_finish \
-> > +-              RSA_meth_set_priv_enc \
-> > +-              RSA_meth_set_priv_dec \
-> > +-              RSA_meth_set_finish \
-> > +-              EVP_PKEY_get0_RSA \
-> > +-              EVP_MD_CTX_new \
-> > +-              EVP_MD_CTX_free \
-> > +-              EVP_chacha20 \
-> > +       ])
-> > +
-> > +       if test "x$openssl_engine" =3D "xyes" ; then
-> > +@@ -3040,8 +3006,8 @@
-> > +       fi
-> > +       AC_CHECK_FUNCS([crypt DES_crypt])
-> > +
-> > +-      # Check for SHA256, SHA384 and SHA512 support in OpenSSL
-> > +-      AC_CHECK_FUNCS([EVP_sha256 EVP_sha384 EVP_sha512])
-> > ++      # Check for various EVP support in OpenSSL
-> > ++      AC_CHECK_FUNCS([EVP_sha256 EVP_sha384 EVP_sha512 EVP_chacha20])
-> > +
-> > +       # Check complete ECC support in OpenSSL
-> > +       AC_MSG_CHECKING([whether OpenSSL has NID_X9_62_prime256v1])
-> > +diff --git a/openbsd-compat/libressl-api-compat.c b/openbsd-compat/lib=
-ressl-api-compat.c
-> > +index 498180dc894..59be17397c5 100644
-> > +--- a/openbsd-compat/libressl-api-compat.c
-> > ++++ b/openbsd-compat/libressl-api-compat.c
-> > +@@ -1,129 +1,5 @@
-> > +-/* $OpenBSD: dsa_lib.c,v 1.29 2018/04/14 07:09:21 tb Exp $ */
-> > +-/* $OpenBSD: rsa_lib.c,v 1.37 2018/04/14 07:09:21 tb Exp $ */
-> > +-/* $OpenBSD: evp_lib.c,v 1.17 2018/09/12 06:35:38 djm Exp $ */
-> > +-/* $OpenBSD: dh_lib.c,v 1.32 2018/05/02 15:48:38 tb Exp $ */
-> > +-/* $OpenBSD: p_lib.c,v 1.24 2018/05/30 15:40:50 tb Exp $ */
-> > +-/* $OpenBSD: digest.c,v 1.30 2018/04/14 07:09:21 tb Exp $ */
-> > +-/* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
-> > +- * All rights reserved.
-> > +- *
-> > +- * This package is an SSL implementation written
-> > +- * by Eric Young (eay@cryptsoft.com).
-> > +- * The implementation was written so as to conform with Netscapes SSL=
-.
-> > +- *
-> > +- * This library is free for commercial and non-commercial use as long=
- as
-> > +- * the following conditions are aheared to.  The following conditions
-> > +- * apply to all code found in this distribution, be it the RC4, RSA,
-> > +- * lhash, DES, etc., code; not just the SSL code.  The SSL documentat=
-ion
-> > +- * included with this distribution is covered by the same copyright t=
-erms
-> > +- * except that the holder is Tim Hudson (tjh@cryptsoft.com).
-> > +- *
-> > +- * Copyright remains Eric Young's, and as such any Copyright notices =
-in
-> > +- * the code are not to be removed.
-> > +- * If this package is used in a product, Eric Young should be given a=
-ttribution
-> > +- * as the author of the parts of the library used.
-> > +- * This can be in the form of a textual message at program startup or
-> > +- * in documentation (online or textual) provided with the package.
-> > +- *
-> > +- * Redistribution and use in source and binary forms, with or without
-> > +- * modification, are permitted provided that the following conditions
-> > +- * are met:
-> > +- * 1. Redistributions of source code must retain the copyright
-> > +- *    notice, this list of conditions and the following disclaimer.
-> > +- * 2. Redistributions in binary form must reproduce the above copyrig=
-ht
-> > +- *    notice, this list of conditions and the following disclaimer in=
- the
-> > +- *    documentation and/or other materials provided with the distribu=
-tion.
-> > +- * 3. All advertising materials mentioning features or use of this so=
-ftware
-> > +- *    must display the following acknowledgement:
-> > +- *    "This product includes cryptographic software written by
-> > +- *     Eric Young (eay@cryptsoft.com)"
-> > +- *    The word 'cryptographic' can be left out if the rouines from th=
-e library
-> > +- *    being used are not cryptographic related :-).
-> > +- * 4. If you include any Windows specific code (or a derivative there=
-of) from
-> > +- *    the apps directory (application code) you must include an ackno=
-wledgement:
-> > +- *    "This product includes software written by Tim Hudson (tjh@cryp=
-tsoft.com)"
-> > +- *
-> > +- * THIS SOFTWARE IS PROVIDED BY ERIC YOUNG ``AS IS'' AND
-> > +- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, =
-THE
-> > +- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR=
- PURPOSE
-> > +- * ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE L=
-IABLE
-> > +- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSE=
-QUENTIAL
-> > +- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE =
-GOODS
-> > +- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTI=
-ON)
-> > +- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT=
-, STRICT
-> > +- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN =
-ANY WAY
-> > +- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILIT=
-Y OF
-> > +- * SUCH DAMAGE.
-> > +- *
-> > +- * The licence and distribution terms for any publically available ve=
-rsion or
-> > +- * derivative of this code cannot be changed.  i.e. this code cannot =
-simply be
-> > +- * copied and put under another distribution licence
-> > +- * [including the GNU Public Licence.]
-> > +- */
-> > +-
-> > +-/* $OpenBSD: dsa_asn1.c,v 1.22 2018/06/14 17:03:19 jsing Exp $ */
-> > +-/* $OpenBSD: ecs_asn1.c,v 1.9 2018/03/17 15:24:44 tb Exp $ */
-> > +-/* $OpenBSD: digest.c,v 1.30 2018/04/14 07:09:21 tb Exp $ */
-> > +-/* Written by Dr Stephen N Henson (steve@openssl.org) for the OpenSSL
-> > +- * project 2000.
-> > +- */
-> > +-/* =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +- * Copyright (c) 2000-2005 The OpenSSL Project.  All rights reserved.
-> > +- *
-> > +- * Redistribution and use in source and binary forms, with or without
-> > +- * modification, are permitted provided that the following conditions
-> > +- * are met:
-> > +- *
-> > +- * 1. Redistributions of source code must retain the above copyright
-> > +- *    notice, this list of conditions and the following disclaimer.
-> > +- *
-> > +- * 2. Redistributions in binary form must reproduce the above copyrig=
-ht
-> > +- *    notice, this list of conditions and the following disclaimer in
-> > +- *    the documentation and/or other materials provided with the
-> > +- *    distribution.
-> > +- *
-> > +- * 3. All advertising materials mentioning features or use of this
-> > +- *    software must display the following acknowledgment:
-> > +- *    "This product includes software developed by the OpenSSL Projec=
-t
-> > +- *    for use in the OpenSSL Toolkit. (https://apc01.safelinks.protec=
-tion.outlook.com/?url=3Dhttp%3A%2F%2Fwww.openssl.org%2F&data=3D05%7C01%7CRa=
-njitsinh.Rathod%40kpit.com%7Cd788d3aa157742dfacb008db61a20d08%7C3539451eb46=
-e4a26a242ff61502855c7%7C0%7C0%7C638211120911246208%7CUnknown%7CTWFpbGZsb3d8=
-eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7=
-C%7C%7C&sdata=3Dxcpid%2F25wbVMoxg4ok8qGpgBjiL8jXkZN5bX4hSS2wc%3D&reserved=
-=3D0<http://www.openssl.org/>)"
-> > +- *
-> > +- * 4. The names "OpenSSL Toolkit" and "OpenSSL Project" must not be u=
-sed to
-> > +- *    endorse or promote products derived from this software without
-> > +- *    prior written permission. For written permission, please contac=
-t
-> > +- *    licensing@OpenSSL.org.
-> > +- *
-> > +- * 5. Products derived from this software may not be called "OpenSSL"
-> > +- *    nor may "OpenSSL" appear in their names without prior written
-> > +- *    permission of the OpenSSL Project.
-> > +- *
-> > +- * 6. Redistributions of any form whatsoever must retain the followin=
-g
-> > +- *    acknowledgment:
-> > +- *    "This product includes software developed by the OpenSSL Projec=
-t
-> > +- *    for use in the OpenSSL Toolkit (https://apc01.safelinks.protect=
-ion.outlook.com/?url=3Dhttp%3A%2F%2Fwww.openssl.org%2F&data=3D05%7C01%7CRan=
-jitsinh.Rathod%40kpit.com%7Cd788d3aa157742dfacb008db61a20d08%7C3539451eb46e=
-4a26a242ff61502855c7%7C0%7C0%7C638211120911246208%7CUnknown%7CTWFpbGZsb3d8e=
-yJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C=
-%7C%7C&sdata=3Dxcpid%2F25wbVMoxg4ok8qGpgBjiL8jXkZN5bX4hSS2wc%3D&reserved=3D=
-0<http://www.openssl.org/>)"
-> > +- *
-> > +- * THIS SOFTWARE IS PROVIDED BY THE OpenSSL PROJECT ``AS IS'' AND ANY
-> > +- * EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, TH=
-E
-> > +- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-> > +- * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE OpenSSL PROJECT OR
-> > +- * ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-> > +- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
-> > +- * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-> > +- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-> > +- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT=
-,
-> > +- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-> > +- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISE=
-D
-> > +- * OF THE POSSIBILITY OF SUCH DAMAGE.
-> > +- * =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +- *
-> > +- * This product includes cryptographic software written by Eric Young
-> > +- * (eay@cryptsoft.com).  This product includes software written by Ti=
-m
-> > +- * Hudson (tjh@cryptsoft.com).
-> > +- *
-> > +- */
-> > +-
-> > +-/*    $OpenBSD: rsa_meth.c,v 1.2 2018/09/12 06:35:38 djm Exp $       =
- */
-> > + /*
-> > +- * Copyright (c) 2018 Theo Buehler <tb@openbsd.org>
-> > ++ * Copyright (c) 2018 Damien Miller <djm@mindrot.org>
-> > +  *
-> > +  * Permission to use, copy, modify, and distribute this software for =
-any
-> > +  * purpose with or without fee is hereby granted, provided that the a=
-bove
-> > +@@ -147,192 +23,7 @@
-> > + #include <stdlib.h>
-> > + #include <string.h>
-> > +
-> > +-#include <openssl/err.h>
-> > +-#include <openssl/bn.h>
-> > +-#include <openssl/dsa.h>
-> > +-#include <openssl/rsa.h>
-> > + #include <openssl/evp.h>
-> > +-#ifdef OPENSSL_HAS_ECC
-> > +-#include <openssl/ecdsa.h>
-> > +-#endif
-> > +-#include <openssl/dh.h>
-> > +-
-> > +-#ifndef HAVE_DSA_GET0_PQG
-> > +-void
-> > +-DSA_get0_pqg(const DSA *d, const BIGNUM **p, const BIGNUM **q, const =
-BIGNUM **g)
-> > +-{
-> > +-      if (p !=3D NULL)
-> > +-              *p =3D d->p;
-> > +-      if (q !=3D NULL)
-> > +-              *q =3D d->q;
-> > +-      if (g !=3D NULL)
-> > +-              *g =3D d->g;
-> > +-}
-> > +-#endif /* HAVE_DSA_GET0_PQG */
-> > +-
-> > +-#ifndef HAVE_DSA_SET0_PQG
-> > +-int
-> > +-DSA_set0_pqg(DSA *d, BIGNUM *p, BIGNUM *q, BIGNUM *g)
-> > +-{
-> > +-      if ((d->p =3D=3D NULL && p =3D=3D NULL) || (d->q =3D=3D NULL &&=
- q =3D=3D NULL) ||
-> > +-          (d->g =3D=3D NULL && g =3D=3D NULL))
-> > +-              return 0;
-> > +-
-> > +-      if (p !=3D NULL) {
-> > +-              BN_free(d->p);
-> > +-              d->p =3D p;
-> > +-      }
-> > +-      if (q !=3D NULL) {
-> > +-              BN_free(d->q);
-> > +-              d->q =3D q;
-> > +-      }
-> > +-      if (g !=3D NULL) {
-> > +-              BN_free(d->g);
-> > +-              d->g =3D g;
-> > +-      }
-> > +-
-> > +-      return 1;
-> > +-}
-> > +-#endif /* HAVE_DSA_SET0_PQG */
-> > +-
-> > +-#ifndef HAVE_DSA_GET0_KEY
-> > +-void
-> > +-DSA_get0_key(const DSA *d, const BIGNUM **pub_key, const BIGNUM **pri=
-v_key)
-> > +-{
-> > +-      if (pub_key !=3D NULL)
-> > +-              *pub_key =3D d->pub_key;
-> > +-      if (priv_key !=3D NULL)
-> > +-              *priv_key =3D d->priv_key;
-> > +-}
-> > +-#endif /* HAVE_DSA_GET0_KEY */
-> > +-
-> > +-#ifndef HAVE_DSA_SET0_KEY
-> > +-int
-> > +-DSA_set0_key(DSA *d, BIGNUM *pub_key, BIGNUM *priv_key)
-> > +-{
-> > +-      if (d->pub_key =3D=3D NULL && pub_key =3D=3D NULL)
-> > +-              return 0;
-> > +-
-> > +-      if (pub_key !=3D NULL) {
-> > +-              BN_free(d->pub_key);
-> > +-              d->pub_key =3D pub_key;
-> > +-      }
-> > +-      if (priv_key !=3D NULL) {
-> > +-              BN_free(d->priv_key);
-> > +-              d->priv_key =3D priv_key;
-> > +-      }
-> > +-
-> > +-      return 1;
-> > +-}
-> > +-#endif /* HAVE_DSA_SET0_KEY */
-> > +-
-> > +-#ifndef HAVE_RSA_GET0_KEY
-> > +-void
-> > +-RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e, const =
-BIGNUM **d)
-> > +-{
-> > +-      if (n !=3D NULL)
-> > +-              *n =3D r->n;
-> > +-      if (e !=3D NULL)
-> > +-              *e =3D r->e;
-> > +-      if (d !=3D NULL)
-> > +-              *d =3D r->d;
-> > +-}
-> > +-#endif /* HAVE_RSA_GET0_KEY */
-> > +-
-> > +-#ifndef HAVE_RSA_SET0_KEY
-> > +-int
-> > +-RSA_set0_key(RSA *r, BIGNUM *n, BIGNUM *e, BIGNUM *d)
-> > +-{
-> > +-      if ((r->n =3D=3D NULL && n =3D=3D NULL) || (r->e =3D=3D NULL &&=
- e =3D=3D NULL))
-> > +-              return 0;
-> > +-
-> > +-      if (n !=3D NULL) {
-> > +-              BN_free(r->n);
-> > +-              r->n =3D n;
-> > +-      }
-> > +-      if (e !=3D NULL) {
-> > +-              BN_free(r->e);
-> > +-              r->e =3D e;
-> > +-      }
-> > +-      if (d !=3D NULL) {
-> > +-              BN_free(r->d);
-> > +-              r->d =3D d;
-> > +-      }
-> > +-
-> > +-      return 1;
-> > +-}
-> > +-#endif /* HAVE_RSA_SET0_KEY */
-> > +-
-> > +-#ifndef HAVE_RSA_GET0_CRT_PARAMS
-> > +-void
-> > +-RSA_get0_crt_params(const RSA *r, const BIGNUM **dmp1, const BIGNUM *=
-*dmq1,
-> > +-    const BIGNUM **iqmp)
-> > +-{
-> > +-      if (dmp1 !=3D NULL)
-> > +-              *dmp1 =3D r->dmp1;
-> > +-      if (dmq1 !=3D NULL)
-> > +-              *dmq1 =3D r->dmq1;
-> > +-      if (iqmp !=3D NULL)
-> > +-              *iqmp =3D r->iqmp;
-> > +-}
-> > +-#endif /* HAVE_RSA_GET0_CRT_PARAMS */
-> > +-
-> > +-#ifndef HAVE_RSA_SET0_CRT_PARAMS
-> > +-int
-> > +-RSA_set0_crt_params(RSA *r, BIGNUM *dmp1, BIGNUM *dmq1, BIGNUM *iqmp)
-> > +-{
-> > +-      if ((r->dmp1 =3D=3D NULL && dmp1 =3D=3D NULL) ||
-> > +-          (r->dmq1 =3D=3D NULL && dmq1 =3D=3D NULL) ||
-> > +-          (r->iqmp =3D=3D NULL && iqmp =3D=3D NULL))
-> > +-              return 0;
-> > +-
-> > +-      if (dmp1 !=3D NULL) {
-> > +-              BN_free(r->dmp1);
-> > +-              r->dmp1 =3D dmp1;
-> > +-      }
-> > +-      if (dmq1 !=3D NULL) {
-> > +-              BN_free(r->dmq1);
-> > +-              r->dmq1 =3D dmq1;
-> > +-      }
-> > +-      if (iqmp !=3D NULL) {
-> > +-              BN_free(r->iqmp);
-> > +-              r->iqmp =3D iqmp;
-> > +-      }
-> > +-
-> > +-      return 1;
-> > +-}
-> > +-#endif /* HAVE_RSA_SET0_CRT_PARAMS */
-> > +-
-> > +-#ifndef HAVE_RSA_GET0_FACTORS
-> > +-void
-> > +-RSA_get0_factors(const RSA *r, const BIGNUM **p, const BIGNUM **q)
-> > +-{
-> > +-      if (p !=3D NULL)
-> > +-              *p =3D r->p;
-> > +-      if (q !=3D NULL)
-> > +-              *q =3D r->q;
-> > +-}
-> > +-#endif /* HAVE_RSA_GET0_FACTORS */
-> > +-
-> > +-#ifndef HAVE_RSA_SET0_FACTORS
-> > +-int
-> > +-RSA_set0_factors(RSA *r, BIGNUM *p, BIGNUM *q)
-> > +-{
-> > +-      if ((r->p =3D=3D NULL && p =3D=3D NULL) || (r->q =3D=3D NULL &&=
- q =3D=3D NULL))
-> > +-              return 0;
-> > +-
-> > +-      if (p !=3D NULL) {
-> > +-              BN_free(r->p);
-> > +-              r->p =3D p;
-> > +-      }
-> > +-      if (q !=3D NULL) {
-> > +-              BN_free(r->q);
-> > +-              r->q =3D q;
-> > +-      }
-> > +-
-> > +-      return 1;
-> > +-}
-> > +-#endif /* HAVE_RSA_SET0_FACTORS */
-> > +
-> > + #ifndef HAVE_EVP_CIPHER_CTX_GET_IV
-> > + int
-> > +@@ -392,249 +83,4 @@ EVP_CIPHER_CTX_set_iv(EVP_CIPHER_CTX *ctx, const =
-unsigned char *iv, size_t len)
-> > + }
-> > + #endif /* HAVE_EVP_CIPHER_CTX_SET_IV */
-> > +
-> > +-#ifndef HAVE_DSA_SIG_GET0
-> > +-void
-> > +-DSA_SIG_get0(const DSA_SIG *sig, const BIGNUM **pr, const BIGNUM **ps=
+I6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DJIzbanv8OPCrZyGkB%2B%2BqyN=
+gDfk72Qy2BmB9LAIS%2FTKk%3D&reserved=3D0
+> <https://www.openssl.org/>) with any of the following versions:
+> > > +-   - 1.0.x >=3D 1.0.1 or 1.1.0 >=3D 1.1.0g or any 1.1.1
+> > > +-
+> > > +-Note that due to a bug in EVP_CipherInit OpenSSL 1.1 versions prior
+> to
+> > > +-1.1.0g can't be used.
+> > > ++ - LibreSSL (
+> https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fwww.l=
+ibressl.org%2F&data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa1577=
+42dfacb008db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C638211120=
+911246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBT=
+iI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DCmw7m41lEsAw3CFeFKL1R8u%2=
+Bbu%2FWslzOq%2BhS%2FEkXohg%3D&reserved=3D0
+> <https://www.libressl.org/>) 3.1.0 or greater
+> > > ++ - OpenSSL (
+> https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fwww.o=
+penssl.org%2F&data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa15774=
+2dfacb008db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C6382111209=
+11246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTi=
+I6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DJIzbanv8OPCrZyGkB%2B%2BqyN=
+gDfk72Qy2BmB9LAIS%2FTKk%3D&reserved=3D0
+> <https://www.openssl.org/>) 1.1.1 or greater
+> > > +
+> > > + LibreSSL/OpenSSL should be compiled as a position-independent libra=
+ry
+> > > + (i.e. -fPIC, eg by configuring OpenSSL as "./config [options] -fPIC=
+"
+> > > +diff --git a/cipher-aes.c b/cipher-aes.c
+> > > +index 8b101727284..87c763353d8 100644
+> > > +--- a/cipher-aes.c
+> > > ++++ b/cipher-aes.c
+> > > +@@ -69,7 +69,7 @@ ssh_rijndael_init(EVP_CIPHER_CTX *ctx, const u_cha=
+r
+> *key, const u_char *iv,
+> > > +
+> > > + static int
+> > > + ssh_rijndael_cbc(EVP_CIPHER_CTX *ctx, u_char *dest, const u_char
+> *src,
+> > > +-    LIBCRYPTO_EVP_INL_TYPE len)
+> > > ++    size_t len)
+> > > + {
+> > > +       struct ssh_rijndael_ctx *c;
+> > > +       u_char buf[RIJNDAEL_BLOCKSIZE];
+> > > +diff --git a/configure.ac b/configure.ac
+> > > +index 22fee70f604..1c0ccdf19c5 100644
+> > > +--- a/configure.ac
+> > > ++++ b/configure.ac
+> > > +@@ -2744,42 +2744,40 @@
+> > > +       #include <openssl/crypto.h>
+> > > +       #define DATA "conftest.ssllibver"
+> > > +               ]], [[
+> > > +-              FILE *fd;
+> > > +-              int rc;
+> > > ++              FILE *f;
+> > > +
+> > > +-              fd =3D fopen(DATA,"w");
+> > > +-              if(fd =3D=3D NULL)
+> > > ++              if ((f =3D fopen(DATA, "w")) =3D=3D NULL)
+> > > +                       exit(1);
+> > > +-#ifndef OPENSSL_VERSION
+> > > +-# define OPENSSL_VERSION SSLEAY_VERSION
+> > > +-#endif
+> > > +-#ifndef HAVE_OPENSSL_VERSION
+> > > +-# define OpenSSL_version      SSLeay_version
+> > > +-#endif
+> > > +-#ifndef HAVE_OPENSSL_VERSION_NUM
+> > > +-# define OpenSSL_version_num  SSLeay
+> > > +-#endif
+> > > +-              if ((rc =3D fprintf(fd, "%08lx (%s)\n",
+> > > ++              if (fprintf(f, "%08lx (%s)",
+> > > +                   (unsigned long)OpenSSL_version_num(),
+> > > +-                  OpenSSL_version(OPENSSL_VERSION))) < 0)
+> > > ++                  OpenSSL_version(OPENSSL_VERSION)) < 0)
+> > > ++                      exit(1);
+> > > ++#ifdef LIBRESSL_VERSION_NUMBER
+> > > ++              if (fprintf(f, " libressl-%08lx",
+> LIBRESSL_VERSION_NUMBER) < 0)
+> > > ++                      exit(1);
+> > > ++#endif
+> > > ++              if (fputc('\n', f) =3D=3D EOF || fclose(f) =3D=3D EOF=
 )
-> > +-{
-> > +-      if (pr !=3D NULL)
-> > +-              *pr =3D sig->r;
-> > +-      if (ps !=3D NULL)
-> > +-              *ps =3D sig->s;
-> > +-}
-> > +-#endif /* HAVE_DSA_SIG_GET0 */
-> > +-
-> > +-#ifndef HAVE_DSA_SIG_SET0
-> > +-int
-> > +-DSA_SIG_set0(DSA_SIG *sig, BIGNUM *r, BIGNUM *s)
-> > +-{
-> > +-      if (r =3D=3D NULL || s =3D=3D NULL)
-> > +-              return 0;
-> > +-
-> > +-      BN_clear_free(sig->r);
-> > +-      sig->r =3D r;
-> > +-      BN_clear_free(sig->s);
-> > +-      sig->s =3D s;
-> > +-
-> > +-      return 1;
-> > +-}
-> > +-#endif /* HAVE_DSA_SIG_SET0 */
-> > +-
-> > +-#ifdef OPENSSL_HAS_ECC
-> > +-#ifndef HAVE_ECDSA_SIG_GET0
-> > +-void
-> > +-ECDSA_SIG_get0(const ECDSA_SIG *sig, const BIGNUM **pr, const BIGNUM =
-**ps)
-> > +-{
-> > +-      if (pr !=3D NULL)
-> > +-              *pr =3D sig->r;
-> > +-      if (ps !=3D NULL)
-> > +-              *ps =3D sig->s;
-> > +-}
-> > +-#endif /* HAVE_ECDSA_SIG_GET0 */
-> > +-
-> > +-#ifndef HAVE_ECDSA_SIG_SET0
-> > +-int
-> > +-ECDSA_SIG_set0(ECDSA_SIG *sig, BIGNUM *r, BIGNUM *s)
-> > +-{
-> > +-      if (r =3D=3D NULL || s =3D=3D NULL)
-> > +-              return 0;
-> > +-
-> > +-      BN_clear_free(sig->r);
-> > +-      BN_clear_free(sig->s);
-> > +-      sig->r =3D r;
-> > +-      sig->s =3D s;
-> > +-      return 1;
-> > +-}
-> > +-#endif /* HAVE_ECDSA_SIG_SET0 */
-> > +-#endif /* OPENSSL_HAS_ECC */
-> > +-
-> > +-#ifndef HAVE_DH_GET0_PQG
-> > +-void
-> > +-DH_get0_pqg(const DH *dh, const BIGNUM **p, const BIGNUM **q, const B=
-IGNUM **g)
-> > +-{
-> > +-      if (p !=3D NULL)
-> > +-              *p =3D dh->p;
-> > +-      if (q !=3D NULL)
-> > +-              *q =3D dh->q;
-> > +-      if (g !=3D NULL)
-> > +-              *g =3D dh->g;
-> > +-}
-> > +-#endif /* HAVE_DH_GET0_PQG */
-> > +-
-> > +-#ifndef HAVE_DH_SET0_PQG
-> > +-int
-> > +-DH_set0_pqg(DH *dh, BIGNUM *p, BIGNUM *q, BIGNUM *g)
-> > +-{
-> > +-      if ((dh->p =3D=3D NULL && p =3D=3D NULL) || (dh->g =3D=3D NULL =
-&& g =3D=3D NULL))
-> > +-              return 0;
-> > +-
-> > +-      if (p !=3D NULL) {
-> > +-              BN_free(dh->p);
-> > +-              dh->p =3D p;
-> > +-      }
-> > +-      if (q !=3D NULL) {
-> > +-              BN_free(dh->q);
-> > +-              dh->q =3D q;
-> > +-      }
-> > +-      if (g !=3D NULL) {
-> > +-              BN_free(dh->g);
-> > +-              dh->g =3D g;
-> > +-      }
-> > +-
-> > +-      return 1;
-> > +-}
-> > +-#endif /* HAVE_DH_SET0_PQG */
-> > +-
-> > +-#ifndef HAVE_DH_GET0_KEY
-> > +-void
-> > +-DH_get0_key(const DH *dh, const BIGNUM **pub_key, const BIGNUM **priv=
-_key)
-> > +-{
-> > +-      if (pub_key !=3D NULL)
-> > +-              *pub_key =3D dh->pub_key;
-> > +-      if (priv_key !=3D NULL)
-> > +-              *priv_key =3D dh->priv_key;
-> > +-}
-> > +-#endif /* HAVE_DH_GET0_KEY */
-> > +-
-> > +-#ifndef HAVE_DH_SET0_KEY
-> > +-int
-> > +-DH_set0_key(DH *dh, BIGNUM *pub_key, BIGNUM *priv_key)
-> > +-{
-> > +-      if (pub_key !=3D NULL) {
-> > +-              BN_free(dh->pub_key);
-> > +-              dh->pub_key =3D pub_key;
-> > +-      }
-> > +-      if (priv_key !=3D NULL) {
-> > +-              BN_free(dh->priv_key);
-> > +-              dh->priv_key =3D priv_key;
-> > +-      }
-> > +-
-> > +-      return 1;
-> > +-}
-> > +-#endif /* HAVE_DH_SET0_KEY */
-> > +-
-> > +-#ifndef HAVE_DH_SET_LENGTH
-> > +-int
-> > +-DH_set_length(DH *dh, long length)
-> > +-{
-> > +-      if (length < 0 || length > INT_MAX)
-> > +-              return 0;
-> > +-
-> > +-      dh->length =3D length;
-> > +-      return 1;
-> > +-}
-> > +-#endif /* HAVE_DH_SET_LENGTH */
-> > +-
-> > +-#ifndef HAVE_RSA_METH_FREE
-> > +-void
-> > +-RSA_meth_free(RSA_METHOD *meth)
-> > +-{
-> > +-      if (meth !=3D NULL) {
-> > +-              free((char *)meth->name);
-> > +-              free(meth);
-> > +-      }
-> > +-}
-> > +-#endif /* HAVE_RSA_METH_FREE */
-> > +-
-> > +-#ifndef HAVE_RSA_METH_DUP
-> > +-RSA_METHOD *
-> > +-RSA_meth_dup(const RSA_METHOD *meth)
-> > +-{
-> > +-      RSA_METHOD *copy;
-> > +-
-> > +-      if ((copy =3D calloc(1, sizeof(*copy))) =3D=3D NULL)
-> > +-              return NULL;
-> > +-      memcpy(copy, meth, sizeof(*copy));
-> > +-      if ((copy->name =3D strdup(meth->name)) =3D=3D NULL) {
-> > +-              free(copy);
-> > +-              return NULL;
-> > +-      }
-> > +-
-> > +-      return copy;
-> > +-}
-> > +-#endif /* HAVE_RSA_METH_DUP */
-> > +-
-> > +-#ifndef HAVE_RSA_METH_SET1_NAME
-> > +-int
-> > +-RSA_meth_set1_name(RSA_METHOD *meth, const char *name)
-> > +-{
-> > +-      char *copy;
-> > +-
-> > +-      if ((copy =3D strdup(name)) =3D=3D NULL)
-> > +-              return 0;
-> > +-      free((char *)meth->name);
-> > +-      meth->name =3D copy;
-> > +-      return 1;
-> > +-}
-> > +-#endif /* HAVE_RSA_METH_SET1_NAME */
-> > +-
-> > +-#ifndef HAVE_RSA_METH_GET_FINISH
-> > +-int
-> > +-(*RSA_meth_get_finish(const RSA_METHOD *meth))(RSA *rsa)
-> > +-{
-> > +-      return meth->finish;
-> > +-}
-> > +-#endif /* HAVE_RSA_METH_GET_FINISH */
-> > +-
-> > +-#ifndef HAVE_RSA_METH_SET_PRIV_ENC
-> > +-int
-> > +-RSA_meth_set_priv_enc(RSA_METHOD *meth, int (*priv_enc)(int flen,
-> > +-    const unsigned char *from, unsigned char *to, RSA *rsa, int paddi=
-ng))
-> > +-{
-> > +-      meth->rsa_priv_enc =3D priv_enc;
-> > +-      return 1;
-> > +-}
-> > +-#endif /* HAVE_RSA_METH_SET_PRIV_ENC */
-> > +-
-> > +-#ifndef HAVE_RSA_METH_SET_PRIV_DEC
-> > +-int
-> > +-RSA_meth_set_priv_dec(RSA_METHOD *meth, int (*priv_dec)(int flen,
-> > +-    const unsigned char *from, unsigned char *to, RSA *rsa, int paddi=
-ng))
-> > +-{
-> > +-      meth->rsa_priv_dec =3D priv_dec;
-> > +-      return 1;
-> > +-}
-> > +-#endif /* HAVE_RSA_METH_SET_PRIV_DEC */
-> > +-
-> > +-#ifndef HAVE_RSA_METH_SET_FINISH
-> > +-int
-> > +-RSA_meth_set_finish(RSA_METHOD *meth, int (*finish)(RSA *rsa))
-> > +-{
-> > +-      meth->finish =3D finish;
-> > +-      return 1;
-> > +-}
-> > +-#endif /* HAVE_RSA_METH_SET_FINISH */
-> > +-
-> > +-#ifndef HAVE_EVP_PKEY_GET0_RSA
-> > +-RSA *
-> > +-EVP_PKEY_get0_RSA(EVP_PKEY *pkey)
-> > +-{
-> > +-      if (pkey->type !=3D EVP_PKEY_RSA) {
-> > +-              /* EVPerror(EVP_R_EXPECTING_AN_RSA_KEY); */
-> > +-              return NULL;
-> > +-      }
-> > +-      return pkey->pkey.rsa;
-> > +-}
-> > +-#endif /* HAVE_EVP_PKEY_GET0_RSA */
-> > +-
-> > +-#ifndef HAVE_EVP_MD_CTX_NEW
-> > +-EVP_MD_CTX *
-> > +-EVP_MD_CTX_new(void)
-> > +-{
-> > +-      return calloc(1, sizeof(EVP_MD_CTX));
-> > +-}
-> > +-#endif /* HAVE_EVP_MD_CTX_NEW */
-> > +-
-> > +-#ifndef HAVE_EVP_MD_CTX_FREE
-> > +-void
-> > +-EVP_MD_CTX_free(EVP_MD_CTX *ctx)
-> > +-{
-> > +-      if (ctx =3D=3D NULL)
-> > +-              return;
-> > +-
-> > +-      EVP_MD_CTX_cleanup(ctx);
-> > +-
-> > +-      free(ctx);
-> > +-}
-> > +-#endif /* HAVE_EVP_MD_CTX_FREE */
-> > +-
-> > + #endif /* WITH_OPENSSL */
-> > +diff --git a/openbsd-compat/openssl-compat.h b/openbsd-compat/openssl-=
-compat.h
-> > +index 61a69dd56eb..d0dd2c3450d 100644
-> > +--- a/openbsd-compat/openssl-compat.h
-> > ++++ b/openbsd-compat/openssl-compat.h
-> > +@@ -33,26 +33,13 @@
-> > + int ssh_compatible_openssl(long, long);
-> > + void ssh_libcrypto_init(void);
-> > +
-> > +-#if (OPENSSL_VERSION_NUMBER < 0x1000100fL)
-> > +-# error OpenSSL 1.0.1 or greater is required
-> > ++#if (OPENSSL_VERSION_NUMBER < 0x10100000L)
-> > ++# error OpenSSL 1.1.0 or greater is required
-> > + #endif
-> > +-
-> > +-#ifndef OPENSSL_VERSION
-> > +-# define OPENSSL_VERSION      SSLEAY_VERSION
-> > +-#endif
-> > +-
-> > +-#ifndef HAVE_OPENSSL_VERSION
-> > +-# define OpenSSL_version(x)   SSLeay_version(x)
-> > +-#endif
-> > +-
-> > +-#ifndef HAVE_OPENSSL_VERSION_NUM
-> > +-# define OpenSSL_version_num  SSLeay
-> > +-#endif
-> > +-
-> > +-#if OPENSSL_VERSION_NUMBER < 0x10000001L
-> > +-# define LIBCRYPTO_EVP_INL_TYPE unsigned int
-> > +-#else
-> > +-# define LIBCRYPTO_EVP_INL_TYPE size_t
-> > ++#ifdef LIBRESSL_VERSION_NUMBER
-> > ++# if LIBRESSL_VERSION_NUMBER < 0x3010000fL
-> > ++#  error LibreSSL 3.1.0 or greater is required
-> > ++# endif
-> > + #endif
-> > +
-> > + #ifndef OPENSSL_RSA_MAX_MODULUS_BITS
-> > +@@ -68,25 +55,6 @@ void ssh_libcrypto_init(void);
-> > + # endif
-> > + #endif
-> > +
-> > +-/* LibreSSL/OpenSSL 1.1x API compat */
-> > +-#ifndef HAVE_DSA_GET0_PQG
-> > +-void DSA_get0_pqg(const DSA *d, const BIGNUM **p, const BIGNUM **q,
-> > +-    const BIGNUM **g);
-> > +-#endif /* HAVE_DSA_GET0_PQG */
-> > +-
-> > +-#ifndef HAVE_DSA_SET0_PQG
-> > +-int DSA_set0_pqg(DSA *d, BIGNUM *p, BIGNUM *q, BIGNUM *g);
-> > +-#endif /* HAVE_DSA_SET0_PQG */
-> > +-
-> > +-#ifndef HAVE_DSA_GET0_KEY
-> > +-void DSA_get0_key(const DSA *d, const BIGNUM **pub_key,
-> > +-    const BIGNUM **priv_key);
-> > +-#endif /* HAVE_DSA_GET0_KEY */
-> > +-
-> > +-#ifndef HAVE_DSA_SET0_KEY
-> > +-int DSA_set0_key(DSA *d, BIGNUM *pub_key, BIGNUM *priv_key);
-> > +-#endif /* HAVE_DSA_SET0_KEY */
-> > +-
-> > + #ifndef HAVE_EVP_CIPHER_CTX_GET_IV
-> > + # ifdef HAVE_EVP_CIPHER_CTX_GET_UPDATED_IV
-> > + #  define EVP_CIPHER_CTX_get_iv EVP_CIPHER_CTX_get_updated_iv
-> > +@@ -101,112 +69,5 @@ int EVP_CIPHER_CTX_set_iv(EVP_CIPHER_CTX *ctx,
-> > +     const unsigned char *iv, size_t len);
-> > + #endif /* HAVE_EVP_CIPHER_CTX_SET_IV */
-> > +
-> > +-#ifndef HAVE_RSA_GET0_KEY
-> > +-void RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e,
-> > +-    const BIGNUM **d);
-> > +-#endif /* HAVE_RSA_GET0_KEY */
-> > +-
-> > +-#ifndef HAVE_RSA_SET0_KEY
-> > +-int RSA_set0_key(RSA *r, BIGNUM *n, BIGNUM *e, BIGNUM *d);
-> > +-#endif /* HAVE_RSA_SET0_KEY */
-> > +-
-> > +-#ifndef HAVE_RSA_GET0_CRT_PARAMS
-> > +-void RSA_get0_crt_params(const RSA *r, const BIGNUM **dmp1, const BIG=
-NUM **dmq1,
-> > +-    const BIGNUM **iqmp);
-> > +-#endif /* HAVE_RSA_GET0_CRT_PARAMS */
-> > +-
-> > +-#ifndef HAVE_RSA_SET0_CRT_PARAMS
-> > +-int RSA_set0_crt_params(RSA *r, BIGNUM *dmp1, BIGNUM *dmq1, BIGNUM *i=
-qmp);
-> > +-#endif /* HAVE_RSA_SET0_CRT_PARAMS */
-> > +-
-> > +-#ifndef HAVE_RSA_GET0_FACTORS
-> > +-void RSA_get0_factors(const RSA *r, const BIGNUM **p, const BIGNUM **=
-q);
-> > +-#endif /* HAVE_RSA_GET0_FACTORS */
-> > +-
-> > +-#ifndef HAVE_RSA_SET0_FACTORS
-> > +-int RSA_set0_factors(RSA *r, BIGNUM *p, BIGNUM *q);
-> > +-#endif /* HAVE_RSA_SET0_FACTORS */
-> > +-
-> > +-#ifndef DSA_SIG_GET0
-> > +-void DSA_SIG_get0(const DSA_SIG *sig, const BIGNUM **pr, const BIGNUM=
- **ps);
-> > +-#endif /* DSA_SIG_GET0 */
-> > +-
-> > +-#ifndef DSA_SIG_SET0
-> > +-int DSA_SIG_set0(DSA_SIG *sig, BIGNUM *r, BIGNUM *s);
-> > +-#endif /* DSA_SIG_SET0 */
-> > +-
-> > +-#ifdef OPENSSL_HAS_ECC
-> > +-#ifndef HAVE_ECDSA_SIG_GET0
-> > +-void ECDSA_SIG_get0(const ECDSA_SIG *sig, const BIGNUM **pr, const BI=
-GNUM **ps);
-> > +-#endif /* HAVE_ECDSA_SIG_GET0 */
-> > +-
-> > +-#ifndef HAVE_ECDSA_SIG_SET0
-> > +-int ECDSA_SIG_set0(ECDSA_SIG *sig, BIGNUM *r, BIGNUM *s);
-> > +-#endif /* HAVE_ECDSA_SIG_SET0 */
-> > +-#endif /* OPENSSL_HAS_ECC */
-> > +-
-> > +-#ifndef HAVE_DH_GET0_PQG
-> > +-void DH_get0_pqg(const DH *dh, const BIGNUM **p, const BIGNUM **q,
-> > +-    const BIGNUM **g);
-> > +-#endif /* HAVE_DH_GET0_PQG */
-> > +-
-> > +-#ifndef HAVE_DH_SET0_PQG
-> > +-int DH_set0_pqg(DH *dh, BIGNUM *p, BIGNUM *q, BIGNUM *g);
-> > +-#endif /* HAVE_DH_SET0_PQG */
-> > +-
-> > +-#ifndef HAVE_DH_GET0_KEY
-> > +-void DH_get0_key(const DH *dh, const BIGNUM **pub_key, const BIGNUM *=
-*priv_key);
-> > +-#endif /* HAVE_DH_GET0_KEY */
-> > +-
-> > +-#ifndef HAVE_DH_SET0_KEY
-> > +-int DH_set0_key(DH *dh, BIGNUM *pub_key, BIGNUM *priv_key);
-> > +-#endif /* HAVE_DH_SET0_KEY */
-> > +-
-> > +-#ifndef HAVE_DH_SET_LENGTH
-> > +-int DH_set_length(DH *dh, long length);
-> > +-#endif /* HAVE_DH_SET_LENGTH */
-> > +-
-> > +-#ifndef HAVE_RSA_METH_FREE
-> > +-void RSA_meth_free(RSA_METHOD *meth);
-> > +-#endif /* HAVE_RSA_METH_FREE */
-> > +-
-> > +-#ifndef HAVE_RSA_METH_DUP
-> > +-RSA_METHOD *RSA_meth_dup(const RSA_METHOD *meth);
-> > +-#endif /* HAVE_RSA_METH_DUP */
-> > +-
-> > +-#ifndef HAVE_RSA_METH_SET1_NAME
-> > +-int RSA_meth_set1_name(RSA_METHOD *meth, const char *name);
-> > +-#endif /* HAVE_RSA_METH_SET1_NAME */
-> > +-
-> > +-#ifndef HAVE_RSA_METH_GET_FINISH
-> > +-int (*RSA_meth_get_finish(const RSA_METHOD *meth))(RSA *rsa);
-> > +-#endif /* HAVE_RSA_METH_GET_FINISH */
-> > +-
-> > +-#ifndef HAVE_RSA_METH_SET_PRIV_ENC
-> > +-int RSA_meth_set_priv_enc(RSA_METHOD *meth, int (*priv_enc)(int flen,
-> > +-    const unsigned char *from, unsigned char *to, RSA *rsa, int paddi=
-ng));
-> > +-#endif /* HAVE_RSA_METH_SET_PRIV_ENC */
-> > +-
-> > +-#ifndef HAVE_RSA_METH_SET_PRIV_DEC
-> > +-int RSA_meth_set_priv_dec(RSA_METHOD *meth, int (*priv_dec)(int flen,
-> > +-    const unsigned char *from, unsigned char *to, RSA *rsa, int paddi=
-ng));
-> > +-#endif /* HAVE_RSA_METH_SET_PRIV_DEC */
-> > +-
-> > +-#ifndef HAVE_RSA_METH_SET_FINISH
-> > +-int RSA_meth_set_finish(RSA_METHOD *meth, int (*finish)(RSA *rsa));
-> > +-#endif /* HAVE_RSA_METH_SET_FINISH */
-> > +-
-> > +-#ifndef HAVE_EVP_PKEY_GET0_RSA
-> > +-RSA *EVP_PKEY_get0_RSA(EVP_PKEY *pkey);
-> > +-#endif /* HAVE_EVP_PKEY_GET0_RSA */
-> > +-
-> > +-#ifndef HAVE_EVP_MD_CTX_new
-> > +-EVP_MD_CTX *EVP_MD_CTX_new(void);
-> > +-#endif /* HAVE_EVP_MD_CTX_new */
-> > +-
-> > +-#ifndef HAVE_EVP_MD_CTX_free
-> > +-void EVP_MD_CTX_free(EVP_MD_CTX *ctx);
-> > +-#endif /* HAVE_EVP_MD_CTX_free */
-> > +-
-> > + #endif /* WITH_OPENSSL */
-> > + #endif /* _OPENSSL_COMPAT_H */
-> > diff --git a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb b/meta/=
-recipes-connectivity/openssh/openssh_8.9p1.bb
-> > index 6057d055f4..1d53c2488b 100644
-> > --- a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
-> > +++ b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
-> > @@ -26,6 +26,7 @@ SRC_URI =3D "https://apc01.safelinks.protection.outlo=
-ok.com/?url=3Dhttp%3A%2F%2Fftp.openbsd.org%2Fpub%2FOpenBSD%2FOpenSSH%2Fport=
-able%2Fopenssh-%24&data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa=
-157742dfacb008db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C63821=
-1120911246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiL=
-CJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DdDzVG6aYgMYab04aGD%2F=
-6l6tLxk2tzcSndFcqwlT%2FRg0%3D&reserved=3D0{PV}.tar
-> >             file://add-test-support-for-busybox.patch \
-> >             file://f107467179428a0e3ea9e4aa9738ac12ff02822d.patch \
-> >             file://0001-Default-to-not-using-sandbox-when-cross-compili=
-ng.patch \
-> > +           file://7280401bdd77ca54be6867a154cc01e0d72612e0.patch \
-> >             "
-> >  SRC_URI[sha256sum] =3D "fd497654b7ab1686dac672fb83dfb4ba4096e8b5ffcdac=
-cd262380ae58bec5e7"
-> >
-> > --
-> > 2.17.1
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#181902): https://apc01.safelinks.protection.outlook=
-.com/?url=3Dhttps%3A%2F%2Flists.openembedded.org%2Fg%2Fopenembedded-core%2F=
-message%2F181902&data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa15=
-7742dfacb008db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C6382111=
-20911246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJ=
-BTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3D3B6FWTx0mX6a%2F14mRs3Cq=
-IFrko671tih13RGrDhjfFc%3D&reserved=3D0<https://lists.openembedded.org/g/ope=
-nembedded-core/message/181902>
-> > Mute This Topic: https://apc01.safelinks.protection.outlook.com/?url=3D=
-https%3A%2F%2Flists.openembedded.org%2Fmt%2F99215252%2F1686489&data=3D05%7C=
-01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa157742dfacb008db61a20d08%7C3539=
-451eb46e4a26a242ff61502855c7%7C0%7C0%7C638211120911246208%7CUnknown%7CTWFpb=
-GZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7=
-C3000%7C%7C%7C&sdata=3DwYwpf8EzfQo3bpSknW9TQF%2FbwKQcwgcGVrbnzT0%2Bcbc%3D&r=
-eserved=3D0<https://lists.openembedded.org/mt/99215252/1686489>
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://apc01.safelinks.protection.outlook.com/?url=3Dhttp=
-s%3A%2F%2Flists.openembedded.org%2Fg%2Fopenembedded-core%2Funsub&data=3D05%=
-7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa157742dfacb008db61a20d08%7C35=
-39451eb46e4a26a242ff61502855c7%7C0%7C0%7C638211120911246208%7CUnknown%7CTWF=
-pbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D=
-%7C3000%7C%7C%7C&sdata=3DEFlXzS8E9JdB5UV%2BHvW8sYJLH2BEn6Jc%2BAHB5iB8cUs%3D=
-&reserved=3D0<https://lists.openembedded.org/g/openembedded-core/unsub> [al=
-ex.kanavin@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
-> This message contains information that may be privileged or confidential =
-and is the property of the KPIT Technologies Ltd. It is intended only for t=
-he person to whom it is addressed. If you are not the intended recipient, y=
-ou are not authorized to read, print, retain copy, disseminate, distribute,=
- or use this message or any part thereof. If you receive this message in er=
-ror, please notify the sender immediately and delete all copies of this mes=
-sage. KPIT Technologies Ltd. does not accept any liability for virus infect=
-ed mails.
-This message contains information that may be privileged or confidential an=
-d is the property of the KPIT Technologies Ltd. It is intended only for the=
- person to whom it is addressed. If you are not the intended recipient, you=
- are not authorized to read, print, retain copy, disseminate, distribute, o=
-r use this message or any part thereof. If you receive this message in erro=
-r, please notify the sender immediately and delete all copies of this messa=
-ge. KPIT Technologies Ltd. does not accept any liability for virus infected=
- mails.
+> > > +                       exit(1);
+> > > +-
+> > > +               exit(0);
+> > > +               ]])],
+> > > +               [
+> > > +-                      ssl_library_ver=3D`cat conftest.ssllibver`
+> > > ++                      sslver=3D`cat conftest.ssllibver`
+> > > ++                      ssl_showver=3D`echo "$sslver" | sed 's/
+> libressl-.*//'`
+> > > +                       # Check version is supported.
+> > > +-                      case "$ssl_library_ver" in
+> > > +-                      10000*|0*)
+> > > +-                              AC_MSG_ERROR([OpenSSL >=3D 1.0.1
+> required (have "$ssl_library_ver")])
+> > > +-                              ;;
+> > > +-                      100*)   ;; # 1.0.x
+> > > +-                      101000[[0123456]]*)
+> > > +-                              #
+> https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgithu=
+b.com%2Fopenssl%2Fopenssl%2Fpull%2F4613&data=3D05%7C01%7CRanjitsinh.Rathod%=
+40kpit.com%7Cd788d3aa157742dfacb008db61a20d08%7C3539451eb46e4a26a242ff61502=
+855c7%7C0%7C0%7C638211120911246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAw=
+MDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3D=
+dJwZf4dbh%2FT3T5kfAA4%2FAXjZEhsAx5Rzay3Nq9Z0nK0%3D&reserved=3D0
+> <https://github.com/openssl/openssl/pull/4613>
+> > > +-                              AC_MSG_ERROR([OpenSSL 1.1.x versions
+> prior to 1.1.0g have a bug that breaks their use with OpenSSH (have
+> "$ssl_library_ver")])
+> > > ++                      case "$sslver" in
+> > > ++                      100*|10100*) # 1.0.x, 1.1.0x
+> > > ++                              AC_MSG_ERROR([OpenSSL >=3D 1.1.1
+> required (have "$ssl_showver")])
+> > > +                               ;;
+> > > +                       101*)   ;; # 1.1.x
+> > > +-                      200*)   ;; # LibreSSL
+> > > ++                      200*)   # LibreSSL
+> > > ++                              lver=3D`echo "$sslver" | sed
+> 's/.*libressl-//'`
+> > > ++                              case "$lver" in
+> > > ++                              2*|300*) # 2.x, 3.0.0
+> > > ++                                      AC_MSG_ERROR([LibreSSL >=3D
+> 3.1.0 required (have "$ssl_showver")])
+> > > ++                                      ;;
+> > > ++                              *) ;;   # Assume all other versions
+> are good.
+> > > ++                              esac
+> > > ++                              ;;
+> > > +                       300*)   ;; # OpenSSL 3
+> > > +                       301*)   ;; # OpenSSL development branch.
+> > > +                       *)
+> > > +@@ -2781,10 +2781,10 @@
+> > > +                       300*)   ;; # OpenSSL 3
+> > > +                       301*)   ;; # OpenSSL development branch.
+> > > +                       *)
+> > > +-                              AC_MSG_ERROR([Unknown/unsupported
+> OpenSSL version ("$ssl_library_ver")])
+> > > ++                              AC_MSG_ERROR([Unknown/unsupported
+> OpenSSL version ("$ssl_showver")])
+> > > +                               ;;
+> > > +                       esac
+> > > +-                      AC_MSG_RESULT([$ssl_library_ver])
+> > > ++                      AC_MSG_RESULT([$ssl_showver])
+> > > +               ],
+> > > +               [
+> > > +                       AC_MSG_RESULT([not found])
+> > > +@@ -2804,9 +2804,6 @@
+> > > +       #include <openssl/opensslv.h>
+> > > +       #include <openssl/crypto.h>
+> > > +               ]], [[
+> > > +-#ifndef HAVE_OPENSSL_VERSION_NUM
+> > > +-# define OpenSSL_version_num  SSLeay
+> > > +-#endif
+> > > +               exit(OpenSSL_version_num() =3D=3D OPENSSL_VERSION_NUM=
+BER ?
+> 0 : 1);
+> > > +               ]])],
+> > > +               [
+> > > +@@ -2881,44 +2878,13 @@
+> > > +           )
+> > > +       )
+> > > +
+> > > +-      # LibreSSL/OpenSSL 1.1x API
+> > > ++      # LibreSSL/OpenSSL API differences
+> > > +       AC_CHECK_FUNCS([ \
+> > > +-              OPENSSL_init_crypto \
+> > > +-              DH_get0_key \
+> > > +-              DH_get0_pqg \
+> > > +-              DH_set0_key \
+> > > +-              DH_set_length \
+> > > +-              DH_set0_pqg \
+> > > +-              DSA_get0_key \
+> > > +-              DSA_get0_pqg \
+> > > +-              DSA_set0_key \
+> > > +-              DSA_set0_pqg \
+> > > +-              DSA_SIG_get0 \
+> > > +-              DSA_SIG_set0 \
+> > > +-              ECDSA_SIG_get0 \
+> > > +-              ECDSA_SIG_set0 \
+> > > +               EVP_CIPHER_CTX_iv \
+> > > +               EVP_CIPHER_CTX_iv_noconst \
+> > > +               EVP_CIPHER_CTX_get_iv \
+> > > +               EVP_CIPHER_CTX_get_updated_iv \
+> > > +               EVP_CIPHER_CTX_set_iv \
+> > > +-              RSA_get0_crt_params \
+> > > +-              RSA_get0_factors \
+> > > +-              RSA_get0_key \
+> > > +-              RSA_set0_crt_params \
+> > > +-              RSA_set0_factors \
+> > > +-              RSA_set0_key \
+> > > +-              RSA_meth_free \
+> > > +-              RSA_meth_dup \
+> > > +-              RSA_meth_set1_name \
+> > > +-              RSA_meth_get_finish \
+> > > +-              RSA_meth_set_priv_enc \
+> > > +-              RSA_meth_set_priv_dec \
+> > > +-              RSA_meth_set_finish \
+> > > +-              EVP_PKEY_get0_RSA \
+> > > +-              EVP_MD_CTX_new \
+> > > +-              EVP_MD_CTX_free \
+> > > +-              EVP_chacha20 \
+> > > +       ])
+> > > +
+> > > +       if test "x$openssl_engine" =3D "xyes" ; then
+> > > +@@ -3040,8 +3006,8 @@
+> > > +       fi
+> > > +       AC_CHECK_FUNCS([crypt DES_crypt])
+> > > +
+> > > +-      # Check for SHA256, SHA384 and SHA512 support in OpenSSL
+> > > +-      AC_CHECK_FUNCS([EVP_sha256 EVP_sha384 EVP_sha512])
+> > > ++      # Check for various EVP support in OpenSSL
+> > > ++      AC_CHECK_FUNCS([EVP_sha256 EVP_sha384 EVP_sha512 EVP_chacha20=
+])
+> > > +
+> > > +       # Check complete ECC support in OpenSSL
+> > > +       AC_MSG_CHECKING([whether OpenSSL has NID_X9_62_prime256v1])
+> > > +diff --git a/openbsd-compat/libressl-api-compat.c
+> b/openbsd-compat/libressl-api-compat.c
+> > > +index 498180dc894..59be17397c5 100644
+> > > +--- a/openbsd-compat/libressl-api-compat.c
+> > > ++++ b/openbsd-compat/libressl-api-compat.c
+> > > +@@ -1,129 +1,5 @@
+> > > +-/* $OpenBSD: dsa_lib.c,v 1.29 2018/04/14 07:09:21 tb Exp $ */
+> > > +-/* $OpenBSD: rsa_lib.c,v 1.37 2018/04/14 07:09:21 tb Exp $ */
+> > > +-/* $OpenBSD: evp_lib.c,v 1.17 2018/09/12 06:35:38 djm Exp $ */
+> > > +-/* $OpenBSD: dh_lib.c,v 1.32 2018/05/02 15:48:38 tb Exp $ */
+> > > +-/* $OpenBSD: p_lib.c,v 1.24 2018/05/30 15:40:50 tb Exp $ */
+> > > +-/* $OpenBSD: digest.c,v 1.30 2018/04/14 07:09:21 tb Exp $ */
+> > > +-/* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
+> > > +- * All rights reserved.
+> > > +- *
+> > > +- * This package is an SSL implementation written
+> > > +- * by Eric Young (eay@cryptsoft.com).
+> > > +- * The implementation was written so as to conform with Netscapes
+> SSL.
+> > > +- *
+> > > +- * This library is free for commercial and non-commercial use as
+> long as
+> > > +- * the following conditions are aheared to.  The following conditio=
+ns
+> > > +- * apply to all code found in this distribution, be it the RC4, RSA=
+,
+> > > +- * lhash, DES, etc., code; not just the SSL code.  The SSL
+> documentation
+> > > +- * included with this distribution is covered by the same copyright
+> terms
+> > > +- * except that the holder is Tim Hudson (tjh@cryptsoft.com).
+> > > +- *
+> > > +- * Copyright remains Eric Young's, and as such any Copyright notice=
+s
+> in
+> > > +- * the code are not to be removed.
+> > > +- * If this package is used in a product, Eric Young should be given
+> attribution
+> > > +- * as the author of the parts of the library used.
+> > > +- * This can be in the form of a textual message at program startup =
+or
+> > > +- * in documentation (online or textual) provided with the package.
+> > > +- *
+> > > +- * Redistribution and use in source and binary forms, with or witho=
+ut
+> > > +- * modification, are permitted provided that the following conditio=
+ns
+> > > +- * are met:
+> > > +- * 1. Redistributions of source code must retain the copyright
+> > > +- *    notice, this list of conditions and the following disclaimer.
+> > > +- * 2. Redistributions in binary form must reproduce the above
+> copyright
+> > > +- *    notice, this list of conditions and the following disclaimer
+> in the
+> > > +- *    documentation and/or other materials provided with the
+> distribution.
+> > > +- * 3. All advertising materials mentioning features or use of this
+> software
+> > > +- *    must display the following acknowledgement:
+> > > +- *    "This product includes cryptographic software written by
+> > > +- *     Eric Young (eay@cryptsoft.com)"
+> > > +- *    The word 'cryptographic' can be left out if the rouines from
+> the library
+> > > +- *    being used are not cryptographic related :-).
+> > > +- * 4. If you include any Windows specific code (or a derivative
+> thereof) from
+> > > +- *    the apps directory (application code) you must include an
+> acknowledgement:
+> > > +- *    "This product includes software written by Tim Hudson (
+> tjh@cryptsoft.com)"
+> > > +- *
+> > > +- * THIS SOFTWARE IS PROVIDED BY ERIC YOUNG ``AS IS'' AND
+> > > +- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO=
+,
+> THE
+> > > +- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+> PARTICULAR PURPOSE
+> > > +- * ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE
+> LIABLE
+> > > +- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+> CONSEQUENTIAL
+> > > +- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUT=
+E
+> GOODS
+> > > +- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+> INTERRUPTION)
+> > > +- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+> CONTRACT, STRICT
+> > > +- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING I=
+N
+> ANY WAY
+> > > +- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+> POSSIBILITY OF
+> > > +- * SUCH DAMAGE.
+> > > +- *
+> > > +- * The licence and distribution terms for any publically available
+> version or
+> > > +- * derivative of this code cannot be changed.  i.e. this code canno=
+t
+> simply be
+> > > +- * copied and put under another distribution licence
+> > > +- * [including the GNU Public Licence.]
+> > > +- */
+> > > +-
+> > > +-/* $OpenBSD: dsa_asn1.c,v 1.22 2018/06/14 17:03:19 jsing Exp $ */
+> > > +-/* $OpenBSD: ecs_asn1.c,v 1.9 2018/03/17 15:24:44 tb Exp $ */
+> > > +-/* $OpenBSD: digest.c,v 1.30 2018/04/14 07:09:21 tb Exp $ */
+> > > +-/* Written by Dr Stephen N Henson (steve@openssl.org) for the
+> OpenSSL
+> > > +- * project 2000.
+> > > +- */
+> > > +-/*
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > +- * Copyright (c) 2000-2005 The OpenSSL Project.  All rights reserve=
+d.
+> > > +- *
+> > > +- * Redistribution and use in source and binary forms, with or witho=
+ut
+> > > +- * modification, are permitted provided that the following conditio=
+ns
+> > > +- * are met:
+> > > +- *
+> > > +- * 1. Redistributions of source code must retain the above copyrigh=
+t
+> > > +- *    notice, this list of conditions and the following disclaimer.
+> > > +- *
+> > > +- * 2. Redistributions in binary form must reproduce the above
+> copyright
+> > > +- *    notice, this list of conditions and the following disclaimer =
+in
+> > > +- *    the documentation and/or other materials provided with the
+> > > +- *    distribution.
+> > > +- *
+> > > +- * 3. All advertising materials mentioning features or use of this
+> > > +- *    software must display the following acknowledgment:
+> > > +- *    "This product includes software developed by the OpenSSL
+> Project
+> > > +- *    for use in the OpenSSL Toolkit. (
+> https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fwww.op=
+enssl.org%2F&data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa157742=
+dfacb008db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C63821112091=
+1246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI=
+6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3Dxcpid%2F25wbVMoxg4ok8qGpgBj=
+iL8jXkZN5bX4hSS2wc%3D&reserved=3D0
+> <http://www.openssl.org/>)"
+> > > +- *
+> > > +- * 4. The names "OpenSSL Toolkit" and "OpenSSL Project" must not be
+> used to
+> > > +- *    endorse or promote products derived from this software withou=
+t
+> > > +- *    prior written permission. For written permission, please
+> contact
+> > > +- *    licensing@OpenSSL.org.
+> > > +- *
+> > > +- * 5. Products derived from this software may not be called "OpenSS=
+L"
+> > > +- *    nor may "OpenSSL" appear in their names without prior written
+> > > +- *    permission of the OpenSSL Project.
+> > > +- *
+> > > +- * 6. Redistributions of any form whatsoever must retain the
+> following
+> > > +- *    acknowledgment:
+> > > +- *    "This product includes software developed by the OpenSSL
+> Project
+> > > +- *    for use in the OpenSSL Toolkit (
+> https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fwww.op=
+enssl.org%2F&data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa157742=
+dfacb008db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C63821112091=
+1246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI=
+6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3Dxcpid%2F25wbVMoxg4ok8qGpgBj=
+iL8jXkZN5bX4hSS2wc%3D&reserved=3D0
+> <http://www.openssl.org/>)"
+> > > +- *
+> > > +- * THIS SOFTWARE IS PROVIDED BY THE OpenSSL PROJECT ``AS IS'' AND A=
+NY
+> > > +- * EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+> THE
+> > > +- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICUL=
+AR
+> > > +- * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE OpenSSL PROJECT O=
+R
+> > > +- * ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+> > > +- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+> > > +- * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+> > > +- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+> > > +- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+> CONTRACT,
+> > > +- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+> > > +- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+> ADVISED
+> > > +- * OF THE POSSIBILITY OF SUCH DAMAGE.
+> > > +- *
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > +- *
+> > > +- * This product includes cryptographic software written by Eric You=
+ng
+> > > +- * (eay@cryptsoft.com).  This product includes software written by
+> Tim
+> > > +- * Hudson (tjh@cryptsoft.com).
+> > > +- *
+> > > +- */
+> > > +-
+> > > +-/*    $OpenBSD: rsa_meth.c,v 1.2 2018/09/12 06:35:38 djm Exp
+> $        */
+> > > + /*
+> > > +- * Copyright (c) 2018 Theo Buehler <tb@openbsd.org>
+> > > ++ * Copyright (c) 2018 Damien Miller <djm@mindrot.org>
+> > > +  *
+> > > +  * Permission to use, copy, modify, and distribute this software fo=
+r
+> any
+> > > +  * purpose with or without fee is hereby granted, provided that the
+> above
+> > > +@@ -147,192 +23,7 @@
+> > > + #include <stdlib.h>
+> > > + #include <string.h>
+> > > +
+> > > +-#include <openssl/err.h>
+> > > +-#include <openssl/bn.h>
+> > > +-#include <openssl/dsa.h>
+> > > +-#include <openssl/rsa.h>
+> > > + #include <openssl/evp.h>
+> > > +-#ifdef OPENSSL_HAS_ECC
+> > > +-#include <openssl/ecdsa.h>
+> > > +-#endif
+> > > +-#include <openssl/dh.h>
+> > > +-
+> > > +-#ifndef HAVE_DSA_GET0_PQG
+> > > +-void
+> > > +-DSA_get0_pqg(const DSA *d, const BIGNUM **p, const BIGNUM **q, cons=
+t
+> BIGNUM **g)
+> > > +-{
+> > > +-      if (p !=3D NULL)
+> > > +-              *p =3D d->p;
+> > > +-      if (q !=3D NULL)
+> > > +-              *q =3D d->q;
+> > > +-      if (g !=3D NULL)
+> > > +-              *g =3D d->g;
+> > > +-}
+> > > +-#endif /* HAVE_DSA_GET0_PQG */
+> > > +-
+> > > +-#ifndef HAVE_DSA_SET0_PQG
+> > > +-int
+> > > +-DSA_set0_pqg(DSA *d, BIGNUM *p, BIGNUM *q, BIGNUM *g)
+> > > +-{
+> > > +-      if ((d->p =3D=3D NULL && p =3D=3D NULL) || (d->q =3D=3D NULL =
+&& q =3D=3D NULL)
+> ||
+> > > +-          (d->g =3D=3D NULL && g =3D=3D NULL))
+> > > +-              return 0;
+> > > +-
+> > > +-      if (p !=3D NULL) {
+> > > +-              BN_free(d->p);
+> > > +-              d->p =3D p;
+> > > +-      }
+> > > +-      if (q !=3D NULL) {
+> > > +-              BN_free(d->q);
+> > > +-              d->q =3D q;
+> > > +-      }
+> > > +-      if (g !=3D NULL) {
+> > > +-              BN_free(d->g);
+> > > +-              d->g =3D g;
+> > > +-      }
+> > > +-
+> > > +-      return 1;
+> > > +-}
+> > > +-#endif /* HAVE_DSA_SET0_PQG */
+> > > +-
+> > > +-#ifndef HAVE_DSA_GET0_KEY
+> > > +-void
+> > > +-DSA_get0_key(const DSA *d, const BIGNUM **pub_key, const BIGNUM
+> **priv_key)
+> > > +-{
+> > > +-      if (pub_key !=3D NULL)
+> > > +-              *pub_key =3D d->pub_key;
+> > > +-      if (priv_key !=3D NULL)
+> > > +-              *priv_key =3D d->priv_key;
+> > > +-}
+> > > +-#endif /* HAVE_DSA_GET0_KEY */
+> > > +-
+> > > +-#ifndef HAVE_DSA_SET0_KEY
+> > > +-int
+> > > +-DSA_set0_key(DSA *d, BIGNUM *pub_key, BIGNUM *priv_key)
+> > > +-{
+> > > +-      if (d->pub_key =3D=3D NULL && pub_key =3D=3D NULL)
+> > > +-              return 0;
+> > > +-
+> > > +-      if (pub_key !=3D NULL) {
+> > > +-              BN_free(d->pub_key);
+> > > +-              d->pub_key =3D pub_key;
+> > > +-      }
+> > > +-      if (priv_key !=3D NULL) {
+> > > +-              BN_free(d->priv_key);
+> > > +-              d->priv_key =3D priv_key;
+> > > +-      }
+> > > +-
+> > > +-      return 1;
+> > > +-}
+> > > +-#endif /* HAVE_DSA_SET0_KEY */
+> > > +-
+> > > +-#ifndef HAVE_RSA_GET0_KEY
+> > > +-void
+> > > +-RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e, cons=
+t
+> BIGNUM **d)
+> > > +-{
+> > > +-      if (n !=3D NULL)
+> > > +-              *n =3D r->n;
+> > > +-      if (e !=3D NULL)
+> > > +-              *e =3D r->e;
+> > > +-      if (d !=3D NULL)
+> > > +-              *d =3D r->d;
+> > > +-}
+> > > +-#endif /* HAVE_RSA_GET0_KEY */
+> > > +-
+> > > +-#ifndef HAVE_RSA_SET0_KEY
+> > > +-int
+> > > +-RSA_set0_key(RSA *r, BIGNUM *n, BIGNUM *e, BIGNUM *d)
+> > > +-{
+> > > +-      if ((r->n =3D=3D NULL && n =3D=3D NULL) || (r->e =3D=3D NULL =
+&& e =3D=3D NULL))
+> > > +-              return 0;
+> > > +-
+> > > +-      if (n !=3D NULL) {
+> > > +-              BN_free(r->n);
+> > > +-              r->n =3D n;
+> > > +-      }
+> > > +-      if (e !=3D NULL) {
+> > > +-              BN_free(r->e);
+> > > +-              r->e =3D e;
+> > > +-      }
+> > > +-      if (d !=3D NULL) {
+> > > +-              BN_free(r->d);
+> > > +-              r->d =3D d;
+> > > +-      }
+> > > +-
+> > > +-      return 1;
+> > > +-}
+> > > +-#endif /* HAVE_RSA_SET0_KEY */
+> > > +-
+> > > +-#ifndef HAVE_RSA_GET0_CRT_PARAMS
+> > > +-void
+> > > +-RSA_get0_crt_params(const RSA *r, const BIGNUM **dmp1, const BIGNUM
+> **dmq1,
+> > > +-    const BIGNUM **iqmp)
+> > > +-{
+> > > +-      if (dmp1 !=3D NULL)
+> > > +-              *dmp1 =3D r->dmp1;
+> > > +-      if (dmq1 !=3D NULL)
+> > > +-              *dmq1 =3D r->dmq1;
+> > > +-      if (iqmp !=3D NULL)
+> > > +-              *iqmp =3D r->iqmp;
+> > > +-}
+> > > +-#endif /* HAVE_RSA_GET0_CRT_PARAMS */
+> > > +-
+> > > +-#ifndef HAVE_RSA_SET0_CRT_PARAMS
+> > > +-int
+> > > +-RSA_set0_crt_params(RSA *r, BIGNUM *dmp1, BIGNUM *dmq1, BIGNUM *iqm=
+p)
+> > > +-{
+> > > +-      if ((r->dmp1 =3D=3D NULL && dmp1 =3D=3D NULL) ||
+> > > +-          (r->dmq1 =3D=3D NULL && dmq1 =3D=3D NULL) ||
+> > > +-          (r->iqmp =3D=3D NULL && iqmp =3D=3D NULL))
+> > > +-              return 0;
+> > > +-
+> > > +-      if (dmp1 !=3D NULL) {
+> > > +-              BN_free(r->dmp1);
+> > > +-              r->dmp1 =3D dmp1;
+> > > +-      }
+> > > +-      if (dmq1 !=3D NULL) {
+> > > +-              BN_free(r->dmq1);
+> > > +-              r->dmq1 =3D dmq1;
+> > > +-      }
+> > > +-      if (iqmp !=3D NULL) {
+> > > +-              BN_free(r->iqmp);
+> > > +-              r->iqmp =3D iqmp;
+> > > +-      }
+> > > +-
+> > > +-      return 1;
+> > > +-}
+> > > +-#endif /* HAVE_RSA_SET0_CRT_PARAMS */
+> > > +-
+> > > +-#ifndef HAVE_RSA_GET0_FACTORS
+> > > +-void
+> > > +-RSA_get0_factors(const RSA *r, const BIGNUM **p, const BIGNUM **q)
+> > > +-{
+> > > +-      if (p !=3D NULL)
+> > > +-              *p =3D r->p;
+> > > +-      if (q !=3D NULL)
+> > > +-              *q =3D r->q;
+> > > +-}
+> > > +-#endif /* HAVE_RSA_GET0_FACTORS */
+> > > +-
+> > > +-#ifndef HAVE_RSA_SET0_FACTORS
+> > > +-int
+> > > +-RSA_set0_factors(RSA *r, BIGNUM *p, BIGNUM *q)
+> > > +-{
+> > > +-      if ((r->p =3D=3D NULL && p =3D=3D NULL) || (r->q =3D=3D NULL =
+&& q =3D=3D NULL))
+> > > +-              return 0;
+> > > +-
+> > > +-      if (p !=3D NULL) {
+> > > +-              BN_free(r->p);
+> > > +-              r->p =3D p;
+> > > +-      }
+> > > +-      if (q !=3D NULL) {
+> > > +-              BN_free(r->q);
+> > > +-              r->q =3D q;
+> > > +-      }
+> > > +-
+> > > +-      return 1;
+> > > +-}
+> > > +-#endif /* HAVE_RSA_SET0_FACTORS */
+> > > +
+> > > + #ifndef HAVE_EVP_CIPHER_CTX_GET_IV
+> > > + int
+> > > +@@ -392,249 +83,4 @@ EVP_CIPHER_CTX_set_iv(EVP_CIPHER_CTX *ctx, cons=
+t
+> unsigned char *iv, size_t len)
+> > > + }
+> > > + #endif /* HAVE_EVP_CIPHER_CTX_SET_IV */
+> > > +
+> > > +-#ifndef HAVE_DSA_SIG_GET0
+> > > +-void
+> > > +-DSA_SIG_get0(const DSA_SIG *sig, const BIGNUM **pr, const BIGNUM
+> **ps)
+> > > +-{
+> > > +-      if (pr !=3D NULL)
+> > > +-              *pr =3D sig->r;
+> > > +-      if (ps !=3D NULL)
+> > > +-              *ps =3D sig->s;
+> > > +-}
+> > > +-#endif /* HAVE_DSA_SIG_GET0 */
+> > > +-
+> > > +-#ifndef HAVE_DSA_SIG_SET0
+> > > +-int
+> > > +-DSA_SIG_set0(DSA_SIG *sig, BIGNUM *r, BIGNUM *s)
+> > > +-{
+> > > +-      if (r =3D=3D NULL || s =3D=3D NULL)
+> > > +-              return 0;
+> > > +-
+> > > +-      BN_clear_free(sig->r);
+> > > +-      sig->r =3D r;
+> > > +-      BN_clear_free(sig->s);
+> > > +-      sig->s =3D s;
+> > > +-
+> > > +-      return 1;
+> > > +-}
+> > > +-#endif /* HAVE_DSA_SIG_SET0 */
+> > > +-
+> > > +-#ifdef OPENSSL_HAS_ECC
+> > > +-#ifndef HAVE_ECDSA_SIG_GET0
+> > > +-void
+> > > +-ECDSA_SIG_get0(const ECDSA_SIG *sig, const BIGNUM **pr, const BIGNU=
+M
+> **ps)
+> > > +-{
+> > > +-      if (pr !=3D NULL)
+> > > +-              *pr =3D sig->r;
+> > > +-      if (ps !=3D NULL)
+> > > +-              *ps =3D sig->s;
+> > > +-}
+> > > +-#endif /* HAVE_ECDSA_SIG_GET0 */
+> > > +-
+> > > +-#ifndef HAVE_ECDSA_SIG_SET0
+> > > +-int
+> > > +-ECDSA_SIG_set0(ECDSA_SIG *sig, BIGNUM *r, BIGNUM *s)
+> > > +-{
+> > > +-      if (r =3D=3D NULL || s =3D=3D NULL)
+> > > +-              return 0;
+> > > +-
+> > > +-      BN_clear_free(sig->r);
+> > > +-      BN_clear_free(sig->s);
+> > > +-      sig->r =3D r;
+> > > +-      sig->s =3D s;
+> > > +-      return 1;
+> > > +-}
+> > > +-#endif /* HAVE_ECDSA_SIG_SET0 */
+> > > +-#endif /* OPENSSL_HAS_ECC */
+> > > +-
+> > > +-#ifndef HAVE_DH_GET0_PQG
+> > > +-void
+> > > +-DH_get0_pqg(const DH *dh, const BIGNUM **p, const BIGNUM **q, const
+> BIGNUM **g)
+> > > +-{
+> > > +-      if (p !=3D NULL)
+> > > +-              *p =3D dh->p;
+> > > +-      if (q !=3D NULL)
+> > > +-              *q =3D dh->q;
+> > > +-      if (g !=3D NULL)
+> > > +-              *g =3D dh->g;
+> > > +-}
+> > > +-#endif /* HAVE_DH_GET0_PQG */
+> > > +-
+> > > +-#ifndef HAVE_DH_SET0_PQG
+> > > +-int
+> > > +-DH_set0_pqg(DH *dh, BIGNUM *p, BIGNUM *q, BIGNUM *g)
+> > > +-{
+> > > +-      if ((dh->p =3D=3D NULL && p =3D=3D NULL) || (dh->g =3D=3D NUL=
+L && g =3D=3D
+> NULL))
+> > > +-              return 0;
+> > > +-
+> > > +-      if (p !=3D NULL) {
+> > > +-              BN_free(dh->p);
+> > > +-              dh->p =3D p;
+> > > +-      }
+> > > +-      if (q !=3D NULL) {
+> > > +-              BN_free(dh->q);
+> > > +-              dh->q =3D q;
+> > > +-      }
+> > > +-      if (g !=3D NULL) {
+> > > +-              BN_free(dh->g);
+> > > +-              dh->g =3D g;
+> > > +-      }
+> > > +-
+> > > +-      return 1;
+> > > +-}
+> > > +-#endif /* HAVE_DH_SET0_PQG */
+> > > +-
+> > > +-#ifndef HAVE_DH_GET0_KEY
+> > > +-void
+> > > +-DH_get0_key(const DH *dh, const BIGNUM **pub_key, const BIGNUM
+> **priv_key)
+> > > +-{
+> > > +-      if (pub_key !=3D NULL)
+> > > +-              *pub_key =3D dh->pub_key;
+> > > +-      if (priv_key !=3D NULL)
+> > > +-              *priv_key =3D dh->priv_key;
+> > > +-}
+> > > +-#endif /* HAVE_DH_GET0_KEY */
+> > > +-
+> > > +-#ifndef HAVE_DH_SET0_KEY
+> > > +-int
+> > > +-DH_set0_key(DH *dh, BIGNUM *pub_key, BIGNUM *priv_key)
+> > > +-{
+> > > +-      if (pub_key !=3D NULL) {
+> > > +-              BN_free(dh->pub_key);
+> > > +-              dh->pub_key =3D pub_key;
+> > > +-      }
+> > > +-      if (priv_key !=3D NULL) {
+> > > +-              BN_free(dh->priv_key);
+> > > +-              dh->priv_key =3D priv_key;
+> > > +-      }
+> > > +-
+> > > +-      return 1;
+> > > +-}
+> > > +-#endif /* HAVE_DH_SET0_KEY */
+> > > +-
+> > > +-#ifndef HAVE_DH_SET_LENGTH
+> > > +-int
+> > > +-DH_set_length(DH *dh, long length)
+> > > +-{
+> > > +-      if (length < 0 || length > INT_MAX)
+> > > +-              return 0;
+> > > +-
+> > > +-      dh->length =3D length;
+> > > +-      return 1;
+> > > +-}
+> > > +-#endif /* HAVE_DH_SET_LENGTH */
+> > > +-
+> > > +-#ifndef HAVE_RSA_METH_FREE
+> > > +-void
+> > > +-RSA_meth_free(RSA_METHOD *meth)
+> > > +-{
+> > > +-      if (meth !=3D NULL) {
+> > > +-              free((char *)meth->name);
+> > > +-              free(meth);
+> > > +-      }
+> > > +-}
+> > > +-#endif /* HAVE_RSA_METH_FREE */
+> > > +-
+> > > +-#ifndef HAVE_RSA_METH_DUP
+> > > +-RSA_METHOD *
+> > > +-RSA_meth_dup(const RSA_METHOD *meth)
+> > > +-{
+> > > +-      RSA_METHOD *copy;
+> > > +-
+> > > +-      if ((copy =3D calloc(1, sizeof(*copy))) =3D=3D NULL)
+> > > +-              return NULL;
+> > > +-      memcpy(copy, meth, sizeof(*copy));
+> > > +-      if ((copy->name =3D strdup(meth->name)) =3D=3D NULL) {
+> > > +-              free(copy);
+> > > +-              return NULL;
+> > > +-      }
+> > > +-
+> > > +-      return copy;
+> > > +-}
+> > > +-#endif /* HAVE_RSA_METH_DUP */
+> > > +-
+> > > +-#ifndef HAVE_RSA_METH_SET1_NAME
+> > > +-int
+> > > +-RSA_meth_set1_name(RSA_METHOD *meth, const char *name)
+> > > +-{
+> > > +-      char *copy;
+> > > +-
+> > > +-      if ((copy =3D strdup(name)) =3D=3D NULL)
+> > > +-              return 0;
+> > > +-      free((char *)meth->name);
+> > > +-      meth->name =3D copy;
+> > > +-      return 1;
+> > > +-}
+> > > +-#endif /* HAVE_RSA_METH_SET1_NAME */
+> > > +-
+> > > +-#ifndef HAVE_RSA_METH_GET_FINISH
+> > > +-int
+> > > +-(*RSA_meth_get_finish(const RSA_METHOD *meth))(RSA *rsa)
+> > > +-{
+> > > +-      return meth->finish;
+> > > +-}
+> > > +-#endif /* HAVE_RSA_METH_GET_FINISH */
+> > > +-
+> > > +-#ifndef HAVE_RSA_METH_SET_PRIV_ENC
+> > > +-int
+> > > +-RSA_meth_set_priv_enc(RSA_METHOD *meth, int (*priv_enc)(int flen,
+> > > +-    const unsigned char *from, unsigned char *to, RSA *rsa, int
+> padding))
+> > > +-{
+> > > +-      meth->rsa_priv_enc =3D priv_enc;
+> > > +-      return 1;
+> > > +-}
+> > > +-#endif /* HAVE_RSA_METH_SET_PRIV_ENC */
+> > > +-
+> > > +-#ifndef HAVE_RSA_METH_SET_PRIV_DEC
+> > > +-int
+> > > +-RSA_meth_set_priv_dec(RSA_METHOD *meth, int (*priv_dec)(int flen,
+> > > +-    const unsigned char *from, unsigned char *to, RSA *rsa, int
+> padding))
+> > > +-{
+> > > +-      meth->rsa_priv_dec =3D priv_dec;
+> > > +-      return 1;
+> > > +-}
+> > > +-#endif /* HAVE_RSA_METH_SET_PRIV_DEC */
+> > > +-
+> > > +-#ifndef HAVE_RSA_METH_SET_FINISH
+> > > +-int
+> > > +-RSA_meth_set_finish(RSA_METHOD *meth, int (*finish)(RSA *rsa))
+> > > +-{
+> > > +-      meth->finish =3D finish;
+> > > +-      return 1;
+> > > +-}
+> > > +-#endif /* HAVE_RSA_METH_SET_FINISH */
+> > > +-
+> > > +-#ifndef HAVE_EVP_PKEY_GET0_RSA
+> > > +-RSA *
+> > > +-EVP_PKEY_get0_RSA(EVP_PKEY *pkey)
+> > > +-{
+> > > +-      if (pkey->type !=3D EVP_PKEY_RSA) {
+> > > +-              /* EVPerror(EVP_R_EXPECTING_AN_RSA_KEY); */
+> > > +-              return NULL;
+> > > +-      }
+> > > +-      return pkey->pkey.rsa;
+> > > +-}
+> > > +-#endif /* HAVE_EVP_PKEY_GET0_RSA */
+> > > +-
+> > > +-#ifndef HAVE_EVP_MD_CTX_NEW
+> > > +-EVP_MD_CTX *
+> > > +-EVP_MD_CTX_new(void)
+> > > +-{
+> > > +-      return calloc(1, sizeof(EVP_MD_CTX));
+> > > +-}
+> > > +-#endif /* HAVE_EVP_MD_CTX_NEW */
+> > > +-
+> > > +-#ifndef HAVE_EVP_MD_CTX_FREE
+> > > +-void
+> > > +-EVP_MD_CTX_free(EVP_MD_CTX *ctx)
+> > > +-{
+> > > +-      if (ctx =3D=3D NULL)
+> > > +-              return;
+> > > +-
+> > > +-      EVP_MD_CTX_cleanup(ctx);
+> > > +-
+> > > +-      free(ctx);
+> > > +-}
+> > > +-#endif /* HAVE_EVP_MD_CTX_FREE */
+> > > +-
+> > > + #endif /* WITH_OPENSSL */
+> > > +diff --git a/openbsd-compat/openssl-compat.h
+> b/openbsd-compat/openssl-compat.h
+> > > +index 61a69dd56eb..d0dd2c3450d 100644
+> > > +--- a/openbsd-compat/openssl-compat.h
+> > > ++++ b/openbsd-compat/openssl-compat.h
+> > > +@@ -33,26 +33,13 @@
+> > > + int ssh_compatible_openssl(long, long);
+> > > + void ssh_libcrypto_init(void);
+> > > +
+> > > +-#if (OPENSSL_VERSION_NUMBER < 0x1000100fL)
+> > > +-# error OpenSSL 1.0.1 or greater is required
+> > > ++#if (OPENSSL_VERSION_NUMBER < 0x10100000L)
+> > > ++# error OpenSSL 1.1.0 or greater is required
+> > > + #endif
+> > > +-
+> > > +-#ifndef OPENSSL_VERSION
+> > > +-# define OPENSSL_VERSION      SSLEAY_VERSION
+> > > +-#endif
+> > > +-
+> > > +-#ifndef HAVE_OPENSSL_VERSION
+> > > +-# define OpenSSL_version(x)   SSLeay_version(x)
+> > > +-#endif
+> > > +-
+> > > +-#ifndef HAVE_OPENSSL_VERSION_NUM
+> > > +-# define OpenSSL_version_num  SSLeay
+> > > +-#endif
+> > > +-
+> > > +-#if OPENSSL_VERSION_NUMBER < 0x10000001L
+> > > +-# define LIBCRYPTO_EVP_INL_TYPE unsigned int
+> > > +-#else
+> > > +-# define LIBCRYPTO_EVP_INL_TYPE size_t
+> > > ++#ifdef LIBRESSL_VERSION_NUMBER
+> > > ++# if LIBRESSL_VERSION_NUMBER < 0x3010000fL
+> > > ++#  error LibreSSL 3.1.0 or greater is required
+> > > ++# endif
+> > > + #endif
+> > > +
+> > > + #ifndef OPENSSL_RSA_MAX_MODULUS_BITS
+> > > +@@ -68,25 +55,6 @@ void ssh_libcrypto_init(void);
+> > > + # endif
+> > > + #endif
+> > > +
+> > > +-/* LibreSSL/OpenSSL 1.1x API compat */
+> > > +-#ifndef HAVE_DSA_GET0_PQG
+> > > +-void DSA_get0_pqg(const DSA *d, const BIGNUM **p, const BIGNUM **q,
+> > > +-    const BIGNUM **g);
+> > > +-#endif /* HAVE_DSA_GET0_PQG */
+> > > +-
+> > > +-#ifndef HAVE_DSA_SET0_PQG
+> > > +-int DSA_set0_pqg(DSA *d, BIGNUM *p, BIGNUM *q, BIGNUM *g);
+> > > +-#endif /* HAVE_DSA_SET0_PQG */
+> > > +-
+> > > +-#ifndef HAVE_DSA_GET0_KEY
+> > > +-void DSA_get0_key(const DSA *d, const BIGNUM **pub_key,
+> > > +-    const BIGNUM **priv_key);
+> > > +-#endif /* HAVE_DSA_GET0_KEY */
+> > > +-
+> > > +-#ifndef HAVE_DSA_SET0_KEY
+> > > +-int DSA_set0_key(DSA *d, BIGNUM *pub_key, BIGNUM *priv_key);
+> > > +-#endif /* HAVE_DSA_SET0_KEY */
+> > > +-
+> > > + #ifndef HAVE_EVP_CIPHER_CTX_GET_IV
+> > > + # ifdef HAVE_EVP_CIPHER_CTX_GET_UPDATED_IV
+> > > + #  define EVP_CIPHER_CTX_get_iv EVP_CIPHER_CTX_get_updated_iv
+> > > +@@ -101,112 +69,5 @@ int EVP_CIPHER_CTX_set_iv(EVP_CIPHER_CTX *ctx,
+> > > +     const unsigned char *iv, size_t len);
+> > > + #endif /* HAVE_EVP_CIPHER_CTX_SET_IV */
+> > > +
+> > > +-#ifndef HAVE_RSA_GET0_KEY
+> > > +-void RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e,
+> > > +-    const BIGNUM **d);
+> > > +-#endif /* HAVE_RSA_GET0_KEY */
+> > > +-
+> > > +-#ifndef HAVE_RSA_SET0_KEY
+> > > +-int RSA_set0_key(RSA *r, BIGNUM *n, BIGNUM *e, BIGNUM *d);
+> > > +-#endif /* HAVE_RSA_SET0_KEY */
+> > > +-
+> > > +-#ifndef HAVE_RSA_GET0_CRT_PARAMS
+> > > +-void RSA_get0_crt_params(const RSA *r, const BIGNUM **dmp1, const
+> BIGNUM **dmq1,
+> > > +-    const BIGNUM **iqmp);
+> > > +-#endif /* HAVE_RSA_GET0_CRT_PARAMS */
+> > > +-
+> > > +-#ifndef HAVE_RSA_SET0_CRT_PARAMS
+> > > +-int RSA_set0_crt_params(RSA *r, BIGNUM *dmp1, BIGNUM *dmq1, BIGNUM
+> *iqmp);
+> > > +-#endif /* HAVE_RSA_SET0_CRT_PARAMS */
+> > > +-
+> > > +-#ifndef HAVE_RSA_GET0_FACTORS
+> > > +-void RSA_get0_factors(const RSA *r, const BIGNUM **p, const BIGNUM
+> **q);
+> > > +-#endif /* HAVE_RSA_GET0_FACTORS */
+> > > +-
+> > > +-#ifndef HAVE_RSA_SET0_FACTORS
+> > > +-int RSA_set0_factors(RSA *r, BIGNUM *p, BIGNUM *q);
+> > > +-#endif /* HAVE_RSA_SET0_FACTORS */
+> > > +-
+> > > +-#ifndef DSA_SIG_GET0
+> > > +-void DSA_SIG_get0(const DSA_SIG *sig, const BIGNUM **pr, const
+> BIGNUM **ps);
+> > > +-#endif /* DSA_SIG_GET0 */
+> > > +-
+> > > +-#ifndef DSA_SIG_SET0
+> > > +-int DSA_SIG_set0(DSA_SIG *sig, BIGNUM *r, BIGNUM *s);
+> > > +-#endif /* DSA_SIG_SET0 */
+> > > +-
+> > > +-#ifdef OPENSSL_HAS_ECC
+> > > +-#ifndef HAVE_ECDSA_SIG_GET0
+> > > +-void ECDSA_SIG_get0(const ECDSA_SIG *sig, const BIGNUM **pr, const
+> BIGNUM **ps);
+> > > +-#endif /* HAVE_ECDSA_SIG_GET0 */
+> > > +-
+> > > +-#ifndef HAVE_ECDSA_SIG_SET0
+> > > +-int ECDSA_SIG_set0(ECDSA_SIG *sig, BIGNUM *r, BIGNUM *s);
+> > > +-#endif /* HAVE_ECDSA_SIG_SET0 */
+> > > +-#endif /* OPENSSL_HAS_ECC */
+> > > +-
+> > > +-#ifndef HAVE_DH_GET0_PQG
+> > > +-void DH_get0_pqg(const DH *dh, const BIGNUM **p, const BIGNUM **q,
+> > > +-    const BIGNUM **g);
+> > > +-#endif /* HAVE_DH_GET0_PQG */
+> > > +-
+> > > +-#ifndef HAVE_DH_SET0_PQG
+> > > +-int DH_set0_pqg(DH *dh, BIGNUM *p, BIGNUM *q, BIGNUM *g);
+> > > +-#endif /* HAVE_DH_SET0_PQG */
+> > > +-
+> > > +-#ifndef HAVE_DH_GET0_KEY
+> > > +-void DH_get0_key(const DH *dh, const BIGNUM **pub_key, const BIGNUM
+> **priv_key);
+> > > +-#endif /* HAVE_DH_GET0_KEY */
+> > > +-
+> > > +-#ifndef HAVE_DH_SET0_KEY
+> > > +-int DH_set0_key(DH *dh, BIGNUM *pub_key, BIGNUM *priv_key);
+> > > +-#endif /* HAVE_DH_SET0_KEY */
+> > > +-
+> > > +-#ifndef HAVE_DH_SET_LENGTH
+> > > +-int DH_set_length(DH *dh, long length);
+> > > +-#endif /* HAVE_DH_SET_LENGTH */
+> > > +-
+> > > +-#ifndef HAVE_RSA_METH_FREE
+> > > +-void RSA_meth_free(RSA_METHOD *meth);
+> > > +-#endif /* HAVE_RSA_METH_FREE */
+> > > +-
+> > > +-#ifndef HAVE_RSA_METH_DUP
+> > > +-RSA_METHOD *RSA_meth_dup(const RSA_METHOD *meth);
+> > > +-#endif /* HAVE_RSA_METH_DUP */
+> > > +-
+> > > +-#ifndef HAVE_RSA_METH_SET1_NAME
+> > > +-int RSA_meth_set1_name(RSA_METHOD *meth, const char *name);
+> > > +-#endif /* HAVE_RSA_METH_SET1_NAME */
+> > > +-
+> > > +-#ifndef HAVE_RSA_METH_GET_FINISH
+> > > +-int (*RSA_meth_get_finish(const RSA_METHOD *meth))(RSA *rsa);
+> > > +-#endif /* HAVE_RSA_METH_GET_FINISH */
+> > > +-
+> > > +-#ifndef HAVE_RSA_METH_SET_PRIV_ENC
+> > > +-int RSA_meth_set_priv_enc(RSA_METHOD *meth, int (*priv_enc)(int fle=
+n,
+> > > +-    const unsigned char *from, unsigned char *to, RSA *rsa, int
+> padding));
+> > > +-#endif /* HAVE_RSA_METH_SET_PRIV_ENC */
+> > > +-
+> > > +-#ifndef HAVE_RSA_METH_SET_PRIV_DEC
+> > > +-int RSA_meth_set_priv_dec(RSA_METHOD *meth, int (*priv_dec)(int fle=
+n,
+> > > +-    const unsigned char *from, unsigned char *to, RSA *rsa, int
+> padding));
+> > > +-#endif /* HAVE_RSA_METH_SET_PRIV_DEC */
+> > > +-
+> > > +-#ifndef HAVE_RSA_METH_SET_FINISH
+> > > +-int RSA_meth_set_finish(RSA_METHOD *meth, int (*finish)(RSA *rsa));
+> > > +-#endif /* HAVE_RSA_METH_SET_FINISH */
+> > > +-
+> > > +-#ifndef HAVE_EVP_PKEY_GET0_RSA
+> > > +-RSA *EVP_PKEY_get0_RSA(EVP_PKEY *pkey);
+> > > +-#endif /* HAVE_EVP_PKEY_GET0_RSA */
+> > > +-
+> > > +-#ifndef HAVE_EVP_MD_CTX_new
+> > > +-EVP_MD_CTX *EVP_MD_CTX_new(void);
+> > > +-#endif /* HAVE_EVP_MD_CTX_new */
+> > > +-
+> > > +-#ifndef HAVE_EVP_MD_CTX_free
+> > > +-void EVP_MD_CTX_free(EVP_MD_CTX *ctx);
+> > > +-#endif /* HAVE_EVP_MD_CTX_free */
+> > > +-
+> > > + #endif /* WITH_OPENSSL */
+> > > + #endif /* _OPENSSL_COMPAT_H */
+> > > diff --git a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
+> b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
+> > > index 6057d055f4..1d53c2488b 100644
+> > > --- a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
+> > > +++ b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
+> > > @@ -26,6 +26,7 @@ SRC_URI =3D "
+> https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fftp.op=
+enbsd.org%2Fpub%2FOpenBSD%2FOpenSSH%2Fportable%2Fopenssh-%24&data=3D05%7C01=
+%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa157742dfacb008db61a20d08%7C353945=
+1eb46e4a26a242ff61502855c7%7C0%7C0%7C638211120911246208%7CUnknown%7CTWFpbGZ=
+sb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3=
+000%7C%7C%7C&sdata=3DdDzVG6aYgMYab04aGD%2F6l6tLxk2tzcSndFcqwlT%2FRg0%3D&res=
+erved=3D0{PV}.tar
+> <https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fftp.o=
+penbsd.org%2Fpub%2FOpenBSD%2FOpenSSH%2Fportable%2Fopenssh-%24&data=3D05%7C0=
+1%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa157742dfacb008db61a20d08%7C35394=
+51eb46e4a26a242ff61502855c7%7C0%7C0%7C638211120911246208%7CUnknown%7CTWFpbG=
+Zsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C=
+3000%7C%7C%7C&sdata=3DdDzVG6aYgMYab04aGD%2F6l6tLxk2tzcSndFcqwlT%2FRg0%3D&re=
+served=3D0%7BPV%7D.tar>
+> > >             file://add-test-support-for-busybox.patch \
+> > >             file://f107467179428a0e3ea9e4aa9738ac12ff02822d.patch \
+> > >
+> file://0001-Default-to-not-using-sandbox-when-cross-compiling.patch \
+> > > +           file://7280401bdd77ca54be6867a154cc01e0d72612e0.patch \
+> > >             "
+> > >  SRC_URI[sha256sum] =3D
+> "fd497654b7ab1686dac672fb83dfb4ba4096e8b5ffcdaccd262380ae58bec5e7"
+> > >
+> > > --
+> > > 2.17.1
+> > >
+> > >
+> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > Links: You receive all messages sent to this group.
+> > > View/Reply Online (#181902):
+> https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flists=
+.openembedded.org%2Fg%2Fopenembedded-core%2Fmessage%2F181902&data=3D05%7C01=
+%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa157742dfacb008db61a20d08%7C353945=
+1eb46e4a26a242ff61502855c7%7C0%7C0%7C638211120911246208%7CUnknown%7CTWFpbGZ=
+sb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3=
+000%7C%7C%7C&sdata=3D3B6FWTx0mX6a%2F14mRs3CqIFrko671tih13RGrDhjfFc%3D&reser=
+ved=3D0
+> <https://lists.openembedded.org/g/openembedded-core/message/181902>
+> > > Mute This Topic:
+> https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flists=
+.openembedded.org%2Fmt%2F99215252%2F1686489&data=3D05%7C01%7CRanjitsinh.Rat=
+hod%40kpit.com%7Cd788d3aa157742dfacb008db61a20d08%7C3539451eb46e4a26a242ff6=
+1502855c7%7C0%7C0%7C638211120911246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4w=
+LjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdat=
+a=3DwYwpf8EzfQo3bpSknW9TQF%2FbwKQcwgcGVrbnzT0%2Bcbc%3D&reserved=3D0
+> <https://lists.openembedded.org/mt/99215252/1686489>
+> > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > Unsubscribe:
+> https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flists=
+.openembedded.org%2Fg%2Fopenembedded-core%2Funsub&data=3D05%7C01%7CRanjitsi=
+nh.Rathod%40kpit.com%7Cd788d3aa157742dfacb008db61a20d08%7C3539451eb46e4a26a=
+242ff61502855c7%7C0%7C0%7C638211120911246208%7CUnknown%7CTWFpbGZsb3d8eyJWIj=
+oiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7=
+C&sdata=3DEFlXzS8E9JdB5UV%2BHvW8sYJLH2BEn6Jc%2BAHB5iB8cUs%3D&reserved=3D0
+> <https://lists.openembedded.org/g/openembedded-core/unsub> [
+> alex.kanavin@gmail.com]
+> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > >
+> > This message contains information that may be privileged or confidentia=
+l
+> and is the property of the KPIT Technologies Ltd. It is intended only for
+> the person to whom it is addressed. If you are not the intended recipient=
+,
+> you are not authorized to read, print, retain copy, disseminate,
+> distribute, or use this message or any part thereof. If you receive this
+> message in error, please notify the sender immediately and delete all
+> copies of this message. KPIT Technologies Ltd. does not accept any
+> liability for virus infected mails.
+> This message contains information that may be privileged or confidential
+> and is the property of the KPIT Technologies Ltd. It is intended only for
+> the person to whom it is addressed. If you are not the intended recipient=
+,
+> you are not authorized to read, print, retain copy, disseminate,
+> distribute, or use this message or any part thereof. If you receive this
+> message in error, please notify the sender immediately and delete all
+> copies of this message. KPIT Technologies Ltd. does not accept any
+> liability for virus infected mails.
+>
 
---_000_PN3PR01MB7382924C3BFAD78BF363EDF48F489PN3PR01MB7382INDP_
-Content-Type: text/html; charset="us-ascii"
+--0000000000000143de05fcf95189
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
-Hi&nbsp;Alexander,</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+<div dir=3D"ltr"><div>Hello all,<br></div><div><br></div><div>Perhaps it wo=
+uld be easier to adjust the LICENSE entry in the openssh recipe for all aff=
+ected oe-core branches, with appropriate comment next to that entry (becaus=
+e it would have to be again adjusted once new openssh is released)? Is your=
+ goal to avoid the license, or simply to ensure it is correctly specified?<=
+br></div><div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_qu=
+ote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 31 May 2023 at 10:36, Ra=
+njitsinh Rathod &lt;<a href=3D"mailto:Ranjitsinh.Rathod@kpit.com">Ranjitsin=
+h.Rathod@kpit.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex"><div class=3D"msg985507573848848757">
+
+
+
+
+<div dir=3D"ltr">
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:12pt=
+;color:rgb(0,0,0)">
+Hi=C2=A0Alexander,</div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:12pt=
+;color:rgb(0,0,0)">
 <br>
 </div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:12pt=
+;color:rgb(0,0,0)">
 Let me explain a bit more here.</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:12pt=
+;color:rgb(0,0,0)">
 <br>
 </div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted2">
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:12pt=
+;color:rgb(0,0,0)">
 Below upstream commit removed BSD-4-Clause from the LICENSE variable, But a=
 ctually if we check from the source code of the openssh for this version (8=
-.9p1), there are some files (<b style=3D"color: rgb(102, 102, 102); backgro=
-und-color: rgb(255, 255, 255);" class=3D"ContentPasted3">openbsd-compat/lib=
-ressl-api-compat.c</b>)
+.9p1), there are some files (<b style=3D"color:rgb(102,102,102);background-=
+color:rgb(255,255,255)">openbsd-compat/libressl-api-compat.c</b>)
  still affected and so this is wrong as per me.</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0">
-Link:&nbsp;<a href=3D"https://git.yoctoproject.org/poky/commit/?id=3D2c86f5=
-86d55d0f6b99053e3e4d14c9ee36fa8aa8" id=3D"LPlnk238407">https://git.yoctopro=
-ject.org/poky/commit/?id=3D2c86f586d55d0f6b99053e3e4d14c9ee36fa8aa8</a></di=
-v>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0">
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:12pt=
+;color:rgb(0,0,0)">
+Link:=C2=A0<a href=3D"https://git.yoctoproject.org/poky/commit/?id=3D2c86f5=
+86d55d0f6b99053e3e4d14c9ee36fa8aa8" id=3D"m_985507573848848757LPlnk238407" =
+target=3D"_blank">https://git.yoctoproject.org/poky/commit/?id=3D2c86f586d5=
+5d0f6b99053e3e4d14c9ee36fa8aa8</a></div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:12pt=
+;color:rgb(0,0,0)">
 <br>
 </div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0 Conten=
-tPasted1">
-<blockquote itemscope=3D"" itemtype=3D"https://schemas.microsoft.com/Quoted=
-Text" style=3D"border-left: 3px solid rgb(200, 200, 200); border-top-color:=
- rgb(200, 200, 200); border-right-color: rgb(200, 200, 200); border-bottom-=
-color: rgb(200, 200, 200); padding-left: 1ex; margin-left: 0.8ex; color: rg=
-b(102, 102, 102);">
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:12pt=
+;color:rgb(0,0,0)">
+<blockquote style=3D"border-color:rgb(200,200,200);border-left:3px solid rg=
+b(200,200,200);padding-left:1ex;margin-left:0.8ex;color:rgb(102,102,102)">
 ~/sources/openssh-portable$ git branch
-<div class=3D"ContentPasted1">* (HEAD detached at V_8_9_P1)</div>
-<div class=3D"ContentPasted1">&nbsp; master</div>
-<div class=3D"ContentPasted1">~/sources/openssh-portable$ grep -rl &quot;Al=
-l advertising materials mentioning features or use of this software&quot; *=
-|grep -v \.1|grep -v \.5|grep -v \.8 | sort</div>
-<div class=3D"ContentPasted1"><b>openbsd-compat/libressl-api-compat.c</b></=
-div>
+<div>* (HEAD detached at V_8_9_P1)</div>
+<div>=C2=A0 master</div>
+<div>~/sources/openssh-portable$ grep -rl &quot;All advertising materials m=
+entioning features or use of this software&quot; *|grep -v \.1|grep -v \.5|=
+grep -v \.8 | sort</div>
+<div><b>openbsd-compat/libressl-api-compat.c</b></div>
 </blockquote>
 When we checked in the master branch, it seems the below commit from the op=
 enssh is removing it and so to completely remove the BSD-4-Clause, below co=
 mmit from the openssh is required.</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0 Conten=
-tPasted1 ContentPasted4">
-Openssh commit:&nbsp;<a href=3D"https://github.com/openssh/openssh-portable=
-/commit/7280401bdd77ca54be6867a154cc01e0d72612e0" id=3D"LPlnk703217">https:=
-//github.com/openssh/openssh-portable/commit/7280401bdd77ca54be6867a154cc01=
-e0d72612e0</a></div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0 Conten=
-tPasted1 ContentPasted4">
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:12pt=
+;color:rgb(0,0,0)">
+Openssh commit:=C2=A0<a href=3D"https://github.com/openssh/openssh-portable=
+/commit/7280401bdd77ca54be6867a154cc01e0d72612e0" id=3D"m_98550757384884875=
+7LPlnk703217" target=3D"_blank">https://github.com/openssh/openssh-portable=
+/commit/7280401bdd77ca54be6867a154cc01e0d72612e0</a></div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:12pt=
+;color:rgb(0,0,0)">
 <br>
 </div>
-<div class=3D"elementToProof">
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
+<div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:12pt=
+;color:rgb(0,0,0)">
 We can upstream this to both kirkstone as well as master branch. Please sug=
 gest. As the version is different in both the branches, same change would g=
 et not apply on both and so we need to send two different patches each for =
 master and kirkstone.</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:12pt=
+;color:rgb(0,0,0)">
 <br>
 </div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:12pt=
+;color:rgb(0,0,0)">
 So currently the v3 patch for kirkstone is correct and can be applied and f=
 or the master branch we can send another patch.</div>
-<div id=3D"Signature">
+<div id=3D"m_985507573848848757Signature">
 <div>
 <div></div>
 <div></div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<p style=3D"margin: 0in; font-size: 11pt; font-family: Calibri, sans-serif;=
- text-align: start; color: rgb(32, 31, 30); background-color: rgb(255, 255,=
- 255);">
-<span style=3D"font-family: &quot;Work Sans&quot;; font-size: 10pt; color: =
-rgb(89, 89, 89);"><span style=3D"font-family: Calibri, Arial, Helvetica, sa=
-ns-serif; font-size: 16px; display: inline !important; color: rgb(0, 0, 0);=
- background-color: rgb(255, 255, 255);"><br>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:12pt=
+;color:rgb(0,0,0)">
+<p style=3D"margin:0in;font-size:11pt;font-family:Calibri,sans-serif;text-a=
+lign:start;color:rgb(32,31,30);background-color:rgb(255,255,255)">
+<span style=3D"font-family:&quot;Work Sans&quot;;font-size:10pt;color:rgb(8=
+9,89,89)"><span style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;fon=
+t-size:16px;display:inline;color:rgb(0,0,0);background-color:rgb(255,255,25=
+5)"><br>
 </span></span></p>
-<p style=3D"margin: 0in; font-size: 11pt; font-family: Calibri, sans-serif;=
- text-align: start; color: rgb(32, 31, 30); background-color: rgb(255, 255,=
- 255);">
-<span style=3D"font-family: &quot;Work Sans&quot;; font-size: 10pt; color: =
-rgb(89, 89, 89);"><span style=3D"font-family: Calibri, Arial, Helvetica, sa=
-ns-serif; font-size: 16px; display: inline !important; color: rgb(0, 0, 0);=
- background-color: rgb(255, 255, 255);">Thanks,</span><br>
+<p style=3D"margin:0in;font-size:11pt;font-family:Calibri,sans-serif;text-a=
+lign:start;color:rgb(32,31,30);background-color:rgb(255,255,255)">
+<span style=3D"font-family:&quot;Work Sans&quot;;font-size:10pt;color:rgb(8=
+9,89,89)"><span style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;fon=
+t-size:16px;display:inline;color:rgb(0,0,0);background-color:rgb(255,255,25=
+5)">Thanks,</span><br>
 </span></p>
-<p style=3D"margin: 0in; font-size: 11pt; font-family: Calibri, sans-serif;=
- text-align: start; color: rgb(32, 31, 30); background-color: rgb(255, 255,=
- 255);">
-<span style=3D"font-family: &quot;Work Sans&quot;; font-size: 10pt; color: =
-rgb(89, 89, 89);">Best Regards,</span><br>
+<p style=3D"margin:0in;font-size:11pt;font-family:Calibri,sans-serif;text-a=
+lign:start;color:rgb(32,31,30);background-color:rgb(255,255,255)">
+<span style=3D"font-family:&quot;Work Sans&quot;;font-size:10pt;color:rgb(8=
+9,89,89)">Best Regards,</span><br>
 </p>
-<p style=3D"margin: 0in 0in 12pt; font-size: 11pt; font-family: Calibri, sa=
-ns-serif; text-align: start; color: rgb(32, 31, 30); background-color: rgb(=
-255, 255, 255);">
-<span lang=3D"EN-IN" style=3D"margin: 0px; font-family: &quot;Work Sans Med=
-ium&quot;; color: rgb(89, 89, 89);"><b>Ranjitsinh Rathod</b></span><span la=
-ng=3D"EN-IN" style=3D"margin: 0px; font-size: 14pt; font-family: &quot;Work=
- Sans&quot;; color: rgb(0, 137, 207);"><br>
-</span><span lang=3D"EN-IN" style=3D"margin: 0px; font-size: 9pt; font-fami=
-ly: &quot;Work Sans&quot;; color: rgb(127, 127, 127);">Technical Leader |&n=
-bsp;&nbsp;| KPIT Technologies Ltd.<br>
+<p style=3D"margin:0in 0in 12pt;font-size:11pt;font-family:Calibri,sans-ser=
+if;text-align:start;color:rgb(32,31,30);background-color:rgb(255,255,255)">
+<span style=3D"margin:0px;font-family:&quot;Work Sans Medium&quot;;color:rg=
+b(89,89,89)" lang=3D"EN-IN"><b>Ranjitsinh Rathod</b></span><span style=3D"m=
+argin:0px;font-size:14pt;font-family:&quot;Work Sans&quot;;color:rgb(0,137,=
+207)" lang=3D"EN-IN"><br>
+</span><span style=3D"margin:0px;font-size:9pt;font-family:&quot;Work Sans&=
+quot;;color:rgb(127,127,127)" lang=3D"EN-IN">Technical Leader |=C2=A0=C2=A0=
+| KPIT Technologies Ltd.<br>
 Cellphone: +91-84606 92403<br>
-</span><b><sup><span lang=3D"EN-IN" style=3D"margin: 0px; font-size: 14pt; =
-font-family: &quot;Work Sans&quot;; color: rgb(176, 255, 69);">____________=
-______________________________<br>
-</span></sup></b><span style=3D"margin: 0px; color: rgb(31, 73, 125);"><a h=
-ref=3D"http://www.kpit.com/" target=3D"_blank" rel=3D"noopener noreferrer" =
-style=3D"margin:0px" data-loopstyle=3D"link"><span lang=3D"EN-IN" style=3D"=
-margin: 0px; font-size: 12pt; font-family: &quot;Work Sans Medium&quot;; co=
-lor: gray;">KPIT</span></a></span><span style=3D"margin: 0px; font-family: =
-&quot;Work Sans&quot;; color: gray;"><span>&nbsp;</span></span><span lang=
-=3D"EN-IN" style=3D"margin: 0px; font-size: 12pt; font-family: &quot;Work S=
-ans&quot;; color: gray;">|</span><span lang=3D"EN-IN" style=3D"margin: 0px;=
- font-size: 9pt; font-family: &quot;Work Sans&quot;; color: gray;"><span>&n=
-bsp;</span></span><span style=3D"margin: 0px; color: rgb(31, 73, 125);"><a =
-href=3D"http://www.kpit.com/linkedin" target=3D"_blank" rel=3D"noopener nor=
-eferrer" style=3D"margin:0px" data-loopstyle=3D"link"><span lang=3D"EN-IN" =
-style=3D"margin: 0px; font-size: 9pt; font-family: &quot;Work Sans&quot;; c=
-olor: gray;">Follow
- us on LinkedIn</span></a></span><span style=3D"margin: 0px; font-size: 9pt=
-; font-family: &quot;Work Sans&quot;; color: rgb(89, 89, 89);"></span><span=
- style=3D"margin:0px; font-size:12pt; font-family:&quot;Times New Roman&quo=
-t;,serif"></span></p>
-<p style=3D"margin: 0in; font-size: 11pt; font-family: Calibri, sans-serif;=
- text-align: start; color: rgb(32, 31, 30); background-color: rgb(255, 255,=
- 255);">
-<a href=3D"https://www.kpit.com/TheNewBrand" target=3D"_blank" rel=3D"noope=
-ner noreferrer" style=3D"margin:0px"><span style=3D"margin: 0px; color: rgb=
-(31, 73, 125);"><img class=3D"EmojiInsert" width=3D"621" height=3D"120" sty=
-le=3D"margin:0px; width:6.4687in; height:1.25in" data-outlook-trace=3D"F:1|=
-T:1" src=3D"cid:05645d6b-4632-440f-9da6-7e7c97e1b8fa"></span></a></p>
+</span><b><sup><span style=3D"margin:0px;font-size:14pt;font-family:&quot;W=
+ork Sans&quot;;color:rgb(176,255,69)" lang=3D"EN-IN">______________________=
+____________________<br>
+</span></sup></b><span style=3D"margin:0px;color:rgb(31,73,125)"><a href=3D=
+"http://www.kpit.com/" rel=3D"noopener noreferrer" style=3D"margin:0px" tar=
+get=3D"_blank"><span style=3D"margin:0px;font-size:12pt;font-family:&quot;W=
+ork Sans Medium&quot;;color:gray" lang=3D"EN-IN">KPIT</span></a></span><spa=
+n style=3D"margin:0px;font-family:&quot;Work Sans&quot;;color:gray"><span>=
+=C2=A0</span></span><span style=3D"margin:0px;font-size:12pt;font-family:&q=
+uot;Work Sans&quot;;color:gray" lang=3D"EN-IN">|</span><span style=3D"margi=
+n:0px;font-size:9pt;font-family:&quot;Work Sans&quot;;color:gray" lang=3D"E=
+N-IN"><span>=C2=A0</span></span><span style=3D"margin:0px;color:rgb(31,73,1=
+25)"><a href=3D"http://www.kpit.com/linkedin" rel=3D"noopener noreferrer" s=
+tyle=3D"margin:0px" target=3D"_blank"><span style=3D"margin:0px;font-size:9=
+pt;font-family:&quot;Work Sans&quot;;color:gray" lang=3D"EN-IN">Follow
+ us on LinkedIn</span></a></span><span style=3D"margin:0px;font-size:9pt;fo=
+nt-family:&quot;Work Sans&quot;;color:rgb(89,89,89)"></span><span style=3D"=
+margin:0px;font-size:12pt;font-family:&quot;Times New Roman&quot;,serif"></=
+span></p>
+<p style=3D"margin:0in;font-size:11pt;font-family:Calibri,sans-serif;text-a=
+lign:start;color:rgb(32,31,30);background-color:rgb(255,255,255)">
+<a href=3D"https://www.kpit.com/TheNewBrand" rel=3D"noopener noreferrer" st=
+yle=3D"margin:0px" target=3D"_blank"><span style=3D"margin:0px;color:rgb(31=
+,73,125)"><img style=3D"margin: 0px; width: 6.4687in; height: 1.25in;" src=
+=3D"cid:18870f5c1ed4d4ea0eb1" width=3D"621" height=3D"120"></span></a></p>
 </div>
 </div>
 </div>
 </div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Alexander Kanavin &lt=
-;alex.kanavin@gmail.com&gt;<br>
+<div id=3D"m_985507573848848757appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%">
+<div id=3D"m_985507573848848757divRplyFwdMsg" dir=3D"ltr"><font style=3D"fo=
+nt-size:11pt" face=3D"Calibri, sans-serif" color=3D"#000000"><b>From:</b> A=
+lexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_b=
+lank">alex.kanavin@gmail.com</a>&gt;<br>
 <b>Sent:</b> Wednesday, May 31, 2023 12:11 PM<br>
-<b>To:</b> Riyaz Ahmed Khan &lt;Riyaz.Khan@kpit.com&gt;<br>
-<b>Cc:</b> Riyaz Ahmed Khan &lt;rak3033@gmail.com&gt;; openembedded-core@li=
-sts.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt;; Ranj=
-itsinh Rathod &lt;Ranjitsinh.Rathod@kpit.com&gt;; Steve Sakoman &lt;steve@s=
-akoman.com&gt;<br>
+<b>To:</b> Riyaz Ahmed Khan &lt;<a href=3D"mailto:Riyaz.Khan@kpit.com" targ=
+et=3D"_blank">Riyaz.Khan@kpit.com</a>&gt;<br>
+<b>Cc:</b> Riyaz Ahmed Khan &lt;<a href=3D"mailto:rak3033@gmail.com" target=
+=3D"_blank">rak3033@gmail.com</a>&gt;; <a href=3D"mailto:openembedded-core@=
+lists.openembedded.org" target=3D"_blank">openembedded-core@lists.openembed=
+ded.org</a> &lt;<a href=3D"mailto:openembedded-core@lists.openembedded.org"=
+ target=3D"_blank">openembedded-core@lists.openembedded.org</a>&gt;; Ranjit=
+sinh Rathod &lt;<a href=3D"mailto:Ranjitsinh.Rathod@kpit.com" target=3D"_bl=
+ank">Ranjitsinh.Rathod@kpit.com</a>&gt;; Steve Sakoman &lt;<a href=3D"mailt=
+o:steve@sakoman.com" target=3D"_blank">steve@sakoman.com</a>&gt;<br>
 <b>Subject:</b> Re: [OE-core][kirkstone][PATCH v3] openssh: Remove BSD-4-cl=
 ause contents completely from codebase</font>
-<div>&nbsp;</div>
+<div>=C2=A0</div>
 </div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">Caution: This email originated from outside of the=
- KPIT. Do not click links or open attachments unless you recognize the send=
-er and know the content is safe.<br>
+<div><font size=3D"2"><span style=3D"font-size:11pt">
+<div>Caution: This email originated from outside of the KPIT. Do not click =
+links or open attachments unless you recognize the sender and know the cont=
+ent is safe.<br>
 <br>
 That is not how it works. If the issue exists in both master and<br>
 kirkstone (which it does), it must be resolved in master first. Also<br>
-'resolves BSD-5 clause license issue' does not explain what the issue<br>
+&#39;resolves BSD-5 clause license issue&#39; does not explain what the iss=
+ue<br>
 is, and you need to provide a better explanation.<br>
 <br>
 Alex<br>
 <br>
-On Wed, 31 May 2023 at 07:49, Riyaz Ahmed Khan &lt;Riyaz.Khan@kpit.com&gt; =
-wrote:<br>
+On Wed, 31 May 2023 at 07:49, Riyaz Ahmed Khan &lt;<a href=3D"mailto:Riyaz.=
+Khan@kpit.com" target=3D"_blank">Riyaz.Khan@kpit.com</a>&gt; wrote:<br>
 &gt;<br>
 &gt; Hi Alex,<br>
 &gt;<br>
 &gt; As openssh is pointing to LTS branch in kirkstone and openssh is still=
- at 8.9 the usage of BSD-4 can be limited. Hence, we need&nbsp; this patch =
+ at 8.9 the usage of BSD-4 can be limited. Hence, we need=C2=A0 this patch =
 to be integrated in kirkstone to resolve BSD-5 clause license issue for tha=
 t the reason this patch has been created
  to backport and remove the BSD-4 clause license. In the master branch it i=
@@ -1692,12 +1734,18 @@ icense issue.<br>
 &gt; Riyaz<br>
 &gt;<br>
 &gt; ________________________________<br>
-&gt; From: Alexander Kanavin &lt;alex.kanavin@gmail.com&gt;<br>
+&gt; From: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" =
+target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
 &gt; Sent: Tuesday, May 30, 2023 13:38<br>
-&gt; To: Riyaz Ahmed Khan &lt;rak3033@gmail.com&gt;<br>
-&gt; Cc: openembedded-core@lists.openembedded.org &lt;openembedded-core@lis=
-ts.openembedded.org&gt;; Ranjitsinh Rathod &lt;Ranjitsinh.Rathod@kpit.com&g=
-t;; Riyaz Ahmed Khan &lt;Riyaz.Khan@kpit.com&gt;<br>
+&gt; To: Riyaz Ahmed Khan &lt;<a href=3D"mailto:rak3033@gmail.com" target=
+=3D"_blank">rak3033@gmail.com</a>&gt;<br>
+&gt; Cc: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
+=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;<a href=3D"mai=
+lto:openembedded-core@lists.openembedded.org" target=3D"_blank">openembedde=
+d-core@lists.openembedded.org</a>&gt;; Ranjitsinh Rathod &lt;<a href=3D"mai=
+lto:Ranjitsinh.Rathod@kpit.com" target=3D"_blank">Ranjitsinh.Rathod@kpit.co=
+m</a>&gt;; Riyaz Ahmed Khan &lt;<a href=3D"mailto:Riyaz.Khan@kpit.com" targ=
+et=3D"_blank">Riyaz.Khan@kpit.com</a>&gt;<br>
 &gt; Subject: Re: [OE-core][kirkstone][PATCH v3] openssh: Remove BSD-4-clau=
 se contents completely from codebase<br>
 &gt;<br>
@@ -1705,14 +1753,14 @@ se contents completely from codebase<br>
 links or open attachments unless you recognize the sender and know the cont=
 ent is safe.<br>
 &gt;<br>
-&gt; What is the rationale for adding this patch to oe-core? Why can't this=
-<br>
+&gt; What is the rationale for adding this patch to oe-core? Why can&#39;t =
+this<br>
 &gt; wait until openssh releases a version with this change?<br>
 &gt;<br>
 &gt; Alex<br>
 &gt;<br>
-&gt; On Tue, 30 May 2023 at 09:08, Riyaz Ahmed Khan &lt;rak3033@gmail.com&g=
-t; wrote:<br>
+&gt; On Tue, 30 May 2023 at 09:08, Riyaz Ahmed Khan &lt;<a href=3D"mailto:r=
+ak3033@gmail.com" target=3D"_blank">rak3033@gmail.com</a>&gt; wrote:<br>
 &gt; &gt;<br>
 &gt; &gt; As upstream removed this BSD-4-clause license, there are still so=
 me files<br>
@@ -1730,7 +1778,7 @@ ware<br>
 &gt; &gt; Openssh upstream removes the bsd-4 license compeletely from this =
 commit<br>
 &gt; &gt; <a href=3D"https://github.com/openssh/openssh-portable/commit/728=
-0401bdd77ca54be6867a154cc01e0d72612e0">
+0401bdd77ca54be6867a154cc01e0d72612e0" target=3D"_blank">
 https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgithub.=
 com%2Fopenssh%2Fopenssh-portable%2Fcommit%2F7280401bdd77ca54be6867a154cc01e=
 0d72612e0&amp;data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa15774=
@@ -1742,19 +1790,21 @@ M9rqrHXXMg0c8WziS9yHQ%3D&amp;reserved=3D0</a><br>
 se of BSD-4-clause<br>
 &gt; &gt; contents from codebase. Hunks are refreshed, removed couple of hu=
 nks from<br>
-&gt; &gt; configure.ac and openbsd-compat/libressl-api-compat.c as hunk cod=
-e<br>
+&gt; &gt; <a href=3D"http://configure.ac" target=3D"_blank">configure.ac</a=
+> and openbsd-compat/libressl-api-compat.c as hunk code<br>
 &gt; &gt; is not prasent.<br>
 &gt; &gt;<br>
-&gt; &gt; Signed-off-by: Riyaz Khan &lt;Riyaz.Khan@kpit.com&gt;<br>
+&gt; &gt; Signed-off-by: Riyaz Khan &lt;<a href=3D"mailto:Riyaz.Khan@kpit.c=
+om" target=3D"_blank">Riyaz.Khan@kpit.com</a>&gt;<br>
 &gt; &gt; ---<br>
-&gt; &gt;&nbsp; ...401bdd77ca54be6867a154cc01e0d72612e0.patch | 984 +++++++=
+&gt; &gt;=C2=A0 ...401bdd77ca54be6867a154cc01e0d72612e0.patch | 984 +++++++=
 +++++++++++<br>
-&gt; &gt;&nbsp; .../openssh/openssh_8.9p1.bb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&n=
-bsp;&nbsp; 1 +<br>
-&gt; &gt;&nbsp; 2 files changed, 985 insertions(+)<br>
-&gt; &gt;&nbsp; create mode 100644 meta/recipes-connectivity/openssh/openss=
+&gt; &gt;=C2=A0 .../openssh/<a href=3D"http://openssh_8.9p1.bb" target=3D"_=
+blank">openssh_8.9p1.bb</a>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +<br=
+>
+&gt; &gt;=C2=A0 2 files changed, 985 insertions(+)<br>
+&gt; &gt;=C2=A0 create mode 100644 meta/recipes-connectivity/openssh/openss=
 h/7280401bdd77ca54be6867a154cc01e0d72612e0.patch<br>
 &gt; &gt;<br>
 &gt; &gt; diff --git a/meta/recipes-connectivity/openssh/openssh/7280401bdd=
@@ -1768,7 +1818,8 @@ e6867a154cc01e0d72612e0.patch<br>
 &gt; &gt; @@ -0,0 +1,984 @@<br>
 &gt; &gt; +From 7280401bdd77ca54be6867a154cc01e0d72612e0 Mon Sep 17 00:00:0=
 0 2001<br>
-&gt; &gt; +From: Damien Miller &lt;djm@mindrot.org&gt;<br>
+&gt; &gt; +From: Damien Miller &lt;<a href=3D"mailto:djm@mindrot.org" targe=
+t=3D"_blank">djm@mindrot.org</a>&gt;<br>
 &gt; &gt; +Date: Fri, 24 Mar 2023 13:56:25 +1100<br>
 &gt; &gt; +Subject: [PATCH] remove support for old libcrypto<br>
 &gt; &gt; +<br>
@@ -1778,34 +1829,37 @@ e6867a154cc01e0d72612e0.patch<br>
 &gt; &gt; +with/ok dtucker@<br>
 &gt; &gt; +<br>
 &gt; &gt; +Upstream-Status: Backport [<a href=3D"https://github.com/openssh=
-/openssh-portable/commit/7280401bdd77ca54be6867a154cc01e0d72612e0">https://=
-apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgithub.com%2Fop=
-enssh%2Fopenssh-portable%2Fcommit%2F7280401bdd77ca54be6867a154cc01e0d72612e=
-0&amp;data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa157742dfacb00=
-8db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C638211120911246208=
-%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haW=
-wiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3DAiOVMsuUKtG5WkExJNwIVaM9rqrHXX=
-Mg0c8WziS9yHQ%3D&amp;reserved=3D0</a>]<br>
-&gt; &gt; +Comment: Hunk are refreshed, removed couple of hunks from config=
-ure.ac as hunk code is not prasent<br>
+/openssh-portable/commit/7280401bdd77ca54be6867a154cc01e0d72612e0" target=
+=3D"_blank">https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%=
+2F%2Fgithub.com%2Fopenssh%2Fopenssh-portable%2Fcommit%2F7280401bdd77ca54be6=
+867a154cc01e0d72612e0&amp;data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd=
+788d3aa157742dfacb008db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%=
+7C638211120911246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2=
+luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3DAiOVMsuUKt=
+G5WkExJNwIVaM9rqrHXXMg0c8WziS9yHQ%3D&amp;reserved=3D0</a>]<br>
+&gt; &gt; +Comment: Hunk are refreshed, removed couple of hunks from <a hre=
+f=3D"http://configure.ac" target=3D"_blank">configure.ac</a> as hunk code i=
+s not prasent<br>
 &gt; &gt; +and backported to the existing code.<br>
-&gt; &gt; +Signed-off-by: Riyaz Khan &lt;Riyaz.Khan@kpit.com&gt;<br>
+&gt; &gt; +Signed-off-by: Riyaz Khan &lt;<a href=3D"mailto:Riyaz.Khan@kpit.=
+com" target=3D"_blank">Riyaz.Khan@kpit.com</a>&gt;<br>
 &gt; &gt; +<br>
 &gt; &gt; +---<br>
-&gt; &gt; + .github/workflows/c-cpp.yml&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; 7 -<br>
-&gt; &gt; + INSTALL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; 8 +-<br>
-&gt; &gt; + cipher-aes.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; 2 +-<br>
-&gt; &gt; + configure.ac&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp; |&nbsp; 96 ++---<br>
+&gt; &gt; + .github/workflows/c-cpp.yml=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 7 -<br>
+&gt; &gt; + INSTALL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 8 +-<br>
+&gt; &gt; + cipher-aes.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-<br>
+&gt; &gt; + <a href=3D"http://configure.ac" target=3D"_blank">configure.ac<=
+/a>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0 96 ++---<br>
 &gt; &gt; + openbsd-compat/libressl-api-compat.c | 556 +-------------------=
 -------<br>
-&gt; &gt; + openbsd-compat/openssl-compat.h&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |=
+&gt; &gt; + openbsd-compat/openssl-compat.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
  151 +-------<br>
 &gt; &gt; + 6 files changed, 40 insertions(+), 780 deletions(-)<br>
 &gt; &gt; +<br>
@@ -1815,94 +1869,94 @@ pp.yml<br>
 &gt; &gt; +--- a/.github/workflows/c-cpp.yml<br>
 &gt; &gt; ++++ b/.github/workflows/c-cpp.yml<br>
 &gt; &gt; +@@ -40,18 +40,11 @@<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - {=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - {=
  os: ubuntu-20.04, configs: tcmalloc }<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - {=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - {=
  os: ubuntu-20.04, configs: musl }<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - {=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - {=
  os: ubuntu-latest, configs: libressl-master }<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - { os: =
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - { os: =
 ubuntu-latest, configs: libressl-2.2.9 }<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - { os: =
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - { os: =
 ubuntu-latest, configs: libressl-2.8.3 }<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - { os: =
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - { os: =
 ubuntu-latest, configs: libressl-3.0.2 }<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - {=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - {=
  os: ubuntu-latest, configs: libressl-3.2.6 }<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - {=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - {=
  os: ubuntu-latest, configs: libressl-3.3.4 }<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - {=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - {=
  os: ubuntu-latest, configs: libressl-3.4.1 }<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - {=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - {=
  os: ubuntu-latest, configs: openssl-master }<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - {=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - {=
  os: ubuntu-latest, configs: openssl-noec }<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - { os: =
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - { os: =
 ubuntu-latest, configs: openssl-1.0.1 }<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - { os: =
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - { os: =
 ubuntu-latest, configs: openssl-1.0.1u }<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - { os: =
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - { os: =
 ubuntu-latest, configs: openssl-1.0.2u }<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - { os: =
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - { os: =
 ubuntu-latest, configs: openssl-1.1.0h }<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - {=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - {=
  os: ubuntu-latest, configs: openssl-1.1.1 }<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - {=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - {=
  os: ubuntu-latest, configs: openssl-1.1.1k }<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - {=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - {=
  os: ubuntu-latest, configs: openssl-3.0.0 }<br>
 &gt; &gt; +diff --git a/INSTALL b/INSTALL<br>
 &gt; &gt; +index 68b15e13190..f99d1e2a809 100644<br>
 &gt; &gt; +--- a/INSTALL<br>
 &gt; &gt; ++++ b/INSTALL<br>
-&gt; &gt; +@@ -21,12 +21,8 @@ <a href=3D"https://zlib.net/">https://apc01.s=
-afelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fzlib.net%2F&amp;data=
-=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa157742dfacb008db61a20d0=
-8%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C638211120911246208%7CUnknown=
-%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6=
-Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3DgazTCzbsb8yEsXaj1Vn9FGK6t4V1Fop5t8tPb%2B=
-WqUns%3D&amp;reserved=3D0</a><br>
+&gt; &gt; +@@ -21,12 +21,8 @@ <a href=3D"https://zlib.net/" target=3D"_blan=
+k">https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fzlib=
+.net%2F&amp;data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa157742d=
+facb008db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C638211120911=
+246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6=
+Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3DgazTCzbsb8yEsXaj1Vn9FGK6=
+t4V1Fop5t8tPb%2BWqUns%3D&amp;reserved=3D0</a><br>
 &gt; &gt; +<br>
-&gt; &gt; + libcrypto from either of LibreSSL or OpenSSL.&nbsp; Building wi=
+&gt; &gt; + libcrypto from either of LibreSSL or OpenSSL.=C2=A0 Building wi=
 thout libcrypto<br>
 &gt; &gt; + is supported but severely restricts the available ciphers and a=
 lgorithms.<br>
-&gt; &gt; +- - LibreSSL (<a href=3D"https://www.libressl.org/">https://apc0=
-1.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fwww.libressl.org%2F=
-&amp;data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa157742dfacb008=
-db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C638211120911246208%=
-7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWw=
-iLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3DCmw7m41lEsAw3CFeFKL1R8u%2Bbu%2F=
-WslzOq%2BhS%2FEkXohg%3D&amp;reserved=3D0</a>)<br>
-&gt; &gt; +- - OpenSSL (<a href=3D"https://www.openssl.org/">https://apc01.=
-safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fwww.openssl.org%2F&am=
-p;data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa157742dfacb008db6=
-1a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C638211120911246208%7CU=
-nknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLC=
-JXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3DJIzbanv8OPCrZyGkB%2B%2BqyNgDfk72Qy=
-2BmB9LAIS%2FTKk%3D&amp;reserved=3D0</a>)
+&gt; &gt; +- - LibreSSL (<a href=3D"https://www.libressl.org/" target=3D"_b=
+lank">https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fw=
+ww.libressl.org%2F&amp;data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788=
+d3aa157742dfacb008db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C6=
+38211120911246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luM=
+zIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3DCmw7m41lEsAw3=
+CFeFKL1R8u%2Bbu%2FWslzOq%2BhS%2FEkXohg%3D&amp;reserved=3D0</a>)<br>
+&gt; &gt; +- - OpenSSL (<a href=3D"https://www.openssl.org/" target=3D"_bla=
+nk">https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fwww=
+.openssl.org%2F&amp;data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3a=
+a157742dfacb008db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C6382=
+11120911246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIi=
+LCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3DJIzbanv8OPCrZyGk=
+B%2B%2BqyNgDfk72Qy2BmB9LAIS%2FTKk%3D&amp;reserved=3D0</a>)
  with any of the following versions:<br>
-&gt; &gt; +-&nbsp;&nbsp; - 1.0.x &gt;=3D 1.0.1 or 1.1.0 &gt;=3D 1.1.0g or a=
+&gt; &gt; +-=C2=A0=C2=A0 - 1.0.x &gt;=3D 1.0.1 or 1.1.0 &gt;=3D 1.1.0g or a=
 ny 1.1.1<br>
 &gt; &gt; +-<br>
 &gt; &gt; +-Note that due to a bug in EVP_CipherInit OpenSSL 1.1 versions p=
 rior to<br>
-&gt; &gt; +-1.1.0g can't be used.<br>
-&gt; &gt; ++ - LibreSSL (<a href=3D"https://www.libressl.org/">https://apc0=
-1.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fwww.libressl.org%2F=
-&amp;data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa157742dfacb008=
-db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C638211120911246208%=
-7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWw=
-iLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3DCmw7m41lEsAw3CFeFKL1R8u%2Bbu%2F=
-WslzOq%2BhS%2FEkXohg%3D&amp;reserved=3D0</a>)
+&gt; &gt; +-1.1.0g can&#39;t be used.<br>
+&gt; &gt; ++ - LibreSSL (<a href=3D"https://www.libressl.org/" target=3D"_b=
+lank">https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fw=
+ww.libressl.org%2F&amp;data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788=
+d3aa157742dfacb008db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C6=
+38211120911246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luM=
+zIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3DCmw7m41lEsAw3=
+CFeFKL1R8u%2Bbu%2FWslzOq%2BhS%2FEkXohg%3D&amp;reserved=3D0</a>)
  3.1.0 or greater<br>
-&gt; &gt; ++ - OpenSSL (<a href=3D"https://www.openssl.org/">https://apc01.=
-safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fwww.openssl.org%2F&am=
-p;data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa157742dfacb008db6=
-1a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C638211120911246208%7CU=
-nknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLC=
-JXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3DJIzbanv8OPCrZyGkB%2B%2BqyNgDfk72Qy=
-2BmB9LAIS%2FTKk%3D&amp;reserved=3D0</a>)
+&gt; &gt; ++ - OpenSSL (<a href=3D"https://www.openssl.org/" target=3D"_bla=
+nk">https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fwww=
+.openssl.org%2F&amp;data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3a=
+a157742dfacb008db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C6382=
+11120911246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIi=
+LCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3DJIzbanv8OPCrZyGk=
+B%2B%2BqyNgDfk72Qy2BmB9LAIS%2FTKk%3D&amp;reserved=3D0</a>)
  1.1.1 or greater<br>
 &gt; &gt; +<br>
 &gt; &gt; + LibreSSL/OpenSSL should be compiled as a position-independent l=
@@ -1919,121 +1973,126 @@ _char *key, const u_char *iv,<br>
 &gt; &gt; + static int<br>
 &gt; &gt; + ssh_rijndael_cbc(EVP_CIPHER_CTX *ctx, u_char *dest, const u_cha=
 r *src,<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp; LIBCRYPTO_EVP_INL_TYPE len)<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp; size_t len)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0 LIBCRYPTO_EVP_INL_TYPE len)<br>
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0 size_t len)<br>
 &gt; &gt; + {<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct ssh_rijndael_ctx *c;=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ssh_rijndael_ctx *c;=
 <br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; u_char buf[RIJNDAEL_BLOCKSI=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u_char buf[RIJNDAEL_BLOCKSI=
 ZE];<br>
-&gt; &gt; +diff --git a/configure.ac b/configure.ac<br>
+&gt; &gt; +diff --git a/<a href=3D"http://configure.ac" target=3D"_blank">c=
+onfigure.ac</a> b/<a href=3D"http://configure.ac" target=3D"_blank">configu=
+re.ac</a><br>
 &gt; &gt; +index 22fee70f604..1c0ccdf19c5 100644<br>
-&gt; &gt; +--- a/configure.ac<br>
-&gt; &gt; ++++ b/configure.ac<br>
+&gt; &gt; +--- a/<a href=3D"http://configure.ac" target=3D"_blank">configur=
+e.ac</a><br>
+&gt; &gt; ++++ b/<a href=3D"http://configure.ac" target=3D"_blank">configur=
+e.ac</a><br>
 &gt; &gt; +@@ -2744,42 +2744,40 @@<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #include &lt;openssl/crypto=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #include &lt;openssl/crypto=
 .h&gt;<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #define DATA &quot;conftest=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #define DATA &quot;conftest=
 .ssllibver&quot;<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; ]], [[<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; FILE *fd;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; int rc;<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; FILE *f;<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 ]], [[<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 FILE *fd;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 int rc;<br>
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 FILE *f;<br>
 &gt; &gt; +<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; fd =3D fopen(DATA,&quot;w&quot;);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; if(fd =3D=3D NULL)<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; if ((f =3D fopen(DATA, &quot;w&quot;)) =3D=3D NULL)<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1=
-);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 fd =3D fopen(DATA,&quot;w&quot;);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 if(fd =3D=3D NULL)<br>
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 if ((f =3D fopen(DATA, &quot;w&quot;)) =3D=3D NULL)<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 exit(=
+1);<br>
 &gt; &gt; +-#ifndef OPENSSL_VERSION<br>
 &gt; &gt; +-# define OPENSSL_VERSION SSLEAY_VERSION<br>
 &gt; &gt; +-#endif<br>
 &gt; &gt; +-#ifndef HAVE_OPENSSL_VERSION<br>
-&gt; &gt; +-# define OpenSSL_version&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SSLeay_v=
+&gt; &gt; +-# define OpenSSL_version=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SSLeay_v=
 ersion<br>
 &gt; &gt; +-#endif<br>
 &gt; &gt; +-#ifndef HAVE_OPENSSL_VERSION_NUM<br>
-&gt; &gt; +-# define OpenSSL_version_num&nbsp; SSLeay<br>
+&gt; &gt; +-# define OpenSSL_version_num=C2=A0 SSLeay<br>
 &gt; &gt; +-#endif<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; if ((rc =3D fprintf(fd, &quot;%08lx (%s)\n&quot;,<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; if (fprintf(f, &quot;%08lx (%s)&quot;,<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (unsigned long)OpenSSL_version=
-_num(),<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OpenSSL_version(OPENSSL_VERSION))) =
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 if ((rc =3D fprintf(fd, &quot;%08lx (%s)\n&quot;,<br>
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 if (fprintf(f, &quot;%08lx (%s)&quot;,<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (unsigned long)OpenSSL_versio=
+n_num(),<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 OpenSSL_version(OPENSSL_VERSION))) =
 &lt; 0)<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OpenSSL_version(OPENSSL_VERSION)) &=
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 OpenSSL_version(OPENSSL_VERSION)) &=
 lt; 0)<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br=
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 exit(1);<br=
 >
 &gt; &gt; ++#ifdef LIBRESSL_VERSION_NUMBER<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; if (fprintf(f, &quot; libressl-%08lx&quot;, LIBRESSL_VERSIO=
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 if (fprintf(f, &quot; libressl-%08lx&quot;, LIBRESSL_VERSIO=
 N_NUMBER) &lt; 0)<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br=
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 exit(1);<br=
 >
 &gt; &gt; ++#endif<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; if (fputc('\n', f) =3D=3D EOF || fclose(f) =3D=3D EOF)<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1=
-);<br>
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 if (fputc(&#39;\n&#39;, f) =3D=3D EOF || fclose(f) =3D=3D E=
+OF)<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 exit(=
+1);<br>
 &gt; &gt; +-<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; exit(0);<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; ]])],<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; [<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ssl_library=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 exit(0);<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 ]])],<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 [<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ssl_library=
 _ver=3D`cat conftest.ssllibver`<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sslver=3D`c=
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sslver=3D`c=
 at conftest.ssllibver`<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ssl_showver=
-=3D`echo &quot;$sslver&quot; | sed 's/ libressl-.*//'`<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Chec=
-k version is supported.<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case &quot;=
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ssl_showver=
+=3D`echo &quot;$sslver&quot; | sed &#39;s/ libressl-.*//&#39;`<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Che=
+ck version is supported.<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case &quot;=
 $ssl_library_ver&quot; in<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 10000*|0*)<=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 10000*|0*)<=
 br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AC_MSG_ERROR([OpenSSL &gt;=3D 1.0.1 re=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 AC_MSG_ERROR([OpenSSL &gt;=3D 1.0.1 re=
 quired (have &quot;$ssl_library_ver&quot;)])<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 100*)&nbsp;=
-&nbsp; ;; # 1.0.x<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 101000[[012=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ;;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 100*)=C2=A0=
+=C2=A0 ;; # 1.0.x<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 101000[[012=
 3456]]*)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # <a href=3D"https://github.com/openss=
-l/openssl/pull/4613">
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # <a href=3D"https://github.com/openss=
+l/openssl/pull/4613" target=3D"_blank">
 https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgithub.=
 com%2Fopenssl%2Fopenssl%2Fpull%2F4613&amp;data=3D05%7C01%7CRanjitsinh.Ratho=
 d%40kpit.com%7Cd788d3aa157742dfacb008db61a20d08%7C3539451eb46e4a26a242ff615=
@@ -2041,225 +2100,227 @@ d%40kpit.com%7Cd788d3aa157742dfacb008db61a20d08%7C3539451eb46e4a26a242ff615=
 AwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sd=
 ata=3DdJwZf4dbh%2FT3T5kfAA4%2FAXjZEhsAx5Rzay3Nq9Z0nK0%3D&amp;reserved=3D0</=
 a><br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AC_MSG_ERROR([OpenSSL 1.1.x versions p=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 AC_MSG_ERROR([OpenSSL 1.1.x versions p=
 rior to 1.1.0g have a bug that breaks their use with OpenSSH (have &quot;$s=
 sl_library_ver&quot;)])<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case &quot;=
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case &quot;=
 $sslver&quot; in<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 100*|10100*=
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 100*|10100*=
 ) # 1.0.x, 1.1.0x<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AC_MSG_ERROR([OpenSSL &gt;=3D 1.1.1 re=
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 AC_MSG_ERROR([OpenSSL &gt;=3D 1.1.1 re=
 quired (have &quot;$ssl_showver&quot;)])<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;;<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 101*)&=
-nbsp;&nbsp; ;; # 1.1.x<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 200*)&nbsp;=
-&nbsp; ;; # LibreSSL<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 200*)&nbsp;=
-&nbsp; # LibreSSL<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; lver=3D`echo &quot;$sslver&quot; | sed=
- 's/.*libressl-//'`<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case &quot;$lver&quot; in<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2*|300*) # 2.x, 3.0.0<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp; AC_MSG_ERROR([LibreSSL &gt;=3D 3.1.0 required (have &quot;$ssl_sh=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ;;<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 101*)=
+=C2=A0=C2=A0 ;; # 1.1.x<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 200*)=C2=A0=
+=C2=A0 ;; # LibreSSL<br>
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 200*)=C2=A0=
+=C2=A0 # LibreSSL<br>
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 lver=3D`echo &quot;$sslver&quot; | sed=
+ &#39;s/.*libressl-//&#39;`<br>
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case &quot;$lver&quot; in<br>
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2*|300*) # 2.x, 3.0.0<br>
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 AC_MSG_ERROR([LibreSSL &gt;=3D 3.1.0 required (have &quot;$ssl_sh=
 owver&quot;)])<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp; ;;<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *) ;;&nbsp;&nbsp; # Assume all other v=
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 ;;<br>
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *) ;;=C2=A0=C2=A0 # Assume all other v=
 ersions are good.<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; esac<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;;<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 300*)&=
-nbsp;&nbsp; ;; # OpenSSL 3<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 301*)&=
-nbsp;&nbsp; ;; # OpenSSL development branch.<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *)<br>
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 esac<br>
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ;;<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 300*)=
+=C2=A0=C2=A0 ;; # OpenSSL 3<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 301*)=
+=C2=A0=C2=A0 ;; # OpenSSL development branch.<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *)<br=
+>
 &gt; &gt; +@@ -2781,10 +2781,10 @@<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 300*)&=
-nbsp;&nbsp; ;; # OpenSSL 3<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 301*)&=
-nbsp;&nbsp; ;; # OpenSSL development branch.<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AC_MSG_ERROR([Unknown/unsupported Open=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 300*)=
+=C2=A0=C2=A0 ;; # OpenSSL 3<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 301*)=
+=C2=A0=C2=A0 ;; # OpenSSL development branch.<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *)<br=
+>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 AC_MSG_ERROR([Unknown/unsupported Open=
 SSL version (&quot;$ssl_library_ver&quot;)])<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AC_MSG_ERROR([Unknown/unsupported Open=
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 AC_MSG_ERROR([Unknown/unsupported Open=
 SSL version (&quot;$ssl_showver&quot;)])<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;;<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; esac<b=
-r>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AC_MSG_RESU=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ;;<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 esac<=
+br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 AC_MSG_RESU=
 LT([$ssl_library_ver])<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AC_MSG_RESU=
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 AC_MSG_RESU=
 LT([$ssl_showver])<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; ],<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; [<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AC_MSG=
-_RESULT([not found])<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 ],<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 [<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 AC_MS=
+G_RESULT([not found])<br>
 &gt; &gt; +@@ -2804,9 +2804,6 @@<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #include &lt;openssl/openss=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #include &lt;openssl/openss=
 lv.h&gt;<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #include &lt;openssl/crypto=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #include &lt;openssl/crypto=
 .h&gt;<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; ]], [[<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 ]], [[<br>
 &gt; &gt; +-#ifndef HAVE_OPENSSL_VERSION_NUM<br>
-&gt; &gt; +-# define OpenSSL_version_num&nbsp; SSLeay<br>
+&gt; &gt; +-# define OpenSSL_version_num=C2=A0 SSLeay<br>
 &gt; &gt; +-#endif<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; exit(OpenSSL_version_num() =3D=3D OPENSSL_VERSION_NUMB=
-ER ? 0 : 1);<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; ]])],<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; [<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 exit(OpenSSL_version_num() =3D=3D OPENSSL_VERSION_NUM=
+BER ? 0 : 1);<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 ]])],<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 [<br>
 &gt; &gt; +@@ -2881,44 +2878,13 @@<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )<b=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 )<b=
 r>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 )<br>
 &gt; &gt; +<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # LibreSSL/OpenSSL 1.1x API<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # LibreSSL/OpenSSL API differenc=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # LibreSSL/OpenSSL 1.1x API<br>
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # LibreSSL/OpenSSL API differenc=
 es<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AC_CHECK_FUNCS([ \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; OPENSSL_init_crypto \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; DH_get0_key \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; DH_get0_pqg \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; DH_set0_key \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; DH_set_length \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; DH_set0_pqg \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; DSA_get0_key \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; DSA_get0_pqg \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; DSA_set0_key \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; DSA_set0_pqg \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; DSA_SIG_get0 \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; DSA_SIG_set0 \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; ECDSA_SIG_get0 \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; ECDSA_SIG_set0 \<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; EVP_CIPHER_CTX_iv \<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; EVP_CIPHER_CTX_iv_noconst \<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; EVP_CIPHER_CTX_get_iv \<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; EVP_CIPHER_CTX_get_updated_iv \<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; EVP_CIPHER_CTX_set_iv \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; RSA_get0_crt_params \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; RSA_get0_factors \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; RSA_get0_key \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; RSA_set0_crt_params \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; RSA_set0_factors \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; RSA_set0_key \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; RSA_meth_free \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; RSA_meth_dup \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; RSA_meth_set1_name \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; RSA_meth_get_finish \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; RSA_meth_set_priv_enc \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; RSA_meth_set_priv_dec \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; RSA_meth_set_finish \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; EVP_PKEY_get0_RSA \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; EVP_MD_CTX_new \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; EVP_MD_CTX_free \<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; EVP_chacha20 \<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ])<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 AC_CHECK_FUNCS([ \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 OPENSSL_init_crypto \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 DH_get0_key \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 DH_get0_pqg \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 DH_set0_key \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 DH_set_length \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 DH_set0_pqg \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 DSA_get0_key \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 DSA_get0_pqg \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 DSA_set0_key \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 DSA_set0_pqg \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 DSA_SIG_get0 \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 DSA_SIG_set0 \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 ECDSA_SIG_get0 \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 ECDSA_SIG_set0 \<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 EVP_CIPHER_CTX_iv \<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 EVP_CIPHER_CTX_iv_noconst \<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 EVP_CIPHER_CTX_get_iv \<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 EVP_CIPHER_CTX_get_updated_iv \<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 EVP_CIPHER_CTX_set_iv \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 RSA_get0_crt_params \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 RSA_get0_factors \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 RSA_get0_key \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 RSA_set0_crt_params \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 RSA_set0_factors \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 RSA_set0_key \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 RSA_meth_free \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 RSA_meth_dup \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 RSA_meth_set1_name \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 RSA_meth_get_finish \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 RSA_meth_set_priv_enc \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 RSA_meth_set_priv_dec \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 RSA_meth_set_finish \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 EVP_PKEY_get0_RSA \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 EVP_MD_CTX_new \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 EVP_MD_CTX_free \<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 EVP_chacha20 \<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ])<br>
 &gt; &gt; +<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if test &quot;x$openssl_eng=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if test &quot;x$openssl_eng=
 ine&quot; =3D &quot;xyes&quot; ; then<br>
 &gt; &gt; +@@ -3040,8 +3006,8 @@<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fi<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AC_CHECK_FUNCS([crypt DES_c=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fi<br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 AC_CHECK_FUNCS([crypt DES_c=
 rypt])<br>
 &gt; &gt; +<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Check for SHA256, SHA384 and S=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Check for SHA256, SHA384 and S=
 HA512 support in OpenSSL<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AC_CHECK_FUNCS([EVP_sha256 EVP_s=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 AC_CHECK_FUNCS([EVP_sha256 EVP_s=
 ha384 EVP_sha512])<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Check for various EVP support =
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Check for various EVP support =
 in OpenSSL<br>
-&gt; &gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AC_CHECK_FUNCS([EVP_sha256 EVP_s=
+&gt; &gt; ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 AC_CHECK_FUNCS([EVP_sha256 EVP_s=
 ha384 EVP_sha512 EVP_chacha20])<br>
 &gt; &gt; +<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Check complete ECC suppor=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Check complete ECC suppor=
 t in OpenSSL<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AC_MSG_CHECKING([whether Op=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 AC_MSG_CHECKING([whether Op=
 enSSL has NID_X9_62_prime256v1])<br>
 &gt; &gt; +diff --git a/openbsd-compat/libressl-api-compat.c b/openbsd-comp=
 at/libressl-api-compat.c<br>
@@ -2278,29 +2339,31 @@ br>
 &gt; &gt; +-/* $OpenBSD: p_lib.c,v 1.24 2018/05/30 15:40:50 tb Exp $ */<br>
 &gt; &gt; +-/* $OpenBSD: digest.c,v 1.30 2018/04/14 07:09:21 tb Exp $ */<br=
 >
-&gt; &gt; +-/* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)<br>
+&gt; &gt; +-/* Copyright (C) 1995-1998 Eric Young (<a href=3D"mailto:eay@cr=
+yptsoft.com" target=3D"_blank">eay@cryptsoft.com</a>)<br>
 &gt; &gt; +- * All rights reserved.<br>
 &gt; &gt; +- *<br>
 &gt; &gt; +- * This package is an SSL implementation written<br>
-&gt; &gt; +- * by Eric Young (eay@cryptsoft.com).<br>
+&gt; &gt; +- * by Eric Young (<a href=3D"mailto:eay@cryptsoft.com" target=
+=3D"_blank">eay@cryptsoft.com</a>).<br>
 &gt; &gt; +- * The implementation was written so as to conform with Netscap=
 es SSL.<br>
 &gt; &gt; +- *<br>
 &gt; &gt; +- * This library is free for commercial and non-commercial use a=
 s long as<br>
-&gt; &gt; +- * the following conditions are aheared to.&nbsp; The following=
+&gt; &gt; +- * the following conditions are aheared to.=C2=A0 The following=
  conditions<br>
 &gt; &gt; +- * apply to all code found in this distribution, be it the RC4,=
  RSA,<br>
-&gt; &gt; +- * lhash, DES, etc., code; not just the SSL code.&nbsp; The SSL=
+&gt; &gt; +- * lhash, DES, etc., code; not just the SSL code.=C2=A0 The SSL=
  documentation<br>
 &gt; &gt; +- * included with this distribution is covered by the same copyr=
 ight terms<br>
-&gt; &gt; +- * except that the holder is Tim Hudson (tjh@cryptsoft.com).<br=
->
+&gt; &gt; +- * except that the holder is Tim Hudson (<a href=3D"mailto:tjh@=
+cryptsoft.com" target=3D"_blank">tjh@cryptsoft.com</a>).<br>
 &gt; &gt; +- *<br>
-&gt; &gt; +- * Copyright remains Eric Young's, and as such any Copyright no=
-tices in<br>
+&gt; &gt; +- * Copyright remains Eric Young&#39;s, and as such any Copyrigh=
+t notices in<br>
 &gt; &gt; +- * the code are not to be removed.<br>
 &gt; &gt; +- * If this package is used in a product, Eric Young should be g=
 iven attribution<br>
@@ -2317,39 +2380,41 @@ itions<br>
 &gt; &gt; +- * are met:<br>
 &gt; &gt; +- * 1. Redistributions of source code must retain the copyright<=
 br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp; notice, this list of conditions and the fo=
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0 notice, this list of conditions and the fo=
 llowing disclaimer.<br>
 &gt; &gt; +- * 2. Redistributions in binary form must reproduce the above c=
 opyright<br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp; notice, this list of conditions and the fo=
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0 notice, this list of conditions and the fo=
 llowing disclaimer in the<br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp; documentation and/or other materials provi=
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0 documentation and/or other materials provi=
 ded with the distribution.<br>
 &gt; &gt; +- * 3. All advertising materials mentioning features or use of t=
 his software<br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp; must display the following acknowledgement=
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0 must display the following acknowledgement=
 :<br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp; &quot;This product includes cryptographic =
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0 &quot;This product includes cryptographic =
 software written by<br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp;&nbsp; Eric Young (eay@cryptsoft.com)&quot;=
-<br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp; The word 'cryptographic' can be left out i=
-f the rouines from the library<br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp; being used are not cryptographic related :=
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0=C2=A0 Eric Young (<a href=3D"mailto:eay@cr=
+yptsoft.com" target=3D"_blank">eay@cryptsoft.com</a>)&quot;<br>
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0 The word &#39;cryptographic&#39; can be le=
+ft out if the rouines from the library<br>
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0 being used are not cryptographic related :=
 -).<br>
 &gt; &gt; +- * 4. If you include any Windows specific code (or a derivative=
  thereof) from<br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp; the apps directory (application code) you =
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0 the apps directory (application code) you =
 must include an acknowledgement:<br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp; &quot;This product includes software writt=
-en by Tim Hudson (tjh@cryptsoft.com)&quot;<br>
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0 &quot;This product includes software writt=
+en by Tim Hudson (<a href=3D"mailto:tjh@cryptsoft.com" target=3D"_blank">tj=
+h@cryptsoft.com</a>)&quot;<br>
 &gt; &gt; +- *<br>
-&gt; &gt; +- * THIS SOFTWARE IS PROVIDED BY ERIC YOUNG ``AS IS'' AND<br>
+&gt; &gt; +- * THIS SOFTWARE IS PROVIDED BY ERIC YOUNG ``AS IS&#39;&#39; AN=
+D<br>
 &gt; &gt; +- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITE=
 D TO, THE<br>
 &gt; &gt; +- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PART=
 ICULAR PURPOSE<br>
-&gt; &gt; +- * ARE DISCLAIMED.&nbsp; IN NO EVENT SHALL THE AUTHOR OR CONTRI=
+&gt; &gt; +- * ARE DISCLAIMED.=C2=A0 IN NO EVENT SHALL THE AUTHOR OR CONTRI=
 BUTORS BE LIABLE<br>
 &gt; &gt; +- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR=
  CONSEQUENTIAL<br>
@@ -2367,7 +2432,7 @@ IBILITY OF<br>
 &gt; &gt; +- *<br>
 &gt; &gt; +- * The licence and distribution terms for any publically availa=
 ble version or<br>
-&gt; &gt; +- * derivative of this code cannot be changed.&nbsp; i.e. this c=
+&gt; &gt; +- * derivative of this code cannot be changed.=C2=A0 i.e. this c=
 ode cannot simply be<br>
 &gt; &gt; +- * copied and put under another distribution licence<br>
 &gt; &gt; +- * [including the GNU Public Licence.]<br>
@@ -2379,14 +2444,14 @@ ode cannot simply be<br>
 r>
 &gt; &gt; +-/* $OpenBSD: digest.c,v 1.30 2018/04/14 07:09:21 tb Exp $ */<br=
 >
-&gt; &gt; +-/* Written by Dr Stephen N Henson (steve@openssl.org) for the O=
-penSSL<br>
+&gt; &gt; +-/* Written by Dr Stephen N Henson (<a href=3D"mailto:steve@open=
+ssl.org" target=3D"_blank">steve@openssl.org</a>) for the OpenSSL<br>
 &gt; &gt; +- * project 2000.<br>
 &gt; &gt; +- */<br>
 &gt; &gt; +-/* =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
-&gt; &gt; +- * Copyright (c) 2000-2005 The OpenSSL Project.&nbsp; All right=
+&gt; &gt; +- * Copyright (c) 2000-2005 The OpenSSL Project.=C2=A0 All right=
 s reserved.<br>
 &gt; &gt; +- *<br>
 &gt; &gt; +- * Redistribution and use in source and binary forms, with or w=
@@ -2397,67 +2462,67 @@ itions<br>
 &gt; &gt; +- *<br>
 &gt; &gt; +- * 1. Redistributions of source code must retain the above copy=
 right<br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp; notice, this list of conditions and the fo=
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0 notice, this list of conditions and the fo=
 llowing disclaimer.<br>
 &gt; &gt; +- *<br>
 &gt; &gt; +- * 2. Redistributions in binary form must reproduce the above c=
 opyright<br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp; notice, this list of conditions and the fo=
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0 notice, this list of conditions and the fo=
 llowing disclaimer in<br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp; the documentation and/or other materials p=
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0 the documentation and/or other materials p=
 rovided with the<br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp; distribution.<br>
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0 distribution.<br>
 &gt; &gt; +- *<br>
 &gt; &gt; +- * 3. All advertising materials mentioning features or use of t=
 his<br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp; software must display the following acknow=
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0 software must display the following acknow=
 ledgment:<br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp; &quot;This product includes software devel=
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0 &quot;This product includes software devel=
 oped by the OpenSSL Project<br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp; for use in the OpenSSL Toolkit. (<a href=
-=3D"http://www.openssl.org/">https://apc01.safelinks.protection.outlook.com=
-/?url=3Dhttp%3A%2F%2Fwww.openssl.org%2F&amp;data=3D05%7C01%7CRanjitsinh.Rat=
-hod%40kpit.com%7Cd788d3aa157742dfacb008db61a20d08%7C3539451eb46e4a26a242ff6=
-1502855c7%7C0%7C0%7C638211120911246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4w=
-LjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;=
-sdata=3Dxcpid%2F25wbVMoxg4ok8qGpgBjiL8jXkZN5bX4hSS2wc%3D&amp;reserved=3D0</=
-a>)&quot;<br>
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0 for use in the OpenSSL Toolkit. (<a href=
+=3D"http://www.openssl.org/" target=3D"_blank">https://apc01.safelinks.prot=
+ection.outlook.com/?url=3Dhttp%3A%2F%2Fwww.openssl.org%2F&amp;data=3D05%7C0=
+1%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa157742dfacb008db61a20d08%7C35394=
+51eb46e4a26a242ff61502855c7%7C0%7C0%7C638211120911246208%7CUnknown%7CTWFpbG=
+Zsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C=
+3000%7C%7C%7C&amp;sdata=3Dxcpid%2F25wbVMoxg4ok8qGpgBjiL8jXkZN5bX4hSS2wc%3D&=
+amp;reserved=3D0</a>)&quot;<br>
 &gt; &gt; +- *<br>
 &gt; &gt; +- * 4. The names &quot;OpenSSL Toolkit&quot; and &quot;OpenSSL P=
 roject&quot; must not be used to<br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp; endorse or promote products derived from t=
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0 endorse or promote products derived from t=
 his software without<br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp; prior written permission. For written perm=
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0 prior written permission. For written perm=
 ission, please contact<br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp; licensing@OpenSSL.org.<br>
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0 licensing@OpenSSL.org.<br>
 &gt; &gt; +- *<br>
 &gt; &gt; +- * 5. Products derived from this software may not be called &qu=
 ot;OpenSSL&quot;<br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp; nor may &quot;OpenSSL&quot; appear in thei=
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0 nor may &quot;OpenSSL&quot; appear in thei=
 r names without prior written<br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp; permission of the OpenSSL Project.<br>
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0 permission of the OpenSSL Project.<br>
 &gt; &gt; +- *<br>
 &gt; &gt; +- * 6. Redistributions of any form whatsoever must retain the fo=
 llowing<br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp; acknowledgment:<br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp; &quot;This product includes software devel=
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0 acknowledgment:<br>
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0 &quot;This product includes software devel=
 oped by the OpenSSL Project<br>
-&gt; &gt; +- *&nbsp;&nbsp;&nbsp; for use in the OpenSSL Toolkit (<a href=3D=
-"http://www.openssl.org/">https://apc01.safelinks.protection.outlook.com/?u=
-rl=3Dhttp%3A%2F%2Fwww.openssl.org%2F&amp;data=3D05%7C01%7CRanjitsinh.Rathod=
-%40kpit.com%7Cd788d3aa157742dfacb008db61a20d08%7C3539451eb46e4a26a242ff6150=
-2855c7%7C0%7C0%7C638211120911246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjA=
-wMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sda=
-ta=3Dxcpid%2F25wbVMoxg4ok8qGpgBjiL8jXkZN5bX4hSS2wc%3D&amp;reserved=3D0</a>)=
-&quot;<br>
+&gt; &gt; +- *=C2=A0=C2=A0=C2=A0 for use in the OpenSSL Toolkit (<a href=3D=
+"http://www.openssl.org/" target=3D"_blank">https://apc01.safelinks.protect=
+ion.outlook.com/?url=3Dhttp%3A%2F%2Fwww.openssl.org%2F&amp;data=3D05%7C01%7=
+CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa157742dfacb008db61a20d08%7C3539451e=
+b46e4a26a242ff61502855c7%7C0%7C0%7C638211120911246208%7CUnknown%7CTWFpbGZsb=
+3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C300=
+0%7C%7C%7C&amp;sdata=3Dxcpid%2F25wbVMoxg4ok8qGpgBjiL8jXkZN5bX4hSS2wc%3D&amp=
+;reserved=3D0</a>)&quot;<br>
 &gt; &gt; +- *<br>
-&gt; &gt; +- * THIS SOFTWARE IS PROVIDED BY THE OpenSSL PROJECT ``AS IS'' A=
-ND ANY<br>
+&gt; &gt; +- * THIS SOFTWARE IS PROVIDED BY THE OpenSSL PROJECT ``AS IS&#39=
+;&#39; AND ANY<br>
 &gt; &gt; +- * EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED =
 TO, THE<br>
 &gt; &gt; +- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PART=
 ICULAR<br>
-&gt; &gt; +- * PURPOSE ARE DISCLAIMED.&nbsp; IN NO EVENT SHALL THE OpenSSL =
+&gt; &gt; +- * PURPOSE ARE DISCLAIMED.=C2=A0 IN NO EVENT SHALL THE OpenSSL =
 PROJECT OR<br>
 &gt; &gt; +- * ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDEN=
 TAL,<br>
@@ -2479,21 +2544,24 @@ ADVISED<br>
 &gt; &gt; +- *<br>
 &gt; &gt; +- * This product includes cryptographic software written by Eric=
  Young<br>
-&gt; &gt; +- * (eay@cryptsoft.com).&nbsp; This product includes software wr=
-itten by Tim<br>
-&gt; &gt; +- * Hudson (tjh@cryptsoft.com).<br>
+&gt; &gt; +- * (<a href=3D"mailto:eay@cryptsoft.com" target=3D"_blank">eay@=
+cryptsoft.com</a>).=C2=A0 This product includes software written by Tim<br>
+&gt; &gt; +- * Hudson (<a href=3D"mailto:tjh@cryptsoft.com" target=3D"_blan=
+k">tjh@cryptsoft.com</a>).<br>
 &gt; &gt; +- *<br>
 &gt; &gt; +- */<br>
 &gt; &gt; +-<br>
-&gt; &gt; +-/*&nbsp;&nbsp;&nbsp; $OpenBSD: rsa_meth.c,v 1.2 2018/09/12 06:3=
-5:38 djm Exp $&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&gt; &gt; +-/*=C2=A0=C2=A0=C2=A0 $OpenBSD: rsa_meth.c,v 1.2 2018/09/12 06:3=
+5:38 djm Exp $=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */<br>
 &gt; &gt; + /*<br>
-&gt; &gt; +- * Copyright (c) 2018 Theo Buehler &lt;tb@openbsd.org&gt;<br>
-&gt; &gt; ++ * Copyright (c) 2018 Damien Miller &lt;djm@mindrot.org&gt;<br>
-&gt; &gt; +&nbsp; *<br>
-&gt; &gt; +&nbsp; * Permission to use, copy, modify, and distribute this so=
+&gt; &gt; +- * Copyright (c) 2018 Theo Buehler &lt;<a href=3D"mailto:tb@ope=
+nbsd.org" target=3D"_blank">tb@openbsd.org</a>&gt;<br>
+&gt; &gt; ++ * Copyright (c) 2018 Damien Miller &lt;<a href=3D"mailto:djm@m=
+indrot.org" target=3D"_blank">djm@mindrot.org</a>&gt;<br>
+&gt; &gt; +=C2=A0 *<br>
+&gt; &gt; +=C2=A0 * Permission to use, copy, modify, and distribute this so=
 ftware for any<br>
-&gt; &gt; +&nbsp; * purpose with or without fee is hereby granted, provided=
+&gt; &gt; +=C2=A0 * purpose with or without fee is hereby granted, provided=
  that the above<br>
 &gt; &gt; +@@ -147,192 +23,7 @@<br>
 &gt; &gt; + #include &lt;stdlib.h&gt;<br>
@@ -2514,15 +2582,15 @@ ftware for any<br>
 &gt; &gt; +-DSA_get0_pqg(const DSA *d, const BIGNUM **p, const BIGNUM **q, =
 const BIGNUM **g)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (p !=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; *p =3D d-&gt;p;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (q !=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; *q =3D d-&gt;q;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (g !=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; *g =3D d-&gt;g;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (p !=3D NULL)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 *p =3D d-&gt;p;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (q !=3D NULL)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 *q =3D d-&gt;q;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (g !=3D NULL)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 *g =3D d-&gt;g;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_DSA_GET0_PQG */<br>
 &gt; &gt; +-<br>
@@ -2530,33 +2598,33 @@ sp;&nbsp;&nbsp; *g =3D d-&gt;g;<br>
 &gt; &gt; +-int<br>
 &gt; &gt; +-DSA_set0_pqg(DSA *d, BIGNUM *p, BIGNUM *q, BIGNUM *g)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if ((d-&gt;p =3D=3D NULL &amp;&a=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if ((d-&gt;p =3D=3D NULL &amp;&a=
 mp; p =3D=3D NULL) || (d-&gt;q =3D=3D NULL &amp;&amp; q =3D=3D NULL) ||<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (d-&gt;g=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (d-&gt;g=
  =3D=3D NULL &amp;&amp; g =3D=3D NULL))<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; return 0;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 return 0;<br>
 &gt; &gt; +-<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (p !=3D NULL) {<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; BN_free(d-&gt;p);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; d-&gt;p =3D p;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (q !=3D NULL) {<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; BN_free(d-&gt;q);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; d-&gt;q =3D q;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (g !=3D NULL) {<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; BN_free(d-&gt;g);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; d-&gt;g =3D g;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (p !=3D NULL) {<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 BN_free(d-&gt;p);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 d-&gt;p =3D p;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (q !=3D NULL) {<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 BN_free(d-&gt;q);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 d-&gt;q =3D q;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (g !=3D NULL) {<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 BN_free(d-&gt;g);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 d-&gt;g =3D g;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
 &gt; &gt; +-<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 1;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 1;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_DSA_SET0_PQG */<br>
 &gt; &gt; +-<br>
@@ -2565,12 +2633,12 @@ sp;&nbsp;&nbsp; d-&gt;g =3D g;<br>
 &gt; &gt; +-DSA_get0_key(const DSA *d, const BIGNUM **pub_key, const BIGNUM=
  **priv_key)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (pub_key !=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; *pub_key =3D d-&gt;pub_key;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (priv_key !=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; *priv_key =3D d-&gt;priv_key;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (pub_key !=3D NULL)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 *pub_key =3D d-&gt;pub_key;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (priv_key !=3D NULL)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 *priv_key =3D d-&gt;priv_key;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_DSA_GET0_KEY */<br>
 &gt; &gt; +-<br>
@@ -2578,25 +2646,25 @@ sp;&nbsp;&nbsp; *priv_key =3D d-&gt;priv_key;<br>
 &gt; &gt; +-int<br>
 &gt; &gt; +-DSA_set0_key(DSA *d, BIGNUM *pub_key, BIGNUM *priv_key)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (d-&gt;pub_key =3D=3D NULL &a=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (d-&gt;pub_key =3D=3D NULL &a=
 mp;&amp; pub_key =3D=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; return 0;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 return 0;<br>
 &gt; &gt; +-<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (pub_key !=3D NULL) {<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; BN_free(d-&gt;pub_key);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; d-&gt;pub_key =3D pub_key;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (priv_key !=3D NULL) {<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; BN_free(d-&gt;priv_key);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; d-&gt;priv_key =3D priv_key;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (pub_key !=3D NULL) {<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 BN_free(d-&gt;pub_key);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 d-&gt;pub_key =3D pub_key;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (priv_key !=3D NULL) {<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 BN_free(d-&gt;priv_key);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 d-&gt;priv_key =3D priv_key;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
 &gt; &gt; +-<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 1;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 1;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_DSA_SET0_KEY */<br>
 &gt; &gt; +-<br>
@@ -2605,15 +2673,15 @@ sp;&nbsp;&nbsp; d-&gt;priv_key =3D priv_key;<br>
 &gt; &gt; +-RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e, =
 const BIGNUM **d)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (n !=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; *n =3D r-&gt;n;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (e !=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; *e =3D r-&gt;e;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (d !=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; *d =3D r-&gt;d;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (n !=3D NULL)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 *n =3D r-&gt;n;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (e !=3D NULL)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 *e =3D r-&gt;e;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (d !=3D NULL)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 *d =3D r-&gt;d;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_RSA_GET0_KEY */<br>
 &gt; &gt; +-<br>
@@ -2621,31 +2689,31 @@ sp;&nbsp;&nbsp; *d =3D r-&gt;d;<br>
 &gt; &gt; +-int<br>
 &gt; &gt; +-RSA_set0_key(RSA *r, BIGNUM *n, BIGNUM *e, BIGNUM *d)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if ((r-&gt;n =3D=3D NULL &amp;&a=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if ((r-&gt;n =3D=3D NULL &amp;&a=
 mp; n =3D=3D NULL) || (r-&gt;e =3D=3D NULL &amp;&amp; e =3D=3D NULL))<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; return 0;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 return 0;<br>
 &gt; &gt; +-<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (n !=3D NULL) {<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; BN_free(r-&gt;n);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; r-&gt;n =3D n;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (e !=3D NULL) {<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; BN_free(r-&gt;e);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; r-&gt;e =3D e;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (d !=3D NULL) {<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; BN_free(r-&gt;d);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; r-&gt;d =3D d;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (n !=3D NULL) {<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 BN_free(r-&gt;n);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 r-&gt;n =3D n;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (e !=3D NULL) {<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 BN_free(r-&gt;e);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 r-&gt;e =3D e;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (d !=3D NULL) {<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 BN_free(r-&gt;d);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 r-&gt;d =3D d;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
 &gt; &gt; +-<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 1;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 1;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_RSA_SET0_KEY */<br>
 &gt; &gt; +-<br>
@@ -2653,17 +2721,17 @@ sp;&nbsp;&nbsp; r-&gt;d =3D d;<br>
 &gt; &gt; +-void<br>
 &gt; &gt; +-RSA_get0_crt_params(const RSA *r, const BIGNUM **dmp1, const BI=
 GNUM **dmq1,<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp; const BIGNUM **iqmp)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0 const BIGNUM **iqmp)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (dmp1 !=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; *dmp1 =3D r-&gt;dmp1;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (dmq1 !=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; *dmq1 =3D r-&gt;dmq1;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (iqmp !=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; *iqmp =3D r-&gt;iqmp;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (dmp1 !=3D NULL)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 *dmp1 =3D r-&gt;dmp1;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (dmq1 !=3D NULL)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 *dmq1 =3D r-&gt;dmq1;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (iqmp !=3D NULL)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 *iqmp =3D r-&gt;iqmp;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_RSA_GET0_CRT_PARAMS */<br>
 &gt; &gt; +-<br>
@@ -2672,35 +2740,35 @@ sp;&nbsp;&nbsp; *iqmp =3D r-&gt;iqmp;<br>
 &gt; &gt; +-RSA_set0_crt_params(RSA *r, BIGNUM *dmp1, BIGNUM *dmq1, BIGNUM =
 *iqmp)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if ((r-&gt;dmp1 =3D=3D NULL &amp=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if ((r-&gt;dmp1 =3D=3D NULL &amp=
 ;&amp; dmp1 =3D=3D NULL) ||<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (r-&gt;d=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (r-&gt;d=
 mq1 =3D=3D NULL &amp;&amp; dmq1 =3D=3D NULL) ||<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (r-&gt;i=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (r-&gt;i=
 qmp =3D=3D NULL &amp;&amp; iqmp =3D=3D NULL))<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; return 0;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 return 0;<br>
 &gt; &gt; +-<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (dmp1 !=3D NULL) {<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; BN_free(r-&gt;dmp1);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; r-&gt;dmp1 =3D dmp1;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (dmq1 !=3D NULL) {<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; BN_free(r-&gt;dmq1);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; r-&gt;dmq1 =3D dmq1;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (iqmp !=3D NULL) {<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; BN_free(r-&gt;iqmp);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; r-&gt;iqmp =3D iqmp;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (dmp1 !=3D NULL) {<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 BN_free(r-&gt;dmp1);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 r-&gt;dmp1 =3D dmp1;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (dmq1 !=3D NULL) {<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 BN_free(r-&gt;dmq1);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 r-&gt;dmq1 =3D dmq1;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (iqmp !=3D NULL) {<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 BN_free(r-&gt;iqmp);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 r-&gt;iqmp =3D iqmp;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
 &gt; &gt; +-<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 1;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 1;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_RSA_SET0_CRT_PARAMS */<br>
 &gt; &gt; +-<br>
@@ -2709,12 +2777,12 @@ sp;&nbsp;&nbsp; r-&gt;iqmp =3D iqmp;<br>
 &gt; &gt; +-RSA_get0_factors(const RSA *r, const BIGNUM **p, const BIGNUM *=
 *q)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (p !=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; *p =3D r-&gt;p;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (q !=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; *q =3D r-&gt;q;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (p !=3D NULL)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 *p =3D r-&gt;p;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (q !=3D NULL)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 *q =3D r-&gt;q;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_RSA_GET0_FACTORS */<br>
 &gt; &gt; +-<br>
@@ -2722,25 +2790,25 @@ sp;&nbsp;&nbsp; *q =3D r-&gt;q;<br>
 &gt; &gt; +-int<br>
 &gt; &gt; +-RSA_set0_factors(RSA *r, BIGNUM *p, BIGNUM *q)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if ((r-&gt;p =3D=3D NULL &amp;&a=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if ((r-&gt;p =3D=3D NULL &amp;&a=
 mp; p =3D=3D NULL) || (r-&gt;q =3D=3D NULL &amp;&amp; q =3D=3D NULL))<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; return 0;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 return 0;<br>
 &gt; &gt; +-<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (p !=3D NULL) {<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; BN_free(r-&gt;p);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; r-&gt;p =3D p;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (q !=3D NULL) {<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; BN_free(r-&gt;q);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; r-&gt;q =3D q;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (p !=3D NULL) {<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 BN_free(r-&gt;p);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 r-&gt;p =3D p;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (q !=3D NULL) {<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 BN_free(r-&gt;q);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 r-&gt;q =3D q;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
 &gt; &gt; +-<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 1;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 1;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_RSA_SET0_FACTORS */<br>
 &gt; &gt; +<br>
@@ -2756,12 +2824,12 @@ const unsigned char *iv, size_t len)<br>
 &gt; &gt; +-DSA_SIG_get0(const DSA_SIG *sig, const BIGNUM **pr, const BIGNU=
 M **ps)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (pr !=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; *pr =3D sig-&gt;r;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (ps !=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; *ps =3D sig-&gt;s;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (pr !=3D NULL)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 *pr =3D sig-&gt;r;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ps !=3D NULL)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 *ps =3D sig-&gt;s;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_DSA_SIG_GET0 */<br>
 &gt; &gt; +-<br>
@@ -2769,17 +2837,17 @@ sp;&nbsp;&nbsp; *ps =3D sig-&gt;s;<br>
 &gt; &gt; +-int<br>
 &gt; &gt; +-DSA_SIG_set0(DSA_SIG *sig, BIGNUM *r, BIGNUM *s)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (r =3D=3D NULL || s =3D=3D NU=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (r =3D=3D NULL || s =3D=3D NU=
 LL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; return 0;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 return 0;<br>
 &gt; &gt; +-<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BN_clear_free(sig-&gt;r);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sig-&gt;r =3D r;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BN_clear_free(sig-&gt;s);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sig-&gt;s =3D s;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BN_clear_free(sig-&gt;r);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sig-&gt;r =3D r;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BN_clear_free(sig-&gt;s);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sig-&gt;s =3D s;<br>
 &gt; &gt; +-<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 1;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 1;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_DSA_SIG_SET0 */<br>
 &gt; &gt; +-<br>
@@ -2789,12 +2857,12 @@ sp;&nbsp;&nbsp; return 0;<br>
 &gt; &gt; +-ECDSA_SIG_get0(const ECDSA_SIG *sig, const BIGNUM **pr, const B=
 IGNUM **ps)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (pr !=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; *pr =3D sig-&gt;r;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (ps !=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; *ps =3D sig-&gt;s;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (pr !=3D NULL)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 *pr =3D sig-&gt;r;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ps !=3D NULL)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 *ps =3D sig-&gt;s;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_ECDSA_SIG_GET0 */<br>
 &gt; &gt; +-<br>
@@ -2802,16 +2870,16 @@ sp;&nbsp;&nbsp; *ps =3D sig-&gt;s;<br>
 &gt; &gt; +-int<br>
 &gt; &gt; +-ECDSA_SIG_set0(ECDSA_SIG *sig, BIGNUM *r, BIGNUM *s)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (r =3D=3D NULL || s =3D=3D NU=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (r =3D=3D NULL || s =3D=3D NU=
 LL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; return 0;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 return 0;<br>
 &gt; &gt; +-<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BN_clear_free(sig-&gt;r);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BN_clear_free(sig-&gt;s);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sig-&gt;r =3D r;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sig-&gt;s =3D s;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 1;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BN_clear_free(sig-&gt;r);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BN_clear_free(sig-&gt;s);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sig-&gt;r =3D r;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sig-&gt;s =3D s;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 1;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_ECDSA_SIG_SET0 */<br>
 &gt; &gt; +-#endif /* OPENSSL_HAS_ECC */<br>
@@ -2821,15 +2889,15 @@ sp;&nbsp;&nbsp; return 0;<br>
 &gt; &gt; +-DH_get0_pqg(const DH *dh, const BIGNUM **p, const BIGNUM **q, c=
 onst BIGNUM **g)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (p !=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; *p =3D dh-&gt;p;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (q !=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; *q =3D dh-&gt;q;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (g !=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; *g =3D dh-&gt;g;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (p !=3D NULL)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 *p =3D dh-&gt;p;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (q !=3D NULL)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 *q =3D dh-&gt;q;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (g !=3D NULL)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 *g =3D dh-&gt;g;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_DH_GET0_PQG */<br>
 &gt; &gt; +-<br>
@@ -2837,31 +2905,31 @@ sp;&nbsp;&nbsp; *g =3D dh-&gt;g;<br>
 &gt; &gt; +-int<br>
 &gt; &gt; +-DH_set0_pqg(DH *dh, BIGNUM *p, BIGNUM *q, BIGNUM *g)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if ((dh-&gt;p =3D=3D NULL &amp;&=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if ((dh-&gt;p =3D=3D NULL &amp;&=
 amp; p =3D=3D NULL) || (dh-&gt;g =3D=3D NULL &amp;&amp; g =3D=3D NULL))<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; return 0;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 return 0;<br>
 &gt; &gt; +-<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (p !=3D NULL) {<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; BN_free(dh-&gt;p);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; dh-&gt;p =3D p;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (q !=3D NULL) {<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; BN_free(dh-&gt;q);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; dh-&gt;q =3D q;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (g !=3D NULL) {<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; BN_free(dh-&gt;g);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; dh-&gt;g =3D g;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (p !=3D NULL) {<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 BN_free(dh-&gt;p);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 dh-&gt;p =3D p;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (q !=3D NULL) {<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 BN_free(dh-&gt;q);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 dh-&gt;q =3D q;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (g !=3D NULL) {<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 BN_free(dh-&gt;g);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 dh-&gt;g =3D g;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
 &gt; &gt; +-<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 1;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 1;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_DH_SET0_PQG */<br>
 &gt; &gt; +-<br>
@@ -2870,12 +2938,12 @@ sp;&nbsp;&nbsp; dh-&gt;g =3D g;<br>
 &gt; &gt; +-DH_get0_key(const DH *dh, const BIGNUM **pub_key, const BIGNUM =
 **priv_key)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (pub_key !=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; *pub_key =3D dh-&gt;pub_key;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (priv_key !=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; *priv_key =3D dh-&gt;priv_key;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (pub_key !=3D NULL)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 *pub_key =3D dh-&gt;pub_key;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (priv_key !=3D NULL)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 *priv_key =3D dh-&gt;priv_key;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_DH_GET0_KEY */<br>
 &gt; &gt; +-<br>
@@ -2883,20 +2951,20 @@ sp;&nbsp;&nbsp; *priv_key =3D dh-&gt;priv_key;<br>
 &gt; &gt; +-int<br>
 &gt; &gt; +-DH_set0_key(DH *dh, BIGNUM *pub_key, BIGNUM *priv_key)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (pub_key !=3D NULL) {<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; BN_free(dh-&gt;pub_key);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; dh-&gt;pub_key =3D pub_key;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (priv_key !=3D NULL) {<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; BN_free(dh-&gt;priv_key);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; dh-&gt;priv_key =3D priv_key;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (pub_key !=3D NULL) {<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 BN_free(dh-&gt;pub_key);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 dh-&gt;pub_key =3D pub_key;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (priv_key !=3D NULL) {<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 BN_free(dh-&gt;priv_key);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 dh-&gt;priv_key =3D priv_key;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
 &gt; &gt; +-<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 1;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 1;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_DH_SET0_KEY */<br>
 &gt; &gt; +-<br>
@@ -2904,13 +2972,13 @@ sp;&nbsp;&nbsp; dh-&gt;priv_key =3D priv_key;<br>
 &gt; &gt; +-int<br>
 &gt; &gt; +-DH_set_length(DH *dh, long length)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (length &lt; 0 || length &gt;=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (length &lt; 0 || length &gt;=
  INT_MAX)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; return 0;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 return 0;<br>
 &gt; &gt; +-<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dh-&gt;length =3D length;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 1;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dh-&gt;length =3D length;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 1;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_DH_SET_LENGTH */<br>
 &gt; &gt; +-<br>
@@ -2918,12 +2986,12 @@ sp;&nbsp;&nbsp; return 0;<br>
 &gt; &gt; +-void<br>
 &gt; &gt; +-RSA_meth_free(RSA_METHOD *meth)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (meth !=3D NULL) {<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; free((char *)meth-&gt;name);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; free(meth);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (meth !=3D NULL) {<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 free((char *)meth-&gt;name);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 free(meth);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_RSA_METH_FREE */<br>
 &gt; &gt; +-<br>
@@ -2931,23 +2999,23 @@ sp;&nbsp;&nbsp; free(meth);<br>
 &gt; &gt; +-RSA_METHOD *<br>
 &gt; &gt; +-RSA_meth_dup(const RSA_METHOD *meth)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RSA_METHOD *copy;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 RSA_METHOD *copy;<br>
 &gt; &gt; +-<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if ((copy =3D calloc(1, sizeof(*=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if ((copy =3D calloc(1, sizeof(*=
 copy))) =3D=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; return NULL;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; memcpy(copy, meth, sizeof(*copy)=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 return NULL;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 memcpy(copy, meth, sizeof(*copy)=
 );<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if ((copy-&gt;name =3D strdup(me=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if ((copy-&gt;name =3D strdup(me=
 th-&gt;name)) =3D=3D NULL) {<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; free(copy);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; return NULL;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 free(copy);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 return NULL;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
 &gt; &gt; +-<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return copy;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return copy;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_RSA_METH_DUP */<br>
 &gt; &gt; +-<br>
@@ -2955,15 +3023,15 @@ sp;&nbsp;&nbsp; return NULL;<br>
 &gt; &gt; +-int<br>
 &gt; &gt; +-RSA_meth_set1_name(RSA_METHOD *meth, const char *name)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char *copy;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 char *copy;<br>
 &gt; &gt; +-<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if ((copy =3D strdup(name)) =3D=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if ((copy =3D strdup(name)) =3D=
 =3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; return 0;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; free((char *)meth-&gt;name);<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; meth-&gt;name =3D copy;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 1;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 return 0;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 free((char *)meth-&gt;name);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 meth-&gt;name =3D copy;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 1;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_RSA_METH_SET1_NAME */<br>
 &gt; &gt; +-<br>
@@ -2971,7 +3039,7 @@ sp;&nbsp;&nbsp; return 0;<br>
 &gt; &gt; +-int<br>
 &gt; &gt; +-(*RSA_meth_get_finish(const RSA_METHOD *meth))(RSA *rsa)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return meth-&gt;finish;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return meth-&gt;finish;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_RSA_METH_GET_FINISH */<br>
 &gt; &gt; +-<br>
@@ -2979,12 +3047,12 @@ sp;&nbsp;&nbsp; return 0;<br>
 &gt; &gt; +-int<br>
 &gt; &gt; +-RSA_meth_set_priv_enc(RSA_METHOD *meth, int (*priv_enc)(int fle=
 n,<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp; const unsigned char *from, unsigned char *to=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0 const unsigned char *from, unsigned char *to=
 , RSA *rsa, int padding))<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; meth-&gt;rsa_priv_enc =3D priv_e=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 meth-&gt;rsa_priv_enc =3D priv_e=
 nc;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 1;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 1;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_RSA_METH_SET_PRIV_ENC */<br>
 &gt; &gt; +-<br>
@@ -2992,12 +3060,12 @@ nc;<br>
 &gt; &gt; +-int<br>
 &gt; &gt; +-RSA_meth_set_priv_dec(RSA_METHOD *meth, int (*priv_dec)(int fle=
 n,<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp; const unsigned char *from, unsigned char *to=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0 const unsigned char *from, unsigned char *to=
 , RSA *rsa, int padding))<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; meth-&gt;rsa_priv_dec =3D priv_d=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 meth-&gt;rsa_priv_dec =3D priv_d=
 ec;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 1;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 1;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_RSA_METH_SET_PRIV_DEC */<br>
 &gt; &gt; +-<br>
@@ -3006,8 +3074,8 @@ ec;<br>
 &gt; &gt; +-RSA_meth_set_finish(RSA_METHOD *meth, int (*finish)(RSA *rsa))<=
 br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; meth-&gt;finish =3D finish;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 1;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 meth-&gt;finish =3D finish;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 1;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_RSA_METH_SET_FINISH */<br>
 &gt; &gt; +-<br>
@@ -3015,14 +3083,14 @@ br>
 &gt; &gt; +-RSA *<br>
 &gt; &gt; +-EVP_PKEY_get0_RSA(EVP_PKEY *pkey)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (pkey-&gt;type !=3D EVP_PKEY_=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (pkey-&gt;type !=3D EVP_PKEY_=
 RSA) {<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; /* EVPerror(EVP_R_EXPECTING_AN_RSA_KEY); */<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; return NULL;<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return pkey-&gt;pkey.rsa;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 /* EVPerror(EVP_R_EXPECTING_AN_RSA_KEY); */<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 return NULL;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return pkey-&gt;pkey.rsa;<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_EVP_PKEY_GET0_RSA */<br>
 &gt; &gt; +-<br>
@@ -3030,7 +3098,7 @@ sp;&nbsp;&nbsp; return NULL;<br>
 &gt; &gt; +-EVP_MD_CTX *<br>
 &gt; &gt; +-EVP_MD_CTX_new(void)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return calloc(1, sizeof(EVP_MD_C=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return calloc(1, sizeof(EVP_MD_C=
 TX));<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_EVP_MD_CTX_NEW */<br>
@@ -3039,13 +3107,13 @@ TX));<br>
 &gt; &gt; +-void<br>
 &gt; &gt; +-EVP_MD_CTX_free(EVP_MD_CTX *ctx)<br>
 &gt; &gt; +-{<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (ctx =3D=3D NULL)<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; return;<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ctx =3D=3D NULL)<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 return;<br>
 &gt; &gt; +-<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EVP_MD_CTX_cleanup(ctx);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 EVP_MD_CTX_cleanup(ctx);<br>
 &gt; &gt; +-<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; free(ctx);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 free(ctx);<br>
 &gt; &gt; +-}<br>
 &gt; &gt; +-#endif /* HAVE_EVP_MD_CTX_FREE */<br>
 &gt; &gt; +-<br>
@@ -3066,16 +3134,16 @@ enssl-compat.h<br>
 &gt; &gt; + #endif<br>
 &gt; &gt; +-<br>
 &gt; &gt; +-#ifndef OPENSSL_VERSION<br>
-&gt; &gt; +-# define OPENSSL_VERSION&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SSLEAY_V=
+&gt; &gt; +-# define OPENSSL_VERSION=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SSLEAY_V=
 ERSION<br>
 &gt; &gt; +-#endif<br>
 &gt; &gt; +-<br>
 &gt; &gt; +-#ifndef HAVE_OPENSSL_VERSION<br>
-&gt; &gt; +-# define OpenSSL_version(x)&nbsp;&nbsp; SSLeay_version(x)<br>
+&gt; &gt; +-# define OpenSSL_version(x)=C2=A0=C2=A0 SSLeay_version(x)<br>
 &gt; &gt; +-#endif<br>
 &gt; &gt; +-<br>
 &gt; &gt; +-#ifndef HAVE_OPENSSL_VERSION_NUM<br>
-&gt; &gt; +-# define OpenSSL_version_num&nbsp; SSLeay<br>
+&gt; &gt; +-# define OpenSSL_version_num=C2=A0 SSLeay<br>
 &gt; &gt; +-#endif<br>
 &gt; &gt; +-<br>
 &gt; &gt; +-#if OPENSSL_VERSION_NUMBER &lt; 0x10000001L<br>
@@ -3084,7 +3152,7 @@ ERSION<br>
 &gt; &gt; +-# define LIBCRYPTO_EVP_INL_TYPE size_t<br>
 &gt; &gt; ++#ifdef LIBRESSL_VERSION_NUMBER<br>
 &gt; &gt; ++# if LIBRESSL_VERSION_NUMBER &lt; 0x3010000fL<br>
-&gt; &gt; ++#&nbsp; error LibreSSL 3.1.0 or greater is required<br>
+&gt; &gt; ++#=C2=A0 error LibreSSL 3.1.0 or greater is required<br>
 &gt; &gt; ++# endif<br>
 &gt; &gt; + #endif<br>
 &gt; &gt; +<br>
@@ -3097,7 +3165,7 @@ ERSION<br>
 &gt; &gt; +-#ifndef HAVE_DSA_GET0_PQG<br>
 &gt; &gt; +-void DSA_get0_pqg(const DSA *d, const BIGNUM **p, const BIGNUM =
 **q,<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp; const BIGNUM **g);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0 const BIGNUM **g);<br>
 &gt; &gt; +-#endif /* HAVE_DSA_GET0_PQG */<br>
 &gt; &gt; +-<br>
 &gt; &gt; +-#ifndef HAVE_DSA_SET0_PQG<br>
@@ -3106,7 +3174,7 @@ ERSION<br>
 &gt; &gt; +-<br>
 &gt; &gt; +-#ifndef HAVE_DSA_GET0_KEY<br>
 &gt; &gt; +-void DSA_get0_key(const DSA *d, const BIGNUM **pub_key,<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp; const BIGNUM **priv_key);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0 const BIGNUM **priv_key);<br>
 &gt; &gt; +-#endif /* HAVE_DSA_GET0_KEY */<br>
 &gt; &gt; +-<br>
 &gt; &gt; +-#ifndef HAVE_DSA_SET0_KEY<br>
@@ -3116,18 +3184,18 @@ ERSION<br>
 &gt; &gt; +-<br>
 &gt; &gt; + #ifndef HAVE_EVP_CIPHER_CTX_GET_IV<br>
 &gt; &gt; + # ifdef HAVE_EVP_CIPHER_CTX_GET_UPDATED_IV<br>
-&gt; &gt; + #&nbsp; define EVP_CIPHER_CTX_get_iv EVP_CIPHER_CTX_get_updated=
+&gt; &gt; + #=C2=A0 define EVP_CIPHER_CTX_get_iv EVP_CIPHER_CTX_get_updated=
 _iv<br>
 &gt; &gt; +@@ -101,112 +69,5 @@ int EVP_CIPHER_CTX_set_iv(EVP_CIPHER_CTX *c=
 tx,<br>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp; const unsigned char *iv, size_t len);<b=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0 const unsigned char *iv, size_t len);<b=
 r>
 &gt; &gt; + #endif /* HAVE_EVP_CIPHER_CTX_SET_IV */<br>
 &gt; &gt; +<br>
 &gt; &gt; +-#ifndef HAVE_RSA_GET0_KEY<br>
 &gt; &gt; +-void RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM =
 **e,<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp; const BIGNUM **d);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0 const BIGNUM **d);<br>
 &gt; &gt; +-#endif /* HAVE_RSA_GET0_KEY */<br>
 &gt; &gt; +-<br>
 &gt; &gt; +-#ifndef HAVE_RSA_SET0_KEY<br>
@@ -3137,7 +3205,7 @@ r>
 &gt; &gt; +-#ifndef HAVE_RSA_GET0_CRT_PARAMS<br>
 &gt; &gt; +-void RSA_get0_crt_params(const RSA *r, const BIGNUM **dmp1, con=
 st BIGNUM **dmq1,<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp; const BIGNUM **iqmp);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0 const BIGNUM **iqmp);<br>
 &gt; &gt; +-#endif /* HAVE_RSA_GET0_CRT_PARAMS */<br>
 &gt; &gt; +-<br>
 &gt; &gt; +-#ifndef HAVE_RSA_SET0_CRT_PARAMS<br>
@@ -3177,7 +3245,7 @@ nst BIGNUM **ps);<br>
 &gt; &gt; +-#ifndef HAVE_DH_GET0_PQG<br>
 &gt; &gt; +-void DH_get0_pqg(const DH *dh, const BIGNUM **p, const BIGNUM *=
 *q,<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp; const BIGNUM **g);<br>
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0 const BIGNUM **g);<br>
 &gt; &gt; +-#endif /* HAVE_DH_GET0_PQG */<br>
 &gt; &gt; +-<br>
 &gt; &gt; +-#ifndef HAVE_DH_SET0_PQG<br>
@@ -3217,14 +3285,14 @@ r>
 &gt; &gt; +-#ifndef HAVE_RSA_METH_SET_PRIV_ENC<br>
 &gt; &gt; +-int RSA_meth_set_priv_enc(RSA_METHOD *meth, int (*priv_enc)(int=
  flen,<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp; const unsigned char *from, unsigned char *to=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0 const unsigned char *from, unsigned char *to=
 , RSA *rsa, int padding));<br>
 &gt; &gt; +-#endif /* HAVE_RSA_METH_SET_PRIV_ENC */<br>
 &gt; &gt; +-<br>
 &gt; &gt; +-#ifndef HAVE_RSA_METH_SET_PRIV_DEC<br>
 &gt; &gt; +-int RSA_meth_set_priv_dec(RSA_METHOD *meth, int (*priv_dec)(int=
  flen,<br>
-&gt; &gt; +-&nbsp;&nbsp;&nbsp; const unsigned char *from, unsigned char *to=
+&gt; &gt; +-=C2=A0=C2=A0=C2=A0 const unsigned char *from, unsigned char *to=
 , RSA *rsa, int padding));<br>
 &gt; &gt; +-#endif /* HAVE_RSA_METH_SET_PRIV_DEC */<br>
 &gt; &gt; +-<br>
@@ -3247,36 +3315,42 @@ a));<br>
 &gt; &gt; +-<br>
 &gt; &gt; + #endif /* WITH_OPENSSL */<br>
 &gt; &gt; + #endif /* _OPENSSL_COMPAT_H */<br>
-&gt; &gt; diff --git a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb b=
-/meta/recipes-connectivity/openssh/openssh_8.9p1.bb<br>
+&gt; &gt; diff --git a/meta/recipes-connectivity/openssh/<a href=3D"http://=
+openssh_8.9p1.bb" target=3D"_blank">openssh_8.9p1.bb</a> b/meta/recipes-con=
+nectivity/openssh/<a href=3D"http://openssh_8.9p1.bb" target=3D"_blank">ope=
+nssh_8.9p1.bb</a><br>
 &gt; &gt; index 6057d055f4..1d53c2488b 100644<br>
-&gt; &gt; --- a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb<br>
-&gt; &gt; +++ b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb<br>
-&gt; &gt; @@ -26,6 +26,7 @@ SRC_URI =3D &quot;<a href=3D""></a>https://apc0=
-1.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fftp.openbsd.org%2Fpu=
-b%2FOpenBSD%2FOpenSSH%2Fportable%2Fopenssh-%24&amp;data=3D05%7C01%7CRanjits=
-inh.Rathod%40kpit.com%7Cd788d3aa157742dfacb008db61a20d08%7C3539451eb46e4a26=
-a242ff61502855c7%7C0%7C0%7C638211120911246208%7CUnknown%7CTWFpbGZsb3d8eyJWI=
-joiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%=
-7C&amp;sdata=3DdDzVG6aYgMYab04aGD%2F6l6tLxk2tzcSndFcqwlT%2FRg0%3D&amp;reser=
-ved=3D0{PV}.tar<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp; <a href=3D"file://add-test-support-for-busybox.patch">file://add-tes=
-t-support-for-busybox.patch</a> \<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp; <a href=3D"file://f107467179428a0e3ea9e4aa9738ac12ff02822d.patch">fi=
-le://f107467179428a0e3ea9e4aa9738ac12ff02822d.patch</a> \<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp; <a href=3D"file://0001-Default-to-not-using-sandbox-when-cross-compi=
-ling.patch">
+&gt; &gt; --- a/meta/recipes-connectivity/openssh/<a href=3D"http://openssh=
+_8.9p1.bb" target=3D"_blank">openssh_8.9p1.bb</a><br>
+&gt; &gt; +++ b/meta/recipes-connectivity/openssh/<a href=3D"http://openssh=
+_8.9p1.bb" target=3D"_blank">openssh_8.9p1.bb</a><br>
+&gt; &gt; @@ -26,6 +26,7 @@ SRC_URI =3D &quot;<a></a><a href=3D"https://apc=
+01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fftp.openbsd.org%2Fp=
+ub%2FOpenBSD%2FOpenSSH%2Fportable%2Fopenssh-%24&amp;data=3D05%7C01%7CRanjit=
+sinh.Rathod%40kpit.com%7Cd788d3aa157742dfacb008db61a20d08%7C3539451eb46e4a2=
+6a242ff61502855c7%7C0%7C0%7C638211120911246208%7CUnknown%7CTWFpbGZsb3d8eyJW=
+IjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C=
+%7C&amp;sdata=3DdDzVG6aYgMYab04aGD%2F6l6tLxk2tzcSndFcqwlT%2FRg0%3D&amp;rese=
+rved=3D0%7BPV%7D.tar" target=3D"_blank">https://apc01.safelinks.protection.=
+outlook.com/?url=3Dhttp%3A%2F%2Fftp.openbsd.org%2Fpub%2FOpenBSD%2FOpenSSH%2=
+Fportable%2Fopenssh-%24&amp;data=3D05%7C01%7CRanjitsinh.Rathod%40kpit.com%7=
+Cd788d3aa157742dfacb008db61a20d08%7C3539451eb46e4a26a242ff61502855c7%7C0%7C=
+0%7C638211120911246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoi=
+V2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3DdDzVG6aY=
+gMYab04aGD%2F6l6tLxk2tzcSndFcqwlT%2FRg0%3D&amp;reserved=3D0{PV}.tar</a><br>
+&gt; &gt;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 <a>file://add-test-support-for-busybox.patch</a> \<br>
+&gt; &gt;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 <a>file://f107467179428a0e3ea9e4aa9738ac12ff02822d.patch</a> \<br>
+&gt; &gt;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 <a>
 file://0001-Default-to-not-using-sandbox-when-cross-compiling.patch</a> \<b=
 r>
-&gt; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a =
-href=3D"file://7280401bdd77ca54be6867a154cc01e0d72612e0.patch">file://72804=
-01bdd77ca54be6867a154cc01e0d72612e0.patch</a> \<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp; &quot;<br>
-&gt; &gt;&nbsp; SRC_URI[sha256sum] =3D &quot;fd497654b7ab1686dac672fb83dfb4=
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <a>=
+file://7280401bdd77ca54be6867a154cc01e0d72612e0.patch</a> \<br>
+&gt; &gt;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 &quot;<br>
+&gt; &gt;=C2=A0 SRC_URI[sha256sum] =3D &quot;fd497654b7ab1686dac672fb83dfb4=
 ba4096e8b5ffcdaccd262380ae58bec5e7&quot;<br>
 &gt; &gt;<br>
 &gt; &gt; --<br>
@@ -3286,7 +3360,7 @@ ba4096e8b5ffcdaccd262380ae58bec5e7&quot;<br>
 &gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 &gt; &gt; Links: You receive all messages sent to this group.<br>
 &gt; &gt; View/Reply Online (#181902): <a href=3D"https://lists.openembedde=
-d.org/g/openembedded-core/message/181902">
+d.org/g/openembedded-core/message/181902" target=3D"_blank">
 https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flists.o=
 penembedded.org%2Fg%2Fopenembedded-core%2Fmessage%2F181902&amp;data=3D05%7C=
 01%7CRanjitsinh.Rathod%40kpit.com%7Cd788d3aa157742dfacb008db61a20d08%7C3539=
@@ -3295,7 +3369,7 @@ GZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7=
 C3000%7C%7C%7C&amp;sdata=3D3B6FWTx0mX6a%2F14mRs3CqIFrko671tih13RGrDhjfFc%3D=
 &amp;reserved=3D0</a><br>
 &gt; &gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/992=
-15252/1686489">
+15252/1686489" target=3D"_blank">
 https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flists.o=
 penembedded.org%2Fmt%2F99215252%2F1686489&amp;data=3D05%7C01%7CRanjitsinh.R=
 athod%40kpit.com%7Cd788d3aa157742dfacb008db61a20d08%7C3539451eb46e4a26a242f=
@@ -3303,9 +3377,11 @@ f61502855c7%7C0%7C0%7C638211120911246208%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC=
 4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&am=
 p;sdata=3DwYwpf8EzfQo3bpSknW9TQF%2FbwKQcwgcGVrbnzT0%2Bcbc%3D&amp;reserved=
 =3D0</a><br>
-&gt; &gt; Group Owner: openembedded-core+owner@lists.openembedded.org<br>
+&gt; &gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.op=
+enembedded.org" target=3D"_blank">openembedded-core+owner@lists.openembedde=
+d.org</a><br>
 &gt; &gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembe=
-dded-core/unsub">
+dded-core/unsub" target=3D"_blank">
 https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flists.o=
 penembedded.org%2Fg%2Fopenembedded-core%2Funsub&amp;data=3D05%7C01%7CRanjit=
 sinh.Rathod%40kpit.com%7Cd788d3aa157742dfacb008db61a20d08%7C3539451eb46e4a2=
@@ -3313,7 +3389,8 @@ sinh.Rathod%40kpit.com%7Cd788d3aa157742dfacb008db61a20d08%7C3539451eb46e4a2=
 IjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C=
 %7C&amp;sdata=3DEFlXzS8E9JdB5UV%2BHvW8sYJLH2BEn6Jc%2BAHB5iB8cUs%3D&amp;rese=
 rved=3D0</a>
- [alex.kanavin@gmail.com]<br>
+ [<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@=
+gmail.com</a>]<br>
 &gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 &gt; &gt;<br>
 &gt; This message contains information that may be privileged or confidenti=
@@ -3336,19 +3413,18 @@ eof. If you receive this message in error, please notify the sender immedia=
 tely and delete all copies of this message. KPIT Technologies Ltd. does not=
  accept any liability for virus
  infected mails.
-</body>
-</html>
+</div>
 
---_000_PN3PR01MB7382924C3BFAD78BF363EDF48F489PN3PR01MB7382INDP_--
+</div></blockquote></div>
 
---_004_PN3PR01MB7382924C3BFAD78BF363EDF48F489PN3PR01MB7382INDP_
+--0000000000000143de05fcf95189--
+
+--0000000000000143df05fcf9518a
 Content-Type: image/png; name="Outlook-zvjvofhy.png"
-Content-Description: Outlook-zvjvofhy.png
-Content-Disposition: inline; filename="Outlook-zvjvofhy.png"; size=22485;
-	creation-date="Wed, 31 May 2023 08:35:58 GMT";
-	modification-date="Wed, 31 May 2023 08:35:58 GMT"
-Content-ID: <05645d6b-4632-440f-9da6-7e7c97e1b8fa>
+Content-Disposition: inline; filename="Outlook-zvjvofhy.png"
 Content-Transfer-Encoding: base64
+Content-ID: <18870f5c1ed4d4ea0eb1>
+X-Attachment-Id: 18870f5c1ed4d4ea0eb1
 
 iVBORw0KGgoAAAANSUhEUgAAAm0AAAB4CAYAAACgj8W/AAAAAXNSR0IArs4c6QAAIABJREFUeF7t
 vVmQLNlVJbrDYx5yzjtPVVeqkqpKalRqXj8TiOGjf9AAfAphfAMmxB+SmcRXmyFAWH88xGj2+gPT
@@ -3745,6 +3821,5 @@ Sa5V3iKPXnwn+oNeR3W4a3ZHr0U/kdPK1RaYd3Y20L6jTremhRHetgPMYALWBoPKCT49U7nrBtqm
 hZdkL7sJsNDgr1myBG31ihSbi5JrXJFiYzluyBZOKvzryY6gXrsASbw+9xp78vSLn5B/ufffkDIF
 YBqCaQuP3oG2rBRyM1A7lAHW8lJqzcnl8uPypgs/CmPch6WYc8xa776m3drYZNtpDSHTqD5dOtnx
 t73vjsD/DzX/H827ae66AAAAAElFTkSuQmCC
-
---_004_PN3PR01MB7382924C3BFAD78BF363EDF48F489PN3PR01MB7382INDP_--
+--0000000000000143df05fcf9518a--
 
