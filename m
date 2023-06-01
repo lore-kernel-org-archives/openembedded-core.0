@@ -2,34 +2,34 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE600C7EE3A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC1A9C7EE31
 	for <webhook@archiver.kernel.org>; Thu,  1 Jun 2023 09:04:18 +0000 (UTC)
-Received: from esa12.hc1455-7.c3s2.iphmx.com (esa12.hc1455-7.c3s2.iphmx.com [139.138.37.100])
- by mx.groups.io with SMTP id smtpd.web10.26251.1685610250670210768
+Received: from esa7.hc1455-7.c3s2.iphmx.com (esa7.hc1455-7.c3s2.iphmx.com [139.138.61.252])
+ by mx.groups.io with SMTP id smtpd.web11.26617.1685610252527821640
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Jun 2023 02:04:11 -0700
+ Thu, 01 Jun 2023 02:04:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: fujitsu.com, ip: 139.138.37.100, mailfrom: wangmy@fujitsu.com)
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="98556122"
+ dkim=missing; spf=pass (domain: fujitsu.com, ip: 139.138.61.252, mailfrom: wangmy@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="97825973"
 X-IronPort-AV: E=Sophos;i="6.00,209,1681138800"; 
-   d="scan'208";a="98556122"
-Received: from unknown (HELO yto-r2.gw.nic.fujitsu.com) ([218.44.52.218])
-  by esa12.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 18:04:08 +0900
-Received: from yto-m2.gw.nic.fujitsu.com (yto-nat-yto-m2.gw.nic.fujitsu.com [192.168.83.65])
-	by yto-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 4894BC68E5
-	for <openembedded-core@lists.openembedded.org>; Thu,  1 Jun 2023 18:04:06 +0900 (JST)
+   d="scan'208";a="97825973"
+Received: from unknown (HELO yto-r4.gw.nic.fujitsu.com) ([218.44.52.220])
+  by esa7.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 18:04:10 +0900
+Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com [192.168.83.64])
+	by yto-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 59559D3EB2
+	for <openembedded-core@lists.openembedded.org>; Thu,  1 Jun 2023 18:04:08 +0900 (JST)
 Received: from aks-ab2.gw.nic.fujitsu.com (aks-ab2.gw.nic.fujitsu.com [192.51.207.12])
-	by yto-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 86ECDD67C2
-	for <openembedded-core@lists.openembedded.org>; Thu,  1 Jun 2023 18:04:05 +0900 (JST)
+	by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 95E97CF7EF
+	for <openembedded-core@lists.openembedded.org>; Thu,  1 Jun 2023 18:04:07 +0900 (JST)
 Received: from localhost.localdomain (unknown [10.167.225.33])
-	by aks-ab2.gw.nic.fujitsu.com (Postfix) with ESMTP id B63E688864;
-	Thu,  1 Jun 2023 18:04:04 +0900 (JST)
+	by aks-ab2.gw.nic.fujitsu.com (Postfix) with ESMTP id D3A4688857;
+	Thu,  1 Jun 2023 18:04:06 +0900 (JST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-pycryptodome: upgrade 3.17 -> 3.18.0
-Date: Thu,  1 Jun 2023 17:03:32 +0800
-Message-Id: <1685610221-29015-26-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] python3-sphinx-rtd-theme: upgrade 1.2.0 -> 1.2.1
+Date: Thu,  1 Jun 2023 17:03:36 +0800
+Message-Id: <1685610221-29015-30-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1685610221-29015-1-git-send-email-wangmy@fujitsu.com>
 References: <1685610221-29015-1-git-send-email-wangmy@fujitsu.com>
@@ -37,56 +37,43 @@ X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1408-9.0.0.1002-27664.006
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1408-9.0.1002-27664.006
-X-TMASE-Result: 10-1.117000-10.000000
-X-TMASE-MatchedRID: /gZnudouedqjz0nOeth/yUIIxwDaU5mrKQNhMboqZlox9I+EPr/hD4+w
-	qgvZUWqofdCuuzQ7DBgQtWQZJqxoDCJcv5X7ObmJL7p//vLv4bPYUDvAr2Y/19MIXgOsLuq/owu
-	jpd11c5hcTFAN0zkeIgXURz+hQhGVWkIi5GvRHEpO5y1KmK5bJZjm/42WWfFCgW6bY8SOq3WjxY
-	yRBa/qJXcsDK2xBHh7jaPj0W1qn0TGVuWouVipciPiJD94az7O3P8Bt5RFqxnu8YnJrve1sRtWa
-	/6b7vx5QgdYrUu3ibgJxT/63gcF95B39MyTVx7++cTOGph4ac75wq0cd1BT/f6/2/nZkihaOgB/
-	fz3EXdcVKT0eFRmfDs4YhafCzgujIdY9jOi4lTI=
+X-TMASE-Result: 10-0.832500-10.000000
+X-TMASE-MatchedRID: pFlEBMmIVU6jz0nOeth/yQPZZctd3P4B1cuIRwt/4MiysPB8dBBorXKn
+	6DBj/gsEIvrftAIhWmI/dksnGuGmFWMAzi+7d0ch3QqJN4m15UF9LQinZ4QefCP/VFuTOXUTae6
+	hIZpj4MuOhzOa6g8KrWoFC2Jk1aNvpLDX05U0cjhnIiscSv2Qjw5CCRLM2l7HG+ORUKmPBoAm1X
+	f5togAglTqSOXXNACfhQccTUYJZKA4GXcrPHIEZh0m4Rm5hspVxSSu8i52URmXTt0OuyJi/IIuE
+	VM/dBEMBtjAKW7+qHc=
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Jun 2023 09:04:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182083
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182085
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
-Changelog:
-===========
-New features
----------------
-* Added support for DER BOOLEAN encodings.
-* The library now compiles on Windows ARM64.
-
-  Resolved issues
----------------
-* GH#722: "nonce" attribute was not correctly set for XChaCha20_Poly1305 ciphers.
-* GH#728: Workaround for a possible x86 emulator bug in Windows for ARM64.
-* GH#739: OID encoding for arc 2 didn't accept children larger than 39.
-* Correctly check that the scalar matches the point when importing an ECC private key.
-
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...hon3-pycryptodome_3.17.bb => python3-pycryptodome_3.18.0.bb} | 2 +-
+ ...inx-rtd-theme_1.2.0.bb => python3-sphinx-rtd-theme_1.2.1.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pycryptodome_3.17.bb => python3-pycryptodome_3.18.0.bb} (38%)
+ rename meta/recipes-devtools/python/{python3-sphinx-rtd-theme_1.2.0.bb => python3-sphinx-rtd-theme_1.2.1.bb} (88%)
 
-diff --git a/meta/recipes-devtools/python/python3-pycryptodome_3.17.bb b/meta/recipes-devtools/python/python3-pycryptodome_3.18.0.bb
-similarity index 38%
-rename from meta/recipes-devtools/python/python3-pycryptodome_3.17.bb
-rename to meta/recipes-devtools/python/python3-pycryptodome_3.18.0.bb
-index 05f654f225..a1e4b42bdf 100644
---- a/meta/recipes-devtools/python/python3-pycryptodome_3.17.bb
-+++ b/meta/recipes-devtools/python/python3-pycryptodome_3.18.0.bb
-@@ -1,5 +1,5 @@
- require python-pycryptodome.inc
- inherit setuptools3
+diff --git a/meta/recipes-devtools/python/python3-sphinx-rtd-theme_1.2.0.bb b/meta/recipes-devtools/python/python3-sphinx-rtd-theme_1.2.1.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-sphinx-rtd-theme_1.2.0.bb
+rename to meta/recipes-devtools/python/python3-sphinx-rtd-theme_1.2.1.bb
+index d9cd18e0ed..25de0159b6 100644
+--- a/meta/recipes-devtools/python/python3-sphinx-rtd-theme_1.2.0.bb
++++ b/meta/recipes-devtools/python/python3-sphinx-rtd-theme_1.2.1.bb
+@@ -13,7 +13,7 @@ RDEPENDS:${PN} += " \
  
--SRC_URI[sha256sum] = "bce2e2d8e82fcf972005652371a3e8731956a0c1fbb719cc897943b3695ad91b"
-+SRC_URI[sha256sum] = "c9adee653fc882d98956e33ca2c1fb582e23a8af7ac82fee75bd6113c55a0413"
+ PYPI_PACKAGE = "sphinx_rtd_theme"
  
+-SRC_URI[sha256sum] = "a0d8bd1a2ed52e0b338cbe19c4b2eef3c5e7a048769753dac6a9f059c7b641b8"
++SRC_URI[sha256sum] = "cf9a7dc0352cf179c538891cb28d6fad6391117d4e21c891776ab41dd6c8ff70"
+ UPSTREAM_CHECK_REGEX ?= "/sphinx-rtd-theme/(?P<pver>(\d+[\.\-_]*)+)/"
+ 
+ inherit setuptools3 pypi
 -- 
 2.34.1
 
